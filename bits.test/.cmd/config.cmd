@@ -1,5 +1,5 @@
 @echo off
+set ProjId=bits.test
+set AppName=z0.bits.test
+call %~dp0..\..\.cmd\project-config.cmd
 
-set ProjectId=bits.test
-set BuildCmd=%ControlScripts%\build-app.cmd
-set RunCmd=z0.%ProjectId%.exe

@@ -1,1 +1,0 @@
-call %ControlScripts%\commit.cmd

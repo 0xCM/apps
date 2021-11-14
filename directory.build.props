@@ -4,6 +4,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Configuration>Release</Configuration>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Deterministic>true</Deterministic>
     <Optimize>true</Optimize>
@@ -18,9 +19,9 @@
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
     <Src>$(TopDir)</Src>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
-    <OutputPath>$(BuildRootDir)bin\$(Configuration)\$(MsBuildProjectName)\</OutputPath>
+    <OutputPath>$(BuildRootDir)bin\$(MsBuildProjectName)\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework)\$(MsBuildProjectName).xml</DocumentationFile>
-    <IntermediateRoot>$(BuildRootDir)obj\$(Configuration)\$(MsBuildProjectName)\</IntermediateRoot>
+    <IntermediateRoot>$(BuildRootDir)obj\$(MsBuildProjectName)\$(Configuration)\</IntermediateRoot>
     <IntermediateBuildDir>$(IntermediateRoot)</IntermediateBuildDir>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>

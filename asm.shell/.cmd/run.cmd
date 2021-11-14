@@ -1,2 +1,3 @@
 @echo off
-asmshell
+call %~dp0config.cmd
+call %ExeTargetPath%

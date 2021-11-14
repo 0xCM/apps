@@ -1,3 +1,3 @@
 @echo off
-set ProjectId=asm.shell
-call %ControlScripts%\build-app.cmd
+call %~dp0config.cmd
+call %BuildProjCmd%

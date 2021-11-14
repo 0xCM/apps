@@ -1,2 +1,3 @@
-echo off
-dotnet build -c Release
+@echo off
+call %~dp0config.cmd
+call %BuildProjCmd%

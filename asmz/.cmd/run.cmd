@@ -1,3 +1,3 @@
 @echo off
 call %~dp0config.cmd
-%RunCmd%
+call %ExeTargetPath% capture-v2

@@ -1,3 +1,3 @@
 @echo off
-
-call %ControlScripts%\build-asmz.cmd
+call %~dp0config.cmd
+call %BuildProjCmd%

@@ -1,5 +1,5 @@
 @echo off
-set ProjId=math.test
-set AppName=z0.math.test
+set ProjId=asmz
+set AppName=zasm
 call %~dp0..\..\.cmd\project-config.cmd
 

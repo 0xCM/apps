@@ -1,5 +1,5 @@
 @echo off
+set ProjId=logix.test
+set AppName=z0.logix.test
+call %~dp0..\..\.cmd\project-config.cmd
 
-set ProjectId=logix.test
-set BuildCmd=%ControlScripts%\build-app.cmd
-set RunCmd=z0.%ProjectId%.exe
