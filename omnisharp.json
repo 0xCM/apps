@@ -1,0 +1,20 @@
+{
+"msbuild": {
+    "enabled": true,
+    "Configuration": "Release"
+ },
+
+ "cake": {
+     "enabled": false
+ },
+
+ "script": {
+    "enabled": false
+ },
+
+ "excludeSearchPatterns": [
+    ".build/**/*",
+    "sln/**/*"
+ ]
+
+}

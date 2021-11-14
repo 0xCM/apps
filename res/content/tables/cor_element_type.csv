@@ -1,0 +1,38 @@
+# https://docs.microsoft.com/en-us/dotnet/framework/unmanaged-api/metadata/corelementtype-enumeration
+| Member                   | Description                                                                       |
+| ELEMENT_TYPE_END         | Used internally.                                                                  |
+| ELEMENT_TYPE_VOID        | A void type.                                                                      |
+| ELEMENT_TYPE_BOOLEAN     | A Boolean type                                                                    |
+| ELEMENT_TYPE_CHAR        | A character type.                                                                 |
+| ELEMENT_TYPE_I1          | A signed 1-byte integer.                                                          |
+| ELEMENT_TYPE_U1          | An unsigned 1-byte integer.                                                       |
+| ELEMENT_TYPE_I2          | A signed 2-byte integer.                                                          |
+| ELEMENT_TYPE_U2          | An unsigned 2-byte integer.                                                       |
+| ELEMENT_TYPE_I4          | A signed 4-byte integer.                                                          |
+| ELEMENT_TYPE_U4          | An unsigned 4-byte integer.                                                       |
+| ELEMENT_TYPE_I8          | A signed 8-byte integer.                                                          |
+| ELEMENT_TYPE_U8          | An unsigned 8-byte integer.                                                       |
+| ELEMENT_TYPE_R4          | A 4-byte floating point.                                                          |
+| ELEMENT_TYPE_R8          | An 8-byte floating point.                                                         |
+| ELEMENT_TYPE_STRING      | A System.String type.                                                             |
+| ELEMENT_TYPE_PTR         | A pointer type modifier.                                                          |
+| ELEMENT_TYPE_BYREF       | A reference type modifier.                                                        |
+| ELEMENT_TYPE_VALUETYPE   | A value type modifier.                                                            |
+| ELEMENT_TYPE_CLASS       | A class type modifier.                                                            |
+| ELEMENT_TYPE_VAR         | A class variable type modifier.                                                   |
+| ELEMENT_TYPE_ARRAY       | A multi-dimensional array type modifier.                                          |
+| ELEMENT_TYPE_GENERICINST | A type modifier for generic types.                                                |
+| ELEMENT_TYPE_TYPEDBYREF  | A typed reference.                                                                |
+| ELEMENT_TYPE_I           | Size of a native integer.                                                         |
+| ELEMENT_TYPE_U           | Size of an unsigned native integer.                                               |
+| ELEMENT_TYPE_FNPTR       | A pointer to a function.                                                          |
+| ELEMENT_TYPE_OBJECT      | A System.Object type.                                                             |
+| ELEMENT_TYPE_SZARRAY     | A single-dimensional, zero lower-bound array type modifier.                       |
+| ELEMENT_TYPE_MVAR        | A method variable type modifier.                                                  |
+| ELEMENT_TYPE_CMOD_REQD   | A C language required modifier.                                                   |
+| ELEMENT_TYPE_CMOD_OPT    | A C language optional modifier.                                                   |
+| ELEMENT_TYPE_INTERNAL    | Used internally.                                                                  |
+| ELEMENT_TYPE_MAX         | An invalid type.                                                                  |
+| ELEMENT_TYPE_MODIFIER    | Used internally.                                                                  |
+| ELEMENT_TYPE_SENTINEL    | A type modifier that is a sentinel for a list of a variable number of parameters. |
+| ELEMENT_TYPE_PINNED      | Used internally.                                                                  |

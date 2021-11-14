@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\gen"
+		},
+		{
+			"path": "..\\lang"
+		},
+		{
+			"path": "..\\bits"
+		},
+		{
+			"path": "..\\core"
+		}
+	],
+	"settings": {}
+}

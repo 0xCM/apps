@@ -1,0 +1,3 @@
+MemberId         | BaseAddress      | Uri                                                                              | Encoded             
+0x6000009        | 7ffaa270abb8h    | located://asmrun/sigs?func_32i_32i_32i#func_32i_32i_32i_(void~ptr)               | 02 2a               
+0x600000a        | 7ffaa270abc0h    | located://asmrun/sigs?invoke#invoke_(IntPtr,32i,32i)                             | 02 0a 03 04 06 29 06 00 00 11 2a

@@ -1,0 +1,9 @@
+# MsBuild-Reference
+----------------------------------------------------------------------------------------------------------
+| Name            | Meaning                                                                                                                                                                                                |
+| HintPath        | Optional string. Relative or absolute path of the assembly.                                                                                                                                                |
+| Name            | Optional string. The display name of the assembly, for example, "System.Windows.Forms."                                                                                                                    |
+| FusionName      | Optional string. Specifies the simple or strong fusion name for the item. When this attribute is present, it can save time because the assembly file does not have to be opened to obtain the fusion name. |
+| SpecificVersion | Optional boolean. Specifies whether only the version in the fusion name should be referenced.                                                                                                              |
+| Aliases         | Optional string. Any aliases for the reference.                                                                                                                                                            |
+| Private         | Optional boolean. Specifies whether the reference should be copied to the output folder. This attribute matches the Copy Local property of the reference that's in the Visual Studio IDE.                  |

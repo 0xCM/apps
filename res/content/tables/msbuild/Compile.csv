@@ -1,0 +1,8 @@
+# Represents the source files for the compiler.
+----------------------------------------------------------------------------------------------------------
+| Name                  | Description                                                                                                                               |
+| DependentUpon         | Optional string. Specifies the file this file depends on to compile correctly.                                                            |
+| AutoGen               | Optional boolean. Indicates whether the file was generated for the project by the Visual Studio integrated development environment (IDE). |
+| Link                  | Optional string. The notational path to be displayed when the file is physically located outside the influence of the project file.       |
+| Visible               | Optional boolean. Indicates whether to display the file in Solution Explorer in Visual Studio.                                            |
+| CopyToOutputDirectory | Optional string. Determines whether to copy the file to the output directory. Values are: 1. Never 2. Always 3. PreserveNewest            |

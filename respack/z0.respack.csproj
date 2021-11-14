@@ -1,0 +1,32 @@
+<Project Sdk='Microsoft.NET.Sdk'>
+    <PropertyGroup>
+      <TargetFramework>netcoreapp3.1</TargetFramework>
+      <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+  <PropertyGroup>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>preview</LangVersion>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <NoWarn>1591;1572;1573;1701;1702;1712;1711;1570;1571;1574;1710;8321;NETSDK1057;0169;0414;0219</NoWarn>
+    <AssemblyVersion>1.0.41</AssemblyVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CSFile Include='content/bytes/**/*.cs'/>
+  </ItemGroup>
+
+   <ItemGroup>
+    <EmbeddedResource Include='content/**/*.cs' />
+    <EmbeddedResource Include='content/**/*.asm' />
+    <EmbeddedResource Include='content/**/*.csv' />
+    <EmbeddedResource Include='content/**/*.hex' />
+    <EmbeddedResource Include='content/**/*.md' />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,125 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\core"
+		},
+		{
+			"path": "..\\..\\test\\core",
+            "name": "test.core"
+		},
+		{
+			"path": "..\\..\\test\\bits",
+            "name": "test.bits"
+		},
+		{
+			"path": "..\\..\\test\\gvec",
+            "name": "test.gvec"
+		},
+		{
+			"path": "..\\..\\test\\asm",
+            "name": "test.asm"
+		},
+		{
+			"path": "..\\..\\test\\polyrand",
+            "name": "test.polyrand"
+		},
+		{
+			"path": "..\\..\\test\\machines",
+            "name": "test.machines"
+		},
+		{
+			"path": "..\\..\\test\\math",
+            "name": "test.math"
+		},
+		{
+			"path": "..\\..\\test\\symbolic",
+            "name": "test.symbolic"
+		},
+		{
+			"path": "..\\..\\test\\logix",
+            "name": "test.logix"
+		},
+		{
+			"path": "..\\calc"
+		},
+		{
+			"path": "..\\tools"
+		},
+		{
+			"path": "..\\tooling"
+		},
+		{
+			"path": "..\\symbolic"
+		},
+		{
+			"path": "..\\apps"
+		},
+		{
+			"path": "..\\part"
+		},
+		{
+			"path": "..\\workflow"
+		},
+		{
+			"path": "..\\api"
+		},
+		{
+			"path": "..\\gmath"
+		},
+		{
+			"path": "..\\sys"
+		},
+		{
+			"path": "..\\cpu"
+		},
+		{
+			"path": "..\\bits"
+		},
+		{
+			"path": "..\\bitpack"
+		},
+		{
+			"path": "..\\bitspans"
+		},
+		{
+			"path": "..\\check"
+		},
+		{
+			"path": "..\\tables"
+		},
+		{
+			"path": "..\\related"
+		},
+		{
+			"path": "..\\lang"
+		},
+		{
+			"path": "..\\polysource"
+		},
+		{
+			"path": "..\\asm.core"
+		},
+		{
+			"path": "..\\dynamic"
+		},
+		{
+			"path": "..\\bitvectors"
+		},
+		{
+			"path": "..\\asm"
+		},
+		{
+			"path": "..\\asm.lang"
+		},
+		{
+			"path": "..\\capture"
+		},
+		{
+			"path": "..\\root"
+		},
+	],
+	"settings": {}
+}

@@ -1,0 +1,11 @@
+# Represents resources to be embedded in the generated assembly.
+----------------------------------------------------------------------------------------------------------
+| Name                  | Meaning                                                                                                                    |
+| DependentUpon         | Optional string. Specifies the file this file depends on to compile correctly                                                  |
+| Generator             | Required string. The name of any file generator that is run on this item.                                                      |
+| LastGenOutput         | Required string. The name of the file that was created by any file generator that ran on this item.                            |
+| CustomToolNamespace   | Required string. The namespace in which any file generator that runs on this item should create code.                          |
+| Link                  | Optional string. The notational path is displayed if the file is physically located outside the influence of the project.      |
+| Visible               | Optional boolean. Indicates whether to display the file in Solution Explorer in Visual Studio.                                 |
+| CopyToOutputDirectory | Optional string. Determines whether to copy the file to the output directory. Values are: 1. Never 2. Always 3. PreserveNewest |
+| LogicalName           | Required string. The logical name of the embedded resource.                                                                    |

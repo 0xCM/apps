@@ -1,0 +1,95 @@
+{
+	"folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "..\\asm"
+        },
+        {
+            "path": "..\\asm.cases"
+        },
+        {
+            "path": "..\\asm.core"
+        },
+        {
+            "path": "..\\asm.lang"
+        },
+        {
+            "path": "..\\asm.catalogs"
+        },
+        {
+            "path": "..\\api"
+        },
+        {
+            "path": "..\\cli"
+        },
+        {
+            "path": "..\\part"
+        },
+        {
+            "path": "..\\related"
+        },
+        {
+            "path": "..\\core"
+        },
+        {
+            "path": "..\\root"
+        },
+        {
+            "path": "..\\cpu"
+        },
+        {
+            "path": "..\\workflow"
+        },
+        {
+            "path": "..\\pipes"
+        },
+        {
+            "path": "..\\tools"
+        },
+        {
+            "path": "..\\tooling"
+        },
+        {
+            "path": "..\\files"
+        },
+        {
+            "path": "..\\clr"
+        },
+        {
+            "path": "..\\capture"
+        },
+        {
+            "path": "..\\hash"
+        },
+        {
+            "path": "..\\symbolic"
+        },
+        {
+            "path": "..\\tables"
+        },
+        {
+            "path": "..\\bits"
+        },
+        {
+            "path": "..\\bitfields"
+        },
+        {
+            "path": "..\\bitmasks"
+        },
+        {
+            "path": "..\\bit"
+        },
+        {
+            "path": "..\\gmath"
+        },
+        {
+            "path": "..\\bitnumbers"
+        },
+        {
+            "path": "..\\extract"
+        }
+    ],
+	"settings": {}
+}
