@@ -1,6 +1,4 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="../directory.build.props"/>
-
   <PropertyGroup>
     <ZLibVersion>0.0.27</ZLibVersion>
   </PropertyGroup>

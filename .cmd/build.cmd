@@ -1,2 +1,4 @@
 @echo off
-call %ControlScripts%\build-source.cmd
+call %~dp0config.cmd
+set CmdSpec=dotnet build %SlnPath% -c Release
+call %CmdSpec%
