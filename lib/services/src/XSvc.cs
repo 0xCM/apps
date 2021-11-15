@@ -119,5 +119,9 @@ namespace Z0
         [Op]
         public static TableEmitters TableEmitters(this IWfRuntime context)
             => Svc.TableEmitters.create(context);
+
+        [Op]
+        public static StringTableGen StringTableGen(this IWfRuntime context)
+            => Svc.StringTableGen.create(context);
     }
 }

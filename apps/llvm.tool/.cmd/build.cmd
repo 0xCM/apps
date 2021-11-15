@@ -1,3 +1,1 @@
-@echo off
-call %~dp0config.cmd
-call %BuildProjCmd%
+dotnet build %~dp0..\z0.llvm.tool.csproj -c Release

@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Threading.Tasks;
 
-    public static class XCmd
+    partial class XTend
     {
         public static Task<CmdResult> Dispatch<T>(this T cmd, IWfRuntime wf)
             where T : struct, ICmd

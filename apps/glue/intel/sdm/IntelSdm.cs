@@ -26,7 +26,7 @@ namespace Z0.Asm
             DocServices = Wf.DocServices();
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
-            StringTableGen = Wf.Generators().StringTable();
+            StringTableGen = Wf.StringTableGen();
         }
 
         public void ClearTargets()

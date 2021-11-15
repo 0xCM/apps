@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-    <PackageReference Include="z0.asm.models" Version="$(ZLibVersion)" />
   </ItemGroup>
 
   <ItemGroup>

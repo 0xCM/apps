@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
+
   </ItemGroup>
 
 </Project>

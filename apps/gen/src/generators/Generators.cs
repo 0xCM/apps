@@ -11,9 +11,6 @@ namespace Z0
 
     public class Generators : AppService<Generators>
     {
-        public StringTableGen StringTable()
-            => StringTableGen.create(Wf);
-
         public StringLiteralEmitter StringLiterals()
             => Z0.StringLiteralEmitter.create(Wf);
 

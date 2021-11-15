@@ -1,4 +1,1 @@
-@echo off
-set ProjectId=gen
-call %ControlScripts%\build-lib.cmd
-
+dotnet build %~dp0..\z0.gen.csproj -c Release

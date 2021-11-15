@@ -1,4 +1,2 @@
 @echo off
-call %~dp0config.cmd
-set CmdSpec=dotnet build %LibProjPath% -c Release
-call %CmdSpec%
+dotnet build %~dp0..\z0.lib.csproj -c Release

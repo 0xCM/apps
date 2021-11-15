@@ -1,3 +1,1 @@
-@echo off
-set ProjectId=glue
-call %ControlScripts%\build-lib.cmd
+dotnet build %~dp0..\z0.glue.csproj -c Release

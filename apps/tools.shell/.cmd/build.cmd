@@ -1,3 +1,2 @@
 @echo off
-set ProjectId=tools.shell
-call %ControlScripts%\build-app.cmd
+dotnet build %~dp0..\z0.tools.shell.csproj -c Release

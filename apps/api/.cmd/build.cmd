@@ -1,3 +1,2 @@
 @echo off
-set ProjectId=api
-call %ControlScripts%\build-lib.cmd
+dotnet build %~dp0..\z0.api.csproj -c Release

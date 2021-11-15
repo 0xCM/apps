@@ -1,4 +1,3 @@
 @echo off
-call %~dp0config.cmd
-
-dotnet pack %LibProjPath% -c Release --include-symbols --include-source --output %PkgDst%
+set PkgDst=j:\cache\dev
+dotnet pack %~dp0..\z0.lib.csproj -c Release --output j:\cache\dev

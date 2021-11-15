@@ -1,3 +1,1 @@
-@echo off
-set ProjectId=asm.core
-call %ControlScripts%\build-lib.cmd
+dotnet build %~dp0..\z0.asm.core.csproj -c Release

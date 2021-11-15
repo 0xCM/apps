@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-    <PackageReference Include="z0.tools" Version="$(ZLibVersion)" />
   </ItemGroup>
 
 </Project>

@@ -31,8 +31,6 @@
     <ResPack>$(Src)respack/z0.respack.csproj</ResPack>
     <Res>$(Src)res/z0.res.csproj</Res>
 
-    <Validity>$(Src)validity/z0.validity.csproj</Validity>
-
   </PropertyGroup>
 
 </Project>
