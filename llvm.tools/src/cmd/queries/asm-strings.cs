@@ -7,7 +7,7 @@ namespace Z0.llvm
     partial class LlvmCmd
     {
 
-        [CmdOp(".asm-strings")]
+        [CmdOp("asm-strings")]
         Outcome AsmStrings(CmdArgs args)
         {
 

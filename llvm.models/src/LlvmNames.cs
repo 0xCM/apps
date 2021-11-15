@@ -122,11 +122,9 @@ namespace Z0.llvm
 
             public const string class_fields = @class + sep + fields;
 
-            public const string class_names = @class + sep + names;
+            public const string classnames = @class + names;
 
-            public const string def_fields = def + sep + fields;
-
-            public const string def_names = def + sep + names;
+            public const string defnames = def + names;
         }
     }
 }

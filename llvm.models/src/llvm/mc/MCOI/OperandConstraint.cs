@@ -1,0 +1,37 @@
+//-----------------------------------------------------------------------------
+// Copyright   : (c) LLVM Project
+// License     : Apache-2.0 WITH LLVM-exceptions
+//-----------------------------------------------------------------------------
+namespace Z0.llvm
+{
+    using T = MCOI.OperandConstraint;
+
+    partial struct MCOI
+    {
+        /// <summary>
+        /// Operand constraints. These are encoded in 16 bits with one of the
+        /// low-order 3 bits specifying that a constraint is present and the
+        /// corresponding high-order hex digit specifying the constraint value.
+        /// This allows for a maximum of 3 constraints.
+        /// </summary>
+        /// <remarks>
+        /// From https://github.com/llvm/llvm-project/blob/68b9b769b510b9f5d3fe20e1f850ab829510673e/llvm/include/llvm/MC/MCInstrDesc.h
+        /// </remarks>
+        public enum OperandConstraint : byte
+        {
+            /// <summary>
+            /// Must be allocated the same register as specified value.
+            /// </summary>
+            TIED_TO = 0,
+
+            /// <summary>
+            /// If present, operand is an early clobber register.
+            /// </summary>
+            EARLY_CLOBBER
+        };
+
+        public const byte TIED_TO = (byte)T.TIED_TO;
+
+        public const byte EARLY_CLOBBER = (byte)T.EARLY_CLOBBER;
+    }
+}

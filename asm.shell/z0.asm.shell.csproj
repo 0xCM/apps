@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="z0.asm.models" Version="$(ZLibVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
 

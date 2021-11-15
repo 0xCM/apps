@@ -26,9 +26,8 @@ namespace Z0.llvm
             {
                 var entities = list<Entity>();
                 Db.QueryFields(provider => {
-                    //Write(provider.EntityName);
                     entities.Add(Entity.load(provider));
-                });
+                 });
                 var index = entities.Map(x => (x.EntityName.Text,x)).ToDictionary();
                 var x86inst = Db.SelectList("X86Inst");
                 var counter = 0u;
@@ -40,7 +39,7 @@ namespace Z0.llvm
 
                     }
                 }
-            }
+             }
             return result;
         }
     }

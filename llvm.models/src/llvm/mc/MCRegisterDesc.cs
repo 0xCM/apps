@@ -10,11 +10,13 @@ namespace Z0.llvm
     using static Root;
 
     /// <summary>
-    /// Eponomyous replica from https://github.com/llvm/llvm-project/blob/53196387c201fd082d62f58459adb03267811a4c/llvm/include/llvm/MC/MCRegisterInfo.h
-    /// defined by a tabegen-produced array when invoked with the --gen-register-info action. Each instance describes a specific register
+    /// Defined by a tabegen-produced array when invoked with the --gen-register-info action. Each instance describes a specific register
+    /// </summary>
+    /// <summary>
+    /// From https://github.com/llvm/llvm-project/blob/53196387c201fd082d62f58459adb03267811a4c/llvm/include/llvm/MC/MCRegisterInfo.h
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct MCRegisterDesc
+    public record struct MCRegisterDesc
     {
         /// <summary>
         /// Printable name for the reg (for debugging)

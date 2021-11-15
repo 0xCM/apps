@@ -7,7 +7,6 @@ namespace Z0.llvm
     using System;
     using System.Collections.Generic;
 
-    using Asm;
     using records;
 
     using static LlvmNames;
