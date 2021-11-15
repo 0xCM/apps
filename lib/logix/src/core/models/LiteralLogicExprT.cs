@@ -1,0 +1,33 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
+    /// <summary>
+    /// Defines a typed literal logic expression
+    /// </summary>
+    public readonly struct LiteralLogicExpr<T> : ILogicLiteralExpr<T>
+        where T : unmanaged
+    {
+        /// <summary>
+        /// The literal value
+        /// </summary>
+        public bool Value {get;}
+
+        [MethodImpl(Inline)]
+        public LiteralLogicExpr(bool src)
+            => Value = src;
+
+        public string Format()
+            => $"{Value}";
+
+        public override string ToString()
+            => Format();
+    }
+}

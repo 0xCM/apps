@@ -1,0 +1,20 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Reflection;
+
+    using static Root;
+
+    partial struct Enums
+    {
+        [MethodImpl(Inline)]
+        public static ClrEnumFieldAdapter<E> field<E>(uint index, FieldInfo src, E value)
+            where E : unmanaged, Enum
+                => new ClrEnumFieldAdapter<E>(index,src,value);
+    }
+}

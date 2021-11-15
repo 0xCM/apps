@@ -1,0 +1,47 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using System.Linq;
+    using System.IO;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
+    partial struct FS
+    {
+        [MethodImpl(Inline), Op]
+        public static Files files(params FilePath[] src)
+            => new Files(src);
+
+        [MethodImpl(Inline), Op]
+        public static Deferred<FilePath> files(FolderPath src, bool recurse)
+            => files(src, "*.*", recurse);
+
+        [MethodImpl(Inline), Op]
+        public static Deferred<FilePath> files(FolderPath src, bool recurse, FileExt ext)
+            => files(src, ext.SearchPattern, recurse);
+
+        [MethodImpl(Inline), Op]
+        public static Deferred<FilePath> files(FolderPath src, bool recurse, params FileExt[] ext)
+            => files(src, pattern(ext), recurse);
+
+        [MethodImpl(Inline), Op]
+        public static Deferred<FilePath> files(FolderPath src, string pattern, bool recurse)
+            => EnumerateFiles(src, pattern, recurse);
+
+        static Deferred<FilePath> EnumerateFiles(FolderPath src, string pattern, bool recurse, bool casematch = false)
+            => !exists(src) ? seq.EmptyDeferral<FilePath>() : seq.defer(from f in Directory.EnumerateFiles(src.Name, pattern, SearchOptions(recurse, casematch)) select path(f));
+
+        [MethodImpl(Inline)]
+        static EnumerationOptions SearchOptions(bool recurse, bool casematch = false, FileAttributes? skip = null)
+            => new EnumerationOptions{
+                RecurseSubdirectories = recurse,
+                AttributesToSkip = skip ?? 0,
+                MatchCasing = casematch ? MatchCasing.CaseSensitive : MatchCasing.CaseInsensitive,
+                MatchType = MatchType.Win32
+            };
+    }
+}

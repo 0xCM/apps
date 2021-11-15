@@ -1,0 +1,19 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+namespace Msil
+{
+    using System.Reflection.Emit;
+    public sealed class ShortInlineRInstruction : ILInlineInstruction
+    {
+        internal ShortInlineRInstruction(int offset, OpCode opCode, float value)
+            : base(offset, opCode)
+        {
+            Value = value;
+        }
+
+        public float Value { get; }
+
+        public override void Accept(ILInstructionVisitor visitor)
+            => visitor.VisitShortInlineRInstruction(this);
+    }
+}

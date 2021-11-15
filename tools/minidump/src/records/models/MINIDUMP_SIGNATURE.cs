@@ -1,0 +1,22 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using System.Runtime.InteropServices;
+
+    partial struct MinidumpRecords
+    {
+        /// <summary>
+        /// #define MINIDUMP_SIGNATURE ('PMDM')
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MINIDUMP_SIGNATURE : IRecord<MINIDUMP_SIGNATURE>
+        {
+            public uint Value;
+
+            public uint Expected => (uint)'P' << 24 | (uint)'M' << 16 | (uint)'D' << 8 | (uint)'M';
+        }
+    }
+}
