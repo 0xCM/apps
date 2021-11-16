@@ -34,7 +34,7 @@ namespace Z0
         public Setting NonGeneric
         {
             [MethodImpl(Inline)]
-            get => new Setting(Name, Value.ToString());
+            get => new (Name, Value.ToString());
         }
 
         public string Format()

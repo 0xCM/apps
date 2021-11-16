@@ -11,6 +11,8 @@ namespace Z0
 
     using api = Settings;
 
+   
+
     public readonly struct Setting : ISetting
     {
         public string Name {get;}
@@ -35,12 +37,12 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Setting((string name, dynamic value) src)
-            => new Setting(src.name, src.value);
+            => new (src.name, src.value);
 
         public static Setting Empty
         {
             [MethodImpl(Inline)]
-            get => new Setting(EmptyString, EmptyString);
+            get => new (EmptyString, EmptyString);
         }
     }
 }
