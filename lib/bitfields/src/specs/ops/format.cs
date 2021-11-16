@@ -34,7 +34,7 @@ namespace Z0
             => src.Width == 1 ? nameof(bit) : string.Format("bits<{0}>", src.Width);
 
         static string decl(in BitfieldModel src)
-            => string.Format("{0}<{1}:{2},{3}> " , typename(src), src.Name, src.SegCount, src.TotalWidth);
+            => string.Format("{0} : {1}<{2}> " , src.Name, typename(src), src.TotalWidth);
 
         public static string format(in BitfieldModel src)
         {
@@ -55,24 +55,22 @@ namespace Z0
 
         public static string format(in BitfieldSegModel src)
         {
-            const string P1 = "{0:D2} {1}[{2}]:{3}";
-            const string P2 = "{0:D2} {1}[{2}:{3}]:{4}";
+            const string P1 = "{0}[{1}]:{2}";
+            const string P2 = "{0}[{1}:{2}]:{3}";
             if(src.Width == 1)
             {
                 return string.Format(P1,
-                    src.Index,
                     src.Name,
                     src.Offset,
-                    typename(src)
+                    src.Width
                     );
             }
             else
                 return string.Format(P2,
-                    src.Index,
                     src.Name,
                     endpos(src.Offset, src.Width),
                     src.Offset,
-                    typename(src)
+                    src.Width
                     );
         }
     }

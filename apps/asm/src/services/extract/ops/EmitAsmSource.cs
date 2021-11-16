@@ -27,8 +27,7 @@ namespace Z0
                 if(routine is null || routine.IsEmpty)
                     continue;
 
-                var formatted = AsmFormatter.format(routine, FormatConfig);
-                writer.Write(formatted);
+                writer.Write(AsmFormatter.format(routine, FormatConfig));
                 counter++;
             }
             EmittedFile(flow, counter);

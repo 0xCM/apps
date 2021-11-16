@@ -36,7 +36,7 @@ namespace Z0
             var dst = new ApiExtractSettings();
             dst.Timestamp = ts;
             dst.Analyze = true;
-            dst.EmitContext = false;
+            dst.EmitContext = true;
             dst.EmitStatements = true;
             dst.ExtractRoot = ts == null ? root : root + FS.folder(dst.Timestamp.Format());
             return dst;

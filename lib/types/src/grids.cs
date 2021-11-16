@@ -7,12 +7,12 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using Types;
+    using ValueTypes;
 
     using static Root;
     using static core;
 
-
+    [ApiHost]
     public readonly struct grids
     {
         const NumericKind Closure = UnsignedInts;

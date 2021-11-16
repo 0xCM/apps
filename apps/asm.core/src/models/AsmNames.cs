@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly partial struct AsmAlgorithms
+    public readonly struct AsmNames
     {
+        public const string bsr = nameof(bsr);
 
+        public const string bsf = nameof(bsf);
+
+        public const string mov = nameof(mov);
     }
 }

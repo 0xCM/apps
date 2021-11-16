@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -12,25 +12,29 @@ namespace Z0.Types
     /// <summary>
     /// Defines an indexed/labeled sequence that forms a partition over some domain
     /// </summary>
-    public class Classifier<T> : IClassifier
+    public class ValueClassifier<K,T> : IClassifier
+        where K : unmanaged
     {
         public Label Name {get;}
 
-        internal Index<Label> _Partitions;
+        internal Index<Label> _ClassNames;
 
         internal Index<LabeledValue<T>> _Values;
 
-        internal Index<Sym> _Symbols;
+        internal Index<ValueClass<K,T>> _Classes;
 
-        internal Index<Class<T>> _Classes;
+        Index<K> _Kinds;
+
+        Index<Sym<K>> _Symbols;
 
         [MethodImpl(Inline)]
-        public Classifier(Label name, Label[] names, Sym[] symbols, LabeledValue<T>[] values, Class<T>[] classes)
+        public ValueClassifier(Label name, K[] kinds, Label[] names, Sym<K>[] symbols, LabeledValue<T>[] values, ValueClass<K,T>[] classes)
         {
             Name = name;
             _Symbols = symbols;
-            _Partitions = names;
+            _ClassNames = names;
             _Values = values;
+            _Kinds = kinds;
             _Classes = classes;
         }
 
@@ -40,13 +44,19 @@ namespace Z0.Types
             get => _Classes.Count;
         }
 
+        public ReadOnlySpan<K> Kinds
+        {
+            [MethodImpl(Inline)]
+            get => _Kinds.View;
+        }
+
         public ReadOnlySpan<Label> ClassNames
         {
             [MethodImpl(Inline)]
-            get => _Partitions.View;
+            get => _ClassNames.View;
         }
 
-        public ReadOnlySpan<Sym> Symbols
+        public ReadOnlySpan<Sym<K>> Symbols
         {
             [MethodImpl(Inline)]
             get => _Symbols.View;
@@ -58,7 +68,7 @@ namespace Z0.Types
             get => _Values.View;
         }
 
-        public ReadOnlySpan<Class<T>> Classes
+        public ReadOnlySpan<ValueClass<K,T>> Classes
         {
             [MethodImpl(Inline)]
             get => _Classes.View;

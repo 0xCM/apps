@@ -169,6 +169,38 @@ namespace Z0.Machines.X86
 
         public static xmm15 xmm15 => default;
 
+        public static xmm16 xmm16 => default;
+
+        public static xmm17 xmm17 => default;
+
+        public static xmm18 xmm18 => default;
+
+        public static xmm19 xmm19 => default;
+
+        public static xmm20 xmm20 => default;
+
+        public static xmm21 xmm21 => default;
+
+        public static xmm22 xmm22 => default;
+
+        public static xmm23 xmm23 => default;
+
+        public static xmm24 xmm24 => default;
+
+        public static xmm25 xmm25 => default;
+
+        public static xmm26 xmm26 => default;
+
+        public static xmm27 xmm27 => default;
+
+        public static xmm28 xmm28 => default;
+
+        public static xmm29 xmm29 => default;
+
+        public static xmm30 xmm30 => default;
+
+        public static xmm31 xmm31 => default;
+
         public static ymm0 ymm0 => default;
 
         public static ymm1 ymm1 => default;

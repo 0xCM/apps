@@ -9,7 +9,6 @@ namespace Z0.Machines.X86
 
     using Asm;
     using Flows;
-    using Types;
 
     using static Root;
     using static core;
@@ -118,7 +117,7 @@ namespace Z0.Machines.X86
         {
             var result = Outcome.Success;
 
-            var classifier = types.classifier<AsciLetterLoSym,byte>();
+            var classifier = Classifiers.classifier<AsciLetterLoSym,byte>();
             var symbols = Symbols.index<AsciLetterLoSym>();
             var classes = classifier.Classes;
             var count = classes.Length;

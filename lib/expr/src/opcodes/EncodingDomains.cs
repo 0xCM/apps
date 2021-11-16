@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using Types;
+    using ValueTypes;
 
     public readonly struct EncodingDomains
     {
-        public static Domain Api => 1;
+        public static TypeDomain Api => 1;
 
-        public static Domain Asm => 2;
+        public static TypeDomain Asm => 2;
     }
 }

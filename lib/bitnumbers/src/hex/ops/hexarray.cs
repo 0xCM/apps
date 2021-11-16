@@ -12,7 +12,6 @@ namespace Z0
 
     partial struct Hex
     {
-
         [MethodImpl(Inline), Op]
         public static HexArray hexarray(byte[] src)
             => new HexArray(src);

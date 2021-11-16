@@ -28,11 +28,11 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static AsmRoutineFormat format(AsmRoutine src, in AsmFormatConfig config)
+        public static string format(AsmRoutine src, in AsmFormatConfig config)
         {
             var dst = text.buffer();
             render(src, config, dst);
-            return new AsmRoutineFormat(dst.Emit());
+            return dst.Emit();
         }
 
         [Op]

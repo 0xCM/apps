@@ -15,7 +15,7 @@ namespace Z0.Asm
 
         public static Outcome parse(string src, out AsmOpCodeString dst)
         {
-            dst = asm.ocstring(src);
+            dst = new AsmOpCodeString(src);
             return true;
         }
     }

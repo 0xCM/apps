@@ -9,7 +9,6 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static AsmInstructions;
 
     partial class AsmCaseArchive
     {
@@ -18,7 +17,7 @@ namespace Z0.Asm
             where T : ISyntaxPart<T>
                 => new SyntaxFragment<T>(location, content);
         [Op]
-        public static Index<CallRel32Case> loadRel32(Call_near call)
+        public static Index<CallRel32Case> callrel32()
         {
             var caller = asm.caller(0x7ffe6818a0e0ul, "canonical/abi2/Run");
             var cases = alloc<CallRel32Case>(4);

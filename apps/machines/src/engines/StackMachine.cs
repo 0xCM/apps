@@ -71,7 +71,6 @@ namespace Z0.Machines
             {
                 dst = default;
                 return false;
-
             }
         }
 

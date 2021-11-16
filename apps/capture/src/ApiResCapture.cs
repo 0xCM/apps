@@ -167,8 +167,7 @@ namespace Z0.Asm
             var decoded = Decoder.Decode(capture);
             if(decoded)
             {
-                var asm = AsmFormatter.format(decoded.Value, FormatConfig);
-                return new AsmRoutineCode(decoded.Value, capture, asm.Format());
+                return new AsmRoutineCode(decoded.Value, capture, AsmFormatter.format(decoded.Value, FormatConfig));
             }
             else
                 return Option.none<AsmRoutineCode>();

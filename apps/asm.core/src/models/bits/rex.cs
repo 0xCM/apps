@@ -19,10 +19,9 @@ namespace Z0.Asm
             return i-i0;
         }
 
-        const string RexBitstring = "0100 {0} {1} {2} {3}";
 
         [Op]
         public static string bitstring(RexPrefix src)
-            => string.Format(RexBitstring, src.W(), src.R(), src.X(), src.B());
+            => string.Format("0100 {0} {1} {2} {3}", src.W(), src.R(), src.X(), src.B());
     }
 }

@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface ICaptureExchange
-    {
-        /// <summary>
-        /// The buffer that receives the captured data
-        /// </summary>
-        BufferToken TargetBuffer {get;}
+    // public interface ICaptureExchange
+    // {
+    //     /// <summary>
+    //     /// The buffer that receives the captured data
+    //     /// </summary>
+    //     BufferToken TargetBuffer {get;}
 
-        CaptureExchange Context {get;}
-    }
+    //     CaptureExchange Context {get;}
+    // }
 }

@@ -16,6 +16,10 @@ namespace Z0
         public static BitfieldModel bitfield(Identifier name, Index<BitfieldSegModel> segs)
             => new BitfieldModel(name, segs, width(segs));
 
+        public static BitfieldModel bitfield<K>(Identifier name)
+            where K : unmanaged, Enum
+                => bitfield(name, Symbols.index<K>());
+
         public static BitfieldModel bitfield<K>(Identifier name, Symbols<K> symbols)
             where K : unmanaged
         {
@@ -28,10 +32,10 @@ namespace Z0
                 ref readonly var sym = ref skip(syms,i);
                 var expr = sym.Expr.Format();
                 var width = bw32(sym.Kind);
-                seek(segs,i) = BitfieldSpecs.segment(expr, i, offset, width);
+                seek(segs,i) = segment(expr, i, offset, width);
                 offset += width;
             }
-            return BitfieldSpecs.bitfield(name, segs);
+            return bitfield(name, segs);
         }
     }
 }

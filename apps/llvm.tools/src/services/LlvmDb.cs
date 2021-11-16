@@ -94,7 +94,6 @@ namespace Z0.llvm
             return items;
         }
 
-
         public ReadOnlySpan<Label> ClassNames()
             => ClassNameBuffer.Labels;
 
@@ -120,18 +119,20 @@ namespace Z0.llvm
                 receiver(new FieldProvider(DefMap[i].Id, this));
         }
 
-        public void EmitClassInfo(StreamWriter dst)
+        public uint EmitClassInfo(StreamWriter dst)
         {
             var count = ClassMap.IntervalCount;
             for(var i=0; i<count; i++)
                 dst.WriteLine(ClassMap[i].Format());
+            return count;
         }
 
-        public void EmitDefInfo(StreamWriter dst)
+        public uint EmitDefInfo(StreamWriter dst)
         {
             var count = DefMap.IntervalCount;
             for(var i=0; i<count; i++)
                 dst.WriteLine(DefMap[i].Format());
+            return count;
         }
 
         public ReadOnlySpan<TextLine> SelectDefLines(Identifier name)

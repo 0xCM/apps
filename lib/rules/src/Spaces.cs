@@ -14,26 +14,10 @@ namespace Z0
     [ApiHost]
     public readonly partial struct Spaces
     {
-        /// <summary>
-        /// Characterizes a projector
-        /// </summary>
-        /// <typeparam name="S">The source element type</typeparam>
-        /// <typeparam name="T">The target element type</typeparam>
-        public interface IProjector<S,T>
-        {
-            /// <summary>
-            /// Projects elements from a specified source into a specified target
-            /// </summary>
-            /// <param name="src">The data source</param>
-            /// <param name="dst">The data target</param>
-            /// <returns>The count of projected elements, if successful; otherwise an error specification</returns>
-            Outcome<uint> Project(ReadOnlySpan<S> src, Span<T> dst);
-        }
-
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline)]
-        public static Outcome<uint> apply<S,T>(Projector<S,T> p, ReadOnlySpan<S> src, Span<T> dst)
+        public static Outcome<uint> apply<S,T>(SeqProjector<S,T> p, ReadOnlySpan<S> src, Span<T> dst)
         {
             var count = (uint)min(src.Length,dst.Length);
             for(var i=0; i<count; i++)
@@ -63,8 +47,8 @@ namespace Z0
                 => new DomainKey<D>(descriptor);
 
         [MethodImpl(Inline)]
-        public static Projector<S,T> projector<S,T>(Func<S,T> f)
-            => new Projector<S,T>(f);
+        public static SeqProjector<S,T> projector<S,T>(Func<S,T> f)
+            => new SeqProjector<S,T>(f);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static SourceKey untype<T>(SourceKey<T> src, Func<SourceKey<T>,uint> f)
@@ -125,6 +109,9 @@ namespace Z0
             return new DomainKey(k,i);
         }
 
+        /// <summary>
+        /// Defines a key over a kind-stratified domain
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public readonly struct DomainKey
         {
@@ -270,12 +257,12 @@ namespace Z0
         /// <summary>
         /// A default projection effector
         /// </summary>
-        public readonly struct Projector<S,T> : IProjector<S,T>
+        public readonly struct SeqProjector<S,T> : ISeqProjector<S,T>
         {
             internal readonly Func<S,T> F;
 
             [MethodImpl(Inline)]
-            internal Projector(Func<S,T> f)
+            internal SeqProjector(Func<S,T> f)
                 => F = f;
 
             public Outcome<uint> Project(ReadOnlySpan<S> src, Span<T> dst)

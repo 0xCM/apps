@@ -10,8 +10,6 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    using SQ = SymbolicQuery;
-
     partial struct AsmParser
     {
         [Op]

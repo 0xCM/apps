@@ -1,7 +1,7 @@
 @echo off
 call %~dp0config.cmd
 set ProjName=z0.%ProjId%
-set ProjRoot=%DevRoot%\%ProjId%
+set ProjRoot=%AppsRoot%\%ProjId%
 set ProjPath=%ProjRoot%\%ProjName%.csproj
 set BuildLogPath=%BuildLogs%\%ProjName%.log
 set ProjBuildRoot=%BuildRoot%\bin\%ProjName%

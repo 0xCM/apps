@@ -9,7 +9,7 @@ namespace Z0.Expr
     using static Root;
     using static core;
 
-    using Types;
+    using ValueTypes;
 
     [ApiHost]
     public readonly struct OpCodes
@@ -19,7 +19,7 @@ namespace Z0.Expr
         const byte DomainWidth = 16;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static OpCode<K> encode<K>(Label name, Domain d, Hex32 code)
+        public static OpCode<K> encode<K>(Label name, TypeDomain d, Hex32 code)
             where K : unmanaged
         {
             var encoded = (ulong)d | (ulong)code << DomainWidth;
@@ -27,7 +27,7 @@ namespace Z0.Expr
         }
 
         [MethodImpl(Inline), Op]
-        public static OpCode encode(Label name, Domain d, Hex32 code)
+        public static OpCode encode(Label name, TypeDomain d, Hex32 code)
         {
             var encoded = (ulong)d | (ulong)code << DomainWidth;
             return new OpCode(name, encoded);
@@ -43,7 +43,7 @@ namespace Z0.Expr
             => (uint)(src.Data >> DomainWidth);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Domain domain<K>(OpCode<K> src)
+        public static TypeDomain domain<K>(OpCode<K> src)
             where K : unmanaged
                 => bw16(src.Data);
 
@@ -53,7 +53,7 @@ namespace Z0.Expr
                 => new OpCode(src.Name, bw64(src.Data));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Domain domain(OpCode src)
+        public static TypeDomain domain(OpCode src)
             => u16(src.Data);
 
         public static string format(OpCode src)

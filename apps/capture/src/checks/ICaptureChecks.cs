@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using System;
-    using System.Reflection;
     using System.IO;
 
     using static BufferSeqId;
@@ -23,9 +22,7 @@ namespace Z0.Asm
 
         void WriteAsm(ApiCaptureBlock capture, StreamWriter dst)
         {
-            var asm = Decoder.Decode(capture).Require();
-            var formatted = AsmFormatter.format(asm, FormatConfig);
-            dst.Write(formatted);
+            dst.Write(AsmFormatter.format(Decoder.Decode(capture).Require(), FormatConfig));
         }
 
         void WriteAsm(ApiCaptureBlock[] src, StreamWriter dst)

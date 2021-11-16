@@ -2,18 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0.ValueTypes
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Parser(typeof(CellType))]
     public readonly struct CellTypeParser : IParser<CellType>
     {
         public static CellTypeParser Service => default;
-
 
         public Outcome Parse(string src, out CellType dst)
         {

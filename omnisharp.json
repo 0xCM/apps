@@ -1,0 +1,8 @@
+{
+"msbuild": {
+    "enabled": true,
+    "Configuration": "Release"
+ },
+ "omnisharp.defaultLaunchSolution": "z0.sln"
+
+}

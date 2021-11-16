@@ -2,14 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct Class<K,T>
-        where K : unmanaged
+    public readonly struct ValueClass
     {
         public uint Ordinal {get;}
 
@@ -19,23 +18,16 @@ namespace Z0.Types
 
         public Label Symbol {get;}
 
-        public K Kind {get;}
-
-        public T Value {get;}
+        public ulong Value {get;}
 
         [MethodImpl(Inline)]
-        public Class(uint ordinal, Label @class, Label name, Label symbol, K kind, T value)
+        public ValueClass(uint ordinal, Label @class, Label kind, Label symbol, ulong value)
         {
             Ordinal = ordinal;
             ClassName = @class;
-            KindName = name;
+            KindName = kind;
             Symbol = symbol;
-            Kind = kind;
             Value = value;
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator Class<T>(Class<K,T> src)
-            => types.unkind(src);
     }
 }

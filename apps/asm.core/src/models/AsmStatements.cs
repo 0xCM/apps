@@ -11,23 +11,23 @@ namespace Z0.Asm
 
     public readonly struct AsmStatement
     {
-        readonly text31 Data;
+        readonly TextBlock Data;
 
         [MethodImpl(Inline)]
-        public AsmStatement(string src)
+        public AsmStatement(TextBlock src)
         {
             Data = src;
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmStatement(string src)
-            => new AsmStatement(src);
 
         public string Format()
             => Data.Format();
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmStatement(string src)
+            => new AsmStatement(src);
     }
 
     [ApiHost]
@@ -36,6 +36,5 @@ namespace Z0.Asm
         const string RP1 = "{0} {1}";
 
         const string RP2 = "{0} {1}, {2}";
-
     }
 }

@@ -28,6 +28,7 @@ namespace Z0.llvm
                 Db.QueryFields(provider => {
                     entities.Add(Entity.load(provider));
                  });
+
                 var index = entities.Map(x => (x.EntityName.Text,x)).ToDictionary();
                 var x86inst = Db.SelectList("X86Inst");
                 var counter = 0u;

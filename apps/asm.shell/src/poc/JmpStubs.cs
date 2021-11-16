@@ -108,7 +108,7 @@ namespace Z0.Asm
         {
             var address = Trampolines[slot];
             ref var payload = ref Payloads[slot];
-            var mov = AsmSpecs.mov(rcx, target).Content.Bytes;
+            var mov = AsmSpecs.mov(rcx, target).Bytes;
             var dst = payload.Bytes;
             var j=0;
             for(var i=0; i< mov.Length; i++)

@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0.ValueTypes
 {
     public struct i3<T> : ISigned<T>
         where T : unmanaged

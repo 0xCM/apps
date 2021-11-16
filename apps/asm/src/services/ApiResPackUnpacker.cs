@@ -26,8 +26,8 @@ namespace Z0.Asm
             var buffer = text.buffer();
             var sequence = 0u;
             var segments = list<MemorySeg>(30000);
-            var asmFlow = Wf.EmittingFile(asmpath);
-            var hexFlow = Wf.EmittingFile(hexpath);
+            var asmFlow = EmittingFile(asmpath);
+            var hexFlow = EmittingFile(hexpath);
             using var asmwriter = asmpath.Writer();
             using var hexwriter = hexpath.Writer();
             for(var i=0; i<count; i++)
@@ -70,8 +70,8 @@ namespace Z0.Asm
                 sequence++;
             }
 
-            Wf.EmittedFile(asmFlow, sequence);
-            Wf.EmittedFile(hexFlow, sequence);
+            EmittedFile(asmFlow, sequence);
+            EmittedFile(hexFlow, sequence);
             var deposited = segments.ViewDeposited();
             EmitHexPack(deposited, dst + FS.file("respack", FS.XPack));
             EmitHexArrays(deposited, dst + FS.file("respack", FS.ext("xarray")));

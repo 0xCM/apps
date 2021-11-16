@@ -10,5 +10,5 @@ namespace Z0
     public readonly partial struct Bitfields
     {
         const NumericKind Closure = UnsignedInts;
-   }
+    }
 }

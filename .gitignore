@@ -1,0 +1,10 @@
+.build/
+.tools/
+lib/bin/
+lib/obj/
+asm.models/bin/
+asm.models/obj/
+test/bin/
+test/obj/
+tools/bin/
+tools/obj/

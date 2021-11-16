@@ -2,11 +2,8 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0.ValueTypes
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static TypeSyntax.Scalars;
     using static TypeSyntax.Naturals;
     using static TypeSyntax.Composers;

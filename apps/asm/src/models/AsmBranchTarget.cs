@@ -8,7 +8,6 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static AsmCodes;
 
     [Record(TableId)]
     public struct AsmBranchTarget : IRecord<AsmBranchTarget>

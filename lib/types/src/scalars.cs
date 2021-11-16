@@ -2,12 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0.ValueTypes
 {
     using System;
     using System.Runtime.CompilerServices;
 
-    using Types;
+    using ValueTypes;
 
     using static Root;
 

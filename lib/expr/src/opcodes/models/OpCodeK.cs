@@ -6,7 +6,7 @@ namespace Z0.Expr
 {
     using System.Runtime.CompilerServices;
 
-    using Types;
+    using ValueTypes;
 
     using static Root;
 
@@ -26,7 +26,7 @@ namespace Z0.Expr
             Data = data;
         }
 
-        public Domain Domain
+        public TypeDomain Domain
         {
             [MethodImpl(Inline)]
             get => api.domain(this);

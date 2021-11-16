@@ -61,12 +61,6 @@ namespace Z0
                 if(options.CollectApiDocs)
                     Wf.ApiComments().Collect();
 
-                // if(options.EmitAssetIndex)
-                //     Wf.ApiAssets().EmitAssetIndex();
-
-                // if(options.EmitAssetContent)
-                //     Wf.ApiAssets().EmitAssetContent();
-
                 if(options.ProcessCultFiles)
                     Wf.CultProcessor().Process();
 

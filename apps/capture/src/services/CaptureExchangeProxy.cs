@@ -9,23 +9,23 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct CaptureExchangeProxy : ICaptureExchange
-    {
-        /// <summary>
-        /// The buffer that receives the captured data
-        /// </summary>
-        public BufferToken TargetBuffer {get;}
+    // public readonly struct CaptureExchangeProxy : ICaptureExchange
+    // {
+    //     /// <summary>
+    //     /// The buffer that receives the captured data
+    //     /// </summary>
+    //     public BufferToken TargetBuffer {get;}
 
-        [MethodImpl(Inline)]
-        internal CaptureExchangeProxy(BufferToken target)
-        {
-            TargetBuffer = target;
-        }
+    //     [MethodImpl(Inline)]
+    //     internal CaptureExchangeProxy(BufferToken target)
+    //     {
+    //         TargetBuffer = target;
+    //     }
 
-        public CaptureExchange Context
-        {
-            [MethodImpl(Inline)]
-            get => new CaptureExchange(memory.span(TargetBuffer));
-        }
-    }
+    //     public CaptureExchange Context
+    //     {
+    //         [MethodImpl(Inline)]
+    //         get => new CaptureExchange(memory.span(TargetBuffer));
+    //     }
+    // }
 }
