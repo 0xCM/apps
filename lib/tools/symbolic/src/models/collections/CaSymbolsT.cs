@@ -11,46 +11,46 @@ namespace Z0
     using static Root;
     using static core;
 
-    public sealed class CodeSymbols<T> : CodeSymbols<CodeSymbols<T>,T>, ICodeSymbols<T>
+    public sealed class CaSymbols<T> : CaSymbols<CaSymbols<T>,T>, ICaSymbols<T>
         where T : ISymbol
     {
-        public CodeSymbols()
+        public CaSymbols()
         {
 
         }
 
-        public CodeSymbols(uint count)
+        public CaSymbols(uint count)
             : base(count)
         {
 
         }
 
         [MethodImpl(Inline)]
-        public CodeSymbols(T[] src)
+        public CaSymbols(T[] src)
         {
             Data = src;
         }
 
-        public ref CodeSymbol<T> this[uint index]
+        public ref CaSymbol<T> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref seek(Edit,index);
         }
 
-        public new Span<CodeSymbol<T>> Edit
+        public new Span<CaSymbol<T>> Edit
         {
             [MethodImpl(Inline)]
-            get => recover<T,CodeSymbol<T>>(base.Edit);
+            get => recover<T,CaSymbol<T>>(base.Edit);
         }
 
-        public new ReadOnlySpan<CodeSymbol<T>> View
+        public new ReadOnlySpan<CaSymbol<T>> View
         {
             [MethodImpl(Inline)]
-            get => recover<T,CodeSymbol<T>>(base.View);
+            get => recover<T,CaSymbol<T>>(base.View);
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator CodeSymbols<T>(T[] src)
-            => new CodeSymbols<T>(src);
+        public static implicit operator CaSymbols<T>(T[] src)
+            => new CaSymbols<T>(src);
     }
 }

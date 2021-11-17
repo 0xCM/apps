@@ -11,7 +11,7 @@ namespace Z0
     using static core;
     using static CharText;
 
-    public readonly struct GridSegment<T> : IDataType<T>
+    public readonly struct GridSegment<T>
         where T : unmanaged
     {
         /// <summary>

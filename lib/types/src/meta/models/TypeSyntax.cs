@@ -38,19 +38,6 @@ namespace Z0.ValueTypes
         public static string vector(uint n, PrimalClass k, uint w)
             => string.Format("v{0}x{1}{2}", n, k, w);
 
-        public readonly struct FunctionTypes
-        {
-            public static string emitter(string name, DataType @return)
-                => string.Format("{0}:{1}", name, @return);
-
-            public static string func(string name, DataType a0, DataType @return)
-                => string.Format("func {0}:{1}->{2}", name, a0, @return);
-
-            public static string func(string name, DataType a0, DataType a1, DataType @return)
-                => string.Format("func {0}:{1}->{2}->{3}", name, a0, a1, @return);
-
-        }
-
         [LiteralProvider]
         public readonly struct Composers
         {

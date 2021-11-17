@@ -15,11 +15,11 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct MethodSymbol : ICodeSymbol<MethodSymbol,IMethodSymbol>
+        public readonly struct MethodSymbol : ICaSymbol<MethodSymbol,IMethodSymbol>
         {
             public IMethodSymbol Source {get;}
 
@@ -372,7 +372,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator MethodSymbol(CodeSymbol<IMethodSymbol> src)
+            public static implicit operator MethodSymbol(CaSymbol<IMethodSymbol> src)
                 => new MethodSymbol(src.Source);
         }
     }

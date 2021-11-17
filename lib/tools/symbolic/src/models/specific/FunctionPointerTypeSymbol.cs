@@ -13,12 +13,12 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
     using CA = Microsoft.CodeAnalysis;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct FunctionPointerTypeSymbol : ICodeSymbol<FunctionPointerTypeSymbol,IFunctionPointerTypeSymbol>
+        public readonly struct FunctionPointerTypeSymbol : ICaSymbol<FunctionPointerTypeSymbol,IFunctionPointerTypeSymbol>
         {
             public IFunctionPointerTypeSymbol Source {get;}
 
@@ -122,7 +122,7 @@ namespace Z0
 
 
             [MethodImpl(Inline)]
-            public static implicit operator FunctionPointerTypeSymbol(CodeSymbol<IFunctionPointerTypeSymbol> src)
+            public static implicit operator FunctionPointerTypeSymbol(CaSymbol<IFunctionPointerTypeSymbol> src)
                 => new FunctionPointerTypeSymbol(src.Source);
 
             public ISymbol FindImplementationForInterfaceMember(ISymbol interfaceMember)

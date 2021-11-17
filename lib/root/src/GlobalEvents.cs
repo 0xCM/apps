@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [LiteralProvider]
     public readonly struct GlobalEvents
     {
         public const string Creating = nameof(Creating);

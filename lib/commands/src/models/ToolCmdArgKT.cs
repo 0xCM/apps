@@ -28,7 +28,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Cmd.format(this);
+            => string.Format(RP.Assign, Kind, Value);
 
         public override string ToString()
             => Format();

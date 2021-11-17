@@ -37,7 +37,7 @@ namespace Z0.Asm
                 iter(types, show);
             }
 
-            void show(CodeSymbolModels.TypeSymbol src)
+            void show(CaSymbolModels.TypeSymbol src)
             {
                 Wf.Row(src);
                 iter(src.GetMembers(), m => Wf.Row(m));

@@ -9,14 +9,14 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CodeSymbolKey
+    public readonly struct CaSymbolKey
     {
-        public CodeSymbol Symbol {get;}
+        public CaSymbol Symbol {get;}
 
         public ulong Key {get;}
 
         [MethodImpl(Inline)]
-        public CodeSymbolKey(CodeSymbol symbol, ulong key)
+        public CaSymbolKey(CaSymbol symbol, ulong key)
         {
             Symbol = symbol;
             Key = key;
@@ -29,7 +29,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CodeSymbolKey((CodeSymbol symbol, ulong key) src)
-            => new CodeSymbolKey(src.symbol, src.key);
+        public static implicit operator CaSymbolKey((CaSymbol symbol, ulong key) src)
+            => new CaSymbolKey(src.symbol, src.key);
     }
 }

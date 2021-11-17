@@ -122,7 +122,7 @@ namespace Z0
             catch(Exception e)
             {
                 wf.Error(e);
-                throw e;
+                throw;
             }
         }
 

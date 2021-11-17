@@ -15,11 +15,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct AssemblySymbol : ICodeSymbol<AssemblySymbol,IAssemblySymbol>
+        public readonly struct AssemblySymbol : ICaSymbol<AssemblySymbol,IAssemblySymbol>
         {
             public IAssemblySymbol Source {get;}
 
@@ -225,7 +225,7 @@ namespace Z0
                     .Array();
 
             [MethodImpl(Inline)]
-            public static implicit operator AssemblySymbol(CodeSymbol<IAssemblySymbol> src)
+            public static implicit operator AssemblySymbol(CaSymbol<IAssemblySymbol> src)
                 => new AssemblySymbol(src.Source);
          }
     }

@@ -32,7 +32,7 @@ namespace Z0
         }
 
         public string Format()
-            => Cmd.format(this);
+            => string.Format("{1,-34} {2}", Name, Description);
 
         public override string ToString()
             => Format();

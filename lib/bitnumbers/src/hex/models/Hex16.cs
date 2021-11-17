@@ -16,6 +16,14 @@ namespace Z0
     [DataType]
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out Hex16 dst)
+        {
+            var outcome = Hex.parse16u(src, out var x);
+            dst = x;
+            return outcome;
+        }
+
         public const uint StorageSize = PrimalSizes.U16;
 
         public static H Max => K.MaxValue;

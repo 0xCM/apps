@@ -11,33 +11,33 @@ namespace Z0
     using OmniSharp.Models.TypeLookup;
 
     using static Root;
-    using static CodeSymbolModels;
+    using static CaSymbolModels;
     using static XmlParts;
     using static core;
 
     [ApiHost]
-    public readonly struct CodeSymbols
+    public readonly struct CaSymbols
     {
         public static string format<T>(T src)
-            where T : ICodeSymbol
+            where T : ICaSymbol
                 => src.Source?.ToDisplayString() ?? "<null>";
 
         [MethodImpl(Inline)]
-        public static CodeSymbolKey<T> symkey<T>(T symbol, ulong key)
-            where T : ICodeSymbol
+        public static CaSymbolKey<T> symkey<T>(T symbol, ulong key)
+            where T : ICaSymbol
                 => (symbol,key);
 
         [MethodImpl(Inline), Op]
-        public static CodeSymbolSet set(params MetadataReference[] metadata)
-            => new CodeSymbolSet(metadata);
+        public static CaSymbolSet set(params MetadataReference[] metadata)
+            => new CaSymbolSet(metadata);
 
         [Op]
-        public static CodeSymbolLookup lookup(CodeSymbolKey[] src)
-            => new CodeSymbolLookup(src);
+        public static CaSymbolLookup lookup(CaSymbolKey[] src)
+            => new CaSymbolLookup(src);
 
         [MethodImpl(Inline), Op]
-        public static CodeSymbol from(ISymbol src)
-            => new CodeSymbol(src);
+        public static CaSymbol from(ISymbol src)
+            => new CaSymbol(src);
 
         [MethodImpl(Inline), Op]
         public static AssemblySymbol from(IAssemblySymbol src)
@@ -60,30 +60,30 @@ namespace Z0
             => new TypeSymbol(src);
 
         [MethodImpl(Inline)]
-        public static ReadOnlySpan<T> convert<T>(ReadOnlySpan<CodeSymbol> src)
-            where T : ICodeSymbol
-                => recover<CodeSymbol,T>(src);
+        public static ReadOnlySpan<T> convert<T>(ReadOnlySpan<CaSymbol> src)
+            where T : ICaSymbol
+                => recover<CaSymbol,T>(src);
 
         [MethodImpl(Inline)]
         public static ReadOnlySpan<T> materialize<S,T>(ReadOnlySpan<S> src, T target = default)
             where S : ISymbol
-            where T : ICodeSymbol
+            where T : ICaSymbol
                 => recover<S,T>(src);
 
         [MethodImpl(Inline)]
-        public static ReadOnlySpan<CodeSymbol> materialize<S>(ReadOnlySpan<S> src)
+        public static ReadOnlySpan<CaSymbol> materialize<S>(ReadOnlySpan<S> src)
             where S : ISymbol
-                => recover<S,CodeSymbol>(src);
+                => recover<S,CaSymbol>(src);
 
         [MethodImpl(Inline)]
-        public static CodeSymbols<T> index<T>(T[] src)
+        public static CaSymbols<T> index<T>(T[] src)
             where T : ISymbol
                 => src;
 
         [MethodImpl(Inline)]
-        public static CodeSymbol<T> define<T>(T src)
+        public static CaSymbol<T> define<T>(T src)
             where T : ISymbol
-                => new CodeSymbol<T>(src);
+                => new CaSymbol<T>(src);
 
         [MethodImpl(Inline), Op]
         public static DocumentationComment docs(XmlText xml)

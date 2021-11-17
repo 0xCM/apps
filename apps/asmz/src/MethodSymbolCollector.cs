@@ -8,7 +8,7 @@ namespace Z0.Asm
     using System.Collections.Generic;
 
     using static core;
-    using static CodeSymbolModels;
+    using static CaSymbolModels;
 
     public class MethodSymbolCollector
     {

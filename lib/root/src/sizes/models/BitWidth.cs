@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Specifies data size in bits
     /// </summary>
-    public readonly struct BitWidth : IDataType<ulong>
+    public readonly struct BitWidth
     {
         /// <summary>
         /// Specifies a bit count

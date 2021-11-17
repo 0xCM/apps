@@ -7,7 +7,6 @@ namespace Z0
     using System;
     using Windows;
 
-
     using static core;
 
     using L = ApiLiterals;
@@ -77,17 +76,23 @@ namespace Z0
             Witness?.Dispose();
         }
 
-        protected void ToolEnv(out Settings dst)
+        protected void UpdateToolEnv(out Settings dst)
         {
             var path = Tools.Toolbase + FS.file("show-env-config", FS.Cmd);
             var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
             dst = Settings.Load(OmniScript.RunCmd(cmd));
         }
 
-        [CmdOp(".tool-env")]
+        protected void LoadToolEnv(out Settings dst)
+        {
+            var path = Tools.Toolbase + FS.file("env", FS.Settings);
+            dst = Settings.Load(path.ReadNumberedLines());
+        }
+
+        //[CmdOp(".tool-env")]
         protected Outcome ShowToolEnv(CmdArgs args)
         {
-            ToolEnv(out var settings);
+            LoadToolEnv(out var settings);
             iter(settings, s => Write(s));
             return true;
         }
@@ -100,8 +105,9 @@ namespace Z0
             return true;
         }
 
+
         [CmdOp(".tool-settings")]
-        protected Outcome ToolSettings(CmdArgs args)
+        protected Outcome ShowToolSettings(CmdArgs args)
         {
             ToolId tool = arg(args,0).Value;
             var src = Tools.Logs(tool) + FS.file("config", FS.Log);

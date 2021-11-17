@@ -1,0 +1,15 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    public interface ICaSymbolArtifact<R,S>
+        where R : IClrRuntimeObject
+        where S : ICaSymbol
+    {
+        R Artifact {get;}
+
+        S Symbol {get;}
+    }
+}

@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct CodeSymbolModels
+    using static Root;
+
+    public abstract class StringType<T> : DataType<T>
+        where T : StringType<T>, new()
     {
 
     }

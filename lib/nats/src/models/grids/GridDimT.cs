@@ -12,7 +12,7 @@ namespace Z0
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType]
-    public readonly struct GridDim<T> : IDataTypeEquatable<GridDim<T>>
+    public readonly struct GridDim<T> : IEquatable<GridDim<T>>
         where T : unmanaged
     {
         public T RowCount {get;}

@@ -6,7 +6,7 @@ namespace Z0
 {
     using Microsoft.CodeAnalysis;
 
-    public interface ICodeSymbol : INullity, ITextual
+    public interface ICaSymbol : INullity, ITextual
     {
         ISymbol Source {get;}
 
@@ -21,16 +21,16 @@ namespace Z0
             => Source?.ToDisplayString() ?? "<null>";
     }
 
-    public interface ICodeSymbol<T> : ICodeSymbol
+    public interface ICaSymbol<T> : ICaSymbol
         where T : ISymbol
     {
         new T Source {get;}
 
-        ISymbol ICodeSymbol.Source
+        ISymbol ICaSymbol.Source
             => Source;
     }
 
-    public interface ICodeSymbol<H,T> : ICodeSymbol<T>
+    public interface ICaSymbol<H,T> : ICaSymbol<T>
         where H : new()
         where T : ISymbol
     {

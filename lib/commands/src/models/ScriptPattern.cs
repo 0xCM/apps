@@ -41,6 +41,7 @@ namespace Z0
             get => !core.blank(Content);
         }
 
+
         public override string ToString()
             => Content;
 

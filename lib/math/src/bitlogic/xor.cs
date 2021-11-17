@@ -80,5 +80,61 @@ namespace Z0
         [MethodImpl(Inline), Xor]
         public static ulong xor(ulong a, ulong b)
             => a ^ b;
+
+        [MethodImpl(Inline), Xor]
+        public static ref sbyte xor(ref sbyte a, sbyte b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref byte xor(ref byte a, byte b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref short xor(ref short a, short b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref ushort xor(ref ushort a, ushort b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref int xor(ref int a, int b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref uint xor(ref uint a, uint b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref long xor(ref long a, long b)
+        {
+            a ^= b;
+            return ref a;
+        }
+
+        [MethodImpl(Inline), Xor]
+        public static ref ulong xor(ref ulong a, ulong b)
+        {
+            a ^= b;
+            return ref a;
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Z0
     public sealed class Roslyn : AppService<Roslyn>
     {
         [Op]
-        public Compilation<CSharpCompilation> Compilation(string name, params MetadataReference[] refs)
+        public CaCompilation<CSharpCompilation> Compilation(string name, params MetadataReference[] refs)
             => CSharpCompilation.Create(name, references: refs);
 
         public DocumentationComment GetDocs(XmlText xml)

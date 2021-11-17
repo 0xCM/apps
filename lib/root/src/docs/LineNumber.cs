@@ -11,6 +11,16 @@ namespace Z0
 
     public readonly struct LineNumber : IDataTypeComparable<LineNumber>
     {
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out LineNumber dst)
+        {
+            dst = LineNumber.Empty;
+            var result = NumericParser.parse(src, out uint n);
+            if(result)
+                dst = n;
+            return result;
+        }
+
         public const byte RenderLength = 9;
 
         public const string RenderPattern = "{0:D8}:";

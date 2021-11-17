@@ -39,28 +39,11 @@ namespace Z0
             var count = src.Count;
             for(var i=0u; i<count; i++)
             {
-                dst.Append(format(src[i]));
+                dst.Append(src[i].Format());
                 if(i != count - 1)
                     dst.Append(Space);
             }
         }
-
-        /// <summary>
-        /// Renders a specified option as text
-        /// </summary>
-        /// <param name="src">The data source</param>
-        [Op]
-        public static string format(in ToolCmdArg src)
-            => string.Format(RP.Assign, src.Name, src.Value);
-
-        /// <summary>
-        /// Renders a specified option as text
-        /// </summary>
-        /// <param name="src">The data source</param>
-        /// <typeparam name="T">The option value type</typeparam>
-        [Op, Closures(Closure)]
-        public static string format<T>(in ToolCmdArg<T> src)
-            => string.Format(RP.Assign, src.Name, src.Value);
 
         [Op]
         public static string format(in ScriptExpr src)
@@ -69,7 +52,7 @@ namespace Z0
         [Op]
         public static string format<K>(in ScriptExpr<K> src)
             where K : unmanaged
-            => format(src.Pattern, src.Variables.Storage);
+                => format(src.Pattern, src.Variables.Storage);
 
         [Op]
         public static ScriptExpr format(in ScriptPattern pattern, params CmdVar[] args)
@@ -95,10 +78,6 @@ namespace Z0
                 dst.AppendLine(skip(src,i).Format());
             return dst.Emit();
         }
-
-        [Op]
-        public static string format(in CmdFlagSpec src)
-            => string.Format("{1,-34} {2}", src.Name, src.Description);
 
         public static string format(ArgPrefix src)
         {

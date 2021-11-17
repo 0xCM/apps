@@ -13,15 +13,15 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
     using CA = Microsoft.CodeAnalysis;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
         /// <summary>
         /// Represents an array type
         /// </summary>
-        public readonly struct ArrayTypeSymbol : ICodeSymbol<ArrayTypeSymbol,IArrayTypeSymbol>
+        public readonly struct ArrayTypeSymbol : ICaSymbol<ArrayTypeSymbol,IArrayTypeSymbol>
         {
             public IArrayTypeSymbol Source {get;}
 
@@ -141,7 +141,7 @@ namespace Z0
             public bool HasUnsupportedMetadata => Source.HasUnsupportedMetadata;
 
             [MethodImpl(Inline)]
-            public static implicit operator ArrayTypeSymbol(CodeSymbol<IArrayTypeSymbol> src)
+            public static implicit operator ArrayTypeSymbol(CaSymbol<IArrayTypeSymbol> src)
                 => new ArrayTypeSymbol(src.Source);
 
             public bool Equals(IArrayTypeSymbol other)

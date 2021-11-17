@@ -11,18 +11,18 @@ namespace Z0
     using static Root;
     using static core;
 
-    public abstract class CodeSymbols<H,T> : ICodeSymbols<H,T>
+    public abstract class CaSymbols<H,T> : ICaSymbols<H,T>
         where T : ISymbol
         where H : new()
     {
         protected Index<T> Data;
 
-        protected CodeSymbols()
+        protected CaSymbols()
         {
             Data = sys.empty<T>();
         }
 
-        protected CodeSymbols(uint count)
+        protected CaSymbols(uint count)
         {
             Data = alloc<T>(count);
         }
@@ -50,8 +50,8 @@ namespace Z0
             => ref Data[index];
 
         [MethodImpl(Inline)]
-        public CodeSymbol<H,T> Symbol(uint index)
-            => new CodeSymbol<H,T>(this,index);
+        public CaSymbol<H,T> Symbol(uint index)
+            => new CaSymbol<H,T>(this,index);
 
         public uint Count
         {

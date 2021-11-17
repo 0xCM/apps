@@ -10,9 +10,9 @@ namespace Z0
 
     using static Root;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct SymbolicAssembly : ISymbolicArtifact<ClrAssemblyAdapter,AssemblySymbol>
+        public readonly struct SymbolicAssembly : ICaSymbolArtifact<ClrAssemblyAdapter,AssemblySymbol>
         {
             public ClrAssemblyAdapter Artifact {get;}
 

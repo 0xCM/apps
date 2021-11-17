@@ -15,6 +15,10 @@ namespace Z0
 
     public readonly struct Address8 : IAddress<A,T>
     {
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out Address8 dst)
+            => AddressParser.parse(src, out dst);
+
         public const uint StorageSize = PrimalSizes.U8;
 
         public T Location {get;}

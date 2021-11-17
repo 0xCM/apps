@@ -13,14 +13,14 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
         /// <summary>
         /// Represents a using alias
         /// </summary>
-        public readonly struct AliasSymbol : ICodeSymbol<AliasSymbol,IAliasSymbol>
+        public readonly struct AliasSymbol : ICaSymbol<AliasSymbol,IAliasSymbol>
         {
             public IAliasSymbol Source {get;}
 
@@ -128,7 +128,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator AliasSymbol(CodeSymbol<IAliasSymbol> src)
+            public static implicit operator AliasSymbol(CaSymbol<IAliasSymbol> src)
                 => new AliasSymbol(src.Source);
         }
     }

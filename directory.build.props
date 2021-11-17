@@ -1,12 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-
   <PropertyGroup>
-    <ZLibVersion>0.0.40</ZLibVersion>
+    <ZLibVersion>0.0.47</ZLibVersion>
+    <Version>0.0.47</Version>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.0.40</Version>
+    <TieredCompilation>false</TieredCompilation>
+    <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
+    <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
+
     <Configuration>Release</Configuration>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Deterministic>true</Deterministic>
@@ -18,7 +21,7 @@
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <LangVersion>preview</LangVersion>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-    <NoWarn>RS1024;1591;1572;1573;1701;1702;1712;1711;1570;1571;1574;1710;8321;NETSDK1057;0169;0414;0219;649;8632;SYSLIB0001;IDE0060;IDE0059;MSB3026;CS0067;IDE1006</NoWarn>
+    <NoWarn>SYSLIB0023;CA1416;RS1024;1591;1572;1573;1701;1702;1712;1711;1570;1571;1574;1710;8321;NETSDK1057;0169;0414;0219;649;8632;SYSLIB0001;IDE0060;IDE0059;MSB3026;CS0067;IDE1006</NoWarn>
     <TopDir>$(MSBuildThisFileDirectory)</TopDir>
     <Src>$(TopDir)</Src>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>

@@ -10,21 +10,17 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    public readonly struct CodeSymbol<H,T> : ICodeSymbol<H,T>
+    public readonly struct CaSymbol<T> : ICaSymbol<T>
         where T : ISymbol
-        where H : new()
     {
-        readonly CodeSymbols<H,T> _Source;
-
-        readonly uint Index;
+        public T Source {get;}
 
         [MethodImpl(Inline)]
-        internal CodeSymbol(CodeSymbols<H,T> src, uint index)
+        public CaSymbol(T src)
         {
-            _Source  = src;
-            Index = index;
+            Source = src;
         }
 
         public bool IsEmpty
@@ -39,13 +35,35 @@ namespace Z0
             get => Source != null;
         }
 
-        public T Source
+        public ISymbol Untyped
         {
             [MethodImpl(Inline)]
-            get => _Source.Subject(Index);
+            get => Source;
         }
 
-        public SymbolKind Kind => Source.Kind;
+        public SymbolKind Kind
+        {
+            [MethodImpl(Inline)]
+            get => Untyped.Kind;
+        }
+
+        public string Language
+        {
+            [MethodImpl(Inline)]
+            get => Untyped.Language;
+        }
+
+        public string Name
+        {
+            [MethodImpl(Inline)]
+            get => Untyped.Name;
+        }
+
+        public string MetadataName
+        {
+            [MethodImpl(Inline)]
+            get => Untyped.MetadataName;
+        }
 
         public string Format()
             => api.format(this);
@@ -53,11 +71,8 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        ISymbol ICodeSymbol.Source
-            => Source;
-
         [MethodImpl(Inline)]
-        public static implicit operator CodeSymbol<T>(CodeSymbol<H,T> src)
-            => new CodeSymbol<T>(src.Source);
+        public static implicit operator CaSymbol(CaSymbol<T> src)
+            => new CaSymbol(src.Untyped);
     }
 }

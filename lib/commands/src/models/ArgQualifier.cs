@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     [DataType]
-    public readonly struct ArgQualifier : IDataType<ArgQualifier>
+    public readonly struct ArgQualifier
     {
         readonly AsciCode Code;
 

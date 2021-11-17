@@ -9,6 +9,12 @@ namespace Z0
 
     using static Root;
 
+    public enum DataTypeKind : ushort
+    {
+
+
+    }
+
     public readonly struct TypeKind<K> : ITextual
         where K : unmanaged
     {

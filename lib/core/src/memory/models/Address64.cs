@@ -15,6 +15,10 @@ namespace Z0
 
     public readonly struct Address64 : IAddress<A,T>
     {
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out Address64 dst)
+            => AddressParser.parse(src, out dst);
+
         public const uint StorageSize = PrimalSizes.U64;
 
         public T Location {get;}

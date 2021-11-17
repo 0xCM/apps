@@ -9,17 +9,17 @@ namespace Z0
     using Microsoft.CodeAnalysis;
 
     using static Root;
-    using static CodeSymbolModels;
+    using static CaSymbolModels;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    public readonly struct Compilation<T> : INullity
+    public readonly struct CaCompilation<T> : INullity
         where T : Compilation
     {
         public T Source {get;}
 
         [MethodImpl(Inline)]
-        public Compilation(T src)
+        public CaCompilation(T src)
         {
             Source = src;
         }
@@ -67,7 +67,7 @@ namespace Z0
             => Source.GetMetadataReference(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator Compilation<T>(T src)
-            => new Compilation<T>(src);
+        public static implicit operator CaCompilation<T>(T src)
+            => new CaCompilation<T>(src);
     }
 }

@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a cli signature
     /// </summary>
-    public readonly struct CliSig : IDataTypeComparable<CliSig>
+    public readonly struct CliSig : IComparable<CliSig>, IEquatable<CliSig>
     {
         public BinaryCode Data {get;}
 

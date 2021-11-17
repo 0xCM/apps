@@ -11,8 +11,11 @@ namespace Z0.Asm
         [Op]
         public static Outcome sigxpr(string src, out AsmSigInfo dst)
         {
+            dst = default;
+
             if(text.empty(src))
                 return true;
+
 
             var trimmed = src.Trim();
             var i = text.index(trimmed, Chars.Space);

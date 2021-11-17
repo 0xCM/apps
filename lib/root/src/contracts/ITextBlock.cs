@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ITextBlock : IDataType
+    public interface ITextBlock : ITextual
     {
         string Content {get;}
 
@@ -24,7 +24,7 @@ namespace Z0
     }
 
     [Free]
-    public interface ITextBlock<T> : ITextBlock, IDataType<T>
+    public interface ITextBlock<T> : ITextBlock
         where T : ITextual
     {
         new T Content {get;}

@@ -38,7 +38,7 @@ namespace Z0
             dst.Analyze = true;
             dst.EmitContext = true;
             dst.EmitStatements = true;
-            dst.ExtractRoot = ts == null ? root : root + FS.folder(dst.Timestamp.Format());
+            dst.ExtractRoot = ts.IsNonZero ? root + FS.folder(dst.Timestamp.Format()) : root;
             return dst;
         }
 

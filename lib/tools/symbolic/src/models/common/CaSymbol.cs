@@ -13,14 +13,14 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    public readonly struct CodeSymbol : ICodeSymbol
+    public readonly struct CaSymbol : ICaSymbol
     {
         public ISymbol Source {get;}
 
         [MethodImpl(Inline)]
-        public CodeSymbol(ISymbol src)
+        public CaSymbol(ISymbol src)
         {
            Source = src;
         }
@@ -232,7 +232,7 @@ namespace Z0
             => Source.ToMinimalDisplayParts(semanticModel, position, format);
 
         [MethodImpl(Inline)]
-        public bool Equals(CodeSymbol src)
+        public bool Equals(CaSymbol src)
             => Source.Equals(src.Source);
 
         public string Format()
@@ -241,10 +241,10 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static CodeSymbol Empty
+        public static CaSymbol Empty
         {
             [MethodImpl(Inline)]
-            get => new CodeSymbol(null);
+            get => new CaSymbol(null);
         }
     }
 

@@ -29,7 +29,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IImm<T> : IImm, IImmOp<T>, IDataType<T>
+    public interface IImm<T> : IImm, IImmOp<T>
         where T : unmanaged
     {
 

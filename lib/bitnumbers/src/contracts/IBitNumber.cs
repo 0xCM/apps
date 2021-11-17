@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    public interface IBitNumber : IDataType, IHashed, ISized
+    public interface IBitNumber : IHashed, ISized
     {
         Span<bit> Bits {get;}
 
@@ -22,7 +22,7 @@ namespace Z0
 
     }
 
-    public interface IBitNumber<S,T> : IBitNumber<S>, INullary<S,T>, IDataType<T>
+    public interface IBitNumber<S,T> : IBitNumber<S>, INullary<S,T>
         where S : unmanaged, IBitNumber<S,T>
         where T : unmanaged
     {

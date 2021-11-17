@@ -13,9 +13,9 @@ namespace Z0
 
     using static Root;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct LabelSymbol : ICodeSymbol<LabelSymbol,ILabelSymbol>
+        public readonly struct LabelSymbol : ICaSymbol<LabelSymbol,ILabelSymbol>
         {
             public ILabelSymbol Source {get;}
 
@@ -122,7 +122,7 @@ namespace Z0
                 => Source.Equals(src.Source);
 
              [MethodImpl(Inline)]
-             public static implicit operator LabelSymbol(CodeSymbol<ILabelSymbol> src)
+             public static implicit operator LabelSymbol(CaSymbol<ILabelSymbol> src)
                 => new LabelSymbol(src.Source);
 
         }

@@ -11,45 +11,45 @@ namespace Z0
     using static Root;
     using static core;
 
-    public sealed class CodeSymbolIndex : CodeSymbols<CodeSymbolIndex,ISymbol>, ICodeSymbols<ISymbol>
+    public sealed class CaSymbolIndex : CaSymbols<CaSymbolIndex,ISymbol>, ICaSymbols<ISymbol>
     {
-        public CodeSymbolIndex()
+        public CaSymbolIndex()
         {
 
         }
 
-        public CodeSymbolIndex(uint count)
+        public CaSymbolIndex(uint count)
             : base(count)
         {
 
         }
 
         [MethodImpl(Inline)]
-        public CodeSymbolIndex(ISymbol[] src)
+        public CaSymbolIndex(ISymbol[] src)
         {
             Data = src;
         }
 
-        public new Span<CodeSymbol> Edit
+        public new Span<CaSymbol> Edit
         {
             [MethodImpl(Inline)]
-            get => recover<ISymbol,CodeSymbol>(base.Edit);
+            get => recover<ISymbol,CaSymbol>(base.Edit);
         }
 
-        public new ReadOnlySpan<CodeSymbol> View
+        public new ReadOnlySpan<CaSymbol> View
         {
             [MethodImpl(Inline)]
-            get => recover<ISymbol,CodeSymbol>(base.View);
+            get => recover<ISymbol,CaSymbol>(base.View);
         }
 
-        public ref CodeSymbol this[uint index]
+        public ref CaSymbol this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref seek(Edit,index);
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator CodeSymbolIndex(ISymbol[] src)
-            => new CodeSymbolIndex(src);
+        public static implicit operator CaSymbolIndex(ISymbol[] src)
+            => new CaSymbolIndex(src);
     }
 }

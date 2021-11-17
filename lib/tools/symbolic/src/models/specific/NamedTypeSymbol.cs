@@ -14,12 +14,12 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
     using CA = Microsoft.CodeAnalysis;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct NamedTypeSymbol : ICodeSymbol<NamedTypeSymbol,INamedTypeSymbol>
+        public readonly struct NamedTypeSymbol : ICaSymbol<NamedTypeSymbol,INamedTypeSymbol>
         {
             public INamedTypeSymbol Source {get;}
 
@@ -264,10 +264,10 @@ namespace Z0
             public ITypeSymbol WithNullableAnnotation(NullableAnnotation nullableAnnotation)
                 => Source.WithNullableAnnotation(nullableAnnotation);
 
-            public ReadOnlySpan<CodeSymbol> GetMembers()
+            public ReadOnlySpan<CaSymbol> GetMembers()
                 => api.materialize(Source.GetMembers().AsSpan());
 
-            public ReadOnlySpan<CodeSymbol> GetMembers(string name)
+            public ReadOnlySpan<CaSymbol> GetMembers(string name)
                 => api.materialize(Source.GetMembers(name).AsSpan());
 
             public ImmutableArray<INamedTypeSymbol> GetTypeMembers()
@@ -317,7 +317,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator NamedTypeSymbol(CodeSymbol<INamedTypeSymbol> src)
+            public static implicit operator NamedTypeSymbol(CaSymbol<INamedTypeSymbol> src)
                 => new NamedTypeSymbol(src.Source);
          }
     }

@@ -12,7 +12,7 @@ namespace Z0
     using static Root;
     using static core;
     using static Delegates;
-    using static CodeSymbolModels;
+    using static CaSymbolModels;
 
     [ApiHost]
     public sealed class SourceSymbolic : AppService<SourceSymbolic>
@@ -75,7 +75,7 @@ namespace Z0
             => new SymbolKindFilter(kind);
 
         [MethodImpl(Inline), Op]
-        public static uint filter(ReadOnlySpan<CodeSymbol> src, SymbolKind kind, Span<CodeSymbol> dst)
+        public static uint filter(ReadOnlySpan<CaSymbol> src, SymbolKind kind, Span<CaSymbol> dst)
             => gcalc.filter(src, filter(kind), dst);
 
         [MethodImpl(Inline), Op]
@@ -109,10 +109,10 @@ namespace Z0
                 return MetadataReference.CreateFromFile(path.Name, props);
         }
 
-        public CodeSymbolSet Symbolize(Assembly src)
+        public CaSymbolSet Symbolize(Assembly src)
         {
             var metadata = metaref(src);
-            var dst = CodeSymbols.set(metadata);
+            var dst = CaSymbols.set(metadata);
             var name = string.Format("{0}.compilation",src.GetSimpleName());
             var comp = Roslyn.Compilation(name, metadata);
             var asymbol = comp.GetAssemblySymbol(metadata);
@@ -121,13 +121,13 @@ namespace Z0
             var types = gns.GetTypes();
             Wf.Status(string.Format("Traversing {0} types", types.Length));
             dst.Replace(types);
-            var allocation = span<CodeSymbol>(MemberCount(types));
+            var allocation = span<CaSymbol>(MemberCount(types));
             Wf.Status(string.Format("Traversing {0} type members", allocation.Length));
             IncludeMethods(types, allocation, ref dst);
             return dst;
         }
 
-        public CodeSymbolSet Symbolize(PartId part)
+        public CaSymbolSet Symbolize(PartId part)
         {
             if(Wf.ApiCatalog.FindComponent(part, out var assembly))
             {
@@ -136,7 +136,7 @@ namespace Z0
             else
             {
                 Wf.Error(string.Format("{0} not found", part.Format()));
-                return CodeSymbolSet.Empty;
+                return CaSymbolSet.Empty;
             }
         }
 
@@ -174,7 +174,7 @@ namespace Z0
         }
 
         [Op]
-        void IncludeMethods(ReadOnlySpan<TypeSymbol> src, Span<CodeSymbol> buffer, ref CodeSymbolSet dst)
+        void IncludeMethods(ReadOnlySpan<TypeSymbol> src, Span<CaSymbol> buffer, ref CaSymbolSet dst)
         {
             var kIn = src.Length;
             var target = buffer;
@@ -192,11 +192,11 @@ namespace Z0
             collected = slice(buffer, 0, kNonEmpty);
 
             Wf.Status(string.Format("Collected {0} methods", collected.Length));
-            dst.Replace(CodeSymbols.convert<MethodSymbol>(collected));
+            dst.Replace(CaSymbols.convert<MethodSymbol>(collected));
         }
 
         [MethodImpl(Inline),Op]
-        static uint NonEmpty(ReadOnlySpan<CodeSymbol> src, Span<CodeSymbol> dst)
+        static uint NonEmpty(ReadOnlySpan<CaSymbol> src, Span<CaSymbol> dst)
         {
             var counter = 0u;
             var count = src.Length;
@@ -209,7 +209,7 @@ namespace Z0
             return counter;
         }
 
-        public readonly struct SymbolKindFilter : IUnaryPred<SymbolKindFilter,CodeSymbol>
+        public readonly struct SymbolKindFilter : IUnaryPred<SymbolKindFilter,CaSymbol>
         {
             public SymbolKind Kind {get;}
 
@@ -218,14 +218,14 @@ namespace Z0
                 => Kind = kind;
 
             [MethodImpl(Inline), Op]
-            public bit Invoke(CodeSymbol a)
+            public bit Invoke(CaSymbol a)
                 => a.Kind == Kind;
         }
 
-        public readonly struct MemberProducer : IReadOnlySpanFactory<MemberProducer, TypeSymbol, CodeSymbol>
+        public readonly struct MemberProducer : IReadOnlySpanFactory<MemberProducer, TypeSymbol, CaSymbol>
         {
             [MethodImpl(Inline), Op]
-            public ReadOnlySpan<CodeSymbol> Invoke(in TypeSymbol src)
+            public ReadOnlySpan<CaSymbol> Invoke(in TypeSymbol src)
                 => src.GetMembers();
         }
     }

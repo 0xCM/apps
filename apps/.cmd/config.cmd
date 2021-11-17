@@ -1,6 +1,6 @@
 @echo off
 set RepoId=z0.apps
-set SrcRoot=j:\z0\src
+set SrcRoot=%~dp0..\..
 set AppsRoot=%SrcRoot%\apps
 set BuildRoot=%SrcRoot%\.build
 set RtId=win-x64

@@ -9,15 +9,15 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CodeSymbolKey<T>
-        where T : ICodeSymbol
+    public readonly struct CaSymbolKey<T>
+        where T : ICaSymbol
     {
         public T Symbol {get;}
 
         public ulong Key {get;}
 
         [MethodImpl(Inline)]
-        public CodeSymbolKey(T symbol, ulong key)
+        public CaSymbolKey(T symbol, ulong key)
         {
             Symbol = symbol;
             Key = key;
@@ -30,11 +30,11 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CodeSymbolKey(CodeSymbolKey<T> src)
-            => new CodeSymbolKey(new CodeSymbol(src.Symbol.Source), src.Key);
+        public static implicit operator CaSymbolKey(CaSymbolKey<T> src)
+            => new CaSymbolKey(new CaSymbol(src.Symbol.Source), src.Key);
 
         [MethodImpl(Inline)]
-        public static implicit operator CodeSymbolKey<T>((T symbol, ulong key) src)
-            => new CodeSymbolKey<T>(src.symbol, src.key);
+        public static implicit operator CaSymbolKey<T>((T symbol, ulong key) src)
+            => new CaSymbolKey<T>(src.symbol, src.key);
     }
 }

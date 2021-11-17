@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
-    public struct ToolExecSpec : IToolCmd, IDataType<ToolExecSpec>
+    public struct ToolExecSpec : IToolCmd
     {
         public CmdId CmdId {get;}
 

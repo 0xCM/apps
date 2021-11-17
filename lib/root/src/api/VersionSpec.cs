@@ -58,7 +58,7 @@ namespace Z0
             => src is VersionSpec other && Equals(other);
 
         public override int GetHashCode()
-            => (int)FastHash.combine(FastHash.combine(A,B),FastHash.combine(C,D));
+            => (int)FastHash.combine(FastHash.combine(A,B), FastHash.combine(C,D));
 
         public int CompareTo(VersionSpec src)
         {

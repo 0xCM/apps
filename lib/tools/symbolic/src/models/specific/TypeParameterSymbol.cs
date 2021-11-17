@@ -13,12 +13,12 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
     using CA = Microsoft.CodeAnalysis;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct TypeParameterSymbol : ICodeSymbol<TypeParameterSymbol,ITypeParameterSymbol>
+        public readonly struct TypeParameterSymbol : ICaSymbol<TypeParameterSymbol,ITypeParameterSymbol>
         {
             public ITypeParameterSymbol Source {get;}
 
@@ -239,7 +239,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator TypeParameterSymbol(CodeSymbol<ITypeParameterSymbol> src)
+            public static implicit operator TypeParameterSymbol(CaSymbol<ITypeParameterSymbol> src)
                 => new TypeParameterSymbol(src.Source);
         }
     }

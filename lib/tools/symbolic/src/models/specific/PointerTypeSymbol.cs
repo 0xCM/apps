@@ -15,9 +15,9 @@ namespace Z0
 
     using CA = Microsoft.CodeAnalysis;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct PointerTypeSymbol : ICodeSymbol<PointerTypeSymbol,IPointerTypeSymbol>
+        public readonly struct PointerTypeSymbol : ICaSymbol<PointerTypeSymbol,IPointerTypeSymbol>
         {
             public IPointerTypeSymbol Source {get;}
 
@@ -122,7 +122,7 @@ namespace Z0
             public bool HasUnsupportedMetadata => Source.HasUnsupportedMetadata;
 
             [MethodImpl(Inline)]
-            public static implicit operator PointerTypeSymbol(CodeSymbol<IPointerTypeSymbol> src)
+            public static implicit operator PointerTypeSymbol(CaSymbol<IPointerTypeSymbol> src)
                 => new PointerTypeSymbol(src.Source);
 
             public ISymbol FindImplementationForInterfaceMember(ISymbol interfaceMember)

@@ -7,17 +7,17 @@ namespace Z0
     using System;
     using Microsoft.CodeAnalysis;
 
-    using static CodeSymbolModels;
+    using static CaSymbolModels;
 
-    public ref struct CodeSymbolSet
+    public ref struct CaSymbolSet
     {
-        internal CodeSymbolSet(params MetadataReference[] metadata)
+        internal CaSymbolSet(params MetadataReference[] metadata)
             : this()
         {
             Metadata = metadata;
         }
 
-        public ReadOnlySpan<CodeSymbol> Untyped {get; private set;}
+        public ReadOnlySpan<CaSymbol> Untyped {get; private set;}
 
         public ReadOnlySpan<MetadataReference> Metadata {get;}
 
@@ -27,30 +27,30 @@ namespace Z0
 
         public ReadOnlySpan<MethodSymbol> Methods {get; private set;}
 
-        public CodeSymbolSet Replace(ReadOnlySpan<CodeSymbol> src)
+        public CaSymbolSet Replace(ReadOnlySpan<CaSymbol> src)
         {
             Untyped = src;
             return this;
         }
 
-        public CodeSymbolSet Replace(ReadOnlySpan<AssemblySymbol> src)
+        public CaSymbolSet Replace(ReadOnlySpan<AssemblySymbol> src)
         {
             Assemblies = src;
             return this;
         }
 
-        public CodeSymbolSet Replace(ReadOnlySpan<TypeSymbol> src)
+        public CaSymbolSet Replace(ReadOnlySpan<TypeSymbol> src)
         {
             Types = src;
             return this;
         }
 
-        public CodeSymbolSet Replace(ReadOnlySpan<MethodSymbol> src)
+        public CaSymbolSet Replace(ReadOnlySpan<MethodSymbol> src)
         {
             Methods = src;
             return this;
         }
 
-        public static CodeSymbolSet Empty => default;
+        public static CaSymbolSet Empty => default;
     }
 }

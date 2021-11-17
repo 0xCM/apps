@@ -6,9 +6,11 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ToolCmdArg<T> : IToolCmdArg<T>
     {
         /// <summary>
@@ -75,7 +77,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Cmd.format(this);
+            => string.Format(RP.Assign, Name, Value);
 
         public override string ToString()
             => Format();

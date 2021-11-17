@@ -12,7 +12,7 @@ namespace Z0
     using static core;
 
     [DataType]
-    public readonly struct CmdTypeInfo : ICmdTypeInfo, IDataType<CmdTypeInfo>
+    public readonly struct CmdTypeInfo : ICmdTypeInfo
     {
         public CmdId CmdId {get;}
 

@@ -17,6 +17,10 @@ namespace Z0
     {
         public const uint StorageSize = PrimalSizes.U32;
 
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out Address32 dst)
+            => AddressParser.parse(src, out dst);
+
         public T Location {get;}
 
         [MethodImpl(Inline)]

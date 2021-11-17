@@ -9,8 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType]
-    public readonly struct ArgPrefix : IDataTypeEquatable<ArgPrefix>
+    public readonly struct ArgPrefix : IEquatable<ArgPrefix>
     {
         internal readonly AsciCode C0;
 

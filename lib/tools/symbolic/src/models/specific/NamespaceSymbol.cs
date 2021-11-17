@@ -15,11 +15,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct NamespaceSymbol : ICodeSymbol<NamespaceSymbol,INamespaceSymbol>
+        public readonly struct NamespaceSymbol : ICaSymbol<NamespaceSymbol,INamespaceSymbol>
         {
             public INamespaceSymbol Source {get;}
 
@@ -54,7 +54,7 @@ namespace Z0
             public NamespaceKind NamespaceKind
                 => Source.NamespaceKind;
 
-            public Compilation<Compilation> ContainingCompilation
+            public CaCompilation<Compilation> ContainingCompilation
                 => Source.ContainingCompilation;
 
             ReadOnlySpan<INamespaceSymbol> _ConstituentNamespaces
@@ -84,7 +84,7 @@ namespace Z0
             public string MetadataName
                 => Source.MetadataName;
 
-            public CodeSymbol ContainingSymbol
+            public CaSymbol ContainingSymbol
             {
                 [MethodImpl(Inline)]
                 get => api.from(Source.ContainingSymbol);
@@ -226,7 +226,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator NamespaceSymbol(CodeSymbol<INamespaceSymbol> src)
+            public static implicit operator NamespaceSymbol(CaSymbol<INamespaceSymbol> src)
                 => new NamespaceSymbol(src.Source);
         }
     }

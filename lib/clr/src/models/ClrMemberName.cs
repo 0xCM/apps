@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines the name of a member
     /// </summary>
-    public readonly struct ClrMemberName : IDataTypeComparable<ClrMemberName>
+    public readonly struct ClrMemberName : IEquatable<ClrMemberName>, IComparable<ClrMemberName>
     {
         public Name Name {get;}
 

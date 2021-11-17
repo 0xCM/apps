@@ -7,17 +7,11 @@ namespace Z0.ValueTypes
     using System;
     using System.Runtime.CompilerServices;
 
-    using ValueTypes;
-
     using static Root;
 
     [ApiHost]
     public readonly struct scalars
     {
-        [MethodImpl(Inline), Op]
-        public static ScalarType type(PrimalKind kind, ByteSize storage, BitWidth data)
-            => new ScalarType(kind, storage,data);
-
         [MethodImpl(Inline), Op]
         public static u1<bit> uint1(bit src)
             => new u1<bit>(src);

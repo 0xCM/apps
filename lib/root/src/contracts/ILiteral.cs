@@ -48,7 +48,7 @@ namespace Z0
     /// <summary>
     /// Characterizes compile-time literal representation
     /// </summary>
-    public interface ILiteral<H> : ILiteral, INullary<H>, IEquatable<H>, IDataType<H>
+    public interface ILiteral<H> : ILiteral, INullary<H>, IEquatable<H>
         where H : struct, ILiteral<H>
     {
 

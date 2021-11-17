@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct GridMetrics : IDataType<GridMetrics>
+    public readonly struct GridMetrics
     {
         /// <summary>
         /// The number of rows in the layout

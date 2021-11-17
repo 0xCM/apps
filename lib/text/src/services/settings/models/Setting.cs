@@ -11,7 +11,6 @@ namespace Z0
 
     using api = Settings;
 
-   
 
     public readonly struct Setting : ISetting
     {

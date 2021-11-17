@@ -14,7 +14,7 @@ namespace Z0
     /// Characterizes the memory layout of a 2-d grid
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct GridSpec : IDataType<GridSpec>
+    public readonly struct GridSpec
     {
         /// <summary>
         /// The number of grid rows

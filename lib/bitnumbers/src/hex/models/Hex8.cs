@@ -16,6 +16,14 @@ namespace Z0
     [DataType]
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out Hex8 dst)
+        {
+            var outcome = Hex.parse8u(src, out var x);
+            dst = x;
+            return outcome;
+        }
+
         public const uint StorageSize = PrimalSizes.U8;
 
         public K Value {get;}

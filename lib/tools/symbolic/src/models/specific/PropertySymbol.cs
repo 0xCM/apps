@@ -13,11 +13,11 @@ namespace Z0
 
     using static Root;
 
-    using api = CodeSymbols;
+    using api = CaSymbols;
 
-    partial struct CodeSymbolModels
+    partial struct CaSymbolModels
     {
-        public readonly struct PropertySymbol : ICodeSymbol<PropertySymbol,IPropertySymbol>
+        public readonly struct PropertySymbol : ICaSymbol<PropertySymbol,IPropertySymbol>
         {
             public IPropertySymbol Source {get;}
 
@@ -154,7 +154,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator PropertySymbol(CodeSymbol<IPropertySymbol> src)
+            public static implicit operator PropertySymbol(CaSymbol<IPropertySymbol> src)
                 => new PropertySymbol(src.Source);
         }
     }

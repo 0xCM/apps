@@ -9,18 +9,18 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CodeSymbolLookup
+    public readonly struct CaSymbolLookup
     {
-        readonly Dictionary<ulong,CodeSymbol> Data;
+        readonly Dictionary<ulong,CaSymbol> Data;
 
         [MethodImpl(Inline)]
-        internal CodeSymbolLookup(CodeSymbolKey[] src)
+        internal CaSymbolLookup(CaSymbolKey[] src)
         {
             Data = src.Select(x => (x.Key,x.Symbol)).ToDictionary();
         }
 
         [MethodImpl(Inline)]
-        public bool Search(ulong key, out CodeSymbol value)
+        public bool Search(ulong key, out CaSymbol value)
             => Data.TryGetValue(key,out value);
     }
 }
