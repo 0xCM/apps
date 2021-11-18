@@ -24,6 +24,8 @@ namespace Z0.llvm
 
         ToolId SelectedTool;
 
+        LlvmReadObj ReadObj;
+
         new LlvmDb Db
         {
             get
@@ -49,11 +51,11 @@ namespace Z0.llvm
             RecordEtl = Wf.LlvmRecordEtl();
             ProjectEtl = Wf.LlvmProjectEtl();
             Toolbase = Wf.LLvmToolbase();
+            ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();
             Data = Ws.Project(Projects.LlvmData);
             State.Init(Wf, Ws);
             State.Project(Data);
-
         }
 
         Outcome ObjDump(FS.FilePath src, FS.FolderPath dst)

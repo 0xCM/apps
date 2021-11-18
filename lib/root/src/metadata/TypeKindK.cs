@@ -9,12 +9,6 @@ namespace Z0
 
     using static Root;
 
-    public enum DataTypeKind : ushort
-    {
-
-
-    }
-
     public readonly struct TypeKind<K> : ITextual
         where K : unmanaged
     {
@@ -30,6 +24,10 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator DataTypeKind(TypeKind<K> src)
+            => new DataTypeKind(minicore.bw64<K>(src.Value));
 
         [MethodImpl(Inline)]
         public static implicit operator TypeKind<K>(K src)

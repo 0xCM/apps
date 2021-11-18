@@ -21,7 +21,7 @@ namespace Z0
     /// Defines 32 bytes of storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
-    public struct AsciBlock32 : IAsciBlock<A>
+    public struct AsciBlock32 : IAsciBlock<A>, IReifiedType<N32,A>
     {
         public const ushort Size = 32;
 

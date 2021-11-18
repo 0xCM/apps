@@ -4,14 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public abstract class DataType<T>
-        where T : DataType<T>, new()
+    public interface IStringType : ITypeDef
     {
-        public virtual bool IsFixedWidth {get;}
+        uint Length {get;}
     }
 }

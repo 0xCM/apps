@@ -154,9 +154,4 @@ namespace Z0.Asm
             INDIR_BR_SWITCHTABLE_LAST = 0x002F,
         }
     }
-
-    public readonly struct ImageRelocations
-    {
-
-    }
 }

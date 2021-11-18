@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static AsmOperands;
 
     public interface IAsmVar
@@ -87,7 +84,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public abstract class AsmImmVar<T> : AsmVar<T>
@@ -98,7 +94,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public abstract class AsmRegVar<T> : AsmVar<T>
@@ -141,7 +136,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmMem32Var : AsmMemVar<m32>
@@ -180,7 +174,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmMem512Var : AsmMemVar<m512>
@@ -190,7 +183,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg8Var : AsmRegVar<r8>
@@ -200,7 +192,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg16Var : AsmRegVar<r16>
@@ -210,7 +201,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg32Var : AsmRegVar<r32>
@@ -220,7 +210,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg64Var : AsmRegVar<r64>
@@ -230,7 +219,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg128Var : AsmRegVar<xmm>
@@ -240,7 +228,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg256Var : AsmRegVar<ymm>
@@ -250,7 +237,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmReg512Var : AsmRegVar<zmm>
@@ -261,7 +247,6 @@ namespace Z0.Asm
 
         }
     }
-
 
     public sealed class AsmImm8Var : AsmImmVar<imm8>
     {
@@ -289,7 +274,6 @@ namespace Z0.Asm
         {
 
         }
-
     }
 
     public sealed class AsmImm64Var : AsmImmVar<imm64>

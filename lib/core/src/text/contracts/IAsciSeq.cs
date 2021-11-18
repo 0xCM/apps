@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
@@ -13,7 +14,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IAsciSeq<F> : IAsciSeq, IBytes<F>, IDataTypeComparable<F>
+    public interface IAsciSeq<F> : IAsciSeq, IBytes<F>, IComparable<F>, IEquatable<F>
         where F : struct, IAsciSeq<F>
     {
 

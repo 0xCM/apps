@@ -2,22 +2,12 @@ namespace Windows.Image
 {
     using System.Runtime.InteropServices;
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct IMAGE_SECTION_HEADER
     {
-        [StructLayout(LayoutKind.Explicit)]
-        public struct _Misc_e__Union
-        {
-            [FieldOffset(0)]
-            public uint PhysicalAddress;
-
-            [FieldOffset(0)]
-            public uint VirtualSize;
-        }
-
         public ulong Name;
 
-        public _Misc_e__Union Misc;
+        public uint VirtualSize;
 
         public uint VirtualAddress;
 

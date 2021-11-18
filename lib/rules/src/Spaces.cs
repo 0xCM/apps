@@ -27,7 +27,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static DomainKey domain(uint kind, uint id)
-            => new DomainKey(kind,id);
+            => new DomainKey(kind, id);
 
         [MethodImpl(Inline), Op]
         public static SourceKey source(DomainKey domain, uint id)
@@ -109,23 +109,6 @@ namespace Z0
             return new DomainKey(k,i);
         }
 
-        /// <summary>
-        /// Defines a key over a kind-stratified domain
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct DomainKey
-        {
-            public uint Kind {get;}
-
-            public uint Id {get;}
-
-            [MethodImpl(Inline)]
-            public DomainKey(uint kind, uint id)
-            {
-                Id = id;
-                Kind = kind;
-            }
-        }
 
         /// <summary>
         /// Describes a domain, in 64 bits or less
@@ -144,93 +127,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator DomainKey(DomainKey<D> src)
                 => untyped(src);
-        }
-
-        /// <summary>
-        /// Identifies a domain-relative source
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct SourceKey
-        {
-            public DomainKey Domain {get;}
-
-            public uint Id {get;}
-
-            [MethodImpl(Inline)]
-            public SourceKey(DomainKey d, uint id)
-            {
-                Domain = d;
-                Id = id;
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct SourceKey<S>
-        {
-            public DomainKey Domain {get;}
-
-            public S Rep {get;}
-
-            [MethodImpl(Inline)]
-            public SourceKey(DomainKey d, S rep)
-            {
-                Domain = d;
-                Rep = rep;
-            }
-        }
-
-        /// <summary>
-        /// Identifies a domain-relative target
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct TargetKey
-        {
-            public DomainKey Domain {get;}
-
-            public uint Id {get;}
-
-            [MethodImpl(Inline)]
-            public TargetKey(DomainKey d, uint id)
-            {
-                Domain = d;
-                Id = id;
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct TargetKey<T>
-        {
-            public DomainKey Domain {get;}
-
-            public T Rep {get;}
-
-            [MethodImpl(Inline)]
-            public TargetKey(DomainKey d, T rep)
-            {
-                Domain = d;
-                Rep = rep;
-            }
-        }
-
-        /// <summary>
-        /// Identifies a projection
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public readonly struct ProjectionKey
-        {
-            public SourceKey Source {get;}
-
-            public TargetKey Target {get;}
-
-            public uint Id {get;}
-
-            [MethodImpl(Inline)]
-            public ProjectionKey(uint id, SourceKey src, TargetKey dst)
-            {
-                Id = id;
-                Source = src;
-                Target = dst;
-            }
         }
 
         /// <summary>

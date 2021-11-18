@@ -2,15 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    public abstract class ScalarType<T> : FixedWidthType<T>
-        where T : ScalarType<T>, new()
+    public class CoffObjFile : CoffObj
     {
-        protected ScalarType(BitWidth storage, BitWidth content)
-            : base(storage,content)
+        public CoffObjFile(FS.FilePath src)
+            :base(src.ReadBytes())
         {
-
+            Path = src;
         }
+
+        public FS.FilePath Path {get;}
     }
 }

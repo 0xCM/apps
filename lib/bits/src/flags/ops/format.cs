@@ -45,8 +45,10 @@ namespace Z0
         static void render(FieldInfo field, bit state, StringBuilder dst, bit enabledOnly)
         {
             if(enabledOnly)
+            {
                 if(state)
                     dst.AppendFormat(RenderPattern, field.Name, state);
+            }
             else
                 dst.AppendFormat(RenderPattern, field.Name, state);
         }

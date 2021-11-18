@@ -34,6 +34,8 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public bool Equals(Identifier<T> src)
+            => Name.Equals(src.Name);
         public int CompareTo(Identifier<T> other)
             => Value?.CompareTo(other.Value) ?? 0;
 

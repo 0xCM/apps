@@ -21,16 +21,39 @@ namespace Z0.llvm
             var count = FS.linecount(path).Lines;
             var buffer = span<ObjSymRow>(count);
             var counter = 0u;
+            var j=0;
             using var reader = path.Utf8LineReader();
             while(reader.Next(out var line))
             {
-                if(parse(line, out var sym))
-                    seek(buffer,counter++) = sym;
+                if(parse(line, ref counter, out var sym))
+                    seek(buffer, j++) = sym;
             }
-            return slice(buffer, 0,counter);
+            return slice(buffer, 0,j);
         }
 
-        static Outcome parse(TextLine src, out ObjSymRow dst)
+        public ReadOnlySpan<ObjSymRow> Collect(ReadOnlySpan<FS.FilePath> src, FS.FilePath outpath)
+        {
+            var result = Outcome.Success;
+            var count = src.Length;
+            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
+            var buffer = list<ObjSymRow>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(src,i);
+                using var reader = path.Utf8LineReader();
+                var counter = 0u;
+                while(reader.Next(out var line))
+                {
+                    if(parse(line, ref counter, out var sym))
+                        buffer.Add(sym);
+                }
+            }
+            var records = buffer.ViewDeposited();
+            TableEmit(records, ObjSymRow.RenderWidths, outpath);
+            return records;
+        }
+
+        static Outcome parse(TextLine src, ref uint seq, out ObjSymRow dst)
         {
             var result = Outcome.Success;
             var content = src.Content;
@@ -46,7 +69,7 @@ namespace Z0.llvm
                     var hex = Hex32.Max;
                     if(nonempty(digits))
                         DataParser.parse(digits, out hex);
-
+                    dst.Seq = seq++;
                     dst.Offset = hex;
                     var pos = k + 1 + 8 + 2;
                     dst.Kind = content[pos];
@@ -54,27 +77,6 @@ namespace Z0.llvm
                 }
             }
             return result;
-        }
-
-        public ReadOnlySpan<ObjSymRow> Collect(ReadOnlySpan<FS.FilePath> src, FS.FilePath outpath)
-        {
-            var result = Outcome.Success;
-            var count = src.Length;
-            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
-            var buffer = list<ObjSymRow>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                using var reader = path.Utf8LineReader();
-                while(reader.Next(out var line))
-                {
-                    if(parse(line, out var sym))
-                        buffer.Add(sym);
-                }
-            }
-            var records = buffer.ViewDeposited();
-            TableEmit(records, ObjSymRow.RenderWidths, outpath);
-            return records;
         }
     }
 }

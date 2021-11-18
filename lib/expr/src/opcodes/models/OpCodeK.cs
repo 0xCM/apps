@@ -26,7 +26,7 @@ namespace Z0.Expr
             Data = data;
         }
 
-        public TypeDomain Domain
+        public Domain Domain
         {
             [MethodImpl(Inline)]
             get => api.domain(this);

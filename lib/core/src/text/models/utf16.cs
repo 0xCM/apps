@@ -13,7 +13,7 @@ namespace Z0
     using api = Utf16;
 
     [DataType]
-    public readonly struct utf16 : IDataTypeComparable<utf16>
+    public readonly struct utf16 : IComparable<utf16>, IEquatable<utf16>
     {
         readonly string Data;
 

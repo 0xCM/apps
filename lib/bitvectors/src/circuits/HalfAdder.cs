@@ -59,7 +59,5 @@ namespace Z0
             public ConstPair<Vector512<T>> Invoke(in Vector512<T> a, in Vector512<T> b)
                 => (Gates.xor<T>().Invoke(a,b), Gates.and<T>().Invoke(a,b));
         }
-
     }
-
 }

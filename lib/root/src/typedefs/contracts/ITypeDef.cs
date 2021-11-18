@@ -4,13 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class FixedStringType<T> : FixedWidthType<T>
-        where T : FixedStringType<T>,new()
+    public interface ITypeDef
     {
-        protected FixedStringType(BitWidth storage, BitWidth content)
-            : base(storage,content)
-        {
+        bool IsSized {get;}
 
-        }
+        Identifier TypeName {get;}
+    }
+
+    public interface ITypeDef<T> : ITypeDef
+        where T : ITypeDef<T>, new()
+    {
+
     }
 }

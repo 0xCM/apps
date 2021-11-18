@@ -8,12 +8,12 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct TypeDomain
+    public readonly struct Domain
     {
         public uint Kind {get;}
 
         [MethodImpl(Inline)]
-        public TypeDomain(uint id)
+        public Domain(uint id)
         {
             Kind = id;
         }
@@ -25,11 +25,12 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator TypeDomain(uint id)
-            => new TypeDomain(id);
+        public static implicit operator Domain(uint id)
+            => new Domain(id);
 
         [MethodImpl(Inline)]
-        public static explicit operator uint(TypeDomain src)
+        public static explicit operator uint(Domain src)
             => src.Kind;
     }
+
 }

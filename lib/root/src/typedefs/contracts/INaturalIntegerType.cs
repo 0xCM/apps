@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
-    public abstract class StringType<T> : DataType<T>
-        where T : StringType<T>, new()
+    public interface INaturalIntegerType : ISizedIntegerType
     {
 
+    }
+
+    public interface INaturalIntegerType<N> : INaturalIntegerType
+        where N : unmanaged, ITypeNat
+    {
+        BitWidth ISizedType.ContentWidth => TypeNats.nat32u<N>();
     }
 }

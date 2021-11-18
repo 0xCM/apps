@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Specifies the memory storage required for a specified grid
     /// </summary>
-    public readonly struct GridStorage : IDataTypeEquatable<GridStorage>
+    public readonly struct GridStorage : IEquatable<GridStorage>
     {
         /// <summary>
         /// The the total number of segment-aligned bits allocated for storage

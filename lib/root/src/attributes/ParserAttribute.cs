@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class | AttributeTargets.Method)]
     public class ParserAttribute : Attribute
     {
         public ParserAttribute(params Type[] supported)

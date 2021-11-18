@@ -6,18 +6,18 @@ namespace Z0.ValueTypes
 {
     using N = DataKindNames;
 
-    public readonly struct DataType
-    {
-        public DataKind Kind {get;}
+    // public readonly struct DataType
+    // {
+    //     public DataKind Kind {get;}
 
-        public uint Width {get;}
+    //     public uint Width {get;}
 
-        public DataType(DataKind kind, uint width)
-        {
-            Kind = kind;
-            Width = width;
-        }
-    }
+    //     public DataType(DataKind kind, uint width)
+    //     {
+    //         Kind = kind;
+    //         Width = width;
+    //     }
+    // }
 
     [SymSource]
     public enum DataKind : byte

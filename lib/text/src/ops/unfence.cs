@@ -5,10 +5,19 @@
 namespace Z0
 {
     using static Root;
-    using static core;
 
     partial class text
     {
+        [Op]
+        public static string unfence(string input, int offset, Fence<char> fence)
+        {
+            var result = EmptyString;
+            var output = enclosed(input, offset, RenderFence.Embraced);
+            if(output.IsNonEmpty)
+                result = inside(input, output.Min - 1, output.Max + 1);
+            return result;
+        }
+
         /// <summary>
         /// Extracts text that is enclosed between left and right boundaries, i.e. {left}{content}{right} => {content}
         /// </summary>

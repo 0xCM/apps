@@ -10,7 +10,7 @@ namespace Z0
     /// Characterizes a lexical identifier
     /// </summary>
     /// <typeparam name="H">The reifying type</typeparam>
-    public interface IIdentifier<H> : IText, IDataTypeComparable<H>
+    public interface IIdentifier<H> : IText, IComparable<H>, IEquatable<H>
         where H : struct, IIdentifier<H>
     {
 

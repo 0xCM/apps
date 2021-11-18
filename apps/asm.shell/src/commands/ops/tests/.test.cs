@@ -10,22 +10,21 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
+        [CmdOp(".test-brace-match")]
         Outcome TestBraceMatching(CmdArgs args)
         {
             var result = Outcome.Success;
             const string Expect = "* 1 {} {33 a cde:} d*";
             var input = "aba {* 1 {} {33 a cde:} d*} x b";
-            var output = SymbolicQuery.enclosed(input, 0, RenderFence.Embraced);
-            if(output.IsNonEmpty)
+            var inner = text.unfence(input,0, RenderFence.Embraced);
+            if(inner!=Expect)
             {
-                var inner = text.inside(input, output.Min - 1, output.Max + 1);
-                if(inner == Expect)
-                    Write("Success");
-                else
-                    Write(string.Format("Fail:{0} != {1}", inner, Expect));
+                result = (false,string.Format("{0} != {1}", inner, Expect));
             }
             else
-                Write("Fail:Empty");
+            {
+                result = (true, "Success");
+            }
 
             return result;
 

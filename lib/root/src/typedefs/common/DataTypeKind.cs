@@ -2,33 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
-    using api = AsmDomains;
-
-    public struct AsmDomain<T>
-        where T : unmanaged
+    public readonly struct DataTypeKind
     {
-        public static uint CellSize => size<T>();
-
-        public T Bits;
-
-        public readonly uint Limit;
+        ulong Value {get;}
 
         [MethodImpl(Inline)]
-        public AsmDomain(T bits, uint? limit = null)
+        internal DataTypeKind(ulong value)
         {
-            Bits = bits;
-            Limit = limit ?? core.width<T>();
+            Value = value;
         }
 
+        [MethodImpl(Inline)]
         public string Format()
-            =>  api.format(this);
+            => Value.FormatHex();
 
         public override string ToString()
             => Format();

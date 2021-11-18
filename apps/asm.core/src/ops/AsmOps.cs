@@ -9,5 +9,7 @@ namespace Z0.Asm
     [ApiHost, Free]
     public partial class AsmOps
     {
+
+
     }
 }

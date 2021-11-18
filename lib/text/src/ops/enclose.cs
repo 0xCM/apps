@@ -19,5 +19,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static string enclose(object content, string sep)
             => string.Concat(sep,$"{content}",sep);
-    }
+   }
 }

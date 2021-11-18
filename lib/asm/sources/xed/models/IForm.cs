@@ -12,7 +12,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct IForm : IDataTypeComparable<IForm>
+        public readonly struct IForm : IEquatable<IForm>, IComparable<IForm>
         {
             public IFormType Type {get;}
 

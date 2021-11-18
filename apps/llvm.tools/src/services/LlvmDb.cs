@@ -166,9 +166,9 @@ namespace Z0.llvm
                 var record = new ClassRelations();
                 ref readonly var row = ref rows[i];
                 var cells = @readonly(row.Split(Chars.Pipe).Select(x => x.Trim()));
-                if(cells.Length != records.ClassRelations.FieldCount)
+                if(cells.Length != llvm.ClassRelations.FieldCount)
                 {
-                    Error(Tables.FieldCountMismatch.Format(records.ClassRelations.FieldCount, cells.Length));
+                    Error(Tables.FieldCountMismatch.Format(llvm.ClassRelations.FieldCount, cells.Length));
                     Write(row);
                     break;
                 }
@@ -204,9 +204,9 @@ namespace Z0.llvm
                 var record = new DefRelations();
                 ref readonly var row = ref rows[i];
                 var cells = @readonly(row.Split(Chars.Pipe).Select(x => x.Trim()));
-                if(cells.Length != records.DefRelations.FieldCount)
+                if(cells.Length != llvm.DefRelations.FieldCount)
                 {
-                    Error(Tables.FieldCountMismatch.Format(records.DefRelations.FieldCount, cells.Length));
+                    Error(Tables.FieldCountMismatch.Format(llvm.DefRelations.FieldCount, cells.Length));
                     Write(row);
                     break;
                 }

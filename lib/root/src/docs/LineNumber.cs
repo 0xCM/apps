@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct LineNumber : IDataTypeComparable<LineNumber>
+    public readonly struct LineNumber : IComparable<LineNumber>, IEquatable<LineNumber>
     {
         [MethodImpl(Inline), Op]
         public static Outcome parse(string src, out LineNumber dst)

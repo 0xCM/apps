@@ -6,11 +6,9 @@ namespace Z0.llvm
 {
     using System;
 
-    using records;
-
     using static core;
 
-    using F = llvm.records.RecordField;
+    using F = llvm.RecordField;
 
     partial class LlvmRecordEtl
     {

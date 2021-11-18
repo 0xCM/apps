@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     public interface IBits : IDataType
     {
         uint Width {get;}
@@ -15,7 +17,7 @@ namespace Z0
         T Value {get;}
     }
 
-    public interface IBitContainer<H,T> : IBits<T>, IDataTypeEquatable<H>
+    public interface IBitContainer<H,T> : IBits<T>, IEquatable<H>
         where H : unmanaged, IBitContainer<H,T>
         where T : unmanaged
     {

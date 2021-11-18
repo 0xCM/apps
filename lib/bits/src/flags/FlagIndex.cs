@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Defines identifiers corresponding to each value that can be represented with an 8-bit unsigned integer
-    /// </summary>
     public enum FlagIndex : byte
     {
         /// <summary>

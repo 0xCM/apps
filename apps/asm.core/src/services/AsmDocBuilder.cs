@@ -8,10 +8,10 @@ namespace Z0.Asm
     using System.Collections.Generic;
 
     using static core;
+
     public class AsmDocBuilder
     {
         List<object> Parts;
-
 
         public static AsmDocBuilder create(string name)
             => new AsmDocBuilder(name);
