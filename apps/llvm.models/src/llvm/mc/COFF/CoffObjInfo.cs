@@ -10,6 +10,9 @@ namespace Z0.llvm
 
     using static Root;
 
+    /// <summary>
+    /// Represents the content of a file produced by llvm-readobj
+    /// </summary>
     public class CoffObjInfo
     {
         Dictionary<string, List<CoffSymbol>> SymbolLookup;

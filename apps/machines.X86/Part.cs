@@ -2,15 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+[assembly: PartId(PartId.X86Machine)]
+
+namespace Z0.Parts
 {
     using System;
 
-    using static core;
-    using static Root;
-
-    [ApiHost]
-    public readonly partial struct TokenMaps
+    public sealed class X86Machine : Part<X86Machine>
     {
+
     }
 }

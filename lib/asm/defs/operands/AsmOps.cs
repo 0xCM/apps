@@ -12,7 +12,7 @@ namespace Z0.Asm
     using Operands;
 
     [ApiHost]
-    public readonly partial struct AsmOperands
+    public readonly struct AsmOps
     {
         [MethodImpl(Inline), Op]
         public static AsmOperand op(r8 src)

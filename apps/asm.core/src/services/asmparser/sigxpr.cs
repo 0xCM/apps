@@ -4,10 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
     using static Root;
 
     partial struct AsmParser
     {
+        [MethodImpl(Inline), Op]
+        public static AsmSigInfo sigxpr(AsmMnemonic mnemonic, string content)
+            => new AsmSigInfo(mnemonic, content);
+
         [Op]
         public static Outcome sigxpr(string src, out AsmSigInfo dst)
         {
@@ -20,12 +27,12 @@ namespace Z0.Asm
             var trimmed = src.Trim();
             var i = text.index(trimmed, Chars.Space);
             if(i == NotFound)
-                dst = asm.sigxpr(asm.mnemonic(src), src);
+                dst = sigxpr(new AsmMnemonic(src), src);
             else
             {
-                var mnemonic = asm.mnemonic(text.slice(trimmed,0,i));
+                var mnemonic = new AsmMnemonic(text.slice(trimmed,0,i));
                 var operands = text.slice(trimmed, i + 1);
-                dst = asm.sigxpr(mnemonic, trimmed);
+                dst = sigxpr(mnemonic, trimmed);
             }
             return true;
         }

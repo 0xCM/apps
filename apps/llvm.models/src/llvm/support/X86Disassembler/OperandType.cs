@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial struct X86Disassembler
     {
-        [SymSource]
+        [SymSource("llvm.mc")]
         public enum OperandType : byte
         {
             [Symbol("", "")]

@@ -14,12 +14,11 @@ namespace Z0.llvm
         [CmdOp("asm-strings")]
         Outcome AsmStrings(CmdArgs args)
         {
-            var loader = Wf.LlvmRecordLoader();
-            var result = loader.LoadFields(Datasets.X86DefFields, out var fields);
+            var result = RecordLoader.LoadFields(Datasets.X86DefFields, out var fields);
             if(result.Fail)
                 return result;
 
-            var names = loader.LoadList(Lists.X86Inst).Map(x => x.Value.Text).ToHashSet();
+            var names = RecordLoader.LoadList(Lists.X86Inst).Map(x => x.Value.Text).ToHashSet();
 
             var count = fields.Length;
             for(var i=0; i<count; i++)

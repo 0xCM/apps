@@ -19,7 +19,7 @@ namespace Z0.Asm
 
         Index<AsmSourceLine> _SourceLines;
 
-        internal AsmDocument(AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s)
+        public AsmDocument(AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s)
         {
             _Directives = d;
             _BlockLabels = b;

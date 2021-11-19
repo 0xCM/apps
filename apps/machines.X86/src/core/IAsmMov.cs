@@ -2,14 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0.Machines
 {
-    partial struct AsmParser
+
+    using Asm.Operands;
+
+    public interface IAsmMov
     {
-        public static Outcome document(FS.FilePath src, out AsmDocument dst)
-        {
-            var parser = new AsmDocParser();
-            return parser.Parse(src, out dst);
-        }
+        void mov(r8 a, r8 b);
+
+        void mov(r16 a, r16 b);
+
+        void mov(r32 a, r32 b);
+
+        void mov(r64 a, r64 b);
     }
 }

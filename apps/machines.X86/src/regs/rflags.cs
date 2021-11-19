@@ -12,8 +12,8 @@ namespace Z0.Machines.X86.Regs
     using static Root;
     using static gbits;
 
-    using K = Asm.RFlags.RFlagBits;
-    using I = Asm.RFlags.RFlagIndex;
+    using K = Asm.RFlagBits;
+    using I = Asm.RFlagIndex;
 
     [ApiComplete("regs.rflags")]
     public struct rflags : IReg<rflags,W32,K>

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using records;
-
     using static LlvmNames;
     using static core;
 

@@ -7,8 +7,6 @@ namespace Z0.llvm
     using System;
     using System.Collections.Generic;
 
-    using records;
-
     /// <summary>
     /// Collects the records produced by the etl process
     /// </summary>

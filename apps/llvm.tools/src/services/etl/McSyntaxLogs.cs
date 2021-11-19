@@ -8,7 +8,6 @@ namespace Z0.llvm
     using System.Collections.Generic;
 
     using Asm;
-    using records;
 
     using static core;
 
@@ -55,7 +54,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                result = AsmParser.document(path, out var doc);
+                result = McAsmParser.parse(path, out var doc);
                 if(result.Fail)
                     break;
 

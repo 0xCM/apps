@@ -18,16 +18,13 @@ namespace Z0.llvm
         /// <remarks>
         /// From https://github.com/llvm/llvm-project/blob/68b9b769b510b9f5d3fe20e1f850ab829510673e/llvm/include/llvm/MC/MCInstrDesc.h
         /// </remarks>
+        [SymSource]
         public enum OperandConstraint : byte
         {
-            /// <summary>
-            /// Must be allocated the same register as specified value.
-            /// </summary>
+            [Symbol("","Must be allocated the same register as specified value")]
             TIED_TO = 0,
 
-            /// <summary>
-            /// If present, operand is an early clobber register.
-            /// </summary>
+            [Symbol("","If present, operand is an early clobber register.")]
             EARLY_CLOBBER
         };
 

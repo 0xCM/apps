@@ -97,7 +97,6 @@ namespace Z0.llvm
             Authenticated,
         }
 
-
         public const byte PreISelOpcode = (byte)T.PreISelOpcode;
 
         public const byte Variadic = (byte)T.Variadic;

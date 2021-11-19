@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using System;
 
-    using records;
-
     using static core;
 
     public sealed class LlvmNm : ToolService<LlvmNm>

@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.InteropServices;
-
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/a8ad9170543906fc58336ab736a109fb42082fbf/llvm/include/llvm/Support/X86DisassemblerDecoderCommon.h
     /// </summary>
-    public readonly partial struct X86Disassembler
+    partial struct X86Disassembler
     {
         /// <summary>
         /// Attributes of an instruction that must be known before the opcode can be
         /// processed correctly.  Most of these indicate the presence of particular
         /// prefixes, but ATTR_64BIT is simply an attribute of the decoding context.
         /// </summary>
-        public enum attributeBits : ushort
+        [SymSource("llvm.mc")]
+        public enum AttributeBits : ushort
         {
             ATTR_NONE = 0x00,
 

@@ -25,18 +25,13 @@ namespace Z0.llvm
 
         public string Parameters;
 
-        public bool HasAncestor
-        {
-            [MethodImpl(Inline)]
-            get => Ancestors.HasAncestor;
-        }
-
         LineNumber ILineRelations.SourceLine
             => SourceLine;
 
         Identifier ILineRelations.Name
             => Name;
 
+        [MethodImpl(Inline)]
         public void Specify(LineNumber line, Identifier name, Lineage ancestors)
         {
             SourceLine = line;

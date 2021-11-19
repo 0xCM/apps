@@ -26,6 +26,8 @@ namespace Z0.llvm
 
         LlvmReadObj ReadObj;
 
+        LlvmRecordLoader RecordLoader;
+
         new LlvmDb Db
         {
             get
@@ -53,6 +55,7 @@ namespace Z0.llvm
             Toolbase = Wf.LLvmToolbase();
             ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();
+            RecordLoader = Wf.LlvmRecordLoader();
             Data = Ws.Project(Projects.LlvmData);
             State.Init(Wf, Ws);
             State.Project(Data);

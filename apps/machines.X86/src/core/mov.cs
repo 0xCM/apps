@@ -11,17 +11,6 @@ namespace Z0.Machines
 
     using static Root;
 
-    public interface IAsmMov
-    {
-        void mov(r8 a, r8 b);
-
-        void mov(r16 a, r16 b);
-
-        void mov(r32 a, r32 b);
-
-        void mov(r64 a, r64 b);
-    }
-
     partial class X86Machine
     {
         [MethodImpl(Inline), Op]

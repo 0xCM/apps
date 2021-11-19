@@ -11,7 +11,6 @@ namespace Z0.Asm
     using Operands;
 
     using static Root;
-    using static AsmOperands;
 
     partial struct asm
     {

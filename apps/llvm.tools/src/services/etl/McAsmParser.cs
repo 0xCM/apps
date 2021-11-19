@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0.llvm
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -10,12 +10,19 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
+    using Asm;
 
     using SQ = SymbolicQuery;
-    using C = AsmDocParser.LineClass;
+    using C = McAsmParser.LineClass;
 
-    public class AsmDocParser : Service<AsmDocParser>
+    public class McAsmParser : Service<McAsmParser>
     {
+        public static Outcome parse(FS.FilePath src, out AsmDocument dst)
+        {
+            var parser = new McAsmParser();
+            return parser.Parse(src, out dst);
+        }
+
         internal enum LineClass : byte
         {
             None,

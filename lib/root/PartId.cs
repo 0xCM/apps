@@ -70,7 +70,8 @@ public enum PartId : byte
     [Symbol("res")]
     Res = 20,
 
-    Open21 = 21,
+    [Symbol("machines.x86")]
+    X86Machine = 21,
 
     [Symbol("lang")]
     Lang = 22,

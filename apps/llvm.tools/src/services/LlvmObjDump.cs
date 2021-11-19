@@ -7,8 +7,6 @@ namespace Z0.llvm
     using System;
     using System.Runtime.CompilerServices;
 
-    using records;
-
     using static Root;
     using static core;
 

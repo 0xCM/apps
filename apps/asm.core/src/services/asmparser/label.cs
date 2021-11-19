@@ -11,7 +11,7 @@ namespace Z0.Asm
             dst = default;
             var result = DataParser.parse(src, out Hex64 value);
             if(result)
-                dst = asm.label(bits.effwidth(value), value);
+                dst = new AsmOffsetLabel(bits.effwidth(value), value);
             return result;
         }
 

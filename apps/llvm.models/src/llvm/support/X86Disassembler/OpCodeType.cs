@@ -9,6 +9,7 @@ namespace Z0.llvm
         /// <summary>
         /// From https://github.com/llvm/llvm-project/blob/a8ad9170543906fc58336ab736a109fb42082fbf/llvm/include/llvm/Support/X86DisassemblerDecoderCommon.h
         /// </summary>
+        [SymSource("llvm.mc")]
         public enum OpCodeType : byte
         {
             ONEBYTE = 0,

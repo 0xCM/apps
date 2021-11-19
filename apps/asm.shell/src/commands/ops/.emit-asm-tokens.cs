@@ -32,11 +32,12 @@ namespace Z0.Asm
         Outcome EmitAsmTokens(CmdArgs args)
         {
             var tokens = Wf.AsmTokens();
-            EmitTokens(tokens.RegTokens());
-            EmitTokens(tokens.OpCodeTokens());
-            EmitTokens(tokens.SigTokens());
-            EmitTokens(tokens.ConditonTokens());
-            EmitTokens(tokens.PrefixTokens());
+            var project = Ws.Project("data.models");
+            EmitTokens(tokens.RegTokens(), project);
+            EmitTokens(tokens.OpCodeTokens(), project);
+            EmitTokens(tokens.SigTokens(), project);
+            EmitTokens(tokens.ConditonTokens(), project);
+            EmitTokens(tokens.PrefixTokens(), project);
             return true;
         }
     }

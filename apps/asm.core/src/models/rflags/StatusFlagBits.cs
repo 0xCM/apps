@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using System;
 
-    using RF = RFlags.RFlagBits;
+    using RF = RFlagBits;
 
     [Flags,SymSource]
     public enum StatusFlagBits : ushort

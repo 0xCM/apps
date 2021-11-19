@@ -14,6 +14,10 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
+        [Op]
+        static AsmExpr expr(AsmMnemonic monic, ReadOnlySpan<char> operands)
+            => new AsmExpr(string.Format("{0} {1}", monic.Format(MnemonicCase.Lowercase), text.format(operands)));
+
         public static Outcome asmxpr(string src, out AsmExpr dst)
         {
             dst = new AsmExpr(src.Trim());
@@ -29,18 +33,18 @@ namespace Z0.Asm
                 return (false,"Input was empty");
 
             var remainder = slice(src,i);
-            i = SQ.index(remainder,AsciCode.Space);
+            i = SQ.index(remainder, AsciCode.Space);
             if(i == NotFound)
             {
-                var monic = asm.mnemonic(text.format(remainder).Trim());
+                var monic = new AsmMnemonic(text.format(remainder).Trim());
                 var operands = Span<char>.Empty;
-                dst = asm.expr(monic, operands);
+                dst = expr(monic, operands);
             }
             else
             {
-                var monic = asm.mnemonic(text.format(slice(remainder,0, i)).Trim());
+                var monic = new AsmMnemonic(text.format(slice(remainder,0, i)).Trim());
                 var operands = text.format(slice(remainder,i)).Trim();
-                dst = asm.expr(monic, operands);
+                dst = expr(monic, operands);
             }
 
             return outcome;

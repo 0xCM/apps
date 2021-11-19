@@ -38,163 +38,163 @@ namespace Z0.llvm
         [Symbol(".value")]
         DK_RELOC,
 
-        [Symbol("")]
+        [Symbol(".value")]
         DK_VALUE,
 
-        [Symbol("")]
+        [Symbol(".2byte")]
         DK_2BYTE,
 
-        [Symbol("")]
+        [Symbol(".long")]
         DK_LONG,
 
-        [Symbol("")]
+        [Symbol(".int")]
         DK_INT,
 
-        [Symbol("")]
+        [Symbol(".4byte")]
         DK_4BYTE,
 
-        [Symbol("")]
+        [Symbol(".quad")]
         DK_QUAD,
 
-        [Symbol("")]
+        [Symbol(".8byte")]
         DK_8BYTE,
 
-        [Symbol("")]
+        [Symbol(".octa")]
         DK_OCTA,
 
-        [Symbol("")]
+        [Symbol(".dc")]
         DK_DC,
 
-        [Symbol("")]
+        [Symbol(".dc.a")]
         DK_DC_A,
 
-        [Symbol("")]
+        [Symbol(".dc.b")]
         DK_DC_B,
 
-        [Symbol("")]
+        [Symbol(".dc.d")]
         DK_DC_D,
 
-        [Symbol("")]
+        [Symbol(".dc.l")]
         DK_DC_L,
 
-        [Symbol("")]
+        [Symbol(".dc.s")]
         DK_DC_S,
 
-        [Symbol("")]
+        [Symbol(".dc.w")]
         DK_DC_W,
 
-        [Symbol("")]
+        [Symbol(".dc.x")]
         DK_DC_X,
 
-        [Symbol("")]
+        [Symbol(".dcb")]
         DK_DCB,
 
-        [Symbol("")]
+        [Symbol(".dcb.b")]
         DK_DCB_B,
 
-        [Symbol("")]
+        [Symbol(".dcb.d")]
         DK_DCB_D,
 
-        [Symbol("")]
+        [Symbol(".dcb.l")]
         DK_DCB_L,
 
-        [Symbol("")]
+        [Symbol(".dcb.s")]
         DK_DCB_S,
 
-        [Symbol("")]
+        [Symbol(".dcb.w")]
         DK_DCB_W,
 
-        [Symbol("")]
+        [Symbol(".dcb.x")]
         DK_DCB_X,
 
-        [Symbol("")]
+        [Symbol(".ds")]
         DK_DS,
 
-        [Symbol("")]
+        [Symbol(".ds.b")]
         DK_DS_B,
 
-        [Symbol("")]
+        [Symbol(".ds.d")]
         DK_DS_D,
 
-        [Symbol("")]
+        [Symbol(".ds.l")]
         DK_DS_L,
 
-        [Symbol("")]
+        [Symbol(".ds.p")]
         DK_DS_P,
 
-        [Symbol("")]
+        [Symbol(".ds.s")]
         DK_DS_S,
 
-        [Symbol("")]
+        [Symbol(".ds.w")]
         DK_DS_W,
 
-        [Symbol("")]
+        [Symbol(".ds.x")]
         DK_DS_X,
 
-        [Symbol("")]
+        [Symbol(".single")]
         DK_SINGLE,
 
-        [Symbol("")]
+        [Symbol(".float")]
         DK_FLOAT,
 
-        [Symbol("")]
+        [Symbol(".double")]
         DK_DOUBLE,
 
-        [Symbol("")]
+        [Symbol(".align")]
         DK_ALIGN,
 
-        [Symbol("")]
+        [Symbol(".align32")]
         DK_ALIGN32,
 
-        [Symbol("")]
+        [Symbol(".balign")]
         DK_BALIGN,
 
-        [Symbol("")]
+        [Symbol(".balignw")]
         DK_BALIGNW,
 
-        [Symbol("")]
+        [Symbol(".balignl")]
         DK_BALIGNL,
 
-        [Symbol("")]
+        [Symbol(".p2align")]
         DK_P2ALIGN,
 
-        [Symbol("")]
+        [Symbol(".p2alignw")]
         DK_P2ALIGNW,
 
-        [Symbol("")]
+        [Symbol(".p2alignl")]
         DK_P2ALIGNL,
 
-        [Symbol("")]
+        [Symbol(".org")]
         DK_ORG,
 
-        [Symbol("")]
+        [Symbol(".fill")]
         DK_FILL,
 
-        [Symbol("")]
+        [Symbol(".endr")]
         DK_ENDR,
 
-        [Symbol("")]
+        [Symbol(".bundle_align_mode")]
         DK_BUNDLE_ALIGN_MODE,
 
-        [Symbol("")]
+        [Symbol(".bundle_lock")]
         DK_BUNDLE_LOCK,
 
-        [Symbol("")]
+        [Symbol(".bundle_unlock")]
         DK_BUNDLE_UNLOCK,
 
-        [Symbol("")]
+        [Symbol(".zero")]
         DK_ZERO,
 
-        [Symbol("")]
+        [Symbol(".extern")]
         DK_EXTERN,
 
-        [Symbol("")]
+        [Symbol(".globl")]
         DK_GLOBL,
 
-        [Symbol("")]
+        [Symbol(".global")]
         DK_GLOBAL,
 
-        [Symbol("")]
+        [Symbol("lazy_reference")]
         DK_LAZY_REFERENCE,
 
         [Symbol("")]
@@ -254,91 +254,91 @@ namespace Z0.llvm
         [Symbol("")]
         DK_IRPC,
 
-        [Symbol("")]
+        [Symbol(".if")]
         DK_IF,
 
-        [Symbol("")]
+        [Symbol(".ifeq")]
         DK_IFEQ,
 
-        [Symbol("")]
+        [Symbol(".ifge")]
         DK_IFGE,
 
-        [Symbol("")]
+        [Symbol(".ifgt")]
         DK_IFGT,
 
-        [Symbol("")]
+        [Symbol(".ifle")]
         DK_IFLE,
 
-        [Symbol("")]
+        [Symbol(".iflt")]
         DK_IFLT,
 
-        [Symbol("")]
+        [Symbol(".ifne")]
         DK_IFNE,
 
-        [Symbol("")]
+        [Symbol(".ifb")]
         DK_IFB,
 
-        [Symbol("")]
+        [Symbol(".ifnb")]
         DK_IFNB,
 
-        [Symbol("")]
+        [Symbol(".ifc")]
         DK_IFC,
 
-        [Symbol("")]
+        [Symbol(".ifeqs")]
         DK_IFEQS,
 
-        [Symbol("")]
+        [Symbol(".ifnc")]
         DK_IFNC,
 
-        [Symbol("")]
+        [Symbol(".ifnes")]
         DK_IFNES,
 
-        [Symbol("")]
+        [Symbol(".ifdef")]
         DK_IFDEF,
 
-        [Symbol("")]
+        [Symbol(".ifndef")]
         DK_IFNDEF,
 
-        [Symbol("")]
+        [Symbol(".ifnotdef")]
         DK_IFNOTDEF,
 
-        [Symbol("")]
+        [Symbol(".elseif")]
         DK_ELSEIF,
 
-        [Symbol("")]
+        [Symbol(".else")]
         DK_ELSE,
 
-        [Symbol("")]
+        [Symbol(".endif")]
         DK_ENDIF,
 
-        [Symbol("")]
+        [Symbol(".space")]
         DK_SPACE,
 
-        [Symbol("")]
+        [Symbol(".skip")]
         DK_SKIP,
 
-        [Symbol("")]
+        [Symbol(".file")]
         DK_FILE,
 
-        [Symbol("")]
+        [Symbol(".line")]
         DK_LINE,
 
-        [Symbol("")]
+        [Symbol(".loc")]
         DK_LOC,
 
-        [Symbol("")]
+        [Symbol(".stabs")]
         DK_STABS,
 
-        [Symbol("")]
+        [Symbol(".cv_file")]
         DK_CV_FILE,
 
-        [Symbol("")]
+        [Symbol(".cv_func_id")]
         DK_CV_FUNC_ID,
 
-        [Symbol("")]
+        [Symbol(".cv_inline_site_id")]
         DK_CV_INLINE_SITE_ID,
 
-        [Symbol("")]
+        [Symbol(".cv_loc")]
         DK_CV_LOC,
 
         [Symbol("")]
@@ -371,48 +371,70 @@ namespace Z0.llvm
         [Symbol("")]
         DK_CFI_STARTPROC,
 
+        [Symbol("")]
         DK_CFI_ENDPROC,
 
+        [Symbol("")]
         DK_CFI_DEF_CFA,
 
+        [Symbol("")]
         DK_CFI_DEF_CFA_OFFSET,
 
+        [Symbol("")]
         DK_CFI_ADJUST_CFA_OFFSET,
 
+        [Symbol("")]
         DK_CFI_DEF_CFA_REGISTER,
 
+        [Symbol("")]
         DK_CFI_LLVM_DEF_ASPACE_CFA,
 
+        [Symbol("")]
         DK_CFI_OFFSET,
 
+        [Symbol("")]
         DK_CFI_REL_OFFSET,
 
+        [Symbol("")]
         DK_CFI_PERSONALITY,
 
+        [Symbol("")]
         DK_CFI_LSDA,
 
+        [Symbol("")]
         DK_CFI_REMEMBER_STATE,
 
+        [Symbol("")]
         DK_CFI_RESTORE_STATE,
 
+        [Symbol("")]
         DK_CFI_SAME_VALUE,
 
+        [Symbol("")]
         DK_CFI_RESTORE,
 
+        [Symbol("")]
         DK_CFI_ESCAPE,
 
+        [Symbol("")]
         DK_CFI_RETURN_COLUMN,
 
+        [Symbol("")]
         DK_CFI_SIGNAL_FRAME,
 
+        [Symbol("")]
         DK_CFI_UNDEFINED,
 
+        [Symbol("")]
         DK_CFI_REGISTER,
 
+        [Symbol("")]
         DK_CFI_WINDOW_SAVE,
 
+        [Symbol("")]
         DK_CFI_B_KEY_FRAME,
 
+        [Symbol("")]
         DK_MACROS_ON,
 
         [Symbol("")]

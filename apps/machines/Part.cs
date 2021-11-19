@@ -2,13 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-[assembly: PartId(PartId.Machine)]
-
+[assembly: PartId(PartId.Machines)]
 namespace Z0.Parts
-{ 
-    using System;
-    
-    public sealed class Machine : Part<Machine>
+{
+
+    public sealed class Machines : Part<Machines>
     {
 
     }
