@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static Root;
     using static core;
 
@@ -30,7 +27,7 @@ namespace Z0
         public static void format<T>(in Seq<T> src, char delimiter, ITextBuffer dst)
         {
             var count = src.Length;
-            var terms = src.TermView;
+            var terms = src.View;
             dst.Append(Chars.LBrace);
             for(var i=0; i<count; i++)
             {

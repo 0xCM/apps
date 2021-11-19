@@ -8,9 +8,6 @@ namespace Z0
 
     using static Root;
 
-    using Expr;
-
-
     public abstract class OpExpr<F,K> : Expr<F,K>
         where F : OpExpr<F,K>
         where K : unmanaged

@@ -12,6 +12,15 @@ namespace Z0
     partial class text
     {
         /// <summary>
+        /// Encloses a value with a fence
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="boundary"></param>
+        /// <typeparam name="T"></typeparam>
+        public static string enclose<T>(T src, Fence<char> boundary)
+            => string.Format("{0}{1}{2}",boundary.Left, src, boundary.Right);
+
+        /// <summary>
         /// Encloses text within a bounding string
         /// </summary>
         /// <param name="content">The text to enclose</param>

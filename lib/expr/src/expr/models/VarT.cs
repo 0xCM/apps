@@ -10,7 +10,6 @@ namespace Z0
 
     using static Root;
 
-    using Expr;
     /// <summary>
     /// Defines a variable
     /// </summary>

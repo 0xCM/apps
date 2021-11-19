@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
-
-    using static Root;
 
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/a8ad9170543906fc58336ab736a109fb42082fbf/llvm/include/llvm/Support/X86DisassemblerDecoderCommon.h
@@ -50,24 +47,6 @@ namespace Z0.llvm
             ATTR_EVEXB = 0x1 << 12,
 
             ATTR_max = 0x1 << 13,
-        }
-
-        public readonly struct InstructionContext
-        {
-            public byte Rank {get;}
-
-            public Label Description {get;}
-
-            [MethodImpl(Inline)]
-            public InstructionContext(byte rank, Label description)
-            {
-                Rank = rank;
-                Description = description;
-            }
-
-            [MethodImpl(Inline)]
-            public static implicit operator InstructionContext((byte rank, Label desc) src)
-                => new InstructionContext(src.rank, src.desc);
         }
     }
 }

@@ -10,7 +10,14 @@ namespace Z0
 
     using static Root;
 
-    public class TableReader<T> : IDisposable
+
+    public interface ITableReader<T>
+        where T : struct
+    {
+        Outcome ReadRow(out T dst);
+    }
+
+    public class TableReader<T> : IDisposable, ITableReader<T>
         where T : struct
     {
         readonly StreamReader Stream;
@@ -51,7 +58,7 @@ namespace Z0
         {
             if(!Stream.EndOfStream)
             {
-                dst = (Counter++,Stream.ReadLine());
+                dst = (Counter++, Stream.ReadLine());
                 return true;
             }
             else

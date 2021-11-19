@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Operand<T> : IOperand<T>
+    public interface IVarBinder<T>
     {
-        public abstract string Format();
+        T Bind(string name);
+    }
 
-        public abstract T Resolve(IContext context);
+    public interface IVarBinder<K,T>
+        where K : unmanaged
+    {
+        T Bind(K kind);
     }
 }

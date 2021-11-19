@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Operand<T> : IOperand<T>
-    {
-        public abstract string Format();
+    using System;
 
-        public abstract T Resolve(IContext context);
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class CheckerAttribute : Attribute
+    {
+
     }
 }

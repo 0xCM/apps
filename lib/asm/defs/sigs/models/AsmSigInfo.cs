@@ -12,7 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Represents an expression that identifies an instruction
     /// </summary>
-    public readonly struct AsmSigInfo : ITextExpr<AsmSigInfo>, IComparable<AsmSigInfo>
+    public readonly struct AsmSigInfo : IComparable<AsmSigInfo>
     {
         public AsmMnemonic Mnemonic {get;}
 

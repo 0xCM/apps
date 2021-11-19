@@ -32,7 +32,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("{0,-8}: {1}", Index, Value);
+            => string.Format("({0},{1})", Index, Value);
 
         public override string ToString()
             => Format();

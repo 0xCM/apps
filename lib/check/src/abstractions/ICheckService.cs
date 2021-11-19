@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Operand<T> : IOperand<T>
+    public interface ICheckService
     {
-        public abstract string Format();
-
-        public abstract T Resolve(IContext context);
+        void Run();
     }
 }

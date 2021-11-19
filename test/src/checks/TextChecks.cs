@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Operand<T> : IOperand<T>
+    public class TextChecks : Checker<TextChecks>
     {
-        public abstract string Format();
 
-        public abstract T Resolve(IContext context);
     }
 }

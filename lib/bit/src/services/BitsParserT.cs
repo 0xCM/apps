@@ -46,7 +46,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default;
-            result = text.unfence(src, RenderFence.Embraced, out var content);
+            result = text.unfence(src, Fencing.Embraced, out var content);
             if(!result)
                 return (false,"Fence not found");
 

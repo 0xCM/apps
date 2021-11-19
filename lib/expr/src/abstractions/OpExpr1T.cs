@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Expr;
-
-
     public abstract class OpExpr1<F,K> : OpExpr<F,K>
         where F : OpExpr1<F,K>
         where K : unmanaged

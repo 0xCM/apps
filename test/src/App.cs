@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     sealed partial class AppCommands : AppCmdService<AppCommands,CmdShellState>
@@ -16,8 +18,8 @@ namespace Z0
 
         void RunTests()
         {
-            SpanBufferChecker.create(Wf).Run();
-            KrDChecks.create(Wf).Run();
+            var services = Checkers.services(Wf, core.controller());
+            iter(services, svc => svc.Run());
         }
     }
 

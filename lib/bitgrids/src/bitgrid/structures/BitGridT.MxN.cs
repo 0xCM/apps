@@ -136,11 +136,11 @@ namespace Z0
             => throw new NotSupportedException();
 
         [MethodImpl(Inline)]
-        public static Bit32 operator ==(in BitGrid<M,N,T> g1, in BitGrid<M,N,T> g2)
+        public static bit operator ==(in BitGrid<M,N,T> g1, in BitGrid<M,N,T> g2)
             => BitGrid.same(g1,g2);
 
         [MethodImpl(Inline)]
-        public static Bit32 operator !=(in BitGrid<M,N,T> g1, in BitGrid<M,N,T> g2)
+        public static bit operator !=(in BitGrid<M,N,T> g1, in BitGrid<M,N,T> g2)
             => !BitGrid.same(g1,g2);
     }
 }

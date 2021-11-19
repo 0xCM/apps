@@ -126,5 +126,10 @@ namespace Z0.llvm
 
             public const string defnames = def + names;
         }
+
+        public readonly struct RecordFields
+        {
+            public const string AsmString = nameof(AsmString);
+        }
     }
 }

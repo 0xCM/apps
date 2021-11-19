@@ -78,6 +78,10 @@ namespace Z0
 
         Partial = '∂',
 
-        Plus = '+'
+        Plus = '+',
+
+        LeftBra = '〈',
+
+        RightKet = '〉'
     }
 }

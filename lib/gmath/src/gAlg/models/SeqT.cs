@@ -12,29 +12,35 @@ namespace Z0
     /// <summary>
     /// Defines a data structure for sparse/partial sequence representation
     /// </summary>
-    public readonly struct Seq<T>
+    public readonly struct Seq<T> : IIndex<SeqTerm<T>>
     {
-        readonly Index<SeqTerm<T>> Terms;
+        readonly Index<SeqTerm<T>> Data;
 
         [MethodImpl(Inline)]
         public Seq(params SeqTerm<T>[] src)
         {
             if(src.Length != 0)
-                Terms = src;
+                Data = src;
             else
-                Terms = Empty.Terms;
+                Data = Empty.Data;
         }
 
-        public ReadOnlySpan<SeqTerm<T>> TermView
+        public ReadOnlySpan<SeqTerm<T>> View
         {
             [MethodImpl(Inline)]
-            get => Terms.View;
+            get => Data.View;
         }
 
-        public Span<SeqTerm<T>> TermEdit
+        public Span<SeqTerm<T>> Edit
         {
             [MethodImpl(Inline)]
-            get => Terms.Edit;
+            get => Data.Edit;
+        }
+
+        public SeqTerm<T>[] Storage
+        {
+            [MethodImpl(Inline)]
+            get => Data;
         }
 
         /// <summary>
@@ -43,19 +49,19 @@ namespace Z0
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Terms.Length;
+            get => Data.Length;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Terms.IsEmpty;
+            get => Data.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Terms.IsNonEmpty;
+            get => Data.IsNonEmpty;
         }
 
         /// <summary>
@@ -64,7 +70,7 @@ namespace Z0
         public ref SeqTerm<T> this[long idx]
         {
             [MethodImpl(Inline)]
-            get => ref Terms[idx];
+            get => ref Data[idx];
         }
 
         /// <summary>
@@ -73,7 +79,7 @@ namespace Z0
         public ref SeqTerm<T> this[ulong idx]
         {
             [MethodImpl(Inline)]
-            get => ref Terms[idx];
+            get => ref Data[idx];
         }
 
         /// <summary>
@@ -93,5 +99,9 @@ namespace Z0
 
         public static Seq<T> Empty
             => new Seq<T>(SeqTerm<T>.Empty);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Seq<T>(SeqTerm<T>[] src)
+            => new Seq<T>(src);
     }
 }

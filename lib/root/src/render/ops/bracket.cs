@@ -17,6 +17,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static string bracket<T>(T content)
             => enclose($"{content}", Chars.LBracket, Chars.RBracket);
-
     }
 }

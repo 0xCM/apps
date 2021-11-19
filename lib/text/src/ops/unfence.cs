@@ -12,7 +12,7 @@ namespace Z0
         public static string unfence(string input, int offset, Fence<char> fence)
         {
             var result = EmptyString;
-            var output = enclosed(input, offset, RenderFence.Embraced);
+            var output = enclosed(input, offset, Fencing.Embraced);
             if(output.IsNonEmpty)
                 result = inside(input, output.Min - 1, output.Max + 1);
             return result;

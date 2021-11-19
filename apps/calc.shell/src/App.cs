@@ -273,7 +273,7 @@ namespace Z0
             {
                 var cin = math.odd(i + j);
                 var y = math.adc(i, j, cin, out var cout);
-                Log.WriteLine(string.Format("adc({0},{1}) carry {2} = {3} carry {4}", i,j,cin, y, (uint)cout));
+                Log.WriteLine(string.Format("adc({0},{1}) carry {2} = {3} carry {4}", i, j,cin, y, (uint)cout));
             }
         }
 

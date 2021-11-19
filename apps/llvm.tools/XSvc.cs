@@ -56,5 +56,9 @@ namespace Z0
         [Op]
         public static LlvmCodeGen LlvmEtlCodeGen(this IWfRuntime wf)
             => llvm.LlvmCodeGen.create(wf);
+
+        [Op]
+        public static LlvmRecordLoader LlvmRecordLoader(this IWfRuntime wf)
+            => llvm.LlvmRecordLoader.create(wf);
     }
 }

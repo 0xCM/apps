@@ -6,8 +6,6 @@ namespace Z0
 {
     using System.Runtime.CompilerServices;
 
-    using Expr;
-
     using static Root;
 
     public abstract class OpExpr2<T,K> : OpExpr<T,K>

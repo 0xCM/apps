@@ -7,10 +7,10 @@ namespace Z0
     using System;
     using System.Reflection;
 
-    public abstract class Checker<T> : AppService<T>
+    [Checker]
+    public abstract class Checker<T> : AppService<T>, ICheckService
         where T : Checker<T>, new()
     {
-
         readonly Index<MethodInfo> Checkers;
 
         protected IPolyrand Random;
@@ -43,7 +43,6 @@ namespace Z0
                 ref readonly var checker = ref Checkers[i];
                 var result = Outcome.Success;
                 var name = checker.Name;
-
                 try
                 {
                     if(checker.ReturnType == typeof(Outcome))

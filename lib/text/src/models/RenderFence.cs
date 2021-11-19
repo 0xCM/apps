@@ -8,8 +8,26 @@ namespace Z0
 
     using static Root;
 
+    public readonly struct Fencing
+    {
+        public static Fence<char> Embraced => (Chars.LBrace, Chars.RBrace);
+
+        public static Fence<char> Bracketed => (Chars.LBracket, Chars.RBracket);
+
+        public static Fence<char> Angled => (Chars.Lt, Chars.Gt);
+
+        public static Fence<char> Dirac => ((char)MathSym.LeftBra, (char)MathSym.RightKet);
+
+    }
+
     public readonly struct RenderFence
     {
+        public static RenderFence Embraced => (Chars.LBrace, Chars.RBrace);
+
+        public static RenderFence Bracketed => (Chars.LBracket, Chars.RBracket);
+
+        public static RenderFence Angled => (Chars.Lt, Chars.Gt);
+
         readonly Fence<char> Fence;
 
         [MethodImpl(Inline)]
@@ -60,11 +78,6 @@ namespace Z0
         public static implicit operator Fence<char>(RenderFence src)
             => src.Fence;
 
-        public static RenderFence Embraced => (Chars.LBrace, Chars.RBrace);
-
-        public static RenderFence Bracketed => (Chars.LBracket, Chars.RBracket);
-
-        public static RenderFence Angled => (Chars.Lt, Chars.Gt);
 
         [MethodImpl(Inline)]
         public static Fence<char> define(char left, char right)

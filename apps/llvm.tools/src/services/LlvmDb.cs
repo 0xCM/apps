@@ -8,8 +8,6 @@ namespace Z0.llvm
     using System.Runtime.CompilerServices;
     using System.IO;
 
-    using records;
-
     using static Root;
     using static LlvmNames;
     using static core;
@@ -42,6 +40,8 @@ namespace Z0.llvm
 
         BufferedLabels DefNameBuffer;
 
+        LlvmRecordLoader RecordLoader;
+
         public LlvmDb()
         {
             X86Records = Index<TextLine>.Empty;
@@ -55,6 +55,7 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             Paths = Wf.LlvmPaths();
+            RecordLoader = Wf.LlvmRecordLoader();
             LoadData();
         }
 
@@ -134,6 +135,9 @@ namespace Z0.llvm
                 dst.WriteLine(DefMap[i].Format());
             return count;
         }
+
+        public LlvmRecordLoader Loader()
+            => LlvmRecordLoader.create(Wf);
 
         public ReadOnlySpan<TextLine> SelectDefLines(Identifier name)
         {
@@ -231,25 +235,9 @@ namespace Z0.llvm
 
         void LoadFields(string dataset, out Index<RecordField> dst)
         {
-            var src = Paths.Table(dataset);
-            var count = FS.linecount(src);
-            dst = alloc<RecordField>(count.Lines);
-            var counter = 0u;
-            using var reader = src.Utf8LineReader();
-            var id = Identifier.Empty;
-            var i = 0u;
-            var j = 0u;
-            while(reader.Next(out var line))
-            {
-                var result = parse(line, out var field);
-                if(result.Fail)
-                {
-                    Error(result.Message);
-                    break;
-                }
-
-                dst[counter++] = field;
-            }
+            var result = RecordLoader.LoadFields(dataset, out dst);
+            if(result.Fail)
+                Error(result.Message);
         }
 
         void LoadDefs()
@@ -319,7 +307,7 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             dst = default;
-            var parts = src.Split(Z0.Chars.Pipe);
+            var parts = src.Split(Z0.Chars.Pipe).Map(x => x.Trim());
             var count = parts.Length;
             if(count < 4)
                 return (false, Tables.FieldCountMismatch.Format(4, count));

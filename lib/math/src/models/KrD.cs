@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
 
     using static core;
     using static Root;
@@ -25,16 +24,16 @@ namespace Z0
         public static Index<KrD<T>> seq<T>(T i0, T i1, T j0, T j1)
             where T : unmanaged, IEquatable<T>
         {
-            var buffer = default(Index<KrD<T>>);
+            var dst = default(Index<KrD<T>>);
             if(lt(i0,i1) && lt(j0,j1))
             {
                 var iD = sub(i1,i0);
                 var jD = sub(j1,j0);
-                var count = mul(u32(iD),u32(jD));
-                buffer = alloc<KrD<T>>(count);
-                seq(i0,i1,j0,j1,buffer);
+                var count = mul(u32(iD), u32(jD));
+                dst = alloc<KrD<T>>(count);
+                seq(i0, i1, j0, j1, dst);
             }
-            return buffer;
+            return dst;
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -44,13 +43,12 @@ namespace Z0
             var i = i0;
             var j = j0;
             var k = 0u;
-            while(lt(i,i1))
+            while(lt(i, i1))
             {
-                while(lt(j,j1))
+                while(lt(j, j1))
                 {
-                    seek(dst,k++) = init(i,j);
+                    seek(dst, k++) = init(i, j);
                     gmath.inc(ref j);
-
                 }
                 gmath.inc(ref i);
             }
@@ -62,7 +60,6 @@ namespace Z0
         where T : unmanaged, IEquatable<T>
     {
         public T I;
-
 
         public T J;
 
