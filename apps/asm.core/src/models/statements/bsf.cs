@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using Operands;
+
     using static AsmOperands;
 
     using N = AsmNames;

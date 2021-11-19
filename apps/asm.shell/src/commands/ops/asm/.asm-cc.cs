@@ -6,9 +6,10 @@ namespace Z0.Asm
 {
     using System;
 
+    using Operands;
+
     using static core;
     using static WsAtoms;
-    using static AsmOperands;
     using static ProjectScriptNames;
 
     partial class AsmCmdService

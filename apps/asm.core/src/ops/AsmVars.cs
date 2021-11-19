@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using static AsmOperands;
 
+    using Operands;
+
     public interface IAsmVar
     {
         IAsmOp Bind();

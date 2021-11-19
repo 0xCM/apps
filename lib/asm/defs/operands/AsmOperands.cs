@@ -9,6 +9,8 @@ namespace Z0.Asm
 
     using static Root;
 
+    using Operands;
+
     [ApiHost]
     public readonly partial struct AsmOperands
     {
