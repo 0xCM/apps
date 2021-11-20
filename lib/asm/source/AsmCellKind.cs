@@ -71,5 +71,4 @@ namespace Z0.Asm
         /// </summary>
         OpUri = P2ᐞ10,
     }
-
 }

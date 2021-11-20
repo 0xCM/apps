@@ -41,7 +41,6 @@ namespace Z0.Asm
         public static bit HasSizeOverride(AsmOpCode src)
             => emath.oneof(src.Lead, SZ.ADSZ, SZ.OPSZ);
 
-
         [Op]
         public static uint serialize(PointMapper<K,P> src, Span<ushort> dst)
         {

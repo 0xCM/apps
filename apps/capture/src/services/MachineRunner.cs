@@ -50,7 +50,7 @@ namespace Z0
                     Wf.IntelXed().EmitCatalog();
 
                 if(options.EmitIntrinsicsInfo)
-                    Wf.IntelIntrinsics().Emit(Ws.Tables().Subdir(machine));
+                    Wf.IntelIntrinsics().Emit();
 
                 if(options.EmitSymbolicLiterals)
                     Wf.Symbolism().EmitLiterals();

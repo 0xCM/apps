@@ -29,7 +29,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            var disp = asm.disp32(code,1);
+            var disp = AsmDisp.disp32(code,1);
             Write(string.Format("{0} => disp32={1:x8}", input, disp));
 
             return result;

@@ -11,10 +11,6 @@ namespace Z0.Asm
     {
         const string lined = nameof(lined);
 
-        const string toc = nameof(toc);
-
-        DocServices DocServices;
-
         CharMapper CharMapper;
 
         IntelSdmPaths SdmPaths;
@@ -23,7 +19,6 @@ namespace Z0.Asm
 
         protected override void OnInit()
         {
-            DocServices = Wf.DocServices();
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
             StringTableGen = Wf.StringTableGen();
@@ -31,7 +26,7 @@ namespace Z0.Asm
 
         public void ClearTargets()
         {
-            SdmPaths.Imports().Clear();
+            SdmPaths.Targets().Clear();
         }
 
         public Outcome RunEtl()

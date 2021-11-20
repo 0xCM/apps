@@ -86,6 +86,5 @@ namespace Z0.Asm
 
         public static Index<TableColumn> columns(ReadOnlySpan<string> src)
             => Tables.columns<SdmColumnKind>(src);
-
     }
 }

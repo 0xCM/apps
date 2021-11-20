@@ -85,7 +85,6 @@ namespace Z0.Asm
             return result;
         }
 
-
         string VolumeMarker(byte vol)
             => string.Format("Vol. {0}", vol);
 

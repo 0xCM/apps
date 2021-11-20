@@ -52,7 +52,6 @@ namespace Z0.Asm
             get => slice(bytes(Bits),0, 3);
         }
 
-
         public string Format()
             => Expr.Format();
 

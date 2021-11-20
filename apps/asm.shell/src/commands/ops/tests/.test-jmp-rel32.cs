@@ -20,7 +20,7 @@ namespace Z0.Asm
 
             var l0 = 0x005a;
             var ip0 = @base + l0 + sz;
-            var dx0 = asm.disp32(ip0, @return);
+            var dx0 = AsmDisp.disp32(ip0, @return);
             var actual0 = jmp32(ip0, @return);
             var expect0 = asm.hexcode("e9 58 10 00 00");
             var d0l = asm.link(dx0, ip0, @return);
@@ -32,7 +32,7 @@ namespace Z0.Asm
 
             var l1 = 0x0065;
             var ip1 = @base + l1 + sz;
-            var dx1 = asm.disp32(ip1, @return);
+            var dx1 = AsmDisp.disp32(ip1, @return);
             var actual1 = jmp32(ip1, @return);
             var expect1 = asm.hexcode("e9 4d 10 00 00");
             var d1l = asm.link(dx1, ip1, @return);
@@ -44,7 +44,7 @@ namespace Z0.Asm
 
             var l2 = 0x0070;
             var ip2 = @base + l2 + sz;
-            var dx2 = asm.disp32(ip2, @return);
+            var dx2 = AsmDisp.disp32(ip2, @return);
             var actual2 = jmp32(ip2, @return);
             var expect2 = asm.hexcode("e9 42 10 00 00");
             var d2l = asm.link(dx2, ip2, @return);
@@ -56,7 +56,7 @@ namespace Z0.Asm
 
             var l3 = 0x007b;
             var ip3 = @base + l3 + sz;
-            var dx3 = asm.disp32(ip3, @return);
+            var dx3 = AsmDisp.disp32(ip3, @return);
             var actual3 = jmp32(ip3, @return);
             var expect3 = asm.hexcode("e9 37 10 00 00");
             var d3l = asm.link(dx3,ip3,@return);

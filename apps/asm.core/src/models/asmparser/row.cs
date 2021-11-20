@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using static core;
-    using static AppMsg;
 
     using R = HostAsmRecord;
 
@@ -30,7 +29,7 @@ namespace Z0.Asm
         {
             var i = 0;
             DataParser.parse(src[i++], out dst.Seq);
-            ocstring(src[i++], out dst.OpCode);
+            dst.OpCode = new AsmOpCodeString(src[i++]);
             sigxpr(src[i++], out dst.Sig);
             formxpr(src[i++], out dst.FormExpr);
             return ref dst;
@@ -63,10 +62,7 @@ namespace Z0.Asm
                 return outcome;
 
             dst.Mnemonic = new AsmMnemonic(skip(input, i++));
-
-            outcome = parse(skip(input, i++), out dst.OpCode);
-            if(!outcome)
-                return outcome;
+            dst.OpCode = new AsmOpCodeString(skip(input,i++));
 
             outcome = DataParser.parse(skip(input, i++), out dst.Instruction);
             if(!outcome)

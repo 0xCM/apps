@@ -18,7 +18,7 @@ namespace Z0.Asm
         ulong Storage;
 
         [MethodImpl(Inline)]
-        internal AsmOpCodeBits(ulong src)
+        public AsmOpCodeBits(ulong src)
         {
             Storage = src;
         }

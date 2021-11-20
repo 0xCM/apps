@@ -18,7 +18,7 @@ namespace Z0.Asm
             var encoding = pair(TextEncodingKind.Unicode, TextEncodingKind.Unicode);
             var dst = SdmPaths.TocImportPath();
             var flow = Wf.Running(string.Format("Creating combined toc from {0} source files", src.Length));
-            DocServices.CombineDocs(src, dst, encoding);
+            CombineDocs(src, dst, encoding);
             Wf.Ran(flow);
             return result;
         }

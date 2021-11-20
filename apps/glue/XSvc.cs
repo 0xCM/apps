@@ -19,10 +19,6 @@ namespace Z0
     public static class XSvc
     {
         [Op]
-        public static DocServices DocServices(this IWfRuntime context)
-            => Asm.DocServices.create(context);
-
-        [Op]
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Asm.IntelSdm.create(wf);
 

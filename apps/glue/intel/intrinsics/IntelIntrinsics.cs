@@ -16,41 +16,34 @@ namespace Z0.Asm
 
     public class IntelIntrinsics  : AppService<IntelIntrinsics>
     {
-        IProjectWs IntelDocs()
-            => Ws.Project("intel.docs");
+        FS.FolderPath Sources()
+            => Ws.Project("intel.docs").Subdir("sources");
 
-        FS.FolderPath IntelDocs(string subdir)
-            => IntelDocs().Subdir(subdir);
+        FS.FolderPath Targets()
+            => Ws.Project("db").Subdir("intrinsics");
 
         public ReadOnlySpan<Intrinsic> Emit()
         {
-            var dst = IntelDocs("imports") + FS.folder("intrinsics");
-            return Emit(dst);
-        }
-
-        public ReadOnlySpan<Intrinsic> Emit(FS.FolderPath dir)
-        {
             var parsed = Parse();
-            EmitAlgorithms(parsed, dir);
-            EmitTable(parsed, dir);
-            EmitHeader(parsed, dir);
+            EmitAlgorithms(parsed);
+            EmitTable(parsed);
+            EmitHeader(parsed);
             return parsed;
         }
 
         XmlDoc XmlSouceDoc()
         {
-            var sources = IntelDocs("sources");
-            var src = sources + FS.file("intel.intrinsics", FS.Xml);
+            var src = Sources() + FS.file("intel.intrinsics", FS.Xml);
             return text.xml(src.ReadUtf8());
         }
 
         ReadOnlySpan<Intrinsic> Parse()
             => Parse(XmlSouceDoc());
 
-        void EmitAlgorithms(ReadOnlySpan<Intrinsic> src, FS.FolderPath dir)
+        void EmitAlgorithms(ReadOnlySpan<Intrinsic> src)
         {
             var count = src.Length;
-            var dst = dir + FS.file("intrinsics.algorithms", FS.Txt);
+            var dst = Targets() + FS.file("intrinsics.algorithms", FS.Txt);
             var flow = Wf.EmittingFile(dst);
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
@@ -58,9 +51,9 @@ namespace Z0.Asm
             Wf.EmittedFile(flow, count);
         }
 
-        void EmitHeader(ReadOnlySpan<Intrinsic> src, FS.FolderPath dir)
+        void EmitHeader(ReadOnlySpan<Intrinsic> src)
         {
-            var dst = dir + FS.file("intrinsics.declarations", FS.H);
+            var dst = Targets() + FS.file("intrinsics.declarations", FS.H);
             var flow = Wf.EmittingFile(dst);
             var count = src.Length;
             using var writer = dst.Writer();
@@ -99,9 +92,9 @@ namespace Z0.Asm
             }
         }
 
-        void EmitTable(ReadOnlySpan<Intrinsic> src, FS.FolderPath dir)
+        void EmitTable(ReadOnlySpan<Intrinsic> src)
         {
-            var dst = dir + FS.file("intel.intrinsics", FS.Csv);
+            var dst = Targets() + FS.file("intel.intrinsics", FS.Csv);
             var flow = Wf.EmittingTable<IntelIntrinsic>(dst);
             var rows = list<IntelIntrinsic>();
             Summarize(src, rows);

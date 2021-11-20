@@ -11,6 +11,9 @@ namespace Z0.Asm
         IProjectWs Project()
             => Ws.Project("intel.docs");
 
+        public FS.FolderPath Targets()
+            => Ws.Project("db").Subdir("sdm");
+
         public FS.FolderPath Sources()
             => Project().Subdir("sources");
 
@@ -21,19 +24,19 @@ namespace Z0.Asm
             => Sources() + SdmSrcFile(vol);
 
         public FS.FilePath SdmDstPath(byte vol)
-            => Imports() + FS.file(string.Format("intel-sdm-vol{0}-{1}", vol, "lined"), FS.Txt);
+            => Targets() + FS.file(string.Format("intel-sdm-vol{0}-{1}", vol, "lined"), FS.Txt);
 
         public FS.FilePath TocImportPath()
-            => Imports() + FS.file("sdm.toc", FS.Txt);
+            => Targets() + FS.file("sdm.toc", FS.Txt);
 
         public FS.FilePath ProcessLog(string name)
             => LogDir() + FS.file(name, FS.Log);
 
         public SortedSpan<FS.FilePath> TocPaths()
-            => Imports().AllFiles.Where(f => IsTocPart(f)).Array().ToSortedSpan();
+            => Targets().AllFiles.Where(f => IsTocPart(f)).Array().ToSortedSpan();
 
         public FS.FilePath TocEntryTable()
-            => Imports() + FS.file(TableId.identify<TocEntry>().Format(), FS.Csv);
+            => Targets() + FS.file(TableId.identify<TocEntry>().Format(), FS.Csv);
 
         public FS.FolderPath LogDir()
             => Project().Out() + FS.folder("intel.sdm.logs");
@@ -42,7 +45,7 @@ namespace Z0.Asm
             => Project().Subdir("imports");
 
         public FS.FilePath ImportPath(string id, FS.FileExt ext)
-            => Imports() + FS.file(id,ext);
+            => Targets() + FS.file(id,ext);
 
         public FS.FolderPath SettingsDir()
             => Project().Subdir("settings");
@@ -64,7 +67,7 @@ namespace Z0.Asm
 
         public FS.FilePath ImportTable<T>()
             where T : struct
-                => Imports() + Tables.filename<T>();
+                => Targets() + Tables.filename<T>();
 
         public FS.FolderPath StringTables()
             => Wf.EnvPaths.Codebase(PartId.AsmData) + FS.folder("src/sources/gen");

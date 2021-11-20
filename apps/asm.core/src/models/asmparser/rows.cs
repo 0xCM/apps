@@ -31,7 +31,6 @@ namespace Z0.Asm
             return count;
         }
 
-
         public static Index<Outcome<uint>> rows(ReadOnlySpan<TextGrid> src, ConcurrentBag<R> dst)
         {
             var results = bag<Outcome<uint>>();

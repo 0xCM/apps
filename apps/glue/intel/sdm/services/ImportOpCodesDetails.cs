@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using System;
-    using System.Collections.Generic;
 
     using static Root;
     using static core;
@@ -13,11 +12,6 @@ namespace Z0.Asm
 
     using SQ = SymbolicQuery;
 
-    public struct SdmOperandSymbolizer
-    {
-
-
-    }
 
     partial class IntelSdm
     {
