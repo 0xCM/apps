@@ -21,7 +21,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct kreg : IReg64<kreg,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public K RegKind {get;}
 
@@ -44,7 +44,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k0 : IReg64<k0,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k0(T value)
@@ -66,7 +66,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k1 : IReg64<k1,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k1(T value)
@@ -88,7 +88,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k2 : IReg64<k2,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k2(T value)
@@ -110,7 +110,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k3 : IReg64<k3,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k3(T value)
@@ -132,7 +132,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k4 : IReg64<k4,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k4(T value)
@@ -154,7 +154,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k5 : IReg64<k5,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k5(T value)
@@ -176,7 +176,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k6 : IReg64<k6,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k6(T value)
@@ -198,7 +198,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct k7 : IReg64<k7,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public k7(T value)

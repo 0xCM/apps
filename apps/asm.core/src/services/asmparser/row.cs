@@ -11,34 +11,6 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
-        [Op]
-        public static Outcome row(in TextRow src, out SdmOpCodeDetail dst)
-        {
-            var result = Outcome.Success;
-            var count = src.CellCount;
-            var cells = src.Cells;
-            dst = default;
-            if(src.CellCount != SdmOpCodeDetail.FieldCount)
-                return (false, FieldCountMismatch.Format(SdmOpCodeDetail.FieldCount, src.CellCount));
-
-            var i=0;
-
-            result = DataParser.parse(skip(cells,i++), out dst.OpCodeKey);
-            if(result.Fail)
-                return (false, ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
-
-            DataParser.block(skip(cells, i++), out dst.Mnemonic);
-            DataParser.block(skip(cells, i++), out dst.OpCode);
-            DataParser.block(skip(cells, i++), out dst.Sig);
-            DataParser.block(skip(cells, i++), out dst.EncXRef);
-            DataParser.block(skip(cells, i++), out dst.Mode64);
-            DataParser.block(skip(cells, i++), out dst.LegacyMode);
-            DataParser.block(skip(cells, i++), out dst.Mode64x32);
-            DataParser.block(skip(cells, i++), out dst.CpuId);
-            DataParser.block(skip(cells, i++), out dst.Description);
-            return result;
-        }
-
         public static Outcome row(TextRow src, out CpuIdRow dst)
         {
             var input = src.Cells;

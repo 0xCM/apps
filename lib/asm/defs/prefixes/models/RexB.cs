@@ -15,7 +15,7 @@ namespace Z0.Asm
         readonly byte Value;
 
         [MethodImpl(Inline)]
-        internal RexB(RexBToken token, RegIndexCode r)
+        public RexB(RexBToken token, RegIndexCode r)
         {
             Value = math.or((byte)token, math.sll((byte)r,3));
         }

@@ -10,8 +10,6 @@ namespace Z0
         [SymSource(xed)]
         public enum IFormType : ushort
         {
-            None=0,
-
             AAA=1,
 
             AAD_IMMb=2,
@@ -6555,6 +6553,5 @@ namespace Z0
             type #xed_chip_enum_t represents a collection of xed isa-sets.  If
             you have a #xed_decoded_inst_t, you can get the isa set via
             the function #xed_decoded_inst_get_isa_set.";
-
     }
 }

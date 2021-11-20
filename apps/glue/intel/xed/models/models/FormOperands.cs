@@ -12,7 +12,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct FormOperands : IRecord<FormOperands>
         {
-            public const string TableId = "xed.form-operands";
+            public const string TableId = "xed.iform.operands";
 
             public ushort Index;
 

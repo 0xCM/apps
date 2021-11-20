@@ -23,7 +23,6 @@ namespace Z0.Asm
             if(text.empty(src))
                 return true;
 
-
             var trimmed = src.Trim();
             var i = text.index(trimmed, Chars.Space);
             if(i == NotFound)

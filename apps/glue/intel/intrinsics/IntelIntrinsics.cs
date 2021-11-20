@@ -234,7 +234,7 @@ namespace Z0.Asm
             var element = new Instruction();
             element.name = reader[nameof(Instruction.name)];
             element.form = reader[nameof(Instruction.form)];
-            element.xed = Enums.parse(reader[nameof(Instruction.xed)], IFormType.None);
+            element.xed = Enums.parse(reader[nameof(Instruction.xed)], default(IFormType));
             dst.Add(element);
         }
 

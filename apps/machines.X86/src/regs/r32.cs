@@ -21,7 +21,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct r32 : IReg32<r32,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public K RegKind {get;}
 
@@ -39,10 +39,10 @@ namespace Z0.Machines.X86.Regs
         }
     }
 
-    public readonly struct R32<R> : IReg32<R32<R>,T>
+    public struct R32<R> : IReg32<R32<R>,T>
         where R : unmanaged, IReg32<R>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public R32(T value)
@@ -67,7 +67,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct eax : IReg32<eax,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public eax(T value)
@@ -98,7 +98,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct ecx : IReg32<ecx,T>
     {
-        public T Content {get;}
+        public T Content;
 
 
         [MethodImpl(Inline)]
@@ -130,7 +130,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct edx : IReg32<edx,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public edx(T value)
@@ -161,7 +161,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct ebx : IReg32<ebx,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public ebx(T value)
@@ -192,7 +192,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct esi : IReg32<esi,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(esi src)
@@ -215,7 +215,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct edi : IReg32<edi,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(edi src)
@@ -236,7 +236,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct esp : IReg32<esp,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(esp src)
@@ -257,7 +257,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct ebp : IReg32<ebp,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(ebp src)
@@ -280,7 +280,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r8d : IReg32<r8d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r8d(T value)
@@ -297,7 +297,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r9d : IReg32<r9d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r9d(T value)
@@ -316,7 +316,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r10d : IReg32<r10d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r10d(T value)
@@ -333,7 +333,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r11d : IReg32<r11d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r11d(T value)
@@ -350,7 +350,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r12d : IReg32<r12d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r12d(T value)
@@ -367,7 +367,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r13d : IReg32<r13d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r13d(T value)
@@ -386,7 +386,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r14d : IReg32<r14d,T>
     {
-        public T Content {get;}
+        public T Content;
 
 
         [MethodImpl(Inline)]
@@ -404,7 +404,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r15d : IReg32<r15d,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r15d(T value)

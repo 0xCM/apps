@@ -10,7 +10,6 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static AsmRegTokens;
-    using static SdmModels;
 
     [ApiHost]
     public class AsmSymbols
@@ -57,7 +56,7 @@ namespace Z0.Asm
 
         readonly Symbols<RegClassCode> _RegClasses;
 
-        readonly Symbols<ModRmEncKind> _ModRmEncKind;
+        //readonly Symbols<ModRmEncKind> _ModRmEncKind;
 
         public static AsmSymbols create()
             => new AsmSymbols();
@@ -85,7 +84,7 @@ namespace Z0.Asm
             _RegIndices = AsmRegCodes.RegIndices();
             _RegWidths = AsmRegCodes.RegWidths();
             _RegClasses = AsmRegCodes.RegClasses();
-            _ModRmEncKind = Symbols.index<ModRmEncKind>();
+            //_ModRmEncKind = Symbols.index<ModRmEncKind>();
         }
 
         [MethodImpl(Inline), Op]

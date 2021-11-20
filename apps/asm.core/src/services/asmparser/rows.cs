@@ -31,28 +31,6 @@ namespace Z0.Asm
             return count;
         }
 
-        public static Outcome<uint> rows(in TextGrid src, Span<SdmOpCodeDetail> dst)
-        {
-            var cells = src.Header.Labels.Count;
-            if(cells != SdmOpCodeDetail.FieldCount)
-                return (false, FieldCountMismatch.Format(SdmOpCodeDetail.FieldCount, cells));
-            return rows(src.Rows, dst);
-        }
-
-        [Op]
-        public static Outcome<uint> rows(ReadOnlySpan<TextRow> src, Span<SdmOpCodeDetail> dst)
-        {
-            var counter = 0u;
-            var result = Outcome.Success;
-            var count = min(src.Length, dst.Length);
-            for(var i=0; i<count; i++)
-            {
-                result = row(skip(src,i), out seek(dst, i));
-                if(result.Fail)
-                      warn(result.Message);
-            }
-            return (true,counter);
-        }
 
         public static Index<Outcome<uint>> rows(ReadOnlySpan<TextGrid> src, ConcurrentBag<R> dst)
         {

@@ -9,7 +9,7 @@ namespace Z0.Asm
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct XedOperandKind : IRecord<XedOperandKind>
     {
-        public const string TableId = "xed.operand-kinds";
+        public const string TableId = "xed.operands.kinds";
 
         public uint Index;
 

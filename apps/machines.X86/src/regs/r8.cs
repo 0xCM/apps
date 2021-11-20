@@ -53,7 +53,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct r8 : IReg8<r8,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public K RegKind {get;}
 
@@ -73,7 +73,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct al : IReg8<al,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public al(T value)
@@ -88,7 +88,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct cl : IReg8<cl,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public cl(T value)
@@ -104,7 +104,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct dl : IReg8<dl,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public dl(T value)
@@ -120,7 +120,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct bl : IReg8<bl,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(bl src)
@@ -135,7 +135,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct sil : IReg8<sil,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public sil(T value)
@@ -150,7 +150,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct dil : IReg8<dil,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public dil(T value)
@@ -165,7 +165,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct spl : IReg8<spl,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public spl(T value)
@@ -181,7 +181,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct bpl : IReg8<bpl,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public bpl(T value)
@@ -196,7 +196,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r8b : IReg8<r8b,T>
     {
-        public T Content {get;}
+        public T Content;
 
 
         [MethodImpl(Inline)]
@@ -213,7 +213,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r9b : IReg8<r9b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r9b(T value)
@@ -228,7 +228,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r10b : IReg8<r10b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r10b(T value)
@@ -243,7 +243,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r11b : IReg8<r11b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public G Generalized
         {
@@ -261,7 +261,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r12b : IReg8<r12b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public G Generalized
         {
@@ -279,7 +279,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r13b : IReg8<r13b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public G Generalized
         {
@@ -298,7 +298,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r14b : IReg8<r14b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public G Generalized
         {
@@ -316,7 +316,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r15b : IReg8<r15b,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public G Generalized
         {

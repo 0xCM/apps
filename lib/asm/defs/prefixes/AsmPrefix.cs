@@ -84,6 +84,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static SizeOverrides sizes(bit opsz, bit adsz)
             => new SizeOverrides(opsz,adsz);
-
     }
 }

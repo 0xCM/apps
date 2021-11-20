@@ -19,7 +19,7 @@ namespace Z0.Asm
                 return result;
             var count = grid.RowCount;
             dst = alloc<SdmOpCodeDetail>(count);
-            result = AsmParser.rows(grid, dst);
+            result = rows(grid, dst);
             if(result.Fail)
                 return result;
             else

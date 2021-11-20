@@ -5,6 +5,9 @@
 namespace Z0.Machines.X86
 {
     using Asm;
+    using System;
+
+    using static core;
 
     /// <summary>
     /// Characterizes a register representation
@@ -23,6 +26,12 @@ namespace Z0.Machines.X86
     public interface IReg<T> : IReg, IContented<T>
         where T : unmanaged
     {
+        ReadOnlySpan<byte> Value
+            => bytes((T)this);
+
+        T IContented<T>.Content
+            => first(recover<T>(Value));
+
         NativeSizeCode Width
             => (NativeSizeCode)(ushort)core.width<T>();
 
@@ -65,15 +74,5 @@ namespace Z0.Machines.X86
         where T : unmanaged
     {
 
-    }
-
-    public interface IReg<F,W,T,N> : IReg<F,W,T>
-        where F : struct, IReg<F,W,T>
-        where W : unmanaged, IDataWidth
-        where T : unmanaged
-        where N : unmanaged, ITypeNat
-    {
-        RegIndexCode IReg.Index
-            => (RegIndexCode)TypeNats.nat8u<N>();
     }
 }

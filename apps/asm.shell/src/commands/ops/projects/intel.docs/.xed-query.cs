@@ -10,51 +10,35 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".xed-attribs")]
+        [CmdOp("xed-attribs")]
         Outcome XedAttribs(CmdArgs args)
             => ShowSyms(Xed.Attributes());
 
-        [CmdOp(".xed-cats")]
+        [CmdOp("xed-cats")]
         Outcome XedCategories(CmdArgs args)
             => ShowSyms(Xed.Categories());
 
-        [CmdOp(".xed-chips")]
+        [CmdOp("xed-chips")]
         Outcome XedChips(CmdArgs args)
             => ShowSyms(Xed.ChipCodes());
 
-        [CmdOp(".xed-isaext")]
+        [CmdOp("xed-isaext")]
         Outcome XedIsaExt(CmdArgs args)
             => ShowSyms(Xed.IsaExtensions());
 
-        [CmdOp(".xed-pointers")]
+        [CmdOp("xed-pointers")]
         Outcome XedPointers(CmdArgs args)
             => ShowSyms(Xed.PointerWidths());
 
-        [CmdOp(".xed-opkinds")]
+        [CmdOp("xed-opkinds")]
         Outcome XedOpKinds(CmdArgs args)
             => ShowSyms(Xed.OperandKinds());
 
-        [CmdOp(".xed-regs")]
+        [CmdOp("xed-regs")]
         Outcome XedRegs(CmdArgs args)
             => ShowSyms(Xed.Registers());
 
-        [CmdOp(".xed-datasets")]
-        Outcome XedDatasets(CmdArgs args)
-        {
-            const string RenderPattern = "{0,-32} | {1}";
-            var result = Outcome.Success;
-            var datasets = IntelXed.datasets();
-            var count = datasets.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var ds = ref skip(datasets,i);
-                Write(string.Format(RenderPattern, ds.Identifier, ds.Name));
-            }
-
-            return result;
-        }
-
-        [CmdOp(".xed-query")]
+        [CmdOp("xed-query")]
         Outcome XedForms(CmdArgs args)
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";

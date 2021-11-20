@@ -35,10 +35,6 @@ namespace Z0
             => Asm.IntelXed.create(wf);
 
         [Op]
-        public static XedParsers XedParsers(this IWfRuntime wf)
-            => Asm.XedParsers.create(wf);
-
-        [Op]
         public static Nasm Nasm(this IWfRuntime wf)
             => Tools.Nasm.create(wf);
 

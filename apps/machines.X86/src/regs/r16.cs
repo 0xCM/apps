@@ -21,14 +21,14 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct r16 : IReg16<r16,T>
     {
-        public T Content {get;}
+        public T Value;
 
         public K RegKind {get;}
 
         [MethodImpl(Inline)]
         public r16(T src, K kind)
         {
-            Content = src;
+            Value = src;
             RegKind = kind;
         }
 
@@ -39,14 +39,14 @@ namespace Z0.Machines.X86.Regs
         }
     }
 
-    public readonly struct R16<R> : IReg16<R16<R>,T>
+    public struct R16<R> : IReg16<R16<R>,T>
         where R : unmanaged, IReg16<R>
     {
-        public ushort Content {get;}
+        public ushort Value;
 
         [MethodImpl(Inline)]
         public R16(ushort value)
-            => Content = value;
+            => Value = value;
 
         public RegKind RegKind
         {
@@ -62,21 +62,17 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator r16(R16<R> src)
-            => new r16(src.Content, src.RegKind);
+            => new r16(src.Value, src.RegKind);
     }
 
     public struct ax : IReg16<ax,T>
     {
-        public T Content  {get;}
-
-        [MethodImpl(Inline)]
-        public static implicit operator G(ax src)
-            => src.Generalized;
+        public T Value;
 
         [MethodImpl(Inline)]
         public ax(T value)
         {
-            Content = value;
+            Value = value;
         }
 
         public K RegKind => K.AX;
@@ -84,22 +80,22 @@ namespace Z0.Machines.X86.Regs
         public G Generalized
         {
             [MethodImpl(Inline)]
-            get => new G(Content, RegKind);
+            get => new G(Value, RegKind);
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(ax src)
+            => src.Generalized;
     }
 
     public struct cx : IReg16<cx,T>
     {
-        public T Content  {get;}
-
-        [MethodImpl(Inline)]
-        public static implicit operator G(cx src)
-            => src.Generalized;
+        public T Value;
 
         [MethodImpl(Inline)]
         public cx(T value)
         {
-            Content = value;
+            Value = value;
         }
 
         public K RegKind => K.CX;
@@ -107,13 +103,17 @@ namespace Z0.Machines.X86.Regs
         public G Generalized
         {
             [MethodImpl(Inline)]
-            get =>new G(Content, RegKind);
+            get =>new G(Value, RegKind);
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(cx src)
+            => src.Generalized;
     }
 
     public struct dx : IReg16<dx,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public dx(T value)
@@ -136,7 +136,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct bx : IReg16<bx,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(bx src)
@@ -159,7 +159,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct si : IReg16<si,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(si src)
@@ -182,7 +182,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct di : IReg16<di,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(di src)
@@ -205,7 +205,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct sp : IReg16<sp,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public sp(T value)
@@ -228,7 +228,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct bp : IReg16<bp,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public static implicit operator G(bp src)
@@ -251,7 +251,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r8w : IReg16<r8w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r8w(T value)
@@ -270,12 +270,11 @@ namespace Z0.Machines.X86.Regs
         [MethodImpl(Inline)]
         public static implicit operator G(r8w src)
             => src.Generalized;
-
     }
 
     public struct r9w : IReg16<r9w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r9w(T value)
@@ -298,7 +297,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r10w : IReg16<r10w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r10w(T value)
@@ -322,7 +321,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r11w : IReg16<r11w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r11w(T value)
@@ -345,7 +344,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r12w : IReg16<r12w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r12w(T value)
@@ -368,7 +367,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r13w : IReg16<r13w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r13w(T value)
@@ -391,7 +390,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r14w : IReg16<r14w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r14w(T value)
@@ -415,7 +414,7 @@ namespace Z0.Machines.X86.Regs
 
     public struct r15w : IReg16<r15w,T>
     {
-        public T Content  {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r15w(T value)

@@ -9,18 +9,18 @@ namespace Z0.Machines.X86
 
     using static Root;
 
-    public readonly struct reg<T>
+    public struct reg<T>
         where T : unmanaged, IReg
     {
-        public T Content {get;}
+        public T Value;
 
         [MethodImpl(Inline)]
         public reg(T src)
-            => Content = src;
+            => Value = src;
 
         [MethodImpl(Inline)]
         public reg<T> Reposition(byte pos)
-            => new reg<T>(Content);
+            => new reg<T>(Value);
 
         [MethodImpl(Inline)]
         public static implicit operator reg<T>(T src)

@@ -15,18 +15,12 @@ namespace Z0.Machines.X86.Regs
 
     public struct IP : IReg16<IP,ushort>
     {
-        public ushort Data;
+        public ushort Content;
 
         [MethodImpl(Inline)]
         public IP(ushort src)
         {
-            Data = src;
-        }
-
-        public ushort Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
+            Content = src;
         }
 
         public RegKind RegKind
@@ -44,18 +38,12 @@ namespace Z0.Machines.X86.Regs
 
     public struct EIP : IReg32<EIP,uint>
     {
-        public uint Data;
+        public uint Content;
 
         [MethodImpl(Inline)]
         public EIP(uint src)
         {
-            Data = src;
-        }
-
-        public uint Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
+            Content = src;
         }
 
         public RegKind RegKind
@@ -73,18 +61,12 @@ namespace Z0.Machines.X86.Regs
 
     public struct RIP : IReg64<RIP,ulong>
     {
-        public ulong Data;
+        public ulong Content;
 
         [MethodImpl(Inline)]
         public RIP(ulong src)
         {
-            Data = src;
-        }
-
-        public ulong Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
+            Content = src;
         }
 
         public RegKind RegKind

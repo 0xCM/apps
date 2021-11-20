@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Machines
 {
-    using System;
-    using System.Threading.Tasks;
-
     using X86;
 
     using static Root;

@@ -20,7 +20,7 @@ namespace Z0.Machines.X86.Regs
     /// </summary>
     public struct r64 : IReg64<r64,T>
     {
-        public T Content {get;}
+        public T Content;
 
         public K RegKind {get;}
 
@@ -41,7 +41,7 @@ namespace Z0.Machines.X86.Regs
     public struct R64<R> : IReg64<R64<R>,T>
         where R : unmanaged, IReg64<T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public R64(T src)
@@ -64,12 +64,6 @@ namespace Z0.Machines.X86.Regs
             => new r64(src.Content, src.RegKind);
     }
 
-    /// <summary>
-    /// Represents the <see cref='K.RAX'/> register
-    /// </summary>
-    /// <remarks>
-    /// | 000  | rax    | eax    | ax     | al    |
-    /// </remarks>
     public struct rax : IReg64<rax,T>
     {
         public T Content {get;}
@@ -122,7 +116,7 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(rcx src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
 
         [MethodImpl(Inline)]
         public rcx(T value)
@@ -162,15 +156,9 @@ namespace Z0.Machines.X86.Regs
     {
         public T Data;
 
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
         [MethodImpl(Inline)]
         public static implicit operator G(rdx src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
 
         [MethodImpl(Inline)]
         public rdx(T value)
@@ -186,21 +174,15 @@ namespace Z0.Machines.X86.Regs
     {
         public T Data;
 
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator G(rbx src)
-            => new G(src.Content, src.RegKind);
-
         [MethodImpl(Inline)]
         public rbx(T value)
             => Data = value;
 
         public K RegKind => K.RBX;
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(rbx src)
+            => new G(src.Data, src.RegKind);
     }
 
     /// <summary>
@@ -210,22 +192,15 @@ namespace Z0.Machines.X86.Regs
     {
         public T Data;
 
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        [MethodImpl(Inline)]
-        public static implicit operator G(rsi src)
-            => new G(src.Content, src.RegKind);
-
         [MethodImpl(Inline)]
         public rsi(T value)
             => Data = value;
 
         public K RegKind => K.RSI;
 
+        [MethodImpl(Inline)]
+        public static implicit operator G(rsi src)
+            => new G(src.Data, src.RegKind);
     }
 
     /// <summary>
@@ -234,12 +209,6 @@ namespace Z0.Machines.X86.Regs
     public struct rdi : IReg64<rdi,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public rdi(T value)
@@ -250,12 +219,12 @@ namespace Z0.Machines.X86.Regs
         public G Generalized
         {
             [MethodImpl(Inline)]
-            get =>new G(Content, RegKind);
+            get =>new G(Data, RegKind);
         }
 
         [MethodImpl(Inline)]
         public static implicit operator G(rdi src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     /// <summary>
@@ -265,21 +234,15 @@ namespace Z0.Machines.X86.Regs
     {
         public T Data;
 
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
         [MethodImpl(Inline)]
         public rsp(T value)
-                => Data = value;
+            => Data = value;
 
         public K RegKind => K.RSP;
 
         [MethodImpl(Inline)]
         public static implicit operator G(rsp src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     /// <summary>
@@ -289,12 +252,6 @@ namespace Z0.Machines.X86.Regs
     {
         public T Data;
 
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
         [MethodImpl(Inline)]
         public rbp(T value)
             => Data = value;
@@ -303,18 +260,12 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(rbp src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     public struct r8q : IReg64<r8q,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public r8q(T value)
@@ -324,18 +275,12 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r8q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     public struct r9q : IReg64<r9q,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public r9q(T value)
@@ -345,7 +290,7 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r9q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
 
     }
 
@@ -367,19 +312,13 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r10q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
 
     }
 
     public struct r11q : IReg64<r11q,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public r11q(T value)
@@ -389,18 +328,12 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r11q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     public struct r12q : IReg64<r12q,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public r12q(T value)
@@ -410,19 +343,13 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r12q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
 
     }
 
     public struct r13q : IReg64<r13q,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public r13q(T value)
@@ -432,18 +359,12 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r13q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     public struct r14q : IReg64<r14q,T>
     {
         public T Data;
-
-        public T Content
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
 
         [MethodImpl(Inline)]
         public r14q(T value)
@@ -453,12 +374,12 @@ namespace Z0.Machines.X86.Regs
 
         [MethodImpl(Inline)]
         public static implicit operator G(r14q src)
-            => new G(src.Content, src.RegKind);
+            => new G(src.Data, src.RegKind);
     }
 
     public struct r15q : IReg64<r15q,T>
     {
-        public T Content {get;}
+        public T Content;
 
         [MethodImpl(Inline)]
         public r15q(T value)

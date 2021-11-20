@@ -72,7 +72,7 @@ namespace Z0.Asm
         public static bit parse(string src, out ModRmEncKind dst)
         {
             dst = 0;
-            var i = text.index(src, ModRm);
+            var i = text.index(src, "ModRM:");
             if(i < 0)
                 return false;
 

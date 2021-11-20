@@ -13,30 +13,14 @@ namespace Z0.Asm
 
     public sealed class IntelXed : AppService<IntelXed>
     {
-        public static ReadOnlySpan<XedDataset> datasets()
-        {
-            var src = typeof(XedDatasetKind).LiteralFields().ToReadOnlySpan();
-            var count = src.Length;
-            var buffer = alloc<XedDataset>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = new XedDataset(skip(src,i));
-            return buffer;
-        }
-
-        FS.FolderPath XedTables;
-
         FS.FolderPath XedSources;
 
-        XedParsers Parsers;
+        FS.FolderPath XedTargets;
 
         protected override void OnInit()
         {
-            var project = Ws.Project("intel.docs");
-            var root = project.Subdir("sources");
-            XedTables = root + FS.folder("intel.xed");
-            XedSources =root + FS.folder("xed.primary");
-            Parsers = Wf.XedParsers();
+            XedSources = Ws.Project("intel.docs").Subdir("sources") + FS.folder("xed.primary");
+            XedTargets = Ws.Project("db").Subdir("xed");
         }
 
         public Symbols<IClass> Classes()
@@ -69,22 +53,13 @@ namespace Z0.Asm
         public Symbols<RegId> Registers()
             => Symbols.index<RegId>();
 
-        public Index<SymLiteralRow> SymLiterals()
-        {
-            var src = typeof(XedModels).GetNestedTypes().Enums();
-            return Symbols.literals(src);
-        }
-
         public ReadOnlySpan<string> ClassNames()
             => Classes().Storage.Select(x => x.Expr.Text).ToArray();
 
         public Outcome LoadChipMap(out ChipMap dst)
-            => Parsers.ParseChipMap(ChipSourcePath(), out dst);
+            => ParseChipMap(ChipSourcePath(), out dst);
 
-        public const string intelxed = "intel.xed";
-
-        static MsgPattern<Count,FS.FileUri> EmittedQueryResults
-            => "Directed {0} query result rows to {1}";
+        bool Verbose {get;} = false;
 
         public Outcome EmitIsa(string chip)
         {
@@ -108,16 +83,14 @@ namespace Z0.Asm
                     matches.Add(form);
             }
 
-            var dst = Ws.Tables().TablePath<XedFormImport>(intelxed, code.Kind.ToString());
-            var formatter = Tables.formatter<XedFormImport>();
-            var rows = Tables.emit(matches.ViewDeposited(), XedFormImport.RenderWidths, dst);
-            Write(EmittedQueryResults.Format(rows,dst));
+            var dst = IsaCatalogPath(code);
+            TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, dst);
             return result;
         }
 
         public ReadOnlySpan<XedFormImport> LoadForms()
         {
-            var src = Ws.Tables().TablePath<XedFormImport>("intel.xed");
+            var src = FormCatalogPath();
             var counter = 0u;
             var outcome = Outcome.Success;
             var dst = list<XedFormImport>();
@@ -133,7 +106,7 @@ namespace Z0.Asm
                 if(line.IsEmpty)
                     continue;
 
-                outcome = Parsers.ParseFormImport(line, out var row);
+                outcome = parse(line, out var row);
                 if(outcome)
                     dst.Add(row);
                 else
@@ -206,14 +179,15 @@ namespace Z0.Asm
 
         public void EmitCatalog()
         {
-            EmitChipMap(XedTables);
-            EmitForms(XedTables);
-            EmitSymCatalog(XedTables);
-            var aspects = EmitOperandKinds(XedTables);
-            var partition = Partition(aspects);
+            XedTargets.Clear();
+            EmitChipMap();
+            EmitFormCatalog();
+            EmitSymCatalog();
+            var aspects = EmitOperandKinds();
+            EmitOperands(Partition(aspects));
         }
 
-        public Outcome EmitChipMap(FS.FolderPath dir)
+        public Outcome EmitChipMap()
         {
             const string RowFormat = "{0,-12} | {1,-24} | {2}";
 
@@ -222,7 +196,7 @@ namespace Z0.Asm
                 Error(outcome.Message);
             else
             {
-                var dst = ChipMapTablePath(dir);
+                var dst = ChipMapCatalogPath();
                 var emitting = Wf.EmittingFile(dst);
                 var counter = 0u;
                 var writer = dst.AsciWriter();
@@ -241,71 +215,21 @@ namespace Z0.Asm
             return outcome;
         }
 
-        public void EmitSymCatalog(FS.FolderPath dir)
+        void EmitOperands(ReadOnlySpan<FormOperands> src)
         {
-            EmitSymIndex(dir);
-            EmitSymbols<AddressWidth>(dir);
-            EmitSymbols<AttributeKind>(dir);
-            EmitSymbols<Category>(dir);
-            EmitSymbols<ChipCode>(dir);
-            EmitSymbols<CpuidBit>(dir);
-            EmitSymbols<EASZ>(dir);
-            EmitSymbols<EFlag>(dir);
-            EmitSymbols<EncodingGroup>(dir);
-            EmitSymbols<EOSZ>(dir);
-            EmitSymbols<Extension>(dir);
-            EmitSymbols<FlagAction>(dir);
-            EmitSymbols<IClass>(dir);
-            EmitSymbols<IFormType>(dir);
-            EmitSymbols<IsaKind>(dir);
-            EmitSymbols<Mode>(dir);
-            EmitSymbols<OpModeKind>(dir);
-            EmitSymbols<Nonterminal>(dir);
-            EmitSymbols<OpCodeMap>(dir);
-            EmitSymbols<OperandAction>(dir);
-            EmitSymbols<LookupKind>(dir);
-            EmitSymbols<OperandTypeKind>(dir);
-            EmitSymbols<OperandKind>(dir);
-            EmitSymbols<OperandVisibility>(dir);
-            EmitSymbols<OperandWidthType>(dir);
-            EmitSymbols<PointerWidth>(dir);
-            EmitSymbols<RegId>(dir);
-            EmitSymbols<RegRole>(dir);
-            EmitSymbols<SAMode>(dir);
-            EmitSymbols<SizeIndicator>(dir);
-        }
-
-        public void EmitTables(FS.FolderPath dst)
-        {
-            EmitChipMap(dst);
-            EmitForms(dst);
-            EmitSymCatalog(dst);
-            var aspects = EmitOperandKinds(dst);
-            EmitOperands(Partition(aspects), dst);
-        }
-
-        void EmitOperands(ReadOnlySpan<FormOperands> src, FS.FolderPath dst)
-        {
-            var path = Tables.path<FormOperands>(dst);
+            var path = OperandCatalogPath();
             var flow = EmittingTable<FormOperands>(path);
             var count = Tables.emit(src, FormOperands.RenderWidths, path);
-            EmittedTable(flow,count);
+            EmittedTable(flow, count);
         }
 
-        FS.FilePath EmitSymIndex(FS.FolderPath dir)
+        void EmitSymCatalog()
         {
-            var dst = SymbolImportPath(dir);
-            EmitSymIndex(dst);
-            return dst;
-        }
-
-        Index<SymLiteralRow> EmitSymIndex(FS.FilePath dst)
-        {
-            var src = SymLiterals();
+            var dst = SymCatalogPath();
+            var src = Symbols.literals(typeof(XedModels).GetNestedTypes().Enums());
             var emitting = Wf.EmittingTable<SymLiteralRow>(dst);
             var count = Tables.emit(src.View, dst);
             Wf.EmittedTable(emitting,count);
-            return src;
         }
 
         ReadOnlySpan<FormOperand> ComputeDistinctOperands()
@@ -360,19 +284,75 @@ namespace Z0.Asm
                 {
                     ref readonly var a = ref skip(pa,j);
                     if(!aix.TryGetValue(a, out var index))
-                        Wf.Error(string.Format("Index for {0} not found", a));
+                        Wf.Error(NotFound.Format(a));
                 }
             }
             return parts;
         }
 
-        Index<XedOperandKind> EmitOperandKinds(FS.FolderPath dir)
+        Outcome ParseChipMap(FS.FilePath src, out ChipMap dst)
+        {
+            dst = default;
+            var flow = Wf.Running(string.Format("Parsing {0}", src.ToUri()));
+            var chip = ChipCode.None;
+            var chips = dict<ChipCode,ChipIsaKinds>();
+            using var reader = src.LineReader(TextEncodingKind.Asci);
+            while(reader.Next(out var line))
+            {
+                if(line.StartsWith(Chars.Hash))
+                    continue;
+
+                var i = line.Index(Chars.Colon);
+                if(i != -1)
+                {
+                    if(Verbose)
+                        Wf.Row(line);
+
+                    var name = line.Left(i).Trim();
+                    if(blank(name))
+                        continue;
+
+                    if(Enums.parse<ChipCode>(name, out chip))
+                    {
+                        if(!chips.TryAdd(chip, new ChipIsaKinds(chip)))
+                            return (false, DuplicateChipCode.Format(chip));
+                    }
+                    else
+                        return (false, ChipCodeNotFound.Format(name));
+                }
+                else
+                {
+                    var kinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,IsaKind.None)).Where(x => x != 0).Array();
+                    chips[chip].Add(kinds);
+                    if(chips.TryGetValue(chip, out var entry))
+                        entry.Add(kinds);
+                }
+            }
+
+            var allChips = ChipCodes().Kinds.ToArray();
+            var count = allChips.Length;
+            Wf.Ran(flow, string.Format("Parsed {0} chip codes", count));
+
+            var buffer = new Index<ChipCode,IsaKinds>(alloc<IsaKinds>(count));
+            for(var i=0; i<count; i++)
+            {
+                var _code = (ChipCode)i;
+                if(chips.TryGetValue(_code, out var entry))
+                    buffer[_code] = entry.Kinds;
+                else
+                    buffer[_code] = XedModels.IsaKinds.Empty;
+            }
+            dst = new ChipMap(allChips,buffer);
+            return true;
+        }
+
+        Index<XedOperandKind> EmitOperandKinds()
         {
             var duplicates = dict<Hash32,uint>();
             var distinct = ComputeDistinctOperands();
             var count = (uint)distinct.Length;
             var buffer = alloc<XedOperandKind>(count);
-            var dst = OperandKindImportPath(dir);
+            var dst = OperandKindsCatalogPath();
             var formatter = Tables.formatter<XedOperandKind>();
             var emitting = Wf.EmittingTable<XedOperandKind>(dst);
             using var writer = dst.Writer();
@@ -414,11 +394,12 @@ namespace Z0.Asm
             return buffer;
         }
 
-        ReadOnlySpan<XedFormImport> EmitForms(FS.FolderPath dir)
+
+        void EmitFormCatalog()
         {
             var src = LoadFormSources().View;
-            var dst = dir + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
-            var flow = Wf.EmittingTable<XedFormImport>(dst);
+            var dst = FormCatalogPath();
+            var emitting = Wf.EmittingTable<XedFormImport>(dst);
             var formatter = Tables.formatter<XedFormImport>(XedFormImport.RenderWidths);
             var count = src.Length;
             var result = Outcome.Success;
@@ -427,7 +408,7 @@ namespace Z0.Asm
             writer.WriteLine(formatter.FormatHeader());
             for(var i=z16; i<count; i++)
             {
-                result = Parsers.Parse(skip(src,i), i, out var import);
+                result = parse(skip(src,i), i, out var import);
                 if(result)
                 {
                     import.Index = i;
@@ -440,25 +421,18 @@ namespace Z0.Asm
                     break;
                 }
             }
-
-            return result ? rows.ViewDeposited() : default;
+            EmittedTable(emitting,count);
         }
 
-        void EmitSymbols<K>(FS.FolderPath dir)
+        void EmitSymbols<K>()
             where K : unmanaged, Enum
         {
             var name = string.Format("xed.{0}", typeof(K).Name.ToLower());
-            var symbols = Symbols.index<K>().View;
-            var path = dir + FS.file(name,FS.Csv);
-            EmitSymbols(symbols, path);
-        }
-
-        void EmitSymbols<K>(ReadOnlySpan<Sym<K>> src, FS.FilePath dst)
-            where K : unmanaged
-        {
+            var src = Symbols.index<K>().View;
             var count = src.Length;
             if(count != 0)
             {
+                var dst = XedTargets + FS.file(name,FS.Csv);
                 var flow = Wf.EmittingFile(dst);
                 using var writer = dst.Writer();
                 writer.WriteLine(Symbols.header());
@@ -485,18 +459,104 @@ namespace Z0.Asm
         FS.FilePath ChipSourcePath()
             => XedSources + FS.file("xed-cdata", FS.Txt);
 
-        FS.FilePath ChipMapTablePath(FS.FolderPath dir)
-            => dir + FS.file("xed.chip-map", FS.Csv);
+         FS.FilePath OperandCatalogPath()
+            => Tables.path<FormOperands>(XedTargets);
 
-        FS.FilePath SymbolImportPath(FS.FolderPath dir)
-            => dir + FS.file("xed.symbols", FS.Csv);
+        FS.FilePath IsaCatalogPath(ChipCode chip)
+            => XedTargets + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 
-        FS.FilePath OperandKindImportPath(FS.FolderPath dir)
-            => dir + FS.file(Tables.identify<XedOperandKind>().Format(), FS.Csv);
+        FS.FilePath ChipMapCatalogPath()
+            => XedTargets + FS.file("xed.chipmap", FS.Csv);
+
+        FS.FilePath OperandKindsCatalogPath()
+            => XedTargets + FS.file(Tables.identify<XedOperandKind>().Format(), FS.Csv);
+
+        FS.FilePath FormCatalogPath()
+            => XedTargets + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
+
+        FS.FilePath SymCatalogPath()
+            => XedTargets + FS.file("xed.symbols", FS.Csv);
 
         const char CommentMarker = Chars.Hash;
 
         const char FieldDelimiter = Chars.Space;
+
+        static Outcome parse(TextLine src, out XedFormImport dst)
+        {
+            const char Delimiter = Chars.Pipe;
+
+            dst = default;
+            var result = Tables.cells(src, Delimiter, XedFormImport.FieldCount, out var cells);
+            if(result.Fail)
+                return result;
+            var j=0;
+
+            result = DataParser.parse(skip(cells,j++), out dst.Index);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out IFormType ft);
+            if(result.Fail)
+                return result;
+            else
+                dst.Form = ft;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.Class);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.Category);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.IsaKind);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.Extension);
+            if(result.Fail)
+                return result;
+
+            dst.Attributes = attributes(skip(cells,j++));
+
+            return result;
+        }
+
+        static AttributeKind[] attributes(string src)
+        {
+            var parts = src.SplitClean(Chars.Colon).ToReadOnlySpan();
+            var count = parts.Length;
+            if(count == 0)
+                return default;
+
+            var counter = 0u;
+            var dst = span<AttributeKind>(count);
+            for(var i=0; i<count; i++)
+            {
+                var result = DataParser.eparse(skip(parts,i), out seek(dst,i));
+                if(result)
+                {
+                    counter++;
+                }
+                else
+                    return default;
+            }
+            return slice(dst,0,counter).ToArray();
+        }
+
+        static Outcome parse(in XedFormSource src, ushort seq, out XedFormImport dst)
+        {
+            var result = Outcome.Success;
+            dst.Index = seq;
+            result = DataParser.eparse(src.Class, out dst.Class);
+            result = DataParser.eparse(src.Extension, out dst.Extension);
+            result = DataParser.eparse(src.Category, out dst.Category);
+            result = DataParser.eparse(src.Form, out IFormType ft);
+            dst.Form = ft;
+            result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
+            dst.Attributes = Z0.seq.index(Chars.Colon, 0, attributes(src.Attributes));
+            return true;
+        }
 
         static Outcome ParseSummary(TextLine src, out XedFormSource dst)
         {
@@ -527,5 +587,14 @@ namespace Z0.Asm
 
             return true;
         }
+
+        static MsgPattern<ChipCode> DuplicateChipCode => "Duplicate chip code {0}";
+
+        static MsgPattern<string> ChipCodeNotFound => "Code for chip {0} not found";
+
+        static MsgPattern<object> NotFound => "{0} not found";
+
+        static MsgPattern<Count,FS.FileUri> EmittedQueryResults
+            => "Directed {0} query result rows to {1}";
    }
 }
