@@ -16,11 +16,8 @@ namespace Z0
     {
         FS.FolderPath Root {get;}
 
-        FS.FolderPath Subdir(string name)
-            => Root + FS.folder(name);
-
-        FS.FolderPath Subdir(Subject scope)
-            => Root + FS.folder(scope.Format());
+        FS.FolderPath Subdir(string scope)
+            => Root + FS.folder(scope);
 
         FS.FilePath Path(string id, FS.FileExt ext)
             => Root + FS.file(id,ext);

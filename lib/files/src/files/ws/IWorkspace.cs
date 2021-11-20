@@ -19,8 +19,8 @@ namespace Z0
         FS.FolderPath SrcDir()
             => Root + FS.folder(src);
 
-        FS.FolderPath SrcDir(Subject scope)
-            => SrcDir() + FS.folder(scope.Format());
+        FS.FolderPath SrcDir(string scope)
+            => SrcDir() + FS.folder(scope);
 
         FS.FolderPath OutDir()
             => Root + FS.folder(output);

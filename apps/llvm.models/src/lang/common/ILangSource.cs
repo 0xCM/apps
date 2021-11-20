@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Lang
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public interface ILangSource
     {
         LangKind LangKind {get;}

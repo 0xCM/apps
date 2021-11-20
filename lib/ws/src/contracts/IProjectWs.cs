@@ -16,8 +16,8 @@ namespace Z0
         FS.FolderPath IFileArchive.Subdir(string name)
             => Home() + FS.folder(name);
 
-        FS.FolderPath IFileArchive.Subdir(Subject scope)
-            => Home() + FS.folder(scope.Format());
+        FS.FolderPath IWorkspace.SrcDir()
+            => Home() + FS.folder("src");
 
         FS.FolderPath IWorkspace.OutDir()
             => Out();

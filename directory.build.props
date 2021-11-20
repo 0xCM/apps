@@ -1,8 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <ZLibVersion>0.0.61</ZLibVersion>
-    <Version>0.0.61</Version>
+    <ZLibVersion>0.0.62</ZLibVersion>
+    <Version>0.0.62</Version>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -11,7 +11,6 @@ namespace Z0.llvm
 
     using Eq = Equivalence;
 
-
     public readonly struct LlvmRelations
     {
         public static ReadOnlySpan<Eq.ClassMember> equivalance(ReadOnlySpan<ClassRelations> src)

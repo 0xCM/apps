@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-    using static core;
     using static LlvmNames;
 
     partial class LlvmCmd

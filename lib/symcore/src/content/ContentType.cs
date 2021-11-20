@@ -12,7 +12,7 @@ namespace Z0
     {
         public readonly ContentKind Kind;
 
-        public readonly StringAddress Name;
+        public readonly Label Name;
 
         [MethodImpl(Inline)]
         internal ContentType(ContentKind kind, string name)
@@ -30,7 +30,7 @@ namespace Z0
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Kind != 0 && Name.IsNonZero;
+            get => Kind != 0 && Name.IsNonEmpty;
         }
 
         public string Format()

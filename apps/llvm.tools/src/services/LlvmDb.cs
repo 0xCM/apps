@@ -136,9 +136,6 @@ namespace Z0.llvm
             return count;
         }
 
-        public LlvmRecordLoader Loader()
-            => LlvmRecordLoader.create(Wf);
-
         public ReadOnlySpan<TextLine> SelectDefLines(Identifier name)
         {
             if(DefLookup.Mapped(name, out var interval))

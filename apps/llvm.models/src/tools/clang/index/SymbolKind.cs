@@ -42,14 +42,21 @@ namespace Z0.llvm.clang.index
         EnumConstant,
 
         InstanceMethod,
+
         ClassMethod,
+
         StaticMethod,
+
         InstanceProperty,
+
         ClassProperty,
+
         StaticProperty,
 
         Constructor,
+
         Destructor,
+
         ConversionFunction,
 
         Parameter,

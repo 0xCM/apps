@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Lang
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class SourceResolver : AppService<SourceResolver>, ISourceResolver
     {
         public TextBlock ResolveSource(ILangSource src)

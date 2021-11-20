@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using llvm.records;
-
     using static core;
-    using static LlvmNames.Tools;
 
     partial class LlvmCmd
     {

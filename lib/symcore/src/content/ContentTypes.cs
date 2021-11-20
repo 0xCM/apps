@@ -27,7 +27,6 @@ namespace Z0
             return buffer;
         }
 
-
         [MethodImpl(Inline), Op]
         public static ContentType define(ContentKind kind, string name)
             => new ContentType(kind,name);

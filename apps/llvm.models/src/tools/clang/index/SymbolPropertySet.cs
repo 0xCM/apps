@@ -9,23 +9,23 @@ namespace Z0.llvm.clang.index
     /// </summary>
     public enum SymbolPropertySet : ushort
     {
-        Generic                       = 1 << 0,
+        Generic = 1 << 0,
 
         TemplatePartialSpecialization = 1 << 1,
 
-        TemplateSpecialization        = 1 << 2,
+        TemplateSpecialization = 1 << 2,
 
-        UnitTest                      = 1 << 3,
+        UnitTest = 1 << 3,
 
-        IBAnnotated                   = 1 << 4,
+        IBAnnotated = 1 << 4,
 
-        IBOutletCollection            = 1 << 5,
+        IBOutletCollection = 1 << 5,
 
-        GKInspectable                 = 1 << 6,
+        GKInspectable = 1 << 6,
 
-        Local                         = 1 << 7,
+        Local = 1 << 7,
 
         /// Symbol is part of a protocol interface.
-        ProtocolInterface             = 1 << 8,
+        ProtocolInterface = 1 << 8,
     }
 }

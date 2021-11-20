@@ -24,6 +24,5 @@ namespace Z0.llvm.clang.index
         UsingValue,
 
         UsingEnum,
-
     }
 }
