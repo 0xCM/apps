@@ -14,9 +14,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmDisassembly disassembly(MemoryAddress offset, AsmExpr statement)
             => new AsmDisassembly(offset, statement);
-
-        [Op]
-        public static AsmDisassembly disassembly(MemoryAddress offset, AsmExpr statement, AsmHexCode code)
-            => new AsmDisassembly(offset, statement, code, bitstring(code));
     }
 }

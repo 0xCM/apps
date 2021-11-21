@@ -72,5 +72,7 @@ namespace Z0.Asm
             => src.Value;
 
         public static Disp Empty => default;
+
+        public static Disp Zero => default;
     }
 }

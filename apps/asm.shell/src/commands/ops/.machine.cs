@@ -11,37 +11,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-
-        // [CmdOp(".machine")]
-        // Outcome EmitMachineTables(CmdArgs args)
-        // {
-        //     var result = Outcome.Success;
-        //     var tables = Ws.Tables();
-        //     var tokens = Wf.AsmTokens();
-
-        //     var dir = Ws.Tables().Subdir(machine);
-
-        //     TableEmitters.Emit(TableLoaders.ApiLiterals().View, dir);
-        //     result = GenModRmBits();
-        //     if(result.Fail)
-        //         return result;
-
-        //     result = GenSibBits();
-        //     if(result.Fail)
-        //         return result;
-
-        //     result = AsmTables.ImportCpuIdSources();
-        //     if(result.Fail)
-        //         return result;
-
-        //     Wf.IntelIntrinsics().Emit(dir);
-
-        //     EmitTokenSpecs();
-        //     EmitSymKinds(Symbols.index<AsmOpClass>(), tables.TablePath(machine,"classes.asm.operands"));
-        //     EmitSymIndex<RegClassCode>(tables.TablePath(machine, "classes.asm.regs"));
-        //     return result;
-        // }
-
         Outcome GenSibBits()
         {
             var result = Outcome.Success;

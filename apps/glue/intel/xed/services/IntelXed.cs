@@ -182,7 +182,7 @@ namespace Z0.Asm
             XedTargets.Clear();
             EmitChipMap();
             EmitFormCatalog();
-            EmitSymCatalog();
+            EmitSymbols();
             var aspects = EmitOperandKinds();
             EmitOperands(Partition(aspects));
         }
@@ -223,13 +223,15 @@ namespace Z0.Asm
             EmittedTable(flow, count);
         }
 
-        void EmitSymCatalog()
+        void EmitSymbols()
         {
-            var dst = SymCatalogPath();
-            var src = Symbols.literals(typeof(XedModels).GetNestedTypes().Enums());
-            var emitting = Wf.EmittingTable<SymLiteralRow>(dst);
-            var count = Tables.emit(src.View, dst);
-            Wf.EmittedTable(emitting,count);
+            var types = typeof(XedModels).GetNestedTypes().Enums();
+            var count = types.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var type = ref skip(types,i);
+                TableEmit(Symbols.literals(type).View, SymLiteralRow.RenderWidths, SymTablePath(type.Name));
+            }
         }
 
         ReadOnlySpan<FormOperand> ComputeDistinctOperands()
@@ -474,8 +476,8 @@ namespace Z0.Asm
         FS.FilePath FormCatalogPath()
             => XedTargets + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
 
-        FS.FilePath SymCatalogPath()
-            => XedTargets + FS.file("xed.symbols", FS.Csv);
+        FS.FilePath SymTablePath(string id)
+            => XedTargets + FS.file(string.Format("xed.{0}", id),FS.Csv);
 
         const char CommentMarker = Chars.Hash;
 

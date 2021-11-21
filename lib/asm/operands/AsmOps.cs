@@ -14,6 +14,7 @@ namespace Z0.Asm
     [ApiHost]
     public readonly struct AsmOps
     {
+
         [MethodImpl(Inline), Op]
         public static AsmOperand op(r8 src)
             => new AsmOperand(src);
@@ -85,5 +86,33 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmOperand op(m512 src)
             => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem8(RegOp @base)
+            => op(new m8(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem16(RegOp @base)
+            => op(new m16(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem32(RegOp @base)
+            => op(new m32(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem64(RegOp @base)
+            => op(new m64(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem128(RegOp @base)
+            => op(new m128(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem256(RegOp @base)
+            => op(new m256(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem512(RegOp @base)
+            => op(new m512(@base, RegOp.Invalid, 0, Disp.Zero));
     }
 }

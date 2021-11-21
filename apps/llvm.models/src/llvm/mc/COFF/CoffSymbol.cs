@@ -2,11 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System.Runtime.InteropServices;
 
-    using COFF;
+    using llvm.COFF;
 
     using static Root;
 

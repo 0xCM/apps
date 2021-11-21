@@ -10,8 +10,17 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial struct asm
+    [ApiHost]
+    public readonly struct AsmRecords
     {
+        [MethodImpl(Inline), Op]
+        public static AsmDisassembly disassembly(MemoryAddress offset, AsmExpr statement)
+            => new AsmDisassembly(offset, statement);
+
+        [Op]
+        public static AsmDisassembly disassembly(MemoryAddress offset, AsmExpr statement, AsmHexCode code)
+            => new AsmDisassembly(offset, statement, code, code);
+
         public static HexVector32 offsets(ReadOnlySpan<ProcessAsmRecord> src)
         {
             var count = src.Length;

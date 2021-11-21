@@ -38,7 +38,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-
         /// <summary>
         /// Specifies whether the term is empty
         /// </summary>

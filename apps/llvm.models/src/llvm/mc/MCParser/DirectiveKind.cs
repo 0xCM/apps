@@ -197,61 +197,64 @@ namespace Z0.llvm
         [Symbol("lazy_reference")]
         DK_LAZY_REFERENCE,
 
-        [Symbol("")]
+        [Symbol(".no_dead_strip")]
         DK_NO_DEAD_STRIP,
 
-        [Symbol("")]
+        [Symbol(".symbol_resolver")]
         DK_SYMBOL_RESOLVER,
 
-        [Symbol("")]
+        [Symbol(".private_extern")]
         DK_PRIVATE_EXTERN,
 
-        [Symbol("")]
+        [Symbol(".reference")]
         DK_REFERENCE,
 
-        [Symbol("")]
+        [Symbol(".weak_definition")]
         DK_WEAK_DEFINITION,
 
-        [Symbol("")]
+        [Symbol(".weak_reference")]
         DK_WEAK_REFERENCE,
 
-        [Symbol("")]
+        [Symbol(".weak_def_can_be_hidden")]
         DK_WEAK_DEF_CAN_BE_HIDDEN,
 
-        [Symbol("")]
+        [Symbol(".cold")]
         DK_COLD,
 
-        [Symbol("")]
+        [Symbol(".comm")]
         DK_COMM,
 
-        [Symbol("")]
+        [Symbol(".common")]
         DK_COMMON,
 
-        [Symbol("")]
+        [Symbol(".lcomm")]
         DK_LCOMM,
 
-        [Symbol("")]
+        [Symbol(".abort")]
         DK_ABORT,
 
-        [Symbol("")]
+        [Symbol(".include")]
         DK_INCLUDE,
 
-        [Symbol("")]
+        [Symbol(".incbin")]
         DK_INCBIN,
 
-        [Symbol("")]
+        [Symbol(".code16")]
         DK_CODE16,
 
-        [Symbol("")]
+        [Symbol(".code16gcc")]
         DK_CODE16GCC,
 
-        [Symbol("")]
+        [Symbol(".rept")]
         DK_REPT,
 
-        [Symbol("")]
+        [Symbol(".rep")]
+        DK_REP,
+
+        [Symbol(".irp")]
         DK_IRP,
 
-        [Symbol("")]
+        [Symbol(".irpc")]
         DK_IRPC,
 
         [Symbol(".if")]
@@ -341,22 +344,22 @@ namespace Z0.llvm
         [Symbol(".cv_loc")]
         DK_CV_LOC,
 
-        [Symbol("")]
+        [Symbol(".cv_linetable")]
         DK_CV_LINETABLE,
 
-        [Symbol("")]
+        [Symbol(".cv_inline_linetable")]
         DK_CV_INLINE_LINETABLE,
 
-        [Symbol("")]
+        [Symbol(".cv_def_range")]
         DK_CV_DEF_RANGE,
 
-        [Symbol("")]
+        [Symbol(".cv_stringtable")]
         DK_CV_STRINGTABLE,
 
-        [Symbol("")]
+        [Symbol(".cv_string")]
         DK_CV_STRING,
 
-        [Symbol("")]
+        [Symbol(".cv_filechecksums")]
         DK_CV_FILECHECKSUMS,
 
         [Symbol("")]
@@ -446,49 +449,49 @@ namespace Z0.llvm
         [Symbol("")]
         DK_NOALTMACRO,
 
-        [Symbol("")]
+        [Symbol(".macro")]
         DK_MACRO,
 
-        [Symbol("")]
+        [Symbol(".exitm")]
         DK_EXITM,
 
-        [Symbol("")]
+        [Symbol(".endm")]
         DK_ENDM,
 
-        [Symbol("")]
+        [Symbol(".endmacro")]
         DK_ENDMACRO,
 
-        [Symbol("")]
+        [Symbol(".purgem")]
         DK_PURGEM,
 
-        [Symbol("")]
+        [Symbol(".sleb128")]
         DK_SLEB128,
 
-        [Symbol("")]
+        [Symbol(".uleb128")]
         DK_ULEB128,
 
-        [Symbol("")]
+        [Symbol(".err")]
         DK_ERR,
 
-        [Symbol("")]
+        [Symbol(".error")]
         DK_ERROR,
 
-        [Symbol("")]
+        [Symbol(".warning")]
         DK_WARNING,
 
-        [Symbol("")]
+        [Symbol(".print")]
         DK_PRINT,
 
-        [Symbol("")]
+        [Symbol(".addrsig")]
         DK_ADDRSIG,
 
-        [Symbol("")]
+        [Symbol(".addrsig_sym")]
         DK_ADDRSIG_SYM,
 
-        [Symbol("")]
+        [Symbol(".pseudoprobe")]
         DK_PSEUDO_PROBE,
 
-        [Symbol("")]
+        [Symbol(".lto_discard")]
         DK_LTO_DISCARD,
 
         [Symbol("")]
