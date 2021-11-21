@@ -7,7 +7,7 @@ namespace Z0.Vdsl
     using System;
     using System.Runtime.CompilerServices;
 
-    using ValueTypes;
+    using VectorTypes;
 
     using static Root;
     using static core;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using ValueTypes;
+    using ScalarTypes;
 
     public readonly struct EncodingDomains
     {

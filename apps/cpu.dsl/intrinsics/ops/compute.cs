@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
     using static Root;
 

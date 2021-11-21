@@ -6,7 +6,7 @@ namespace Z0.Expr
 {
     using System.Runtime.CompilerServices;
 
-    using ValueTypes;
+    using ScalarTypes;
 
     using static Root;
 

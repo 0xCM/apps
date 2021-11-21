@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using ValueTypes;
+    using ScalarTypes;
     using Expr;
 
     using static Root;

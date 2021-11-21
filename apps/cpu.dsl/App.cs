@@ -7,8 +7,6 @@ namespace Z0.Vdsl
     using static core;
     using static Intrinsics;
 
-    using ValueTypes;
-
     class App : WfApp<App>
     {
         public static void Main(params string[] args)
