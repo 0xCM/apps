@@ -9,6 +9,10 @@ namespace Z0.llvm
         /// <summary>
         /// From https://github.com/llvm/llvm-project/blob/a8ad9170543906fc58336ab736a109fb42082fbf/llvm/include/llvm/Support/X86DisassemblerDecoderCommon.h
         /// </summary>
+        /// <remarks>
+        /// This defines the same constants as a TD-defined Map enum specified in X86InstrFormats.td
+
+        /// </remarks>
         [SymSource("llvm.mc")]
         public enum OpCodeType : byte
         {

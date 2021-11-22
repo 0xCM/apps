@@ -42,6 +42,8 @@ namespace Z0.llvm
 
         LlvmRecordLoader RecordLoader;
 
+        Index<Entity> _Entities;
+
         public LlvmDb()
         {
             X86Records = Index<TextLine>.Empty;
@@ -50,6 +52,7 @@ namespace Z0.llvm
             DefLookup = new();
             FieldDefMap = new();
             ClassLookup = new();
+            _Entities = Index<Entity>.Empty;
         }
 
         protected override void Initialized()
@@ -118,6 +121,39 @@ namespace Z0.llvm
             var defcount = DefMap.IntervalCount;
             for(var i=0; i<defcount; i++)
                 receiver(new FieldProvider(DefMap[i].Id, this));
+        }
+
+        public ReadOnlySpan<Entity> Entities()
+        {
+            if(_Entities.IsEmpty)
+            {
+                var relations = _DefRelations.Map(x => (x.Name.Content, x)).ToDictionary();
+                var entites = list<Entity>();
+                var current = EmptyString;
+                var fields = list<RecordField>();
+                var src = DefFields();
+                var count = src.Length;
+                var relation = default(DefRelations);
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var field = ref skip(src,i);
+                    if(field.RecordName != current)
+                    {
+                        if(fields.Count != 0)
+                        {
+                            entites.Add(new Entity(relation, fields.ToArray()));
+                            fields.Clear();
+                        }
+                        current = field.RecordName;
+                        relations.TryGetValue(current, out relation);
+                        fields.Add(field);
+                    }
+                    else
+                        fields.Add(field);
+                }
+                _Entities = entites.ToArray();
+            }
+            return _Entities;
         }
 
         public uint EmitClassInfo(StreamWriter dst)

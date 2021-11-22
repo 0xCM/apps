@@ -45,5 +45,31 @@ namespace Z0.llvm
             TableEmit(@readonly(collected), dst);
             return true;
         }
+
+        [CmdOp(".entities")]
+        Outcome DefEntities(CmdArgs args)
+        {
+            var entities = Db.Entities();
+            var count = entities.Length;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entity = ref skip(entities,i);
+                ref readonly var def = ref entity.Def;
+                if(def.AncestorNames.Contains(RecordClasses.X86Inst))
+                {
+                    var field = entity["isPseudo"];
+                    if(field.IsNonEmpty)
+                    {
+                        if(bit.parse(field.Value, out var pseudo))
+                        {
+                            if(!pseudo)
+                                Write(string.Format("{0:D5} {1}",counter++, entity.EntityName));
+                        }
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

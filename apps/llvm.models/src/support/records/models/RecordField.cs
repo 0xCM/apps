@@ -50,5 +50,7 @@ namespace Z0.llvm
             => new byte[FieldCount]{64,32,32,3};
 
         public static RecordField Empty => new RecordField(Identifier.Empty, EmptyString, EmptyString, EmptyString);
+
+        public bool IsNonEmpty => text.nonempty(Name) && text.nonempty(Value);
     }
 }

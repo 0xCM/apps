@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm
 {
-
+    /// <summary>
+    /// From https://github.com/llvm/llvm-project/blob/632ebc4ab4374e53fce1ec870465c587e0a33668/llvm/lib/MC/MCParser/COFFAsmParser.cpp
+    /// </summary>
     [SymSource]
     public enum CoffDirectiveKind : byte
     {

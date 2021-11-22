@@ -12,6 +12,8 @@ namespace Z0.llvm
     [Record(TableId)]
     public struct DefRelations : ILineRelations<DefRelations>
     {
+
+
         public const string TableId = "llvm.defs.relations";
 
         public const byte FieldCount = 3;
@@ -27,6 +29,17 @@ namespace Z0.llvm
 
         Identifier ILineRelations.Name
             => Name;
+
+        public ReadOnlySpan<string> AncestorNames
+        {
+            [MethodImpl(Inline)]
+            get => Ancestors != null
+                ?  (Ancestors.HasAncestor
+                        ? Arrays.concat(new string[]{Ancestors.Name}, Ancestors.Ancestors.Storage)
+                        : new string[]{Ancestors.Name}
+                        )
+                : default;
+        }
 
         [MethodImpl(Inline)]
         public void Specify(LineNumber line, Identifier name, Lineage ancestors)

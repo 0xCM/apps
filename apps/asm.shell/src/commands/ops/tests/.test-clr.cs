@@ -24,6 +24,5 @@ namespace Z0.Asm
             Write(c3);
             return result;
         }
-
     }
 }

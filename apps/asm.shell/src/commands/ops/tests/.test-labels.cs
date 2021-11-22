@@ -59,66 +59,43 @@ namespace Z0.Asm
             }
 
             if(result)
-            {
                 Write(string.Format("Verified {0} direct label allocations", count));
-            }
 
             return result;
-        }
-
-        Outcome LabelTest3()
-        {
-            var result = Outcome.Success;
-            var count = 256u;
-            var length = 8u;
-            using var buffer = strings.buffer(count*length);
-            var labels = core.alloc<Label>(count);
-            for(uint i=0,j=0; i<256; i++,j+=length)
-            {
-                var s = BitRender.format8((byte)i);
-                seek(labels,i) = buffer.StoreLabel(s,j);
-            }
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var label = ref skip(labels,i);
-                var fmt = label.Format();
-                Write(fmt);
-            }
-            return result;
-
         }
 
         Outcome CheckLabelAllocator()
         {
+            var count = 256;
             var result = Outcome.Success;
-            var count = 256u;
-            var length = 8u;
-            using var buffer = strings.buffer(count*length);
-            var allocator = buffer.LabelAllocator();
-            var labels = core.alloc<Label>(count);
-            for(uint i=0; i<256; i++)
-            {
-                var s = BitRender.format8((byte)i);
-                if(!allocator.Allocate(s, out seek(labels,i)))
-                {
-                    result = (false,"Capacity exceeded");
-                    break;
-                }
-            }
+            var src = alloc<string>(count);
+            for(uint i=0; i<count; i++)
+                seek(src,i) = BitRender.format8((byte)i);
 
-            if(result)
+            using var allocation = LabelAllocation.allocate(src);
+            var labels = allocation.Allocated;
+            if(labels.Length != count)
+                result = (false, string.Format("{0} != {1}", labels.Length, count));
+            else
             {
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var label = ref skip(labels,i);
-                    var fmt = label.Format();
-                    Write(fmt);
+                    ref readonly var input = ref skip(src,i);
+                    var same = label.Format() == input;
+                    if(!same)
+                    {
+                        result = (false, string.Format("{0} != {1}", label, input));
+                        break;
+                    }
                 }
             }
+            if(result)
+                Write("Label allocation succeeded", FlairKind.Status);
 
             return result;
         }
+
 
         [CmdOp(".test-labels")]
         Outcome TestLabels(CmdArgs args)
@@ -133,13 +110,10 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            result = LabelTest3();
-            if(result.Fail)
-                return result;
-
             result = CheckLabelAllocator();
             if(result.Fail)
                 return result;
+
 
             return result;
         }

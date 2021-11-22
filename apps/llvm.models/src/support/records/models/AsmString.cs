@@ -37,27 +37,35 @@ namespace Z0.llvm
             return text.normalize(dst, Repl);
         }
 
+
         public static AsciBlock32 mnemonic(string value)
         {
+            static string cleanse(string src)
+            {
+                var i = text.index(src, Chars.LBrace);
+                var mnemonic = src;
+                if(i != NotFound)
+                {
+                    mnemonic = text.left(src,i);
+
+                    var inner = text.unfence(src, 0, Fencing.Embraced);
+                    var j = text.index(inner, Chars.Caret);
+                    if(i != NotFound)
+                    {
+                        var suffix = text.right(inner, i);
+                        mnemonic += suffix;
+                    }
+                }
+                return mnemonic;
+            }
+
             var mnemonic = text.remove(value,Chars.Quote);
             var ws = SQ.wsindex(mnemonic);
             if(ws != NotFound)
                 mnemonic = text.remove(text.left(mnemonic, ws), Chars.Quote);
-            // if(text.contains(mnemonic, Chars.LBrace) && text.contains(mnemonic, Chars.RBrace))
-            // {
-            //     var i = text.index(mnemonic, Chars.LBrace);
-            //     var left = text.left(mnemonic,i);
-            //     var content = text.unfence(mnemonic, 0, Fencing.Embraced);
-            //     var j = text.index(content, Chars.Caret);
-            //     if(j != NotFound)
-            //     {
-            //         var right = text.right(content,j);
-            //         if(core.nonempty(right))
-            //             mnemonic = left + right;
-            //     }
-            //     else
-            //         mnemonic = left;
-            // }
+
+            mnemonic = cleanse(mnemonic);
+
             return mnemonic;
         }
 

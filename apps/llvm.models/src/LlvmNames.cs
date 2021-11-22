@@ -130,6 +130,15 @@ namespace Z0.llvm
         public readonly struct RecordFields
         {
             public const string AsmString = nameof(AsmString);
+
+            public const string isPseudo = nameof(isPseudo);
+        }
+
+        public readonly struct RecordClasses
+        {
+            public const string ValueType = nameof(ValueType);
+
+            public const string X86Inst = nameof(X86Inst);
         }
     }
 }
