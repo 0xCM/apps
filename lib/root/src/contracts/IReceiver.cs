@@ -6,10 +6,18 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
+    public interface IReceiver
+    {
+        void Deposit(dynamic src);
+    }
+
     [Free]
-    public interface IReceiver<T>
+    public interface IReceiver<T> : IReceiver
     {
         void Deposit(in T src);
+
+        void IReceiver.Deposit(dynamic src)
+            => Deposit((T)src);
     }
 
     public interface IReceiver<A,B>

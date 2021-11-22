@@ -26,6 +26,10 @@ namespace Z0
         }
 
         [Op]
+        public static string replace(string src, string match, string repl)
+            => src.Replace(match,repl);
+
+        [Op]
         public static ReadOnlySpan<char> replace(ReadOnlySpan<char> src, char a, char b)
         {
             var count = src.Length;

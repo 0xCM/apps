@@ -12,7 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class CodeGenerator : Generator, ICodeGenerator
+    public class CodeGenerator
     {
         const string HeaderLine1 = "//-----------------------------------------------------------------------------";
 

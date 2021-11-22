@@ -72,6 +72,14 @@ namespace Z0
         public static implicit operator A(ReadOnlySpan<AsciCode> src)
             => api.load(src, out A _);
 
+        [MethodImpl(Inline)]
+        public static implicit operator A(string src)
+            => api.encode(src, out A _);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(ReadOnlySpan<char> src)
+            => api.encode(src, out A _);
+
         public static A Empty => default;
     }
 }

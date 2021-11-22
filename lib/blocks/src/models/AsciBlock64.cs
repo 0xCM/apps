@@ -47,6 +47,18 @@ namespace Z0
             where T : unmanaged
                 => recover<T>(Bytes);
 
+        public ReadOnlySpan<char> Chars
+        {
+            [MethodImpl(Inline)]
+            get => api.decode(this);
+        }
+
+        public string Format()
+            => text.format(Chars);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator B(A src)
             => @as<A,B>(src);
@@ -54,6 +66,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator A(ReadOnlySpan<AsciCode> src)
             => api.load(src, out A _);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(string src)
+            => api.encode(src, out A _);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(ReadOnlySpan<char> src)
+            => api.encode(src, out A _);
 
         public static A Empty => default;
     }

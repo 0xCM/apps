@@ -55,6 +55,18 @@ namespace Z0
             get => ref seek(@as<H>(First), 1);
         }
 
+        public ReadOnlySpan<char> Chars
+        {
+            [MethodImpl(Inline)]
+            get => api.decode(this);
+        }
+
+        public string Format()
+            => text.format(Chars);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged
@@ -67,6 +79,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator A(ReadOnlySpan<AsciCode> src)
             => api.load(src, out A _);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(string src)
+            => api.encode(src, out A _);
+
+        [MethodImpl(Inline)]
+        public static implicit operator A(ReadOnlySpan<char> src)
+            => api.encode(src, out A _);
 
         public static A Empty => default;
     }

@@ -4,8 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Generator : IGenerator
+    public enum SourceKind : ulong
     {
+        None = 0,
 
+        CSharp = 1 << 0,
+
+        C = 1 << 1,
+
+        Cpp = 1 << 2,
+
+        Asm = 1 << 3,
+
+        Llvm = 1 << 3,
+
+        Alg = 1 << 4,
     }
 }

@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICodeGenerator : IGenerator
+    public interface ISourceGenerator : IGenerator<SourceBlock>
     {
-        string Generate();
+        SourceKind SourceKind {get;}
+    }
+
+    public interface ISourceGenerator<S> : ISourceGenerator, IGenerator<S,SourceBlock>
+    {
+
     }
 }

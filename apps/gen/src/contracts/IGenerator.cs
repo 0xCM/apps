@@ -4,13 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IGenerator
+    public interface IGenerator<T>
     {
-
+        T Generate(dynamic src);
     }
 
-    public interface IGenerator<S,T> : IGenerator
+    public interface IGenerator<S,T> : IGenerator<T>
     {
-        Outcome Generate(S src, T dst);
+        T Generate(S src);
+
+        T IGenerator<T>.Generate(dynamic src)
+            => Generate((S)src);
     }
 }

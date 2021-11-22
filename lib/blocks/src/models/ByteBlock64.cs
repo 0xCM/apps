@@ -23,6 +23,8 @@ namespace Z0
     {
         public const ushort Size = 64;
 
+        public static N64 N => default;
+
         ByteBlock32 A;
 
         ByteBlock32 B;
