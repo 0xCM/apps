@@ -32,7 +32,7 @@ namespace Z0.ScalarTypes
         public Identifier TypeName
             => string.Format("u{0}",N);
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => N;
 
         [MethodImpl(Inline)]

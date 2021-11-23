@@ -12,7 +12,7 @@ namespace Z0.ScalarTypes
     {
         public const ulong Width = 0;
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

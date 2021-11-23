@@ -11,7 +11,7 @@ namespace Z0.ScalarTypes
 
         public T Storage;
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

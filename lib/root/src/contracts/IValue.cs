@@ -9,7 +9,7 @@ namespace Z0
     using static minicore;
 
     [Free]
-    public interface IBlittable
+    public interface IValue
     {
         BitWidth ContentWidth {get;}
 
@@ -17,10 +17,10 @@ namespace Z0
     }
 
     [Free]
-    public interface IBlittable<S> : IBlittable
+    public interface IValue<S> : IValue
         where S : unmanaged
     {
-        BitWidth IBlittable.StorageWidth
+        BitWidth IValue.StorageWidth
             => width<S>();
     }
 }

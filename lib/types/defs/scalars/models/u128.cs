@@ -30,7 +30,7 @@ namespace Z0.ScalarTypes
         public override string ToString()
             => Format();
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

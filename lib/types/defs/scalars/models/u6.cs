@@ -23,7 +23,7 @@ namespace Z0.ScalarTypes
             Storage = Cells.trim(src,n6);
         }
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 
@@ -40,7 +40,7 @@ namespace Z0.ScalarTypes
             Storage = src;
         }
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

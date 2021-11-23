@@ -24,7 +24,7 @@ namespace Z0.ScalarTypes
             Storage = src;
         }
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

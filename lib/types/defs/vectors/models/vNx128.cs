@@ -46,10 +46,10 @@ namespace Z0.VectorTypes
         public ref T Cell(uint index)
             => ref Data[index];
 
-        BitWidth IBlittable.StorageWidth
+        BitWidth IValue.StorageWidth
             => Cells.Length*width<T>();
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Cells.Length*128;
     }
 }

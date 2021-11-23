@@ -20,7 +20,7 @@ namespace Z0.ScalarTypes
             Storage = src;
         }
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
 
         public string Format()
@@ -57,7 +57,7 @@ namespace Z0.ScalarTypes
         public override string ToString()
             => Format();
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
 
         [MethodImpl(Inline)]

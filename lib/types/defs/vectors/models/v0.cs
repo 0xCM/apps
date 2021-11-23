@@ -22,7 +22,7 @@ namespace Z0.VectorTypes
         public Span<T> Cells
             => default;
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

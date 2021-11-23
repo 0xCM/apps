@@ -9,7 +9,7 @@ namespace Z0.ScalarTypes
     {
         public const uint Width = 0;
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Width;
     }
 }

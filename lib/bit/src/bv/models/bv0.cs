@@ -14,7 +14,7 @@ namespace Z0
         {
             public const uint Width = 0;
 
-            BitWidth IBlittable.ContentWidth
+            BitWidth IValue.ContentWidth
                 => Width;
 
             public bit this[uint i]

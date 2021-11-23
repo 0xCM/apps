@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IGrid : IBlittable
+    public interface IGrid : IValue
     {
         uint M {get;}
 

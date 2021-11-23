@@ -7,8 +7,8 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-
     using VectorTypes;
+
     using static Root;
     using static core;
 
@@ -191,8 +191,7 @@ namespace Z0
 
         public static string format<T>(in v4<T> src)
             where T : unmanaged
-                => string.Format(RP.V4,
-                    src[0], src[1], src[2], src[3]);
+                => string.Format(RP.V4, src[0], src[1], src[2], src[3]);
 
         /// <summary>
         /// Creates a vector of specifield length and parametric type

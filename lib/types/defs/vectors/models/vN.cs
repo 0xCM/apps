@@ -46,10 +46,10 @@ namespace Z0.VectorTypes
         public override string ToString()
             => Format();
 
-        BitWidth IBlittable.StorageWidth
+        BitWidth IValue.StorageWidth
             => Data.Length*width<T>();
 
-        BitWidth IBlittable.ContentWidth
+        BitWidth IValue.ContentWidth
             => Data.Length* Typed.nat32u<N>();
 
         uint IVector.N

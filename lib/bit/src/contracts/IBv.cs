@@ -8,13 +8,13 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IBv : IBlittable
+    public interface IBv : IValue
     {
 
     }
 
     [Free]
-    public interface IBv<T> : IBv, IBlittable<T>
+    public interface IBv<T> : IBv, IValue<T>
         where T : unmanaged
     {
 
