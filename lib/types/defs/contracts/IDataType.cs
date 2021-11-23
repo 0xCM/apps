@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IScalarType : IBlittable
+    public interface IDataType
     {
+        Identifier TypeName {get;}
 
+        BitWidth ContentWidth {get;}
+
+        BitWidth StorageWidth {get;}
     }
 }

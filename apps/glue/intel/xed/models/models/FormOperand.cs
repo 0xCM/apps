@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct FormOperand : IDataTypeComparable<FormOperand>
+        public readonly struct FormOperand : IComparable<FormOperand>, IEquatable<FormOperand>
         {
             public string Value {get;}
 

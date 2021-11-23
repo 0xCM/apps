@@ -15,7 +15,7 @@ namespace Z0
     /// Specifies data size in bytes
     /// </summary>
     [DataType]
-    public readonly struct ByteSize : IDataTypeComparable<ByteSize>
+    public readonly struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
     {
         /// <summary>
         /// Specifies a byte count

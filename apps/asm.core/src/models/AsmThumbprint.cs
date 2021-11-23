@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmThumbprint : IDataTypeComparable<AsmThumbprint>
+    public readonly struct AsmThumbprint : IComparable<AsmThumbprint>, IEquatable<AsmThumbprint>
     {
         public AsmExpr Statement {get;}
 

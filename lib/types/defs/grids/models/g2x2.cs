@@ -8,7 +8,6 @@ namespace Z0.GridTypes
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-
     using VectorTypes;
 
     using static grids;

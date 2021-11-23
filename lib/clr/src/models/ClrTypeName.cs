@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a runtime type name
     /// </summary>
-    public readonly struct ClrTypeName : IDataTypeComparable<ClrTypeName>
+    public readonly struct ClrTypeName : IComparable<ClrTypeName>, IEquatable<ClrTypeName>
     {
         internal readonly Type Source;
 

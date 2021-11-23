@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct SymIdentity : IDataTypeComparable<SymIdentity>
+    public readonly struct SymIdentity : IComparable<SymIdentity>, IEquatable<SymIdentity>
     {
         readonly string Data;
 

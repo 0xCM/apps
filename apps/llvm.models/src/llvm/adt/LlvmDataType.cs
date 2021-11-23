@@ -10,32 +10,32 @@ namespace Z0.llvm
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct LlvmDataType
+    public readonly partial struct LlvmDataType
     {
         public static LlvmDataType parse(string src)
         {
             if(src.Equals("bit"))
-                return new LlvmDataType(src, DataKind.Bit);
+                return new LlvmDataType(src, LlvmDataKind.Bit);
             else if(src.Equals("string"))
-                return new LlvmDataType(src, DataKind.String);
+                return new LlvmDataType(src, LlvmDataKind.String);
             else if(src.Equals("int"))
-                return new LlvmDataType(src, DataKind.Int);
+                return new LlvmDataType(src, LlvmDataKind.Int);
             else if(src.Equals("dag"))
-                return new LlvmDataType(src, DataKind.Dag);
+                return new LlvmDataType(src, LlvmDataKind.Dag);
             else if(src.StartsWith("bits"))
-                return new LlvmDataType(src, DataKind.Bits);
+                return new LlvmDataType(src, LlvmDataKind.Bits);
             else if(src.StartsWith("list"))
-                return new LlvmDataType(src, DataKind.List);
+                return new LlvmDataType(src, LlvmDataKind.List);
             else
                 return new LlvmDataType(src,0);
         }
 
-        public DataKind Kind {get;}
+        public LlvmDataKind Kind {get;}
 
         public Identifier Decl {get;}
 
         [MethodImpl(Inline)]
-        public LlvmDataType(Identifier decl, DataKind kind)
+        public LlvmDataType(Identifier decl, LlvmDataKind kind)
         {
             Decl = decl;
             Kind = kind;
@@ -48,19 +48,19 @@ namespace Z0.llvm
             => Kind != 0;
 
         public bool IsBits
-            => Kind == DataKind.Bits;
+            => Kind == LlvmDataKind.Bits;
 
         public bool IsBit
-            => Kind == DataKind.Bit;
+            => Kind == LlvmDataKind.Bit;
 
         public bool IsString
-            => Kind == DataKind.String;
+            => Kind == LlvmDataKind.String;
 
         public bool IsInt
-            => Kind == DataKind.Int;
+            => Kind == LlvmDataKind.Int;
 
         public bool IsDag
-            => Kind == DataKind.Dag;
+            => Kind == LlvmDataKind.Dag;
 
         public bool TypeArgs(out string dst)
             => text.unfence(Decl, (Chars.Lt, Chars.Gt), out dst);
@@ -91,30 +91,5 @@ namespace Z0.llvm
 
         public override string ToString()
             => Format();
-
-        [SymSource]
-        public enum DataKind : byte
-        {
-            [Symbol("unknown")]
-            Other,
-
-            [Symbol("bit")]
-            Bit,
-
-            [Symbol("string")]
-            String,
-
-            [Symbol("int")]
-            Int,
-
-            [Symbol("list<{0}>")]
-            List,
-
-            [Symbol("bits<{0}>")]
-            Bits,
-
-            [Symbol("dag")]
-            Dag,
-        }
    }
 }

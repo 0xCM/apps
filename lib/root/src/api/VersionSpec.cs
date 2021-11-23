@@ -13,7 +13,7 @@ namespace Z0
     /// Defines a version schema that supports 2, 3 or 4 32-bit segments
     /// </summary>
     [DataType("version")]
-    public readonly struct VersionSpec : IDataTypeComparable<VersionSpec>
+    public readonly struct VersionSpec : IComparable<VersionSpec>, IEquatable<VersionSpec>
     {
         /// <summary>
         /// The most-significant segment value

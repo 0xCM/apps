@@ -13,14 +13,18 @@ namespace Z0
     {
         public Identifier TypeName {get;}
 
+        public ScalarClass Class {get;}
+
         public BitWidth ContentWidth {get;}
 
         public BitWidth StorageWidth {get;}
 
+
         [MethodImpl(Inline)]
-        public ScalarType(Identifier name, BitWidth content, BitWidth storage)
+        public ScalarType(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
         {
             TypeName = name;
+            Class = @class;
             ContentWidth = content;
             StorageWidth = storage;
         }

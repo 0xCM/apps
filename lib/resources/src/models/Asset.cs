@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Describes an embedded resource
     /// </summary>
-    public readonly struct Asset : IDataTypeComparable<Asset>, IAddressable
+    public readonly struct Asset : IComparable<Asset>, IEquatable<Asset>, IAddressable
     {
         public Name Name {get;}
 

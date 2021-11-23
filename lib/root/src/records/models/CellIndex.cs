@@ -14,7 +14,7 @@ namespace Z0
     /// Identifies a cell within the context of a table
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct CellIndex : IDataTypeComparable<CellIndex>
+    public readonly struct CellIndex : IComparable<CellIndex>, IEquatable<CellIndex>
     {
         /// <summary>
         /// A zero-based row index

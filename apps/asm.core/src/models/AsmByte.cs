@@ -14,7 +14,7 @@ namespace Z0.Asm
     /// <summary>
     /// Represents an encoded instruction byte
     /// </summary>
-    public struct AsmByte : IDataTypeComparable<AsmByte>
+    public struct AsmByte : IComparable<AsmByte>, IEquatable<AsmByte>
     {
         public T Content;
 

@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Identifies a resource of parametric type along with a reference to the memory segment it occupies
     /// </summary>
-    public readonly struct Asset<T> : IDataTypeComparable<Asset<T>>, IAddressable
+    public readonly struct Asset<T> : IComparable<Asset<T>>, IEquatable<Asset<T>>, IAddressable
     {
         public Identifier Name {get;}
 

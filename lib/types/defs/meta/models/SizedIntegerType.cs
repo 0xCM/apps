@@ -18,7 +18,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public SizedIntegerType(Identifier name, BitWidth content, BitWidth storage, bool signed)
-            : base(name,content,storage)
+            : base(name, signed ? ScalarClass.I : ScalarClass.U, content,storage)
         {
 
         }

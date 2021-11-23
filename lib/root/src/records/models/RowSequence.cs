@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct RowSequence : IDataTypeComparable<RowSequence>
+    public readonly struct RowSequence : IComparable<RowSequence>, IEquatable<RowSequence>
     {
         public uint Value {get;}
 
