@@ -19,6 +19,5 @@ namespace Z0
         [MethodImpl(Inline), RProject]
         public static bit right(bit a, bit b)
             => b;
-
     }
 }

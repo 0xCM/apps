@@ -15,6 +15,9 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static bvNx64 bv(N64 n, Span<ulong> src)
+            => new bvNx64(src);
+
         [MethodImpl(Inline), Op]
         public static bit state<T>(in T src, uint pos)
             where T : unmanaged, IIndexedBits

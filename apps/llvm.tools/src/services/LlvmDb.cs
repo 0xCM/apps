@@ -116,13 +116,6 @@ namespace Z0.llvm
         public ReadOnlySpan<DefRelations> DefRelations()
             => _DefRelations;
 
-        public void QueryFields(Action<IFieldProvider> receiver)
-        {
-            var defcount = DefMap.IntervalCount;
-            for(var i=0; i<defcount; i++)
-                receiver(new FieldProvider(DefMap[i].Id, this));
-        }
-
         public ReadOnlySpan<Entity> Entities()
         {
             if(_Entities.IsEmpty)

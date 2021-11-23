@@ -59,7 +59,7 @@ namespace Z0
                 }
             }
 
-            seek(dst,m++) = Chars.RBrace;
+            seek(dst, m++) = Chars.RBrace;
             return m;
         }
 

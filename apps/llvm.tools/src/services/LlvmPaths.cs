@@ -39,6 +39,8 @@ namespace Z0.llvm
         public FS.FolderPath Tables(string scope)
             => Tables() + FS.folder(scope);
 
+
+
         public FS.FilePath Table<T>()
             where T : struct
                 => Tables() + Z0.Tables.filename<T>();

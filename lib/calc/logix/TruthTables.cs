@@ -13,9 +13,9 @@ namespace Z0
     [ApiHost]
     public readonly struct TruthTables
     {
-        static Bit32 on => Bit32.On;
+        static bit on => bit.On;
 
-        static Bit32 off => Bit32.Off;
+        static bit off => bit.Off;
 
         static BitLogix bitlogix => BitLogix.Service;
 

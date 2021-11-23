@@ -18,7 +18,7 @@ namespace Z0
         {
             var data = bytes(src.Packed);
             ref readonly var cell = ref skip(data,index/8);
-            return bit.test(cell, (byte)(index % 8));
+            return test(cell, (byte)(index % 8));
         }
 
         [MethodImpl(Inline), Op]

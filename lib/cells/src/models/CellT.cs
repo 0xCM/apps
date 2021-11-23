@@ -19,7 +19,6 @@ namespace Z0
         public Cell(T src)
             => Content = src;
 
-
         [MethodImpl(Inline)]
         public string Format()
             => Content.ToString();

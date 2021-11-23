@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    using api = bit;
+    using api = BitPosCalcs;
 
     [StructLayout(LayoutKind.Sequential, Pack =1)]
     public struct BitPos
@@ -44,7 +44,7 @@ namespace Z0
 		public uint LinearIndex
 		{
 			[MethodImpl(Inline)]
-			get => BitPosInternals.linearIndex(this);
+			get => api.linearIndex(this);
 		}
 
 		[MethodImpl(Inline)]
@@ -68,7 +68,7 @@ namespace Z0
             => api.eq(this, src);
 
 		public string Format()
-			=> BitRender.format(this);
+			=> string.Format("({0},{1}/{2})", LinearIndex, CellIndex, BitOffset);
 
 		public override string ToString()
 			=> Format();

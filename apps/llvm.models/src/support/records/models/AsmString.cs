@@ -32,7 +32,7 @@ namespace Z0.llvm
             if(ws != NotFound)
                 dst = text.right(text.unfence(text.remove(text.trim(text.right(value,ws)), Chars.Quote),0, Fencing.Embraced),Chars.Caret);
             else
-                dst = text.remove(value,Chars.Quote);
+                dst = text.remove(value, Chars.Quote);
 
             return text.normalize(dst, Repl);
         }

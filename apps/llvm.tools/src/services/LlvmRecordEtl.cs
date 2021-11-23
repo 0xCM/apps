@@ -38,6 +38,16 @@ namespace Z0.llvm
             McSyntaxLogs = Wf.McSyntaxLogs();
         }
 
+        public static ReadOnlySpan<string> ancestors(in DefRelations src)
+        {
+            return src.Ancestors != null
+                ?  (src.Ancestors.HasAncestor
+                        ? Arrays.concat(new string[]{src.Ancestors.Name}, src.Ancestors.Ancestors.Storage)
+                        : new string[]{src.Ancestors.Name}
+                        )
+                : default;
+        }
+
         public EtlDatasets Run()
         {
             var dst = new EtlDatasets();

@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = ApiBitFunctionClass;
+    using K = ApiBitCalcClass;
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     /// <summary>
     /// Characterizes a bitfunction classifier
     /// </summary>
     [Free]
-    public interface IApiBitFunctionClass : IApiClass<K>
+    public interface IApiBitCalcClass : IApiClass<K>
     {
-        new ApiBitFunctionClass Kind {get;}
+        new ApiBitCalcClass Kind {get;}
 
         K IApiClass<K>.Kind
             => Kind;

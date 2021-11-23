@@ -8,25 +8,18 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
-    [ApiHost]
-    public readonly partial struct BitRender
+    public readonly struct BitFunctions
     {
-        const NumericKind Closure = UnsignedInts;
-
         [MethodImpl(Inline), Op]
-        static uint separate(uint offset, Span<char> dst)
+        public static ByteSize size(in BitFunctionDim src)
         {
-            seek(dst,offset) = Chars.Space;
-            return 1;
+            var width = (uint)(src.TotalInputWidth + src.TotalOutputWidth);
+            return width/8 + (width % 8 == 0 ? 0 : 1);
         }
 
         [MethodImpl(Inline), Op]
-        static uint separate(uint offset, char sep, Span<char> dst)
-        {
-            seek(dst, offset) = sep;
-            return 1;
-        }
+        public static BitFunctionDim dim(uint cIn, uint wIn, uint cOut, uint wOut)
+            => new BitFunctionDim(cIn, wIn, cOut, wOut);
     }
 }

@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using api = bit;
+    using api = BitPosCalcs;
 
 	/// <summary>
 	/// Identifies a bit position within a contiguous sequence of T-element values together with their cell index/bit offsets
@@ -49,7 +49,7 @@ namespace Z0
 		public uint LinearIndex
 		{
 			[MethodImpl(Inline)]
-			get => BitPosInternals.linearIndex(this);
+			get => api.linearIndex(this);
 		}
 
 		[MethodImpl(Inline)]
@@ -74,10 +74,10 @@ namespace Z0
 
 		[MethodImpl(Inline)]
 		public bool Equals(BitPos<T> src)
-            => api.eq(this, src);
+            => BitPosCalcs.eq(this, src);
 
 		public string Format()
-			=> BitRender.format(this);
+			=> string.Format("({0},{1}/{2})", LinearIndex, CellIndex, BitOffset);
 
 		public override string ToString()
 			=> Format();
@@ -89,17 +89,17 @@ namespace Z0
             => rhs is BitPos<T> x && Equals(x);
 
 		[MethodImpl(Inline)]
-		public static BitPos<T>operator +(BitPos<T> pos, uint count)
+		public static BitPos<T>operator +(BitPos<T> a, uint count)
 		{
-			pos.Add(count);
-            return pos;
+			a.Add(count);
+            return a;
 		}
 
 		[MethodImpl(Inline)]
-		public static BitPos<T> operator -(BitPos<T> lhs, uint count)
+		public static BitPos<T> operator -(BitPos<T> a, uint count)
 		{
-            lhs.Sub(count);
-            return lhs;
+            a.Sub(count);
+            return a;
 		}
 
 		[MethodImpl(Inline)]

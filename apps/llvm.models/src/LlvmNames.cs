@@ -136,9 +136,35 @@ namespace Z0.llvm
 
         public readonly struct RecordClasses
         {
+            public const string AVX512 = nameof(AVX512);
+
+            public const string AsmOperandClass = nameof(AsmOperandClass);
+
+            public const string AssemblerPredicate = nameof(AssemblerPredicate);
+
+            public const string CondCode = nameof(CondCode);
+
+            public const string Instruction = nameof(Instruction);
+
+            public const string GenericInstruction = nameof(GenericInstruction);
+
+            public const string Register = nameof(Register);
+
+            public const string RegisterClass = nameof(RegisterClass);
+
             public const string ValueType = nameof(ValueType);
 
             public const string X86Inst = nameof(X86Inst);
+
+            public const string Map = nameof(Map);
+
+            public const string Predicate = nameof(Predicate);
+
+            public const string SubtargetFeature = nameof(SubtargetFeature);
+
+            public const string X86MemOperand = nameof(X86MemOperand);
+
+            public const string X86MemOffsOperand = nameof(X86MemOffsOperand);
         }
     }
 }

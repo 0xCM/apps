@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = ApiBitFunctionClass;
-    using I = IApiBitFunctionClass;
+    using K = ApiBitCalcClass;
+    using I = IApiBitCalcClass;
 
     partial struct ApiClasses
     {
