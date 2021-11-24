@@ -2,14 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Expr
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
-
-    using Expr;
 
     /// <summary>
     /// Binds a variable to a value

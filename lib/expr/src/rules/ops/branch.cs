@@ -7,9 +7,9 @@ namespace Z0.Rules
     using System;
     using System.Runtime.CompilerServices;
 
-    using ScalarTypes;
-
     using static Root;
+
+    using Expr;
 
     partial struct rules
     {

@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Expr
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -34,7 +34,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public Value<T> Resolve()
             => Resolver();
-
         public string Format()
             => expr.format(this);
 

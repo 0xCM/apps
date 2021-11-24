@@ -11,14 +11,5 @@ namespace Z0
 
     partial struct RuleModels
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Delimit<T> delimit<T>(T marker)
-            where T : IEquatable<T>
-                => marker;
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static PairDelimit<T> delimit<T>(T left, T right)
-            where T : IEquatable<T>
-                => (left,right);
     }
 }

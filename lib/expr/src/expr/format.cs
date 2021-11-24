@@ -25,21 +25,6 @@ namespace Z0
         internal static string format(in BoundVar src)
             => string.Format(XF.Binding, src.Var.Name, src.Value);
 
-        internal static string format<F,K>(OpExpr1<F,K> src)
-            where F : OpExpr1<F,K>
-            where K : unmanaged
-                => string.Format("{0}({1})", src.OpName, src.A.Format());
-
-        internal static string format<F,K>(OpExpr2<F,K> src)
-            where F : OpExpr2<F,K>
-            where K : unmanaged
-                => string.Format("{0}({1},{2})", src.OpName, src.A.Format(), src.B.Format());
-
-        internal static string format<F,K>(OpExpr3<F,K> src)
-            where F : OpExpr3<F,K>
-            where K : unmanaged
-                => string.Format("{0}({1},{2})", src.OpName, src.A.Format(), src.B.Format(), src.C.Format());
-
         internal static string format(in SeqRange src)
             => string.Format(XF.InclusiveRange, src.Min, src.Max);
 

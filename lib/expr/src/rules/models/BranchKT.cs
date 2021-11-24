@@ -9,6 +9,8 @@ namespace Z0.Rules
 
     using static Root;
 
+    using Expr;
+
     public class Branch<K,T> : IExpr
         where K : unmanaged
         where T : IExpr

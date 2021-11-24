@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Expr
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -51,5 +51,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref _Terms[index];
         }
+
+        public string Format()
+            => ExprFormatters.LiteralSeq<T>().Format(this);
+
+        public override string ToString()
+            => Format();
     }
 }
