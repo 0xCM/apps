@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static Root;
 
     [ApiHost]
     public readonly struct types
     {
         const NumericKind Closure = UnsignedInts;
-
 
         internal static string format(PrimalKind src)
             => src.ToString().ToLower();

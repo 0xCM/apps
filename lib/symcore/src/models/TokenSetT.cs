@@ -40,7 +40,7 @@ namespace Z0
             var types = Types().ToReadOnlySpan();
             var count = types.Length;
             for(var i=0; i<count; i++)
-                _Tokens.AddRange(Symbols.tokenize(skip(types,i), out var _).ToArray());
+                _Tokens.AddRange(Symbols.tokenize(skip(types,i)).ToArray());
         }
     }
 }

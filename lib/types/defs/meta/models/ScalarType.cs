@@ -19,7 +19,6 @@ namespace Z0
 
         public BitWidth StorageWidth {get;}
 
-
         [MethodImpl(Inline)]
         public ScalarType(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
         {

@@ -6,7 +6,6 @@ namespace Z0.llvm
 {
     using System;
 
-
     using static core;
 
     public class LlvmTests

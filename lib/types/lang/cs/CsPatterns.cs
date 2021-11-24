@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    using L = CsPatterns.Literals;
+    using L = CsPatterns.CsLiterals;
 
     [ApiComplete]
     public readonly partial struct CsPatterns

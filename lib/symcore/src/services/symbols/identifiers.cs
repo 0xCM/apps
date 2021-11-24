@@ -20,7 +20,6 @@ namespace Z0
             var count = (uint)min(view.Length, dst.Length);
             for(var i=0; i<count; i++)
                 seek(dst,i) = skip(view,i).Name;
-
             return count;
         }
     }

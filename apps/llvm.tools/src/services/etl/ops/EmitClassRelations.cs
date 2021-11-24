@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using System;
 
-    using records;
-
     using static core;
     using static Root;
 
@@ -43,7 +41,10 @@ namespace Z0.llvm
                         else
                             name = text.trim(text.inside(content, j + Marker.Length - 1, k));
 
-                        if(empty(name) || text.member(name, ClassExclusions))
+                        // if(empty(name) || text.member(name, ClassExclusions))
+                        //     continue;
+
+                        if(empty(name))
                             continue;
 
                         var record = new ClassRelations();

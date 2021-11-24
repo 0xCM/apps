@@ -50,36 +50,6 @@ namespace Z0
         }
 
         [Op]
-        public static uint walk(in TokenString src, Action<TokenExpr<CharBlock16>> receiver)
-        {
-            var counter = 0u;
-            var data = src.Data;
-            var storage = CharBlock16.Null;
-            var buffer = storage.Data;
-            var count = src.TokenCount;
-            var j=0u;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var c = ref skip(data,i);
-                if(SQ.nil(c))
-                {
-                    if(j != 0)
-                    {
-                       var e = expr(counter++, storage);
-                       receiver(e);
-                       storage = CharBlock16.Null;
-                       j=0;
-                    }
-                }
-                else
-                {
-                    seek(buffer,j++) = c;
-                }
-            }
-            return counter;
-        }
-
-        [Op]
         public static uint walk<T>(in TokenString src, Action<TokenExpr<T>> receiver)
             where T : unmanaged, ICharBlock<T>
         {
@@ -105,9 +75,7 @@ namespace Z0
                     j=0u;
                 }
                 else
-                {
                     seek(dst,j++) = c;
-                }
             }
             return counter;
         }

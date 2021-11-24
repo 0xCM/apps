@@ -12,7 +12,6 @@ namespace Z0
 
     partial struct Symbols
     {
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint kinds<T>(Symbols<T> src, Span<T> dst)
             where T : unmanaged

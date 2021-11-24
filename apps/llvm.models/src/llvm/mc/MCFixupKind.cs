@@ -10,7 +10,7 @@ namespace Z0.llvm
     [SymSource]
     public enum MCFixupKind : ushort
     {
-        [Symbol("FK_NONE","A no-op fixup")]
+        [Symbol("FK_NONE", "A no-op fixup")]
         FK_NONE = 0,
 
         [Symbol("FK_Data_1", "A one-byte fixup")]

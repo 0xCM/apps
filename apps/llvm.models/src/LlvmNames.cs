@@ -144,6 +144,8 @@ namespace Z0.llvm
 
             public const string CondCode = nameof(CondCode);
 
+            public const string DAGOperand = nameof(DAGOperand);
+
             public const string Instruction = nameof(Instruction);
 
             public const string GenericInstruction = nameof(GenericInstruction);
@@ -160,11 +162,22 @@ namespace Z0.llvm
 
             public const string Predicate = nameof(Predicate);
 
+            public const string SDPatternOperator = nameof(SDPatternOperator);
+
+            public const string SDNode = nameof(SDNode);
+
             public const string SubtargetFeature = nameof(SubtargetFeature);
 
             public const string X86MemOperand = nameof(X86MemOperand);
 
             public const string X86MemOffsOperand = nameof(X86MemOffsOperand);
+
+            public static string[] Names = new string[]{
+                AVX512, AsmOperandClass, AssemblerPredicate, CondCode, DAGOperand,
+                Instruction, GenericInstruction, Register, RegisterClass,
+                ValueType, X86Inst, Map, Predicate, SDPatternOperator, SDNode,
+                SubtargetFeature, X86MemOperand, X86MemOffsOperand
+                };
         }
     }
 }

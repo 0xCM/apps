@@ -42,7 +42,7 @@ namespace Z0.llvm
 
         LlvmRecordLoader RecordLoader;
 
-        Index<Entity> _Entities;
+        Index<RecordEntity> _Entities;
 
         public LlvmDb()
         {
@@ -52,7 +52,7 @@ namespace Z0.llvm
             DefLookup = new();
             FieldDefMap = new();
             ClassLookup = new();
-            _Entities = Index<Entity>.Empty;
+            _Entities = Index<RecordEntity>.Empty;
         }
 
         protected override void Initialized()
@@ -70,21 +70,6 @@ namespace Z0.llvm
 
         public ReadOnlySpan<RecordField> Fields(uint offset, uint length)
             => slice(_DefFields.View, offset,length);
-
-        public ReadOnlySpan<RecordField> SelectFields(Identifier id)
-        {
-            if(FieldDefMap.Mapped(id, out var interval))
-            {
-                var i = interval.Left;
-                var j = interval.Right;
-                return slice(_DefFields.View, i, j - i);
-            }
-            else
-            {
-                Warn(string.Format("{0} not found", id));
-                return default;
-            }
-        }
 
         public ItemList SelectList(string id)
         {
@@ -116,12 +101,12 @@ namespace Z0.llvm
         public ReadOnlySpan<DefRelations> DefRelations()
             => _DefRelations;
 
-        public ReadOnlySpan<Entity> Entities()
+        public RecordEntitySet Entities()
         {
             if(_Entities.IsEmpty)
             {
                 var relations = _DefRelations.Map(x => (x.Name.Content, x)).ToDictionary();
-                var entites = list<Entity>();
+                var entites = list<RecordEntity>();
                 var current = EmptyString;
                 var fields = list<RecordField>();
                 var src = DefFields();
@@ -134,7 +119,7 @@ namespace Z0.llvm
                     {
                         if(fields.Count != 0)
                         {
-                            entites.Add(new Entity(relation, fields.ToArray()));
+                            entites.Add(new RecordEntity(relation, fields.ToArray()));
                             fields.Clear();
                         }
                         current = field.RecordName;
@@ -146,7 +131,7 @@ namespace Z0.llvm
                 }
                 _Entities = entites.ToArray();
             }
-            return _Entities;
+            return ("Universe",_Entities);
         }
 
         public uint EmitClassInfo(StreamWriter dst)

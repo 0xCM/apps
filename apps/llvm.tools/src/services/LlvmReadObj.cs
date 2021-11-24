@@ -24,14 +24,9 @@ namespace Z0.llvm
                 {
                     var path = FS.path(text.right(line.Content, i + PathMarker.Length));
                     if(path.Exists)
-                    {
-                        var obj = new CoffObjFile(path);
-                        return new CoffObjInfo(obj, lines);
-                    }
+                        return new CoffObjInfo(new CoffObjFile(path), lines);
                     else
-                    {
                         Error(FS.missing(path));
-                    }
                 }
             }
 

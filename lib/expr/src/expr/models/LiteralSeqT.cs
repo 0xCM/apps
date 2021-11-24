@@ -9,8 +9,6 @@ namespace Z0
 
     using static Root;
 
-    using ScalarTypes;
-
     public readonly struct LiteralSeq<T>
     {
         Index<Literal<T>> _Terms {get;}

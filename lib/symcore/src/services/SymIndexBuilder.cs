@@ -51,7 +51,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var lit = ref skip(src,i);
-                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.ScalarValue, lit.Name, lit.Symbol, lit.Description, lit.Hidden);
+                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.ScalarValue, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden);
             }
 
             return new SymIndex(buffer, lookup(buffer));
@@ -60,7 +60,7 @@ namespace Z0
         [Op, Closures(Closure)]
         static Sym untype<T>(Sym<T> src)
             where T : unmanaged
-                => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr, src.Description, src.Hidden);
+                => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden);
 
         static SymIndex untype<E>(Sym<E>[] src)
             where E : unmanaged

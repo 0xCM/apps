@@ -8,8 +8,6 @@ namespace Z0
 
     using static Root;
 
-    using Expr;
-
     /// <summary>
     /// Binds a variable to a value
     /// </summary>

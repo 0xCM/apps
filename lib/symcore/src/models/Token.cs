@@ -12,16 +12,16 @@ namespace Z0
     {
         public readonly SymKey Key;
 
-        public readonly string Type;
+        public readonly Label Type;
 
-        public readonly string Name;
+        public readonly Label Name;
 
-        public readonly string Expr;
+        public readonly Label Expr;
 
         public readonly SymVal Value;
 
         [MethodImpl(Inline)]
-        public Token(uint key, string @class, string name, string expr, SymVal value)
+        public Token(uint key, Label @class, Label name, Label expr, SymVal value)
         {
             Key = key;
             Type = @class;

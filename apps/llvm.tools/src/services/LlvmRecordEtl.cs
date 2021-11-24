@@ -38,24 +38,12 @@ namespace Z0.llvm
             McSyntaxLogs = Wf.McSyntaxLogs();
         }
 
-        public static ReadOnlySpan<string> ancestors(in DefRelations src)
-        {
-            return src.Ancestors != null
-                ?  (src.Ancestors.HasAncestor
-                        ? Arrays.concat(new string[]{src.Ancestors.Name}, src.Ancestors.Ancestors.Storage)
-                        : new string[]{src.Ancestors.Name}
-                        )
-                : default;
-        }
-
         public EtlDatasets Run()
         {
             var dst = new EtlDatasets();
             var records = LoadSourceRecords(Datasets.X86);
             dst.Records = records;
             EmitLinedRecords(records, Datasets.X86Lined);
-            var lists = ImportLists();
-            dst.Lists = lists;
             var classes = EmitClassRelations(records);
             dst.ClassRelations = classes;
             var defs = EmitDefRelations(records);
@@ -70,16 +58,8 @@ namespace Z0.llvm
             var classFields = LoadFields(records, classMap);
             dst.Classes = classFields;
             EmitFields(classFields, Datasets.X86ClassFields);
-            GenCode(dst);
-            //CollectProjectData();
-            //GenDocs(dst);
-
+            Wf.LlvmEtlCodeGen().Run();
             return dst;
-        }
-
-        void GenCode(in EtlDatasets src)
-        {
-            Wf.LlvmEtlCodeGen().Run(src);
         }
 
         void GenDocs(in EtlDatasets src)
@@ -144,85 +124,5 @@ namespace Z0.llvm
             var symbols = Nm.Collect(src, dst);
             return result;
         }
-
-        // Outcome CollectAsmSyntax(IProjectWs ws)
-        // {
-        //     var result = CollectAsmParseLogs(ws);
-        //     result = CollectAsmSyntaxTrees(ws);
-        //     return result;
-        // }
-
-        // Outcome CollectAsmParseLogs(IProjectWs ws)
-        // {
-        //     var logs = ws.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
-        //     var dst = ws.Table<AsmSyntaxRow>(ws.Project.Format());
-        //     var count = logs.Length;
-        //     var buffer = list<AsmSyntaxRow>();
-        //     for(var i=0; i<count; i++)
-        //         ParseSyntaxLogRows(skip(logs,i), buffer);
-        //     TableEmit(buffer.ViewDeposited(), AsmSyntaxRow.RenderWidths, dst);
-        //     return true;
-        // }
-
-        // Outcome CollectAsmSyntaxTrees(IProjectWs ws)
-        // {
-        //     var result = Outcome.Success;
-        //     var src = ws.OutFiles(FileKind.AsmSyntax).View;
-        //     var count = src.Length;
-        //     var dst = ws.OutDir() + FS.file(ws.Name.Format() + ".syntax-trees", FS.Asm);
-        //     using var writer = dst.AsciWriter();
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var path = ref skip(src,i);
-        //         result = AsmParser.document(path, out var doc);
-        //         if(result.Fail)
-        //             break;
-
-        //         var lines = doc.SourceLines;
-        //         writer.WriteLine(string.Format("# Source: {0}", path.ToUri()));
-        //         for(var j=0; j<lines.Length; j++)
-        //         {
-        //             ref readonly var line = ref skip(lines,j);
-        //             writer.WriteLine(line);
-        //         }
-        //     }
-
-        //     return result;
-        // }
-
-        // uint ParseSyntaxLogRows(FS.FilePath src, List<AsmSyntaxRow> dst)
-        // {
-        //     const string EntryMarker = "note: parsed instruction:";
-        //     var lines = src.ReadNumberedLines();
-        //     var count = lines.Length;
-        //     var counter = 0u;
-        //     for(var i=0; i<count-1; i++)
-        //     {
-        //         ref readonly var a = ref skip(lines, i).Content;
-        //         ref readonly var b = ref skip(lines, i+1).Content;
-
-        //         var m = text.index(a,EntryMarker);
-        //         if(!a.Contains(EntryMarker))
-        //             continue;
-
-        //         Fence<char> Brackets = (Chars.LBracket, Chars.RBracket);
-        //         var locator = text.left(a,m).Trim();
-        //         locator = text.slice(locator,0, locator.Length - 1);
-
-        //         var syntax = text.right(a, m + EntryMarker.Length);
-        //         var semfound = text.unfence(syntax, Brackets, out var semantic);
-        //         syntax = semfound ? RP.parenthetical(semantic) : syntax;
-        //         var body = b.Replace(Chars.Tab, Chars.Space);
-        //         var record = new AsmSyntaxRow();
-        //         counter++;
-        //         FS.point(locator, out var point);
-        //         record.Location = point.Location;
-        //         record.Expr = asm.expr(body);
-        //         record.Syntax = syntax;
-        //         record.Source = point.Path;
-        //         dst.Add(record);
-        //     }
-        //     return counter;
-        // }
    }
 }

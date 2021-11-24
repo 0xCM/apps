@@ -7,8 +7,6 @@ namespace Z0.Rules
     using System;
     using System.Runtime.CompilerServices;
 
-    using ScalarTypes;
-
     using static Root;
 
     public class Branch<K,T> : IExpr

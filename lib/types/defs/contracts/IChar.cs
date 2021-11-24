@@ -13,7 +13,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IChar<T> : IChar, IValue<T>
+    public interface IChar<T> : IChar, IScalar<T>
         where T : unmanaged
     {
 

@@ -39,8 +39,6 @@ namespace Z0.llvm
         public FS.FolderPath Tables(string scope)
             => Tables() + FS.folder(scope);
 
-
-
         public FS.FilePath Table<T>()
             where T : struct
                 => Tables() + Z0.Tables.filename<T>();
@@ -56,6 +54,9 @@ namespace Z0.llvm
 
         public FS.FolderPath ListImports()
             => Tables("lists");
+
+        public FS.Files Lists()
+            => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
 
         public FS.FilePath ListImportPath(string id)
             => ListImports() + FS.file(id, FS.Csv);

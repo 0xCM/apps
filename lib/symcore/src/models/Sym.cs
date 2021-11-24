@@ -44,7 +44,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Sym(SymIdentity id, SymClass @class, SymKey index, Identifier type, ulong kind, Identifier name, SymExpr symbol, TextBlock? description = null, bool hidden = false)
+        public Sym(SymIdentity id, SymClass @class, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description = null, bool hidden = false)
         {
             Identity = id;
             Class = @class;

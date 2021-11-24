@@ -5,6 +5,7 @@
 namespace Z0.llvm
 {
     using static core;
+    using static Root;
 
     public class LlvmCodeGen : AppService<LlvmCodeGen>
     {
@@ -18,7 +19,7 @@ namespace Z0.llvm
             OmniScript = Wf.OmniScript();
         }
 
-        public void Run(in EtlDatasets src)
+        public void Run()
         {
             LlvmPaths.CodeGen().Clear(true);
             GenStringTables();
@@ -28,18 +29,18 @@ namespace Z0.llvm
         {
             const string BaseId = "llvm.stringtables";
             var result = Outcome.Success;
-            var lists = LlvmPaths.ListSourceFiles().View;
+            var lists = LlvmPaths.Lists().View;
             var count = lists.Length;
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
             var rowcount = 0u;
             for(var i=0; i<count; i++)
             {
                 ref readonly var listpath = ref skip(lists,i);
-                var name = listpath.FileName.WithoutExtension.Format();
+                var name = listpath.FileName.WithoutExtension.Format().Replace("llvm.lists.", EmptyString);
                 var id = BaseId + "." + name;
                 var cspath = LlvmPaths.CodeGenPath(id, FS.Cs);
                 var csvpath = LlvmPaths.CodeGenPath(id, FS.Csv);
-                var lines = listpath.ReadLines().View;
+                var lines = slice(listpath.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
                 var table = StringTables.create(lines, name, Chars.Comma);
                 var spec = StringTables.specify("Z0." + BaseId, table);
 
@@ -55,8 +56,8 @@ namespace Z0.llvm
                     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
                 rowcount += table.EntryCount;
 
-                EmittedFile(csEmitting, count,FS.flow(listpath,cspath));
-                EmittedFile(rowEmitting,rowcount,FS.flow(listpath,csvpath));
+                EmittedFile(csEmitting, count, FS.flow(listpath,cspath));
+                EmittedFile(rowEmitting,rowcount, FS.flow(listpath,csvpath));
             }
 
             return result;

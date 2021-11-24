@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct CsPatterns
     {
-        public readonly struct Literals
+        public readonly struct CsLiterals
         {
             public const string Open = "{";
 

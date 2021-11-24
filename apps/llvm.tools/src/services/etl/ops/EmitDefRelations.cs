@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using System;
 
-    using records;
-
     using static Root;
     using static core;
 
@@ -30,7 +28,9 @@ namespace Z0.llvm
                     {
                         var record = new DefRelations();
                         name = text.trim(text.inside(content, j + Marker.Length - 1, k));
-                        if(empty(name) || text.member(name, ClassExclusions))
+                        // if(empty(name) || text.member(name, ClassExclusions))
+                        //     continue;
+                        if(empty(name))
                             continue;
 
                         etl.lineage(content, out var a);
