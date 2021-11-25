@@ -4,10 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
+    using XF = ExprPatterns;
+
     readonly struct ExprFormatters
     {
+        public static ITextFormatter<SeqRange<T>> SeqRange<T>()
+            => default(SeqRangeFormatter<T>);
+
         public static ITextFormatter<LiteralSeq<T>> LiteralSeq<T>()
             => default(LiteralSeqFormatter<T>);
+
+        readonly struct SeqRangeFormatter<T> : ITextFormatter<SeqRange<T>>
+        {
+            public string Format(SeqRange<T> src)
+                => string.Format(XF.InclusiveRange, src.Min, src.Max);
+        }
 
         readonly struct LiteralSeqFormatter<T> : ITextFormatter<LiteralSeq<T>>
         {
@@ -17,7 +28,7 @@ namespace Z0.Expr
                 var w = core.width<T>();
                 var count = src.Count;
                 var margin = 0u;
-                dst.AppendFormat("literals<uint{0}> {1} = {{", w, src.Name);
+                dst.AppendLineFormat("{1}:seq<uint{0}> = {{", w, src.Name);
                 margin +=4;
                 for(var i=0; i<count; i++)
                 {
@@ -27,7 +38,6 @@ namespace Z0.Expr
                 margin -=4;
                 dst.IndentLine(margin, "}");
                 return dst.Emit();
-
             }
         }
     }

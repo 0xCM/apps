@@ -25,7 +25,8 @@ namespace Z0.Ops.Scalar
             B = b;
         }
 
-        public Label OpName => "nlt<{0}>";
+        public Label OpName
+            => "nlt<{0}>";
 
         public CmpPredKind Kind
             => CmpPredKind.NLT;

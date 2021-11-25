@@ -22,6 +22,9 @@ namespace Z0.Ops
         public static ITextFormatter<Union> Union()
             => default(UnionFormatter);
 
+        public static ITextFormatter<Product> Product()
+            => default(ProductFormatter);
+
         public static ITextFormatter<Product<T>> Product<T>()
             where T : IExpr
                 => default(ProductFormatter<T>);
@@ -31,7 +34,7 @@ namespace Z0.Ops
                 => default(SopFormatter<T>);
 
         public static ITextFormatter<Xor<T>> Xor<T>()
-                => default(XorFormatter<T>);
+            => default(XorFormatter<T>);
 
         readonly struct XorFormatter<T> : ITextFormatter<Xor<T>>
         {
@@ -67,6 +70,25 @@ namespace Z0.Ops
             where T : IExpr
         {
             public string Format(Product<T> src)
+            {
+                const char Delimiter = (char)LogicSym.And;
+                var dst = text.buffer();
+                var count = src.Count;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var expr = ref src[i];
+                    dst.Append(expr.Format());
+                    if(i != count - 1)
+                        dst.Append(Delimiter);
+
+                }
+                return dst.Emit();
+            }
+        }
+
+        readonly struct ProductFormatter : ITextFormatter<Product>
+        {
+            public string Format(Product src)
             {
                 const char Delimiter = (char)LogicSym.And;
                 var dst = text.buffer();
@@ -137,7 +159,6 @@ namespace Z0.Ops
                 dst.Append(XF.ListClose);
                 return dst.Emit();
             }
-
         }
 
         [Formatter(typeof(Except))]

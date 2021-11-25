@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "gt";
+        public override Label OpName
+            => "gt";
 
         public override CmpPredKind Kind
             => CmpPredKind.GT;

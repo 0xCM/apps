@@ -16,17 +16,17 @@ namespace Z0.llvm
 
         public readonly uint Key;
 
-        public readonly string Content;
+        public readonly string Value;
 
         [MethodImpl(Inline)]
         public LlvmListItem(uint key, string content)
         {
             Key = key;
-            Content = content;
+            Value = content;
         }
 
         public string Format()
-            => string.Format("{0,-8} | {1}", Key, Content);
+            => string.Format("{0,-8} | {1}", Key, Value);
 
         public override string ToString()
             => Format();

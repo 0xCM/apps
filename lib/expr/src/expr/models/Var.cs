@@ -31,13 +31,8 @@ namespace Z0.Expr
         }
 
         [MethodImpl(Inline)]
-        public BoundVar Bind()
-            => new BoundVar(this, Resolver());
-
-        [MethodImpl(Inline)]
         public Value<dynamic> Resolve()
             => new Value<dynamic>(Resolver());
-
         public string Format()
             => expr.format(this);
 

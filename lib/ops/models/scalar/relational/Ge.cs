@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "Ge";
+        public override Label OpName
+            => "Ge";
 
         public override CmpPredKind Kind
             => CmpPredKind.GE;

@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "lt";
+        public override Label OpName
+            => "lt";
 
         public override CmpPredKind Kind
             => CmpPredKind.LT;

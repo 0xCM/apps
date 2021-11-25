@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "xor";
+        public override Label OpName
+            => "xor";
 
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.Xor;

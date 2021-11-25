@@ -31,7 +31,7 @@ namespace Z0.llvm
                 var parent = def.ParentName;
                 if(ancestors.Contains(RecordClasses.Instruction))
                 {
-                    AsciBlock32 name = entity.EntityName.Content;
+                    var name = entity.EntityName.Content;
                     var identity = new LlvmAsmIdentity(key++, name);
                     asmids.Add(identity);
                     var _pseudo = entity["isPseudo"];
@@ -48,6 +48,13 @@ namespace Z0.llvm
                             obmapped.Add(identity);
                         var mnemonic = AsmString.mnemonic(asms.Value);
                         var fmt = AsmString.format(asms.Value);
+                        var j = text.index(name.ToLower(),mnemonic);
+                        if(j >=0)
+                        {
+                            var variation = text.right(name, j + mnemonic.Length - 1);
+                            Write(string.Format("{0,-24} | {1,-16} | {2}", name, mnemonic, variation));
+                        }
+
                         records.Add(LlvmAsmPattern.define(key, name, mnemonic, fmt, out var _));
                     }
                 }

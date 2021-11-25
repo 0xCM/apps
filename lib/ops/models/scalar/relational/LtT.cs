@@ -24,7 +24,8 @@ namespace Z0.Ops.Scalar
             B = b;
         }
 
-        public Label OpName => "lt<{0}>";
+        public Label OpName
+            => "lt<{0}>";
 
         public CmpPredKind Kind
             => CmpPredKind.LT;
@@ -58,6 +59,5 @@ namespace Z0.Ops.Scalar
         [MethodImpl(Inline)]
         public static implicit operator Lt(Lt<T> src)
             => src.Untyped();
-
     }
 }

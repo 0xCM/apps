@@ -23,7 +23,8 @@ namespace Z0.Ops.Logic
             get => Terms.Count;
         }
 
-        public Label Name => "union";
+        public Label Name
+            => "union";
 
         public string Format()
             => OpFormatters.Union().Format(this);

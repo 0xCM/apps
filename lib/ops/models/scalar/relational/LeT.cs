@@ -24,7 +24,8 @@ namespace Z0.Ops.Scalar
             B = b;
         }
 
-        public Label OpName => "le<{0}>";
+        public Label OpName
+            => "le<{0}>";
 
         public CmpPredKind Kind
             => CmpPredKind.LE;

@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "not";
+        public override Label OpName
+            => "not";
 
         public override UnaryBitLogicKind Kind
             => UnaryBitLogicKind.Not;

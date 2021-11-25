@@ -34,7 +34,7 @@ namespace Z0.Expr
         }
 
         public string Format()
-            => expr.format(this);
+            => ExprFormatters.SeqRange<T>().Format(this);
 
         public override string ToString()
             => Format();

@@ -24,7 +24,8 @@ namespace Z0.Ops.Logic
             get => _Data.Count;
         }
 
-        public Label Name => "union<{0}>";
+        public Label Name
+            => "union<{0}>";
 
         public ReadOnlySpan<T> Terms
         {

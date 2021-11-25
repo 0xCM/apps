@@ -10,7 +10,6 @@ namespace Z0.Ops
     using Logic;
 
     using static Root;
-    using static core;
 
     [ApiHost]
     public readonly struct logic

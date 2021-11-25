@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "or";
+        public override Label OpName
+            => "or";
 
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.Or;

@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "neq";
+        public override Label OpName
+            => "neq";
 
         public override CmpPredKind Kind
             => CmpPredKind.NEQ;

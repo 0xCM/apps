@@ -13,6 +13,7 @@ namespace Z0.llvm
     public readonly struct AsmString
     {
         static Pair<string>[] Repl = new Pair<string>[]{
+            ("\"", ""),
             ("$dst", "$(dst)"),
             ("${dst}","$(dst)"),
             ("${mask}","$(mask)"),
@@ -23,22 +24,42 @@ namespace Z0.llvm
             ("$src3","$(src3)"),
             ("${src3}","$(src3)"),
             ("$src","$(src)"),
+            ("$cntl","$(cntl)"),
+            ("$op","$(op)"),
+            ("$cc","$(cc)"),
+            ("$mask","$(mask)"),
+            ("$len","$(len)"),
+            ("$idx","$(idx)"),
+            ("$port","$(port)"),
+            ("$cnt","$(cnt)"),
+            ("$reg","$(reg)"),
+            ("$seg","$(seg)"),
+            ("$off","$(off)"),
+            ("$imm","$(imm)"),
+            ("$addr","$(addr)"),
+            ("$rc","$(rc)"),
             };
 
-        public static AsciBlock64 format(string value)
+        public static string format(string value)
         {
+            var dst = value;
             var ws = SQ.wsindex(value);
-            var dst = EmptyString;
             if(ws != NotFound)
-                dst = text.right(text.unfence(text.remove(text.trim(text.right(value,ws)), Chars.Quote),0, Fencing.Embraced),Chars.Caret);
-            else
-                dst = text.remove(value, Chars.Quote);
-
-            return text.normalize(dst, Repl);
+                dst = text.right(value, ws);
+            dst = text.normalize(dst, Repl).Trim();
+            var length = dst.Length;
+            if(length > 0)
+            {
+                if(dst[0] == Chars.LBrace && dst[length - 1] == Chars.RBrace)
+                    dst = text.inside(dst,0, length - 1);
+                var k = text.index(dst,Chars.Caret);
+                if(k != NotFound)
+                    dst = text.right(dst,k);
+            }
+            return dst;
         }
 
-
-        public static AsciBlock32 mnemonic(string value)
+        public static string mnemonic(string value)
         {
             static string cleanse(string src)
             {
@@ -56,7 +77,8 @@ namespace Z0.llvm
                         mnemonic += suffix;
                     }
                 }
-                return mnemonic;
+                var k = text.index(mnemonic, Chars.Caret);
+                return k != NotFound ? text.right(mnemonic,k) : mnemonic;
             }
 
             var mnemonic = text.remove(value,Chars.Quote);

@@ -10,9 +10,6 @@ namespace Z0.Ops.Logic
 
     using static Root;
 
-    /// <summary>
-    /// Represents a sequence of dynamically-typed terms c0 | c1 | .. | cN-1
-    /// </summary>
     public readonly struct Except : IExpr
     {
         HashSet<IExpr> _Terms {get;}

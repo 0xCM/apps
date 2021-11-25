@@ -6,8 +6,6 @@ namespace Z0.Expr
 {
     using System.Runtime.CompilerServices;
 
-    using ScalarTypes;
-
     using static Root;
 
     using api = OpCodes;

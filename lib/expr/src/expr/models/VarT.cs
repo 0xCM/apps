@@ -28,10 +28,6 @@ namespace Z0.Expr
         }
 
         [MethodImpl(Inline)]
-        public BoundVar<T> Bind()
-            => new BoundVar<T>(this, Resolver());
-
-        [MethodImpl(Inline)]
         public Value<T> Resolve()
             => Resolver();
         public string Format()

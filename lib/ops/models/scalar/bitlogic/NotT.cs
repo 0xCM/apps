@@ -21,7 +21,8 @@ namespace Z0.Ops.Scalar
             A = a;
         }
 
-        public Label OpName => "not<{0}>";
+        public Label OpName
+            => "not<{0}>";
 
         public UnaryBitLogicKind Kind
             => UnaryBitLogicKind.Not;

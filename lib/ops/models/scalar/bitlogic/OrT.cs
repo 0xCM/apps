@@ -24,7 +24,8 @@ namespace Z0.Ops.Scalar
             B = b;
         }
 
-        public Label OpName => "or<{0}>";
+        public Label OpName
+            => "or<{0}>";
 
         public BinaryBitLogicKind Kind
             => BinaryBitLogicKind.Or;

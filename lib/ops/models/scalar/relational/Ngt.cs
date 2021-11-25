@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "ngt";
+        public override Label OpName
+            => "ngt";
 
         public override CmpPredKind Kind
             => CmpPredKind.NGT;

@@ -11,7 +11,8 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "nlt";
+        public override Label OpName
+            => "nlt";
 
         public override CmpPredKind Kind
             => CmpPredKind.NLT;

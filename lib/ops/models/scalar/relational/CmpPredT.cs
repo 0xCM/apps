@@ -28,7 +28,8 @@ namespace Z0.Ops.Scalar
             Kind = kind;
         }
 
-        public Label OpName => "cmp<{0}>";
+        public Label OpName
+            => "cmp<{0}>";
 
         public string Format()
             => format(this);

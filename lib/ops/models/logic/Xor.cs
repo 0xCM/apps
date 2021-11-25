@@ -15,7 +15,8 @@ namespace Z0.Ops.Logic
         public override LogicExprKind Kind
             => LogicExprKind.XOr;
 
-        public override Label OpName => "xor";
+        public override Label OpName
+            => "xor";
 
         public override Xor Make(IExpr a, IExpr b)
             => new Xor(a,b);

@@ -2,35 +2,36 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.ScalarTypes
+namespace Z0.Expr
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    /// <summary>
-    /// Defines an unsigned 32-bit integer over parametric storage
-    /// </summary>
-    public struct u32<T> : IUnsigned<T>
-        where T : unmanaged
+    public class TextVar
     {
-        public const uint Width = 32;
+        public readonly string Name;
 
-        public T Storage;
+        public string Value;
 
         [MethodImpl(Inline)]
-        public u32(T src)
+        public TextVar(string name)
         {
-            Storage = src;
+            Name = name;
+            Value = EmptyString;
+        }
+
+        [MethodImpl(Inline)]
+        public TextVar(string name, string val)
+        {
+            Name = name;
+            Value = val;
         }
 
         public string Format()
-            => Storage.ToString();
+            => text.empty(Value) ? string.Format("$({0})", Name) : Value;
 
         public override string ToString()
             => Format();
-
-        BitWidth IValue.ContentWidth
-            => Width;
     }
 }

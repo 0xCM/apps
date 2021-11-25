@@ -6,11 +6,21 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
 
     using Expr;
 
     using static Root;
     using static core;
+
+    public enum LiteralNameSource : byte
+    {
+        None = 0,
+
+        Identifier,
+
+        Expression,
+    }
 
     [ApiHost("expr.api")]
     public readonly partial struct expr
@@ -20,6 +30,9 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Operand<T> operand<T>(Label name, T value)
             => new Operand<T>(name, value);
+
+        public static TextExpr textexpr(string body)
+            => new TextExpr(body);
 
         public static Index<Operand> operands<T>(T src)
             where T : struct
@@ -103,7 +116,15 @@ namespace Z0
         public static Value<T> value<T>(T src)
             => src;
 
-        public static LiteralSeq<E> literals<E>()
+        static Label name<E>(Sym<E> sym, LiteralNameSource src)
+            where E : unmanaged
+            => src switch{
+                LiteralNameSource.Expression => sym.Expr.Text,
+                LiteralNameSource.Identifier => sym.Name.Text,
+                _ => sym.Name.Text
+            };
+
+        public static LiteralSeq<E> literals<E>(LiteralNameSource ns)
             where E : unmanaged, Enum
         {
             var src = Symbols.index<E>();
@@ -113,7 +134,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var s = ref skip(symbols, i);
-                seek(dst,i) = literal<E>(s.Expr.Text, s.Kind);
+                seek(dst,i) = literal<E>(name(s,ns), s.Kind);
             }
             return new LiteralSeq<E>(typeof(E).Name, dst);
         }
@@ -181,5 +202,46 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         static Literal<T> literal<T>(in Label name, Constant<T> value)
             => new Literal<T>(name, value);
+
+        internal static Dictionary<string,TextVar> textvars(ReadOnlySpan<char> src)
+        {
+            var count = src.Length;
+            var dst = dict<string,TextVar>();
+            var name = EmptyString;
+            var parsing = false;
+            for(var i=0; i<count-1; i++)
+            {
+                ref readonly var c0 = ref skip(src,i);
+                ref readonly var c1 = ref skip(src,i+1);
+
+                if(!parsing)
+                {
+                    if(c0 == Chars.Dollar && c1 == Chars.LParen)
+                    {
+                        name = EmptyString;
+                        parsing = true;
+                        i++;
+                        continue;
+                    }
+                }
+                else
+                {
+                    if(nonempty(name) && c0 == Chars.RParen)
+                    {
+                        dst.TryAdd(name,new TextVar(name));
+                        name = EmptyString;
+                        parsing = false;
+                    }
+                    else
+                    {
+                        name += c0;
+                    }
+                }
+            }
+
+            if(nonempty(name))
+                dst.TryAdd(name,new TextVar(name));
+            return dst;
+        }
    }
 }

@@ -57,9 +57,9 @@ namespace Z0.Ops
                 => new Nlt<T>(a,b);
 
         [MethodImpl(Inline)]
-        public static And<T> and<T>()
-            where T : unmanaged
-                => new And<T>();
+        public static And<T> and<T>(T a, T b)
+            where T : IExpr
+                => new And<T>(a,b);
 
         [MethodImpl(Inline)]
         public static Or<T> or<T>(T a, T b)
