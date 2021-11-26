@@ -85,7 +85,6 @@ namespace Z0.Asm
             Wf.ApiJit().JitCatalog();
         }
 
-
         void MapMemory()
         {
             var dst = Db.IndexTable<ProcessMemoryRegion>();
@@ -118,11 +117,6 @@ namespace Z0.Asm
             resolver.ResolveParts(parts);
         }
 
-        void IndexApiPdbFiles(params PartId[] parts)
-        {
-            var builder = Wf.PdbIndexBuilder();
-            builder.IndexParts(parts);
-        }
 
         void EmitMetadataBlocks()
         {

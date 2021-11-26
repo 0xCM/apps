@@ -9,7 +9,7 @@ namespace Z0
     using Microsoft.Diagnostics.Runtime;
 
     using DP = DiagnosticProcessors;
-    using DR = DiagnosticRecords;
+    using DR = ClrMdRecords;
 
     public sealed class DumpParser : AppService<DumpParser>
     {

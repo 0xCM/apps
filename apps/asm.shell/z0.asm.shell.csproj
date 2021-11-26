@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
+    <PackageReference Include="z0.lib" Version="$(ZLibVersion)"/>
   </ItemGroup>
 
   <ItemGroup>

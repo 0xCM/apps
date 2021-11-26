@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct DiagnosticRecords
+    partial struct ClrMdRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct MethodTableToken : IComparableRecord<MethodTableToken>

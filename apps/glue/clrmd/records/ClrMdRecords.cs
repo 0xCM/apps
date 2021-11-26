@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct DiagnosticRecords
+    public readonly partial struct ClrMdRecords
     {
 
     }

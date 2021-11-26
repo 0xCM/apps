@@ -48,7 +48,6 @@ namespace Z0
                 Runtime = null;
                 Target.Dispose();
                 Target = null;
-
                 Wf.Babble("Detached");
             }
         }

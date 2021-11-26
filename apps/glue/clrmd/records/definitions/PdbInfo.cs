@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct DiagnosticRecords
+    partial struct ClrMdRecords
     {
         public readonly struct PdbInfo
         {

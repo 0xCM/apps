@@ -68,10 +68,11 @@ namespace Z0
                 counter += IndexComponent(skip(components,i));
 
             var index = Wf.PdbIndex();
-            var docspath = Db.Doc("pdbdocs", FS.Md);
-            var emitting = Wf.EmittingFile(docspath);
+            var db = Ws.Project("db");
+            var dst = db.Subdir("api") + FS.file("pdbdocs", FS.Md);
+            var emitting = Wf.EmittingFile(dst);
             var docs = index.Documents;
-            using var writer = docspath.Writer();
+            using var writer = dst.Writer();
             iter(docs, doc => writer.WriteLine(string.Format("<{0}>", doc.Path.ToUri())));
             Wf.EmittedFile(emitting, docs.Length);
             Wf.Ran(flow, Msg.IndexedPdbMethods.Format(counter));

@@ -8,7 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static DiagnosticRecords;
+    using static ClrMdRecords;
 
     partial struct DiagnosticProcessors
     {

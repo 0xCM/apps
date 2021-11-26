@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static DiagnosticRecords;
+    using static ClrMdRecords;
 
     using ClrMd = Microsoft.Diagnostics.Runtime;
 

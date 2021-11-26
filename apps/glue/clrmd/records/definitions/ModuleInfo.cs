@@ -9,7 +9,7 @@ namespace Z0
 
     using ClrMd = Microsoft.Diagnostics.Runtime;
 
-    partial struct DiagnosticRecords
+    partial struct ClrMdRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct ModuleInfo : IRecord<ModuleInfo>

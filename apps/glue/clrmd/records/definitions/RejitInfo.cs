@@ -6,7 +6,7 @@ namespace Z0
 {
     using System.Runtime.InteropServices;
 
-    partial struct DiagnosticRecords
+    partial struct ClrMdRecords
     {
         /// <summary>
         /// Shape derived from https://github.com/microsoft/clrmd/Microsoft.Diagnostics.Runtime/src/DacInterface/Structs/RejitData.cs

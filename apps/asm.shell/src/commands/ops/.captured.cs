@@ -11,13 +11,11 @@ namespace Z0.Asm
         [CmdOp(".captured")]
         Outcome ShowCaptured(CmdArgs args)
         {
-            var packs = Wf.ApiPacks();
-            var catalog = Wf.ApiCatalogs();
-            var available = packs.List();
-            iter(available, a => Wf.Row(a.Root));
-            var current = available.Last;
-            var archive = packs.Archive(current.Root);
-            var entries = catalog.LoadApiCatalog(archive.ContextRoot());
+            var packs = ApiPacks.List();
+            iter(packs, a => Wf.Row(a.Root));
+            var current = packs.Last;
+            var archive = ApiPacks.Archive(current.Root);
+            var entries = ApiCatalogs.LoadApiCatalog(archive.ContextRoot());
             var formatter = Z0.Tables.formatter<ApiCatalogEntry>();
             iter(entries, entry => Wf.Row(formatter.Format(entry)));
             return true;

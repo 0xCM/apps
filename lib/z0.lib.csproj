@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

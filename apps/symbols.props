@@ -25,7 +25,6 @@
     <Machines>$(Src)machines/z0.machines.csproj</Machines>
     <MachinesX86>$(Src)machines.X86/z0.machines.X86.csproj</MachinesX86>
 
-
     <LlvmTools>$(Src)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmModels>$(Src)llvm.models/z0.llvm.models.csproj</LlvmModels>
 
