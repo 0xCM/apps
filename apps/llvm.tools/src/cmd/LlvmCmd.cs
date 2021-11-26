@@ -18,7 +18,7 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths;
 
-        LlvmProjectEtl ProjectEtl;
+        LlvmProjectCollector ProjectEtl;
 
         LlvmRepo LlvmRepo;
 
@@ -27,6 +27,8 @@ namespace Z0.llvm
         LlvmReadObj ReadObj;
 
         LlvmRecordLoader RecordLoader;
+
+        LlvmMc Mc;
 
         new LlvmDb Db
         {
@@ -51,11 +53,12 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             RecordEtl = Wf.LlvmRecordEtl();
-            ProjectEtl = Wf.LlvmProjectEtl();
+            ProjectEtl = Wf.LlvmProjectCollector();
             Toolbase = Wf.LLvmToolbase();
             ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();
             RecordLoader = Wf.LlvmRecordLoader();
+            Mc = Wf.LlvmMc();
             Data = Ws.Project(Projects.LlvmData);
             State.Init(Wf, Ws);
             State.Project(Data);

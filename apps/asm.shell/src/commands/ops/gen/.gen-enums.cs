@@ -23,7 +23,7 @@ namespace Z0.Asm
         Outcome ShowTokens(CmdArgs args)
         {
             var result = Outcome.Success;
-            var tokens = Symbols.tokenize(typeof(AsmRegTokens.Gp64Reg));
+            var tokens = Tokens.tokenize(typeof(AsmRegTokens.Gp64Reg));
             core.iter(tokens, t => Write(t.Format()));
 
             return result;

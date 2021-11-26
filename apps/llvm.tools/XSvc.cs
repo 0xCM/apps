@@ -26,16 +26,16 @@ namespace Z0
             => llvm.LlvmRepo.create(wf);
 
         [Op]
-        public static McSyntaxLogs McSyntaxLogs(this IWfRuntime wf)
-            => llvm.McSyntaxLogs.create(wf);
+        public static LlvmMc LlvmMc(this IWfRuntime wf)
+            => llvm.LlvmMc.create(wf);
 
         [Op]
         public static LlvmRecordEtl LlvmRecordEtl(this IWfRuntime wf)
             => llvm.LlvmRecordEtl.create(wf);
 
         [Op]
-        public static LlvmProjectEtl LlvmProjectEtl(this IWfRuntime wf)
-            => llvm.LlvmProjectEtl.create(wf);
+        public static LlvmProjectCollector LlvmProjectCollector(this IWfRuntime wf)
+            => llvm.LlvmProjectCollector.create(wf);
 
         [Op]
         public static LlvmPaths LlvmPaths(this IServiceContext context)

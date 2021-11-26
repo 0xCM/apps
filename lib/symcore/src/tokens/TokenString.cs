@@ -11,6 +11,9 @@ namespace Z0
 
     using api = TokenStrings;
 
+    /// <summary>
+    /// Defines a sequence of null-delemited character sequences
+    /// </summary>
     public readonly struct TokenString
     {
         public Index<char> Content {get;}
@@ -26,6 +29,9 @@ namespace Z0
             get => Content.View;
         }
 
+        /// <summary>
+        /// The subsequence count
+        /// </summary>
         public uint TokenCount
         {
             [MethodImpl(Inline)]

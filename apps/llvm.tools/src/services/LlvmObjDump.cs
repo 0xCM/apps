@@ -62,11 +62,12 @@ namespace Z0.llvm
             var count = grid.RowCount;
             var buffer = alloc<ObjDumpRow>(count);
             ref var target = ref first(buffer);
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
-                ref readonly var data = ref grid[i];
+                ref readonly var data = ref grid[(int)i];
                 ref var dst = ref seek(target,i);
                 var j=0;
+                DataParser.parse(data[j++], out dst.Seq);
                 DataParser.parse(data[j++], out dst.Line);
                 DataParser.parse(data[j++], out dst.Section);
                 DataParser.parse(data[j++], out dst.BlockAddress);
@@ -94,7 +95,7 @@ namespace Z0.llvm
             var count = src.Length;
             var formatter = Tables.formatter<ObjDumpRow>(ObjDumpRow.RenderWidths);
             var flow = EmittingTable<ObjDumpRow>(dst);
-            var counter = 0u;
+            var total =0u;
             using var writer = dst.AsciWriter();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
@@ -106,22 +107,23 @@ namespace Z0.llvm
                     Error(result.Message);
                     continue;
                 }
-
+                var counter = 0u;
                 for(var j=0; j<rows.Length; j++)
                 {
-                    ref readonly var row = ref skip(rows,j);
+                    ref var row = ref seek(rows,j);
                     if(row.IsBlockStart)
                         continue;
 
+                    row.Seq = counter++;
                     writer.WriteLine(formatter.Format(row));
-                    counter++;
                 }
+                total += counter;
             }
-            EmittedTable(flow,counter);
+            EmittedTable(flow,total);
             return result;
         }
 
-        public Outcome ParseDump(FS.FilePath src, out ReadOnlySpan<ObjDumpRow> dst)
+        public Outcome ParseDump(FS.FilePath src, out Span<ObjDumpRow> dst)
         {
             dst = default;
             var result = Outcome.Success;
@@ -213,17 +215,16 @@ namespace Z0.llvm
                         var y = text.index(asm, Chars.Tab);
                         if(y > 0)
                         {
-                            DataParser.parse(text.trim(text.left(asm,y)), out row.Encoding);
-                            row.Asm = text.trim(text.right(asm,y)).Replace(Chars.Tab, Chars.Space);
+                            DataParser.parse(text.trim(text.left(asm, y)), out row.Encoding);
+                            row.Asm = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                         }
-
                         buffer.Add(row);
                         row = ObjDumpRow.Empty();
                     }
                 }
             }
 
-            dst = buffer.ViewDeposited();
+            dst = buffer.Array();
             return result;
         }
 

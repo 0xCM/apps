@@ -9,13 +9,10 @@ namespace Z0
 
     using static Root;
 
-    partial struct core
+    partial struct Cmd
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Lazy<T> lazy<T>(Func<T> f)
-            => new Lazy<T>(f);
-
-        public static Lookup<K,V> lookup<K,V>()
-            => new Lookup<K,V>();
+        public static CmdFlow<T> flow<T>(string actor, T src, T dst)
+            => new CmdFlow<T>(actor,src,dst);
     }
 }

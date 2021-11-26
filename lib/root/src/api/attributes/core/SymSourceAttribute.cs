@@ -10,7 +10,7 @@ namespace Z0
     {
         public SymSourceAttribute()
         {
-            SymKind = 0.ToString();
+            SymKind = string.Empty;
         }
 
         public SymSourceAttribute(object kind)

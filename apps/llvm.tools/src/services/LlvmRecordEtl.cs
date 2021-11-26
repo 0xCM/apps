@@ -20,7 +20,7 @@ namespace Z0.llvm
 
         llvm.LlvmObjDump ObjDump;
 
-        llvm.McSyntaxLogs McSyntaxLogs;
+        llvm.LlvmMc McSyntaxLogs;
 
         HashSet<string> ClassExclusions {get;}
             = hashset<string>("Hexagon", "Neon", "PowerPC", "RISCV", "SystemZ", "Hexagom", "AMDGPU");
@@ -35,7 +35,7 @@ namespace Z0.llvm
             OmniScript = Wf.OmniScript();
             Nm = Wf.LlvmNm();
             ObjDump = Wf.LlvmObjDump();
-            McSyntaxLogs = Wf.McSyntaxLogs();
+            McSyntaxLogs = Wf.LlvmMc();
         }
 
         public EtlDatasets Run()
@@ -72,57 +72,57 @@ namespace Z0.llvm
             Ran(running, string.Format("Emitted docs for {0} instructions", count));
         }
 
-        public void CollectProjectData()
-        {
-            iter(Projects.ProjectNames, name => ProjectCollect(Ws.Project(name)));
-        }
+        // public void CollectProjectData()
+        // {
+        //     iter(Projects.ProjectNames, name => ProjectCollect(Ws.Project(name)));
+        // }
 
-        Outcome ProjectCollect(IProjectWs ws)
-        {
-            var result = Outcome.Success;
-            result = ObjDump.Consolidate(ws);
-            if(result.Fail)
-                return result;
+        // Outcome ProjectCollect(IProjectWs ws)
+        // {
+        //     var result = Outcome.Success;
+        //     result = ObjDump.Consolidate(ws);
+        //     if(result.Fail)
+        //         return result;
 
-            result = CollectSyms(ws);
-            if(result.Fail)
-                return result;
+        //     result = CollectSyms(ws);
+        //     if(result.Fail)
+        //         return result;
 
-            result = CollectObjHex(ws);
-            if(result.Fail)
-                return result;
+        //     result = CollectObjHex(ws);
+        //     if(result.Fail)
+        //         return result;
 
-            var syntax = McSyntaxLogs.Collect(ws);
+        //     var syntax = McSyntaxLogs.Collect(ws);
 
-            return result;
-        }
+        //     return result;
+        // }
 
-        Outcome CollectObjHex(IProjectWs ws)
-        {
-            var result = Outcome.Success;
-            var paths = ws.OutFiles(FileKind.Obj, FileKind.O).View;
-            var count = paths.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var src = ref skip(paths,i);
-                var id = src.FileName.WithoutExtension.Format();
-                var dst = ws.OutDir(WsAtoms.objhex) + FS.file(id,FileTypes.ext(FileKind.HexDat));
-                using var writer = dst.AsciWriter();
-                var data = src.ReadBytes();
-                var size = HexFormatter.emit(data, writer);
-                Write(string.Format("({0:D5} bytes)[{1} -> {2}]", size, src.ToUri(), dst.ToUri()));
-            }
+        // Outcome CollectObjHex(IProjectWs ws)
+        // {
+        //     var result = Outcome.Success;
+        //     var paths = ws.OutFiles(FileKind.Obj, FileKind.O).View;
+        //     var count = paths.Length;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var src = ref skip(paths,i);
+        //         var id = src.FileName.WithoutExtension.Format();
+        //         var dst = ws.OutDir(WsAtoms.objhex) + FS.file(id,FileTypes.ext(FileKind.HexDat));
+        //         using var writer = dst.AsciWriter();
+        //         var data = src.ReadBytes();
+        //         var size = HexFormatter.emit(data, writer);
+        //         Write(string.Format("({0:D5} bytes)[{1} -> {2}]", size, src.ToUri(), dst.ToUri()));
+        //     }
 
-            return result;
-        }
+        //     return result;
+        // }
 
-        Outcome CollectSyms(IProjectWs ws)
-        {
-            var result = Outcome.Success;
-            var src = ws.OutFiles(FS.Sym).View;
-            var dst = ws.Table<ObjSymRow>(ws.Project.Format());
-            var symbols = Nm.Collect(src, dst);
-            return result;
-        }
+        // Outcome CollectSyms(IProjectWs ws)
+        // {
+        //     var result = Outcome.Success;
+        //     var src = ws.OutFiles(FS.Sym).View;
+        //     var dst = ws.Table<ObjSymRow>(ws.Project.Format());
+        //     var symbols = Nm.Collect(src, dst);
+        //     return result;
+        // }
    }
 }

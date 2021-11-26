@@ -15,12 +15,20 @@ namespace Z0
         {
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            writer.Write(delcaration(name));
+            writer.Write(fielddecl(name));
             begin(writer);
             write(writer,src);
             end(writer);
 
             EmittedFile(emitting, 1);
+        }
+
+        public void Emit(string name, ReadOnlySpan<char> src, StreamWriter dst)
+        {
+            dst.Write(fielddecl(name));
+            begin(dst);
+            write(dst,src);
+            end(dst);
         }
 
         static void begin(StreamWriter writer)
@@ -29,8 +37,11 @@ namespace Z0
         static void end(StreamWriter writer)
             => writer.WriteLine("\";");
 
-        static string delcaration(string name)
-            => string.Format("public const string {0} = ", name);
+        static string structdecl(string name)
+            => string.Format("public readonly struct {0}", name);
+
+        static string fielddecl(string name)
+            => string.Format("    public const string {0} = ", name);
 
         static void write(StreamWriter writer, ReadOnlySpan<char> src)
         {
@@ -55,7 +66,11 @@ namespace Z0
         {
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            writer.Write(delcaration(name));
+
+            writer.WriteLine(structdecl(name));
+            writer.WriteLine("{");
+
+            writer.Write(fielddecl("Data"));
             var count = src.Length;
             begin(writer);
             for(var i=0; i<count; i++)
@@ -65,6 +80,8 @@ namespace Z0
                     writer.Write(skip(s,j));
             }
             end(writer);
+
+            writer.WriteLine("}");
 
             EmittedFile(emitting, count);
         }

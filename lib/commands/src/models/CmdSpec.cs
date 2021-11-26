@@ -36,30 +36,7 @@ namespace Z0
         }
 
         public string Format()
-        {
-            if(IsEmpty)
-                return EmptyString;
-
-            var dst = text.buffer();
-            dst.Append(Name);
-            var count = Args.Length;
-            for(ushort i=0; i<count; i++)
-            {
-                ref readonly var arg = ref Args[i];
-                if(nonempty(arg.Name))
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(arg.Name);
-                }
-
-                if(nonempty(arg.Value))
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(arg.Value);
-                }
-            }
-            return dst.Emit();
-        }
+            => Cmd.format(this);
 
         public static CmdSpec Empty
         {

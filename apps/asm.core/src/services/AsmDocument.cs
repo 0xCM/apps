@@ -11,6 +11,8 @@ namespace Z0.Asm
 
     public class AsmDocument
     {
+        public FS.FilePath Path {get;}
+
         Index<AsmDirective> _Directives;
 
         Index<AsmBlockLabel> _BlockLabels;
@@ -19,12 +21,16 @@ namespace Z0.Asm
 
         Index<AsmSourceLine> _SourceLines;
 
-        public AsmDocument(AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s)
+        Index<Identifier> _Instructions;
+
+        public AsmDocument(FS.FilePath path, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, Identifier[] inst)
         {
+            Path = path;
             _Directives = d;
             _BlockLabels = b;
             _BlockOffsets = l;
             _SourceLines = s;
+            _Instructions = inst;
         }
 
         public ReadOnlySpan<AsmDirective> Directives
@@ -49,6 +55,12 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => _SourceLines.View;
+        }
+
+        public ReadOnlySpan<Identifier> Instructions
+        {
+            [MethodImpl(Inline)]
+            get => _Instructions.View;
         }
     }
 }

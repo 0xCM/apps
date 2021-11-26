@@ -17,7 +17,7 @@ namespace Z0
 
         public uint EmitTokens(string name, Type[] types, FS.FilePath dst)
         {
-            var tokens = Symbols.tokens(name,types);
+            var tokens = Tokens.set(name,types);
             var descriptions = Symbols.syminfo(tokens.Types());
             return TableEmit(descriptions, SymInfo.RenderWidths, dst);
         }

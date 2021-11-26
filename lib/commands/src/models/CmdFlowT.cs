@@ -4,35 +4,31 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct ToolFlow
+    public readonly struct CmdFlow<T>
     {
-        public readonly text15 Tool;
+        public readonly text31 Actor;
 
-        public readonly FS.FilePath Source;
+        public readonly T Source;
 
-        public readonly FS.FilePath Target;
+        public readonly T Target;
 
         [MethodImpl(Inline)]
-        public ToolFlow(text15 tool, FS.FilePath src, FS.FilePath dst)
+        public CmdFlow(text31 actor, T src, T dst)
         {
-            Tool = tool;
+            Actor = actor;
             Source = src;
             Target = dst;
         }
 
         public string Format()
-            => string.Format("{0}:{1} -> {2}", Tool, Source, Target);
+            => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
 
         public override string ToString()
             => Format();
-
-        public static ToolFlow Empty
-        {
-            get => new ToolFlow(text15.Empty, FS.FilePath.Empty, FS.FilePath.Empty);
-        }
     }
 }

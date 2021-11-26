@@ -9,12 +9,17 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct FacetIndex : IIndex<Facet>
+    using api = Faceted;
+
+    public readonly struct Facets : IIndex<Facet>
     {
+        public static Outcome parse(ReadOnlySpan<string> src, out Facets dst)
+            => api.parse(src, out dst);
+
         readonly Index<Facet> Data;
 
         [MethodImpl(Inline)]
-        public FacetIndex(Facet[] src)
+        public Facets(Facet[] src)
         {
             Data = src;
         }
@@ -55,12 +60,20 @@ namespace Z0
             get => ref Data[index];
         }
 
-        [MethodImpl(Inline)]
-        public static implicit operator FacetIndex(Facet[] src)
-            => new FacetIndex(src);
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Facet[](FacetIndex src)
+        public static implicit operator Facets(Facet[] src)
+            => new Facets(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Facet[](Facets src)
             => src.Data.Storage;
+
+        public static Facets Empty => new Facets(sys.empty<Facet>());
     }
 }

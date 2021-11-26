@@ -11,7 +11,7 @@ namespace Z0
 
     public class ApiHexPacks : AppService<ApiHexPacks>
     {
-        public Lookup<FS.FilePath,MemoryBlocks> LoadParsed(FS.FolderPath src)
+        public ConstLookup<FS.FilePath,MemoryBlocks> LoadParsed(FS.FolderPath src)
             => Load(src.Files(".parsed", FS.XPack, true));
 
         public MemoryBlocks LoadBlocks(FS.FolderPath root)
@@ -35,7 +35,7 @@ namespace Z0
             return new MemoryBlocks(buffer.ToArray());
         }
 
-        public Lookup<FS.FilePath,MemoryBlocks> Load(FS.Files src)
+        public ConstLookup<FS.FilePath,MemoryBlocks> Load(FS.Files src)
         {
             var flow = Running(string.Format("Loading {0} packs", src.Length));
             var lookup = new Lookup<FS.FilePath,MemoryBlocks>();
@@ -132,9 +132,9 @@ namespace Z0
         {
             var result = ApiHex.load(src, out var pack);
             if(result.Fail)
-                fail.Add(src, result);
+                fail.Include(src, result);
             else
-                success.Add(src, pack);
+                success.Include(src, pack);
         }
     }
 }

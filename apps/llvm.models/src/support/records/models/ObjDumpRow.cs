@@ -15,9 +15,11 @@ namespace Z0.llvm
     {
         public const string TableId = "objdump";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
         public const string BlockStartMarker = "<blockstart>";
+
+        public uint Seq;
 
         public LineNumber Line;
 
@@ -67,6 +69,6 @@ namespace Z0.llvm
         }
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{12,12,16,40,16,42,90,1};
+            => new byte[FieldCount]{8,12,12,16,40,16,42,90,1};
     }
 }

@@ -5,6 +5,8 @@
 namespace Z0
 {
     using System;
+    using System.Collections.Generic;
+    using static Root;
     using Windows;
 
     using static core;
@@ -14,6 +16,8 @@ namespace Z0
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
+
+
         CmdDispatcher Dispatcher;
 
         IWorkerLog Witness;
@@ -424,7 +428,7 @@ namespace Z0
             return src[(ushort)index];
         }
 
-        protected Outcome RunExe(ReadOnlySpan<ToolFlow> flows)
+        protected Outcome RunExe(ReadOnlySpan<ToolCmdFlow> flows)
         {
             if(ToolFlows.target(flows,FS.Exe, out var flow))
             {

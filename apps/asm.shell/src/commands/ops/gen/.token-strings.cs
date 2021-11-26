@@ -15,10 +15,15 @@ namespace Z0.Asm
         Outcome GenTokenSpecs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = Symbols.concat(Symbols.index<AsmOpCodeTokens.ModRmToken>());
-            var dst = Ws.Gen().Root + FS.file("token-specs", FS.Cs);
+            var src = Symbols.concat(Symbols.index<AsmOpCodeTokens.VexToken>());
+            var name = "VexTokens";
+            var dst = Ws.Project("gen").Subdir("literals") + FS.file(name, FS.Cs);
             var svc = Wf.Generators().StringLiterals();
-            svc.Emit("ModRmTokens", src, dst);
+            using var writer = dst.Writer();
+            writer.WriteLine(string.Format("public readonly struct {0}", name));
+            writer.WriteLine("{");
+            svc.Emit("Data", src, writer);
+            writer.WriteLine("}");
             return result;
         }
 
@@ -32,11 +37,9 @@ namespace Z0.Asm
             var name = string.Format("Range{0}To{1}", min, max);
             var n = max.ToString().Length;
             for(var i=min; i<=max; i++)
-            {
                 values.Add(i.ToString().PadLeft(n));
-            }
+            var dst = Ws.Project("gen").Subdir("literals") + FS.file(name, FS.Cs);
             var svc = Wf.Generators().StringLiterals();
-            var dst = Ws.Gen().Root + FS.file(name, FS.Cs);
             svc.Emit(name,values.ViewDeposited(), dst);
             return result;
         }

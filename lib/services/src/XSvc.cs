@@ -6,23 +6,6 @@ namespace Z0
 {
     using Svc = Z0;
 
-    static class SvcCache
-    {
-        static object locker = new object();
-
-        static ModelServices _ModelServices;
-
-        public static ModelServices Models(IWfRuntime wf)
-        {
-            lock(locker)
-            {
-                if(_ModelServices == null)
-                    _ModelServices = ModelServices.create(wf);
-            }
-            return _ModelServices;
-        }
-    }
-
     partial class XSvc
     {
         [Op]
@@ -123,5 +106,9 @@ namespace Z0
         [Op]
         public static StringTableGen StringTableGen(this IWfRuntime context)
             => Svc.StringTableGen.create(context);
+
+        [Op]
+        public static ApiMetadataService ApiMetadata(this IWfRuntime context)
+            => Svc.ApiMetadataService.create(context);
     }
 }

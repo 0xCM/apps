@@ -20,17 +20,19 @@ namespace Z0.Asm
             return result;
         }
 
-        [CmdOp(".emit-sym-index")]
+        [CmdOp(".emit-symbol-span")]
         Outcome EmitSymIndex(CmdArgs srgs)
         {
             var result = Outcome.Success;
-            var dst = Ws.Tables().Subdir("tmp") + FS.file("symindex", FS.Cs);
+            var dst = Ws.Project("gen").Subdir("symbols") + FS.file("symindex", FS.Cs);
+            var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            EmitSymIndex<AsciLetterLoSym>("AsciLetterLoSym", writer);
+            EmitSymbolSpan<AsciLetterLoSym>("AsciLetterLoSym", writer);
+            EmittedFile(emitting, 1);
             return result;
         }
 
-        Outcome EmitSymIndex<E>(Identifier container, StreamWriter dst)
+        Outcome EmitSymbolSpan<E>(Identifier container, StreamWriter dst)
             where E : unmanaged, Enum
         {
             var result = Outcome.Success;
@@ -38,22 +40,6 @@ namespace Z0.Asm
             SpanRes.symrender<E>(container, buffer);
             dst.WriteLine(buffer.Emit());
             return result;
-        }
-
-       void EmitSymIndex<K>(FS.FilePath dst)
-            where K : unmanaged, Enum
-        {
-            var src = Symbols.index<K>().View;
-            var count = src.Length;
-            if(count != 0)
-            {
-                var flow = Wf.EmittingFile(dst);
-                using var writer = dst.Writer();
-                writer.WriteLine(Symbols.header());
-                for(var i=0; i<count; i++)
-                    writer.WriteLine(skip(src,i));
-                Wf.EmittedFile(flow, count);
-            }
         }
     }
 }

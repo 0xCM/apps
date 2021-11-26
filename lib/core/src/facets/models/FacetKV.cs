@@ -9,27 +9,31 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Facet : IFacet<string,object>
-    {
-        public string Key {get;}
+    using api = Faceted;
 
-        public object Value {get;}
+    public readonly struct Facet<K,V> : IFacet<K,V>
+    {
+        public K Key {get;}
+
+        public V Value {get;}
 
         [MethodImpl(Inline)]
-        public Facet(string name, object value)
+        public Facet(K key, V value)
         {
-            Key = name;
+            Key = key;
             Value = value;
         }
 
         public string Format()
-            => RP.facet(Key,Value);
+            => api.format(this);
 
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator Facet((string name, object value) src)
-            => new Facet(src.name, src.value);
+        public static implicit operator Facet<K,V>(Paired<K,V> src)
+            => new Facet<K,V>(src.Left, src.Right);
+
+        public static implicit operator Facet<K,V>((K key, V value) src)
+            => new Facet<K,V>(src.key, src.value);
     }
 }

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using Windows.Image;
-
-    using static Root;
-    using static core;
-
     using C = Windows.Image.IMAGE_SECTION_CHARACTERISTICS;
 
     partial class LlvmCmd

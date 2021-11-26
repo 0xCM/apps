@@ -4,28 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
+
+    using Asm;
+
     using static LlvmNames;
     using static core;
 
-    public class LlvmProjectEtl : AppService<LlvmProjectEtl>
+    public class LlvmProjectCollector : AppService<LlvmProjectCollector>
     {
-        LlvmPaths LlvmPaths;
-
-        IProjectWs LlvmData;
-
         llvm.LlvmNm Nm;
 
         llvm.LlvmObjDump ObjDump;
 
-        llvm.McSyntaxLogs McSyntaxLogs;
+        llvm.LlvmMc Mc;
 
         protected override void Initialized()
         {
-            LlvmPaths = Wf.LlvmPaths();
-            LlvmData = Ws.Project(Projects.LlvmData);
             Nm = Wf.LlvmNm();
             ObjDump = Wf.LlvmObjDump();
-            McSyntaxLogs = Wf.McSyntaxLogs();
+            Mc = Wf.LlvmMc();
         }
 
         public void Collect()
@@ -48,7 +46,7 @@ namespace Z0.llvm
             if(result.Fail)
                 Error(result.Message);
 
-            var syntax = McSyntaxLogs.Collect(ws);
+            Mc.Collect(ws);
         }
 
         Outcome CollectObjHex(IProjectWs ws)

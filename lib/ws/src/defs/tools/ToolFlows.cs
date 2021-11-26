@@ -18,10 +18,10 @@ namespace Z0
         /// <param name="ext">The extension to match</param>
         /// <param name="dst">The match, if any</param>
         /// <returns>True if found; false otherwise</returns>
-        public static bool target(ReadOnlySpan<ToolFlow> src, FS.FileExt ext, out ToolFlow dst)
+        public static bool target(ReadOnlySpan<ToolCmdFlow> src, FS.FileExt ext, out ToolCmdFlow dst)
         {
             var result = false;
-            dst = ToolFlow.Empty;
+            dst = ToolCmdFlow.Empty;
             var count = src.Length;
             for(var i=0; i<count; i++)
             {

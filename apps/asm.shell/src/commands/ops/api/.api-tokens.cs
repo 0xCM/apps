@@ -4,24 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     partial class AsmCmdService
     {
-        [CmdOp(".api-tokens")]
+        [CmdOp(".emit-api-tokens")]
         Outcome EmitTokens(CmdArgs args)
         {
-            var catalog = ApiRuntimeLoader.catalog();
-            var components = catalog.Components.Storage;
-            var tokens = Symbols.tokens("api", components.Enums().Tagged<SymSourceAttribute>());
-            EmitTokens(tokens, Ws.Project("data.models"));
+            Wf.ApiMetadata().EmitApiTokens();
             return true;
         }
 
-        public uint EmitTokens(ITokenSet src, IProjectWs project)
-            => TableEmit(Symbols.syminfo(src.Types()), SymInfo.RenderWidths, project.TablePath<SymInfo>("tokens", src.Name));
-
-        public uint EmitTokens(string name, Type[] types, FS.FilePath dst)
-            => TableEmit(Symbols.syminfo(types), SymInfo.RenderWidths, dst);
+        [CmdOp(".emit-asm-tokens")]
+        Outcome EmitAsmTokens(CmdArgs args)
+        {
+            var tokens = Wf.AsmTokens();
+            var project = Ws.Project("db");
+            var svc = Wf.ApiMetadata();
+            var scope = "api";
+            svc.EmitTokens(tokens.RegTokens(), project, scope);
+            svc.EmitTokens(tokens.OpCodeTokens(), project, scope);
+            svc.EmitTokens(tokens.SigTokens(), project, scope);
+            svc.EmitTokens(tokens.ConditonTokens(), project, scope);
+            svc.EmitTokens(tokens.PrefixTokens(), project, scope);
+            return true;
+        }
     }
 }

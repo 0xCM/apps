@@ -11,50 +11,69 @@ namespace Z0.llvm
 
     using static core;
 
-    public class McSyntaxLogs : AppService<McSyntaxLogs>
+    public class LlvmMc : AppService<LlvmMc>
     {
-        public ReadOnlySpan<AsmSyntaxRow> Collect(ProjectId src)
-        {
-            return Collect(Ws.Project(src));
-        }
-
-        public ReadOnlySpan<AsmSyntaxRow> Collect(IProjectWs ws)
-        {
-            var rows = CollectRows(ws);
-            return rows;
-        }
-
-        ReadOnlySpan<AsmSyntaxRow> CollectRows(IProjectWs ws)
+        public ConstLookup<FS.FileUri,AsmSyntaxDoc> Collect(IProjectWs ws)
         {
             var result = CollectLogs(ws);
             CollectSyntaxTrees(ws);
             return result;
         }
 
-        ReadOnlySpan<AsmSyntaxRow> CollectLogs(IProjectWs ws)
+        public Index<AsmDocument> SyntaxSources(IProjectWs ws)
+        {
+            var src = SyntaxSourcePaths(ws).View;
+            var count = src.Length;
+            var dst = list<AsmDocument>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(src,i);
+                var result = LlvmMcParser.parse(path, out var doc);
+                if(result.Fail)
+                {
+                    Error(result.Message);
+                    break;
+                }
+                dst.Add(doc);
+            }
+            return dst.Array();
+        }
+
+        FS.Files SyntaxSourcePaths(IProjectWs ws)
+            => ws.OutFiles(FileKind.AsmSyntax);
+
+        ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectLogs(IProjectWs ws)
         {
             var logs = ws.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
             var dst = ws.Table<AsmSyntaxRow>(ws.Project.Format());
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
+            var tmp = list<AsmSyntaxRow>();
+            var docs = lookup<FS.FileUri,AsmSyntaxDoc>();
             for(var i=0; i<count; i++)
-                ParseSyntaxLogRows(skip(logs,i), buffer);
+            {
+                tmp.Clear();
+                ref readonly var path = ref skip(logs,i);
+                ParseSyntaxLogRows(path, tmp);
+                docs.Include(path, new AsmSyntaxDoc(path, tmp.ToArray()));
+                buffer.AddRange(tmp);
+            }
             var rows = buffer.ViewDeposited();
             TableEmit(rows, AsmSyntaxRow.RenderWidths, dst);
-            return rows;
+            return docs.Seal();
         }
 
         Outcome CollectSyntaxTrees(IProjectWs ws)
         {
             var result = Outcome.Success;
-            var src = ws.OutFiles(FileKind.AsmSyntax).View;
+            var src = SyntaxSourcePaths(ws).View;
             var count = src.Length;
-            var dst = ws.OutDir() + FS.file(ws.Name.Format() + ".syntax-trees", FS.Asm);
+            var dst = ws.OutDir() + FS.file(ws.Name.Format() + ".syntree", FS.Asm);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                result = McAsmParser.parse(path, out var doc);
+                result = LlvmMcParser.parse(path, out var doc);
                 if(result.Fail)
                     break;
 
@@ -78,7 +97,7 @@ namespace Z0.llvm
                 ref readonly var a = ref skip(lines, i).Content;
                 ref readonly var b = ref skip(lines, i+1).Content;
 
-                var m = text.index(a,EntryMarker);
+                var m = text.index(a, EntryMarker);
                 if(!a.Contains(EntryMarker))
                     continue;
 
@@ -95,12 +114,12 @@ namespace Z0.llvm
                     body = text.left(body, ci);
 
                 var record = new AsmSyntaxRow();
-                counter++;
+                record.Seq = counter++;
                 FS.point(locator, out var point);
                 record.Location = point.Location;
                 record.Expr = AsmExpr.parse(body);
                 record.Syntax = syntax;
-                record.Source = point.Path;
+                record.Source = point.Path.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);
             }
             return counter;

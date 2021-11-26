@@ -6,6 +6,7 @@ namespace Z0
 {
     using System;
     using System.Reflection;
+    using System.IO;
 
     using static core;
 
@@ -46,6 +47,22 @@ namespace Z0
         {
             var dst = Db.Table<SymLiteralRow>(typeof(E).FullName);
             return EmitLiterals<E>(dst);
+        }
+
+        public void EmitSymbolSpan<E>(Identifier name, FS.FolderPath dst)
+            where E : unmanaged, Enum
+        {
+            var path = dst + FS.file(name.Format(), FS.Cs);
+            using var writer = path.Writer();
+            EmitSymbolSpan<E>(name,writer);
+        }
+
+        public void EmitSymbolSpan<E>(Identifier name, StreamWriter dst)
+            where E : unmanaged, Enum
+        {
+            var buffer = text.buffer();
+            SpanRes.symrender<E>(name, buffer);
+            dst.WriteLine(buffer.Emit());
         }
 
         public ReadOnlySpan<SymLiteralRow> EmitLiterals<E>(FS.FilePath dst)

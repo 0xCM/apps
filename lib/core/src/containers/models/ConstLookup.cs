@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public class Lookup<K,V>
+    public class ConstLookup<K,V>
     {
         readonly ConcurrentDictionary<K,V> Storage;
 
@@ -20,32 +20,32 @@ namespace Z0
 
         Index<LookupEntry<K,V>> _Entries;
 
-        bool Sealed;
-
-        object locker;
-
-        public Lookup()
+        public bool IsEmpty
         {
-            Storage = new();
-            Sealed = false;
-            locker = new();
-            _Keys = sys.empty<K>();
-            _Values = sys.empty<V>();
+            [MethodImpl(Inline)]
+            get => _Entries.IsEmpty;
         }
 
-        public Lookup<K,V> Seal()
+        public bool IsNonEmpty
         {
-            lock(locker)
-            {
-                if(!Sealed)
-                {
-                    Sealed = true;
-                    _Keys = Storage.Keys.Array();
-                    _Values = Storage.Values.Array();
-                    _Entries = Storage.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
-                }
-            }
-            return this;
+            [MethodImpl(Inline)]
+            get => _Entries.IsNonEmpty;
+        }
+
+        ConstLookup()
+        {
+            Storage = new();
+            _Keys = sys.empty<K>();
+            _Values = sys.empty<V>();
+            _Entries = sys.empty<LookupEntry<K,V>>();
+        }
+
+        public ConstLookup(ConcurrentDictionary<K,V> src)
+        {
+            Storage = src;
+            _Keys = src.Keys.Array();
+            _Values = src.Values.Array();
+            _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
         }
 
         public ReadOnlySpan<K> Keys
@@ -73,19 +73,9 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public bool Add(K key, V value)
-            =>  Sealed ? false : Storage.TryAdd(key,value);
-
-        [MethodImpl(Inline)]
         public bool Find(K key, out V value)
-        {
-            if(Sealed)
-            {
-                value = default;
-                return false;
-            }
-            else
-                return Storage.TryGetValue(key, out value);
-        }
+            => Storage.TryGetValue(key, out value);
+
+        public static ConstLookup<K,V> Empty => new();
     }
 }

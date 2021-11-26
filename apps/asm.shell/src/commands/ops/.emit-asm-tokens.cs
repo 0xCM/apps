@@ -28,17 +28,6 @@ namespace Z0.Asm
             return result;
         }
 
-        [CmdOp(".emit-asm-tokens")]
-        Outcome EmitAsmTokens(CmdArgs args)
-        {
-            var tokens = Wf.AsmTokens();
-            var project = Ws.Project("data.models");
-            EmitTokens(tokens.RegTokens(), project);
-            EmitTokens(tokens.OpCodeTokens(), project);
-            EmitTokens(tokens.SigTokens(), project);
-            EmitTokens(tokens.ConditonTokens(), project);
-            EmitTokens(tokens.PrefixTokens(), project);
-            return true;
-        }
+
     }
 }
