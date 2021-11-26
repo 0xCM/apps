@@ -12,14 +12,20 @@ namespace Z0.llvm
 
     using SQ = SymbolicQuery;
 
+    [Tool(ToolId)]
     public sealed class LlvmObjDump : ToolService<LlvmObjDump>
     {
+        public const string ToolId = LlvmNames.Tools.llvm_objdump;
+
         const string SectionMarker = "Disassembly of section ";
 
         const string FormatMarker = "file format ";
 
-        public override ToolId Id
-            => LlvmNames.Tools.llvm_objdump;
+        public LlvmObjDump()
+            : base(ToolId)
+        {
+
+        }
 
         static bool DefinesBlockLabel(ReadOnlySpan<char> src)
         {

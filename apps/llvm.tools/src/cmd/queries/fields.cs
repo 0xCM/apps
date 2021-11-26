@@ -7,8 +7,6 @@ namespace Z0.llvm
     using static LlvmNames;
     using static core;
 
-    using records;
-
     partial class LlvmCmd
     {
         [CmdOp(Queries.fields)]

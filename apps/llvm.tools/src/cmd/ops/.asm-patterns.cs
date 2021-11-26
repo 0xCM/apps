@@ -63,9 +63,10 @@ namespace Z0.llvm
             TableEmit(records.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(asmids.ViewDeposited(), LlvmPaths.Table<LlvmAsmIdentity>());
 
-            RecordEtl.EmitLists(entities, RecordClasses.Names);
+            var lists = RecordEtl.EmitLists(entities, RecordClasses.Names);
             RecordEtl.EmitChildRelations(entities);
 
+            CodeGen.GenListStringTables(lists);
             return true;
         }
     }

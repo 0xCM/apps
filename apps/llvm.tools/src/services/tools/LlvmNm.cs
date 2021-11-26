@@ -8,10 +8,17 @@ namespace Z0.llvm
 
     using static core;
 
+
+    [Tool(ToolId)]
     public sealed class LlvmNm : ToolService<LlvmNm>
     {
-        public override ToolId Id
-            => LlvmNames.Tools.llvm_nm;
+        public const string ToolId = LlvmNames.Tools.llvm_nm;
+
+        public LlvmNm()
+            : base(ToolId)
+        {
+
+        }
 
         public ReadOnlySpan<ObjSymRow> Read(FS.FilePath path)
         {

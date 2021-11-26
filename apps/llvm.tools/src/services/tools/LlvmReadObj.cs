@@ -4,10 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public sealed class LlvmReadObj : ToolService<LlvmReadObj>
+    [Tool(ToolId)]
+    public sealed partial class LlvmReadObj : ToolService<LlvmReadObj>
     {
-        public override ToolId Id
-            => LlvmNames.Tools.llvm_readobj;
+        public const string ToolId = LlvmNames.Tools.llvm_readobj;
+
+        public LlvmReadObj()
+            : base(ToolId)
+        {
+
+        }
 
         public FS.Files ObjInfoFiles(FS.FolderPath src)
             => src.Files(FS.ext("obi"), true);
@@ -32,5 +38,8 @@ namespace Z0.llvm
 
             return CoffObjInfo.Empty;
         }
-    }
+
+        public LlvmObiParser ObiParser()
+            => LlvmObiParser.create(Wf);
+   }
 }

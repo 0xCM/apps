@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using System;
 
-    using Asm;
-
     using static LlvmNames;
     using static core;
 

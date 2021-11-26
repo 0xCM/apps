@@ -11,8 +11,17 @@ namespace Z0.llvm
 
     using static core;
 
-    public class LlvmMc : AppService<LlvmMc>
+    [Tool(ToolId)]
+    public partial class LlvmMc : ToolService<LlvmMc>
     {
+        public const string ToolId = LlvmNames.Tools.llvm_mc;
+
+        public LlvmMc()
+            : base(ToolId)
+        {
+
+        }
+
         public ConstLookup<FS.FileUri,AsmSyntaxDoc> Collect(IProjectWs ws)
         {
             var result = CollectLogs(ws);

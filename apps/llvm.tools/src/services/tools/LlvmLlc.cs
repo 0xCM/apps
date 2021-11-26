@@ -5,13 +5,23 @@
 namespace Z0.llvm
 {
     using System;
+    using System.Collections.Generic;
 
-    partial class LlvmEtl
+    using Asm;
+
+    using static core;
+
+
+    [Tool(ToolId)]
+    public class LlvmLlc : ToolService<LlvmLlc>
     {
-        public ReadOnlySpan<TextLine> LoadSourceRecords(string id)
+        public const string ToolId = LlvmNames.Tools.llc;
+
+        public LlvmLlc()
+            : base(ToolId)
         {
-            using var reader = LlvmPaths.DataSourcePath(id).Utf8LineReader();
-            return reader.ReadAll();
+
+
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     using K = llvm.LlvmConfigKind;
 
-    partial class LlvmRecordEtl
+    partial class LlvmEtl
     {
         public LlvmConfig ComputeConfig()
         {
@@ -25,10 +25,128 @@ namespace Z0.llvm
                     Write(result.Message);
 
                 if(response.Length != 0)
-                    etl.store(option, first(response), dst);
+                    store(option, first(response), dst);
             }
 
             return dst;
+        }
+
+        static void store(Sym<LlvmConfigKind> sym, TextLine src, LlvmConfig dst)
+        {
+            var content = text.trim(src.Content);
+            if(empty(content))
+                return;
+
+            var kind = sym.Kind;
+            switch(kind)
+            {
+                case K.Version:
+                {
+                    dst.Set(kind, content);
+                }
+                break;
+                case K.IncludeDir:
+                {
+                    var data = FS.dir(content);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.LibDir:
+                {
+                    var data = FS.dir(content);
+                    dst.Set(kind,data);
+                }
+                break;
+                case K.TargetsBuilt:
+                {
+                    var data = content.Split(Chars.Space);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.SrcRoot:
+                {
+                    var dir = FS.dir(content);
+                    dst.Set(kind, dir);
+                }
+                break;
+                case K.ObjRoot:
+                {
+                    var data = FS.dir(content);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.BinDir:
+                {
+                    var data = FS.dir(content);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.HostTarget:
+                {
+                    dst.Set(kind, content);
+                }
+                break;
+                case K.CFlags:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.CxxFlags:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.SystemLibs:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.file);
+                    dst.Set(kind,data);
+                }
+                break;
+                case K.LibNames:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.file);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.CppFlags:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    dst.Set(kind,data);
+                }
+                break;
+                case K.LinkerFlags:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.LinkStatic:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.Components:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    dst.Set(kind,data);
+                }
+                break;
+                case K.Libs:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.path);
+                    dst.Set(kind, data);
+                }
+                break;
+                case K.LibFiles:
+                {
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.path);
+                    dst.Set(kind, data);
+                }
+                break;
+            }
         }
     }
 }

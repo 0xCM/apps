@@ -8,9 +8,9 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmRecordEtl
+    partial class LlvmEtl
     {
-        public void EmitChildRelations(RecordEntitySet entities)
+        public FS.FilePath EmitChildRelations(RecordEntitySet entities)
         {
             var parents = entities.GroupByParent();
             var dst = list<ChildRelation>();
@@ -33,7 +33,9 @@ namespace Z0.llvm
                 }
             }
 
-            TableEmit(dst.ViewDeposited(), LlvmPaths.Table<ChildRelation>());
+            var path = LlvmPaths.Table<ChildRelation>();
+            TableEmit(dst.ViewDeposited(), path);
+            return path;
         }
     }
 }

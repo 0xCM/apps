@@ -13,30 +13,30 @@ namespace Z0
     {
         public FS.FolderPath InstallBase {get;}
 
-        public Index<ToolId> Members {get;}
+        public Index<ToolProfile> Profiles {get;}
+
+        public Index<ToolDeployment> Deployments {get;}
 
         [MethodImpl(Inline)]
-        public Toolset(FS.FolderPath @base, ToolId[] members)
+        public Toolset(FS.FolderPath @base, ToolProfile[] profiles)
         {
             InstallBase = @base;
-            Members = members;
+            Profiles = profiles;
+            Deployments = Profiles.Select(x => new ToolDeployment(x.Id, InstallBase + FS.file(x.Id.Format(), FS.Exe)));
         }
-
-        public Index<ToolDeployment> Deployments
-            => Members.Select(x => new ToolDeployment(x,InstallBase + FS.file(x.Format(), FS.Exe)));
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Members.IsEmpty;
+            get => Profiles.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Members.IsNonEmpty;
+            get => Profiles.IsNonEmpty;
         }
 
-        public static Toolset Empty => new Toolset(FS.FolderPath.Empty, sys.empty<ToolId>());
+        public static Toolset Empty => new Toolset(FS.FolderPath.Empty, sys.empty<ToolProfile>());
     }
 }

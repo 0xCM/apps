@@ -30,8 +30,8 @@ namespace Z0
             => llvm.LlvmMc.create(wf);
 
         [Op]
-        public static LlvmRecordEtl LlvmRecordEtl(this IWfRuntime wf)
-            => llvm.LlvmRecordEtl.create(wf);
+        public static LlvmEtl LlvmRecordEtl(this IWfRuntime wf)
+            => llvm.LlvmEtl.create(wf);
 
         [Op]
         public static LlvmProjectCollector LlvmProjectCollector(this IWfRuntime wf)
@@ -50,12 +50,16 @@ namespace Z0
             => Z0.LlvmWs.create(env.Env.LlvmRoot);
 
         [Op]
-        public static LlvmToolbase LLvmToolbase(this IWfRuntime wf)
-            => llvm.LlvmToolbase.create(wf);
+        public static LlvmToolset LLvmToolset(this IWfRuntime wf)
+            => llvm.LlvmToolset.create(wf);
 
         [Op]
-        public static LlvmCodeGen LlvmEtlCodeGen(this IWfRuntime wf)
+        public static LlvmCodeGen LlvmCodeGen(this IWfRuntime wf)
             => llvm.LlvmCodeGen.create(wf);
+
+        [Op]
+        public static LlvmLlc LlvmLLc(this IWfRuntime wf)
+            => llvm.LlvmLlc.create(wf);
 
         [Op]
         public static LlvmRecordLoader LlvmRecordLoader(this IWfRuntime wf)

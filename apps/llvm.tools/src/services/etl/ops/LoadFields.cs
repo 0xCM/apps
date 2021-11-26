@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmRecordEtl
+    partial class LlvmEtl
     {
         void LoadFields(ReadOnlySpan<TextLine> src, in LineInterval<Identifier> interval, ref int k, Span<RecordField> dst)
         {

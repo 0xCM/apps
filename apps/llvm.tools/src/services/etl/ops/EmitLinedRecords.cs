@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using System;
 
-    partial class LlvmRecordEtl
+    partial class LlvmEtl
     {
         public Outcome EmitLinedRecords(ReadOnlySpan<TextLine> src, string id)
         {

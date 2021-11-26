@@ -8,14 +8,16 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmRecordEtl
+    partial class LlvmEtl
     {
-        public void EmitLists(RecordEntitySet src, ReadOnlySpan<string> classes)
+        public FS.Files EmitLists(RecordEntitySet src, ReadOnlySpan<string> classes)
         {
-            iter(classes, c => EmitList(src,c), true);
+            var emitted = bag<FS.FilePath>();
+            iter(classes, c => emitted.Add(EmitList(src,c)), true);
+            return emitted.ToArray();
         }
 
-        public void EmitList(RecordEntitySet src, string @class)
+        public FS.FilePath EmitList(RecordEntitySet src, string @class)
         {
             var dst = LlvmPaths.Table(string.Format("llvm.lists.{0}", @class));
             var emitting = EmittingTable<LlvmListItem>(dst);
@@ -38,6 +40,7 @@ namespace Z0.llvm
             }
 
             EmittedTable(emitting, counter);
+            return dst;
         }
     }
 }

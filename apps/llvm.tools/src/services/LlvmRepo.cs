@@ -44,9 +44,9 @@ namespace Z0.llvm
             => Root() + FS.folder(Repo.build);
 
         public FS.Files BuildOutput(FS.FileExt ext)
-            =>  BuildOutput().Where(x => x.Is(ext));
+            => BuildOutput().Where(x => x.Is(ext));
 
         public FS.Files BuildOutput(FS.FileExt a, FS.FileExt b)
-            =>  BuildOutput().Where(x => x.Is(a) || x.Is(b));
+            => BuildOutput().Where(x => x.Is(a) || x.Is(b));
     }
 }

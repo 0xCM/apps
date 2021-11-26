@@ -12,9 +12,9 @@ namespace Z0.llvm
 
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
-        LlvmRecordEtl RecordEtl;
+        LlvmEtl RecordEtl;
 
-        LlvmToolbase Toolbase;
+        LlvmToolset Toolset;
 
         LlvmPaths LlvmPaths;
 
@@ -29,6 +29,8 @@ namespace Z0.llvm
         LlvmRecordLoader RecordLoader;
 
         LlvmMc Mc;
+
+        LlvmCodeGen CodeGen;
 
         new LlvmDb Db
         {
@@ -54,11 +56,12 @@ namespace Z0.llvm
             LlvmPaths = Wf.LlvmPaths();
             RecordEtl = Wf.LlvmRecordEtl();
             ProjectEtl = Wf.LlvmProjectCollector();
-            Toolbase = Wf.LLvmToolbase();
+            Toolset = Wf.LLvmToolset();
             ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();
             RecordLoader = Wf.LlvmRecordLoader();
             Mc = Wf.LlvmMc();
+            CodeGen = Wf.LlvmCodeGen();
             Data = Ws.Project(Projects.LlvmData);
             State.Init(Wf, Ws);
             State.Project(Data);

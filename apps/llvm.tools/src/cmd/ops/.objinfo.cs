@@ -34,7 +34,7 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var files = ReadObj.ObjInfoFiles(State.Project().OutDir());
-            var parser = LlvmObiParser.create(Wf);
+            var parser = ReadObj.ObiParser();
             foreach(var file in files)
             {
                 result = parser.Parse(file, out var obi);

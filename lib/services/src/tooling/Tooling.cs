@@ -25,10 +25,6 @@ namespace Z0
 
         }
 
-        [MethodImpl(Inline), Op]
-        public static Toolset toolset(FS.FolderPath @base, ToolId[] members)
-            => new Toolset(@base, members);
-
         public static ReadOnlySpan<CmdFlagSpec> flags(FS.FilePath src)
         {
             var k = z16;

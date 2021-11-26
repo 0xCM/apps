@@ -10,86 +10,100 @@ namespace Z0.llvm
     using static Root;
     using static core;
 
-    public class LlvmToolbase : AppService<LlvmToolbase>
+    public class LlvmToolset : AppService<LlvmToolset>
     {
         OmniScript OmniScript;
+
+        FS.FolderPath ToolsetDir;
+
+        Index<ToolProfile> Profiles;
+
+        Toolset Toolset;
+
+        public LlvmToolset()
+        {
+            Toolset = Toolset.Empty;
+            Profiles = Index<ToolProfile>.Empty;
+            ToolsetDir = FS.FolderPath.Empty;
+        }
 
         protected override void Initialized()
         {
             OmniScript = Wf.OmniScript();
+            ToolsetDir = FS.dir(@"J:\llvm\toolset");
+            LoadProfiles();
+            LoadToolset();
         }
 
-        Outcome InitializeProfiles(FS.FolderPath spec, FS.FilePath config, ToolId set)
+        // Outcome InitializeProfiles(FS.FolderPath spec, FS.FilePath config, ToolId set)
+        // {
+
+        //     var profiles = list<ToolProfile>();
+        //     var result = LoadToolset();
+        //     if(result.Fail)
+        //         return result;
+        //     var tools = Toolset.Deployments.View;
+        //     var count = tools.Length;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var tool = ref skip(tools,i);
+        //         if(!tool.Path.Exists)
+        //             Error(string.Format("{0} unverified", tool));
+        //         else
+        //         {
+        //             var profile = new ToolProfile();
+        //             profile.Id = tool.Id;
+        //             profile.Path = tool.Path;
+        //             profile.HelpCmd = "--help";
+        //             profile.Memberhisp = set;
+        //             profiles.Add(profile);
+        //         }
+        //     }
+        //     var dst = ToolsetDir + Tables.filename<ToolProfile>();
+        //     var final = profiles.ViewDeposited();
+        //     TableEmit(final, ToolProfile.RenderWidths, dst);
+        //     return result;
+        // }
+
+        // Outcome Init()
+        // {
+        //     var result = Outcome.Success;
+        //     var config = ToolsetDir + FS.file("toolset", FS.Settings);
+
+        //     var profilepath = ToolsetDir + Tables.filename<ToolProfile>();
+        //     if(!profilepath.Exists)
+        //         InitializeProfiles(ToolsetDir, config, "llvm");
+
+        //     return LoadProfiles();
+        // }
+
+        Outcome LoadProfiles()
         {
-            var profiles = list<ToolProfile>();
-            var result = LoadToolset(config, out var toolset);
-            var tools = toolset.Deployments.View;
-            var count = tools.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var tool = ref skip(tools,i);
-                if(!tool.Path.Exists)
-                    Error(string.Format("{0} unverified", tool));
-                else
-                {
-
-                    var profile = new ToolProfile();
-                    profile.Id = tool.Id;
-                    profile.Path = tool.Path;
-                    profile.HelpCmd = "--help";
-                    profile.Memberhisp = set;
-                    profiles.Add(profile);
-
-                }
-            }
-            var dst = spec + Tables.filename<ToolProfile>();
-            var final = profiles.ViewDeposited();
-            TableEmit(final, ToolProfile.RenderWidths, dst);
-            return result;
-        }
-
-        public Outcome Create(FS.FolderPath spec, FS.FolderPath toolbase)
-        {
-            var result = Outcome.Success;
-            var config = spec + FS.file("llvm", FS.Settings);
-            result = LoadToolset(config, out var toolset);
-            if(result.Fail)
-                return result;
-
-            var profilepath = spec + Tables.filename<ToolProfile>();
-            if(!profilepath.Exists)
-                InitializeProfiles(spec,config, "llvm");
-
-            return Load(LoadProfiles(profilepath), toolbase);
-        }
-
-        ReadOnlySpan<ToolProfile> LoadProfiles(FS.FilePath src)
-        {
+            var src = Tables.path<ToolProfile>(ToolsetDir);
             var content = src.ReadUnicode();
             var result = TextGrids.parse(content, out var grid);
             var dst = list<ToolProfile>();
             if(result)
             {
                 if(grid.ColCount != ToolProfile.FieldCount)
-                {
                     result = (false,Tables.FieldCountMismatch.Format(ToolProfile.FieldCount, grid.ColCount));
-                }
-                var count = grid.RowCount;
-                for(var i=0; i<count; i++)
+                else
                 {
-                    ref readonly var row = ref grid[i];
-                    result = parse(row, out ToolProfile profile);
-                    if(result)
+                    var count = grid.RowCount;
+                    for(var i=0; i<count; i++)
                     {
-                        dst.Add(profile);
+                        result = parse(grid[i], out ToolProfile profile);
+                        if(result)
+                            dst.Add(profile);
+                        else
+                            break;
                     }
                 }
             }
 
-            if(result.Fail)
-                Error(result.Message);
+            Profiles = dst.Array();
 
-            return dst.ViewDeposited();
+            return result;
         }
 
         static Outcome parse(in TextRow src, out ToolProfile dst)
@@ -109,7 +123,7 @@ namespace Z0.llvm
             return result;
         }
 
-        Outcome Load(ReadOnlySpan<ToolProfile> src, FS.FolderPath dst)
+        Outcome EmitHelpDocs(ReadOnlySpan<ToolProfile> src, FS.FolderPath dst)
         {
             var result = Outcome.Success;
             var count = src.Length;
@@ -117,11 +131,9 @@ namespace Z0.llvm
             {
                 ref readonly var profile = ref skip(src,i);
                 ref readonly var tool = ref profile.Id;
-                var home = (dst + FS.folder(tool.Format())).Create();
                 if(profile.HelpCmd.IsEmpty)
                     continue;
 
-                var docs = (home + FS.folder("docs")).Create();
                 var cmdline = Cmd.cmdline(string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd));
                 Write(string.Format("Executing '{0}'", cmdline.Format()));
                 result = OmniScript.Run(cmdline, CmdVars.Empty, out var response);
@@ -129,7 +141,7 @@ namespace Z0.llvm
                     return result;
 
                 var length = response.Length;
-                var path = docs + FS.file(tool.Format(),FS.Help);
+                var path = dst + FS.file(tool.Format(), FS.Help);
                 var emitting = EmittingFile(path);
                 using var writer = path.UnicodeWriter();
                 for(var j=0; j<length; j++)
@@ -142,11 +154,11 @@ namespace Z0.llvm
             return result;
         }
 
-        Outcome LoadToolset(FS.FilePath config, out Toolset dst)
+        Outcome LoadToolset()
         {
             var @base = FS.FolderPath.Empty;
             var members = Index<ToolId>.Empty;
-            dst = Toolset.Empty;
+            var config = ToolsetDir + FS.file("toolset", FS.Settings);
             if(!config.Exists)
                 return (false, FS.missing(config));
 
@@ -163,23 +175,15 @@ namespace Z0.llvm
                     {
                         var root = FS.dir(value);
                         if(root.Exists)
-                        {
                             @base = root;
-                        }
-                    }
-                    else if(name == "Members")
-                    {
-                        var inventory = FS.path(value);
-                        if(inventory.Exists)
-                            members = inventory.ReadLines().Select(x => new ToolId(x));
                     }
                 }
             }
 
             if(@base.IsNonEmpty && members.IsNonEmpty)
-                dst = new Toolset(@base, members);
+                Toolset = new Toolset(@base, Profiles);
 
-            return dst.IsNonEmpty;
+            return Toolset.IsNonEmpty;
         }
     }
 }
