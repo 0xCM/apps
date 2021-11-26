@@ -15,9 +15,16 @@ namespace Z0
 
     }
 
-    [ApiHost]
-    public static class XSvc
+    public static partial class XSvc
     {
+        [Op]
+        public static Roslyn Roslyn(this IWfRuntime wf)
+            => Z0.Roslyn.create(wf);
+
+        [Op]
+        public static SourceSymbolic SourceSymbolic(this IWfRuntime wf)
+            => Z0.SourceSymbolic.create(wf);
+
         [Op]
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Asm.IntelSdm.create(wf);

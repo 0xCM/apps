@@ -46,9 +46,5 @@ namespace Z0.llvm
         Outcome LLvmBuildInc(CmdArgs args)
             => Flow(LlvmRepo.BuildOutput(FS.Inc));
 
-        // [CmdOp("repo/llvm/test")]
-        // Outcome LlvmTests(CmdArgs args)
-        //     => Flow(LlvmRepo.BuildOutput(FS.ext(arg(args,0).Value)));
-
     }
 }

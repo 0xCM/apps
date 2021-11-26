@@ -19,7 +19,7 @@ namespace Z0
 
         readonly Index<ProcessSegment> _Segments;
 
-        internal AddressBank(Index<ProcessSegment> segments, Index<Address16> selectors, Index<List<Paired<Address32,uint>>> bases)
+        public AddressBank(Index<ProcessSegment> segments, Index<Address16> selectors, Index<List<Paired<Address32,uint>>> bases)
         {
             _Segments = segments;
             _Selectors = selectors;
