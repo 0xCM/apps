@@ -19,12 +19,6 @@
     <ProjectReference Include="$(LlvmTools)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

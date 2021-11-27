@@ -13,8 +13,6 @@
     <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

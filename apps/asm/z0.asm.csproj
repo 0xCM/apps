@@ -9,12 +9,12 @@
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(AsmLangG)"/>
     <ProjectReference Include="$(Extract)" />
-
   </ItemGroup>
 
-
-  <ItemGroup>
+  <!-- <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup>
+  </ItemGroup> -->
+
+  <Import Project="../imports.props"/>
 
 </Project>

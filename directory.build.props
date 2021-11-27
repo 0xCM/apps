@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <ZLibVersion>0.0.110</ZLibVersion>
+    <ZLibName>z0.lib</ZLibName>
     <Version>0.0.110</Version>
   </PropertyGroup>
 
@@ -9,7 +10,6 @@
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
-
     <Configuration>Release</Configuration>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,7 @@
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
+    <ZLibPath>J:\z0\.build\bin\z0.lib\Release\netcoreapp3.1\z0.lib.dll</ZLibPath>
   </PropertyGroup>
 
 </Project>

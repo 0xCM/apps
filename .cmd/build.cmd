@@ -1,2 +1,3 @@
 @echo off
-dotnet build %~dp0..\z0.sln -c Release
+call %~dp0build-libs.cmd
+call %~dp0build-apps.cmd

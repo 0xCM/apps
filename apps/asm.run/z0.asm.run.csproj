@@ -21,8 +21,10 @@
     <ProjectReference Include="$(ResPack)" />
   </ItemGroup>
 
-  <ItemGroup>
+  <Import Project="../imports.props"/>
+
+  <!-- <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup>
+  </ItemGroup> -->
 
 </Project>

@@ -10,4 +10,6 @@
     <ProjectReference Include="$(Capture)" />
   </ItemGroup>
 
+  <Import Project="../imports.props"/>
+
 </Project>

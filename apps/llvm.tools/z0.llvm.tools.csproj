@@ -9,8 +9,12 @@
     <ProjectReference Include="$(AsmCore)" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
+  </ItemGroup> -->
+
+  <ItemGroup>
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
   </ItemGroup>
 
   <ItemGroup>

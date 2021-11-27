@@ -8,4 +8,8 @@
     <ProjectReference Include="$(Api)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+  </ItemGroup>
+
 </Project>

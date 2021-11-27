@@ -9,10 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-    <PackageReference Include="Microsoft.Build.Runtime" Version="16.9.0" />
-
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Runtime" Version="16.9.0" />
+  </ItemGroup>
 
 </Project>

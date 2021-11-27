@@ -6,9 +6,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />

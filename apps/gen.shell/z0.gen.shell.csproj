@@ -6,9 +6,15 @@
     <AssemblyName>zgen</AssemblyName>
   </PropertyGroup>
 
+  <!-- <ItemGroup>
+    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
+  </ItemGroup> -->
+
   <ItemGroup>
     <ProjectReference Include="$(Api)" />
     <ProjectReference Include="$(Gen)" />
   </ItemGroup>
+
+  <Import Project="../imports.props"/>
 
 </Project>

@@ -8,9 +8,10 @@
     <ProjectReference Include="$(Gen)" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
+  </ItemGroup> -->
 
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

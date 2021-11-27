@@ -10,11 +10,8 @@
     <ProjectReference Include="$(Api)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
-
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

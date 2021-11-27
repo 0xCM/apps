@@ -9,9 +9,6 @@
       <ProjectReference Include="$(AsmLangG)" />
   </ItemGroup>
 
-   <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
-   </ItemGroup>
-
+  <Import Project="../imports.props"/>
 
 </Project>

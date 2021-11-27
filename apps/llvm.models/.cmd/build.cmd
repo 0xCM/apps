@@ -1,3 +1,1 @@
-@echo off
-set ProjectId=llvm.models
-call %ControlScripts%\build-lib.cmd
+dotnet build %~dp0..\z0.llvm.models.csproj -c Release
