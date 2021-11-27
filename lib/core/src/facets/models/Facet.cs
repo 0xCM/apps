@@ -18,10 +18,10 @@ namespace Z0
 
         public string Key {get;}
 
-        public object Value {get;}
+        public dynamic Value {get;}
 
         [MethodImpl(Inline)]
-        public Facet(string name, object value)
+        public Facet(string name, dynamic value)
         {
             Key = name;
             Value = value;
@@ -34,7 +34,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Facet((string name, object value) src)
+        public static implicit operator Facet((string name, dynamic value) src)
             => new Facet(src.name, src.value);
 
         public static Facet Empty => new Facet(EmptyString, EmptyString);

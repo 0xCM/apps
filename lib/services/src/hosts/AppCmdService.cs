@@ -6,9 +6,9 @@ namespace Z0
 {
     using System;
     using System.Collections.Generic;
-    using static Root;
     using Windows;
 
+    using static Root;
     using static core;
 
     using L = ApiLiterals;
@@ -16,8 +16,6 @@ namespace Z0
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
-
-
         CmdDispatcher Dispatcher;
 
         IWorkerLog Witness;

@@ -11,8 +11,7 @@ namespace Z0
 
     using static core;
 
-    [Service(typeof(IApiIndexBuilder))]
-    public class ApiIndexBuilder : AppService<ApiIndexBuilder>, IApiIndexBuilder
+    public class ApiIndexBuilder : AppService<ApiIndexBuilder>
     {
         public ApiBlockIndex Product;
 

@@ -37,6 +37,9 @@ namespace Z0
             Start();
         }
 
+        public void Dispose()
+            => Watcher?.Dispose();
+
         void SignalChange(FileChange change)
         {
             try
@@ -85,9 +88,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public void Stop()
             => Watcher.EnableRaisingEvents = false;
-
-        public void Dispose()
-            => Watcher?.Dispose();
 
         void Error(object sender, ErrorEventArgs e)
         {

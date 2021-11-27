@@ -38,55 +38,60 @@ namespace Z0
             const string Off3 = "no";
             const string Off4 = "off";
 
-            if(matches(src, On1))
-            {
-                dst = 1;
-                return true;
-            }
-
-            if(matches(src, On2))
-            {
-                dst = 1;
-                return true;
-            }
-
-            if(matches(src, On3))
-            {
-                dst = 1;
-                return true;
-            }
-
-            if(matches(src, On4))
-            {
-                dst = 1;
-                return true;
-            }
-
-            if(matches(src, Off1))
-            {
-                dst = 0;
-                return true;
-            }
-
-            if(matches(src, Off2))
-            {
-                dst = 0;
-                return true;
-            }
-
-            if(matches(src, Off3))
-            {
-                dst = 0;
-                return true;
-            }
-
-            if(matches(src, Off4))
-            {
-                dst = 0;
-                return true;
-            }
-
             dst = default;
+
+            if(empty(src))
+                return false;
+
+            var input = src.ToLowerInvariant();
+            if(matches(input, On1))
+            {
+                dst = 1;
+                return true;
+            }
+
+            if(matches(input, On2))
+            {
+                dst = 1;
+                return true;
+            }
+
+            if(matches(input, On3))
+            {
+                dst = 1;
+                return true;
+            }
+
+            if(matches(input, On4))
+            {
+                dst = 1;
+                return true;
+            }
+
+            if(matches(input, Off1))
+            {
+                dst = 0;
+                return true;
+            }
+
+            if(matches(input, Off2))
+            {
+                dst = 0;
+                return true;
+            }
+
+            if(matches(input, Off3))
+            {
+                dst = 0;
+                return true;
+            }
+
+            if(matches(input, Off4))
+            {
+                dst = 0;
+                return true;
+            }
+
             return false;
         }
 

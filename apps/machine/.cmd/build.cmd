@@ -1,3 +1,3 @@
-echo off
-set ProjectId=machine
-call %ControlScripts%\build-app.cmd
+@echo off
+call %~dp0config.cmd
+call %BuildProjCmd%

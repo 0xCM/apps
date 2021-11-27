@@ -11,7 +11,6 @@ namespace Z0
 
     using api = Settings;
 
-
     public readonly struct Setting : ISetting
     {
         public string Name {get;}
@@ -25,8 +24,17 @@ namespace Z0
             Value = value ?? EmptyString;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => core.empty(Name) || Value is null;
+        }
+
+        public string ValueText
+            => Value?.ToString() ?? EmptyString;
+
         public string Format(bool json)
-            => api.format(this,json);
+            => api.format(this, json);
 
         public string Format()
             => Format(false);

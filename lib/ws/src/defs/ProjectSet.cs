@@ -17,18 +17,18 @@ namespace Z0
         public static ProjectSet create(FS.FolderPath home)
             => new ProjectSet(home);
 
-        Dictionary<ProjectId,ProjectConfig> ConfigLookup;
+        Dictionary<ProjectId,Settings> ConfigLookup;
 
         public ProjectSet(FS.FolderPath src)
             : base(src)
         {
-            ConfigLookup = dict<ProjectId,ProjectConfig>();
+            ConfigLookup = dict<ProjectId,Settings>();
         }
 
-        public bool Settings(ProjectId id, out ProjectConfig dst)
+        public bool Settings(ProjectId id, out Settings dst)
             => ConfigLookup.TryGetValue(id, out dst);
 
-        public void Configure(ProjectId id, in ProjectConfig src)
+        public void Configure(ProjectId id, in Settings src)
             => ConfigLookup[id] = src;
     }
 }

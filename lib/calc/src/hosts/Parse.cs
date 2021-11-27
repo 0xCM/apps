@@ -9,8 +9,6 @@ namespace Z0
 
     using static Root;
 
-    using K = ApiClasses;
-
     partial struct CalcHosts
     {
         [Closures(AllNumeric), Parse]

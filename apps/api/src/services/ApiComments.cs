@@ -9,7 +9,7 @@ namespace Z0
     using System.Xml;
     using System.IO;
 
-    public sealed class ApiComments : AppService<ApiComments>, IApiComments
+    public sealed class ApiComments : AppService<ApiComments>
     {
         public Dictionary<FS.FilePath, Dictionary<string,string>> Collect()
             => collect(Wf);

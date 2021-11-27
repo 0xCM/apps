@@ -235,12 +235,12 @@ namespace SOS
         /// <summary>
         /// Displays the symbol server and cache configuration
         /// </summary>
-        public static void DisplaySymbolStore(WriteLine writeLine)
+        public static void DisplaySymbolStore(WriteLine dst)
         {
             SymbolStore symbolStore = s_symbolStore;
             while (symbolStore != null)
             {
-                writeLine(symbolStore.ToString());
+                dst(symbolStore.ToString());
                 symbolStore = symbolStore.BackingStore;
             }
         }

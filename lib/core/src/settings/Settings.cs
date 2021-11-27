@@ -27,6 +27,10 @@ namespace Z0
         public static Setting<T> empty<T>()
             => Setting<T>.Empty;
 
+        [MethodImpl(Inline)]
+        public static Setting empty()
+            => Setting.Empty;
+
         public ref Setting this[uint index]
         {
             [MethodImpl(Inline)]
@@ -119,10 +123,24 @@ namespace Z0
             return false;
         }
 
+        public static string format<T>(in T src)
+        {
+            var fields = typeof(T).PublicInstanceFields();
+            var count = fields.Length;
+            var dst = text.buffer();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
+            }
+            return dst.Emit();
+        }
+
         [Op]
         public static Settings parse(ReadOnlySpan<string> src)
         {
             var count = src.Length;
+
             var buffer = alloc<Setting>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)

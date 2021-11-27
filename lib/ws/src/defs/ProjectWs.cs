@@ -17,11 +17,20 @@ namespace Z0
 
         public ProjectId Project {get;}
 
+        public Settings ProjectSettings {get;}
+
         public ProjectWs(FS.FolderPath src, ProjectId project)
             : base(src)
         {
             Project = project;
-
+            ProjectSettings = Z0.Settings.Empty;
+            var path = src + FS.file("project", FS.Settings);
+            if(path.Exists)
+            {
+                var result = AppSettings.load(path);
+                if(result)
+                    ProjectSettings = result.Data;
+            }
         }
 
         public Identifier Name

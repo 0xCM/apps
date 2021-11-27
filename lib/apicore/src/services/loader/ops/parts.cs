@@ -39,10 +39,7 @@ namespace Z0
                     return new ApiParts(control, array<PartId>(control.Id()));
             }
             else
-            {
                 return new ApiParts(control, assemblies(dir(control), true).Select(x => x.Id()));
-            }
-                //return new ApiParts(control, dir(control));
         }
 
         /// <summary>

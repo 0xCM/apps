@@ -11,7 +11,7 @@ namespace Z0
 
     using static core;
 
-    public sealed class ApiAssets : AppService<ApiAssets>, IApiAssets
+    public sealed class ApiAssets : AppService<ApiAssets>
     {
         public Index<ResEmission> Run(EmitResDataCmd cmd)
             => EmitEmbedded(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
@@ -40,23 +40,6 @@ namespace Z0
             Wf.Ran(outer, string.Format("Emitted <{0}> reference files", count));
             return emissions;
         }
-
-
-
-        // public Index<DocLibEntry> EmitAssetIndex()
-        // {
-        //     var flow = Wf.Running();
-        //     var formatter = Tables.formatter<DocLibEntry>(82);
-        //     var target = Db.RefDataRoot() + FS.file("index", FS.Csv);
-        //     using var dst = target.Writer();
-        //     dst.WriteLine(formatter.FormatHeader());
-        //     var emitting = Wf.EmittingTable<DocLibEntry>(target);
-        //     var entries = list<DocLibEntry>();
-        //     Emit(array(Parts.Res.Assembly), dst, entries);
-        //     Wf.EmittedTable(emitting, entries.Count);
-        //     Wf.Ran(flow);
-        //     return entries.ToArray();
-        // }
 
         void Emit(ReadOnlySpan<Assembly> src, StreamWriter dst, List<DocLibEntry> entries)
         {

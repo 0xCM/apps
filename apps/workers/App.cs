@@ -20,17 +20,13 @@ namespace Z0
 
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            using var wf = WfAppLoader.load();
+            CreateHostBuilder(wf, args).Build().Run();
         }
 
-        static Controller worker(IServiceProvider provider)
-            => new Controller(provider.GetService<ILogger<Controller>>());
-
-        public static IHostBuilder CreateHostBuilder(string[] args)
+        public static IHostBuilder CreateHostBuilder(IWfRuntime wf, string[] args)
             => Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService(worker);
-                });
+                .ConfigureServices((hostContext, services)
+                    => services.AddHostedService(provider => new Controller(wf, provider.GetService<ILogger<Controller>>())));
     }
 }

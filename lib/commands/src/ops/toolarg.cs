@@ -11,9 +11,6 @@ namespace Z0
 
     partial struct Cmd
     {
-
-
-
         public static ToolCmdArgs toolargs<T>(T src)
             where T : struct, IToolCmd
         {

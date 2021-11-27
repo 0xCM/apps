@@ -10,6 +10,8 @@ namespace Z0
     {
         ProjectId Project {get;}
 
+        Settings ProjectSettings {get;}
+
         FS.FolderPath Home()
             => Root + FS.folder(Project.Format());
 

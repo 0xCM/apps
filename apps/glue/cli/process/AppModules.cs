@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+
     using static core;
 
     public class AppModules : AppService<AppModules>

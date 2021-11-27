@@ -14,7 +14,7 @@ namespace Z0
         public static ProcessDump open(FS.FilePath src)
             => new ProcessDump(src);
 
-        FS.FilePath Path;
+        public FS.FilePath DumpPath {get;}
 
         DataTarget Target;
 
@@ -22,7 +22,7 @@ namespace Z0
 
         ProcessDump(FS.FilePath src)
         {
-            Path = src;
+            DumpPath = src;
             Target = DataTarget.LoadDump(src.Name);
             Runtime = Target.ClrVersions.Single().CreateRuntime();
         }

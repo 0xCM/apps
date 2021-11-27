@@ -310,7 +310,7 @@ namespace Z0.Asm
 
         void EmitPdbDocInfo(PartId part)
         {
-            var dst =Db.AppLog(string.Format("{0}.pdbinfo", part.Format()), FS.Csv);
+            var dst = Db.AppLog(string.Format("{0}.pdbinfo", part.Format()), FS.Csv);
             var modules = Wf.AppModules();
             var catalog = Wf.ApiCatalog.PartCatalogs(part).Single();
             var assembly = catalog.Component;
@@ -423,28 +423,6 @@ namespace Z0.Asm
             using var listener = ClrEventListener.create(receive);
             var settings = ApiExtractSettings.init(Db.CapturePackRoot(), now());
             Wf.ApiExtractWorkflow().Run(settings);
-        }
-
-        void ReadSymbols()
-        {
-            var reader = SOS.SymbolReader.create();
-            reader.ShowSymbolStore(data => Wf.Row(data));
-        }
-
-        void GetMethodInfo()
-        {
-            var path = Parts.Lib.Assembly.Location;
-            var catalog = Wf.ApiCatalog.PartCatalogs(PartId.Lib).Single();
-            var methods = catalog.Methods;
-            SOS.SymbolReader.InitializeSymbolReader("");
-            foreach(var method in methods)
-            {
-                if(SOS.SymbolReader.GetInfoForMethod(path, method.MetadataToken, out var info))
-                {
-                    var size = info.size;
-                    Wf.Row($"{method.Name} | {size}");
-                }
-            }
         }
 
         public void Run()

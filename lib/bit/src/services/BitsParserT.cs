@@ -42,6 +42,7 @@ namespace Z0
         where T : unmanaged
     {
         public static BitsParser<T> Service => default;
+
         public Outcome Parse(string src, out bits<T> dst)
         {
             var result = Outcome.Success;

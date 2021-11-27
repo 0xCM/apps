@@ -102,6 +102,10 @@ namespace Z0
             => NumericParser.parse(src, out dst);
 
         [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out sbyte dst)
+            => NumericParser.parse(src, out dst);
+
+        [MethodImpl(Inline), Op]
         public static Outcome parse(string src, out short dst)
             => NumericParser.parse(src, out dst);
 
@@ -123,6 +127,14 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static Outcome parse(string src, out ulong dst)
+            => NumericParser.parse(src, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out float dst)
+            => NumericParser.parse(src, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static Outcome parse(string src, out double dst)
             => NumericParser.parse(src, out dst);
 
         [MethodImpl(Inline), Op]
@@ -155,9 +167,7 @@ namespace Z0
             dst = default;
             var result = BitParser.semantic(src, out var b);
             if(result)
-            {
                 dst = b;
-            }
             return result;
         }
 
@@ -401,8 +411,134 @@ namespace Z0
             return true;
         }
 
+        public static Outcome numeric(string src, Type type, out dynamic dst)
+        {
+            Outcome result = (false, string.Format("The {0} type is unsupported", type.Name));
+            dst = 0;
+            if(type.IsUInt8())
+            {
+                result = parse(src, out byte x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt8())
+            {
+                result = parse(src, out sbyte x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt16())
+            {
+                result = parse(src, out short x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsUInt16())
+            {
+                result = parse(src, out ushort x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsUInt32())
+            {
+                result = parse(src, out uint x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt32())
+            {
+                result = parse(src, out int x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsUInt64())
+            {
+                result = parse(src, out ulong x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsInt64())
+            {
+                result = parse(src, out long x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsFloat32())
+            {
+                result = parse(src, out float x);
+                if(result)
+                    dst = x;
+            }
+            else if(type.IsFloat64())
+            {
+                result = parse(src, out double x);
+                if(result)
+                    dst = x;
+            }
+            return result;
+        }
+
+        public static Outcome setting(string src, Type type, out Setting dst, char delimiter = Chars.Colon)
+        {
+            dst = Settings.empty();
+            if(nonempty(src))
+            {
+                var name = EmptyString;
+                var input = src;
+                if(SQ.contains(src, delimiter))
+                {
+                    name = src.LeftOfFirst(delimiter);
+                    input = src.RightOfFirst(delimiter);
+                }
+
+                if(type == typeof(string))
+                {
+                    dst = (name, input);
+                    return true;
+                }
+                else if (type == typeof(bool))
+                {
+                    if(parse(input, out bool value))
+                    {
+                        dst = (name, value);
+                        return true;
+                    }
+                }
+                else if(type == typeof(bit))
+                {
+                    if(parse(input, out bit u1))
+                    {
+                        dst = (name, u1);
+                        return true;
+                    }
+                }
+                else if(type.IsPrimalNumeric())
+                {
+                    if(numeric(input, type, out var n))
+                    {
+                        dst = (name,n);
+                        return true;
+                    }
+                }
+                else if(type.IsEnum)
+                {
+                    if(Enums.parse(type, src, out object o))
+                    {
+                        dst = (name, o);
+                        return true;
+                    }
+                }
+                else if(src.Length == 1 && type == typeof(char))
+                {
+                    dst = (name, name[0]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         [MethodImpl(Inline)]
-        public static Outcome parse<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
+        public static Outcome setting<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
         {
             dst = Settings.empty<T>();
             if(nonempty(src))

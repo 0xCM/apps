@@ -12,6 +12,14 @@ namespace Z0
 
     public sealed class Symbolism : AppService<Symbolism>
     {
+        public Index<ClrEnumRecord> EmitEnums(Assembly src, FS.FilePath dst)
+        {
+            var records = Enums.records(src);
+            if(records.Length != 0)
+                TableEmit(@readonly(records), dst);
+            return records;
+        }
+
         public ReadOnlySpan<SymLiteralRow> EmitLiterals()
             => EmitLiterals(Db.IndexTable<SymLiteralRow>());
 

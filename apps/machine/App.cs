@@ -29,7 +29,8 @@ namespace Z0
             try
             {
                 using var machine = MachineRunner.create(Wf);
-                machine.Run(WorkflowOptions.@default());
+                var options = WorkflowOptions.@default();
+                machine.Run(options);
             }
             catch(Exception e)
             {

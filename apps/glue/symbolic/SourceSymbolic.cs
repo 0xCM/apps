@@ -17,6 +17,13 @@ namespace Z0
     [ApiHost]
     public sealed class SourceSymbolic : AppService<SourceSymbolic>
     {
+        Roslyn Roslyn;
+
+        protected override void OnInit()
+        {
+            Roslyn = Wf.Roslyn();
+        }
+
         public static MetadataReference metaref(FS.FilePath src)
         {
             var xml = src.ChangeExtension(FS.Xml);
@@ -25,20 +32,20 @@ namespace Z0
             return MetadataReference.CreateFromFile(src.Name, props, doc);
         }
 
-        // public static MetadataReference metaref(Assembly src)
-        // {
-        //     var path = FS.path(src.Location);
-        //     var xml = path.ChangeExtension(FS.Xml);
-        //     var props = default(MetadataReferenceProperties);
-        //     if(xml.Exists)
-        //     {
-        //         var doc = XmlDocProvider.create(xml);
-        //         var reference = MetadataReference.CreateFromFile(path.Name, props, doc);
-        //         return reference;
-        //     }
-        //     else
-        //         return MetadataReference.CreateFromFile(path.Name, props);
-        // }
+        public static MetadataReference metaref(Assembly src)
+        {
+            var path = FS.path(src.Location);
+            var xml = path.ChangeExtension(FS.Xml);
+            var props = default(MetadataReferenceProperties);
+            if(xml.Exists)
+            {
+                var doc = XmlDocProvider.create(xml);
+                var reference = MetadataReference.CreateFromFile(path.Name, props, doc);
+                return reference;
+            }
+            else
+                return MetadataReference.CreateFromFile(path.Name, props);
+        }
 
         public static Index<MetadataReference> metarefs(ReadOnlySpan<FS.FilePath> src)
         {
@@ -94,21 +101,6 @@ namespace Z0
         public static SymbolicType join(Type src, TypeSymbol sym)
             => (src,sym);
 
-        public static MetadataReference metaref(Assembly src)
-        {
-            var path = FS.path(src.Location);
-            var xml = path.ChangeExtension(FS.Xml);
-            var props = default(MetadataReferenceProperties);
-            if(xml.Exists)
-            {
-                var doc = XmlDocProvider.create(xml);
-                var reference = MetadataReference.CreateFromFile(path.Name, props, doc);
-                return reference;
-            }
-            else
-                return MetadataReference.CreateFromFile(path.Name, props);
-        }
-
         public CaSymbolSet Symbolize(Assembly src)
         {
             var metadata = metaref(src);
@@ -130,9 +122,7 @@ namespace Z0
         public CaSymbolSet Symbolize(PartId part)
         {
             if(Wf.ApiCatalog.FindComponent(part, out var assembly))
-            {
                 return Symbolize(assembly);
-            }
             else
             {
                 Wf.Error(string.Format("{0} not found", part.Format()));
@@ -141,17 +131,12 @@ namespace Z0
         }
 
         public ReadOnlySpan<MethodSymbol> SymbolizeMethods(Assembly src)
-        {
-            var symbols = Symbolize(src);
-            return symbols.Methods;
-        }
+            => Symbolize(src).Methods;
 
         public ReadOnlySpan<MethodSymbol> SymbolizeMethods(PartId part)
         {
             if(Wf.ApiCatalog.FindComponent(part, out var assembly))
-            {
                 return SymbolizeMethods(assembly);
-            }
             else
                 return default;
         }
@@ -164,13 +149,6 @@ namespace Z0
                 ref readonly var a = ref skip(src,i);
                 dst(SymbolizeMethods(a));
             }
-        }
-
-        Roslyn Roslyn;
-
-        protected override void OnInit()
-        {
-            Roslyn = Wf.Roslyn();
         }
 
         [Op]

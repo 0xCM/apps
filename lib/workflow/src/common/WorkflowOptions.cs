@@ -99,7 +99,10 @@ namespace Z0
             return dst;
         }
 
+        public string Format()
+            =>(this as ISettings).Format();
+
         public override string ToString()
-            => (this as ISettings).Format();
+            => Format();
     }
 }

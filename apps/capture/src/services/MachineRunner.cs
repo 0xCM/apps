@@ -8,7 +8,6 @@ namespace Z0
 
     using static Msg;
     using static core;
-    using static WsAtoms;
 
     public class MachineRunner : AppService<MachineRunner>
     {

@@ -55,23 +55,6 @@ namespace Z0
             return dst.ToArray();
         }
 
-        /// <summary>
-        /// Loads an assembly from a potential part path
-        /// </summary>
-        [Op]
-        static Option<Assembly> assembly(FS.FilePath src)
-        {
-            try
-            {
-                return Assembly.LoadFrom(src.Name);
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-                return default;
-            }
-        }
-
         [Op]
         public static Assembly[] assemblies(FS.FilePath[] src)
             => src.Where(x => FS.managed(x)).Map(assembly).Where(x => x.IsSome()).Select(x => x.Value);

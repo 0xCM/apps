@@ -23,8 +23,11 @@ namespace Z0
 
         readonly FS.FolderPath Storage;
 
-        public Controller(ILogger<Controller> logger)
+        readonly IWfRuntime Wf;
+
+        public Controller(IWfRuntime wf, ILogger<Controller> logger)
         {
+            Wf = wf;
             Storage = App.Storage;
             WorkLog = Loggers.worker(App.ControlId, Storage);
             DisplayLog = logger;
@@ -49,9 +52,7 @@ namespace Z0
         protected override async Task ExecuteAsync(CancellationToken cancel)
         {
             while (!cancel.IsCancellationRequested)
-            {
                 await Task.Delay(1000, cancel);
-            }
         }
     }
 }
