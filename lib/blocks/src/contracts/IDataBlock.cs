@@ -10,6 +10,8 @@ namespace Z0
 
     public interface IDataBlock
     {
+        BlockKind Kind => BlockKind.Bytes;
+
         ByteSize Size {get;}
 
         Span<byte> Bytes {get;}

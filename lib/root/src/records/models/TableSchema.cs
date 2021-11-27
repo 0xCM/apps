@@ -23,6 +23,6 @@ namespace Z0
         }
 
         public static TableSchema Empty
-            => default;
+            => new TableSchema(TableId.Empty, sys.empty<RecordFieldSpec>());
     }
 }

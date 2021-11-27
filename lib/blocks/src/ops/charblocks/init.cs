@@ -16,7 +16,7 @@ namespace Z0
             where T : unmanaged, ICharBlock<T>
         {
             dst = default;
-            return ref text.copy(src, ref dst);
+            return ref Z0.text.copy(src, ref dst);
         }
     }
 }

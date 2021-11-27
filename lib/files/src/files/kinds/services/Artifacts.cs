@@ -15,17 +15,13 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Artifact<K> artifact<K>(K kind, FS.FilePath src)
+        public static FileArtifact<K> artifact<K>(K kind, FS.FilePath src)
             where K : unmanaged
-                => new Artifact<K>(kind,src);
+                => new FileArtifact<K>(kind,src);
 
         [MethodImpl(Inline), Op]
         public static Artifact artifact(string @class, string locator)
             => new Artifact(@class,locator);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ArtifactKind<K> kind<K>(K kind)
-            where K : unmanaged
-                => kind;
     }
 }

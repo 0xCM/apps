@@ -10,7 +10,7 @@ namespace Z0
     using static core;
     using static Root;
 
-    readonly partial struct CharBlocks
+    partial struct CharBlocks
     {
         [MethodImpl(Inline)]
         public static int length<T>(in T src)

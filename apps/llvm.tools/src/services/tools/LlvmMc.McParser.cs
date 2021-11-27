@@ -47,20 +47,29 @@ namespace Z0.llvm
 
             List<AsmSourceLine> SourceLines;
 
-            List<Identifier> Instructions;
+            List<MCInstRef> Instructions;
 
             const string InstructionMarker = "<MCInst #";
+
+            uint InstSeq;
+
+            Index<DecimalDigitValue> _DigitBuffer;
+
+            Span<DecimalDigitValue> DigitBuffer()
+                => _DigitBuffer.Clear();
 
             public Outcome ParseSyntaxDoc(FS.FilePath src, out AsmDocument dst)
             {
                 var result = Outcome.Success;
                 var data = FS.readlines(src).View;
                 var count = (uint)data.Length;
+                InstSeq = 0;
                 BlockLabels = new();
                 BlockOffsets = new();
                 SourceLines = new();
                 Directives = new();
                 Instructions = new();
+                _DigitBuffer = alloc<DecimalDigitValue>(12);
 
                 for(var i=0u; i<count; i++)
                     Parse(skip(data,i));
@@ -102,13 +111,16 @@ namespace Z0.llvm
 
                             if(comment.Contains(InstructionMarker))
                             {
+                                var number = DigitBuffer();
                                 var i = text.index(comment, InstructionMarker) + InstructionMarker.Length;
-                                var inst = text.remove(text.slice(comment,i),Chars.Gt);
+                                var dcount = DigitParser.digits(base10, text.slice(comment,i), 0u, number);
+                                var inst = text.remove(text.slice(comment,i), Chars.Gt);
                                 var j = SymbolicQuery.wsindex(inst);
+                                InstSeq++;
                                 if(j != NotFound)
-                                    Instructions.Add(text.right(inst,j));
+                                    Instructions.Add(new MCInstRef(InstSeq, text.right(inst,j)));
                                 else
-                                    Instructions.Add(inst);
+                                    Instructions.Add(new MCInstRef(InstSeq,inst));
                             }
 
                             if(comment.Contains("encoding: "))

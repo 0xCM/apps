@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
+
     partial class AsmCmdService
     {
         [CmdOp(".respack-emit")]
         Outcome EmitRespPack(CmdArgs args)
         {
-            Wf.ResPackEmitter().Emit();
+            var blocks = Wf.ApiHex().ReadBlocks();
+            var dst = Ws.Project("gen").Subdir("respack");
+            var hostres = Wf.ResPackEmitter().Emit(blocks.View, dst);
             return true;
         }
     }

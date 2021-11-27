@@ -6,7 +6,7 @@ namespace Z0
 {
     public interface IArtifact
     {
-        string Locator {get;}
+        dynamic Location {get;}
 
         string Classifier {get;}
     }
@@ -14,18 +14,25 @@ namespace Z0
     public interface IArtifact<K> : IArtifact
         where K : unmanaged
     {
-        ArtifactKind<K> Kind {get;}
+        K Kind {get;}
 
         string IArtifact.Classifier
-            => Kind.Format();
+            => Kind.ToString();
     }
 
     public interface IArtifact<K,T> : IArtifact<K>
         where K : unmanaged
     {
-        T Location {get;}
+        new T Location {get;}
 
-        string IArtifact.Locator
-            => Location.ToString();
+        dynamic IArtifact.Location
+            => Location;
+    }
+
+    public interface IFileArtifact<H,K> : IArtifact<K,FS.FileUri>, IFsEntry<H>
+        where K : unmanaged
+        where H : struct, IFileArtifact<H,K>
+    {
+
     }
 }

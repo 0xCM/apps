@@ -81,15 +81,10 @@ namespace Z0
         }
 
         void ResolveParts(IApiPack pack)
-        {
-            var parts = Wf.ApiCatalog.Parts.ToReadOnlySpan();
-            ResolveParts(parts);
-        }
+            => ResolveParts(Wf.ApiCatalog.Parts.ToReadOnlySpan());
 
         void ExtractParts(IApiPack pack)
-        {
-            ExtractParts(ResolvedParts, false);
-        }
+            => ExtractParts(ResolvedParts, false);
 
         void EmitProcessContext(IApiPack pack)
         {

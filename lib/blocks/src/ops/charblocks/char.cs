@@ -75,5 +75,14 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref char @char(in CharBlock32 src)
             => ref c16(src);
+
+        [MethodImpl(Inline), Op]
+        public static ref char @char(in CharBlock64 src)
+            => ref c16(src);
+
+        [MethodImpl(Inline), Op]
+        public static ref char @char(in CharBlock80 src)
+            => ref c16(src);
+
     }
 }

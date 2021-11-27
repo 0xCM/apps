@@ -7,7 +7,7 @@ namespace Z0.Asm
     partial class AsmCmdService
     {
         [CmdOp(".api-asm")]
-        Outcome ApiAsm(CmdArgs args)
+        Outcome EmitApiAsm(CmdArgs args)
         {
             var result = Outcome.Success;
             var dst = Ws.Gen().Subdir("csv") + Tables.filename<AsmDataBlock>();

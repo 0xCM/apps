@@ -11,6 +11,9 @@ namespace Z0
     public interface ICellBlock<T> : IDataBlock
         where T : unmanaged
     {
+        BlockKind IDataBlock.Kind
+            => BlockKind.Generic;
+
         Span<T> Cells {get;}
 
         ByteSize IDataBlock.Size

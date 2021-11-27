@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.Concurrent;
     using System.Runtime.CompilerServices;
 
@@ -48,6 +49,14 @@ namespace Z0
             _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
         }
 
+        public ConstLookup(Dictionary<K,V> src)
+        {
+            Storage = src.ToConcurrentDictionary();
+            _Keys = src.Keys.Array();
+            _Values = src.Values.Array();
+            _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
+        }
+
         public ReadOnlySpan<K> Keys
         {
             [MethodImpl(Inline)]
@@ -77,5 +86,13 @@ namespace Z0
             => Storage.TryGetValue(key, out value);
 
         public static ConstLookup<K,V> Empty => new();
+
+
+        public static implicit operator ConstLookup<K,V>(Dictionary<K,V> src)
+            => new ConstLookup<K,V>(src);
+
+        public static implicit operator ConstLookup<K,V>(ConcurrentDictionary<K,V> src)
+            => new ConstLookup<K,V>(src);
+
     }
 }

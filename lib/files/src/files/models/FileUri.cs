@@ -11,9 +11,12 @@ namespace Z0
 
     partial struct FS
     {
-        public readonly struct FileUri : ITextual, IComparable<FileUri>
+        public readonly struct FileUri : IFsEntry<FileUri>, ITextual, IComparable<FileUri>
         {
             readonly FilePath Source;
+
+            public PathPart Name
+                => Format();
 
             [MethodImpl(Inline)]
             public FileUri(FilePath src)

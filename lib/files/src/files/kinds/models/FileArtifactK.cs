@@ -9,28 +9,32 @@ namespace Z0
 
     using static Root;
 
-    /// <summary>
-    /// Defines an artifact classifier
-    /// </summary>
-    public readonly struct ArtifactKind<K> : IArtifactKind<K>
+    public readonly struct FileArtifact<K> : IFileArtifact<FileArtifact<K>,K>
         where K : unmanaged
     {
         public K Kind {get;}
 
+        public FS.FileUri Location {get;}
+
+
         [MethodImpl(Inline)]
-        public ArtifactKind(K kind)
+        public FileArtifact(K kind, FS.FileUri location)
         {
             Kind = kind;
+            Location = location;
         }
 
+        public FS.PathPart Name
+            => Location.Format();
+
         public string Format()
-            => Kind.ToString();
+            => Location.Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ArtifactKind<K>(K kind)
-            => new ArtifactKind<K>(kind);
+        public static implicit operator FileArtifact<K>((K kind, FS.FileUri locator) src)
+            => new FileArtifact<K>(src.kind, src.locator);
     }
 }

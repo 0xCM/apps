@@ -287,27 +287,6 @@ namespace Z0.Asm
             var duration = clock.Elapsed().Ms;
         }
 
-        ReadOnlySpan<ApiHostRes> EmitResPack()
-        {
-            var blocks = LoadApiBlocks();
-            var dst = Db.AppLogDir("Respack");
-            return Wf.ResPackEmitter().Emit(blocks.View,dst);
-        }
-
-        public void ShowVendorManuals(string vendor, FS.FileExt ext)
-        {
-            var docs = Db.VendorManuals();
-            var files = docs.VendorDocs(vendor,ext).View;
-            var count = files.Length;
-            using var log = ShowLog(FS.Md);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var file = ref skip(files,i);
-                var link = Markdown.item(0, Markdown.link(file), Markdown.ListStyle.Bullet);
-                log.Show(link);
-            }
-        }
-
         void EmitPdbDocInfo(PartId part)
         {
             var dst = Db.AppLog(string.Format("{0}.pdbinfo", part.Format()), FS.Csv);

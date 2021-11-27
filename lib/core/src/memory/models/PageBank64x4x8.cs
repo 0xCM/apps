@@ -9,7 +9,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using B = PageBlocks.PageBlock64x4;
+    using B = PageBlock256;
 
     public class PageBank64x4x8
     {

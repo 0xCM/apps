@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
     using static core;
 
     partial class AsmCmdService
@@ -23,5 +24,8 @@ namespace Z0.Asm
             }
             return true;
         }
+
+
+
     }
 }

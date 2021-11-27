@@ -138,6 +138,16 @@ namespace Z0
 
         public static N60 n60 => default;
 
+        public static N80 n80 => default;
+
+        public static N81 n81 => default;
+
+        public static N82 n82 => default;
+
+        public static N83 n83 => default;
+
+        public static N84 n84 => default;
+
         public static N61 n61 => default;
 
         public static N62 n62 => default;

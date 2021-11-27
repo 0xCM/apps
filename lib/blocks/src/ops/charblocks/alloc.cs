@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    readonly partial struct CharBlocks
+    partial struct CharBlocks
     {
         [MethodImpl(Inline), Op]
         public static CharBlock1 alloc(N1 n)

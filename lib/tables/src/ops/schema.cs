@@ -16,7 +16,8 @@ namespace Z0
             var fields = @readonly(src.DeclaredInstanceFields());
             var count = fields.Length;
             if(count == 0)
-                return TableSchema.Empty;
+                return new TableSchema(TableId.identify(src), sys.empty<RecordFieldSpec>());
+
             var specs = alloc<RecordFieldSpec>(count);
             ref var spec = ref first(specs);
             for(ushort i=0; i<count; i++)

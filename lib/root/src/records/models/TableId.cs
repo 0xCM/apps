@@ -76,5 +76,7 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public static TableId Empty => new TableId(EmptyString,EmptyString);
     }
 }

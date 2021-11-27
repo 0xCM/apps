@@ -13,23 +13,21 @@ namespace Z0
     }
 
     [EtlStep]
-    public abstract class EtlStep
+    public abstract class EtlStep<H,S,T> : AppService<H>
+        where H : EtlStep<H,S,T>, new()
     {
-        public abstract void Run(IContext context);
+        public abstract void Run();
+
     }
 
-    public abstract class EtlStep<S,C,T> : EtlStep
-        where C : IContext
+    public abstract class ToolStep<H,S,T> : EtlStep<H,S,T>
+        where H : ToolStep<H,S,T>, new()
     {
-        public abstract void Run(C context);
+        public abstract ToolId Tool {get;}
 
-        public override void Run(IContext context)
-            => Run((C)context);
-    }
+        public abstract FileArchive SourceLocation {get;}
 
-    public abstract class ToolStep : EtlStep
-    {
-
+        public abstract FileArchive TargetLocation {get;}
     }
 
 }

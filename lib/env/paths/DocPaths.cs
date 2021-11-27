@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static Root;
-
-    public interface IPageBlock<T>
-        where T : unmanaged, IPageBlock<T>
+    partial interface IEnvPaths
     {
-        ByteSize Size
-            => size<T>();
+        FS.FilePath List(string name, FS.FileExt ext)
+            => ListRoot() + FS.file(name, ext);
 
-        uint PageCount
-            => size<T>()/PageSize;
+        FS.FilePath Doc(string name, FS.FileExt ext)
+            => DbDocRoot() + FS.file(name, ext);
     }
 }

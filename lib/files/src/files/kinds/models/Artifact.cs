@@ -13,23 +13,23 @@ namespace Z0
     {
         public string Classifier {get;}
 
-        public string Locator {get;}
+        public dynamic Location {get;}
 
         [MethodImpl(Inline)]
-        public Artifact(string @class, string locator)
+        public Artifact(string @class, dynamic locator)
         {
             Classifier = @class;
-            Locator = locator;
+            Location = locator;
         }
 
         public string Format()
-            => Locator;
+            => Location;
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Artifact((string kind, string locator) src)
+        public static implicit operator Artifact((string kind, dynamic locator) src)
             => new Artifact(src.kind, src.locator);
     }
 }

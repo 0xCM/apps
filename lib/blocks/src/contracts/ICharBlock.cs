@@ -11,6 +11,9 @@ namespace Z0
     public interface ICharBlock<T> : ITextual, IComparable<T>, IEquatable<T>, IDataBlock<T>, ICellBlock<char>, IHashed
         where T : unmanaged, ICharBlock<T>
     {
+        BlockKind IDataBlock.Kind
+            => BlockKind.Char;
+
         Span<char> Data {get;}
 
         ReadOnlySpan<char> String {get;}

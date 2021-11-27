@@ -13,7 +13,7 @@ namespace Z0
         where K : unmanaged
         where T : unmanaged
     {
-        public ArtifactKind<K> Kind {get;}
+        public K Kind {get;}
 
         public T Location {get;}
 

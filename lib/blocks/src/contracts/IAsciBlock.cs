@@ -8,5 +8,8 @@ namespace Z0
         where T : unmanaged, IAsciBlock<T>
     {
         ref byte First {get;}
+
+        BlockKind IDataBlock.Kind
+            => BlockKind.AsciChar;
     }
 }
