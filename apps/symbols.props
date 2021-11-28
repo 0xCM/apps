@@ -1,7 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <Api>$(Src)api/z0.api.csproj</Api>
     <Asm>$(Src)asm/z0.asm.csproj</Asm>
     <AsmLang>$(Src)asm.lang/z0.asm.lang.csproj</AsmLang>
     <AsmLangG>$(Src)asm.lang.g/z0.asm.lang.g.csproj</AsmLangG>
@@ -15,8 +14,6 @@
     <Canonical>$(Src)canonical/z0.canonical.csproj</Canonical>
 
     <Evaluate>$(Src)evaluate/z0.evaluate.csproj</Evaluate>
-    <External>$(Src)external/z0.external.csproj</External>
-    <Extract>$(Src)extract/z0.extract.csproj</Extract>
 
     <Gen>$(Src)gen/z0.gen.csproj</Gen>
     <Glue>$(Src)glue/z0.glue.csproj</Glue>
@@ -27,8 +24,6 @@
 
     <LlvmTools>$(Src)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmModels>$(Src)llvm.models/z0.llvm.models.csproj</LlvmModels>
-
-    <Res>$(Src)res/z0.res.csproj</Res>
 
   </PropertyGroup>
 

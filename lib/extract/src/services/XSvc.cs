@@ -7,8 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    [ApiHost]
-    public static class XSvc
+    partial class XSvc
     {
         [Op]
         public static ApiResolver ApiResolver(this IWfRuntime wf)
