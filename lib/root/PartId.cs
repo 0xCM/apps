@@ -337,6 +337,9 @@ public enum PartId : byte
     [Symbol("lib")]
     Lib = 128,
 
+    [Symbol("test")]
+    LibTest = 127,
+
     // ~ Generated
     // ~ -------------------------------------------------------------------------------
 

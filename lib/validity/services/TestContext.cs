@@ -41,9 +41,7 @@ namespace Z0
 
         protected TestContext()
         {
-
         }
-
     }
 
     public abstract class TestContext<U> : TestContext, ITestContext<U>
@@ -166,10 +164,10 @@ namespace Z0
             => (PartId)((ulong)Assembly.GetEntryAssembly().Id());
 
         protected FS.FilePath StatusLogPath
-            => Db.TestLogSummaryRoot() + FS.file(TestApp.Format() + "test" + "." + "status" + "log");
+            => Db.TestLogSummaryRoot() + FS.file(TestApp.Format() + "testrunner" + "." + "status" + "log");
 
         protected FS.FilePath ErrorLogPath
-            => Db.TestLogSummaryRoot() + FS.file(TestApp.Format() + "test" + "." + "errors" + "log");
+            => Db.TestLogSummaryRoot() + FS.file(TestApp.Format() + "testrunner" + "." + "errors" + "log");
 
         protected FS.FolderPath UnitDataDir
             => Db.TestAppLogRoot<U>() + FS.folder(GetType().Name);

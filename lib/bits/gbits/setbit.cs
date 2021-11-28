@@ -19,6 +19,18 @@ namespace Z0
                 => setbit<T>(src, u8(index), state);
 
         /// <summary>
+        /// Sets the state of a grid bit identified by its linear position
+        /// </summary>
+        /// <param name="bitpos">The 0-based linear bit index</param>
+        /// <param name="state">The source state</param>
+        /// <param name="dst">A reference to the grid storage</param>
+        /// <typeparam name="T">The grid storage segment type</typeparam>
+        [MethodImpl(Inline)]
+        public static void setbit<T>(uint bitpos, bit state, ref T dst)
+            where T : unmanaged
+                => bitcell(ref dst, bitpos) = gbits.setbit(bitcell(ref dst, bitpos), (byte)(bitpos % width<T>()), state);
+
+        /// <summary>
         /// Sets an identified bit to a supplied value
         /// </summary>
         /// <param name="src">The source segment</param>
