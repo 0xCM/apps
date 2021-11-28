@@ -18,29 +18,6 @@ namespace Z0
            where G : struct, IRandomSource<G,ulong>
                 => g;
 
-        // [MethodImpl(Inline), Op, Closures(AllNumeric)]
-        // public static T next<T>(ref WyHash64 g)
-        //    where T : unmanaged
-        //         => next<WyHash64,T>(ref g);
-
-        // [MethodImpl(Inline), Op, Closures(AllNumeric)]
-        // public static T next<T>(ref WyHash64 g, T max)
-        //    where T : unmanaged
-        //         => next<WyHash64,T>(ref g, max);
-
-        // [MethodImpl(Inline), Op, Closures(AllNumeric)]
-        // public static T next<T>(ref WyHash64 g, T min, T max)
-        //    where T : unmanaged
-        //         => next<WyHash64,T>(ref g, min, max);
-
-        // [MethodImpl(Inline), Op]
-        // public static void flow(ref WyHash64 g, ulong min, ulong max, Span<ulong> dst)
-        //     => fill(ref g, min, max, dst);
-
-        // [MethodImpl(Inline), Op]
-        // public static void flow(ref WyHash64 g, Span<ulong> dst)
-        //     => fill(ref g, dst);
-
         [MethodImpl(Inline)]
         public static T next<G,T>(ref G g)
            where G : struct, IRandomSource<G,ulong>

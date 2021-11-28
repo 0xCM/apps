@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class XBitBlocks
+    partial class XTend
     {
         /// <summary>
         /// Converts the least significant elements of a generic natural bitvector to a 8-bit primal bitvector

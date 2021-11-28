@@ -28,7 +28,6 @@
     <LlvmTools>$(Src)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmModels>$(Src)llvm.models/z0.llvm.models.csproj</LlvmModels>
 
-    <ResPack>$(Src)respack/z0.respack.csproj</ResPack>
     <Res>$(Src)res/z0.res.csproj</Res>
 
   </PropertyGroup>

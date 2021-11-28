@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(Capture)" />
-    <ProjectReference Include="$(ResPack)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

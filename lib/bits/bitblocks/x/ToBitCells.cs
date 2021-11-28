@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class XBitBlocks
+    partial class XTend
     {
         /// <summary>
         /// Loads a <see cref='BitBlock{T}'/> from a <see cref='Span{T}'/>

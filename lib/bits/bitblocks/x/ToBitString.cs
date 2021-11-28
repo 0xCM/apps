@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class XBitBlocks
+    partial class XTend
     {
         [MethodImpl(Inline)]
         public static BitString ToBitString<N,T>(this BitBlock<N,T> src)
