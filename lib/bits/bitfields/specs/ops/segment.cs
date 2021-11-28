@@ -12,7 +12,7 @@ namespace Z0
     partial struct BitfieldSpecs
     {
         [MethodImpl(Inline), Op]
-        public static BitfieldSegModel segment(Identifier name, uint pos, uint offset, uint width)
+        public static BitfieldSegModel segment(text31 name, uint pos, uint offset, uint width)
             => new BitfieldSegModel(name, pos, offset, width);
 
         [MethodImpl(Inline), Op]

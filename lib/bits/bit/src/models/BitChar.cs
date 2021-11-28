@@ -11,6 +11,9 @@ namespace Z0
 
     using api = BitChars;
 
+    /// <summary>
+    /// Defines a character in a bitstring/bitfield representation
+    /// </summary>
     public readonly struct BitChar : IEquatable<BitChar>
     {
         public BitCharKind Kind {get;}

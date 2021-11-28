@@ -10,14 +10,14 @@ namespace Z0.llvm
 
     partial class LlvmEtl
     {
-        public FS.Files EmitLists(RecordEntitySet src, ReadOnlySpan<string> classes)
+        public Index<LlvmList> EmitLists(RecordEntitySet src, ReadOnlySpan<string> classes)
         {
-            var emitted = bag<FS.FilePath>();
+            var emitted = bag<LlvmList>();
             iter(classes, c => emitted.Add(EmitList(src,c)), true);
             return emitted.ToArray();
         }
 
-        public FS.FilePath EmitList(RecordEntitySet src, string @class)
+        public LlvmList EmitList(RecordEntitySet src, string @class)
         {
             var dst = LlvmPaths.Table(string.Format("llvm.lists.{0}", @class));
             var emitting = EmittingTable<LlvmListItem>(dst);
@@ -26,6 +26,7 @@ namespace Z0.llvm
             writer.WriteLine(formatter.FormatHeader());
             var members = src.Members;
             var count = members.Length;
+            var items = list<LlvmListItem>();
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
@@ -35,12 +36,14 @@ namespace Z0.llvm
                 if(ancestors.Contains(@class))
                 {
                     var item = new LlvmListItem(counter++, entity.EntityName);
+                    items.Add(item);
                     writer.WriteLine(formatter.Format(item));
                 }
             }
 
             EmittedTable(emitting, counter);
-            return dst;
+            return (dst,items.ToArray());
+
         }
     }
 }

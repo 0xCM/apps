@@ -136,6 +136,10 @@ namespace Z0.llvm
 
         public readonly struct RecordClasses
         {
+            public const string Instruction = nameof(Instruction);
+
+            public const string InstAlias = nameof(InstAlias);
+
             public const string AVX512 = nameof(AVX512);
 
             public const string AsmOperandClass = nameof(AsmOperandClass);
@@ -145,8 +149,6 @@ namespace Z0.llvm
             public const string CondCode = nameof(CondCode);
 
             public const string DAGOperand = nameof(DAGOperand);
-
-            public const string Instruction = nameof(Instruction);
 
             public const string GenericInstruction = nameof(GenericInstruction);
 
@@ -176,7 +178,7 @@ namespace Z0.llvm
                 AVX512, AsmOperandClass, AssemblerPredicate, CondCode, DAGOperand,
                 Instruction, GenericInstruction, Register, RegisterClass,
                 ValueType, X86Inst, Map, Predicate, SDPatternOperator, SDNode,
-                SubtargetFeature, X86MemOperand, X86MemOffsOperand
+                SubtargetFeature, X86MemOperand, X86MemOffsOperand,
                 };
         }
     }

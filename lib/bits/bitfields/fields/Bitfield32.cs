@@ -13,6 +13,9 @@ namespace Z0
     using api = Bitfields;
     using S = System.UInt32;
 
+    /// <summary>
+    /// Defines a 32-bit bitfield over a 32-bit integral type
+    /// </summary>
     public struct Bitfield32
     {
         public const byte Width = 32;

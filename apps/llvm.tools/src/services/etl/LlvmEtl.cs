@@ -68,56 +68,58 @@ namespace Z0.llvm
             Ran(running, string.Format("Emitted docs for {0} instructions", count));
         }
 
-        public Outcome RunEntityEtl()
+        void ProcessInstructions(RecordEntitySet src)
         {
-            var entities = Wf.LlvmDb().Entities();
-            var members = entities.Members;
+            var members = src.Members;
             var count = members.Length;
             var key = 0u;
-            var records = list<LlvmAsmPattern>();
+            var patterns = list<LlvmAsmPattern>();
             var asmids = list<LlvmAsmIdentity>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var entity = ref skip(members,i);
-                ref readonly var def = ref entity.Def;
-                var ancestors = def.AncestorNames;
-                var parent = def.ParentName;
-                if(ancestors.Contains(RecordClasses.Instruction))
+                if(entity.IsInstruction())
                 {
-                    var name = entity.EntityName.Content;
+                    var inst = entity.ToInstruction();
+                    var name = inst.EntityName.Content;
                     var identity = new LlvmAsmIdentity(key, name);
                     asmids.Add(identity);
 
-                    if(bit.parse(entity["isPseudo"].Value, out var pseudo) && bit.parse(entity["isCodeGenOnly"].Value, out var cgonly))
-                    {
-                        if(pseudo || cgonly)
-                            continue;
+                    if(inst.OpMap.Equals("OB"))
+                        obmapped.Add(identity);
 
-                        var asms = entity["AsmString"];
-                        var map = entity["OpMap"];
-                        if(map.Value.Equals("OB"))
-                            obmapped.Add(identity);
-                        var mnemonic = AsmString.mnemonic(asms.Value);
-                        var fmt = AsmString.format(asms.Value);
-                        var j = text.index(name.ToLower(),mnemonic);
-                        if(j >=0)
-                            variations.Add(new LlvmAsmVariation(key, name, mnemonic, text.right(name, j + mnemonic.Length - 1)));
+                    var mnemonic = AsmString.mnemonic(inst.AsmString);
+                    var fmt = AsmString.format(inst.AsmString);
+                    var j = text.index(name.ToLower(), mnemonic);
+                    if(j >=0)
+                        variations.Add(new LlvmAsmVariation(key, name, mnemonic, text.right(name, j + mnemonic.Length - 1)));
 
-                        records.Add(LlvmAsmPattern.define(key, name, mnemonic, fmt, out var _));
-                    }
+                    var pattern = LlvmAsmPattern.Empty;
+                    pattern.Key = key;
+                    pattern.Instruction = name;
+                    pattern.Mnemonic = mnemonic;
+                    pattern.IsCodeGenOnly = inst.isCodeGenOnly;
+                    pattern.IsPseudo = inst.isPseudo;
+                    pattern.ExprFormat = fmt;
+                    patterns.Add(pattern);
                     key++;
                 }
             }
 
-            TableEmit(records.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
+            TableEmit(patterns.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(asmids.ViewDeposited(), LlvmPaths.Table<LlvmAsmIdentity>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
+        }
 
-            EmitChildRelations(entities);
-
-            Wf.LlvmCodeGen().GenListStringTables(EmitLists(entities, RecordClasses.Names));
+        public Outcome RunEntityEtl()
+        {
+            var src = Wf.LlvmDb().Entities();
+            var lists = EmitLists(src, RecordClasses.Names);
+            Wf.LlvmCodeGen().GenListStringTables(lists);
+            EmitChildRelations(src);
+            ProcessInstructions(src);
             return true;
         }
    }

@@ -18,16 +18,11 @@ namespace Z0.llvm
 
         public AsciBlock32 Mnemonic;
 
-        public AsciBlock64 ExprFormat;
+        public bit IsCodeGenOnly;
 
-        public static ref LlvmAsmPattern define(uint key, in AsciBlock32 name, in AsciBlock32 mnemonic, in AsciBlock64 format, out LlvmAsmPattern dst)
-        {
-            dst.Key = key;
-            dst.Instruction = name;
-            dst.Mnemonic = mnemonic;
-            dst.ExprFormat = format;
-            return ref dst;
-        }
+        public bit IsPseudo;
+
+        public AsciBlock64 ExprFormat;
 
         public static LlvmAsmPattern Empty => default;
     }

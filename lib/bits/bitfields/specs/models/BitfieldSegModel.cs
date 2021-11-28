@@ -15,31 +15,33 @@ namespace Z0
     /// <summary>
     /// Defines an identified, contiguous bitsequence, represented symbolically as {Identifier}:[Min,Max]
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct BitfieldSegModel
+    [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
+    public struct BitfieldSegModel
     {
+        public const string TableId = "bitfields.models.segments";
+
         /// <summary>
         /// The segment name
         /// </summary>
-        public readonly Identifier Name;
+        public text31 Name;
 
         /// <summary>
         /// The 0-based position of the segment within the field
         /// </summary>
-        public readonly uint Index;
+        public uint Index;
 
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly uint Offset;
+        public uint Offset;
 
         /// <summary>
         /// The index, of the last bit in the segment
         /// </summary>
-        public readonly uint Width;
+        public uint Width;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(Identifier name, uint pos,  uint offset, uint width)
+        public BitfieldSegModel(text31 name, uint pos,  uint offset, uint width)
         {
             Name = name;
             Index = pos;

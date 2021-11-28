@@ -13,6 +13,9 @@ namespace Z0
     using api = Bitfields;
     using S = System.UInt16;
 
+    /// <summary>
+    /// Defines a 16-bit bitfield over a 16-bit integral type
+    /// </summary>
     public struct Bitfield16
     {
         public const byte Width = 16;

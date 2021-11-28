@@ -13,7 +13,7 @@ namespace Z0
     public readonly struct BitFieldModel<T>
         where T : unmanaged
     {
-        public readonly Identifier Name;
+        public readonly text31 Name;
 
         /// <summary>
         /// The number of defined segments
@@ -28,7 +28,7 @@ namespace Z0
         readonly Index<BitfieldSegModel<T>> Data;
 
         [MethodImpl(Inline)]
-        public BitFieldModel(Identifier name, Index<BitfieldSegModel<T>> segments, uint width)
+        public BitFieldModel(text31 name, Index<BitfieldSegModel<T>> segments, uint width)
         {
             Name = name;
             SegCount = segments.Count;

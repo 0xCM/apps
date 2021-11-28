@@ -10,6 +10,9 @@ namespace Z0
     using static Root;
     using static core;
 
+    /// <summary>
+    /// Defines a value that represents a base-2 value
+    /// </summary>
     [ApiHost, DataType]
     public readonly partial struct bit : ITextual, IEquatable<bit>
     {

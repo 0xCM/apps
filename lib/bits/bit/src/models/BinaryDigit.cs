@@ -11,6 +11,9 @@ namespace Z0
 
     using V = BinaryDigitValue;
 
+    /// <summary>
+    /// Represents a binary digit
+    /// </summary>
     public readonly struct BinaryDigit
     {
         const string D0 = "0";
