@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class TypeSystem<T>
+    public abstract class TypeSystem<T> : ITypeSystem
         where T : TypeSystem<T>, new()
     {
         public Label Name {get;}

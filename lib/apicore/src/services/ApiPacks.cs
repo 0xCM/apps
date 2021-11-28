@@ -41,6 +41,9 @@ namespace Z0
                 Wf.Status(string.Format("Created symlink {0} -> {1}", data.Source, data.Target));
         }
 
+        public Index<IApiPack> Packs()
+            => PackRoot.SubDirs(false).Select(x => (IApiPack)(Create(x)));
+
         public Index<IApiPack> List()
             => PackRoot.SubDirs(false).Select(x => (IApiPack)(Create(x)));
     }

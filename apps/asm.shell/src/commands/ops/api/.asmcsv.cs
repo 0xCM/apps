@@ -12,7 +12,7 @@ namespace Z0.Asm
         Outcome AsmCsv(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = ApiArchive.HostAsmCsv().View;
+            var src = ApiPackArchive.HostAsmCsv().View;
             var count = src.Length;
             for(var i=0; i<count; i++)
                 Write(skip(src,i));

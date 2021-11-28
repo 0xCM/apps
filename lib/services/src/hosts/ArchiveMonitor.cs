@@ -54,7 +54,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static FileChange change(FileSystemEventArgs e)
-            => new FileChange(FS.path(e.FullPath), (FS.ChangeKind)e.ChangeType);
+            => new FileChange(FS.path(e.FullPath), (FileChangeKind)e.ChangeType);
 
         [MethodImpl(Inline)]
         void Created(object sender, FileSystemEventArgs e)
@@ -91,7 +91,7 @@ namespace Z0
 
         void Error(object sender, ErrorEventArgs e)
         {
-            Console.Error.WriteLine(e.GetException());
+            term.error(e.GetException());
         }
     }
 }

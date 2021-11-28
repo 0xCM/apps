@@ -12,7 +12,7 @@ namespace Z0.Asm
         Outcome LoadThumbprints(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = ApiArchive.Thumbprints();
+            var src = ApiPackArchive.Thumbprints();
             result = asm.thumbprints(src, out var data);
             if(result.Fail)
                 return result;

@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IVector : IValue
+    public interface IVector : ITypeValue
     {
         /// <summary>
         /// The vector dimension/length
@@ -22,7 +22,7 @@ namespace Z0
     /// </summary>
     /// <typeparam name="T">The storage cell type</typeparam>
     [Free]
-    public interface IVector<T> : IVector, IValue<T>
+    public interface IVector<T> : IVector, ITypeValue<T>
         where T : unmanaged
     {
         /// <summary>

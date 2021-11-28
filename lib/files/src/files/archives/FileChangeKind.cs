@@ -6,20 +6,21 @@ namespace Z0
 {
     using System;
 
-    public interface IUniversal
+    [Flags]
+    public enum FileChangeKind : byte
     {
+        None = 0,
 
+        [Symbol("+")]
+        Created = 1,
 
-    }
+        [Symbol("-")]
+        Deleted = 2,
 
-    public interface IUniversal<U> : IUniversal
-    {
+        [Symbol("M")]
+        Modified = 4,
 
-    }
-
-    public interface IUniversal<U,S> : IUniversal<U>
-        where S : struct
-    {
-
+        [Symbol("R")]
+        Renamed = 8,
     }
 }

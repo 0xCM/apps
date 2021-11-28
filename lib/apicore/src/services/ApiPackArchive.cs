@@ -26,25 +26,29 @@ namespace Z0
             Root = root;
         }
 
-        IFileArchive This => this;
-
         public FS.FolderPath RootDir()
             => Root;
 
+        /// <summary>
+        /// Specifies the table archive root
+        /// </summary>
         public FS.FolderPath CaptureTables()
             => Root + FS.folder(tables);
 
-        public FS.FolderPath PartDir(PartId part)
-            => Root + FS.folder(part);
-
+        /// <summary>
+        /// Specifies the tables/asm.statements root
+        /// </summary>
         public FS.FolderPath HostAsm()
             => CaptureTables() + FS.folder("asm.statements");
 
         public FS.FolderPath HostAsm(PartId part)
             => HostAsm() + FS.folder(part.Format());
 
+        /// <summary>
+        /// Specifies the path to the the global <see cref='ApiCatalogEntry'/> table
+        /// </summary>
         public FS.FilePath ApiCatalog()
-            => Root + FS.folder(tables) + FS.file(TableId.identify<ApiCatalogEntry>().Format(),FS.Csv);
+            => Root + FS.folder(tables) + FS.file(TableId.identify<ApiCatalogEntry>().Format(), FS.Csv);
 
         public FS.Files HostAsmDocs()
             => HostAsm().Files(FS.Asm, true);
@@ -114,7 +118,7 @@ namespace Z0
             => HexPackRoot() + FS.file(host, "extracts.parsed", FS.XPack);
 
         public FS.Files HexPackPaths(bool parsed)
-            => parsed ?  HexPackRoot().Files(FS.ext("parsed") + FS.XPack) : HexPackRoot().Files(FS.ext("raw") + FS.XPack);
+            => parsed ? HexPackRoot().Files(FS.ext("parsed") + FS.XPack) : HexPackRoot().Files(FS.ext("raw") + FS.XPack);
 
         public FS.FilePath AsmSrcPath(ApiHostUri host)
             => AsmPartCapture(host.Part) + FS.file(host, FS.Asm);

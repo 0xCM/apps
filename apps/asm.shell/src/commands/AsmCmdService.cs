@@ -35,7 +35,7 @@ namespace Z0.Asm
 
         ApiHexPacks ApiHexPacks;
 
-        ApiPackArchive ApiArchive;
+        ApiPackArchive ApiPackArchive;
 
         ApiCatalogs ApiCatalogs;
 
@@ -63,7 +63,7 @@ namespace Z0.Asm
             AsmWs = Ws.Asm();
             ApiPacks = Wf.ApiPacks();
             ApiPack = ApiPacks.Current();
-            ApiArchive = ApiPack.Archive();
+            ApiPackArchive = ApiPack.Archive();
             Sdm = Wf.IntelSdm();
             RegSets = Wf.AsmRegSets();
             Xed = Wf.IntelXed();

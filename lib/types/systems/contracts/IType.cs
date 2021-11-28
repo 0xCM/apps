@@ -6,8 +6,11 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
+    [Free]
     public interface IType
     {
+        Identifier TypeName {get;}
 
+        Label SystemName {get;}
     }
 }

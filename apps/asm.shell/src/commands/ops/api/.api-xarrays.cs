@@ -12,7 +12,7 @@ namespace Z0.Asm
         Outcome ApiHexArrays(CmdArgs args)
         {
             var result = Outcome.Success;
-            var blocks = ApiHexPacks.LoadBlocks(ApiArchive.HexPackRoot()).View;
+            var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
             var count = blocks.Length;
             var buffer = span<char>(Pow2.T16);
             var outpath = AsmWs.Root + FS.folder("data") + FS.file("api", FS.XArray);

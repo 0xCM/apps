@@ -12,12 +12,12 @@ namespace Z0.Asm
         Outcome ApiHexHost(CmdArgs args)
         {
             var result = Outcome.Success;
-            var paths = ApiArchive.HexPackPaths(true).View;
+            var paths = ApiPackArchive.HexPackPaths(true).View;
             result = ApiUri.host(arg(args,0), out var host);
             if(result.Fail)
                 return result;
 
-            var path = ApiArchive.ParsedHexPath(host);
+            var path = ApiPackArchive.ParsedHexPath(host);
             if(!path.Exists)
                 return (false, FS.missing(path));
 

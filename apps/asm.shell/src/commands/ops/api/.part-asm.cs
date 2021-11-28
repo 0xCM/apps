@@ -13,7 +13,7 @@ namespace Z0.Asm
             if(outcome.Fail)
                 return outcome;
 
-            Files(ApiArchive.AsmCapturePaths(part));
+            Files(ApiPackArchive.AsmCapturePaths(part));
             return ReadAsciLines();
         }
     }

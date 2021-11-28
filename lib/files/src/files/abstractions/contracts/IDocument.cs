@@ -6,35 +6,31 @@ namespace Z0
 {
     public interface IDocument : ITextual
     {
-        ILocatable Source {get;}
+        ILocatable Location {get;}
     }
 
     public interface IDocument<D> : IDocument
         where D :  IDocument, new()
     {
-        D Load(ILocatable src);
+        D Load();
     }
 
     public interface IDocument<D,C> : IDocument<D>
         where D : IDocument, new()
-        where C : struct, ITextual
     {
         C Content {get;}
     }
 
     public interface IDocument<D,C,L> : IDocument<D,C>
-        where D :  IDocument, new()
-        where C : struct, ITextual
-        where L : struct, ILocatable
+        where D : IDocument, new()
+        where L : ILocatable
     {
-        D Load(L location);
+        new L Location {get;}
 
-        new L Source {get;}
+        ILocatable IDocument.Location
+            => Location;
 
-        ILocatable IDocument.Source
-            => Source;
-
-        D IDocument<D>.Load(ILocatable location)
-            => Load((L)location);
+        D IDocument<D>.Load()
+            => Load();
     }
 }

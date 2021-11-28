@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IDataType
+    public interface IDataType : IType
     {
-        Identifier TypeName {get;}
-
         BitWidth ContentWidth {get;}
 
         BitWidth StorageWidth {get;}
+
+        Label IType.SystemName
+            => "blittable";
     }
 }

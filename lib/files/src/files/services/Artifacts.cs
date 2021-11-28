@@ -22,6 +22,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Artifact artifact(string @class, string locator)
             => new Artifact(@class,locator);
-
     }
 }

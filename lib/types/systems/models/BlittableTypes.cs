@@ -4,14 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface INaturalIntegerType : ISizedIntegerType
-    {
+    using static Root;
 
-    }
-
-    public interface INaturalIntegerType<N> : INaturalIntegerType
-        where N : unmanaged, ITypeNat
+    public sealed class BlittableTypes : TypeSystem<BlittableTypes>
     {
-        BitWidth ISizedType.ContentWidth => TypeNats.nat32u<N>();
+        public const string SystemName = "blittable";
+
+        public BlittableTypes()
+            : base(SystemName)
+        {
+
+        }
+
     }
 }

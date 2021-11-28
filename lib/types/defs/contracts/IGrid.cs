@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IGrid : IValue
+    public interface IGrid : ITypeValue
     {
         uint M {get;}
 
@@ -22,7 +22,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IGrid<T> : IGrid
+    public interface IGrid<T> : IGrid, ITypeValue<T>
         where T : unmanaged
     {
         Span<T> Cells {get;}

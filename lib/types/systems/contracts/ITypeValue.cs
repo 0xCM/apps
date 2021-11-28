@@ -4,29 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IToken : ITextual, INullity
+    public interface ITypeValue : IValue
     {
-        Type TokenType {get;}
 
-        uint Index {get;}
-
-        Identifier Identifier {get;}
-
-        TextBlock SymbolText {get;}
     }
 
     [Free]
-    public interface IToken<K> : IToken
-        where K : unmanaged
+    public interface ITypeValue<V> : IValue<V>
+        where V : unmanaged
     {
-        K Kind {get;}
 
-        Type IToken.TokenType
-            => typeof(K);
     }
 }

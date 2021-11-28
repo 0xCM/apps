@@ -15,7 +15,7 @@ namespace Z0.Asm
         Outcome ApiMembers(CmdArgs args)
         {
             var result = Outcome.Success;
-            var entries = ApiCatalogs.LoadApiCatalog(ApiArchive.ApiCatalog());
+            var entries = ApiCatalogs.LoadApiCatalog(ApiPackArchive.ApiCatalog());
             iter(entries, e => Write(e.OpUri));
             return result;
         }

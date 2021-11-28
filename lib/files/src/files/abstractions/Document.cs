@@ -9,35 +9,38 @@ namespace Z0
 
     using static Root;
 
-    public abstract class Document<D> : Universe<D>, IDocument<D>
+    public abstract class Document<D> : IDocument<D>
         where D : Document<D>, new()
     {
-        public ILocatable Source {get;}
+        public ILocatable Location {get; protected set;}
 
         protected Document(ILocatable src)
         {
-            Source = src;
+            Location = src;
         }
 
         protected Document()
         {
-            Source = Locatable.Empty;
+            Location = Locatable.Empty;
         }
 
-        public abstract D Load(ILocatable location);
+        public abstract D Load();
 
         public abstract string Format();
     }
 
     public abstract class Document<D,C> : Document<D>, IDocument<D,C>
         where D : Document<D,C>, new()
-        where C : struct, ITextual
     {
         [MethodImpl(Inline)]
         public static D load(C content)
-            => new D().WithContent(content);
+        {
+            var doc = new D();
+            doc.Content = content;
+            return doc;
+        }
 
-        public C Content {get; private set;}
+        public C Content {get; protected set;}
 
         protected Document(C content)
             : base(Locatable.Empty)
@@ -62,7 +65,7 @@ namespace Z0
             => new D().WithContent(content);
 
         public override string Format()
-            => Content.Format();
+            => Content.ToString();
 
         public override string ToString()
             => Format();
@@ -70,29 +73,27 @@ namespace Z0
 
     public abstract class Document<D,C,L> : Document<D,C>, IDocument<D,C,L>
         where D : Document<D,C,L>, new()
-        where C : struct, ITextual
-        where L : struct, ILocatable
+        where L : ILocatable
     {
         public static D load(L location)
-            => new D().Load(location);
+        {
+            var doc = new D();
+            doc.Location = location;
+            return doc.Load();
+        }
 
         protected Document(L src, C content)
             : base(src, content)
         {
-            Source = src;
+            Location = src;
         }
 
         protected Document(C content)
             : base(content)
         {
-            Source = default;
+            Location = default;
         }
 
-        public new L Source {get;}
-
-        public abstract D Load(L src);
-
-        public sealed override D Load(ILocatable src)
-            => Load((L)src);
+        public new L Location {get; protected set;}
     }
 }

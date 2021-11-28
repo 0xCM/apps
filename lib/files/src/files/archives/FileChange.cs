@@ -4,27 +4,38 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static FileChangeKind;
+
     [Record(TableId)]
     public struct FileChange : IRecord<FileChange>
     {
+        [Op]
+        public static char symbol(FileChangeKind change)
+            => change switch{
+                Created => Chars.Plus,
+                Deleted => Chars.Dash,
+                Modified => 'M',
+                Renamed => 'R',
+                _ => Chars.Question
+            };
+
         public const string TableId = "fs.change";
 
         public FS.FilePath File;
 
-        public FS.ChangeKind ChangeKind;
+        public FileChangeKind ChangeKind;
 
-        public FileChange(FS.FilePath path, FS.ChangeKind kind)
+        public FileChange(FS.FilePath path, FileChangeKind kind)
         {
             ChangeKind = kind;
             File = path;
         }
 
         public string Format()
-            => string.Format("[{0}] {1}", FS.symbol(ChangeKind), File.ToUri());
+            => string.Format("[{0}] {1}", symbol(ChangeKind), File.ToUri());
 
 
         public override string ToString()
             => Format();
-
     }
 }
