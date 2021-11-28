@@ -4,12 +4,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="$(Api)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

@@ -5,12 +5,31 @@
 namespace Z0
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Collections.Generic;
+    using System.Linq;
 
     using static core;
 
-    partial struct ApiCodeBlocks
+    [ApiHost]
+    public readonly struct ApiCodeBlocks
     {
+        public const string CaptureAddressMismatch = "The parsed address does not match the extration address";
+
+        public static ReadOnlySpan<ApiMemberCode> filter(ReadOnlySpan<ApiMemberCode> src, ApiClassKind kind)
+        {
+            var count = src.Length;
+            var dst = list<ApiMemberCode>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var code = ref skip(src,i);
+                if(code.KindId == kind)
+                    dst.Add(code);
+            }
+            return dst.ViewDeposited();
+        }
+
+
         [Op]
         static ReadOnlySpan<ApiHostBlocks> hosted(Index<ApiCodeBlock> src)
         {
@@ -40,5 +59,9 @@ namespace Z0
         [Op]
         public static ReadOnlySpan<ApiHostBlocks> hosted(ReadOnlySpan<ApiCodeBlock> src)
             => hosted(src.ToArray());
+
+        [Op]
+        public static ReadOnlySpan<ApiPartBlocks> parts(ReadOnlySpan<ApiHostBlocks> src)
+            => src.ToArray().GroupBy(x => x.Part).Map(x => new ApiPartBlocks(x.Key, x.ToArray()));
     }
 }

@@ -8,12 +8,6 @@
     <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
 
-  <!-- <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup> -->
-
-  <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

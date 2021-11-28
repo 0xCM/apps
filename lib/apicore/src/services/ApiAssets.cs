@@ -122,8 +122,6 @@ namespace Z0
 
     partial struct Msg
     {
-        public static MsgPattern<Assembly,utf8> NoMatchingResources => "No {0} resources found that match {1}";
 
-        public static MsgPattern<Assembly,uint> EmittingResources => "Emitting {1} {0} resources";
     }
 }

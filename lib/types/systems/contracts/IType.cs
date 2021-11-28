@@ -2,10 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Lang
+namespace Z0
 {
-    public interface ILangSource
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+
+    public interface IType
     {
-        LangKind LangKind {get;}
+
     }
 }

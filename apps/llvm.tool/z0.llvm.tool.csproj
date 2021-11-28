@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="$(LlvmTools)" />
   </ItemGroup>
+
+  <Import Project="../imports.props"/>
 
 </Project>

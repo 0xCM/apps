@@ -2,16 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.ScalarTypes
+namespace Z0
 {
     using static Root;
 
-    [Formatter(typeof(CellType))]
-    readonly struct CellTypeFormatter : ITextFormatter<CellType>
+    [Formatter(typeof(PrimalCellType))]
+    readonly struct CellTypeFormatter : ITextFormatter<PrimalCellType>
     {
         public static CellTypeFormatter Service => default;
 
-        public string Format(CellType src)
+        public string Format(PrimalCellType src)
         {
             var dst = EmptyString;
             if(src.ContentWidth == src.StorageWidth)

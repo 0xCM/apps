@@ -5,16 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Api)" />
     <ProjectReference Include="$(AsmLang)" />
   </ItemGroup>
 
-  <!-- <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup> -->
-
-  <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

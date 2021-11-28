@@ -9,7 +9,6 @@
     <ProjectReference Include="$(Gen)" />
     <ProjectReference Include="$(Glue)" />
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(Api)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

@@ -6,8 +6,6 @@
     <AssemblyName>zcpu</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

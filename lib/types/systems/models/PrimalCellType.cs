@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.ScalarTypes
+namespace Z0
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
@@ -10,9 +10,9 @@ namespace Z0.ScalarTypes
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct CellType
+    public readonly struct PrimalCellType
     {
-        public static Outcome parse(string src, out CellType dst)
+        public static Outcome parse(string src, out PrimalCellType dst)
             => CellTypeParser.Service.Parse(src, out dst);
 
         public uint ContentWidth {get;}
@@ -22,14 +22,14 @@ namespace Z0.ScalarTypes
         public PrimalKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public CellType(uint content, uint storage, PrimalKind @class)
+        public PrimalCellType(uint content, uint storage, PrimalKind @class)
         {
             ContentWidth = content;
             StorageWidth = storage;
             Kind = @class;
         }
 
-        public static CellType Empty => default;
+        public static PrimalCellType Empty => default;
 
         public string Format()
             => CellTypeFormatter.Service.Format(this);

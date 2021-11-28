@@ -7,7 +7,7 @@ namespace Z0
     using Svc = Z0;
 
     [ApiHost]
-    public static class XSvcFactory
+    partial class XSvc
     {
         [Op]
         public static ApiComments ApiComments(this IWfRuntime wf)

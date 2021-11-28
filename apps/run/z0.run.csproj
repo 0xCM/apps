@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Api)" />
     <ProjectReference Include="$(Glue)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>
-
-
 </Project>

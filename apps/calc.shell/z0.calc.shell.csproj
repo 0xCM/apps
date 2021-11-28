@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Api)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
   </ItemGroup>

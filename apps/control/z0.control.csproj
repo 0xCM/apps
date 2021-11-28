@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Api)" />
     <ProjectReference Include="$(Capture)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-  </ItemGroup>
+  <Import Project="../imports.props"/>
 
 </Project>

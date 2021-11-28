@@ -61,7 +61,7 @@ namespace Z0
             var buffer = alloc<AsmCsvPaths>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
-                seek(dst,i) = (skip(asm,i),skip(csv,i));
+                seek(dst,i) = (skip(asm,i), skip(csv,i));
             return buffer;
         }
 
@@ -142,8 +142,5 @@ namespace Z0
 
         public FS.FilePath ApiCatalogPath()
             => TableDir() + FS.file(TableId.identify<ApiCatalogEntry>().Format(), FS.Csv);
-
-        // public FS.FilePath ApiCatalogPath(Timestamp ts)
-        //     => ContextRoot() + FS.file(string.Format("{0}.{1}", TableId.identify<ApiCatalogEntry>(), ts.Format()), FS.Csv);
     }
 }

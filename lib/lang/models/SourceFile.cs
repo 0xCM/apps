@@ -2,13 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Lang
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct SourceFile : ILangSource
+    public readonly struct SourceFile : ISourceCode
     {
         public LangKind LangKind {get;}
 

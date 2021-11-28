@@ -2,18 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.ScalarTypes
+namespace Z0
 {
-    [Parser(typeof(CellType))]
-    public readonly struct CellTypeParser : IParser<CellType>
+    [Parser(typeof(PrimalCellType))]
+    public readonly struct CellTypeParser : IParser<PrimalCellType>
     {
         public static CellTypeParser Service => default;
 
-        public Outcome Parse(string src, out CellType dst)
+        public Outcome Parse(string src, out PrimalCellType dst)
         {
             var input = text.trim(src);
             var result = Outcome.Failure;
-            dst = CellType.Empty;
+            dst = PrimalCellType.Empty;
             if(text.empty(input))
                 return result;
 
@@ -41,7 +41,7 @@ namespace Z0.ScalarTypes
                             if(uint.TryParse(sw, out var nsw))
                             {
                                 var c = text.right(input,r);
-                                dst = new CellType(ncw,nsw,pc);
+                                dst = new PrimalCellType(ncw,nsw,pc);
                                 result = true;
                             }
                         }
@@ -54,7 +54,7 @@ namespace Z0.ScalarTypes
                 {
                     if(uint.TryParse(text.left(input, q), out var n))
                     {
-                        dst = new CellType(n,n,pc);
+                        dst = new PrimalCellType(n,n,pc);
                         result = true;
                     }
                 }

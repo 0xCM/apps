@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct ApiCodeBlocks
+    public abstract class TypeSystem<T>
+        where T : TypeSystem<T>, new()
     {
-        public const string CaptureAddressMismatch = "The parsed address does not match the extration address";
+        public Label Name {get;}
+
+        protected TypeSystem(Label name)
+        {
+            Name = name;
+        }
     }
 }
