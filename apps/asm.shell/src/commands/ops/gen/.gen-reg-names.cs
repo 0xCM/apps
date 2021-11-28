@@ -14,7 +14,7 @@ namespace Z0.Asm
         [CmdOp(".gen-reg-names")]
         Outcome EmitRegNames(CmdArgs args)
         {
-            var dst = Ws.Gen().Path("cs","regnames", FS.Cs);
+            var dst = Ws.Project("gen").Subdir("cs") + FS.file("regnames", FS.Cs);
             var flow = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var regs = AsmRegData.gp();

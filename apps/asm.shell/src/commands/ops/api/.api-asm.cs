@@ -10,7 +10,7 @@ namespace Z0.Asm
         Outcome EmitApiAsm(CmdArgs args)
         {
             var result = Outcome.Success;
-            var dst = Ws.Gen().Subdir("csv") + Tables.filename<AsmDataBlock>();
+            var dst = Ws.Project("gen").Subdir("csv") + Tables.filename<AsmDataBlock>();
             var records = AsmEtl.LoadHostAsmRows(ApiPackArchive.HostAsm());
             var blocks = AsmEtl.DistillBlocks(records);
             AsmEtl.EmitBlocks(blocks, dst);

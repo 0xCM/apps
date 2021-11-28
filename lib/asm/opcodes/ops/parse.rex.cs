@@ -17,7 +17,7 @@ namespace Z0.Asm
     partial struct AsmOpCodes
     {
         [MethodImpl(Inline), Op]
-        public static bit rex(ReadOnlySpan<char> src)
+        public static bool rex(ReadOnlySpan<char> src)
             => rex(src, out T _);
 
         /// <summary>
@@ -26,20 +26,20 @@ namespace Z0.Asm
         /// <param name="src"></param>
         /// <param name="dst"></param>
         [MethodImpl(Inline), Op]
-        public static bit rex(ReadOnlySpan<char> src, out T dst)
+        public static bool rex(ReadOnlySpan<char> src, out T dst)
             => scan(recover<char,C>(src), out dst);
 
         [MethodImpl(Inline), Op]
-        static bit scan(ReadOnlySpan<C> src, out T dst)
+        static bool scan(ReadOnlySpan<C> src, out T dst)
         {
             var count = src.Length;
-            var found = bit.Off;
+            var found = false;
             dst = default;
             for(var i=0; i<count; i++)
             {
                 if(parse(src, out dst))
                 {
-                    found = bit.On;
+                    found = true;
                     break;
                 }
             }
@@ -47,7 +47,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        static bit parse(ReadOnlySpan<C> src, out T dst)
+        static bool parse(ReadOnlySpan<C> src, out T dst)
         {
             dst = default;
             var token = default(T?);

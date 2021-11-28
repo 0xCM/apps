@@ -8,24 +8,21 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".api-xarrays")]
-        Outcome ApiHexArrays(CmdArgs args)
+        [CmdOp(".api-hex-text")]
+        Outcome EmitHexText(CmdArgs args)
         {
             var result = Outcome.Success;
             var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
             var count = blocks.Length;
-            var buffer = span<char>(Pow2.T16);
-            var outpath = AsmWs.Root + FS.folder("data") + FS.file("api", FS.XArray);
-            using var writer = outpath.AsciWriter();
-            for(var i=0u; i<count; i++)
+            var emitter = Wf.HexEmitter();
+            var apidb = Ws.Project("db").Subdir("api");
+            for(var i=0; i<count; i++)
             {
-                buffer.Clear();
                 ref readonly var block = ref skip(blocks,i);
-                var length = Hex.hexarray(block.View, buffer);
-                var content = text.format(slice(buffer,0,length));
-                writer.WriteLine(content);
+                var outpath = apidb + FS.file(block.Origin.Format(), FS.Hex);
+                emitter.EmitHexText(block.View, 64, outpath);
             }
-            Write(string.Format("Emitted {0} array blocks to {1}", count, outpath.ToUri()));
+
             return result;
         }
     }

@@ -12,7 +12,7 @@ namespace Z0.llvm
 
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
-        LlvmEtl RecordEtl;
+        LlvmEtl LlvmEtl;
 
         LlvmToolset Toolset;
 
@@ -54,7 +54,7 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
-            RecordEtl = Wf.LlvmRecordEtl();
+            LlvmEtl = Wf.LlvmRecordEtl();
             ProjectEtl = Wf.LlvmProjectCollector();
             Toolset = Wf.LLvmToolset();
             ReadObj = Wf.LlvmReadObj();

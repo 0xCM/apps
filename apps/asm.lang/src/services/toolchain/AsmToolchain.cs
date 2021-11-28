@@ -40,36 +40,6 @@ namespace Z0.Asm
                 return (false, errout.Delimit(Chars.NL).Format());
         }
 
-        ByteSize EmitHexText(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)
-        {
-            const char Delimiter = Chars.Pipe;
-            var @base = MemoryAddress.Zero;
-            var size = src.Length;
-            var flow = Wf.EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            var formatter = HexDataFormatter.create(@base, rowsize, false);
-            var buffer = alloc<byte>(rowsize);
-            var parts = size/rowsize;
-            var offset = @base;
-            var data = default(ReadOnlySpan<byte>);
-            for(var i=0; i<parts; i++)
-            {
-                data = slice(src,offset,rowsize);
-                writer.WriteLine(formatter.FormatLine(data, offset, Delimiter));
-                offset += rowsize;
-            }
-
-            var remainder = size % rowsize;
-            if(remainder != 0)
-            {
-                data = slice(src, offset, remainder);
-                writer.WriteLine(formatter.FormatLine(data, offset, Delimiter));
-            }
-            Wf.EmittedFile(flow,size);
-            return size;
-        }
-
-
         Outcome Run(CmdLine cmdline, FS.FilePath dst)
         {
             var stdout = list<string>();

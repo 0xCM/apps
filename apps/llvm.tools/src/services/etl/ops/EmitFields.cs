@@ -12,7 +12,6 @@ namespace Z0.llvm
 
     partial class LlvmEtl
     {
-
         Outcome EmitFields(ReadOnlySpan<RecordField> src, string dstid)
         {
             var fields = src;

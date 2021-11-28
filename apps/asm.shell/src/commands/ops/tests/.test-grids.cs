@@ -30,7 +30,7 @@ namespace Z0.Asm
             var msg = EmptyString;
             for(var i=0u; i<M; i++)
             {
-                for(var j=0u; j<M; j++, k++)
+                for(var j=0u; j<N; j++, k++)
                 {
                     var expect = i*j;
                     ref readonly var actual = ref table[i,j];

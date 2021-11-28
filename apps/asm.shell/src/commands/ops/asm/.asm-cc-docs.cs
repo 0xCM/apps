@@ -6,57 +6,35 @@ namespace Z0.Asm
 {
     using System;
 
-    using Operands;
-
     using static core;
-    using static WsAtoms;
-    using static ProjectScriptNames;
 
     partial class AsmCmdService
     {
-        [CmdOp(".asm-gen")]
-        Outcome AsmGen(CmdArgs args)
+        [CmdOp(".asm-cc-docs")]
+        Outcome DocCc(CmdArgs args)
         {
             var result = Outcome.Success;
-            var project = Ws.Project("mc.models");
-            var path = project.SrcFile("asm", "bsf", FileKind.Asm);
-            using var writer = path.AsciWriter();
-            r16 a = AsmRegOps.ax;
-            r16 b = AsmRegOps.ax;
-            writer.WriteLine("bsf_r16_r16:");
-            for(var i=0; i<16; i++, a++)
-            {
-                for(var j=0; j<16; j++, b++)
-                {
-                    if(i != j)
-                        writer.WriteLine(AsmStatements.bsf(a,b));
-                }
-
-            }
-
-            RunProjectScript(project, path, McBuild);
-
+            EmitConditionDocs();
             return result;
         }
 
-        [CmdOp(".asm-cc")]
-        Outcome DocCc(CmdArgs args)
+        FS.FolderPath AsmDocs()
+            => Ws.Project("db").Subdir("asmdocs");
+
+        void EmitConditionDocs()
         {
-            const string Pattern = "{0,-4} rel{1} [{2}:{3}b] => {4}";
-            var result = Outcome.Success;
-            var jcc8 = Ws.Tables().Subdir(machine) + FS.file("jcc8", FS.Txt);
+            var db = AsmDocs();
+            var jcc8 = db + FS.file("jcc8", FS.Txt);
             EmitConditionDocs(Conditions.jcc8(), jcc8);
             using var jcc8Reader = jcc8.AsciLineReader();
             while(jcc8Reader.Next(out var line))
                 Write(text.format(line.Codes));
 
-            var jcc32 = Ws.Tables().Subdir(machine) + FS.file("jcc32", FS.Txt);
+            var jcc32 = db + FS.file("jcc32", FS.Txt);
             EmitConditionDocs(Conditions.jcc32(), jcc32);
             using var jcc32Reader = jcc32.AsciLineReader();
             while(jcc32Reader.Next(out var line))
                 Write(text.format(line.Codes));
-
-            return result;
         }
 
         uint EmitConditionDocs<T>(ReadOnlySpan<T> src, FS.FilePath dst)

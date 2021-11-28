@@ -57,9 +57,6 @@ namespace Z0.llvm
                         else
                             name = text.trim(text.inside(content, j + Marker.Length - 1, k));
 
-                        // if(empty(name) || text.member(name, ClassExclusions))
-                        //     continue;
-
                         if(empty(name))
                             continue;
 

@@ -26,5 +26,18 @@ namespace Z0
         public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
 
         public static MsgPattern<Count,Count> CollectedThumbprints => "Collected {0} distinct thumbprints from {1} statements";
+
+        public static MsgPattern<Count,FS.FilePath> LoadedForms => "Loaded {0} forms from {1}";
+
+        public static MsgPattern<FS.FolderPath> LoadingStatements => "Loading asm statement rows from directory {0}";
+
+        public static MsgPattern<Count> ParsedStatements => "Parsed {0} asm statement rows";
+
+        public static MsgPattern<Count> LoadingDocs => "Loading {0} documents";
+
+        public static MsgPattern<Count> ParsingDocs => "Parsing {0} documents";
+
+        public static MsgPattern<FS.FileUri,string> FileParseError => "Error parsing {0}:{1}";
+
     }
 }

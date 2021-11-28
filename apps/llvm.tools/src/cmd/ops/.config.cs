@@ -9,7 +9,7 @@ namespace Z0.llvm
         [CmdOp(".config")]
         Outcome LlvmConfig(CmdArgs args)
         {
-           var config = RecordEtl.ComputeConfig();
+           var config = LlvmEtl.ComputeConfig();
            return true;
         }
     }

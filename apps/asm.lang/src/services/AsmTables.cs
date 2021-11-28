@@ -298,7 +298,6 @@ namespace Z0.Asm
             return result;
         }
 
-
         ReadOnlySpan<CpuIdRow> LoadCpuIdImports(TextReader reader)
         {
             const byte FieldCount = CpuIdRow.FieldCount;

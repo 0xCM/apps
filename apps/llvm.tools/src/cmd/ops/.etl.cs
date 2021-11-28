@@ -2,16 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public partial class ApiCatalog
+    partial class LlvmCmd
     {
-
+        [CmdOp(".etl")]
+        Outcome RunRecordsEtl(CmdArgs args)
+        {
+            var data = LlvmEtl.Run();
+            return true;
+        }
     }
 }

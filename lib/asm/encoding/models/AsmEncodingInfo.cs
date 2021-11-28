@@ -6,30 +6,34 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
-    public class AsmEncodingInfo : IEquatable<AsmEncodingInfo>, IComparable<AsmEncodingInfo>
+    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
+    public struct AsmEncodingInfo : IEquatable<AsmEncodingInfo>, IComparable<AsmEncodingInfo>
     {
+        public const string TableId = "asm.encoding";
+
         /// <summary>
         /// The form used to produce the encoded bits from the statement
         /// </summary>
-        public AsmFormInfo Form {get;}
+        public AsmFormInfo Form;
 
         /// <summary>
         /// The encoded statement
         /// </summary>
-        public AsmExpr Statement {get;}
+        public AsmExpr Statement;
 
         /// <summary>
         /// The encoded bytes
         /// </summary>
-        public AsmHexCode Encoded {get;}
+        public AsmHexCode Encoded;
 
         /// <summary>
         /// The encoded data represented as a bitstring
         /// </summary>
-        public AsmBitstring Bits {get;}
+        public AsmBitstring Bits;
 
         [MethodImpl(Inline)]
         public AsmEncodingInfo(AsmFormInfo form, AsmExpr statement, AsmHexCode hex, AsmBitstring bits)

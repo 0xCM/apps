@@ -22,5 +22,9 @@ namespace Z0
         [Op]
         public static AsmTokens AsmTokens(this IServiceContext context)
             => Svc.AsmTokens.create(context);
+
+        [Op]
+        public static AsmEtl AsmEtl(this IWfRuntime context)
+            => Svc.AsmEtl.create(context);
     }
 }

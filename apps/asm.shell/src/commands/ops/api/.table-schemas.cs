@@ -6,6 +6,7 @@ namespace Z0.Asm
 {
     using static core;
     using static Root;
+
     partial class AsmCmdService
     {
         [CmdOp(".table-schemas")]

@@ -4,7 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
+
     using static LlvmNames;
+    using static Root;
+    using static core;
 
     public partial class LlvmEtl : AppService<LlvmEtl>
     {
@@ -62,6 +66,59 @@ namespace Z0.llvm
             var docgen = LlvmDocGen.create(Wf,src);
             var count = docgen.GenInsructionDocs(dst);
             Ran(running, string.Format("Emitted docs for {0} instructions", count));
+        }
+
+        public Outcome RunEntityEtl()
+        {
+            var entities = Wf.LlvmDb().Entities();
+            var members = entities.Members;
+            var count = members.Length;
+            var key = 0u;
+            var records = list<LlvmAsmPattern>();
+            var asmids = list<LlvmAsmIdentity>();
+            var obmapped = list<LlvmAsmIdentity>();
+            var variations = list<LlvmAsmVariation>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entity = ref skip(members,i);
+                ref readonly var def = ref entity.Def;
+                var ancestors = def.AncestorNames;
+                var parent = def.ParentName;
+                if(ancestors.Contains(RecordClasses.Instruction))
+                {
+                    var name = entity.EntityName.Content;
+                    var identity = new LlvmAsmIdentity(key, name);
+                    asmids.Add(identity);
+
+                    if(bit.parse(entity["isPseudo"].Value, out var pseudo) && bit.parse(entity["isCodeGenOnly"].Value, out var cgonly))
+                    {
+                        if(pseudo || cgonly)
+                            continue;
+
+                        var asms = entity["AsmString"];
+                        var map = entity["OpMap"];
+                        if(map.Value.Equals("OB"))
+                            obmapped.Add(identity);
+                        var mnemonic = AsmString.mnemonic(asms.Value);
+                        var fmt = AsmString.format(asms.Value);
+                        var j = text.index(name.ToLower(),mnemonic);
+                        if(j >=0)
+                            variations.Add(new LlvmAsmVariation(key, name, mnemonic, text.right(name, j + mnemonic.Length - 1)));
+
+                        records.Add(LlvmAsmPattern.define(key, name, mnemonic, fmt, out var _));
+                    }
+                    key++;
+                }
+            }
+
+            TableEmit(records.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
+            TableEmit(asmids.ViewDeposited(), LlvmPaths.Table<LlvmAsmIdentity>());
+            TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
+
+            EmitChildRelations(entities);
+
+            Wf.LlvmCodeGen().GenListStringTables(EmitLists(entities, RecordClasses.Names));
+            return true;
         }
    }
 }
