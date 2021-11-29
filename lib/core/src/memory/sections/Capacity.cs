@@ -58,13 +58,13 @@ namespace Z0
             public readonly uint TotalSize;
 
             [MethodImpl(Inline)]
-            public Capacity(ushort cellsize, uint blocks, byte blocksegs, uint segcells)
+            public Capacity(ushort cellsize, uint blocks, byte segsperblock, uint cellsperseg)
             {
                 CellSize = cellsize;
                 BlockCount = blocks;
-                SegsPerBlock = blocksegs;
-                CellsPerSeg = segcells;
-                SegSize = segcells*cellsize;
+                SegsPerBlock = segsperblock;
+                CellsPerSeg = cellsperseg;
+                SegSize = cellsperseg*cellsize;
                 BlockSize = SegSize*SegsPerBlock;
                 TotalSize = BlockCount*BlockSize;
                 SegCount = SegSize != 0 ? TotalSize/SegSize : 0;

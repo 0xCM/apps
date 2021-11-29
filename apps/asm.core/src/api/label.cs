@@ -13,10 +13,10 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static AsmOffsetLabel label(byte width, ulong value)
-            => new AsmOffsetLabel(width, value);
+            => AsmDocBuilder.label(width,value);
 
         [MethodImpl(Inline), Op]
         public static AsmLabel label(TextBlock name)
-            => new AsmLabel(name);
+            => AsmDocBuilder.label(name);
     }
 }

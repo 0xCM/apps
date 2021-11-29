@@ -21,8 +21,8 @@ namespace Z0.Asm
                 lines.Clear();
                 var count = AsmParser.lines(path, lines);
                 counter += count;
-                writer.WriteLine(asm.comment(string.Format("Source: {0}, {1} lines", path.ToUri(), count)));
-                writer.WriteLine(asm.comment(RP.PageBreak80));
+                writer.WriteLine(AsmDocBuilder.comment(string.Format("Source: {0}, {1} lines", path.ToUri(), count)));
+                writer.WriteLine(AsmDocBuilder.comment(RP.PageBreak80));
                 writer.WriteLine();
 
                 iter(lines, line => writer.WriteLine(line.Format()));

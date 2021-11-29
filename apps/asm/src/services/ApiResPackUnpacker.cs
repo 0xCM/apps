@@ -37,7 +37,7 @@ namespace Z0.Asm
                 var bytes = SpanRes.definition(accessor);
                 var decoded = decoder.Decode(bytes.ToArray(), MemoryAddress.Zero).View;
                 var name = accessor.DeclaringType.Name + "/" + accessor.Member.Name;
-                asmwriter.WriteLine(asm.comment(seqlabel + name));
+                asmwriter.WriteLine(AsmDocBuilder.comment(seqlabel + name));
                 AsmFormatter.render(bytes, decoded, buffer);
                 asmwriter.Write(buffer.Emit());
 

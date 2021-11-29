@@ -65,24 +65,24 @@ namespace Z0.Asm
 
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
-            => asm.comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
+            => AsmDocBuilder.comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
 
         [Op]
         public static AsmInlineComment hexarray(BinaryCode src)
-            => asm.comment(CommentMarker, Hex.hexarray(src).Format(true));
+            => AsmDocBuilder.comment(CommentMarker, Hex.hexarray(src).Format(true));
 
         [Op]
         public static byte format(in ApiCodeBlockHeader src, Span<string> dst)
         {
             var i = z8;
             seek(dst, i++) = PageBreak;
-            seek(dst, i++) = asm.comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
+            seek(dst, i++) = AsmDocBuilder.comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
             seek(dst, i++) = spanres(src.Uri, src.CodeBlock);
             seek(dst, i++) = hexarray(src.CodeBlock);
-            seek(dst, i++) = asm.comment(CommentMarker, string.Concat(nameof(src.CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
-            seek(dst, i++) = asm.comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
+            seek(dst, i++) = AsmDocBuilder.comment(CommentMarker, string.Concat(nameof(src.CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
+            seek(dst, i++) = AsmDocBuilder.comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
             seek(dst, i++) = PageBreak;
-            seek(dst, i++) = asm.comment(src.Uri.OpId.Name);
+            seek(dst, i++) = AsmDocBuilder.comment(src.Uri.OpId.Name);
             return i;
         }
 
@@ -100,7 +100,7 @@ namespace Z0.Asm
             const string AbsolutePattern = "{0} {1} {2}";
             const string RelativePattern = "{0} {1}";
             var label = AsmRender.offset(src.Offset, w16);
-            var _label = asm.label(16, src.Offset);
+            var _label = AsmDocBuilder.label(16, src.Offset);
             var address = @base + src.Offset;
             if(config.EmitLineLabels)
             {
@@ -114,11 +114,11 @@ namespace Z0.Asm
                 dst.Append(src.Statement.FormatPadded());
             }
 
-            dst.Append(asm.comment(CommentMarker, AsmOffsetLabel.format(_label, src.AsmForm, src.Encoded)));
+            dst.Append(AsmDocBuilder.comment(CommentMarker, AsmOffsetLabel.format(_label, src.AsmForm, src.Encoded)));
         }
 
         public static string comment(in AsmThumbprint src)
-            => asm.comment(CommentMarker, string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()));
+            => AsmDocBuilder.comment(CommentMarker, string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()));
 
         [Op]
         public static string format(in AsmThumbprint src)
@@ -168,18 +168,12 @@ namespace Z0.Asm
         [Op]
         public static string semantic(in AsmDetailRow row)
         {
-            var monic = AsmMnemonicCode.None;
-            if(!AsmParser.parse(row.Mnemonic, out monic))
-                return string.Format("The mnemonic {0} is not known", row.Mnemonic);
-
             var encoded = row.Encoded;
             var ip = row.IP;
             var @base = row.BlockAddress;
 
-            switch(monic)
+            if(row.Mnemonic.Format(MnemonicCase.Lowercase) == "jmp")
             {
-                case AsmMnemonicCode.JMP:
-
                 if(JmpRel8.test(encoded))
                     return string.Format("jmp(rel8,{0},{1}) -> {2}",
                         JmpRel8.dx(encoded),
@@ -194,8 +188,6 @@ namespace Z0.Asm
                         );
                 else if(Jmp64.test(encoded))
                     return string.Format("jmp({0})", Jmp64.target(encoded));
-
-                break;
             }
             return EmptyString;
         }

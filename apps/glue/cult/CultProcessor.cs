@@ -142,9 +142,9 @@ namespace Z0.Tools
             {
                 ref readonly var record = ref skip(src,i);
                 if(record.RecordKind == CultRecordKind.Statement)
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, EmptyString, AsmExpr.parse(record.Statement), asm.comment(record.Comment)));
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, EmptyString, AsmExpr.parse(record.Statement), AsmDocBuilder.comment(record.Comment)));
                 else if(record.RecordKind == CultRecordKind.Label)
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, record.Label.Format(), EmptyString, asm.comment(record.Comment)));
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, record.Label.Format(), EmptyString, AsmDocBuilder.comment(record.Comment)));
                 else if(record.RecordKind == CultRecordKind.Summary)
                 {
                     var summary = Summarize(record);
@@ -288,8 +288,8 @@ namespace Z0.Tools
             var path = DetailPath(summary.Mnemonic);
             using var writer = path.Writer(true);
             writer.WriteLine();
-            writer.WriteLine(asm.comment(summary.Id));
-            writer.WriteLine(asm.comment(PageBreak));
+            writer.WriteLine(AsmDocBuilder.comment(summary.Id));
+            writer.WriteLine(AsmDocBuilder.comment(PageBreak));
 
             if(AsmLines.IsNonEmpty)
             {

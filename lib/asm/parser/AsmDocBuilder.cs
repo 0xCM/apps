@@ -6,11 +6,37 @@ namespace Z0.Asm
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     using static core;
+    using static Root;
 
     public class AsmDocBuilder
     {
+        [MethodImpl(Inline), Op]
+        public static AsmDirective directive(text15 name, AsmDirectiveOp op0 = default, AsmDirectiveOp op1 = default, AsmDirectiveOp op2 = default)
+            => new AsmDirective(name,op0,op1,op2);
+
+        [MethodImpl(Inline), Op]
+        public static AsmLine line(params object[] src)
+            => new AsmLine(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOffsetLabel label(byte width, ulong value)
+            => new AsmOffsetLabel(width, value);
+
+        [MethodImpl(Inline), Op]
+        public static AsmLabel label(TextBlock name)
+            => new AsmLabel(name);
+
+        [MethodImpl(Inline), Op]
+        public static AsmComment comment(string src)
+            => new AsmComment(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmInlineComment comment(AsmCommentMarker marker, string src)
+            => new AsmInlineComment(marker,src);
+
         List<object> Parts;
 
         public static AsmDocBuilder create(string name)
@@ -31,16 +57,16 @@ namespace Z0.Asm
             switch(args.Length)
             {
                 case 1:
-                    Parts.Add(asm.directive(name,skip(args,0)));
+                    Parts.Add(directive(name,skip(args,0)));
                 break;
                 case 2:
-                    Parts.Add(asm.directive(name,skip(args,0), skip(args,1)));
+                    Parts.Add(directive(name,skip(args,0), skip(args,1)));
                 break;
                 case 3:
-                    Parts.Add(asm.directive(name,skip(args,0), skip(args,1), skip(args,2)));
+                    Parts.Add(directive(name,skip(args,0), skip(args,1), skip(args,2)));
                 break;
                 default:
-                    Parts.Add(asm.directive(name));
+                    Parts.Add(directive(name));
                     break;
             }
 
@@ -49,7 +75,7 @@ namespace Z0.Asm
 
         public AsmDocBuilder WithBlockLabel(TextBlock name)
         {
-            Parts.Add(asm.label(name));
+            Parts.Add(label(name));
             return this;
         }
 
@@ -84,6 +110,6 @@ namespace Z0.Asm
         }
 
         static AsmDirective directive<T>(text15 name, T arg)
-            => asm.directive(name, new AsmDirectiveOp<T>(arg));
+            => directive(name, new AsmDirectiveOp<T>(arg));
     }
 }

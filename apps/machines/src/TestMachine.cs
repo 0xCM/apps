@@ -38,14 +38,14 @@ namespace Z0.Machines.X86
             Random = Rng.@default();
             Queue = EventQueue.allocate(typeof(TestMachine), EventRaised);
             Signal = EventSignals.signal(Queue, GetType());
+            RM = X86Control.intel64(Signal);
         }
 
         protected override void Disposing()
         {
             EmptyQueue();
             Queue.Dispose();
-            if(RM != null)
-                RM.Dispose();
+            RM.Dispose();
         }
 
         void EmptyQueue()
@@ -57,24 +57,18 @@ namespace Z0.Machines.X86
         [CmdOp(".x86")]
         Outcome RunX86Machine(CmdArgs args)
         {
-            if(RM == null)
-            {
-                RM = X86Control.intel64(Signal);
-                RM.Run();
-            }
+            RM.Run();
             return true;
         }
 
         [CmdOp(".regdump")]
-        Outcome TestRegs(CmdArgs args)
+        Outcome RegDump(CmdArgs args)
         {
             var result = Outcome.Success;
-
             var machine = RM;
             var buffer = text.buffer();
             X86Control.state(machine,buffer);
             Write(buffer.Emit());
-
             return result;
         }
 
@@ -214,9 +208,12 @@ namespace Z0.Machines.X86
             var cells = size/size<Cell128>();
 
             var left = bank.Block(n0);
+            Random.Fill(left.Edit);
             var right = bank.Block(n1);
+            Random.Fill(right.Edit);
+
             var dst = bank.Block(n2);
-            Run128(left, right, dst);
+            or(left, right, dst);
 
             ref var lCell = ref left.Segment<Cell128>(0);
             ref var rCell = ref right.Segment<Cell128>(0);
@@ -227,11 +224,11 @@ namespace Z0.Machines.X86
                 ref readonly var a = ref skip(lCell,i);
                 ref readonly var b = ref skip(rCell,i);
                 ref readonly var result = ref skip(target,i);
-                Wf.Row(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "f", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
+                Wf.Row(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "or", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
             }
         }
 
-        void Run128(PageBlock lhs, PageBlock rhs, PageBlock dst)
+        void or(in PageBlock lhs, in PageBlock rhs, in PageBlock dst)
         {
             var size = lhs.Size;
             var w = w128;
@@ -243,9 +240,9 @@ namespace Z0.Machines.X86
             for(var i=0u; i<cells; i++)
             {
                 ref var a = ref seek(left,i);
-                a = cpu.vbroadcast(w,i);
+                //a = cpu.vbroadcast(w, i);
                 ref var b = ref seek(right,i);
-                b = cpu.vbroadcast(w,i + Pow2.T12);
+                //b = cpu.vbroadcast(w, i + Pow2.T12);
                 seek(target,i) = f.Invoke(a,b);
             }
         }
@@ -256,9 +253,12 @@ namespace Z0.Machines.X86
             var size = PageBank16x4x4.BlockSize;
             var w = w128;
             var left = bank.Block(n0);
+            Random.Fill(left.Edit);
             var right = bank.Block(n1);
+            Random.Fill(right.Edit);
+
             var dst = bank.Block(n2);
-            Run128(left, right, dst);
+            or(left, right, dst);
 
             ref var lCell = ref left.Segment<Cell128>(0);
             ref var rCell = ref right.Segment<Cell128>(0);
@@ -270,7 +270,7 @@ namespace Z0.Machines.X86
                 ref readonly var a = ref skip(lCell,i);
                 ref readonly var b = ref skip(rCell,i);
                 ref readonly var result = ref skip(target,i);
-                Wf.Row(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "f", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
+                Wf.Row(string.Format("{0:D6} {1}([{2}],[{3}]) = {4}", i, "or", a.V32u.FormatHex(), b.V32u.FormatHex(), result.V32u.FormatHex()));
             }
         }
 

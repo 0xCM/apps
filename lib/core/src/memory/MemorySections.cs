@@ -52,7 +52,7 @@ namespace Z0
         /// </summary>
         /// <param name="cellsize">The cell size</param>
         /// <param name="blocks">The number of covered blocks</param>
-        /// <param name="blocksegs"></param>
+        /// <param name="blocksegs">The numberr of cells in a block</param>
         /// <param name="segcells">The number of cells per segment</param>
         [MethodImpl(Inline), Op]
         public static Capacity capacity(ushort cellsize, uint blocks, byte blocksegs, uint segcells)

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public unsafe class MemAlloc : IDisposable
+    public unsafe class MemAlloc : IBufferAllocation
     {
         public static MemAlloc alloc(uint pages)
             => new MemAlloc(pages);
@@ -20,6 +20,24 @@ namespace Z0
         Index<int> Allocations;
 
         public uint PageCapacity {get;}
+
+        public MemoryAddress Address
+        {
+            [MethodImpl(Inline)]
+            get => Memory.Address;
+        }
+
+        public ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Memory.Size;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Memory.Width;
+        }
 
         internal MemAlloc(uint pages)
         {

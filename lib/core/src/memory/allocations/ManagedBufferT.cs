@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct ManagedBuffer<T> : IDisposable
+    public readonly struct ManagedBuffer<T> :  IBufferAllocation
         where T : unmanaged
     {
         readonly GCHandle _Handle;
@@ -55,11 +55,18 @@ namespace Z0
             get => _Size;
         }
 
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => _Size;
+        }
+
         public uint Count
         {
             [MethodImpl(Inline)]
             get => Size/size<T>();
         }
+
 
         public void Dispose()
         {

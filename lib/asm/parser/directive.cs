@@ -27,21 +27,21 @@ namespace Z0.Asm
                     switch(count)
                     {
                         case 1:
-                            dst = asm.directive(name, skip(args,0));
+                            dst = AsmDocBuilder.directive(name, skip(args,0));
                         break;
                         case 2:
-                            dst = asm.directive(name, skip(args,0), skip(args,1));
+                            dst = AsmDocBuilder.directive(name, skip(args,0), skip(args,1));
                         break;
                         case 3:
-                            dst = asm.directive(name, skip(args,0), skip(args,1), skip(args,2));
+                            dst = AsmDocBuilder.directive(name, skip(args,0), skip(args,1), skip(args,2));
                         break;
                         default:
-                            dst = asm.directive(name);
+                            dst = AsmDocBuilder.directive(name);
                         break;
                     }
                 }
                 else
-                    dst = asm.directive(name);
+                    dst = AsmDocBuilder.directive(name);
 
                 result = Outcome.Success;
             }

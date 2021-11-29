@@ -22,7 +22,7 @@ namespace Z0.Asm
             {
                 var data = reader.ReadLine();
                 var statement = AsmExpr.parse(data.LeftOfFirst(Chars.Semicolon));
-                result = AsmParser.thumbprint(data, out var thumbprint);
+                result = AsmThumbprint.parse(data, out var thumbprint);
                 if(result.Fail)
                     break;
                 else

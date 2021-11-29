@@ -48,17 +48,21 @@ namespace Z0.Asm
 
             result = sigxpr(sigexpr, out var _sig);
             if(result.Fail)
-                return (false, Msg.CouldNotParseSigExpr.Format(sigexpr));
+                return (false, CouldNotParseSigExpr.Format(sigexpr));
 
             result = text.unfence(src, OpCodeFence, out var opcode);
             if(result.Fail)
                 return (false, FenceNotFound.Format(OpCodeFence, src));
 
-            dst = new AsmFormInfo(asm.ocstring(opcode), _sig);
+            dst = new AsmFormInfo(new AsmOpCodeString(opcode), _sig);
             return true;
         }
 
         public static MsgPattern<Fence<char>,string> FenceNotFound
             => "No content fenced with {0} exists int the input text '{1}'";
+
+        public static MsgPattern<string> CouldNotParseSigExpr => "Could not created a signature expression from {0}";
+
+        public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
     }
 }

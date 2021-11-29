@@ -19,19 +19,19 @@ namespace Z0.Asm
                 {
                     if(AsmParser.label(label.Name, out AsmOffsetLabel offset))
                     {
-                        dst.Add(asm.line(offset, expr));
+                        dst.Add(AsmDocBuilder.line(offset, expr));
                         counter++;
                     }
                     else
                     {
                         if(expr.IsNonEmpty)
                         {
-                            dst.Add(asm.line(label, expr));
+                            dst.Add(AsmDocBuilder.line(label, expr));
                             counter++;
                         }
                         else
                         {
-                            dst.Add(asm.line(label));
+                            dst.Add(AsmDocBuilder.line(label));
                             counter++;
                         }
                     }

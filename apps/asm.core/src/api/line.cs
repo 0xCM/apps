@@ -13,6 +13,6 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static AsmLine line(params object[] src)
-            => new AsmLine(src);
+            => AsmDocBuilder.line(src);
     }
 }

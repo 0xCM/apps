@@ -13,10 +13,10 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static AsmComment comment(string src)
-            => new AsmComment(src);
+            => AsmDocBuilder.comment(src);
 
         [MethodImpl(Inline), Op]
         public static AsmInlineComment comment(AsmCommentMarker marker, string src)
-            => new AsmInlineComment(marker,src);
+            => AsmDocBuilder.comment(marker,src);
     }
 }

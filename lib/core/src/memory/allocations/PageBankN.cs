@@ -11,19 +11,19 @@ namespace Z0
 
     using static core;
 
-    public class PageBank : IDisposable
+    public class PageBank<N> : IBufferAllocation
+        where N : unmanaged, ITypeNat
     {
         public const uint PageSize = PageBlock.PageSize;
 
-        public static PageBank alloc(uint pages)
-            => new PageBank(pages);
+        public static PageBank<N> alloc()
+            => new PageBank<N>();
 
         readonly NativeBuffer Buffer;
 
-        internal PageBank(uint pages)
+        internal PageBank()
         {
-            PageCount = pages;
-            Buffer = memory.native(PageSize*PageCount);
+            Buffer = memory.native(PageSize*nat32u<N>());
         }
 
         public void Dispose()
@@ -31,7 +31,29 @@ namespace Z0
             Buffer.Dispose();
         }
 
-        public uint PageCount {get;}
+        public uint PageCount
+        {
+            [MethodImpl(Inline)]
+            get => nat32u<N>();
+        }
+
+        public MemoryAddress Address
+        {
+            [MethodImpl(Inline)]
+            get => Buffer.Address;
+        }
+
+        public ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Buffer.Size;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Buffer.Width;
+        }
 
         [MethodImpl(Inline)]
         public Span<byte> PageBuffer(uint index)

@@ -135,7 +135,7 @@ namespace Z0.Asm
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Sig), src.LineNumber));
 
-            dst.OpCode = asm.ocstring(skip(parts, i++));
+            dst.OpCode = new AsmOpCodeString(skip(parts, i++));
 
             var bitstring = skip(parts,i++);
             dst.Bitstring = dst.Encoded;
@@ -176,7 +176,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            dst.OpCode = asm.ocstring(skip(cells, i++));
+            dst.OpCode = new AsmOpCodeString(skip(cells, i++));
             dst.Bitstring = dst.Encoded;
 
             result = DataParser.parse(skip(cells, i++), out dst.OpUri);
