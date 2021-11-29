@@ -8,34 +8,40 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     /// <summary>
     /// Capures a command along with the outcome and payload
     /// </summary>
-    public struct CmdResult<C,P> : ICmdResult<C,P>
+    public record CmdResult<C,P> : ICmdResult<C,P>
         where C : struct, ICmd
     {
-        public C Cmd {get;}
+        public C Cmd {get; set;}
 
-        public bool Succeeded {get;}
+        public bool Succeeded {get; set;}
 
-        public P Payload {get;}
+        public P Payload {get; set;}
 
-        public string Message {get;}
+        public TextBlock Message {get; set;}
 
         public CmdId Id => Cmd.CmdId;
 
+        public CmdResult()
+        {
+            Message = EmptyString;
+        }
+
         [MethodImpl(Inline)]
-        public CmdResult(C cmd, bool success, P payload, string msg = EmptyString)
+        public CmdResult(in C cmd, bool success, P payload, string msg = EmptyString)
         {
             Cmd = cmd;
             Payload = payload;
             Succeeded = success;
-            Message = minicore.ifempty(msg, CmdResult.DefaultMsg(cmd.CmdId, success));
+            Message = ifempty(msg, CmdResult.DefaultMsg(cmd.CmdId, success));
         }
 
         [MethodImpl(Inline)]
-        public CmdResult(C cmd, Exception e)
+        public CmdResult(in C cmd, Exception e)
         {
             Cmd = cmd;
             Payload = default;
@@ -59,6 +65,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator CmdResult<C>(CmdResult<C,P> src)
             => new CmdResult<C>(src.Cmd, src.Succeeded, src.Message);
+
+        [MethodImpl(Inline)]
+        public static implicit operator CmdResult<C,P>(CmdResult<C> src)
+            => new CmdResult<C,P>(src.Cmd, src.Succeeded, default(P), src.Message);
 
         public static CmdResult<C,P> Empty
             => default;

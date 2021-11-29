@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
@@ -24,7 +24,7 @@ namespace Z0.Expr
         }
 
         public string Format()
-            => expr.format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

@@ -18,7 +18,7 @@ namespace Z0
 
         public dynamic Payload {get;}
 
-        public string Message {get;}
+        public TextBlock Message {get;}
 
         [MethodImpl(Inline)]
         public CmdResult(C cmd, bool success, string msg)

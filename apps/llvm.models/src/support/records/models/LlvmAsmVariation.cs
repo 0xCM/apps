@@ -8,22 +8,25 @@ namespace Z0.llvm
     using System.Runtime.InteropServices;
 
     using static Root;
+    using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct LlvmAsmVariation
     {
         public const string TableId = "llvm.asm.variation";
 
+        public const byte FieldCount = 4;
+
         public uint Key;
 
         public AsciBlock32 Name;
 
-        public AsciBlock16 Mnemonic;
+        public AsmMnemonic Mnemonic;
 
         public AsciBlock16 Code;
 
         [MethodImpl(Inline)]
-        public LlvmAsmVariation(uint id, in AsciBlock32 name, in AsciBlock16 monic, in AsciBlock16 code)
+        public LlvmAsmVariation(uint id, in AsciBlock32 name, in AsmMnemonic monic, in AsciBlock16 code)
         {
             Key = id;
             Name = name;

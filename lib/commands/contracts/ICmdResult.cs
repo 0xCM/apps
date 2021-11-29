@@ -15,7 +15,7 @@ namespace Z0
 
         dynamic Payload {get;}
 
-        string Message {get;}
+        TextBlock Message {get;}
 
         string ITextual.Format()
             => Message;

@@ -23,10 +23,10 @@ namespace Z0
         }
 
         public string Format()
-            => RuleModels.format(this);
+            => ExprFormatters.format(this);
 
         public string Format(VarContextKind vck)
-            => RuleModels.format(vck, this);
+            => ExprFormatters.format(vck, this);
 
         [MethodImpl(Inline)]
         public static implicit operator EnvDirVar((VarSymbol symbol, FS.FolderPath value) src)

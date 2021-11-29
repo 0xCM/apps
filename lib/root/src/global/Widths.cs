@@ -38,6 +38,8 @@ namespace Z0
 
         public static W64i w64i => default;
 
+        public static W80 w80 => default;
+
         public static W128 w128 => default;
 
         public static W128i w128i => default;

@@ -6,6 +6,7 @@ namespace Z0.llvm
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
+    using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct LlvmAsmPattern
@@ -16,7 +17,7 @@ namespace Z0.llvm
 
         public AsciBlock32 Instruction;
 
-        public AsciBlock32 Mnemonic;
+        public AsmMnemonic Mnemonic;
 
         public bit IsCodeGenOnly;
 

@@ -38,26 +38,24 @@ namespace Z0
             }
         }
 
-        IWfDb Db;
 
         protected override Reactor Init(out int state)
         {
-            state = 32;
-            Db = Wf.Db();
+            state = 0;
             return this;
         }
 
-        public void Dispatch(CmdLine cmd)
+        public void Dispatch(CmdLine src)
         {
-            var args = cmd.Parts;
+            var args = src.Parts;
             if(args.IsEmpty)
                 return;
 
-            var _cmd = new RunScriptCmd();
+            var cmd = new RunScriptCmd();
             var name =  first(args).Content;
-            var a0 = args.Length >= 2 ? args[1].Content : EmptyString;
-            _cmd.ScriptPath = FS.path(a0);
-            _cmd.RunDirect(Wf);
+            var path = args.Length >= 2 ? args[1].Content : EmptyString;
+            cmd.ScriptPath = FS.path(path);
+            Wf.Execute(cmd);
         }
     }
 }

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [LiteralProvider]
     internal readonly struct ExprPatterns
     {
         public const char Choice = '|';

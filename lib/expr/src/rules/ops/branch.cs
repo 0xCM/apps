@@ -9,8 +9,6 @@ namespace Z0.Rules
 
     using static Root;
 
-    using Expr;
-
     partial struct rules
     {
         [MethodImpl(Inline)]

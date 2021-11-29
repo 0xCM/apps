@@ -16,8 +16,8 @@ namespace Z0.llvm
         Outcome DefLineage(CmdArgs args)
         {
             var result = Outcome.Success;
-            var defs = RecordLoader.LoadDefRelations();
-            var classes = LlvmRelations.equivalance(RecordLoader.LoadClassRelations());
+            var defs = TableLoader.LoadDefRelations();
+            var classes = LlvmRelations.equivalance(TableLoader.LoadClassRelations());
             var cname = "DAGOperand";
             var @class = classes.Where(c => c.MemberName == cname);
             var counter = 0u;

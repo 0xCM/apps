@@ -15,13 +15,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public MemberDecodedEvent()
         {
-            Payload = relations.flow(ApiMemberCode.Empty, AsmRoutine.Empty);
+            Payload = flows.dataflow(ApiMemberCode.Empty, AsmRoutine.Empty);
         }
 
         [MethodImpl(Inline)]
         public MemberDecodedEvent(in ApiMemberCode src, in AsmRoutine dst)
         {
-            Payload = relations.flow(src,dst);
+            Payload = flows.dataflow(src,dst);
         }
     }
 }

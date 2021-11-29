@@ -34,7 +34,7 @@ namespace Z0.Expr
         public Value<dynamic> Resolve()
             => new Value<dynamic>(Resolver());
         public string Format()
-            => expr.format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

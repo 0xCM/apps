@@ -47,7 +47,7 @@ namespace Z0.Asm
                 {
                     if(AsmHexCode.parse(B, out var encoded))
                     {
-                        thumbprint = new AsmThumbprint(statement, sig, asm.ocstring(opcode), encoded);
+                        thumbprint = new AsmThumbprint(statement, sig, new AsmOpCodeString(opcode), encoded);
                         return true;
                     }
                     else

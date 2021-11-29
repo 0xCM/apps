@@ -85,7 +85,7 @@ namespace Z0
             for(var row=0; row<n; row++)
             for(var col=0; col<n; col++)
                 if(src[row,col])
-                    edges.Add(relations.connect(nodes[row], nodes[col]));
+                    edges.Add(flows.connect(nodes[row], nodes[col]));
             return relations.graph(nodes, edges.ToArray());
         }
     }

@@ -40,7 +40,7 @@ namespace Z0
         public static RuntimeLiteralValue<string> value(in RuntimeLiteral src)
         {
             var value = EmptyString;
-            if(src.Kind == LiteralKind.String)
+            if(src.Kind == ClrLiteralKind.String)
                 value = ((StringAddress)src.Data).Format();
             else
                 value = src.Data.ToString();
@@ -114,17 +114,17 @@ namespace Z0
                 ref var provided = ref seek(dst,i);
                 var type = field.FieldType;
                 var raw = field.GetRawConstantValue();
-                var lk = LiteralKind.None;
+                var lk = ClrLiteralKind.None;
                 var data = 0ul;
                 if(type.IsEnum)
                 {
                     var ekind = Enums.@base(type);
-                    lk = (LiteralKind)ekind;
+                    lk = (ClrLiteralKind)ekind;
                     data = ClrLiterals.serialize(raw,ekind);
                 }
                 else
                 {
-                    lk = (LiteralKind)PrimalBits.kind(type);
+                    lk = (ClrLiteralKind)PrimalBits.kind(type);
                     data = ClrLiterals.serialize(raw,lk);
                 }
 

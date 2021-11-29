@@ -8,7 +8,7 @@ namespace Z0
 
     public interface ILiteralValue
     {
-        LiteralKind Kind {get;}
+        ClrLiteralKind Kind {get;}
     }
 
     /// <summary>

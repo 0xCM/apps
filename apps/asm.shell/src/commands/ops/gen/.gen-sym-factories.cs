@@ -9,7 +9,7 @@ namespace Z0.Asm
         [CmdOp(".gen-sym-factories")]
         Outcome GenSymFactories(CmdArgs args)
         {
-            var dst = Ws.Gen().Path("regcodes", FS.Cs);
+            var dst = Ws.Project("gen").Path("regcodes", FS.Cs);
             var src = typeof(AsmRegTokens).GetNestedTypes().Where(x => x.Tagged<SymSourceAttribute>());
             Wf.Generators().GenSymFactories("Z0.Asm", "AsmRegNames", src, dst);
             return true;

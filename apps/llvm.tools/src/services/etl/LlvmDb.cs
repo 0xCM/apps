@@ -36,11 +36,11 @@ namespace Z0.llvm
 
         Index<ClassRelations> _ClassRelations;
 
-        BufferedLabels ClassNameBuffer;
+        LabelBuffer ClassNameBuffer;
 
-        BufferedLabels DefNameBuffer;
+        LabelBuffer DefNameBuffer;
 
-        LlvmRecordLoader RecordLoader;
+        LlvmTableLoader RecordLoader;
 
         Index<RecordEntity> _Entities;
 

@@ -57,7 +57,7 @@ namespace Z0.Asm
         void Handle(imm64 src, IceRegister dst)
         {
             if(HasCapacity)
-                Entry(Index++) = relations.arrow(src, dst);
+                Entry(Index++) = flows.arrow(src, dst);
         }
     }
 }

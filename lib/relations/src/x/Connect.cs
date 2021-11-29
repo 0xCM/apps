@@ -22,7 +22,7 @@ namespace Z0
         public static Arrow<V> Connect<V,T>(this Node<V,T> src, Node<V,T> dst)
             where V : unmanaged
             where T : unmanaged
-                => relations.connect(src,dst);
+                => flows.connect(src,dst);
 
         /// <summary>
         /// Produces an edge that connects a source vertex to a target vertex
@@ -33,6 +33,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Arrow<Node<V>> Connect<V>(this Node<V> src, Node<V> dst)
             where V : unmanaged
-                => relations.connect(src,dst);
+                => flows.connect(src,dst);
     }
 }

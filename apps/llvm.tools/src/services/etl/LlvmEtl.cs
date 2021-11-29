@@ -92,7 +92,7 @@ namespace Z0.llvm
 
                     var mnemonic = AsmString.mnemonic(inst.AsmString);
                     var fmt = AsmString.format(inst.AsmString);
-                    var j = text.index(name.ToLower(), mnemonic);
+                    var j = text.index(name.ToLower(), mnemonic.Content);
                     if(j >=0)
                         variations.Add(new LlvmAsmVariation(key, name, mnemonic, text.right(name, j + mnemonic.Length - 1)));
 

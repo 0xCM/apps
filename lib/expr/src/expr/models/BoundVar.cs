@@ -31,7 +31,7 @@ namespace Z0.Expr
         }
 
         public string Format()
-            => expr.format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

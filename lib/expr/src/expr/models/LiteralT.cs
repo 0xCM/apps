@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
@@ -31,9 +31,8 @@ namespace Z0.Expr
             [MethodImpl(Inline)]
             get => Name.IsNonEmpty;
         }
-
         public string Format()
-            => string.Format("{0}:{1}", Name, Value);
+            => ExprFormatters.Literal<T>().Format(this);
 
         public override string ToString()
             => Format();

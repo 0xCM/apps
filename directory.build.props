@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ZLibVersion>0.0.110</ZLibVersion>
     <ZLibName>z0.lib</ZLibName>
-    <Version>0.0.110</Version>
+    <Version>0.0.111</Version>
   </PropertyGroup>
 
   <PropertyGroup>

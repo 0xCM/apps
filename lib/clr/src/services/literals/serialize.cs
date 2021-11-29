@@ -6,12 +6,12 @@ namespace Z0
 {
     using static core;
 
-    using LK = LiteralKind;
+    using LK = ClrLiteralKind;
     using EK = ClrEnumKind;
 
     partial struct ClrLiterals
     {
-       [Op]
+        [Op]
         public static ulong serialize(object src, LK dst)
         {
             switch(dst)

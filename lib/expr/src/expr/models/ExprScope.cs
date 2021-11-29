@@ -37,7 +37,7 @@ namespace Z0.Expr
             => Name.Equals(src.Name) && Parent.Equals(src.Parent);
 
         public string Format()
-            => expr.format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

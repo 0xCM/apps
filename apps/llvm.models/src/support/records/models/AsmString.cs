@@ -7,6 +7,7 @@ namespace Z0.llvm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using Asm;
 
     using SQ = SymbolicQuery;
 
@@ -59,7 +60,7 @@ namespace Z0.llvm
             return dst;
         }
 
-        public static string mnemonic(string value)
+        public static AsmMnemonic mnemonic(string value)
         {
             static string cleanse(string src)
             {

@@ -11,18 +11,18 @@ namespace Z0.Asm
 
     public readonly struct AsmMnemonic
     {
-        public string Name {get;}
+        public text31 Name {get;}
 
         [MethodImpl(Inline)]
         public AsmMnemonic(string src)
         {
-            Name = src;
+            Name = src?.Trim() ?? EmptyString;
         }
 
         public string Content
         {
             [MethodImpl(Inline)]
-            get => Name ?? EmptyString;
+            get => Name.Format();
         }
 
         public ReadOnlySpan<char> Data
@@ -61,17 +61,17 @@ namespace Z0.Asm
             if(IsEmpty)
                 return EmptyString;
 
-            var data = Name;
+            var content = Format();
             switch(@case)
             {
                 case MnemonicCase.Captialized:
-                    return string.Format("{0}{1}",Char.ToUpperInvariant(Name[0]), data.ToLowerInvariant().Substring(1));
+                    return string.Format("{0}{1}",Char.ToUpperInvariant(content[0]), content.ToLowerInvariant().Substring(1));
                 case MnemonicCase.Lowercase:
-                    return data.ToLowerInvariant();
+                    return content.ToLowerInvariant();
                 case MnemonicCase.Uppercase:
-                    return data.ToUpperInvariant();
+                    return content.ToUpperInvariant();
             }
-            return data;
+            return content;
         }
 
         public override string ToString()

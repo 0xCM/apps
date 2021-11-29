@@ -116,7 +116,7 @@ namespace Z0
             using var writer = target.Writer();
             writer.Write(utf);
             Wf.EmittedFile(flow,1);
-            return relations.arrow(src,target);
+            return flows.arrow(src,target);
         }
     }
 
