@@ -52,22 +52,22 @@ namespace Z0
         internal static string format(in SeqRange src)
             => string.Format(XF.InclusiveRange, src.Min, src.Max);
 
-        public static ITextFormatter<SeqRange<T>> SeqRange<T>()
+        public static IFormatter<SeqRange<T>> SeqRange<T>()
             => default(SeqRangeFormatter<T>);
 
-        public static ITextFormatter<LiteralSeq<T>> LiteralSeq<T>()
+        public static IFormatter<LiteralSeq<T>> LiteralSeq<T>()
             => default(LiteralSeqFormatter<T>);
 
-        public static ITextFormatter<Literal<T>> Literal<T>()
+        public static IFormatter<Literal<T>> Literal<T>()
             => default(LiteralFormatter<T>);
 
-        readonly struct SeqRangeFormatter<T> : ITextFormatter<SeqRange<T>>
+        readonly struct SeqRangeFormatter<T> : IFormatter<SeqRange<T>>
         {
             public string Format(SeqRange<T> src)
                 => string.Format(XF.InclusiveRange, src.Min, src.Max);
         }
 
-        readonly struct LiteralFormatter<T> : ITextFormatter<Literal<T>>
+        readonly struct LiteralFormatter<T> : IFormatter<Literal<T>>
         {
             public string Format(Literal<T> src)
             {
@@ -82,7 +82,7 @@ namespace Z0
             }
         }
 
-        readonly struct LiteralSeqFormatter<T> : ITextFormatter<LiteralSeq<T>>
+        readonly struct LiteralSeqFormatter<T> : IFormatter<LiteralSeq<T>>
         {
             public string Format(LiteralSeq<T> src)
             {

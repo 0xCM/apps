@@ -12,37 +12,37 @@ namespace Z0.Ops
 
     readonly struct OpFormatters
     {
-        public static ITextFormatter<Except> Except()
+        public static IFormatter<Except> Except()
             => default(ExceptFormatter);
 
-        public static ITextFormatter<Union<T>> Union<T>()
+        public static IFormatter<Union<T>> Union<T>()
             where T : IExpr
                 => default(UnionFormatter<T>);
 
-        public static ITextFormatter<Union> Union()
+        public static IFormatter<Union> Union()
             => default(UnionFormatter);
 
-        public static ITextFormatter<Product> Product()
+        public static IFormatter<Product> Product()
             => default(ProductFormatter);
 
-        public static ITextFormatter<Product<T>> Product<T>()
+        public static IFormatter<Product<T>> Product<T>()
             where T : IExpr
                 => default(ProductFormatter<T>);
 
-        public static ITextFormatter<Sop<T>> Sop<T>()
+        public static IFormatter<Sop<T>> Sop<T>()
             where T : IExpr
                 => default(SopFormatter<T>);
 
-        public static ITextFormatter<Xor<T>> Xor<T>()
+        public static IFormatter<Xor<T>> Xor<T>()
             => default(XorFormatter<T>);
 
-        readonly struct XorFormatter<T> : ITextFormatter<Xor<T>>
+        readonly struct XorFormatter<T> : IFormatter<Xor<T>>
         {
             public string Format(Xor<T> src)
                 => string.Format(XF.BinaryChoice, src.Left, src.Right);
         }
 
-        readonly struct SopFormatter<T> : ITextFormatter<Sop<T>>
+        readonly struct SopFormatter<T> : IFormatter<Sop<T>>
             where T : IExpr
         {
             public string Format(Sop<T> src)
@@ -66,7 +66,7 @@ namespace Z0.Ops
             }
         }
 
-        readonly struct ProductFormatter<T> : ITextFormatter<Product<T>>
+        readonly struct ProductFormatter<T> : IFormatter<Product<T>>
             where T : IExpr
         {
             public string Format(Product<T> src)
@@ -86,7 +86,7 @@ namespace Z0.Ops
             }
         }
 
-        readonly struct ProductFormatter : ITextFormatter<Product>
+        readonly struct ProductFormatter : IFormatter<Product>
         {
             public string Format(Product src)
             {
@@ -105,7 +105,7 @@ namespace Z0.Ops
             }
         }
 
-        readonly struct UnionFormatter : ITextFormatter<Union>
+        readonly struct UnionFormatter : IFormatter<Union>
         {
             public string Format(Union src)
             {
@@ -133,7 +133,7 @@ namespace Z0.Ops
             }
         }
 
-        readonly struct UnionFormatter<T> : ITextFormatter<Union<T>>
+        readonly struct UnionFormatter<T> : IFormatter<Union<T>>
             where T : IExpr
         {
             public string Format(Union<T> src)
@@ -162,7 +162,7 @@ namespace Z0.Ops
         }
 
         [Formatter(typeof(Except))]
-        readonly struct ExceptFormatter : ITextFormatter<Except>
+        readonly struct ExceptFormatter : IFormatter<Except>
         {
             public string Format(Except src)
             {

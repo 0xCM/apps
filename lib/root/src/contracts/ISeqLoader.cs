@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITextFormatter
-    {
-        string Format(object src);
-    }
+    using System;
 
-    public interface ITextFormatter<T> : ITextFormatter
+    public interface ISeqLoader<S,T>
     {
-        string Format(T src);
-
-        string ITextFormatter.Format(object src)
-            => Format((T)src);
+        Outcome Load(ReadOnlySpan<S> src, out T dst);
     }
 }

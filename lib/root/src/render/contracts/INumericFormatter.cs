@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface INumericFormatter<T> : ITextFormatter<T>
+    public interface INumericFormatter<T> : IFormatter<T>
         where T : unmanaged
     {
         string Format(T src, NumericBaseKind @base);
 
-        string ITextFormatter<T>.Format(T src)
+        string IFormatter<T>.Format(T src)
             => Format(src, NumericBaseKind.Base10);
     }
 

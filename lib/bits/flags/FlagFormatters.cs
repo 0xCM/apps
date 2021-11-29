@@ -12,7 +12,7 @@ namespace Z0
 
     readonly struct FlagFormatters
     {
-        public abstract class FlagFormatter<F,W,E,T> : ITextFormatter<T>
+        public abstract class FlagFormatter<F,W,E,T> : IFormatter<T>
             where E : unmanaged, Enum
             where W : unmanaged, ITypeWidth
             where F : FlagFormatter<F,W,E,T>, new()

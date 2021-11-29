@@ -7,7 +7,7 @@ namespace Z0
     using static Root;
 
     [Formatter(typeof(PrimalCellType))]
-    readonly struct CellTypeFormatter : ITextFormatter<PrimalCellType>
+    readonly struct CellTypeFormatter : IFormatter<PrimalCellType>
     {
         public static CellTypeFormatter Service => default;
 
