@@ -6,22 +6,44 @@ namespace Z0
 {
     public sealed partial class XedTool : ToolService<XedTool>
     {
+        [SymSource("xedtool")]
         public enum InputKind : byte
         {
             None = 0,
 
-            [Symbol("-i", "pecoff-format")]
-            PeCoff,
+            [Symbol("-i", "A pecoff file")]
+            PeCoffFile,
 
+            [Symbol("-ir", "A raw unformatted binary file")]
+            RawBinFile,
 
-            [Symbol("-ir", "raw unformatted binary file")]
-            RawBin,
+            [Symbol("-ih", "A raw unformatted ASCII hex file")]
+            HexFile,
 
-
-            [Symbol("-ih", "raw unformatted ASCII hex file")]
+            [Symbol("-d", "A sequence of hex-formatted bytes")]
             HexText,
         }
 
+        [SymSource("xedtool")]
+        public enum Verbosity : byte
+        {
+            [Symbol("-v 0", "Quiet")]
+            Level0,
+
+            [Symbol("-v 1", "Errors")]
+            Level1,
+
+            [Symbol("-v 2", "Info")]
+            Level2,
+
+            [Symbol("-v 3", "Trace")]
+            Level3,
+
+            [Symbol("-v 5", "Very verbose")]
+            Level5,
+        }
+
+        [SymSource("xedtool")]
         public enum Mode : byte
         {
             None = 0,

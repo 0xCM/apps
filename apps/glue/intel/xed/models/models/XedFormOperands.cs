@@ -10,13 +10,13 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct FormOperands : IRecord<FormOperands>
+        public struct XedFormOperands : IRecord<XedFormOperands>
         {
             public const string TableId = "xed.iform.operands";
 
             public ushort Index;
 
-            public IForm Form;
+            public XedIForm Form;
 
             public DelimitedIndex<string> Specifiers;
 

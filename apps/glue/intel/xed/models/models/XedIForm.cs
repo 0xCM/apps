@@ -12,20 +12,20 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct IForm : IEquatable<IForm>, IComparable<IForm>
+        public readonly struct XedIForm : IEquatable<XedIForm>, IComparable<XedIForm>
         {
             public IFormType Type {get;}
 
             [MethodImpl(Inline)]
-            public IForm(IFormType src)
+            public XedIForm(IFormType src)
                 => Type = src;
 
             [MethodImpl(Inline)]
-            public bool Equals(IForm src)
+            public bool Equals(XedIForm src)
                 => ((ushort)Type).Equals((ushort)src.Type);
 
             [MethodImpl(Inline)]
-            public int CompareTo(IForm src)
+            public int CompareTo(XedIForm src)
                 => ((ushort)Type).CompareTo((ushort)src.Type);
 
 
@@ -33,7 +33,7 @@ namespace Z0
                 =>(int)Type;
 
             public override bool Equals(object src)
-                => src is IForm && Equals(src);
+                => src is XedIForm && Equals(src);
 
             public string Format()
                 => Type.ToString();
@@ -42,11 +42,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator IForm(IFormType src)
-                => new IForm(src);
+            public static implicit operator XedIForm(IFormType src)
+                => new XedIForm(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator IFormType(IForm src)
+            public static implicit operator IFormType(XedIForm src)
                 => src.Type;
         }
     }

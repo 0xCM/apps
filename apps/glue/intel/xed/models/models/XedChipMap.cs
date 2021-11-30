@@ -11,14 +11,14 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct ChipMap
+        public readonly struct XedChipMap
         {
             readonly Index<ChipCode,IsaKinds> Data;
 
             readonly Index<ChipCode> _Codes;
 
             [MethodImpl(Inline)]
-            public ChipMap(Index<ChipCode> codes, Index<ChipCode,IsaKinds> src)
+            public XedChipMap(Index<ChipCode> codes, Index<ChipCode,IsaKinds> src)
             {
                 _Codes = codes;
                 Data = src;

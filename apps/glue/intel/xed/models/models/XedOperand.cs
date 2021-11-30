@@ -13,9 +13,11 @@ namespace Z0
         /// Defines the content of an Xed operand; adapted from 'xed-operand-storage.h'
         /// </summary>
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Operand
+        [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
+        public struct XedOperand
         {
+            public const string TableId = "xed.operands";
+
             public byte agen;
 
             public byte amd3dnow;

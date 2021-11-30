@@ -26,12 +26,6 @@ namespace Z0.Asm
 
         }
 
-        void EmitFormHashes()
-        {
-            Wf.AsmFormPipe().EmitFormHashes();
-        }
-
-
         public static MsgPattern<T> DispatchingCmd<T>()
             where T : struct, ICmd<T> => "Dispatching {0}";
 

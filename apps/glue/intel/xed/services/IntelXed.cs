@@ -56,7 +56,7 @@ namespace Z0.Asm
         public ReadOnlySpan<string> ClassNames()
             => Classes().Storage.Select(x => x.Expr.Text).ToArray();
 
-        public Outcome LoadChipMap(out ChipMap dst)
+        public Outcome LoadChipMap(out XedChipMap dst)
             => ParseChipMap(ChipSourcePath(), out dst);
 
         bool Verbose {get;} = false;
@@ -215,11 +215,11 @@ namespace Z0.Asm
             return outcome;
         }
 
-        void EmitOperands(ReadOnlySpan<FormOperands> src)
+        void EmitOperands(ReadOnlySpan<XedFormOperands> src)
         {
             var path = OperandCatalogPath();
-            var flow = EmittingTable<FormOperands>(path);
-            var count = Tables.emit(src, FormOperands.RenderWidths, path);
+            var flow = EmittingTable<XedFormOperands>(path);
+            var count = Tables.emit(src, XedFormOperands.RenderWidths, path);
             EmittedTable(flow, count);
         }
 
@@ -234,12 +234,12 @@ namespace Z0.Asm
             }
         }
 
-        ReadOnlySpan<FormOperand> ComputeDistinctOperands()
+        ReadOnlySpan<XedFormOperand> ComputeDistinctOperands()
         {
             var types = Symbols.index<IFormType>();
             var count = types.Count;
             var forms = types.View;
-            var distinct = hashset<FormOperand>();
+            var distinct = hashset<XedFormOperand>();
             var counter = 0u;
             for(ushort i=0; i<count; i++)
             {
@@ -257,12 +257,12 @@ namespace Z0.Asm
             return distinct.Array().Sort();
        }
 
-        ReadOnlySpan<FormOperands> PartitionOperands()
+        ReadOnlySpan<XedFormOperands> PartitionOperands()
         {
             var types  = Symbols.index<IFormType>();
             var classes = Symbols.index<IClass>();
             var count = types.Count;
-            var buffer = alloc<FormOperands>(count);
+            var buffer = alloc<XedFormOperands>(count);
             ref var dst = ref first(buffer);
             var flow = Wf.Running(Msg.PartitioningIForms.Format(count));
             var forms = types.View;
@@ -272,7 +272,7 @@ namespace Z0.Asm
             return buffer;
         }
 
-        ReadOnlySpan<FormOperands> Partition(Index<XedOperandKind> src)
+        ReadOnlySpan<XedFormOperands> Partition(Index<XedOperandKind> src)
         {
             var aix = src.Select(x => (x.Value, x.Index)).ToDictionary();
             var parts = PartitionOperands();
@@ -292,7 +292,7 @@ namespace Z0.Asm
             return parts;
         }
 
-        Outcome ParseChipMap(FS.FilePath src, out ChipMap dst)
+        Outcome ParseChipMap(FS.FilePath src, out XedChipMap dst)
         {
             dst = default;
             var flow = Wf.Running(string.Format("Parsing {0}", src.ToUri()));
@@ -344,7 +344,7 @@ namespace Z0.Asm
                 else
                     buffer[_code] = XedModels.IsaKinds.Empty;
             }
-            dst = new ChipMap(allChips,buffer);
+            dst = new XedChipMap(allChips,buffer);
             return true;
         }
 
@@ -444,7 +444,7 @@ namespace Z0.Asm
             }
         }
 
-        void Partition(in Symbols<IClass> classes, ushort index, IFormType src, ref FormOperands dst)
+        void Partition(in Symbols<IClass> classes, ushort index, IFormType src, ref XedFormOperands dst)
         {
             dst.Index = index;
             dst.Form = src;
@@ -462,7 +462,7 @@ namespace Z0.Asm
             => XedSources + FS.file("xed-cdata", FS.Txt);
 
          FS.FilePath OperandCatalogPath()
-            => Tables.path<FormOperands>(XedTargets);
+            => Tables.path<XedFormOperands>(XedTargets);
 
         FS.FilePath IsaCatalogPath(ChipCode chip)
             => XedTargets + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);

@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Record(TableId)]
+    using System.Runtime.InteropServices;
+
+    [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct XedSummaryRow : IRecord<XedSummaryRow>
     {
         public const string TableId = "xed.summary";
