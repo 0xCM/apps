@@ -15,10 +15,13 @@ namespace Z0.llvm
 
         OmniScript OmniScript;
 
+        LlvmTableLoader TableLoader;
+
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
+            TableLoader = LlvmTableLoader.create(Wf);
         }
 
         public void Run()
@@ -27,7 +30,14 @@ namespace Z0.llvm
             GenStringTables();
         }
 
-        public ReadOnlySpan<Arrow<FS.FileUri>> GenListStringTables(ReadOnlySpan<LlvmList> src)
+        public Arrow<FS.FileUri> GenStringTable(string listid)
+        {
+            var list = new LlvmList[]{TableLoader.LoadList(listid)};
+            var result = GenStringTables(@readonly(list));
+            return first(result);
+        }
+
+        public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables(ReadOnlySpan<LlvmList> src)
         {
             const string BaseTargetId = "llvm.stringtables";
             const string TargetNs = "Z0";

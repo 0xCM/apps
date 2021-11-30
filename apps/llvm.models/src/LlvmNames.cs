@@ -134,6 +134,14 @@ namespace Z0.llvm
             public const string isPseudo = nameof(isPseudo);
         }
 
+        public readonly struct TableGenHeaders
+        {
+            public const string X86Registers = nameof(X86Registers);
+
+            public const string X86Info = nameof(X86Info);
+
+        }
+
         public readonly struct RecordClasses
         {
             public const string Instruction = nameof(Instruction);

@@ -10,14 +10,14 @@ namespace Z0.llvm
 
     using static Root;
 
-    public readonly struct LlvmList : IIndex<LlvmListItem>
+    public readonly struct LlvmList<K,V> : IIndex<LlvmListItem<K,V>>
     {
-        readonly Index<LlvmListItem> Data;
+        readonly Index<LlvmListItem<K,V>> Data;
 
         public FS.FilePath Path {get;}
 
         [MethodImpl(Inline)]
-        public LlvmList(FS.FilePath path, LlvmListItem[] items)
+        public LlvmList(FS.FilePath path, LlvmListItem<K,V>[] items)
         {
             Path = path;
             Data = items;
@@ -35,7 +35,7 @@ namespace Z0.llvm
             get => Data.IsNonEmpty;
         }
 
-        public string ListName
+        public string ListId
         {
             get => Path.FileName.WithoutExtension.Format();
         }
@@ -46,22 +46,22 @@ namespace Z0.llvm
             get => Data.Count;
         }
 
-        public LlvmListItem[] Storage
+        public LlvmListItem<K,V>[] Storage
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
-        public ReadOnlySpan<LlvmListItem> Items
+        public ReadOnlySpan<LlvmListItem<K,V>> Items
         {
             [MethodImpl(Inline)]
             get => Data;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator LlvmList((FS.FilePath path, LlvmListItem[] items) src)
-            => new LlvmList(src.path, src.items);
+        public static implicit operator LlvmList<K,V>((FS.FilePath path, LlvmListItem<K,V>[] items) src)
+            => new LlvmList<K,V>(src.path, src.items);
 
-        public static LlvmList Empty => new LlvmList(FS.FilePath.Empty, sys.empty<LlvmListItem>());
+        public static LlvmList<K,V> Empty => new LlvmList<K,V>(FS.FilePath.Empty, sys.empty<LlvmListItem<K,V>>());
     }
 }

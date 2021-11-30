@@ -117,10 +117,90 @@ namespace Z0.llvm
         {
             var src = Wf.LlvmDb().Entities();
             var lists = EmitLists(src, RecordClasses.Names);
-            Wf.LlvmCodeGen().GenListStringTables(lists);
+            Wf.LlvmCodeGen().GenStringTables(lists);
             EmitChildRelations(src);
             ProcessInstructions(src);
             return true;
+        }
+
+        public Outcome RunHeaderEtl()
+        {
+            const string BeginRegsMarker = "NoRegister,";
+            const string BeginAsmIdMarker = "PHI	= 0,";
+
+            var codegen = Wf.LlvmCodeGen();
+            var src = LlvmPaths.TableGenHeaders().View;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var header = ref skip(src,i);
+                var name = header.FileName.WithoutExtension.Format();
+                switch(name)
+                {
+                    case TableGenHeaders.X86Registers:
+                        EmitList("RegisterId", enumliterals(header,BeginRegsMarker));
+                    break;
+                    case TableGenHeaders.X86Info:
+                        EmitList("AsmId", enumliterals(header,BeginAsmIdMarker));
+                    break;
+                }
+
+            }
+            return true;
+        }
+
+        static bool enumliteral(string src, out LlvmListItem<ushort,string> dst)
+        {
+            if(definesliteral(src))
+            {
+                var i = text.index(src, Chars.Eq);
+                var name = text.left(src,i).Trim();
+                var idtext = text.remove(text.right(src,i),Chars.Comma).Trim();
+                DataParser.parse(idtext, out ushort id);
+                dst = (id,name);
+                return true;
+            }
+            else
+            {
+                dst = default;
+                return false;
+            }
+
+        }
+
+        static bool definesliteral(string src)
+            => src.Contains(Chars.Eq) && src.Trim().EndsWith(Chars.Comma);
+
+        static LlvmListItem<ushort,string>[] enumliterals(FS.FilePath header, string marker)
+        {
+            var items = list<LlvmListItem<ushort,string>>();
+            using var reader = header.Utf8LineReader();
+            var parsing = false;
+            while(reader.Next(out var line))
+            {
+                if(parsing)
+                {
+                    if(enumliteral(line.Content, out var literal))
+                        items.Add(literal);
+                    else
+                        break;
+                }
+                else
+                {
+                    if(line.Contains(marker))
+                    {
+                        parsing = true;
+                        if(definesliteral(marker))
+                        {
+                            if(enumliteral(marker, out var first))
+                                items.Add(first);
+                        }
+                        else
+                            items.Add((0,text.remove(marker, Chars.Comma)));
+                    }
+                }
+            }
+            return items.ToArray();
         }
    }
 }

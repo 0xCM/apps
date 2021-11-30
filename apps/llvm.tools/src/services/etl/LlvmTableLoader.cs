@@ -17,16 +17,16 @@ namespace Z0.llvm
             LlvmPaths = Wf.LlvmPaths();
         }
 
-        public ItemList LoadList(string id)
+        public LlvmList LoadList(string id)
         {
             var path = LlvmPaths.ListImportPath(id);
             var result = Tables.list(path, out var items);
             if(result.Fail)
             {
                 Error(result.Message);
-                return ItemList.Empty;
+                return LlvmList.Empty;
             }
-            return items;
+            return (path,items.Map(x => new LlvmListItem(x.Id, x.Value)));
         }
 
         const char Delimiter = Chars.Pipe;

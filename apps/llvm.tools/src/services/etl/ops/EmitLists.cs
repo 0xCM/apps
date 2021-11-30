@@ -17,6 +17,23 @@ namespace Z0.llvm
             return emitted.ToArray();
         }
 
+        public LlvmList<K,V> EmitList<K,V>(string name, LlvmListItem<K,V>[] src)
+        {
+            var dst = LlvmPaths.Table(string.Format("llvm.lists.{0}", name));
+            var emitting = EmittingTable<LlvmListItem<K,V>>(dst);
+            var formatter = Tables.formatter<LlvmListItem<K,V>>();
+            using var writer = dst.AsciWriter();
+            writer.WriteLine(formatter.FormatHeader());
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var item = ref skip(src,i);
+                writer.WriteLine(formatter.Format(item));
+            }
+            EmittedTable(emitting,count);
+            return (dst,src);
+        }
+
         public LlvmList EmitList(RecordEntitySet src, string @class)
         {
             var dst = LlvmPaths.Table(string.Format("llvm.lists.{0}", @class));
@@ -43,7 +60,6 @@ namespace Z0.llvm
 
             EmittedTable(emitting, counter);
             return (dst,items.ToArray());
-
         }
     }
 }

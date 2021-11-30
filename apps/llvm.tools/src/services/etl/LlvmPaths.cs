@@ -18,6 +18,15 @@ namespace Z0.llvm
         public FS.FolderPath Views()
             => LlvmData.Home() + FS.folder("views");
 
+        public FS.FolderPath Out()
+            => LlvmData.Out();
+
+        public FS.FolderPath Out(string subdir)
+            => Out() + FS.folder(subdir);
+
+        public FS.Files TableGenHeaders()
+            => Out("headers").Files(FS.H);
+
         public FS.FolderPath View(string id)
             => Views() + FS.folder(id);
 
@@ -58,11 +67,11 @@ namespace Z0.llvm
         public FS.Files Lists()
             => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
 
-        public FS.FilePath ListImportPath(string id)
-            => ListImports() + FS.file(id, FS.Csv);
+        public FS.FilePath ListImportPath(string name)
+            => Tables() + FS.file(name, FS.Csv);
 
-        public FS.FilePath DataSourcePath(string id)
-            => LlvmData.OutDir() + FS.file(id, FS.Txt);
+        public FS.FilePath DataSourcePath(string name)
+            => LlvmData.OutDir() + FS.file(name, FS.Txt);
 
         public FS.FolderPath RecordImports()
             => LlvmData.Subdir("records");

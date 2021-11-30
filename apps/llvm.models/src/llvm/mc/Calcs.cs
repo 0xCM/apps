@@ -33,7 +33,7 @@ namespace Z0.llvm
                 ref readonly var sym = ref calcs.Sym(id);
                 var opcode = calcs.OpCode(id);
                 ref var record = ref seek(dst,i);
-                record.Id = id;
+                record.Id = (ushort)id;
                 record.Index = i;
                 record.Mnemonic = calcs.Monic(id);
                 record.OpCodeValue = opcode;

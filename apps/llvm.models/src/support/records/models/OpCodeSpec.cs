@@ -18,7 +18,7 @@ namespace Z0.llvm
 
         public ushort Index;
 
-        public AsmId Id;
+        public ushort Id;
 
         public CharBlock48 Mnemonic;
 
