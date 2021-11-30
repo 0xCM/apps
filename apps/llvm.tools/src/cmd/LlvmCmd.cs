@@ -92,25 +92,25 @@ namespace Z0.llvm
 
         Outcome Flow<T>(ReadOnlySpan<T> src)
         {
-            iteri(src, (i,item) => Write(string.Format("{0:D5} {1}", i, item)));
+            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
             return true;
         }
 
         Outcome Flow<T>(Label kind, ReadOnlySpan<T> src)
         {
-            iteri(src, (i,item) => Write(string.Format("{0:D5} {1}", i, item)));
+            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
             return true;
         }
 
         Outcome Flow<T>(Label kind, Span<T> src)
         {
-            iteri(src, (i,item) => Write(string.Format("{0:D5} {1}", i, item)));
+            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
             return true;
         }
 
         Outcome Flow<T>(Span<T> src)
         {
-            iteri(src, (i,item) => Write(string.Format("{0:D5} {1}", i, item)));
+            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
             return true;
         }
     }

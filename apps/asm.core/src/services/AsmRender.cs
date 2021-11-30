@@ -31,21 +31,6 @@ namespace Z0.Asm
             return text.format(slice(dst, 0, count));
         }
 
-        [Op,Closures(Closure)]
-        public static ReadOnlySpan<char> bitstring<T>(in AsmRegValue<T> src, char sep = Chars.Space)
-            where T : unmanaged
-        {
-            if(size<T>() == 1)
-                return BitRender.render8(u8(src.Value));
-            else if(size<T>() == 2)
-                return BitRender.render16x8(u16(src.Value), sep);
-            else if(size<T>() == 4)
-                return BitRender.render32x8(u32(src.Value));
-            else if(size<T>() == 8)
-                return BitRender.render64x8(u64(src.Value));
-            else
-                return EmptyString;
-        }
 
         [Op]
         public static string format8x4(AsmHexCode src)

@@ -15,6 +15,12 @@ namespace Z0
     public struct bits<T>
         where T : unmanaged
     {
+        public static IParser<bits<T>> parser()
+            => BitsParser<T>.Service;
+
+        public static Outcome parse(string src, out bits<T> dst)
+            => parser().Parse(src, out dst);
+
         public const string Identifier = "bits<{0}>";
 
         public T Packed;

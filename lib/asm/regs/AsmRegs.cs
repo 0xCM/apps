@@ -4,11 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
+
+    using static Root;
     using static RegFieldFacets;
+    using static core;
 
     [ApiHost]
     public readonly partial struct AsmRegs
     {
+        const NumericKind Closure = UnsignedInts;
+
         [Op]
         public static string format<T>(AsmRegValue<T> src)
             where T : unmanaged

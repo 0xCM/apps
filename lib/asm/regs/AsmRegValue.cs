@@ -26,6 +26,9 @@ namespace Z0.Asm
         public string Format()
             => AsmRegs.format(this);
 
+        public string FormatBits()
+            => text.format(AsmRegs.bitstring(this));
+
         public override string ToString()
             => Format();
 

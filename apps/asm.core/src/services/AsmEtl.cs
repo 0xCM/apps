@@ -12,6 +12,40 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmEtl : AppService<AsmEtl>
     {
+
+        public static Outcome load(FS.FilePath src, out HostAsmRecord[] dst)
+        {
+            var result = TextGrids.load(src, out var doc);
+            dst = sys.empty<HostAsmRecord>();
+            if(result.Fail)
+                return result;
+
+            dst = alloc<HostAsmRecord>(doc.RowCount);
+            return AsmParser.row(doc,dst);
+        }
+
+        public static Outcome<uint> load(FS.FilePath src, Span<ProcessAsmRecord> dst)
+        {
+            var counter = 1u;
+            var i = 0u;
+            var max = dst.Length;
+            using var reader = src.AsciReader();
+            var header = reader.ReadLine();
+            var line = reader.ReadLine();
+            var result = Outcome.Success;
+            while(line != null && result.Ok)
+            {
+                result = AsmParser.row(counter++, line, out seek(dst,i));
+                if(result.Fail)
+                    return result;
+                else
+                    i++;
+
+                line = reader.ReadLine();
+            }
+            return i;
+        }
+
         public ReadOnlySpan<TextLine> EmitThumbprints(SortedSpan<AsmEncodingInfo> src, FS.FilePath dst)
         {
             var count = src.Length;
@@ -29,7 +63,7 @@ namespace Z0.Asm
         }
 
         public void EmitThumbprints(SortedSpan<ProcessAsmRecord> src, FS.FilePath dst)
-            => EmitThumbprints(asm.encodings(src), dst);
+            => EmitThumbprints(AsmEncoding.encodings(src), dst);
 
         public SortedSpan<AsmThumbprint> EmitThumbprints(ReadOnlySpan<HostAsmRecord> src, FS.FilePath dst)
         {

@@ -19,6 +19,25 @@ namespace Z0.Asm
     {
         const NumericKind Closure = UnsignedInts;
 
+        /// <summary>
+        /// Computes the distinct encodings from the source
+        /// </summary>
+        /// <param name="src"></param>
+        [Op]
+        public static SortedSpan<AsmEncodingInfo> encodings(ReadOnlySpan<ProcessAsmRecord> src)
+        {
+            var collected = hashset<AsmEncodingInfo>();
+            var count = src.Length;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var statement = ref skip(src,i);
+                if(collected.Add(AsmEncoding.describe(statement)))
+                    counter++;
+            }
+            return collected.Array().ToSortedSpan();
+        }
+
         [Op]
         public static AsmEncodingInfo describe(in ProcessAsmRecord src)
             => new AsmEncodingInfo((src.OpCode, src.Sig), src.Statement, src.Encoded, AsmBits.bitstring(src.Encoded));

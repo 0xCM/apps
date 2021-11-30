@@ -10,29 +10,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        static BucketList<uint,SeqTerm<string>> bucketize(ReadOnlySpan<string> src)
-        {
-            var slots = dict<uint,DataList<SeqTerm<string>>>();
-            var count = src.Length;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var s = ref skip(src,i);
-                var length = (uint)s.Length;
-                var term = new SeqTerm<string>(i, s);
-
-                if(slots.TryGetValue(length, out var list))
-                    list.Add(term);
-                else
-                {
-                    slots[length] = new DataList<SeqTerm<string>>();
-                    slots[length].Add(term);
-                }
-            }
-
-            var buckets = slots.Map(x => (x.Key,x.Value)).OrderBy(x => x.Key);
-            return Buckets.list(buckets.Map(x => Buckets.bucket(x.Key, x.Value.Array())));
-        }
-
         [CmdOp(".matcher")]
         Outcome Matcher(CmdArgs args)
         {
@@ -92,7 +69,7 @@ namespace Z0.Asm
                 EmittedFile(emitting, sorted.Length);
             }
 
-            var buckets = bucketize(lines.Select(x => x.Content.Trim()));
+            var buckets = Buckets.bucketize(lines.Select(x => x.Content.Trim()));
             Write(buckets.Format());
 
             return true;

@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
 
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+
+    [Free]
     public interface ISeqAggregator<S,T>
     {
-        Outcome Distill(ReadOnlySpan<S> src, out T dst);
+        Outcome Distill(ISeq<S> src, out T dst);
     }
 }

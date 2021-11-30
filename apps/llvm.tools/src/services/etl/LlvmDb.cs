@@ -71,18 +71,6 @@ namespace Z0.llvm
         public ReadOnlySpan<RecordField> Fields(uint offset, uint length)
             => slice(_DefFields.View, offset,length);
 
-        public ItemList SelectList(string id)
-        {
-            var path = Paths.ListImportPath(id);
-            var result = Tables.list(path, out var items);
-            if(result.Fail)
-            {
-                Error(result.Message);
-                return ItemList.Empty;
-            }
-            return items;
-        }
-
         public ReadOnlySpan<Label> ClassNames()
             => ClassNameBuffer.Labels;
 

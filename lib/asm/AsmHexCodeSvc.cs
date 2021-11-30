@@ -35,12 +35,12 @@ namespace Z0.Asm
         public string Format(AsmHexCode src)
             => src.Format();
 
-        public Outcome Load(ReadOnlySpan<char> src, out AsmHexCode dst)
-            => AsmHexCode.parse(src, out dst);
+        public Outcome Load(ISeq<char> src, out AsmHexCode dst)
+            => AsmHexCode.parse(src.View, out dst);
 
-        public Outcome Load(ReadOnlySpan<byte> src, out AsmHexCode dst)
+        public Outcome Load(ISeq<byte> src, out AsmHexCode dst)
         {
-            dst = AsmHexCode.load(src);
+            dst = AsmHexCode.load(src.View);
             return true;
         }
     }

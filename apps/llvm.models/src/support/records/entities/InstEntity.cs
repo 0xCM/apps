@@ -8,6 +8,8 @@ namespace Z0.llvm
 
     using static Root;
 
+    using Asm;
+
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
@@ -30,5 +32,32 @@ namespace Z0.llvm
 
         public string OpMap
             => this[nameof(OpMap)].Value;
+
+        public AsmMnemonic Mnemonic
+            => llvm.AsmString.mnemonic(AsmString);
+
+        public bits<ulong> TSFlags
+        {
+            get
+            {
+                var result = bits<ulong>.parse(this[nameof(TSFlags)].Value, out var b);
+                if(result)
+                    return b;
+                else
+                    return default;
+            }
+        }
+
+        public AsmVariationCode VariationCode
+        {
+            get
+            {
+                var dst = AsmVariationCode.Empty;
+                var j = text.index(EntityName.Content.ToLower(), Mnemonic.Content);
+                if(j >=0)
+                    dst = new AsmVariationCode(text.right(EntityName.Content, j + Mnemonic.Content.Length - 1));
+                return dst;
+            }
+        }
     }
 }

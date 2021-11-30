@@ -2,13 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0.llvm
 {
-    [LiteralProvider]
-    public readonly struct AsmRenderPatterns
+    partial class LlvmCmd
     {
-        public const string InstInfoPattern = "{0} | {1,-3} | {2,-32} | ({3}) = {4}";
+        [CmdOp(".codegen")]
+        Outcome GenCode(CmdArgs args)
+        {
+            CodeGen.Run();
+            return true;
+        }
 
-        public const string AsmFormPattern = "({0}) = {1}";
     }
 }

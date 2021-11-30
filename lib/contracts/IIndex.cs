@@ -8,21 +8,22 @@ namespace Z0
     using System.Collections;
     using System.Collections.Generic;
 
-    using static minicore;
+    using static core;
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IIndex<T> : ISeq<T>, IMeasured, IEnumerable<T>, ITextual
+    public interface IIndex<T> : IMutableSeq<T>, IMeasured, IEnumerable<T>, ITextual
     {
         T[] Storage {get;}
 
         char CellDelimiter
             => Chars.Semicolon;
+
         string ITextual.Format()
             => string.Format("({0}:{1})*", typeof(T).Name, Storage?.Length ?? 0);
 
-        Span<T> Edit
+        Span<T> IMutableSeq<T>.Edit
             => Storage;
 
         ReadOnlySpan<T> ISeq<T>.View

@@ -21,8 +21,6 @@ namespace Z0.Asm
 
         Index<AsmDataBlock> _AsmBlocks;
 
-        IApiCatalog _ApiCatalog;
-
         public AsmShellState()
         {
             _ProcessAsm = array<ProcessAsmRecord>();
@@ -68,7 +66,7 @@ namespace Z0.Asm
             var count = FS.linecount(path,TextEncodingKind.Asci) - 1;
             var buffer = alloc<ProcessAsmRecord>(count);
             var flow = Wf.Running(string.Format("Loading process asm from {0}", path.ToUri()));
-            var result = asm.load(path, buffer);
+            var result = AsmEtl.load(path, buffer);
             if(result.Fail)
                 return (false, result.Message);
 

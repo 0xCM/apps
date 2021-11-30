@@ -123,7 +123,7 @@ namespace Z0.Asm
     public sealed class AsmMem8Var : AsmMemVar<m8>
     {
         public AsmMem8Var()
-            : base(asm.asmsize(8))
+            : base(Sizes.native(8))
         {
 
         }
@@ -132,7 +132,7 @@ namespace Z0.Asm
     public sealed class AsmMem16Var : AsmMemVar<m16>
     {
         public AsmMem16Var()
-            : base(asm.asmsize(16))
+            : base(Sizes.native(16))
         {
 
         }
@@ -141,7 +141,7 @@ namespace Z0.Asm
     public sealed class AsmMem32Var : AsmMemVar<m32>
     {
         public AsmMem32Var()
-            : base(asm.asmsize(32))
+            : base(Sizes.native(32))
         {
 
         }
@@ -150,7 +150,7 @@ namespace Z0.Asm
     public sealed class AsmMem64Var : AsmMemVar<m64>
     {
         public AsmMem64Var()
-            : base(asm.asmsize(64))
+            : base(Sizes.native(64))
         {
 
         }
@@ -160,7 +160,7 @@ namespace Z0.Asm
     public sealed class AsmMem128Var : AsmMemVar<m128>
     {
         public AsmMem128Var()
-            : base(asm.asmsize(128))
+            : base(Sizes.native(128))
         {
 
         }
@@ -170,7 +170,7 @@ namespace Z0.Asm
     public sealed class AsmMem256Var : AsmMemVar<m256>
     {
         public AsmMem256Var()
-            : base(asm.asmsize(256))
+            : base(Sizes.native(256))
         {
 
         }
@@ -179,7 +179,7 @@ namespace Z0.Asm
     public sealed class AsmMem512Var : AsmMemVar<m512>
     {
         public AsmMem512Var()
-            : base(asm.asmsize(512))
+            : base(Sizes.native(512))
         {
 
         }
@@ -188,7 +188,7 @@ namespace Z0.Asm
     public sealed class AsmReg8Var : AsmRegVar<r8>
     {
         public AsmReg8Var()
-            : base(asm.asmsize(8))
+            : base(Sizes.native(8))
         {
 
         }
@@ -197,7 +197,7 @@ namespace Z0.Asm
     public sealed class AsmReg16Var : AsmRegVar<r16>
     {
         public AsmReg16Var()
-            : base(asm.asmsize(16))
+            : base(Sizes.native(16))
         {
 
         }
@@ -206,7 +206,7 @@ namespace Z0.Asm
     public sealed class AsmReg32Var : AsmRegVar<r32>
     {
         public AsmReg32Var()
-            : base(asm.asmsize(32))
+            : base(Sizes.native(32))
         {
 
         }
@@ -215,7 +215,7 @@ namespace Z0.Asm
     public sealed class AsmReg64Var : AsmRegVar<r64>
     {
         public AsmReg64Var()
-            : base(asm.asmsize(64))
+            : base(Sizes.native(64))
         {
 
         }
@@ -224,7 +224,7 @@ namespace Z0.Asm
     public sealed class AsmReg128Var : AsmRegVar<xmm>
     {
         public AsmReg128Var()
-            : base(asm.asmsize(128))
+            : base(Sizes.native(128))
         {
 
         }
@@ -233,7 +233,7 @@ namespace Z0.Asm
     public sealed class AsmReg256Var : AsmRegVar<ymm>
     {
         public AsmReg256Var()
-            : base(asm.asmsize(256))
+            : base(Sizes.native(256))
         {
 
         }
@@ -242,7 +242,7 @@ namespace Z0.Asm
     public sealed class AsmReg512Var : AsmRegVar<zmm>
     {
         public AsmReg512Var()
-            : base(asm.asmsize(512))
+            : base(Sizes.native(512))
         {
 
         }
@@ -251,7 +251,7 @@ namespace Z0.Asm
     public sealed class AsmImm8Var : AsmImmVar<imm8>
     {
         public AsmImm8Var()
-            : base(asm.asmsize(8))
+            : base(Sizes.native(8))
         {
 
         }
@@ -260,7 +260,7 @@ namespace Z0.Asm
     public sealed class AsmImm16Var : AsmImmVar<imm16>
     {
         public AsmImm16Var()
-            : base(asm.asmsize(16))
+            : base(Sizes.native(16))
         {
 
         }
@@ -270,7 +270,7 @@ namespace Z0.Asm
     public sealed class AsmImm32Var : AsmImmVar<imm32>
     {
         public AsmImm32Var()
-            : base(asm.asmsize(32))
+            : base(Sizes.native(32))
         {
 
         }
@@ -279,7 +279,7 @@ namespace Z0.Asm
     public sealed class AsmImm64Var : AsmImmVar<imm64>
     {
         public AsmImm64Var()
-            : base(asm.asmsize(64))
+            : base(Sizes.native(64))
         {
 
         }

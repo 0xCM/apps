@@ -16,12 +16,6 @@ namespace Z0.llvm
 
         OmniScript OmniScript;
 
-        llvm.LlvmNm Nm;
-
-        llvm.LlvmObjDump ObjDump;
-
-        llvm.LlvmMc McSyntaxLogs;
-
         public LlvmEtl()
         {
         }
@@ -30,9 +24,6 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
-            Nm = Wf.LlvmNm();
-            ObjDump = Wf.LlvmObjDump();
-            McSyntaxLogs = Wf.LlvmMc();
         }
 
         public EtlDatasets Run()
@@ -90,11 +81,12 @@ namespace Z0.llvm
                     if(inst.OpMap.Equals("OB"))
                         obmapped.Add(identity);
 
-                    var mnemonic = AsmString.mnemonic(inst.AsmString);
+                    var mnemonic = inst.Mnemonic;
                     var fmt = AsmString.format(inst.AsmString);
-                    var j = text.index(name.ToLower(), mnemonic.Content);
-                    if(j >=0)
-                        variations.Add(new LlvmAsmVariation(key, name, mnemonic, text.right(name, j + mnemonic.Length - 1)));
+                    var j = text.index(inst.EntityName.Content.ToLower(), inst.Mnemonic.Content);
+                    var vcode = inst.VariationCode;
+                    if(vcode.IsNonEmpty)
+                        variations.Add(new LlvmAsmVariation(key, name, mnemonic, vcode));
 
                     var pattern = LlvmAsmPattern.Empty;
                     pattern.Key = key;
@@ -117,7 +109,6 @@ namespace Z0.llvm
         {
             var src = Wf.LlvmDb().Entities();
             var lists = EmitLists(src, RecordClasses.Names);
-            Wf.LlvmCodeGen().GenStringTables(lists);
             EmitChildRelations(src);
             ProcessInstructions(src);
             return true;
@@ -138,10 +129,10 @@ namespace Z0.llvm
                 switch(name)
                 {
                     case TableGenHeaders.X86Registers:
-                        EmitList("RegisterId", enumliterals(header,BeginRegsMarker));
+                        EmitList("RegisterId", enumliterals<ushort>(header,BeginRegsMarker));
                     break;
                     case TableGenHeaders.X86Info:
-                        EmitList("AsmId", enumliterals(header,BeginAsmIdMarker));
+                        EmitList("AsmId", enumliterals<ushort>(header,BeginAsmIdMarker));
                     break;
                 }
 
@@ -149,15 +140,16 @@ namespace Z0.llvm
             return true;
         }
 
-        static bool enumliteral(string src, out LlvmListItem<ushort,string> dst)
+        static bool enumliteral<T>(string src, out LlvmListItem<T,string> dst)
+            where T : unmanaged
         {
             if(definesliteral(src))
             {
                 var i = text.index(src, Chars.Eq);
                 var name = text.left(src,i).Trim();
                 var idtext = text.remove(text.right(src,i),Chars.Comma).Trim();
-                DataParser.parse(idtext, out ushort id);
-                dst = (id,name);
+                DataParser.numeric(idtext, out ushort id);
+                dst = (generic<T>(id),name);
                 return true;
             }
             else
@@ -171,16 +163,17 @@ namespace Z0.llvm
         static bool definesliteral(string src)
             => src.Contains(Chars.Eq) && src.Trim().EndsWith(Chars.Comma);
 
-        static LlvmListItem<ushort,string>[] enumliterals(FS.FilePath header, string marker)
+        static LlvmListItem<T,string>[] enumliterals<T>(FS.FilePath header, string marker)
+            where T : unmanaged
         {
-            var items = list<LlvmListItem<ushort,string>>();
+            var items = list<LlvmListItem<T,string>>();
             using var reader = header.Utf8LineReader();
             var parsing = false;
             while(reader.Next(out var line))
             {
                 if(parsing)
                 {
-                    if(enumliteral(line.Content, out var literal))
+                    if(enumliteral<T>(line.Content, out var literal))
                         items.Add(literal);
                     else
                         break;
@@ -192,11 +185,11 @@ namespace Z0.llvm
                         parsing = true;
                         if(definesliteral(marker))
                         {
-                            if(enumliteral(marker, out var first))
+                            if(enumliteral<T>(marker, out var first))
                                 items.Add(first);
                         }
                         else
-                            items.Add((0,text.remove(marker, Chars.Comma)));
+                            items.Add((zero<T>(),text.remove(marker, Chars.Comma)));
                     }
                 }
             }

@@ -8,6 +8,6 @@ namespace Z0
 
     public interface ISeqLoader<S,T>
     {
-        Outcome Load(ReadOnlySpan<S> src, out T dst);
+        Outcome Load(ISeq<S> src, out T dst);
     }
 }

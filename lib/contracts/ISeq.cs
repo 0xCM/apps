@@ -13,4 +13,10 @@ namespace Z0
     {
         ReadOnlySpan<T> View {get;}
     }
+
+    [Free]
+    public interface IMutableSeq<T> : ISeq<T>
+    {
+        Span<T> Edit {get;}
+    }
 }

@@ -10,6 +10,6 @@ namespace Z0.llvm
     {
         [CmdOp(list)]
         Outcome ShowList(CmdArgs args)
-            => Flow(list, Db.SelectList(arg(args,0)).View);
+            => Flow(list, TableLoader.LoadList(arg(args,0)).Items);
     }
 }

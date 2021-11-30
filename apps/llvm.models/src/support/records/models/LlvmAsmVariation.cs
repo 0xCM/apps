@@ -23,10 +23,10 @@ namespace Z0.llvm
 
         public AsmMnemonic Mnemonic;
 
-        public AsciBlock16 Code;
+        public AsmVariationCode Code;
 
         [MethodImpl(Inline)]
-        public LlvmAsmVariation(uint id, in AsciBlock32 name, in AsmMnemonic monic, in AsciBlock16 code)
+        public LlvmAsmVariation(uint id, in AsciBlock32 name, in AsmMnemonic monic, in AsmVariationCode code)
         {
             Key = id;
             Name = name;

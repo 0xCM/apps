@@ -19,14 +19,28 @@ namespace Z0.llvm
 
         public LlvmList LoadList(string id)
         {
+            id = text.begins(id, "llvm.lists.") ? id : "llvm.lists." + id;
+            var dst = list<LlvmListItem>();
             var path = LlvmPaths.ListImportPath(id);
-            var result = Tables.list(path, out var items);
-            if(result.Fail)
+            using var reader = path.Utf8LineReader();
+            var counter = 0u;
+            while(reader.Next(out var line))
             {
-                Error(result.Message);
-                return LlvmList.Empty;
+                if(counter++ == 0)
+                    continue;
+                else
+                {
+                    var parts = line.Content.SplitClean(Chars.Pipe);
+                    if(parts.Length != 2)
+                    {
+                        Error(Tables.FieldCountMismatch.Format(parts.Length, 2));
+                        break;
+                    }
+                    DataParser.parse(skip(parts,0), out uint key);
+                    dst.Add((key, skip(parts,1)));
+                }
             }
-            return (path,items.Map(x => new LlvmListItem(x.Id, x.Value)));
+            return (path, dst.ToArray());
         }
 
         const char Delimiter = Chars.Pipe;
@@ -71,7 +85,7 @@ namespace Z0.llvm
                 DataParser.parse(skip(values,j++), out dst.Key);
                 dst.Name = skip(values,j++);
                 dst.Mnemonic = skip(values,j++);
-                dst.Code = skip(values,j++);
+                dst.Code =new AsmVariationCode(skip(values,j++));
             }
             return records;
         }
