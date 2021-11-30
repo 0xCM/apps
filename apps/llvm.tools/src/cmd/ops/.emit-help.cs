@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public interface IToolArg
+    using static core;
+
+    partial class LlvmCmd
     {
-        string ArgName {get;}
-
-        dynamic ArgValue {get;}
-    }
-
-
-    public interface IToolArg<T> : IToolArg
-    {
-        new T ArgValue {get;}
-
-        dynamic IToolArg.ArgValue
-            => ArgValue;
+        [CmdOp(".emit-help")]
+        Outcome EmitHelp(CmdArgs args)
+        {
+            return Toolset.EmitHelpDocs();
+        }
     }
 }

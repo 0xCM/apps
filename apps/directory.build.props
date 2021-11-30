@@ -13,7 +13,7 @@
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
   </PropertyGroup>
 
-  <Import Project="symbols.props"/>
+  <Import Project="../projects.props"/>
 
   <Import Project="../directory.build.props"/>
 

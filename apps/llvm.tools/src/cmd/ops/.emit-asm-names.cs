@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using Expr;
     using static core;
 
     partial class LlvmCmd

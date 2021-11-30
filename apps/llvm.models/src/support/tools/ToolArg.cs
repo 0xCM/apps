@@ -10,12 +10,12 @@ namespace Z0.llvm
 
     public readonly struct ToolArg : IToolArg
     {
-        public Label ArgName {get;}
+        public string ArgName {get;}
 
         public dynamic ArgValue {get;}
 
         [MethodImpl(Inline)]
-        public ToolArg(Label name, dynamic value)
+        public ToolArg(string name, dynamic value)
         {
             ArgName = name;
             ArgValue = value;

@@ -2,21 +2,20 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+[assembly: PartId(PartId.Generated)]
+
+namespace Z0.Parts
 {
-    public interface IToolArg
+    public sealed class Generated : Part<Generated>
     {
-        string ArgName {get;}
 
-        dynamic ArgValue {get;}
     }
+}
 
-
-    public interface IToolArg<T> : IToolArg
+namespace Z0
+{
+    public static partial class XTend
     {
-        new T ArgValue {get;}
 
-        dynamic IToolArg.ArgValue
-            => ArgValue;
     }
 }

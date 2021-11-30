@@ -27,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.control", "control\z0.co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.cpu.dsl", "cpu.dsl\z0.cpu.dsl.csproj", "{A5A7F51D-C4FD-4247-A4BE-341492B18BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.evaluate", "evaluate\z0.evaluate.csproj", "{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.gen", "gen\z0.gen.csproj", "{4192F49B-BE97-4019-B6CA-03E6709E799E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.gen.shell", "gen.shell\z0.gen.shell.csproj", "{EEA4746A-EBCC-4B1F-B0B2-C863E352B574}"
@@ -140,12 +138,6 @@ Global
 		{A5A7F51D-C4FD-4247-A4BE-341492B18BCC}.Release|x64.Build.0 = Release|Any CPU
 		{A5A7F51D-C4FD-4247-A4BE-341492B18BCC}.Release|x86.ActiveCfg = Release|Any CPU
 		{A5A7F51D-C4FD-4247-A4BE-341492B18BCC}.Release|x86.Build.0 = Release|Any CPU
-		{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}.Release|x64.ActiveCfg = Release|Any CPU
-		{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}.Release|x64.Build.0 = Release|Any CPU
-		{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}.Release|x86.ActiveCfg = Release|Any CPU
-		{3B4590C3-FAB9-4088-89F9-3BD8139A7EF3}.Release|x86.Build.0 = Release|Any CPU
 		{4192F49B-BE97-4019-B6CA-03E6709E799E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4192F49B-BE97-4019-B6CA-03E6709E799E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4192F49B-BE97-4019-B6CA-03E6709E799E}.Release|x64.ActiveCfg = Release|Any CPU

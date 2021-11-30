@@ -16,73 +16,159 @@ namespace Z0.llvm
 
         FS.FolderPath ToolsetDir;
 
-        Index<ToolProfile> Profiles;
+        FS.FolderPath HelpDir;
+
+        ConstLookup<ToolId,FS.FilePath> HelpFiles;
+
+        ConstLookup<ToolId,ToolProfile> ToolProfiles;
+
+        ConstLookup<ToolId,ToolHelpDoc> ToolHelpDocs;
 
         Toolset Toolset;
 
         public LlvmToolset()
         {
             Toolset = Toolset.Empty;
-            Profiles = Index<ToolProfile>.Empty;
             ToolsetDir = FS.FolderPath.Empty;
         }
 
         protected override void Initialized()
         {
             OmniScript = Wf.OmniScript();
-            ToolsetDir = FS.dir(@"J:\llvm\toolset");
+            ToolsetDir = Ws.Project("llvm.tools").Home();
+            HelpDir = ToolsetDir + FS.folder("help");
             LoadProfiles();
             LoadToolset();
+            CalcHelpPaths();
+            InitHelpDocs();
         }
 
-        // Outcome InitializeProfiles(FS.FolderPath spec, FS.FilePath config, ToolId set)
-        // {
+        void InitHelpDocs()
+        {
+            var dst = lookup<ToolId,ToolHelpDoc>();
+            var src = HelpFiles.Entries;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref skip(src,i);
+                dst.Include(entry.Key, new ToolHelpDoc(entry.Value));
+            }
+            ToolHelpDocs = dst.Seal();
+        }
 
-        //     var profiles = list<ToolProfile>();
-        //     var result = LoadToolset();
-        //     if(result.Fail)
-        //         return result;
-        //     var tools = Toolset.Deployments.View;
-        //     var count = tools.Length;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var tool = ref skip(tools,i);
-        //         if(!tool.Path.Exists)
-        //             Error(string.Format("{0} unverified", tool));
-        //         else
-        //         {
-        //             var profile = new ToolProfile();
-        //             profile.Id = tool.Id;
-        //             profile.Path = tool.Path;
-        //             profile.HelpCmd = "--help";
-        //             profile.Memberhisp = set;
-        //             profiles.Add(profile);
-        //         }
-        //     }
-        //     var dst = ToolsetDir + Tables.filename<ToolProfile>();
-        //     var final = profiles.ViewDeposited();
-        //     TableEmit(final, ToolProfile.RenderWidths, dst);
-        //     return result;
-        // }
+        public ReadOnlySpan<ToolProfile> Profiles()
+            => ToolProfiles.Values;
 
-        // Outcome Init()
-        // {
-        //     var result = Outcome.Success;
-        //     var config = ToolsetDir + FS.file("toolset", FS.Settings);
+        public ToolHelpDoc ToolHelp(ToolId tool)
+        {
+            if(ToolHelpDocs.Find(tool, out var doc))
+                return doc.Load();
+            else
+                return ToolHelpDoc.Empty;
+        }
 
-        //     var profilepath = ToolsetDir + Tables.filename<ToolProfile>();
-        //     if(!profilepath.Exists)
-        //         InitializeProfiles(ToolsetDir, config, "llvm");
+        public ReadOnlySpan<ToolId> Tools()
+            => ToolProfiles.Keys;
 
-        //     return LoadProfiles();
-        // }
+        void CalcHelpPaths()
+        {
+            var dst = lookup<ToolId,FS.FilePath>();
+            var src = ToolProfiles.Values;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var profile = ref skip(src,i);
+                ref readonly var tool = ref profile.Id;
+                if(profile.HelpCmd.IsEmpty)
+                    continue;
+
+                dst.Include(tool, HelpDir + FS.file(tool.Format(), FS.Help));
+            }
+
+            HelpFiles = dst.Seal();
+        }
+
+        public Outcome EmitHelpDocs()
+        {
+            var result = Outcome.Success;
+            var src = ToolProfiles.Values;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var profile = ref skip(src,i);
+                ref readonly var tool = ref profile.Id;
+                if(profile.HelpCmd.IsEmpty)
+                    continue;
+
+                var cmdline = Cmd.cmdline(string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd));
+                Write(string.Format("Executing '{0}'", cmdline.Format()));
+                result = OmniScript.Run(cmdline, CmdVars.Empty, out var response);
+                if(result.Fail)
+                    return result;
+
+                if(HelpFiles.Find(tool, out var path))
+                {
+                    var length = response.Length;
+                    var emitting = EmittingFile(path);
+                    using var writer = path.UnicodeWriter();
+                    for(var j=0; j<length; j++)
+                        writer.WriteLine(skip(response, j).Content);
+                    EmittedFile(emitting,length);
+                }
+                else
+                    Warn(string.Format("{0} has no help path", tool));
+            }
+
+            return result;
+        }
+
+        Outcome InitializeProfiles(FS.FolderPath spec, FS.FilePath config, ToolId set)
+        {
+            var profiles = list<ToolProfile>();
+            var result = LoadToolset();
+            if(result.Fail)
+                return result;
+            var tools = Toolset.Deployments.View;
+            var count = tools.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var tool = ref skip(tools,i);
+                if(!tool.Path.Exists)
+                    Error(string.Format("{0} unverified", tool));
+                else
+                {
+                    var profile = new ToolProfile();
+                    profile.Id = tool.Id;
+                    profile.Path = tool.Path;
+                    profile.HelpCmd = "--help";
+                    profile.Memberhisp = set;
+                    profiles.Add(profile);
+                }
+            }
+            var dst = ToolsetDir + Tables.filename<ToolProfile>();
+            var final = profiles.ViewDeposited();
+            TableEmit(final, ToolProfile.RenderWidths, dst);
+            return result;
+        }
+
+        Outcome Init()
+        {
+            var result = Outcome.Success;
+            var config = ToolsetDir + FS.file("toolset", FS.Settings);
+
+            var profilepath = ToolsetDir + Tables.filename<ToolProfile>();
+            if(!profilepath.Exists)
+                InitializeProfiles(ToolsetDir, config, "llvm");
+
+            return LoadProfiles();
+        }
 
         Outcome LoadProfiles()
         {
             var src = Tables.path<ToolProfile>(ToolsetDir);
             var content = src.ReadUnicode();
             var result = TextGrids.parse(content, out var grid);
-            var dst = list<ToolProfile>();
+            var dst = new Lookup<ToolId,ToolProfile>();
             if(result)
             {
                 if(grid.ColCount != ToolProfile.FieldCount)
@@ -94,14 +180,14 @@ namespace Z0.llvm
                     {
                         result = parse(grid[i], out ToolProfile profile);
                         if(result)
-                            dst.Add(profile);
+                            dst.Include(profile.Id, profile);
                         else
                             break;
                     }
                 }
             }
 
-            Profiles = dst.Array();
+            ToolProfiles = dst.Seal();
 
             return result;
         }
@@ -120,37 +206,6 @@ namespace Z0.llvm
                 dst.Memberhisp = src[i++].Text;
                 dst.Path = FS.path(src[i++]);
             }
-            return result;
-        }
-
-        Outcome EmitHelpDocs(ReadOnlySpan<ToolProfile> src, FS.FolderPath dst)
-        {
-            var result = Outcome.Success;
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var profile = ref skip(src,i);
-                ref readonly var tool = ref profile.Id;
-                if(profile.HelpCmd.IsEmpty)
-                    continue;
-
-                var cmdline = Cmd.cmdline(string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd));
-                Write(string.Format("Executing '{0}'", cmdline.Format()));
-                result = OmniScript.Run(cmdline, CmdVars.Empty, out var response);
-                if(result.Fail)
-                    return result;
-
-                var length = response.Length;
-                var path = dst + FS.file(tool.Format(), FS.Help);
-                var emitting = EmittingFile(path);
-                using var writer = path.UnicodeWriter();
-                for(var j=0; j<length; j++)
-                {
-                    writer.WriteLine(skip(response, j).Content);
-                }
-                EmittedFile(emitting,length);
-            }
-
             return result;
         }
 
@@ -181,7 +236,7 @@ namespace Z0.llvm
             }
 
             if(@base.IsNonEmpty && members.IsNonEmpty)
-                Toolset = new Toolset(@base, Profiles);
+                Toolset = new Toolset(@base, ToolProfiles.Values.ToArray());
 
             return Toolset.IsNonEmpty;
         }

@@ -19,7 +19,7 @@ namespace Z0.Asm
 
         protected override void OnInit()
         {
-            XedSources = Ws.Project("intel.docs").Subdir("sources") + FS.folder("xed.primary");
+            XedSources = Ws.Project("db").Subdir("sources") + FS.folder("intel/xed.primary");
             XedTargets = Ws.Project("db").Subdir("xed");
         }
 

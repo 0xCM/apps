@@ -9,11 +9,8 @@
     <AsmData>$(Src)asm.data/z0.asm.data.csproj</AsmData>
 
     <Capture>$(Src)capture/z0.capture.csproj</Capture>
-    <CaptureChecks>$(Src)capture.checks/z0.capture.checks.csproj</CaptureChecks>
     <CpuDsl>$(Src)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>
     <Canonical>$(Src)canonical/z0.canonical.csproj</Canonical>
-
-    <Evaluate>$(Src)evaluate/z0.evaluate.csproj</Evaluate>
 
     <Gen>$(Src)gen/z0.gen.csproj</Gen>
     <Glue>$(Src)glue/z0.glue.csproj</Glue>

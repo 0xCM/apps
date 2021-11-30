@@ -11,14 +11,14 @@ namespace Z0.llvm
 
     public readonly struct ToolInvocation
     {
-        public Label ToolName {get;}
+        public ToolId Tool {get;}
 
         readonly Index<ToolArg> _Args;
 
         [MethodImpl(Inline)]
-        public ToolInvocation(Label name, ToolArg[] args)
+        public ToolInvocation(ToolId tool, ToolArg[] args)
         {
-            ToolName = name;
+            Tool = tool;
             _Args = args;
         }
 

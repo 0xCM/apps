@@ -9,13 +9,13 @@ namespace Z0.Asm
     public class IntelSdmPaths : AppService<IntelSdmPaths>
     {
         IProjectWs Project()
-            => Ws.Project("intel.docs");
+            => Ws.Project("db/sources/intel");
 
         public FS.FolderPath Targets()
             => Ws.Project("db").Subdir("sdm");
 
         public FS.FolderPath Sources()
-            => Project().Subdir("sources");
+            => Project().Home();
 
         public FS.FolderPath Sources(string name)
             => Sources() + FS.folder(name);
@@ -70,7 +70,7 @@ namespace Z0.Asm
                 => Targets() + Tables.filename<T>();
 
         public FS.FolderPath StringTables()
-            => Wf.EnvPaths.Codebase(PartId.AsmData) + FS.folder("src/sources/gen");
+            => Wf.EnvPaths.ZRoot() + FS.folder("gen/src");
 
         static bool IsTocPart(FS.FilePath src)
         {

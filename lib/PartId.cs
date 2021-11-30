@@ -25,8 +25,8 @@ public enum PartId : byte
     [Symbol("core")]
     Core = 5,
 
-    [Symbol("rules")]
-    Rules = 6,
+    [Symbol("generated")]
+    Generated = 6,
 
     [Symbol("bit")]
     Bit = 7,

@@ -17,7 +17,7 @@ namespace Z0.Asm
     public class IntelIntrinsics  : AppService<IntelIntrinsics>
     {
         FS.FolderPath Sources()
-            => Ws.Project("intel.docs").Subdir("sources");
+            => Ws.Project("db").Subdir("sources/intel");
 
         FS.FolderPath Targets()
             => Ws.Project("db").Subdir("intrinsics");
