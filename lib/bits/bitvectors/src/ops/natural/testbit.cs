@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline)]
-        public static bit testbit<N,T>(BitVector<N,T> x, byte index)
+        public static bit testbit<N,T>(ScalarBits<N,T> x, byte index)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.testbit(x.State, index);

@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N4,byte> ToNatural(this BitVector4 src)
+        public static ScalarBits<N4,byte> ToNatural(this BitVector4 src)
             => BitVector.inject(src.Data,n4);
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N8,byte> ToNatural(this BitVector8 src)
+        public static ScalarBits<N8,byte> ToNatural(this BitVector8 src)
             => BitVector.inject(src.Data,n8);
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N32,uint> ToNatural(this BitVector32 src)
+        public static ScalarBits<N32,uint> ToNatural(this BitVector32 src)
             => BitVector.inject(src.Data,n32);
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N64,ulong> ToNatural(this BitVector64 src)
+        public static ScalarBits<N64,ulong> ToNatural(this BitVector64 src)
             => BitVector.inject(src.Data,n64);
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Z0
         /// <typeparam name="N">The natural type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> ToNatural<N,T>(this BitVector<T> src, N n = default)
+        public static ScalarBits<N,T> ToNatural<N,T>(this ScalarBits<T> src, N n = default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.natural<N,T>(src.State);

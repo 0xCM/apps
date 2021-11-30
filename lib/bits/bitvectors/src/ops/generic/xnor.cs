@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Xnor, Closures(Closure)]
-        public static BitVector<T> xnor<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> xnor<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gmath.xnor(x.State, y.State);
     }

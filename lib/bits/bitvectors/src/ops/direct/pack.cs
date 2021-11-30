@@ -48,16 +48,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static void pack16x2(uint src, Span<BitVector<ushort>> dst)
+        public static void pack16x2(uint src, Span<ScalarBits<ushort>> dst)
         {
-            ref var target = ref @as<BitVector<ushort>,ushort>(first(dst));
+            ref var target = ref @as<ScalarBits<ushort>,ushort>(first(dst));
             BitPack.unpack16x2(src, ref target);
         }
 
         [MethodImpl(Inline), Op]
-        public static void pack8x8(ulong src, Span<BitVector<byte>> dst)
+        public static void pack8x8(ulong src, Span<ScalarBits<byte>> dst)
         {
-            ref var target = ref @as<BitVector<byte>,byte>(first(dst));
+            ref var target = ref @as<ScalarBits<byte>,byte>(first(dst));
             BitPack.unpack8x8(src, ref target);
         }
     }

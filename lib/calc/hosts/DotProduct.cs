@@ -35,7 +35,7 @@ namespace Z0
             where T : unmanaged
         {
             [MethodImpl(Inline)]
-            public readonly bit Invoke(BitVector<T> a, BitVector<T> b)
+            public readonly bit Invoke(ScalarBits<T> a, ScalarBits<T> b)
                 => BitVector.dot(a,b);
 
             [MethodImpl(Inline)]

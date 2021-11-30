@@ -16,9 +16,9 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source cell</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> load<T>(T src)
+        public static ScalarBits<T> load<T>(T src)
             where T : unmanaged
-                => new BitVector<T>(src);
+                => new ScalarBits<T>(src);
 
         /// <summary>
         /// Creates a generic bitvector from a span of bytes
@@ -26,7 +26,7 @@ namespace Z0
         /// <param name="src">The source bits</param>
         /// <param name="n">The bitvector length</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> load<T>(Span<byte> src)
+        public static ScalarBits<T> load<T>(Span<byte> src)
             where T : unmanaged
                 => load(src.Take<T>());
 
@@ -35,7 +35,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bitstring source</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> load<T>(BitString src)
+        public static ScalarBits<T> load<T>(BitString src)
             where T : unmanaged
                 => load<T>(src.ToPackedBytes());
 
@@ -43,7 +43,7 @@ namespace Z0
         /// Creates a byte-generic bitvector
         /// </summary>
         [MethodImpl(Inline), Op]
-        public static BitVector<byte> load(N8 n8, byte a)
+        public static ScalarBits<byte> load(N8 n8, byte a)
             => a;
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source bitstring</param>
         [MethodImpl(Inline), Op]
-        public static BitVector<uint> load(byte x0, byte x1, byte x2, byte x3)
+        public static ScalarBits<uint> load(byte x0, byte x1, byte x2, byte x3)
             => load(bits.join(x0,x1,x2,x3));
     }
 }

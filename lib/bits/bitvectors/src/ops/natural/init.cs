@@ -17,10 +17,10 @@ namespace Z0
         /// </summary>
         /// <param name="src">The value used to initialize the bitvector</param>
         [MethodImpl(Inline)]
-        public static BitVector<W,T> init<W,T>(T src, W w = default)
+        public static ScalarBits<W,T> init<W,T>(T src, W w = default)
             where T : unmanaged
             where W : unmanaged, ITypeNat
-                => new BitVector<W,T>(src);
+                => new ScalarBits<W,T>(src);
 
         /// <summary>
         /// Initializes a full-width 128-bit bitvector

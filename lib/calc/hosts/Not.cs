@@ -23,7 +23,7 @@ namespace Z0
             where T : unmanaged
         {
             [MethodImpl(Inline)]
-            public readonly BitVector<T> Invoke(BitVector<T> a)
+            public readonly ScalarBits<T> Invoke(ScalarBits<T> a)
                 => BitVector.not(a);
 
             [MethodImpl(Inline)]

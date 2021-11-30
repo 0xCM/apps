@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Pop, Closures(Closure)]
-        public static uint pop<T>(BitVector<T> src)
+        public static uint pop<T>(ScalarBits<T> src)
             where T : unmanaged
                 => gbits.pop(src.State);
     }

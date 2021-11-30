@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="index">The position of the bit to enable</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> enable<T>(BitVector<T> x, byte index)
+        public static ScalarBits<T> enable<T>(ScalarBits<T> x, byte index)
             where T : unmanaged
                 => gbits.enable(x.State, index);
 
@@ -25,7 +25,7 @@ namespace Z0
         /// </summary>
         /// <param name="index">The position of the bit to enable</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> enable<N,T>(BitVector<N,T> x, byte index)
+        public static ScalarBits<N,T> enable<N,T>(ScalarBits<N,T> x, byte index)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.enable(x.State, index);

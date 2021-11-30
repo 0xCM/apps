@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <param name="n">The count of least significant bits</param>
         [MethodImpl(Inline), HiSeg, Closures(Closure)]
-        public static BitVector<T> hiseg<T>(BitVector<T> x, byte n)
+        public static ScalarBits<T> hiseg<T>(ScalarBits<T> x, byte n)
             where T : unmanaged
                 => bitseg(x, (byte)(x.Width - n), (byte)(x.Width - 1));
     }

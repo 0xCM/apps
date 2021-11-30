@@ -15,7 +15,7 @@ namespace Z0
         /// Converts the vector to a bitspan representation
         /// </summary>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitSpan32 bitspan32<T>(BitVector<T> src, int? maxbits = null)
+        public static BitSpan32 bitspan32<T>(ScalarBits<T> src, int? maxbits = null)
             where T : unmanaged
                 => BitSpans32.from(src.State, maxbits ?? 0);
 
@@ -23,7 +23,7 @@ namespace Z0
         /// Converts the vector to a bitspan representation
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitSpan32 bitspan32<N,T>(BitVector<N,T> x)
+        public static BitSpan32 bitspan32<N,T>(ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitSpans32.from(x.State, Typed.nat32i<N>());

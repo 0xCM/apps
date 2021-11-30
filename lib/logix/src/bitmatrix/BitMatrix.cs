@@ -53,7 +53,7 @@ namespace Z0
             get => (int)N;
         }
 
-        public ref BitVector<T> this[int row]
+        public ref ScalarBits<T> this[int row]
         {
             [MethodImpl(Inline)]
             get => ref AsBitVector(ref core.seek(Data, row));
@@ -69,8 +69,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        static ref BitVector<T> AsBitVector(ref T src)
-            => ref Unsafe.As<T,BitVector<T>>(ref src);
+        static ref ScalarBits<T> AsBitVector(ref T src)
+            => ref Unsafe.As<T,ScalarBits<T>>(ref src);
 
         [MethodImpl(Inline)]
         public BitMatrix<S> As<S>()
@@ -78,7 +78,7 @@ namespace Z0
                 => new BitMatrix<S>(Content.Recover<T,S>());
 
         [MethodImpl(Inline)]
-        public static BitVector<T> operator * (BitMatrix<T> A, BitVector<T> x)
+        public static ScalarBits<T> operator * (BitMatrix<T> A, ScalarBits<T> x)
             => BitMatrix.mul(A,x);
 
 

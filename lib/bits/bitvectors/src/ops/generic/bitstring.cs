@@ -15,7 +15,7 @@ namespace Z0
         /// Converts the vector content to a bitring representation
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString bitstring<N,T>(BitVector<N,T> x)
+        public static BitString bitstring<N,T>(ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitStrings.scalar<T>(x.State, x.Width);
@@ -24,7 +24,7 @@ namespace Z0
         /// Converts the vector content to a bitring representation
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString bitstring<N,T>(BitVector<N,T> x, byte[] storage)
+        public static BitString bitstring<N,T>(ScalarBits<N,T> x, byte[] storage)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitStrings.scalar<T>(x.State, storage, x.Width);
@@ -45,7 +45,7 @@ namespace Z0
         /// Extracts the represented data as a bitstring
         /// </summary>
         [MethodImpl(Inline), Op]
-        public static BitString bitstring<T>(BitVector<T> src)
+        public static BitString bitstring<T>(ScalarBits<T> src)
             where T : unmanaged
                 => BitStrings.scalar<T>(src.State);
 
@@ -53,7 +53,7 @@ namespace Z0
         /// Extracts the represented data as a bitstring truncated to a specified width
         /// </summary>
         [MethodImpl(Inline), Op]
-        public static BitString bitstring<T>(BitVector<T> src, int width)
+        public static BitString bitstring<T>(ScalarBits<T> src, int width)
             where T : unmanaged
                 => BitStrings.scalar<T>(src.State, width);
    }

@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline), Impl, Closures(Closure)]
-        public static BitVector<T> impl<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> impl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gmath.impl(x.State, y.State);
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> impl<N,T>(BitVector<N,T> x, BitVector<N,T> y)
+        public static ScalarBits<N,T> impl<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gmath.impl(x.State, y.State);

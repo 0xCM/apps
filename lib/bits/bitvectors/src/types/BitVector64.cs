@@ -155,7 +155,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator BitVector<ulong>(BitVector64 src)
+        public static implicit operator ScalarBits<ulong>(BitVector64 src)
             => src.Data;
 
         /// <summary>

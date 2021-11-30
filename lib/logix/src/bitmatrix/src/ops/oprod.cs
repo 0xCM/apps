@@ -29,7 +29,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <remarks>See https://en.wikipedia.org/wiki/Outer_product</remarks>
         [MethodImpl(Inline)]
-        public static ref BitMatrix<T> oprod<T>(BitVector<T> x, BitVector<T> y, ref BitMatrix<T> dst)
+        public static ref BitMatrix<T> oprod<T>(ScalarBits<T> x, ScalarBits<T> y, ref BitMatrix<T> dst)
             where T : unmanaged
         {
             int order = (int)width<T>();
@@ -47,7 +47,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <remarks>See https://en.wikipedia.org/wiki/Outer_product</remarks>
         [MethodImpl(Inline)]
-        public static BitMatrix<T> oprod<T>(BitVector<T> x, BitVector<T> y)
+        public static BitMatrix<T> oprod<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var dst = BitMatrix.alloc<T>();

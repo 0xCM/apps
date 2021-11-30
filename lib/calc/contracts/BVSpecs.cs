@@ -7,21 +7,21 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free, SFx]
-    public interface IBvUnaryOp<T> : IUnaryOp<BitVector<T>>
+    public interface IBvUnaryOp<T> : IUnaryOp<ScalarBits<T>>
         where T : unmanaged
     {
         T Invoke(T a);
     }
 
     [Free, SFx]
-    public interface IBvBinaryOp<T> : IBinaryOp<BitVector<T>>
+    public interface IBvBinaryOp<T> : IBinaryOp<ScalarBits<T>>
         where T : unmanaged
     {
         T Invoke(T a, T b);
     }
 
     [Free, SFx]
-    public interface IBvTernaryOp<T> : ITernaryOp<BitVector<T>>
+    public interface IBvTernaryOp<T> : ITernaryOp<ScalarBits<T>>
         where T : unmanaged
     {
 
@@ -29,14 +29,14 @@ namespace Z0
     }
 
     [Free, SFx]
-    public interface IBvUnaryPred<T> : IFunc<BitVector<T>, bit>
+    public interface IBvUnaryPred<T> : IFunc<ScalarBits<T>, bit>
         where T : unmanaged
     {
         bit Invoke(T a);
     }
 
     [Free, SFx]
-    public interface IBvBinaryPred<T> : IFunc<BitVector<T>,BitVector<T>,bit>
+    public interface IBvBinaryPred<T> : IFunc<ScalarBits<T>,ScalarBits<T>,bit>
         where T : unmanaged
     {
         bit Invoke(T a, T b);

@@ -12,7 +12,7 @@ namespace Z0
     partial class BitVector
     {
         [MethodImpl(Inline), CImpl, Closures(Closure)]
-        public static BitVector<T> cimpl<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> cimpl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gbits.cimpl(x.State, y.State);
     }

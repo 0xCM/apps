@@ -92,12 +92,12 @@ namespace Z0
             => (uint)src;
 
         [MethodImpl(Inline)]
-        public static BitVector<T> ToBitVector<T>(this BitSpan32 src)
+        public static ScalarBits<T> ToBitVector<T>(this BitSpan32 src)
             where T : unmanaged
                 => src.Extract<T>();
 
         [MethodImpl(Inline)]
-        public static BitVector<N,T> ToBitVector<N,T>(this BitSpan32 src)
+        public static ScalarBits<N,T> ToBitVector<N,T>(this BitSpan32 src)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                => src.Extract<T>();
@@ -123,12 +123,12 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static BitVector<T> ToBitVector<T>(this BitString src)
+        public static ScalarBits<T> ToBitVector<T>(this BitString src)
             where T : unmanaged
                 => BitVector.load<T>(src);
 
         [MethodImpl(Inline)]
-        public static BitVector<N,T> ToBitVector<N,T>(this BitString src, N n = default, T t =default)
+        public static ScalarBits<N,T> ToBitVector<N,T>(this BitString src, N n = default, T t =default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.natural<N,T>(src);
@@ -198,7 +198,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<ushort> ToBitVector<T>(this in SpanBlock16<T> src)
+        public static ScalarBits<ushort> ToBitVector<T>(this in SpanBlock16<T> src)
             where T : unmanaged
                 => src.Storage.TakeUInt16();
 
@@ -209,7 +209,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<uint> ToBitVector<T>(this in SpanBlock32<T> src)
+        public static ScalarBits<uint> ToBitVector<T>(this in SpanBlock32<T> src)
             where T : unmanaged
                 => src.Storage.TakeUInt32();
 
@@ -220,7 +220,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<ulong> ToBitVector<T>(this in SpanBlock64<T> src, N64 n)
+        public static ScalarBits<ulong> ToBitVector<T>(this in SpanBlock64<T> src, N64 n)
             where T : unmanaged
                 => src.Storage.TakeUInt64();
 
@@ -231,7 +231,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<byte> ToBitVector<T>(this in SpanBlock256<T> src, N8 n)
+        public static ScalarBits<byte> ToBitVector<T>(this in SpanBlock256<T> src, N8 n)
             where T : unmanaged
                 => src.Storage.TakeUInt8();
 
@@ -242,7 +242,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<ushort> ToBitVector<T>(this in SpanBlock256<T> src, N16 n)
+        public static ScalarBits<ushort> ToBitVector<T>(this in SpanBlock256<T> src, N16 n)
             where T : unmanaged
                 => src.Storage.TakeUInt16();
 
@@ -253,7 +253,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<uint> ToBitVector<T>(this in SpanBlock256<T> src, N32 n)
+        public static ScalarBits<uint> ToBitVector<T>(this in SpanBlock256<T> src, N32 n)
             where T : unmanaged
                 => src.Storage.TakeUInt32();
 
@@ -264,7 +264,7 @@ namespace Z0
         /// <param name="n">The target width selector</param>
         /// <typeparam name="T">The primal cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<ulong> ToBitVector<T>(this in SpanBlock256<T> src, N64 n)
+        public static ScalarBits<ulong> ToBitVector<T>(this in SpanBlock256<T> src, N64 n)
             where T : unmanaged
                 => src.Storage.TakeUInt64();
     }

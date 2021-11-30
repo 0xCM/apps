@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="maxbits">The maximum number bits to use if less than the bit width of the vector</param>
         /// <typeparam name="E">The enumeration type that defines the symbols</typeparam>
         /// <typeparam name="T">The primal bitvector cell type</typeparam>
-        public static ReadOnlySpan<char> symbols<E,T>(BitVector<T> src, byte segwidth, int? maxbits = null)
+        public static ReadOnlySpan<char> symbols<E,T>(ScalarBits<T> src, byte segwidth, int? maxbits = null)
             where E : unmanaged, Enum
             where T : unmanaged
         {

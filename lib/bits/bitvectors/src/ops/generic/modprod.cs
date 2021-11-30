@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The second vector</param>
         /// <remarks>This should be considered a reference implementation; the dot operation is considerably faster</remarks>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static bit modprod<T>(BitVector<T> x, BitVector<T> y)
+        public static bit modprod<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var result = 0;

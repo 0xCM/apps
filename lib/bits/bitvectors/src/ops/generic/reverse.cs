@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Reverse, Closures(Closure)]
-        public static BitVector<T> reverse<T>(BitVector<T> x)
+        public static ScalarBits<T> reverse<T>(ScalarBits<T> x)
             where T : unmanaged
                 => gbits.reverse(x.State);
     }

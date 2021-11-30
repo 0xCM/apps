@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline), BitSeg, Closures(Closure)]
-        public static BitVector<T> bitseg<T>(BitVector<T> x, byte first, byte last)
+        public static ScalarBits<T> bitseg<T>(ScalarBits<T> x, byte first, byte last)
             where T : unmanaged
                 => gbits.segment(x.State, first, last);
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> bitseg<N,T>(BitVector<N,T> x, byte first, byte last)
+        public static ScalarBits<N,T> bitseg<N,T>(ScalarBits<N,T> x, byte first, byte last)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.segment(x.State, first, last);

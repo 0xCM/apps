@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> select<N,T>(BitVector<N,T> x, BitVector<N,T> y, BitVector<N,T> z)
+        public static ScalarBits<N,T> select<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y, ScalarBits<N,T> z)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.select(x.State, y.State, z.State);

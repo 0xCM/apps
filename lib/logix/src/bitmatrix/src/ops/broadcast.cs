@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="A">The target matrix</param>
         /// <typeparam name="T">The primal type over which the matrix is constructed</typeparam>
         [MethodImpl(Inline)]
-        public static ref readonly BitMatrix<T> broadcast<T>(BitVector<T> x, in BitMatrix<T> A)
+        public static ref readonly BitMatrix<T> broadcast<T>(ScalarBits<T> x, in BitMatrix<T> A)
             where T : unmanaged
         {
             A.Content.Fill(x);

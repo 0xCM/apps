@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         /// <param name="fmt">Bitstring formatting specifications</param>
-        public static string Format<N,T>(this BitVector<N,T> src, BitFormat? fmt = null)
+        public static string Format<N,T>(this ScalarBits<N,T> src, BitFormat? fmt = null)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.format(src,fmt);
@@ -26,7 +26,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         /// <param name="fmt">Bitstring formatting specifications</param>
-        public static string Format<T>(this BitVector<T> src, BitFormat? fmt = null)
+        public static string Format<T>(this ScalarBits<T> src, BitFormat? fmt = null)
             where T : unmanaged
                 => BitVector.format(src,fmt);
 

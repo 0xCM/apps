@@ -40,7 +40,7 @@ namespace Z0
             => Primal.eq(x.State, y.State, caller, file, line);
 
         [MethodImpl(Inline)]
-        public static void eq<T>(BitVector<T> x, BitVector<T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void eq<T>(ScalarBits<T> x, ScalarBits<T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             where T : unmanaged
                 => Invariant.yea(gmath.eq(x.State, y.State), $"{x} != {y}", caller, file, line);
 
@@ -51,7 +51,7 @@ namespace Z0
                 => Invariant.yea(x.Equals(y), $"{x} != {y}", caller, file, line);
 
         [MethodImpl(Inline)]
-        public static void eq<N,T>(BitVector<N,T> x, BitVector<N,T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        public static void eq<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => Invariant.yea(x.Equals(y), $"{x} != {y}", caller, file, line);

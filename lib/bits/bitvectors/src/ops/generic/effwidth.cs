@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), EffWidth, Closures(Closure)]
-        public static int effwidth<T>(BitVector<T> x)
+        public static int effwidth<T>(ScalarBits<T> x)
             where T : unmanaged
                 => (int)width<T>() - nlz(x);
     }

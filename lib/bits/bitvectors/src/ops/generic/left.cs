@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
         [MethodImpl(Inline), LProject, Closures(Closure)]
-        public static BitVector<T> left<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> left<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => x;
     }

@@ -132,7 +132,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator BitVector<byte>(BitVector8 src)
+        public static implicit operator ScalarBits<byte>(BitVector8 src)
             => src.Data;
 
         [MethodImpl(Inline)]

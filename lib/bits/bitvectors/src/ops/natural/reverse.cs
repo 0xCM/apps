@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> reverse<N,T>(BitVector<N,T> src)
+        public static ScalarBits<N,T> reverse<N,T>(ScalarBits<N,T> src)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gmath.srl(gbits.reverse(src.State), (byte)(core.width<T>() - src.Width));

@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> add<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> add<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gmath.add(x.State, y.State);
 

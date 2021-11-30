@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<T> Replicate<T>(this BitVector<T> src)
+        public static ScalarBits<T> Replicate<T>(this ScalarBits<T> src)
             where T : unmanaged
                  => BitVector.replicate(src);
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> Replicate<N,T>(this BitVector<N,T> src)
+        public static ScalarBits<N,T> Replicate<N,T>(this ScalarBits<N,T> src)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.replicate(src);

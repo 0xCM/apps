@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline), MsbOff, Closures(UnsignedInts)]
-        public static BitVector<T> cut<T>(BitVector<T> src, byte pos)
+        public static ScalarBits<T> cut<T>(ScalarBits<T> src, byte pos)
             where T : unmanaged
                 => gbits.cut(src.State, pos);
 
@@ -25,7 +25,7 @@ namespace Z0
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> cut<N,T>(BitVector<N,T> src, byte pos)
+        public static ScalarBits<N,T> cut<N,T>(ScalarBits<N,T> src, byte pos)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.cut(src.State, pos);

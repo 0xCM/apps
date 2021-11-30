@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="n">The count of least significant bits</param>
         [MethodImpl(Inline), LoSeg, Closures(Closure)]
-        public static BitVector<T> lo<T>(BitVector<T> src, byte n)
+        public static ScalarBits<T> lo<T>(ScalarBits<T> src, byte n)
             where T : unmanaged
                 => bitseg(src, 0, n -=1);
 

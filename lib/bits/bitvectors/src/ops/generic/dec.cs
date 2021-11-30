@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> dec<T>(BitVector<T> x)
+        public static ScalarBits<T> dec<T>(ScalarBits<T> x)
             where T : unmanaged
                 => gmath.dec(x.State);
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> dec<N,T>(BitVector<N,T> x)
+        public static ScalarBits<N,T> dec<N,T>(ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gmath.dec(x.State);

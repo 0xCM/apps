@@ -17,10 +17,10 @@ namespace Z0
         /// <param name="n">The number of bits to store</param>
         /// <typeparam name="T">The primal storage type</typeparam>
         [MethodImpl(Inline), Alloc]
-        public static BitVector<N,T> alloc<N,T>(N n = default, T fill = default)
+        public static ScalarBits<N,T> alloc<N,T>(N n = default, T fill = default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => new BitVector<N,T>(fill);
+                => new ScalarBits<N,T>(fill);
 
         /// <summary>
         /// Allocates a generic bitvector
@@ -28,7 +28,7 @@ namespace Z0
         /// <param name="n">The number of bits to store</param>
         /// <typeparam name="T">The primal storage type</typeparam>
         [MethodImpl(Inline), Alloc, Closures(Closure)]
-        public static BitVector<T> alloc<T>(T fill = default)
+        public static ScalarBits<T> alloc<T>(T fill = default)
             where T : unmanaged
                 => load(fill);
     }

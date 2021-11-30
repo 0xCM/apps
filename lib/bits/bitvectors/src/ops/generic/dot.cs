@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline), Dot, Closures(Closure)]
-        public static bit dot<T>(BitVector<T> x, BitVector<T> y)
+        public static bit dot<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => parity(and(x,y));
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline)]
-        public static bit dot<N,T>(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit dot<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => parity(and(x,y));

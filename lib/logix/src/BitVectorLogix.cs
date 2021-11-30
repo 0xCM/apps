@@ -17,7 +17,7 @@ namespace Z0
         public static BitVectorLogix Service => default(BitVectorLogix);
 
         [Op, Closures(UnsignedInts)]
-        public BinaryOp<BitVector<T>> Lookup<T>(BLK kind)
+        public BinaryOp<ScalarBits<T>> Lookup<T>(BLK kind)
             where T : unmanaged
         {
             switch(kind)
@@ -43,7 +43,7 @@ namespace Z0
         }
 
         [Op, Closures(UnsignedInts)]
-        public BitVector<T> EvalDirect<T>(BLK kind, BitVector<T> x, BitVector<T> y)
+        public ScalarBits<T> EvalDirect<T>(BLK kind, ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             switch(kind)
@@ -69,7 +69,7 @@ namespace Z0
         }
 
         [Op, Closures(UnsignedInts)]
-        public BitVector<T> EvalRef<T>(BLK kind, BitVector<T> x, BitVector<T> y)
+        public ScalarBits<T> EvalRef<T>(BLK kind, ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             switch(kind)
@@ -102,7 +102,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> and<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> and<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -118,7 +118,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> nand<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> nand<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -134,7 +134,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> or<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> or<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -150,7 +150,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> nor<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> nor<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -166,7 +166,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> xor<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> xor<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -182,7 +182,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> xnor<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> xnor<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -198,7 +198,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> lnot<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> lnot<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -214,7 +214,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> rnot<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> rnot<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -230,7 +230,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> impl<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> impl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -246,7 +246,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> nonimpl<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> nonimpl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -262,7 +262,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> cimpl<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> cimpl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -278,7 +278,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
-        BitVector<T> cnonimpl<T>(BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> cnonimpl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
         {
             var len = x.Width;
@@ -288,7 +288,7 @@ namespace Z0
             return z;
         }
 
-        BitVector<T> select<T>(BitVector<T> x, BitVector<T> y, BitVector<T> z)
+        ScalarBits<T> select<T>(ScalarBits<T> x, ScalarBits<T> y, ScalarBits<T> z)
             where T : unmanaged
         {
             var len = x.Width;

@@ -17,7 +17,7 @@ namespace Z0
         /// </summary>
         /// <typeparam name="T">The primal type upon which the vector is predicated</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<T> ones<T>()
+        public static ScalarBits<T> ones<T>()
             where T : unmanaged
                 => core.ones<T>();
     }

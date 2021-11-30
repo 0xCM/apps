@@ -61,7 +61,7 @@ namespace Z0
         /// <summary>
         /// Slices a sequence of bits
         /// </summary>
-        public BitVector<T> this[byte start, byte count]
+        public ScalarBits<T> this[byte start, byte count]
         {
             [MethodImpl(Inline)]
             get => BitGrid.slice(this,start,count);

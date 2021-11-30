@@ -29,7 +29,7 @@ namespace Z0
         void eq(BitVector64 x, BitVector64 y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             => Primal.eq(x.State, y.State, caller, file, line);
 
-        void eq<T>(BitVector<T> x, BitVector<T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void eq<T>(ScalarBits<T> x, ScalarBits<T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             where T : unmanaged
                 => Claims.eq(x, y, caller, file, line);
 
@@ -38,7 +38,7 @@ namespace Z0
             where T : unmanaged
                 => Claims.eq(x, y, caller, file, line);
 
-        void eq<N,T>(BitVector<N,T> x, BitVector<N,T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        void eq<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => Claims.eq(x, y, caller, file, line);

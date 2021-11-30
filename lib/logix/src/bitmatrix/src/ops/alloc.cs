@@ -13,7 +13,7 @@ namespace Z0
         /// Allocates a square generic bitmatrix filled with a specified row
         /// </summary>
         /// <typeparam name="T">The primal type over which the bitmatrix is constructed</typeparam>
-        public static BitMatrix<T> init<T>(BitVector<T> src)
+        public static BitMatrix<T> init<T>(ScalarBits<T> src)
             where T : unmanaged
         {
             Span<T> content = new T[BitMatrix<T>.N];
@@ -25,7 +25,7 @@ namespace Z0
         /// Allocates a generic bitmatrix filled with a specified row
         /// </summary>
         /// <typeparam name="T">The primal type over which the bitmatrix is constructed</typeparam>
-        public static BitMatrix<T> init<T>(BitVector<T> src, int rows)
+        public static BitMatrix<T> init<T>(ScalarBits<T> src, int rows)
             where T : unmanaged
         {
             Span<T> content = new T[rows];

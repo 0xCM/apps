@@ -23,7 +23,7 @@ namespace Z0
         /// <typeparam name="N">The col count type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> row<M,N,T>(BitGrid16<M,N,T> g, int index)
+        public static ScalarBits<N,T> row<M,N,T>(BitGrid16<M,N,T> g, int index)
             where T : unmanaged
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
@@ -38,7 +38,7 @@ namespace Z0
         /// <typeparam name="N">The col count type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> row<M,N,T>(BitGrid32<M,N,T> g, int index)
+        public static ScalarBits<N,T> row<M,N,T>(BitGrid32<M,N,T> g, int index)
             where T : unmanaged
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
@@ -53,7 +53,7 @@ namespace Z0
         /// <typeparam name="N">The col count type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> row<M,N,T>(BitGrid64<M,N,T> g, int index)
+        public static ScalarBits<N,T> row<M,N,T>(BitGrid64<M,N,T> g, int index)
             where T : unmanaged
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
@@ -68,7 +68,7 @@ namespace Z0
         /// <typeparam name="N">The col count type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> row<M,N,T>(SubGrid16<M,N,T> g, int index, N width = default)
+        public static ScalarBits<N,T> row<M,N,T>(SubGrid16<M,N,T> g, int index, N width = default)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
             where T : unmanaged
@@ -83,7 +83,7 @@ namespace Z0
         /// <typeparam name="N">The col count type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> row<N,M,T>(SubGrid32<M,N,T> g, int index, N width = default)
+        public static ScalarBits<N,T> row<N,M,T>(SubGrid32<M,N,T> g, int index, N width = default)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
             where T : unmanaged
@@ -98,7 +98,7 @@ namespace Z0
         /// <typeparam name="N">The col count type</typeparam>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> row<M,N,T>(SubGrid64<M,N,T> g, int index, N width = default)
+        public static ScalarBits<N,T> row<M,N,T>(SubGrid64<M,N,T> g, int index, N width = default)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
             where T : unmanaged
@@ -111,7 +111,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, either 0 or 1</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N64,ulong> row<T>(in BitGrid128<N2,N64,T> g, int index)
+        public static ScalarBits<N64,ulong> row<T>(in BitGrid128<N2,N64,T> g, int index)
             where T : unmanaged
                 => v64u(g.Content).GetElement(index);
 
@@ -122,7 +122,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...3]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N32,uint> row<T>(in BitGrid128<N4,N32,T> g, int index)
+        public static ScalarBits<N32,uint> row<T>(in BitGrid128<N4,N32,T> g, int index)
             where T : unmanaged
                 => v32u(g.Content).GetElement(index);
 
@@ -133,7 +133,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...7]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N16,ushort> row<T>(in BitGrid128<N8,N16,T> g, int index)
+        public static ScalarBits<N16,ushort> row<T>(in BitGrid128<N8,N16,T> g, int index)
             where T : unmanaged
                 => v16u(g.Content).GetElement(index);
 
@@ -144,7 +144,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...15]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N8,byte> row<T>(in BitGrid128<N16,N8,T> g, int index)
+        public static ScalarBits<N8,byte> row<T>(in BitGrid128<N16,N8,T> g, int index)
             where T : unmanaged
                 => v8u(g.Content).GetElement(index);
 
@@ -155,7 +155,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...31]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N4,byte> row<T>(in BitGrid128<N32,N4,T> g, int index)
+        public static ScalarBits<N4,byte> row<T>(in BitGrid128<N32,N4,T> g, int index)
             where T : unmanaged
         {
             uint cell = v8u(g.Content).GetElement(index/2);
@@ -169,7 +169,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...7]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N32,uint> row<T>(in BitGrid256<N8,N32,T> g, int index)
+        public static ScalarBits<N32,uint> row<T>(in BitGrid256<N8,N32,T> g, int index)
             where T : unmanaged
                 => v32u(g.Content).GetElement(index);
 
@@ -180,7 +180,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...31]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N8,byte> row<T>(in BitGrid256<N32,N8,T> g, int index)
+        public static ScalarBits<N8,byte> row<T>(in BitGrid256<N32,N8,T> g, int index)
             where T : unmanaged
                 => v8u(g.Content).GetElement(index);
 
@@ -191,12 +191,12 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...15]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N16,ushort> row<T>(in BitGrid256<N16,N16,T> g, int index)
+        public static ScalarBits<N16,ushort> row<T>(in BitGrid256<N16,N16,T> g, int index)
             where T : unmanaged
                 => v16u(g.Content).GetElement(index);
 
         [MethodImpl(Inline)]
-        public static BitGrid256<N16,N16,T> row<T>(in BitGrid256<N16,N16,T> g, int index, BitVector<N16,ushort> data)
+        public static BitGrid256<N16,N16,T> row<T>(in BitGrid256<N16,N16,T> g, int index, ScalarBits<N16,ushort> data)
             where T : unmanaged
                 => v16u(g.Content).WithElement(index, data);
 
@@ -207,7 +207,7 @@ namespace Z0
         /// <param name="index">The zero-based column index in the range [0...3]</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N64,ulong> row<T>(in BitGrid256<N4,N64,T> g, int index)
+        public static ScalarBits<N64,ulong> row<T>(in BitGrid256<N4,N64,T> g, int index)
             where T : unmanaged
                 => v64u(g.Content).GetElement(index);
     }

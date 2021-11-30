@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<byte> ToGeneric(this BitVector8 src)
+        public static ScalarBits<byte> ToGeneric(this BitVector8 src)
             => src.Data;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<ushort> ToGeneric(this BitVector16 src)
+        public static ScalarBits<ushort> ToGeneric(this BitVector16 src)
             => src.Data;
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<uint> ToGeneric(this BitVector32 src)
+        public static ScalarBits<uint> ToGeneric(this BitVector32 src)
             => src.Data;
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<ulong> ToGeneric(this BitVector64 src)
+        public static ScalarBits<ulong> ToGeneric(this BitVector64 src)
             => src.Data;
     }
 }

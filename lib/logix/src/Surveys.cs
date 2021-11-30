@@ -21,7 +21,7 @@ namespace Z0
         /// <param name="src">The question upon which the bitvector will be predicated</param>
         /// <typeparam name="T">The primal data type used for survey aspect representation</typeparam>
         [Op, Closures(Closure)]
-        public static BitVector<T> vector<T>(in Question<T> src)
+        public static ScalarBits<T> vector<T>(in Question<T> src)
             where T : unmanaged
         {
             var data = default(T);
@@ -36,7 +36,7 @@ namespace Z0
         /// <param name="src">The response upon which the bitvector will be predicated</param>
         /// <typeparam name="T">The primal data type used for survey aspect representation</typeparam>
         [Op, Closures(Closure)]
-        public static BitVector<T> vector<T>(in QuestionResponse<T> src)
+        public static ScalarBits<T> vector<T>(in QuestionResponse<T> src)
             where T : unmanaged
         {
             var data = default(T);

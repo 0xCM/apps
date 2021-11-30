@@ -15,7 +15,7 @@ namespace Z0
         /// Returns true of all bits are enabled, false otherwise
         /// </summary>
         [MethodImpl(Inline)]
-        public static bit TestC<T>(this BitVector<T> src)
+        public static bit TestC<T>(this ScalarBits<T> src)
             where T : unmanaged
                 => BitVector.testc(src);
 
@@ -23,7 +23,7 @@ namespace Z0
         /// Returns true of all bits are enabled, false otherwise
         /// </summary>
         [MethodImpl(Inline)]
-        public static bit TestC<N,T>(this BitVector<N,T> src)
+        public static bit TestC<N,T>(this ScalarBits<N,T> src)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.testc(src);

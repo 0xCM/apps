@@ -12,7 +12,7 @@ namespace Z0
     partial class BitVector
     {
         [MethodImpl(Inline)]
-        public static bit eq<N,T>(in BitVector<N,T> x, in BitVector<N,T> y)
+        public static bit eq<N,T>(in ScalarBits<N,T> x, in ScalarBits<N,T> y)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gmath.eq(x.State, y.State);

@@ -13,7 +13,7 @@ namespace Z0
     partial struct CalcClients
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public BitVector<T> add<T>(BitVector<T> x, BitVector<T> y)
+        public ScalarBits<T> add<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => bvadd<T>().Invoke(x,y);
 

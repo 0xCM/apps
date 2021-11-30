@@ -296,8 +296,8 @@ namespace Z0.Logix
             {
                 var a = Random.Next<T>();
                 v1.Set(a);
-                BitVector<T> actual = LogicEngine.eval(expr).Value;
-                BitVector<T> expect = NumericLogixHost.eval(kind,a);
+                ScalarBits<T> actual = LogicEngine.eval(expr).Value;
+                ScalarBits<T> expect = NumericLogixHost.eval(kind,a);
                 Claim.eq(actual,expect);
             }
         }

@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="g">The source grid</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N16,uint> bitvector<M,N,T>(BitGrid16<M,N,T> g)
+        public static ScalarBits<N16,uint> bitvector<M,N,T>(BitGrid16<M,N,T> g)
             where T : unmanaged
             where N : unmanaged, ITypeNat
             where M : unmanaged, ITypeNat
@@ -29,7 +29,7 @@ namespace Z0
         /// <param name="g">The source grid</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N32,uint> bitvector<M,N,T>(BitGrid32<M,N,T> g)
+        public static ScalarBits<N32,uint> bitvector<M,N,T>(BitGrid32<M,N,T> g)
             where T : unmanaged
             where N : unmanaged, ITypeNat
             where M : unmanaged, ITypeNat
@@ -41,7 +41,7 @@ namespace Z0
         /// <param name="g">The source grid</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N64,ulong> bitvector<M,N,T>(BitGrid64<M,N,T> g)
+        public static ScalarBits<N64,ulong> bitvector<M,N,T>(BitGrid64<M,N,T> g)
             where T : unmanaged
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat

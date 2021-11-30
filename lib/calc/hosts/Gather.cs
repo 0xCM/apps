@@ -16,7 +16,7 @@ namespace Z0
             where T : unmanaged
         {
             [MethodImpl(Inline)]
-            public readonly BitVector<T> Invoke(BitVector<T> a, BitVector<T> b)
+            public readonly ScalarBits<T> Invoke(ScalarBits<T> a, ScalarBits<T> b)
                 => BitVector.gather(a,b);
 
             [MethodImpl(Inline)]

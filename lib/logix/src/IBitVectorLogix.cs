@@ -8,13 +8,13 @@ namespace Z0
 
     public interface IBitVectorLogix
     {
-        BinaryOp<BitVector<T>> Lookup<T>(BLK kind)
+        BinaryOp<ScalarBits<T>> Lookup<T>(BLK kind)
             where T : unmanaged;
 
-        BitVector<T> EvalDirect<T>(BLK kind, BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> EvalDirect<T>(BLK kind, ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged;
 
-        BitVector<T> EvalRef<T>(BLK kind, BitVector<T> x, BitVector<T> y)
+        ScalarBits<T> EvalRef<T>(BLK kind, ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged;
     }
 }

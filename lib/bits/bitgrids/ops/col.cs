@@ -31,7 +31,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
-        public static BitVector<N2,byte> col<T>(BitGrid16<N2,N8,T> g, int index)
+        public static ScalarBits<N2,byte> col<T>(BitGrid16<N2,N8,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, (uint)(Lsb16x8x1 << index));
 
@@ -42,7 +42,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, either 0 or 1</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
-        public static BitVector<N8,byte> col<T>(BitGrid16<N8,N2,T> g, int index)
+        public static ScalarBits<N8,byte> col<T>(BitGrid16<N8,N2,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, (uint)(Lsb16x2x1 << index));
 
@@ -53,7 +53,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...3</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
-        public static BitVector<N4,byte> col<T>(BitGrid16<N4,N4,T> g, int index)
+        public static ScalarBits<N4,byte> col<T>(BitGrid16<N4,N4,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, (uint)(Lsb16x4x1 << index));
 
@@ -75,7 +75,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        public static BitVector<N2,byte> col<T>(BitGrid32<N2,N16,T> g, int index)
+        public static ScalarBits<N2,byte> col<T>(BitGrid32<N2,N16,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, Lsb32x16x1 << index);
 
@@ -86,7 +86,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        public static BitVector<N4,byte> col<T>(BitGrid32<N4,N8,T> g, int index)
+        public static ScalarBits<N4,byte> col<T>(BitGrid32<N4,N8,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, Lsb32x8x1 << index);
 
@@ -97,7 +97,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        public static BitVector<N8,byte> col<T>(BitGrid32<N8,N4,T> g, int index)
+        public static ScalarBits<N8,byte> col<T>(BitGrid32<N8,N4,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, Lsb32x4x1 << index);
 
@@ -108,7 +108,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, either 0 or 1</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        public static BitVector<N16,ushort> col<T>(BitGrid32<N16,N2,T> g, int index)
+        public static ScalarBits<N16,ushort> col<T>(BitGrid32<N16,N2,T> g, int index)
             where T : unmanaged
                 => (ushort)gather(g, Lsb32x2x1 << index);
 
@@ -130,7 +130,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...31</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N2,byte> col<T>(BitGrid64<N2,N32,T> g, int index)
+        public static ScalarBits<N2,byte> col<T>(BitGrid64<N2,N32,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, Lsb64x32x1 << index);
 
@@ -141,7 +141,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...15</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N4,byte> col<T>(BitGrid64<N4,N16,T> g, int index)
+        public static ScalarBits<N4,byte> col<T>(BitGrid64<N4,N16,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, Lsb64x16x1 << index);
 
@@ -152,7 +152,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N8,byte> col<T>(BitGrid64<N8,N8,T> g, int index)
+        public static ScalarBits<N8,byte> col<T>(BitGrid64<N8,N8,T> g, int index)
             where T : unmanaged
                 => (byte)gather(g, Lsb64x8x1 << index);
 
@@ -163,7 +163,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...3</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N16,ushort> col<T>(BitGrid64<N16,N4,T> g, int index)
+        public static ScalarBits<N16,ushort> col<T>(BitGrid64<N16,N4,T> g, int index)
             where T : unmanaged
                 => (ushort)gather(g, Lsb64x4x1<< index);
 
@@ -174,7 +174,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, either 0 or 1</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N32,uint> col<T>(BitGrid64<N32,N2,T> g, int index)
+        public static ScalarBits<N32,uint> col<T>(BitGrid64<N32,N2,T> g, int index)
             where T : unmanaged
                 => (uint)gather(g, Lsb64x2x1 << index);
 
@@ -185,7 +185,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, either 0 or 1</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N64,ulong> col<T>(BitGrid64<N64,N1,T> g, int index)
+        public static ScalarBits<N64,ulong> col<T>(BitGrid64<N64,N1,T> g, int index)
             where T : unmanaged
                 => g.Content;
 
@@ -196,7 +196,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N16,ushort> col<T>(in BitGrid128<N16,N8,T> g, int index)
+        public static ScalarBits<N16,ushort> col<T>(in BitGrid128<N16,N8,T> g, int index)
             where T : unmanaged
                 => gcpu.vmask16u(gcpu.vsll(g.Content, (byte)(7 - index)));
 
@@ -207,7 +207,7 @@ namespace Z0
         /// <param name="index">The zero-based column index, in the inclusive range 0...7</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static BitVector<N32,uint> col<T>(in BitGrid256<N32,N8,T> g, int index)
+        public static ScalarBits<N32,uint> col<T>(in BitGrid256<N32,N8,T> g, int index)
             where T : unmanaged
                 => gcpu.vmask32u(gcpu.vsll(g.Content, (byte)(7 - index)));
     }

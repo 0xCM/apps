@@ -79,19 +79,19 @@ namespace Z0
         /// <summary>
         /// Queries/manipulates index-identified row data
         /// </summary>
-        public ref BitVector<T> this[int row]
+        public ref ScalarBits<T> this[int row]
         {
             [MethodImpl(Inline)]
-            get => ref Unsafe.As<T,BitVector<T>>(ref seek(data, row));
+            get => ref Unsafe.As<T,ScalarBits<T>>(ref seek(data, row));
         }
 
         /// <summary>
         /// Queries/manipulates index-identified row data
         /// </summary>
-        public ref BitVector<T> this[uint row]
+        public ref ScalarBits<T> this[uint row]
         {
             [MethodImpl(Inline)]
-            get => ref Unsafe.As<T,BitVector<T>>(ref seek(data, row));
+            get => ref Unsafe.As<T,ScalarBits<T>>(ref seek(data, row));
         }
 
         [MethodImpl(Inline)]

@@ -24,7 +24,7 @@ namespace Z0
         /// Converts the vector content to a bitring representation
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString ToBitString<N,T>(this BitVector<N,T> x)
+        public static BitString ToBitString<N,T>(this ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.bitstring(x);
@@ -33,7 +33,7 @@ namespace Z0
         /// Converts the vector content to a bitring representation
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString ToBitString<N,T>(this BitVector<N,T> x, byte[] storage)
+        public static BitString ToBitString<N,T>(this ScalarBits<N,T> x, byte[] storage)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.bitstring(x,storage);
@@ -42,7 +42,7 @@ namespace Z0
         /// Extracts the represented data as a bitstring
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString ToBitString<T>(this BitVector<T> src)
+        public static BitString ToBitString<T>(this ScalarBits<T> src)
             where T : unmanaged
                 => BitVector.bitstring(src);
 
@@ -50,7 +50,7 @@ namespace Z0
         /// Extracts the represented data as a bitstring truncated to a specified width
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString ToBitString<T>(this BitVector<T> src, int width)
+        public static BitString ToBitString<T>(this ScalarBits<T> src, int width)
             where T : unmanaged
                 => BitVector.bitstring(src,width);
 

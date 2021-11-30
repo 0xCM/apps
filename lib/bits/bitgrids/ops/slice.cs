@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="index">The bit count</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Slice, Closures(UInt8x16x32k)]
-        public static BitVector<T> slice<T>(BitGrid32<T> g, byte index, byte length)
+        public static ScalarBits<T> slice<T>(BitGrid32<T> g, byte index, byte length)
             where T : unmanaged
                 => generic<T>(gbits.slice(g.Data, ScalarCast.uint8(index*length), length));
 
@@ -32,7 +32,7 @@ namespace Z0
         /// <param name="index">The bit count</param>
         /// <typeparam name="T">The cell type</typeparam>
         [MethodImpl(Inline), Slice, Closures(UnsignedInts)]
-        public static BitVector<T> slice<T>(BitGrid64<T> g, byte index, byte length)
+        public static ScalarBits<T> slice<T>(BitGrid64<T> g, byte index, byte length)
             where T : unmanaged
                 => generic<T>(gbits.slice(g.Data, ScalarCast.uint8(index*length), length));
     }

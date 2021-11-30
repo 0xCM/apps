@@ -12,11 +12,11 @@ namespace Z0
     partial struct CalcHosts
     {
         [Closures(Closure)]
-        public readonly struct BvEffWidth<T> : IFunc<BitVector<T>,int>
+        public readonly struct BvEffWidth<T> : IFunc<ScalarBits<T>,int>
             where T : unmanaged
         {
             [MethodImpl(Inline)]
-            public readonly int Invoke(BitVector<T> a)
+            public readonly int Invoke(ScalarBits<T> a)
                 => BitVector.effwidth(a);
         }
     }

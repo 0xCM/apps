@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The second vector</param>
         /// <remarks>This should be considered a reference implementation; the dot operation is considerably faster</remarks>
         [MethodImpl(Inline)]
-        public static bit modprod<N,T>(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit modprod<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
             where N : unmanaged, ITypeNat
         {

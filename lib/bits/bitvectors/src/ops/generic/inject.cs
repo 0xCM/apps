@@ -16,9 +16,9 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        internal static BitVector<N,T> inject<N,T>(T src, N n = default)
+        internal static ScalarBits<N,T> inject<N,T>(T src, N n = default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector<N,T>.Inject(src);
+                => ScalarBits<N,T>.Inject(src);
     }
 }

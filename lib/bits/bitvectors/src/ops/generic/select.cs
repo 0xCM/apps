@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The primary choice</param>
         /// <param name="z">The alternative choice</param>
         [MethodImpl(Inline), Select, Closures(Closure)]
-        public static BitVector<T> select<T>(BitVector<T> x, BitVector<T> y, BitVector<T> z)
+        public static ScalarBits<T> select<T>(ScalarBits<T> x, ScalarBits<T> y, ScalarBits<T> z)
             where T : unmanaged
                 => gbits.select(x.State, y.State, z.State);
     }

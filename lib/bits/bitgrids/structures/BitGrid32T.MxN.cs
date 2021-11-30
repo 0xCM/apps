@@ -96,7 +96,7 @@ namespace Z0
         /// <summary>
         /// Extracts row contant as a bitvector
         /// </summary>
-        public BitVector<N,T> this[int row]
+        public ScalarBits<N,T> this[int row]
         {
             [MethodImpl(Inline)]
             get => BitGrid.row(this,row);

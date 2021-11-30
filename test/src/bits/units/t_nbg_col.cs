@@ -18,8 +18,8 @@ namespace Z0
                 var xs = BitGrid.bitstring(xg).Transpose(m,n);
                 for(var col=0; col<n; col++)
                 {
-                    BitVector<uint> bv1 = BitGrid.col(xg,col);
-                    BitVector<uint> bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    ScalarBits<uint> bv1 = BitGrid.col(xg,col);
+                    ScalarBits<uint> bv2 = BitVector.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1,bv2);
                 }
             }
@@ -38,8 +38,8 @@ namespace Z0
 
                 for(var col=0; col<n; col++)
                 {
-                    BitVector<ushort> bv1 = BitGrid.col(xg,col);
-                    BitVector<ushort> bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    ScalarBits<ushort> bv1 = BitGrid.col(xg,col);
+                    ScalarBits<ushort> bv2 = BitVector.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1, bv2);
                 }
             }

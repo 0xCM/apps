@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Nand, Closures(Closure)]
-        public static BitVector<T> nand<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> nand<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gmath.nand(x.State, y.State);
 
@@ -29,7 +29,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> nand<N,T>(BitVector<N,T> x, BitVector<N,T> y)
+        public static ScalarBits<N,T> nand<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gmath.nand(x.State, y.State);

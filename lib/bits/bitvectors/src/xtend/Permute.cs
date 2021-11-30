@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="p">The permutation</param>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<T> Permute<T>(this BitVector<T> src, in perm p)
+        public static ScalarBits<T> Permute<T>(this ScalarBits<T> src, in perm p)
             where T : unmanaged
                 => BitVector.perm(src,p);
 
@@ -28,7 +28,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <param name="p">The permutation</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> Permute<N,T>(this BitVector<N,T> src, in perm p)
+        public static ScalarBits<N,T> Permute<N,T>(this ScalarBits<N,T> src, in perm p)
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => BitVector.perm(src,p);

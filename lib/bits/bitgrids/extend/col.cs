@@ -12,12 +12,12 @@ namespace Z0
     partial class XTend
     {
         [MethodImpl(Inline)]
-        public static BitVector<N16,ushort> Col<T>(this BitGrid64<N16,N4,T> g, int index)
+        public static ScalarBits<N16,ushort> Col<T>(this BitGrid64<N16,N4,T> g, int index)
             where T : unmanaged
                 => BitGrid.col(g,index);
 
         [MethodImpl(Inline)]
-        public static BitVector<N4,byte> Col<T>(this BitGrid64<N4,N16,T> g, int index)
+        public static ScalarBits<N4,byte> Col<T>(this BitGrid64<N4,N16,T> g, int index)
             where T : unmanaged
                 => BitGrid.col(g,index);
     }

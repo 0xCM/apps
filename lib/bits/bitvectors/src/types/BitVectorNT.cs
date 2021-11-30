@@ -22,7 +22,7 @@ namespace Z0
     /// upper bound for the effective width. Finally, is the effective bitvector width, a value
     /// which is bounded above by the the natural width
     /// </remarks>
-    public struct BitVector<N,T> : IBitVector<BitVector<N,T>,T>
+    public struct ScalarBits<N,T> : IBitVector<ScalarBits<N,T>,T>
         where N : unmanaged, ITypeNat
         where T : unmanaged
     {
@@ -33,11 +33,11 @@ namespace Z0
         /// </summary>
         /// <param name="data">The scalar source value</param>
         [MethodImpl(Inline)]
-        internal BitVector(T data)
+        internal ScalarBits(T data)
             => Data = gmath.and(BitMasks.lo<N,T>(), data);
 
         [MethodImpl(Inline)]
-        internal BitVector(T data, bit inject)
+        internal ScalarBits(T data, bit inject)
             => this.Data = data;
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        internal static BitVector<N,T> Inject(T src)
-            => new BitVector<N,T>(src, true);
+        internal static ScalarBits<N,T> Inject(T src)
+            => new ScalarBits<N,T>(src, true);
 
         /// <summary>
         /// The scalar representation of the vector
@@ -124,14 +124,14 @@ namespace Z0
         /// </summary>
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
-        public BitVector<N,T> this[byte first, byte last]
+        public ScalarBits<N,T> this[byte first, byte last]
         {
             [MethodImpl(Inline)]
             get => gbits.segment(Data, first, last);
         }
 
         [MethodImpl(Inline)]
-        public readonly bool Equals(BitVector<N,T> y)
+        public readonly bool Equals(ScalarBits<N,T> y)
             => gmath.eq(Data, y.Data);
 
         /// <summary>
@@ -139,12 +139,12 @@ namespace Z0
         /// </summary>
         /// <typeparam name="U">The target type</typeparam>
         [MethodImpl(Inline)]
-        public BitVector<N,U> As<U>()
+        public ScalarBits<N,U> As<U>()
             where U : unmanaged
                 => force<T,U>(Data);
 
         public readonly override bool Equals(object obj)
-            => obj is BitVector<N,T> x && Equals(x);
+            => obj is ScalarBits<N,T> x && Equals(x);
 
         public readonly override int GetHashCode()
             => Data.GetHashCode();
@@ -163,15 +163,15 @@ namespace Z0
         /// </summary>
         /// <param name="src">The scalar value</param>
         [MethodImpl(Inline)]
-        public static implicit operator BitVector<N,T>(T src)
-            => new BitVector<N,T>(src);
+        public static implicit operator ScalarBits<N,T>(T src)
+            => new ScalarBits<N,T>(src);
 
         /// <summary>
         /// Implicitly convers a bitvector to its scalar representation
         /// </summary>
         /// <param name="src">The scalar value</param>
         [MethodImpl(Inline)]
-        public static implicit operator T(BitVector<N,T> src)
+        public static implicit operator T(ScalarBits<N,T> src)
             => src.Data;
 
         /// <summary>
@@ -179,8 +179,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The scalar value</param>
         [MethodImpl(Inline)]
-        public static implicit operator BitVector<T>(BitVector<N,T> src)
-            => new BitVector<T>(src.Data);
+        public static implicit operator ScalarBits<T>(ScalarBits<N,T> src)
+            => new ScalarBits<T>(src.Data);
 
         /// <summary>
         /// Computes the bitwise AND between the operands
@@ -188,7 +188,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator &(BitVector<N,T> x, BitVector<N,T> y)
+        public static ScalarBits<N,T> operator &(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => BitVector.and(x,y);
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator |(BitVector<N,T> x, BitVector<N,T> y)
+        public static ScalarBits<N,T> operator |(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => BitVector.or(x,y);
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator ^(BitVector<N,T> x, BitVector<N,T> y)
+        public static ScalarBits<N,T> operator ^(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => BitVector.xor(x,y);
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Z0
         /// <param name="x">The left operand</param>
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static bit operator %(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator %(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => BitVector.dot(x,y);
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator ~(BitVector<N,T> src)
+        public static ScalarBits<N,T> operator ~(ScalarBits<N,T> src)
             => BitVector.not(src);
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator ++(BitVector<N,T> src)
+        public static ScalarBits<N,T> operator ++(ScalarBits<N,T> src)
             =>  gmath.eq(src.Data,MaxValue) ? core.zero<T>() : gmath.inc(src.Data);
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator --(BitVector<N,T> src)
+        public static ScalarBits<N,T> operator --(ScalarBits<N,T> src)
             => gmath.nonz(src.Data) ? gmath.dec(src.Data) : MaxValue;
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Z0
         /// <param name="x">The left operand</param>
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator +(BitVector<N,T> x,BitVector<N,T> y)
+        public static ScalarBits<N,T> operator +(ScalarBits<N,T> x,ScalarBits<N,T> y)
             => gmath.mod(gmath.add(x.Data,y.Data), MaxValue);
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Z0
         /// <param name="x">The left operand</param>
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator -(BitVector<N,T> x,BitVector<N,T> y)
+        public static ScalarBits<N,T> operator -(ScalarBits<N,T> x,ScalarBits<N,T> y)
             => x + -y;
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator -(BitVector<N,T> src)
+        public static ScalarBits<N,T> operator -(ScalarBits<N,T> src)
             => BitVector.negate(src);
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator <<(BitVector<N,T> x, int offset)
+        public static ScalarBits<N,T> operator <<(ScalarBits<N,T> x, int offset)
             => BitVector.sll(x,(byte)offset);
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> operator >>(BitVector<N,T> x, int offset)
+        public static ScalarBits<N,T> operator >>(ScalarBits<N,T> x, int offset)
             => BitVector.srl(x,(byte)offset);
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Z0
         /// <param name="x">The first vector</param>
         /// <param name="y">The second vector</param>
         [MethodImpl(Inline)]
-        public static bit operator <(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator <(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => gmath.lt(x.Data, y.Data);
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Z0
         /// <param name="x">The first vector</param>
         /// <param name="y">The second vector</param>
         [MethodImpl(Inline)]
-        public static bit operator >(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator >(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => gmath.gt(x.Data, y.Data);
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Z0
         /// <param name="x">The first vector</param>
         /// <param name="y">The second vector</param>
         [MethodImpl(Inline)]
-        public static bit operator <=(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator <=(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => gmath.lteq(x.Data, y.Data);
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Z0
         /// <param name="x">The first vector</param>
         /// <param name="y">The second vector</param>
         [MethodImpl(Inline)]
-        public static bit operator >=(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator >=(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => gmath.gteq(x.Data, y.Data);
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator true(BitVector<N,T> src)
+        public static bool operator true(ScalarBits<N,T> src)
             => src.NonEmpty;
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator false(BitVector<N,T> src)
+        public static bool operator false(ScalarBits<N,T> src)
             => src.Empty;
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator ==(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator ==(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => gmath.eq(x.Data,y.Data);
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator !=(BitVector<N,T> x, BitVector<N,T> y)
+        public static bit operator !=(ScalarBits<N,T> x, ScalarBits<N,T> y)
             => gmath.neq(x.Data,y.Data);
     }
 }

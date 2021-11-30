@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="A">The source matrix</param>
         /// <typeparam name="T">The matrix storage type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitVector<T> diagonal<T>(in BitMatrix<T> A)
+        public static ScalarBits<T> diagonal<T>(in BitMatrix<T> A)
             where T : unmanaged
         {
             var n = width<T>();

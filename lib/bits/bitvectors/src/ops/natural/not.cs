@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> not<N,T>(BitVector<N,T> x)
+        public static ScalarBits<N,T> not<N,T>(ScalarBits<N,T> x)
             where N : unmanaged,ITypeNat
             where T : unmanaged
                 => gmath.not(x.State);

@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="spec">Identifies the source bits of interest</param>
         /// <param name="dst">Receives the identified bits</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> gather<N,T>(BitVector<N,T> src, BitVector<N,T> spec)
+        public static ScalarBits<N,T> gather<N,T>(ScalarBits<N,T> src, ScalarBits<N,T> spec)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.gather(src.State, spec.State);

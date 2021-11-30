@@ -20,7 +20,7 @@ namespace Z0
         /// value 1 when an odd number of its input values are 1 and 0 otherwise.
         /// </remarks>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static bit parity<T>(BitVector<T> src)
+        public static bit parity<T>(ScalarBits<T> src)
             where T : unmanaged
                 => odd(gbits.pop(src.State));
     }

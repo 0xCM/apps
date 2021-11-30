@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The source bitvector</param>
         /// <param name="offset">The shift amount</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> srl<N,T>(BitVector<N,T> x, byte offset)
+        public static ScalarBits<N,T> srl<N,T>(ScalarBits<N,T> x, byte offset)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gmath.srl(x.State, offset);

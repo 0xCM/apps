@@ -16,7 +16,7 @@ namespace Z0
         /// Counts the number of trailing zero bits
         /// </summary>
         [MethodImpl(Inline), Nlz, Closures(Closure)]
-        public static T ntz<T>(in BitVector<T> x)
+        public static T ntz<T>(in ScalarBits<T> x)
             where T : unmanaged
                 => gbits.ntz(x.State);
 
@@ -24,7 +24,7 @@ namespace Z0
         /// Counts the number of trailing zero bits
         /// </summary>
         [MethodImpl(Inline)]
-        public static T ntz<N,T>(in BitVector<N,T> x)
+        public static T ntz<N,T>(in ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.ntz(x.State);

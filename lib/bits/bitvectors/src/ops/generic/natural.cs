@@ -19,10 +19,10 @@ namespace Z0
         /// <typeparam name="N">The width type</typeparam>
         /// <typeparam name="T">The scalar type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> natural<N,T>(N n, T a)
+        public static ScalarBits<N,T> natural<N,T>(N n, T a)
             where N : unmanaged, ITypeNat
             where T : unmanaged
-                => new BitVector<N,T>(a);
+                => new ScalarBits<N,T>(a);
 
         /// <summary>
         /// Defines a bitvector of natural width
@@ -32,17 +32,17 @@ namespace Z0
         /// <typeparam name="N">The width type</typeparam>
         /// <typeparam name="T">The scalar type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> natural<N,T>(T a)
+        public static ScalarBits<N,T> natural<N,T>(T a)
             where N : unmanaged, ITypeNat
             where T : unmanaged
-                => new BitVector<N,T>(a);
+                => new ScalarBits<N,T>(a);
 
         /// <summary>
         /// Creates a vector from a bitstring
         /// </summary>
         /// <param name="src">The source bitstring</param>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> natural<N,T>(BitString src, N n = default, T t = default)
+        public static ScalarBits<N,T> natural<N,T>(BitString src, N n = default, T t = default)
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => packseq(src.Slice(0, Typed.nat32i(n)).BitSeq, out T _);

@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="A">The bitmatrix that defines the transformation</param>
         /// <param name="x">The vector to be transformed</param>
         [MethodImpl(Inline), Op]
-        public static BitVector<T> mul<T>(in BitMatrix<T> A, in BitVector<T> x)
+        public static ScalarBits<T> mul<T>(in BitMatrix<T> A, in ScalarBits<T> x)
             where T : unmanaged
         {
             var n = BitMatrix<T>.N;

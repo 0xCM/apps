@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline), Sub, Closures(Closure)]
-        public static BitVector<T> sub<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> sub<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gmath.sub(x.State, y.State);
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint hamming<T>(BitVector<T> x, BitVector<T> y)
+        public static uint hamming<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
             => pop(xor(x,y));
 
@@ -37,7 +37,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Replicate, Closures(Closure)]
-        public static BitVector<T> replicate<T>(BitVector<T> x)
+        public static ScalarBits<T> replicate<T>(ScalarBits<T> x)
             where T : unmanaged
                 => x.State;
     }

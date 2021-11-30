@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<T> Reverse<T>(this BitVector<T> src)
+        public static ScalarBits<T> Reverse<T>(this ScalarBits<T> src)
             where T : unmanaged
                 => BitVector.reverse(src);
 
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> Reverse<N,T>(this BitVector<N,T> x)
+        public static ScalarBits<N,T> Reverse<N,T>(this ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.reverse(x);

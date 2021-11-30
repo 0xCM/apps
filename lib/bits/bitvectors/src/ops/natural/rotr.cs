@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="count">The rotation magnitude</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> rotr<N,T>(BitVector<N,T> src, byte count)
+        public static ScalarBits<N,T> rotr<N,T>(ScalarBits<N,T> src, byte count)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => gbits.rotr(src.State, count, (byte)src.Width);

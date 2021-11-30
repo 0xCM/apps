@@ -15,7 +15,7 @@ namespace Z0
         /// Returns true of all bits are enabled, false otherwise
         /// </summary>
         [MethodImpl(Inline), TestC, Closures(Closure)]
-        public static bit testc<T>(BitVector<T> src)
+        public static bit testc<T>(ScalarBits<T> src)
             where T : unmanaged
                 => gmath.eq(gmath.and(Limits.maxval<T>(), src.State), Limits.maxval<T>());
     }

@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal scalar upon which the bitvector is predicated</typeparam>
         [MethodImpl(Inline), True, Closures(Closure)]
-        public static BitVector<T> @true<T>(BitVector<T> x, BitVector<T> y)
+        public static ScalarBits<T> @true<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => ones<T>();
     }

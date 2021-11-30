@@ -33,7 +33,7 @@ namespace Z0
             => math.eq(x.State, y.State);
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public bool eq<T>(BitVector<T> x, BitVector<T> y)
+        public bool eq<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => gmath.eq(x.State, y.State);
 
@@ -44,7 +44,7 @@ namespace Z0
                 => x.Equals(y);
 
         [MethodImpl(Inline)]
-        public bool eq<N,T>(BitVector<N,T> x, BitVector<N,T> y)
+        public bool eq<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => x.Equals(y);

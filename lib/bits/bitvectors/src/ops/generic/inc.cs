@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), Inc, Closures(Closure)]
-        public static BitVector<T> inc<T>(BitVector<T> x)
+        public static ScalarBits<T> inc<T>(ScalarBits<T> x)
             where T : unmanaged
                 => gmath.inc(x.State);
     }

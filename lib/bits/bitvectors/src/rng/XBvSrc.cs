@@ -128,7 +128,7 @@ namespace Z0
         /// <param name="source">The random source</param>
         /// <typeparam name="T">The underlying primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<T> BitVector<T>(this ISource source)
+        public static ScalarBits<T> BitVector<T>(this ISource source)
             where T : unmanaged
                 => source.Next<T>();
 
@@ -138,7 +138,7 @@ namespace Z0
         /// <param name="source">The random source</param>
         /// <typeparam name="T">The underlying primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<T> BitVector<T>(this ISource source, int wmax)
+        public static ScalarBits<T> BitVector<T>(this ISource source, int wmax)
             where T : unmanaged
         {
             var v = source.Next<T>();
@@ -154,7 +154,7 @@ namespace Z0
         /// <typeparam name="N">The bit width type</typeparam>
         /// <typeparam name="T">The underlying primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector<N,T> BitVector<N,T>(this IBoundSource source, N n = default, T t = default)
+        public static ScalarBits<N,T> BitVector<N,T>(this IBoundSource source, N n = default, T t = default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
         {
