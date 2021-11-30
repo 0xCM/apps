@@ -8,35 +8,26 @@ namespace Z0
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-
-    using static grids;
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct g2x2<T> : IGrid<g2x2<T>,N2,T>
+    /// <summary>
+    /// Defines a 2-cell T-vector
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType]
+    public struct v2<T> : IVector<T>
         where T : unmanaged
     {
-        v2<T> R0;
+        v1<T> C0;
 
-        v2<T> R1;
-
-        public uint M => 2;
+        v1<T> C1;
 
         public uint N => 2;
-
-        public uint MxN => M*N;
-
-        public GridDim Dim
-        {
-            [MethodImpl(Inline)]
-            get => (M,N);
-        }
 
         public BitWidth StorageWidth
         {
             [MethodImpl(Inline)]
-            get => M*N*size<T>();
+            get => N*size<T>();
         }
 
         public BitWidth ContentWidth
@@ -48,25 +39,19 @@ namespace Z0
         public Span<T> Cells
         {
             [MethodImpl(Inline)]
-            get => cells(ref this);
+            get => vectors.cells(ref this);
         }
 
-        public Span<T> this[uint r]
+        public ref T this[uint i]
         {
             [MethodImpl(Inline)]
-            get => row(ref this, r);
+            get => ref seek(Cells, i);
         }
 
-        public ref T this[uint r, uint c]
-        {
-            [MethodImpl(Inline)]
-            get => ref seek(this[r], c);
-        }
+        public string Format()
+            => vectors.format(this);
 
-        public GridSpec Spec
-        {
-            [MethodImpl(Inline)]
-            get => spec<T>(M,N);
-        }
+        public override string ToString()
+            => Format();
     }
 }

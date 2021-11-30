@@ -195,7 +195,7 @@ namespace Z0.Asm
             => dst.Content = reader.ReadInnerXml();
 
         static void read(XmlReader reader, ref Description dst)
-            => dst.Content = reader.ReadInnerXml();
+            => dst.Content = reader.ReadInnerXml().Replace("\n", " ");
 
         static void read(XmlReader reader, ref Return dst)
         {

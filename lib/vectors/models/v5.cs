@@ -10,36 +10,24 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static grids;
 
+    /// <summary>
+    /// Defines a 5-cell T-vector
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct g4x4<T> : IGrid<g4x4<T>,N4,T>
+    public struct v5<T> : IVector<T>
         where T : unmanaged
     {
-        v4<T> R0;
+        v4<T> A;
 
-        v4<T> R1;
+        v1<T> B;
 
-        v4<T> R2;
-
-        v4<T> R3;
-
-        public uint M => 4;
-
-        public uint N => 4;
-
-        public uint MxN => M*N;
-
-        public GridDim Dim
-        {
-            [MethodImpl(Inline)]
-            get => (M,N);
-        }
+        public uint N => 5;
 
         public BitWidth StorageWidth
         {
             [MethodImpl(Inline)]
-            get => M*N*size<T>();
+            get => N*size<T>();
         }
 
         public BitWidth ContentWidth
@@ -51,25 +39,19 @@ namespace Z0
         public Span<T> Cells
         {
             [MethodImpl(Inline)]
-            get => cells(ref this);
+            get => vectors.cells(ref this);
         }
 
-        public Span<T> this[uint r]
+        public ref T this[uint i]
         {
             [MethodImpl(Inline)]
-            get => row(ref this, r);
+            get => ref seek(Cells, i);
         }
 
-        public ref T this[uint r, uint c]
-        {
-            [MethodImpl(Inline)]
-            get => ref seek(this[r], c);
-        }
+        public string Format()
+            => vectors.format(this);
 
-        public GridSpec Spec
-        {
-            [MethodImpl(Inline)]
-            get => spec<T>(M,N);
-        }
+        public override string ToString()
+            => Format();
     }
 }
