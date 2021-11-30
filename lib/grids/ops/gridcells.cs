@@ -10,19 +10,19 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct CellCalcs
+    partial struct grids
     {
         /// <summary>
         /// Computes the number of packed cells required to cover a rectangular area
         /// </summary>
         /// <param name="rows">The grid row count</param>
         /// <param name="cols">The grid col count</param>
-        /// <param name="w">The storage cell width</param>
+        /// <param name="cellwidth">The storage cell width</param>
         [MethodImpl(Inline), Op]
-        public static uint gridcells(uint rows, uint cols, uint w)
+        public static uint gridcells(uint rows, uint cols, uint cellwidth)
         {
             var sz = (uint)bytes(rows, cols);
-            var size = w/8u;
+            var size = cellwidth/8u;
             return sz/size + (sz % size != 0u ? 1u : 0u);
         }
 
@@ -53,5 +53,6 @@ namespace Z0
             where N : unmanaged, ITypeNat
             where T : unmanaged
                 => gridcells((uint)nat64u(m), (uint)nat64u(n), width<T>());
+
     }
 }

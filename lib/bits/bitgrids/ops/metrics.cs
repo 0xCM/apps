@@ -8,8 +8,9 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    partial struct CellCalcs
+    partial class BitGrid
     {
         /// <summary>
         /// Calculates a grid layout from a specification
@@ -27,7 +28,7 @@ namespace Z0
         /// <param name="segwidth">The width of a grid cell</param>
         [MethodImpl(Inline), Op]
         public static GridMetrics metrics(ushort rows, ushort cols, ushort segwidth)
-             => metrics(CellCalcs.gridspec(rows, cols, segwidth));
+             => metrics(gridspec(rows, cols, segwidth));
 
         /// <summary>
         /// Defines a grid map predicated row count, col count and the bit width of parametric type
@@ -37,21 +38,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static GridMetrics metrics<T>(ushort rows, ushort cols)
             where T : unmanaged
-                => metrics(CellCalcs.gridspec<T>(rows,cols));
-
-        /// <summary>
-        /// Calculates memory block statistics for specified function and type parameters
-        /// </summary>
-        /// <param name="bc">The block count</param>
-        /// <param name="bw">The block width representative</param>
-        /// <param name="t">The block cell type representative</param>
-        /// <typeparam name="N">The type that dermines block width</typeparam>
-        /// <typeparam name="T">The type that determines cell width</typeparam>
-        [MethodImpl(Inline)]
-        public static BlockedGridStats<W,T> stats<W,T>(int bc, W bw = default, T t = default)
-            where W : unmanaged, ITypeWidth
-            where T : unmanaged
-                => new BlockedGridStats<W,T>(bc);
+                => metrics(gridspec<T>(rows,cols));
 
         /// <summary>
         /// Defines a grid map predicated on type parameters
@@ -65,6 +52,6 @@ namespace Z0
             where N : unmanaged, ITypeNat
             where M : unmanaged, ITypeNat
             where T : unmanaged
-                => metrics(CellCalcs.gridspec(m,n, zero));
+                => metrics(gridspec(m,n, zero));
     }
 }

@@ -12,6 +12,8 @@ namespace Z0
 
     partial class BitGrid
     {
+
+
         /// <summary>
         /// Reads/manipulates a cell identified by a linear bit position
         /// </summary>

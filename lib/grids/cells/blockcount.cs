@@ -247,7 +247,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ulong blockcount<T>(W256 w, uint rows, uint cols)
             where T : unmanaged
-                => cellcover<T>(w, gridcells<T>(rows,cols));
+                => cellcover<T>(w, grids.gridcells<T>(rows,cols));
 
         /// <summary>
         /// Calculates the number of 256-bit blocks reqired to cover a grid with natural dimensions
@@ -264,6 +264,6 @@ namespace Z0
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
             where T : unmanaged
-                => cellcover<T>(w, gridcells<T>(nat32u(m), nat32u(n)));
+                => cellcover<T>(w, grids.gridcells<T>(nat32u(m), nat32u(n)));
     }
 }

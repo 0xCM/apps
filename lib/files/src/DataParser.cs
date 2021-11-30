@@ -478,6 +478,23 @@ namespace Z0
             return result;
         }
 
+        public static Outcome parse(string s, out GridDim dst)
+        {
+            dst = GridDim.Empty;
+
+            var n = 0u;
+            var parts = @readonly(s.Split('x'));
+            if(parts.Length == 2)
+            {
+                if(parse(skip(parts,0), out uint m) && parse(skip(parts,1), out n))
+                {
+                    dst = new GridDim(m, n);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static Outcome setting(string src, Type type, out Setting dst, char delimiter = Chars.Colon)
         {
             dst = Settings.empty();

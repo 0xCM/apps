@@ -10,8 +10,20 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct CellCalcs
+    partial class BitGrid
     {
+        /// <summary>
+        /// Computes the number of bytes required to cover a grid, predicated on row/col counts
+        /// </summary>
+        /// <param name="rows">The number of grid rows</param>
+        /// <param name="cols">The number of grid columns</param>
+        [MethodImpl(Inline), Op]
+        public static ByteSize gridsize(int rows, int cols)
+        {
+            var points = rows*cols;
+            return (points >> 3) + (points % 8 != 0 ? 1 : 0);
+        }
+
         /// <summary>
         /// Defines a grid specification predicated on specified row count, col count and bit width
         /// </summary>
@@ -23,7 +35,7 @@ namespace Z0
         {
             var bytes = (uint)gridsize(rows, cols);
             var bits = bytes*8;
-            var segs = gridcells(rows, cols, segwidth);
+            var segs = grids.gridcells(rows, cols, segwidth);
             return new GridSpec(rows, cols, segwidth, bytes, bits, segs);
         }
 

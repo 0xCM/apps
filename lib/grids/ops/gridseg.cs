@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct CellCalcs
+    partial struct grids
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static GridSegment<T> gridseg<T>(GridDim dim, uint segwidth)

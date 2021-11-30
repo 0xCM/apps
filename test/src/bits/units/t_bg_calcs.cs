@@ -44,7 +44,7 @@ namespace Z0
             const ushort rows = 32;
             const ushort cols = 8;
             const ushort cellwidth = 8;
-            var map = CellCalcs.metrics(rows, cols, cellwidth);
+            var map = BitGrid.metrics(rows, cols, cellwidth);
             Claim.eq(8*32, map.StoreWidth);
 
             var current = 0;
@@ -65,7 +65,7 @@ namespace Z0
             var points = rows*cols;
             var bytes = points/8 + (points % 8 != 0 ? 1 : 0);
             var bits = bytes/8;
-            var map = CellCalcs.metrics(rows,cols,segwidth);
+            var map = BitGrid.metrics(rows,cols,segwidth);
             Claim.eq(bytes, map.CellCount);
             Claim.eq(points, map.CellCount);
 
@@ -86,7 +86,7 @@ namespace Z0
             data.Fill(0b10101010);
 
             ref readonly var src = ref first64u(data);
-            var spec = CellCalcs.gridspec(n8, n8, byte.MinValue);
+            var spec = BitGrid.gridspec(n8, n8, byte.MinValue);
             var metrics = spec.Metrics;
             var state = bit.Off;
             Claim.eq(metrics.CellCount, data.Length * width<byte>());

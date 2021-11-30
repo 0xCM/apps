@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct CellCalcs
+    partial struct grids
     {
         /// <summary>
         /// Computes the number of bytes that can be covered by a specified number of cells of parametric type

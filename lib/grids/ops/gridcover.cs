@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct CellCalcs
+    partial struct grids
     {
         [MethodImpl(Inline), Op]
         public static uint gridcover(in GridMetrics src, W128 w)

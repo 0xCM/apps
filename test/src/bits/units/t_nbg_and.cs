@@ -72,7 +72,7 @@ namespace Z0
             var gz = BitGrid.alloc(m,n,t);
 
             base.Claim.eq((uint)gz.BlockCount, (BitVector64)CellCalcs.blockcount(n256, m, n, t));
-            base.Claim.eq((uint)gz.CellCount, (BitVector64)CellCalcs.gridcells(m, n, t));
+            base.Claim.eq((uint)gz.CellCount, (BitVector64)grids.gridcells(m, n, t));
 
             BitGrid.and(gx,gy,gz);
 

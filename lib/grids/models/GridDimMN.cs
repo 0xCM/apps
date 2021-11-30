@@ -24,25 +24,25 @@ namespace Z0
         public BitWidth BitCount
         {
             [MethodImpl(Inline)]
-            get => CellCalcs.gridwidth<M,N>();
+            get => grids.gridwidth<M,N,T>();
         }
 
         /// <summary>
         /// The number of grid rows
         /// </summary>
-        public int RowCount
+        public uint RowCount
         {
             [MethodImpl(Inline)]
-            get => (int)nat64u<M>();
+            get => nat32u<M>();
         }
 
         /// <summary>
         /// The number of grid columns
         /// </summary>
-        public int ColCount
+        public uint ColCount
         {
             [MethodImpl(Inline)]
-            get => (int)nat64u<N>();
+            get => nat32u<N>();
         }
 
         /// <summary>
@@ -60,16 +60,16 @@ namespace Z0
         public uint CellCount
         {
             [MethodImpl(Inline)]
-            get => CellCalcs.gridcells<M,N,T>();
+            get => grids.gridcells<M,N,T>();
         }
 
         /// <summary>
         /// The number of bytes required to cover a grid
         /// </summary>
-        public int ByteCount
+        public ByteSize GridSize
         {
             [MethodImpl(Inline)]
-            get => CellCalcs.gridsize<M,N>();
+            get => grids.gridsize<M,N,T>();
         }
 
         /// <summary>
