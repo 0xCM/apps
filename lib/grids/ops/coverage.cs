@@ -9,14 +9,20 @@ namespace Z0
 
     using static Root;
 
-    partial struct Grids
+    partial struct grids
     {
         [MethodImpl(Inline), Op]
-        public static uint remainder(in GridMetrics src, W128 w)
-            => src.StoreSize % 16;
+        public static uint coverage(in GridMetrics src, W128 w)
+        {
+            var r = remainder(src,w);
+            return r != 0 ? r + 1 : r;
+        }
 
         [MethodImpl(Inline), Op]
-        public static uint remainder(in GridMetrics src, W256 w)
-            => src.StoreSize % 32;
+        public static uint coverage(in GridMetrics src, W256 w)
+        {
+            var r = remainder(src,w);
+            return r != 0 ? r + 1 : r;
+        }
     }
 }

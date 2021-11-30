@@ -8,13 +8,15 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
-    partial struct Grids
+    partial struct grids
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static GridSpec spec<T>(uint rows, uint cols)
-            where T : unmanaged
-                => CellCalcs.gridspec((ushort)rows, (ushort)cols, (ushort)width<T>());
+        /// <summary>
+        /// Computes the grid cell count
+        /// </summary>
+        /// <param name="src">The grid dimension</param>
+        [MethodImpl(Inline), Op]
+        public static ulong points(GridDim src)
+            => (ulong)src.M*(ulong)src.N;
     }
 }

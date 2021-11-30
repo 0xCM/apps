@@ -8,16 +8,13 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    partial struct Grids
+    partial struct grids
     {
-        [MethodImpl(Inline), Op]
-        public static GridPoint point(uint row, uint col)
-            => new GridPoint(row, col);
-
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static GridPoint<T> point<T>(T row, T col)
+        public static GridSpec spec<T>(uint rows, uint cols)
             where T : unmanaged
-                => new GridPoint<T>(row, col);
+                => CellCalcs.gridspec((ushort)rows, (ushort)cols, (ushort)width<T>());
     }
 }

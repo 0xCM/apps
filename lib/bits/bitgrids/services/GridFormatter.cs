@@ -10,7 +10,7 @@ namespace Z0
     {
         public static void render(int segwidth, int kMinSegs, int mkMaxSgs, ITextBuffer dst)
         {
-            dst.AppendLine(Grids.statsheader());
+            dst.AppendLine(grids.statsheader());
             var points = (
                 from row in gcalc.stream(kMinSegs, mkMaxSgs)
                 from col in gcalc.stream(kMinSegs, mkMaxSgs)
@@ -22,7 +22,7 @@ namespace Z0
             {
                 var stats = CellCalcs.metrics((ushort)points[i].row, (ushort)points[i].col, (ushort)segwidth).Stats;
                 if(stats.Vec256Remainder == 0 || stats.Vec128Remainder == 0)
-                    dst.AppendLine(Grids.format(stats));
+                    dst.AppendLine(grids.format(stats));
             }
         }
     }

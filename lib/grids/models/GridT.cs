@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using api = Grids;
+    using api = grids;
 
     public readonly struct Grid<T>
     {

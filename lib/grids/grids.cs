@@ -11,7 +11,7 @@ namespace Z0
     using static core;
 
     [ApiHost]
-    public readonly struct grids
+    public readonly partial struct grids
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -43,11 +43,6 @@ namespace Z0
         public static g2x2<T> grid2x2<T>(ReadOnlySpan<T> src)
             where T : unmanaged
                 => first(recover<T,g2x2<T>>(src));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static GridSpec spec<T>(uint rows, uint cols)
-            where T : unmanaged
-                => CellCalcs.gridspec((ushort)rows, (ushort)cols, (ushort)width<T>());
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> row<T>(ref g8x8<T> src, uint i)
@@ -123,6 +118,5 @@ namespace Z0
         public static Span<T> cells<T>(ref g2x2<T> src)
             where T : unmanaged
                 => cover(cell(ref src), src.MxN);
-
     }
 }

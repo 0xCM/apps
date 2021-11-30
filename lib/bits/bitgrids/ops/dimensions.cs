@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static Grids;
+    using static grids;
 
     partial class BitGrid
     {

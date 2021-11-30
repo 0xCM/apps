@@ -8,12 +8,11 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
-    [ApiHost]
-    public readonly partial struct Grids
+    partial struct grids
     {
-        const NumericKind Closure = UnsignedInts;
-
+        [MethodImpl(Inline), Op]
+        public static uint lineraize(GridDim dim, GridPoint point)
+            => point.Row*dim.N+ point.Col;
     }
 }

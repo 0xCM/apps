@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct Grids
+    partial struct grids
     {
         [MethodImpl(Inline), Op]
         public static GridStats stats(in GridMetrics src)

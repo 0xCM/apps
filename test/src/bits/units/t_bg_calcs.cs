@@ -16,7 +16,7 @@ namespace Z0
         //     => false;
         public void nbg_describe_dim()
         {
-            var g1 = Grids.dim<W128,N4,N32,uint>();
+            var g1 = grids.dim<W128,N4,N32,uint>();
             Claim.eq(g1.BitCount,128);
             Claim.eq(g1.BlockLength,4);
             Claim.eq(g1.BlockWidth,128);
@@ -27,7 +27,7 @@ namespace Z0
             Claim.eq(g1.RowCount, 4);
             Claim.eq(g1.BlockCount,1);
 
-            var g2 = Grids.dim<W256,N16,N16,byte>();
+            var g2 = grids.dim<W256,N16,N16,byte>();
             Claim.eq(g2.BitCount,256);
             Claim.eq(g2.BlockLength,32);
             Claim.eq(g2.BlockWidth,256);

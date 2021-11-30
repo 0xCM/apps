@@ -80,7 +80,7 @@ namespace Z0
         public GridStats Stats
         {
             [MethodImpl(Inline)]
-            get => Grids.stats(this);
+            get => grids.stats(this);
         }
 
         public GridDim Dim

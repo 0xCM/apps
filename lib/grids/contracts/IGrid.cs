@@ -32,7 +32,7 @@ namespace Z0
         ref T this[uint row, uint col] {get;}
 
         GridSpec IGrid.Spec
-            => Grids.spec<T>(M,N);
+            => grids.spec<T>(M,N);
     }
 
     [Free]

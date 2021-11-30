@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Grids
+    partial struct grids
     {
         [Op]
         public static string format(GridStats stats, int? colpad = null, char? delimiter = null)

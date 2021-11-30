@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Grids
+    partial struct grids
     {
         /// <summary>
         /// Defines a standard header for a grid map summary line

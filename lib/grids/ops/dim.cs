@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct Grids
+    partial struct grids
     {
         /// <summary>
         /// Constructs an natural dimension of order 2
