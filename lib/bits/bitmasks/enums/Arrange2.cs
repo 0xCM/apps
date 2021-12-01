@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-   public enum Arrange2L : byte
-   {
+    [SymSource("bitmasks")]
+    public enum Arrange2L : byte
+    {
         A = 0b00,
 
         B = 0b01,
@@ -14,8 +15,8 @@ namespace Z0
 
         D = 0b11,
 
-        AB = 0b1110_0100,    
+        AB = 0b1110_0100,
 
         BA = 0b0100_1110,
-   }
+    }
 }

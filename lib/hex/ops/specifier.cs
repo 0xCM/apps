@@ -18,5 +18,9 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bit specifier(char c)
             => specifier((AsciCode)c);
+
+        [MethodImpl(Inline), Op]
+        public static bit fence(char c)
+            => c == Chars.LBracket || c == Chars.RBracket;
     }
 }

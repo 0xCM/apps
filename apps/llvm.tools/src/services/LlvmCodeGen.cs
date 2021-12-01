@@ -28,6 +28,16 @@ namespace Z0.llvm
         {
             LlvmPaths.CodeGen().Clear(true);
             GenStringTables();
+            GenLiteralProviders();
+        }
+
+        void GenLiteralProviders()
+        {
+            var src = TableLoader.LoadVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
+            using var literals = expr.literals(src.View,src.View);
+            var gen = Wf.Generators();
+            var dst = LlvmPaths.CodeGenPath("AsmNames", FS.Cs);
+            gen.GenLiteralProvider("Z0.llvm", "AsmNames", literals.Literals, dst);
         }
 
         public Arrow<FS.FileUri> GenStringTable(string listid)
@@ -55,8 +65,8 @@ namespace Z0.llvm
                 var path = list.Path;
                 var name = path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
                 var id = BaseTargetId + "." + name;
-                var cspath = LlvmPaths.CodeGenPath(id, FS.Cs);
-                var csvpath = LlvmPaths.CodeGenPath(id, FS.Csv);
+                var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
+                var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
                 var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
                 var table = StringTables.create(lines, name, Chars.Comma);
                 var spec = StringTables.specify(TargetNs + "." + BaseTargetId, table);
@@ -97,8 +107,8 @@ namespace Z0.llvm
                 ref readonly var listpath = ref skip(lists,i);
                 var name = listpath.FileName.WithoutExtension.Format().Replace("llvm.lists.", EmptyString);
                 var id = BaseId + "." + name;
-                var cspath = LlvmPaths.CodeGenPath(id, FS.Cs);
-                var csvpath = LlvmPaths.CodeGenPath(id, FS.Csv);
+                var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
+                var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
                 var lines = slice(listpath.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
                 var table = StringTables.create(lines, name, Chars.Comma);
                 var spec = StringTables.specify("Z0." + BaseId, table);

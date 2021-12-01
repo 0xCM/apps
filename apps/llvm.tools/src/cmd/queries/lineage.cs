@@ -18,7 +18,7 @@ namespace Z0.llvm
             var result = Outcome.Success;
             var defs = TableLoader.LoadDefRelations();
             var classes = LlvmRelations.equivalance(TableLoader.LoadClassRelations());
-            var cname = "DAGOperand";
+            var cname = arg(args,0).Value;
             var @class = classes.Where(c => c.MemberName == cname);
             var counter = 0u;
             foreach(var def in defs)

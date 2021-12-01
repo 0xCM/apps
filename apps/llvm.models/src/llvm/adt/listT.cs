@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     using static Root;
 
-    public class list<T> : ITerm
+    public class list<T>
     {
         public const string Identifier = "list<{0}>";
 

@@ -13,10 +13,9 @@ namespace Z0
     using W = W32;
     using T = System.UInt32;
 
+    [DataType("address32")]
     public readonly struct Address32 : IAddress<A,T>
     {
-        public const uint StorageSize = PrimalSizes.U32;
-
         [MethodImpl(Inline), Op]
         public static Outcome parse(string src, out Address32 dst)
             => AddressParser.parse(src, out dst);

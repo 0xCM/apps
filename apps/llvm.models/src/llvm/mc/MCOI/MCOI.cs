@@ -7,6 +7,6 @@ namespace Z0.llvm
 
     public readonly partial struct MCOI
     {
-
+        const string tokens = "llvm.mc.mcoi";
     }
 }

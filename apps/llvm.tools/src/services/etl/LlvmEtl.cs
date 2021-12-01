@@ -29,6 +29,7 @@ namespace Z0.llvm
         public EtlDatasets Run()
         {
             var dst = new EtlDatasets();
+            RunHeaderEtl(ref dst);
             var records = LoadSourceRecords(Datasets.X86);
             dst.Records = records;
             EmitLinedRecords(records, Datasets.X86Lined);
@@ -46,6 +47,8 @@ namespace Z0.llvm
             var classFields = LoadFields(records, classMap);
             dst.Classes = classFields;
             EmitFields(classFields, Datasets.X86ClassFields);
+
+            RunEntityEtl();
             return dst;
         }
 
@@ -65,7 +68,6 @@ namespace Z0.llvm
             var count = members.Length;
             var key = 0u;
             var patterns = list<LlvmAsmPattern>();
-            var asmids = list<LlvmAsmIdentity>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
             for(var i=0; i<count; i++)
@@ -76,7 +78,6 @@ namespace Z0.llvm
                     var inst = entity.ToInstruction();
                     var name = inst.EntityName.Content;
                     var identity = new LlvmAsmIdentity(key, name);
-                    asmids.Add(identity);
 
                     if(inst.OpMap.Equals("OB"))
                         obmapped.Add(identity);
@@ -101,7 +102,6 @@ namespace Z0.llvm
             }
 
             TableEmit(patterns.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
-            TableEmit(asmids.ViewDeposited(), LlvmPaths.Table<LlvmAsmIdentity>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
         }
 
@@ -114,12 +114,11 @@ namespace Z0.llvm
             return true;
         }
 
-        public Outcome RunHeaderEtl()
+        Outcome RunHeaderEtl(ref EtlDatasets datasets)
         {
             const string BeginRegsMarker = "NoRegister,";
             const string BeginAsmIdMarker = "PHI	= 0,";
 
-            var codegen = Wf.LlvmCodeGen();
             var src = LlvmPaths.TableGenHeaders().View;
             var count = src.Length;
             for(var i=0; i<count; i++)
@@ -129,10 +128,10 @@ namespace Z0.llvm
                 switch(name)
                 {
                     case TableGenHeaders.X86Registers:
-                        EmitList("RegisterId", enumliterals<ushort>(header,BeginRegsMarker));
+                        datasets.RegisterList = EmitList("RegisterId", enumliterals<ushort>(header,BeginRegsMarker));
                     break;
                     case TableGenHeaders.X86Info:
-                        EmitList("AsmId", enumliterals<ushort>(header,BeginAsmIdMarker));
+                        datasets.AsmIdList = EmitList("AsmId", enumliterals<ushort>(header,BeginAsmIdMarker));
                     break;
                 }
 

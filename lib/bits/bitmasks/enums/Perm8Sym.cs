@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource]
+    [SymSource("perms")]
     public enum Perm8Sym : uint
     {
         /// <summary>

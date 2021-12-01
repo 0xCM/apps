@@ -106,13 +106,14 @@ namespace Z0
         public static Outcome<uint> parse(ReadOnlySpan<char> src, Span<byte> dst)
         {
             var counter = 0u;
-            var count = src.Length;
+            var input = ClearSpecs(src);
+            var count = input.Length;
             ref var target = ref first(dst);
             var hi = byte.MaxValue;
             for(var i=0; i<count; i++)
             {
-                ref readonly var c = ref skip(src,i);
-                if(whitespace(c) || specifier(c))
+                ref readonly var c = ref skip(input,i);
+                if(whitespace(c) || fence(c) || separator(c))
                     continue;
 
                 if(parse(c, out HexDigitValue d))
@@ -323,5 +324,9 @@ namespace Z0
         [MethodImpl(Inline)]
         static bit whitespace(char src)
             => whitespace((AsciCode)src);
+
+        [MethodImpl(Inline)]
+        static bit separator(char src)
+            => src == Chars.Comma;
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("m64")]
+    [DataType("cell64")]
     public readonly struct Cell64 : IDataCell<Cell64,W64,ulong>
     {
         public ulong Content {get;}

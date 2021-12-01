@@ -9,6 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines canonical literals for representing terms of permutations on 8 symbols
     /// </summary>
+    [SymSource("perms")]
     public enum Perm8L : uint
     {
         /// <summary>

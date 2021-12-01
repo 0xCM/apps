@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     partial struct ConditionCodes
     {
-        [SymSource(K.Jcc32)]
+        [SymSource(tokens)]
         public enum Jcc32 : byte
         {
             [Symbol("jo", "Jump near if overflow", E.O)]

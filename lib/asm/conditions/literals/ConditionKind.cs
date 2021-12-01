@@ -6,6 +6,7 @@ namespace Z0.Asm
 {
     partial struct ConditionCodes
     {
+        [SymSource(tokens)]
         public enum ConditionKind : byte
         {
             None,

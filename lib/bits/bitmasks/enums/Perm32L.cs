@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines canonical literals for representing terms of permutations on 32 symbols
     /// </summary>
+    [SymSource("perms")]
     public enum Perm32L : byte
     {
         X0 = 0b00000,

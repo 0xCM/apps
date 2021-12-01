@@ -16,12 +16,15 @@ namespace Z0.Asm
     {
         public AsmExpr Asm {get;}
 
+        public LineNumber Line {get;}
+
         public AsmHexCode Encoding {get;}
 
         [MethodImpl(Inline)]
-        public AsmExprEncoding(AsmExpr asm, AsmHexCode code)
+        public AsmExprEncoding(AsmExpr asm, LineNumber line, AsmHexCode code)
         {
             Asm = asm;
+            Line = line;
             Encoding = code;
         }
 
@@ -36,9 +39,5 @@ namespace Z0.Asm
 
         public override int GetHashCode()
             => (int)alg.hash.combine(Asm.GetHashCode(), Encoding.GetHashCode());
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmExprEncoding((AsmExpr expr, AsmHexCode hex) src)
-            => new AsmExprEncoding(src.expr, src.hex);
     }
 }

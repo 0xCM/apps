@@ -177,6 +177,9 @@ namespace Z0.Asm
             return records.ToArray();
         }
 
+        public XedDocParser DocParser()
+            => XedDocParser.create(Wf);
+
         public void EmitCatalog()
         {
             XedTargets.Clear();

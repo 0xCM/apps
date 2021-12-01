@@ -33,10 +33,16 @@ namespace Z0.llvm
 
         public class LlvmMcParser : Service<LlvmMcParser>
         {
-            public static Outcome parse(FS.FilePath src, out AsmDocument dst)
+            public static Outcome asmdoc(FS.FilePath src, out AsmDocument dst)
             {
                 var parser = new LlvmMcParser();
                 return parser.ParseSyntaxDoc(src, out dst);
+            }
+
+            public static Outcome encoding(FS.FilePath src, out AsmEncodingDoc dst)
+            {
+                var parser = new LlvmMcParser();
+                return parser.ParseEncoding(src, out dst);
             }
 
             List<AsmDirective> Directives;
@@ -51,12 +57,46 @@ namespace Z0.llvm
 
             const string InstructionMarker = "<MCInst #";
 
+            const string EncodingMarker = "# encoding:";
+
             uint InstSeq;
 
             Index<DecimalDigitValue> _DigitBuffer;
 
             Span<DecimalDigitValue> DigitBuffer()
                 => _DigitBuffer.Clear();
+
+            public Outcome ParseEncoding(FS.FilePath src, out AsmEncodingDoc dst)
+            {
+                var result = Outcome.Success;
+                dst = AsmEncodingDoc.Empty;
+                var lines = FS.readlines(src).View;
+                var count = (uint)lines.Length;
+                var buffer = list<AsmExprEncoding>();
+                InstSeq = 0;
+                for(var i=0u; i<count; i++)
+                {
+                    ref readonly var line = ref skip(lines,i);
+                    if(line.Contains(EncodingMarker))
+                    {
+                        var content = line.Content.Replace(Chars.Tab, Chars.Space);
+                        var j = text.index(content, Chars.Hash);
+                        result = AsmParser.asmxpr(text.left(content,j), out var expr);
+                        if(result.Fail)
+                            return result;
+
+                        var enc = text.right(content, j + EncodingMarker.Length);
+                        result = AsmHexCode.parse(enc, out var hex);
+                        if(result.Fail)
+                            return result;
+
+                        buffer.Add(new AsmExprEncoding(expr, line.LineNumber, hex));
+                        InstSeq++;
+                    }
+                }
+                dst = new AsmEncodingDoc(src,buffer.ToArray());
+                return result;
+            }
 
             public Outcome ParseSyntaxDoc(FS.FilePath src, out AsmDocument dst)
             {

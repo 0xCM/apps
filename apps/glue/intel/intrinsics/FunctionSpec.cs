@@ -8,6 +8,8 @@ namespace Z0.Asm
     {
         public string Name {get;}
 
+        public string Description {get;}
+
         public Index<string> Operands {get;}
 
         public string ReturnType {get;}

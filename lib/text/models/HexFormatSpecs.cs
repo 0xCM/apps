@@ -251,6 +251,9 @@ namespace Z0
         public static string ClearSpecs(string src)
             => src.Remove("0x").RemoveAny('h');
 
+        public static ReadOnlySpan<char> ClearSpecs(ReadOnlySpan<char> src)
+            => ClearSpecs(text.format(src));
+
         [MethodImpl(Inline)]
         public static bool HasPrespec(ReadOnlySpan<char> src)
             => src.Length > 2 && skip(src,0) == '0' && skip(src,1) == 'x';

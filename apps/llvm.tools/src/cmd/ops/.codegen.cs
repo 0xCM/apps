@@ -12,6 +12,5 @@ namespace Z0.llvm
             CodeGen.Run();
             return true;
         }
-
     }
 }

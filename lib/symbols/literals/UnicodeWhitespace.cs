@@ -10,6 +10,7 @@ namespace Z0
     /// <remarks>
     /// See https://en.wikipedia.org/wiki/Whitespace_character
     /// </remarks>
+    [SymSource]
     public enum UnicodeWhitespace : ushort
     {
         Tab = Unicode.Tab,

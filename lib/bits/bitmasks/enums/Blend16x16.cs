@@ -6,9 +6,9 @@ namespace Z0
 {
     using System;
 
-    [Flags]
+    [Flags, SymSource("bitmasks")]
     public enum Blend16x16 : ushort
-    {    
+    {
         LLLLLLLLLLLLLLLL = 0b0000000000000000,
 
         RRRRRRRRRRRRRRRR = 0b1111111111111111,
@@ -20,7 +20,7 @@ namespace Z0
         LLLLRRRRRRRRLLLL = 0b0000111111110000,
 
         RRLLLLRRLLRRRRLL = 0b1100001100111100,
-        
+
         RRRLLRRRLLLRRLLL = 0b1110011100011000,
     }
 }

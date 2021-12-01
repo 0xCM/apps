@@ -7,20 +7,17 @@ namespace Z0
     using System;
     using System.Runtime.InteropServices;
 
-    partial struct XedModels
+    [Record(TableId), StructLayout(LayoutKind.Sequential)]
+    public struct XedFormOperands : IRecord<XedFormOperands>
     {
-        [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct XedFormOperands : IRecord<XedFormOperands>
-        {
-            public const string TableId = "xed.iform.operands";
+        public const string TableId = "xed.iform.operands";
 
-            public ushort Index;
+        public ushort Index;
 
-            public XedIForm Form;
+        public XedIForm Form;
 
-            public DelimitedIndex<string> Specifiers;
+        public DelimitedIndex<string> Specifiers;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[]{8,64,64};
-        }
+        public static ReadOnlySpan<byte> RenderWidths => new byte[]{8,64,64};
     }
 }

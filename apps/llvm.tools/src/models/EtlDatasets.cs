@@ -29,5 +29,9 @@ namespace Z0.llvm
        public LineMap<Identifier> DefMap;
 
        public LineMap<Identifier> ClassMap;
+
+       public LlvmList<ushort,string> AsmIdList;
+
+       public LlvmList<ushort,string> RegisterList;
    }
 }

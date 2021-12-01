@@ -83,7 +83,7 @@ namespace Z0.llvm
             => RecordImports() + FS.file(id, FS.ext("map"));
 
         public FS.FolderPath CodeGen()
-            => LlvmData.Subdir("codegen");
+            => Env.ZDev + FS.folder("generated/src/llvm");
 
         public FS.FolderPath ListSources()
             => LlvmData.OutDir() + FS.folder(lists);
@@ -92,6 +92,9 @@ namespace Z0.llvm
             => ListSources().Files(FS.List);
 
         public FS.FilePath CodeGenPath(string id, FS.FileExt ext)
+            => CodeGen() + FS.file(id,ext);
+
+        public FS.FilePath StringTablePath(string id, FS.FileExt ext)
             => CodeGen() + FS.folder("stringtables") + FS.file(id,ext);
     }
 }

@@ -14,6 +14,7 @@ namespace Z0.llvm
         /// <remarks>
         /// From https://github.com/llvm/llvm-project/blob/68b9b769b510b9f5d3fe20e1f850ab829510673e/llvm/include/llvm/MC/MCInstrDesc.h
         /// </remarks>
+        [SymSource(tokens)]
         public enum OperandType : byte
         {
             OPERAND_UNKNOWN = 0,

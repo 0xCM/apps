@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Applied to a structural artifact or member field, method or property to indicate that the target provides some sort of literal data
     /// </summary>
-    [AttributeUsage(AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
     public class LiteralProviderAttribute : Attribute
     {
         public LiteralProviderAttribute()

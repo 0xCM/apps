@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class AsmSigs
     {
-        const string tokens = nameof(tokens);
+        const string tokens = "asm.sigs";
 
         [SymSource(tokens)]
         public enum RoundingToken : byte
@@ -18,6 +18,21 @@ namespace Z0.Asm
 
             [Symbol("{er}")]
             er,
+        }
+
+        [SymSource(tokens)]
+        public enum RelKind : byte
+        {
+            None = 0,
+
+            [Symbol("rel8")]
+            Rel8=1,
+
+            [Symbol("rel16")]
+            Rel16=2,
+
+            [Symbol("rel32")]
+            Rel32=3
         }
 
         [SymSource(tokens)]

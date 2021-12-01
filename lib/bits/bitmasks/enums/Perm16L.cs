@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines canonical literals for representing terms of permutations on 16 symbols
     /// </summary>
+    [SymSource("perms")]
     public enum Perm16L : ulong
     {
         X0 = 0b0000,

@@ -1,0 +1,6 @@
+TableName                | EntryIndex   | EntryName
+AssemblerPredicate       | 0            | In16BitMode
+AssemblerPredicate       | 1            | In32BitMode
+AssemblerPredicate       | 2            | In64BitMode
+AssemblerPredicate       | 3            | Not16BitMode
+AssemblerPredicate       | 4            | Not64BitMode

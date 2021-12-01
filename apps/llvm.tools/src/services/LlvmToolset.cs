@@ -70,6 +70,16 @@ namespace Z0.llvm
         public ReadOnlySpan<ToolId> Tools()
             => ToolProfiles.Keys;
 
+        public FS.FilePath ToolPath(ToolId tool)
+        {
+            if(ToolProfiles.Find(tool, out var profile))
+            {
+                return profile.Path;
+            }
+            else
+                return FS.FilePath.Empty;
+        }
+
         void CalcHelpPaths()
         {
             var dst = lookup<ToolId,FS.FilePath>();

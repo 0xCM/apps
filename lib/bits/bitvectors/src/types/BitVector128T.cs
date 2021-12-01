@@ -18,11 +18,11 @@ namespace Z0
     /// <typeparam name="T">The cell type</typeparam>
     /// <typeparam name="N">The bit-width type</typeparam>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
-    public readonly struct BitVector128<N,T>
+    public struct BitVector128<N,T>
         where N : unmanaged, ITypeNat
         where T : unmanaged
     {
-        internal readonly Vector128<T> Data;
+        Vector128<T> Data;
 
         /// <summary>
         /// Initializes a bitvector with the lo N bits of a scalar source

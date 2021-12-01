@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines control mask values for constucting a 128-bit target by blending 4 32-bit segments from two 128-bit sources
     /// </summary>
-    [Flags]
+    [Flags, SymSource("bitmasks")]
     public enum Blend4x32 : byte
     {
         /// <summary>

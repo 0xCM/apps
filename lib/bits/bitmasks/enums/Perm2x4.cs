@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Identifies 2-element cycles over 4 symbols
     /// </summary>
-    [SymSource]
+    [SymSource("perms")]
     public enum Perm2x4 : byte
     {
         /// <summary>

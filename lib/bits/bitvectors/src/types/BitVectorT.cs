@@ -10,302 +10,54 @@ namespace Z0
     using static Root;
     using static core;
 
-    /// <summary>
-    /// Defines a generic bitvector over a primal cell
-    /// </summary>
-    /// <typeparam name="T">The cell type</typeparam>
-    public struct ScalarBits<T> : IBitVector<ScalarBits<T>,T>
+    public struct BitVector<T>
         where T : unmanaged
     {
-        T Data;
+        T State;
 
         [MethodImpl(Inline)]
-        internal ScalarBits(T src)
-            => Data = src;
-
-        /// <summary>
-        /// Specifies the data over which the vector is defined
-        /// </summary>
-        public readonly T State
+        public BitVector(in T state)
         {
-            [MethodImpl(Inline)]
-            get => Data;
+            State = state;
         }
 
-        /// <summary>
-        /// Extracts the lower bits
-        /// </summary>
-        public readonly T Lo
+        public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => gbits.lo(Data);
+            get => width<T>();
         }
 
-        /// <summary>
-        /// Extracts the upper bits
-        /// </summary>
-        public readonly T Hi
+        Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => gbits.hi(Data);
-        }
-
-        /// <summary>
-        /// The number of bits represented by the vector
-        /// </summary>
-        public readonly int Width
-        {
-            [MethodImpl(Inline)]
-            get => (int)width<T>();
-        }
-
-        /// <summary>
-        /// Converts the encapsulated data to a bytespan
-        /// </summary>
-        public readonly Span<byte> Bytes
-        {
-            [MethodImpl(Inline)]
-            get => bytes(Data);
-        }
-
-        /// <summary>
-        /// Specifies whether all bits are disabled
-        /// </summary>
-        public bit Empty
-        {
-            [MethodImpl(Inline)]
-            get => !gmath.nonz(Data);
-        }
-
-        /// <summary>
-        /// Specifies whether at least one bit is enabled
-        /// </summary>
-        public readonly bit NonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => gmath.nonz(Data);
-        }
-
-        /// <summary>
-        /// Reads/Manipulates a single bit
-        /// </summary>
-        public bit this[int index]
-        {
-            [MethodImpl(Inline)]
-            get => gbits.testbit(Data, (byte)index);
-
-            [MethodImpl(Inline)]
-            set => Data = gbits.setbit(Data, (byte)index, value);
-        }
-
-        /// <summary>
-        /// Extracts a contiguous sequence of bits defined by an inclusive range
-        /// </summary>
-        /// <param name="first">The first bit position</param>
-        /// <param name="last">The last bit position</param>
-        public ScalarBits<T> this[byte first, byte last]
-        {
-            [MethodImpl(Inline)]
-            get => BitVector.bitseg(this, first, last);
+            get => bytes(State);
         }
 
         [MethodImpl(Inline)]
-        public readonly bool Equals(ScalarBits<T> y)
-            => gmath.eq(Data, y.Data);
-
-        public readonly override bool Equals(object obj)
-            => obj is ScalarBits<T> x && Equals(x);
-
-        public readonly override int GetHashCode()
-            => Data.GetHashCode();
-
-        public string Format(BitFormat config)
-            => BitVector.format(this,config);
-
-        public string Format()
-            => BitVector.format(this);
-
-        public override string ToString()
-            => Format();
+        Span<byte> Segment(uint offset)
+            => slice(Bytes, offset);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarBits<T>(T src)
-            => new ScalarBits<T>(src);
+        public ref ScalarBits<byte> Scalar(W8 w, uint offset)
+            => ref first(recover<ScalarBits<byte>>(Segment(offset)));
 
         [MethodImpl(Inline)]
-        public static implicit operator T(ScalarBits<T> src)
-            => src.Data;
+        public ref ScalarBits<ushort> Scalar(W16 w, uint offset)
+            => ref first(recover<ScalarBits<ushort>>(Segment(offset)));
 
-        /// <summary>
-        /// Computes the bitwise AND between the operands
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static ScalarBits<T> operator &(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.and(x,y);
+        public ref ScalarBits<uint> Scalar(W32 w, uint offset)
+            => ref first(recover<ScalarBits<uint>>(Segment(offset)));
 
-        /// <summary>
-        /// Computes the bitwise AND between the operands
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static ScalarBits<T> operator |(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.or(x,y);
+        public ref ScalarBits<ulong> Scalar(W64 w, uint offset)
+            => ref first(recover<ScalarBits<ulong>>(Segment(offset)));
 
-        /// <summary>
-        /// Computes the bitwise XOR between the operands
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static ScalarBits<T> operator ^(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.xor(x,y);
-
-        /// <summary>
-        /// Computes the scalar product of the operands
-        /// </summary>
-        /// <param name="x">The left operand</param>
-        /// <param name="y">The right operand</param>
-        [MethodImpl(Inline)]
-        public static bit operator %(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.dot(x,y);
-
-        /// <summary>
-        /// Computes the bitwise complement of the operand
-        /// </summary>
-        /// <param name="x">The source operand</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator ~(ScalarBits<T> src)
-            => BitVector.not(src);
-
-        /// <summary>
-        /// Computes the two's complement negation of the operand
-        /// </summary>
-        /// <param name="x">The source operand</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator -(ScalarBits<T> src)
-            => BitVector.negate(src);
-
-        /// <summary>
-        /// Shifts the source bits leftwards
-        /// </summary>
-        /// <param name="x">The source operand</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator <<(ScalarBits<T> x, int offset)
-            => BitVector.sll(x,(byte)offset);
-
-        /// <summary>
-        /// Shifts the source bits rightwards
-        /// </summary>
-        /// <param name="x">The source operand</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator >>(ScalarBits<T> x, int offset)
-            => BitVector.srl(x,(byte)offset);
-
-        /// <summary>
-        /// Returns true if the source vector is nonzero, false otherwise
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        [MethodImpl(Inline)]
-        public static bool operator true(ScalarBits<T> src)
-            => src.NonEmpty;
-
-        /// <summary>
-        /// Returns false if the source vector is the zero vector, false otherwise
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        [MethodImpl(Inline)]
-        public static bool operator false(ScalarBits<T> src)
-            => src.Empty;
-
-        /// <summary>
-        /// Increments the vector arithmetically
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator ++(ScalarBits<T> src)
-            => BitVector.inc(src);
-
-        /// <summary>
-        /// Decrements the vector arithmetically
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator --(ScalarBits<T> src)
-            => BitVector.dec(src);
-
-        /// <summary>
-        /// Computes the arithmetic sum of the source operands.
-        /// </summary>
-        /// <param name="x">The left operand</param>
-        /// <param name="y">The right operand</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator +(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.add(x,y);
-
-        /// <summary>
-        /// Arithmetically subtracts the second operand from the first.
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static ScalarBits<T> operator - (ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.sub(x,y);
-
-        /// <summary>
-        /// Determines whether operand content is identical
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static bit operator ==(ScalarBits<T> x, ScalarBits<T> y)
-            => gmath.eq(x.Data,y.Data);
-
-        /// <summary>
-        /// Determines whether operand content is non-identical
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static bit operator !=(ScalarBits<T> x, ScalarBits<T> y)
-            => gmath.neq(x.Data,y.Data);
-
-        /// <summary>
-        /// Determines whether the left operand is arithmetically less than the second
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static bit operator <(ScalarBits<T> x, ScalarBits<T> y)
-            => gmath.lt(x.Data,y.Data);
-
-        /// <summary>
-        /// Determines whether the left operand is arithmetically greater than the second
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static bit operator >(ScalarBits<T> x, ScalarBits<T> y)
-            => gmath.gt(x.Data,y.Data);
-
-        /// <summary>
-        /// Determines whether the left operand is arithmetically less than or equal to the second
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static bit operator <=(ScalarBits<T> x, ScalarBits<T> y)
-            => gmath.lteq(x.Data,y.Data);
-
-        /// <summary>
-        /// Determines whether the left operand is arithmetically greater than or equal to the second
-        /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        [MethodImpl(Inline)]
-        public static bit operator >=(ScalarBits<T> x, ScalarBits<T> y)
-            => gmath.gteq(x.Data,y.Data);
-   }
+        public ref BitVector128<N16,byte> Vector128(uint offset)
+        {
+            ref var lead = ref first(Segment(offset));
+            return ref @as<byte,BitVector128<N16,byte>>(lead);
+        }
+    }
 }

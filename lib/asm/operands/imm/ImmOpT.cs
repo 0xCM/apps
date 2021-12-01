@@ -11,7 +11,7 @@ namespace Z0
     using static Numeric;
     using static core;
 
-    [DataType("imm{t}")]
+    [DataType("imm<{0}>")]
     public readonly struct ImmOp<T> : IImm<ImmOp<T>,T>
         where T : unmanaged
     {

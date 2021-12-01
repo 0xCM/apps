@@ -184,9 +184,9 @@ namespace Z0.llvm
 
             public static string[] Names = new string[]{
                 AVX512, AsmOperandClass, AssemblerPredicate, CondCode, DAGOperand,
-                Instruction, GenericInstruction, Register, RegisterClass,
+                GenericInstruction, RegisterClass,
                 ValueType, X86Inst, Map, Predicate, SDPatternOperator, SDNode,
-                SubtargetFeature, X86MemOperand, X86MemOffsOperand,
+                SubtargetFeature, X86MemOperand, X86MemOffsOperand, Instruction,
                 };
         }
     }

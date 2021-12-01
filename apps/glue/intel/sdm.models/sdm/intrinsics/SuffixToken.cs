@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelIntrinsicModels
     {
-        [SymSource]
+        [SymSource("intel.intrinsics")]
         public enum SuffixToken : byte
         {
             [Symbol("i8", "signed 8-bit integer")]

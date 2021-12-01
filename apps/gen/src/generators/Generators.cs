@@ -25,6 +25,7 @@ namespace Z0
             buffer.IndentLine(margin, CsPatterns.NamespaceDecl(ns));
             buffer.IndentLine(margin, Open());
             margin += 4;
+            buffer.IndentLine(margin, "[LiteralProvider]");
             buffer.IndentLine(margin, PublicReadonlyStruct(name));
             buffer.IndentLine(margin, Open());
             margin +=4;

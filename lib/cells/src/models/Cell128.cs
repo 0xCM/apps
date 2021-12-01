@@ -13,7 +13,7 @@ namespace Z0
 
     using F = Cell128;
 
-    [DataType("m128")]
+    [DataType("cell128")]
     public readonly struct Cell128 : IDataCell<F,W128,Vector128<ulong>>
     {
         readonly Vector128<ulong> Data;

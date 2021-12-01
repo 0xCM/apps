@@ -13,16 +13,15 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
 
-            var docs = Mc.SyntaxSources(Project());
+            var docs = Mc.SyntaxDocs(Project());
             foreach(var doc in docs)
             {
                 Write(doc.Path.ToUri());
                 iter(doc.Instructions, x => Write(x.Format()));
             }
 
-            //iter(docs, doc => Write(string.Format("{0}: {1} instructions", doc.Path, doc.Instructions.Length)));
-
             return result;
         }
+
     }
 }

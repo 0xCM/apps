@@ -18,7 +18,7 @@ namespace Z0
             var components = catalog.Components.Storage;
             var types = components.Enums().Tagged<SymSourceAttribute>();
             var groups = dict<string,List<Type>>();
-            groups[EmptyString] = new();
+            var individuals = list<Type>();
             foreach(var type in types)
             {
                 var tag = type.Tag<SymSourceAttribute>().Require();
@@ -38,22 +38,36 @@ namespace Z0
                 }
                 else
                 {
-                    groups[EmptyString].Add(type);
+                    individuals.Add(type);
                 }
             }
 
-            var scope = "api";
+            var scope = "api/tokens";
             var project = Ws.Project("db");
+            project.Subdir(scope).Clear();
+
             foreach(var g in groups.Keys)
-            {
-                if(empty(g))
-                    EmitTokens(Tokens.set("common", groups[g].Array()), project, scope);
-                else
-                    EmitTokens(Tokens.set(g, groups[g].Array()), project, scope);
-            }
+                EmitTokenSet(Tokens.set(g, groups[g].Array()), project, scope);
+
+            foreach(var i in individuals)
+                EmitTokens(i,scope, project);
         }
 
-        public uint EmitTokens(ITokenSet src, IProjectWs project, string scope)
+        public uint EmitTokens(Type src, string scope, IProjectWs project)
+        {
+            var name = src.Name;
+            if(src.Namespace != "Z0")
+            {
+                if(src.IsNested)
+                    name = src.Namespace.Remove("Z0.") + "." + src.DeclaringType.Name + "." + src.Name;
+                else
+                    name = src.Namespace.Remove("Z0.") + "." +  src.Name;
+            }
+            var dst = project.TablePath<SymInfo>(scope, name);
+            return TableEmit(Symbols.syminfo(src), SymInfo.RenderWidths, dst);
+        }
+
+        public uint EmitTokenSet(ITokenSet src, IProjectWs project, string scope)
             => TableEmit(Symbols.syminfo(src.Types()), SymInfo.RenderWidths, project.TablePath<SymInfo>(scope, src.Name));
     }
 }

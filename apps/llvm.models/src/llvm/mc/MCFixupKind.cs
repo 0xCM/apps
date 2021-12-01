@@ -7,7 +7,7 @@ namespace Z0.llvm
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/bbea64250f65480d787e1c5ff45c4de3ec2dcda8/llvm/include/llvm/MC/MCFixup.h
     /// </summary>
-    [SymSource]
+    [SymSource("llvm.mc")]
     public enum MCFixupKind : ushort
     {
         [Symbol("FK_NONE", "A no-op fixup")]

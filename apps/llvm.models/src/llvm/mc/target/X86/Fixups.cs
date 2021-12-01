@@ -7,7 +7,7 @@ namespace Z0.llvm.X86
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/2946cd701067404b99c39fb29dc9c74bd7193eb3/llvm/lib/Target/X86/MCTargetDesc/X86FixupKinds.h
     /// </summary>
-    [SymSource]
+    [SymSource("llvm.mc.x86")]
     public enum Fixups : ushort
     {
         [Symbol("reloc_riprel_4byte", "32-bit rip-relative")]

@@ -6,8 +6,22 @@ namespace Z0
 {
     using Svc = Z0;
 
+    using Asm;
+
     partial class XSvc
     {
+        [Op]
+        public static AsmTokens AsmTokens(this IServiceContext context)
+            => Asm.AsmTokens.create(context);
+
+        [Op]
+        public static AsmSymbols AsmSymbols(this IServiceContext context)
+            => Asm.AsmSymbols.create();
+
+        [Op]
+        public static AsmRegSets AsmRegSets(this IServiceContext context)
+            => Asm.AsmRegSets.create(context);
+
         [Op]
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Svc.CmdLineRunner.create(wf);

@@ -19,12 +19,12 @@ namespace Z0.Asm
             var tokens = Wf.AsmTokens();
             var project = Ws.Project("db");
             var svc = Wf.ApiMetadata();
-            var scope = "api";
-            svc.EmitTokens(tokens.RegTokens(), project, scope);
-            svc.EmitTokens(tokens.OpCodeTokens(), project, scope);
-            svc.EmitTokens(tokens.SigTokens(), project, scope);
-            svc.EmitTokens(tokens.ConditonTokens(), project, scope);
-            svc.EmitTokens(tokens.PrefixTokens(), project, scope);
+            var scope = "api/tokens";
+            svc.EmitTokenSet(tokens.RegTokens(), project, scope);
+            svc.EmitTokenSet(tokens.OpCodeTokens(), project, scope);
+            svc.EmitTokenSet(tokens.SigTokens(), project, scope);
+            svc.EmitTokenSet(tokens.ConditonTokens(), project, scope);
+            svc.EmitTokenSet(tokens.PrefixTokens(), project, scope);
             return true;
         }
     }

@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Defines a refined 16-bit immediate value
     /// </summary>
-    [DataType("imm16{k}")]
+    [DataType("imm16<{0}>")]
     public readonly struct imm16<K> : IImm<imm16<K>, K>
         where K : unmanaged
     {

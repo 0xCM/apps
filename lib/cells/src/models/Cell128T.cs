@@ -12,7 +12,7 @@ namespace Z0
     using static core;
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Size = SZ, Pack=1)]
+    [DataType("cell128<{0}>"), StructLayout(LayoutKind.Sequential, Size = SZ, Pack=1)]
     public struct Cell128<T> : IDataCell<Cell128<T>,W128,ByteBlock16>
         where T : unmanaged
     {

@@ -12,7 +12,7 @@ namespace Z0.Asm
     /// <remarks>
     /// See Vol I.3.1
     /// </remarks>
-    [Flags,SymSource]
+    [Flags,SymSource("asm.encoding")]
     public enum OpModeKind : byte
     {
         None = 0,

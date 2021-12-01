@@ -20,6 +20,16 @@ namespace Z0.llvm
 
         }
 
+        public Outcome Collect(IProjectWs ws)
+        {
+            var result = Outcome.Success;
+            var src = ws.OutFiles(FS.Sym).View;
+            var dst = ws.Table<ObjSymRow>(ws.Project.Format());
+            var symbols = Collect(src, dst);
+            return result;
+        }
+
+
         public ReadOnlySpan<ObjSymRow> Read(FS.FilePath path)
         {
             var result = Outcome.Success;

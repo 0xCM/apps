@@ -10,6 +10,7 @@ namespace Z0
     /// <remarks>
     /// See https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode for a comprehensive list
     /// </remarks>
+    [SymSource]
     public enum MathSym : ushort
     {
         Dots = '⋯',

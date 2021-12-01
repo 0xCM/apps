@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Defines a refined 64-bit immediate value
     /// </summary>
-    [DataType("imm64{k}")]
+    [DataType("imm64<{0}>")]
     public readonly struct imm64<K> : IImm<imm64<K>,K>
         where K : unmanaged
     {

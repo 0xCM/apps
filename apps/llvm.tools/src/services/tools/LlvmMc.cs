@@ -25,11 +25,64 @@ namespace Z0.llvm
         public ConstLookup<FS.FileUri,AsmSyntaxDoc> Collect(IProjectWs ws)
         {
             var result = CollectLogs(ws);
+            CollectEncoding(ws);
             CollectSyntaxTrees(ws);
             return result;
         }
 
-        public Index<AsmDocument> SyntaxSources(IProjectWs ws)
+        public Index<AsmEncodingDoc> EncodingDocs(IProjectWs ws)
+        {
+            var src = EncodingSourcePaths(ws).View;
+            var count = src.Length;
+            var dst = list<AsmEncodingDoc>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(src,i);
+                var result = LlvmMcParser.encoding(path, out var doc);
+                if(result.Fail)
+                {
+                    Error(result.Message);
+                    break;
+                }
+                dst.Add(doc);
+            }
+
+            return dst.Array();
+        }
+
+        Outcome CollectEncoding(IProjectWs ws)
+        {
+            var result = Outcome.Success;
+            var docs = EncodingDocs(ws);
+            var dst = ws.Table<LlvmAsmEncoding>(ws.Project.Format());
+            var counter=0u;
+            var record = LlvmAsmEncoding.Empty;
+            var formatter = Tables.formatter<LlvmAsmEncoding>(LlvmAsmEncoding.RenderWidths);
+            var emitting = EmittingTable<LlvmAsmEncoding>(dst);
+            using var writer = dst.Utf8Writer();
+            writer.WriteLine(formatter.FormatHeader());
+            foreach(var doc in docs)
+            {
+                var encoded = doc.Encoded;
+                var count = encoded.Length;
+                for(var i=0u; i<count; i++)
+                {
+                    ref readonly var e = ref skip(encoded,i);
+                    record = LlvmAsmEncoding.Empty;
+                    record.Doc = doc.Source.LineRef(e.Line);
+                    record.Seq = counter++;
+                    record.DocSeq = i;
+                    record.Asm = e.Asm;
+                    record.Code = e.Encoding;
+                    writer.WriteLine(formatter.Format(record));
+                }
+            }
+            EmittedTable(emitting, counter);
+
+            return result;
+        }
+
+        public Index<AsmDocument> SyntaxDocs(IProjectWs ws)
         {
             var src = SyntaxSourcePaths(ws).View;
             var count = src.Length;
@@ -37,7 +90,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var result = LlvmMcParser.parse(path, out var doc);
+                var result = LlvmMcParser.asmdoc(path, out var doc);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -47,6 +100,9 @@ namespace Z0.llvm
             }
             return dst.Array();
         }
+
+        FS.Files EncodingSourcePaths(IProjectWs ws)
+            => ws.OutFiles(FS.ext("encoding.asm"));
 
         FS.Files SyntaxSourcePaths(IProjectWs ws)
             => ws.OutFiles(FileKind.AsmSyntax);
@@ -82,7 +138,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                result = LlvmMcParser.parse(path, out var doc);
+                result = LlvmMcParser.asmdoc(path, out var doc);
                 if(result.Fail)
                     break;
 

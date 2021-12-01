@@ -11,54 +11,78 @@ namespace Z0.Asm
 
     public readonly struct AsmRegTokens
     {
+        const string tokens = "asm.regs";
+
+        [SymSource(tokens)]
         public enum RegTokenKind
         {
             None,
 
+            [Symbol("gp8")]
             Gp8,
 
+            [Symbol("gp8hi")]
             Gp8Hi,
 
+            [Symbol("gp16")]
             Gp16,
 
+            [Symbol("gp32")]
             Gp32,
 
+            [Symbol("gp64")]
             Gp64,
 
+            [Symbol("xmm")]
             Xmm,
 
+            [Symbol("ymm")]
             Ymm,
 
+            [Symbol("zmm")]
             Zmm,
 
+            [Symbol("mask")]
             Mask,
 
+            [Symbol("bnd")]
             Bnd,
 
+            [Symbol("ip")]
             Ip,
 
+            [Symbol("flags")]
             Flags,
 
+            [Symbol("sysptr")]
             SysPtr,
 
+            [Symbol("mmx")]
             Mmx,
 
+            [Symbol("fp")]
             Fp,
 
+            [Symbol("seg")]
             Seg,
 
+            [Symbol("test")]
             Test,
 
+            [Symbol("cr")]
             Cr,
 
+            [Symbol("xcr")]
             XCr,
 
+            [Symbol("db")]
             Db
         }
 
         /// <summary>
         /// Clasifies the gp reg codes
         /// </summary>
+        [SymSource(tokens)]
         public enum GpRegKind : byte
         {
             [Symbol("r8")]
@@ -73,7 +97,7 @@ namespace Z0.Asm
             [Symbol("r64")]
             Gp64 = 3,
 
-            [Symbol("r8i")]
+            [Symbol("r8hi")]
             Gp8Hi = 4,
         }
 
@@ -83,7 +107,7 @@ namespace Z0.Asm
         /// <remarks>
         /// al, cl, dl, bl, spl, bpl, sil, dil, r8b, r9b, r10b, r11b, r12b, r13b, r14b, r15b
         /// </remarks/>
-        [SymSource(K.Gp8), RegCode]
+        [SymSource(tokens), RegCode(K.Gp8)]
         public enum Gp8Reg : byte
         {
             [Symbol("al")]
@@ -141,7 +165,7 @@ namespace Z0.Asm
         /// <remarks>
         /// ah, ch, dh, bh
         /// </remarks/>
-        [SymSource(K.Gp8Hi), RegCode]
+        [SymSource(tokens), RegCode(K.Gp8Hi)]
         public enum Gp8HiReg : byte
         {
             [Symbol("ah")]
@@ -163,7 +187,7 @@ namespace Z0.Asm
         /// <remarks>
         /// ax, cx, dx, bx, sp, bp, si, di, r8w, r9w, r10w, r11w, r12w, r13w, r14w, r15w
         /// </remarks/>
-        [SymSource(K.Gp16), RegCode]
+        [SymSource(tokens), RegCode(K.Gp16)]
         public enum Gp16Reg : byte
         {
             [Symbol("ax")]
@@ -221,7 +245,7 @@ namespace Z0.Asm
         /// <remarks>
         /// eax, ecx, edx, ebx, esp, ebp, esi, edi, r8d, r9d, r10d, r11d, r12d, r13d, r14d, r15d
         /// </remarks/>
-        [SymSource(K.Gp32), RegCode]
+        [SymSource(tokens), RegCode(K.Gp32)]
         public enum Gp32Reg : byte
         {
             [Symbol("eax")]
@@ -279,7 +303,7 @@ namespace Z0.Asm
         /// <remarks>
         /// rax, rcx, rdx, rbx, rsp, rbp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, r15
         /// </remarks/>
-        [SymSource(K.Gp64), RegCode]
+        [SymSource(tokens), RegCode(K.Gp64)]
         public enum Gp64Reg : byte
         {
             [Symbol("rax")]
@@ -337,7 +361,7 @@ namespace Z0.Asm
         /// <remarks>
         /// xmm0, xmm1, xmm2, xmm3, xmm4, xmm5, xmm6, xmm7, xmm8, xmm9, xmm10, xmm11, xmm12, xmm13, xmm14, xmm15, xmm16, xmm17, xmm18, xmm19, xmm20, xmm21, xmm22, xmm23, xmm24, xmm25, xmm26, xmm27, xmm28, xmm29, xmm30, xmm31
         /// </remarks/>
-        [SymSource(K.Xmm), RegCode]
+        [SymSource(tokens), RegCode(K.Xmm)]
         public enum XmmReg : byte
         {
             [Symbol("xmm0")]
@@ -440,7 +464,7 @@ namespace Z0.Asm
         /// <summary>
         /// ymm0, ymm1, ymm2, ymm3, ymm4, ymm5, ymm6, ymm7, ymm8, ymm9, ymm10, ymm11, ymm12, ymm13, ymm14, ymm15, ymm16, ymm17, ymm18, ymm19, ymm20, ymm21, ymm22, ymm23, ymm24, ymm25, ymm26, ymm27, ymm28, ymm29, ymm30, ymm31
         /// </summary>
-        [SymSource(K.Ymm), RegCode]
+        [SymSource(tokens), RegCode(K.Xmm)]
         public enum YmmReg : byte
         {
             [Symbol("ymm0")]
@@ -543,7 +567,7 @@ namespace Z0.Asm
         /// <summary>
         /// zmm0, zmm1, zmm2, zmm3, zmm4, zmm5, zmm6, zmm7, zmm8, zmm9, zmm10, zmm11, zmm12, zmm13, zmm14, zmm15, zmm16, zmm17, zmm18, zmm19, zmm20, zmm21, zmm22, zmm23, zmm24, zmm25, zmm26, zmm27, zmm28, zmm29, zmm30, zmm31
         /// </summary>
-        [SymSource(K.Zmm), RegCode]
+        [SymSource(tokens), RegCode(K.Zmm)]
         public enum ZmmReg : byte
         {
             [Symbol("zmm0")]
@@ -646,7 +670,7 @@ namespace Z0.Asm
         /// <summary>
         /// bnd0, bnd1, bnd2, bnd3
         /// </summary>
-        [SymSource(K.Bnd)]
+        [SymSource(tokens), RegCode(K.Bnd)]
         public enum BndReg : byte
         {
             [Symbol("bnd0")]
@@ -666,7 +690,7 @@ namespace Z0.Asm
         /// Defines control register indices
         /// cr0, cr1, cr2, cr3, cr4, cr5, cr6, cr7
         /// </summary>
-        [SymSource(K.Cr), RegCode]
+        [SymSource(tokens), RegCode(K.Cr)]
         public enum ControlReg : byte
         {
             [Symbol("CR0")]
@@ -697,7 +721,7 @@ namespace Z0.Asm
         /// <summary>
         /// xcr0
         /// </summary>
-        [SymSource(K.XCr), RegCode]
+        [SymSource(tokens), RegCode(K.XCr)]
         public enum XControlReg : byte
         {
             [Symbol("XCR0")]
@@ -708,7 +732,7 @@ namespace Z0.Asm
         /// Defines debug register indices
         /// dr0, dr1, dr2, dr3, dr4, dr5, dr6, dr7
         /// </summary>
-        [SymSource(K.Db), RegCode]
+        [SymSource(tokens), RegCode(K.Db)]
         public enum DebugReg : uint
         {
             [Symbol("DR0")]
@@ -740,7 +764,7 @@ namespace Z0.Asm
         /// Defines mask register indices
         /// k0, k1, k2, k3, k4, k5, k6, k7
         /// </summary>
-        [SymSource(K.Mask), RegCode]
+        [SymSource(tokens), RegCode(K.Mask)]
         public enum KReg : byte
         {
             [Symbol("k0")]
@@ -768,7 +792,7 @@ namespace Z0.Asm
             k7 = r7
         }
 
-        [SymSource(K.Test), RegCode]
+        [SymSource(tokens), RegCode(K.Test)]
         public enum TestReg : byte
         {
             [Symbol("TR0")]
@@ -796,7 +820,7 @@ namespace Z0.Asm
             tr7 = r7
         }
 
-        [SymSource(K.Fp), RegCode]
+        [SymSource(tokens), RegCode(K.Fp)]
         public enum FpuReg : byte
         {
             [Symbol("ST(0)")]
@@ -827,7 +851,7 @@ namespace Z0.Asm
         /// <summary>
         /// cs, ds, ss, es, fs, gs
         /// </summary>
-        [SymSource(K.Seg), RegCode]
+        [SymSource(tokens), RegCode(K.Seg)]
         public enum SegReg : byte
         {
             /// <summary>
@@ -870,7 +894,7 @@ namespace Z0.Asm
         /// <summary>
         /// gdtr, ldtr, idtr
         /// </summary>
-        [SymSource(K.SysPtr), RegCode]
+        [SymSource(tokens), RegCode(K.SysPtr)]
         public enum SPtrReg : byte
         {
             /// <summary>
@@ -898,7 +922,7 @@ namespace Z0.Asm
         /// mmx0, mmx1, mmx2, mmx3, mmx4, mmx5, mmx6, mmx7
         /// "The interrupt descriptor table register"
         /// </summary>
-        [SymSource(K.Mmx), RegCode]
+        [SymSource(tokens), RegCode(K.Mmx)]
         public enum MmxReg : byte
         {
             [Symbol("mmx0")]
@@ -930,7 +954,7 @@ namespace Z0.Asm
         /// Specifies instruction pointer registers
         /// ip, eip, rip
         /// </summary>
-        [SymSource(K.Ip)]
+        [SymSource(tokens), RegCode(K.Ip)]
         public enum IpReg : byte
         {
             [Symbol("ip")]

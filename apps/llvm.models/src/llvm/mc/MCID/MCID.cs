@@ -14,6 +14,7 @@ namespace Z0.llvm
         /// not use these directly.  These all correspond to bitfields in the
         /// MCInstrDesc::Flags field.
         /// </summary>
+        [SymSource("llvm.mc.mcid")]
         public enum Flag : byte
         {
             PreISelOpcode = 0,

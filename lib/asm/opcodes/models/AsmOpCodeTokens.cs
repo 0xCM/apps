@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     public readonly struct AsmOpCodeTokens
     {
-        const string tokens = nameof(tokens);
+        const string tokens = "asm.opcodes";
 
         [SymSource(tokens)]
         public enum EscapeToken : ushort

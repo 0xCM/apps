@@ -20,10 +20,10 @@ namespace Z0
             var length = input.Length;
             var q = length - 1;
 
-            if(!types.parse(input[q], out var pc))
+            var i = text.index(input, Chars.Colon);
+            if(!types.parse(input, out var pc))
                 return result.Fail;
 
-            var i = text.index(input, Chars.Colon);
             if(i >= 0)
             {
                 var l = text.index(input,Chars.LParen);

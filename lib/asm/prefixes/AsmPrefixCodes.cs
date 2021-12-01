@@ -9,12 +9,14 @@ namespace Z0.Asm
     using static Hex8Seq;
 
     using H = Hex8Seq;
-    using K = AsmPrefixKind;
 
     public readonly struct AsmPrefixCodes
     {
         public static RexPrefixCode RexW => RexPrefixCode.W;
 
+        const string tokens = "asm.prefixes";
+
+        [SymSource(tokens)]
         public enum VsibField : byte
         {
             /// <summary>
@@ -39,6 +41,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines REX field identifiers
         /// </summary>
+        [SymSource(tokens)]
         public enum RexFieldIndex : byte
         {
             [Symbol("b")]
@@ -57,7 +60,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the lock prefix code
         /// </summary>
-        [SymSource(K.Lock)]
+        [SymSource(tokens)]
         public enum LockPrefixCode : byte
         {
             None = 0,
@@ -66,7 +69,7 @@ namespace Z0.Asm
             LOCK = xf0,
         }
 
-        [SymSource(K.BranchHint)]
+        [SymSource(tokens)]
         public enum BranchHintCode : byte
         {
             None = 0,
@@ -84,7 +87,7 @@ namespace Z0.Asm
             BNT = x3e,
         }
 
-        [SymSource(K.SizeOverride)]
+        [SymSource(tokens)]
         public enum SizeOverrideCode
         {
             None = 0,
@@ -113,7 +116,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the mandatory prefix codes as specified by Intel Vol II, 2.1.2
         /// </summary>
-        [SymSource(K.Mandatory)]
+        [SymSource(tokens)]
         public enum MandatoryPrefixCode : byte
         {
             None = 0,
@@ -128,7 +131,7 @@ namespace Z0.Asm
             F3 = xf3,
         }
 
-        [SymSource(K.Escape)]
+        [SymSource(tokens)]
         public enum EscapeCode : ushort
         {
             None = 0,
@@ -143,7 +146,7 @@ namespace Z0.Asm
             x0F3A = 0x0F3A,
         }
 
-        [SymSource(K.Bnd)]
+        [SymSource(tokens)]
         public enum BndPrefixCode : byte
         {
             None = 0,
@@ -155,7 +158,7 @@ namespace Z0.Asm
         /// <summary>
         /// The segment override codes as specified by Intel Vol II, 2.1.1
         /// </summary>
-        [SymSource(K.SegOverride)]
+        [SymSource(tokens)]
         public enum SegOverrideCode : byte
         {
             None = 0,
@@ -182,7 +185,7 @@ namespace Z0.Asm
         /// <summary>
         /// Classfies vex prefix codes
         /// </summary>
-        [SymSource(K.Vex)]
+        [SymSource(tokens)]
         public enum VexPrefixKind : byte
         {
             [Symbol("C4", "The leading byte of a 3-byte vex prefix sequence")]
@@ -196,7 +199,7 @@ namespace Z0.Asm
         /// [0100 0001] | W:0 | R:0 | X:0 | B:1
         /// </summary>
         [Flags]
-        [SymSource(K.Rex)]
+        [SymSource(tokens)]
         public enum RexPrefixCode : byte
         {
             /// <summary>
@@ -233,7 +236,7 @@ namespace Z0.Asm
             W = x48,
         }
 
-        [SymSource(K.Rep)]
+        [SymSource(tokens)]
         public enum RepPrefixCode : byte
         {
             None = 0,

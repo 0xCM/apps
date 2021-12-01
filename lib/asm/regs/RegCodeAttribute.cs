@@ -10,5 +10,16 @@ namespace Z0.Asm
     public class RegCodeAttribute : Attribute
     {
 
+        public RegCodeAttribute()
+        {
+
+        }
+
+        public RegCodeAttribute(AsmRegTokens.RegTokenKind kind)
+        {
+            RegKind = kind;
+        }
+
+        public AsmRegTokens.RegTokenKind RegKind {get;}
     }
 }

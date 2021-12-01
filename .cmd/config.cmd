@@ -11,3 +11,4 @@ set ZSln=%SlnRoot%\z0.sln
 set BuildPlatform="Any CPU"
 set ZLibBuildLog=%BuildLogs%\z0.lib.log
 set AppsBuildLog=%BuildLogs%\z0.apps.log
+set BuildLibsCmd=dotnet build %ZLibProj% /p:Configuration=%BuildKind% /p:Platform=%BuildPlatform% -fl -flp:logfile=%ZLibBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24

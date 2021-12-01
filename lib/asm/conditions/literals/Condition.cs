@@ -6,10 +6,10 @@ namespace Z0.Asm
 {
     using static BitSeq;
 
-    using K = ConditionCodes.ConditionKind;
-
     partial struct ConditionCodes
     {
+        const string tokens = "asm.cc";
+
         /// <summary>
         /// Defines the condition codes as the bitfield [tttn] where ttt indicates
         /// the condition being tested and n indicates where to use the condition (n=0)
@@ -20,7 +20,7 @@ namespace Z0.Asm
         /// <remarks>
         /// From Vol2D, appendix B.1.4.7
         /// </remarks>
-        [SymSource(K.Code)]
+        [SymSource(tokens)]
         public enum Condition : byte
         {
             /// <summary>

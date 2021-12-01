@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     partial struct ConditionCodes
     {
-        [SymSource(K.Jcc8Alt)]
+        [SymSource(tokens)]
         public enum Jcc8Alt : byte
         {
             [Symbol("jo", "Jump short if overflow", E.O)]

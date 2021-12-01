@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using K = ConditionCodes.ConditionKind;
     using E = ConditionCodes.Expressions;
 
     partial struct ConditionCodes
     {
-        [SymSource(K.Jcc8)]
+        [SymSource(tokens)]
         public enum Jcc8 : byte
         {
             [Symbol("jo", "Jump short if overflow", E.O)]
