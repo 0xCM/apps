@@ -11,6 +11,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static NasmCatalog NasmCatalog(this IWfRuntime wf)
+            => Svc.NasmCatalog.create(wf);
 
         [Op]
         public static AsmEtl AsmEtl(this IWfRuntime context)

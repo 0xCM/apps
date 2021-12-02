@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.cases", "asm.cases\z
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.core", "asm.core\z0.asm.core.csproj", "{9B229FE6-0ACF-4A13-AB69-54FA41A87620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.lang", "asm.lang\z0.asm.lang.csproj", "{47F03575-F70D-466D-8EF2-93BD4DB537E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.lang.g", "asm.lang.g\z0.asm.lang.g.csproj", "{566F519C-B0FC-452F-B52D-BA18BAADA48B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.run", "asm.run\z0.asm.run.csproj", "{3FD0903B-F7D9-4DDF-A362-222E27DE8402}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asmz", "asmz\z0.asmz.csproj", "{0B575501-B7EC-4080-B8DA-D57C41565886}"
@@ -38,8 +34,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.tools.shell", "tools.shell\z0.tools.shell.csproj", "{42F3232F-7E9F-4047-9305-05F7CDBF954D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.workers", "workers\z0.workers.csproj", "{0CBAD05A-B7D4-40F8-A9C8-58BBEC9E588F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.data", "asm.data\z0.asm.data.csproj", "{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.shell", "asm.shell\z0.asm.shell.csproj", "{CCE8449E-5E17-4B7B-BFD7-6809BA3ED58A}"
 EndProject
@@ -86,18 +80,6 @@ Global
 		{9B229FE6-0ACF-4A13-AB69-54FA41A87620}.Release|x64.Build.0 = Release|Any CPU
 		{9B229FE6-0ACF-4A13-AB69-54FA41A87620}.Release|x86.ActiveCfg = Release|Any CPU
 		{9B229FE6-0ACF-4A13-AB69-54FA41A87620}.Release|x86.Build.0 = Release|Any CPU
-		{47F03575-F70D-466D-8EF2-93BD4DB537E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47F03575-F70D-466D-8EF2-93BD4DB537E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47F03575-F70D-466D-8EF2-93BD4DB537E7}.Release|x64.ActiveCfg = Release|Any CPU
-		{47F03575-F70D-466D-8EF2-93BD4DB537E7}.Release|x64.Build.0 = Release|Any CPU
-		{47F03575-F70D-466D-8EF2-93BD4DB537E7}.Release|x86.ActiveCfg = Release|Any CPU
-		{47F03575-F70D-466D-8EF2-93BD4DB537E7}.Release|x86.Build.0 = Release|Any CPU
-		{566F519C-B0FC-452F-B52D-BA18BAADA48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{566F519C-B0FC-452F-B52D-BA18BAADA48B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{566F519C-B0FC-452F-B52D-BA18BAADA48B}.Release|x64.ActiveCfg = Release|Any CPU
-		{566F519C-B0FC-452F-B52D-BA18BAADA48B}.Release|x64.Build.0 = Release|Any CPU
-		{566F519C-B0FC-452F-B52D-BA18BAADA48B}.Release|x86.ActiveCfg = Release|Any CPU
-		{566F519C-B0FC-452F-B52D-BA18BAADA48B}.Release|x86.Build.0 = Release|Any CPU
 		{3FD0903B-F7D9-4DDF-A362-222E27DE8402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD0903B-F7D9-4DDF-A362-222E27DE8402}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FD0903B-F7D9-4DDF-A362-222E27DE8402}.Release|x64.ActiveCfg = Release|Any CPU
@@ -176,12 +158,6 @@ Global
 		{0CBAD05A-B7D4-40F8-A9C8-58BBEC9E588F}.Release|x64.Build.0 = Release|Any CPU
 		{0CBAD05A-B7D4-40F8-A9C8-58BBEC9E588F}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CBAD05A-B7D4-40F8-A9C8-58BBEC9E588F}.Release|x86.Build.0 = Release|Any CPU
-		{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}.Release|x64.ActiveCfg = Release|Any CPU
-		{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}.Release|x64.Build.0 = Release|Any CPU
-		{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}.Release|x86.ActiveCfg = Release|Any CPU
-		{12360FD2-FC26-46BC-B2DD-ABFF848D54AE}.Release|x86.Build.0 = Release|Any CPU
 		{CCE8449E-5E17-4B7B-BFD7-6809BA3ED58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCE8449E-5E17-4B7B-BFD7-6809BA3ED58A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CCE8449E-5E17-4B7B-BFD7-6809BA3ED58A}.Release|x64.ActiveCfg = Release|Any CPU

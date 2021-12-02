@@ -5,7 +5,6 @@
 namespace Z0.llvm
 {
     using System;
-
     using static core;
 
     using Asm;
@@ -17,6 +16,51 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
+        }
+
+        public AsmIdDescriptors LoadAsmIdDescriptors()
+        {
+            var asmid = LoadList("AsmId");
+            var lu = list<AsmIdDescriptor>();
+            foreach(var id in asmid)
+            {
+                var descriptor = new AsmIdDescriptor((ushort)id.Key, id.Value.Trim());
+                lu.Add(descriptor);
+            }
+            return lu.Array();
+        }
+
+        public Outcome LoadAsmPatterns(out Index<LlvmAsmPattern> dst)
+        {
+            const byte FieldCount = LlvmAsmPattern.FieldCount;
+            var src = LlvmPaths.Table<LlvmAsmPattern>();
+            dst = sys.empty<LlvmAsmPattern>();
+            var buffer = list<LlvmAsmPattern>();
+            using var reader = src.Utf8LineReader();
+            reader.Next(out var header);
+            var cols = header.Split(Chars.Pipe);
+            if(cols.Length != FieldCount)
+                return (false, Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
+
+            while(reader.Next(out var line))
+            {
+                var row = LlvmAsmPattern.Empty;
+                cols = line.Split(Chars.Pipe);
+                if(cols.Length != FieldCount)
+                    return (false, Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
+
+                var i=0;
+                DataParser.parse(skip(cols,i++), out row.Key);
+                DataParser.parse(skip(cols,i++), out row.IsCodeGenOnly);
+                DataParser.parse(skip(cols,i++), out row.IsPseudo);
+                row.Instruction = skip(cols,i++);
+                row.Mnemonic = skip(cols,i++);
+                row.Variation = new AsmVariationCode(skip(cols,i++));
+                row.ExprFormat = skip(cols,i++);
+                buffer.Add(row);
+            }
+            dst = buffer.ToArray();
+            return true;
         }
 
         public LlvmList LoadList(string id)

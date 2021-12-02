@@ -5,11 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(AsmCore)"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="assets/**/*.*" />
+    <ProjectReference Include="$(Gen)" />
+    <ProjectReference Include="$(Glue)" />
+    <ProjectReference Include="$(AsmCore)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

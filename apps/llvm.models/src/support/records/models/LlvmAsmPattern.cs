@@ -12,7 +12,9 @@ namespace Z0.llvm
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct LlvmAsmPattern
     {
-        public const string TableId = "llvm.asm.expressions.patterns";
+        public const string TableId = "llvm.asm.patterns";
+
+        public const byte FieldCount = 7;
 
         public uint Key;
 

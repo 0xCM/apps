@@ -2,19 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Parts
+namespace Z0.Asm
 {
-    partial class AsmCore
+    public readonly struct AsmData
     {
-        public static PartAssets Assets = new PartAssets();
+        public static AsmDataSources Assets = new AsmDataSources();
 
         public static IAssets AssetSet
             => Assets;
 
-        public sealed class PartAssets : Assets<PartAssets>
+        public sealed class AsmDataSources : Assets<AsmDataSources>
         {
-
-
+            public Asset StanfordAsmCatalog() => Asset("stanford-asm-catalog.csv");
         }
     }
 }

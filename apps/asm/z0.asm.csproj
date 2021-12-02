@@ -5,9 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(AsmLang)" />
     <ProjectReference Include="$(AsmCore)" />
-    <ProjectReference Include="$(AsmLangG)"/>
+    <ProjectReference Include="$(Glue)" />
+
+    <PackageReference Include="Iced" Version="1.4.0" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

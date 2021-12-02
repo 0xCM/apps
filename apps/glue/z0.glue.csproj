@@ -6,20 +6,14 @@
 
   <ItemGroup>
       <ProjectReference Include="$(AsmCore)"/>
-      <ProjectReference Include="$(AsmData)"/>
       <ProjectReference Include="$(Gen)"/>
   </ItemGroup>
-
-  <!-- <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup> -->
 
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Iced" Version="1.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Razor" Version="5.0.6" />
     <PackageReference Include="Microsoft.FileFormats" Version="1.0.161401" />
     <PackageReference Include="Microsoft.SymbolStore" Version="1.0.161401" />

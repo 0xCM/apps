@@ -118,16 +118,11 @@ namespace Z0
         }
 
         [CmdOp("asm-gen-models")]
-        protected Outcome GenInstructionModels(CmdArgs args)
+        protected Outcome GenAsmModels(CmdArgs args)
         {
-            Wf.AsmModelGen().GenModelsInPlace();
-            return true;
-        }
-
-        [CmdOp("asm-gen-models-preview")]
-        protected Outcome GenInstructionModelPreview(CmdArgs args)
-        {
-            Wf.AsmModelGen().GenModels(Db.AppLogRoot() + FS.folder("asm.lang.g"));
+            var generator = Wf.Generators();
+            var dst = generator.CodeGenDir("asm.models");
+            //Wf.AsmModelGen().GenModels();
             return true;
         }
 

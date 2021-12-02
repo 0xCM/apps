@@ -13,7 +13,7 @@ namespace Z0
         public void CheckTextExpr()
         {
             const string Body = "$(dst), $(src1), $(src2)";
-            var x = expr.textexpr(Body);
+            var x = text.expression(Body);
             var vars = x.Vars;
             Claim.eq(vars.Length,3);
             x["dst"] = "abc";

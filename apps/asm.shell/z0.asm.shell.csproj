@@ -11,7 +11,6 @@
    </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(AsmLang)" />
     <ProjectReference Include="$(AsmCases)" />
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(Asm)" />
