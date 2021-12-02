@@ -16,6 +16,7 @@ namespace Z0.llvm
     {
         readonly Index<AsmExprEncoding> Data;
 
+
         public FS.FileUri Source {get;}
 
         public AsmEncodingDoc(FS.FileUri src, AsmExprEncoding[] rows)
@@ -24,7 +25,7 @@ namespace Z0.llvm
             Data = rows;
         }
 
-        public ReadOnlySpan<AsmExprEncoding> Encoded
+        public ReadOnlySpan<AsmExprEncoding> ExprEncoding
         {
             [MethodImpl(Inline)]
             get => Data.View;

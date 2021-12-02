@@ -6,7 +6,7 @@ namespace Z0
 {
     using static FileKindNames;
 
-    [SymSource]
+    [SymSource("files")]
     public enum FileKind : uint
     {
         None = 0,

@@ -14,17 +14,20 @@ namespace Z0.llvm
     {
         public uint Seq;
 
+        public LineNumber Line;
+
         public text31 Name;
 
         [MethodImpl(Inline)]
-        public MCInstRef(uint seq, string name)
+        public MCInstRef(uint seq, LineNumber line, string name)
         {
             Seq = seq;
+            Line = line;
             Name = name;
         }
 
         public string Format()
-            => string.Format("{0,-8} | {1}", Seq, Name);
+            => string.Format("{0,-8} | {1,-8} | {1}", Seq, Line, Name);
 
         public override string ToString()
             => Format();

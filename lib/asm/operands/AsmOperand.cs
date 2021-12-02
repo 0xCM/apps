@@ -31,11 +31,27 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
+        internal AsmOperand(MemOp src)
+        {
+            OpClass = AsmOpClass.M;
+            Size = src.Size;
+            _Data = @as<AsmAddress,ByteBlock10>(src.Address);
+        }
+
+        [MethodImpl(Inline)]
         internal AsmOperand(RegOp src)
         {
             OpClass = AsmOpClass.R;
             Size = src.RegWidth;
             _Data = u16(src);
+        }
+
+        [MethodImpl(Inline)]
+        internal AsmOperand(ImmOp src)
+        {
+            OpClass = AsmOpClass.Imm;
+            Size = src.Size;
+            _Data = src.Content;
         }
 
         [MethodImpl(Inline)]

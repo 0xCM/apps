@@ -33,10 +33,10 @@ namespace Z0.llvm
 
         public class LlvmMcParser : Service<LlvmMcParser>
         {
-            public static Outcome asmdoc(FS.FilePath src, out AsmDocument dst)
+            public static AsmDocument asmdoc(FS.FilePath src)
             {
                 var parser = new LlvmMcParser();
-                return parser.ParseSyntaxDoc(src, out dst);
+                return parser.ParseAsmDoc(src);
             }
 
             public static Outcome encoding(FS.FilePath src, out AsmEncodingDoc dst)
@@ -94,11 +94,11 @@ namespace Z0.llvm
                         InstSeq++;
                     }
                 }
-                dst = new AsmEncodingDoc(src,buffer.ToArray());
+                dst = new AsmEncodingDoc(src, buffer.ToArray());
                 return result;
             }
 
-            public Outcome ParseSyntaxDoc(FS.FilePath src, out AsmDocument dst)
+            public AsmDocument ParseAsmDoc(FS.FilePath src)
             {
                 var result = Outcome.Success;
                 var data = FS.readlines(src).View;
@@ -114,8 +114,7 @@ namespace Z0.llvm
                 for(var i=0u; i<count; i++)
                     Parse(skip(data,i));
 
-                dst = new AsmDocument(src,Directives.ToArray(), BlockLabels.ToArray(), BlockOffsets.ToArray(), SourceLines.ToArray(), Instructions.ToArray());
-                return result;
+                return new AsmDocument(src,Directives.ToArray(), BlockLabels.ToArray(), BlockOffsets.ToArray(), SourceLines.ToArray(), Instructions.ToArray());
             }
 
             void Parse(in TextLine src)
@@ -156,11 +155,11 @@ namespace Z0.llvm
                                 var dcount = DigitParser.digits(base10, text.slice(comment,i), 0u, number);
                                 var inst = text.remove(text.slice(comment,i), Chars.Gt);
                                 var j = SymbolicQuery.wsindex(inst);
-                                InstSeq++;
                                 if(j != NotFound)
-                                    Instructions.Add(new MCInstRef(InstSeq, text.right(inst,j)));
+                                    Instructions.Add(new MCInstRef(InstSeq, src.LineNumber, text.right(inst,j)));
                                 else
-                                    Instructions.Add(new MCInstRef(InstSeq,inst));
+                                    Instructions.Add(new MCInstRef(InstSeq, src.LineNumber, inst));
+                                InstSeq++;
                             }
 
                             if(comment.Contains("encoding: "))

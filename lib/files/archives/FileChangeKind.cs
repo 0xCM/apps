@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    [Flags]
+    [Flags, SymSource("files")]
     public enum FileChangeKind : byte
     {
         None = 0,

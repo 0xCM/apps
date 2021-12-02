@@ -19,12 +19,15 @@ namespace Z0
         /// <param name="src">The source span</param>
         /// <typeparam name="T">The element type</typeparam>
         [Op, Closures(Closure)]
-        public static IDictionary<int,T> ToDictionary<T>(this ReadOnlySpan<T> src)
+        public static IDictionary<K,V> ToDictionary<K,V>(this ReadOnlySpan<(K,V)> src)
         {
             var count = src.Length;
-            var dst = dict<int,T>(count);
+            var dst = dict<K,V>(count);
             for(var i = 0u; i<count; i++)
-                dst[(int)i] = skip(src,i);
+            {
+                ref readonly var kv = ref skip(src,i);
+                dst.TryAdd(kv.Item1, kv.Item2);
+            }
             return dst;
         }
 
@@ -34,7 +37,7 @@ namespace Z0
         /// <param name="src">The source span</param>
         /// <typeparam name="T">The element type</typeparam>
         [Op, Closures(Closure)]
-        public static IDictionary<int,T> ToDictionary<T>(this Span<T> src)
+        public static IDictionary<K,V> ToDictionary<K,V>(this Span<(K,V)> src)
             => src.ReadOnly().ToDictionary();
     }
 }

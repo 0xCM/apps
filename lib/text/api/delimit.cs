@@ -22,7 +22,7 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static string delimit<T>(ReadOnlySpan<T> src, char delimiter, int pad)
-            => delimit(src, delimiter, pad, true);
+            => delimit(src, delimiter, pad, false);
 
         [Op, Closures(Closure)]
         public static string delimit<T>(ReadOnlySpan<T> src, char delimiter, int pad, bool space)

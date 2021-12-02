@@ -25,8 +25,8 @@ namespace Z0.llvm
         public ConstLookup<FS.FileUri,AsmSyntaxDoc> Collect(IProjectWs ws)
         {
             var result = CollectLogs(ws);
-            CollectEncoding(ws);
-            CollectSyntaxTrees(ws);
+            var encodings = CollectEncoding(ws);
+            var docs = CollectSyntaxTrees(ws);
             return result;
         }
 
@@ -50,7 +50,7 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        Outcome CollectEncoding(IProjectWs ws)
+        Index<AsmEncodingDoc> CollectEncoding(IProjectWs ws)
         {
             var result = Outcome.Success;
             var docs = EncodingDocs(ws);
@@ -63,7 +63,7 @@ namespace Z0.llvm
             writer.WriteLine(formatter.FormatHeader());
             foreach(var doc in docs)
             {
-                var encoded = doc.Encoded;
+                var encoded = doc.ExprEncoding;
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
@@ -78,26 +78,16 @@ namespace Z0.llvm
                 }
             }
             EmittedTable(emitting, counter);
-
-            return result;
+            return docs;
         }
 
-        public Index<AsmDocument> SyntaxDocs(IProjectWs ws)
+        public Index<AsmDocument> AsmDocs(IProjectWs ws)
         {
             var src = SyntaxSourcePaths(ws).View;
             var count = src.Length;
             var dst = list<AsmDocument>();
             for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                var result = LlvmMcParser.asmdoc(path, out var doc);
-                if(result.Fail)
-                {
-                    Error(result.Message);
-                    break;
-                }
-                dst.Add(doc);
-            }
+                dst.Add(LlvmMcParser.asmdoc(skip(src,i)));
             return dst.Array();
         }
 
@@ -128,19 +118,20 @@ namespace Z0.llvm
             return docs.Seal();
         }
 
-        Outcome CollectSyntaxTrees(IProjectWs ws)
+        Index<AsmDocument> CollectSyntaxTrees(IProjectWs ws)
         {
             var result = Outcome.Success;
             var src = SyntaxSourcePaths(ws).View;
             var count = src.Length;
             var dst = ws.OutDir() + FS.file(ws.Name.Format() + ".syntree", FS.Asm);
+            var docs = list<AsmDocument>();
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                result = LlvmMcParser.asmdoc(path, out var doc);
-                if(result.Fail)
-                    break;
+                var doc = LlvmMcParser.asmdoc(path);
+
+                docs.Add(doc);
 
                 var lines = doc.SourceLines;
                 writer.WriteLine(string.Format("# Source: {0}", path.ToUri()));
@@ -148,7 +139,7 @@ namespace Z0.llvm
                     writer.WriteLine(skip(lines,j));
             }
 
-            return result;
+            return docs.ToArray();
         }
 
         uint ParseSyntaxLogRows(FS.FilePath src, List<AsmSyntaxRow> dst)

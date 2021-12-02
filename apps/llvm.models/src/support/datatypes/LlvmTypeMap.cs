@@ -2,12 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0.llvm
 {
-    public struct AsmStatementSpec
-    {
-        public AsmMnemonic Mnemonic;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
-        public Index<AsmOpVar> Operands;
+    using static Root;
+
+    public readonly struct LlvmTypeMap
+    {
+
     }
+
 }

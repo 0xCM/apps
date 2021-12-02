@@ -2,16 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    /// <summary>
-    /// Defines the available stream-writer modes
-    /// </summary>
-    [SymSource("files")]
-    public enum FileWriteMode
-    {
-        Overwrite = 0,
+    using Operands;
 
-        Append = 1
+
+    public readonly struct AsmVars
+    {
+
+
     }
+
 }

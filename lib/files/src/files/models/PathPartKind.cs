@@ -13,11 +13,11 @@ namespace Z0
         /// <summary>
         /// Classifies <see cref='FilePathPart'/> components
         /// </summary>
-        [Flags]
+        [Flags, SymSource("files")]
         public enum PathPartKind : uint
         {
             None = 0,
-            
+
             /// <summary>
             /// The filename without the extension
             /// </summary>
@@ -32,7 +32,7 @@ namespace Z0
             /// The file extension as determined by the character sequence that follows the <see cref='ExtSep'/>
             /// </summary>
             Ext = P2ᐞ02,
-            
+
             /// <summary>
             /// A folder name
             /// </summary>

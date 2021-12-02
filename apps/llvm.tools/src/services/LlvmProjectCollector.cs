@@ -47,38 +47,6 @@ namespace Z0.llvm
             Mc.Collect(ws);
         }
 
-        // Outcome CollectEncoding(IProjectWs ws)
-        // {
-        //     var result = Outcome.Success;
-        //     var docs = Mc.EncodingDocs(ws);
-        //     var dst = ws.Table<LlvmAsmEncoding>(ws.Project.Format());
-        //     var counter=0u;
-        //     var record = LlvmAsmEncoding.Empty;
-        //     var formatter = Tables.formatter<LlvmAsmEncoding>(LlvmAsmEncoding.RenderWidths);
-        //     var emitting = EmittingTable<LlvmAsmEncoding>(dst);
-        //     using var writer = dst.Utf8Writer();
-        //     writer.WriteLine(formatter.FormatHeader());
-        //     foreach(var doc in docs)
-        //     {
-        //         var encoded = doc.Encoded;
-        //         var count = encoded.Length;
-        //         for(var i=0u; i<count; i++)
-        //         {
-        //             ref readonly var e = ref skip(encoded,i);
-        //             record = LlvmAsmEncoding.Empty;
-        //             record.Doc = doc.Source.LineRef(e.Line);
-        //             record.Seq = counter++;
-        //             record.DocSeq = i;
-        //             record.Asm = e.Asm;
-        //             record.Code = e.Encoding;
-        //             writer.WriteLine(formatter.Format(record));
-        //         }
-        //     }
-        //     EmittedTable(emitting, counter);
-
-        //     return result;
-        // }
-
         Outcome CollectObjHex(IProjectWs ws)
         {
             var result = Outcome.Success;
@@ -97,14 +65,5 @@ namespace Z0.llvm
 
             return result;
         }
-
-        // Outcome CollectSyms(IProjectWs ws)
-        // {
-        //     var result = Outcome.Success;
-        //     var src = ws.OutFiles(FS.Sym).View;
-        //     var dst = ws.Table<ObjSymRow>(ws.Project.Format());
-        //     var symbols = Nm.Collect(src, dst);
-        //     return result;
-        // }
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    [SymSource]
+    [SymSource(nameof(llvm))]
     public enum LlvmDataKind : byte
     {
         [Symbol("unknown")]

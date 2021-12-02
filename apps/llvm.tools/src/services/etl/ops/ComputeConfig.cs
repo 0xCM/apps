@@ -65,20 +65,17 @@ namespace Z0.llvm
                 break;
                 case K.SrcRoot:
                 {
-                    var dir = FS.dir(content);
-                    dst.Set(kind, dir);
+                    dst.Set(kind, FS.dir(content));
                 }
                 break;
                 case K.ObjRoot:
                 {
-                    var data = FS.dir(content);
-                    dst.Set(kind, data);
+                    dst.Set(kind, FS.dir(content));
                 }
                 break;
                 case K.BinDir:
                 {
-                    var data = FS.dir(content);
-                    dst.Set(kind, data);
+                    dst.Set(kind, FS.dir(content));
                 }
                 break;
                 case K.HostTarget:

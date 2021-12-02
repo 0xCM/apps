@@ -10,7 +10,6 @@ namespace Z0
     using static Root;
     using static core;
 
-
     partial struct FS
     {
         [Op]
@@ -28,7 +27,7 @@ namespace Z0
             var buffer = alloc<TextLine>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
-                seek(dst,i) = text.line(i, skip(data,i));
+                seek(dst,i) = text.line(i + 1, skip(data,i));
             return buffer;
         }
 

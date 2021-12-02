@@ -30,6 +30,12 @@ namespace Z0
             get => Kind.Width();
         }
 
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => NativeSize.from((BitWidth)(byte)Width);
+        }
+
         public ulong Imm64
         {
             [MethodImpl(Inline)]

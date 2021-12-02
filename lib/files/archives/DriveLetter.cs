@@ -10,6 +10,7 @@ namespace Z0
     /// <summary>
     /// Defines symbols for file system drive letters
     /// </summary>
+    [SymSource("files")]
     public enum DriveLetter : ushort
     {
         a = ff.a,

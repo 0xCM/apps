@@ -21,8 +21,5 @@ namespace Z0.llvm
 
         [CmdArg("--triple={0}")]
         public text31 Triple;
-
-
     }
-
 }
