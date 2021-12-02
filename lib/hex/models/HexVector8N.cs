@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
     using static core;
@@ -14,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a natural sequence of 8-bit cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [DataType("vhex8n<{0}>")]
     public readonly struct HexVector8<N>
         where N : unmanaged, ITypeNat
     {

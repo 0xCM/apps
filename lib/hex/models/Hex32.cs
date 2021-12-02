@@ -13,7 +13,7 @@ namespace Z0
     using W = W32;
     using K = System.UInt32;
 
-    [DataType]
+    [DataType("hex32")]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
         public const uint StorageSize = PrimalSizes.U32;

@@ -9,6 +9,7 @@ namespace Z0.Asm
     using static RegClassCode;
     using static NativeSizeCode;
 
+    [SymSource("asm.regs.bits")]
     public enum FpuRegKind : ushort
     {
         ST0 = r0 | ST << ClassField | W80 << WidthField,

@@ -12,12 +12,14 @@ namespace System
     using System.Xml.Schema;
     using System.Xml.Serialization;
 
+    using Z0;
     /// <summary>
     /// Represents a time of day, as would be read from a clock, within the range 00:00:00 to 23:59:59.9999999
     /// Has properties for working with both 12-hour and 24-hour time values.
     /// </summary>
     [DebuggerDisplay("{ToString()}")]
     [XmlSchemaProvider("GetSchema")]
+    [DataType("time")]
     public struct TimeOfDay : IEquatable<TimeOfDay>, IComparable<TimeOfDay>, IComparable, IFormattable, IXmlSerializable
     {
         public const long TicksPerMillisecond = 10000;

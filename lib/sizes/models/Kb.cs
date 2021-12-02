@@ -11,7 +11,7 @@ namespace Z0
 
     using api = Sizes;
 
-    [DataType]
+    [DataType("kb")]
     public readonly struct Kb
     {
         const string UOM = " kb";

@@ -29,7 +29,7 @@ namespace Z0.Asm
     using TR = TestRegKind;
     using SPTR = SysPtrRegKind;
 
-    [SymSource]
+    [SymSource("asm.regs.bits")]
     public enum RegKind : ushort
     {
         None = 0,

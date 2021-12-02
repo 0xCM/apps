@@ -12,7 +12,7 @@ namespace Z0
 
     using FC = FixedChars;
 
-    public struct text7
+    public struct text7 : IComparable<text7>, IEquatable<text7>
     {
         public const byte MaxLength = 7;
 
@@ -41,6 +41,12 @@ namespace Z0
             get => (uint)(Storage >> 56) & 0xFF;
         }
 
+        public uint Hash
+        {
+            [MethodImpl(Inline)]
+            get => alg.hash.calc(Storage);
+        }
+
         public string Format()
             => FC.format(this);
 
@@ -50,6 +56,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Equals(text7 src)
             => FC.eq(this,src);
+
+        public int CompareTo(text7 src)
+            => Format().CompareTo(src.Format());
 
         public override bool Equals(object src)
             => src is text7 n ? Equals(n) : false;

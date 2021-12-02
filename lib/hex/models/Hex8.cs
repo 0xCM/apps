@@ -13,7 +13,7 @@ namespace Z0
     using K = Hex8Seq;
     using W = W8;
 
-    [DataType]
+    [DataType("hex8")]
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
         [MethodImpl(Inline), Op]

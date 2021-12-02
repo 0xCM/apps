@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines an inclusive address range
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential), DataType("memrange")]
     public readonly struct MemoryRange : IMemoryRange<MemoryRange>
     {
         [MethodImpl(Inline)]

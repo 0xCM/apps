@@ -15,6 +15,7 @@ namespace Z0
     /// <summary>
     /// Captures a <typeparamref name='T'/>-parametric  <see cref='unmanaged'/> generic pointer
     /// </summary>
+    [DataType("gptr<{0}>")]
     public unsafe struct Ptr<T> : IPtr<T>
         where T : unmanaged
     {

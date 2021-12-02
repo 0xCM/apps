@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static FormatFunctions;
 
+    [DataType("despan<{0}>")]
     public readonly ref struct DelimitedSpan<T>
     {
         public ReadOnlySpan<T> Data {get;}

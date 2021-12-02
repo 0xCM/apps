@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines a natural sequence of 4-bit cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [DataType("vhex4")]
     public readonly struct HexVector4
     {
         readonly Index<byte> Data;

@@ -35,7 +35,7 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             OmniScript = Wf.OmniScript();
-            ToolsetDir = Ws.Project("llvm.tools").Home();
+            ToolsetDir = Ws.Project("tools/llvm").Home();
             HelpDir = ToolsetDir + FS.folder("help");
             LoadProfiles();
             LoadToolset();

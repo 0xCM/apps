@@ -12,25 +12,23 @@ namespace Z0.Asm
 
     using SQ = SymbolicQuery;
 
-
     partial class IntelSdm
     {
-        public void ImportOpCodes()
+        public Index<SdmOpCode> ImportOpCodes()
         {
             var result = Outcome.Success;
             var details = ImportOpCodeDetails();
             var forms = EmitForms(details);
-            EmitStringTable(details);
-            var _opcodes = SdmOpCodes.summarize(details).View;
+            var _opcodes = SdmOpCodes.summarize(details);
             var count = _opcodes.Length;
             var dst = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
-
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
-                writer.WriteLine(SdmOpCodes.format(skip(_opcodes,i)));
+                writer.WriteLine(SdmOpCodes.format(_opcodes[i]));
 
             EmittedFile(emitting,count);
+            return _opcodes;
         }
 
         Index<SdmOpCodeDetail> ImportOpCodeDetails()
@@ -125,18 +123,6 @@ namespace Z0.Asm
             return _forms;
         }
 
-        Outcome EmitStringTable(ReadOnlySpan<SdmOpCodeDetail> src)
-        {
-            var result = Outcome.Success;
-            var count = src.Length;
-            var items = alloc<ListItem<string>>(count);
-            for(var i=0u; i<count; i++)
-                seek(items,i) = (i,skip(src,i).OpCode);
-
-            var spec = StringTables.specify("Z0.Asm", "OpCodeStrings", items);
-            result = StringTableGen.Generate(spec, SdmPaths.StringTables());
-            return result;
-        }
 
         public static Index<TableColumn> columns(ReadOnlySpan<string> src)
             => Tables.columns<SdmColumnKind>(src);
@@ -171,41 +157,55 @@ namespace Z0.Asm
 
                         case "Instruction":
                             var monic = text.trim(text.ifempty(text.left(content, Chars.Space), content));
+                            if(empty(monic))
+                            {
+                                valid = false;
+                                break;
+                            }
+
                             var ops = operands(content);
                             if(nonempty(ops))
                                 target.Sig = string.Format("{0} {1}", monic, ops);
                             else
                                 target.Sig = monic;
                             target.Mnemonic = monic;
-                            if(empty(monic))
-                                valid = false;
+                            valid = true;
                         break;
 
                         case "Op / En":
                         case "Op/En":
                             target.EncXRef = content;
+                            valid = true;
                         break;
 
                         case "Compat/Leg Mode":
                             target.LegacyMode = content;
+                            valid = true;
                         break;
 
                         case "64-bit Mode":
                             target.Mode64 = content;
+                            valid = true;
                         break;
 
                         case "64/32 -bit Mode":
                         case "64/32 bit Mode Support":
                             target.Mode64x32 = content;
+                            valid = true;
                         break;
 
                         case "CPUID Feature Flag":
                             target.CpuId = content;
+                            valid = true;
                         break;
 
                         case "Description":
                             target.Description = content;
+                            valid = true;
                         break;
+                        default:
+                            valid = false;
+                            break;
                     }
                 }
 

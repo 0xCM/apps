@@ -14,6 +14,7 @@ namespace Z0
     /// <summary>
     /// Specifies data size in bits
     /// </summary>
+    [DataType("bitwidth")]
     public readonly struct BitWidth
     {
         /// <summary>

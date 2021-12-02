@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a list of <typeparamref name='T'/> over an unmanaged buffer
     /// </summary>
+    [DataType("memlist<{0}>")]
     public unsafe readonly struct MemoryList<T> : IDisposable
         where T : unmanaged
     {

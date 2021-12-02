@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
     using static ScalarCast;
-    using static minicore;
+    using static core;
 
     [ApiHost]
     public readonly struct Sizes

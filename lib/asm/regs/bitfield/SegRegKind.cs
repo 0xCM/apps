@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines <see cref='SEG'/> register classifiers
     /// </summary>
+    [SymSource("asm.regs.bits")]
     public enum SegRegKind : ushort
     {
         /// <summary>

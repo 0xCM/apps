@@ -14,7 +14,6 @@ namespace Z0.Asm
     [ApiHost]
     public readonly struct AsmOps
     {
-
         [MethodImpl(Inline), Op]
         public static AsmOperand op(r8 src)
             => new AsmOperand(src);

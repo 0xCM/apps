@@ -9,6 +9,7 @@ namespace Z0.Asm
     using static RegClassCode;
     using static NativeSizeCode;
 
+    [SymSource("asm.regs.bits")]
     public enum XControlRegKind : ushort
     {
         XCR0 = r0 | XCR << ClassField | W64 << WidthField,

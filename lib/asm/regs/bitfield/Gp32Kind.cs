@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines classifiers for <see cref='GP'/> registers of width <see cref='W32'/>
     /// </summary>
+    [SymSource("asm.regs.bits")]
     public enum Gp32Kind : ushort
     {
         EAX = r0 | (GP << ClassField) | (W32 << WidthField),

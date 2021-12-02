@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines a 2-cell T-vector
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("v2<{0}>")]
     public struct v2<T> : IVector<T>
         where T : unmanaged
     {

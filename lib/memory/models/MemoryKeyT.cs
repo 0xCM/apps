@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("memkey<{0}>")]
     public readonly struct MemoryKey<T>
         where T : IEquatable<T>
     {

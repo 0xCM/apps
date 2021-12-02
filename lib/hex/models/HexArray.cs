@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("hexarray"), ApiHost]
     public readonly struct HexArray
     {
         public static Outcome parse(string src, out HexArray16 dst)

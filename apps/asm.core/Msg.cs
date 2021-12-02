@@ -15,7 +15,6 @@ namespace Z0
     {
         public static MsgPattern<AsmMnemonic> MonicCodeParseFailed => "Attempt to parse mnemonic code for {0} failed";
 
-
         public static MsgPattern<Count,Count> UnexpectedFieldCount => "{0} fields were expected and yet {1} were found";
 
         public static MsgPattern<FS.FileUri> CouldNotParseDocument => "Could not parse {0}";

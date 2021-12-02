@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of K-kinded hex chars
     /// </summary>
+    [DataType("hexstring<{0}>")]
     public unsafe readonly struct HexString<K>
         where K : unmanaged
     {

@@ -17,11 +17,14 @@ namespace Z0.llvm
 
         LlvmTableLoader TableLoader;
 
+        Generators Generators;
+
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
             TableLoader = LlvmTableLoader.create(Wf);
+            Generators = Wf.Generators();
         }
 
         public void Run()
@@ -35,9 +38,9 @@ namespace Z0.llvm
         {
             var src = TableLoader.LoadVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
             using var literals = expr.literals(src.View,src.View);
-            var gen = Wf.Generators();
-            var dst = LlvmPaths.CodeGenPath("AsmNames", FS.Cs);
-            gen.GenLiteralProvider("Z0.llvm", "AsmNames", literals.Literals, dst);
+            var dst = Generators.CodeGenPath("llvm", "AsmNames", FS.Cs);
+            //var dst = LlvmPaths.CodeGenPath("AsmNames", FS.Cs);
+            Generators.GenLiteralProvider("Z0.llvm", "AsmNames", literals.Literals, dst);
         }
 
         public Arrow<FS.FileUri> GenStringTable(string listid)
@@ -94,9 +97,13 @@ namespace Z0.llvm
             return flows.ViewDeposited();
         }
 
+        static string listid(FS.FilePath src)
+            => src.FileName.WithoutExtension.Format().Replace("llvm.lists.", EmptyString);
+
         Outcome GenStringTables()
         {
             const string BaseId = "llvm.stringtables";
+            var exclusions = hashset("vcodes");
             var result = Outcome.Success;
             var lists = LlvmPaths.Lists().View;
             var count = lists.Length;
@@ -105,12 +112,15 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var listpath = ref skip(lists,i);
-                var name = listpath.FileName.WithoutExtension.Format().Replace("llvm.lists.", EmptyString);
-                var id = BaseId + "." + name;
-                var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
-                var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
+                var id = listid(listpath);
+                if(exclusions.Contains(id))
+                    continue;
+
+                var name = BaseId + "." + id;
+                var cspath = LlvmPaths.StringTablePath(name, FS.Cs);
+                var csvpath = LlvmPaths.StringTablePath(name, FS.Csv);
                 var lines = slice(listpath.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-                var table = StringTables.create(lines, name, Chars.Comma);
+                var table = StringTables.create(lines, id, Chars.Comma);
                 var spec = StringTables.specify("Z0." + BaseId, table);
 
                 var csEmitting = EmittingFile(cspath);

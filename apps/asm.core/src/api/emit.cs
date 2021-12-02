@@ -18,7 +18,7 @@ namespace Z0.Asm
             var count = src.Length;
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
-                writer.WriteLine(AsmRender.format(skip(src,i)));
+                writer.WriteLine(skip(src,i).Format());
             return true;
         }
 
@@ -29,7 +29,7 @@ namespace Z0.Asm
             using var writer = dst.Writer();
             for(var i=0u; i<count; i++)
             {
-                var content = AsmRender.bitstring(src[i]);
+                var content = AsmThumbprint.bitstring(src[i]);
                 writer.WriteLine(content);
                 seek(lines,i) = (i,content);
             }

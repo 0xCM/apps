@@ -8,6 +8,9 @@ namespace Z0
 
     partial struct FS
     {
+        public static FS.FileName timestamped(string name, FS.FileExt ext)
+            => FS.file(string.Format("{0}.{1}", name, (Timestamp.now()).Format()),ext);
+
         public static Outcome timestamp(FS.FolderPath src, out Timestamp dst)
         {
             dst = Timestamp.Zero;

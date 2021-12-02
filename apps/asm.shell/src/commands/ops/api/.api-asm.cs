@@ -11,9 +11,9 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var dst = Ws.Project("gen").Subdir("csv") + Tables.filename<AsmDataBlock>();
-            var records = AsmEtl.LoadHostAsmRows(ApiPackArchive.HostAsm());
-            var blocks = AsmEtl.DistillBlocks(records);
-            AsmEtl.EmitBlocks(blocks, dst);
+            var records = AsmTables.LoadHostAsmRows(ApiPackArchive.HostAsm());
+            var blocks = AsmTables.DistillBlocks(records);
+            AsmTables.EmitBlocks(blocks, dst);
             return result;
         }
     }

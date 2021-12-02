@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("timestamp")]
     public readonly struct Timestamp : IComparable<Timestamp>, IEquatable<Timestamp>
     {
         public const string FormatPattern = "yyyy-MM-dd.HH.mm.ss.fff";

@@ -73,6 +73,9 @@ namespace Z0.llvm
         public FS.FilePath DataSourcePath(string name)
             => LlvmData.OutDir() + FS.file(name, FS.Txt);
 
+        public FS.FilePath List(string id)
+            => Table(string.Format("llvm.lists.{0}", id));
+
         public FS.FolderPath RecordImports()
             => LlvmData.Subdir("records");
 
@@ -85,16 +88,16 @@ namespace Z0.llvm
         public FS.FolderPath CodeGen()
             => Env.ZDev + FS.folder("generated/src/llvm");
 
-        public FS.FolderPath ListSources()
-            => LlvmData.OutDir() + FS.folder(lists);
-
-        public FS.Files ListSourceFiles()
-            => ListSources().Files(FS.List);
-
         public FS.FilePath CodeGenPath(string id, FS.FileExt ext)
             => CodeGen() + FS.file(id,ext);
 
         public FS.FilePath StringTablePath(string id, FS.FileExt ext)
             => CodeGen() + FS.folder("stringtables") + FS.file(id,ext);
+
+        public FS.FolderPath ListSources()
+            => LlvmData.OutDir() + FS.folder(lists);
+
+        public FS.Files ListSourceFiles()
+            => ListSources().Files(FS.List);
     }
 }

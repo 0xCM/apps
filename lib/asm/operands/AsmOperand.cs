@@ -14,7 +14,7 @@ namespace Z0.Asm
     using static core;
 
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmOperand : IAsmOperand
+    public struct AsmOperand : IAsmOp
     {
         public readonly AsmOpClass OpClass;
 
@@ -160,10 +160,10 @@ namespace Z0.Asm
             get => OpClass == 0;
         }
 
-        AsmOpClass IAsmOperand.OpClass
+        AsmOpClass IAsmOp.OpClass
             => OpClass;
 
-        NativeSize IAsmOperand.Size
+        NativeSize IAsmOp.Size
             => Size;
 
         [MethodImpl(Inline)]
@@ -195,5 +195,7 @@ namespace Z0.Asm
             =>  new AsmOperand<ByteBlock10>(src.OpClass, src.Size, src._Data);
 
         public static AsmOperand Empty => default;
+
+
     }
 }

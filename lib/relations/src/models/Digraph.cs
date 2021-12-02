@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("digraph")]
     public class Digraph
     {
         MutableSet<Edge> _EdgeSet;

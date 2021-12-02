@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines classifiers for <see cref='MASK'/> registers of width <see cref='W64'/>
     /// </summary>
+    [SymSource("asm.regs.bits")]
     public enum MaskRegKind : ushort
     {
         K0 = r0 | MASK << ClassField | W64 << WidthField,

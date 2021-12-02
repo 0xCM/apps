@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static FormatFunctions;
 
-    [DataType("index<{0}>")]
+    [DataType("delix<{0}>")]
     public readonly struct DelimitedIndex<T> : IIndex<T>, ITextual
     {
         public Index<T> Data {get;}

@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of hex values
     /// </summary>
+    [DataType("hexstring")]
     public readonly ref struct HexString
     {
         public ReadOnlySpan<char> Data {get;}

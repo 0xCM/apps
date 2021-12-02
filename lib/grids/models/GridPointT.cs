@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Locates a cell in a grid with <typeparamref name='T'/> parametric coordinates
     /// </summary>
+     [DataType("gridpoint<{0}>")]
     public struct GridPoint<T> : IGridPoint<GridPoint<T>,T>
         where T : unmanaged
     {

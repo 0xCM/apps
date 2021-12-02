@@ -7,7 +7,7 @@ namespace Z0.Asm
 {
     public interface ITypedInstruction
     {
-        AsmMnemonicCode Mnemonic {get;}
+        AsmMnemonic Mnemonic {get;}
 
         AsmHexCode Encoded {get;}
     }

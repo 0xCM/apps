@@ -59,7 +59,7 @@ namespace Z0.llvm
                 break;
                 case K.TargetsBuilt:
                 {
-                    var data = content.Split(Chars.Space);
+                    var data = content.Split(Chars.Space).Delimit(Chars.Semicolon);
                     dst.Set(kind, data);
                 }
                 break;
@@ -88,61 +88,61 @@ namespace Z0.llvm
                 break;
                 case K.CFlags:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Delimit(Chars.Semicolon);
                     dst.Set(kind, data);
                 }
                 break;
                 case K.CxxFlags:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Delimit(Chars.Semicolon);;
                     dst.Set(kind, data);
                 }
                 break;
                 case K.SystemLibs:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.file);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.file).Delimit(Chars.Semicolon);;
                     dst.Set(kind,data);
                 }
                 break;
                 case K.LibNames:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.file);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.file).Delimit(Chars.Semicolon);;
                     dst.Set(kind, data);
                 }
                 break;
                 case K.CppFlags:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Delimit(Chars.Semicolon);;
                     dst.Set(kind,data);
                 }
                 break;
                 case K.LinkerFlags:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Delimit(Chars.Semicolon);;
                     dst.Set(kind, data);
                 }
                 break;
                 case K.LinkStatic:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Delimit(Chars.Semicolon);;
                     dst.Set(kind, data);
                 }
                 break;
                 case K.Components:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty);
+                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Delimit(Chars.Semicolon);;
                     dst.Set(kind,data);
                 }
                 break;
                 case K.Libs:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.path);
+                    FS.Files data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.path);
                     dst.Set(kind, data);
                 }
                 break;
                 case K.LibFiles:
                 {
-                    var data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.path);
+                    FS.Files data = content.Split(Chars.Space).Select(x => x.Trim()).Where(nonempty).Select(FS.path);
                     dst.Set(kind, data);
                 }
                 break;

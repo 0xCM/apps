@@ -11,6 +11,10 @@ namespace Z0
     partial class XSvc
     {
         [Op]
+        public static AsmTables AsmTables(this IWfRuntime wf)
+            => Asm.AsmTables.create(wf);
+
+        [Op]
         public static AsmTokens AsmTokens(this IServiceContext context)
             => Asm.AsmTokens.create(context);
 

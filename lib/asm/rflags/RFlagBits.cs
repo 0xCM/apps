@@ -11,7 +11,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines literals corresponding the bits in the RFLAGS register
     /// </summary>
-    [Flags]
+    [Flags, SymSource("asm.regs.flags")]
     public enum RFlagBits : ulong
     {
         CF = P2ᐞ00,

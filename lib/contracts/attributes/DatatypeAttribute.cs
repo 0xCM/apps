@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using static Root;
 
     /// <summary>
     /// Applied to a type to denote inclusion as a datatype within the DSL
@@ -14,14 +15,14 @@ namespace Z0
     {
         public DataTypeAttribute()
         {
-            Specifiers = Array.Empty<string>();
+            NameFormat = EmptyString;
         }
 
-        public DataTypeAttribute(params string[] specifiers)
+        public DataTypeAttribute(string name)
         {
-            Specifiers = specifiers;
+            NameFormat = name;
         }
 
-        public string[] Specifiers {get;}
+        public string NameFormat {get;}
     }
 }

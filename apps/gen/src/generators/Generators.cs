@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
 
-    using Expr;
     using static core;
     using static CsPatterns;
 
@@ -17,6 +16,15 @@ namespace Z0
 
         public EnumGen CsEnum()
             => new EnumGen();
+
+        public FS.FolderPath CodeGenDir(string scope)
+            => Env.ZDev + FS.folder("generated/src") + FS.folder(scope);
+
+        public FS.FilePath CodeGenPath(string scope, string id, FS.FileExt ext)
+            => CodeGenDir(scope) + FS.file(id,ext);
+
+        public FS.FilePath StringTablePath(string scope, string id, FS.FileExt ext)
+            => CodeGenDir(scope) + FS.folder("stringtables") + FS.file(id,ext);
 
         public void GenLiteralProvider(Identifier ns, Identifier name, ReadOnlySpan<Literal<string>> literals, FS.FilePath dst)
         {

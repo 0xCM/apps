@@ -32,7 +32,7 @@ namespace Z0
         Imm32i = Imm32 | P2ᐞ07,
 
         [Symbol("imm64")]
-        Imm64 = W.W32,
+        Imm64 = W.W64,
 
         [Symbol("imm64i")]
         Imm64i = Imm64 | P2ᐞ07

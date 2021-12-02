@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines a 6-cell T-vector
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("v6<{0}>")]
     public struct v6<T> : IVector<T>
         where T : unmanaged
     {

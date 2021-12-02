@@ -6,10 +6,15 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        [CmdOp(".config")]
+        [CmdOp(".llvm-config")]
         Outcome LlvmConfig(CmdArgs args)
         {
            var config = LlvmEtl.ComputeConfig();
+           var items = config.Items;
+           foreach(var item in items)
+           {
+               Write(string.Format("{0}:{1}", item.Key, item.Value));
+           }
            return true;
         }
     }

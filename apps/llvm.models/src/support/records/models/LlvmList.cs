@@ -10,6 +10,12 @@ namespace Z0.llvm
 
     using static Root;
 
+    public static partial class XTend
+    {
+        public static LlvmList ToLlvmList(this LlvmListItem[] items, FS.FilePath path)
+            => new LlvmList(path,items);
+    }
+
     public readonly struct LlvmList : IIndex<LlvmListItem>
     {
         readonly Index<LlvmListItem> Data;

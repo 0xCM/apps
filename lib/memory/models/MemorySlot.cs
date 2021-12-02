@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("memslot"), ApiHost]
     public struct MemorySlot
     {
         [MethodImpl(Inline), Op]

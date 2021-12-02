@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("list<{0}>")]
+    [DataType("delist<{0}>")]
     public readonly struct DelimitedList<T> : ITextual
     {
         readonly List<T> Data;

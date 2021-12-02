@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Classifies the accessible debug registers
     /// </summary>
+    [SymSource("asm.regs.bits")]
     public enum DebugRegKind : ushort
     {
         DR0 = r0 | DB << ClassField | W64 << WidthField,

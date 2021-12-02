@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines classifiers for <see cref='GP'/> registers of width <see cref='W16'/>
     /// </summary>
+    [SymSource("asm.regs.bits")]
     public enum Gp16Kind : ushort
     {
         AX = r0 | (GP << ClassField) | (W16 << WidthField),

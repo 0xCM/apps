@@ -8,12 +8,11 @@ namespace Z0
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-
     using static grids;
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g2x2<{0}>")]
     public struct g2x2<T> : IGrid<g2x2<T>,N2,T>
         where T : unmanaged
     {

@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a natural sequence of 16-bit cells
     /// </summary>
+    [DataType("vhex16n<{0}>")]
     public readonly struct HexVector16<N>
         where N : unmanaged, ITypeNat
     {

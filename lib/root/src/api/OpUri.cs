@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("opuri")]
     public class OpUri : IApiUri<OpUri>
     {
         /// <summary>

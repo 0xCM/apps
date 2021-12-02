@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     public struct AsmReceiverProduction
     {
-        public AsmMnemonicCode Mnemonic;
+        public AsmMnemonic Mnemonic;
     }
 
     [ApiHost]
@@ -75,25 +75,9 @@ namespace Z0.Asm
                 return;
 
             var target = new AsmReceiverProduction();
-            AssignMnemonicCode(src, ref target);
+            target.Mnemonic = src.AsmMnemonic;
 
             Produced[Targets++] = target;
         }
-
-        [Op]
-        void AssignMnemonicCode(in IceInstruction src, ref AsmReceiverProduction dst)
-        {
-            var name = src.AsmMnemonic.Format();
-            if(Enums.parse<AsmMnemonicCode>(name, out var code))
-            {
-                dst.Mnemonic = code;
-            }
-            else
-            {
-                Wf.Warn(UnrecognizedMnemonic.Format(name));
-            }
-        }
-
-        static MsgPattern<string> UnrecognizedMnemonic => "The mnemonic {0} was not recognized";
     }
 }

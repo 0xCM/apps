@@ -11,14 +11,6 @@ namespace Z0.Asm
         Outcome XedIsa(CmdArgs args)
             => Xed.EmitIsa(arg(args,0).Value);
 
-        [CmdOp(".emit-xed-catalog")]
-        Outcome XedEmit(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            Xed.EmitCatalog();
-            return result;
-        }
-
         [CmdOp(".emit-disasm")]
         Outcome XedDisBlocks(CmdArgs args)
         {

@@ -9,6 +9,7 @@ namespace Z0.Asm
     using static RegClassCode;
     using static NativeSizeCode;
 
+    [SymSource("asm.regs.bits")]
     public enum MmxRegKind : ushort
     {
         MM0 = r0 | MMX << ClassField | W64 << WidthField,

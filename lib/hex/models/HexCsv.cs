@@ -7,7 +7,7 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct HexCsv : IRecord<HexCsv>
+    public struct HexCsv
     {
         public const string TableId = "hex.csv";
 

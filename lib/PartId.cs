@@ -82,8 +82,8 @@ public enum PartId : byte
     [Symbol("blocks")]
     Blocks = 24,
 
-    [Symbol("commands")]
-    Commands = 25,
+    [Symbol("cmd")]
+    Cmd = 25,
 
     [Symbol("asm.data")]
     AsmData = 26,

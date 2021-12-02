@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static Root;
 
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmOperand<T> : IAsmOperand<T>
+    public struct AsmOperand<T> : IAsmOp<T>
         where T : unmanaged
     {
         public AsmOpClass OpClass {get;}
@@ -19,9 +19,6 @@ namespace Z0.Asm
         public NativeSize Size {get;}
 
         public T Data {get;}
-
-        ReadOnlySpan<byte> IAsmOperand.Data
-            => core.bytes(Data);
 
         [MethodImpl(Inline)]
         public AsmOperand(AsmOpClass opclass, NativeSize size, T data)

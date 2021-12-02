@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of 16-bit cells
     /// </summary>
+    [DataType("vhex32")]
     public readonly struct HexVector32
     {
         readonly Index<Hex32> Data;

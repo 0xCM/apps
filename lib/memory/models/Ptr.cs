@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Captures a <see cref='void'/> pointer
     /// </summary>
+    [DataType("ptr")]
     public unsafe struct Ptr : IPtr
     {
         public void* P;

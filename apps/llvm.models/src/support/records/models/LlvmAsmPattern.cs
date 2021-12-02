@@ -6,6 +6,7 @@ namespace Z0.llvm
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
+
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
@@ -15,13 +16,15 @@ namespace Z0.llvm
 
         public uint Key;
 
+        public bit IsCodeGenOnly;
+
+        public bit IsPseudo;
+
         public AsciBlock32 Instruction;
 
         public AsmMnemonic Mnemonic;
 
-        public bit IsCodeGenOnly;
-
-        public bit IsPseudo;
+        public AsmVariationCode Variation;
 
         public AsciBlock64 ExprFormat;
 

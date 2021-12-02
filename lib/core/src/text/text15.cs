@@ -13,7 +13,7 @@ namespace Z0
 
     using FC = FixedChars;
 
-    public struct text15
+    public struct text15 : IComparable<text15>, IEquatable<text15>
     {
         public const byte MaxLength = 15;
 
@@ -49,6 +49,16 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => A != 0 || B != 0;
             }
+
+            public uint Hash
+            {
+                [MethodImpl(Inline)]
+                get => alg.hash.combine(alg.hash.calc(A), alg.hash.calc(B));
+            }
+
+            [MethodImpl(Inline)]
+            public bool Equals(StorageType src)
+                => A == src.A && B == src.B;
 
             public static StorageType Empty => default;
         }
@@ -94,6 +104,17 @@ namespace Z0
         public override string ToString()
             => Format();
 
+        public bool Equals(text15 src)
+            => Storage.Equals(src);
+        public int CompareTo(text15 src)
+            => Format().CompareTo(src.Format());
+
+        public override int GetHashCode()
+            => (int)Storage.Hash;
+
+        public override bool Equals(object src)
+            => src is text15 x && Equals(x);
+
         [MethodImpl(Inline)]
         public static implicit operator text15(string src)
             => FC.txt(N,src);
@@ -101,6 +122,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator text15(ReadOnlySpan<char> src)
             => FC.txt(N,src);
+
+        [MethodImpl(Inline)]
+        public static bool operator ==(text15 a, text15 b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(text15 a, text15 b)
+            => !a.Equals(b);
 
         public static text15 Empty => default;
     }

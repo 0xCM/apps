@@ -67,6 +67,7 @@ namespace Z0.Asm
             }
 
             var flow = Wf.EmittingTable<AsmFormRecord>(dst);
+
             using var writer = dst.Writer();
             writer.WriteLine(FormatHeader());
             for(ushort i=0; i<count; i++)

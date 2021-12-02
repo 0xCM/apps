@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("membcells<{0}>")]
     public readonly struct MemoryCells<T>
         where T : unmanaged
     {

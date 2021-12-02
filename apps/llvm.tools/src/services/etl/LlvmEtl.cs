@@ -6,8 +6,8 @@ namespace Z0.llvm
 {
     using System;
 
+    using Asm;
     using static LlvmNames;
-    using static Root;
     using static core;
 
     public partial class LlvmEtl : AppService<LlvmEtl>
@@ -70,6 +70,7 @@ namespace Z0.llvm
             var patterns = list<LlvmAsmPattern>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
+            var vcodes = hashset<string>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var entity = ref skip(members,i);
@@ -87,12 +88,16 @@ namespace Z0.llvm
                     var j = text.index(inst.EntityName.Content.ToLower(), inst.Mnemonic.Content);
                     var vcode = inst.VariationCode;
                     if(vcode.IsNonEmpty)
+                    {
+                        vcodes.Add(vcode.Format());
                         variations.Add(new LlvmAsmVariation(key, name, mnemonic, vcode));
+                    }
 
                     var pattern = LlvmAsmPattern.Empty;
                     pattern.Key = key;
                     pattern.Instruction = name;
                     pattern.Mnemonic = mnemonic;
+                    pattern.Variation = vcode;
                     pattern.IsCodeGenOnly = inst.isCodeGenOnly;
                     pattern.IsPseudo = inst.isPseudo;
                     pattern.ExprFormat = fmt;
@@ -101,6 +106,7 @@ namespace Z0.llvm
                 }
             }
 
+            EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.List("vcodes")));
             TableEmit(patterns.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
         }

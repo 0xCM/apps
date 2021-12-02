@@ -15,6 +15,7 @@ namespace Z0
     /// <summary>
     /// Captures a <see cref="char"/> pointer
     /// </summary>
+    [DataType("pchar")]
     public unsafe struct PChar : IPtr<char>
     {
         public char* P;

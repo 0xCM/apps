@@ -12,6 +12,7 @@ namespace Z0
 
     using api = HexArray;
 
+    [DataType("hexarray16")]
     public struct HexArray16
     {
         ByteBlock16 Data;

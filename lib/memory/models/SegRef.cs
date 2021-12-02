@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a reference to a memory segment
     /// </summary>
+    [DataType("segref")]
     public readonly struct SegRef : ISegRef<byte>
     {
         public MemoryAddress Address {get;}

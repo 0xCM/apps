@@ -14,6 +14,25 @@ namespace Z0.Asm
 
     public readonly struct AsmThumbprint : IComparable<AsmThumbprint>, IEquatable<AsmThumbprint>
     {
+        [Op]
+        public static string thumbprint(in AsmEncodingInfo src)
+        {
+            var bits = AsmRender.format8x4(src.Encoded);
+            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
+            return string.Format("{0} => {1}", statement, AsmRender.format8x4(src.Encoded));
+        }
+
+        public static string comment(in AsmThumbprint src)
+            => AsmDocBuilder.comment(AsmCommentMarker.Hash, string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()));
+
+        [Op]
+        public static string format(in AsmThumbprint src)
+            => string.Format("{0} {1}", src.Statement.FormatPadded(), comment(src));
+
+        [Op]
+        public static string bitstring(in AsmThumbprint src)
+            => string.Format("{0} => {1}", format(src), AsmRender.format8x4(src.Encoded));
+
         static Fence<char> SigFence => (LParen, RParen);
 
         static Fence<char> OpCodeFence => (Lt, Gt);
@@ -92,7 +111,7 @@ namespace Z0.Asm
         public override int GetHashCode()
             => Format().GetHashCode();
         public string Format()
-            => AsmRender.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();
@@ -105,10 +124,10 @@ namespace Z0.Asm
 
         [Op]
         static int cmp(in AsmThumbprint a, in AsmThumbprint b)
-            => AsmRender.format(a).CompareTo(AsmRender.format(b));
+            => format(a).CompareTo(format(b));
 
         [Op]
         static bool eq(in AsmThumbprint a, in AsmThumbprint b)
-            => AsmRender.format(a).Equals(AsmRender.format(b));
+            => format(a).Equals(format(b));
     }
 }

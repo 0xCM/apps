@@ -11,6 +11,7 @@ namespace Z0
 
     using static minicore;
 
+    [DataType("linemap<{0}>")]
     public readonly struct LineMap<T>
     {
         readonly LineInterval<T>[] _Intervals;

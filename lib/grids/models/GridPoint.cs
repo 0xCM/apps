@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Locates a cell within a grid
     /// </summary>
+     [DataType("gridpoint")]
      public struct GridPoint : IGridPoint<GridPoint>
      {
         internal const string RenderPattern = "({0},{1})";

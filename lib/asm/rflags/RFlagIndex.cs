@@ -7,6 +7,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines the bitfield index of the flags defined by <see cref='RFlagBits'/>
     /// </summary>
+    [SymSource("asm.regs.flags")]
     public enum RFlagIndex : byte
     {
         CF = 0,

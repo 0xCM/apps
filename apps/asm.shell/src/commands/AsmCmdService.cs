@@ -47,7 +47,11 @@ namespace Z0.Asm
 
         IWorkspace OutWs;
 
+        Generators Generators;
+
         byte[] _Assembled;
+
+        StringTableGen StringTableGen;
 
         public AsmCmdService()
         {
@@ -74,6 +78,8 @@ namespace Z0.Asm
             ApiCatalogs = Wf.ApiCatalogs();
             AsmEtl = Wf.AsmEtl();
             IntelIntrinsics = Wf.IntelIntrinsics();
+            Generators = Wf.Generators();
+            StringTableGen = Wf.StringTableGen();
             State.Init(Wf, Ws);
         }
 

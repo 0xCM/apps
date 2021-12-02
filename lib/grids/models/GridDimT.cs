@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("dim<{0}>")]
     public readonly struct GridDim<T> : IEquatable<GridDim<T>>
         where T : unmanaged
     {

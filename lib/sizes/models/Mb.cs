@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType]
+    [DataType("mb")]
     public readonly struct Mb
     {
         const string UOM = " mb";

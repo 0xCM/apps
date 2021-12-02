@@ -8,6 +8,8 @@ namespace Z0.llvm
 
     using static core;
 
+    using Asm;
+
     public sealed class LlvmTableLoader : AppService<LlvmTableLoader>
     {
         LlvmPaths LlvmPaths;

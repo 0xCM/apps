@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines a 4-cell T-vector
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("v4<{0}>")]
     public struct v4<T> : IVector<T>
         where T : unmanaged
     {

@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Specifies a block of memory along with the base address from which it originated
     /// </summary>
+    [DataType("memblock<{0}>")]
     public readonly struct MemoryBlock<T> : IComparable<MemoryBlock<T>>
         where T : IEquatable<T>
     {

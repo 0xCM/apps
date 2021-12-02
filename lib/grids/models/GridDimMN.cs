@@ -13,6 +13,7 @@ namespace Z0
     /// <summary>
     /// Encapsulates metrics that characterize a grid of natural rectangular dimensions
     /// </summary>
+    [DataType("dim<{0}x{1}x{2}>")]
     public readonly struct GridDim<M,N,T>
         where M : unmanaged, ITypeNat
         where N : unmanaged, ITypeNat

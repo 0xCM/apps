@@ -11,6 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("hexdigit")]
     public readonly struct HexDigit
     {
         public readonly HexDigitValue Value;

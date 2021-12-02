@@ -12,9 +12,7 @@ namespace Z0
 
     partial struct FS
     {
-        public static FS.FileName timestamped(string name, FS.FileExt ext)
-            => FS.file(string.Format("{0}.{1}", name, (Timestamp.now()).Format()),ext);
-
+        [DataType("filename")]
         public readonly struct FileName : IFsEntry<FileName>, IComparable<FileName>
         {
             public PathPart Name {get;}

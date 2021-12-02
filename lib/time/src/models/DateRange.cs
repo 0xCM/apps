@@ -17,6 +17,7 @@ namespace Z0
     /// <summary>
     /// Represents a contiguous finite interval of time with calendar day resolution
     /// </summary>
+    [DataType("daterange")]
     public readonly struct DateRange : ITimeInterval<Date>
     {
         /// <summary>

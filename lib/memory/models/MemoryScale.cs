@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("memscale")]
     public readonly struct MemoryScale : ITextual
     {
         [MethodImpl(Inline)]

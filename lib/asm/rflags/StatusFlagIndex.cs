@@ -9,6 +9,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines indices into the <see cref='StatusFlagBits'/>
     /// </summary>
+    [SymSource("asm.regs.flags")]
     public enum StatusFlagIndex : byte
     {
         CF = I.CF,

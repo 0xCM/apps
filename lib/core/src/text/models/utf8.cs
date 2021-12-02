@@ -12,7 +12,7 @@ namespace Z0
 
     using api = Utf8;
 
-    [ApiComplete]
+    [ApiComplete, DataType("utf8")]
     public readonly struct utf8 : IComparable<utf8>, IEquatable<utf8>
     {
         readonly BinaryCode Data;

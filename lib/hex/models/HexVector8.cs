@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of 8-bit cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential), DataType("vhex8")]
     public readonly struct HexVector8
     {
         readonly Index<Hex8> Data;

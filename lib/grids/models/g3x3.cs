@@ -12,7 +12,7 @@ namespace Z0
     using static core;
     using static grids;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g3x3<{0}>")]
     public struct g3x3<T> : IGrid<g3x3<T>,N3,T>
         where T : unmanaged
     {

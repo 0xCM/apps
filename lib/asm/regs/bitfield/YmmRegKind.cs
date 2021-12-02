@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines <see cref='YMM'/> register classifiers
     /// </summary>
+    [SymSource("asm.regs.bits")]
     public enum YmmRegKind : ushort
     {
         YMM0 = r0 | YMM << ClassField | W256 << WidthField,

@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a value that represents a base-2 value
     /// </summary>
-    [ApiHost, DataType]
+    [ApiHost, DataType("bit")]
     public readonly partial struct bit : ITextual, IEquatable<bit>
     {
         public const uint SZ = PrimalSizes.U1;

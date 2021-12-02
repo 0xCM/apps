@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType]
+    [DataType("verexpr")]
     public readonly struct VersionExpr
     {
         public string Value {get;}

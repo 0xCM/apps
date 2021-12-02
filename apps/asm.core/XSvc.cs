@@ -11,9 +11,6 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        [Op]
-        public static AsmTables AsmTables(this IWfRuntime wf)
-            => Svc.AsmTables.create(wf);
 
         [Op]
         public static AsmEtl AsmEtl(this IWfRuntime context)

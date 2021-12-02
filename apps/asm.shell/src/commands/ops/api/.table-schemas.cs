@@ -9,27 +9,32 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".table-schemas")]
+        [CmdOp(".emit-table-schemas")]
         Outcome TableSchemas(CmdArgs args)
         {
             var catalog = ApiRuntimeLoader.catalog();
             var schemas = Tables.schemas(catalog.Components);
             var count = schemas.Count;
+            var dst = Ws.Project("db").Subdir("api") + FS.file("api.tables.schema");
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
                 ref readonly var schema = ref schemas[i];
                 var fields = schema.Fields;
                 var fcount = fields.Length;
-                Write(string.Format("table {0} {{", schema.Id));
+                writer.WriteLine(string.Format("table {0} {{", schema.Id));
                 for(var j=0; j<fcount; j++)
                 {
                     ref readonly var field = ref skip(fields,j);
-                    Write(string.Format("  {0}",field.Format()));
+                    writer.WriteLine(string.Format("  {0}",field.Format()));
                 }
-                Write("}");
-                Write(EmptyString);
+                writer.WriteLine("}");
+                if(i != count - 1)
+                    writer.WriteLine();
             }
 
+            EmittedFile(emitting,count);
             return true;
         }
     }

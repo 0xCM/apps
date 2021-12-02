@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     using RF = RFlagBits;
 
-    [Flags,SymSource]
+    [Flags,SymSource("asm.regs.flags")]
     public enum StatusFlagBits : ushort
     {
         [Symbol("cf", "Carry Flag")]
