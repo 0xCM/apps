@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource("api.kinds")]
     public enum ImmClosureKind : byte
     {
         None = 0,

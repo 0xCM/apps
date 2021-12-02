@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Identifies comparison (predicate) kinds
     /// </summary>
-    [ApiClass]
+    [ApiClass, SymSource("api.classes")]
     public enum ApiComparisonClass : ushort
     {
         /// <summary>

@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("hash64<{0}>")]
     public readonly struct Hash64<T> : IHashCode<T,ulong>
         where T : unmanaged
     {

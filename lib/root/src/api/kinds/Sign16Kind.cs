@@ -5,9 +5,10 @@
 namespace Z0
 {
     /// <summary>
-    /// Classifies the sign aspect of a 32-bit value
+    /// Classifies the sign aspect of a 16-bit value
     /// </summary>
-    public enum Sign32Kind : uint
+    [SymSource("api.kinds")]
+    public enum Sign16Kind : ushort
     {
         /// <summary>
         /// Indicates a value is greater than or equal to zero
@@ -17,6 +18,6 @@ namespace Z0
         /// <summary>
         /// Indicates a value is less than zero
         /// </summary>
-        Signed = uint.MaxValue ^ int.MaxValue
+        Signed = ushort.MaxValue ^ short.MaxValue
     }
 }

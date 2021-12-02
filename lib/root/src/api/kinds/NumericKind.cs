@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Classifies system-defined numeric primitive types
     /// </summary>
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum NumericKind : uint
     {
         None = 0,

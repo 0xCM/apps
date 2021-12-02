@@ -8,7 +8,7 @@ namespace Z0
     /// <summary>
     /// Defines grid-sort datatype classifiers
     /// </summary>
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum ApiGridKind : uint
     {
         None = 0,

@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum SpanBlockKind : ushort
     {
         None,

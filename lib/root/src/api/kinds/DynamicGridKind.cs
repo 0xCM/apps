@@ -3,6 +3,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource("api.kinds")]
     public enum DynamicGridKind : uint
     {
         None = 0,

@@ -249,28 +249,6 @@ namespace Z0.Asm
             Wf.EmittedFile(flow,projects.Length);
         }
 
-        void Symbolize()
-        {
-            var assemblies = Wf.ApiCatalog.Components;
-            var flow = Wf.Running(string.Format("Collecting method symbols for {0} assemblies", assemblies.Length));
-            var symbolic = Wf.SourceSymbolic();
-            var collector = new MethodSymbolCollector();
-            symbolic.SymbolizeMethods(assemblies, collector.Deposit);
-            var collected = collector.Collected;
-            var count = collected.Length;
-            Wf.Ran(flow, string.Format("Collected {0} method symbols", count));
-            var dst = Db.AppLog("methods", FS.Cs);
-            var emitting = Wf.EmittingFile(dst);
-            using var writer = dst.Writer();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var method = ref skip(collected,i);
-                var doc = method.Docs;
-                writer.WriteLine(string.Format("{0}; {1}", method.Format(), doc != null ? "//" + doc.SummaryText : EmptyString));
-            }
-            Wf.EmittedFile(emitting, count);
-        }
-
         void ProcessInstructions()
         {
             var blocks = LoadApiBlocks().View;

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [SymSource("api.kinds")]
     public enum NatClosureKind : byte
     {
         None = 0,

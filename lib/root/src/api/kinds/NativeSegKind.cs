@@ -15,7 +15,7 @@ namespace Z0
     /// t = kind[16..23]
     /// s = {u | i | f} as determined by kind[30..31]
     /// </summary>
-    [Flags]
+    [Flags,SymSource("api.kinds")]
     public enum NativeSegKind : uint
     {
         None = 0,

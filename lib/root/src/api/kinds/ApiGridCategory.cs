@@ -5,7 +5,7 @@ namespace Z0
 {
     using System;
 
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum ApiGridCategory : uint
     {
         None = 0,

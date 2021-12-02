@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Identifies bitwise operations in an arity-neutral way
     /// </summary>
-    [ApiClass]
+    [ApiClass, SymSource("api.classes")]
     public enum ApiBitCalcClass : ushort
     {
         None = 0,

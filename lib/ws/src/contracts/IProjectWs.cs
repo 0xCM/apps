@@ -15,8 +15,14 @@ namespace Z0
         FS.FolderPath Home()
             => Root + FS.folder(Project.Format());
 
+        FS.FilePath IFileArchive.Path(string id, FS.FileExt ext)
+            => Home() + FS.file(id,ext);
+
         FS.FolderPath IFileArchive.Subdir(string name)
             => Home() + FS.folder(name);
+
+        FS.FilePath IFileArchive.Path(string scope, string id, FS.FileExt ext)
+            => Subdir(scope) + FS.file(id,ext);
 
         FS.FolderPath IWorkspace.SrcDir()
             => Home() + FS.folder("src");
@@ -75,7 +81,6 @@ namespace Z0
         FS.FilePath Table<T>(string subject)
             where T : struct
                 => Tables() + FS.file(string.Format("{0}.{1}", subject, Z0.TableId.identify<T>().Format()), FS.Csv);
-
 
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);

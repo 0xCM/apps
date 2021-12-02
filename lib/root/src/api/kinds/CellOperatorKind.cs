@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines operator classifiers
     /// </summary>
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum CellOperationKind : uint
     {
         /// <summary>

@@ -8,7 +8,7 @@ namespace Z0
 
     using FCM =System.Runtime.Intrinsics.X86.FloatComparisonMode;
 
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum FpErrorMode
     {
         /// <summary>
@@ -22,7 +22,7 @@ namespace Z0
         Suppress = 8
     }
 
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum FpRoundDir : byte
     {
         /// <summary>
@@ -74,6 +74,7 @@ namespace Z0
     /// <summary>
     /// Floating point comparison mode
     /// </summary>
+    [SymSource("api.kinds"), Flags]
     public enum FpCmpMode : byte
     {
         /// <summary>

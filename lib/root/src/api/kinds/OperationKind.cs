@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Classifies an operation in various ways
     /// </summary>
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum OperationKind : ushort
     {
         /// <summary>

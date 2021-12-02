@@ -5,28 +5,31 @@
 namespace Z0
 {
     /// <summary>
-    /// Defines scalar shift operator classifiers
+    /// Classifies unary logic operators
     /// </summary>
-    public enum LogicalShiftKind : byte
+    [SymSource("api.kinds")]
+    public enum UnaryBitLogicKind : byte
     {
-        /// <summary>
-        /// Shift left logical
-        /// </summary>
-        Sll,
+        None = 0,
 
         /// <summary>
-        /// Shift right logical
+        /// The unary operator that always returns false
         /// </summary>
-        Srl,
+        False = 0,
 
         /// <summary>
-        /// Rotate left
+        /// Logical NOT
         /// </summary>
-        Rotl,
+        Not = 1,
 
         /// <summary>
-        /// Rotate rigth
+        /// The identity operator
         /// </summary>
-        Rotr
+        Identity = 2,
+
+        /// <summary>
+        /// The unary operator that always returns true
+        /// </summary>
+        True = 3,
     }
 }

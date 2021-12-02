@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiClass]
+    [ApiClass, SymSource("api.classes")]
     public enum ApiMemoryClass : ushort
     {
         None = 0,

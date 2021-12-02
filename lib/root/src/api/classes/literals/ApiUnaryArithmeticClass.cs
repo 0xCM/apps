@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Classifies unary arithmetic operators
     /// </summary>
-    [ApiClass]
+    [ApiClass, SymSource("api.classes")]
     public enum ApiUnaryArithmeticClass : ushort
     {
         None = 0,

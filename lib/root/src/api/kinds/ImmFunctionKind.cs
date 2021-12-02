@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Classifies operations according to their immediate needs
     /// </summary>
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum ImmFunctionKind : byte
     {
         /// <summary>

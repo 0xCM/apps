@@ -5,30 +5,29 @@
 namespace Z0
 {
     /// <summary>
-    /// Classifies unary logic operators
+    /// Defines identifiers corresponding to the hex digits 0,..,3
     /// </summary>
-    public enum UnaryBitLogicKind : byte
+    [SymSource("hexseq")]
+    public enum Hex2Seq : byte
     {
-        None = 0,
+        /// <summary>
+        /// Identifies the hex value 0x00 := 0
+        /// </summary>
+        x00 = 0x0,
 
         /// <summary>
-        /// The unary operator that always returns false
+        /// Identifies the hex value 0x01 := 1
         /// </summary>
-        False = 0,
+        x01 = 0x1,
 
         /// <summary>
-        /// Logical NOT
+        /// Identifies the hex value 0x02 := 2
         /// </summary>
-        Not = 1,
+        x02 = 0x2,
 
         /// <summary>
-        /// The identity operator
+        /// Identifies the hex value 0x03 := 3
         /// </summary>
-        Identity = 2,
-
-        /// <summary>
-        /// The unary operator that always returns true
-        /// </summary>
-        True = 3,
+        x03 = 0x3,
     }
 }

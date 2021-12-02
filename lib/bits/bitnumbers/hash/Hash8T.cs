@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("hash8<{0}>")]
     public readonly struct Hash8<T> : IHashCode<T,byte>
         where T : unmanaged
     {

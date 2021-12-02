@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines common numeric bases
     /// </summary>
+    [SymSource("api.kinds")]
     public enum NumericBaseKind : uint
     {
         None = 0,

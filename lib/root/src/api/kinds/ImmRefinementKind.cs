@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines immediate value classifiers
     /// </summary>
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum ImmRefinementKind : byte
     {
         None = 0,

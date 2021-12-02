@@ -5,28 +5,33 @@
 namespace Z0
 {
     /// <summary>
-    /// Defines identifiers corresponding to the hex digits 0,..,3
+    /// Defines scalar shift operator classifiers
     /// </summary>
-    public enum Hex2Seq : byte
+    [SymSource("api.kinds")]
+    public enum LogicalShiftKind : byte
     {
         /// <summary>
-        /// Identifies the hex value 0x00 := 0
+        /// Shift left logical
         /// </summary>
-        x00 = 0x0,
+        [Symbol("sll", "Shift left logical")]
+        Sll,
 
         /// <summary>
-        /// Identifies the hex value 0x01 := 1
+        /// Shift right logical
         /// </summary>
-        x01 = 0x1,
+        [Symbol("srl", "Shift right logical")]
+        Srl,
 
         /// <summary>
-        /// Identifies the hex value 0x02 := 2
+        /// Rotate left
         /// </summary>
-        x02 = 0x2,
+        [Symbol("rotl", "Rotate left")]
+        Rotl,
 
         /// <summary>
-        /// Identifies the hex value 0x03 := 3
+        /// Rotate right
         /// </summary>
-        x03 = 0x3,
+        [Symbol("rotr", "Rotate right")]
+        Rotr
     }
 }

@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("hash8")]
     public readonly struct Hash8 : IHashCode<byte,byte>
     {
         public byte Value {get;}

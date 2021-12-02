@@ -108,11 +108,11 @@ namespace Z0
             var name = string.Format("{0}.compilation",src.GetSimpleName());
             var comp = Roslyn.Compilation(name, metadata);
             var asymbol = comp.GetAssemblySymbol(metadata);
-            dst.Replace(core.array(asymbol));
+            dst.Assemblies = core.array(asymbol);
             var gns = asymbol.GlobalNamespace;
             var types = gns.GetTypes();
             Wf.Status(string.Format("Traversing {0} types", types.Length));
-            dst.Replace(types);
+            dst.Types = types;
             var allocation = span<CaSymbol>(MemberCount(types));
             Wf.Status(string.Format("Traversing {0} type members", allocation.Length));
             IncludeMethods(types, allocation, ref dst);
@@ -170,7 +170,7 @@ namespace Z0
             collected = slice(buffer, 0, kNonEmpty);
 
             Wf.Status(string.Format("Collected {0} methods", collected.Length));
-            dst.Replace(CaSymbols.convert<MethodSymbol>(collected));
+            dst.Methods = CaSymbols.convert<MethodSymbol>(collected);
         }
 
         [MethodImpl(Inline),Op]

@@ -5,18 +5,19 @@
 namespace Z0
 {
     /// <summary>
-    /// Classifies the sign aspect of a 16-bit value
+    /// Defines identifiers corresponding to the hex digits 0 and 1
     /// </summary>
-    public enum Sign16Kind : ushort
+    [SymSource("hexseq")]
+    public enum Hex1Seq : byte
     {
         /// <summary>
-        /// Indicates a value is greater than or equal to zero
+        /// Identifies the hex value 0x00 := 0
         /// </summary>
-        Unsigned = 0,
+        x00 = 0x0,
 
         /// <summary>
-        /// Indicates a value is less than zero
+        /// Identifies the hex value 0x01 := 1
         /// </summary>
-        Signed = ushort.MaxValue ^ short.MaxValue
+        x01 = 0x1,
     }
 }

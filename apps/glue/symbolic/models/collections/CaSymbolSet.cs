@@ -15,41 +15,22 @@ namespace Z0
             : this()
         {
             Metadata = metadata;
+            Assemblies = sys.empty<AssemblySymbol>();
+            Types = sys.empty<TypeSymbol>();
+            Methods = sys.empty<MethodSymbol>();
+            Fields = sys.empty<FieldSymbol>();
         }
-
-        public ReadOnlySpan<CaSymbol> Untyped {get; private set;}
 
         public ReadOnlySpan<MetadataReference> Metadata {get;}
 
-        public ReadOnlySpan<AssemblySymbol> Assemblies {get; private set;}
+        public ReadOnlySpan<AssemblySymbol> Assemblies {get; internal set;}
 
-        public ReadOnlySpan<TypeSymbol> Types {get; private set;}
+        public ReadOnlySpan<TypeSymbol> Types {get; internal set;}
 
-        public ReadOnlySpan<MethodSymbol> Methods {get; private set;}
+        public ReadOnlySpan<MethodSymbol> Methods {get; internal set;}
 
-        public CaSymbolSet Replace(ReadOnlySpan<CaSymbol> src)
-        {
-            Untyped = src;
-            return this;
-        }
+        public ReadOnlySpan<FieldSymbol> Fields {get; internal set;}
 
-        public CaSymbolSet Replace(ReadOnlySpan<AssemblySymbol> src)
-        {
-            Assemblies = src;
-            return this;
-        }
-
-        public CaSymbolSet Replace(ReadOnlySpan<TypeSymbol> src)
-        {
-            Types = src;
-            return this;
-        }
-
-        public CaSymbolSet Replace(ReadOnlySpan<MethodSymbol> src)
-        {
-            Methods = src;
-            return this;
-        }
 
         public static CaSymbolSet Empty => default;
     }

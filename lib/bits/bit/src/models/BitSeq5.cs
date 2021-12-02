@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines literals corresponding to the set of unique 5-bit sequences
     /// </summary>
+    [SymSource("bitseq")]
     public enum BitSeq5 : byte
     {
         b00000 = 0b00000,

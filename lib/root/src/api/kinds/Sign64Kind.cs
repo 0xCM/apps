@@ -5,14 +5,13 @@
 namespace Z0
 {
     /// <summary>
-    /// Classifies elementary unary arithmetic operations
+    /// Classifies the sign aspect of a 64-bit value
     /// </summary>
-    public enum UnaryArithmeticKind : byte
+    [SymSource("api.kinds")]
+    public enum Sign64Kind : ulong
     {
-        None,
+        Unsigned = 0,
 
-        Inc,
-
-        Dec,
+        Signed = ulong.MaxValue ^ long.MaxValue
     }
 }

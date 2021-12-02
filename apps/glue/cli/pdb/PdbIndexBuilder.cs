@@ -49,16 +49,6 @@ namespace Z0
             return stats.MethodCount;
         }
 
-        public void IndexParts(params PartId[] parts)
-        {
-            IndexComponents(FindComponents(parts));
-        }
-
-        public void IndexParts(ReadOnlySpan<PartId> parts)
-        {
-            IndexComponents(FindComponents(parts.ToArray()));
-        }
-
         public void IndexComponents(ReadOnlySpan<Assembly> components)
         {
             var count = components.Length;
@@ -77,8 +67,5 @@ namespace Z0
             Wf.EmittedFile(emitting, docs.Length);
             Wf.Ran(flow, Msg.IndexedPdbMethods.Format(counter));
         }
-
-        ReadOnlySpan<Assembly> FindComponents(PartId[] parts)
-            => Wf.ApiCatalog.FindComponents(parts);
     }
 }

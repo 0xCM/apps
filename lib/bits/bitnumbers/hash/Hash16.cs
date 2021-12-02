@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("hash16")]
     public readonly struct Hash16 : IHashCode<ushort,ushort>
     {
         public ushort Value {get;}

@@ -8,7 +8,7 @@ namespace Z0
 
     using OC = OperationKind;
 
-    [Flags]
+    [SymSource("api.kinds"), Flags]
     public enum ApiArityKind : ushort
     {
         /// <summary>

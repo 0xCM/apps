@@ -9,6 +9,7 @@ namespace Z0
     /// <summary>
     /// Classifies binary boolean and bitwise logical operations
     /// </summary>
+    [SymSource("api.kinds")]
     public enum BinaryBitLogicKind : ushort
     {
         /// <summary>

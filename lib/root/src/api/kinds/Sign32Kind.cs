@@ -5,18 +5,19 @@
 namespace Z0
 {
     /// <summary>
-    /// Defines identifiers corresponding to the hex digits 0 and 1
+    /// Classifies the sign aspect of a 32-bit value
     /// </summary>
-    public enum Hex1Seq : byte
+    [SymSource("api.kinds")]
+    public enum Sign32Kind : uint
     {
         /// <summary>
-        /// Identifies the hex value 0x00 := 0
+        /// Indicates a value is greater than or equal to zero
         /// </summary>
-        x00 = 0x0,
+        Unsigned = 0,
 
         /// <summary>
-        /// Identifies the hex value 0x01 := 1
+        /// Indicates a value is less than zero
         /// </summary>
-        x01 = 0x1,
+        Signed = uint.MaxValue ^ int.MaxValue
     }
 }

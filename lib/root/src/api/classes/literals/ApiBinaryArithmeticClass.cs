@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Identifies binary arithmetic operators classes
     /// </summary>
-    [ApiClass]
+    [ApiClass, SymSource("api.classes")]
     public enum ApiBinaryArithmeticClass : ushort
     {
         /// <summary>

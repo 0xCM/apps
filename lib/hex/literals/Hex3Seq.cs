@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to the hex digits 0,..,7
     /// </summary>
+    [SymSource("hexseq")]
     public enum Hex3Seq : byte
     {
         /// <summary>

@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    [Flags,SymSource]
+    [SymSource("api.kinds"), Flags]
     public enum ParamDirection : byte
     {
         None = 0,

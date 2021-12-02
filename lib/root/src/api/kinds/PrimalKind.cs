@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static Log2x8;
     using static Sign8Kind;
 
@@ -18,7 +16,7 @@ namespace Z0
     /// <remarks>
     /// [Sign8Kind:7 | PrimalKindId:3..6 | Log2x8:0..2]
     /// <remarks>
-    [SymSource]
+    [SymSource("api.kinds")]
     public enum PrimalKind : byte
     {
         None = 0,
