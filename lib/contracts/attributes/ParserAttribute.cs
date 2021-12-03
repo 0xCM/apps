@@ -7,18 +7,18 @@ namespace Z0
     using System;
 
     [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class | AttributeTargets.Method)]
-    public class ParserAttribute : Attribute
+    public class ParserAttribute : OpAttribute
     {
-        public ParserAttribute(params Type[] supported)
+        public ParserAttribute(object kind)
         {
-            SupportedTypes = supported;
+            TargetKind = kind;
         }
 
         public ParserAttribute()
         {
-            SupportedTypes = new Type[]{typeof(void)};
+            TargetKind = typeof(void);
         }
 
-        public Type[] SupportedTypes {get;}
+        public object TargetKind {get;}
     }
 }

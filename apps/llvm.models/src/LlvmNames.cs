@@ -160,8 +160,6 @@ namespace Z0.llvm
 
             public const string GenericInstruction = nameof(GenericInstruction);
 
-            public const string Register = nameof(Register);
-
             public const string RegisterClass = nameof(RegisterClass);
 
             public const string ValueType = nameof(ValueType);
@@ -182,10 +180,12 @@ namespace Z0.llvm
 
             public const string X86MemOffsOperand = nameof(X86MemOffsOperand);
 
+            public const string SDTypeProfile = nameof(SDTypeProfile);
+
             public static string[] Names = new string[]{
                 AVX512, AsmOperandClass, AssemblerPredicate, CondCode, DAGOperand,
                 GenericInstruction, RegisterClass,
-                ValueType, X86Inst, Map, Predicate, SDPatternOperator, SDNode,
+                ValueType, X86Inst, Map, Predicate, SDPatternOperator, SDNode, SDTypeProfile,
                 SubtargetFeature, X86MemOperand, X86MemOffsOperand, Instruction,
                 };
         }

@@ -23,5 +23,17 @@ namespace Z0.Gen.Projects
             Members.Add(new PackageReference(name,version));
             return this;
         }
+
+        public ItemGroup WithProjectReference(string name)
+        {
+            Members.Add(new ProjectReference(name));
+            return this;
+        }
+
+        public ItemGroup WithReference(string name, FS.FilePath? hint = null)
+        {
+            Members.Add(new Reference(name, hint));
+            return this;
+        }
     }
 }

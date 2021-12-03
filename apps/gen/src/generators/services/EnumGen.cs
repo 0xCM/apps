@@ -4,11 +4,42 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using static core;
     using static CsModels;
 
     public class EnumGen : CodeGenerator
     {
+        public Outcome Emit<T>(uint offset, Identifier name, string symsource, ReadOnlySpan<Literal<T>> literals, ITextBuffer dst)
+        {
+            var counter = 0ul;
+            var indent = offset;
+            var @base = typeof(T).NumericKind();
+            if(nonempty(symsource))
+                dst.IndentLineFormat(indent,"[SymSource(\"{0}\")]", symsource);
+            else
+                dst.IndentLine(indent,"[SymSource]");
+
+            dst.IndentLineFormat(indent, "public enum {0} : {1}", name, @base.Keyword());
+            dst.IndentLine(indent,"{");
+            indent += 4;
+
+            var count = literals.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var literal = ref skip(literals,i);
+                dst.IndentLineFormat(indent, "{0} = {1},", literal.Name, literal.Value);
+                if(i != count -1)
+                    dst.AppendLine();
+            }
+
+            indent -= 4;
+            dst.IndentLine(indent,"}");
+
+            return default;
+        }
+
         public Outcome Generate(uint offset, SymSet spec, ITextBuffer dst)
         {
             var counter = 0ul;

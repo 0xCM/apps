@@ -14,7 +14,7 @@
 
         public static MemoryAddress OffsetBase => address(Offsets);
 
-        public static MemoryStrings Strings => strings.memory(Offsets, Data);
+        public static MemoryStrings Strings => strings.memory(Offsets,Data);
 
         public enum Index : uint
         {

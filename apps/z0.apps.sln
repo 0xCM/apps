@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asmz", "asmz\z0.asmz.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.calc.shell", "calc.shell\z0.calc.shell.csproj", "{9E04983A-2B31-43BA-BB9D-BF9393D46D9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.canonical", "canonical\z0.canonical.csproj", "{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.capture", "capture\z0.capture.csproj", "{3A9E1FE2-4C11-4564-9D42-6106501174CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.control", "control\z0.control.csproj", "{4D4DD6B2-4C84-45FC-AD60-9FC71F38F379}"
@@ -98,12 +96,6 @@ Global
 		{9E04983A-2B31-43BA-BB9D-BF9393D46D9E}.Release|x64.Build.0 = Release|Any CPU
 		{9E04983A-2B31-43BA-BB9D-BF9393D46D9E}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E04983A-2B31-43BA-BB9D-BF9393D46D9E}.Release|x86.Build.0 = Release|Any CPU
-		{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}.Release|x64.ActiveCfg = Release|Any CPU
-		{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}.Release|x64.Build.0 = Release|Any CPU
-		{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}.Release|x86.ActiveCfg = Release|Any CPU
-		{B69C80BD-63AB-4ED4-88AA-1FD946A2EB39}.Release|x86.Build.0 = Release|Any CPU
 		{3A9E1FE2-4C11-4564-9D42-6106501174CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9E1FE2-4C11-4564-9D42-6106501174CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A9E1FE2-4C11-4564-9D42-6106501174CA}.Release|x64.ActiveCfg = Release|Any CPU

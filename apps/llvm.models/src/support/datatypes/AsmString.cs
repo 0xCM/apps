@@ -101,7 +101,7 @@ namespace Z0.llvm
         }
 
         public string Format()
-            => Content.Format();
+            => Content.Format().Trim();
 
         public override string ToString()
             => Format();

@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for <see cref='sbyte'/> values
     /// </summary>
+    [SymSource("limits")]
     public enum Limits8i : sbyte
     {
         /// <summary>

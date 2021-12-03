@@ -15,7 +15,7 @@ namespace Z0.Logix
         const NumericKind Closure = UInt64k;
 
         [Op, Closures(Closure)]
-        public static LiteralExpr<T> eval<T>(IComparisonExpr<T> expr)
+        public static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
                 => PredicateEval.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
 
@@ -25,17 +25,17 @@ namespace Z0.Logix
                 => NumericLogixHost.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
 
         [Op, Closures(Closure)]
-        public static LiteralExpr<Vector128<T>> eval<T>(IComparisonExpr<Vector128<T>> expr)
+        public static LogixLiteral<Vector128<T>> eval<T>(IComparisonExpr<Vector128<T>> expr)
             where T : unmanaged
                 => VLogixOps.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
 
         [Op, Closures(Closure)]
-        public static LiteralExpr<Vector256<T>> eval<T>(IComparisonExpr<Vector256<T>> expr)
+        public static LogixLiteral<Vector256<T>> eval<T>(IComparisonExpr<Vector256<T>> expr)
             where T : unmanaged
                 => VLogixOps.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
 
         [Op, Closures(Closure)]
-        static LiteralExpr<T> eval<T>(ILogixExpr<T> expr)
+        static LogixLiteral<T> eval<T>(ILogixExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)
@@ -46,12 +46,12 @@ namespace Z0.Logix
         }
 
         [Op, Closures(Closure)]
-        static LiteralExpr<Vector128<T>> eval<T>(ILogixExpr<Vector128<T>> expr)
+        static LogixLiteral<Vector128<T>> eval<T>(ILogixExpr<Vector128<T>> expr)
             where T : unmanaged
                 => LogicEngine.eval(expr);
 
         [Op, Closures(Closure)]
-        static LiteralExpr<Vector256<T>> eval<T>(ILogixExpr<Vector256<T>> expr)
+        static LogixLiteral<Vector256<T>> eval<T>(ILogixExpr<Vector256<T>> expr)
             where T : unmanaged
                 => LogicEngine.eval(expr);
     }

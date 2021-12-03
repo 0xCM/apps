@@ -16,7 +16,7 @@ namespace Z0.Gen
     {
         public void Generate(ShellSpec spec, FS.FolderPath dst)
         {
-            var project = new Project(spec.ProjectName, spec.AssemblyName);
+            var project = new NetCoreProject(spec.ProjectName, spec.AssemblyName);
             project.Props.WithOutputType("Exe").WithRuntimeIdentifier("win-x64");
             project.Items.WithPackageReference("z0.tools", "$(ZLibVersion)");
             var path = dst + FS.file(project.ProjectName, FS.CsProj);

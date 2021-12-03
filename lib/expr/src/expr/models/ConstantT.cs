@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines an invariant value
     /// </summary>
-    public readonly struct Constant<T> : IExpr
+    public readonly struct Constant<T> : IConstExpr<T>
     {
         public T Value {get;}
 

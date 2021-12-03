@@ -19,7 +19,7 @@ namespace Z0
         /// </summary>
         /// <typeparam name="T">The literal type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static LiteralExpr<T> @true<T>()
+        public static LogixLiteral<T> @true<T>()
             where T : unmanaged
                 => Limits.maxval<T>();
 
@@ -28,12 +28,12 @@ namespace Z0
         /// </summary>
         /// <typeparam name="T">The literal type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static LiteralExpr<T> @false<T>()
+        public static LogixLiteral<T> @false<T>()
             where T : unmanaged
                 => default(T);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static LiteralExpr<Vector256<T>> @false<T>(N256 n)
+        public static LogixLiteral<Vector256<T>> @false<T>(N256 n)
             where T : unmanaged
                 => literal(default(Vector256<T>));
 

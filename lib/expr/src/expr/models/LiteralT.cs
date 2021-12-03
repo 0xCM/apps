@@ -10,27 +10,22 @@ namespace Z0
     using static Root;
 
     /// <summary>
-    /// Defines a literal value which, by definition, is a labeled constant
+    /// Defines a literal value which, by definition, is a named constant
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Literal<T> : IExpr
+    public readonly struct Literal<T> : ILiteralExpr<T>
     {
-        public Label Name {get;}
+        public string Name {get;}
 
         public Constant<T> Value {get;}
 
         [MethodImpl(Inline)]
-        public Literal(Label name, Constant<T> value)
+        public Literal(string name, Constant<T> value)
         {
             Name = name;
             Value = value;
         }
 
-        public bool HasName
-        {
-            [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
-        }
         public string Format()
             => ExprFormatters.Literal<T>().Format(this);
 

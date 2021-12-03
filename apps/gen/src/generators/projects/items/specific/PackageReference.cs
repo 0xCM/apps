@@ -8,15 +8,21 @@ namespace Z0.Gen.Projects
     {
         const string Pattern = "<PackageReference Include=\"{0}\" Version=\"{1}\"/>";
 
+        public string PackageName {get;}
+
         public string Version {get;}
 
         public PackageReference(string name, string version)
             : base(nameof(PackageReference))
         {
+            PackageName = name;
             Version = version;
         }
 
         public override string Format()
-            => string.Format(Pattern, Name, Version);
+            => string.Format(Pattern, PackageName, Version);
+
+        public override string ToString()
+            => Format();
     }
 }

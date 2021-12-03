@@ -11,28 +11,27 @@ namespace Z0
 
     partial struct expr
     {
-        public static LiteralAllocation<T> literals<T>(ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+        public static Index<Literal<T>> literals<T>(ReadOnlySpan<string> names, ReadOnlySpan<T> values)
         {
             var count = names.Length;
             Require.equal(count, values.Length);
-            var labels = strings.labels(names);
             var literals = alloc<Literal<T>>(count);
             for(var i=0; i<count; i++)
-                seek(literals,i) = new Literal<T>(labels[i], skip(values,i));
-            return new LiteralAllocation<T>(labels, literals);
+                seek(literals,i) = new Literal<T>(skip(names,i), skip(values,i));
+            return literals;
         }
 
-        public static LiteralAllocation<T> literals<T>(KeyedValue<string,T>[] src)
+        public static Index<Literal<T>> literals<T>(KeyedValue<string,T>[] src)
         {
             var count = src.Length;
-            var labels = strings.labels(src.Map(x => x.Key));
+            var labels = src.Map(x => x.Key);
             var literals = alloc<Literal<T>>(count);
             for(var i=0; i<count; i++)
                 seek(literals,i) = new Literal<T>(labels[i], skip(src,i).Value);
-            return new LiteralAllocation<T>(labels,literals);
+            return literals;
         }
 
-       static Label name<E>(Sym<E> sym, LiteralNameSource src)
+       static string name<E>(Sym<E> sym, LiteralNameSource src)
             where E : unmanaged
             => src switch{
                 LiteralNameSource.Expression => sym.Expr.Text,

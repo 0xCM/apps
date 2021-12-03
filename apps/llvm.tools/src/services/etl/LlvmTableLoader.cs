@@ -91,6 +91,9 @@ namespace Z0.llvm
 
         const char Delimiter = Chars.Pipe;
 
+        public Index<string> LoadAsmMnemonicNames()
+            => LoadVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
+
         public Index<LlvmAsmVariation> LoadVariations()
         {
             const byte FieldCount = LlvmAsmVariation.FieldCount;

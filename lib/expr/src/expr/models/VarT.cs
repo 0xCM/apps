@@ -16,12 +16,12 @@ namespace Z0.Expr
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Var<T> : IVar<T>
     {
-        public Label Name {get;}
+        public string Name {get;}
 
         readonly Func<T> Resolver;
 
         [MethodImpl(Inline)]
-        public Var(Label name, Func<T> resolver)
+        public Var(string name, Func<T> resolver)
         {
             Name = name;
             Resolver = resolver;

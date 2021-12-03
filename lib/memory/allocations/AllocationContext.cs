@@ -25,12 +25,11 @@ namespace Z0
         }
     }
 
-    public sealed class LiteralAllocation<T> : AllocationContext<LabelBuffer>
+    public sealed class LiteralAllocation<T>
     {
         readonly Index<Literal<T>> _Literals;
 
-        internal LiteralAllocation(LabelBuffer labels, Index<Literal<T>> literals)
-            : base(labels)
+        internal LiteralAllocation(string[] labels, Index<Literal<T>> literals)
         {
             _Literals = literals;
         }

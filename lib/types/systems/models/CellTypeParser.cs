@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Parser(typeof(PrimalCellType))]
+    [Parser]
     public readonly struct CellTypeParser : IParser<PrimalCellType>
     {
         public static CellTypeParser Service => default;

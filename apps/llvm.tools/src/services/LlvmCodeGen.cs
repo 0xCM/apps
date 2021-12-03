@@ -36,11 +36,10 @@ namespace Z0.llvm
 
         void GenLiteralProviders()
         {
-            var src = TableLoader.LoadVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
-            using var literals = expr.literals(src.View,src.View);
-            var dst = Generators.CodeGenPath("llvm", "AsmNames", FS.Cs);
-            //var dst = LlvmPaths.CodeGenPath("AsmNames", FS.Cs);
-            Generators.GenLiteralProvider("Z0.llvm", "AsmNames", literals.Literals, dst);
+            var src = TableLoader.LoadAsmMnemonicNames();
+            var literals = expr.literals(src.View, src.View);
+            var dst = Generators.CodeGenPath("llvm", "AsmMnemonicNames", FS.Cs);
+            Generators.LiteralProvider().Emit("Z0.llvm", "AsmMnemonicNames", literals, dst);
         }
 
         public Arrow<FS.FileUri> GenStringTable(string listid)

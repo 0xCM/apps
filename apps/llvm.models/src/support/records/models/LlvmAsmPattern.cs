@@ -28,7 +28,7 @@ namespace Z0.llvm
 
         public AsmVariationCode Variation;
 
-        public AsciBlock64 ExprFormat;
+        public AsmString ExprFormat;
 
         public static LlvmAsmPattern Empty => default;
     }

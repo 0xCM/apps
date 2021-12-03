@@ -35,7 +35,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public void SetVars(params T[] values)
-            => VariedExpr.Set(this, values.Map(v => (new LiteralExpr<T>(v) as ILiteralExpr<T>)));
+            => VariedExpr.Set(this, values.Map(v => (new LogixLiteral<T>(v) as ILogixLiteral<T>)));
 
         [MethodImpl(Inline)]
         public void SetVars(params ILogixExpr<T>[] values)

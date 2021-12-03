@@ -6,11 +6,11 @@ namespace Z0
 {
     public interface IExprScope
     {
-        Label Parent {get;}
+        string Parent {get;}
 
-        Label Name {get;}
+        string Name {get;}
 
         bool IsRoot
-            => Parent.Length == 0;
+            => Parent?.Length == 0;
     }
 }

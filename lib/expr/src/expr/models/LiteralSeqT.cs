@@ -13,10 +13,10 @@ namespace Z0
     {
         Index<Literal<T>> _Terms {get;}
 
-        public Label Name {get;}
+        public Identifier Name {get;}
 
         [MethodImpl(Inline)]
-        public LiteralSeq(Label name, Literal<T>[] src)
+        public LiteralSeq(Identifier name, Literal<T>[] src)
         {
             Name = name;
             _Terms = src;

@@ -14,12 +14,12 @@ namespace Z0.Expr
     /// </summary>
     public readonly struct ExprScope : IExprScope
     {
-        public Label Parent {get;}
+        public string Parent {get;}
 
-        public Label Name {get;}
+        public string Name {get;}
 
         [MethodImpl(Inline)]
-        public ExprScope(Label parent, Label name)
+        public ExprScope(string parent, string name)
         {
             Parent = parent;
             Name = name;

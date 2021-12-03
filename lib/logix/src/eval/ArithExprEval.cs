@@ -16,12 +16,12 @@ namespace Z0.Logix
         const NumericKind Closure = UInt64k;
 
         [Op, NumericClosures(Closure)]
-        public static LiteralExpr<T> eval<T>(IArithmeticExpr<T> expr)
+        public static LogixLiteral<T> eval<T>(IArithmeticExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)
             {
-                case ILiteralExpr<T> x:
+                case ILogixLiteral<T> x:
                     return x.Value;
                 case IVarExpr<T> x:
                     return eval(x);
@@ -32,7 +32,7 @@ namespace Z0.Logix
         }
 
         [Op, Closures(Closure)]
-        static LiteralExpr<T> eval<T>(ILogixExpr<T> expr)
+        static LogixLiteral<T> eval<T>(ILogixExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)
@@ -44,12 +44,12 @@ namespace Z0.Logix
         }
 
        [Op, Closures(Closure)]
-       static LiteralExpr<T> eval<T>(IVarExpr<T> expr)
+       static LogixLiteral<T> eval<T>(IVarExpr<T> expr)
             where T : unmanaged
         {
             switch(expr.Value)
             {
-                case ILiteralExpr<T> x:
+                case ILogixLiteral<T> x:
                     return x.Value;
                 default:
                     return eval(expr.Value);
@@ -57,7 +57,7 @@ namespace Z0.Logix
         }
 
         [Op, Closures(Closure)]
-        static LiteralExpr<T> eval<T>(IArithmeticOpExpr<T> expr)
+        static LogixLiteral<T> eval<T>(IArithmeticOpExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)
@@ -71,7 +71,7 @@ namespace Z0.Logix
         }
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> eval<T>(IBinaryArithmeticOpExpr<T> expr)
+        static LogixLiteral<T> eval<T>(IBinaryArithmeticOpExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)
@@ -89,7 +89,7 @@ namespace Z0.Logix
         }
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> eval<T>(IUnaryArithmeticOpExpr<T> expr)
+        static LogixLiteral<T> eval<T>(IUnaryArithmeticOpExpr<T> expr)
             where T : unmanaged
         {
             switch(expr.ApiClass)
@@ -102,32 +102,32 @@ namespace Z0.Logix
         }
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> eval<T>(IComparisonExpr<T> expr)
+        static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
                 => PredicateEval.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> inc<T>(IUnaryArithmeticOpExpr<T> a)
+        static LogixLiteral<T> inc<T>(IUnaryArithmeticOpExpr<T> a)
             where T : unmanaged
                 => NumericLogixOps.inc(eval(a).Value);
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> dec<T>(IUnaryArithmeticOpExpr<T> a)
+        static LogixLiteral<T> dec<T>(IUnaryArithmeticOpExpr<T> a)
             where T : unmanaged
                 => NumericLogixOps.dec(eval(a).Value);
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> negate<T>(IUnaryArithmeticOpExpr<T> a)
+        static LogixLiteral<T> negate<T>(IUnaryArithmeticOpExpr<T> a)
             where T : unmanaged
                 => NumericLogixOps.negate(eval(a).Value);
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> add<T>(IBinaryArithmeticOpExpr<T> expr)
+        static LogixLiteral<T> add<T>(IBinaryArithmeticOpExpr<T> expr)
             where T : unmanaged
                 => NumericLogixOps.add(eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
 
         [Op, NumericClosures(Closure)]
-        static LiteralExpr<T> sub<T>(IBinaryArithmeticOpExpr<T> expr)
+        static LogixLiteral<T> sub<T>(IBinaryArithmeticOpExpr<T> expr)
             where T : unmanaged
                 => NumericLogixOps.sub(eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
     }

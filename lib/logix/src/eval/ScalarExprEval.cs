@@ -13,12 +13,12 @@ namespace Z0.Logix
         const NumericKind Closure = UInt64k;
 
         [Op, Closures(Closure)]
-        public static LiteralExpr<T> eval<T>(ILogixExpr<T> expr)
+        public static LogixLiteral<T> eval<T>(ILogixExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)
             {
-                case ILiteralExpr<T> x:
+                case ILogixLiteral<T> x:
                     return x.Value;
                 case IVariedExpr<T> x:
                     return eval(x.BaseExpr);
@@ -33,7 +33,7 @@ namespace Z0.Logix
         }
 
         [Op, Closures(Closure)]
-        static LiteralExpr<T> eval<T>(IOperatorExpr<T> expr)
+        static LogixLiteral<T> eval<T>(IOperatorExpr<T> expr)
             where T : unmanaged
         {
             switch(expr)

@@ -9,7 +9,6 @@ namespace Z0
     /// </summary>
     /// <typeparam name="T">The type over which the expression is defined</typeparam>
     public interface ILogixExpr<T> : IExpr
-        where T : struct
     {
 
     }

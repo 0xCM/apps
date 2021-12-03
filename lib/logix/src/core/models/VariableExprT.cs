@@ -42,7 +42,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public void Set(T value)
         {
-            Value = new LiteralExpr<T>(value);
+            Value = new LogixLiteral<T>(value);
         }
 
         [MethodImpl(Inline)]

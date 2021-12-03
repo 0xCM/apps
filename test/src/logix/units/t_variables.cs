@@ -49,7 +49,7 @@ namespace Z0.Logix
             Notify($"Expression is satisfied by {result.Count} values");
         }
 
-        IReadOnlyList<T> solve<T>(VariedExpr<N1,T> expr, LiteralExpr<T> match, Interval<T> domain)
+        IReadOnlyList<T> solve<T>(VariedExpr<N1,T> expr, LogixLiteral<T> match, Interval<T> domain)
             where T : unmanaged
         {
             var dst = new List<T>();
@@ -65,7 +65,7 @@ namespace Z0.Logix
             return dst;
         }
 
-        IReadOnlyList<T> solve<T>(VariedExpr<N2,T> expr, LiteralExpr<T> match, Interval<T> domain)
+        IReadOnlyList<T> solve<T>(VariedExpr<N2,T> expr, LogixLiteral<T> match, Interval<T> domain)
             where T : unmanaged
         {
             var sln = new List<T>();

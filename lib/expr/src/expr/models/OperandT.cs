@@ -14,12 +14,12 @@ namespace Z0.Expr
     /// </summary>
     public readonly struct Operand<T>
     {
-        public Label Name {get;}
+        public string Name {get;}
 
         public T Value {get;}
 
         [MethodImpl(Inline)]
-        public Operand(Label name, T value)
+        public Operand(string name, T value)
         {
             Name = name;
             Value = value;
@@ -36,7 +36,7 @@ namespace Z0.Expr
             => new Operand(src.Name, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator Operand<T>((Label name, T value) src)
+        public static implicit operator Operand<T>((string name, T value) src)
             => new Operand<T>(src.name, src.value);
     }
 }

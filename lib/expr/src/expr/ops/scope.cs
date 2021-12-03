@@ -18,15 +18,15 @@ namespace Z0
         /// </summary>
         /// <param name="name">The scope name</param>
         [MethodImpl(Inline), Op]
-        public static ExprScope scope(Label name)
-            => new ExprScope(Label.Empty, name);
+        public static ExprScope scope(string name)
+            => new ExprScope(EmptyString, name);
 
         /// <summary>
         /// Creates a child scope
         /// </summary>
         /// <param name="name">The scope name</param>
         [MethodImpl(Inline), Op]
-        public static ExprScope scope(Label parent, Label name)
+        public static ExprScope scope(string parent, string name)
             => new ExprScope(parent,name);
     }
 }

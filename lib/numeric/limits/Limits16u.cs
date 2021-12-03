@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for <see cref='ushort'/> values
     /// </summary>
+    [SymSource("limits")]
     public enum Limits16u : ushort
     {
         /// <summary>

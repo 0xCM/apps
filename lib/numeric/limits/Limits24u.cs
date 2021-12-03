@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for uint24 values
     /// </summary>
+    [SymSource("limits")]
     public enum Limits24u : uint
     {
         /// <summary>

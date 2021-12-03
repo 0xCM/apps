@@ -11,8 +11,8 @@ namespace Z0
 
     public class Generators : AppService<Generators>
     {
-        public StringLiteralEmitter StringLiterals()
-            => Z0.StringLiteralEmitter.create(Wf);
+        public StringLiteralGen StringLiterals()
+            => Z0.StringLiteralGen.create(Wf);
 
         public EnumGen CsEnum()
             => new EnumGen();
@@ -23,36 +23,8 @@ namespace Z0
         public FS.FilePath CodeGenPath(string scope, string id, FS.FileExt ext)
             => CodeGenDir(scope) + FS.file(id,ext);
 
-        public FS.FilePath StringTablePath(string scope, string id, FS.FileExt ext)
-            => CodeGenDir(scope) + FS.folder("stringtables") + FS.file(id,ext);
-
-        public void GenLiteralProvider(Identifier ns, Identifier name, ReadOnlySpan<Literal<string>> literals, FS.FilePath dst)
-        {
-            var buffer = text.buffer();
-            var margin = 0u;
-            buffer.IndentLine(margin, CsPatterns.NamespaceDecl(ns));
-            buffer.IndentLine(margin, Open());
-            margin += 4;
-            buffer.IndentLine(margin, "[LiteralProvider]");
-            buffer.IndentLine(margin, PublicReadonlyStruct(name));
-            buffer.IndentLine(margin, Open());
-            margin +=4;
-            for(var i=0; i<literals.Length; i++)
-            {
-                ref readonly var literal = ref skip(literals,i);
-                buffer.IndentLineFormat(margin, "public const string {0} = {1};", text.capitalize(literal.Name.Format()), text.enquote(literal.Value.Value));
-            }
-            margin -=4;
-            buffer.IndentLine(margin, Close());
-            margin -=4;
-            buffer.IndentLine(margin, Close());
-
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            writer.WriteLine(buffer.Emit());
-
-            EmittedFile(emitting, literals.Length);
-        }
+        public LiteralProviderGen LiteralProvider()
+            => LiteralProviderGen.create(Wf);
 
         public void GenSymFactories(Identifier ns, Identifier name, ReadOnlySpan<Type> enums, FS.FilePath dst)
         {

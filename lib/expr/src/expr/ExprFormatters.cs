@@ -38,7 +38,7 @@ namespace Z0
             => string.Format(VarContextKinds.FormatPattern(vck), src.Name);
 
         public static string format(ExprScope src)
-            => src.IsRoot ? src.Name.Format() : string.Format(XF.SourceToTarget, src.Name, src.Parent);
+            => src.IsRoot ? src.Name : string.Format(XF.SourceToTarget, src.Name, src.Parent);
 
         internal static string format(in Var src, bool bind = true)
             => bind ? src.Resolve().Format() : string.Format(XF.UntypedVar, src);

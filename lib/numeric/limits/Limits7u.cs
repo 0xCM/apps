@@ -7,6 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for a <see cref='BitSeq7'/> value
     /// </summary>
+    [SymSource("limits")]
     public enum Limits7u : byte
     {
         /// <summary>

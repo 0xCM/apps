@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILogicLiteralExpr : ILogicExpr, ILiteralExpr
+    public interface ILogicLiteralExpr : ILogicExpr, ILogixLiteral
     {
         bool Value {get;}
     }

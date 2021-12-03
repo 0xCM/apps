@@ -39,7 +39,7 @@ namespace Z0.Logix
         /// </summary>
         /// <param name="expr">The expression to evaluate</param>
         [Op, Closures(Closure)]
-        public static LiteralExpr<T> eval<T>(ILogixExpr<T> expr)
+        public static LogixLiteral<T> eval<T>(ILogixExpr<T> expr)
             where T : unmanaged
                 => ScalarExprEval.eval(require(expr));
 
@@ -50,7 +50,7 @@ namespace Z0.Logix
         /// <param name="expr">The predicate to evaluate</param>
         /// <typeparam name="T">The type over which the comparison is defined</typeparam>
         [Op, Closures(Closure)]
-        public static LiteralExpr<T> eval<T>(IComparisonExpr<T> expr)
+        public static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
                 => CmpExprEval.eval(require(expr));
 
@@ -60,7 +60,7 @@ namespace Z0.Logix
         /// <param name="expr">The expression to evaluate</param>
         /// <typeparam name="T">The cell type</typeparam>
         [Op, Closures(Closure)]
-        public static LiteralExpr<Vector128<T>> eval<T>(IComparisonExpr<Vector128<T>> expr)
+        public static LogixLiteral<Vector128<T>> eval<T>(IComparisonExpr<Vector128<T>> expr)
             where T : unmanaged
                 => CmpExprEval.eval(require(expr));
 
@@ -70,7 +70,7 @@ namespace Z0.Logix
         /// <param name="expr">The expression to evaluate</param>
         /// <typeparam name="T">The cell type</typeparam>
         [Op, Closures(Closure)]
-        public static LiteralExpr<Vector256<T>> eval<T>(IComparisonExpr<Vector256<T>> expr)
+        public static LogixLiteral<Vector256<T>> eval<T>(IComparisonExpr<Vector256<T>> expr)
             where T : unmanaged
                 => CmpExprEval.eval(require(expr));
 
@@ -90,7 +90,7 @@ namespace Z0.Logix
         /// </summary>
         /// <param name="expr">The expression to evaluate</param>
         [Op, Closures(Closure)]
-        public static LiteralExpr<T> eval<T>(IArithmeticExpr<T> expr)
+        public static LogixLiteral<T> eval<T>(IArithmeticExpr<T> expr)
             where T : unmanaged
                 => ArithExprEval.eval(require(expr));
 
@@ -99,7 +99,7 @@ namespace Z0.Logix
         /// </summary>
         /// <param name="expr">The expression to evaluate</param>
         [Op, Closures(Closure)]
-        public static LiteralExpr<Vector128<T>> eval<T>(ILogixExpr<Vector128<T>> expr)
+        public static LogixLiteral<Vector128<T>> eval<T>(ILogixExpr<Vector128<T>> expr)
             where T : unmanaged
                 => VectorExprEval.eval(require(expr));
 
@@ -108,7 +108,7 @@ namespace Z0.Logix
         /// </summary>
         /// <param name="expr">The expression to evaluate</param>
         [Op, Closures(Closure)]
-        public static LiteralExpr<Vector256<T>> eval<T>(ILogixExpr<Vector256<T>> expr)
+        public static LogixLiteral<Vector256<T>> eval<T>(ILogixExpr<Vector256<T>> expr)
             where T : unmanaged
                 => VectorExprEval.eval(require(expr));
 

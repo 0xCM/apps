@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames.Queries;
-
     using static core;
+
     partial class LlvmCmd
     {
         [CmdOp("asm-patterns")]
@@ -22,7 +21,7 @@ namespace Z0.llvm
             {
                 ref readonly var pattern = ref patterns[i];
                 var inst = pattern.Instruction.Format().Trim();
-                var format = pattern.ExprFormat.Format().Trim();
+                var format = pattern.ExprFormat.Format();
                 if(descriptors.Find(inst, out var descriptor))
                 {
                     Write(string.Format("format({0}:{1}) = '{2}'", descriptor.InstName, descriptor.Id, format));

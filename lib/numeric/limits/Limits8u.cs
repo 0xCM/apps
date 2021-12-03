@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-   /// <summary>
+    /// <summary>
     /// Defines lower/upper bounds for <see cref='byte'/> values
     /// </summary>
+    [SymSource("limits")]
     public enum Limits8u : byte
     {
         /// <summary>
