@@ -10,10 +10,28 @@ namespace Z0
 
     using static Root;
     using static core;
+    using L = ApiLiterals;
 
     [ApiHost]
     public readonly struct ApiLiterals
     {
+        public static Index<CompilationLiteral> CompilationLiterals(Assembly[] src)
+        {
+            var result = Outcome.Success;
+            var providers = L.providers(src).View;
+            var count = providers.Length;
+            var buffer = list<CompilationLiteral>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var provider = ref skip(providers,i);
+                var literals = L.provided(provider).View;
+                for(var j=0; j<literals.Length; j++)
+                    buffer.Add(skip(literals,j).Specify());
+            }
+
+            return buffer.ToArray();
+        }
+
         [MethodImpl(Inline), Op]
         public static LiteralProvider provider(string name, Type def)
             => new LiteralProvider(name, def);

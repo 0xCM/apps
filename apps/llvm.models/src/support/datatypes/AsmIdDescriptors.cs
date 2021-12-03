@@ -16,5 +16,7 @@ namespace Z0.llvm
 
         public static implicit operator AsmIdDescriptors(AsmIdDescriptor[] src)
             => new AsmIdDescriptors(src);
+
+        public static new AsmIdDescriptors Empty => new(sys.empty<AsmIdDescriptor>());
     }
 }

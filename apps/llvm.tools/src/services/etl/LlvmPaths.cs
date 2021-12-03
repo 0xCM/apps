@@ -18,6 +18,15 @@ namespace Z0.llvm
         public FS.FolderPath Views()
             => LlvmData.Home() + FS.folder("views");
 
+        public FS.FolderPath DataHome()
+            => LlvmData.Home();
+
+        public FS.FolderPath Settings()
+            => LlvmData.Home() + FS.folder("settings");
+
+        public FS.FilePath Settings(string name, FS.FileExt ext)
+            => Settings() + FS.file(name,ext);
+
         public FS.FolderPath Out()
             => LlvmData.Out();
 

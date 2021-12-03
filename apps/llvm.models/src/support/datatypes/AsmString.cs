@@ -41,7 +41,7 @@ namespace Z0.llvm
             ("$rc","$(rc)"),
             };
 
-        public static string format(string value)
+        public static string normalize(string value)
         {
             var dst = value;
             var ws = SQ.wsindex(value);
@@ -58,38 +58,6 @@ namespace Z0.llvm
                     dst = text.right(dst,k);
             }
             return dst;
-        }
-
-        public static AsmMnemonic mnemonic(string value)
-        {
-            static string cleanse(string src)
-            {
-                var i = text.index(src, Chars.LBrace);
-                var mnemonic = src;
-                if(i != NotFound)
-                {
-                    mnemonic = text.left(src,i);
-
-                    var inner = text.unfence(src, 0, Fencing.Embraced);
-                    var j = text.index(inner, Chars.Caret);
-                    if(i != NotFound)
-                    {
-                        var suffix = text.right(inner, i);
-                        mnemonic += suffix;
-                    }
-                }
-                var k = text.index(mnemonic, Chars.Caret);
-                return k != NotFound ? text.right(mnemonic,k) : mnemonic;
-            }
-
-            var mnemonic = text.remove(value,Chars.Quote);
-            var ws = SQ.wsindex(mnemonic);
-            if(ws != NotFound)
-                mnemonic = text.remove(text.left(mnemonic, ws), Chars.Quote);
-
-            mnemonic = cleanse(mnemonic);
-
-            return mnemonic;
         }
 
         readonly AsciBlock64 Content;

@@ -14,9 +14,11 @@ namespace Z0.llvm
     {
         public const string TableId = "llvm.asm.patterns";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 8;
 
-        public uint Key;
+        public uint Seq;
+
+        public ushort AsmId;
 
         public bit IsCodeGenOnly;
 

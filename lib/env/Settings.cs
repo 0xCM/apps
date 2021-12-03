@@ -11,7 +11,6 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static DataParser;
     using SQ = SymbolicQuery;
     using DP = DataParser;
 

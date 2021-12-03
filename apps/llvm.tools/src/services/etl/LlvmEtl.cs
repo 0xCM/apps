@@ -5,7 +5,12 @@
 namespace Z0.llvm
 {
     using static LlvmNames;
+    using static Root;
     using static core;
+
+    using Asm;
+
+    using SQ = SymbolicQuery;
 
     public partial class LlvmEtl : AppService<LlvmEtl>
     {
@@ -21,6 +26,13 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
+        }
+
+        Index<string> ListNames()
+        {
+            var src = LlvmPaths.Settings("ListEmissions", FS.List);
+            var lines = src.ReadLines();
+            return lines.Select(x => x.Trim()).Where(x => nonempty(x));
         }
 
         public EtlDatasets Run()
@@ -59,15 +71,16 @@ namespace Z0.llvm
             Ran(running, string.Format("Emitted docs for {0} instructions", count));
         }
 
-        void ProcessInstructions(RecordEntitySet src)
+        void ProcessInstructions(RecordEntitySet src, AsmIdDescriptors asmid)
         {
             var members = src.Members;
             var count = members.Length;
-            var key = 0u;
+            //var key = 0u;
             var patterns = list<LlvmAsmPattern>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
             var vcodes = hashset<string>();
+            var seq = 0u;
             for(var i=0; i<count; i++)
             {
                 ref readonly var entity = ref skip(members,i);
@@ -75,31 +88,40 @@ namespace Z0.llvm
                 {
                     var inst = entity.ToInstruction();
                     var name = inst.EntityName.Content;
-                    var identity = new LlvmAsmIdentity(key, name);
+                    var id = z16;
+                    if(asmid.Find(name, out var descriptor))
+                    {
+                        id = descriptor.Id;
+                    }
+                    else
+                    {
+                        Warn(string.Format("Instruction id for '{0}' not found", name));
+                    }
+
+                    var identity = new LlvmAsmIdentity(id, name);
 
                     if(inst.OpMap.Equals("OB"))
                         obmapped.Add(identity);
 
                     var mnemonic = inst.Mnemonic;
-                    var fmt = AsmString.format(inst.AsmString);
                     var j = text.index(inst.EntityName.Content.ToLower(), inst.Mnemonic.Content);
                     var vcode = inst.VariationCode;
                     if(vcode.IsNonEmpty)
                     {
                         vcodes.Add(vcode.Format());
-                        variations.Add(new LlvmAsmVariation(key, name, mnemonic, vcode));
+                        variations.Add(new LlvmAsmVariation(id, name, mnemonic, vcode));
                     }
 
                     var pattern = LlvmAsmPattern.Empty;
-                    pattern.Key = key;
+                    pattern.Seq = seq++;
+                    pattern.AsmId = id;
                     pattern.Instruction = name;
                     pattern.Mnemonic = mnemonic;
                     pattern.Variation = vcode;
                     pattern.IsCodeGenOnly = inst.isCodeGenOnly;
                     pattern.IsPseudo = inst.isPseudo;
-                    pattern.ExprFormat = fmt;
+                    pattern.ExprFormat = AsmString.normalize(inst.AsmString);
                     patterns.Add(pattern);
-                    key++;
                 }
             }
 
@@ -111,10 +133,22 @@ namespace Z0.llvm
         public Outcome RunEntityEtl()
         {
             var src = Wf.LlvmDb().Entities();
-            var lists = EmitLists(src, RecordClasses.Names);
+            var lists = EmitLists(src, ListNames());
             EmitChildRelations(src);
-            ProcessInstructions(src);
+            ProcessInstructions(src, ExtractAsmIdList());
             return true;
+        }
+
+        public AsmIdDescriptors ExtractAsmIdList()
+        {
+            const string BeginAsmIdMarker = "PHI	= 0,";
+            var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Info);
+            if(src.Count != 1)
+            {
+                Error("Path not found");
+                return AsmIdDescriptors.Empty;
+            }
+            return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDescriptor(x.Key, x.Value));
         }
 
         Outcome RunHeaderEtl(ref EtlDatasets datasets)
@@ -159,7 +193,6 @@ namespace Z0.llvm
                 dst = default;
                 return false;
             }
-
         }
 
         static bool definesliteral(string src)

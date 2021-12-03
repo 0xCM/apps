@@ -23,10 +23,7 @@ namespace Z0.llvm
             var asmid = LoadList("AsmId");
             var lu = list<AsmIdDescriptor>();
             foreach(var id in asmid)
-            {
-                var descriptor = new AsmIdDescriptor((ushort)id.Key, id.Value.Trim());
-                lu.Add(descriptor);
-            }
+                lu.Add(new AsmIdDescriptor((ushort)id.Key, id.Value.Trim()));
             return lu.Array();
         }
 
@@ -50,7 +47,8 @@ namespace Z0.llvm
                     return (false, Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
 
                 var i=0;
-                DataParser.parse(skip(cols,i++), out row.Key);
+                DataParser.parse(skip(cols,i++), out row.Seq);
+                DataParser.parse(skip(cols,i++), out row.AsmId);
                 DataParser.parse(skip(cols,i++), out row.IsCodeGenOnly);
                 DataParser.parse(skip(cols,i++), out row.IsPseudo);
                 row.Instruction = skip(cols,i++);

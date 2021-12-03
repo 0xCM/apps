@@ -127,19 +127,11 @@ namespace Z0.llvm
             public const string defnames = def + names;
         }
 
-        public readonly struct RecordFields
-        {
-            public const string AsmString = nameof(AsmString);
-
-            public const string isPseudo = nameof(isPseudo);
-        }
-
         public readonly struct TableGenHeaders
         {
             public const string X86Registers = nameof(X86Registers);
 
             public const string X86Info = nameof(X86Info);
-
         }
 
         public readonly struct RecordClasses
@@ -148,46 +140,7 @@ namespace Z0.llvm
 
             public const string InstAlias = nameof(InstAlias);
 
-            public const string AVX512 = nameof(AVX512);
-
-            public const string AsmOperandClass = nameof(AsmOperandClass);
-
-            public const string AssemblerPredicate = nameof(AssemblerPredicate);
-
-            public const string CondCode = nameof(CondCode);
-
-            public const string DAGOperand = nameof(DAGOperand);
-
             public const string GenericInstruction = nameof(GenericInstruction);
-
-            public const string RegisterClass = nameof(RegisterClass);
-
-            public const string ValueType = nameof(ValueType);
-
-            public const string X86Inst = nameof(X86Inst);
-
-            public const string Map = nameof(Map);
-
-            public const string Predicate = nameof(Predicate);
-
-            public const string SDPatternOperator = nameof(SDPatternOperator);
-
-            public const string SDNode = nameof(SDNode);
-
-            public const string SubtargetFeature = nameof(SubtargetFeature);
-
-            public const string X86MemOperand = nameof(X86MemOperand);
-
-            public const string X86MemOffsOperand = nameof(X86MemOffsOperand);
-
-            public const string SDTypeProfile = nameof(SDTypeProfile);
-
-            public static string[] Names = new string[]{
-                AVX512, AsmOperandClass, AssemblerPredicate, CondCode, DAGOperand,
-                GenericInstruction, RegisterClass,
-                ValueType, X86Inst, Map, Predicate, SDPatternOperator, SDNode, SDTypeProfile,
-                SubtargetFeature, X86MemOperand, X86MemOffsOperand, Instruction,
-                };
         }
     }
 }

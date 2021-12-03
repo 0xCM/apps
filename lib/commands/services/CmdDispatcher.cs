@@ -21,6 +21,18 @@ namespace Z0
             Fallback = fallback;
         }
 
+        public CmdDispatcher Merge(CmdMethodLookup src)
+        {
+            Lookup = CmdMethodLookup.join(Lookup, src);
+            return this;
+        }
+
+        public CmdDispatcher Merge(CmdDispatcher src)
+        {
+            Lookup = CmdMethodLookup.join(Lookup, src.Lookup);
+            return this;
+        }
+
         public ReadOnlySpan<string> Supported
             => Lookup.Specs;
 
