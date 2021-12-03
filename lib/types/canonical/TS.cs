@@ -9,7 +9,6 @@ namespace Z0
 
 
     using static Root;
-    using static core;
 
     [ApiHost]
     public readonly partial struct TS
@@ -65,11 +64,12 @@ namespace Z0
         }
 
 
-        public sealed class Canonical : TypeSystem<Canonical, CanonicalKind>
+
+        public sealed class CanonicalTypes : TypeSystem<CanonicalTypes, CanonicalKind>
         {
             public const string SystemName = "canonical";
 
-            public Canonical()
+            public CanonicalTypes()
                 : base(SystemName)
             {
 

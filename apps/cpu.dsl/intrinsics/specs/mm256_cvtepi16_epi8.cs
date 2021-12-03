@@ -7,6 +7,8 @@ namespace Z0.Vdsl
     using System;
     using System.Runtime.CompilerServices;
 
+    using Canonical;
+
     using static Root;
     using static core;
 

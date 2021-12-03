@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.ScalarTypes
+namespace Z0.Canonical
 {
     public struct i6<T> : ISigned<T>
         where T : unmanaged

@@ -2,25 +2,23 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Canonical
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    partial struct BV
-    {
         /// <summary>
-        /// Defines a 3-bit bitvector
+        /// Defines a 2-bit bitvector
         /// </summary>
-        public struct bv3 : IIndexedBits<byte>
+        public struct bv2 : IIndexedBits<byte>
         {
-            public const uint Width = 3;
+            public const uint Width = 2;
 
             public byte Storage;
 
             [MethodImpl(Inline)]
-            public bv3(byte src)
+            public bv2(byte src)
             {
                 Storage = src;
             }
@@ -31,19 +29,19 @@ namespace Z0
             public bit this[uint i]
             {
                 [MethodImpl(Inline)]
-                get => state(this,i);
+                get => TS.state(this,i);
 
                 [MethodImpl(Inline)]
-                set => state(value,i,ref this);
+                set => TS.state(value,i,ref this);
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator gbv<byte>(bv3 src)
+            public static implicit operator gbv<byte>(bv2 src)
                 => new gbv<byte>(Width, src.Storage);
 
             [MethodImpl(Inline)]
-            public static implicit operator bv3(gbv<byte> src)
-                => new bv3(src.Storage);
+            public static implicit operator bv2(gbv<byte> src)
+                => new bv2(src.Storage);
         }
-    }
+
 }

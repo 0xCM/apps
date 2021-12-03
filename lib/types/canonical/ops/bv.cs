@@ -6,15 +6,16 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
 
     using static Root;
     using static core;
 
-    [ApiHost]
-    public readonly partial struct BV
-    {
-        const NumericKind Closure = UnsignedInts;
+    using Canonical;
 
+    partial struct TS
+    {
         public static bvNx64 bv(N64 n, Span<ulong> src)
             => new bvNx64(src);
 
@@ -157,5 +158,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bv1024 bv(N1024 n)
             => default;
+
+
     }
 }

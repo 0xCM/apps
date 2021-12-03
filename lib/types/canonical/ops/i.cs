@@ -12,7 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using ScalarTypes;
+    using Canonical;
 
     partial struct TS
     {

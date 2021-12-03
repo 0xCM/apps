@@ -6,15 +6,16 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
 
     using static Root;
     using static core;
 
-    using ScalarTypes;
+    using Canonical;
 
-    partial struct TS
+    [ApiHost]
+    public readonly partial struct grids
     {
+        const NumericKind Closure = UnsignedInts;
+
     }
 }

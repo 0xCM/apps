@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Canonical
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static grids;
+    using static TS;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g8x8<{0}>")]
     public struct g8x8<T> : IGrid<g8x8<T>,N8,T>
@@ -77,7 +77,7 @@ namespace Z0
         public GridSpec Spec
         {
             [MethodImpl(Inline)]
-            get => spec<T>(M,N);
+            get => grids.spec<T>(M,N);
         }
     }
 }

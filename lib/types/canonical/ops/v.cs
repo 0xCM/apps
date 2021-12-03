@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    using Canonical;
     partial struct TS
     {
         /// <summary>
@@ -21,6 +22,7 @@ namespace Z0
         public static v0<T> v<T>(N0 n)
             where T : unmanaged
                 => default;
+
         /// <summary>
         /// Creates a vector of specifield length and parametric type
         /// </summary>

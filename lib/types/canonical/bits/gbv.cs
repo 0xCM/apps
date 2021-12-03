@@ -2,19 +2,25 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Canonical
 {
-    using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
 
     using static Root;
-    using static core;
 
-    using ScalarTypes;
-
-    partial struct TS
+    public struct gbv<T>
+        where T : unmanaged
     {
+        public uint Width;
+
+        public T Storage;
+
+        [MethodImpl(Inline)]
+        public gbv(uint width, T bits)
+        {
+            Width = width;
+            Storage = bits;
+        }
     }
+
 }

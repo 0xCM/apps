@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Canonical
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static grids;
+    using static TS;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g5x5<{0}>")]
     public struct g5x5<T> : IGrid<g5x5<T>,N2,T>

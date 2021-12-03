@@ -2,13 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Canonical
 {
     using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-    using static grids;
+    using static TS;
     using static Root;
     using static core;
 
