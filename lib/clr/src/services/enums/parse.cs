@@ -8,6 +8,7 @@ namespace Z0
 
     partial struct Enums
     {
+        [Parser]
         public static Outcome parse<E>(string src, out E dst)
             where E : unmanaged
         {

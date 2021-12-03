@@ -15,6 +15,7 @@ namespace Z0
         /// Parses a space-delimited sequence of hex text
         /// </summary>
         /// <param name="src">The space-delimited hex</param>
+        [Op]
         public static Outcome hexdata(string src, out byte[] dst)
         {
             try

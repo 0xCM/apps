@@ -79,7 +79,7 @@ namespace Z0
             return j;
         }
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline), Parser]
         public static bool parse(string src, out bit dst)
         {
             dst = 0;

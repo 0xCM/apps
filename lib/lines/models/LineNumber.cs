@@ -11,7 +11,7 @@ namespace Z0
 
     public readonly struct LineNumber : IComparable<LineNumber>, IEquatable<LineNumber>
     {
-        [MethodImpl(Inline), Op]
+        [Parser]
         public static Outcome parse(string src, out LineNumber dst)
         {
             dst = LineNumber.Empty;

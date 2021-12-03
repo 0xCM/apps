@@ -12,11 +12,5 @@ namespace Z0
     public partial class gbits
     {
         const NumericKind Closure = UnsignedInts;
-
-    }
-
-   public static partial class XBits
-    {
-
     }
 }

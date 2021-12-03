@@ -14,6 +14,35 @@ namespace Z0
 
     partial struct Clr
     {
+        [Parser]
+        public static Outcome token(string src, out CliToken dst)
+        {
+            var i = text.index(src, Chars.Colon);
+            var outcome = Outcome.Empty;
+            dst = CliToken.Empty;
+            if(i != NotFound)
+            {
+                outcome = Hex.parse8u(src.LeftOfIndex(i), out var table);
+                if(!outcome)
+                    return outcome;
+
+                outcome = Hex.parse32u(text.right(src,i), out var row);
+                if(!outcome)
+                    return outcome;
+
+                dst = Clr.token((TableIndex)table, row);
+                return true;
+            }
+            else
+            {
+                outcome = Hex.parse32u(src, out var token);
+                if(!outcome)
+                    return outcome;
+                dst = token;
+                return true;
+            }
+        }
+
         [MethodImpl(Inline), Op]
         public static CliToken token(Handle handle)
             => MetadataTokens.GetToken(handle);

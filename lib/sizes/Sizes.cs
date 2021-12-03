@@ -120,6 +120,7 @@ namespace Z0
         public static bool neq(Kb a, Kb b)
             => a.Count != b.Count || a.Rem != b.Rem;
 
+        [Parser]
         public static Outcome parse(string src, out ByteSize dst)
         {
             if(NumericParser.parse<ulong>(src, out var x))
@@ -134,6 +135,7 @@ namespace Z0
             }
         }
 
+        [Parser]
         public static Outcome parse(string src, out BitWidth dst)
         {
             if(NumericParser.parse<ulong>(src, out var x))
@@ -148,6 +150,7 @@ namespace Z0
             }
         }
 
+        [Parser]
         public static Outcome parse<T>(string src, out Size<T> dst)
             where T : unmanaged
         {

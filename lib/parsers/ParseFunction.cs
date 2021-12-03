@@ -19,5 +19,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public Outcome Parse(string src, out T dst)
             => F(src, out dst);
+
+        [MethodImpl(Inline)]
+        public static implicit operator ParseFunction<T>(ParserDelegate<T> src)
+            => new ParseFunction<T>(src);
     }
 }

@@ -11,6 +11,9 @@ namespace Z0
 
     using static Root;
     using static core;
+    using static DataParser;
+    using SQ = SymbolicQuery;
+    using DP = DataParser;
 
     [ApiHost]
     public readonly struct Settings : IIndex<Setting>, ILookup<string,Setting>
@@ -89,6 +92,121 @@ namespace Z0
         public static implicit operator Setting[](Settings src)
             => src.Storage;
 
+        public static Outcome parse(string src, Type type, out Setting dst, char delimiter = Chars.Colon)
+        {
+            dst = Settings.empty();
+            if(nonempty(src))
+            {
+                var name = EmptyString;
+                var input = src;
+                if(SQ.contains(src, delimiter))
+                {
+                    name = src.LeftOfFirst(delimiter);
+                    input = src.RightOfFirst(delimiter);
+                }
+
+                if(type == typeof(string))
+                {
+                    dst = (name, input);
+                    return true;
+                }
+                else if (type == typeof(bool))
+                {
+                    if(DP.parse(input, out bool value))
+                    {
+                        dst = (name, value);
+                        return true;
+                    }
+                }
+                else if(type == typeof(bit))
+                {
+                    if(DP.parse(input, out bit u1))
+                    {
+                        dst = (name, u1);
+                        return true;
+                    }
+                }
+                else if(type.IsPrimalNumeric())
+                {
+                    if(DP.numeric(input, type, out var n))
+                    {
+                        dst = (name,n);
+                        return true;
+                    }
+                }
+                else if(type.IsEnum)
+                {
+                    if(Enums.parse(type, src, out object o))
+                    {
+                        dst = (name, o);
+                        return true;
+                    }
+                }
+                else if(src.Length == 1 && type == typeof(char))
+                {
+                    dst = (name, name[0]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static Outcome parse<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
+        {
+            dst = Settings.empty<T>();
+            if(nonempty(src))
+            {
+                var name = EmptyString;
+                var input = src;
+                if(SQ.contains(src, delimiter))
+                {
+                    name = src.LeftOfFirst(delimiter);
+                    input = src.RightOfFirst(delimiter);
+                }
+
+                if(typeof(T) == typeof(string))
+                {
+                    dst = (name, generic<T>(input));
+                    return true;
+                }
+                else if (typeof(T) == typeof(bool))
+                {
+                    if(DP.parse(input, out bool value))
+                    {
+                        dst = (name, generic<T>(value));
+                        return true;
+                    }
+                }
+                else if(typeof(T) == typeof(bit))
+                {
+                    if(DP.parse(input, out bit u1))
+                    {
+                        dst = (name, generic<T>((bool)u1));
+                        return true;
+                    }
+                }
+                else if(DP.numeric(input, out T g))
+                {
+                    dst = (name, g);
+                    return true;
+                }
+                else if(typeof(T).IsEnum)
+                {
+                    if(Enums.parse(typeof(T), src, out object o))
+                    {
+                        dst = (name, (T)o);
+                        return true;
+                    }
+                }
+                else if(src.Length == 1 && typeof(T) == typeof(char))
+                {
+                    dst = (name, generic<T>(name[0]));
+                    return true;
+                }
+            }
+            return false;
+        }
+
         [Op]
         public static uint save(in Settings src, StreamWriter dst)
         {
@@ -134,6 +252,33 @@ namespace Z0
                 dst.AppendLineFormat("{0}:{1}",field.Name, field.GetValue(src));
             }
             return dst.Emit();
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out Setting<string> dst)
+        {
+            if(sys.empty(src))
+            {
+                dst = default;
+                return (false, "!!Empty!!");
+            }
+            else
+            {
+                var i = src.IndexOf(Chars.Colon);
+                if(i == NotFound)
+                {
+                    dst = default;
+                    return (false, "Setting delimiter not found");
+                }
+                else
+                {
+                    if(i == 0)
+                        dst = new Setting<string>(EmptyString, text.slice(src,i+1));
+                    else
+                        dst = new Setting<string>(text.slice(src,0, i), text.slice(src,i+1));
+                    return true;
+                }
+            }
         }
 
         [Op]

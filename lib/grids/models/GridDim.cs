@@ -20,6 +20,24 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential), DataType("dim")]
     public readonly struct GridDim : IEquatable<GridDim>
     {
+        [Parser]
+        public static Outcome parse(string s, out GridDim dst)
+        {
+            dst = GridDim.Empty;
+
+            var n = 0u;
+            var parts = @readonly(s.Split('x'));
+            if(parts.Length == 2)
+            {
+                if(DataParser.parse(skip(parts,0), out uint m) && DataParser.parse(skip(parts,1), out n))
+                {
+                    dst = new GridDim(m, n);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// The number of grid rows
         /// </summary>

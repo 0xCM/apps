@@ -15,6 +15,7 @@ namespace Z0
         /// Attempts to parse an address segment in standard form, [start,end]
         /// </summary>
         /// <param name="src">The source text</param>
+        [Parser]
         public static Outcome range(string src, out MemoryRange dst)
         {
             var option = range(src);
@@ -40,7 +41,7 @@ namespace Z0
                 from end in HexNumericParser.parse64u(parts[1]).ToOption()
                 select new MemoryRange((MemoryAddress)start, (MemoryAddress)end);
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out MemoryAddress dst)
         {
             var result = Hex.parse64u(src, out var a);
@@ -56,7 +57,7 @@ namespace Z0
             }
         }
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out Address64 dst)
         {
             var result = Hex.parse64u(src, out var a);
@@ -72,7 +73,7 @@ namespace Z0
             }
         }
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out Address32 dst)
         {
             var result = Hex.parse32u(src, out var a);
@@ -88,7 +89,7 @@ namespace Z0
             }
         }
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out Address16 dst)
         {
             var result = Hex.parse16u(src, out var a);
@@ -104,7 +105,7 @@ namespace Z0
             }
         }
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out Address8 dst)
         {
             var result = Hex.parse8u(src, out var a);

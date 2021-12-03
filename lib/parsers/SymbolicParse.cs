@@ -15,6 +15,52 @@ namespace Z0
     [ApiHost]
     public readonly struct SymbolicParse
     {
+
+        public static Outcome parse(TextLine src, out SymLiteralRow dst)
+        {
+            var outcome = Outcome.Success;
+            var j=0;
+            var cells = src.Split(Chars.Pipe);
+            if(cells.Length != SymLiteralRow.FieldCount)
+            {
+                dst = default;
+                return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
+            }
+
+            outcome += DataParser.parse(skip(cells,j++), out dst.Component);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Type);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Class);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Position);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Name);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Symbol);
+            outcome += DataParser.eparse(skip(cells,j++), out dst.DataType);
+            outcome += DataParser.parse(skip(cells,j++), out dst.ScalarValue);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Hidden);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Description);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Identity);
+            return outcome;
+        }
+
+        public static Outcome parse(TextLine src, out SymInfo dst)
+        {
+            var outcome = Outcome.Success;
+            var j=0;
+            var cells = src.Split(Chars.Pipe);
+            if(cells.Length != SymInfo.FieldCount)
+            {
+                dst = default;
+                return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
+            }
+
+            outcome += DataParser.parse(skip(cells,j++), out dst.TokenType);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Index);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Value);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Name);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Expr);
+            outcome += DataParser.parse(skip(cells,j++), out dst.Description);
+            return outcome;
+        }
+
         [Op]
         public static int SkipWhitespace(ReadOnlySpan<AsciCode> src)
         {
@@ -30,6 +76,39 @@ namespace Z0
             return NotFound;
         }
 
+        [Parser]
+        public static Outcome parse(string src, out SymKey dst)
+        {
+            dst = default;
+            var result = DataParser.parse(src, out uint x);
+            if(result)
+                dst = x;
+            return result;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out SymVal dst)
+        {
+            dst = default;
+            var result = DataParser.parse(src, out ulong x);
+            if(result)
+                dst = x;
+            return result;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out SymClass dst)
+        {
+            dst = new SymClass(src);
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out SymExpr dst)
+        {
+            dst = src ?? EmptyString;
+            return true;
+        }
 
         /// <summary>
         /// Parsed the leading digit sequence of a given row

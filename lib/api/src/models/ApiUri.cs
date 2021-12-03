@@ -139,7 +139,7 @@ namespace Z0
             return ParseResult.parsed(src, uri);
         }
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out OpUri dst)
         {
             var result = parse(src);
@@ -154,6 +154,7 @@ namespace Z0
                 return false;
             }
         }
+
         /// <summary>
         /// Defines an 8-bit immediate suffix predicated on an immediate value
         /// </summary>

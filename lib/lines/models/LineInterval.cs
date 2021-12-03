@@ -14,6 +14,7 @@ namespace Z0
 
     public readonly struct LineInterval
     {
+        [Parser]
         public static Outcome parse(string src, out LineInterval<Identifier> dst)
         {
             var result = Outcome.Success;
