@@ -12,8 +12,9 @@ namespace Z0
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
+
     [Free]
-    public interface IIndex<T> : IMutableSeq<T>, IMeasured, IEnumerable<T>, ITextual
+    public interface IIndex<T> : IMutableSeq<T>, IEnumerable<T>, ITextual
     {
         T[] Storage {get;}
 
@@ -29,9 +30,6 @@ namespace Z0
         ReadOnlySpan<T> ISeq<T>.View
             => Storage;
 
-        int IMeasured.Length
-            => Storage?.Length ?? 0;
-
         ref T this[int index]
             => ref seek(Storage,index);
 
@@ -44,8 +42,6 @@ namespace Z0
         ref T Last
             => ref seek(Storage,Length - 1);
 
-        bool INullity.IsEmpty
-            => Length == 0;
 
         IEnumerator IEnumerable.GetEnumerator()
             => Storage.GetEnumerator();

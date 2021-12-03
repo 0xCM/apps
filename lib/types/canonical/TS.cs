@@ -18,6 +18,15 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Seq<T> seq<T>(T[] src)
+            => new Seq<T>(src);
+
+        [Op, Closures(Closure)]
+        public static Seq<N,T> seq<N,T>()
+            where N : unmanaged, ITypeNat
+                => new Seq<N,T>(alloc<T>(nat32u<N>()));
+
         [MethodImpl(Inline), Op]
         public static u1<bit> u1(bit src)
             => new u1<bit>(src);

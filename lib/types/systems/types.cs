@@ -30,6 +30,5 @@ namespace Z0
         public static TypeKind untype<K>(TypeKind<K> src)
             where K : unmanaged
                 => src;
-
     }
 }

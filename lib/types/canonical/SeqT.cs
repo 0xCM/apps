@@ -9,6 +9,30 @@ namespace Z0
 
     using static Root;
 
+    public readonly struct Seq<N,T> : ISeq<N,T>
+        where N : unmanaged, ITypeNat
+    {
+        readonly Index<T> Data;
+
+        [MethodImpl(Inline)]
+        internal Seq(T[] src)
+        {
+            Data = src;
+        }
+
+        public ReadOnlySpan<T> View
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
+        public Span<T> Edit
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+    }
+
     public readonly struct Seq<T> : ISeq<T>
     {
         readonly Index<T> Data;
