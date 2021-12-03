@@ -16,7 +16,10 @@ namespace Z0
         I = 2,
 
         [Symbol("f")]
-        F = 4
+        F = 4,
+
+        [Symbol("c")]
+        C = 8,
     }
 }
 

@@ -16,12 +16,15 @@ namespace Z0
 
         public Identifier Name {get;}
 
+        public bool Generic {get;}
+
         [MethodImpl(Inline)]
-        public TypeKind(ulong key, Identifier @class, Identifier name)
+        public TypeKind(ulong key, Identifier @class, Identifier name, bool generic)
         {
             Key = key;
             Class = @class;
             Name = name;
+            Generic = generic;
         }
 
         public string Format()

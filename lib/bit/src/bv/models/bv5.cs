@@ -24,7 +24,7 @@ namespace Z0
             {
                 Storage = src;
             }
-            BitWidth IValue.ContentWidth
+            BitWidth ISizedType.ContentWidth
                 => Width;
 
             public bit this[uint i]

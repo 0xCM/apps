@@ -2,29 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.ScalarTypes
+namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
+
 
     using static Root;
 
     /// <summary>
-    /// Defines an unsigned 1-bit integer over parametric storage
+    /// A default projection effector
     /// </summary>
-    public struct u1<T> : IUnsigned<T>
-        where T : unmanaged
+    public readonly struct SeqProjector<S,T> : ISeqProjector<S,T>
     {
-        public const uint Width = 1;
-
-        public T Storage;
+        internal readonly Func<S,T> F;
 
         [MethodImpl(Inline)]
-        public u1(T src)
-        {
-            Storage = src;
-        }
+        internal SeqProjector(Func<S,T> f)
+            => F = f;
 
-        BitWidth ISizedType.ContentWidth
-            => Width;
+        public Outcome<uint> Project(ReadOnlySpan<S> src, Span<T> dst)
+            => TS.apply(this,src,dst);
     }
 }

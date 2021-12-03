@@ -4,16 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITypeDef
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    using static Root;
+    using static core;
+
+    using ScalarTypes;
+
+    partial struct TS
     {
-        bool IsSized {get;}
-
-        Identifier TypeName {get;}
-    }
-
-    public interface ITypeDef<T> : ITypeDef
-        where T : ITypeDef<T>, new()
-    {
-
     }
 }

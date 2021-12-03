@@ -46,10 +46,10 @@ namespace Z0
         public ref T Cell(uint index)
             => ref Data[index];
 
-        BitWidth IValue.StorageWidth
+        BitWidth ISizedType.StorageWidth
             => Data.Length*width<T>();
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => Data.Length*64;
     }
 }

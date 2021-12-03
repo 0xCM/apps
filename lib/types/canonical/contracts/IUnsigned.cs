@@ -15,5 +15,6 @@ namespace Z0
     public interface IUnsigned<T> : IUnsigned, IScalar<T>
         where T : unmanaged
     {
+
     }
 }

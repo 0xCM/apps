@@ -6,6 +6,6 @@ namespace Z0
 {
     public struct TypeConstraint
     {
-        public TextBlock Expresssion;
+
     }
 }

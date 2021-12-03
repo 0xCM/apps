@@ -14,13 +14,18 @@ namespace Z0.ScalarTypes
 
         public T Storage;
 
+        public c1(T src)
+        {
+            Storage = src;
+        }
+
         public string Format()
             => Storage.ToString();
 
         public override string ToString()
             => Format();
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => Width;
     }
 }

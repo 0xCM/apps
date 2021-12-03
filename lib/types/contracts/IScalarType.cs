@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IScalarType : IDataType
+    public interface IScalarType : ISizedType
     {
+
         ScalarClass Class {get;}
     }
 }

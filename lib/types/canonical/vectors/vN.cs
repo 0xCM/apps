@@ -46,10 +46,10 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        BitWidth IValue.StorageWidth
+        BitWidth ISizedType.StorageWidth
             => Data.Length*width<T>();
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => Data.Length* Typed.nat32u<N>();
 
         uint IVector.N

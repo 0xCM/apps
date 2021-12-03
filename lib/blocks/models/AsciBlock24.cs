@@ -19,7 +19,7 @@ namespace Z0
     /// Defines 24 bytes of storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
-    public struct AsciBlock24 : IAsciBlock<A>, IReifiedType<N24,A>
+    public struct AsciBlock24 : IAsciBlock<A>
     {
         public const ushort Size = 24;
 

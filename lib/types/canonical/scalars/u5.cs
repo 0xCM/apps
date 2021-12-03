@@ -25,7 +25,7 @@ namespace Z0.ScalarTypes
             Storage = Cells.trim(src,N);
         }
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => Width;
     }
 
@@ -45,7 +45,7 @@ namespace Z0.ScalarTypes
             Storage = src;
         }
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => Width;
     }
 }

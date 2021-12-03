@@ -32,7 +32,7 @@ namespace Z0.ScalarTypes
         public Identifier TypeName
             => string.Format("i{0}",N);
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => N;
 
         [MethodImpl(Inline)]

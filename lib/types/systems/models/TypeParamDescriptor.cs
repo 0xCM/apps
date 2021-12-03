@@ -6,8 +6,6 @@ namespace Z0
 {
     public struct TypeParamDescriptor
     {
-        public Identifier Name;
 
-        public Index<TypeConstraint> Constraints;
     }
 }

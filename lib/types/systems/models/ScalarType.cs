@@ -43,10 +43,10 @@ namespace Z0
         public bool Equals(ScalarType src)
             => TypeName.Equals(src.TypeName) && ContentWidth == src.ContentWidth;
 
-        public static TypeDef Empty
+        public static ScalarType Empty
         {
             [MethodImpl(Inline)]
-            get => new TypeDef(EmptyString, false);
+            get => new ScalarType(EmptyString, ScalarClass.None, 0, 0);
         }
     }
 }

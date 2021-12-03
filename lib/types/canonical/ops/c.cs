@@ -4,8 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IStringType : ITypeDef
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    using static Root;
+    using static core;
+
+    using ScalarTypes;
+
+    partial struct TS
     {
-        uint Length {get;}
     }
 }

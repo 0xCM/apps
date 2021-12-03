@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ISeq<T> : IMeasured
+    public interface ISeq<T> : IType, IMeasured
     {
         ReadOnlySpan<T> View {get;}
 
@@ -21,7 +21,6 @@ namespace Z0
 
         bool INullity.IsEmpty
             => View.Length == 0;
-
     }
 
     [Free]

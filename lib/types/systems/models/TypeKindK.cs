@@ -16,11 +16,14 @@ namespace Z0
 
         public Identifier Name {get;}
 
+        public bool Generic {get;}
+
         [MethodImpl(Inline)]
-        public TypeKind(K src, Identifier name)
+        public TypeKind(K src, Identifier name, bool generic)
         {
             Key = src;
             Name = name;
+            Generic = generic;
         }
 
         public Identifier Class
@@ -37,6 +40,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator TypeKind(TypeKind<K> src)
-            => new TypeKind(core.bw64<K>(src.Key), src.Class, src.Name);
+            => new TypeKind(core.bw64<K>(src.Key), src.Class, src.Name, src.Generic);
     }
 }

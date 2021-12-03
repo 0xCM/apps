@@ -22,7 +22,7 @@ namespace Z0
         public Span<T> Cells
             => default;
 
-        BitWidth IValue.ContentWidth
+        BitWidth ISizedType.ContentWidth
             => Width;
     }
 }

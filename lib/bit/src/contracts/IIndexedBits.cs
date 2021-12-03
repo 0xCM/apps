@@ -6,7 +6,7 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    public interface IIndexedBits
+    public interface IIndexedBits : ISizedType
     {
         bit this[uint i] {get;set;}
     }

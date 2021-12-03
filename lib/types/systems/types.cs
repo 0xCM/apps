@@ -18,13 +18,13 @@ namespace Z0
 
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypeKind<K> kind<K>(K key, Identifier name)
+        public static TypeKind<K> kind<K>(K key, Identifier name, bool generic)
             where K : unmanaged
-                => new TypeKind<K>(key,name);
+                => new TypeKind<K>(key, name, generic);
 
         [MethodImpl(Inline), Op]
-        public static TypeKind kind(ulong key, Identifier @class, Identifier name)
-            => new TypeKind(key, @class, name);
+        public static TypeKind kind(ulong key, Identifier @class, Identifier name, bool generic)
+            => new TypeKind(key, @class, name, generic);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static TypeKind untype<K>(TypeKind<K> src)

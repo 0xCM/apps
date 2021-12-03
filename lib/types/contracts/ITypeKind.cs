@@ -11,6 +11,8 @@ namespace Z0
         Identifier Class {get;}
 
         Identifier Name {get;}
+
+        bool Generic {get;}
     }
 
     public interface ITypeKind<K> : ITypeKind
