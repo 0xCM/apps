@@ -90,13 +90,9 @@ namespace Z0.llvm
                     var name = inst.EntityName.Content;
                     var id = z16;
                     if(asmid.Find(name, out var descriptor))
-                    {
                         id = descriptor.Id;
-                    }
                     else
-                    {
                         Warn(string.Format("Instruction id for '{0}' not found", name));
-                    }
 
                     var identity = new LlvmAsmIdentity(id, name);
 

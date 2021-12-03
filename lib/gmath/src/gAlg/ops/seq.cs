@@ -14,7 +14,7 @@ namespace Z0
     partial struct gcalc
     {
         [Op, Closures(Closure)]
-        public static Seq<T> seq<T>(ReadOnlySpan<T> src)
+        public static SeqTerms<T> seq<T>(ReadOnlySpan<T> src)
         {
             var count = src.Length;
             if(count != 0)
@@ -23,13 +23,13 @@ namespace Z0
                 var dst = span(terms);
                 for(var i=0u; i<count; i++)
                     seek(dst,i) = new SeqTerm<T>(i, skip(src,i));
-                return new Seq<T>(terms);
+                return new SeqTerms<T>(terms);
             }
             else
-                return Seq<T>.Empty;
+                return SeqTerms<T>.Empty;
         }
 
-        public static Seq<T> seq<T>(Interval<T> limits)
+        public static SeqTerms<T> seq<T>(Interval<T> limits)
             where T : unmanaged
         {
             var min = limits.LeftClosed ? limits.Left : inc(limits.Left);
@@ -37,7 +37,7 @@ namespace Z0
             var k=0u;
             var a = min;
             var count = bw32(sub(max,min));
-            Seq<T> dst = alloc<SeqTerm<T>>(count);
+            SeqTerms<T> dst = alloc<SeqTerm<T>>(count);
             while(lt(a,max))
             {
                 dst[k] = (k,a);
@@ -47,10 +47,10 @@ namespace Z0
             return dst;
         }
 
-        public static Seq<Pair<T>> seq<T>(T i0, T i1, T j0, T j1)
+        public static SeqTerms<Pair<T>> seq<T>(T i0, T i1, T j0, T j1)
             where T : unmanaged, IEquatable<T>
         {
-            var dst = default(Seq<Pair<T>>);
+            var dst = default(SeqTerms<Pair<T>>);
             if(lt(i0,i1) && lt(j0,j1))
             {
                 var iD = sub(i1,i0);
@@ -63,7 +63,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint seq<T>(T i0, T i1, T j0, T j1, Seq<Pair<T>> dst)
+        public static uint seq<T>(T i0, T i1, T j0, T j1, SeqTerms<Pair<T>> dst)
             where T : unmanaged, IEquatable<T>
         {
             var i = i0;

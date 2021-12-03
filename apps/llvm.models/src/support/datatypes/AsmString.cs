@@ -41,6 +41,31 @@ namespace Z0.llvm
             ("$rc","$(rc)"),
             };
 
+        public static AsmMnemonic mnemonic(string value)
+        {
+            static string cleanse(string src)
+            {
+                var i = text.index(src, Chars.LBrace);
+                var j = text.index(src, Chars.RBrace);
+                if(i == NotFound || j == NotFound || j<=i)
+                    return src;
+                var content = text.inside(src,i,j);
+                var k = text.index(content, Chars.Caret);
+                if(k == NotFound)
+                    return text.left(src, i);
+
+                var suffix = text.right(content,k);
+                return text.left(src,i) + suffix;
+            }
+
+            var mnemonic = text.remove(value,Chars.Quote);
+            var ws = SQ.wsindex(mnemonic);
+            if(ws != NotFound)
+                mnemonic = text.remove(text.left(mnemonic, ws), Chars.Quote);
+
+            return cleanse(mnemonic);
+        }
+
         public static string normalize(string value)
         {
             var dst = value;

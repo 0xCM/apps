@@ -6,37 +6,23 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
     using static core;
 
     /// <summary>
-    /// Defines a 1-cell T-vector
+    /// Defines a 3-cell T-vector
     /// </summary>
-    public struct v1<T> : IVector<T>
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("v3<{0}>")]
+    public struct v3<T> : IVector<T>
         where T : unmanaged
     {
-        T C0;
+        v2<T> C0;
 
-        [MethodImpl(Inline)]
-        public v1(T src)
-        {
-            C0 = src;
-        }
+        v1<T> C1;
 
-        public uint N => 1;
-
-        public Span<T> Cells
-        {
-            [MethodImpl(Inline)]
-            get => vectors.cells(ref this);
-        }
-
-        public ref T this[uint i]
-        {
-            [MethodImpl(Inline)]
-            get => ref seek(Cells, i);
-        }
+        public uint N => 3;
 
         public BitWidth StorageWidth
         {
@@ -50,14 +36,22 @@ namespace Z0
             get => StorageWidth;
         }
 
+        public Span<T> Cells
+        {
+            [MethodImpl(Inline)]
+            get => TS.cells(ref this);
+        }
+
+        public ref T this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Cells, i);
+        }
+
         public string Format()
-            => vectors.format(this);
+            => TS.format(this);
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator v1<T>(T src)
-            => new v1<T>(src);
     }
 }

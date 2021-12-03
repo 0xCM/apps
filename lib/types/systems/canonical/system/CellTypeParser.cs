@@ -21,7 +21,7 @@ namespace Z0
             var q = length - 1;
 
             var i = text.index(input, Chars.Colon);
-            if(!types.parse(input, out var pc))
+            if(!PrimitiveParser.parse(input, out var pc))
                 return result.Fail;
 
             if(i >= 0)

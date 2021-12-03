@@ -39,7 +39,7 @@ namespace Z0
         public Span<T> Cells
         {
             [MethodImpl(Inline)]
-            get => vectors.cells(ref this);
+            get => TS.cells(ref this);
         }
 
         public ref T this[uint i]
@@ -49,7 +49,7 @@ namespace Z0
         }
 
         public string Format()
-            => vectors.format(this);
+            => TS.format(this);
 
         public override string ToString()
             => Format();

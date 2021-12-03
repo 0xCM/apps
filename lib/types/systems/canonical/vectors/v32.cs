@@ -12,17 +12,17 @@ namespace Z0
     using static core;
 
     /// <summary>
-    /// Defines a 7-cell T-vector
+    /// Defines a 32-cell T-vector
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct v7<T> : IVector<T>
+    public struct v32<T> : IVector<T>
         where T : unmanaged
     {
-        v6<T> A;
+        v16<T> A;
 
-        v1<T> B;
+        v16<T> B;
 
-        public uint N => 7;
+        public uint N => 32;
 
         public BitWidth StorageWidth
         {
@@ -39,7 +39,7 @@ namespace Z0
         public Span<T> Cells
         {
             [MethodImpl(Inline)]
-            get => vectors.cells(ref this);
+            get => TS.cells(ref this);
         }
 
         public ref T this[uint i]
@@ -49,7 +49,7 @@ namespace Z0
         }
 
         public string Format()
-            => vectors.format(this);
+            => TS.format(this);
 
         public override string ToString()
             => Format();

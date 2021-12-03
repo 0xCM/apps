@@ -4,49 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using Asm;
-
-    using SQ = SymbolicQuery;
 
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
     public class InstEntity : RecordEntity
     {
-        static AsmMnemonic ExtractMnemonic(string value)
-        {
-            static string cleanse(string src)
-            {
-                var i = text.index(src, Chars.LBrace);
-                var j = text.index(src, Chars.RBrace);
-                if(i == NotFound || j == NotFound || j<=i)
-                    return src;
-                var content = text.inside(src,i,j);
-                var k = text.index(content, Chars.Caret);
-                if(k == NotFound)
-                    return text.left(src, i);
-
-                var suffix = text.right(content,k);
-                return text.left(src,i) + suffix;
-            }
-
-            var mnemonic = text.remove(value,Chars.Quote);
-            var ws = SQ.wsindex(mnemonic);
-            if(ws != NotFound)
-                mnemonic = text.remove(text.left(mnemonic, ws), Chars.Quote);
-
-            return cleanse(mnemonic);
-        }
-
         public InstEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)
         {
 
         }
+
+        AsmMnemonic? _Mnemonic;
+
+        AsmVariationCode? _VariationCode;
 
         public bit isPseudo
             => ParseAttrib(nameof(isPseudo), out bit _);
@@ -61,7 +34,14 @@ namespace Z0.llvm
             => this[nameof(OpMap)].Value;
 
         public AsmMnemonic Mnemonic
-            => ExtractMnemonic(AsmString);
+        {
+            get
+            {
+                if(_Mnemonic == null)
+                    _Mnemonic = llvm.AsmString.mnemonic(AsmString);
+                return _Mnemonic.Value;
+            }
+        }
 
         public bits<ulong> TSFlags
         {
@@ -79,13 +59,16 @@ namespace Z0.llvm
         {
             get
             {
-                var name = EntityName.Content;
-                var mnemonic = Mnemonic.Format(MnemonicCase.Uppercase);
-                if(text.empty(name) || text.empty(mnemonic) || !text.contains(name,mnemonic))
-                    return AsmVariationCode.Empty;
-
-                var candidate = text.remove(name,mnemonic);
-                return text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
+                if(_VariationCode == null)
+                {
+                    var name = EntityName.Content;
+                    var mnemonic = Mnemonic.Format(MnemonicCase.Uppercase);
+                    if(text.empty(name) || text.empty(mnemonic) || !text.contains(name,mnemonic))
+                        return AsmVariationCode.Empty;
+                    var candidate = text.remove(name,mnemonic);
+                    _VariationCode = text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
+                }
+                return _VariationCode.Value;
             }
         }
     }

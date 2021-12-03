@@ -6,14 +6,66 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
 
     using static Root;
     using static core;
 
-    [ApiHost]
-    public readonly struct vectors
+    using ScalarTypes;
+
+    public readonly partial struct TS
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op]
+        public static u1<bit> u1(bit src)
+            => new u1<bit>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u1<byte> u1(byte src)
+            => new u1<byte>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u2<byte> u2(byte src)
+            => new u2<byte>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u3<byte> u3(byte src)
+            => new u3<byte>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u4<byte> u4(byte src)
+            => new u4<byte>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u5<byte> u5(byte src)
+            => new u5<byte>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u6<byte> u6(byte src)
+            => new u6<byte>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u8 u8(byte src)
+            => new u8(src);
+
+        [MethodImpl(Inline), Op]
+        public static u16<ushort> u16(ushort src)
+            => new u16<ushort>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u32<uint> u32(uint src)
+            => new u32<uint>(src);
+
+        [MethodImpl(Inline), Op]
+        public static u64<ulong> u64(ulong src)
+            => new u64<ulong>(src);
+
+        [MethodImpl(Inline), Op]
+        public static uN<T> uN<T>(uint n, T value = default)
+            where T : unmanaged
+                => new uN<T>(n,value);
 
         /// <summary>
         /// Creates the empty vector
@@ -132,7 +184,6 @@ namespace Z0
             where T : unmanaged
                 => string.Format(RP.V3,
                     src[0], src[1], src[2]);
-
 
         /// <summary>
         /// Creates a vector of specifield length and parametric type
@@ -667,6 +718,155 @@ namespace Z0
                     break;
             }
             return buffer.Emit();
+        }
+
+        [MethodImpl(Inline)]
+        public static Outcome<uint> apply<S,T>(SeqProjector<S,T> p, ReadOnlySpan<S> src, Span<T> dst)
+        {
+            var count = (uint)min(src.Length,dst.Length);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = p.F(skip(src,i));
+            return count;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static DomainKey domain(uint kind, uint id)
+            => new DomainKey(kind, id);
+
+        [MethodImpl(Inline), Op]
+        public static SourceKey source(DomainKey domain, uint id)
+            => new SourceKey(domain,id);
+
+        [MethodImpl(Inline), Op]
+        public static TargetKey target(DomainKey domain, uint id)
+            => new TargetKey(domain,id);
+
+        [MethodImpl(Inline), Op]
+        public static ProjectionKey projection(uint id, SourceKey src, TargetKey dst)
+            => new ProjectionKey(id, src, dst);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static DomainKey<D> domain<D>(D descriptor)
+            where D : unmanaged
+                => new DomainKey<D>(descriptor);
+
+        [MethodImpl(Inline)]
+        public static SeqProjector<S,T> projector<S,T>(Func<S,T> f)
+            => new SeqProjector<S,T>(f);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static SourceKey untype<T>(SourceKey<T> src, Func<SourceKey<T>,uint> f)
+            => new SourceKey(src.Domain, f(src));
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static TargetKey untype<T>(TargetKey<T> src, Func<TargetKey<T>,uint> f)
+            => new TargetKey(src.Domain, f(src));
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static SourceKey<T> source<T>(DomainKey d, T rep)
+            => new SourceKey<T>(d,rep);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static TargetKey<T> target<T>(DomainKey d, T rep)
+            => new TargetKey<T>(d,rep);
+
+        [MethodImpl(Inline)]
+        public static ProjectionKey<S,T> projection<S,T>(uint id, SourceKey<T> src, TargetKey<T> dst)
+            => new ProjectionKey<S,T>(id,src,dst);
+
+        [MethodImpl(Inline)]
+        public static ProjectionKey untype<S,T>(ProjectionKey<S,T> p, Func<SourceKey<T>,uint> f, Func<TargetKey<T>,uint> g)
+        {
+            var src = untype(p.Source,f);
+            var dst = untype(p.Target,g);
+            return new ProjectionKey(p.Id,src,dst);
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static DomainKey untyped<D>(DomainKey<D> d)
+            where D : unmanaged
+        {
+            var k = 0u;
+            var i = 0u;
+            var data = @readonly(bytes(d.Descriptor));
+            if(size<D>() == 1)
+            {
+                ref readonly var b = ref skip(data,0);
+                k = (uint)b & 0xF;
+                i = (uint)b >> 4;
+            }
+            else if(size<D>() == 2)
+            {
+                k = skip(data,0);
+                i = skip(data,1);
+            }
+            else if(size<D>() == 4)
+            {
+                k = skip16(data,0);
+                i = skip16(data,2);
+            }
+            else if(size<D>() == 8)
+            {
+                k = skip32(data,0);
+                i = skip32(data,4);
+            }
+            return new DomainKey(k,i);
+        }
+
+
+        /// <summary>
+        /// Describes a domain, in 64 bits or less
+        /// </summary>
+        public readonly struct DomainKey<D>
+            where D : unmanaged
+        {
+            public D Descriptor {get;}
+
+            [MethodImpl(Inline)]
+            public DomainKey(D d)
+            {
+                Descriptor = d;
+            }
+
+            [MethodImpl(Inline)]
+            public static implicit operator DomainKey(DomainKey<D> src)
+                => untyped(src);
+        }
+
+        /// <summary>
+        /// Identifies a projection
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public readonly struct ProjectionKey<S,T>
+        {
+            public SourceKey<T> Source {get;}
+
+            public TargetKey<T> Target {get;}
+
+            public uint Id {get;}
+
+            [MethodImpl(Inline)]
+            public ProjectionKey(uint id, SourceKey<T> src, TargetKey<T> dst)
+            {
+                Id = id;
+                Source = src;
+                Target = dst;
+            }
+        }
+
+        /// <summary>
+        /// A default projection effector
+        /// </summary>
+        public readonly struct SeqProjector<S,T> : ISeqProjector<S,T>
+        {
+            internal readonly Func<S,T> F;
+
+            [MethodImpl(Inline)]
+            internal SeqProjector(Func<S,T> f)
+                => F = f;
+
+            public Outcome<uint> Project(ReadOnlySpan<S> src, Span<T> dst)
+                => apply(this,src,dst);
         }
     }
 }

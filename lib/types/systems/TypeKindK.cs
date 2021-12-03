@@ -9,62 +9,34 @@ namespace Z0
 
     using static Root;
 
-    public struct TypeConstraint
-    {
-        public TextBlock Expresssion;
-    }
-
-    public struct TypeParamDescriptor
-    {
-        public Identifier Name;
-
-        public Index<TypeConstraint> Constraints;
-    }
-
-    public struct TypeDescriptor
-    {
-        public Identifier Scope;
-
-        public Identifier Name;
-
-        public string Specifier;
-
-        public ClrTypeKind RuntimeKind;
-
-        public TextBlock Description;
-
-        public Index<TypeParamDescriptor> Parameters;
-
-        public bool IsParametric
-            => Parameters.IsNonEmpty;
-    }
-
-    public readonly struct TypeKind<K> : ITextual
+    public readonly struct TypeKind<K> : ITypeKind<K>
         where K : unmanaged
     {
-        readonly K Value {get;}
+        public K Key {get;}
+
+        public Identifier Name {get;}
 
         [MethodImpl(Inline)]
-        public TypeKind(K src)
-            => Value = src;
+        public TypeKind(K src, Identifier name)
+        {
+            Key = src;
+            Name = name;
+        }
 
-        [MethodImpl(Inline)]
+        public Identifier Class
+        {
+            [MethodImpl(Inline)]
+            get => typeof(K).Name;
+        }
+
         public string Format()
-            => Value.ToString();
+            => string.Format("{0}:{1}",Name, Class);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator DataTypeKind(TypeKind<K> src)
-            => new DataTypeKind(core.bw64<K>(src.Value));
-
-        [MethodImpl(Inline)]
-        public static implicit operator TypeKind<K>(K src)
-            => new TypeKind<K>(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator K(TypeKind<K> src)
-            => src.Value;
+        public static implicit operator TypeKind(TypeKind<K> src)
+            => new TypeKind(core.bw64<K>(src.Key), src.Class, src.Name);
     }
 }

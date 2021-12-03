@@ -12,12 +12,12 @@ namespace Z0
     /// <summary>
     /// Defines a data structure for sparse/partial sequence representation
     /// </summary>
-    public readonly struct Seq<T> : IIndex<SeqTerm<T>>
+    public readonly struct SeqTerms<T> : IIndex<SeqTerm<T>>
     {
         readonly Index<SeqTerm<T>> Data;
 
         [MethodImpl(Inline)]
-        public Seq(params SeqTerm<T>[] src)
+        public SeqTerms(params SeqTerm<T>[] src)
         {
             if(src.Length != 0)
                 Data = src;
@@ -97,11 +97,11 @@ namespace Z0
             get => ref this[Length - 1];
         }
 
-        public static Seq<T> Empty
-            => new Seq<T>(SeqTerm<T>.Empty);
+        public static SeqTerms<T> Empty
+            => new SeqTerms<T>(SeqTerm<T>.Empty);
 
         [MethodImpl(Inline)]
-        public static implicit operator Seq<T>(SeqTerm<T>[] src)
-            => new Seq<T>(src);
+        public static implicit operator SeqTerms<T>(SeqTerm<T>[] src)
+            => new SeqTerms<T>(src);
     }
 }

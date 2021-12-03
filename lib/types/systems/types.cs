@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Runtime.CompilerServices;
+
     using static Root;
 
     [ApiHost]
@@ -14,30 +16,20 @@ namespace Z0
         internal static string format(PrimalKind src)
             => src.ToString().ToLower();
 
-        internal static Outcome parse(string src, out PrimalKind dst)
-        {
-            var symbols = Symbols.index<PrimalKind>();
-            var i = text.index(src, Chars.Colon);
-            dst = default;
-            if(i > 0)
-            {
-                var input = text.left(src,i);
-                if(symbols.Lookup(input, out var s))
-                    dst = s.Kind;
-            }
-            else
-            {
-                i = text.index(src,Chars.Space);
-                if(i>0)
-                {
-                    var input = text.left(src,i);
-                    if(symbols.Lookup(input, out var s))
-                        dst = s.Kind;
-                }
-            }
 
-            return dst != 0;
-        }
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static TypeKind<K> kind<K>(K key, Identifier name)
+            where K : unmanaged
+                => new TypeKind<K>(key,name);
+
+        [MethodImpl(Inline), Op]
+        public static TypeKind kind(ulong key, Identifier @class, Identifier name)
+            => new TypeKind(key, @class, name);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static TypeKind untype<K>(TypeKind<K> src)
+            where K : unmanaged
+                => src;
 
     }
 }

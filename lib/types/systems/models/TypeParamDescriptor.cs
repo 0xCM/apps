@@ -4,17 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
-    public sealed class BlittableTypes : TypeSystem<BlittableTypes>
+    public struct TypeParamDescriptor
     {
-        public const string SystemName = "blittable";
+        public Identifier Name;
 
-        public BlittableTypes()
-            : base(SystemName)
-        {
-
-        }
-
+        public Index<TypeConstraint> Constraints;
     }
 }

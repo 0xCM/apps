@@ -13,7 +13,7 @@ namespace Z0
     using TW = NativeTypeWidth;
     using FW = CpuCellWidth;
     using VW = NativeVectorWidth;
-    using TS = TypeSignKind;
+    using TSK = TypeSignKind;
 
     using W = W128;
 
@@ -24,7 +24,7 @@ namespace Z0
     {
         public const DW Width = DW.W128;
 
-        public const TS Sign = TS.Unsigned;
+        public const TSK Sign = TSK.Unsigned;
 
         /// <summary>
         /// An instance-level representative
@@ -48,7 +48,7 @@ namespace Z0
             get => (ulong)Width/8;
         }
 
-        public TS TypeSign
+        public TSK TypeSign
             => Sign;
 
         public FW CellWidth

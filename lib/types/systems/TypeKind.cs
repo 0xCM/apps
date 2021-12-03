@@ -8,19 +8,24 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct DataTypeKind
+    public readonly struct TypeKind : ITypeKind
     {
-        ulong Value {get;}
+        public ulong Key {get;}
+
+        public Identifier Class {get;}
+
+        public Identifier Name {get;}
 
         [MethodImpl(Inline)]
-        internal DataTypeKind(ulong value)
+        public TypeKind(ulong key, Identifier @class, Identifier name)
         {
-            Value = value;
+            Key = key;
+            Class = @class;
+            Name = name;
         }
 
-        [MethodImpl(Inline)]
         public string Format()
-            => Value.FormatHex();
+            => string.Format("{0}:{1}",Name, Class);
 
         public override string ToString()
             => Format();

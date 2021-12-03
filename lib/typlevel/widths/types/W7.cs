@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     using DW = DataWidth;
-    using TS = TypeSignKind;
+    using TSK = TypeSignKind;
 
     using W = W7;
 
@@ -21,7 +21,7 @@ namespace Z0
     {
         public const DW Width = DW.W7;
 
-        public const TS Sign = TS.Unsigned;
+        public const TSK Sign = TSK.Unsigned;
 
         /// <summary>
         /// An instance-level representative
@@ -39,7 +39,7 @@ namespace Z0
         public DW DataWidth
             => Width;
 
-        public TS TypeSign
+        public TSK TypeSign
             => Sign;
 
         [MethodImpl(Inline)]

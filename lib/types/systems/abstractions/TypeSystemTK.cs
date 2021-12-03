@@ -6,12 +6,13 @@ namespace Z0
 {
     using System;
 
-    public abstract class TypeSystem<T> : ITypeSystem
-        where T : TypeSystem<T>, new()
+    public abstract class TypeSystem<T,K> : ITypeSystem<K>
+        where T : TypeSystem<T,K>, new()
+        where K : unmanaged
     {
         public Label Name {get;}
 
-        public abstract ReadOnlySpan<TypeKind> Kinds {get;}
+        public abstract ReadOnlySpan<TypeKind<K>> Kinds {get;}
 
         protected TypeSystem(Label name)
         {

@@ -24,7 +24,7 @@ namespace Z0
             where I : unmanaged
                 => src.IsEmpty ? "{}" : $"{name ?? 'a'}_{src.Index} = {src.Value}";
 
-        public static void format<T>(in Seq<T> src, char delimiter, ITextBuffer dst)
+        public static void format<T>(in SeqTerms<T> src, char delimiter, ITextBuffer dst)
         {
             var count = src.Length;
             var terms = src.View;
