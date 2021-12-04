@@ -11,7 +11,7 @@ namespace Z0.Ops
     using static Root;
     using static core;
 
-    public sealed class PointMap<A,B> : Function<A,B>
+    public sealed class PointMap<A,B>
     {
         readonly Dictionary<A,B> Lookup;
 
@@ -30,7 +30,7 @@ namespace Z0.Ops
         }
 
         [MethodImpl(Inline)]
-        public override B Eval(A a)
+        public B Eval(A a)
             => Lookup[a];
 
         public ReadOnlySpan<A> Domain

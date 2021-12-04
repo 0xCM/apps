@@ -12,10 +12,7 @@ namespace Z0.Asm
     [TypeService(typeof(AsmHexCode))]
     public struct AsmHexCodeSvc :
         IParser<AsmHexCode>,
-        IFormatter<AsmHexCode>,
-        ITransformer<ulong,AsmHexCode>,
-        ISeqLoader<char,AsmHexCode>,
-        ISeqLoader<byte,AsmHexCode>
+        IFormatter<AsmHexCode>
     {
         public Outcome Parse(string src, out AsmHexCode dst)
         {
@@ -35,12 +32,12 @@ namespace Z0.Asm
         public string Format(AsmHexCode src)
             => src.Format();
 
-        public Outcome Load(ISeq<char> src, out AsmHexCode dst)
-            => AsmHexCode.parse(src.View, out dst);
+        public Outcome Load(ReadOnlySpan<char> src, out AsmHexCode dst)
+            => AsmHexCode.parse(src, out dst);
 
-        public Outcome Load(ISeq<byte> src, out AsmHexCode dst)
+        public Outcome Load(ReadOnlySpan<byte> src, out AsmHexCode dst)
         {
-            dst = AsmHexCode.load(src.View);
+            dst = AsmHexCode.load(src);
             return true;
         }
     }

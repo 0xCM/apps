@@ -9,13 +9,14 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Seq<T> : ISeq<T>
+    public readonly struct Seq<N,T> : ISeq<N,T>
+        where N : unmanaged, ITypeNat
         where T : IType
     {
         readonly Index<T> Data;
 
         [MethodImpl(Inline)]
-        public Seq(T[] src)
+        internal Seq(T[] src)
         {
             Data = src;
         }
@@ -31,13 +32,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Data;
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator Seq<T>(T[] src)
-            => new Seq<T>(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator T[](Seq<T> src)
-            => src;
     }
 }

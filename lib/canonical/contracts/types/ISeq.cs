@@ -10,6 +10,7 @@ namespace Z0
 
     [Free]
     public interface ISeq<T> : IType, IMeasured
+        where T : IType
     {
         ReadOnlySpan<T> View {get;}
 
@@ -26,6 +27,7 @@ namespace Z0
     [Free]
     public interface ISeq<N,T> : ISeq<T>
         where N : unmanaged, ITypeNat
+        where T : IType
     {
         uint ICounted.Count
             => core.nat32u<N>();

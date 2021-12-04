@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops.Logic
+namespace Z0.Ops
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 

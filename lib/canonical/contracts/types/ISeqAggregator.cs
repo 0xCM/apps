@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IMutableSeq<T> : ISeq<T>
+    public interface ISeqAggregator<S,T>
+        where S : IType
+        where T : IType
     {
-        Span<T> Edit {get;}
+        Outcome Distill(ISeq<S> src, out T dst);
     }
 }

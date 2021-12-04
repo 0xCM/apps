@@ -11,18 +11,23 @@ namespace Z0
 
     [Free]
     public interface ISeqEmitter<S,T>
+        where S : IType
+        where T : IType
     {
         Outcome Emit(ISeq<S> src, ISink<T> dst);
     }
 
     [Free]
     public interface ISeqEmitter<S,C,T>
+        where S : IType
+        where T : IType
     {
         Outcome Emit(ISeq<S> src, C config, ISink<T> dst);
     }
 
     [Free]
     public interface ISeqEmitter<S>
+        where S : IType
     {
         Outcome Emit(ISeq<S> src, StreamWriter dst);
     }

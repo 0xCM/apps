@@ -31,10 +31,6 @@ namespace Z0
         public static ProjectionKey projection(uint id, SourceKey src, TargetKey dst)
             => new ProjectionKey(id, src, dst);
 
-        [MethodImpl(Inline)]
-        public static SeqProjector<S,T> projector<S,T>(Func<S,T> f)
-            => new SeqProjector<S,T>(f);
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static SourceKey untype<T>(SourceKey<T> src, Func<SourceKey<T>,uint> f)
             => new SourceKey(src.Domain, f(src));

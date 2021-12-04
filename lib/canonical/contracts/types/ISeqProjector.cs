@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    using System;
 
-    [Free]
-    public interface ITypeValue : IValue
+    public interface ISeqProjector<S,T>
+        where S : IType
+        where T : IType
     {
-
-    }
-
-    [Free]
-    public interface ITypeValue<V> : IValue<V>
-        where V : unmanaged
-    {
-
+        Outcome Map(ISeq<S> src, ISeq<T> dst);
     }
 }

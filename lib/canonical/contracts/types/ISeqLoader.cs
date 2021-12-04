@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    using System;
 
-    [Free]
-    public interface ISeqAggregator<S,T>
+    public interface ISeqLoader<S,T>
+        where S : IType
+        where T : IType
     {
-        Outcome Distill(ISeq<S> src, out T dst);
+        Outcome Load(ISeq<S> src, out T dst);
     }
 }

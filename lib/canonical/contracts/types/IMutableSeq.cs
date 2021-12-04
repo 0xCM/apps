@@ -6,8 +6,12 @@ namespace Z0
 {
     using System;
 
-    public interface ISeqLoader<S,T>
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+
+    [Free]
+    public interface IMutableSeq<T> : ISeq<T>
+        where T : IType
     {
-        Outcome Load(ISeq<S> src, out T dst);
+        Span<T> Edit {get;}
     }
 }

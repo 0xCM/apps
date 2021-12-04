@@ -14,7 +14,7 @@ namespace Z0
 
 
     [Free]
-    public interface IIndex<T> : IMutableSeq<T>, IEnumerable<T>, ITextual
+    public interface IIndex<T> : IMeasured, IEnumerable<T>, ITextual
     {
         T[] Storage {get;}
 
@@ -24,11 +24,20 @@ namespace Z0
         string ITextual.Format()
             => string.Format("({0}:{1})*", typeof(T).Name, Storage?.Length ?? 0);
 
-        Span<T> IMutableSeq<T>.Edit
+        Span<T> Edit
             => Storage;
 
-        ReadOnlySpan<T> ISeq<T>.View
+        ReadOnlySpan<T> View
             => Storage;
+
+        uint ICounted.Count
+            => (uint)View.Length;
+
+        int IMeasured.Length
+            => View.Length;
+
+        bool INullity.IsEmpty
+            => View.Length == 0;
 
         ref T this[int index]
             => ref seek(Storage,index);

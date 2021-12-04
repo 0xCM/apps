@@ -18,20 +18,15 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Seq<T> seq<T>(T[] src)
+            where T : IType
             => new Seq<T>(src);
 
         [Op, Closures(Closure)]
         public static Seq<N,T> seq<N,T>()
             where N : unmanaged, ITypeNat
+            where T : IType
                 => new Seq<N,T>(alloc<T>(nat32u<N>()));
 
-        [MethodImpl(Inline)]
-        public static Outcome<uint> apply<S,T>(SeqProjector<S,T> p, ReadOnlySpan<S> src, Span<T> dst)
-        {
-            var count = (uint)min(src.Length,dst.Length);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = p.F(skip(src,i));
-            return count;
-        }
+
     }
 }
