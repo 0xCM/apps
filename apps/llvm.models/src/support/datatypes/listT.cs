@@ -2,7 +2,7 @@
 // Source : LLVM - https://github.com/llvm/llvm-project/
 // License: Apache-2.0 WITH LLVM-exception
 //-----------------------------------------------------------------------------------------//
-namespace Z0.llvm
+namespace Z0.llvm.types
 {
     using System;
     using System.Runtime.CompilerServices;

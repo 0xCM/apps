@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Canonical
+namespace Z0.Types
 {
     public struct u0<T> : IUnsigned<T>
         where T : unmanaged

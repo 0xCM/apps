@@ -10,6 +10,6 @@ namespace Z0.llvm
     {
         [CmdOp(class_fields)]
         Outcome ClassFields(CmdArgs args)
-            => Flow(class_fields, Db.ClassFields());
+            => Flow(class_fields, DataLoader.LoadClassFields().View);
     }
 }

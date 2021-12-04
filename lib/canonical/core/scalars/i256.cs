@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Canonical
+namespace Z0.Types
 {
     public struct i256<T> : ISigned<T>
         where T : unmanaged

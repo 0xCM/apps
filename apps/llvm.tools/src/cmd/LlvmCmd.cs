@@ -26,7 +26,7 @@ namespace Z0.llvm
 
         LlvmReadObj ReadObj;
 
-        LlvmTableLoader TableLoader;
+        LlvmDataLoader DataLoader;
 
         LlvmMc Mc;
 
@@ -59,7 +59,7 @@ namespace Z0.llvm
             Toolset = Wf.LLvmToolset();
             ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();
-            TableLoader = Wf.LlvmRecordLoader();
+            DataLoader = Wf.LlvmDataLoader();
             Mc = Wf.LlvmMc();
             CodeGen = Wf.LlvmCodeGen();
             Data = Ws.Project(Projects.LlvmData);

@@ -15,7 +15,7 @@ namespace Z0.llvm
 
         OmniScript OmniScript;
 
-        LlvmTableLoader TableLoader;
+        LlvmDataLoader TableLoader;
 
         Generators Generators;
 
@@ -23,7 +23,7 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
-            TableLoader = LlvmTableLoader.create(Wf);
+            TableLoader = LlvmDataLoader.create(Wf);
             Generators = Wf.Generators();
         }
 

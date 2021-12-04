@@ -14,24 +14,9 @@ namespace Z0.llvm
     {
        public ReadOnlySpan<TextLine> Records;
 
-       public ReadOnlySpan<ItemList<string>> Lists;
-
-       public ReadOnlySpan<ClassRelations> ClassRelations;
-
-       public ReadOnlySpan<DefRelations> DefRelations;
-
-       public ReadOnlySpan<RecordField> Classes;
-
        public ReadOnlySpan<RecordField> Defs;
-
-       public Dictionary<Identifier, uint> ListIndex;
 
        public LineMap<Identifier> DefMap;
 
-       public LineMap<Identifier> ClassMap;
-
-       public LlvmList<ushort,string> AsmIdList;
-
-       public LlvmList<ushort,string> RegisterList;
    }
 }

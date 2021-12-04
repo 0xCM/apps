@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    using Canonical;
+    using Types;
     using Ops.Scalar;
 
     using static AsciLetterCode;

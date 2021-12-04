@@ -9,17 +9,6 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct NamedValues
-    {
-        [MethodImpl(Inline)]
-        public static NamedValue<K,T> define<K,T>(in K name, in T value)
-            => new NamedValue<K,T>(name,value);
-
-        [MethodImpl(Inline)]
-        public static NamedValues<V> empty<V>()
-            => new NamedValues<V>();
-    }
-
     public readonly struct NamedValues<T>
     {
         public NamedValue<T>[] Data {get;}

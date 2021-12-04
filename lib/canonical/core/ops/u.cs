@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using Canonical;
+    using Types;
 
     partial struct TS
     {

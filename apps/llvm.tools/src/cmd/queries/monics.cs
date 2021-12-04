@@ -2,12 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
+    using static LlvmNames;
+    using static core;
 
-    using static Root;
+    partial class LlvmCmd
+    {
+        [CmdOp("monics")]
+        Outcome ShowMnemonics(CmdArgs args)
+        {
 
-
+            return true;
+        }
+    }
 }

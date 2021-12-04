@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Canonical
+namespace Z0.Types
 {
     using System.Runtime.CompilerServices;
     using static Root;

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using Canonical;
+    using Types;
 
     [ApiHost]
     public readonly partial struct grids

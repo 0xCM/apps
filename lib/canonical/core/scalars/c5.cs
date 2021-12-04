@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Canonical
+namespace Z0.Types
 {
     /// <summary>
     /// Represents a character of width 5

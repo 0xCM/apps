@@ -62,7 +62,7 @@ namespace Z0
             => llvm.LlvmLlc.create(wf);
 
         [Op]
-        public static LlvmTableLoader LlvmRecordLoader(this IWfRuntime wf)
-            => llvm.LlvmTableLoader.create(wf);
+        public static LlvmDataLoader LlvmDataLoader(this IWfRuntime wf)
+            => llvm.LlvmDataLoader.create(wf);
     }
 }

@@ -12,7 +12,7 @@ namespace Z0.llvm
         [CmdOp("inst")]
         public Outcome ShowInst(CmdArgs args)
         {
-            var entities = Db.Entities().Members;
+            var entities = DataLoader.LoadEntities().Members;
             var count = entities.Length;
             for(var i=0; i<count; i++)
             {

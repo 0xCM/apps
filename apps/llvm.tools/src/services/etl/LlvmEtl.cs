@@ -10,13 +10,13 @@ namespace Z0.llvm
 
     using Asm;
 
-    using SQ = SymbolicQuery;
-
     public partial class LlvmEtl : AppService<LlvmEtl>
     {
         LlvmPaths LlvmPaths;
 
         OmniScript OmniScript;
+
+        LlvmDataLoader DataLoader;
 
         public LlvmEtl()
         {
@@ -26,6 +26,7 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
+            DataLoader = Wf.LlvmDataLoader();
         }
 
         Index<string> ListNames()
@@ -39,24 +40,19 @@ namespace Z0.llvm
         {
             var dst = new EtlDatasets();
             RunHeaderEtl(ref dst);
-            var records = LoadSourceRecords(Datasets.X86);
+            var records = DataLoader.LoadSourceRecords(Datasets.X86);
             dst.Records = records;
             EmitLinedRecords(records, Datasets.X86Lined);
             var classes = EmitClassRelations(records);
-            dst.ClassRelations = classes;
             var defs = EmitDefRelations(records);
-            dst.DefRelations = defs;
             var defMap = EmitLineMap(defs, records, Datasets.X86Defs);
             dst.DefMap = defMap;
-            var defFields = LoadFields(records, defMap);
+            var defFields = DataLoader.LoadFields(records, defMap);
             dst.Defs = defFields;
             EmitFields(defFields, Datasets.X86DefFields);
             var classMap = EmitLineMap(classes, records, Datasets.X86Classes);
-            dst.ClassMap = classMap;
-            var classFields = LoadFields(records, classMap);
-            dst.Classes = classFields;
+            var classFields = DataLoader.LoadFields(records, classMap);
             EmitFields(classFields, Datasets.X86ClassFields);
-
             RunEntityEtl();
             return dst;
         }
@@ -128,8 +124,8 @@ namespace Z0.llvm
 
         public Outcome RunEntityEtl()
         {
-            var src = Wf.LlvmDb().Entities();
-            var lists = EmitLists(src, ListNames());
+            var src = DataLoader.LoadEntities();
+            EmitLists();
             EmitChildRelations(src);
             ProcessInstructions(src, ExtractAsmIdList());
             return true;
@@ -161,10 +157,10 @@ namespace Z0.llvm
                 switch(name)
                 {
                     case TableGenHeaders.X86Registers:
-                        datasets.RegisterList = EmitList("RegisterId", enumliterals<ushort>(header,BeginRegsMarker));
+                        EmitList("RegisterId", enumliterals<ushort>(header,BeginRegsMarker));
                     break;
                     case TableGenHeaders.X86Info:
-                        datasets.AsmIdList = EmitList("AsmId", enumliterals<ushort>(header,BeginAsmIdMarker));
+                        EmitList("AsmId", enumliterals<ushort>(header,BeginAsmIdMarker));
                     break;
                 }
 

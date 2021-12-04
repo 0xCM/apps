@@ -11,11 +11,8 @@ namespace Z0.llvm
         [CmdOp("asm-patterns")]
         Outcome patterns(CmdArgs args)
         {
-            var result = TableLoader.LoadAsmPatterns(out var patterns);
-            if(result.Fail)
-                return result;
-
-            var descriptors = TableLoader.LoadAsmIdDescriptors();
+            var patterns = DataLoader.LoadAsmPatterns();
+            var descriptors = DataLoader.LoadAsmIdDescriptors();
             var count = patterns.Count;
             for(var i=0; i<count; i++)
             {
@@ -33,19 +30,6 @@ namespace Z0.llvm
 
             }
             return true;
-        }
-
-        ConstLookup<string,uint> LoadAsmIdLookup()
-        {
-            var asmid = TableLoader.LoadList("AsmId");
-            var lu = lookup<string,uint>();
-            foreach(var id in asmid)
-            {
-                var inserted = lu.Include(id.Value.Trim(), id.Key);
-                if(!inserted)
-                    Warn(string.Format("Duplicate:{0} {1}", id.Value, id.Key));
-            }
-            return lu.Seal();
         }
     }
 }

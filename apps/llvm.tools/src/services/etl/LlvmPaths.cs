@@ -88,6 +88,9 @@ namespace Z0.llvm
         public FS.FolderPath RecordImports()
             => LlvmData.Subdir("records");
 
+        public Index<string> ListNames()
+            => Lists().Map(x => x.FileName.WithoutExtension.Format().Remove("llvm.lists."));
+
         public FS.FilePath RecordImport(string id, FS.FileExt ext)
             =>  RecordImports() + FS.file(id, ext);
 

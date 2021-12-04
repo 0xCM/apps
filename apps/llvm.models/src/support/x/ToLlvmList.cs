@@ -5,13 +5,14 @@
 namespace Z0.llvm
 {
     using System;
+    using System.Runtime.CompilerServices;
 
-    partial class LlvmEtl
+    using static Root;
+
+    public static partial class XTend
     {
-        public ReadOnlySpan<TextLine> LoadSourceRecords(string id)
-        {
-            using var reader = LlvmPaths.DataSourcePath(id).Utf8LineReader();
-            return reader.ReadAll();
-        }
+        public static LlvmList ToLlvmList(this LlvmListItem[] items, FS.FilePath path)
+            => new LlvmList(path,items);
     }
+
 }

@@ -6,15 +6,8 @@ namespace Z0.llvm
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
-
-    public static partial class XTend
-    {
-        public static LlvmList ToLlvmList(this LlvmListItem[] items, FS.FilePath path)
-            => new LlvmList(path,items);
-    }
 
     public readonly struct LlvmList : IIndex<LlvmListItem>
     {
@@ -62,6 +55,12 @@ namespace Z0.llvm
         {
             [MethodImpl(Inline)]
             get => Data;
+        }
+
+        public NameList ToNameList()
+        {
+            var name = Path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
+            return Named.list(name, this.Map(x => x.Value));
         }
 
         [MethodImpl(Inline)]

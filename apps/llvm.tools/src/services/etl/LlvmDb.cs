@@ -32,15 +32,11 @@ namespace Z0.llvm
 
         IdentityMap<Interval<uint>> FieldDefMap;
 
-        Index<DefRelations> _DefRelations;
-
-        Index<ClassRelations> _ClassRelations;
-
         LabelBuffer ClassNameBuffer;
 
         LabelBuffer DefNameBuffer;
 
-        LlvmTableLoader RecordLoader;
+        LlvmDataLoader DataLoader;
 
         Index<RecordEntity> _Entities;
 
@@ -58,7 +54,7 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             Paths = Wf.LlvmPaths();
-            RecordLoader = Wf.LlvmRecordLoader();
+            DataLoader = Wf.LlvmDataLoader();
             LoadData();
         }
 
@@ -68,59 +64,11 @@ namespace Z0.llvm
             DefNameBuffer.Dispose();
         }
 
-        public ReadOnlySpan<RecordField> Fields(uint offset, uint length)
-            => slice(_DefFields.View, offset,length);
-
         public ReadOnlySpan<Label> ClassNames()
             => ClassNameBuffer.Labels;
 
         public ReadOnlySpan<Label> DefNames()
             => DefNameBuffer.Labels;
-
-        public ReadOnlySpan<RecordField> ClassFields()
-            => _ClassFields.View;
-
-        public ReadOnlySpan<RecordField> DefFields()
-            => _DefFields.View;
-
-        public ReadOnlySpan<ClassRelations> ClassRelations()
-            => _ClassRelations;
-
-        public ReadOnlySpan<DefRelations> DefRelations()
-            => _DefRelations;
-
-        public RecordEntitySet Entities()
-        {
-            if(_Entities.IsEmpty)
-            {
-                var relations = _DefRelations.Map(x => (x.Name.Content, x)).ToDictionary();
-                var entites = list<RecordEntity>();
-                var current = EmptyString;
-                var fields = list<RecordField>();
-                var src = DefFields();
-                var count = src.Length;
-                var relation = default(DefRelations);
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var field = ref skip(src,i);
-                    if(field.RecordName != current)
-                    {
-                        if(fields.Count != 0)
-                        {
-                            entites.Add(new RecordEntity(relation, fields.ToArray()));
-                            fields.Clear();
-                        }
-                        current = field.RecordName;
-                        relations.TryGetValue(current, out relation);
-                        fields.Add(field);
-                    }
-                    else
-                        fields.Add(field);
-                }
-                _Entities = entites.ToArray();
-            }
-            return ("Universe",_Entities);
-        }
 
         public uint EmitClassInfo(StreamWriter dst)
         {
@@ -159,28 +107,24 @@ namespace Z0.llvm
 
         void LoadFields(string dataset, out Index<RecordField> dst)
         {
-            var result = RecordLoader.LoadFields(dataset, out dst);
-            if(result.Fail)
-                Error(result.Message);
+            dst = DataLoader.LoadFields(dataset);
         }
 
         void LoadDefs()
         {
-            DefMap = LoadLineMap(Paths.ImportMap(Datasets.X86Defs));
+            DefMap = DataLoader.LoadX86DefMap();
             DefNameBuffer = strings.labels(DefMap.Intervals.Select(x => x.Id.Content));
             iteri(DefMap.Intervals, (i,entry) => DefLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
             LoadFields(Datasets.X86DefFields, out _DefFields);
             iteri(DefMap.Intervals, (i,entry) => FieldDefMap.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-            _DefRelations = RecordLoader.LoadDefRelations();
         }
 
         void LoadClasses()
         {
-            ClassMap = LoadLineMap(Paths.ImportMap(Datasets.X86Classes));
+            ClassMap = DataLoader.LoadX86ClassMap();
             ClassNameBuffer = strings.labels(ClassMap.Intervals.Select(x => x.Id.Content));
             iteri(ClassMap.Intervals, (i,entry) => ClassLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
             LoadFields(Datasets.X86ClassFields, out _ClassFields);
-            _ClassRelations = RecordLoader.LoadClassRelations();
         }
 
         void LoadRecordLines()
@@ -198,30 +142,6 @@ namespace Z0.llvm
             Ran(flow, string.Format("Loaded {0} fields from {1} records", _DefFields.Count, X86Records.Count));
         }
 
-        LineMap<Identifier> LoadLineMap(FS.FilePath src)
-        {
-            using var reader = src.Utf8LineReader();
-            var lines = reader.ReadAll();
-            var interval = LineInterval<Identifier>.Empty;
-            var count = lines.Length;
-            var intervals = alloc<LineInterval<Identifier>>(count);
-            var result = Outcome.Success;
-            for(var i=0u; i<count; i++)
-            {
-                ref var dst = ref seek(intervals, i);
-                result = DataParser.parse(skip(lines,i).Content, out seek(intervals,i));
-                if(result.Fail)
-                {
-                    Error(result.Message);
-                    break;
-                }
-            }
-
-            if(result)
-                return new LineMap<Identifier>(intervals);
-            else
-                return new LineMap<Identifier>(sys.empty<LineInterval<Identifier>>());
-        }
 
         [MethodImpl(Inline)]
         ReadOnlySpan<TextLine> X86RecordLines(Interval<uint> range)

@@ -9,15 +9,15 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp(Queries.fields)]
-        Outcome Fields(CmdArgs args)
+        [CmdOp("llvm/defs/fields")]
+        Outcome ShowDefFields(CmdArgs args)
         {
             var result = Outcome.Success;
             if(args.Length == 2)
             {
                 DataParser.parse(arg(args,0).Value, out uint offset);
                 DataParser.parse(arg(args,1).Value, out uint length);
-                var fields = Db.Fields(offset,length);
+                var fields = DataLoader.LoadFields(Datasets.X86DefFields, offset, length);
                 iter(fields, f => Write(f.Format()));
             }
             return result;

@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) LLVM Project
-// License     :  Apache-2.0 WITH LLVM-exceptions
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm.types
+namespace Z0.Types
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -43,6 +43,9 @@ namespace Z0.llvm.types
 
         public override string ToString()
             => Format();
+
+        public bool Equals(@string src)
+            => Value.Equals(src.Value);
 
         public static @string Empty
         {

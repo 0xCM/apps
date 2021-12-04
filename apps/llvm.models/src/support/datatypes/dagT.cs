@@ -38,7 +38,7 @@ namespace Z0.llvm.types
         public string Format()
         {
             if(Left.IsNonEmpty && Right.IsNonEmpty)
-                return string.Format("arrow({0},{1})", Left.Format(), Right.Format());
+                return string.Format("{0} -> {1}", Left.Format(), Right.Format());
             else if(Left.IsEmpty && Right.IsEmpty)
                 return EmptyString;
             else if(Left.IsNonEmpty)

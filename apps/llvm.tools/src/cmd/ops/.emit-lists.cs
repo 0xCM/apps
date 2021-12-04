@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-    using static Root;
     using static core;
+    using static Root;
 
     partial class LlvmCmd
     {
-        Outcome EmitVariationKinds()
+        [CmdOp(".emit-lists")]
+        Outcome EmitLists(CmdArgs args)
         {
-
+            LlvmEtl.EmitLists();
             return true;
         }
     }

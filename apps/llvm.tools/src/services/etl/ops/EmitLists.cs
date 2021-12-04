@@ -10,6 +10,12 @@ namespace Z0.llvm
 
     partial class LlvmEtl
     {
+        public Index<LlvmList> EmitLists()
+        {
+            var src = DataLoader.LoadEntities();
+            return EmitLists(src, ListNames());
+        }
+
         public Index<LlvmList> EmitLists(RecordEntitySet src, ReadOnlySpan<string> classes)
         {
             var emitted = bag<LlvmList>();

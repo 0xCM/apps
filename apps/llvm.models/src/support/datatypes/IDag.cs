@@ -9,7 +9,9 @@ namespace Z0.llvm
     [Free]
     public interface IDag : ITerm
     {
+        dynamic Left {get;}
 
+        dynamic Right {get;}
     }
 
     [Free]
@@ -17,9 +19,16 @@ namespace Z0.llvm
         where L : ITerm
         where R : ITerm
     {
-        L Left {get;}
+        new L Left {get;}
 
-        R Right {get;}
+        new R Right {get;}
+
+        dynamic IDag.Left
+            => Left;
+
+        dynamic IDag.Right
+            => Right;
+
     }
 
     [Free]

@@ -24,17 +24,6 @@ namespace Z0.llvm
             Datasets = src;
         }
 
-        public bool FindList(Identifier name, out ItemList<string> dst)
-        {
-            if(Datasets.ListIndex.TryGetValue(name, out var index))
-            {
-                dst = skip(Datasets.Lists,index);
-                return true;
-            }
-            dst = ItemList<string>.Empty;
-            return false;
-        }
-
         public bool FindDefLines(Identifier entity, out ReadOnlySpan<TextLine> dst)
         {
             var map = Datasets.DefMap;

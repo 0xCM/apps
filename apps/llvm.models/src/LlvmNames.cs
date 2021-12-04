@@ -102,29 +102,31 @@ namespace Z0.llvm
         [LiteralProvider("llvm.queries")]
         public readonly struct Queries
         {
-            const string sep = "-";
+            const string sep = "/";
+
+            const string root = "llvm" + sep;
 
             const string names = nameof(names);
 
-            public const string @class = nameof(@class);
+            public const string @class = root + nameof(@class);
 
-            public const string classes = nameof(classes);
+            public const string classes = root + nameof(classes);
 
-            public const string list = nameof(list);
+            public const string list = root + nameof(list);
 
-            public const string def = nameof(def);
+            public const string def = root + nameof(def);
 
-            public const string defs = nameof(defs);
+            public const string defs = root + nameof(defs);
 
-            public const string lineage = nameof(lineage);
+            public const string lineage = root + nameof(lineage);
 
-            public const string fields = nameof(fields);
+            public const string fields = root + nameof(fields);
 
-            public const string class_fields = @class + sep + fields;
+            public const string class_fields = classes + sep + "fields";
 
-            public const string classnames = @class + names;
+            public const string classnames = classes + sep + "names";
 
-            public const string defnames = def + names;
+            public const string defnames = defs + sep + "names";
         }
 
         public readonly struct TableGenHeaders
