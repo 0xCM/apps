@@ -10,7 +10,7 @@ namespace Z0.llvm
 
     using SQ = SymbolicQuery;
 
-    partial class LlvmEtl
+    partial class LlvmDataEmitter
     {
         public LineMap<Identifier> EmitLineMap<T>(ReadOnlySpan<T> relations, ReadOnlySpan<TextLine> records, string dstid)
             where T : struct, ILineRelations<T>

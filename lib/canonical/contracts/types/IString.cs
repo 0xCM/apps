@@ -2,21 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    public interface IToolArg
+    public interface IString : IType, ITextual, IMeasured
     {
-        string ArgName {get;}
 
-        dynamic ArgValue {get;}
     }
 
-
-    public interface IToolArg<T> : IToolArg
+    public interface IString<T> : IString, IContented<T>
     {
-        new T ArgValue {get;}
 
-        dynamic IToolArg.ArgValue
-            => ArgValue;
+
     }
 }

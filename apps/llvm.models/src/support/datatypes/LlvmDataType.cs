@@ -15,27 +15,29 @@ namespace Z0.llvm
         public static LlvmDataType parse(string src)
         {
             if(src.Equals("bit"))
-                return new LlvmDataType(src, LlvmDataKind.Bit);
+                return new LlvmDataType(src, LlvmTypeKind.Bit);
             else if(src.Equals("string"))
-                return new LlvmDataType(src, LlvmDataKind.String);
+                return new LlvmDataType(src, LlvmTypeKind.String);
             else if(src.Equals("int"))
-                return new LlvmDataType(src, LlvmDataKind.Int);
+                return new LlvmDataType(src, LlvmTypeKind.Int);
             else if(src.Equals("dag"))
-                return new LlvmDataType(src, LlvmDataKind.Dag);
+                return new LlvmDataType(src, LlvmTypeKind.Dag);
             else if(src.StartsWith("bits"))
-                return new LlvmDataType(src, LlvmDataKind.Bits);
+                return new LlvmDataType(src, LlvmTypeKind.Bits);
             else if(src.StartsWith("list"))
-                return new LlvmDataType(src, LlvmDataKind.List);
+                return new LlvmDataType(src, LlvmTypeKind.List);
+            else if(src.StartsWith("names"))
+                return new LlvmDataType(src, LlvmTypeKind.NameList);
             else
                 return new LlvmDataType(src,0);
         }
 
-        public LlvmDataKind Kind {get;}
+        public LlvmTypeKind Kind {get;}
 
         public Identifier Decl {get;}
 
         [MethodImpl(Inline)]
-        public LlvmDataType(Identifier decl, LlvmDataKind kind)
+        public LlvmDataType(Identifier decl, LlvmTypeKind kind)
         {
             Decl = decl;
             Kind = kind;
@@ -48,19 +50,22 @@ namespace Z0.llvm
             => Kind != 0;
 
         public bool IsBits
-            => Kind == LlvmDataKind.Bits;
+            => Kind == LlvmTypeKind.Bits;
 
         public bool IsBit
-            => Kind == LlvmDataKind.Bit;
+            => Kind == LlvmTypeKind.Bit;
 
         public bool IsString
-            => Kind == LlvmDataKind.String;
+            => Kind == LlvmTypeKind.String;
 
         public bool IsInt
-            => Kind == LlvmDataKind.Int;
+            => Kind == LlvmTypeKind.Int;
 
         public bool IsDag
-            => Kind == LlvmDataKind.Dag;
+            => Kind == LlvmTypeKind.Dag;
+
+        public bool IsNameList
+            => Kind == LlvmTypeKind.NameList;
 
         public bool TypeArgs(out string dst)
             => text.unfence(Decl, (Chars.Lt, Chars.Gt), out dst);

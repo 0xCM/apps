@@ -18,6 +18,8 @@ namespace Z0.llvm
 
         LlvmDataLoader DataLoader;
 
+        LlvmDataEmitter DataEmitter;
+
         public LlvmEtl()
         {
         }
@@ -27,6 +29,7 @@ namespace Z0.llvm
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
             DataLoader = Wf.LlvmDataLoader();
+            DataEmitter = Wf.LlvmDataEmitter();
         }
 
         Index<string> ListNames()
@@ -36,42 +39,28 @@ namespace Z0.llvm
             return lines.Select(x => x.Trim()).Where(x => nonempty(x));
         }
 
-        public EtlDatasets Run()
+        public void Run()
         {
-            var dst = new EtlDatasets();
-            RunHeaderEtl(ref dst);
+            RunHeaderEtl();
             var records = DataLoader.LoadSourceRecords(Datasets.X86);
-            dst.Records = records;
             EmitLinedRecords(records, Datasets.X86Lined);
             var classes = EmitClassRelations(records);
             var defs = EmitDefRelations(records);
-            var defMap = EmitLineMap(defs, records, Datasets.X86Defs);
-            dst.DefMap = defMap;
+            var defMap = DataEmitter.EmitLineMap(defs, records, Datasets.X86Defs);
             var defFields = DataLoader.LoadFields(records, defMap);
-            dst.Defs = defFields;
             EmitFields(defFields, Datasets.X86DefFields);
-            var classMap = EmitLineMap(classes, records, Datasets.X86Classes);
+            var classMap = DataEmitter.EmitLineMap(classes, records, Datasets.X86Classes);
             var classFields = DataLoader.LoadFields(records, classMap);
             EmitFields(classFields, Datasets.X86ClassFields);
             RunEntityEtl();
-            return dst;
         }
 
-        public void GenDocs(in EtlDatasets src)
+        void ProcessInstructions()
         {
-            var dst = LlvmPaths.Docs("instructions");
-            dst.Clear();
-            var running = Running(string.Format("Emitting instruction docs to {0}", dst));
-            var docgen = LlvmDocGen.create(Wf,src);
-            var count = docgen.GenInsructionDocs(dst);
-            Ran(running, string.Format("Emitted docs for {0} instructions", count));
-        }
-
-        void ProcessInstructions(RecordEntitySet src, AsmIdDescriptors asmid)
-        {
+            var asmid = ExtractAsmIdList();
+            var src = DataLoader.LoadEntities();
             var members = src.Members;
             var count = members.Length;
-            //var key = 0u;
             var patterns = list<LlvmAsmPattern>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
@@ -112,7 +101,7 @@ namespace Z0.llvm
                     pattern.Variation = vcode;
                     pattern.IsCodeGenOnly = inst.isCodeGenOnly;
                     pattern.IsPseudo = inst.isPseudo;
-                    pattern.ExprFormat = AsmString.normalize(inst.AsmString);
+                    pattern.ExprFormat = inst.AsmString;
                     patterns.Add(pattern);
                 }
             }
@@ -124,10 +113,9 @@ namespace Z0.llvm
 
         public Outcome RunEntityEtl()
         {
-            var src = DataLoader.LoadEntities();
             EmitLists();
-            EmitChildRelations(src);
-            ProcessInstructions(src, ExtractAsmIdList());
+            EmitChildRelations();
+            ProcessInstructions();
             return true;
         }
 
@@ -143,7 +131,7 @@ namespace Z0.llvm
             return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDescriptor(x.Key, x.Value));
         }
 
-        Outcome RunHeaderEtl(ref EtlDatasets datasets)
+        Outcome RunHeaderEtl()
         {
             const string BeginRegsMarker = "NoRegister,";
             const string BeginAsmIdMarker = "PHI	= 0,";

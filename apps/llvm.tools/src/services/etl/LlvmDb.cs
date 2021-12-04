@@ -9,7 +9,6 @@ namespace Z0.llvm
     using System.IO;
 
     using static Root;
-    using static LlvmNames;
     using static core;
 
     public sealed class LlvmDb : AppService<LlvmDb>
@@ -26,10 +25,6 @@ namespace Z0.llvm
 
         IdentityMap<Interval<uint>> ClassLookup;
 
-        Index<RecordField> _DefFields;
-
-        Index<RecordField> _ClassFields;
-
         IdentityMap<Interval<uint>> FieldDefMap;
 
         LabelBuffer ClassNameBuffer;
@@ -37,8 +32,6 @@ namespace Z0.llvm
         LabelBuffer DefNameBuffer;
 
         LlvmDataLoader DataLoader;
-
-        Index<RecordEntity> _Entities;
 
         public LlvmDb()
         {
@@ -48,7 +41,6 @@ namespace Z0.llvm
             DefLookup = new();
             FieldDefMap = new();
             ClassLookup = new();
-            _Entities = Index<RecordEntity>.Empty;
         }
 
         protected override void Initialized()
@@ -105,17 +97,11 @@ namespace Z0.llvm
             return lines.ViewDeposited();
         }
 
-        void LoadFields(string dataset, out Index<RecordField> dst)
-        {
-            dst = DataLoader.LoadFields(dataset);
-        }
-
         void LoadDefs()
         {
             DefMap = DataLoader.LoadX86DefMap();
             DefNameBuffer = strings.labels(DefMap.Intervals.Select(x => x.Id.Content));
             iteri(DefMap.Intervals, (i,entry) => DefLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-            LoadFields(Datasets.X86DefFields, out _DefFields);
             iteri(DefMap.Intervals, (i,entry) => FieldDefMap.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
         }
 
@@ -124,22 +110,14 @@ namespace Z0.llvm
             ClassMap = DataLoader.LoadX86ClassMap();
             ClassNameBuffer = strings.labels(ClassMap.Intervals.Select(x => x.Id.Content));
             iteri(ClassMap.Intervals, (i,entry) => ClassLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-            LoadFields(Datasets.X86ClassFields, out _ClassFields);
-        }
-
-        void LoadRecordLines()
-        {
-            using var reader = Paths.RecordImport(Datasets.X86Lined, FS.Txt).Utf8LineReader();
-            X86Records = reader.ReadAll().ToArray();
         }
 
         void LoadData()
         {
             var flow = Running("Loading data");
-            LoadRecordLines();
             LoadClasses();
             LoadDefs();
-            Ran(flow, string.Format("Loaded {0} fields from {1} records", _DefFields.Count, X86Records.Count));
+            Ran(flow);
         }
 
 

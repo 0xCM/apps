@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames.Queries;
-
     partial class LlvmCmd
     {
-        [CmdOp(classnames)]
+        [CmdOp("llvm/classes/names")]
         Outcome ClassNames(CmdArgs args)
-            => Flow(classnames,Db.ClassNames());
+            => Flow("llvm/classes/names",Db.ClassNames());
     }
 }

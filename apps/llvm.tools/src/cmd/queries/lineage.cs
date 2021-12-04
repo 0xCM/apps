@@ -8,7 +8,6 @@ namespace Z0.llvm
 
     using static Root;
     using static core;
-    using static LlvmNames.Queries;
 
     partial class LlvmCmd
     {
@@ -57,7 +56,7 @@ namespace Z0.llvm
             var defrel = DataLoader.LoadDefRelations();
             var classrel = DataLoader.LoadClassRelations();
 
-            var dst = Data.Log(lineage);
+            var dst = Data.Log("llvm.lineage");
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
 

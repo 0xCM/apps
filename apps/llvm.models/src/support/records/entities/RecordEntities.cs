@@ -12,30 +12,30 @@ namespace Z0.llvm
     using static Root;
     using static core;
 
-    public readonly struct RecordEntitySet
+    public readonly struct RecordEntities
     {
         readonly List<RecordEntity> Data;
 
         public Identifier Name {get;}
 
         [MethodImpl(Inline)]
-        public RecordEntitySet(RecordEntity[] src)
+        public RecordEntities(RecordEntity[] src)
         {
             Name = RP.Empty;
             Data = new(src);
         }
 
-        public RecordEntitySet Children(string parent)
+        public RecordEntities Children(string parent)
         {
             var children = Data.Where(x => x.Def.Ancestors.Name == parent).ToArray();
-            return new RecordEntitySet(parent, children);
+            return new RecordEntities(parent, children);
         }
 
-        public SortedDictionary<string,RecordEntitySet> GroupByParent()
+        public SortedDictionary<string,RecordEntities> GroupByParent()
         {
             var name = EmptyString;
-            var current = RecordEntitySet.Empty;
-            var dst = new SortedDictionary<string,RecordEntitySet>();
+            var current = RecordEntities.Empty;
+            var dst = new SortedDictionary<string,RecordEntities>();
             var src = Data.ViewDeposited();
             var count = src.Length;
             for(var i=0; i<count; i++)
@@ -47,7 +47,7 @@ namespace Z0.llvm
                 }
                 else
                 {
-                    dst[entity.ParentName] = new RecordEntitySet(entity.ParentName, sys.empty<RecordEntity>());
+                    dst[entity.ParentName] = new RecordEntities(entity.ParentName, sys.empty<RecordEntity>());
                     dst[entity.ParentName].Include(entity);
                 }
             }
@@ -56,7 +56,7 @@ namespace Z0.llvm
         }
 
         [MethodImpl(Inline)]
-        public RecordEntitySet(Identifier name, RecordEntity[] src)
+        public RecordEntities(Identifier name, RecordEntity[] src)
         {
             Name = name;
             Data = new(src);
@@ -69,7 +69,7 @@ namespace Z0.llvm
                 f(i,Data[i]);
         }
 
-        public RecordEntitySet Include(params RecordEntity[] src)
+        public RecordEntities Include(params RecordEntity[] src)
         {
             Data.AddRange(src);
             return this;
@@ -82,17 +82,17 @@ namespace Z0.llvm
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator RecordEntitySet(RecordEntity[] src)
-            => new RecordEntitySet(src);
+        public static implicit operator RecordEntities(RecordEntity[] src)
+            => new RecordEntities(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator RecordEntitySet(Index<RecordEntity> src)
-            => new RecordEntitySet(src);
+        public static implicit operator RecordEntities(Index<RecordEntity> src)
+            => new RecordEntities(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator RecordEntitySet((string name, Index<RecordEntity> members) src)
-            => new RecordEntitySet(src.name, src.members);
+        public static implicit operator RecordEntities((string name, Index<RecordEntity> members) src)
+            => new RecordEntities(src.name, src.members);
 
-        public static RecordEntitySet Empty => new RecordEntitySet(EmptyString, sys.empty<RecordEntity>());
+        public static RecordEntities Empty => new RecordEntities(EmptyString, sys.empty<RecordEntity>());
     }
 }

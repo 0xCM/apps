@@ -64,5 +64,10 @@ namespace Z0
         [Op]
         public static LlvmDataLoader LlvmDataLoader(this IWfRuntime wf)
             => llvm.LlvmDataLoader.create(wf);
+
+        [Op]
+        public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)
+            => llvm.LlvmDataEmitter.create(wf);
+
     }
 }

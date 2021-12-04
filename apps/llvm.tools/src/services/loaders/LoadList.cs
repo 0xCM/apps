@@ -10,6 +10,7 @@ namespace Z0.llvm
     {
         public Index<LlvmList> LoadLists()
             => LlvmPaths.ListNames().Map(LoadList);
+
         public LlvmList LoadList(string id)
         {
             return (LlvmList)DataSets.GetOrAdd("llvm.lists." + id, key => Load());

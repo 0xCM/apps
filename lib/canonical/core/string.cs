@@ -10,7 +10,7 @@ namespace Z0.Types
     using static Root;
     using static core;
 
-    public readonly struct @string : ITerm<string>
+    public readonly struct @string : IString<string>, IComparable<@string>, IEquatable<@string>
     {
         readonly string Data;
 
@@ -20,7 +20,7 @@ namespace Z0.Types
             Data = src;
         }
 
-        public string Value
+        public string Content
         {
             [MethodImpl(Inline)]
             get => Data ?? EmptyString;
@@ -38,14 +38,31 @@ namespace Z0.Types
             get => nonempty(Data);
         }
 
+        public int Length
+        {
+            [MethodImpl(Inline)]
+            get => Content.Length;
+        }
+
         public string Format()
-            => Value;
+            => Content;
 
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
         public bool Equals(@string src)
-            => Value.Equals(src.Value);
+            => Content.Equals(src.Content);
+
+        [MethodImpl(Inline)]
+        public int CompareTo(@string src)
+            => Content.CompareTo(src.Content);
+
+        public override int GetHashCode()
+            => Content.GetHashCode();
+
+        public override bool Equals(object src)
+            => src is @string x && Equals(x);
 
         public static @string Empty
         {
@@ -59,6 +76,12 @@ namespace Z0.Types
 
         [MethodImpl(Inline)]
         public static implicit operator string(@string src)
-            => src.Value;
+            => src.Content;
+
+        public static bool operator ==(@string a, @string b)
+            => a.Equals(b);
+
+        public static bool operator !=(@string a, @string b)
+            => !a.Equals(b);
     }
 }

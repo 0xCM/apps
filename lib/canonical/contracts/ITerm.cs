@@ -14,6 +14,9 @@ namespace Z0
 
         bool IsNonEmpty
             => !IsEmpty;
+
+        string ITextual.Format()
+            => string.Empty;
     }
 
     [Free]

@@ -16,7 +16,7 @@ namespace Z0.llvm
             return EmitLists(src, ListNames());
         }
 
-        public Index<LlvmList> EmitLists(RecordEntitySet src, ReadOnlySpan<string> classes)
+        public Index<LlvmList> EmitLists(RecordEntities src, ReadOnlySpan<string> classes)
         {
             var emitted = bag<LlvmList>();
             iter(classes, c => emitted.Add(EmitList(src,c)), true);
@@ -59,7 +59,7 @@ namespace Z0.llvm
             return true;
         }
 
-        public LlvmList EmitList(RecordEntitySet src, string @class)
+        public LlvmList EmitList(RecordEntities src, string @class)
         {
             var dst = LlvmPaths.List(@class);
             var emitting = EmittingTable<LlvmListItem>(dst);

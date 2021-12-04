@@ -12,7 +12,7 @@ namespace Z0.llvm
         [CmdOp(".etl")]
         Outcome RunRecordsEtl(CmdArgs args)
         {
-            var data = LlvmEtl.Run();
+            LlvmEtl.Run();
             return true;
         }
 
@@ -23,6 +23,5 @@ namespace Z0.llvm
             iter(descriptors.Entries, x => Write(x.Value.Format()));
             return true;
         }
-
     }
 }

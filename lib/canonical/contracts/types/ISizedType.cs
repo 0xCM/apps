@@ -9,6 +9,9 @@ namespace Z0
         BitWidth ContentWidth {get;}
 
         BitWidth StorageWidth {get;}
+
+        bool ITerm.IsEmpty
+            => ContentWidth == 0;
     }
 
     public interface ISizedType<T> : ISizedType

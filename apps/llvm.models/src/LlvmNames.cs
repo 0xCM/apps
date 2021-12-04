@@ -28,30 +28,6 @@ namespace Z0.llvm
             public const string OpCodes = "llvm.opcodes";
         }
 
-        [LiteralProvider("llvm.lists")]
-        public readonly struct Lists
-        {
-            public const string AdSize16 = nameof(AdSize16);
-
-            public const string ComplexPattern = nameof(ComplexPattern);
-
-            public const string GCCBuiltin = nameof(GCCBuiltin);
-
-            public const string Instruction = nameof(Instruction);
-
-            public const string LLVMType = nameof(LLVMType);
-
-            public const string ProcResourceKind = nameof(ProcResourceKind);
-
-            public const string Register = nameof(Register);
-
-            public const string SchedMachineModel = nameof(SchedMachineModel);
-
-            public const string RegisterClass = nameof(RegisterClass);
-
-            public const string X86Inst = nameof(X86Inst);
-        }
-
         [LiteralProvider("llvm.projects")]
         public readonly struct Projects
         {
@@ -112,21 +88,12 @@ namespace Z0.llvm
 
             public const string classes = root + nameof(classes);
 
-            public const string list = root + nameof(list);
-
             public const string def = root + nameof(def);
 
             public const string defs = root + nameof(defs);
 
-            public const string lineage = root + nameof(lineage);
-
-            public const string fields = root + nameof(fields);
-
-            public const string class_fields = classes + sep + "fields";
-
             public const string classnames = classes + sep + "names";
 
-            public const string defnames = defs + sep + "names";
         }
 
         public readonly struct TableGenHeaders
@@ -136,11 +103,13 @@ namespace Z0.llvm
             public const string X86Info = nameof(X86Info);
         }
 
-        public readonly struct RecordClasses
+        public readonly struct Entities
         {
             public const string Instruction = nameof(Instruction);
 
             public const string InstAlias = nameof(InstAlias);
+
+            public const string Intrinsic = nameof(Intrinsic);
 
             public const string GenericInstruction = nameof(GenericInstruction);
         }

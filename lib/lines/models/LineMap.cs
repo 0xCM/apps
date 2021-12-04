@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    using static minicore;
+    using static core;
 
     [DataType("linemap<{0}>")]
     public readonly struct LineMap<T>
@@ -22,7 +22,7 @@ namespace Z0
             _Intervals = src;
         }
 
-        public Span<LineInterval<T>> Intervals
+        public LineInterval<T>[] Intervals
         {
             [MethodImpl(Inline)]
             get => _Intervals;
@@ -41,7 +41,7 @@ namespace Z0
                 var k = 0u;
                 var src = Intervals;
                 for(var i=0; i<src.Length; i++)
-                    k += src[i].LineCount;
+                    k += skip(src,i).LineCount;
                 return k;
             }
         }

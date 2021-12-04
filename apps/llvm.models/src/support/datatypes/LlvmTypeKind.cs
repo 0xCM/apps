@@ -5,7 +5,7 @@
 namespace Z0.llvm
 {
     [SymSource(nameof(llvm))]
-    public enum LlvmDataKind : byte
+    public enum LlvmTypeKind : byte
     {
         [Symbol("unknown")]
         Other,
@@ -27,5 +27,8 @@ namespace Z0.llvm
 
         [Symbol("dag")]
         Dag,
+
+        [Symbol("names<{0}>")]
+        NameList,
     }
 }

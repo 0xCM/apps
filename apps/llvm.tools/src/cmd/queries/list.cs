@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames.Queries;
     using static core;
 
     partial class LlvmCmd

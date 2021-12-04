@@ -9,15 +9,14 @@ namespace Z0.llvm.types
 
     using static Root;
 
-    public class dag<T> : IDag<T>
-        where T : ITerm
+    public class dag : IDag<ITerm>
     {
-        public T Left {get;}
+        public ITerm Left {get;}
 
-        public T Right {get;}
+        public ITerm Right {get;}
 
         [MethodImpl(Inline)]
-        public dag(T left, T right)
+        public dag(ITerm left, ITerm right)
         {
             Left = left;
             Right = right;
@@ -40,13 +39,6 @@ namespace Z0.llvm.types
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator dag<T>((T left, T right) src)
-            => new dag<T>(src.left, src.right);
-
-        [MethodImpl(Inline)]
-        public static implicit operator dag<T>(dag<T,T> src)
-            => new dag<T>(src.Left, src.Right);
     }
 }
+

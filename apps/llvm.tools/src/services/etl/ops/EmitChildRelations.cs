@@ -10,9 +10,10 @@ namespace Z0.llvm
 
     partial class LlvmEtl
     {
-        public FS.FilePath EmitChildRelations(RecordEntitySet entities)
+        public FS.FilePath EmitChildRelations()
         {
-            var parents = entities.GroupByParent();
+            var src = DataLoader.LoadEntities();
+            var parents = src.GroupByParent();
             var dst = list<ChildRelation>();
             var counter = 0u;
             var key = 0u;

@@ -25,16 +25,7 @@ namespace Z0.llvm.types
         }
 
         public string Format()
-        {
-            if(Left.IsNonEmpty && Right.IsNonEmpty)
-                return string.Format("{0} -> {1}", Left.Format(), Right.Format());
-            else if(Left.IsEmpty && Right.IsEmpty)
-                return EmptyString;
-            else if(Left.IsNonEmpty)
-                return Left.Format();
-            else
-                return Right.Format();
-        }
+            => LlvmTypes.format(this);
 
         public override string ToString()
             => Format();

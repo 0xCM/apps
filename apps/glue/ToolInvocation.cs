@@ -2,23 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct ToolArg : IToolArg
+    public readonly struct ToolInvocation
     {
-        public string ArgName {get;}
+        public ToolId Tool {get;}
 
-        public dynamic ArgValue {get;}
+        public CmdArgs Args {get;}
 
         [MethodImpl(Inline)]
-        public ToolArg(string name, dynamic value)
+        public ToolInvocation(ToolId tool, CmdArg[] args)
         {
-            ArgName = name;
-            ArgValue = value;
+            Tool = tool;
+            Args = args;
         }
     }
 }

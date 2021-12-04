@@ -38,7 +38,12 @@ namespace Z0.llvm
             ("$off","$(off)"),
             ("$imm","$(imm)"),
             ("$addr","$(addr)"),
+            ("$val", "$(val)"),
+            ("$mem", "$(mem)"),
             ("$rc","$(rc)"),
+            ("$r1", "$(r1)"),
+            ("$r2", "$(r2)"),
+            ("$r", "$(r)")
             };
 
         public static AsmMnemonic mnemonic(string value)

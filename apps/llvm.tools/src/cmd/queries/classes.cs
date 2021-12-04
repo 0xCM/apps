@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames.Queries;
-
     partial class LlvmCmd
     {
-        [CmdOp(classes)]
+        [CmdOp("llvm/classes")]
         Outcome Classes(CmdArgs args)
         {
             var result = Outcome.Success;
-            var dst = LlvmPaths.TmpFile(classes, FS.Txt);
+            var dst = LlvmPaths.TmpFile("llvm.classes", FS.Txt);
             using var writer = dst.AsciWriter();
             Db.EmitClassInfo(writer);
             return result;

@@ -9,11 +9,11 @@ namespace Z0.llvm
 
     partial class LlvmDataLoader
     {
-        public RecordEntitySet LoadEntities()
+        public RecordEntities LoadEntities()
         {
-            return (RecordEntitySet)DataSets.GetOrAdd("Entities", key => Load());
+            return (RecordEntities)DataSets.GetOrAdd("Entities", key => Load());
 
-            RecordEntitySet Load()
+            RecordEntities Load()
             {
                 var running = Wf.Running(nameof(LoadEntities));
 

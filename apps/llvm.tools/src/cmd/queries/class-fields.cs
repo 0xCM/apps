@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames.Queries;
-
     partial class LlvmCmd
     {
-        [CmdOp(class_fields)]
+        [CmdOp("llvm/classes/fields")]
         Outcome ClassFields(CmdArgs args)
-            => Flow(class_fields, DataLoader.LoadClassFields().View);
+            => Flow("llvm/classes/fields", DataLoader.LoadClassFields().View);
     }
 }

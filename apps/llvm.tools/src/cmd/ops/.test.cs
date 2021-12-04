@@ -28,11 +28,6 @@ namespace Z0.llvm
                 result= (false,string.Format("{0} != {1}", expr1, expr2));
             else
                 Write(expr2);
-            //var input = LlvmTypes.dag("a","b");
-
-            // var input = "a -> b -> c -> d";
-            // var output = LlvmTypes.dag(input);
-            // Write(output.Format());
             return result;
         }
 

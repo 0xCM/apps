@@ -15,6 +15,18 @@ namespace Z0.llvm
 
     public readonly struct LlvmTypes
     {
+        public static string format(IDag src)
+        {
+            if(src.Left.IsNonEmpty && src.Right.IsNonEmpty)
+                return string.Format("{0} -> {1}", src.Left.Format(), src.Right.Format());
+            else if(src.Left.IsEmpty && src.Right.IsEmpty)
+                return EmptyString;
+            else if(src.Left.IsNonEmpty)
+                return src.Left.Format();
+            else
+                return src.Right.Format();
+        }
+
         public static dag<L,R> dag<L,R>(L left, R right)
             where L : ITerm
             where R : ITerm

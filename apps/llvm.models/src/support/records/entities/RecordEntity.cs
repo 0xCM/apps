@@ -52,18 +52,24 @@ namespace Z0.llvm
             => Def.AncestorNames.Contains(name);
 
         public bool IsInstruction()
-            => HasAncestor(RecordClasses.Instruction);
+            => HasAncestor(Entities.Instruction);
 
         public bool IsGenericInstruction()
-            => HasAncestor(RecordClasses.GenericInstruction);
+            => HasAncestor(Entities.GenericInstruction);
+
+        public bool IsIntrinsic()
+            => HasAncestor(Entities.Intrinsic);
 
         public bool IsInstAlias()
-            => HasAncestor(RecordClasses.InstAlias);
+            => HasAncestor(Entities.InstAlias);
 
         public InstEntity ToInstruction()
             => new InstEntity(Def,AttribIndex);
 
         public InstAliasEntity ToInstAlias()
             => new InstAliasEntity(Def,AttribIndex);
+
+        public IntrinsicEntity ToIntrinsic()
+            => new IntrinsicEntity(Def,AttribIndex);
     }
 }

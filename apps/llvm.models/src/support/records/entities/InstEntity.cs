@@ -28,17 +28,20 @@ namespace Z0.llvm
             => ParseAttrib(nameof(isCodeGenOnly), out bit _);
 
         public string AsmString
-            => this[nameof(AsmString)].Value;
+            => llvm.AsmString.normalize(this[nameof(AsmString)].Value);
 
         public string OpMap
             => this[nameof(OpMap)].Value;
+
+        public string InstName
+            => EntityName;
 
         public AsmMnemonic Mnemonic
         {
             get
             {
                 if(_Mnemonic == null)
-                    _Mnemonic = llvm.AsmString.mnemonic(AsmString);
+                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)].Value);
                 return _Mnemonic.Value;
             }
         }
