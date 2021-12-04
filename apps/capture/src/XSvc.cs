@@ -38,8 +38,8 @@ namespace Z0
         public static ImmSpecializer ImmSpecializer(this IWfRuntime wf)
             => Z0.Asm.ImmSpecializer.create(wf);
 
-        [Op]
-        public static GlobalCommands GlobalCommands(this IWfRuntime wf)
-            => Z0.GlobalCommands.create(wf);
+        // [Op]
+        // public static GlobalCommands GlobalCommands(this IWfRuntime wf)
+        //     => Z0.GlobalCommands.create(wf);
     }
 }

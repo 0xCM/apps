@@ -14,51 +14,51 @@ namespace Z0
         None = 0,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U8'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U8'/>
         /// </summary>
         [Symbol("u8", "Specifies an unsigned 8-bit refinement")]
-        U8 = PrimalKind.U8,
+        U8 = ClrPrimitiveKind.U8,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U16'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U16'/>
         /// </summary>
         [Symbol("u16", "Specifies an unsigned 16-bit refinement")]
-        U16 = PrimalKind.U16,
+        U16 = ClrPrimitiveKind.U16,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U32'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U32'/>
         /// </summary>
         [Symbol("u32", "Specifies an unsigned 32-bit refinement")]
-        U32 = PrimalKind.U32,
+        U32 = ClrPrimitiveKind.U32,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U64'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U64'/>
         /// </summary>
         [Symbol("u64", "Specifies an unsigned 64-bit refinement")]
-        U64 = PrimalKind.U64,
+        U64 = ClrPrimitiveKind.U64,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I8'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I8'/>
         /// </summary>
         [Symbol("i8", "Specifies a signed 8-bit refinement")]
-        I8 = PrimalKind.I8,
+        I8 = ClrPrimitiveKind.I8,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I16'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I16'/>
         /// </summary>
         [Symbol("i16", "Specifies a signed 16-bit refinement")]
-        I16 = PrimalKind.I16,
+        I16 = ClrPrimitiveKind.I16,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I32'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I32'/>
         /// </summary>
         [Symbol("i32", "Specifies a signed 32-bit refinement")]
-        I32 = PrimalKind.I32,
+        I32 = ClrPrimitiveKind.I32,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I64'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I64'/>
         /// </summary>
         [Symbol("i64", "Specifies a signed 64-bit refinement")]
-        I64 = PrimalKind.I64,
+        I64 = ClrPrimitiveKind.I64,
     }
 }

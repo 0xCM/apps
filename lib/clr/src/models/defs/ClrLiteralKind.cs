@@ -5,7 +5,7 @@
 namespace Z0
 {
     /// <summary>
-    /// Defines a <see cref='PrimalKind'/> subset that corresponds to primal types that can be used as compile-time literals
+    /// Defines a <see cref='ClrPrimitiveKind'/> subset that corresponds to primal types that can be used as compile-time literals
     /// </summary>
     [SymSource("clr")]
     public enum ClrLiteralKind : byte
@@ -13,73 +13,73 @@ namespace Z0
         None = 0,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U1'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U1'/>
         /// </summary>
-        U1 = PrimalKind.U1,
+        U1 = ClrPrimitiveKind.U1,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U8'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U8'/>
         /// </summary>
-        U8 = PrimalKind.U8,
+        U8 = ClrPrimitiveKind.U8,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U16'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U16'/>
         /// </summary>
-        U16 = PrimalKind.U16,
+        U16 = ClrPrimitiveKind.U16,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U32'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U32'/>
         /// </summary>
-        U32 = PrimalKind.U32,
+        U32 = ClrPrimitiveKind.U32,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.U64'/>
+        /// An alias for <see cref='ClrPrimitiveKind.U64'/>
         /// </summary>
-        U64 = PrimalKind.U64,
+        U64 = ClrPrimitiveKind.U64,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I8'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I8'/>
         /// </summary>
-        I8 = PrimalKind.I8,
+        I8 = ClrPrimitiveKind.I8,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I16'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I16'/>
         /// </summary>
-        I16 = PrimalKind.I16,
+        I16 = ClrPrimitiveKind.I16,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I32'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I32'/>
         /// </summary>
-        I32 = PrimalKind.I32,
+        I32 = ClrPrimitiveKind.I32,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.I64'/>
+        /// An alias for <see cref='ClrPrimitiveKind.I64'/>
         /// </summary>
-        I64 = PrimalKind.I64,
+        I64 = ClrPrimitiveKind.I64,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.F32'/>
+        /// An alias for <see cref='ClrPrimitiveKind.F32'/>
         /// </summary>
-        F32 = PrimalKind.F32,
+        F32 = ClrPrimitiveKind.F32,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.F64'/>
+        /// An alias for <see cref='ClrPrimitiveKind.F64'/>
         /// </summary>
-        F64 = PrimalKind.F64,
+        F64 = ClrPrimitiveKind.F64,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.F128'/>
+        /// An alias for <see cref='ClrPrimitiveKind.F128'/>
         /// </summary>
-        F128 = PrimalKind.F128,
+        F128 = ClrPrimitiveKind.F128,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.C16'/>
+        /// An alias for <see cref='ClrPrimitiveKind.C16'/>
         /// </summary>
-        C16 = PrimalKind.C16,
+        C16 = ClrPrimitiveKind.C16,
 
         /// <summary>
-        /// An alias for <see cref='PrimalKind.String'/>
+        /// An alias for <see cref='ClrPrimitiveKind.String'/>
         /// </summary>
-        String = PrimalKind.String,
+        String = ClrPrimitiveKind.String,
     }
 }

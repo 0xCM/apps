@@ -2,18 +2,20 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
+    using Z0.Asm;
+
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    sealed class LlvmShell : WfApp<LlvmShell>
+    sealed class AppCmdShell : WfApp<AppCmdShell>
     {
         IAppCmdService CmdService;
 
         protected override void Initialized()
         {
-            CmdService = LlvmCmd.create(Wf);
+            CmdService = Wf.GlobalCommands();
         }
 
         protected override void Disposing()

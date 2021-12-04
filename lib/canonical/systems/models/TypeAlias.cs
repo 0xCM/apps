@@ -4,15 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    partial struct Clr
+    public readonly struct TypeAlias : ITypeAlias
     {
-        [MethodImpl(Inline), Op]
-        public static ClrPrimitiveInfo describe(ClrPrimitiveKind src)
-            => new ClrPrimitiveInfo(src, width(src), sign(src), (PrimalCode)typecode(src));
+        public TypeKind AliasType {get;}
+
+        public TypeKind BaseType {get;}
+
+        [MethodImpl(Inline)]
+        public TypeAlias(TypeKind src, TypeKind dst)
+        {
+            AliasType = src;
+            BaseType = dst;
+        }
     }
+
 }

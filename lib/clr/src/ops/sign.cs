@@ -17,7 +17,7 @@ namespace Z0
         /// </summary>
         /// <param name="f">The literal's bitfield</param>
         [MethodImpl(Inline), Op]
-        public static PolarityKind sign(PrimalKind f)
+        public static PolarityKind sign(ClrPrimitiveKind f)
             => (PolarityKind)PrimalBits.select(f, Field.Sign);
     }
 }

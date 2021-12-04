@@ -14,6 +14,7 @@
 
     <Gen>$(Src)gen/z0.gen.csproj</Gen>
     <Glue>$(Src)glue/z0.glue.csproj</Glue>
+    <CmdActions>$(Src)cmd.actions/z0.cmd.actions.csproj</CmdActions>
 
     <Machine>$(Src)machine/z0.machine.csproj</Machine>
     <Machines>$(Src)machines/z0.machines.csproj</Machines>

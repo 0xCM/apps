@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    partial struct Clr
+    public readonly partial struct TypeKinds
     {
-        [MethodImpl(Inline), Op]
-        public static ClrPrimitiveInfo describe(ClrPrimitiveKind src)
-            => new ClrPrimitiveInfo(src, width(src), sign(src), (PrimalCode)typecode(src));
+
+
+
     }
+
 }

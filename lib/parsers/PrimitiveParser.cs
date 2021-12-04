@@ -6,9 +6,9 @@ namespace Z0
 {
     public readonly struct PrimitiveParser
     {
-        public static Outcome parse(string src, out PrimalKind dst)
+        public static Outcome parse(string src, out ClrPrimitiveKind dst)
         {
-            var symbols = Symbols.index<PrimalKind>();
+            var symbols = Symbols.index<ClrPrimitiveKind>();
             var i = text.index(src, Chars.Colon);
             dst = default;
             if(i > 0)

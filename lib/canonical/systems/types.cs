@@ -13,7 +13,7 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        internal static string format(PrimalKind src)
+        internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
 

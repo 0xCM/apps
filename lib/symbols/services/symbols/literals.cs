@@ -92,7 +92,7 @@ namespace Z0
         }
 
         [Op]
-        static void fill(Type type, PrimalKind kind, ReadOnlySpan<FieldInfo> fields, Span<SymLiteralRow> dst)
+        static void fill(Type type, ClrPrimitiveKind kind, ReadOnlySpan<FieldInfo> fields, Span<SymLiteralRow> dst)
         {
             var count = fields.Length;
 

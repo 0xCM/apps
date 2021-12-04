@@ -28,29 +28,20 @@ public enum PartId : byte
     [Symbol("generated")]
     Generated = 6,
 
-    [Symbol("bit")]
-    Bit = 7,
-
-    [Symbol("files")]
-    Files = 8,
-
     [Symbol("api")]
     Api = 9,
 
-    [Symbol("types")]
-    Types = 10,
+    [Symbol("cmd.shell")]
+    CmdShell = 10,
 
-    [Symbol("term")]
-    Term = 11,
+    [Symbol("cmd.actions")]
+    CmdActions = 11,
 
     [Symbol("cells")]
     Cells = 12,
 
     [Symbol("asmm")]
     AsmM = 13,
-
-    [Symbol("asci")]
-    Asci = 14,
 
     [Symbol("workflow")]
     Workflow = 15,

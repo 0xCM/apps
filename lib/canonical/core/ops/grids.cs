@@ -6,8 +6,6 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
 
     using static Root;
     using static core;
@@ -148,6 +146,5 @@ namespace Z0
             var segs = grids.gridcells(rows, cols, segwidth);
             return new GridSpec(rows, cols, segwidth, bytes, bits, segs);
         }
-
     }
 }

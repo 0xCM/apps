@@ -19,8 +19,8 @@ namespace Z0
     public readonly struct PrimalBits
     {
         [MethodImpl(Inline), Op]
-        public static PrimalKind filter(byte src, SegMask mask)
-            => (PrimalKind)(src & (byte)mask);
+        public static ClrPrimitiveKind filter(byte src, SegMask mask)
+            => (ClrPrimitiveKind)(src & (byte)mask);
 
         /// <summary>
         /// Isolates an identified bitfield segment
@@ -28,7 +28,7 @@ namespace Z0
         /// <param name="src">The source bitfield</param>
         /// <param name="i">The segment identifier</param>
         [MethodImpl(Inline), Op]
-        public static PrimalKind filter(PrimalKind src, Field i)
+        public static ClrPrimitiveKind filter(ClrPrimitiveKind src, Field i)
             => filter((byte)src, filter(i));
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Z0
         /// <param name="src">The source bitfield</param>
         /// <param name="i">The segment identifier</param>
         [MethodImpl(Inline), Op]
-        public static byte select(PrimalKind src, Field i)
+        public static byte select(ClrPrimitiveKind src, Field i)
             => (byte)view(filter(src,i), index(i));
 
         /// <summary>
@@ -45,25 +45,25 @@ namespace Z0
         /// </summary>
         /// <param name="src">The type code</param>
         [MethodImpl(Inline), Op]
-        public static PrimalKind kind(TypeCode src)
+        public static ClrPrimitiveKind kind(TypeCode src)
             => skip(Kinds, (uint)src);
 
         [MethodImpl(Inline), Op]
-        public static PrimalCode code(PrimalKind f)
+        public static PrimalCode code(ClrPrimitiveKind f)
             => (PrimalCode)select(f, Field.KindId);
 
         [Op]
-        public static PrimalKind kind(Type src)
+        public static ClrPrimitiveKind kind(Type src)
             => kind(sys.typecode(src));
 
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
-        public static PrimalKind kind<T>()
+        public static ClrPrimitiveKind kind<T>()
             => kind(sys.typecode<T>());
 
-        public static ReadOnlySpan<PrimalKind> Kinds
+        public static ReadOnlySpan<ClrPrimitiveKind> Kinds
         {
             [MethodImpl(Inline), Op]
-            get => recover<PrimalKind>(PrimalKindData);
+            get => recover<ClrPrimitiveKind>(PrimalKindData);
         }
 
         [MethodImpl(Inline), Op]
@@ -75,29 +75,29 @@ namespace Z0
             => ref skip(Positions, (byte)i);
 
         [MethodImpl(Inline), Op]
-        static PrimalKind view(PrimalKind src, SegPos offset)
-            => (PrimalKind)((byte)src >> (byte)offset);
+        static ClrPrimitiveKind view(ClrPrimitiveKind src, SegPos offset)
+            => (ClrPrimitiveKind)((byte)src >> (byte)offset);
 
         static ReadOnlySpan<byte> PrimalKindData => new byte[19]{
-            (byte)PrimalKind.None, //0:Empty/null
-            (byte)PrimalKind.Object, //1:Object
-            (byte)PrimalKind.DBNull, //2:DbNull
-            (byte)PrimalKind.U1, //3:Bool
-            (byte)PrimalKind.C16, //4:char
-            (byte)PrimalKind.I8, //5:int8
-            (byte)PrimalKind.U8, //6:uint8
-            (byte)PrimalKind.I16, //7:short
-            (byte)PrimalKind.U16, //8:ushort
-            (byte)PrimalKind.I32, //9:int32
-            (byte)PrimalKind.U32, //10:uint32
-            (byte)PrimalKind.I64, //11:int64
-            (byte)PrimalKind.U64, //12:uint64
-            (byte)PrimalKind.F32, //13:float32
-            (byte)PrimalKind.F64, //14:float64
-            (byte)PrimalKind.F128, //15:decimal
-            (byte)PrimalKind.DateTime, //16:datetime
-            (byte)PrimalKind.None, // 17:empty
-            (byte)PrimalKind.String //18:string
+            (byte)ClrPrimitiveKind.None, //0:Empty/null
+            (byte)ClrPrimitiveKind.Object, //1:Object
+            (byte)ClrPrimitiveKind.DBNull, //2:DbNull
+            (byte)ClrPrimitiveKind.U1, //3:Bool
+            (byte)ClrPrimitiveKind.C16, //4:char
+            (byte)ClrPrimitiveKind.I8, //5:int8
+            (byte)ClrPrimitiveKind.U8, //6:uint8
+            (byte)ClrPrimitiveKind.I16, //7:short
+            (byte)ClrPrimitiveKind.U16, //8:ushort
+            (byte)ClrPrimitiveKind.I32, //9:int32
+            (byte)ClrPrimitiveKind.U32, //10:uint32
+            (byte)ClrPrimitiveKind.I64, //11:int64
+            (byte)ClrPrimitiveKind.U64, //12:uint64
+            (byte)ClrPrimitiveKind.F32, //13:float32
+            (byte)ClrPrimitiveKind.F64, //14:float64
+            (byte)ClrPrimitiveKind.F128, //15:decimal
+            (byte)ClrPrimitiveKind.DateTime, //16:datetime
+            (byte)ClrPrimitiveKind.None, // 17:empty
+            (byte)ClrPrimitiveKind.String //18:string
         };
 
         /// <summary>

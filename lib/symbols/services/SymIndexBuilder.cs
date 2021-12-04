@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using PK = PrimalKind;
+    using PK = ClrPrimitiveKind;
 
     [ApiHost]
     struct SymIndexBuilder
@@ -111,7 +111,7 @@ namespace Z0
         }
 
         [Op]
-        static ulong @ulong(PrimalKind kind, object src)
+        static ulong @ulong(ClrPrimitiveKind kind, object src)
             => kind switch {
                 PK.U8 => (ulong)(byte)src,
                 PK.I8 => (ulong)(sbyte)src,

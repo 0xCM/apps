@@ -19,10 +19,10 @@ namespace Z0
 
         public uint StorageWidth {get;}
 
-        public PrimalKind Kind {get;}
+        public ClrPrimitiveKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public PrimalCellType(uint content, uint storage, PrimalKind @class)
+        public PrimalCellType(uint content, uint storage, ClrPrimitiveKind @class)
         {
             ContentWidth = content;
             StorageWidth = storage;

@@ -7,13 +7,22 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-
     using static Root;
 
     [ApiHost]
     public readonly partial struct TS
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline)]
+        public static TypeAlias<A,B> alias<A,B>(TypeKind<A> a, TypeKind<B> b)
+            where A : unmanaged
+            where B : unmanaged
+                => new TypeAlias<A,B>(a,b);
+
+        [MethodImpl(Inline), Op]
+        public static TypeAlias alias(TypeKind a, TypeKind b)
+            => new TypeAlias(a,b);
 
         [MethodImpl(Inline), Op]
         public static DomainKey domain(uint kind, uint id)
@@ -60,12 +69,11 @@ namespace Z0
         }
 
 
-
-        public sealed class CanonicalTypes : TypeSystem<CanonicalTypes, CanonicalKind>
+        public sealed class CanonicalTypeSystem : TypeSystem<CanonicalTypeSystem, CanonicalKind>
         {
             public const string SystemName = "canonical";
 
-            public CanonicalTypes()
+            public CanonicalTypeSystem()
                 : base(SystemName)
             {
 
