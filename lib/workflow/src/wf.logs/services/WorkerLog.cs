@@ -12,18 +12,18 @@ namespace Z0
 
     struct WorkerLog : IWorkerLog
     {
-        readonly FS.FilePath StatusPath;
+        public FS.FilePath StatusPath {get;}
 
-        readonly FS.FilePath Error;
+        public FS.FilePath ErrorPath {get;}
 
         readonly FileStream Status;
 
         internal WorkerLog(WfLogConfig config)
         {
-            config.StatusLog.Delete();
-            config.ErrorLog.Delete();
-            StatusPath = FS.path(config.StatusLog.Name);
-            Error = FS.path(config.ErrorLog.Name).EnsureParentExists();
+            config.StatusPath.Delete();
+            config.ErrorPath.Delete();
+            StatusPath = config.StatusPath;
+            ErrorPath = config.ErrorPath;
             Status = StatusPath.Stream();
         }
 
@@ -49,7 +49,7 @@ namespace Z0
         {
             try
             {
-                Error.AppendLines(content);
+                ErrorPath.AppendLines(content);
                 FS.write("[error] ", Status);
                 FS.write(RP.PageBreak40 + Eol, Status);
                 FS.write(content + Eol, Status);

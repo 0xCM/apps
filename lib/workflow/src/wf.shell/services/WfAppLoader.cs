@@ -7,6 +7,7 @@ namespace Z0
     using System;
     using System.Reflection;
 
+    using static Root;
     using static core;
 
     public readonly struct WfAppLoader
@@ -45,7 +46,7 @@ namespace Z0
             return ctx;
         }
 
-        static IWfRuntime create(IApiParts parts, string[] args)
+        static IWfRuntime create(IApiParts parts, string[] args, string logname = EmptyString)
         {
             term.inform(InitializingRuntime.Format(now()));
             var clock = Time.counter(true);
@@ -55,7 +56,7 @@ namespace Z0
             if(verbose)
                 term.inform(AppMsg.status(TextProp.define("Parts", RP.embrace(text.join(RP.CommaJoin, ctx.PartIdentities)))));
 
-            var init = new WfInit(ctx, Loggers.configure(ctx.ControlId, ctx.Paths.Root), ctx.PartIdentities);
+            var init = new WfInit(ctx, Loggers.configure(ctx.ControlId, ctx.Paths.Root, logname), ctx.PartIdentities);
             var wf = new WfRuntime(init);
             var react = reactors(wf);
             if(react.IsNonEmpty)

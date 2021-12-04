@@ -27,14 +27,12 @@ namespace Z0
         /// <summary>
         /// The status log path
         /// </summary>
-        FS.FilePath StatusLog
-            => LogRoot + FS.file(ControlName, FS.StatusLog);
+        FS.FilePath StatusPath {get;}
 
         /// <summary>
         /// The error log path
         /// </summary>
-        FS.FilePath ErrorLog
-            => LogRoot + FS.file(ControlName, FS.ErrorLog);
+        FS.FilePath ErrorPath {get;}
         string ITextual.Format()
             => api.format(this);
     }

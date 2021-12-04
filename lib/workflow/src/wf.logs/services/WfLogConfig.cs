@@ -26,21 +26,22 @@ namespace Z0
         /// <summary>
         /// The status log path
         /// </summary>
-        public FS.FilePath StatusLog {get;}
+        public FS.FilePath StatusPath {get;}
 
         /// <summary>
         /// The error log path
         /// </summary>
-        public FS.FilePath ErrorLog {get;}
+        public FS.FilePath ErrorPath {get;}
 
         [MethodImpl(Inline)]
-        public WfLogConfig(PartId control, FS.FolderPath root)
+        public WfLogConfig(PartId control, FS.FolderPath root, string name = EmptyString)
         {
             LogRoot = root + FS.folder("logs");
             ControlId = control;
             var app = ControlId.Format();
-            StatusLog = LogRoot + FS.file(app, FS.StatusLog);
-            ErrorLog = LogRoot + FS.file(app, FS.ErrorLog);
+            var logname = text.empty(name) ? app : string.Format("{0}.{1}", app, name);
+            StatusPath = LogRoot +  FS.file(logname, FS.StatusLog);
+            ErrorPath = LogRoot + FS.file(logname, FS.ErrorLog);
         }
 
         public override string ToString()

@@ -12,18 +12,20 @@ namespace Z0
 
     struct WfEventLog : IWfEventLog
     {
-        readonly FS.FilePath StatusPath;
+        public FS.FilePath StatusPath {get;}
 
-        readonly FS.FilePath Error;
+        public FS.FilePath ErrorPath {get;}
 
         readonly FileStream Status;
 
         public WfEventLog(WfLogConfig config)
         {
-            config.StatusLog.Delete();
-            config.ErrorLog.Delete();
-            StatusPath = FS.path(config.StatusLog.Name);
-            Error = FS.path(config.ErrorLog.Name).EnsureParentExists();
+            // config.StatusLog.Delete();
+            // config.ErrorLog.Delete();
+            StatusPath = config.StatusPath;
+            ErrorPath = config.ErrorPath;
+            StatusPath.Delete();
+            ErrorPath.Delete();
             Status = StatusPath.Stream();
         }
 
@@ -56,7 +58,7 @@ namespace Z0
                 Display(e);
 
                 if(e.IsError)
-                    Error.AppendLines(e.Format());
+                    ErrorPath.AppendLines(e.Format());
 
                 FS.write(format(e), Status);
             }
@@ -73,7 +75,7 @@ namespace Z0
             try
             {
                 if(e.IsError)
-                    Error.AppendLines(e.Format());
+                    ErrorPath.AppendLines(e.Format());
                 FS.write(format(e), Status);
             }
             catch(Exception error)
@@ -103,7 +105,7 @@ namespace Z0
             {
                 if(e is IErrorEvent error)
                 {
-                    Error.AppendLines(e.Format());
+                    ErrorPath.AppendLines(e.Format());
                     FS.write(summary(error), Status);
                 }
                 else

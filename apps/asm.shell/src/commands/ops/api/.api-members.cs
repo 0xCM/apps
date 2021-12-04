@@ -22,7 +22,6 @@ namespace Z0.Asm
             return true;
         }
 
-
         [CmdOp(".collect-symbols")]
         Outcome CollectComponentSymbols(CmdArgs args)
         {

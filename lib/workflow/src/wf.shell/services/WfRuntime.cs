@@ -71,7 +71,7 @@ namespace Z0
             Controller = config.Control;
             AppName = config.Shell.AppName;
             Router = new WfCmdRouter(this);
-            Emissions = WfEmissionLog.create(config.Shell.AppName, Env);
+            Emissions = Loggers.emission(config.Shell.AppName, Env);
         }
 
         public void RedirectEmissions(IWfEmissionLog dst)

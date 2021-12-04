@@ -6,18 +6,25 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Collections.Concurrent;
 
     using static core;
     using static Root;
 
     [CmdDispatcher]
-    public class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdDispatcher
+    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdDispatcher
     {
         CmdDispatcher Dispatcher;
 
         public GlobalCommands()
         {
         }
+
+        T Service<T>(Func<T> factory)
+            => (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
+
+        ConcurrentDictionary<Type,object> ServiceCache {get;}
+            = new();
 
         protected override void Initialized()
         {
@@ -29,7 +36,8 @@ namespace Z0
         Outcome SdmImport(CmdArgs args)
         {
             var result = Outcome.Success;
-            Wf.IntelSdm().ImportOpCodes();
+            var svc = Service(Wf.IntelSdm);
+            svc.ImportOpCodes();
             return result;
         }
 
@@ -37,21 +45,15 @@ namespace Z0
         protected Outcome EmitMetadataSets(CmdArgs args)
         {
             var options = WorkflowOptions.@default();
-            Wf.CliEmitter().EmitMetadaSets(options);
-            return true;
-        }
-
-        [CmdOp("emit-intel-intrinsics")]
-        Outcome EmitIntelIntrinsics(CmdArgs args)
-        {
-            Wf.IntelIntrinsics().Emit();
+            var svc = Service(Wf.CliEmitter);
+            svc.EmitMetadaSets(options);
             return true;
         }
 
         [CmdOp("emit-api-comments")]
         protected Outcome EmitApiComments(CmdArgs args)
         {
-            Wf.ApiComments().Collect();
+            var collected = Service(Wf.ApiComments).Collect();
             return true;
         }
 
@@ -72,8 +74,7 @@ namespace Z0
         [CmdOp("emit-hex-pack")]
         protected Outcome EmitHexPack(CmdArgs args)
         {
-            var sorted = SortedBlocks();
-            Wf.ApiHexPacks().Emit(sorted);
+            Service(Wf.ApiHexPacks).Emit(SortedBlocks());
             return true;
         }
 
@@ -104,10 +105,10 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".emit-api-tokens")]
+        [CmdOp("emit-api-tokens")]
         protected Outcome EmitApiTokens(CmdArgs args)
         {
-            Wf.ApiMetadata().EmitApiTokens();
+            Service(Wf.ApiMetadata).EmitApiTokens();
             return true;
         }
 
@@ -121,40 +122,11 @@ namespace Z0
         [CmdOp("asm-gen-models")]
         protected Outcome GenAsmModels(CmdArgs args)
         {
-            var generator = Wf.Generators();
-            var dst = generator.CodeGenDir("asm.models");
-            //Wf.AsmModelGen().GenModels();
+            var dst = Service(Wf.Generators).CodeGenDir("asm.models");
             return true;
         }
 
-        [CmdOp("capture-v2")]
-        protected Outcome CaptureV2(CmdArgs args)
-        {
-           Wf.ApiExtractWorkflow().Run(args);
-           return true;
-        }
 
-        [CmdOp("emit-xed-catalog")]
-        protected Outcome EmitXedCat(CmdArgs args)
-        {
-           Wf.IntelXed().EmitCatalog();
-           return true;
-        }
-
-        [CmdOp("capture-process")]
-        protected Outcome RunMachine(CmdArgs args)
-        {
-            using var machine = MachineRunner.create(Wf);
-            machine.Run(WorkflowOptions.@default());
-            return true;
-        }
-
-        [CmdOp("capture")]
-        protected Outcome CaptureV1(CmdArgs args)
-        {
-            var result = Capture.run();
-            return true;
-        }
 
         public new Outcome Dispatch(string command, CmdArgs args)
             => Dispatcher.Dispatch(command, args);
@@ -173,9 +145,5 @@ namespace Z0
 
         SortedIndex<ApiCodeBlock> SortedBlocks()
             => Wf.ApiHex().ReadBlocks().Storage.ToSortedIndex();
-
-        // public Outcome Dispatch(CmdSpec cmd)
-        //     => Dispatch(cmd.Name, cmd.Args);
-
     }
 }
