@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/defs/names")]
         Outcome DefNames(CmdArgs args)
-            => Flow("llvm/defs/names", Db.DefNames());
+            => Flow("llvm/defs/names", DataProvider.SelectDefNames().View);
     }
 }

@@ -13,7 +13,7 @@ namespace Z0.llvm
             var dst = LlvmPaths.TmpFile("llvm.defs", FS.Txt);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            EmittedFile(emitting, Db.EmitDefInfo(writer));
+            EmittedFile(emitting, DataEmitter.EmitDefInfo(writer));
             return result;
         }
     }

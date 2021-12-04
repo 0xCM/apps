@@ -10,9 +10,9 @@ namespace Z0.llvm
 
     using Asm;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<LlvmAsmPattern> LoadAsmPatterns()
+        public Index<LlvmAsmPattern> SelectAsmPatterns()
         {
             return (Index<LlvmAsmPattern>)DataSets.GetOrAdd(nameof(LlvmAsmPattern), key => Load());
 

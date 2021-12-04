@@ -8,9 +8,9 @@ namespace Z0.llvm
 
     using Asm;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<LlvmAsmVariation> LoadAsmVariations()
+        public Index<LlvmAsmVariation> SelectAsmVariations()
         {
             const char Delimiter = Chars.Pipe;
 

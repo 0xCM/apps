@@ -4,11 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataLoader
+    using static LlvmNames;
+
+    partial class LlvmDataProvider
     {
-        public Index<TextLine> LoadSourceRecords(string id)
+        public Index<TextLine> SelectX86SourceRecords()
+            => SelectSourceRecords(Datasets.X86);
+
+        public Index<TextLine> SelectSourceRecords(string id)
         {
-            return (Index<TextLine>)DataSets.GetOrAdd(nameof(LoadSourceRecords), key => Load());
+            return (Index<TextLine>)DataSets.GetOrAdd(nameof(SelectSourceRecords), key => Load());
 
             Index<TextLine> Load()
             {

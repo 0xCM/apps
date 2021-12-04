@@ -1,128 +1,72 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0.llvm
-{
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.IO;
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0.llvm
+// {
+//     using System;
+//     using System.Runtime.CompilerServices;
+//     using System.IO;
 
-    using static Root;
-    using static core;
+//     using static Root;
+//     using static core;
 
-    public sealed class LlvmDb : AppService<LlvmDb>
-    {
-        new LlvmPaths Paths;
+//     public sealed class LlvmDb : AppService<LlvmDb>
+//     {
+//         new LlvmPaths Paths;
 
-        Index<TextLine> X86Records;
+//         LineMap<Identifier> ClassMap;
 
-        LineMap<Identifier> ClassMap;
+//         LineMap<Identifier> DefMap;
 
-        LineMap<Identifier> DefMap;
+//         IdentityMap<Interval<uint>> DefLookup;
 
-        IdentityMap<Interval<uint>> DefLookup;
+//         IdentityMap<Interval<uint>> ClassLookup;
 
-        IdentityMap<Interval<uint>> ClassLookup;
+//         IdentityMap<Interval<uint>> FieldDefMap;
 
-        IdentityMap<Interval<uint>> FieldDefMap;
+//         LlvmDataProvider DataProvider;
 
-        LabelBuffer ClassNameBuffer;
+//         public LlvmDb()
+//         {
+//             ClassMap = LineMap<Identifier>.Empty;
+//             DefMap = LineMap<Identifier>.Empty;
+//             DefLookup = new();
+//             FieldDefMap = new();
+//             ClassLookup = new();
+//         }
 
-        LabelBuffer DefNameBuffer;
+//         protected override void Initialized()
+//         {
+//             Paths = Wf.LlvmPaths();
+//             DataProvider = Wf.LlvmDataProvider();
+//             LoadData();
+//         }
 
-        LlvmDataLoader DataLoader;
+//         protected override void Disposing()
+//         {
 
-        public LlvmDb()
-        {
-            X86Records = Index<TextLine>.Empty;
-            ClassMap = LineMap<Identifier>.Empty;
-            DefMap = LineMap<Identifier>.Empty;
-            DefLookup = new();
-            FieldDefMap = new();
-            ClassLookup = new();
-        }
+//         }
 
-        protected override void Initialized()
-        {
-            Paths = Wf.LlvmPaths();
-            DataLoader = Wf.LlvmDataLoader();
-            LoadData();
-        }
+//         void LoadDefs()
+//         {
+//             DefMap = DataProvider.SelectX86DefMap();
+//             iteri(DefMap.Intervals, (i,entry) => DefLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
+//         }
 
-        protected override void Disposing()
-        {
-            ClassNameBuffer.Dispose();
-            DefNameBuffer.Dispose();
-        }
+//         void LoadClasses()
+//         {
+//             ClassMap = DataProvider.SelectX86ClassMap();
+//             iteri(ClassMap.Intervals, (i,entry) => ClassLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
+//         }
 
-        public ReadOnlySpan<Label> ClassNames()
-            => ClassNameBuffer.Labels;
+//         void LoadData()
+//         {
+//             var flow = Running("Loading data");
+//             LoadClasses();
+//             LoadDefs();
+//             Ran(flow);
+//         }
 
-        public ReadOnlySpan<Label> DefNames()
-            => DefNameBuffer.Labels;
-
-        public uint EmitClassInfo(StreamWriter dst)
-        {
-            var count = ClassMap.IntervalCount;
-            for(var i=0; i<count; i++)
-                dst.WriteLine(ClassMap[i].Format());
-            return count;
-        }
-
-        public uint EmitDefInfo(StreamWriter dst)
-        {
-            var count = DefMap.IntervalCount;
-            for(var i=0; i<count; i++)
-                dst.WriteLine(DefMap[i].Format());
-            return count;
-        }
-
-        public ReadOnlySpan<TextLine> SelectDefLines(Identifier name)
-        {
-            if(DefLookup.Mapped(name, out var interval))
-                return X86RecordLines(interval);
-            else
-                Write(AppMsg.NotFound.Format(name));
-            return default;
-        }
-
-        public ReadOnlySpan<TextLine> SelectClassLines(Identifier name)
-        {
-            var lines = list<TextLine>();
-            if(ClassLookup.Mapped(name, out var interval))
-                return X86RecordLines(interval);
-            else
-                Write(AppMsg.NotFound.Format(name));
-            return lines.ViewDeposited();
-        }
-
-        void LoadDefs()
-        {
-            DefMap = DataLoader.LoadX86DefMap();
-            DefNameBuffer = strings.labels(DefMap.Intervals.Select(x => x.Id.Content));
-            iteri(DefMap.Intervals, (i,entry) => DefLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-            iteri(DefMap.Intervals, (i,entry) => FieldDefMap.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-        }
-
-        void LoadClasses()
-        {
-            ClassMap = DataLoader.LoadX86ClassMap();
-            ClassNameBuffer = strings.labels(ClassMap.Intervals.Select(x => x.Id.Content));
-            iteri(ClassMap.Intervals, (i,entry) => ClassLookup.Map(entry.Id, (entry.MinLine,entry.MaxLine)));
-        }
-
-        void LoadData()
-        {
-            var flow = Running("Loading data");
-            LoadClasses();
-            LoadDefs();
-            Ran(flow);
-        }
-
-
-        [MethodImpl(Inline)]
-        ReadOnlySpan<TextLine> X86RecordLines(Interval<uint> range)
-            => slice(X86Records.View, range.Left - 1, range.Right - range.Left + 1);
-    }
-}
+//     }
+// }

@@ -10,7 +10,7 @@ namespace Z0
     /// Defines a parameter reference partition that aligns with .net core system capabilities
     /// </summary>
     [SymSource("clr")]
-    public enum ClrArgRefKind : byte
+    public enum ClrParamModifierKind : byte
     {
         /// <summary>
         /// The empty class

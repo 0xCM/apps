@@ -8,9 +8,11 @@ namespace Z0
 
     partial struct CliRows
     {
-        [CliRecord(CliTableKind.CustomAttribute), StructLayout(LayoutKind.Sequential)]
+        [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct CustomAttributeRow  : ICliRecord<CustomAttributeRow>
         {
+            public const string TableId = "cli.metadata.customattribute";
+
             public CliRowKey Parent;
 
             public CliRowKey Constructor;

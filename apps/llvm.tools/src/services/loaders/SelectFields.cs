@@ -9,18 +9,12 @@ namespace Z0.llvm
 
     using System;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<RecordField> LoadClassFields()
-            => LoadFields(Datasets.X86ClassFields);
+        public ReadOnlySpan<RecordField> SelectFields(string dsid, uint offset, uint length)
+            => slice(SelectFields(dsid).View, offset,length);
 
-        public Index<RecordField> LoadDefFields()
-            => LoadFields(Datasets.X86DefFields);
-
-        public ReadOnlySpan<RecordField> LoadFields(string dsid, uint offset, uint length)
-            => slice(LoadFields(dsid).View, offset,length);
-
-        public Index<RecordField> LoadFields(string dsid)
+        public Index<RecordField> SelectFields(string dsid)
         {
             return (Index<RecordField>)DataSets.GetOrAdd(dsid + ".fields", key => Load());
 

@@ -8,15 +8,15 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<DefRelations> LoadDefRelations()
+        public Index<DefRelations> SelectDefRelations()
         {
             return (Index<DefRelations>)DataSets.GetOrAdd(nameof(DefRelations), key => Load());
 
             Index<DefRelations> Load()
             {
-                var running = Wf.Running(nameof(LoadDefRelations));
+                var running = Wf.Running(nameof(SelectDefRelations));
                 var src = LlvmPaths.Table<DefRelations>();
                 var dst = list<DefRelations>();
                 var rows = src.ReadLines();

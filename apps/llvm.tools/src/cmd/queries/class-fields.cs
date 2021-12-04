@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/classes/fields")]
         Outcome ClassFields(CmdArgs args)
-            => Flow("llvm/classes/fields", DataLoader.LoadClassFields().View);
+            => Flow("llvm/classes/fields", DataProvider.SelectClassFields().View);
     }
 }

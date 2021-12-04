@@ -16,7 +16,7 @@ namespace Z0.llvm
 
         OmniScript OmniScript;
 
-        LlvmDataLoader DataLoader;
+        LlvmDataProvider DataProvider;
 
         LlvmDataEmitter DataEmitter;
 
@@ -28,7 +28,7 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
-            DataLoader = Wf.LlvmDataLoader();
+            DataProvider = Wf.LlvmDataProvider();
             DataEmitter = Wf.LlvmDataEmitter();
         }
 
@@ -42,15 +42,15 @@ namespace Z0.llvm
         public void Run()
         {
             RunHeaderEtl();
-            var records = DataLoader.LoadSourceRecords(Datasets.X86);
+            var records = DataProvider.SelectSourceRecords(Datasets.X86);
             EmitLinedRecords(records, Datasets.X86Lined);
             var classes = EmitClassRelations(records);
             var defs = EmitDefRelations(records);
             var defMap = DataEmitter.EmitLineMap(defs, records, Datasets.X86Defs);
-            var defFields = DataLoader.LoadFields(records, defMap);
+            var defFields = DataProvider.LoadFields(records, defMap);
             EmitFields(defFields, Datasets.X86DefFields);
             var classMap = DataEmitter.EmitLineMap(classes, records, Datasets.X86Classes);
-            var classFields = DataLoader.LoadFields(records, classMap);
+            var classFields = DataProvider.LoadFields(records, classMap);
             EmitFields(classFields, Datasets.X86ClassFields);
             RunEntityEtl();
         }
@@ -58,7 +58,7 @@ namespace Z0.llvm
         void ProcessInstructions()
         {
             var asmid = ExtractAsmIdList();
-            var src = DataLoader.LoadEntities();
+            var src = DataProvider.SelectEntities();
             var members = src.Members;
             var count = members.Length;
             var patterns = list<LlvmAsmPattern>();

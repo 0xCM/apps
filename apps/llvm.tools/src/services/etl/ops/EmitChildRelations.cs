@@ -12,7 +12,7 @@ namespace Z0.llvm
     {
         public FS.FilePath EmitChildRelations()
         {
-            var src = DataLoader.LoadEntities();
+            var src = DataProvider.SelectEntities();
             var parents = src.GroupByParent();
             var dst = list<ChildRelation>();
             var counter = 0u;

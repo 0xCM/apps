@@ -13,7 +13,7 @@ namespace Z0
     {
         public const byte FieldCount = 6;
 
-        public const string TableId = "image.fields";
+        public const string TableId = "cli.metadata.fields";
 
         public CliToken Token;
 

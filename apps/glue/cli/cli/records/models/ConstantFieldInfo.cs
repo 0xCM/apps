@@ -10,7 +10,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ConstantFieldInfo : IRecord<ConstantFieldInfo>
     {
-        public const string TableId = "image.constants";
+        public const string TableId = "cli.metadata.constfield";
 
         public Count Sequence;
 

@@ -7,9 +7,11 @@ namespace Z0
     using System;
     using System.Runtime.InteropServices;
 
-    [Record, StructLayout(LayoutKind.Sequential)]
+    [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MemberRefInfo : IRecord<MemberRefInfo>
     {
+        public const string TableId = "cli.metadata.memberref";
+
         public CliToken Token;
 
         public MemberRefKind RefKind;

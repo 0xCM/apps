@@ -10,9 +10,11 @@ namespace Z0
 
     partial struct CliRows
     {
-        [CliRecord(CliTableKind.AssemblyRef),  StructLayout(LayoutKind.Sequential)]
+        [Record(TableId),  StructLayout(LayoutKind.Sequential)]
         public struct AssemblyRefRow : ICliRecord<AssemblyRefRow>
         {
+            public const string TableId = "cli.metadata.assemblyref";
+
             public AssemblyVersion Version;
 
             public AssemblyFlags Flags;

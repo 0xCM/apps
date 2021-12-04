@@ -6,19 +6,18 @@ namespace Z0.llvm
 {
     using System;
     using System.Collections.Concurrent;
+
     using static core;
 
-    using Asm;
-
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<ClassRelations> LoadClassRelations()
+        public Index<ClassRelations> SelectClassRelations()
         {
             return (Index<ClassRelations>)DataSets.GetOrAdd(nameof(ClassRelations), key => Load());
 
             Index<ClassRelations> Load()
             {
-                var running = Wf.Running(nameof(LoadClassRelations));
+                var running = Wf.Running(nameof(SelectClassRelations));
                 var src = LlvmPaths.Table<ClassRelations>();
                 var dst = list<ClassRelations>();
                 var rows = src.ReadLines();

@@ -13,9 +13,11 @@ namespace Z0
     /// <summary>
     /// Describes the length-invariant leading bytes of the metadata root as specified in II.24.2.1
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [Record(TableId),  StructLayout(LayoutKind.Sequential)]
     public struct CliMetadataHeader : ITextual
     {
+        public const string TableId = "cli.metadata.header";
+
         const uint RequiredMagic = 0x42_4A_53_42;
 
         /// <summary>

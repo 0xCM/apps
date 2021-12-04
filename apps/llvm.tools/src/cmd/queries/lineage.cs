@@ -15,8 +15,8 @@ namespace Z0.llvm
         Outcome DefLineage(CmdArgs args)
         {
             var result = Outcome.Success;
-            var defs = DataLoader.LoadDefRelations();
-            var classes = LlvmRelations.equivalance(DataLoader.LoadClassRelations());
+            var defs = DataProvider.SelectDefRelations();
+            var classes = LlvmRelations.equivalance(DataProvider.SelectClassRelations());
             var cname = arg(args,0).Value;
             var @class = classes.Where(c => c.MemberName == cname);
             var counter = 0u;
@@ -53,8 +53,8 @@ namespace Z0.llvm
         Outcome EmitLineageSummary(CmdArgs args)
         {
             var result = Outcome.Success;
-            var defrel = DataLoader.LoadDefRelations();
-            var classrel = DataLoader.LoadClassRelations();
+            var defrel = DataProvider.SelectDefRelations();
+            var classrel = DataProvider.SelectClassRelations();
 
             var dst = Data.Log("llvm.lineage");
             var emitting = EmittingFile(dst);

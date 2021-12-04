@@ -6,12 +6,9 @@ namespace Z0.llvm
 {
     using static core;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<LlvmList> LoadLists()
-            => LlvmPaths.ListNames().Map(LoadList);
-
-        public LlvmList LoadList(string id)
+        public LlvmList SelectList(string id)
         {
             return (LlvmList)DataSets.GetOrAdd("llvm.lists." + id, key => Load());
 

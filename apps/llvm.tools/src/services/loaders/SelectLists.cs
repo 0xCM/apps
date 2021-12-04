@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames.Queries;
+    using static core;
 
-    partial class LlvmCmd
+    partial class LlvmDataProvider
     {
-        [CmdOp(@class)]
-        Outcome Class(CmdArgs args)
-            => Flow(@class, DataProvider.SelectClassLines(arg(args,0).Value));
+        public Index<LlvmList> SelectLists()
+            => LlvmPaths.ListNames().Map(SelectList);
     }
 }

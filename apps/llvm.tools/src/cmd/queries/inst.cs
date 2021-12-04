@@ -11,7 +11,7 @@ namespace Z0.llvm
         [CmdOp("inst")]
         public Outcome ShowInst(CmdArgs args)
         {
-            var entities = DataLoader.LoadEntities().Members;
+            var entities = DataProvider.SelectEntities().Members;
             var count = entities.Length;
             for(var i=0; i<count; i++)
             {
@@ -31,7 +31,7 @@ namespace Z0.llvm
         [CmdOp("inst-alias")]
         Outcome ShowInstAlias(CmdArgs args)
         {
-            var entities = DataLoader.LoadEntities().Members;
+            var entities = DataProvider.SelectEntities().Members;
             var count = entities.Length;
             for(var i=0; i<count; i++)
             {
@@ -50,7 +50,7 @@ namespace Z0.llvm
         [CmdOp("x86-intrinsics")]
         Outcome LoadIntrinsics(CmdArgs args)
         {
-            var entities = DataLoader.LoadEntities().Members;
+            var entities = DataProvider.SelectEntities().Members;
             var count = entities.Length;
             for(var i=0; i<count; i++)
             {

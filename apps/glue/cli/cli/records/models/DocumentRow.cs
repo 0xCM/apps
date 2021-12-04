@@ -9,9 +9,11 @@ namespace Z0
 
     partial struct CliRows
     {
-        [CliRecord(CliTableKind.Document), StructLayout(LayoutKind.Sequential)]
+        [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct DocumentRow : ICliRecord<DocumentRow>
         {
+            public const string TableId = "cli.metadata.document";
+
             public CliBlobIndex Name;
 
             public GuidIndex HashAlgorithm;

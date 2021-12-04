@@ -42,10 +42,6 @@ namespace Z0
             => llvm.LlvmPaths.create(context);
 
         [Op]
-        public static LlvmDb LlvmDb(this IWfRuntime wf)
-            => llvm.LlvmDb.create(wf);
-
-        [Op]
         public static ILlvmWorkspace LlvmWs(this IEnvProvider env)
             => Z0.LlvmWs.create(env.Env.LlvmRoot);
 
@@ -62,8 +58,8 @@ namespace Z0
             => llvm.LlvmLlc.create(wf);
 
         [Op]
-        public static LlvmDataLoader LlvmDataLoader(this IWfRuntime wf)
-            => llvm.LlvmDataLoader.create(wf);
+        public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)
+            => llvm.LlvmDataProvider.create(wf);
 
         [Op]
         public static LlvmDataEmitter LlvmDataEmitter(this IWfRuntime wf)

@@ -8,6 +8,6 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/classes/names")]
         Outcome ClassNames(CmdArgs args)
-            => Flow("llvm/classes/names",Db.ClassNames());
+            => Flow("llvm/classes/names",DataProvider.SelectClassNames().View);
     }
 }

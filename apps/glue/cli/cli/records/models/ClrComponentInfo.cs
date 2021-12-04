@@ -7,9 +7,9 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ClrComponentInfo : IRecord<ClrComponentInfo>
+    public struct ClrComponentInfo
     {
-        public const string TableId = "clr.components";
+        public const string TableId = "cli.component";
 
         public FS.FilePath ImgPath;
 

@@ -26,23 +26,13 @@ namespace Z0.llvm
 
         LlvmReadObj ReadObj;
 
-        LlvmDataLoader DataLoader;
+        LlvmDataProvider DataProvider;
+
+        LlvmDataEmitter DataEmitter;
 
         LlvmMc Mc;
 
         LlvmCodeGen CodeGen;
-
-        new LlvmDb Db
-        {
-            get
-            {
-                if(_Db == null)
-                    _Db = Wf.LlvmDb();
-                return _Db;
-            }
-        }
-
-        LlvmDb _Db;
 
         IProjectWs Data;
 
@@ -59,10 +49,11 @@ namespace Z0.llvm
             Toolset = Wf.LLvmToolset();
             ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();
-            DataLoader = Wf.LlvmDataLoader();
+            DataProvider = Wf.LlvmDataProvider();
             Mc = Wf.LlvmMc();
             CodeGen = Wf.LlvmCodeGen();
             Data = Ws.Project(Projects.LlvmData);
+            DataEmitter = Wf.LlvmDataEmitter();
             State.Init(Wf, Ws);
             State.Project(Data);
         }

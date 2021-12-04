@@ -5,16 +5,10 @@
 namespace Z0.llvm
 {
     using static core;
-    using static LlvmNames;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public LineMap<Identifier> LoadX86DefMap()
-            => LoadLineMap(LlvmPaths.ImportMap(Datasets.X86Defs));
-        public LineMap<Identifier> LoadX86ClassMap()
-            => LoadLineMap(LlvmPaths.ImportMap(Datasets.X86Classes));
-
-        public LineMap<Identifier> LoadLineMap(FS.FilePath src)
+        public LineMap<Identifier> SelectLineMap(FS.FilePath src)
         {
             return (LineMap<Identifier>)DataSets.GetOrAdd(src.Format(), key => Load());
 
@@ -43,6 +37,5 @@ namespace Z0.llvm
                     return new LineMap<Identifier>(sys.empty<LineInterval<Identifier>>());
             }
         }
-
     }
 }

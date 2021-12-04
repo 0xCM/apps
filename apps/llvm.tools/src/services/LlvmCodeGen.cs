@@ -15,7 +15,7 @@ namespace Z0.llvm
 
         OmniScript OmniScript;
 
-        LlvmDataLoader TableLoader;
+        LlvmDataProvider TableLoader;
 
         Generators Generators;
 
@@ -23,7 +23,7 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             OmniScript = Wf.OmniScript();
-            TableLoader = LlvmDataLoader.create(Wf);
+            TableLoader = LlvmDataProvider.create(Wf);
             Generators = Wf.Generators();
         }
 
@@ -36,7 +36,7 @@ namespace Z0.llvm
 
         void GenLiteralProviders()
         {
-            var src = TableLoader.LoadAsmMnemonicNames();
+            var src = TableLoader.SelectAsmMnemonicNames();
             var literals = expr.literals(src.View, src.View);
             var dst = Generators.CodeGenPath("llvm", "AsmMnemonicNames", FS.Cs);
             Generators.LiteralProvider().Emit("Z0.llvm", "AsmMnemonicNames", literals, dst);
@@ -44,7 +44,7 @@ namespace Z0.llvm
 
         public Arrow<FS.FileUri> GenStringTable(string listid)
         {
-            var list = new LlvmList[]{TableLoader.LoadList(listid)};
+            var list = new LlvmList[]{TableLoader.SelectList(listid)};
             var result = GenStringTables(@readonly(list));
             return first(result);
         }

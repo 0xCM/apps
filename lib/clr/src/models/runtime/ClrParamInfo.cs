@@ -20,10 +20,10 @@ namespace Z0
 
         public ClrTypeSigInfo Type {get;}
 
-        public ClrArgRefKind RefKind {get;}
+        public ClrParamModifierKind RefKind {get;}
 
         [MethodImpl(Inline)]
-        public ClrParamInfo(ClrTypeSigInfo type, ClrArgRefKind refkind, string name, ushort pos)
+        public ClrParamInfo(ClrTypeSigInfo type, ClrParamModifierKind refkind, string name, ushort pos)
         {
             Type = type;
             Name = name;

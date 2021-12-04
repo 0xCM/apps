@@ -11,7 +11,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MethodDefInfo : IRecord<MethodDefInfo>
     {
-        public const string TableId = "image.methods";
+        public const string TableId = "cli.metadata.methoddef";
 
         public const byte FieldCount = 7;
 

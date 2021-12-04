@@ -7,18 +7,19 @@ namespace Z0.llvm
     using System;
     using System.Collections.Concurrent;
     using System.Runtime.CompilerServices;
+
     using static core;
     using static Root;
 
-    public struct DataLoaderState
+    public sealed partial class LlvmDataProvider : GlobalService<LlvmDataProvider,LlvmDataProvider.DataProviderState>
     {
-        public LlvmPaths LlvmPaths;
+        public struct DataProviderState
+        {
+            public LlvmPaths LlvmPaths;
 
-        public ConcurrentDictionary<string,object> DataSets;
-    }
+            public ConcurrentDictionary<string,object> DataSets;
+        }
 
-    public sealed partial class LlvmDataLoader : GlobalService<LlvmDataLoader,DataLoaderState>
-    {
         LlvmPaths LlvmPaths
         {
             [MethodImpl(Inline)]
@@ -31,7 +32,7 @@ namespace Z0.llvm
             get => State.DataSets;
         }
 
-        protected override LlvmDataLoader Init(out DataLoaderState state)
+        protected override LlvmDataProvider Init(out DataProviderState state)
         {
             state.LlvmPaths = Wf.LlvmPaths();
             state.DataSets = new();

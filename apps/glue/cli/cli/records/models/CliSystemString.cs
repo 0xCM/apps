@@ -12,7 +12,7 @@ namespace Z0
     [Record(TableId)]
     public struct CliSystemString : IRecord<CliSystemString>
     {
-        public const string TableId = "image.strings.system";
+        public const string TableId = "cli.metadata.strings.system";
 
         public const byte FieldCount = 6;
 

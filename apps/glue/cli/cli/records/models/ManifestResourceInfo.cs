@@ -14,7 +14,7 @@ namespace Z0
     [Record(TableId)]
     public struct ManifestResourceInfo : IRecord<ManifestResourceInfo>
     {
-        public const string TableId = "image.manifest.resource";
+        public const string TableId = "cli.metadata.manifestresource";
 
         public string Name;
 

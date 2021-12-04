@@ -10,15 +10,15 @@ namespace Z0.llvm
 
     using Asm;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public Index<string> LoadAsmMnemonicNames()
+        public Index<string> SelectAsmMnemonicNames()
         {
             return (Index<string>)DataSets.GetOrAdd("AsmMnemonicNames", key => Load());
 
             Index<string> Load()
             {
-                return LoadAsmVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
+                return SelectAsmVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
             }
         }
     }

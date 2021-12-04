@@ -13,7 +13,7 @@ namespace Z0
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct MemberFieldName : IRecord<MemberFieldName>
     {
-        public const string TableId = "image.fieldname";
+        public const string TableId = "cli.metadata.fieldname";
 
         public Count Sequence;
 

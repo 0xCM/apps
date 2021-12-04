@@ -12,7 +12,7 @@ namespace Z0
     [Record(TableId)]
     public struct CliUserString : IRecord<CliUserString>
     {
-        public const string TableId = "image.strings.user";
+        public const string TableId = "cli.metadata.strings.user";
 
         public Count Sequence;
 

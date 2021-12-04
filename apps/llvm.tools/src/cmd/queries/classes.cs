@@ -11,8 +11,10 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var dst = LlvmPaths.TmpFile("llvm.classes", FS.Txt);
+            var emitting = EmittingFile(dst);
+
             using var writer = dst.AsciWriter();
-            Db.EmitClassInfo(writer);
+            EmittedFile(emitting,DataEmitter.EmitClassInfo(writer));
             return result;
         }
     }

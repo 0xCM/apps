@@ -7,21 +7,21 @@ namespace Z0.llvm
     using static core;
     using static Root;
 
-    partial class LlvmDataLoader
+    partial class LlvmDataProvider
     {
-        public RecordEntities LoadEntities()
+        public RecordEntities SelectEntities()
         {
             return (RecordEntities)DataSets.GetOrAdd("Entities", key => Load());
 
             RecordEntities Load()
             {
-                var running = Wf.Running(nameof(LoadEntities));
+                var running = Wf.Running(nameof(SelectEntities));
 
-                var relations = LoadDefRelations().Map(x => (x.Name.Content, x)).ToDictionary();
+                var relations = SelectDefRelations().Map(x => (x.Name.Content, x)).ToDictionary();
                 var entites = list<RecordEntity>();
                 var current = EmptyString;
                 var fields = list<RecordField>();
-                var src = LoadDefFields().View;
+                var src = SelectDefFields().View;
                 var count = src.Length;
                 var relation = default(DefRelations);
                 for(var i=0; i<count; i++)

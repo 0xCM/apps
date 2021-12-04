@@ -10,12 +10,12 @@ namespace Z0.llvm
     {
         [CmdOp("llvm/list")]
         Outcome ShowList(CmdArgs args)
-            => Flow("list", DataLoader.LoadList(arg(args,0)).Items);
+            => Flow("list", DataProvider.SelectList(arg(args,0)).Items);
 
         [CmdOp("llvm/lists")]
         Outcome LoadLists(CmdArgs args)
         {
-            var lists = DataLoader.LoadLists().Map(x => x.ToNameList());
+            var lists = DataProvider.SelectLists().Map(x => x.ToNameList());
             iter(lists, l => Write(l.ListName));
             return true;
         }

@@ -17,7 +17,7 @@ namespace Z0.llvm
             {
                 DataParser.parse(arg(args,0).Value, out uint offset);
                 DataParser.parse(arg(args,1).Value, out uint length);
-                var fields = DataLoader.LoadFields(Datasets.X86DefFields, offset, length);
+                var fields = DataProvider.SelectFields(Datasets.X86DefFields, offset, length);
                 iter(fields, f => Write(f.Format()));
             }
             return result;

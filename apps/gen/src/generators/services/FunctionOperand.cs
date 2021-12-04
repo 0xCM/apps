@@ -2,14 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    using static LlvmNames.Queries;
-
-    partial class LlvmCmd
+    public struct FunctionOperand
     {
-        [CmdOp(@class)]
-        Outcome Class(CmdArgs args)
-            => Flow(@class, DataProvider.SelectClassLines(arg(args,0).Value));
+        public Identifier OperandName;
+
+        public Identifier OperandType;
+
+        public ClrParamModifierKind Modifier;
+
     }
 }

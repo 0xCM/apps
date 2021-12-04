@@ -17,6 +17,9 @@ namespace Z0
         public EnumGen CsEnum()
             => new EnumGen();
 
+        public InterfaceGen Interfaces()
+            => InterfaceGen.create(Wf);
+
         public FS.FolderPath CodeGenDir(string scope)
             => Env.ZDev + FS.folder("generated/src") + FS.folder(scope);
 

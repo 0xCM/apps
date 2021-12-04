@@ -4,13 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
+    using System;
+    using System.Runtime.CompilerServices;
 
-    partial class LlvmDataLoader
+    using static LlvmNames;
+    using static core;
+    using static Root;
+
+    partial class LlvmDataProvider
     {
-        public Index<TextLine> LoadLinedRecords()
+        public Index<TextLine> SelectLinedRecords()
         {
-            return (Index<TextLine>)DataSets.GetOrAdd(nameof(LoadLinedRecords), key => Load());
+            return (Index<TextLine>)DataSets.GetOrAdd(nameof(SelectLinedRecords), key => Load());
 
             Index<TextLine> Load()
             {
@@ -18,5 +23,8 @@ namespace Z0.llvm
                 return reader.ReadAll().ToArray();
             }
         }
+
+        public ReadOnlySpan<TextLine> SelectX86RecordLines(Interval<uint> range)
+            => slice(SelectX86SourceRecords().View, range.Left - 1, range.Right - range.Left + 1);
     }
 }

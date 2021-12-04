@@ -12,7 +12,7 @@ namespace Z0.llvm
     {
         public Index<LlvmList> EmitLists()
         {
-            var src = DataLoader.LoadEntities();
+            var src = DataProvider.SelectEntities();
             return EmitLists(src, ListNames());
         }
 

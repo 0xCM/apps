@@ -10,9 +10,11 @@ namespace Z0
 
     partial struct CliRows
     {
-        [CliRecord(CliTableKind.TypeDef), StructLayout(LayoutKind.Sequential)]
+        [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct TypeDefRow : ICliRecord<TypeDefRow>
         {
+            public const string TableId = "cli.metadata.typedefs";
+
             public TypeAttributes Attributes;
 
             public CliStringIndex Name;

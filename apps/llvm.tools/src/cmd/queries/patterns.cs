@@ -11,8 +11,8 @@ namespace Z0.llvm
         [CmdOp("asm-patterns")]
         Outcome patterns(CmdArgs args)
         {
-            var patterns = DataLoader.LoadAsmPatterns();
-            var descriptors = DataLoader.LoadAsmIdDescriptors();
+            var patterns = DataProvider.SelectAsmPatterns();
+            var descriptors = DataProvider.SelectAsmIdDescriptors();
             var count = patterns.Count;
             for(var i=0; i<count; i++)
             {
