@@ -36,12 +36,12 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         static BoxedValueMap<T> convert<T>(Func<ValueType,T> f, T[] dst)
             where T : struct
-                => new ProjectorProxy<T>(x => f((ValueType)x), dst);
+                => new ValueProjectorProxy<T>(x => f((ValueType)x), dst);
 
         [MethodImpl(Inline)]
         static ValueMap<S,T> convert<S,T>(Func<S,T> f, T[] dst)
             where S : struct
             where T : struct
-                => new ProjectorProxy<S,T>(f, dst);
+                => new ValueProjectorProxy<S,T>(f, dst);
     }
 }

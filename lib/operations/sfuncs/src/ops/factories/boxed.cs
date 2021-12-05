@@ -25,6 +25,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         static BoxedValueMap<T> boxed<T>(Func<object,T> f, T[] dst)
             where T : struct
-                => new ProjectorProxy<T>(f, dst);
+                => new ValueProjectorProxy<T>(f, dst);
     }
 }

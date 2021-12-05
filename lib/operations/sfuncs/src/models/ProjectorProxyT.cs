@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct SFx
     {
-        public readonly struct ProjectorProxy<T> : IValueProjector<T>
+        public readonly struct ValueProjectorProxy<T> : IValueProjector<T>
             where T : struct
         {
             /// <summary>
@@ -25,7 +25,7 @@ namespace Z0
             readonly T[] Target;
 
             [MethodImpl(Inline)]
-            public ProjectorProxy(Func<object,T> f, T[] dst)
+            public ValueProjectorProxy(Func<object,T> f, T[] dst)
             {
                 Delegate = f;
                 Target = dst;
@@ -52,7 +52,7 @@ namespace Z0
                 => Delegate(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator BoxedValueMap<T>(ProjectorProxy<T> src)
+            public static implicit operator BoxedValueMap<T>(ValueProjectorProxy<T> src)
                 => src.Project;
         }
     }

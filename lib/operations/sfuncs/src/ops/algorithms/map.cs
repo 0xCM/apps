@@ -80,13 +80,13 @@ namespace Z0
                 => ref projector.Delegate(x);
 
         [MethodImpl(Inline)]
-        public static ref T map<S,T>(ProjectorProxy<S,T> proxy, object x)
+        public static ref T map<S,T>(ValueProjectorProxy<S,T> proxy, object x)
             where S : struct
             where T : struct
                 => ref proxy.Project(unbox<S>(x));
 
         [MethodImpl(Inline)]
-        public static ref T map<S,T>(ProjectorProxy<S,T> proxy, ValueType x)
+        public static ref T map<S,T>(ValueProjectorProxy<S,T> proxy, ValueType x)
             where S : struct
             where T : struct
                 => ref proxy.Project(unbox<S>(x));

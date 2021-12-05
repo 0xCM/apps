@@ -9,20 +9,20 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct SFxProjector<T> : ISFxProjector<T>
+    public readonly struct SFxProjector<S,T> : ISFxProjector<S,T>
     {
-        readonly System.Func<T,T> Fx;
+        readonly Func<S,T> Fx;
 
         [MethodImpl(Inline)]
-        public SFxProjector(System.Func<T,T> fx)
+        public SFxProjector(Func<S,T> fx)
             => Fx = fx;
 
         [MethodImpl(Inline)]
-        public T Invoke(T a)
+        public T Invoke(S a)
             => Fx(a);
 
         [MethodImpl(Inline)]
-        public static implicit operator SFxProjector<T>(Func<T,T> fx)
-            => new SFxProjector<T>(fx);
+        public static implicit operator SFxProjector<S,T>(Func<S,T> fx)
+            => new SFxProjector<S,T>(fx);
     }
 }
