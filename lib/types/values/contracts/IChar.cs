@@ -7,13 +7,13 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IFloat : IScalarValue
+    public interface IChar : IScalarValue
     {
 
     }
 
     [Free]
-    public interface IFloat<T> : IFloat, IScalarValue<T>
+    public interface IChar<T> : IChar, IScalarValue<T>
         where T : unmanaged
     {
 

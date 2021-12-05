@@ -4,18 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface IFloat : IScalarValue
+    public interface IScalarType : IType
     {
+        BitWidth ContentWidth {get;}
 
-    }
+        BitWidth StorageWidth {get;}
 
-    [Free]
-    public interface IFloat<T> : IFloat, IScalarValue<T>
-        where T : unmanaged
-    {
-
+        ScalarClass Class {get;}
     }
 }

@@ -16,15 +16,18 @@ namespace Z0
         internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
+        [Op]
+        public static ScalarType scalar(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
+            => new ScalarType(name,@class,content,storage);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypeKind<K> kind<K>(K key, Identifier name, bool generic)
+        public static TypeKind<K> kind<K>(K key, Identifier name, byte arity = 0)
             where K : unmanaged
-                => new TypeKind<K>(key, name, generic);
+                => new TypeKind<K>(key, name, arity);
 
         [MethodImpl(Inline), Op]
-        public static TypeKind kind(ulong key, Identifier @class, Identifier name, bool generic)
-            => new TypeKind(key, @class, name, generic);
+        public static TypeKind kind(ulong key, Identifier @class, Identifier name, byte arity = 0)
+            => new TypeKind(key, @class, name, arity);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static TypeKind untype<K>(TypeKind<K> src)

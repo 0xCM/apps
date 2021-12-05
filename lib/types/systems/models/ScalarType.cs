@@ -19,6 +19,8 @@ namespace Z0
 
         public BitWidth StorageWidth {get;}
 
+        public TypeKind Kind {get;}
+
         [MethodImpl(Inline)]
         public ScalarType(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
         {
@@ -26,6 +28,7 @@ namespace Z0
             Class = @class;
             ContentWidth = content;
             StorageWidth = storage;
+            Kind = new TypeKind(0, Class.ToString(), name,0);
         }
 
         public bool IsEmpty

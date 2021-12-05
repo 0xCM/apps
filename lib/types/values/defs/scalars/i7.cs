@@ -2,20 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Types
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface IFloat : IScalarValue
-    {
-
-    }
-
-    [Free]
-    public interface IFloat<T> : IFloat, IScalarValue<T>
+    public struct i7<T> : ISignedValue<T>
         where T : unmanaged
     {
+        public const uint Width = 7;
 
+        public T Storage;
+
+        BitWidth ISizedValue.ContentWidth
+            => Width;
     }
 }

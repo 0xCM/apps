@@ -6,16 +6,14 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    [Free]
-    public interface IFloat : IScalarValue
+    public interface IIndexedBits : ISizedValue
     {
-
+        bit this[uint i] {get;set;}
     }
 
     [Free]
-    public interface IFloat<T> : IFloat, IScalarValue<T>
+    public interface IIndexedBits<T> : IIndexedBits, IBv<T>
         where T : unmanaged
     {
-
     }
 }

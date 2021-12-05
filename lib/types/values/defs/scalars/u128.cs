@@ -2,35 +2,35 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Types
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct TypeKind : ITypeKind
+    /// <summary>
+    /// Defines an unsigned 128-bit integer over parametric storage
+    /// </summary>
+    public struct u128<T> : IUnsignedValue<T>
+        where T : unmanaged
     {
-        public ulong Key {get;}
+        public const uint Width = 128;
 
-        public Identifier Class {get;}
-
-        public Identifier Name {get;}
-
-        public byte Arity{get;}
+        public T Storage;
 
         [MethodImpl(Inline)]
-        public TypeKind(ulong key, Identifier @class, Identifier name, byte arity)
+        public u128(T src)
         {
-            Key = key;
-            Class = @class;
-            Name = name;
-            Arity = arity;
+            Storage = src;
         }
 
         public string Format()
-            => string.Format("{0}:{1}",Name, Class);
+            => Storage.ToString();
 
         public override string ToString()
             => Format();
+
+        BitWidth ISizedValue.ContentWidth
+            => Width;
     }
 }

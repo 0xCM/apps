@@ -15,7 +15,7 @@ namespace Z0.Ops.Scalar
     /// <typeparam name="S">The scalar type</typeparam>
     /// <typeparam name="M">The expression type</typeparam>
     public class ScalarMatch<S,M>
-        where S : IScalar
+        where S : IScalarValue
     {
         readonly Dictionary<S[],M> Data;
 

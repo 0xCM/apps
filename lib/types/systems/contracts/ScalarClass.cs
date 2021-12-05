@@ -4,18 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface IFloat : IScalarValue
+    [SymSource]
+    public enum ScalarClass : byte
     {
+        None,
 
-    }
+        [Symbol("u")]
+        U = 1,
 
-    [Free]
-    public interface IFloat<T> : IFloat, IScalarValue<T>
-        where T : unmanaged
-    {
+        [Symbol("i")]
+        I = 2,
 
+        [Symbol("f")]
+        F = 4,
+
+        [Symbol("c")]
+        C = 8,
     }
 }

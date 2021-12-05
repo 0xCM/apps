@@ -4,18 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface IFloat : IScalarValue
+    public interface IType
     {
+        TypeKind Kind {get;}
 
     }
 
-    [Free]
-    public interface IFloat<T> : IFloat, IScalarValue<T>
-        where T : unmanaged
+    public interface IType<K> : IType
+        where K : unmanaged
     {
+        new TypeKind<K> Kind {get;}
 
+        TypeKind IType.Kind
+            => Kind;
     }
 }
