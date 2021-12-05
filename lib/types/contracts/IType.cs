@@ -7,17 +7,14 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IType : ITerm
+    public interface ITyped : ITerm
     {
-        TypeKind Kind => default;
+
     }
 
-    public interface IType<K> : IType
+    public interface ITyped<K> : ITyped
         where K : unmanaged
     {
-        new TypeKind<K> Kind => default;
 
-        TypeKind IType.Kind
-            => Kind;
     }
 }

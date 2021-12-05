@@ -7,8 +7,8 @@ namespace Z0
     using System;
 
     public interface ITypedSeqLoader<S,T>
-        where S : IType
-        where T : IType
+        where S : ITyped
+        where T : ITyped
     {
         Outcome Load(ITypedSeq<S> src, out T dst);
     }

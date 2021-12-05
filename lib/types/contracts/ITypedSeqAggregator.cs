@@ -8,8 +8,8 @@ namespace Z0
 
     [Free]
     public interface ITypedSeqAggregator<S,T>
-        where S : IType
-        where T : IType
+        where S : ITyped
+        where T : ITyped
     {
         Outcome Distill(ITypedSeq<S> src, out T dst);
     }

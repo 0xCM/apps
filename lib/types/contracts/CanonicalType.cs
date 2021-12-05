@@ -5,139 +5,167 @@
 namespace Z0
 {
     using System;
+    using System.Runtime.CompilerServices;
 
-    public enum CanonicalType : ulong
+    using static Root;
+
+    [ApiComplete]
+    public readonly struct CanonicalType
     {
-        None = 0,
+        public static Label None => nameof(None);
 
-        Bit,
+        /// <summary>
+        /// Designates an unsigned integral type
+        /// </summary>
+        public static Label U => "u";
 
-        U0,
+        /// <summary>
+        /// Designates a signed integral type
+        /// </summary>
+        public static Label I => "i";
 
-        U1,
+        /// <summary>
+        /// Designates a character type
+        /// </summary>
+        public static Label C => "c";
 
-        U2,
+        /// <summary>
+        /// Designates a floating-point type
+        /// </summary>
+        public static Label F => "f";
 
-        U3,
+        /// <summary>
+        /// Designates a type of content width 1
+        /// </summary>
+        public static Label Bit => "bit";
 
-        U4,
+        public static Label U0 => "u0";
 
-        U5,
+        public static Label U1 => "u1";
 
-        U6,
+        public static Label U2 => "u2";
 
-        U7,
+        public static Label U3 => "u3";
 
-        U8,
+        public static Label U4 => "u4";
 
-        U16,
+        public static Label U5 => "u5";
 
-        U32,
+        public static Label U6 => "u6";
 
-        U64,
+        public static Label U7 => "u7";
 
-        U128,
+        public static Label U8 => "u8";
 
-        U256,
+        public static Label U16 => "u16";
 
-        U512,
+        public static Label U32 => "u32";
 
-        UN,
+        public static Label U64 => "u64";
 
-        I0,
+        public static Label U128 => "u128";
 
-        I1,
+        public static Label U256 => "u256";
 
-        I2,
+        public static Label U512 => "u512";
 
-        I3,
+        public static text15 UN(uint n) => string.Format("u{0}",n);
 
-        I4,
+        public static Label I0 => "i0";
 
-        I5,
+        public static Label I1 => "i1";
 
-        I6,
+        public static Label I2 => "i2";
 
-        I7,
+        public static Label I3 => "i3";
 
-        I8,
+        public static Label I4 => "i4";
 
-        I16,
+        public static Label I5 => "i5";
 
-        I32,
+        public static Label I6 => "i6";
 
-        I64,
+        public static Label I7 => "i7";
 
-        I128,
+        public static Label I8 => "i8";
 
-        I256,
+        public static Label I16 => "i16";
 
-        I512,
+        public static Label I32 => "i32";
 
-        IN,
+        public static Label I64 => "i64";
 
-        C0,
+        public static Label I128 => "i128";
 
-        C8,
+        public static Label I256 => "i256";
 
-        C16,
+        public static Label I512 => "i512";
 
-        C32,
+        public static text15 IN(uint n) => string.Format("i{0}",n);
 
-        F16,
+        public static text15 Seq(string type) => string.Format("seq<{0}>", type);
 
-        F32,
+        public static text15 Seq(string type, uint n) => string.Format("seq<{0}:{1}>", type, n);
 
-        F64,
+        public static Label C8 => "c8";
 
-        Seq,
+        public static Label C16 => "c16";
 
-        V0,
+        public static Label C32 => "c32";
 
-        V1,
+        public static Label F16 => "f16";
 
-        V2,
+        public static Label F32 => "f32";
 
-        V3,
+        public static Label F64 => "f64";
 
-        V4,
 
-        V5,
+        // V0 => nameof(None);
 
-        V6,
+        // V1 => nameof(None);
 
-        V7,
+        // V2 => nameof(None);
 
-        V8,
+        // V3 => nameof(None);
 
-        V9,
+        // V4 => nameof(None);
 
-        V10,
+        // V5 => nameof(None);
 
-        V11,
+        // V6 => nameof(None);
 
-        V12,
+        // V7 => nameof(None);
 
-        V16,
+        // V8 => nameof(None);
 
-        V32,
+        // V9 => nameof(None);
 
-        V64,
+        // V10 => nameof(None);
 
-        VN,
+        // V11 => nameof(None);
 
-        VNx1,
+        // V12 => nameof(None);
 
-        VNx8,
+        // V16 => nameof(None);
 
-        VNx16,
+        // V32 => nameof(None);
 
-        VNx32,
+        // V64 => nameof(None);
 
-        VNx64,
+        // VN => nameof(None);
 
-        VNx128,
+        // VNx1 => nameof(None);
 
-        VNx256,
+        // VNx8 => nameof(None);
+
+        // VNx16 => nameof(None);
+
+        // VNx32 => nameof(None);
+
+        // VNx64 => nameof(None);
+
+        // VNx128 => nameof(None);
+
+        // VNx256 => nameof(None);
     }
 }

@@ -33,6 +33,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public TaggedTool WithTag(text15 tag)
+            => new TaggedTool(this, tag);
+
+        [MethodImpl(Inline)]
         public string Format()
             => Id;
 

@@ -4,14 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IString : ITyped, ITextual, IMeasured
+    public interface ITypeDef
     {
+        TypeKind Kind {get;}
 
     }
 
-    public interface IString<T> : IString, IContented<T>
+    public interface ITypeDef<K> : ITypeDef
+        where K : unmanaged
     {
+        new TypeKind<K> Kind {get;}
 
-
+        TypeKind ITypeDef.Kind
+            => Kind;
     }
 }

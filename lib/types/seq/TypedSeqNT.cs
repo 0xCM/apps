@@ -11,7 +11,7 @@ namespace Z0
 
     public readonly struct TypedSeq<N,T> : ITypedSeq<N,T>
         where N : unmanaged, ITypeNat
-        where T : IType
+        where T : ITyped
     {
         readonly Index<T> Data;
 

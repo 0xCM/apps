@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     public readonly struct TypedSeq<T> : ITypedSeq<T>
-        where T : IType
+        where T : ITyped
     {
         readonly Index<T> Data;
 

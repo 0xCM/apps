@@ -16,12 +16,12 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static TypedSeq<T> gseq<T>(T[] src)
-            where T : IType
+            where T : ITyped
                 => new TypedSeq<T>(src);
 
         public static TypedSeq<N,T> nseq<N,T>()
             where N : unmanaged, ITypeNat
-            where T : IType
+            where T : ITyped
                 => new TypedSeq<N,T>(alloc<T>(nat32u<N>()));
 
         [MethodImpl(Inline), Op, Closures(Closure)]

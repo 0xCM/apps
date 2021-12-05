@@ -7,8 +7,8 @@ namespace Z0
     using System;
 
     public interface ITypedSeqProjector<S,T>
-        where S : IType
-        where T : IType
+        where S : ITyped
+        where T : ITyped
     {
         Outcome Map(ITypedSeq<S> src, ITypedSeq<T> dst);
     }

@@ -11,23 +11,23 @@ namespace Z0
 
     [Free]
     public interface ITypedSeqEmitter<S,T>
-        where S : IType
-        where T : IType
+        where S : ITyped
+        where T : ITyped
     {
         Outcome Emit(ITypedSeq<S> src, ISink<T> dst);
     }
 
     [Free]
     public interface ITypedSeqEmitter<S,C,T>
-        where S : IType
-        where T : IType
+        where S : ITyped
+        where T : ITyped
     {
         Outcome Emit(ITypedSeq<S> src, C config, ISink<T> dst);
     }
 
     [Free]
     public interface ITypedSeqEmitter<S>
-        where S : IType
+        where S : ITyped
     {
         Outcome Emit(ITypedSeq<S> src, StreamWriter dst);
     }

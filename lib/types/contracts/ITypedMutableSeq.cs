@@ -10,7 +10,7 @@ namespace Z0
 
     [Free]
     public interface ITypedMutableSeq<T> : ITypedSeq<T>
-        where T : IType
+        where T : ITyped
     {
         Span<T> Edit {get;}
     }

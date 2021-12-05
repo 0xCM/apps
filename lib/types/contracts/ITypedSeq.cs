@@ -9,8 +9,8 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ITypedSeq<T> : IType, IMeasured
-        where T : IType
+    public interface ITypedSeq<T> : ITyped, IMeasured
+        where T : ITyped
     {
         ReadOnlySpan<T> View {get;}
 
@@ -27,7 +27,7 @@ namespace Z0
     [Free]
     public interface ITypedSeq<N,T> : ITypedSeq<T>
         where N : unmanaged, ITypeNat
-        where T : IType
+        where T : ITyped
     {
         uint ICounted.Count
             => core.nat32u<N>();

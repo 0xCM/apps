@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly partial struct TypeKinds
+    public readonly struct TypeKinds
     {
 
 

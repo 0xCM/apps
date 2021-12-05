@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISizedType : IType
+    public interface ISizedType : ITyped
     {
         BitWidth ContentWidth {get;}
 
