@@ -10,11 +10,12 @@ namespace Z0.Types
     using static Root;
     using static core;
 
-    public class VectorType : ISizedType
+
+    public class VectorType : IVectorType
     {
         public ScalarType CellType {get;}
 
-        public TypeKind Kind {get;}
+        public VectorKind Kind {get;}
 
         public BitWidth ContentWidth {get;}
 

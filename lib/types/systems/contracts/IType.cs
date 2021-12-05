@@ -6,16 +6,15 @@ namespace Z0
 {
     public interface IType
     {
-        TypeKind Kind {get;}
-
+        ulong Kind {get;}
     }
 
     public interface IType<K> : IType
         where K : unmanaged
     {
-        new TypeKind<K> Kind {get;}
+        new K Kind {get;}
 
-        TypeKind IType.Kind
-            => Kind;
+        ulong IType.Kind
+            => core.bw64(Kind);
     }
 }

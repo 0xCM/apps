@@ -30,7 +30,7 @@ namespace Z0
             => new TypeKind(key, @class, name, arity);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypeKind untype<K>(TypeKind<K> src)
+        public static IType untype<K>(IType<K> src)
             where K : unmanaged
                 => src;
     }

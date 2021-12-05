@@ -13,16 +13,16 @@ namespace Z0
     {
         Label Name {get;}
 
-        ReadOnlySpan<TypeKind> Kinds {get;}
+        ReadOnlySpan<IType> Primitives {get;}
     }
 
     [Free]
     public interface ITypeSystem<K> : ITypeSystem
         where K : unmanaged
     {
-        new ReadOnlySpan<TypeKind<K>> Kinds {get;}
+        new ReadOnlySpan<IType<K>> Primitives {get;}
 
-        ReadOnlySpan<TypeKind> ITypeSystem.Kinds
-            => Kinds.Map(types.untype);
+        ReadOnlySpan<IType> ITypeSystem.Primitives
+            => Primitives.Map(types.untype);
     }
 }

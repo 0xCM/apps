@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Vec512Kind<T> : IVectorKind<Vec512Kind<T>,W512,T>
+    public readonly struct Vec512Kind<T> : IVectorType<Vec512Kind<T>,W512,T>
         where T : unmanaged
     {
         public W512 W => default;
@@ -22,6 +22,14 @@ namespace Z0
 
         public NumericWidth CellWidth
             => (NumericWidth)Widths.bits<T>();
+
+        public BitWidth ContentWidth
+            => (BitWidth)(ushort)Width;
+
+        public BitWidth StorageWidth
+            => ContentWidth;
+
+        public VectorKind Kind => default;
 
         [MethodImpl(Inline)]
         public static implicit operator NativeVectorWidth(Vec512Kind<T> src)

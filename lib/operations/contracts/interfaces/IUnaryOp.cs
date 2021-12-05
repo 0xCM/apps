@@ -9,6 +9,14 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     /// <summary>
+    /// Defines the canonical shape of a unary operator
+    /// </summary>
+    /// <param name="a">The operand</param>
+    /// <typeparam name="T">The operand type</typeparam>
+    [Free]
+    public delegate T UnaryOp<T>(T a);
+
+    /// <summary>
     /// Characterizes a unary operator
     /// </summary>
     /// <typeparam name="A">The operand type</typeparam>

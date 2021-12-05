@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Vec256Kind<T> : IVectorKind<Vec256Kind<T>,W256,T>
+    public readonly struct Vec256Kind<T> : IVectorType<Vec256Kind<T>,W256,T>
         where T : unmanaged
     {
         public W256 W => default;
@@ -23,6 +23,14 @@ namespace Z0
 
         public NumericWidth CellWidth
             => (NumericWidth)Widths.bits<T>();
+
+        public BitWidth ContentWidth
+            => (BitWidth)(ushort)Width;
+
+        public BitWidth StorageWidth
+            => ContentWidth;
+
+        public VectorKind Kind => default;
 
         [MethodImpl(Inline)]
         public static implicit operator NativeVectorWidth(Vec256Kind<T> src)

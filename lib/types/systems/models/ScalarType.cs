@@ -13,22 +13,19 @@ namespace Z0
     {
         public Identifier TypeName {get;}
 
-        public ScalarClass Class {get;}
+        public ScalarClass Kind {get;}
 
         public BitWidth ContentWidth {get;}
 
         public BitWidth StorageWidth {get;}
 
-        public TypeKind Kind {get;}
-
         [MethodImpl(Inline)]
-        public ScalarType(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
+        public ScalarType(Identifier name, ScalarClass kind, BitWidth content, BitWidth storage)
         {
             TypeName = name;
-            Class = @class;
+            Kind = kind;
             ContentWidth = content;
             StorageWidth = storage;
-            Kind = new TypeKind(0, Class.ToString(), name,0);
         }
 
         public bool IsEmpty
@@ -51,5 +48,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new ScalarType(EmptyString, ScalarClass.None, 0, 0);
         }
+
+
     }
 }

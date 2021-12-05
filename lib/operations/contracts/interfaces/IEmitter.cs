@@ -4,9 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using System.Runtime.Intrinsics;
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+
+    /// <summary>
+    /// Defines the canonical shape of an emitter
+    /// </summary>
+    /// <typeparam name="T">The production type</typeparam>
+    [Free]
+    public delegate T Emitter<T>();
+
+    /// <summary>
+    /// Defines the canonical shape of an emitter
+    /// </summary>
+    /// <typeparam name="T">The production type</typeparam>
+    /// <typeparam name="C">The cell type into which the production type is segmented</typeparam>
+    [Free]
+    public delegate T Emitter<T,C>();
 
     [Free]
     public interface IEmitter<T>

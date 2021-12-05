@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Represents the generic type definition for a 512-bit vector
     /// </summary>
-    public readonly struct Vec512Type : IVectorKind<Vec512Type,W512>
+    public readonly struct Vec512Type : IVectorType<Vec512Type,W512>
     {
         [MethodImpl(Inline)]
         public static implicit operator NativeVectorWidth(Vec512Type src)

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
@@ -23,20 +22,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static TypeAlias alias(TypeKind a, TypeKind b)
             => new TypeAlias(a,b);
-
-
-
-        public sealed class CanonicalTypeSystem : TypeSystem<CanonicalTypeSystem, CanonicalType>
-        {
-            public const string SystemName = "canonical";
-
-            public CanonicalTypeSystem()
-                : base(SystemName)
-            {
-
-            }
-
-            public override ReadOnlySpan<TypeKind<CanonicalType>> Kinds => throw new NotImplementedException();
-        }
     }
 }

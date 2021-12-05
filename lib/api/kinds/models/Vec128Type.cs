@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Represents the generic type definition for a 128-bit vector
     /// </summary>
-    public readonly struct Vec128Type : IVectorKind<Vec128Type,W128>
+    public readonly struct Vec128Type : IVectorType<Vec128Type,W128>
     {
         public W128 W
             => default;

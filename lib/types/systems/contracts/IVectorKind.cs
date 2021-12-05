@@ -8,13 +8,18 @@ namespace Z0
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
+    public enum VectorKind : ulong
+    {
+
+    }
     [Free]
-    public interface IVectorKind : IVectorWidth
+    public interface IVectorType : IType<VectorKind>, ISizedType
     {
         /// <summary>
         /// The vector numeric cell kind
         /// </summary>
-        NumericKind CellKind {get;}
+        ScalarType CellType {get;}
+
     }
 
     /// <summary>
@@ -22,8 +27,8 @@ namespace Z0
     /// </summary>
     /// <typeparam name="F">The reification type</typeparam>
     [Free]
-    public interface IVectorKind<F,W> : IVectorWidth<F>, IDataWidth
-        where F : struct, IVectorKind<F,W>
+    public interface IVectorType<F,W> : IVectorWidth<F>, IDataWidth
+        where F : struct, IVectorType<F,W>
         where W : unmanaged, ITypeWidth
     {
         bool IEquatable<F>.Equals(F other)
@@ -34,12 +39,14 @@ namespace Z0
     }
 
     [Free]
-    public interface IVectorKind<F,W,T> : IVectorKind<F,W>, IVectorKind
-        where F : struct, IVectorKind<F,W,T>
+    public interface IVectorType<F,W,T> : IVectorType<F,W>, IVectorType
+        where F : struct, IVectorType<F,W,T>
         where W : unmanaged, ITypeWidth
         where T : unmanaged
     {
-        NumericKind IVectorKind.CellKind
-            => NumericKinds.kind<T>();
+        NumericKind CellKind
+            =>NumericKinds.kind<T>();
+        ScalarType IVectorType.CellType
+            => default;
     }
 }

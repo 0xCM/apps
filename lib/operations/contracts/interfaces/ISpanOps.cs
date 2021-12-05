@@ -9,6 +9,13 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     /// <summary>
+    /// Characterizes a function that produces spans values
+    /// </summary>
+    /// <typeparam name="T">The emission type</typeparam>
+    [Free]
+    public delegate Span<T> SpanEmitter<T>();
+
+    /// <summary>
     /// Characterizes a structural function that accepts source span and
     /// target spans defined over cells of common type
     /// </summary>

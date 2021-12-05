@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Vec128Kind<T> : IVectorKind<Vec128Kind<T>,W128,T>
+    public readonly struct Vec128Kind<T> : IVectorType<Vec128Kind<T>,W128,T>
         where T : unmanaged
     {
         public W128 W
@@ -18,6 +18,14 @@ namespace Z0
 
         public NativeVectorWidth Width
             => NativeVectorWidth.W128;
+
+        public BitWidth ContentWidth
+            => (BitWidth)(ushort)Width;
+
+        public BitWidth StorageWidth
+            => ContentWidth;
+
+        public VectorKind Kind => default;
 
         public NumericKind CellKind
             => NumericKinds.kind<T>();

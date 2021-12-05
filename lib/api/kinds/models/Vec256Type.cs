@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Represents the generic type definition for a 256-bit vector
     /// </summary>
-    public readonly struct Vec256Type : IVectorKind<Vec256Type,W256>
+    public readonly struct Vec256Type : IVectorType<Vec256Type,W256>
     {
         public W256 W
             => default;

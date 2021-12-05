@@ -4,6 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    public enum CanonicalTypeSort : uint
+    {
+        UnsignedInteger,
+
+        SignedInteger,
+
+        Character,
+
+        Vector,
+
+        Bit,
+
+        BitSeq,
+
+        BitVector,
+    }
+
     [ApiComplete]
     public readonly struct CanonicalType
     {
