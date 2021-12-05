@@ -41,7 +41,7 @@ namespace Z0
 
         protected override void OnInit()
         {
-            Dispatcher = Cmd.dispatcher(this, Dispatch);
+            Dispatcher = CmdDispatcher.discover(this, Dispatch);
             Witness = Loggers.worker(controller().Id(), Db.ControlRoot());
             OmniScript = Wf.OmniScript();
             ProjectWs = Ws.Projects();

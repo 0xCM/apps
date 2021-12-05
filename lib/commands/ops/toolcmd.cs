@@ -13,7 +13,7 @@ namespace Z0
     partial struct Cmd
     {
         [Op, Closures(UInt64k)]
-        public static ToolExecSpec execspec<T>(in T spec)
+        public static ToolCmd toolcmd<T>(in T spec)
             where T : struct
         {
             var t = typeof(T);
@@ -29,7 +29,7 @@ namespace Z0
                 ref readonly var fv = ref skip(source,i);
                 seek(target,i) = new ToolCmdArg(fv.Field.Name, fv.Value?.ToString() ?? EmptyString);
             }
-            return new ToolExecSpec(CmdId.from(t), buffer);
+            return new ToolCmd(CmdId.from(t), buffer);
         }
     }
 }

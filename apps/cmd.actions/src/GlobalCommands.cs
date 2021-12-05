@@ -28,7 +28,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            Dispatcher = Cmd.dispatcher(this);
+            Dispatcher = CmdDispatcher.discover(this);
         }
 
 

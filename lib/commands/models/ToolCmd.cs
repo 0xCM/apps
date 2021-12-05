@@ -9,17 +9,18 @@ namespace Z0
 
     using static Root;
 
+
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>
-    public struct ToolExecSpec : IToolCmd
+    public struct ToolCmd : IToolCmd
     {
         public CmdId CmdId {get;}
 
         public ToolCmdArgs Args {get;}
 
         [MethodImpl(Inline)]
-        public ToolExecSpec(CmdId id, params ToolCmdArg[] args)
+        public ToolCmd(CmdId id, params ToolCmdArg[] args)
         {
             CmdId = id;
             Args = args;
@@ -31,10 +32,10 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static ToolExecSpec Empty
+        public static ToolCmd Empty
         {
             [MethodImpl(Inline)]
-            get => new ToolExecSpec(CmdId.Empty);
+            get => new ToolCmd(CmdId.Empty);
         }
     }
 }

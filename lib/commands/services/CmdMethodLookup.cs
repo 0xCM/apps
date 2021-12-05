@@ -12,8 +12,25 @@ namespace Z0
     using static core;
     using static Root;
 
+    /// <summary>
+    /// Correlates command names with command realizations
+    /// </summary>
     public class CmdMethodLookup
     {
+        public static CmdMethodLookup discover(object host)
+        {
+            var type = host.GetType();
+            var methods = dict<string,MethodInfo>();
+            var src = type.InstanceMethods().Tagged<CmdOpAttribute>().Select(x => (x.Name, x));
+            foreach(var (name, method) in src)
+                methods.TryAdd(name,method);
+
+            var lookup = CmdMethodLookup.create();
+            foreach(var (name,method) in methods)
+                lookup.Add(method.Tag<CmdOpAttribute>().MapValueOrDefault(m => m.CommandName, method.Name), method);
+            return lookup.Seal();
+        }
+
         public static CmdMethodLookup join(params CmdMethodLookup[] src)
         {
             var dst = create();

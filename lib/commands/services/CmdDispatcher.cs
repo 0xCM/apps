@@ -8,6 +8,9 @@ namespace Z0
 
     public class CmdDispatcher : ICmdDispatcher
     {
+        public static CmdDispatcher discover(object host, Func<string,CmdArgs,Outcome> fallback = null)
+            => new CmdDispatcher(host, CmdMethodLookup.discover(host), fallback);
+
         CmdMethodLookup Lookup;
 
         object Host;
