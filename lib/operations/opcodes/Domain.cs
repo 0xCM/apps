@@ -10,27 +10,30 @@ namespace Z0
 
     public readonly struct Domain
     {
-        public uint Kind {get;}
+        public Label Name {get;}
 
         [MethodImpl(Inline)]
-        public Domain(uint id)
+        public Domain(Label name)
         {
-            Kind = id;
+            Name = name;
         }
 
         public string Format()
-            => Kind.ToString();
+            => Name.Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Domain(uint id)
-            => new Domain(id);
+        public static implicit operator Domain(string name)
+            => new Domain(name);
 
         [MethodImpl(Inline)]
-        public static explicit operator uint(Domain src)
-            => src.Kind;
-    }
+        public static implicit operator Domain(Label name)
+            => new Domain(name);
 
+        [MethodImpl(Inline)]
+        public static explicit operator Label(Domain src)
+            => src.Name;
+    }
 }

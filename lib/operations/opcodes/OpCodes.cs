@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0.Ops
 {
     using System.Runtime.CompilerServices;
 
@@ -17,18 +17,16 @@ namespace Z0.Expr
         const byte DomainWidth = 16;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static OpCode<K> encode<K>(Label name, Domain d, Hex32 code)
+        public static OpCode<K> encode<K>(Domain domain, Label name, Hex32 code)
             where K : unmanaged
         {
-            var encoded = (ulong)d | (ulong)code << DomainWidth;
-            return new OpCode<K>(name, @as<ulong,K>(encoded));
+            return new OpCode<K>(domain, name, @as<ulong,K>((ulong)code));
         }
 
         [MethodImpl(Inline), Op]
-        public static OpCode encode(Label name, Domain d, Hex32 code)
+        public static OpCode encode(Label name, Domain domain, Hex32 code)
         {
-            var encoded = (ulong)d | (ulong)code << DomainWidth;
-            return new OpCode(name, encoded);
+            return new OpCode(domain, name, code);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -40,19 +38,11 @@ namespace Z0.Expr
         public static Hex32 code(OpCode src)
             => (uint)(src.Data >> DomainWidth);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Domain domain<K>(OpCode<K> src)
-            where K : unmanaged
-                => bw16(src.Data);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static OpCode untype<K>(OpCode<K> src)
             where K : unmanaged
-                => new OpCode(src.Name, bw64(src.Data));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Domain domain(OpCode src)
-            => u16(src.Data);
+                => new OpCode(src.Domain, src.Name, bw64(src.Data));
 
         public static string format(OpCode src)
         {

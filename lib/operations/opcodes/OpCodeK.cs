@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0.Ops
 {
     using System.Runtime.CompilerServices;
 
@@ -14,21 +14,18 @@ namespace Z0.Expr
     public readonly struct OpCode<K>
         where K : unmanaged
     {
+        public readonly Domain Domain;
+
         public readonly Label Name;
 
         internal readonly K Data;
 
         [MethodImpl(Inline)]
-        public OpCode(Label name, K data)
+        public OpCode(Domain domain, Label name, K data)
         {
+            Domain = domain;
             Name = name;
             Data = data;
-        }
-
-        public Domain Domain
-        {
-            [MethodImpl(Inline)]
-            get => api.domain(this);
         }
 
         public Hex32 Code

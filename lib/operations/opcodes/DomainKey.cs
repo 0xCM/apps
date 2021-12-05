@@ -20,10 +20,10 @@ namespace Z0
         public uint Id {get;}
 
         [MethodImpl(Inline)]
-        public DomainKey(Domain kind, uint id)
+        public DomainKey(Domain domain, uint id)
         {
             Id = id;
-            Domain = kind;
+            Domain = domain;
         }
     }
 }

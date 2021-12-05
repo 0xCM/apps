@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0.Ops
 {
     using System.Runtime.CompilerServices;
 
@@ -12,22 +12,20 @@ namespace Z0.Expr
 
     public readonly struct OpCode
     {
+        public Domain Domain {get;}
+
         public readonly Label Name;
 
         internal readonly ulong Data;
 
         [MethodImpl(Inline)]
-        public OpCode(Label name, ulong data)
+        public OpCode(Domain domain, Label name, ulong data)
         {
+            Domain = domain;
             Data = data;
             Name = name;
         }
 
-        public Domain Domain
-        {
-            [MethodImpl(Inline)]
-            get => api.domain(this);
-        }
 
         public Hex32 Code
         {
