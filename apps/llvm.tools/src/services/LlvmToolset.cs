@@ -26,6 +26,8 @@ namespace Z0.llvm
 
         Toolset Toolset;
 
+        Tooling Tooling;
+
         public LlvmToolset()
         {
             Toolset = Toolset.Empty;
@@ -37,6 +39,7 @@ namespace Z0.llvm
             OmniScript = Wf.OmniScript();
             ToolsetDir = Ws.Project("tools/llvm").Home();
             HelpDir = ToolsetDir + FS.folder("help");
+            Tooling = Wf.Tooling();
             LoadProfiles();
             LoadToolset();
             CalcHelpPaths();
@@ -51,13 +54,25 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref skip(src,i);
-                dst.Include(entry.Key, new ToolHelpDoc(entry.Value));
+                dst.Include(entry.Key, new ToolHelpDoc(entry.Key, entry.Value));
             }
             ToolHelpDocs = dst.Seal();
         }
 
         public ReadOnlySpan<ToolProfile> Profiles()
             => ToolProfiles.Values;
+
+        public Index<ToolHelpDoc> ToolHelp()
+        {
+            var dst = list<ToolHelpDoc>();
+            var tools = ToolHelpDocs.Keys;
+            foreach(var tool in tools)
+            {
+                if(ToolHelpDocs.Find(tool, out var doc))
+                    dst.Add(doc.Load());
+            }
+            return dst.ToArray();
+        }
 
         public ToolHelpDoc ToolHelp(ToolId tool)
         {
@@ -175,48 +190,8 @@ namespace Z0.llvm
 
         Outcome LoadProfiles()
         {
-            var src = Tables.path<ToolProfile>(ToolsetDir);
-            var content = src.ReadUnicode();
-            var result = TextGrids.parse(content, out var grid);
-            var dst = new Lookup<ToolId,ToolProfile>();
-            if(result)
-            {
-                if(grid.ColCount != ToolProfile.FieldCount)
-                    result = (false,Tables.FieldCountMismatch.Format(ToolProfile.FieldCount, grid.ColCount));
-                else
-                {
-                    var count = grid.RowCount;
-                    for(var i=0; i<count; i++)
-                    {
-                        result = parse(grid[i], out ToolProfile profile);
-                        if(result)
-                            dst.Include(profile.Id, profile);
-                        else
-                            break;
-                    }
-                }
-            }
-
-            ToolProfiles = dst.Seal();
-
-            return result;
-        }
-
-        static Outcome parse(in TextRow src, out ToolProfile dst)
-        {
-            var result = Outcome.Success;
-            dst = default;
-            if(src.CellCount != ToolProfile.FieldCount)
-                result = (false,Tables.FieldCountMismatch.Format(ToolProfile.FieldCount, src.CellCount));
-            else
-            {
-                var i=0;
-                dst.Id = src[i++].Text;
-                dst.HelpCmd = src[i++].Text;
-                dst.Memberhisp = src[i++].Text;
-                dst.Path = FS.path(src[i++]);
-            }
-            return result;
+            ToolProfiles = Tooling.LoadProfiles(ToolsetDir);
+            return true;
         }
 
         Outcome LoadToolset()

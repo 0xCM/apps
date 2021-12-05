@@ -18,6 +18,8 @@ namespace Z0.llvm
             public LlvmPaths LlvmPaths;
 
             public ConcurrentDictionary<string,object> DataSets;
+
+            public LlvmToolset Toolset;
         }
 
         LlvmPaths LlvmPaths
@@ -32,10 +34,17 @@ namespace Z0.llvm
             get => State.DataSets;
         }
 
+        LlvmToolset Toolset
+        {
+            [MethodImpl(Inline)]
+            get => State.Toolset;
+        }
+
         protected override LlvmDataProvider Init(out DataProviderState state)
         {
             state.LlvmPaths = Wf.LlvmPaths();
             state.DataSets = new();
+            state.Toolset = Wf.LLvmToolset();
             return this;
         }
 

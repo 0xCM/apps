@@ -6,33 +6,56 @@ namespace Z0.llvm
 {
     using System;
 
+    using static Root;
+
+    public class ToolHelpDocs
+    {
+        public ToolId Tool {get;}
+
+        public Index<ToolHelp> Docs;
+
+        public ToolHelpDocs(ToolId tool, ToolHelp[] src)
+        {
+            Tool = tool;
+            Docs = src;
+        }
+    }
+
     public class ToolHelpDoc : IDocument<ToolHelpDoc,TextBlock>
     {
         TextDoc Source;
 
         public bool IsEmpty {get;}
 
+        public ToolId Tool {get;}
+
+        public string Tag {get;}
+
         public bool IsNonEmpty
         {
             get => !IsEmpty;
         }
 
-
         public ToolHelpDoc()
         {
             IsEmpty = true;
+            Tag = EmptyString;
         }
 
-        public ToolHelpDoc(FS.FilePath path)
+        public ToolHelpDoc(ToolId id, FS.FilePath path)
         {
             Source = new TextDoc(path);
+            Tool = id;
             IsEmpty = false;
+            Tag = EmptyString;
         }
 
-        ToolHelpDoc(TextDoc src)
+        ToolHelpDoc(ToolId id, string tag, TextDoc src)
         {
+            Tool = id;
             Source = src;
             IsEmpty = false;
+            Tag = tag;
         }
 
         public TextBlock Content
@@ -49,7 +72,7 @@ namespace Z0.llvm
         }
 
         public ToolHelpDoc Load()
-            => new ToolHelpDoc(Source.Load());
+            => new ToolHelpDoc(Tool, Tag, Source.Load());
 
         public static ToolHelpDoc Empty => new ToolHelpDoc();
     }

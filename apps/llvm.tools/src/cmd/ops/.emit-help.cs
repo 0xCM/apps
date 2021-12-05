@@ -13,5 +13,14 @@ namespace Z0.llvm
         {
             return Toolset.EmitHelpDocs();
         }
+
+        [CmdOp(".emit-help-data")]
+        Outcome EmitHelpDat(CmdArgs args)
+        {
+            DataEmitter.EmitToolHelp();
+            return true;
+        }
+
+
     }
 }
