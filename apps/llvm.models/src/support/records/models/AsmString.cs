@@ -46,6 +46,10 @@ namespace Z0.llvm
             ("$r", "$(r)")
             };
 
+        /// <summary>
+        /// Attempts to infer the instruction mnemonic from an asmstring
+        /// </summary>
+        /// <param name="value">The source value</param>
         public static AsmMnemonic mnemonic(string value)
         {
             static string cleanse(string src)
@@ -54,7 +58,7 @@ namespace Z0.llvm
                 var j = text.index(src, Chars.RBrace);
                 if(i == NotFound || j == NotFound || j<=i)
                     return src;
-                var content = text.inside(src,i,j);
+                var content = text.inside(src, i, j);
                 var k = text.index(content, Chars.Caret);
                 if(k == NotFound)
                     return text.left(src, i);

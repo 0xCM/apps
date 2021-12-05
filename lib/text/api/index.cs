@@ -13,8 +13,7 @@ namespace Z0
     partial class text
     {
         /// <summary>
-        /// Returns the index of the first source charcter that satisfies the match predicate or, -1
-        /// if no match is found
+        /// Returns the index of the first source charcter that satisfies the match predicate or, <see cref='NotFound'/> if no match is found
         /// </summary>
         /// <param name="src">The data source</param>
         /// <param name="offset">The index at which to begin the search</param>
@@ -23,7 +22,8 @@ namespace Z0
         public static int index(ReadOnlySpan<char> src, int offset, char match)
         {
             ref readonly var c = ref first(src);
-            for(var i=offset; i<src.Length; i++)
+            var length = src.Length;
+            for(var i=offset; i<length; i++)
                 if(skip(c, i) == match)
                     return i;
             return NotFound;
@@ -60,11 +60,22 @@ namespace Z0
         public static int index(ReadOnlySpan<char> src, int offset, char a, char b)
             => core.slice(src,0,offset).IndexOfAny(a,b);
 
-        [Op]
+        [MethodImpl(Inline), Op]
         public static int index(string src, string match)
             => src.IndexOf(match);
 
-        [Op]
+        [MethodImpl(Inline), Op]
+        public static int index(ReadOnlySpan<char> src, ReadOnlySpan<char> match)
+            => src.IndexOf(match);
+
+        [MethodImpl(Inline), Op]
+        public static bool index(ReadOnlySpan<char> src, ReadOnlySpan<char> match, out int i)
+        {
+            i =  index(src,match);
+            return i >= 0;
+        }
+
+        [MethodImpl(Inline), Op]
         public static int index(ReadOnlySpan<char> src, int offset, ReadOnlySpan<char> match)
             => core.slice(src, 0, offset).IndexOf(match);
     }

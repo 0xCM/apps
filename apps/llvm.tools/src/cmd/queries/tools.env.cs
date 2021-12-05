@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("tool-env")]
+        [CmdOp("tools/env")]
         Outcome LoadToolEnv(CmdArgs args)
         {
             var result = Outcome.Success;

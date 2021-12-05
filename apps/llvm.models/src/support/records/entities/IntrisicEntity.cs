@@ -17,7 +17,7 @@ namespace Z0.llvm
 
         public string TargetPrefix
         {
-            get => text.remove(this[nameof(TargetPrefix)].Value, Chars.Quote);
+            get => text.remove(this[nameof(TargetPrefix)], Chars.Quote);
         }
 
         public string IntrinsicName

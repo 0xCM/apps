@@ -17,7 +17,7 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static OpExprSpec spec(ExprScope scope, Label opname, IExpr[] operands)
+        public static OpExprSpec spec(ExprScope scope, string opname, IExpr[] operands)
             => new OpExprSpec(scope,opname,operands);
 
         [MethodImpl(Inline), Op]

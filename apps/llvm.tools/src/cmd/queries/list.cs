@@ -8,11 +8,11 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/list")]
+        [CmdOp("list")]
         Outcome ShowList(CmdArgs args)
             => Flow("list", DataProvider.SelectList(arg(args,0)).Items);
 
-        [CmdOp("llvm/lists")]
+        [CmdOp("lists")]
         Outcome LoadLists(CmdArgs args)
         {
             var lists = DataProvider.SelectLists().Map(x => x.ToNameList());

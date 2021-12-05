@@ -12,12 +12,12 @@ namespace Z0.Expr
     {
         public ExprScope Scope {get;}
 
-        public Label OpName {get;}
+        public string OpName {get;}
 
         public Index<IExpr> Operands {get;}
 
         [MethodImpl(Inline)]
-        public OpExprSpec(ExprScope scope, Label opname, IExpr[] operands)
+        public OpExprSpec(ExprScope scope, string opname, IExpr[] operands)
         {
             Scope = scope;
             OpName = opname;

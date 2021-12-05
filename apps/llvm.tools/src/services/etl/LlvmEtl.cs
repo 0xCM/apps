@@ -47,10 +47,10 @@ namespace Z0.llvm
             var classes = EmitClassRelations(records);
             var defs = EmitDefRelations(records);
             var defMap = DataEmitter.EmitLineMap(defs, records, Datasets.X86Defs);
-            var defFields = DataProvider.LoadFields(records, defMap);
+            var defFields = DataProvider.SelectFields(records, defMap);
             EmitFields(defFields, Datasets.X86DefFields);
             var classMap = DataEmitter.EmitLineMap(classes, records, Datasets.X86Classes);
-            var classFields = DataProvider.LoadFields(records, classMap);
+            var classFields = DataProvider.SelectFields(records, classMap);
             EmitFields(classFields, Datasets.X86ClassFields);
             RunEntityEtl();
         }

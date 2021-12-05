@@ -2,10 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    public struct TypeParamDescriptor
+    partial class LlvmCmd
     {
-
+        [CmdOp("repo/build/inc")]
+        Outcome LLvmBuildInc(CmdArgs args)
+            => Flow(LlvmRepo.BuildOutput(FS.Inc));
     }
 }

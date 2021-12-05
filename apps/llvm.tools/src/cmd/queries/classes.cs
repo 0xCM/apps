@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        [CmdOp("llvm/classes")]
+        [CmdOp("classes")]
         Outcome Classes(CmdArgs args)
         {
             var result = Outcome.Success;

@@ -8,15 +8,17 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    partial struct RuleModels
+    [ApiHost]
+    public readonly struct Scripts
     {
         /// <summary>
         /// Creates a non-valued <see cref='ScriptVar'/>
         /// </summary>
         /// <param name="symbol">The variable symbol</param>
         [MethodImpl(Inline), Op]
-        public static ScriptVar scriptvar(VarSymbol symbol)
+        public static ScriptVar var(VarSymbol symbol)
             => new ScriptVar(symbol);
 
         /// <summary>
@@ -25,7 +27,7 @@ namespace Z0
         /// <param name="symbol">The variable symbol</param>
         /// <param name="value">The variable value</param>
         [MethodImpl(Inline), Op]
-        public static ScriptVar scriptvar(VarSymbol symbol, string value)
+        public static ScriptVar var(VarSymbol symbol, string value)
             => new ScriptVar(symbol, value);
     }
 }

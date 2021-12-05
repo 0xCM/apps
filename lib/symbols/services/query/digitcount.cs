@@ -59,28 +59,6 @@ namespace Z0
             return counter;
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint digitcount(Base16 @base, ReadOnlySpan<char> src)
-        {
-            var length = src.Length;
-            var counter = 0u;
-            for(var i=0; i<length; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(whitespace(c))
-                {
-                    if(counter == 0)
-                        continue;
-                }
-                else
-                    return counter;
 
-                if(digit(@base, c))
-                    counter++;
-                else
-                    break;
-            }
-            return counter;
-        }
     }
 }

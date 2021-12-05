@@ -13,12 +13,12 @@ namespace Z0.Expr
     /// </summary>
     public readonly struct Operand
     {
-        public Label Name {get;}
+        public string Name {get;}
 
         public dynamic Value {get;}
 
         [MethodImpl(Inline)]
-        public Operand(Label name, dynamic value)
+        public Operand(string name, dynamic value)
         {
             Name = name;
             Value = value;

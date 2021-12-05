@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
     using System;
 
     partial class LlvmDataProvider

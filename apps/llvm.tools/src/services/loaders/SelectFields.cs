@@ -4,17 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-    using static LlvmNames;
-
     using System;
+
+    using static core;
 
     partial class LlvmDataProvider
     {
-        public ReadOnlySpan<RecordField> SelectFields(string dsid, uint offset, uint length)
-            => slice(SelectFields(dsid).View, offset,length);
+        public Index<RecordField> SelectFields(ReadOnlySpan<TextLine> records, LineMap<Identifier> map)
+        {
+            var result = Outcome.Success;
+            var icount = map.IntervalCount;
+            var lcount = map.LineCount;
+            var intervals = map.Intervals;
+            var buffer = alloc<RecordField>(lcount);
+            var k = 0;
+            for(var i=0u; i<icount; i++)
+                LoadFields(records, skip(intervals,i), ref k, buffer);
+            return buffer;
+        }
 
-        public Index<RecordField> SelectFields(string dsid)
+        Index<RecordField> SelectFields(string dsid)
         {
             return (Index<RecordField>)DataSets.GetOrAdd(dsid + ".fields", key => Load());
 
@@ -44,19 +53,6 @@ namespace Z0.llvm
                 Wf.Ran(running);
                 return dst;
             }
-        }
-
-        public Index<RecordField> LoadFields(ReadOnlySpan<TextLine> records, LineMap<Identifier> map)
-        {
-            var result = Outcome.Success;
-            var icount = map.IntervalCount;
-            var lcount = map.LineCount;
-            var intervals = map.Intervals;
-            var buffer = alloc<RecordField>(lcount);
-            var k = 0;
-            for(var i=0u; i<icount; i++)
-                LoadFields(records, skip(intervals,i), ref k, buffer);
-            return buffer;
         }
 
         void LoadFields(ReadOnlySpan<TextLine> src, in LineInterval<Identifier> interval, ref int k, Span<RecordField> dst)

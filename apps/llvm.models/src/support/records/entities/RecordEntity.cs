@@ -26,9 +26,14 @@ namespace Z0.llvm
         public Identifier ParentName
             => Def.ParentName;
 
-        [MethodImpl(Inline)]
+        public bool NameBeginsWith(string match)
+            => text.begins(EntityName, match);
+
+        public new string this[string name]
+            => text.ifempty(Attrib(name).Value,EmptyString);
+
         protected string AttribValue(string name)
-            => this[name].Value;
+            => this[name];
 
         protected override RecordField EmptyAttribute
             => RecordField.Empty;
@@ -38,13 +43,13 @@ namespace Z0.llvm
 
         protected ref bit ParseAttrib(string attrib, out bit dst)
         {
-            DataParser.parse(this[attrib].Value, out dst);
+            DataParser.parse(this[attrib], out dst);
             return ref dst;
         }
 
         protected ref int ParseAttrib(string attrib, out int dst)
         {
-            DataParser.parse(this[attrib].Value, out dst);
+            DataParser.parse(this[attrib], out dst);
             return ref dst;
         }
 

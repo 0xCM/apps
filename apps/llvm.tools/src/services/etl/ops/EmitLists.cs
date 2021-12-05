@@ -12,8 +12,21 @@ namespace Z0.llvm
     {
         public Index<LlvmList> EmitLists()
         {
+            FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.List(x));
+            paths.Delete();
+
+            Emit(ExtractAsmIdList());
             var src = DataProvider.SelectEntities();
             return EmitLists(src, ListNames());
+        }
+
+        void Emit(AsmIdDescriptors src)
+        {
+            var values = src.Values;
+            var items = values.Select(x => new LlvmListItem(x.Id, x.InstName)).ToArray();
+            var dst = LlvmPaths.List("AsmId");
+            var list = new LlvmList(dst,items);
+            EmitList(list);
         }
 
         public Index<LlvmList> EmitLists(RecordEntities src, ReadOnlySpan<string> classes)

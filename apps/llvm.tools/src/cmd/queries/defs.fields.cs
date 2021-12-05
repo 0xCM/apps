@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
     using static core;
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/defs/fields")]
+        [CmdOp("defs/fields")]
         Outcome ShowDefFields(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -17,7 +16,7 @@ namespace Z0.llvm
             {
                 DataParser.parse(arg(args,0).Value, out uint offset);
                 DataParser.parse(arg(args,1).Value, out uint length);
-                var fields = DataProvider.SelectFields(Datasets.X86DefFields, offset, length);
+                var fields = DataProvider.SelectDefFields(offset, length);
                 iter(fields, f => Write(f.Format()));
             }
             return result;

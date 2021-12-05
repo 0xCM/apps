@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("asm-patterns")]
+        [CmdOp("asm/strings")]
         Outcome patterns(CmdArgs args)
         {
             var patterns = DataProvider.SelectAsmPatterns();

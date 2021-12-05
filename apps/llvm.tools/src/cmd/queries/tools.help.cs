@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("tool-help")]
+        [CmdOp("tool/help")]
         Outcome Help(CmdArgs args)
         {
             var id = arg(args,0).Value;

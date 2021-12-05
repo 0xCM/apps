@@ -12,6 +12,5 @@ namespace Z0
     public interface IString<T> : IString, IContented<T>
     {
 
-
     }
 }

@@ -20,20 +20,20 @@ namespace Z0.llvm
         AsmMnemonic? _Mnemonic;
 
         public string AsmString
-            => llvm.AsmString.normalize(this[nameof(AsmString)].Value);
+            => llvm.AsmString.normalize(this[nameof(AsmString)]);
 
         public AsmMnemonic Mnemonic
         {
             get
             {
                 if(_Mnemonic == null)
-                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)].Value);
+                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)]);
                 return _Mnemonic.Value;
             }
         }
 
         public string ResultInst
-            => this[nameof(ResultInst)].Value;
+            => this[nameof(ResultInst)];
 
         public string InstName
         {

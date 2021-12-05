@@ -36,6 +36,5 @@ namespace Z0
 
         TypeKind<B> IDependency<TypeKind<A>,TypeKind<B>>.Target
             => BaseType;
-
     }
 }

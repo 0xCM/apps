@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-    using static Root;
-
     partial class LlvmCmd
     {
-        [CmdOp(".emit-lists")]
-        Outcome EmitLists(CmdArgs args)
-        {
-            LlvmEtl.EmitLists();
-            return true;
-        }
+        [CmdOp("classes/names")]
+        Outcome ClassNames(CmdArgs args)
+            => Flow("classes/names",DataProvider.SelectClassNames().View);
     }
 }

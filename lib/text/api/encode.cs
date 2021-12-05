@@ -42,6 +42,5 @@ namespace Z0
                 seek(target, i) = (AsciCode)skip(input,i);
             return count;
         }
-
     }
 }

@@ -2,15 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
-    partial struct RuleModels
+    partial class LlvmCmd
     {
+
+        [CmdOp("repo/cpp")]
+        Outcome LlvmCpp(CmdArgs args)
+            => Flow(LlvmRepo.Files(FS.Cpp));
     }
 }

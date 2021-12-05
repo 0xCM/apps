@@ -14,9 +14,9 @@ namespace Z0.llvm
 
             LlvmList Load()
             {
-                id = text.begins(id, "llvm.lists.") ? id : "llvm.lists." + id;
+                //id = text.remove(id, "llvm.lists.");
                 var dst = list<LlvmListItem>();
-                var path = LlvmPaths.ListImportPath(id);
+                var path = LlvmPaths.List(id);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
                 while(reader.Next(out var line))

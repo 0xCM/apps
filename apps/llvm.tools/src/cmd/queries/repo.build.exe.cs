@@ -6,8 +6,9 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        [CmdOp("llvm/classes/fields")]
-        Outcome ClassFields(CmdArgs args)
-            => Flow("llvm/classes/fields", DataProvider.SelectClassFields().View);
+       [CmdOp("repo/build/exe")]
+        Outcome LLvmBuildTargets(CmdArgs args)
+            => Flow(LlvmRepo.BuildOutput(FS.Exe));
+
     }
 }

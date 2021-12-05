@@ -76,9 +76,6 @@ namespace Z0.llvm
         public FS.Files Lists()
             => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));
 
-        public FS.FilePath ListImportPath(string name)
-            => Tables() + FS.file(name, FS.Csv);
-
         public FS.FilePath DataSourcePath(string name)
             => LlvmData.OutDir() + FS.file(name, FS.Txt);
 

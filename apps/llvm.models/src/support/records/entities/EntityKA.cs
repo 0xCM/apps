@@ -33,6 +33,9 @@ namespace Z0
             }
         }
 
+        protected A Attrib(K field)
+            => this[field];
+
         protected Entity(A[] src)
         {
             AttribIndex = src;

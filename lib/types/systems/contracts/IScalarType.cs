@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IScalarType : IType
+    public interface IScalarType : ISizedType
     {
-        BitWidth ContentWidth {get;}
-
-        BitWidth StorageWidth {get;}
-
         ScalarClass Class {get;}
     }
 }

@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct TypeDescriptor
+    public interface ISizedType : IType
     {
+        BitWidth ContentWidth {get;}
 
+        BitWidth StorageWidth {get;}
     }
 }

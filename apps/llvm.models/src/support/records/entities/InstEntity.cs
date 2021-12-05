@@ -28,10 +28,10 @@ namespace Z0.llvm
             => ParseAttrib(nameof(isCodeGenOnly), out bit _);
 
         public string AsmString
-            => llvm.AsmString.normalize(this[nameof(AsmString)].Value);
+            => llvm.AsmString.normalize(this[nameof(AsmString)]);
 
         public string OpMap
-            => this[nameof(OpMap)].Value;
+            => this[nameof(OpMap)];
 
         public string InstName
             => EntityName;
@@ -41,7 +41,7 @@ namespace Z0.llvm
             get
             {
                 if(_Mnemonic == null)
-                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)].Value);
+                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)]);
                 return _Mnemonic.Value;
             }
         }
@@ -50,7 +50,7 @@ namespace Z0.llvm
         {
             get
             {
-                var result = bits<ulong>.parse(this[nameof(TSFlags)].Value, out var b);
+                var result = bits<ulong>.parse(this[nameof(TSFlags)], out var b);
                 if(result)
                     return b;
                 else
