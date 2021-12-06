@@ -10,7 +10,6 @@ namespace Z0
     using static Root;
     using static core;
     using static gmath;
-    using static Typed;
 
     partial struct gcalc
     {

@@ -23,6 +23,6 @@ namespace Z0
         new ReadOnlySpan<TypeKind<K>> Primitives {get;}
 
         ReadOnlySpan<TypeKind> ITypeSystem.Primitives
-            => Primitives.Map(types.untype);
+            => Primitives.Map(TS.untype);
     }
 }

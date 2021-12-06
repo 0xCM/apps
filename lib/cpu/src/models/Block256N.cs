@@ -9,7 +9,7 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     using static Root;
-    using static Typed;
+    using static core;
 
     public readonly ref struct Block256<N,T>
         where N : unmanaged, ITypeNat

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Typed;
+    using static core;
 
     public interface IMaskSpec : ITextual
     {

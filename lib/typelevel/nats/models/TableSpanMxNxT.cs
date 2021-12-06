@@ -9,7 +9,7 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     using static Root;
-    using static Typed;
+    using static core;
 
     /// <summary>
     /// Defines a tabular span of dimension MxN

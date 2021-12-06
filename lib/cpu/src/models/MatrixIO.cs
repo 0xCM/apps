@@ -8,7 +8,7 @@ namespace Z0
     using System.IO;
 
     using static Root;
-    using static Typed;
+    using static core;
 
     public readonly struct MatrixIO
     {

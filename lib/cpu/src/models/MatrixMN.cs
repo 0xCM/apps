@@ -8,7 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static Typed;
+    using static core;
 
     /// <summary>
     /// Defines a blocked primal matrix of natural dimensions

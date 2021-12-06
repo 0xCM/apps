@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Typed;
+    using static core;
 
     /// <summary>
     /// Defines a specification for producing an index-oriented mask

@@ -9,7 +9,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static Typed;
+    using static core;
 
    public readonly struct NaturalNumericClosure<M,N,T>
         where M : unmanaged, ITypeNat
