@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Concurrent;
-
-    using static core;
-    using static Root;
-
     partial class GlobalCommands
     {
         [CmdOp("emit-intel-intrinsics")]
@@ -20,6 +13,5 @@ namespace Z0
             svc.Emit();
             return true;
         }
-
     }
 }

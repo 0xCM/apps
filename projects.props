@@ -24,6 +24,7 @@
     <LlvmModels>$(Src)llvm.models/z0.llvm.models.csproj</LlvmModels>
 
     <Generated>$(Src)generated/z0.generated.csproj</Generated>
+    <LibTest>$(MSBuildThisFileDirectory)test/z0.test.csproj</LibTest>
 
   </PropertyGroup>
 

@@ -6,6 +6,7 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Collections.Concurrent;
     using System.IO;
     using System.Text;
 
@@ -34,6 +35,12 @@ namespace Z0
             service.Init(wf);
             return service;
         }
+
+        ConcurrentDictionary<Type,object> ServiceCache {get;}
+            = new();
+
+        protected T Service<T>(Func<T> factory)
+            => (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
 
         public IWfRuntime Wf {get; private set;}
 

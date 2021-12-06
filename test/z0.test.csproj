@@ -10,4 +10,8 @@
     <ProjectReference Include="../lib/z0.lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="src/asm.cases/assets/**/*.*" />
+  </ItemGroup>
+
 </Project>

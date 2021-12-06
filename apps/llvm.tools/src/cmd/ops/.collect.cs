@@ -9,14 +9,14 @@ namespace Z0.llvm
         [CmdOp(".collect")]
         Outcome Collect(CmdArgs args)
         {
-            ProjectEtl.Collect(Project());
+            ProjectCollector.Collect(Project());
             return true;
         }
 
         [CmdOp(".collect-all")]
         Outcome CollectAll(CmdArgs args)
         {
-            ProjectEtl.Collect();
+            ProjectCollector.Collect();
             return true;
         }
     }

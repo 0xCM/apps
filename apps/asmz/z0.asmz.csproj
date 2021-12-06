@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="$(Capture)" />
-    <ProjectReference Include="$(AsmCases)" />
     <ProjectReference Include="$(CmdActions)" />
+    <ProjectReference Include="$(LibTest)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

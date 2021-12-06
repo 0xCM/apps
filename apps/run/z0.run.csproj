@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Glue)" />
+    <ProjectReference Include="$(CmdActions)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

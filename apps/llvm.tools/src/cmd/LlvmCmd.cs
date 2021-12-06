@@ -18,7 +18,7 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths;
 
-        LlvmProjectCollector ProjectEtl;
+        LlvmProjectCollector ProjectCollector;
 
         LlvmRepo LlvmRepo;
 
@@ -29,6 +29,7 @@ namespace Z0.llvm
         LlvmDataProvider DataProvider;
 
         LlvmDataEmitter DataEmitter;
+
 
         LlvmMc Mc;
 
@@ -45,7 +46,7 @@ namespace Z0.llvm
         {
             LlvmPaths = Wf.LlvmPaths();
             LlvmEtl = Wf.LlvmRecordEtl();
-            ProjectEtl = Wf.LlvmProjectCollector();
+            ProjectCollector = Wf.LlvmProjectCollector();
             Toolset = Wf.LLvmToolset();
             ReadObj = Wf.LlvmReadObj();
             LlvmRepo = Wf.LlvmRepo();

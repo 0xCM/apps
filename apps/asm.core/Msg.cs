@@ -4,15 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection;
-
     using Z0.Asm;
-
-    using static RuleModels;
 
     [ApiComplete]
     struct Msg
     {
+        public static MsgPattern<Count> PartitioningIForms => "Partitioning {0} IForm identifiers";
+
+        public static MsgPattern<Count> PartitionedIForms => "Partitoned {0} IForm identifiers";
+
+        public static MsgPattern<Count,FS.FolderPath> EmittingAlgorithsm => "Emitting algorithms for {0} intrinsics to {1}";
+
+        public static MsgPattern<Count> EmittedAlgorithms => "Emitted {0} algorithms";
+
         public static MsgPattern<AsmMnemonic> MonicCodeParseFailed => "Attempt to parse mnemonic code for {0} failed";
 
         public static MsgPattern<Count,Count> UnexpectedFieldCount => "{0} fields were expected and yet {1} were found";

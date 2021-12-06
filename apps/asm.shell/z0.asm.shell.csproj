@@ -11,10 +11,11 @@
    </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(AsmCases)" />
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(LlvmTools)" />
+    <ProjectReference Include="$(LibTest)" />
+
   </ItemGroup>
 
   <Import Project="../imports.props"/>

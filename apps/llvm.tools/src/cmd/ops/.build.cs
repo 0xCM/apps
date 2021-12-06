@@ -12,6 +12,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
+
         [CmdOp(".mc-build")]
         Outcome BuildMc(CmdArgs args)
             => ProjectScripts.RunScript(Project(), EmptyString, McBuild, "asm");

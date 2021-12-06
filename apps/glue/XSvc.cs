@@ -26,18 +26,6 @@ namespace Z0
             => Z0.SourceSymbolic.create(wf);
 
         [Op]
-        public static IntelSdm IntelSdm(this IWfRuntime wf)
-            => Asm.IntelSdm.create(wf);
-
-        [Op]
-        public static IntelIntrinsics IntelIntrinsics(this IWfRuntime wf)
-            => Asm.IntelIntrinsics.create(wf);
-
-        [Op]
-        public static IntelXed IntelXed(this IWfRuntime wf)
-            => Asm.IntelXed.create(wf);
-
-        [Op]
         public static Nasm Nasm(this IWfRuntime wf)
             => Tools.Nasm.create(wf);
 
@@ -56,10 +44,6 @@ namespace Z0
         [Op]
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Z0.DumpBin.create(wf);
-
-        [Op]
-        public static XedTool XedTool(this IWfRuntime wf)
-            => Z0.XedTool.create(wf);
 
         [Op]
         public static BdDisasm BdDisasm(this IServiceContext ctx)

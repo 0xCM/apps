@@ -26,12 +26,5 @@ namespace Z0
 
         public static MsgPattern<Count,Count> CollectedThumbprints => "Collected {0} distinct thumbprints from {1} statements";
 
-        public static MsgPattern<Count> PartitioningIForms => "Partitioning {0} IForm identifiers";
-
-        public static MsgPattern<Count> PartitionedIForms => "Partitoned {0} IForm identifiers";
-
-        public static MsgPattern<Count,FS.FolderPath> EmittingAlgorithsm => "Emitting algorithms for {0} intrinsics to {1}";
-
-        public static MsgPattern<Count> EmittedAlgorithms => "Emitted {0} algorithms";
     }
 }
