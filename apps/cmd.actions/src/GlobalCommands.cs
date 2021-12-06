@@ -9,6 +9,8 @@ namespace Z0
     using System.Collections.Concurrent;
 
     using llvm;
+    using Asm;
+
     using static core;
     using static Root;
 
@@ -24,11 +26,17 @@ namespace Z0
             Dispatcher = CmdDispatcher.discover(this);
         }
 
-        Asm.IntelXed Xed => Service(Wf.IntelXed);
+        IntelXed Xed => Service(Wf.IntelXed);
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
+
+        AsmTables AsmTables => Service(Wf.AsmTables);
+
+        ApiPacks ApiPacks => Service(Wf.ApiPacks);
+
+        ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);
 
         [CmdOp("emit-respack")]
         protected Outcome EmitResPack(CmdArgs args)

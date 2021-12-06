@@ -26,6 +26,8 @@
     <Generated>$(Src)generated/z0.generated.csproj</Generated>
     <LibTest>$(MSBuildThisFileDirectory)test/z0.test.csproj</LibTest>
 
+    <TestUnits>$(MSBuildThisFileDirectory)test/test.units/z0.test.units.csproj</TestUnits>
+    <ZLib>$(MSBuildThisFileDirectory)lib/z0.lib.csproj</ZLib>
   </PropertyGroup>
 
 </Project>

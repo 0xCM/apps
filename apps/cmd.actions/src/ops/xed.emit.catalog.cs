@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("xed/emit/catalog")]
         protected Outcome EmitXedCat(CmdArgs args)
         {
-            Service(Wf.IntelXed).EmitCatalog();
+            Xed.EmitCatalog();
            return true;
         }
     }

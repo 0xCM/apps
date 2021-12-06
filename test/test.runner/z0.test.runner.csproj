@@ -2,16 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>zasm</AssemblyName>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AssemblyName>ztest</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(Capture)" />
-    <ProjectReference Include="$(CmdActions)" />
-    <Reference Include="$(ZTestName)" HintPath="$(ZTestPath)"/>
+    <ProjectReference Include="../../lib/z0.lib.csproj" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
 
 </Project>

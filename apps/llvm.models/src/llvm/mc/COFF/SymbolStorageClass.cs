@@ -7,7 +7,7 @@ namespace Z0.llvm.COFF
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/d20b013b490e0603ba21b5ccff966d7e11025775/llvm/include/llvm/BinaryFormat/COFF.h
     /// </summary>
-    [SymSource]
+    [SymSource("llvm.mc")]
     public enum SymbolStorageClass
     {
         SSC_Invalid = 0xff,

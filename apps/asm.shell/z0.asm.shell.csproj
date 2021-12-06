@@ -14,7 +14,7 @@
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(LlvmTools)" />
-    <ProjectReference Include="$(LibTest)" />
+    <Reference Include="$(ZTestName)" HintPath="$(ZTestPath)"/>
 
   </ItemGroup>
 

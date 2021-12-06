@@ -13,14 +13,6 @@ namespace Z0
             where T : struct, ICmd
                 => wf.Dispatch(cmd);
 
-        public static CmdResult RunTask<T>(this T cmd, IWfRuntime wf)
-            where T : struct, ICmd
-        {
-            var task = wf.Dispatch(cmd);
-            task.Wait();
-            return task.Result;
-        }
-
         public static CmdResult RunDirect<T>(this T cmd, IWfRuntime wf)
             where T : struct, ICmd
                 => wf.Execute(cmd);

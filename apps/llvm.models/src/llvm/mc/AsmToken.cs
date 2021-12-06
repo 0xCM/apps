@@ -7,6 +7,7 @@ namespace Z0.llvm
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/abef659a45fff4147f8f0ffd1d0f6600185e4a4e/llvm/include/llvm/MC/MCAsmMacro.h
     /// </summary>
+    [SymSource("llvm.mc")]
     public enum AsmTokenKind
     {
         // Markers

@@ -6,13 +6,8 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("api/emit/symbols")]
-        protected Outcome EmitSymLiterals(CmdArgs args)
-        {
-            var service = Wf.Symbolism();
-            var dst = Db.AppTablePath<SymLiteralRow>();
-            service.EmitLiterals(dst);
-            return true;
-        }
+        [CmdOp("xed/emit/isa")]
+        Outcome XedIsa(CmdArgs args)
+            => Xed.EmitIsa(arg(args,0).Value);
     }
 }

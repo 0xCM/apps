@@ -41,7 +41,6 @@ namespace Z0.Asm
             return dst.ViewDeposited();
         }
 
-
         public ReadOnlySpan<AsmExpr> Expressions(ReadOnlySpan<XedDisasmBlock> src)
         {
             const string Marker = "YDIS:";
@@ -265,7 +264,7 @@ namespace Z0.Asm
             XedTargets.Clear();
             EmitChipMap();
             EmitFormCatalog();
-            EmitSymbols();
+            EmitTokens();
             var aspects = EmitOperandKinds();
             EmitOperands(Partition(aspects));
         }
@@ -306,15 +305,16 @@ namespace Z0.Asm
             EmittedTable(flow, count);
         }
 
-        void EmitSymbols()
+        void EmitTokens()
         {
-            var types = typeof(XedModels).GetNestedTypes().Enums();
-            var count = types.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var type = ref skip(types,i);
-                TableEmit(Symbols.literals(type).View, SymLiteralRow.RenderWidths, SymTablePath(type.Name));
-            }
+            Service(Wf.ApiMetadata).EmitApiTokens("xed", "xed");
+            // var types = typeof(XedModels).GetNestedTypes().Enums();
+            // var count = types.Length;
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var type = ref skip(types,i);
+            //     TableEmit(Symbols.literals(type).View, SymLiteralRow.RenderWidths, SymTablePath(type.Name));
+            // }
         }
 
         ReadOnlySpan<XedFormOperand> ComputeDistinctOperands()

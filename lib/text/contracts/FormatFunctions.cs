@@ -19,6 +19,5 @@ namespace Z0
         /// <param name="src">The content value</param>
         /// <typeparam name="T">The content type</typeparam>
         public delegate string FormatCell<T>(in T src);
-
     }
 }

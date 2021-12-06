@@ -43,5 +43,4 @@ namespace Z0
             primitive(PK.SeqN, PN.SeqN, 2),
         };
     }
-
 }

@@ -2,12 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class AsmCmdService
+    using Asm;
+
+    partial class GlobalCommands
     {
-        [CmdOp("api/asm/blocks")]
-        Outcome EmitApiAsm(CmdArgs args)
+        [CmdOp("api/emit/asm/blocks")]
+        Outcome EmitApiAsmBlocks(CmdArgs args)
         {
             var result = Outcome.Success;
             var dst = ProjectDb.Subdir("asm") + Tables.filename<AsmDataBlock>();

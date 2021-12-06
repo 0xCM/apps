@@ -48,7 +48,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => new ScalarType(EmptyString, ScalarClass.None, 0, 0);
         }
-
-
     }
 }

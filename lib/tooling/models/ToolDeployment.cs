@@ -31,5 +31,4 @@ namespace Z0
         public static implicit operator ToolDeployment((ToolId id, FS.FilePath path) src)
             => new ToolDeployment(src.id, src.path);
     }
-
 }

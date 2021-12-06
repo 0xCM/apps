@@ -69,7 +69,6 @@ namespace Z0
             return result;
         }
 
-
         public static ReadOnlySpan<CmdFlagSpec> flags(FS.FilePath src)
         {
             var k = z16;

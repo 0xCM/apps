@@ -10,7 +10,6 @@ namespace Z0.Types
     using static Root;
     using static core;
 
-
     public class VectorType : IVectorType
     {
         public ScalarType CellType {get;}

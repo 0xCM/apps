@@ -18,5 +18,4 @@ namespace Z0
 
         public delegate uint RenderSeq<S,T>(ReadOnlySpan<S> src, Span<T> dst);
     }
-
 }

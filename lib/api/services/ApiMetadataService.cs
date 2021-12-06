@@ -12,14 +12,17 @@ namespace Z0
 
     public sealed class ApiMetadataService : AppService<ApiMetadataService>
     {
+        IApiCatalog ApiCatalog => Service(ApiRuntimeLoader.catalog);
+
+        ApiJit ApiJit => Service(Wf.ApiJit);
+
         public Outcome EmitHostMsil(string hostid)
         {
             var result = Outcome.Success;
-            var svc = Service(ApiRuntimeLoader.catalog);
             result = ApiParsers.host(hostid, out var uri);
             if(result.Ok)
             {
-                result = svc.FindHost(uri, out var host);
+                result = ApiCatalog.FindHost(uri, out var host);
                 if(result.Ok)
                     result = EmitMsil(array(host));
             }
@@ -30,8 +33,7 @@ namespace Z0
         public Outcome EmitMsil()
         {
             var result = Outcome.Success;
-            var svc = Service(ApiRuntimeLoader.catalog);
-            result = EmitMsil(svc.ApiHosts);
+            result = EmitMsil(ApiCatalog.ApiHosts);
             return result;
         }
 
@@ -39,7 +41,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var buffer = text.buffer();
-            var jit = Wf.ApiJit();
+            var jit = ApiJit;
             var pipe = Wf.MsilPipe();
             var counter = 0u;
             for(var i=0; i<hosts.Length; i++)
@@ -69,15 +71,28 @@ namespace Z0
             return result;
         }
 
-
         FS.FilePath MsilOutPath(ApiHostUri uri)
-            => Ws.Project("db").Subdir("api/msil") + FS.hostfile(uri, FS.Il);
+            => ProjectDb.Subdir("api/msil") + FS.hostfile(uri, FS.Il);
+
+        public void EmitApiTokens(string tag, string scope)
+        {
+            var types = ApiCatalog.Components.Storage.Enums().TypeTags<SymSourceAttribute>();
+            var selected = list<Type>();
+            foreach(var (t,tv) in types.Enumerate())
+            {
+                if(tv.SymKind == tag)
+                {
+                    selected.Add(t);
+                }
+            }
+
+            EmitTokenSet(Tokens.set(tag, selected.Array()), ProjectDb, scope);
+        }
 
 
         public void EmitApiTokens()
         {
-            var catalog = ApiRuntimeLoader.catalog();
-            var components = catalog.Components.Storage;
+            var components = ApiCatalog.Components.Storage;
             var types = components.Enums().Tagged<SymSourceAttribute>();
             var groups = dict<string,List<Type>>();
             var individuals = list<Type>();
@@ -105,14 +120,13 @@ namespace Z0
             }
 
             var scope = "api/tokens";
-            var project = Ws.Project("db");
-            project.Subdir(scope).Clear();
+            ProjectDb.Subdir(scope).Clear();
 
             foreach(var g in groups.Keys)
-                EmitTokenSet(Tokens.set(g, groups[g].Array()), project, scope);
+                EmitTokenSet(Tokens.set(g, groups[g].Array()), ProjectDb, scope);
 
             foreach(var i in individuals)
-                EmitTokens(i,scope, project);
+                EmitTokens(i,scope, ProjectDb);
         }
 
         public uint EmitTokens(Type src, string scope, IProjectWs project)
