@@ -4,7 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IScalarType : ISizedType, IType<ScalarClass>
+    public interface IScalarType<K> : ISizedType, IType<K>
+        where K : unmanaged
+    {
+
+    }
+
+    public interface IScalarType : IScalarType<ScalarClass>
     {
 
     }

@@ -95,10 +95,7 @@ namespace Z0
             {
                 ref readonly var tagged = ref skip(types,i);
                 var type = tagged.Type;
-                var name = tagged.Tag.Name;
-                if(empty(name))
-                    name = tagged.Type.Name;
-
+                var name = tagged.Type.Name;
                 seek(dst,i) = provider(name,type);
             }
             return buffer;
@@ -109,10 +106,7 @@ namespace Z0
             var tag = def.Tag<LiteralProviderAttribute>();
             if(tag)
             {
-                var name = tag.Value.Name;
-                if(empty(name))
-                    name = def.Name;
-
+                var name = def.Name;
                 return provided(provider(name, def));
             }
             else

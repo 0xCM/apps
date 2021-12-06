@@ -12,7 +12,7 @@ namespace Z0
     {
         public Label Name {get;}
 
-        public abstract ReadOnlySpan<IType<K>> Primitives {get;}
+        public abstract ReadOnlySpan<TypeKind<K>> Primitives {get;}
 
         protected TypeSystem(Label name)
         {

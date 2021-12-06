@@ -6,16 +6,14 @@ namespace Z0
 {
     using System;
 
-    public abstract class TypeSystem<T> : ITypeSystem
-        where T : TypeSystem<T>, new()
+    [AttributeUsage(AttributeTargets.Method)]
+    public class TypeFactoryAttribute : OpAttribute
     {
-        public Label Name {get;}
-
-        public abstract ReadOnlySpan<TypeKind> Primitives {get;}
-
-        protected TypeSystem(Label name)
+        public TypeFactoryAttribute(string spec)
         {
-            Name = name;
+            Specifier = spec;
         }
+
+        public TypeSpecifier Specifier {get;}
     }
 }

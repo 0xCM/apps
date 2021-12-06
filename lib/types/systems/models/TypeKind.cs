@@ -16,7 +16,7 @@ namespace Z0
 
         public Identifier Name {get;}
 
-        public byte Arity{get;}
+        public byte Arity {get;}
 
         [MethodImpl(Inline)]
         public TypeKind(ulong key, Identifier @class, Identifier name, byte arity)

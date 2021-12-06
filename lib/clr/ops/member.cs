@@ -10,6 +10,8 @@ namespace Z0
 
     using static Root;
 
+    using K = ClrEnumKind;
+
     partial struct Clr
     {
         [MethodImpl(Inline), Op]

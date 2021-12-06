@@ -25,7 +25,7 @@ namespace Z0
         public BitWidth StorageWidth
             => ContentWidth;
 
-        public VectorKind Kind => default;
+        public ulong Kind => default;
 
         public NumericKind CellKind
             => NumericKinds.kind<T>();

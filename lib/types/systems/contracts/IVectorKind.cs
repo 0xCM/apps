@@ -8,18 +8,15 @@ namespace Z0
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    public enum VectorKind : ulong
-    {
-
-    }
     [Free]
-    public interface IVectorType : IType<VectorKind>, ISizedType
+    public interface IVectorType : ISizedType
     {
         /// <summary>
         /// The vector numeric cell kind
         /// </summary>
         ScalarType CellType {get;}
 
+        uint CellCount => 0;
     }
 
     /// <summary>
@@ -46,6 +43,7 @@ namespace Z0
     {
         NumericKind CellKind
             =>NumericKinds.kind<T>();
+
         ScalarType IVectorType.CellType
             => default;
     }

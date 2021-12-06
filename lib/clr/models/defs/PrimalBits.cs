@@ -18,6 +18,54 @@ namespace Z0
     [ApiHost]
     public readonly struct PrimalBits
     {
+        /// <summary>
+        /// Computes the bit-width of the represented primitive
+        /// </summary>
+        /// <param name="f">The literal's bitfield</param>
+        [MethodImpl(Inline), Op]
+        public static NativeTypeWidth width(ClrPrimitiveKind f)
+            => (NativeTypeWidth)Pow2.pow(select(f, Field.Width));
+
+        /// <summary>
+        /// Determines the numeric sign, if any, of the represented primitive
+        /// </summary>
+        /// <param name="f">The literal's bitfield</param>
+        [MethodImpl(Inline), Op]
+        public static PolarityKind sign(ClrPrimitiveKind f)
+            => (PolarityKind)select(f, Field.Sign);
+
+        [MethodImpl(Inline), Op]
+        public static TypeCode typecode(ClrPrimitiveKind f)
+            => (TypeCode)select(f, Field.KindId);
+
+        /// <summary>
+        /// Computes the bit-width of the represented primitive
+        /// </summary>
+        /// <param name="f">The literal's bitfield</param>
+        [MethodImpl(Inline), Op]
+        public static NativeTypeWidth width(ClrEnumKind kind)
+            => width((ClrPrimitiveKind)kind);
+
+        /// <summary>
+        /// Computes the bit-width of the represented primitive
+        /// </summary>
+        /// <param name="f">The literal's bitfield</param>
+        [MethodImpl(Inline), Op]
+        public static PolarityKind sign(ClrEnumKind kind)
+            => sign((ClrPrimitiveKind)kind);
+
+        [MethodImpl(Inline), Op]
+        public static TypeCode typecode(ClrEnumKind kind)
+            => typecode(kind);
+
+        [MethodImpl(Inline), Op]
+        public static ClrPrimitiveInfo describe(ClrPrimitiveKind src)
+            => new ClrPrimitiveInfo(src, width(src), sign(src), (PrimalCode)typecode(src));
+
+        [MethodImpl(Inline), Op]
+        public static ClrPrimitiveInfo describe(ClrEnumKind src)
+            => new ClrPrimitiveInfo((ClrPrimitiveKind)src, width(src), sign(src), (PrimalCode)typecode(src));
+
         [MethodImpl(Inline), Op]
         public static ClrPrimitiveKind filter(byte src, SegMask mask)
             => (ClrPrimitiveKind)(src & (byte)mask);

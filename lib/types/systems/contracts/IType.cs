@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IType
+    public interface IType : ITextual
     {
         ulong Kind {get;}
     }

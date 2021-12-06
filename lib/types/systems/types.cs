@@ -30,8 +30,17 @@ namespace Z0
             => new TypeKind(key, @class, name, arity);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static IType untype<K>(IType<K> src)
+        public static TypeKind untype<K>(TypeKind<K> src)
             where K : unmanaged
                 => src;
+
+        [MethodImpl(Inline)]
+        public static TypeAlias<T> alias<T>(T type, Identifier alias)
+            where T : IType
+                => new TypeAlias<T>(type,alias);
+
+        [MethodImpl(Inline), Op]
+        public static TypeAlias alias(IType type, Identifier alias)
+            => new TypeAlias(type, alias);
     }
 }

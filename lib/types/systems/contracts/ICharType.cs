@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IClrType : IType<ClrPrimitiveKind>
+    public interface ICharType : IScalarType
     {
 
     }
-
 }

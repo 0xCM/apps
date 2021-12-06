@@ -11,6 +11,7 @@ namespace Z0
     using LK = ClrLiteralKind;
     using AK = ClrAccessKind;
     using MK = ClrModifierKind;
+    using EK = ClrEnumKind;
 
     [ApiHost, LiteralProvider]
     public readonly struct CsKeywords
@@ -91,6 +92,20 @@ namespace Z0
 
             return dst.ToArray();
         }
+
+        [Op]
+        public static Label keyword(ClrEnumKind src)
+            => src switch {
+                EK.U8 => U8,
+                EK.U16 => U16,
+                EK.U32 => U32,
+                EK.U64 => U64,
+                EK.I8 => I8,
+                EK.I16 => I16,
+                EK.I32 => I32,
+                EK.I64 => I64,
+                _ => EmptyString
+            };
 
         [Op]
         public static Label keyword(LK kind)

@@ -4,21 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct TypeAlias : ITypeAlias
+    public readonly struct TypeAlias<T> : ITypeAlias<T>
+        where T : IType
     {
-        public IType Type {get;}
+        public T Type {get;}
 
         public Identifier Alias {get;}
 
         [MethodImpl(Inline)]
-        public TypeAlias(IType type, Identifier alias)
+        public TypeAlias(T type, Identifier alias)
         {
             Type = type;
             Alias = alias;
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator TypeAlias(TypeAlias<T> src)
+            => new TypeAlias(src.Type, src.Alias);
     }
 }

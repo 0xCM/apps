@@ -8,17 +8,18 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct TypeAlias : ITypeAlias
+    public readonly struct TypeSpecifier
     {
-        public IType Type {get;}
-
-        public Identifier Alias {get;}
+        public readonly Label Pattern;
 
         [MethodImpl(Inline)]
-        public TypeAlias(IType type, Identifier alias)
+        public TypeSpecifier(string src)
         {
-            Type = type;
-            Alias = alias;
+            Pattern = src;
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator TypeSpecifier(string src)
+            => new TypeSpecifier(src);
     }
 }

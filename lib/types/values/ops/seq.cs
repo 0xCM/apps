@@ -33,6 +33,5 @@ namespace Z0
         public static TypedSeq<u16<T>> seq<T>(u16<T>[] src)
             where T : unmanaged
                 => gseq(src);
-
     }
 }

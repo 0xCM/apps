@@ -15,15 +15,27 @@ namespace Z0.Types
     {
         public ScalarType CellType {get;}
 
-        public VectorKind Kind {get;}
+        public uint CellCount {get;}
 
-        public BitWidth ContentWidth {get;}
+        public ulong Kind {get;}
 
-        public BitWidth StorageWidth {get;}
+        public BitWidth ContentWidth
+            => CellType.ContentWidth*CellCount;
+
+        public BitWidth StorageWidth
+            => CellType.StorageWidth*CellCount;
 
         internal VectorType(ScalarType cellkind, uint n)
         {
             CellType = cellkind;
+            CellCount = n;
+            Kind = 0;
         }
+
+        public string Format()
+            => CanonicalTypeNames.v(CellCount, CellType);
+
+        public override string ToString()
+            => Format();
     }
 }

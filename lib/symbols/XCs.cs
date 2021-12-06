@@ -12,6 +12,10 @@ namespace Z0
     partial class XTend
     {
         [MethodImpl(Inline), Op]
+        public static Label CsKeyword(this ClrEnumKind kind)
+            => Z0.CsKeywords.keyword(kind);
+
+        [MethodImpl(Inline), Op]
         public static char ToChar(this SymNotKind src)
             => (char)src;
 
@@ -20,16 +24,16 @@ namespace Z0
             => ((char)src).ToString();
 
         [Op]
-        public static Label ToCsKeyword(this ClrLiteralKind src)
-            => CsKeywords.keyword(src);
+        public static Label CsKeyword(this ClrLiteralKind src)
+            => Z0.CsKeywords.keyword(src);
 
         [Op]
-        public static Label ToCsKeyword(this ClrAccessKind src)
-            => CsKeywords.keyword(src);
+        public static Label CsKeyword(this ClrAccessKind src)
+            => Z0.CsKeywords.keyword(src);
 
         [Op]
-        public static Index<Label> ToCsKeywords(this ClrModifierKind src)
-            => CsKeywords.keywords(src);
+        public static Index<Label> CsKeywords(this ClrModifierKind src)
+           => Z0.CsKeywords.keywords(src);
 
     }
 }

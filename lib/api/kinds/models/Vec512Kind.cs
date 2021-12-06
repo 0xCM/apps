@@ -29,7 +29,7 @@ namespace Z0
         public BitWidth StorageWidth
             => ContentWidth;
 
-        public VectorKind Kind => default;
+        public ulong Kind => default;
 
         [MethodImpl(Inline)]
         public static implicit operator NativeVectorWidth(Vec512Kind<T> src)

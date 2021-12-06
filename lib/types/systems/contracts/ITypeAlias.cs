@@ -4,37 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITypeAlias : IDependency<TypeKind>
+    public interface ITypeAlias
     {
-        TypeKind AliasType {get;}
+        IType Type {get;}
 
-        TypeKind BaseType {get;}
+        Identifier Alias {get;}
 
-        TypeKind IDependency<TypeKind>.Source
-            => AliasType;
-
-        TypeKind IDependency<TypeKind>.Target
-            => BaseType;
     }
 
-    public interface ITypeAlias<A,B> : ITypeAlias, IDependency<TypeKind<A>, TypeKind<B>>
-        where A : unmanaged
-        where B : unmanaged
+    public interface ITypeAlias<T> : ITypeAlias
+        where T : IType
     {
-        new TypeKind<A> AliasType {get;}
+        new T Type {get;}
 
-        new TypeKind<B> BaseType {get;}
-
-        TypeKind ITypeAlias.AliasType
-            => AliasType;
-
-        TypeKind ITypeAlias.BaseType
-            => BaseType;
-
-        TypeKind<A> IDependency<TypeKind<A>,TypeKind<B>>.Source
-            => AliasType;
-
-        TypeKind<B> IDependency<TypeKind<A>,TypeKind<B>>.Target
-            => BaseType;
+        IType ITypeAlias.Type
+            => Type;
     }
 }
