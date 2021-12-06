@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".emit-table-schemas")]
+        [CmdOp("api/emit/table-schemas")]
         Outcome TableSchemas(CmdArgs args)
         {
             var catalog = ApiRuntimeLoader.catalog();

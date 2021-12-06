@@ -25,11 +25,16 @@ namespace Z0.Asm
             return true;
         }
 
-        [CmdOp(".api-jump-stubs")]
+        [CmdOp("api/asm/jump-stubs")]
         Outcome ApiJumpStubs(CmdArgs args)
         {
             var stubs = JmpStubs.create(Wf);
             var blocks = stubs.SearchApi();
+            foreach(var block in blocks)
+            {
+
+            }
+            iter(blocks, block => Write(block.Format()));
             return true;
         }
 

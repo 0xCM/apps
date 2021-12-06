@@ -7,11 +7,9 @@ namespace Z0.Asm
     using System;
     using static core;
 
-    using static WsAtoms;
-
     partial class AsmCmdService
     {
-        [CmdOp(".api-msil-emit")]
+        [CmdOp("api/emit/msil")]
         Outcome EmitMsil(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -104,6 +102,6 @@ namespace Z0.Asm
         }
 
         FS.FilePath MsilOutPath(ApiHostUri uri)
-            => Ws.Gen().Subdir(msil) + FS.hostfile(uri, FS.Il);
+            => Ws.Project("db").Subdir("api/msil") + FS.hostfile(uri, FS.Il);
     }
 }

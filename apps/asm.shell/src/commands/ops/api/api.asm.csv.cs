@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".asmcsv")]
+        [CmdOp("api/asm/csv")]
         Outcome AsmCsv(CmdArgs args)
         {
             var result = Outcome.Success;

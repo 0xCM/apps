@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".api-hex-text")]
+        [CmdOp("api/asm/hex-text")]
         Outcome EmitHexText(CmdArgs args)
         {
             var result = Outcome.Success;

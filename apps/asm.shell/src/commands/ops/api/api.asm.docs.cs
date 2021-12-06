@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class AsmCmdService
     {
-        [CmdOp(".part-asm")]
+        [CmdOp("api/asm/docs")]
         Outcome PartAsmCapture(CmdArgs args)
         {
             var outcome = ApiParsers.part(arg(args,0).Value, out var part);

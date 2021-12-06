@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".api-hex-arrays")]
+        [CmdOp("api/asm/hex")]
         Outcome ApiHexArrays(CmdArgs args)
         {
             var result = Outcome.Success;
