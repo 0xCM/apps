@@ -17,15 +17,15 @@ namespace Z0.Asm
 
         FS.FolderPath XedTargets;
 
-
         protected override void OnInit()
         {
             XedSources = Ws.Project("db").Subdir("sources") + FS.folder("intel/xed.primary");
             XedTargets = Ws.Project("db").Subdir("xed");
         }
 
-        public void RenderSummaries(ReadOnlySpan<XedDisasmBlock> src, ITextBuffer dst)
+        public ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<XedDisasmBlock> src)
         {
+            var dst = list<TextLine>();
             var count = src.Length;
             for(var i=0; i<count; i++)
             {
@@ -35,9 +35,27 @@ namespace Z0.Asm
                 {
                     ref readonly var line = ref lines[j];
                     if(j == lcount-1)
-                        dst.AppendLine(line.Format());
+                        dst.Add(line);
                 }
             }
+            return dst.ViewDeposited();
+        }
+
+
+        public ReadOnlySpan<AsmExpr> Expressions(ReadOnlySpan<XedDisasmBlock> src)
+        {
+            const string Marker = "YDIS:";
+            var dst = list<AsmExpr>();
+            foreach(var block in src)
+            {
+                foreach(var line in block.Lines)
+                {
+                    var i = text.index(line.Content,"YDIS:");
+                    if(i >= 0)
+                        dst.Add(text.trim(text.right(line.Content, i + Marker.Length)));
+                }
+            }
+            return dst.ViewDeposited();
         }
 
         public Symbols<IClass> Classes()

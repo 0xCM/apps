@@ -13,7 +13,7 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var src = ApiPackArchive.Thumbprints();
-            result = asm.thumbprints(src, out var data);
+            result = AsmThumbprint.load(src, out var data);
             if(result.Fail)
                 return result;
 

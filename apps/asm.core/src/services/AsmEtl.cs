@@ -7,11 +7,34 @@ namespace Z0.Asm
     using System;
 
     using static core;
-    using static Msg;
 
     [ApiHost]
     public class AsmEtl : AppService<AsmEtl>
     {
+        [Op]
+        public static Outcome emit(ReadOnlySpan<AsmThumbprint> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            using var writer = dst.Writer();
+            for(var i=0; i<count; i++)
+                writer.WriteLine(skip(src,i).Format());
+            return true;
+        }
+
+        public static ReadOnlySpan<TextLine> emit(SortedSpan<AsmThumbprint> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            var lines = span<TextLine>(count);
+            using var writer = dst.Writer();
+            for(var i=0u; i<count; i++)
+            {
+                var content = AsmThumbprint.bitstring(src[i]);
+                writer.WriteLine(content);
+                seek(lines,i) = (i,content);
+            }
+            return lines;
+        }
+
         public ReadOnlySpan<TextLine> EmitThumbprints(SortedSpan<AsmEncodingInfo> src, FS.FilePath dst)
         {
             var count = src.Length;
@@ -20,7 +43,7 @@ namespace Z0.Asm
             using var writer = dst.Writer();
             for(var i=0u; i<count; i++)
             {
-                var content = AsmThumbprint.thumbprint(src[i]);
+                var content = thumbprint(src[i]);
                 writer.WriteLine(content);
                 seek(lines,i) = (i,content);
             }
@@ -28,13 +51,21 @@ namespace Z0.Asm
             return lines;
         }
 
+        [Op]
+        public static string thumbprint(in AsmEncodingInfo src)
+        {
+            var bits = AsmRender.format8x4(src.Encoded);
+            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
+            return string.Format("{0} => {1}", statement, AsmRender.format8x4(src.Encoded));
+        }
+
         public void EmitThumbprints(SortedSpan<ProcessAsmRecord> src, FS.FilePath dst)
             => EmitThumbprints(AsmEncoding.encodings(src), dst);
 
         public SortedSpan<AsmThumbprint> EmitThumbprints(ReadOnlySpan<HostAsmRecord> src, FS.FilePath dst)
         {
-            var distinct = asm.thumbprints(src);
-            asm.emit(distinct, dst);
+            var distinct = AsmThumbprint.distinct(src);
+            emit(distinct, dst);
             return distinct;
         }
     }

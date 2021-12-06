@@ -54,26 +54,28 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var docs = EncodingDocs(ws);
-            var dst = ws.Table<LlvmAsmEncoding>(ws.Project.Format());
+            var dst = ws.Table<AsmDocEncoding>(ws.Project.Format());
             var counter=0u;
-            var record = LlvmAsmEncoding.Empty;
-            var formatter = Tables.formatter<LlvmAsmEncoding>(LlvmAsmEncoding.RenderWidths);
-            var emitting = EmittingTable<LlvmAsmEncoding>(dst);
+            var record = AsmDocEncoding.Empty;
+            var formatter = Tables.formatter<AsmDocEncoding>(AsmDocEncoding.RenderWidths);
+            var emitting = EmittingTable<AsmDocEncoding>(dst);
             using var writer = dst.Utf8Writer();
             writer.WriteLine(formatter.FormatHeader());
             foreach(var doc in docs)
             {
-                var encoded = doc.ExprEncoding;
+                var encoded = doc.Statements;
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var e = ref skip(encoded,i);
-                    record = LlvmAsmEncoding.Empty;
-                    record.Doc = doc.Source.LineRef(e.Line);
+                    record = AsmDocEncoding.Empty;
                     record.Seq = counter++;
                     record.DocSeq = i;
                     record.Asm = e.Asm;
+                    record.Size = e.Encoding.Size;
+                    record.Offset = e.Offset;
                     record.Code = e.Encoding;
+                    record.Doc = doc.Source.LineRef(e.Line);
                     writer.WriteLine(formatter.Format(record));
                 }
             }

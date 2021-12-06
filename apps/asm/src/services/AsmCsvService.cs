@@ -98,7 +98,7 @@ namespace Z0.Asm
             {
                 ref readonly var statement = ref skip(statements,i);
                 if(statement.IsValid())
-                    thumbprints.Add(asm.thumbprint(statement));
+                    thumbprints.Add(AsmThumbprint.define(statement));
 
                 var uri = statement.OpUri;
                 if(i == 0)
@@ -145,7 +145,7 @@ namespace Z0.Asm
                 counter++;
             }
 
-            asm.emit(thumbprints.ToArray().ToSortedSpan(), ThumbprintPath(root));
+            AsmEtl.emit(thumbprints.ToArray().ToSortedSpan(), ThumbprintPath(root));
             tableWriter.Dispose();
             Wf.EmittedTable(tableFlow, counter);
 

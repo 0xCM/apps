@@ -7,11 +7,20 @@ namespace Z0.Asm
     using System;
     using Operands;
 
-    using N = AsmNames;
+    using N = AsmStatementPoc.AsmNames;
 
     [ApiHost]
     public readonly partial struct AsmStatementPoc
     {
+        public readonly struct AsmNames
+        {
+            public const string bsr = nameof(bsr);
+
+            public const string bsf = nameof(bsf);
+
+            public const string mov = nameof(mov);
+        }
+
         const string RP1 = "{0} {1}";
 
         const string RP2 = "{0} {1}, {2}";
@@ -99,6 +108,5 @@ namespace Z0.Asm
         [Op]
         public static AsmStatement mov(m16 a, r16 b)
             => string.Format(RP2, N.mov, a, b);
-
     }
 }

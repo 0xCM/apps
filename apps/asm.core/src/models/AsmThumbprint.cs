@@ -14,13 +14,45 @@ namespace Z0.Asm
 
     public readonly struct AsmThumbprint : IComparable<AsmThumbprint>, IEquatable<AsmThumbprint>
     {
-        [Op]
-        public static string thumbprint(in AsmEncodingInfo src)
+        public static SortedSpan<AsmThumbprint> distinct(ReadOnlySpan<HostAsmRecord> src)
         {
-            var bits = AsmRender.format8x4(src.Encoded);
-            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
-            return string.Format("{0} => {1}", statement, AsmRender.format8x4(src.Encoded));
+            var distinct = hashset<AsmThumbprint>();
+            iter(src, s => distinct.Add(AsmThumbprint.define(s)));
+            return distinct.Array().ToSortedSpan();
         }
+
+        public static Outcome load(FS.FilePath src, out AsmThumbprint[] dst)
+        {
+            var buffer = list<AsmThumbprint>();
+            var result = Outcome.Success;
+            dst = sys.empty<AsmThumbprint>();
+            using var reader = src.Utf8Reader();
+            while(!reader.EndOfStream)
+            {
+                var data = reader.ReadLine();
+                var statement = AsmExpr.parse(data.LeftOfFirst(Chars.Semicolon));
+                result = AsmThumbprint.parse(data, out var thumbprint);
+                if(result.Fail)
+                    break;
+                else
+                    buffer.Add(thumbprint);
+            }
+            if(result)
+                dst = buffer.ToArray();
+            return result;
+        }
+
+        [MethodImpl(Inline),Op]
+        public static AsmThumbprint define(AsmExpr statement, AsmSigInfo sig, AsmOpCodeString opcode, AsmHexCode encoded)
+            => new AsmThumbprint(statement, sig, opcode, encoded);
+
+        [MethodImpl(Inline),Op]
+        public static AsmThumbprint define(AsmExpr statement, AsmFormInfo form, AsmHexCode encoded)
+            => new AsmThumbprint(statement, form.Sig, form.OpCode, encoded);
+
+        [MethodImpl(Inline),Op]
+        public static AsmThumbprint define(in HostAsmRecord src)
+            => define(src.Expression, src.Sig, src.OpCode, src.Encoded);
 
         public static string comment(in AsmThumbprint src)
             => AsmDocBuilder.comment(AsmCommentMarker.Hash, string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()));

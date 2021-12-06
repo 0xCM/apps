@@ -72,7 +72,9 @@ namespace Z0.llvm
                 dst = AsmEncodingDoc.Empty;
                 var lines = FS.readlines(src).View;
                 var count = (uint)lines.Length;
-                var buffer = list<AsmExprEncoding>();
+                var buffer = list<AsmStatementEncoding>();
+                var offset = Address32.Zero;
+
                 InstSeq = 0;
                 for(var i=0u; i<count; i++)
                 {
@@ -90,7 +92,8 @@ namespace Z0.llvm
                         if(result.Fail)
                             return result;
 
-                        buffer.Add(new AsmExprEncoding(expr, line.LineNumber, hex));
+                        buffer.Add(new AsmStatementEncoding(InstSeq, expr, line.LineNumber, offset, hex));
+                        offset += hex.Size;
                         InstSeq++;
                     }
                 }

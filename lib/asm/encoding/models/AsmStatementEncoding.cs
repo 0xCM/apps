@@ -12,30 +12,36 @@ namespace Z0.Asm
     /// <summary>
     /// Bindes an expression with its encoding
     /// </summary>
-    public readonly struct AsmExprEncoding : IEquatable<AsmExprEncoding>, IComparable<AsmExprEncoding>
+    public readonly struct AsmStatementEncoding : IEquatable<AsmStatementEncoding>, IComparable<AsmStatementEncoding>
     {
+        public uint Seq {get;}
+
         public AsmExpr Asm {get;}
 
         public LineNumber Line {get;}
 
+        public Address32 Offset {get;}
+
         public AsmHexCode Encoding {get;}
 
         [MethodImpl(Inline)]
-        public AsmExprEncoding(AsmExpr asm, LineNumber line, AsmHexCode code)
+        public AsmStatementEncoding(uint seq, AsmExpr asm, LineNumber line, Address32 offset, AsmHexCode code)
         {
+            Seq = seq;
             Asm = asm;
             Line = line;
+            Offset = offset;
             Encoding = code;
         }
 
-        public bool Equals(AsmExprEncoding src)
+        public bool Equals(AsmStatementEncoding src)
             => Asm.Equals(src.Asm) && Encoding.Equals(src.Encoding);
 
-        public int CompareTo(AsmExprEncoding src)
+        public int CompareTo(AsmStatementEncoding src)
             => Encoding.CompareTo(src.Encoding);
 
         public override bool Equals(object src)
-            => src is AsmExprEncoding x && Equals(x);
+            => src is AsmStatementEncoding x && Equals(x);
 
         public override int GetHashCode()
             => (int)alg.hash.combine(Asm.GetHashCode(), Encoding.GetHashCode());
