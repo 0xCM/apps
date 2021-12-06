@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static core;
+
     partial class LlvmCmd
     {
-        [CmdOp(".etl-entities")]
-        Outcome RunEntityEtl(CmdArgs args)
-            => LlvmEtl.RunEntityEtl();
+        [CmdOp("llvm/emit/help")]
+        Outcome EmitHelp(CmdArgs args)
+        {
+            return Toolset.EmitHelpDocs();
+        }
+
     }
 }

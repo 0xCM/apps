@@ -39,10 +39,19 @@ namespace Z0.llvm
             return lines.Select(x => x.Trim()).Where(x => nonempty(x));
         }
 
+        Index<TextLine> LoadSouceRecords()
+            => DataProvider.SelectSourceRecords(Datasets.X86);
+
         public void Run()
         {
-            RunHeaderEtl();
-            var records = DataProvider.SelectSourceRecords(Datasets.X86);
+            var records = LoadSouceRecords();
+            ImportRecords(records);
+            ImportEntityData();
+        }
+
+        void ImportRecords(Index<TextLine> records)
+        {
+            DataEmitter.EmitToolHelp();
             EmitLinedRecords(records, Datasets.X86Lined);
             var classes = EmitClassRelations(records);
             var defs = EmitDefRelations(records);
@@ -52,7 +61,6 @@ namespace Z0.llvm
             var classMap = DataEmitter.EmitLineMap(classes, records, Datasets.X86Classes);
             var classFields = DataProvider.SelectFields(records, classMap);
             EmitFields(classFields, Datasets.X86ClassFields);
-            RunEntityEtl();
         }
 
         void ProcessInstructions()
@@ -106,12 +114,12 @@ namespace Z0.llvm
                 }
             }
 
-            EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.List("vcodes")));
+            EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.ListImportPath("vcodes")));
             TableEmit(patterns.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
         }
 
-        public Outcome RunEntityEtl()
+        public Outcome ImportEntityData()
         {
             EmitLists();
             EmitChildRelations();
@@ -131,29 +139,16 @@ namespace Z0.llvm
             return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDescriptor(x.Key, x.Value));
         }
 
-        Outcome RunHeaderEtl()
+        public RegIdDescriptors ExtractRegIdList()
         {
             const string BeginRegsMarker = "NoRegister,";
-            const string BeginAsmIdMarker = "PHI	= 0,";
-
-            var src = LlvmPaths.TableGenHeaders().View;
-            var count = src.Length;
-            for(var i=0; i<count; i++)
+            var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Registers);
+            if(src.Count != 1)
             {
-                ref readonly var header = ref skip(src,i);
-                var name = header.FileName.WithoutExtension.Format();
-                switch(name)
-                {
-                    case TableGenHeaders.X86Registers:
-                        EmitList("RegisterId", enumliterals<ushort>(header,BeginRegsMarker));
-                    break;
-                    case TableGenHeaders.X86Info:
-                        EmitList("AsmId", enumliterals<ushort>(header,BeginAsmIdMarker));
-                    break;
-                }
-
+                Error("Path not found");
+                return RegIdDescriptors.Empty;
             }
-            return true;
+            return enumliterals<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdDescriptor(x.Key, x.Value));
         }
 
         static bool enumliteral<T>(string src, out LlvmListItem<T,string> dst)

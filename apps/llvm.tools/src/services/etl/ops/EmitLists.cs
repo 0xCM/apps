@@ -12,21 +12,28 @@ namespace Z0.llvm
     {
         public Index<LlvmList> EmitLists()
         {
-            FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.List(x));
+            FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
             paths.Delete();
 
             Emit(ExtractAsmIdList());
-            var src = DataProvider.SelectEntities();
-            return EmitLists(src, ListNames());
+            Emit(ExtractRegIdList());
+            return EmitLists(DataProvider.SelectEntities(), ListNames());
         }
 
         void Emit(AsmIdDescriptors src)
         {
             var values = src.Values;
             var items = values.Select(x => new LlvmListItem(x.Id, x.InstName)).ToArray();
-            var dst = LlvmPaths.List("AsmId");
-            var list = new LlvmList(dst,items);
-            EmitList(list);
+            var dst = LlvmPaths.ListImportPath("AsmId");
+            EmitList(new LlvmList(dst,items));
+        }
+
+        void Emit(RegIdDescriptors src)
+        {
+            var values = src.Values;
+            var items = values.Select(x => new LlvmListItem(x.Id, x.InstName)).ToArray();
+            var dst = LlvmPaths.ListImportPath("RegId");
+            EmitList(new LlvmList(dst,items));
         }
 
         public Index<LlvmList> EmitLists(RecordEntities src, ReadOnlySpan<string> classes)
@@ -38,7 +45,7 @@ namespace Z0.llvm
 
         public LlvmList<K,V> EmitList<K,V>(string name, LlvmListItem<K,V>[] src)
         {
-            var dst = LlvmPaths.List(name);
+            var dst = LlvmPaths.ListImportPath(name);
             var emitting = EmittingTable<LlvmListItem<K,V>>(dst);
             var formatter = Tables.formatter<LlvmListItem<K,V>>();
             using var writer = dst.AsciWriter();
@@ -74,7 +81,7 @@ namespace Z0.llvm
 
         public LlvmList EmitList(RecordEntities src, string @class)
         {
-            var dst = LlvmPaths.List(@class);
+            var dst = LlvmPaths.ListImportPath(@class);
             var emitting = EmittingTable<LlvmListItem>(dst);
             var formatter = Tables.formatter<LlvmListItem>();
             using var writer = dst.AsciWriter();

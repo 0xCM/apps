@@ -17,7 +17,7 @@ namespace Z0.llvm
 
             Index<TextLine> Load()
             {
-                using var reader = LlvmPaths.DataSourcePath(id).Utf8LineReader();
+                using var reader = LlvmPaths.DataSourcePath("records",id).Utf8LineReader();
                 return reader.ReadAll().ToArray();
             }
         }

@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp(".td-symlinks")]
+        [CmdOp("llvm/emit/td-symlinks")]
         Outcome TdRel(CmdArgs args)
         {
             var result = Outcome.Success;

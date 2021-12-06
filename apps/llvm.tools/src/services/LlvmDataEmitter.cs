@@ -7,11 +7,6 @@ namespace Z0.llvm
     using System;
     using System.IO;
 
-    using static core;
-    using static Root;
-
-    using SQ = SymbolicQuery;
-
     public partial class LlvmDataEmitter : AppService<LlvmDataEmitter>
     {
         LlvmPaths LlvmPaths;
@@ -26,7 +21,7 @@ namespace Z0.llvm
 
         public uint EmitToolHelp()
         {
-            var dir = LlvmPaths.DataHome() + FS.folder("sources/tools.help");
+            var dir = LlvmPaths.ToolSourceDocs();
             var docs = DataProvider.SelectToolHelp();
             var count = docs.Count;
             for(var i=0; i<count; i++)
@@ -60,5 +55,4 @@ namespace Z0.llvm
             return count;
         }
     }
-
 }

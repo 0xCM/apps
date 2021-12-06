@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp(".etl")]
+        [CmdOp("llvm/etl")]
         Outcome RunRecordsEtl(CmdArgs args)
         {
             LlvmEtl.Run();

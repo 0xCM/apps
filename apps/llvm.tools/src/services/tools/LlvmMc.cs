@@ -22,12 +22,28 @@ namespace Z0.llvm
 
         }
 
-        public ConstLookup<FS.FileUri,AsmSyntaxDoc> Collect(IProjectWs ws)
+        public void Collect(IProjectWs ws)
         {
-            var result = CollectLogs(ws);
+            var result = CollectSyntaxLogs(ws);
             var encodings = CollectEncoding(ws);
             var docs = CollectSyntaxTrees(ws);
-            return result;
+            var instructions = CollectInstructions(ws);
+        }
+
+        public FS.Files EncodingSourcePaths(IProjectWs ws)
+            => ws.OutFiles(FS.ext("encoding.asm"));
+
+        public FS.Files SyntaxSourcePaths(IProjectWs ws)
+            => ws.OutFiles(FileKind.AsmSyntax);
+
+        public Index<AsmDocument> SyntaxSourceDocs(IProjectWs ws)
+        {
+            var src = SyntaxSourcePaths(ws).View;
+            var count = src.Length;
+            var dst = list<AsmDocument>();
+            for(var i=0; i<count; i++)
+                dst.Add(LlvmMcParser.asmdoc(skip(src,i)));
+            return dst.Array();
         }
 
         public Index<AsmEncodingDoc> EncodingDocs(IProjectWs ws)
@@ -48,6 +64,41 @@ namespace Z0.llvm
             }
 
             return dst.Array();
+        }
+
+        Index<AsmDocInstruction> CollectInstructions(IProjectWs ws)
+        {
+            var result = Outcome.Success;
+
+            var docs = SyntaxSourceDocs(ws);
+            var buffer = list<AsmDocInstruction>();
+            var counter = 0u;
+            foreach(var doc in docs)
+            {
+                var path = doc.Path.ToUri();
+                var inst = doc.Instructions;
+                var lines = doc.SourceLines.Map(x => (x.LineNumber, x.Statement.Format().Trim())).ToDictionary();
+                var count = inst.Length;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var instruction = ref skip(inst,i);
+                    var expr = lines[instruction.Line];
+                    var loc = path.LineRef(instruction.Line);
+
+                    var record = new AsmDocInstruction();
+                    record.Seq = counter++;
+                    record.DocSeq = instruction.Seq;
+                    record.Instruction = instruction.Name;
+                    record.Statement = expr;
+                    record.Doc = loc;
+                    buffer.Add(record);
+                }
+            }
+
+            var records = buffer.ToArray();
+            var dst = ws.Table<AsmDocInstruction>(ws.Project.Format());
+            TableEmit(@readonly(records), AsmDocInstruction.RenderWidths, dst);
+            return records;
         }
 
         Index<AsmEncodingDoc> CollectEncoding(IProjectWs ws)
@@ -83,23 +134,7 @@ namespace Z0.llvm
             return docs;
         }
 
-        public Index<AsmDocument> AsmDocs(IProjectWs ws)
-        {
-            var src = SyntaxSourcePaths(ws).View;
-            var count = src.Length;
-            var dst = list<AsmDocument>();
-            for(var i=0; i<count; i++)
-                dst.Add(LlvmMcParser.asmdoc(skip(src,i)));
-            return dst.Array();
-        }
-
-        FS.Files EncodingSourcePaths(IProjectWs ws)
-            => ws.OutFiles(FS.ext("encoding.asm"));
-
-        FS.Files SyntaxSourcePaths(IProjectWs ws)
-            => ws.OutFiles(FileKind.AsmSyntax);
-
-        ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectLogs(IProjectWs ws)
+        ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs ws)
         {
             var logs = ws.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
             var dst = ws.Table<AsmSyntaxRow>(ws.Project.Format());
@@ -138,7 +173,10 @@ namespace Z0.llvm
                 var lines = doc.SourceLines;
                 writer.WriteLine(string.Format("# Source: {0}", path.ToUri()));
                 for(var j=0; j<lines.Length; j++)
-                    writer.WriteLine(skip(lines,j));
+                {
+                    ref readonly var line = ref skip(lines,j);
+                    writer.WriteLine(line);
+                }
             }
 
             return docs.ToArray();

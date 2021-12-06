@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     partial class LlvmCmd
     {
-        [CmdOp(".mc-docs")]
-        Outcome Syntax(CmdArgs args)
+        [CmdOp("llvm/emit/lists")]
+        Outcome EmitLists(CmdArgs args)
         {
-            var result = Outcome.Success;
-
-
-            return result;
+            LlvmEtl.EmitLists();
+            return true;
         }
     }
 }
