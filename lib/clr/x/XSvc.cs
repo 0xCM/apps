@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService
+    partial class XSvc
     {
-        Outcome Dispatch(CmdSpec cmd);
-
-        void Run();
-
-        CmdDispatcher Dispatcher {get;}
+        [Op]
+        public static MsilPipe MsilPipe(this IWfRuntime wf)
+            => Z0.MsilPipe.create(wf);
     }
 }

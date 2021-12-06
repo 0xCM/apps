@@ -6,18 +6,11 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("capture")]
-        protected Outcome CaptureV1(CmdArgs args)
+        [CmdOp("xed/query/inst")]
+        Outcome XedQuery(CmdArgs args)
         {
-            var result = Capture.run();
+            Xed.QueryCatalog(arg(args,0));
             return true;
-        }
-
-        [CmdOp("capture-v2")]
-        protected Outcome CaptureV2(CmdArgs args)
-        {
-           Wf.ApiExtractWorkflow().Run(args);
-           return true;
         }
     }
 }

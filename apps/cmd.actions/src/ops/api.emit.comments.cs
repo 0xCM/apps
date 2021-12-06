@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     partial class GlobalCommands
     {
-        [CmdOp("run-api-machine")]
-        protected Outcome RunApiMachine(CmdArgs args)
+        [CmdOp("api/emit/comments")]
+        protected Outcome EmitApiComments(CmdArgs args)
         {
-            using var machine = MachineRunner.create(Wf);
-            machine.Run(WorkflowOptions.@default());
+            var collected = Service(Wf.ApiComments).Collect();
             return true;
         }
     }

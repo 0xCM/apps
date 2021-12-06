@@ -16,7 +16,7 @@ namespace Z0.Machines
 
     public interface IDispatcher
     {
-        void Dispatch(string asm);
+        void Dispatch(string cmd);
     }
 
     [ApiHost]

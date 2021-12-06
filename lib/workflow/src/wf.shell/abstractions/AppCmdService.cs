@@ -16,7 +16,7 @@ namespace Z0
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
-        CmdDispatcher Dispatcher;
+        public CmdDispatcher Dispatcher {get; protected set;}
 
         IWorkerLog Witness;
 
@@ -42,9 +42,9 @@ namespace Z0
         protected override void OnInit()
         {
             Dispatcher = CmdDispatcher.discover(this, Dispatch);
-            Witness = Loggers.worker(controller().Id(), Db.ControlRoot());
-            OmniScript = Wf.OmniScript();
             ProjectWs = Ws.Projects();
+            Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
+            OmniScript = Wf.OmniScript();
             ProjectScripts = Wf.ProjectScripts();
             Settings = Wf.AppSettings();
             TableEmitters = Wf.TableEmitters();
@@ -127,7 +127,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".global-env")]
+        [CmdOp("env/vars")]
         protected Outcome ShowEnvVars(CmdArgs args)
         {
             var vars = Z0.Env.vars();
@@ -135,7 +135,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".tool-settings")]
+        [CmdOp("tools/settings")]
         protected Outcome ShowToolSettings(CmdArgs args)
         {
             ToolId tool = arg(args,0).Value;
@@ -148,7 +148,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".commands")]
+        [CmdOp("commands")]
         protected Outcome Commands(CmdArgs args)
         {
             var commands = Cmd.cmdops(GetType());
@@ -232,7 +232,7 @@ namespace Z0
             return result;
         }
 
-        [CmdOp(".api-catalog")]
+        [CmdOp("api/catalog")]
         protected Outcome ApiCatalog(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -243,7 +243,7 @@ namespace Z0
             return result;
         }
 
-        [CmdOp(".emit-api-literals")]
+        [CmdOp("api/emit/literals")]
         protected Outcome EmitApiLiterals(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -259,7 +259,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".tool-config")]
+        [CmdOp("tool/config")]
         protected Outcome ConfigureTool(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -276,7 +276,7 @@ namespace Z0
             return result;
         }
 
-        [CmdOp(".tool-help")]
+        [CmdOp("tool/help")]
         protected Outcome ShowToolHelp(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -294,7 +294,7 @@ namespace Z0
             return result;
         }
 
-        [CmdOp(".tool-script")]
+        [CmdOp("tool/script")]
         protected Outcome ToolScript(CmdArgs args)
         {
             var tool = (ToolId)arg(args,0).Value;
@@ -308,21 +308,9 @@ namespace Z0
         Index<CompilationLiteral> ApiLiterals()
         {
             return L.CompilationLiterals(ApiRuntimeLoader.assemblies());
-            // var providers = L.providers(components).View;
-            // var count = providers.Length;
-            // var buffer = list<CompilationLiteral>();
-            // for(var i=0; i<count; i++)
-            // {
-            //     ref readonly var provider = ref skip(providers,i);
-            //     var literals = L.provided(provider).View;
-            //     for(var j=0; j<literals.Length; j++)
-            //         buffer.Add(skip(literals,j).Specify());
-            // }
-
-            //return buffer.ToArray();
         }
 
-        [CmdOp(".tools")]
+        [CmdOp("tools/catalog")]
         protected Outcome CatalogTools(CmdArgs args)
         {
             var subdirs = Tools.Root.SubDirs();
@@ -364,7 +352,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".tool-docs")]
+        [CmdOp("tools/docs")]
         protected Outcome ToolDocs(CmdArgs args)
         {
             var tool = (ToolId)arg(args,0).Value;

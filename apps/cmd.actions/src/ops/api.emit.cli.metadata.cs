@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-cli-metadata")]
+        [CmdOp("api/emit/cli/metadata")]
         protected Outcome EmitCliMetadata(CmdArgs args)
         {
             var pipe = Wf.CliEmitter();

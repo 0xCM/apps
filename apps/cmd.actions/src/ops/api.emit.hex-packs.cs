@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-call-table")]
-        protected Outcome EmitCallTable(CmdArgs args)
+        [CmdOp("api/emit/hex-packs")]
+        protected Outcome EmitHexPack(CmdArgs args)
         {
-            Wf.AsmCallPipe().EmitRows(Wf.AsmDecoder().Decode(Blocks()));
+            Service(Wf.ApiHexPacks).Emit(SortedBlocks());
             return true;
         }
     }

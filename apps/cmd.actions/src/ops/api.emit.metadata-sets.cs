@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class GlobalCommands
     {
-        [CmdOp("emit-sym-literals")]
-        protected Outcome EmitSymLiterals(CmdArgs args)
+        [CmdOp("api/emit/metadata-sets")]
+        protected Outcome EmitMetadataSets(CmdArgs args)
         {
-            var service = Wf.Symbolism();
-            var dst = Db.AppTablePath<SymLiteralRow>();
-            service.EmitLiterals(dst);
+            Service(Wf.CliEmitter).EmitMetadaSets(WorkflowOptions.@default());
             return true;
         }
     }

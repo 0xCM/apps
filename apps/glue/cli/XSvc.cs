@@ -14,10 +14,6 @@ namespace Z0
             => Svc.CliEmitter.create(wf);
 
         [Op]
-        public static MsilPipe MsilPipe(this IWfRuntime wf)
-            => Svc.MsilPipe.create(wf);
-
-        [Op]
         public static AppModules AppModules(this IWfRuntime wf)
             => Svc.AppModules.create(wf);
 

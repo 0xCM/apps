@@ -103,7 +103,6 @@ namespace Z0
 
         public EnvDirVar DevWs;
 
-
         public EnvData Data
             => new EnvData(this);
 

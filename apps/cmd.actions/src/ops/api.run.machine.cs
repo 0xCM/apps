@@ -6,18 +6,12 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("capture")]
-        protected Outcome CaptureV1(CmdArgs args)
+        [CmdOp("api/run/machine")]
+        protected Outcome RunApiMachine(CmdArgs args)
         {
-            var result = Capture.run();
+            using var machine = MachineRunner.create(Wf);
+            machine.Run(WorkflowOptions.@default());
             return true;
-        }
-
-        [CmdOp("capture-v2")]
-        protected Outcome CaptureV2(CmdArgs args)
-        {
-           Wf.ApiExtractWorkflow().Run(args);
-           return true;
         }
     }
 }

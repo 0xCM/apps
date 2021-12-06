@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-comments")]
-        protected Outcome EmitApiComments(CmdArgs args)
-        {
-            var collected = Service(Wf.ApiComments).Collect();
-            return true;
-        }
+        [CmdOp("xed/query/categories")]
+        Outcome XedCategories(CmdArgs args)
+            => ShowSyms(Xed.Categories());
     }
 }

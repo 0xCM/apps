@@ -6,11 +6,8 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-classes")]
-        protected Outcome EmitApiClasses(CmdArgs args)
-        {
-            Wf.ApiCatalogs().EmitApiClasses();
-            return true;
-        }
+        [CmdOp("xed/query/chips")]
+        Outcome XedChips(CmdArgs args)
+            => ShowSyms(Xed.ChipCodes());
     }
 }

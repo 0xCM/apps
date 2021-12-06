@@ -6,6 +6,8 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-
+        [CmdOp("api/emit/msil/host")]
+        Outcome EmitHostMsil(CmdArgs args)
+            => ApiMetadata.EmitHostMsil(arg(args,0));
     }
 }

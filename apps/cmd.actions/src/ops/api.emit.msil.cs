@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService
+    partial class GlobalCommands
     {
-        Outcome Dispatch(CmdSpec cmd);
-
-        void Run();
-
-        CmdDispatcher Dispatcher {get;}
+        [CmdOp("api/emit/msil")]
+        Outcome EmitMsil(CmdArgs args)
+            => ApiMetadata.EmitMsil();
     }
 }

@@ -6,12 +6,8 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("emit-cil-opcodes")]
-        protected Outcome EmitCilOpCodes(CmdArgs args)
-        {
-            var dst = Db.IndexTable<CilOpCode>();
-            TableEmit(Cil.opcodes(), dst);
-            return true;
-        }
+        [CmdOp("xed/query/opkinds")]
+        Outcome XedOpKinds(CmdArgs args)
+            => ShowSyms(Xed.OperandKinds());
     }
 }

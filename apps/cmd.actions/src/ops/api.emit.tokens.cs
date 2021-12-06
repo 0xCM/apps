@@ -6,12 +6,11 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-metadata-sets")]
-        protected Outcome EmitMetadataSets(CmdArgs args)
+        [CmdOp("api/emit/tokens")]
+        protected Outcome EmitApiTokens(CmdArgs args)
         {
-            Service(Wf.CliEmitter).EmitMetadaSets(WorkflowOptions.@default());
+            Service(Wf.ApiMetadata).EmitApiTokens();
             return true;
         }
-
     }
 }

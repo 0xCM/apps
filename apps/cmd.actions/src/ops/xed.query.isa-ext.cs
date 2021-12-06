@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class GlobalCommands
     {
-        [CmdOp("run-sdm-etl")]
-        Outcome RunSdmEtl(CmdArgs args)
-            => Service(Wf.IntelSdm).RunEtl();
+        [CmdOp("xed/query/isa-ext")]
+        Outcome XedIsaExt(CmdArgs args)
+            => ShowSyms(Xed.IsaExtensions());
     }
 }

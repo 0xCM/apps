@@ -12,6 +12,68 @@ namespace Z0
 
     public sealed class ApiMetadataService : AppService<ApiMetadataService>
     {
+        public Outcome EmitHostMsil(string hostid)
+        {
+            var result = Outcome.Success;
+            var svc = Service(ApiRuntimeLoader.catalog);
+            result = ApiParsers.host(hostid, out var uri);
+            if(result.Ok)
+            {
+                result = svc.FindHost(uri, out var host);
+                if(result.Ok)
+                    result = EmitMsil(array(host));
+            }
+
+            return result;
+        }
+
+        public Outcome EmitMsil()
+        {
+            var result = Outcome.Success;
+            var svc = Service(ApiRuntimeLoader.catalog);
+            result = EmitMsil(svc.ApiHosts);
+            return result;
+        }
+
+        public Outcome EmitMsil(ReadOnlySpan<IApiHost> hosts)
+        {
+            var result = Outcome.Success;
+            var buffer = text.buffer();
+            var jit = Wf.ApiJit();
+            var pipe = Wf.MsilPipe();
+            var counter = 0u;
+            for(var i=0; i<hosts.Length; i++)
+            {
+                ref readonly var host = ref skip(hosts, i);
+                var members = jit.JitHost(host).View;
+                var count = members.Length;
+                if(count == 0)
+                    continue;
+
+                var dst = MsilOutPath(host.HostUri);
+                var flow = EmittingFile(dst);
+
+                for(var j=0; j<count; j++)
+                {
+                    ref readonly var member = ref members[j];
+                    ref readonly var msil = ref member.Msil;
+                    pipe.RenderCode(msil, buffer);
+                    counter++;
+                }
+
+                using var writer = dst.UnicodeWriter();
+                writer.Write(buffer.Emit());
+                EmittedFile(flow, count);
+            }
+
+            return result;
+        }
+
+
+        FS.FilePath MsilOutPath(ApiHostUri uri)
+            => Ws.Project("db").Subdir("api/msil") + FS.hostfile(uri, FS.Il);
+
+
         public void EmitApiTokens()
         {
             var catalog = ApiRuntimeLoader.catalog();

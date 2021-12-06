@@ -8,6 +8,7 @@
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(MachinesX86)" />
     <ProjectReference Include="$(Capture)" />
+    <ProjectReference Include="$(LlvmTools)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

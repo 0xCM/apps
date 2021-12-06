@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-hex-pack")]
-        protected Outcome EmitHexPack(CmdArgs args)
+        [CmdOp("sdm/opcodes/import")]
+        Outcome SdmImport(CmdArgs args)
         {
-            Service(Wf.ApiHexPacks).Emit(SortedBlocks());
-            return true;
+            var result = Outcome.Success;
+            var svc = Service(Wf.IntelSdm);
+            svc.ImportOpCodes();
+            return result;
         }
     }
 }

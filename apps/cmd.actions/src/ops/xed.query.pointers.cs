@@ -6,11 +6,8 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("emit-api-tokens")]
-        protected Outcome EmitApiTokens(CmdArgs args)
-        {
-            Service(Wf.ApiMetadata).EmitApiTokens();
-            return true;
-        }
+        [CmdOp("xed/query/pointers")]
+        Outcome XedPointers(CmdArgs args)
+            => ShowSyms(Xed.PointerWidths());
     }
 }

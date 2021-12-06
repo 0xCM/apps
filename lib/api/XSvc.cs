@@ -10,6 +10,34 @@ namespace Z0
     partial class XSvc
     {
         [Op]
+        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
+            => Svc.ApiResProvider.create(wf);
+
+        [Op]
+        public static BitMaskServices ApiBitMasks(this IWfRuntime wf)
+            => Svc.BitMaskServices.create(wf);
+
+        [Op]
+        public static ApiHex ApiHex(this IWfRuntime wf)
+            => Svc.ApiHex.create(wf);
+
+        [Op]
+        public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
+            => Svc.ApiCaptureArchive.create(wf);
+
+        [Op]
+        public static ApiPackages ApiPackages(this IEnvPaths src)
+            => src.PackageRoot();
+
+        [Op]
+        public static ApiHexPacks ApiHexPacks(this IWfRuntime wf)
+            => Svc.ApiHexPacks.create(wf);
+
+        [Op]
+        public static ApiMetadataService ApiMetadata(this IWfRuntime context)
+            => Svc.ApiMetadataService.create(context);
+
+        [Op]
         public static ApiComments ApiComments(this IWfRuntime wf)
             => Svc.ApiComments.create(wf);
 

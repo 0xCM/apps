@@ -6,13 +6,11 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("import-sdm-opcodes")]
-        Outcome SdmImport(CmdArgs args)
+        [CmdOp("api/emit/asm/call-table")]
+        protected Outcome EmitCallTable(CmdArgs args)
         {
-            var result = Outcome.Success;
-            var svc = Service(Wf.IntelSdm);
-            svc.ImportOpCodes();
-            return result;
+            Wf.AsmCallPipe().EmitRows(Wf.AsmDecoder().Decode(Blocks()));
+            return true;
         }
     }
 }

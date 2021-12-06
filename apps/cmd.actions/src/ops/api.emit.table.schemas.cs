@@ -8,7 +8,7 @@ namespace Z0
 
     partial class GlobalCommands
     {
-        [CmdOp("emit-table-schemas")]
+        [CmdOp("api/emit/tables/schemas")]
         Outcome EmitTableSchemas(CmdArgs args)
         {
             var catalog = ApiRuntimeLoader.catalog();

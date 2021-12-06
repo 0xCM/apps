@@ -8,24 +8,16 @@ namespace Z0
     using System.Runtime.CompilerServices;
     using System.Collections.Concurrent;
 
+    using llvm;
     using static core;
     using static Root;
 
     [CmdDispatcher]
     public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdDispatcher
     {
-        CmdDispatcher Dispatcher;
-
         public GlobalCommands()
         {
         }
-
-        // ConcurrentDictionary<Type,object> ServiceCache {get;}
-        //     = new();
-
-        // T Service<T>(Func<T> factory)
-        //     => (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
-
 
         protected override void Initialized()
         {
@@ -35,6 +27,8 @@ namespace Z0
         Asm.IntelXed Xed => Service(Wf.IntelXed);
 
         ApiHex ApiHex => Service(Wf.ApiHex);
+
+        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
         [CmdOp("emit-respack")]
         protected Outcome EmitResPack(CmdArgs args)
@@ -61,7 +55,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Dispatcher.Supported;
         }
-
 
         ReadOnlySpan<ApiCodeBlock> Blocks()
             => ApiHex.ReadBlocks().Storage;

@@ -9,36 +9,10 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp("api/emit/msil")]
-        Outcome EmitMsil(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var catalog = State.ApiCatalog(ApiRuntimeLoader.catalog);
-            var hosts = default(ReadOnlySpan<IApiHost>);
-            if(args.Length != 0)
-            {
-                result = ApiParsers.host(arg(args,0), out var uri);
-                if(result.Ok)
-                {
-                    result = catalog.FindHost(uri, out var host);
-                    if(result.Ok)
-                        hosts = array(host);
-                }
-            }
-            else
-            {
-                hosts = catalog.ApiHosts;
-            }
-            Write(string.Format("Emitting msil for {0} hosts", hosts.Length));
-
-            result = EmitMsil(hosts);
-            return result;
-        }
 
         Outcome EmitMsil(ReadOnlySpan<IApiHost> hosts)
         {
             var result = Outcome.Success;
-            var catalog = State.ApiCatalog(ApiRuntimeLoader.catalog);
             var buffer = text.buffer();
             var jit = Wf.ApiJit();
             var pipe = Wf.MsilPipe();
@@ -70,36 +44,6 @@ namespace Z0.Asm
             return result;
         }
 
-        Outcome EmitMsil(ReadOnlySpan<ApiHostUri> hosts)
-        {
-            var result = Outcome.Success;
-            var catalog = State.ApiCatalog(ApiRuntimeLoader.catalog);
-            var buffer = text.buffer();
-            var pipe = Wf.MsilPipe();
-            for(var i=0; i<hosts.Length; i++)
-            {
-                ref readonly var uri = ref skip(hosts,i);
-                result = catalog.FindHost(uri, out var host);
-                if(result.Fail)
-                {
-                    result = (false, AppMsg.HostNotFound.Format(uri));
-                    break;
-                }
-
-                var members = Wf.ApiJit().JitHost(host);
-                var count = members.Count;
-                for(var j=0; j<count; j++)
-                    pipe.RenderCode(members[j].Msil, buffer);
-
-                var dst = MsilOutPath(uri);
-                var flow = EmittingFile(dst);
-                using var writer = dst.UnicodeWriter();
-                writer.Write(buffer.Emit());
-                EmittedFile(flow, count);
-            }
-
-            return result;
-        }
 
         FS.FilePath MsilOutPath(ApiHostUri uri)
             => Ws.Project("db").Subdir("api/msil") + FS.hostfile(uri, FS.Il);

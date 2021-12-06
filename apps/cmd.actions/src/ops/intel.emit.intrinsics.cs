@@ -6,18 +6,12 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("capture")]
-        protected Outcome CaptureV1(CmdArgs args)
+        [CmdOp("intel/emit/intrinsics")]
+        Outcome EmitIntelIntrinsics(CmdArgs args)
         {
-            var result = Capture.run();
+            var svc = Service(Wf.IntelIntrinsics);
+            svc.Emit();
             return true;
-        }
-
-        [CmdOp("capture-v2")]
-        protected Outcome CaptureV2(CmdArgs args)
-        {
-           Wf.ApiExtractWorkflow().Run(args);
-           return true;
         }
     }
 }

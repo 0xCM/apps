@@ -50,9 +50,6 @@ namespace Z0
         public static ModelServices Models(this IWfRuntime wf)
             => SvcCache.Models(wf);
 
-        [Op]
-        public static BitMaskServices ApiBitMasks(this IWfRuntime wf)
-            => Svc.BitMaskServices.create(wf);
 
         [Op]
         public static HexCsvReader HexCsvReader(this IWfRuntime wf)
@@ -61,10 +58,6 @@ namespace Z0
         [Op]
         public static HexCsvWriter HexCsvWriter(this IWfRuntime wf)
             => Svc.HexCsvWriter.create(wf);
-
-        [Op]
-        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
-            => Svc.ApiResProvider.create(wf);
 
         [Op]
         public static AssetServices Assets(this IWfRuntime wf)
@@ -82,24 +75,8 @@ namespace Z0
         public static AppSettings AppSettings(this IWfRuntime wf)
             => Svc.AppSettings.create(wf);
 
-        [Op]
-        public static ApiHex ApiHex(this IWfRuntime wf)
-            => Svc.ApiHex.create(wf);
-
-        [Op]
-        public static ApiHexPacks ApiHexPacks(this IWfRuntime wf)
-            => Svc.ApiHexPacks.create(wf);
-
         public static FileSplitter FileSplitter(this IWfRuntime wf)
             => Svc.FileSplitter.create(wf);
-
-        [Op]
-        public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
-            => Svc.ApiCaptureArchive.create(wf);
-
-        [Op]
-        public static ApiPackages ApiPackages(this IEnvPaths src)
-            => src.PackageRoot();
 
         [Op]
         public static SymServices SymServices(this IWfRuntime wf)
@@ -124,9 +101,5 @@ namespace Z0
         [Op]
         public static StringTableGen StringTableGen(this IWfRuntime context)
             => Svc.StringTableGen.create(context);
-
-        [Op]
-        public static ApiMetadataService ApiMetadata(this IWfRuntime context)
-            => Svc.ApiMetadataService.create(context);
     }
 }

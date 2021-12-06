@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class GlobalCommands
     {
-        [CmdOp("emit-intel-intrinsics")]
-        Outcome EmitIntelIntrinsics(CmdArgs args)
-        {
-            var svc = Service(Wf.IntelIntrinsics);
-            svc.Emit();
-            return true;
-        }
+        [CmdOp("sdm/run/etl")]
+        Outcome RunSdmEtl(CmdArgs args)
+            => Service(Wf.IntelSdm).RunEtl();
     }
 }

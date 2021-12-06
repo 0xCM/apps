@@ -11,7 +11,6 @@ namespace Z0
     using System.Text;
 
     using static Root;
-    using static core;
 
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 
@@ -48,6 +47,8 @@ namespace Z0
 
         public IWfDb Db {get; private set;}
 
+        protected IProjectWs ProjectDb;
+
         ITextBuffer _TextBuffer;
 
         public EnvData Env => Wf.Env;
@@ -61,13 +62,17 @@ namespace Z0
 
         protected DevWs Ws;
 
+        IAppServiceUtilities Util;
+
         public void Init(IWfRuntime wf)
         {
             var flow = wf.Creating(typeof(H).Name);
+            Util = AppServiceUtilities.create(wf);
             Host = new WfSelfHost(typeof(H));
             Wf = wf;
             Db = new WfDb(wf, wf.Env.Db);
             Ws = DevWs.create(wf.Env.DevWs);
+            ProjectDb = Ws.Project("db");
             OnInit();
             Initialized();
             wf.Created(flow);
@@ -79,8 +84,6 @@ namespace Z0
             _TextBuffer = TextTools.buffer();
         }
 
-        protected string Worker([Caller] string name = null)
-            => string.Format("{0,-14}",string.Format("worker({0}) >>", name));
 
         protected AppService(IWfRuntime wf)
             : this()
@@ -89,8 +92,11 @@ namespace Z0
             Wf = wf;
         }
 
+        protected string Worker([Caller] string name = null)
+            => Util.Worker(name);
+
         protected void RedirectEmissions(string name, FS.FolderPath dst)
-            => Wf.RedirectEmissions(Loggers.emission(name, dst));
+            => Util.RedirectEmissions(name,dst);
 
         FS.FileName NameShowLog(string src, FS.FileExt ext)
             => FS.file(core.controller().Id().PartName() + "." + HostName + "." + src, ext);
@@ -106,124 +112,100 @@ namespace Z0
 
 
         protected bool Check<T>(Outcome<T> outcome, out T payload)
-        {
-            if(outcome.Fail)
-            {
-                Error(outcome.Message);
-                payload = default;
-                return false;
-            }
-            else
-            {
-                payload = outcome.Data;
-                return true;
-            }
-        }
+            => Util.Check(outcome, out payload);
 
         protected void Babble<T>(T content)
-            => Wf.Babble(content);
+            => Util.Babble(content);
 
         protected void Babble(string pattern, params object[] args)
-            => Wf.Babble(string.Format(pattern,args));
+            => Util.Babble(pattern, args);
 
         protected void Status<T>(T content)
-            => Wf.Status(content);
+            => Util.Status(content);
 
         protected void Status(ReadOnlySpan<char> src)
-            => Wf.Status(new string(src));
+            => Util.Status(src);
 
         protected void Status(string pattern, params object[] args)
-            => Wf.Status(string.Format(pattern, args));
+            => Util.Status(pattern, args);
 
         protected void Warn<T>(T content)
-            => Wf.Warn(content);
+            => Util.Warn(content);
 
         protected void Warn(string pattern, params object[] args)
-            => Wf.Warn(string.Format(pattern,args));
+            => Util.Warn(pattern, args);
 
         protected void Write<T>(T content)
-            => Wf.Row(content, null);
+            => Util.Write(content);
 
         protected void Write<T>(T content, FlairKind flair)
-            => Wf.Row(content,flair);
+            => Util.Write(content, flair);
 
         protected void Write<T>(string name, T value, FlairKind? flair = null)
-            => Wf.Row(RP.attrib(name, value), flair);
+            => Util.Write(name, value, flair);
 
         protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
-        }
+            => Util.Write(src, flair);
 
         protected void Write<T>(Span<T> src, FlairKind? flair = null)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                Write(skip(src,i), flair ?? FlairKind.Data);
-        }
+            => Util.Write(src, flair);
 
         protected virtual void Error<T>(T content)
-            => Wf.Error(content);
+            => Util.Error(content);
 
         protected WfExecFlow<T> Running<T>(T msg, [Caller] string operation = null)
             where T : IMsgPattern
-                => Wf.Running(msg, string.Format("{0,-16} | {1}", HostName, operation));
+                => Util.Running(msg, operation);
 
         protected WfExecFlow<string> Running([Caller] string msg = null)
-            => Wf.Running(string.Format("{0} | {1,-16}", HostName, msg));
+            => Util.Running(msg);
 
         protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
-                => Wf.Ran(flow.WithMsg(string.Format("{0,-16} | {1}", HostName, msg)));
+            => Util.Ran(flow,msg);
 
         protected ExecToken Ran<T,D>(WfExecFlow<T> flow, D data, [Caller] string operation = null)
             where T : IMsgPattern
-                => Wf.Ran(flow.WithMsg(string.Format("{0} | {1,-16} | {2}", data, HostName, operation)));
+            => Util.Ran(flow,data,operation);
 
         protected WfFileFlow EmittingFile(FS.FilePath dst)
-            => Wf.EmittingFile(dst);
+            => Util.EmittingFile(dst);
 
         public ExecToken EmittedFile(WfFileFlow flow, Count count)
-            => Wf.EmittedFile(flow,count);
+            => Util.EmittedFile(flow,count);
 
         protected void EmittedFile(WfFileFlow file, Count count, Arrow<FS.FileUri> flow)
-        {
-            Wf.EmittedFile(file,count);
-            Write(string.Format("flow[{0}]", flow));
-        }
+            => Util.EmittedFile(file,count,flow);
 
         protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
-                => Wf.EmittingTable<T>(dst);
+                => Util.EmittingTable<T>(dst);
 
         protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
-                => Wf.EmittedTable(flow,count, dst);
+                => Util.EmittedTable(flow,count,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
-                => Wf.TableEmit(src,dst);
+                => Util.TableEmit(src,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
             where T : struct
-                => Wf.TableEmit(src, widths, dst);
+                => Util.TableEmit(src,widths,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, TextEncodingKind encoding, FS.FilePath dst)
             where T : struct
-                => Wf.TableEmit(src, widths, encoding, dst);
+                => Util.TableEmit(src,widths,encoding,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, StreamWriter writer, FS.FilePath dst)
             where T : struct
-                => Wf.TableEmit(src, widths, writer, dst);
+                => Util.TableEmit(src,widths,writer,dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ushort rowpad, Encoding encoding, FS.FilePath dst)
             where T : struct
-                => Wf.TableEmit(src, widths, rowpad,  encoding, dst);
+                => Util.TableEmit(src,widths,rowpad,encoding,dst);
 
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
-            => Wf.EmitLines(src,dst,encoding);
-
+            => Util.EmitLines(src,dst,encoding);
 
         protected virtual void OnInit()
         {

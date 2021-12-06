@@ -6,18 +6,13 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("capture")]
-        protected Outcome CaptureV1(CmdArgs args)
+        [CmdOp("api/emit/symbols")]
+        protected Outcome EmitSymLiterals(CmdArgs args)
         {
-            var result = Capture.run();
+            var service = Wf.Symbolism();
+            var dst = Db.AppTablePath<SymLiteralRow>();
+            service.EmitLiterals(dst);
             return true;
-        }
-
-        [CmdOp("capture-v2")]
-        protected Outcome CaptureV2(CmdArgs args)
-        {
-           Wf.ApiExtractWorkflow().Run(args);
-           return true;
         }
     }
 }

@@ -30,7 +30,6 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter;
 
-
         LlvmMc Mc;
 
         LlvmCodeGen CodeGen;
