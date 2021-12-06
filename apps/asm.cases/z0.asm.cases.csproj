@@ -4,9 +4,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ProjectReference Include="$(AsmCore)"/>
-  </ItemGroup>
+  </ItemGroup> -->
+
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
