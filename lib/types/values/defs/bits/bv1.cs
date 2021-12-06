@@ -29,10 +29,10 @@ namespace Z0.Types
         public bit this[uint i]
         {
             [MethodImpl(Inline)]
-            get => TS.state(this,i);
+            get => TV.state(this,i);
 
             [MethodImpl(Inline)]
-            set => TS.state(value, i, ref this);
+            set => TV.state(value, i, ref this);
         }
 
         [MethodImpl(Inline)]

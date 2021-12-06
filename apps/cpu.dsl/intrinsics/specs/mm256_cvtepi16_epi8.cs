@@ -61,7 +61,7 @@ namespace Z0.Vdsl
             {
                 var i=16*j;
                 var l=8*j;
-                seek(dst,j) = TS.v(j, i, l);
+                seek(dst,j) = TV.v(j, i, l);
                 counter++;
             }
             return counter;

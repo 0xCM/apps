@@ -10,7 +10,7 @@ namespace Z0.Types
 
     using static Root;
     using static core;
-    using static TS;
+    using static TV;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g4x4<{0}>")]
     public struct g4x4<T> : IGrid<g4x4<T>,N4,T>

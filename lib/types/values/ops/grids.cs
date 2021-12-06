@@ -12,7 +12,7 @@ namespace Z0
 
     using Types;
 
-    partial struct TS
+    partial struct TV
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static g8x8<T> grid8x8<T>(ReadOnlySpan<T> src)

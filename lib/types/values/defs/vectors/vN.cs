@@ -41,7 +41,7 @@ namespace Z0.Types
         }
 
         public string Format()
-            => TS.format(this);
+            => TV.format(this);
 
         public override string ToString()
             => Format();

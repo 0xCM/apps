@@ -13,7 +13,7 @@ namespace Z0
 
     using Types;
 
-    partial struct TS
+    partial struct TV
     {
         [MethodImpl(Inline), Op]
         public static u1<bit> u1(bit src)

@@ -18,7 +18,7 @@ namespace Z0
     using W = W32i;
 
     /// <summary>
-    /// Defines a type-level representation of <see cref='DW.W32'/> with a <see cref='TS.Signed'/> classifier
+    /// Defines a type-level representation of <see cref='DW.W32'/> with a <see cref='TV.Signed'/> classifier
     /// </summary>
     public readonly struct W32i : WNumeric<W>
     {

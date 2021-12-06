@@ -9,7 +9,7 @@ namespace Z0.Machines
 
     using static Root;
     using static core;
-    using static TS;
+    using static TV;
 
     public class BlitMachine : AppService<BlitMachine>
     {

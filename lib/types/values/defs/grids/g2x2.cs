@@ -8,7 +8,7 @@ namespace Z0.Types
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-    using static TS;
+    using static TV;
     using static Root;
     using static core;
 

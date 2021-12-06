@@ -11,7 +11,7 @@ namespace Z0
     using static core;
 
     using Types;
-    partial struct TS
+    partial struct TV
     {
         /// <summary>
         /// Creates the empty vector

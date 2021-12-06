@@ -12,7 +12,7 @@ namespace Z0
 
     using Types;
 
-    partial struct TS
+    partial struct TV
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static TypedSeq<T> gseq<T>(T[] src)

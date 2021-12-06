@@ -12,7 +12,7 @@ namespace Z0
 
     using Types;
 
-    partial struct TS
+    partial struct TV
     {
         public static bvNx64 bv(N64 n, Span<ulong> src)
             => new bvNx64(src);

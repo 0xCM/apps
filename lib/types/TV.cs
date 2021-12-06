@@ -9,7 +9,7 @@ namespace Z0
     using static Root;
 
     [ApiHost]
-    public readonly partial struct TS
+    public readonly partial struct TV
     {
         const NumericKind Closure = UnsignedInts;
     }
