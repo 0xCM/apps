@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".sdm-codegen")]
+        [CmdOp("sdm/import/opcodes")]
         Outcome SdmCodeGen(CmdArgs args)
         {
             var opcodes = Sdm.ImportOpCodes();
@@ -39,45 +39,5 @@ namespace Z0.Asm
             return items.ToArray().Mapi((i,x) => new ListItem<string>((uint)i,x));
         }
 
-
-        // [CmdOp(".sdm-opcode-tests")]
-        // public Outcome TestOcStrings(CmdArgs args)
-        // {
-        //     var result = Outcome.Success;
-        //     var _strings = strings.memory(OpCodeStrings.Offsets, OpCodeStrings.Data);
-        //     var offsets = recover<uint>(OpCodeStrings.Offsets);
-        //     var formatter = Tables.formatter<MemoryStrings>();
-        //     Write(formatter.Format(_strings, RecordFormatKind.KeyValuePairs));
-
-        //     result = CheckOffsets(_strings, offsets);
-        //     if(result.Fail)
-        //         return result;
-        //     else
-        //     {
-        //         var count = _strings.EntryCount;
-        //         for(var i=0; i<count; i++)
-        //             Write(text.format(_strings[i]));
-        //     }
-
-        //     return result;
-        // }
-
-        // static Outcome CheckOffsets(in MemoryStrings src, ReadOnlySpan<uint> offsets)
-        // {
-        //     var result = Outcome.Success;
-        //     var count = src.EntryCount;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var actual = ref strings.offset(src,i);
-        //         ref readonly var expect = ref skip(offsets,i);
-        //         if(actual != expect)
-        //         {
-        //             result = (false, $"{expect} != {actual}");
-        //             return result;
-        //         }
-        //     }
-
-        //     return result;
-        // }
     }
 }

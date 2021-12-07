@@ -11,15 +11,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp("api/parts")]
-        Outcome ShowApiParts(CmdArgs args)
-        {
-            var src = ApiRuntimeLoader.catalog();
-            var parts = src.Components;
-            iter(parts,  p => Write(p.PartName()));
-            return true;
-        }
-
         [CmdOp("api/emit/pdb-info")]
         Outcome EmitApiPdbInfo(CmdArgs arg)
         {

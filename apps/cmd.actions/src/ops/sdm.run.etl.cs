@@ -8,8 +8,10 @@ namespace Z0
 
     partial class GlobalCommands
     {
-        [CmdOp("sdm/run/etl")]
-        Outcome RunSdmEtl(CmdArgs args)
+        const string RunSdmEtl = "sdm/run/etl";
+
+        [CmdOp(RunSdmEtl)]
+        Outcome runsdmetl(CmdArgs args)
             => Service(Wf.IntelSdm).RunEtl();
     }
 }

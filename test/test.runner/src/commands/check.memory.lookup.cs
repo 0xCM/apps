@@ -2,14 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using static Root;
     using static core;
 
-    partial class AsmCmdService
+    partial class AppCommands
     {
-        [CmdOp(".test-mem-lookup")]
+        [CmdOp("check/memory/lookup")]
         public Outcome CheckMemoryLookup(CmdArgs args)
         {
             var capacity = Pow2.T16;

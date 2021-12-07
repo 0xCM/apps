@@ -8,19 +8,11 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp(".components")]
-        Outcome ApiComponents(CmdArgs args)
-        {
-            var src = ApiRuntimeLoader.assemblies();
-            iter(src, c => c.Id());
-            return true;
-        }
-
-        [CmdOp(".symsources")]
+        [CmdOp("api/query/symsources")]
         Outcome SymSources(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = Clr.symsources(ApiRuntimeLoader.assemblies()).View;
+            var src = Clr.symsources(ApiRuntimeCatalog.Components).View;
             for(var i=0; i<src.Length; i++)
                 Write(skip(src,i).Name);
 

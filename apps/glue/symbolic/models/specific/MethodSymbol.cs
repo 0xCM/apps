@@ -14,6 +14,7 @@ namespace Z0
     using OmniSharp.Models.TypeLookup;
 
     using static Root;
+    using static core;
 
     using api = CaSymbols;
 
@@ -39,6 +40,12 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Source != null;
+            }
+
+            public ReadOnlySpan<Location> Locations
+            {
+                [MethodImpl(Inline)]
+                get=> Source.Locations.AsSpan();
             }
 
             public DocumentationComment Docs
@@ -304,9 +311,6 @@ namespace Z0
             public bool CanBeReferencedByName
                 => Source.CanBeReferencedByName;
 
-            public ImmutableArray<Location> Locations
-                => Source.Locations;
-
             public ImmutableArray<SyntaxReference> DeclaringSyntaxReferences
                 => Source.DeclaringSyntaxReferences;
 
@@ -366,7 +370,22 @@ namespace Z0
                 => Source.Equals(src.Source);
 
             public string Format()
-                => api.format(this);
+            {
+                var locations = Locations;
+                var location = default(FS.FileUri);
+                if(locations.Length != 0)
+                {
+                    var loc = first(locations);
+                    var ls = loc.GetLineSpan();
+                    if(ls.Path != null)
+                    {
+                        location = FS.path(ls.Path).ToUri();
+                        location = location.LineRef((uint)ls.Span.Start.Line);
+                    }
+                }
+
+                return string.Format("{0}", Source.ToDisplayString());
+            }
 
             public override string ToString()
                 => Format();

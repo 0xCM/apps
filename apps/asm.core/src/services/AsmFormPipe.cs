@@ -19,44 +19,6 @@ namespace Z0.Asm
         }
 
 
-        // public ReadOnlySpan<AsmFormInfo> LoadFormExpressions()
-        // {
-        //     var catalog = Wf.StanfordCatalog();
-        //     catalog.EmitForms(catalog.DeriveFormExprssions());
-
-        //     var src = Db.AsmCatalogTable<AsmFormRecord>();
-        //     var records = LoadForms(src);
-        //     var count = records.Length;
-        //     var buffer = alloc<AsmFormInfo>(count);
-        //     ref var dst = ref first(buffer);
-        //     for(var i=0; i<count; i++)
-        //         seek(dst, i) = skip(records,i).FormExpr;
-        //     return buffer;
-        // }
-
-        // public ReadOnlySpan<HashEntry> EmitFormHashes()
-        // {
-        //     var pipe = Wf.AsmFormPipe();
-        //     var expressions = pipe.LoadFormExpressions();
-        //     var count = expressions.Length;
-        //     var unique = dict<string,AsmFormInfo>();
-        //     var duplicates = dict<string,AsmFormInfo>();
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var e = ref skip(expressions, i);
-        //         if(e.IsEmpty)
-        //             continue;
-
-        //         var format = e.Format();
-        //         if(!unique.TryAdd(format,e))
-        //             duplicates[format] = e;
-
-        //     }
-
-        //     iter(duplicates.Keys, k => Wf.Warn(string.Format("Duplicate Form: {0}", k)));
-        //     return HashPerfect(unique.Values.Array());
-        // }
-
         public void Emit(ReadOnlySpan<AsmFormInfo> src, FS.FilePath dst)
         {
             var count = src.Length;

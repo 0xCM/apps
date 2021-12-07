@@ -4,13 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static core;
-    using static WsAtoms;
 
     partial class AsmCmdService
     {
-
-   }
+        [CmdOp("api/query/parts")]
+        Outcome ShowApiParts(CmdArgs args)
+        {
+            var src = ApiRuntimeCatalog;
+            var parts = src.Components;
+            iter(parts,  p => Write(p.PartName()));
+            return true;
+        }
+    }
 }
