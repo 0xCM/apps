@@ -8,6 +8,7 @@ namespace Z0.Types
 
     using static Root;
 
+    using T = bv0;
     public struct bv0 : IIndexedBits<byte>
     {
         public const uint Width = 0;

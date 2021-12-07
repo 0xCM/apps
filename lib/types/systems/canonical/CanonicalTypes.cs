@@ -6,14 +6,14 @@ namespace Z0
 {
     using System;
 
-    using PK = CanonicalPrimitiveKind;
+    using PK = CanonicalKind;
     using PN = CanonicalSpecs;
 
-    public sealed class CanonicalTypeSystem : TypeSystem<CanonicalTypeSystem, PK>
+    public sealed class CanonicalTypes : TypeSystem<CanonicalTypes, PK>
     {
         public const string SystemName = "canonical";
 
-        public CanonicalTypeSystem()
+        public CanonicalTypes()
             : base(SystemName)
         {
 
@@ -21,7 +21,6 @@ namespace Z0
 
         public override ReadOnlySpan<TypeKind<PK>> Primitives
             => _Primitives;
-
 
         static TypeKind<PK> primitive(PK kind, string name, byte arity)
             => new TypeKind<PK>(kind, name, arity);

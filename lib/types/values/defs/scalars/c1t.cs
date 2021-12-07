@@ -4,24 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Types
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
-    /// Defines an unsigned 5-bit integer over an 8-bit cell
+    /// Represents a character of width 1
     /// </summary>
-    public struct u6 : IUnsignedValue<u6>
+    public struct c1<T> : IChar<T>
+        where T : unmanaged
     {
-        public const uint Width = 6;
+        public const ulong Width = 1;
 
-        public Cell8 Storage;
+        public T Storage;
 
-        [MethodImpl(Inline)]
-        public u6(Cell8 src)
+        public c1(T src)
         {
-            Storage = Cells.trim(src,n6);
+            Storage = src;
         }
+
+        public string Format()
+            => Storage.ToString();
+
+        public override string ToString()
+            => Format();
 
         BitWidth ISizedValue.ContentWidth
             => Width;

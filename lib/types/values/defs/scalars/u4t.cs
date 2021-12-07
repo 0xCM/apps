@@ -8,35 +8,23 @@ namespace Z0.Types
 
     using static Root;
 
-    public struct uN<T> : ISignedValue<T>
+    /// <summary>
+    /// Defines an unsigned 4-bit integer over parametric storage
+    /// </summary>
+    public struct u4<T> : IUnsignedValue<T>
         where T : unmanaged
     {
-        public uint N;
+        public const ulong Width = 4;
 
         public T Storage;
 
         [MethodImpl(Inline)]
-        public uN(uint n, T src)
+        public u4(T src)
         {
-            N = n;
             Storage = src;
         }
 
-        [MethodImpl(Inline)]
-        public uN(uint n)
-        {
-            N = n;
-            Storage = default;
-        }
-
-        public Identifier TypeName
-            => string.Format("u{0}",N);
-
         BitWidth ISizedValue.ContentWidth
-            => N;
-
-        [MethodImpl(Inline)]
-        public static implicit operator uN<T>(uint n)
-            => new uN<T>(n);
+            => Width;
     }
 }

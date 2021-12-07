@@ -8,6 +8,8 @@ namespace Z0.Types
 
     using static Root;
 
+    using T = bv6;
+
     /// <summary>
     /// Defines a 6-bit bitvector
     /// </summary>

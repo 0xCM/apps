@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     public readonly struct TypedSeq<T> : ITypedSeq<T>
-        where T : ITyped
+        where T : ITyped, IEquatable<T>
     {
         readonly Index<T> Data;
 
@@ -18,6 +18,30 @@ namespace Z0
         public TypedSeq(T[] src)
         {
             Data = src;
+        }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
+
+        public int Length
+        {
+            [MethodImpl(Inline)]
+            get => Data.Length;
         }
 
         public ReadOnlySpan<T> View
@@ -39,5 +63,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator T[](TypedSeq<T> src)
             => src;
+
+        public static TypedSeq<T> Empty => new TypedSeq<T>(sys.empty<T>());
     }
 }

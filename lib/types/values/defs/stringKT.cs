@@ -10,36 +10,31 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct @string<K> : IString<string>, IComparable<@string<K>>, IEquatable<@string<K>>
+    public readonly struct @string<K,T> : IString<TypedSeq<T>>, IComparable<@string<K>>, IEquatable<@string<K>>
         where K : unmanaged
+        where T : unmanaged, ITyped, IEquatable<T>
     {
-        readonly string Data;
+        public TypedSeq<T> Content {get;}
 
-        public readonly K Kind;
+        public K Kind {get;}
 
         [MethodImpl(Inline)]
-        public @string(K kind, string src)
+        public @string(K kind, TypedSeq<T> src)
         {
             Kind = kind;
-            Data = src;
-        }
-
-        public string Content
-        {
-            [MethodImpl(Inline)]
-            get => Data ?? EmptyString;
+            Content = src;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Data);
+            get => Content.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Data);
+            get => Content.IsNonEmpty;
         }
 
         public int Length
@@ -49,7 +44,16 @@ namespace Z0
         }
 
         public string Format()
-            => Content;
+        {
+            var dst = text.buffer();
+            var data = Content.View;
+            var count = data.Length;
+            for(var i=0; i<count; i++)
+            {
+                dst.Append(skip(data,0).Format());
+            }
+            return dst.Emit();
+        }
 
         public override string ToString()
             => Format();
@@ -68,24 +72,21 @@ namespace Z0
         public override bool Equals(object src)
             => src is @string<K> x && Equals(x);
 
-        public static @string<K> Empty
+        public static @string<K,T> Empty
         {
             [MethodImpl(Inline)]
-            get => new @string<K>(default(K), EmptyString);
+            get => new @string<K,T>(default(K), TypedSeq<T>.Empty);
         }
 
-        [MethodImpl(Inline)]
-        public static implicit operator @string<K>((K kind, string content) src)
-            => new @string<K>(src.kind, src.content);
 
         [MethodImpl(Inline)]
-        public static implicit operator string(@string<K> src)
-            => src.Content;
+        public static implicit operator string(@string<K,T> src)
+            => src.Format();
 
-        public static bool operator ==(@string<K> a, @string<K> b)
-            => a.Equals(b);
+        // public static bool operator ==(@string<K> a, @string<K> b)
+        //     => a.Equals(b);
 
-        public static bool operator !=(@string<K> a, @string<K> b)
-            => !a.Equals(b);
+        // public static bool operator !=(@string<K> a, @string<K> b)
+        //     => !a.Equals(b);
     }
 }

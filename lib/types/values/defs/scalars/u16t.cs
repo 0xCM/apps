@@ -4,16 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Types
 {
-    /// <summary>
-    /// Represents a character of width 2
-    /// </summary>
-    public struct c2 : IChar<byte>
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+    using static core;
+
+    public struct u16<T> : IUnsignedValue<T>, IEquatable<u16<T>>
+        where T : unmanaged
     {
-        public const ulong Width = 2;
+        public const ulong Width = 16;
 
-        public byte Storage;
+        public T Storage;
 
-        public c2(byte src)
+        [MethodImpl(Inline)]
+        public u16(T src)
         {
             Storage = src;
         }
@@ -23,6 +29,9 @@ namespace Z0.Types
 
         public override string ToString()
             => Format();
+
+        public bool Equals(u16<T> src)
+            => bw16(Storage) == bw16(src.Storage);
 
         BitWidth ISizedValue.ContentWidth
             => Width;

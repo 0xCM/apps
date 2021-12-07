@@ -39,24 +39,4 @@ namespace Z0.Types
         public static implicit operator byte(u8 src)
             => src.Storage;
     }
-
-    /// <summary>
-    /// Defines an unsigned 8-bit integer over parametric storage
-    /// </summary>
-    public struct u8<T> : IUnsignedValue<T>
-        where T : unmanaged
-    {
-        public const ulong Width = 8;
-
-        public T Storage;
-
-        [MethodImpl(Inline)]
-        public u8(T src)
-        {
-            Storage = src;
-        }
-
-        BitWidth ISizedValue.ContentWidth
-            => Width;
-    }
 }

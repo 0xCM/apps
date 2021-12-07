@@ -8,6 +8,8 @@ namespace Z0.Types
 
     using static Root;
 
+    using T = bv32;
+
     /// <summary>
     /// Defines a 32-bit bitvector
     /// </summary>

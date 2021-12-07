@@ -9,18 +9,19 @@ namespace Z0.Types
     using static Root;
 
     /// <summary>
-    /// Defines an unsigned 5-bit integer over an 8-bit cell
+    /// Defines an unsigned 5-bit integer over parametric storage
     /// </summary>
-    public struct u6 : IUnsignedValue<u6>
+    public struct u5<T> : IUnsignedValue<T>
+        where T : unmanaged
     {
-        public const uint Width = 6;
+        public const uint Width = 5;
 
-        public Cell8 Storage;
+        public T Storage;
 
         [MethodImpl(Inline)]
-        public u6(Cell8 src)
+        public u5(T src)
         {
-            Storage = Cells.trim(src,n6);
+            Storage = src;
         }
 
         BitWidth ISizedValue.ContentWidth

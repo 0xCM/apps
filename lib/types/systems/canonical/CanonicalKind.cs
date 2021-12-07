@@ -7,7 +7,7 @@ namespace Z0
     using PN = CanonicalSpecs;
 
     [SymSource("canonical")]
-    public enum CanonicalPrimitiveKind : uint
+    public enum CanonicalKind : uint
     {
         [Symbol(PN.U, "Designates an unsigned integral type of bounded parametric width")]
         U,
