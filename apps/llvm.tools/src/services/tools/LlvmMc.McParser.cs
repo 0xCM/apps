@@ -92,7 +92,7 @@ namespace Z0.llvm
                         if(result.Fail)
                             return result;
 
-                        buffer.Add(new AsmStatementEncoding(InstSeq, expr, line.LineNumber, offset, hex));
+                        buffer.Add(new AsmStatementEncoding(0, InstSeq, expr, line.LineNumber, offset, hex));
                         offset += hex.Size;
                         InstSeq++;
                     }

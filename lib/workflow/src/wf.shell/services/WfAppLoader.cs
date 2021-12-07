@@ -21,17 +21,17 @@ namespace Z0
             return reactors;
         }
 
-        public static IWfRuntime load()
-            => create(ApiRuntimeLoader.parts(controller()), array<string>());
+        public static IWfRuntime load(string logname = EmptyString)
+            => create(ApiRuntimeLoader.parts(controller()), array<string>(), logname);
 
-        public static IWfRuntime load(string[] args)
-            => create(ApiRuntimeLoader.parts(controller(), args), args);
+        public static IWfRuntime load(string[] args, string logname = EmptyString)
+            => create(ApiRuntimeLoader.parts(controller(), args), args, logname);
 
-        public static IWfRuntime load(PartId[] parts, string[] args)
-            => create(ApiRuntimeLoader.parts(parts), args);
+        public static IWfRuntime load(PartId[] parts, string[] args, string logname = EmptyString)
+            => create(ApiRuntimeLoader.parts(parts), args, logname);
 
-        public static IWfRuntime load(IApiParts parts, string[] args)
-            => create(parts, args);
+        public static IWfRuntime load(IApiParts parts, string[] args, string logname = EmptyString)
+            => create(parts, args, logname);
 
         static WfContext context(Assembly control, IApiParts parts, string[] args)
         {

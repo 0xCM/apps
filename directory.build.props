@@ -33,8 +33,8 @@
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
     <ZLibPath>J:\z0\.build\bin\z0.lib\Release\netcoreapp3.1\z0.lib.dll</ZLibPath>
-    <ZTestName>ztest</ZTestName>
-    <ZTestPath>J:\z0\.build\bin\z0.test\Release\netcoreapp3.1\win-x64\ztest.dll</ZTestPath>
+    <ZTestName>test.units</ZTestName>
+    <ZTestPath>$(BuildRootDir)bin\z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>
   </PropertyGroup>
 
 

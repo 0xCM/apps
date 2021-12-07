@@ -25,7 +25,7 @@ namespace Z0
 
         public void EmitImageContent()
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running(nameof(EmitImageContent));
             var pipe = Wf.ProcessContextPipe();
             ClearImageContent();
             iter(Wf.ApiCatalog.Components, c => EmitImageContent(c));

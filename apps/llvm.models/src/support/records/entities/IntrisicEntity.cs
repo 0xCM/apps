@@ -20,9 +20,14 @@ namespace Z0.llvm
             get => text.remove(this[nameof(TargetPrefix)], Chars.Quote);
         }
 
-        public string IntrinsicName
+        public string LlvmName
         {
             get => EntityName;
+        }
+
+        public string CanonicalName
+        {
+            get => text.remove(LlvmName, "int_x86_");
         }
     }
 }

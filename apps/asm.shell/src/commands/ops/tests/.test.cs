@@ -97,7 +97,7 @@ namespace Z0.Asm
         [CmdOp(".test-string-res")]
         Outcome TestStringRes(CmdArgs args)
         {
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(TestStringRes));
             var resources = Resources.strings(typeof(AsciText)).View;
             var count = resources.Length;
             for(var i=0; i<count; i++)
@@ -105,21 +105,6 @@ namespace Z0.Asm
                 Write(skip(resources,i));
             }
             return true;
-        }
-
-        void CheckBitsParser()
-        {
-            // var source = BitFlow.nbits(12,0b110001110101u);
-            // var input = "{1,1,0,0,0,1,1,1,0,1,0,1}";
-            // var rendered = source.Format();
-            // var parser = Parsers.bits<uint>();
-            // var result = parser.Parse(input, out var output);
-            // if(result.Fail)
-            // {
-            //     Error(result.Message);
-            // }
-            // else
-            //     Write(string.Format("{0} => {1}", rendered, output));
         }
 
         void CheckCells()

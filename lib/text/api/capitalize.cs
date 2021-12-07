@@ -12,7 +12,7 @@ namespace Z0
     partial class text
     {
         /// <summary>
-        /// Replaces the first character of the source in capitalized form
+        /// Replaces the first character of the source with its capitalized form
         /// </summary>
         /// <param name="src">The source string</param>
         [Op]
@@ -23,6 +23,5 @@ namespace Z0
 
             return src[0].ToUpper() + slice(src,1);
         }
-
     }
 }

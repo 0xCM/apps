@@ -8,9 +8,6 @@ namespace Z0
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    [Free]
-    public delegate Span<T> Imm8ShiftSpanOp<T>(ReadOnlySpan<T> src, byte imm8, Span<T> dst);
-
     /// <summary>
     /// Characterizes an operator that applies a bitwise shift or rotation to elements in a source span
     /// </summary>

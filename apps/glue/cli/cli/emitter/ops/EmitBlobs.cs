@@ -14,7 +14,7 @@ namespace Z0
     {
         public void EmitBlobs()
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running(nameof(EmitBlobs));
             ClearBlobs();
             foreach(var part in Wf.ApiCatalog.Parts)
                 EmitBlobs(part.Owner);

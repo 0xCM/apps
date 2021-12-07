@@ -16,7 +16,7 @@ namespace Z0
 
         public static ICheckService[] services(IWfRuntime wf, params Assembly[] src)
         {
-            var types = Checkers.types(core.controller());
+            var types = Checkers.types(src);
             var dst = list<ICheckService>();
             foreach(var type in types)
             {

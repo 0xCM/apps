@@ -51,6 +51,7 @@ namespace Z0.llvm
             var src = EncodingSourcePaths(ws).View;
             var count = src.Length;
             var dst = list<AsmEncodingDoc>();
+            var counter = 0u;
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
@@ -60,6 +61,16 @@ namespace Z0.llvm
                     Error(result.Message);
                     break;
                 }
+
+                var scount = doc.StatmentCount;
+                var statements = doc.Statements;
+
+                for(var j=0; j<scount; j++)
+                {
+                    ref var statement = ref seek(statements,j);
+                    statement.Seq = counter++;
+                }
+
                 dst.Add(doc);
             }
 

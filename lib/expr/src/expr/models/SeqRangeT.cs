@@ -10,8 +10,6 @@ namespace Z0
 
     using static Root;
 
-    using Expr;
-
     /// <summary>
     /// Constrains an element or sequence to live within a specified range
     /// </summary>

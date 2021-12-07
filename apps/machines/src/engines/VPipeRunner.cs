@@ -16,7 +16,7 @@ namespace Z0.Machines
         [Op]
         public static void test(IWfRuntime wf)
         {
-            var flow = wf.Running();
+            var flow = wf.Running(nameof(VPipeTests));
             var w = w128;
             var blocks = Pow2.T08;
             var random = Rng.@default();

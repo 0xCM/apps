@@ -58,7 +58,7 @@ namespace Z0.Asm
 
         public void Produce(string name, FS.FilePath dst, params PartId[] parts)
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running(nameof(Produce));
             var options = CaptureWorkflowOptions.EmitImm;
             var routines = Capture.run(Wf, parts, options);
             var statements = Produce(routines, dst);

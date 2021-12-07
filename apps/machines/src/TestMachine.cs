@@ -294,7 +294,7 @@ namespace Z0.Machines.X86
             Task<uint> RunMachine(uint cycles)
                 => Task.Factory.StartNew(() => new Vmx128x2(CellCount, Rng.@default()).Run(cycles));
 
-            var flow = Wf.Running();
+            var flow = Wf.Running("Test11");
             var clock = Time.counter(true);
             var count = 0ul;
             var tasks = core.stream(0u,JobCount).Map(i => RunMachine(CycleCount));

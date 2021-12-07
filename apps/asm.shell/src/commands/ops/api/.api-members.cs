@@ -12,11 +12,12 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
+        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
+
         [CmdOp(".api-pdbs")]
         Outcome IndexApiPdbFiles(CmdArgs args)
         {
-            var catalog = State.ApiCatalog(ApiRuntimeLoader.catalog);
-            var components = catalog.Components;
+            var components = ApiRuntimeCatalog.Components;
             var builder = Wf.PdbIndexBuilder();
             builder.IndexComponents(components);
             return true;

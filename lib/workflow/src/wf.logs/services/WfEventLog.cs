@@ -20,8 +20,6 @@ namespace Z0
 
         public WfEventLog(WfLogConfig config)
         {
-            // config.StatusLog.Delete();
-            // config.ErrorLog.Delete();
             StatusPath = config.StatusPath;
             ErrorPath = config.ErrorPath;
             StatusPath.Delete();

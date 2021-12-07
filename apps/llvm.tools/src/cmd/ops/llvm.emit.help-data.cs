@@ -8,8 +8,10 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/emit/help-data")]
-        Outcome EmitHelpDat(CmdArgs args)
+        const string EmitHelpData = "llvm/emit/help-data";
+
+        [CmdOp(EmitHelpData)]
+        Outcome ExecEmitHelpData(CmdArgs args)
         {
             DataEmitter.EmitToolHelp();
             return true;

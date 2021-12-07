@@ -162,13 +162,13 @@ namespace Z0
             return completed;
         }
 
-        WfExecFlow<string> Running([Caller] string operation = null)
+        WfExecFlow<T> Running<T>(T data)
         {
-            signal(this).Running(operation);
-            return Flow(operation);
+            signal(this).Running(data);
+            return Flow(data);
         }
 
-        WfExecFlow<T> Running<T>(T data, [Caller] string operation = null)
+        WfExecFlow<T> Running<T>(T data, string operation)
         {
             signal(this).Running(operation, data);
             return Flow(data);

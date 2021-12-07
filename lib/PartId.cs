@@ -82,8 +82,9 @@ public enum PartId : byte
     [Symbol("containers")]
     Containers = 27,
 
-    [Symbol("text")]
-    Text = 28,
+    [Symbol("test.runner")]
+    TestRunner = 28,
+
 
     [Symbol("blittable")]
     Blittable = 29,
@@ -169,8 +170,8 @@ public enum PartId : byte
     [Symbol("calc.shell")]
     CalcShell = 56,
 
-    [Symbol("math.test")]
-    MathTest = 57,
+    [Symbol("test.units")]
+    TestUnits = 57,
 
     [Symbol("clr")]
     Clr = 58,

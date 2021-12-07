@@ -13,6 +13,8 @@ namespace Z0
 
     public readonly struct WfLogConfig : IWfLogConfig
     {
+        public string LogId {get;}
+
         /// <summary>
         /// The controlling part identifier
         /// </summary>
@@ -36,12 +38,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public WfLogConfig(PartId control, FS.FolderPath root, string name = EmptyString)
         {
+            LogId = text.empty(name) ? control.Format() : string.Format("{0}.{1}", control.Format(), name);
             LogRoot = root + FS.folder("logs");
             ControlId = control;
-            var app = ControlId.Format();
-            var logname = text.empty(name) ? app : string.Format("{0}.{1}", app, name);
-            StatusPath = LogRoot +  FS.file(logname, FS.StatusLog);
-            ErrorPath = LogRoot + FS.file(logname, FS.ErrorLog);
+            StatusPath = LogRoot +  FS.file(LogId, FS.StatusLog);
+            ErrorPath = LogRoot + FS.file(LogId, FS.ErrorLog);
         }
 
         public override string ToString()

@@ -25,19 +25,25 @@ namespace Z0
             Data = rows;
         }
 
-        public ReadOnlySpan<AsmStatementEncoding> Statements
+        public uint StatmentCount
         {
             [MethodImpl(Inline)]
-            get => Data.View;
+            get => Data.Count;
         }
 
-        public ref readonly AsmStatementEncoding this[uint i]
+        public Span<AsmStatementEncoding> Statements
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
+        public ref AsmStatementEncoding this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
 
-        public ref readonly AsmStatementEncoding this[int i]
+        public ref AsmStatementEncoding this[int i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];

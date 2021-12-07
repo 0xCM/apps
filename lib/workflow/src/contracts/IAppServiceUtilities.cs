@@ -17,13 +17,11 @@ namespace Z0
 
         string HostName => GetType().Name;
 
-
         string Worker([Caller] string name = null)
             => string.Format("{0,-14}",string.Format("worker({0}) >>", name));
 
         void RedirectEmissions(string name, FS.FolderPath dst)
             => Wf.RedirectEmissions(Loggers.emission(name, dst));
-
 
         bool Check<T>(Outcome<T> outcome, out T payload)
         {
@@ -95,7 +93,7 @@ namespace Z0
             => Wf.Running(string.Format("{0} | {1,-16}", HostName, msg));
 
         ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
-                => Wf.Ran(flow.WithMsg(string.Format("{0,-16} | {1}", HostName, msg)));
+            => Wf.Ran(flow.WithMsg(string.Format("{0,-16} | {1}", HostName, msg)));
 
         ExecToken Ran<T,D>(WfExecFlow<T> flow, D data, [Caller] string operation = null)
             where T : IMsgPattern

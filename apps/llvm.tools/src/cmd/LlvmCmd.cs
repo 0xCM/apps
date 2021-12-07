@@ -81,27 +81,21 @@ namespace Z0.llvm
             return true;
         }
 
-        Outcome Flow<T>(ReadOnlySpan<T> src)
+        Outcome Flow(Label query, FS.Files src)
         {
-            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
+            Files(src);
+
+            DataEmitter.EmitQueryResults(query, @readonly(src.View.Map(x => x.ToUri())));
             return true;
         }
 
-        Outcome Flow<T>(Label kind, ReadOnlySpan<T> src)
+        Outcome Flow<T>(Label query, ReadOnlySpan<T> src, bool show = false)
         {
-            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
-            return true;
-        }
+            if(show)
+                iteri(src, (i,item) => Write(item));
 
-        Outcome Flow<T>(Label kind, Span<T> src)
-        {
-            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
-            return true;
-        }
+            DataEmitter.EmitQueryResults(query, src);
 
-        Outcome Flow<T>(Span<T> src)
-        {
-            iteri(src, (i,item) => Write(string.Format("{0:D5}: {1}", i, item)));
             return true;
         }
     }

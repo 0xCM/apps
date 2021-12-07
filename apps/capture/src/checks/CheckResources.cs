@@ -40,7 +40,7 @@ namespace Z0
 
         public void Run()
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running(nameof(CheckResourcesStep));
             TryRun();
             Wf.Ran(flow);
         }

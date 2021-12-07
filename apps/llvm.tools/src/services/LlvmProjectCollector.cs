@@ -65,8 +65,8 @@ namespace Z0.llvm
             }
 
             return result;
-
         }
+
         Outcome CollectObjHex(IProjectWs ws)
         {
             var result = Outcome.Success;

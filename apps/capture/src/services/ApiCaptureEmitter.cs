@@ -113,7 +113,7 @@ namespace Z0
         {
             if(src.Length != 0)
             {
-                var flow = Wf.Running();
+                var flow = Wf.Running(nameof(ParseExtracts));
                 var parsed = ExtractParser.ParseMembers(src);
                 Wf.Ran(flow, Msg.ParsedExtractBlocks.Format(parsed.Count, host));
                 return parsed;

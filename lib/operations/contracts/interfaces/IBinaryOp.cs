@@ -9,15 +9,6 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     /// <summary>
-    /// Defines the canonical shape of a binary operator
-    /// </summary>
-    /// <param name="a">The left operand</param>
-    /// <param name="b">The right operand</param>
-    /// <typeparam name="T">The operand type</typeparam>
-    [Free]
-    public delegate T BinaryOp<T>(T a, T b);
-
-    /// <summary>
     /// Characterizes a structural binary operator
     /// </summary>
     /// <typeparam name="T">The operand type</typeparam>

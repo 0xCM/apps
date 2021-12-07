@@ -15,7 +15,7 @@ namespace Z0.Asm
         public Outcome EmitTocRecords()
         {
             var result = Outcome.Success;
-            var flow = Wf.Running();
+            var flow = Wf.Running(nameof(EmitTocRecords));
             var vols = VolumeMarkers(1,4);
             var src = SdmPaths.TocImportPath();
             if(!src.Exists)

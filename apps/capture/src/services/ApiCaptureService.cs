@@ -44,7 +44,7 @@ namespace Z0
         /// </summary>
         public Index<AsmHostRoutines> CaptureParts()
         {
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(CaptureParts));
             ClearArchive();
             var captured = RunCapture();
             Wf.Ran(flow);
@@ -54,7 +54,7 @@ namespace Z0
 
         public Index<AsmHostRoutines> CaptureParts(Index<PartId> parts)
         {
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(CaptureParts));
             ClearArchive(parts);
             var captured = RunCapture(parts);
             Wf.Ran(flow);
@@ -63,7 +63,7 @@ namespace Z0
 
         public AsmHostRoutines CaptureHost(ApiHostUri host, ApiMembers members, FS.FolderPath dst)
         {
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(CaptureHost));
             var extracted = Extractor.Extract(members);
             var count = extracted.Length;
             var routines = Emitter.Emit(host, extracted, dst);
@@ -119,7 +119,7 @@ namespace Z0
         public ReadOnlySpan<AsmHostRoutines> CaptureCatalog(IApiCatalog catalog)
         {
             var dst = list<AsmHostRoutines>();
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(CaptureCatalog));
             var catalogs = catalog.Catalogs.View;
             var count = catalogs.Length;
             for(var i=0; i<count; i++)
@@ -250,7 +250,7 @@ namespace Z0
         Index<AsmHostRoutines> RunCapture()
         {
             var dst = list<AsmHostRoutines>();
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(RunCapture));
             var catalogs = Wf.ApiCatalog.Catalogs.View;
             var count = catalogs.Length;
             for(var i=0; i<count; i++)
@@ -262,7 +262,7 @@ namespace Z0
         Index<AsmHostRoutines> RunCapture(Index<PartId> parts)
         {
             var dst = list<AsmHostRoutines>();
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(RunCapture));
             var catalogs = Wf.ApiCatalog.PartCatalogs(parts).View;
             var count = catalogs.Length;
             for(var i=0; i<count; i++)

@@ -117,7 +117,7 @@ namespace Z0
 
         public ApiCollection Run(IApiPack dst)
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running(string.Format("Packing api to {0}", dst.Root));
             var collected = Wf.ApiExtractor().Run(EventChannel, dst);
             Wf.Ran(flow);
             return collected;

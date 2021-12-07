@@ -205,7 +205,8 @@ namespace Z0.Asm
         public Index<XedFormSource> LoadFormSources()
         {
             var src = FormSourcePath();
-            var flow = Wf.Running(Tables.processing(Tables.identify<XedFormSource>(),src));
+            var tableid = Tables.identify<XedFormSource>();
+            var flow = Running(string.Format("Loading form sources from {0}", src.ToUri()));
             using var reader = src.Utf8Reader();
             var counter = 0u;
             var header = alloc<string>(XedFormSource.FieldCount);

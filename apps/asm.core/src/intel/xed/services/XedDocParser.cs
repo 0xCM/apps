@@ -47,11 +47,4 @@ namespace Z0
             return dst.ToArray();
         }
     }
-
-    // public sealed class XedDocParser : AppService<XedDocParser>
-    // {
-    //     public Index<XedDisasmBlock> ParseDisasmBlocks(FS.FilePath src)
-    //         => XedDisassemblyParser.create(Wf).ParseDisasmBlocks(src);
-
-    // }
 }

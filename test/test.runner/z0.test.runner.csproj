@@ -3,11 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <AssemblyName>ztest</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../lib/z0.lib.csproj" />
+    <ProjectReference Include="../test.units/z0.test.units.csproj" />
   </ItemGroup>
 
 </Project>

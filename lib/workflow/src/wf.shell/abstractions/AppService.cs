@@ -81,7 +81,7 @@ namespace Z0
         protected AppService()
         {
             HostName = GetType().Name;
-            _TextBuffer = TextTools.buffer();
+            _TextBuffer = text.buffer();
         }
 
 
@@ -109,7 +109,6 @@ namespace Z0
 
         protected ShowLog ShowLog([Caller] string name = null, FS.FileExt? ext = null)
             => ShowLog(NameShowLog(name,ext ?? FS.Csv));
-
 
         protected bool Check<T>(Outcome<T> outcome, out T payload)
             => Util.Check(outcome, out payload);

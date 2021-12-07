@@ -314,7 +314,7 @@ namespace Z0.Asm
 
         public void RunPipes()
         {
-            using var flow = Wf.Running();
+            using var flow = Wf.Running(nameof(RunPipes));
             var data = Wf.Polysource.Span<ushort>(2400);
 
             // var input = Pipes.pipe<ushort>();
@@ -327,7 +327,7 @@ namespace Z0.Asm
 
         MemoryAddress GetKernel32Proc(string name = "CreateDirectoryA")
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running(nameof(GetKernel32Proc));
             using var kernel = NativeModules.kernel32();
             Wf.Row(kernel);
 

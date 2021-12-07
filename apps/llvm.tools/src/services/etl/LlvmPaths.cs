@@ -23,7 +23,10 @@ namespace Z0.llvm
             => DataSourceDir("tools");
 
         public FS.FolderPath Sources()
-            => LlvmData.Subdir("sources");
+            => DataHome() + FS.folder("sources");
+
+        public FS.FolderPath Queries()
+            => DataHome() + FS.folder("queries");
 
         public FS.FolderPath Views()
             => DataHome() + FS.folder("views");

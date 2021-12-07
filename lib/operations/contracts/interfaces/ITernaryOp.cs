@@ -9,16 +9,6 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     /// <summary>
-    /// Defines the canonical shape of a terneray operator
-    /// </summary>
-    /// <param name="a">The first operand</param>
-    /// <param name="b">The second operand</param>
-    /// <param name="c">The third operand</param>
-    /// <typeparam name="T">The operand type</typeparam>
-    [Free]
-    public delegate T TernaryOp<T>(T a, T b, T c);
-
-    /// <summary>
     /// Characterizes a structural ternary operator
     /// </summary>
     /// <typeparam name="A">The operand type</typeparam>

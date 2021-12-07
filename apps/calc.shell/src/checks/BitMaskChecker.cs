@@ -122,7 +122,7 @@ namespace Z0
         [Op]
         public void Run(IPolySource source)
         {
-            var flow = Wf.Running();
+            var flow = Wf.Running("Checking bitmasks");
             var log = text.buffer();
             Init(source, log);
             var results = 0ul;

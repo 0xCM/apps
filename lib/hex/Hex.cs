@@ -5,7 +5,9 @@
 namespace Z0
 {
     using static Root;
+    using static core;
 
+    using Ops;
     [ApiHost]
     public readonly partial struct Hex
     {

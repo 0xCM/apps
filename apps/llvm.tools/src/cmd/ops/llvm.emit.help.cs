@@ -13,6 +13,5 @@ namespace Z0.llvm
         {
             return Toolset.EmitHelpDocs();
         }
-
     }
 }

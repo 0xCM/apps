@@ -9,7 +9,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-
         Outcome EmitMsil(ReadOnlySpan<IApiHost> hosts)
         {
             var result = Outcome.Success;
