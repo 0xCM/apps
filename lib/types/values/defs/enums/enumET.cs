@@ -16,7 +16,7 @@ namespace Z0
     /// and the underlying primal type it refines
     /// </summary>
     public readonly struct @enum<E,T> : IEnum<@enum<E,T>,E,T>, IEquatable<@enum<E,T>>
-        where E : unmanaged, Enum
+        where E : unmanaged
         where T : unmanaged
     {
         public E Literal {get;}

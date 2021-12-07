@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     public readonly struct @enum<E> : IEnum<E>, IEquatable<@enum<E>>
-        where E : unmanaged, Enum
+        where E : unmanaged
     {
         public E Literal {get;}
 

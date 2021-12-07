@@ -24,6 +24,7 @@ namespace Z0.Types
         public BitWidth StorageWidth
             => CellType.StorageWidth*CellCount;
 
+        [MethodImpl(Inline)]
         internal VectorType(ScalarType cellkind, uint n)
         {
             CellType = cellkind;
@@ -32,7 +33,7 @@ namespace Z0.Types
         }
 
         public string Format()
-            => CanonicalTypeNames.v(CellCount, CellType);
+            => CanonicalSpecs.v(CellCount, CellType);
 
         public override string ToString()
             => Format();

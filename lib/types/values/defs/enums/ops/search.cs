@@ -22,13 +22,13 @@ namespace Z0
         /// <typeparam name="T">The scalar type</typeparam>
         [MethodImpl(Inline)]
         public static bit oneof<E,T>(T s, E e0, E e1)
-            where E : unmanaged, Enum
+            where E : unmanaged
             where T : unmanaged
                 => same(e0, s) || same(e1, s);
 
         [MethodImpl(Inline)]
         public static bit oneof<E,T>(T s, ReadOnlySpan<E> src)
-            where E : unmanaged, Enum
+            where E : unmanaged
             where T : unmanaged
         {
             var count = src.Length;
@@ -40,7 +40,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bit oneof<E,T>(T s, params E[] src)
-            where E : unmanaged, Enum
+            where E : unmanaged
             where T : unmanaged
                 => oneof(s, @readonly(src));
     }

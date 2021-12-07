@@ -4,21 +4,27 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource]
+    /// <summary>
+    /// Classifies scalar types
+    /// </summary>
+    [SymSource("canonical")]
     public enum ScalarClass : byte
     {
         None,
 
-        [Symbol("u")]
-        U = 1,
+        [Symbol("b", "Designates a bit type")]
+        B = 1,
 
-        [Symbol("i")]
-        I = 2,
+        [Symbol("u", "Designates an unsigned integer type")]
+        U = 2,
 
-        [Symbol("f")]
-        F = 4,
+        [Symbol("i", "Designates a signed integer type")]
+        I = 4,
 
-        [Symbol("c")]
-        C = 8,
+        [Symbol("f", "Designates a floating point type")]
+        F = 8,
+
+        [Symbol("c", "Designates a character type")]
+        C = 16,
     }
 }

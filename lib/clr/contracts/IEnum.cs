@@ -7,20 +7,20 @@ namespace Z0
     using System;
 
     public interface IEnum<E> : ITextual, IEquatable<E>
-        where E : unmanaged, Enum
+        where E : unmanaged
     {
         E Literal {get;}
     }
-    
+
     public interface IEnum<E,T> : IEnum<E>
-        where E : unmanaged, Enum
+        where E : unmanaged
         where T : unmanaged
     {
         T Scalar {get;}
     }
 
     public interface IEnum<F,E,T> : IEnum<E,T>
-        where E : unmanaged, Enum
+        where E : unmanaged
         where T : unmanaged
         where F : unmanaged, IEnum<F,E,T>
     {

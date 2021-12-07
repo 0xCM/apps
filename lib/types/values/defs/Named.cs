@@ -19,8 +19,12 @@ namespace Z0
             => (name,names);
 
         [MethodImpl(Inline), Op]
+        public static NamedKind kind(string name)
+            => name;
+
+        [MethodImpl(Inline), Op]
         public static NameList list(string name, string[] names)
-            => (name,names.Select(x => (Name)x));
+            => (name, names.Select(x => (Name)x));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static NamedValue<V> value<V>(string name, V value)

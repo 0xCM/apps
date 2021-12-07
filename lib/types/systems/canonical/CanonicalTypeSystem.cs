@@ -7,7 +7,7 @@ namespace Z0
     using System;
 
     using PK = CanonicalPrimitiveKind;
-    using PN = CanonicalTypeNames;
+    using PN = CanonicalSpecs;
 
     public sealed class CanonicalTypeSystem : TypeSystem<CanonicalTypeSystem, PK>
     {
@@ -30,6 +30,7 @@ namespace Z0
             primitive(PK.U, PN.U,1),
             primitive(PK.I,PN.I,1),
             primitive(PK.C,PN.C,1),
+            primitive(PK.Ct,PN.Ct,1),
             primitive(PK.F,PN.F,1),
             primitive(PK.V, PN.V, 1),
             primitive(PK.S, PN.S, 0),

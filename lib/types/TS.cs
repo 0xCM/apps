@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
@@ -16,7 +17,29 @@ namespace Z0
         internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
+        public static ScalarType @char<T>(T t)
+            where T : unmanaged, IEquatable<T>, ISizedType
+        {
+            var spec = CanonicalSpecs.ct((byte)t.StorageWidth,t);
+            return new ScalarType<T>(spec.Text,ScalarClass.C, t);
+        }
+
         [Op]
+        public static ScalarType @char(BitWidth n)
+        {
+            switch((byte)n)
+            {
+                case 8:
+                    return scalar(CanonicalSpecs.c(8).Text, ScalarClass.C, 8,8);
+                case 16:
+                    return scalar(CanonicalSpecs.c(16).Text, ScalarClass.C, 16,16);
+                case 32:
+                    return scalar(CanonicalSpecs.c(32).Text, ScalarClass.C, 32,32);
+            }
+            return ScalarType.Empty;
+        }
+
+        [MethodImpl(Inline), Op]
         public static ScalarType scalar(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
             => new ScalarType(name,@class,content,storage);
 

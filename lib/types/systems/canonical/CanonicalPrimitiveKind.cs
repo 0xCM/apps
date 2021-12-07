@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PN = CanonicalTypeNames;
+    using PN = CanonicalSpecs;
 
     [SymSource("canonical")]
     public enum CanonicalPrimitiveKind : uint
@@ -17,6 +17,9 @@ namespace Z0
 
         [Symbol(PN.C, "Designates a character type type of constrained parametric width of 8, 16 or 32")]
         C,
+
+        [Symbol(PN.Ct, "Designates a parametric character type of constrained parametric width of 8, 16 or 32")]
+        Ct,
 
         [Symbol(PN.F, "Designates a floating-point type of constrained parametric width of 16, 32, 64 or 128")]
         F,
