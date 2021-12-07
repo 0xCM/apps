@@ -15,7 +15,5 @@ namespace Z0.Ops
     public readonly struct functions
     {
         public const NumericKind Closure = UnsignedInts;
-
-
     }
 }

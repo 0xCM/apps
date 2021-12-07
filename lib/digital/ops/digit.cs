@@ -166,28 +166,28 @@ namespace Z0
             switch(@base)
             {
                 case NBK.Base2:
-                if(Digital.digit(@base2, c, out var d2))
+                if(digit(@base2, c, out var d2))
                 {
                     dst = (byte)d2;
                     return true;
                 }
                 break;
                 case NBK.Base8:
-                if(Digital.digit(@base8, c, out var d8))
+                if(digit(@base8, c, out var d8))
                 {
                     dst = (byte)d8;
                     return true;
                 }
                 break;
                 case NBK.Base10:
-                if(Digital.digit(@base10, c, out var d10))
+                if(digit(@base10, c, out var d10))
                 {
                     dst = (byte)d10;
                     return true;
                 }
                 break;
                 case NBK.Base16:
-                if(Digital.digit(@base16, c, out var d16))
+                if(digit(@base16, c, out var d16))
                 {
                     dst = (byte)d16;
                     return true;
@@ -198,7 +198,15 @@ namespace Z0
         }
 
         /// <summary>
-        /// Computes the numeric value in in the range [0,..F] identified by a lowercase hex symbol
+        /// Computes the numeric value in in the range [0,..,a,..,f] identified by a lowercase hex symbol
+        /// </summary>
+        /// <param name="src">The source symbol</param>
+        [MethodImpl(Inline), Op]
+        public static HDV digit(Base16 @base, LowerCased @case, char src)
+            => Hex.digit(@case, src);
+
+        /// <summary>
+        /// Computes the numeric value in in the range [0,..A,..,F] identified by a lowercase hex symbol
         /// </summary>
         /// <param name="src">The source symbol</param>
         [MethodImpl(Inline), Op]
@@ -206,7 +214,7 @@ namespace Z0
             => Hex.digit(@case, src);
 
         /// <summary>
-        /// Computes the numeric value in in the range [0,..F] identified by a lowercase hex symbol
+        /// Computes the numeric value in in the range [0,..,a,..,f] identified by a lowercase hex symbol
         /// </summary>
         /// <param name="src">The source symbol</param>
         [MethodImpl(Inline), Op]
@@ -214,7 +222,7 @@ namespace Z0
             => Hex.digit(src);
 
         /// <summary>
-        /// Computes the numeric value in in the range [0,..F] identified by an uppercase hex symbol
+        /// Computes the numeric value in in the range [0,..A,..,F] identified by an uppercase hex symbol
         /// </summary>
         /// <param name="src">The source symbol</param>
         [MethodImpl(Inline), Op]

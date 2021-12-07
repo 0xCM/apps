@@ -9,6 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
+    <Reference Include="$(ZTestName)" HintPath="$(ZTestPath)"/>
+
   </ItemGroup>
 
   <Import Project="../imports.props"/>

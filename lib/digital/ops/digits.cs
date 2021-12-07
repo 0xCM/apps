@@ -27,7 +27,6 @@ namespace Z0
         public static bit number(char c)
             => (DSF)c >= DSF.First && (DSF)c <= DSF.Last;
 
-
         [MethodImpl(Inline), Op]
         public static void digits(byte src, Span<BDV> dst)
         {
@@ -155,7 +154,6 @@ namespace Z0
             return digits(data, dst);
         }
 
-
         /// <summary>
         /// Encodes two decimal digits d := 0x[c1][c0] for characters c2, c1 in the inclusive range [0,9]
         /// </summary>
@@ -270,14 +268,6 @@ namespace Z0
             digits(src, dst);
             return dst;
         }
-
-        /// <summary>
-        /// Computes the numeric value in in the range [0,..F] identified by a lowercase hex symbol
-        /// </summary>
-        /// <param name="src">The source symbol</param>
-        [MethodImpl(Inline), Op]
-        public static HDV digit(Base16 @base, LowerCased @case, char src)
-            => Hex.digit(@case, src);
 
         /// <summary>
         /// Extracts two encoded digits

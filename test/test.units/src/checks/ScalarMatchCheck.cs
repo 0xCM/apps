@@ -23,6 +23,5 @@ namespace Z0
 
             Write(match.Format());
         }
-
     }
 }

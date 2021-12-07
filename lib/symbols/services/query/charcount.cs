@@ -12,14 +12,5 @@ namespace Z0
 
     partial struct SymbolicQuery
     {
-        [MethodImpl(Inline), Op]
-        public static uint charcount(ReadOnlySpan<string> src)
-        {
-            var counter = 0u;
-            var count = src.Length;
-            for(var i=0; i<counter; i++)
-                counter += (uint)skip(src,i).Length;
-            return counter;
-        }
     }
 }
