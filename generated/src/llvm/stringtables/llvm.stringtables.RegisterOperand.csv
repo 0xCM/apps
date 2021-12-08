@@ -1,0 +1,9 @@
+TableName                | EntryIndex   | EntryName
+RegisterOperand          | 0            | GR16orGR32orGR64
+RegisterOperand          | 1            | GR32orGR64
+RegisterOperand          | 2            | RSTi    
+RegisterOperand          | 3            | VK16Pair
+RegisterOperand          | 4            | VK1Pair 
+RegisterOperand          | 5            | VK2Pair 
+RegisterOperand          | 6            | VK4Pair 
+RegisterOperand          | 7            | VK8Pair 

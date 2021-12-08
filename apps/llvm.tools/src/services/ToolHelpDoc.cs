@@ -8,19 +8,6 @@ namespace Z0.llvm
 
     using static Root;
 
-    public class ToolHelpDocs
-    {
-        public ToolId Tool {get;}
-
-        public Index<ToolHelp> Docs;
-
-        public ToolHelpDocs(ToolId tool, ToolHelp[] src)
-        {
-            Tool = tool;
-            Docs = src;
-        }
-    }
-
     public class ToolHelpDoc : IDocument<ToolHelpDoc,TextBlock>
     {
         TextDoc Source;

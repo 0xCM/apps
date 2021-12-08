@@ -4,47 +4,57 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
     using static Root;
+    using static core;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly partial struct LlvmDataType
+    public readonly partial struct LlvmDataType : IComparable<LlvmDataType>, IEquatable<LlvmDataType>
     {
-        public static LlvmDataType parse(string src)
-        {
-            if(src.Equals("bit"))
-                return new LlvmDataType(src, LlvmTypeKind.Bit);
-            else if(src.Equals("string"))
-                return new LlvmDataType(src, LlvmTypeKind.String);
-            else if(src.Equals("int"))
-                return new LlvmDataType(src, LlvmTypeKind.Int);
-            else if(src.Equals("dag"))
-                return new LlvmDataType(src, LlvmTypeKind.Dag);
-            else if(src.StartsWith("bits"))
-                return new LlvmDataType(src, LlvmTypeKind.Bits);
-            else if(src.StartsWith("list"))
-                return new LlvmDataType(src, LlvmTypeKind.List);
-            else if(src.StartsWith("names"))
-                return new LlvmDataType(src, LlvmTypeKind.NameList);
-            else
-                return new LlvmDataType(src,0);
-        }
-
         public LlvmTypeKind Kind {get;}
 
-        public Identifier Decl {get;}
+        public Identifier Name {get;}
+
+        public Index<string> Parameters {get;}
+
+        public string Spec {get;}
 
         [MethodImpl(Inline)]
-        public LlvmDataType(Identifier decl, LlvmTypeKind kind)
+        public LlvmDataType(Identifier name, LlvmTypeKind kind, string[] parameters)
         {
-            Decl = decl;
+            Name = name;
             Kind = kind;
+            Parameters = parameters;
+            Spec = EmptyString;
+            Spec  = LlvmTypes.format(this);
+        }
+
+        public byte Arity
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Parameters.Count;
         }
 
         public bool IsParametric
-            => Decl.Content.Contains(Chars.Lt) && Decl.Content.Contains(Chars.Gt);
+        {
+            [MethodImpl(Inline)]
+            get => Arity != 0;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.empty(Spec);
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.nonempty(Spec);
+        }
 
         public bool IsKnown
             => Kind != 0;
@@ -67,34 +77,24 @@ namespace Z0.llvm
         public bool IsNameList
             => Kind == LlvmTypeKind.NameList;
 
-        public bool TypeArgs(out string dst)
-            => text.unfence(Decl, (Chars.Lt, Chars.Gt), out dst);
-
         public bool Equals(LlvmDataType src)
-            => Kind == src.Kind && Decl.Equals(src.Decl);
+            => Spec.Equals(src.Spec);
 
         public override int GetHashCode()
-            => (int)alg.hash.combine((uint)Kind, (uint)Decl.GetHashCode());
+            => Spec.GetHashCode();
 
         public override bool Equals(object src)
             => src is LlvmDataType t && Equals(t);
 
+        public int CompareTo(LlvmDataType src)
+            => Spec.CompareTo(src.Spec);
+
         public string Format()
-        {
-            if(IsParametric)
-            {
-                if(TypeArgs(out var args))
-                    return string.Format("{0}:{1}<{2}>", Decl.Name, Kind, args);
-                else
-                    return string.Format("{0}:{1}<error>", Decl.Name, Kind);
-            }
-            else
-            {
-                return string.Format("{0}:{1}", Decl.Name, Kind);
-            }
-        }
+            => Spec;
 
         public override string ToString()
             => Format();
+
+        public static LlvmDataType Empty => new LlvmDataType(EmptyString,0,sys.empty<string>());
    }
 }

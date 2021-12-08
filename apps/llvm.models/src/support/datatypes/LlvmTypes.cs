@@ -11,10 +11,73 @@ namespace Z0.llvm
     using static core;
 
     using types;
-    using Types;
 
     public readonly struct LlvmTypes
     {
+        public static LlvmDataType parse(string src)
+        {
+            if(src.Equals("bit"))
+                return parse(LlvmTypeKind.Bit, src);
+            else if(src.Equals("string"))
+                return parse(LlvmTypeKind.String, src);
+            else if(src.Equals("int"))
+                return parse(LlvmTypeKind.Int, src);
+            else if(src.Equals("dag"))
+                return parse(LlvmTypeKind.Dag, src);
+            else if(src.StartsWith("bits"))
+                return parse(LlvmTypeKind.Bits, src);
+            else if(src.StartsWith("list"))
+                return parse(LlvmTypeKind.List, src);
+            else if(src.StartsWith("names"))
+                return parse(LlvmTypeKind.NameList, src);
+            else
+                return parse(0,src);
+        }
+
+        public static string format(in LlvmDataType src)
+        {
+            var arity = src.Arity;
+            if(arity == 0)
+                return src.Name;
+
+            var dst = text.buffer();
+            dst.AppendFormat("{0}<", src.Name);
+
+            for(var i=0; i<arity; i++)
+            {
+                dst.Append(src.Parameters[i]);
+                if(i!= arity - 1)
+                    dst.Append(Chars.Comma);
+            }
+
+            dst.Append(">");
+
+            return dst.Emit();
+        }
+
+        static LlvmDataType parse(LlvmTypeKind kind, string src)
+        {
+            var i = text.index(src,Chars.Lt);
+            var j = text.index(src,Chars.Gt);
+            var args = sys.empty<string>();
+            var name = src;
+            if(i >= 0 && j>i)
+            {
+                args = ParseArgs(text.inside(src,i,j));
+                name = text.left(src,i).Trim();
+            }
+            return new (name,kind,args);
+        }
+
+        static string[] ParseArgs(string src)
+        {
+            var i = text.index(src,Chars.Comma);
+            if(i >= 0)
+                return text.split(src,Chars.Comma).Select(x => x.Trim());
+            else
+                return array(src.Trim());
+        }
+
         public static string format(IDag src)
         {
             if(src.Left.IsNonEmpty && src.Right.IsNonEmpty)

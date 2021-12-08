@@ -14,6 +14,34 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
+        public static AsmOperand mem8(RegOp @base)
+            => op(new m8(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem16(RegOp @base)
+            => op(new m16(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem32(RegOp @base)
+            => op(new m32(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem64(RegOp @base)
+            => op(new m64(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem128(RegOp @base)
+            => op(new m128(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem256(RegOp @base)
+            => op(new m256(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand mem512(RegOp @base)
+            => op(new m512(@base, RegOp.Invalid, 0, Disp.Zero));
+
+        [MethodImpl(Inline), Op]
         public static m8 mem8(AsmAddress address)
             => new m8(address);
 

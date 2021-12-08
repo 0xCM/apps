@@ -11,7 +11,7 @@ namespace Z0.llvm
         const string InstAliasQuery = "llvm/inst/alias";
 
         [CmdOp(InstAliasQuery)]
-        Outcome ShowInstAlias(CmdArgs args)
+        Outcome RunInstAliasQuery(CmdArgs args)
         {
             var entities = DataProvider.SelectEntities().Members;
             var count = entities.Length;
@@ -19,7 +19,6 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var entity = ref skip(entities,i);
-
                 if(entity.IsInstAlias())
                 {
                     var alias = entity.ToInstAlias();
@@ -31,5 +30,6 @@ namespace Z0.llvm
 
             return true;
         }
+
     }
 }

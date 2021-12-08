@@ -10,8 +10,8 @@ namespace Z0.Asm
     public abstract class AsmRegOpVar<T> : AsmOpVar<T>
         where T : IRegOp
     {
-        public AsmRegOpVar(byte index,Func<byte,T> resolver)
-            : base(index,resolver)
+        public AsmRegOpVar(byte index, Func<byte,T> resolver)
+            : base(index, resolver)
         {
 
         }
@@ -19,8 +19,8 @@ namespace Z0.Asm
 
     public class AsmRegOpVar : AsmRegOpVar<RegOp>
     {
-        public AsmRegOpVar(byte index,Func<byte,RegOp> resolver)
-            : base(index,resolver)
+        public AsmRegOpVar(byte index, Func<byte,RegOp> resolver)
+            : base(index, resolver)
         {
 
         }

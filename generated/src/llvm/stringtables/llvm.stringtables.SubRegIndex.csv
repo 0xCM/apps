@@ -1,0 +1,11 @@
+TableName                | EntryIndex   | EntryName
+SubRegIndex              | 0            | sub_16bit
+SubRegIndex              | 1            | sub_16bit_hi
+SubRegIndex              | 2            | sub_32bit
+SubRegIndex              | 3            | sub_8bit
+SubRegIndex              | 4            | sub_8bit_hi
+SubRegIndex              | 5            | sub_8bit_hi_phony
+SubRegIndex              | 6            | sub_mask_0
+SubRegIndex              | 7            | sub_mask_1
+SubRegIndex              | 8            | sub_xmm 
+SubRegIndex              | 9            | sub_ymm 

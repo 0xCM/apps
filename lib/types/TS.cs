@@ -8,6 +8,8 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using Specs = CanonicalSpecs;
+    using SK = ScalarClass;
 
     [ApiHost]
     public readonly struct TS
@@ -17,27 +19,47 @@ namespace Z0
         internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
-        public static ScalarType @char<T>(T t)
+        public static ScalarType c<T>(T t)
             where T : unmanaged, IEquatable<T>, ISizedType
         {
-            var spec = CanonicalSpecs.ct((byte)t.StorageWidth,t);
-            return new ScalarType<T>(spec.Text,ScalarClass.C, t);
+            var spec = Specs.ct((byte)t.StorageWidth,t);
+            return new ScalarType<T>(spec.Text, SK.C, t);
         }
 
+        [MethodImpl(Inline), Op]
+        public static ScalarType c()
+            => scalar(Specs.c(0).Text, SK.C, 0, 0);
+
         [Op]
-        public static ScalarType @char(BitWidth n)
+        public static ScalarType c(BitWidth n)
         {
             switch((byte)n)
             {
                 case 8:
-                    return scalar(CanonicalSpecs.c(8).Text, ScalarClass.C, 8,8);
+                    return scalar(Specs.c(8).Text, SK.C, 8,8);
                 case 16:
-                    return scalar(CanonicalSpecs.c(16).Text, ScalarClass.C, 16,16);
+                    return scalar(Specs.c(16).Text, SK.C, 16,16);
                 case 32:
-                    return scalar(CanonicalSpecs.c(32).Text, ScalarClass.C, 32,32);
+                    return scalar(Specs.c(32).Text, SK.C, 32,32);
             }
             return ScalarType.Empty;
         }
+
+        [MethodImpl(Inline), Op]
+        public static ScalarType u()
+            => scalar(Specs.u(0).Text, SK.U, 0, 0);
+
+        [MethodImpl(Inline), Op]
+        public static ScalarType i()
+            => scalar(Specs.u(0).Text, SK.I, 0, 0);
+
+        [MethodImpl(Inline), Op]
+        public static ScalarType u(BitWidth n, BitWidth t)
+            => scalar(Specs.u(n).Text, SK.U, n, t);
+
+        [MethodImpl(Inline), Op]
+        public static ScalarType i(BitWidth n, BitWidth t)
+            => scalar(Specs.u(n).Text, SK.I, n, t);
 
         [MethodImpl(Inline), Op]
         public static ScalarType scalar(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)

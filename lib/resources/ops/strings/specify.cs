@@ -10,7 +10,11 @@ namespace Z0
     {
         [Op]
         public static StringTableSpec specify(Identifier ns, Identifier table, ListItem<string>[] entries)
-            => new StringTableSpec(ns, table, entries);
+            => new StringTableSpec(ns, table, "Index", entries);
+
+        [Op]
+        public static StringTableSpec specify(Identifier ns, Identifier table, string index, ListItem<string>[] entries)
+            => new StringTableSpec(ns, table, index, entries);
 
         public static StringTableSpec specify(Identifier ns, StringTable src)
         {

@@ -38,6 +38,5 @@ namespace Z0.Asm
             items.Sort();
             return items.ToArray().Mapi((i,x) => new ListItem<string>((uint)i,x));
         }
-
     }
 }

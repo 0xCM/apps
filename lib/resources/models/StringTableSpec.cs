@@ -18,10 +18,13 @@ namespace Z0
 
         public Identifier TableName {get;}
 
-        public StringTableSpec(Identifier ns, Identifier table, ListItem<string>[] entries)
+        public Identifier IndexName {get;}
+
+        public StringTableSpec(Identifier ns, Identifier table, Identifier index, ListItem<string>[] entries)
         {
             Namespace = ns;
             TableName = table;
+            IndexName = index;
             _Entries = entries;
         }
 

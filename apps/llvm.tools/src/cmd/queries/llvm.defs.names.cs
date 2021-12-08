@@ -10,6 +10,6 @@ namespace Z0.llvm
 
         [CmdOp(DefNameQuery)]
         Outcome DefNames(CmdArgs args)
-            => Flow(DefNameQuery, DataProvider.SelectDefNames().View);
+            => Flow(DefNameQuery, DataProvider.SelectDefNames());
     }
 }

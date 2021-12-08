@@ -47,6 +47,10 @@ namespace Z0
 
         [Op]
         public static StringTable create(Identifier name, ReadOnlySpan<string> src, Identifier[] identifiers)
+            => create(name, "Index", src, identifiers);
+
+        [Op]
+        public static StringTable create(Identifier name, string indexName, ReadOnlySpan<string> src, Identifier[] identifiers)
         {
             var count = src.Length;
             var offset = 0u;
@@ -61,10 +65,13 @@ namespace Z0
                 seek(cuts,i) = j;
                 copy(entry, ref j, chars);
             }
-            return new StringTable(name, new string(chars), offsets, identifiers);
+            return new StringTable(name, indexName, new string(chars), offsets, identifiers);
         }
 
         public static StringTable create(Identifier name, ReadOnlySpan<ListItem<string>> src)
+            => create(name, "Index", src);
+
+        public static StringTable create(Identifier name, Identifier indexName, ReadOnlySpan<ListItem<string>> src)
         {
             var count = src.Length;
             var strings = span<string>(count);
@@ -73,7 +80,7 @@ namespace Z0
                 ref readonly var entry = ref skip(src,i);
                 seek(strings, entry.Id) = entry.Content;
             }
-            return create(name,strings, src.Map(x => new Identifier(x.Content)).ToArray());
+            return create(name, strings, src.Map(x => new Identifier(x.Content)).ToArray());
         }
 
         [MethodImpl(Inline), Op]

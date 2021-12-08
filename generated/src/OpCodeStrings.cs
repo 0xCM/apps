@@ -4,8 +4,11 @@
 
     using static core;
 
+    using ST = llvm.stringtables;
+
     public readonly struct OpCodeStrings
     {
+
         public const uint EntryCount = 2228;
 
         public const uint CharCount = 37078;

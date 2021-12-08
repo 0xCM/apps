@@ -1,0 +1,4 @@
+TableName                | EntryIndex   | EntryName
+STIPredicateDecl         | 0            | IsDepBreakingDecl
+STIPredicateDecl         | 1            | IsOptimizableRegisterMoveDecl
+STIPredicateDecl         | 2            | IsZeroIdiomDecl

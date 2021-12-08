@@ -19,7 +19,7 @@ namespace Z0.llvm
         [CmdOp(".asmid")]
         Outcome ListAsmIds(CmdArgs args)
         {
-            var descriptors = LlvmEtl.ExtractAsmIdList();
+            var descriptors = LlvmEtl.AsmIdDefs();
             iter(descriptors.Entries, x => Write(x.Value.Format()));
             return true;
         }

@@ -43,8 +43,22 @@ namespace Z0.llvm
             ("$rc","$(rc)"),
             ("$r1", "$(r1)"),
             ("$r2", "$(r2)"),
-            ("$r", "$(r)")
+            ("$r", "$(r)"),
+            ("$zero", "$(zero)"),
+            ("$amt", "$(amt)"),
+            ("$trap", "$(trap)"),
+            ("$ptr", "$(ptr)"),
+
             };
+
+        public static AsmVariationCode varcode(string inst, AsmMnemonic monic)
+        {
+            var fmt = monic.Format(MnemonicCase.Uppercase);
+            if(text.empty(inst) || text.empty(fmt) || !text.contains(inst,fmt))
+                return AsmVariationCode.Empty;
+            var candidate = text.remove(inst,fmt);
+            return text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
+        }
 
         /// <summary>
         /// Attempts to infer the instruction mnemonic from an asmstring

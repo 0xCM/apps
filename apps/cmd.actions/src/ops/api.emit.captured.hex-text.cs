@@ -29,5 +29,24 @@ namespace Z0
             Write(string.Format("Emitted {0} hex blocks to {1}", count, dst.ToUri()));
             return result;
         }
+
+
+        [CmdOp("api/emit/captured/hex-functions")]
+        Outcome ApiEmitAsmHexTextBlocks(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
+            var count = blocks.Length;
+            var emitter = Wf.HexEmitter();
+            var apidb = Ws.Project("db").Subdir("api");
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref skip(blocks,i);
+                var outpath = apidb + FS.file(block.Origin.Format(), FS.Hex);
+                emitter.EmitHexText(block.View, 64, outpath);
+            }
+
+            return result;
+        }
     }
 }

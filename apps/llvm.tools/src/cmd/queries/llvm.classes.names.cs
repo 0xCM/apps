@@ -10,6 +10,6 @@ namespace Z0.llvm
 
         [CmdOp(ClassNameQuery)]
         Outcome ClassNames(CmdArgs args)
-            => Flow(ClassNameQuery, DataProvider.SelectClassNames().View);
+            => Flow(ClassNameQuery, DataProvider.SelectClassNames());
     }
 }

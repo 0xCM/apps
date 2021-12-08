@@ -20,7 +20,7 @@ namespace Z0
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            dst.WriteLine(create(src.TableName, src.Entries).Format(4));
+            dst.WriteLine(create(src.TableName, src.IndexName, src.Entries).Format(4));
             dst.WriteLine(Close());
             return (uint)src.Entries.Length;
         }

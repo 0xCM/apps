@@ -15,6 +15,8 @@ namespace Z0
     {
         public Identifier Name {get;}
 
+        public Identifier IndexName {get;}
+
         public readonly string Content;
 
         readonly Index<uint> _Offsets;
@@ -22,9 +24,10 @@ namespace Z0
         readonly Index<Identifier> _Identifiers;
 
         [MethodImpl(Inline)]
-        public StringTable(Identifier name, string src, Index<uint> offsets, Identifier[] identifiers)
+        public StringTable(Identifier name, string index, string src, Index<uint> offsets, Identifier[] identifiers)
         {
             Name = name;
+            IndexName = index;
             Content = src;
             _Offsets = offsets;
             _Identifiers = identifiers;

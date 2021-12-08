@@ -1,0 +1,8 @@
+TableName                | EntryIndex   | EntryName
+BranchTargetOperand      | 0            | brtarget
+BranchTargetOperand      | 1            | brtarget16
+BranchTargetOperand      | 2            | brtarget32
+BranchTargetOperand      | 3            | brtarget8
+BranchTargetOperand      | 4            | i16imm_brtarget
+BranchTargetOperand      | 5            | i32imm_brtarget
+BranchTargetOperand      | 6            | i64i32imm_brtarget

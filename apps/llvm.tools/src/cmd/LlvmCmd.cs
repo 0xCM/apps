@@ -81,7 +81,7 @@ namespace Z0.llvm
             return true;
         }
 
-        Outcome Flow(Label query, FS.Files src)
+        Outcome Flow(string query, FS.Files src)
         {
             Files(src);
 
@@ -89,14 +89,23 @@ namespace Z0.llvm
             return true;
         }
 
-        Outcome Flow<T>(Label query, ReadOnlySpan<T> src, bool show = false)
+        Outcome Flow<T>(string query, ReadOnlySpan<T> src)
         {
-            if(show)
-                iteri(src, (i,item) => Write(item));
-
             DataEmitter.EmitQueryResults(query, src);
-
             return true;
         }
+
+        Outcome Flow<T>(string query, T[] src)
+        {
+            DataEmitter.EmitQueryResults(query, @readonly(src));
+            return true;
+        }
+
+        Outcome Flow<T>(string query, Index<T> src)
+        {
+            DataEmitter.EmitQueryResults(query, src.View);
+            return true;
+        }
+
     }
 }

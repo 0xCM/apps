@@ -11,7 +11,7 @@ namespace Z0.Asm
     public abstract class AsmMemOpVar<T> : AsmOpVar<T>
         where T : IMemOp
     {
-        public AsmMemOpVar(byte index,Func<byte,T> resolver)
+        public AsmMemOpVar(byte index, Func<byte,T> resolver)
             : base(index,resolver)
         {
 
@@ -35,7 +35,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem8Var : AsmMemOpVar<m8>
     {
-        public AsmMem8Var(byte index,Func<byte,m8> resolver)
+        public AsmMem8Var(byte index, Func<byte,m8> resolver)
             : base(index,resolver)
         {
 
@@ -50,7 +50,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem16Var : AsmMemOpVar<m16>
     {
-        public AsmMem16Var(byte index,Func<byte,m16> resolver)
+        public AsmMem16Var(byte index, Func<byte,m16> resolver)
             : base(index,resolver)
         {
 
@@ -65,7 +65,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem32Var : AsmMemOpVar<m32>
     {
-        public AsmMem32Var(byte index,Func<byte,m32> resolver)
+        public AsmMem32Var(byte index, Func<byte,m32> resolver)
             : base(index,resolver)
         {
 
@@ -80,7 +80,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem64Var : AsmMemOpVar<m64>
     {
-        public AsmMem64Var(byte index,Func<byte,m64> resolver)
+        public AsmMem64Var(byte index, Func<byte,m64> resolver)
             : base(index,resolver)
         {
 
@@ -95,7 +95,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem128Var : AsmMemOpVar<m128>
     {
-        public AsmMem128Var(byte index,Func<byte,m128> resolver)
+        public AsmMem128Var(byte index, Func<byte,m128> resolver)
             : base(index,resolver)
         {
 
@@ -110,7 +110,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem256Var : AsmMemOpVar<m256>
     {
-        public AsmMem256Var(byte index,Func<byte,m256> resolver)
+        public AsmMem256Var(byte index, Func<byte,m256> resolver)
             : base(index,resolver)
         {
 
@@ -125,7 +125,7 @@ namespace Z0.Asm
 
     public sealed class AsmMem512Var : AsmMemOpVar<m512>
     {
-        public AsmMem512Var(byte index,Func<byte,m512> resolver)
+        public AsmMem512Var(byte index, Func<byte,m512> resolver)
              : base(index,resolver)
        {
 

@@ -14,7 +14,7 @@ namespace Z0.llvm
         Outcome patterns(CmdArgs args)
         {
             var patterns = DataProvider.SelectAsmPatterns();
-            var descriptors = DataProvider.SelectAsmIdDescriptors();
+            var descriptors = DataProvider.SelectAsmIdDefs();
             var count = patterns.Count;
             var specs = list<string>();
             for(var i=0; i<count; i++)

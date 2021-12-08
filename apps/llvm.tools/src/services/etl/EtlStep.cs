@@ -29,5 +29,4 @@ namespace Z0
 
         public abstract FileArchive TargetLocation {get;}
     }
-
 }

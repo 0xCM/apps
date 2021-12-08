@@ -8,16 +8,16 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public AsmIdDescriptors SelectAsmIdDescriptors()
+        public AsmIdDefs SelectAsmIdDefs()
         {
-            return (AsmIdDescriptors)DataSets.GetOrAdd(nameof(AsmIdDescriptors), key => Load());
+            return (AsmIdDefs)DataSets.GetOrAdd(nameof(AsmIdDefs), key => Load());
 
-            AsmIdDescriptors Load()
+            AsmIdDefs Load()
             {
                 var asmid = SelectList("AsmId");
-                var lu = list<AsmIdDescriptor>();
+                var lu = list<AsmIdDef>();
                 foreach(var id in asmid)
-                    lu.Add(new AsmIdDescriptor((ushort)id.Key, id.Value.Trim()));
+                    lu.Add(new AsmIdDef((ushort)id.Key, id.Value.Trim()));
                 return lu.Array();
             }
         }

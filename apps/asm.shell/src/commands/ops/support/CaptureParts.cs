@@ -11,8 +11,7 @@ namespace Z0.Asm
         ReadOnlySpan<AsmHostRoutines> CapturePart(PartId part)
         {
             var dst = Db.CaptureRoot();
-            var catalog = ApiRuntimeLoader.catalog();
-            var hosts = catalog.ApiHosts.Where(h => h.PartId == part);
+            var hosts = ApiRuntimeCatalog.ApiHosts.Where(h => h.PartId == part);
             return Wf.CaptureRunner().Capture(hosts, dst);
         }
     }

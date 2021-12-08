@@ -63,14 +63,7 @@ namespace Z0.llvm
             get
             {
                 if(_VariationCode == null)
-                {
-                    var name = EntityName.Content;
-                    var mnemonic = Mnemonic.Format(MnemonicCase.Uppercase);
-                    if(text.empty(name) || text.empty(mnemonic) || !text.contains(name,mnemonic))
-                        return AsmVariationCode.Empty;
-                    var candidate = text.remove(name,mnemonic);
-                    _VariationCode = text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
-                }
+                    _VariationCode = llvm.AsmString.varcode(InstName, Mnemonic);
                 return _VariationCode.Value;
             }
         }

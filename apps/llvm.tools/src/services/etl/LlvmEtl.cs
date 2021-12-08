@@ -65,7 +65,7 @@ namespace Z0.llvm
 
         void ProcessInstructions()
         {
-            var asmid = ExtractAsmIdList();
+            var asmid = AsmIdDefs();
             var src = DataProvider.SelectEntities();
             var members = src.Members;
             var count = members.Length;
@@ -114,7 +114,7 @@ namespace Z0.llvm
                 }
             }
 
-            EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.ListImportPath("vcodes")));
+            DataEmitter.EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.ListImportPath("vcodes")));
             TableEmit(patterns.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
         }
@@ -122,33 +122,33 @@ namespace Z0.llvm
         public Outcome ImportEntityData()
         {
             EmitLists();
-            EmitChildRelations();
+            DataEmitter.EmitChildRelations();
             ProcessInstructions();
             return true;
         }
 
-        public AsmIdDescriptors ExtractAsmIdList()
+        public AsmIdDefs AsmIdDefs()
         {
             const string BeginAsmIdMarker = "PHI	= 0,";
             var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Info);
             if(src.Count != 1)
             {
                 Error("Path not found");
-                return AsmIdDescriptors.Empty;
+                return llvm.AsmIdDefs.Empty;
             }
-            return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDescriptor(x.Key, x.Value));
+            return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDef(x.Key, x.Value));
         }
 
-        public RegIdDescriptors ExtractRegIdList()
+        public RegIdDefs RegIdDefs()
         {
             const string BeginRegsMarker = "NoRegister,";
             var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Registers);
             if(src.Count != 1)
             {
                 Error("Path not found");
-                return RegIdDescriptors.Empty;
+                return llvm.RegIdDefs.Empty;
             }
-            return enumliterals<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdDescriptor(x.Key, x.Value));
+            return enumliterals<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdDef(x.Key, x.Value));
         }
 
         static bool enumliteral<T>(string src, out LlvmListItem<T,string> dst)
@@ -199,7 +199,7 @@ namespace Z0.llvm
                                 items.Add(first);
                         }
                         else
-                            items.Add((zero<T>(),text.remove(marker, Chars.Comma)));
+                            items.Add((zero<T>(), text.remove(marker, Chars.Comma)));
                     }
                 }
             }
