@@ -126,12 +126,6 @@ namespace Z0.Asm
             }
         }
 
-        static Outcome same(string a, string b)
-        {
-            var same = a.Equals(b);
-            return (same, string.Format("{0} {1} {2}", a, same ? "==" : "!=", b));
-        }
-
         void ShowLiterals(Type src, Base2 @base)
         {
             var literals = Clr.literals(src, @base).View;

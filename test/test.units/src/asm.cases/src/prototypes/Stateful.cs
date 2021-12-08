@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + "statics")]
         public unsafe struct Statics

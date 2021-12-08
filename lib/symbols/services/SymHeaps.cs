@@ -14,32 +14,32 @@ namespace Z0
     public readonly struct SymHeaps
     {
         [MethodImpl(Inline), Op]
-        public static ushort width(SymHeapSpec src, ushort index)
-            => width(src.Widths, index);
+        public static ref readonly uint width(SymHeap src, uint index)
+            => ref width(src.Widths, index);
 
         [MethodImpl(Inline), Op]
-        public static ushort width(ReadOnlySpan<ushort> src, ushort index)
-            => skip(src,index);
+        public static ref readonly uint width(ReadOnlySpan<uint> src, uint index)
+            => ref skip(src,index);
 
         [MethodImpl(Inline), Op]
-        public static uint offset(SymHeapSpec src, ushort index)
-            => offset(src.Offsets, index);
+        public static ref readonly uint offset(SymHeap src, uint index)
+            => ref offset(src.Offsets, index);
 
         [MethodImpl(Inline), Op]
-        public static uint offset(ReadOnlySpan<uint> src, ushort index)
-            => skip(src, index);
+        public static ref readonly uint offset(ReadOnlySpan<uint> src, uint index)
+            => ref skip(src, index);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> symchars(SymHeapSpec src, ushort index)
+        public static ReadOnlySpan<char> symchars(SymHeap src, uint index)
             => slice(src.Expressions.View, offset(src.Offsets.View, index), width(src,index));
 
         [Op]
-        public static SymExpr symexpr(SymHeapSpec src, ushort index)
+        public static SymExpr symexpr(SymHeap src, uint index)
             => text.format(symchars(src,index));
 
         [MethodImpl(Inline), Op]
-        public static ref readonly Identifier identifier(SymHeapSpec src, ushort index)
-            => ref src.Identifiers[index];
+        public static ref readonly Identifier name(SymHeap src, uint index)
+            => ref src.Names[index];
 
         [MethodImpl(Inline), Op]
         public static uint charcount(ReadOnlySpan<SymLiteralRow> src)
@@ -55,25 +55,44 @@ namespace Z0
         }
 
         [Op]
-        public static SymHeapSpec specify(ReadOnlySpan<SymLiteralRow> src)
+        public static Index<SymHeapEntry> entries(SymHeap src)
         {
-            var dst = new SymHeapSpec();
+            var count = src.SymbolCount;
+            var entries = alloc<SymHeapEntry>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref var entry = ref seek(entries,i);
+                entry.Index = i;
+                entry.Offset = src.Offset(i);
+                entry.Source = src.Source(i);
+                entry.Name = src.Name(i);
+                entry.Expression = src.Expression(i);
+            }
+            return entries;
+        }
+
+        [Op]
+        public static SymHeap define(ReadOnlySpan<SymLiteralRow> src)
+        {
+            var dst = new SymHeap();
 
             var kSym = (uint)src.Length;
-            var kEntry = (uint)bits.next((Pow2x16)bits.xmsb(kSym));
+            var kEntry = (uint)bits.next((Pow2x32)bits.xmsb(kSym));
             dst.SymbolCount = kSym;
             dst.EntryCount = kEntry;
-            dst.Widths = alloc<ushort>(kEntry);
-            dst.Values = alloc<ushort>(kEntry);
-            dst.Identifiers = alloc<Identifier>(kEntry);
+            dst.Widths = alloc<uint>(kEntry);
+            dst.Values = alloc<ulong>(kEntry);
+            dst.Names = alloc<Identifier>(kEntry);
             dst.Expressions = alloc<char>(charcount(src));
             dst.Offsets = alloc<uint>(kEntry);
+            dst.Sources = alloc<Identifier>(kEntry);
 
             ref var widths = ref dst.Widths.First;
             ref var values = ref dst.Values.First;
             ref var symdst = ref dst.Expressions.First;
             ref var offsets = ref dst.Offsets.First;
-            ref var id = ref dst.Identifiers.First;
+            ref var id = ref dst.Names.First;
+            ref var sources = ref dst.Sources.First;
             var offset=0u;
             for(var i=0; i<kSym; i++)
             {
@@ -81,9 +100,10 @@ namespace Z0
                 var symsrc = literal.Symbol.Data;
                 var width = (ushort)symsrc.Length;
                 seek(widths, i) = width;
-                seek(values, i) = (ushort)literal.ScalarValue;
+                seek(values, i) = literal.ScalarValue;
                 seek(id, i) = literal.Name;
                 seek(offsets,i) = offset;
+                seek(sources,i) = literal.Type;
                 symsrc.CopyTo(cover(seek(symdst, offset), width));
 
                 offset += width;

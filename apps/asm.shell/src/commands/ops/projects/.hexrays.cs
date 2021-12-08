@@ -12,7 +12,7 @@ namespace Z0.Asm
         Outcome AsmHexArray(CmdArgs args)
         {
             var result = Outcome.Success;
-
+            var project = Project();
             LoadProjectSources(Project(), "hex");
             var src = Files().View;
             var count = src.Length;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + "increment")]
         public unsafe readonly struct Increment

@@ -18,38 +18,6 @@ namespace Z0.Asm
             return EmitRows(src, dst);
         }
 
-        // public ReadOnlySpan<AsmCallRow> EmitRows(ReadOnlySpan<AsmRoutine> src, FS.FolderPath dst)
-        // {
-        //     var instructions = core.list<ApiInstruction>();
-        //     root.iter(src, routine => instructions.AddRange(routine.Instructions));
-        //     var calls = BuildRows(instructions.ViewDeposited());
-        //     var groups = @readonly(calls.GroupBy(x => x.SourcePart).Select(x => root.paired(x.Key, x.ToArray())).Array());
-        //     var formatter = Tables.formatter<AsmCallRow>(AsmCallRow.RenderWidths);
-        //     var flow = Wf.Running(string.Format("Emitting calls from {0} routines to {1}", src.Length, dst));
-        //     var counter = 0u;
-        //     for(var i=0; i<groups.Length; i++)
-        //     {
-        //         (var part, var pcalls) = skip(groups,i);
-        //         var path = Db.Table(dst, AsmCallRow.TableId, part);
-        //         var emitting = Wf.EmittingTable<AsmCallRow>(path);
-        //         var count = TableEmit(@readonly(pcalls), path);
-        //         Wf.EmittedTable(emitting,count);
-        //         counter += count;
-        //     }
-        //     Wf.Ran(flow, string.Format("Emitted {0} call rows", counter));
-        //     return calls;
-        // }
-
-        public SortedSpan<AsmCallRow> EmitRows(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
-        {
-            var instructions = list<ApiInstruction>();
-            iter(src, routine => instructions.AddRange(routine.Instructions));
-            var calls = BuildRows(instructions.ViewDeposited()).ToSortedSpan();
-            var count = calls.Length;
-            TableEmit(calls.View, AsmCallRow.RenderWidths, dst);
-            return calls;
-        }
-
         public ReadOnlySpan<AsmCallRow> EmitRows(ReadOnlySpan<ApiPartRoutines> src, FS.FolderPath dst)
         {
             var rows = list<AsmCallRow>();
@@ -61,6 +29,16 @@ namespace Z0.Asm
                 EmitRows(routines, rows, path);
             }
             return rows.ViewDeposited();
+        }
+
+        public SortedSpan<AsmCallRow> EmitRows(ReadOnlySpan<AsmRoutine> src, FS.FilePath dst)
+        {
+            var instructions = list<ApiInstruction>();
+            iter(src, routine => instructions.AddRange(routine.Instructions));
+            var calls = BuildRows(instructions.ViewDeposited()).ToSortedSpan();
+            var count = calls.Length;
+            TableEmit(calls.View, AsmCallRow.RenderWidths, dst);
+            return calls;
         }
 
         void EmitRows(in ApiPartRoutines src, List<AsmCallRow> rows, FS.FilePath dst)

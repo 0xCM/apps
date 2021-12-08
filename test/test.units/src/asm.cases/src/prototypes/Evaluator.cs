@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static math;
     using static core;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + dispatcher)]
         public readonly struct Dispatcher

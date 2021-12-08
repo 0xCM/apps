@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using static core;
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
@@ -15,6 +16,7 @@ namespace Z0
             State.Init(Wf, Ws);
             RunTests();
         }
+
 
         void RunTests()
         {

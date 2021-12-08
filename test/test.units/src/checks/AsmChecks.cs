@@ -5,9 +5,10 @@
 namespace Z0.Asm
 {
     using static Root;
+    using static core;
 
     [ApiHost]
-    public readonly struct AsmChecks
+    public class AsmChecks : Checker<AsmChecks>
     {
         [Op]
         public static bit check(ref AsmSizeCheck src)
@@ -41,6 +42,47 @@ namespace Z0.Asm
                 break;
             }
             return src.Passed;
+        }
+
+        public Outcome CheckAsmHexCode()
+        {
+            // 4080C416                add spl,22
+            var buffer = span<char>(20);
+            var input1 = "40 80 c4 16";
+            var input2 = "4080C416";
+            Hex.parse64u(input2, out var input3);
+
+            var code1 = asm.code(input1);
+            var code2 = asm.code(input2);
+            var code3 = asm.code(input3);
+
+            var text1 = code1.Format();
+            var text2 = code2.Format();
+            var text3 = code3.Format();
+
+            Write(code1.Format());
+            Write(code2.Format());
+            Write(code3.Format());
+
+            var check1 = CheckEquality(text1,text2);
+            if(check1.Fail)
+                return check1;
+            else
+                Status(check1.Message);
+
+            var check2 = CheckEquality(text1,text3);
+            if(check2.Fail)
+                return check2;
+            else
+                Status(check2.Message);
+
+            return check2;
+        }
+
+        static Outcome CheckEquality(string a, string b)
+        {
+            var same = a.Equals(b);
+            return (same, string.Format("{0} {1} {2}", a, same ? "==" : "!=", b));
         }
     }
 }

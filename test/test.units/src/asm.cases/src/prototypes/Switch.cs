@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static Hex4Seq;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + @switch)]
         public struct NestedSwitch

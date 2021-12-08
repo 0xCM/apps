@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Prototypes.Branch04;
+    using static AsmPrototypes.Branch04;
 
     using C = System.UInt32;
     using T = System.UInt16;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         partial struct Branches
         {

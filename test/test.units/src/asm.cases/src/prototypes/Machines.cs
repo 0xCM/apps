@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
 
         [ApiComplete(prototypes + "machine1")]

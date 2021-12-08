@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + loops)]
         public readonly struct Loops

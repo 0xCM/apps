@@ -19,7 +19,14 @@ namespace Z0
     {
         public GlobalCommands()
         {
+            _Data = new();
         }
+
+        ConcurrentDictionary<string,object> _Data;
+
+        [MethodImpl(Inline)]
+        T Data<T>(string key, Func<T> factory)
+            => (T)_Data.GetOrAdd(key, k => factory());
 
         protected override void Initialized()
         {
@@ -36,13 +43,36 @@ namespace Z0
 
         ApiPacks ApiPacks => Service(Wf.ApiPacks);
 
+        ApiHexPacks ApiHexPacks => Service(Wf.ApiHexPacks);
+
         ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);
 
-        [CmdOp("emit-respack")]
-        protected Outcome EmitResPack(CmdArgs args)
+        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
+
+        AsmCallPipe AsmCalls => Service(Wf.AsmCallPipe);
+
+        AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
+
+        Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
+
+        Index<ProcessAsmRecord> ProcessAsmBuffer() => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
+
+        Index<ProcessAsmRecord> _LoadProcessAsm()
         {
-            Wf.ResPackEmitter().Emit(Blocks());
-            return true;
+            var archive = ApiPacks.Current().Archive();
+            var path = archive.ProcessAsmPath();
+            var count = FS.linecount(path,TextEncodingKind.Asci) - 1;
+            var buffer = alloc<ProcessAsmRecord>(count);
+            var flow = Running(string.Format("Loading process asm from {0}", path.ToUri()));
+            var result = AsmTables.load(path, buffer);
+            if(result.Fail)
+            {
+                Error(result.Message);
+                return Index<ProcessAsmRecord>.Empty;
+            }
+            Ran(flow);
+
+            return buffer;
         }
 
         [CmdOp("asm-gen-models")]
@@ -63,11 +93,5 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Dispatcher.Supported;
         }
-
-        ReadOnlySpan<ApiCodeBlock> Blocks()
-            => ApiHex.ReadBlocks().Storage;
-
-        SortedIndex<ApiCodeBlock> SortedBlocks()
-            => ApiHex.ReadBlocks().Storage.ToSortedIndex();
     }
 }

@@ -4,7 +4,6 @@
     <Asm>$(Src)asm/z0.asm.csproj</Asm>
     <AsmLang>$(Src)asm.lang/z0.asm.lang.csproj</AsmLang>
     <AsmLangG>$(Src)asm.lang.g/z0.asm.lang.g.csproj</AsmLangG>
-    <AsmCases>$(Src)asm.cases/z0.asm.cases.csproj</AsmCases>
     <AsmCore>$(Src)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmData>$(Src)asm.data/z0.asm.data.csproj</AsmData>
 

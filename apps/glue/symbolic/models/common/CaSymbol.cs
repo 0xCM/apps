@@ -66,10 +66,10 @@ namespace Z0
         }
 
         /// <inheritdoc cref='ISymbol.ContainingSymbol'/>
-        public ISymbol ContainingSymbol
+        public CaSymbol ContainingSymbol
         {
             [MethodImpl(Inline)]
-            get => Source.ContainingSymbol;
+            get => new CaSymbol(Source.ContainingSymbol);
         }
 
         /// <inheritdoc cref='ISymbol.ContainingAssembly'/>
@@ -164,17 +164,17 @@ namespace Z0
         }
 
         /// <inheritdoc cref='ISymbol.Locations'/>
-        public ImmutableArray<Location> Locations
+        public ReadOnlySpan<Location> Locations
         {
             [MethodImpl(Inline)]
-            get => Source.Locations;
+            get => Source.Locations.AsSpan();
         }
 
         /// <inheritdoc cref='ISymbol.ContainingModule'/>
-        public ImmutableArray<SyntaxReference> DeclaringSyntaxReferences
+        public ReadOnlySpan<SyntaxReference> DeclaringSyntaxReferences
         {
             [MethodImpl(Inline)]
-            get => Source.DeclaringSyntaxReferences;
+            get => Source.DeclaringSyntaxReferences.AsSpan();
         }
 
         public Accessibility DeclaredAccessibility

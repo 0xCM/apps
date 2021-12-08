@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [ApiHost]
-    public readonly partial struct Prototypes
+    public readonly partial struct AsmPrototypes
     {
         [Op]
         public static ref byte range_check(byte[] src)

@@ -11,7 +11,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + calls)]
         public readonly struct Calls

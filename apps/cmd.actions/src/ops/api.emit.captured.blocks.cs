@@ -8,7 +8,7 @@ namespace Z0
 
     partial class GlobalCommands
     {
-        [CmdOp("api/emit/asm/blocks")]
+        [CmdOp("api/emit/captured/blocks")]
         Outcome EmitApiAsmBlocks(CmdArgs args)
         {
             var result = Outcome.Success;

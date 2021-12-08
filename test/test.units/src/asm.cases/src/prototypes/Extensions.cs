@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + extensions)]
         public readonly struct Extensions

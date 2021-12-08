@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static Chars;
     using static core;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost]
         public struct StringSwitch

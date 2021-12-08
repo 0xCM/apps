@@ -23,27 +23,6 @@ namespace Z0.Asm
             tool.Process(src,dst);
         }
 
-        void CheckMetadata(PartId part)
-        {
-            var tool = Wf.Roslyn();
-            if(Wf.ApiCatalog.FindComponent(part, out var assembly))
-            {
-                var name = string.Format("z0.{0}.compilation", part.Format());
-                var metadata = SourceSymbolic.metaref(assembly);
-                var comp = tool.Compilation(name, metadata);
-                var symbol = comp.GetAssemblySymbol(metadata);
-                var gns = symbol.GlobalNamespace;
-                var types = gns.GetTypes();
-                iter(types, show);
-            }
-
-            void show(CaSymbolModels.TypeSymbol src)
-            {
-                Wf.Row(src);
-                iter(src.GetMembers(), m => Wf.Row(m));
-            }
-        }
-
         const byte FieldCount = 2;
 
         public static ReadOnlySpan<byte> SlotWidths
@@ -66,27 +45,6 @@ namespace Z0.Asm
             var postjit = pipe.Emit(dst, ts, "postjit", flags);
         }
 
-        static ReadOnlySpan<byte> x7ffaa76f0ae0
-            => new byte[32]{0x0f,0x1f,0x44,0x00,0x00,0x48,0x8b,0xd1,0x48,0xb9,0x50,0x0f,0x24,0xa5,0xfa,0x7f,0x00,0x00,0x48,0xb8,0x30,0xdd,0x99,0xa6,0xfa,0x7f,0x00,0x00,0x48,0xff,0xe0,0};
-
-        void CheckV()
-        {
-            const byte count = 32;
-            var mask = cpu.vindices(cpu.vload(w256,x7ffaa76f0ae0), 0x48);
-            var bits = recover<bit>(Cells.alloc(w256).Bytes);
-            var buffer = Cells.alloc(w256).Bytes;
-            BitPack.unpack1x32(mask, bits);
-            var j=z8;
-            for(byte i=0; i<count; i++)
-            {
-                if(skip(bits,i))
-                    seek(buffer,j++) = i;
-            }
-
-            var indices = slice(buffer,0,j);
-            Wf.Row(indices.FormatList());
-        }
-
         public void DeriveMsil()
         {
             var pipe = Wf.MsilPipe();
@@ -99,25 +57,6 @@ namespace Z0.Asm
                 var records = pipe.LoadMetadata(src);
                 pipe.EmitCode(records, dst);
             }
-        }
-
-        void CreateSymbolHeap()
-        {
-            var symbolic = Wf.Symbolism();
-            var literals = symbolic.DiscoverLiterals();
-            Wf.Status($"Creating heap for {literals.Length} literals");
-            var heap = SymHeaps.specify(literals);
-            var count = heap.SymbolCount;
-            var dst = Db.AppLog("heap", FS.Csv);
-            var emitting = Wf.EmittingFile(dst);
-            using var writer = dst.Writer();
-            for(ushort i=0; i<count; i++)
-            {
-                var expr = heap.Expression(i);
-                var id = heap.Identifier(i);
-                writer.WriteLine(string.Format("{0:D6} | {1,-32} | {2}", i, id, expr));
-            }
-            Wf.EmittedFile(emitting,count);
         }
 
         public void CollectEntryPoints()
@@ -173,27 +112,6 @@ namespace Z0.Asm
             iter(fields, f => Wf.Row(f.Name + ": " + f.FieldType.Name));
         }
 
-        static Index<ApiHostUri> NestedHosts(Type src)
-        {
-            var dst = list<ApiHostUri>();
-            var nested = @readonly(src.GetNestedTypes());
-            var count = nested.Length;
-            for(var i=0; i<count; i++)
-            {
-                var candidate = skip(nested,i);
-                var uri = candidate.ApiHostUri();
-                if(uri.IsNonEmpty)
-                    dst.Add(uri);
-            }
-            return dst.ToArray();
-        }
-
-        void Produce()
-        {
-            var producer = Wf.AsmStatementProducer();
-            var hosts = NestedHosts(typeof(Prototypes));
-            var count = producer.Produce(FS.FolderPath.Empty, Toolspace.nasm, hosts);
-        }
 
         void ShowCases2()
         {

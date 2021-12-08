@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static core;
     using static Root;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + "mov")]
         public readonly struct Mov

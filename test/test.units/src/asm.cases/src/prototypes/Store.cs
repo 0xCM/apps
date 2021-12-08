@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static core;
     using static ByteBlocks;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + store)]
         public readonly struct Store

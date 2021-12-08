@@ -2,21 +2,22 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using Asm;
     using static core;
 
-    partial class AsmCmdService
+    partial class GlobalCommands
     {
-        [CmdOp("api/asm/hex")]
-        Outcome ApiHexArrays(CmdArgs args)
+        [CmdOp("api/emit/captured/hex-text")]
+        Outcome ApiEmitAsmHexText(CmdArgs args)
         {
             var result = Outcome.Success;
             var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
             var count = blocks.Length;
             var buffer = span<char>(Pow2.T16);
-            var outpath = AsmWs.Root + FS.folder("data") + FS.file("api", FS.XArray);
-            using var writer = outpath.AsciWriter();
+            var dst = ProjectDb.Subdir("api") + FS.file("api", FS.Hex);
+            using var writer = dst.AsciWriter();
             for(var i=0u; i<count; i++)
             {
                 buffer.Clear();
@@ -25,7 +26,7 @@ namespace Z0.Asm
                 var content = text.format(slice(buffer,0,length));
                 writer.WriteLine(content);
             }
-            Write(string.Format("Emitted {0} array blocks to {1}", count, outpath.ToUri()));
+            Write(string.Format("Emitted {0} hex blocks to {1}", count, dst.ToUri()));
             return result;
         }
     }

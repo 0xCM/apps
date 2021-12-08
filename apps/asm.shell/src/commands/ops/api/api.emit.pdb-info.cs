@@ -56,6 +56,5 @@ namespace Z0.Asm
 
             Wf.EmittedFile(emitting, counter);
         }
-
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         [ApiHost(prototypes + "dec")]
         public unsafe readonly struct Dec

@@ -9,7 +9,7 @@ namespace Z0
 
     using static core;
 
-    partial struct Canonical
+    partial struct AsmCases
     {
         [ApiComplete]
         public readonly struct ResourceBuffers

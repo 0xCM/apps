@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct Canonical
+    partial struct AsmCases
     {
         [ApiHost("canonical.abi")]
         public struct Abi

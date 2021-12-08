@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Prototypes.Branch02;
+    using static AsmPrototypes.Branch02;
 
-    partial struct Prototypes
+    partial struct AsmPrototypes
     {
         partial struct Branches
         {

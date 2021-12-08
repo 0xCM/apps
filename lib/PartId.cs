@@ -260,9 +260,6 @@ public enum PartId : byte
     [Symbol("asm.core")]
     AsmCore = 89,
 
-    [Symbol("asm.cases")]
-    AsmCases = 90,
-
     [Symbol("asm.run")]
     AsmRun = 91,
 
