@@ -26,60 +26,60 @@ namespace Z0.Asm
 
                     switch(op)
                     {
-                    case False:
-                        seek(dst,i) = 0;
-                        break;
-                    case And:
-                        seek(dst,i) = math.and(a,b);
-                        break;
-                    case CNonImpl:
-                        seek(dst,i) = math.cnonimpl(a,b);
-                        break;
-                    case Left:
-                        seek(dst,i) = math.left(a,b);
-                        break;
-                    case NonImpl:
-                        seek(dst,i) = math.nonimpl(a,b);
-                        break;
-                    case Right:
-                        seek(dst,i) = math.right(a,b);
-                        break;
-                    case Xor:
-                        seek(dst,i) = math.xor(a,b);
-                        break;
-                    case Or:
-                        seek(dst,i) = math.or(a,b);
-                        break;
-                    case Nor:
-                        seek(dst,i) = math.nor(a,b);
-                        break;
-                    case Xnor:
-                        seek(dst,i) = math.xnor(a,b);
-                        break;
-                    case RNot:
-                        seek(dst,i) = math.rnot(a,b);
-                        break;
-                    case Impl:
-                        seek(dst,i) = math.impl(a,b);
-                        break;
-                    case LNot:
-                        seek(dst,i) = math.lnot(a,b);
-                        break;
-                    case CImpl:
-                        seek(dst,i) = math.cimpl(a,b);
-                        break;
-                    case Nand:
-                        seek(dst,i) = math.nand(a,b);
-                        break;
-                    case True:
-                        seek(dst,i) = 1;
-                        break;
-                    }
+                        case False:
+                            seek(dst,i) = 0;
+                            break;
+                        case And:
+                            seek(dst,i) = math.and(a,b);
+                            break;
+                        case CNonImpl:
+                            seek(dst,i) = math.cnonimpl(a,b);
+                            break;
+                        case Left:
+                            seek(dst,i) = math.left(a,b);
+                            break;
+                        case NonImpl:
+                            seek(dst,i) = math.nonimpl(a,b);
+                            break;
+                        case Right:
+                            seek(dst,i) = math.right(a,b);
+                            break;
+                        case Xor:
+                            seek(dst,i) = math.xor(a,b);
+                            break;
+                        case Or:
+                            seek(dst,i) = math.or(a,b);
+                            break;
+                        case Nor:
+                            seek(dst,i) = math.nor(a,b);
+                            break;
+                        case Xnor:
+                            seek(dst,i) = math.xnor(a,b);
+                            break;
+                        case RNot:
+                            seek(dst,i) = math.rnot(a,b);
+                            break;
+                        case Impl:
+                            seek(dst,i) = math.impl(a,b);
+                            break;
+                        case LNot:
+                            seek(dst,i) = math.lnot(a,b);
+                            break;
+                        case CImpl:
+                            seek(dst,i) = math.cimpl(a,b);
+                            break;
+                        case Nand:
+                            seek(dst,i) = math.nand(a,b);
+                            break;
+                        case True:
+                            seek(dst,i) = 1;
+                            break;
+                        }
                 }
             }
 
-           [Op]
-            public ulong Eval(ulong a, ulong b, BinaryBitLogicKind k, ReadOnlySpan<Func<ulong,ulong,ulong>> f)
+            [Op]
+            public ulong Eval(BinaryBitLogicKind k, ulong a, ulong b, ReadOnlySpan<Func<ulong,ulong,ulong>> f)
             {
                 switch(k)
                 {
@@ -121,11 +121,11 @@ namespace Z0.Asm
             }
         }
 
-        //[ApiHost(prototypes + dot + evaluator)]
+        [ApiHost(prototypes + dot + evaluator)]
         public readonly struct Evaluator
         {
             [Op]
-            public sbyte Eval(sbyte a, sbyte b, BinaryBitLogicKind k)
+            public sbyte Eval(BinaryBitLogicKind k, sbyte a, sbyte b)
             {
                 switch(k)
                 {
@@ -167,7 +167,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public byte Eval(byte a, byte b, BinaryBitLogicKind k)
+            public byte Eval(BinaryBitLogicKind k, byte a, byte b)
             {
                 switch(k)
                 {
@@ -209,7 +209,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public short Eval(short a, short b, BinaryBitLogicKind k)
+            public short Eval(BinaryBitLogicKind k, short a, short b)
             {
                 switch(k)
                 {
@@ -251,7 +251,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public ushort Eval(ushort a, ushort b, BinaryBitLogicKind k)
+            public ushort Eval(BinaryBitLogicKind k, ushort a, ushort b)
             {
                 switch(k)
                 {
@@ -293,7 +293,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public int Eval(int a, int b, BinaryBitLogicKind k)
+            public int Eval(BinaryBitLogicKind k, int a, int b)
             {
                 switch(k)
                 {
@@ -335,7 +335,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public uint Eval(uint a, uint b, BinaryBitLogicKind k)
+            public uint Eval(BinaryBitLogicKind k, uint a, uint b)
             {
                 switch(k)
                 {
@@ -377,7 +377,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public long Eval(long a, long b, BinaryBitLogicKind k)
+            public long Eval(BinaryBitLogicKind k, long a, long b)
             {
                 switch(k)
                 {
@@ -419,7 +419,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public ulong Eval(ulong a, ulong b, BinaryBitLogicKind k)
+            public ulong Eval(BinaryBitLogicKind k, ulong a, ulong b)
             {
                 switch(k)
                 {
@@ -461,7 +461,7 @@ namespace Z0.Asm
             }
         }
 
-        //[ApiHost(prototypes + evaluator + contracted)]
+        [ApiHost(prototypes + evaluator + contracted)]
         public readonly struct ContractedEvaluator : IEvalContract
         {
             readonly Evaluator E;
@@ -476,40 +476,40 @@ namespace Z0.Asm
             }
 
             [Op]
-            public sbyte Eval(sbyte a, sbyte b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public sbyte Eval(BinaryBitLogicKind k, sbyte a, sbyte b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public byte Eval(byte a, byte b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public byte Eval(BinaryBitLogicKind k, byte a, byte b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public short Eval(short a, short b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public short Eval(BinaryBitLogicKind k, short a, short b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public ushort Eval(ushort a, ushort b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public ushort Eval(BinaryBitLogicKind k, ushort a, ushort b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public int Eval(int a, int b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public int Eval(BinaryBitLogicKind k, int a, int b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public uint Eval(uint a, uint b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public uint Eval(BinaryBitLogicKind k, uint a, uint b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public long Eval(long a, long b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public long Eval(BinaryBitLogicKind k, long a, long b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public ulong Eval(ulong a, ulong b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public ulong Eval(BinaryBitLogicKind k, ulong a, ulong b)
+                => E.Eval(k,a,b);
         }
 
 
-        //[ApiHost(prototypes + eval + client)]
+        [ApiHost(prototypes + eval + client)]
         public readonly struct EvalClient
         {
             readonly Evaluator E;
@@ -524,56 +524,55 @@ namespace Z0.Asm
             }
 
             [Op]
-            public sbyte Eval(sbyte a, sbyte b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public sbyte Eval(BinaryBitLogicKind k, sbyte a, sbyte b )
+                => E.Eval(k,a,b);
 
             [Op]
-            public byte Eval(byte a, byte b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public byte Eval(BinaryBitLogicKind k, byte a, byte b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public short Eval(short a, short b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public short Eval(BinaryBitLogicKind k, short a, short b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public ushort Eval(ushort a, ushort b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public ushort Eval(BinaryBitLogicKind k, ushort a, ushort b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public int Eval(int a, int b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public int Eval(BinaryBitLogicKind k, int a, int b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public uint Eval(uint a, uint b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public uint Eval(BinaryBitLogicKind k, uint a, uint b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public long Eval(long a, long b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public long Eval(BinaryBitLogicKind k, long a, long b)
+                => E.Eval(k,a,b);
 
             [Op]
-            public ulong Eval(ulong a, ulong b, BinaryBitLogicKind k)
-                => E.Eval(a,b,k);
+            public ulong Eval(BinaryBitLogicKind k, ulong a, ulong b)
+                => E.Eval(k,a,b);
         }
-
 
         public interface IEvalContract
         {
-            sbyte Eval(sbyte a, sbyte b, BinaryBitLogicKind k);
+            sbyte Eval(BinaryBitLogicKind k, sbyte a, sbyte b);
 
-            byte Eval(byte a, byte b, BinaryBitLogicKind k);
+            byte Eval(BinaryBitLogicKind k, byte a, byte b);
 
-            short Eval(short a, short b, BinaryBitLogicKind k);
+            short Eval(BinaryBitLogicKind k, short a, short b);
 
-            ushort Eval(ushort a, ushort b, BinaryBitLogicKind k);
+            ushort Eval(BinaryBitLogicKind k,ushort a, ushort b);
 
-            int Eval(int a, int b, BinaryBitLogicKind k);
+            int Eval(BinaryBitLogicKind k,int a, int b);
 
-            uint Eval(uint a, uint b, BinaryBitLogicKind k);
+            uint Eval(BinaryBitLogicKind k,uint a, uint b);
 
-            long Eval(long a, long b, BinaryBitLogicKind k);
+            long Eval(BinaryBitLogicKind k,long a, long b);
 
-            ulong Eval(ulong a, ulong b, BinaryBitLogicKind k);
+            ulong Eval(BinaryBitLogicKind k,ulong a, ulong b);
         }
     }
 }

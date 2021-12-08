@@ -7,8 +7,11 @@ set BuildVerbosity=normal
 set BuildRoot=%SlnRoot%\.build
 set BuildLogs=%BuildRoot%\logs
 set ZLibProj=%SlnRoot%\lib\z0.lib.csproj
+set TestSln=%SlnRoot%\test\z0.test.sln
 set ZSln=%SlnRoot%\z0.sln
 set BuildPlatform="Any CPU"
 set ZLibBuildLog=%BuildLogs%\z0.lib.log
+set TestBuildLog=%BuildLogs%\z0.test.log
 set AppsBuildLog=%BuildLogs%\z0.apps.log
 set BuildLibsCmd=dotnet build %ZLibProj% /p:Configuration=%BuildKind% /p:Platform=%BuildPlatform% -fl -flp:logfile=%ZLibBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+set BuildTestCmd=dotnet build %TestSln% /p:Configuration=%BuildKind% /p:Platform=%BuildPlatform% -fl -flp:logfile=%TestBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
