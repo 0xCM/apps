@@ -11,7 +11,7 @@ namespace Z0
 
     public class ScalarType : IScalarType, IEquatable<ScalarType>
     {
-        public Identifier TypeName {get;}
+        public Identifier Name {get;}
 
         public ScalarClass Kind {get;}
 
@@ -22,7 +22,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ScalarType(Identifier name, ScalarClass kind, BitWidth content, BitWidth storage)
         {
-            TypeName = name;
+            Name = name;
             Kind = kind;
             ContentWidth = content;
             StorageWidth = storage;
@@ -31,17 +31,17 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => TypeName.IsEmpty;
+            get => Name.IsEmpty;
         }
 
         public virtual string Format()
-            => IsEmpty ? RP.Empty : TypeName;
+            => IsEmpty ? RP.Empty : Name;
 
         public override string ToString()
             => Format();
 
         public bool Equals(ScalarType src)
-            => TypeName.Equals(src.TypeName) && ContentWidth == src.ContentWidth;
+            => Name.Equals(src.Name) && ContentWidth == src.ContentWidth;
 
         public static ScalarType Empty
         {

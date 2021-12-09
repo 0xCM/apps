@@ -15,8 +15,8 @@ namespace Z0
     {
         public new K Kind {get;}
 
-        public TypeDef(K kind)
-            : base(core.bw64(kind))
+        public TypeDef(Identifier name, K kind)
+            : base(name, core.bw64(kind))
         {
             Kind = kind;
         }
@@ -27,6 +27,6 @@ namespace Z0
         public bool Equals(TypeDef<K> src)
             => core.bw64(Kind) == core.bw64(src.Kind);
 
-        public new static TypeDef<K> Empty = new TypeDef<K>(default(K));
+        public new static TypeDef<K> Empty = new TypeDef<K>(Identifier.Empty, default(K));
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PN = CanonicalSpecs;
+    using PN = TypeSpecs;
 
     [SymSource("canonical")]
     public enum CanonicalKind : uint

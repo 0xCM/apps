@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(LlvmModels)" />
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Gen)" />
   </ItemGroup>

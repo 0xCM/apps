@@ -8,7 +8,8 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using Specs = CanonicalSpecs;
+
+    using Specs = TypeSpecs;
     using SK = ScalarClass;
 
     [ApiHost]
@@ -19,12 +20,18 @@ namespace Z0
         internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
+        [MethodImpl(Inline), Op]
+        public static FunctionType fx(Identifier name, ulong kind, Operand[] operands, Operand ret, Facets? facets = null)
+            => new FunctionType(name, kind, operands, ret, facets ?? Facets.Empty);
+
+        [MethodImpl(Inline), Op]
+        public static FunctionType<K> fx<K>(Identifier name, K kind, Operand[] operands, Operand ret, Facets? facets = null)
+            where K : unmanaged
+                => new FunctionType<K>(name, kind, operands, ret, facets ?? Facets.Empty);
+
         public static ScalarType c<T>(T t)
             where T : unmanaged, IEquatable<T>, ISizedType
-        {
-            var spec = Specs.ct((byte)t.StorageWidth,t);
-            return new ScalarType<T>(spec.Text, SK.C, t);
-        }
+                => new ScalarType<T>(Specs.ct((byte)t.StorageWidth,t).Text, SK.C, t);
 
         [MethodImpl(Inline), Op]
         public static ScalarType c()

@@ -12,7 +12,7 @@ namespace Z0
     public class ScalarType<K> : IScalarType<K>, IEquatable<ScalarType<K>>
         where K : unmanaged, ISizedType, IEquatable<K>
     {
-        public Identifier TypeName {get;}
+        public Identifier Name {get;}
 
         public K Kind {get;}
 
@@ -25,7 +25,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ScalarType(Identifier name, ScalarClass @class, K kind)
         {
-            TypeName = name;
+            Name = name;
             Kind = kind;
 
             ContentWidth = kind.ContentWidth;
@@ -35,21 +35,21 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => TypeName.IsEmpty;
+            get => Name.IsEmpty;
         }
 
         public virtual string Format()
-            => IsEmpty ? RP.Empty : TypeName;
+            => IsEmpty ? RP.Empty : Name;
 
         public override string ToString()
             => Format();
 
         public bool Equals(ScalarType<K> src)
-            => TypeName.Equals(src.TypeName) && ContentWidth == src.ContentWidth && Kind.Equals(src.Kind);
+            => Name.Equals(src.Name) && ContentWidth == src.ContentWidth && Kind.Equals(src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator ScalarType(ScalarType<K> src)
-            => new ScalarType(src.TypeName, src.Class, src.ContentWidth, src.StorageWidth);
+            => new ScalarType(src.Name, src.Class, src.ContentWidth, src.StorageWidth);
 
         public static ScalarType Empty
         {

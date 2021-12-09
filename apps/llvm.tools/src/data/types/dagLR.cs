@@ -2,34 +2,36 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct ClrEnumType : IClrEnumType
+    public class dag<L,R> : IDag<L,R>
+        where L : ITerm
+        where R : ITerm
     {
-        public Identifier Name {get;}
+        public L Left {get;}
 
-        public ClrEnumKind EnumKind {get;}
+        public R Right {get;}
 
         [MethodImpl(Inline)]
-        public ClrEnumType(Identifier name, ClrEnumKind kind)
+        public dag(L left, R right)
         {
-            Name = name;
-            EnumKind = kind;
+            Left = left;
+            Right = right;
         }
 
         public string Format()
-            => string.Format("enum<{0}:{1}>", Name, EnumKind.CsKeyword());
+            => LlvmTypes.format(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ClrEnumKind(ClrEnumType src)
-            => src.EnumKind;
+        public static implicit operator dag<L,R>((L left, R right) src)
+            => new dag<L,R>(src.left, src.right);
     }
 }

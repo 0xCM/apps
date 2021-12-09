@@ -19,7 +19,6 @@ namespace Z0
             PatternText = src;
         }
 
-
         public string Format(params object[] src)
         {
             var count = src?.Length ?? 0;

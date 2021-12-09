@@ -11,10 +11,12 @@ namespace Z0
 
     public class TypeDef : IType, IEquatable<TypeDef>
     {
+        public Identifier Name {get;}
         public ulong Kind {get;}
 
-        public TypeDef(ulong kind)
+        public TypeDef(Identifier name, ulong kind)
         {
+            Name = name;
             Kind = 0;
         }
 
@@ -27,6 +29,6 @@ namespace Z0
         public bool Equals(TypeDef src)
             => Kind == src.Kind;
 
-        public static TypeDef Empty = new TypeDef(0);
+        public static TypeDef Empty = new TypeDef(Identifier.Empty,0);
     }
 }

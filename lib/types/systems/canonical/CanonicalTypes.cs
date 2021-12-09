@@ -7,7 +7,7 @@ namespace Z0
     using System;
 
     using PK = CanonicalKind;
-    using PN = CanonicalSpecs;
+    using PN = TypeSpecs;
 
     public sealed class CanonicalTypes : TypeSystem<CanonicalTypes, PK>
     {

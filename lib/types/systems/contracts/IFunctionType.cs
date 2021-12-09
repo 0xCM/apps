@@ -4,10 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICheckService
+    public interface IFunctionType : IType
     {
-        Identifier Name => GetType().Name;
+        Index<Operand> Operands {get;}
 
-        void Run();
+        Operand Return {get;}
+
+        Facets Facets {get;}
+    }
+
+    public interface IFunctionType<K> : IFunctionType, IType<K>
+        where K : unmanaged
+    {
+
     }
 }

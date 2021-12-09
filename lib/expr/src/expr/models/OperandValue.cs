@@ -2,34 +2,32 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Expr
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct ClrEnumType : IClrEnumType
+    /// <summary>
+    /// Defines an operand value of dynamic type
+    /// </summary>
+    public readonly struct OperandValue
     {
-        public Identifier Name {get;}
+        public string Name {get;}
 
-        public ClrEnumKind EnumKind {get;}
+        public dynamic Content {get;}
 
         [MethodImpl(Inline)]
-        public ClrEnumType(Identifier name, ClrEnumKind kind)
+        public OperandValue(string name, dynamic value)
         {
             Name = name;
-            EnumKind = kind;
+            Content = value;
         }
 
         public string Format()
-            => string.Format("enum<{0}:{1}>", Name, EnumKind.CsKeyword());
+            => string.Format("{0}:{1}", Name, Content);
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator ClrEnumKind(ClrEnumType src)
-            => src.EnumKind;
     }
 }

@@ -12,6 +12,7 @@ namespace Z0.Types
 
     public class VectorType : IVectorType
     {
+        public Identifier Name {get;}
         public ScalarType CellType {get;}
 
         public uint CellCount {get;}
@@ -25,15 +26,16 @@ namespace Z0.Types
             => CellType.StorageWidth*CellCount;
 
         [MethodImpl(Inline)]
-        internal VectorType(ScalarType cellkind, uint n)
+        internal VectorType(Identifier name, ScalarType cellkind, uint n)
         {
+            Name = name;
             CellType = cellkind;
             CellCount = n;
             Kind = 0;
         }
 
         public string Format()
-            => CanonicalSpecs.v(CellCount, CellType);
+            => TypeSpecs.v(CellCount, CellType);
 
         public override string ToString()
             => Format();

@@ -19,8 +19,8 @@ namespace Z0
 
         }
 
-        public ReadOnlySpan<ClrEnumType> EnumTypes
-            => _Enums;
+        public ReadOnlySpan<ClrEnumKind> EnumKinds
+            => _EnumsKinds;
 
         public override ReadOnlySpan<TypeKind<PK>> Primitives
             => _Primitives;
@@ -28,7 +28,7 @@ namespace Z0
         static TypeKind<PK> primitive(PK kind, string name, byte arity)
             => new TypeKind<PK>(kind, name, arity);
 
-        static Index<ClrEnumType> _Enums = new ClrEnumType[]{
+        static Index<ClrEnumKind> _EnumsKinds = new ClrEnumKind[]{
             EK.U8,
             EK.U16,
             EK.U32,

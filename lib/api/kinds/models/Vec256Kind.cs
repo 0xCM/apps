@@ -13,6 +13,9 @@ namespace Z0
     public readonly struct Vec256Kind<T> : IVectorType<Vec256Kind<T>,W256,T>
         where T : unmanaged
     {
+        public Identifier Name
+            => string.Format("v{0}<{1}>", W, typeof(T).Name);
+
         public W256 W => default;
 
         public NativeVectorWidth Width

@@ -9,7 +9,7 @@ namespace Z0
 
     }
 
-    public interface IClrEnumType : IClrType,  IScalarType<ClrEnumKind>
+    public interface IClrEnumType : IClrType, IScalarType<ClrEnumKind>
     {
         ClrEnumKind EnumKind {get;}
 

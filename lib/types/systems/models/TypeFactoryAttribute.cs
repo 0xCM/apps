@@ -14,6 +14,6 @@ namespace Z0
             Specifier = spec;
         }
 
-        public TypeSpecifier Specifier {get;}
+        public TypeSpec Specifier {get;}
     }
 }

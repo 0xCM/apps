@@ -4,21 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IType : ITextual, INullity
+    public interface IOperand : INullity, ITextual
     {
         Identifier Name {get;}
-        ulong Kind {get;}
+
+        IType Type {get;}
+
+        ParamDirection Direction {get;}
+
+        Facets Facets {get;}
 
         bool INullity.IsEmpty
             => false;
     }
 
-    public interface IType<K> : IType
-        where K : unmanaged
+    public interface IOperand<T> : IOperand
+        where T : unmanaged, IType<T>
     {
-        new K Kind {get;}
-
-        ulong IType.Kind
-            => core.bw64(Kind);
+        new T Type {get;}
     }
 }

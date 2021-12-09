@@ -4,10 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICheckService
+    public interface INamedContext : IContext
     {
-        Identifier Name => GetType().Name;
+        Name ContextName {get;}
 
-        void Run();
+        string ITextual.Format()
+            => ContextName;
+    }
+
+    public interface INamedContext<S> : INamedContext, IContext<S>
+    {
+
     }
 }

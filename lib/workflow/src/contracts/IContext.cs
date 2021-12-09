@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ICheckService
+    public interface IContext : ITextual
     {
-        Identifier Name => GetType().Name;
 
-        void Run();
+    }
+
+    public interface IContext<S> : IContext
+    {
+        S State {get;}
     }
 }

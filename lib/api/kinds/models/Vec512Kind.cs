@@ -14,6 +14,9 @@ namespace Z0
     {
         public W512 W => default;
 
+        public Identifier Name
+            => string.Format("v{0}<{1}>", W, typeof(T).Name);
+
         public NativeVectorWidth Width
             => NativeVectorWidth.W512;
 

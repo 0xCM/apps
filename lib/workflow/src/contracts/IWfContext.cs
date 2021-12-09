@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IWfContext : ITextual
+    public interface IWfContext : IContext
     {
         IAppPaths Paths {get;}
 
@@ -23,8 +23,4 @@ namespace Z0
             => AppName;
     }
 
-    public interface IWfContext<S> : IWfContext
-    {
-        S State {get;}
-    }
 }

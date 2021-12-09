@@ -14,10 +14,11 @@ namespace Z0
 
     partial struct TV
     {
+        [MethodImpl(Inline)]
         public static bvNx64 bv(N64 n, Span<ulong> src)
             => new bvNx64(src);
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static bit state<T>(in T src, uint pos)
             where T : unmanaged, IIndexedBits
         {
@@ -27,7 +28,7 @@ namespace Z0
             return bit.test(skip(b,i),j);
         }
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline)]
         public static void state<T>(bit src, uint pos, ref T dst)
             where T : unmanaged, IIndexedBits
         {
@@ -156,7 +157,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bv1024 bv(N1024 n)
             => default;
-
-
     }
 }
