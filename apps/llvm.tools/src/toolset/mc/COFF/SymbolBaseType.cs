@@ -10,52 +10,52 @@ namespace Z0.llvm.COFF
     [SymSource("llvm.mc")]
     public enum SymbolBaseType : uint
     {
-        [Symbol("","No type information or unknown base type")]
+        [Symbol("null","No type information or unknown base type")]
         IMAGE_SYM_TYPE_NULL = 0,
 
-        [Symbol("","Used with void pointers and functions")]
+        [Symbol("void","Used with void pointers and functions")]
         IMAGE_SYM_TYPE_VOID = 1,
 
-        [Symbol("","A character (signed byte).")]
+        [Symbol("sbyte","A character (signed byte).")]
         IMAGE_SYM_TYPE_CHAR = 2,
 
-        [Symbol("","A 2-byte signed integer")]
+        [Symbol("short","A 2-byte signed integer")]
         IMAGE_SYM_TYPE_SHORT = 3,
 
-        [Symbol("","A natural integer type on the target")]
+        [Symbol("long","A natural integer type on the target")]
         IMAGE_SYM_TYPE_INT = 4,
 
-        [Symbol("","A 4-byte signed integer")]
+        [Symbol("int","A 4-byte signed integer")]
         IMAGE_SYM_TYPE_LONG = 5,
 
-        [Symbol("","A 4-byte floating-point number")]
+        [Symbol("float","A 4-byte floating-point number")]
         IMAGE_SYM_TYPE_FLOAT = 6,
 
-        [Symbol("","An 8-byte floating-point number")]
+        [Symbol("double","An 8-byte floating-point number")]
         IMAGE_SYM_TYPE_DOUBLE = 7,
 
-        [Symbol("","A structure")]
+        [Symbol("struct","A structure")]
         IMAGE_SYM_TYPE_STRUCT = 8,
 
-        [Symbol("","An union")]
+        [Symbol("union","An union")]
         IMAGE_SYM_TYPE_UNION = 9,
 
-        [Symbol("","An enumerated type")]
+        [Symbol("enum","An enumerated type")]
         IMAGE_SYM_TYPE_ENUM = 10,
 
-        [Symbol(""," A member of enumeration (a specific value)")]
+        [Symbol("enumconst"," A member of enumeration (a specific value)")]
         IMAGE_SYM_TYPE_MOE = 11,
 
-        [Symbol("","A byte; unsigned 1-byte integer")]
+        [Symbol("byte","A byte; unsigned 1-byte integer")]
         IMAGE_SYM_TYPE_BYTE = 12,
 
-        [Symbol("","A word; unsigned 2-byte integer")]
+        [Symbol("ushort","A word; unsigned 2-byte integer")]
         IMAGE_SYM_TYPE_WORD = 13,
 
-        [Symbol("","An unsigned integer of natural size")]
+        [Symbol("ulong","An unsigned integer of natural size")]
         IMAGE_SYM_TYPE_UINT = 14,
 
-        [Symbol("","An unsigned 4-byte integer")]
+        [Symbol("uint","An unsigned 4-byte integer")]
         IMAGE_SYM_TYPE_DWORD = 15
     }
 }
