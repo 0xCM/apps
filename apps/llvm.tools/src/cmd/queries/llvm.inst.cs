@@ -15,7 +15,7 @@ namespace Z0.llvm
         {
             var entities = DataProvider.SelectEntities();
             var count = entities.Length;
-            var specs = list<string>();
+            var specs = list<AsmString>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var entity = ref entities[i];
@@ -25,7 +25,7 @@ namespace Z0.llvm
                     if(inst.isCodeGenOnly || inst.isPseudo)
                         continue;
 
-                    specs.Add(string.Format("{0,-24} | {1,-16} | {2}", inst.InstName, inst.Mnemonic, inst.AsmString));
+                    specs.Add(inst.AsmString);
                 }
             }
             Flow(InstQuery, specs.ViewDeposited());

@@ -106,6 +106,5 @@ namespace Z0.llvm
             DataEmitter.EmitQueryResults(query, src.View);
             return true;
         }
-
     }
 }

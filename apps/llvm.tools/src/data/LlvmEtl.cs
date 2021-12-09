@@ -75,6 +75,8 @@ namespace Z0.llvm
                 {
                     var inst = entity.ToInstruction();
                     var name = inst.EntityName.Content;
+                    var asmstr = inst.AsmString;
+                    var mnemonic = asmstr.Mnemonic;
                     var id = z16;
                     if(asmid.Find(name, out var descriptor))
                         id = descriptor.Id;
@@ -86,8 +88,8 @@ namespace Z0.llvm
                     if(inst.OpMap.Equals("OB"))
                         obmapped.Add(identity);
 
-                    var mnemonic = inst.Mnemonic;
-                    var j = text.index(inst.EntityName.Content.ToLower(), inst.Mnemonic.Content);
+
+                    var j = text.index(name.ToLower(), mnemonic.Content);
                     var vcode = inst.VarCode;
                     if(vcode.IsNonEmpty)
                     {
@@ -103,7 +105,7 @@ namespace Z0.llvm
                     pattern.VarCode = vcode;
                     pattern.CGOnly = inst.isCodeGenOnly;
                     pattern.Pseudo = inst.isPseudo;
-                    pattern.FormatPattern = inst.AsmString;
+                    pattern.FormatPattern = asmstr.FormatPattern;
                     pattern.SourcePattern = inst.RawAsmString;
                     patterns.Add(pattern);
                 }
@@ -119,6 +121,7 @@ namespace Z0.llvm
             EmitLists();
             DataEmitter.EmitChildRelations();
             ProcessInstructions();
+            DataEmitter.EmitInstDefs();
             return true;
         }
 

@@ -30,7 +30,7 @@ namespace Z0.llvm
                     if(inst.isCodeGenOnly || inst.isPseudo)
                         continue;
 
-                    specs.Add(string.Format("{0,-24} | {1,-16} | {2}", inst.InstName, inst.Mnemonic, inst.AsmString));
+                    specs.Add(string.Format("{0,-24} | {1,-16} | {2}", inst.InstName, inst.Mnemonic, inst.AsmString.FormatPattern));
                 }
             }
 

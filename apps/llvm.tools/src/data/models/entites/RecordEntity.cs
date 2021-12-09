@@ -106,11 +106,20 @@ namespace Z0.llvm
         public bool IsRegisterClass()
             => HasAncestor(Entities.RegisterClass);
 
+        public bool IsX86MemOperand()
+            => HasAncestor(Entities.X86MemOperand);
+
         public bool IsRegOp()
             => IsDAGOperand() && IsRegisterClass();
 
+        public bool IsMemOp()
+            => IsDAGOperand() && IsX86MemOperand();
+
         public RegOpEntity ToRegOp()
-            =>new RegOpEntity(Def,AttribIndex);
+            => new RegOpEntity(Def,AttribIndex);
+
+        public MemOpEntity ToMemOp()
+            =>new MemOpEntity(Def,AttribIndex);
 
         public InstEntity ToInstruction()
             => new InstEntity(Def,AttribIndex);

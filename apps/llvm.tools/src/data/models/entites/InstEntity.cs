@@ -26,8 +26,8 @@ namespace Z0.llvm
         public string RawAsmString
             => Value(nameof(RawAsmString),() => this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space));
 
-        public string AsmString
-            => Value(nameof(AsmString), () => llvm.AsmStrings.normalize(RawAsmString));
+        public AsmString AsmString
+            => Value(nameof(AsmString), () => llvm.AsmStrings.extract(this));
 
         public string OpMap
             => this[nameof(OpMap)];
@@ -45,7 +45,7 @@ namespace Z0.llvm
             =>this[nameof(Predicates)];
 
         public AsmMnemonic Mnemonic
-            => Value(nameof(Mnemonic), () => llvm.AsmStrings.mnemonic(this[nameof(AsmString)]));
+            => Value(nameof(Mnemonic), () => AsmString.Mnemonic);
 
         public bits<ulong> TSFlags
             => Parse(nameof(TSFlags), out bits<ulong> dst);

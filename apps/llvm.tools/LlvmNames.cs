@@ -97,6 +97,10 @@ namespace Z0.llvm
             public const string DAGOperand = nameof(DAGOperand);
 
             public const string RegisterClass = nameof(RegisterClass);
+
+            public const string X86MemOperand = nameof(X86MemOperand);
+
+            public const string AsmOperandClass = nameof(AsmOperandClass);
         }
     }
 }

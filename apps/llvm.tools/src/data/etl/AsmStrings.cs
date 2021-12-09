@@ -65,34 +65,61 @@ namespace Z0.llvm
             return text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
         }
 
-        /// <summary>
-        /// Attempts to infer the instruction mnemonic from an asmstring
-        /// </summary>
-        /// <param name="value">The source value</param>
-        public static AsmMnemonic mnemonic(string value)
+        static string pattern(string src)
         {
-            static string cleanse(string src)
+            var monic = AsmStrings.mnemonic(src).Format();
+            var i = text.index(src, Chars.Space);
+            if(i == NotFound)
+                return monic;
+            else
             {
-                var i = text.index(src, Chars.LBrace);
-                var j = text.index(src, Chars.RBrace);
-                if(i == NotFound || j == NotFound || j<=i)
-                    return src;
+                var right = text.right(src,i);
 
-                var content = text.inside(src, i, j);
-                var k = text.index(content, Chars.Caret);
-                if(k == NotFound)
-                    return text.left(src, i);
+                if(text.fenced(right, Fencing.Embraced))
+                    right = text.unfence(right, 0, Fencing.Embraced);
 
-                var suffix = text.right(content,k);
-                return text.left(src,i) + suffix;
+                var j = text.index(right, Chars.Caret);
+                if(j >= 0)
+                    right = text.right(right,j);
+                right = text.replace(right,"${mask}", "$mask");
+                return string.Format("{0} {1}", monic, right);
             }
+        }
 
-            var mnemonic = text.remove(value,Chars.Quote);
-            var ws = SQ.wsindex(mnemonic);
-            if(ws != NotFound)
-                mnemonic = text.remove(text.left(mnemonic, ws), Chars.Quote);
+        public static AsmString extract(InstEntity inst)
+        {
+            var dst = AsmString.Empty;
+            var name = inst.InstName;
+            if(inst.isCodeGenOnly || inst.isPseudo)
+            {
+                dst = new AsmString(name, AsmMnemonic.Empty, EmptyString, EmptyString);
+            }
+            else
+            {
+                var raw = inst.RawAsmString;
+                var input = text.remove(raw, Chars.Quote).Replace(Chars.Tab, Chars.Space).Trim();
+                var m0 = AsmStrings.mnemonic(input);
+                var p0 = pattern(input);
+                dst = new AsmString(name, m0, p0, raw);
+            }
+            return dst;
+        }
 
-            return cleanse(mnemonic);
+        public static AsmMnemonic mnemonic(string src)
+        {
+            var input = text.remove(src, Chars.Quote).Replace(Chars.Tab, Chars.Space).Trim();
+            var i = text.index(src, Chars.Space);
+            var dst = input;
+            if(i >=0)
+            {
+                var left = text.left(input,i);
+                var j = text.index(left, Chars.LBrace);
+                if(j >= 0)
+                    dst = text.left(left,j);
+                else
+                    dst = left;
+            }
+            return dst;
         }
 
         public static string normalize(string value)

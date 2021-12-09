@@ -5,10 +5,13 @@
 namespace Z0.llvm
 {
     using Asm;
+    using static Root;
 
     public readonly struct AsmString
     {
-        public readonly ushort AsmId;
+        const string RenderPattern = "{0,-24} | {1,-16} | {2,-54} | {3}";
+
+        public readonly Identifier InstName;
 
         public readonly AsmMnemonic Mnemonic;
 
@@ -16,13 +19,21 @@ namespace Z0.llvm
 
         public readonly TextBlock SourcePattern;
 
-        public AsmString(ushort id, AsmMnemonic mnemonic, string src, string fmt)
+        public AsmString(Identifier name, AsmMnemonic mnemonic, string pattern, string raw)
         {
-            AsmId = id;
+            InstName = name;
             Mnemonic = mnemonic;
-            FormatPattern = fmt;
-            SourcePattern = src;
+            FormatPattern = pattern;
+            SourcePattern = raw;
         }
+
+        public string Format()
+            => string.Format(RenderPattern, InstName, Mnemonic, FormatPattern, SourcePattern);
+
+        public override string ToString()
+            => Format();
+
+        public static AsmString Empty => new AsmString(Identifier.Empty, AsmMnemonic.Empty, EmptyString, EmptyString);
     }
 
 }

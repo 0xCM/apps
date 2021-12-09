@@ -46,12 +46,13 @@ namespace Z0.llvm
                 ref readonly var id = ref pair.Left;
                 ref readonly var entity = ref pair.Right;
                 ref var dst = ref seek(buffer,i);
+                var asmstr = entity.AsmString;
                 dst.AsmId = id;
                 dst.CgOnly = entity.isCodeGenOnly;
                 dst.Pseudo = entity.isPseudo;
                 dst.InstName = entity.InstName;
-                dst.Mnemonic = entity.Mnemonic;
-                dst.FormatPattern = entity.AsmString;
+                dst.Mnemonic = asmstr.Mnemonic;
+                dst.FormatPattern = asmstr.FormatPattern;
                 dst.InOperandList = entity.InOperandList;
                 dst.OutOperandList = entity.OutOperandList;
                 dst.VarCode = entity.VarCode;
