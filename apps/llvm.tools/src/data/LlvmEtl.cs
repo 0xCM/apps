@@ -8,8 +8,6 @@ namespace Z0.llvm
     using static Root;
     using static core;
 
-    using Asm;
-
     public partial class LlvmEtl : AppService<LlvmEtl>
     {
         LlvmPaths LlvmPaths;
@@ -39,36 +37,32 @@ namespace Z0.llvm
             return lines.Select(x => x.Trim()).Where(x => nonempty(x));
         }
 
-        Index<TextLine> LoadSouceRecords()
-            => DataProvider.SelectSourceRecords(Datasets.X86);
-
         public void Run()
         {
-            var records = LoadSouceRecords();
-            ImportRecords(records);
+            ImportRecords();
             ImportEntityData();
         }
 
-        void ImportRecords(Index<TextLine> records)
+        void ImportRecords()
         {
+            var records = DataProvider.SelectSourceRecords(Datasets.X86);
             DataEmitter.EmitToolHelp();
             EmitLinedRecords(records, Datasets.X86Lined);
             var classes = EmitClassRelations(records);
             var defs = EmitDefRelations(records);
             var defMap = DataEmitter.EmitLineMap(defs, records, Datasets.X86Defs);
-            var defFields = DataProvider.SelectFields(records, defMap);
+            var defFields = RecordFieldParser.parse(records, defMap);
             EmitFields(defFields, Datasets.X86DefFields);
             var classMap = DataEmitter.EmitLineMap(classes, records, Datasets.X86Classes);
-            var classFields = DataProvider.SelectFields(records, classMap);
+            var classFields = RecordFieldParser.parse(records, classMap);
             EmitFields(classFields, Datasets.X86ClassFields);
         }
 
         void ProcessInstructions()
         {
-            var asmid = AsmIdDefs();
+            var asmid = DiscoverAsmIdDefs();
             var src = DataProvider.SelectEntities();
-            var members = src.Members;
-            var count = members.Length;
+            var count = src.Length;
             var patterns = list<LlvmAsmPattern>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
@@ -76,7 +70,7 @@ namespace Z0.llvm
             var seq = 0u;
             for(var i=0; i<count; i++)
             {
-                ref readonly var entity = ref skip(members,i);
+                ref readonly var entity = ref src[i];
                 if(entity.IsInstruction())
                 {
                     var inst = entity.ToInstruction();
@@ -116,7 +110,7 @@ namespace Z0.llvm
             }
 
             DataEmitter.EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.ListImportPath("vcodes")));
-            TableEmit(patterns.ViewDeposited(), LlvmPaths.Table<LlvmAsmPattern>());
+            TableEmit(patterns.ViewDeposited(), LlvmAsmPattern.RenderWidths, LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
         }
 
@@ -128,7 +122,7 @@ namespace Z0.llvm
             return true;
         }
 
-        public AsmIdDefs AsmIdDefs()
+        public AsmIdDefs DiscoverAsmIdDefs()
         {
             const string BeginAsmIdMarker = "PHI	= 0,";
             var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Info);
@@ -140,7 +134,7 @@ namespace Z0.llvm
             return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDef(x.Key, x.Value));
         }
 
-        public RegIdDefs RegIdDefs()
+        public RegIdDefs DiscoverRegIdDefs()
         {
             const string BeginRegsMarker = "NoRegister,";
             var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Registers);

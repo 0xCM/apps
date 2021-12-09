@@ -14,7 +14,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines a 5-cell T-vector
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("v5<{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct v5<T> : IVector<T>
         where T : unmanaged
     {

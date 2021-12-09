@@ -25,18 +25,18 @@ namespace Z0.llvm
 
         public bit Pseudo;
 
-        public AsciBlock32 Instruction;
+        public Identifier Instruction;
 
         public AsmMnemonic Mnemonic;
 
         public AsmVariationCode VarCode;
 
-        public AsmString FormatPattern;
+        public TextBlock FormatPattern;
 
         public TextBlock SourcePattern;
 
         public static LlvmAsmPattern Empty => default;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,8,8,32,32,12,32,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,8,8,24,16,12,42,1};
     }
 }

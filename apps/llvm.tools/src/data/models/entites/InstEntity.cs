@@ -27,7 +27,7 @@ namespace Z0.llvm
             => Value(nameof(RawAsmString),() => this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space));
 
         public string AsmString
-            => Value(nameof(AsmString), () => llvm.AsmString.normalize(RawAsmString));
+            => Value(nameof(AsmString), () => llvm.AsmStrings.normalize(RawAsmString));
 
         public string OpMap
             => this[nameof(OpMap)];
@@ -35,22 +35,22 @@ namespace Z0.llvm
         public string InstName
             => EntityName;
 
-        // public string InOperandList
-        //     => this[nameof(InOperandList)];
+        public string InOperandList
+            => this[nameof(InOperandList)];
 
-        // public string OutOperandList
-        //     => this[nameof(OutOperandList)];
+        public string OutOperandList
+            => this[nameof(OutOperandList)];
 
-        // public string Predicates
-        //     =>this[nameof(Predicates)];
+        public string Predicates
+            =>this[nameof(Predicates)];
 
         public AsmMnemonic Mnemonic
-            => Value(nameof(Mnemonic), () => llvm.AsmString.mnemonic(this[nameof(AsmString)]));
+            => Value(nameof(Mnemonic), () => llvm.AsmStrings.mnemonic(this[nameof(AsmString)]));
 
         public bits<ulong> TSFlags
             => Parse(nameof(TSFlags), out bits<ulong> dst);
 
         public AsmVariationCode VarCode
-            => Value(nameof(VarCode), () => llvm.AsmString.varcode(InstName, Mnemonic));
+            => Value(nameof(VarCode), () => llvm.AsmStrings.varcode(InstName, Mnemonic));
     }
 }

@@ -70,7 +70,7 @@ namespace Z0.llvm
             return ref dst;
         }
 
-        public ref bits<T> Parse<T>(string attrib, out bits<T> dst)
+        protected ref bits<T> Parse<T>(string attrib, out bits<T> dst)
             where T : unmanaged
         {
             bits<T> parse()
@@ -83,8 +83,8 @@ namespace Z0.llvm
 
             dst = Value(attrib, parse);
             return ref dst;
-
         }
+
         public bool HasAncestor(string name)
             => Def.AncestorNames.Contains(name);
 
@@ -99,6 +99,18 @@ namespace Z0.llvm
 
         public bool IsInstAlias()
             => HasAncestor(Entities.InstAlias);
+
+        public bool IsDAGOperand()
+            => HasAncestor(Entities.DAGOperand);
+
+        public bool IsRegisterClass()
+            => HasAncestor(Entities.RegisterClass);
+
+        public bool IsRegOp()
+            => IsDAGOperand() && IsRegisterClass();
+
+        public RegOpEntity ToRegOp()
+            =>new RegOpEntity(Def,AttribIndex);
 
         public InstEntity ToInstruction()
             => new InstEntity(Def,AttribIndex);

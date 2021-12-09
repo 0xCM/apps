@@ -4,13 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
     using static core;
 
     using K = llvm.LlvmConfigKind;
 
-    partial class LlvmEtl
+
+    [Tool(ToolId)]
+    public sealed class LlvmConfig : ToolService<LlvmConfig>
     {
-        public LlvmConfigSet ComputeConfig()
+        public const string ToolId = LlvmNames.Tools.llvm_config;
+
+        OmniScript OmniScript => Service(Wf.OmniScript);
+
+        public LlvmConfigSet CollectSettings()
         {
             const string Pattern = "llvm-config --{0}";
             var result = Outcome.Success;

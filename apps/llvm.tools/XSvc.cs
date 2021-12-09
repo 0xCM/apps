@@ -18,6 +18,10 @@ namespace Z0
             => llvm.LlvmNm.create(wf);
 
         [Op]
+        public static LlvmConfig LlvmConfig(this IWfRuntime wf)
+            => llvm.LlvmConfig.create(wf);
+
+        [Op]
         public static LlvmReadObj LlvmReadObj(this IWfRuntime wf)
             => llvm.LlvmReadObj.create(wf);
 

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
     using static core;
 
     partial class LlvmCmd
@@ -26,6 +27,16 @@ namespace Z0.llvm
             Flow(CcQuery,specs);
 
             return true;
+        }
+    }
+
+    partial class XTend
+    {
+        public static void Traverse<T>(this Index<T> src, Action<int,T> f)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                f(i,src[i]);
         }
     }
 }

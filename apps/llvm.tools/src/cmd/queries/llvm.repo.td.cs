@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        const string RepoTableDefQuery = "llvm/repo/table-defs";
+        const string RepoTableDefQuery = "llvm/repo/td";
 
         [CmdOp(RepoTableDefQuery)]
         Outcome LlvmTableDefs(CmdArgs args)

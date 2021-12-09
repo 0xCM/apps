@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Collections.Concurrent;
-    using static core;
-
-    using Asm;
-
     partial class LlvmDataProvider
     {
         public Index<string> SelectAsmMnemonicNames()

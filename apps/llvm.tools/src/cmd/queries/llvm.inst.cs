@@ -13,12 +13,12 @@ namespace Z0.llvm
         [CmdOp(InstQuery)]
         public Outcome ShowInst(CmdArgs args)
         {
-            var entities = DataProvider.SelectEntities().Members;
+            var entities = DataProvider.SelectEntities();
             var count = entities.Length;
             var specs = list<string>();
             for(var i=0; i<count; i++)
             {
-                ref readonly var entity = ref skip(entities,i);
+                ref readonly var entity = ref entities[i];
                 if(entity.IsInstruction())
                 {
                     var inst = entity.ToInstruction();

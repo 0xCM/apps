@@ -12,9 +12,9 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<RecordField> SelectClassFields()
-            => SelectFields(Datasets.X86ClassFields);
+            => SelectEmittedFields(Datasets.X86ClassFields);
 
         public ReadOnlySpan<RecordField> SelectClassFields(uint offset, uint length)
-            => slice(SelectFields(Datasets.X86ClassFields).View, offset,length);
+            => slice(SelectClassFields().View, offset,length);
     }
 }

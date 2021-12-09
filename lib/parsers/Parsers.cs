@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     public class Parsers
     {
         public static Parsers Service => Instance;

@@ -30,7 +30,7 @@ namespace Z0.llvm
             return list;
         }
 
-        public Index<LlvmList> EmitLists(RecordEntities src, ReadOnlySpan<string> classes)
+        public Index<LlvmList> EmitLists(Index<RecordEntity> src, ReadOnlySpan<string> classes)
         {
             var emitted = bag<LlvmList>();
             iter(classes, c => emitted.Add(EmitList(src,c)), true);
@@ -73,20 +73,19 @@ namespace Z0.llvm
             return true;
         }
 
-        public LlvmList EmitList(RecordEntities src, string @class)
+        public LlvmList EmitList(Index<RecordEntity> src, string @class)
         {
             var dst = LlvmPaths.ListImportPath(@class);
             var emitting = EmittingTable<LlvmListItem>(dst);
             var formatter = Tables.formatter<LlvmListItem>();
             using var writer = dst.AsciWriter();
             writer.WriteLine(formatter.FormatHeader());
-            var members = src.Members;
-            var count = members.Length;
+            var count = src.Length;
             var items = list<LlvmListItem>();
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
-                ref readonly var entity = ref skip(members,i);
+                ref readonly var entity = ref src[i];
                 ref readonly var def = ref entity.Def;
                 var ancestors = def.AncestorNames;
                 if(ancestors.Contains(@class))

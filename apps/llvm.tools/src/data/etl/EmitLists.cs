@@ -10,8 +10,8 @@ namespace Z0.llvm
         {
             FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
             paths.Delete();
-            DataEmitter.Emit(AsmIdDefs());
-            DataEmitter.Emit(RegIdDefs());
+            DataEmitter.Emit(DiscoverAsmIdDefs());
+            DataEmitter.Emit(DiscoverRegIdDefs());
             return DataEmitter.EmitLists(DataProvider.SelectEntities(), ListNames());
         }
     }

@@ -25,22 +25,24 @@ namespace Z0.llvm
             Data = new(src);
         }
 
-        public RecordEntities Children(string parent)
+        [MethodImpl(Inline)]
+        RecordEntities(Identifier name, RecordEntity[] src)
         {
-            var children = Data.Where(x => x.Def.Ancestors.Name == parent).ToArray();
-            return new RecordEntities(parent, children);
+            Name = name;
+            Data = new(src);
         }
 
-        public SortedDictionary<string,RecordEntities> GroupByParent()
+        public RecordEntities Children(string parent)
+            => new RecordEntities(parent, Data.Where(x => x.Def.Ancestors.Name == parent).ToArray());
+
+        public static SortedDictionary<string,RecordEntities> GroupByParent(Index<RecordEntity> src)
         {
             var name = EmptyString;
-            var current = RecordEntities.Empty;
             var dst = new SortedDictionary<string,RecordEntities>();
-            var src = Data.ViewDeposited();
             var count = src.Length;
             for(var i=0; i<count; i++)
             {
-                ref readonly var entity = ref skip(src,i);
+                ref readonly var entity = ref src[i];
                 if(dst.TryGetValue(entity.ParentName, out var es))
                 {
                     es.Include(entity);
@@ -55,21 +57,15 @@ namespace Z0.llvm
             return dst;
         }
 
-        [MethodImpl(Inline)]
-        public RecordEntities(Identifier name, RecordEntity[] src)
-        {
-            Name = name;
-            Data = new(src);
-        }
 
-        public void Traverse(Action<int,RecordEntity> f)
-        {
-            var count = Data.Count;
-            for(var i=0; i<count; i++)
-                f(i,Data[i]);
-        }
+        // public void Traverse(Action<int,RecordEntity> f)
+        // {
+        //     var count = Data.Count;
+        //     for(var i=0; i<count; i++)
+        //         f(i,Data[i]);
+        // }
 
-        public RecordEntities Include(params RecordEntity[] src)
+        RecordEntities Include(params RecordEntity[] src)
         {
             Data.AddRange(src);
             return this;

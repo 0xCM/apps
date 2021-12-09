@@ -9,11 +9,11 @@ namespace Z0.llvm
 
     using K = llvm.LlvmConfigKind;
 
-    public class LlvmConfig
+    public class LlvmConfigSet
     {
         readonly Dictionary<K,dynamic> Data;
 
-        public LlvmConfig()
+        public LlvmConfigSet()
         {
             Data = new();
         }
@@ -40,7 +40,6 @@ namespace Z0.llvm
             }
             return result;
         }
-
 
         public bool BinDir(out FS.FolderPath dst)
             => Get(K.BinDir, out dst);

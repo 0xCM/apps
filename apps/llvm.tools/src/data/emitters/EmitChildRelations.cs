@@ -12,8 +12,7 @@ namespace Z0.llvm
     {
         public FS.FilePath EmitChildRelations()
         {
-            var src = DataProvider.SelectEntities();
-            var parents = src.GroupByParent();
+            var parents = RecordEntities.GroupByParent(DataProvider.SelectEntities());
             var dst = list<ChildRelation>();
             var counter = 0u;
             var key = 0u;
@@ -38,6 +37,5 @@ namespace Z0.llvm
             TableEmit(dst.ViewDeposited(), path);
             return path;
         }
-
     }
 }

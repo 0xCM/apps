@@ -18,10 +18,10 @@ namespace Z0.llvm
         }
 
         public string AsmString
-            => Value(nameof(AsmString), () => llvm.AsmString.normalize(this[nameof(AsmString)]));
+            => Value(nameof(AsmString), () => llvm.AsmStrings.normalize(this[nameof(AsmString)]));
 
         public AsmMnemonic Mnemonic
-            => Value(nameof(Mnemonic), () => llvm.AsmString.mnemonic(this[nameof(AsmString)]));
+            => Value(nameof(Mnemonic), () => llvm.AsmStrings.mnemonic(this[nameof(AsmString)]));
 
         public string ResultInst
             => this[nameof(ResultInst)];

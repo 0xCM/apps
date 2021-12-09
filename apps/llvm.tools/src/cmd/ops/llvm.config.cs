@@ -6,10 +6,12 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        [CmdOp(".llvm-config")]
-        Outcome LlvmConfig(CmdArgs args)
+        LlvmConfig LlvmConfig => Service(Wf.LlvmConfig);
+
+        [CmdOp("llvm/config")]
+        Outcome CollectConfig(CmdArgs args)
         {
-           var config = LlvmEtl.ComputeConfig();
+           var config = LlvmConfig.CollectSettings();
            var items = config.Items;
            foreach(var item in items)
            {

@@ -56,6 +56,8 @@ namespace Z0.llvm
 
             public const string llvm_dis = "llvm-dis";
 
+            public const string llvm_config = "llvm-config";
+
             public const string llvm_nm = "llvm-nm";
 
             public const string llvm_mc = "llvm-mc";
@@ -75,27 +77,6 @@ namespace Z0.llvm
             public const string build = nameof(build);
         }
 
-        [LiteralProvider("llvm.queries")]
-        public readonly struct Queries
-        {
-            const string sep = "/";
-
-            const string root = "llvm" + sep;
-
-            const string names = nameof(names);
-
-            public const string @class = root + nameof(@class);
-
-            public const string classes = root + nameof(classes);
-
-            public const string def = root + nameof(def);
-
-            public const string defs = root + nameof(defs);
-
-            public const string classnames = classes + sep + "names";
-
-        }
-
         public readonly struct TableGenHeaders
         {
             public const string X86Registers = nameof(X86Registers);
@@ -112,6 +93,10 @@ namespace Z0.llvm
             public const string Intrinsic = nameof(Intrinsic);
 
             public const string GenericInstruction = nameof(GenericInstruction);
+
+            public const string DAGOperand = nameof(DAGOperand);
+
+            public const string RegisterClass = nameof(RegisterClass);
         }
     }
 }

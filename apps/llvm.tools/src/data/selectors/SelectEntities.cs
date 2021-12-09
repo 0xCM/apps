@@ -4,19 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
     using static core;
     using static Root;
 
     partial class LlvmDataProvider
     {
-        public RecordEntities SelectEntities()
-        {
-            return (RecordEntities)DataSets.GetOrAdd("Entities", key => Load());
+        public Index<RecordEntity> SelectEntities(Func<RecordEntity,bool> predicate)
+            => SelectEntities().Where(predicate);
 
-            RecordEntities Load()
+        public Index<RecordEntity> SelectEntities()
+        {
+            return (Index<RecordEntity>)DataSets.GetOrAdd("Entities", key => Load());
+
+            Index<RecordEntity> Load()
             {
                 var running = Wf.Running(nameof(SelectEntities));
-
                 var relations = SelectDefRelations().Map(x => (x.Name.Content, x)).ToDictionary();
                 var entites = list<RecordEntity>();
                 var current = EmptyString;
@@ -44,7 +47,7 @@ namespace Z0.llvm
 
                 Wf.Ran(running);
 
-                return ("Universe",entites.ToArray());
+                return entites.ToArray();
             }
         }
     }

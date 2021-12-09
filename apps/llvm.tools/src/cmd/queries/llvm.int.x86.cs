@@ -13,13 +13,13 @@ namespace Z0.llvm
         [CmdOp(X86IntQuery)]
         Outcome LoadIntrinsics(CmdArgs args)
         {
-            var entities = DataProvider.SelectEntities().Members;
+            var entities = DataProvider.SelectEntities();
             var count = entities.Length;
             var counter = 0u;
             var specs = list<string>();
             for(var i=0; i<count; i++)
             {
-                ref readonly var entity = ref skip(entities,i);
+                ref readonly var entity = ref entities[i];
                 if(entity.IsIntrinsic())
                 {
                     var intrinsic = entity.ToIntrinsic();
