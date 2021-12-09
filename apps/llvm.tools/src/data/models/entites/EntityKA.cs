@@ -7,12 +7,15 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
     using System.Collections.Generic;
+    using System.Collections.Concurrent;
 
     using static Root;
 
     public abstract class Entity<K,A>
     {
         protected Dictionary<K,A> Lookup;
+
+        protected ConcurrentDictionary<string,object> Values = new();
 
         protected Index<A> AttribIndex;
 
@@ -21,6 +24,9 @@ namespace Z0
             [MethodImpl(Inline)]
             get => AttribIndex;
         }
+
+        protected T Value<T>(string name, Func<T> f)
+            => (T)Values.GetOrAdd(name,f());
 
         public virtual A this[K field]
         {

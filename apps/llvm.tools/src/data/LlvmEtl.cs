@@ -94,7 +94,7 @@ namespace Z0.llvm
 
                     var mnemonic = inst.Mnemonic;
                     var j = text.index(inst.EntityName.Content.ToLower(), inst.Mnemonic.Content);
-                    var vcode = inst.VariationCode;
+                    var vcode = inst.VarCode;
                     if(vcode.IsNonEmpty)
                     {
                         vcodes.Add(vcode.Format());
@@ -106,10 +106,11 @@ namespace Z0.llvm
                     pattern.AsmId = id;
                     pattern.Instruction = name;
                     pattern.Mnemonic = mnemonic;
-                    pattern.Variation = vcode;
-                    pattern.IsCodeGenOnly = inst.isCodeGenOnly;
-                    pattern.IsPseudo = inst.isPseudo;
-                    pattern.ExprFormat = inst.AsmString;
+                    pattern.VarCode = vcode;
+                    pattern.CGOnly = inst.isCodeGenOnly;
+                    pattern.Pseudo = inst.isPseudo;
+                    pattern.FormatPattern = inst.AsmString;
+                    pattern.SourcePattern = inst.RawAsmString;
                     patterns.Add(pattern);
                 }
             }

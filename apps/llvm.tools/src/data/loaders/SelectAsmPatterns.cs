@@ -43,12 +43,13 @@ namespace Z0.llvm
                     var i=0;
                     DataParser.parse(skip(cols,i++), out row.Seq);
                     DataParser.parse(skip(cols,i++), out row.AsmId);
-                    DataParser.parse(skip(cols,i++), out row.IsCodeGenOnly);
-                    DataParser.parse(skip(cols,i++), out row.IsPseudo);
+                    DataParser.parse(skip(cols,i++), out row.CGOnly);
+                    DataParser.parse(skip(cols,i++), out row.Pseudo);
                     row.Instruction = skip(cols,i++);
                     row.Mnemonic = skip(cols,i++);
-                    row.Variation = new AsmVariationCode(skip(cols,i++));
-                    row.ExprFormat = skip(cols,i++);
+                    row.VarCode = new AsmVariationCode(skip(cols,i++));
+                    row.FormatPattern = skip(cols,i++);
+                    row.SourcePattern = skip(cols,i++);
                     buffer.Add(row);
                 }
                 return buffer.ToArray();

@@ -24,6 +24,7 @@ namespace Z0.llvm
             ("${src2}","$(src2)"),
             ("$src3","$(src3)"),
             ("${src3}","$(src3)"),
+            ("$src5","$(src5)"),
             ("$src","$(src)"),
             ("$cntl","$(cntl)"),
             ("$op","$(op)"),
@@ -48,6 +49,10 @@ namespace Z0.llvm
             ("$amt", "$(amt)"),
             ("$trap", "$(trap)"),
             ("$ptr", "$(ptr)"),
+            ("$cond", $"(cond)"),
+            ("PSEUDO!",""),
+            ("#ADJCALLSTACKDOWN", ""),
+            ("#ADJCALLSTACKUP", "")
 
             };
 
@@ -72,6 +77,7 @@ namespace Z0.llvm
                 var j = text.index(src, Chars.RBrace);
                 if(i == NotFound || j == NotFound || j<=i)
                     return src;
+
                 var content = text.inside(src, i, j);
                 var k = text.index(content, Chars.Caret);
                 if(k == NotFound)
@@ -92,23 +98,51 @@ namespace Z0.llvm
         public static string normalize(string value)
         {
             var dst = value;
-            var ws = SQ.wsindex(value);
-            if(ws != NotFound)
-                dst = text.right(value, ws);
             dst = text.normalize(dst, Repl).Trim();
-            var length = dst.Length;
-            if(length > 0)
+            var ws = SQ.wsindex(dst);
+            if(ws != NotFound)
             {
-                if(dst[0] == Chars.LBrace && dst[length - 1] == Chars.RBrace)
-                    dst = text.inside(dst,0, length - 1);
-                var k = text.index(dst,Chars.Caret);
-                if(k != NotFound)
-                    dst = text.right(dst,k);
+                var monic = mnemonic(text.left(dst, ws));
+                dst = text.right(dst, ws);
+                var length = dst.Length;
+                if(length > 0)
+                {
+                    if(dst[0] == Chars.LBrace && dst[length - 1] == Chars.RBrace)
+                        dst = text.inside(dst,0, length - 1);
+
+                    var k = text.index(dst, Chars.Caret);
+                    if(k != NotFound)
+                    {
+                        dst = text.right(dst, k);
+                        var j = text.index(dst, Chars.RBrace);
+                        if(j != NotFound)
+                            dst = EmptyString;
+                    }
+                    else
+                    {
+                        var m = text.index(dst, Chars.RBrace);
+                        if(m != NotFound)
+                            dst = text.left(dst,m);
+
+                        var n = text.index(dst, Chars.LBrace);
+                        if(n != NotFound)
+                            dst = text.left(dst,Chars.LBrace);
+                    }
+                }
+                dst = string.Format("{0} {1}", monic, dst);
             }
+            else
+                dst = mnemonic(dst).Format();
             return dst;
         }
 
-        readonly AsciBlock64 Content;
+        readonly string Content;
+
+        public string Text
+        {
+            [MethodImpl(Inline)]
+            get => Content ?? EmptyString;
+        }
 
         [MethodImpl(Inline)]
         public AsmString(string src)
@@ -117,7 +151,7 @@ namespace Z0.llvm
         }
 
         public string Format()
-            => Content.Format().Trim();
+            => Text;
 
         public override string ToString()
             => Format();

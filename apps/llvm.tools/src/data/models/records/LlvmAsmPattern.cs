@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
@@ -14,24 +15,28 @@ namespace Z0.llvm
     {
         public const string TableId = "llvm.asm.patterns";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
         public uint Seq;
 
         public ushort AsmId;
 
-        public bit IsCodeGenOnly;
+        public bit CGOnly;
 
-        public bit IsPseudo;
+        public bit Pseudo;
 
         public AsciBlock32 Instruction;
 
         public AsmMnemonic Mnemonic;
 
-        public AsmVariationCode Variation;
+        public AsmVariationCode VarCode;
 
-        public AsmString ExprFormat;
+        public AsmString FormatPattern;
+
+        public TextBlock SourcePattern;
 
         public static LlvmAsmPattern Empty => default;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,8,8,32,32,12,32,1};
     }
 }

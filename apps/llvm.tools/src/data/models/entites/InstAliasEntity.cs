@@ -17,48 +17,39 @@ namespace Z0.llvm
 
         }
 
-        AsmMnemonic? _Mnemonic;
-
         public string AsmString
-            => llvm.AsmString.normalize(this[nameof(AsmString)]);
+            => Value(nameof(AsmString), () => llvm.AsmString.normalize(this[nameof(AsmString)]));
 
         public AsmMnemonic Mnemonic
-        {
-            get
-            {
-                if(_Mnemonic == null)
-                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)]);
-                return _Mnemonic.Value;
-            }
-        }
+            => Value(nameof(Mnemonic), () => llvm.AsmString.mnemonic(this[nameof(AsmString)]));
 
         public string ResultInst
             => this[nameof(ResultInst)];
 
-        public string InstName
-        {
-            get
-            {
-                var src = ResultInst;
-                var i = text.index(src,Chars.LParen);
-                if(i >= 0)
-                {
-                    var j = text.index(src,i, Chars.Space);
-                    if(j >= 0)
-                    {
-                        return text.inside(src,i,j);
-                    }
-                    else
-                    {
-                        var k = text.index(src,i, Chars.RParen);
-                        if(k >= 0)
-                            return text.inside(src,i,k);
-                    }
-                }
 
-                return src;
+        string DeriveInstName()
+        {
+            var src = ResultInst;
+            var i = text.index(src,Chars.LParen);
+            if(i >= 0)
+            {
+                var j = text.index(src,i, Chars.Space);
+                if(j >= 0)
+                {
+                    return text.inside(src,i,j);
+                }
+                else
+                {
+                    var k = text.index(src,i, Chars.RParen);
+                    if(k >= 0)
+                        return text.inside(src,i,k);
+                }
             }
+            return src;
         }
+
+        public string InstName
+            => Value(nameof(InstName), DeriveInstName);
 
         public string EmitPriority
             => AttribValue(nameof(EmitPriority));
@@ -67,7 +58,7 @@ namespace Z0.llvm
             => AttribValue(nameof(Predicates));
 
         public bit UseInstAsmMatchConverter
-            => ParseAttrib(nameof(UseInstAsmMatchConverter), out bit _);
+            => Parse(nameof(UseInstAsmMatchConverter), out bit _);
 
         public string AsmVariantName
             => AttribValue(nameof(AsmVariantName));

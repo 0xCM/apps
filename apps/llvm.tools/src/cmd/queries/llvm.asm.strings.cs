@@ -21,7 +21,7 @@ namespace Z0.llvm
             {
                 ref readonly var pattern = ref patterns[i];
                 var inst = pattern.Instruction.Format().Trim();
-                var format = pattern.ExprFormat.Format();
+                var format = pattern.FormatPattern.Format();
                 if(descriptors.Find(inst, out var descriptor))
                     specs.Add(string.Format("format({0}:{1}) = '{2}'", descriptor.InstName, descriptor.Id, format));
                 else

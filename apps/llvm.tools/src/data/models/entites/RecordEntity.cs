@@ -30,7 +30,7 @@ namespace Z0.llvm
             => text.begins(EntityName, match);
 
         public new string this[string name]
-            => text.ifempty(Attrib(name).Value,EmptyString);
+            => text.ifempty(Attrib(name).Value, EmptyString);
 
         protected string AttribValue(string name)
             => this[name];
@@ -41,18 +41,50 @@ namespace Z0.llvm
         protected override Func<RecordField,string> KeyFunction
             => a => a.Name;
 
-        protected ref bit ParseAttrib(string attrib, out bit dst)
+        protected ref bit Parse(string attrib, out bit dst)
         {
-            DataParser.parse(this[attrib], out dst);
+            bit parse()
+            {
+                if(DataParser.parse(this[attrib], out bit data))
+                    return data;
+                else
+                    return 0;
+            }
+
+            dst = Value(attrib, parse);
+
             return ref dst;
         }
 
-        protected ref int ParseAttrib(string attrib, out int dst)
+        protected ref int Parse(string attrib, out int dst)
         {
-            DataParser.parse(this[attrib], out dst);
+            int parse()
+            {
+                if(DataParser.parse(this[attrib], out int data))
+                    return data;
+                else
+                    return 0;
+            }
+
+            dst = Value(attrib, parse);
             return ref dst;
         }
 
+        public ref bits<T> Parse<T>(string attrib, out bits<T> dst)
+            where T : unmanaged
+        {
+            bits<T> parse()
+            {
+                if(bits<T>.parse(this[attrib], out var b))
+                    return b;
+                else
+                    return new bits<T>(0,default(T));
+            }
+
+            dst = Value(attrib, parse);
+            return ref dst;
+
+        }
         public bool HasAncestor(string name)
             => Def.AncestorNames.Contains(name);
 

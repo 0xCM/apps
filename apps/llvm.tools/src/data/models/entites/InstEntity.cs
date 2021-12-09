@@ -17,18 +17,17 @@ namespace Z0.llvm
 
         }
 
-        AsmMnemonic? _Mnemonic;
-
-        AsmVariationCode? _VariationCode;
-
         public bit isPseudo
-            => ParseAttrib(nameof(isPseudo), out bit _);
+            => Parse(nameof(isPseudo), out bit _);
 
         public bit isCodeGenOnly
-            => ParseAttrib(nameof(isCodeGenOnly), out bit _);
+            => Parse(nameof(isCodeGenOnly), out bit _);
+
+        public string RawAsmString
+            => Value(nameof(RawAsmString),() => this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space));
 
         public string AsmString
-            => llvm.AsmString.normalize(this[nameof(AsmString)]);
+            => Value(nameof(AsmString), () => llvm.AsmString.normalize(RawAsmString));
 
         public string OpMap
             => this[nameof(OpMap)];
@@ -36,36 +35,22 @@ namespace Z0.llvm
         public string InstName
             => EntityName;
 
+        // public string InOperandList
+        //     => this[nameof(InOperandList)];
+
+        // public string OutOperandList
+        //     => this[nameof(OutOperandList)];
+
+        // public string Predicates
+        //     =>this[nameof(Predicates)];
+
         public AsmMnemonic Mnemonic
-        {
-            get
-            {
-                if(_Mnemonic == null)
-                    _Mnemonic = llvm.AsmString.mnemonic(this[nameof(AsmString)]);
-                return _Mnemonic.Value;
-            }
-        }
+            => Value(nameof(Mnemonic), () => llvm.AsmString.mnemonic(this[nameof(AsmString)]));
 
         public bits<ulong> TSFlags
-        {
-            get
-            {
-                var result = bits<ulong>.parse(this[nameof(TSFlags)], out var b);
-                if(result)
-                    return b;
-                else
-                    return default;
-            }
-        }
+            => Parse(nameof(TSFlags), out bits<ulong> dst);
 
-        public AsmVariationCode VariationCode
-        {
-            get
-            {
-                if(_VariationCode == null)
-                    _VariationCode = llvm.AsmString.varcode(InstName, Mnemonic);
-                return _VariationCode.Value;
-            }
-        }
+        public AsmVariationCode VarCode
+            => Value(nameof(VarCode), () => llvm.AsmString.varcode(InstName, Mnemonic));
     }
 }
