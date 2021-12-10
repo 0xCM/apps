@@ -12,9 +12,10 @@ namespace Z0
     /// <summary>
     /// Defines a datatype that represents a discrete percentage
     /// </summary>
+    [DataType("percent")]
     public struct Percent : ITextual
     {
-        public Rational<uint> Value;
+        public Quotient<uint> Value;
 
         public static Percent Zero => default;
 

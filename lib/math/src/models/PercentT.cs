@@ -15,17 +15,17 @@ namespace Z0
     public struct Percent<T> : ITextual
         where T : unmanaged
     {
-        public Rational<T> Value;
+        public Quotient<T> Value;
 
         public static Percent<T> Zero
-            => Rational<T>.Zero;
+            => Quotient<T>.Zero;
 
         [MethodImpl(Inline)]
         public Percent(T over, T under)
             => Value = (over,under);
 
         [MethodImpl(Inline)]
-        public Percent(Rational<T> src)
+        public Percent(Quotient<T> src)
             => Value = src;
 
         [MethodImpl(Inline)]
@@ -36,7 +36,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Percent<T>(Rational<T> src)
+        public static implicit operator Percent<T>(Quotient<T> src)
             => new Percent<T>(src);
 
         [MethodImpl(Inline)]

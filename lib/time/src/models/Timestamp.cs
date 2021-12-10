@@ -60,7 +60,7 @@ namespace Z0
         public uint Hashed
         {
             [MethodImpl(Inline)]
-            get => FastHash.calc(Ticks);
+            get => alg.hash.calc(Ticks);
         }
 
         public override int GetHashCode()

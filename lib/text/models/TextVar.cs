@@ -10,26 +10,36 @@ namespace Z0
 
     public class TextVar
     {
+        public const char LeftDelimiter = (char)SymNotKind.Lt;
+
+        public const char RightDelimiter = (char)SymNotKind.Gt;
+
         public readonly string Name;
 
-        public string Value;
+        public ITextual Value;
 
         [MethodImpl(Inline)]
         public TextVar(string name)
         {
             Name = name;
-            Value = EmptyString;
+            Value = null;
         }
 
         [MethodImpl(Inline)]
-        public TextVar(string name, string val)
+        public TextVar(string name, ITextual val)
         {
             Name = name;
             Value = val;
         }
 
+        public bool IsEmpty => Value is null || text.empty(Value.Format());
+
+        public bool IsNonEmpty => !IsEmpty;
+
         public string Format()
-            => text.empty(Value) ? string.Format("$({0})", Name) : Value;
+            => IsNonEmpty
+            ? string.Format("{0}{1}{2}", TextVar.LeftDelimiter, Name, TextVar.RightDelimiter)
+            : Value.Format();
 
         public override string ToString()
             => Format();

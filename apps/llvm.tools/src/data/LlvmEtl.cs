@@ -30,13 +30,6 @@ namespace Z0.llvm
             DataEmitter = Wf.LlvmDataEmitter();
         }
 
-        Index<string> ListNames()
-        {
-            var src = LlvmPaths.Settings("ListEmissions", FS.List);
-            var lines = src.ReadLines();
-            return lines.Select(x => x.Trim()).Where(x => nonempty(x));
-        }
-
         public void Run()
         {
             ImportRecords();
@@ -49,19 +42,19 @@ namespace Z0.llvm
             var records = DataProvider.SelectSourceRecords(Datasets.X86);
             DataEmitter.EmitToolHelp();
             EmitLinedRecords(records, Datasets.X86Lined);
-            var classes = EmitClassRelations(records);
-            var defs = EmitDefRelations(records);
-            var defMap = DataEmitter.EmitLineMap(defs, records, Datasets.X86Defs);
+            var classes = DataEmitter.EmitClassRelations(records);
+            var defs = DataEmitter.EmitDefRelations(records);
+            var defMap = DataEmitter.EmitLineMap(defs.View, records, Datasets.X86Defs);
             var defFields = RecordFieldParser.parse(records, defMap);
-            EmitFields(defFields, Datasets.X86DefFields);
-            var classMap = DataEmitter.EmitLineMap(classes, records, Datasets.X86Classes);
+            DataEmitter.EmitFields(defFields, Datasets.X86DefFields);
+            var classMap = DataEmitter.EmitLineMap(classes.View, records, Datasets.X86Classes);
             var classFields = RecordFieldParser.parse(records, classMap);
-            EmitFields(classFields, Datasets.X86ClassFields);
+            DataEmitter.EmitFields(classFields, Datasets.X86ClassFields);
         }
 
-        void ProcessInstructions()
+        void ImportInstructions()
         {
-            var asmid = DiscoverAsmIdDefs();
+            var asmid = DataProvider.DiscoverAsmIdDefs();
             var src = DataProvider.SelectEntities();
             var count = src.Length;
             var obmapped = list<LlvmAsmIdentity>();
@@ -105,90 +98,11 @@ namespace Z0.llvm
 
         public Outcome ImportEntityData()
         {
-            EmitLists();
+            DataEmitter.EmitLists();
             DataEmitter.EmitChildRelations();
-            ProcessInstructions();
+            ImportInstructions();
             DataEmitter.EmitInstDefs();
             return true;
-        }
-
-        public AsmIdDefs DiscoverAsmIdDefs()
-        {
-            const string BeginAsmIdMarker = "PHI	= 0,";
-            var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Info);
-            if(src.Count != 1)
-            {
-                Error("Path not found");
-                return llvm.AsmIdDefs.Empty;
-            }
-            return enumliterals<ushort>(src[0],BeginAsmIdMarker).Map(x => new AsmIdDef(x.Key, x.Value));
-        }
-
-        public RegIdDefs DiscoverRegIdDefs()
-        {
-            const string BeginRegsMarker = "NoRegister,";
-            var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Registers);
-            if(src.Count != 1)
-            {
-                Error("Path not found");
-                return llvm.RegIdDefs.Empty;
-            }
-            return enumliterals<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdDef(x.Key, x.Value));
-        }
-
-        static bool enumliteral<T>(string src, out LlvmListItem<T,string> dst)
-            where T : unmanaged
-        {
-            if(definesliteral(src))
-            {
-                var i = text.index(src, Chars.Eq);
-                var name = text.left(src,i).Trim();
-                var idtext = text.remove(text.right(src,i),Chars.Comma).Trim();
-                DataParser.numeric(idtext, out ushort id);
-                dst = (generic<T>(id),name);
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
-
-        static bool definesliteral(string src)
-            => src.Contains(Chars.Eq) && src.Trim().EndsWith(Chars.Comma);
-
-        static LlvmListItem<T,string>[] enumliterals<T>(FS.FilePath header, string marker)
-            where T : unmanaged
-        {
-            var items = list<LlvmListItem<T,string>>();
-            using var reader = header.Utf8LineReader();
-            var parsing = false;
-            while(reader.Next(out var line))
-            {
-                if(parsing)
-                {
-                    if(enumliteral<T>(line.Content, out var literal))
-                        items.Add(literal);
-                    else
-                        break;
-                }
-                else
-                {
-                    if(line.Contains(marker))
-                    {
-                        parsing = true;
-                        if(definesliteral(marker))
-                        {
-                            if(enumliteral<T>(marker, out var first))
-                                items.Add(first);
-                        }
-                        else
-                            items.Add((zero<T>(), text.remove(marker, Chars.Comma)));
-                    }
-                }
-            }
-            return items.ToArray();
         }
    }
 }

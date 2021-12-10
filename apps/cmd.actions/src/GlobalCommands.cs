@@ -15,7 +15,7 @@ namespace Z0
     using static Root;
 
     [CmdDispatcher]
-    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdDispatcher
+    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdDispatcher, ICmdHost
     {
         public GlobalCommands()
         {

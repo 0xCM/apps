@@ -8,7 +8,6 @@ namespace Z0.Asm
 
     partial struct SdmModels
     {
-        [SymSource]
         public enum ModRmEncKind : byte
         {
             [Symbol(M.ModRm_RmR)]

@@ -64,7 +64,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => FastHash.calc(Id);
+            get => alg.hash.calc(Id);
         }
 
         public ulong Hash64

@@ -46,12 +46,19 @@ namespace Z0
             return src;
         }
 
-
         [MethodImpl(Inline), Op]
         public static T notnull<T>(T src, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
         {
             if(src == null)
                Throw.sourced("!!null!!", caller, file, line);
+            return src;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static string nonempty(string src, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
+        {
+            if(text.empty(src))
+               Throw.sourced("Empty string", caller, file, line);
             return src;
         }
 

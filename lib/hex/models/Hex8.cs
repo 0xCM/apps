@@ -24,8 +24,6 @@ namespace Z0
             return outcome;
         }
 
-        public const uint StorageSize = PrimalSizes.U8;
-
         public K Value {get;}
 
         [MethodImpl(Inline)]

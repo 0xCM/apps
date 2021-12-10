@@ -16,8 +16,6 @@ namespace Z0
     [DataType("hex2")]
     public readonly struct Hex2 : IHexNumber<H,W,K>
     {
-        public const uint StorageSize = PrimalSizes.U8;
-
         public K Value {get;}
 
         public const byte Width = 2;

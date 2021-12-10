@@ -12,14 +12,15 @@ namespace Z0
     /// <summary>
     /// Defines a datatype that represents a rational number
     /// </summary>
-    public struct Rational<T> : IRational<Rational<T>,T>
+    [DataType("quotient<{T}>")]
+    public struct Quotient<T> : IRational<Quotient<T>,T>
     {
         public T Over {get;}
 
         public T Under {get;}
 
         [MethodImpl(Inline)]
-        public Rational(T over, T under)
+        public Quotient(T over, T under)
         {
             Over = over;
             Under = under;
@@ -33,17 +34,17 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Rational<T>((T over, T under) src)
-            => new Rational<T>(src.over, src.under);
+        public static implicit operator Quotient<T>((T over, T under) src)
+            => new Quotient<T>(src.over, src.under);
 
         [MethodImpl(Inline)]
-        public static implicit operator Rational<T>(Pair<T> src)
-            => new Rational<T>(src.Left, src.Right);
+        public static implicit operator Quotient<T>(Pair<T> src)
+            => new Quotient<T>(src.Left, src.Right);
 
-        public static Rational<T> Undefined
+        public static Quotient<T> Undefined
             => default;
 
-        public static Rational<T> Zero
+        public static Quotient<T> Zero
             => (default(T), Numeric.force<T>(1));
     }
 }

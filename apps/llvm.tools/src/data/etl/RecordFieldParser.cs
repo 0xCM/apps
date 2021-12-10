@@ -41,7 +41,6 @@ namespace Z0.llvm
             return buffer;
         }
 
-
         static void parse(ReadOnlySpan<TextLine> src, in LineInterval<Identifier> interval, ref int k, Span<RecordField> dst)
         {
             ref readonly var min = ref interval.MinLine;

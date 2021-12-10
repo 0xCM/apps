@@ -19,14 +19,14 @@ namespace Z0
         public Key(A a, B b)
         {
             Content = (a,b);
-            Hash = FastHash.combine(a.GetHashCode(), b.GetHashCode());
+            Hash = alg.hash.combine(a.GetHashCode(), b.GetHashCode());
         }
 
         [MethodImpl(Inline)]
         public Key(Paired<A,B> src)
         {
             Content = src;
-            Hash = FastHash.combine(src.Left.GetHashCode(), src.Right.GetHashCode());
+            Hash = alg.hash.combine(src.Left.GetHashCode(), src.Right.GetHashCode());
         }
 
         public override int GetHashCode()

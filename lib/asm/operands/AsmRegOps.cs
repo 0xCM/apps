@@ -363,6 +363,5 @@ namespace Z0.Asm
         public static R.cr6 cr6 => default;
 
         public static R.cr7 cr7 => default;
-
     }
 }

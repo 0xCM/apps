@@ -48,7 +48,7 @@ namespace Z0.Asm
             => src is AsmFormInfo x && Equals(x);
 
         public override int GetHashCode()
-            => (int)FastHash.combine(OpCode.GetHashCode(), Sig.GetHashCode());
+            => (int)alg.hash.combine(OpCode.GetHashCode(), Sig.GetHashCode());
 
         public string Format()
             => Content;

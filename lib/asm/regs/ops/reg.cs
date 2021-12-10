@@ -18,6 +18,38 @@ namespace Z0.Asm
             => new RegOp(or((byte)width, sll((ushort)@class, 5), sll((ushort)r, 10)));
 
         [MethodImpl(Inline), Op]
+        public static RegOp gp8(RegIndexCode r)
+            => reg(NativeSizeCode.W8, RegClassCode.GP, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp gp16(RegIndexCode r)
+            => reg(NativeSizeCode.W16, RegClassCode.GP, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp gp32(RegIndexCode r)
+            => reg(NativeSizeCode.W32, RegClassCode.GP, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp gp64(RegIndexCode r)
+            => reg(NativeSizeCode.W64, RegClassCode.GP, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp mask(RegIndexCode r)
+            => reg(NativeSizeCode.W64, RegClassCode.MASK, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp v128(RegIndexCode r)
+            => reg(NativeSizeCode.W128, RegClassCode.XMM, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp v256(RegIndexCode r)
+            => reg(NativeSizeCode.W128, RegClassCode.YMM, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp v512(RegIndexCode r)
+            => reg(NativeSizeCode.W128, RegClassCode.ZMM, r);
+
+        [MethodImpl(Inline), Op]
         public static RegOp reg(RegKind kind)
             => new RegOp((ushort)kind);
 

@@ -12,12 +12,10 @@ namespace Z0.Parts
 
 namespace Z0
 {
-
     public static partial class XTend
     {
         [Op]
         public static GlobalCommands GlobalCommands(this IWfRuntime wf)
             => Z0.GlobalCommands.create(wf);
-
     }
 }

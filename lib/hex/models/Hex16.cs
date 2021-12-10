@@ -24,8 +24,6 @@ namespace Z0
             return outcome;
         }
 
-        public const uint StorageSize = PrimalSizes.U16;
-
         public static H Max => K.MaxValue;
 
         public K Value {get;}

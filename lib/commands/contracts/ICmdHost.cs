@@ -2,15 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    partial class LlvmCmd
+    public interface ICmdHost
     {
-        [CmdOp("llvm/emit/lists")]
-        Outcome EmitLists(CmdArgs args)
-        {
-            DataEmitter.EmitLists();
-            return true;
-        }
     }
 }

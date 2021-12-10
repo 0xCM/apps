@@ -22,7 +22,7 @@ namespace Z0
         /// <summary>
         /// The variable value, possibly empty
         /// </summary>
-        public string Value {get;}
+        public string Value {get;set;}
 
         [MethodImpl(Inline)]
         public ScriptVar(VarSymbol name, string value)

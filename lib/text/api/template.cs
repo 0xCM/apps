@@ -11,6 +11,9 @@ namespace Z0
 
     partial class text
     {
+        public static TextTemplate template(string pattern, object[] parameters)
+            => new TextTemplate(pattern, parameters);
+
         public static TextTemplate<T0> template<T0>(string pattern, T0 p0)
         {
             var t = new TextTemplate<T0>(pattern);

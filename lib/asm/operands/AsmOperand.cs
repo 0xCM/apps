@@ -211,7 +211,5 @@ namespace Z0.Asm
             =>  new AsmOperand<ByteBlock10>(src.OpClass, src.Size, src._Data);
 
         public static AsmOperand Empty => default;
-
-
     }
 }

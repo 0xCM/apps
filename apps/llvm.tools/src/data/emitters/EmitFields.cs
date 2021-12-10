@@ -10,9 +10,9 @@ namespace Z0.llvm
 
     using F = llvm.RecordField;
 
-    partial class LlvmEtl
+    partial class LlvmDataEmitter
     {
-        Outcome EmitFields(ReadOnlySpan<RecordField> src, string dstid)
+        public void EmitFields(ReadOnlySpan<RecordField> src, string dstid)
         {
             var fields = src;
             var parts = partition(fields);
@@ -28,7 +28,6 @@ namespace Z0.llvm
             }
 
             EmittedTable(emitting, count);
-            return true;
         }
 
         static ReadOnlySpan<RecordFields> partition(ReadOnlySpan<RecordField> src)
@@ -57,5 +56,6 @@ namespace Z0.llvm
                 dst.Add(new RecordFields(current, subset.ToArray()));
             return dst.ViewDeposited();
         }
+
     }
 }

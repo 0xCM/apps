@@ -10,6 +10,15 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
+        public Index<LlvmList> EmitLists()
+        {
+            FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
+            paths.Delete();
+            Emit(DataProvider.DiscoverAsmIdDefs());
+            Emit(DataProvider.DiscoverRegIdDefs());
+            return EmitLists(DataProvider.SelectEntities(), DataProvider.SelectConfiguredListNames());
+        }
+
         public LlvmList Emit(AsmIdDefs src)
         {
             var values = src.Values;

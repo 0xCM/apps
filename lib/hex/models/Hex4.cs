@@ -16,8 +16,6 @@ namespace Z0
     [DataType("hex4")]
     public readonly struct Hex4 : IHexNumber<H,W,K>
     {
-        public const uint StorageSize = PrimalSizes.U8;
-
         public K Value {get;}
 
         [MethodImpl(Inline)]

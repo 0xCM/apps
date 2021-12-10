@@ -19,18 +19,25 @@ namespace Z0
         uint ParameterCount {get;}
     }
 
-    public abstract class TextTemplate : ITextTemplate
+    public class TextTemplate : ITextTemplate
     {
         public TextBlock Pattern {get;}
+
+        public virtual object[] Parameters {get;}
+
+        public virtual uint ParameterCount {get;}
 
         public TextTemplate(string src)
         {
             Pattern = src ?? EmptyString;
         }
 
-        public abstract object[] Parameters {get;}
-
-        public abstract uint ParameterCount {get;}
+        public TextTemplate(string src, object[] parameters)
+        {
+            Pattern = src ?? EmptyString;
+            Parameters = parameters;
+            ParameterCount = (uint)parameters.Length;
+        }
 
         public string Format()
             => string.Format(Pattern, Parameters);

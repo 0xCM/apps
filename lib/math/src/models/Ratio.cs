@@ -13,8 +13,8 @@ namespace Z0
     /// Defines a ratio between two values, a measure that indicates how many times the first number contains the second
     /// </summary>
     /// <remarks>See https://en.wikipedia.org/wiki/Ratio</remarks>
-    [DataType("ratio<{T}>")]
-    public struct Ratio<T>
+    [DataType("ratio<{0}>")]
+    public struct Ratio<T> : ITextual
         where T : unmanaged
     {
         /// <summary>

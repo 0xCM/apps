@@ -22,7 +22,7 @@ namespace Z0
         /// <summary>
         /// The variable value, possibly empty
         /// </summary>
-        public T Value {get;}
+        public T Value {get;set;}
 
         [MethodImpl(Inline)]
         public ScriptVar(VarSymbol name, T value)

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static core;
+
     partial class LlvmDataProvider
     {
         public ConstLookup<Identifier,EntityLineage> SelectClassLineage()

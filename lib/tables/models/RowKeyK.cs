@@ -20,7 +20,7 @@ namespace Z0
             => Value = value;
 
         public override int GetHashCode()
-            => (int)FastHash.calc(bw64(Value));
+            => (int)alg.hash.calc(bw64(Value));
 
         [MethodImpl(Inline)]
         public int CompareTo(RowKey<K> src)
