@@ -4,58 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using Asm;
 
-    using SQ = SymbolicQuery;
+    using static Root;
 
     public readonly struct AsmStrings
     {
-        static Pair<string>[] Repl = new Pair<string>[]{
-            ("\"", ""),
-            ("$dst", "$(dst)"),
-            ("${dst}","$(dst)"),
-            ("${mask}","$(mask)"),
-            ("$src1","$(src1)"),
-            ("${src1}","$(src1)"),
-            ("$src2","$(src2)"),
-            ("${src2}","$(src2)"),
-            ("$src3","$(src3)"),
-            ("${src3}","$(src3)"),
-            ("$src5","$(src5)"),
-            ("$src","$(src)"),
-            ("$cntl","$(cntl)"),
-            ("$op","$(op)"),
-            ("$cc","$(cc)"),
-            ("$mask","$(mask)"),
-            ("$len","$(len)"),
-            ("$idx","$(idx)"),
-            ("$port","$(port)"),
-            ("$cnt","$(cnt)"),
-            ("$reg","$(reg)"),
-            ("$seg","$(seg)"),
-            ("$off","$(off)"),
-            ("$imm","$(imm)"),
-            ("$addr","$(addr)"),
-            ("$val", "$(val)"),
-            ("$mem", "$(mem)"),
-            ("$rc","$(rc)"),
-            ("$r1", "$(r1)"),
-            ("$r2", "$(r2)"),
-            ("$r", "$(r)"),
-            ("$zero", "$(zero)"),
-            ("$amt", "$(amt)"),
-            ("$trap", "$(trap)"),
-            ("$ptr", "$(ptr)"),
-            ("$cond", $"(cond)"),
-            ("PSEUDO!",""),
-            ("#ADJCALLSTACKDOWN", ""),
-            ("#ADJCALLSTACKUP", "")
-
-            };
-
         public static AsmVariationCode varcode(string inst, AsmMnemonic monic)
         {
             var fmt = monic.Format(MnemonicCase.Uppercase);
@@ -65,9 +19,39 @@ namespace Z0.llvm
             return text.nonempty(candidate) ? new AsmVariationCode(candidate) : AsmVariationCode.Empty;
         }
 
+        public static AsmString extract(InstAliasEntity src)
+        {
+            var dst = AsmString.Empty;
+            var name = src.InstName;
+            var raw = src.RawAsmString;
+            var input = normalize(raw);
+            var m0 = mnemonic(input);
+            var p0 = pattern(input);
+            dst = new AsmString(name, m0, p0, raw);
+            return dst;
+        }
+
+        public static AsmString extract(InstEntity src)
+        {
+            var dst = AsmString.Empty;
+            var name = src.InstName;
+            if(src.isCodeGenOnly || src.isPseudo)
+                return new AsmString(name, AsmMnemonic.Empty, EmptyString, EmptyString);
+
+            var raw = src.RawAsmString;
+            var input = normalize(raw);
+            var m0 = mnemonic(input);
+            var p0 = pattern(input);
+            dst = new AsmString(name, m0, p0, raw);
+            return dst;
+        }
+
+        static string normalize(string src)
+            => text.remove(src, Chars.Quote).Replace(Chars.Tab, Chars.Space).Trim();
+
         static string pattern(string src)
         {
-            var monic = AsmStrings.mnemonic(src).Format();
+            var monic = mnemonic(src).Format();
             var i = text.index(src, Chars.Space);
             if(i == NotFound)
                 return monic;
@@ -86,28 +70,9 @@ namespace Z0.llvm
             }
         }
 
-        public static AsmString extract(InstEntity inst)
+        static AsmMnemonic mnemonic(string src)
         {
-            var dst = AsmString.Empty;
-            var name = inst.InstName;
-            if(inst.isCodeGenOnly || inst.isPseudo)
-            {
-                dst = new AsmString(name, AsmMnemonic.Empty, EmptyString, EmptyString);
-            }
-            else
-            {
-                var raw = inst.RawAsmString;
-                var input = text.remove(raw, Chars.Quote).Replace(Chars.Tab, Chars.Space).Trim();
-                var m0 = AsmStrings.mnemonic(input);
-                var p0 = pattern(input);
-                dst = new AsmString(name, m0, p0, raw);
-            }
-            return dst;
-        }
-
-        public static AsmMnemonic mnemonic(string src)
-        {
-            var input = text.remove(src, Chars.Quote).Replace(Chars.Tab, Chars.Space).Trim();
+            var input = normalize(src);
             var i = text.index(src, Chars.Space);
             var dst = input;
             if(i >=0)
@@ -119,47 +84,6 @@ namespace Z0.llvm
                 else
                     dst = left;
             }
-            return dst;
-        }
-
-        public static string normalize(string value)
-        {
-            var dst = value;
-            dst = text.normalize(dst, Repl).Trim();
-            var ws = SQ.wsindex(dst);
-            if(ws != NotFound)
-            {
-                var monic = mnemonic(text.left(dst, ws));
-                dst = text.right(dst, ws);
-                var length = dst.Length;
-                if(length > 0)
-                {
-                    if(dst[0] == Chars.LBrace && dst[length - 1] == Chars.RBrace)
-                        dst = text.inside(dst,0, length - 1);
-
-                    var k = text.index(dst, Chars.Caret);
-                    if(k != NotFound)
-                    {
-                        dst = text.right(dst, k);
-                        var j = text.index(dst, Chars.RBrace);
-                        if(j != NotFound)
-                            dst = EmptyString;
-                    }
-                    else
-                    {
-                        var m = text.index(dst, Chars.RBrace);
-                        if(m != NotFound)
-                            dst = text.left(dst,m);
-
-                        var n = text.index(dst, Chars.LBrace);
-                        if(n != NotFound)
-                            dst = text.left(dst,Chars.LBrace);
-                    }
-                }
-                dst = string.Format("{0} {1}", monic, dst);
-            }
-            else
-                dst = mnemonic(dst).Format();
             return dst;
         }
     }

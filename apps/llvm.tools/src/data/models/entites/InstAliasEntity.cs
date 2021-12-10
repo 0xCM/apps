@@ -17,15 +17,17 @@ namespace Z0.llvm
 
         }
 
-        public string AsmString
-            => Value(nameof(AsmString), () => llvm.AsmStrings.normalize(this[nameof(AsmString)]));
+        public string RawAsmString
+            => this[nameof(AsmString)];
+
+        public AsmString AsmString
+            => Value(nameof(AsmString), () => llvm.AsmStrings.extract(this));
 
         public AsmMnemonic Mnemonic
-            => Value(nameof(Mnemonic), () => llvm.AsmStrings.mnemonic(this[nameof(AsmString)]));
+            => AsmString.Mnemonic;
 
         public string ResultInst
             => this[nameof(ResultInst)];
-
 
         string DeriveInstName()
         {
@@ -52,15 +54,15 @@ namespace Z0.llvm
             => Value(nameof(InstName), DeriveInstName);
 
         public string EmitPriority
-            => AttribValue(nameof(EmitPriority));
+            => this[nameof(EmitPriority)];
 
         public string Predicates
-            => AttribValue(nameof(Predicates));
+            => this[nameof(Predicates)];
 
         public bit UseInstAsmMatchConverter
             => Parse(nameof(UseInstAsmMatchConverter), out bit _);
 
         public string AsmVariantName
-            => AttribValue(nameof(AsmVariantName));
+            => this[nameof(AsmVariantName)];
     }
 }

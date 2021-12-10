@@ -118,7 +118,7 @@ namespace Z0
         public uint Hashed
         {
             [MethodImpl(Inline)]
-            get => FastHash.combine(Ts.Hashed, (uint)(Identifier?.GetHashCode() ?? 0));
+            get => alg.hash.combine(Ts.Hashed, (uint)(Identifier?.GetHashCode() ?? 0));
         }
 
         public override int GetHashCode()

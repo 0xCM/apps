@@ -22,7 +22,8 @@ namespace Z0.llvm
                 if(entity.IsInstAlias())
                 {
                     var alias = entity.ToInstAlias();
-                    specs.Add(string.Format("{0,-24} | {1,-16} | {2}", alias.InstName, alias.Mnemonic, alias.AsmString));
+                    var str = alias.AsmString;
+                    specs.Add(string.Format("{0,-24} | {1,-16} | {2}", str.InstName, str.Mnemonic, str.FormatPattern));
                 }
             }
 
@@ -30,6 +31,5 @@ namespace Z0.llvm
 
             return true;
         }
-
     }
 }

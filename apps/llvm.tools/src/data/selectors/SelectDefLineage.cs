@@ -6,13 +6,13 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public ConstLookup<Identifier,EntityLineage> SelectClassLineage()
+        public ConstLookup<Identifier,EntityLineage> SelectDefLineage()
         {
-            return (ConstLookup<Identifier,EntityLineage>)DataSets.GetOrAdd(nameof(SelectClassLineage), key => Load());
+            return (ConstLookup<Identifier,EntityLineage>)DataSets.GetOrAdd(nameof(SelectDefLineage), key => Load());
 
             ConstLookup<Identifier,EntityLineage> Load()
             {
-                var items = SelectClassRelations().Select(r => new EntityLineage(r.Name, r.Ancestors));
+                var items = SelectDefRelations().Select(r => new EntityLineage(r.Name, r.Ancestors));
                 return items.Select(x => (x.EntityName,x)).Storage.ToConstLookup();
             }
        }

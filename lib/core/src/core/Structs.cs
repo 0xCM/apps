@@ -28,7 +28,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static uint hash<T>(in T src)
             where T : struct
-                => alg.hash.calc(bytes(src));
+                => alg.ghash.calc(bytes(src));
 
         /// <summary>
         /// Determines whether all bytes of a structural value are zero

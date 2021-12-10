@@ -28,6 +28,18 @@ namespace Z0.llvm
         public FS.FolderPath Queries()
             => DataHome() + FS.folder("queries");
 
+        public FS.FolderPath QueryResults()
+            => Queries() + FS.folder("results");
+
+        public FS.FolderPath QuerySpecs()
+            => Queries() + FS.folder("specs");
+
+        public FS.FilePath QueryResult(FS.FileName file)
+            => QueryResults() + file;
+
+        public FS.FilePath QuerySpec(string id)
+            => QuerySpecs() + FS.file(id, FS.ext("query"));
+
         public FS.FolderPath Views()
             => DataHome() + FS.folder("views");
 

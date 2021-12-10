@@ -12,6 +12,16 @@ namespace Z0.llvm
 
         }
 
+        public ushort AsmId(Identifier inst)
+        {
+            if(Find(inst, out var value))
+            {
+                return value.Id;
+            }
+            else
+                return 0xFFFF;
+        }
+
         public static implicit operator AsmIdDefs(AsmIdDef[] src)
             => new AsmIdDefs(src);
 

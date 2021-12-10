@@ -23,7 +23,7 @@ namespace Z0
         uint Capacity {get;}
 
         uint IHashed.Hash
-            => alg.hash.calc(String);
+            => alg.ghash.calc(String);
 
         ByteSize IStorageBlock.Size
             => Length*2;

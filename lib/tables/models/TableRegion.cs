@@ -46,7 +46,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => FastHash.combine(Min.Hash, Max.Hash);
+            get => alg.hash.combine(Min.Hash, Max.Hash);
         }
 
         public override int GetHashCode()

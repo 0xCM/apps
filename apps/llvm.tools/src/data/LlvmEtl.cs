@@ -41,6 +41,7 @@ namespace Z0.llvm
         {
             ImportRecords();
             ImportEntityData();
+            var patterns = DataEmitter.EmitInstPatterns();
         }
 
         void ImportRecords()
@@ -63,7 +64,6 @@ namespace Z0.llvm
             var asmid = DiscoverAsmIdDefs();
             var src = DataProvider.SelectEntities();
             var count = src.Length;
-            var patterns = list<LlvmAsmPattern>();
             var obmapped = list<LlvmAsmIdentity>();
             var variations = list<LlvmAsmVariation>();
             var vcodes = hashset<string>();
@@ -96,23 +96,10 @@ namespace Z0.llvm
                         vcodes.Add(vcode.Format());
                         variations.Add(new LlvmAsmVariation(id, name, mnemonic, vcode));
                     }
-
-                    var pattern = LlvmAsmPattern.Empty;
-                    pattern.Seq = seq++;
-                    pattern.AsmId = id;
-                    pattern.Instruction = name;
-                    pattern.Mnemonic = mnemonic;
-                    pattern.VarCode = vcode;
-                    pattern.CGOnly = inst.isCodeGenOnly;
-                    pattern.Pseudo = inst.isPseudo;
-                    pattern.FormatPattern = asmstr.FormatPattern;
-                    pattern.SourcePattern = inst.RawAsmString;
-                    patterns.Add(pattern);
                 }
             }
 
             DataEmitter.EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.ListImportPath("vcodes")));
-            TableEmit(patterns.ViewDeposited(), LlvmAsmPattern.RenderWidths, LlvmPaths.Table<LlvmAsmPattern>());
             TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
         }
 

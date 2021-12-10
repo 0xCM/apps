@@ -58,7 +58,7 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => (int)FastHash.combine(u32(RowCount), u32(ColCount));
+            => (int)alg.hash.combine(u32(RowCount), u32(ColCount));
 
         public override bool Equals(object obj)
             => obj is GridDim d && Equals(d);

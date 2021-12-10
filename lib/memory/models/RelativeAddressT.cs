@@ -44,7 +44,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Offset);
+            get => alg.ghash.calc(Offset);
         }
 
         [MethodImpl(Inline)]

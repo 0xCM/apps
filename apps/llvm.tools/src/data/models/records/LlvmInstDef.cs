@@ -12,7 +12,7 @@ namespace Z0.llvm
     using static Root;
 
     [Record(TableId)]
-    public struct InstDef : IComparable<InstDef>
+    public struct LlvmInstDef : IComparable<LlvmInstDef>
     {
         public const string TableId = "llvm.asm.instdef";
 
@@ -37,7 +37,7 @@ namespace Z0.llvm
         public string OutOperandList;
 
         [MethodImpl(Inline)]
-        public int CompareTo(InstDef src)
+        public int CompareTo(LlvmInstDef src)
             => AsmId.CompareTo(src.AsmId);
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,6,24,16,12,54,64,1};

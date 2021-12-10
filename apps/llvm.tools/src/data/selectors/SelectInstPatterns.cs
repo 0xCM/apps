@@ -4,52 +4,43 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Collections.Concurrent;
     using static core;
-
-    using Asm;
 
     partial class LlvmDataProvider
     {
-        public Index<LlvmAsmPattern> SelectAsmPatterns()
+        public Index<LlvmInstPattern> SelectInstPatterns()
         {
-            return (Index<LlvmAsmPattern>)DataSets.GetOrAdd(nameof(LlvmAsmPattern), key => Load());
+            return (Index<LlvmInstPattern>)DataSets.GetOrAdd(nameof(SelectInstPatterns), key => Load());
 
-            Index<LlvmAsmPattern> Load()
+            Index<LlvmInstPattern> Load()
             {
-                const byte FieldCount = LlvmAsmPattern.FieldCount;
-                var src = LlvmPaths.Table<LlvmAsmPattern>();
-                var buffer = list<LlvmAsmPattern>();
+                const byte FieldCount = LlvmInstPattern.FieldCount;
+                var src = LlvmPaths.Table<LlvmInstPattern>();
+                var buffer = list<LlvmInstPattern>();
                 using var reader = src.Utf8LineReader();
                 reader.Next(out var header);
                 var cols = header.Split(Chars.Pipe);
                 if(cols.Length != FieldCount)
                 {
                     Wf.Error(Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
-                    return sys.empty<LlvmAsmPattern>();
+                    return sys.empty<LlvmInstPattern>();
                 }
 
                 while(reader.Next(out var line))
                 {
-                    var row = LlvmAsmPattern.Empty;
+                    var row = new LlvmInstPattern();
                     cols = line.Split(Chars.Pipe);
                     if(cols.Length != FieldCount)
                     {
                         Wf.Error(Tables.FieldCountMismatch.Format(cols.Length, FieldCount));
-                        return sys.empty<LlvmAsmPattern>();
+                        return sys.empty<LlvmInstPattern>();
                     }
 
                     var i=0;
-                    DataParser.parse(skip(cols,i++), out row.Seq);
                     DataParser.parse(skip(cols,i++), out row.AsmId);
-                    DataParser.parse(skip(cols,i++), out row.CGOnly);
-                    DataParser.parse(skip(cols,i++), out row.Pseudo);
-                    row.Instruction = skip(cols,i++);
+                    row.InstName = skip(cols,i++);
                     row.Mnemonic = skip(cols,i++);
-                    row.VarCode = new AsmVariationCode(skip(cols,i++));
                     row.FormatPattern = skip(cols,i++);
-                    row.SourcePattern = skip(cols,i++);
                     buffer.Add(row);
                 }
                 return buffer.ToArray();

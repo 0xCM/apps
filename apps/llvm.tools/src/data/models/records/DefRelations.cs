@@ -10,21 +10,8 @@ namespace Z0.llvm
     using static Root;
 
     [Record(TableId)]
-    public struct DefRelations : ILineRelations<DefRelations>
+    public struct DefRelations : ILineRelations<DefRelations>, IComparable<DefRelations>
     {
-        public static string parent(in DefRelations src)
-            => src.Ancestors != null && src.Ancestors.IsNonEmpty ? src.Ancestors.Name : EmptyString;
-
-        public static ReadOnlySpan<string> ancestors(in DefRelations src)
-        {
-            return src.Ancestors != null && src.Ancestors.IsNonEmpty
-                ?  (src.Ancestors.HasAncestor
-                        ? Arrays.concat(new string[]{src.Ancestors.Name}, src.Ancestors.Ancestors.Storage)
-                        : new string[]{src.Ancestors.Name}
-                        )
-                : default;
-        }
-
         public const string TableId = "llvm.defs.relations";
 
         public const byte FieldCount = 3;
@@ -47,14 +34,13 @@ namespace Z0.llvm
             SourceLine = line;
             Name = name;
             Ancestors = ancestors ?? Lineage.Empty;
-
         }
 
         public string ParentName
-            => parent(this);
+            => LlvmData.parent(this);
 
         public ReadOnlySpan<string> AncestorNames
-            => ancestors(this);
+            => LlvmData.ancestors(this);
 
         public static DefRelations Empty
         {
@@ -64,6 +50,15 @@ namespace Z0.llvm
                 dst.Specify(LineNumber.Empty, Identifier.Empty, Lineage.Empty);
                 return dst;
             }
+        }
+
+        public int CompareTo(DefRelations src)
+        {
+            var i = Name.CompareTo(src.Name);
+            if(i == 0)
+                return ParentName.CompareTo(src.ParentName);
+            else
+                return i;
         }
 
         public static ReadOnlySpan<byte> RenderWidths

@@ -11,6 +11,8 @@ namespace Z0.llvm
     /// </summary>
     public class InstEntity : RecordEntity
     {
+        public const string LlvmName = "Instruction";
+
         public InstEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)
         {

@@ -23,7 +23,7 @@ namespace Z0
         {
             AsciBlocks.encode(name, out _Name);
             MethodId = method;
-            Hash = alg.hash.calc(_Name.Bytes);
+            Hash = alg.ghash.calc(_Name.Bytes);
         }
 
         [MethodImpl(Inline)]
@@ -31,7 +31,7 @@ namespace Z0
         {
             AsciBlocks.encode(name, out _Name);
             MethodId = method;
-            Hash = alg.hash.calc(_Name.Bytes);
+            Hash = alg.ghash.calc(_Name.Bytes);
         }
 
         public ReadOnlySpan<char> Name

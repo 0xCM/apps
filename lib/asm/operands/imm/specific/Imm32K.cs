@@ -54,7 +54,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Content);
+            get => alg.ghash.calc(Content);
         }
 
         public override int GetHashCode()

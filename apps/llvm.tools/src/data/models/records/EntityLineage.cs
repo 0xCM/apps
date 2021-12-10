@@ -21,5 +21,11 @@ namespace Z0.llvm
             EntityName = name;
             Ancestors = ancestors;
         }
+
+        public string Format()
+            =>  Ancestors.IsEmpty ? EntityName.Format() : string.Format("{0} -> {1}", EntityName, Ancestors.Format());
+
+        public override string ToString()
+            => Format();
     }
 }

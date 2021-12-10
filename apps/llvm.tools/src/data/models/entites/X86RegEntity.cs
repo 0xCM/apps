@@ -13,11 +13,11 @@ namespace Z0.llvm
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
-    public class DAGOperandEntity : RecordEntity
+    public class X86RegEntity : RecordEntity
     {
-        public const string LlvmName = "DAGOperand";
+        public const string LlvmName = "X86Reg";
 
-        public DAGOperandEntity(DefRelations def, RecordField[] fields)
+        public X86RegEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)
         {
 

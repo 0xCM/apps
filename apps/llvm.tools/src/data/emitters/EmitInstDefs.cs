@@ -10,7 +10,7 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
-        public Index<InstDef> EmitInstDefs()
+        public Index<LlvmInstDef> EmitInstDefs()
         {
             var result = Outcome.Success;
             var entities = DataProvider.SelectEntities();
@@ -36,10 +36,10 @@ namespace Z0.llvm
             return Emit(found.ViewDeposited());
         }
 
-        Index<InstDef> Emit(ReadOnlySpan<Paired<ushort,InstEntity>> src)
+        Index<LlvmInstDef> Emit(ReadOnlySpan<Paired<ushort,InstEntity>> src)
         {
             var count = src.Length;
-            var buffer = alloc<InstDef>(count);
+            var buffer = alloc<LlvmInstDef>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var pair = ref skip(src,i);
@@ -58,7 +58,7 @@ namespace Z0.llvm
                 dst.VarCode = entity.VarCode;
             }
 
-            TableEmit(@readonly(buffer.Sort()), InstDef.RenderWidths, LlvmPaths.Table<InstDef>());
+            TableEmit(@readonly(buffer.Sort()), LlvmInstDef.RenderWidths, LlvmPaths.Table<LlvmInstDef>());
 
             return buffer;
         }

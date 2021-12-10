@@ -46,7 +46,7 @@ namespace Z0
         public WfHostId Token
         {
             [MethodImpl(Inline)]
-            get => new WfHostId(alg.hash.calc<S,T>());
+            get => new WfHostId(alg.ghash.calc<S,T>());
         }
 
         [MethodImpl(Inline)]
@@ -64,13 +64,13 @@ namespace Z0
         public uint Hashed
         {
             [MethodImpl(Inline)]
-            get => (uint)alg.hash.calc<S,T>();
+            get => (uint)alg.ghash.calc<S,T>();
         }
 
         public ulong Hash64
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc<S,T>();
+            get => alg.ghash.calc<S,T>();
         }
 
         public override int GetHashCode()

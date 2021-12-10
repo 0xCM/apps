@@ -275,7 +275,7 @@ namespace Z0
         /// <param name="z">The third hash</param>
         [MethodImpl(Inline), Op]
         public static uint combine(uint x, uint y, uint z)
-            => combine(combine(x,y),z);
+            => combine(combine(x,y), z);
 
         /// <summary>
         /// Combines 3 64-bit hash codes into 1 64-hash code

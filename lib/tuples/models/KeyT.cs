@@ -20,7 +20,7 @@ namespace Z0
         public Key(T src)
         {
             Value = src;
-            Hash = alg.hash.calc(src);
+            Hash = alg.ghash.calc(src);
         }
 
         [MethodImpl(Inline)]

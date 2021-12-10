@@ -35,7 +35,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Data.View);
+            get => alg.ghash.calc(Data.View);
         }
 
         public string Format()

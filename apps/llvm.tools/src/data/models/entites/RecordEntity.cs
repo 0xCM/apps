@@ -89,7 +89,7 @@ namespace Z0.llvm
             => Def.AncestorNames.Contains(name);
 
         public bool IsInstruction()
-            => HasAncestor(Entities.Instruction);
+            => HasAncestor(InstEntity.LlvmName);
 
         public InstEntity ToInstruction()
             => new InstEntity(Def,AttribIndex);
@@ -110,7 +110,7 @@ namespace Z0.llvm
             => new InstAliasEntity(Def,AttribIndex);
 
         public bool IsDAGOperand()
-            => HasAncestor(Entities.DAGOperand);
+            => HasAncestor(DAGOperandEntity.LlvmName);
 
         public DAGOperandEntity ToDAGOperand()
             => new DAGOperandEntity(Def,AttribIndex);
@@ -132,5 +132,22 @@ namespace Z0.llvm
 
         public MemOpEntity ToMemOp()
             => new MemOpEntity(Def,AttribIndex);
+
+        public bool IsX86Reg()
+            => HasAncestor(X86RegEntity.LlvmName);
+
+        public X86RegEntity ToX86Reg()
+            => new X86RegEntity(Def,AttribIndex);
+
+        public bool IfX86Reg(Action<X86RegEntity> f)
+        {
+            if(IsX86Reg())
+            {
+                f(ToX86Reg());
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace Z0.llvm
             var count = (uint)results.Length;
             var discriminator = text.empty(args) ? string.Empty : "-" + args;
             var file = FS.file(text.replace(query, Chars.FSlash, Chars.Dot) + discriminator,FS.Txt);
-            var dst = LlvmPaths.Queries() + file;
+            var dst = LlvmPaths.QueryResult(file);
             var emitting = EmittingFile(dst);
             using var writer = dst.Utf8Writer();
             for(var i=0; i<count; i++)
@@ -26,6 +26,5 @@ namespace Z0.llvm
             EmittedFile(emitting,count);
             return count;
         }
-
     }
 }

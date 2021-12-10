@@ -36,7 +36,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => FastHash.combine(Row,Col);
+            get => alg.hash.combine(Row,Col);
         }
 
         public string Format()

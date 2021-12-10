@@ -201,7 +201,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static int hash(in AsmHexCode src)
-            => (int)alg.hash.calc(encoded(src));
+            => (int)alg.ghash.calc(encoded(src));
 
         [Op]
         public static AsmHexCode parse(string src)

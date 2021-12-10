@@ -136,7 +136,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint Hash()
-            => alg.hash.calc(Segment);
+            => alg.ghash.calc(Segment);
 
         [MethodImpl(Inline)]
         public bool Equals(MemorySeg src)
