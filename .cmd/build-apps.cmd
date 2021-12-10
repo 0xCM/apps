@@ -1,3 +1,4 @@
 @echo off
 call %~dp0config.cmd
-dotnet build %ZSln% /p:Configuration=%BuildKind% -fl -flp:logfile=%AppsBuildLog%;verbosity=%BuildVerbosity% -graph:true -m:24
+call %BuildAppsCmd%
+if errorlevel 1 goto:eof

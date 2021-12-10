@@ -1,1 +1,3 @@
-dotnet build %~dp0..\z0.codegen.sln -c Release
+@echo off
+call %ZDev%\.cmd\config.cmd
+call %BuildCgCmd%
