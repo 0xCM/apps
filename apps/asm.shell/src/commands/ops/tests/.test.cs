@@ -94,19 +94,6 @@ namespace Z0.Asm
             return result;
         }
 
-        [CmdOp(".test-string-res")]
-        Outcome TestStringRes(CmdArgs args)
-        {
-            using var flow = Wf.Running(nameof(TestStringRes));
-            var resources = Resources.strings(typeof(AsciText)).View;
-            var count = resources.Length;
-            for(var i=0; i<count; i++)
-            {
-                Write(skip(resources,i));
-            }
-            return true;
-        }
-
         void CheckCells()
         {
             var source = alloc<byte>(Pow2.T08);

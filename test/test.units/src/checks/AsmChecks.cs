@@ -10,6 +10,19 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmChecks : Checker<AsmChecks>
     {
+        public Outcome CheckStringRes()
+        {
+            using var flow = Running(nameof(CheckStringRes));
+            var resources = Resources.strings(typeof(AsciText)).View;
+            var count = resources.Length;
+            for(var i=0; i<count; i++)
+            {
+                Write(skip(resources,i));
+            }
+            return true;
+        }
+
+
         [Op]
         public static bit check(ref AsmSizeCheck src)
         {

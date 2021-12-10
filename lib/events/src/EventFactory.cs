@@ -118,15 +118,15 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static EmittingFileEvent emittingFile(WfStepId step, FS.FilePath dst, CorrelationToken ct = default)
-            => new EmittingFileEvent(step, dst, ct);
+            => new EmittingFileEvent(step, dst);
 
         [Op]
         public static EmittedFileEvent emittedFile(WfStepId step, FS.FilePath path, Count segments, CorrelationToken ct = default)
-            => new EmittedFileEvent(step, path, segments, ct);
+            => new EmittedFileEvent(step, path, segments);
 
         [Op]
         public static EmittedFileEvent emittedFile(WfStepId step, FS.FilePath path, CorrelationToken ct = default)
-            => new EmittedFileEvent(step, path, ct);
+            => new EmittedFileEvent(step, path);
 
         [Op]
         public static ProcessingFileEvent processingFile(WfStepId step, FS.FilePath dst, CorrelationToken ct = default)

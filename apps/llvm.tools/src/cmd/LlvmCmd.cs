@@ -36,6 +36,8 @@ namespace Z0.llvm
 
         IProjectWs Data;
 
+        LlvmDistiller Distiller => Service(Wf.LlvmDistiller);
+
         public LlvmCmd()
         {
             SelectedTool = ToolId.Empty;

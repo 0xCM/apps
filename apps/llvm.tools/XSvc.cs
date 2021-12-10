@@ -72,5 +72,9 @@ namespace Z0
         [Op]
         public static LlvmData LlvmData(this IWfRuntime wf)
             => llvm.LlvmData.create(wf);
+
+        [Op]
+        public static LlvmDistiller LlvmDistiller(this IWfRuntime wf)
+            => llvm.LlvmDistiller.create(wf);
     }
 }

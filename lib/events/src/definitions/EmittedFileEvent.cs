@@ -23,7 +23,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Ran;
 
         [MethodImpl(Inline)]
-        public EmittedFileEvent(WfStepId step, FS.FilePath path, Count segments, CorrelationToken ct)
+        public EmittedFileEvent(WfStepId step, FS.FilePath path, Count segments)
         {
             EventId = EventId.define(EventName, step);
             SegmentCount = segments;
@@ -31,7 +31,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public EmittedFileEvent(WfStepId step, FS.FilePath path, CorrelationToken ct)
+        public EmittedFileEvent(WfStepId step, FS.FilePath path)
         {
             EventId = EventId.define(EventName, step);
             SegmentCount = 0;
@@ -39,7 +39,7 @@ namespace Z0
         }
 
         public string Format()
-            =>  SegmentCount != 0
+            => SegmentCount != 0
             ? text.format(EventId, SegmentCount, Msg.EmittedFile.Capture(Path))
             : text.format(EventId, Msg.EmittedFile.Capture(Path));
     }
