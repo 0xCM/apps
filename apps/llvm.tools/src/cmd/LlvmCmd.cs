@@ -89,6 +89,12 @@ namespace Z0.llvm
             return true;
         }
 
+        Outcome Flow<T>(string query, string args, ReadOnlySpan<T> src)
+        {
+            DataEmitter.EmitQueryResults(query, args, src);
+            return true;
+        }
+
         Outcome Flow<T>(string query, ReadOnlySpan<T> src)
         {
             DataEmitter.EmitQueryResults(query, src);

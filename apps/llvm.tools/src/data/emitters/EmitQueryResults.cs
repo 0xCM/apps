@@ -11,9 +11,13 @@ namespace Z0.llvm
     partial class LlvmDataEmitter
     {
         public uint EmitQueryResults<T>(string query, ReadOnlySpan<T> results)
+            => EmitQueryResults(query, string.Empty, results);
+
+        public uint EmitQueryResults<T>(string query, string args, ReadOnlySpan<T> results)
         {
             var count = (uint)results.Length;
-            var file = FS.file(text.replace(query, Chars.FSlash, Chars.Dot),FS.Txt);
+            var discriminator = text.empty(args) ? string.Empty : "-" + args;
+            var file = FS.file(text.replace(query, Chars.FSlash, Chars.Dot) + discriminator,FS.Txt);
             var dst = LlvmPaths.Queries() + file;
             var emitting = EmittingFile(dst);
             using var writer = dst.Utf8Writer();
@@ -22,5 +26,6 @@ namespace Z0.llvm
             EmittedFile(emitting,count);
             return count;
         }
+
     }
 }

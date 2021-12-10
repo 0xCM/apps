@@ -20,11 +20,14 @@ namespace Z0
 
         public Identifier IndexName {get;}
 
-        public StringTableSpec(Identifier ns, Identifier table, Identifier index, ListItem<string>[] entries)
+        public bool GlobalIndex {get;}
+
+        public StringTableSpec(Identifier ns, Identifier table, Identifier index, bool globalidx, ListItem<string>[] entries)
         {
             Namespace = ns;
             TableName = table;
             IndexName = index;
+            GlobalIndex = globalidx;
             _Entries = entries;
         }
 

@@ -1,0 +1,5 @@
+TableName                | EntryIndex   | EntryName
+X86DstIdxOperand         | 0            | dstidx16
+X86DstIdxOperand         | 1            | dstidx32
+X86DstIdxOperand         | 2            | dstidx64
+X86DstIdxOperand         | 3            | dstidx8 

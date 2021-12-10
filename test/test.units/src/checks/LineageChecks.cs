@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     public sealed class LineageChecks : Checks<LineageChecks>
     {
         public override void Run()

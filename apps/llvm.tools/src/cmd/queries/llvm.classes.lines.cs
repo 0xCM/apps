@@ -10,6 +10,6 @@ namespace Z0.llvm
 
         [CmdOp(ClassLineQuery)]
         Outcome Class(CmdArgs args)
-            => Flow(ClassLineQuery, DataProvider.SelectClassLines(arg(args,0).Value));
+            => Flow(ClassLineQuery, arg(args,0).Value, DataProvider.SelectClassLines(arg(args,0).Value));
     }
 }

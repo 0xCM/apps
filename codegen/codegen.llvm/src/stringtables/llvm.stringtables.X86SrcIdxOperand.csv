@@ -1,0 +1,5 @@
+TableName                | EntryIndex   | EntryName
+X86SrcIdxOperand         | 0            | srcidx16
+X86SrcIdxOperand         | 1            | srcidx32
+X86SrcIdxOperand         | 2            | srcidx64
+X86SrcIdxOperand         | 3            | srcidx8 

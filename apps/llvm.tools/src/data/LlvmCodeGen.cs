@@ -37,9 +37,11 @@ namespace Z0.llvm
         void GenLiteralProviders()
         {
             var src = TableLoader.SelectAsmMnemonicNames();
+            var name = "AsmMnemonicNames";
             var literals = expr.literals(src.View, src.View);
-            var dst = Generators.CodeGenPath("llvm", "AsmMnemonicNames", FS.Cs);
-            Generators.LiteralProvider().Emit("Z0.llvm", "AsmMnemonicNames", literals, dst);
+            var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
+            //var dst = Generators.CodeGenPath("llvm", "AsmMnemonicNames", FS.Cs);
+            Generators.LiteralProvider().Emit("Z0.llvm", name, literals, dst);
         }
 
         public Arrow<FS.FileUri> GenStringTable(string listid)
@@ -70,8 +72,10 @@ namespace Z0.llvm
                 var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
                 var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
                 var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
+
+                var idxname = name + "Kind";
                 var table = StringTables.create(lines, name, Chars.Comma);
-                var spec = StringTables.specify(TargetNs + "." + BaseTargetId, table);
+                var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
 
                 var csEmitting = EmittingFile(cspath);
                 var rowEmitting = EmittingFile(csvpath);
@@ -80,7 +84,7 @@ namespace Z0.llvm
                 using var rowwriter = csvpath.AsciWriter();
                 rowwriter.WriteLine(formatter.FormatHeader());
 
-                StringTables.csharp(spec, cswriter);
+                StringTables.csharp2(spec, cswriter);
                 for(var j=0u; j<table.EntryCount; j++)
                     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
                 rowcount += table.EntryCount;
@@ -120,7 +124,10 @@ namespace Z0.llvm
                 var csvpath = LlvmPaths.StringTablePath(name, FS.Csv);
                 var lines = slice(listpath.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
                 var table = StringTables.create(lines, id, Chars.Comma);
-                var spec = StringTables.specify("Z0." + BaseId, table);
+
+                var idxname = name + "Kind";
+                var spec = StringTables.specify("Z0." + BaseId, idxname, true, table);
+
 
                 var csEmitting = EmittingFile(cspath);
                 var rowEmitting = EmittingFile(csvpath);
@@ -129,7 +136,7 @@ namespace Z0.llvm
                 using var rowwriter = csvpath.AsciWriter();
                 rowwriter.WriteLine(formatter.FormatHeader());
 
-                StringTables.csharp(spec, cswriter);
+                StringTables.csharp2(spec, cswriter);
                 for(var j=0u; j<table.EntryCount; j++)
                     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
                 rowcount += table.EntryCount;

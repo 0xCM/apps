@@ -1,0 +1,1 @@
+dotnet build %~dp0..\z0.codegen.test.csproj -c release

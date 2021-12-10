@@ -37,11 +37,11 @@ public enum PartId : byte
     [Symbol("cmd.actions")]
     CmdActions = 11,
 
-    [Symbol("cells")]
-    Cells = 12,
+    [Symbol("llvm.codegen")]
+    LlvmCodeGen = 12,
 
-    [Symbol("asmm")]
-    AsmM = 13,
+    [Symbol("codegen.test")]
+    CodeGenTest = 13,
 
     [Symbol("workflow")]
     Workflow = 15,

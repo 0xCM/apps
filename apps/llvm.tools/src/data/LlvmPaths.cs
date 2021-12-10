@@ -93,7 +93,7 @@ namespace Z0.llvm
             => RecordImports() + FS.file(id, FS.ext("map"));
 
         public FS.FolderPath CodeGen()
-            => Env.ZDev + FS.folder("generated/src/llvm");
+            => Env.ZDev + FS.folder("codegen/codegen.llvm/src");
 
         public FS.FilePath CodeGenPath(string id, FS.FileExt ext)
             => CodeGen() + FS.file(id,ext);

@@ -10,6 +10,12 @@ namespace Z0
     {
         public static void render(uint margin, in StringTable src, ITextBuffer dst)
         {
+            if(src.GlobalIndex)
+            {
+                GenIndex(margin, src, dst);
+                dst.AppendLine();
+            }
+
             dst.IndentLine(margin, PublicReadonlyStruct(src.Name));
             dst.IndentLine(margin, Open());
             margin+=4;
@@ -37,8 +43,11 @@ namespace Z0
             dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
             dst.AppendLine();
 
-            GenIndex(margin, src, dst);
-            dst.AppendLine();
+            if(!src.GlobalIndex)
+            {
+                GenIndex(margin, src, dst);
+                dst.AppendLine();
+            }
 
             dst.IndentLine(margin, SpanRes.bytespan(OffsetsProp, src.OffsetStorage).Format());
             dst.AppendLine();
@@ -50,7 +59,8 @@ namespace Z0
         static void GenIndex(uint margin, in StringTable src, ITextBuffer dst)
         {
             var count = src.EntryCount;
-            dst.IndentLine(margin, string.Format("public enum Index : uint"));
+            var idxname = src.IndexName.Content.Remove("llvm.stringtables.").Remove("Z0.stringtables.");
+            dst.IndentLine(margin, string.Format("public enum {0}: uint", idxname));
             dst.IndentLine(margin, Chars.LBrace);
             margin+=4;
             for(var i=0u; i<count; i++)

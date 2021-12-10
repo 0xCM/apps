@@ -65,11 +65,38 @@ namespace Z0
                 seek(cuts,i) = j;
                 copy(entry, ref j, chars);
             }
-            return new StringTable(name, indexName, new string(chars), offsets, identifiers);
+            return new StringTable(name, indexName, false, new string(chars), offsets, identifiers);
         }
 
         public static StringTable create(Identifier name, ReadOnlySpan<ListItem<string>> src)
             => create(name, "Index", src);
+
+        public static StringTable create(StringTableSpec spec, ReadOnlySpan<ListItem<string>> src)
+        {
+            var count = src.Length;
+            var strings = span<string>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref skip(src,i);
+                seek(strings, entry.Id) = entry.Content;
+            }
+
+            var name = spec.TableName;
+            var indexName = spec.IndexName;
+            var offset = 0u;
+            var offsets = alloc<uint>(count);
+            var chars = alloc<char>(text.length(strings));
+            ref var joined = ref first(chars);
+            ref var cuts = ref first(offsets);
+            var j = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var entry = ref skip(src,i);
+                seek(cuts, i) = j;
+                copy(entry.Content, ref j, chars);
+            }
+            return new StringTable(name, indexName, spec.GlobalIndex, new string(chars), offsets, src.Map(x => new Identifier(x.Content)).ToArray());
+        }
 
         public static StringTable create(Identifier name, Identifier indexName, ReadOnlySpan<ListItem<string>> src)
         {
@@ -80,7 +107,7 @@ namespace Z0
                 ref readonly var entry = ref skip(src,i);
                 seek(strings, entry.Id) = entry.Content;
             }
-            return create(name, strings, src.Map(x => new Identifier(x.Content)).ToArray());
+            return create(name, indexName, strings, src.Map(x => new Identifier(x.Content)).ToArray());
         }
 
         [MethodImpl(Inline), Op]

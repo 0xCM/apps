@@ -91,17 +91,29 @@ namespace Z0.llvm
         public bool IsInstruction()
             => HasAncestor(Entities.Instruction);
 
+        public InstEntity ToInstruction()
+            => new InstEntity(Def,AttribIndex);
+
         public bool IsGenericInstruction()
             => HasAncestor(Entities.GenericInstruction);
 
         public bool IsIntrinsic()
             => HasAncestor(Entities.Intrinsic);
 
+        public IntrinsicEntity ToIntrinsic()
+            => new IntrinsicEntity(Def,AttribIndex);
+
         public bool IsInstAlias()
             => HasAncestor(Entities.InstAlias);
 
+        public InstAliasEntity ToInstAlias()
+            => new InstAliasEntity(Def,AttribIndex);
+
         public bool IsDAGOperand()
             => HasAncestor(Entities.DAGOperand);
+
+        public DAGOperandEntity ToDAGOperand()
+            => new DAGOperandEntity(Def,AttribIndex);
 
         public bool IsRegisterClass()
             => HasAncestor(Entities.RegisterClass);
@@ -112,22 +124,13 @@ namespace Z0.llvm
         public bool IsRegOp()
             => IsDAGOperand() && IsRegisterClass();
 
-        public bool IsMemOp()
-            => IsDAGOperand() && IsX86MemOperand();
-
         public RegOpEntity ToRegOp()
             => new RegOpEntity(Def,AttribIndex);
 
+        public bool IsMemOp()
+            => IsDAGOperand() && IsX86MemOperand();
+
         public MemOpEntity ToMemOp()
-            =>new MemOpEntity(Def,AttribIndex);
-
-        public InstEntity ToInstruction()
-            => new InstEntity(Def,AttribIndex);
-
-        public InstAliasEntity ToInstAlias()
-            => new InstAliasEntity(Def,AttribIndex);
-
-        public IntrinsicEntity ToIntrinsic()
-            => new IntrinsicEntity(Def,AttribIndex);
+            => new MemOpEntity(Def,AttribIndex);
     }
 }

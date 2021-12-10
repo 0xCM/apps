@@ -10,6 +10,6 @@ namespace Z0.llvm
 
         [CmdOp(DefLineQuery)]
         Outcome Def(CmdArgs args)
-            => Flow(DefLineQuery, DataProvider.SelectDefLines(arg(args,0).Value));
+            => Flow(DefLineQuery, arg(args,0).Value, DataProvider.SelectDefLines(arg(args,0).Value));
     }
 }
