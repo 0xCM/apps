@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 4-bit integer over an 8-bit cell
     /// </summary>
-    public struct u4 : IUnsignedValue<u4>
+    public struct u4 : IUnsignedInteger<u4>
     {
         public const uint Width = 4;
 

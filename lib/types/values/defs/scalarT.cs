@@ -2,27 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Types
+namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
     using static core;
 
-    public struct i1<T> : ISignedInteger<T>
+    public readonly struct scalar<K,T> : IScalarValue<K,T>
+        where K : unmanaged
         where T : unmanaged
     {
-        public const uint Width = 1;
+        public BitWidth ContentWidth {get;}
 
-        public T Storage;
+        public K Kind {get;}
 
-        [MethodImpl(Inline)]
-        public i1(T src)
-        {
-            Storage = src;
-        }
+        public T Value {get;}
 
-        BitWidth ISizedValue.ContentWidth
-            => Width;
+        public string Format()
+            => Value.ToString();
+
     }
 }

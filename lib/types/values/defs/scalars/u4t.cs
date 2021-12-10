@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 4-bit integer over parametric storage
     /// </summary>
-    public struct u4<T> : IUnsignedValue<T>
+    public struct u4<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public const ulong Width = 4;

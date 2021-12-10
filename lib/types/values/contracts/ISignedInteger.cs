@@ -6,21 +6,15 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    using static minicore;
-
     [Free]
-    public interface IValue
+    public interface ISignedInteger : IScalarValue
     {
-        BitWidth ContentWidth {get;}
 
-        BitWidth StorageWidth {get;}
     }
 
     [Free]
-    public interface IValue<S> : IValue
-        where S : unmanaged
+    public interface ISignedInteger<T> : ISignedInteger, IScalarValue<T>
+        where T : unmanaged
     {
-        BitWidth IValue.StorageWidth
-            => width<S>();
     }
 }

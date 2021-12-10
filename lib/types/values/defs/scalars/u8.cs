@@ -8,7 +8,7 @@ namespace Z0.Types
 
     using static Root;
 
-    public struct u8 : IUnsignedValue<Cell8>
+    public struct u8 : IUnsignedInteger<Cell8>
     {
         public const uint Width = 8;
 

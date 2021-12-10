@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IString : ITyped, ITextual, IMeasured
+    public interface IIntegerType : IScalarType
     {
-
+        TypeSignKind Sign {get;}
     }
 
-    public interface IString<T> : IString, IContented<T>
+    public interface IIntegerType<K> : IScalarType<K>
+        where K : unmanaged
     {
 
     }

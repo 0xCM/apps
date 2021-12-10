@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 256-bit integer over parametric storage
     /// </summary>
-    public struct u256<T> : IUnsignedValue<T>
+    public struct u256<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public const ulong Width = 256;

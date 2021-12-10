@@ -16,6 +16,5 @@ namespace Z0
     public interface IChar<T> : IChar, IScalarValue<T>
         where T : unmanaged
     {
-
     }
 }

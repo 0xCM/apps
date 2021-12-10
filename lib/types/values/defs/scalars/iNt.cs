@@ -8,7 +8,7 @@ namespace Z0.Types
 
     using static Root;
 
-    public struct iN<T> : ISignedValue<T>
+    public struct iN<T> : ISignedInteger<T>
         where T : unmanaged
     {
         public uint N;

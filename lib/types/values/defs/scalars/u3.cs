@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 3-bit integer over an 8-bit cell
     /// </summary>
-    public struct u3 : IUnsignedValue<u3>
+    public struct u3 : IUnsignedInteger<u3>
     {
         public const ulong Width = 3;
 

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Types
 {
-    public struct u0<T> : IUnsignedValue<T>
+    public struct u0<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public const uint Width = 0;

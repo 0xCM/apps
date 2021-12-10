@@ -15,5 +15,7 @@ namespace Z0
     public interface IIndexedBits<T> : IIndexedBits, IBv<T>
         where T : unmanaged
     {
+        T IValue<T>.Value
+            => core.@as<IIndexedBits<T>,T>(this);
     }
 }

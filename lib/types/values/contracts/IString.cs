@@ -4,22 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IType : ITextual, INullity
+    public interface IString : IValue, ITextual, IMeasured
     {
-        Identifier Name {get;}
 
-        ulong Kind {get;}
-
-        bool INullity.IsEmpty
-            => false;
     }
 
-    public interface IType<K> : IType
+    public interface IString<T> : IString, IValue<T>
+    {
+
+    }
+
+    public interface IString<K,T> : IString<T>, IValue<K,T>
         where K : unmanaged
     {
-        new K Kind {get;}
 
-        ulong IType.Kind
-            => core.bw64(Kind);
     }
 }

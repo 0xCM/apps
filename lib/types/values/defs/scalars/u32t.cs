@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 32-bit integer over parametric storage
     /// </summary>
-    public struct u32<T> : IUnsignedValue<T>
+    public struct u32<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public const uint Width = 32;

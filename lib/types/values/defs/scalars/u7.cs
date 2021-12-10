@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 7-bit integer over an 8-bit cell
     /// </summary>
-    public struct u7 : IUnsignedValue<u7>
+    public struct u7 : IUnsignedInteger<u7>
     {
         public const ulong Width = 7;
 

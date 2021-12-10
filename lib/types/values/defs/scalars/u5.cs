@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 5-bit integer over an 8-bit cell
     /// </summary>
-    public struct u5 : IUnsignedValue<u5>
+    public struct u5 : IUnsignedInteger<u5>
     {
         public const uint Width = 5;
 

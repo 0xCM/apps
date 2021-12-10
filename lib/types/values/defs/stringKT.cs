@@ -10,11 +10,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct @string<K,T> : IString<TypedSeq<T>>, IComparable<@string<K>>, IEquatable<@string<K>>
+    public readonly struct @string<K,T> : IString<K,TypedSeq<T>>, IComparable<@string<K>>, IEquatable<@string<K>>
         where K : unmanaged
         where T : unmanaged, ITyped, IEquatable<T>
     {
-        public TypedSeq<T> Content {get;}
+        public TypedSeq<T> Value {get;}
 
         public K Kind {get;}
 
@@ -22,31 +22,31 @@ namespace Z0
         public @string(K kind, TypedSeq<T> src)
         {
             Kind = kind;
-            Content = src;
+            Value = src;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Content.IsEmpty;
+            get => Value.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Content.IsNonEmpty;
+            get => Value.IsNonEmpty;
         }
 
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Content.Length;
+            get => Value.Length;
         }
 
         public string Format()
         {
             var dst = text.buffer();
-            var data = Content.View;
+            var data = Value.View;
             var count = data.Length;
             for(var i=0; i<count; i++)
             {
@@ -60,14 +60,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(@string<K> src)
-            => bw64(Kind) == bw64(src.Kind) && Content.Equals(src.Content);
+            => bw64(Kind) == bw64(src.Kind) && Value.Equals(src.Value);
 
         [MethodImpl(Inline)]
         public int CompareTo(@string<K> src)
-            => string.Format("{0}-{1}", bw64(Kind).ToString(), Content).CompareTo(string.Format("{0}-{1}", bw64(src.Kind), src.Content));
+            => string.Format("{0}-{1}", bw64(Kind).ToString(), Value).CompareTo(string.Format("{0}-{1}", bw64(src.Kind), src.Value));
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Value.GetHashCode();
 
         public override bool Equals(object src)
             => src is @string<K> x && Equals(x);

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISizedValue : ITyped
+    public interface ISizedValue : IValue
     {
         BitWidth ContentWidth {get;}
 
@@ -14,7 +14,7 @@ namespace Z0
             => ContentWidth == 0;
     }
 
-    public interface ISizedValue<T> : ISizedValue
+    public interface ISizedValue<T> : ISizedValue, IValue<T>
         where T : unmanaged
     {
         BitWidth ISizedValue.StorageWidth

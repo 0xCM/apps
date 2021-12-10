@@ -4,14 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IScalarType<K> : ISizedType, IType<K>
-        where K : unmanaged
+    public interface IScalarType : ISizedType
     {
+        ScalarClass ScalarClass {get;}
 
+        ulong IType.Kind
+            => 0;
     }
 
-    public interface IScalarType : IScalarType<ScalarClass>
+    public interface IScalarType<K> : IType<K>, IScalarType
+        where K : unmanaged
     {
-
+        ulong IType.Kind
+            => core.bw64(Kind);
     }
 }

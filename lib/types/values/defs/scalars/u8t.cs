@@ -13,7 +13,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 8-bit integer over parametric storage
     /// </summary>
-    public struct u8<T> : IUnsignedValue<T>, IEquatable<u8<T>>
+    public struct u8<T> : IUnsignedInteger<T>, IEquatable<u8<T>>
         where T : unmanaged
     {
         public const ulong Width = 8;

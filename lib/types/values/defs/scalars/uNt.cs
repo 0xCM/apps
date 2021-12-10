@@ -8,7 +8,7 @@ namespace Z0.Types
 
     using static Root;
 
-    public struct uN<T> : IUnsignedValue<T>
+    public struct uN<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public uint N;

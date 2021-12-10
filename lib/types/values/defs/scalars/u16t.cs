@@ -11,7 +11,7 @@ namespace Z0.Types
     using static Root;
     using static core;
 
-    public struct u16<T> : IUnsignedValue<T>, IEquatable<u16<T>>
+    public struct u16<T> : IUnsignedInteger<T>, IEquatable<u16<T>>
         where T : unmanaged
     {
         public const ulong Width = 16;

@@ -15,6 +15,18 @@ namespace Z0
     using P = PrimalBits.SegPos;
     using I = PrimalBits.Field;
 
+    partial class XTend
+    {
+        [MethodImpl(Inline), Op]
+        public static bool IsSigned(this ClrPrimitiveKind src)
+            => PrimalBits.sign(src) == PolarityKind.Left ? true : false;
+
+        [MethodImpl(Inline), Op]
+        public static bool IsSigned(this ClrEnumKind src)
+            => ((ClrPrimitiveKind)src).IsSigned();
+    }
+
+
     [ApiHost]
     public readonly struct PrimalBits
     {

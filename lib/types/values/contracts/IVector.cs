@@ -31,5 +31,8 @@ namespace Z0
         ref T this[uint i] {get;}
 
         Span<T> Cells {get;}
+
+        T IValue<T>.Value
+            => default;
     }
 }

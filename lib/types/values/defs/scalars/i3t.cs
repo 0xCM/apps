@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Types
 {
-    public struct i3<T> : ISignedValue<T>
+    public struct i3<T> : ISignedInteger<T>
         where T : unmanaged
     {
         public const ulong Width = 3;

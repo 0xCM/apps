@@ -11,7 +11,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 2-bit integer over an 8-bit cell
     /// </summary>
-    public struct u2 : IUnsignedValue<u2>
+    public struct u2 : IUnsignedInteger<u2>
     {
         public const uint Width = 2;
 
@@ -32,7 +32,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 2-bit integer over parametric storage
     /// </summary>
-    public struct u2<T> : IUnsignedValue<T>
+    public struct u2<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public const uint Width = 2;

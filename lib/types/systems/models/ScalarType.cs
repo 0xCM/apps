@@ -13,7 +13,7 @@ namespace Z0
     {
         public Identifier Name {get;}
 
-        public ScalarClass Kind {get;}
+        public ScalarClass ScalarClass {get;}
 
         public BitWidth ContentWidth {get;}
 
@@ -23,7 +23,7 @@ namespace Z0
         public ScalarType(Identifier name, ScalarClass kind, BitWidth content, BitWidth storage)
         {
             Name = name;
-            Kind = kind;
+            ScalarClass = kind;
             ContentWidth = content;
             StorageWidth = storage;
         }

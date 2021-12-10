@@ -9,10 +9,17 @@ namespace Z0
 
     using static Root;
 
-    public struct num<T>
+    public struct num<T> : IScalarValue<T>
         where T : unmanaged
     {
         public T Value;
+
+        public BitWidth ContentWidth
+            => core.size<T>();
+
+        T IValue<T>.Value
+            => Value;
+
 
         [MethodImpl(Inline)]
         public num(T value)

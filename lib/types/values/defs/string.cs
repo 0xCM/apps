@@ -20,7 +20,7 @@ namespace Z0
             Data = src;
         }
 
-        public string Content
+        public string Value
         {
             [MethodImpl(Inline)]
             get => Data ?? EmptyString;
@@ -41,25 +41,25 @@ namespace Z0
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Content.Length;
+            get => Value.Length;
         }
 
         public string Format()
-            => Content;
+            => Value;
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public bool Equals(@string src)
-            => Content.Equals(src.Content);
+            => Value.Equals(src.Value);
 
         [MethodImpl(Inline)]
         public int CompareTo(@string src)
-            => Content.CompareTo(src.Content);
+            => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Value.GetHashCode();
 
         public override bool Equals(object src)
             => src is @string x && Equals(x);
@@ -76,7 +76,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator string(@string src)
-            => src.Content;
+            => src.Value;
 
         public static bool operator ==(@string a, @string b)
             => a.Equals(b);

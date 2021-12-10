@@ -12,7 +12,7 @@ namespace Z0.Types
     /// <summary>
     /// Defines an unsigned 7-bit integer over parametric storage
     /// </summary>
-    public struct u7<T> : IUnsignedValue<T>
+    public struct u7<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public static ByteSize SZ = size<u7<T>>();

@@ -8,7 +8,7 @@ namespace Z0.Types
 
     using static Root;
 
-    public struct u6<T> : IUnsignedValue<T>
+    public struct u6<T> : IUnsignedInteger<T>
         where T : unmanaged
     {
         public const uint Width = 6;

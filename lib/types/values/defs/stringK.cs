@@ -10,12 +10,12 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct @string<K> : IString<string>, IComparable<@string<K>>, IEquatable<@string<K>>
+    public readonly struct @string<K> : IString<K,string>, IComparable<@string<K>>, IEquatable<@string<K>>
         where K : unmanaged
     {
         readonly string Data;
 
-        public readonly K Kind;
+        public K Kind {get;}
 
         [MethodImpl(Inline)]
         public @string(K kind, string src)
@@ -24,7 +24,7 @@ namespace Z0
             Data = src;
         }
 
-        public string Content
+        public string Value
         {
             [MethodImpl(Inline)]
             get => Data ?? EmptyString;
@@ -45,25 +45,25 @@ namespace Z0
         public int Length
         {
             [MethodImpl(Inline)]
-            get => Content.Length;
+            get => Value.Length;
         }
 
         public string Format()
-            => Content;
+            => Value;
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public bool Equals(@string<K> src)
-            => bw64(Kind) == bw64(src.Kind) && Content.Equals(src.Content);
+            => bw64(Kind) == bw64(src.Kind) && Value.Equals(src.Value);
 
         [MethodImpl(Inline)]
         public int CompareTo(@string<K> src)
-            => string.Format("{0}-{1}", bw64(Kind).ToString(), Content).CompareTo(string.Format("{0}-{1}", bw64(src.Kind), src.Content));
+            => string.Format("{0}-{1}", bw64(Kind).ToString(), Value).CompareTo(string.Format("{0}-{1}", bw64(src.Kind), src.Value));
 
         public override int GetHashCode()
-            => Content.GetHashCode();
+            => Value.GetHashCode();
 
         public override bool Equals(object src)
             => src is @string<K> x && Equals(x);
@@ -80,7 +80,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator string(@string<K> src)
-            => src.Content;
+            => src.Value;
 
         public static bool operator ==(@string<K> a, @string<K> b)
             => a.Equals(b);

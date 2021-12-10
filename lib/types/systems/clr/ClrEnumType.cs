@@ -15,11 +15,14 @@ namespace Z0
 
         public ClrEnumKind EnumKind {get;}
 
+        public ScalarClass ScalarClass {get;}
+
         [MethodImpl(Inline)]
         public ClrEnumType(Identifier name, ClrEnumKind kind)
         {
             Name = name;
             EnumKind = kind;
+            ScalarClass = kind.IsSigned() ? ScalarClass.I : ScalarClass.U;
         }
 
         public string Format()

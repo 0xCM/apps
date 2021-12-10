@@ -8,7 +8,7 @@ namespace Z0.Types
 
     using static Root;
 
-    public struct u64 : IUnsignedValue<ulong>
+    public struct u64 : IUnsignedInteger<ulong>
     {
         public const uint Width = 64;
 
