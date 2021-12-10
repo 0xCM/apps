@@ -13,9 +13,11 @@ namespace Z0
 
     using FC = FixedChars;
 
-    public struct text15 : IComparable<text15>, IEquatable<text15>
+    public struct text15 : ISizedString<text15>
     {
         public const byte MaxLength = 15;
+
+        public const byte PointSize = 1;
 
         public static W128 W => default;
 
@@ -65,9 +67,6 @@ namespace Z0
 
         internal StorageType Storage;
 
-        public byte PointSize
-            => 1;
-
         [MethodImpl(Inline)]
         internal text15(in StorageType data)
         {
@@ -97,6 +96,12 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Storage.IsNonEmpty;
         }
+
+        public uint CharCapacity => MaxLength;
+
+        public BitWidth CharWidth => PointSize*8;
+
+        public BitWidth StorageWidth => size<StorageType>();
 
         public string Format()
             => FC.format(this);

@@ -14,7 +14,7 @@ namespace Z0
     using B = ByteBlock1;
 
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
-    public struct ByteBlock1 : IDataBlock<B>
+    public struct ByteBlock1 : IStorageBlock<B>
     {
         public static N1 N => default;
 

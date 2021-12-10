@@ -21,7 +21,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static TokenExpr<T> expr<T>(uint id, T src)
-            where T : unmanaged, ICharBlock<T>
+            where T : unmanaged, IChar16Block<T>
                 => new TokenExpr<T>(id,src);
 
         [MethodImpl(Inline), Op]
@@ -51,7 +51,7 @@ namespace Z0
 
         [Op]
         public static uint walk<T>(in TokenString src, Action<TokenExpr<T>> receiver)
-            where T : unmanaged, ICharBlock<T>
+            where T : unmanaged, IChar16Block<T>
         {
             var counter = 0u;
             var data = src.Data;

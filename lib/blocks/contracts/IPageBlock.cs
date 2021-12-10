@@ -7,13 +7,13 @@ namespace Z0
     using static core;
     using static Root;
 
-    public interface IPageBlock : IDataBlock
+    public interface IPageBlock : IStorageBlock
     {
-        BlockKind IDataBlock.Kind
+        BlockKind IStorageBlock.Kind
             => BlockKind.Page;
     }
 
-    public interface IPageBlock<T> : IPageBlock, IDataBlock<T>
+    public interface IPageBlock<T> : IPageBlock, IStorageBlock<T>
         where T : unmanaged, IPageBlock<T>
     {
         uint PageCount

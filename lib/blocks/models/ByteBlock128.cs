@@ -18,7 +18,7 @@ namespace Z0
     /// Covers 128 bytes = 1024 bits of stack-allocated storage
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
-    public struct ByteBlock128 : IDataBlock<B>
+    public struct ByteBlock128 : IStorageBlock<B>
     {
         public const ushort Size = 128;
 

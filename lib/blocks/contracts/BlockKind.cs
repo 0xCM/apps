@@ -10,9 +10,9 @@ namespace Z0
 
         Bytes,
 
-        Char,
+        Char16,
 
-        AsciChar,
+        Char7,
 
         Generic,
 

@@ -28,5 +28,20 @@ namespace Z0
                 seek(dst,i) = skip(view,i).Expr;
             return (uint)count;
         }
+
+        [MethodImpl(Inline),Op, Closures(Closure)]
+        public static uint expr<T>(Symbols<T> src, Span<text7> dst)
+            where T : unmanaged
+        {
+            var count = (uint)min(src.Length, dst.Length);
+            var symbols = src.View;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(symbols,i);
+                var data = symbol.Expr.Data;
+                seek(dst, i) = FixedChars.txt(n7, data);
+            }
+            return count;
+        }
     }
 }

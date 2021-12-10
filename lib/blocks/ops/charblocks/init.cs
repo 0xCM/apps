@@ -13,7 +13,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T init<T>(ReadOnlySpan<char> src, out T dst)
-            where T : unmanaged, ICharBlock<T>
+            where T : unmanaged, IChar16Block<T>
         {
             dst = default;
             return ref Z0.text.copy(src, ref dst);

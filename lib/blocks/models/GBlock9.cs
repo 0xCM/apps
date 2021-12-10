@@ -15,7 +15,7 @@ namespace Z0
     /// Defines storage for contiguous sequence of 7 9-cells
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct GBlock9<T> : IDataBlock<GBlock9<T>>, ICellBlock<T>
+    public struct GBlock9<T> : IStorageBlock<GBlock9<T>>, ICellBlock<T>
         where T : unmanaged
     {
         public const uint CellCount = 9;

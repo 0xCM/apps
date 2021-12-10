@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public interface IDataBlock
+    public interface IStorageBlock
     {
         BlockKind Kind => BlockKind.Bytes;
 
@@ -17,13 +17,13 @@ namespace Z0
         Span<byte> Bytes {get;}
     }
 
-    public interface IDataBlock<T> : IDataBlock
-        where T : unmanaged, IDataBlock<T>
+    public interface IStorageBlock<T> : IStorageBlock
+        where T : unmanaged, IStorageBlock<T>
     {
-        ByteSize IDataBlock.Size
+        ByteSize IStorageBlock.Size
             => size<T>();
 
-        Span<byte> IDataBlock.Bytes
+        Span<byte> IStorageBlock.Bytes
             => bytes((T)this);
     }
 }

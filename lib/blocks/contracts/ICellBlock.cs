@@ -8,18 +8,18 @@ namespace Z0
 
     using static core;
 
-    public interface ICellBlock<T> : IDataBlock
+    public interface ICellBlock<T> : IStorageBlock
         where T : unmanaged
     {
-        BlockKind IDataBlock.Kind
+        BlockKind IStorageBlock.Kind
             => BlockKind.Generic;
 
         Span<T> Cells {get;}
 
-        ByteSize IDataBlock.Size
+        ByteSize IStorageBlock.Size
             => Cells.Length*size<T>();
 
-        Span<byte> IDataBlock.Bytes
+        Span<byte> IStorageBlock.Bytes
             => bytes(Cells);
     }
 

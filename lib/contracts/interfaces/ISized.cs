@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
@@ -25,4 +27,5 @@ namespace Z0
         BitWidth ISized.Width
             => minicore.width<T>();
     }
+
 }

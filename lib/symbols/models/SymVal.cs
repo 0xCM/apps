@@ -39,7 +39,11 @@ namespace Z0
         public static implicit operator SymVal(ulong src)
             => new SymVal(src);
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
+        public static implicit operator SymVal(long src)
+            => new SymVal((ulong)src);
+
+        [MethodImpl(Inline)]
         public static implicit operator ulong(SymVal src)
             => src.Value;
     }

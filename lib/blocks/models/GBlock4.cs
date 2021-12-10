@@ -15,7 +15,7 @@ namespace Z0
     /// Defines storage for contiguous sequence of 4 T-cells
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct GBlock4<T> : IDataBlock<GBlock4<T>>, ICellBlock<GBlock4<T>,T>
+    public struct GBlock4<T> : IStorageBlock<GBlock4<T>>, ICellBlock<GBlock4<T>,T>
         where T : unmanaged
     {
         public const uint CellCount = 4;

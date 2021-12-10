@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     public readonly struct TokenExpr<T>
-        where T : unmanaged, ICharBlock<T>
+        where T : unmanaged, IChar16Block<T>
     {
         public uint Id {get;}
 

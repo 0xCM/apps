@@ -8,11 +8,11 @@ namespace Z0
 
     using static core;
 
-    public interface ICharBlock<T> : ITextual, IComparable<T>, IEquatable<T>, IDataBlock<T>, ICellBlock<char>, IHashed
-        where T : unmanaged, ICharBlock<T>
+    public interface IChar16Block<T> : ITextual, IComparable<T>, IEquatable<T>, IStorageBlock<T>, ICellBlock<char>, IHashed
+        where T : unmanaged, IChar16Block<T>
     {
-        BlockKind IDataBlock.Kind
-            => BlockKind.Char;
+        BlockKind IStorageBlock.Kind
+            => BlockKind.Char16;
 
         Span<char> Data {get;}
 
@@ -25,13 +25,13 @@ namespace Z0
         uint IHashed.Hash
             => alg.hash.calc(String);
 
-        ByteSize IDataBlock.Size
+        ByteSize IStorageBlock.Size
             => Length*2;
 
         Span<char> ICellBlock<char>.Cells
             => Data;
 
-        Span<byte> IDataBlock.Bytes
+        Span<byte> IStorageBlock.Bytes
             => recover<byte>(Data);
 
         int IComparable<T>.CompareTo(T src)

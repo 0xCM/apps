@@ -15,7 +15,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static bool empty<T>(in T src)
-            where T : unmanaged, IDataBlock<T>
+            where T : unmanaged, IStorageBlock<T>
         {
             var b = src.Bytes;
             var count = b.Length;

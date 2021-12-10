@@ -13,7 +13,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static text<C> text<C>(in C src)
-            where C : unmanaged, ICharBlock<C>
+            where C : unmanaged, IChar16Block<C>
                 => new text<C>(src);
 
         [MethodImpl(Inline), Op]

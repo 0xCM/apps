@@ -13,9 +13,11 @@ namespace Z0
 
     using FC = FixedChars;
 
-    public struct text31
+    public struct text31 : ISizedString<text31>
     {
         public const byte MaxLength = 31;
+
+        public const byte PointSize = 1;
 
         static N31 N => default;
 
@@ -57,9 +59,6 @@ namespace Z0
 
         internal StorageType Storage;
 
-        public byte PointSize
-            => 1;
-
         [MethodImpl(Inline)]
         internal text31(in StorageType data)
         {
@@ -90,11 +89,22 @@ namespace Z0
             get => Storage.IsNonEmpty;
         }
 
+        public uint CharCapacity => MaxLength;
+
+        public BitWidth CharWidth => PointSize*8;
+
+        public BitWidth StorageWidth => size<StorageType>();
+
         public string Format()
             => FC.format(this);
 
         public override string ToString()
             => Format();
+
+        public bool Equals(text31 src)
+            => Storage.Equals(src);
+        public int CompareTo(text31 src)
+            => Format().CompareTo(src.Format());
 
         [MethodImpl(Inline)]
         public static implicit operator text31(string src)

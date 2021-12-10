@@ -24,14 +24,13 @@ namespace Z0
             var data = src.Bytes;
             for(var i=0; i<count; i++)
                 seek(dst, i) = (char)skip(data,i);
-            return TextTools.format(slice(dst,0,count));
+            return text.format(slice(dst,0,count));
         }
 
         [MethodImpl(Inline), Op]
         public static text7 txt(N7 n, ReadOnlySpan<char> src)
         {
-            const byte Max = text7.MaxLength;
-            var length = (byte)min(available(src), Max);
+            var length = (byte)min(available(src), text7.MaxLength);
             var storage = 0ul;
             var dst = bytes(storage);
             pack(src, length, dst);
@@ -119,7 +118,7 @@ namespace Z0
             var data = src.Bytes;
             for(var i=0; i<count; i++)
                 seek(dst,i) = (char)skip(data,i);
-            return TextTools.format(slice(dst,0,count));
+            return text.format(slice(dst,0,count));
         }
     }
 }

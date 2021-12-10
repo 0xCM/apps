@@ -12,14 +12,13 @@ namespace Z0
 
     using FC = FixedChars;
 
-    public struct text7 : IComparable<text7>, IEquatable<text7>
+    public struct text7 : ISizedString<text7>
     {
         public const byte MaxLength = 7;
 
-        public ulong Storage;
+        public const byte PointSize = 1;
 
-        public byte PointSize
-            => 1;
+        public ulong Storage;
 
         static N7 N => default;
 
@@ -46,6 +45,24 @@ namespace Z0
             [MethodImpl(Inline)]
             get => alg.hash.calc(Storage);
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Storage == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Storage != 0;
+        }
+
+        public uint CharCapacity => MaxLength;
+
+        public BitWidth CharWidth => PointSize*8;
+
+        public BitWidth StorageWidth => size<text7>();
 
         public string Format()
             => FC.format(this);

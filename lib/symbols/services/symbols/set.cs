@@ -35,19 +35,22 @@ namespace Z0
             return dst;
         }
 
-        [MethodImpl(Inline),Op, Closures(Closure)]
-        public static uint expr<T>(in Symbols<T> src, Span<text7> dst)
-            where T : unmanaged
+        public static SymSet set(Identifier name, ClrEnumKind @base, ReadOnlySpan<string> members)
         {
-            var count = (uint)min(src.Length, dst.Length);
-            var symbols = src.View;
+            var count = members.Length;
+            var dst = new SymSet((uint)count);
+            dst.Name = name;
+            dst.DataType = @base;
+            dst.SymbolKind = EmptyString;
             for(var i=0; i<count; i++)
             {
-                ref readonly var symbol = ref skip(symbols,i);
-                var data = symbol.Expr.Data;
-                seek(dst, i) = FixedChars.txt(n7, data);
+                ref readonly var member = ref skip(members,i);
+                dst.Symbols[i] = member;
+                dst.Names[i] = member;
+                dst.Values[i] = i;
+                dst.Descriptions[i] = EmptyString;
             }
-            return count;
+            return dst;
         }
     }
 }
