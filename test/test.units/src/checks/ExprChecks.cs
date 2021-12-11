@@ -4,14 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     public class ExprChecks : Checker<ExprChecks>
     {
         static ICheckNumeric Claim = NumericClaims.Checker;
 
         public void CheckTextExpr()
         {
-            const string Body = "$(dst), $(src1), $(src2)";
-            var x = TextExpr.init(Body);
+            var dst = TextVar.define("dst");
+            var src1 = TextVar.define("src1");
+            var src2 = TextVar.define("src2");
+            var body = string.Format("{0}, {1}, {2}", dst, src1, src2);
+            var x = TextExpr.init(body);
             var vars = x.Vars;
             Claim.eq(vars.Length,3);
             x["dst"] = new TextVar("dst", (Identifier)"abc");

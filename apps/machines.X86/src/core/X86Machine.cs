@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0.Machines.X86
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -12,7 +12,6 @@ namespace Z0.Machines
     using static core;
 
     using Asm;
-    using X86;
 
     public interface IDispatcher
     {

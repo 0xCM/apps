@@ -94,7 +94,7 @@ namespace Z0
             foreach(var v in vars)
             {
                 if(v.IsNonEmpty)
-                    result = text.replace(result, string.Format("{0}{1}{2}", TextVar.LeftDelimiter, v.Name, TextVar.RightDelimiter), v.Value.Format());
+                    result = text.replace(result, string.Format("{0}{1}{2}", TextVar.LeftDelimiter, v.Name, TextVar.RightDelimiter), v.Value);
             }
             return result;
         }

@@ -8,8 +8,6 @@ namespace Z0.Machines.X86
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-    using Regs;
-
     using static Root;
     using static core;
 
@@ -23,23 +21,23 @@ namespace Z0.Machines.X86
             return text.format(FormatPattern, src.Fx, src.SubFx, src.Eax, src.Ebx, src.Ecx, src.Edx);
         }
 
-        public eax Fx;
+        public uint Fx;
 
-        public ecx SubFx;
+        public uint SubFx;
 
-        public eax Eax;
+        public uint Eax;
 
-        public ebx Ebx;
+        public uint Ebx;
 
-        public ecx Ecx;
+        public uint Ecx;
 
-        public edx Edx;
+        public uint Edx;
 
         public void Clear()
             => clear(ref this);
 
         [MethodImpl(Inline)]
-        public CpuId WithRequest(eax fx, ecx subfx)
+        public CpuId WithRequest(uint fx, uint subfx)
         {
             Fx = fx;
             SubFx = subfx;
@@ -64,7 +62,7 @@ namespace Z0.Machines.X86
         }
 
         [MethodImpl(Inline)]
-        public static CpuId request(eax fx, ecx subfx)
+        public static CpuId request(uint fx, uint subfx)
         {
             var cpuid = new CpuId();
             cpuid.Fx = fx;

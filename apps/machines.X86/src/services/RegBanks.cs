@@ -13,22 +13,6 @@ namespace Z0.Machines.X86
     [ApiHost]
     public readonly struct RegBanks
     {
-        [MethodImpl(Inline), Op]
-        public static GpRegAlloc gp64(RegAlloc src)
-            => new GpRegAlloc(src);
-
-        [MethodImpl(Inline), Op]
-        public static XmmRegAlloc xmm(RegAlloc src)
-            => new XmmRegAlloc(src);
-
-        [MethodImpl(Inline), Op]
-        public static YmmRegAlloc ymm(RegAlloc src)
-            => new YmmRegAlloc(src);
-
-        [MethodImpl(Inline), Op]
-        public static ZmmRegAlloc zmm(RegAlloc src)
-            => new ZmmRegAlloc(src);
-
         [Op]
         public static RegBank intel64()
             => allocate(RegFile.intel64());

@@ -43,7 +43,6 @@ namespace Z0
                     Tables.emit(methods, dst);
                     EmittedTable<MsilMetadata>(flow, count);
                 }
-
             }
             return methods;
         }
