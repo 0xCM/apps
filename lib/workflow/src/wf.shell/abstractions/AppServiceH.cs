@@ -153,8 +153,7 @@ namespace Z0
             => Util.Error(content);
 
         protected WfExecFlow<T> Running<T>(T msg, [Caller] string operation = null)
-            where T : IMsgPattern
-                => Util.Running(msg, operation);
+            => Util.Running(msg, operation);
 
         protected WfExecFlow<string> Running([Caller] string msg = null)
             => Util.Running(msg);

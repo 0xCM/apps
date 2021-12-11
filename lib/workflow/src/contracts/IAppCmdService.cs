@@ -10,6 +10,6 @@ namespace Z0
 
         void Run();
 
-        CmdDispatcher Dispatcher {get;}
+        ICmdDispatcher Dispatcher {get;}
     }
 }

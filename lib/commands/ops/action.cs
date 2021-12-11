@@ -14,11 +14,11 @@ namespace Z0
     partial struct Cmd
     {
         [Op]
-        public static CmdAction action(string name, ICmdHost host, MethodInfo method)
+        public static CmdAction action(string name, object host, MethodInfo method)
             => new CmdAction(name,host,method);
 
         [Op]
-        public static Index<CmdAction> actions(ICmdHost host)
+        public static Index<CmdAction> actions(object host)
         {
             var methods = host.GetType().Methods().Tagged<CmdOpAttribute>();
             var buffer = alloc<CmdAction>(methods.Length);
@@ -26,7 +26,7 @@ namespace Z0
             return buffer;
         }
 
-        static void actions(ICmdHost host, ReadOnlySpan<MethodInfo> src, Span<CmdAction> dst)
+        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<CmdAction> dst)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)

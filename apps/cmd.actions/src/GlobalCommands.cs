@@ -30,7 +30,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            Dispatcher = CmdDispatcher.discover(this);
+            Dispatcher = CmdActionDispatcher.discover(this);
         }
 
         IntelXed Xed => Service(Wf.IntelXed);

@@ -12,18 +12,16 @@ namespace Z0
     public sealed class ApiComments : AppService<ApiComments>
     {
         public Dictionary<FS.FilePath, Dictionary<string,string>> Collect()
-            => collect(Wf);
-
-        public static Dictionary<FS.FilePath, Dictionary<string,string>> collect(IWfRuntime wf)
         {
-            var src = pull(wf);
+            var dir = ProjectDb.Subdir("api/comments");
+            dir.Clear();
+            var src = Pull();
             var dst = new Dictionary<FS.FilePath, Dictionary<string,ApiComment>>();
             foreach(var part in src.Keys)
             {
                 var id = part.FileName.WithoutExtension.Name;
-                var path = wf.Db().Table<ApiComment>(id, FS.Csv);
-                var flow = wf.EmittingTable<ApiComment>(path);
-
+                var path = ProjectDb.TablePath<ApiComment>("api", "comments", id, FS.Csv);
+                var flow = EmittingTable<ApiComment>(path);
                 var docs = new Dictionary<string, ApiComment>();
                 dst[part] = docs;
                 using var writer = path.Writer();
@@ -35,7 +33,7 @@ namespace Z0
                     if(member.Succeeded)
                         writer.WriteLine(format(member.Value));
                 }
-                wf.EmittedTable(flow, kvp.Count);
+                EmittedTable(flow, kvp.Count);
             }
             return src;
         }
@@ -54,7 +52,7 @@ namespace Z0
         public static string format(ApiComment src)
             => text.concat(src.Kind.ToString().PadRight(12), Sep, src.Identifer.PadRight(70), Sep, src.Summary);
 
-        static Dictionary<FS.FilePath, Dictionary<string,string>> pull(IWfRuntime wf)
+        Dictionary<FS.FilePath, Dictionary<string,string>> Pull()
         {
             var archive = core.controller().RuntimeArchive();
             var paths = archive.XmlFiles;
@@ -62,13 +60,21 @@ namespace Z0
             var t = default(ApiComment);
             foreach(var xmlfile in paths)
             {
-                var flow = wf.Running(xmlfile);
+                var loading = Running(string.Format("Loading {0}", xmlfile));
                 var data = xmlfile.ReadText();
+                Ran(loading);
                 var parsed = parse(data);
                 if(parsed.Count != 0)
+                {
                     dst[xmlfile] = parsed;
+                    var id = string.Format("{0}.{1}", "api.comments", xmlfile.FileName.WithoutExtension.Name);
+                    var path = ProjectDb.FilePath("api", "comments", id, FS.Xml);
+                    var emitting = EmittingFile(path);
+                    using var writer = path.Utf8Writer();
+                    writer.WriteLine(data);
+                    EmittedFile(emitting, parsed.Count);
+                }
 
-                wf.Ran(flow, parsed.Count);
             }
             return dst;
         }
@@ -96,7 +102,7 @@ namespace Z0
                 var k = kind(components[0][0]);
                 var name = components[1];
                 var fence = RuleModels.fence("<summary>", "</summary>");
-                var summary = text.unfence(value, fence).RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim();
+                var summary = text.replace(text.unfence(value, fence).RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim(), Chars.Pipe, Chars.Caret);
                 return ParseResult.win(key, new ApiComment(k, name, summary));
             }
             else

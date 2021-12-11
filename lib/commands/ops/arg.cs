@@ -12,13 +12,25 @@ namespace Z0
 
     partial struct Cmd
     {
-        [MethodImpl(Inline), Op]
-        public static CmdArg<T> arg<T>(ushort index, T value)
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmdArg<T> arg<T>(uint index, T value)
             => (index,value);
 
-        [MethodImpl(Inline), Op]
-        public static CmdArg<T> arg<T>(ushort index, string name, T value)
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmdArg<T> arg<T>(uint index, string name, T value)
             => new CmdArg<T>(index, name, value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdArg arg(string name, string value)
+            => new CmdArg(name,value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdArg arg(uint index, string value)
+            => new CmdArg(index,value);
+
+        [MethodImpl(Inline), Op]
+        public static CmdArg arg(uint index, string name, string value)
+            => new CmdArg(index, name, value);
 
         [Op]
         public static bool arg(ToolCmdArgs src, string name, out ToolCmdArg dst)

@@ -4,7 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
     using static Root;
+    using static core;
 
     partial class text
     {
@@ -37,6 +41,15 @@ namespace Z0
                 return left(src,i);
             else
                 return EmptyString;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, int index)
+        {
+            if(index < src.Length)
+                return core.slice(src, 0, index);
+            else
+                return default;
         }
     }
 }

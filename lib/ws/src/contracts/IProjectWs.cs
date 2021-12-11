@@ -38,7 +38,7 @@ namespace Z0
 
         FS.FilePath IFileArchive.TablePath<T>()
             where T : struct
-                => Tables() +  TableFile<T>();
+                => Subdir("tables") + TableFile<T>();
 
         FS.FilePath IFileArchive.TablePath<T>(string scope)
             where T : struct
@@ -47,6 +47,21 @@ namespace Z0
         FS.FilePath IFileArchive.TablePath<T>(string scope, string suffix)
             where T : struct
                 => Subdir(scope) + TableFile<T>(suffix);
+
+        FS.FilePath TablePath<T>(string scope, FS.FileExt ext)
+            where T : struct
+                => Subdir(scope) + FS.file(string.Format("{0}.{1}", TableId<T>(), scope), ext);
+
+        FS.FilePath TablePath<T>(string scope, string id, FS.FileExt ext)
+            where T : struct
+                => Subdir(scope) + FS.file(string.Format("{0}.{1}.{2}", TableId<T>(), scope, id), ext);
+
+        FS.FilePath TablePath<T>(string scope, string subscope, string id, FS.FileExt ext)
+            where T : struct
+                => Subdir(scope) + FS.folder(subscope) + FS.file(string.Format("{0}.{1}", TableId<T>(), id), ext);
+
+        FS.FilePath FilePath(string scope, string subscope, string id, FS.FileExt ext)
+            => Subdir(scope) + FS.folder(subscope) + FS.file(id, ext);
 
         FS.FolderPath Out()
             => Home() + FS.folder(output);

@@ -16,7 +16,7 @@ namespace Z0
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
-        public CmdDispatcher Dispatcher {get; protected set;}
+        public ICmdDispatcher Dispatcher {get; protected set;}
 
         IWorkerLog Witness;
 

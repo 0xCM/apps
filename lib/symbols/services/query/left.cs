@@ -16,7 +16,7 @@ namespace Z0
         public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, int index)
         {
             if(index < src.Length)
-                return slice(src, 0, index);
+                return core.slice(src, 0, index);
             else
                 return default;
         }

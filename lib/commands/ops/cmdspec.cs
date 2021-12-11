@@ -17,6 +17,10 @@ namespace Z0
         public static CmdSpec cmdspec(string name, CmdArgs args)
             => new CmdSpec(name, args);
 
+        [Op, MethodImpl(Inline)]
+        public static CmdSpec cmdspec(string name, params CmdArg[] args)
+            => new CmdSpec(name, args);
+
         [Op]
         public static CmdSpec cmdspec(ReadOnlySpan<char> src)
         {

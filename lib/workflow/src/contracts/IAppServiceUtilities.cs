@@ -86,8 +86,7 @@ namespace Z0
             => Wf.Error(content);
 
         WfExecFlow<T> Running<T>(T msg, [Caller] string operation = null)
-            where T : IMsgPattern
-                => Wf.Running(msg, string.Format("{0,-16} | {1}", HostName, operation));
+            => Wf.Running(msg, string.Format("{0,-16} | {1}", HostName, operation));
 
         WfExecFlow<string> Running([Caller] string msg = null)
             => Wf.Running(string.Format("{0} | {1,-16}", HostName, msg));
@@ -96,8 +95,7 @@ namespace Z0
             => Wf.Ran(flow.WithMsg(string.Format("{0,-16} | {1}", HostName, msg)));
 
         ExecToken Ran<T,D>(WfExecFlow<T> flow, D data, [Caller] string operation = null)
-            where T : IMsgPattern
-                => Wf.Ran(flow.WithMsg(string.Format("{0} | {1,-16} | {2}", data, HostName, operation)));
+            => Wf.Ran(flow.WithMsg(string.Format("{0} | {1,-16} | {2}", data, HostName, operation)));
 
         WfFileFlow EmittingFile(FS.FilePath dst)
             => Wf.EmittingFile(dst);

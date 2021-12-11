@@ -9,7 +9,6 @@ namespace Z0
 
     using static Root;
 
-
     /// <summary>
     /// Defines a tool execution specification
     /// </summary>

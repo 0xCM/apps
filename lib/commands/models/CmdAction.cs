@@ -14,11 +14,11 @@ namespace Z0
     {
         public string Name {get;}
 
-        public ICmdHost Host {get;}
+        public object Host {get;}
 
         public MethodInfo Method {get;}
 
-        public CmdAction(string name, ICmdHost host, MethodInfo method)
+        public CmdAction(string name, object host, MethodInfo method)
         {
             Name = Require.nonempty(name);
             Host = Require.notnull(host);

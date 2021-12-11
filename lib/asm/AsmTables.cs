@@ -263,7 +263,7 @@ namespace Z0.Asm
             const char Delimiter = Chars.Pipe;
             rows = default;
             var result = Outcome.Success;
-            var src = ws.TablePath<CpuIdRow>();
+            var src = ws.TablePath<CpuIdRow>("tables");
 
             using var reader = src.Utf8Reader();
             var header = TextGrids.header(reader.ReadLine(), Delimiter);
@@ -422,7 +422,7 @@ namespace Z0.Asm
         Outcome EmitRows(ReadOnlySpan<CpuIdRow> src)
         {
             var result = Outcome.Success;
-            var dst = Ws.Tables().TablePath<CpuIdRow>();
+            var dst = Ws.Tables().TablePath<CpuIdRow>("tables");
             var flow = Wf.EmittingTable<CpuIdRow>(dst);
             var formatter = Tables.formatter<CpuIdRow>(CpuIdRow.RenderWidths);
             using var rowWriter = dst.AsciWriter();
