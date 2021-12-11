@@ -14,7 +14,7 @@ namespace Z0.llvm
         {
             const char Delimiter = Chars.Pipe;
 
-            return (Index<LlvmAsmVariation>)DataSets.GetOrAdd(nameof(LlvmAsmVariation), key => Load());
+            return (Index<LlvmAsmVariation>)DataSets.GetOrAdd(nameof(SelectAsmVariations), key => Load());
 
             Index<LlvmAsmVariation> Load()
             {

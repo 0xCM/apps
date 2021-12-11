@@ -18,7 +18,7 @@ namespace Z0.llvm
             Def = def;
         }
 
-        protected override Func<RecordField, string> KeyFunction
+        protected override Func<RecordField,string> KeyFunction
             => a => a.Name;
 
         protected ref bit Parse(string attrib, out bit dst)

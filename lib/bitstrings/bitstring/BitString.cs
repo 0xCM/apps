@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Represents a sequence of bits
     /// </summary>
-    public partial struct BitString : IEquatable<BitString>
+    public struct BitString : IEquatable<BitString>
     {
         internal byte[] Data;
 
@@ -27,14 +27,6 @@ namespace Z0
         internal BitString(ReadOnlySpan<byte> src)
         {
             Data = src.ToArray();
-        }
-
-        [MethodImpl(Inline)]
-        internal BitString(ReadOnlySpan<bit> src)
-        {
-            Data = new byte[src.Length];
-            for(var i=0; i<src.Length; i++)
-                seek(Data,i) = (byte)skip(src,i);
         }
 
         /// <summary>

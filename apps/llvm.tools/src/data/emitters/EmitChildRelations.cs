@@ -7,10 +7,11 @@ namespace Z0.llvm
     using System;
 
     using static core;
+    using static Root;
 
     partial class LlvmDataEmitter
     {
-        public FS.FilePath EmitChildRelations()
+        public Index<ChildRelation> EmitChildRelations()
         {
             var parents = RecordEntities.GroupByParent(DataProvider.SelectEntities());
             var dst = list<ChildRelation>();
@@ -33,9 +34,10 @@ namespace Z0.llvm
                 }
             }
 
+            var records = dst.Array();
             var path = LlvmPaths.Table<ChildRelation>();
-            TableEmit(dst.ViewDeposited(), path);
-            return path;
+            TableEmit(@readonly(records), path);
+            return records;
         }
     }
 }

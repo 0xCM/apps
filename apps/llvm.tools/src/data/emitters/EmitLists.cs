@@ -12,31 +12,14 @@ namespace Z0.llvm
     {
         public Index<LlvmList> EmitLists()
         {
+            return EmitLists(DataProvider.SelectEntities());
+        }
+
+        public Index<LlvmList> EmitLists(Index<RecordEntity> entities)
+        {
             FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
             paths.Delete();
-            Emit(DataProvider.DiscoverAsmIdDefs());
-            Emit(DataProvider.DiscoverRegIdDefs());
-            return EmitLists(DataProvider.SelectEntities(), DataProvider.SelectConfiguredListNames());
-        }
-
-        public LlvmList Emit(AsmIdDefs src)
-        {
-            var values = src.Values;
-            var items = values.Select(x => new LlvmListItem(x.Id, x.InstName)).ToArray();
-            var dst = LlvmPaths.ListImportPath("AsmId");
-            var list = new LlvmList(dst,items);
-            EmitList(list);
-            return list;
-        }
-
-        public LlvmList Emit(RegIdDefs src)
-        {
-            var values = src.Values;
-            var items = values.Select(x => new LlvmListItem(x.Id, x.InstName)).ToArray();
-            var dst = LlvmPaths.ListImportPath("RegId");
-            var list = new LlvmList(dst,items);
-            EmitList(list);
-            return list;
+            return EmitLists(entities, DataProvider.SelectConfiguredListNames());
         }
 
         public Index<LlvmList> EmitLists(Index<RecordEntity> src, ReadOnlySpan<string> classes)
@@ -46,26 +29,14 @@ namespace Z0.llvm
             return emitted.ToArray();
         }
 
-        public LlvmList<K,V> EmitList<K,V>(string name, LlvmListItem<K,V>[] src)
-        {
-            var dst = LlvmPaths.ListImportPath(name);
-            var emitting = EmittingTable<LlvmListItem<K,V>>(dst);
-            var formatter = Tables.formatter<LlvmListItem<K,V>>();
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(formatter.FormatHeader());
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var item = ref skip(src,i);
-                writer.WriteLine(formatter.Format(item));
-            }
-            EmittedTable(emitting,count);
-            return (dst,src);
-        }
-
         public Outcome EmitList(LlvmList src)
         {
             var dst = src.Path;
+            return EmitList(src,dst);
+        }
+
+        public Outcome EmitList(LlvmList src, FS.FilePath dst)
+        {
             var items = src.Items;
             var count = items.Length;
             var formatter = Tables.formatter<LlvmListItem>();
@@ -73,11 +44,7 @@ namespace Z0.llvm
             using var writer = dst.AsciWriter();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
-            {
-                ref readonly var item = ref skip(items,i);
-                writer.WriteLine(formatter.Format(item));
-            }
-
+                writer.WriteLine(formatter.Format(skip(items,i)));
             EmittedTable(emitting,count);
             return true;
         }

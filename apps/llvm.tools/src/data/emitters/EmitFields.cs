@@ -56,6 +56,5 @@ namespace Z0.llvm
                 dst.Add(new RecordFields(current, subset.ToArray()));
             return dst.ViewDeposited();
         }
-
     }
 }

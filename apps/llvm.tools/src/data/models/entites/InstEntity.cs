@@ -25,6 +25,18 @@ namespace Z0.llvm
         public bit isCodeGenOnly
             => Parse(nameof(isCodeGenOnly), out bit _);
 
+        public bit hasREX_WPrefix
+            => Parse(nameof(hasREX_WPrefix), out bit _);
+
+        public bit HasVex_W
+            => Parse(nameof(HasVex_W), out bit _);
+
+        public int CodeSize
+            => Parse(nameof(CodeSize), out int _);
+
+        public string ImmT
+            => this[nameof(ImmT)];
+
         public string RawAsmString
             => Value(nameof(RawAsmString),() => this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space));
 
@@ -34,8 +46,23 @@ namespace Z0.llvm
         public string OpMap
             => this[nameof(OpMap)];
 
+        public bits<byte> OpMapBits
+            => Parse(nameof(OpMapBits), out bits<byte> dst);
+
         public string InstName
             => EntityName;
+
+        public string AdSize
+            => this[nameof(AdSize)];
+
+        public bits<byte> AdSizeBits
+            => Parse(nameof(AdSizeBits), out bits<byte> dst);
+
+        public string OpSize
+            => this[nameof(OpSize)];
+
+        public bits<byte> OpSizeBits
+            => Parse(nameof(OpSizeBits), out bits<byte> dst);
 
         public string InOperandList
             => this[nameof(InOperandList)];
@@ -51,6 +78,18 @@ namespace Z0.llvm
 
         public bits<ulong> TSFlags
             => Parse(nameof(TSFlags), out bits<ulong> dst);
+
+        public bits<byte> Opcode
+            => Parse(nameof(Opcode), out bits<byte> dst);
+
+        public bits<byte> FormBits
+            => Parse(nameof(FormBits), out bits<byte> dst);
+
+        public string OpPrefix
+            => this[nameof(OpPrefix)];
+
+        public bits<byte> OpPrefixBits
+            => Parse(nameof(OpPrefixBits), out bits<byte> dst);
 
         public AsmVariationCode VarCode
             => Value(nameof(VarCode), () => llvm.AsmStrings.varcode(InstName, Mnemonic));

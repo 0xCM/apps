@@ -10,15 +10,18 @@ namespace Z0.llvm
     {
         public AsmIdDefs SelectAsmIdDefs()
         {
-            return (AsmIdDefs)DataSets.GetOrAdd(nameof(AsmIdDefs), key => Load());
+            const string TableId = "llvm.asm.AsmId";
+
+            return (AsmIdDefs)DataSets.GetOrAdd(nameof(SelectAsmIdDefs), key => Load());
 
             AsmIdDefs Load()
             {
-                var asmid = SelectList("AsmId");
-                var lu = list<AsmIdDef>();
-                foreach(var id in asmid)
-                    lu.Add(new AsmIdDef((ushort)id.Key, id.Value.Trim()));
-                return lu.Array();
+                var src = LlvmPaths.Table(TableId);
+                var items = SelectList(TableId, src);
+                var dst = list<AsmIdDef>();
+                foreach(var id in items)
+                    dst.Add(new AsmIdDef((ushort)id.Key, id.Value.Trim()));
+                return dst.Array();
             }
         }
     }

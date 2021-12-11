@@ -75,16 +75,5 @@ namespace Z0.llvm
 
         public X86RegEntity ToX86Reg()
             => new X86RegEntity(Def,AttribIndex);
-
-        public bool IfX86Reg(Action<X86RegEntity> f)
-        {
-            if(IsX86Reg())
-            {
-                f(ToX86Reg());
-                return true;
-            }
-            else
-                return false;
-        }
     }
 }

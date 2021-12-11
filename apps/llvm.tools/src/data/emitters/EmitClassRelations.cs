@@ -104,6 +104,5 @@ namespace Z0.llvm
             TableEmit(@readonly(collected), DefRelations.RenderWidths, LlvmPaths.Table<DefRelations>());
             return collected;
         }
-
     }
 }

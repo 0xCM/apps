@@ -13,6 +13,23 @@ namespace Z0.llvm
     {
         public const string Identifier = "list<{0}>";
 
+        public static ParserDelegate<list<T>> parser(ParserDelegate<T> itemparser)
+        {
+            Outcome parse(string src, out list<T> dst)
+            {
+                var seqparser = new SeqParser<T>(",", new ParseFunction<T>(itemparser));
+                var result = seqparser.Parse(src, out var items);
+                if(result)
+                {
+                    dst = items;
+                }
+                else
+                    dst = Empty;
+                return result;
+            }
+            return parse;
+        }
+
         Index<T> _Data;
 
         [MethodImpl(Inline)]
@@ -38,5 +55,7 @@ namespace Z0.llvm
 
         public static implicit operator list<T>(T[] src)
             => new list<T>(src);
+
+        public static list<T> Empty => new list<T>(sys.empty<T>());
     }
 }

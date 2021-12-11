@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
     using static LlvmNames;
-    using static Root;
     using static core;
 
-    public partial class LlvmEtl : AppService<LlvmEtl>
+    public class LlvmEtl : AppService<LlvmEtl>
     {
         LlvmPaths LlvmPaths;
 
@@ -28,74 +26,66 @@ namespace Z0.llvm
             DataEmitter = Wf.LlvmDataEmitter();
         }
 
-        public void Run()
+        public void Run(LlvmEtlObserver observer)
         {
-            ImportRecords();
-            ImportEntityData();
-        }
+            run(() => observer.EtlStarted());
 
-        void ImportRecords()
-        {
+            var help = DataEmitter.EmitToolHelp();
+            run(() => observer.ToolHelpEmitted(help));
+
+            var asmId = DataEmitter.EmitAsmIdDefs();
+            run(() => observer.AsmIdDefsEmitted(asmId));
+
+            var regId = DataEmitter.EmitRegIdDefs();
+            run(() => observer.RegIdDefsEmitted(regId));
+
             var records = DataProvider.SelectSourceRecords(Datasets.X86);
-            DataEmitter.EmitToolHelp();
-            //EmitLinedRecords(records, Datasets.X86Lined);
+            run(() => observer.SourceRecordsSelected(records));
+
             var classes = DataEmitter.EmitClassRelations(records);
+            run(() => observer.ClassRelationsEmitted(classes));
+
             var defs = DataEmitter.EmitDefRelations(records);
+            run(() => observer.DefRelationsEmitted(defs));
+
             var defMap = DataEmitter.EmitLineMap(defs.View, records, Datasets.X86Defs);
+            run(() => observer.DefMapEmitted(defMap));
+
             var defFields = RecordFieldParser.parse(records, defMap);
             DataEmitter.EmitFields(defFields, Datasets.X86DefFields);
+            run(() => observer.DefFieldsEmitted(defFields));
+
             var classMap = DataEmitter.EmitLineMap(classes.View, records, Datasets.X86Classes);
+            run(() => observer.ClassMapEmitted(classMap));
+
             var classFields = RecordFieldParser.parse(records, classMap);
             DataEmitter.EmitFields(classFields, Datasets.X86ClassFields);
+            run(() => observer.ClassFieldsEmitted(classFields));
+
+            var entities = DataProvider.SelectEntities();
+            run(() => observer.EntitiesSelected(entities));
+
+            var lists = DataEmitter.EmitLists(entities);
+            run(() => observer.ListsEmitted(lists));
+
+            var childRelations = DataEmitter.EmitChildRelations();
+            run(() => observer.ChildRelationsEmitted(childRelations));
+
+            var variations = DataEmitter.EmitAsmVariations();
+            run(() => observer.AsmVariationsEmitted(variations));
+
+            var instdefs = DataEmitter.EmitInstDefs();
+            run(() => observer.InstDefsEmitted(instdefs));
+
+            var instpattterns = DataEmitter.EmitInstPatterns();
+            run(() => observer.InstPatternsEmitted(instpattterns));
+
+            run(() => observer.EtlCompleted());
         }
-
-        public Outcome ImportEntityData()
+        public void Run()
         {
-            DataEmitter.EmitLists();
-            DataEmitter.EmitChildRelations();
-            ImportInstructions();
-            DataEmitter.EmitInstDefs();
-            DataEmitter.EmitInstPatterns();
-            return true;
-        }
-
-        void ImportInstructions()
-        {
-            var entities = DataProvider.SelectEntities(e => e.IsInstruction()).Select(x => x.ToInstruction());
-            var count = entities.Length;
-            var asmid = DataProvider.DiscoverAsmIdDefs();
-            var obmapped = list<LlvmAsmIdentity>();
-            var variations = list<LlvmAsmVariation>();
-            var vcodes = hashset<string>();
-            var seq = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var inst = ref entities[i];
-                var name = inst.EntityName.Content;
-                var asmstr = inst.AsmString;
-                var mnemonic = asmstr.Mnemonic;
-                var id = z16;
-                if(asmid.Find(name, out var descriptor))
-                    id = descriptor.Id;
-                else
-                    Warn(string.Format("Instruction id for '{0}' not found", name));
-
-                var identity = new LlvmAsmIdentity(id, name);
-
-                if(inst.OpMap.Equals("OB"))
-                    obmapped.Add(identity);
-
-                var j = text.index(name.ToLower(), mnemonic.Content);
-                var vcode = inst.VarCode;
-                if(vcode.IsNonEmpty)
-                {
-                    vcodes.Add(vcode.Format());
-                    variations.Add(new LlvmAsmVariation(id, name, mnemonic, vcode));
-                }
-            }
-
-            DataEmitter.EmitList(vcodes.Array().Sort().Mapi((i,v) => new LlvmListItem((uint)i, v)).ToLlvmList(LlvmPaths.ListImportPath("vcodes")));
-            TableEmit(variations.ViewDeposited(), LlvmPaths.Table<LlvmAsmVariation>());
+            var observer = new LlvmEtlObserver();
+            Run(observer);
         }
    }
 }

@@ -5,11 +5,7 @@
 namespace Z0.llvm
 {
     using System;
-
-    using System.Runtime.CompilerServices;
     using System.Collections.Generic;
-
-    using static Root;
 
     public class LlvmOpCodeMap : ConstLookup<Identifier,Index<InstEntity>>
     {

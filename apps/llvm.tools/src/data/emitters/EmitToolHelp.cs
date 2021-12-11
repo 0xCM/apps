@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataEmitter
     {
-        public uint EmitToolHelp()
+        public Index<ToolHelpDoc> EmitToolHelp()
         {
             var dir = LlvmPaths.ToolSourceDocs();
             var docs = DataProvider.SelectToolHelp();
@@ -21,7 +21,7 @@ namespace Z0.llvm
                 writer.Write(content);
                 EmittedFile(emitting, content.Length);
             }
-            return 0;
+            return docs;
         }
     }
 }

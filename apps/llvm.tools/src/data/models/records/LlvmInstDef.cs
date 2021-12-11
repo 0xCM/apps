@@ -14,7 +14,7 @@ namespace Z0.llvm
     [Record(TableId)]
     public struct LlvmInstDef : IComparable<LlvmInstDef>
     {
-        public const string TableId = "llvm.asm.instdef";
+        public const string TableId = "llvm.inst.def";
 
         public const byte FieldCount = 9;
 
