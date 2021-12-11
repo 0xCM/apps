@@ -10,17 +10,17 @@ namespace Z0
     {
         public void EmitMemberRefInfo()
         {
-            var components = Wf.ApiCatalog.Components.View;
+            var components = ApiRuntimeCatalog.Components.View;
             var count = components.Length;
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
                 var component = skip(components,i);
                 var dst = MemberRefsPath(component);
-                var flow = Wf.EmittingTable<MemberRefInfo>(dst);
+                var flow = EmittingTable<MemberRefInfo>(dst);
                 using var reader = PeReader.create(FS.path(component.Location));
                 var emitted = Tables.emit(reader.ReadMemberRefs(), dst);
-                Wf.EmittedTable(flow,emitted);
+                EmittedTable(flow,emitted);
                 counter += emitted;
             }
         }

@@ -13,18 +13,18 @@ namespace Z0
     partial class CliEmitter
     {
         FS.FolderPath MetaBlockDir()
-            => Db.TableDir("image.metablocks");
+            => ProjectDb.Subdir(CliScope) + FS.folder("metablocks");
 
         FS.FilePath MetaBlockPath(Assembly src)
             => MetaBlockDir() + FS.file(src.GetSimpleName(), FS.Csv);
 
         public ByteSize EmitMetaBlock(Assembly src, uint bpl, FS.FilePath dst)
         {
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             var segment = Clr.metadata(src);
             using var writer = dst.Writer();
             var size = MemoryStore.emit(segment, bpl, writer);
-            Wf.EmittedFile(flow, (uint)size);
+            EmittedFile(flow, (uint)size);
             return size;
         }
 
@@ -33,13 +33,13 @@ namespace Z0
 
         public ByteSize EmitMetaBlocks(uint bpl = 64)
         {
-            var components = Wf.ApiCatalog.Components.View;
+            var components = ApiRuntimeCatalog.Components.View;
             var count = components.Length;
-            var flow = Wf.Running(string.Format("Emitting {0} component metadata blocks", count));
+            var flow = Running(string.Format("Emitting {0} component metadata blocks", count));
             var size = ByteSize.Zero;
             for(var i=0; i<count; i++)
                 size += EmitMetaBlock(skip(components,i), bpl);
-            Wf.Ran(flow, string.Format("Emitting {0} component metadata bytes", size));
+            Ran(flow, string.Format("Emitting {0} component metadata bytes", size));
             return size;
         }
     }

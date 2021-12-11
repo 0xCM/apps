@@ -14,21 +14,21 @@ namespace Z0
     {
         public void EmitBlobs()
         {
-            var flow = Wf.Running(nameof(EmitBlobs));
+            var flow = Running(nameof(EmitBlobs));
             ClearBlobs();
-            foreach(var part in Wf.ApiCatalog.Parts)
+            foreach(var part in ApiRuntimeCatalog.Parts)
                 EmitBlobs(part.Owner);
-            Wf.Ran(flow);
+            Ran(flow);
         }
 
         public void ClearBlobs()
         {
-            Wf.Db().TableDir<CliBlob>().Clear();
+            ProjectDb.Subdir(BlobScope).Clear();
         }
 
         public ExecToken EmitBlobs(FS.FilePath src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingTable<CliBlob>(dst);
+            var flow = EmittingTable<CliBlob>(dst);
             using var reader = PeReader.create(src);
 
             var rows = reader.ReadBlobInfo();
@@ -40,10 +40,10 @@ namespace Z0
             for(var i=0; i<count; i++)
                 writer.WriteLine(formatter.Format(skip(rows,i)));
 
-            return Wf.EmittedTable<CliBlob>(flow, rows.Length);
+            return EmittedTable<CliBlob>(flow, rows.Length);
         }
 
         public ExecToken EmitBlobs(Assembly src)
-            => EmitBlobs(FS.path(src.Location), Db.Table<CliBlob>(src.GetSimpleName()));
+            => EmitBlobs(FS.path(src.Location), ProjectDb.TablePath<CliBlob>(BlobScope, src.GetSimpleName()));
     }
 }

@@ -9,10 +9,9 @@ namespace Z0
 
     using static core;
 
-
     partial class GlobalCommands
     {
-        [CmdOp("asm/docs/emit")]
+        [CmdOp("api/emit/asmdocs")]
         Outcome EmitAsmDocs(CmdArgs args)
         {
             EmitRexDocs();

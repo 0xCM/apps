@@ -11,7 +11,7 @@ namespace Z0
     partial class CliEmitter
     {
         FS.FolderPath FieldLiteralTarget
-            => Wf.Db().DbTableRoot() + FS.folder(MemberFieldName.TableId);
+            => ProjectDb.Subdir(CliScope) + FS.folder(MemberFieldName.TableId);
 
         ReadOnlySpan<Paired<FieldRef,string>> EmitFieldLiterals(ApiPartTypes src)
         {
@@ -25,7 +25,7 @@ namespace Z0
         public void EmitReflectedLiterals()
         {
             FieldLiteralTarget.Clear();
-            var parts = span(Wf.ApiCatalog.Parts.Map(part => ApiPartTypes.from(part)));
+            var parts = span(ApiRuntimeCatalog.Parts.Map(part => ApiPartTypes.from(part)));
             foreach(var part in parts)
             {
                 try
@@ -66,10 +66,10 @@ namespace Z0
                     );
 
 
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             var input = span(src);
             var count = input.Length;
-            var buffer = sys.alloc<Paired<FieldRef,string>>(count);
+            var buffer = alloc<Paired<FieldRef,string>>(count);
             ref var emissions = ref first(buffer);
 
             using var writer = dst.Writer();
@@ -87,11 +87,11 @@ namespace Z0
                 }
                 catch(Exception e)
                 {
-                    Wf.Warn(e.Message);
+                    Warn(e.Message);
                 }
             }
 
-            Wf.EmittedFile(flow, count);
+            EmittedFile(flow, count);
             return buffer;
         }
     }

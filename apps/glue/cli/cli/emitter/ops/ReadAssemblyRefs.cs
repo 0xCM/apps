@@ -26,7 +26,7 @@ namespace Z0
 
         public ReadOnlySpan<AssemblyRefInfo> ReadAssemblyRefs()
         {
-            var components = Wf.ApiCatalog.Components.View;
+            var components = ApiRuntimeCatalog.Components.View;
             var count = components.Length;
             var dst = list<AssemblyRefInfo>();
             for(var i=0; i<count; i++)

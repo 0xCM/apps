@@ -15,7 +15,7 @@ namespace Z0
         public uint EmitFieldDefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
             var counter = 0u;
-            var flow = Wf.EmittingTable<FieldDefInfo>(dst);
+            var flow = EmittingTable<FieldDefInfo>(dst);
             using var writer = dst.Writer();
             var formatter = Tables.formatter<FieldDefInfo>(FieldDefInfo.RenderWidths);
             writer.WriteLine(formatter.FormatHeader());
@@ -41,7 +41,7 @@ namespace Z0
                     counter++;
                 }
             }
-            Wf.EmittedTable(flow, counter);
+            EmittedTable(flow, counter);
             return counter;
         }
     }

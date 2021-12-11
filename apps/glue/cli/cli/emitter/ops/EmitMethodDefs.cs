@@ -14,7 +14,7 @@ namespace Z0
         public uint EmitMethodDefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
             var counter = 0u;
-            var flow = Wf.EmittingTable<MethodDefInfo>(dst);
+            var flow = EmittingTable<MethodDefInfo>(dst);
             using var writer = dst.Writer();
             var formatter = Tables.formatter<MethodDefInfo>(MethodDefInfo.RenderWidths);
             writer.WriteLine(formatter.FormatHeader());
@@ -30,7 +30,7 @@ namespace Z0
                     counter++;
                 }
             }
-            Wf.EmittedTable(flow, counter);
+            EmittedTable(flow, counter);
             return counter;
         }
     }

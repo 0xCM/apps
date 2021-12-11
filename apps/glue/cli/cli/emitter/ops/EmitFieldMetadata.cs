@@ -12,8 +12,8 @@ namespace Z0
         public void EmitFieldMetadata()
         {
             var count = 0u;
-            var parts = Wf.ApiParts.Components;
-            var flow = Wf.Running(parts.Length);
+            var parts = ApiRuntimeCatalog.Components;
+            var flow = Running(parts.Length);
 
             foreach(var part in parts)
             {
@@ -31,12 +31,12 @@ namespace Z0
         }
 
         public FS.FilePath FieldMetadataPath(Assembly src)
-            => Db.Table(MemberFieldInfo.TableId, src.Id());
+            => ProjectDb.TablePath<MemberFieldInfo>(FieldScope, src.Id().Format());
 
         public uint EmitFieldMetadata(Assembly src)
         {
             var dst = FieldMetadataPath(src);
-            var flow = Wf.EmittingTable<MemberFieldInfo>(dst);
+            var flow = EmittingTable<MemberFieldInfo>(dst);
             var reader = CliReader.read(src);
             var fields = reader.ReadFieldInfo();
             var count = (uint)fields.Length;
@@ -45,7 +45,7 @@ namespace Z0
             writer.WriteLine(formatter.FormatHeader());
             foreach(var item in fields)
                 writer.WriteLine(formatter.Format(item));
-            Wf.EmittedTable(flow, count);
+            EmittedTable(flow, count);
             return count;
         }
     }

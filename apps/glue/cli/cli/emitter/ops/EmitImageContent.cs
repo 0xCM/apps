@@ -16,21 +16,25 @@ namespace Z0
     {
         public void ClearImageContent()
         {
-            var dir = Db.TableDir<HexCsv>();
+            var dir = ImageHexDir;
             var flow = Wf.Running($"Clearing content from <{dir}>");
             var dst = list<FS.FilePath>();
             dir.Clear(dst);
             Wf.Ran(flow, $"Cleared <{dst.Count}> files from <{dir}>");
         }
 
+        FS.FolderPath ImageHexDir => ProjectDb.Subdir(ImageHexScope);
+
+        FS.FilePath ImageHexPath(string id) => ProjectDb.TablePath<HexCsv>(ImageHexScope, id);
+
         public void EmitImageContent()
         {
-            var flow = Wf.Running(nameof(EmitImageContent));
-            var pipe = Wf.ProcessContextPipe();
+            var flow = Running(nameof(EmitImageContent));
             ClearImageContent();
-            iter(Wf.ApiCatalog.Components, c => EmitImageContent(c));
-            Wf.Ran(flow);
+            iter(ApiRuntimeCatalog.Components, c => EmitImageContent(c));
+            Ran(flow);
         }
+
 
         public void LoadImageContent(FS.FilePath src)
         {
@@ -41,8 +45,8 @@ namespace Z0
         public MemoryRange EmitImageContent(Assembly src)
         {
             var rowsize = HexCsv.RowDataSize;
-            var dst = Db.Table("image.content", src.GetSimpleName());
-            var flow = Wf.EmittingTable<HexCsv>(dst);
+            var dst =  ImageHexPath(src.GetSimpleName());
+            var flow = EmittingTable<HexCsv>(dst);
             var @base = ImageMemory.@base(src);
             var formatter = HexDataFormatter.create(@base, rowsize);
             var path = FS.path(src.Location);
@@ -65,7 +69,7 @@ namespace Z0
                 k = Read(reader, buffer);
             }
 
-            Wf.EmittedTable<HexCsv>(flow, lines);
+            EmittedTable<HexCsv>(flow, lines);
             return (@base, @base + offset);
         }
 

@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        [CmdOp("api/emit/metadata-sets")]
+        [CmdOp("api/emit/cli")]
         protected Outcome EmitMetadataSets(CmdArgs args)
         {
             Service(Wf.CliEmitter).EmitMetadaSets(WorkflowOptions.@default());

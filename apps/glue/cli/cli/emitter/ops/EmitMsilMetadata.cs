@@ -12,7 +12,7 @@ namespace Z0
     partial class CliEmitter
     {
         public uint EmitMsilMetadata()
-            => EmitMsilMetadata(Wf.Components);
+            => EmitMsilMetadata(ApiRuntimeCatalog.Components);
 
         public uint EmitMsilMetadata(ReadOnlySpan<Assembly> src)
         {
@@ -24,7 +24,7 @@ namespace Z0
         }
 
         public FS.FilePath MsilPath(Assembly src)
-            => Db.Table<MsilMetadata>(src.GetSimpleName());
+            => ProjectDb.TablePath<MsilMetadata>(MsilScope, src.GetSimpleName());
 
         public ReadOnlySpan<MsilMetadata> EmitMsilMetadata(Assembly src)
         {
@@ -32,7 +32,6 @@ namespace Z0
             var srcPath = FS.path(src.Location);
             if(Cli.valid(srcPath))
             {
-                var processing = Wf.Running(srcPath);
                 using var reader = PeReader.create(srcPath);
                 methods = reader.ReadMsil();
                 var view = methods;
@@ -40,12 +39,11 @@ namespace Z0
                 if(count != 0)
                 {
                     var dst = MsilPath(src);
-                    var flow = Wf.EmittingTable<MsilMetadata>(dst);
+                    var flow = EmittingTable<MsilMetadata>(dst);
                     Tables.emit(methods, dst);
-                    Wf.EmittedTable<MsilMetadata>(flow, count);
+                    EmittedTable<MsilMetadata>(flow, count);
                 }
 
-                Wf.Ran(processing, src);
             }
             return methods;
         }

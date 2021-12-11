@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService
+    public interface IAppCmdService : IAppService, ICmdDispatcher
     {
-        Outcome Dispatch(CmdSpec cmd);
+        //Outcome Dispatch(CmdSpec cmd);
 
         void Run();
 

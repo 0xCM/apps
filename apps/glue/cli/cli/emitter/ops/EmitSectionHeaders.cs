@@ -16,7 +16,7 @@ namespace Z0
 
         public void EmitSectionHeaders()
         {
-            EmitSectionHeaders(controller().RuntimeArchive(), Db.IndexRoot());
+            EmitSectionHeaders(controller().RuntimeArchive(), ProjectDb.Subdir(CliScope));
         }
 
         public void EmitSectionHeaders(FS.FolderPath dir)
@@ -26,16 +26,15 @@ namespace Z0
 
         public void EmitSectionHeaders(IRuntimeArchive src, FS.FolderPath dir)
         {
-            var db = Wf.Db();
-            EmitSectionHeaders(src.DllFiles.View, Tables.path<SectionHeaderInfo>(dir,"dll"));
-            EmitSectionHeaders(src.ExeFiles.View, Tables.path<SectionHeaderInfo>(dir, "exe"));
+            EmitSectionHeaders(src.DllFiles.View, ProjectDb.TablePath<SectionHeaderInfo>(CliScope,"dll"));
+            EmitSectionHeaders(src.ExeFiles.View, ProjectDb.TablePath<SectionHeaderInfo>(CliScope,"exe"));
         }
 
         public Outcome<Count> EmitSectionHeaders(ReadOnlySpan<FS.FilePath> src, FS.FilePath dst)
         {
             var total = Count.Zero;
             var formatter = Tables.formatter<SectionHeaderInfo>(SectionHeaderWidths);
-            var flow = Wf.EmittingTable<SectionHeaderInfo>(dst);
+            var flow = EmittingTable<SectionHeaderInfo>(dst);
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             foreach(var file in src)
@@ -48,7 +47,7 @@ namespace Z0
 
                 total += count;
             }
-            Wf.EmittedTable(flow, total);
+            EmittedTable(flow, total);
 
             return total;
         }

@@ -30,8 +30,6 @@ namespace Z0
 
         Index<Assembly> _ApiComponents;
 
-        IApiCatalog _ApiCatalog;
-
         protected DevWs Ws;
 
         protected IWfRuntime Wf;
@@ -145,11 +143,11 @@ namespace Z0
             return _ApiComponents;
         }
 
-        public IApiCatalog ApiCatalog(Func<IApiCatalog> loader)
-        {
-            if(_ApiCatalog == null)
-                _ApiCatalog = loader();
-            return _ApiCatalog;
-        }
+        // public IApiCatalog ApiCatalog(Func<IApiCatalog> loader)
+        // {
+        //     if(_ApiCatalog == null)
+        //         _ApiCatalog = loader();
+        //     return _ApiCatalog;
+        // }
     }
 }

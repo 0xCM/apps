@@ -13,7 +13,7 @@ namespace Z0
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct SectionHeaderInfo : IRecord<SectionHeaderInfo>
         {
-            public const string TableId = "image.headers";
+            public const string TableId = "section.headers";
 
             public FS.FileName File;
 

@@ -9,12 +9,13 @@ namespace Z0
     using System.Reflection.Metadata;
     using System.Reflection.PortableExecutable;
     using System.IO;
+    using System.Reflection;
 
     using static core;
 
     partial class CliEmitter
     {
-        public void EmitMetadump(FS.FilePath src, FS.FilePath dst)
+        public Outcome<Arrow<FS.FilePath>> EmitMetadump(FS.FilePath src, FS.FilePath dst)
         {
             try
             {
@@ -28,43 +29,70 @@ namespace Z0
                     var viz = new MetadataVisualizer(reader, target);
                     viz.Visualize();
                     Wf.EmittedFile(flow,1);
+                    return (true,(src,dst));
+                }
+                else
+                {
+                    return (false, string.Format("No cli metadata found in {0}", src));
                 }
             }
             catch(BadImageFormatException bfe)
             {
-                Wf.Warn(bfe);
+                return bfe;
             }
             catch(Exception e)
             {
-                Wf.Error(e);
+                return e;
             }
         }
 
-        public void EmitMetadadump(FS.FolderPath src, FS.FolderPath dst)
+        public Index<Arrow<FS.FilePath>> EmitMetadadump(FS.FolderPath src, FS.FolderPath dst, bool clear = true)
         {
-            var paths = src.AllFiles.Where(f => f.Is(FS.Exe) || f.Is(FS.Dll)).Where(f => Cli.valid(f));
-            foreach(var path in paths)
-                EmitMetadump(path, dst + FS.file(path.FileName.Format(), FS.Txt));
+            if(clear)
+                dst.Clear();
+
+            var srcpaths = src.AllFiles.Where(f => f.Is(FS.Exe) || f.Is(FS.Dll)).Where(f => Cli.valid(f));
+            var count = srcpaths.Count;
+            var flows = alloc<Arrow<FS.FilePath>>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var srcpath =ref srcpaths[i];
+                var dstpath = dst + FS.file(srcpath.FileName.Format(), FS.Txt);
+                var result = EmitMetadump(srcpath, dstpath);
+                if(result.Fail)
+                    Warn(result.Message);
+                else
+                    seek(flows,i) = result.Data;
+            }
+            return flows;
         }
 
         public void EmitApiMetadump()
         {
-            var dst = Db.TableDir("image.metadump");
-            EmitApiMetadump(dst);
+            EmitApiMetadump(ProjectDb.Subdir(MetadumpScope));
         }
 
-        public void EmitApiMetadump(FS.FolderPath dst)
+        public Index<Arrow<FS.FilePath>> EmitMetadump(ReadOnlySpan<Assembly> src, FS.FolderPath dst, bool clear = true)
         {
-            dst.Clear();
-            var components = Wf.ApiCatalog.Components.View;
-            var count = components.Length;
+            if(clear)
+                dst.Clear();
+            var count = src.Length;
+            var flows = alloc<Arrow<FS.FilePath>>(count);
             for(var i=0; i<count; i++)
             {
-                var component = skip(components,i);
+                var component = skip(src,i);
                 var source = FS.path(component.Location);
                 var target = dst + FS.file(source.FileName.Format(), FS.Txt);
-                EmitMetadump(source,target);
+                var result = EmitMetadump(source,target);
+                if(result.Fail)
+                    Warn(result.Message);
+                else
+                    seek(flows,i) = result.Data;
             }
+            return flows;
         }
+
+        public Index<Arrow<FS.FilePath>> EmitApiMetadump(FS.FolderPath dst)
+            => EmitMetadump(ApiRuntimeCatalog.Components.View, dst);
     }
 }

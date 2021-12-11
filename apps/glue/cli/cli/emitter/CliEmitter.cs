@@ -6,6 +6,25 @@ namespace Z0
 {
     public sealed partial class CliEmitter : AppService<CliEmitter>
     {
+        const string CliScope = "api/cli";
+
+        const string BlobScope = CliScope + "/blobs";
+
+        const string MetadumpScope = CliScope + "/metadump";
+
+        const string MsilScope = CliScope + "/msil";
+
+        const string FieldScope = CliScope + "/fields";
+
+        const string MethodScope = CliScope + "/methods";
+
+        const string StringScope = CliScope + "/strings";
+
+        const string ImageHexScope = CliScope + "/image.hex";
+
+
+        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
+
         public void EmitMetadaSets(WorkflowOptions options)
         {
             if(options.EmitAssemblyRefs)
@@ -14,7 +33,7 @@ namespace Z0
             if(options.EmitFieldMetadata)
             {
                 EmitFieldMetadata();
-                EmitFieldDefs(Wf.ApiCatalog.Components, Paths.IndexTable<FieldDefInfo>());
+                EmitFieldDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<FieldDefInfo>(FieldScope));
             }
 
             if(options.EmitApiMetadump)
@@ -42,10 +61,10 @@ namespace Z0
                 EmitImageContent();
 
             if(options.EmitMethodDefs)
-                EmitMethodDefs(Wf.ApiCatalog.Components, Paths.IndexTable<MethodDefInfo>());
+                EmitMethodDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<MethodDefInfo>(MethodScope));
 
             if(options.EmitCliRowStats)
-                EmitRowStats(Wf.ApiCatalog.Components, Paths.IndexTable<CliRowStats>());
+                EmitRowStats(ApiRuntimeCatalog.Components, ProjectDb.TablePath<CliRowStats>(CliScope));
         }
     }
 }

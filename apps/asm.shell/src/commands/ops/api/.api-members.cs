@@ -26,8 +26,7 @@ namespace Z0.Asm
         [CmdOp(".collect-symbols")]
         Outcome CollectComponentSymbols(CmdArgs args)
         {
-            var catalog = State.ApiCatalog(ApiRuntimeLoader.catalog);
-            var components = catalog.Components;
+            var components = ApiRuntimeCatalog.Components;
             var flow = Wf.Running(string.Format("Collecting method symbols for {0} assemblies", components.Length));
             var symbolic = Wf.SourceSymbolic();
             var collector = new MethodSymbolCollector();
@@ -54,8 +53,7 @@ namespace Z0.Asm
         [CmdOp(".collect-type-symbols")]
         Outcome CollectTypeSymbols(CmdArgs args)
         {
-            var catalog = State.ApiCatalog(ApiRuntimeLoader.catalog);
-            var components = catalog.Components;
+            var components = ApiRuntimeCatalog.Components;
             var symbolic = Wf.SourceSymbolic();
             var dst = Ws.Project("db").Path("api", "types", FS.Md);
             var emitting = EmittingFile(dst);

@@ -12,7 +12,7 @@ namespace Z0
     partial class CliEmitter
     {
         public uint EmitUserStrings()
-            => EmitUserStrings(Wf.Components);
+            => EmitUserStrings(ApiRuntimeCatalog.Components);
 
         public uint EmitUserStrings(ReadOnlySpan<Assembly> src)
         {
@@ -30,7 +30,7 @@ namespace Z0
         {
             var reader = CliReader.read(src);
             var records = reader.ReadUserStringInfo();
-            TableEmit(records, Paths.TableDir<CliUserString>() + Paths.TableFile<CliUserString>(src.GetSimpleName()));
+            TableEmit(records, ProjectDb.TablePath<CliUserString>(StringScope, src.GetSimpleName()));
             return records;
         }
     }

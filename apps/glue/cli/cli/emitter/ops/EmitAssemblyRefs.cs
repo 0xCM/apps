@@ -14,17 +14,13 @@ namespace Z0
     partial class CliEmitter
     {
         public FS.FilePath MemberRefsPath(Assembly src)
-            => Db.Table<MemberRefInfo>(src.GetSimpleName());
+            => ProjectDb.TablePath<MemberRefInfo>(CliScope, src.GetSimpleName());
 
-        public void EmitAssemblyRefs(FS.Files src, FS.FolderPath dst)
-            => EmitAssemblyRefs(src, Tables.path<AssemblyRefInfo>(dst));
+        public void EmitAssemblyRefs(FS.Files src)
+            => EmitAssemblyRefs(src, ProjectDb.TablePath<AssemblyRefInfo>(CliScope));
 
         public void EmitAssemblyRefs()
-        {
-            var dst = Db.IndexRoot();
-            var src = Wf.ApiCatalog.Components.View;
-            EmitAssemblyRefs(src, dst);
-        }
+            => EmitAssemblyRefs(ApiRuntimeCatalog.Components);
 
         public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, FS.FilePath dst)
         {
@@ -39,10 +35,8 @@ namespace Z0
             Wf.EmittedTable(flow, counter);
         }
 
-        public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src, FS.FolderPath dir)
-        {
-            EmitAssemblyRefs(src, Tables.path<AssemblyRefInfo>(dir));
-        }
+        public void EmitAssemblyRefs(ReadOnlySpan<Assembly> src)
+            => EmitAssemblyRefs(src, ProjectDb.TablePath<AssemblyRefInfo>(CliScope));
 
         void EmitAssemblyRefs(FS.Files input, FS.FilePath dst)
         {

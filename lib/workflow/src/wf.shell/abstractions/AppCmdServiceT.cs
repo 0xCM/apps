@@ -5,7 +5,8 @@
 namespace Z0
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
+    using System.Runtime.CompilerServices;
     using Windows;
 
     using static Root;
@@ -34,14 +35,21 @@ namespace Z0
 
         protected TableEmitters TableEmitters;
 
+        ConcurrentDictionary<string,object> _Data;
+
+        [MethodImpl(Inline)]
+        protected D Data<D>(string key, Func<D> factory)
+            => (D)_Data.GetOrAdd(key, k => factory());
+
         protected AppCmdService()
         {
             PromptTitle = "cmd";
+            _Data = new();
         }
 
         protected override void OnInit()
         {
-            Dispatcher = CmdDispatcher.discover(this, Dispatch);
+            Dispatcher = CmdActionDispatcher.discover(this, DispatchFallback);
             ProjectWs = Ws.Projects();
             Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
             OmniScript = Wf.OmniScript();
@@ -119,19 +127,19 @@ namespace Z0
             return result;
         }
 
-        //[CmdOp(".tool-env")]
-        protected Outcome ShowToolEnv(CmdArgs args)
-        {
-            LoadToolEnv(out var settings);
-            iter(settings, s => Write(s));
-            return true;
-        }
-
         [CmdOp("env/vars")]
         protected Outcome ShowEnvVars(CmdArgs args)
         {
             var vars = Z0.Env.vars();
             iter(vars, v => Write(v));
+            return true;
+        }
+
+        [CmdOp("tools/env")]
+        protected Outcome ShowToolEnv(CmdArgs args)
+        {
+            LoadToolEnv(out var settings);
+            iter(settings, s => Write(s));
             return true;
         }
 
@@ -236,12 +244,15 @@ namespace Z0
         protected Outcome ApiCatalog(CmdArgs args)
         {
             var result = Outcome.Success;
-            var catalog = CommonState.ApiCatalog(ApiRuntimeLoader.catalog);
+            var catalog = Service(ApiRuntimeLoader.catalog);
             var parts = catalog.PartIdentities;
             var desc = string.Format("Parts:[{0}]", parts.Map(p => p.Format()).Delimit());
             Write(desc);
             return result;
         }
+
+        Index<CompilationLiteral> ApiLiterals()
+            => L.CompilationLiterals(ApiRuntimeLoader.assemblies());
 
         [CmdOp("api/emit/literals")]
         protected Outcome EmitApiLiterals(CmdArgs args)
@@ -303,11 +314,6 @@ namespace Z0
                 return (false, FS.missing(script));
             else
                 return OmniScript.Run(script, out var _);
-        }
-
-        Index<CompilationLiteral> ApiLiterals()
-        {
-            return L.CompilationLiterals(ApiRuntimeLoader.assemblies());
         }
 
         [CmdOp("tools/catalog")]
@@ -374,13 +380,12 @@ namespace Z0
         protected ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {
-            var svc = Wf.Symbolism();
-            return svc.EmitLiterals<E>(dst);
+            return Service(Wf.Symbolism).EmitLiterals<E>(dst);
         }
 
         protected virtual string PromptTitle {get;}
 
-        protected virtual Outcome Dispatch(string command, CmdArgs args)
+        protected virtual Outcome DispatchFallback(string command, CmdArgs args)
             => (false, string.Format("Handler for '{0}' not found", command));
 
         string Prompt()
@@ -428,6 +433,15 @@ namespace Z0
             }
             return outcome;
         }
+
+        public Outcome Dispatch(string command, CmdArgs args)
+            => Dispatcher.Dispatch(command, args);
+
+        public Outcome Dispatch(string command)
+            => Dispatcher.Dispatch(command);
+
+        public ReadOnlySpan<string> Supported
+            => Dispatcher.Supported;
 
         protected static CmdArg arg(in CmdArgs src, int index)
         {

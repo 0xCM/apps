@@ -12,7 +12,7 @@ namespace Z0
     {
         public void EmitConstants()
         {
-            EmitConstants(Db.IndexRoot());
+            EmitConstants(ProjectDb.Subdir(FieldScope));
         }
 
         public void EmitConstants(FS.FolderPath dir)
@@ -23,8 +23,9 @@ namespace Z0
             var counter = 0u;
             using var writer = target.Writer();
             writer.WriteLine(formatter.FormatHeader());
+            var parts = ApiRuntimeCatalog.Parts;
 
-            foreach(var part in Wf.ApiCatalog.Parts)
+            foreach(var part in parts)
             {
                 try
                 {
@@ -36,11 +37,11 @@ namespace Z0
                 }
                 catch(Exception e)
                 {
-                    Wf.Error(e);
+                    Error(e);
                 }
             }
 
-            Wf.EmittedTable(flow, counter);
+            EmittedTable(flow, counter);
         }
     }
 }

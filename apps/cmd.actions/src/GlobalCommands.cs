@@ -4,34 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Concurrent;
-
-    using llvm;
     using Asm;
 
     using static core;
     using static Root;
 
     [CmdDispatcher]
-    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdDispatcher, ICmdHost
+    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>
     {
         public GlobalCommands()
         {
-            _Data = new();
         }
 
-        ConcurrentDictionary<string,object> _Data;
-
-        [MethodImpl(Inline)]
-        T Data<T>(string key, Func<T> factory)
-            => (T)_Data.GetOrAdd(key, k => factory());
-
-        protected override void Initialized()
-        {
-            Dispatcher = CmdActionDispatcher.discover(this);
-        }
 
         IntelXed Xed => Service(Wf.IntelXed);
 
@@ -80,18 +64,6 @@ namespace Z0
         {
             var dst = Service(Wf.Generators).CodeGenDir("asm.models");
             return true;
-        }
-
-        public new Outcome Dispatch(string command, CmdArgs args)
-            => Dispatcher.Dispatch(command, args);
-
-        public Outcome Dispatch(string command)
-            => Dispatcher.Dispatch(command);
-
-        public ReadOnlySpan<string> Supported
-        {
-            [MethodImpl(Inline)]
-            get => Dispatcher.Supported;
         }
     }
 }

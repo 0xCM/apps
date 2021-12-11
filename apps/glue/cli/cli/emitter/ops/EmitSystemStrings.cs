@@ -13,7 +13,7 @@ namespace Z0
     partial class CliEmitter
     {
         public ReadOnlySpan<CliSystemString> EmitSystemStringInfo()
-            => EmitSystemStringInfo(Wf.Components);
+            => EmitSystemStringInfo(ApiRuntimeCatalog.Components);
 
         public ReadOnlySpan<CliSystemString> EmitSystemStringInfo(ReadOnlySpan<Assembly> src)
         {
@@ -30,7 +30,7 @@ namespace Z0
             using var reader = PeTableReader.open(srcPath);
             var records = reader.ReadSystemStringInfo();
             dst.AddRange(records);
-            TableEmit(records.View, Paths.TableDir<CliSystemString>() + Paths.TableFile<CliSystemString>(src.GetSimpleName()));
+            TableEmit(records.View, ProjectDb.TablePath<CliSystemString>(StringScope, src.GetSimpleName()));
             return records.Count;
         }
     }
