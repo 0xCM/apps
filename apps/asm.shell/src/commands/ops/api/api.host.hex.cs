@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp("api/query/host/hex")]
+        [CmdOp("api/host/hex")]
         Outcome ApiHexHost(CmdArgs args)
         {
             var result = Outcome.Success;

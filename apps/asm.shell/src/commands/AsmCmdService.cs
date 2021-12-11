@@ -21,29 +21,23 @@ namespace Z0.Asm
 
         IApiPack ApiPack;
 
-        IntelSdm Sdm;
+        IntelSdm Sdm => Service(Wf.IntelSdm);
 
         AsmRegSets RegSets;
 
-        IntelXed Xed;
+        AsmTables AsmTables => Service(Wf.AsmTables);
 
-        IntelIntrinsics IntelIntrinsics;
-
-        AsmTables AsmTables;
-
-        ApiPacks ApiPacks;
+        ApiPacks ApiPacks => Service(Wf.ApiPacks);
 
         ApiHexPacks ApiHexPacks;
 
-        ApiPackArchive ApiPackArchive;
+        ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);
 
         ApiCatalogs ApiCatalogs;
 
         CliMemoryMap ResPack;
 
         IPolyrand Random;
-
-        AsmEtl AsmEtl;
 
         IWorkspace OutWs;
 
@@ -65,19 +59,12 @@ namespace Z0.Asm
         protected override void Initialized()
         {
             AsmWs = Ws.Asm();
-            ApiPacks = Wf.ApiPacks();
             ApiPack = ApiPacks.Current();
-            ApiPackArchive = ApiPack.Archive();
-            Sdm = Wf.IntelSdm();
             RegSets = Wf.AsmRegSets();
-            Xed = Wf.IntelXed();
-            AsmTables = Wf.AsmTables();
             Random = Rng.wyhash64();
             ApiHexPacks = Wf.ApiHexPacks();
             OutWs = Ws.Output();
             ApiCatalogs = Wf.ApiCatalogs();
-            AsmEtl = Wf.AsmEtl();
-            IntelIntrinsics = Wf.IntelIntrinsics();
             Generators = Wf.Generators();
             StringTableGen = Wf.StringTableGen();
             State.Init(Wf, Ws);

@@ -8,49 +8,37 @@ namespace Z0
 
     using static Root;
 
-    public interface ITextVar : ITextual
-    {
-        string Name {get;}
-
-        string Value {get;}
-    }
-
-    public interface ITextVar<T> : ITextVar
-        where T : ITextual, INullity
-    {
-        new T Value {get;}
-
-        string ITextVar.Value
-            => Value.Format();
-    }
-
-    public class TextVar<T> : ITextVar<T>
-        where T : ITextual, INullity
+    public class TextVar<K> : ITextVar<K>
+        where K : ITextVarKind, new()
     {
         public string Name {get;}
 
-        public T Value;
+        public K VarKind => new K();
+
+        public string Value;
 
         [MethodImpl(Inline)]
         public TextVar(string name)
         {
             Name = name;
-            Value = default;
+            Value = EmptyString;
         }
 
         [MethodImpl(Inline)]
-        public TextVar(string name, T val)
+        public TextVar(string name, string val)
         {
             Name = name;
             Value = val;
         }
 
-        T ITextVar<T>.Value => Value;
+
+        string IVar<string>.Value
+            => Value;
 
         public string Format()
-            => (Value is null || Value.IsEmpty)
-            ? string.Format("{0}{1}{2}", TextVar.LeftDelimiter, Name, TextVar.RightDelimiter)
-            : Value.Format();
+            => text.empty(Value)
+            ? string.Format("{0}{1}{2}", TextTemplateVar.LeftDelimiter, Name, TextTemplateVar.RightDelimiter)
+            : Value;
 
         public override string ToString()
             => Format();

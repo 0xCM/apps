@@ -11,25 +11,51 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class TextExpr
+    public abstract class TextExpr : ITextExpr
     {
-        [MethodImpl(Inline), Op]
-        public static TextExpr init(string body)
-            => new TextExpr(body);
+        public string Body {get;}
 
-        public static Dictionary<string,TextVar> vars(ReadOnlySpan<char> src)
+        public abstract ITextVarKind VarKind {get;}
+
+        public abstract string Eval();
+
+        protected TextExpr(string body)
+        {
+            Body = body;
+        }
+
+        public static string EvalFencedVarExpr<V,K>(string expr, ReadOnlySpan<V> vars, K kind)
+            where V : ITextVar
+            where K : ITextVarKind
+        {
+            var result = expr;
+            var LD = kind.Fence.Left;
+            var RD = kind.Fence.Right;
+            foreach(var v in vars)
+            {
+                if(v.IsNonEmpty)
+                    result = text.replace(result, string.Format("{0}{1}{2}", LD, v.Name, RD), v.Value);
+            }
+            return result;
+        }
+
+        public static Dictionary<string,V> ParseFencedVars<V,K>(ReadOnlySpan<char> src, K kind, Func<string,V> vf)
+            where V : ITextVar
+            where K : ITextVarKind
         {
             var count = src.Length;
-            var dst = dict<string,TextVar>();
+            var dst = dict<string,V>();
             var name = EmptyString;
             var parsing = false;
+            var LD = kind.Fence.Left;
+            var RD = kind.Fence.Right;
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
 
                 if(!parsing)
                 {
-                    if(c == TextVar.LeftDelimiter)
+                    if(c == LD)
                     {
                         name = EmptyString;
                         parsing = true;
@@ -39,9 +65,9 @@ namespace Z0
                 }
                 else
                 {
-                    if(nonempty(name) && c == TextVar.RightDelimiter)
+                    if(nonempty(name) && c == RD)
                     {
-                        dst.TryAdd(name,new TextVar(name));
+                        dst.TryAdd(name,vf(name));
                         name = EmptyString;
                         parsing = false;
                     }
@@ -53,50 +79,21 @@ namespace Z0
             }
 
             if(nonempty(name))
-                dst.TryAdd(name,new TextVar(name));
+                dst.TryAdd(name,vf(name));
             return dst;
         }
+    }
 
-        readonly Dictionary<string,TextVar> _Vars;
-
-        readonly Index<string> _VarNames;
-
-        public string Body {get;}
-
-        public TextExpr(string body)
+    public abstract class TextExpr<K> : TextExpr, ITextExpr<K>
+        where K : TextVarKind<K>,new()
+    {
+        protected TextExpr(string body)
+            : base(body)
         {
-            Body = body;
-            _Vars = vars(body);
-            _VarNames = _Vars.Keys.Array();
+
         }
 
-        public TextVar this[string var]
-        {
-            [MethodImpl(Inline)]
-            get => _Vars[var];
-
-            [MethodImpl(Inline)]
-            set => _Vars[var] = value;
-        }
-
-        public TextVar[] Vars
-        {
-            [MethodImpl(Inline)]
-            get => _Vars.Values.Array();
-        }
-
-        public string Eval()
-            => Eval(Vars);
-
-        string Eval(ReadOnlySpan<TextVar> vars)
-        {
-            var result = Body;
-            foreach(var v in vars)
-            {
-                if(v.IsNonEmpty)
-                    result = text.replace(result, string.Format("{0}{1}{2}", TextVar.LeftDelimiter, v.Name, TextVar.RightDelimiter), v.Value);
-            }
-            return result;
-        }
+        public override ITextVarKind VarKind
+            => new K();
     }
 }

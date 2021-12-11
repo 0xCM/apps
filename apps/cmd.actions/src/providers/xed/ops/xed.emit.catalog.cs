@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService, ICmdDispatcher, ICmdProvider
+    partial class XedCmdProvider
     {
-        void Run();
-
-        ICmdDispatcher Dispatcher {get;}
+        [CmdOp("xed/emit/catalog")]
+        protected Outcome EmitXedCat(CmdArgs args)
+        {
+            Xed.EmitCatalog();
+           return true;
+        }
     }
 }

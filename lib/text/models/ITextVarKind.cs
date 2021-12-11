@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService, ICmdDispatcher, ICmdProvider
+    public interface ITextVarKind
     {
-        void Run();
+        bool IsFenced {get;}
 
-        ICmdDispatcher Dispatcher {get;}
+        Fence<char> Fence {get;}
+
+        string Prefix {get;}
+
+        bool IsPrefixed {get;}
     }
 }

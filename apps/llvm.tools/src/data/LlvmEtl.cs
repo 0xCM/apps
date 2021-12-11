@@ -13,8 +13,6 @@ namespace Z0.llvm
     {
         LlvmPaths LlvmPaths;
 
-        OmniScript OmniScript;
-
         LlvmDataProvider DataProvider;
 
         LlvmDataEmitter DataEmitter;
@@ -26,7 +24,6 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
-            OmniScript = Wf.OmniScript();
             DataProvider = Wf.LlvmDataProvider();
             DataEmitter = Wf.LlvmDataEmitter();
         }

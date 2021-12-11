@@ -14,7 +14,7 @@ namespace Z0.Expr
     /// Defines a variable
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct Var<T> : IVar<T>
+    public readonly struct Var<T> : IVar<Value<T>>
     {
         public string Name {get;}
 
@@ -27,8 +27,7 @@ namespace Z0.Expr
             Resolver = resolver;
         }
 
-        [MethodImpl(Inline)]
-        public Value<T> Resolve()
+        public Value<T> Value
             => Resolver();
         public string Format()
             => ExprFormatters.format(this);

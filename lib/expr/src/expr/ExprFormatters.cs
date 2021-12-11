@@ -44,7 +44,7 @@ namespace Z0
             => bind ? src.Resolve().Format() : string.Format(XF.UntypedVar, src);
 
         internal static string format<T>(in Var<T> src, bool bind = true)
-            => bind ? src.Resolve().Format() : string.Format(XF.TypedVar, src);
+            => bind ? src.Value.Format() : string.Format(XF.TypedVar, src);
 
         internal static string format(in BoundVar src)
             => string.Format(XF.Binding, src.Var.Name, src.Value);

@@ -35,5 +35,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Fence<T>((T left, T right) src)
             => new Fence<T>(src.left, src.right);
+
+        public static Fence<T> Empty => default;
     }
 }

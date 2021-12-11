@@ -6,14 +6,13 @@ namespace Z0.Asm
 {
     partial class AsmCmdService
     {
-        [CmdOp("api/asm/blocks")]
+        [CmdOp("api/emit/asm/blocks")]
         Outcome EmitApiAsm(CmdArgs args)
         {
             var result = Outcome.Success;
-            var dst = ProjectDb.Subdir("asm") + Tables.filename<AsmDataBlock>();
             var records = AsmTables.LoadHostAsmRows(ApiPackArchive.HostAsm());
             var blocks = AsmTables.DistillBlocks(records);
-            AsmTables.EmitBlocks(blocks, dst);
+            AsmTables.EmitBlocks(blocks, ProjectDb.TablePath<AsmDataBlock>("api/asm"));
             return result;
         }
     }

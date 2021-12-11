@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService, ICmdDispatcher, ICmdProvider
-    {
-        void Run();
+    using System.Collections.Generic;
 
-        ICmdDispatcher Dispatcher {get;}
+    using static core;
+
+    [CmdProvider]
+    public abstract class AppCmdProvider<T> : AppService<T>, ICmdProvider
+        where T : AppCmdProvider<T>, new()
+    {
     }
 }

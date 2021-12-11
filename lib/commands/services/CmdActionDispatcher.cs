@@ -8,11 +8,11 @@ namespace Z0
 
     public class CmdActionDispatcher : ICmdDispatcher
     {
-        public static CmdActionDispatcher discover(object host, Func<string,CmdArgs,Outcome> fallback = null)
-            => new CmdActionDispatcher(CmdActionLookup.discover(host), fallback);
+        public static CmdActionDispatcher discover(ICmdProvider provider, Func<string,CmdArgs,Outcome> fallback = null)
+            => new CmdActionDispatcher(CmdActionLookup.discover(provider), fallback);
 
-        public static CmdActionDispatcher discover(ReadOnlySpan<object> hosts, Func<string,CmdArgs,Outcome> fallback = null)
-            => new CmdActionDispatcher(CmdActionLookup.discover(hosts), fallback);
+        public static CmdActionDispatcher discover(ReadOnlySpan<ICmdProvider> providiers, Func<string,CmdArgs,Outcome> fallback = null)
+            => new CmdActionDispatcher(CmdActionLookup.discover(providiers), fallback);
 
         CmdActionLookup Lookup;
 

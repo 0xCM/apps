@@ -18,8 +18,6 @@ namespace Z0.llvm
     {
         public const string ToolId = LlvmNames.Tools.llvm_config;
 
-        OmniScript OmniScript => Service(Wf.OmniScript);
-
         public LlvmConfigSet CollectSettings()
         {
             const string Pattern = "llvm-config --{0}";

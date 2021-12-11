@@ -23,8 +23,6 @@ namespace Z0
 
         Option<IToolCmdShell> Shell;
 
-        protected OmniScript OmniScript;
-
         protected IProjectSet ProjectWs;
 
         protected ProjectScripts ProjectScripts;
@@ -47,12 +45,13 @@ namespace Z0
             _Data = new();
         }
 
+        protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf) => array(this);
+
         protected override void OnInit()
         {
-            Dispatcher = CmdActionDispatcher.discover(this, DispatchFallback);
+            Dispatcher = CmdActionDispatcher.discover(CmdProviders(Wf), DispatchFallback);
             ProjectWs = Ws.Projects();
             Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
-            OmniScript = Wf.OmniScript();
             ProjectScripts = Wf.ProjectScripts();
             Settings = Wf.AppSettings();
             TableEmitters = Wf.TableEmitters();
@@ -443,35 +442,6 @@ namespace Z0
         public ReadOnlySpan<string> Supported
             => Dispatcher.Supported;
 
-        protected static CmdArg arg(in CmdArgs src, int index)
-        {
-            if(src.IsEmpty)
-                sys.@throw(EmptyArgList.Format());
-
-            var count = src.Length;
-            if(count < index - 1)
-                sys.@throw(ArgSpecError.Format());
-            return src[(ushort)index];
-        }
-
-        protected Outcome RunExe(ReadOnlySpan<ToolCmdFlow> flows)
-        {
-            if(ToolFlows.target(flows,FS.Exe, out var flow))
-            {
-                ref readonly var target = ref flow.Target;
-                Write(string.Format("Executing {0}", flow.Target.ToUri()));
-                var result = OmniScript.Run(target, CmdVars.Empty, true, out var response);
-                if(result.Fail)
-                    return result;
-
-                for(var j=0; j<response.Length; j++)
-                    Write(skip(response, j).Content);
-                return true;
-            }
-            else
-                return false;
-        }
-
         protected Outcome ShowSyms<K>(Symbols<K> src)
             where K : unmanaged
         {
@@ -516,73 +486,8 @@ namespace Z0
         }
 
         protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                Warn("No response to parse");
+            => CmdResponse.parse(src);
 
-            var parsed = list<CmdResponse>();
-            for(var i=0; i<count; i++)
-            {
-                if(CmdResponse.parse(skip(src,i).Content, out var response))
-                    parsed.Add(response);
-            }
-            return parsed.ViewDeposited();
-        }
-
-        protected FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
-        {
-            if(scope != null)
-                return ws.SrcFiles(scope.Value.Format());
-            else
-                return ws.SrcFiles();
-        }
-
-        protected Outcome RunProjectScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
-        {
-            var result = Outcome.Success;
-            if(args.Count != 0)
-            {
-                result = OmniScript.RunProjectScript(ws.Project, arg(args,0).Value, script, false, out _);
-                return result;
-            }
-
-            var src = ProjectFiles(ws, scope).View;
-            if(result.Fail)
-                return result;
-
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                RunProjectScript(ws,path,script);
-            }
-
-            return result;
-        }
-
-        protected Outcome RunProjectScript(IProjectWs ws, FS.FilePath path, ScriptId script)
-        {
-            var srcid = path.FileName.WithoutExtension.Format();
-            OmniScript.RunProjectScript(ws.Project, srcid, script, true, out var flows);
-            for(var j=0; j<flows.Length; j++)
-            {
-                ref readonly var flow = ref skip(flows, j);
-                Write(flow.Format());
-            }
-            return true;
-        }
-
-        protected Outcome RunProjectScript(IProjectWs ws, ScriptId script)
-        {
-            OmniScript.RunProjectScript(ws.Project, script, true, out var flows);
-            for(var j=0; j<flows.Length; j++)
-            {
-                ref readonly var flow = ref skip(flows, j);
-                Write(flow.Format());
-            }
-            return true;
-        }
 
         protected abstract CmdShellState CommonState {get;}
 

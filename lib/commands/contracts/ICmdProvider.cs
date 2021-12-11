@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    public interface ICmdProvider
     {
-        [CmdOp("xed/emit/catalog")]
-        protected Outcome EmitXedCat(CmdArgs args)
-        {
-            Xed.EmitCatalog();
-           return true;
-        }
+
     }
 }

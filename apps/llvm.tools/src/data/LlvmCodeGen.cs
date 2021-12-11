@@ -13,8 +13,6 @@ namespace Z0.llvm
     {
         LlvmPaths LlvmPaths;
 
-        OmniScript OmniScript;
-
         LlvmDataProvider TableLoader;
 
         Generators Generators;
@@ -22,7 +20,6 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
-            OmniScript = Wf.OmniScript();
             TableLoader = LlvmDataProvider.create(Wf);
             Generators = Wf.Generators();
         }

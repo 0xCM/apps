@@ -12,13 +12,10 @@ namespace Z0
 
     public class ProjectScripts : AppService<ProjectScripts>
     {
-        OmniScript OmniScript;
-
         protected override void Initialized()
         {
-            OmniScript = Wf.OmniScript();
-        }
 
+        }
 
         public Outcome RunScript(IProjectWs project, string srcid, ScriptId script, Subject? scope = null)
             => RunScript(project.Project, srcid, script, scope);

@@ -12,8 +12,6 @@ namespace Z0.llvm
 
     public class LlvmToolset : AppService<LlvmToolset>
     {
-        OmniScript OmniScript;
-
         FS.FolderPath ToolsetDir;
 
         FS.FolderPath HelpDir;
@@ -36,7 +34,6 @@ namespace Z0.llvm
 
         protected override void Initialized()
         {
-            OmniScript = Wf.OmniScript();
             ToolsetDir = Ws.Project("tools/llvm").Home();
             HelpDir = ToolsetDir + FS.folder("help");
             Tooling = Wf.Tooling();

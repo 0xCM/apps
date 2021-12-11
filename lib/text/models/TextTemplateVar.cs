@@ -8,10 +8,17 @@ namespace Z0
 
     using static Root;
 
-    public class TextVar
+    public class TextTemplateVar : ITextVar
     {
-        public static TextVar define(string name)
-            => new TextVar(name);
+        public static VarKind Kind = VarKind.create();
+
+        public sealed class VarKind : TextVarKind<VarKind>
+        {
+            public override Fence<char> Fence => ((char)SymNotKind.Lt, (char)SymNotKind.Gt);
+        }
+
+        public static TextTemplateVar define(string name)
+            => new TextTemplateVar(name);
 
         public const char LeftDelimiter = (char)SymNotKind.Lt;
 
@@ -22,14 +29,14 @@ namespace Z0
         public string Value;
 
         [MethodImpl(Inline)]
-        public TextVar(string name)
+        public TextTemplateVar(string name)
         {
             Name = name;
             Value = EmptyString;
         }
 
         [MethodImpl(Inline)]
-        public TextVar(string name, string val)
+        public TextTemplateVar(string name, string val)
         {
             Name = name;
             Value = val;
@@ -47,10 +54,13 @@ namespace Z0
             get => text.nonempty(Value);
         }
 
+        string IVar.Name
+            => Name;
+
+        string IVar<string>.Value
+            => Value;
         public string Format()
-            => IsEmpty
-            ? string.Format("{0}{1}{2}", TextVar.LeftDelimiter, Name, TextVar.RightDelimiter)
-            : Value;
+            => IsEmpty ? Kind.Fence.Format(Name) : Value;
 
         public override string ToString()
             => Format();

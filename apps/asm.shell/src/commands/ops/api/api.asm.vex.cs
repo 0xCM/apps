@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        [CmdOp("api/query/asm/vex")]
+        [CmdOp("api/asm/vex")]
         Outcome AsmQueryVex(CmdArgs args)
         {
             var result = Outcome.Success;

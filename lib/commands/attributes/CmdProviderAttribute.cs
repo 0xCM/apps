@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService, ICmdDispatcher, ICmdProvider
-    {
-        void Run();
+    using System;
 
-        ICmdDispatcher Dispatcher {get;}
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class CmdProviderAttribute : Attribute
+    {
+
     }
 }

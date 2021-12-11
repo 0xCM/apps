@@ -11,6 +11,7 @@ namespace Z0
     using System.Text;
 
     using static Root;
+    using static core;
 
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
 
@@ -64,6 +65,8 @@ namespace Z0
 
         IAppServiceUtilities Util;
 
+        protected OmniScript OmniScript => Service(Wf.OmniScript);
+
         public void Init(IWfRuntime wf)
         {
             var flow = wf.Creating(typeof(H).Name);
@@ -83,7 +86,6 @@ namespace Z0
             HostName = GetType().Name;
             _TextBuffer = text.buffer();
         }
-
 
         protected AppService(IWfRuntime wf)
             : this()
@@ -205,6 +207,91 @@ namespace Z0
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
             => Util.EmitLines(src,dst,encoding);
 
+
+        protected Outcome RunExe(ReadOnlySpan<ToolCmdFlow> flows)
+        {
+            if(ToolFlows.target(flows,FS.Exe, out var flow))
+            {
+                ref readonly var target = ref flow.Target;
+                Write(string.Format("Executing {0}", flow.Target.ToUri()));
+                var result = OmniScript.Run(target, CmdVars.Empty, true, out var response);
+                if(result.Fail)
+                    return result;
+
+                for(var j=0; j<response.Length; j++)
+                    Write(skip(response, j).Content);
+                return true;
+            }
+            else
+                return false;
+        }
+
+
+        protected FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
+        {
+            if(scope != null)
+                return ws.SrcFiles(scope.Value.Format());
+            else
+                return ws.SrcFiles();
+        }
+
+        protected Outcome RunProjectScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
+        {
+            var result = Outcome.Success;
+            if(args.Count != 0)
+            {
+                result = OmniScript.RunProjectScript(ws.Project, arg(args,0).Value, script, false, out _);
+                return result;
+            }
+
+            var src = ProjectFiles(ws, scope).View;
+            if(result.Fail)
+                return result;
+
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(src,i);
+                RunProjectScript(ws,path,script);
+            }
+
+            return result;
+        }
+
+        protected Outcome RunProjectScript(IProjectWs ws, FS.FilePath path, ScriptId script)
+        {
+            var srcid = path.FileName.WithoutExtension.Format();
+            OmniScript.RunProjectScript(ws.Project, srcid, script, true, out var flows);
+            for(var j=0; j<flows.Length; j++)
+            {
+                ref readonly var flow = ref skip(flows, j);
+                Write(flow.Format());
+            }
+            return true;
+        }
+
+        protected static CmdArg arg(in CmdArgs src, int index)
+        {
+            if(src.IsEmpty)
+                sys.@throw(EmptyArgList.Format());
+
+            var count = src.Length;
+            if(count < index - 1)
+                sys.@throw(ArgSpecError.Format());
+            return src[(ushort)index];
+        }
+
+        protected Outcome RunProjectScript(IProjectWs ws, ScriptId script)
+        {
+            OmniScript.RunProjectScript(ws.Project, script, true, out var flows);
+            for(var j=0; j<flows.Length; j++)
+            {
+                ref readonly var flow = ref skip(flows, j);
+                Write(flow.Format());
+            }
+            return true;
+        }
+
         protected virtual void OnInit()
         {
 
@@ -222,5 +309,9 @@ namespace Z0
             Disposing();
             Wf.Disposed();
         }
+
+        static MsgPattern EmptyArgList => "No arguments specified";
+
+        static MsgPattern ArgSpecError => "Argument specification error";
     }
 }

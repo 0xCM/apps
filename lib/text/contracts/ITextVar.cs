@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface IVar : IExpr, IDecl
+    public interface ITextVar : ITextual, INullity, IVar<string>
     {
-        string Name {get;}
+        bool INullity.IsEmpty
+            => text.empty(Value);
     }
 
-    [Free]
-    public interface IVar<T> : IVar
+    public interface ITextVar<K> : ITextVar
+        where K : ITextVarKind, new()
     {
-        T Value {get;}
+        K VarKind  => new K();
     }
 }

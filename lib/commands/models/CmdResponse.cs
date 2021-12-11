@@ -8,9 +8,22 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     public readonly struct CmdResponse
     {
+        public static ReadOnlySpan<CmdResponse> parse(ReadOnlySpan<TextLine> src)
+        {
+            var count = src.Length;
+            var parsed = list<CmdResponse>();
+            for(var i=0; i<count; i++)
+            {
+                if(CmdResponse.parse(skip(src,i).Content, out var response))
+                    parsed.Add(response);
+            }
+            return parsed.ViewDeposited();
+        }
+
         public static bool parse(string src, out CmdResponse dst)
         {
             dst = CmdResponse.Empty;

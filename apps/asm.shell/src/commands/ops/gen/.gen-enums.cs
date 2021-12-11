@@ -25,7 +25,6 @@ namespace Z0.Asm
             var result = Outcome.Success;
             var tokens = Tokens.tokenize(typeof(AsmRegTokens.Gp64Reg));
             core.iter(tokens, t => Write(t.Format()));
-
             return result;
         }
     }

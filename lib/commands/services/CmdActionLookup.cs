@@ -16,13 +16,13 @@ namespace Z0
     /// </summary>
     public class CmdActionLookup
     {
-        public static CmdActionLookup discover(object host)
+        public static CmdActionLookup discover(ICmdProvider provider)
         {
-            var type = host.GetType();
+            var type = provider.GetType();
             var actions = dict<string,CmdAction>();
             var src = type.InstanceMethods().Tagged<CmdOpAttribute>().Select(x => (x.Name, x));
             foreach(var (name, method) in src)
-                actions.TryAdd(name,new CmdAction(name, host,method));
+                actions.TryAdd(name,new CmdAction(name, provider,method));
 
             var lookup = CmdActionLookup.create();
             foreach(var (name,action) in actions)
@@ -30,13 +30,13 @@ namespace Z0
             return lookup.Seal();
         }
 
-        public static CmdActionLookup discover(ReadOnlySpan<object> hosts)
+        public static CmdActionLookup discover(ReadOnlySpan<ICmdProvider> providers)
         {
-            var count = hosts.Length;
+            var count = providers.Length;
             var lookups = alloc<CmdActionLookup>(count);
             for(var i=0; i<count; i++)
             {
-                seek(lookups,i) = discover(skip(hosts,i));
+                seek(lookups,i) = discover(skip(providers,i));
             }
 
             return join(lookups);

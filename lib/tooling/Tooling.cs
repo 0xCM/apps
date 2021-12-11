@@ -17,11 +17,8 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        OmniScript OmniScript;
-
         protected override void Initialized()
         {
-            OmniScript = Wf.OmniScript();
 
         }
 

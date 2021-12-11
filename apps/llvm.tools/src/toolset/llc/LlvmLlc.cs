@@ -8,7 +8,6 @@ namespace Z0.llvm
 
     using static core;
 
-
     [Tool(ToolId)]
     public class LlvmLlc : ToolService<LlvmLlc>
     {
@@ -20,8 +19,6 @@ namespace Z0.llvm
 
 
         }
-
-        OmniScript OmniScript => Service(Wf.OmniScript);
 
         public void Build(IProjectWs ws)
         {
