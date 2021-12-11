@@ -9,15 +9,8 @@ namespace Z0
     partial class StringTables
     {
         [Op]
-        public static StringTableSpec specify(Identifier ns, Identifier table, ListItem<string>[] entries)
-            => new StringTableSpec(ns, table, "Index", false, entries);
-
-        [Op]
         public static StringTableSpec specify(Identifier ns, Identifier table, string index, bool globalidx, ListItem<string>[] entries)
             => new StringTableSpec(ns, table, index, globalidx, entries);
-
-        public static StringTableSpec specify(Identifier ns, StringTable src)
-            => specify(ns, "Index", false, src);
 
         public static StringTableSpec specify(Identifier ns, string idxname, bool globalidx, StringTable src)
         {

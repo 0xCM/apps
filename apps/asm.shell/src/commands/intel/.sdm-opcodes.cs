@@ -14,7 +14,6 @@ namespace Z0.Asm
         {
             var opcodes = Sdm.ImportOpCodes();
             var items = ExtractOpCodeStrings(opcodes);
-            var spec = StringTables.specify("Z0.Asm", "OpCodeStrings", items);
             var dst = Generators.CodeGenDir("intel");
             return true;
         }

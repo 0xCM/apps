@@ -6,10 +6,12 @@ namespace Z0.llvm
 {
     using Asm;
 
+    using static Root;
+
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
-    public class InstAliasEntity : RecordEntity
+    public class InstAliasEntity : DefFields
     {
         public InstAliasEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)

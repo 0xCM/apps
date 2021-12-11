@@ -13,6 +13,8 @@ namespace Z0
 
     public class StringTable
     {
+        public Identifier Namespace {get;}
+
         public Identifier Name {get;}
 
         public Identifier IndexName {get;}
@@ -26,8 +28,9 @@ namespace Z0
         readonly Index<Identifier> _Identifiers;
 
         [MethodImpl(Inline)]
-        public StringTable(Identifier name, string index, bool globalidx, string src, Index<uint> offsets, Identifier[] identifiers)
+        public StringTable(string ns, Identifier name, string index, bool globalidx, string src, Index<uint> offsets, Identifier[] identifiers)
         {
+            Namespace = ns;
             Name = name;
             IndexName = index;
             GlobalIndex = globalidx;

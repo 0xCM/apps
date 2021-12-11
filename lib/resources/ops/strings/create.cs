@@ -65,11 +65,11 @@ namespace Z0
                 seek(cuts,i) = j;
                 copy(entry, ref j, chars);
             }
-            return new StringTable(name, indexName, false, new string(chars), offsets, identifiers);
+            return new StringTable(name, "Z0", indexName, false, new string(chars), offsets, identifiers);
         }
 
-        public static StringTable create(Identifier name, ReadOnlySpan<ListItem<string>> src)
-            => create(name, "Index", src);
+        // public static StringTable create(Identifier name, ReadOnlySpan<ListItem<string>> src)
+        //     => create(name, "Index", src);
 
         public static StringTable create(StringTableSpec spec, ReadOnlySpan<ListItem<string>> src)
         {
@@ -95,7 +95,7 @@ namespace Z0
                 seek(cuts, i) = j;
                 copy(entry.Content, ref j, chars);
             }
-            return new StringTable(name, indexName, spec.GlobalIndex, new string(chars), offsets, src.Map(x => new Identifier(x.Content)).ToArray());
+            return new StringTable(name, spec.Namespace, indexName, spec.GlobalIndex, new string(chars), offsets, src.Map(x => new Identifier(x.Content)).ToArray());
         }
 
         public static StringTable create(Identifier name, Identifier indexName, ReadOnlySpan<ListItem<string>> src)

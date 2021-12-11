@@ -120,14 +120,14 @@ namespace Z0.llvm
                     continue;
 
                 var name = BaseId + "." + id;
-                var cspath = LlvmPaths.StringTablePath(name, FS.Cs);
-                var csvpath = LlvmPaths.StringTablePath(name, FS.Csv);
+                var cspath = LlvmPaths.StringTablePath(BaseId + "." + id, FS.Cs);
+                var csvpath = LlvmPaths.StringTablePath(BaseId + "." + id, FS.Csv);
                 var lines = slice(listpath.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
                 var table = StringTables.create(lines, id, Chars.Comma);
 
-                var idxname = name + "Kind";
+                var idxname = id + "Kind";
+                var ns = "Z0." + BaseId;
                 var spec = StringTables.specify("Z0." + BaseId, idxname, true, table);
-
 
                 var csEmitting = EmittingFile(cspath);
                 var rowEmitting = EmittingFile(csvpath);

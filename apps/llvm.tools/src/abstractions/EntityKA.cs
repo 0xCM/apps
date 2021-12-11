@@ -28,6 +28,17 @@ namespace Z0
         protected T Value<T>(string name, Func<T> f)
             => (T)Values.GetOrAdd(name,f());
 
+        protected T Value<T>(K key, Func<A,T> f, T @default)
+        {
+            if(Lookup.TryGetValue(key, out var a))
+            {
+                var t = f(a);
+                return (T)Values.GetOrAdd(key.ToString(), k => t);
+            }
+            else
+                return @default;
+        }
+
         public virtual A this[K field]
         {
             get

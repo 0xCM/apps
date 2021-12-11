@@ -6,7 +6,6 @@ namespace Z0.llvm
 {
     using static core;
 
-
     partial class LlvmCmd
     {
         const string DefFieldQuery = "llvm/defs/fields";

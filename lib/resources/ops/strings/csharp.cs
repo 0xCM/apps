@@ -12,20 +12,6 @@ namespace Z0
 
     partial class StringTables
     {
-        // public static uint csharp(StringTableSpec src, StreamWriter dst)
-        // {
-        //     dst.WriteLine(string.Format("namespace {0}", src.Namespace));
-        //     dst.WriteLine(Open());
-        //     dst.WriteLine(string.Format("    using {0};", "System"));
-        //     dst.WriteLine();
-        //     dst.WriteLine(string.Format("    using static {0};", "core"));
-        //     dst.WriteLine();
-        //     dst.WriteLine(create(src.TableName, src.IndexName, src.Entries).Format(4));
-        //     dst.WriteLine(Close());
-        //     return (uint)src.Entries.Length;
-        // }
-
-
         public static uint csharp2(StringTableSpec spec, StreamWriter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", spec.Namespace));
@@ -38,6 +24,5 @@ namespace Z0
             dst.WriteLine(Close());
             return (uint)spec.Entries.Length;
         }
-
     }
 }

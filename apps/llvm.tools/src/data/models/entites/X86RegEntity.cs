@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static Root;
-    using static LlvmNames;
 
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
-    public class X86RegEntity : RecordEntity
+    public class X86RegEntity : DefFields
     {
         public const string LlvmName = "X86Reg";
 

@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static Root;
+
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
-    public class IntrinsicEntity : RecordEntity
+    public class IntrinsicEntity : DefFields
     {
+        public const string LlvmName = "Intrinsic";
+
         public IntrinsicEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)
         {
@@ -20,14 +24,9 @@ namespace Z0.llvm
             get => text.remove(this[nameof(TargetPrefix)], Chars.Quote);
         }
 
-        public string LlvmName
-        {
-            get => EntityName;
-        }
-
         public string CanonicalName
         {
-            get => text.remove(LlvmName, "int_x86_");
+            get => text.remove(EntityName, "int_x86_");
         }
     }
 }

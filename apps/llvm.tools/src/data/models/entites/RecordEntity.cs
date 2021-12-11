@@ -7,83 +7,20 @@ namespace Z0.llvm
     using System;
     using System.Runtime.CompilerServices;
 
-    using static Root;
     using static LlvmNames;
 
-    public class RecordEntity : Entity<string,RecordField>
+    public class RecordEntity : DefFields
     {
-        public readonly DefRelations Def;
-
         public RecordEntity(DefRelations def, RecordField[] fields)
-            : base(fields)
+            : base(def,fields)
         {
-            Def = def;
         }
-
-        public Identifier EntityName
-            => Def.Name;
-
-        public Identifier ParentName
-            => Def.ParentName;
 
         public bool NameBeginsWith(string match)
             => text.begins(EntityName, match);
 
-        public new string this[string name]
-            => text.ifempty(Attrib(name).Value, EmptyString);
-
-        protected string AttribValue(string name)
-            => this[name];
-
         protected override RecordField EmptyAttribute
             => RecordField.Empty;
-
-        protected override Func<RecordField,string> KeyFunction
-            => a => a.Name;
-
-        protected ref bit Parse(string attrib, out bit dst)
-        {
-            bit parse()
-            {
-                if(DataParser.parse(this[attrib], out bit data))
-                    return data;
-                else
-                    return 0;
-            }
-
-            dst = Value(attrib, parse);
-
-            return ref dst;
-        }
-
-        protected ref int Parse(string attrib, out int dst)
-        {
-            int parse()
-            {
-                if(DataParser.parse(this[attrib], out int data))
-                    return data;
-                else
-                    return 0;
-            }
-
-            dst = Value(attrib, parse);
-            return ref dst;
-        }
-
-        protected ref bits<T> Parse<T>(string attrib, out bits<T> dst)
-            where T : unmanaged
-        {
-            bits<T> parse()
-            {
-                if(bits<T>.parse(this[attrib], out var b))
-                    return b;
-                else
-                    return new bits<T>(0,default(T));
-            }
-
-            dst = Value(attrib, parse);
-            return ref dst;
-        }
 
         public bool HasAncestor(string name)
             => Def.AncestorNames.Contains(name);
@@ -98,7 +35,7 @@ namespace Z0.llvm
             => HasAncestor(Entities.GenericInstruction);
 
         public bool IsIntrinsic()
-            => HasAncestor(Entities.Intrinsic);
+            => HasAncestor(IntrinsicEntity.LlvmName);
 
         public IntrinsicEntity ToIntrinsic()
             => new IntrinsicEntity(Def,AttribIndex);

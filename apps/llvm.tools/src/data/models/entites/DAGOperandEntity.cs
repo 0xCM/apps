@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static Root;
-    using static LlvmNames;
+
 
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
-    public class DAGOperandEntity : RecordEntity
+    public class DAGOperandEntity : DefFields
     {
         public const string LlvmName = "DAGOperand";
 
@@ -22,5 +19,27 @@ namespace Z0.llvm
         {
 
         }
+
+        public string OperandNamespace
+            => this[nameof(OperandNamespace)];
+
+        public string Type
+            => this[nameof(Type)];
+
+        public string PrintMethod
+            => this[nameof(PrintMethod)];
+
+        public string OperandType
+            => Value(nameof(OperandType), field => text.remove(field.Value,Chars.Quote), EmptyString);
+            //text.remove(this[nameof(OperandType)],Chars.Quote);
+
+        public string MIOperandInfo
+            => this[nameof(MIOperandInfo)];
+
+        public string MCOperandPredicate
+            => this[nameof(MCOperandPredicate)];
+
+        public string ParserMatchClass
+            => this[nameof(ParserMatchClass)];
     }
 }

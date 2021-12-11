@@ -59,7 +59,7 @@ namespace Z0
         static void GenIndex(uint margin, in StringTable src, ITextBuffer dst)
         {
             var count = src.EntryCount;
-            var idxname = src.IndexName.Content.Remove("llvm.stringtables.").Remove("Z0.stringtables.");
+            var idxname = src.IndexName;
             dst.IndentLine(margin, string.Format("public enum {0}: uint", idxname));
             dst.IndentLine(margin, Chars.LBrace);
             margin+=4;
