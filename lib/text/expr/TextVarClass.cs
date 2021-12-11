@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITextVarKind
+    public enum TextVarClass : byte
     {
-        bool IsFenced {get;}
+        None = 0,
 
-        Fence<char> Fence {get;}
+        Fenced = 1,
 
-        string Prefix {get;}
+        Prefixed = 2,
 
-        bool IsPrefixed {get;}
+        PrefixedFence = Fenced | Prefixed
     }
 }

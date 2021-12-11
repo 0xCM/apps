@@ -10,15 +10,6 @@ namespace Z0
     using static Root;
     using static core;
 
-    public interface ITextTemplate : ITextual
-    {
-        TextBlock Pattern {get;}
-
-        object[] Parameters {get;}
-
-        uint ParameterCount {get;}
-    }
-
     public class TextTemplate : ITextTemplate
     {
         public TextBlock Pattern {get;}

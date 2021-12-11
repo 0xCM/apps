@@ -9,17 +9,14 @@ namespace Z0
     using static Root;
 
     public abstract class TextVarKind<T> : ITextVarKind
-        where T : TextVarKind<T>,new()
+        where T : TextVarKind<T>
     {
         public virtual bool IsFenced => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;
 
         public virtual Fence<char> Fence => Fence<char>.Empty;
 
-        public virtual string Prefix => EmptyString;
+        public virtual char Prefix => AsciNull.Literal;
 
-        public virtual bool IsPrefixed => text.nonempty(Prefix);
-
-        public static T create()
-            => new T();
+        public virtual bool IsPrefixed => Prefix != AsciNull.Literal;
     }
 }

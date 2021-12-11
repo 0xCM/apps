@@ -12,13 +12,4 @@ namespace Z0
 
         string Eval();
     }
-
-    public interface ITextExpr<K> : ITextExpr
-        where K : ITextVarKind, new()
-    {
-        new K VarKind => new ();
-
-        ITextVarKind ITextExpr.VarKind
-            => VarKind;
-    }
 }

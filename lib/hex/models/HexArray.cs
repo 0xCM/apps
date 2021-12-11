@@ -16,7 +16,7 @@ namespace Z0
         public static Outcome parse(string src, out HexArray16 dst)
         {
             dst = HexArray16.Empty;
-            return Hex.hexbytes(src, dst.Bytes);
+            return HexParser.hexbytes(src, dst.Bytes);
         }
 
         [MethodImpl(Inline), Op]

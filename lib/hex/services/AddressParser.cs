@@ -44,7 +44,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out MemoryAddress dst)
         {
-            var result = Hex.parse64u(src, out var a);
+            var result = HexParser.parse64u(src, out var a);
             if(result)
             {
                 dst = a;
@@ -60,7 +60,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Address64 dst)
         {
-            var result = Hex.parse64u(src, out var a);
+            var result = HexParser.parse64u(src, out var a);
             if(result)
             {
                 dst = a;
@@ -76,7 +76,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Address32 dst)
         {
-            var result = Hex.parse32u(src, out var a);
+            var result = HexParser.parse32u(src, out var a);
             if(result)
             {
                 dst = a;
@@ -92,7 +92,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Address16 dst)
         {
-            var result = Hex.parse16u(src, out var a);
+            var result = HexParser.parse16u(src, out var a);
             if(result)
             {
                 dst = a;
@@ -108,7 +108,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Address8 dst)
         {
-            var result = Hex.parse8u(src, out var a);
+            var result = HexParser.parse8u(src, out var a);
             if(result)
             {
                 dst = a;

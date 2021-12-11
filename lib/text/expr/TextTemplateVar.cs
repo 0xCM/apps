@@ -10,7 +10,7 @@ namespace Z0
 
     public class TextTemplateVar : ITextVar
     {
-        public static VarKind Kind = VarKind.create();
+        public static VarKind Kind = new VarKind();
 
         public sealed class VarKind : TextVarKind<VarKind>
         {
@@ -19,10 +19,6 @@ namespace Z0
 
         public static TextTemplateVar define(string name)
             => new TextTemplateVar(name);
-
-        public const char LeftDelimiter = (char)SymNotKind.Lt;
-
-        public const char RightDelimiter = (char)SymNotKind.Gt;
 
         public readonly string Name;
 
@@ -59,8 +55,12 @@ namespace Z0
 
         string IVar<string>.Value
             => Value;
+
+        ITextVarKind ITextVar.VarKind
+            => Kind;
+
         public string Format()
-            => IsEmpty ? Kind.Fence.Format(Name) : Value;
+            => TextExpr.FormatVariable(this);
 
         public override string ToString()
             => Format();

@@ -42,36 +42,6 @@ namespace Z0
         }
 
         public static Outcome hexarray(string src, out HexArray dst)
-        {
-            dst = HexArray.Empty;
-            var l = text.index(src, Chars.LBracket);
-            var r = text.index(src, Chars.RBracket);
-            var i0 = 0;
-            var i1 = 0;
-            if(l < 0 || r < 0 || r <= l)
-            {
-                i0 = 0;
-                i1 = src.Length - 1;
-            }
-            else
-            {
-                i0 = l + 1;
-                i1 = r - 1;
-            }
-
-            var data =  text.segment(src, i0, i1);
-            var cells = data.SplitClean(Chars.Comma).ToReadOnlySpan();
-            var count = cells.Length;
-            var buffer = alloc<byte>(count);
-            ref var target = ref first(buffer);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var cell = ref skip(cells,i);
-                if(!Hex.parse8u(cell, out seek(target,i)))
-                    return (false, cell);
-            }
-            dst = buffer;
-            return true;
-        }
+            => HexParser.hexarray(src, out dst);
     }
 }

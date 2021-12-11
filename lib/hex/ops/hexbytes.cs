@@ -17,18 +17,7 @@ namespace Z0
         /// <param name="src">The space-delimited hex</param>
         [Op]
         public static Outcome hexdata(string src, out byte[] dst)
-        {
-            try
-            {
-                dst = src.Trim().Split(Chars.Space).Select(x => byte.Parse(x, NumberStyles.HexNumber));
-                return true;
-            }
-            catch(Exception e)
-            {
-                dst = sys.empty<byte>();
-                return (e,$"Input:{src}");
-            }
-        }
+            => HexParser.hexdata(src, out dst);
 
         /// <summary>
         /// Parses a sequence of hex bytes, delimited by a space or comma
@@ -37,52 +26,10 @@ namespace Z0
         /// <param name="dst">The target</param>
         [Op]
         public static Outcome hexbytes(string src, out BinaryCode dst)
-        {
-            dst = BinaryCode.Empty;
-            var result = Outcome.Success;
-            if(empty(src))
-                return result;
-
-            var sep = delimiter(src);
-            var parts = src.Replace(CharText.EOL, CharText.Space).SplitClean(sep).ToReadOnlySpan();
-            var count = parts.Length;
-            var buffer = alloc<byte>(count);
-            ref var target = ref first(buffer);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var part = ref skip(parts,i);
-                result = parse8u(part, out seek(target,i));
-                if(result.Fail)
-                {
-                    result = (false, Msg.HexParseFailure.Format(part));
-                    return result;
-                }
-            }
-            dst = buffer;
-            return result;
-        }
+            => HexParser.hexbytes(src, out dst);
 
         [Op]
         public static Outcome<uint> hexbytes(string src, Span<byte> dst)
-        {
-            var size = 0u;
-            var limit = (uint)dst.Length;
-            var result = Outcome.Success;
-            if(empty(src))
-                return size;
-            var sep = delimiter(src);
-            var parts = src.Replace(CharText.EOL, CharText.Space).SplitClean(sep).ToReadOnlySpan();
-            var count = src.Length;
-            for(var i=0u; i<count && i<limit; i++)
-            {
-                ref readonly var part = ref skip(parts,i);
-                result = parse8u(part, out seek(dst,i));
-                if(result.Fail)
-                    return (false,size);
-                else
-                    size++;
-            }
-            return size;
-        }
+            => HexParser.hexbytes(src, dst);
     }
 }

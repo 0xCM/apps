@@ -9,36 +9,35 @@ namespace Z0
     using static Root;
 
     public class TextVar<K> : ITextVar<K>
-        where K : ITextVarKind, new()
+        where K : ITextVarKind
     {
         public string Name {get;}
 
-        public K VarKind => new K();
+        public K VarKind {get;}
 
         public string Value;
 
         [MethodImpl(Inline)]
-        public TextVar(string name)
+        public TextVar(string name, K kind)
         {
             Name = name;
+            VarKind = kind;
             Value = EmptyString;
         }
 
         [MethodImpl(Inline)]
-        public TextVar(string name, string val)
+        public TextVar(string name, K kind, string val)
         {
             Name = name;
+            VarKind = kind;
             Value = val;
         }
-
 
         string IVar<string>.Value
             => Value;
 
         public string Format()
-            => text.empty(Value)
-            ? string.Format("{0}{1}{2}", TextTemplateVar.LeftDelimiter, Name, TextTemplateVar.RightDelimiter)
-            : Value;
+            => TextExpr.FormatVariable(this);
 
         public override string ToString()
             => Format();

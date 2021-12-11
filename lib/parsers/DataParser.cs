@@ -87,7 +87,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Hex32 dst)
         {
-            var outcome = Hex.parse32u(src, out var x);
+            var outcome = HexParser.parse32u(src, out var x);
             dst = x;
             return outcome;
         }
@@ -95,7 +95,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Hex64 dst)
         {
-            var outcome = Hex.parse64u(src, out var x);
+            var outcome = HexParser.parse64u(src, out var x);
             dst = x;
             return outcome;
         }
@@ -244,7 +244,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out BinaryCode dst)
         {
-            var result = Hex.hexdata(src, out var data);
+            var result = HexParser.hexdata(src, out var data);
             if(result)
             {
                 dst = data;
@@ -260,7 +260,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out byte[] dst)
         {
-            var result = Hex.hexdata(src, out var data);
+            var result = HexParser.hexdata(src, out var data);
             if(result)
             {
                 dst = data;
