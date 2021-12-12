@@ -15,26 +15,31 @@ namespace Z0
     /// <summary>
     /// Defines a refined 16-bit immediate value
     /// </summary>
-    [DataType("imm16<{0}>")]
+    [DataType("imm16<k:{0}>", Kind, Width, Width)]
     public readonly struct imm16<K> : IImm<imm16<K>, K>
         where K : unmanaged
     {
-        public K Content {get;}
+        public const ImmKind Kind = ImmKind.Imm16;
+
+        public const byte Width = 16;
+
+        public K Value {get;}
 
         public static W W => default;
 
         [MethodImpl(Inline)]
         public imm16(K value)
-            => Content = value;
+            => Value = value;
 
-        public ImmBitWidth Width => ImmBitWidth.W16;
+        public ImmBitWidth ImmWidth
+            => (ImmBitWidth)Width;
 
-
-        public ImmKind Kind => ImmKind.Imm16;
+        public ImmKind ImmKind
+            => Kind;
 
         [MethodImpl(Inline)]
         public string Format()
-            => HexFormatter.format(Content, W, true);
+            => HexFormatter.format(Value, W, true);
 
         public override string ToString()
             => Format();
@@ -42,7 +47,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Content);
+            get => alg.ghash.calc(Value);
         }
 
         public override int GetHashCode()
@@ -54,7 +59,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator K(imm16<K> src)
-            => src.Content;
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator imm16<K>(K src)

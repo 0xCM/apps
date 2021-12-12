@@ -33,10 +33,10 @@ namespace Z0.llvm
             var help = DataEmitter.EmitToolHelp();
             run(() => observer.ToolHelpEmitted(help));
 
-            var asmId = DataEmitter.EmitAsmIdDefs();
+            var asmId = DataEmitter.EmitAsmIdentifiers();
             run(() => observer.AsmIdDefsEmitted(asmId));
 
-            var regId = DataEmitter.EmitRegIdDefs();
+            var regId = DataEmitter.EmitRegIdentifiers();
             run(() => observer.RegIdDefsEmitted(regId));
 
             var records = DataProvider.SelectSourceRecords(Datasets.X86);
@@ -82,6 +82,7 @@ namespace Z0.llvm
 
             run(() => observer.EtlCompleted());
         }
+
         public void Run()
         {
             var observer = new LlvmEtlObserver();

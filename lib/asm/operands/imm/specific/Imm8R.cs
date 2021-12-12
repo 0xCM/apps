@@ -14,27 +14,34 @@ namespace Z0
     /// <summary>
     /// Describes an 8-bit immediate that is potentially refined
     /// </summary>
+    [DataType("imm8r", Kind, Width, Width)]
     public readonly struct imm8R : IImm<imm8R,byte>
     {
-        public byte Content {get;}
+        public const ImmKind Kind = ImmKind.Imm8;
+
+        public const byte Width = 8;
+
+        public byte Value {get;}
 
         [MethodImpl(Inline)]
         public imm8R(byte value)
-            => Content = value;
+            => Value = value;
 
-        public ImmBitWidth Width => ImmBitWidth.W8;
+        public ImmKind ImmKind
+            => Kind;
 
-        public ImmKind Kind => ImmKind.Imm8;
+        public ImmBitWidth ImmWidth
+            => (ImmBitWidth)Width;
 
         public string Format()
-            => HexFormatter.format(Content, W, true);
+            => HexFormatter.format(Value, W, true);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator byte(imm8R imm8)
-            => imm8.Content;
+            => imm8.Value;
 
        public static W W => default;
     }

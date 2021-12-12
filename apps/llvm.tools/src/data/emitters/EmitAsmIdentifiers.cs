@@ -10,10 +10,10 @@ namespace Z0.llvm
 
     partial class LlvmDataEmitter
     {
-        public LlvmList EmitAsmIdDefs()
+        public LlvmList EmitAsmIdentifiers()
         {
-            var values = DataProvider.DiscoverAsmIdDefs().Values;
-            var items = values.Select(x => new LlvmListItem(x.Id, x.InstName)).ToArray();
+            var values = DataProvider.DiscoverAsmIdentifiers().Values;
+            var items = values.Select(x => new LlvmListItem(x.Id, x.InstName.Format())).ToArray();
             var dst = LlvmPaths.Table("llvm.asm.AsmId");
             var list = new LlvmList(dst, items);
             EmitList(list, dst);

@@ -9,7 +9,7 @@ namespace Z0
     using PK = CanonicalKind;
     using PN = TypeSpecs;
 
-    public sealed class CanonicalTypes : TypeSystem<CanonicalTypes, PK>
+    public sealed partial class CanonicalTypes : TypeSystem<CanonicalTypes,PK>
     {
         public const string SystemName = "canonical";
 
@@ -19,8 +19,15 @@ namespace Z0
 
         }
 
-        public override ReadOnlySpan<TypeKind<PK>> Primitives
+        public override ReadOnlySpan<TypeKind<PK>> PrimalKinds
             => _Primitives;
+
+        public override ReadOnlySpan<IType> KnownTypes
+            => _KnownTypes;
+
+        static T known<T>()
+            where T : struct, IType
+                => new T();
 
         static TypeKind<PK> primitive(PK kind, string name, byte arity)
             => new TypeKind<PK>(kind, name, arity);
@@ -41,6 +48,21 @@ namespace Z0
             primitive(PK.BitsN, PN.BitsN, 2),
             primitive(PK.Seq, PN.Seq, 1),
             primitive(PK.SeqN, PN.SeqN, 2),
+        };
+
+        static Index<IType> _KnownTypes => new IType[]{
+            known<bit>(),
+            known<bits>(),
+            known<c16>(),
+            known<i8>(),
+            known<i16>(),
+            known<i32>(),
+            known<i64>(),
+            known<@string>(),
+            known<u8>(),
+            known<u16>(),
+            known<u32>(),
+            known<u64>(),
         };
     }
 }

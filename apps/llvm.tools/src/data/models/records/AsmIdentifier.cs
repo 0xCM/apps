@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     using static Root;
 
-    public struct RegIdDef : IComparable<RegIdDef>, IEquatable<RegIdDef>
+    public struct AsmIdentifier : IComparable<AsmIdentifier>, IEquatable<AsmIdentifier>
     {
         /// <summary>
         /// The instruction id, in-synch with tablegen output
@@ -19,10 +19,10 @@ namespace Z0.llvm
         /// <summary>
         /// The identified instruction name
         /// </summary>
-        public readonly Identifier InstName;
+        public readonly text31 InstName;
 
         [MethodImpl(Inline)]
-        public RegIdDef(ushort id, Identifier instname)
+        public AsmIdentifier(ushort id, text31 instname)
         {
             Id = id;
             InstName = instname;
@@ -35,17 +35,17 @@ namespace Z0.llvm
         public override string ToString()
             => Format();
 
-        public bool Equals(RegIdDef src)
-            => Id == src.Id && InstName == src.InstName;
+        public bool Equals(AsmIdentifier src)
+            => Id == src.Id && InstName.Equals(src.InstName);
 
         [MethodImpl(Inline)]
-        public int CompareTo(RegIdDef src)
+        public int CompareTo(AsmIdentifier src)
             => Id.CompareTo(src.Id);
 
         public override int GetHashCode()
             => Id;
 
         public override bool Equals(object src)
-            => src is RegIdDef x && Equals(x);
+            => src is AsmIdentifier x && Equals(x);
     }
 }

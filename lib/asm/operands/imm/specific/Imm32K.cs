@@ -15,38 +15,35 @@ namespace Z0
     /// <summary>
     /// Defines a refined 32-bit immediate value
     /// </summary>
-    [DataType("imm32<{0}>")]
+    [DataType("imm32<k:{0}>", Kind, Width, Width)]
     public readonly struct imm32<K> : IImm<imm32<K>, K>
         where K : unmanaged
     {
-        public K Content {get;}
+        public const ImmKind Kind = ImmKind.Imm32;
+
+        public const byte Width = 32;
+
+        public K Value {get;}
 
         public static W W => default;
 
-        public ImmBitWidth Width => ImmBitWidth.W32;
-
-        public ImmKind Kind => ImmKind.Imm32;
-
-        [MethodImpl(Inline)]
-        public static implicit operator K(imm32<K> src)
-            => src.Content;
-
-        [MethodImpl(Inline)]
-        public static implicit operator imm32<K>(K src)
-            => new imm32<K>(src);
-
         [MethodImpl(Inline)]
         public imm32(K src)
-            => Content = src;
+            => Value = src;
+
+        public ImmKind ImmKind
+            => Kind;
+
+        public ImmBitWidth ImmWidth
+            => (ImmBitWidth)Width;
 
         [MethodImpl(Inline)]
         public uint AsPrimitive()
             => bw32(this);
 
-
         [MethodImpl(Inline)]
         public string Format()
-            => HexFormatter.format(Content, W, true);
+            => HexFormatter.format(Value, W, true);
 
         public override string ToString()
             => Format();
@@ -54,10 +51,18 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Content);
+            get => alg.ghash.calc(Value);
         }
 
         public override int GetHashCode()
             => (int)Hash;
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(imm32<K> src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator imm32<K>(K src)
+            => new imm32<K>(src);
     }
 }

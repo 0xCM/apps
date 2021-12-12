@@ -8,19 +8,19 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public AsmIdDefs SelectAsmIdDefs()
+        public AsmIdentifiers SelectAsmIdentifiers()
         {
             const string TableId = "llvm.asm.AsmId";
 
-            return (AsmIdDefs)DataSets.GetOrAdd(nameof(SelectAsmIdDefs), key => Load());
+            return (AsmIdentifiers)DataSets.GetOrAdd(nameof(SelectAsmIdentifiers), key => Load());
 
-            AsmIdDefs Load()
+            AsmIdentifiers Load()
             {
                 var src = LlvmPaths.Table(TableId);
                 var items = SelectList(TableId, src);
-                var dst = list<AsmIdDef>();
+                var dst = list<AsmIdentifier>();
                 foreach(var id in items)
-                    dst.Add(new AsmIdDef((ushort)id.Key, id.Value.Trim()));
+                    dst.Add(new AsmIdentifier((ushort)id.Key, id.Value.Trim()));
                 return dst.Array();
             }
         }

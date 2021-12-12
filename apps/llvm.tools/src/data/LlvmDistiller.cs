@@ -17,7 +17,7 @@ namespace Z0.llvm
 
         public Index<LlvmInstOpCode> ToRecords(LlvmOpCodeMap ocmap)
         {
-            var asmids = DataProvider.SelectAsmIdDefs();
+            var asmids = DataProvider.SelectAsmIdentifiers();
             var entries = ocmap.Entries;
             var count = entries.Length;
             var instcount = gcalc.sum(ocmap.Values.Select(x => x.Count));

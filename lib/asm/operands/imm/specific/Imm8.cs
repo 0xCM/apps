@@ -15,27 +15,33 @@ namespace Z0
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
-    [DataType("imm8")]
+    [DataType("imm8", Kind, Width, Width)]
     public readonly struct imm8 : IImm<I,byte>
     {
-        public byte Content {get;}
+        public const ImmKind Kind = ImmKind.Imm8;
+
+        public const byte Width = 8;
+
+        public byte Value {get;}
 
         [MethodImpl(Inline)]
         public imm8(byte src)
-            => Content = src;
+            => Value = src;
 
-        public ImmBitWidth Width => ImmBitWidth.W8;
+        public ImmKind ImmKind
+            => Kind;
 
-        public ImmKind Kind => ImmKind.Imm8;
+        public ImmBitWidth ImmWidth
+            => (ImmBitWidth)Width;
 
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Content);
+            get => Value;
         }
 
         public string Format()
-            => HexFormatter.format(Content, W, true);
+            => HexFormatter.format(Value, W, true);
 
         public override string ToString()
             => Format();
@@ -45,46 +51,46 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public int CompareTo(I src)
-            => Content == src.Content ? 0 : Content < src.Content ? -1 : 1;
+            => Value == src.Value ? 0 : Value < src.Value ? -1 : 1;
 
         [MethodImpl(Inline)]
         public bool Equals(I src)
-            => Content == src.Content;
+            => Value == src.Value;
 
         public override bool Equals(object src)
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
         public Address8 ToAddress()
-            => Content;
+            => Value;
 
         [MethodImpl(Inline)]
         public static bool operator <(I a, I b)
-            => a.Content < b.Content;
+            => a.Value < b.Value;
 
         [MethodImpl(Inline)]
         public static bool operator >(I a, I b)
-            => a.Content > b.Content;
+            => a.Value > b.Value;
 
         [MethodImpl(Inline)]
         public static bool operator <=(I a, I b)
-            => a.Content <= b.Content;
+            => a.Value <= b.Value;
 
         [MethodImpl(Inline)]
         public static bool operator >=(I a, I b)
-            => a.Content >= b.Content;
+            => a.Value >= b.Value;
 
         [MethodImpl(Inline)]
         public static bool operator ==(I a, I b)
-            => a.Content == b.Content;
+            => a.Value == b.Value;
 
         [MethodImpl(Inline)]
         public static bool operator !=(I a, I b)
-            => a.Content != b.Content;
+            => a.Value != b.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator byte(I src)
-            => src.Content;
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator ImmOp<byte>(I src)

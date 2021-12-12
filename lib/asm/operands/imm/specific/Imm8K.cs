@@ -15,23 +15,29 @@ namespace Z0
     /// <summary>
     /// Defines a refined 8-bit immediate value
     /// </summary>
-    [DataType("imm8<{0}>")]
+    [DataType("imm8<k:{0}>", Kind, Width, Width)]
     public readonly struct imm8<K> : IImm<imm8<K>,K>
         where K : unmanaged
     {
-        public K Content {get;}
+        public const ImmKind Kind = ImmKind.Imm8;
+
+        public const byte Width = 8;
+
+        public K Value {get;}
 
         [MethodImpl(Inline)]
         public imm8(K src)
-            => Content = src;
+            => Value = src;
 
-        public ImmBitWidth Width => ImmBitWidth.W8;
+        public ImmKind ImmKind
+            => Kind;
 
-        public ImmKind Kind => ImmKind.Imm8;
+        public ImmBitWidth ImmWidth
+            => (ImmBitWidth)Width;
 
         [MethodImpl(Inline)]
         public string Format()
-            => HexFormatter.format(Content, W, true);
+            => HexFormatter.format(Value, W, true);
 
         [MethodImpl(Inline)]
         public byte AsPrimitive()
@@ -43,7 +49,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Content);
+            get => alg.ghash.calc(Value);
         }
 
         public override int GetHashCode()
@@ -51,7 +57,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator K(imm8<K> src)
-            => src.Content;
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator byte(imm8<K> src)

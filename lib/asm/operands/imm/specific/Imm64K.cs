@@ -15,26 +15,30 @@ namespace Z0
     /// <summary>
     /// Defines a refined 64-bit immediate value
     /// </summary>
-    [DataType("imm64<{0}>")]
+    [DataType("imm64<k:{0}>", Kind, Width, Width)]
     public readonly struct imm64<K> : IImm<imm64<K>,K>
         where K : unmanaged
     {
-        public K Content {get;}
+        public const ImmKind Kind = ImmKind.Imm16;
 
-        public ImmBitWidth Width => ImmBitWidth.W64;
-
-        public ImmKind Kind => ImmKind.Imm64;
+        public const byte Width = 64;
+        public K Value {get;}
 
         [MethodImpl(Inline)]
         public imm64(K src)
-            => Content = src;
+            => Value = src;
 
         [MethodImpl(Inline)]
         public ulong AsPrimitive()
             => bw64(this);
 
+        public ImmKind ImmKind
+            => Kind;
+
+        public ImmBitWidth ImmWidth
+            => (ImmBitWidth)Width;
         public string Format()
-            => HexFormatter.format(Content, W, true);
+            => HexFormatter.format(Value, W, true);
 
         public override string ToString()
             => Format();
@@ -42,7 +46,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Content);
+            get => alg.ghash.calc(Value);
         }
 
         public override int GetHashCode()
@@ -50,7 +54,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator K(imm64<K> src)
-            => src.Content;
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator imm64<K>(K src)

@@ -14,7 +14,7 @@ namespace Z0.llvm
         Outcome EmitInstPatterns(CmdArgs args)
         {
             var entities = DataProvider.SelectEntities();
-            var asmids = DataProvider.SelectAsmIdDefs();
+            var asmids = DataProvider.SelectAsmIdentifiers();
             var count = entities.Length;
             var dst = list<LlvmInstPattern>();
 

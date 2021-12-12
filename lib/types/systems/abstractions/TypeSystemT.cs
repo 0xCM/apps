@@ -11,7 +11,9 @@ namespace Z0
     {
         public Label Name {get;}
 
-        public abstract ReadOnlySpan<TypeKind> Primitives {get;}
+        public abstract ReadOnlySpan<TypeKind> PrimalKinds {get;}
+
+        public abstract ReadOnlySpan<IType> KnownTypes {get;}
 
         protected TypeSystem(Label name)
         {

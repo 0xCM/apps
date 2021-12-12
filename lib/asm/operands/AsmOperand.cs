@@ -51,7 +51,7 @@ namespace Z0.Asm
         {
             OpClass = AsmOpClass.Imm;
             Size = src.Size;
-            _Data = src.Content;
+            _Data = src.Value;
         }
 
         [MethodImpl(Inline)]

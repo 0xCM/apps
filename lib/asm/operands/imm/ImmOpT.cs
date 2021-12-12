@@ -11,16 +11,16 @@ namespace Z0
     using static Numeric;
     using static core;
 
-    [DataType("imm<{0}>")]
+    [DataType("imm<t:{0}>")]
     public readonly struct ImmOp<T> : IImm<ImmOp<T>,T>
         where T : unmanaged
     {
-        public T Content {get;}
+        public T Value {get;}
 
         [MethodImpl(Inline)]
 
         public ImmOp(T src)
-            => Content = src;
+            => Value = src;
 
         public static ImmBitWidth Capacity
         {
@@ -28,7 +28,7 @@ namespace Z0
             get => (ImmBitWidth)(byte)width<T>();
         }
 
-        public static ImmKind Kind
+        public ImmKind ImmKind
         {
             [MethodImpl(Inline)]
             get => (ImmKind)Capacity;
@@ -43,31 +43,31 @@ namespace Z0
         public ulong Imm64
         {
             [MethodImpl(Inline)]
-            get => force<T,ulong>(Content);
+            get => force<T,ulong>(Value);
         }
 
         public uint Imm32
         {
             [MethodImpl(Inline)]
-            get => force<T,uint>(Content);
+            get => force<T,uint>(Value);
         }
 
         public ushort Imm16
         {
             [MethodImpl(Inline)]
-            get => force<T,ushort>(Content);
+            get => force<T,ushort>(Value);
         }
 
         public byte Imm8
         {
             [MethodImpl(Inline)]
-            get => force<T,byte>(Content);
+            get => force<T,byte>(Value);
         }
 
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Content);
+            get => alg.ghash.calc(Value);
         }
 
         public bool IsZero
@@ -97,13 +97,13 @@ namespace Z0
         public string Format()
         {
             if(width<T>() == 8)
-                return HexFormatter.format(w8, Content, true);
+                return HexFormatter.format(w8, Value, true);
             else if(width<T>() == 16)
-                return HexFormatter.format(w16, Content, true);
+                return HexFormatter.format(w16, Value, true);
             else if(width<T>() == 32)
-                return HexFormatter.format(w32, Content, true);
+                return HexFormatter.format(w32, Value, true);
             else
-                return HexFormatter.format(w64, Content, true);
+                return HexFormatter.format(w64, Value, true);
         }
 
         public override string ToString()

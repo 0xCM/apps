@@ -20,7 +20,7 @@ namespace Z0.llvm
         Outcome ListAsmStrings(CmdArgs args)
         {
             var instructions = DataProvider.SelectEntities(e => e.IsInstruction()).Select(x => x.ToInstruction());
-            var asmids = DataProvider.SelectAsmIdDefs();
+            var asmids = DataProvider.SelectAsmIdentifiers();
             var count = instructions.Length;
             for(var i=0; i<count; i++)
             {

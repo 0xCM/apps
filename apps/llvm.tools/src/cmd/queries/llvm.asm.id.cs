@@ -12,7 +12,7 @@ namespace Z0.llvm
         [CmdOp("llvm/asm/id")]
         Outcome ListAsmIds(CmdArgs args)
         {
-            var asmids = DataProvider.SelectAsmIdDefs();
+            var asmids = DataProvider.SelectAsmIdentifiers();
             iter(asmids.Entries, x => Write(x.Value.Format()));
             return true;
         }

@@ -15,7 +15,7 @@ namespace Z0.llvm
         {
             var entities = DataProvider.SelectEntities(e => e.IsInstruction()).Select(x => x.ToInstruction());
             var count = entities.Length;
-            var asmid = DataProvider.DiscoverAsmIdDefs();
+            var asmid = DataProvider.DiscoverAsmIdentifiers();
             var variations = list<LlvmAsmVariation>();
             var seq = 0u;
             for(var i=0; i<count; i++)

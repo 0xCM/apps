@@ -8,9 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static minicore;
-
-    using SQ = SymbolicQuery;
+    using static core;
 
     public readonly struct LineInterval
     {

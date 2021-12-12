@@ -6,10 +6,12 @@ namespace Z0.llvm
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
-    public struct AsmIdDef : IComparable<AsmIdDef>, IEquatable<AsmIdDef>
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public struct RegIdentifier : IComparable<RegIdentifier>, IEquatable<RegIdentifier>
     {
         /// <summary>
         /// The instruction id, in-synch with tablegen output
@@ -19,33 +21,33 @@ namespace Z0.llvm
         /// <summary>
         /// The identified instruction name
         /// </summary>
-        public readonly Identifier InstName;
+        public readonly text15 Name;
 
         [MethodImpl(Inline)]
-        public AsmIdDef(ushort id, Identifier instname)
+        public RegIdentifier(ushort id, text15 instname)
         {
             Id = id;
-            InstName = instname;
+            Name = instname;
         }
 
         public string Format()
-            => string.Format("{0:D5} {1}", Id, InstName);
+            => string.Format("{0:D5} {1}", Id, Name);
 
 
         public override string ToString()
             => Format();
 
-        public bool Equals(AsmIdDef src)
-            => Id == src.Id && InstName == src.InstName;
+        public bool Equals(RegIdentifier src)
+            => Id == src.Id && Name == src.Name;
 
         [MethodImpl(Inline)]
-        public int CompareTo(AsmIdDef src)
+        public int CompareTo(RegIdentifier src)
             => Id.CompareTo(src.Id);
 
         public override int GetHashCode()
             => Id;
 
         public override bool Equals(object src)
-            => src is AsmIdDef x && Equals(x);
+            => src is RegIdentifier x && Equals(x);
     }
 }

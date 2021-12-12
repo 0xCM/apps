@@ -41,11 +41,11 @@ namespace Z0.llvm
                 {
                     ref readonly var l0 = ref first(buffer);
                     ref readonly var l1 = ref skip(buffer,k-1);
-                    intervals.Add(LineMaps.interval(relation.Name, l0.LineNumber, l1.LineNumber));
+                    intervals.Add(Lines.interval(relation.Name, l0.LineNumber, l1.LineNumber));
                 }
             }
 
-            var map = LineMaps.map(intervals.ToArray());
+            var map = Lines.map(intervals.ToArray());
             var dst = LlvmPaths.ImportMap(dstid);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();

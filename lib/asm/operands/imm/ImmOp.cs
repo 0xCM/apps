@@ -12,22 +12,29 @@ namespace Z0
     [DataType("imm")]
     public readonly struct ImmOp : IImm<ImmOp,ulong>
     {
-        public ulong Content {get;}
+        public ulong Value {get;}
 
-        public ImmKind Kind {get;}
+        public ImmKind ImmKind {get;}
 
         [MethodImpl(Inline)]
 
         public ImmOp(ImmKind kind, ulong src)
         {
-            Kind = kind;
-            Content = src;
+            ImmKind = kind;
+            Value = src;
+        }
+
+        [MethodImpl(Inline)]
+        public ImmOp(IImm src)
+        {
+            ImmKind = src.ImmKind;
+            Value = src.Value;
         }
 
         public ImmBitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Kind.Width();
+            get => ImmKind.Width();
         }
 
         public NativeSize Size
@@ -39,34 +46,34 @@ namespace Z0
         public ulong Imm64
         {
             [MethodImpl(Inline)]
-            get => Content;
+            get => Value;
         }
 
         public uint Imm32
         {
             [MethodImpl(Inline)]
-            get => (uint)Content;
+            get => (uint)Value;
         }
 
         public ushort Imm16
         {
             [MethodImpl(Inline)]
-            get => (ushort)Content;
+            get => (ushort)Value;
         }
 
         public byte Imm8
         {
             [MethodImpl(Inline)]
-            get => (byte)Content;
+            get => (byte)Value;
         }
 
         public string Format()
             => Width switch
             {
-                ImmBitWidth.W8 => HexFormatter.format(w8, Content, true),
-                ImmBitWidth.W16 => HexFormatter.format(w16, Content, true),
-                ImmBitWidth.W32 => HexFormatter.format(w32, Content, true),
-                ImmBitWidth.W64 => HexFormatter.format(w64, Content, true),
+                ImmBitWidth.W8 => HexFormatter.format(w8, Value, true),
+                ImmBitWidth.W16 => HexFormatter.format(w16, Value, true),
+                ImmBitWidth.W32 => HexFormatter.format(w32, Value, true),
+                ImmBitWidth.W64 => HexFormatter.format(w64, Value, true),
                 _ => EmptyString
             };
 

@@ -31,7 +31,6 @@ namespace Z0.Asm
             return text.format(slice(dst, 0, count));
         }
 
-
         [Op]
         public static string format8x4(AsmHexCode src)
             => src.IsEmpty ? EmptyString : bitstring(src);

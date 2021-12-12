@@ -107,7 +107,8 @@ namespace Z0.llvm
             }
 
             var records = buffer.ToArray();
-            var dst = ws.Table<AsmDocInstruction>(ws.Project.Format());
+            //var dst = ws.Table<AsmDocInstruction>(ws.Project.Format());
+            var dst = ProjectDb.TablePath<AsmDocInstruction>("projects", ws.Project.Format());
             TableEmit(@readonly(records), AsmDocInstruction.RenderWidths, dst);
             return records;
         }
@@ -116,7 +117,9 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var docs = EncodingDocs(ws);
-            var dst = ws.Table<AsmDocEncoding>(ws.Project.Format());
+            //var dst = ws.Table<AsmDocEncoding>(ws.Project.Format());
+            var dst = ProjectDb.TablePath<AsmDocEncoding>("projects", ws.Project.Format());
+
             var counter=0u;
             var record = AsmDocEncoding.Empty;
             var formatter = Tables.formatter<AsmDocEncoding>(AsmDocEncoding.RenderWidths);
@@ -148,7 +151,7 @@ namespace Z0.llvm
         ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs ws)
         {
             var logs = ws.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
-            var dst = ws.Table<AsmSyntaxRow>(ws.Project.Format());
+            var dst = ProjectDb.TablePath<AsmSyntaxRow>("projects", ws.Project.Format());
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var tmp = list<AsmSyntaxRow>();
@@ -171,7 +174,7 @@ namespace Z0.llvm
             var result = Outcome.Success;
             var src = SyntaxSourcePaths(ws).View;
             var count = src.Length;
-            var dst = ws.OutDir() + FS.file(ws.Name.Format() + ".syntree", FS.Asm);
+            var dst = ProjectDb.Subdir("projects") + FS.file("asm.syntax.tree." + ws.Name.Format(), FS.Asm);
             var docs = list<AsmDocument>();
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)

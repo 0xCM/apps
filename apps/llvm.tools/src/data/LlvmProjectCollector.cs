@@ -74,7 +74,8 @@ namespace Z0.llvm
             {
                 ref readonly var src = ref skip(paths,i);
                 var id = src.FileName.WithoutExtension.Format();
-                var dst = ws.OutDir(WsAtoms.objhex) + FS.file(id,FileTypes.ext(FileKind.HexDat));
+                //var dst = ws.OutDir(WsAtoms.objhex) + FS.file(id,FileTypes.ext(FileKind.HexDat));
+                var dst = ProjectDb.Subdir("projects/" + ws.Project.Format() + ".objhex") + FS.file(id,FileTypes.ext(FileKind.HexDat));
                 using var writer = dst.AsciWriter();
                 var data = src.ReadBytes();
                 var size = HexFormatter.emit(data, writer);

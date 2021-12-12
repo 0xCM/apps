@@ -11,12 +11,16 @@ namespace Z0
     [Free]
     public interface IImmOp : IAsmOp, ITextual
     {
+        ImmKind ImmKind {get;}
+
+        ulong Value {get;}
+
         AsmOpClass IAsmOp.OpClass
             => AsmOpClass.Imm;
     }
 
     [Free]
-    public interface IImmOp<T> : IImmOp, IContented<T>
+    public interface IImmOp<T> : IImmOp
         where T : unmanaged
     {
 
@@ -40,6 +44,11 @@ namespace Z0
         where F : unmanaged, IImm<F,T>
         where T : unmanaged
     {
+        new T Value {get;}
+
+        ulong IImmOp.Value
+            => core.bw64(Value);
+
         NativeSize IAsmOp.Size
             => Sizes.native(core.width<T>());
     }

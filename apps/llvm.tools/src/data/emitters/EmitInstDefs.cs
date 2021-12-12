@@ -15,7 +15,7 @@ namespace Z0.llvm
             var result = Outcome.Success;
             var entities = DataProvider.SelectEntities();
             var count = entities.Length;
-            var asmids = DataProvider.SelectAsmIdDefs();
+            var asmids = DataProvider.SelectAsmIdentifiers();
             var found = list<Paired<ushort,InstEntity>>();
             for(var i=0; i<count; i++)
             {

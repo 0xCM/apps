@@ -8,8 +8,9 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    public readonly struct LineMaps
+    partial struct Lines
     {
         [MethodImpl(Inline)]
         public static LineInterval<T> interval<T>(T id, LineNumber min, LineNumber max)
@@ -18,9 +19,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static LineInterval interval(uint id, LineNumber min, LineNumber max)
             => new LineInterval(id, min,max);
-
-        [MethodImpl(Inline)]
-        public static LineMap<T> map<T>(LineInterval<T>[] src)
-            => src;
     }
 }

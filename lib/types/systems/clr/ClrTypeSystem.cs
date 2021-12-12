@@ -9,7 +9,7 @@ namespace Z0
     using PK = ClrPrimitiveKind;
     using EK = ClrEnumKind;
 
-    public sealed class ClrTypeSystem : TypeSystem<ClrTypeSystem,PK>
+    public sealed partial class ClrTypeSystem : TypeSystem<ClrTypeSystem,PK>
     {
         public const string SystemName = "clr";
 
@@ -20,15 +20,21 @@ namespace Z0
         }
 
         public ReadOnlySpan<ClrEnumKind> EnumKinds
-            => _EnumsKinds;
+            => _EnumKinds;
 
-        public override ReadOnlySpan<TypeKind<PK>> Primitives
+        public override ReadOnlySpan<TypeKind<PK>> PrimalKinds
             => _Primitives;
+
+        public override ReadOnlySpan<IType> KnownTypes => _KnownTypes;
+
+        static T known<T>()
+            where T : struct, IType
+                => new T();
 
         static TypeKind<PK> primitive(PK kind, string name, byte arity)
             => new TypeKind<PK>(kind, name, arity);
 
-        static Index<ClrEnumKind> _EnumsKinds = new ClrEnumKind[]{
+        static Index<ClrEnumKind> _EnumKinds = new ClrEnumKind[]{
             EK.U8,
             EK.U16,
             EK.U32,
@@ -55,6 +61,23 @@ namespace Z0
             primitive(PK.F64, "double", 0),
             primitive(PK.F128, "decimal", 0),
             primitive(PK.String, "string", 0),
+        };
+
+        static Index<IType> _KnownTypes => new IType[]{
+            known<Bool>(),
+            known<Byte>(),
+            known<UInt16>(),
+            known<UInt32>(),
+            known<UInt64>(),
+            known<SByte>(),
+            known<Int16>(),
+            known<Int32>(),
+            known<Int64>(),
+            known<Char>(),
+            known<Float>(),
+            known<Double>(),
+            known<Decimal>(),
+            known<String>(),
         };
     }
 }
