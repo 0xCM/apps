@@ -298,9 +298,7 @@ namespace Z0
             var setting = Setting.Empty;
             if(i > 0)
             {
-                var name = text.left(src, i).Trim();
-                var value = text.right(src, i).Trim();
-                setting = new Setting(name, value);
+                setting = new Setting(text.trim(text.left(src, i)), text.trim(text.right(src, i)));
             }
             return setting;
         }

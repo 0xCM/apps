@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     partial class XText
     {
         /// <summary>
@@ -15,13 +13,7 @@ namespace Z0
         /// <param name="match">The substring to match</param>
         [TextUtility]
         public static string RightOfLast(this string src, string match)
-        {
-            var idx = src.LastIndexOf(match);
-            if (idx != -1)
-                return src.Substring(idx + match.Length);
-            else
-                return string.Empty;
-        }
+            => text.rightoflast(src,match);
 
         /// <summary>
         /// Retrieves the substring that follows the last occurrence of a marker
@@ -30,12 +22,6 @@ namespace Z0
         /// <param name="match">The substring to match</param>
         [TextUtility]
         public static string RightOfLast(this string src, char match)
-        {
-            var idx = src.LastIndexOf(match);
-            if (idx != -1 && idx < src.Length - 1)
-                return src.Substring(idx + 1);
-            else
-                return EmptyString;
-        }
+            => text.rightoflast(src,match);
     }
 }

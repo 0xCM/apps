@@ -15,11 +15,11 @@ namespace Z0
     [ApiHost]
     public readonly struct SymbolicParse
     {
-        public static Outcome parse(TextLine src, out SymLiteralRow dst)
+        public static Outcome parse(string src, out SymLiteralRow dst)
         {
             var outcome = Outcome.Success;
             var j=0;
-            var cells = src.Split(Chars.Pipe);
+            var cells = text.split(src,Chars.Pipe);
             if(cells.Length != SymLiteralRow.FieldCount)
             {
                 dst = default;
@@ -40,11 +40,19 @@ namespace Z0
             return outcome;
         }
 
+        [Parser]
+        public static Outcome parse(TextLine src, out SymLiteralRow dst)
+            => parse(src.Content, out dst);
+
         public static Outcome parse(TextLine src, out SymInfo dst)
+            => parse(src.Content, out dst);
+
+        [Parser]
+        public static Outcome parse(string src, out SymInfo dst)
         {
             var outcome = Outcome.Success;
             var j=0;
-            var cells = src.Split(Chars.Pipe);
+            var cells = text.split(src,Chars.Pipe);
             if(cells.Length != SymInfo.FieldCount)
             {
                 dst = default;

@@ -17,30 +17,10 @@ namespace Z0.Asm
 
         Index<ProcessAsmRecord> _ProcessAsmSelection;
 
-        Index<HostAsmRecord> _HostAsm;
-
-        Index<AsmDataBlock> _AsmBlocks;
-
         public AsmShellState()
         {
             _ProcessAsm = array<ProcessAsmRecord>();
             _ProcessAsmSelection = array<ProcessAsmRecord>();
-            _HostAsm = array<HostAsmRecord>();
-            _AsmBlocks = array<AsmDataBlock>();
-        }
-
-        public ReadOnlySpan<AsmDataBlock> Records(Func<Index<AsmDataBlock>> loader)
-        {
-            if(_AsmBlocks.IsEmpty)
-                _AsmBlocks = loader();
-            return _AsmBlocks;
-        }
-
-        public ReadOnlySpan<HostAsmRecord> HostAsm(Func<Index<HostAsmRecord>> loader)
-        {
-            if(_HostAsm.IsEmpty)
-                _HostAsm = loader();
-            return _HostAsm;
         }
 
         [MethodImpl(Inline)]

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
+
     partial class AsmCmdService
     {
         [CmdOp(".test-settings")]
@@ -35,6 +37,19 @@ namespace Z0.Asm
                 return result;
 
             return result;
+        }
+
+
+        [CmdOp("api/parsers")]
+        Outcome FindParsers(CmdArgs args)
+        {
+            var parser = Parsers.Service;
+            var x = 32u;
+            if(parser.Parse(x.ToString(), out uint dst))
+            {
+                Write(string.Format("Parsed {0}", dst));
+            }
+            return true;
         }
     }
 }

@@ -110,6 +110,7 @@ namespace Z0
             return result;
         }
 
+        [Parser]
         public static Outcome parse(string src, out bit dst)
             => bit.parse(src, out dst);
 

@@ -14,7 +14,7 @@ namespace Z0
         /// <typeparam name="K">The the type</typeparam>
         /// <typeparam name="V">The value type</typeparam>
         public static string facet<K,V>(K key, V value)
-            => string.Format(Attrib,key,value);
+            => string.Format(Attrib, key, value);
 
         /// <summary>
         /// Formats the operands as a facet 'k:v' where k is padded to a specified width

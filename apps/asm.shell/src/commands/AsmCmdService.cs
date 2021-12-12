@@ -19,21 +19,17 @@ namespace Z0.Asm
 
         IWorkspace AsmWs;
 
-        IApiPack ApiPack;
-
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        AsmRegSets RegSets;
+        AsmRegSets RegSets => Service(Wf.AsmRegSets);
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 
         ApiPacks ApiPacks => Service(Wf.ApiPacks);
 
-        ApiHexPacks ApiHexPacks;
-
         ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);
 
-        ApiCatalogs ApiCatalogs;
+        ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
 
         CliMemoryMap ResPack;
 
@@ -41,11 +37,7 @@ namespace Z0.Asm
 
         IWorkspace OutWs;
 
-        Generators Generators;
-
         byte[] _Assembled;
-
-        StringTableGen StringTableGen;
 
         public AsmCmdService()
         {
@@ -59,14 +51,8 @@ namespace Z0.Asm
         protected override void Initialized()
         {
             AsmWs = Ws.Asm();
-            ApiPack = ApiPacks.Current();
-            RegSets = Wf.AsmRegSets();
             Random = Rng.wyhash64();
-            ApiHexPacks = Wf.ApiHexPacks();
             OutWs = Ws.Output();
-            ApiCatalogs = Wf.ApiCatalogs();
-            Generators = Wf.Generators();
-            StringTableGen = Wf.StringTableGen();
             State.Init(Wf, Ws);
         }
 

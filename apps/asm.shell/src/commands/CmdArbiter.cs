@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System;
     using System.Threading;
@@ -11,11 +11,27 @@ namespace Z0.Asm
 
     using static core;
 
-    public class AsmCmdArbiter : IDisposable
+    public class CmdArbiter : IDisposable
     {
-        public static AsmCmdArbiter start(NativeBuffer buffer)
+        public class Job
         {
-            var arbiter = new AsmCmdArbiter(buffer);
+            public static Job create(Action worker, Action finished)
+                => new Job(worker,finished);
+
+            public Action Worker {get;}
+
+            public Action Finished {get;}
+
+            public Job(Action worker, Action finished)
+            {
+                Worker = worker;
+                Finished = finished;
+            }
+        }
+
+        public static CmdArbiter start(NativeBuffer buffer)
+        {
+            var arbiter = new CmdArbiter(buffer);
             arbiter.WorkerThread = new Thread(arbiter.Run);
             arbiter.ControlThread = new Thread(arbiter.Control);
             arbiter.Start();
@@ -34,9 +50,9 @@ namespace Z0.Asm
 
         uint ControlThreadId;
 
-        ConcurrentQueue<AsmCmdJob> WorkQueue;
+        ConcurrentQueue<Job> WorkQueue;
 
-        ConcurrentQueue<AsmCmdJob> CompletionQueue;
+        ConcurrentQueue<Job> CompletionQueue;
 
         bool Stopping;
 
@@ -46,7 +62,7 @@ namespace Z0.Asm
 
         bool Verbose;
 
-        AsmCmdArbiter(NativeBuffer buffer)
+        CmdArbiter(NativeBuffer buffer)
         {
             ContextBuffer = buffer;
             Stopping = false;
@@ -56,9 +72,6 @@ namespace Z0.Asm
             WorkQueue = new();
             CompletionQueue = new();
         }
-
-        uint ExecutingThread()
-            => Kernel32.GetCurrentThreadId();
 
         void Control()
         {
@@ -71,7 +84,6 @@ namespace Z0.Asm
             {
                 if(CompletionQueue.TryDequeue(out var job))
                 {
-                    CaptureContext();
                     job.Finished();
                 }
 
@@ -126,7 +138,7 @@ namespace Z0.Asm
         {
             var result = Kernel32.SuspendThread(WorkerHandle);
             if(result != 0)
-                return (false,Kernel32.GetLastError());
+                return (false, Kernel32.GetLastError());
             else
                 return true;
         }
@@ -135,7 +147,7 @@ namespace Z0.Asm
         {
             var result = Kernel32.ResumeThread(WorkerHandle);
             if(result != 0)
-                return (false,Kernel32.GetLastError());
+                return (false, Kernel32.GetLastError());
             else
                 return true;
         }
@@ -154,7 +166,7 @@ namespace Z0.Asm
 
         public void Enque(Action worker, Action complete)
         {
-            WorkQueue.Enqueue(AsmCmdJob.create(worker,complete));
+            WorkQueue.Enqueue(Job.create(worker,complete));
         }
 
         public unsafe void CaptureContext()
@@ -185,6 +197,9 @@ namespace Z0.Asm
 
             Resume();
         }
+
+        static uint ExecutingThread()
+            => Kernel32.GetCurrentThreadId();
 
         static OpenHandle OpenThread(uint threadId)
             => Kernel32.OpenThread(ThreadAccess.THREAD_ALL_ACCESS, true, threadId);

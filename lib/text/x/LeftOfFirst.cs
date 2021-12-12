@@ -4,19 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial class XText
     {
-       /// <summary>
+        /// <summary>
         /// Gets the string to the left of, but not including, the first instance of a specified character
         /// </summary>
         /// <param name="src">The string to search</param>
         /// <param name="match">The character</param>
         [TextUtility]
         public static string LeftOfFirst(this string src, char match)
-            => src.Substring(0, Root.apply(src.IndexOf(match), idx => idx == -1 ? src.Length - 1 : idx));
+            => src.Substring(0, core.apply(src.IndexOf(match), idx => idx == -1 ? src.Length - 1 : idx));
 
         /// <summary>
         /// Gets the string to the left of, but not including, a specified substring
