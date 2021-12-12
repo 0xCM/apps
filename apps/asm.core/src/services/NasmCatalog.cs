@@ -11,11 +11,11 @@ namespace Z0.Asm
 
     public class NasmCatalog : AppService<NasmCatalog>
     {
-        static bool comment(string src)
-            => src.Length > 0 && src[0] == Chars.Semicolon;
+        static bool comment(ReadOnlySpan<char> src)
+            =>  src.Length != 0 && first(src) == Chars.Semicolon;
 
         static ReadOnlySpan<char> encoding(string src)
-            => text.replace(text.inside(src, Chars.LBracket, Chars.RBracket), Chars.Tab,Chars.Space).Trim();
+            => text.trim(text.replace(text.inside(src, Chars.LBracket, Chars.RBracket), Chars.Tab,Chars.Space));
 
         static ReadOnlySpan<char> operands(ReadOnlySpan<char> src)
         {
@@ -32,7 +32,24 @@ namespace Z0.Asm
         public ReadOnlySpan<NasmInstruction> ParseInstructions(FS.FilePath src)
         {
             const uint FirstLine = 70;
-            var lines = slice(src.ReadNumberedLines(), FirstLine);
+
+            Write(string.Format("Parsing {0}", src));
+            if(!src.Exists)
+            {
+                Error(FS.missing(src));
+                return default;
+            }
+
+            var input = src.ReadNumberedLines();
+            if(input.Length < 80)
+            {
+                Error(string.Format("Bad format: {0}", src));
+                return default;
+            }
+
+            Write(string.Format("Read {0} source lines", input.Length));
+
+            var lines = slice(input, FirstLine);
             var count = lines.Length;
             var section = EmptyString;
             var buffer = span<NasmInstruction>(count);
@@ -41,7 +58,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref skip(lines,i);
-                var content = line.Trim().Text.Replace(Chars.Pipe, Chars.Caret);
+                var content = text.replace(text.trim(line.Content), Chars.Pipe, Chars.Caret);
 
                 if(content.Length < 2)
                     continue;
@@ -62,12 +79,12 @@ namespace Z0.Asm
             return slice(buffer, 0, j);
         }
 
+        FS.FilePath InstructionImport() => ProjectDb.TablePath<NasmInstruction>("nasm");
+
+        FS.FilePath InstructionSource() => ProjectDb.Subdir("sources") + FS.file("nasm.instructions", FS.Txt);
+
         public ReadOnlySpan<NasmInstruction> ImportInstructions()
-        {
-            var src = Ws.Sources().Datasets(AsmTableScopes.Nasm) + FS.file("nasm.instructions", FS.Txt);
-            var dst = Ws.Tables().TablePath<NasmInstruction>(AsmTableScopes.Nasm);
-            return ImportInstructions(src,dst);
-        }
+            => ImportInstructions(InstructionSource(),InstructionImport());
 
         public ReadOnlySpan<NasmInstruction> ImportInstructions(FS.FilePath src, FS.FilePath dst)
         {
@@ -75,9 +92,9 @@ namespace Z0.Asm
             var count = instructions.Length;
             if(count != 0)
             {
-                var flow = Wf.EmittingTable<NasmInstruction>(dst);
+                var flow = EmittingTable<NasmInstruction>(dst);
                 var emitted = Tables.emit(instructions, NasmInstruction.RenderWidths, TextEncodingKind.Unicode, dst);
-                Wf.EmittedTable(flow, emitted);
+                EmittedTable(flow, emitted);
                 return instructions;
             }
             else
@@ -85,10 +102,7 @@ namespace Z0.Asm
         }
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports()
-        {
-            var src = Ws.Tables().TablePath<NasmInstruction>(AsmTableScopes.Nasm);
-            return LoadInstructionImports(src);
-        }
+            => LoadInstructionImports(InstructionImport());
 
         public ReadOnlySpan<NasmInstruction> LoadInstructionImports(FS.FilePath src)
         {

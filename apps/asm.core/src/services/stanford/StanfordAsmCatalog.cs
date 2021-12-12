@@ -145,8 +145,10 @@ namespace Z0.Asm
             return imports;
         }
 
+        AsmFormPipe AsmFormPipe => Service(Wf.AsmFormPipe);
+
         public void EmitForms(ReadOnlySpan<AsmFormInfo> src)
-            => Wf.AsmFormPipe().Emit(src, Db.Table<AsmFormRecord>(TargetFolder));
+            => AsmFormPipe.Emit(src, Db.Table<AsmFormRecord>(TargetFolder));
 
         Outcome parse(ushort seq, in TextLine src, ref StokeAsmAssetRow dst)
         {

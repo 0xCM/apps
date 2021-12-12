@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Collections.Generic;
 
     using static core;
 
@@ -19,6 +20,82 @@ namespace Z0
             ScriptRunner = Wf.ScriptRunner();
             CmdRunner = Wf.CmdLineRunner();
         }
+
+        public Outcome Run(CmdLine cmd, List<string> status = null, List<string> errors = null)
+        {
+            status = status ?? list<string>();
+            errors = errors ?? list<string>();
+
+            void OnStatus(in string data)
+            {
+                if(nonempty(data))
+                    status.Add(data.Trim());
+            }
+
+            void OnError(in string data)
+            {
+                if(nonempty(data))
+                    errors.Add(data.Trim());
+            }
+
+            var running = Running(cmd);
+            ScriptProcess.create(cmd, OnStatus, OnError).Wait();
+            Ran(running);
+
+            if(errors.Count == 0)
+                return true;
+            else
+                return (false, errors.Delimit(Chars.NL).Format());
+        }
+
+        public Outcome Run(CmdLine cmdline, FS.FilePath dst, List<string> status = null, List<string> errors = null)
+        {
+            status = status ?? list<string>();
+            errors = errors ?? list<string>();
+            void OnStatus(in string data)
+            {
+                if(nonempty(data))
+                    status.Add(data);
+            }
+
+            void OnError(in string data)
+            {
+                if(nonempty(data))
+                    errors.Add(data);
+            }
+
+            try
+            {
+                var running = Running(cmdline);
+                using var writer = dst.AsciWriter();
+                ScriptProcess.create(cmdline, writer, OnStatus, OnError).Wait();
+                status.Sort();
+                Ran(running);
+            }
+            catch(Exception e)
+            {
+                Error(e.Message);
+            }
+
+            if(status.Count != 0)
+            {
+                var path = dst.ChangeExtension(FS.Log);
+                using var logger = path.Utf8Writer();
+                iter(status, entry => logger.WriteLine(entry));
+            }
+
+            if(errors.Count != 0)
+            {
+                var path = dst.ChangeExtension(FS.ext("errors.log"));
+                using var logger = path.Utf8Writer();
+                iter(errors, entry => logger.WriteLine(entry));
+            }
+
+             if(errors.Count == 0)
+                return true;
+            else
+                return (false, errors.Delimit(Chars.NL).Format());
+       }
 
         public Outcome RunToolScript(FS.FilePath src, CmdVars vars, bool quiet, out ReadOnlySpan<ToolCmdFlow> flows)
         {

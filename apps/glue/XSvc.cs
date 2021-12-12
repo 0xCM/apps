@@ -26,14 +26,6 @@ namespace Z0
             => Z0.SourceSymbolic.create(wf);
 
         [Op]
-        public static Nasm Nasm(this IWfRuntime wf)
-            => Tools.Nasm.create(wf);
-
-        [Op]
-        public static NDisasm NDisasm(this IWfRuntime wf)
-            => Tools.NDisasm.create(wf);
-
-        [Op]
         public static Robocopy Robocopy(this IWfRuntime wf)
             => Tools.Robocopy.create(wf);
 

@@ -24,12 +24,11 @@ namespace Z0.Asm
             var count = src.Length;
             if(count == 0)
             {
-                Wf.Warn("No work to do");
+                Warn("No work to do");
                 return;
             }
 
-            var flow = Wf.EmittingTable<AsmFormRecord>(dst);
-
+            var flow = EmittingTable<AsmFormRecord>(dst);
             using var writer = dst.Writer();
             writer.WriteLine(FormatHeader());
             for(ushort i=0; i<count; i++)
@@ -37,16 +36,16 @@ namespace Z0.Asm
                 var data = NewRecord();
                 writer.WriteLine(Format(Fill(i, skip(src,i), ref data)));
             }
-            Wf.EmittedTable(flow, count);
+            EmittedTable(flow, count);
         }
 
         ReadOnlySpan<HashEntry> HashPerfect(ReadOnlySpan<AsmFormInfo> src)
         {
-            Wf.Status($"Attempting to find perfect hashes for {src.Length} expressions");
+            Status($"Attempting to find perfect hashes for {src.Length} expressions");
             var perfect = HashFunctions.perfect(src, x => x.Format(), HashFunctions.strings()).Codes;
             var count = (uint)perfect.Length;
 
-            Wf.Status($"Found {count} distinct hash codes for {src.Length} expressions");
+            Status($"Found {count} distinct hash codes for {src.Length} expressions");
 
             var dst = Db.AsmCatalogTable<HashEntry>();
             var buffer = alloc<HashEntry>(count);
@@ -59,9 +58,9 @@ namespace Z0.Asm
                 record.Content = hash.Source.Format();
                 record.Code = hash.Hash;
             }
-            var emitting = Wf.EmittingTable<HashEntry>(dst);
+            var emitting = EmittingTable<HashEntry>(dst);
             var ecount = Tables.emit(@readonly(buffer), dst);
-            Wf.EmittedTable(emitting, ecount);
+            EmittedTable(emitting, ecount);
             return buffer;
         }
 
@@ -102,21 +101,21 @@ namespace Z0.Asm
             var dst = list<AsmFormRecord>();
             if(src.Exists)
             {
-                var flow = Wf.Running($"Loading form records from {src.ToUri()}");
+                var flow = Running($"Loading form records from {src.ToUri()}");
                 var doc = TextGrids.parse(src);
                 if(doc.Failed)
                 {
-                    Wf.Error(doc.Reason);
+                    Error(doc.Reason);
                     return array<AsmFormRecord>();
                 }
 
                 var forms = LoadForms(doc.Value);
-                Wf.Ran(flow, LoadedForms.Format(forms.Length, src));
+                Ran(flow, LoadedForms.Format(forms.Length, src));
                 return forms;
             }
             else
             {
-                Wf.Error($"The file <{src.ToUri()}> does not exist");
+                Error($"The file <{src.ToUri()}> does not exist");
                 return array<AsmFormRecord>();
             }
         }
@@ -144,6 +143,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         ref readonly string NextCell(ReadOnlySpan<string> src, ref uint i)
             => ref skip(src, i++);
-
     }
 }

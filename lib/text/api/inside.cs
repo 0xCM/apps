@@ -11,6 +11,9 @@ namespace Z0
         [Op]
         public static string inside(string src, char c0, char c1)
         {
+            if(empty(src))
+                return EmptyString;
+
             var i0 = index(src, c0);
             if(i0 > 0)
             {
@@ -24,6 +27,9 @@ namespace Z0
         [Op]
         public static string inside(string src, int i, int j)
         {
+            if(empty(src))
+                return EmptyString;
+
             if(j<=i)
                 return EmptyString;
             else

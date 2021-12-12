@@ -44,5 +44,16 @@ namespace Z0
         [Op]
         public static AsmFormPipe AsmFormPipe(this IWfRuntime wf)
             => Svc.AsmFormPipe.create(wf);
+
+
+        [Op]
+        public static Nasm Nasm(this IWfRuntime wf)
+            => Z0.Nasm.create(wf);
+
+        [Op]
+        public static NDisasm NDisasm(this IWfRuntime wf)
+            => Z0.NDisasm.create(wf);
+
+
     }
 }

@@ -14,7 +14,7 @@ namespace Z0
     {
         [Op]
         public static string replace(string src, char a, char b)
-            => src.Replace(a,b);
+            => nonempty(src) ? src.Replace(a,b) : EmptyString;
 
         [MethodImpl(Inline), Op]
         public static void replace(Span<char> src, char a, char b)
@@ -27,7 +27,7 @@ namespace Z0
 
         [Op]
         public static string replace(string src, string match, string repl)
-            => src.Replace(match,repl);
+            => nonempty(src) ? src.Replace(match, repl) : EmptyString;
 
         [Op]
         public static ReadOnlySpan<char> replace(ReadOnlySpan<char> src, char a, char b)

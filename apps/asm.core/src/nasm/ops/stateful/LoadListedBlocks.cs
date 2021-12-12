@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Tools
+namespace Z0
 {
     using static core;
 
@@ -21,8 +21,8 @@ namespace Z0.Tools
             var buffer = alloc<NasmListEntry>(listing.LineCount);
             var count = ParseListing(listing, buffer);
             var output = slice(span(buffer), 0, count);
-            var blocks = list<LabeledBlocks>();
-            var collector = new LabeledBlocks(NasmLabel.Empty, new());
+            var blocks = list<NasmEncodingBlocks>();
+            var collector = new NasmEncodingBlocks(NasmLabel.Empty, new());
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref skip(output,i);
@@ -32,7 +32,7 @@ namespace Z0.Tools
                     var label = new NasmLabel(entry.LineNumber, entry.Label);
                     if(collector.IsNonEmpty)
                         blocks.Add(collector);
-                    collector = new LabeledBlocks(label, new());
+                    collector = new NasmEncodingBlocks(label, new());
 
                 }
                 else if(kind == NasmListLineKind.Encoding)
