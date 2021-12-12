@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class XedCmdProvider
     {
-        [CmdOp("xed/query/opkinds")]
-        Outcome XedOpKinds(CmdArgs args)
-            => ShowSyms(Xed.OperandKinds());
+        const string XedOpKindQuery = "xed/query/opkinds";
+
+        [CmdOp(XedOpKindQuery)]
+        Outcome QueryOpKinds(CmdArgs args)
+        {
+            TableEmit(Symbols.syminfo<XedModels.OperandKind>(), SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
+            return true;
+        }
     }
 }

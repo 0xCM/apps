@@ -6,13 +6,12 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-    using static Root;
-
     public partial class XedCmdProvider : AppCmdProvider<XedCmdProvider>
     {
-        IntelXed Xed => Service(Wf.IntelXed);
+        FS.FilePath XedQueryOut(string id)
+            => ProjectDb.Subdir("xed/queries") + FS.file(text.replace(id, Chars.FSlash,Chars.Dot), FS.Csv);
 
+        IntelXed Xed => Service(Wf.IntelXed);
     }
 
     partial class XTend

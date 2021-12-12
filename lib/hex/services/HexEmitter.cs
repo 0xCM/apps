@@ -11,7 +11,7 @@ namespace Z0
 
     public class HexEmitter : AppService<HexEmitter>
     {
-        public ByteSize EmitHexText(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)
+        public ByteSize EmitBasedRows(ReadOnlySpan<byte> src, ushort rowsize, FS.FilePath dst)
         {
             const char Delimiter = Chars.Pipe;
             var @base = MemoryAddress.Zero;

@@ -13,9 +13,10 @@ namespace Z0
         Outcome ApiEmitAsmHexText(CmdArgs args)
         {
             var result = Outcome.Success;
+            const uint BufferLength = Pow2.T16;
             var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
             var count = blocks.Length;
-            var buffer = span<char>(Pow2.T16);
+            var buffer = span<char>(BufferLength);
             var dst = ProjectDb.Subdir("api") + FS.file("api", FS.Hex);
             using var writer = dst.AsciWriter();
             for(var i=0u; i<count; i++)
@@ -30,7 +31,6 @@ namespace Z0
             return result;
         }
 
-
         [CmdOp("api/emit/captured/hex-functions")]
         Outcome ApiEmitAsmHexTextBlocks(CmdArgs args)
         {
@@ -38,12 +38,12 @@ namespace Z0
             var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
             var count = blocks.Length;
             var emitter = Wf.HexEmitter();
-            var apidb = Ws.Project("db").Subdir("api");
+            var apidb = ProjectDb.Subdir("api") + FS.folder("hex");
             for(var i=0; i<count; i++)
             {
                 ref readonly var block = ref skip(blocks,i);
                 var outpath = apidb + FS.file(block.Origin.Format(), FS.Hex);
-                emitter.EmitHexText(block.View, 64, outpath);
+                emitter.EmitBasedRows(block.View, 64, outpath);
             }
 
             return result;

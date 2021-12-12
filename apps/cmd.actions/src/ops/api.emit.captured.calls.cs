@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using System;
     using Asm;
 
     partial class GlobalCommands
@@ -24,7 +22,6 @@ namespace Z0
 
         SortedIndex<ApiCodeBlock> SortedBlocks()
             => ApiHex.ReadBlocks().Storage.ToSortedIndex();
-
 
         [CmdOp("emit-respack")]
         protected Outcome EmitResPack(CmdArgs args)

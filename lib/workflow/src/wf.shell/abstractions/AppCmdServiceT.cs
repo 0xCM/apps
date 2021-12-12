@@ -376,12 +376,6 @@ namespace Z0
                 return (false, FS.missing(path));
         }
 
-        protected ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
-            where E : unmanaged, Enum
-        {
-            return Service(Wf.Symbolism).EmitLiterals<E>(dst);
-        }
-
         protected virtual string PromptTitle {get;}
 
         protected virtual Outcome DispatchFallback(string command, CmdArgs args)

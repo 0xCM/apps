@@ -8,10 +8,12 @@ namespace Z0
 
     partial class GlobalCommands
     {
+        ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
+
         [CmdOp("api/emit/classes")]
         protected Outcome EmitApiClasses(CmdArgs args)
         {
-            Wf.ApiCatalogs().EmitApiClasses();
+            ApiCatalogs.EmitApiClasses();
             return true;
         }
     }

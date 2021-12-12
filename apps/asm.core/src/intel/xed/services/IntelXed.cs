@@ -266,8 +266,14 @@ namespace Z0.Asm
             EmitChipMap();
             EmitFormCatalog();
             EmitTokens();
+            EmitFormOperands();
+        }
+
+        public void EmitFormOperands()
+        {
             var aspects = EmitOperandKinds();
-            EmitOperands(Partition(aspects));
+            var partition = Partition(aspects);
+            EmitOperands(partition);
         }
 
         public Outcome EmitChipMap()
@@ -306,16 +312,9 @@ namespace Z0.Asm
             EmittedTable(flow, count);
         }
 
-        void EmitTokens()
+        public void EmitTokens()
         {
             Service(Wf.ApiMetadata).EmitApiTokens("xed", "xed");
-            // var types = typeof(XedModels).GetNestedTypes().Enums();
-            // var count = types.Length;
-            // for(var i=0; i<count; i++)
-            // {
-            //     ref readonly var type = ref skip(types,i);
-            //     TableEmit(Symbols.literals(type).View, SymLiteralRow.RenderWidths, SymTablePath(type.Name));
-            // }
         }
 
         ReadOnlySpan<XedFormOperand> ComputeDistinctOperands()
@@ -480,12 +479,11 @@ namespace Z0.Asm
             return buffer;
         }
 
-
-        void EmitFormCatalog()
+        public void EmitFormCatalog()
         {
             var src = LoadFormSources().View;
             var dst = FormCatalogPath();
-            var emitting = Wf.EmittingTable<XedFormImport>(dst);
+            var emitting = EmittingTable<XedFormImport>(dst);
             var formatter = Tables.formatter<XedFormImport>(XedFormImport.RenderWidths);
             var count = src.Length;
             var result = Outcome.Success;

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class XedCmdProvider
     {
         [CmdOp("xed/emit/isa")]
         Outcome XedIsa(CmdArgs args)

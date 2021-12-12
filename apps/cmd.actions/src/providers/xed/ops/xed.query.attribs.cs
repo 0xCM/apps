@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class XedCmdProvider
     {
-        [CmdOp("xed/query/attribs")]
-        Outcome XedAttribs(CmdArgs args)
-            => ShowSyms(Xed.Attributes());
+        const string XedAttribQuery = "xed/query/attribs";
+
+        [CmdOp(XedAttribQuery)]
+        Outcome QueryAttribs(CmdArgs args)
+        {
+            TableEmit(Symbols.syminfo<XedModels.AttributeKind>(), SymInfo.RenderWidths, XedQueryOut(XedAttribQuery));
+            return true;
+        }
     }
 }

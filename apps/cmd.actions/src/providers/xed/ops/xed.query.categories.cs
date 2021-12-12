@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class XedCmdProvider
     {
-        [CmdOp("xed/query/categories")]
-        Outcome XedCategories(CmdArgs args)
-            => ShowSyms(Xed.Categories());
+        const string XedCategoryQuery = "xed/query/categories";
+
+        [CmdOp(XedCategoryQuery)]
+        Outcome QueryCategores(CmdArgs args)
+        {
+            TableEmit(Symbols.syminfo<XedModels.Category>(), SymInfo.RenderWidths, XedQueryOut(XedCategoryQuery));
+            return true;
+        }
     }
 }

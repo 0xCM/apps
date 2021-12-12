@@ -292,6 +292,12 @@ namespace Z0
             return true;
         }
 
+        protected ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
+            where E : unmanaged, Enum
+        {
+            return Service(Wf.Symbolism).EmitLiterals<E>(dst);
+        }
+
         protected virtual void OnInit()
         {
 
