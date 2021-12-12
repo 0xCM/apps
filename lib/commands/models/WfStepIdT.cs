@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Identifies a workflow step
     /// </summary>
-    [DataType]
+    [DataType("step<{0}>")]
     public readonly struct WfStepId<T> : IWfStepId
         where T : new()
     {

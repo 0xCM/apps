@@ -13,7 +13,7 @@ namespace Z0
     using W = W16;
     using K = System.UInt16;
 
-    [DataType("hex16")]
+    [DataType("hex16", HexNumberKind.Hex16, ContentWidth, StorageWidth)]
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
         [MethodImpl(Inline), Op]
@@ -25,6 +25,12 @@ namespace Z0
         }
 
         public static H Max => K.MaxValue;
+
+        public const byte ContentWidth = 16;
+
+        public const byte StorageWidth = 16;
+
+        public static H Zero => default;
 
         public K Value {get;}
 
@@ -145,7 +151,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator H(Address16 src)
             => new H(src.Location);
-
-        public static H Zero => default;
    }
 }

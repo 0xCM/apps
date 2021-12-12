@@ -13,9 +13,13 @@ namespace Z0
     using W = W64;
     using K = System.UInt64;
 
-    [DataType("hex64")]
+    [DataType("hex64", HexNumberKind.Hex64, ContentWidth, StorageWidth)]
     public readonly struct Hex64 : IHexNumber<H,W,K>
     {
+        public const byte ContentWidth = 64;
+
+        public const byte StorageWidth = 64;
+
         public K Value {get;}
 
         [MethodImpl(Inline)]

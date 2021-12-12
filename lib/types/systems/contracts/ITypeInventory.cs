@@ -4,16 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISizedType : IType
+    public interface ITypeInventory
     {
-        BitWidth ContentWidth {get;}
 
-        BitWidth StorageWidth {get;}
-    }
-
-    public interface ISizedType<K> : ISizedType, IType<K>
-        where K : unmanaged
-    {
 
     }
 }

@@ -13,22 +13,12 @@ namespace Z0
     using K = Hex5Seq;
     using W = W5;
 
-    [DataType("hex5")]
+    [DataType("hex5", HexNumberKind.Hex5, ContentWidth, StorageWidth)]
     public readonly struct Hex5 : IHexNumber<H,W,K>
     {
-        public readonly K Value;
+        public const byte ContentWidth = 5;
 
-        [MethodImpl(Inline)]
-        public Hex5(K src)
-             => Value = src & KMax;
-
-        [MethodImpl(Inline)]
-        public Hex5(byte src)
-            => Value = (K)src & KMax;
-
-        public const byte Width = 5;
-
-        public const uint Count = 32;
+        public const byte StorageWidth = 8;
 
         public const K KMin = K.x00;
 
@@ -43,6 +33,16 @@ namespace Z0
         public static H Min => KMin;
 
         public static H Max => KMax;
+
+        public readonly K Value;
+
+        [MethodImpl(Inline)]
+        public Hex5(K src)
+             => Value = src & KMax;
+
+        [MethodImpl(Inline)]
+        public Hex5(byte src)
+            => Value = (K)src & KMax;
 
         K IHexNumber<K>.Value
             => Value;

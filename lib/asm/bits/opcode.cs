@@ -9,7 +9,6 @@ namespace Z0.Asm
 
     using static Root;
 
-
     partial class AsmBits
     {
         [MethodImpl(Inline), Op]

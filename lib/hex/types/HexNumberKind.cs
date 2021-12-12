@@ -4,16 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISizedType : IType
+    public enum HexNumberKind : byte
     {
-        BitWidth ContentWidth {get;}
+        Hex1 = 1,
 
-        BitWidth StorageWidth {get;}
-    }
+        Hex2 = 2,
 
-    public interface ISizedType<K> : ISizedType, IType<K>
-        where K : unmanaged
-    {
+        Hex3 = 3,
 
+        Hex4 = 4,
+
+        Hex5 = 5,
+
+        Hex6 = 6,
+
+        Hex7 = 7,
+
+        Hex8 = 8,
+
+        Hex16 = 16,
+
+        Hex32 = 32,
+
+        Hex64 = 64
     }
 }

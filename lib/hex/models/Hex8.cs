@@ -13,9 +13,28 @@ namespace Z0
     using K = Hex8Seq;
     using W = W8;
 
-    [DataType("hex8")]
+    [DataType("hex8", HexNumberKind.Hex8, ContentWidth, StorageWidth)]
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
+        public const byte ContentWidth = 8;
+
+        public const byte StorageWidth = 8;
+
+        public const K KMin = K.x00;
+
+        public const K KMax = K.xff;
+
+        public const K KOne = K.x01;
+
+        public static H Zero => KMin;
+
+        public static H One => KOne;
+
+        public static H Min => KMin;
+
+        public static H Max => KMax;
+
+
         [MethodImpl(Inline), Op]
         public static Outcome parse(string src, out Hex8 dst)
         {
@@ -33,24 +52,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public Hex8(byte src)
             => Value = (K)src;
-
-        public const byte Width = 8;
-
-        public const uint Count = 256;
-
-        public const K KMin = K.x00;
-
-        public const K KMax = K.xff;
-
-        public const K KOne = K.x01;
-
-        public static H Zero => KMin;
-
-        public static H One => KOne;
-
-        public static H Min => KMin;
-
-        public static H Max => KMax;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

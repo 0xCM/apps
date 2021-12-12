@@ -68,6 +68,11 @@ namespace Z0
         public static ScalarType i(BitWidth n, BitWidth t)
             => scalar(Specs.u(n).Text, SK.I, n, t);
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static SizedType<K> sized<K>(Identifier name, K kind, BitWidth content, BitWidth storage)
+            where K : unmanaged
+                => new SizedType<K>(name,kind,content,storage);
+
         [MethodImpl(Inline), Op]
         public static ScalarType scalar(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
             => new ScalarType(name,@class,content,storage);

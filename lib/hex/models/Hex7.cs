@@ -13,22 +13,12 @@ namespace Z0
     using K = Hex7Seq;
     using W = W7;
 
-    [DataType("hex7")]
+    [DataType("hex7", HexNumberKind.Hex7, ContentWidth, StorageWidth)]
     public readonly struct Hex7 : IHexNumber<H,W,K>
     {
-        public K Value {get;}
+        public const byte ContentWidth = 7;
 
-        [MethodImpl(Inline)]
-        public Hex7(K src)
-             => Value = src & KMax;
-
-        [MethodImpl(Inline)]
-        public Hex7(byte src)
-            => Value = (K)src & KMax;
-
-        public const byte Width = 6;
-
-        public const uint Count = 64;
+        public const byte StorageWidth = 8;
 
         public const K KMin = K.x00;
 
@@ -43,6 +33,16 @@ namespace Z0
         public static H Min => KMin;
 
         public static H Max => KMax;
+
+        public K Value {get;}
+
+        [MethodImpl(Inline)]
+        public Hex7(K src)
+             => Value = src & KMax;
+
+        [MethodImpl(Inline)]
+        public Hex7(byte src)
+            => Value = (K)src & KMax;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

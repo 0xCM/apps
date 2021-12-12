@@ -13,9 +13,17 @@ namespace Z0
     using W = W32;
     using K = System.UInt32;
 
-    [DataType("hex32")]
+    [DataType("hex32", HexNumberKind.Hex32, ContentWidth, StorageWidth)]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
+        public const byte ContentWidth = 32;
+
+        public const byte StorageWidth = 32;
+
+        public static H Zero => default;
+
+        public static H Max => K.MaxValue;
+
         public K Value {get;}
 
         [MethodImpl(Inline)]
@@ -136,8 +144,5 @@ namespace Z0
         public static bool operator!=(H x, H y)
             => x.Value != y.Value;
 
-        public static H Zero => default;
-
-        public static H Max => K.MaxValue;
     }
 }

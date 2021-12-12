@@ -60,9 +60,6 @@ namespace Z0.Asm
             Wf.CliEmitter().EmitImageContent();
         }
 
-        public ReadOnlySpan<string> LoadMnemonics()
-            => Wf.IntelXed().ClassNames();
-
         void EmitRuntimeMembers()
         {
             var service = ApiRuntime.create(Wf);

@@ -13,22 +13,12 @@ namespace Z0
     using K = Hex3Seq;
     using W = W3;
 
-    [DataType("hex3")]
+    [DataType("hex3", HexNumberKind.Hex3, ContentWidth, StorageWidth)]
     public readonly struct Hex3 : IHexNumber<H,W,K>
     {
-        public K Value {get;}
+        public const byte ContentWidth = 3;
 
-        [MethodImpl(Inline)]
-        public Hex3(K src)
-            => Value = src & KMax;
-
-        [MethodImpl(Inline)]
-        public Hex3(byte src)
-             => Value = (K)src & KMax;
-
-        public const byte Width = 3;
-
-        public const uint Count = 8;
+        public const byte StorageWidth = 8;
 
         public const K KMin = K.x00;
 
@@ -43,6 +33,17 @@ namespace Z0
         public static H Min => KMin;
 
         public static H Max => KMax;
+
+
+        public K Value {get;}
+
+        [MethodImpl(Inline)]
+        public Hex3(K src)
+            => Value = src & KMax;
+
+        [MethodImpl(Inline)]
+        public Hex3(byte src)
+             => Value = (K)src & KMax;
 
         [MethodImpl(Inline)]
         public bool Equals(H src)

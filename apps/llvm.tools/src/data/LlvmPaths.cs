@@ -8,16 +8,31 @@ namespace Z0.llvm
     {
         IProjectWs LlvmData;
 
+        IProjectWs Db;
+
         protected override void Initialized()
         {
             LlvmData = Ws.Project("llvm.data");
+            Db = Ws.Project("db");
         }
 
         public FS.FolderPath DataHome()
             => LlvmData.Home();
 
         public FS.FolderPath Imports()
-            => DataHome() + FS.folder("imports");
+            => Db.Subdir("llvm");
+
+        public FS.FolderPath Tables()
+            => Imports() + FS.folder("tables");
+
+        public FS.FolderPath RecordImports()
+            => Imports() + FS.folder("records");
+
+        public FS.FilePath RecordImport(string id, FS.FileExt ext)
+            =>  RecordImports() + FS.file(id, ext);
+
+        public FS.FilePath ImportMap(string id)
+            => RecordImports() + FS.file(id, FS.ext("map"));
 
         public FS.FolderPath ToolSourceDocs()
             => DataSourceDir("tools");
@@ -58,9 +73,6 @@ namespace Z0.llvm
         public FS.FolderPath LlvmSourceView()
             => View("llvm");
 
-        public FS.FolderPath Tables()
-            => Imports() + FS.folder("tables");
-
         public FS.FolderPath LlvmRoot
             => Env.LlvmRoot;
 
@@ -94,15 +106,6 @@ namespace Z0.llvm
 
         public FS.FilePath ListImportPath(string id)
             => Table(string.Format("llvm.lists.{0}", id));
-
-        public FS.FolderPath RecordImports()
-            => Imports() + FS.folder("records");
-
-        public FS.FilePath RecordImport(string id, FS.FileExt ext)
-            =>  RecordImports() + FS.file(id, ext);
-
-        public FS.FilePath ImportMap(string id)
-            => RecordImports() + FS.file(id, FS.ext("map"));
 
         public FS.FolderPath CodeGen()
             => Env.ZDev + FS.folder("codegen/codegen.llvm/src");
