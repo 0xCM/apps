@@ -24,13 +24,13 @@ namespace Z0.Asm
             var options = WorkflowOptions.@default();
             var dst = project.Subdir("settings") + FS.file("workflow", FS.Settings);
             var emitting = EmittingFile(dst);
-            result = Settings.Store(options, dst);
+            result = AppSettings.Store(options, dst);
             if(result.Fail)
                 return result;
 
             EmittedFile(emitting, 1);
 
-            result = Settings.Load(dst, out WorkflowOptions read);
+            result = AppSettings.Load(dst, out WorkflowOptions read);
             if(result.Fail)
                 return result;
 

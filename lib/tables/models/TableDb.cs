@@ -12,7 +12,7 @@ namespace Z0
 
     public class TableDb
     {
-        ConstLookup<TableId, TableSchema> _Schemas;
+        ConstLookup<TableId,TableSchema> _Schemas;
 
         public TableDb(TableSchema[] schemas)
         {

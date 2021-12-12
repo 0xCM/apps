@@ -9,13 +9,12 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct RecordFields<T> : IIndex<RecordField<T>>
-        where T : struct
+    public readonly struct ClrRecordFields : IIndex<ClrTableField>
     {
-        readonly Index<RecordField<T>> Data;
+        readonly Index<ClrTableField> Data;
 
         [MethodImpl(Inline)]
-        public RecordFields(RecordField<T>[] src)
+        public ClrRecordFields(ClrTableField[] src)
             => Data = src;
 
         public uint Count
@@ -30,45 +29,42 @@ namespace Z0
             get => Data.Length;
         }
 
-        public ref RecordField<T> this[ulong index]
+        public ref ClrTableField this[ulong index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref RecordField<T> this[long index]
+        public ref ClrTableField this[long index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ReadOnlySpan<RecordField<T>> View
+        public ReadOnlySpan<ClrTableField> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
         }
 
-        public Span<RecordField<T>> Edit
+        public Span<ClrTableField> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Storage;
         }
 
-        public RecordField<T>[] Storage
+        public ClrTableField[] Storage
         {
             [MethodImpl(Inline)]
             get => Data.Storage;
         }
 
-        public static RecordFields<T> Empty
-            => new RecordFields<T>(sys.empty<RecordField<T>>());
 
         [MethodImpl(Inline)]
-        public RecordFields Refresh(RecordField[] src)
-            => src;
+        public static implicit operator ClrRecordFields(ClrTableField[] src)
+            => new ClrRecordFields(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator RecordFields<T>(RecordField<T>[] src)
-            => new RecordFields<T>(src);
+        public static ClrRecordFields Empty
+            => new ClrRecordFields(sys.empty<ClrTableField>());
     }
 }

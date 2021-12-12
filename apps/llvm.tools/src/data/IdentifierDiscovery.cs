@@ -8,10 +8,10 @@ namespace Z0.llvm
 
     public readonly struct IdentifierDiscovery
     {
-        public static LlvmListItem<T,string>[] discover<T>(FS.FilePath header, string marker)
+        public static ListItem<T,string>[] discover<T>(FS.FilePath header, string marker)
             where T : unmanaged
         {
-            var items = list<LlvmListItem<T,string>>();
+            var items = list<ListItem<T,string>>();
             using var reader = header.Utf8LineReader();
             var parsing = false;
             while(reader.Next(out var line))
@@ -41,7 +41,7 @@ namespace Z0.llvm
             return items.ToArray();
         }
 
-        static bool enumliteral<T>(string src, out LlvmListItem<T,string> dst)
+        static bool enumliteral<T>(string src, out ListItem<T,string> dst)
             where T : unmanaged
         {
             if(definesliteral(src))

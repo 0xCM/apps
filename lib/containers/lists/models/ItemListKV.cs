@@ -9,41 +9,42 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ItemList : IIndex<ListItem>
+    public readonly struct ItemList<K,T> : IItemList<ListItem<K,T>>
+        where K : unmanaged
     {
-        readonly Index<ListItem> Data;
+        readonly Index<ListItem<K,T>> Data;
 
         [MethodImpl(Inline)]
-        public ItemList(ListItem[] src)
+        public ItemList(ListItem<K,T>[] src)
         {
             Data = src;
         }
 
-        public ref ListItem this[int index]
+        public ref ListItem<K,T> this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref ListItem this[uint index]
+        public ref ListItem<K,T> this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public Span<ListItem> Edit
+        public Span<ListItem<K,T>> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Edit;
         }
 
-        public ReadOnlySpan<ListItem> View
+        public ReadOnlySpan<ListItem<K,T>> View
         {
             [MethodImpl(Inline)]
-            get => Data.Edit;
+            get => Data.View;
         }
 
-        public ListItem[] Storage
+        public ListItem<K,T>[] Storage
         {
             [MethodImpl(Inline)]
             get => Data.Storage;
@@ -61,10 +62,20 @@ namespace Z0
             get => Data.Count;
         }
 
-        [MethodImpl(Inline)]
-        public static implicit operator ItemList(ListItem[] src)
-            => new ItemList(src);
+        public string Format()
+            => ItemLists.format(this);
 
-        public static ItemList Empty => new ItemList(sys.empty<ListItem>());
+        public override string ToString()
+            => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator ItemList<K,T>(ListItem<K,T>[] src)
+            => new ItemList<K,T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator ListItem<K,T>[](ItemList<K,T> src)
+            => src.Storage;
+
+        public static ItemList<T> Empty => new ItemList<T>(sys.empty<ListItem<T>>());
     }
 }

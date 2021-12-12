@@ -32,7 +32,7 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        public static void load<T>(in RecordField[] fields, uint index, in T src, ref DynamicRow<T> dst)
+        public static void load<T>(in ClrTableField[] fields, uint index, in T src, ref DynamicRow<T> dst)
             where T : struct
         {
             dst = dst.UpdateSource(index, src);

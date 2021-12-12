@@ -78,7 +78,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref skip(src,i);
-                seek(strings, entry.Id) = entry.Content;
+                seek(strings, entry.Key) = entry.Value;
             }
 
             var name = spec.TableName;
@@ -93,9 +93,9 @@ namespace Z0
             {
                 ref readonly var entry = ref skip(src,i);
                 seek(cuts, i) = j;
-                copy(entry.Content, ref j, chars);
+                copy(entry.Value, ref j, chars);
             }
-            return new StringTable(name, spec.Namespace, indexName, spec.GlobalIndex, new string(chars), offsets, src.Map(x => new Identifier(x.Content)).ToArray());
+            return new StringTable(name, spec.Namespace, indexName, spec.GlobalIndex, new string(chars), offsets, src.Map(x => new Identifier(x.Value)).ToArray());
         }
 
         public static StringTable create(Identifier name, Identifier indexName, ReadOnlySpan<ListItem<string>> src)
@@ -105,9 +105,9 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref skip(src,i);
-                seek(strings, entry.Id) = entry.Content;
+                seek(strings, entry.Key) = entry.Value;
             }
-            return create(name, indexName, strings, src.Map(x => new Identifier(x.Content)).ToArray());
+            return create(name, indexName, strings, src.Map(x => new Identifier(x.Value)).ToArray());
         }
 
         [MethodImpl(Inline), Op]

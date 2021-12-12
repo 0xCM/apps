@@ -2,37 +2,36 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
     using static Root;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct LlvmListItem<K,V>
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public readonly struct ListItem<K,V> : IListItem<K,V>
+        where K : unmanaged
     {
-        public const string TableId = "llvm.lists";
+        public K Key {get;}
 
-        public readonly K Key;
-
-        public readonly V Value;
+        public V Value {get;}
 
         [MethodImpl(Inline)]
-        public LlvmListItem(K key, V value)
+        public ListItem(K key, V value)
         {
             Key = key;
             Value = value;
         }
 
         public string Format()
-            => string.Format("{0,-8} | {1}", Key, Value);
+            => string.Format(ListItem.RenderPattern, Key, Value);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator LlvmListItem<K,V>((K key, V content) src)
-            => new LlvmListItem<K,V>(src.key, src.content);
+        public static implicit operator ListItem<K,V>((K key, V content) src)
+            => new ListItem<K,V>(src.key, src.content);
     }
 }

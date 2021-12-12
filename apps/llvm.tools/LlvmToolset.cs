@@ -79,9 +79,6 @@ namespace Z0.llvm
                 return ToolHelpDoc.Empty;
         }
 
-        public ReadOnlySpan<ToolId> Tools()
-            => ToolProfiles.Keys;
-
         public FS.FilePath ToolPath(ToolId tool)
         {
             if(ToolProfiles.Find(tool, out var profile))

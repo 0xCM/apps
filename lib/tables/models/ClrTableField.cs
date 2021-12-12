@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Describes a column in a table
     /// </summary>
-    public readonly struct RecordField
+    public readonly struct ClrTableField
     {
         /// <summary>
         /// The 0-based, declaration order of the field
@@ -28,7 +28,7 @@ namespace Z0
         readonly string _Name;
 
         [MethodImpl(Inline)]
-        public RecordField(ushort index, FieldInfo def, string name)
+        public ClrTableField(ushort index, FieldInfo def, string name)
         {
             FieldIndex = index;
             Definition = def;

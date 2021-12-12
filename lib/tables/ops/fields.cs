@@ -12,29 +12,29 @@ namespace Z0
     partial struct Tables
     {
         /// <summary>
-        /// Discerns a <see cref='RecordFields'/> for a parametrically-identified record type
+        /// Discerns a <see cref='ClrRecordFields'/> for a parametrically-identified record type
         /// </summary>
         /// <typeparam name="T">The record type</typeparam>
         [Op, Closures(Closure)]
-        public static RecordField[] fields<T>()
+        public static ClrTableField[] fields<T>()
             where T : struct
                 => fields(typeof(T));
 
         /// <summary>
-        /// Discerns a <see cref='RecordFields'/> for a specified record type
+        /// Discerns a <see cref='ClrRecordFields'/> for a specified record type
         /// </summary>
         /// <param name="src">The record type</typeparam>
         [Op]
-        public static RecordField[] fields(Type src)
+        public static ClrTableField[] fields(Type src)
         {
             var fields = src.DeclaredPublicInstanceFields().ToReadOnlySpan();
             var count = fields.Length;
-            var buffer = sys.alloc<RecordField>(count);
+            var buffer = sys.alloc<ClrTableField>(count);
             ref var dst = ref first(buffer);
             for(var i=z16; i<count; i++)
             {
                 ref readonly var f = ref skip(fields,i);
-                seek(dst, i) = new RecordField(i, f, f.Name);
+                seek(dst, i) = new ClrTableField(i, f, f.Name);
             }
             return buffer;
         }

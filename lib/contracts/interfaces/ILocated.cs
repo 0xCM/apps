@@ -4,20 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IRowType : ITextual
+    public interface ILocated : ITextual
     {
-        TableId Table {get;}
+        Name Name {get;}
 
         string ITextual.Format()
-            => Table.Format();
+            => Name;
     }
 
-    public interface IRowType<T> : IRowType
-        where T : struct, IRecord<T>
+    public interface ILocated<T> : ILocated
+        where T : ITextual
     {
-        new TableId<T> Table {get;}
+        T Location {get;}
 
-        TableId IRowType.Table
-            => Table;
+        Name ILocated.Name
+            => Location.Format();
     }
 }

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class GlobalCommands
     {
         [CmdOp("api/emit/cli")]

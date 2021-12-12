@@ -18,26 +18,21 @@ namespace Z0
         public void EmitTable<T>(string name, ReadOnlySpan<ListItem<T>> src, FS.FilePath dst)
         {
             var count = src.Length;
-            var formatter = Tables.formatter<ListItem>(ListItem.RenderWidths);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            writer.WriteLine(formatter.FormatHeader());
+            writer.WriteLine(ListItem.HeaderText);
             for(var j=0; j<count; j++)
-            {
-                ref readonly var item = ref skip(src,j);
-                var row = item.ToRecord(name);
-                writer.WriteLine(formatter.Format(row));
-            }
+                writer.WriteLine(skip(src,j).Format());
             EmittedFile(emitting, count);
         }
 
         public void EmitAsset(Asset src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             Utf8.decode(src.ResBytes, out var content);
             using var writer = dst.AsciWriter();
             writer.Write(content);
-            Wf.EmittedFile(flow, content.Length);
+            EmittedFile(flow, content.Length);
         }
 
         public void EmitIndex<T>(Assets<T> assets, FS.FolderPath dir)

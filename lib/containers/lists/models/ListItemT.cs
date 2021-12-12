@@ -8,27 +8,27 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ListItem<T>
+    public readonly struct ListItem<T> : IListItem<T>
     {
-        public readonly uint Id;
+        public uint Key {get;}
 
-        public readonly T Content;
+        public T Value {get;}
 
         [MethodImpl(Inline)]
         public ListItem(uint index, T content)
         {
-            Id = index;
-            Content = content;
+            Key = index;
+            Value = content;
         }
 
         public string Format()
-            => string.Format("{0:D6}:{1}", Id, Content);
+            => string.Format(ListItem.RenderPattern, Key, Value);
 
         public override string ToString()
             => Format();
 
-        public ListItem ToRecord(string type)
-            => ListItems.record(this, type);
+        public ListItem Untype()
+            => ItemLists.untype(this);
 
         [MethodImpl(Inline)]
         public static implicit operator ListItem<T>((uint index, T content) src)

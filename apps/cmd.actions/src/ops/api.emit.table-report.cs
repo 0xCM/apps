@@ -2,17 +2,27 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    partial class AsmCmdService
+    partial class GlobalCommands
     {
+        const string EmitApiTables = "api/emit/tables";
+
+        [CmdOp(EmitApiTables)]
+        Outcome EmitTableReport(CmdArgs args)
+        {
+            var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
+            EmitTableReport(dst);
+            return true;
+        }
+
         void EmitTableReport(FS.FilePath dst)
         {
             using var writer = dst.Writer();
-            var emitting = Wf.EmittingFile(dst);
-            var tables = Tables.discover(Wf.ApiCatalog.Components);
+            var emitting = EmittingFile(dst);
+            var tables = Tables.reflected(ApiRuntimeCatalog.Components);
             var count = tables.Length;
             for(var i=0; i<count; i++)
             {
@@ -20,18 +30,18 @@ namespace Z0.Asm
                     writer.WriteLine();
 
                 var table = skip(tables,i);
-                writer.WriteLine(string.Format("{0,-8} | {1,-22} | {2}", i, table.Id.Identifier, table.Id.Identity));
+                writer.WriteLine(string.Format("{0,-8} | {1,-42} | {2}", i, table.Id.Identifier, table.Id.Identity));
                 writer.WriteLine(RP.PageBreak80);
 
                 var fields = @readonly(table.Fields);
                 for(var j=0; j<fields.Length; j++)
                 {
                     ref readonly var field = ref skip(fields,j);
-                    writer.WriteLine(string.Format("{0,-8} | {1,-22} | {2}", field.FieldIndex, field.Name, field.DataType));
+                    writer.WriteLine(string.Format("{0,-8} | {1,-42} | {2}", field.FieldIndex, field.Name, field.DataType));
                 }
             }
 
-            Wf.EmittedFile(emitting, count);
+            EmittedFile(emitting, count);
         }
     }
 }

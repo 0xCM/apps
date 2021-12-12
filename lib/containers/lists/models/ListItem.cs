@@ -9,28 +9,27 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct TableColumn
+    public readonly struct ListItem : IListItem
     {
-        public string Name {get;}
+        public const string HeaderText = " Key      | Value";
 
-        public string Type {get;}
+        public const string RenderPattern = " {0,-8} | {1}";
 
-        public ushort ColWidth {get;}
+        public uint Key {get;}
+
+        public TextBlock Value {get;}
 
         [MethodImpl(Inline)]
-        public TableColumn(string name, string type, ushort width)
+        public ListItem(uint key, string value)
         {
-            Name = name;
-            Type = type;
-            ColWidth = width;
+            Key = key;
+            Value = value;
         }
 
         public string Format()
-            => string.Format(RP.pad(-(int)ColWidth), Name);
+            => string.Format(RenderPattern, Key, Value);
 
         public override string ToString()
             => Format();
-
-        public static TableColumn Empty => new TableColumn(EmptyString, EmptyString, 0);
     }
 }

@@ -12,12 +12,12 @@ namespace Z0
     partial struct Tables
     {
         /// <summary>
-        /// Adapts a <see cref='RecordFields'/> sequence to a <typeparamref name='T'/> parametric row
+        /// Adapts a <see cref='ClrRecordFields'/> sequence to a <typeparamref name='T'/> parametric row
         /// </summary>
         /// <param name="fields">The record fields</param>
         /// <typeparam name="T">The record type</typeparam>
         [Op, Closures(Closure)]
-        public static RowAdapter<T> adapter<T>(in RecordFields fields)
+        public static RowAdapter<T> adapter<T>(in ClrRecordFields fields)
             where T : struct
                 => new RowAdapter<T>(fields);
 

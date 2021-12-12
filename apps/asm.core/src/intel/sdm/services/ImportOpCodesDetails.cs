@@ -36,6 +36,7 @@ namespace Z0.Asm
 
         Index<SdmOpCodeDetail> ImportOpCodeDetails(ReadOnlySpan<FS.FilePath> src)
         {
+            var running = Running(string.Format("Importing opcodes from {0} source files", src.Length));
             var result = Outcome.Success;
             var count = src.Length;
             var kinds = Symbols.index<SdmTableKind>();
@@ -68,6 +69,8 @@ namespace Z0.Asm
             var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
             using var writer = dst.UnicodeWriter();
             TableEmit(@readonly(rows), SdmOpCodeDetail.RenderWidths, writer, dst);
+
+            Ran(running);
             return rows;
         }
 

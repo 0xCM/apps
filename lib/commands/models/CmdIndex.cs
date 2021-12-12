@@ -17,7 +17,6 @@ namespace Z0
         public CmdExec<K> Include<K>(K kind, CmdExec cmd)
             where K : unmanaged
         {
-
             this[bw64(kind)] = cmd;
             return (kind, cmd);
         }

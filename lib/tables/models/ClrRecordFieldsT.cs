@@ -9,12 +9,13 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct RecordFields : IIndex<RecordField>
+    public readonly struct ClrRecordFields<T> : IIndex<ClrRecordField<T>>
+        where T : struct
     {
-        readonly Index<RecordField> Data;
+        readonly Index<ClrRecordField<T>> Data;
 
         [MethodImpl(Inline)]
-        public RecordFields(RecordField[] src)
+        public ClrRecordFields(ClrRecordField<T>[] src)
             => Data = src;
 
         public uint Count
@@ -29,42 +30,45 @@ namespace Z0
             get => Data.Length;
         }
 
-        public ref RecordField this[ulong index]
+        public ref ClrRecordField<T> this[ulong index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref RecordField this[long index]
+        public ref ClrRecordField<T> this[long index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ReadOnlySpan<RecordField> View
+        public ReadOnlySpan<ClrRecordField<T>> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
         }
 
-        public Span<RecordField> Edit
+        public Span<ClrRecordField<T>> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Storage;
         }
 
-        public RecordField[] Storage
+        public ClrRecordField<T>[] Storage
         {
             [MethodImpl(Inline)]
             get => Data.Storage;
         }
 
+        public static ClrRecordFields<T> Empty
+            => new ClrRecordFields<T>(sys.empty<ClrRecordField<T>>());
 
         [MethodImpl(Inline)]
-        public static implicit operator RecordFields(RecordField[] src)
-            => new RecordFields(src);
+        public ClrRecordFields Refresh(ClrTableField[] src)
+            => src;
 
-        public static RecordFields Empty
-            => new RecordFields(sys.empty<RecordField>());
+        [MethodImpl(Inline)]
+        public static implicit operator ClrRecordFields<T>(ClrRecordField<T>[] src)
+            => new ClrRecordFields<T>(src);
     }
 }

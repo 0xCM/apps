@@ -9,41 +9,41 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ItemList<T> : IIndex<ListItem<T>>
+    public readonly struct ItemList : IItemList<ListItem>
     {
-        readonly Index<ListItem<T>> Data;
+        readonly Index<ListItem> Data;
 
         [MethodImpl(Inline)]
-        public ItemList(ListItem<T>[] src)
+        public ItemList(ListItem[] src)
         {
             Data = src;
         }
 
-        public ref ListItem<T> this[int index]
+        public ref ListItem this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref ListItem<T> this[uint index]
+        public ref ListItem this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public Span<ListItem<T>> Edit
+        public Span<ListItem> Edit
         {
             [MethodImpl(Inline)]
             get => Data.Edit;
         }
 
-        public ReadOnlySpan<ListItem<T>> View
+        public ReadOnlySpan<ListItem> View
         {
             [MethodImpl(Inline)]
-            get => Data.View;
+            get => Data.Edit;
         }
 
-        public ListItem<T>[] Storage
+        public ListItem[] Storage
         {
             [MethodImpl(Inline)]
             get => Data.Storage;
@@ -62,15 +62,16 @@ namespace Z0
         }
 
         public string Format()
-            => ListItems.format(this, Chars.Comma);
+            => ItemLists.format(this);
+
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ItemList<T>(ListItem<T>[] src)
-            => new ItemList<T>(src);
+        public static implicit operator ItemList(ListItem[] src)
+            => new ItemList(src);
 
-        public static ItemList<T> Empty => new ItemList<T>(sys.empty<ListItem<T>>());
+        public static ItemList Empty => new ItemList(sys.empty<ListItem>());
     }
 }

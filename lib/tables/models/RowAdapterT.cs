@@ -18,7 +18,7 @@ namespace Z0
     public struct RowAdapter<T>
         where T : struct
     {
-        public RecordFields Fields {get;}
+        public ClrRecordFields Fields {get;}
 
         internal uint Index;
 
@@ -27,7 +27,7 @@ namespace Z0
         internal DynamicRow<T> Row;
 
         [MethodImpl(Inline)]
-        internal RowAdapter(RecordFields fields)
+        internal RowAdapter(ClrRecordFields fields)
         {
             Source = default;
             Index = 0;

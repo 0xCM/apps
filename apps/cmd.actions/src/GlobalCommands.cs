@@ -7,9 +7,7 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static Root;
 
-    [CmdDispatcher]
     public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>
     {
         public GlobalCommands()
@@ -42,6 +40,10 @@ namespace Z0
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
 
         Index<ProcessAsmRecord> ProcessAsmBuffer() => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
+
+        IntelSdm Sdm => Service(Wf.IntelSdm);
+
+        Generators Generators => Service(Wf.Generators);
 
         Index<ProcessAsmRecord> _LoadProcessAsm()
         {

@@ -15,7 +15,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            var src = Settings.Load(response);
+            var src = AppSettings.Load(response);
             var count = src.Length;
             var vars = new CmdVar[count];
             ref var dst = ref first(vars);

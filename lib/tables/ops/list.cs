@@ -17,12 +17,12 @@ namespace Z0
             if(reader.Next(out var line))
             {
                 var header = line.Content.Split(Chars.Pipe);
-                if(header.Length < 3)
-                    return (false, AppMsg.FieldCountMismatch.Format(header.Length,3));
+                if(header.Length < 2)
+                    return (false, "An item list requires at least two fields");
 
                 while(reader.Next(out line))
                 {
-                    var result = ListItems.parse(line.Content, out var item);
+                    var result = ItemLists.parse(line.Content, out var item);
                     if(result.Fail)
                         return result;
                     buffer.Add(item);

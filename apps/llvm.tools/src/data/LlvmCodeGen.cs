@@ -81,7 +81,7 @@ namespace Z0.llvm
                 using var rowwriter = csvpath.AsciWriter();
                 rowwriter.WriteLine(formatter.FormatHeader());
 
-                StringTables.csharp2(spec, cswriter);
+                StringTables.csharp(spec, cswriter);
                 for(var j=0u; j<table.EntryCount; j++)
                     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
                 rowcount += table.EntryCount;
@@ -130,12 +130,12 @@ namespace Z0.llvm
                 var rowEmitting = EmittingFile(csvpath);
 
                 using var cswriter = cspath.Writer();
-                using var rowwriter = csvpath.AsciWriter();
-                rowwriter.WriteLine(formatter.FormatHeader());
+                using var csvwriter = csvpath.AsciWriter();
+                csvwriter.WriteLine(formatter.FormatHeader());
 
-                StringTables.csharp2(spec, cswriter);
+                StringTables.csharp(spec, cswriter);
                 for(var j=0u; j<table.EntryCount; j++)
-                    rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
+                    csvwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
                 rowcount += table.EntryCount;
 
                 EmittedFile(csEmitting, count, FS.flow(listpath,cspath));

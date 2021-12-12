@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Describes a column in a table
     /// </summary>
-    public struct RecordField<T>
+    public struct ClrRecordField<T>
         where T : struct
     {
         /// <summary>
@@ -50,13 +50,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator RecordField(RecordField<T> src)
-            => new RecordField(src.FieldIndex, src.Definition, src.Name);
+        public static implicit operator ClrTableField(ClrRecordField<T> src)
+            => new ClrTableField(src.FieldIndex, src.Definition, src.Name);
 
         [MethodImpl(Inline)]
-        public static implicit operator RecordField<T>(RecordField src)
+        public static implicit operator ClrRecordField<T>(ClrTableField src)
         {
-            var dst = new RecordField<T>();
+            var dst = new ClrRecordField<T>();
             dst.Definition = src.Definition;
             dst.FieldIndex = src.FieldIndex;
             dst.Name = src.Name;

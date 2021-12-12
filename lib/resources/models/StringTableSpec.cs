@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using static Root;
 
@@ -14,20 +13,23 @@ namespace Z0
     {
         readonly Index<ListItem<string>> _Entries;
 
-        public Identifier Namespace {get;}
+        public StringTableSyntax Syntax {get;}
 
-        public Identifier TableName {get;}
+        public Identifier Namespace
+            => Syntax.Namespace;
 
-        public Identifier IndexName {get;}
+        public Identifier TableName
+            => Syntax.TableName;
 
-        public bool GlobalIndex {get;}
+        public Identifier IndexName
+            => Syntax.IndexName;
 
-        public StringTableSpec(Identifier ns, Identifier table, Identifier index, bool globalidx, ListItem<string>[] entries)
+        public bool GlobalIndex
+            => Syntax.GlobalIndex;
+
+        public StringTableSpec(StringTableSyntax syntax, ListItem<string>[] entries)
         {
-            Namespace = ns;
-            TableName = table;
-            IndexName = index;
-            GlobalIndex = globalidx;
+            Syntax = syntax;
             _Entries = entries;
         }
 

@@ -27,7 +27,7 @@ namespace Z0.Asm
                 buffer.Add((i, prime));
             }
 
-            var dst = ListItems.list(buffer.ToArray());
+            var dst = ItemLists.list(buffer.ToArray());
             Write(dst.Format());
 
             return result;

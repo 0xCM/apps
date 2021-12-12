@@ -19,7 +19,7 @@ namespace Z0
 
         public TableId Id {get;}
 
-        public RecordField[] Fields {get;}
+        public ClrTableField[] Fields {get;}
 
         public LayoutKind? Layout {get;}
 
@@ -30,7 +30,7 @@ namespace Z0
         public uint? Size {get;}
 
         [MethodImpl(Inline)]
-        public ReflectedTable(Type type, TableId id, RecordField[] fields, LayoutKind? layout = null, CharSet? charset = null, byte? pack = null, uint? size = null)
+        public ReflectedTable(Type type, TableId id, ClrTableField[] fields, LayoutKind? layout = null, CharSet? charset = null, byte? pack = null, uint? size = null)
         {
 
             Type = type;

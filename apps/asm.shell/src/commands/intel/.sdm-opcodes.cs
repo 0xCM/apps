@@ -13,8 +13,8 @@ namespace Z0.Asm
         Outcome SdmCodeGen(CmdArgs args)
         {
             var opcodes = Sdm.ImportOpCodes();
-            var items = ExtractOpCodeStrings(opcodes);
-            var dst = Generators.CodeGenDir("intel");
+            // var items = ExtractOpCodeStrings(opcodes);
+            // var dst = Generators.CodeGenDir("intel");
             return true;
         }
 

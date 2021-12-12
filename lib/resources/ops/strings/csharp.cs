@@ -12,7 +12,7 @@ namespace Z0
 
     partial class StringTables
     {
-        public static uint csharp2(StringTableSpec spec, StreamWriter dst)
+        public static uint csharp(StringTableSpec spec, StreamWriter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", spec.Namespace));
             dst.WriteLine(Open());

@@ -39,6 +39,14 @@ namespace Z0
         ConcurrentDictionary<Type,object> ServiceCache {get;}
             = new();
 
+        ConcurrentDictionary<string,object> _Data {get;}
+            = new();
+
+
+        [MethodImpl(Inline)]
+        protected D Data<D>(string key, Func<D> factory)
+            => (D)_Data.GetOrAdd(key, k => factory());
+
         protected T Service<T>(Func<T> factory)
             => (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
 
@@ -56,6 +64,15 @@ namespace Z0
 
         protected IEnvPaths Paths => Wf.EnvPaths;
 
+        protected TableEmitters TableEmitters
+            => Service(Wf.TableEmitters);
+
+        protected AppSettings AppSettings
+            => Service(Wf.AppSettings);
+
+        protected IToolWs Tools
+            => Service(Ws.Tools);
+
         public virtual Type ContractType
             => typeof(H);
 
@@ -65,7 +82,8 @@ namespace Z0
 
         IAppServiceUtilities Util;
 
-        protected OmniScript OmniScript => Service(Wf.OmniScript);
+        protected OmniScript OmniScript
+            => Service(Wf.OmniScript);
 
         public void Init(IWfRuntime wf)
         {
@@ -151,6 +169,16 @@ namespace Z0
         protected void Write<T>(Span<T> src, FlairKind? flair = null)
             => Util.Write(src, flair);
 
+        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
+            where R : struct
+        {
+            var formatter = Tables.formatter<R>(widths);
+            var count = src.Length;
+            Write(formatter.FormatHeader());
+            for(var i=0; i<count; i++)
+                Write(formatter.Format(skip(src,i)));
+        }
+
         protected virtual void Error<T>(T content)
             => Util.Error(content);
 
@@ -207,6 +235,18 @@ namespace Z0
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
             => Util.EmitLines(src,dst,encoding);
 
+        protected void UpdateToolEnv(out Settings dst)
+        {
+            var path = Tools.Toolbase + FS.file("show-env-config", FS.Cmd);
+            var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
+            dst = AppSettings.Load(OmniScript.RunCmd(cmd));
+        }
+
+        protected void LoadToolEnv(out Settings dst)
+        {
+            var path = Tools.Toolbase + FS.file("env", FS.Settings);
+            dst = AppSettings.Load(path.ReadNumberedLines());
+        }
 
         protected Outcome RunExe(ReadOnlySpan<ToolCmdFlow> flows)
         {

@@ -5,8 +5,6 @@
 namespace Z0
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
     using Windows;
 
     using static Root;
@@ -27,22 +25,9 @@ namespace Z0
 
         protected ProjectScripts ProjectScripts;
 
-        protected AppSettings Settings;
-
-        protected IToolWs Tools;
-
-        protected TableEmitters TableEmitters;
-
-        ConcurrentDictionary<string,object> _Data;
-
-        [MethodImpl(Inline)]
-        protected D Data<D>(string key, Func<D> factory)
-            => (D)_Data.GetOrAdd(key, k => factory());
-
         protected AppCmdService()
         {
             PromptTitle = "cmd";
-            _Data = new();
         }
 
         protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf) => array(this);
@@ -53,9 +38,6 @@ namespace Z0
             ProjectWs = Ws.Projects();
             Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
             ProjectScripts = Wf.ProjectScripts();
-            Settings = Wf.AppSettings();
-            TableEmitters = Wf.TableEmitters();
-            Tools = Ws.Tools();
         }
 
         public T With(IToolCmdShell shell)
@@ -83,19 +65,6 @@ namespace Z0
         {
             base.Disposing();
             Witness?.Dispose();
-        }
-
-        protected void UpdateToolEnv(out Settings dst)
-        {
-            var path = Tools.Toolbase + FS.file("show-env-config", FS.Cmd);
-            var cmd = Cmd.cmdline(path.Format(PathSeparator.BS));
-            dst = Settings.Load(OmniScript.RunCmd(cmd));
-        }
-
-        protected void LoadToolEnv(out Settings dst)
-        {
-            var path = Tools.Toolbase + FS.file("env", FS.Settings);
-            dst = Settings.Load(path.ReadNumberedLines());
         }
 
         [CmdOp(".env")]
@@ -469,19 +438,8 @@ namespace Z0
             return buffer;
         }
 
-        protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
-            where R : struct
-        {
-            var formatter = Tables.formatter<R>(widths);
-            var count = src.Length;
-            Write(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-                Write(formatter.Format(skip(src,i)));
-        }
-
         protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
             => CmdResponse.parse(src);
-
 
         protected abstract CmdShellState CommonState {get;}
 
