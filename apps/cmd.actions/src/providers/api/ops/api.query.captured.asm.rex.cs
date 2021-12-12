@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
     using static core;
 
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/query/captured/asm/rex")]
         Outcome AsmQueryRex(CmdArgs args)

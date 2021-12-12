@@ -6,7 +6,7 @@ namespace Z0
 {
     using Asm;
 
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/captured/calls")]
         protected Outcome EmitCallTable(CmdArgs args)

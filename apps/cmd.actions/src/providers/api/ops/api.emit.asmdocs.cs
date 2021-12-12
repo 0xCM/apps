@@ -9,7 +9,7 @@ namespace Z0
 
     using static core;
 
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/asmdocs")]
         Outcome EmitAsmDocs(CmdArgs args)
@@ -75,6 +75,7 @@ namespace Z0
         uint EmitConditionDocs<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : IConditional
         {
+            var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var count = src.Length;
             var counter = 0u;
@@ -89,7 +90,7 @@ namespace Z0
                     counter++;
                 }
             }
-            Emitted(dst);
+            EmittedFile(emitting,counter);
             return counter;
         }
     }

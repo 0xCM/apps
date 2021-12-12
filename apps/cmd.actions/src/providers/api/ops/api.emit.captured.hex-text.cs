@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using static core;
 
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/captured/hex-text")]
         Outcome ApiEmitAsmHexText(CmdArgs args)

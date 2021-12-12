@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/msil/host")]
-        Outcome EmitHostMsil(CmdArgs args)
-            => ApiMetadata.EmitHostMsil(arg(args,0));
+        [CmdOp("api/emit/classes")]
+        protected Outcome EmitApiClasses(CmdArgs args)
+        {
+            ApiCatalogs.EmitApiClasses();
+            return true;
+        }
     }
 }

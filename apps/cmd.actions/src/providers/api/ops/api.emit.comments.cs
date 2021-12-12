@@ -6,12 +6,12 @@ namespace Z0
 {
     using static core;
 
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/comments")]
         protected Outcome EmitApiComments(CmdArgs args)
         {
-            var collected = Service(Wf.ApiComments).Collect();
+            var collected = ApiComments.Collect();
             return true;
         }
     }

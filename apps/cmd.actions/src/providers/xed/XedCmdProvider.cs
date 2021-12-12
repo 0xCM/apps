@@ -18,5 +18,8 @@ namespace Z0
     {
         public static XedCmdProvider XedCommands(this IWfRuntime wf)
             => XedCmdProvider.create(wf);
+
+        public static ApiCmdProvider ApiCommands(this IWfRuntime wf)
+            => ApiCmdProvider.create(wf);
     }
 }

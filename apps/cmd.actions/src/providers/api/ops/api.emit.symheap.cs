@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/symheap")]
         Outcome EmitSymHeap(CmdArgs args)
         {
-            var symbolic = Service(Wf.Symbolism);
-            var literals = symbolic.DiscoverLiterals(ApiRuntimeCatalog.Components);
+            var literals = Symbolism.DiscoverLiterals(ApiRuntimeCatalog.Components);
             Status($"Creating heap for {literals.Length} literals");
             var heap = SymHeaps.define(literals);
             var count = heap.SymbolCount;

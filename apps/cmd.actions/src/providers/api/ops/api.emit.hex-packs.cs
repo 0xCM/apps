@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/cli")]
-        protected Outcome EmitMetadataSets(CmdArgs args)
+        [CmdOp("api/emit/hex-packs")]
+        protected Outcome EmitHexPack(CmdArgs args)
         {
-            Service(Wf.CliEmitter).EmitMetadaSets(WorkflowOptions.@default());
+            ApiHexPacks.Emit(SortedBlocks());
             return true;
         }
     }

@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
-        ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
-
-        [CmdOp("api/emit/classes")]
-        protected Outcome EmitApiClasses(CmdArgs args)
+        [CmdOp("api/run/machine")]
+        protected Outcome RunApiMachine(CmdArgs args)
         {
-            ApiCatalogs.EmitApiClasses();
+            using var machine = MachineRunner.create(Wf);
+            machine.Run(WorkflowOptions.@default());
             return true;
         }
     }

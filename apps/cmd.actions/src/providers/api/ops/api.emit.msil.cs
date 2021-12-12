@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
-        [CmdOp("nasm/emit/catalog")]
-        Outcome EmitNasmCatalog(CmdArgs args)
-        {
-            Service(Wf.NasmCatalog).ImportInstructions();
-            return true;
-        }
+        [CmdOp("api/emit/msil")]
+        Outcome EmitMsil(CmdArgs args)
+            => ApiMetadata.EmitMsil();
     }
 }

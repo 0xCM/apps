@@ -6,13 +6,12 @@ namespace Z0
 {
     using static core;
 
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/tables/schemas")]
         Outcome EmitTableSchemas(CmdArgs args)
         {
-            var catalog = ApiRuntimeLoader.catalog();
-            var schemas = Tables.schemas(catalog.Components);
+            var schemas = Tables.schemas(ApiRuntimeCatalog.Components);
             var count = schemas.Count;
             var dst = Ws.Project("db").Subdir("api") + FS.file("api.tables.schema");
             var emitting = EmittingFile(dst);

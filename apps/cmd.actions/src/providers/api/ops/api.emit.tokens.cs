@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         [CmdOp("api/emit/tokens")]
         protected Outcome EmitApiTokens(CmdArgs args)
         {
-            Service(Wf.ApiMetadata).EmitApiTokens();
+            ApiMetadata.EmitApiTokens();
             return true;
         }
     }

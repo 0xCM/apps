@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ApiCmdProvider
     {
         protected Outcome EmitCliMetadataTest(CmdArgs args)
         {
             const string Scope = "api/cli";
-            var pipe = Wf.CliEmitter();
-            pipe.EmitRowStats(ApiRuntimeCatalog.Components, ProjectDb.TablePath<CliRowStats>(Scope));
-            pipe.EmitFieldDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<FieldDefInfo>(Scope));
-            pipe.EmitMethodDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<MethodDefInfo>(Scope));
+            CliEmitter.EmitRowStats(ApiRuntimeCatalog.Components, ProjectDb.TablePath<CliRowStats>(Scope));
+            CliEmitter.EmitFieldDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<FieldDefInfo>(Scope));
+            CliEmitter.EmitMethodDefs(ApiRuntimeCatalog.Components, ProjectDb.TablePath<MethodDefInfo>(Scope));
             return true;
         }
     }

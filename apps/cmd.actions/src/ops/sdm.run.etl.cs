@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static core;
-    using Asm;
-
     partial class GlobalCommands
     {
         const string RunSdmEtl = "sdm/run/etl";
@@ -23,28 +18,7 @@ namespace Z0
         Outcome SdmCodeGen(CmdArgs args)
         {
             var opcodes = Sdm.ImportOpCodes();
-            var items = ExtractOpCodeStrings(opcodes);
             return true;
-        }
-
-        static Index<ListItem<string>> ExtractOpCodeStrings(ReadOnlySpan<SdmOpCode> src)
-        {
-            var count = src.Length;
-            var items = list<string>(count);
-            var counter = 0u;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var detail = ref skip(src,i);
-                var fmt = detail.Expr.Format().Trim();
-                if(nonempty(fmt))
-                {
-                    items.Add(fmt);
-                    counter++;
-                }
-
-            }
-            items.Sort();
-            return items.ToArray().Mapi((i,x) => new ListItem<string>((uint)i,x));
         }
     }
 }
