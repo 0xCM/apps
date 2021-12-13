@@ -16,7 +16,7 @@ namespace Z0
         {
             var pad = colpad ?? 10;
             var sep = delimiter ?? Chars.Pipe;
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             dst.Append($"name".PadRight(pad));
             dst.Append($" {sep} rows".PadRight(pad));
             dst.Append($" {sep} cols".PadRight(pad));

@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("arrow<t:{0}>")]
     public readonly struct Arrow<T> : IArrow<T>
     {
         public T Source {get;}

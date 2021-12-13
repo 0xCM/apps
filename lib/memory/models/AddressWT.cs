@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("address<{0},{1}>")]
+    [DataType("address<w:{0},t:{1}>")]
     public readonly struct Address<W,T> : IAddress<Address<W,T>,T>
         where W : unmanaged, INumericWidth
         where T : unmanaged

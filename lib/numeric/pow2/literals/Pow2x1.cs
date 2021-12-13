@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Defines 1
     /// </summary>
-    [Flags, LiteralSet(typeof(Pow2))]
+    [Flags, SymSource("pow2")]
     public enum Pow2x1 : byte
     {
         /// <summary>

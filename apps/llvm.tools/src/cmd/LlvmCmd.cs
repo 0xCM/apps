@@ -12,31 +12,29 @@ namespace Z0.llvm
 
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
-        LlvmDataImporter DataImporter;
+        LlvmDataImporter DataImporter => Service(Wf.LlvmDataImporter);
 
-        LlvmToolset Toolset;
+        LlvmToolset Toolset => Service(Wf.LLvmToolset);
 
-        LlvmPaths LlvmPaths;
+        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        LlvmProjectCollector ProjectCollector;
+        LlvmProjectCollector ProjectCollector => Service(Wf.LlvmProjectCollector);
 
-        LlvmRepo LlvmRepo;
+        LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
 
-        ToolId SelectedTool;
+        LlvmReadObj ReadObj => Service(Wf.LlvmReadObj);
 
-        LlvmReadObj ReadObj;
+        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
-        LlvmDataProvider DataProvider;
+        LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        LlvmDataEmitter DataEmitter;
+        LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
 
-        LlvmMc Mc;
-
-        LlvmCodeGen CodeGen;
+        LlvmDistiller Distiller => Service(Wf.LlvmDistiller);
 
         IProjectWs Data;
 
-        LlvmDistiller Distiller => Service(Wf.LlvmDistiller);
+        ToolId SelectedTool;
 
         public LlvmCmd()
         {
@@ -45,37 +43,13 @@ namespace Z0.llvm
 
         protected override void Initialized()
         {
-            LlvmPaths = Wf.LlvmPaths();
-            DataImporter = Wf.LlvmDataImporter();
-            ProjectCollector = Wf.LlvmProjectCollector();
-            Toolset = Wf.LLvmToolset();
-            ReadObj = Wf.LlvmReadObj();
-            LlvmRepo = Wf.LlvmRepo();
-            DataProvider = Wf.LlvmDataProvider();
-            Mc = Wf.LlvmMc();
-            CodeGen = Wf.LlvmCodeGen();
             Data = Ws.Project(Projects.LlvmData);
-            DataEmitter = Wf.LlvmDataEmitter();
             State.Init(Wf, Ws);
             State.Project(Data);
         }
 
-        Outcome ObjDump(FS.FilePath src, FS.FolderPath dst)
-        {
-            var tool = LlvmNames.Tools.llvm_objdump;
-            var cmd = Cmd.cmdline(Ws.Tools().Script(tool, "run").Format(PathSeparator.BS));
-            var vars = WsVars.create();
-            vars.DstDir = dst;
-            vars.SrcDir = src.FolderPath;
-            vars.SrcFile = src.FileName;
-            var result = OmniScript.Run(cmd, vars.ToCmdVars(), out var response);
-            if(result)
-            {
-               var items = ParseCmdResponse(response);
-               iter(items, item => Write(item));
-            }
-            return result;
-        }
+        protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
+            => array<ICmdProvider>(this, this, LlvmCmdProvider.create(wf));
 
         Outcome Flow(FS.Files src)
         {
@@ -97,22 +71,9 @@ namespace Z0.llvm
             return true;
         }
 
-        Outcome TableFlow<T>(string query, ReadOnlySpan<T> src)
-            where T : struct
-        {
-
-            return true;
-        }
-
         Outcome Flow<T>(string query, ReadOnlySpan<T> src)
         {
             DataEmitter.EmitQueryResults(query, src);
-            return true;
-        }
-
-        Outcome Flow<T>(string query, T[] src)
-        {
-            DataEmitter.EmitQueryResults(query, @readonly(src));
             return true;
         }
 

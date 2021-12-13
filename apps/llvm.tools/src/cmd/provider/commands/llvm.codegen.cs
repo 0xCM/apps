@@ -4,19 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-
-    using static core;
-
     partial class LlvmCmd
     {
-        const string EmitInstAction = "llvm/emit/instdefs";
-
-        [CmdOp(EmitInstAction)]
-        Outcome EmitInst(CmdArgs args)
+        [CmdOp("llvm/codegen")]
+        Outcome GenCode(CmdArgs args)
         {
-            DataEmitter.EmitInstDefs();
+            CodeGen.Run();
             return true;
         }
     }

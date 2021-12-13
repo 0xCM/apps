@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
         const string DagOpQuery = "llvm/defs/dagops";
 
@@ -15,16 +15,14 @@ namespace Z0.llvm
         {
             var src = DataProvider.SelectEntities(e => e.IsDAGOperand()).Select(e => e.ToDAGOperand());
             var count = src.Count;
+            var dst = list<string>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var entity = ref src[i];
-                var name = entity.EntityName;
-                var vt = entity.Type;
-                var ot = entity.OperandType;
-                var info = entity.MIOperandInfo;
-                var fmt = string.Format("{0,-24} | {1,-16} | {2,-24} | {3}", name, vt, ot, info);
-                Write(fmt);
+                dst.Add(string.Format("{0,-24} | {1,-16} | {2,-24} | {3}", entity.EntityName, entity.Type, entity.OperandType, entity.MIOperandInfo));
             }
+
+            DataEmitter.EmitQueryResults(DagOpQuery,@readonly(dst.Array()));
 
             return true;
         }

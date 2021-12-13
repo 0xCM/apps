@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        const string DefLineQuery = "llvm/defs/lines";
-
-        [CmdOp(DefLineQuery)]
-        Outcome Def(CmdArgs args)
-            => Flow(DefLineQuery, arg(args,0).Value, DataProvider.SelectDefLines(arg(args,0).Value));
+        [CmdOp("llvm/emit/lists")]
+        Outcome EmitLists(CmdArgs args)
+        {
+            DataEmitter.EmitLists();
+            return true;
+        }
     }
 }

@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        const string DefNameQuery = "llvm/defs/names";
-
-        [CmdOp(DefNameQuery)]
-        Outcome DefNames(CmdArgs args)
-            => Flow(DefNameQuery, DataProvider.SelectDefNames());
+        [CmdOp("llvm/import")]
+        Outcome RunRecordsEtl(CmdArgs args)
+        {
+            DataImporter.Run();
+            return true;
+        }
     }
 }

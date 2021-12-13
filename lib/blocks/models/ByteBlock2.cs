@@ -14,7 +14,7 @@ namespace Z0
     using B = ByteBlock2;
     using api = ByteBlocks;
 
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:2,t:u8}>")]
     public struct ByteBlock2 : IStorageBlock<B>
     {
         public const ushort Size = 2;

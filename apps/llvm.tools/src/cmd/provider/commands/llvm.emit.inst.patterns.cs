@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
         const string InstPatternEmit = "llvm/emit/inst/patterns";
 

@@ -45,7 +45,7 @@ namespace Z0
 
             public string Format(uint indent)
             {
-                var dst = TextTools.buffer();
+                var dst = text.buffer();
                 Render(indent,dst);
                 return dst.Emit();
             }

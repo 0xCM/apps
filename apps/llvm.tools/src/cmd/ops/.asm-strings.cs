@@ -4,17 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-    using static Root;
-
     partial class LlvmCmd
     {
-        [CmdOp("llvm/import")]
-        Outcome RunRecordsEtl(CmdArgs args)
-        {
-            DataImporter.Run();
-            return true;
-        }
 
         [CmdOp(".asm-strings")]
         Outcome ListAsmStrings(CmdArgs args)

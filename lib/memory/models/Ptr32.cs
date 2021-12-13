@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Captures a <see cref='uint'/> pointer
     /// </summary>
-    [ApiComplete, DataType("ptr32")]
+    [ApiComplete, DataType("ptr<w:32>")]
     public unsafe struct Ptr32 : IPtr<uint>
     {
         public uint* P;

@@ -4,16 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        [CmdOp("llvm/defs")]
-        Outcome Defs(CmdArgs args)
+        [CmdOp("llvm/emit/classes")]
+        Outcome Classes(CmdArgs args)
         {
             var result = Outcome.Success;
-            var dst = LlvmPaths.TmpFile("llvm.defs", FS.Txt);
+            var dst = LlvmPaths.TmpFile("llvm.classes", FS.Txt);
             var emitting = EmittingFile(dst);
+
             using var writer = dst.AsciWriter();
-            EmittedFile(emitting, DataEmitter.EmitDefInfo(writer));
+            EmittedFile(emitting,DataEmitter.EmitClassInfo(writer));
             return result;
         }
     }

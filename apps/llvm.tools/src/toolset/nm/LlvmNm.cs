@@ -30,6 +30,26 @@ namespace Z0.llvm
             return result;
         }
 
+        public ReadOnlySpan<ObjSymRow> Search(IProjectWs project, string match)
+        {
+            var result = Outcome.Success;
+            var files = project.OutFiles(FS.Sym).View;
+            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
+            var tool = Wf.LlvmNm();
+            var dst = list<ObjSymRow>();
+            foreach(var f in files)
+            {
+                var records = tool.Read(f);
+                var count= records.Length;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var record = ref skip(records,i);
+                    if(record.Name.Contains(match))
+                        dst.Add(record);
+                }
+            }
+            return dst.ViewDeposited();
+        }
 
         public ReadOnlySpan<ObjSymRow> Read(FS.FilePath path)
         {

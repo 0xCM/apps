@@ -16,6 +16,7 @@ namespace Z0
     /// </summary>
     /// <typeparam name="T">The vertex index type</typeparam>
     /// <remarks>For terminology consult, for example, https://xlinux.nist.gov/dads/<remarks>
+    [DataType("graph<t:{0}>")]
     public class Graph<T>
         where T : unmanaged
     {

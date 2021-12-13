@@ -29,11 +29,11 @@ namespace Z0
 
         [TextUtility]
         public static string Join(this ReadOnlySpan<string> src, char sep)
-            => TextTools.concat(src, sep);
+            => text.concat(src, sep);
 
         [TextUtility]
         public static string Join(this ReadOnlySpan<string> src, string sep)
-            => TextTools.concat(src, sep);
+            => text.concat(src, sep);
 
         /// <summary>
         /// Sequentially concatenates each indexed cell to the next, separated by a specified character

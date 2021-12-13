@@ -12,7 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("cell256")]
+    [DataType("cell<w:256>")]
     public readonly struct Cell256 : IDataCell<Cell256,W256,Vector256<ulong>>
     {
         public Vector256<ulong> Content {get;}

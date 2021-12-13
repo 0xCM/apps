@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a span of contiguous memory that can be evenly partitioned into 8, 16 and 32-bit segments
     /// </summary>
-    [Segmented(NativeTypeWidth.W32, SpanBlockKind.Sb32), DataType("span32(n)")]
+    [Segmented(NativeTypeWidth.W32, SpanBlockKind.Sb32), DataType("spanblock<w:32,t:{0}>")]
     public readonly ref struct SpanBlock32<T>
         where T : unmanaged
     {

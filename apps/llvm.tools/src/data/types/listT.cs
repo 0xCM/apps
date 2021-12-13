@@ -11,16 +11,15 @@ namespace Z0.llvm
 
     public readonly struct list<T> : IIndex<T>
     {
-        public const string Identifier = "list<{0}>";
-
-        public static ParserDelegate<list<T>> parser(ParserDelegate<T> itemparser)
+        public static ParserDelegate<list<T>> parser(string type, ParserDelegate<T> itemparser)
         {
             Outcome parse(string src, out list<T> dst)
             {
+                var input = text.fenced(src, Fencing.Bracketed, out _) ? text.unfence(src, Fencing.Bracketed) : src;
                 var seqparser = new SeqParser<T>(",", new ParseFunction<T>(itemparser));
                 var result = seqparser.Parse(src, out var items);
                 if(result)
-                    dst = new list<T>(items);
+                    dst = new list<T>(type, items);
                 else
                     dst = Empty;
                 return result;
@@ -30,9 +29,12 @@ namespace Z0.llvm
 
         readonly Index<T> Data;
 
+        public string ListType {get;}
+
         [MethodImpl(Inline)]
-        public list(T[] src)
+        public list(string type, T[] src)
         {
+            ListType = type;
             Data = src;
         }
 
@@ -60,8 +62,23 @@ namespace Z0.llvm
             get => Data;
         }
 
-        public string TypeName
-            => string.Format(Identifier, typeof(T).Name);
+        public ref T this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
+        }
+
+        public ref T this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
+        }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
+        }
 
         public string Format()
             => string.Format("[{0}]", text.join(",", View));
@@ -69,10 +86,6 @@ namespace Z0.llvm
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator list<T>(T[] src)
-            => new list<T>(src);
-
-        public static list<T> Empty => new list<T>(sys.empty<T>());
+        public static list<T> Empty => new list<T>(EmptyString, sys.empty<T>());
     }
 }

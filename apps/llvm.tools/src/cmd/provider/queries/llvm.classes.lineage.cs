@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        [CmdOp("llvm/emit/lists")]
-        Outcome EmitLists(CmdArgs args)
+        const string ClassLineageQuery = "llvm/classes/lineage";
+
+        [CmdOp(ClassLineageQuery)]
+        Outcome QueryClassLineage(CmdArgs args)
         {
-            DataEmitter.EmitLists();
+            DataEmitter.EmitQueryResults(ClassLineageQuery, DataProvider.SelectClassLineage().Values);
             return true;
         }
     }

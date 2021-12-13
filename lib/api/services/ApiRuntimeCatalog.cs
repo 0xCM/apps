@@ -46,6 +46,8 @@ namespace Z0
 
         Index<string> _ComponentNames;
 
+        Index<ApiDataType> _DataTypes;
+
         public ApiRuntimeCatalog(Index<IPart> parts, Index<Assembly> components, ApiPartCatalogs catalogs, Index<IApiHost> hosts, Index<PartId> partIds, Index<MethodInfo> ops)
         {
             _Parts = parts;
@@ -55,6 +57,7 @@ namespace Z0
             _PartIdentities = partIds;
             _Operations = ops;
             _ComponentNames = components.Select(x => x.GetName().Name);
+            _DataTypes = ApiQuery.datatypes(components);
         }
 
         public Index<IApiHost> FindHosts(ReadOnlySpan<ApiHostUri> src)
@@ -116,6 +119,13 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => _Operations;
+        }
+
+
+        public ReadOnlySpan<ApiDataType> ApiDataTypes
+        {
+            [MethodImpl(Inline)]
+            get => _DataTypes;
         }
 
         public bool FindPart(PartId id, out IPart dst)

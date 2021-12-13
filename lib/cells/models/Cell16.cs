@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("cell16")]
+    [DataType("cell<w:16>")]
     public readonly struct Cell16 : IDataCell<Cell16,W16,ushort>
     {
         readonly ushort Data;

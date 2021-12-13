@@ -13,7 +13,7 @@ namespace Z0
     using W = W16;
     using T = System.UInt16;
 
-    [DataType("address16")]
+    [DataType("address<w:16>")]
     public readonly struct Address16 : IAddress<A,T>
     {
         [MethodImpl(Inline), Op]

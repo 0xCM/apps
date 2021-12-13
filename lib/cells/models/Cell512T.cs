@@ -11,7 +11,7 @@ namespace Z0
     using static core;
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Size = SZ, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Size = SZ, Pack=1), DataType("cell<w:512,t:{0}>")]
     public struct Cell512<T> : IDataCell<Cell512<T>,W512,ByteBlock64>
         where T : unmanaged
     {

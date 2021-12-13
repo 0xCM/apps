@@ -22,6 +22,9 @@ namespace Z0.llvm
         public string OperandNamespace
             => this[nameof(OperandNamespace)];
 
+        /// <summary>
+        /// Specifies the name of the operand's value type
+        /// </summary>
         public string Type
             => this[nameof(Type)];
 

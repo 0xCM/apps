@@ -69,7 +69,7 @@ namespace Z0
         }
 
         public string Format()
-            => TextTools.format(String);
+            => text.format(String);
 
         public override string ToString()
             => Format();

@@ -65,10 +65,10 @@ namespace Z0.llvm
             return ref dst;
         }
 
-        protected ref list<string> Parse(string attrib, out list<string> dst)
+        protected ref list<string> Parse(string attrib, string type, out list<string> dst)
         {
             list<string> parse()
-                => text.split(text.unfence(this[attrib], Fencing.Bracketed), Chars.Comma);
+                => new list<string>(type, text.trim(text.split(text.unfence(this[attrib], Fencing.Bracketed), Chars.Comma)));
 
             dst = Value(attrib, parse);
             return ref dst;

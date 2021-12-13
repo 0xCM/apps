@@ -46,7 +46,7 @@ namespace Z0
 
         public string Format()
         {
-            var buffer = TextTools.buffer();
+            var buffer = text.buffer();
             Format(buffer);
             return buffer.Emit();
         }

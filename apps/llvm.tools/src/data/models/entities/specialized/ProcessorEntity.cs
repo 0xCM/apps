@@ -11,6 +11,8 @@ namespace Z0.llvm
     {
         public const string LlvmName = "Processor";
 
+        public const string FeaturesType = "SubtargetFeature";
+
         public ProcessorEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)
         {
@@ -24,10 +26,10 @@ namespace Z0.llvm
             => this[nameof(SchedModel)];
 
         public list<string> Features
-            => Parse(nameof(Features), out list<string> _);
+            => Parse(nameof(Features), FeaturesType, out list<string> _);
 
         public list<string> TuneFeatures
-            => Parse(nameof(TuneFeatures), out list<string> _);
+            => Parse(nameof(TuneFeatures), FeaturesType, out list<string> _);
 
         public string ProcItin
             => this[nameof(ProcItin)];

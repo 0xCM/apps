@@ -51,7 +51,7 @@ namespace Z0
         public static string header<F>(char delimiter = FieldDelimiter)
             where F : unmanaged, Enum
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             var labels = Enums.literals<F>();
             for(var i=0; i<labels.Length; i++)
                 dst.Delimit(labels[i], labels[i].ToString(), delimiter);
@@ -60,7 +60,7 @@ namespace Z0
 
         public static string header(Type src, char delimiter = FieldDelimiter)
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             var labels = Enums.literals<F>();
             for(var i=0; i<labels.Length; i++)
                 dst.Delimit(labels[i], labels[i].ToString(), delimiter);
@@ -72,7 +72,7 @@ namespace Z0
             where E : unmanaged, Enum
             where T : unmanaged
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             dst.Delimit(F.Token, src.Token);
             dst.Delimit(F.Index, src.Index);
             dst.Delimit(F.Name, src.Name);
@@ -85,13 +85,12 @@ namespace Z0
             where E : unmanaged, Enum
             where T : unmanaged
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             dst.Delimit(F.Token, src.Token);
             dst.Delimit(F.Index, src.Position);
             dst.Delimit(F.Name, src.Name);
             dst.Delimit(F.Scalar, src.Scalar);
             return dst.ToString();
         }
-
     }
 }

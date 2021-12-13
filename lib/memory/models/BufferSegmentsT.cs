@@ -58,7 +58,7 @@ namespace Z0
 
         public string Format()
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             dst.Append("<<");
             for(var i=0u; i<Dispensed; i++)
                 dst.Append(Range(i).Format());

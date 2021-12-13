@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        const string DefLineageQuery = "llvm/defs/lineage";
+        const string DefNameQuery = "llvm/defs/names";
 
-        [CmdOp(DefLineageQuery)]
-        Outcome QueryDefLineage(CmdArgs args)
+        [CmdOp(DefNameQuery)]
+        Outcome DefNames(CmdArgs args)
         {
-            var lineage = DataProvider.SelectDefLineage();
-            Flow(DefLineageQuery, lineage.Values);
+            DataEmitter.EmitQueryResults(DefNameQuery, DataProvider.SelectDefNames().View);
             return true;
         }
     }

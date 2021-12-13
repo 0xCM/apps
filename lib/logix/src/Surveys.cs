@@ -161,7 +161,7 @@ namespace Z0
         public static string format<T>(in Survey<T> src)
             where T : unmanaged
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             dst.AppendLine(src.Name);
             dst.AppendLine(RP.PageBreak80);
             for(var i=0; i<src.Questions.Length; i++)

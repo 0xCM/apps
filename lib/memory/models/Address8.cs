@@ -13,7 +13,7 @@ namespace Z0
     using W = W8;
     using T = System.Byte;
 
-    [DataType("address8")]
+    [DataType("address<w:8>")]
     public readonly struct Address8 : IAddress<A,T>
     {
         [MethodImpl(Inline), Op]

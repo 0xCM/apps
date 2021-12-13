@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        const string ImportHelpCmd = "llvm/import/help";
-
-        [CmdOp(ImportHelpCmd)]
-        Outcome ImportHelp(CmdArgs args)
+        [CmdOp("llvm/emit/help")]
+        Outcome EmitHelp(CmdArgs args)
         {
-            DataImporter.ImportToolHelp();
+            Toolset.EmitHelpDocs();
             return true;
         }
     }

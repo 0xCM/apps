@@ -9,7 +9,7 @@ namespace Z0
         [Op]
         public static string format(GridStats stats, int? colpad = null, char? delimiter = null)
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             var pad = colpad ?? 10;
             var sep = delimiter ?? Chars.Pipe;
             dst.Append($"{stats.Name}".PadRight(pad));

@@ -34,6 +34,8 @@ namespace Z0
 
         IApiHost[] ApiHosts {get;}
 
+        ReadOnlySpan<ApiDataType> ApiDataTypes {get;}
+
         ReadOnlySpan<MethodInfo> Methods {get;}
 
         bool FindPart(PartId id, out IPart dst);

@@ -11,7 +11,7 @@ namespace Z0
     /// <summary>
     /// Defines primal-representable powers of 2 and integers of the form 2^n - 1 where n = 0,..,64
     /// </summary>
-    [Flags, LiteralSet(typeof(Pow2))]
+    [Flags, SymSource("pow2")]
     public enum Pow2x64 : ulong
     {
         /// <summary>

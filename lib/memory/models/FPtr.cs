@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("fptr")]
     public struct FPtr
     {
         public Ptr P;

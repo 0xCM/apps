@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
         const string DefFieldQuery = "llvm/defs/fields";
 
@@ -24,7 +22,7 @@ namespace Z0.llvm
                 if(result.Fail)
                     return result;
 
-                Flow(DefFieldQuery, DataProvider.SelectDefFields(offset, length));
+                DataEmitter.EmitQueryResults(DefFieldQuery, DataProvider.SelectDefFields(offset, length));
             }
             return result;
         }

@@ -9,6 +9,5 @@ namespace Z0.llvm
         [CmdOp("llvm/repo/inc")]
         Outcome LlvmInc(CmdArgs args)
             => Flow(LlvmRepo.Files(FS.Inc));
-
     }
 }

@@ -62,7 +62,7 @@ namespace Z0
 
         public string Format()
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             dst.Append(Offset.FormatHex());
             dst.AppendSpace();
             dst.Append((char)Sign);

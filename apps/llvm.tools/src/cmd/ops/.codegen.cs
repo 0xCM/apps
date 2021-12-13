@@ -6,13 +6,6 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        [CmdOp(".codegen")]
-        Outcome GenCode(CmdArgs args)
-        {
-            CodeGen.Run();
-            return true;
-        }
-
 
         [CmdOp(".gen-enums")]
         Outcome GenEnums(CmdArgs args)

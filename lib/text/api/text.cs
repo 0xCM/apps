@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Text;
 
     using static Root;
 
@@ -25,10 +26,10 @@ namespace Z0
 
         [Op]
         public static ITextBuffer buffer()
-            => TextTools.buffer();
+            => new TextBuffer(new StringBuilder());
 
         [Op]
         public static ITextBuffer buffer(uint capacity)
-            => TextTools.buffer(capacity);
+            => new TextBuffer(capacity);
     }
 }

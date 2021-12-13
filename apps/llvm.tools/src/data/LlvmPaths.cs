@@ -101,7 +101,11 @@ namespace Z0.llvm
 
         public FS.FilePath QueryTable<T>(string tag)
             where T : struct
-                => QueryResults() + FS.file(string.Format("{0}.{1}", Z0.Tables.identify<T>(), tag), FS.Csv);
+                => QueryResults()
+                + (text.nonempty(tag)
+                ? FS.file(string.Format("{0}.{1}", Z0.Tables.identify<T>(), tag), FS.Csv)
+                : FS.file(Z0.Tables.identify<T>().Format(), FS.Csv)
+                );
 
         public FS.Files Lists()
             => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));

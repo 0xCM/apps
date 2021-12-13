@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    [Record(TableId)]
+    public struct ProcessorFeature
     {
-        [CmdOp("llvm/emit/help")]
-        Outcome EmitHelp(CmdArgs args)
-        {
-            Toolset.EmitHelpDocs();
-            return true;
-        }
+        public const string TableId= "llvm.processor.feature";
+
+        public uint Seq;
+
+        public string Processor;
+
+        public string FeatureName;
     }
 }

@@ -4,12 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        const string ClassFieldQuery = "llvm/classes/fields";
+        const string EmitInstAction = "llvm/emit/instdefs";
 
-        [CmdOp(ClassFieldQuery)]
-        Outcome ClassFields(CmdArgs args)
-            => Flow(ClassFieldQuery, DataProvider.SelectClassFields().View);
+        [CmdOp(EmitInstAction)]
+        Outcome EmitInst(CmdArgs args)
+        {
+            DataEmitter.EmitInstDefs();
+            return true;
+        }
     }
 }

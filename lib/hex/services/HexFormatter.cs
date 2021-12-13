@@ -35,7 +35,8 @@ namespace Z0
             return result.ToString();
         }
 
-        public static HexLineConfig DefaultLineConfig => new HexLineConfig(bpl: 32, labels: true, delimiter: Chars.Space, zeropad: true);
+        public static HexLineConfig DefaultLineConfig
+            => new HexLineConfig(bpl: 32, labels: true, delimiter: Chars.Space, zeropad: true);
 
         [Op]
         public static uint emit(ReadOnlySpan<byte> src, StreamWriter dst, HexLineConfig? c = null)
@@ -45,7 +46,7 @@ namespace Z0
                 return 0;
 
             var config = c ?? DefaultLineConfig;
-            var line = TextTools.buffer();
+            var line = text.buffer();
             var address = Address32.Zero;
             var offset = 1;
             var restart = true;

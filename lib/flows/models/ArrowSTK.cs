@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines kinded link
     /// </summary>
+    [DataType("arrow<s:{0},t:{1},k:{2}>")]
     public readonly struct Arrow<S,T,K> : IArrow<S,T,K>
     {
         /// <summary>

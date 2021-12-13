@@ -17,7 +17,7 @@ namespace Z0
     /// <summary>
     /// Defines a character block b with capacity(b) = 1x16u
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=2)]
+    [StructLayout(LayoutKind.Sequential, Pack=2), DataType("block<n:1,t:c16}>")]
     public struct CharBlock1 : IChar16Block<B>
     {
         char C;
@@ -62,7 +62,7 @@ namespace Z0
         }
 
         public string Format()
-            => TextTools.format(String);
+            => text.format(String);
 
         public override string ToString()
             => Format();

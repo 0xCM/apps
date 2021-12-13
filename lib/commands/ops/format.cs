@@ -71,7 +71,7 @@ namespace Z0
         public static string format<K,T>(in ToolCmdArgs<K,T> src)
             where K : unmanaged
         {
-            var dst = TextTools.buffer();
+            var dst = text.buffer();
             var view = src.View;
             var count = view.Length;
             for(var i=0; i<count; i++)
@@ -99,7 +99,7 @@ namespace Z0
         public static string format<T>(ICmd<T> src)
             where T : struct, ICmd<T>
         {
-            var buffer = TextTools.buffer();
+            var buffer = text.buffer();
             buffer.AppendFormat("{0}{1}", src.CmdId, Chars.LParen);
 
             var fields = ClrFields.instance(typeof(T));

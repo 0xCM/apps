@@ -18,22 +18,22 @@ namespace Z0
     public ref struct ClosedIntervals<T>
         where T : unmanaged
     {
-        readonly Span<T> Buffer;
+        readonly Index<T> Buffer;
 
-        public Span<ClosedInterval<uint>> Ranges;
+        public Index<ClosedInterval<uint>> Ranges;
 
         public uint SegCount;
 
         [MethodImpl(Inline)]
-        public ClosedIntervals(Span<T> buffer, uint max)
+        public ClosedIntervals(Index<T> buffer, uint max)
         {
             Buffer = buffer;
-            Ranges = span<ClosedInterval<uint>>(max);
+            Ranges = alloc<ClosedInterval<uint>>(max);
             SegCount = 0;
         }
 
         [MethodImpl(Inline)]
-        public ClosedIntervals(Span<T> buffer, Span<ClosedInterval<uint>> ranges)
+        public ClosedIntervals(Index<T> buffer, Index<ClosedInterval<uint>> ranges)
         {
             Buffer = buffer;
             Ranges = ranges;
@@ -48,11 +48,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ref ClosedInterval<uint> Range(byte index)
-            => ref seek(Ranges,index);
+            => ref Ranges[index];
 
         [MethodImpl(Inline)]
         public ref ClosedInterval<uint> Range(uint index)
-            => ref seek(Ranges,index);
+            => ref Ranges[index];
 
         [MethodImpl(Inline)]
         public void Range(uint index, uint i0, uint i1)
@@ -60,5 +60,8 @@ namespace Z0
 
         public string Format()
             => api.format(this);
-    }
+
+        public override string ToString()
+            => Format();
+   }
 }

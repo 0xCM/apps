@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("fptr<d:{0}>")]
     public struct FPtr<D>
         where D : Delegate
     {

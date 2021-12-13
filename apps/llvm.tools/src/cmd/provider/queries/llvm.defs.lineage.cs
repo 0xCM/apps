@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        const string ClassFieldTypeQuery = "llvm/classes/fields/types";
+        const string DefLineageQuery = "llvm/defs/lineage";
 
-        [CmdOp(ClassFieldTypeQuery)]
-        Outcome QueryClassFieldTypes(CmdArgs args)
+        [CmdOp(DefLineageQuery)]
+        Outcome QueryDefLineage(CmdArgs args)
         {
-            Flow(ClassFieldTypeQuery, DataProvider.SelectDistinctFieldTypes(DataProvider.SelectClassFields()));
+            DataEmitter.EmitQueryResults(DefLineageQuery, DataProvider.SelectDefLineage().Values);
             return true;
         }
     }

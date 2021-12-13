@@ -15,25 +15,25 @@ namespace Z0
     {
         public DataTypeAttribute()
         {
-            NameFormat = EmptyString;
+            NameSyntax = EmptyString;
             Kind = 0ul;
         }
 
         public DataTypeAttribute(string name)
         {
-            NameFormat = name;
+            NameSyntax = name;
             Kind = 0ul;
         }
 
         public DataTypeAttribute(string name, object kind, uint content = 0, uint storage = 0)
         {
-            NameFormat = name;
+            NameSyntax = name;
             Kind = kind;
             ContentWidth = content;
             StorageWidth = storage;
         }
 
-        public string NameFormat {get;}
+        public string NameSyntax {get;}
 
         public object Kind {get;}
 

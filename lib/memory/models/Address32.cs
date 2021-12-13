@@ -13,7 +13,7 @@ namespace Z0
     using W = W32;
     using T = System.UInt32;
 
-    [DataType("address32")]
+    [DataType("address<w:64>")]
     public readonly struct Address32 : IAddress<A,T>
     {
         [MethodImpl(Inline), Op]
