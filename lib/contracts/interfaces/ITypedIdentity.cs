@@ -24,9 +24,10 @@ namespace Z0
     }
 
     [Free]
-    public interface ITypedIdentity<H,T> : ITypedIdentity<T>, IEquatable<H>
+    public interface ITypedIdentity<H,T> : ITypedIdentity<T>, IEquatable<H>, IComparable<H>
         where H : struct, ITypedIdentity<H,T>
     {
-
+        int IComparable<H>.CompareTo(H src)
+            => Id.ToString().CompareTo(src.Id.ToString());
     }
 }

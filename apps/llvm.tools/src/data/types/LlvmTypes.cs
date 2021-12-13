@@ -10,9 +10,11 @@ namespace Z0.llvm
     using static Root;
     using static core;
 
+    [ApiHost]
     public readonly struct LlvmTypes
     {
-        public static LlvmDataType parse(string src)
+        [Op]
+        public static LlvmDataType type(string src)
         {
             if(src.Equals("bit"))
                 return parse(LlvmTypeKind.Bit, src);

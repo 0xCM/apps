@@ -35,10 +35,7 @@ namespace Z0
             var count = providers.Length;
             var lookups = alloc<CmdActionLookup>(count);
             for(var i=0; i<count; i++)
-            {
                 seek(lookups,i) = discover(skip(providers,i));
-            }
-
             return join(lookups);
         }
 
@@ -92,7 +89,7 @@ namespace Z0
         public ReadOnlySpan<string> Specs
         {
             [MethodImpl(Inline)]
-            get => Pairs.Keys;
+            get => Pairs.Keys.Sort();
         }
 
         public ReadOnlySpan<CmdAction> Actions

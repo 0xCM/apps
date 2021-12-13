@@ -13,7 +13,7 @@ namespace Z0.llvm
     {
         public Index<ChildRelation> EmitChildRelations()
         {
-            var parents = RecordEntities.GroupByParent(DataProvider.SelectEntities());
+            var parents = LlvmEntities.GroupByParent(DataProvider.SelectEntities());
             var dst = list<ChildRelation>();
             var counter = 0u;
             var key = 0u;

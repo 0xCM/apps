@@ -50,7 +50,7 @@ namespace Z0.llvm
         {
         }
 
-        public virtual void EntitiesSelected(Index<RecordEntity> src)
+        public virtual void EntitiesSelected(Index<LlvmEntity> src)
         {
         }
 

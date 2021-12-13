@@ -18,7 +18,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public EventPayload(T data)
         {
-            _Data = data;
+            _Data = core.require(data);
             IsNonEmpty = data != null;
         }
 

@@ -256,7 +256,6 @@ namespace Z0.Asm
             var duration = clock.Elapsed().Ms;
         }
 
-
         public void ParseDisassembly()
         {
             var src = FS.path(@"C:\Data\zdb\tools\dumpbin\output\xxhsum.exe.disasm.asm");
@@ -266,11 +265,10 @@ namespace Z0.Asm
             processor.ParseDisassembly(src,dst);
         }
 
-
         void Dispatch(string cmd, CmdArgs args)
         {
             var commands = Wf.GlobalCommands();
-            var result = commands.Dispatch(cmd, args);
+            var result = commands.Dispatcher.Dispatch(cmd,args);
             if(result.Fail)
                 Wf.Error(result.Message);
         }

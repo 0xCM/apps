@@ -86,29 +86,15 @@ namespace Z0
             return this;
         }
 
-        public ExecToken Ran(WfExecFlow src)
-        {
-            var token = Tokens.Close(src.Token);
-            return token;
-        }
-
-        public ExecToken Ran<T>(WfExecFlow<T> src)
-        {
-            var token = Tokens.Close(src.Token);
-            WfEvents.signal(this).Ran(src.Data);
-            return token;
-        }
-
-        public ExecToken Ran<T,D>(WfExecFlow<T> src, D data)
-        {
-            var token = Tokens.Close(src.Token);
-            WfEvents.signal(this).Ran(data);
-            return token;
-        }
-
         [MethodImpl(Inline)]
         public ExecToken NextExecToken()
             => Tokens.Open();
+
+        public ExecToken Completed(WfExecFlow src)
+            => Tokens.Close(src.Token);
+
+        public ExecToken Completed<T>(WfExecFlow<T> src)
+            => Tokens.Close(src.Token);
 
 
         public void Dispose()

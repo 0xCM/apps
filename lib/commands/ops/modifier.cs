@@ -2,15 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    partial class LlvmCmd
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
+    partial struct Cmd
     {
-        [CmdOp("llvm/emit/help")]
-        Outcome EmitHelp(CmdArgs args)
-        {
-            Toolset.EmitHelpDocs();
-            return true;
-        }
+        [MethodImpl(Inline), Op]
+        public static CmdModifier modifier(string value)
+            => value;
     }
 }

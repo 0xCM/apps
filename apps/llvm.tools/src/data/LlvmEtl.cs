@@ -7,15 +7,15 @@ namespace Z0.llvm
     using static LlvmNames;
     using static core;
 
-    public class LlvmEtl : AppService<LlvmEtl>
+    public class LlvmDataImporter : AppService<LlvmDataImporter>
     {
-        LlvmPaths LlvmPaths;
-
         LlvmDataProvider DataProvider;
 
         LlvmDataEmitter DataEmitter;
 
-        public LlvmEtl()
+        LlvmPaths LlvmPaths;
+
+        public LlvmDataImporter()
         {
         }
 
@@ -30,7 +30,7 @@ namespace Z0.llvm
         {
             run(() => observer.EtlStarted());
 
-            var help = DataEmitter.EmitToolHelp();
+            var help = ImportToolHelp();
             run(() => observer.ToolHelpEmitted(help));
 
             var asmId = DataEmitter.EmitAsmIdentifiers();
@@ -81,6 +81,24 @@ namespace Z0.llvm
             run(() => observer.InstPatternsEmitted(instpattterns));
 
             run(() => observer.EtlCompleted());
+        }
+
+        public Index<ToolHelpDoc> ImportToolHelp()
+        {
+            var imports = LlvmPaths.ToolImports();
+            var docs = DataProvider.SelectToolHelp();
+            var count = docs.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var doc = ref docs[i];
+                var content = doc.Content;
+                var dst = imports + FS.file(doc.Tool.Format(),FS.Help);
+                var emitting = EmittingFile(dst);
+                using var writer = dst.Writer();
+                writer.Write(content);
+                EmittedFile(emitting, content.Length);
+            }
+            return docs;
         }
 
         public void Run()

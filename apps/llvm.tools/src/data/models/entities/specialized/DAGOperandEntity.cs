@@ -6,7 +6,6 @@ namespace Z0.llvm
 {
     using static Root;
 
-
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
@@ -31,7 +30,6 @@ namespace Z0.llvm
 
         public string OperandType
             => Value(nameof(OperandType), field => text.remove(field.Value,Chars.Quote), EmptyString);
-            //text.remove(this[nameof(OperandType)],Chars.Quote);
 
         public string MIOperandInfo
             => this[nameof(MIOperandInfo)];

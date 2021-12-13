@@ -30,7 +30,8 @@ namespace Z0
             PromptTitle = "cmd";
         }
 
-        protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf) => array(this);
+        protected virtual ICmdProvider[] CmdProviders(IWfRuntime wf)
+            => array(this);
 
         protected override void OnInit()
         {
@@ -127,8 +128,9 @@ namespace Z0
         [CmdOp("commands")]
         protected Outcome Commands(CmdArgs args)
         {
-            var commands = Cmd.cmdops(GetType());
-            iter(commands, cmd => Write(cmd.Format()));
+            iter(Dispatcher.Supported, cmd => Write(cmd));
+            // var commands = Cmd.cmdops(GetType());
+            // iter(commands, cmd => Write(cmd.Format()));
             return true;
         }
 
@@ -383,27 +385,33 @@ namespace Z0
             }
         }
 
-        public Outcome Dispatch(CmdSpec cmd)
+        public void Dispatch(CmdSpec cmd)
         {
-            var outcome = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-            if(outcome.Fail)
-                Error(outcome.Message);
-            else
+            try
             {
-                if(nonempty(outcome.Message))
-                    Status(outcome.Message);
+                var outcome = Dispatcher.Dispatch(cmd.Name, cmd.Args);
+                if(outcome.Fail)
+                    Error(outcome.Message ?? RP.Null);
+                else
+                {
+                    if(nonempty(outcome.Message))
+                        Status(outcome.Message);
+                }
             }
-            return outcome;
+            catch(Exception e)
+            {
+                Error(e);
+            }
         }
 
-        public Outcome Dispatch(string command, CmdArgs args)
-            => Dispatcher.Dispatch(command, args);
+        // public Outcome Dispatch(string command, CmdArgs args)
+        //     => Dispatcher.Dispatch(command, args);
 
-        public Outcome Dispatch(string command)
-            => Dispatcher.Dispatch(command);
+        // public Outcome Dispatch(string command)
+        //     => Dispatcher.Dispatch(command);
 
-        public ReadOnlySpan<string> Supported
-            => Dispatcher.Supported;
+        // public ReadOnlySpan<string> Supported
+        //     => Dispatcher.Supported;
 
         protected Outcome ShowSyms<K>(Symbols<K> src)
             where K : unmanaged
@@ -437,9 +445,6 @@ namespace Z0
             TableEmit(@readonly(buffer), SymKindRow.RenderWidths, dst);
             return buffer;
         }
-
-        protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
-            => CmdResponse.parse(src);
 
         protected abstract CmdShellState CommonState {get;}
 

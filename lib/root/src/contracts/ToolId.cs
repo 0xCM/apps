@@ -43,6 +43,9 @@ namespace Z0
         public override string ToString()
             => Id;
 
+        public int CompareTo(ToolId src)
+            => IsNonEmpty ? Id.CompareTo(src.Id) : -1;
+
         [MethodImpl(Inline)]
         public bool Equals(ToolId src)
             => Id.Equals(src.Id);

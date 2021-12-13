@@ -12,15 +12,13 @@ namespace Z0
 
     partial class text
     {
-        /// <summary>
-        /// Returns the indices of the first occurrences of the first and second characters in the source, if any
-        /// </summary>
-        /// <param name="src">The source text</param>
-        /// <param name="first">The first character to match</param>
-        /// <param name="second">THe second character to match</param>
         [MethodImpl(Inline), Op]
         public static Pair<int> indices(string src, char first, char second)
             => pair(index(src, first), index(src,second));
+
+        [MethodImpl(Inline), Op]
+        public static Pair<int> indices(string src, Fence<char> fence)
+            => pair(index(src, fence.Left), lastindex(src,fence.Right));
 
         /// <summary>
         /// Returns the indices of the first occurrences of the first and second strings in the source, if any

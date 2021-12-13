@@ -28,6 +28,9 @@ namespace Z0.llvm
         public FS.FolderPath RecordImports()
             => Imports() + FS.folder("records");
 
+        public FS.FolderPath ToolImports()
+            => Imports() + FS.folder("tools");
+
         public FS.FilePath RecordImport(string id, FS.FileExt ext)
             =>  RecordImports() + FS.file(id, ext);
 
@@ -91,6 +94,14 @@ namespace Z0.llvm
 
         public FS.FilePath Table(string id)
             => Tables() + FS.file(id, FS.Csv);
+
+        public FS.FilePath QueryTable<T>()
+            where T : struct
+                => QueryResults() + Z0.Tables.filename<T>();
+
+        public FS.FilePath QueryTable<T>(string tag)
+            where T : struct
+                => QueryResults() + FS.file(string.Format("{0}.{1}", Z0.Tables.identify<T>(), tag), FS.Csv);
 
         public FS.Files Lists()
             => Tables().Files(FS.Csv).Where(f => f.FileName.StartsWith("llvm.lists."));

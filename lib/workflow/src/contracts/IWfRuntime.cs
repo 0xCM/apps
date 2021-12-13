@@ -44,17 +44,79 @@ namespace Z0
 
         ExecToken NextExecToken();
 
+        ExecToken Completed(WfExecFlow src);
+
+        ExecToken Completed<T>(WfExecFlow<T> src);
+
         IWfRuntime WithSource(IPolySource source);
-
-        ExecToken Ran(WfExecFlow src);
-
-        ExecToken Ran<T>(WfExecFlow<T> src);
-
-        ExecToken Ran<T,D>(WfExecFlow<T> flow, D data);
 
         IWfEmissionLog Emissions {get;}
 
         void RedirectEmissions(IWfEmissionLog dst);
+
+        void Disposed()
+        {
+            if(Verbosity.IsBabble())
+                Raise(EventFactory.disposed(Host.StepId, Ct));
+        }
+
+        WfExecFlow<T> Running<T>(T data)
+        {
+            signal(this).Running(data);
+            return Flow(data);
+        }
+
+        WfExecFlow<T> Running<T>(WfHost host, T data)
+        {
+            signal(this, host).Running(data);
+            return Flow(data);
+        }
+
+        WfExecFlow<T> Running<T>(T data, string operation)
+        {
+            signal(this).Running(operation, data);
+            return Flow(data);
+        }
+
+        WfExecFlow<T> Running<T>(WfHost host, T data, string operation)
+        {
+            signal(this, host).Running(operation, data);
+            return Flow(data);
+        }
+
+        WfExecFlow<string> Running(WfHost host, [Caller] string operation = null)
+        {
+            signal(this, host).Running(operation);
+            return Flow(operation);
+        }
+
+        ExecToken Ran<T>(WfExecFlow<T> src)
+        {
+            var token = Completed(src);
+            WfEvents.signal(this).Ran(src.Data);
+            return token;
+        }
+
+        ExecToken Ran<T>(WfHost host, WfExecFlow<T> src)
+        {
+            var token = Completed(src);
+            WfEvents.signal(this, host).Ran(src.Data);
+            return token;
+        }
+
+        ExecToken Ran<T,D>(WfExecFlow<T> src, D data)
+        {
+            var token = Completed(src);
+            WfEvents.signal(this).Ran(data);
+            return token;
+        }
+
+        ExecToken Ran<T,D>(WfHost host, WfExecFlow<T> src, D data)
+        {
+            var token = Completed(src);
+            WfEvents.signal(this, host).Ran(data);
+            return token;
+        }
 
         Assembly[] Components
             => Context.ApiParts.Components;
@@ -70,7 +132,7 @@ namespace Z0
                 => new WfTableFlow<T>(this, dst, NextExecToken());
 
         WfFileFlow Flow(FS.FilePath dst)
-                => new WfFileFlow(this, dst, NextExecToken());
+            => new WfFileFlow(this, dst, NextExecToken());
 
         Task<CmdResult> Dispatch(ICmd cmd)
             => Task.Factory.StartNew(() => Router.Dispatch(cmd));
@@ -84,9 +146,6 @@ namespace Z0
         IWfDb Db()
             => new WfDb(this, Env.Db);
 
-        /// <summary>
-        /// Provides a <see cref='IWfDb'/> rooted at a shell-configured location
-        /// </summary>
         IWfDb Db(FS.FolderPath root)
             => new WfDb(this, root);
 
@@ -97,26 +156,35 @@ namespace Z0
             return e.EventId;
         }
 
+        void Babble<T>(T data)
+            => signal(this).Babble(data);
+
+        void Babble<T>(WfHost host, T data)
+            => signal(this, host).Babble(data);
+
         void Status<T>(T data)
             => signal(this).Status(data);
 
-        void Babble<T>(T data)
-            => signal(this).Babble(data);
+        void Status<T>(WfHost host,T data)
+            => signal(this, host).Status(data);
 
         void Warn<T>(T content)
             => signal(this).Warn(content);
 
+        void Warn<T>(WfHost host, T content)
+            => signal(this, host).Warn(content);
+
         void Error(Exception e, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
             => signal(this).Error(e, EventFactory.originate("WorkflowError", caller, file, line));
+
+        void Error(WfHost host, Exception e, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
+            => signal(this, host).Error(e, EventFactory.originate("WorkflowError", caller, file, line));
 
         void Error<T>(T data, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
             => signal(this).Error(data, EventFactory.originate("WorkflowError", caller, file, line));
 
-        void Disposed()
-        {
-            if(Verbosity.IsBabble())
-                Raise(EventFactory.disposed(Host.StepId, Ct));
-        }
+        void Error<T>(WfHost host, T data, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
+            => signal(this, host).Error(data, EventFactory.originate("WorkflowError", caller, file, line));
 
         WfExecFlow<T> Creating<T>(T data)
         {
@@ -124,10 +192,22 @@ namespace Z0
             return Flow(data);
         }
 
+        WfExecFlow<T> Creating<T>(WfHost host, T data)
+        {
+            signal(this, host).Creating(data);
+            return Flow(data);
+        }
+
         ExecToken Created<T>(WfExecFlow<T> flow)
         {
             signal(this).Created(flow.Data);
-            return Ran(flow);
+            return Completed(flow);
+        }
+
+        ExecToken Created<T>(WfHost host, WfExecFlow<T> flow)
+        {
+            signal(this, host).Created(flow.Data);
+            return Completed(flow);
         }
 
         WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
@@ -137,12 +217,29 @@ namespace Z0
             return Emissions.LogEmission(TableFlow<T>(dst));
         }
 
+        WfTableFlow<T> EmittingTable<T>(WfHost host, FS.FilePath dst)
+            where T : struct
+        {
+            signal(this, host).EmittingTable<T>(dst);
+            return Emissions.LogEmission(TableFlow<T>(dst));
+        }
+
         ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
         {
-            var completed = Ran(flow);
+            var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);
             signal(this).EmittedTable<T>(count, counted.Target);
+            Emissions.LogEmission(counted);
+            return completed;
+        }
+
+        ExecToken EmittedTable<T>(WfHost host, WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
+            where T : struct
+        {
+            var completed = Completed(flow);
+            var counted = flow.WithCount(count).WithToken(completed);
+            signal(this, host).EmittedTable<T>(count, counted.Target);
             Emissions.LogEmission(counted);
             return completed;
         }
@@ -153,61 +250,34 @@ namespace Z0
             return Emissions.LogEmission(Flow(dst));
         }
 
-        ExecToken EmittedFile(WfFileFlow flow, Count count)
-        {
-            var completed = Ran(flow);
-            var counted = flow.WithCount(count).WithToken(completed);
-            signal(this).EmittedFile(count, counted.Target);
-            Emissions.LogEmission(counted);
-            return completed;
-        }
-
-        WfExecFlow<T> Running<T>(T data)
-        {
-            signal(this).Running(data);
-            return Flow(data);
-        }
-
-        WfExecFlow<T> Running<T>(T data, string operation)
-        {
-            signal(this).Running(operation, data);
-            return Flow(data);
-        }
-
-        void Row<T>(T data, FlairKind? flair = null)
-            => signal(this).Data(data,flair);
-
-        void Babble<T>(WfHost host, T data)
-            => signal(this, host).Babble(data);
-
-        void Status<T>(WfHost host,T data)
-            => signal(this, host).Status(data);
-
-        void Warn<T>(WfHost host, T content)
-            => signal(this, host).Warn(content);
-
-        void Error<T>(WfHost host, T data, [Caller] string caller = null, [File] string file = null, [Line]int? line = null)
-            => signal(this).Error(data, EventFactory.originate("WorkflowError", caller, file, line));
-
         WfFileFlow EmittingFile(WfHost host, FS.FilePath dst)
         {
             signal(this,host).EmittingFile(dst);
             return Emissions.LogEmission(Flow(dst));
         }
 
+        ExecToken EmittedFile(WfFileFlow flow, Count count)
+        {
+            var completed = Completed(flow);
+            var counted = flow.WithCount(count).WithToken(completed);
+            signal(this).EmittedFile(count, counted.Target);
+            Emissions.LogEmission(counted);
+            return completed;
+        }
+
         ExecToken EmittedFile(WfHost host, WfFileFlow flow, Count count)
         {
-            var completed = Ran(flow);
+            var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);
             signal(this, host).EmittedFile(count, counted.Target);
             Emissions.LogEmission(counted);
             return completed;
         }
 
-        WfExecFlow<string> Running(WfHost host, [Caller] string operation = null)
-        {
-            signal(this, host).Running(operation);
-            return Flow(operation);
-        }
+        void Row<T>(T data, FlairKind? flair = null)
+            => signal(this).Data(data,flair);
+
+        void Row<T>(WfHost host, T data, FlairKind? flair = null)
+            => signal(this, host).Data(data,flair);
     }
 }

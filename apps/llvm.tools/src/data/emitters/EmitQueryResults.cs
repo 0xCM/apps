@@ -26,5 +26,14 @@ namespace Z0.llvm
             EmittedFile(emitting,count);
             return count;
         }
+
+        public uint EmitQueryTable<T>(string query, string args, ReadOnlySpan<T> results)
+            where T : struct
+        {
+            var count = (uint)results.Length;
+            var tag = text.empty(args) ? string.Empty : "-" + args;
+            var dst = LlvmPaths.QueryTable<T>(tag);
+            return TableEmit(results, dst);
+        }
     }
 }

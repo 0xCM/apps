@@ -9,9 +9,9 @@ namespace Z0.llvm
 
     using static LlvmNames;
 
-    public class RecordEntity : DefFields
+    public class LlvmEntity : DefFields
     {
-        public RecordEntity(DefRelations def, RecordField[] fields)
+        public LlvmEntity(DefRelations def, RecordField[] fields)
             : base(def,fields)
         {
         }
@@ -30,6 +30,12 @@ namespace Z0.llvm
 
         public InstEntity ToInstruction()
             => new InstEntity(Def,AttribIndex);
+
+        public bool IsProcessor()
+            => HasAncestor(ProcessorEntity.LlvmName);
+
+        public ProcessorEntity ToProcessor()
+            => new ProcessorEntity(Def,AttribIndex);
 
         public bool IsGenericInstruction()
             => HasAncestor(Entities.GenericInstruction);

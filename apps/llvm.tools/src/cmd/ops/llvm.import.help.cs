@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     partial class LlvmCmd
     {
-        const string EmitHelpData = "llvm/emit/help-data";
+        const string ImportHelpCmd = "llvm/import/help";
 
-        [CmdOp(EmitHelpData)]
-        Outcome ExecEmitHelpData(CmdArgs args)
+        [CmdOp(ImportHelpCmd)]
+        Outcome ImportHelp(CmdArgs args)
         {
-            DataEmitter.EmitToolHelp();
+            DataImporter.ImportToolHelp();
             return true;
         }
     }

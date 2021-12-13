@@ -20,7 +20,7 @@ namespace Z0.llvm
                 if(text.contains(field.DataType, "AMDGPU") || text.contains(field.DataType, "WMMA_REGS"))
                     continue;
 
-                var dt = LlvmTypes.parse(field.DataType);
+                var dt = LlvmTypes.type(field.DataType);
                 if(dt.IsNonEmpty)
                     types.Add(dt);
             }

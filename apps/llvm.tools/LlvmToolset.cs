@@ -18,8 +18,6 @@ namespace Z0.llvm
 
         ConstLookup<ToolId,FS.FilePath> HelpFiles;
 
-        ConstLookup<ToolId,ToolProfile> ToolProfiles;
-
         ConstLookup<ToolId,ToolHelpDoc> ToolHelpDocs;
 
         Toolset Toolset;
@@ -37,7 +35,6 @@ namespace Z0.llvm
             ToolsetDir = Ws.Project("tools/llvm").Home();
             HelpDir = ToolsetDir + FS.folder("help");
             Tooling = Wf.Tooling();
-            LoadProfiles();
             LoadToolset();
             CalcHelpPaths();
             InitHelpDocs();
@@ -56,8 +53,6 @@ namespace Z0.llvm
             ToolHelpDocs = dst.Seal();
         }
 
-        public ReadOnlySpan<ToolProfile> Profiles()
-            => ToolProfiles.Values;
 
         public Index<ToolHelpDoc> ToolHelp()
         {
@@ -81,7 +76,7 @@ namespace Z0.llvm
 
         public FS.FilePath ToolPath(ToolId tool)
         {
-            if(ToolProfiles.Find(tool, out var profile))
+            if(Profiles().Find(tool, out var profile))
             {
                 return profile.Path;
             }
@@ -92,7 +87,7 @@ namespace Z0.llvm
         void CalcHelpPaths()
         {
             var dst = lookup<ToolId,FS.FilePath>();
-            var src = ToolProfiles.Values;
+            var src = Profiles().Values;
             var count = src.Length;
             for(var i=0; i<count; i++)
             {
@@ -107,23 +102,42 @@ namespace Z0.llvm
             HelpFiles = dst.Seal();
         }
 
-        public Outcome EmitHelpDocs()
+        Index<ToolCmdLine> BuildHelpCommands()
         {
-            var result = Outcome.Success;
-            var src = ToolProfiles.Values;
+            var profiles = Profiles();
+            var src = profiles.Values;
             var count = src.Length;
+            var dst = list<ToolCmdLine>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var profile = ref skip(src,i);
                 ref readonly var tool = ref profile.Id;
                 if(profile.HelpCmd.IsEmpty)
                     continue;
+                dst.Add(Cmd.cmdline(tool, string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd)));
+            }
+            dst.Sort();
+            return dst.ToArray();
+        }
 
-                var cmdline = Cmd.cmdline(string.Format("{0} {1}", profile.Path.Format(PathSeparator.BS), profile.HelpCmd));
-                Write(string.Format("Executing '{0}'", cmdline.Format()));
-                result = OmniScript.Run(cmdline, CmdVars.Empty, out var response);
+        public Index<ToolHelpDoc> EmitHelpDocs()
+        {
+            var result = Outcome.Success;
+            var commands = BuildHelpCommands();
+            var count = commands.Length;
+            var docs = list<ToolHelpDoc>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var cmd = ref commands[i];
+                var tool = cmd.Tool;
+                result = OmniScript.Run(cmd.Command, CmdVars.Empty, out var response);
                 if(result.Fail)
-                    return result;
+                {
+                    Error(result.Message);
+                    continue;
+                }
+
+                Babble(string.Format("Executed '{0}'", cmd.Format()));
 
                 if(HelpFiles.Find(tool, out var path))
                 {
@@ -133,12 +147,14 @@ namespace Z0.llvm
                     for(var j=0; j<length; j++)
                         writer.WriteLine(skip(response, j).Content);
                     EmittedFile(emitting,length);
+
+                    docs.Add(new ToolHelpDoc(tool,path));
                 }
                 else
                     Warn(string.Format("{0} has no help path", tool));
             }
 
-            return result;
+            return docs.ToArray();
         }
 
         Outcome InitializeProfiles(FS.FolderPath spec, FS.FilePath config, ToolId set)
@@ -170,23 +186,9 @@ namespace Z0.llvm
             return result;
         }
 
-        Outcome Init()
-        {
-            var result = Outcome.Success;
-            var config = ToolsetDir + FS.file("toolset", FS.Settings);
 
-            var profilepath = ToolsetDir + Tables.filename<ToolProfile>();
-            if(!profilepath.Exists)
-                InitializeProfiles(ToolsetDir, config, "llvm");
-
-            return LoadProfiles();
-        }
-
-        Outcome LoadProfiles()
-        {
-            ToolProfiles = Tooling.LoadProfiles(ToolsetDir);
-            return true;
-        }
+        public ConstLookup<ToolId,ToolProfile> Profiles()
+            => Tooling.LoadProfiles(ToolsetDir);
 
         Outcome LoadToolset()
         {
@@ -215,7 +217,7 @@ namespace Z0.llvm
             }
 
             if(@base.IsNonEmpty && members.IsNonEmpty)
-                Toolset = new Toolset(@base, ToolProfiles.Values.ToArray());
+                Toolset = new Toolset(@base, Profiles().Values.ToArray());
 
             return Toolset.IsNonEmpty;
         }

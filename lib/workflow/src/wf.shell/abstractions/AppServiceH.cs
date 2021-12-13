@@ -42,7 +42,6 @@ namespace Z0
         ConcurrentDictionary<string,object> _Data {get;}
             = new();
 
-
         [MethodImpl(Inline)]
         protected D Data<D>(string key, Func<D> factory)
             => (D)_Data.GetOrAdd(key, k => factory());
@@ -88,8 +87,8 @@ namespace Z0
         public void Init(IWfRuntime wf)
         {
             var flow = wf.Creating(typeof(H).Name);
-            Util = AppServiceUtilities.create(wf);
             Host = new WfSelfHost(typeof(H));
+            Util = AppServiceUtilities.create(wf, Host);
             Wf = wf;
             Db = new WfDb(wf, wf.Env.Db);
             Ws = DevWs.create(wf.Env.DevWs);
@@ -112,11 +111,8 @@ namespace Z0
             Wf = wf;
         }
 
-        protected string Worker([Caller] string name = null)
-            => Util.Worker(name);
-
         protected void RedirectEmissions(string name, FS.FolderPath dst)
-            => Util.RedirectEmissions(name,dst);
+            => Wf.RedirectEmissions(Loggers.emission(name, dst));
 
         FS.FileName NameShowLog(string src, FS.FileExt ext)
             => FS.file(core.controller().Id().PartName() + "." + HostName + "." + src, ext);
@@ -131,43 +127,63 @@ namespace Z0
             => ShowLog(NameShowLog(name,ext ?? FS.Csv));
 
         protected bool Check<T>(Outcome<T> outcome, out T payload)
-            => Util.Check(outcome, out payload);
+        {
+            if(outcome.Fail)
+            {
+                Error(outcome.Message ?? "Null error message at Check");
+                payload = default;
+                return false;
+            }
+            else
+            {
+                payload = outcome.Data;
+                return true;
+            }
+        }
 
         protected void Babble<T>(T content)
-            => Util.Babble(content);
+            => Wf.Babble(content);
 
         protected void Babble(string pattern, params object[] args)
-            => Util.Babble(pattern, args);
+            => Wf.Babble(string.Format(pattern,args));
 
         protected void Status<T>(T content)
-            => Util.Status(content);
+            => Wf.Status(content);
 
         protected void Status(ReadOnlySpan<char> src)
-            => Util.Status(src);
+            => Wf.Status(new string(src));
 
         protected void Status(string pattern, params object[] args)
-            => Util.Status(pattern, args);
+            => Wf.Status(string.Format(pattern, args));
 
         protected void Warn<T>(T content)
-            => Util.Warn(content);
+            => Wf.Warn(content);
 
         protected void Warn(string pattern, params object[] args)
-            => Util.Warn(pattern, args);
+            => Wf.Warn(string.Format(pattern,args));
 
         protected void Write<T>(T content)
-            => Util.Write(content);
+            => Wf.Row(content, null);
 
         protected void Write<T>(T content, FlairKind flair)
-            => Util.Write(content, flair);
+            => Wf.Row(content, flair);
 
         protected void Write<T>(string name, T value, FlairKind? flair = null)
-            => Util.Write(name, value, flair);
+            => Wf.Row(RP.attrib(name, value), flair);
 
         protected void Write<T>(ReadOnlySpan<T> src, FlairKind? flair = null)
-            => Util.Write(src, flair);
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                Write(skip(src,i), flair ?? FlairKind.Data);
+        }
 
         protected void Write<T>(Span<T> src, FlairKind? flair = null)
-            => Util.Write(src, flair);
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                Write(skip(src,i), flair ?? FlairKind.Data);
+        }
 
         protected void Write<R>(ReadOnlySpan<R> src, ReadOnlySpan<byte> widths)
             where R : struct
@@ -180,37 +196,35 @@ namespace Z0
         }
 
         protected virtual void Error<T>(T content)
-            => Util.Error(content);
+            => Wf.Error(core.require(content));
 
         protected WfExecFlow<T> Running<T>(T msg, [Caller] string operation = null)
-            => Util.Running(msg, operation);
+            => Wf.Running(msg, operation);
 
         protected WfExecFlow<string> Running([Caller] string msg = null)
-            => Util.Running(msg);
+            => Wf.Running(msg);
 
         protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
-            => Util.Ran(flow,msg);
-
-        protected ExecToken Ran<T,D>(WfExecFlow<T> flow, D data, [Caller] string operation = null)
-            where T : IMsgPattern
-            => Util.Ran(flow,data,operation);
+            => Wf.Ran(flow.WithMsg(msg));
 
         protected WfFileFlow EmittingFile(FS.FilePath dst)
-            => Util.EmittingFile(dst);
+            => Wf.EmittingFile(dst);
 
         public ExecToken EmittedFile(WfFileFlow flow, Count count)
-            => Util.EmittedFile(flow,count);
+            => Wf.EmittedFile(flow,count);
 
         protected void EmittedFile(WfFileFlow file, Count count, Arrow<FS.FileUri> flow)
-            => Util.EmittedFile(file,count,flow);
+        {
+            Wf.EmittedFile(file,count);
+        }
 
         protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
-                => Util.EmittingTable<T>(dst);
+                => Wf.EmittingTable<T>(dst);
 
         protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
-                => Util.EmittedTable(flow,count,dst);
+                => Wf.EmittedTable(flow,count, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
@@ -337,6 +351,9 @@ namespace Z0
         {
             return Service(Wf.Symbolism).EmitLiterals<E>(dst);
         }
+
+        protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
+            => CmdResponse.parse(src);
 
         protected virtual void OnInit()
         {

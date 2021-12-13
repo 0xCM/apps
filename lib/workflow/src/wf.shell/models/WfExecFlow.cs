@@ -23,7 +23,7 @@ namespace Z0
         }
 
         public void Dispose()
-            => Wf.Ran(this);
+            => Wf.Completed(this);
     }
 
     public readonly struct WfExecFlow<T>: IDisposable

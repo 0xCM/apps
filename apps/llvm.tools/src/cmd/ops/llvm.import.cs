@@ -9,10 +9,10 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/etl")]
+        [CmdOp("llvm/import")]
         Outcome RunRecordsEtl(CmdArgs args)
         {
-            LlvmEtl.Run();
+            DataImporter.Run();
             return true;
         }
 

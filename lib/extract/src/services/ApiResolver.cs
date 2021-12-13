@@ -194,7 +194,7 @@ namespace Z0
 
         public ReadOnlySpan<ResolvedPart> ResolveParts(ReadOnlySpan<PartId> src)
         {
-            var flow = Wf.Running(string.Format("{0} Resolving parts [{1}]", Worker(), src.Delimit(Chars.Comma).Format()));
+            var flow = Wf.Running(string.Format("Resolving parts [{0}]", src.Delimit(Chars.Comma).Format()));
             var count = src.Length;
             var buffer = alloc<ResolvedPart>(count);
             ref var dst = ref first(buffer);

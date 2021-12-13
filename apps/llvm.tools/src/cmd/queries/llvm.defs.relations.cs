@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
-
     partial class LlvmCmd
     {
         const string DefRelationsQuery = "llvm/defs/relations";

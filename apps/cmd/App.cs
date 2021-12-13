@@ -19,7 +19,8 @@ namespace Z0
         void Dispatch(string cmd, CmdArgs args)
         {
             var commands = Wf.GlobalCommands();
-            var result = commands.Dispatch(cmd, args);
+            var dispatcher = commands.Dispatcher;
+            var result = dispatcher.Dispatch(cmd, args);
             if(result.Fail)
                 Wf.Error(result.Message);
         }

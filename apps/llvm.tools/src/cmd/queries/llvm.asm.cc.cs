@@ -14,7 +14,7 @@ namespace Z0.llvm
         [CmdOp(CcQuery)]
         Outcome QueryCC(CmdArgs args)
         {
-            var conditions = list<RecordEntity>();
+            var conditions = list<LlvmEntity>();
             var entities = DataProvider.SelectEntities();
             entities.Traverse((i,e) =>{
                 if(e.NameBeginsWith("X86_COND_"))

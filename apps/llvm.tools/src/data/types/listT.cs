@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     using static Root;
 
-    public class list<T>
+    public readonly struct list<T> : IIndex<T>
     {
         public const string Identifier = "list<{0}>";
 
@@ -20,9 +20,7 @@ namespace Z0.llvm
                 var seqparser = new SeqParser<T>(",", new ParseFunction<T>(itemparser));
                 var result = seqparser.Parse(src, out var items);
                 if(result)
-                {
-                    dst = items;
-                }
+                    dst = new list<T>(items);
                 else
                     dst = Empty;
                 return result;
@@ -30,29 +28,48 @@ namespace Z0.llvm
             return parse;
         }
 
-        Index<T> _Data;
+        readonly Index<T> Data;
 
         [MethodImpl(Inline)]
         public list(T[] src)
         {
-            _Data = src;
+            Data = src;
         }
 
-        public ReadOnlySpan<T> Items
+        public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
-            get => _Data.View;
+            get => Data.View;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
+
+        public T[] Storage
+        {
+            [MethodImpl(Inline)]
+            get => Data;
         }
 
         public string TypeName
             => string.Format(Identifier, typeof(T).Name);
 
         public string Format()
-            => string.Format("[{0}]", text.join(",", Items));
+            => string.Format("[{0}]", text.join(",", View));
 
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
         public static implicit operator list<T>(T[] src)
             => new list<T>(src);
 

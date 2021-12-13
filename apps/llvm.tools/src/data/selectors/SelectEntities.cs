@@ -10,18 +10,18 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public Index<RecordEntity> SelectEntities(Func<RecordEntity,bool> predicate)
+        public Index<LlvmEntity> SelectEntities(Func<LlvmEntity,bool> predicate)
             => SelectEntities().Where(predicate);
 
-        public Index<RecordEntity> SelectEntities()
+        public Index<LlvmEntity> SelectEntities()
         {
-            return (Index<RecordEntity>)DataSets.GetOrAdd("Entities", key => Load());
+            return (Index<LlvmEntity>)DataSets.GetOrAdd("Entities", key => Load());
 
-            Index<RecordEntity> Load()
+            Index<LlvmEntity> Load()
             {
                 var running = Wf.Running(nameof(SelectEntities));
                 var relations = SelectDefRelations().Map(x => (x.Name.Content, x)).ToDictionary();
-                var entites = list<RecordEntity>();
+                var entites = list<LlvmEntity>();
                 var current = EmptyString;
                 var fields = list<RecordField>();
                 var src = SelectDefFields().View;
@@ -34,7 +34,7 @@ namespace Z0.llvm
                     {
                         if(fields.Count != 0)
                         {
-                            entites.Add(new RecordEntity(relation, fields.ToArray()));
+                            entites.Add(new LlvmEntity(relation, fields.ToArray()));
                             fields.Clear();
                         }
                         current = field.RecordName;

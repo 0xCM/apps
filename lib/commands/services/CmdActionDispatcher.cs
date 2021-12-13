@@ -39,7 +39,7 @@ namespace Z0
                 else
                 {
                     if(Fallback != null)
-                        return Fallback(command,args);
+                        return Fallback(command, args);
                     else
                         return (false, string.Format("Command '{0}' unrecognized", command));
                 }

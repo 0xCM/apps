@@ -12,7 +12,7 @@ namespace Z0.llvm
 
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
-        LlvmEtl LlvmEtl;
+        LlvmDataImporter DataImporter;
 
         LlvmToolset Toolset;
 
@@ -46,7 +46,7 @@ namespace Z0.llvm
         protected override void Initialized()
         {
             LlvmPaths = Wf.LlvmPaths();
-            LlvmEtl = Wf.LlvmRecordEtl();
+            DataImporter = Wf.LlvmDataImporter();
             ProjectCollector = Wf.LlvmProjectCollector();
             Toolset = Wf.LLvmToolset();
             ReadObj = Wf.LlvmReadObj();
@@ -94,6 +94,13 @@ namespace Z0.llvm
         Outcome Flow<T>(string query, string args, ReadOnlySpan<T> src)
         {
             DataEmitter.EmitQueryResults(query, args, src);
+            return true;
+        }
+
+        Outcome TableFlow<T>(string query, ReadOnlySpan<T> src)
+            where T : struct
+        {
+
             return true;
         }
 

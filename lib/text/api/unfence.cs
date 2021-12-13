@@ -8,15 +8,15 @@ namespace Z0
 
     partial class text
     {
-        [Op]
-        public static string unfence(string input, int offset, Fence<char> fence)
-        {
-            var result = EmptyString;
-            var output = enclosed(input, offset, Fencing.Embraced);
-            if(output.IsNonEmpty)
-                result = inside(input, output.Min - 1, output.Max + 1);
-            return result;
-        }
+        // [Op]
+        // public static string unfence(string input, int offset, Fence<char> fence)
+        // {
+        //     var result = EmptyString;
+        //     var output = enclosed(input, offset, Fencing.Embraced);
+        //     if(output.IsNonEmpty)
+        //         result = inside(input, output.Min - 1, output.Max + 1);
+        //     return result;
+        // }
 
         /// <summary>
         /// Extracts text that is enclosed between left and right boundaries, i.e. {left}{content}{right} => {content}
@@ -37,6 +37,24 @@ namespace Z0
 
             return EmptyString;
         }
+
+        [Op]
+        public static string unfence(string src, Fence<char> fence)
+        {
+            (var i0, var i1) = indices(src, fence);
+            if(i0 != NotFound && i1 != NotFound && (i0 < i1))
+            {
+                var start = i0 + 1;
+                var length = i1 - start;
+                return slice(src, start, length);
+            }
+
+            return EmptyString;
+        }
+
+        [Op]
+        public static string unfence(string src, int offset, Fence<char> fence)
+            => unfence(slice(src,offset), fence);
 
         /// <summary>
         /// Extracts text that is enclosed between left and right boundaries, i.e. {left}{content}{right} => {content}

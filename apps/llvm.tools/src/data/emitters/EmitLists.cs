@@ -15,14 +15,14 @@ namespace Z0.llvm
             return EmitLists(DataProvider.SelectEntities());
         }
 
-        public Index<LlvmList> EmitLists(Index<RecordEntity> entities)
+        public Index<LlvmList> EmitLists(Index<LlvmEntity> entities)
         {
             FS.Files paths = LlvmPaths.ListNames().Map(x => LlvmPaths.ListImportPath(x));
             paths.Delete();
             return EmitLists(entities, DataProvider.SelectConfiguredListNames());
         }
 
-        public Index<LlvmList> EmitLists(Index<RecordEntity> src, ReadOnlySpan<string> classes)
+        public Index<LlvmList> EmitLists(Index<LlvmEntity> src, ReadOnlySpan<string> classes)
         {
             var emitted = bag<LlvmList>();
             iter(classes, c => emitted.Add(EmitList(src,c)), true);
@@ -49,7 +49,7 @@ namespace Z0.llvm
             return true;
         }
 
-        public LlvmList EmitList(Index<RecordEntity> src, string @class)
+        public LlvmList EmitList(Index<LlvmEntity> src, string @class)
         {
             var dst = LlvmPaths.ListImportPath(@class);
             var emitting = EmittingTable<LlvmListItem>(dst);

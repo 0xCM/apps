@@ -6,14 +6,17 @@ namespace Z0
 {
     readonly struct AppServiceUtilities : IAppServiceUtilities
     {
-        public static IAppServiceUtilities create(IWfRuntime wf)
-            => new AppServiceUtilities(wf);
+        public static IAppServiceUtilities create(IWfRuntime wf, WfHost host)
+            => new AppServiceUtilities(wf, host);
 
         public IWfRuntime Wf {get;}
 
-        public AppServiceUtilities(IWfRuntime wf)
+        public WfHost Host {get;}
+
+        public AppServiceUtilities(IWfRuntime wf, WfHost host)
         {
             Wf = wf;
+            Host = host;
         }
     }
 }

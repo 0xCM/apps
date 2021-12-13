@@ -34,8 +34,8 @@ namespace Z0
             => llvm.LlvmMc.create(wf);
 
         [Op]
-        public static LlvmEtl LlvmRecordEtl(this IWfRuntime wf)
-            => llvm.LlvmEtl.create(wf);
+        public static LlvmDataImporter LlvmDataImporter(this IWfRuntime wf)
+            => llvm.LlvmDataImporter.create(wf);
 
         [Op]
         public static LlvmProjectCollector LlvmProjectCollector(this IWfRuntime wf)
