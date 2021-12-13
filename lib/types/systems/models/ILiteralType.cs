@@ -4,15 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class KindConstraint<K> : KindConstraint, IKindConstraint<K>
-        where K : ITypeKind
+    public interface ILiteralType : IType
     {
-        public KindConstraint(K kind)
-            : base(kind)
-        {
-            Kind = kind;
-        }
 
-        public new K Kind {get;}
+    }
+
+    public interface ILiteralType<V> : ILiteralType
+        where V : unmanaged, IScalarValue
+    {
+
+        V Value {get;}
+
+        ulong IType.Kind
+            => Value.Type.Kind;
     }
 }

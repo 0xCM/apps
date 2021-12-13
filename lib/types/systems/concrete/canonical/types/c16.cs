@@ -4,16 +4,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class CanonicalTypes
+    partial class Canon
     {
-        public readonly struct c16 : IType<CanonicalKind>
+        public readonly struct c16 : IScalarType<CanonicalKind>
         {
-            public CanonicalKind Kind => CanonicalKind.C;
+            public const uint Width = 16;
 
-            public Identifier Name => nameof(c16);
+            public CanonicalKind Kind
+                => CanonicalKind.C;
+
+            public Identifier Name
+                => nameof(c16);
+
+            public ScalarClass ScalarClass
+                => ScalarClass.C;
+
+            public BitWidth ContentWidth
+                => Width;
+
+            public BitWidth StorageWidth
+                => Width;
 
             public string Format()
                 => Name;
+
+            public override string ToString()
+                => Format();
+
+            public static implicit operator ScalarType(c16 src)
+                => new ScalarType(src.Name, src.ScalarClass, src.ContentWidth, src.StorageWidth);
         }
     }
 }

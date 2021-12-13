@@ -30,21 +30,4 @@ namespace Z0
         [Symbol(" ")]
         Space = CC.Space,
     }
-
-    public enum BitCharIndex : byte
-    {
-        Off = 0,
-
-        On = 1,
-
-        SectionSep = 2,
-
-        SegSep = 3,
-
-        LeftFence = 4,
-
-        RightFence = 5,
-
-        Space = 6,
-    }
 }

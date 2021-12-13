@@ -22,7 +22,7 @@ namespace Z0
     }
 
     [Free]
-    public interface IScalarValue<K,T> : IScalarValue<T>,IValue<K,T>
+    public interface IScalarValue<K,T> : IScalarValue<T>, IValue<K,T>
         where T : unmanaged
         where K : unmanaged
     {

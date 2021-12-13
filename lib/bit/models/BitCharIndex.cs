@@ -4,15 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class KindConstraint<K> : KindConstraint, IKindConstraint<K>
-        where K : ITypeKind
+    public enum BitCharIndex : byte
     {
-        public KindConstraint(K kind)
-            : base(kind)
-        {
-            Kind = kind;
-        }
+        Off = 0,
 
-        public new K Kind {get;}
+        On = 1,
+
+        SectionSep = 2,
+
+        SegSep = 3,
+
+        LeftFence = 4,
+
+        RightFence = 5,
+
+        Space = 6,
     }
 }

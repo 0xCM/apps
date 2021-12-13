@@ -9,8 +9,10 @@ namespace Z0
 
     using static Root;
 
+    using Types;
     using Specs = TypeSpecs;
     using SK = ScalarClass;
+    using CT = Canon;
 
     [ApiHost]
     public readonly struct TS
@@ -19,6 +21,9 @@ namespace Z0
 
         internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
+
+        public static LiteralType<u64> natural(Identifier name, u64 value)
+            => new LiteralType<u64>(name, new CT.u64(), value);
 
         [MethodImpl(Inline), Op]
         public static FunctionType fx(Identifier name, ulong kind, Operand[] operands, Operand ret, Facets? facets = null)

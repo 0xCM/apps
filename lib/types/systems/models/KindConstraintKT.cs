@@ -8,8 +8,8 @@ namespace Z0
         where T : IType
         where K : ITypeKind
     {
-        public KindConstraint(T type, K kind)
-            : base(type, kind)
+        public KindConstraint(K kind)
+            : base(kind)
         {
             Kind = kind;
         }

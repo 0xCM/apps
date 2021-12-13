@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class ClrCanonical : TypeMap<ClrTypeSystem, CanonicalTypes>
+    public sealed class ClrCanonical : TypeMap<ClrTypeSystem, Canon>
     {
         public override Outcome Map(IType src, out IType dst)
         {

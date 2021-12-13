@@ -12,12 +12,8 @@ namespace Z0
     public class TypeConstraint<T> : TypeConstraint, ITypeConstraint<T>
         where T : IType
     {
-        public new T Type {get;}
-
-        public TypeConstraint(T type)
-            : base(type)
+        public TypeConstraint()
         {
-            Type = type;
         }
     }
 }

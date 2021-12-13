@@ -9,11 +9,11 @@ namespace Z0
     using PK = CanonicalKind;
     using PN = TypeSpecs;
 
-    public sealed partial class CanonicalTypes : TypeSystem<CanonicalTypes,PK>
+    public sealed partial class Canon : TypeSystem<Canon,PK>
     {
         public const string SystemName = "canonical";
 
-        public CanonicalTypes()
+        public Canon()
             : base(SystemName)
         {
 

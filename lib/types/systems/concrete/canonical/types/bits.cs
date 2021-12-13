@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class CanonicalTypes
+    partial class Canon
     {
         public readonly struct bits : IType<CanonicalKind>
         {

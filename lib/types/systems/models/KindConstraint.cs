@@ -6,8 +6,7 @@ namespace Z0
 {
     public class KindConstraint : TypeConstraint, IKindConstraint
     {
-        public KindConstraint(IType type, ITypeKind kind)
-            : base(type)
+        public KindConstraint(ITypeKind kind)
         {
             Kind = kind;
         }
