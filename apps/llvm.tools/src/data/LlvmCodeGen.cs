@@ -17,6 +17,8 @@ namespace Z0.llvm
 
         Generators Generators => Service(Wf.Generators);
 
+        const string TargetNs = "Z0.llvm";
+
         public void Run()
         {
             LlvmPaths.CodeGen().Clear(true);
@@ -30,7 +32,7 @@ namespace Z0.llvm
             var name = "AsmMnemonicNames";
             var literals = expr.literals(src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
-            Generators.LiteralProvider().Emit("Z0.llvm", name, literals, dst);
+            Generators.LiteralProvider().Emit(TargetNs, name, literals, dst);
         }
 
         public Arrow<FS.FileUri> GenStringTable(string listid)
@@ -40,9 +42,12 @@ namespace Z0.llvm
             return first(result);
         }
 
+        FS.FilePath OutPath(LlvmList src, FS.FileExt ext)
+            => LlvmPaths.StringTablePath("llvm.stringtables." + src.Name, ext);
+
         Arrow<FS.FileUri> EmitStringTableCode(LlvmList list, StringTable table)
         {
-            var dst = LlvmPaths.StringTablePath("llvm.stringtables." + list.Name, FS.Cs);
+            var dst = OutPath(list,FS.Cs);
             var spec = StringTables.specify(table.Syntax, list.ToItemList());
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
@@ -53,7 +58,7 @@ namespace Z0.llvm
 
         Arrow<FS.FileUri> EmitStringTableData(LlvmList list, StringTable table)
         {
-            var dst = LlvmPaths.StringTablePath("llvm.stringtables." + list.Name, FS.Csv);
+            var dst = OutPath(list,FS.Csv);
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
             var emitting = EmittingFile(dst);
 
@@ -71,9 +76,9 @@ namespace Z0.llvm
         public void GenStringTable(LlvmList list, DataList<Arrow<FS.FileUri>> flows)
         {
             var path = list.Path;
-            var name = path.FileName.WithoutExtension.Format().Replace("llvm.lists" + ".", EmptyString);
+            var name = list.Name;
             var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-            var syntax = StringTables.syntax("Z0.llvm.stringtables", name +"ST", name + "Kind", ClrEnumKind.U32, true);
+            var syntax = StringTables.syntax(TargetNs + ".stringtables", name +"ST", name + "Kind", ClrEnumKind.U32, TargetNs);
             var table = StringTables.create(syntax, list.Values(), list.Identifiers());
             flows.Add(EmitStringTableData(list,table));
             flows.Add(EmitStringTableCode(list,table));

@@ -15,7 +15,7 @@ namespace Z0
         public static uint csharp(StringTableSpec spec, StreamWriter dst)
         {
             var syntax = spec.Syntax;
-            dst.WriteLine(string.Format("namespace {0}", syntax.Namespace));
+            dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());
             dst.WriteLine(string.Format("    using {0};", "System"));
             dst.WriteLine();

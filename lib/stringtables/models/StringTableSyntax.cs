@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct StringTableSyntax
     {
-        public Identifier Namespace {get;}
+        public Identifier TableNs {get;}
 
         public Identifier TableName {get;}
 
@@ -14,15 +14,15 @@ namespace Z0
 
         public ClrEnumKind IndexKind {get;}
 
-        public bool GlobalIndex {get;}
+        public Identifier IndexNs {get;}
 
-        public StringTableSyntax(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind, bool globalidx)
+        public StringTableSyntax(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind, Identifier indexns)
         {
-            Namespace = ns;
+            TableNs = ns;
             TableName = table;
             IndexName = index;
             IndexKind = kind;
-            GlobalIndex = globalidx;
+            IndexNs = indexns;
         }
     }
 }

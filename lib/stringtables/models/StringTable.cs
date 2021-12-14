@@ -15,14 +15,6 @@ namespace Z0
     {
         public StringTableSyntax Syntax {get;}
 
-        //public Identifier Namespace {get;}
-
-        Identifier Name {get;}
-
-        Identifier IndexName {get;}
-
-        public bool GlobalIndex {get;}
-
         public readonly string Content;
 
         readonly Index<uint> _Offsets;
@@ -33,10 +25,6 @@ namespace Z0
         public StringTable(StringTableSyntax syntax, string src, Index<uint> offsets, Identifier[] identifiers)
         {
             Syntax = syntax;
-            //Namespace = syntax.Namespace;
-            Name = syntax.TableName;
-            IndexName = syntax.IndexName;
-            GlobalIndex = syntax.GlobalIndex;
             Content = src;
             _Offsets = offsets;
             _Identifiers = identifiers;

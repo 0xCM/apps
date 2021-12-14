@@ -11,11 +11,8 @@ namespace Z0
         public static void render(uint margin, StringTable src, ITextBuffer dst)
         {
             var syntax = src.Syntax;
-            if(syntax.GlobalIndex)
-            {
-                GenIndex(margin, src, dst);
-                dst.AppendLine();
-            }
+            GenIndex(margin, src, dst);
+            dst.AppendLine();
 
             dst.IndentLine(margin, PublicReadonlyStruct(syntax.TableName));
             dst.IndentLine(margin, Open());
@@ -43,12 +40,6 @@ namespace Z0
 
             dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
             dst.AppendLine();
-
-            if(!syntax.GlobalIndex)
-            {
-                GenIndex(margin, src, dst);
-                dst.AppendLine();
-            }
 
             dst.IndentLine(margin, SpanRes.bytespan(OffsetsProp, src.OffsetStorage).Format());
             dst.AppendLine();

@@ -13,11 +13,11 @@ namespace Z0
     partial class StringTables
     {
         [MethodImpl(Inline), Op]
-        public static StringTableSyntax syntax(Identifier ns, Identifier table, Identifier index, bool globalidx)
-            => new StringTableSyntax(ns, table, index, ClrEnumKind.U32, globalidx);
+        public static StringTableSyntax syntax(Identifier ns, Identifier table, Identifier index, Identifier indexNs)
+            => new StringTableSyntax(ns, table, index, ClrEnumKind.U32, indexNs);
 
         [MethodImpl(Inline), Op]
-        public static StringTableSyntax syntax(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind,  bool globalidx)
-            => new StringTableSyntax(ns, table, index, kind, globalidx);
+        public static StringTableSyntax syntax(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind,  Identifier indexNs)
+            => new StringTableSyntax(ns, table, index, kind, indexNs);
     }
 }

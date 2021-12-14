@@ -31,14 +31,5 @@ namespace Z0
             }
             return count;
         }
-
-        // [MethodImpl(Inline), Op]
-        // public static uint rows(in StringTable src, uint offset, Span<StringTableRow> dst)
-        // {
-        //     var j=0u;
-        //     for(var i=offset; i<src.EntryCount && j<dst.Length; i++)
-        //         seek(dst,j++) = row(src,i);
-        //     return j;
-        // }
     }
 }
