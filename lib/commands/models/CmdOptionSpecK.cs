@@ -19,7 +19,7 @@ namespace Z0
         /// <summary>
         /// The option name
         /// </summary>
-        public string Name {get;}
+        public Name Name {get;}
 
         /// <summary>
         /// The option kind

@@ -28,7 +28,7 @@ namespace Z0
     {
         K Kind {get;}
 
-        string INamed.Name
+        Name INamed.Name
             => Kind.ToString();
     }
 }

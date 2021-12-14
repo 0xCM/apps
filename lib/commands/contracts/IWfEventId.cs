@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IWfEventId<T> : IComparable<T>, IEquatable<T>, INamed<T>, IChronic<T>, ITextual
+    public interface IWfEventId<T> : IComparable<T>, IEquatable<T>, IChronic<T>, ITextual
         where T : struct, IWfEventId<T>
     {
 

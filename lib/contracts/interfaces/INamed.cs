@@ -9,7 +9,7 @@ namespace Z0
     /// </summary>
     public interface INamed : ITextual
     {
-        string Name {get;}
+        Name Name {get;}
 
         string ITextual.Format()
             => Name;
@@ -18,7 +18,7 @@ namespace Z0
     public interface INamed<F> : INamed
         where F : struct, INamed<F>
     {
-        string INamed.Name
+        Name INamed.Name
             => typeof(F).Name;
     }
 }

@@ -21,7 +21,7 @@ namespace Z0
         public static Dictionary<K,V> ToDictionary<K,V>(this IEnumerable<(K key, V value)> src)
             => new Dictionary<K,V>(src.Select(x => new KeyValuePair<K,V>(x.key, x.value)));
 
-        public static Dictionary<string,V> ToDictionary<V>(this IEnumerable<NamedValue<V>> src)
+        public static Dictionary<Name,V> ToDictionary<V>(this IEnumerable<NamedValue<V>> src)
             => src.Select(x => (x.Name, x.Value)).ToDictionary();
 
         /// <summary>
