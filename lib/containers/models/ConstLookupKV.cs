@@ -57,7 +57,6 @@ namespace Z0
             _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
         }
 
-
         public ReadOnlySpan<K> Keys
         {
             [MethodImpl(Inline)]
@@ -83,6 +82,10 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public bool ContainsKey(K key)
+            => Storage.ContainsKey(key);
+
+        [MethodImpl(Inline)]
         public bool Find(K key, out V value)
             => Storage.TryGetValue(key, out value);
 
@@ -102,6 +105,5 @@ namespace Z0
 
         public static implicit operator ConstLookup<K,V>(ConcurrentDictionary<K,V> src)
             => new ConstLookup<K,V>(src);
-
     }
 }

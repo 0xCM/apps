@@ -58,7 +58,6 @@ namespace Z0.llvm
             else
             {
                 var right = text.right(src,i);
-
                 if(text.fenced(right, Fencing.Embraced))
                     right = text.unfence(right, 0, Fencing.Embraced);
 

@@ -6,12 +6,14 @@ namespace Z0
 {
     using System;
 
+
     using static Root;
 
     using LK = ClrLiteralKind;
     using AK = ClrAccessKind;
     using MK = ClrModifierKind;
     using EK = ClrEnumKind;
+    using PK = ClrPrimitiveKind;
 
     [ApiHost, LiteralProvider]
     public readonly struct CsKeywords
@@ -68,6 +70,25 @@ namespace Z0
 
         public const string ReadOnly = "readonly";
 
+        static readonly Index<string> Data = new string[77]{"abstract","as","base","bool","break","byte","case","catch","char","checked","class","const","continue","decimal","default","delegate","do","double","else","enum","event","explicit","extern","false","finally","fixed","float","for","foreach","goto","if","implicit","in","int","interface","internal","is","lock","long","namespace","new","null","object","operator","out","override","params","private","protected","public","readonly","ref","return","sbyte","sealed","short","sizeof","stackalloc","static","string","struct","switch","this","throw","true","try","typeof","uint","ulong","unchecked","unsafe","ushort","using","virtual","void","volatile","while",};
+
+        public static ReadOnlySpan<string> View => Data;
+
+        static readonly ConstLookup<string,string> Lookup = Data.Select(x => (x, "@" + x)).ToDictionary();
+
+        public static bool test(string src)
+            => Lookup.ContainsKey(src);
+
+        public static Identifier identifier(string src)
+        {
+            if(Lookup.Find(src, out var value))
+            {
+                return value;
+            }
+            else
+                return src;
+        }
+
         [Op]
         public static Label keyword(AK kind)
             => kind switch{
@@ -94,7 +115,7 @@ namespace Z0
         }
 
         [Op]
-        public static Label keyword(ClrEnumKind src)
+        public static Label keyword(EK src)
             => src switch {
                 EK.U8 => U8,
                 EK.U16 => U16,

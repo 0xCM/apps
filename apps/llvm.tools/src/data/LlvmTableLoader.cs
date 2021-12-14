@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataProvider
+    public partial class LlvmTableLoader : AppService<LlvmTableLoader>
     {
-        public LineMap<Identifier> SelectLineMap(FS.FilePath src)
-        {
-            return (LineMap<Identifier>)DataSets.GetOrAdd(src.Format(), key => TableLoader.LoadLineMap(src));
-        }
+        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
     }
 }

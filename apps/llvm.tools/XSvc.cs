@@ -10,6 +10,10 @@ namespace Z0
     public static class XSvc
     {
         [Op]
+        public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
+            => llvm.LlvmTableLoader.create(wf);
+
+        [Op]
         public static LlvmObjDump LlvmObjDump(this IWfRuntime wf)
             => llvm.LlvmObjDump.create(wf);
 

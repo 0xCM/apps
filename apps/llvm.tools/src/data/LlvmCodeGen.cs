@@ -22,24 +22,49 @@ namespace Z0.llvm
         public void Run()
         {
             LlvmPaths.CodeGen().Clear(true);
-            GenStringTables();
-            GenLiteralProviders();
+            EmitStringTables();
+            EmitLiteralProviders();
         }
 
-        void GenLiteralProviders()
+        public void EmitLiteralProviders()
         {
             var src = DataProvider.SelectAsmMnemonicNames();
             var name = "AsmMnemonicNames";
             var literals = expr.literals(src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
-            Generators.LiteralProvider().Emit(TargetNs, name, literals, dst);
+            Generators.LiteralProvider().Emit(TargetNs, name, literals.View, dst);
         }
 
-        public Arrow<FS.FileUri> GenStringTable(string listid)
+        public Arrow<FS.FileUri> EmitStringTable(string listid)
         {
             var list = new LlvmList[]{DataProvider.SelectList(listid)};
-            var result = GenStringTables(@readonly(list));
+            var result = EmitStringTables(@readonly(list));
             return first(result);
+        }
+
+        public void EmitStringTable(LlvmList list, DataList<Arrow<FS.FileUri>> flows)
+        {
+            var path = list.Path;
+            var name = list.Name;
+            var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
+            var syntax = StringTables.syntax(TargetNs + ".stringtables", name +"ST", name + "Kind", ClrEnumKind.U32, TargetNs);
+            var table = StringTables.create(syntax, list.Values(), list.Identifiers());
+            flows.Add(EmitStringTableData(list,table));
+            flows.Add(EmitStringTableCode(list,table));
+        }
+
+        public ReadOnlySpan<Arrow<FS.FileUri>> EmitStringTables()
+            => EmitStringTables(DataProvider.SelectLists().Where(x => x.ListId != "vcodes"));
+
+        public ReadOnlySpan<Arrow<FS.FileUri>> EmitStringTables(ReadOnlySpan<LlvmList> src)
+        {
+            var result = Outcome.Success;
+            var count = src.Length;
+            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
+            var flows = new DataList<Arrow<FS.FileUri>>();
+            for(var i=0; i<count; i++)
+                EmitStringTable(skip(src,i), flows);
+            return flows.View();
         }
 
         FS.FilePath OutPath(LlvmList src, FS.FileExt ext)
@@ -72,30 +97,5 @@ namespace Z0.llvm
             EmittedFile(emitting, table.EntryCount, flow);
             return flow;
         }
-
-        public void GenStringTable(LlvmList list, DataList<Arrow<FS.FileUri>> flows)
-        {
-            var path = list.Path;
-            var name = list.Name;
-            var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-            var syntax = StringTables.syntax(TargetNs + ".stringtables", name +"ST", name + "Kind", ClrEnumKind.U32, TargetNs);
-            var table = StringTables.create(syntax, list.Values(), list.Identifiers());
-            flows.Add(EmitStringTableData(list,table));
-            flows.Add(EmitStringTableCode(list,table));
-        }
-
-        public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables()
-            => GenStringTables(DataProvider.SelectLists().Where(x => x.ListId != "vcodes"));
-
-        public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables(ReadOnlySpan<LlvmList> src)
-        {
-            var result = Outcome.Success;
-            var count = src.Length;
-            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
-            var flows = new DataList<Arrow<FS.FileUri>>();
-            for(var i=0; i<count; i++)
-                GenStringTable(skip(src,i), flows);
-            return flows.View();
-        }
-    }
+   }
 }

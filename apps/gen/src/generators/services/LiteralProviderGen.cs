@@ -11,11 +11,11 @@ namespace Z0
 
     public class LiteralProviderGen : AppService<LiteralProviderGen>
     {
-        public void Emit(Identifier ns, Identifier name, ReadOnlySpan<Literal<string>> literals, FS.FilePath dst)
+        public void Emit<T>(Identifier ns, Identifier name, ReadOnlySpan<Literal<T>> literals, FS.FilePath dst)
         {
             var buffer = text.buffer();
             var margin = 0u;
-            var typename = typeof(string).Name.ToLower();
+            var typename = typeof(T).Name.ToLower();
             var count = literals.Length;
             buffer.IndentLine(margin, CsPatterns.NamespaceDecl(ns));
             buffer.IndentLine(margin, Open());
@@ -27,7 +27,12 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var literal = ref skip(literals,i);
-                buffer.IndentLineFormat(margin, "public const {0} {1} = {2};", typename, text.capitalize(literal.Name), text.enquote(literal.Value.Value));
+                var itemName = literal.Name;
+                var itemValue = literal.Value.Format();
+                if(CsKeywords.test(itemName))
+                    itemName = CsKeywords.identifier(itemName);
+
+                buffer.IndentLineFormat(margin, "public const {0} {1} = {2};", typename, itemName, itemValue);
             }
             margin -=4;
             buffer.IndentLine(margin, Close());
@@ -36,7 +41,7 @@ namespace Z0
 
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
-            writer.WriteLine(buffer.Emit());
+            writer.Write(buffer.Emit());
 
             EmittedFile(emitting, count);
         }

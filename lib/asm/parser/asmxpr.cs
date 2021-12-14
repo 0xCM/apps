@@ -18,6 +18,7 @@ namespace Z0.Asm
         static AsmExpr expr(AsmMnemonic monic, ReadOnlySpan<char> operands)
             => new AsmExpr(string.Format("{0} {1}", monic.Format(MnemonicCase.Lowercase), text.format(operands)));
 
+        [Parser]
         public static Outcome asmxpr(string src, out AsmExpr dst)
         {
             dst = new AsmExpr(src.Trim());

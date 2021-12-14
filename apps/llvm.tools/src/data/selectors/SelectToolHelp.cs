@@ -8,12 +8,7 @@ namespace Z0.llvm
     {
         public Index<ToolHelpDoc> SelectToolHelp()
         {
-            return (Index<ToolHelpDoc>)DataSets.GetOrAdd(nameof(SelectToolHelp), key => Load());
-
-            Index<ToolHelpDoc> Load()
-            {
-                return Toolset.ToolHelp();
-            }
+            return (Index<ToolHelpDoc>)DataSets.GetOrAdd(nameof(SelectToolHelp), key => Toolset.ToolHelp());
         }
     }
 }

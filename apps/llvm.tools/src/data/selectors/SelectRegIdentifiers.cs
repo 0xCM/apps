@@ -6,9 +6,9 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public LineMap<Identifier> SelectLineMap(FS.FilePath src)
+        public RegIdentifiers SelectRegIdentifiers()
         {
-            return (LineMap<Identifier>)DataSets.GetOrAdd(src.Format(), key => TableLoader.LoadLineMap(src));
+            return (RegIdentifiers)DataSets.GetOrAdd(nameof(SelectRegIdentifiers), key => TableLoader.LoadRegIdentifiers());
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Z0.Asm
         public static AsmSigInfo sigxpr(AsmMnemonic mnemonic, string content)
             => new AsmSigInfo(mnemonic, content);
 
-        [Op]
+        [Parser]
         public static Outcome sigxpr(string src, out AsmSigInfo dst)
         {
             dst = default;
@@ -36,7 +36,7 @@ namespace Z0.Asm
             return true;
         }
 
-        [Op]
+        [Parser]
         public static Outcome formxpr(string src, out AsmFormInfo dst)
         {
             dst = AsmFormInfo.Empty;

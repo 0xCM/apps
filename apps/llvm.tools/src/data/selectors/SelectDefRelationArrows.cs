@@ -42,10 +42,7 @@ namespace Z0.llvm
                     ref readonly var child = ref relation.Name;
                     var ancestors = relation.AncestorNames;
                     if(ancestors.Length != 0)
-                    {
                         dst.Add((child, first(ancestors)));
-
-                    }
                 }
 
                 return dst.Array().Sort();

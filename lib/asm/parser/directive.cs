@@ -9,6 +9,7 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
+        [Parser]
         public static Outcome directive(string src, out AsmDirective dst)
         {
             var input = src.Trim();

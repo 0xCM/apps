@@ -36,7 +36,6 @@ namespace Z0.llvm
                     var inst = entity.ToInstruction();
                     if(inst.isCodeGenOnly || inst.isPseudo)
                         continue;
-
                     else
                     {
                         var str = inst.AsmString;
@@ -50,7 +49,7 @@ namespace Z0.llvm
                 }
             }
 
-            var records = dst.ToArray();
+            var records = dst.ToArray().Sort();
             TableEmit(@readonly(records), LlvmInstPattern.RenderWidths, LlvmPaths.Table<LlvmInstPattern>());
             return records;
         }

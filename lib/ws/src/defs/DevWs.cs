@@ -97,6 +97,9 @@ namespace Z0
         public IEnvWs EnvDb()
             => EnvWs.create(EnvData.ZEnvDb);
 
+        public IProjectDb ProjectDb()
+            => ProjectDbWs.create(_WsRoot + FS.folder("projects/db"));
+
         public IToolWs Tools()
             => ToolWs.create(_WsRoot + FS.folder(tools));
 

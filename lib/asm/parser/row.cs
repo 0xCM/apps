@@ -10,6 +10,7 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
+        [Parser]
         public static Outcome row(TextRow src, out CpuIdRow dst)
         {
             var input = src.Cells;
@@ -35,6 +36,7 @@ namespace Z0.Asm
             return ref dst;
         }
 
+        [Parser]
         public static Outcome row(TextRow src, out AsmDetailRow dst)
         {
             var input = src.Cells;
@@ -89,6 +91,7 @@ namespace Z0.Asm
         public static Outcome row(uint line, string src, out ProcessAsmRecord dst)
             => row(new TextLine(line, src), out dst);
 
+        [Parser]
         public static Outcome row(TextLine src, out ProcessAsmRecord dst)
         {
             const string ErrorPattern = "Error parsing {0} on line {1}";
@@ -147,7 +150,7 @@ namespace Z0.Asm
             return true;
         }
 
-        [Op]
+        [Parser]
         public static Outcome row(in TextRow src, out R dst)
         {
             var result = Outcome.Success;

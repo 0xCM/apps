@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    using static core;
-
     partial class AsmModelGen
     {
         public static string MonicFactoryName(AsmMnemonic src)

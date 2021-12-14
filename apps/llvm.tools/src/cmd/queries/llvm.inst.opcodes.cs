@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     partial class LlvmCmd
     {
-        const string OpCodeQuery = "llvm/inst/opcodes";
+        const string OpCodeQuery = "llvm/asm/opcodes";
 
         [CmdOp(OpCodeQuery)]
         Outcome QueryOpCodes(CmdArgs args)
         {
-            var instructions = DataProvider.SelectEntities(e => e.IsInstruction()).Select(x => x.ToInstruction());
-            var opcodes = Distiller.DistillOpCodes(instructions);
-            var records = Distiller.ToRecords(opcodes);
-            var dst = LlvmPaths.Table<LlvmInstOpCode>();
+            var records = Distiller.ToRecords(DataProvider.SelectOpCodeMap());
+            var dst = LlvmPaths.Table<LlvmAsmOpCode>();
             TableEmit(records.View, dst);
             return true;
         }

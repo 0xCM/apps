@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
+
     [Record(TableId)]
-    public struct LlvmInstOpCode
+    public struct LlvmAsmOpCode : IComparable<LlvmAsmOpCode>
     {
-        public const string TableId = "llvm.inst.opcode";
+        public const string TableId = "llvm.asm.opcode";
 
         public ushort AsmId;
 
@@ -18,5 +20,8 @@ namespace Z0.llvm
         public BitString Bits;
 
         public Hex8 Scalar;
+
+        public int CompareTo(LlvmAsmOpCode src)
+            => AsmId.CompareTo(src.AsmId);
     }
 }

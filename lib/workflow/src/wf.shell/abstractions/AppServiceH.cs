@@ -55,7 +55,7 @@ namespace Z0
 
         public IWfDb Db {get; private set;}
 
-        protected IProjectWs ProjectDb;
+        protected IProjectDb ProjectDb;
 
         ITextBuffer _TextBuffer;
 
@@ -92,7 +92,7 @@ namespace Z0
             Wf = wf;
             Db = new WfDb(wf, wf.Env.Db);
             Ws = DevWs.create(wf.Env.DevWs);
-            ProjectDb = Ws.Project("db");
+            ProjectDb = Ws.ProjectDb();
             OnInit();
             Initialized();
             wf.Created(flow);

@@ -6,7 +6,10 @@ namespace Z0
 {
     using System;
 
+    using Asm;
+
     using static Root;
+
 
     using SP = SymbolicParse;
 
@@ -35,6 +38,20 @@ namespace Z0
 
         public static Outcome parse(string src, out LineNumber dst)
             => LineNumber.parse(src, out dst);
+
+        [Parser]
+        public static Outcome parse(string src, out AsmMnemonic dst)
+        {
+            dst = src;
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out AsmVariationCode dst)
+        {
+            dst = new AsmVariationCode(text.trim(src));
+            return true;
+        }
 
         [Parser]
         public static Outcome parse(string src, out byte dst)

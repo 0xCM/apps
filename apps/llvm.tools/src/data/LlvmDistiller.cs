@@ -13,13 +13,13 @@ namespace Z0.llvm
     {
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
-        public Index<LlvmInstOpCode> ToRecords(LlvmOpCodeMap ocmap)
+        public Index<LlvmAsmOpCode> ToRecords(LlvmOpCodeMap ocmap)
         {
             var asmids = DataProvider.SelectAsmIdentifiers();
             var entries = ocmap.Entries;
             var count = entries.Length;
             var instcount = gcalc.sum(ocmap.Values.Select(x => x.Count));
-            var buffer = alloc<LlvmInstOpCode>(instcount);
+            var buffer = alloc<LlvmAsmOpCode>(instcount);
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
@@ -38,7 +38,7 @@ namespace Z0.llvm
                     dst.Scalar = src.Opcode.Packed;
                 }
             }
-            return buffer;
+            return buffer.Sort();
         }
 
         public LlvmOpCodeMap DistillOpCodes(ReadOnlySpan<InstEntity> src)
@@ -48,6 +48,9 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var inst = ref skip(src,i);
+                if(inst.isCodeGenOnly || inst.isPseudo)
+                    continue;
+
                 if(text.nonempty(inst.OpMap))
                 {
                     if(dst.TryGetValue(inst.OpMap, out var map))

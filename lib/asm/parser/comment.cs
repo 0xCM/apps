@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
-        [Op]
+        [Parser]
         public static bool comment(ReadOnlySpan<char> src, out AsmInlineComment dst)
         {
             var count = src.Length;

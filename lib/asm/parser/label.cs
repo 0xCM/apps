@@ -6,6 +6,7 @@ namespace Z0.Asm
 {
     partial struct AsmParser
     {
+        [Parser]
         public static Outcome label(string src, out AsmOffsetLabel dst)
         {
             dst = default;
@@ -15,6 +16,7 @@ namespace Z0.Asm
             return result;
         }
 
+        [Parser]
         public static Outcome label(string src, out AsmBlockLabel dst)
         {
             var i = text.index(src, Chars.Colon);

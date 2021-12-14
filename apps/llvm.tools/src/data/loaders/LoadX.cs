@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmDataProvider
+    using static core;
+
+    partial class LlvmTableLoader
     {
-        public LineMap<Identifier> SelectLineMap(FS.FilePath src)
-        {
-            return (LineMap<Identifier>)DataSets.GetOrAdd(src.Format(), key => TableLoader.LoadLineMap(src));
-        }
+
     }
 }

@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LlvmNames;
+    using System;
+
     using static core;
+    using static Root;
+    using static LlvmNames;
 
     public class LlvmDataImporter : AppService<LlvmDataImporter>
     {
@@ -77,6 +80,8 @@ namespace Z0.llvm
 
             var instpattterns = DataEmitter.EmitInstPatterns();
             run(() => observer.InstPatternsEmitted(instpattterns));
+
+            var ocmap = DataEmitter.EmitAsmOpCodes(DataProvider.SelectOpCodeMap());
 
             run(() => observer.EtlCompleted());
         }
