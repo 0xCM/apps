@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum AVX512Kind: uint
+    public enum AVX512Kind : uint
     {
         V4FMADDPSrm=0,
         V4FMADDPSrmk=1,
@@ -8857,7 +8857,7 @@
         VXORPSZrrkz=8848,
     }
 
-    public readonly struct AVX512Data
+    public readonly struct AVX512ST
     {
         public const uint EntryCount = 8849;
 

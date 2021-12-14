@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum IntrinsicKind: uint
+    public enum IntrinsicKind : uint
     {
         int_aarch64_addg=0,
         int_aarch64_clrex=1,
@@ -10337,7 +10337,7 @@
         int_xray_typedevent=10328,
     }
 
-    public readonly struct IntrinsicData
+    public readonly struct IntrinsicST
     {
         public const uint EntryCount = 10329;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum X86RegKind: uint
+    public enum X86RegKind : uint
     {
         AH=0,
         AL=1,
@@ -295,7 +295,7 @@
         ZMM9=286,
     }
 
-    public readonly struct X86RegData
+    public readonly struct X86RegST
     {
         public const uint EntryCount = 287;
 

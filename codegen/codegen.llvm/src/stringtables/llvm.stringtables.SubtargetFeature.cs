@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SubtargetFeatureKind: uint
+    public enum SubtargetFeatureKind : uint
     {
         Feature3DNow=0,
         Feature3DNowA=1,
@@ -153,7 +153,7 @@
         ProcIntelSLM=144,
     }
 
-    public readonly struct SubtargetFeatureData
+    public readonly struct SubtargetFeatureST
     {
         public const uint EntryCount = 145;
 

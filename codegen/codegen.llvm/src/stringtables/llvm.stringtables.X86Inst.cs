@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum X86InstKind: uint
+    public enum X86InstKind : uint
     {
         AAA=0,
         AAD8i8=1,
@@ -15209,7 +15209,7 @@
         XTEST=15200,
     }
 
-    public readonly struct X86InstData
+    public readonly struct X86InstST
     {
         public const uint EntryCount = 15201;
 

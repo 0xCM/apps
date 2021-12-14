@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum ValueTypeKind: uint
+    public enum ValueTypeKind : uint
     {
         Any=0,
         FlagVT=1,
@@ -194,7 +194,7 @@
         x86mmx=185,
     }
 
-    public readonly struct ValueTypeData
+    public readonly struct ValueTypeST
     {
         public const uint EntryCount = 186;
 

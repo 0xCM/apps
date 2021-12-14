@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum AsmOperandClassKind: uint
+    public enum AsmOperandClassKind : uint
     {
         AVX512RCOperand=0,
         ImmAsmOperand=1,
@@ -67,7 +67,7 @@
         X86SrcIdx8Operand=58,
     }
 
-    public readonly struct AsmOperandClassData
+    public readonly struct AsmOperandClassST
     {
         public const uint EntryCount = 59;
 

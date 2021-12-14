@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum InstructionEquivalenceClassKind: uint
+    public enum InstructionEquivalenceClassKind : uint
     {
         anonymous_17053=0,
         anonymous_17067=1,
@@ -31,7 +31,7 @@
         anonymous_18900=22,
     }
 
-    public readonly struct InstructionEquivalenceClassData
+    public readonly struct InstructionEquivalenceClassST
     {
         public const uint EntryCount = 23;
 

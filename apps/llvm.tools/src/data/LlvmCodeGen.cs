@@ -42,45 +42,26 @@ namespace Z0.llvm
 
         Arrow<FS.FileUri> EmitStringTableCode(LlvmList list, StringTable table)
         {
-            const string BaseTargetId = "llvm.stringtables";
-            const string TargetNs = "Z0";
-            const string BaseSourceId = "llvm.lists";
-
-            var items = list.ToItemList();
-            var name = list.Path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
-            var id = BaseTargetId + "." + items.Name;
-            var dst = LlvmPaths.StringTablePath(id, FS.Cs);
-            var idxname = items.Name + "Kind";
-            //var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
-            var spec = StringTables.specify(table.Syntax, items);
-
+            var dst = LlvmPaths.StringTablePath("llvm.stringtables." + list.Name, FS.Cs);
+            var spec = StringTables.specify(table.Syntax, list.ToItemList());
             var emitting = EmittingFile(dst);
-
             using var writer = dst.Writer();
             StringTables.csharp(spec, writer);
             EmittedFile(emitting,1);
-
             return FS.flow(list.Path,dst);
         }
 
         Arrow<FS.FileUri> EmitStringTableData(LlvmList list, StringTable table)
         {
-            const string BaseTargetId = "llvm.stringtables";
-            const string TargetNs = "Z0";
-            const string BaseSourceId = "llvm.lists";
-
-            var name = list.Path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
-            var id = BaseTargetId + "." + name;
-            var dst = LlvmPaths.StringTablePath(id, FS.Csv);
+            var dst = LlvmPaths.StringTablePath("llvm.stringtables." + list.Name, FS.Csv);
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
-
             var emitting = EmittingFile(dst);
 
-            using var rowwriter = dst.AsciWriter();
-            rowwriter.WriteLine(formatter.FormatHeader());
+            using var writer = dst.AsciWriter();
+            writer.WriteLine(formatter.FormatHeader());
 
             for(var j=0u; j<table.EntryCount; j++)
-                rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
+                writer.WriteLine(formatter.Format(StringTables.row(table, j)));
 
             var flow = FS.flow(list.Path,dst);
             EmittedFile(emitting, table.EntryCount, flow);
@@ -89,17 +70,10 @@ namespace Z0.llvm
 
         public void GenStringTable(LlvmList list, DataList<Arrow<FS.FileUri>> flows)
         {
-            const string BaseTargetId = "llvm.stringtables";
-            const string TargetNs = "Z0";
-            const string BaseSourceId = "llvm.lists";
-
             var path = list.Path;
-            var name = path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
-            var id = BaseTargetId + "." + name;
-            var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
-            var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
+            var name = path.FileName.WithoutExtension.Format().Replace("llvm.lists" + ".", EmptyString);
             var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-            var syntax = StringTables.syntax("Z0.llvm", name +"Data", name + "Kind", ClrEnumKind.U32, true);
+            var syntax = StringTables.syntax("Z0.llvm.stringtables", name +"ST", name + "Kind", ClrEnumKind.U32, true);
             var table = StringTables.create(syntax, list.Values(), list.Identifiers());
             flows.Add(EmitStringTableData(list,table));
             flows.Add(EmitStringTableCode(list,table));
@@ -110,14 +84,10 @@ namespace Z0.llvm
 
         public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables(ReadOnlySpan<LlvmList> src)
         {
-            const string BaseTargetId = "llvm.stringtables";
-            const string TargetNs = "Z0";
-            const string BaseSourceId = "llvm.lists";
             var result = Outcome.Success;
             var count = src.Length;
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
             var flows = new DataList<Arrow<FS.FileUri>>();
-
             for(var i=0; i<count; i++)
                 GenStringTable(skip(src,i), flows);
             return flows.View();

@@ -61,7 +61,7 @@ namespace Z0
         {
             var count = src.EntryCount;
             var syntax = src.Syntax;
-            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.IndexKind.CsKeyword(), syntax.IndexName));
+            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.IndexName, syntax.IndexKind.CsKeyword()));
             dst.IndentLine(margin, Chars.LBrace);
             margin+=4;
             for(var i=0u; i<count; i++)

@@ -1,8 +1,8 @@
 TableName                | EntryIndex   | EntryName
-BranchTargetOperandData  | 0            | brtarget
-BranchTargetOperandData  | 1            | brtarget16
-BranchTargetOperandData  | 2            | brtarget32
-BranchTargetOperandData  | 3            | brtarget8
-BranchTargetOperandData  | 4            | i16imm_brtarget
-BranchTargetOperandData  | 5            | i32imm_brtarget
-BranchTargetOperandData  | 6            | i64i32imm_brtarget
+BranchTargetOperandST    | 0            | brtarget
+BranchTargetOperandST    | 1            | brtarget16
+BranchTargetOperandST    | 2            | brtarget32
+BranchTargetOperandST    | 3            | brtarget8
+BranchTargetOperandST    | 4            | i16imm_brtarget
+BranchTargetOperandST    | 5            | i32imm_brtarget
+BranchTargetOperandST    | 6            | i64i32imm_brtarget

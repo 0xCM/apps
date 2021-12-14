@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum X86MemOffsOperandKind: uint
+    public enum X86MemOffsOperandKind : uint
     {
         offset16_16=0,
         offset16_32=1,
@@ -19,7 +19,7 @@
         offset64_8=10,
     }
 
-    public readonly struct X86MemOffsOperandData
+    public readonly struct X86MemOffsOperandST
     {
         public const uint EntryCount = 11;
 

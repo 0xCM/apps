@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum ComplexPatternKind: uint
+    public enum ComplexPatternKind : uint
     {
         addr=0,
         lea32addr=1,
@@ -19,7 +19,7 @@
         vectoraddr=10,
     }
 
-    public readonly struct ComplexPatternData
+    public readonly struct ComplexPatternST
     {
         public const uint EntryCount = 11;
 

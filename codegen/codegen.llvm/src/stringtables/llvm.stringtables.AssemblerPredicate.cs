@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum AssemblerPredicateKind: uint
+    public enum AssemblerPredicateKind : uint
     {
         In16BitMode=0,
         In32BitMode=1,
@@ -13,7 +13,7 @@
         Not64BitMode=4,
     }
 
-    public readonly struct AssemblerPredicateData
+    public readonly struct AssemblerPredicateST
     {
         public const uint EntryCount = 5;
 

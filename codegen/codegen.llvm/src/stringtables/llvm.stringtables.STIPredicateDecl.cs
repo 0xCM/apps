@@ -4,14 +4,14 @@
 
     using static core;
 
-    public enum STIPredicateDeclKind: uint
+    public enum STIPredicateDeclKind : uint
     {
         IsDepBreakingDecl=0,
         IsOptimizableRegisterMoveDecl=1,
         IsZeroIdiomDecl=2,
     }
 
-    public readonly struct STIPredicateDeclData
+    public readonly struct STIPredicateDeclST
     {
         public const uint EntryCount = 3;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum CCActionKind: uint
+    public enum CCActionKind : uint
     {
         anonymous_20983=0,
         anonymous_20984=1,
@@ -411,7 +411,7 @@
         anonymous_21385=402,
     }
 
-    public readonly struct CCActionData
+    public readonly struct CCActionST
     {
         public const uint EntryCount = 403;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum LLVMTypeKind: uint
+    public enum LLVMTypeKind : uint
     {
         anonymous_17=0,
         anonymous_18=1,
@@ -153,7 +153,7 @@
         mips_v4q7_ty=144,
     }
 
-    public readonly struct LLVMTypeData
+    public readonly struct LLVMTypeST
     {
         public const uint EntryCount = 145;
 

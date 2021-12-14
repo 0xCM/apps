@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum ImmTypeKind: uint
+    public enum ImmTypeKind : uint
     {
         Imm16=0,
         Imm16PCRel=1,
@@ -18,7 +18,7 @@
         NoImm=9,
     }
 
-    public readonly struct ImmTypeData
+    public readonly struct ImmTypeST
     {
         public const uint EntryCount = 10;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum MapKind: uint
+    public enum MapKind : uint
     {
         OB=0,
         T8=1,
@@ -16,7 +16,7 @@
         XOPA=7,
     }
 
-    public readonly struct MapData
+    public readonly struct MapST
     {
         public const uint EntryCount = 8;
 

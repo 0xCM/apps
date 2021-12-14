@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SchedVarKind: uint
+    public enum SchedVarKind : uint
     {
         anonymous_11547=0,
         anonymous_11548=1,
@@ -100,7 +100,7 @@
         anonymous_20894=91,
     }
 
-    public readonly struct SchedVarData
+    public readonly struct SchedVarST
     {
         public const uint EntryCount = 92;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum DAGOperandKind: uint
+    public enum DAGOperandKind : uint
     {
         AVX512RC=0,
         BNDR=1,
@@ -184,7 +184,7 @@
         vz512mem=175,
     }
 
-    public readonly struct DAGOperandData
+    public readonly struct DAGOperandST
     {
         public const uint EntryCount = 176;
 

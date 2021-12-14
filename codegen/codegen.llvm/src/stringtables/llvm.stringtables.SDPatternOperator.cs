@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SDPatternOperatorKind: uint
+    public enum SDPatternOperatorKind : uint
     {
         AndMask64=0,
         BTCBTSMask64=1,
@@ -11682,7 +11682,7 @@
         zextloadvi32=11673,
     }
 
-    public readonly struct SDPatternOperatorData
+    public readonly struct SDPatternOperatorST
     {
         public const uint EntryCount = 11674;
 

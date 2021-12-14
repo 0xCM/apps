@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum GenericInstructionKind: uint
+    public enum GenericInstructionKind : uint
     {
         G_ABS=0,
         G_ADD=1,
@@ -206,7 +206,7 @@
         G_ZEXTLOAD=197,
     }
 
-    public readonly struct GenericInstructionData
+    public readonly struct GenericInstructionST
     {
         public const uint EntryCount = 198;
 

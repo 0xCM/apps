@@ -6,7 +6,7 @@ namespace Z0.llvm
     using static Root;
     using static core;
 
-    using ST = llvm.stringtables;
+    using stringtables;
 
     [ApiComplete]
     public readonly struct GenStrings
@@ -14,7 +14,7 @@ namespace Z0.llvm
         public static MemoryStrings<ushort> OpCodes
         {
             [MethodImpl(Inline)]
-            get => strings.memory<ushort>(ST.InstructionData.Offsets, ST.InstructionData.Data);
+            get => strings.memory<ushort>(InstructionST.Offsets, InstructionST.Data);
         }
     }
 
@@ -24,7 +24,7 @@ namespace Z0.llvm
         Outcome LabelTest1()
         {
             var result = Outcome.Success;
-            var data = strings.memory(llvm.stringtables.InstructionData.Offsets, llvm.stringtables.InstructionData.Data);
+            var data = strings.memory(InstructionST.Offsets, InstructionST.Data);
             var count = data.EntryCount;
 
             for(var i=0; i<count; i++)
@@ -54,17 +54,17 @@ namespace Z0.llvm
         public override void Run()
         {
             var result = Outcome.Success;
-            var runtime = strings.memory(ST.AVX512Data.Offsets, ST.AVX512Data.Data);
+            var runtime = strings.memory(AVX512ST.Offsets, AVX512ST.Data);
             var offsets = runtime.Offsets;
             var count = runtime.EntryCount;
             var formatter = Tables.formatter<MemoryStrings>();
-            var symbols = Symbols.index<ST.AVX512Kind>();
+            var symbols = Symbols.index<AVX512Kind>();
             for(var i=0; i<offsets.Length; i++)
             {
                 var l = strings.length(runtime, i);
                 if(l == 0)
                     break;
-                var k = (ST.AVX512Kind)i;
+                var k = (AVX512Kind)i;
                 var o = skip(offsets,i);
                 var c = text.format(runtime[i]);
                 var info = string.Format("{0} = '{1}'", k, c);

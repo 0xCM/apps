@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SDTypeConstraintKind: uint
+    public enum SDTypeConstraintKind : uint
     {
         anonymous_3664=0,
         anonymous_3665=1,
@@ -106,7 +106,7 @@
         anonymous_8715=97,
     }
 
-    public readonly struct SDTypeConstraintData
+    public readonly struct SDTypeConstraintST
     {
         public const uint EntryCount = 98;
 

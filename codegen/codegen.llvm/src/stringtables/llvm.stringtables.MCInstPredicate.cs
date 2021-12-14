@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum MCInstPredicateKind: uint
+    public enum MCInstPredicateKind : uint
     {
         CheckLockPrefix=0,
         IsAtomicCompareAndSwap=1,
@@ -72,7 +72,7 @@
         anonymous_9817=63,
     }
 
-    public readonly struct MCInstPredicateData
+    public readonly struct MCInstPredicateST
     {
         public const uint EntryCount = 64;
 

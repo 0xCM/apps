@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SDTypeProfileKind: uint
+    public enum SDTypeProfileKind : uint
     {
         SDT2ResultBinaryArithWithFlags=0,
         SDTAtomic2=1,
@@ -227,7 +227,7 @@
         anonymous_8717=218,
     }
 
-    public readonly struct SDTypeProfileData
+    public readonly struct SDTypeProfileST
     {
         public const uint EntryCount = 219;
 

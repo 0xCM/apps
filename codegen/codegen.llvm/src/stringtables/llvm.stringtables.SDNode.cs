@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SDNodeKind: uint
+    public enum SDNodeKind : uint
     {
         MMX_X86movd2w=0,
         MMX_X86movdq2q=1,
@@ -606,7 +606,7 @@
         zext_invec=597,
     }
 
-    public readonly struct SDNodeData
+    public readonly struct SDNodeST
     {
         public const uint EntryCount = 598;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SchedWriteKind: uint
+    public enum SchedWriteKind : uint
     {
         AtomWrite01_1=0,
         AtomWrite01_10=1,
@@ -1469,7 +1469,7 @@
         ZnXADD=1460,
     }
 
-    public readonly struct SchedWriteData
+    public readonly struct SchedWriteST
     {
         public const uint EntryCount = 1461;
 

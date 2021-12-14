@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum ProcResourceKind: uint
+    public enum ProcResourceKind : uint
     {
         AtomPort0=0,
         AtomPort1=1,
@@ -140,7 +140,7 @@
         ZnMultiplier=131,
     }
 
-    public readonly struct ProcResourceData
+    public readonly struct ProcResourceST
     {
         public const uint EntryCount = 132;
 

@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum RegisterClassKind: uint
+    public enum RegisterClassKind : uint
     {
         BNDR=0,
         CCR=1,
@@ -83,7 +83,7 @@
         VR64=74,
     }
 
-    public readonly struct RegisterClassData
+    public readonly struct RegisterClassST
     {
         public const uint EntryCount = 75;
 

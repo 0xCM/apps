@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum BranchTargetOperandKind: uint
+    public enum BranchTargetOperandKind : uint
     {
         brtarget=0,
         brtarget16=1,
@@ -15,7 +15,7 @@
         i64i32imm_brtarget=6,
     }
 
-    public readonly struct BranchTargetOperandData
+    public readonly struct BranchTargetOperandST
     {
         public const uint EntryCount = 7;
 

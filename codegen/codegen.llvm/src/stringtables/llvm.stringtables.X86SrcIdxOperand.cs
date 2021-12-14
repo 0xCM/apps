@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum X86SrcIdxOperandKind: uint
+    public enum X86SrcIdxOperandKind : uint
     {
         srcidx16=0,
         srcidx32=1,
@@ -12,7 +12,7 @@
         srcidx8=3,
     }
 
-    public readonly struct X86SrcIdxOperandData
+    public readonly struct X86SrcIdxOperandST
     {
         public const uint EntryCount = 4;
 

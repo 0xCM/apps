@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum RegisterOperandKind: uint
+    public enum RegisterOperandKind : uint
     {
         GR16orGR32orGR64=0,
         GR32orGR64=1,
@@ -16,7 +16,7 @@
         VK8Pair=7,
     }
 
-    public readonly struct RegisterOperandData
+    public readonly struct RegisterOperandST
     {
         public const uint EntryCount = 8;
 

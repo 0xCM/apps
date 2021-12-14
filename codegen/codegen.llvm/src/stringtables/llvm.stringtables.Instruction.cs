@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum InstructionKind: uint
+    public enum InstructionKind : uint
     {
         AAA=0,
         AAD8i8=1,
@@ -15449,7 +15449,7 @@
         XTEST=15440,
     }
 
-    public readonly struct InstructionData
+    public readonly struct InstructionST
     {
         public const uint EntryCount = 15441;
 

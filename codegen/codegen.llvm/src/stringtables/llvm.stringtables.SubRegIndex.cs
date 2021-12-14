@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum SubRegIndexKind: uint
+    public enum SubRegIndexKind : uint
     {
         sub_16bit=0,
         sub_16bit_hi=1,
@@ -18,7 +18,7 @@
         sub_ymm=9,
     }
 
-    public readonly struct SubRegIndexData
+    public readonly struct SubRegIndexST
     {
         public const uint EntryCount = 10;
 

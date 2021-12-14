@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum X86MemOperandKind: uint
+    public enum X86MemOperandKind : uint
     {
         anymem=0,
         dstidx16=1,
@@ -58,7 +58,7 @@
         vz512mem=49,
     }
 
-    public readonly struct X86MemOperandData
+    public readonly struct X86MemOperandST
     {
         public const uint EntryCount = 50;
 

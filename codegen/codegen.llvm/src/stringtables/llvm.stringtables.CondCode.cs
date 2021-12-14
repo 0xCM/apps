@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum CondCodeKind: uint
+    public enum CondCodeKind : uint
     {
         SETEQ=0,
         SETGE=1,
@@ -28,7 +28,7 @@
         SETUO=19,
     }
 
-    public readonly struct CondCodeData
+    public readonly struct CondCodeST
     {
         public const uint EntryCount = 20;
 

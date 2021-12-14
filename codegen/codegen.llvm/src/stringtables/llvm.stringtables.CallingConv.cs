@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum CallingConvKind: uint
+    public enum CallingConvKind : uint
     {
         CC_Intel_OCL_BI=0,
         CC_X86=1,
@@ -60,7 +60,7 @@
         RetCC_X86_Win64_RegCall=51,
     }
 
-    public readonly struct CallingConvData
+    public readonly struct CallingConvST
     {
         public const uint EntryCount = 52;
 

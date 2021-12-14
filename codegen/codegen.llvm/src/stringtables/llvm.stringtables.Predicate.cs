@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum PredicateKind: uint
+    public enum PredicateKind : uint
     {
         CallImmAddr=0,
         FPStackf32=1,
@@ -158,7 +158,7 @@
         UseSSSE3=149,
     }
 
-    public readonly struct PredicateData
+    public readonly struct PredicateST
     {
         public const uint EntryCount = 150;
 

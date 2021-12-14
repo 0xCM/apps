@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum ProcessorKind: uint
+    public enum ProcessorKind : uint
     {
         anonymous_20897=0,
         anonymous_20898=1,
@@ -94,7 +94,7 @@
         anonymous_20982=85,
     }
 
-    public readonly struct ProcessorData
+    public readonly struct ProcessorST
     {
         public const uint EntryCount = 86;
 

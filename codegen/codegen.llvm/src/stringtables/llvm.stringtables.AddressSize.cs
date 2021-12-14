@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum AddressSizeKind: uint
+    public enum AddressSizeKind : uint
     {
         AdSize16=0,
         AdSize32=1,
@@ -12,7 +12,7 @@
         AdSizeX=3,
     }
 
-    public readonly struct AddressSizeData
+    public readonly struct AddressSizeST
     {
         public const uint EntryCount = 4;
 

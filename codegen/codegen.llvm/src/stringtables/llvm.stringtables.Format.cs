@@ -4,7 +4,7 @@
 
     using static core;
 
-    public enum FormatKind: uint
+    public enum FormatKind : uint
     {
         AddCCFrm=0,
         AddRegFrm=1,
@@ -124,7 +124,7 @@
         RawFrmSrc=115,
     }
 
-    public readonly struct FormatData
+    public readonly struct FormatST
     {
         public const uint EntryCount = 116;
 
