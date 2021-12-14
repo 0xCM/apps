@@ -26,8 +26,6 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        LlvmDistiller Distiller => Service(Wf.LlvmDistiller);
-
         IProjectWs Data;
 
         ToolId SelectedTool;

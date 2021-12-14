@@ -37,8 +37,8 @@ namespace Z0.llvm
         public string ImmT
             => this[nameof(ImmT)];
 
-        public string RawAsmString
-            => Value(nameof(RawAsmString),() => this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space));
+        public string AsmStringSource
+            => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
 
         public AsmString AsmString
             => Value(nameof(AsmString), () => llvm.AsmStrings.extract(this));

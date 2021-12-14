@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static core;
-
     partial class LlvmCmdProvider
     {
         const string InstPatternEmit = "llvm/emit/inst/patterns";
@@ -13,46 +11,7 @@ namespace Z0.llvm
         [CmdOp(InstPatternEmit)]
         Outcome EmitInstPatterns(CmdArgs args)
         {
-            var entities = DataProvider.SelectEntities();
-            var asmids = DataProvider.SelectAsmIdentifiers();
-            var count = entities.Length;
-            var dst = list<LlvmInstPattern>();
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entity = ref entities[i];
-                if(entity.IsInstAlias())
-                {
-                    var alias = entity.ToInstAlias();
-                    var str = alias.AsmString;
-                    var pattern = new LlvmInstPattern();
-                    pattern.AsmId = asmids.AsmId(str.InstName);
-                    pattern.InstName = str.InstName;
-                    pattern.Mnemonic = str.Mnemonic;
-                    pattern.FormatPattern = str.FormatPattern;
-                    dst.Add(pattern);
-                }
-                else if(entity.IsInstruction())
-                {
-                    var inst = entity.ToInstruction();
-                    if(inst.isCodeGenOnly || inst.isPseudo)
-                        continue;
-
-                    else
-                    {
-                        var str = inst.AsmString;
-                        var pattern = new LlvmInstPattern();
-                        pattern.AsmId = asmids.AsmId(str.InstName);
-                        pattern.InstName = str.InstName;
-                        pattern.Mnemonic = str.Mnemonic;
-                        pattern.FormatPattern = str.FormatPattern;
-                        dst.Add(pattern);
-                    }
-                }
-            }
-
-            var records = dst.ToArray();
-            TableEmit(@readonly(records), LlvmInstPattern.RenderWidths, LlvmPaths.Table<LlvmInstPattern>());
+            DataEmitter.EmitInstPatterns();
             return true;
         }
     }

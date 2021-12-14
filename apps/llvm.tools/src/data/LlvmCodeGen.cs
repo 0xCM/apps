@@ -67,12 +67,12 @@ namespace Z0.llvm
             return flows.View();
         }
 
-        FS.FilePath OutPath(LlvmList src, FS.FileExt ext)
-            => LlvmPaths.StringTablePath("llvm.stringtables." + src.Name, ext);
+        FS.FilePath OutPath(StringTable src, FS.FileExt ext)
+            => LlvmPaths.StringTablePath("llvm.stringtables." + src.Syntax.TableName, ext);
 
         Arrow<FS.FileUri> EmitStringTableCode(LlvmList list, StringTable table)
         {
-            var dst = OutPath(list,FS.Cs);
+            var dst = OutPath(table,FS.Cs);
             var spec = StringTables.specify(table.Syntax, list.ToItemList());
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
@@ -83,7 +83,7 @@ namespace Z0.llvm
 
         Arrow<FS.FileUri> EmitStringTableData(LlvmList list, StringTable table)
         {
-            var dst = OutPath(list,FS.Csv);
+            var dst = OutPath(table, FS.Csv);
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
             var emitting = EmittingFile(dst);
 

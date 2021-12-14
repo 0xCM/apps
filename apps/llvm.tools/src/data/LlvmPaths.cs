@@ -8,12 +8,12 @@ namespace Z0.llvm
     {
         IProjectWs LlvmData;
 
-        IProjectWs Db;
+        IProjectDb Db;
 
         protected override void Initialized()
         {
             LlvmData = Ws.Project("llvm.data");
-            Db = Ws.Project("db");
+            Db = Ws.ProjectDb();
         }
 
         public FS.FolderPath DataHome()
@@ -31,20 +31,8 @@ namespace Z0.llvm
         public FS.FolderPath ToolImports()
             => Imports() + FS.folder("tools");
 
-        public FS.FilePath RecordImport(string id, FS.FileExt ext)
-            =>  RecordImports() + FS.file(id, ext);
-
-        public FS.FilePath ImportMap(string id)
-            => RecordImports() + FS.file(id, FS.ext("map"));
-
-        public FS.FolderPath ToolSourceDocs()
-            => DataSourceDir("tools");
-
-        public FS.FolderPath Sources()
-            => DataHome() + FS.folder("sources");
-
         public FS.FolderPath Queries()
-            => DataHome() + FS.folder("queries");
+            => Imports() + FS.folder("queries");
 
         public FS.FolderPath QueryResults()
             => Queries() + FS.folder("results");
@@ -57,6 +45,18 @@ namespace Z0.llvm
 
         public FS.FilePath QuerySpec(string id)
             => QuerySpecs() + FS.file(id, FS.ext("query"));
+
+        public FS.FilePath RecordImport(string id, FS.FileExt ext)
+            =>  RecordImports() + FS.file(id, ext);
+
+        public FS.FilePath ImportMap(string id)
+            => RecordImports() + FS.file(id, FS.ext("map"));
+
+        public FS.FolderPath ToolSourceDocs()
+            => DataSourceDir("tools");
+
+        public FS.FolderPath Sources()
+            => DataHome() + FS.folder("sources");
 
         public FS.FolderPath Views()
             => DataHome() + FS.folder("views");

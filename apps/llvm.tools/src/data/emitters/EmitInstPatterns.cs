@@ -29,6 +29,7 @@ namespace Z0.llvm
                     pattern.InstName = str.InstName;
                     pattern.Mnemonic = str.Mnemonic;
                     pattern.FormatPattern = str.FormatPattern;
+                    pattern.SourceData = str.SourceData;
                     dst.Add(pattern);
                 }
                 else if(entity.IsInstruction())
@@ -44,6 +45,7 @@ namespace Z0.llvm
                         pattern.InstName = str.InstName;
                         pattern.Mnemonic = str.Mnemonic;
                         pattern.FormatPattern = str.FormatPattern;
+                        pattern.SourceData = str.SourceData;
                         dst.Add(pattern);
                     }
                 }

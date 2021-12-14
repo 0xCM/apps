@@ -7,7 +7,7 @@ namespace Z0.llvm
     using System;
     using static core;
 
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
         const string CcQuery = "llvm/asm/cc";
 
@@ -24,7 +24,7 @@ namespace Z0.llvm
             });
 
             var specs = @readonly(conditions.Map(x => string.Format("{0,-16} {1}", x.EntityName, x["Fragments"])));
-            Flow(CcQuery, specs);
+            DataEmitter.EmitQueryResults(CcQuery, specs);
 
             return true;
         }

@@ -6,12 +6,12 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
-        const string DefFieldTypeQuery = "llvm/defs/fields/types";
+        const string EmitFieldTypesCmd = "llvm/emit/fields/types";
 
-        [CmdOp(DefFieldTypeQuery)]
-        Outcome QueryDefFieldTypes(CmdArgs args)
+        [CmdOp(EmitFieldTypesCmd)]
+        Outcome EmitDefFieldTypes(CmdArgs args)
         {
-            DataEmitter.EmitQueryResults(DefFieldTypeQuery,
+            DataEmitter.EmitQueryResults(EmitFieldTypesCmd,
                     DataProvider.SelectDistinctFieldTypes(DataProvider.SelectDefFields()).View);
             return true;
         }

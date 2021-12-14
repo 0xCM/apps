@@ -48,6 +48,7 @@ namespace Z0.llvm
                     row.InstName = skip(cols,i++);
                     row.Mnemonic = skip(cols,i++);
                     row.FormatPattern = skip(cols,i++);
+                    row.SourceData = skip(cols,i++);
                     buffer.Add(row);
                 }
                 return buffer.ToArray();

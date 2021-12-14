@@ -13,7 +13,7 @@ namespace Z0.llvm
     {
         public const string TableId = "llvm.inst.pattern";
 
-        public const byte FieldCount = 4;
+        public const byte FieldCount = 5;
 
         public ushort AsmId;
 
@@ -23,9 +23,11 @@ namespace Z0.llvm
 
         public TextBlock FormatPattern;
 
+        public TextBlock SourceData;
+
         public int CompareTo(LlvmInstPattern src)
             => AsmId.CompareTo(src.AsmId);
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,48,1};
     }
 }

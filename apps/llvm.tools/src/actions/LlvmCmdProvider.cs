@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using Asm;
-
-    using static core;
-
     public partial class LlvmCmdProvider : AppCmdProvider<LlvmCmdProvider>
     {
         LlvmDataImporter DataImporter => Service(Wf.LlvmDataImporter);
@@ -27,8 +23,6 @@ namespace Z0.llvm
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
         LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
-
-        LlvmDistiller Distiller => Service(Wf.LlvmDistiller);
 
         LlvmConfig LlvmConfig => Service(Wf.LlvmConfig);
     }

@@ -4,36 +4,45 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
+
     using Asm;
+
     using static Root;
 
-    public readonly struct AsmString
+    [Record(TableId)]
+    public struct AsmString
     {
+        public const string TableId = "llvm.asm.strings";
+
+        public const byte FieldCount = 4;
+
         const string RenderPattern = "{0,-24} | {1,-16} | {2,-54} | {3}";
 
-        public readonly Identifier InstName;
+        public Identifier InstName;
 
-        public readonly AsmMnemonic Mnemonic;
+        public AsmMnemonic Mnemonic;
 
-        public readonly TextBlock FormatPattern;
+        public TextBlock FormatPattern;
 
-        public readonly TextBlock SourcePattern;
+        public TextBlock SourceData;
 
         public AsmString(Identifier name, AsmMnemonic mnemonic, string pattern, string raw)
         {
             InstName = name;
             Mnemonic = mnemonic;
             FormatPattern = pattern;
-            SourcePattern = raw;
+            SourceData = raw;
         }
 
         public string Format()
-            => string.Format(RenderPattern, InstName, Mnemonic, FormatPattern, SourcePattern);
+            => string.Format(RenderPattern, InstName, Mnemonic, FormatPattern, SourceData);
 
         public override string ToString()
             => Format();
 
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,16,46,1};
+
         public static AsmString Empty => new AsmString(Identifier.Empty, AsmMnemonic.Empty, EmptyString, EmptyString);
     }
-
 }

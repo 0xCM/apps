@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     using static core;
 
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
         const string X86IntrinsicsQuery = "llvm/int/x86";
 
@@ -28,7 +28,7 @@ namespace Z0.llvm
                 }
             }
 
-            Flow(X86IntrinsicsQuery, specs.ViewDeposited());
+            DataEmitter.EmitQueryResults(X86IntrinsicsQuery, specs.ViewDeposited());
 
             return true;
         }

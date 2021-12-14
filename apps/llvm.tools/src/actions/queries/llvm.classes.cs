@@ -6,7 +6,9 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
-        [CmdOp("llvm/emit/classes")]
+        const string EmitClassQuery = "llvm/classes";
+
+        [CmdOp(EmitClassQuery)]
         Outcome Classes(CmdArgs args)
         {
             var result = Outcome.Success;

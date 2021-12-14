@@ -23,11 +23,9 @@ namespace Z0.llvm
         {
             var dst = AsmString.Empty;
             var name = src.InstName;
-            var raw = src.RawAsmString;
-            var input = normalize(raw);
-            var m0 = mnemonic(input);
-            var p0 = pattern(input);
-            dst = new AsmString(name, m0, p0, raw);
+            var data = src.AsmStringSource;
+            var input = normalize(data);
+            dst = new AsmString(name, mnemonic(input), pattern(input), data);
             return dst;
         }
 
@@ -38,11 +36,9 @@ namespace Z0.llvm
             if(src.isCodeGenOnly || src.isPseudo)
                 return new AsmString(name, AsmMnemonic.Empty, EmptyString, EmptyString);
 
-            var raw = src.RawAsmString;
-            var input = normalize(raw);
-            var m0 = mnemonic(input);
-            var p0 = pattern(input);
-            dst = new AsmString(name, m0, p0, raw);
+            var data = src.AsmStringSource;
+            var input = normalize(data);
+            dst = new AsmString(name, mnemonic(input), pattern(input), data);
             return dst;
         }
 
@@ -51,20 +47,20 @@ namespace Z0.llvm
 
         static string pattern(string src)
         {
-            var monic = mnemonic(src).Format();
-            var i = text.index(src, Chars.Space);
+            var input = text.replace(src,"${mask}", "$mask");
+            var monic = mnemonic(input).Format();
+            var i = text.index(input, Chars.Space);
             if(i == NotFound)
                 return monic;
             else
             {
-                var right = text.right(src,i);
+                var right = text.right(input,i);
                 if(text.fenced(right, Fencing.Embraced))
                     right = text.unfence(right, 0, Fencing.Embraced);
 
                 var j = text.index(right, Chars.Caret);
                 if(j >= 0)
                     right = text.right(right,j);
-                right = text.replace(right,"${mask}", "$mask");
                 return string.Format("{0} {1}", monic, right);
             }
         }
@@ -72,18 +68,16 @@ namespace Z0.llvm
         static AsmMnemonic mnemonic(string src)
         {
             var input = normalize(src);
-            var i = text.index(src, Chars.Space);
-            var dst = input;
-            if(i >=0)
-            {
-                var left = text.left(input,i);
-                var j = text.index(left, Chars.LBrace);
-                if(j >= 0)
-                    dst = text.left(left,j);
-                else
-                    dst = left;
-            }
-            return dst;
+            var i = text.index(input, Chars.Space);
+            if(i == NotFound)
+                return input;
+
+            var dst = text.left(input,i);
+            var j = text.index(dst,Chars.LBrace);
+            if(j>0)
+                return text.left(dst,j);
+            else
+                return dst;
         }
     }
 }
