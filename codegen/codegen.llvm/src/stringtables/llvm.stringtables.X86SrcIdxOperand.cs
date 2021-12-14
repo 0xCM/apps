@@ -12,7 +12,7 @@
         srcidx8=3,
     }
 
-    public readonly struct X86SrcIdxOperand
+    public readonly struct X86SrcIdxOperandData
     {
         public const uint EntryCount = 4;
 

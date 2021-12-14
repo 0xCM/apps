@@ -14,7 +14,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static StringTableRow row(in StringTable src, uint index)
-            => new StringTableRow(src.Name, index, text.format(src[index]));
+            => new StringTableRow(src.Syntax.TableName, index, text.format(src[index]));
 
         [Op]
         public static uint rows(StringTableSpec src, Span<StringTableRow> dst)
@@ -27,18 +27,18 @@ namespace Z0
                 ref readonly var entry = ref skip(entries,j);
                 row.EntryIndex = entry.Key;
                 row.EntryName = entry.Value;
-                row.TableName = src.TableName;
+                row.TableName = src.Syntax.TableName;
             }
             return count;
         }
 
-        [MethodImpl(Inline), Op]
-        public static uint rows(in StringTable src, uint offset, Span<StringTableRow> dst)
-        {
-            var j=0u;
-            for(var i=offset; i<src.EntryCount && j<dst.Length; i++)
-                seek(dst,j++) = row(src,i);
-            return j;
-        }
+        // [MethodImpl(Inline), Op]
+        // public static uint rows(in StringTable src, uint offset, Span<StringTableRow> dst)
+        // {
+        //     var j=0u;
+        //     for(var i=offset; i<src.EntryCount && j<dst.Length; i++)
+        //         seek(dst,j++) = row(src,i);
+        //     return j;
+        // }
     }
 }

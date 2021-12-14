@@ -19,7 +19,7 @@
         vectoraddr=10,
     }
 
-    public readonly struct ComplexPattern
+    public readonly struct ComplexPatternData
     {
         public const uint EntryCount = 11;
 

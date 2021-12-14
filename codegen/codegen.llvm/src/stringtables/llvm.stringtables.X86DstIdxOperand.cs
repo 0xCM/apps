@@ -12,7 +12,7 @@
         dstidx8=3,
     }
 
-    public readonly struct X86DstIdxOperand
+    public readonly struct X86DstIdxOperandData
     {
         public const uint EntryCount = 4;
 

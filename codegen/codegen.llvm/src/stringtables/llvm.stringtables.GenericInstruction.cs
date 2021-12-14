@@ -206,7 +206,7 @@
         G_ZEXTLOAD=197,
     }
 
-    public readonly struct GenericInstruction
+    public readonly struct GenericInstructionData
     {
         public const uint EntryCount = 198;
 

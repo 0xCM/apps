@@ -153,7 +153,7 @@
         ProcIntelSLM=144,
     }
 
-    public readonly struct SubtargetFeature
+    public readonly struct SubtargetFeatureData
     {
         public const uint EntryCount = 145;
 

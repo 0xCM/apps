@@ -58,7 +58,7 @@
         vz512mem=49,
     }
 
-    public readonly struct X86MemOperand
+    public readonly struct X86MemOperandData
     {
         public const uint EntryCount = 50;
 

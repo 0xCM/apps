@@ -94,7 +94,7 @@
         anonymous_20982=85,
     }
 
-    public readonly struct Processor
+    public readonly struct ProcessorData
     {
         public const uint EntryCount = 86;
 

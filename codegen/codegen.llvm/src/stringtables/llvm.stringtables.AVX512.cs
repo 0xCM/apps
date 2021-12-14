@@ -8857,7 +8857,7 @@
         VXORPSZrrkz=8848,
     }
 
-    public readonly struct AVX512
+    public readonly struct AVX512Data
     {
         public const uint EntryCount = 8849;
 

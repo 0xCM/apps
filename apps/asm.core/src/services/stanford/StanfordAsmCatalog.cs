@@ -80,7 +80,8 @@ namespace Z0.Asm
             var rows = LoadAsset();
             var count = rows.Length;
             var dst = hashset<Name>();
-            mapi(rows, (i,n) => dst.Add(n.EncodingKind));
+            for(var i=0u; i<count; i++)
+                dst.Add(skip(rows,i).EncodingKind);
             return dst.Index().Sort();
         }
 

@@ -13,7 +13,7 @@
         Not64BitMode=4,
     }
 
-    public readonly struct AssemblerPredicate
+    public readonly struct AssemblerPredicateData
     {
         public const uint EntryCount = 5;
 

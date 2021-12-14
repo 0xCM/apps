@@ -19,7 +19,7 @@
         offset64_8=10,
     }
 
-    public readonly struct X86MemOffsOperand
+    public readonly struct X86MemOffsOperandData
     {
         public const uint EntryCount = 11;
 

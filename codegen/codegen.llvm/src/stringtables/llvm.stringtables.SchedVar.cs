@@ -100,7 +100,7 @@
         anonymous_20894=91,
     }
 
-    public readonly struct SchedVar
+    public readonly struct SchedVarData
     {
         public const uint EntryCount = 92;
 

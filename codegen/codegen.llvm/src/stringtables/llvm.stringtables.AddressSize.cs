@@ -12,7 +12,7 @@
         AdSizeX=3,
     }
 
-    public readonly struct AddressSize
+    public readonly struct AddressSizeData
     {
         public const uint EntryCount = 4;
 

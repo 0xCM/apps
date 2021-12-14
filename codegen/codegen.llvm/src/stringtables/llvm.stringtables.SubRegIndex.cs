@@ -18,7 +18,7 @@
         sub_ymm=9,
     }
 
-    public readonly struct SubRegIndex
+    public readonly struct SubRegIndexData
     {
         public const uint EntryCount = 10;
 

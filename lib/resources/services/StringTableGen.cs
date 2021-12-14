@@ -11,8 +11,9 @@ namespace Z0
         public Outcome Generate(StringTableSpec spec, FS.FolderPath outdir)
         {
             var result = Outcome.Success;
-            var csdst = outdir + FS.file(spec.TableName.Format(), FS.Cs);
-            var rowdst = outdir + FS.file(spec.TableName.Format(), FS.Csv);
+            var syntax = spec.Syntax;
+            var csdst = outdir + FS.file(syntax.TableName.Format(), FS.Cs);
+            var rowdst = outdir + FS.file(syntax.TableName.Format(), FS.Csv);
             var emitting = EmittingFile(csdst);
             using var cswriter = csdst.Writer();
             var cscount = StringTables.csharp(spec, cswriter);

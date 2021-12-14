@@ -83,7 +83,7 @@
         VR64=74,
     }
 
-    public readonly struct RegisterClass
+    public readonly struct RegisterClassData
     {
         public const uint EntryCount = 75;
 

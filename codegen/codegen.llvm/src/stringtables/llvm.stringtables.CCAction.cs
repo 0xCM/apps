@@ -411,7 +411,7 @@
         anonymous_21385=402,
     }
 
-    public readonly struct CCAction
+    public readonly struct CCActionData
     {
         public const uint EntryCount = 403;
 

@@ -227,7 +227,7 @@
         anonymous_8717=218,
     }
 
-    public readonly struct SDTypeProfile
+    public readonly struct SDTypeProfileData
     {
         public const uint EntryCount = 219;
 

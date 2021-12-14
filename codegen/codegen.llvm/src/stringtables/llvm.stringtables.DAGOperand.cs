@@ -184,7 +184,7 @@
         vz512mem=175,
     }
 
-    public readonly struct DAGOperand
+    public readonly struct DAGOperandData
     {
         public const uint EntryCount = 176;
 

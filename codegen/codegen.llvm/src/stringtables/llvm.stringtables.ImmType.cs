@@ -18,7 +18,7 @@
         NoImm=9,
     }
 
-    public readonly struct ImmType
+    public readonly struct ImmTypeData
     {
         public const uint EntryCount = 10;
 

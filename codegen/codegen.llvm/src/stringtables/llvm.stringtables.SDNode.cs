@@ -606,7 +606,7 @@
         zext_invec=597,
     }
 
-    public readonly struct SDNode
+    public readonly struct SDNodeData
     {
         public const uint EntryCount = 598;
 

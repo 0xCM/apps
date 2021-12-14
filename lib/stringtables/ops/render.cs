@@ -8,15 +8,16 @@ namespace Z0
 
     partial class StringTables
     {
-        public static void render(uint margin, in StringTable src, ITextBuffer dst)
+        public static void render(uint margin, StringTable src, ITextBuffer dst)
         {
-            if(src.GlobalIndex)
+            var syntax = src.Syntax;
+            if(syntax.GlobalIndex)
             {
                 GenIndex(margin, src, dst);
                 dst.AppendLine();
             }
 
-            dst.IndentLine(margin, PublicReadonlyStruct(src.Name));
+            dst.IndentLine(margin, PublicReadonlyStruct(syntax.TableName));
             dst.IndentLine(margin, Open());
             margin+=4;
 
@@ -43,7 +44,7 @@ namespace Z0
             dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
             dst.AppendLine();
 
-            if(!src.GlobalIndex)
+            if(!syntax.GlobalIndex)
             {
                 GenIndex(margin, src, dst);
                 dst.AppendLine();
@@ -59,8 +60,8 @@ namespace Z0
         static void GenIndex(uint margin, in StringTable src, ITextBuffer dst)
         {
             var count = src.EntryCount;
-            var idxname = src.IndexName;
-            dst.IndentLine(margin, string.Format("public enum {0}: uint", idxname));
+            var syntax = src.Syntax;
+            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.IndexKind.CsKeyword(), syntax.IndexName));
             dst.IndentLine(margin, Chars.LBrace);
             margin+=4;
             for(var i=0u; i<count; i++)

@@ -28,7 +28,7 @@
         SETUO=19,
     }
 
-    public readonly struct CondCode
+    public readonly struct CondCodeData
     {
         public const uint EntryCount = 20;
 

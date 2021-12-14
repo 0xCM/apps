@@ -15449,7 +15449,7 @@
         XTEST=15440,
     }
 
-    public readonly struct Instruction
+    public readonly struct InstructionData
     {
         public const uint EntryCount = 15441;
 

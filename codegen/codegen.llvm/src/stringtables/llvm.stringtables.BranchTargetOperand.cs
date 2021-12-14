@@ -15,7 +15,7 @@
         i64i32imm_brtarget=6,
     }
 
-    public readonly struct BranchTargetOperand
+    public readonly struct BranchTargetOperandData
     {
         public const uint EntryCount = 7;
 

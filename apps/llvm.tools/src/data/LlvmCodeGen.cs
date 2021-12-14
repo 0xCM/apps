@@ -17,11 +17,6 @@ namespace Z0.llvm
 
         Generators Generators => Service(Wf.Generators);
 
-        protected override void Initialized()
-        {
-
-        }
-
         public void Run()
         {
             LlvmPaths.CodeGen().Clear(true);
@@ -51,11 +46,13 @@ namespace Z0.llvm
             const string TargetNs = "Z0";
             const string BaseSourceId = "llvm.lists";
 
+            var items = list.ToItemList();
             var name = list.Path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
-            var id = BaseTargetId + "." + name;
+            var id = BaseTargetId + "." + items.Name;
             var dst = LlvmPaths.StringTablePath(id, FS.Cs);
-            var idxname = name + "Kind";
-            var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
+            var idxname = items.Name + "Kind";
+            //var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
+            var spec = StringTables.specify(table.Syntax, items);
 
             var emitting = EmittingFile(dst);
 
@@ -102,32 +99,14 @@ namespace Z0.llvm
             var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
             var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
             var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-            var table = StringTables.create(lines, name, Chars.Comma);
+            var syntax = StringTables.syntax("Z0.llvm", name +"Data", name + "Kind", ClrEnumKind.U32, true);
+            var table = StringTables.create(syntax, list.Values(), list.Identifiers());
             flows.Add(EmitStringTableData(list,table));
             flows.Add(EmitStringTableCode(list,table));
-            // var idxname = name + "Kind";
-            // var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
-            // var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
-
-            // var csEmitting = EmittingFile(cspath);
-            // var rowEmitting = EmittingFile(csvpath);
-
-            // using var cswriter = cspath.Writer();
-            // using var rowwriter = csvpath.AsciWriter();
-            // rowwriter.WriteLine(formatter.FormatHeader());
-
-            // StringTables.csharp(spec, cswriter);
-            // for(var j=0u; j<table.EntryCount; j++)
-            //     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
-
-            // var csflow = FS.flow(path,cspath);
-            // flows.Add(csflow);
-            // var csvflow = FS.flow(path,csvpath);
-            // flows.Add(csvflow);
-
-            // EmittedFile(csEmitting, 1, csflow);
-            // EmittedFile(rowEmitting, table.EntryCount, csvflow);
         }
+
+        public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables()
+            => GenStringTables(DataProvider.SelectLists().Where(x => x.ListId != "vcodes"));
 
         public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables(ReadOnlySpan<LlvmList> src)
         {
@@ -140,89 +119,8 @@ namespace Z0.llvm
             var flows = new DataList<Arrow<FS.FileUri>>();
 
             for(var i=0; i<count; i++)
-            {
-                ref readonly var list = ref skip(src,i);
-                GenStringTable(list, flows);
-                // var path = list.Path;
-                // var name = path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
-                // var id = BaseTargetId + "." + name;
-                // var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
-                // var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
-                // var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-
-                // var idxname = name + "Kind";
-                // var table = StringTables.create(lines, name, Chars.Comma);
-                // var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
-
-                // var csEmitting = EmittingFile(cspath);
-                // var rowEmitting = EmittingFile(csvpath);
-
-                // using var cswriter = cspath.Writer();
-                // using var rowwriter = csvpath.AsciWriter();
-                // rowwriter.WriteLine(formatter.FormatHeader());
-
-                // StringTables.csharp(spec, cswriter);
-                // for(var j=0u; j<table.EntryCount; j++)
-                //     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
-                // rowcount += table.EntryCount;
-
-                // var csflow = FS.flow(path,cspath);
-                // flows.Add(csflow);
-                // var csvflow = FS.flow(path,csvpath);
-                // flows.Add(csvflow);
-
-                // EmittedFile(csEmitting, count, csflow);
-                // EmittedFile(rowEmitting, rowcount, csvflow);
-            }
+                GenStringTable(skip(src,i), flows);
             return flows.View();
-        }
-
-        static string listid(FS.FilePath src)
-            => src.FileName.WithoutExtension.Format().Replace("llvm.lists.", EmptyString);
-
-        Outcome GenStringTables()
-        {
-            const string BaseId = "llvm.stringtables";
-            var exclusions = hashset("vcodes");
-            var result = Outcome.Success;
-            var lists = LlvmPaths.Lists().View;
-            var count = lists.Length;
-            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
-            var rowcount = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var listpath = ref skip(lists,i);
-                var id = listid(listpath);
-                if(exclusions.Contains(id))
-                    continue;
-
-                var name = BaseId + "." + id;
-                var cspath = LlvmPaths.StringTablePath(BaseId + "." + id, FS.Cs);
-                var csvpath = LlvmPaths.StringTablePath(BaseId + "." + id, FS.Csv);
-                var lines = slice(listpath.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-                var table = StringTables.create(lines, id, Chars.Comma);
-
-                var idxname = id + "Kind";
-                var ns = "Z0." + BaseId;
-                var spec = StringTables.specify("Z0." + BaseId, idxname, true, table);
-
-                var csEmitting = EmittingFile(cspath);
-                var rowEmitting = EmittingFile(csvpath);
-
-                using var cswriter = cspath.Writer();
-                using var csvwriter = csvpath.AsciWriter();
-                csvwriter.WriteLine(formatter.FormatHeader());
-
-                StringTables.csharp(spec, cswriter);
-                for(var j=0u; j<table.EntryCount; j++)
-                    csvwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
-                rowcount += table.EntryCount;
-
-                EmittedFile(csEmitting, count, FS.flow(listpath,cspath));
-                EmittedFile(rowEmitting,rowcount, FS.flow(listpath,csvpath));
-            }
-
-            return result;
         }
     }
 }

@@ -60,7 +60,7 @@
         RetCC_X86_Win64_RegCall=51,
     }
 
-    public readonly struct CallingConv
+    public readonly struct CallingConvData
     {
         public const uint EntryCount = 52;
 

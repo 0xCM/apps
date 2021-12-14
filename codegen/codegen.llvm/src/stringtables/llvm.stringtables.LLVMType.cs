@@ -153,7 +153,7 @@
         mips_v4q7_ty=144,
     }
 
-    public readonly struct LLVMType
+    public readonly struct LLVMTypeData
     {
         public const uint EntryCount = 145;
 

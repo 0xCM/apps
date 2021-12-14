@@ -15209,7 +15209,7 @@
         XTEST=15200,
     }
 
-    public readonly struct X86Inst
+    public readonly struct X86InstData
     {
         public const uint EntryCount = 15201;
 

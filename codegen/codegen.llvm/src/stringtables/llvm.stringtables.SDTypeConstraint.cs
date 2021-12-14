@@ -106,7 +106,7 @@
         anonymous_8715=97,
     }
 
-    public readonly struct SDTypeConstraint
+    public readonly struct SDTypeConstraintData
     {
         public const uint EntryCount = 98;
 

@@ -16,7 +16,7 @@
         XOPA=7,
     }
 
-    public readonly struct Map
+    public readonly struct MapData
     {
         public const uint EntryCount = 8;
 

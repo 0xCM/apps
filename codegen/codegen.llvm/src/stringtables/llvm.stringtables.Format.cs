@@ -124,7 +124,7 @@
         RawFrmSrc=115,
     }
 
-    public readonly struct Format
+    public readonly struct FormatData
     {
         public const uint EntryCount = 116;
 

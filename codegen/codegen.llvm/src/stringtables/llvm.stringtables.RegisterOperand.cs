@@ -16,7 +16,7 @@
         VK8Pair=7,
     }
 
-    public readonly struct RegisterOperand
+    public readonly struct RegisterOperandData
     {
         public const uint EntryCount = 8;
 

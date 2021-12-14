@@ -158,7 +158,7 @@
         UseSSSE3=149,
     }
 
-    public readonly struct Predicate
+    public readonly struct PredicateData
     {
         public const uint EntryCount = 150;
 

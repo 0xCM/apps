@@ -11682,7 +11682,7 @@
         zextloadvi32=11673,
     }
 
-    public readonly struct SDPatternOperator
+    public readonly struct SDPatternOperatorData
     {
         public const uint EntryCount = 11674;
 

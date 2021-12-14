@@ -1,9 +1,9 @@
 TableName                | EntryIndex   | EntryName
-Map                      | 0            | OB      
-Map                      | 1            | T8      
-Map                      | 2            | TA      
-Map                      | 3            | TB      
-Map                      | 4            | ThreeDNow
-Map                      | 5            | XOP8    
-Map                      | 6            | XOP9    
-Map                      | 7            | XOPA    
+MapData                  | 0            | OB      
+MapData                  | 1            | T8      
+MapData                  | 2            | TA      
+MapData                  | 3            | TB      
+MapData                  | 4            | ThreeDNow
+MapData                  | 5            | XOP8    
+MapData                  | 6            | XOP9    
+MapData                  | 7            | XOPA    

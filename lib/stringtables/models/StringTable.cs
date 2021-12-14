@@ -13,11 +13,13 @@ namespace Z0
 
     public class StringTable
     {
-        public Identifier Namespace {get;}
+        public StringTableSyntax Syntax {get;}
 
-        public Identifier Name {get;}
+        //public Identifier Namespace {get;}
 
-        public Identifier IndexName {get;}
+        Identifier Name {get;}
+
+        Identifier IndexName {get;}
 
         public bool GlobalIndex {get;}
 
@@ -28,21 +30,10 @@ namespace Z0
         readonly Index<Identifier> _Identifiers;
 
         [MethodImpl(Inline)]
-        public StringTable(string ns, Identifier name, string index, bool globalidx, string src, Index<uint> offsets, Identifier[] identifiers)
-        {
-            Namespace = ns;
-            Name = name;
-            IndexName = index;
-            GlobalIndex = globalidx;
-            Content = src;
-            _Offsets = offsets;
-            _Identifiers = identifiers;
-        }
-
-        [MethodImpl(Inline)]
         public StringTable(StringTableSyntax syntax, string src, Index<uint> offsets, Identifier[] identifiers)
         {
-            Namespace = syntax.Namespace;
+            Syntax = syntax;
+            //Namespace = syntax.Namespace;
             Name = syntax.TableName;
             IndexName = syntax.IndexName;
             GlobalIndex = syntax.GlobalIndex;

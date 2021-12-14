@@ -194,7 +194,7 @@
         x86mmx=185,
     }
 
-    public readonly struct ValueType
+    public readonly struct ValueTypeData
     {
         public const uint EntryCount = 186;
 

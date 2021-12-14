@@ -67,7 +67,7 @@
         X86SrcIdx8Operand=58,
     }
 
-    public readonly struct AsmOperandClass
+    public readonly struct AsmOperandClassData
     {
         public const uint EntryCount = 59;
 

@@ -31,7 +31,7 @@
         anonymous_18900=22,
     }
 
-    public readonly struct InstructionEquivalenceClass
+    public readonly struct InstructionEquivalenceClassData
     {
         public const uint EntryCount = 23;
 

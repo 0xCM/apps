@@ -1,5 +1,5 @@
 TableName                | EntryIndex   | EntryName
-AddressSize              | 0            | AdSize16
-AddressSize              | 1            | AdSize32
-AddressSize              | 2            | AdSize64
-AddressSize              | 3            | AdSizeX 
+AddressSizeData          | 0            | AdSize16
+AddressSizeData          | 1            | AdSize32
+AddressSizeData          | 2            | AdSize64
+AddressSizeData          | 3            | AdSizeX 

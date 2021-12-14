@@ -15,18 +15,6 @@ namespace Z0
 
         public StringTableSyntax Syntax {get;}
 
-        public Identifier Namespace
-            => Syntax.Namespace;
-
-        public Identifier TableName
-            => Syntax.TableName;
-
-        public Identifier IndexName
-            => Syntax.IndexName;
-
-        public bool GlobalIndex
-            => Syntax.GlobalIndex;
-
         public StringTableSpec(StringTableSyntax syntax, ListItem<string>[] entries)
         {
             Syntax = syntax;

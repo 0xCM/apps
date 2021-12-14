@@ -10337,7 +10337,7 @@
         int_xray_typedevent=10328,
     }
 
-    public readonly struct Intrinsic
+    public readonly struct IntrinsicData
     {
         public const uint EntryCount = 10329;
 

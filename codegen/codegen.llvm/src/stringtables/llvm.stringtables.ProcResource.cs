@@ -140,7 +140,7 @@
         ZnMultiplier=131,
     }
 
-    public readonly struct ProcResource
+    public readonly struct ProcResourceData
     {
         public const uint EntryCount = 132;
 

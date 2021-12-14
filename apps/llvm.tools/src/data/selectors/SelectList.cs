@@ -8,34 +8,34 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public LlvmList SelectList(string id, FS.FilePath src)
-        {
-            return (LlvmList)DataSets.GetOrAdd(id, key => Load());
+        // public LlvmList SelectList(string id, FS.FilePath src)
+        // {
+        //     return (LlvmList)DataSets.GetOrAdd(id, key => Load());
 
-            LlvmList Load()
-            {
-                var dst = list<LlvmListItem>();
-                using var reader = src.Utf8LineReader();
-                var counter = 0u;
-                while(reader.Next(out var line))
-                {
-                    if(counter++ == 0)
-                        continue;
-                    else
-                    {
-                        var parts = line.Content.SplitClean(Chars.Pipe);
-                        if(parts.Length != 2)
-                        {
-                            Wf.Error(Tables.FieldCountMismatch.Format(parts.Length, 2));
-                            break;
-                        }
-                        DataParser.parse(skip(parts,0), out uint key);
-                        dst.Add((key, skip(parts,1)));
-                    }
-                }
-                return (src, dst.ToArray());
-            }
-        }
+        //     LlvmList Load()
+        //     {
+        //         var dst = list<LlvmListItem>();
+        //         using var reader = src.Utf8LineReader();
+        //         var counter = 0u;
+        //         while(reader.Next(out var line))
+        //         {
+        //             if(counter++ == 0)
+        //                 continue;
+        //             else
+        //             {
+        //                 var parts = line.Content.SplitClean(Chars.Pipe);
+        //                 if(parts.Length != 2)
+        //                 {
+        //                     Wf.Error(Tables.FieldCountMismatch.Format(parts.Length, 2));
+        //                     break;
+        //                 }
+        //                 DataParser.parse(skip(parts,0), out uint key);
+        //                 dst.Add((key, text.trim(skip(parts,1))));
+        //             }
+        //         }
+        //         return (src, dst.ToArray());
+        //     }
+        // }
 
         public LlvmList SelectList(string id)
         {
@@ -60,7 +60,7 @@ namespace Z0.llvm
                             break;
                         }
                         DataParser.parse(skip(parts,0), out uint key);
-                        dst.Add((key, skip(parts,1)));
+                        dst.Add((key, text.trim(skip(parts,1))));
                     }
                 }
                 return (path, dst.ToArray());

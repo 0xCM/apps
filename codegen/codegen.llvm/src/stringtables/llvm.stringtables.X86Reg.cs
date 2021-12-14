@@ -295,7 +295,7 @@
         ZMM9=286,
     }
 
-    public readonly struct X86Reg
+    public readonly struct X86RegData
     {
         public const uint EntryCount = 287;
 

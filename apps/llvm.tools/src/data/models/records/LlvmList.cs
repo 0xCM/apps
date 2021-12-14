@@ -8,6 +8,7 @@ namespace Z0.llvm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     public readonly struct LlvmList : IIndex<LlvmListItem>
     {
@@ -57,10 +58,44 @@ namespace Z0.llvm
             get => Data;
         }
 
+        public Index<Identifier> Identifiers()
+        {
+            var items = Items;
+            var count = items.Length;
+            var dst = alloc<Identifier>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(items,i).Value;
+            return dst;
+        }
+
+        public Index<string> Values()
+        {
+            var items = Items;
+            var count = items.Length;
+            var dst = alloc<string>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(items,i).Value;
+            return dst;
+        }
+
+        public string Name
+        {
+            get => Path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
+        }
+
+        public ItemList<string> ToItemList()
+        {
+            var src = Items;
+            var count = src.Length;
+            var dst = alloc<ListItem<string>>(count);
+            for(var i=0u; i<count; i++)
+                seek(dst,i) = (i,skip(src,i).Value);
+            return (Name, dst);
+        }
+
         public NameList ToNameList()
         {
-            var name = Path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
-            return Named.list(name, this.Map(x => x.Value));
+            return Named.list(Name, this.Map(x => x.Value));
         }
 
         [MethodImpl(Inline)]

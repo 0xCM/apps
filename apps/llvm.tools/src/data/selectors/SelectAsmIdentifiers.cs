@@ -17,7 +17,7 @@ namespace Z0.llvm
             AsmIdentifiers Load()
             {
                 var src = LlvmPaths.Table(TableId);
-                var items = SelectList(TableId, src);
+                var items = SelectList(TableId);
                 var dst = list<AsmIdentifier>();
                 foreach(var id in items)
                     dst.Add(new AsmIdentifier((ushort)id.Key, id.Value.Trim()));

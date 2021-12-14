@@ -11,7 +11,7 @@
         IsZeroIdiomDecl=2,
     }
 
-    public readonly struct STIPredicateDecl
+    public readonly struct STIPredicateDeclData
     {
         public const uint EntryCount = 3;
 

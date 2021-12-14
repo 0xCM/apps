@@ -72,7 +72,7 @@
         anonymous_9817=63,
     }
 
-    public readonly struct MCInstPredicate
+    public readonly struct MCInstPredicateData
     {
         public const uint EntryCount = 64;
 

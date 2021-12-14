@@ -1470,7 +1470,7 @@
         ZnXADD=1461,
     }
 
-    public readonly struct SchedReadWrite
+    public readonly struct SchedReadWriteData
     {
         public const uint EntryCount = 1462;
 
