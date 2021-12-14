@@ -14,9 +14,7 @@ namespace Z0.llvm
            var config = LlvmConfig.CollectSettings();
            var items = config.Items;
            foreach(var item in items)
-           {
                Write(string.Format("{0}:{1}", item.Key, item.Value));
-           }
            return true;
         }
     }

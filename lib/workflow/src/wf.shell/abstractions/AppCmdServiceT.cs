@@ -128,8 +128,6 @@ namespace Z0
         protected Outcome Commands(CmdArgs args)
         {
             iter(Dispatcher.Supported, cmd => Write(cmd));
-            // var commands = Cmd.cmdops(GetType());
-            // iter(commands, cmd => Write(cmd.Format()));
             return true;
         }
 
@@ -403,15 +401,6 @@ namespace Z0
             }
         }
 
-        // public Outcome Dispatch(string command, CmdArgs args)
-        //     => Dispatcher.Dispatch(command, args);
-
-        // public Outcome Dispatch(string command)
-        //     => Dispatcher.Dispatch(command);
-
-        // public ReadOnlySpan<string> Supported
-        //     => Dispatcher.Supported;
-
         protected Outcome ShowSyms<K>(Symbols<K> src)
             where K : unmanaged
         {
@@ -450,7 +439,7 @@ namespace Z0
         protected FS.Files Files()
             => CommonState.Files();
 
-        protected IProjectWs Project()
+        protected override IProjectWs Project()
             => CommonState.Project();
 
         protected FS.Files Files(FS.Files src, bool write = true)

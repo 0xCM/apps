@@ -93,6 +93,7 @@ namespace Z0
             Db = new WfDb(wf, wf.Env.Db);
             Ws = DevWs.create(wf.Env.DevWs);
             ProjectDb = Ws.ProjectDb();
+            _Project = ProjectDb;
             OnInit();
             Initialized();
             wf.Created(flow);
@@ -111,20 +112,33 @@ namespace Z0
             Wf = wf;
         }
 
+        IProjectWs _Project;
+
+        [MethodImpl(Inline)]
+        protected virtual IProjectWs Project()
+            => _Project;
+
+        [MethodImpl(Inline)]
+        protected virtual IProjectWs Project(ProjectId id)
+        {
+            _Project = Ws.Project(id);
+            return Project();
+        }
+
         protected void RedirectEmissions(string name, FS.FolderPath dst)
             => Wf.RedirectEmissions(Loggers.emission(name, dst));
 
-        FS.FileName NameShowLog(string src, FS.FileExt ext)
-            => FS.file(core.controller().Id().PartName() + "." + HostName + "." + src, ext);
+        // FS.FileName NameShowLog(string src, FS.FileExt ext)
+        //     => FS.file(core.controller().Id().PartName() + "." + HostName + "." + src, ext);
 
-        ShowLog ShowLog(FS.FileName file)
-            => new ShowLog(Wf, Db.ShowLog(file));
+        // ShowLog ShowLog(FS.FileName file)
+        //     => new ShowLog(Wf, Db.ShowLog(file));
 
-        protected ShowLog ShowLog(FS.FileExt ext, [Caller] string name = null)
-            => ShowLog(NameShowLog(name,ext));
+        // protected ShowLog ShowLog(FS.FileExt ext, [Caller] string name = null)
+        //     => ShowLog(NameShowLog(name,ext));
 
-        protected ShowLog ShowLog([Caller] string name = null, FS.FileExt? ext = null)
-            => ShowLog(NameShowLog(name,ext ?? FS.Csv));
+        // protected ShowLog ShowLog([Caller] string name = null, FS.FileExt? ext = null)
+        //     => ShowLog(NameShowLog(name,ext ?? FS.Csv));
 
         protected bool Check<T>(Outcome<T> outcome, out T payload)
         {

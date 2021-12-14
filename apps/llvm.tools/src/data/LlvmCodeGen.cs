@@ -35,55 +35,57 @@ namespace Z0.llvm
             Generators.LiteralProvider().Emit(TargetNs, name, literals.View, dst);
         }
 
-        public Arrow<FS.FileUri> EmitStringTable(string listid)
+        public void EmitStringTable(string listid)
         {
-            var list = new LlvmList[]{DataProvider.SelectList(listid)};
-            var result = EmitStringTables(@readonly(list));
-            return first(result);
+            EmitStringTable(DataProvider.SelectList(listid));
         }
 
-        public void EmitStringTable(LlvmList list, DataList<Arrow<FS.FileUri>> flows)
+        public void EmitStringTable(LlvmList list)
         {
             var path = list.Path;
             var name = list.Name;
-            var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
-            var syntax = StringTables.syntax(TargetNs + ".stringtables", name +"ST", name + "Kind", ClrEnumKind.U32, TargetNs);
-            var table = StringTables.create(syntax, list.Values(), list.Identifiers());
-            flows.Add(EmitStringTableData(list,table));
-            flows.Add(EmitStringTableCode(list,table));
+            EmitStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList());
         }
 
-        public ReadOnlySpan<Arrow<FS.FileUri>> EmitStringTables()
+        public void EmitStringTables()
             => EmitStringTables(DataProvider.SelectLists().Where(x => x.ListId != "vcodes"));
 
-        public ReadOnlySpan<Arrow<FS.FileUri>> EmitStringTables(ReadOnlySpan<LlvmList> src)
+        public void EmitStringTables(ReadOnlySpan<LlvmList> src)
         {
             var result = Outcome.Success;
             var count = src.Length;
-            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
             var flows = new DataList<Arrow<FS.FileUri>>();
             for(var i=0; i<count; i++)
-                EmitStringTable(skip(src,i), flows);
-            return flows.View();
+                EmitStringTable(skip(src,i));
         }
 
-        FS.FilePath OutPath(StringTable src, FS.FileExt ext)
-            => LlvmPaths.StringTablePath("llvm.stringtables." + src.Syntax.TableName, ext);
+        FS.FilePath OutPath(StringTableSyntax src, FS.FileExt ext)
+            => LlvmPaths.StringTablePath("llvm.stringtables." + src.TableName, ext);
 
-        Arrow<FS.FileUri> EmitStringTableCode(LlvmList list, StringTable table)
+        public void EmitStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> list)
         {
-            var dst = OutPath(table,FS.Cs);
-            var spec = StringTables.specify(table.Syntax, list.ToItemList());
+            var name = list.Name;
+            var syntax = StringTables.syntax(targetNs + ".stringtables", name +"ST", name + "Kind", kind, targetNs);
+            var entries = list.Map(x => x.Value);
+            var identifiers = list.Map(x => (Identifier)x.Value);
+            var table = StringTables.create(syntax, @readonly(entries), identifiers);
+            EmitTableCode(syntax,list);
+            EmitTableData(table);
+        }
+
+        FS.FileUri EmitTableCode(StringTableSyntax src, ItemList<string> items)
+        {
+            var dst = OutPath(src, FS.Cs);
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
-            StringTables.csharp(spec, writer);
+            StringTables.csharp(src, items.View, writer);
             EmittedFile(emitting,1);
-            return FS.flow(list.Path,dst);
+            return dst;
         }
 
-        Arrow<FS.FileUri> EmitStringTableData(LlvmList list, StringTable table)
+        FS.FileUri EmitTableData(StringTable table)
         {
-            var dst = OutPath(table, FS.Csv);
+            var dst = OutPath(table.Syntax, FS.Csv);
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
             var emitting = EmittingFile(dst);
 
@@ -93,9 +95,8 @@ namespace Z0.llvm
             for(var j=0u; j<table.EntryCount; j++)
                 writer.WriteLine(formatter.Format(StringTables.row(table, j)));
 
-            var flow = FS.flow(list.Path,dst);
-            EmittedFile(emitting, table.EntryCount, flow);
-            return flow;
+            EmittedFile(emitting, table.EntryCount);
+            return dst;
         }
    }
 }

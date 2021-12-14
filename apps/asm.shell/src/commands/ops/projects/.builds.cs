@@ -6,7 +6,6 @@ namespace Z0.Asm
 {
     using static ProjectScriptNames;
     using static WsAtoms;
-    using static Root;
 
     partial class AsmCmdService
     {

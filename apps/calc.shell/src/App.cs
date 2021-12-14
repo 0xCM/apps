@@ -23,7 +23,7 @@ namespace Z0
 
         EventQueue Queue;
 
-        IProjectWs Project;
+        //IProjectWs Project;
 
         TextWriter Log;
 
@@ -36,8 +36,8 @@ namespace Z0
         {
             Queue = EventQueue.allocate(GetType(), EventRaised);
             Source = Rng.@default();
-            Project = Ws.Project("calcs");
-            Log = Project.Log("calcs").AsciWriter();
+            var project = Ws.Project("calcs");
+            Log = project.Log("calcs").AsciWriter();
         }
 
         protected override void Disposing()

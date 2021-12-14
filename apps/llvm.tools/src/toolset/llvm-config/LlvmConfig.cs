@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using K = llvm.LlvmConfigKind;
-
 
     [Tool(ToolId)]
     public sealed class LlvmConfig : ToolService<LlvmConfig>

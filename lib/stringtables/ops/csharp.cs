@@ -12,18 +12,17 @@ namespace Z0
 
     partial class StringTables
     {
-        public static uint csharp(StringTableSpec spec, StreamWriter dst)
+        public static uint csharp(StringTableSyntax syntax, ReadOnlySpan<ListItem<string>> entries, StreamWriter dst)
         {
-            var syntax = spec.Syntax;
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());
             dst.WriteLine(string.Format("    using {0};", "System"));
             dst.WriteLine();
             dst.WriteLine(string.Format("    using static {0};", "core"));
             dst.WriteLine();
-            dst.WriteLine(create(spec, spec.Entries).Format(4));
+            dst.WriteLine(create(syntax, entries).Format(4));
             dst.WriteLine(Close());
-            return (uint)spec.Entries.Length;
+            return (uint)entries.Length;
         }
     }
 }

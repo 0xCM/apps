@@ -9,6 +9,8 @@ namespace Z0
 
     public static class XSvc
     {
+        public static LlvmCmdProvider LlvmCommands(this IWfRuntime wf)
+            => LlvmCmdProvider.create(wf);
         [Op]
         public static LlvmTableLoader LlvmTableLoader(this IWfRuntime wf)
             => llvm.LlvmTableLoader.create(wf);

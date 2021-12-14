@@ -16,7 +16,7 @@ namespace Z0
             var rowdst = outdir + FS.file(syntax.TableName.Format(), FS.Csv);
             var emitting = EmittingFile(csdst);
             using var cswriter = csdst.Writer();
-            var cscount = StringTables.csharp(spec, cswriter);
+            var cscount = StringTables.csharp(syntax, spec.Entries, cswriter);
             EmittedFile(emitting, cscount);
             var buffer = alloc<StringTableRow>(spec.Entries.Length);
             StringTables.rows(spec, buffer);

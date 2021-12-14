@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static Root;
-    using static core;
     using static ProjectScriptNames;
 
     partial class LlvmCmd
