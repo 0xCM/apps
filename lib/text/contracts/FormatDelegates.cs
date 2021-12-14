@@ -9,7 +9,7 @@ namespace Z0
     /// <summary>
     /// Defines common format function delegates
     /// </summary>
-    public readonly struct FormatFunctions
+    public readonly struct FormatDelegates
     {
         public delegate string FormatCells<T>(ReadOnlySpan<T> src, char delimiter, int pad);
 

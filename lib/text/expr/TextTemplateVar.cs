@@ -56,7 +56,7 @@ namespace Z0
         string IVar<string>.Value
             => Value;
 
-        ITextVarKind ITextVar.VarKind
+        ITextVarExpr ITextVar.VarExpr
             => Kind;
 
         public string Format()

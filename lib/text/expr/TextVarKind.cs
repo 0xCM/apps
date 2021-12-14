@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public abstract class TextVarKind<T> : ITextVarKind
+    public abstract class TextVarKind<T> : ITextVarExpr
         where T : TextVarKind<T>
     {
         public virtual bool IsFenced => Fence.Left != AsciNull.Literal && Fence.Right != AsciNull.Literal;

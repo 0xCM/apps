@@ -206,7 +206,6 @@ namespace Z0
             => array<object>(Param0, Param1, Param2, Param3, Param4, Param5, Param6);
     }
 
-
     public class TextTemplate<T0,T1,T2,T3,T4,T5,T6,T7> : TextTemplate<T0,T1,T2,T3,T4,T5,T6>
     {
         public TextTemplate(string src)

@@ -6,17 +6,18 @@ namespace Z0
 {
     public interface ITextVar : ITextual, INullity, IVar<string>
     {
-        ITextVarKind VarKind {get;}
+        ITextVarExpr VarExpr {get;}
+
         bool INullity.IsEmpty
             => text.empty(Value);
     }
 
     public interface ITextVar<K> : ITextVar
-        where K : ITextVarKind
+        where K : ITextVarExpr
     {
-        new K VarKind {get;}
+        new K VarExpr {get;}
 
-        ITextVarKind ITextVar.VarKind
-            => VarKind;
+        ITextVarExpr ITextVar.VarExpr
+            => VarExpr;
     }
 }

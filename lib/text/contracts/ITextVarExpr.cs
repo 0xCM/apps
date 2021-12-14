@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITextVarKind
+    public interface ITextVarExpr
     {
         bool IsFenced {get;}
 

@@ -9,11 +9,11 @@ namespace Z0
     using static Root;
 
     public class TextVar<K> : ITextVar<K>
-        where K : ITextVarKind
+        where K : ITextVarExpr
     {
         public string Name {get;}
 
-        public K VarKind {get;}
+        public K VarExpr {get;}
 
         public string Value;
 
@@ -21,7 +21,7 @@ namespace Z0
         public TextVar(string name, K kind)
         {
             Name = name;
-            VarKind = kind;
+            VarExpr = kind;
             Value = EmptyString;
         }
 
@@ -29,7 +29,7 @@ namespace Z0
         public TextVar(string name, K kind, string val)
         {
             Name = name;
-            VarKind = kind;
+            VarExpr = kind;
             Value = val;
         }
 

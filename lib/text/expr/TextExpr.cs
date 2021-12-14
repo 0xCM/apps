@@ -15,7 +15,7 @@ namespace Z0
     {
         public string Body {get;}
 
-        public ITextVarKind VarKind {get;}
+        public ITextVarExpr VarExpr {get;}
 
         public ITextVar this[string var]
         {
@@ -36,25 +36,25 @@ namespace Z0
 
         public virtual string Eval()
         {
-            switch(VarKind.Class)
+            switch(VarExpr.Class)
             {
                 case TextVarClass.PrefixedFence:
-                    return EvalPrefixFencedVarExpr(Body, Vars, VarKind);
+                    return EvalPrefixFencedVarExpr(Body, Vars, VarExpr);
                 case TextVarClass.Fenced:
-                    return EvalFencedVarExpr(Body, Vars, VarKind);
+                    return EvalFencedVarExpr(Body, Vars, VarExpr);
                 case TextVarClass.Prefixed:
-                    return EvalPrefixedVarExpr(Body, Vars, VarKind);
+                    return EvalPrefixedVarExpr(Body, Vars, VarExpr);
             }
             return EmptyString;
         }
 
-        protected TextExpr(string body, ITextVarKind kind)
+        protected TextExpr(string body, ITextVarExpr kind)
         {
             Body = body;
-            VarKind = kind;
+            VarExpr = kind;
         }
 
-        public static TextVarClass VarClass(ITextVarKind kind)
+        public static TextVarClass VarClass(ITextVarExpr kind)
         {
             if(kind.IsPrefixedFence)
                 return TextVarClass.PrefixedFence;
@@ -68,7 +68,7 @@ namespace Z0
 
         public static string FormatVariable(ITextVar src)
         {
-            var kind = src.VarKind;
+            var kind = src.VarExpr;
             var @class = VarClass(kind);
             if(src.IsNonEmpty)
                 return src.Value;
@@ -85,7 +85,7 @@ namespace Z0
             return EmptyString;
         }
 
-        public static string EvalFencedVarExpr(string expr, ReadOnlySpan<ITextVar> vars, ITextVarKind kind)
+        public static string EvalFencedVarExpr(string expr, ReadOnlySpan<ITextVar> vars, ITextVarExpr kind)
         {
             var result = expr;
             var LD = kind.Fence.Left;
@@ -98,7 +98,7 @@ namespace Z0
             return result;
         }
 
-        public static string EvalPrefixFencedVarExpr(string expr, ReadOnlySpan<ITextVar> vars, ITextVarKind kind)
+        public static string EvalPrefixFencedVarExpr(string expr, ReadOnlySpan<ITextVar> vars, ITextVarExpr kind)
         {
             var result = expr;
             var LD = kind.Fence.Left;
@@ -112,7 +112,7 @@ namespace Z0
             return result;
         }
 
-        public static string EvalPrefixedVarExpr(string expr, ReadOnlySpan<ITextVar> vars, ITextVarKind kind)
+        public static string EvalPrefixedVarExpr(string expr, ReadOnlySpan<ITextVar> vars, ITextVarExpr kind)
         {
             var result = expr;
             var prefix = kind.Prefix;
@@ -124,7 +124,7 @@ namespace Z0
             return result;
         }
 
-        public static Dictionary<string,ITextVar> ParseFencedVars(ReadOnlySpan<char> src, ITextVarKind kind, Func<string,ITextVar> vf)
+        public static Dictionary<string,ITextVar> ParseFencedVars(ReadOnlySpan<char> src, ITextVarExpr kind, Func<string,ITextVar> vf)
         {
             var count = src.Length;
             var dst = dict<string,ITextVar>();
@@ -166,7 +166,7 @@ namespace Z0
             return dst;
         }
 
-        public static Dictionary<string,ITextVar> ParsePrefixedVars(ReadOnlySpan<char> src, ITextVarKind kind, Func<string,ITextVar> vf)
+        public static Dictionary<string,ITextVar> ParsePrefixedVars(ReadOnlySpan<char> src, ITextVarExpr kind, Func<string,ITextVar> vf)
         {
             var count = src.Length;
             var dst = dict<string,ITextVar>();
@@ -207,7 +207,7 @@ namespace Z0
             return dst;
         }
 
-        public static Dictionary<string,ITextVar> ParsePrefixedFencedVars(ReadOnlySpan<char> src, ITextVarKind kind, Func<string,ITextVar> vf)
+        public static Dictionary<string,ITextVar> ParsePrefixedFencedVars(ReadOnlySpan<char> src, ITextVarExpr kind, Func<string,ITextVar> vf)
         {
             var count = src.Length;
             var dst = dict<string,ITextVar>();

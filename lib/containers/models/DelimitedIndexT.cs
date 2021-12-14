@@ -9,7 +9,7 @@ namespace Z0
     using System.Collections.Generic;
 
     using static Root;
-    using static FormatFunctions;
+    using static FormatDelegates;
 
     [DataType("delix<{0}>")]
     public readonly struct DelimitedIndex<T> : IIndex<T>, ITextual

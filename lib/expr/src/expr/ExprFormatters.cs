@@ -30,14 +30,14 @@ namespace Z0
             => format(vck,var, Chars.Eq);
 
         [Op]
-        public static string format(VarSymbol src)
+        internal static string format(VarSymbol src)
             => format(VarContextKind.Workflow, src);
 
         [Op]
-        public static string format(VarContextKind vck, VarSymbol src)
+        internal static string format(VarContextKind vck, VarSymbol src)
             => string.Format(VarContextKinds.FormatPattern(vck), src.Name);
 
-        public static string format(ExprScope src)
+        internal static string format(ExprScope src)
             => src.IsRoot ? src.Name : string.Format(XF.SourceToTarget, src.Name, src.Parent);
 
         internal static string format(in Var src, bool bind = true)
@@ -61,6 +61,9 @@ namespace Z0
         public static IFormatter<Literal<T>> Literal<T>()
             => default(LiteralFormatter<T>);
 
+        public static IFormatter<Constant<T>> Constant<T>()
+            => default(ConstantFormatter<T>);
+
         readonly struct SeqRangeFormatter<T> : IFormatter<SeqRange<T>>
         {
             public string Format(SeqRange<T> src)
@@ -70,15 +73,28 @@ namespace Z0
         readonly struct LiteralFormatter<T> : IFormatter<Literal<T>>
         {
             public string Format(Literal<T> src)
+                => string.Format("{0} = {1}", src.Name, src.Value.Format());
+        }
+
+        readonly struct ConstantFormatter<T> : IFormatter<Constant<T>>
+        {
+            public string Format(Constant<T> src)
             {
                 var pattern = EmptyString;
                 if(typeof(T) == typeof(string))
-                    pattern = "{0} = \"{1}\"";
+                    pattern = "\"{0}\"";
                 else if(typeof(T) == typeof(char))
-                    pattern = "{0} = '{1}'";
+                    pattern = "'{0}'";
+                else if(typeof(T) == typeof(uint))
+                    pattern = "{0}u";
+                else if(typeof(T) == typeof(ulong))
+                    pattern = "{0}ul";
+                else if(typeof(T) == typeof(long))
+                    pattern = "{0}L";
                 else
-                    pattern = "{0} = {1}";
-                return string.Format(pattern, src.Name, src.Value);
+                    pattern = "{0}";
+
+                return string.Format(pattern, src.Value);
             }
         }
 

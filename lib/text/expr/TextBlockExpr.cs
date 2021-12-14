@@ -6,7 +6,7 @@ namespace Z0
 {
     public class TextBlockExpr : TextExpr
     {
-        public TextBlockExpr(string body, ITextVarKind varkind)
+        public TextBlockExpr(string body, ITextVarExpr varkind)
             : base(body,varkind)
         {
             VarLookup = new();

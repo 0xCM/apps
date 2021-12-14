@@ -9,7 +9,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using static FormatFunctions;
+    using static FormatDelegates;
 
     /// <summary>
     /// Describes the outcome of a test case

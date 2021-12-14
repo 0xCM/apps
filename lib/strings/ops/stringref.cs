@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="offset">The buffer offset</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static StringRef @string(ReadOnlySpan<char> src, uint offset, StringBuffer dst)
+        public static StringRef stringref(ReadOnlySpan<char> src, uint offset, StringBuffer dst)
         {
             var length = src.Length;
             if(length <= byte.MaxValue && strings.store(src, offset, dst))

@@ -23,7 +23,7 @@ namespace Z0
         }
 
         public string Format()
-            => Value?.ToString() ?? RP.Empty;
+            => ExprFormatters.Constant<T>().Format(this);
 
         public override string ToString()
             => Format();

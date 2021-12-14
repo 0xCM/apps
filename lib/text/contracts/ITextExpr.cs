@@ -8,7 +8,7 @@ namespace Z0
     {
         string Body {get;}
 
-        ITextVarKind VarKind {get;}
+        ITextVarExpr VarExpr {get;}
 
         string Eval();
     }

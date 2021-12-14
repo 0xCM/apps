@@ -91,7 +91,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public StringRef StoreString(ReadOnlySpan<char> src, uint offset)
-            => strings.@string(src, offset, this);
+            => strings.stringref(src, offset, this);
 
         public Span<char> Edit
         {

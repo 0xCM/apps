@@ -17,7 +17,7 @@ namespace Z0
 
         public VarKind Kind {get;}
 
-        ITextVarKind ITextVar.VarKind
+        ITextVarExpr ITextVar.VarExpr
             => Kind;
 
         public PrefixedTextVar(char prefix, string name)

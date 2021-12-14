@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    public readonly struct RenderFunctions
+    public readonly struct RenderDelegates
     {
         public delegate void RenderCellText<T>(in T src, ITextBuffer dst);
 

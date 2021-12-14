@@ -8,7 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static FormatFunctions;
+    using static FormatDelegates;
 
     [DataType("despan<{0}>")]
     public readonly ref struct DelimitedSpan<T>
