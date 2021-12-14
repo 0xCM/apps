@@ -14,13 +14,6 @@ namespace Z0
         public static ItemList<T> list<T>(ListItem<T>[] items)
             => new ItemList<T>(items);
 
-        public static LocatedItems<T> located<T>(FS.FilePath loc, ListItem<T>[] items)
-            => new LocatedItems<T>(loc, items);
-
-        public static LocatedItems<K,T> located<K,T>(FS.FilePath loc, ListItem<K,T>[] items)
-            where K : unmanaged
-                => new LocatedItems<K,T>(loc, items);
-
         public static string format(ItemList src)
         {
             var count = src.Length;
@@ -40,7 +33,6 @@ namespace Z0
         }
 
         public static string format<K,T>(ItemList<K,T> src)
-            where K : unmanaged
         {
             var count = src.Length;
             var dst = text.buffer();

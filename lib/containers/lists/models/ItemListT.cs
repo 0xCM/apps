@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ItemList<T> : IItemList<ListItem<T>>
+    public class ItemList<T> : IItemList<ListItem<T>>
     {
         readonly Index<ListItem<T>> Data;
 
@@ -80,6 +80,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator ItemList<T>(ListItem<T>[] src)
             => new ItemList<T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator ItemList<T>((string name, ListItem<T>[] items) src)
+            => new ItemList<T>(src.name,src.items);
 
         [MethodImpl(Inline)]
         public static implicit operator ListItem<T>[](ItemList<T> src)

@@ -12,13 +12,16 @@ namespace Z0
 
         public Identifier IndexName {get;}
 
+        public ClrEnumKind IndexKind {get;}
+
         public bool GlobalIndex {get;}
 
-        public StringTableSyntax(Identifier ns, Identifier table, Identifier index, bool globalidx)
+        public StringTableSyntax(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind, bool globalidx)
         {
             Namespace = ns;
             TableName = table;
             IndexName = index;
+            IndexKind = kind;
             GlobalIndex = globalidx;
         }
     }

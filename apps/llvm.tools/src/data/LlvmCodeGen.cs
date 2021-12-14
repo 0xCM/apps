@@ -35,7 +35,6 @@ namespace Z0.llvm
             var name = "AsmMnemonicNames";
             var literals = expr.literals(src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
-            //var dst = Generators.CodeGenPath("llvm", "AsmMnemonicNames", FS.Cs);
             Generators.LiteralProvider().Emit("Z0.llvm", name, literals, dst);
         }
 
@@ -46,53 +45,136 @@ namespace Z0.llvm
             return first(result);
         }
 
+        Arrow<FS.FileUri> EmitStringTableCode(LlvmList list, StringTable table)
+        {
+            const string BaseTargetId = "llvm.stringtables";
+            const string TargetNs = "Z0";
+            const string BaseSourceId = "llvm.lists";
+
+            var name = list.Path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
+            var id = BaseTargetId + "." + name;
+            var dst = LlvmPaths.StringTablePath(id, FS.Cs);
+            var idxname = name + "Kind";
+            var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
+
+            var emitting = EmittingFile(dst);
+
+            using var writer = dst.Writer();
+            StringTables.csharp(spec, writer);
+            EmittedFile(emitting,1);
+
+            return FS.flow(list.Path,dst);
+        }
+
+        Arrow<FS.FileUri> EmitStringTableData(LlvmList list, StringTable table)
+        {
+            const string BaseTargetId = "llvm.stringtables";
+            const string TargetNs = "Z0";
+            const string BaseSourceId = "llvm.lists";
+
+            var name = list.Path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
+            var id = BaseTargetId + "." + name;
+            var dst = LlvmPaths.StringTablePath(id, FS.Csv);
+            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
+
+            var emitting = EmittingFile(dst);
+
+            using var rowwriter = dst.AsciWriter();
+            rowwriter.WriteLine(formatter.FormatHeader());
+
+            for(var j=0u; j<table.EntryCount; j++)
+                rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
+
+            var flow = FS.flow(list.Path,dst);
+            EmittedFile(emitting, table.EntryCount, flow);
+            return flow;
+        }
+
+        public void GenStringTable(LlvmList list, DataList<Arrow<FS.FileUri>> flows)
+        {
+            const string BaseTargetId = "llvm.stringtables";
+            const string TargetNs = "Z0";
+            const string BaseSourceId = "llvm.lists";
+
+            var path = list.Path;
+            var name = path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
+            var id = BaseTargetId + "." + name;
+            var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
+            var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
+            var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
+            var table = StringTables.create(lines, name, Chars.Comma);
+            flows.Add(EmitStringTableData(list,table));
+            flows.Add(EmitStringTableCode(list,table));
+            // var idxname = name + "Kind";
+            // var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
+            // var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
+
+            // var csEmitting = EmittingFile(cspath);
+            // var rowEmitting = EmittingFile(csvpath);
+
+            // using var cswriter = cspath.Writer();
+            // using var rowwriter = csvpath.AsciWriter();
+            // rowwriter.WriteLine(formatter.FormatHeader());
+
+            // StringTables.csharp(spec, cswriter);
+            // for(var j=0u; j<table.EntryCount; j++)
+            //     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
+
+            // var csflow = FS.flow(path,cspath);
+            // flows.Add(csflow);
+            // var csvflow = FS.flow(path,csvpath);
+            // flows.Add(csvflow);
+
+            // EmittedFile(csEmitting, 1, csflow);
+            // EmittedFile(rowEmitting, table.EntryCount, csvflow);
+        }
+
         public ReadOnlySpan<Arrow<FS.FileUri>> GenStringTables(ReadOnlySpan<LlvmList> src)
         {
             const string BaseTargetId = "llvm.stringtables";
             const string TargetNs = "Z0";
             const string BaseSourceId = "llvm.lists";
             var result = Outcome.Success;
-            var lists = src;
             var count = src.Length;
             var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
-            var rowcount = 0u;
-            var flows = list<Arrow<FS.FileUri>>();
+            var flows = new DataList<Arrow<FS.FileUri>>();
 
             for(var i=0; i<count; i++)
             {
-                ref readonly var list = ref skip(lists,i);
-                var path = list.Path;
-                var name = path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
-                var id = BaseTargetId + "." + name;
-                var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
-                var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
-                var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
+                ref readonly var list = ref skip(src,i);
+                GenStringTable(list, flows);
+                // var path = list.Path;
+                // var name = path.FileName.WithoutExtension.Format().Replace(BaseSourceId + ".", EmptyString);
+                // var id = BaseTargetId + "." + name;
+                // var cspath = LlvmPaths.StringTablePath(id, FS.Cs);
+                // var csvpath = LlvmPaths.StringTablePath(id, FS.Csv);
+                // var lines = slice(path.ReadLines().Where(l => l.IsNotBlank()).Select(x => text.right(x,Chars.Pipe)).View,1);
 
-                var idxname = name + "Kind";
-                var table = StringTables.create(lines, name, Chars.Comma);
-                var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
+                // var idxname = name + "Kind";
+                // var table = StringTables.create(lines, name, Chars.Comma);
+                // var spec = StringTables.specify(TargetNs + "." + BaseTargetId, idxname, true, table);
 
-                var csEmitting = EmittingFile(cspath);
-                var rowEmitting = EmittingFile(csvpath);
+                // var csEmitting = EmittingFile(cspath);
+                // var rowEmitting = EmittingFile(csvpath);
 
-                using var cswriter = cspath.Writer();
-                using var rowwriter = csvpath.AsciWriter();
-                rowwriter.WriteLine(formatter.FormatHeader());
+                // using var cswriter = cspath.Writer();
+                // using var rowwriter = csvpath.AsciWriter();
+                // rowwriter.WriteLine(formatter.FormatHeader());
 
-                StringTables.csharp(spec, cswriter);
-                for(var j=0u; j<table.EntryCount; j++)
-                    rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
-                rowcount += table.EntryCount;
+                // StringTables.csharp(spec, cswriter);
+                // for(var j=0u; j<table.EntryCount; j++)
+                //     rowwriter.WriteLine(formatter.Format(StringTables.row(table, j)));
+                // rowcount += table.EntryCount;
 
-                var csflow = FS.flow(path,cspath);
-                flows.Add(csflow);
-                var csvflow = FS.flow(path,csvpath);
-                flows.Add(csvflow);
+                // var csflow = FS.flow(path,cspath);
+                // flows.Add(csflow);
+                // var csvflow = FS.flow(path,csvpath);
+                // flows.Add(csvflow);
 
-                EmittedFile(csEmitting, count, csflow);
-                EmittedFile(rowEmitting, rowcount, csvflow);
+                // EmittedFile(csEmitting, count, csflow);
+                // EmittedFile(rowEmitting, rowcount, csvflow);
             }
-            return flows.ViewDeposited();
+            return flows.View();
         }
 
         static string listid(FS.FilePath src)

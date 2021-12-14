@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using static core;
+
     public sealed class AsmIdentifiers : ConstLookup<Identifier,AsmIdentifier>
     {
         public AsmIdentifiers(AsmIdentifier[] src)
@@ -21,6 +23,9 @@ namespace Z0.llvm
             else
                 return 0xFFFF;
         }
+
+        public ItemList<ushort,text31> ToItemList()
+            => new ItemList<ushort,text31>("AsmId", MapValues(x => new ListItem<ushort,text31>(x.Id, x.InstName)));
 
         public static implicit operator AsmIdentifiers(AsmIdentifier[] src)
             => new AsmIdentifiers(src);

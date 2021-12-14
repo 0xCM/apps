@@ -40,6 +40,18 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public StringTable(StringTableSyntax syntax, string src, Index<uint> offsets, Identifier[] identifiers)
+        {
+            Namespace = syntax.Namespace;
+            Name = syntax.TableName;
+            IndexName = syntax.IndexName;
+            GlobalIndex = syntax.GlobalIndex;
+            Content = src;
+            _Offsets = offsets;
+            _Identifiers = identifiers;
+        }
+
+        [MethodImpl(Inline)]
         public ReadOnlySpan<char> Entry(int index)
             => api.chars(this, index);
 

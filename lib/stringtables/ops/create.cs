@@ -12,25 +12,26 @@ namespace Z0
 
     partial class StringTables
     {
-        public static StringTable create(ReadOnlySpan<string> lines, Identifier name, char delimiter)
+        [Op]
+        public static StringTable create(StringTableSyntax syntax, ReadOnlySpan<string> src, Identifier[] identifiers)
         {
-            var buffer = list<string>();
-            for(var i=0; i<lines.Length; i++)
-                buffer.AddRange(skip(lines,i).SplitClean(delimiter).Select(x => x.Trim()));
-            var entries = buffer.ViewDeposited();
-            var table = create(name, entries, identifiers(lines,delimiter));
-            var count = Require.equal(buffer.Count, (int)table.EntryCount);
+            var count = src.Length;
+            var offset = 0u;
+            var offsets = alloc<uint>(count);
+            var chars = alloc<char>(text.length(src));
+            ref var joined = ref first(chars);
+            ref var cuts = ref first(offsets);
+            var j = 0u;
             for(var i=0u; i<count; i++)
             {
-                var data = table[i];
-                ref readonly var s0 = ref skip(entries,i);
-                var s1 = new string(data);
-                Require.equal(s0, s1);
+                ref readonly var entry = ref skip(src,i);
+                seek(cuts,i) = j;
+                copy(entry, ref j, chars);
             }
-            return table;
+            return new StringTable(syntax, new string(chars), offsets, identifiers);
         }
 
-        public static StringTable create<K>(Symbols<K> src, Identifier name)
+        public static StringTable create<K>(StringTableSyntax syntax, Symbols<K> src)
             where K : unmanaged
         {
             var count = src.Length;
@@ -42,7 +43,25 @@ namespace Z0
                 seek(expressions,i) = sym.Expr.Format();
                 seek(identifiers,i) = sym.Name;
             }
-            return create(name, @readonly(expressions), identifiers);
+            return create(syntax, @readonly(expressions), identifiers);
+        }
+
+        public static StringTable create(ReadOnlySpan<string> src, Identifier name, char delimiter)
+        {
+            var buffer = list<string>();
+            for(var i=0; i<src.Length; i++)
+                buffer.AddRange(skip(src,i).SplitClean(delimiter).Select(x => x.Trim()));
+            var entries = buffer.ViewDeposited();
+            var table = create(name, entries, identifiers(src,delimiter));
+            var count = Require.equal(buffer.Count, (int)table.EntryCount);
+            for(var i=0u; i<count; i++)
+            {
+                var data = table[i];
+                ref readonly var s0 = ref skip(entries,i);
+                var s1 = new string(data);
+                Require.equal(s0, s1);
+            }
+            return table;
         }
 
         [Op]
@@ -65,11 +84,9 @@ namespace Z0
                 seek(cuts,i) = j;
                 copy(entry, ref j, chars);
             }
-            return new StringTable(name, "Z0", indexName, false, new string(chars), offsets, identifiers);
+            return new StringTable("Z0", name, indexName, false, new string(chars), offsets, identifiers);
         }
 
-        // public static StringTable create(Identifier name, ReadOnlySpan<ListItem<string>> src)
-        //     => create(name, "Index", src);
 
         public static StringTable create(StringTableSpec spec, ReadOnlySpan<ListItem<string>> src)
         {
@@ -81,8 +98,6 @@ namespace Z0
                 seek(strings, entry.Key) = entry.Value;
             }
 
-            var name = spec.TableName;
-            var indexName = spec.IndexName;
             var offset = 0u;
             var offsets = alloc<uint>(count);
             var chars = alloc<char>(text.length(strings));
@@ -95,7 +110,7 @@ namespace Z0
                 seek(cuts, i) = j;
                 copy(entry.Value, ref j, chars);
             }
-            return new StringTable(name, spec.Namespace, indexName, spec.GlobalIndex, new string(chars), offsets, src.Map(x => new Identifier(x.Value)).ToArray());
+            return new StringTable(spec.Syntax, new string(chars), offsets, src.Map(x => new Identifier(x.Value)).ToArray());
         }
 
         public static StringTable create(Identifier name, Identifier indexName, ReadOnlySpan<ListItem<string>> src)

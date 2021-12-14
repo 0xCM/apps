@@ -12,8 +12,6 @@ namespace Z0.llvm
 
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
-        LlvmDataImporter DataImporter => Service(Wf.LlvmDataImporter);
-
         LlvmToolset Toolset => Service(Wf.LLvmToolset);
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
@@ -27,8 +25,6 @@ namespace Z0.llvm
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
-
-        LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
 
         LlvmDistiller Distiller => Service(Wf.LlvmDistiller);
 

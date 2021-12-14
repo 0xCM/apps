@@ -24,7 +24,7 @@ namespace Z0.llvm
             });
 
             var specs = @readonly(conditions.Map(x => string.Format("{0,-16} {1}", x.EntityName, x["Fragments"])));
-            Flow(CcQuery,specs);
+            Flow(CcQuery, specs);
 
             return true;
         }

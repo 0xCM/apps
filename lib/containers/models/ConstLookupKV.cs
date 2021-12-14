@@ -57,6 +57,7 @@ namespace Z0
             _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
         }
 
+
         public ReadOnlySpan<K> Keys
         {
             [MethodImpl(Inline)]
@@ -85,8 +86,16 @@ namespace Z0
         public bool Find(K key, out V value)
             => Storage.TryGetValue(key, out value);
 
-        public static ConstLookup<K,V> Empty => new();
+        public Index<T> MapValues<T>(Func<V,T> f)
+            => _Values.Map(f);
 
+        public Index<T> MapKeys<T>(Func<K,T> f)
+            => _Keys.Map(f);
+
+        public Index<T> MapEntries<T>(Func<LookupEntry<K,V>,T> f)
+            => _Entries.Map(f);
+
+        public static ConstLookup<K,V> Empty => new();
 
         public static implicit operator ConstLookup<K,V>(Dictionary<K,V> src)
             => new ConstLookup<K,V>(src);

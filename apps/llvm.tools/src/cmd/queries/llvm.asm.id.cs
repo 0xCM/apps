@@ -12,8 +12,9 @@ namespace Z0.llvm
         [CmdOp("llvm/asm/id")]
         Outcome ListAsmIds(CmdArgs args)
         {
-            var asmids = DataProvider.SelectAsmIdentifiers();
-            iter(asmids.Entries, x => Write(x.Value.Format()));
+            var asmids = DataProvider.SelectAsmIdentifiers().ToItemList();
+            var syntax = StringTables.syntax("Z0.llvm", "AsmIdData", "AsmId", true);
+            var spec = StringTables.specify(syntax, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             return true;
         }
     }

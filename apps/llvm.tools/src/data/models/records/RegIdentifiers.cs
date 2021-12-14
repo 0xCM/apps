@@ -12,6 +12,9 @@ namespace Z0.llvm
 
         }
 
+        public ItemList<ushort,text15> ToItemList()
+            => new ItemList<ushort,text15>("RegId", MapValues(x => new ListItem<ushort,text15>(x.Id, x.Name)));
+
         public static implicit operator RegIdentifiers(RegIdentifier[] src)
             => new RegIdentifiers(src);
 

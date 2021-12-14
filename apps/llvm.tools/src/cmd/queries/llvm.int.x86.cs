@@ -8,9 +8,9 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        const string X86IntQuery = "llvm/int/x86";
+        const string X86IntrinsicsQuery = "llvm/int/x86";
 
-        [CmdOp(X86IntQuery)]
+        [CmdOp(X86IntrinsicsQuery)]
         Outcome LoadIntrinsics(CmdArgs args)
         {
             var entities = DataProvider.SelectEntities();
@@ -28,7 +28,7 @@ namespace Z0.llvm
                 }
             }
 
-            Flow(X86IntQuery, specs.ViewDeposited());
+            Flow(X86IntrinsicsQuery, specs.ViewDeposited());
 
             return true;
         }

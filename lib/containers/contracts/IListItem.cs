@@ -21,11 +21,10 @@ namespace Z0
     }
 
     public interface IListItem<K,T> : IListItem<T>
-        where K : unmanaged
     {
         new K Key {get;}
 
         uint IListItem.Key
-            => core.bw32(Key);
+            => alg.hash.calc(Key.ToString());
     }
 }

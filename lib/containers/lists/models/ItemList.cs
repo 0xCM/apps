@@ -82,6 +82,10 @@ namespace Z0
         public static implicit operator ItemList(ListItem[] src)
             => new ItemList(src);
 
+        [MethodImpl(Inline)]
+        public static implicit operator ItemList((string name, ListItem[] items) src)
+            => new ItemList(src.name, src.items);
+
         public static ItemList Empty => new ItemList(sys.empty<ListItem>());
     }
 }

@@ -9,14 +9,23 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ItemList<K,T> : IItemList<ListItem<K,T>>
-        where K : unmanaged
+    public class ItemList<K,T> : IItemList<ListItem<K,T>>
     {
         readonly Index<ListItem<K,T>> Data;
+
+        public Identifier Name {get;}
 
         [MethodImpl(Inline)]
         public ItemList(ListItem<K,T>[] src)
         {
+            Data = src;
+            Name = EmptyString;
+        }
+
+        [MethodImpl(Inline)]
+        public ItemList(Identifier name, ListItem<K,T>[] src)
+        {
+            Name = name;
             Data = src;
         }
 
@@ -71,6 +80,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator ItemList<K,T>(ListItem<K,T>[] src)
             => new ItemList<K,T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator ItemList<K,T>((string name, ListItem<K,T>[] items) src)
+            => new ItemList<K,T>(src.name, src.items);
 
         [MethodImpl(Inline)]
         public static implicit operator ListItem<K,T>[](ItemList<K,T> src)

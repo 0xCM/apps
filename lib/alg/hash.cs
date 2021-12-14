@@ -145,6 +145,10 @@ namespace Z0.alg
             => @byte(x);
 
         [MethodImpl(Inline), Op]
+        public static uint calc(string src)
+            => (uint)text.ifempty(src,EmptyString).GetHashCode();
+
+        [MethodImpl(Inline), Op]
         public static uint calc(ushort a, ushort b)
             => (uint)a | ((uint)b << 16);
 
@@ -155,10 +159,6 @@ namespace Z0.alg
         [MethodImpl(Inline), Op]
         public static uint calc(Type src)
             => (uint)src.MetadataToken;
-
-        [MethodImpl(Inline)]
-        public static uint calc(string src)
-            => (uint)(src?.GetHashCode() ?? 0);
 
         /// <summary>
         /// Calculates a combined calc for 2 unsigned 32-bit integers
