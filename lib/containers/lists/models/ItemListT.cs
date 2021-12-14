@@ -13,9 +13,19 @@ namespace Z0
     {
         readonly Index<ListItem<T>> Data;
 
+        public Identifier Name {get;}
+
         [MethodImpl(Inline)]
         public ItemList(ListItem<T>[] src)
         {
+            Name = Identifier.Empty;
+            Data = src;
+        }
+
+        [MethodImpl(Inline)]
+        public ItemList(Identifier name, ListItem<T>[] src)
+        {
+            Name = name;
             Data = src;
         }
 

@@ -9,18 +9,11 @@ namespace Z0.llvm
 
     public class LlvmProjectCollector : AppService<LlvmProjectCollector>
     {
-        llvm.LlvmNm Nm;
+        llvm.LlvmNm Nm => Service(Wf.LlvmNm);
 
-        llvm.LlvmObjDump ObjDump;
+        llvm.LlvmObjDump ObjDump => Service(Wf.LlvmObjDump);
 
-        llvm.LlvmMc Mc;
-
-        protected override void Initialized()
-        {
-            Nm = Wf.LlvmNm();
-            ObjDump = Wf.LlvmObjDump();
-            Mc = Wf.LlvmMc();
-        }
+        llvm.LlvmMc Mc => Service(Wf.LlvmMc);
 
         public void Collect()
         {

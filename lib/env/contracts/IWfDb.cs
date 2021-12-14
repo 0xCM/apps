@@ -7,7 +7,5 @@ namespace Z0
     public interface IWfDb : IEnvPaths
     {
         FS.FolderPath Root {get;}
-
-        IWfDb Relocate(FS.FolderPath root);
     }
 }

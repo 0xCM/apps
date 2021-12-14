@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public class LlvmEtlObserver
+    public class LlvmImportObserver
     {
         public virtual void EtlStarted()
         {

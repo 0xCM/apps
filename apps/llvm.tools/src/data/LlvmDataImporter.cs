@@ -9,11 +9,11 @@ namespace Z0.llvm
 
     public class LlvmDataImporter : AppService<LlvmDataImporter>
     {
-        LlvmDataProvider DataProvider;
+        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
-        LlvmDataEmitter DataEmitter;
+        LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        LlvmPaths LlvmPaths;
+        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
         public LlvmDataImporter()
         {
@@ -21,12 +21,10 @@ namespace Z0.llvm
 
         protected override void Initialized()
         {
-            LlvmPaths = Wf.LlvmPaths();
-            DataProvider = Wf.LlvmDataProvider();
-            DataEmitter = Wf.LlvmDataEmitter();
+
         }
 
-        public void Run(LlvmEtlObserver observer)
+        public void Run(LlvmImportObserver observer)
         {
             run(() => observer.EtlStarted());
 
@@ -103,7 +101,7 @@ namespace Z0.llvm
 
         public void Run()
         {
-            var observer = new LlvmEtlObserver();
+            var observer = new LlvmImportObserver();
             Run(observer);
         }
    }

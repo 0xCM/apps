@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
         [CmdOp("llvm/codegen")]
         Outcome GenCode(CmdArgs args)

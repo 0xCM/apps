@@ -23,11 +23,5 @@ namespace Z0
         {
             Root = Env.Db;
         }
-
-        public IWfDb Relocate(FS.FolderPath root)
-        {
-            Root = root;
-            return this;
-        }
     }
 }

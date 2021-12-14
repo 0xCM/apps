@@ -5,8 +5,6 @@
 namespace Z0.llvm
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
 
     using static core;
     using static Root;

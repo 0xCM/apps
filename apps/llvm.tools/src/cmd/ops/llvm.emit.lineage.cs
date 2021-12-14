@@ -11,15 +11,16 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("members")]
-        Outcome DefLineage(CmdArgs args)
+        [CmdOp("llvm/classes/subtypes")]
+        Outcome Subtypes(CmdArgs args)
         {
             var result = Outcome.Success;
             var defs = DataProvider.SelectDefRelations();
-            var classes = LlvmRelations.equivalance(DataProvider.SelectClassRelations());
+            //var classes = LlvmRelations.equivalance(DataProvider.SelectClassRelations());
             var cname = arg(args,0).Value;
-            var @class = classes.Where(c => c.MemberName == cname);
+            //var @class = classes.Where(c => c.MemberName == cname);
             var counter = 0u;
+            var items = list<ListItem<Identifier>>();
             foreach(var def in defs)
             {
                 var ancestors = def.Ancestors;
@@ -27,8 +28,7 @@ namespace Z0.llvm
                 {
                     if(ancestors.Name == cname)
                     {
-                        var literal = string.Format("{0}={1},", def.Name, counter++);
-                        Write(literal);
+                        items.Add((counter++,def.Name));
                         continue;
                     }
                     else
@@ -37,14 +37,15 @@ namespace Z0.llvm
                         {
                             if(a == cname)
                             {
-                                var literal = string.Format("{0}={1},", def.Name, counter++);
-                                Write(literal);
+                                items.Add((counter++, def.Name));
                                 continue;
                             }
                         }
                     }
                 }
             }
+
+            iter(items, item => Write(item.Format()));
 
             return result;
         }

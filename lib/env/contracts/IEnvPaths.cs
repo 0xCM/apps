@@ -14,14 +14,8 @@ namespace Z0
         FS.FolderName PartFolder(PartId part)
             => FS.folder(part.Format());
 
-        FS.FolderPath Codebase(PartId part)
-            => Env.ZDev + FS.folder("src") + PartFolder(part);
-
         FS.FilePath ControlScript(FS.FileName src)
             => ControlScripts() + src;
-
-        FS.FolderName SubjectFolder<S>(S src)
-            => FS.folder(src.ToString().ToLowerInvariant());
 
         string AppName
             => Assembly.GetEntryAssembly().GetSimpleName();

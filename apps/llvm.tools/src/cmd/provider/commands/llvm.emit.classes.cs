@@ -14,7 +14,7 @@ namespace Z0.llvm
             var emitting = EmittingFile(dst);
 
             using var writer = dst.AsciWriter();
-            EmittedFile(emitting,DataEmitter.EmitClassInfo(writer));
+            EmittedFile(emitting,DataEmitter.EmitClassMap(writer));
             return result;
         }
     }

@@ -11,17 +11,15 @@ namespace Z0.llvm
 
     public class LlvmCodeGen : AppService<LlvmCodeGen>
     {
-        LlvmPaths LlvmPaths;
+        LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        LlvmDataProvider TableLoader;
+        LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
-        Generators Generators;
+        Generators Generators => Service(Wf.Generators);
 
         protected override void Initialized()
         {
-            LlvmPaths = Wf.LlvmPaths();
-            TableLoader = LlvmDataProvider.create(Wf);
-            Generators = Wf.Generators();
+
         }
 
         public void Run()
@@ -33,7 +31,7 @@ namespace Z0.llvm
 
         void GenLiteralProviders()
         {
-            var src = TableLoader.SelectAsmMnemonicNames();
+            var src = DataProvider.SelectAsmMnemonicNames();
             var name = "AsmMnemonicNames";
             var literals = expr.literals(src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
@@ -43,7 +41,7 @@ namespace Z0.llvm
 
         public Arrow<FS.FileUri> GenStringTable(string listid)
         {
-            var list = new LlvmList[]{TableLoader.SelectList(listid)};
+            var list = new LlvmList[]{DataProvider.SelectList(listid)};
             var result = GenStringTables(@readonly(list));
             return first(result);
         }

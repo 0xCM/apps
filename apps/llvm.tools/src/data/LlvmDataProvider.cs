@@ -40,9 +40,6 @@ namespace Z0.llvm
             get => State.Toolset;
         }
 
-        public bool Inject<T>(Index<T> src, string name)
-            => DataSets.TryAdd(name,src);
-
         protected override LlvmDataProvider Init(out DataProviderState state)
         {
             state.LlvmPaths = Wf.LlvmPaths();
