@@ -8,8 +8,6 @@ namespace Z0.llvm
 
     using static core;
 
-    using F = llvm.RecordField;
-
     partial class LlvmDataEmitter
     {
         public void EmitFields(ReadOnlySpan<RecordField> src, string dstid)
@@ -18,16 +16,7 @@ namespace Z0.llvm
             var parts = partition(fields);
             var count = fields.Length;
             var dst = LlvmPaths.Table(dstid);
-            var emitting = EmittingTable<RecordField>(dst);
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(F.RowHeader);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,i);
-                writer.WriteLine(string.Format(F.RowFormat, field.RecordName, field.DataType, field.Name, field.Value));
-            }
-
-            EmittedTable(emitting, count);
+            TableEmit(src, RecordField.RenderWidths, TextEncodingKind.Asci, dst);
         }
 
         static ReadOnlySpan<RecordFields> partition(ReadOnlySpan<RecordField> src)

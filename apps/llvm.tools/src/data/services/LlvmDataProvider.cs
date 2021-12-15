@@ -22,6 +22,8 @@ namespace Z0.llvm
             public LlvmToolset Toolset;
 
             public LlvmTableLoader TableLoader;
+
+            public LlvmDataCalcs DataCalcs;
         }
 
         LlvmPaths LlvmPaths
@@ -34,6 +36,12 @@ namespace Z0.llvm
         {
             [MethodImpl(Inline)]
             get => State.TableLoader;
+        }
+
+        LlvmDataCalcs DataCalcs
+        {
+            [MethodImpl(Inline)]
+            get => State.DataCalcs;
         }
 
         ConcurrentDictionary<string,object> DataSets
@@ -54,6 +62,7 @@ namespace Z0.llvm
             state.DataSets = new();
             state.Toolset = Wf.LLvmToolset();
             state.TableLoader = Wf.LlvmTableLoader();
+            state.DataCalcs = Wf.LlvmDataCalcs();
             return this;
         }
     }

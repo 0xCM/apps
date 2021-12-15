@@ -14,11 +14,11 @@ namespace Z0.llvm
         {
         }
 
-        public virtual void AsmIdDefsEmitted(LlvmList src)
+        public virtual void AsmIdDefsEmitted(AsmIdentifiers src)
         {
         }
 
-        public virtual void RegIdDefsEmitted(LlvmList src)
+        public virtual void RegIdDefsEmitted(RegIdentifiers src)
         {
         }
 

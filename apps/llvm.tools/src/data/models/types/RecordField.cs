@@ -6,6 +6,7 @@ namespace Z0.llvm
 {
     using System;
     using System.Runtime.InteropServices;
+    using System.Runtime.CompilerServices;
 
     using static Root;
 
@@ -15,11 +16,6 @@ namespace Z0.llvm
         public const string TableId = "llvm.fields";
 
         public const byte FieldCount = 4;
-
-        public const string RowFormat = "{0,-64} | {1,-32} | {2,-32} | {3}";
-
-        public static string RowHeader
-            => string.Format(RowFormat, nameof(RecordName), nameof(DataType), nameof(Name), nameof(Value));
 
         /// <summary>
         /// The name of the declaring record
@@ -40,17 +36,9 @@ namespace Z0.llvm
             Value = value;
         }
 
-        public string Format()
-            => string.Format("{0}.{1}:{2} = {3}", RecordName, Name, DataType, Value);
-
-        public override string ToString()
-            => Format();
-
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{64,32,32,3};
 
         public static RecordField Empty => new RecordField(Identifier.Empty, EmptyString, EmptyString, EmptyString);
-
-        public bool IsNonEmpty => text.nonempty(Name) && text.nonempty(Value);
     }
 }

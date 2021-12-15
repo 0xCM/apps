@@ -7,7 +7,6 @@ namespace Z0.llvm
     using System;
 
     using static core;
-    using static Root;
 
     public class LlvmCodeGen : AppService<LlvmCodeGen>
     {
@@ -42,13 +41,12 @@ namespace Z0.llvm
 
         public void EmitStringTable(LlvmList list)
         {
-            var path = list.Path;
-            var name = list.Name;
+            var path = LlvmPaths.ListImportPath(list.Name);
             EmitStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList());
         }
 
         public void EmitStringTables()
-            => EmitStringTables(DataProvider.SelectLists().Where(x => x.ListId != "vcodes"));
+            => EmitStringTables(DataProvider.SelectLists().Where(x => x.Name != "vcodes"));
 
         public void EmitStringTables(ReadOnlySpan<LlvmList> src)
         {

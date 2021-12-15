@@ -4,18 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.IO;
-
     partial class LlvmDataEmitter
     {
-        public uint EmitDefMap(StreamWriter dst)
+        public FS.FilePath EmitList(LlvmList src)
         {
-            var map = DataProvider.SelectX86DefMap();
-            var count = map.IntervalCount;
-            for(var i=0; i<count; i++)
-                dst.WriteLine(map[i].Format());
-            return count;
+            var dst = LlvmPaths.ListImportPath(src.Name);
+            EmitList(src,dst);
+            return dst;
         }
+
+        public void EmitList(LlvmList src, FS.FilePath dst)
+            => TableEmit(src.Items, dst);
     }
 }

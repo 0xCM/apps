@@ -14,13 +14,20 @@ namespace Z0.llvm
     {
         readonly Index<LlvmListItem> Data;
 
-        public FS.FilePath Path {get;}
+        public Identifier Name {get;}
 
         [MethodImpl(Inline)]
         public LlvmList(FS.FilePath path, LlvmListItem[] items)
         {
-            Path = path;
             Data = items;
+            Name = path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
+        }
+
+        [MethodImpl(Inline)]
+        public LlvmList(string name, LlvmListItem[] items)
+        {
+            Data = items;
+            Name = name;
         }
 
         public bool IsEmpty
@@ -33,11 +40,6 @@ namespace Z0.llvm
         {
             [MethodImpl(Inline)]
             get => Data.IsNonEmpty;
-        }
-
-        public string ListId
-        {
-            get => Path.FileName.WithoutExtension.Format();
         }
 
         public uint ItemCount
@@ -78,10 +80,10 @@ namespace Z0.llvm
             return dst;
         }
 
-        public string Name
-        {
-            get => Path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
-        }
+        // public string Name
+        // {
+        //     get => Path.FileName.WithoutExtension.Format().Remove("llvm.lists.");
+        // }
 
         public ItemList<string> ToItemList()
         {
@@ -101,6 +103,10 @@ namespace Z0.llvm
         [MethodImpl(Inline)]
         public static implicit operator LlvmList((FS.FilePath path, LlvmListItem[] items) src)
             => new LlvmList(src.path, src.items);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LlvmList((string name, LlvmListItem[] items) src)
+            => new LlvmList(src.name, src.items);
 
         public static LlvmList Empty => new LlvmList(FS.FilePath.Empty, sys.empty<LlvmListItem>());
     }

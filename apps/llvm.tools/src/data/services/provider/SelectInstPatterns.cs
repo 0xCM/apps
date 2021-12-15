@@ -10,11 +10,6 @@ namespace Z0.llvm
 
     partial class LlvmDataProvider
     {
-        public Index<LlvmInstDef> SelectInstDefs()
-        {
-            return (Index<LlvmInstDef>)DataSets.GetOrAdd(nameof(SelectInstDefs), key => TableLoader.LoadInstDefs());
-        }
-
         public Index<LlvmInstPattern> SelectInstPatterns()
         {
             return (Index<LlvmInstPattern>)DataSets.GetOrAdd(nameof(SelectInstPatterns), key => Load());

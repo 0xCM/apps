@@ -9,10 +9,13 @@ namespace Z0.llvm
         const string EmitFieldTypesCmd = "llvm/emit/fields/types";
 
         [CmdOp(EmitFieldTypesCmd)]
-        Outcome EmitDefFieldTypes(CmdArgs args)
+        Outcome EmitFieldTypes(CmdArgs args)
         {
-            DataEmitter.EmitQueryResults(EmitFieldTypesCmd,
+            DataEmitter.EmitQueryResults("llvm/def/fields/types",
                     DataProvider.SelectDistinctFieldTypes(DataProvider.SelectDefFields()).View);
+
+            DataEmitter.EmitQueryResults("llvm/classes/fields/types",
+                    DataProvider.SelectDistinctFieldTypes(DataProvider.SelectClassFields()).View);
             return true;
         }
     }

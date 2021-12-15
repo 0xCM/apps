@@ -7,7 +7,6 @@ namespace Z0.llvm
     using System;
 
     using static core;
-    using static Root;
     using static LlvmNames;
 
     public class LlvmDataImporter : AppService<LlvmDataImporter>
@@ -34,11 +33,11 @@ namespace Z0.llvm
             var help = ImportToolHelp();
             run(() => observer.ToolHelpEmitted(help));
 
-            var asmId = DataEmitter.EmitAsmIdentifiers();
-            run(() => observer.AsmIdDefsEmitted(asmId));
+            var asmids = DataEmitter.EmitAsmIdentifiers();
+            run(() => observer.AsmIdDefsEmitted(asmids));
 
-            var regId = DataEmitter.EmitRegIdentifiers();
-            run(() => observer.RegIdDefsEmitted(regId));
+            var regids = DataEmitter.EmitRegIdentifiers();
+            run(() => observer.RegIdDefsEmitted(regids));
 
             var records = DataProvider.SelectSourceRecords(Datasets.X86);
             run(() => observer.SourceRecordsSelected(records));
@@ -69,13 +68,14 @@ namespace Z0.llvm
             var lists = DataEmitter.EmitLists(entities);
             run(() => observer.ListsEmitted(lists));
 
-            var childRelations = DataEmitter.EmitChildRelations();
+            var childRelations = DataEmitter.EmitChildRelations(entities);
             run(() => observer.ChildRelationsEmitted(childRelations));
 
             var variations = DataEmitter.EmitAsmVariations();
             run(() => observer.AsmVariationsEmitted(variations));
 
-            var instdefs = DataEmitter.EmitInstDefs();
+            var instdefs = DataProvider.SelectInstDefs(asmids, entities);
+            DataEmitter.Emit(instdefs.View);
             run(() => observer.InstDefsEmitted(instdefs));
 
             var instpattterns = DataEmitter.EmitInstPatterns();

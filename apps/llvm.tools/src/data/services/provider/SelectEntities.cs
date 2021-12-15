@@ -5,6 +5,7 @@
 namespace Z0.llvm
 {
     using System;
+
     using static core;
     using static Root;
 
@@ -12,6 +13,11 @@ namespace Z0.llvm
     {
         public Index<LlvmEntity> SelectEntities(Func<LlvmEntity,bool> predicate)
             => SelectEntities().Where(predicate);
+
+        public Index<LlvmEntity> SelectEntities(Index<DefRelations> relations, Index<RecordField> fields)
+        {
+            return (Index<LlvmEntity>)DataSets.GetOrAdd("Entities", key => DataCalcs.CalcEntities(relations, fields));
+        }
 
         public Index<LlvmEntity> SelectEntities()
         {

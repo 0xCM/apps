@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmdProvider
+    public partial class LlvmDataCalcs : AppService<LlvmDataCalcs>
     {
-        [CmdOp("llvm/emit/lists")]
-        Outcome EmitLists(CmdArgs args)
-        {
-            DataEmitter.EmitLists(DataProvider.SelectEntities());
-            return true;
-        }
+
     }
 }

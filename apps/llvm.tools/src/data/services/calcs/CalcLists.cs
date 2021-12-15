@@ -8,13 +8,13 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmDataProvider
+    partial class LlvmDataCalcs
     {
-        public ReadOnlySpan<TextLine> SelectDefLines(Identifier name)
+        public Index<LlvmList> CalcLists(Index<LlvmEntity> src, ReadOnlySpan<string> classes)
         {
-            if(SelectDefLookup().Mapped(name, out var interval))
-                return SelectX86RecordLines(interval);
-            return default;
+            var emitted = bag<LlvmList>();
+            iter(classes, c => emitted.Add(CalcList(src,c)), true);
+            return emitted.ToArray();
         }
     }
 }

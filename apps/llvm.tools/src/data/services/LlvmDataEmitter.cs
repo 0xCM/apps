@@ -9,5 +9,7 @@ namespace Z0.llvm
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
+
+        LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
     }
 }

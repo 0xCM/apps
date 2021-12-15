@@ -10,14 +10,16 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct @string : IString<string>, IComparable<@string>, IEquatable<@string>
+    using T = @string;
+
+    public readonly struct @string : IString<string>, IComparable<T>, IEquatable<T>
     {
         readonly string Data;
 
         [MethodImpl(Inline)]
         public @string(string src)
         {
-            Data = src;
+            Data = src ?? EmptyString;
         }
 
         public string Value
@@ -51,37 +53,53 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public bool Equals(@string src)
+        public bool Equals(T src)
             => Value.Equals(src.Value);
 
         [MethodImpl(Inline)]
-        public int CompareTo(@string src)
+        public int CompareTo(T src)
             => Value.CompareTo(src.Value);
 
         public override int GetHashCode()
             => Value.GetHashCode();
 
         public override bool Equals(object src)
-            => src is @string x && Equals(x);
+            => src is T x && Equals(x);
 
-        public static @string Empty
+        public static T Empty
         {
             [MethodImpl(Inline)]
-            get => new @string(EmptyString);
+            get => new T(EmptyString);
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator @string(string src)
-            => new @string(src);
+        public static implicit operator T(string src)
+            => new T(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator string(@string src)
+        public static implicit operator string(T src)
             => src.Value;
 
-        public static bool operator ==(@string a, @string b)
+        public static bool operator ==(T a, T b)
             => a.Equals(b);
 
-        public static bool operator !=(@string a, @string b)
+        public static bool operator !=(T a, T b)
             => !a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator <(T a, T b)
+            => a.CompareTo(b) < 0;
+
+        [MethodImpl(Inline)]
+        public static bool operator >(T a, T b)
+            => a.CompareTo(b) > 0;
+
+        [MethodImpl(Inline)]
+        public static bool operator <=(T a, T b)
+            => a.CompareTo(b) <= 0;
+
+        [MethodImpl(Inline)]
+        public static bool operator >=(T a, T b)
+            => a.CompareTo(b) >= 0;
     }
 }

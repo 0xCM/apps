@@ -11,7 +11,6 @@ namespace Z0.llvm
         public Index<RecordField> LoadFields(string dsid)
         {
             var running = Running("Loading " + dsid);
-
             var src = LlvmPaths.Table(dsid);
             var count = FS.linecount(src);
             var result = Outcome.Success;
