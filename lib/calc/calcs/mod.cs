@@ -20,6 +20,6 @@ namespace Z0
         [MethodImpl(Inline), Mod, Closures(Closure)]
         public static Span<T> mod<T>(ReadOnlySpan<T> l, ReadOnlySpan<T> r, Span<T> dst)
             where T : unmanaged
-                => gcalc.apply(Calcs.mod<T>(), l, r, dst);
+                => gcalc.apply(mod<T>(), l, r, dst);
     }
 }

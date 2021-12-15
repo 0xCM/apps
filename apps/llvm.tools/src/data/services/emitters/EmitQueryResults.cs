@@ -13,16 +13,16 @@ namespace Z0.llvm
         public uint EmitQueryResults<T>(string query, ReadOnlySpan<T> results)
             => EmitQueryResults(query, string.Empty, results);
 
-        public uint EmitQueryResults<T>(string query, string args, ReadOnlySpan<T> results)
+        public uint EmitQueryResults<T>(string query, string args, ReadOnlySpan<T> src)
         {
-            var count = (uint)results.Length;
+            var count = (uint)src.Length;
             var discriminator = text.empty(args) ? string.Empty : "-" + args;
             var file = FS.file(text.replace(query, Chars.FSlash, Chars.Dot) + discriminator,FS.Txt);
             var dst = LlvmPaths.QueryResult(file);
             var emitting = EmittingFile(dst);
             using var writer = dst.Utf8Writer();
             for(var i=0; i<count; i++)
-                writer.WriteLine(string.Format("{0,-6} {1}",i, skip(results,i)));
+                writer.WriteLine(skip(src,i));
             EmittedFile(emitting,count);
             return count;
         }

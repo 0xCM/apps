@@ -16,6 +16,5 @@ namespace Z0
         public ScalarBits<T> add<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
                 => bvadd<T>().Invoke(x,y);
-
     }
 }

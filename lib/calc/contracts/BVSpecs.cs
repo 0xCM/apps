@@ -41,5 +41,4 @@ namespace Z0
     {
         bit Invoke(T a, T b);
     }
-
 }

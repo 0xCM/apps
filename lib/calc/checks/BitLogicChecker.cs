@@ -125,7 +125,6 @@ namespace Z0
                 Check256x32i(lhs, rhs, K.and());
                 Check256x64u(lhs, rhs, K.and());
                 Check256x64i(lhs, rhs, K.and());
-
                 Check256x8u(lhs, rhs, K.or());
                 Check256x8i(lhs, rhs, K.or());
                 Check256x16u(lhs, rhs, K.or());

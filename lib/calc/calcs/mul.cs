@@ -21,6 +21,6 @@ namespace Z0
         [MethodImpl(Inline), Factory(Mul), Closures(Closure)]
         public static Span<T> mul<T>(ReadOnlySpan<T> l, ReadOnlySpan<T> r, Span<T> dst)
             where T : unmanaged
-                => gcalc.apply(Calcs.mul<T>(), l, r, dst);
+                => gcalc.apply(mul<T>(), l, r, dst);
     }
 }

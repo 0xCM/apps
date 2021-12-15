@@ -11,6 +11,12 @@ namespace Z0
 
     public class EnumGen : CodeGenerator
     {
+        public Outcome Emit<T>(uint offset, LiteralSeq<T> literals, ITextBuffer dst)
+            => Emit(offset, literals.Name, string.Empty, literals.View, dst);
+
+        public Outcome Emit<T>(uint offset, Identifier name, ReadOnlySpan<Literal<T>> literals, ITextBuffer dst)
+            => Emit(offset, name, string.Empty, literals, dst);
+
         public Outcome Emit<T>(uint offset, Identifier name, string symsource, ReadOnlySpan<Literal<T>> literals, ITextBuffer dst)
         {
             var counter = 0ul;
@@ -40,7 +46,7 @@ namespace Z0
             return default;
         }
 
-        public Outcome Generate(uint offset, SymSet spec, ITextBuffer dst)
+        public void Generate(uint offset, SymSet spec, ITextBuffer dst)
         {
             var counter = 0ul;
             var indent = offset;
@@ -103,8 +109,6 @@ namespace Z0
             }
             indent -= 4;
             dst.IndentLine(indent,"}");
-
-            return true;
         }
     }
 }

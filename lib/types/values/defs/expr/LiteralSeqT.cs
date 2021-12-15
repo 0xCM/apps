@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct LiteralSeq<T>
+    public readonly struct LiteralSeq<T> : IIndex<Literal<T>>
     {
         Index<Literal<T>> _Terms {get;}
 
@@ -34,10 +34,21 @@ namespace Z0
             get => _Terms.Length;
         }
 
-        public Span<Literal<T>> Terms
+        public ReadOnlySpan<Literal<T>> View
         {
             [MethodImpl(Inline)]
             get => _Terms.Edit;
+        }
+
+        public Span<Literal<T>> Edit
+        {
+            [MethodImpl(Inline)]
+            get => _Terms.Edit;
+        }
+
+        public Literal<T>[] Storage
+        {
+            get => _Terms;
         }
 
         public ref Literal<T> this[ulong index]

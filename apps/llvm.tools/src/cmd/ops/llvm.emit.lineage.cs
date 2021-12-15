@@ -11,14 +11,14 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp("llvm/classes/subtypes")]
+        const string ClassSubtypeQuery = "llvm/classes/subtypes";
+
+        [CmdOp(ClassSubtypeQuery)]
         Outcome Subtypes(CmdArgs args)
         {
             var result = Outcome.Success;
             var defs = DataProvider.SelectDefRelations();
-            //var classes = LlvmRelations.equivalance(DataProvider.SelectClassRelations());
             var cname = arg(args,0).Value;
-            //var @class = classes.Where(c => c.MemberName == cname);
             var counter = 0u;
             var items = list<ListItem<Identifier>>();
             foreach(var def in defs)
@@ -45,7 +45,7 @@ namespace Z0.llvm
                 }
             }
 
-            iter(items, item => Write(item.Format()));
+            DataEmitter.EmitQueryResults(ClassSubtypeQuery, cname, items.ViewDeposited());
 
             return result;
         }
