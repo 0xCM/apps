@@ -13,10 +13,13 @@ namespace Z0
     {
         public ulong Value {get;}
 
+        public NumericBaseKind Base {get;}
+
         [MethodImpl(Inline)]
-        public SymVal(ulong value)
+        public SymVal(ulong value, NumericBaseKind @base = NumericBaseKind.Base10)
         {
             Value = value;
+            Base = @base;
         }
 
         [MethodImpl(Inline)]
@@ -24,7 +27,7 @@ namespace Z0
             => Value.Equals(src.Value);
 
         public string Format()
-            => Value.ToString();
+            => NumericFormats.format(Value, Base, null, true);
 
         public override string ToString()
             => Format();
@@ -40,8 +43,16 @@ namespace Z0
             => new SymVal(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator SymVal((ulong src, NumericBaseKind nbk) x)
+            => new SymVal(x.src, x.nbk);
+
+        [MethodImpl(Inline)]
         public static implicit operator SymVal(long src)
             => new SymVal((ulong)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator SymVal((long src, NumericBaseKind nbk) x)
+            => new SymVal((ulong)x.src, x.nbk);
 
         [MethodImpl(Inline)]
         public static implicit operator ulong(SymVal src)

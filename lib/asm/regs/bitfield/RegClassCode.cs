@@ -5,11 +5,12 @@
 namespace Z0.Asm
 {
     using static DataWidth;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Defines an equivalence class that partitions the set of x86-64 registers
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum RegClassCode : byte
     {
         /// <summary>

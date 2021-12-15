@@ -6,7 +6,9 @@ namespace Z0
 {
     using System;
 
-    [SymSource("api.kinds"), Flags]
+    using NBK = NumericBaseKind;
+
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum ParamDirection : byte
     {
         None = 0,

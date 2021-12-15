@@ -6,12 +6,14 @@ namespace Z0
 {
     using System;
 
+    using NBK = NumericBaseKind;
+
     using p = Pow2x8;
 
     /// <summary>
     /// Classifies operations according to their immediate needs
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum ImmFunctionKind : byte
     {
         /// <summary>

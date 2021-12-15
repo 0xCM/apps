@@ -10,16 +10,16 @@ namespace Z0.llvm
 
     using static Root;
 
-    public readonly struct RecordFields
+    public readonly struct EntityFieldSet : IIndex<RecordField>
     {
-        public Identifier Id {get;}
+        public Identifier EntityName {get;}
 
         readonly Index<RecordField> Data;
 
         [MethodImpl(Inline)]
-        public RecordFields(Identifier id, RecordField[] src)
+        public EntityFieldSet(Identifier name, RecordField[] src)
         {
-            Id = id;
+            EntityName = name;
             Data = src;
         }
 
@@ -27,6 +27,11 @@ namespace Z0.llvm
         {
             [MethodImpl(Inline)]
             get => Data.View;
+        }
+
+        public RecordField[] Storage
+        {
+            get => Data;
         }
     }
 }

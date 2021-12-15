@@ -8,11 +8,12 @@ namespace Z0.Asm
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Classifies the accessible control registers
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum ControlRegKind : ushort
     {
         CR0 = r0 | CR << ClassField | W64 << WidthField,

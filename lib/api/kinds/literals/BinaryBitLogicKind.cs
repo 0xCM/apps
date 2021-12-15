@@ -6,10 +6,12 @@ namespace Z0
 {
     using static BinaryBitLogicNames;
 
+    using NBK = NumericBaseKind;
+
     /// <summary>
     /// Classifies binary boolean and bitwise logical operations
     /// </summary>
-    [SymSource("api.kinds")]
+    [SymSource("api.kinds", NBK.Base16)]
     public enum BinaryBitLogicKind : ushort
     {
         /// <summary>

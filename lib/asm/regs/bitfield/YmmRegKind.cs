@@ -8,11 +8,12 @@ namespace Z0.Asm
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Defines <see cref='YMM'/> register classifiers
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum YmmRegKind : ushort
     {
         YMM0 = r0 | YMM << ClassField | W256 << WidthField,

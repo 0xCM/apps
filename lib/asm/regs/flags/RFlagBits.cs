@@ -7,11 +7,12 @@ namespace Z0.Asm
     using System;
 
     using static Pow2x32;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Defines literals corresponding the bits in the RFLAGS register
     /// </summary>
-    [Flags, SymSource("asm.regs.flags")]
+    [Flags, SymSource("asm.regs.flags", Base16)]
     public enum RFlagBits : ulong
     {
         CF = P2ᐞ00,

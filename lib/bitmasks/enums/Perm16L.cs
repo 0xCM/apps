@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
+    using NBK = NumericBaseKind;
+
     /// <summary>
     /// Defines canonical literals for representing terms of permutations on 16 symbols
     /// </summary>

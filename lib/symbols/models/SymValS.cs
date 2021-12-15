@@ -20,9 +20,14 @@ namespace Z0
         /// </summary>
         public S Value {get;}
 
+        public NumericBaseKind Base {get;}
+
         [MethodImpl(Inline)]
-        public SymVal(S src)
-            => Value = src;
+        public SymVal(S src, NumericBaseKind @base = NumericBaseKind.Base10)
+        {
+            Value = src;
+            Base = @base;
+        }
 
         public Identifier Name
         {
@@ -58,6 +63,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator SymVal<S>(S src)
             => new SymVal<S>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator SymVal<S>((S src, NumericBaseKind nbk) x)
+            => new SymVal<S>(x.src, x.nbk);
 
         public static SymVal<S> Empty
             => default;

@@ -58,7 +58,7 @@ namespace Z0
             => Convert.ToString(src, 8);
 
         [MethodImpl(Inline), Op]
-        public static string Format(byte src, Base10 @base, int? digits = null)
+        public static string format(byte src, Base10 @base, int? digits = null)
             => src.ToString();
 
         [MethodImpl(Inline), Op]
@@ -70,7 +70,7 @@ namespace Z0
             => BitRender.gformat(src, digits);
 
         [MethodImpl(Inline), Op]
-        public static string Format(short src, Base8 @base, int? digits = null)
+        public static string format(short src, Base8 @base, int? digits = null)
             => Convert.ToString(src,8);
 
         [MethodImpl(Inline), Op]
@@ -86,19 +86,19 @@ namespace Z0
             => BitRender.gformat(src,digits);
 
         [MethodImpl(Inline), Op]
-        public static string Format(ushort src, Base8 @base, int? digits = null)
+        public static string format(ushort src, Base8 @base, int? digits = null)
             => Convert.ToString(src,8);
 
         [MethodImpl(Inline), Op]
-        public static string Format(ushort src, Base10 @base, int? digits = null)
+        public static string format(ushort src, Base10 @base, int? digits = null)
             => src.ToString();
 
         [MethodImpl(Inline), Op]
-        public static string Format(ushort src, Base16 @base, int? digits = null)
+        public static string format(ushort src, Base16 @base, int? digits = null)
             => src.FormatHex(false, false);
 
         [MethodImpl(Inline), Op]
-        public static string Format(int src, Base2 @base, int? digits = null)
+        public static string format(int src, Base2 @base, int? digits = null)
             => BitRender.gformat(src,digits);
 
         [MethodImpl(Inline), Op]
@@ -114,11 +114,11 @@ namespace Z0
             => src.FormatHex(false, false);
 
         [MethodImpl(Inline), Op]
-        public static string Format(uint src, Base2 @base, int? digits = null)
+        public static string format(uint src, Base2 @base, int? digits = null)
             => BitRender.gformat(src,digits);
 
         [MethodImpl(Inline), Op]
-        public static string Format(uint src, Base8 @base, int? digits = null)
+        public static string format(uint src, Base8 @base, int? digits = null)
             => Convert.ToString(src,8);
 
         [MethodImpl(Inline), Op]
@@ -146,20 +146,36 @@ namespace Z0
             => src.FormatHex(false, false);
 
         [MethodImpl(Inline), Op]
-        public static string Format(ulong src, Base2 @base, int? digits = null)
+        public static string format(ulong src, Base2 @base, int? digits = null)
             => BitRender.gformat(src, digits);
 
         [MethodImpl(Inline), Op]
-        public static string Format(ulong src, Base8 @base, int? digits = null)
+        public static string format(ulong src, Base8 @base, int? digits = null)
             => Convert.ToString((long)src,8);
 
         [MethodImpl(Inline), Op]
-        public static string Format(ulong src, Base10 @base, int? digits = null)
+        public static string format(ulong src, Base10 @base, int? digits = null)
             => src.ToString();
 
         [MethodImpl(Inline), Op]
-        public static string Format(ulong src, Base16 @base, int? digits = null)
+        public static string format(ulong src, Base16 @base, int? digits = null)
             => src.FormatHex(false, false);
+
+        [MethodImpl(Inline), Op]
+        public static string format(ulong src, Base2 @base, int? digits, bool specifier)
+            => (specifier ? "0b" : EmptyString) + BitRender.gformat(src, digits);
+
+        [MethodImpl(Inline), Op]
+        public static string format(ulong src, Base8 @base, int? digits, bool specifier)
+            => Convert.ToString((long)src,8);
+
+        [MethodImpl(Inline), Op]
+        public static string format(ulong src, Base10 @base, int? digits, bool specifier)
+            => src.ToString();
+
+        [MethodImpl(Inline), Op]
+        public static string format(ulong src, Base16 @base, int? digits, bool specifier)
+            => src.FormatHex(false, specifier, prespec: specifier);
 
         [MethodImpl(Inline), Op]
         public static string format(sbyte src, NumericBaseKind @base, int? digits = null)
@@ -171,7 +187,16 @@ namespace Z0
             };
 
         [MethodImpl(Inline), Op]
-        public static string Format(byte src, NumericBaseKind @base, int? digits = null)
+        public static string format(byte src, NumericBaseKind @base, int? digits = null)
+           => @base switch{
+               NumericBaseKind.Base2 => format(src, base2, digits),
+               NumericBaseKind.Base8 => format(src, base8, digits),
+               NumericBaseKind.Base16 => Format(src, base16, digits),
+                _ => format(src, base10, digits),
+            };
+
+        [MethodImpl(Inline), Op]
+        public static string format(short src, NumericBaseKind @base, int? digits = null)
            => @base switch{
                NumericBaseKind.Base2 => format(src, base2, digits),
                NumericBaseKind.Base8 => format(src, base8, digits),
@@ -180,27 +205,18 @@ namespace Z0
             };
 
         [MethodImpl(Inline), Op]
-        public static string Format(short src, NumericBaseKind @base, int? digits = null)
+        public static string format(ushort src, NumericBaseKind @base, int? digits = null)
            => @base switch{
                NumericBaseKind.Base2 => format(src, base2, digits),
-               NumericBaseKind.Base8 => Format(src, base8, digits),
-               NumericBaseKind.Base16 => Format(src, base16, digits),
-                _ => Format(src, base10, digits),
-            };
-
-        [MethodImpl(Inline), Op]
-        public static string Format(ushort src, NumericBaseKind @base, int? digits = null)
-           => @base switch{
-               NumericBaseKind.Base2 => format(src, base2, digits),
-               NumericBaseKind.Base8 => Format(src, base8, digits),
-               NumericBaseKind.Base16 => Format(src, base16, digits),
-                _ => Format(src, base10, digits),
+               NumericBaseKind.Base8 => format(src, base8, digits),
+               NumericBaseKind.Base16 => format(src, base16, digits),
+                _ => format(src, base10, digits),
             };
 
         [MethodImpl(Inline), Op]
         public static string Format(int src, NumericBaseKind @base, int? digits = null)
            => @base switch{
-               NumericBaseKind.Base2 => Format(src, base2, digits),
+               NumericBaseKind.Base2 => format(src, base2, digits),
                NumericBaseKind.Base8 => Format(src, base8, digits),
                NumericBaseKind.Base16 => Format(src, base16, digits),
                 _ => Format(src, base10, digits),
@@ -209,14 +225,14 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static string Format(uint src, NumericBaseKind @base, int? digits = null)
            => @base switch{
-               NumericBaseKind.Base2 => Format(src, base2, digits),
-               NumericBaseKind.Base8 => Format(src, base8, digits),
+               NumericBaseKind.Base2 => format(src, base2, digits),
+               NumericBaseKind.Base8 => format(src, base8, digits),
                NumericBaseKind.Base16 => Format(src, base16, digits),
                 _ => Format(src, base10, digits),
             };
 
         [MethodImpl(Inline), Op]
-        public static string Format(long src, NumericBaseKind @base, int? digits = null)
+        public static string format(long src, NumericBaseKind @base, int? digits = null)
            => @base switch{
                NumericBaseKind.Base2 => Format(src, base2, digits),
                NumericBaseKind.Base8 => Format(src, base8, digits),
@@ -225,12 +241,21 @@ namespace Z0
             };
 
         [MethodImpl(Inline), Op]
-        public static string Format(ulong src, NumericBaseKind @base, int? digits = null)
+        public static string format(ulong src, NumericBaseKind @base, int? digits = null)
            => @base switch{
-               NumericBaseKind.Base2 => Format(src, base2, digits),
-               NumericBaseKind.Base8 => Format(src, base8, digits),
-               NumericBaseKind.Base16 => Format(src, base16, digits),
-                _ => Format(src, base10, digits),
+               NumericBaseKind.Base2 => format(src, base2, digits),
+               NumericBaseKind.Base8 => format(src, base8, digits),
+               NumericBaseKind.Base16 => format(src, base16, digits),
+                _ => format(src, base10, digits),
+            };
+
+        [MethodImpl(Inline), Op]
+        public static string format(ulong src, NumericBaseKind @base, int? digits, bool specifier)
+           => @base switch{
+               NumericBaseKind.Base2 => format(src, base2, digits, specifier),
+               NumericBaseKind.Base8 => format(src, base8, digits, specifier),
+               NumericBaseKind.Base16 => format(src, base16, digits, specifier),
+                _ => format(src, base10, digits, specifier),
             };
 
         [MethodImpl(Inline)]
@@ -238,13 +263,13 @@ namespace Z0
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-                return Format(uint8(src),b, digits);
+                return format(uint8(src),b, digits);
             else if(typeof(T) == typeof(ushort))
-                return Format(uint16(src),b, digits);
+                return format(uint16(src),b, digits);
             else if(typeof(T) == typeof(uint))
                 return Format(uint32(src),b, digits);
             else if(typeof(T) == typeof(ulong))
-                return Format(uint64(src),b, digits);
+                return format(uint64(src),b, digits);
             else
                 return Format_i(src,b, digits);
         }
@@ -272,11 +297,11 @@ namespace Z0
             if(typeof(T) == typeof(byte))
                 return Format(uint8(src),b, digits);
             else if(typeof(T) == typeof(ushort))
-                return Format(uint16(src),b, digits);
+                return format(uint16(src),b, digits);
             else if(typeof(T) == typeof(uint))
                 return Format(uint32(src),b, digits);
             else if(typeof(T) == typeof(ulong))
-                return Format(uint64(src),b, digits);
+                return format(uint64(src),b, digits);
             else
                 return Format_i(src, b, digits);
         }
@@ -306,9 +331,9 @@ namespace Z0
             else if(typeof(T) == typeof(ushort))
                 return format(uint16(src),n, digits);
             else if(typeof(T) == typeof(uint))
-                return Format(uint32(src),n, digits);
+                return format(uint32(src),n, digits);
             else if(typeof(T) == typeof(ulong))
-                return Format(uint64(src),n, digits);
+                return format(uint64(src),n, digits);
             else
                 return Format_i(src, n, digits);
         }
@@ -322,7 +347,7 @@ namespace Z0
             else if(typeof(T) == typeof(short))
                 return format(int16(src),n, digits);
             else if(typeof(T) == typeof(int))
-                return Format(int32(src),n, digits);
+                return format(int32(src),n, digits);
             else if(typeof(T) == typeof(long))
                 return Format(int64(src),n, digits);
             else
@@ -336,11 +361,11 @@ namespace Z0
             if(typeof(T) == typeof(byte))
                 return format(uint8(src),n, digits);
             else if(typeof(T) == typeof(ushort))
-                return Format(uint16(src),n, digits);
+                return format(uint16(src),n, digits);
             else if(typeof(T) == typeof(uint))
-                return Format(uint32(src),n, digits);
+                return format(uint32(src),n, digits);
             else if(typeof(T) == typeof(ulong))
-                return Format(uint64(src),n, digits);
+                return format(uint64(src),n, digits);
             else
                 return Format_i(src,n, digits);
         }
@@ -352,7 +377,7 @@ namespace Z0
             if(typeof(T) == typeof(sbyte))
                 return format(int8(src), n, digits);
             else if(typeof(T) == typeof(short))
-                return Format(int16(src), n, digits);
+                return format(int16(src), n, digits);
             else if(typeof(T) == typeof(int))
                 return Format(int32(src), n, digits);
             else if(typeof(T) == typeof(long))

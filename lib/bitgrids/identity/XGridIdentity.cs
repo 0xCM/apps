@@ -31,8 +31,8 @@ namespace Z0
             => (CpuCellWidth)((ushort)k);
 
         [MethodImpl(Inline), Op]
-        public static ApiGridCategory Category(this ApiGridKind k)
-            => (ApiGridCategory)(((uint)k >> 16) << 16);
+        public static ApiGridClass Category(this ApiGridKind k)
+            => (ApiGridClass)(((uint)k >> 16) << 16);
 
         [MethodImpl(Inline), Op]
         public static bool IsSome(this ApiGridKind k)

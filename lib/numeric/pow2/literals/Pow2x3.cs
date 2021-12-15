@@ -7,11 +7,12 @@ namespace Z0
     using System;
 
     using K = Pow2;
+    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Defines integers of the form 2^n where n = 0,..,2
     /// </summary>
-    [Flags, SymSource("pow2")]
+    [SymSource("pow2", NBK.Base16), Flags]
     public enum Pow2x3 : byte
     {
         /// <summary>

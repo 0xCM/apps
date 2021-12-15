@@ -3,19 +3,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("api.kinds")]
+    using System;
+
+    using NBK = NumericBaseKind;
+
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum FixedSubGridKind : uint
     {
         None = 0,
 
-        FSG16 = 16 | ApiGridCategory.FixedSubgrid,
+        FSG16 = 16 | ApiGridClass.FixedSubgrid,
 
-        FSG32 = 32 | ApiGridCategory.FixedSubgrid,
+        FSG32 = 32 | ApiGridClass.FixedSubgrid,
 
-        FSG64 = 64 | ApiGridCategory.FixedSubgrid,
+        FSG64 = 64 | ApiGridClass.FixedSubgrid,
 
-        FSG128 = 128 | ApiGridCategory.FixedSubgrid,
+        FSG128 = 128 | ApiGridClass.FixedSubgrid,
 
-        FSG256 = 256 | ApiGridCategory.FixedSubgrid,
+        FSG256 = 256 | ApiGridClass.FixedSubgrid,
     }
 }

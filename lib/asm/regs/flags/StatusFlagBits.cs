@@ -6,9 +6,11 @@ namespace Z0.Asm
 {
     using System;
 
+    using static NumericBaseKind;
+
     using RF = RFlagBits;
 
-    [Flags,SymSource("asm.regs.flags")]
+    [Flags,SymSource("asm.regs.flags", Base16)]
     public enum StatusFlagBits : ushort
     {
         [Symbol("cf", "Carry Flag")]

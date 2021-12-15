@@ -100,6 +100,7 @@ namespace Z0
             {
                 var tag = type.Tag<SymSourceAttribute>().Require();
                 var kind = tag.SymKind;
+                var @base = tag.NumericBase;
                 if(nonempty(kind))
                 {
                     if(groups.TryGetValue(kind, out var list))

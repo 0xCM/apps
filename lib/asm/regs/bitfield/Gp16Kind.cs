@@ -8,11 +8,12 @@ namespace Z0.Asm
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Defines classifiers for <see cref='GP'/> registers of width <see cref='W16'/>
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum Gp16Kind : ushort
     {
         AX = r0 | (GP << ClassField) | (W16 << WidthField),

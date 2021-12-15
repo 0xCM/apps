@@ -23,9 +23,14 @@ namespace Z0
         /// </summary>
         public S Value {get;}
 
+        public NumericBaseKind Base {get;}
+
         [MethodImpl(Inline)]
-        public SymVal(S src)
-            => Value = src;
+        public SymVal(S src, NumericBaseKind @base = NumericBaseKind.Base10)
+        {
+            Value = src;
+            Base = @base;
+        }
 
         public Identifier Name
         {
@@ -91,10 +96,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator SymVal<S>(SymVal<S,T,N> src)
-            => new SymVal<S>(src.Value);
+            => new SymVal<S>(src.Value, src.Base);
 
         [MethodImpl(Inline)]
         public static implicit operator SymVal<S,T>(SymVal<S,T,N> src)
-            => new SymVal<S,T>(src.Value);
+            => new SymVal<S,T>(src.Value, src.Base);
     }
 }

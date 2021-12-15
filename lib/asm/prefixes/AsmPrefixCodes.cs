@@ -7,6 +7,7 @@ namespace Z0.Asm
     using System;
 
     using static Hex8Seq;
+    using static NumericBaseKind;
 
     using H = Hex8Seq;
 
@@ -60,7 +61,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the lock prefix code
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum LockPrefixCode : byte
         {
             None = 0,
@@ -69,7 +70,7 @@ namespace Z0.Asm
             LOCK = xf0,
         }
 
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum BranchHintCode : byte
         {
             None = 0,
@@ -87,7 +88,7 @@ namespace Z0.Asm
             BNT = x3e,
         }
 
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum SizeOverrideCode
         {
             None = 0,
@@ -116,7 +117,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the mandatory prefix codes as specified by Intel Vol II, 2.1.2
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum MandatoryPrefixCode : byte
         {
             None = 0,
@@ -131,7 +132,7 @@ namespace Z0.Asm
             F3 = xf3,
         }
 
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum EscapeCode : ushort
         {
             None = 0,
@@ -146,7 +147,7 @@ namespace Z0.Asm
             x0F3A = 0x0F3A,
         }
 
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum BndPrefixCode : byte
         {
             None = 0,
@@ -158,7 +159,7 @@ namespace Z0.Asm
         /// <summary>
         /// The segment override codes as specified by Intel Vol II, 2.1.1
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum SegOverrideCode : byte
         {
             None = 0,
@@ -185,7 +186,7 @@ namespace Z0.Asm
         /// <summary>
         /// Classfies vex prefix codes
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum VexPrefixKind : byte
         {
             [Symbol("C4", "The leading byte of a 3-byte vex prefix sequence")]
@@ -199,7 +200,7 @@ namespace Z0.Asm
         /// [0100 0001] | W:0 | R:0 | X:0 | B:1
         /// </summary>
         [Flags]
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum RexPrefixCode : byte
         {
             /// <summary>
@@ -236,7 +237,7 @@ namespace Z0.Asm
             W = x48,
         }
 
-        [SymSource(tokens)]
+        [SymSource(tokens, Base16)]
         public enum RepPrefixCode : byte
         {
             None = 0,

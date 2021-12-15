@@ -11,13 +11,29 @@ namespace Z0
         public SymSourceAttribute()
         {
             SymKind = string.Empty;
+            NumericBase = NumericBaseKind.Base10;
+        }
+
+        public SymSourceAttribute(NumericBaseKind nbk)
+        {
+            SymKind = string.Empty;
+            NumericBase = nbk;
         }
 
         public SymSourceAttribute(object kind)
         {
             SymKind = kind?.ToString() ?? string.Empty;
+            NumericBase = NumericBaseKind.Base10;
+        }
+
+        public SymSourceAttribute(object kind, NumericBaseKind nbk)
+        {
+            SymKind = kind?.ToString() ?? string.Empty;
+            NumericBase = nbk;
         }
 
         public string SymKind {get;}
+
+        public NumericBaseKind NumericBase {get;}
     }
 }

@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
+    using NBK = NumericBaseKind;
+
     using static Perm4Sym;
 
     /// <summary>
     /// Identifies 2-element cycles over 4 symbols
     /// </summary>
-    [SymSource("perms")]
+    [SymSource("perms", NBK.Base2)]
     public enum Perm2x4 : byte
     {
         /// <summary>

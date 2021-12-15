@@ -8,11 +8,12 @@ namespace Z0.Asm
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Defines <see cref='SEG'/> register classifiers
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum SegRegKind : ushort
     {
         /// <summary>

@@ -3,13 +3,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("api.kinds")]
+    using System;
+
+    using NBK = NumericBaseKind;
+
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum DynamicGridKind : uint
     {
         None = 0,
 
-        Generic = ApiGridCategory.GenericDynamic,
+        Generic = ApiGridClass.GenericDynamic,
 
-        Natural = ApiGridCategory.NaturalDynamic
+        Natural = ApiGridClass.NaturalDynamic
     }
 }

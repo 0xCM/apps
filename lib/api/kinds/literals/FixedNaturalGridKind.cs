@@ -3,19 +3,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("api.kinds")]
+    using System;
+
+    using NBK = NumericBaseKind;
+
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum FixedNaturalGridKind : uint
     {
         None = 0,
 
-        FN16 = 16 | ApiGridCategory.FixedNatural,
+        FN16 = 16 | ApiGridClass.FixedNatural,
 
-        FN32 = 32 | ApiGridCategory.FixedNatural,
+        FN32 = 32 | ApiGridClass.FixedNatural,
 
-        FN64 = 64 | ApiGridCategory.FixedNatural,
+        FN64 = 64 | ApiGridClass.FixedNatural,
 
-        FN128 = 128 | ApiGridCategory.FixedNatural,
+        FN128 = 128 | ApiGridClass.FixedNatural,
 
-        FN256 = 256 | ApiGridCategory.FixedNatural,
+        FN256 = 256 | ApiGridClass.FixedNatural,
     }
 }

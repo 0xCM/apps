@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static NumericBaseKind;
+
     /// <summary>
     /// Defines register codes 0 .. 31
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum RegIndexCode : byte
     {
         [Symbol("r0")]

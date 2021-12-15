@@ -8,8 +8,9 @@ namespace Z0.Asm
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
+    using static NumericBaseKind;
 
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum TestRegKind : ushort
     {
         TR0 = r0 | MASK << ClassField | W64 << WidthField,

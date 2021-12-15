@@ -8,6 +8,7 @@ namespace Z0
 
     using W = CpuCellWidth;
     using NK = NumericKind;
+    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Classifies concrete storage blocks of total width w over segments of width t and sign indicator s where:
@@ -15,7 +16,7 @@ namespace Z0
     /// t = kind[16..23]
     /// s = {u | i | f} as determined by kind[30..31]
     /// </summary>
-    [Flags,SymSource("api.kinds")]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum NativeSegKind : uint
     {
         None = 0,

@@ -6,10 +6,12 @@ namespace Z0
 {
     using System;
 
+    using NBK = NumericBaseKind;
+
     /// <summary>
     /// Defines control mask values for constucting a 128-bit target by blending 4 32-bit segments from two 128-bit sources
     /// </summary>
-    [Flags, SymSource("bitmasks")]
+    [SymSource("bitmasks", NBK.Base2), Flags]
     public enum Blend4x32 : byte
     {
         /// <summary>

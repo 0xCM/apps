@@ -7,11 +7,12 @@ namespace Z0
     using System;
 
     using p = Pow2x16;
+    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Classifies an operation in various ways
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum OperationKind : ushort
     {
         /// <summary>

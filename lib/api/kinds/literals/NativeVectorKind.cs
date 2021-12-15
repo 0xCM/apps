@@ -9,6 +9,7 @@ namespace Z0
     using static NumericKind;
 
     using CW = CpuCellWidth;
+    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Classifies concrete intrinsic vectors of total width w over components of width t and sign indicator s where:
@@ -16,7 +17,7 @@ namespace Z0
     /// t = kind[16..23]
     /// s = {u | i | f} as determined by kind[30..31]
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum NativeVectorKind : uint
     {
         None = 0,

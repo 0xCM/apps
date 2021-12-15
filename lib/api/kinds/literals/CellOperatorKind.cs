@@ -6,13 +6,15 @@ namespace Z0
 {
     using System;
 
+    using NBK = NumericBaseKind;
+
     using W = CpuCellWidth;
     using P2 = Pow2x32;
 
     /// <summary>
     /// Defines operator classifiers
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum CellOperationKind : uint
     {
         /// <summary>

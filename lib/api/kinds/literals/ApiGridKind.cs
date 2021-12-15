@@ -5,35 +5,37 @@ namespace Z0
 {
     using System;
 
+    using NBK = NumericBaseKind;
+
     /// <summary>
     /// Defines grid-sort datatype classifiers
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum ApiGridKind : uint
     {
         None = 0,
 
-        Generic = ApiGridCategory.Generic,
+        Generic = ApiGridClass.Generic,
 
-        Natural = ApiGridCategory.Natural,
+        Natural = ApiGridClass.Natural,
 
-        Fixed = ApiGridCategory.Fixed,
+        Fixed = ApiGridClass.Fixed,
 
-        Unfixed = ApiGridCategory.Dynamic,
+        Unfixed = ApiGridClass.Dynamic,
 
-        Subgrid = ApiGridCategory.Subgrid,
+        Subgrid = ApiGridClass.Subgrid,
 
-        Numeric = ApiGridCategory.Numeric,
+        Numeric = ApiGridClass.Numeric,
 
-        GenericUnfixed = ApiGridCategory.GenericDynamic,
+        GenericUnfixed = ApiGridClass.GenericDynamic,
 
-        NaturalUnfixed = ApiGridCategory.NaturalDynamic,
+        NaturalUnfixed = ApiGridClass.NaturalDynamic,
 
-        FixedNatural = ApiGridCategory.FixedNatural,
+        FixedNatural = ApiGridClass.FixedNatural,
 
-        FixedSubgrid = ApiGridCategory.FixedSubgrid,
+        FixedSubgrid = ApiGridClass.FixedSubgrid,
 
-        NumericGeneric = ApiGridCategory.NumericGeneric,
+        NumericGeneric = ApiGridClass.NumericGeneric,
 
         Numeric16 = 16 | NumericGeneric,
 

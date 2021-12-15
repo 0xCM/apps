@@ -6,9 +6,10 @@ namespace Z0
 {
     using System;
 
+    using NBK = NumericBaseKind;
     using OC = OperationKind;
 
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum ApiArityKind : ushort
     {
         /// <summary>

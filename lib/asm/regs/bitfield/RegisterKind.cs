@@ -8,6 +8,7 @@ namespace Z0.Asm
     using static RegClassCode;
     using static NativeSizeCode;
     using static RegFieldFacets;
+    using static NumericBaseKind;
 
     using SR = SegRegKind;
     using F = FlagRegKind;
@@ -29,7 +30,7 @@ namespace Z0.Asm
     using TR = TestRegKind;
     using SPTR = SysPtrRegKind;
 
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum RegKind : ushort
     {
         None = 0,

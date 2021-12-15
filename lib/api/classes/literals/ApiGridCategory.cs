@@ -5,8 +5,10 @@ namespace Z0
 {
     using System;
 
-    [SymSource("api.kinds"), Flags]
-    public enum ApiGridCategory : uint
+    using NBK = NumericBaseKind;
+
+    [SymSource("api.classes", NBK.Base16), Flags]
+    public enum ApiGridClass : uint
     {
         None = 0,
 

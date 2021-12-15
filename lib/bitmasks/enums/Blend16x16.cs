@@ -6,7 +6,9 @@ namespace Z0
 {
     using System;
 
-    [Flags, SymSource("bitmasks")]
+    using NBK = NumericBaseKind;
+
+    [SymSource("bitmasks", NBK.Base2)]
     public enum Blend16x16 : ushort
     {
         LLLLLLLLLLLLLLLL = 0b0000000000000000,

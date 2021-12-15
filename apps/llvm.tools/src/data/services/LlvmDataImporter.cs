@@ -15,6 +15,8 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
+        LlvmDataCalcs DataCalcs => Service(Wf.LlvmDataCalcs);
+
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
         public LlvmDataImporter()
@@ -33,7 +35,8 @@ namespace Z0.llvm
             var help = ImportToolHelp();
             run(() => observer.ToolHelpEmitted(help));
 
-            var asmids = DataEmitter.EmitAsmIdentifiers();
+            var asmids = DataProvider.DiscoverAsmIdentifiers();
+            DataEmitter.Emit(asmids);
             run(() => observer.AsmIdDefsEmitted(asmids));
 
             var regids = DataEmitter.EmitRegIdentifiers();
@@ -78,10 +81,12 @@ namespace Z0.llvm
             DataEmitter.Emit(instdefs.View);
             run(() => observer.InstDefsEmitted(instdefs));
 
-            var instpattterns = DataEmitter.EmitInstPatterns();
-            run(() => observer.InstPatternsEmitted(instpattterns));
+            var patterns = DataEmitter.EmitInstPatterns();
+            run(() => observer.InstPatternsEmitted(patterns));
 
-            var ocmap = DataEmitter.EmitAsmOpCodes(DataProvider.SelectOpCodeMap());
+            var ocmap = DataProvider.SelectOpCodeMap();
+            var opcodes = DataCalcs.CalcAsmOpCodes(asmids, ocmap);
+            DataEmitter.Emit(opcodes.View);
 
             run(() => observer.EtlCompleted());
         }

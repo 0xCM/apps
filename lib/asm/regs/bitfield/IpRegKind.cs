@@ -7,11 +7,12 @@ namespace Z0.Asm
     using static NativeSizeCode;
     using static RegFieldFacets;
     using static RegClassCode;
+    using static NumericBaseKind;
 
     /// <summary>
     /// Classifies instruction pointer registers
     /// </summary>
-    [SymSource("asm.regs.bits")]
+    [SymSource("asm.regs.bits", Base16)]
     public enum IpRegKind : ushort
     {
         IP = IPTR << ClassField | W16 << WidthField,

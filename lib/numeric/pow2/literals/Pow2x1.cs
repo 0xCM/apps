@@ -7,11 +7,12 @@ namespace Z0
     using System;
 
     using K = Pow2;
+    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Defines 1
     /// </summary>
-    [Flags, SymSource("pow2")]
+    [SymSource("pow2", NBK.Base16), Flags]
     public enum Pow2x1 : byte
     {
         /// <summary>

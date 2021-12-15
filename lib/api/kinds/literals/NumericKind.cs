@@ -8,11 +8,12 @@ namespace Z0
 
     using W = DataWidth;
     using ID = ScalarKind;
+    using NBK = NumericBaseKind;
 
     /// <summary>
     /// Classifies system-defined numeric primitive types
     /// </summary>
-    [SymSource("api.kinds"), Flags]
+    [SymSource("api.kinds", NBK.Base16), Flags]
     public enum NumericKind : uint
     {
         None = 0,

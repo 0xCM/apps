@@ -11,7 +11,7 @@ namespace Z0
     /// </summary>
     public interface ISymVal : ITextual
     {
-
+        NumericBaseKind Base {get;}
     }
 
     /// <summary>

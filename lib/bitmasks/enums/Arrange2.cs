@@ -4,7 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource("bitmasks")]
+    using System;
+
+    using NBK = NumericBaseKind;
+
+    [SymSource("bitmasks", NBK.Base2),Flags]
     public enum Arrange2L : byte
     {
         A = 0b00,
