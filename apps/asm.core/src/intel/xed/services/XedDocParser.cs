@@ -5,10 +5,11 @@
 namespace Z0
 {
     using System;
+
     using static Root;
     using static core;
 
-    class XedDisassemblyParser : AppService<XedDisassemblyParser>
+    public class XedDisassemblyParser : AppService<XedDisassemblyParser>
     {
         public Index<XedDisasmBlock> ParseDisasmBlocks(FS.FilePath src)
         {

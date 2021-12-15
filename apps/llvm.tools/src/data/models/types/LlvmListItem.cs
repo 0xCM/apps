@@ -9,11 +9,9 @@ namespace Z0.llvm
 
     using static Root;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct LlvmListItem
     {
-        public const string TableId = "llvm.lists";
-
         public readonly uint Key;
 
         public readonly string Value;

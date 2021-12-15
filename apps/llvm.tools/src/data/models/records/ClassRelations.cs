@@ -10,9 +10,11 @@ namespace Z0.llvm
 
     using static Root;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
+    [DbRecord(Schema,TableId), StructLayout(LayoutKind.Sequential)]
     public struct ClassRelations : ILineRelations<ClassRelations>
     {
+        public const string Schema = "llvm";
+
         public const string TableId = "llvm.classes.relations";
 
         public const byte FieldCount = 4;

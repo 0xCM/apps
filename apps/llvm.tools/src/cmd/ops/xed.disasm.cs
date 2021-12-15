@@ -36,8 +36,8 @@ namespace Z0.llvm
                 }
             }
 
-            var outpath = project.Tables() + FS.file(string.Format("{0}.xed.disasm", project.Project), FS.Csv);
-            TableEmit(buffer.ViewDeposited(), AsmStatementEncoding.RenderWidths, outpath);
+            var _path = ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Project), FS.Csv);
+            TableEmit(buffer.ViewDeposited(), AsmStatementEncoding.RenderWidths, _path);
 
             return true;
         }

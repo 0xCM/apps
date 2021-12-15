@@ -23,6 +23,9 @@ namespace Z0
         public static IntelXed IntelXed(this IWfRuntime wf)
             => Asm.IntelXed.create(wf);
 
+        public static XedDisassemblyParser XedDisassemblyParser(this IWfRuntime wf)
+            => Z0.XedDisassemblyParser.create(wf);
+
 
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)
@@ -53,7 +56,5 @@ namespace Z0
         [Op]
         public static NDisasm NDisasm(this IWfRuntime wf)
             => Z0.NDisasm.create(wf);
-
-
     }
 }

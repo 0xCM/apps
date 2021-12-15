@@ -6,7 +6,6 @@ namespace Z0.llvm
 {
     using System;
     using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
 
     using Asm;
 
@@ -30,6 +29,5 @@ namespace Z0.llvm
         public FS.FileUri Doc;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,64,1};
-
     }
 }

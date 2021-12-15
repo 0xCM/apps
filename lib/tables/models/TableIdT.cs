@@ -24,9 +24,6 @@ namespace Z0
         public Name Identifier
             => Value.Identifier;
 
-        public Name Identity
-            => Value.Identity;
-
         [MethodImpl(Inline)]
         public string Format()
             => Identifier.Format();

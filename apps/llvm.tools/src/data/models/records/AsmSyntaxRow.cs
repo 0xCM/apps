@@ -9,9 +9,11 @@ namespace Z0.llvm
 
     using Asm;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [DbRecord(Schema,TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmSyntaxRow
     {
+        public const string Schema = "llvm";
+
         public const string TableId = "asm.syntax";
 
         public uint Seq;

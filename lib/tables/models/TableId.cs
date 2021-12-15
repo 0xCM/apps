@@ -32,30 +32,23 @@ namespace Z0
         [MethodImpl(Inline)]
         public static TableId identify(Type src)
             => src.Tag<RecordAttribute>().MapValueOrElse(
-                    a => new TableId(a.TableId, src.FullName),
-                    () => new TableId(src.Name, src.FullName));
+                    a => new TableId(a.TableId),
+                    () => new TableId(src.Name));
 
         [MethodImpl(Inline)]
         public static TableId identify(Type src, string name)
-            => new TableId(name, src.FullName);
-
-        [MethodImpl(Inline)]
-        public static TableId define(string identity, string name)
-            => new TableId(name, identity);
+            => new TableId(name);
 
         [MethodImpl(Inline)]
         public static TableId define(string name)
-            => new TableId(name, EmptyString);
+            => new TableId(name);
 
         public Name Identifier {get;}
 
-        public Name Identity {get;}
-
         [MethodImpl(Inline)]
-        TableId(string name, string identity)
+        TableId(string name)
         {
             Identifier = name;
-            Identity = identity;
         }
 
         public bool IsEmpty
@@ -77,6 +70,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static TableId Empty => new TableId(EmptyString,EmptyString);
+        public static TableId Empty => new TableId(EmptyString);
     }
 }

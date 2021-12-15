@@ -9,9 +9,11 @@ namespace Z0.llvm
 
     using static Root;
 
-    [Record(TableId)]
+    [DbRecord(Schema,TableId)]
     public struct DefRelations : ILineRelations<DefRelations>, IComparable<DefRelations>
     {
+        public const string Schema = "llvm";
+
         public const string TableId = "llvm.defs.relations";
 
         public const byte FieldCount = 3;

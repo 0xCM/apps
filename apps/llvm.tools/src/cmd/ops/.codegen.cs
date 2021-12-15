@@ -6,12 +6,11 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-
         [CmdOp(".gen-enums")]
         Outcome GenEnums(CmdArgs args)
         {
             var result = Outcome.Success;
-            var svc = Wf.Generators().CsEnum();
+            var svc = Generators.CsEnum();
             var spec = Symbols.set(typeof(clang.index.SymbolSubKind));
             var type = spec.DataType;
             var buffer = text.buffer();

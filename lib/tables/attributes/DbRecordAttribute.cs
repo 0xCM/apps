@@ -7,14 +7,14 @@ namespace Z0
     using System;
 
     [AttributeUsage(AttributeTargets.Struct)]
-    public class CliRecordAttribute : RecordAttribute
+    public class DbRecordAttribute : RecordAttribute
     {
-        public CliRecordAttribute(CliTableKind kind)
-            : base(kind.ToString())
-        {
-            TableKind = kind;
-        }
+        public string Schema {get;}
 
-        public CliTableKind TableKind {get;}
+        public DbRecordAttribute(string schema, string id)
+            : base(id)
+        {
+            Schema = schema;
+        }
     }
 }

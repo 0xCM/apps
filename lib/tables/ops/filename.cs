@@ -12,7 +12,6 @@ namespace Z0
         public static FS.FileName filename(TableId id, FS.FileExt ext)
             => FS.file(id.Format(), ext);
 
-
         public static FS.FileName filename<T>()
             where T : struct
                 => filename<T>(FS.Csv);

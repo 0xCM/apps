@@ -257,8 +257,9 @@ namespace Z0.Asm
             return records.ToArray();
         }
 
+
         public Index<XedDisasmBlock> ParseDisasmBlocks(FS.FilePath src)
-            => XedDisassemblyParser.create(Wf).ParseDisasmBlocks(src);
+            => Service(Wf.XedDisassemblyParser).ParseDisasmBlocks(src);
 
         public void EmitCatalog()
         {

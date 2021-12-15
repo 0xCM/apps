@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface ITableId : ITextual
+    public interface ITransformerIdentity : IArrow<Name>
     {
-        Name Identifier {get;}
-        string ITextual.Format()
-            => Identifier.Format();
+
     }
 }

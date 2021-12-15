@@ -20,7 +20,7 @@ namespace Z0
         public bool Find(Type t, out IParser parser)
             => Lookup.Find(t, out parser);
 
-        public static ConstLookup<Type,IParser> lookup(out List<string> log)
+        public static ConstLookup<Type,IParser> discover(out List<string> log)
         {
             var src = ApiRuntimeLoader.catalog().Components.Storage;
             var methods = src.DeclaredStaticMethods().Tagged<ParserAttribute>();
@@ -56,6 +56,12 @@ namespace Z0
 
             return parsers.ToConstLookup();
         }
+
+        public ReadOnlySpan<Arrow<Name,Type>> Identities
+        {
+            get => _Identities;
+        }
+
 
         public Outcome Parse(Type t, string src, out dynamic dst)
         {
@@ -95,10 +101,13 @@ namespace Z0
 
         Parsers()
         {
-            Lookup = lookup(out _);
+            Lookup = discover(out _);
+            _Identities = Lookup.Keys.Select(x => new Arrow<Name,Type>("string", x)).ToArray();
         }
 
         ConstLookup<Type,IParser> Lookup;
+
+        Index<Arrow<Name,Type>> _Identities;
 
         static Parsers()
         {
@@ -107,5 +116,4 @@ namespace Z0
 
         static Parsers Instance;
     }
-
 }

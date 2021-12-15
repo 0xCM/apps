@@ -30,7 +30,7 @@ namespace Z0
                     writer.WriteLine();
 
                 var table = skip(tables,i);
-                writer.WriteLine(string.Format("{0,-8} | {1,-42} | {2}", i, table.Id.Identifier, table.Id.Identity));
+                writer.WriteLine(string.Format("{0,-8} | {1,-42}", i, table.Id.Identifier));
                 writer.WriteLine(RP.PageBreak80);
 
                 var fields = @readonly(table.Fields);

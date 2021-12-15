@@ -18,6 +18,8 @@ namespace Z0
 
         ApiPacks ApiPacks => Service(Wf.ApiPacks);
 
+        Parsers Parsers => Z0.Parsers.Service;
+
         ApiHexPacks ApiHexPacks => Service(Wf.ApiHexPacks);
 
         ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);

@@ -5,6 +5,7 @@
 namespace Z0.llvm
 {
     using System;
+
     using static core;
 
     partial class LlvmCmdProvider
@@ -16,7 +17,7 @@ namespace Z0.llvm
         {
             var conditions = list<LlvmEntity>();
             var entities = DataProvider.SelectEntities();
-            entities.Traverse((i,e) =>{
+            iter(entities.View, e =>{
                 if(e.NameBeginsWith("X86_COND_"))
                 {
                     conditions.Add(e);
@@ -27,16 +28,6 @@ namespace Z0.llvm
             DataEmitter.EmitQueryResults(CcQuery, specs);
 
             return true;
-        }
-    }
-
-    partial class XTend
-    {
-        public static void Traverse<T>(this Index<T> src, Action<int,T> f)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                f(i,src[i]);
         }
     }
 }
