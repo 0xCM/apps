@@ -17,22 +17,22 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
-                => PredicateEval.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => PredicateEval.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, Closures(Closure)]
         public static bit eval<T>(IComparisonPredExpr<T> expr)
             where T : unmanaged
-                => NumericLogixHost.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => NumericLogixHost.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, Closures(Closure)]
         public static LogixLiteral<Vector128<T>> eval<T>(IComparisonExpr<Vector128<T>> expr)
             where T : unmanaged
-                => VLogixOps.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => VLogixOps.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, Closures(Closure)]
         public static LogixLiteral<Vector256<T>> eval<T>(IComparisonExpr<Vector256<T>> expr)
             where T : unmanaged
-                => VLogixOps.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => VLogixOps.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, Closures(Closure)]
         static LogixLiteral<T> eval<T>(ILogixExpr<T> expr)

@@ -23,12 +23,12 @@ namespace Z0
         /// <summary>
         /// The left operand
         /// </summary>
-        public ILogicExpr Lhs {get;}
+        public ILogicExpr Left {get;}
 
         /// <summary>
         /// The right operand
         /// </summary>
-        public ILogicExpr Rhs {get;}
+        public ILogicExpr Right {get;}
 
         /// <summary>
         /// The variables upon which the operands depend
@@ -38,8 +38,8 @@ namespace Z0
         public ComparisonExpr(ApiComparisonClass kind, ILogicExpr lhs, ILogicExpr rhs, params ILogicVarExpr[] vars)
         {
             ComparisonKind = kind;
-            Lhs = require(lhs);
-            Rhs = require(rhs);
+            Left = require(lhs);
+            Right = require(rhs);
             _Vars = vars;
         }
 
@@ -112,6 +112,6 @@ namespace Z0
         }
 
         public string Format()
-            => Lhs.Format() + " == " + Rhs.Format();
+            => Left.Format() + " == " + Right.Format();
     }
 }

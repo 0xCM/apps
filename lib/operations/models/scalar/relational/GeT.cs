@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Ge<T> : ICmpPred<Ge<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Ge(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,7 +31,7 @@ namespace Z0.Ops.Scalar
             => CmpPredKind.GE;
 
         public Ge Untyped()
-            => new Ge(A,B);
+            => new Ge(Left,Right);
 
         [MethodImpl(Inline)]
         public Ge<T> Make(T a0, T a1)
@@ -50,11 +50,11 @@ namespace Z0.Ops.Scalar
 
         [MethodImpl(Inline)]
         public static implicit operator CmpPred<T>(Ge<T> src)
-            => new CmpPred<T>(src.A, src.B, src.Kind);
+            => new CmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Ge<T>(CmpPred<T> src)
-            => new Ge<T>(src.A, src.B);
+            => new Ge<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator Ge(Ge<T> src)

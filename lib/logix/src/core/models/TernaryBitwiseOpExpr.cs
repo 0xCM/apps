@@ -23,29 +23,29 @@ namespace Z0
         /// <summary>
         /// The first operand
         /// </summary>
-        public ILogixExpr<T> FirstArg {get;}
+        public ILogixExpr<T> First {get;}
 
         /// <summary>
         /// The second operand
         /// </summary>
-        public ILogixExpr<T> SecondArg {get;}
+        public ILogixExpr<T> Second {get;}
 
         /// <summary>
         /// The third operand
         /// </summary>
-        public ILogixExpr<T> ThirdArg {get;}
+        public ILogixExpr<T> Third {get;}
 
         [MethodImpl(Inline)]
         public TernaryBitwiseOpExpr(TernaryBitLogicKind op, ILogixExpr<T> first, ILogixExpr<T> second, ILogixExpr<T> third)
         {
             ApiClass = op;
-            FirstArg = first;
-            SecondArg = second;
-            ThirdArg = third;
+            First = first;
+            Second = second;
+            Third = third;
         }
 
         public string Format()
-            => ApiClass.Format(FirstArg,SecondArg,ThirdArg);
+            => ApiClass.Format(First,Second,Third);
 
         public override string ToString()
             => Format();

@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Lt<T> : ICmpPred<Lt<T>,T>
         where T : IExpr
     {
-        public T A {get;}
+        public T Left {get;}
 
-        public T B {get;}
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Lt(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,7 +31,7 @@ namespace Z0.Ops.Scalar
             => CmpPredKind.LT;
 
         public Lt Untyped()
-            => new Lt(A,B);
+            => new Lt(Left,Right);
 
         [MethodImpl(Inline)]
         public Lt<T> Make(T a0, T a1)
@@ -50,11 +50,11 @@ namespace Z0.Ops.Scalar
 
         [MethodImpl(Inline)]
         public static implicit operator CmpPred<T>(Lt<T> src)
-            => new CmpPred<T>(src.A, src.B, src.Kind);
+            => new CmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Lt<T>(CmpPred<T> src)
-            => new Lt<T>(src.A, src.B);
+            => new Lt<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator Lt(Lt<T> src)

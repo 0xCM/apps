@@ -22,17 +22,17 @@ namespace Z0
         /// <summary>
         /// The operand
         /// </summary>
-        public ILogicExpr Arg {get;}
+        public ILogicExpr Operand {get;}
 
         [MethodImpl(Inline)]
         public UnaryLogicOpExpr(UnaryBitLogicKind op, ILogicExpr arg)
         {
             ApiClass = op;
-            Arg = arg;
+            Operand = arg;
         }
 
         public string Format()
-            => ApiClass.Format(Arg);
+            => ApiClass.Format(Operand);
     }
 
 }

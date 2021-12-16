@@ -22,29 +22,29 @@ namespace Z0
         /// <summary>
         /// The first operand
         /// </summary>
-        public ILogicExpr FirstArg {get;}
+        public ILogicExpr First {get;}
 
         /// <summary>
         /// The second operand
         /// </summary>
-        public ILogicExpr SecondArg {get;}
+        public ILogicExpr Second {get;}
 
         /// <summary>
         /// The third operand
         /// </summary>
-        public ILogicExpr ThirdArg {get;}
+        public ILogicExpr Third {get;}
 
         [MethodImpl(Inline)]
         public TernaryLogicOpExpr(TernaryBitLogicKind op, ILogicExpr arg1, ILogicExpr arg2, ILogicExpr arg3)
         {
             ApiClass = op;
-            FirstArg = arg1;
-            SecondArg = arg2;
-            ThirdArg = arg3;
+            First = arg1;
+            Second = arg2;
+            Third = arg3;
         }
 
         public string Format()
-            => ApiClass.Format(FirstArg,SecondArg,ThirdArg);
+            => ApiClass.Format(First,Second,Third);
 
         public override string ToString()
             => Format();

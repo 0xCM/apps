@@ -10,10 +10,10 @@ namespace Z0
     public interface ITernaryOpExpr<X> : IOperatorExpr
         where X : IExpr
     {
-        X FirstArg {get;}
+        X First {get;}
 
-        X SecondArg {get;}
+        X Second {get;}
 
-        X ThirdArg {get;}
+        X Third {get;}
     }
 }

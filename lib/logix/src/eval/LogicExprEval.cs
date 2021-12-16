@@ -24,7 +24,7 @@ namespace Z0.Logix
                 case ILogicOpExpr x:
                     return eval(x);
                 case IComparisonExpr x:
-                    return eval(x.Lhs) == eval(x.Rhs);
+                    return eval(x.Left) == eval(x.Right);
                default: throw new NotSupportedException(expr.GetType().Name);
              }
         }
@@ -39,11 +39,11 @@ namespace Z0.Logix
             switch(expr)
             {
                 case IUnaryLogicOpExpr x:
-                    return bitlogix.Evaluate(x.ApiClass, eval(x.Arg));
+                    return bitlogix.Evaluate(x.ApiClass, eval(x.Operand));
                 case IBinaryLogicOpExpr x:
-                    return bitlogix.Evaluate(x.ApiClass, eval(x.LeftArg), eval(x.RightArg));
+                    return bitlogix.Evaluate(x.ApiClass, eval(x.Left), eval(x.Right));
                 case ITernaryLogicOpExpr x:
-                    return bitlogix.Evaluate(x.ApiClass, eval(x.FirstArg), eval(x.SecondArg), eval(x.ThirdArg));
+                    return bitlogix.Evaluate(x.ApiClass, eval(x.First), eval(x.Second), eval(x.Third));
                default: throw new NotSupportedException(expr.GetType().Name);
             }
         }

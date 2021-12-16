@@ -14,19 +14,19 @@ namespace Z0
     {
         public UnaryBitLogicKind ApiClass {get;}
 
-        public ILogicExpr<T> Arg{get;}
+        public ILogicExpr<T> Operand {get;}
 
         [MethodImpl(Inline)]
         public UnaryLogicOpExpr(UnaryBitLogicKind kind, ILogicExpr<T> arg)
         {
-            Arg = arg;
+            Operand = arg;
             ApiClass = kind;
         }
 
-        ILogicExpr IUnaryOpExpr<ILogicExpr>.Arg
-            => Arg;
+        ILogicExpr IUnaryOpExpr<ILogicExpr>.Operand
+            => Operand;
 
         public string Format()
-            => ApiClass.Format(Arg);
+            => ApiClass.Format(Operand);
     }
 }

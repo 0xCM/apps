@@ -2,20 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Ops.Scalar
 {
-    public interface ILiteralType : IType
+    using System.Collections.Generic;
+
+    using static Root;
+    using static core;
+
+
+    public readonly struct CmpPreds
     {
 
-    }
 
-    public interface ILiteralType<V> : ILiteralType
-        where V : unmanaged, IScalarValue
-    {
-
-        V Value {get;}
-
-        ulong IType.Kind
-            => Value.Type.Kind;
     }
 }

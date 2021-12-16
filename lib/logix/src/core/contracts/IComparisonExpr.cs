@@ -12,12 +12,12 @@ namespace Z0
         /// <summary>
         /// The left expression
         /// </summary>
-        ILogicExpr Lhs {get;}
+        ILogicExpr Left {get;}
 
         /// <summary>
         /// The right expression
         /// </summary>
-        ILogicExpr Rhs {get;}
+        ILogicExpr Right {get;}
 
         /// <summary>
         /// Variables upon which the expression depends
@@ -34,12 +34,12 @@ namespace Z0
         /// <summary>
         /// The left expression
         /// </summary>
-        ILogixExpr<T> LeftArg {get;}
+        ILogixExpr<T> Left {get;}
 
         /// <summary>
         /// The right expression
         /// </summary>
-        ILogixExpr<T> RightArg {get;}
+        ILogixExpr<T> Right {get;}
 
         /// <summary>
         /// Variables upon which the expression depends

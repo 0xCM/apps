@@ -29,7 +29,7 @@ namespace Z0.Logix
                 case IOperatorExpr<Vector128<T>> x:
                     return eval(x);
                 case IComparisonExpr<Vector128<T>> x:
-                    return gcpu.vxnor(eval(x.LeftArg).Value, eval(x.RightArg).Value);
+                    return gcpu.vxnor(eval(x.Left).Value, eval(x.Right).Value);
                 default: throw new NotSupportedException(expr.GetType().Name);
             }
         }
@@ -49,7 +49,7 @@ namespace Z0.Logix
                 case IOperatorExpr<Vector256<T>> x:
                     return eval(x);
                 case IComparisonExpr<Vector256<T>> x:
-                    return gcpu.vxnor(eval(x.LeftArg).Value, eval(x.RightArg).Value);
+                    return gcpu.vxnor(eval(x.Left).Value, eval(x.Right).Value);
                 default: throw new NotSupportedException(expr.GetType().Name);
             }
         }
@@ -61,13 +61,13 @@ namespace Z0.Logix
             switch(expr)
             {
                 case IUnaryBitwiseOpExpr<Vector128<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.Arg).Value);
+                    return VLogixOps.eval(x.ApiClass, eval(x.Operand).Value);
                 case IBinaryBitwiseOpExpr<Vector128<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.LeftArg).Value, eval(x.RightArg).Value);
+                    return VLogixOps.eval(x.ApiClass, eval(x.Left).Value, eval(x.Right).Value);
                 case IShiftOpExpr<Vector128<T>> x:
                     return VLogixOps.eval(x.ApiClass, eval(x.Subject).Value, ScalarExprEval.eval(x.Offset).Value);
                 case ITernaryBitwiseOpExpr<Vector128<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.FirstArg).Value, eval(x.SecondArg).Value, eval(x.ThirdArg));
+                    return VLogixOps.eval(x.ApiClass, eval(x.First).Value, eval(x.Second).Value, eval(x.Third));
                 default: throw new NotSupportedException(expr.GetType().Name);
             }
         }
@@ -79,13 +79,13 @@ namespace Z0.Logix
             switch(expr)
             {
                 case IUnaryBitwiseOpExpr<Vector256<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.Arg).Value);
+                    return VLogixOps.eval(x.ApiClass, eval(x.Operand).Value);
                 case IBinaryBitwiseOpExpr<Vector256<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.LeftArg).Value, eval(x.RightArg).Value);
+                    return VLogixOps.eval(x.ApiClass, eval(x.Left).Value, eval(x.Right).Value);
                 case IShiftOpExpr<Vector256<T>> x:
                     return VLogixOps.eval(x.ApiClass, eval(x.Subject).Value, ScalarExprEval.eval(x.Offset).Value);
                 case ITernaryBitwiseOpExpr<Vector256<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.FirstArg).Value, eval(x.SecondArg).Value, eval(x.ThirdArg));
+                    return VLogixOps.eval(x.ApiClass, eval(x.First).Value, eval(x.Second).Value, eval(x.Third));
                 default: throw new NotSupportedException(expr.GetType().Name);
             }
         }

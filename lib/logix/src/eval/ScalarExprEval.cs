@@ -27,7 +27,7 @@ namespace Z0.Logix
                 case IOperatorExpr<T> x:
                     return eval(x);
                 case IComparisonExpr<T> x:
-                    return gmath.xnor(eval(x.LeftArg).Value, eval(x.RightArg).Value);
+                    return gmath.xnor(eval(x.Left).Value, eval(x.Right).Value);
                 default: throw new NotSupportedException(expr.GetType().Name);
             }
         }
@@ -39,11 +39,11 @@ namespace Z0.Logix
             switch(expr)
             {
                 case IUnaryBitwiseOpExpr<T> x:
-                    return NumericLogixHost.eval(x.ApiClass, eval(x.Arg).Value);
+                    return NumericLogixHost.eval(x.ApiClass, eval(x.Operand).Value);
 
                 case IBinaryBitwiseOpExpr<T> x:
                     return NumericLogixHost.eval(x.ApiClass,
-                        eval(x.LeftArg).Value, eval(x.RightArg).Value);
+                        eval(x.Left).Value, eval(x.Right).Value);
 
                 case IShiftOpExpr<T> x:
                     return NumericLogixHost.eval(x.ApiClass,
@@ -51,7 +51,7 @@ namespace Z0.Logix
 
                 case ITernaryBitwiseOpExpr<T> x:
                     return NumericLogixHost.eval(x.ApiClass,
-                        eval(x.FirstArg).Value, eval(x.SecondArg).Value, eval(x.SecondArg).Value);
+                        eval(x.First).Value, eval(x.Second).Value, eval(x.Second).Value);
 
                 default: throw new NotSupportedException(expr.GetType().Name);
             }

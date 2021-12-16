@@ -24,12 +24,12 @@ namespace Z0
         /// <summary>
         /// The left expression
         /// </summary>
-        public ILogixExpr<T> LeftArg {get;}
+        public ILogixExpr<T> Left {get;}
 
         /// <summary>
         /// The right expression
         /// </summary>
-        public ILogixExpr<T> RightArg {get;}
+        public ILogixExpr<T> Right {get;}
 
         /// <summary>
         /// The variables upon which the operands depend
@@ -40,8 +40,8 @@ namespace Z0
         public ComparisonExpr(ApiComparisonClass kind, ILogixExpr<T> lhs, ILogixExpr<T> rhs, params IVarExpr<T>[] vars)
         {
             ComparisonKind = kind;
-            LeftArg = lhs;
-            RightArg = rhs;
+            Left = lhs;
+            Right = rhs;
             _Vars = vars;
         }
 
@@ -84,7 +84,7 @@ namespace Z0
             => _Vars[index].Set(value);
 
         public string Format()
-            => ComparisonKind.Format(LeftArg, RightArg);
+            => ComparisonKind.Format(Left, Right);
 
         public override string ToString()
             => Format();

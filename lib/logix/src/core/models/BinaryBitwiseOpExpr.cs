@@ -23,26 +23,26 @@ namespace Z0
         /// <summary>
         /// The left operand
         /// </summary>
-        public ILogixExpr<T> LeftArg {get;}
+        public ILogixExpr<T> Left {get;}
 
         /// <summary>
         /// The right operand
         /// </summary>
-        public ILogixExpr<T> RightArg {get;}
+        public ILogixExpr<T> Right {get;}
 
         [MethodImpl(Inline)]
         public BinaryBitwiseOpExpr(BinaryBitLogicKind op, ILogixExpr<T> left, ILogixExpr<T> right)
         {
             ApiClass = op;
-            LeftArg = left;
-            RightArg = right;
+            Left = left;
+            Right = right;
         }
 
         /// <summary>
         /// Renders the expression in canonical form
         /// </summary>
         public string Format()
-            => ApiClass.Format(LeftArg, RightArg);
+            => ApiClass.Format(Left, Right);
 
         public override string ToString()
             => Format();

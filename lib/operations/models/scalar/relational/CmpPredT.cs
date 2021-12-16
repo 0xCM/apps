@@ -14,17 +14,17 @@ namespace Z0.Ops.Scalar
     public readonly struct CmpPred<T> : ICmpPred<CmpPred<T>,T>
         where T : IExpr
     {
-        public T A {get;}
+        public T Left {get;}
 
-        public T B {get;}
+        public T Right {get;}
 
         public CmpPredKind Kind {get;}
 
         [MethodImpl(Inline)]
         public CmpPred(T a, T b, CmpPredKind kind)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
             Kind = kind;
         }
 
@@ -41,7 +41,7 @@ namespace Z0.Ops.Scalar
             => default;
 
         internal static string format(in CmpPred<T> src)
-            => string.Format(RFM.PackedSlots3, src.A, symbol(src.Kind), src.B);
+            => string.Format(RFM.PackedSlots3, src.Left, symbol(src.Kind), src.Right);
 
         internal static string symbol(CmpPredKind kind)
             => kind switch {

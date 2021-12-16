@@ -12,7 +12,6 @@ namespace Z0
     using Types;
     using Specs = TypeSpecs;
     using SK = ScalarClass;
-    using CT = Canon;
 
     [ApiHost]
     public readonly struct TS
@@ -22,15 +21,21 @@ namespace Z0
         internal static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
-        public static LiteralType<u64> natural(Identifier name, u64 value)
-            => new LiteralType<u64>(name, new CT.u64(), value);
+        [MethodImpl(Inline)]
+        public static LiteralType<V> literal<V>(Identifier name, V value)
+            where V : IScalarValue
+                => new LiteralType<V>(name, value);
 
         [MethodImpl(Inline), Op]
-        public static FunctionType fx(Identifier name, ulong kind, Operand[] operands, Operand ret, Facets? facets = null)
+        public static LiteralType<@string> literal(Identifier name, @string value)
+            => new LiteralType<@string>(name, value);
+
+        [MethodImpl(Inline), Op]
+        public static FunctionType function(Identifier name, ulong kind, Operand[] operands, Operand ret, Facets? facets = null)
             => new FunctionType(name, kind, operands, ret, facets ?? Facets.Empty);
 
         [MethodImpl(Inline), Op]
-        public static FunctionType<K> fx<K>(Identifier name, K kind, Operand[] operands, Operand ret, Facets? facets = null)
+        public static FunctionType<K> function<K>(Identifier name, K kind, Operand[] operands, Operand ret, Facets? facets = null)
             where K : unmanaged
                 => new FunctionType<K>(name, kind, operands, ret, facets ?? Facets.Empty);
 

@@ -104,7 +104,7 @@ namespace Z0.Logix
         [Op, NumericClosures(Closure)]
         static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
-                => PredicateEval.eval(expr.ComparisonKind, eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => PredicateEval.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, NumericClosures(Closure)]
         static LogixLiteral<T> inc<T>(IUnaryArithmeticOpExpr<T> a)
@@ -124,11 +124,11 @@ namespace Z0.Logix
         [Op, NumericClosures(Closure)]
         static LogixLiteral<T> add<T>(IBinaryArithmeticOpExpr<T> expr)
             where T : unmanaged
-                => NumericLogixOps.add(eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => NumericLogixOps.add(eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, NumericClosures(Closure)]
         static LogixLiteral<T> sub<T>(IBinaryArithmeticOpExpr<T> expr)
             where T : unmanaged
-                => NumericLogixOps.sub(eval(expr.LeftArg).Value, eval(expr.RightArg).Value);
+                => NumericLogixOps.sub(eval(expr.Left).Value, eval(expr.Right).Value);
     }
 }

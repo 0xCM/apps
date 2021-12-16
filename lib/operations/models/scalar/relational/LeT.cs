@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Le<T> : ICmpPred<Le<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Le(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,7 +31,7 @@ namespace Z0.Ops.Scalar
             => CmpPredKind.LE;
 
         public Le Untyped()
-            => new Le(A,B);
+            => new Le(Left,Right);
 
         [MethodImpl(Inline)]
         public Le<T> Make(T a0, T a1)
@@ -50,11 +50,11 @@ namespace Z0.Ops.Scalar
 
         [MethodImpl(Inline)]
         public static implicit operator CmpPred<T>(Le<T> src)
-            => new CmpPred<T>(src.A, src.B, src.Kind);
+            => new CmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Le<T>(CmpPred<T> src)
-            => new Le<T>(src.A, src.B);
+            => new Le<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator Le(Le<T> src)

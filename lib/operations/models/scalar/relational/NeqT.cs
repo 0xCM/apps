@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Neq<T> : ICmpPred<Neq<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Neq(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,7 +31,7 @@ namespace Z0.Ops.Scalar
             => CmpPredKind.NEQ;
 
         public Neq Untyped()
-            => new Neq(A,B);
+            => new Neq(Left,Right);
 
         [MethodImpl(Inline)]
         public Neq<T> Make(T a0, T a1)
@@ -50,11 +50,11 @@ namespace Z0.Ops.Scalar
 
         [MethodImpl(Inline)]
         public static implicit operator CmpPred<T>(Neq<T> src)
-            => new CmpPred<T>(src.A, src.B, src.Kind);
+            => new CmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Neq<T>(CmpPred<T> src)
-            => new Neq<T>(src.A, src.B);
+            => new Neq<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator Neq(Neq<T> src)

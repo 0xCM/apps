@@ -22,23 +22,23 @@ namespace Z0
         /// <summary>
         /// The left operand
         /// </summary>
-        public ILogicExpr LeftArg {get;}
+        public ILogicExpr Left {get;}
 
         /// <summary>
         /// The right operand
         /// </summary>
-        public ILogicExpr RightArg {get;}
+        public ILogicExpr Right {get;}
 
         [MethodImpl(Inline)]
         public BinaryLogicOpExpr(BinaryBitLogicKind op, ILogicExpr lhs, ILogicExpr rhs)
         {
             ApiClass = op;
-            LeftArg = lhs;
-            RightArg = rhs;
+            Left = lhs;
+            Right = rhs;
         }
 
         public string Format()
-            => ApiClass.Format(LeftArg,RightArg);
+            => ApiClass.Format(Left,Right);
 
         public override string ToString()
             => Format();

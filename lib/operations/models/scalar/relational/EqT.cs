@@ -14,15 +14,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Eq<T> : ICmpPred<Eq<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Eq(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -32,7 +32,7 @@ namespace Z0.Ops.Scalar
             => CmpPredKind.EQ;
 
         public Eq Untyped()
-            => new Eq(A,B);
+            => new Eq(Left,Right);
 
         [MethodImpl(Inline)]
         public string Format()
@@ -51,11 +51,11 @@ namespace Z0.Ops.Scalar
 
         [MethodImpl(Inline)]
         public static implicit operator CmpPred<T>(Eq<T> src)
-            => new CmpPred<T>(src.A, src.B, src.Kind);
+            => new CmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Eq<T>(CmpPred<T> src)
-            => new Eq<T>(src.A, src.B);
+            => new Eq<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator Eq(Eq<T> src)

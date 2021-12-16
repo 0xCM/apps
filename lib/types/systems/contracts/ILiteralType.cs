@@ -4,14 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    /// <summary>
-    /// Characterizes a binary operator parametrized by expression type
-    /// </summary>
-    public interface IBinaryOpExpr<X> : IOperatorExpr
-        where X : IExpr
+    public interface ILiteralType : IType
     {
-        X Left {get;}
 
-        X Right {get;}
+    }
+
+    public interface ILiteralType<V> : ILiteralType
+        where V : ITyped
+    {
+
+        V Value {get;}
+
+        ulong IType.Kind
+            => Value.Type.Kind;
     }
 }

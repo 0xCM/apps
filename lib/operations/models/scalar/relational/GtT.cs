@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Gt<T> : ICmpPred<Gt<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Gt(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,7 +31,7 @@ namespace Z0.Ops.Scalar
             => CmpPredKind.GT;
 
         public Gt Untyped()
-            => new Gt(A,B);
+            => new Gt(Left,Right);
 
         [MethodImpl(Inline)]
         public Gt<T> Make(T a0, T a1)
@@ -50,11 +50,11 @@ namespace Z0.Ops.Scalar
 
         [MethodImpl(Inline)]
         public static implicit operator CmpPred<T>(Gt<T> src)
-            => new CmpPred<T>(src.A, src.B, src.Kind);
+            => new CmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
         public static implicit operator Gt<T>(CmpPred<T> src)
-            => new Gt<T>(src.A, src.B);
+            => new Gt<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator Gt(Gt<T> src)

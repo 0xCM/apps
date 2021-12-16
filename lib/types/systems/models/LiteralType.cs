@@ -9,22 +9,19 @@ namespace Z0
     /// </summary>
     /// <typeparam name="K"></typeparam>
     public class LiteralType<V> : ILiteralType<V>
-        where V : unmanaged, IScalarValue
+        where V : ITyped
     {
         public Identifier Name {get;}
 
-        public ScalarType ScalarType {get;}
-
         public V Value {get;}
 
-        public LiteralType(Identifier name, ScalarType type, V value)
+        public LiteralType(Identifier name, V value)
         {
             Name = name;
-            ScalarType = type;
             Value = value;
         }
 
         public string Format()
-            => string.Format("{0}:{1}={2}", Name, ScalarType, Value);
+            => string.Format("{0}:{1}={2}", Name, Value.Type, Value);
     }
 }

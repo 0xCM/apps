@@ -23,17 +23,17 @@ namespace Z0
         /// <summary>
         /// The operand
         /// </summary>
-        public ILogixExpr<T> Arg {get;}
+        public ILogixExpr<T> Operand {get;}
 
         [MethodImpl(Inline)]
         public UnaryBitwiseOpExpr(UnaryBitLogicKind op, ILogixExpr<T> operand)
         {
             ApiClass = op;
-            Arg = operand;
+            Operand = operand;
         }
 
         public string Format()
-            => ApiClass.Format(Arg);
+            => ApiClass.Format(Operand);
 
         public override string ToString()
             => Format();

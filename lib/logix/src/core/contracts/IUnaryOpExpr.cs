@@ -13,6 +13,6 @@ namespace Z0
         /// <summary>
         /// The operand
         /// </summary>
-        X Arg {get;}
+        X Operand {get;}
     }
 }

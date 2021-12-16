@@ -18,12 +18,12 @@ namespace Z0
         /// <summary>
         /// The left operand
         /// </summary>
-        public ILogicExpr<T> LeftArg {get;}
+        public ILogicExpr<T> Left {get;}
 
         /// <summary>
         /// The right operand
         /// </summary>
-        public ILogicExpr<T> RightArg {get;}
+        public ILogicExpr<T> Right {get;}
 
         /// <summary>
         /// The operator kind
@@ -34,18 +34,18 @@ namespace Z0
         public BinaryLogicOpExpr(BinaryBitLogicKind op, ILogicExpr<T> left, ILogicExpr<T> right)
         {
             ApiClass = op;
-            LeftArg = left;
-            RightArg = right;
+            Left = left;
+            Right = right;
         }
 
-        ILogicExpr IBinaryOpExpr<ILogicExpr>.LeftArg
-            => LeftArg;
+        ILogicExpr IBinaryOpExpr<ILogicExpr>.Left
+            => Left;
 
-        ILogicExpr IBinaryOpExpr<ILogicExpr>.RightArg
-            => RightArg;
+        ILogicExpr IBinaryOpExpr<ILogicExpr>.Right
+            => Right;
 
         public string Format()
-            => ApiClass.Format(LeftArg,RightArg);
+            => ApiClass.Format(Left,Right);
 
         public override string ToString()
             => Format();
