@@ -9,6 +9,7 @@ namespace Z0
     using PK = ClrPrimitiveKind;
     using EK = ClrEnumKind;
 
+
     public sealed partial class ClrTypeSystem : TypeSystem<ClrTypeSystem,PK>
     {
         public const string SystemName = "clr";

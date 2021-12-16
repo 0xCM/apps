@@ -4,9 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct CellTypeParser : IParser<PrimalCellType>
+    using static Root;
+
+    public readonly struct CellTypes
     {
-        public static CellTypeParser Service => default;
+        [Formatter]
+        public static string format(PrimalCellType src)
+        {
+            var dst = EmptyString;
+            if(src.ContentWidth == src.StorageWidth)
+                dst = string.Format("{0}{1}", src.ContentWidth, TS.format(src.Kind));
+            else
+                dst = string.Format("({0}:{1}){2}", src.ContentWidth, src.StorageWidth, TS.format(src.Kind));
+            return dst;
+        }
 
         [Parser]
         public static Outcome parse(string src, out PrimalCellType dst)
@@ -61,8 +72,5 @@ namespace Z0
             }
             return result;
         }
-
-        public Outcome Parse(string src, out PrimalCellType dst)
-            => parse(src, out dst);
     }
 }

@@ -163,23 +163,23 @@ namespace Z0
             where  T : struct
                 => new EmittedTableEvent<T>(step, dst);
 
-        [MethodImpl(Inline)]
-        public static RanEvent<T> ran<H,T>(H host, T data, CorrelationToken ct = default)
-            where H : IWfHost<H>, new()
-                => new RanEvent<T>(host.StepId, data, ct);
-
         [Op]
         public static RunningEvent running(WfStepId step, CorrelationToken ct = default)
             => new RunningEvent(step, ct);
 
         [MethodImpl(Inline)]
-        public static RunningEvent<T> running<T>(WfHost host, string operation, T data, CorrelationToken ct = default)
-            => new RunningEvent<T>(host, operation, data, ct);
+        public static RunningEvent<T> running<T>(WfHost host, string operation, T data)
+            => new RunningEvent<T>(host, data);
 
         [MethodImpl(Inline)]
-        public static RunningEvent<T> running<H,T>(H host, T data, CorrelationToken ct = default)
+        public static RunningEvent<T> running<H,T>(H host, T data)
             where H : IWfHost<H>, new()
-                => new RunningEvent<T>(host.StepId, data, ct);
+                => new RunningEvent<T>(host.StepId, data);
+
+        [MethodImpl(Inline)]
+        public static RanEvent<T> ran<H,T>(H host, T data, FlairKind flair = FlairKind.Ran)
+            where H : IWfHost<H>, new()
+                => new RanEvent<T>(host.StepId, data, flair);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static DataEvent<T> data<T>(T data, FlairKind? flair = null)

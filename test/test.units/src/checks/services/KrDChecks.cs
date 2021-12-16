@@ -25,26 +25,8 @@ namespace Z0
             }
 
             var seq = gcalc.seq(Intervals.lclosed(i0,i1));
-            iter(seq, term => Write(term.Format()));
+            //iter(seq, term => Write(term.Format()));
 
-            // for(var i=0; i<count; i++)
-            // {
-            //     ref readonly var term = ref src[i];
-            //     var eval = term.Evaluate();
-            //     if(eval && (term.I != term.J))
-            //     {
-            //         result = (false, eval.Format());
-            //         break;
-            //     }
-
-            //     if(term.I != term.J && eval)
-            //     {
-            //         result = (false, eval.Format());
-            //         break;
-            //     }
-
-            //     Write(term.Format());
-            // }
             return result;
         }
     }

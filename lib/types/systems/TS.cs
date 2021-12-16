@@ -9,7 +9,6 @@ namespace Z0
 
     using static Root;
 
-    using Types;
     using Specs = TypeSpecs;
     using SK = ScalarClass;
 
@@ -18,7 +17,8 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        internal static string format(ClrPrimitiveKind src)
+        [Formatter]
+        public static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
         [MethodImpl(Inline)]

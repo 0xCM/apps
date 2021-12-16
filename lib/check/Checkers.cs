@@ -14,20 +14,16 @@ namespace Z0
         public static Type[] types(params Assembly[] src)
             => src.Types().Tagged<CheckerAttribute>().Concrete();
 
-        public static ICheckService[] services(IWfRuntime wf, params Assembly[] src)
+        public static ConstLookup<Identifier,ICheckService> discover(IWfRuntime wf, params Assembly[] src)
         {
-            var types = Checkers.types(src);
             var dst = list<ICheckService>();
-            foreach(var type in types)
+            foreach(var type in Checkers.types(src))
             {
                 var factories = type.StaticMethods().Where(x => x.Name == "create");
                 if(factories.Length == 1)
-                {
-                    var service = (ICheckService)first(factories).Invoke(null, new object[]{wf});
-                    dst.Add(service);
-                }
+                    dst.Add((ICheckService)first(factories).Invoke(null, new object[]{wf}));
             }
-            return dst.ToArray();
+            return dst.ToArray().Select(x => (x.Name, x)).ToConstLookup();
         }
     }
 }

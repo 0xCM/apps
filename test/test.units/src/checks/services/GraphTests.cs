@@ -18,9 +18,9 @@ namespace Z0
             var g = cycle(0u, (uint)labels.Length - 1).Seal();
             var dst = text.buffer();
             render(g, dst);
-            Write(dst.Emit());
+            //Write(dst.Emit());
             render(g, " -> ", labels, dst);
-            Write(dst.Emit());
+            //Write(dst.Emit());
             return true;
         }
 

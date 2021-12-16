@@ -8,6 +8,8 @@ namespace Z0
     {
         public readonly struct Bool : IType<ClrPrimitiveKind>
         {
+            public IParser<bool> ValueParser => Parsers.Service.Parser<bool>();
+
             public Identifier Name => nameof(Bool);
 
             public ClrPrimitiveKind Kind => ClrPrimitiveKind.U1;

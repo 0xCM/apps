@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+
     public class ExprChecks : Checker<ExprChecks>
     {
         static ICheckNumeric Claim = NumericClaims.Checker;

@@ -10,23 +10,23 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrInstanceMethod : IEquatable<ClrInstanceMethod>, IComparable<ClrInstanceMethod>, ITextual
+    public readonly struct ClrInstanceMethod : IEquatable<ClrInstanceMethod>, IComparable<ClrInstanceMethod>, ITextual, IClrRuntimeMethod
     {
         public object Host {get;}
 
-        public MethodInfo Method {get;}
+        public MethodInfo Definition {get;}
 
         [MethodImpl(Inline)]
         public ClrInstanceMethod(object host, MethodInfo method)
         {
             Host = host;
-            Method = method;
+            Definition = method;
         }
 
         public string HostedName
         {
             [MethodImpl(Inline)]
-            get => Host.GetType().Name + "/" + Method.Name;
+            get => Host.GetType().Name + "/" + Definition.Name;
         }
 
         public string Format()

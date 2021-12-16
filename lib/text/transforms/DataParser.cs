@@ -10,7 +10,6 @@ namespace Z0
 
     using static Root;
 
-
     using SP = SymbolicParse;
 
     [ApiHost]
@@ -50,6 +49,28 @@ namespace Z0
         public static Outcome parse(string src, out AsmVariationCode dst)
         {
             dst = new AsmVariationCode(text.trim(src));
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out char dst)
+        {
+            if(text.nonempty(src))
+            {
+                if(src.Length == 1)
+                {
+                    dst = src[0];
+                    return true;
+                }
+            }
+            dst = AsciNull.Literal;
+            return false;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out string dst)
+        {
+            dst = src ?? EmptyString;
             return true;
         }
 
@@ -206,13 +227,6 @@ namespace Z0
         public static Outcome parse<T>(string src, out Size<T> dst)
             where T : unmanaged
                 => Sizes.parse(src, out dst);
-
-        [Parser]
-        public static Outcome parse(string src, out string dst)
-        {
-            dst = src ?? EmptyString;
-            return true;
-        }
 
         public static Outcome parse(string src, out SymExpr dst)
             => SP.parse(src, out dst);

@@ -11,16 +11,22 @@ namespace Z0
     public abstract class Checker<T> : AppService<T>, ICheckService
         where T : Checker<T>, new()
     {
-        readonly Index<MethodInfo> Checkers;
+        readonly Index<MethodInfo> Methods;
+
+        readonly Index<Name> CheckNames;
 
         protected IPolyrand Random;
 
         protected Checker()
         {
-            Checkers = HostType.DeclaredPublicMethods().WithArity(0);
+            Methods = HostType.DeclaredPublicMethods().WithArity(0);
+            CheckNames = Methods.Select(x => (Name)x.DisplayName());
         }
 
         public Type HostType => typeof(T);
+
+        public ReadOnlySpan<Name> Checks
+            => CheckNames;
 
         protected override void OnInit()
         {
@@ -32,56 +38,79 @@ namespace Z0
 
         }
 
-        public void Run()
+        protected static EqualityClaim<C> Eq<C>(C actual, C expect)
+            where C : IEquatable<C>
+                => EqualityClaim.define(actual,expect);
+
+        protected static void RequireEq<C>(C actual, C expect)
+            where C : IEquatable<C>
         {
-            Babble(string.Format("Running {0} {1} checks", Checkers.Count, typeof(T).Name));
-            Prepare();
-            var count = Checkers.Count;
+            require(Eq(actual,expect));
+        }
+
+        protected static void require<C>(EqualityClaim<C> claim)
+            where C : IEquatable<C>
+        {
+            if(!claim.Actual.Equals(claim.Expect))
+                Throw.message(claim.Format());
+        }
+
+        void Run(MethodInfo method)
+        {
             var args = sys.empty<object>();
-            for(var i=0; i<count; i++)
+            var result = Outcome.Success;
+            var name = method.Name;
+            var running = Running(name);
+            try
             {
-                ref readonly var checker = ref Checkers[i];
-                var result = Outcome.Success;
-                var name = checker.Name;
-                try
+                if(method.ReturnType == typeof(Outcome))
                 {
-                    if(checker.ReturnType == typeof(Outcome))
-                    {
-                        if(checker.IsStatic)
-                        {
-                            result = (Outcome)checker.Invoke(null, args);
-                        }
-                        else
-                        {
-                            result = (Outcome)checker.Invoke(this, args);
-                        }
-                    }
+                    if(method.IsStatic)
+                        result = (Outcome)method.Invoke(null, args);
                     else
-                    {
-                        if(checker.IsStatic)
-                        {
-                            checker.Invoke(null, args);
-                        }
-                        else
-                        {
-                            checker.Invoke(this, args);
-                        }
-
-                    }
+                        result = (Outcome)method.Invoke(this, args);
                 }
-                catch(Exception e)
+                else if(method.ReturnType == typeof(bool))
                 {
-                    result = e;
-                }
-
-                if(result)
-                {
-                    Status(string.Format("{0,-32} | Pass", name));
+                    if(method.IsStatic)
+                        result = (bool)method.Invoke(null, args);
+                    else
+                        result = (bool)method.Invoke(this, args);
                 }
                 else
                 {
-                    Error(string.Format("{0,-32} | Fail | {1}", name, result.Message));
+                    if(method.IsStatic)
+                        method.Invoke(null, args);
+                    else
+                        method.Invoke(this, args);
                 }
+            }
+            catch(Exception e)
+            {
+                result = e;
+            }
+
+            if(result)
+                Ran(running,string.Format("{0,-32} | Pass", name), FlairKind.Ran);
+            else
+                Ran(running, string.Format("{0,-32} | Fail | {1}", name, result.Message), FlairKind.Error);
+        }
+
+        public void Run()
+        {
+            try
+            {
+                Prepare();
+                var count = Methods.Count;
+                var args = sys.empty<object>();
+                for(var i=0; i<count; i++)
+                {
+                    Run(Methods[i]);
+                }
+            }
+            catch(Exception e)
+            {
+                Error(e);
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Z0
             match.Include(128, g, h, i);
             match.Include(256, j, k, l);
 
-            Write(match.Format());
+            //Write(match.Format());
         }
     }
 }

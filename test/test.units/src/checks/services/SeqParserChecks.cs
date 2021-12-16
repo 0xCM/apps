@@ -13,30 +13,14 @@ namespace Z0
     using C = AsciCode;
 
     [ApiHost]
-    public struct SeqParserChecks
+    public class SeqParserChecks : Checker<SeqParserChecks>
     {
         [Op]
-        public static SeqParserChecks create(IWfRuntime wf)
-            => new SeqParserChecks(wf);
-        readonly IWfRuntime Wf;
-
-        [MethodImpl(Inline)]
-        internal SeqParserChecks(IWfRuntime wf)
+        public void RunAll()
         {
-            Wf = wf;
-        }
-
-        ExecToken Ran<C,T>(WfExecFlow<string> flow, C @case, T data)
-            => Wf.Ran(flow, seq.index(Chars.Colon, 0, @case, data));
-
-        [Op]
-        public void Run()
-        {
-            var flow = Wf.Running(nameof(SeqParserChecks));
-            Ran(flow, n0, test(n0).Format());
-            Ran(flow, n1, test(n1).Format());
-            Ran(flow, n2, test(n2).Format());
-            Wf.Ran(flow);
+            var a = test(n0).Format();
+            var b = test(n1).Format();
+            var c = test(n2).Format();
         }
 
         [Op]

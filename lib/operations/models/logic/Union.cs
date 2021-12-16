@@ -27,7 +27,7 @@ namespace Z0.Ops.Logic
             => "union";
 
         public string Format()
-            => OpFormatters.Union().Format(this);
+            => OpFormatters.format(this);
 
         public override string ToString()
             => Format();

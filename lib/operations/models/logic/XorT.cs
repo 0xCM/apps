@@ -14,9 +14,9 @@ namespace Z0.Ops.Logic
     /// </summary>
     public readonly struct Xor<T> : IExpr
     {
-        public readonly T Left;
+        public T Left {get;}
 
-        public readonly T Right;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Xor(T left, T right)
@@ -36,7 +36,7 @@ namespace Z0.Ops.Logic
             => "xor<{0}>";
 
         public string Format()
-            => OpFormatters.Xor<T>().Format(this);
+            => OpFormatters.format(this);
 
         public override string ToString()
             => Format();

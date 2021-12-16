@@ -12,6 +12,8 @@ namespace Z0
 
             public ClrPrimitiveKind Kind => ClrPrimitiveKind.U8;
 
+            public IParser<byte> ValueParser => Parsers.Service.Parser<byte>();
+
             public string Format()
                 => Name;
         }

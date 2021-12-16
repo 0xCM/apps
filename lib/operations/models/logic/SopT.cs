@@ -59,7 +59,7 @@ namespace Z0.Ops.Logic
         }
 
         public string Format()
-            => OpFormatters.Sop<T>().Format(this);
+            => OpFormatters.format(this);
 
         public override string ToString()
             => Format();

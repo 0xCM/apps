@@ -12,6 +12,8 @@ namespace Z0
 
             public Identifier Name => nameof(bit);
 
+            public IParser<bit> ValueParser => Parsers.Service.Parser<bit>();
+
             public string Format()
                 => Name;
         }

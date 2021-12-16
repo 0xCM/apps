@@ -5,13 +5,13 @@
 namespace Z0
 {
     using System;
+    using System.Reflection;
+    using System.Collections.Generic;
 
-    public interface ICheckService
+    using static core;
+
+    public class Formatters
     {
-        Identifier Name => GetType().Name;
 
-        ReadOnlySpan<Name> Checks {get;}
-
-        void Run();
     }
 }

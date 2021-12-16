@@ -19,11 +19,7 @@ namespace Z0
         public static void Main(params string[] args)
             => run(args, PartId.Cpu, PartId.CalcShell);
 
-        IPolySource Source;
-
         EventQueue Queue;
-
-        //IProjectWs Project;
 
         TextWriter Log;
 
@@ -35,7 +31,6 @@ namespace Z0
         protected override void OnInit()
         {
             Queue = EventQueue.allocate(GetType(), EventRaised);
-            Source = Rng.@default();
             var project = Ws.Project("calcs");
             Log = project.Log("calcs").AsciWriter();
         }
@@ -165,13 +160,6 @@ namespace Z0
             checker.Validate();
         }
 
-        void Run(N13 n)
-        {
-            LogHeader(MethodInfo.GetCurrentMethod(), n);
-            ApiKeyChecks.create(Wf).Run();
-        }
-
-
         void Run(N15 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
@@ -212,12 +200,6 @@ namespace Z0
             }
         }
 
-        void Run(N17 n)
-        {
-            LogHeader(MethodInfo.GetCurrentMethod(), n);
-            BitfieldChecks.create(Wf).Run();
-        }
-
         void Run(N18 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
@@ -231,12 +213,6 @@ namespace Z0
             var chars = slice(buffer.Data,0,count);
             var fmt = text.format(chars);
             Log.WriteLine(fmt);
-        }
-
-        void Run(N20 n)
-        {
-            LogHeader(MethodInfo.GetCurrentMethod(), n);
-            BitMaskChecker.create(Wf).Run(Source);
         }
 
         void Run(N23 n)
@@ -258,12 +234,6 @@ namespace Z0
             Fsm.example1();
             Fsm.example2();
         }
-
-        // void Run(N27 n)
-        // {
-        //     LogHeader(MethodInfo.GetCurrentMethod(), n);
-        //     Parts.BitPack.Resolved.Executor.Run();
-        // }
 
         void Run(N28 n)
         {
@@ -345,23 +315,14 @@ namespace Z0
                     case 9:
                         Run(n9);
                     break;
-                    case 13:
-                        Run(n13);
-                    break;
                     case 15:
                         Run(n15);
                     break;
                     case 16:
                         Run(n16);
                     break;
-                    case 17:
-                        Run(n17);
-                    break;
                     case 18:
                         Run(n18);
-                    break;
-                    case 20:
-                        Run(n20);
                     break;
                     case 23:
                         Run(n23);

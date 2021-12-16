@@ -27,7 +27,7 @@ namespace Z0.Ops.Logic
         public Label Name => "exclude";
 
         public string Format()
-            => OpFormatters.Except().Format(this);
+            => OpFormatters.format(this);
 
         public override string ToString()
             => Format();

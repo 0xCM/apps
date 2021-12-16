@@ -213,13 +213,16 @@ namespace Z0
             => Wf.Error(core.require(content));
 
         protected WfExecFlow<T> Running<T>(T msg, [Caller] string operation = null)
-            => Wf.Running(msg, operation);
+            => Wf.Running(msg);
 
         protected WfExecFlow<string> Running([Caller] string msg = null)
             => Wf.Running(msg);
 
         protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
             => Wf.Ran(flow.WithMsg(msg));
+
+        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
+            => Wf.Ran(flow.WithMsg(msg), flair);
 
         protected WfFileFlow EmittingFile(FS.FilePath dst)
             => Wf.EmittingFile(dst);
@@ -228,9 +231,7 @@ namespace Z0
             => Wf.EmittedFile(flow,count);
 
         protected void EmittedFile(WfFileFlow file, Count count, Arrow<FS.FileUri> flow)
-        {
-            Wf.EmittedFile(file,count);
-        }
+            => Wf.EmittedFile(file,count);
 
         protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
             where T : struct
@@ -293,7 +294,6 @@ namespace Z0
             else
                 return false;
         }
-
 
         protected FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
         {

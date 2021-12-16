@@ -12,181 +12,139 @@ namespace Z0.Ops
 
     readonly struct OpFormatters
     {
-        public static IFormatter<Except> Except()
-            => default(ExceptFormatter);
-
-        public static IFormatter<Union<T>> Union<T>()
-            where T : IExpr
-                => default(UnionFormatter<T>);
-
-        public static IFormatter<Union> Union()
-            => default(UnionFormatter);
-
-        public static IFormatter<Product> Product()
-            => default(ProductFormatter);
-
-        public static IFormatter<Product<T>> Product<T>()
-            where T : IExpr
-                => default(ProductFormatter<T>);
-
-        public static IFormatter<Sop<T>> Sop<T>()
-            where T : IExpr
-                => default(SopFormatter<T>);
-
-        public static IFormatter<Xor<T>> Xor<T>()
-            => default(XorFormatter<T>);
-
-        readonly struct XorFormatter<T> : IFormatter<Xor<T>>
+        [Formatter]
+        public static string format(Union src)
         {
-            public string Format(Xor<T> src)
-                => string.Format(XF.BinaryChoice, src.Left, src.Right);
+            var terms = src.Terms;
+            var count = terms.Length;
+            var dst = text.buffer();
+
+            dst.Append(XF.ListOpen);
+            for(var i=0; i<count; i++)
+            {
+                if(i != 0)
+                    dst.Append(Chars.Space);
+
+                dst.AppendFormat(RP.Slot0, skip(terms,i));
+
+                if(i != count - 1)
+                {
+                    dst.Append(Chars.Space);
+                    dst.Append(XF.Choice);
+                }
+            }
+            dst.Append(XF.ListClose);
+
+            return dst.Emit();
         }
 
-        readonly struct SopFormatter<T> : IFormatter<Sop<T>>
+        public static string format<T>(Union<T> src)
             where T : IExpr
         {
-            public string Format(Sop<T> src)
+            var dst = text.buffer();
+            var terms = src.Terms;
+            var count = terms.Length;
+            dst.Append(XF.ListOpen);
+
+            for(var i=0; i<count; i++)
             {
-                const char Delimiter = (char)LogicSym.Or;
-                var dst = text.buffer();
-                var count = src.Count;
-                for(var i=0; i<count; i++)
+                if(i != 0)
+                    dst.Append(Chars.Space);
+
+                dst.AppendFormat(RP.Slot0, skip(terms,i));
+
+                if(i != count - 1)
                 {
-                    ref readonly var product = ref src[i];
-
-                    dst.Append(Chars.LParen);
-                    dst.Append(product.Format());
-                    dst.Append(Chars.RParen);
-
-                    if(i != count - 1)
-                        dst.Append(Delimiter);
+                    dst.Append(Chars.Space);
+                    dst.Append(XF.Choice);
                 }
-
-                return dst.Emit();
             }
+            dst.Append(XF.ListClose);
+            return dst.Emit();
         }
 
-        readonly struct ProductFormatter<T> : IFormatter<Product<T>>
+        [Formatter]
+        public static string format(Product src)
+        {
+            const char Delimiter = (char)LogicSym.And;
+            var dst = text.buffer();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var expr = ref src[i];
+                dst.Append(expr.Format());
+                if(i != count - 1)
+                    dst.Append(Delimiter);
+
+            }
+            return dst.Emit();
+        }
+
+        public static string format<T>(Xor<T> src)
+            => string.Format(XF.BinaryChoice, src.Left, src.Right);
+
+        public static string format<T>(Product<T> src)
             where T : IExpr
         {
-            public string Format(Product<T> src)
+            const char Delimiter = (char)LogicSym.And;
+            var dst = text.buffer();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
-                const char Delimiter = (char)LogicSym.And;
-                var dst = text.buffer();
-                var count = src.Count;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var expr = ref src[i];
-                    dst.Append(expr.Format());
-                    if(i != count - 1)
-                        dst.Append(Delimiter);
+                ref readonly var expr = ref src[i];
+                dst.Append(expr.Format());
+                if(i != count - 1)
+                    dst.Append(Delimiter);
 
-                }
-                return dst.Emit();
             }
+            return dst.Emit();
         }
 
-        readonly struct ProductFormatter : IFormatter<Product>
-        {
-            public string Format(Product src)
-            {
-                const char Delimiter = (char)LogicSym.And;
-                var dst = text.buffer();
-                var count = src.Count;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var expr = ref src[i];
-                    dst.Append(expr.Format());
-                    if(i != count - 1)
-                        dst.Append(Delimiter);
-
-                }
-                return dst.Emit();
-            }
-        }
-
-        readonly struct UnionFormatter : IFormatter<Union>
-        {
-            public string Format(Union src)
-            {
-                var terms = src.Terms;
-                var count = terms.Length;
-                var dst = text.buffer();
-
-                dst.Append(XF.ListOpen);
-                for(var i=0; i<count; i++)
-                {
-                    if(i != 0)
-                        dst.Append(Chars.Space);
-
-                    dst.AppendFormat(RP.Slot0, skip(terms,i));
-
-                    if(i != count - 1)
-                    {
-                        dst.Append(Chars.Space);
-                        dst.Append(XF.Choice);
-                    }
-                }
-                dst.Append(XF.ListClose);
-
-                return dst.Emit();
-            }
-        }
-
-        readonly struct UnionFormatter<T> : IFormatter<Union<T>>
+        public static string format<T>(Sop<T> src)
             where T : IExpr
         {
-            public string Format(Union<T> src)
+            const char Delimiter = (char)LogicSym.Or;
+            var dst = text.buffer();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
-                var dst = text.buffer();
-                var terms = src.Terms;
-                var count = terms.Length;
-                dst.Append(XF.ListOpen);
+                ref readonly var product = ref src[i];
 
-                for(var i=0; i<count; i++)
-                {
-                    if(i != 0)
-                        dst.Append(Chars.Space);
+                dst.Append(Chars.LParen);
+                dst.Append(product.Format());
+                dst.Append(Chars.RParen);
 
-                    dst.AppendFormat(RP.Slot0, skip(terms,i));
-
-                    if(i != count - 1)
-                    {
-                        dst.Append(Chars.Space);
-                        dst.Append(XF.Choice);
-                    }
-                }
-                dst.Append(XF.ListClose);
-                return dst.Emit();
+                if(i != count - 1)
+                    dst.Append(Delimiter);
             }
+
+            return dst.Emit();
         }
 
-        readonly struct ExceptFormatter : IFormatter<Except>
+        [Formatter]
+        public static string format(Except src)
         {
-            public string Format(Except src)
+            var terms = src.Terms.Array();
+            var count = terms.Length;
+            var dst = text.buffer();
+
+            dst.Append(Chars.Tilde);
+            dst.Append(XF.ListClose);
+            for(var i=0; i<count; i++)
             {
-                var terms = src.Terms.Array();
-                var count = terms.Length;
-                var dst = text.buffer();
+                if(i != 0)
+                    dst.Append(Chars.Space);
 
-                dst.Append(Chars.Tilde);
-                dst.Append(XF.ListClose);
-                for(var i=0; i<count; i++)
+                dst.AppendFormat(RP.Slot0, skip(terms,i));
+
+                if(i != count - 1)
                 {
-                    if(i != 0)
-                        dst.Append(Chars.Space);
-
-                    dst.AppendFormat(RP.Slot0, skip(terms,i));
-
-                    if(i != count - 1)
-                    {
-                        dst.Append(Chars.Space);
-                        dst.Append(XF.Choice);
-                    }
+                    dst.Append(Chars.Space);
+                    dst.Append(XF.Choice);
                 }
-                dst.Append(XF.ListClose);
-                return dst.Emit();
             }
+            dst.Append(XF.ListClose);
+            return dst.Emit();
         }
     }
 }

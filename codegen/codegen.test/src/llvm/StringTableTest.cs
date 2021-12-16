@@ -19,7 +19,7 @@ namespace Z0.llvm
     }
 
 
-    public class StringTableChecks : Checks<StringTableChecks>
+    public class StringTableChecks : Checker<StringTableChecks>
     {
         Outcome LabelTest1()
         {
@@ -51,7 +51,7 @@ namespace Z0.llvm
         }
 
 
-        public override void Run()
+        public void RunAll()
         {
             var result = Outcome.Success;
             var runtime = strings.memory(AVX512ST.Offsets, AVX512ST.Data);

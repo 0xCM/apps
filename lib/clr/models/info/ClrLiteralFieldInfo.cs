@@ -6,13 +6,13 @@ namespace Z0
 {
     partial struct ClrDefs
     {
-        public class LiteralField : FieldDef
+        public class ClrLiteralFieldInfo : ClrFieldInfo
         {
             public ClrLiteralKind LiteralKind;
 
             public dynamic Value;
 
-            public LiteralField(Identifier name, ClrLiteralKind kind, dynamic value, TextBlock desc)
+            public ClrLiteralFieldInfo(Identifier name, ClrLiteralKind kind, dynamic value, TextBlock desc)
             {
                 Name = name;
                 LiteralKind = kind;

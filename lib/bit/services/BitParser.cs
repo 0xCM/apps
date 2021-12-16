@@ -25,6 +25,10 @@ namespace Z0
             where T : unmanaged
                 => default;
 
+        [Parser]
+        public static Outcome parse(string src, out bit dst)
+            => bit.parse(src, out dst);
+
         [Op]
         public static bool semantic(string src, out bit dst)
         {

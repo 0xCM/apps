@@ -7,7 +7,7 @@ namespace Z0
     using static core;
     using static BitfieldSpecs;
 
-    public class BitfieldChecks : AppService<BitfieldChecks>
+    public class BitfieldChecks : Checker<BitfieldChecks>
     {
         enum BF_A : byte
         {
@@ -24,7 +24,7 @@ namespace Z0
             Seg3 = 3
         }
 
-        public void bitfield_a()
+        public void CheckBitfield()
         {
             var segs = segments(
                 segment(0, BF_A.Seg0, 0, 2),
@@ -51,12 +51,8 @@ namespace Z0
                     buffer.Append(" | ");
             }
             buffer.Append("]");
-            Wf.Row(buffer.Emit());
+            //Wf.Row(buffer.Emit());
         }
 
-        public void Run()
-        {
-            bitfield_a();
-        }
     }
 }

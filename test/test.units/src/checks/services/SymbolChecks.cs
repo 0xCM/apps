@@ -8,7 +8,7 @@ namespace Z0
 
     public class SymbolChecks : Checker<SymbolChecks>
     {
-        public Outcome TestSymNames()
+        public Outcome CheckSymNames()
         {
             var result = Outcome.Success;
             var classifier = Classifiers.classifier<AsciLetterLoSym,byte>();
@@ -19,11 +19,11 @@ namespace Z0
             {
                 ref readonly var c = ref skip(classes,i);
                 ref readonly var s = ref symbols[i];
-                Require.equal(c.Ordinal, i);
-                Require.equal(s.Key.Value, c.Ordinal);
-                Require.equal(s.Expr.Format(), c.Symbol.Format());
-                Require.equal(s.Name.Format(), c.KindName.Format());
-                Write(string.Format("{0,-8:D3} {1,-24} {2,-8} {3}", c.Ordinal, c.ClassName, c.KindName, c.Value));
+                Z0.Require.equal(c.Ordinal, i);
+                Z0.Require.equal(s.Key.Value, c.Ordinal);
+                Z0.Require.equal(s.Expr.Format(), c.Symbol.Format());
+                Z0.Require.equal(s.Name.Format(), c.KindName.Format());
+                //Write(string.Format("{0,-8:D3} {1,-24} {2,-8} {3}", c.Ordinal, c.ClassName, c.KindName, c.Value));
             }
 
             return result;

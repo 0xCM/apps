@@ -38,67 +38,6 @@ namespace Z0
             get => new bit[]{Off,On};
         }
 
-        [MethodImpl(Inline), Op]
-        public static bit parse(char c)
-            => c == One;
-
-        [MethodImpl(Inline)]
-        static string ifempty(string src, string replace)
-            => sys.empty(src) ? replace ?? EmptyString : src;
-
-        [MethodImpl(Inline), Op]
-        public static bit parse(string src)
-            => parse(ifempty(src, "0")[0]);
-
-        /// <summary>
-        /// Creates a bitspan from the text encoding of a binary number
-        /// </summary>
-        /// <param name="src">The bit source</param>
-        public static Span<bit> bitstring(string src)
-        {
-            var count = src.Length;
-            var dst = span<bit>(count);
-            var actual = bitstring(src, dst);
-            return slice(dst,0, actual);
-        }
-
-        [Op]
-        public static uint bitstring(string src, Span<bit> buffer)
-        {
-            var chars = span(src);
-            var count = min(chars.Length, buffer.Length);
-            var j=0u;
-            for(uint i=0u; i<count; i++)
-            {
-                ref readonly var c = ref skip(chars, i);
-                if(c == bit.One)
-                    seek(buffer, j++) = bit.On;
-                else if(c == bit.Zero)
-                    seek(buffer, j++) = bit.Off;
-            }
-            return j;
-        }
-
-        [MethodImpl(Inline)]
-        public static bool parse(string src, out bit dst)
-        {
-            dst = 0;
-            if((src?.Length ?? 0) > 0)
-            {
-                var c = src[0];
-                if(c == Zero)
-                {
-                    return true;
-                }
-                else if(c == One)
-                {
-                    dst = 1;
-                    return true;
-                }
-            }
-            return false;
-        }
-
         [MethodImpl(Inline)]
         public bit(bool state)
             => State = state;

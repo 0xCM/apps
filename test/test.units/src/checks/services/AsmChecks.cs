@@ -15,10 +15,10 @@ namespace Z0.Asm
             using var flow = Running(nameof(CheckStringRes));
             var resources = Resources.strings(typeof(AsciText)).View;
             var count = resources.Length;
-            for(var i=0; i<count; i++)
-            {
-                Write(skip(resources,i));
-            }
+            // for(var i=0; i<count; i++)
+            // {
+            //     Write(skip(resources,i));
+            // }
             return true;
         }
 
@@ -73,9 +73,9 @@ namespace Z0.Asm
             var text2 = code2.Format();
             var text3 = code3.Format();
 
-            Write(code1.Format());
-            Write(code2.Format());
-            Write(code3.Format());
+            // Write(code1.Format());
+            // Write(code2.Format());
+            // Write(code3.Format());
 
             var check1 = CheckEquality(text1,text2);
             if(check1.Fail)

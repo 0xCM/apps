@@ -23,5 +23,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator ParseFunction<T>(ParserDelegate<T> src)
             => new ParseFunction<T>(src);
+
+
+        static Outcome empty(string src, out T dst)
+        {
+            dst = default;
+            return (false, RP.Empty);
+        }
+
+        public static ParseFunction<T> Empty => new ParseFunction<T>(empty);
     }
 }

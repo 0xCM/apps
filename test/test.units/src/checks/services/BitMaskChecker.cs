@@ -12,7 +12,7 @@ namespace Z0
     using static BitMasks;
 
     [ApiHost]
-    public class BitMaskChecker : AppService<BitMaskChecker>
+    public class BitMaskChecker : Checker<BitMaskChecker>
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -120,11 +120,10 @@ namespace Z0
         }
 
         [Op]
-        public void Run(IPolySource source)
+        public void RunAll()
         {
-            var flow = Wf.Running("Checking bitmasks");
             var log = text.buffer();
-            Init(source, log);
+            Init(Random, log);
             var results = 0ul;
             var index = z8;
             Check(base2);
@@ -132,12 +131,11 @@ namespace Z0
             CheckHiMasks();
             EmitReport(log);
             Counts = (SuccessCount, FailureCount);
-            Wf.Ran(flow, Counts);
         }
 
         void EmitReport(ITextBuffer src)
         {
-            Wf.Row(src.Emit());
+            //Wf.Row(src.Emit());
         }
 
         [Op]

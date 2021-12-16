@@ -24,14 +24,15 @@ namespace Z0
 
         public EventPayload<T> Payload {get;}
 
-        public FlairKind Flair => FlairKind.Ran;
+        public FlairKind Flair {get;}
 
         [MethodImpl(Inline)]
-        public RanEvent(WfStepId step, T data, CorrelationToken ct)
+        public RanEvent(WfStepId step, T data, FlairKind flair = FlairKind.Ran)
         {
             EventId = EventId.define(EventName, step);
             StepId = step;
             Payload = data;
+            Flair = flair;
         }
 
         [MethodImpl(Inline)]

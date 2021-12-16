@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class ClrCanonical : TypeMap<ClrTypeSystem, Canon>
+    public abstract class ClrMemberInfo
     {
-        public override Outcome Map(IType src, out IType dst)
-        {
-            dst = default;
-            return false;
-        }
+        public Identifier Name;
+
+        public TextBlock Description;
+
+        public ClrAccessKind Access;
+
+        public ClrModifierKind Modifiers;
     }
 }

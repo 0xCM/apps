@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct ClrDefs
+    public class ClrFieldInfo : ClrMemberInfo
     {
-        public class FieldDef : Member
-        {
-            public Identifier FieldType;
-        }
+        public Identifier FieldType;
     }
 }

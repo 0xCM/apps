@@ -12,6 +12,8 @@ namespace Z0
 
             public ClrPrimitiveKind Kind => ClrPrimitiveKind.I32;
 
+            public IParser<int> ValueParser => Parsers.Service.Parser<int>();
+
             public string Format()
                 => Name;
         }

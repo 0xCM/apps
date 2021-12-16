@@ -30,9 +30,9 @@ namespace Z0
             return e.EventId;
         }
 
-        public RanEvent<T> Ran<T>(T data)
+        public RanEvent<T> Ran<T>(T data, FlairKind flair = FlairKind.Ran)
         {
-            var e = ran(Source, data);
+            var e = ran(Source, data, flair);
             Raise(e);
             return e;
         }
@@ -74,7 +74,7 @@ namespace Z0
 
         public RunningEvent<T> Running<T>(string operation, T data)
         {
-            var e = running(Source, operation, data);
+            var e = running(Source, data);
             Raise(e);
             return e;
         }

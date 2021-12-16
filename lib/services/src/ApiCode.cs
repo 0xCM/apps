@@ -80,7 +80,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var file = ref skip(files,i);
-                var inner = wf.Running(file, "apihex");
+                var inner = wf.Running(file);
                 var rows = hex.ReadRows(file);
                 var blocks = rows.Length;
                 if(blocks == 0)

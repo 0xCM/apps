@@ -20,6 +20,14 @@ namespace Z0
         public bool Find(Type t, out IParser parser)
             => Lookup.Find(t, out parser);
 
+        public IParser<T> Parser<T>()
+        {
+            if(Find(typeof(T), out var parser))
+                return (IParser<T>)parser;
+            else
+                return ParseFunction<T>.Empty;
+        }
+
         public static ConstLookup<Type,IParser> discover(out List<string> log)
         {
             var src = ApiRuntimeLoader.catalog().Components.Storage;

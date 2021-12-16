@@ -12,9 +12,6 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct PrimalCellType
     {
-        public static Outcome parse(string src, out PrimalCellType dst)
-            => CellTypeParser.Service.Parse(src, out dst);
-
         public uint ContentWidth {get;}
 
         public uint StorageWidth {get;}
@@ -32,7 +29,7 @@ namespace Z0
         public static PrimalCellType Empty => default;
 
         public string Format()
-            => CellTypeFormatter.Service.Format(this);
+            => CellTypes.format(this);
 
         public override string ToString()
             => Format();

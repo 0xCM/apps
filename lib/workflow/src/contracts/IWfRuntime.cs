@@ -72,12 +72,6 @@ namespace Z0
             return Flow(data);
         }
 
-        WfExecFlow<T> Running<T>(T data, string operation)
-        {
-            signal(this).Running(operation, data);
-            return Flow(data);
-        }
-
         WfExecFlow<T> Running<T>(WfHost host, T data, string operation)
         {
             signal(this, host).Running(operation, data);
@@ -94,6 +88,13 @@ namespace Z0
         {
             var token = Completed(src);
             WfEvents.signal(this).Ran(src.Data);
+            return token;
+        }
+
+        ExecToken Ran<T>(WfExecFlow<T> src, FlairKind flair)
+        {
+            var token = Completed(src);
+            WfEvents.signal(this).Ran(src.Data, flair);
             return token;
         }
 

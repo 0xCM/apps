@@ -10,13 +10,13 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class ApiKeyChecks : AppService<ApiKeyChecks>
+    public class ApiKeyChecks : Checker<ApiKeyChecks>
     {
         const GenericStateKind ng = GenericStateKind.Nongeneric;
 
         const GenericStateKind g = GenericStateKind.OpenGeneric;
 
-        public void Run()
+        public void RunAll()
         {
             var kinds = Symbols.index<ApiClassKind>().View;
             var catalog = Wf.ApiCatalog;
@@ -36,10 +36,9 @@ namespace Z0
                     ref readonly var method = ref skip(methods,j);
                     var @class = ApiQuery.apiclass(method);
                     var key = ApiKeys.key(host.PartId, (ushort)host.HostType.MetadataToken, @class);
-
                     var sig = method.Definition.DisplaySig();
                     var output = string.Format("{0} | {1,-12} | {2}", ApiKeyFormats.bitfield(key), @class, sig);
-                    Wf.Row(output);
+                    //Wf.Row(output);
                 }
             }
         }

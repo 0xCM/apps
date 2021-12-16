@@ -23,31 +23,18 @@ namespace Z0
         public WfStepId StepId {get;}
 
         public EventPayload<T> Payload {get;}
-
-        public Name Operation {get;}
-
         public FlairKind Flair => FlairKind.Running;
 
         [MethodImpl(Inline)]
-        public RunningEvent(WfStepId step, T data, CorrelationToken ct = default)
+        public RunningEvent(WfStepId step, T data)
         {
             EventId = EventId.define(EventName, step);
-            StepId = step;
-            Payload = data;
-            Operation = data.ToString();
-        }
-
-        [MethodImpl(Inline)]
-        public RunningEvent(WfStepId step, string operation, T data, CorrelationToken ct = default)
-        {
-            EventId = EventId.define(EventName, step);
-            Operation = operation;
             StepId = step;
             Payload = data;
         }
 
         [MethodImpl(Inline)]
         public string Format()
-            => Operation.IsEmpty ? text.format(EventId, Payload) : string.Format(RP.PSx3, EventId, Operation, Payload);
+            => string.Format(RP.PSx2, EventId, Payload);
     }
 }

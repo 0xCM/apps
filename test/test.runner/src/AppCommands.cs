@@ -14,30 +14,36 @@ namespace Z0
         protected override void Initialized()
         {
             State.Init(Wf, Ws);
-            CheckSvc = Checkers.services(Wf, Parts.TestUnits.Assembly).Select(x => (x.Name, x)).ToConstLookup();
+            CheckServices = Checkers.discover(Wf, Parts.TestUnits.Assembly);
         }
 
-        public ConstLookup<Identifier,ICheckService> CheckSvc {get;private set;}
+        public ConstLookup<Identifier,ICheckService> CheckServices {get;private set;}
 
-        [CmdOp("checkers/list")]
+        [CmdOp("checks/list")]
         Outcome ListCheckers(CmdArgs args)
         {
-            iter(CheckSvc.Values, svc => Write(svc.Name));
+            foreach(var svc in CheckServices.Values)
+            {
+                foreach(var c in svc.Checks)
+                {
+                    Write(string.Format("{0}/{1}", svc.Name, c));
+                }
+            }
             return true;
         }
 
-        [CmdOp("checkers/run")]
+        [CmdOp("checks/run")]
         Outcome RumCheckers(CmdArgs args)
         {
             if(args.Count == 0)
-                iter(CheckSvc.Values, svc => svc.Run());
+                iter(CheckServices.Values, svc => svc.Run());
             else
             {
                 var count = args.Count;
                 for(var i=0; i<count; i++)
                 {
                     var name = args[0].Value;
-                    if(CheckSvc.Find(name, out var checker))
+                    if(CheckServices.Find(name, out var checker))
                     {
                         checker.Run();
                     }
@@ -78,7 +84,8 @@ namespace Z0
 
         public static void Main(params string[] args)
         {
-            using var wf = WfAppLoader.load("test.runner.commands");
+            var parts = array(PartId.TestUnits, PartId.Lib);
+            using var wf = WfAppLoader.load(parts, args, "test.runner.commands");
             using var shell = create(wf);
             shell.Run();
         }
