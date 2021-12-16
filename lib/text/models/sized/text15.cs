@@ -110,7 +110,7 @@ namespace Z0
             => Format();
 
         public bool Equals(text15 src)
-            => Storage.Equals(src);
+            => Storage.Equals(src.Storage);
         public int CompareTo(text15 src)
             => Format().CompareTo(src.Format());
 

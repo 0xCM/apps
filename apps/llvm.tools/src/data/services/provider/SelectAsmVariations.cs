@@ -56,7 +56,7 @@ namespace Z0.llvm
                     DataParser.parse(skip(values,j++), out dst.Key);
                     dst.Name = skip(values,j++);
                     dst.Mnemonic = skip(values,j++);
-                    dst.Code =new AsmVariationCode(skip(values,j++));
+                    dst.Code = new AsmVariationCode(text.trim(skip(values,j++)));
                 }
                 return records;
             }
