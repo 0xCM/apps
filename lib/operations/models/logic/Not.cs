@@ -18,7 +18,7 @@ namespace Z0.Ops.Logic
         public override Label OpName
             => "not";
 
-        public override Not Make(IExpr a)
+        public override Not Create(IExpr a)
             => new Not(a);
     }
 }

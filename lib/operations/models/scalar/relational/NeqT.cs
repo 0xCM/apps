@@ -10,8 +10,8 @@ namespace Z0.Ops.Scalar
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Neq<T> : ICmpPred<Neq<T>,T>
-        where T : IExpr
+    public readonly struct Neq<T> : IScalarCmpPred<Neq<T>,T>
+        where T : IScalarExpr
     {
         public T Left {get;}
 
@@ -34,7 +34,7 @@ namespace Z0.Ops.Scalar
             => new Neq(Left,Right);
 
         [MethodImpl(Inline)]
-        public Neq<T> Make(T a0, T a1)
+        public Neq<T> Create(T a0, T a1)
             => new Neq<T>(a0, a1);
 
         [MethodImpl(Inline)]
@@ -49,11 +49,11 @@ namespace Z0.Ops.Scalar
             => new Neq<T>(src.a, src.b);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmpPred<T>(Neq<T> src)
-            => new CmpPred<T>(src.Left, src.Right, src.Kind);
+        public static implicit operator ScalarCmpPred<T>(Neq<T> src)
+            => new ScalarCmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator Neq<T>(CmpPred<T> src)
+        public static implicit operator Neq<T>(ScalarCmpPred<T> src)
             => new Neq<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]

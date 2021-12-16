@@ -10,8 +10,8 @@ namespace Z0.Ops.Scalar
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Lt<T> : ICmpPred<Lt<T>,T>
-        where T : IExpr
+    public readonly struct Lt<T> : IScalarCmpPred<Lt<T>,T>
+        where T : IScalarExpr
     {
         public T Left {get;}
 
@@ -34,7 +34,7 @@ namespace Z0.Ops.Scalar
             => new Lt(Left,Right);
 
         [MethodImpl(Inline)]
-        public Lt<T> Make(T a0, T a1)
+        public Lt<T> Create(T a0, T a1)
             => new Lt<T>(a0, a1);
 
         [MethodImpl(Inline)]
@@ -49,11 +49,11 @@ namespace Z0.Ops.Scalar
             => new Lt<T>(src.a, src.b);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmpPred<T>(Lt<T> src)
-            => new CmpPred<T>(src.Left, src.Right, src.Kind);
+        public static implicit operator ScalarCmpPred<T>(Lt<T> src)
+            => new ScalarCmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator Lt<T>(CmpPred<T> src)
+        public static implicit operator Lt<T>(ScalarCmpPred<T> src)
             => new Lt<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]

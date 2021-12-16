@@ -13,15 +13,16 @@ namespace Z0.Ops.Scalar
     public readonly struct Xor<T> : IBinaryBitLogicOp<Xor<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
+
 
         [MethodImpl(Inline)]
         public Xor(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,11 +32,11 @@ namespace Z0.Ops.Scalar
             => BinaryBitLogicKind.Xor;
 
         [MethodImpl(Inline)]
-        public Xor<T> Make(T a0, T a1)
+        public Xor<T> Create(T a0, T a1)
             => new Xor<T>(a0, a1);
 
         public Xor Untyped()
-            => new Xor(A,B);
+            => new Xor(Left,Right);
 
         [MethodImpl(Inline)]
         public string Format()

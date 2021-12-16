@@ -13,12 +13,12 @@ namespace Z0.Ops.Scalar
     public readonly struct Not<T> : IUnaryBitLogicOp<Not<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Operand {get;}
 
         [MethodImpl(Inline)]
         public Not(T a)
         {
-            A = a;
+            Operand = a;
         }
 
         public Label OpName
@@ -28,11 +28,11 @@ namespace Z0.Ops.Scalar
             => UnaryBitLogicKind.Not;
 
         [MethodImpl(Inline)]
-        public Not<T> Make(T a0)
+        public Not<T> Create(T a0)
             => new Not<T>(a0);
 
         public Not Untyped()
-            => new Not(A);
+            => new Not(Operand);
 
         [MethodImpl(Inline)]
         public string Format()

@@ -17,7 +17,7 @@ namespace Z0.Ops.Logic
         public override LogicExprKind Kind
             => LogicExprKind.Or;
 
-        public override Or Make(IExpr a, IExpr b)
+        public override Or Create(IExpr a, IExpr b)
             => new Or(a,b);
     }
 }

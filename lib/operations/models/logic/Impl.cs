@@ -17,7 +17,7 @@ namespace Z0.Ops.Logic
         public override LogicExprKind Kind
             => LogicExprKind.Impl;
 
-        public override Impl Make(IExpr a, IExpr b)
+        public override Impl Create(IExpr a, IExpr b)
             => new Impl(a,b);
     }
 }

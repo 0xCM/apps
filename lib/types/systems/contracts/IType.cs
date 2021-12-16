@@ -22,4 +22,13 @@ namespace Z0
         ulong IType.Kind
             => core.bw64(Kind);
     }
+
+    public interface IType<F,K> : IType<K>
+        where K : unmanaged
+        where F : IType<F,K>, new()
+    {
+        ParseFunction<F> ValueParser {get;}
+
+        FormatFunction<F> ValueFormatter {get;}
+    }
 }

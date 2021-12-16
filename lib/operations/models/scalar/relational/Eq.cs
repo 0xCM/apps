@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override CmpPredKind Kind
             => CmpPredKind.EQ;
 
-        public override Eq Make(IExpr a, IExpr b)
+        public override Eq Create(IExpr a, IExpr b)
             => new Eq(a,b);
     }
 }

@@ -19,7 +19,6 @@ namespace Z0
     /// Characterizes a typed variable
     /// </summary>
     public interface IVarExpr<T> : IVarExpr, ILogixExpr<T>
-        where T : unmanaged
     {
         /// <summary>
         /// Updates the variable

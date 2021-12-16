@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override UnaryBitLogicKind Kind
             => UnaryBitLogicKind.Not;
 
-        public override Not Make(IExpr a)
+        public override Not Create(IExpr a)
             => new Not(a);
     }
 }

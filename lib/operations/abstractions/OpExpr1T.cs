@@ -18,6 +18,6 @@ namespace Z0.Ops
         public override string Format()
             => string.Format("{0}({1})", OpName, A.Format());
 
-        public abstract F Make(IExpr src);
+        public abstract F Create(IExpr src);
     }
 }

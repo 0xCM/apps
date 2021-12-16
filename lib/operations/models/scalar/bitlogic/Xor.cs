@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.Xor;
 
-        public override Xor Make(IExpr a, IExpr b)
+        public override Xor Create(IExpr a, IExpr b)
             => new Xor(a,b);
     }
 }

@@ -7,15 +7,18 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IExpr : ITextual
+    public interface IBinaryOpExpr<F,K,A0,A1> : IOpExpr<K>
+        where F : IBinaryOpExpr<F,K,A0,A1>
+        where K : unmanaged
     {
-
+        F Create(A0 a0, A1 a1);
     }
 
     [Free]
-    public interface IExpr<K> : IExpr
+    public interface IBinaryOpExpr<F,K,T> : IBinaryOpExpr<F,K,T,T>
+        where F : IBinaryOpExpr<F,K,T>
         where K : unmanaged
     {
-        K Kind {get;}
     }
+
 }

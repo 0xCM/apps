@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.And;
 
-        public override And Make(IExpr a, IExpr b)
+        public override And Create(IExpr a, IExpr b)
             => new And(a,b);
     }
 }

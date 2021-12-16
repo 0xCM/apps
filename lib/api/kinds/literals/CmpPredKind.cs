@@ -9,6 +9,8 @@ namespace Z0
     [SymSource("api.kinds")]
     public enum CmpPredKind : byte
     {
+        None = 0,
+
         [Symbol(S.EQ)]
         EQ,
 

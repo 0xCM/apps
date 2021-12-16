@@ -18,7 +18,7 @@ namespace Z0.Ops.Logic
         public override Label OpName
             => "xor";
 
-        public override Xor Make(IExpr a, IExpr b)
+        public override Xor Create(IExpr a, IExpr b)
             => new Xor(a,b);
     }
 }

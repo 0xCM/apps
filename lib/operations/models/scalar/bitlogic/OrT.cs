@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct Or<T> : IBinaryBitLogicOp<Or<T>,T>
         where T : IExpr
     {
-        public readonly T A;
+        public T Left {get;}
 
-        public readonly T B;
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public Or(T a, T b)
         {
-            A = a;
-            B = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName
@@ -31,11 +31,11 @@ namespace Z0.Ops.Scalar
             => BinaryBitLogicKind.Or;
 
         [MethodImpl(Inline)]
-        public Or<T> Make(T a0, T a1)
+        public Or<T> Create(T a0, T a1)
             => new Or<T>(a0, a1);
 
         public Or Untyped()
-            => new Or(A,B);
+            => new Or(Left,Right);
 
         [MethodImpl(Inline)]
         public string Format()

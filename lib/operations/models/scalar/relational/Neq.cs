@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override CmpPredKind Kind
             => CmpPredKind.NEQ;
 
-        public override Neq Make(IExpr a, IExpr b)
+        public override Neq Create(IExpr a, IExpr b)
             => new Neq(a,b);
     }
 }

@@ -26,6 +26,6 @@ namespace Z0.Ops
         public override string Format()
             => string.Format("{0}({1},{2})", OpName, A.Format(), B.Format());
 
-        public abstract T Make(IExpr a0, IExpr a1);
+        public abstract T Create(IExpr a0, IExpr a1);
     }
 }

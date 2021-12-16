@@ -4,46 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static Root;
     using static core;
 
-    public readonly struct BitsParser
-    {
-        public static BitsParser<byte> u8()
-            => BitsParser<byte>.Service;
-
-        public static BitsParser<sbyte> i8()
-            => BitsParser<sbyte>.Service;
-
-        public static BitsParser<ushort> u16()
-            => BitsParser<ushort>.Service;
-
-        public static BitsParser<short> i16()
-            => BitsParser<short>.Service;
-
-        public static BitsParser<uint> u32()
-            => BitsParser<uint>.Service;
-
-        public static BitsParser<int> i32()
-            => BitsParser<int>.Service;
-
-        public static BitsParser<ulong> u64()
-            => BitsParser<ulong>.Service;
-
-        public static BitsParser<long> i64()
-            => BitsParser<long>.Service;
-    }
-
-    [Parser]
     public readonly struct BitsParser<T> : IParser<bits<T>>
         where T : unmanaged
     {
         public static BitsParser<T> Service => default;
 
-        public Outcome Parse(string src, out bits<T> dst)
+        public static Outcome parse(string src, out bits<T> dst)
         {
             var result = Outcome.Success;
             dst = default;
@@ -71,5 +40,8 @@ namespace Z0
 
             return result;
         }
+
+        public Outcome Parse(string src, out bits<T> dst)
+            => parse(src, out dst);
     }
 }

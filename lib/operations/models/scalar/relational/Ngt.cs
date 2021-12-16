@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override CmpPredKind Kind
             => CmpPredKind.NGT;
 
-        public override Ngt Make(IExpr a, IExpr b)
+        public override Ngt Create(IExpr a, IExpr b)
             => new Ngt(a,b);
     }
 }

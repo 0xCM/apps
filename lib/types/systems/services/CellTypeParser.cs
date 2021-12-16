@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Parser]
     public readonly struct CellTypeParser : IParser<PrimalCellType>
     {
         public static CellTypeParser Service => default;
 
-        public Outcome Parse(string src, out PrimalCellType dst)
+        [Parser]
+        public static Outcome parse(string src, out PrimalCellType dst)
         {
             var input = text.trim(src);
             var result = Outcome.Failure;
@@ -61,5 +61,8 @@ namespace Z0
             }
             return result;
         }
+
+        public Outcome Parse(string src, out PrimalCellType dst)
+            => parse(src, out dst);
     }
 }

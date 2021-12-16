@@ -13,15 +13,15 @@ namespace Z0.Ops.Scalar
     public readonly struct And<T> : IBinaryBitLogicOp<And<T>,T>
         where T : IExpr
     {
-        public T LeftOp {get;}
+        public T Left {get;}
 
-        public T RightOp {get;}
+        public T Right {get;}
 
         [MethodImpl(Inline)]
         public And(T a, T b)
         {
-            LeftOp = a;
-            RightOp = b;
+            Left = a;
+            Right = b;
         }
 
         public Label OpName => "and<{0}>";
@@ -30,11 +30,11 @@ namespace Z0.Ops.Scalar
             => BinaryBitLogicKind.And;
 
         [MethodImpl(Inline)]
-        public And<T> Make(T a0, T a1)
+        public And<T> Create(T a0, T a1)
             => new And<T>(a0, a1);
 
         public And Untyped()
-            => new And(LeftOp,RightOp);
+            => new And(Left,Right);
 
         [MethodImpl(Inline)]
         public string Format()

@@ -2,21 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ICmpPred<T> : IBinaryOpExpr<T>
-        where T : IExpr
+    public interface IExpr : ITextual
     {
 
     }
+
     [Free]
-    public interface ICmpPred<F,T> : ICmpPred<T>, IBinaryOpExpr<F,CmpPredKind,T,T>
-        where F : ICmpPred<F,T>
-        where T : IExpr
+    public interface IExpr<T> : IExpr
     {
 
+    }
+
+    [Free]
+    public interface IExpr<K,T> : IExpr<T>
+        where K : unmanaged
+    {
+        K Kind {get;}
     }
 }

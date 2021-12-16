@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override CmpPredKind Kind
             => CmpPredKind.GE;
 
-        public override Ge Make(IExpr a, IExpr b)
+        public override Ge Create(IExpr a, IExpr b)
             => new Ge(a,b);
     }
 }

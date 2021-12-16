@@ -161,7 +161,6 @@ namespace Z0.Ops
             }
         }
 
-        [Formatter(typeof(Except))]
         readonly struct ExceptFormatter : IFormatter<Except>
         {
             public string Format(Except src)

@@ -17,7 +17,7 @@ namespace Z0.Ops.Scalar
         public override CmpPredKind Kind
             => CmpPredKind.LT;
 
-        public override Lt Make(IExpr a, IExpr b)
+        public override Lt Create(IExpr a, IExpr b)
             => new Lt(a,b);
     }
 }

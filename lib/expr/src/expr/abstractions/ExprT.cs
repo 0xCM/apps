@@ -8,7 +8,7 @@ namespace Z0.Expr
 
     using static Root;
 
-    public abstract class Expr<F,K> : IExpr<K>
+    public abstract class Expr<F,K> : IExpr
         where F : Expr<F,K>
         where K : unmanaged
     {
