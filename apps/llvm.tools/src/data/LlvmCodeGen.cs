@@ -29,9 +29,9 @@ namespace Z0.llvm
         {
             var src = DataProvider.SelectAsmMnemonicNames();
             var name = "AsmMnemonicNames";
-            var literals = expr.literals(src.View, src.View);
+            var literals = Literals.seq(name, src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
-            Generators.LiteralProvider().Emit(TargetNs, name, literals.View, dst);
+            Generators.LiteralProvider().Emit(TargetNs, literals, dst);
         }
 
         public void EmitStringTable(string listid)
@@ -64,9 +64,7 @@ namespace Z0.llvm
         {
             var name = list.Name;
             var syntax = StringTables.syntax(targetNs + ".stringtables", name +"ST", name + "Kind", kind, targetNs);
-            var entries = list.Map(x => x.Value);
-            var identifiers = list.Map(x => (Identifier)x.Value);
-            var table = StringTables.create(syntax, @readonly(entries), identifiers);
+            var table = StringTables.create(syntax, list);
             EmitTableCode(syntax,list);
             EmitTableData(table);
         }
@@ -76,7 +74,7 @@ namespace Z0.llvm
             var dst = OutPath(src, FS.Cs);
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
-            StringTables.csharp(src, items.View, writer);
+            StringTables.csharp(src, items, writer);
             EmittedFile(emitting,1);
             return dst;
         }

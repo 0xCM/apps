@@ -6,17 +6,17 @@
 
     public enum ComplexPatternKind : uint
     {
-        addr=0,
-        lea32addr=1,
-        lea64_32addr=2,
-        lea64addr=3,
-        mov64imm32=4,
-        relocImm=5,
-        tls32addr=6,
-        tls32baseaddr=7,
-        tls64addr=8,
-        tls64baseaddr=9,
-        vectoraddr=10,
+        addr = 0,
+        lea32addr = 1,
+        lea64_32addr = 2,
+        lea64addr = 3,
+        mov64imm32 = 4,
+        relocImm = 5,
+        tls32addr = 6,
+        tls32baseaddr = 7,
+        tls64addr = 8,
+        tls64baseaddr = 9,
+        vectoraddr = 10,
     }
 
     public readonly struct ComplexPatternST

@@ -24,6 +24,18 @@ namespace Z0.llvm
             Right = right;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Left.IsEmpty && Right.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Left.IsNonEmpty && Right.IsNonEmpty;
+        }
+
         public string Format()
             => LlvmTypes.format(this);
 

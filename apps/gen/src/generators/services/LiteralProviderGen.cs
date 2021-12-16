@@ -11,7 +11,7 @@ namespace Z0
 
     public class LiteralProviderGen : AppService<LiteralProviderGen>
     {
-        public void Emit<T>(Identifier ns, Identifier name, ReadOnlySpan<Literal<T>> literals, FS.FilePath dst)
+        public void Emit<T>(Identifier ns, LiteralSeq<T> literals, FS.FilePath dst)
         {
             var buffer = text.buffer();
             var margin = 0u;
@@ -21,12 +21,12 @@ namespace Z0
             buffer.IndentLine(margin, Open());
             margin += 4;
             buffer.IndentLine(margin, "[LiteralProvider]");
-            buffer.IndentLine(margin, PublicReadonlyStruct(name));
+            buffer.IndentLine(margin, PublicReadonlyStruct(literals.Name));
             buffer.IndentLine(margin, Open());
             margin +=4;
             for(var i=0; i<count; i++)
             {
-                ref readonly var literal = ref skip(literals,i);
+                ref readonly var literal = ref literals[i];
                 var itemName = literal.Name;
                 var itemValue = literal.Value.Format();
                 if(CsKeywords.test(itemName))

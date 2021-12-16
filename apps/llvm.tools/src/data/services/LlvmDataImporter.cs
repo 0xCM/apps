@@ -19,15 +19,6 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        public LlvmDataImporter()
-        {
-        }
-
-        protected override void Initialized()
-        {
-
-        }
-
         public void Run(LlvmImportObserver observer)
         {
             run(() => observer.EtlStarted());
@@ -42,7 +33,7 @@ namespace Z0.llvm
             var regids = DataEmitter.EmitRegIdentifiers();
             run(() => observer.RegIdDefsEmitted(regids));
 
-            var records = DataProvider.SelectSourceRecords(Datasets.X86);
+            var records = DataProvider.SelectX86SourceRecords();
             run(() => observer.SourceRecordsSelected(records));
 
             var classes = DataEmitter.EmitClassRelations(records);
@@ -55,14 +46,14 @@ namespace Z0.llvm
             run(() => observer.DefMapEmitted(defMap));
 
             var defFields = RecordFieldParser.parse(records, defMap);
-            DataEmitter.EmitFields(defFields, Datasets.X86DefFields);
+            DataEmitter.EmitDefFields(defFields);
             run(() => observer.DefFieldsEmitted(defFields));
 
             var classMap = DataEmitter.EmitLineMap(classes.View, records, Datasets.X86Classes);
             run(() => observer.ClassMapEmitted(classMap));
 
             var classFields = RecordFieldParser.parse(records, classMap);
-            DataEmitter.EmitFields(classFields, Datasets.X86ClassFields);
+            DataEmitter.EmitClassFields(classFields);
             run(() => observer.ClassFieldsEmitted(classFields));
 
             var entities = DataProvider.SelectEntities();

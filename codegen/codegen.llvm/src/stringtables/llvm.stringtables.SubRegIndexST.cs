@@ -6,16 +6,16 @@
 
     public enum SubRegIndexKind : uint
     {
-        sub_16bit=0,
-        sub_16bit_hi=1,
-        sub_32bit=2,
-        sub_8bit=3,
-        sub_8bit_hi=4,
-        sub_8bit_hi_phony=5,
-        sub_mask_0=6,
-        sub_mask_1=7,
-        sub_xmm=8,
-        sub_ymm=9,
+        sub_16bit = 0,
+        sub_16bit_hi = 1,
+        sub_32bit = 2,
+        sub_8bit = 3,
+        sub_8bit_hi = 4,
+        sub_8bit_hi_phony = 5,
+        sub_mask_0 = 6,
+        sub_mask_1 = 7,
+        sub_xmm = 8,
+        sub_ymm = 9,
     }
 
     public readonly struct SubRegIndexST

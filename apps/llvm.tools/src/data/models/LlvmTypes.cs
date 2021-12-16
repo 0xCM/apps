@@ -73,7 +73,7 @@ namespace Z0.llvm
         {
             var i = text.index(src,Chars.Comma);
             if(i >= 0)
-                return text.split(src,Chars.Comma).Select(x => x.Trim());
+                return text.split(src, Chars.Comma).Select(x => x.Trim());
             else
                 return array(src.Trim());
         }

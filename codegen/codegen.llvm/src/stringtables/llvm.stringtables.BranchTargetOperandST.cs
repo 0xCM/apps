@@ -6,13 +6,13 @@
 
     public enum BranchTargetOperandKind : uint
     {
-        brtarget=0,
-        brtarget16=1,
-        brtarget32=2,
-        brtarget8=3,
-        i16imm_brtarget=4,
-        i32imm_brtarget=5,
-        i64i32imm_brtarget=6,
+        brtarget = 0,
+        brtarget16 = 1,
+        brtarget32 = 2,
+        brtarget8 = 3,
+        i16imm_brtarget = 4,
+        i32imm_brtarget = 5,
+        i64i32imm_brtarget = 6,
     }
 
     public readonly struct BranchTargetOperandST

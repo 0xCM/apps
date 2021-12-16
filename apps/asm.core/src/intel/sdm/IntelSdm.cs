@@ -15,13 +15,10 @@ namespace Z0.Asm
 
         IntelSdmPaths SdmPaths;
 
-        StringTableGen StringTableGen;
-
         protected override void OnInit()
         {
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
-            StringTableGen = Wf.StringTableGen();
         }
 
         public void ClearTargets()

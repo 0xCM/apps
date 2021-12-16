@@ -6,9 +6,9 @@
 
     public enum STIPredicateDeclKind : uint
     {
-        IsDepBreakingDecl=0,
-        IsOptimizableRegisterMoveDecl=1,
-        IsZeroIdiomDecl=2,
+        IsDepBreakingDecl = 0,
+        IsOptimizableRegisterMoveDecl = 1,
+        IsZeroIdiomDecl = 2,
     }
 
     public readonly struct STIPredicateDeclST

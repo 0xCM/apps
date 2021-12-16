@@ -17,9 +17,9 @@ namespace Z0
             => new StringTableRow(src.Syntax.TableName, index, text.format(src[index]));
 
         [Op]
-        public static uint rows(StringTableSpec src, Span<StringTableRow> dst)
+        public static uint rows(ItemList<string> src, Span<StringTableRow> dst)
         {
-            var entries = src.Entries;
+            var entries = src.View;
             var count = (uint)min(entries.Length,dst.Length);
             for(var j=0; j<count; j++)
             {
@@ -27,7 +27,7 @@ namespace Z0
                 ref readonly var entry = ref skip(entries,j);
                 row.EntryIndex = entry.Key;
                 row.EntryName = entry.Value;
-                row.TableName = src.Syntax.TableName;
+                row.TableName = src.Name;
             }
             return count;
         }

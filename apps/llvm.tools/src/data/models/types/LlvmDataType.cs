@@ -29,7 +29,7 @@ namespace Z0.llvm
             Kind = kind;
             Parameters = parameters;
             Spec = EmptyString;
-            Spec  = LlvmTypes.format(this);
+            Spec = LlvmTypes.format(this);
         }
 
         public byte Arity

@@ -6,10 +6,10 @@
 
     public enum X86SrcIdxOperandKind : uint
     {
-        srcidx16=0,
-        srcidx32=1,
-        srcidx64=2,
-        srcidx8=3,
+        srcidx16 = 0,
+        srcidx32 = 1,
+        srcidx64 = 2,
+        srcidx8 = 3,
     }
 
     public readonly struct X86SrcIdxOperandST

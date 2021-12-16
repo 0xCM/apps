@@ -11,7 +11,7 @@ namespace Z0
         public static void render(uint margin, StringTable src, ITextBuffer dst)
         {
             var syntax = src.Syntax;
-            GenIndex(margin, src, dst);
+            EmitIndex(margin, src, dst);
             dst.AppendLine();
 
             dst.IndentLine(margin, PublicReadonlyStruct(syntax.TableName));
@@ -48,7 +48,7 @@ namespace Z0
             dst.IndentLine(margin, Close());
         }
 
-        static void GenIndex(uint margin, in StringTable src, ITextBuffer dst)
+        static void EmitIndex(uint margin, in StringTable src, ITextBuffer dst)
         {
             var count = src.EntryCount;
             var syntax = src.Syntax;
@@ -60,7 +60,7 @@ namespace Z0
                 ref readonly var id = ref src.Identifier(i);
                 if(id.IsEmpty)
                     break;
-                dst.IndentLineFormat(margin, "{0}={1},", id, i);
+                dst.IndentLineFormat(margin, "{0} = {1},", id, i);
             }
             margin-=4;
             dst.IndentLine(margin, Chars.RBrace);

@@ -6,14 +6,14 @@
 
     public enum RegisterOperandKind : uint
     {
-        GR16orGR32orGR64=0,
-        GR32orGR64=1,
-        RSTi=2,
-        VK16Pair=3,
-        VK1Pair=4,
-        VK2Pair=5,
-        VK4Pair=6,
-        VK8Pair=7,
+        GR16orGR32orGR64 = 0,
+        GR32orGR64 = 1,
+        RSTi = 2,
+        VK16Pair = 3,
+        VK1Pair = 4,
+        VK2Pair = 5,
+        VK4Pair = 6,
+        VK8Pair = 7,
     }
 
     public readonly struct RegisterOperandST

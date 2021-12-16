@@ -7,13 +7,19 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using static core;
     using static Root;
 
-    partial class StringTables
+    public readonly struct LiteralProvider<T>
     {
-        [MethodImpl(Inline), Op]
-        public static StringTableSyntax syntax(Identifier ns, Identifier table, Identifier index, ClrEnumKind kind, Identifier indexNs)
-            => new StringTableSyntax(ns, table, index, kind, indexNs);
+        public LiteralSeq<T> Literals {get;}
+
+        [MethodImpl(Inline)]
+        public LiteralProvider(LiteralSeq<T> src)
+        {
+            Literals = src;
+        }
+
+        public Identifier Name => Literals.Name;
+
     }
 }

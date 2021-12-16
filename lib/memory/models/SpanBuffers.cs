@@ -14,6 +14,12 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public static SpanBuffer<T> cover<T>(Span<T> src)
+            => new SpanBuffer<T>(src);
+
+        public static SpanBuffer<T> create<T>(uint count)
+            => new SpanBuffer<T>(new T[count]);
+
         /// <summary>
         /// Allocates a span-predicated S/T ring buffer
         /// </summary>

@@ -6,10 +6,10 @@
 
     public enum AddressSizeKind : uint
     {
-        AdSize16=0,
-        AdSize32=1,
-        AdSize64=2,
-        AdSizeX=3,
+        AdSize16 = 0,
+        AdSize32 = 1,
+        AdSize64 = 2,
+        AdSizeX = 3,
     }
 
     public readonly struct AddressSizeST

@@ -21,10 +21,10 @@ namespace Z0
             _Entries = entries;
         }
 
-        public ReadOnlySpan<ListItem<string>> Entries
+        public ItemList<string> Items
         {
             [MethodImpl(Inline)]
-            get => _Entries.View;
+            get => (Syntax.TableName,_Entries.Storage);
         }
     }
 }

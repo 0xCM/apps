@@ -4,24 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using B = BitSeq3;
+    using L = BitSeq3;
 
     partial struct BitSeq
     {
-        public const B b000 = B.b000;
+        public const L b000 = L.b000;
 
-        public const B b001 = B.b001;
+        public const L b001 = L.b001;
 
-        public const B b010 = B.b010;
+        public const L b010 = L.b010;
 
-        public const B b011 = B.b011;
+        public const L b011 = L.b011;
 
-        public const B b100 = B.b100;
+        public const L b100 = L.b100;
 
-        public const B b101 = B.b101;
+        public const L b101 = L.b101;
 
-        public const B b110 = B.b110;
+        public const L b110 = L.b110;
 
-        public const B b111 = B.b111;
+        public const L b111 = L.b111;
     }
 }

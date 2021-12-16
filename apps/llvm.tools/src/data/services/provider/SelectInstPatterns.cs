@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using static core;
 
-    using Asm;
-
     partial class LlvmDataProvider
     {
         public Index<LlvmInstPattern> SelectInstPatterns()

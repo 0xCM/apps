@@ -6,16 +6,16 @@
 
     public enum ImmTypeKind : uint
     {
-        Imm16=0,
-        Imm16PCRel=1,
-        Imm32=2,
-        Imm32PCRel=3,
-        Imm32S=4,
-        Imm64=5,
-        Imm8=6,
-        Imm8PCRel=7,
-        Imm8Reg=8,
-        NoImm=9,
+        Imm16 = 0,
+        Imm16PCRel = 1,
+        Imm32 = 2,
+        Imm32PCRel = 3,
+        Imm32S = 4,
+        Imm64 = 5,
+        Imm8 = 6,
+        Imm8PCRel = 7,
+        Imm8Reg = 8,
+        NoImm = 9,
     }
 
     public readonly struct ImmTypeST

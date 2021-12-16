@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
 
     using static CsPatterns;
 
     partial class StringTables
     {
-        public static uint csharp(StringTableSyntax syntax, ReadOnlySpan<ListItem<string>> entries, StreamWriter dst)
+        public static uint csharp(StringTableSyntax syntax, ItemList<string> entries, StreamWriter dst)
         {
             dst.WriteLine(string.Format("namespace {0}", syntax.TableNs));
             dst.WriteLine(Open());

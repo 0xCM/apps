@@ -6,17 +6,17 @@
 
     public enum X86MemOffsOperandKind : uint
     {
-        offset16_16=0,
-        offset16_32=1,
-        offset16_8=2,
-        offset32_16=3,
-        offset32_32=4,
-        offset32_64=5,
-        offset32_8=6,
-        offset64_16=7,
-        offset64_32=8,
-        offset64_64=9,
-        offset64_8=10,
+        offset16_16 = 0,
+        offset16_32 = 1,
+        offset16_8 = 2,
+        offset32_16 = 3,
+        offset32_32 = 4,
+        offset32_64 = 5,
+        offset32_8 = 6,
+        offset64_16 = 7,
+        offset64_32 = 8,
+        offset64_64 = 9,
+        offset64_8 = 10,
     }
 
     public readonly struct X86MemOffsOperandST

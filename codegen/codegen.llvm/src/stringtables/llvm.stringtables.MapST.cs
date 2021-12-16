@@ -6,14 +6,14 @@
 
     public enum MapKind : uint
     {
-        OB=0,
-        T8=1,
-        TA=2,
-        TB=3,
-        ThreeDNow=4,
-        XOP8=5,
-        XOP9=6,
-        XOPA=7,
+        OB = 0,
+        T8 = 1,
+        TA = 2,
+        TB = 3,
+        ThreeDNow = 4,
+        XOP8 = 5,
+        XOP9 = 6,
+        XOPA = 7,
     }
 
     public readonly struct MapST

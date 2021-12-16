@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
+    using System;
+
     using Asm;
 
     using static Root;
+    using static core;
 
     public readonly struct AsmStrings
     {
@@ -43,7 +46,10 @@ namespace Z0.llvm
         }
 
         static string normalize(string src)
-            => text.remove(src, Chars.Quote).Replace(Chars.Tab, Chars.Space).Trim();
+        {
+            var input = text.trim(text.remove(text.replace(src, Chars.Tab, Chars.Space), Chars.Quote));
+            return input;
+        }
 
         static string pattern(string src)
         {

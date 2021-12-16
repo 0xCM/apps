@@ -6,11 +6,11 @@
 
     public enum AssemblerPredicateKind : uint
     {
-        In16BitMode=0,
-        In32BitMode=1,
-        In64BitMode=2,
-        Not16BitMode=3,
-        Not64BitMode=4,
+        In16BitMode = 0,
+        In32BitMode = 1,
+        In64BitMode = 2,
+        Not16BitMode = 3,
+        Not64BitMode = 4,
     }
 
     public readonly struct AssemblerPredicateST
