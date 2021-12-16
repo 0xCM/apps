@@ -7,6 +7,7 @@ namespace Z0.llvm
     using Asm;
 
     using static Root;
+    using static LlvmNames;
 
     /// <summary>
     /// Represents a table-gen defined instruction
@@ -58,8 +59,8 @@ namespace Z0.llvm
         public string EmitPriority
             => this[nameof(EmitPriority)];
 
-        public string Predicates
-            => this[nameof(Predicates)];
+        public list<string> Predicates
+            => Parse(nameof(Predicates), ListTypes.Predicate, out list<string> _);
 
         public bit UseInstAsmMatchConverter
             => Parse(nameof(UseInstAsmMatchConverter), out bit _);

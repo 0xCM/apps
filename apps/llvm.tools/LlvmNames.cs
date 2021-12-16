@@ -84,23 +84,24 @@ namespace Z0.llvm
             public const string X86Info = nameof(X86Info);
         }
 
+        public readonly struct ListTypes
+        {
+            public const string Predicate = nameof(Predicate);
+
+
+        }
         public readonly struct Entities
         {
-            public const string Instruction = nameof(Instruction);
 
             public const string InstAlias = nameof(InstAlias);
 
-            public const string Intrinsic = nameof(Intrinsic);
 
             public const string GenericInstruction = nameof(GenericInstruction);
 
-            public const string DAGOperand = nameof(DAGOperand);
 
             public const string RegisterClass = nameof(RegisterClass);
 
             public const string X86MemOperand = nameof(X86MemOperand);
-
-            public const string AsmOperandClass = nameof(AsmOperandClass);
         }
     }
 }

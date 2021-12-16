@@ -6,6 +6,8 @@ namespace Z0.llvm
 {
     using Asm;
 
+    using static LlvmNames;
+
     /// <summary>
     /// Represents a table-gen defined instruction
     /// </summary>
@@ -18,6 +20,27 @@ namespace Z0.llvm
         {
 
         }
+
+        public int Size
+            => Parse(nameof(Size), out int _);
+
+        public string DecoderNamespace
+            => this[nameof(DecoderNamespace)];
+
+        public list<string> Predicates
+            => Parse(nameof(Predicates), ListTypes.Predicate, out list<string> _);
+
+        public string DecoderMethod
+            => this[nameof(DecoderMethod)];
+
+        public string Namespace
+            => this[nameof(Namespace)];
+
+        public dag<ITerm> InOperandList
+            => Parse(nameof(InOperandList), out dag<ITerm> _);
+
+        public dag<ITerm> OutOperandList
+            => Parse(nameof(OutOperandList), out dag<ITerm> _);
 
         public bit isPseudo
             => Parse(nameof(isPseudo), out bit _);
@@ -63,15 +86,6 @@ namespace Z0.llvm
 
         public bits<byte> OpSizeBits
             => Parse(nameof(OpSizeBits), out bits<byte> dst);
-
-        public string InOperandList
-            => this[nameof(InOperandList)];
-
-        public string OutOperandList
-            => this[nameof(OutOperandList)];
-
-        public string Predicates
-            =>this[nameof(Predicates)];
 
         public AsmMnemonic Mnemonic
             => Value(nameof(Mnemonic), () => AsmString.Mnemonic);

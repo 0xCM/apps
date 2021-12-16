@@ -9,6 +9,13 @@ namespace Z0.llvm
 
     using static Root;
 
+    public enum DagFormatStyle
+    {
+        List = 0,
+
+        Graph = 1,
+    }
+
     public class dag<T> : IDag<T>
         where T : ITerm
     {
@@ -36,7 +43,10 @@ namespace Z0.llvm
         }
 
         public string Format()
-            => LlvmTypes.format(this);
+            => Format(DagFormatStyle.List);
+
+        public string Format(DagFormatStyle style)
+            => LlvmTypes.format(this, style);
 
         public override string ToString()
             => Format();

@@ -74,6 +74,22 @@ namespace Z0.llvm
             return ref dst;
         }
 
+        protected ref dag<ITerm> Parse(string attrib, out dag<ITerm> dst)
+        {
+            dag<ITerm> parse()
+            {
+                var result = LlvmTypes.parse(this[attrib], out var _dst);
+                if(result)
+                    return _dst;
+                else
+                    return new dag<ITerm>(@string.Empty, @string.Empty);
+            }
+
+
+            dst = Value(attrib, parse);
+            return ref dst;
+        }
+
         public Identifier EntityName
             => Def.Name;
 

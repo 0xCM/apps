@@ -13,6 +13,14 @@ namespace Z0.llvm
     [ApiHost]
     public readonly struct LlvmTypes
     {
+        public static Fence<char> Parenthetical => (Chars.LParen, Chars.RParen);
+
+        public static Outcome ParseList(string src, out list<string> dst)
+        {
+            dst = new list<string>(EmptyString, text.trim(text.split(text.unfence(src, Parenthetical), Chars.Comma)));
+            return true;
+        }
+
         [Op]
         public static LlvmDataType type(string src)
         {
@@ -78,10 +86,11 @@ namespace Z0.llvm
                 return array(src.Trim());
         }
 
-        public static string format(IDag src)
+        public static string format(IDag src, DagFormatStyle style)
         {
+            var pattern = style == DagFormatStyle.Graph ? "{0} -> {1}" : "{0}, {1}";
             if(src.Left.IsNonEmpty && src.Right.IsNonEmpty)
-                return string.Format("{0} -> {1}", src.Left.Format(), src.Right.Format());
+                return string.Format(pattern, src.Left.Format(), src.Right.Format());
             else if(src.Left.IsEmpty && src.Right.IsEmpty)
                 return EmptyString;
             else if(src.Left.IsNonEmpty)
@@ -101,6 +110,18 @@ namespace Z0.llvm
             if(src.Contains("->"))
             {
                 var parts = src.SplitClean("->").Select(x => x.Trim());
+                var count = parts.Length;
+                for(var i=1; i<count; i++)
+                {
+                    if(i==1)
+                        dag = new dag<ITerm>((@string)skip(parts,i-1), (@string)skip(parts,i));
+                    else
+                        dag = new dag<ITerm>(dag, (@string)skip(parts,i));
+                }
+            }
+            else if(src.Contains(","))
+            {
+                var parts = src.SplitClean(",").Select(x => x.Trim());
                 var count = parts.Length;
                 for(var i=1; i<count; i++)
                 {

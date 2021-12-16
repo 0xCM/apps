@@ -37,7 +37,10 @@ namespace Z0.llvm
         }
 
         public string Format()
-            => LlvmTypes.format(this);
+            => Format(DagFormatStyle.List);
+
+        public string Format(DagFormatStyle style)
+            => LlvmTypes.format(this, style);
 
         public override string ToString()
             => Format();
