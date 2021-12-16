@@ -21,7 +21,7 @@ namespace Z0.llvm
 
             public LlvmToolset Toolset;
 
-            public LlvmTableLoader TableLoader;
+            public LlvmTableLoader DataLoader;
 
             public LlvmDataCalcs DataCalcs;
         }
@@ -32,10 +32,10 @@ namespace Z0.llvm
             get => State.LlvmPaths;
         }
 
-        LlvmTableLoader TableLoader
+        LlvmTableLoader DataLoader
         {
             [MethodImpl(Inline)]
-            get => State.TableLoader;
+            get => State.DataLoader;
         }
 
         LlvmDataCalcs DataCalcs
@@ -61,7 +61,7 @@ namespace Z0.llvm
             state.LlvmPaths = Wf.LlvmPaths();
             state.DataSets = new();
             state.Toolset = Wf.LLvmToolset();
-            state.TableLoader = Wf.LlvmTableLoader();
+            state.DataLoader = Wf.LlvmTableLoader();
             state.DataCalcs = Wf.LlvmDataCalcs();
             return this;
         }

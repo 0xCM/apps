@@ -77,9 +77,10 @@ namespace Z0
 
         public Identifier HostName {get;}
 
-        protected DevWs Ws;
+        protected Type HostType
+            => typeof(H);
 
-        IAppServiceUtilities Util;
+        protected DevWs Ws;
 
         protected OmniScript OmniScript
             => Service(Wf.OmniScript);
@@ -88,7 +89,6 @@ namespace Z0
         {
             var flow = wf.Creating(typeof(H).Name);
             Host = new WfSelfHost(typeof(H));
-            Util = AppServiceUtilities.create(wf, Host);
             Wf = wf;
             Db = new WfDb(wf, wf.Env.Db);
             Ws = DevWs.create(wf.Env.DevWs);
@@ -128,18 +128,6 @@ namespace Z0
         protected void RedirectEmissions(string name, FS.FolderPath dst)
             => Wf.RedirectEmissions(Loggers.emission(name, dst));
 
-        // FS.FileName NameShowLog(string src, FS.FileExt ext)
-        //     => FS.file(core.controller().Id().PartName() + "." + HostName + "." + src, ext);
-
-        // ShowLog ShowLog(FS.FileName file)
-        //     => new ShowLog(Wf, Db.ShowLog(file));
-
-        // protected ShowLog ShowLog(FS.FileExt ext, [Caller] string name = null)
-        //     => ShowLog(NameShowLog(name,ext));
-
-        // protected ShowLog ShowLog([Caller] string name = null, FS.FileExt? ext = null)
-        //     => ShowLog(NameShowLog(name,ext ?? FS.Csv));
-
         protected bool Check<T>(Outcome<T> outcome, out T payload)
         {
             if(outcome.Fail)
@@ -156,25 +144,53 @@ namespace Z0
         }
 
         protected void Babble<T>(T content)
-            => Wf.Babble(content);
+            => Wf.Babble(HostType, content);
 
         protected void Babble(string pattern, params object[] args)
-            => Wf.Babble(string.Format(pattern,args));
+            => Wf.Babble(HostType, string.Format(pattern,args));
 
         protected void Status<T>(T content)
-            => Wf.Status(content);
+            => Wf.Status(HostType, content);
 
         protected void Status(ReadOnlySpan<char> src)
-            => Wf.Status(new string(src));
+            => Wf.Status(HostType, new string(src));
 
         protected void Status(string pattern, params object[] args)
-            => Wf.Status(string.Format(pattern, args));
+            => Wf.Status(HostType, string.Format(pattern, args));
 
         protected void Warn<T>(T content)
-            => Wf.Warn(content);
+            => Wf.Warn(HostType, content);
 
         protected void Warn(string pattern, params object[] args)
-            => Wf.Warn(string.Format(pattern,args));
+            => Wf.Warn(HostType, string.Format(pattern,args));
+
+        protected virtual void Error<T>(T content)
+            => Wf.Error(HostType,  core.require(content));
+
+        protected WfExecFlow<T> Running<T>(T msg)
+            => Wf.Running(HostType, msg);
+
+        protected WfExecFlow<string> Running([Caller] string msg = null)
+            => Wf.Running(HostType, msg);
+
+        protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
+            => Wf.Ran(HostType, flow.WithMsg(msg));
+
+        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
+            => Wf.Ran(HostType, flow.WithMsg(msg), flair);
+
+        protected WfFileFlow EmittingFile(FS.FilePath dst)
+            => Wf.EmittingFile(HostType, dst);
+
+        public ExecToken EmittedFile(WfFileFlow flow, Count count)
+            => Wf.EmittedFile(HostType, flow, count);
+
+        protected void EmittedFile(WfFileFlow file, Count count, Arrow<FS.FileUri> flow)
+            => Wf.EmittedFile(HostType, file,count);
+
+        protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
+            where T : struct
+                => Wf.EmittingTable<T>(HostType, dst);
 
         protected void Write<T>(T content)
             => Wf.Row(content, null);
@@ -209,60 +225,70 @@ namespace Z0
                 Write(formatter.Format(skip(src,i)));
         }
 
-        protected virtual void Error<T>(T content)
-            => Wf.Error(core.require(content));
-
-        protected WfExecFlow<T> Running<T>(T msg, [Caller] string operation = null)
-            => Wf.Running(msg);
-
-        protected WfExecFlow<string> Running([Caller] string msg = null)
-            => Wf.Running(msg);
-
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, [Caller] string msg = null)
-            => Wf.Ran(flow.WithMsg(msg));
-
-        protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
-            => Wf.Ran(flow.WithMsg(msg), flair);
-
-        protected WfFileFlow EmittingFile(FS.FilePath dst)
-            => Wf.EmittingFile(dst);
-
-        public ExecToken EmittedFile(WfFileFlow flow, Count count)
-            => Wf.EmittedFile(flow,count);
-
-        protected void EmittedFile(WfFileFlow file, Count count, Arrow<FS.FileUri> flow)
-            => Wf.EmittedFile(file,count);
-
-        protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)
-            where T : struct
-                => Wf.EmittingTable<T>(dst);
-
         protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
-                => Wf.EmittedTable(flow,count, dst);
+                => Wf.EmittedTable(HostType, flow,count, dst);
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, FS.FilePath dst)
             where T : struct
-                => Util.TableEmit(src,dst);
+        {
+            var flow = Wf.EmittingTable<T>(HostType,dst);
+            var spec = Tables.rowspec<T>();
+            var count = Tables.emit(src, spec, dst);
+            Wf.EmittedTable(HostType,flow,count);
+            return count;
+        }
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, FS.FilePath dst)
             where T : struct
-                => Util.TableEmit(src,widths,dst);
+        {
+            var flow = Wf.EmittingTable<T>(HostType, dst);
+            var spec = Tables.rowspec<T>(widths, z16);
+            var count = Tables.emit(src, spec, dst);
+            Wf.EmittedTable(HostType, flow,count);
+            return count;
+        }
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, TextEncodingKind encoding, FS.FilePath dst)
             where T : struct
-                => Util.TableEmit(src,widths,encoding,dst);
+        {
+            var flow = Wf.EmittingTable<T>(HostType, dst);
+            var spec = Tables.rowspec<T>(widths, z16);
+            var count = Tables.emit(src, spec, encoding, dst);
+            Wf.EmittedTable(HostType, flow,count);
+            return count;
+        }
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, StreamWriter writer, FS.FilePath dst)
             where T : struct
-                => Util.TableEmit(src,widths,writer,dst);
+        {
+            var flow = Wf.EmittingTable<T>(HostType, dst);
+            var spec = Tables.rowspec<T>(widths, z16);
+            var count = Tables.emit(src, spec, writer);
+            Wf.EmittedTable(HostType, flow,count);
+            return count;
+        }
 
         protected uint TableEmit<T>(ReadOnlySpan<T> src, ReadOnlySpan<byte> widths, ushort rowpad, Encoding encoding, FS.FilePath dst)
             where T : struct
-                => Util.TableEmit(src,widths,rowpad,encoding,dst);
+        {
+            var flow = Wf.EmittingTable<T>(HostType, dst);
+            var spec = Tables.rowspec<T>(widths, rowpad);
+            var count = Tables.emit(src, spec, encoding, dst);
+            Wf.EmittedTable(HostType, flow, count);
+            return count;
+        }
 
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
-            => Util.EmitLines(src,dst,encoding);
+        {
+            using var writer = dst.Writer(encoding);
+            var count = (uint)src.Length;
+            var emitting = Wf.EmittingFile(HostType, dst);
+            for(var i=0; i<count; i++)
+                writer.WriteLine(skip(src,i));
+            Wf.EmittedFile(HostType, emitting,count);
+            return count;
+        }
 
         protected void UpdateToolEnv(out Settings dst)
         {

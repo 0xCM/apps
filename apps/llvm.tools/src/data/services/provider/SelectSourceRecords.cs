@@ -13,7 +13,7 @@ namespace Z0.llvm
 
         public Index<TextLine> SelectSourceRecords(string id)
         {
-            return (Index<TextLine>)DataSets.GetOrAdd(nameof(SelectSourceRecords), key => Load());
+            return (Index<TextLine>)DataSets.GetOrAdd(nameof(SelectSourceRecords), _ => Load());
 
             Index<TextLine> Load()
             {

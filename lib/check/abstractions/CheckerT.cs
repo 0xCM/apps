@@ -23,8 +23,6 @@ namespace Z0
             CheckNames = Methods.Select(x => (Name)x.DisplayName());
         }
 
-        public Type HostType => typeof(T);
-
         public ReadOnlySpan<Name> Checks
             => CheckNames;
 
@@ -59,7 +57,7 @@ namespace Z0
         {
             var args = sys.empty<object>();
             var result = Outcome.Success;
-            var name = method.Name;
+            var name = method.DisplayName();
             var running = Running(name);
             try
             {
@@ -91,7 +89,7 @@ namespace Z0
             }
 
             if(result)
-                Ran(running,string.Format("{0,-32} | Pass", name), FlairKind.Ran);
+                Ran(running,string.Format("{0,-32} | Pass", name), FlairKind.Status);
             else
                 Ran(running, string.Format("{0,-32} | Fail | {1}", name, result.Message), FlairKind.Error);
         }

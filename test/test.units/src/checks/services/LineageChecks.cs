@@ -6,7 +6,7 @@ namespace Z0
 {
     public sealed class LineageChecks : Checker<LineageChecks>
     {
-        public void CheckParser()
+        public void CheckLineageParser()
         {
             const string Case0 = "a -> b -> c -> d -> e";
             const string Case1 = "f -> g -> h -> i -> j -> k -> l -> m";

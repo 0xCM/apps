@@ -15,7 +15,7 @@ namespace Z0.llvm
             var src = LlvmPaths.TableGenHeaders().Where(x => x.FileName.WithoutExtension.Format() == TableGenHeaders.X86Registers);
             if(src.Count != 1)
             {
-                Wf.Error("Path not found");
+                Error("Path not found");
                 return llvm.RegIdentifiers.Empty;
             }
             return IdentifierDiscovery.discover<ushort>(src[0],BeginRegsMarker).Map(x => new RegIdentifier(x.Key, x.Value));

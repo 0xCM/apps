@@ -4,20 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
     using Asm;
 
     using static core;
 
     partial class LlvmTableLoader
     {
-        public Index<LlvmInstDef> LoadInstDefs()
+        public Index<LlvmAsmVariation> LoadAsmVariations()
         {
-            const byte FieldCount = LlvmInstDef.FieldCount;
             const char Delimiter = Chars.Pipe;
-            var src = LlvmPaths.Table<LlvmInstDef>();
+            const byte FieldCount = LlvmAsmVariation.FieldCount;
+            var src = LlvmPaths.Table<LlvmAsmVariation>();
             var lines = src.ReadLines();
-            var records = Index<LlvmInstDef>.Empty;
+            var records = Index<LlvmAsmVariation>.Empty;
             if(lines.Length < 1)
             {
                 Error(string.Format("Empty file"));
@@ -33,7 +32,7 @@ namespace Z0.llvm
             }
 
             var count = lines.Length - 1;
-            records = alloc<LlvmInstDef>(count);
+            records = alloc<LlvmAsmVariation>(count);
             for(var i=1;i<count; i++)
             {
                 ref readonly var line = ref lines[i];
@@ -49,17 +48,13 @@ namespace Z0.llvm
 
                 var j=0;
                 ref var dst = ref records[i-1];
-                DataParser.parse(skip(values,j++), out dst.AsmId);
-                DataParser.parse(skip(values,j++), out dst.CgOnly);
-                DataParser.parse(skip(values,j++), out dst.Pseudo);
-                DataParser.parse(skip(values,j++), out dst.InstName);
+                DataParser.parse(skip(values,j++), out dst.Key);
+                dst.Name = skip(values,j++);
                 dst.Mnemonic = skip(values,j++);
-                dst.VarCode = new AsmVariationCode(skip(values,j++));
-                DataParser.parse(skip(values,j++), out dst.FormatPattern);
-                DataParser.parse(skip(values,j++), out dst.InOperandList);
-                DataParser.parse(skip(values,j++), out dst.OutOperandList);
+                dst.Code = new AsmVariationCode(text.trim(skip(values,j++)));
             }
             return records;
         }
+
     }
 }

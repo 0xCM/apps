@@ -7,6 +7,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public AsmIdentifiers SelectAsmIdentifiers()
-            => (AsmIdentifiers)DataSets.GetOrAdd(nameof(SelectAsmIdentifiers), key => TableLoader.LoadAsmIdentifiers());
+            => (AsmIdentifiers)DataSets.GetOrAdd(nameof(SelectAsmIdentifiers), key => DataLoader.LoadAsmIdentifiers());
     }
 }

@@ -19,8 +19,6 @@ namespace Z0.llvm
         }
 
         public Index<LlvmInstDef> SelectInstDefs(AsmIdentifiers asmid, Index<LlvmEntity> entities)
-        {
-            return (Index<LlvmInstDef>)DataSets.GetOrAdd(nameof(SelectInstDefs), key => DataCalcs.CalcInstDefs(asmid, entities));
-        }
+            => (Index<LlvmInstDef>)DataSets.GetOrAdd(nameof(SelectInstDefs), key => DataCalcs.CalcInstDefs(asmid, entities));
     }
 }

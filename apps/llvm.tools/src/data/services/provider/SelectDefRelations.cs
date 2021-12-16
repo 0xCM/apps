@@ -7,8 +7,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<DefRelations> SelectDefRelations()
-        {
-            return (Index<DefRelations>)DataSets.GetOrAdd(nameof(DefRelations), key => TableLoader.LoadDefRelations());
-        }
+            => (Index<DefRelations>)DataSets.GetOrAdd(nameof(DefRelations), key => DataLoader.LoadDefRelations());
     }
 }

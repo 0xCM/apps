@@ -7,10 +7,11 @@ namespace Z0.llvm
     using System;
 
     using static core;
+    using static Root;
 
-    partial class LlvmDataProvider
+    partial class LlvmDataCalcs
     {
-        public Index<LlvmDataType> SelectDistinctFieldTypes(ReadOnlySpan<RecordField> src)
+        public Index<LlvmDataType> CalcFieldTypes(ReadOnlySpan<RecordField> src)
         {
             var types = hashset<LlvmDataType>();
             var count = src.Length;

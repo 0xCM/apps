@@ -10,7 +10,7 @@ namespace Z0.llvm
     {
         public LlvmOpCodeMap SelectOpCodeMap()
         {
-            return (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(SelectOpCodeMap), key => Load());
+            return (LlvmOpCodeMap)DataSets.GetOrAdd(nameof(SelectOpCodeMap), _ => Load());
 
             LlvmOpCodeMap Load()
             {

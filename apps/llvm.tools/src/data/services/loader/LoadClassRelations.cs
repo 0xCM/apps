@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using Asm;
-
     using static core;
 
     partial class LlvmTableLoader
     {
         public Index<ClassRelations> LoadClassRelations()
         {
-            var running = Wf.Running(nameof(LoadClassRelations));
+            var running = Running(nameof(LoadClassRelations));
             var src = LlvmPaths.Table<ClassRelations>();
             var dst = list<ClassRelations>();
             var rows = src.ReadLines();
@@ -26,8 +23,8 @@ namespace Z0.llvm
                 var cells = @readonly(row.Split(Chars.Pipe).Select(x => x.Trim()));
                 if(cells.Length != llvm.ClassRelations.FieldCount)
                 {
-                    Wf.Error(Tables.FieldCountMismatch.Format(llvm.ClassRelations.FieldCount, cells.Length));
-                    Wf.Babble(row);
+                    Error(Tables.FieldCountMismatch.Format(llvm.ClassRelations.FieldCount, cells.Length));
+                    Babble(row);
                     break;
                 }
                 var j=0;
@@ -48,7 +45,7 @@ namespace Z0.llvm
                 dst.Add(record);
             }
 
-            Wf.Ran(running);
+            Ran(running);
             return dst.ToArray();
         }
     }

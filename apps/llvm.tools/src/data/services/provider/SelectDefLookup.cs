@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmDataProvider
     {
-        public RegIdentifiers SelectRegIdentifiers()
-            => (RegIdentifiers)DataSets.GetOrAdd(nameof(SelectRegIdentifiers), _ => DataLoader.LoadRegIdentifiers());
+        public IdentityMap<Interval<uint>> SelectDefLookup()
+            => (IdentityMap<Interval<uint>>)DataSets.GetOrAdd(nameof(SelectClassLookup), key => DataCalcs.CalcIdentityMap(SelectX86DefMap()));
     }
 }

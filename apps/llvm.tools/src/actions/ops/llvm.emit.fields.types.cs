@@ -12,10 +12,10 @@ namespace Z0.llvm
         Outcome EmitFieldTypes(CmdArgs args)
         {
             DataEmitter.EmitQueryResults("llvm/def/fields/types",
-                    DataProvider.SelectDistinctFieldTypes(DataProvider.SelectDefFields()).View);
+                    DataProvider.SelectFieldTypes(DataProvider.SelectDefFields()).View);
 
             DataEmitter.EmitQueryResults("llvm/classes/fields/types",
-                    DataProvider.SelectDistinctFieldTypes(DataProvider.SelectClassFields()).View);
+                    DataProvider.SelectFieldTypes(DataProvider.SelectClassFields()).View);
             return true;
         }
     }

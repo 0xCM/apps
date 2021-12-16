@@ -7,13 +7,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public Index<string> SelectAsmMnemonicNames()
-        {
-            return (Index<string>)DataSets.GetOrAdd("AsmMnemonicNames", key => Load());
-
-            Index<string> Load()
-            {
-                return SelectAsmVariations().Where(x => x.Mnemonic.IsNonEmpty).Map(x => x.Mnemonic.Format()).Distinct().Sort();
-            }
-        }
+            => (Index<string>)DataSets.GetOrAdd(nameof(SelectAsmMnemonicNames), _ => DataCalcs.CalcAsmMnemonicNames(SelectAsmVariations()));
     }
 }

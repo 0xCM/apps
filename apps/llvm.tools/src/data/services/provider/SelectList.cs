@@ -7,6 +7,6 @@ namespace Z0.llvm
     partial class LlvmDataProvider
     {
         public LlvmList SelectList(string id)
-            => (LlvmList)DataSets.GetOrAdd("llvm.lists." + id, key => TableLoader.LoadList(id));
+            => (LlvmList)DataSets.GetOrAdd("llvm.lists." + id, _ => DataLoader.LoadList(id));
     }
 }

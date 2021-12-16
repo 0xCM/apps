@@ -72,12 +72,6 @@ namespace Z0
             return Flow(data);
         }
 
-        WfExecFlow<T> Running<T>(WfHost host, T data, string operation)
-        {
-            signal(this, host).Running(operation, data);
-            return Flow(data);
-        }
-
         WfExecFlow<string> Running(WfHost host, [Caller] string operation = null)
         {
             signal(this, host).Running(operation);
@@ -98,24 +92,24 @@ namespace Z0
             return token;
         }
 
-        ExecToken Ran<T>(WfHost host, WfExecFlow<T> src)
+        ExecToken Ran<T>(WfHost host, WfExecFlow<T> src, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this, host).Ran(src.Data);
+            WfEvents.signal(this, host).Ran(src.Data, flair);
             return token;
         }
 
-        ExecToken Ran<T,D>(WfExecFlow<T> src, D data)
+        ExecToken Ran<T,D>(WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this).Ran(data);
+            WfEvents.signal(this).Ran(data,flair);
             return token;
         }
 
-        ExecToken Ran<T,D>(WfHost host, WfExecFlow<T> src, D data)
+        ExecToken Ran<T,D>(WfHost host, WfExecFlow<T> src, D data, FlairKind flair = FlairKind.Ran)
         {
             var token = Completed(src);
-            WfEvents.signal(this, host).Ran(data);
+            WfEvents.signal(this, host).Ran(data,flair);
             return token;
         }
 

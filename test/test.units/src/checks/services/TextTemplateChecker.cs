@@ -13,9 +13,6 @@ namespace Z0
             const string Pattern = "{0} {1} {2} {3}({4},{5});";
             var result = Outcome.Success;
             var template = text.template(Pattern, "public", "static", "uint", "f", "x", "y");
-
-            Write(template.Format());
-
             return result;
         }
     }

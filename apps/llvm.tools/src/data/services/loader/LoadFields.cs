@@ -31,7 +31,7 @@ namespace Z0.llvm
                 dst[counter++] = field;
             }
 
-            Ran(running);
+            Ran(running, string.Format("Loaded {0} fields", counter));
             return dst;
         }
     }
