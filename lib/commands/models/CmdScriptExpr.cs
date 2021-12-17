@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CmdScriptExpr : ICmdScriptExpr
+    public readonly struct CmdScriptExpr
     {
         public CmdScriptPattern Pattern {get;}
 
@@ -35,6 +35,9 @@ namespace Z0
             Pattern = pattern;
             Variables = vars;
         }
+
+        public string Format()
+            => Pattern.Format();
 
         public string Id
         {
@@ -67,17 +70,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptExpr(CmdScriptPattern src)
             => new CmdScriptExpr(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator string(CmdScriptExpr src)
-            => src.Pattern;
-
-        [MethodImpl(Inline)]
-        public string Format()
-            => Cmd.format(this);
-
-        public override string ToString()
-            => Format();
 
         public static CmdScriptExpr Empty => new CmdScriptExpr(EmptyString);
     }

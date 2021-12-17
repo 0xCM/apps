@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CmdScriptExpr<K> : ICmdScriptExpr
+    public readonly struct CmdScriptExpr<K>
         where K : unmanaged
     {
         public CmdScriptPattern Pattern {get;}
@@ -35,15 +35,5 @@ namespace Z0
             get => ref Variables[index];
         }
 
-        [MethodImpl(Inline)]
-        public static implicit operator string(CmdScriptExpr<K> src)
-            => src.Format();
-
-       [MethodImpl(Inline)]
-        public string Format()
-            => Cmd.format(this);
-
-        public override string ToString()
-            => Format();
      }
 }

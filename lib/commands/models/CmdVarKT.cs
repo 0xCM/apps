@@ -9,24 +9,36 @@ namespace Z0
 
     using static Root;
 
-    public struct CmdVar<K,T>
+    public class CmdVar<K,T>
         where K : unmanaged
     {
-        public K Id {get;}
+        public Name Name {get;}
+
+        public K Kind {get;}
 
         public T Value;
 
         [MethodImpl(Inline)]
         public CmdVar(K id)
         {
-            Id = id;
+            Name = EmptyString;
+            Kind = id;
             Value = default;
         }
 
         [MethodImpl(Inline)]
         public CmdVar(K id, T value)
         {
-            Id = id;
+            Name = EmptyString;
+            Kind = id;
+            Value = value;
+        }
+
+        [MethodImpl(Inline)]
+        public CmdVar(Name name, K kind, T value)
+        {
+            Name = name;
+            Kind = kind;
             Value = value;
         }
 

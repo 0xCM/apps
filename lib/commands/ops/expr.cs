@@ -24,9 +24,9 @@ namespace Z0
         //     where K : unmanaged
         //        => new CmdScriptExpr<K>(pattern, vars);
 
-        [MethodImpl(Inline)]
-        public static CmdScriptExpr<K,T> expr<K,T>(K id, T content)
-            where K : unmanaged
-                => new CmdScriptExpr<K,T>(id,content);
+        // [MethodImpl(Inline)]
+        // public static CmdScriptExpr<K,T> expr<K,T>(K id, T content)
+        //     where K : unmanaged
+        //         => new CmdScriptExpr<K,T>(id,content);
     }
 }

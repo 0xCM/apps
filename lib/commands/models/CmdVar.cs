@@ -9,9 +9,9 @@ namespace Z0
 
     using static Root;
 
-    public struct CmdVar
+    public class CmdVar
     {
-        public string Name {get;}
+        public Name Name {get;}
 
         string _Value;
 
@@ -23,9 +23,9 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public CmdVar(string id, string value)
+        public CmdVar(string name, string value)
         {
-            Name = id;
+            Name = name;
             _Value = value;
         }
 

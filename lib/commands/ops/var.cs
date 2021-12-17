@@ -15,22 +15,29 @@ namespace Z0
         public static CmdVar var(string name, string value)
             => new CmdVar(name, value);
 
+        public static CmdVar<K> var<K>(string name, K kind, string value)
+            where K : unmanaged
+                => new CmdVar<K>(name,kind,value);
+
+        public static CmdVar<K,T> var<K,T>(string name, K kind, T value)
+            where K : unmanaged
+                => new CmdVar<K,T>(name, kind, value);
 
         /// <summary>
         /// Creates a non-valued <see cref='CmdScriptVar'/>
         /// </summary>
-        /// <param name="symbol">The variable symbol</param>
+        /// <param name="name">The variable symbol</param>
         [MethodImpl(Inline), Op]
-        public static CmdScriptVar var(VarSymbol symbol)
-            => new CmdScriptVar(symbol);
+        public static CmdScriptVar var(VarSymbol name)
+            => new CmdScriptVar(name);
 
         /// <summary>
         /// Creates a valued <see cref='CmdScriptVar'/>
         /// </summary>
-        /// <param name="symbol">The variable symbol</param>
+        /// <param name="name">The variable symbol</param>
         /// <param name="value">The variable value</param>
         [MethodImpl(Inline), Op]
-        public static CmdScriptVar var(VarSymbol symbol, string value)
-            => new CmdScriptVar(symbol, value);
+        public static CmdScriptVar var(VarSymbol name, string value)
+            => new CmdScriptVar(name, value);
     }
 }

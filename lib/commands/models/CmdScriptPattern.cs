@@ -13,8 +13,6 @@ namespace Z0
     {
         public Name Name {get;}
 
-        public string Content {get;}
-
         [MethodImpl(Inline)]
         public CmdScriptPattern(TextBlock pattern)
             : base(pattern)
@@ -23,23 +21,15 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public CmdScriptPattern(string id, TextBlock pattern)
+        public CmdScriptPattern(string name, TextBlock pattern)
             : base(pattern)
         {
-            Name = id;
+            Name = name;
         }
-
-
-        public override string ToString()
-            => Content;
 
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptPattern(string src)
             => new CmdScriptPattern(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator string(CmdScriptPattern src)
-            => src.Content;
 
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptPattern(Pair<string> src)
