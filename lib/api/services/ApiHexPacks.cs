@@ -71,7 +71,7 @@ namespace Z0
             var packs = alloc<HexPacked>(count);
             var chars = alloc<char>(BufferLength);
             ref var dst = ref first(packs);
-            var size = MemoryStore.pack(blocks, packs, chars);
+            var size = ApiBlocks.pack(blocks, packs, chars);
             if(validate)
             {
                 var buffer = span<HexDigitValue>(BufferLength);

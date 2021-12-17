@@ -15,7 +15,7 @@ namespace Z0
     using api = MemorySegs;
 
     /// <summary>
-    /// Defines a reference to a (live) memory segment
+    /// Defines a reference to a runtime memory segment
     /// </summary>
     [DataType("memseg")]
     public readonly struct MemorySeg : IMemorySegment, ITextual, IEquatable<MemorySeg>, IHashed
@@ -146,10 +146,6 @@ namespace Z0
         public unsafe MemorySpan ToSpan()
             => new MemorySpan(Range, api.edit(BaseAddress, Size));
 
-        [MethodImpl(Inline)]
-        public static implicit operator Vector128<ulong>(in MemorySeg src)
-            => src.Segment;
-
         uint IHashed.Hash
             => Hash();
 
@@ -164,6 +160,10 @@ namespace Z0
 
         public override int GetHashCode()
             => (int)Hash();
+
+        [MethodImpl(Inline)]
+        public static implicit operator Vector128<ulong>(in MemorySeg src)
+            => src.Segment;
 
         public static MemorySeg Empty
             => default;
