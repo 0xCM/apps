@@ -7,6 +7,15 @@ namespace Z0
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
+    [Free]
+    public interface IWfEvent : IAppEvent
+    {
+        EventId EventId {get;}
+
+        WfStepId StepId
+            => WfStepId.Empty;
+    }
+
     /// <summary>
     /// Characterizes a reified event
     /// </summary>

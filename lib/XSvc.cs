@@ -47,11 +47,6 @@ namespace Z0
             => Svc.Tooling.create(wf);
 
         [Op]
-        public static ModelServices Models(this IWfRuntime wf)
-            => SvcCache.Models(wf);
-
-
-        [Op]
         public static HexCsvReader HexCsvReader(this IWfRuntime wf)
             => Svc.HexCsvReader.create(wf);
 
