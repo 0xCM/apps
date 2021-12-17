@@ -33,11 +33,6 @@ namespace Z0
             => string.Format(pattern.Pattern, args.Select(a => a.Format()));
 
         [Op, Closures(Closure)]
-        public static CmdScriptExpr format<K>(in CmdScriptPattern<K> pattern, params CmdVar[] args)
-            where K : unmanaged
-                => string.Format(pattern.Content, args.Select(a => a.Format()));
-
-        [Op, Closures(Closure)]
         public static CmdScriptExpr format<K>(in CmdScriptPattern pattern, params CmdVar<K>[] args)
             where K : unmanaged
                 => string.Format(pattern.Pattern, args.Select(a => a.Format()));

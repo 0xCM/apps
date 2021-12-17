@@ -8,17 +8,14 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static minicore;
+    using static core;
 
     /// <summary>
     /// Defines a nonparametric environment variable
     /// </summary>
     public readonly struct EnvVar : IEnvVar
     {
-        /// <summary>
-        /// The environment variable name
-        /// </summary>
-        public Name Name {get;}
+        public VarSymbol Symbol {get;}
 
         /// <summary>
         /// The environment variable value
@@ -28,31 +25,35 @@ namespace Z0
         [MethodImpl(Inline)]
         public EnvVar(string name, string value)
         {
-            Name = name;
+            Symbol = name;
             Value = value;
         }
 
-        public VarSymbol Symbol
-            => new VarSymbol(Name);
+        [MethodImpl(Inline)]
+        public EnvVar(VarSymbol name, string value)
+        {
+            Symbol = name;
+            Value = value;
+        }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsEmpty;
+            get => Symbol.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
+            get => Symbol.IsNonEmpty;
         }
 
         public EnvVar<T> Transform<T>(Func<string,T> f)
-            => new EnvVar<T>(Name, f(Value));
+            => new EnvVar<T>(Symbol.Format(), f(Value));
 
         [MethodImpl(Inline)]
         public string Format()
-            =>  nonempty(Value) ? string.Format("{0}={1}", Name, Value) : Name;
+            =>  nonempty(Value) ? string.Format("{0}={1}", Symbol, Value) : Symbol.Format();
 
 
         public override string ToString()
@@ -63,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(EnvVar src)
-            => string.Equals(Name,src.Name, NoCase) && string.Equals(Value, src.Value, NoCase);
+            => string.Equals(Symbol.Format(),src.Symbol.Format(), NoCase) && string.Equals(Value, src.Value, NoCase);
 
         public override bool Equals(object src)
             => src is EnvVar v && Equals(v);

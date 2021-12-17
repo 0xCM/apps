@@ -9,9 +9,21 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct VarSymbol : IVarSymbol
+    public readonly struct VarSymbol : IVarSymbol, IEquatable<VarSymbol>
     {
         public Name Name {get;}
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
+        }
 
         [Op]
         public static string format(IExprVar var, char assign)
@@ -59,6 +71,9 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public bool Equals(VarSymbol src)
+            => Name.Equals(src.Name);
 
         [MethodImpl(Inline)]
         public static implicit operator VarSymbol(string name)
