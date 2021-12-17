@@ -36,6 +36,31 @@ namespace Z0
             return true;
         }
 
+
+        public static bool eval<T>(Eq<T> expr)
+            where T : IScalarExpr
+                => default;
+
+        public static bool eval<T>(Neq<T> expr)
+            where T : IScalarExpr
+                => default;
+
+        public static bool eval<T>(Gt<T> expr)
+            where T : IScalarExpr
+                => default;
+
+        public static bool eval<T>(Ge<T> expr)
+            where T : IScalarExpr
+                => default;
+
+        public static bool eval<T>(Lt<T> expr)
+            where T : IScalarExpr
+                => default;
+
+        public static bool eval<T>(Le<T> expr)
+            where T : IScalarExpr
+                => default;
+
         [MethodImpl(Inline)]
         public static Eq<T> eq<T>(T a, T b)
             where T : IScalarExpr

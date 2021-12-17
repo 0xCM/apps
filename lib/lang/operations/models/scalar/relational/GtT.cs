@@ -9,6 +9,8 @@ namespace Z0.Ops.Scalar
 
     using static Root;
 
+    using api = ScalarCmpPreds;
+
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Gt<T> : IScalarCmpPred<Gt<T>,T>
         where T : IScalarExpr
@@ -25,8 +27,7 @@ namespace Z0.Ops.Scalar
         }
 
         public bool Eval()
-            => default;
-
+            => api.eval(this);
 
         public Label OpName
             => "gt<{0}>";

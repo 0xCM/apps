@@ -15,6 +15,10 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public static Constant<T> constant<T>(T src)
+            => src;
+
         [MethodImpl(Inline), Op]
         public static Literal<bit> literal(string name, bit value)
             => literal<bit>(name, value);

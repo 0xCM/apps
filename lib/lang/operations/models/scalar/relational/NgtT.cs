@@ -10,6 +10,8 @@ namespace Z0.Ops.Scalar
 
     using static Root;
 
+    using api = ScalarCmpPreds;
+
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Ngt<T> : IScalarCmpPred<Ngt<T>,T>
         where T : IScalarExpr
