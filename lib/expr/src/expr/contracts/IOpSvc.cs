@@ -5,14 +5,14 @@
 namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-    
+
     /// <summary>
     /// Characterizes an operation which is, by definition, a named evaluator
     /// </summary>
     [Free]
     public interface IOpSvc : IExprSvc
     {
-        Label OpName {get;}
+        Identifier OpName {get;}
     }
 
     [Free]
@@ -37,6 +37,6 @@ namespace Z0
                 dst = default(T);
             }
             return succeeded;
-        }      
+        }
     }
 }

@@ -16,34 +16,6 @@ namespace Z0
     partial struct TV
     {
         [MethodImpl(Inline), Op]
-        public static u1<bit> u1(bit src)
-            => new u1<bit>(src);
-
-        [MethodImpl(Inline), Op]
-        public static u1<byte> u1(byte src)
-            => new u1<byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static u2<byte> u2(byte src)
-            => new u2<byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static u3<byte> u3(byte src)
-            => new u3<byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static u4<byte> u4(byte src)
-            => new u4<byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static u5<byte> u5(byte src)
-            => new u5<byte>(src);
-
-        [MethodImpl(Inline), Op]
-        public static u6<byte> u6(byte src)
-            => new u6<byte>(src);
-
-        [MethodImpl(Inline), Op]
         public static u8 u8(byte src)
             => new u8(src);
 

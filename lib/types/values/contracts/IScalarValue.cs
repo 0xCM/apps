@@ -16,6 +16,9 @@ namespace Z0
     public interface IScalarValue<T> : IScalarValue, ISizedValue<T>, IScalarExpr<T>
         where T : unmanaged
     {
+        T IExpr<T>.Eval()
+            => Value;
+
         T IValue<T>.Value
             => core.@as<IScalarValue<T>,T>(this);
     }

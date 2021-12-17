@@ -15,7 +15,7 @@ namespace Z0
     [Free]
     public interface IExpr<T> : IExpr
     {
-
+        T Eval();
     }
 
     [Free]

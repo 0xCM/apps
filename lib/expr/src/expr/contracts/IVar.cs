@@ -9,7 +9,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IVar : IExpr, IDecl
+    public interface IVar : IExpr
     {
         string Name {get;}
     }

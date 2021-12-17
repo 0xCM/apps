@@ -20,6 +20,12 @@ namespace Z0.Types
             Storage = src;
         }
 
+        public uint Value
+        {
+            [MethodImpl(Inline)]
+            get => Storage;
+        }
+
         BitWidth ISizedValue.ContentWidth
             => Width;
 
