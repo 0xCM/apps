@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface IExprVar : ITextual
     {
-        VarSymbol Symbol {get;}
+        VarSymbol Name {get;}
 
         string Value {get;}
 

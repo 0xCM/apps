@@ -17,7 +17,7 @@ namespace Z0
         /// <summary>
         /// The variable symbol
         /// </summary>
-        public VarSymbol Symbol {get;}
+        public VarSymbol Name {get;}
 
         /// <summary>
         /// The variable value, possibly empty
@@ -27,7 +27,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public CmdScriptVar(VarSymbol name, T value)
         {
-            Symbol = name;
+            Name = name;
             Value = value;
         }
 

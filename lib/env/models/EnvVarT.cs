@@ -14,12 +14,10 @@ namespace Z0
     /// </summary>
     public readonly struct EnvVar<T> : IEnvVar
     {
-        public Name Name {get;}
+        public VarSymbol Name {get;}
 
         public T Value {get;}
 
-        public VarSymbol Symbol
-            => new VarSymbol(Name);
 
         string IExprVar.Value
             => Value?.ToString() ?? EmptyString;
@@ -41,7 +39,7 @@ namespace Z0
             => Format().GetHashCode();
 
         public bool Equals(EnvVar<T> src)
-            => string.Equals(Name,src.Name, NoCase)
+            => Name.Equals(src.Name)
             && Object.Equals(Value, src.Value);
 
         public override bool Equals(object src)

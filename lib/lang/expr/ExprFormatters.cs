@@ -20,7 +20,7 @@ namespace Z0
 
         [Op]
         public static string format(IExprVar var, char assign)
-            => string.Format("{0}{1}{2}", format(var.Symbol), assign, var.Value);
+            => string.Format("{0}{1}{2}", format(var.Name), assign, var.Value);
 
         [Formatter]
         public static string format(IExprVar var)
@@ -28,7 +28,7 @@ namespace Z0
 
         [Op]
         public static string format(VarContextKind vck, IExprVar var, char assign)
-            => string.Format("{0}{1}{2}", format(vck, var.Symbol), assign, var.Value);
+            => string.Format("{0}{1}{2}", format(vck, var.Name), assign, var.Value);
 
         [Op]
         public static string format(VarContextKind vck, IExprVar var)

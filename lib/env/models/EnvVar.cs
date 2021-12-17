@@ -15,7 +15,7 @@ namespace Z0
     /// </summary>
     public readonly struct EnvVar : IEnvVar
     {
-        public VarSymbol Symbol {get;}
+        public VarSymbol Name {get;}
 
         /// <summary>
         /// The environment variable value
@@ -25,35 +25,35 @@ namespace Z0
         [MethodImpl(Inline)]
         public EnvVar(string name, string value)
         {
-            Symbol = name;
+            Name = name;
             Value = value;
         }
 
         [MethodImpl(Inline)]
         public EnvVar(VarSymbol name, string value)
         {
-            Symbol = name;
+            Name = name;
             Value = value;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Symbol.IsEmpty;
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Symbol.IsNonEmpty;
+            get => Name.IsNonEmpty;
         }
 
         public EnvVar<T> Transform<T>(Func<string,T> f)
-            => new EnvVar<T>(Symbol.Format(), f(Value));
+            => new EnvVar<T>(Name.Format(), f(Value));
 
         [MethodImpl(Inline)]
         public string Format()
-            =>  nonempty(Value) ? string.Format("{0}={1}", Symbol, Value) : Symbol.Format();
+            =>  nonempty(Value) ? string.Format("{0}={1}", Name, Value) : Name.Format();
 
 
         public override string ToString()
@@ -64,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(EnvVar src)
-            => string.Equals(Symbol.Format(),src.Symbol.Format(), NoCase) && string.Equals(Value, src.Value, NoCase);
+            => Name.Equals(src.Name) && string.Equals(Value, src.Value, NoCase);
 
         public override bool Equals(object src)
             => src is EnvVar v && Equals(v);

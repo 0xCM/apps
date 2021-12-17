@@ -11,14 +11,14 @@ namespace Z0
 
     public struct EnvPathVar : IEnvVar<FS.FilePath>
     {
-        public VarSymbol Symbol {get;}
+        public VarSymbol Name {get;}
 
         public FS.FilePath Value {get;}
 
         [MethodImpl(Inline)]
         public EnvPathVar(VarSymbol name, FS.FilePath value)
         {
-            Symbol = name;
+            Name = name;
             Value = value;
         }
 
@@ -34,7 +34,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptVar(EnvPathVar src)
-            => new EnvPathVar(src.Symbol, src.Value);
+            => new EnvPathVar(src.Name, src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator FS.FilePath(EnvPathVar src)
