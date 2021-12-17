@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a script variable
     /// </summary>
-    public struct ScriptVar : IScriptVar
+    public struct CmdScriptVar<T> : ICmdScriptVar<T>
     {
         /// <summary>
         /// The variable symbol
@@ -22,20 +22,13 @@ namespace Z0
         /// <summary>
         /// The variable value, possibly empty
         /// </summary>
-        public string Value {get;set;}
+        public T Value {get;set;}
 
         [MethodImpl(Inline)]
-        public ScriptVar(VarSymbol name, string value)
+        public CmdScriptVar(VarSymbol name, T value)
         {
             Symbol = name;
             Value = value;
-        }
-
-        [MethodImpl(Inline)]
-        public ScriptVar(VarSymbol name)
-        {
-            Symbol = name;
-            Value = EmptyString;
         }
 
         [MethodImpl(Inline)]
@@ -53,7 +46,7 @@ namespace Z0
             => expr.resolve(vck, this);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScriptVar((VarSymbol symbol, string value) src)
-            => new ScriptVar(src.symbol, src.value);
+        public static implicit operator CmdScriptVar<T>((VarSymbol symbol, T value) src)
+            => new CmdScriptVar<T>(src.symbol, src.value);
     }
 }

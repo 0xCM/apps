@@ -46,25 +46,25 @@ namespace Z0
         }
 
         [Op]
-        public static string format(in ScriptExpr src)
+        public static string format(in CmdScriptExpr src)
             => format(src.Pattern, src.Variables.Storage);
 
         [Op]
-        public static string format<K>(in ScriptExpr<K> src)
+        public static string format<K>(in CmdScriptExpr<K> src)
             where K : unmanaged
                 => format(src.Pattern, src.Variables.Storage);
 
         [Op]
-        public static ScriptExpr format(in ScriptPattern pattern, params CmdVar[] args)
+        public static CmdScriptExpr format(in CmdScriptPattern pattern, params CmdVar[] args)
             => string.Format(pattern.Content, args.Select(a => a.Format()));
 
         [Op, Closures(Closure)]
-        public static ScriptExpr format<K>(in ScriptPattern<K> pattern, params CmdVar[] args)
+        public static CmdScriptExpr format<K>(in CmdScriptPattern<K> pattern, params CmdVar[] args)
             where K : unmanaged
                 => string.Format(pattern.Content, args.Select(a => a.Format()));
 
         [Op, Closures(Closure)]
-        public static ScriptExpr format<K>(in ScriptPattern pattern, params CmdVar<K>[] args)
+        public static CmdScriptExpr format<K>(in CmdScriptPattern pattern, params CmdVar<K>[] args)
             where K : unmanaged
                 => string.Format(pattern.Content, args.Select(a => a.Format()));
 

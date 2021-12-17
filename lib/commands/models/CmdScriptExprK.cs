@@ -9,15 +9,15 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ScriptExpr<K> : ICmdScriptExpr
+    public readonly struct CmdScriptExpr<K> : ICmdScriptExpr
         where K : unmanaged
     {
-        public ScriptPattern Pattern {get;}
+        public CmdScriptPattern Pattern {get;}
 
         public Index<CmdVar<K>> Variables {get;}
 
         [MethodImpl(Inline)]
-        public ScriptExpr(ScriptPattern pattern, Index<CmdVar<K>> vars)
+        public CmdScriptExpr(CmdScriptPattern pattern, Index<CmdVar<K>> vars)
         {
             Pattern = pattern;
             Variables = vars;
@@ -36,7 +36,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator string(ScriptExpr<K> src)
+        public static implicit operator string(CmdScriptExpr<K> src)
             => src.Format();
 
        [MethodImpl(Inline)]

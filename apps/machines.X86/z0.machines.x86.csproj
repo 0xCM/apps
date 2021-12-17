@@ -4,9 +4,6 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="$(AsmCore)" />
-  </ItemGroup>
 
   <Import Project="../imports.props"/>
 

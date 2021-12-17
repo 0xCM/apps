@@ -12,12 +12,12 @@ namespace Z0
     partial struct Cmd
     {
         /// <summary>
-        /// Creates an identifiable <see cref='CmdScript'/> from a <see cref='ScriptExpr'/> sequence
+        /// Creates an identifiable <see cref='CmdScript'/> from a <see cref='CmdScriptExpr'/> sequence
         /// </summary>
         /// <param name="id">The identifier to assign</param>
         /// <param name="src">The source expressions</param>
         [MethodImpl(Inline), Op]
-        public static CmdScript script(string id, params ScriptExpr[] src)
+        public static CmdScript script(string id, params CmdScriptExpr[] src)
             => new CmdScript(id, src);
 
         /// <summary>
@@ -26,14 +26,14 @@ namespace Z0
         /// <param name="length">The script length</param>
         [MethodImpl(Inline), Op]
         public static CmdScript script(string id, int length)
-            => new CmdScript(id, core.alloc<ScriptExpr>(length));
+            => new CmdScript(id, core.alloc<CmdScriptExpr>(length));
 
         /// <summary>
-        /// Creates an anonymous <see cref='CmdScript'/> from a <see cref='ScriptExpr'/> sequence
+        /// Creates an anonymous <see cref='CmdScript'/> from a <see cref='CmdScriptExpr'/> sequence
         /// </summary>
         /// <param name="src">The source expressions</param>
         [MethodImpl(Inline), Op]
-        public static CmdScript script(params ScriptExpr[] src)
+        public static CmdScript script(params CmdScriptExpr[] src)
             => new CmdScript(src);
     }
 }

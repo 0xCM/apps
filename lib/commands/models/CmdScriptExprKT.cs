@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ScriptExpr<K,T> : ICmdScriptExpr<K,T>
+    public readonly struct CmdScriptExpr<K,T> : ICmdScriptExpr<K,T>
         where K : unmanaged
     {
         public K Id {get;}
@@ -17,25 +17,25 @@ namespace Z0
         public T Content {get;}
 
         [MethodImpl(Inline)]
-        public ScriptExpr(T src)
+        public CmdScriptExpr(T src)
         {
             Id = default;
             Content = src;
         }
 
         [MethodImpl(Inline)]
-        public ScriptExpr(K id, T src)
+        public CmdScriptExpr(K id, T src)
         {
             Id = id;
             Content = src;
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator ScriptExpr<K,T>(T src)
-            => new ScriptExpr<K,T>(src);
+        public static implicit operator CmdScriptExpr<K,T>(T src)
+            => new CmdScriptExpr<K,T>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator string(ScriptExpr<K,T> src)
+        public static implicit operator string(CmdScriptExpr<K,T> src)
             => src.Format();
 
         [MethodImpl(Inline)]

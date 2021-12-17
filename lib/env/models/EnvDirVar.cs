@@ -33,7 +33,7 @@ namespace Z0
             => new EnvDirVar(src.symbol, src.value);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScriptVar(EnvDirVar src)
+        public static implicit operator CmdScriptVar(EnvDirVar src)
             => new EnvDirVar(src.Symbol, src.Value);
 
         [MethodImpl(Inline)]

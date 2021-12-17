@@ -12,21 +12,21 @@ namespace Z0
     partial struct Cmd
     {
         [MethodImpl(Inline), Op]
-        public static ScriptExpr expr(ScriptPattern pattern)
-            => new ScriptExpr(pattern);
+        public static CmdScriptExpr expr(CmdScriptPattern pattern)
+            => new CmdScriptExpr(pattern);
 
         [MethodImpl(Inline), Op]
-        public static ScriptExpr expr(ScriptPattern pattern, CmdVars vars)
-            => new ScriptExpr(pattern, vars);
+        public static CmdScriptExpr expr(CmdScriptPattern pattern, CmdVars vars)
+            => new CmdScriptExpr(pattern, vars);
 
         [MethodImpl(Inline)]
-        public static ScriptExpr<K> expr<K>(ScriptPattern pattern, Index<CmdVar<K>> vars)
+        public static CmdScriptExpr<K> expr<K>(CmdScriptPattern pattern, Index<CmdVar<K>> vars)
             where K : unmanaged
-               => new ScriptExpr<K>(pattern, vars);
+               => new CmdScriptExpr<K>(pattern, vars);
 
         [MethodImpl(Inline)]
-        public static ScriptExpr<K,T> expr<K,T>(K id, T content)
+        public static CmdScriptExpr<K,T> expr<K,T>(K id, T content)
             where K : unmanaged
-                => new ScriptExpr<K,T>(id,content);
+                => new CmdScriptExpr<K,T>(id,content);
     }
 }

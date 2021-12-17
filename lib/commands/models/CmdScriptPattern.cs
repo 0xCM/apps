@@ -9,21 +9,21 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ScriptPattern
+    public readonly struct CmdScriptPattern
     {
         public string PatternId {get;}
 
         public string Content {get;}
 
         [MethodImpl(Inline)]
-        public ScriptPattern(string content)
+        public CmdScriptPattern(string content)
         {
             PatternId = EmptyString;
             Content = content;
         }
 
         [MethodImpl(Inline)]
-        public ScriptPattern(string id, string content)
+        public CmdScriptPattern(string id, string content)
         {
             PatternId = id;
             Content = content;
@@ -46,18 +46,18 @@ namespace Z0
             => Content;
 
         [MethodImpl(Inline)]
-        public static implicit operator ScriptPattern(string src)
-            => new ScriptPattern(src);
+        public static implicit operator CmdScriptPattern(string src)
+            => new CmdScriptPattern(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator string(ScriptPattern src)
+        public static implicit operator string(CmdScriptPattern src)
             => src.Content;
 
         [MethodImpl(Inline)]
-        public static implicit operator ScriptPattern(Pair<string> src)
-            => new ScriptPattern(src.Left, src.Right);
+        public static implicit operator CmdScriptPattern(Pair<string> src)
+            => new CmdScriptPattern(src.Left, src.Right);
 
-        public static ScriptPattern Empty
-            => new ScriptPattern(EmptyString, EmptyString);
+        public static CmdScriptPattern Empty
+            => new CmdScriptPattern(EmptyString, EmptyString);
     }
 }

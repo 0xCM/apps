@@ -16,12 +16,12 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source array</param>
         [MethodImpl(Inline), Op]
-        public static ScriptPattern pattern(string id, string spec)
-            => new ScriptPattern(id, spec);
+        public static CmdScriptPattern pattern(string id, string spec)
+            => new CmdScriptPattern(id, spec);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ScriptPattern<K> pattern<K>(K id, string content)
+        public static CmdScriptPattern<K> pattern<K>(K id, string content)
             where K : unmanaged
-                => new ScriptPattern<K>(id,content);
+                => new CmdScriptPattern<K>(id,content);
     }
 }

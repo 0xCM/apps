@@ -6,7 +6,6 @@ namespace Z0
 {
     using System;
 
-
     public interface IBuildLog : ISink<BuildLogEntry>, IDisposable
     {
 
