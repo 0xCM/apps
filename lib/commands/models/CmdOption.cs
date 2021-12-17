@@ -12,20 +12,20 @@ namespace Z0
 
     public readonly struct CmdOption
     {
-        const char Delimiter = Chars.Colon;
+        // const char Delimiter = Chars.Colon;
 
-        public static Outcome parse(string src, out CmdOption dst)
-        {
-            dst = Empty;
-            if(empty(src))
-                return (false,RP.Empty);
-            var i = text.index(src, Delimiter);
-            if(i>0)
-                dst = new CmdOption(text.left(src,i).Trim(), text.right(src,i).Trim());
-            else
-                dst = new CmdOption(src.Trim());
-            return true;
-        }
+        // public static Outcome parse(string src, out CmdOption dst)
+        // {
+        //     dst = Empty;
+        //     if(empty(src))
+        //         return (false,RP.Empty);
+        //     var i = text.index(src, Delimiter);
+        //     if(i>0)
+        //         dst = new CmdOption(text.left(src,i).Trim(), text.right(src,i).Trim());
+        //     else
+        //         dst = new CmdOption(src.Trim());
+        //     return true;
+        // }
 
         readonly string Data;
 

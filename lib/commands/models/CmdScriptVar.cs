@@ -50,7 +50,7 @@ namespace Z0
             => Format();
 
         public string Resolve(VarContextKind vck)
-            => expr.resolve(vck, this);
+            => string.Format(RP.pattern(vck), Value);
 
         [MethodImpl(Inline)]
         public static implicit operator CmdScriptVar((VarSymbol symbol, string value) src)

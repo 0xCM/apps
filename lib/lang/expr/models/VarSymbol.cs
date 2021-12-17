@@ -33,11 +33,11 @@ namespace Z0
             => format(VarContextKind.Workflow, src);
 
         public static string format<T>(VarContextKind vck, VarSymbol<T> src)
-            => string.Format(VarContextKinds.FormatPattern(vck), src.Name);
+            => string.Format(RP.pattern(vck), src.Name);
 
         [Op]
         public static string format(VarContextKind vck, VarSymbol src)
-            => string.Format(VarContextKinds.FormatPattern(vck), src.Name);
+            => string.Format(RP.pattern(vck), src.Name);
 
         [Op]
         public static string format(VarContextKind vck, IExprVar var)
@@ -55,7 +55,7 @@ namespace Z0
             => Format(VarContextKind.Workflow);
 
         public string Format(VarContextKind vck)
-            => string.Format(VarContextKinds.FormatPattern(vck), Name);
+            => string.Format(RP.pattern(vck), Name);
 
         public override string ToString()
             => Format();

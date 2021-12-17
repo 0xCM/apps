@@ -11,12 +11,38 @@ namespace Z0
 
     using static Root;
     using static core;
+
     using SQ = SymbolicQuery;
     using DP = DataParser;
 
     [ApiHost]
     public readonly struct Settings : IIndex<Setting>, ILookup<string,Setting>
     {
+        public static Settings read(FS.FilePath src)
+        {
+            var dst = list<Setting>();
+            using var reader = src.AsciLineReader();
+            while(reader.Next(out var line))
+            {
+                var content = line.Codes;
+                var length = content.Length;
+                if(length != 0)
+                {
+                    if(SQ.hash(first(content)))
+                        continue;
+
+                    var i = SQ.index(content, Chars.Colon);
+                    if(i > 0)
+                    {
+                        var name = text.format(SQ.left(content,i));
+                        var value = text.format(SQ.right(content,i));
+                        dst.Add(new Setting(name,value));
+                    }
+                }
+            }
+            return dst.ToArray();
+        }
+
         const NumericKind Closure = UnsignedInts;
 
         readonly Index<Setting> Data;

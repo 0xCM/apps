@@ -8,8 +8,20 @@ namespace Z0
 
     using static Root;
 
+    using VCK = VarContextKind;
+
     partial struct RP
     {
+         public static string pattern(VarContextKind vck)
+            => vck switch
+            {
+                VCK.CmdScript => "%{0}%",
+                VCK.PsScript => "${0}",
+                VCK.BashScript => "${0}",
+                VCK.MsBuild => "$({0})",
+                _ => "{0}"
+            };
+
         [MethodImpl(Inline)]
         public static RenderPattern<A0> pattern<A0>(string content)
             => content;

@@ -74,7 +74,7 @@ namespace Z0
 
         [Op]
         internal static string format(VarContextKind vck, VarSymbol src)
-            => string.Format(VarContextKinds.FormatPattern(vck), src.Name);
+            => string.Format(RP.pattern(vck), src.Name);
 
         [Formatter]
         internal static string format(ExprScope src)
