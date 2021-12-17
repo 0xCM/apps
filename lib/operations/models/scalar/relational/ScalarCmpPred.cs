@@ -8,28 +8,22 @@ namespace Z0.Ops
 
     using static Root;
 
-    using api = OpCodes;
+    using api = ScalarCmpPreds;
 
-    public readonly struct OpCode
+    public readonly struct ScalarCmpPred : IScalarCmpPred<IScalarExpr>
     {
-        public Domain Domain {get;}
+        public IScalarExpr Left {get;}
 
-        public text31 Name {get;}
+        public IScalarExpr Right {get;}
 
-        internal readonly ulong Data;
+        public CmpPredKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public OpCode(Domain domain, text31 name, ulong data)
+        public ScalarCmpPred(IScalarExpr a, IScalarExpr b, CmpPredKind kind)
         {
-            Domain = domain;
-            Data = data;
-            Name = name;
-        }
-
-        public Hex32 Code
-        {
-            [MethodImpl(Inline)]
-            get => api.code(this);
+            Left = a;
+            Right = b;
+            Kind = kind;
         }
 
         public string Format()

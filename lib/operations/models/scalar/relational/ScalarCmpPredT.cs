@@ -11,29 +11,6 @@ namespace Z0.Ops
 
     using api = ScalarCmpPreds;
 
-    public readonly struct ScalarCmpPred : IScalarCmpPred<IScalarExpr>
-    {
-        public IScalarExpr Left {get;}
-
-        public IScalarExpr Right {get;}
-
-        public CmpPredKind Kind {get;}
-
-        [MethodImpl(Inline)]
-        public ScalarCmpPred(IScalarExpr a, IScalarExpr b, CmpPredKind kind)
-        {
-            Left = a;
-            Right = b;
-            Kind = kind;
-        }
-
-        public string Format()
-            => api.format(this);
-
-        public override string ToString()
-            => Format();
-    }
-
     public readonly struct ScalarCmpPred<T> : IScalarCmpPred<ScalarCmpPred<T>,T>
         where T : IScalarExpr
     {

@@ -7,13 +7,13 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IEnvVar : IRuleVar
+    public interface IEnvVar : IExprVar
     {
 
     }
 
     [Free]
-    public interface IEnvVar<T> : IEnvVar, IRuleVar<T>
+    public interface IEnvVar<T> : IEnvVar, IExprVar<T>
         where T : struct
     {
 

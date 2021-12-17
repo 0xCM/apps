@@ -21,7 +21,7 @@ namespace Z0
         public VarSymbol Symbol
             => new VarSymbol(Name);
 
-        string IRuleVar.Value
+        string IExprVar.Value
             => Value?.ToString() ?? EmptyString;
 
         [MethodImpl(Inline)]

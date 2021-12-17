@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
     using Ops;
     using Ops.Scalar;
 
     using static Root;
-    using static core;
 
     using RFM = ExprPatterns;
 

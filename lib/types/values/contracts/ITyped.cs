@@ -9,16 +9,7 @@ namespace Z0
     [Free]
     public interface ITyped : ITerm
     {
-        IType Type => TypeDef.Empty;
-    }
-
-    [Free]
-    public interface ITyped<K> : ITyped
-        where K : unmanaged
-    {
-        new IType<K> Type => TypeDef<K>.Empty;
-
-        IType ITyped.Type
-            => Type;
+        TypeSpec Type => "";
+        //IType Type => TypeDef.Empty;
     }
 }

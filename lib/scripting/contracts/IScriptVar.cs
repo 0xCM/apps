@@ -7,13 +7,13 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IScriptVar : IRuleVar
+    public interface IScriptVar : IExprVar
     {
 
     }
 
     [Free]
-    public interface IScriptVar<T> : IScriptVar, IRuleVar<T>
+    public interface IScriptVar<T> : IScriptVar, IExprVar<T>
     {
 
     }

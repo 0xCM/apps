@@ -15,13 +15,16 @@ namespace Z0
 
         public V Value {get;}
 
+        public ulong Kind {get;}
+
         public LiteralType(Identifier name, V value)
         {
             Name = name;
             Value = value;
+            Kind = 0;
         }
 
         public string Format()
-            => string.Format("{0}:{1}={2}", Name, Value.Type, Value);
+            => string.Format("{0}:{1}", Value, Name);
     }
 }

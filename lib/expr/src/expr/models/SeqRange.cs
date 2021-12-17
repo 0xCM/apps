@@ -12,9 +12,9 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct SeqRange : IExpr
     {
-        public readonly long Min;
+        public long Min {get;}
 
-        public readonly long Max;
+        public long Max {get;}
 
         [MethodImpl(Inline)]
         public SeqRange(long min, long max)

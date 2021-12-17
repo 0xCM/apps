@@ -23,7 +23,7 @@ namespace Z0
         }
 
         public string Format()
-            => ExprFormatters.Constant<T>().Format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

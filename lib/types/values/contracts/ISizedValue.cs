@@ -10,7 +10,7 @@ namespace Z0
 
         BitWidth StorageWidth {get;}
 
-        bool ITerm.IsEmpty
+        bool INullity.IsEmpty
             => ContentWidth == 0;
     }
 

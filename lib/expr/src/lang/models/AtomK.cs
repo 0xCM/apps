@@ -12,7 +12,7 @@ namespace Z0.Lang
     /// <summary>
     /// A terminal atomic
     /// </summary>
-    public readonly struct Atom<K> : ISymbol<Atom<K>,K>, ITerminalExpr<K>
+    public readonly struct Atom<K> : ITerminalExpr<K>
         where K : unmanaged
     {
         public uint Key {get;}
@@ -25,6 +25,9 @@ namespace Z0.Lang
             Key = key;
             Value = value;
         }
+
+        public Name Name
+            => Value.ToString();
 
         [MethodImpl(Inline)]
 

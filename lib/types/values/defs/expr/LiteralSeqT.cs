@@ -64,7 +64,7 @@ namespace Z0
         }
 
         public string Format()
-            => ExprFormatters.LiteralSeq<T>().Format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

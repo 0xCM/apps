@@ -7,7 +7,7 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IRuleVar : ITextual
+    public interface IExprVar : ITextual
     {
         VarSymbol Symbol {get;}
 
@@ -21,11 +21,11 @@ namespace Z0
     }
 
     [Free]
-    public interface IRuleVar<T> : IRuleVar
+    public interface IExprVar<T> : IExprVar
     {
         new T Value {get;}
 
-        string IRuleVar.Value
+        string IExprVar.Value
             => Value?.ToString() ?? "";
     }
 }

@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IVarBinder<T>
-    {
-        T Bind(string name);
-    }
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    public interface IVarBinder<K,T>
-        where K : unmanaged
+    [Free]
+    public interface ITerm : ITextual, INullity
     {
-        T Bind(K kind);
+        string ITextual.Format()
+            => string.Empty;
     }
 }

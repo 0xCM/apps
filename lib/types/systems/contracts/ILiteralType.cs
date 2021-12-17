@@ -12,10 +12,6 @@ namespace Z0
     public interface ILiteralType<V> : ILiteralType
         where V : ITyped
     {
-
         V Value {get;}
-
-        ulong IType.Kind
-            => Value.Type.Kind;
     }
 }

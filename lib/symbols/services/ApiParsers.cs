@@ -17,7 +17,32 @@ namespace Z0
         public static PartId partFromFile(string src)
             => part(Path.GetFileName(src).Replace("z0.", EmptyString).Replace(".dll", EmptyString).Replace(".exe", EmptyString));
 
-        [Op]
+        public static PartId part(string src)
+        {
+            part(src, out var dst);
+            return dst;
+        }
+
+        // [Op]
+        // public static ReadOnlySpan<PartId> parts(ReadOnlySpan<string> parts)
+        // {
+        //     var count = parts.Length;
+        //     if(count == 0)
+        //         return default;
+
+        //     var symbols = Symbols.index<PartId>();
+        //     var dst = span<PartId>(count);
+        //     var counter = 0u;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var name = ref skip(parts,i);
+        //         if(symbols.Lookup(name, out var sym))
+        //             seek(dst, counter++) = sym.Kind;
+        //     }
+        //     return slice(dst, 0, counter);
+        // }
+
+        [Parser]
         public static Outcome path(string src, out ApiPath dst)
         {
             var result = Outcome.Success;
@@ -41,13 +66,7 @@ namespace Z0
             return result;
         }
 
-        public static PartId part(string src)
-        {
-            part(src, out var dst);
-            return dst;
-        }
-
-        [Op]
+        [Parser]
         public static Outcome part(string src, out PartId dst)
         {
             dst = PartId.None;
@@ -60,7 +79,7 @@ namespace Z0
             return false;
         }
 
-        [Op]
+        [Parser]
         public static Outcome host(string src, out ApiHostUri dst)
         {
             var result = Outcome.Failure;
@@ -76,25 +95,6 @@ namespace Z0
                 }
             }
             return result;
-        }
-
-        [Op]
-        public static ReadOnlySpan<PartId> parts(ReadOnlySpan<string> parts)
-        {
-            var count = parts.Length;
-            if(count == 0)
-                return default;
-
-            var symbols = Symbols.index<PartId>();
-            var dst = span<PartId>(count);
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var name = ref skip(parts,i);
-                if(symbols.Lookup(name, out var sym))
-                    seek(dst, counter++) = sym.Kind;
-            }
-            return slice(dst, 0, counter);
         }
     }
 }

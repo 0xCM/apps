@@ -14,14 +14,14 @@ namespace Z0.Ops
     public readonly struct OpCode<K>
         where K : unmanaged
     {
-        public readonly Domain Domain;
+        public Domain Domain {get;}
 
-        public readonly Label Name;
+        public text31 Name {get;}
 
         internal readonly K Data;
 
         [MethodImpl(Inline)]
-        public OpCode(Domain domain, Label name, K data)
+        public OpCode(Domain domain, text31 name, K data)
         {
             Domain = domain;
             Name = name;

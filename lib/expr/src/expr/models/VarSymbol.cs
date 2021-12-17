@@ -11,18 +11,18 @@ namespace Z0
 
     public readonly struct VarSymbol : IVarSymbol
     {
-        public string Name {get;}
+        public Name Name {get;}
 
         [Op]
-        public static string format(IRuleVar var, char assign)
+        public static string format(IExprVar var, char assign)
             => string.Format("{0}{1}{2}", format(var.Symbol), assign, var.Value);
 
         [Op]
-        public static string format(IRuleVar var)
+        public static string format(IExprVar var)
             => format(var, Chars.Eq);
 
         [Op]
-        public static string format(VarContextKind vck, IRuleVar var, char assign)
+        public static string format(VarContextKind vck, IExprVar var, char assign)
             => string.Format("{0}{1}{2}", format(vck, var.Symbol), assign, var.Value);
 
         [Op]
@@ -40,7 +40,7 @@ namespace Z0
             => string.Format(VarContextKinds.FormatPattern(vck), src.Name);
 
         [Op]
-        public static string format(VarContextKind vck, IRuleVar var)
+        public static string format(VarContextKind vck, IExprVar var)
             => format(vck,var, Chars.Eq);
 
         [MethodImpl(Inline)]

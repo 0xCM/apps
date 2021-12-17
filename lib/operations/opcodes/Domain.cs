@@ -10,10 +10,10 @@ namespace Z0
 
     public readonly struct Domain
     {
-        public Label Name {get;}
+        public text31 Name {get;}
 
         [MethodImpl(Inline)]
-        public Domain(Label name)
+        public Domain(text31 name)
         {
             Name = name;
         }
@@ -27,13 +27,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Domain(string name)
             => new Domain(name);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Domain(Label name)
-            => new Domain(name);
-
-        [MethodImpl(Inline)]
-        public static explicit operator Label(Domain src)
-            => src.Name;
     }
 }

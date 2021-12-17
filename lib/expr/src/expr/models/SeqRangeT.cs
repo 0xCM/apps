@@ -19,12 +19,12 @@ namespace Z0
         /// <summary>
         /// The min value in the range
         /// </summary>
-        public readonly Value<T> Min;
+        public Value<T> Min {get;}
 
         /// <summary>
         /// The max value in the range
         /// </summary>
-        public readonly Value<T> Max;
+        public Value<T> Max {get;}
 
         [MethodImpl(Inline)]
         public SeqRange(Value<T> min, Value<T> max)
@@ -34,7 +34,7 @@ namespace Z0
         }
 
         public string Format()
-            => ExprFormatters.SeqRange<T>().Format(this);
+            => ExprFormatters.format(this);
 
         public override string ToString()
             => Format();

@@ -28,11 +28,31 @@ namespace Z0
         public static IApiParts parts(PartId[] identifiers)
             => parts(controller(), identifiers);
 
+        [Op]
+        public static ReadOnlySpan<PartId> parts(ReadOnlySpan<string> src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                return default;
+
+            var symbols = Symbols.index<PartId>();
+            var dst = span<PartId>(count);
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var name = ref skip(src,i);
+                if(symbols.Lookup(name, out var sym))
+                    seek(dst, counter++) = sym.Kind;
+            }
+            return slice(dst, 0, counter);
+        }
+
+
         public static IApiParts parts(Assembly control, string[] args)
         {
             if(args.Length != 0)
             {
-                var identifiers = ApiParsers.parts(args);
+                var identifiers = parts(args);
                 if(identifiers.Length != 0)
                     return new ApiParts(control, identifiers.ToArray());
                 else

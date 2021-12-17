@@ -17,14 +17,14 @@ namespace Z0.Ops
         const byte DomainWidth = 16;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static OpCode<K> encode<K>(Domain domain, Label name, Hex32 code)
+        public static OpCode<K> encode<K>(Domain domain, text31 name, Hex32 code)
             where K : unmanaged
         {
             return new OpCode<K>(domain, name, @as<ulong,K>((ulong)code));
         }
 
         [MethodImpl(Inline), Op]
-        public static OpCode encode(Label name, Domain domain, Hex32 code)
+        public static OpCode encode(text31 name, Domain domain, Hex32 code)
         {
             return new OpCode(domain, name, code);
         }

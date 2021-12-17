@@ -9,7 +9,6 @@ namespace Z0
         IType Type {get;}
 
         Identifier Alias {get;}
-
     }
 
     public interface ITypeAlias<T> : ITypeAlias
