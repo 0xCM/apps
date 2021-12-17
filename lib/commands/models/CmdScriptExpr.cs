@@ -39,7 +39,7 @@ namespace Z0
         public string Id
         {
             [MethodImpl(Inline)]
-            get => Pattern.PatternId;
+            get => Pattern.Name;
         }
 
         public ref CmdVar this[byte index]
@@ -78,5 +78,7 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        public static CmdScriptExpr Empty => new CmdScriptExpr(EmptyString);
     }
 }

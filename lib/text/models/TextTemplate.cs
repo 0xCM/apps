@@ -30,6 +30,16 @@ namespace Z0
             ParameterCount = (uint)parameters.Length;
         }
 
+        public bool IsEmpty
+        {
+            get => Pattern.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            get => Pattern.IsNonEmpty;
+        }
+
         public string Format()
             => string.Format(Pattern, Parameters);
 

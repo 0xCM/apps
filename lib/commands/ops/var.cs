@@ -15,6 +15,7 @@ namespace Z0
         public static CmdVar var(string name, string value)
             => new CmdVar(name, value);
 
+
         /// <summary>
         /// Creates a non-valued <see cref='CmdScriptVar'/>
         /// </summary>

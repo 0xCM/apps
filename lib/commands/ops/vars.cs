@@ -35,9 +35,9 @@ namespace Z0
         public static CmdVars vars()
             => new CmdVar[MaxVarCount];
 
-        [Op, Closures(Closure)]
-        public static Index<CmdVar<K>> vars<K>()
-            where K : unmanaged
-                => new CmdVar<K>[MaxVarCount];
+        // [Op, Closures(Closure)]
+        // public static Index<CmdVar<K>> vars<K>()
+        //     where K : unmanaged
+        //         => new CmdVar<K>[MaxVarCount];
     }
 }

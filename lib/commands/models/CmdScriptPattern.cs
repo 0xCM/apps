@@ -9,36 +9,24 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CmdScriptPattern
+    public class CmdScriptPattern : TextTemplate
     {
-        public string PatternId {get;}
+        public Name Name {get;}
 
         public string Content {get;}
 
         [MethodImpl(Inline)]
-        public CmdScriptPattern(string content)
+        public CmdScriptPattern(TextBlock pattern)
+            : base(pattern)
         {
-            PatternId = EmptyString;
-            Content = content;
+            Name = EmptyString;
         }
 
         [MethodImpl(Inline)]
-        public CmdScriptPattern(string id, string content)
+        public CmdScriptPattern(string id, TextBlock pattern)
+            : base(pattern)
         {
-            PatternId = id;
-            Content = content;
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => core.blank(Content);
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => !core.blank(Content);
+            Name = id;
         }
 
 

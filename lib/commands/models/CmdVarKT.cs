@@ -14,32 +14,26 @@ namespace Z0
     {
         public K Id {get;}
 
-        T _Value;
+        public T Value;
 
         [MethodImpl(Inline)]
         public CmdVar(K id)
         {
             Id = id;
-            _Value = default;
+            Value = default;
         }
 
         [MethodImpl(Inline)]
         public CmdVar(K id, T value)
         {
             Id = id;
-            _Value = value;
-        }
-
-        public T Value
-        {
-            [MethodImpl(Inline)]
-            get => _Value;
+            Value = value;
         }
 
         [MethodImpl(Inline)]
         public CmdVar<K,T> Set(T value)
         {
-            _Value = value;
+            Value = value;
             return this;
         }
 
@@ -49,7 +43,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => _Value?.ToString() ?? EmptyString;
+            => Value?.ToString() ?? EmptyString;
 
         public override string ToString()
             => Format();

@@ -17,23 +17,6 @@ namespace Z0
             => src.IsEmpty ? EmptyString : string.Format("{0,-32}:{1}", src.Name, src.Description);
 
         [Op]
-        public static string format(in CmdScript src)
-        {
-            var dst = text.buffer();
-            render(src, dst);
-            return dst.Emit();
-        }
-
-        [Op]
-        public static void render(CmdScript src, ITextBuffer dst)
-        {
-            var count = src.Length;
-            var parts = src.View;
-            for(var i=0; i<count; i++)
-                dst.AppendLine(skip(parts,i).Format());
-        }
-
-        [Op]
         public static void render(ToolCmdArgs src, ITextBuffer dst)
         {
             var count = src.Count;

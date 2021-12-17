@@ -26,7 +26,7 @@ namespace Z0
         public string Id
         {
             [MethodImpl(Inline)]
-            get => Pattern.PatternId;
+            get => Pattern.Name;
         }
 
         public ref CmdVar<K> this[byte index]

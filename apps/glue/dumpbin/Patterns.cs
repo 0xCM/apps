@@ -38,7 +38,16 @@ namespace Z0
         }
 
         public static CmdScript script(DumpBin tool, string name, CmdId id, FileModule[] src, FS.FolderPath outdir)
-            => Cmd.script(name, src.Map(file => tool.Command(id, file.Path, outdir)));
+        {
+            var buffer = text.buffer();
+            foreach(var module in src)
+            {
+                var cmd = tool.Command(id, module.Path, outdir);
+                buffer.AppendLine(cmd.Format());
+            }
+
+            return Cmd.script(name, buffer.Emit());
+        }
 
         public CmdScript Script(string name, CmdId id, FileModule[] src, FS.FolderPath outdir)
             => script(this, name, id, src, outdir);

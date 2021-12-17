@@ -14,35 +14,26 @@ namespace Z0
     {
         public K Id {get;}
 
-        public VarContextKind VarContext
-            => VarContextKind.Workflow;
-
-        Cell128 _Value;
+        public string Value;
 
         [MethodImpl(Inline)]
         public CmdVar(K id)
         {
             Id = id;
-            _Value = default;
+            Value = EmptyString;
         }
 
         [MethodImpl(Inline)]
-        public CmdVar(K id, Cell128 value)
+        public CmdVar(K id, string value)
         {
             Id = id;
-            _Value = value;
-        }
-
-        public Cell128 Value
-        {
-            [MethodImpl(Inline)]
-            get => _Value;
+            Value = value;
         }
 
         [MethodImpl(Inline)]
-        public CmdVar<K> Set(Cell128 value)
+        public CmdVar<K> Set(string value)
         {
-            _Value = value;
+            Value = value;
             return this;
         }
 
@@ -52,17 +43,17 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => _Value.Format();
+            => Value ?? EmptyString;
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdVar<K>((K id, Cell128 value) src)
+        public static implicit operator CmdVar<K>((K id, string value) src)
             => new CmdVar<K>(src.id, src.value);
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdVar<K>(Paired<K,Cell128> src)
+        public static implicit operator CmdVar<K>(Paired<K,string> src)
             => new CmdVar<K>(src.Left, src.Right);
     }
 }

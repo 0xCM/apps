@@ -13,54 +13,31 @@ namespace Z0
     {
         public Identifier Id {get;}
 
-        readonly Index<CmdScriptExpr> Data;
+        readonly CmdScriptExpr Data;
 
         [MethodImpl(Inline)]
-        public CmdScript(CmdScriptExpr[] src)
+        public CmdScript(CmdScriptExpr src)
         {
             Id = EmptyString;
             Data = src;
         }
 
         [MethodImpl(Inline)]
-        public CmdScript(string id, CmdScriptExpr[] src)
+        public CmdScript(string id, CmdScriptExpr src)
         {
             Id = id;
             Data = src;
         }
 
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length;
-        }
-
-        public Span<CmdScriptExpr> Edit
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-        public ReadOnlySpan<CmdScriptExpr> View
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
-
-
-        [MethodImpl(Inline)]
-        public static implicit operator CmdScript(CmdScriptExpr[] src)
-            => new CmdScript(src);
-
         public string Format()
-            => Cmd.format(this);
+            => Data.Format();
 
         public override string ToString()
             => Format();
 
         public static CmdScript Empty
         {
-            get => new CmdScript(core.array<CmdScriptExpr>());
+            get => new CmdScript(CmdScriptExpr.Empty);
         }
     }
 }
