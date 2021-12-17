@@ -126,11 +126,6 @@ namespace Z0
             Log.WriteLine(bitstring);
         }
 
-        void Run(N5 n)
-        {
-            LineageChecks.create(Wf).Run();
-        }
-
         void Run(N8 n)
         {
             LogHeader(MethodInfo.GetCurrentMethod(), n);
@@ -215,12 +210,6 @@ namespace Z0
             Log.WriteLine(fmt);
         }
 
-        void Run(N23 n)
-        {
-            LogHeader(MethodInfo.GetCurrentMethod(), n);
-            var log = BitFormatChecks.create().Run(Rng.wyhash64());
-            Write(log.Emit());
-        }
 
         void Run(N24 n)
         {
@@ -306,9 +295,6 @@ namespace Z0
                     case 4:
                         Run(n4);
                     break;
-                    case 5:
-                        Run(n5);
-                    break;
                     case 8:
                         Run(n8);
                     break;
@@ -323,9 +309,6 @@ namespace Z0
                     break;
                     case 18:
                         Run(n18);
-                    break;
-                    case 23:
-                        Run(n23);
                     break;
                     case 24:
                         Run(n24);

@@ -12,7 +12,7 @@ namespace Z0
     using static BitNumbers;
 
     [ApiHost]
-    public class BitFormatChecks
+    public class BitFormatChecks : Checker<BitFormatChecks>
     {
         BitNumberFormatter Formatter;
 
@@ -34,9 +34,6 @@ namespace Z0
 
         Span<char> RentBuffer()
             => _Buffer.Clear();
-
-        public static BitFormatChecks create()
-            => new BitFormatChecks();
 
         public BitFormatChecks()
         {
@@ -76,13 +73,13 @@ namespace Z0
             Log.AppendLine(nibbles.Format());
         }
 
-        public ITextBuffer Run(IPolySource src)
+        public void RunChecks()
         {
-            _Data = src.Bytes(256).Array();
+            _Data = Random.Bytes(256).Array();
             CheckNibbleSpan();
             Check(w3);
             CheckJoin();
-            return Log;
+
         }
 
         public void Show(HexVector8<N4> src)
