@@ -26,6 +26,10 @@ namespace Z0.Ops
             Kind = kind;
         }
 
+        public bool Eval()
+            => default;
+
+
         public string Format()
             => api.format(this);
 

@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Scalar
 {
+    using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Ge<T> : IScalarCmpPred<Ge<T>,T>
+    public readonly struct Nlt<T> : IScalarCmpPred<Nlt<T>,T>
         where T : IScalarExpr
     {
         public T Left {get;}
@@ -18,24 +19,28 @@ namespace Z0.Ops.Scalar
         public T Right {get;}
 
         [MethodImpl(Inline)]
-        public Ge(T a, T b)
+        public Nlt(T a, T b)
         {
             Left = a;
             Right = b;
         }
 
+        public bool Eval()
+            => default;
+
+
         public Label OpName
-            => "ge<{0}>";
+            => "nlt<{0}>";
 
         public CmpPredKind Kind
-            => CmpPredKind.GE;
+            => CmpPredKind.NLT;
 
-        public Ge Untyped()
-            => new Ge(Left,Right);
+        public Nlt Untyped()
+            => new Nlt(Left,Right);
 
         [MethodImpl(Inline)]
-        public Ge<T> Create(T a0, T a1)
-            => new Ge<T>(a0, a1);
+        public Nlt<T> Create(T a0, T a1)
+            => new Nlt<T>(a0, a1);
 
         [MethodImpl(Inline)]
         public string Format()
@@ -45,19 +50,19 @@ namespace Z0.Ops.Scalar
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Ge<T>((T a, T b) src)
-            => new Ge<T>(src.a, src.b);
+        public static implicit operator Nlt<T>((T a, T b) src)
+            => new Nlt<T>(src.a, src.b);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarCmpPred<T>(Ge<T> src)
+        public static implicit operator ScalarCmpPred<T>(Nlt<T> src)
             => new ScalarCmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator Ge<T>(ScalarCmpPred<T> src)
-            => new Ge<T>(src.Left, src.Right);
+        public static implicit operator Nlt<T>(ScalarCmpPred<T> src)
+            => new Nlt<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
-        public static implicit operator Ge(Ge<T> src)
+        public static implicit operator Nlt(Nlt<T> src)
             => src.Untyped();
     }
 }

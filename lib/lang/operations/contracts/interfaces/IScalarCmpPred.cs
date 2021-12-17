@@ -7,8 +7,7 @@ namespace Z0.Ops
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IScalarCmpPred<T> : IBinaryOpExpr<T>, IScalarExpr<T>
-        where T : IScalarExpr
+    public interface IScalarCmpPred<T> : IBooleanExpr<T>
     {
 
     }

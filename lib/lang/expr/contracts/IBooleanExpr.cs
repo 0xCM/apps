@@ -8,4 +8,10 @@ namespace Z0
     {
 
     }
+
+    public interface IBooleanExpr<T> : IBooleanExpr
+    {
+
+
+    }
 }

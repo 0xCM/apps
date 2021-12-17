@@ -10,7 +10,7 @@ namespace Z0.Ops.Scalar
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Le<T> : IScalarCmpPred<Le<T>,T>
+    public readonly struct Ge<T> : IScalarCmpPred<Ge<T>,T>
         where T : IScalarExpr
     {
         public T Left {get;}
@@ -18,24 +18,28 @@ namespace Z0.Ops.Scalar
         public T Right {get;}
 
         [MethodImpl(Inline)]
-        public Le(T a, T b)
+        public Ge(T a, T b)
         {
             Left = a;
             Right = b;
         }
 
+        public bool Eval()
+            => default;
+
+
         public Label OpName
-            => "le<{0}>";
+            => "ge<{0}>";
 
         public CmpPredKind Kind
-            => CmpPredKind.LE;
+            => CmpPredKind.GE;
 
-        public Le Untyped()
-            => new Le(Left,Right);
+        public Ge Untyped()
+            => new Ge(Left,Right);
 
         [MethodImpl(Inline)]
-        public Le<T> Create(T a0, T a1)
-            => new Le<T>(a0, a1);
+        public Ge<T> Create(T a0, T a1)
+            => new Ge<T>(a0, a1);
 
         [MethodImpl(Inline)]
         public string Format()
@@ -45,19 +49,19 @@ namespace Z0.Ops.Scalar
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Le<T>((T a, T b) src)
-            => new Le<T>(src.a, src.b);
+        public static implicit operator Ge<T>((T a, T b) src)
+            => new Ge<T>(src.a, src.b);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarCmpPred<T>(Le<T> src)
+        public static implicit operator ScalarCmpPred<T>(Ge<T> src)
             => new ScalarCmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator Le<T>(ScalarCmpPred<T> src)
-            => new Le<T>(src.Left, src.Right);
+        public static implicit operator Ge<T>(ScalarCmpPred<T> src)
+            => new Ge<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
-        public static implicit operator Le(Le<T> src)
+        public static implicit operator Ge(Ge<T> src)
             => src.Untyped();
     }
 }

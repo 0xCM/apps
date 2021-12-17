@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Scalar
 {
+    using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Gt<T> : IScalarCmpPred<Gt<T>,T>
+    public readonly struct Eq<T> : IScalarCmpPred<Eq<T>,T>
         where T : IScalarExpr
     {
         public T Left {get;}
@@ -18,46 +19,50 @@ namespace Z0.Ops.Scalar
         public T Right {get;}
 
         [MethodImpl(Inline)]
-        public Gt(T a, T b)
+        public Eq(T a, T b)
         {
             Left = a;
             Right = b;
         }
 
+        public bool Eval()
+            => default;
+
+
         public Label OpName
-            => "gt<{0}>";
+            => "eq<{0}>";
 
         public CmpPredKind Kind
-            => CmpPredKind.GT;
+            => CmpPredKind.EQ;
 
-        public Gt Untyped()
-            => new Gt(Left,Right);
-
-        [MethodImpl(Inline)]
-        public Gt<T> Create(T a0, T a1)
-            => new Gt<T>(a0, a1);
+        public Eq Untyped()
+            => new Eq(Left,Right);
 
         [MethodImpl(Inline)]
         public string Format()
             => Untyped().Format();
 
+        [MethodImpl(Inline)]
+        public Eq<T> Create(T a0, T a1)
+            => new Eq<T>(a0,a1);
+
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Gt<T>((T a, T b) src)
-            => new Gt<T>(src.a, src.b);
+        public static implicit operator Eq<T>((T a, T b) src)
+            => new Eq<T>(src.a, src.b);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarCmpPred<T>(Gt<T> src)
+        public static implicit operator ScalarCmpPred<T>(Eq<T> src)
             => new ScalarCmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator Gt<T>(ScalarCmpPred<T> src)
-            => new Gt<T>(src.Left, src.Right);
+        public static implicit operator Eq<T>(ScalarCmpPred<T> src)
+            => new Eq<T>(src.Left, src.Right);
 
         [MethodImpl(Inline)]
-        public static implicit operator Gt(Gt<T> src)
+        public static implicit operator Eq(Eq<T> src)
             => src.Untyped();
     }
 }

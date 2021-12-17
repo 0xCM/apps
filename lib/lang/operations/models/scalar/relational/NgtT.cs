@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Scalar
 {
+    using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
     using static Root;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Neq<T> : IScalarCmpPred<Neq<T>,T>
+    public readonly struct Ngt<T> : IScalarCmpPred<Ngt<T>,T>
         where T : IScalarExpr
     {
         public T Left {get;}
@@ -18,24 +19,28 @@ namespace Z0.Ops.Scalar
         public T Right {get;}
 
         [MethodImpl(Inline)]
-        public Neq(T a, T b)
+        public Ngt(T a, T b)
         {
             Left = a;
             Right = b;
         }
 
+        public bool Eval()
+            => default;
+
+
         public Label OpName
-            => "neq<{0}>";
+            => "ngt<{0}>";
 
         public CmpPredKind Kind
-            => CmpPredKind.NEQ;
+            => CmpPredKind.NGT;
 
-        public Neq Untyped()
-            => new Neq(Left,Right);
+        public Ngt Untyped()
+            => new Ngt(Left,Right);
 
         [MethodImpl(Inline)]
-        public Neq<T> Create(T a0, T a1)
-            => new Neq<T>(a0, a1);
+        public Ngt<T> Create(T a0, T a1)
+            => new Ngt<T>(a0, a1);
 
         [MethodImpl(Inline)]
         public string Format()
@@ -45,19 +50,15 @@ namespace Z0.Ops.Scalar
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Neq<T>((T a, T b) src)
-            => new Neq<T>(src.a, src.b);
+        public static implicit operator Ngt<T>((T a, T b) src)
+            => new Ngt<T>(src.a, src.b);
 
         [MethodImpl(Inline)]
-        public static implicit operator ScalarCmpPred<T>(Neq<T> src)
+        public static implicit operator ScalarCmpPred<T>(Ngt<T> src)
             => new ScalarCmpPred<T>(src.Left, src.Right, src.Kind);
 
         [MethodImpl(Inline)]
-        public static implicit operator Neq<T>(ScalarCmpPred<T> src)
-            => new Neq<T>(src.Left, src.Right);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Neq(Neq<T> src)
-            => src.Untyped();
+        public static implicit operator Ngt<T>(ScalarCmpPred<T> src)
+            => new Ngt<T>(src.Left, src.Right);
     }
 }
