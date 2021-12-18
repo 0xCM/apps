@@ -26,23 +26,19 @@ namespace Z0
         }
 
         public ReadOnlySpan<SymLiteralRow> EmitApiClasses()
-            => EmitApiClasses(Db.IndexTable("api.classes"));
+            => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
 
         public ReadOnlySpan<SymLiteralRow> EmitApiClasses(FS.FilePath dst)
         {
-            var flow = Wf.EmittingTable<SymLiteralRow>(dst);
             var literals = Query.ApiClassLiterals();
-            var count = Tables.emit(literals, dst);
-            Wf.EmittedTable(flow, count);
+            TableEmit(literals, dst);
             return literals;
         }
 
         public ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(ApiMembers src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingTable<ApiCatalogEntry>(dst);
             var records = rebase(src.BaseAddress, src.View);
-            var count = Tables.emit<ApiCatalogEntry>(records.View, dst);
-            Wf.EmittedTable<ApiCatalogEntry>(flow, count, dst);
+            TableEmit(records.View, dst);
             return records;
         }
 

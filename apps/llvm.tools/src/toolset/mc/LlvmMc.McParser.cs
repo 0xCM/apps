@@ -157,7 +157,7 @@ namespace Z0.llvm
                                 var i = text.index(comment, InstructionMarker) + InstructionMarker.Length;
                                 var dcount = DigitParser.digits(base10, text.slice(comment,i), 0u, number);
                                 var inst = text.remove(text.slice(comment,i), Chars.Gt);
-                                var j = SymbolicQuery.wsindex(inst);
+                                var j = text.whitespace(inst);
                                 if(j != NotFound)
                                     Instructions.Add(new MCInstRef(InstSeq, src.LineNumber, text.right(inst,j)));
                                 else

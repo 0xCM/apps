@@ -106,7 +106,7 @@ namespace Z0
                 : FS.Files.Empty;
 
             public FS.Files Files(string pattern, FS.FileExt ext, bool recurse)
-                => Exists ? Files(ext,recurse).Where(f => f.Name.Contains(pattern)) : FS.Files.Empty;
+                => Exists ? Files(ext, recurse).Where(f => f.Name.Contains(pattern)) : FS.Files.Empty;
 
             public FS.Files Files(FileExt[] ext, bool recurse)
                 => Exists ? new FS.Files(EnumerateFiles(recurse).Array()) : FS.Files.Empty;

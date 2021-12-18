@@ -8,12 +8,11 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
     /// <summary>
     /// Specifies a kinded option
     /// </summary>
-    public readonly struct CmdOptionSpec<K> : IToolOptionSpec<K>
+    public readonly struct CmdOptionSpec<K> : ICmdOptionSpec<K>
         where K : unmanaged
     {
         /// <summary>
@@ -29,12 +28,7 @@ namespace Z0
         /// <summary>
         /// A description for the option, if available
         /// </summary>
-        public string Description {get;}
-
-        /// <summary>
-        /// The option protocol
-        /// </summary>
-        public ArgProtocol Protocol {get;}
+        public @string Description {get;}
 
         [MethodImpl(Inline)]
         public CmdOptionSpec(K kind)
@@ -42,7 +36,6 @@ namespace Z0
             Name = kind.ToString();
             Kind = kind;
             Description = EmptyString;
-            Protocol = new ArgProtocol(ArgPrefix.Default);
         }
 
         [MethodImpl(Inline)]
@@ -51,34 +44,26 @@ namespace Z0
             Name = name;
             Kind = kind;
             Description = EmptyString;
-            Protocol = new ArgProtocol(ArgPrefix.Default);
         }
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(string name, K kind, string purpose, ArgProtocol protocol)
+        public CmdOptionSpec(string name, K kind, string description)
         {
             Name = name;
             Kind = kind;
-            Description = purpose;
-            Protocol = protocol;
+            Description = description;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Name);
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Name);
-        }
-
-        public bool IsAnonymous
-        {
-            [MethodImpl(Inline)]
-            get => empty(Name);
+            get => Name.IsNonEmpty;
         }
 
         [MethodImpl(Inline)]
@@ -90,7 +75,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator CmdOptionSpec(CmdOptionSpec<K> src)
-            => new CmdOptionSpec(src.Name, src.Description, src.Protocol);
+            => new CmdOptionSpec(src.Name, src.Description);
 
         /// <summary>
         /// Specifies the empty option

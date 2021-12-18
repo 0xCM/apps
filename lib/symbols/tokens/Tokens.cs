@@ -21,7 +21,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var symbol = ref skip(symbols,i);
-                seek(dst,i) = new Token(symbol.Key, symbol.Type.Name.Content, symbol.Name.Content, symbol.Expr.Text, symbol.Value);
+                seek(dst,i) = new Token(symbol.Key, symbol.Type.Name.Content, symbol.Name, symbol.Expr.Text, symbol.Value);
             }
             return dst;
         }
@@ -34,7 +34,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var symbol = ref src[i];
-                seek(dst,i) = new Token(symbol.Key, symbol.Type.Name.Content, symbol.Name.Content, symbol.Expr.Text, symbol.Value);
+                seek(dst,i) = new Token(symbol.Key, symbol.Type.Name.Content, symbol.Name, symbol.Expr.Text, symbol.Value);
             }
             return dst;
         }

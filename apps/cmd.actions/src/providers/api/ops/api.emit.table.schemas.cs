@@ -13,7 +13,7 @@ namespace Z0
         {
             var schemas = Tables.schemas(ApiRuntimeCatalog.Components);
             var count = schemas.Count;
-            var dst = Ws.Project("db").Subdir("api") + FS.file("api.tables.schema");
+            var dst = ProjectDb.Api() + FS.file("api.tables.schema");
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)

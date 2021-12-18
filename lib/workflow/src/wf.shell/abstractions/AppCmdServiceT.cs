@@ -124,6 +124,13 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("tools/profiles")]
+        protected Outcome ShowToolProfiles(CmdArgs args)
+        {
+            iter(ToolProfiles.Values, profile => Write(string.Format("{0,-12} {1,-32} {2}", profile.Memberhisp, profile.Id, profile.Path)));
+            return true;
+        }
+
         [CmdOp("commands")]
         protected Outcome Commands(CmdArgs args)
         {
@@ -283,7 +290,7 @@ namespace Z0
                 return OmniScript.Run(script, out var _);
         }
 
-        [CmdOp("tools/catalog")]
+        [CmdOp("tools/emit/catalog")]
         protected Outcome CatalogTools(CmdArgs args)
         {
             var subdirs = Tools.Root.SubDirs();
@@ -412,7 +419,7 @@ namespace Z0
             {
                 ref readonly var symbol = ref skip(view,i);
                 var key = symbol.Key;
-                var name = symbol.Name.Format();
+                var name = symbol.Name;
                 var expr = symbol.Expr.Format();
                 if(name.Equals(expr))
                     Write(string.Format(Pattern1, key, expr));

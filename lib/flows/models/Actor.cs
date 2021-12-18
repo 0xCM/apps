@@ -4,31 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct Actor : IActor<ulong>
+    public abstract class Actor : IActor
     {
-        public readonly ulong Kind;
+        public Name Name {get;}
 
-        [MethodImpl(Inline)]
-        public Actor(ulong kind)
+        public abstract IType SourceType {get;}
+
+        public abstract IType TargetType {get;}
+
+        protected Actor(Name name)
         {
-            Kind = kind;
+            Name = name;
         }
 
-        ulong IActor<ulong>.Kind
-            => Kind;
+        public virtual string Format()
+            => string.Format("{0}:{1} -> {2}", Name, SourceType.Name, TargetType.Name);
 
-        public string Format()
-            => Kind.ToString();
-
-        public override string ToString()
+        public override sealed string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator Actor(ulong kind)
-            => new Actor(kind);
     }
 }

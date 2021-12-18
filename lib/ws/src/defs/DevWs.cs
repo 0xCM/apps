@@ -101,7 +101,7 @@ namespace Z0
             => ProjectDbWs.create(_WsRoot + FS.folder("projects/db"));
 
         public IToolWs Tools()
-            => ToolWs.create(_WsRoot + FS.folder(tools));
+            => ToolWs.create(Projects().Subdir("tools"));
 
         public IWorkspace Tables()
             => TableWs.create(_WsRoot + FS.folder(tables));

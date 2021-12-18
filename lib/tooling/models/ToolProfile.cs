@@ -11,9 +11,11 @@ namespace Z0
     {
         public const string TableId = "tool.profiles";
 
-        public const byte FieldCount = 4;
+        public const byte FieldCount = 5;
 
         public ToolId Id;
+
+        public string Modifier;
 
         public CmdArg HelpCmd;
 
@@ -21,6 +23,6 @@ namespace Z0
 
         public FS.FilePath Path;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,32,5};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,16,32,32,5};
     }
 }

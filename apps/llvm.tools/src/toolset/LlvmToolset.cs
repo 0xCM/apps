@@ -22,7 +22,7 @@ namespace Z0.llvm
 
         Toolset Toolset;
 
-        Tooling Tooling;
+        //Tooling Tooling;
 
         public LlvmToolset()
         {
@@ -34,7 +34,7 @@ namespace Z0.llvm
         {
             ToolsetDir = Ws.Project("tools/llvm").Home();
             HelpDir = ToolsetDir + FS.folder("help");
-            Tooling = Wf.Tooling();
+            //Tooling = Wf.Tooling();
             LoadToolset();
             CalcHelpPaths();
             InitHelpDocs();
@@ -52,7 +52,6 @@ namespace Z0.llvm
             }
             ToolHelpDocs = dst.Seal();
         }
-
 
         public Index<ToolHelpDoc> ToolHelp()
         {
@@ -119,6 +118,12 @@ namespace Z0.llvm
             dst.Sort();
             return dst.ToArray();
         }
+
+        public ReadOnlySpan<ToolHelpDoc> HelpDocs()
+            => ToolHelpDocs.Values;
+
+        public Outcome HelpDoc(ToolId tool, out ToolHelpDoc doc)
+            => ToolHelpDocs.Find(tool, out doc);
 
         public Index<ToolHelpDoc> EmitHelpDocs()
         {

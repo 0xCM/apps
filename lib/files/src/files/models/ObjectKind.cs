@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
+
     partial struct FS
     {
         public enum ObjectKind : byte

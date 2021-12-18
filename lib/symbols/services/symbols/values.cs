@@ -52,7 +52,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var s = ref src[i];
-                seek(dst,i) = new LabeledValue<T>(s.Name.Content, @as<ulong,T>(s.Value));
+                seek(dst,i) = new LabeledValue<T>(s.Name, @as<ulong,T>(s.Value));
             }
             return dst;
         }

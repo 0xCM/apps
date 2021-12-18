@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a command option
     /// </summary>
-    public readonly struct CmdOptionSpec : IToolOptionSpec
+    public readonly struct CmdOptionSpec : ICmdOptionSpec
     {
         /// <summary>
         /// The option name
@@ -23,53 +23,32 @@ namespace Z0
         /// <summary>
         /// The option's use
         /// </summary>
-        public string Description {get;}
-
-        /// <summary>
-        /// The option protocol
-        /// </summary>
-        public ArgProtocol Protocol {get;}
+        public @string Description {get;}
 
         [MethodImpl(Inline)]
         public CmdOptionSpec(string name)
         {
             Name = name;
             Description = EmptyString;
-            Protocol = new ArgProtocol(ArgPrefix.Default);
         }
 
         [MethodImpl(Inline)]
-        public CmdOptionSpec(string name, string purpose)
+        public CmdOptionSpec(string name, string description)
         {
             Name = name;
-            Description = purpose;
-            Protocol = new ArgProtocol(ArgPrefix.Default);
-        }
-
-        [MethodImpl(Inline)]
-        public CmdOptionSpec(string name, string purpose, ArgProtocol protocol)
-        {
-            Name = name;
-            Description = purpose;
-            Protocol = protocol;
+            Description = description;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Name);
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Name);
-        }
-
-        public bool IsAnonymous
-        {
-            [MethodImpl(Inline)]
-            get => empty(Name);
+            get => Name.IsNonEmpty;
         }
 
         [MethodImpl(Inline)]

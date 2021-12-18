@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
-    using Microsoft.DiaSymReader;
+    using System;
+    using System.Runtime.CompilerServices;
 
-    partial struct PdbModel
+    using static Root;
+
+    partial struct FS
     {
-        internal sealed class DocumentMethods : Dictionary<ISymUnmanagedDocument,Index<ISymUnmanagedMethod>>
-        {
-
-        }
+        [MethodImpl(Inline), Op]
+        public static ObjectType type(ObjectKind kind)
+            => new ObjectType(kind);
     }
 }

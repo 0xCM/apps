@@ -12,7 +12,7 @@ namespace Z0
 
         Identifier Type {get;}
 
-        Identifier Name {get;}
+        string Name {get;}
 
         SymExpr Expr {get;}
 

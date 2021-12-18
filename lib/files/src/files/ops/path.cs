@@ -11,9 +11,9 @@ namespace Z0
 
     partial struct FS
     {
-        [MethodImpl(Inline), Op]
-        public static FilePath path(PathPart name)
-            => new FilePath(name);
+        // [MethodImpl(Inline), Op]
+        // public static FilePath path(PathPart name)
+        //     => new FilePath(name);
 
         [MethodImpl(Inline), Op]
         public static FilePath path(string name)

@@ -32,6 +32,8 @@ namespace Z0
                             return cast<Func<T,T>>(Ops8i.Inc.Compile());
                         case TypeCode.UInt16:
                             return cast<Func<T,T>>(Ops16u.Inc.Compile());
+                        case TypeCode.Int16:
+                            return cast<Func<T,T>>(Ops16i.Inc.Compile());
 
                         default:
                             return lambda<T,T>(Expression.Increment).Compile();

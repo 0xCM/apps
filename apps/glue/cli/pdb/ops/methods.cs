@@ -12,17 +12,22 @@ namespace Z0
 
     partial struct PdbServices
     {
-        internal static DocumentMethods methods(ISymUnmanagedReader5 src)
+        internal static DocMethodLookup MethodLookup(ISymUnmanagedReader5 src)
         {
             var documents = src.GetDocuments().ToReadOnlySpan();
             var count = documents.Length;
-            var dst = new DocumentMethods();
+            var dst = new DocMethodLookup();
             for(var i=0; i<count; i++)
             {
                 ref readonly var doc = ref skip(documents,i);
                 dst[doc] = src.GetMethodsInDocument(doc);
             }
             return dst;
+        }
+
+        internal static DocMethods methods(ISymUnmanagedReader5 reader, ISymUnmanagedDocument doc)
+        {
+            return new DocMethods(doc,reader.GetMethodsInDocument(doc));
         }
     }
 }

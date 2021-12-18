@@ -19,7 +19,7 @@ namespace Z0
 
         public SymKey Key {get;}
 
-        public Identifier Name {get;}
+        public string Name {get;}
 
         public SymClass Class {get;}
 

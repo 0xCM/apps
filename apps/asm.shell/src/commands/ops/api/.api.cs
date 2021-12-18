@@ -14,7 +14,7 @@ namespace Z0.Asm
 
             if(args.Count != 0)
             {
-                var input = arg(args,0).Value;
+                var input = arg(args,0).Value.Format();
                 var part = PartId.None;
                 var i = text.index(input, Chars.FSlash);
                 if(i > 0)

@@ -13,64 +13,56 @@ namespace Z0
     {
         public uint Index {get;}
 
-        public string Name {get;}
+        public Name Name {get;}
 
-        public string Value {get;}
+        public @string Value {get;}
 
         [MethodImpl(Inline)]
-        public CmdArg(string value)
+        public CmdArg(string name)
         {
             Index = 0;
-            Value = value;
-            Name = EmptyString;
+            Name = name;
+            Value = name;
         }
 
         [MethodImpl(Inline)]
         public CmdArg(string name, string value)
         {
             Index = 0;
-            Value = value;
             Name = name;
-        }
-
-        [MethodImpl(Inline)]
-        public CmdArg(uint index, string value)
-        {
-            Index = index;
             Value = value;
-            Name = EmptyString;
         }
 
         [MethodImpl(Inline)]
         public CmdArg(uint index, string name, string value)
         {
             Index = index;
-            Value = value;
             Name = name;
+            Value = value;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => core.empty(Value);
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => core.nonempty(Value);
+            get => Name.IsNonEmpty;
         }
 
         public override string ToString()
-            => Value ?? EmptyString;
+            => Value.IsEmpty ? Name.Format() : string.Format("{0}={1}", Name, Value);
 
         [MethodImpl(Inline)]
         public static implicit operator string(CmdArg arg)
             => arg.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator CmdArg(string value)
-            => new CmdArg(value);
+        public static implicit operator CmdArg(string name)
+            => new CmdArg(name);
 
         public static CmdArg Empty
             => new CmdArg(EmptyString);

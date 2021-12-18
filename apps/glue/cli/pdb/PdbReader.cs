@@ -7,8 +7,10 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
     using Microsoft.DiaSymReader;
+    using System.Collections.Generic;
 
     using static Root;
+    using static core;
     using static PdbServices;
     using static PdbModel;
 
@@ -16,21 +18,25 @@ namespace Z0
     {
         Index<Document> _Documents;
 
-        DocumentMethods _DocumentMethods;
+        Index<ISymUnmanagedDocument> UnmanagedDocs;
+
+        Index<DocMethods> _DocumentMethods;
 
         public PdbSymbolSource Source {get;}
 
         internal ISymUnmanagedReader5 Provider {get;}
 
         Index<Method> _Methods;
-
         [MethodImpl(Inline)]
         internal PdbReader(IWfRuntime wf, PdbSymbolSource src, ISymUnmanagedReader5 provider)
         {
             Source = src;
             Provider = provider;
-            _DocumentMethods = methods(provider);
-            _Documents = _DocumentMethods.Keys.Array().Select(adapt);
+            UnmanagedDocs = provider.GetDocuments();
+            _Documents = provider.GetDocuments().Select(adapt);
+            //_DocumentMethods = MethodLookup(provider);
+            _DocumentMethods = UnmanagedDocs.Storage.Map(doc => methods(provider,doc));
+            //_Documents = _DocumentMethods.Keys.Array().Select(adapt);
             _Methods = Index<Method>.Empty;
         }
 
@@ -47,8 +53,10 @@ namespace Z0
             get
             {
                 if(_Methods.IsEmpty)
-                    _Methods = _DocumentMethods.Values.Array().SelectMany(x => x).Select(PdbServices.adapt);
-                return _Methods.View;
+                {
+                    _Methods = _DocumentMethods.SelectMany(x => x.Methods).Select(PdbServices.adapt);
+                }
+                return _Methods;
             }
         }
 

@@ -6,6 +6,7 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Microsoft.DiaSymReader;
 
     using static Root;
 
@@ -17,9 +18,12 @@ namespace Z0
 
             public Guid Type {get;}
 
+            internal readonly ISymUnmanagedDocument Unmanaged;
+
             [MethodImpl(Inline)]
-            public Document(string name, Guid type)
+            public Document(ISymUnmanagedDocument doc, string name, Guid type)
             {
+                Unmanaged = doc;
                 Name = name;
                 Type = type;
             }

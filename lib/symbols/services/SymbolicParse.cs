@@ -34,6 +34,7 @@ namespace Z0
             outcome += DataParser.parse(skip(cells,j++), out dst.Symbol);
             outcome += DataParser.eparse(skip(cells,j++), out dst.DataType);
             outcome += DataParser.parse(skip(cells,j++), out dst.ScalarValue);
+            outcome += DataParser.eparse(skip(cells,j++), out dst.NumericBase);
             outcome += DataParser.parse(skip(cells,j++), out dst.Hidden);
             outcome += DataParser.parse(skip(cells,j++), out dst.Description);
             outcome += DataParser.parse(skip(cells,j++), out dst.Identity);

@@ -37,13 +37,13 @@ namespace Z0
             public static Expression<Func<short, short, bool>> LT
                 => f((short x, short y) => x < y);
 
-            public static Expression<Func<short, short, bool>> LTEQ
+            public static Expression<Func<short, short, bool>> LtEq
                 => f((short x, short y) => x <= y);
 
             public static Expression<Func<short, short, bool>> GT
                 => f((short x, short y) => x > y);
 
-            public static Expression<Func<short, short, bool>> GTEQ
+            public static Expression<Func<short, short, bool>> GtEq
                 => f((short x, short y) => x >= y);
         }
     }

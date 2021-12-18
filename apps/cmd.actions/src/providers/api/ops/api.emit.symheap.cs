@@ -14,7 +14,7 @@ namespace Z0
             var heap = SymHeaps.define(literals);
             var count = heap.SymbolCount;
             var entries = SymHeaps.entries(heap);
-            var dst = ProjectDb.Subdir("api") + FS.file(Tables.identify<SymHeapEntry>().Format(), FS.Csv);
+            var dst = ProjectDb.Api() + FS.file(Tables.identify<SymHeapEntry>().Format(), FS.Csv);
             TableEmit(entries.View, SymHeapEntry.RenderWidths, dst);
             return true;
         }

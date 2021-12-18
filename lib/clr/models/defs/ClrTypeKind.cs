@@ -14,14 +14,19 @@ namespace Z0
     {
         None = 0,
 
+        [Symbol("class")]
         Class = ClrArtifactKind.Class,
 
+        [Symbol("struct")]
         Struct = ClrArtifactKind.Struct,
 
+        [Symbol("delegate")]
         Delegate = ClrArtifactKind.Delegate,
 
+        [Symbol("enum")]
         Enum = ClrArtifactKind.Enum,
 
+        [Symbol("interface")]
         Interface = ClrArtifactKind.Interface
     }
 }

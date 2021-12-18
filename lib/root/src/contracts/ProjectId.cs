@@ -53,6 +53,10 @@ namespace Z0
         public static implicit operator ProjectId(string src)
             => new ProjectId(src);
 
+       [MethodImpl(Inline)]
+        public static implicit operator ProjectId(@string src)
+            => new ProjectId(src);
+
         [MethodImpl(Inline)]
         public static implicit operator string(ProjectId src)
             => src.Id;

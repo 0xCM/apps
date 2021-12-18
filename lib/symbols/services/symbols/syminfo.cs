@@ -51,7 +51,6 @@ namespace Z0
             {
                 ref readonly var symbol = ref skip(symbols,i);
                 ref var record = ref seek(dst,i);
-
                 record.TokenType = src.Name;
                 record.Index = i;
                 record.Value = (symbol.Value, nbk);

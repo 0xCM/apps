@@ -22,7 +22,7 @@ namespace Z0
                 Z0.Require.equal(c.Ordinal, i);
                 Z0.Require.equal(s.Key.Value, c.Ordinal);
                 Z0.Require.equal(s.Expr.Format(), c.Symbol.Format());
-                Z0.Require.equal(s.Name.Format(), c.KindName.Format());
+                Z0.Require.equal(s.Name, c.KindName.Format());
                 //Write(string.Format("{0,-8:D3} {1,-24} {2,-8} {3}", c.Ordinal, c.ClassName, c.KindName, c.Value));
             }
 

@@ -13,7 +13,7 @@ namespace Z0
     {
         public uint Index {get;}
 
-        public string Name {get;}
+        public Name Name {get;}
 
         public T Value {get;}
 
@@ -22,15 +22,15 @@ namespace Z0
         {
             Index = 0;
             Value = value;
-            Name = EmptyString;
+            Name = value.ToString();
         }
 
         [MethodImpl(Inline)]
         public CmdArg(uint index, string name, T value)
         {
             Index = index;
-            Value = value;
             Name = name;
+            Value = value;
         }
 
 

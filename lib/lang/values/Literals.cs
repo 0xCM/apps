@@ -110,8 +110,8 @@ namespace Z0
             where E : unmanaged
             => src switch{
                 LiteralNameSource.Expression => sym.Expr.Text,
-                LiteralNameSource.Identifier => sym.Name.Text,
-                _ => sym.Name.Text
+                LiteralNameSource.Identifier => sym.Name,
+                _ => sym.Name
             };
 
         public static LiteralSeq<E> seq<E>(LiteralNameSource ns)

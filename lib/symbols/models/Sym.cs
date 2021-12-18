@@ -23,7 +23,7 @@ namespace Z0
 
         public ulong Kind {get;}
 
-        public Identifier Name {get;}
+        public string Name {get;}
 
         public SymExpr Expr {get;}
 
@@ -72,13 +72,13 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsEmpty;
+            get => text.empty(Name);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
+            get => text.nonempty(Name);
         }
 
         public static Sym Empty

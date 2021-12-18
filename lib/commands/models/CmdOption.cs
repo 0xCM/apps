@@ -8,56 +8,41 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
-    public readonly struct CmdOption
+    public readonly struct CmdOption : ICmdOption
     {
-        readonly string Data;
+        public Name Name {get;}
+
+        public @string Value {get;}
 
         [MethodImpl(Inline)]
         public CmdOption(string name, string value)
         {
-            Data = string.Concat(name,Chars.Colon,value);
+            Name = name;
+            Value = value;
         }
 
         [MethodImpl(Inline)]
-        public CmdOption(string data)
+        public CmdOption(string value)
         {
-            Data = data;
+            Name = EmptyString;
+            Value = value;
         }
-
-        string Content
-        {
-            [MethodImpl(Inline)]
-            get => Data ?? EmptyString;
-        }
-
-        public string Name
-            => name(Content);
-
-        public string Value
-            => value(Content);
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => empty(Content);
+            get => Name.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => nonempty(Content);
-        }
-
-        public bool HasName
-        {
-            [MethodImpl(Inline)]
-            get => empty(Name);
+            get => Name.IsNonEmpty;
         }
 
         public string Format()
-            => HasName ? string.Format("{0}:{1}", Name,Value) : Value;
+            => Value.IsEmpty ? Name.Format() : string.Format("{0}={1}", Name, Value);
 
         public override string ToString()
             => Format();
@@ -66,26 +51,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => new CmdOption(EmptyString);
-        }
-
-        [MethodImpl(Inline)]
-        static string value(string src)
-        {
-            if(empty(src))
-                return EmptyString;
-
-            var i = text.index(src,Chars.Colon);
-            return i > 0 ? text.right(src,i) : src;
-        }
-
-        [MethodImpl(Inline)]
-        static string name(string src)
-        {
-            if(empty(src))
-                return EmptyString;
-
-            var i = text.index(src,Chars.Colon);
-            return i > 0 ? text.left(src,i) : EmptyString;
         }
     }
 }

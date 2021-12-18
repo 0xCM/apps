@@ -12,18 +12,16 @@ namespace Z0
     /// Characterizes a tool option
     /// </summary>
     [Free]
-    public interface IToolOptionSpec : INamed, ITextual
+    public interface ICmdOptionSpec : INamed, ITextual
     {
-        ArgProtocol Protocol {get;}
-
-        string Description => string.Empty;
+        @string Description {get;}
     }
 
     /// <summary>
     /// Characterizes a kinded tool option
     /// </summary>
     [Free]
-    public interface IToolOptionSpec<K> : IToolOptionSpec
+    public interface ICmdOptionSpec<K> : ICmdOptionSpec
         where K : unmanaged
     {
         K Kind {get;}

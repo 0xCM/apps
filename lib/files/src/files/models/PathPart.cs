@@ -152,6 +152,10 @@ namespace Z0
                 => new PathPart(data);
 
             [MethodImpl(Inline)]
+            public static implicit operator PathPart(@string data)
+                => new PathPart(data);
+
+            [MethodImpl(Inline)]
             public static implicit operator string(PathPart data)
                 => data.TextData;
 

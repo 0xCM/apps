@@ -20,16 +20,19 @@ namespace Z0
         /// <summary>
         /// Classifies paramters that are declared with the "in" modifier
         /// </summary>
+        [Symbol("in")]
         In = p.P2ᐞ00,
 
         /// <summary>
         /// Classifies paramters that are declared with the "out" modifier
         /// </summary>
+        [Symbol("out")]
         Out = p.P2ᐞ01,
 
         /// <summary>
         /// Classifies paramters that are declared with the "ref" modifier
         /// </summary>
+        [Symbol("ref")]
         Ref = p.P2ᐞ02,
     }
 }

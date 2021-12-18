@@ -17,7 +17,7 @@ namespace Z0
 
         public SymIdentity Identity {get;}
 
-        public Identifier Name {get;}
+        public string Name {get;}
 
         public T Kind {get;}
 

@@ -72,6 +72,12 @@ namespace Z0
         protected IToolWs Tools
             => Service(Ws.Tools);
 
+        protected Tooling Tooling
+            => Service(Wf.Tooling);
+
+        protected ConstLookup<ToolId,ToolProfile> ToolProfiles
+            => Data(nameof(ToolProfiles), () => Tooling.LoadProfiles(Env.Toolbase));
+
         public virtual Type ContractType
             => typeof(H);
 

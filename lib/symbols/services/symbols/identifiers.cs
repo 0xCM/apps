@@ -13,7 +13,7 @@ namespace Z0
     partial struct Symbols
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint identifiers<E>(Symbols<E> src, Span<string> dst)
+        public static uint names<E>(Symbols<E> src, Span<Label> dst)
             where E : unmanaged
         {
             var view = src.View;

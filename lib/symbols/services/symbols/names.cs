@@ -21,7 +21,7 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var s = ref src[i];
-                seek(dst,i) = s.Name.Content;
+                seek(dst,i) = s.Name;
             }
             return dst;
         }

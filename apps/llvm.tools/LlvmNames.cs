@@ -87,17 +87,13 @@ namespace Z0.llvm
         public readonly struct ListTypes
         {
             public const string Predicate = nameof(Predicate);
-
-
         }
+
         public readonly struct Entities
         {
-
             public const string InstAlias = nameof(InstAlias);
 
-
             public const string GenericInstruction = nameof(GenericInstruction);
-
 
             public const string RegisterClass = nameof(RegisterClass);
 

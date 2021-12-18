@@ -25,8 +25,8 @@ namespace Z0
             => new CmdArg(name,value);
 
         [MethodImpl(Inline), Op]
-        public static CmdArg arg(uint index, string value)
-            => new CmdArg(index,value);
+        public static CmdArg arg(string name)
+            => new CmdArg(name);
 
         [MethodImpl(Inline), Op]
         public static CmdArg arg(uint index, string name, string value)

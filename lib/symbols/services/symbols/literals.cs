@@ -85,6 +85,7 @@ namespace Z0
             dst.Symbol = src.Symbol;
             dst.DataType = src.DataType;
             dst.ScalarValue = src.ScalarValue;
+            dst.NumericBase = NumericBaseKind.Base10;
             dst.Description = src.Description;
             dst.Hidden = src.Hidden;
             dst.Identity = src.Identity;
@@ -95,7 +96,6 @@ namespace Z0
         static void fill(Type type, ClrPrimitiveKind kind, ReadOnlySpan<FieldInfo> fields, Span<SymLiteralRow> dst)
         {
             var count = fields.Length;
-
             var component = type.Assembly.GetSimpleName();
             for(var i=0u; i<count; i++)
             {
@@ -109,6 +109,7 @@ namespace Z0
                 row.Position = (ushort)i;
                 row.Name = f.Name;
                 row.ScalarValue = Enums.unbox(kind, f.GetRawConstantValue());
+                row.NumericBase = NumericBaseKind.Base10;
                 row.Symbol = tag.MapValueOrDefault(a => a.Symbol, f.Name);
                 row.Description = tag.MapValueOrDefault(a => a.Description, EmptyString);
                 row.Hidden = f.Ignored();

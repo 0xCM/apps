@@ -40,6 +40,9 @@ namespace Z0
         public FS.FolderPath Tools
             => Source.Tools;
 
+        public FS.FolderPath Toolbase
+            => Source.Toolbase;
+
         public FS.FolderPath Archives
             => Source.Archives;
 

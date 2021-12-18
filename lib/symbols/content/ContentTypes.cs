@@ -22,7 +22,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var symbol = ref skip(symbols,i);
-                seek(dst,i) = new ContentType(symbol.Kind, symbol.Name.Content);
+                seek(dst,i) = new ContentType(symbol.Kind, symbol.Name);
             }
             return buffer;
         }

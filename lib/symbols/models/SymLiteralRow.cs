@@ -15,7 +15,7 @@ namespace Z0
     {
         public const string TableId = "symbolic.literals";
 
-        public const byte FieldCount = 11;
+        public const byte FieldCount = 12;
 
         /// <summary>
         /// The component that defines the literal
@@ -58,6 +58,11 @@ namespace Z0
         public ulong ScalarValue;
 
         /// <summary>
+        /// The numeric base interpretation given to the literal
+        /// </summary>
+        public NumericBaseKind NumericBase;
+
+        /// <summary>
         /// Indicates whether the literal is occluded
         /// </summary>
         public bool Hidden;
@@ -73,6 +78,6 @@ namespace Z0
         public SymIdentity Identity;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24, 32, 16, 10, 32, 16, 12, 22, 10, 48, 80};
+            => new byte[FieldCount]{24, 32, 16, 10, 32, 16, 12, 22, 12, 10, 48, 80};
     }
 }

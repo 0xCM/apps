@@ -13,7 +13,7 @@ namespace Z0.Asm
             ProjectId id = arg(args,0).Value;
             if(args.Length == 2)
             {
-                var filter = arg(args,1).Value;
+                var filter = arg(args,1).Value.Format();
                 if(filter.StartsWith(Chars.Dot))
                 {
                     var ext = FS.ext(text.slice(filter,1));
@@ -28,7 +28,7 @@ namespace Z0.Asm
             else if(args.Length == 3)
             {
                 var folder = FS.folder(arg(args,1).Value);
-                var filter = arg(args,2).Value;
+                var filter = arg(args,2).Value.Format();
                 if(!filter.StartsWith(Chars.Dot))
                     return (false, "File extension filter expected");
                 var ext = FS.ext(text.slice(filter,1));

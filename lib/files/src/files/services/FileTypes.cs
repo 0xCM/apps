@@ -10,7 +10,7 @@ namespace Z0
             => FS.ext(format(src));
 
         public static string name(FileKind src)
-            => Symbols.index<FileKind>()[src].Name.Format().ToLower();
+            => Symbols.index<FileKind>()[src].Name.ToLower();
 
         [Op]
         public static string format(FileKind src)

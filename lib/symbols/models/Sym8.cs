@@ -17,7 +17,7 @@ namespace Z0
 
         public Identifier Type {get;}
 
-        public Identifier Name {get;}
+        public string Name {get;}
 
         public byte Kind {get;}
 

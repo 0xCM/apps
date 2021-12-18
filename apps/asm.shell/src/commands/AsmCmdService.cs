@@ -31,6 +31,10 @@ namespace Z0.Asm
 
         ApiCatalogs ApiCatalogs => Service(Wf.ApiCatalogs);
 
+        AppModules AppModules => Service(Wf.AppModules);
+
+        PdbIndexBuilder PdbIndexBuilder => Service(Wf.PdbIndexBuilder);
+
         CliMemoryMap ResPack;
 
         IPolyrand Random;

@@ -60,6 +60,10 @@ namespace Z0
         public static implicit operator ToolId(string src)
             => new ToolId(src);
 
+       [MethodImpl(Inline)]
+        public static implicit operator ToolId(@string src)
+            => new ToolId(src);
+
         [MethodImpl(Inline)]
         public static implicit operator string(ToolId src)
             => src.Id;
