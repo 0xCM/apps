@@ -9,7 +9,8 @@ namespace Z0
     [Free]
     public interface IScalarValue : ISizedValue, IScalarExpr
     {
-
+        string ITextual.Format()
+            => "";
     }
 
     [Free]

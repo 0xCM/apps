@@ -19,6 +19,8 @@ namespace Z0
     /// <typeparam name="T">The target type</typeparam>
     [Free]
     public interface IDataFlow<S,T> : IDataFlow, IArrow<S,T>
+        where S : IType
+        where T : IType
     {
 
     }

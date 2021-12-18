@@ -21,7 +21,6 @@ namespace Z0.llvm
 
             public static implicit operator ToolId(LlvmActor<T> src)
                 => src.Id;
-
         }
 
         public sealed class LLc : LlvmActor<LLc>

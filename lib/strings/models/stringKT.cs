@@ -12,7 +12,7 @@ namespace Z0
 
     public readonly struct @string<K,T> : IString<K,TypedSeq<T>>, IComparable<@string<K>>, IEquatable<@string<K>>
         where K : unmanaged
-        where T : unmanaged, ITyped, IEquatable<T>
+        where T : unmanaged, IEquatable<T>
     {
         public TypedSeq<T> Value {get;}
 
@@ -50,7 +50,7 @@ namespace Z0
             var count = data.Length;
             for(var i=0; i<count; i++)
             {
-                dst.Append(skip(data,0).Format());
+                dst.Append(skip(data,0).ToString());
             }
             return dst.Emit();
         }

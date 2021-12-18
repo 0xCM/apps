@@ -7,9 +7,11 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IValue : ITyped
+    public interface IValue : INullity, ITerm
     {
         dynamic Value {get;}
+
+
     }
 
     [Free]

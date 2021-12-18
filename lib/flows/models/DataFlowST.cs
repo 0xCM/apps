@@ -12,6 +12,8 @@ namespace Z0
     using api = relations;
 
     public readonly struct DataFlow<S,T> : IDataFlow<S,T>
+        where S : IType
+        where T : IType
     {
         public readonly S Source;
 

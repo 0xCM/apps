@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a link between an identified resource and an emission target
     /// </summary>
-    public readonly struct ResEmission : IDataFlow<Asset,FS.FilePath>
+    public readonly struct ResEmission
     {
         public Asset Source {get;}
 

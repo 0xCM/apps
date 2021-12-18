@@ -7,6 +7,8 @@ namespace Z0
     partial struct relations
     {
         public static string specifier<S,T>(DataFlow<S,T> flow)
+            where S : IType
+            where T : IType
         {
             const string Pattern = "{0}:{1} -> {4}:{5}";
             return string.Format(Pattern, flow.Source, typeof(S).Name, flow.Target, typeof(T).Name);

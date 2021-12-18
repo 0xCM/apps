@@ -9,19 +9,19 @@ namespace Z0
 
     using static Root;
 
-    public sealed class MemberParsedEvent : ApiExtractEvent<MemberParsedEvent,DataFlow<ApiMemberExtract,ApiMemberCode>>
+    public sealed class MemberParsedEvent : ApiExtractEvent<MemberParsedEvent,Arrow<ApiMemberExtract,ApiMemberCode>>
     {
         [MethodImpl(Inline)]
         public MemberParsedEvent()
         {
-            Payload = flows.dataflow(ApiMemberExtract.Empty, ApiMemberCode.Empty);
+            Payload = (ApiMemberExtract.Empty, ApiMemberCode.Empty);
 
         }
 
         [MethodImpl(Inline)]
         public MemberParsedEvent(in ApiMemberExtract src, in ApiMemberCode dst)
         {
-            Payload = flows.dataflow(src,dst);
+            Payload = (src,dst);
         }
     }
 }

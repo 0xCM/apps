@@ -10,18 +10,18 @@ namespace Z0
 
     using static Root;
 
-    public sealed class MemberDecodedEvent : ApiExtractEvent<MemberDecodedEvent,DataFlow<ApiMemberCode,AsmRoutine>>
+    public sealed class MemberDecodedEvent : ApiExtractEvent<MemberDecodedEvent,Arrow<ApiMemberCode,AsmRoutine>>
     {
         [MethodImpl(Inline)]
         public MemberDecodedEvent()
         {
-            Payload = flows.dataflow(ApiMemberCode.Empty, AsmRoutine.Empty);
+            Payload = (ApiMemberCode.Empty, AsmRoutine.Empty);
         }
 
         [MethodImpl(Inline)]
         public MemberDecodedEvent(in ApiMemberCode src, in AsmRoutine dst)
         {
-            Payload = flows.dataflow(src,dst);
+            Payload = (src,dst);
         }
     }
 }

@@ -68,7 +68,9 @@ namespace Z0
         /// <typeparam name="T">The target type</typeparam>
         [MethodImpl(Inline)]
         public static DataFlow<S,T> dataflow<S,T>(in S src, in T dst)
-            => new DataFlow<S,T>(src,dst);
+            where S : IType
+            where T : IType
+                => new DataFlow<S,T>(src,dst);
 
         /// <summary>
         /// Creates a <see cref='NativeFlow{S,T}'/> from a specified source to a specified target;

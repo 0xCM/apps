@@ -9,7 +9,6 @@ namespace Z0
     /// </summary>
     /// <typeparam name="K"></typeparam>
     public class LiteralType<V> : ILiteralType<V>
-        where V : ITyped
     {
         public Identifier Name {get;}
 
