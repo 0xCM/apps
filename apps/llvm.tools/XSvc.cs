@@ -19,28 +19,28 @@ namespace Z0
             => llvm.LlvmTableLoader.create(wf);
 
         [Op]
-        public static LlvmObjDump LlvmObjDump(this IWfRuntime wf)
-            => llvm.LlvmObjDump.create(wf);
+        public static LlvmObjDumpSvc LlvmObjDump(this IWfRuntime wf)
+            => llvm.LlvmObjDumpSvc.create(wf);
 
         [Op]
-        public static LlvmNm LlvmNm(this IWfRuntime wf)
-            => llvm.LlvmNm.create(wf);
+        public static LlvmNmSvc LlvmNm(this IWfRuntime wf)
+            => llvm.LlvmNmSvc.create(wf);
 
         [Op]
-        public static LlvmConfig LlvmConfig(this IWfRuntime wf)
-            => llvm.LlvmConfig.create(wf);
+        public static LlvmConfigSvc LlvmConfig(this IWfRuntime wf)
+            => llvm.LlvmConfigSvc.create(wf);
 
         [Op]
-        public static LlvmReadObj LlvmReadObj(this IWfRuntime wf)
-            => llvm.LlvmReadObj.create(wf);
+        public static LlvmReadObjSvc LlvmReadObj(this IWfRuntime wf)
+            => llvm.LlvmReadObjSvc.create(wf);
 
         [Op]
         public static LlvmRepo LlvmRepo(this IWfRuntime wf)
             => llvm.LlvmRepo.create(wf);
 
         [Op]
-        public static LlvmMc LlvmMc(this IWfRuntime wf)
-            => llvm.LlvmMc.create(wf);
+        public static LlvmMcSvc LlvmMc(this IWfRuntime wf)
+            => llvm.LlvmMcSvc.create(wf);
 
         [Op]
         public static LlvmDataImporter LlvmDataImporter(this IWfRuntime wf)
@@ -67,8 +67,8 @@ namespace Z0
             => llvm.LlvmCodeGen.create(wf);
 
         [Op]
-        public static LlvmLlc LlvmLLc(this IWfRuntime wf)
-            => llvm.LlvmLlc.create(wf);
+        public static LlvmLlcSvc LlvmLLc(this IWfRuntime wf)
+            => llvm.LlvmLlcSvc.create(wf);
 
         [Op]
         public static LlvmDataProvider LlvmDataProvider(this IWfRuntime wf)

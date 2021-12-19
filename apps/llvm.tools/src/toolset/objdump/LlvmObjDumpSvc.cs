@@ -13,7 +13,7 @@ namespace Z0.llvm
     using SQ = SymbolicQuery;
 
     [Tool(ToolId)]
-    public sealed class LlvmObjDump : ToolService<LlvmObjDump>
+    public sealed class LlvmObjDumpSvc : ToolService<LlvmObjDumpSvc>
     {
         public const string ToolId = LlvmNames.Tools.llvm_objdump;
 
@@ -21,7 +21,7 @@ namespace Z0.llvm
 
         const string FormatMarker = "file format ";
 
-        public LlvmObjDump()
+        public LlvmObjDumpSvc()
             : base(ToolId)
         {
 

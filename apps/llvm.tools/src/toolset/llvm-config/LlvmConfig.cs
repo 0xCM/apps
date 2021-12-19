@@ -9,7 +9,7 @@ namespace Z0.llvm
     using K = llvm.LlvmConfigKind;
 
     [Tool(ToolId)]
-    public sealed class LlvmConfig : ToolService<LlvmConfig>
+    public sealed class LlvmConfigSvc : ToolService<LlvmConfigSvc>
     {
         public const string ToolId = LlvmNames.Tools.llvm_config;
 

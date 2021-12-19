@@ -16,7 +16,7 @@ namespace Z0.llvm
 
         LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
 
-        LlvmReadObj ReadObj => Service(Wf.LlvmReadObj);
+        LlvmReadObjSvc ReadObj => Service(Wf.LlvmReadObj);
 
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
@@ -24,6 +24,6 @@ namespace Z0.llvm
 
         LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
 
-        LlvmConfig LlvmConfig => Service(Wf.LlvmConfig);
+        LlvmConfigSvc LlvmConfig => Service(Wf.LlvmConfig);
     }
 }

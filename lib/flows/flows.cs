@@ -60,19 +60,6 @@ namespace Z0
                 => new Arrow<V>(src.Index, dst.Index);
 
         /// <summary>
-        /// Creates a <see cref='DataFlow{S,T}'/> from a specified source to a specified target;
-        /// </summary>
-        /// <param name="src">The source</param>
-        /// <param name="dst">The target</param>
-        /// <typeparam name="S">The source type</typeparam>
-        /// <typeparam name="T">The target type</typeparam>
-        [MethodImpl(Inline)]
-        public static DataFlow<S,T> dataflow<S,T>(in S src, in T dst)
-            where S : IType
-            where T : IType
-                => new DataFlow<S,T>(src,dst);
-
-        /// <summary>
         /// Creates a <see cref='NativeFlow{S,T}'/> from a specified source to a specified target;
         /// </summary>
         /// <param name="src">The source</param>

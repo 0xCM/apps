@@ -9,28 +9,29 @@ namespace Z0
 
     using static Root;
 
-    using api = relations;
+    using api = DataFlows;
 
-    public readonly struct DataFlow<S,T> : IDataFlow<S,T>
+    public abstract class DataFlow<A,S,T> : IDataFlow<A,S,T>
         where S : IType
         where T : IType
+        where A : IActor
     {
-        public readonly S Source;
+        public A Actor {get;}
 
-        public readonly T Target;
+        public S Source {get;}
+
+        public T Target {get;}
 
         [MethodImpl(Inline)]
-        public DataFlow(S src, T dst)
+        public DataFlow(A actor, S src, T dst)
         {
+            Actor = actor;
             Source = src;
             Target = dst;
         }
 
         public string Format()
             => api.format(this);
-
-        public string IdentityText
-            => api.specifier(this);
 
         public override string ToString()
             => Format();
@@ -40,13 +41,5 @@ namespace Z0
 
         T IArrow<S,T>.Target
             => Target;
-
-        [MethodImpl(Inline)]
-        public static implicit operator DataFlow<S,T>((S src, T dst) x)
-            => new DataFlow<S,T>(x.src, x.dst);
-
-        [MethodImpl(Inline)]
-        public static implicit operator DataFlow<S,T>(Paired<S,T> x)
-            => new DataFlow<S,T>(x.Left, x.Right);
     }
 }

@@ -4,18 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Actor<K,S,T> : Actor<S,T>, IActor<K,S,T>
-        where S : IType
-        where T : IType
+    [FileType]
+    public abstract class FileType<F,K> : FileType<K>
         where K : unmanaged
-
+        where F : FileType<F,K>,new()
     {
-        protected Actor(Name name, K modifier)
-            : base(name)
-        {
-            Modifier = modifier;
-        }
+        public static F Instance = new();
 
-        public K Modifier {get;}
+        public FileType(K kind, params FS.FileExt[] ext)
+            : base(kind, ext)
+        {
+
+        }
     }
 }

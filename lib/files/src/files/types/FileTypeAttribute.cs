@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Actor]
-    public abstract class Actor<A> : Actor
-        where A : Actor<A>,new()
-    {
-        protected Actor(Name name)
-            : base(name)
-        {
+    using System;
+    using System.Runtime.CompilerServices;
 
-        }
+    using static Root;
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class FileTypeAttribute : Attribute
+    {
+
     }
 }

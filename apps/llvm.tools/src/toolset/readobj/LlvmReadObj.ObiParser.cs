@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmReadObj
+    partial class LlvmReadObjSvc
     {
         public class LlvmObiParser : AppService<LlvmObiParser>
         {
@@ -33,7 +33,7 @@ namespace Z0.llvm
 
             const char SectionDataRightMarker = Chars.Pipe;
 
-            LlvmReadObj ReadObj;
+            LlvmReadObjSvc ReadObj;
 
             protected override void Initialized()
             {

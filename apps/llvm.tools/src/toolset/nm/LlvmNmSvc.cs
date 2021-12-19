@@ -10,11 +10,11 @@ namespace Z0.llvm
 
 
     [Tool(ToolId)]
-    public sealed class LlvmNm : ToolService<LlvmNm>
+    public sealed class LlvmNmSvc : ToolService<LlvmNmSvc>
     {
         public const string ToolId = LlvmNames.Tools.llvm_nm;
 
-        public LlvmNm()
+        public LlvmNmSvc()
             : base(ToolId)
         {
 

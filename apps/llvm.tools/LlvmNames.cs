@@ -69,6 +69,8 @@ namespace Z0.llvm
             public const string llvm_readobj = "llvm-readobj";
 
             public const string llvm_tblgen = "llvm-tblgen";
+
+            public const string llvm_as = "llvm-as";
         }
 
         [LiteralProvider("llvm.repo")]

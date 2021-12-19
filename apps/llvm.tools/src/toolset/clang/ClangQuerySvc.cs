@@ -8,7 +8,7 @@ namespace Z0.llvm.clang
     using System.IO;
 
     [Tool(ToolId)]
-    public sealed class ClangQuery : ToolService<ClangQuery>
+    public sealed class ClangQuerySvc : ToolService<ClangQuerySvc>
     {
         public const string ToolId = LlvmNames.Tools.clang_query;
 
@@ -22,7 +22,7 @@ namespace Z0.llvm.clang
 
         uint Counter;
 
-        public ClangQuery()
+        public ClangQuerySvc()
             : base(ToolId)
         {
             Counter = 0;

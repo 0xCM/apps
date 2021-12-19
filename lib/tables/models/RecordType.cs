@@ -4,19 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Actor : IActor
-    {
-        public Name Name {get;}
+    using System.Runtime.CompilerServices;
 
-        protected Actor(Name name)
+    using static Root;
+
+    public readonly struct RecordType : IRecordType
+    {
+        public Identifier Name {get;}
+
+        [MethodImpl(Inline)]
+        public RecordType(Identifier name)
         {
             Name = name;
         }
 
-        public virtual string Format()
+        public string Format()
             => Name;
-
-        public override sealed string ToString()
-            => Format();
     }
 }

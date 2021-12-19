@@ -14,9 +14,9 @@ namespace Z0.llvm
     using static core;
 
     using SQ = SymbolicQuery;
-    using C = LlvmMc.LineClass;
+    using C = LlvmMcSvc.LineClass;
 
-    partial class LlvmMc
+    partial class LlvmMcSvc
     {
         internal enum LineClass : byte
         {

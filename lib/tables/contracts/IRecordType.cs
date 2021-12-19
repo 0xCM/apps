@@ -4,14 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Actor]
-    public abstract class Actor<A> : Actor
-        where A : Actor<A>,new()
+    public interface IRecordType : IType
     {
-        protected Actor(Name name)
-            : base(name)
-        {
+        ulong IType.Kind
+            => 0;
+    }
 
-        }
+    public interface IRecordType<T> : IRecordType
+        where T : struct
+    {
+        Identifier IType.Name
+            => Tables.identify<T>().Format();
     }
 }

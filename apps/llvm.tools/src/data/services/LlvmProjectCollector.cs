@@ -9,11 +9,11 @@ namespace Z0.llvm
 
     public class LlvmProjectCollector : AppService<LlvmProjectCollector>
     {
-        llvm.LlvmNm Nm => Service(Wf.LlvmNm);
+        llvm.LlvmNmSvc Nm => Service(Wf.LlvmNm);
 
-        llvm.LlvmObjDump ObjDump => Service(Wf.LlvmObjDump);
+        llvm.LlvmObjDumpSvc ObjDump => Service(Wf.LlvmObjDump);
 
-        llvm.LlvmMc Mc => Service(Wf.LlvmMc);
+        llvm.LlvmMcSvc Mc => Service(Wf.LlvmMc);
 
         public void Collect()
         {

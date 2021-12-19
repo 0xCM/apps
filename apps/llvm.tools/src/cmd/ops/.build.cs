@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        LlvmLlc Llc => Service(Wf.LlvmLLc);
+        LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
 
         [CmdOp(".mc-build")]
         Outcome BuildMc(CmdArgs args)

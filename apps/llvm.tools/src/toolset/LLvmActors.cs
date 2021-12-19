@@ -6,33 +6,33 @@ namespace Z0.llvm
 {
     using N = LlvmNames.Tools;
 
-    public static class LLvmActors
+    public abstract class ToolActor<A> : Actor<A>
+        where A : ToolActor<A>,new()
     {
-        public abstract class LlvmActor<T> : FS.Actor
-            where T : LlvmActor<T>, new()
+        protected ToolActor(string name)
+            : base(name)
         {
-            protected LlvmActor(string name)
-                : base(name, FS.ObjectKind.File, FS.ObjectKind.File)
-            {
-                Id = new ToolId(name);
-            }
-
-            public ToolId Id {get;}
-
-            public static implicit operator ToolId(LlvmActor<T> src)
-                => src.Id;
+            ToolId = name;
         }
 
-        public sealed class LLc : LlvmActor<LLc>
+        public ToolId ToolId {get;}
+
+        public static implicit operator ToolId(ToolActor<A> src)
+            => src.ToolId;
+    }
+
+    public static class LLvmActors
+    {
+        public sealed class Llc : ToolActor<Llc>
         {
-            public LLc()
+            public Llc()
                 : base(N.llc)
             {
 
             }
         }
 
-        public sealed class LlvmMc : LlvmActor<LlvmMc>
+        public sealed class LlvmMc : ToolActor<LlvmMc>
         {
             public LlvmMc()
                 : base(N.llvm_mc)
@@ -41,7 +41,7 @@ namespace Z0.llvm
             }
         }
 
-        public sealed class Clang : LlvmActor<Clang>
+        public sealed class Clang : ToolActor<Clang>
         {
             public Clang()
                 : base(N.clang)
@@ -50,7 +50,7 @@ namespace Z0.llvm
             }
         }
 
-        public sealed class LlvmObjDump : LlvmActor<LlvmObjDump>
+        public sealed class LlvmObjDump : ToolActor<LlvmObjDump>
         {
             public LlvmObjDump()
                 : base(N.llvm_objdump)
@@ -59,7 +59,7 @@ namespace Z0.llvm
             }
         }
 
-        public sealed class LlvmConfig : LlvmActor<LlvmConfig>
+        public sealed class LlvmConfig : ToolActor<LlvmConfig>
         {
             public LlvmConfig()
                 : base(N.llvm_config)
@@ -68,7 +68,7 @@ namespace Z0.llvm
             }
         }
 
-        public sealed class LlvmReadObj : LlvmActor<LlvmReadObj>
+        public sealed class LlvmReadObj : ToolActor<LlvmReadObj>
         {
             public LlvmReadObj()
                 : base(N.llvm_readobj)
@@ -77,7 +77,16 @@ namespace Z0.llvm
             }
         }
 
-        public sealed class LlvmTableGen : LlvmActor<LlvmTableGen>
+        public sealed class LlvmAs : ToolActor<LlvmAs>
+        {
+            public LlvmAs()
+                : base(N.llvm_as)
+            {
+
+            }
+        }
+
+        public sealed class LlvmTableGen : ToolActor<LlvmTableGen>
         {
             public LlvmTableGen()
                 : base(N.llvm_tblgen)

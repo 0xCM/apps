@@ -5,11 +5,11 @@
 namespace Z0.llvm
 {
     [Tool(ToolId)]
-    public sealed partial class LlvmReadObj : ToolService<LlvmReadObj>
+    public sealed partial class LlvmReadObjSvc : ToolService<LlvmReadObjSvc>
     {
         public const string ToolId = LlvmNames.Tools.llvm_readobj;
 
-        public LlvmReadObj()
+        public LlvmReadObjSvc()
             : base(ToolId)
         {
 

@@ -6,7 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmCmd
     {
-        LlvmConfig LlvmConfig => Service(Wf.LlvmConfig);
+        LlvmConfigSvc LlvmConfig => Service(Wf.LlvmConfig);
 
         [CmdOp("llvm/config")]
         Outcome CollectConfig(CmdArgs args)

@@ -44,6 +44,8 @@ namespace Z0
         /// </summary>
         Index<MethodInfo> _Operations;
 
+        Index<ApiDataFlow> _DataFlows;
+
         Index<string> _ComponentNames;
 
         Index<ApiDataType> _DataTypes;
@@ -58,6 +60,7 @@ namespace Z0
             _Operations = ops;
             _ComponentNames = components.Select(x => x.GetName().Name);
             _DataTypes = ApiQuery.datatypes(components);
+            _DataFlows = ApiQuery.dataflows(components);
         }
 
         public Index<IApiHost> FindHosts(ReadOnlySpan<ApiHostUri> src)
@@ -121,11 +124,16 @@ namespace Z0
             get => _Operations;
         }
 
-
         public ReadOnlySpan<ApiDataType> ApiDataTypes
         {
             [MethodImpl(Inline)]
             get => _DataTypes;
+        }
+
+        public ReadOnlySpan<ApiDataFlow> DataFlows
+        {
+            [MethodImpl(Inline)]
+            get => _DataFlows;
         }
 
         public bool FindPart(PartId id, out IPart dst)

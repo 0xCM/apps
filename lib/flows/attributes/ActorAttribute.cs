@@ -5,14 +5,10 @@
 namespace Z0
 {
     using System;
-    using System.Runtime.CompilerServices;
 
-    using static Root;
-
-    partial struct relations
+    [AttributeUsage(validOn: AttributeTargets.Class | AttributeTargets.Struct)]
+    public class ActorAttribute : Attribute
     {
-        // [MethodImpl(Inline)]
-        // public static DataFlow<S,T> flow<S,T>(in S src, in T dst)
-        //     => new DataFlow<S,T>(src,dst);
+
     }
 }

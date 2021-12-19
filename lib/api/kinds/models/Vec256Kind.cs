@@ -16,6 +16,9 @@ namespace Z0
         public Identifier Name
             => string.Format("v{0}<{1}>", W, typeof(T).Name);
 
+        public string Format()
+            => Name;
+
         public W256 W => default;
 
         public NativeVectorWidth Width

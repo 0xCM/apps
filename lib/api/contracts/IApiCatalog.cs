@@ -36,6 +36,8 @@ namespace Z0
 
         ReadOnlySpan<ApiDataType> ApiDataTypes {get;}
 
+        ReadOnlySpan<ApiDataFlow> DataFlows {get;}
+
         ReadOnlySpan<MethodInfo> Methods {get;}
 
         bool FindPart(PartId id, out IPart dst);

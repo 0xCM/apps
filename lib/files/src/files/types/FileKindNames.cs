@@ -220,6 +220,16 @@ namespace Z0
         public const string asmsyn = syn + sep + asm;
 
         /// <summary>
+        /// Defines the 'encoding' literal
+        /// </summary>
+        public const string encoding = nameof(encoding);
+
+        /// <summary>
+        /// Defines the 'encoding.asm' literal
+        /// </summary>
+        public const string encodingasm = encoding + sep + asm;
+
+        /// <summary>
         /// Defines the 'syn.asm.log' literal
         /// </summary>
         public const string asmsynlog = syn + sep + asm + sep + log;
@@ -238,6 +248,11 @@ namespace Z0
         /// Defines the 'll' literal
         /// </summary>
         public const string ll = nameof(ll);
+
+        /// <summary>
+        /// Defines the 'll.asm' literal
+        /// </summary>
+        public const string llasm = ll + sep + asm;
 
         /// <summary>
         /// Defines the 'md' literal

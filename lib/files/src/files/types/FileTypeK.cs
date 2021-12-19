@@ -4,19 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class Actor : IActor
+    public class FileType<K> : FileType, IFileType<K>
+        where K : unmanaged
     {
-        public Name Name {get;}
-
-        protected Actor(Name name)
+        public FileType(K kind, params FS.FileExt[] ext)
+            : base(kind.ToString(), ext)
         {
-            Name = name;
+            Kind = kind;
         }
 
-        public virtual string Format()
-            => Name;
-
-        public override sealed string ToString()
-            => Format();
+        public K Kind {get;}
     }
 }

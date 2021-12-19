@@ -12,11 +12,11 @@ namespace Z0.llvm
     using static core;
 
     [Tool(ToolId)]
-    public partial class LlvmMc : ToolService<LlvmMc>
+    public partial class LlvmMcSvc : ToolService<LlvmMcSvc>
     {
         public const string ToolId = LlvmNames.Tools.llvm_mc;
 
-        public LlvmMc()
+        public LlvmMcSvc()
             : base(ToolId)
         {
 

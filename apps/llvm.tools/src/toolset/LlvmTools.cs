@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     public class LlvmTools
     {
-        public static readonly A.LLc llc = new();
+        public static readonly A.Llc llc = new();
 
         public static readonly A.LlvmMc llvm_mc = new();
 
@@ -21,5 +21,7 @@ namespace Z0.llvm
         public static readonly A.LlvmTableGen llvm_tblgen = new();
 
         public static readonly A.LlvmReadObj llvm_readobj = new();
+
+        public static readonly A.LlvmAs llvm_as = new();
     }
 }

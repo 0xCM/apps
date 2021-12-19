@@ -6,11 +6,6 @@ namespace Z0
 {
     partial struct relations
     {
-        public static string format<S,T>(in DataFlow<S,T> flow)
-            where S : IType
-            where T : IType
-                => RenderLink<S,T>().Format(flow.Source, flow.Target);
-
         public static RenderPattern<S,T> RenderLink<S,T>() => "{0} -> {1}";
 
         public static RenderPattern<T,T> RenderLink<T>() => RenderLink<T,T>();

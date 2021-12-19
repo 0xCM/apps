@@ -6,9 +6,15 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
+    using static Root;
+
     [Free]
     public interface IArrow : ITextual, IIdentified
     {
+        Name SourceName {get;}
+
+        Name TargetName {get;}
+
         string ITextual.Format()
             => IdentityText;
     }
@@ -25,8 +31,15 @@ namespace Z0
 
         T Target {get;}
 
+        Name IArrow.SourceName
+            => Source?.ToString() ?? EmptyString;
+
+        Name IArrow.TargetName
+            => Target?.ToString() ?? EmptyString;
+
         string IIdentified.IdentityText
-            => string.Format(RP.Arrow, Source, Target);
+            => string.Format(RP.Arrow, SourceName, TargetName);
+
         string ITextual.Format()
             => IdentityText;
     }
