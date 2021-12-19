@@ -7,19 +7,20 @@ namespace Z0.Machines.X86
     using System;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+    using System.Collections.Concurrent;
 
     using static Root;
     using static core;
 
     using Asm;
 
-    public interface IDispatcher
+    public interface IX86Dispatcher
     {
-        void Dispatch(string cmd);
+        void Dispatch(X86Cmd asm);
     }
 
     [ApiHost]
-    public unsafe partial class X86Machine : IDisposable, IDispatcher
+    public unsafe partial class X86Machine : IDisposable, IX86Dispatcher
     {
         RegBank Regs;
 
@@ -47,8 +48,11 @@ namespace Z0.Machines.X86
 
         Task Dispatcher;
 
+        ConcurrentQueue<X86Cmd> Queue;
+
         internal X86Machine(EventSignal signal)
         {
+            Queue = new();
             Signal = signal;
             Regs = RegBanks.intel64();
             R64 = Regs[0].BaseAddress.Pointer<ulong>();
@@ -65,7 +69,13 @@ namespace Z0.Machines.X86
             rip() = CodeBase;
         }
 
-        public void Dispatch(string asm)
+
+        public void Dispatch(X86Cmd cmd)
+        {
+            Queue.Enqueue(cmd);
+        }
+
+        void Execute(X86Cmd cmd)
         {
 
         }
@@ -78,6 +88,9 @@ namespace Z0.Machines.X86
 
             void Receiver(long t)
             {
+                while(Queue.TryDequeue(out var cmd))
+                    Execute(cmd);
+
                 counter++;
                 ticks += t;
                 Signal.Babble(host,string.Format("{0:D4}:{1:D12}", counter, ticks));
@@ -87,7 +100,7 @@ namespace Z0.Machines.X86
             spinner.Spin();
         }
 
-        public IDispatcher Run()
+        public IX86Dispatcher Run()
         {
             Dispatcher = run(Spin);
             return this;

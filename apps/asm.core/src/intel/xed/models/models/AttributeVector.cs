@@ -8,6 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     partial struct XedModels
     {
@@ -30,6 +31,34 @@ namespace Z0
                 else
                     return (bit.test(Data.Hi, (byte)(i - 64)));
             }
+
+            [MethodImpl(Inline)]
+            public void Enable(AttributeKind kind)
+            {
+                var i = (byte)kind;
+                if(i <= 63)
+                    bit.enable(Data.Lo, i);
+                else
+                    bit.enable(Data.Hi, (byte)(i - 64));
+            }
+
+            public ReadOnlySpan<AttributeKind> Enabled()
+            {
+                var storage = ByteBlock32.Empty;
+                var buffer = recover<AttributeKind>(storage.Bytes);
+                var kinds = Symbols.index<AttributeKind>().Kinds;
+                var count = kinds.Length;
+                var counter = 0;
+                for(var i=0; i<count && counter < buffer.Length; i++)
+                {
+                    var kind = (AttributeKind)i;
+                    if(Test(kind))
+                        seek(buffer,counter++) = kind;
+                }
+                return slice(buffer,0,counter);
+            }
+
+            public static AttributeVector Empty => default;
         }
     }
 }

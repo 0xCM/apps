@@ -10,6 +10,8 @@ namespace Z0
         [SymSource(xed)]
         public enum IFormType : ushort
         {
+            INVALID = 0,
+
             AAA=1,
 
             AAD_IMMb=2,

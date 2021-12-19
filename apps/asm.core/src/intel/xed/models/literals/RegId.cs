@@ -368,20 +368,28 @@ namespace Z0
 
             UIF,
 
+            [Symbol("ST(0)")]
             ST0,
 
+            [Symbol("ST(1)")]
             ST1,
 
+            [Symbol("ST(2)")]
             ST2,
 
+            [Symbol("ST(3)")]
             ST3,
 
+            [Symbol("ST(4)")]
             ST4,
 
+            [Symbol("ST(5)")]
             ST5,
 
+            [Symbol("ST(6)")]
             ST6,
 
+            [Symbol("ST(7)")]
             ST7,
 
             XCR0,

@@ -1,41 +1,21 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-iclass-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        /// datafiles/xed-operand-types.txt
-        /// </summary>
         [SymSource(xed)]
-        public enum DataType : byte
+        public enum OperandElementType
         {
-            INVALID = 0,
+            INVALID,
 
-            I1,
+            B80,
 
-            I8,
+            BF16,
 
-            I16,
-
-            I32,
-
-            I64,
-
-            U8,
-
-            U16,
-
-            U32,
-
-            U64,
-
-            U128,
-
-            U256,
+            F16,
 
             F32,
 
@@ -43,7 +23,36 @@ namespace Z0
 
             F80,
 
-            B80
+            I1,
+
+            I16,
+
+            I32,
+
+            I64,
+
+            I8,
+
+            INT,
+
+            STRUCT,
+
+            U128,
+
+            U16,
+
+            U256,
+
+            U32,
+
+            U64,
+
+            U8,
+
+            UINT,
+
+            VAR,
         }
+
     }
 }

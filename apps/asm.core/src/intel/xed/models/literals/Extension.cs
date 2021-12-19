@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum Extension : byte
         {
-            None,
+            INVALID = 0,
 
             [Symbol("3DNOW")]
             _3DNOW,

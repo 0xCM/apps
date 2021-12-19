@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum Category : byte
         {
-            None,
+            INVALID,
 
             [Symbol("3DNOW")]
             _3DNOW,

@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum IsaKind : byte
         {
-            None = 0,
+            INVALID = 0,
 
             [Symbol("3DNOW")]
             _3DNOW,

@@ -10,6 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static XedModels;
+    using static XedInstTable;
 
     public sealed class IntelXed : AppService<IntelXed>
     {
@@ -93,7 +94,25 @@ namespace Z0.Asm
         public Outcome LoadChipMap(out XedChipMap dst)
             => ParseChipMap(ChipSourcePath(), out dst);
 
+        XedInstTableParser InstTableParser
+            => Service(() => XedInstTableParser.create(Wf));
+
         bool Verbose {get;} = false;
+
+        public XedInstTable ParseInstTable()
+        {
+            var src =  XedSources + FS.file("xed-tables", FS.Txt);
+            var result = InstTableParser.Parse(src, out var dst);
+            if(result.Fail)
+            {
+                Error(result.Message);
+                return XedInstTable.Empty;
+            }
+            else
+            {
+                return dst;
+            }
+        }
 
         public Outcome EmitIsa(string chip)
         {
@@ -408,7 +427,7 @@ namespace Z0.Asm
                 }
                 else
                 {
-                    var kinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,IsaKind.None)).Where(x => x != 0).Array();
+                    var kinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,IsaKind.INVALID)).Where(x => x != 0).Array();
                     chips[chip].Add(kinds);
                     if(chips.TryGetValue(chip, out var entry))
                         entry.Add(kinds);

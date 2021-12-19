@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum MachineMode : byte
         {
-            None,
+            INVALID,
 
             [Symbol("LONG_64", "64b operating mode")]
             LONG_64,
