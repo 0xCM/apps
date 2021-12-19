@@ -11,15 +11,9 @@ namespace Z0
 
     public class OmniScript : AppService<OmniScript>
     {
-        ScriptRunner ScriptRunner;
+        ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
 
-        CmdLineRunner CmdRunner;
-
-        protected override void Initialized()
-        {
-            ScriptRunner = Wf.ScriptRunner();
-            CmdRunner = Wf.CmdLineRunner();
-        }
+        CmdLineRunner CmdRunner => Service(Wf.CmdLineRunner);
 
         public Outcome Run(CmdLine cmd, List<string> status = null, List<string> errors = null)
         {

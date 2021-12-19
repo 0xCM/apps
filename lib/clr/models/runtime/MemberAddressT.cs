@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     public readonly struct MemberAddress<T> : IAddressable<MemberAddress<T>, MemoryAddress>
-        where T : IClrRuntimeMember
+        where T : IRuntimeMember
     {
         public T Member {get;}
 

@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrPropertyAdapter : IClrRuntimeMember<ClrPropertyAdapter, PropertyInfo>
+    public readonly struct ClrPropertyAdapter : IRuntimeMember<ClrPropertyAdapter, PropertyInfo>
     {
         public PropertyInfo Definition {get;}
 
@@ -49,7 +49,7 @@ namespace Z0
         public string Format()
             => Definition.Name;
 
-        PropertyInfo IClrRuntimeObject<PropertyInfo>.Definition
+        PropertyInfo IRuntimeObject<PropertyInfo>.Definition
             => Definition;
 
         public override bool Equals(object obj)

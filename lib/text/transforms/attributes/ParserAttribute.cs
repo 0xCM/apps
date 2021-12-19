@@ -9,9 +9,16 @@ namespace Z0
     [AttributeUsage(AttributeTargets.Method)]
     public class ParserAttribute : OpAttribute
     {
-
         public ParserAttribute()
         {
+            TypeProvider = typeof(void);
         }
+
+        public ParserAttribute(Type provider)
+        {
+            TypeProvider = provider;
+        }
+
+        public Type TypeProvider {get;}
     }
 }

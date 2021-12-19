@@ -52,27 +52,5 @@ namespace Z0
 
         public static BucketList<L,T> list<L,T>(params Bucket<L,T>[] src)
             => new BucketList<L,T>(src);
-
-        public static BucketList<uint,SeqTerm<string>> seq(ReadOnlySpan<string> src)
-        {
-            var slots = dict<uint,DataList<SeqTerm<string>>>();
-            var count = src.Length;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var s = ref skip(src,i);
-                var length = (uint)s.Length;
-                var term = new SeqTerm<string>(i, s);
-                if(slots.TryGetValue(length, out var list))
-                    list.Add(term);
-                else
-                {
-                    slots[length] = new DataList<SeqTerm<string>>();
-                    slots[length].Add(term);
-                }
-            }
-
-            var buckets = slots.Map(x => (x.Key,x.Value)).OrderBy(x => x.Key);
-            return Buckets.list(buckets.Map(x => Buckets.bucket(x.Key, x.Value.Array())));
-        }
     }
 }

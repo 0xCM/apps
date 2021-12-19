@@ -119,7 +119,7 @@ namespace Z0
             if(!src.Exists)
                 return (false,FS.missing(src));
 
-            var settings = Settings.read(src);
+            var settings = AppSettings.Load(src);
             iter(settings, setting => Write(setting));
             return true;
         }

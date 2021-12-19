@@ -26,7 +26,7 @@ namespace Z0.Asm
             var options = WorkflowOptions.@default();
             var dst = project.Subdir("settings") + FS.file("workflow", FS.Settings);
             var emitting = EmittingFile(dst);
-            result = AppSettings.Store(options, dst);
+            result = AppSettings.Save(options, dst);
             if(result.Fail)
                 return result;
 

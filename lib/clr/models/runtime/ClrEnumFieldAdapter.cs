@@ -12,7 +12,7 @@ namespace Z0
 
     using R = System.Reflection;
 
-    public readonly struct ClrEnumFieldAdapter : IClrRuntimeMember<ClrEnumFieldAdapter,FieldInfo>
+    public readonly struct ClrEnumFieldAdapter : IRuntimeMember<ClrEnumFieldAdapter,FieldInfo>
     {
         public uint Index {get;}
 

@@ -18,15 +18,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static CmdScriptExpr expr(CmdScriptPattern pattern, CmdVars vars)
             => new CmdScriptExpr(pattern, vars);
-
-        // [MethodImpl(Inline)]
-        // public static CmdScriptExpr<K> expr<K>(CmdScriptPattern pattern, Index<CmdVar<K>> vars)
-        //     where K : unmanaged
-        //        => new CmdScriptExpr<K>(pattern, vars);
-
-        // [MethodImpl(Inline)]
-        // public static CmdScriptExpr<K,T> expr<K,T>(K id, T content)
-        //     where K : unmanaged
-        //         => new CmdScriptExpr<K,T>(id,content);
     }
 }

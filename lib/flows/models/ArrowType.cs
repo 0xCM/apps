@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    using api = relations;
+    using api = flows;
 
     public readonly struct ArrowType : IEquatable<ArrowType>
     {
@@ -40,7 +40,7 @@ namespace Z0
             => api.eq(this, src);
 
         public string Format()
-            => relations.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();

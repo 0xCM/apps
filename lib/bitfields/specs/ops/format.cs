@@ -55,18 +55,16 @@ namespace Z0
 
         public static string format(in BitfieldSegModel src)
         {
-            const string P1 = "{0}[{1}]:{2}";
-            const string P2 = "{0}[{1}:{2}]:{3}";
             if(src.Width == 1)
             {
-                return string.Format(P1,
+                return string.Format("{0}[{1}]:{2}",
                     src.Name,
                     src.Offset,
                     src.Width
                     );
             }
             else
-                return string.Format(P2,
+                return string.Format("{0}[{1}:{2}]:{3}",
                     src.Name,
                     endpos(src.Offset, src.Width),
                     src.Offset,

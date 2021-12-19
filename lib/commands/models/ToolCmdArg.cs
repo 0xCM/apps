@@ -26,8 +26,6 @@ namespace Z0
         /// </summary>
         public dynamic Value {get;}
 
-        public ArgProtocol Protocol {get;}
-
         /// <summary>
         /// The argument classifier
         /// </summary>
@@ -36,24 +34,12 @@ namespace Z0
         public bool IsFlag {get;}
 
         [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, string name, dynamic value, ArgPrefix prefix, bool flag = false)
+        public ToolCmdArg(ushort pos, string name, dynamic value, bool flag = false)
         {
             Position = pos;
             Name = name;
             Value = value;
-            Protocol = prefix;
             Classifier = ArgPartKind.Position | ArgPartKind.Prefix | ArgPartKind.Name | ArgPartKind.Value;
-            IsFlag = flag;
-        }
-
-        [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, string name, dynamic value, ArgProtocol protocol, bool flag = false)
-        {
-            Position = pos;
-            Name = name;
-            Value = value;
-            Protocol = protocol;
-            Classifier = ArgPartKind.Position | ArgPartKind.Prefix | ArgPartKind.Name | ArgPartKind.Qualifier | ArgPartKind.Value;
             IsFlag = flag;
         }
 
@@ -63,23 +49,9 @@ namespace Z0
             Position = 0;
             Name = name;
             Value = value;
-            Protocol = (ArgPrefix.Space, ArgQualifier.Space);
             Classifier = ArgPartKind.Name | ArgPartKind.Value;
             IsFlag = flag;
         }
-
-
-        [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, string name, dynamic value, bool flag = false)
-        {
-            Position = pos;
-            Name = name;
-            Value = value;
-            Protocol = (ArgPrefix.Space, ArgQualifier.Space);
-            Classifier = ArgPartKind.Position | ArgPartKind.Name | ArgPartKind.Value;
-            IsFlag = flag;
-        }
-
 
         [MethodImpl(Inline)]
         public ToolCmdArg(ushort pos, dynamic value, bool flag = false)
@@ -87,14 +59,9 @@ namespace Z0
             Position = pos;
             Name = EmptyString;
             Value = value;
-            Protocol = (ArgPrefix.Space, ArgQualifier.Space);
             Classifier = ArgPartKind.Position | ArgPartKind.Value;
             IsFlag = flag;
         }
-
-        public ArgPrefix Prefix => Protocol.Prefix;
-
-        public ArgQualifier Qualifier => Protocol.Qualifier;
 
         public bool IsEmpty
         {

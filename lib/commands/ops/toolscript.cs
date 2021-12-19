@@ -14,9 +14,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ToolScript toolscript(ToolId tool, ScriptId script, CmdVars vars)
             => new ToolScript(tool,script,vars);
-
-        [MethodImpl(Inline), Op]
-        public static ToolScript toolscript(ToolId tool, ScriptId script, Func<CmdVars> builder)
-            => new ToolScript(tool,script, builder());
     }
 }

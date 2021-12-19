@@ -9,7 +9,6 @@ namespace Z0
 
     using static Root;
 
-    [DataType("nsize")]
     public readonly struct NativeSize
     {
         public readonly NativeSizeCode Code;

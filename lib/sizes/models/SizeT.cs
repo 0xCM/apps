@@ -12,7 +12,7 @@ namespace Z0
 
     using api = Sizes;
 
-    [DataType("size<{0}>")]
+    [DataType("size<t:{0}>")]
     public readonly struct Size<T> : IEquatable<Size<T>>
         where T : unmanaged
     {

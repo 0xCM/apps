@@ -6,6 +6,8 @@ namespace Z0.llvm
 {
     using N = LlvmNames.Tools;
 
+    using static core;
+
     public readonly struct LlvmTools
     {
         public static readonly Llc llc = Llc.Instance;

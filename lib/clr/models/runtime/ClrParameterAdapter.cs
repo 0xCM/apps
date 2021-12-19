@@ -11,7 +11,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrParameterAdapter : IClrRuntimeObject<ClrParameterAdapter,R.ParameterInfo>
+    public readonly struct ClrParameterAdapter : IRuntimeObject<ClrParameterAdapter,R.ParameterInfo>
     {
         public R.ParameterInfo Definition {get;}
 

@@ -101,7 +101,7 @@ namespace Z0
             {
                 var k = kind(components[0][0]);
                 var name = components[1];
-                var fence = RuleModels.fence("<summary>", "</summary>");
+                var fence = RenderFence.define("<summary>", "</summary>");
                 var summary = text.replace(text.unfence(value, fence).RemoveAny((char)AsciControlSym.CR, (char)AsciControlSym.LF).Trim(), Chars.Pipe, Chars.Caret);
                 return ParseResult.win(key, new ApiComment(k, name, summary));
             }

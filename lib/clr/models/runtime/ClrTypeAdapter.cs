@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct ClrTypeAdapter : IClrRuntimeType<ClrTypeAdapter>
+    public readonly struct ClrTypeAdapter : IRuntimeType<ClrTypeAdapter>
     {
         public Type Definition {get;}
 

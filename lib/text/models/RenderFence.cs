@@ -18,6 +18,11 @@ namespace Z0
 
         public static Fence<char> Dirac => ((char)MathSym.LeftBra, (char)MathSym.RightKet);
 
+        public static Fence<char> Paren => (Chars.LParen, Chars.RParen);
+
+        [MethodImpl(Inline)]
+        public static Fence<T> fence<T>(T left, T right)
+            => (left,right);
     }
 
     public readonly struct RenderFence
@@ -27,6 +32,14 @@ namespace Z0
         public static RenderFence Bracketed => (Chars.LBracket, Chars.RBracket);
 
         public static RenderFence Angled => (Chars.Lt, Chars.Gt);
+
+        public static RenderFence Dirac => ((char)MathSym.LeftBra, (char)MathSym.RightKet);
+
+        public static RenderFence Paren => (Chars.LParen, Chars.RParen);
+
+        [MethodImpl(Inline)]
+        public static Fence<T> define<T>(T left, T right)
+            => (left,right);
 
         readonly Fence<char> Fence;
 
@@ -77,7 +90,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Fence<char>(RenderFence src)
             => src.Fence;
-
 
         [MethodImpl(Inline)]
         public static Fence<char> define(char left, char right)

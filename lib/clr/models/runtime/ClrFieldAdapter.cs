@@ -12,7 +12,7 @@ namespace Z0
 
     using R = System.Reflection;
 
-    public readonly struct ClrFieldAdapter : IClrRuntimeMember<ClrFieldAdapter,FieldInfo>
+    public readonly struct ClrFieldAdapter : IRuntimeMember<ClrFieldAdapter,FieldInfo>
     {
         [MethodImpl(Inline)]
         public static ClrFieldAdapter adapt(FieldInfo src)

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static RuleModels;
-
     using Z0.Asm;
 
     readonly partial struct Msg

@@ -150,7 +150,7 @@ namespace Z0
             }
         }
 
-        [Parser]
+        [Parser(typeof(ClrTypes.Integers))]
         public static Outcome parse<T>(string src, out Size<T> dst)
             where T : unmanaged
         {

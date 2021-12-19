@@ -29,8 +29,6 @@ namespace Z0
         /// </summary>
         public dynamic Value {get;}
 
-        public ArgProtocol Protocol {get;}
-
         public ArgPartKind Classifier {get;}
 
         [MethodImpl(Inline)]
@@ -39,7 +37,6 @@ namespace Z0
             Position = pos;
             Name = name;
             Value = EmptyString;
-            Protocol = prefix ?? ArgPrefix.DoubleDash;
             Classifier = ArgPartKind.Name | ArgPartKind.Position;
         }
 
@@ -49,21 +46,14 @@ namespace Z0
             Position = 0;
             Name = name;
             Value = EmptyString;
-            Protocol = prefix ?? ArgPrefix.DoubleDash;
             Classifier = ArgPartKind.Name;
         }
 
         public bool IsFlag
             => true;
 
-        public ArgPrefix Prefix
-            => Protocol.Prefix;
-
-        public ArgQualifier Qualifier
-            => Protocol.Qualifier;
-
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArg(CmdArgDef src)
-            => new ToolCmdArg(src.Position, src.Name, src.Value, src.Prefix, true);
+            => new ToolCmdArg(src.Position, src.Name, src.Value, true);
     }
 }

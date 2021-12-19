@@ -14,11 +14,6 @@ namespace Z0
         ushort Position {get;}
 
         /// <summary>
-        /// Defines prefix characteristics and/or operand situation
-        /// </summary>
-        ArgProtocol Protocol {get;}
-
-        /// <summary>
         /// The argument name, if any
         /// </summary>
         string Name {get;}
@@ -32,16 +27,6 @@ namespace Z0
         /// Specifies the extant argument components
         /// </summary>
         ArgPartKind Classifier {get;}
-
-        /// <summary>
-        /// The argument prefix, if any; typically either '-', '--', or '/'
-        /// </summary>
-        ArgPrefix Prefix => Protocol.Prefix;
-
-        /// <summary>
-        /// The delimiter between an argument name/value pair, typically '=' or ':' if present
-        /// </summary>
-        ArgQualifier Qualifier => Protocol.Qualifier;
 
         /// <summary>
         /// Specifies whether the argument is a flag and thus the name is the value and conversely

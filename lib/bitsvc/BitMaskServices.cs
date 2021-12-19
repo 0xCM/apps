@@ -38,7 +38,7 @@ namespace Z0
             if(src.Polymorphic)
             {
                 var input = src.Text;
-                var fence = RuleModels.fence(Chars.LBracket, Chars.RBracket);
+                var fence = RenderFence.define(Chars.LBracket, Chars.RBracket);
                 var content = input;
                 var fenced = text.fenced(input, fence);
                 if(fenced)

@@ -5,7 +5,7 @@
 namespace Z0
 {
     public interface ICaSymbolArtifact<R,S>
-        where R : IClrRuntimeObject
+        where R : IRuntimeObject
         where S : ICaSymbol
     {
         R Artifact {get;}

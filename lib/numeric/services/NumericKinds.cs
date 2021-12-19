@@ -59,8 +59,8 @@ namespace Z0
         /// Recognized integral types
         /// </summary>
         [Op]
-        public static IEnumerable<Type> IntegralTypes()
-            => SignedTypes().Union(UnsignedTypes());
+        public static Type[] IntegerTypes()
+            => SignedTypes().Union(UnsignedTypes()).Array();
 
         /// <summary>
         /// Recognized integral kinds
@@ -74,6 +74,6 @@ namespace Z0
         /// </summary>
         [Op]
         public static Type[] NumericTypes()
-            => IntegralTypes().Union(FloatingTypes()).ToArray();
+            => IntegerTypes().Union(FloatingTypes()).ToArray();
     }
 }

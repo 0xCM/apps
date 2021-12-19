@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrMember : IClrRuntimeMember<ClrMember, MemberInfo>
+    public readonly struct ClrMember : IRuntimeMember<ClrMember, MemberInfo>
     {
         [MethodImpl(Inline)]
         public static ClrMember from(MemberInfo src)
@@ -46,7 +46,7 @@ namespace Z0
             get => !IsEmpty;
         }
 
-        MemberInfo IClrRuntimeObject<MemberInfo>.Definition
+        MemberInfo IRuntimeObject<MemberInfo>.Definition
             => Definition;
 
         ClrArtifactKind IClrArtifact.Kind

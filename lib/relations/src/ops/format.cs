@@ -10,17 +10,6 @@ namespace Z0
 
         public static RenderPattern<T,T> RenderLink<T>() => RenderLink<T,T>();
 
-        [Op, Closures(Closure)]
-        public static string format(ArrowType t)
-            => render<string>().Format(t.Source.Name, t.Target.Name);
-
-        [Op, Closures(Closure)]
-        public static string format<T>(ArrowType<T> src)
-            => render<string>().Format(src.Source.Name, src.Target.Name);
-
-        public static string format<S,T>(ArrowType<S,T> src)
-            => render<string>().Format(src.Source.Name, src.Target.Name);
-
         /// <summary>
         /// Renders a graph using basic graphviz format
         /// </summary>

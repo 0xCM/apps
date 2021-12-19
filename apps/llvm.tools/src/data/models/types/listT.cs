@@ -15,7 +15,7 @@ namespace Z0.llvm
         {
             Outcome parse(string src, out list<T> dst)
             {
-                var input = text.fenced(src, Fencing.Bracketed, out _) ? text.unfence(src, Fencing.Bracketed) : src;
+                var input = text.fenced(src, RenderFence.Bracketed, out _) ? text.unfence(src, RenderFence.Bracketed) : src;
                 var seqparser = new SeqParser<T>(",", new ParseFunction<T>(itemparser));
                 var result = seqparser.Parse(src, out var items);
                 if(result)

@@ -74,6 +74,5 @@ namespace Z0.Asm
 
             return true;
         }
-
     }
 }

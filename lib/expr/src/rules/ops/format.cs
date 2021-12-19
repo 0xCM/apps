@@ -43,10 +43,6 @@ namespace Z0.Rules
         internal static string format<T>(in Adjacent<T> src)
             => string.Format(RP.Adjacent2,src.A, src.B);
 
-        internal static string format<T>(in ItemMatch<T> src)
-            where T : System.IEquatable<T>
-                => string.Format("match({0})", src.Value);
-
         internal static string format<T>(in Replace<T> src)
             => string.Concat(
                 string.Format("replace" + XF.AngledSlot0, typeof(T).Name),

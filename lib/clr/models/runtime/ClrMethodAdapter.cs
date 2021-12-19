@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrMethodAdapter : IClrRuntimeMethod<ClrMethodAdapter>
+    public readonly struct ClrMethodAdapter : IRuntimeMethod<ClrMethodAdapter>
     {
         [MethodImpl(Inline)]
         public static ClrMethodAdapter adapt(MethodInfo src)

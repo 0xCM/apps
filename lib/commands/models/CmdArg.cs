@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CmdArg : ICmdArg
+    public readonly struct CmdArg
     {
         public uint Index {get;}
 

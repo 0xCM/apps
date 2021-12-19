@@ -12,7 +12,7 @@ namespace Z0
 
     using R = System.Reflection;
 
-    public readonly struct ClrEnumFieldAdapter<T> : IClrRuntimeMember<ClrEnumFieldAdapter<T>,FieldInfo>
+    public readonly struct ClrEnumFieldAdapter<T> : IRuntimeMember<ClrEnumFieldAdapter<T>,FieldInfo>
         where T : unmanaged, Enum
     {
         public uint Index {get;}

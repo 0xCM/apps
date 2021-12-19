@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrAssemblyAdapter : IClrRuntimeObject<ClrAssemblyAdapter,Assembly>
+    public readonly struct ClrAssemblyAdapter : IRuntimeObject<ClrAssemblyAdapter,Assembly>
     {
         public Assembly Definition {get;}
 

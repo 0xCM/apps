@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ClrInstanceMethod : IEquatable<ClrInstanceMethod>, IComparable<ClrInstanceMethod>, ITextual, IClrRuntimeMethod
+    public readonly struct ClrInstanceMethod : IEquatable<ClrInstanceMethod>, IComparable<ClrInstanceMethod>, ITextual, IRuntimeMethod
     {
         public object Host {get;}
 

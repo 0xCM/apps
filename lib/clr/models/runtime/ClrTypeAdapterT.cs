@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Represents a parametrically-identified clr type
     /// </summary>
-    public readonly struct ClrTypeAdapter<T> : IClrRuntimeType<T>
+    public readonly struct ClrTypeAdapter<T> : IRuntimeType<T>
     {
         static readonly Type TD = typeof(T);
 

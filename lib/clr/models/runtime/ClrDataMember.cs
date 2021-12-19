@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Unifies fields and properties from a structural metadata represetnation perspective
     /// </summary>
-    public readonly struct ClrDataMember : IClrRuntimeMember<ClrDataMember,MemberInfo>
+    public readonly struct ClrDataMember : IRuntimeMember<ClrDataMember,MemberInfo>
     {
         /// <summary>
         /// The represented member

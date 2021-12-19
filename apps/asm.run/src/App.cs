@@ -5,7 +5,6 @@
 namespace Z0
 {
     using System;
-    using System.Reflection;
 
     sealed class Machine : WfApp<Machine>
     {
@@ -16,31 +15,11 @@ namespace Z0
             shell.Run();
         }
 
-        CmdImplMap<string> CommandMap;
-
         void Push(object content)
         {
             term.cyan(string.Format(">>   {0}", content));
         }
 
-        bool Pull(out MethodInfo method)
-        {
-            var input = term.prompt("cmd> ");
-            if(CommandMap.Find(input, out method))
-            {
-                return true;
-            }
-            else
-            {
-                Push(string.Format("The command {0} is not recognized", input));
-                return false;
-            }
-        }
-
-        protected override void Initialized()
-        {
-            CommandMap = Cmd.implmap(Wf.Components);
-        }
 
         protected override void Run()
         {
@@ -48,10 +27,7 @@ namespace Z0
             {
                 while(true)
                 {
-                    if(Pull(out var method))
-                    {
 
-                    }
                 }
             }
             catch(Exception e)

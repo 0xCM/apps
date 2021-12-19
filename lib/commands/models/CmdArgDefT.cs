@@ -75,6 +75,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator ToolCmdArg(CmdArgDef<T> src)
-            => new ToolCmdArg(src.Position, src.Name, src.Value, src.Prefix, true);
+            => new ToolCmdArg(src.Position, src.Name, src.Value, true);
     }
 }
