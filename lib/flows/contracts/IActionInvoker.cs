@@ -2,13 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System.Reflection;
-
 namespace Z0
 {
-    public class TestRunner : TestApp<TestRunner>
+    public interface IActionInvoker
     {
-        protected override Assembly TargetComponent
-            => Parts.TestUnits.Assembly;
+        Name ActionName {get;}
+    }
+
+    public interface IActionInvoker<S,T> : IActionInvoker
+    {
+        T Invoke(S src);
     }
 }

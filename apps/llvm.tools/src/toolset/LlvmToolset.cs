@@ -22,8 +22,6 @@ namespace Z0.llvm
 
         Toolset Toolset;
 
-        //Tooling Tooling;
-
         public LlvmToolset()
         {
             Toolset = Toolset.Empty;

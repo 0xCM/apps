@@ -134,7 +134,7 @@ namespace Z0
         [CmdOp("commands")]
         protected Outcome Commands(CmdArgs args)
         {
-            iter(Dispatcher.Supported, cmd => Write(cmd));
+            iter(Dispatcher.SupportedActions, cmd => Write(cmd));
             return true;
         }
 

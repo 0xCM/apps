@@ -2,13 +2,10 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System.Reflection;
-
 namespace Z0
 {
-    public class TestRunner : TestApp<TestRunner>
+    public interface ICmdActionInvoker : IActionInvoker<CmdArgs,Outcome>
     {
-        protected override Assembly TargetComponent
-            => Parts.TestUnits.Assembly;
+
     }
 }

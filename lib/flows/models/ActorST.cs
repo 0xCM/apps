@@ -8,7 +8,7 @@ namespace Z0
     public abstract class Actor<A> : Actor
         where A : Actor<A>,new()
     {
-        protected Actor(Name name)
+        protected Actor(Identifier name)
             : base(name)
         {
 

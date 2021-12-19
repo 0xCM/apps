@@ -8,7 +8,7 @@ namespace Z0
     {
         Identifier Name {get;}
 
-        ulong Kind {get;}
+        ulong Kind => 0;
 
         bool INullity.IsEmpty
             => false;

@@ -14,19 +14,19 @@ namespace Z0
     partial struct Cmd
     {
         [Op]
-        public static CmdAction action(string name, object host, MethodInfo method)
-            => new CmdAction(name,host,method);
+        public static CmdActionInvoker action(string name, object host, MethodInfo method)
+            => new CmdActionInvoker(name,host,method);
 
         [Op]
-        public static Index<CmdAction> actions(object host)
+        public static Index<CmdActionInvoker> actions(object host)
         {
             var methods = host.GetType().Methods().Tagged<CmdOpAttribute>();
-            var buffer = alloc<CmdAction>(methods.Length);
+            var buffer = alloc<CmdActionInvoker>(methods.Length);
             actions(host, methods,buffer);
             return buffer;
         }
 
-        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<CmdAction> dst)
+        static void actions(object host, ReadOnlySpan<MethodInfo> src, Span<CmdActionInvoker> dst)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)

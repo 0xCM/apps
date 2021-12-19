@@ -8,6 +8,7 @@ namespace Z0.llvm
     using static Root;
     using SQ = SymbolicQuery;
 
+
     partial class LlvmCmd
     {
         [CmdOp(".test")]

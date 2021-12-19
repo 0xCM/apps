@@ -38,8 +38,8 @@ namespace Z0
             => Z0.DumpBin.create(wf);
 
         [Op]
-        public static BdDisasm BdDisasm(this IServiceContext ctx)
-            => Tools.BdDisasm.create(ctx);
+        public static BdDisasm BdDisasm(this IWfRuntime wf)
+            => Tools.BdDisasm.create(wf);
 
         [Op]
         public static WinSdk WinSdk(this IWfRuntime wf)

@@ -19,10 +19,10 @@ namespace Z0
         public static CmdActionLookup discover(ICmdProvider provider)
         {
             var type = provider.GetType();
-            var actions = dict<string,CmdAction>();
+            var actions = dict<string,CmdActionInvoker>();
             var src = type.InstanceMethods().Tagged<CmdOpAttribute>().Select(x => (x.Name, x));
             foreach(var (name, method) in src)
-                actions.TryAdd(name,new CmdAction(name, provider,method));
+                actions.TryAdd(name,new CmdActionInvoker(name, provider, method));
 
             var lookup = CmdActionLookup.create();
             foreach(var (name,action) in actions)
@@ -51,19 +51,19 @@ namespace Z0
         public static CmdActionLookup create()
             => new CmdActionLookup();
 
-        readonly Dictionary<string,CmdAction> Data;
+        readonly Dictionary<string,CmdActionInvoker> Data;
 
-        KeyValuePairs<string,CmdAction> Pairs;
+        KeyValuePairs<string,CmdActionInvoker> Pairs;
 
         bool Sealed;
 
         CmdActionLookup()
         {
             Data = new();
-            Pairs = KeyValuePairs<string,CmdAction>.Empty;
+            Pairs = KeyValuePairs<string,CmdActionInvoker>.Empty;
         }
 
-        public bool Add(string spec, CmdAction runner)
+        public bool Add(string spec, CmdActionInvoker runner)
         {
             if(Sealed)
                 return false;
@@ -71,7 +71,7 @@ namespace Z0
                 return Data.TryAdd(spec, runner);
         }
 
-        public bool Find(string spec, out CmdAction runner)
+        public bool Find(string spec, out CmdActionInvoker runner)
         {
             runner = default;
             if(!Sealed)
@@ -92,7 +92,7 @@ namespace Z0
             get => Pairs.Keys.Sort();
         }
 
-        public ReadOnlySpan<CmdAction> Actions
+        public ReadOnlySpan<CmdActionInvoker> Actions
         {
             [MethodImpl(Inline)]
             get => Pairs.Values;

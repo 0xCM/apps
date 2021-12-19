@@ -24,24 +24,24 @@ namespace Z0
             Fallback = fallback;
         }
 
-        public ReadOnlySpan<string> Supported
+        public ReadOnlySpan<string> SupportedActions
             => Lookup.Specs;
 
-        public Outcome Dispatch(string command)
-            => Dispatch(command, CmdArgs.Empty);
+        public Outcome Dispatch(string action)
+            => Dispatch(action, CmdArgs.Empty);
 
-        public Outcome Dispatch(string command, CmdArgs args)
+        public Outcome Dispatch(string name, CmdArgs args)
         {
             try
             {
-                if(Lookup.Find(command, out var action))
-                    return (Outcome)action.Method.Invoke(action.Host, new object[1]{args});
+                if(Lookup.Find(name, out var invoker))
+                    return invoker.Invoke(args);
                 else
                 {
                     if(Fallback != null)
-                        return Fallback(command, args);
+                        return Fallback(name, args);
                     else
-                        return (false, string.Format("Command '{0}' unrecognized", command));
+                        return (false, string.Format("Command '{0}' unrecognized", name));
                 }
             }
             catch(Exception e)

@@ -10,17 +10,8 @@ namespace Z0.Tools
     using static Root;
 
     [ApiHost]
-    public sealed partial class BdDisasm : Tool<BdDisasm, BdDisasmCmd>
+    public sealed partial class BdDisasm : ToolService<BdDisasm>
     {
-        public BdDisasm()
-            : base(Toolspace.bddiasm)
-        {
-
-        }
-
-        protected override void Initialized()
-        {
-        }
 
         [Op]
         public static uint render(Bitness src, ref uint i, Span<char> dst)
@@ -50,7 +41,7 @@ namespace Z0.Tools
         }
 
         [Op]
-        protected override uint Render(BdDisasmCmd src, ref uint i, Span<char> dst)
+        public uint Render(BdDisasmCmd src, ref uint i, Span<char> dst)
         {
             var i0 = i;
 

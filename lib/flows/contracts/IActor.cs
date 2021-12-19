@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IActor : ITextual
+    public interface IActor : IType
     {
-        Name Name {get;}
-
         string ITextual.Format()
             => Name;
     }
 
-    public interface IActor<A>
+    public interface IActor<A> : IActor
         where A : IActor<A>
     {
 

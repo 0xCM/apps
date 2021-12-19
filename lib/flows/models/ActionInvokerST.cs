@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Actor]
-    public abstract class Tool<T> : Service<T>
-        where T : Tool<T>,new()
-    {
-        public ToolId Id {get;}
+    using System;
+    using System.Runtime.CompilerServices;
 
-        protected Tool(ToolId id)
-        {
-            Id = id;
-        }
+    using static Root;
+
+    public abstract class ActionInvoker<S,T> : IActionInvoker<S,T>
+    {
+        public Name ActionName {get;}
+
+        public abstract T Invoke(S src);
     }
 }

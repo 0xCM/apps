@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static LLvmActors;
-    using static KnownFileTypes;
     using static LlvmTools;
+    using static KnownFileTypes;
 
     public readonly struct LlvmFlows
     {

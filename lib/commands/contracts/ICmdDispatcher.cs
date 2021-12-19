@@ -8,11 +8,11 @@ namespace Z0
 
     public interface ICmdDispatcher
     {
-        Outcome Dispatch(string command, CmdArgs args);
+        Outcome Dispatch(string action, CmdArgs args);
 
-        Outcome Dispatch(string command);
+        Outcome Dispatch(string action);
 
-        ReadOnlySpan<string> Supported {get;}
+        ReadOnlySpan<string> SupportedActions {get;}
 
         Outcome Dispatch(CmdSpec cmd)
             => Dispatch(cmd.Name, cmd.Args);
