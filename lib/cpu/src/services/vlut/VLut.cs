@@ -15,27 +15,27 @@ namespace Z0
     {
         [MethodImpl(Inline), Init]
         public static VLut16 init(Vector128<byte> src)
-            => VLut16.define(src);
+            => new VLut16(src);
 
         [MethodImpl(Inline), Init]
         public static VLut16 init(ReadOnlySpan<byte> src, N16 n)
-            => VLut16.define(src);
+            => new VLut16(src);
 
         [MethodImpl(Inline), Init]
         public static VLut16 init(in SpanBlock128<byte> src)
-            => VLut16.define(src);
+            => new VLut16(src);
 
         [MethodImpl(Inline), Init]
         public static VLut32 init(Vector256<byte> src)
-            => VLut32.define(src);
+            => new VLut32(src);
 
         [MethodImpl(Inline), Init]
         public static VLut32 init(ReadOnlySpan<byte> src, N32 n)
-            => VLut32.define(src);
+            => new VLut32(src);
 
         [MethodImpl(Inline), Init]
         public static VLut32 init(in SpanBlock256<byte> src)
-            => VLut32.define(src);
+            => new VLut32(src);
 
         [MethodImpl(Inline), Op]
         public static Vector128<byte> select(in VLut16 lut, Vector128<byte> items)

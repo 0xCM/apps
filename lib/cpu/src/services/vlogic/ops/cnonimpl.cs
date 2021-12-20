@@ -34,7 +34,7 @@ namespace Z0
         [MethodImpl(Inline), CNonImpl, Closures(Closure)]
         public static Vector128<T> vcnonimpl<T>(W128 w, in T a, in T b)
             where T : unmanaged
-                => gcpu.vcnonimpl(gcpu.vload(w, in a), gcpu.vload(w, in b));
+                => gcpu.vcnonimpl(gcpu.vload(w, a), gcpu.vload(w, b));
 
         [MethodImpl(Inline), CNonImpl, Closures(Closure)]
         public static Vector256<T> vcnonimpl<T>(W256 w, in T a, in T b)
@@ -56,7 +56,7 @@ namespace Z0
             where T : unmanaged
         {
             for(int i=0, offset = 0; i < vcount; i++, offset += blocklen)
-                cnonimpl(w, skip(a, offset), in skip(in b, offset), ref seek(dst, offset));
+                cnonimpl(w, skip(a, offset), skip(b, offset), ref seek(dst, offset));
         }
 
         [MethodImpl(Inline), CNonImpl, Closures(Closure)]
@@ -64,7 +64,7 @@ namespace Z0
             where T : unmanaged
         {
             for(int i=0, offset = 0; i < vcount; i++, offset += blocklen)
-                cnonimpl(w, skip(a, offset), in skip(in b, offset), ref seek(dst, offset));
+                cnonimpl(w, skip(a, offset), skip(b, offset), ref seek(dst, offset));
         }
     }
 }

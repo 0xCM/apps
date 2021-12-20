@@ -22,11 +22,11 @@ namespace Z0
             if(typeof(T) == typeof(byte))
                BL.select(u8(a), u8(b), u8(C), ref u8(dst));
             else if(typeof(T) == typeof(ushort))
-                select(w, in a, in b, in C, ref dst);
+                select(w, a, b, C, ref dst);
             else if(typeof(T) == typeof(uint))
-                select(w, 4, 8, in a, in b, in C, ref dst);
+                select(w, 4, 8, a, b, C, ref dst);
             else if(typeof(T) == typeof(ulong))
-                select(w, 16, 4, in a, in b, in C, ref dst);
+                select(w, 16, 4, a, b, C, ref dst);
             else
                 throw no<T>();
         }

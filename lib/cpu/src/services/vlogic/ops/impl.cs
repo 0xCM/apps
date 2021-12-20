@@ -44,19 +44,19 @@ namespace Z0
         [MethodImpl(Inline), Impl, Closures(Closure)]
         public static void impl<T>(W128 n, in T a, in T b, ref T dst)
             where T : unmanaged
-                => gcpu.vstore(vimpl(n, in a, in b), ref dst);
+                => gcpu.vstore(vimpl(n, a, b), ref dst);
 
         [MethodImpl(Inline), Impl, Closures(Closure)]
         public static void impl<T>(W256 n, in T a, in T b, ref T dst)
             where T : unmanaged
-                => gcpu.vstore(vimpl(n, in a, in b), ref dst);
+                => gcpu.vstore(vimpl(n, a, b), ref dst);
 
         [MethodImpl(Inline), Impl, Closures(Closure)]
         public static void impl<T>(W128 n, int vcount, int blocklen, in T a, in T b, ref T dst)
             where T : unmanaged
         {
             for(int i=0, offset = 0; i<vcount; i++, offset += blocklen)
-                impl(n, skip(a, offset), skip(in b, offset), ref seek(dst, offset));
+                impl(n, skip(a, offset), skip(b, offset), ref seek(dst, offset));
         }
 
         [MethodImpl(Inline), Impl, Closures(Closure)]
@@ -64,7 +64,7 @@ namespace Z0
             where T : unmanaged
         {
             for(int i=0, offset = 0; i < vcount; i++, offset += blocklen)
-                impl(n, in skip(in a, offset), in skip(in b, offset), ref seek(dst, offset));
+                impl(n, skip(a, offset), skip(b, offset), ref seek(dst, offset));
         }
     }
 }

@@ -20,13 +20,13 @@ namespace Z0
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-               BL.nand(in u8(in A), in u8(in B), ref u8(Z));
+               BL.nand(u8(A), u8(B), ref u8(Z));
             else if(typeof(T) == typeof(ushort))
-                nand(w, in A, in B, ref Z);
+                nand(w, A, B, ref Z);
             else if(typeof(T) == typeof(uint))
-                nand(w, 4, 8, in A, in B, ref Z);
+                nand(w, 4, 8, A, B, ref Z);
             else if(typeof(T) == typeof(ulong))
-                nand(w, 16, 4, in A, in B, ref Z);
+                nand(w, 16, 4, A, B, ref Z);
             else
                 throw no<T>();
         }
@@ -51,20 +51,20 @@ namespace Z0
             where T : unmanaged
         {
             for(int i=0, offset = 0; i < vcount; i++, offset += blocklen)
-                nand(w, in skip(in a, offset), in skip(in b, offset), ref seek(z, offset));
+                nand(w, skip(a, offset), skip(b, offset), ref seek(z, offset));
         }
 
         [MethodImpl(Inline), Nand, Closures(Closure)]
         public static void nand<T>(W256 n, in T a, in T b, ref T z)
             where T : unmanaged
-                => gcpu.vstore(vnand(n, in a, in b), ref z);
+                => gcpu.vstore(vnand(n, a, b), ref z);
 
         [MethodImpl(Inline), Nand, Closures(Closure)]
         public static void nand<T>(W256 w, int vcount, int blocklen, in T a, in T b, ref T z)
             where T : unmanaged
         {
             for(int i=0, offset = 0; i<vcount; i++, offset += blocklen)
-                nand(w, in skip(in a, offset), in skip(in b, offset), ref seek(z, offset));
+                nand(w, skip(a, offset), skip(b, offset), ref seek(z, offset));
         }
     }
 }
