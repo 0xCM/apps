@@ -77,11 +77,11 @@ namespace Z0
 
             public LookupKind Lookup;
 
-            public OperandElementType Type;
+            public ElementType Type;
 
             public Nonterminal NonTerm;
 
-            public string Register;
+            public Register Register;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,16,16,16,16,16,1};
         }
@@ -107,9 +107,9 @@ namespace Z0
 
             public IsaKind Isa;
 
-            public string Attributes;
+            public DelimitedIndex<string> Attributes;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,48,16,16,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,60,16,16,16,1};
         }
     }
 }

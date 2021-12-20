@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct perm
+    partial struct Perm
     {
         /// <summary>
         /// Computes the digits corresponding to each 4-bit segment of the permutation spec as

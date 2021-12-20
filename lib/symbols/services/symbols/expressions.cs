@@ -12,6 +12,11 @@ namespace Z0
 
     partial struct Symbols
     {
+        [MethodImpl(Inline)]
+        public static SymExpr expr<E>(E src)
+            where E : unmanaged, Enum
+                => index<E>()[src].Expr;
+
         /// <summary>
         /// Extracts the symbol expressions from a source buffer and deposits them in a caller-supplied target
         /// </summary>
@@ -19,7 +24,7 @@ namespace Z0
         /// <param name="dst"></param>
         /// <typeparam name="T"></typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint expressions<T>(Symbols<T> src, Span<SymExpr> dst)
+        public static uint expr<T>(Symbols<T> src, Span<SymExpr> dst)
             where T : unmanaged
         {
             var count = src.Length;
@@ -36,11 +41,7 @@ namespace Z0
             var count = (uint)min(src.Length, dst.Length);
             var symbols = src.View;
             for(var i=0; i<count; i++)
-            {
-                ref readonly var symbol = ref skip(symbols,i);
-                var data = symbol.Expr.Data;
-                seek(dst, i) = FixedChars.txt(n7, data);
-            }
+                seek(dst, i) = FixedChars.txt(n7, skip(symbols,i).Expr.Data);
             return count;
         }
     }

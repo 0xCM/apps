@@ -11,32 +11,32 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct OperandElementType : ILiteralCover<OperandElementTypeKind>
+        public readonly struct ElementType : IEnumCover<ElementTypeKind>
         {
-            public OperandElementTypeKind Value {get;}
+            public ElementTypeKind Value {get;}
 
             [MethodImpl(Inline)]
-            public OperandElementType(OperandElementTypeKind src)
+            public ElementType(ElementTypeKind src)
             {
                 Value = src;
             }
 
             public string Format()
-                => Value != 0 ? Value.ToString() : EmptyString;
+                => Value != 0 ? Symbols.expr(Value).Format() : EmptyString;
 
             public override string ToString()
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandElementType(EnumCover<OperandElementTypeKind> src)
-                => new OperandElementType(src.Value);
+            public static implicit operator ElementType(EnumCover<ElementTypeKind> src)
+                => new ElementType(src.Value);
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandElementType(OperandElementTypeKind src)
-                => new OperandElementType(src);
+            public static implicit operator ElementType(ElementTypeKind src)
+                => new ElementType(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandElementTypeKind(OperandElementType src)
+            public static implicit operator ElementTypeKind(ElementType src)
                 => src.Value;
         }
     }

@@ -64,6 +64,5 @@ namespace Z0
         [MethodImpl(Inline), Sub]
         public static BitVector64 sub(BitVector64 x, BitVector64 y)
             => gmath.sub(x.State, y.State);
-
     }
 }

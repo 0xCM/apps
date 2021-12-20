@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum RegId : ushort
         {
-            None,
+            INVALID,
 
             BNDCFGU,
 
@@ -630,7 +630,7 @@ namespace Z0
 
             GPR8h_LAST=BH,
 
-            INVALID_FIRST=None,
+            INVALID_FIRST=INVALID,
 
             INVALID_LAST=ERROR,
 

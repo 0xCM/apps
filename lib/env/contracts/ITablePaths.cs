@@ -30,6 +30,10 @@ namespace Z0
             where T : struct
                 => FS.file(string.Format("{0}.{1}", TableId<T>(), subject), DefaultTableExt);
 
+        FS.FileName TableFile<T>(string scope,string subject)
+            where T : struct
+                => FS.file(string.Format("{0}.{1}.{2}",scope, TableId<T>(), subject), DefaultTableExt);
+
         FS.FolderName TableFolder(Type t)
             => FS.folder(TableId(t));
 

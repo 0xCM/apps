@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="spec">The permutation definition</param>
         /// <param name="A">The matrix to be permuted</param>
         [Op]
-        public static ref readonly BitMatrix<T> permute<T>(perm spec, in BitMatrix<T> A)
+        public static ref readonly BitMatrix<T> permute<T>(Perm spec, in BitMatrix<T> A)
             where T : unmanaged
         {
             for(var row = 0; row < spec.Length; row++)

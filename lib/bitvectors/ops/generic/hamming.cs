@@ -12,26 +12,36 @@ namespace Z0
     partial class BitVector
     {
         /// <summary>
-        /// Computes the bitvector z := ~(x ^ y) from bitvectors x and y
+        /// Computes the Hamming distance between two generic bitvectors
         /// </summary>
-        /// <param name="x">The left vector</param>
-        /// <param name="y">The right vector</param>
-        /// <typeparam name="T">The primal type</typeparam>
-        [MethodImpl(Inline)]
-        public static ScalarBits<N,T> xnor<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
+        /// <param name="x">The left bitvector</param>
+        /// <param name="y">The right bitvector</param>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static uint hamming<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
-                => gmath.xor(x.State, y.State);
+                => pop(xor(x,y));
 
         /// <summary>
-        /// Computes the bitvector z := ~(x ^ y) from bitvectors x and y
+        /// Computes the Hamming distance between bitvectors
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<T> xnor<T>(in BitVector128<T> x, in BitVector128<T> y)
+        public static uint hamming<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
-                => gcpu.vxnor(x.State,y.State);
+            where N : unmanaged, ITypeNat
+                => pop(xor(x,y));
+
+        /// <summary>
+        /// Computes the Hamming distance between bitvectors
+        /// </summary>
+        /// <param name="x">The left vector</param>
+        /// <param name="y">The right vector</param>
+        /// <typeparam name="T">The primal type</typeparam>
+        [MethodImpl(Inline)]
+        public static uint hamming<T>(in BitVector128<T> x, in BitVector128<T> y)
+            where T : unmanaged
+                => pop(xor(x,y));
     }
 }

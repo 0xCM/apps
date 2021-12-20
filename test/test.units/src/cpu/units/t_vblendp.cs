@@ -283,7 +283,7 @@ namespace Z0
             gcpu.vlo(z).StoreTo(dst,0);
             gcpu.vhi(z).StoreTo(dst,1);
 
-            var perm = Z0.perm.init(dst.Storage);
+            var perm = Z0.Perm.init(dst.Storage);
             for(var i=0; i< perm.Length; i++)
             {
                 var identity = i == perm[i];
@@ -348,7 +348,7 @@ namespace Z0
             gcpu.vlo(blend).StoreTo(dst,0);
             gcpu.vhi(blend).StoreTo(dst,1);
 
-            var perm = Z0.perm.init(dst.Storage);
+            var perm = Z0.Perm.init(dst.Storage);
             var tc = 0;
             for(var i=0; i<perm.Length; i++)
             {
@@ -454,7 +454,7 @@ namespace Z0
             gcpu.vlo(c).StoreTo(dst,0);
             gcpu.vhi(c).StoreTo(dst,1);
 
-            var perm = Z0.perm.init(dst.Storage);
+            var perm = Z0.Perm.init(dst.Storage);
             for(var i=0; i< perm.Length; i++)
             {
                 var identity = gmath.eq(Numeric.force<T>(i), perm[i]);
@@ -482,7 +482,7 @@ namespace Z0
             c.Lo.StoreTo(dst,0);
             c.Hi.StoreTo(dst,1);
 
-            var perm = Z0.perm.init(dst.Storage);
+            var perm = Z0.Perm.init(dst.Storage);
             for(var i=0; i< perm.Length; i++)
             {
                 var identity = gmath.eq(Numeric.force<T>(i), perm[i]);

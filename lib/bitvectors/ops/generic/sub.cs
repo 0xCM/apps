@@ -22,23 +22,15 @@ namespace Z0
                 => gmath.sub(x.State, y.State);
 
         /// <summary>
-        /// Computes the Hamming distance between two generic bitvectors
+        /// Computes the bitvector z := ~(x ^ y) from bitvectors x and y
         /// </summary>
-        /// <param name="x">The left bitvector</param>
-        /// <param name="y">The right bitvector</param>
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint hamming<T>(ScalarBits<T> x, ScalarBits<T> y)
-            where T : unmanaged
-            => pop(xor(x,y));
-
-        /// <summary>
-        /// Creates a copy of the source vector
-        /// </summary>
-        /// <param name="x">The source vector</param>
+        /// <param name="x">The left vector</param>
+        /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
-        [MethodImpl(Inline), Replicate, Closures(Closure)]
-        public static ScalarBits<T> replicate<T>(ScalarBits<T> x)
+        [MethodImpl(Inline)]
+        public static ScalarBits<N,T> sub<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
-                => x.State;
+            where N : unmanaged, ITypeNat
+                => gmath.sub(x.State, y.State);
     }
 }

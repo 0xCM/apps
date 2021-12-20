@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct perm
+    partial struct Perm
     {
          /// <summary>
         /// Attempts to extract an index-identified permutation symbol

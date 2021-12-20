@@ -20,5 +20,25 @@ namespace Z0
         public static ScalarBits<T> init<T>(T src)
             where T : unmanaged
                 => new ScalarBits<T>(src);
+
+        /// <summary>
+        /// Initializes a natural bitvector over a primal type
+        /// </summary>
+        /// <param name="src">The value used to initialize the bitvector</param>
+        [MethodImpl(Inline)]
+        public static ScalarBits<W,T> init<W,T>(T src, W w = default)
+            where T : unmanaged
+            where W : unmanaged, ITypeNat
+                => new ScalarBits<W,T>(src);
+
+        /// <summary>
+        /// Initializes a full-width 128-bit bitvector
+        /// </summary>
+        /// <param name="src">The value used to initialize the bitvector</param>
+        [MethodImpl(Inline)]
+        public static BitVector128<T> init<T>(Vector128<T> src)
+            where T : unmanaged
+                => new BitVector128<T>(src);
+
     }
 }

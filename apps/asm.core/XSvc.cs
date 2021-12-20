@@ -23,8 +23,8 @@ namespace Z0
         public static IntelXed IntelXed(this IWfRuntime wf)
             => Asm.IntelXed.create(wf);
 
-        public static XedDisassemblyParser XedDisassemblyParser(this IWfRuntime wf)
-            => Z0.XedDisassemblyParser.create(wf);
+        public static XedDisasmParser XedDisassemblyParser(this IWfRuntime wf)
+            => Z0.XedDisasmParser.create(wf);
 
 
         [Op]

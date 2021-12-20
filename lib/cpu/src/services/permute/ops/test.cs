@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct perm
+    partial struct Perm
     {
         /// <summary>
         /// Determines whether a permutation literal is a symbol

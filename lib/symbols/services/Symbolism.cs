@@ -122,7 +122,7 @@ namespace Z0
         {
             var dst = Ws.Tables().TablePath<SymInfo>("tokens", src.Name.ToLower());
             var tokens = Symbols.syminfo(src);
-            TableEmit(tokens, SymInfo.RenderWidths, dst);
+            TableEmit(tokens.View, SymInfo.RenderWidths, dst);
             return tokens;
         }
 

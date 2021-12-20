@@ -9,14 +9,14 @@ namespace Z0
     {
         public void bg_permute_32x5()
         {
-            var p = perm.natural(n32);
+            var p = Perm.natural(n32);
             Claim.eq(p.Length,32);
         }
 
         public void bg_permute_16x4()
         {
-            var identity = perm.identity(n16);
-            var symbols =  perm.symbols(identity);
+            var identity = Perm.identity(n16);
+            var symbols =  Perm.symbols(identity);
             var g1 = identity.ToBitGrid();
             var nP = identity.ToNatural();
             var g2 = nP.ToBitGrid();
@@ -26,8 +26,8 @@ namespace Z0
 
         public void bg_permute_8x3()
         {
-            var id = perm.identity(n8);
-            var symbols = perm.symbols(id);
+            var id = Perm.identity(n8);
+            var symbols = Perm.symbols(id);
             var g1 = id.ToSubGrid();
             var nP = id.ToNatural();
             var g2 = nP.ToSubGrid();
@@ -37,7 +37,7 @@ namespace Z0
         public void perm_8x32_digits()
         {
             var symbols = NatSpans.parts(n8, Perm8L.B, Perm8L.A, Perm8L.D, Perm8L.C, Perm8L.F, Perm8L.E, Perm8L.H, Perm8L.G);
-            var spec = perm.assemble(symbols[0], symbols[1], symbols[2], symbols[3], symbols[4], symbols[5], symbols[6], symbols[7]);
+            var spec = Perm.assemble(symbols[0], symbols[1], symbols[2], symbols[3], symbols[4], symbols[5], symbols[6], symbols[7]);
 
             //[o1, o0, o3, o2, o5, o4, o7, o6]
             var digits = spec.ToDigits();

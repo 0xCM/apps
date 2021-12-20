@@ -12,14 +12,24 @@ namespace Z0
     partial class BitVector
     {
         /// <summary>
-        /// Computes the effective width of the bitvector as determined by the number of leading zero bits
+        /// Creates a copy of the source vector
         /// </summary>
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
+        [MethodImpl(Inline), Replicate, Closures(Closure)]
+        public static ScalarBits<T> replicate<T>(ScalarBits<T> x)
+            where T : unmanaged
+                => x.State;
+
+        /// <summary>
+        /// Creates a copy of the source vector
+        /// </summary>
+        /// <param name="src">The source vector</param>
+        /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static int width<N,T>(ScalarBits<N,T> x)
+        public static ScalarBits<N,T> replicate<N,T>(ScalarBits<N,T> src)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => x.Width - nlz(x);
+                => src.State;
     }
 }

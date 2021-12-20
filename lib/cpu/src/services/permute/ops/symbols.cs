@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct perm
+    partial struct Perm
     {
         [MethodImpl(Inline), Op]
         public static bool symbols(Perm4L src, Span<SymVal<Perm4L>> dst)

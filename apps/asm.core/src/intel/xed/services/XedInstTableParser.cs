@@ -31,28 +31,6 @@ namespace Z0
             Operand
         }
 
-        LineKind Classify(in TextLine src)
-        {
-            var kind = LineKind.None;
-            var result = Outcome.Success;
-            if(src.IsEmpty)
-                kind = LineKind.Empty;
-            else
-            {
-                var data = src.Data;
-                ref readonly var c0 = ref first(data);
-                if(SQ.hash(c0))
-                    kind = LineKind.Comment;
-                else if(byte.TryParse(src.Content, out var _))
-                    kind = LineKind.OpCount;
-                else if(SQ.digit(base10,c0))
-                    kind = LineKind.Inst;
-                else if(SQ.tab(c0))
-                    kind = LineKind.Operand;
-            }
-            return kind;
-        }
-
         EnumParser<IClass> Classes {get;}
 
         EnumParser<IFormType> IForms {get;}
@@ -77,13 +55,6 @@ namespace Z0
 
         Index<char> _DigitBuffer;
 
-        [MethodImpl(Inline)]
-        Span<char> DigitBuffer()
-        {
-            _DigitBuffer.Clear();
-            return _DigitBuffer;
-        }
-
         EnumParser<IsaKind> IsaKinds;
 
         EnumParser<IClass> IClassParser;
@@ -92,9 +63,16 @@ namespace Z0
 
         EnumParser<NonterminalKind> Nonterminals;
 
-        EnumParser<RegClass> Regs;
+        EnumParser<RegId> Regs;
 
-        EnumParser<OperandElementTypeKind> ElementTypes;
+        EnumParser<ElementTypeKind> ElementTypes;
+
+        [MethodImpl(Inline)]
+        Span<char> DigitBuffer()
+        {
+            _DigitBuffer.Clear();
+            return _DigitBuffer;
+        }
 
         public XedInstTableParser()
         {
@@ -116,6 +94,28 @@ namespace Z0
             Regs = new();
             ElementTypes = new();
             _DigitBuffer = alloc<char>(12);
+        }
+
+        LineKind Classify(in TextLine src)
+        {
+            var kind = LineKind.None;
+            var result = Outcome.Success;
+            if(src.IsEmpty)
+                kind = LineKind.Empty;
+            else
+            {
+                var data = src.Data;
+                ref readonly var c0 = ref first(data);
+                if(SQ.hash(c0))
+                    kind = LineKind.Comment;
+                else if(byte.TryParse(src.Content, out var _))
+                    kind = LineKind.OpCount;
+                else if(SQ.digit(base10,c0))
+                    kind = LineKind.Inst;
+                else if(SQ.tab(c0))
+                    kind = LineKind.Operand;
+            }
+            return kind;
         }
 
         Outcome Parse(in TextLine src, out InstInfo dst)
@@ -172,9 +172,8 @@ namespace Z0
                 if(i > 0)
                 {
                      var attribs = text.right(content, i + AttribMarker.Length);
-                     dst.Attributes = RP.embrace(ParseAttributes(attribs).Format());
+                     dst.Attributes = ParseAttributes(attribs);
                 }
-
             }
 
             return result;
@@ -183,7 +182,7 @@ namespace Z0
         DelimitedIndex<string> ParseAttributes(string src)
         {
             var parts = text.index(text.trim(src), Chars.Space) != 0 ? text.split(src,Chars.Space) : array(text.trim(src));
-            return parts.Delimit();
+            return parts.Delimit(fence:RenderFence.Embraced);
         }
 
         Outcome Parse(string src, out AttributeVector dst)
@@ -250,7 +249,9 @@ namespace Z0
             {
                 if(dst.Lookup == LookupKind.REG)
                 {
-                    dst.Register = skip(parts,i++);
+                    result = Regs.Parse(skip(parts,i++), out var reg);
+                    if(result)
+                        dst.Register = reg;
                 }
                 else
                 {

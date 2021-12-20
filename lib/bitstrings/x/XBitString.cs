@@ -21,7 +21,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source span</param>
         /// <param name="p">The permutation to apply</param>
-        public static BitString Permute(this BitString src, perm p)
+        public static BitString Permute(this BitString src, Perm p)
         {
             var dst = api.alloc(p.Length);
             for(var i = 0; i<p.Length; i++)

@@ -95,9 +95,13 @@ namespace Z0
             AMD_FUTURE,
 
             GOLDMONT,
+
             GOLDMONT_PLUS,
+
             TREMONT,
+
             SNOW_RIDGE,
+
             SANDYBRIDGE,
 
             IVYBRIDGE,

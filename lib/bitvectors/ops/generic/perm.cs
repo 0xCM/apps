@@ -12,7 +12,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <param name="spec">The permutation</param>
         [Op, Closures(Closure)]
-        public static ScalarBits<T> perm<T>(ScalarBits<T> src, in perm spec)
+        public static ScalarBits<T> perm<T>(ScalarBits<T> src, in Perm spec)
             where T : unmanaged
         {
             var dst = replicate(src);
@@ -26,7 +26,7 @@ namespace Z0
             return dst;
         }
 
-        public static ScalarBits<N,T> perm<N,T>(ScalarBits<N,T> src, in perm spec)
+        public static ScalarBits<N,T> perm<N,T>(ScalarBits<N,T> src, in Perm spec)
             where T : unmanaged
             where N : unmanaged, ITypeNat
         {

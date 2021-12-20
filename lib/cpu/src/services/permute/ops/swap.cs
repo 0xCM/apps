@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct perm
+    partial struct Perm
     {
         /// <summary>
         /// Defines a transposition for a permutation of natural length

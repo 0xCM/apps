@@ -32,7 +32,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public Perm(T n, (T i, T j)[] swaps)
         {
-            terms = perm.Identity(n).terms;
+            terms = Perm.Identity(n).terms;
             Swap(swaps);
         }
 
@@ -44,7 +44,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public Perm(T n, Swap<T>[] swaps)
         {
-            terms = perm.Identity(n).terms;
+            terms = Perm.Identity(n).terms;
             Swap(swaps);
         }
 
@@ -70,7 +70,7 @@ namespace Z0
             for(var i=0; i< m; i++)
                 terms[i] = src[i];
 
-            var identity = perm.Identity(n);
+            var identity = Perm.Identity(n);
             for(var i=m; i< count; i++)
                 terms[i] = identity[i - m];
         }
@@ -304,7 +304,7 @@ namespace Z0
         /// <param name="n">The permutation length</param>
         [MethodImpl(Inline)]
         public static implicit operator Perm<T>(T n)
-            => perm.Identity(n);
+            => Perm.Identity(n);
 
         /// <summary>
         /// Computes the composition h of f and g where f and g have common length n and h(i) = g(f(i)) for i = 0, ... n-1

@@ -11,7 +11,7 @@ namespace Z0
     partial struct Symbols
     {
         [Op]
-        public static ReadOnlySpan<SymInfo> syminfo(ReadOnlySpan<Type> src)
+        public static Index<SymInfo> syminfo(ReadOnlySpan<Type> src)
         {
             var dst = list<SymInfo>();
             var count = src.Length;
@@ -35,11 +35,11 @@ namespace Z0
                     dst.Add(record);
                 }
             }
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
 
         [Op]
-        public static ReadOnlySpan<SymInfo> syminfo(Type src)
+        public static Index<SymInfo> syminfo(Type src)
         {
             var symbols = Symbols.untyped(src).View;
             var count = symbols.Length;
@@ -61,7 +61,7 @@ namespace Z0
             return buffer;
         }
 
-        public static ReadOnlySpan<SymInfo> syminfo<E>()
+        public static Index<SymInfo> syminfo<E>()
             where E : unmanaged, Enum
                 => syminfo(typeof(E));
     }

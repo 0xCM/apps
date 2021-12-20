@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="src">The random source</param>
         /// <param name="perm">The permutation</param>
         [MethodImpl(Inline)]
-        public static perm Shuffle(this IBoundSource src, in perm perm)
+        public static Perm Shuffle(this IBoundSource src, in Perm perm)
         {
             var copy = perm.Replicate();
             var count = copy.Length;

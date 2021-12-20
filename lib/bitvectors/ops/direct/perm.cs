@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         /// <param name="spec">The permutation</param>
         [MethodImpl(Inline)]
-        public static BitVector4 perm(BitVector4 src, in perm spec)
+        public static BitVector4 perm(BitVector4 src, in Perm spec)
         {
             var dst = src.Replicate();
             var w = (byte)src.Width;
@@ -30,7 +30,7 @@ namespace Z0
         /// </summary>
         /// <param name="p">The permutation</param>
         [MethodImpl(Inline)]
-        public static BitVector8 perm(BitVector8 src, in perm p)
+        public static BitVector8 perm(BitVector8 src, in Perm p)
         {
             var dst = src.Replicate();
             var width = (byte)src.Width;
@@ -45,7 +45,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <param name="spec">The permutation</param>
         [MethodImpl(Inline)]
-        public static BitVector16 perm(BitVector16 src, in perm spec)
+        public static BitVector16 perm(BitVector16 src, in Perm spec)
         {
             var dst = src.Replicate();
             var w = (byte)src.Width;
@@ -64,7 +64,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <param name="spec">The permutation</param>
         [MethodImpl(Inline)]
-        public static BitVector32 perm(BitVector32 src, in perm spec)
+        public static BitVector32 perm(BitVector32 src, in Perm spec)
         {
             var dst = src.Replicate();
             var w = (byte)src.Width;
@@ -83,7 +83,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <param name="spec">The permutation</param>
         [MethodImpl(Inline)]
-        public static BitVector64 perm(BitVector64 src, in perm spec)
+        public static BitVector64 perm(BitVector64 src, in Perm spec)
         {
             var dst = src.Replicate();
             var w = (byte)src.Width;

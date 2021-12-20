@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct perm
+    partial struct Perm
     {
         /// <summary>
         /// Shuffles span content as determined by a permutation
@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="src">The source span</param>
         /// <param name="p">The permutation to apply</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static void apply<T>(perm p, ReadOnlySpan<T> src, Span<T> dst)
+        public static void apply<T>(Perm p, ReadOnlySpan<T> src, Span<T> dst)
         {
             var terms = span(p.terms);
             var count = terms.Length;

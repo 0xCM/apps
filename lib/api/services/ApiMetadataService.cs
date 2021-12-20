@@ -16,6 +16,8 @@ namespace Z0
 
         ApiJit ApiJit => Service(Wf.ApiJit);
 
+        MsilPipe MsilPipe => Service(Wf.MsilPipe);
+
         public Outcome EmitHostMsil(string hostid)
         {
             var result = Outcome.Success;
@@ -42,7 +44,7 @@ namespace Z0
             var result = Outcome.Success;
             var buffer = text.buffer();
             var jit = ApiJit;
-            var pipe = Wf.MsilPipe();
+            var pipe = MsilPipe;
             var counter = 0u;
             for(var i=0; i<hosts.Length; i++)
             {
@@ -81,14 +83,11 @@ namespace Z0
             foreach(var (t,tv) in types.Enumerate())
             {
                 if(tv.SymKind == tag)
-                {
                     selected.Add(t);
-                }
             }
 
-            EmitTokenSet(Tokens.set(tag, selected.Array()), ProjectDb, scope);
+            EmitTokenSet(Tokens.set(tag, selected.Array()), scope);
         }
-
 
         public void EmitApiTokens()
         {
@@ -124,13 +123,22 @@ namespace Z0
             ProjectDb.Subdir(scope).Clear();
 
             foreach(var g in groups.Keys)
-                EmitTokenSet(Tokens.set(g, groups[g].Array()), ProjectDb, scope);
+                EmitTokenSet(Tokens.set(g, groups[g].Array()), scope);
 
             foreach(var i in individuals)
-                EmitTokens(i,scope, ProjectDb);
+                EmitTokens(i,scope);
         }
 
-        public uint EmitTokens(Type src, string scope, IProjectWs project)
+        public Index<SymInfo> EmitTokens<E>(string scope)
+            where E : unmanaged, Enum
+        {
+            var src = Symbols.syminfo<E>();
+            var dst = ProjectDb.TablePath<SymInfo>(scope, typeof(E).Name);
+            TableEmit(src.View, SymInfo.RenderWidths, dst);
+            return src;
+        }
+
+        public uint EmitTokens(Type src, string scope)
         {
             var name = src.Name;
             if(src.Namespace != "Z0")
@@ -140,11 +148,11 @@ namespace Z0
                 else
                     name = src.Namespace.Remove("Z0.") + "." +  src.Name;
             }
-            var dst = project.TablePath<SymInfo>(scope, name);
-            return TableEmit(Symbols.syminfo(src), SymInfo.RenderWidths, dst);
+            var dst = ProjectDb.TablePath<SymInfo>(scope, name);
+            return TableEmit(Symbols.syminfo(src).View, SymInfo.RenderWidths, dst);
         }
 
-        public uint EmitTokenSet(ITokenSet src, IProjectWs project, string scope)
-            => TableEmit(Symbols.syminfo(src.Types()), SymInfo.RenderWidths, project.TablePath<SymInfo>(scope, src.Name));
+        public uint EmitTokenSet(ITokenSet src, string scope)
+            => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, ProjectDb.TablePath<SymInfo>(scope, src.Name));
     }
 }

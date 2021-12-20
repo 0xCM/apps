@@ -8,6 +8,6 @@ namespace Z0
     {
         [CmdOp("xed/emit/isa")]
         Outcome XedIsa(CmdArgs args)
-            => Xed.EmitIsa(arg(args,0).Value);
+            => Xed.EmitChipForms(arg(args,0).Value);
     }
 }

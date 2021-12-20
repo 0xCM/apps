@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct perm
+    partial struct Perm
     {
         /// <summary>
         /// Defines the identity permutation on 4 symbols
@@ -25,7 +25,7 @@ namespace Z0
         /// <param name="n">The symbol count selector</param>
         [MethodImpl(Inline), Op]
         public static Perm8L identity(N8 n)
-            => perm.assemble(
+            => Perm.assemble(
                 Perm8L.A, Perm8L.B, Perm8L.C, Perm8L.D,
                 Perm8L.E, Perm8L.F, Perm8L.G, Perm8L.H);
 
@@ -35,7 +35,7 @@ namespace Z0
         /// <param name="n">The symbol count selector</param>
         [MethodImpl(Inline), Op]
         public static Perm16L identity(N16 n)
-            => perm.assemble(
+            => Perm.assemble(
                 Perm16L.X0, Perm16L.X1, Perm16L.X2, Perm16L.X3,
                 Perm16L.X4, Perm16L.X5, Perm16L.X6, Perm16L.X7,
                 Perm16L.X8, Perm16L.X9, Perm16L.XA, Perm16L.XB,
@@ -60,16 +60,16 @@ namespace Z0
         /// </summary>
         /// <param name="n">The permutation length</param>
         [MethodImpl(Inline), Op]
-        public static perm identity(int n)
-            => new perm(gcalc.stream(0, n-1));
+        public static Perm identity(int n)
+            => new Perm(gcalc.stream(0, n-1));
 
         /// <summary>
         /// Defines an untyped identity permutation
         /// </summary>
         /// <param name="n">The permutation length</param>
         [MethodImpl(Inline), Op]
-        public static perm identity(uint n)
-            => new perm(gcalc.stream((int)n, (int)n-1));
+        public static Perm identity(uint n)
+            => new Perm(gcalc.stream((int)n, (int)n-1));
 
         /// <summary>
         /// Defines an identity permutation on n symbols

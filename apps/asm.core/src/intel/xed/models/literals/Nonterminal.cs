@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct Nonterminal : ILiteralCover<NonterminalKind>
+        public readonly struct Nonterminal : IEnumCover<NonterminalKind>
         {
             public NonterminalKind Value {get;}
 
@@ -22,7 +22,7 @@ namespace Z0
             }
 
             public string Format()
-                => Value != 0 ? Value.ToString() : EmptyString;
+                => Value != 0 ? Symbols.expr(Value).Format() : EmptyString;
 
             public override string ToString()
                 => Format();

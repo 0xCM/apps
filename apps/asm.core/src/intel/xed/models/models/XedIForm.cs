@@ -11,31 +11,31 @@ namespace Z0
     using static Root;
     using static XedModels;
 
-    public readonly struct XedIForm : IEquatable<XedIForm>, IComparable<XedIForm>
+    public readonly struct XedIForm : IEquatable<XedIForm>, IComparable<XedIForm>, IEnumCover<IFormType>
     {
-        public IFormType Type {get;}
+        public IFormType Value {get;}
 
         [MethodImpl(Inline)]
         public XedIForm(IFormType src)
-            => Type = src;
+            => Value = src;
 
         [MethodImpl(Inline)]
         public bool Equals(XedIForm src)
-            => ((ushort)Type).Equals((ushort)src.Type);
+            => ((ushort)Value).Equals((ushort)src.Value);
 
         [MethodImpl(Inline)]
         public int CompareTo(XedIForm src)
-            => ((ushort)Type).CompareTo((ushort)src.Type);
+            => ((ushort)Value).CompareTo((ushort)src.Value);
 
 
         public override int GetHashCode()
-            =>(int)Type;
+            =>(int)Value;
 
         public override bool Equals(object src)
             => src is XedIForm && Equals(src);
 
         public string Format()
-            => Type.ToString();
+            => Value.ToString();
 
         public override string ToString()
             => Format();
@@ -46,7 +46,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator IFormType(XedIForm src)
-            => src.Type;
+            => src.Value;
     }
-
 }

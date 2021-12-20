@@ -9,6 +9,9 @@ namespace Z0
 
     using static Root;
     using static core;
+    using static XedModels.RegId;
+    using static XedModels.EASZ;
+    using static XedModels.SAMode;
 
     using T = XedModels.DataType;
     using W = DataWidth;
@@ -16,7 +19,84 @@ namespace Z0
     [ApiHost]
     public readonly partial struct XedModels
     {
-        const string xed = nameof(xed);
+        internal const string xed = nameof(xed);
+
+        public static AttributeKind[] attributes(string src)
+        {
+            var parts = src.SplitClean(Chars.Colon).ToReadOnlySpan();
+            var count = parts.Length;
+            if(count == 0)
+                return default;
+
+            var counter = 0u;
+            var dst = span<AttributeKind>(count);
+            for(var i=0; i<count; i++)
+            {
+                var result = DataParser.eparse(skip(parts,i), out seek(dst,i));
+                if(result)
+                {
+                    counter++;
+                }
+                else
+                    return default;
+            }
+            return slice(dst,0,counter).ToArray();
+        }
+
+        public static Outcome parse(TextLine src, out XedFormImport dst)
+        {
+            const char Delimiter = Chars.Pipe;
+
+            dst = default;
+            var result = Tables.cells(src, Delimiter, XedFormImport.FieldCount, out var cells);
+            if(result.Fail)
+                return result;
+            var j=0;
+
+            result = DataParser.parse(skip(cells,j++), out dst.Index);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out IFormType ft);
+            if(result.Fail)
+                return result;
+            else
+                dst.Form = ft;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.Class);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.Category);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.IsaKind);
+            if(result.Fail)
+                return result;
+
+            result = DataParser.eparse(skip(cells,j++), out dst.Extension);
+            if(result.Fail)
+                return result;
+
+            dst.Attributes = XedModels.attributes(skip(cells,j++));
+
+            return result;
+        }
+
+        public static Outcome parse(in XedFormSource src, ushort seq, out XedFormImport dst)
+        {
+            var result = Outcome.Success;
+            dst.Index = seq;
+            result = DataParser.eparse(src.Class, out dst.Class);
+            result = DataParser.eparse(src.Extension, out dst.Extension);
+            result = DataParser.eparse(src.Category, out dst.Category);
+            result = DataParser.eparse(src.Form, out IFormType ft);
+            dst.Form = ft;
+            result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
+            dst.Attributes = Z0.seq.index(Chars.Colon, 0, attributes(src.Attributes));
+            return true;
+        }
 
         /// <summary>
         /// Creates a <see cref='AttributeVector'/> from a <see cref='AttributeKind'> sequence
@@ -55,6 +135,107 @@ namespace Z0
                 T.F64 => W.W64,
                 T.F80 => W.W80,
                 T.B80 => W.W80,
+                _ => 0
+            };
+
+
+        [Op]
+        public static RegId ArAX(EASZ easz)
+            => easz switch
+            {
+                easz16 => AX,
+                easz32 => EAX,
+                easz64 => RAX,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArBX(EASZ easz)
+            => easz switch
+            {
+                easz16 => BX,
+                easz32 => EBX,
+                easz64 => RAX,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArCX(EASZ easz)
+            => easz switch
+            {
+                easz16 => CX,
+                easz32 => ECX,
+                easz64 => RCX,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArDX(EASZ easz)
+            => easz switch
+            {
+                easz16 => DX,
+                easz32 => EDX,
+                easz64 => RDX,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArSI(EASZ easz)
+            => easz switch
+            {
+                easz16 => SI,
+                easz32 => ESI,
+                easz64 => RSI,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArDI(EASZ easz)
+            => easz switch
+            {
+                easz16 => DI,
+                easz32 => EDI,
+                easz64 => RDI,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArSP(EASZ easz)
+            => easz switch
+            {
+                easz16 => SP,
+                easz32 => ESP,
+                easz64 => RSP,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId ArBP(EASZ easz)
+            => easz switch
+            {
+                easz16 => BP,
+                easz32 => EBP,
+                easz64 => RBP,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId SrSP(SAMode easz)
+            => easz switch
+            {
+                smode16 => SP,
+                smode32 => ESP,
+                smode64 => RSP,
+                _ => 0
+            };
+
+        [Op]
+        public static RegId SrBP(SAMode easz)
+            => easz switch
+            {
+                smode16 => BP,
+                smode32 => EBP,
+                smode64 => RBP,
                 _ => 0
             };
     }

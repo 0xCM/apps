@@ -11,7 +11,7 @@ namespace Z0
         [CmdOp(XedCategoryQuery)]
         Outcome QueryCategores(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<XedModels.Category>(), SymInfo.RenderWidths, XedQueryOut(XedCategoryQuery));
+            TableEmit(Symbols.syminfo<XedModels.Category>().View, SymInfo.RenderWidths, XedQueryOut(XedCategoryQuery));
             return true;
         }
     }

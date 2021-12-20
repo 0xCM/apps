@@ -9,7 +9,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class XedDisassemblyParser : AppService<XedDisassemblyParser>
+    public class XedDisasmParser : AppService<XedDisasmParser>
     {
         public Index<XedDisasmBlock> ParseDisasmBlocks(FS.FilePath src)
         {

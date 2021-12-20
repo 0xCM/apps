@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-OperandType-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -11,14 +10,15 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct OperandType : IEnumCover<OperandTypeKind>
+        public readonly struct Register : IEnumCover<RegId>
         {
-            public OperandTypeKind Value {get;}
+            public RegId Value {get;}
 
             [MethodImpl(Inline)]
-            public OperandType(OperandTypeKind src)
+            public Register(RegId src)
             {
                 Value = src;
+                Symbols.expr(src);
             }
 
             public string Format()
@@ -28,15 +28,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandType(EnumCover<OperandTypeKind> src)
-                => new OperandType(src.Value);
+            public static implicit operator Register(RegId src)
+                => new Register(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandType(OperandTypeKind src)
-                => new OperandType(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator OperandTypeKind(OperandType src)
+            public static implicit operator RegId(Register src)
                 => src.Value;
         }
     }

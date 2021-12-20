@@ -11,7 +11,6 @@ namespace Z0
 
     partial class BitVector
     {
-
         /// <summary>
         /// Computes the bitwise complement z:= ~x of a bitvector x
         /// </summary>

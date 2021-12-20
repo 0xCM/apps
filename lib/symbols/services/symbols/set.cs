@@ -25,7 +25,7 @@ namespace Z0
             dst.SymbolKind = src.Tag<SymSourceAttribute>().MapValueOrElse(x => x.SymKind, () => EmptyString);
             for(var i=0; i<count; i++)
             {
-                ref readonly var sec = ref skip(specs,i);
+                ref readonly var sec = ref specs[i];
                 dst.Symbols[i] = sec.Expr;
                 dst.Names[i] = sec.Name;
                 dst.Values[i] = sec.Value;
