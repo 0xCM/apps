@@ -1,58 +1,43 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
+// Source      : xed-OperandElementType-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
     partial struct XedModels
     {
-        [SymSource(xed)]
-        public enum OperandElementType
+        public readonly struct OperandElementType : ILiteralCover<OperandElementTypeKind>
         {
-            INVALID,
+            public OperandElementTypeKind Value {get;}
 
-            B80,
+            [MethodImpl(Inline)]
+            public OperandElementType(OperandElementTypeKind src)
+            {
+                Value = src;
+            }
 
-            BF16,
+            public string Format()
+                => Value != 0 ? Value.ToString() : EmptyString;
 
-            F16,
+            public override string ToString()
+                => Format();
 
-            F32,
+            [MethodImpl(Inline)]
+            public static implicit operator OperandElementType(EnumCover<OperandElementTypeKind> src)
+                => new OperandElementType(src.Value);
 
-            F64,
+            [MethodImpl(Inline)]
+            public static implicit operator OperandElementType(OperandElementTypeKind src)
+                => new OperandElementType(src);
 
-            F80,
-
-            I1,
-
-            I16,
-
-            I32,
-
-            I64,
-
-            I8,
-
-            INT,
-
-            STRUCT,
-
-            U128,
-
-            U16,
-
-            U256,
-
-            U32,
-
-            U64,
-
-            U8,
-
-            UINT,
-
-            VAR,
+            [MethodImpl(Inline)]
+            public static implicit operator OperandElementTypeKind(OperandElementType src)
+                => src.Value;
         }
-
     }
 }

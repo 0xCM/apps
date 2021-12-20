@@ -12,15 +12,15 @@ namespace Z0
 
     using static XedModels;
 
-    public readonly struct XedInstTable
+    public readonly struct XedInstructions
     {
-        Index<InstInfo> _Instructions {get;}
+        Index<InstInfo> _Descriptions {get;}
 
         Index<InstOperand> _Operands {get;}
 
-        public XedInstTable(InstInfo[] entries, InstOperand[] operands)
+        public XedInstructions(InstInfo[] entries, InstOperand[] operands)
         {
-            _Instructions = entries;
+            _Descriptions = entries;
             _Operands = operands;
         }
 
@@ -33,13 +33,15 @@ namespace Z0
         public uint InstCount
         {
             [MethodImpl(Inline)]
-            get => _Instructions.Count;
+            get => _Descriptions.Count;
         }
 
-        public ReadOnlySpan<InstInfo> Instructions
+        public ReadOnlySpan<InstInfo> Descriptions
         {
-            get => _Instructions;
+            [MethodImpl(Inline)]
+            get => _Descriptions;
         }
+
         public ReadOnlySpan<InstOperand> Operands
         {
             [MethodImpl(Inline)]
@@ -48,24 +50,26 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ref readonly InstInfo Instruction(ushort index)
-            => ref _Instructions[index];
+            => ref _Descriptions[index];
 
         [MethodImpl(Inline)]
         public ref readonly InstOperand Operand(uint index)
             => ref _Operands[index];
 
-        public static XedInstTable Empty => new XedInstTable(sys.empty<InstInfo>(), sys.empty<InstOperand>());
+        public static XedInstructions Empty => new XedInstructions(sys.empty<InstInfo>(), sys.empty<InstOperand>());
 
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
         public struct InstOperand
         {
-            public const string TableId = "xed.table.operand";
+            public const string TableId = "xed.instruction.operand";
+
+            public const byte FieldCount = 9;
 
             public ushort InstIndex;
 
-            public byte OperandIndex;
+            public byte OpIndex;
 
-            public OperandKind Kind;
+            public OperandTypeKind Kind;
 
             public OperandVisibility Visibility;
 
@@ -77,13 +81,15 @@ namespace Z0
 
             public Nonterminal NonTerm;
 
-            public RegId Register;
+            public string Register;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,16,16,16,16,16,1};
         }
 
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
         public struct InstInfo
         {
-            public const string TableId = "xed.table.instruction";
+            public const string TableId = "xed.instruction";
 
             public const byte FieldCount = 8;
 
@@ -101,7 +107,7 @@ namespace Z0
 
             public IsaKind Isa;
 
-            public AttributeVector Attributes;
+            public string Attributes;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,48,16,16,16,1};
         }

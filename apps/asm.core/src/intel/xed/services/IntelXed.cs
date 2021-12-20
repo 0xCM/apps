@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static XedModels;
-    using static XedInstTable;
+    using static XedInstructions;
 
     public sealed class IntelXed : AppService<IntelXed>
     {
@@ -79,8 +79,8 @@ namespace Z0.Asm
         public Symbols<Category> Categories()
             => Symbols.index<Category>();
 
-        public Symbols<OperandKind> OperandKinds()
-            => Symbols.index<OperandKind>();
+        public Symbols<OperandTypeKind> OperandKinds()
+            => Symbols.index<OperandTypeKind>();
 
         public Symbols<IFormType> FormTypes()
             => Symbols.index<IFormType>();
@@ -99,18 +99,35 @@ namespace Z0.Asm
 
         bool Verbose {get;} = false;
 
-        public XedInstTable ParseInstTable()
+        public XedInstructions ParseInstructions()
         {
             var src =  XedSources + FS.file("xed-tables", FS.Txt);
             var result = InstTableParser.Parse(src, out var dst);
             if(result.Fail)
             {
                 Error(result.Message);
-                return XedInstTable.Empty;
+                return XedInstructions.Empty;
             }
             else
             {
                 return dst;
+            }
+        }
+
+        public XedInstructions EmitInstructions()
+        {
+            var src =  XedSources + FS.file("xed-tables", FS.Txt);
+            var result = InstTableParser.Parse(src, out var inst);
+            if(result)
+            {
+                TableEmit(inst.Descriptions, XedInstructions.InstInfo.RenderWidths, ProjectDb.TablePath<XedInstructions.InstInfo>("xed"));
+                TableEmit(inst.Operands, XedInstructions.InstOperand.RenderWidths,  ProjectDb.TablePath<XedInstructions.InstOperand>("xed"));
+                return inst;
+            }
+            else
+            {
+                Error(result.Message);
+                return XedInstructions.Empty;
             }
         }
 
@@ -261,7 +278,7 @@ namespace Z0.Asm
                    }
                    else
                    {
-                        Wf.Error(outcome.Message);
+                        Error(outcome.Message);
                         succeeded = false;
                         break;
                    }
@@ -271,7 +288,7 @@ namespace Z0.Asm
             }
 
             if(succeeded)
-                Wf.Ran(flow, Tables.imported(counter, src));
+                Ran(flow, Tables.imported(counter, src).ToString());
 
             return records.ToArray();
         }
@@ -286,7 +303,7 @@ namespace Z0.Asm
             EmitChipMap();
             EmitFormCatalog();
             EmitTokens();
-            EmitFormOperands();
+            EmitInstructions();
         }
 
         public void EmitFormOperands()

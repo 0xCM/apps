@@ -8,7 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static XedModels;
-    using static XedInstTable;
+    using static XedInstructions;
     using static Root;
     using static core;
 
@@ -65,7 +65,7 @@ namespace Z0
 
         EnumParser<EncodingGroup> Groups {get;}
 
-        EnumParser<OperandKind> OperandKinds {get;}
+        EnumParser<OperandTypeKind> OperandKinds {get;}
 
         EnumParser<OperandVisibility> Visibilities {get;}
 
@@ -90,11 +90,11 @@ namespace Z0
 
         EnumParser<IFormType> IFormParser;
 
-        EnumParser<Nonterminal> Nonterminals;
+        EnumParser<NonterminalKind> Nonterminals;
 
-        EnumParser<RegId> Regs;
+        EnumParser<RegClass> Regs;
 
-        EnumParser<OperandElementType> ElementTypes;
+        EnumParser<OperandElementTypeKind> ElementTypes;
 
         public XedInstTableParser()
         {
@@ -172,13 +172,18 @@ namespace Z0
                 if(i > 0)
                 {
                      var attribs = text.right(content, i + AttribMarker.Length);
-                    // dst.Attributes = attribs;
-                    result = Parse(attribs, out dst.Attributes);
+                     dst.Attributes = RP.embrace(ParseAttributes(attribs).Format());
                 }
 
             }
 
             return result;
+        }
+
+        DelimitedIndex<string> ParseAttributes(string src)
+        {
+            var parts = text.index(text.trim(src), Chars.Space) != 0 ? text.split(src,Chars.Space) : array(text.trim(src));
+            return parts.Delimit();
         }
 
         Outcome Parse(string src, out AttributeVector dst)
@@ -215,7 +220,7 @@ namespace Z0
 
             dst.InstIndex = instix;
             var i=0;
-            result = DataParser.parse(skip(parts,i++), out dst.OperandIndex);
+            result = DataParser.parse(skip(parts,i++), out dst.OpIndex);
             if(result.Fail)
                 return result;
 
@@ -235,16 +240,24 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = ElementTypes.Parse(skip(parts,i++), out dst.Type);
-            if(result.Fail)
+            result = ElementTypes.Parse(skip(parts,i++), out var tk);
+            if(result)
+                dst.Type = tk;
+            else
                 return result;
 
             if(count > 6)
             {
                 if(dst.Lookup == LookupKind.REG)
-                    result = Regs.Parse(skip(parts,i++), out dst.Register);
+                {
+                    dst.Register = skip(parts,i++);
+                }
                 else
-                    result = Nonterminals.Parse(skip(parts,i++), out dst.NonTerm);
+                {
+                    result = Nonterminals.Parse(skip(parts,i++), out var nt);
+                    if(result)
+                        dst.NonTerm = nt;
+                }
             }
 
             return result;
@@ -261,7 +274,27 @@ namespace Z0
                 return default;
         }
 
-        public Outcome Parse(FS.FilePath src, out XedInstTable dst)
+        Outcome Validate(XedInstructions src)
+        {
+            var instcount = src.InstCount;
+            var opcount = src.OperandCount;
+            var counter = 0u;
+            var j=0u;
+            for(var i=z16; i<instcount; i++)
+            {
+                ref readonly var inst = ref src.Instruction(i);
+                for(var k=0; k<inst.OpCount && j<opcount; k++,j++)
+                {
+                    ref readonly var op = ref src.Operand(j);
+                    if(op.InstIndex != inst.Index)
+                        return (false, "Mismatch");
+                    counter++;
+                }
+            }
+            return counter == opcount;
+        }
+
+        public Outcome Parse(FS.FilePath src, out XedInstructions dst)
         {
             using var reader = src.Utf8LineReader();
             var result = Outcome.Success;
@@ -311,7 +344,8 @@ namespace Z0
             if(operands.Count != 0)
                 entries.Add(inst);
 
-            dst = new XedInstTable(entries.ToArray(), allops.ToArray());
+            dst = new XedInstructions(entries.ToArray(), allops.ToArray());
+            result = Validate(dst);
             return result;
         }
     }

@@ -1,69 +1,287 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
+// Source      : xed-iclass-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+    using static XedModels.OperandTypeKind;
+
     partial struct XedModels
     {
-        /// <summary>
-        /// datafiles/xed-operand-element-type-enum-base.txt
-        /// </summary>
+        [MethodImpl(Inline), Op]
+        public static bool is_memory_addressing_register(OperandTypeKind kind)
+            => kind == BASE0 ||
+              kind == INDEX ||
+              kind == SEG0  ||
+              kind == BASE1 ||
+              kind == SEG1;
+
+        [MethodImpl(Inline), Op]
+        public static bool is_register(OperandTypeKind kind)
+            => kind >= REG0 && kind <= REG9;
+
+
         [SymSource(xed)]
         public enum OperandTypeKind : byte
         {
-            /// <summary>
-            /// Unspecified/unknown
-            /// </summary>
             INVALID,
 
-            /// <summary>
-            /// Unsigned integer
-            /// </summary>
-            [Symbol("UINT","Unsigned integer")]
-            UINT,
+            AGEN,
 
-            /// <summary>
-            /// Signed integer
-            /// </summary>
-            [Symbol("INT","Signed integer")]
-            INT,
+            AMD3DNOW,
 
-            /// <summary>
-            /// 32b FP single precision
-            /// </summary>
-            [Symbol("SINGLE","32b FP single precision")]
-            SINGLE,
+            ASZ,
 
-            /// <summary>
-            /// 64b FP double precision
-            /// </summary>
-            [Symbol("DOUBLE","64b FP double precision")]
-            DOUBLE,
+            BASE0,
 
-            /// <summary>
-            /// 80b FP x87
-            /// </summary>
-            [Symbol("LONGDOUBLE","80b FP x87")]
-            LONGDOUBLE,
+            BASE1,
 
-            /// <summary>
-            /// 80b decimal BCD
-            /// </summary>
-            [Symbol("LONGBCD","80b decimal BCD")]
-            LONGBCD,
+            BCAST,
 
-            /// <summary>
-            /// a structure of various fields
-            /// </summary>
-            [Symbol("STRUCT","a structure of various fields")]
-            STRUCT,
+            BCRC,
 
-            /// <summary>
-            /// depends on other fields in the instruction
-            /// </summary>
-            [Symbol("VARIABLE","depends on other fields in the instruction")]
-            VARIABLE,
+            BRDISP_WIDTH,
+
+            CET,
+
+            CHIP,
+
+            CLDEMOTE,
+
+            DEFAULT_SEG,
+
+            DF32,
+
+            DF64,
+
+            DISP,
+
+            DISP_WIDTH,
+
+            DUMMY,
+
+            EASZ,
+
+            ELEMENT_SIZE,
+
+            ENCODER_PREFERRED,
+
+            ENCODE_FORCE,
+
+            EOSZ,
+
+            ERROR,
+
+            ESRC,
+
+            FIRST_F2F3,
+
+            HAS_MODRM,
+
+            HAS_SIB,
+
+            HINT,
+
+            ICLASS,
+
+            ILD_F2,
+
+            ILD_F3,
+
+            ILD_SEG,
+
+            IMM0,
+
+            IMM0SIGNED,
+
+            IMM1,
+
+            IMM1_BYTES,
+
+            IMM_WIDTH,
+
+            INDEX,
+
+            LAST_F2F3,
+
+            LLRC,
+
+            LOCK,
+
+            LZCNT,
+
+            MAP,
+
+            MASK,
+
+            MAX_BYTES,
+
+            MEM0,
+
+            MEM1,
+
+            MEM_WIDTH,
+
+            MOD,
+
+            MODE,
+
+            MODEP5,
+
+            MODEP55C,
+
+            MODE_FIRST_PREFIX,
+
+            MODRM_BYTE,
+
+            MPXMODE,
+
+            MUST_USE_EVEX,
+
+            NEEDREX,
+
+            NEED_MEMDISP,
+
+            NEED_SIB,
+
+            NELEM,
+
+            NOMINAL_OPCODE,
+
+            NOREX,
+
+            NO_SCALE_DISP8,
+
+            NPREFIXES,
+
+            NREXES,
+
+            NSEG_PREFIXES,
+
+            OSZ,
+
+            OUTREG,
+
+            OUT_OF_BYTES,
+
+            P4,
+
+            POS_DISP,
+
+            POS_IMM,
+
+            POS_IMM1,
+
+            POS_MODRM,
+
+            POS_NOMINAL_OPCODE,
+
+            POS_SIB,
+
+            PREFIX66,
+
+            PTR,
+
+            REALMODE,
+
+            REG,
+
+            REG0,
+
+            REG1,
+
+            REG2,
+
+            REG3,
+
+            REG4,
+
+            REG5,
+
+            REG6,
+
+            REG7,
+
+            REG8,
+
+            REG9,
+
+            RELBR,
+
+            REP,
+
+            REX,
+
+            REXB,
+
+            REXR,
+
+            REXRR,
+
+            REXW,
+
+            REXX,
+
+            RM,
+
+            ROUNDC,
+
+            SAE,
+
+            SCALE,
+
+            SEG0,
+
+            SEG1,
+
+            SEG_OVD,
+
+            SIBBASE,
+
+            SIBINDEX,
+
+            SIBSCALE,
+
+            SMODE,
+
+            SRM,
+
+            TZCNT,
+
+            UBIT,
+
+            UIMM0,
+
+            UIMM1,
+
+            USING_DEFAULT_SEGMENT0,
+
+            USING_DEFAULT_SEGMENT1,
+
+            VEXDEST210,
+
+            VEXDEST3,
+
+            VEXDEST4,
+
+            VEXVALID,
+
+            VEX_C4,
+
+            VEX_PREFIX,
+
+            VL,
+
+            WBNOINVD,
+
+            ZEROING,
+
+            LAST
         }
     }
 }
