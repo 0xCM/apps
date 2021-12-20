@@ -38,9 +38,8 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline)]
-        public static bit dot<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static bit dot<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => parity(BitVector.and(x,y));
    }
 }

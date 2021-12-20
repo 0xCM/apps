@@ -46,14 +46,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static BitVector64 Extend(this BitVector32 src, N64 n)
             => BitVector.extend(src,n);
-
-        /// <summary>
-        /// Zero extends the source vector
-        /// </summary>
-        /// <param name="src">The source vector</param>
-        /// <param name="n">The target width</param>
-        [MethodImpl(Inline)]
-        public static BitVector128<N128,ulong> Extend(this BitVector64 src, N128 n)
-            => BitVector.extend(src,n);
     }
 }

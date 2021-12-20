@@ -41,8 +41,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> and<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
-            where N : unmanaged, ITypeNat
+        public static BitVector128<T> and<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
                 => gcpu.vand(x.State, y.State);
 
@@ -52,9 +51,8 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> replicate<N,T>(in BitVector128<N,T> src)
+        public static BitVector128<T> replicate<T>(in BitVector128<T> src)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => src.State;
     }
 }

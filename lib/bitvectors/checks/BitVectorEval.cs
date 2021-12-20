@@ -38,8 +38,7 @@ namespace Z0
                 => gmath.eq(x.State, y.State);
 
         [MethodImpl(Inline)]
-        public bool eq<N,T>(BitVector128<N,T> x, BitVector128<N,T> y)
-            where N : unmanaged, ITypeNat
+        public bool eq<T>(BitVector128<T> x, BitVector128<T> y)
             where T : unmanaged
                 => x.Equals(y);
 

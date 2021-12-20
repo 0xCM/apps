@@ -40,9 +40,8 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         /// <param name="y">The right bitvector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> nand<N,T>(BitVector128<N,T> x, BitVector128<N,T> y)
+        public static BitVector128<T> nand<T>(BitVector128<T> x, BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vnand(x.State, y.State);
    }
 }

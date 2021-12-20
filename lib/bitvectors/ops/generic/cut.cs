@@ -36,8 +36,7 @@ namespace Z0
         /// <param name="x">The source bitvector</param>
         /// <param name="s">The shift amount</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> cut<N,T>(in BitVector128<N,T> x)
-            where N : unmanaged, ITypeNat
+        public static BitVector128<T> cut<T>(in BitVector128<T> x)
             where T : unmanaged
                 => gcpu.vzerohi(x.State);
     }

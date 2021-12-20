@@ -119,7 +119,7 @@ namespace Z0
         /// <param name="source">The random source</param>
         /// <param name="n">The primal bitvector selector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N128,ulong> BitVector(this ISource source, N128 n)
+        public static BitVector128<ulong> BitVector(this ISource source, N128 n)
             => source.CpuVector<ulong>(n);
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Z0
         /// <param name="source">The random source</param>
         /// <typeparam name="T">The underlying primal type</typeparam>
         [MethodImpl(Inline)]
-        public static ScalarBits<T> BitVector<T>(this ISource source)
+        public static ScalarBits<T> ScalarBits<T>(this ISource source)
             where T : unmanaged
                 => source.Next<T>();
 
@@ -138,7 +138,7 @@ namespace Z0
         /// <param name="source">The random source</param>
         /// <typeparam name="T">The underlying primal type</typeparam>
         [MethodImpl(Inline)]
-        public static ScalarBits<T> BitVector<T>(this ISource source, int wmax)
+        public static ScalarBits<T> ScalarBits<T>(this ISource source, int wmax)
             where T : unmanaged
         {
             var v = source.Next<T>();
@@ -154,7 +154,7 @@ namespace Z0
         /// <typeparam name="N">The bit width type</typeparam>
         /// <typeparam name="T">The underlying primal type</typeparam>
         [MethodImpl(Inline)]
-        public static ScalarBits<N,T> BitVector<N,T>(this IBoundSource source, N n = default, T t = default)
+        public static ScalarBits<N,T> ScalarBits<N,T>(this IBoundSource source, N n = default, T t = default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
         {
@@ -164,14 +164,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> BitVector<N,T>(this ISource source, N128 block, N n = default, T t = default)
+        public static BitVector128<T> BitVector<T>(this ISource source, N128 w)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
-        {
-            var w = Z0.BitVector128<N,T>.MaxWidth;
-            var v = source.CpuVector<T>(w);
-            var clamp = nat8u(w) - NatCalc.min(w, n);
-            return gcpu.vsrlx(v,(byte)clamp);
-        }
+                => source.CpuVector<T>(w128);
     }
 }

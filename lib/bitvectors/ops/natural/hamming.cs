@@ -30,9 +30,8 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static uint hamming<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static uint hamming<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => BitVector.pop(BitVector.xor(x,y));
     }
 }

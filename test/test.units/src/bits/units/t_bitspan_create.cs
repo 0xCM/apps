@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-    using static core;
-
     public class t_bitspan_create : UnitTest<t_bitspan_create>
     {
         public void bitspan_2x8()
@@ -364,7 +361,7 @@ namespace Z0
             var length = (int)n.NatValue;
             for(var i=0; i< RepCount; i++)
             {
-                var x = Random.BitVector<N,T>();
+                var x = Random.ScalarBits<N,T>();
                 var y = x.ToBitSpan32();
                 Claim.eq(Typed.nat32i<N>(), x.Width);
                 Claim.eq(x.Width, y.Length);

@@ -33,8 +33,7 @@ namespace Z0
             where T : unmanaged
                 => Claims.eq(x, y, caller, file, line);
 
-        void eq<N,T>(BitVector128<N,T> x, BitVector128<N,T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
-            where N : unmanaged, ITypeNat
+        void eq<T>(BitVector128<T> x, BitVector128<T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             where T : unmanaged
                 => Claims.eq(x, y, caller, file, line);
 

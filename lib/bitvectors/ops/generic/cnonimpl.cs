@@ -41,9 +41,8 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> cnonimpl<N,T>(BitVector128<N,T> x, BitVector128<N,T> y)
+        public static BitVector128<T> cnonimpl<T>(BitVector128<T> x, BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vcnonimpl(x.State, y.State);
    }
 }

@@ -45,8 +45,7 @@ namespace Z0
                 => Invariant.yea(gmath.eq(x.State, y.State), $"{x} != {y}", caller, file, line);
 
         [MethodImpl(Inline)]
-        public static void eq<N,T>(BitVector128<N,T> x, BitVector128<N,T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
-            where N : unmanaged, ITypeNat
+        public static void eq<T>(BitVector128<T> x, BitVector128<T> y, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
             where T : unmanaged
                 => Invariant.yea(x.Equals(y), $"{x} != {y}", caller, file, line);
 

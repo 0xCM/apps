@@ -33,9 +33,8 @@ namespace Z0
         /// Counts the number of trailing zeros
         /// </summary>
         [MethodImpl(Inline)]
-        public static T ntz<N,T>(in BitVector128<N,T> x)
+        public static T ntz<T>(in BitVector128<T> x)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
         {
             var lo = x.Lo;
             if(lo != 0)

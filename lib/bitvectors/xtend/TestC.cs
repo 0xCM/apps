@@ -28,12 +28,6 @@ namespace Z0
             where N : unmanaged, ITypeNat
                 => BitVector.testc(src);
 
-        [MethodImpl(Inline)]
-        public static bit TestC<N,T>(this BitVector128<N,T> src)
-            where T : unmanaged
-            where N : unmanaged, ITypeNat
-                => BitVector.testc(src);
-
         /// <summary>
         /// Returns true of all bits are enabled, false otherwise
         /// </summary>

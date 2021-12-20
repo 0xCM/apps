@@ -53,7 +53,7 @@ namespace Z0
         /// <param name="g">The source grid</param>
         /// <typeparam name="T">The grid cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N128,T> bitvector<M,N,T>(BitGrid128<M,N,T> g)
+        public static BitVector128<T> bitvector<M,N,T>(BitGrid128<M,N,T> g)
             where T : unmanaged
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat

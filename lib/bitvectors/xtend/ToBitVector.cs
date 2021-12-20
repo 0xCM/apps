@@ -123,20 +123,19 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
-        public static ScalarBits<T> ToBitVector<T>(this BitString src)
+        public static ScalarBits<T> ToScalarBits<T>(this BitString src)
             where T : unmanaged
                 => BitVector.load<T>(src);
 
         [MethodImpl(Inline)]
-        public static ScalarBits<N,T> ToBitVector<N,T>(this BitString src, N n = default, T t =default)
+        public static ScalarBits<N,T> ToScalarBits<N,T>(this BitString src, N n = default, T t =default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
                 => BitVector.natural<N,T>(src);
 
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> ToBitVector<N,T>(this BitString src, N128 n, T t = default)
+        public static BitVector128<T> ToBitVector<T>(this BitString src, W128 n)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => SpanBlocks.safeload(n,src.Pack().Recover<byte, T>()).LoadVector();
 
         /// <summary>

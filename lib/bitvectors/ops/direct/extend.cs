@@ -53,7 +53,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <param name="n">The target width</param>
         [MethodImpl(Inline), Op]
-        public static BitVector128<N128,ulong> extend(BitVector64 src, W128 n)
-            => new BitVector128<N128, ulong>(cpu.vscalar(n,src.State));
+        public static BitVector128<ulong> extend(BitVector64 src)
+            => new BitVector128<ulong>(cpu.vscalar(w128,src.State));
     }
 }

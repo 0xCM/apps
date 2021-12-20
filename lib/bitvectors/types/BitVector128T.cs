@@ -18,8 +18,7 @@ namespace Z0
     /// <typeparam name="T">The cell type</typeparam>
     /// <typeparam name="N">The bit-width type</typeparam>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
-    public struct BitVector128<N,T>
-        where N : unmanaged, ITypeNat
+    public struct BitVector128<T>
         where T : unmanaged
     {
         Vector128<T> Data;
@@ -47,7 +46,7 @@ namespace Z0
         public int Width
         {
             [MethodImpl(Inline)]
-            get => (int)TypeNats.value<N>();
+            get => 128;
         }
 
         /// <summary>
@@ -87,20 +86,23 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public readonly bool Equals(in BitVector128<N,T> y)
+        public readonly bool Equals(in BitVector128<T> y)
             => BitVector.eq(this,y);
 
         public readonly override bool Equals(object obj)
-            => obj is BitVector128<N,T> x && Equals(x);
+            => obj is BitVector128<T> x && Equals(x);
 
         public readonly override int GetHashCode()
             => Data.GetHashCode();
 
         public override string ToString()
-            => string.Empty;
+            => Format();
+
+        public string Format()
+            => BitVector.bitstring(this);
 
         [MethodImpl(Inline)]
-        public BitVector128<N,U> As<U>()
+        public BitVector128<U> As<U>()
             where U : unmanaged
                 => Data.As<T,U>();
 
@@ -109,15 +111,15 @@ namespace Z0
         /// </summary>
         /// <param name="src">The scalar value</param>
         [MethodImpl(Inline)]
-        public static implicit operator BitVector128<N,T>(Vector128<T> src)
-            => new BitVector128<N,T>(src);
+        public static implicit operator BitVector128<T>(Vector128<T> src)
+            => new BitVector128<T>(src);
 
         /// <summary>
         /// Implicitly convers a bitvector to its scalar representation
         /// </summary>
         /// <param name="src">The scalar value</param>
         [MethodImpl(Inline)]
-        public static implicit operator Vector128<T>(BitVector128<N,T> src)
+        public static implicit operator Vector128<T>(BitVector128<T> src)
             => src.Data;
 
         /// <summary>
@@ -126,7 +128,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator &(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static BitVector128<T> operator &(in BitVector128<T> x, in BitVector128<T> y)
             => BitVector.and(x,y);
 
         /// <summary>
@@ -135,7 +137,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator |(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static BitVector128<T> operator |(in BitVector128<T> x, in BitVector128<T> y)
             => BitVector.or(x,y);
 
         /// <summary>
@@ -144,7 +146,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator ^(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static BitVector128<T> operator ^(in BitVector128<T> x, in BitVector128<T> y)
             => BitVector.xor(x,y);
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace Z0
         /// <param name="x">The left operand</param>
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
-        public static bit operator %(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static bit operator %(in BitVector128<T> x, in BitVector128<T> y)
             => BitVector.dot(x,y);
 
         /// <summary>
@@ -161,7 +163,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator ~(in BitVector128<N,T> src)
+        public static BitVector128<T> operator ~(in BitVector128<T> src)
             => BitVector.not(src);
 
         /// <summary>
@@ -169,7 +171,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator -(in BitVector128<N,T> src)
+        public static BitVector128<T> operator -(in BitVector128<T> src)
             => BitVector.negate(src);
 
         /// <summary>
@@ -177,7 +179,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator <<(in BitVector128<N,T> x, int s)
+        public static BitVector128<T> operator <<(in BitVector128<T> x, int s)
             => BitVector.sll(x,(byte)s);
 
         /// <summary>
@@ -185,7 +187,7 @@ namespace Z0
         /// </summary>
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> operator >>(in BitVector128<N,T> x, int s)
+        public static BitVector128<T> operator >>(in BitVector128<T> x, int s)
             => BitVector.srl(x,(byte)s);
 
         /// <summary>
@@ -193,7 +195,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator true(in BitVector128<N,T> src)
+        public static bool operator true(in BitVector128<T> src)
             => src.NonEmpty;
 
         /// <summary>
@@ -201,7 +203,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
-        public static bool operator false(in BitVector128<N,T> src)
+        public static bool operator false(in BitVector128<T> src)
             => src.Empty;
 
         /// <summary>
@@ -210,7 +212,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator ==(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static bit operator ==(in BitVector128<T> x, in BitVector128<T> y)
             => BitVector.eq(x,y);
 
         /// <summary>
@@ -219,7 +221,7 @@ namespace Z0
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
-        public static bit operator !=(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static bit operator !=(in BitVector128<T> x, in BitVector128<T> y)
             => !BitVector.eq(x,y);
 
         public static N128 MaxWidth => default;

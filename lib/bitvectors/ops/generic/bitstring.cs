@@ -29,6 +29,7 @@ namespace Z0
             where N : unmanaged, ITypeNat
                 => BitStrings.scalar<T>(x.State, storage, x.Width);
 
+
         /// <summary>
         /// Converts the vector to a bitstring representation
         /// </summary>
@@ -36,9 +37,8 @@ namespace Z0
         /// <typeparam name="N">The bitvector width</typeparam>
         /// <typeparam name="T">The storage cell type</typeparam>
         [MethodImpl(Inline)]
-        public static BitString bitstring<N,T>(in BitVector128<N,T> x)
+        public static BitString bitstring<T>(in BitVector128<T> x)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => BitStrings.load(x.State, x.Width);
 
         /// <summary>

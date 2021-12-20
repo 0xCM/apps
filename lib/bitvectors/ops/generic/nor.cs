@@ -41,9 +41,8 @@ namespace Z0
         /// <param name="y">The right bitvector</param>
         /// <typeparam name="T">The primal bitvector type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> nor<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static BitVector128<T> nor<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vnor(x.State,y.State);
     }
 }

@@ -34,7 +34,7 @@ namespace Z0
             var width = width<T>();
 
             var bs0 = BitStrings.scalar(Limits.maxval(t));
-            var bv0 = bs0.ToBitVector<T>();
+            var bv0 = bs0.ToScalarBits<T>();
 
             Claim.eq(width, bs0.PopCount());
             Claim.eq(width, bs0.Length);

@@ -41,8 +41,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> or<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
-            where N : unmanaged, ITypeNat
+        public static BitVector128<T> or<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
                 => gcpu.vor(x.State,y.State);
     }

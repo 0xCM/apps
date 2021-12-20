@@ -18,7 +18,6 @@ namespace Z0
 
         Index<InstOperand> _Operands {get;}
 
-
         public XedInstTable(InstInfo[] entries, InstOperand[] operands)
         {
             _Instructions = entries;
@@ -64,28 +63,20 @@ namespace Z0
 
             public ushort InstIndex;
 
-            //1
             public byte OperandIndex;
 
-            //1
             public OperandKind Kind;
 
-            //1
             public OperandVisibility Visibility;
 
-            //1
             public OperandAction Action;
 
-            //1
             public LookupKind Lookup;
 
-            //1
             public OperandElementType Type;
 
-            //2
             public Nonterminal NonTerm;
 
-            //2
             public RegId Register;
         }
 
@@ -94,7 +85,11 @@ namespace Z0
         {
             public const string TableId = "xed.table.instruction";
 
+            public const byte FieldCount = 8;
+
             public ushort Index;
+
+            public byte OpCount;
 
             public IClass Class;
 
@@ -108,7 +103,7 @@ namespace Z0
 
             public AttributeVector Attributes;
 
-            public byte OperandCount;
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,48,16,16,16,1};
         }
     }
 }

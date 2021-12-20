@@ -29,9 +29,8 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static uint pop<N,T>(in BitVector128<N,T> src)
+        public static uint pop<T>(in BitVector128<T> src)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gbits.pop(src.State.AsUInt64().GetElement(0)) + gbits.pop(src.State.AsUInt64().GetElement(1));
     }
 }

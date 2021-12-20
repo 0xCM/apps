@@ -23,8 +23,8 @@ namespace Z0
             {
                 for(var rep=0; rep<RepCount; rep++)
                 {
-                    var x = Random.BitVector<T>();
-                    var y = Random.BitVector<T>();
+                    var x = Random.ScalarBits<T>();
+                    var y = Random.ScalarBits<T>();
                     var result = f.Invoke(x,y);
                     var expect = f.Invoke(x.State,y.State);
                     Claim.eq(expect,result.State);

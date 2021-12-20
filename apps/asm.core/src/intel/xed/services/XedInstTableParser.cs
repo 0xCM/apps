@@ -133,10 +133,11 @@ namespace Z0
             var content = text.trim(src.Content);
 
             var i = text.index(content, AttribMarker);
-            if(i > 0)
+
+            var parts = i > 0 ? text.split(text.left(content, i), Chars.Space) : text.split(content,Chars.Space);
+            var count = parts.Length;
+            if(count > 0)
             {
-                var parts = text.split(text.left(content, i), Chars.Space);
-                var count = parts.Length;
                 if(count < 5)
                 {
                     result = (false, string.Format("At least 5 components not found in: '{0}'", src));
@@ -168,21 +169,27 @@ namespace Z0
                 if(result.Fail)
                     return result;
 
-                var attribs = text.split(text.right(content, i + AttribMarker.Length), Chars.Space);
-                result = Parse(attribs, out dst.Attributes);
+                if(i > 0)
+                {
+                     var attribs = text.right(content, i + AttribMarker.Length);
+                    // dst.Attributes = attribs;
+                    result = Parse(attribs, out dst.Attributes);
+                }
+
             }
 
             return result;
         }
 
-        Outcome Parse(ReadOnlySpan<string> src, out AttributeVector dst)
+        Outcome Parse(string src, out AttributeVector dst)
         {
+            var parts = text.index(text.trim(src),Chars.Space) != 0 ? text.split(src,Chars.Space) : array(text.trim(src));
             var result = Outcome.Success;
-            var count = src.Length;
+            var count = parts.Length;
             dst = AttributeVector.Empty;
             for(var i=0; i<count; i++)
             {
-                ref readonly var name = ref skip(src,i);
+                ref readonly var name = ref skip(parts,i);
                 result = Attributes.Parse(name, out var kind);
                 if(result.Fail)
                     break;
@@ -293,7 +300,7 @@ namespace Z0
                         break;
 
                     case LineKind.OpCount:
-                        result = byte.TryParse(line.Content.Trim(), out inst.OperandCount);
+                        result = byte.TryParse(line.Content.Trim(), out inst.OpCount);
                         break;
                 }
 

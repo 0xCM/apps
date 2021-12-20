@@ -27,18 +27,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The value used to initialize the bitvector</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N128,T> init<T>(Vector128<T> src)
+        public static BitVector128<T> init<T>(Vector128<T> src)
             where T : unmanaged
-                => new BitVector128<N128,T>(src);
-
-        /// <summary>
-        /// Initializes a 128-bit bitvector with effective width determined by the parametric natural type that must not exeed 128
-        /// </summary>
-        /// <param name="src">The value used to initialize the bitvector</param>
-        [MethodImpl(Inline)]
-        public static BitVector128<N,T> init<N,T>(Vector128<T> src, N w = default)
-            where T : unmanaged
-            where N : unmanaged, ITypeNat
-                => new BitVector128<N,T>(src);
+                => new BitVector128<T>(src);
     }
 }

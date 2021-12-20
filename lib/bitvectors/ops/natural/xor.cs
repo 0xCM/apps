@@ -30,8 +30,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> xor<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
-            where N : unmanaged, ITypeNat
+        public static BitVector128<T> xor<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
                 => gcpu.vxor(x.State,y.State);
     }

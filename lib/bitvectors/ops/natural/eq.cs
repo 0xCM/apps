@@ -18,9 +18,8 @@ namespace Z0
                 => gmath.eq(x.State, y.State);
 
         [MethodImpl(Inline)]
-        public static bit eq<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static bit eq<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vsame(x.State, y.State);
     }
 }

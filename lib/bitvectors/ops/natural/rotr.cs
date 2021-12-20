@@ -30,9 +30,9 @@ namespace Z0
         /// <param name="count">The rotation magnitude</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> rotr<N,T>(in BitVector128<N,T> src, byte count)
+        public static BitVector128<T> rotr<T>(in BitVector128<T> src, byte count)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vrotrx(src.State, count);
+
     }
 }

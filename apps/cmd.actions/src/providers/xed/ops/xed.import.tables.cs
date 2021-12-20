@@ -17,7 +17,7 @@ namespace Z0
             for(var i=z16; i<instcount; i++)
             {
                 ref readonly var inst = ref src.Instruction(i);
-                for(var k=0; k<inst.OperandCount && j<opcount; k++,j++)
+                for(var k=0; k<inst.OpCount && j<opcount; k++,j++)
                 {
                     ref readonly var op = ref src.Operand(j);
                     if(op.InstIndex != inst.Index)
@@ -40,19 +40,21 @@ namespace Z0
             var count = table.InstCount;
             var opcount = table.OperandCount;
             var counter = 0u;
+
+            var instFormatter = Tables.formatter<XedInstTable.InstInfo>(XedInstTable.InstInfo.RenderWidths);
+            var opFormatter = Tables.formatter<XedInstTable.InstOperand>();
+
             var j=0u;
             for(var i=z16; i<count; i++)
             {
                 ref readonly var inst = ref table.Instruction(i);
-                Write(string.Format("{0:D4} {1:D2} {2}", inst.Index, inst.OperandCount, inst.Form));
-                for(var k=0; k<inst.OperandCount && j<opcount; k++,j++)
+                Write(instFormatter.Format(inst));
+                //Write(string.Format("{0:D4} {1:D2} {2}", inst.Index, inst.OperandCount, inst.Form));
+
+                for(var k=0; k<inst.OpCount && j<opcount; k++,j++)
                 {
                     ref readonly var op = ref table.Operand(j);
-                    if(op.InstIndex != inst.Index)
-                    {
-                        return (false, "Mismatch");
-                    }
-                    Write(string.Format("  {0:D2} {1}", op.OperandIndex, op.Kind));
+                    //Write(string.Format("  {0:D2} {1}", op.OperandIndex, op.Kind));
                 }
             }
 

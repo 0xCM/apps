@@ -364,12 +364,12 @@ namespace Z0
             var storage = new byte[nat32i<N>()];
             for(var i=0; i< RepCount; i++)
             {
-                var x = Random.BitVector<N,T>();
+                var x = Random.ScalarBits<N,T>();
                 var y = x.ToBitString(storage);
                 Claim.eq(nat32i<N>(), x.Width);
                 Claim.eq(x.Width, y.Length);
 
-                var z = y.ToBitVector<N,T>();
+                var z = y.ToScalarBits<N,T>();
                 Claim.eq(x,z);
             }
         }

@@ -52,12 +52,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref ScalarBits<ulong> Scalar(W64 w, uint offset)
             => ref first(recover<ScalarBits<ulong>>(Segment(offset)));
-
-        [MethodImpl(Inline)]
-        public ref BitVector128<N16,byte> Vector128(uint offset)
-        {
-            ref var lead = ref first(Segment(offset));
-            return ref @as<byte,BitVector128<N16,byte>>(lead);
-        }
     }
 }

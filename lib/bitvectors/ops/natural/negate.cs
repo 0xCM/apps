@@ -28,9 +28,8 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> negate<N,T>(in BitVector128<N,T> x)
+        public static BitVector128<T> negate<T>(in BitVector128<T> x)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vnegate(x.State);
     }
 }

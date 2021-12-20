@@ -23,9 +23,8 @@ namespace Z0
                 => BitBlocks.load(src,len);
 
         [MethodImpl(Inline)]
-        public static BitBlock<N,T> ToBitBlock<N,T>(this BitVector128<N,T> src, N n = default)
-            where N : unmanaged, ITypeNat
+        public static BitBlock<N128,T> ToBitBlock<T>(this BitVector128<T> src)
             where T : unmanaged
-                => BitBlocks.load(src.State.ToSpan(),n);
+                => BitBlocks.load(src.State.ToSpan(),n128);
     }
 }

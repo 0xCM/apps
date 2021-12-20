@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Root;
     using static BitVector;
 
     /// <summary>
@@ -11,9 +12,6 @@ namespace Z0
     /// </summary>
     public class t_bv_dot : t_bits<t_bv_dot>
     {
-        public void bvdot_n64x128x64()
-            => bvdot_check_n128<N63,ulong>();
-
         public void bvdot_gcheck()
         {
             bvdot_gcheck<byte>();
@@ -234,24 +232,6 @@ namespace Z0
             }
         }
 
-        void bvdot_check_n128<N,T>(N n = default, T t = default)
-            where N : unmanaged, ITypeNat
-            where T : unmanaged
-        {
-            for(var i=0; i< RepCount; i++)
-            {
-                var x = Random.BitVector(n128, n, t);
-                var y = Random.BitVector(n128,n, t);
-                ClaimNumeric.lteq(x.ToBitString().Nlz(), x.Width);
-
-                var a = x % y;
-                var xc = x.ToBitBlock();
-                var yc = y.ToBitBlock();
-                var b = xc % yc;
-                ClaimNumeric.eq(a,b);
-            }
-        }
-
         /// <summary>
         /// Verifies the natural bitvector dot product operation
         /// </summary>
@@ -269,8 +249,8 @@ namespace Z0
             {
                 for(var i=0; i<RepCount; i++)
                 {
-                    var x = Random.BitVector<N,T>();
-                    var y = Random.BitVector<N,T>();
+                    var x = Random.ScalarBits<N,T>();
+                    var y = Random.ScalarBits<N,T>();
                     bit a = x % y;
                     var b = BitVector.modprod(x,y);
                     Claim.eq(a,b);
@@ -293,8 +273,8 @@ namespace Z0
             {
                 for(var i=0; i<RepCount; i++)
                 {
-                    var x = Random.BitVector<T>();
-                    var y = Random.BitVector<T>();
+                    var x = Random.ScalarBits<T>();
+                    var y = Random.ScalarBits<T>();
                     var actual = f.Invoke(x,y);
                     var expect = BitVector.modprod(x,y);
                     Claim.require(actual == expect);

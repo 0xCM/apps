@@ -21,9 +21,8 @@ namespace Z0
                 => gmath.eq(gmath.and(Limits.maxval<T>(), src.State), Limits.maxval<T>());
 
         [MethodImpl(Inline),TestC]
-        public static bit testc<N,T>(BitVector128<N,T> src)
+        public static bit testc<T>(BitVector128<T> src)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vtestc(src.State);
     }
 }

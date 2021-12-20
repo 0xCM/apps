@@ -28,9 +28,8 @@ namespace Z0
         /// Computes the parity of the source vector
         /// </summary>
         [MethodImpl(Inline)]
-        public static bit parity<N,T>(in BitVector128<N,T> src)
+        public static bit parity<T>(in BitVector128<T> src)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => math.odd(pop(src));
     }
 }

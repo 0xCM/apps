@@ -70,7 +70,7 @@ namespace Z0
         protected void bvrank_gcheck<T>()
             where T : unmanaged
         {
-            var x = Random.BitVector<T>();
+            var x = Random.ScalarBits<T>();
             var pos = Random.Next(1,(uint)width<T>() - 2);
 
             var actual = gbits.rank(x.State,(int)pos);

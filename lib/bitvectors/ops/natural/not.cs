@@ -28,8 +28,7 @@ namespace Z0
         /// <param name="x">The source vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> not<N,T>(in BitVector128<N,T> x)
-            where N : unmanaged,ITypeNat
+        public static BitVector128<T> not<T>(in BitVector128<T> x)
             where T : unmanaged
                 => gcpu.vnot(x.State);
     }

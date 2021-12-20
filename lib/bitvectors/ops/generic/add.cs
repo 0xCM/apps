@@ -31,9 +31,8 @@ namespace Z0
         /// <param name="y">The second integer, represented via paired hi/lo components</param>
         /// <remarks>Follows https://github.com/chfast/intx/include/intx/int128.hpp</remarks>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> add<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y)
+        public static BitVector128<T> add<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
         {
             var sum = vadd(v64u(x.State), v64u(y.State));
             bit carry = x.Lo > cpu.vcell(sum,0);

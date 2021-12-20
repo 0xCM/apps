@@ -30,9 +30,8 @@ namespace Z0
         /// <param name="y">The right vector</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> select<N,T>(in BitVector128<N,T> x, in BitVector128<N,T> y, in BitVector128<N,T> z)
+        public static BitVector128<T> select<T>(in BitVector128<T> x, in BitVector128<T> y, in BitVector128<T> z)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vselect(x.State, y.State, z.State);
     }
 }

@@ -28,8 +28,7 @@ namespace Z0
         /// <param name="x">The source bitvector</param>
         /// <param name="offset">The shift amount</param>
         [MethodImpl(Inline)]
-        public static BitVector128<N,T> srl<N,T>(in BitVector128<N,T> x, byte offset)
-            where N : unmanaged, ITypeNat
+        public static BitVector128<T> srl<T>(in BitVector128<T> x, byte offset)
             where T : unmanaged
                 => gcpu.vsrlx(x.State, offset);
     }

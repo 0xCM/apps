@@ -29,21 +29,8 @@ namespace Z0
         /// <param name="count">The rotation magnitude</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline)]
-        public static ScalarBits<N,T> rotl<N,T>(ScalarBits<N,T> src, byte count)
+        public static BitVector128<T> rotl<T>(in BitVector128<T> src, byte count)
             where T : unmanaged
-            where N : unmanaged, ITypeNat
-                => gbits.rotl(src.State, count, src.Width);
-
-        /// <summary>
-        /// Rotates source bits leftward
-        /// </summary>
-        /// <param name="src">The source bitvector</param>
-        /// <param name="count">The rotation magnitude</param>
-        /// <typeparam name="T">The primal type</typeparam>
-        [MethodImpl(Inline)]
-        public static BitVector128<N,T> rotl<N,T>(in BitVector128<N,T> src, byte count)
-            where T : unmanaged
-            where N : unmanaged, ITypeNat
                 => gcpu.vrotlx(src.State, count);
     }
 }

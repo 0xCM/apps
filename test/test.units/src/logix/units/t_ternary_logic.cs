@@ -62,9 +62,9 @@ namespace Z0
             for(var i=0; i<RepCount; i++)
             {
                 var width = width<T>();
-                var a = Random.BitVector<T>();
-                var b = Random.BitVector<T>();
-                var c = Random.BitVector<T>();
+                var a = Random.ScalarBits<T>();
+                var b = Random.ScalarBits<T>();
+                var c = Random.ScalarBits<T>();
                 ScalarBits<T> x = NumericLogixOps.select(a.State, b.State, c.State);
                 for(var j=0; j<x.Width; j++)
                     Claim.eq(x[j], BitLogix.select(a[j],b[j],c[j]));
@@ -134,9 +134,9 @@ namespace Z0
             var width = width<T>();
             for(var i=0; i<RepCount; i++)
             {
-                var a = Random.BitVector<T>();
-                var b = Random.BitVector<T>();
-                var c = Random.BitVector<T>();
+                var a = Random.ScalarBits<T>();
+                var b = Random.ScalarBits<T>();
+                var c = Random.ScalarBits<T>();
                 var u = BitVector.alloc<T>();
 
                 for(var j=0; j<width; j++)

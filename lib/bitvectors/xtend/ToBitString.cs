@@ -15,8 +15,7 @@ namespace Z0
         /// Converts the vector to a bitstring
         /// </summary>
         [MethodImpl(Inline)]
-        public static BitString ToBitString<N,T>(this BitVector128<N,T> src)
-            where N : unmanaged, ITypeNat
+        public static BitString ToBitString<T>(this BitVector128<T> src)
             where T : unmanaged
                 => BitStrings.load(src.State, src.Width);
 
