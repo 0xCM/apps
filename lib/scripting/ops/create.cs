@@ -39,6 +39,7 @@ namespace Z0
         public static ScriptProcess create(CmdLine cmd, CmdVars vars, Receiver<string> status, Receiver<string> error)
         {
             var options = new ScriptProcessOptions();
+
             include(vars, options);
             options.WithReceivers(status, error);
             return new ScriptProcess(cmd, options);
@@ -66,11 +67,21 @@ namespace Z0
 
         static void include(CmdVars src, ScriptProcessOptions dst)
         {
-            foreach(var v in src)
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
-                if(v.IsNonEmpty)
+                ref readonly var v = ref src[i];
+                if(v.IsNonEmpty && v.Name.IsNonEmpty)
+                {
                     dst.AddEnvironmentVariable(v.Name,v.Value);
+                }
             }
+
+            // foreach(var v in src)
+            // {
+            //     if(v.IsNonEmpty)
+            //         dst.AddEnvironmentVariable(v.Name,v.Value);
+            // }
         }
     }
 }

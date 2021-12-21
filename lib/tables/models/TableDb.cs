@@ -19,7 +19,6 @@ namespace Z0
             _Schemas = schemas.Map(s => (s.Id, s)).ToConstLookup();
         }
 
-
         public bool Schema(TableId table, out TableSchema schema)
             => _Schemas.Find(table, out schema);
 

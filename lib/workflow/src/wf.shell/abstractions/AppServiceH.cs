@@ -36,6 +36,8 @@ namespace Z0
             return service;
         }
 
+        public Identifier HostName {get;}
+
         ConcurrentDictionary<Type,object> ServiceCache {get;}
             = new();
 
@@ -81,8 +83,6 @@ namespace Z0
         public virtual Type ContractType
             => typeof(H);
 
-        public Identifier HostName {get;}
-
         protected Type HostType
             => typeof(H);
 
@@ -90,6 +90,9 @@ namespace Z0
 
         protected OmniScript OmniScript
             => Service(Wf.OmniScript);
+
+        protected ProjectScripts ProjectScripts
+            => Service(Wf.ProjectScripts);
 
         public void Init(IWfRuntime wf)
         {
@@ -400,6 +403,53 @@ namespace Z0
 
         protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
             => CmdResponse.parse(src);
+
+        [CmdOp("env/logs")]
+        protected Outcome EnvLogs(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var ext = FS.ext("env") + FS.Log;
+            var paths = Ws.Tools().AdminFiles(ext);
+            var formatter = Tables.formatter<EnvVarSet>();
+            foreach(var path in paths)
+            {
+                result = EnvVarSet.parse(path, out var dst);
+                if(result.Fail)
+                    return result;
+                Write(formatter.Format(dst, RecordFormatKind.KeyValuePairs));
+            }
+
+            return result;
+        }
+
+        [CmdOp("env/vars")]
+        protected Outcome ShowEnvVars(CmdArgs args)
+        {
+            var vars = Z0.Env.vars();
+            iter(vars, v => Write(v));
+            return true;
+        }
+
+        [CmdOp("env/tools")]
+        protected Outcome ShowToolEnv(CmdArgs args)
+        {
+            LoadToolEnv(out var settings);
+            iter(settings, s => Write(s));
+            return true;
+        }
+
+        [CmdOp("tools/settings")]
+        protected Outcome ShowToolSettings(CmdArgs args)
+        {
+            ToolId tool = arg(args,0).Value;
+            var src = Tools.Logs(tool) + FS.file("config", FS.Log);
+            if(!src.Exists)
+                return (false,FS.missing(src));
+
+            var settings = AppSettings.Load(src);
+            iter(settings, setting => Write(setting));
+            return true;
+        }
 
         protected virtual void OnInit()
         {

@@ -22,7 +22,6 @@ namespace Z0
 
         protected IProjectSet ProjectWs;
 
-        protected ProjectScripts ProjectScripts;
 
         protected AppCmdService()
         {
@@ -37,7 +36,6 @@ namespace Z0
             Dispatcher = CmdActionDispatcher.discover(CmdProviders(Wf), DispatchFallback);
             ProjectWs = Ws.Projects();
             Witness = Loggers.worker(controller().Id(), ProjectDb.Home(), typeof(T).Name);
-            ProjectScripts = Wf.ProjectScripts();
         }
 
         public T With(IToolCmdShell shell)
@@ -75,53 +73,6 @@ namespace Z0
             var settings = args.Count == 0 ? db.Globals() : db.Settings(arg(args,0));
             iter(settings, s => Write(s.Format()));
             return result;
-        }
-
-        [CmdOp(".env-logs")]
-        protected Outcome EnvLogs(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var ext = FS.ext("env") + FS.Log;
-            var paths = Ws.Tools().AdminFiles(ext);
-            var formatter = Tables.formatter<EnvVarSet>();
-            foreach(var path in paths)
-            {
-                result = EnvVarSet.parse(path, out var dst);
-                if(result.Fail)
-                    return result;
-                Write(formatter.Format(dst, RecordFormatKind.KeyValuePairs));
-            }
-
-            return result;
-        }
-
-        [CmdOp("env/vars")]
-        protected Outcome ShowEnvVars(CmdArgs args)
-        {
-            var vars = Z0.Env.vars();
-            iter(vars, v => Write(v));
-            return true;
-        }
-
-        [CmdOp("tools/env")]
-        protected Outcome ShowToolEnv(CmdArgs args)
-        {
-            LoadToolEnv(out var settings);
-            iter(settings, s => Write(s));
-            return true;
-        }
-
-        [CmdOp("tools/settings")]
-        protected Outcome ShowToolSettings(CmdArgs args)
-        {
-            ToolId tool = arg(args,0).Value;
-            var src = Tools.Logs(tool) + FS.file("config", FS.Log);
-            if(!src.Exists)
-                return (false,FS.missing(src));
-
-            var settings = AppSettings.Load(src);
-            iter(settings, setting => Write(setting));
-            return true;
         }
 
         [CmdOp("tools/profiles")]

@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public class CmdVar
+    public struct CmdVar
     {
         public Name Name {get;}
 
@@ -29,37 +29,37 @@ namespace Z0
             _Value = value;
         }
 
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => text.nonempty(Name);
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => text.empty(Name);
-        }
-
         public string Value
         {
             [MethodImpl(Inline)]
-            get => _Value;
+            get => _Value ?? EmptyString;
         }
 
         [MethodImpl(Inline)]
         public CmdVar Set(string value)
         {
-            _Value = value;
+            _Value = value ?? EmptyString;
             return this;
         }
 
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.nonempty(Value);
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.empty(Value);
+        }
+
         public bool Evaluated
-            => IsNonEmpty && (text.index(_Value,'%') < 0 && text.index(_Value,'$') < 0);
+            => IsNonEmpty && (text.index(Value,'%') < 0 && text.index(Value,'$') < 0);
 
         [MethodImpl(Inline)]
         public string Format()
-            => _Value;
+            => Value;
 
         public override string ToString()
             => Format();
@@ -75,5 +75,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator CmdVar(Pair<string> src)
             => new CmdVar(src.Left, src.Right);
+
+        public static CmdVar Empty => new CmdVar(EmptyString);
     }
 }

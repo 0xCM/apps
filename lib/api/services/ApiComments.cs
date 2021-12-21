@@ -20,7 +20,7 @@ namespace Z0
             foreach(var part in src.Keys)
             {
                 var id = part.FileName.WithoutExtension.Name;
-                var path = ProjectDb.TablePath<ApiComment>("api", "comments", id, FS.Csv);
+                var path = ProjectDb.TablePath<ApiComment>("api/comments", id);
                 var flow = EmittingTable<ApiComment>(path);
                 var docs = new Dictionary<string, ApiComment>();
                 dst[part] = docs;
@@ -68,7 +68,7 @@ namespace Z0
                 {
                     dst[xmlfile] = parsed;
                     var id = string.Format("{0}.{1}", "api.comments", xmlfile.FileName.WithoutExtension.Name);
-                    var path = ProjectDb.FilePath("api", "comments", id, FS.Xml);
+                    var path = ProjectDb.FilePath("api/comments", id, FS.Xml);
                     var emitting = EmittingFile(path);
                     using var writer = path.Utf8Writer();
                     writer.WriteLine(data);

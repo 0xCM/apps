@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    partial struct Tables
+    partial class ProjectCmdProvider
     {
-        [Free]
-        public delegate Outcome RowParser<T>(string src, out T dst)
-            where T : struct;
+        [CmdOp("project/collect")]
+        Outcome Collect(CmdArgs args)
+        {
+            ProjectCollector.Collect(Project());
+            return true;
+        }
     }
 }

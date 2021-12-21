@@ -2,12 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    using static LlvmNames;
+    using Asm;
+
+    using static llvm.LlvmNames;
     using static core;
 
-    public class LlvmProjectCollector : AppService<LlvmProjectCollector>
+    public class ProjectCollector : AppService<ProjectCollector>
     {
         llvm.LlvmNmSvc Nm => Service(Wf.LlvmNm);
 
@@ -15,48 +17,23 @@ namespace Z0.llvm
 
         llvm.LlvmMcSvc Mc => Service(Wf.LlvmMc);
 
-        XedDisasmSvc XedDiasm => Service(Wf.XedDisasm);
+        XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
 
         public void Collect()
         {
             iter(Projects.ProjectNames, name => Collect(Ws.Project(name)));
         }
 
-        public void Collect(IProjectWs ws)
+        public void Collect(IProjectWs project)
         {
-            var result = Outcome.Success;
-            result = ObjDump.Consolidate(ws);
-            if(result.Fail)
-                Error(result.Message);
+            ObjDump.Consolidate(project);
 
-            result = Nm.Collect(ws);
-            if(result.Fail)
-                Error(result.Message);
+            Nm.Collect(project);
+            CollectObjHex(project);
+            Mc.Collect(project);
 
-            result = CollectObjHex(ws);
-            if(result.Fail)
-                Error(result.Message);
+            XedDisasm.Collect(project);
 
-            Mc.Collect(ws);
-        }
-
-        public FS.Files XedDisasmFiles(IProjectWs ws)
-            => ws.OutFiles(FS.ext("xed.txt"));
-
-        Outcome CollectXedDisam(IProjectWs ws)
-        {
-            var result = Outcome.Success;
-            var ext = FS.ext("xed.txt");
-            var paths = ws.OutFiles(FS.ext("xed.txt"));
-            var count = paths.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var src = ref paths[i];
-                var blocks = XedDiasm.ParseBlocks(src);
-                var id = text.remove(src.FileName.Format(), ".xed.txt");
-            }
-
-            return result;
         }
 
         Outcome CollectObjHex(IProjectWs ws)
@@ -68,7 +45,6 @@ namespace Z0.llvm
             {
                 ref readonly var src = ref skip(paths,i);
                 var id = src.FileName.WithoutExtension.Format();
-                //var dst = ws.OutDir(WsAtoms.objhex) + FS.file(id,FileTypes.ext(FileKind.HexDat));
                 var dst = ProjectDb.Subdir("projects/" + ws.Project.Format() + ".objhex") + FS.file(id,FileTypes.ext(FileKind.HexDat));
                 using var writer = dst.AsciWriter();
                 var data = src.ReadBytes();

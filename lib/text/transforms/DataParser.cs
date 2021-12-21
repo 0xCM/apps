@@ -17,11 +17,12 @@ namespace Z0
     {
         public static MsgPattern<Name,string> ParseFailure => "Parse failure {0}:{1}";
 
-        public static Outcome parse(TextLine src, out SymLiteralRow dst)
-            => SP.parse(src, out dst);
+        // public static Outcome parse(TextLine src, out SymLiteralRow dst)
+        //     => SP.parse(src, out dst);
 
-        public static Outcome parse(TextLine src, out SymInfo dst)
-            => SP.parse(src, out dst);
+
+        // public static Outcome parse(TextLine src, out SymInfo dst)
+        //     => SP.parse(src, out dst);
 
         public static Outcome parse(string src, out LineInterval<Identifier> dst)
             => LineInterval.parse(src, out dst);

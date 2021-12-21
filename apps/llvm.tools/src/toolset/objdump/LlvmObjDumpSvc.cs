@@ -113,7 +113,6 @@ namespace Z0.llvm
         public Outcome Consolidate(IProjectWs ws)
         {
             var src = ws.OutFiles(FileKind.ObjAsm).View;
-            //var dst = ws.Table<ObjDumpRow>(ws.Project.Format());
             var dst = ProjectDb.TablePath<ObjDumpRow>("projects", ws.Project.Format());
             var result = Outcome.Success;
             var count = src.Length;

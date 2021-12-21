@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System;
     using System.Runtime.InteropServices;
@@ -12,7 +12,8 @@ namespace Z0.llvm
 
     public readonly struct RecordFieldParser
     {
-        public static Outcome parse(in TextLine src, out RecordField dst)
+        [Parser]
+        public static Outcome parse(string src, out RecordField dst)
         {
             var result = Outcome.Success;
             dst = default;
@@ -27,6 +28,9 @@ namespace Z0.llvm
             dst.Value = skip(parts,3);
             return result;
         }
+
+        public static Outcome parse(in TextLine src, out RecordField dst)
+            => parse(src.Content, out dst);
 
         public static Index<RecordField> parse(ReadOnlySpan<TextLine> src, LineMap<Identifier> map)
         {

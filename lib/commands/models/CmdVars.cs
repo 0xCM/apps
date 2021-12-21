@@ -16,6 +16,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public CmdVars(CmdVar[] src)
         {
+
             Data = src;
         }
 

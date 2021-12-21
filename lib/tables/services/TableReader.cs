@@ -10,14 +10,7 @@ namespace Z0
 
     using static Root;
 
-
-    public interface ITableReader<T>
-        where T : struct
-    {
-        Outcome ReadRow(out T dst);
-    }
-
-    public class TableReader<T> : IDisposable, ITableReader<T>
+    public class TableReader<T> : IDisposable
         where T : struct
     {
         readonly StreamReader Stream;
@@ -48,7 +41,7 @@ namespace Z0
 
         public bool Complete => Stream.EndOfStream;
 
-        Outcome DefaultParser(TextLine src, out T dst)
+        Outcome DefaultParser(string src, out T dst)
         {
             dst = default;
             return false;
@@ -71,7 +64,7 @@ namespace Z0
         public Outcome ReadRow(out T dst)
         {
             if(ReadLine(out var line))
-                return Parser(line, out dst);
+                return Parser(line.Content, out dst);
             else
             {
                 dst = default;

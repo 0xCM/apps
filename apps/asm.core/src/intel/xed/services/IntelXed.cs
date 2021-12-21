@@ -27,6 +27,8 @@ namespace Z0.Asm
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
+        XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
+
         public Symbols<IClass> Classes()
             => Symbols.index<IClass>();
 

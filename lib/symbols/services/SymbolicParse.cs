@@ -15,6 +15,7 @@ namespace Z0
     [ApiHost]
     public readonly struct SymbolicParse
     {
+        [Parser]
         public static Outcome parse(string src, out SymLiteralRow dst)
         {
             var outcome = Outcome.Success;
@@ -41,7 +42,7 @@ namespace Z0
             return outcome;
         }
 
-        [Parser]
+
         public static Outcome parse(TextLine src, out SymLiteralRow dst)
             => parse(src.Content, out dst);
 

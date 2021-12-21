@@ -129,11 +129,11 @@ namespace Z0
         public ReadOnlySpan<SymInfo> LoadTokenSpecs(string name)
         {
             var src = Ws.Tables().TablePath<SymInfo>("tokens", name.ToLower());
-            using var reader = src.TableReader<SymInfo>(DataParser.parse);
+            using var reader = src.TableReader<SymInfo>(SymbolicParse.parse);
             var header = reader.Header.Split(Chars.Pipe);
             if(header.Length != SymInfo.FieldCount)
             {
-                Wf.Error(AppMsg.FieldCountMismatch.Format(SymInfo.FieldCount, header.Length));
+                Error(AppMsg.FieldCountMismatch.Format(SymInfo.FieldCount, header.Length));
                 return Index<SymInfo>.Empty;
             }
             var dst = list<SymInfo>();
@@ -142,7 +142,7 @@ namespace Z0
                 var outcome = reader.ReadRow(out var row);
                 if(!outcome)
                 {
-                    Wf.Error(outcome.Message);
+                    Error(outcome.Message);
                     break;
                 }
                 dst.Add(row);
@@ -153,7 +153,7 @@ namespace Z0
 
         public ReadOnlySpan<SymLiteralRow> LoadLiterals(FS.FilePath src)
         {
-            using var reader = src.TableReader<SymLiteralRow>(DataParser.parse);
+            using var reader = src.TableReader<SymLiteralRow>(SymbolicParse.parse);
             var header = reader.Header.Split(Chars.Tab);
             if(header.Length != SymLiteralRow.FieldCount)
             {

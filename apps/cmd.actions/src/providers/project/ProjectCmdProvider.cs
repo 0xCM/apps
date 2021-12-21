@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Asm;
+    using llvm;
 
     using static core;
 
@@ -15,13 +16,19 @@ namespace Z0
             _Files = FS.Files.Empty;
         }
 
-        [CmdOp("projects/open")]
+        [CmdOp("open")]
         Outcome OpenProject(CmdArgs args)
         {
             var result = Outcome.Success;
             Project(Ws.Project(arg(args,0).Value));
             return result;
         }
+
+        XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
+
+        ProjectCollector ProjectCollector => Service(Wf.ProjectCollector);
+
+        LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
 
         FS.Files _Files;
 

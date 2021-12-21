@@ -20,11 +20,18 @@ namespace Z0.llvm
 
         }
 
-        public void Build(IProjectWs ws)
+        public void Build(IProjectWs project)
         {
             var result = Outcome.Success;
             var ll = FS.ext("ll");
-            var src = ws.Subdir("src/ll").Files(false,FS.ext("ll"));
+            var dir = project.Subdir("src/ll");
+            if(!dir.Exists)
+            {
+                Error(string.Format("The project directory '{0}' does not exist", dir));
+                return;
+            }
+
+            var src = dir.Files(false, FS.ext("ll"));
             var specs = isets(src);
             var count = specs.Count;
             for(var i=0; i<count; i++)
@@ -32,15 +39,31 @@ namespace Z0.llvm
                 ref readonly var spec = ref specs[i];
                 var isets = spec.Right;
                 var path = spec.Left;
+                if(isets.Length == 0)
+                {
+                    Error(string.Format("No instruction sets specified for {0}", path));
+                    break;
+                }
+
                 var id = path.FileName.WithoutExtension.Format();
                 for(var j=0; j<isets.Length; j++)
                 {
                     ref readonly var iset = ref isets[j];
-                    var script = ws.Script(string.Format("llc-build-{0}", iset));
+                    var script = project.Script(string.Format("llc-build-{0}", iset));
                     if(script.Exists)
                     {
                         var vars = Cmd.vars(("SrcId",id));
-                        OmniScript.Run(script, vars, false, out var response);
+                        result = OmniScript.Run(script, vars, false, out var response);
+                        if(result.Fail)
+                        {
+                            Error(result.Message);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Error(FS.missing(script));
+                        break;
                     }
                 }
             }
@@ -63,7 +86,7 @@ namespace Z0.llvm
                     var content = line.Content.Trim();
                     if(text.index(content, "; iset") >= 0)
                     {
-                        var k1 = text.index(content,Chars.Eq);
+                        var k1 = text.index(content, Chars.Eq);
                         if(k1 >= 0)
                         {
                             var isets= text.right(content,k1).Split(Chars.Plus).Select(x => x.Trim());

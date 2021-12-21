@@ -14,6 +14,20 @@ namespace Z0
 
     public class XedDisasmSvc : AppService<XedDisasmSvc>
     {
+        public FS.Files DisasmFiles(IProjectWs ws)
+            => ws.OutFiles(FS.ext("xed.txt"));
+
+        public Index<AsmStatementEncoding> Collect(IProjectWs project)
+        {
+            var result = Outcome.Success;
+            var paths = DisasmFiles(project);
+            var records = ParseEncodings(paths);
+            var count = paths.Length;
+            var dst = ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Project), FS.Csv);
+            TableEmit(records.View, AsmStatementEncoding.RenderWidths, dst);
+            return records;
+        }
+
         public Index<AsmStatementEncoding> ParseEncodings(ReadOnlySpan<FS.FilePath> src)
         {
             var dst = list<AsmStatementEncoding>();
@@ -153,7 +167,6 @@ namespace Z0
             return true;
         }
 
-
         const string XDIS = "XDIS ";
 
         static Outcome ParseXedOffset(string src, out Address32 dst)
@@ -189,7 +202,6 @@ namespace Z0
                     if(parts.Length >=3)
                     {
                         var count = HexParser.parse(parts[2], buffer);
-                        // var count = Hex.digits(parts[2],buffer);
                         if(count)
                         {
                             dst = slice(buffer,0,count).ToArray();

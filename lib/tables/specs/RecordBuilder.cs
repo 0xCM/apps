@@ -108,7 +108,6 @@ namespace Z0
             var mb = module(assname);
             for(var i=0u; i<count; i++)
                 seek(dst,i) = build(mb, skip(src,i));
-
             return buffer;
         }
 

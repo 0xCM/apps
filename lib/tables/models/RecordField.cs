@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System;
     using System.Runtime.InteropServices;
@@ -22,12 +22,22 @@ namespace Z0.llvm
         /// </summary>
         public Identifier RecordName;
 
+        /// <summary>
+        /// The field data type
+        /// </summary>
         public string DataType;
 
+        /// <summary>
+        /// The field name
+        /// </summary>
         public string Name;
 
+        /// <summary>
+        /// The field value
+        /// </summary>
         public string Value;
 
+        [MethodImpl(Inline)]
         public RecordField(Identifier record, string type, string name, string value)
         {
             RecordName = record;
