@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum CpuidBit : ushort
         {
-            None,
+            INVALID,
 
             ADOXADCX,
 

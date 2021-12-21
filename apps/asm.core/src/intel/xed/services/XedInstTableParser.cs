@@ -122,18 +122,16 @@ namespace Z0
         {
             const string AttribMarker = "ATTRIBUTES:";
             var result = Outcome.Success;
+            var content = text.trim(src.Content);
 
             dst = default;
 
-            var digits = Digits(src);
+            var digits = Digits(content);
             result = ushort.TryParse(digits, out dst.Index);
             if(result.Fail)
                 return result;
 
-            var content = text.trim(src.Content);
-
             var i = text.index(content, AttribMarker);
-
             var parts = i > 0 ? text.split(text.left(content, i), Chars.Space) : text.split(content,Chars.Space);
             var count = parts.Length;
             if(count > 0)
@@ -264,11 +262,10 @@ namespace Z0
             return result;
         }
 
-        ReadOnlySpan<char> Digits(in TextLine src)
+        ReadOnlySpan<char> Digits(string src)
         {
-            ref readonly var content = ref src.Content;
             var dst = DigitBuffer();
-            var count = SQ.digits(base10,content,dst);
+            var count = SQ.digits(base10,src,dst);
             if(count > 0)
                 return slice(dst,0,count);
             else

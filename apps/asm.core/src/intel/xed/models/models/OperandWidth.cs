@@ -11,14 +11,14 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct OperandWidth
+        public readonly struct OperandWidth : IEnumCover<OperandWidthType>
         {
-            public OperandWidthType Kind {get;}
+            public OperandWidthType Value {get;}
 
             [MethodImpl(Inline)]
             public OperandWidth(OperandWidthType kind)
             {
-                Kind = kind;
+                Value = kind;
             }
 
             [MethodImpl(Inline)]

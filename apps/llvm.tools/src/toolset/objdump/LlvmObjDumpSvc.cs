@@ -106,7 +106,7 @@ namespace Z0.llvm
 
         public Index<ObjDumpRow> Consolidated(ProjectId project)
         {
-            var src = Ws.Project(project).Table<ObjDumpRow>(project.Format());
+            var src = Ws.Project(project).TablePath<ObjDumpRow>(project.Format());
             return Consolidated(src);
         }
 

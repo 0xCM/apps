@@ -4,12 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class ProjectCmdProvider
     {
-        [CmdOp("projects/collect")]
-        Outcome CollectAll(CmdArgs args)
+        [CmdOp("runtime/memory")]
+        Outcome MapMemory(CmdArgs args)
         {
-            ProjectCollector.Collect();
+            var dst = ProjectDb.LogTable<ProcessMemoryRegion>();
+            TableEmit(ImageMemory.regions().View, dst);
             return true;
         }
     }

@@ -14,7 +14,7 @@ namespace Z0
     using api = CharBlocks;
     using B = CharBlock9;
 
-    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)StorageSize)]
+    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("charblock<n:9,t:c16>", BlockKind.Char16)]
     public struct CharBlock9 : ICharBlock<B>
     {
         /// <summary>
@@ -25,7 +25,7 @@ namespace Z0
         /// <summary>
         /// The size of the block, in bytes
         /// </summary>
-        public const uint StorageSize = CharCount*2;
+        public const uint Size = CharCount*2;
 
         CharBlock8 A;
 

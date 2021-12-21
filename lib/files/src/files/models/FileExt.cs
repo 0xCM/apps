@@ -11,6 +11,7 @@ namespace Z0
 
     partial struct FS
     {
+        [DataType("ext", ObjectKind.FileExt)]
         public readonly struct FileExt : IFsEntry<FileExt>, IComparable<FileExt>
         {
             public PathPart Name {get;}

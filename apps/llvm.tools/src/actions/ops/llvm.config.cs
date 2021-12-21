@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    partial class LlvmCmd
+    partial class LlvmCmdProvider
     {
-        LlvmConfigSvc LlvmConfig => Service(Wf.LlvmConfig);
-
         [CmdOp("llvm/config")]
         Outcome CollectConfig(CmdArgs args)
         {

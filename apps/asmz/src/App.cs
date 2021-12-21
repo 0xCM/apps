@@ -76,14 +76,6 @@ namespace Z0.Asm
             Wf.ApiJit().JitCatalog();
         }
 
-        void MapMemory()
-        {
-            var dst = Db.IndexTable<ProcessMemoryRegion>();
-            var flow = Wf.EmittingTable<ProcessMemoryRegion>(dst);
-            var segments = ImageMemory.regions();
-            Tables.emit(segments.View, dst);
-            Wf.EmittedTable(flow, segments.Count);
-        }
 
         void CaptureSelf()
         {

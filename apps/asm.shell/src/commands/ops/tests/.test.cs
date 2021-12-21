@@ -30,6 +30,15 @@ namespace Z0.Asm
 
         }
 
+        [CmdOp("test/bv128")]
+        Outcome TestBv128(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            //var bv = BitVector.init()
+
+            return result;
+        }
+
         [CmdOp(".test-native-cells")]
         unsafe Outcome TestNativeCells(CmdArgs args)
         {

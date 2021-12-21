@@ -13,7 +13,7 @@ namespace Z0
         [SymSource(xed)]
         public enum EFlag : byte
         {
-            None,
+            INVALID,
 
             [Symbol("of", "overflow flag")]
             of,

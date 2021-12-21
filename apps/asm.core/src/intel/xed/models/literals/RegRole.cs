@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum RegRole : byte
         {
-            None,
+            INVALID,
 
             [Symbol("NORMAL", "Register is a normal register")]
             NORMAL,

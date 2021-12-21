@@ -14,7 +14,7 @@ namespace Z0
     using api = CharBlocks;
     using B = CharBlock7;
 
-    [StructLayout(LayoutKind.Sequential, Pack=2)]
+    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("charblock<n:7,t:c16>", BlockKind.Char16)]
     public struct CharBlock7 : ICharBlock<B>
     {
         public static N7 N => default;

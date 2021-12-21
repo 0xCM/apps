@@ -13,7 +13,7 @@ namespace Z0
         [SymSource(xed)]
         public enum OperandWidthType : byte
         {
-            None,
+            INVALID,
 
             [Symbol("asz", "Varies with effective address width and may be one of [2 | 4 | 8]")]
             ASZ,

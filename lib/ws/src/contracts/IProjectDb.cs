@@ -12,6 +12,9 @@ namespace Z0
         FS.FolderPath IProjectWs.Home()
             => Root;
 
+        FS.FolderPath IProjectWs.Logs()
+            => Home() + FS.folder("logs");
+
         FS.FolderPath Api()
             => Home() + FS.folder("api");
 

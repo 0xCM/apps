@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum ChipCode : byte
         {
-            None,
+            INVALID,
 
             I86,
 

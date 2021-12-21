@@ -10,7 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum AttributeKind : byte
         {
-            None,
+            INVALID,
 
             AMDONLY,
 

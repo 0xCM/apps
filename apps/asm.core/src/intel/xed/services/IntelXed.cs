@@ -343,7 +343,7 @@ namespace Z0.Asm
         {
             dst = default;
             var flow = Running(string.Format("Parsing {0}", src.ToUri()));
-            var chip = ChipCode.None;
+            var chip = ChipCode.INVALID;
             var chips = dict<ChipCode,ChipIsaKinds>();
             using var reader = src.LineReader(TextEncodingKind.Asci);
             while(reader.Next(out var line))

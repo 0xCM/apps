@@ -15,7 +15,7 @@ namespace Z0
         [SymSource(xed), Flags]
         public enum PointerWidth
         {
-            None = 0,
+            INVALID = 0,
 
             [Symbol("b")]
             Byte = 1,

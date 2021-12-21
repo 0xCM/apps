@@ -15,6 +15,8 @@ namespace Z0
 
         public @string Syntax {get;}
 
+        public bool Parametric {get;}
+
         public object Kind {get;}
 
         public BitWidth ContentWidth {get;}
@@ -22,10 +24,11 @@ namespace Z0
         public BitWidth StorageWidth {get;}
 
         [MethodImpl(Inline)]
-        public ApiDataType(Identifier name, @string syntax, object kind, BitWidth content, BitWidth storage)
+        public ApiDataType(Identifier name, @string syntax, bool parametric, object kind, BitWidth content, BitWidth storage)
         {
             Name = name;
             Syntax = syntax;
+            Parametric = parametric;
             Kind = kind;
             ContentWidth = content;
             StorageWidth = storage;

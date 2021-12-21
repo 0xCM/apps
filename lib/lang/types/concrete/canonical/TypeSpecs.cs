@@ -41,7 +41,11 @@ namespace Z0
 
         internal const string BitsN = "bits<n:{0},t:{1}>";
 
-        internal const string Kind = "kind<n:{0}>";
+        internal const string Kind = "kind<k:{0}>";
+
+        internal const string CharBlock = "charblock<n:{0},t:{1}>";
+
+        internal const string ByteBlock = "byteblock<n:{0}>";
 
         /// <summary>
         /// Defines a signed integer type of specified bit-width
@@ -125,6 +129,22 @@ namespace Z0
         /// <param name="t">The character type</param>
         [TypeFactory(Snt)]
         public static TypeSpec s(uint n, ICharType t) => string.Format(Snt, t.Format());
+
+        /// <summary>
+        /// Defines a character block specification
+        /// </summary>
+        /// <param name="n">The number of characters in the block</param>
+        /// <param name="t">The character type</param>
+        [TypeFactory(CharBlock)]
+        public static TypeSpec charblock(uint n, ICharType t) => string.Format(CharBlock, n, t.Format());
+
+        /// <summary>
+        /// Defines a byte block specification
+        /// </summary>
+        /// <param name="n">The number of characters in the block</param>
+        /// <param name="t">The character type</param>
+        [TypeFactory(ByteBlock)]
+        public static TypeSpec byteblock(uint n) => string.Format(ByteBlock, n);
 
         /// <summary>
         /// Defines a sequence of bits of length bounded by a parametric type

@@ -48,24 +48,8 @@ namespace Z0
             where T : struct
                 => Subdir(scope) + TableFile<T>(suffix);
 
-        // FS.FilePath TablePath<T>(string scope, FS.FileExt ext)
-        //     where T : struct
-        //         => Subdir(scope) + FS.file(string.Format("{0}.{1}", TableId<T>(), scope), ext);
-
-        // FS.FilePath TablePath<T>(string scope, string id, FS.FileExt ext)
-        //     where T : struct
-        //         => Subdir(scope) + FS.file(string.Format("{0}.{1}.{2}", TableId<T>(), scope, id), ext);
-
-        // FS.FilePath TablePath<T>(string scope, string subscope, string id, FS.FileExt ext)
-        //     where T : struct
-        //         => Subdir(scope) + FS.folder(subscope) + FS.file(string.Format("{0}.{1}", TableId<T>(), id), ext);
-
-
         FS.FilePath FilePath(string scope, string suffix, FS.FileExt ext)
             => Subdir(scope) +  FS.file(suffix, ext);
-
-        // FS.FilePath FilePath(string scope, string subscope, string id, FS.FileExt ext)
-        //     => Subdir(scope) + FS.folder(subscope) + FS.file(id, ext);
 
         FS.FolderPath Out()
             => Home() + FS.folder(output);
@@ -93,13 +77,17 @@ namespace Z0
             where T : struct
                 => TablesOut() + FS.file(string.Format("{0}.{1}", subject, Z0.TableId.identify<T>().Format()), FS.Csv);
 
-        FS.FilePath Table<T>()
+        FS.FilePath LogTable<T>()
             where T : struct
-                => Tables() + FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
+                => Logs() +FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
 
-        FS.FilePath Table<T>(string subject)
-            where T : struct
-                => Tables() + FS.file(string.Format("{0}.{1}", subject, Z0.TableId.identify<T>().Format()), FS.Csv);
+        // FS.FilePath Table<T>()
+        //     where T : struct
+        //         => Tables() + FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
+
+        // FS.FilePath Table<T>(string subject)
+        //     where T : struct
+        //         => Tables() + FS.file(string.Format("{0}.{1}", subject, Z0.TableId.identify<T>().Format()), FS.Csv);
 
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);

@@ -11,6 +11,7 @@ namespace Z0
 
     partial struct FS
     {
+        [DataType("drive", ObjectKind.Drive)]
         public readonly struct Drive : IFsEntry<Drive>
         {
             public DriveLetter Name {get;}

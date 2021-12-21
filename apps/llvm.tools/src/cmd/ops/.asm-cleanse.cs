@@ -9,7 +9,7 @@ namespace Z0.llvm
 
     partial class LlvmCmd
     {
-        [CmdOp(".clense-asm")]
+        [CmdOp("llvm/asm/cleanse")]
         Outcome CleanseAsm(CmdArgs args)
         {
             var result = Outcome.Success;
