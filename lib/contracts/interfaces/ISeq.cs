@@ -9,22 +9,22 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ITypedSeq<T> : IMeasured
+    public interface ISeq<T> : IMeasured
     {
-        ReadOnlySpan<T> View {get;}
+        ReadOnlySpan<T> Elements {get;}
 
         uint ICounted.Count
-            => (uint)View.Length;
+            => (uint)Elements.Length;
 
         int IMeasured.Length
-            => View.Length;
+            => Elements.Length;
 
         bool INullity.IsEmpty
-            => View.Length == 0;
+            => Elements.Length == 0;
     }
 
     [Free]
-    public interface ITypedSeq<N,T> : ITypedSeq<T>
+    public interface ISeq<N,T> : ISeq<T>
         where N : unmanaged, ITypeNat
     {
         uint ICounted.Count

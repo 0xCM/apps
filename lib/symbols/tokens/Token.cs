@@ -14,19 +14,19 @@ namespace Z0
     {
         public readonly SymKey Key;
 
-        public readonly Label Type;
+        public readonly Identifier Type;
 
-        public readonly Label Name;
+        public readonly Identifier Name;
 
-        public readonly Label Expr;
+        public readonly SymExpr Expr;
 
         public readonly SymVal Value;
 
         [MethodImpl(Inline)]
-        public Token(uint key, Label @class, Label name, Label expr, SymVal value)
+        public Token(SymKey key, Identifier type, Identifier name, SymExpr expr, SymVal value)
         {
             Key = key;
-            Type = @class;
+            Type = type;
             Name = name;
             Expr = expr;
             Value = value;

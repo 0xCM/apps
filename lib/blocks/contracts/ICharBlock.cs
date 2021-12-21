@@ -8,8 +8,8 @@ namespace Z0
 
     using static core;
 
-    public interface IChar16Block<T> : ITextual, IComparable<T>, IEquatable<T>, IStorageBlock<T>, ICellBlock<char>, IHashed
-        where T : unmanaged, IChar16Block<T>
+    public interface ICharBlock<T> : ITextual, IComparable<T>, IEquatable<T>, IStorageBlock<T>, ICellBlock<char>, IHashed, INullity
+        where T : unmanaged, ICharBlock<T>
     {
         BlockKind IStorageBlock.Kind
             => BlockKind.Char16;
@@ -21,6 +21,12 @@ namespace Z0
         int Length {get;}
 
         uint Capacity {get;}
+
+        bool INullity.IsEmpty
+            => Length == 0;
+
+        bool INullity.IsNonEmpty
+            => Length != 0;
 
         uint IHashed.Hash
             => alg.ghash.calc(String);

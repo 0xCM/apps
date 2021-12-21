@@ -16,12 +16,8 @@ namespace Z0
             => Services.AsmRowBuilder.create(wf);
 
         [Op]
-        public static AsmCsvService AsmCsv(this IWfRuntime wf)
-            => Services.AsmCsvService.create(wf);
-
-        [Op]
-        public static ApiHostAsmEmitter AsmHostEmitter(this IWfRuntime wf)
-            => Services.ApiHostAsmEmitter.create(wf);
+        public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
+            => Services.HostAsmEmitter.create(wf);
 
         [Op]
         public static ApiResPackUnpacker ResPackUnpacker(this IWfRuntime wf)
@@ -44,8 +40,8 @@ namespace Z0
             => Services.AsmDecoder.create(wf);
 
         [Op]
-        public static AsmStatementPipe AsmStatementPipe(this IWfRuntime wf)
-            => Services.AsmStatementPipe.create(wf);
+        public static ProcessAsmSvc ProcessAsm(this IWfRuntime wf)
+            => Services.ProcessAsmSvc.create(wf);
 
         [Op]
         public static ApiCodeBlockTraverser ApiCodeBlockTraverser(this IWfRuntime src)
@@ -54,7 +50,5 @@ namespace Z0
         [Op]
         public static AsmCallPipe AsmCallPipe(this IWfRuntime wf)
             => Services.AsmCallPipe.create(wf);
-
-
     }
 }

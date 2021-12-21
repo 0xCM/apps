@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     public readonly struct text<C> : IComparable<text<C>>, IEquatable<text<C>>, IHashed, ITextual
-        where C : unmanaged, IChar16Block<C>
+        where C : unmanaged, ICharBlock<C>
     {
         readonly C Block;
 

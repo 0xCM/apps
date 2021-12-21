@@ -9,19 +9,22 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct TypedSeq<N,T> : ITypedSeq<N,T>
+    public readonly struct NamedSeq<N,T> : ISeq<N,T>
         where N : unmanaged, ITypeNat
         where T : IEquatable<T>
     {
         readonly Index<T> Data;
 
+        public Name Name {get;}
+
         [MethodImpl(Inline)]
-        internal TypedSeq(T[] src)
+        internal NamedSeq(Name name, T[] src)
         {
             Data = src;
+            Name = name;
         }
 
-        public ReadOnlySpan<T> View
+        public ReadOnlySpan<T> Elements
         {
             [MethodImpl(Inline)]
             get => Data;

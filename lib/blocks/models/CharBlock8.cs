@@ -15,7 +15,7 @@ namespace Z0
     using B = CharBlock8;
 
     [StructLayout(LayoutKind.Sequential, Pack=2, Size =(int)StorageSize)]
-    public struct CharBlock8 : IChar16Block<B>
+    public struct CharBlock8 : ICharBlock<B>
     {
         /// <summary>
         /// The block capacity

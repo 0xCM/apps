@@ -4,19 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    partial struct CharBlocks
+    public struct XedDisasmBlock
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref T init<T>(ReadOnlySpan<char> src, out T dst)
-            where T : unmanaged, ICharBlock<T>
+        public Index<TextLine> Lines;
+
+        [MethodImpl(Inline)]
+        public XedDisasmBlock(TextLine[] src)
         {
-            dst = default;
-            return ref Z0.text.copy(src, ref dst);
+            Lines = src;
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator XedDisasmBlock(TextLine[] src)
+            => new XedDisasmBlock(src);
     }
 }

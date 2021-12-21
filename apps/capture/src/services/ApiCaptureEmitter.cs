@@ -18,7 +18,7 @@ namespace Z0
 
         ApiHex ApiHex;
 
-        ApiHostAsmEmitter HostEmitter;
+        HostAsmEmitter HostEmitter;
 
         ApiExtractParser ExtractParser;
 
@@ -31,7 +31,7 @@ namespace Z0
         {
             IlPipe = Wf.MsilPipe();
             ApiHex = Wf.ApiHex();
-            HostEmitter = Wf.AsmHostEmitter();
+            HostEmitter = Wf.HostAsmEmitter();
         }
 
         public AsmHostRoutines Emit(ApiHostUri host, Index<ApiMemberExtract> src)
@@ -127,7 +127,7 @@ namespace Z0
 
         AsmHostRoutines DecodeMembers(ApiHostUri host, Index<ApiMemberCode> src, Index<ApiMemberExtract> extracts, FS.FilePath dst)
         {
-            var decoded = HostEmitter.Emit(host, src, dst);
+            var decoded = HostEmitter.EmitHostRoutines(host, src, dst);
             if(decoded.Count != 0)
                 MatchAddresses(extracts, decoded.AsmRoutines);
             return decoded;

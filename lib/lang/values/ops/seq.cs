@@ -15,22 +15,22 @@ namespace Z0
     partial struct TV
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypedSeq<T> gseq<T>(T[] src)
+        public static Seq<T> gseq<T>(T[] src)
             where T : IEquatable<T>
-                => new TypedSeq<T>(src);
+                => new Seq<T>(src);
 
-        public static TypedSeq<N,T> nseq<N,T>()
+        public static NamedSeq<N,T> nseq<N,T>(Name name)
             where N : unmanaged, ITypeNat
             where T : IEquatable<T>
-                => new TypedSeq<N,T>(alloc<T>(nat32u<N>()));
+                => new NamedSeq<N,T>(name, alloc<T>(nat32u<N>()));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypedSeq<u8<T>> seq<T>(u8<T>[] src)
+        public static Seq<u8<T>> seq<T>(u8<T>[] src)
             where T : unmanaged, IEquatable<T>
                 => gseq(src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypedSeq<u16<T>> seq<T>(u16<T>[] src)
+        public static Seq<u16<T>> seq<T>(u16<T>[] src)
             where T : unmanaged, IEquatable<T>
                 => gseq(src);
     }

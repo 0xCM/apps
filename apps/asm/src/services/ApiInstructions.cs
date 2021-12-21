@@ -25,7 +25,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static uint statements(in AsmRoutine src, Span<HostAsmRecord> dst)
+        public static uint hostasm(in AsmRoutine src, Span<HostAsmRecord> dst)
         {
             var instructions = src.Instructions.View;
             var count = (uint)instructions.Length;
@@ -47,7 +47,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static uint statements(in AsmInstructionBlock src, List<HostAsmRecord> dst)
+        public static uint hostasm(in AsmInstructionBlock src, List<HostAsmRecord> dst)
         {
             var instructions = src.Instructions;
             var count = (uint)instructions.Length;

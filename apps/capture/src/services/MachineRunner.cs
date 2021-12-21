@@ -23,7 +23,7 @@ namespace Z0
                 var sorted = blocks.ToSortedIndex();
 
                 if(options.EmitAsmStatements)
-                    Wf.AsmCsv().EmitStatements(partitioned, Db.AsmStatementRoot());
+                    Wf.HostAsmEmitter().EmitHostAsm(partitioned, Db.AsmStatementRoot());
 
                 if(options.EmitAsmRows)
                     Wf.AsmRowBuilder().Emit(blocks);

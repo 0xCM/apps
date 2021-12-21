@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct @enum<E> : IEnum<E>, IEquatable<@enum<E>>
+    public readonly struct @enum<E> : IEnumMember<E>, IEquatable<@enum<E>>
         where E : unmanaged
     {
         public E Literal {get;}
@@ -32,7 +32,7 @@ namespace Z0
         public bool Equals(@enum<E> src)
             => emath.eq(Literal, src.Literal);
 
-        E IEnum<E>.Literal
+        E IEnumMember<E>.Literal
             => Literal;
         public string Format()
             => $"{Literal}";

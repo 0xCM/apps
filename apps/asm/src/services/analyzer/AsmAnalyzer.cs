@@ -33,8 +33,8 @@ namespace Z0
         public void Analyze(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
         {
             var blocks = CollectBlocks(src);
-            var statements = Wf.AsmStatementPipe();
-            var asmcsv = Wf.AsmCsv();
+            var statements = Wf.ProcessAsm();
+            var asmcsv = Wf.HostAsmEmitter();
             if(Settings.EmitCalls)
                 EmitCalls(src, dst);
 
@@ -42,7 +42,7 @@ namespace Z0
                 EmitJumps(src, dst);
 
             if(Settings.EmitStatements)
-                asmcsv.EmitStatements(src, dst);
+                asmcsv.EmitHostAsm(src, dst);
 
             if(Settings.EmitProcessAsm)
                 statements.EmitProcessAsm(src, dst.ProcessAsmPath());

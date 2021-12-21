@@ -14,7 +14,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static int length<T>(in T src)
-            where T : unmanaged, IChar16Block<T>
+            where T : unmanaged, ICharBlock<T>
         {
             var data = src.Data;
             var counter = 0;

@@ -326,7 +326,7 @@ namespace Z0
 
         [Parser]
         public static Outcome block<T>(string src, out T block)
-            where T : unmanaged, IChar16Block<T>
+            where T : unmanaged, ICharBlock<T>
         {
             block = default;
             CharBlocks.init(src, out block);

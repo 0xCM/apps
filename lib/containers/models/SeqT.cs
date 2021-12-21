@@ -9,13 +9,13 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct TypedSeq<T> : ITypedSeq<T>
+    public readonly struct Seq<T> : ISeq<T>
         where T : IEquatable<T>
     {
         readonly Index<T> Data;
 
         [MethodImpl(Inline)]
-        public TypedSeq(T[] src)
+        public Seq(T[] src)
         {
             Data = src;
         }
@@ -44,7 +44,7 @@ namespace Z0
             get => Data.Length;
         }
 
-        public ReadOnlySpan<T> View
+        public ReadOnlySpan<T> Elements
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -56,14 +56,51 @@ namespace Z0
             get => Data;
         }
 
-        [MethodImpl(Inline)]
-        public static implicit operator TypedSeq<T>(T[] src)
-            => new TypedSeq<T>(src);
+        public ref readonly T this[long i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
+        }
+
+        public ref readonly T this[ulong i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
+        }
+
+        public ref readonly T First
+        {
+            [MethodImpl(Inline)]
+            get => ref Data.First;
+        }
+
+        public ref readonly T Last
+        {
+            [MethodImpl(Inline)]
+            get => ref Data.Last;
+        }
+
+        public string Format()
+            => string.Join(Chars.Comma, Data.Storage);
+
+        public override string ToString()
+            => Format();
+
+        public Seq<T> Reverse()
+            => new Seq<T>(Data.Reverse());
 
         [MethodImpl(Inline)]
-        public static implicit operator T[](TypedSeq<T> src)
+        public T[] ToArray()
+            => Data;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Seq<T>(T[] src)
+            => new Seq<T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator T[](Seq<T> src)
             => src;
 
-        public static TypedSeq<T> Empty => new TypedSeq<T>(sys.empty<T>());
+        public static Seq<T> Empty => new Seq<T>(sys.empty<T>());
     }
 }

@@ -12,7 +12,6 @@ namespace Z0
 
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-
     [Free]
     public interface IIndex<T> : IMeasured, IEnumerable<T>, ITextual
     {

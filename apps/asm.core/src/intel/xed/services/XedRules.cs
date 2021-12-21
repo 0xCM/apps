@@ -5,7 +5,7 @@
 namespace Z0
 {
     [ApiHost]
-    public readonly partial struct XedRules
+    public readonly struct XedRules
     {
 
 

@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static core;
     using static XedModels;
 
-    public sealed class IntelXed : AppService<IntelXed>
+    public sealed partial class IntelXed : AppService<IntelXed>
     {
         FS.FolderPath XedSources;
 
@@ -26,40 +26,6 @@ namespace Z0.Asm
         }
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
-
-        public ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<XedDisasmBlock> src)
-        {
-            var dst = list<TextLine>();
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                var lines = skip(src,i).Lines;
-                var lcount = lines.Count;
-                for(var j=0; j<lcount; j++)
-                {
-                    ref readonly var line = ref lines[j];
-                    if(j == lcount-1)
-                        dst.Add(line);
-                }
-            }
-            return dst.ViewDeposited();
-        }
-
-        public ReadOnlySpan<AsmExpr> Expressions(ReadOnlySpan<XedDisasmBlock> src)
-        {
-            const string Marker = "YDIS:";
-            var dst = list<AsmExpr>();
-            foreach(var block in src)
-            {
-                foreach(var line in block.Lines)
-                {
-                    var i = text.index(line.Content,"YDIS:");
-                    if(i >= 0)
-                        dst.Add(text.trim(text.right(line.Content, i + Marker.Length)));
-                }
-            }
-            return dst.ViewDeposited();
-        }
 
         public Symbols<IClass> Classes()
             => Symbols.index<IClass>();
@@ -298,9 +264,6 @@ namespace Z0.Asm
 
             return records.ToArray();
         }
-
-        public Index<XedDisasmBlock> ParseDisasmBlocks(FS.FilePath src)
-            => Service(Wf.XedDisassemblyParser).ParseDisasmBlocks(src);
 
         public void EmitCatalog()
         {

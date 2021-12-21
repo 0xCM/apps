@@ -25,7 +25,7 @@ namespace Z0
 
         public static Index<Token> Tokenize<K>(this Symbols<K> src)
             where K : unmanaged
-                => Tokens.tokenize(src);
+                => Symbols.tokenize(src);
 
         [Op]
         public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)

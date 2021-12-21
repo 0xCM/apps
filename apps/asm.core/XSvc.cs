@@ -23,14 +23,12 @@ namespace Z0
         public static IntelXed IntelXed(this IWfRuntime wf)
             => Asm.IntelXed.create(wf);
 
-        public static XedDisasmParser XedDisassemblyParser(this IWfRuntime wf)
-            => Z0.XedDisasmParser.create(wf);
-
+        public static XedDisasmSvc XedDisasm(this IWfRuntime wf)
+            => Z0.XedDisasmSvc.create(wf);
 
         [Op]
         public static XedTool XedTool(this IWfRuntime wf)
             => Z0.XedTool.create(wf);
-
 
         [Op]
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)

@@ -15,7 +15,7 @@ namespace Z0
     using B = CharBlock12;
 
     [StructLayout(LayoutKind.Sequential, Pack=2)]
-    public struct CharBlock12 : IChar16Block<B>
+    public struct CharBlock12 : ICharBlock<B>
     {
         CharBlock8 Lo;
 

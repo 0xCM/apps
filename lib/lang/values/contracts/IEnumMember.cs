@@ -6,23 +6,23 @@ namespace Z0
 {
     using System;
 
-    public interface IEnum<E> : ITextual, IEquatable<E>
+    public interface IEnumMember<E> : ITextual, IEquatable<E>
         where E : unmanaged
     {
         E Literal {get;}
     }
 
-    public interface IEnum<E,T> : IEnum<E>
+    public interface IEnumMember<E,T> : IEnumMember<E>
         where E : unmanaged
         where T : unmanaged
     {
         T Scalar {get;}
     }
 
-    public interface IEnum<F,E,T> : IEnum<E,T>
+    public interface IEnumMember<F,E,T> : IEnumMember<E,T>
         where E : unmanaged
         where T : unmanaged
-        where F : unmanaged, IEnum<F,E,T>
+        where F : unmanaged, IEnumMember<F,E,T>
     {
 
     }

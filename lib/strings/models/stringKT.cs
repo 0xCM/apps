@@ -10,16 +10,16 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct @string<K,T> : IString<K,TypedSeq<T>>, IComparable<@string<K>>, IEquatable<@string<K>>
+    public readonly struct @string<K,T> : IString<K,Index<T>>, IComparable<@string<K>>, IEquatable<@string<K>>
         where K : unmanaged
         where T : unmanaged, IEquatable<T>
     {
-        public TypedSeq<T> Value {get;}
+        public Index<T> Value {get;}
 
         public K Kind {get;}
 
         [MethodImpl(Inline)]
-        public @string(K kind, TypedSeq<T> src)
+        public @string(K kind, Index<T> src)
         {
             Kind = kind;
             Value = src;
@@ -75,18 +75,11 @@ namespace Z0
         public static @string<K,T> Empty
         {
             [MethodImpl(Inline)]
-            get => new @string<K,T>(default(K), TypedSeq<T>.Empty);
+            get => new @string<K,T>(default(K), Index<T>.Empty);
         }
-
 
         [MethodImpl(Inline)]
         public static implicit operator string(@string<K,T> src)
             => src.Format();
-
-        // public static bool operator ==(@string<K> a, @string<K> b)
-        //     => a.Equals(b);
-
-        // public static bool operator !=(@string<K> a, @string<K> b)
-        //     => !a.Equals(b);
     }
 }

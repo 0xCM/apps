@@ -14,7 +14,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T hydrate<T>(StringAddress src, out T dst)
-            where T : unmanaged, IChar16Block<T>
+            where T : unmanaged, ICharBlock<T>
         {
             dst = default;
             var i=0u;

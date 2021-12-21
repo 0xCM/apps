@@ -7,10 +7,10 @@ namespace Z0.Asm
     using System;
     using Operands;
 
-    using N = AsmStatementPoc.AsmNames;
+    using N = AsmExprPoc.AsmNames;
 
     [ApiHost]
-    public readonly partial struct AsmStatementPoc
+    public readonly partial struct AsmExprPoc
     {
         public readonly struct AsmNames
         {
@@ -26,51 +26,51 @@ namespace Z0.Asm
         const string RP2 = "{0} {1}, {2}";
 
         [Op]
-        public static AsmStatement bsf(r16 a, r16 b)
+        public static AsmExpr bsf(r16 a, r16 b)
             => string.Format(RP2, N.bsf, a,b);
 
         [Op]
-        public static AsmStatement bsf(r16 a, m16 b)
+        public static AsmExpr bsf(r16 a, m16 b)
             => string.Format(RP2, N.bsf, a,b);
 
         [Op]
-        public static AsmStatement bsf(r32 a, r32 b)
+        public static AsmExpr bsf(r32 a, r32 b)
             => string.Format(RP2, N.bsf, a,b);
 
         [Op]
-        public static AsmStatement bsf(r32 a, m32 b)
+        public static AsmExpr bsf(r32 a, m32 b)
             => string.Format(RP2, N.bsf, a,b);
 
         [Op]
-        public static AsmStatement bsf(r64 a, r64 b)
+        public static AsmExpr bsf(r64 a, r64 b)
             => string.Format(RP2, N.bsf, a,b);
 
         [Op]
-        public static AsmStatement bsf(r64 a, m64 b)
+        public static AsmExpr bsf(r64 a, m64 b)
             => string.Format(RP2, N.bsf, a,b);
 
         [Op]
-        public static AsmStatement bsr(r16 a, r16 b)
+        public static AsmExpr bsr(r16 a, r16 b)
             => string.Format(RP2, N.bsr, a,b);
 
         [Op]
-        public static AsmStatement bsr(r16 a, m16 b)
+        public static AsmExpr bsr(r16 a, m16 b)
             => string.Format(RP2, N.bsr, a,b);
 
         [Op]
-        public static AsmStatement bsr(r32 a, r32 b)
+        public static AsmExpr bsr(r32 a, r32 b)
             => string.Format(RP2, N.bsr, a,b);
 
         [Op]
-        public static AsmStatement bsr(r32 a, m32 b)
+        public static AsmExpr bsr(r32 a, m32 b)
             => string.Format(RP2, N.bsr, a,b);
 
         [Op]
-        public static AsmStatement bsr(r64 a, r64 b)
+        public static AsmExpr bsr(r64 a, r64 b)
             => string.Format(RP2, N.bsr, a,b);
 
         [Op]
-        public static AsmStatement bsr(r64 a, m64 b)
+        public static AsmExpr bsr(r64 a, m64 b)
             => string.Format(RP2, N.bsr, a,b);
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Z0.Asm
         /// <param name="a"></param>
         /// <param name="b"></param>
         [Op]
-        public static AsmStatement mov(r8 a, r8 b)
+        public static AsmExpr mov(r8 a, r8 b)
             => string.Format(RP2, N.mov, a, b);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Z0.Asm
         /// <param name="a"></param>
         /// <param name="b"></param>
         [Op]
-        public static AsmStatement mov(m8 a, r8 b)
+        public static AsmExpr mov(m8 a, r8 b)
             => string.Format(RP2, N.mov, a, b);
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Z0.Asm
         /// <param name="a"></param>
         /// <param name="b"></param>
         [Op]
-        public static AsmStatement mov(r16 a, r16 b)
+        public static AsmExpr mov(r16 a, r16 b)
             => string.Format(RP2, N.mov, a, b);
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Z0.Asm
         /// <param name="a"></param>
         /// <param name="b"></param>
         [Op]
-        public static AsmStatement mov(m16 a, r16 b)
+        public static AsmExpr mov(m16 a, r16 b)
             => string.Format(RP2, N.mov, a, b);
     }
 }

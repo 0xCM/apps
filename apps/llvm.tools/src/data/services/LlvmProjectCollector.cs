@@ -15,6 +15,8 @@ namespace Z0.llvm
 
         llvm.LlvmMcSvc Mc => Service(Wf.LlvmMc);
 
+        XedDisasmSvc XedDiasm => Service(Wf.XedDisasm);
+
         public void Collect()
         {
             iter(Projects.ProjectNames, name => Collect(Ws.Project(name)));
@@ -47,11 +49,10 @@ namespace Z0.llvm
             var ext = FS.ext("xed.txt");
             var paths = ws.OutFiles(FS.ext("xed.txt"));
             var count = paths.Length;
-            var xed = Wf.IntelXed();
             for(var i=0; i<count; i++)
             {
                 ref readonly var src = ref paths[i];
-                var blocks = xed.ParseDisasmBlocks(src);
+                var blocks = XedDiasm.ParseBlocks(src);
                 var id = text.remove(src.FileName.Format(), ".xed.txt");
             }
 

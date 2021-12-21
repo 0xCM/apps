@@ -9,6 +9,7 @@ namespace Z0
     using System.Collections.Generic;
 
     using static Root;
+    using static core;
 
     using SQ = SymbolicQuery;
 

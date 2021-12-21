@@ -15,7 +15,7 @@ namespace Z0
     /// Defines a model of an enum literal that is parametric in both the declaring enum
     /// and the underlying primal type it refines
     /// </summary>
-    public readonly struct @enum<E,T> : IEnum<@enum<E,T>,E,T>, IEquatable<@enum<E,T>>
+    public readonly struct @enum<E,T> : IEnumMember<@enum<E,T>,E,T>, IEquatable<@enum<E,T>>
         where E : unmanaged
         where T : unmanaged
     {

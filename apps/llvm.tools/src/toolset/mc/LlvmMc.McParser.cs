@@ -59,7 +59,7 @@ namespace Z0.llvm
 
             const string EncodingMarker = "# encoding:";
 
-            uint InstSeq;
+            uint DocSeq;
 
             Index<DecimalDigitValue> _DigitBuffer;
 
@@ -75,7 +75,8 @@ namespace Z0.llvm
                 var buffer = list<AsmStatementEncoding>();
                 var offset = Address32.Zero;
 
-                InstSeq = 0;
+                DocSeq = 0;
+                var record = default(AsmStatementEncoding);
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var line = ref skip(lines,i);
@@ -83,18 +84,22 @@ namespace Z0.llvm
                     {
                         var content = line.Content.Replace(Chars.Tab, Chars.Space);
                         var j = text.index(content, Chars.Hash);
-                        result = AsmParser.asmxpr(text.left(content,j), out var expr);
+                        result = AsmParser.asmxpr(text.left(content,j), out record.Asm);
                         if(result.Fail)
                             return result;
 
                         var enc = text.right(content, j + EncodingMarker.Length);
-                        result = AsmHexCode.parse(enc, out var hex);
+                        result = AsmHexCode.parse(enc, out record.Encoding);
                         if(result.Fail)
                             return result;
 
-                        buffer.Add(new AsmStatementEncoding(0, InstSeq, expr, line.LineNumber, offset, hex));
-                        offset += hex.Size;
-                        InstSeq++;
+                        record.DocSeq = DocSeq++;
+                        record.Line = line.LineNumber;
+                        record.Offset = offset;
+
+                        buffer.Add(record);
+                        offset += record.Encoding.Size;
+                        record = default(AsmStatementEncoding);
                     }
                 }
                 dst = new AsmEncodingDoc(src, buffer.ToArray());
@@ -106,7 +111,7 @@ namespace Z0.llvm
                 var result = Outcome.Success;
                 var data = FS.readlines(src).View;
                 var count = (uint)data.Length;
-                InstSeq = 0;
+                DocSeq = 0;
                 BlockLabels = new();
                 BlockOffsets = new();
                 SourceLines = new();
@@ -159,10 +164,10 @@ namespace Z0.llvm
                                 var inst = text.remove(text.slice(comment,i), Chars.Gt);
                                 var j = text.whitespace(inst);
                                 if(j != NotFound)
-                                    Instructions.Add(new MCInstRef(InstSeq, src.LineNumber, text.right(inst,j)));
+                                    Instructions.Add(new MCInstRef(DocSeq, src.LineNumber, text.right(inst,j)));
                                 else
-                                    Instructions.Add(new MCInstRef(InstSeq, src.LineNumber, inst));
-                                InstSeq++;
+                                    Instructions.Add(new MCInstRef(DocSeq, src.LineNumber, inst));
+                                DocSeq++;
                             }
 
                             if(comment.Contains("encoding: "))
