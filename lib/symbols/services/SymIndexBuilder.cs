@@ -27,8 +27,11 @@ namespace Z0
             var buffer = alloc<Sym<E>>(count);
             ref var dst = ref first(buffer);
             for(var i=0u; i<count; i++)
-                seek(dst,i) = new Sym<E>(i, skip(src,i));
-            return new Symbols<E>(buffer, lookup<E>(buffer), untype(buffer));
+            {
+                ref readonly var lit = ref skip(src,i);
+                seek(dst,i) = new Sym<E>(i, lit);
+            }
+            return new Symbols<E>(buffer, luString<E>(buffer), luValue<E>(buffer));
         }
 
         [Op]
@@ -46,15 +49,15 @@ namespace Z0
         {
             var src = discover(t);
             var count = src.Length;
-            var buffer = alloc<Sym>(count);
-            ref var dst = ref first(buffer);
+            var symbols = alloc<Sym>(count);
+            ref var dst = ref first(symbols);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var lit = ref skip(src,i);
-                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.ScalarValue, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden);
+                seek(dst,i) = new Sym(lit.Identity, lit.Class, lit.Position, lit.Type, lit.Value, lit.Name, lit.Symbol.Text, lit.Description, lit.Hidden);
             }
 
-            return new SymIndex(buffer, lookup(buffer));
+            return new SymIndex(symbols, luString(symbols), luValue(symbols));
         }
 
         [Op, Closures(Closure)]
@@ -62,11 +65,11 @@ namespace Z0
             where T : unmanaged
                 => new Sym(src.Identity, src.Class, src.Key, src.Type, bw64(src.Kind), src.Name, src.Expr.Text, src.Description, src.Hidden);
 
-        static SymIndex untype<E>(Sym<E>[] src)
+        public static SymIndex untype<E>(Sym<E>[] src)
             where E : unmanaged
         {
             var symbols = src.Select(x => untype(x));
-            return new SymIndex(symbols, lookup(symbols));
+            return new SymIndex(symbols, luString(symbols), luValue(symbols));
         }
 
         [Op]
@@ -80,7 +83,7 @@ namespace Z0
                     expr);
 
         [Op, Closures(Closure)]
-        static Dictionary<string,Sym<K>> lookup<K>(Index<Sym<K>> src)
+        static Dictionary<string,Sym<K>> luString<K>(Index<Sym<K>> src)
             where K : unmanaged
         {
             var count = src.Length;
@@ -96,7 +99,23 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        static Dictionary<string,Sym> lookup(Index<Sym> src)
+        static Dictionary<SymVal,Sym<K>> luValue<K>(Index<Sym<K>> src)
+            where K : unmanaged
+        {
+            var count = src.Length;
+            var view = src.View;
+            var dst = dict<SymVal,Sym<K>>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(view,i);
+                dst.TryAdd(symbol.Value, symbol);
+            }
+
+            return dst;
+        }
+
+        [Op, Closures(Closure)]
+        static Dictionary<string,Sym> luString(Index<Sym> src)
         {
             var count = src.Length;
             var view = src.View;
@@ -105,6 +124,21 @@ namespace Z0
             {
                 ref readonly var symbol = ref skip(view,i);
                 dst.TryAdd(symbol.Expr.Text, symbol);
+            }
+
+            return dst;
+        }
+
+        [Op, Closures(Closure)]
+        static Dictionary<SymVal,Sym> luValue(Index<Sym> src)
+        {
+            var count = src.Length;
+            var view = src.View;
+            var dst = dict<SymVal,Sym>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(view,i);
+                dst.TryAdd(symbol.Value, symbol);
             }
 
             return dst;
@@ -150,7 +184,7 @@ namespace Z0
                 row.Position = i;
                 row.Name = f.Name;
                 row.Symbol = (litval,expr);
-                row.ScalarValue = @ulong(kind, litval);
+                row.Value = @ulong(kind, litval);
                 row.Description = tag.MapValueOrDefault(a => a.Description, EmptyString);
                 row.Identity = identity(f, i, expr);
                 row.Hidden = f.Ignored();
@@ -183,7 +217,7 @@ namespace Z0
                 row.Position = i;
                 row.Name = f.Name;
                 row.Symbol = expr;
-                row.ScalarValue = @ulong(kind, litval);
+                row.Value = @ulong(kind, litval);
                 row.Description = tag.MapValueOrDefault(a => a.Description, EmptyString);
                 row.Identity = identity(f, i, expr);
                 row.Hidden = f.Ignored();

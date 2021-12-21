@@ -17,9 +17,19 @@ namespace Z0
     /// <summary>
     /// Defines a character block b with capacity(b) = 1x16u
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=2), DataType("charblock<n:1,t:c16>", BlockKind.Char16)]
+    [StructLayout(LayoutKind.Sequential, Pack=2), DataType("block<n:1,t:c16>", BlockKind.Char16)]
     public struct CharBlock1 : ICharBlock<B>
     {
+        /// <summary>
+        /// The block capacity
+        /// </summary>
+        public const ushort CharCount = 1;
+
+        /// <summary>
+        /// The size of the block, in bytes
+        /// </summary>
+        public const uint Size = CharCount * 2;
+
         char C;
 
         public static N1 N => default;
@@ -83,14 +93,5 @@ namespace Z0
         public static implicit operator B(ReadOnlySpan<char> src)
             => api.init(src, out B dst);
 
-        /// <summary>
-        /// The block capacity
-        /// </summary>
-        public const ushort CharCount = 1;
-
-        /// <summary>
-        /// The size of the block, in bytes
-        /// </summary>
-        public const uint Size = CharCount * 2;
     }
 }

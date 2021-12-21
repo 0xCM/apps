@@ -57,5 +57,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator ulong(SymVal src)
             => src.Value;
+
+        public static SymVal Zero => default;
     }
 }

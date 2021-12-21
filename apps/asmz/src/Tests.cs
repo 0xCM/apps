@@ -8,7 +8,6 @@ namespace Z0.Asm
     using System.Reflection;
     using System.Linq;
     using System.IO;
-    using Z0.Tools;
 
     using static Root;
     using static core;

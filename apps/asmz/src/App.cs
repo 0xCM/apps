@@ -9,8 +9,6 @@ namespace Z0.Asm
     using System.Reflection;
     using System.Diagnostics.Tracing;
 
-    using Z0.Tools;
-
     using static Root;
     using static core;
 

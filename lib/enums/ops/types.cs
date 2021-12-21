@@ -15,13 +15,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The assemblies to query</param>
         [Op]
-        public static Index<KeyedValues<ClrAssemblyName,Type>> types(params Assembly[] src)
-        {
-            var x = from part in src
-                    let enums = part.Enums()
-                    orderby part.FullName
-                    select Lookups.keyed(new ClrAssemblyName(part), enums);
-            return x;
-        }
+        public static Type[] types(params Assembly[] src)
+            => src.Enums();
     }
 }

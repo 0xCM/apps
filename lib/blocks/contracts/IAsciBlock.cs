@@ -10,6 +10,6 @@ namespace Z0
         ref byte First {get;}
 
         BlockKind IStorageBlock.Kind
-            => BlockKind.Char7;
+            => BlockKind.Char8;
     }
 }

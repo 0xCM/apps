@@ -13,7 +13,7 @@ namespace Z0
 
     partial struct Symbols
     {
-        public static ReadOnlySpan<SymLiteralRow> literals<E>()
+        public static Index<SymLiteralRow> literals<E>()
             where E : unmanaged, Enum
         {
             var symbols = index<E>().View;
@@ -42,26 +42,8 @@ namespace Z0
         }
 
         [Op]
-        public static ReadOnlySpan<SymLiteralRow> literals(Index<Assembly> src)
-        {
-            var kvTypes = Enums.types(src).View;
-            var partCount = kvTypes.Length;
-            var dst = list<SymLiteralRow>();
-            for(var i=0; i<partCount; i++)
-            {
-                var types = skip(kvTypes,i).View;
-                var kTypes = types.Length;
-                for(var j=0u; j<kTypes; j++)
-                {
-                    (var asm, var type) = skip(types,j);
-                    var syms = literals(type);
-                    var kLits = syms.Length;
-                    for(var k=0; k<kLits; k++)
-                        dst.Add(syms[k]);
-                }
-            }
-            return dst.ViewDeposited();
-        }
+        public static Index<SymLiteralRow> literals(Index<Assembly> src)
+            => literals(Enums.types(src).OrderBy(src => src.Name));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         static void fill<E>(ReadOnlySpan<Sym<E>> src, Span<SymLiteralRow> dst)
@@ -84,7 +66,7 @@ namespace Z0
             dst.Name = src.Name;
             dst.Symbol = src.Symbol;
             dst.DataType = src.DataType;
-            dst.ScalarValue = src.ScalarValue;
+            dst.Value = src.Value;
             dst.NumericBase = NumericBaseKind.Base10;
             dst.Description = src.Description;
             dst.Hidden = src.Hidden;
@@ -108,7 +90,7 @@ namespace Z0
                 row.Class = @class(type);
                 row.Position = (ushort)i;
                 row.Name = f.Name;
-                row.ScalarValue = Enums.unbox(kind, f.GetRawConstantValue());
+                row.Value = Enums.unbox(kind, f.GetRawConstantValue());
                 row.NumericBase = NumericBaseKind.Base10;
                 row.Symbol = tag.MapValueOrDefault(a => a.Symbol, f.Name);
                 row.Description = tag.MapValueOrDefault(a => a.Description, EmptyString);

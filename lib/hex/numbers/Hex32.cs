@@ -13,7 +13,7 @@ namespace Z0
     using W = W32;
     using K = System.UInt32;
 
-    [DataType("hex32", HexNumberKind.Hex32, ContentWidth, StorageWidth)]
+    [DataType("hex<w:32>", HexNumberKind.Hex32, ContentWidth, StorageWidth)]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
         public const byte ContentWidth = 32;

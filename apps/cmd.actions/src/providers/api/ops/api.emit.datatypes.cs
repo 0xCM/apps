@@ -15,13 +15,9 @@ namespace Z0
         {
             var catalog = ApiRuntimeCatalog;
             var types = catalog.ApiDataTypes;
-            var count = types.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var type = ref skip(types,i);
-                Write(string.Format("{0}:{1}", type.Name, type.Syntax));
-            }
+            TableEmit(types, ApiDataType.RenderWidths, ProjectDb.ApiTablePath<ApiDataType>());
             return true;
         }
     }
+
 }

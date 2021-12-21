@@ -13,7 +13,7 @@ namespace Z0
     partial struct Numeric
     {
         [MethodImpl(Inline)]
-        internal static T convert64i_u<T>(long src)
+        static T convert64i_u<T>(long src)
         {
             if(typeof(T) == typeof(byte))
                 return generic<T>((byte)src);

@@ -17,10 +17,10 @@ namespace Z0
     /// <summary>
     /// 11 bytes of storage
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:11,t:u8>", BlockKind.Bytes)]
     public struct ByteBlock11 : IStorageBlock<B>
     {
-        public const ushort Size = 11;
+        public const uint Size = 11;
 
         ByteBlock10 A;
 

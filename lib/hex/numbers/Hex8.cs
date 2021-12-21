@@ -13,7 +13,7 @@ namespace Z0
     using K = Hex8Seq;
     using W = W8;
 
-    [DataType("hex8", HexNumberKind.Hex8, ContentWidth, StorageWidth)]
+    [DataType("hex<w:8>", HexNumberKind.Hex8, ContentWidth, StorageWidth)]
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
         public const byte ContentWidth = 8;

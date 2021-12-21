@@ -13,7 +13,7 @@ namespace Z0
     using W = W16;
     using K = System.UInt16;
 
-    [DataType("hex16", HexNumberKind.Hex16, ContentWidth, StorageWidth)]
+    [DataType("hex<w:16>", HexNumberKind.Hex16, ContentWidth, StorageWidth)]
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
         [MethodImpl(Inline), Op]

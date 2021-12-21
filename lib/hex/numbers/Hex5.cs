@@ -13,7 +13,7 @@ namespace Z0
     using K = Hex5Seq;
     using W = W5;
 
-    [DataType("hex5", HexNumberKind.Hex5, ContentWidth, StorageWidth)]
+    [DataType("hex<w:5>", HexNumberKind.Hex5, ContentWidth, StorageWidth)]
     public readonly struct Hex5 : IHexNumber<H,W,K>
     {
         public const byte ContentWidth = 5;

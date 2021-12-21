@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("hash64")]
+    [DataType("hash<w:64>")]
     public readonly struct Hash64 : IHashCode<ulong,ulong>
     {
         public ulong Value {get;}

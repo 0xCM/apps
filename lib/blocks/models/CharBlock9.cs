@@ -14,7 +14,7 @@ namespace Z0
     using api = CharBlocks;
     using B = CharBlock9;
 
-    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("charblock<n:9,t:c16>", BlockKind.Char16)]
+    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:9,t:c16>", BlockKind.Char16)]
     public struct CharBlock9 : ICharBlock<B>
     {
         /// <summary>

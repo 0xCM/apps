@@ -19,19 +19,27 @@ namespace Z0
 
         readonly Dictionary<string,Sym> _SymbolMap;
 
+        readonly Dictionary<SymVal,Sym> _ValueMap;
+
+        readonly Index<SymVal> _Values;
+
         SymIndex()
         {
             Data = array<Sym>();
             _Kinds = array<ulong>();
             _SymbolMap = new();
+            _ValueMap = new();
+            _Values = Index<SymVal>.Empty;
         }
 
         [MethodImpl(Inline)]
-        internal SymIndex(Index<Sym> src, Dictionary<string,Sym> lookup)
+        internal SymIndex(Index<Sym> src, Dictionary<string,Sym> symMap, Dictionary<SymVal,Sym> valMap)
         {
             Data = src;
             _Kinds = src.Select(x => x.Kind);
-            _SymbolMap = lookup;
+            _SymbolMap = symMap;
+            _ValueMap = valMap;
+            _Values = _ValueMap.Keys.Array();
         }
 
         [MethodImpl(Inline)]
@@ -47,10 +55,22 @@ namespace Z0
         public bool Lookup(SymExpr src, out Sym dst)
             => _SymbolMap.TryGetValue(src.Text, out dst);
 
+        public bool MapValue(SymVal src, out Sym dst)
+            => _ValueMap.TryGetValue(src, out dst);
+
+        public bool MapExpr(SymExpr src, out Sym dst)
+            => _SymbolMap.TryGetValue(src.Text, out dst);
+
         public ReadOnlySpan<ulong> Kinds
         {
             [MethodImpl(Inline)]
             get => _Kinds;
+        }
+
+        public ReadOnlySpan<SymVal> Values
+        {
+            [MethodImpl(Inline)]
+            get => _Values;
         }
 
         public Sym[] Storage

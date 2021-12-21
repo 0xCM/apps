@@ -10,6 +10,8 @@ namespace Z0
 
         Bytes,
 
+        Char8,
+
         Char16,
 
         Char7,

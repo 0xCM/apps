@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a natural sequence of 8-bit cells
     /// </summary>
-    [DataType("vhex8n<{0}>")]
+    [DataType("vhex<n:{0},w:8>")]
     public readonly struct HexVector8<N>
         where N : unmanaged, ITypeNat
     {

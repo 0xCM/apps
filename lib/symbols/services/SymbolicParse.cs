@@ -29,19 +29,18 @@ namespace Z0
 
             outcome += DataParser.parse(skip(cells,j++), out dst.Component);
             outcome += DataParser.parse(skip(cells,j++), out dst.Type);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Class);
+            outcome += parse(skip(cells,j++), out dst.Class);
             outcome += DataParser.parse(skip(cells,j++), out dst.Position);
             outcome += DataParser.parse(skip(cells,j++), out dst.Name);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Symbol);
+            outcome += parse(skip(cells,j++), out dst.Symbol);
             outcome += DataParser.eparse(skip(cells,j++), out dst.DataType);
-            outcome += DataParser.parse(skip(cells,j++), out dst.ScalarValue);
+            outcome += parse(skip(cells,j++), out dst.Value);
             outcome += DataParser.eparse(skip(cells,j++), out dst.NumericBase);
             outcome += DataParser.parse(skip(cells,j++), out dst.Hidden);
             outcome += DataParser.parse(skip(cells,j++), out dst.Description);
             outcome += DataParser.parse(skip(cells,j++), out dst.Identity);
             return outcome;
         }
-
 
         public static Outcome parse(TextLine src, out SymLiteralRow dst)
             => parse(src.Content, out dst);
@@ -63,9 +62,9 @@ namespace Z0
 
             outcome += DataParser.parse(skip(cells,j++), out dst.TokenType);
             outcome += DataParser.parse(skip(cells,j++), out dst.Index);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Value);
+            outcome += parse(skip(cells,j++), out dst.Value);
             outcome += DataParser.parse(skip(cells,j++), out dst.Name);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Expr);
+            outcome += parse(skip(cells,j++), out dst.Expr);
             outcome += DataParser.parse(skip(cells,j++), out dst.Description);
             return outcome;
         }

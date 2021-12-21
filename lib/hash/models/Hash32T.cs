@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("hash32<{0}>")]
+    [DataType("hash<t:{0},w:32>")]
     public readonly struct Hash32<T> : IHashCode<T,uint>
         where T : unmanaged
     {

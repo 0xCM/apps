@@ -30,7 +30,7 @@ namespace Z0.Asm
                 var name = literal.Name.Format();
                 ref readonly var pos = ref literal.Position;
                 var symbol = literal.Symbol.Format();
-                ref readonly var scalar = ref literal.ScalarValue;
+                ref readonly var value = ref literal.Value;
                 var @class = literal.Class.IsNonEmpty ? literal.Class.Format() : EmptyString;
                 var type =  empty(@class) ? literal.Type.Format() : (literal.Type.Format() + RP.embrace(@class));
                 var desc = EmptyString;

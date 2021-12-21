@@ -23,7 +23,7 @@ namespace Z0
 
         internal Index<uint> Offsets;
 
-        internal Index<ulong> Values;
+        internal Index<SymVal> Values;
 
         public uint SymbolCount {get; internal set;}
 
@@ -46,7 +46,7 @@ namespace Z0
             => ref api.width(this, index);
 
         [MethodImpl(Inline), Op]
-        public ref readonly ulong Value(uint index)
+        public ref readonly SymVal Value(uint index)
             => ref Values[index];
 
         [MethodImpl(Inline), Op]

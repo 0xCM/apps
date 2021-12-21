@@ -16,11 +16,13 @@ namespace Z0
     {
         readonly Index<Sym<K>> Data;
 
-        readonly Dictionary<string,Sym<K>> SymLookup;
+        readonly Dictionary<string,Sym<K>> ExprMap;
+
+        readonly Dictionary<SymVal,Sym<K>> ValMap;
 
         readonly Index<K> SymKinds;
 
-        readonly SymIndex _Untyped;
+        readonly Index<SymVal> SymVals;
 
         Symbols()
         {
@@ -28,12 +30,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        internal Symbols(Index<Sym<K>> src, Dictionary<string,Sym<K>> lookup, SymIndex untyped)
+        internal Symbols(Index<Sym<K>> src, Dictionary<string,Sym<K>> exprMap, Dictionary<SymVal,Sym<K>> valMap)
         {
             Data = src;
-            SymLookup = lookup;
+            ExprMap = exprMap;
+            ValMap = valMap;
             SymKinds = src.Select(x => x.Kind);
-            _Untyped = untyped;
+            SymVals = valMap.Keys.Array();
         }
 
         public ref readonly Sym<K> this[uint index]
@@ -49,19 +52,31 @@ namespace Z0
         }
 
         public bool Lookup(SymExpr src, out Sym<K> dst)
-            => SymLookup.TryGetValue(src.Text, out dst);
+            => ExprMap.TryGetValue(src.Text, out dst);
+
+        public bool MapValue(SymVal src, out Sym<K> dst)
+            => ValMap.TryGetValue(src, out dst);
+
+        public bool MapExpr(SymExpr src, out Sym<K> dst)
+            => ExprMap.TryGetValue(src.Text, out dst);
 
         /// <summary>
         /// Presents an untyped view of the source data
         /// </summary>
         [MethodImpl(Inline)]
         public SymIndex Untyped()
-            => _Untyped;
+            => SymIndexBuilder.untype(Data.Storage);
 
         public ReadOnlySpan<K> Kinds
         {
             [MethodImpl(Inline)]
             get => SymKinds;
+        }
+
+        public ReadOnlySpan<SymVal> Values
+        {
+            [MethodImpl(Inline)]
+            get => SymVals;
         }
 
         public Sym<K>[] Storage

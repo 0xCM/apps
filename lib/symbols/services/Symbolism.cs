@@ -20,29 +20,42 @@ namespace Z0
             return records;
         }
 
-        public ReadOnlySpan<SymLiteralRow> EmitLiterals()
-            => EmitLiterals(Db.IndexTable<SymLiteralRow>());
+        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
 
-        public ReadOnlySpan<SymLiteralRow> EmitLiterals(FS.FilePath dst)
-            => EmitLiterals(Wf.Components, dst);
+        public Index<SymHeapEntry> EmitSymHeap()
+        {
+            var literals = Symbols.literals(ApiRuntimeCatalog.Components);
+            var heap = SymHeaps.define(literals);
+            var count = heap.SymbolCount;
+            var entries = SymHeaps.entries(heap);
+            var dst = ProjectDb.ApiTablePath<SymHeapEntry>();
+            TableEmit(entries.View, SymHeapEntry.RenderWidths, dst);
+            return entries;
+        }
+
+        public ReadOnlySpan<SymLiteralRow> EmitLiterals()
+            => EmitLiterals(ProjectDb.ApiTablePath<SymLiteralRow>());
+
+        public Index<SymLiteralRow> EmitLiterals(FS.FilePath dst)
+            => EmitLiterals(ApiRuntimeCatalog.Components, dst);
 
         /// <summary>
         /// Discovers symbolic literals defined in a specified component collection
         /// </summary>
-        public ReadOnlySpan<SymLiteralRow> DiscoverLiterals(Assembly[] src)
+        public Index<SymLiteralRow> DiscoverLiterals(Assembly[] src)
             => Symbols.literals(src);
 
         /// <summary>
         /// Discovers all symbolic literals everywhere
         /// </summary>
-        public ReadOnlySpan<SymLiteralRow> DiscoverLiterals()
-            => Symbols.literals(Wf.Components);
+        public Index<SymLiteralRow> DiscoverLiterals()
+            => Symbols.literals(ApiRuntimeCatalog.Components);
 
         /// <summary>
         /// Discovers the symbolic literals for parametrically-identified symbol type
         /// </summary>
         /// <typeparam name="E">The defining type</typeparam>
-        public ReadOnlySpan<SymLiteralRow> DiscoverLiterals<E>()
+        public Index<SymLiteralRow> DiscoverLiterals<E>()
             where E : unmanaged, Enum
                 => Symbols.literals<E>();
 
@@ -50,12 +63,9 @@ namespace Z0
         /// Emits the symbolic literals for parametrically-identified symbol type
         /// </summary>
         /// <typeparam name="E">The defining type</typeparam>
-        public ReadOnlySpan<SymLiteralRow> EmitLiterals<E>()
+        public Index<SymLiteralRow> EmitLiterals<E>()
             where E : unmanaged, Enum
-        {
-            var dst = Db.Table<SymLiteralRow>(typeof(E).FullName);
-            return EmitLiterals<E>(dst);
-        }
+                => EmitLiterals<E>(ProjectDb.ApiTablePath<SymLiteralRow>(typeof(E).FullName));
 
         public void EmitSymbolSpan<E>(Identifier name, FS.FolderPath dst)
             where E : unmanaged, Enum
@@ -73,10 +83,10 @@ namespace Z0
             dst.WriteLine(buffer.Emit());
         }
 
-        public ReadOnlySpan<SymLiteralRow> EmitLiterals<E>(FS.FilePath dst)
+        public Index<SymLiteralRow> EmitLiterals<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {
-            var flow = Wf.EmittingTable<SymLiteralRow>(dst);
+            var flow = EmittingTable<SymLiteralRow>(dst);
             var rows = Symbols.literals<E>();
             var count = rows.Length;
             var formatter = Tables.formatter<SymLiteralRow>(SymLiteralRow.RenderWidths);
@@ -84,22 +94,23 @@ namespace Z0
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
                 writer.WriteLine(formatter.Format(skip(rows,i)));
-            Wf.EmittedTable<SymLiteralRow>(flow, count);
+            EmittedTable<SymLiteralRow>(flow, count);
             return rows;
         }
 
-        public ReadOnlySpan<SymLiteralRow> EmitLiterals(Assembly[] src, FS.FilePath dst)
+        public Index<SymLiteralRow> EmitLiterals(Assembly[] src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingTable<SymLiteralRow>(dst);
             var rows = Symbols.literals(src);
-            TableEmit(rows, SymLiteralRow.RenderWidths, dst);
+            TableEmit(rows.View, SymLiteralRow.RenderWidths, dst);
             return rows;
         }
 
-        public void EmitSymbols<K>(FS.FolderPath dir)
+        public ReadOnlySpan<Sym<K>> EmitSymbols<K>(FS.FolderPath dir)
             where K : unmanaged, Enum
         {
-            EmitSymbols(Symbols.index<K>().View, dir);
+            var symbols = Symbols.index<K>().View;
+            EmitSymbols(symbols, dir);
+            return symbols;
         }
 
         public void EmitSymbols<K>(ReadOnlySpan<Sym<K>> src, FS.FolderPath dir)
@@ -109,26 +120,26 @@ namespace Z0
             var count = src.Length;
             if(count != 0)
             {
-                var flow = Wf.EmittingFile(dst);
+                var flow = EmittingFile(dst);
                 using var writer = dst.Writer();
                 writer.WriteLine(Symbols.header());
                 for(var i=0; i<count; i++)
                     writer.WriteLine(skip(src,i));
-                Wf.EmittedFile(flow, count);
+                EmittedFile(flow, count);
             }
         }
 
-        public ReadOnlySpan<SymInfo> EmitTokenSpecs(Type src)
+        public Index<SymInfo> EmitTokenSpecs(Type src)
         {
-            var dst = Ws.Tables().TablePath<SymInfo>("tokens", src.Name.ToLower());
+            var dst = ProjectDb.ApiTablePath<SymInfo>("tokens", src.Name.ToLower());
             var tokens = Symbols.syminfo(src);
             TableEmit(tokens.View, SymInfo.RenderWidths, dst);
             return tokens;
         }
 
-        public ReadOnlySpan<SymInfo> LoadTokenSpecs(string name)
+        public Index<SymInfo> LoadTokenSpecs(string name)
         {
-            var src = Ws.Tables().TablePath<SymInfo>("tokens", name.ToLower());
+            var src = ProjectDb.ApiTablePath<SymInfo>("tokens", name.ToLower());
             using var reader = src.TableReader<SymInfo>(SymbolicParse.parse);
             var header = reader.Header.Split(Chars.Pipe);
             if(header.Length != SymInfo.FieldCount)
@@ -148,16 +159,16 @@ namespace Z0
                 dst.Add(row);
             }
 
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
 
-        public ReadOnlySpan<SymLiteralRow> LoadLiterals(FS.FilePath src)
+        public Index<SymLiteralRow> LoadLiterals(FS.FilePath src)
         {
             using var reader = src.TableReader<SymLiteralRow>(SymbolicParse.parse);
             var header = reader.Header.Split(Chars.Tab);
             if(header.Length != SymLiteralRow.FieldCount)
             {
-                Wf.Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount,header.Length));
+                Error(AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount,header.Length));
                 return Index<SymLiteralRow>.Empty;
             }
 
@@ -167,13 +178,13 @@ namespace Z0
                 var outcome = reader.ReadRow(out var row);
                 if(!outcome)
                 {
-                    Wf.Error(outcome.Message);
+                    Error(outcome.Message);
                     break;
                 }
                 dst.Add(row);
             }
 
-            return dst.ViewDeposited();
+            return dst.ToArray();
         }
     }
 }

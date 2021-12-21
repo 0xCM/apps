@@ -19,7 +19,7 @@ namespace Z0
     /// <summary>
     /// Represents a value in the range [<see cef='MinLiteral'/>, <see cref='MaxLiteral'/>]
     /// </summary>
-    [DataType("uint3")]
+    [DataType("u<w:3>")]
     public readonly struct uint3 : IBitNumber<U,W,K,T>
     {
         public const byte BitCount = 3;

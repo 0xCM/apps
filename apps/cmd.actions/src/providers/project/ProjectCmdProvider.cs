@@ -26,6 +26,8 @@ namespace Z0
 
         XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
 
+        IntelXed Xed => Service(Wf.IntelXed);
+
         ProjectCollector ProjectCollector => Service(Wf.ProjectCollector);
 
         LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
@@ -34,6 +36,9 @@ namespace Z0
 
         FS.Files Files()
             => _Files;
+
+        FS.Files Files(FS.FileExt ext)
+            => Files().Where(f => f.Ext == ext);
 
         FS.Files Files(FS.Files src, bool write =true)
         {

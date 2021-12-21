@@ -43,7 +43,7 @@ namespace Z0
 
         internal const string Kind = "kind<k:{0}>";
 
-        internal const string CharBlock = "charblock<n:{0},t:{1}>";
+        internal const string CharBlock = "block<n:{0},t:{1}>";
 
         internal const string ByteBlock = "byteblock<n:{0}>";
 

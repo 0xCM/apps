@@ -14,16 +14,19 @@ namespace Z0
     {
         public static Outcome parse(string src, out Facet dst)
         {
+            dst = Facet.Empty;
+            if(empty(src))
+                return false;
+
             var i = text.index(src,Chars.Colon);
             if(i > 0)
-            {
-                var key = text.trim(text.left(src,i));
-                var value = text.trim(text.right(src,i));
-                dst = new Facet(key,value);
-                return true;
-            }
-            dst = Facet.Empty;
-            return false;
+                dst = new Facet(
+                    text.trim(text.left(src,i)),
+                    text.trim(text.right(src,i))
+                    );
+            else
+                dst = new Facet(text.trim(src), EmptyString);
+            return true;
         }
 
         public static Index<Facet> facets<T>(T src)
@@ -69,13 +72,34 @@ namespace Z0
         }
 
         internal static string format<K,V>(Facet<K,V> src)
-            => RP.facet(src.Key, src.Value);
+        {
+            var k = text.format("{0}", src.Key);
+            var v = text.format("{0}", src.Value);
+            if(nonempty(v))
+                return RP.facet(k, v);
+            else
+                return k;
+        }
 
         internal static string format<T>(Facet<T> src)
-            => RP.facet(src.Key, src.Value);
+        {
+            var k = text.format("{0}", src.Key);
+            var v = text.format("{0}", src.Value);
+            if(nonempty(v))
+                return RP.facet(k, v);
+            else
+                return k;
+        }
 
         internal static string format(Facet src)
-            => RP.facet(src.Key, src.Value);
+        {
+            var k = text.format("{0}", src.Key);
+            var v = text.format("{0}", src.Value);
+            if(nonempty(v))
+                return RP.facet(k, v);
+            else
+                return k;
+        }
 
         internal static string format(Facets src)
         {

@@ -66,6 +66,7 @@ namespace Z0
                 entry.Offset = src.Offset(i);
                 entry.Source = src.Source(i);
                 entry.Name = src.Name(i);
+                entry.Value = src.Value(i);
                 entry.Expression = src.Expression(i);
             }
             return entries;
@@ -81,7 +82,7 @@ namespace Z0
             dst.SymbolCount = kSym;
             dst.EntryCount = kEntry;
             dst.Widths = alloc<uint>(kEntry);
-            dst.Values = alloc<ulong>(kEntry);
+            dst.Values = alloc<SymVal>(kEntry);
             dst.Names = alloc<Identifier>(kEntry);
             dst.Expressions = alloc<char>(charcount(src));
             dst.Offsets = alloc<uint>(kEntry);
@@ -100,7 +101,7 @@ namespace Z0
                 var symsrc = literal.Symbol.Data;
                 var width = (ushort)symsrc.Length;
                 seek(widths, i) = width;
-                seek(values, i) = literal.ScalarValue;
+                seek(values, i) = literal.Value;
                 seek(id, i) = literal.Name;
                 seek(offsets,i) = offset;
                 seek(sources,i) = literal.Type;

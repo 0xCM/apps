@@ -9,25 +9,30 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ApiDataType : IComparable<ApiDataType>
+    [Record(TableId)]
+    public struct ApiDataType : IComparable<ApiDataType>
     {
-        public Identifier Name {get;}
+        public const string TableId = "api.datatype";
 
-        public @string Syntax {get;}
+        public const byte FieldCount = 6;
 
-        public bool Parametric {get;}
+        public Identifier Name;
 
-        public object Kind {get;}
+        public @string Specifier;
 
-        public BitWidth ContentWidth {get;}
+        public bool Parametric;
 
-        public BitWidth StorageWidth {get;}
+        public object Kind;
+
+        public BitWidth ContentWidth;
+
+        public BitWidth StorageWidth;
 
         [MethodImpl(Inline)]
         public ApiDataType(Identifier name, @string syntax, bool parametric, object kind, BitWidth content, BitWidth storage)
         {
             Name = name;
-            Syntax = syntax;
+            Specifier = syntax;
             Parametric = parametric;
             Kind = kind;
             ContentWidth = content;
@@ -36,5 +41,8 @@ namespace Z0
 
         public int CompareTo(ApiDataType src)
             => Name.CompareTo(src.Name);
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,12,12,12,12};
+
     }
 }

@@ -18,6 +18,8 @@ namespace Z0
 
         ulong Kind {get;}
 
+        SymVal Value {get;}
+
         TextBlock Description {get;}
 
         bool Hidden {get;}
@@ -28,7 +30,7 @@ namespace Z0
     {
         new T Kind {get;}
 
-        ulong Value
+        SymVal ISym.Value
             => core.bw64(Kind);
 
         ulong ISym.Kind

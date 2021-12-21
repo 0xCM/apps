@@ -10,7 +10,6 @@ namespace Z0
 
     using static Root;
 
-    [DataType]
     public readonly struct CmdTypeInfo<T> : ICmdTypeInfo<CmdTypeInfo<T>,T>
         where T : struct, ICmd<T>
     {

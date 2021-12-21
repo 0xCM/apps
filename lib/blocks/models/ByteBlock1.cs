@@ -13,7 +13,7 @@ namespace Z0
 
     using B = ByteBlock1;
 
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:1,t:u8}>")]
+    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:1,t:u8>", BlockKind.Bytes)]
     public struct ByteBlock1 : IStorageBlock<B>
     {
         public static N1 N => default;

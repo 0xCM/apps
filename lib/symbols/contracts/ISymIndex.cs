@@ -10,6 +10,8 @@ namespace Z0
     {
         SymIndex Untyped();
 
+        ReadOnlySpan<SymVal> Values {get;}
+
         uint Count {get;}
 
         bool Lookup(SymExpr src, out Sym dst);

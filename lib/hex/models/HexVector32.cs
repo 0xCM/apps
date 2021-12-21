@@ -11,9 +11,9 @@ namespace Z0
     using static core;
 
     /// <summary>
-    /// Defines a sequence of 16-bit cells
+    /// Defines a sequence of 32-bit cells
     /// </summary>
-    [DataType("vhex32")]
+    [DataType("vhex<w:32>")]
     public readonly struct HexVector32
     {
         readonly Index<Hex32> Data;

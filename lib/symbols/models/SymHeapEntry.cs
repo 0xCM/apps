@@ -11,7 +11,7 @@ namespace Z0
     {
         public const string TableId = "api.symbols.heap";
 
-        public const byte FieldCount = 5;
+        public const byte FieldCount = 6;
 
         public uint Index;
 
@@ -21,8 +21,10 @@ namespace Z0
 
         public Identifier Name;
 
+        public SymVal Value;
+
         public SymExpr Expression;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,64,16,1};
     }
 }

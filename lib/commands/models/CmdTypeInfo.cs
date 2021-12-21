@@ -11,7 +11,6 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType]
     public readonly struct CmdTypeInfo : ICmdTypeInfo
     {
         public CmdId CmdId {get;}

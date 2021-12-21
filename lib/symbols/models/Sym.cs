@@ -23,6 +23,8 @@ namespace Z0
 
         public ulong Kind {get;}
 
+        public SymVal Value {get;}
+
         public string Name {get;}
 
         public SymExpr Expr {get;}
@@ -41,6 +43,7 @@ namespace Z0
             Expr = SymExpr.Empty;
             Description = TextBlock.Empty;
             Hidden = true;
+            Value = SymVal.Zero;
         }
 
         [MethodImpl(Inline)]
@@ -55,12 +58,7 @@ namespace Z0
             Expr = symbol;
             Description = description ?? TextBlock.Empty;
             Hidden = hidden;
-        }
-
-        public ulong Value
-        {
-            [MethodImpl(Inline)]
-            get => Kind;
+            Value = kind;
         }
 
         public string Format()

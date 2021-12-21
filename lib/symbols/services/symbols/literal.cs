@@ -26,7 +26,7 @@ namespace Z0
             dst.DataType = PrimalBits.kind(type);
             dst.Class = src.Class;
             dst.Description = src.Description;
-            dst.ScalarValue = src.Value;
+            dst.Value = src.Value;
             dst.Identity = src.Identity;
             dst.Name = src.Name;
             dst.Position = (ushort)src.Key.Value;

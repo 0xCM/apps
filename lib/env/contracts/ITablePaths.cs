@@ -26,13 +26,13 @@ namespace Z0
             where T : struct
                 => FS.file(TableId<T>(), DefaultTableExt);
 
-        FS.FileName TableFile<T>(string subject)
+        FS.FileName TableFile<T>(string suffix)
             where T : struct
-                => FS.file(string.Format("{0}.{1}", TableId<T>(), subject), DefaultTableExt);
+                => FS.file(string.Format("{0}.{1}", TableId<T>(), suffix), DefaultTableExt);
 
-        FS.FileName TableFile<T>(string scope,string subject)
+        FS.FileName TableFile<T>(string scope, string suffix)
             where T : struct
-                => FS.file(string.Format("{0}.{1}.{2}",scope, TableId<T>(), subject), DefaultTableExt);
+                => FS.file(string.Format("{0}.{1}.{2}",scope, TableId<T>(), suffix), DefaultTableExt);
 
         FS.FolderName TableFolder(Type t)
             => FS.folder(TableId(t));

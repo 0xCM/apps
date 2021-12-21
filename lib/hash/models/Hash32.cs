@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("hash32")]
+    [DataType("hash<w:32>")]
     public readonly struct Hash32 : IHashCode<uint,uint>, IComparable<Hash32>, IEquatable<Hash32>
     {
         public uint Value {get;}

@@ -53,7 +53,7 @@ namespace Z0
         /// <summary>
         /// The encoded literal, possibly an invariant address to a string resource
         /// </summary>
-        public ulong ScalarValue;
+        public SymVal Value;
 
         /// <summary>
         /// Indicates whether the literal is occluded

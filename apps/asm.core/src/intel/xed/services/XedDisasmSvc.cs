@@ -11,11 +11,84 @@ namespace Z0
 
     using static Root;
     using static core;
+    using static XedModels;
+    using static XedDisasm;
 
     public class XedDisasmSvc : AppService<XedDisasmSvc>
     {
+        Symbols<IFormType> Forms;
+
+        Symbols<IClass> Classes;
+
+        public XedDisasmSvc()
+        {
+            Forms = Symbols.index<IFormType>();
+            Classes = Symbols.index<IClass>();
+        }
+
         public FS.Files DisasmFiles(IProjectWs ws)
             => ws.OutFiles(FS.ext("xed.txt"));
+
+        public Outcome ParseInstructions(ReadOnlySpan<Block> src, out Index<Instruction> dst)
+        {
+            var count = src.Length;
+            var result = Outcome.Success;
+            dst = alloc<Instruction>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref skip(src,i);
+                ref readonly var content = ref block.Instruction.Content;
+                ref var inst = ref dst[i];
+
+                if(text.nonempty(content))
+                {
+                    var j = text.index(content, Chars.Space);
+                    if(j > 0)
+                    {
+                        var expr = text.left(content,j);
+                        if(Classes.Lookup(expr, out var @class))
+                            inst.Class = @class;
+                        else
+                        {
+                            result = (false,string.Format("Instruction class not found in '{0}'", content));
+                            break;
+                        }
+
+                        var k = text.index(content, j+1, Chars.Space);
+                        if(k > 0)
+                        {
+                            expr = text.inside(content, j, k);
+                            if(Forms.Lookup(expr, out var form))
+                                inst.Form = form;
+                            else
+                            {
+                                result = (false,string.Format("IFormType not found in '{0}'", expr));
+                                break;
+                            }
+                        }
+
+                        var props = text.words(text.right(content,k), Chars.Comma);
+                        var kP = props.Count;
+                        inst.Props = alloc<Facet<string>>(kP);
+                        for(var m=0; m<kP; m++)
+                        {
+                            ref readonly var p = ref props[m];
+                            if(p.Contains(Chars.Colon))
+                            {
+                                var kv = text.split(p, Chars.Colon);
+                                if(kv.Length == 2)
+                                    inst.Props[m] = (skip(kv,0).Trim(), skip(kv,1).Trim());
+                            }
+                            else
+                            {
+                                inst.Props[m] = (p.Trim(), EmptyString);
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
 
         public Index<AsmStatementEncoding> Collect(IProjectWs project)
         {
@@ -60,11 +133,15 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public Index<XedDisasmBlock> ParseBlocks(FS.FilePath src)
+        /// <summary>
+        /// Transforms the source document into a sequence of blocks, each of which describe a single decoded instruction
+        /// </summary>
+        /// <param name="src">And xed-emitted disassemly file</param>
+        public Index<Block> ParseBlocks(FS.FilePath src)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
-            var dst = list<XedDisasmBlock>();
+            var dst = list<Block>();
             var blocklines = list<TextLine>();
             var imax = count-1;
             for(var i=0; i<imax; i++)
@@ -97,7 +174,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<XedDisasmBlock> src)
+        ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<Block> src)
         {
             var dst = list<TextLine>();
             var count = src.Length;
@@ -115,7 +192,7 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
-        ReadOnlySpan<AsmExpr> Expressions(ReadOnlySpan<XedDisasmBlock> src)
+        ReadOnlySpan<AsmExpr> Expressions(ReadOnlySpan<Block> src)
         {
             const string Marker = "YDIS:";
             var dst = list<AsmExpr>();

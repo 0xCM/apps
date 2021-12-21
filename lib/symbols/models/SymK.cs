@@ -31,6 +31,8 @@ namespace Z0
 
         public bool Hidden {get;}
 
+        public SymVal Value {get;}
+
         Sym()
         {
             Identity = SymIdentity.Empty;
@@ -41,6 +43,7 @@ namespace Z0
             Description = TextBlock.Empty;
             Hidden = true;
             Class = SymClass.Empty;
+            Value = SymVal.Zero;
         }
 
         [MethodImpl(Inline)]
@@ -54,6 +57,7 @@ namespace Z0
             Expr = src.Symbol;
             Description = src.Description;
             Hidden = src.Hidden;
+            Value = src.Value;
         }
 
         [MethodImpl(Inline)]
@@ -67,13 +71,14 @@ namespace Z0
             Description = description ?? TextBlock.Empty;
             Hidden = hidden;
             Class = SymClass.Empty;
+            Value = bw64(Kind);
         }
 
-        public ulong Value
-        {
-            [MethodImpl(Inline)]
-            get => bw64(Kind);
-        }
+        // public ulong Value
+        // {
+        //     [MethodImpl(Inline)]
+        //     get => bw64(Kind);
+        // }
 
         public Identifier Type
             => typeof(K).Name;
