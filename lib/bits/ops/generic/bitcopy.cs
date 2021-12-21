@@ -24,10 +24,9 @@ namespace Z0
         public static T bitcopy<T>(T src, byte index, byte count, T dst)
             where T : unmanaged
         {
-            var dstIdx = index;
             var sliced = slice(src, index, count);
-            var cleared = trim(dst, dstIdx, count);
-            return gmath.or(cleared, gmath.sll(sliced, dstIdx));
+            var cleared = trim(dst, index, count);
+            return gmath.or(cleared, gmath.sll(sliced, index));
         }
 
         /// <summary>

@@ -17,15 +17,15 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="dst">The target</param>
         /// <param name="count">The number bits to read from the source an replace in the target</param>
-        /// <param name="index">The target-relative index at which to begin the overwrite</param>
+        /// <param name="offset">The target-relative index at which to begin the overwrite</param>
         /// <typeparam name="T">The primal scalar type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T bitmap<T>(T src, T dst, byte count, byte index)
+        public static T bitmap<T>(T src, T dst, byte offset, byte count)
             where T : unmanaged
         {
-            var dstPrep = trim(dst,index,count);
-            var srcPrep = gmath.sll(gmath.and(BitMasks.lo<T>(count), src), index);
-            return gmath.or(dstPrep, srcPrep);
+            var a = trim(dst, offset, count);
+            var b = gmath.sll(and(BitMasks.lo<T>(count), src), offset);
+            return or(a, b);
         }
     }
 }

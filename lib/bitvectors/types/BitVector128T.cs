@@ -12,13 +12,15 @@ namespace Z0
     using static Root;
     using static cpu;
 
+    using api = BitVectors;
+
     /// <summary>
     /// Defines a natural bitvector over an intrinsic vector
     /// </summary>
     /// <typeparam name="T">The cell type</typeparam>
     /// <typeparam name="N">The bit-width type</typeparam>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
-    public struct BitVector128<T>
+    public struct BitVector128<T> : IEquatable<BitVector128<T>>
         where T : unmanaged
     {
         Vector128<T> Data;
@@ -73,7 +75,7 @@ namespace Z0
         public bit Empty
         {
             [MethodImpl(Inline)]
-            get => !gmath.nonz(Data);
+            get => api.equals(this, Zero);
         }
 
         /// <summary>
@@ -82,12 +84,33 @@ namespace Z0
         public bit NonEmpty
         {
             [MethodImpl(Inline)]
-            get => gmath.nonz(Data);
+            get => !api.equals(this, Zero);
         }
 
         [MethodImpl(Inline)]
-        public readonly bool Equals(in BitVector128<T> y)
-            => BitVectors.eq(this,y);
+        public BitVector128<T> Enable(byte index)
+        {
+            Data = api.enable(this,index);
+            return this;
+        }
+
+        [MethodImpl(Inline)]
+        public BitVector128<T> Disable(byte index)
+        {
+            Data = api.disable(this,index);
+            return this;
+        }
+
+        [MethodImpl(Inline)]
+        public BitVector128<T> Set(byte index, bit state)
+        {
+            Data = api.setbit(this,index,state);
+            return this;
+        }
+
+        [MethodImpl(Inline)]
+        public readonly bool Equals(BitVector128<T> y)
+            => api.equals(this,y);
 
         public readonly override bool Equals(object obj)
             => obj is BitVector128<T> x && Equals(x);
@@ -99,7 +122,7 @@ namespace Z0
             => Format();
 
         public string Format()
-            => BitVectors.bitstring(this);
+            => api.bitstring(this);
 
         [MethodImpl(Inline)]
         public BitVector128<U> As<U>()
@@ -129,7 +152,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator &(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVectors.and(x,y);
+            => api.and(x,y);
 
         /// <summary>
         /// Computes the bitwise AND between the operands
@@ -138,7 +161,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator |(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVectors.or(x,y);
+            => api.or(x,y);
 
         /// <summary>
         /// Computes the bitwise XOR between the operands
@@ -147,7 +170,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator ^(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVectors.xor(x,y);
+            => api.xor(x,y);
 
         /// <summary>
         /// Computes the scalar product of the operands
@@ -156,7 +179,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static bit operator %(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVectors.dot(x,y);
+            => api.dot(x,y);
 
         /// <summary>
         /// Computes the bitwise complement of the operand
@@ -164,7 +187,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator ~(in BitVector128<T> src)
-            => BitVectors.not(src);
+            => api.not(src);
 
         /// <summary>
         /// Computes the two's complement negation of the operand
@@ -172,7 +195,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator -(in BitVector128<T> src)
-            => BitVectors.negate(src);
+            => api.negate(src);
 
         /// <summary>
         /// Shifts the source bits leftwards
@@ -180,7 +203,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator <<(in BitVector128<T> x, int s)
-            => BitVectors.sll(x,(byte)s);
+            => api.sll(x,(byte)s);
 
         /// <summary>
         /// Shifts the source bits rightwards
@@ -188,7 +211,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator >>(in BitVector128<T> x, int s)
-            => BitVectors.srl(x,(byte)s);
+            => api.srl(x,(byte)s);
 
         /// <summary>
         /// Returns true if the source vector is nonzero, false otherwise
@@ -213,7 +236,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static bit operator ==(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVectors.eq(x,y);
+            => api.equals(x,y);
 
         /// <summary>
         /// Determines whether operand content is non-identical
@@ -222,16 +245,14 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static bit operator !=(in BitVector128<T> x, in BitVector128<T> y)
-            => !BitVectors.eq(x,y);
-
-        public static N128 MaxWidth => default;
+            => !api.equals(x,y);
 
         public static Vector128<T> Ones
         {
             [MethodImpl(Inline)]
-            get => gcpu.vones<T>(MaxWidth);
+            get => gcpu.vones<T>(w128);
         }
 
-        public static T Zero => default;
+        public static BitVector128<T> Zero => default;
     }
 }

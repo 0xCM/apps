@@ -16,39 +16,39 @@ namespace Z0
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline), MsbOff]
-        public static BitVector4 cut(BitVector4 src, byte pos)
-            => gbits.cut(src.State, pos);
+        public static BitVector4 zhi(BitVector4 src, byte pos)
+            => gbits.zhi(src.State, pos);
 
         /// <summary>
         /// Disables the high bits starting at a specified position
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline), MsbOff]
-        public static BitVector8 cut(BitVector8 src, byte pos)
-            => gbits.cut(src.State, pos);
+        public static BitVector8 zhi(BitVector8 src, byte pos)
+            => gbits.zhi(src.State, pos);
 
         /// <summary>
         /// Disables the high bits starting at a specified position
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline), MsbOff]
-        public static BitVector16 cut(BitVector16 src, byte pos)
-            => gbits.cut(src.State, pos);
+        public static BitVector16 zhi(BitVector16 src, byte pos)
+            => gbits.zhi(src.State, pos);
 
         /// <summary>
         /// Disables the high bits starting at a specified position
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline), MsbOff]
-        public static BitVector32 cut(BitVector32 src, byte pos)
-            => gbits.cut(src.State, pos);
+        public static BitVector32 zhi(BitVector32 src, byte pos)
+            => gbits.zhi(src.State, pos);
 
         /// <summary>
         /// Disables the high bits starting at a specified position
         /// </summary>
         /// <param name="pos">The bit position</param>
         [MethodImpl(Inline), MsbOff]
-        public static BitVector64 cut(BitVector64 src, byte pos)
-            => gbits.cut(src.State, pos);
+        public static BitVector64 zhi(BitVector64 src, byte pos)
+            => gbits.zhi(src.State, pos);
     }
 }

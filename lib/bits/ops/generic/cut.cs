@@ -19,17 +19,17 @@ namespace Z0
         /// <param name="index">The index at which to begin disabling target bits</param>
         /// <typeparam name="T">The primal type</typeparam>
         [MethodImpl(Inline), MsbOff, Closures(Closure)]
-        public static T cut<T>(T src, byte index)
+        public static T zhi<T>(T src, byte index)
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-                return generic<T>(bits.cut(uint8(src), index));
+                return generic<T>(bits.zhi(uint8(src), index));
             else if(typeof(T) == typeof(ushort))
-                return generic<T>(bits.cut(uint16(src), index));
+                return generic<T>(bits.zhi(uint16(src), index));
             else if(typeof(T) == typeof(uint))
-                return generic<T>(bits.cut(uint32(src), index));
+                return generic<T>(bits.zhi(uint32(src), index));
             else if(typeof(T) == typeof(ulong))
-                return generic<T>(bits.cut(uint64(src),index));
+                return generic<T>(bits.zhi(uint64(src),index));
             else
                 throw no<T>();
         }

@@ -32,13 +32,17 @@ namespace Z0
                 => new ScalarBits<W,T>(src);
 
         /// <summary>
-        /// Initializes a full-width 128-bit bitvector
+        /// Initializes a 128-bit bitvector
         /// </summary>
         /// <param name="src">The value used to initialize the bitvector</param>
-        [MethodImpl(Inline)]
-        public static BitVector128<T> init<T>(Vector128<T> src)
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        static BitVector128<T> init<T>(Vector128<T> src)
             where T : unmanaged
                 => new BitVector128<T>(src);
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BitVector128<T> init<T>(W128 w, T bcast = default)
+            where T : unmanaged
+                => init(gcpu.vbroadcast(w,bcast));
     }
 }

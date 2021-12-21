@@ -15,44 +15,44 @@ namespace Z0
         /// Replaces an index-delimited source segment with a specified value
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="k0"></param>
-        /// <param name="k1"></param>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
         /// <param name="value"></param>
         [MethodImpl(Inline), Op]
-        public static byte replace(byte src, byte k0, byte k1, byte value)
-            => math.or(math.sll(value, (byte)(k1 - k0)), trim(src,k0,k1));
+        public static byte replace(byte src, byte i0, byte i1, byte value)
+            => math.or(math.sll(value, (byte)(i1 - i0)), trim(src,i0,i1));
 
         /// <summary>
         /// Replaces an index-delimited source segment with a specified value
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="k0"></param>
-        /// <param name="k1"></param>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
         /// <param name="value"></param>
         [MethodImpl(Inline), Op]
-        public static ushort replace(ushort src, byte k0, byte k1, ushort value)
-            => math.or(math.sll(value, (byte)(k1 - k0)), trim(src, k0,k1));
+        public static ushort replace(ushort src, byte i0, byte i1, ushort value)
+            => math.or(math.sll(value, (byte)(i1 - i0)), trim(src, i0,i1));
 
         /// <summary>
         /// Replaces an index-delimited source segment with a specified value
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="k0"></param>
-        /// <param name="k1"></param>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
         /// <param name="value"></param>
         [MethodImpl(Inline), Op]
-        public static uint replace(uint src, byte k0, byte k1, uint value)
-            => math.or(math.sll(value, (byte)(k1 - k0)), trim(src,k0,k1));
+        public static uint replace(uint src, byte i0, byte i1, uint value)
+            => math.or(math.sll(value, (byte)(i1 - i0)), trim(src,i0,i1));
 
         /// <summary>
         /// Replaces an index-delimited source segment with a specified value
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="k0"></param>
-        /// <param name="k1"></param>
+        /// <param name="i0"></param>
+        /// <param name="i1"></param>
         /// <param name="value"></param>
         [MethodImpl(Inline), Op]
-        public static ulong replace(ulong src, byte k0, byte k1, ulong value)
-            => math.or(math.sll(value, (byte)(k1 - k0)), trim(src,k0,k1));
+        public static ulong replace(ulong src, byte i0, byte i1, ulong value)
+            => math.or(math.sll(value, (byte)(i1 - i0)), trim(src,i0,i1));
     }
 }

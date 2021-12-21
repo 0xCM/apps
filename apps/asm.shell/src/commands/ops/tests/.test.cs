@@ -6,6 +6,7 @@ namespace Z0.Asm
 {
     using System;
 
+    using static Root;
     using static core;
 
     partial class AsmCmdService
@@ -34,8 +35,12 @@ namespace Z0.Asm
         Outcome TestBv128(CmdArgs args)
         {
             var result = Outcome.Success;
-            //var bv = BitVector.init()
-
+            var bv0 = BitVectors.init(w128,(byte)0b10101010);
+            Write(bv0.Format());
+            var bv1 = bv0 << 12;
+            Write(bv1.Format());
+            var bv3 = bv1.Set(0,1).Set(1,1).Set(2,1).Set(3,1);
+            Write(bv3);
             return result;
         }
 

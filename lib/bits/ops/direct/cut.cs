@@ -19,8 +19,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bit source</param>
         [MethodImpl(Inline), MsbOff]
-        public static byte cut(byte src, byte index)
-            => (byte)ZeroHighBits((uint)src, index);
+        public static byte zhi(byte src, byte offset)
+            => (byte)ZeroHighBits((uint)src, offset);
 
         /// <summary>
         /// unsigned int _bzhi_u32 (unsigned int a, unsigned int index) BZHI r32a, reg/m32, r32b
@@ -28,8 +28,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bit source</param>
         [MethodImpl(Inline), MsbOff]
-        public static ushort cut(ushort src, byte index)
-            => (ushort)ZeroHighBits((uint)src, index);
+        public static ushort zhi(ushort src, byte offset)
+            => (ushort)ZeroHighBits((uint)src, offset);
 
         /// <summary>
         /// unsigned int _bzhi_u32 (unsigned int a, unsigned int index) BZHI r32a, reg/m32, r32b
@@ -37,17 +37,17 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bit source</param>
         [MethodImpl(Inline), MsbOff]
-        public static uint cut(uint src, byte index)
-            => ZeroHighBits(src, index);
+        public static uint zhi(uint src, byte offset)
+            => ZeroHighBits(src, offset);
 
         /// <summary>
         /// unsigned __int64 _bzhi_u64 (unsigned __int64 a, unsigned int index) BZHI r64a,reg/m32, r64b
         /// Disables the high target bits starting at a specified index.
         /// </summary>
         /// <param name="src">The bit source</param>
-        /// <param name="index">The index at which to begin disabling bits</param>
+        /// <param name="offset">The index at which to begin disabling bits</param>
         [MethodImpl(Inline), MsbOff]
-        public static ulong cut(ulong src, byte index)
-            => ZeroHighBits(src, index);
+        public static ulong zhi(ulong src, byte offset)
+            => ZeroHighBits(src, offset);
     }
 }
