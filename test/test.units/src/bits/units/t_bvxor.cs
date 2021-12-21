@@ -25,11 +25,11 @@ namespace Z0
                 var y = Random.BitVector(n128);
                 var z = x ^ y;
 
-                var xbs = BitVector.bitstring(x);
-                var ybs = BitVector.bitstring(y);
+                var xbs = BitVectors.bitstring(x);
+                var ybs = BitVectors.bitstring(y);
                 var zbs = xbs ^ ybs;
 
-                Claim.eq(zbs, BitVector.bitstring(z));
+                Claim.eq(zbs, BitVectors.bitstring(z));
             }
         }
 
@@ -243,10 +243,10 @@ namespace Z0
             for(var i=0; i<RepCount; i++)
             {
                 var x = Random.ScalarBits<T>(width);
-                ClaimNumeric.lteq(BitVector.effwidth(x), width);
+                ClaimNumeric.lteq(BitVectors.effwidth(x), width);
 
                 var y = Random.ScalarBits<T>(width);
-                ClaimNumeric.lteq(BitVector.effwidth(y),width);
+                ClaimNumeric.lteq(BitVectors.effwidth(y),width);
 
                 var z = x ^ y;
                 ClaimNumeric.eq(gmath.xor(x.State, y.State), z.State);

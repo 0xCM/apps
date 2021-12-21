@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Creates an N-bit vector directly from the source data, bypassing masked initialization

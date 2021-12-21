@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial class BitVector
+    partial class BitVectors
     {
         [MethodImpl(Inline), Op, Closures(Integers)]
         public static ref T packseq<T>(ReadOnlySpan<byte> src, out T dst)

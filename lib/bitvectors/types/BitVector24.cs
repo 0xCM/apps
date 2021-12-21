@@ -185,7 +185,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BitVector64(BitVector24 src)
-            => BitVector.create(n64,src.Data);
+            => BitVectors.create(n64,src.Data);
 
         [MethodImpl(Inline)]
         public static explicit operator BitVector4(BitVector24 src)
@@ -260,7 +260,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static bit operator %(BitVector24 x, BitVector24 y)
-            => BitVector.dot(x.Data, y.Data);
+            => BitVectors.dot(x.Data, y.Data);
 
         /// <summary>
         /// Computes the bitwise OR of the source operands

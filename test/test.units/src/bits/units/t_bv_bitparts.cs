@@ -14,7 +14,7 @@ namespace Z0
             for(var i=0; i<RepCount; i++)
             {
                 var x = Random.BitVector(n32);
-                BitVector.pack16x2(x, dst);
+                BitVectors.pack16x2(x, dst);
                 Claim.eq(dst[0], x.Lo);
                 Claim.eq(dst[1], x.Hi);
             }

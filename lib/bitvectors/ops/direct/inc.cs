@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         [MethodImpl(Inline), Inc]
         public static BitVector4 inc(BitVector4 x)

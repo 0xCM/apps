@@ -17,7 +17,7 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             public readonly int Invoke(ScalarBits<T> a)
-                => BitVector.effwidth(a);
+                => BitVectors.effwidth(a);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ScalarBits<T> Reverse<T>(this ScalarBits<T> src)
             where T : unmanaged
-                => BitVector.reverse(src);
+                => BitVectors.reverse(src);
 
         /// <summary>
         /// Reverses the bits in the source vector
@@ -30,7 +30,7 @@ namespace Z0
         public static ScalarBits<N,T> Reverse<N,T>(this ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector.reverse(x);
+                => BitVectors.reverse(x);
 
         /// <summary>
         /// Reverses the vector bits
@@ -38,7 +38,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static BitVector4 Reverse(this BitVector4 src)
-            => BitVector.reverse(src);
+            => BitVectors.reverse(src);
 
         /// <summary>
         /// Reverses the vector bits
@@ -46,7 +46,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static BitVector8 Reverse(this BitVector8 src)
-            => BitVector.reverse(src);
+            => BitVectors.reverse(src);
 
         /// <summary>
         /// Reverses the vector bits
@@ -54,7 +54,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static BitVector16 Reverse(this BitVector16 src)
-            => BitVector.reverse(src);
+            => BitVectors.reverse(src);
 
         /// <summary>
         /// Reverses the vector bits
@@ -62,7 +62,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static BitVector32 Reverse(this BitVector32 src)
-            => BitVector.reverse(src);
+            => BitVectors.reverse(src);
 
         /// <summary>
         /// Reverses the vector bits
@@ -70,7 +70,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static BitVector64 Reverse(this BitVector64 src)
-            => BitVector.reverse(src);
+            => BitVectors.reverse(src);
 
     }
 }

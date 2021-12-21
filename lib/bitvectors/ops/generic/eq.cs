@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         [MethodImpl(Inline)]
         public static bit eq<N,T>(in ScalarBits<N,T> x, in ScalarBits<N,T> y)

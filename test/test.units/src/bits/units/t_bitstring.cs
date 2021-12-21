@@ -142,7 +142,7 @@ namespace Z0
                 var bvX = bs.TakeScalar<ulong>().ToBitString();
                 var nlzX = bvX.PopCount();
                 var bv = bs.ToBitVector(n64);
-                var nlzY = BitVector.pop(bv);
+                var nlzY = BitVectors.pop(bv);
                 Claim.eq(nlzX, nlzY);
             }
         }

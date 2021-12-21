@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Computes the bitwise complement z:= ~x of a bitvector x

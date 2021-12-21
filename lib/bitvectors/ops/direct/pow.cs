@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Raises a vector to a power

@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Determines whether an index-identified bit is enabled

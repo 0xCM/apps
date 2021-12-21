@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Rearranges the vector as specified by a permutation

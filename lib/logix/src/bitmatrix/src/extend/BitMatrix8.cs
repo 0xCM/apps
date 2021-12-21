@@ -16,7 +16,7 @@ namespace Z0
         /// </summary>
         [MethodImpl(Inline)]
         public static BitVector64 ToBitVector(this BitMatrix8 A)
-            => BitVector.create(n64,(ulong)A);
+            => BitVectors.create(n64,(ulong)A);
 
         /// <summary>
         /// Creates the matrix determined by a permutation

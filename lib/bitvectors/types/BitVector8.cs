@@ -109,7 +109,7 @@ namespace Z0
         public BitVector8 this[byte first, byte last]
         {
             [MethodImpl(Inline)]
-            get => BitVector.bitseg(this,first,last);
+            get => BitVectors.bitseg(this,first,last);
         }
 
         [MethodImpl(Inline)]
@@ -123,10 +123,10 @@ namespace Z0
             => Data.GetHashCode();
 
         public string Format(BitFormat config)
-            => BitVector.format(this,config);
+            => BitVectors.format(this,config);
 
         public string Format()
-            => BitVector.format(this);
+            => BitVectors.format(this);
 
         public override string ToString()
             => Format();
@@ -183,7 +183,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator &(BitVector8 x, BitVector8 y)
-            => BitVector.and(x,y);
+            => BitVectors.and(x,y);
 
         /// <summary>
         /// Computes the bitwise OR of the source operands
@@ -192,7 +192,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator |(BitVector8 x, BitVector8 y)
-            => BitVector.or(x,y);
+            => BitVectors.or(x,y);
 
         /// Computes the XOR of the source operands.
         /// </summary>
@@ -200,7 +200,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator ^(BitVector8 x, BitVector8 y)
-            => BitVector.xor(x,y);
+            => BitVectors.xor(x,y);
 
         /// <summary>
         /// Left-shifts the bits in the source
@@ -208,7 +208,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator <<(BitVector8 x, int shift)
-            => BitVector.sll(x,(byte)shift);
+            => BitVectors.sll(x,(byte)shift);
 
         /// <summary>
         /// Right-shifts the bits in the source
@@ -216,7 +216,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator >>(BitVector8 x, int shift)
-            => BitVector.srl(x,(byte)shift);
+            => BitVectors.srl(x,(byte)shift);
 
         /// <summary>
         /// Computes the one's complement of the operand.
@@ -224,7 +224,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator ~(BitVector8 x)
-            => BitVector.not(x);
+            => BitVectors.not(x);
 
         /// <summary>
         /// Computes the two's complement of the operand
@@ -232,7 +232,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator -(BitVector8 x)
-            => BitVector.negate(x);
+            => BitVectors.negate(x);
 
         /// <summary>
         /// Computes the arithmetic sum of the source operands.
@@ -241,7 +241,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator +(BitVector8 x, BitVector8 y)
-            => BitVector.add(x,y);
+            => BitVectors.add(x,y);
 
         /// <summary>
         /// Computes the product of the operands.
@@ -250,7 +250,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator *(BitVector8 x, BitVector8 y)
-            => BitVector.gfmul(x,y);
+            => BitVectors.gfmul(x,y);
 
         /// <summary>
         /// Computes the arithmetic difference between the operands
@@ -259,7 +259,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator - (BitVector8 x, BitVector8 y)
-            => BitVector.sub(x,y);
+            => BitVectors.sub(x,y);
 
         /// <summary>
         /// Raises a vector b to a power n where n >= 0
@@ -268,7 +268,7 @@ namespace Z0
         /// <param name="n">The power</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator ^(BitVector8 b, int n)
-            => BitVector.pow(b,n);
+            => BitVectors.pow(b,n);
 
         /// <summary>
         /// Computes the scalar product of the operands
@@ -277,7 +277,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static bit operator %(BitVector8 x, BitVector8 y)
-            => BitVector.dot(x,y);
+            => BitVectors.dot(x,y);
 
         /// <summary>
         /// Arithmetically increments the bitvector
@@ -285,7 +285,7 @@ namespace Z0
         /// <param name="lhs">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator ++(BitVector8 src)
-            => BitVector.inc(src);
+            => BitVectors.inc(src);
 
         /// <summary>
         /// Arithmetically decrements the bitvector
@@ -293,7 +293,7 @@ namespace Z0
         /// <param name="lhs">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector8 operator --(BitVector8 src)
-            => BitVector.dec(src);
+            => BitVectors.dec(src);
 
         /// <summary>
         /// Returns true if the source vector is nonzero, false otherwise

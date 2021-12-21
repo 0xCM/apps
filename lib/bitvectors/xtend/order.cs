@@ -16,6 +16,6 @@ namespace Z0
         /// </summary>
         [MethodImpl(Inline)]
         public static int Order(this BitVector8 src)
-            => BitVector.ord(src);
+            => BitVectors.ord(src);
     }
 }

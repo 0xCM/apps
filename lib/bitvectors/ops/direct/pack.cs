@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial class BitVector
+    partial class BitVectors
     {
         [MethodImpl(Inline), Op]
         public static void upack4x4(ushort src, Span<BitVector4> dst)

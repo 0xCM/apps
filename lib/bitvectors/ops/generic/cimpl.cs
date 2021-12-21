@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         [MethodImpl(Inline), CImpl, Closures(Closure)]
         public static ScalarBits<T> cimpl<T>(ScalarBits<T> x, ScalarBits<T> y)

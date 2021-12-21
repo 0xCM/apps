@@ -78,7 +78,7 @@ namespace Z0
         public BitVector4 this[byte first, byte last]
         {
             [MethodImpl(Inline)]
-            get => BitVector.bitseg(this,first,last);
+            get => BitVectors.bitseg(this,first,last);
         }
 
         [MethodImpl(Inline)]
@@ -133,7 +133,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector4 operator |(in BitVector4 x, in BitVector4 y)
-            => BitVector.or(x,y);
+            => BitVectors.or(x,y);
 
         /// <summary>
         /// Computes the bitwise complement
@@ -141,7 +141,7 @@ namespace Z0
         /// <param name="x">The left bitvector</param>
         [MethodImpl(Inline)]
         public static BitVector4 operator ~(BitVector4 src)
-            => BitVector.not(src);
+            => BitVectors.not(src);
 
         /// <summary>
         /// Computes the arithmetic sum of the source operands.
@@ -150,7 +150,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static BitVector4 operator +(BitVector4 x, BitVector4 y)
-            => BitVector.add(x,y);
+            => BitVectors.add(x,y);
 
         /// <summary>
         /// Computes the product of the operands.
@@ -169,11 +169,11 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static bit operator %(BitVector4 x, BitVector4 y)
-            => BitVector.dot(x,y);
+            => BitVectors.dot(x,y);
 
         [MethodImpl(Inline)]
         public static BitVector4 operator -(in BitVector4 src)
-            => BitVector.negate(src);
+            => BitVectors.negate(src);
 
         /// <summary>
         /// Subtracts the second operand from the first.
@@ -182,15 +182,15 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector4 operator - (BitVector4 x, BitVector4 y)
-            => BitVector.sub(x,y);
+            => BitVectors.sub(x,y);
 
         [MethodImpl(Inline)]
         public static BitVector4 operator >>(BitVector4 x, int shift)
-            => BitVector.srl(x,(byte)shift);
+            => BitVectors.srl(x,(byte)shift);
 
         [MethodImpl(Inline)]
         public static BitVector4 operator <<(BitVector4 x, int shift)
-            => BitVector.sll(x,(byte)shift);
+            => BitVectors.sll(x,(byte)shift);
 
         /// <summary>
         /// Determines whether operand content is identical

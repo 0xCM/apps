@@ -19,8 +19,8 @@ namespace Z0
 
         public void bv_concat_8()
         {
-            var head = BitVector.create(n8,0b10100);
-            var tail = BitVector.create(n8,0b111);
+            var head = BitVectors.create(n8,0b10100);
+            var tail = BitVectors.create(n8,0b111);
             var whole = head.Concat(tail);
             Claim.eq(head, whole.Hi);
             Claim.eq(tail, whole.Lo);

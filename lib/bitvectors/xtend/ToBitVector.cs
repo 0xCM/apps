@@ -125,13 +125,13 @@ namespace Z0
         [MethodImpl(Inline)]
         public static ScalarBits<T> ToScalarBits<T>(this BitString src)
             where T : unmanaged
-                => BitVector.load<T>(src);
+                => BitVectors.load<T>(src);
 
         [MethodImpl(Inline)]
         public static ScalarBits<N,T> ToScalarBits<N,T>(this BitString src, N n = default, T t =default)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector.natural<N,T>(src);
+                => BitVectors.natural<N,T>(src);
 
         [MethodImpl(Inline)]
         public static BitVector128<T> ToBitVector<T>(this BitString src, W128 n)
@@ -144,7 +144,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         [MethodImpl(Inline)]
         public static BitVector4 ToBitVector(this BitString src, N4 n)
-            => BitVector.create(n,src);
+            => BitVectors.create(n,src);
 
         /// <summary>
         /// Creates an 8-bit bitvector from bitstring
@@ -152,7 +152,7 @@ namespace Z0
         /// <param name="src">The source bits</param>
         [MethodImpl(Inline)]
         public static BitVector8 ToBitVector(this BitString src, N8 n)
-            => BitVector.create(n,src);
+            => BitVectors.create(n,src);
 
         /// <summary>
         /// Creates a 16-bit bitvector from bitstring
@@ -180,7 +180,7 @@ namespace Z0
         /// <param name="src">The source bits</param>
         [MethodImpl(Inline)]
         public static BitVector32 ToBitVector(this BitString src, N32 n)
-            => BitVector.create(n, src);
+            => BitVectors.create(n, src);
 
         /// <summary>
         /// Creates a 64-bit bitvector from bitstring
@@ -188,7 +188,7 @@ namespace Z0
         /// <param name="src">The source bits</param>
         [MethodImpl(Inline)]
         public static BitVector64 ToBitVector(this BitString src, N64 n)
-            => BitVector.create(n,src);
+            => BitVectors.create(n,src);
 
         /// <summary>
         /// Creates a 16-bit bitvector from the leading cells of a source block

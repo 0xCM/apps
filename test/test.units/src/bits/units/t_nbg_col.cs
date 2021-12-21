@@ -19,7 +19,7 @@ namespace Z0
                 for(var col=0; col<n; col++)
                 {
                     ScalarBits<uint> bv1 = BitGrid.col(xg,col);
-                    ScalarBits<uint> bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    ScalarBits<uint> bv2 = BitVectors.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1,bv2);
                 }
             }
@@ -39,7 +39,7 @@ namespace Z0
                 for(var col=0; col<n; col++)
                 {
                     ScalarBits<ushort> bv1 = BitGrid.col(xg,col);
-                    ScalarBits<ushort> bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    ScalarBits<ushort> bv2 = BitVectors.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1, bv2);
                 }
             }
@@ -80,7 +80,7 @@ namespace Z0
                 for(var col=0; col<n; col++)
                 {
                     var bv1 = BitGrid.col(xg,col);
-                    var bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    var bv2 = BitVectors.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1, bv2);
                 }
             }
@@ -100,7 +100,7 @@ namespace Z0
                 for(var col=0; col<n; col++)
                 {
                     var bv1 = BitGrid.col(xg,col);
-                    var bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    var bv2 = BitVectors.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1, bv2);
                 }
             }
@@ -120,7 +120,7 @@ namespace Z0
                 for(var col=0; col<n; col++)
                 {
                     var bv1 = BitGrid.col(xg,col);
-                    var bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    var bv2 = BitVectors.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1, bv2);
                 }
             }
@@ -140,7 +140,7 @@ namespace Z0
                 for(var col=0; col<n; col++)
                 {
                     var bv1 = BitGrid.col(xg,col);
-                    var bv2 = BitVector.create(m,xs.Slice(col*m, m));
+                    var bv2 = BitVectors.create(m,xs.Slice(col*m, m));
                     Claim.eq(bv1, bv2);
                 }
             }

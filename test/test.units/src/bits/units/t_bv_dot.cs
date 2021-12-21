@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static Root;
-    using static BitVector;
+    using static BitVectors;
 
     /// <summary>
     /// Verifies the correct function of the natural bitvector dot product operator
@@ -224,10 +224,10 @@ namespace Z0
             {
                 var x32 = Random.BitVector(n32);
                 var y32 = Random.BitVector(n32);
-                var dot32 = BitVector.dot(x32,y32);
+                var dot32 = BitVectors.dot(x32,y32);
                 var x64 = x32.Extend(n64);
                 var y64 = y32.Extend(n64);
-                var dot64 = BitVector.dot(x64,y64);
+                var dot64 = BitVectors.dot(x64,y64);
                 Claim.eq(dot32,dot64);
             }
         }
@@ -252,7 +252,7 @@ namespace Z0
                     var x = Random.ScalarBits<N,T>();
                     var y = Random.ScalarBits<N,T>();
                     bit a = x % y;
-                    var b = BitVector.modprod(x,y);
+                    var b = BitVectors.modprod(x,y);
                     Claim.eq(a,b);
                 }
             }
@@ -276,7 +276,7 @@ namespace Z0
                     var x = Random.ScalarBits<T>();
                     var y = Random.ScalarBits<T>();
                     var actual = f.Invoke(x,y);
-                    var expect = BitVector.modprod(x,y);
+                    var expect = BitVectors.modprod(x,y);
                     Claim.require(actual == expect);
                     base.Claim.require(actual == f.Invoke((T)x, (T)y));
                 }

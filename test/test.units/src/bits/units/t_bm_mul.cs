@@ -19,7 +19,7 @@ namespace Z0
                 for(var j =0; j< n; j++)
                 {
                     var col = B[j];
-                    dst[i,j] = BitVector.modprod(row,col);
+                    dst[i,j] = BitVectors.modprod(row,col);
                 }
             }
             return dst;
@@ -37,7 +37,7 @@ namespace Z0
                 for(var j =0; j< n; j++)
                 {
                     var col = B[j];
-                    dst[i,j] = BitVector.modprod(row,col);
+                    dst[i,j] = BitVectors.modprod(row,col);
                 }
             }
             return dst;
@@ -55,7 +55,7 @@ namespace Z0
                 for(var j =0; j< n; j++)
                 {
                     var col = B[j];
-                    dst[i,j] = BitVector.modprod(row,col);
+                    dst[i,j] = BitVectors.modprod(row,col);
                 }
             }
             return dst;
@@ -73,7 +73,7 @@ namespace Z0
                 for(var j =0; j< n; j++)
                 {
                     var col = B[j];
-                    dst[i,j] = BitVector.modprod(row,col);
+                    dst[i,j] = BitVectors.modprod(row,col);
                 }
             }
             return dst;
@@ -160,7 +160,7 @@ namespace Z0
                 var m = Random.BitMatrix8();
                 var c = Random.BitVector(n8);
                 var z1 = m * c;
-                var z2 = BitVector.alloc(n8);
+                var z2 = BitVectors.alloc(n8);
                 for(var i = 0; i<m.Order; i++)
                     z2[i] = m[i] % c;
 

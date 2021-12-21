@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Constructs a bitvector formed from the n most significant bits of the source vector
@@ -45,7 +45,7 @@ namespace Z0
         /// <param name="n">The count of most significant bits</param>
         [MethodImpl(Inline), HiSeg]
         public static BitVector32 hiseg(BitVector32 x, byte n)
-            => BitVector.bitseg(x.State, (byte)((uint)x.Width - n), (byte)((uint)x.Width - 1));
+            => BitVectors.bitseg(x.State, (byte)((uint)x.Width - n), (byte)((uint)x.Width - 1));
 
         /// <summary>
         /// Constructs a bitvector formed from the n most significant bits of the source vector

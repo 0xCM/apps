@@ -261,10 +261,10 @@ namespace Z0.Logix
                 var sa = Random.Next<T>();
                 var sb = Random.Next<T>();
                 var sc = Random.Next<T>();
-                var z0 = BitVector.alloc<T>();
-                var va = BitVector.alloc(sa);
-                var vb = BitVector.alloc(sb);
-                var vc = BitVector.alloc(sc);
+                var z0 = BitVectors.alloc<T>();
+                var va = BitVectors.alloc(sa);
+                var vb = BitVectors.alloc(sb);
+                var vc = BitVectors.alloc(sc);
                 for(var i=0; i< z0.Width; i++)
                     z0[i] = BL(va[i], vb[i], vc[i]);
 
@@ -318,7 +318,7 @@ namespace Z0.Logix
                 T expect = NumericLogixHost.eval(op,a,b);
                 T result1 = LogicEngine.eval(expr);
                 //T result2 = BitVectorOpApi.eval(op, BitVector.alloc(a),BitVector.alloc(b)).Scalar;
-                var result2 = BitVectorLogix.Service.EvalDirect(op, BitVector.alloc(a),BitVector.alloc(b)).State;
+                var result2 = BitVectorLogix.Service.EvalDirect(op, BitVectors.alloc(a),BitVectors.alloc(b)).State;
                 Claim.eq(expect, result1);
                 Claim.eq(expect, result2);
             }

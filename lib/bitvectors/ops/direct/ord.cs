@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Computes the smallest integer n > 1 such that v^n = identity

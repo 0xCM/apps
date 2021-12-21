@@ -26,7 +26,7 @@ namespace Z0
         [Op]
         public static BitVector4 vector(N4 n, UnaryBitLogicKind kind)
         {
-            var x = BitVector.alloc(n);
+            var x = BitVectors.alloc(n);
             x[0] = bitlogix.Evaluate(kind, off);
             x[1] = bitlogix.Evaluate(kind, on);
             return x;
@@ -39,7 +39,7 @@ namespace Z0
         [Op]
         public static BitVector4 vector(N4 n, BinaryBitLogicKind kind)
         {
-            var x = BitVector.alloc(n);
+            var x = BitVectors.alloc(n);
             x[0] = bitlogix.Evaluate(kind, off, off);
             x[1] = bitlogix.Evaluate(kind, on, off);
             x[2] = bitlogix.Evaluate(kind, off, on);
@@ -55,7 +55,7 @@ namespace Z0
         [Op]
         public static BitVector8 vector(N8 n, TernaryBitLogicKind kind)
         {
-            var x = BitVector.alloc(n);
+            var x = BitVectors.alloc(n);
             x[0] = bitlogix.Evaluate(kind, off, off, off);
             x[1] = bitlogix.Evaluate(kind, off, off, on);
             x[2] = bitlogix.Evaluate(kind, off, on, off);
@@ -74,7 +74,7 @@ namespace Z0
         [Op]
         public static BitVector16 vector(N16 n, BinaryBitLogicKind kind)
         {
-            var dst = BitVector.alloc(n16);
+            var dst = BitVectors.alloc(n16);
             var s = ((byte)vector(n4, kind)).ToBitString().Truncate(4);
             var f = bitlogix.Lookup(kind);
             dst[0] = off;

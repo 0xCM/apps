@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static gmath;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Computes the parity of the source vector, which is 1 if an odd number of its components are enabled and 0 otherwise

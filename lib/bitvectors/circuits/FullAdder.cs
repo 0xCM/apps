@@ -44,7 +44,7 @@ namespace Z0
                 var c = x & y;
                 var sum = a ^ cin;
                 var cout = b | c;
-                return BitVector.concat(sum,cout);
+                return BitVectors.concat(sum,cout);
             }
 
             [MethodImpl(Inline), Op, NumericClosures(UnsignedInts)]

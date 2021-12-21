@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Computes the effective width of the bitvector as determined by the number of leading zero bits

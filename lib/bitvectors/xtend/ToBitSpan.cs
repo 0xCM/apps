@@ -15,6 +15,6 @@ namespace Z0
         public static BitSpan32 ToBitSpan32<N,T>(this ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector.bitspan32(x);
+                => BitVectors.bitspan32(x);
     }
 }

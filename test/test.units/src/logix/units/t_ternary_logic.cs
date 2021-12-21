@@ -137,7 +137,7 @@ namespace Z0
                 var a = Random.ScalarBits<T>();
                 var b = Random.ScalarBits<T>();
                 var c = Random.ScalarBits<T>();
-                var u = BitVector.alloc<T>();
+                var u = BitVectors.alloc<T>();
 
                 for(var j=0; j<width; j++)
                     u[j] = bitlogix.Evaluate(kind, a[j], b[j], c[j]);

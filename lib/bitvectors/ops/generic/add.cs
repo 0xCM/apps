@@ -11,7 +11,7 @@ namespace Z0
     using static cpu;
     using static core;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Computes the arithmetic sum z := x + y for generic bitvectors x and y

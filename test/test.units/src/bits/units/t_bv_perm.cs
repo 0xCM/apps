@@ -36,14 +36,14 @@ namespace Z0
         public void pbv_perm_64()
         {
             var p = Perm.natural(n64, (0,1),(1,2),(2,3),(3,4),(4,5),(5,6));
-            var bv = BitVector.perm(BitVector64.One,p);
+            var bv = BitVectors.perm(BitVector64.One,p);
             Claim.eq((byte)bv[6], (byte)1);
 
             for(var j=0; j<RepCount; j++)
             {
                 var p1 = Random.Perm(n64);
                 var v1 = Random.BitVector(n64);
-                var v2 = BitVector.perm(v1,p1);
+                var v2 = BitVectors.perm(v1,p1);
                 for(var i=0; i<v1.Width; i++)
                     Claim.eq(v1[p1[i]], v2[i]);
             }

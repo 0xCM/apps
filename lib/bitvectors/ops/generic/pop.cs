@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Counts the number of enabled bits in the source vector

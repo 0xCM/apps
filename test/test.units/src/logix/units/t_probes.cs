@@ -8,11 +8,11 @@ namespace Z0.Logix
     {
         public void probe_select()
         {
-            var a = BitVector.load(n8,0b10101010);
-            var b = BitVector.load(n8,0b10101010);
-            var c = BitVector.load(n8,0b01010101);
-            var d = BitVector.load(n8,0b11111111);
-            var z = BitVector.select(a,b,c);
+            var a = BitVectors.load(n8,0b10101010);
+            var b = BitVectors.load(n8,0b10101010);
+            var c = BitVectors.load(n8,0b01010101);
+            var d = BitVectors.load(n8,0b11111111);
+            var z = BitVectors.select(a,b,c);
             Claim.eq(z,d);
         }
     }

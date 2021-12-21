@@ -26,7 +26,7 @@ namespace Z0
         public static BitString ToBitString<N,T>(this ScalarBits<N,T> x)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector.bitstring(x);
+                => BitVectors.bitstring(x);
 
         /// <summary>
         /// Converts the vector content to a bitring representation
@@ -35,7 +35,7 @@ namespace Z0
         public static BitString ToBitString<N,T>(this ScalarBits<N,T> x, byte[] storage)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector.bitstring(x,storage);
+                => BitVectors.bitstring(x,storage);
 
         /// <summary>
         /// Extracts the represented data as a bitstring
@@ -43,7 +43,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static BitString ToBitString<T>(this ScalarBits<T> src)
             where T : unmanaged
-                => BitVector.bitstring(src);
+                => BitVectors.bitstring(src);
 
         /// <summary>
         /// Extracts the represented data as a bitstring truncated to a specified width
@@ -51,7 +51,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public static BitString ToBitString<T>(this ScalarBits<T> src, int width)
             where T : unmanaged
-                => BitVector.bitstring(src,width);
+                => BitVectors.bitstring(src,width);
 
         /// <summary>
         /// Creates the vector's bitstring representation
@@ -59,7 +59,7 @@ namespace Z0
         /// <param name="src">The source bitvector</param>
         [MethodImpl(Inline)]
         public static BitString ToBitString(this BitVector4 src)
-            => BitVector.bitstring(src);
+            => BitVectors.bitstring(src);
 
         /// <summary>
         /// Creates the vector's bitstring representation
@@ -67,7 +67,7 @@ namespace Z0
         /// <param name="src">The source bitvector</param>
         [MethodImpl(Inline)]
         public static BitString ToBitString(this BitVector8 src)
-            => BitVector.bitstring(src);
+            => BitVectors.bitstring(src);
 
         /// <summary>
         /// Creates the vector's bitstring representation
@@ -75,7 +75,7 @@ namespace Z0
         /// <param name="src">The source bitvector</param>
         [MethodImpl(Inline)]
         public static BitString ToBitString(this BitVector16 src)
-            => BitVector.bitstring(src);
+            => BitVectors.bitstring(src);
 
         /// <summary>
         /// Creates the vector's bitstring representation
@@ -83,7 +83,7 @@ namespace Z0
         /// <param name="src">The source bitvector</param>
         [MethodImpl(Inline)]
         public static BitString ToBitString(this BitVector24 src)
-             => BitVector.bitstring(src);
+             => BitVectors.bitstring(src);
 
         /// <summary>
         /// Creates the vector's bitstring representation
@@ -91,7 +91,7 @@ namespace Z0
         /// <param name="src">The source bitvector</param>
         [MethodImpl(Inline)]
         public static BitString ToBitString(this BitVector32 src)
-             => BitVector.bitstring(src);
+             => BitVectors.bitstring(src);
 
         /// <summary>
         /// Creates the vector's bitstring representation
@@ -99,6 +99,6 @@ namespace Z0
         /// <param name="src">The source bitvector</param>
         [MethodImpl(Inline)]
         public static BitString ToBitString(this BitVector64 x)
-            => BitVector.bitstring(x);
+            => BitVectors.bitstring(x);
     }
 }

@@ -87,7 +87,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public readonly bool Equals(in BitVector128<T> y)
-            => BitVector.eq(this,y);
+            => BitVectors.eq(this,y);
 
         public readonly override bool Equals(object obj)
             => obj is BitVector128<T> x && Equals(x);
@@ -99,7 +99,7 @@ namespace Z0
             => Format();
 
         public string Format()
-            => BitVector.bitstring(this);
+            => BitVectors.bitstring(this);
 
         [MethodImpl(Inline)]
         public BitVector128<U> As<U>()
@@ -129,7 +129,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator &(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVector.and(x,y);
+            => BitVectors.and(x,y);
 
         /// <summary>
         /// Computes the bitwise AND between the operands
@@ -138,7 +138,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator |(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVector.or(x,y);
+            => BitVectors.or(x,y);
 
         /// <summary>
         /// Computes the bitwise XOR between the operands
@@ -147,7 +147,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator ^(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVector.xor(x,y);
+            => BitVectors.xor(x,y);
 
         /// <summary>
         /// Computes the scalar product of the operands
@@ -156,7 +156,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static bit operator %(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVector.dot(x,y);
+            => BitVectors.dot(x,y);
 
         /// <summary>
         /// Computes the bitwise complement of the operand
@@ -164,7 +164,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator ~(in BitVector128<T> src)
-            => BitVector.not(src);
+            => BitVectors.not(src);
 
         /// <summary>
         /// Computes the two's complement negation of the operand
@@ -172,7 +172,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator -(in BitVector128<T> src)
-            => BitVector.negate(src);
+            => BitVectors.negate(src);
 
         /// <summary>
         /// Shifts the source bits leftwards
@@ -180,7 +180,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator <<(in BitVector128<T> x, int s)
-            => BitVector.sll(x,(byte)s);
+            => BitVectors.sll(x,(byte)s);
 
         /// <summary>
         /// Shifts the source bits rightwards
@@ -188,7 +188,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static BitVector128<T> operator >>(in BitVector128<T> x, int s)
-            => BitVector.srl(x,(byte)s);
+            => BitVectors.srl(x,(byte)s);
 
         /// <summary>
         /// Returns true if the source vector is nonzero, false otherwise
@@ -213,7 +213,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static bit operator ==(in BitVector128<T> x, in BitVector128<T> y)
-            => BitVector.eq(x,y);
+            => BitVectors.eq(x,y);
 
         /// <summary>
         /// Determines whether operand content is non-identical
@@ -222,7 +222,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static bit operator !=(in BitVector128<T> x, in BitVector128<T> y)
-            => !BitVector.eq(x,y);
+            => !BitVectors.eq(x,y);
 
         public static N128 MaxWidth => default;
 

@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Linq;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Assumes that

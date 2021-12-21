@@ -131,7 +131,7 @@ namespace Z0.Logix
             const byte on = 1;
             const byte off = 0;
 
-            var dst = BitVector.alloc(n4);
+            var dst = BitVectors.alloc(n4);
             dst[0] = (byte)(NumericLogixHost.eval(op, off,off) & on) == on;
             dst[1] = (byte)(NumericLogixHost.eval(op, on,off) & on) == on;
             dst[2] = (byte)(NumericLogixHost.eval(op, off,on) & on) == on;
@@ -142,7 +142,7 @@ namespace Z0.Logix
 
         void check_truth(BinaryBitLogicKind op)
         {
-            var dst = BitVector.alloc(n4);
+            var dst = BitVectors.alloc(n4);
             dst[0] = bitlogix.Evaluate(op, Z0.Bit32.Off, Z0.Bit32.Off);
             dst[1] = bitlogix.Evaluate(op, Z0.Bit32.On, Z0.Bit32.Off);
             dst[2] = bitlogix.Evaluate(op, Z0.Bit32.Off, Z0.Bit32.On);

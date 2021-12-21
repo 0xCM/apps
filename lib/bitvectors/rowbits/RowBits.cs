@@ -72,7 +72,7 @@ namespace Z0
             where T : unmanaged
         {
             for(var i=0; i<src.RowCount; i++)
-                dst[i] = BitVector.not(src[i]);
+                dst[i] = BitVectors.not(src[i]);
             return dst;
         }
 
@@ -82,7 +82,7 @@ namespace Z0
         {
             var count = a.RowCount;
             for(var i=0; i<count; i++)
-                dst[i] = BitVector.and(a[i],b[i]);
+                dst[i] = BitVectors.and(a[i],b[i]);
             return dst;
         }
 
@@ -92,7 +92,7 @@ namespace Z0
         {
             var count = a.RowCount;
             for(var i=0; i<count; i++)
-                dst[i] = BitVector.cnonimpl(a[i],b[i]);
+                dst[i] = BitVectors.cnonimpl(a[i],b[i]);
             return dst;
         }
 
@@ -102,7 +102,7 @@ namespace Z0
         {
             var rc = x.RowCount;
             for(var i=0; i<rc; i++)
-                dst[i] = BitVector.or(x[i],y[i]);
+                dst[i] = BitVectors.or(x[i],y[i]);
             return dst;
         }
 
@@ -112,7 +112,7 @@ namespace Z0
         {
             var rc = x.RowCount;
             for(var i=0; i<rc; i++)
-                dst[i] = BitVector.xor(x[i],y[i]);
+                dst[i] = BitVectors.xor(x[i],y[i]);
             return dst;
         }
 
@@ -122,7 +122,7 @@ namespace Z0
         {
             var rc = x.RowCount;
             for(var i=0; i<rc; i++)
-                dst[i] = BitVector.nand(x[i],y[i]);
+                dst[i] = BitVectors.nand(x[i],y[i]);
             return dst;
         }
 
@@ -132,7 +132,7 @@ namespace Z0
         {
             var count = a.RowCount;
             for(var i=0; i<count; i++)
-                dst[i] = BitVector.nor(a[i],b[i]);
+                dst[i] = BitVectors.nor(a[i],b[i]);
             return dst;
         }
 
@@ -142,7 +142,7 @@ namespace Z0
         {
             var count = a.RowCount;
             for(var i=0; i<count; i++)
-                dst[i] = BitVector.xnor(a[i],b[i]);
+                dst[i] = BitVectors.xnor(a[i],b[i]);
             return dst;
         }
 

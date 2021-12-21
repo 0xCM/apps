@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Zero extends the source vector
@@ -18,7 +18,7 @@ namespace Z0
         /// <param name="n">The target width</param>
         [MethodImpl(Inline), Op]
         public static BitVector8 extend(BitVector4 src, W8 n)
-            => BitVector.create(n, src.State);
+            => BitVectors.create(n, src.State);
 
         /// <summary>
         /// Zero extends the source vector
@@ -27,7 +27,7 @@ namespace Z0
         /// <param name="n">The target width</param>
         [MethodImpl(Inline), Op]
         public static BitVector16 extend(BitVector8 src, W16 n)
-            => BitVector.create(n, src.State);
+            => BitVectors.create(n, src.State);
 
         /// <summary>
         /// Zero extends the source vector
@@ -36,7 +36,7 @@ namespace Z0
         /// <param name="n">The target width</param>
         [MethodImpl(Inline), Op]
         public static BitVector32 extend(BitVector16 src, W32 n)
-            => BitVector.create(n, src.State);
+            => BitVectors.create(n, src.State);
 
         /// <summary>
         /// Zero extends the source vector
@@ -45,7 +45,7 @@ namespace Z0
         /// <param name="n">The target width</param>
         [MethodImpl(Inline), Op]
         public static BitVector64 extend(BitVector32 src, W64 n)
-            => BitVector.create(n, src.State);
+            => BitVectors.create(n, src.State);
 
         /// <summary>
         /// Zero extends the source vector

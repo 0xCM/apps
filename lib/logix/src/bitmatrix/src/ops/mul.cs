@@ -21,9 +21,9 @@ namespace Z0
             where T : unmanaged
         {
             var n = BitMatrix<T>.N;
-            var dst = BitVector.alloc<T>();
+            var dst = BitVectors.alloc<T>();
             for(var i=0; i< n; i++)
-                dst[i] = BitVector.dot(A[i], x);
+                dst[i] = BitVectors.dot(A[i], x);
             return dst;
         }
 
@@ -36,7 +36,7 @@ namespace Z0
         public static BitVector4 mul(BitMatrix4 A, BitVector4 x)
         {
             var n = n4;
-            var z = BitVector.alloc(n);
+            var z = BitVectors.alloc(n);
             for(byte i=0; i< n; i++)
                 z[i] = A[i] % x;
             return z;
@@ -51,7 +51,7 @@ namespace Z0
         public static BitVector8 mul(in BitMatrix8 A, in BitVector8 B)
         {
             var n = n8;
-            var z = BitVector.alloc(n);
+            var z = BitVectors.alloc(n);
             for(var i=0; i< n; i++)
                 z[i] = A[i] % B;
             return z;
@@ -126,7 +126,7 @@ namespace Z0
         public static BitVector16 mul(in BitMatrix16 A, in BitVector16 x)
         {
             var n = BitMatrix16.N;
-            var dst = BitVector.alloc(n16);
+            var dst = BitVectors.alloc(n16);
             for(var i=0; i< n; i++)
                 dst[i] = A[i] % x;
             return dst;
@@ -158,7 +158,7 @@ namespace Z0
             for(var i=0; i< n; i++)
             {
                 var r = A[i];
-                var z = BitVector.alloc(n32);
+                var z = BitVectors.alloc(n32);
                 for(var j = 0; j< n; j++)
                     z[j] = r % C[j];
                 A[i] = (uint)z;
@@ -178,7 +178,7 @@ namespace Z0
         public static BitVector32 mul(in BitMatrix32 A, in BitVector32 x)
         {
             const int N = 32;
-            var y = BitVector.alloc(n32);
+            var y = BitVectors.alloc(n32);
             for(var i=0; i< N; i++)
                 y[i] = A[i] % x;
             return y;
@@ -192,9 +192,9 @@ namespace Z0
             for(var i=0; i< N; i++)
             {
                 ref readonly var row = ref A[i];
-                var z = BitVector.alloc(n64);
+                var z = BitVectors.alloc(n64);
                 for(var j=0; j< N; j++)
-                    z[j] = BitVector.dot(row, C[j]);
+                    z[j] = BitVectors.dot(row, C[j]);
                 A[i] = (ulong)z;
             }
 
@@ -212,7 +212,7 @@ namespace Z0
         public static BitVector64 mul(in BitMatrix64 A, BitVector64 B)
         {
             const int N = 64;
-            var dst = BitVector.alloc(n64);
+            var dst = BitVectors.alloc(n64);
             for(var i=0; i< N; i++)
                 dst[i] = A[i] % B;
             return dst;

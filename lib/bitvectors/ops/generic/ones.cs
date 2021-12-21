@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Returns a generic vector with all bits enabled

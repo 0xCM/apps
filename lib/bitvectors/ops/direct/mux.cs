@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /*
         0 | 0 | 0 => selects input 0 = log2(0) [00000001]

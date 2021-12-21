@@ -19,7 +19,7 @@ namespace Z0
         public static string Format<N,T>(this ScalarBits<N,T> src, BitFormat? fmt = null)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => BitVector.format(src,fmt);
+                => BitVectors.format(src,fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -28,7 +28,7 @@ namespace Z0
         /// <param name="fmt">Bitstring formatting specifications</param>
         public static string Format<T>(this ScalarBits<T> src, BitFormat? fmt = null)
             where T : unmanaged
-                => BitVector.format(src,fmt);
+                => BitVectors.format(src,fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -37,7 +37,7 @@ namespace Z0
         /// <param name="fmt">Bitstring formatting specifications</param>
         [MethodImpl(Inline)]
         public static string Format(this BitVector4 src, BitFormat? fmt = null)
-            => BitVector.format(src,fmt);
+            => BitVectors.format(src,fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -46,7 +46,7 @@ namespace Z0
         /// <param name="fmt">Bitstring formatting specifications</param>
         [MethodImpl(Inline)]
         public static string Format(this BitVector8 src, BitFormat? fmt = null)
-            => BitVector.format(src,fmt);
+            => BitVectors.format(src,fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -55,7 +55,7 @@ namespace Z0
         /// <param name="fmt">Bitstring formatting specifications</param>
         [MethodImpl(Inline)]
         public static string Format(this BitVector32 src, BitFormat? fmt = null)
-            => BitVector.format(src, fmt);
+            => BitVectors.format(src, fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -64,7 +64,7 @@ namespace Z0
         /// <param name="fmt">Bitstring formatting specifications</param>
         [MethodImpl(Inline)]
         public static string Format(this BitVector16 src, BitFormat? fmt = null)
-            => BitVector.format(src, fmt);
+            => BitVectors.format(src, fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -73,7 +73,7 @@ namespace Z0
         /// <param name="fmt">Bitstring formatting specifications</param>
         [MethodImpl(Inline)]
         public static string Format(this BitVector24 src, BitFormat? fmt = null)
-            => BitVector.format(src, fmt);
+            => BitVectors.format(src, fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring
@@ -81,6 +81,6 @@ namespace Z0
         /// <param name="src">The source vector</param>
         /// <param name="fmt">Bitstring formatting specifications</param>
         public static string Format(this BitVector64 src, BitFormat? fmt = null)
-            => BitVector.format(src, fmt);
+            => BitVectors.format(src, fmt);
     }
 }

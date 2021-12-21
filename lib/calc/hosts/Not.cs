@@ -24,7 +24,7 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             public readonly ScalarBits<T> Invoke(ScalarBits<T> a)
-                => BitVector.not(a);
+                => BitVectors.not(a);
 
             [MethodImpl(Inline)]
             public T Invoke(T a) => gmath.not(a);

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static BitMaskLiterals;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Creates a bitvector with uniformly alternating states where the state of the

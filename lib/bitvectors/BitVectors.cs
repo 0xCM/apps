@@ -7,7 +7,7 @@ namespace Z0
     using static Root;
 
     [ApiHost]
-    public partial class BitVector
+    public partial class BitVectors
     {
         const NumericKind Closure = UnsignedInts;
 

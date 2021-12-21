@@ -27,7 +27,7 @@ namespace Z0
             var width = gbits.effwidth(src);
             Claim.eq((byte)6,width);
 
-            var expect = BitVector.alloc(n64);
+            var expect = BitVectors.alloc(n64);
             for(int i=0; i< expect.Width; i++)
                 if(math.between( i % 6,3,5))
                     expect[i] = Bit32.On;

@@ -8,7 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
     using System.Collections.Generic;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Enumerates each and every 8-bit bitvector exactly once
@@ -17,19 +17,19 @@ namespace Z0
         public static IEnumerable<BitVector8> list(N8 n)
         {
             var bv = BitVector8.Zero;
-            do            
-                yield return bv;            
+            do
+                yield return bv;
             while(++bv);
         }
 
         /// <summary>
-        /// Enumerates each nonempty 8-bit bitvector 
+        /// Enumerates each nonempty 8-bit bitvector
         /// </summary>
         public static IEnumerable<BitVector8> nonempty(N8 n)
         {
             var bv = BitVector8.One;
-            do            
-                yield return bv;            
+            do
+                yield return bv;
             while(++bv);
         }
 
@@ -42,7 +42,7 @@ namespace Z0
             var maxval = 1 << math.min(maxwidth,16);
             var bv = BitVector16.Zero;
             while(bv < maxval)
-                yield return bv++;            
+                yield return bv++;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Z0
             var maxval = Pow2.pow(maxwidth);
             var bv = BitVector32.Zero;
             while(bv < maxval)
-                yield return bv++;            
+                yield return bv++;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Z0
             var maxval = Pow2.pow(maxwidth);
             var bv = BitVector64.Zero;
             while(bv < maxval)
-                yield return bv++;            
+                yield return bv++;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Z0
         public void bvorders_Gf256()
         {
             var orders = new Dictionary<byte,int>();
-            foreach(var v in BitVector.nonempty(n8))
+            foreach(var v in BitVectors.nonempty(n8))
             {
                 var order = v.Order();
                 Claim.eq(BitVector8.One, v^order);

@@ -20,7 +20,7 @@ namespace Z0
             for(var i=0; i< RepCount; i++)
             {
                 var v1 = SpanBlocks.literals(n256,src[i]);
-                var v2 = BitVector.create(n64,src[i]);
+                var v2 = BitVectors.create(n64,src[i]);
                 Claim.eq(v1.ToBitVector(n64), v2);
 
                 var r1 = v1.BitSeg(lower[i], upper[i]);
@@ -46,7 +46,7 @@ namespace Z0
             for(var i=0; i< RepCount; i++)
             {
                 var v1 = SpanBlocks.literals(n256,src[i]);
-                var v2 = BitVector.create(n32,src[i]);
+                var v2 = BitVectors.create(n32,src[i]);
                 Claim.eq(v1.ToBitVector(n32),v2);
 
                 var r1 = v1.BitSeg(lower[i], upper[i]);
@@ -63,7 +63,7 @@ namespace Z0
             for(var i=0; i< RepCount; i++)
             {
                 var v1 = SpanBlocks.literals(n256,src[i]);
-                var v2 = BitVector.create(n16,src[i]);
+                var v2 = BitVectors.create(n16,src[i]);
                 Claim.eq(v1.ToBitVector(n16),v2);
 
                 var r1 = v1.BitSeg(lower[i], upper[i]);

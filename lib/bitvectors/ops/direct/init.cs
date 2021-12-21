@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Initializes a 4-bit bitvector with a supplied value

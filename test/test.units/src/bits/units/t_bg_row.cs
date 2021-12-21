@@ -19,7 +19,7 @@ namespace Z0
                 for(var row = 0; row<m; row++)
                 {
                     var r1 = BitGrid.row(bg,row);
-                    var r2 = BitVector.natural(bs.Slice(row*n,n), n, z8);
+                    var r2 = BitVectors.natural(bs.Slice(row*n,n), n, z8);
                     Claim.eq(r1,r2);
                 }
             }
@@ -40,7 +40,7 @@ namespace Z0
                 {
                     var r1 = BitGrid.row(bg,row);
                     var r2 = bs.Slice(row*n,n);
-                    var r4 = BitVector.create(n, r2);
+                    var r4 = BitVectors.create(n, r2);
                     Claim.eq(r1, r4);
                 }
             }
@@ -61,7 +61,7 @@ namespace Z0
                 {
                     var r1 = BitGrid.row(bg,row);
                     var r2 = bs.Slice(row*n,n);
-                    var r4 = BitVector.create(n, r2);
+                    var r4 = BitVectors.create(n, r2);
                     Claim.eq(r1, r4);
                 }
             }

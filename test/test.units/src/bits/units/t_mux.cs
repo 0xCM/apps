@@ -39,14 +39,14 @@ namespace Z0
                 var iv = Random.BitVector(n8);
                 var ov = BitVector8.Zero;
                 var cv = BitVector4.Zero;
-                ov[0] = BitVector.mux(iv,cv);
-                ov[1] = BitVector.mux(iv, ++cv);
-                ov[2] = BitVector.mux(iv, ++cv);
-                ov[3] = BitVector.mux(iv, ++cv);
-                ov[4] = BitVector.mux(iv, ++cv);
-                ov[5] = BitVector.mux(iv, ++cv);
-                ov[6] = BitVector.mux(iv, ++cv);
-                ov[7] = BitVector.mux(iv, ++cv);
+                ov[0] = BitVectors.mux(iv,cv);
+                ov[1] = BitVectors.mux(iv, ++cv);
+                ov[2] = BitVectors.mux(iv, ++cv);
+                ov[3] = BitVectors.mux(iv, ++cv);
+                ov[4] = BitVectors.mux(iv, ++cv);
+                ov[5] = BitVectors.mux(iv, ++cv);
+                ov[6] = BitVectors.mux(iv, ++cv);
+                ov[7] = BitVectors.mux(iv, ++cv);
                 Claim.eq(iv.State,ov.State);
             }
         }
@@ -57,7 +57,7 @@ namespace Z0
             {
                 var input = Random.BitVector(n16);
                 var control = Random.BitVector(n4);
-                var output = BitVector.mux(input,control);
+                var output = BitVectors.mux(input,control);
                 var expect = input[control.State];
                 Claim.eq(expect, output);
             }
@@ -69,7 +69,7 @@ namespace Z0
             {
                 var input = Random.BitVector(n32);
                 var control = Random.BitVector(n8) & 0b11111;
-                var output = BitVector.mux(input,control);
+                var output = BitVectors.mux(input,control);
                 var expect = input[control.State];
                 Claim.eq(expect, output);
             }

@@ -84,7 +84,7 @@ namespace Z0
                     var b = B[i];
                     var z = C[i];
 
-                    var x = BitVector.xor(a,b);
+                    var x = BitVectors.xor(a,b);
                     Claim.eq((T)x, (T)z);
                 }
             }

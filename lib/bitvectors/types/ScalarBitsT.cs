@@ -106,7 +106,7 @@ namespace Z0
         public ScalarBits<T> this[byte first, byte last]
         {
             [MethodImpl(Inline)]
-            get => BitVector.bitseg(this, first, last);
+            get => BitVectors.bitseg(this, first, last);
         }
 
         [MethodImpl(Inline)]
@@ -120,10 +120,10 @@ namespace Z0
             => Data.GetHashCode();
 
         public string Format(BitFormat config)
-            => BitVector.format(this,config);
+            => BitVectors.format(this,config);
 
         public string Format()
-            => BitVector.format(this);
+            => BitVectors.format(this);
 
         public override string ToString()
             => Format();
@@ -143,7 +143,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator &(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.and(x,y);
+            => BitVectors.and(x,y);
 
         /// <summary>
         /// Computes the bitwise AND between the operands
@@ -152,7 +152,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator |(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.or(x,y);
+            => BitVectors.or(x,y);
 
         /// <summary>
         /// Computes the bitwise XOR between the operands
@@ -161,7 +161,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator ^(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.xor(x,y);
+            => BitVectors.xor(x,y);
 
         /// <summary>
         /// Computes the scalar product of the operands
@@ -170,7 +170,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static bit operator %(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.dot(x,y);
+            => BitVectors.dot(x,y);
 
         /// <summary>
         /// Computes the bitwise complement of the operand
@@ -178,7 +178,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator ~(ScalarBits<T> src)
-            => BitVector.not(src);
+            => BitVectors.not(src);
 
         /// <summary>
         /// Computes the two's complement negation of the operand
@@ -186,7 +186,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator -(ScalarBits<T> src)
-            => BitVector.negate(src);
+            => BitVectors.negate(src);
 
         /// <summary>
         /// Shifts the source bits leftwards
@@ -194,7 +194,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator <<(ScalarBits<T> x, int offset)
-            => BitVector.sll(x,(byte)offset);
+            => BitVectors.sll(x,(byte)offset);
 
         /// <summary>
         /// Shifts the source bits rightwards
@@ -202,7 +202,7 @@ namespace Z0
         /// <param name="x">The source operand</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator >>(ScalarBits<T> x, int offset)
-            => BitVector.srl(x,(byte)offset);
+            => BitVectors.srl(x,(byte)offset);
 
         /// <summary>
         /// Returns true if the source vector is nonzero, false otherwise
@@ -226,7 +226,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator ++(ScalarBits<T> src)
-            => BitVector.inc(src);
+            => BitVectors.inc(src);
 
         /// <summary>
         /// Decrements the vector arithmetically
@@ -234,7 +234,7 @@ namespace Z0
         /// <param name="src">The source vector</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator --(ScalarBits<T> src)
-            => BitVector.dec(src);
+            => BitVectors.dec(src);
 
         /// <summary>
         /// Computes the arithmetic sum of the source operands.
@@ -243,7 +243,7 @@ namespace Z0
         /// <param name="y">The right operand</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator +(ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.add(x,y);
+            => BitVectors.add(x,y);
 
         /// <summary>
         /// Arithmetically subtracts the second operand from the first.
@@ -252,7 +252,7 @@ namespace Z0
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline)]
         public static ScalarBits<T> operator - (ScalarBits<T> x, ScalarBits<T> y)
-            => BitVector.sub(x,y);
+            => BitVectors.sub(x,y);
 
         /// <summary>
         /// Determines whether operand content is identical

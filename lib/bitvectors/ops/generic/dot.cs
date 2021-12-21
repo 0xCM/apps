@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial class BitVector
+    partial class BitVectors
     {
         /// <summary>
         /// Computes the scalar product between two bitvectors
@@ -40,6 +40,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bit dot<T>(in BitVector128<T> x, in BitVector128<T> y)
             where T : unmanaged
-                => parity(BitVector.and(x,y));
+                => parity(BitVectors.and(x,y));
    }
 }
