@@ -13,9 +13,11 @@ namespace Z0
 
     using F = Cell128;
 
-    [DataType("cell<w:128>")]
+    [DataType("cell<w:128>", Width, Width)]
     public readonly struct Cell128 : IDataCell<F,W128,Vector128<ulong>>
     {
+        public const uint Width = 128;
+
         readonly Vector128<ulong> Data;
 
         [MethodImpl(Inline)]

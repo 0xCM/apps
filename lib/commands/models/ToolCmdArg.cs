@@ -26,11 +26,6 @@ namespace Z0
         /// </summary>
         public dynamic Value {get;}
 
-        /// <summary>
-        /// The argument classifier
-        /// </summary>
-        public ArgPartKind Classifier {get;}
-
         public bool IsFlag {get;}
 
         [MethodImpl(Inline)]
@@ -39,7 +34,6 @@ namespace Z0
             Position = pos;
             Name = name;
             Value = value;
-            Classifier = ArgPartKind.Position | ArgPartKind.Prefix | ArgPartKind.Name | ArgPartKind.Value;
             IsFlag = flag;
         }
 
@@ -49,17 +43,6 @@ namespace Z0
             Position = 0;
             Name = name;
             Value = value;
-            Classifier = ArgPartKind.Name | ArgPartKind.Value;
-            IsFlag = flag;
-        }
-
-        [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, dynamic value, bool flag = false)
-        {
-            Position = pos;
-            Name = EmptyString;
-            Value = value;
-            Classifier = ArgPartKind.Position | ArgPartKind.Value;
             IsFlag = flag;
         }
 

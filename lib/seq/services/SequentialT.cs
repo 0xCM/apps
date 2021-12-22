@@ -34,7 +34,7 @@ namespace Z0
         }
 
         public Sequential<T> Next()
-            => seq.next(this);
+            => Seq.next(this);
 
         public void IncLo()
         {

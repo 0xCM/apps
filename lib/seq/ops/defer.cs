@@ -11,7 +11,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct seq
+    partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Deferred<T> defer<T>(IEnumerable<T> src)

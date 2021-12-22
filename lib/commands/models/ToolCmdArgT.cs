@@ -30,8 +30,6 @@ namespace Z0
 
         public ArgProtocol Protocol {get;}
 
-        public ArgPartKind Classifier {get;}
-
         public bool IsFlag {get;}
 
         [MethodImpl(Inline)]
@@ -41,7 +39,6 @@ namespace Z0
             Name = EmptyString;
             Value = value;
             Protocol = (ArgPrefix.Space, ArgQualifier.Space);
-            Classifier = ArgPartKind.Position | ArgPartKind.Value;
             IsFlag = flag;
         }
 
@@ -52,28 +49,8 @@ namespace Z0
             Name = name;
             Value = value;
             Protocol = (ArgPrefix.Space, ArgQualifier.Space);
-            Classifier = ArgPartKind.Name | ArgPartKind.Value;
             IsFlag = flag;
         }
-
-
-        [MethodImpl(Inline)]
-        public ToolCmdArg(ushort pos, string name,  T value, ArgProtocol protocol, bool flag = false)
-        {
-            Position = pos;
-            Name = name;
-            Value = value;
-            Protocol = protocol;
-            Classifier = ArgPartKind.Position | ArgPartKind.Prefix | ArgPartKind.Name | ArgPartKind.Qualifier | ArgPartKind.Value;
-            IsFlag = flag;
-        }
-
-        public ArgPrefix Prefix
-            => Protocol.Prefix;
-
-        public ArgQualifier Qualifier
-            => Protocol.Qualifier;
-
 
         [MethodImpl(Inline)]
         public string Format()

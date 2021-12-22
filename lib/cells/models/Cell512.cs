@@ -13,9 +13,13 @@ namespace Z0
 
     using F = Cell512;
 
-    [DataType("cell<w:512>")]
+    [DataType("cell<w:512>", Width, Width)]
     public readonly struct Cell512 : IDataCell<Cell512,W512,Vector512<ulong>>
     {
+        public const uint Size = 64;
+
+        public const uint Width = 512;
+
         readonly Cell256 X0;
 
         readonly Cell256 X1;
@@ -46,10 +50,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => X1;
         }
-
-        public int BitWidth => 512;
-
-        public int Size => 64;
 
         public Cell512 Zero
         {

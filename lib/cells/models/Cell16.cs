@@ -10,9 +10,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("cell<w:16>")]
+    [DataType("cell<w:16>", Width, Width)]
     public readonly struct Cell16 : IDataCell<Cell16,W16,ushort>
     {
+        public const uint Width = 16;
+
         readonly ushort Data;
 
         [MethodImpl(Inline)]

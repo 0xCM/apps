@@ -12,7 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using api = seq;
+    using api = Seq;
 
     public readonly struct IndexedSeq<I,T> : IIndex<IndexedSeq<I,T>,I,T>
         where I : unmanaged

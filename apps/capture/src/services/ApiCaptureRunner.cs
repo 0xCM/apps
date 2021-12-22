@@ -49,9 +49,9 @@ namespace Z0
 
         public void EmitImm(ReadOnlySpan<ApiHostUri> hosts, FS.FolderPath root, Delegates.SpanReceiver<AsmRoutine> receiver = null)
         {
-            var flow = Wf.Running(nameof(EmitImm));
+            var flow = Running(nameof(EmitImm));
             Wf.ImmEmitter().Emit(hosts, root, receiver);
-            Wf.Ran(flow);
+            Ran(flow);
         }
 
         public Index<AsmHostRoutines> Capture(Index<PartId> parts)
@@ -62,8 +62,8 @@ namespace Z0
 
         public Index<AsmHostRoutines> Capture(Index<PartId> parts, CaptureWorkflowOptions options)
         {
-            using var flow = Wf.Running(nameof(Capture));
-            Wf.Status(seq.enclose(parts.Storage));
+            var flow = Running(nameof(Capture));
+            Status(Seq.enclose(parts.Storage));
             var captured = CaptureParts(parts);
 
             if((options & CaptureWorkflowOptions.EmitImm) != 0)
@@ -75,13 +75,14 @@ namespace Z0
                 EmitRebase(members(captured), ts);
             }
 
+            Ran(flow);
             return captured;
         }
 
         public Index<AsmHostRoutines> Capture(ReadOnlySpan<ApiHostUri> hosts, CaptureWorkflowOptions options)
         {
             using var flow = Wf.Running(nameof(Capture));
-            Wf.Status(seq.enclose(hosts).Format());
+            Status(Seq.enclose(hosts).Format());
             var captured = CaptureHosts(hosts);
 
             if((options & CaptureWorkflowOptions.EmitImm) != 0)
@@ -101,34 +102,34 @@ namespace Z0
 
         Index<AsmHostRoutines> CaptureParts(Index<PartId> parts)
         {
-            var flow = Wf.Running(nameof(CaptureParts));
+            var flow = Running(nameof(CaptureParts));
             using var step = Wf.ApiCapture();
             var captured = step.CaptureParts(parts);
-            Wf.Ran(flow);
+            Ran(flow);
             return captured;
         }
 
         Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src)
         {
-            var flow = Wf.Running(nameof(CaptureHosts));
+            var flow = Running(nameof(CaptureHosts));
             using var step = Wf.ApiCapture();
             var captured = step.CaptureHosts(src);
-            Wf.Ran(flow);
+            Ran(flow);
             return captured;
         }
 
         void EmitImm(Index<PartId> parts)
         {
-            var flow = Wf.Running(nameof(EmitImm));
+            var flow = Running(nameof(EmitImm));
             Wf.ImmEmitter().Emit(parts);
-            Wf.Ran(flow);
+            Ran(flow);
         }
 
         void EmitImm(ReadOnlySpan<ApiHostUri> hosts)
         {
-            var flow = Wf.Running(nameof(EmitImm));
+            var flow = Running(nameof(EmitImm));
             Wf.ImmEmitter().Emit(hosts);
-            Wf.Ran(flow);
+            Ran(flow);
         }
 
         void EmitRebase(ApiMembers members, Timestamp ts)
@@ -136,7 +137,7 @@ namespace Z0
             var rebasing = Wf.Running(nameof(EmitRebase));
             var dst = Db.ContextTable<ApiCatalogEntry>(ts);
             var entries = Wf.ApiCatalogs().EmitApiCatalog(members, dst);
-            Wf.Ran(rebasing);
+            Ran(rebasing);
         }
 
         Timestamp EmitContext()

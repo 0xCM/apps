@@ -11,7 +11,7 @@ namespace Z0
 
     using static Root;
 
-    using api = seq;
+    using api = Seq;
 
     /// <summary>
     /// Reifies a canonical indexed sequence container

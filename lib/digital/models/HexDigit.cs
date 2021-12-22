@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("hexdigit")]
+    [DataType("digit<b:16>")]
     public readonly struct HexDigit
     {
         public readonly HexDigitValue Value;

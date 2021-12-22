@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct seq
+    partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static IndexedSeq<I,T> concat<I,T>(IndexedSeq<I,T> head, IndexedSeq<I,T> tail)

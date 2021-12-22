@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("key<t:{0}>")]
     public readonly struct Key<T> : ITextual, IHashed
         where T : unmanaged
     {

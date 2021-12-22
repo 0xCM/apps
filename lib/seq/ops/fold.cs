@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct seq
+    partial struct Seq
     {
         /// <summary>
         /// Reduces a stream to a single value via a specified monoid

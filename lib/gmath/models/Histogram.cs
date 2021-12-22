@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("histogram<t:{0}>")]
     public struct Histogram<T>
         where T : unmanaged, IComparable<T>
     {

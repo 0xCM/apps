@@ -5,11 +5,10 @@
 namespace Z0
 {
     using static Root;
-    using static core;
 
-    partial struct seq
+    [ApiHost]
+    public readonly partial struct Seq
     {
-        public static string format<T>(T[] src, char delimiter = Chars.Comma, int pad = 0)
-            => delimit<T>(delimiter, pad, @readonly(src)).Format();
-    }
+        const NumericKind Closure = UInt64k;
+   }
 }

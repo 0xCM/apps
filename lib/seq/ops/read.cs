@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct seq
+    partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public unsafe static void read<T>(Span<T> src, Action<T> dst)
@@ -17,7 +17,7 @@ namespace Z0
         {
             fixed(T* pSrc = src)
             {
-                var it = seq.reader(pSrc, src.Length);
+                var it = Seq.reader(pSrc, src.Length);
                 while(it.Next(out T current))
                     dst(current);
             }

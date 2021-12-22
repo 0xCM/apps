@@ -12,10 +12,14 @@ namespace Z0
     using static core;
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Size = SZ, Pack=1), DataType("cell<w:256,t:{0}>")]
+    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("cell<w:256,t:{0}>", Width, Width)]
     public struct Cell256<T> : IDataCell<Cell256<T>,W256,ByteBlock32>
         where T : unmanaged
     {
+        public const uint Width = 256;
+
+        public const ushort Size = 32;
+
         [MethodImpl(Inline)]
         public static Cell256<T> init(Vector256<T> src)
             => new Cell256<T>(src.AsByte());
@@ -23,10 +27,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Cell256<T> init(ByteBlock32 src)
             => new Cell256<T>(src);
-
-        public const ushort Width = 256;
-
-        public const ushort SZ = 32;
 
         ByteBlock32 Data;
 

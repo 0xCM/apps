@@ -4,6 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+    using static core;
+
     public struct CmpEval<T>
     {
         public CmpPredKind OpKind;
@@ -14,6 +20,13 @@ namespace Z0
 
         public bool Result;
 
-        public SuccessCode Success;
+        [MethodImpl(Inline)]
+        public CmpEval(CmpPredKind kind, T a, T b, bool result)
+        {
+            OpKind = kind;
+            A = a;
+            B = b;
+            Result = result;
+        }
     }
 }

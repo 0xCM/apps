@@ -12,6 +12,7 @@ namespace Z0
 
     using api = BitSpans;
 
+    [DataType("bitspan")]
     public readonly ref struct BitSpan
     {
         readonly Span<bit> Data;

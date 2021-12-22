@@ -11,7 +11,8 @@ namespace Z0
 
     using api = Flags;
 
-    public struct Flags16<K> : IFlags<Flags16<K>,K,Pow2x16>
+    [DataType("flags<w:16,k:{0}>")]
+    public struct Flags16<K> : IFlags<K>
         where K : unmanaged
     {
         public const byte Width = 16;
@@ -25,10 +26,10 @@ namespace Z0
         public BitWidth DataWidth
             => Width;
 
-        public bit this[K flag]
+        public bit this[byte index]
         {
             [MethodImpl(Inline)]
-            get => api.state(this, flag);
+            get => api.state(this, index);
         }
 
         public bit this[Pow2x16 flag]

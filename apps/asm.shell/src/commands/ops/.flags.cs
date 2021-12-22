@@ -6,8 +6,8 @@ namespace Z0.Asm
 {
     partial class AsmCmdService
     {
-        [CmdOp(".flags")]
-        Outcome Flags(CmdArgs args)
+        [CmdOp("eflags/status")]
+        Outcome StatusFlags(CmdArgs args)
         {
             var result = Outcome.Success;
             var flags = new StatusFlags();

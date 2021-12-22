@@ -39,7 +39,7 @@ namespace Z0
         }
 
         public string Format()
-            => seq.format(Storage);
+            => Seq.format(Storage);
 
         public override string ToString()
             => Format();

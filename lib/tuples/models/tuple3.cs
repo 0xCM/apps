@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("tuple<t0:{0},t1:{1},t2:{2}>")]
     public struct tuple<T0,T1,T2> : ITuple<tuple<T0,T1,T2>,N3,T0,T1,T2>
         where T0: IEquatable<T0>
         where T1: IEquatable<T1>

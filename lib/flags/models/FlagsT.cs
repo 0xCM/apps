@@ -11,6 +11,7 @@ namespace Z0
 
     using api = Flags;
 
+    [DataType("flags<t:{0}>")]
     public struct Flags<T> : IFlags<T>
         where T : unmanaged
     {
@@ -23,10 +24,10 @@ namespace Z0
         public BitWidth DataWidth
             => core.width<T>();
 
-        public bit this[T flag]
+        public bit this[byte index]
         {
             [MethodImpl(Inline)]
-            get => api.state(this, flag);
+            get => api.state(this, index);
         }
 
         public T State

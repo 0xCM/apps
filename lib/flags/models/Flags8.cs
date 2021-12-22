@@ -11,7 +11,8 @@ namespace Z0
 
     using api = Flags;
 
-    public struct Flags8<K> : IFlags<Flags8<K>,K,Pow2x8>
+    [DataType("flags<w:8,k:{0}>")]
+    public struct Flags8<K> : IFlags<K>
         where K : unmanaged
     {
         public const byte Width = 8;
@@ -31,10 +32,10 @@ namespace Z0
             get => Data;
         }
 
-        public bit this[K flag]
+        public bit this[byte index]
         {
             [MethodImpl(Inline)]
-            get => api.state(this, flag);
+            get => api.state(this, index);
         }
 
         public bit this[Pow2x8 flag]

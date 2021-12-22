@@ -11,7 +11,7 @@ namespace Z0
     using static SeqEnclosureKind;
     using static Chars;
 
-    partial struct seq
+    partial struct Seq
     {
         [MethodImpl(Inline)]
         public static DelimitedList<T> enclose<T>(T[] src)

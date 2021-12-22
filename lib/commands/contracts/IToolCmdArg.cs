@@ -24,11 +24,6 @@ namespace Z0
         dynamic Value {get;}
 
         /// <summary>
-        /// Specifies the extant argument components
-        /// </summary>
-        ArgPartKind Classifier {get;}
-
-        /// <summary>
         /// Specifies whether the argument is a flag and thus the name is the value and conversely
         /// </summary>
         bool IsFlag => false;

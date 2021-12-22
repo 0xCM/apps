@@ -66,20 +66,14 @@ namespace Z0
                 => _format(src);
 
         [MethodImpl(Inline)]
-        static string _format<F,W,E>(IFlags<F,E,W> src, bool enabledOnly = true)
+        static string _format<E>(IFlags<E> src, bool enabledOnly = true)
             where E : unmanaged,Enum
-            where W : unmanaged
-            where F : IFlags<F,E,W>
         {
             var symbols = Symbols.index<E>();
             var buffer = text.buffer();
             var count = min(symbols.Length, src.DataWidth);
             for(byte i=0; i<count; i++)
-            {
-                ref readonly var symbol = ref symbols[i];
-                var state = src[@as<ulong,W>(Pow2.pow(i))];
-                render(symbol, state, buffer, enabledOnly);
-            }
+                render(symbols[i], src[i], buffer, enabledOnly);
             return buffer.ToString();
         }
 

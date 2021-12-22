@@ -47,62 +47,30 @@ namespace Z0
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static CmpEval<T> eq<T>(T a, T b, bit result)
-        {
-            var dst = new CmpEval<T>();
-            dst.OpKind = CmpPredKind.EQ;
-            dst.A = a;
-            dst.B = b;
-            dst.Result = result;
-            dst.Success = result ? SuccessCode.Success : SuccessCode.Failure;
-            return dst;
-        }
+            => new CmpEval<T>(CmpPredKind.EQ, a, b, result);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmpEval<T> neq<T>(T a, T b, bit result)
+            => new CmpEval<T>(CmpPredKind.NEQ, a, b, result);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static CmpEval<T> gt<T>(T a, T b, bit result)
-        {
-            var dst = new CmpEval<T>();
-            dst.OpKind = CmpPredKind.GT;
-            dst.A = a;
-            dst.B = b;
-            dst.Result = result;
-            dst.Success = result ? SuccessCode.Success : SuccessCode.Failure;
-            return dst;
-        }
+            => new CmpEval<T>(CmpPredKind.GT, a, b, result);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static CmpEval<T> ngt<T>(T a, T b, bit result)
+            => new CmpEval<T>(CmpPredKind.NGT, a, b, result);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static CmpEval<T> gteq<T>(T a, T b, bit result)
-        {
-            var dst = new CmpEval<T>();
-            dst.OpKind = CmpPredKind.GE;
-            dst.A = a;
-            dst.B = b;
-            dst.Result = result;
-            dst.Success = result ? SuccessCode.Success : SuccessCode.Failure;
-            return dst;
-        }
+            => new CmpEval<T>(CmpPredKind.GE, a, b, result);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static CmpEval<T> lt<T>(T a, T b, bit result)
-        {
-            var dst = new CmpEval<T>();
-            dst.OpKind = CmpPredKind.LT;
-            dst.A = a;
-            dst.B = b;
-            dst.Result = result;
-            dst.Success = result ? SuccessCode.Success : SuccessCode.Failure;
-            return dst;
-        }
+            => new CmpEval<T>(CmpPredKind.LT, a, b, result);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static CmpEval<T> lteq<T>(T a, T b, bit result)
-        {
-            var dst = new CmpEval<T>();
-            dst.OpKind = CmpPredKind.LE;
-            dst.A = a;
-            dst.B = b;
-            dst.Result = result;
-            dst.Success = result ? SuccessCode.Success : SuccessCode.Failure;
-            return dst;
-        }
+            => new CmpEval<T>(CmpPredKind.LE, a, b, result);
     }
 }

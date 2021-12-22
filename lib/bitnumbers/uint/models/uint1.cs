@@ -20,7 +20,7 @@ namespace Z0
     /// <summary>
     /// Represents either 0 or 1
     /// </summary>
-    [DataType("u<w:1>")]
+    [DataType("u<w:1>", Width, 8)]
     public readonly struct uint1 : IBitNumber<U,W,K,T>
     {
         internal readonly T data;

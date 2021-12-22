@@ -41,37 +41,37 @@ namespace Z0
                 => (bw64(src.State) & bw64(flag)) != 0;
 
         [MethodImpl(Inline), Op, Closures(UInt8k)]
-        public static bit state<E>(Flags8<E> src, E flag)
+        public static bit state<E>(Flags8<E> src, byte index)
             where E : unmanaged
-                => bit.test(u8(src.State), (byte)Pow2.log(u8(flag)));
+                => bit.test(u8(src.State), index);
 
         [MethodImpl(Inline), Op, Closures(UInt8k | UInt16k)]
-        public static bit state<E>(Flags16<E> src, E flag)
+        public static bit state<E>(Flags16<E> src, byte index)
             where E : unmanaged
-                => bit.test(u16(src.State), (byte)Pow2.log(u16(flag)));
+                => bit.test(u16(src.State), index);
 
         [MethodImpl(Inline), Op, Closures(UInt8k | UInt16k | UInt32k)]
-        public static bit state<E>(Flags32<E> src, E flag)
+        public static bit state<E>(Flags32<E> src, byte index)
             where E : unmanaged
-                => bit.test(u32(src.State), (byte)Pow2.log(u32(flag)));
+                => bit.test(u32(src.State), index);
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static bit state<E>(Flags64<E> src, E flag)
+        public static bit state<E>(Flags64<E> src, byte index)
             where E : unmanaged
-                => bit.test(u64(src.State), (byte)Pow2.log(u64(flag)));
+                => bit.test(u64(src.State), index);
 
         [MethodImpl(Inline), Op, Closures(Integers)]
-        public static bit state<T>(Flags<T> src, T flag)
+        public static bit state<T>(Flags<T> src, byte index)
             where T : unmanaged
         {
             if(size<T>() == 1)
-                return bit.test(u8(src.State), (byte)Pow2.log(u8(flag)));
+                return bit.test(u8(src.State), index);
             else if(size<T>() == 2)
-                return bit.test(u16(src.State), (byte)Pow2.log(u16(flag)));
+                return bit.test(u16(src.State), index);
             else if(size<T>() == 4)
-                return bit.test(u32(src.State), (byte)Pow2.log(u32(flag)));
+                return bit.test(u32(src.State), index);
             else
-                return bit.test(u64(src.State), (byte)Pow2.log(u64(flag)));
+                return bit.test(u64(src.State), index);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Z0
         public ReadOnlySpan<T> Items
             => Data.ViewDeposited();
         public string Format()
-            => string.Concat(seq.left(Kind), text.delimit(Data, Delimiter), seq.right(Kind));
+            => string.Concat(Seq.left(Kind), text.delimit(Data, Delimiter), Seq.right(Kind));
 
         public override string ToString()
             => Format();

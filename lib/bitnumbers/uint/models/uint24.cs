@@ -23,7 +23,7 @@ namespace Z0
     /// <summary>
     /// Represents the value of an unsigned integer of bit-width 24
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = Size), DataType("u24")]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size), DataType("u<w:24>", Width, Width)]
     public struct uint24 : IBitNumber<U,W,T>
     {
         internal ushort Lo;

@@ -11,7 +11,8 @@ namespace Z0
 
     using api = Flags;
 
-    public struct Flags64<K> : IFlags<Flags64<K>,K,Pow2x64>
+    [DataType("flags<w:64,k:{0}>")]
+    public struct Flags64<K> : IFlags<K>
         where K : unmanaged
     {
         public const byte Width = 64;
@@ -25,10 +26,10 @@ namespace Z0
         public BitWidth DataWidth
             => Width;
 
-        public bit this[K flag]
+        public bit this[byte index]
         {
             [MethodImpl(Inline)]
-            get => api.state(this, flag);
+            get => api.state(this, index);
         }
 
         public bit this[Pow2x64 flag]

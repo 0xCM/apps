@@ -11,7 +11,7 @@ namespace Z0
 
     using static Root;
 
-    partial struct seq
+    partial struct Seq
     {
         /// <summary>
         /// Creates a <see cref='Index{I,T}'/> from an array

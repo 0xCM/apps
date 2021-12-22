@@ -8,7 +8,7 @@ namespace Z0
     using System.Linq;
     using System.Collections.Generic;
 
-    partial struct seq
+    partial struct Seq
     {
         /// <summary>
         /// All of your streams belong to us

@@ -8,7 +8,6 @@ namespace Z0.Ops
 
     [Free]
     public interface IScalarCmpPred<T> : IBooleanExpr<T>
-        where T : IScalarExpr
     {
 
     }
@@ -16,7 +15,6 @@ namespace Z0.Ops
     [Free]
     public interface IScalarCmpPred<F,T> : IScalarCmpPred<T>, IBinaryOpExpr<F,CmpPredKind,T,T>
         where F : IScalarCmpPred<F,T>
-        where T : IScalarExpr
     {
 
     }

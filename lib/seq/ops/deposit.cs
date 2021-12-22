@@ -12,7 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct seq
+    partial struct Seq
     {
         [MethodImpl(Inline), Closures(Closure)]
         public static void deposit<T>(ReadOnlySpan<T> src, HashSet<T> dst)

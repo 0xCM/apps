@@ -144,16 +144,16 @@ namespace Z0
                 : sys.empty<FolderPath>();
 
             public Deferred<FilePath> EnumerateFiles(bool recurse)
-                => seq.defer(EnumerateFiles(this, recurse));
+                => Seq.defer(EnumerateFiles(this, recurse));
 
             public Deferred<FilePath> EnumerateFiles(FileExt[] ext, bool recurse)
-                => seq.defer(EnumerateFiles(this, recurse, ext));
+                => Seq.defer(EnumerateFiles(this, recurse, ext));
 
             public Deferred<FilePath> EnumerateFiles(FileExt ext, bool recurse)
-                => seq.defer(EnumerateFiles(this, ext, recurse));
+                => Seq.defer(EnumerateFiles(this, ext, recurse));
 
             public Deferred<FilePath> EnumerateFiles(string pattern, bool recurse)
-                => seq.defer(EnumerateFiles(this, pattern, recurse));
+                => Seq.defer(EnumerateFiles(this, pattern, recurse));
 
             /// <summary>
             /// Creates the represented directory in the file system if it doesn't exist

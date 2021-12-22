@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct seq
+    partial struct Seq
     {
         /// <summary>
         /// Deposits index-identified cells from a specified <see cref='ReadOnlySpan{T}'/> into as specified target <see cref='Span{T}'/>

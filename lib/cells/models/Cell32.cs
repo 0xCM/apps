@@ -10,9 +10,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("cell<w:32>")]
+    [DataType("cell<w:32>", Width, Width)]
     public readonly struct Cell32 : IDataCell<Cell32,W32,uint>
     {
+        public const uint Width = 32;
+
         public uint Content {get;}
 
         [MethodImpl(Inline)]

@@ -18,7 +18,7 @@ namespace Z0
     /// <remarks>
     /// Note that models of extended real numbers may also serve as endpoints, enabling representations such as (-∞,3] and (-3, ∞).
     /// </remarks>
-    [DataType("interval<{T}>")]
+    [DataType("interval<t:{0}>")]
     public readonly struct Interval<T>
         where T : unmanaged
     {

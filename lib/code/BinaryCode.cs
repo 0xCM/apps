@@ -10,9 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    /// <summary>
-    /// Encoded x86 bytes extracted from a memory source
-    /// </summary>
+    [DataType("bincode")]
     public readonly partial struct BinaryCode : IComparable<BinaryCode>, ITextual
     {
         /// <summary>

@@ -11,7 +11,7 @@ namespace Z0
     using static core;
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Size = SZ, Pack=1), DataType("cell<w:512,t:{0}>")]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("cell<w:512,t:{0}>", Width, Width)]
     public struct Cell512<T> : IDataCell<Cell512<T>,W512,ByteBlock64>
         where T : unmanaged
     {
@@ -23,9 +23,9 @@ namespace Z0
         public static Cell512<T> init(ByteBlock64 src)
             => new Cell512<T>(src);
 
-        public const ushort Width = 512;
+        public const uint Size = 64;
 
-        public const ushort SZ = 32;
+        public const uint Width = 512;
 
         ByteBlock64 Data;
 

@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence term
     /// </summary>
+    [DataType("seqterm<t:{0}>")]
     public readonly struct SeqTerm<T>
     {
         /// <summary>

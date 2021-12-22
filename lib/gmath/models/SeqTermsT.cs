@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a data structure for sparse/partial sequence representation
     /// </summary>
+    [DataType("seqterms<t:{0}>")]
     public readonly struct SeqTerms<T> : IIndex<SeqTerm<T>>
     {
         readonly Index<SeqTerm<T>> Data;

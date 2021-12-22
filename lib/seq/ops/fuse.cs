@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct seq
+    partial struct Seq
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Span<T> fuse<T>(Span<T> xs, Span<T> ys, Func<T,T,T> f)

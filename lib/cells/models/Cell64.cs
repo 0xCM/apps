@@ -10,9 +10,10 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("cell<w:64>")]
+    [DataType("cell<w:64>", Width, Width)]
     public readonly struct Cell64 : IDataCell<Cell64,W64,ulong>
     {
+        public const uint Width = 64;
         public ulong Content {get;}
 
         [MethodImpl(Inline)]

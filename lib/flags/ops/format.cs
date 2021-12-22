@@ -54,10 +54,8 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        static string _format<F,W,E>(IFlags<F,E,W> src, bool enabledOnly = true)
+        static string _format<E>(IFlags<E> src, bool enabledOnly = true)
             where E : unmanaged
-            where W : unmanaged
-            where F : IFlags<F,E,W>
         {
             var type = typeof(E);
             var buffer = new StringBuilder();
@@ -66,11 +64,7 @@ namespace Z0
                 var fields = type.GetFields(ReflectionFlags.BF_All);
                 var count = min(fields.Length, src.DataWidth);
                 for(byte i=0; i<count; i++)
-                {
-                    var field = skip(fields, i);
-                    var state = src[@as<ulong,W>(Pow2.pow(i))];
-                    render(skip(fields,i), state, buffer, enabledOnly);
-                }
+                    render(skip(fields,i), src[i], buffer, enabledOnly);
             }
             else
             {

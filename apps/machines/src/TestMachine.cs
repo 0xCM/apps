@@ -372,17 +372,17 @@ namespace Z0.Machines
             using var buffer2 = memory.native<uint>(count);
             Random.Fill(buffer0.Edit);
             Random.Fill(buffer1.Edit);
-            var r0 = seq.reader(buffer0);
-            var r1 = seq.reader(buffer1);
-            var reader = seq.reader(r0,r1);
-            var editor = seq.editor(buffer2);
+            var r0 = Seq.reader(buffer0);
+            var r1 = Seq.reader(buffer1);
+            var reader = Seq.reader(r0,r1);
+            var editor = Seq.editor(buffer2);
 
             while(reader.Next(out var c0, out var c1))
             {
                 editor.Next(out var _) = math.xor(c0,c1);
             }
 
-            var result = seq.reader(buffer2);
+            var result = Seq.reader(buffer2);
             var counter = 0u;
             while(result.Next(out var r))
             {

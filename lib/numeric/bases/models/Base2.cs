@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("base<n:2>")]
     public readonly struct Base2 : INumericBase<Base2>
     {
         public static Base2 Base => default;
