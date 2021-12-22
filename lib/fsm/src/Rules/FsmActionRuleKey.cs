@@ -13,14 +13,14 @@ namespace Z0
     /// Identifies an action rule for lookup purposes
     /// </summary>
     /// <typeparam name="S">The state type</typeparam>
-    public readonly struct ActionRuleKey<S> : IRuleKey
+    public readonly struct FsmActionRuleKey<S> : IFsmRuleKey
     {
         public int Hash {get;}
 
         public S Source {get;}
 
         [MethodImpl(Inline)]
-        public ActionRuleKey(S source)
+        public FsmActionRuleKey(S source)
         {
             Source = source;
             Hash = source.GetHashCode();
@@ -30,7 +30,7 @@ namespace Z0
             => $"({Source})";
 
         [MethodImpl(Inline)]
-        public static implicit operator ActionRuleKey<S>(S source)
-            => new ActionRuleKey<S>(source);
+        public static implicit operator FsmActionRuleKey<S>(S source)
+            => new FsmActionRuleKey<S>(source);
     }
 }

@@ -5,15 +5,15 @@
 namespace Z0
 {
     /// <summary>
-    ///  Characterizes a rule of the form (input : E, source : S) -> output : S 
+    ///  Characterizes a rule of the form (input : E, source : S) -> target : S
     /// </summary>
-    /// <typeparam name="S">The state type</typeparam>
-    /// <typeparam name="O">The output type</typeparam>
-    public interface IOutputRule<E,S,O> : IFsmRule<E,S>
+    /// <typeparam name="E">The input event type</typeparam>
+    /// <typeparam name="S">The source state</typeparam>
+    public interface IFsmTransitionRule<E,S> : IFsmRule<E,S>
     {
         /// <summary>
-        /// The output produced
+        /// The target state
         /// </summary>
-        O Output {get;}
+        S Target {get;}
     }
 }

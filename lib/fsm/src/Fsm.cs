@@ -177,12 +177,12 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        static TransitionFunction<T,T> transition<T>(IFsmContext context, PrimalFsmSpec<T> spec)
+        static FsmTransitionFunc<T,T> transition<T>(IFsmContext context, PrimalFsmSpec<T> spec)
             where T : unmanaged
         {
             var sources = gcalc.stream<T>(spec.StateCount).ToArray();
             var random = context.Random;
-            var rules = new List<TransitionRule<T,T>>();
+            var rules = new List<FsmTransitionRule<T,T>>();
             foreach(var source in sources)
             {
                 var evss = random.Next<T>(spec.MinEventSamples, spec.MaxEventSamples);
@@ -194,11 +194,11 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        static TransitionFunction<T,T> transition<T>(IPolySource src, PrimalFsmSpec<T> spec)
+        static FsmTransitionFunc<T,T> transition<T>(IPolySource src, PrimalFsmSpec<T> spec)
             where T : unmanaged
         {
             var sources = gcalc.stream<T>(spec.StateCount).ToArray();
-            var rules = new List<TransitionRule<T,T>>();
+            var rules = new List<FsmTransitionRule<T,T>>();
             foreach(var source in sources)
             {
                 var evss = src.Next<T>(spec.MinEventSamples, spec.MaxEventSamples);
@@ -218,8 +218,8 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static TransitionRule<E,S> transition<E,S>(E trigger, S source, S target)
-            => new TransitionRule<E,S>(trigger,source,target);
+        public static FsmTransitionRule<E,S> transition<E,S>(E trigger, S source, S target)
+            => new FsmTransitionRule<E,S>(trigger,source,target);
 
         /// <summary>
         /// Defines a machine transition function (trigger : E, source: S) -> target : S
@@ -229,8 +229,8 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static TransitionFunction<E,S> transition<E,S>(IEnumerable<ITransitionRule<E,S>> rules)
-            => new TransitionFunction<E,S>(rules);
+        public static FsmTransitionFunc<E,S> transition<E,S>(IEnumerable<IFsmTransitionRule<E,S>> rules)
+            => new FsmTransitionFunc<E,S>(rules);
 
         /// <summary>
         /// Defines an output rule of the form (trigger : E, source : S) -> output : O
@@ -242,7 +242,7 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static OutputRule<E,S,O> output<E,S,O>(E trigger, S source, O output)
+        public static FsmOutputRule<E,S,O> output<E,S,O>(E trigger, S source, O output)
             => (trigger, source, output);
 
         /// <summary>
@@ -253,8 +253,8 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static OutputFunction<E,S,O> output<E,S,O>(IEnumerable<IOutputRule<E,S,O>> rules)
-            => new OutputFunction<E, S, O>(rules);
+        public static FsmOutputFunc<E,S,O> output<E,S,O>(IEnumerable<IFsmOutputRule<E,S,O>> rules)
+            => new FsmOutputFunc<E, S, O>(rules);
 
         /// <summary>
         /// Defines an action that fires upon state entry
@@ -264,8 +264,8 @@ namespace Z0
         /// <typeparam name="S">The state type</typeparam>
         /// <typeparam name="A">The action type</typeparam>
         [MethodImpl(Inline)]
-        public static ActionRule<S,A> entry<S,A>(S source, A action)
-            => new ActionRule<S,A>(source,action);
+        public static FsmActionRule<S,A> entry<S,A>(S source, A action)
+            => new FsmActionRule<S,A>(source,action);
 
         /// <summary>
         /// Defines an entry action function
@@ -274,8 +274,8 @@ namespace Z0
         /// <typeparam name="S">The state type</typeparam>
         /// <typeparam name="A">The action type</typeparam>
         [MethodImpl(Inline)]
-        public static EntryFunction<S,A> entry<S,A>(IEnumerable<IFsmActionRule<S,A>> rules)
-            => new EntryFunction<S,A>(rules);
+        public static FsmEntryFunc<S,A> entry<S,A>(IEnumerable<IFsmActionRule<S,A>> rules)
+            => new FsmEntryFunc<S,A>(rules);
 
         /// <summary>
         /// Defines an action that fires upon state exit
@@ -285,8 +285,8 @@ namespace Z0
         /// <typeparam name="S">The state type</typeparam>
         /// <typeparam name="A">The action type</typeparam>
         [MethodImpl(Inline)]
-        public static ActionRule<S,A> exit<S,A>(S source, A action)
-            => new ActionRule<S,A>(source,action);
+        public static FsmActionRule<S,A> exit<S,A>(S source, A action)
+            => new FsmActionRule<S,A>(source,action);
 
         /// <summary>
         /// Defines an exit action function
@@ -295,8 +295,8 @@ namespace Z0
         /// <typeparam name="S">The state type</typeparam>
         /// <typeparam name="A">The action type</typeparam>
         [MethodImpl(Inline)]
-        public static ExitFunction<S,A> exit<S,A>(IEnumerable<IFsmActionRule<S,A>> rules)
-            => new ExitFunction<S,A>(rules);
+        public static FsmExitFunc<S,A> exit<S,A>(IEnumerable<IFsmActionRule<S,A>> rules)
+            => new FsmExitFunc<S,A>(rules);
 
         /// <summary>
         /// Defines the most basic FSM, predicated only on ground-state, end-state and transition function
@@ -308,7 +308,7 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static Fsm<E,S> machine<E,S>(string id, IFsmContext context, S s0, S sZ, TransitionFunction<E,S> f)
+        public static Fsm<E,S> machine<E,S>(string id, IFsmContext context, S s0, S sZ, FsmTransitionFunc<E,S> f)
             => new Fsm<E,S>(id, context, s0, sZ, f);
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static Fsm<E,S> machine<E,S>(string id, IWfRuntime wf, S s0, S sZ, TransitionFunction<E,S> f, ulong? limit = null)
+        public static Fsm<E,S> machine<E,S>(string id, IWfRuntime wf, S s0, S sZ, FsmTransitionFunc<E,S> f, ulong? limit = null)
             => new Fsm<E,S>(id, wf, s0, sZ, f, limit);
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Z0
         /// <param name="input">The output value</param>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static OutputRuleKey<E,S> outKey<E,S>(E trigger, S source)
+        public static FsmOutputRuleKey<E,S> outKey<E,S>(E trigger, S source)
             => (trigger,source);
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Z0
         /// <typeparam name="E">The input event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static ActionRuleKey<S> entryKey<S>(S source)
+        public static FsmActionRuleKey<S> entryKey<S>(S source)
             => source;
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Z0
         /// <typeparam name="E">The input event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static ActionRuleKey<S> exitKey<S>(S source)
+        public static FsmActionRuleKey<S> exitKey<S>(S source)
             => source;
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace Z0
         /// <typeparam name="E">The event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static TransitionRuleKey<E,S> transitionKey<E,S>(E trigger, S source)
+        public static FsmTransitionRuleKey<E,S> transitionKey<E,S>(E trigger, S source)
             => (trigger,source);
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Z0
         /// <typeparam name="S">The state type</typeparam>
         /// <typeparam name="A">The entry action type</typeparam>
         [MethodImpl(Inline)]
-        public static Fsm<E,S,A> machine<E,S,A>(string id, IWfRuntime wf, S s0, S sZ, TransitionFunction<E,S> t, EntryFunction<S,A> entry, ExitFunction<S,A> exit, ulong? limit = null)
+        public static Fsm<E,S,A> machine<E,S,A>(string id, IWfRuntime wf, S s0, S sZ, FsmTransitionFunc<E,S> t, FsmEntryFunc<S,A> entry, FsmExitFunc<S,A> exit, ulong? limit = null)
             => new Fsm<E,S,A>(id, wf, s0, sZ, t, entry,exit, limit);
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace Z0
         /// <typeparam name="E">The input event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static TransitionFunction<E,S> transition<E,S>(params TransitionRule<E,S>[] rules)
-            => new TransitionFunction<E,S>(rules);
+        public static FsmTransitionFunc<E,S> transition<E,S>(params FsmTransitionRule<E,S>[] rules)
+            => new FsmTransitionFunc<E,S>(rules);
     }
 }

@@ -14,12 +14,12 @@ namespace Z0.Lang
     public readonly struct Production<T> : IProduction<T>
         where T : IExpr
     {
-        public Label Name {get;}
+        public Identifier Name {get;}
 
         public T Term {get;}
 
         [MethodImpl(Inline)]
-        public Production(Label name, T term)
+        public Production(Identifier name, T term)
         {
             Name = name;
             Term = term;

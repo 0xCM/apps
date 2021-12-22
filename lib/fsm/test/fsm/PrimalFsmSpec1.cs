@@ -21,7 +21,7 @@ namespace Z0
 
         public readonly Index<Result> Results;
 
-        public readonly Index<TransitionRule<Event,State>> Rules;
+        public readonly Index<FsmTransitionRule<Event,State>> Rules;
 
         [MethodImpl(Inline)]
         public PrimalFsmSpec1(Event[] events, State[] states, Result[] results)
@@ -33,7 +33,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public PrimalFsmSpec1(Event[] events, State[] states, Result[] results, TransitionRule<Event,State>[] rules)
+        public PrimalFsmSpec1(Event[] events, State[] states, Result[] results, FsmTransitionRule<Event,State>[] rules)
         {
             Events = events;
             States = states;
@@ -41,7 +41,7 @@ namespace Z0
             Rules = rules;
         }
 
-        public TransitionFunction<Event,State> Transition
+        public FsmTransitionFunc<Event,State> Transition
         {
             [MethodImpl(Inline)]
             get => Fsm.transition(Rules.Storage);

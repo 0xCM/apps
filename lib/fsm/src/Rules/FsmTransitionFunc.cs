@@ -14,29 +14,29 @@ namespace Z0
     /// <summary>
     /// Encapsulates the set of all rules (input : E, source : S) -> target : S that define state machine transitions
     /// </summary>
-    public class TransitionFunction<E,S> : IFsmFunc<E,S>
+    public class FsmTransitionFunc<E,S> : IFsmFunc<E,S>
     {
-        readonly Dictionary<int,ITransitionRule<E,S>> Index;
+        readonly Dictionary<int,IFsmTransitionRule<E,S>> Index;
 
-        public TransitionFunction(IEnumerable<ITransitionRule<E,S>> rules)
+        public FsmTransitionFunc(IEnumerable<IFsmTransitionRule<E,S>> rules)
             => Index = rules.Select(x => (Fsm.transitionKey(x.Trigger,x.Source).Hash, x)).ToDictionary();
 
-        public TransitionFunction(IEnumerable<TransitionRule<E,S>> rules)
-            => Index = rules.Select(x => (Fsm.transitionKey(x.Trigger,x.Source).Hash, x as ITransitionRule<E,S>)).ToDictionary();
+        public FsmTransitionFunc(IEnumerable<FsmTransitionRule<E,S>> rules)
+            => Index = rules.Select(x => (Fsm.transitionKey(x.Trigger,x.Source).Hash, x as IFsmTransitionRule<E,S>)).ToDictionary();
 
         [MethodImpl(Inline)]
         public Option<S> Eval(E input, S source)
             => Rule(Fsm.transitionKey(input,source)).TryMap(r => r.Target);
 
-        public Option<ITransitionRule<E,S>> Rule(IRuleKey key)
+        public Option<IFsmTransitionRule<E,S>> Rule(IFsmRuleKey key)
         {
-            if(Index.TryGetValue(key.Hash, out ITransitionRule<E,S> dst))
+            if(Index.TryGetValue(key.Hash, out IFsmTransitionRule<E,S> dst))
                 return Option.some(dst);
             else
                 return default;
         }
 
-        Option<IFsmRule> IFsmFunc.Rule(IRuleKey key)
+        Option<IFsmRule> IFsmFunc.Rule(IFsmRuleKey key)
             => Rule(key).TryMap(r => r as IFsmRule);
 
         /// <summary>

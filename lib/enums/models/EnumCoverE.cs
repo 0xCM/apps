@@ -9,10 +9,10 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct EnumCover<E> : IEnumCover<E>
+    public struct EnumCover<E> : IEnumCover<E>
         where E : unmanaged, Enum
     {
-        public E Value {get;}
+        public E Value {get;set;}
 
         [MethodImpl(Inline)]
         public EnumCover(E value)

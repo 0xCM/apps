@@ -11,9 +11,9 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct OperandAspect : IEnumCover<OperandAspectKind>
+        public struct OperandAspect : IEnumCover<OperandAspectKind>
         {
-            public OperandAspectKind Value {get;}
+            public OperandAspectKind Value {get;set;}
 
             [MethodImpl(Inline)]
             public OperandAspect(OperandAspectKind src)

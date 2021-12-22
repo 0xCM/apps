@@ -1,30 +1,28 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
+// Source      : all-state.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
     partial struct XedModels
     {
-        [DataType(Names.opwidth)]
-        public struct OperandWidth : IEnumCover<OperandWidthType>
+        public readonly struct BCastSpec
         {
-            public OperandWidthType Value {get;set;}
+            public BCastClass Class {get;}
+
+            public Ratio<byte> Ratio {get;}
 
             [MethodImpl(Inline)]
-            public OperandWidth(OperandWidthType kind)
+            public BCastSpec(BCastClass @class, byte src, byte dst)
             {
-                Value = kind;
+                Class = @class;
+                Ratio = (src,dst);
             }
-
-            [MethodImpl(Inline)]
-            public static implicit operator OperandWidth(OperandWidthType type)
-                => new OperandWidth(type);
         }
     }
 }

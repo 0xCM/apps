@@ -6,7 +6,7 @@ namespace Z0.Lang
 {
     public abstract class GrammarRule: IProduction
     {
-        public Label Name {get;}
+        public Identifier Name {get;}
 
         public Grammar Grammar {get;}
 

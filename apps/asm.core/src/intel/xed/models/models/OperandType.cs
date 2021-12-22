@@ -12,9 +12,9 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(Names.optype)]
-        public readonly struct OperandType : IEnumCover<OperandTypeKind>
+        public struct OperandType : IEnumCover<OperandTypeKind>
         {
-            public OperandTypeKind Value {get;}
+            public OperandTypeKind Value {get;set;}
 
             [MethodImpl(Inline)]
             public OperandType(OperandTypeKind src)

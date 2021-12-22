@@ -21,7 +21,7 @@ namespace Z0
         /// <typeparam name="E">The input event type</typeparam>
         /// <typeparam name="S">The state type</typeparam>
         [MethodImpl(Inline)]
-        public static TransitionFunction<E,S> ToFunction<E,S>(this IEnumerable<TransitionRule<E,S>> rules)
+        public static FsmTransitionFunc<E,S> ToFunction<E,S>(this IEnumerable<FsmTransitionRule<E,S>> rules)
             => Fsm.transition(rules.Array());
 
         /// <summary>

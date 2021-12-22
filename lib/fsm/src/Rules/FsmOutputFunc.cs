@@ -17,12 +17,12 @@ namespace Z0
     /// for source/target pairs in the domain. If an input value (s1:S, s2:S)
     /// is not in the function domain, en empty option is returned
     /// </summary>
-    public class OutputFunction<E,S,O> : IFsmFunc
+    public class FsmOutputFunc<E,S,O> : IFsmFunc
     {
-        readonly Dictionary<int,IOutputRule<E,S,O>> RuleIndex;
+        readonly Dictionary<int,IFsmOutputRule<E,S,O>> RuleIndex;
 
         [MethodImpl(Inline)]
-        public OutputFunction(IEnumerable<IOutputRule<E,S,O>> Rules)
+        public FsmOutputFunc(IEnumerable<IFsmOutputRule<E,S,O>> Rules)
             => RuleIndex = Rules.Select(x => (Fsm.outKey(x.Trigger, x.Source).Hash,x)).ToDictionary();
 
         /// <summary>
@@ -38,16 +38,16 @@ namespace Z0
         /// Searches for the output rule given a key
         /// </summary>
         /// <param name="key">The rule key</param>
-        public Option<IOutputRule<E,S,O>> Rule(IRuleKey key)
+        public Option<IFsmOutputRule<E,S,O>> Rule(IFsmRuleKey key)
         {
-            if(RuleIndex.TryGetValue(key.Hash, out IOutputRule<E,S,O> dst))
+            if(RuleIndex.TryGetValue(key.Hash, out IFsmOutputRule<E,S,O> dst))
                 return Option.some(dst);
             else
                 return default;
         }
 
         [MethodImpl(Inline)]
-        Option<IFsmRule> IFsmFunc.Rule(IRuleKey key)
+        Option<IFsmRule> IFsmFunc.Rule(IFsmRuleKey key)
             => Rule(key).TryMap(r => r as IFsmRule);
     }
 }

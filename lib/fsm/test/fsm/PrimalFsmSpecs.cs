@@ -23,7 +23,7 @@ namespace Z0
             => new PrimalFsmSpec1(events, states, results);
 
         [MethodImpl(Inline)]
-        public static TransitionRule<E,S> rule<E,S>(E trigger, S source, S target)
+        public static FsmTransitionRule<E,S> rule<E,S>(E trigger, S source, S target)
             where E : unmanaged
             where S : unmanaged
                 => (trigger,source,target);

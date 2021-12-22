@@ -9,19 +9,19 @@ namespace Z0
     using System.Collections.Generic;
 
     /// <summary>
-    /// Defines a set of rules that define actions associated with state entry
+    /// Defines a set of rules that define actions associated with state Exit
     /// </summary>
-    public readonly struct EntryFunction<S,A> : IFsmFunc
+    public class FsmExitFunc<S,A> : IFsmFunc
     {
-        readonly Dictionary<int, IFsmActionRule<A>> RuleIndex;
-
-        public EntryFunction(IEnumerable<IFsmActionRule<A>> rules)
+        public FsmExitFunc(IEnumerable<IFsmActionRule<A>> rules)
             => RuleIndex = rules.Select(rule => (rule.RuleId, rule)).ToDictionary();
 
-        public Option<A> Eval(S source)
-            => Rule(Fsm.entryKey(source)).TryMap(r => r.Action);
+        readonly Dictionary<int, IFsmActionRule<A>> RuleIndex;
 
-        public Option<IFsmActionRule<A>> Rule(IRuleKey key)
+        public Option<A> Eval(S source)
+            => Rule(Fsm.exitKey(source)).TryMap(r => r.Action);
+
+        public Option<IFsmActionRule<A>> Rule(IFsmRuleKey key)
         {
             if(RuleIndex.TryGetValue(key.Hash, out IFsmActionRule<A> dst))
                 return Option.some(dst);
@@ -29,7 +29,7 @@ namespace Z0
                 return default;
         }
 
-        Option<IFsmRule> IFsmFunc.Rule(IRuleKey key)
+        Option<IFsmRule> IFsmFunc.Rule(IFsmRuleKey key)
             => Rule(key).TryMap(r => r as IFsmRule);
     }
 }

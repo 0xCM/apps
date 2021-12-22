@@ -15,7 +15,7 @@ namespace Z0
     /// <typeparam name="E">The event type</typeparam>
     /// <typeparam name="S">The state type</typeparam>
     /// <typeparam name="O">The output type</typeparam>
-    public readonly struct OutputRule<E,S,O> : IOutputRule<E,S,O>
+    public readonly struct FsmOutputRule<E,S,O> : IFsmOutputRule<E,S,O>
     {
         /// <summary>
         /// The source state
@@ -35,7 +35,7 @@ namespace Z0
         /// <summary>
         /// The key that identifies the rule
         /// </summary>
-        public OutputRuleKey<E,S> Key {get;}
+        public FsmOutputRuleKey<E,S> Key {get;}
 
         /// <summary>
         /// The rule id as determined by the key
@@ -47,7 +47,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public OutputRule(E trigger, S source, O output)
+        public FsmOutputRule(E trigger, S source, O output)
         {
             Trigger = trigger;
             Source = source;
@@ -62,7 +62,7 @@ namespace Z0
         public readonly override string ToString()
             => Format();
 
-        IRuleKey<E,S> IFsmRule<E,S>.Key
+        IFsmRuleKey<E,S> IFsmRule<E,S>.Key
             => Key;
 
 
@@ -75,7 +75,7 @@ namespace Z0
         /// <typeparam name="S">The state type</typeparam>
         /// <typeparam name="O">The output type</typeparam>
         [MethodImpl(Inline)]
-        public static implicit operator OutputRule<E,S,O>((E trigger, S source, O output) x)
-            => new OutputRule<E,S,O>(x.trigger, x.source, x.output);
+        public static implicit operator FsmOutputRule<E,S,O>((E trigger, S source, O output) x)
+            => new FsmOutputRule<E,S,O>(x.trigger, x.source, x.output);
     }
 }

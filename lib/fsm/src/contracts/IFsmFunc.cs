@@ -11,14 +11,14 @@ namespace Z0
     /// Characterizes a state machine partial function
     /// </summary>
     public interface IFsmFunc
-    {        
-        Option<IFsmRule> Rule(IRuleKey key);
+    {
+        Option<IFsmRule> Rule(IFsmRuleKey key);
     }
 
     public interface IFsmFunc<E,S> : IFsmFunc
     {
         Option<S> Eval(E input, S state);
 
-        IEnumerable<E> Triggers {get;}                    
+        IEnumerable<E> Triggers {get;}
     }
 }

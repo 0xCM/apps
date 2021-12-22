@@ -4,20 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IRuleKey : IHashed
+    public interface IFsmRuleKey : IHashed
     {
         new int Hash {get;}
 
         uint IHashed.Hash => (uint)Hash;
     }
 
-    public interface IRuleKey<E,S> : IRuleKey
+    public interface IFsmRuleKey<E,S> : IFsmRuleKey
     {
         /// <summary>
         /// The triggering event
         /// </summary>
         E Trigger {get;}
-    
+
         /// <summary>
         /// The source state
         /// </summary>

@@ -13,7 +13,7 @@ namespace Z0
 
     public interface ILiteralCover<T> : ILiteralCover
     {
-        T Value {get;}
+        T Value {get; set;}
 
         string ITextual.Format()
             => Value.ToString();

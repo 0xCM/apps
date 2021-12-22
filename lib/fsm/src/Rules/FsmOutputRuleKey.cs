@@ -13,7 +13,7 @@ namespace Z0
     /// Defines a key for output rule indexing/lookup
     /// </summary>
     /// <typeparam name="S">The state type</typeparam>
-    public readonly struct OutputRuleKey<E,S> : IRuleKey<E,S>
+    public readonly struct FsmOutputRuleKey<E,S> : IFsmRuleKey<E,S>
     {
         public E Trigger {get;}
 
@@ -25,7 +25,7 @@ namespace Z0
         public int Hash {get;}
 
         [MethodImpl(Inline)]
-        public OutputRuleKey(E trigger, S target)
+        public FsmOutputRuleKey(E trigger, S target)
         {
             Trigger = trigger;
             Source = target;
@@ -36,7 +36,7 @@ namespace Z0
             => $"({Trigger}, {Source})";
 
         [MethodImpl(Inline)]
-        public static implicit operator OutputRuleKey<E,S>((E trigger, S source) x)
-            => new OutputRuleKey<E,S>(x.trigger, x.source);
+        public static implicit operator FsmOutputRuleKey<E,S>((E trigger, S source) x)
+            => new FsmOutputRuleKey<E,S>(x.trigger, x.source);
     }
 }

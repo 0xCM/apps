@@ -19,6 +19,6 @@ namespace Z0
         /// <summary>
         /// The rule key for hash-based lookups
         /// </summary>
-        IRuleKey<E,S> Key {get;}
+        IFsmRuleKey<E,S> Key {get;}
     }
 }

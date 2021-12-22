@@ -13,9 +13,9 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(Names.iform)]
-        public readonly struct IForm : IEquatable<IForm>, IComparable<IForm>, IEnumCover<IFormType>
+        public struct IForm : IEquatable<IForm>, IComparable<IForm>, IEnumCover<IFormType>
         {
-            public IFormType Value {get;}
+            public IFormType Value {get;set;}
 
             [MethodImpl(Inline)]
             public IForm(IFormType src)

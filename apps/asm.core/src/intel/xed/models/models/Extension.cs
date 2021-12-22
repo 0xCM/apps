@@ -12,9 +12,9 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(Names.extension)]
-        public readonly struct Extension : IEnumCover<ExtensionKind>
+        public struct Extension : IEnumCover<ExtensionKind>
         {
-            public ExtensionKind Value {get;}
+            public ExtensionKind Value {get;set;}
 
             [MethodImpl(Inline)]
             public Extension(ExtensionKind src)

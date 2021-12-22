@@ -14,11 +14,11 @@ namespace Z0
 
     public abstract class FsmSpec<E,S,O>
     {
-        public virtual IEnumerable<TransitionRule<E,S>> TransRules {get;}
+        public virtual IEnumerable<FsmTransitionRule<E,S>> TransRules {get;}
 
-        public virtual IEnumerable<OutputRule<E,S,O>> OutputRules{get;}
+        public virtual IEnumerable<FsmOutputRule<E,S,O>> OutputRules{get;}
 
-        public TransitionFunction<E,S> TransFunc
+        public FsmTransitionFunc<E,S> TransFunc
             => TransRules.ToFunction();
     }
 
@@ -39,7 +39,7 @@ namespace Z0
             O0, O1, O2, O3, O4, O5, O6, O7, O8, O9, O10
         }
 
-        public override IEnumerable<OutputRule<EventKinds,StateKinds,OutputKinds>> OutputRules
+        public override IEnumerable<FsmOutputRule<EventKinds,StateKinds,OutputKinds>> OutputRules
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Z0
             }
         }
 
-        public override IEnumerable<TransitionRule<EventKinds,StateKinds>> TransRules
+        public override IEnumerable<FsmTransitionRule<EventKinds,StateKinds>> TransRules
         {
             get
             {

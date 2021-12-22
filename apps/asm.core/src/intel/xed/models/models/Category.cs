@@ -11,9 +11,9 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(Names.category)]
-        public readonly struct Category : IEnumCover<CategoryKind>
+        public struct Category : IEnumCover<CategoryKind>
         {
-            public CategoryKind Value {get;}
+            public CategoryKind Value {get;set;}
 
             [MethodImpl(Inline)]
             public Category(CategoryKind src)

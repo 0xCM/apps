@@ -11,9 +11,9 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(Names.reg)]
-        public readonly struct Register : IEnumCover<RegId>
+        public struct Register : IEnumCover<RegId>
         {
-            public RegId Value {get;}
+            public RegId Value {get;set;}
 
             [MethodImpl(Inline)]
             public Register(RegId src)

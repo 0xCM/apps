@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface IProduction : IExpr
     {
-        Label Name {get;}
+        Identifier Name {get;}
     }
 
     [Free]

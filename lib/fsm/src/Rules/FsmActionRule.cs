@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Characterizes an action that that executes per machine rules
     /// </summary>
-    public readonly struct ActionRule<S,A> : IFsmActionRule<S,A>
+    public readonly struct FsmActionRule<S,A> : IFsmActionRule<S,A>
     {
         /// <summary>
         /// The state upon which the rule is predicated
@@ -27,7 +27,7 @@ namespace Z0
         /// <summary>
         /// The rule key
         /// </summary>
-        public ActionRuleKey<S> Key {get;}
+        public FsmActionRuleKey<S> Key {get;}
 
         /// <summary>
         /// The rule identifier
@@ -39,11 +39,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public ActionRule(S source, A action)
+        public FsmActionRule(S source, A action)
         {
             Source = source;
             Action= action;
-            Key = new ActionRuleKey<S>(source);
+            Key = new FsmActionRuleKey<S>(source);
         }
 
 
@@ -58,7 +58,7 @@ namespace Z0
         /// <typeparam name="S">The source type</typeparam>
         /// <typeparam name="A">The action type</typeparam>
         [MethodImpl(Inline)]
-        public static implicit operator ActionRule<S,A>((S src, A action) x)
-            => new ActionRule<S,A>(x.src, x.action);
+        public static implicit operator FsmActionRule<S,A>((S src, A action) x)
+            => new FsmActionRule<S,A>(x.src, x.action);
     }
 }

@@ -13,7 +13,7 @@ namespace Z0
     public class Fsm<E,S,A> : Fsm<E,S>
     {
         internal Fsm(string Id, IWfRuntime wf, S s0, S end,
-                TransitionFunction<E,S> Transition, EntryFunction<S,A> entry, ExitFunction<S,A> exit, ulong? limit = null)
+                FsmTransitionFunc<E,S> Transition, FsmEntryFunc<S,A> entry, FsmExitFunc<S,A> exit, ulong? limit = null)
             : base(Id, wf, s0, end, Transition, limit)
         {
             EntryFunc = entry;
@@ -23,12 +23,12 @@ namespace Z0
         /// <summary>
         /// The function to evaluate upon state entry to determine the associated action, if any
         /// </summary>
-        readonly EntryFunction<S,A> EntryFunc;
+        readonly FsmEntryFunc<S,A> EntryFunc;
 
         /// <summary>
         /// The function to evaluate upon state exit to determine the associated action, if any
         /// </summary>
-        readonly ExitFunction<S,A> ExitFunc;
+        readonly FsmExitFunc<S,A> ExitFunc;
 
         /// <summary>
         /// The entry action

@@ -20,10 +20,10 @@ namespace Z0
 
         public Index<R> Results {get;}
 
-        public Index<TransitionRule<E,S>> Rules {get;}
+        public Index<FsmTransitionRule<E,S>> Rules {get;}
 
         [MethodImpl(Inline)]
-        public PrimalFsmSpec(S[] states, E[] events, R[] results, params TransitionRule<E,S>[] rules)
+        public PrimalFsmSpec(S[] states, E[] events, R[] results, params FsmTransitionRule<E,S>[] rules)
         {
             States = states;
             Events = events;

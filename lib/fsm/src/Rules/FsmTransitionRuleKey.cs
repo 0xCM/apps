@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a key, predicated on input event and current state, identifies a transition rule
     /// </summary>
-    public readonly struct TransitionRuleKey<E,S> : IRuleKey<E,S>
+    public readonly struct FsmTransitionRuleKey<E,S> : IFsmRuleKey<E,S>
     {
         /// <summary>
         /// The source state
@@ -27,7 +27,7 @@ namespace Z0
         public int Hash {get;}
 
         [MethodImpl(Inline)]
-        public TransitionRuleKey(E input, S source)
+        public FsmTransitionRuleKey(E input, S source)
         {
             Trigger = input;
             Source = source;
@@ -45,7 +45,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator TransitionRuleKey<E,S>((E trigger, S source) x)
-            => new TransitionRuleKey<E,S>(x.trigger,x.source);
+        public static implicit operator FsmTransitionRuleKey<E,S>((E trigger, S source) x)
+            => new FsmTransitionRuleKey<E,S>(x.trigger,x.source);
     }
 }

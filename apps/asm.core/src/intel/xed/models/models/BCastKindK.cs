@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
+// Source      : all-state.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -11,20 +12,19 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataType(Names.opwidth)]
-        public struct OperandWidth : IEnumCover<OperandWidthType>
+        public struct BCastKind<K> : IEnumCover<BCastKind<K>, K>
+            where K : unmanaged, Enum
         {
-            public OperandWidthType Value {get;set;}
+            public K Value {get; set;}
+
+            public BCastClass Class {get;set;}
 
             [MethodImpl(Inline)]
-            public OperandWidth(OperandWidthType kind)
+            public BCastKind(K value, BCastClass @class)
             {
-                Value = kind;
+                Value = value;
+                Class = @class;
             }
-
-            [MethodImpl(Inline)]
-            public static implicit operator OperandWidth(OperandWidthType type)
-                => new OperandWidth(type);
         }
     }
 }
