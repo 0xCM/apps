@@ -27,7 +27,11 @@ namespace Z0.Asm
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
-        XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
+        public XedRules Rules => Service(Wf.XedRules);
+
+        public XedDisasmSvc Disasm => Service(Wf.XedDisasm);
+
+        public XedTool Tool => Service(Wf.XedTool);
 
         public Symbols<IClass> Classes()
             => Symbols.index<IClass>();
@@ -35,8 +39,8 @@ namespace Z0.Asm
         public Symbols<IsaKind> IsaKinds()
             => Symbols.index<IsaKind>();
 
-        public Symbols<Extension> IsaExtensions()
-            => Symbols.index<Extension>();
+        public Symbols<ExtensionKind> IsaExtensions()
+            => Symbols.index<ExtensionKind>();
 
         public Symbols<ChipCode> ChipCodes()
             => Symbols.index<ChipCode>();
@@ -44,8 +48,8 @@ namespace Z0.Asm
         public Symbols<AttributeKind> Attributes()
             => Symbols.index<AttributeKind>();
 
-        public Symbols<Category> Categories()
-            => Symbols.index<Category>();
+        public Symbols<CategoryKind> Categories()
+            => Symbols.index<CategoryKind>();
 
         public Symbols<IFormType> FormTypes()
             => Symbols.index<IFormType>();
@@ -275,7 +279,7 @@ namespace Z0.Asm
         {
             ApiMetadata.EmitApiTokens("xed", "xed");
             ApiMetadata.EmitTokens<AttributeKind>(xed);
-            ApiMetadata.EmitTokens<Category>(xed);
+            ApiMetadata.EmitTokens<CategoryKind>(xed);
             ApiMetadata.EmitTokens<ChipCode>(xed);
             ApiMetadata.EmitTokens<CpuidBit>(xed);
             ApiMetadata.EmitTokens<DataType>(xed);
@@ -283,8 +287,8 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<OperandTypeKind>(xed);
             ApiMetadata.EmitTokens<EncodingGroup>(xed);
             ApiMetadata.EmitTokens<EOSZ>(xed);
-            ApiMetadata.EmitTokens<Extension>(xed);
-            ApiMetadata.EmitTokens<FlagAction>(xed);
+            ApiMetadata.EmitTokens<ExtensionKind>(xed);
+            ApiMetadata.EmitTokens<FlagActionKind>(xed);
             ApiMetadata.EmitTokens<FormFacets>(xed);
             ApiMetadata.EmitTokens<IClass>(xed);
             ApiMetadata.EmitTokens<IsaKind>(xed);

@@ -60,6 +60,15 @@ namespace Z0
         public bool MapExpr(SymExpr src, out Sym<K> dst)
             => ExprMap.TryGetValue(src.Text, out dst);
 
+        public bool ExprKind(SymExpr src, out K dst)
+        {
+            dst = default;
+            var result = MapExpr(src, out var sym);
+            if(result)
+                dst = sym.Kind;
+            return result;
+        }
+
         /// <summary>
         /// Presents an untyped view of the source data
         /// </summary>

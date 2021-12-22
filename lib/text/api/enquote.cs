@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Root;
+
     partial class text
     {
         [Op]
         public static string enquote(string src)
-            => RP.enquote(src);
+            => nonempty(src) ? string.Concat(Chars.Quote, src, Chars.Quote) : EmptyString;
    }
 }

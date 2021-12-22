@@ -148,7 +148,7 @@ namespace Z0
         public string Format(bool enclose)
         {
             var content = HexFormatter.array(Data.View);
-            return enclose ? RP.bracket(content) : content;
+            return enclose ? text.bracket(content) : content;
         }
 
         public string Format(Fence<char> fence)

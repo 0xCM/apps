@@ -10,6 +10,8 @@ namespace Z0
     using static Root;
     using static core;
 
+    using C = AsciCode;
+
     partial struct SymbolicQuery
     {
         [MethodImpl(Inline), Op]
@@ -22,16 +24,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<AsciCode> left(ReadOnlySpan<AsciCode> src, int index)
-        {
-            if(index < src.Length)
-                return slice(src, 0, index);
-            else
-                return default;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<AsciSymbol> left(ReadOnlySpan<AsciSymbol> src, int index)
+        public static ReadOnlySpan<C> left(ReadOnlySpan<C> src, int index)
         {
             if(index < src.Length)
                 return slice(src, 0, index);

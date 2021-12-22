@@ -39,7 +39,7 @@ namespace Z0.Ops.Scalar
             for(var i=0; i<count; i++)
             {
                 var key = skip(keys,i);
-                dst.AppendFormat("({0} -> {1})", RP.embrace(key.Delimit()), Data[key]);
+                dst.AppendFormat("({0} -> {1})", text.embrace(key.Delimit()), Data[key]);
                 if(i < count -1)
                     dst.Append(", ");
 

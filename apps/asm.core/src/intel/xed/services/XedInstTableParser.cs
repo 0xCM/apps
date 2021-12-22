@@ -35,9 +35,9 @@ namespace Z0
 
         EnumParser<IFormType> IForms {get;}
 
-        EnumParser<Category> Categories {get;}
+        EnumParser<CategoryKind> Categories {get;}
 
-        EnumParser<Extension> Extensions {get;}
+        EnumParser<ExtensionKind> Extensions {get;}
 
         EnumParser<AttributeKind> Attributes {get;}
 

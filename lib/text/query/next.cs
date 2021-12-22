@@ -15,6 +15,23 @@ namespace Z0
     partial struct SymbolicQuery
     {
         [MethodImpl(Inline), Op]
+        public static uint next(ReadOnlySpan<C> src, uint offset, out C a0, out C a1)
+        {
+            var i = offset;
+            if(i < offset - 1)
+            {
+                a0 = skip(src, i++);
+                a1 = skip(src, i++);
+            }
+            else
+            {
+                a0 = default;
+                a1 = default;
+            }
+            return i - offset;
+        }
+
+        [MethodImpl(Inline), Op]
         public static int next(ReadOnlySpan<C> src, uint offset, C a0)
         {
             var i = offset;

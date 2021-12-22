@@ -22,7 +22,7 @@ namespace Z0.Asm
             var terms = dict<string,uint>();
             for(var i=0; i<count; i++)
             {
-                ref readonly var line = ref skip(lines,i);
+                ref readonly var line = ref lines[i];
                 var content = line.Content.Trim();
                 terms[content] = (uint)content.Length;
                 var term = span(content);

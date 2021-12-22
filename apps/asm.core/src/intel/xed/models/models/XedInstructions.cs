@@ -101,9 +101,9 @@ namespace Z0
 
             public IFormType Form;
 
-            public Category Category;
+            public CategoryKind Category;
 
-            public Extension Extension;
+            public ExtensionKind Extension;
 
             public IsaKind Isa;
 

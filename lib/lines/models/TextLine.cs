@@ -80,37 +80,35 @@ namespace Z0
             get => string.IsNullOrWhiteSpace(Content);
         }
 
-        [MethodImpl(Inline)]
-        public bool StartsWith(char match)
-            => IsNonEmpty && Content[0] == match;
-
-        [MethodImpl(Inline)]
         public bool Contains(string match)
             => IsNonEmpty && Content.Contains(match);
 
-        [MethodImpl(Inline)]
         public int Index(string match)
             => IsNonEmpty ? Content.IndexOf(match) : NotFound;
 
-        [MethodImpl(Inline)]
         public int Index(char match)
             => IsNonEmpty ? Content.IndexOf(match) : NotFound;
 
-        [MethodImpl(Inline)]
         public bool Contains(char match)
             => IsNonEmpty && Content.Contains(match);
 
-        [MethodImpl(Inline)]
         public string Left(int index)
             => index != NotFound ? Content.LeftOfIndex(index) : EmptyString;
 
-        [MethodImpl(Inline)]
         public string Right(int index)
             => index != NotFound ? Content.RightOfIndex(index) : EmptyString;
 
-        [MethodImpl(Inline)]
+        public bool StartsWith(char match)
+            => IsNonEmpty && Content.StartsWith(match);
+
         public bool StartsWith(string match)
             => IsNonEmpty && Content.StartsWith(match);
+
+        public bool EndsWith(char match)
+            => IsNonEmpty && Content.EndsWith(match);
+
+        public bool EndsWith(string match)
+            => IsNonEmpty && Content.EndsWith(match);
 
         public ReadOnlySpan<string> Split(in TextDocFormat spec)
             => IsNonEmpty ? spec.SplitClean ? Content.SplitClean(spec.Delimiter) : Content.Split(spec.Delimiter) : Array.Empty<string>();

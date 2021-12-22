@@ -25,7 +25,7 @@ namespace Z0
 
         public IsaKind Isa;
 
-        public Extension Extension;
+        public ExtensionKind Extension;
 
         public DelimitedIndex<AttributeKind> Attributes;
 

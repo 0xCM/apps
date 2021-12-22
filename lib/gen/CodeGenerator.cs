@@ -43,7 +43,7 @@ namespace Z0
         public const int MemberLevel = 2;
 
         public static string bracket(object content)
-            => RP.bracket(content);
+            => text.bracket(content);
 
         public static string args(params object[] src)
             => string.Join(Chars.Comma,src);

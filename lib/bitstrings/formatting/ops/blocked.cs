@@ -14,6 +14,6 @@ namespace Z0
 
         static string blocked<T>(T src, int? blocksize = null, uint? maxbits = null, bool specifier = false, char sep = Chars.Underscore)
             where T : unmanaged
-                => RP.bracket(BitStrings.scalar(src,(int?)maxbits).Format(false, specifier, blocksize ?? 8, sep , null));
+                => text.bracket(BitStrings.scalar(src,(int?)maxbits).Format(false, specifier, blocksize ?? 8, sep , null));
     }
 }

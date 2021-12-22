@@ -40,7 +40,7 @@ namespace Z0
         [Op, Closures(Closure)]
         public static string Format<T>(this Vector512<T> src, char sep = Chars.Comma, int pad = 2)
             where T : unmanaged
-                => RP.bracket(
+                => text.bracket(
                         string.Concat(
                             gcpu.vspan(src).FormatList(sep, 0, pad, false),
                             sep, Chars.Space,

@@ -11,6 +11,10 @@ namespace Z0
 
     public readonly struct XmlDoc : ITextual
     {
+        [MethodImpl(Inline)]
+        public static XmlDoc define(string content)
+            => new XmlDoc(content);
+
         public TextBlock Content {get;}
 
         [MethodImpl(Inline)]

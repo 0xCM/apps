@@ -164,8 +164,8 @@ namespace Z0
             {
                 blocklines.Clear();
 
-                ref readonly var l0 = ref skip(lines,i);
-                ref readonly var l1 = ref skip(lines,i+1);
+                ref readonly var l0 = ref lines[i];
+                ref readonly var l1 = ref lines[i+1];
                 if(l0.IsNonEmpty && l1.IsNonEmpty)
                 {
                     ref readonly var c0 = ref l0.Content;
@@ -177,7 +177,7 @@ namespace Z0
                         i++;
                         while(i++ < imax)
                         {
-                            ref readonly var l = ref skip(lines,i);
+                            ref readonly var l = ref lines[i];
                             blocklines.Add(l);
                             if(l.StartsWith(XDIS))
                                 break;

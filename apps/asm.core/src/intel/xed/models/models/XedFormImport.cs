@@ -22,11 +22,11 @@ namespace Z0
 
         public IClass Class;
 
-        public Category Category;
+        public CategoryKind Category;
 
         public IsaKind IsaKind;
 
-        public Extension Extension;
+        public ExtensionKind Extension;
 
         public DelimitedIndex<AttributeKind> Attributes;
 

@@ -8,8 +8,8 @@ namespace Z0
 
     partial struct XedModels
     {
-        [LiteralProvider("xed.models.names")]
-        readonly struct Names
+        [LiteralProvider("xed.names.models")]
+        internal readonly struct Names
         {
             const string xed = "xed.";
 
@@ -22,6 +22,10 @@ namespace Z0
             public const string opwidth = xed + nameof(opwidth);
 
             public const string iform = xed + nameof(iform);
+
+            public const string extension = xed + nameof(extension);
+
+            public const string category = xed + nameof(category);
         }
     }
 }

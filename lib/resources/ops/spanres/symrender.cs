@@ -54,7 +54,7 @@ namespace Z0
             left.Append(spec.Name);
 
             var right = text.buffer();
-            right.Append(string.Concat(string.Format("new {0}", spec.CellType), RP.bracket(spec.Data.Length), payload.Emit()));
+            right.Append(string.Concat(string.Format("new {0}", spec.CellType), text.bracket(spec.Data.Length), payload.Emit()));
 
             var assignment = ExpressionBody.Format(left.Emit(), right.Emit());
             dst.IndentLine(indent, assignment);

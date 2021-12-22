@@ -1,23 +1,32 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-category-enum.h
+// Source      : xed-extension-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
         [SymSource(xed)]
-        public enum Category : byte
+        public enum ExtensionKind : byte
         {
-            INVALID,
+            INVALID = 0,
 
             [Symbol("3DNOW")]
             _3DNOW,
 
+            [Symbol("3DNOW_PREFETCH")]
+            _3DNOW_PREFETCH,
+
             ADOX_ADCX,
 
             AES,
+
+            AMD_INVLPGB,
+
+            AMX_BF16,
+
+            AMX_INT8,
 
             AMX_TILE,
 
@@ -27,30 +36,19 @@ namespace Z0
 
             AVX2GATHER,
 
-            AVX512,
+            AVX512EVEX,
 
-            AVX512_4FMAPS,
+            AVX512VEX,
 
-            AVX512_4VNNIW,
+            AVXAES,
 
-            AVX512_BITALG,
-            AVX512_VBMI,
+            AVX_VNNI,
 
-            AVX512_VP2INTERSECT,
-
-            BINARY,
-
-            BITBYTE,
-
-            BLEND,
+            BASE,
 
             BMI1,
 
             BMI2,
-
-            BROADCAST,
-
-            CALL,
 
             CET,
 
@@ -58,122 +56,96 @@ namespace Z0
 
             CLFLUSHOPT,
 
+            CLFSH,
+
             CLWB,
 
             CLZERO,
 
-            CMOV,
-
-            COMPRESS,
-
-            COND_BR,
-
-            CONFLICT,
-
-            CONVERT,
-
-            DATAXFER,
-
-            DECIMAL,
-
             ENQCMD,
 
-            EXPAND,
+            F16C,
 
-            FCMOV,
-
-            FLAGOP,
+            FMA,
 
             FMA4,
-
-            GATHER,
 
             GFNI,
 
             HRESET,
 
-            IFMA,
-
-            INTERRUPT,
-
-            IO,
-
-            IOSTRINGOP,
+            INVPCID,
 
             KEYLOCKER,
 
             KEYLOCKER_WIDE,
 
-            KMASK,
-
-            LEGACY,
-
-            LOGICAL,
-
-            LOGICAL_FP,
+            LONGMODE,
 
             LZCNT,
 
-            MISC,
+            MCOMMIT,
 
             MMX,
+
+            MONITOR,
+
+            MONITORX,
+
+            MOVBE,
 
             MOVDIR,
 
             MPX,
 
-            NOP,
+            PAUSE,
 
             PCLMULQDQ,
-
             PCONFIG,
-
             PKU,
-
-            POP,
-            PREFETCH,
             PREFETCHWT1,
             PTWRITE,
-            PUSH,
             RDPID,
             RDPRU,
             RDRAND,
             RDSEED,
+            RDTSCP,
             RDWRFSGS,
-            RET,
-            ROTATE,
-            SCATTER,
-            SEGOP,
-            SEMAPHORE,
+            RTM,
             SERIALIZE,
-            SETCC,
             SGX,
+            SGX_ENCLV,
             SHA,
-            SHIFT,
             SMAP,
+            SMX,
+            SNP,
             SSE,
-            STRINGOP,
-            STTNI,
-            SYSCALL,
-            SYSRET,
-            SYSTEM,
+            SSE2,
+            SSE3,
+            SSE4,
+            SSE4A,
+            SSSE3,
+            SVM,
             TBM,
+            TDX,
             TSX_LDTRK,
             UINTR,
-            UNCOND_BR,
             VAES,
-            VBMI2,
-            VEX,
-            VFMA,
-            VIA_PADLOCK,
+            VIA_PADLOCK_AES,
+            VIA_PADLOCK_MONTMUL,
+            VIA_PADLOCK_RNG,
+            VIA_PADLOCK_SHA,
+            VMFUNC,
             VPCLMULQDQ,
             VTX,
             WAITPKG,
-            WIDENOP,
-            X87_ALU,
+            WBNOINVD,
+            X87,
             XOP,
             XSAVE,
+            XSAVEC,
             XSAVEOPT,
+            XSAVES,
         }
     }
 }

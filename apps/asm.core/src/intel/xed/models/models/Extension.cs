@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
+// Source      : xed-Extension-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -10,16 +11,15 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataType(Names.reg)]
-        public readonly struct Register : IEnumCover<RegId>
+        [DataType(Names.extension)]
+        public readonly struct Extension : IEnumCover<ExtensionKind>
         {
-            public RegId Value {get;}
+            public ExtensionKind Value {get;}
 
             [MethodImpl(Inline)]
-            public Register(RegId src)
+            public Extension(ExtensionKind src)
             {
                 Value = src;
-                Symbols.expr(src);
             }
 
             public string Format()
@@ -29,11 +29,15 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator Register(RegId src)
-                => new Register(src);
+            public static implicit operator Extension(EnumCover<ExtensionKind> src)
+                => new Extension(src.Value);
 
             [MethodImpl(Inline)]
-            public static implicit operator RegId(Register src)
+            public static implicit operator Extension(ExtensionKind src)
+                => new Extension(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator ExtensionKind(Extension src)
                 => src.Value;
         }
     }

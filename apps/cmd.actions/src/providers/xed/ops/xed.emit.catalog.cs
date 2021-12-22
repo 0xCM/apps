@@ -12,5 +12,12 @@ namespace Z0
             Xed.EmitCatalog();
            return true;
         }
+
+        [CmdOp("xed/emit/rules")]
+        protected Outcome EmitXedRules(CmdArgs args)
+        {
+            Xed.Rules.Emit(Xed.Rules.ParseEncInstDefs());
+            return true;
+        }
     }
 }

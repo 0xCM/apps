@@ -49,7 +49,7 @@ namespace Z0.Asm
 
             Write(string.Format("Read {0} source lines", input.Length));
 
-            var lines = slice(input, FirstLine);
+            var lines = slice(input.View, FirstLine);
             var count = lines.Length;
             var section = EmptyString;
             var buffer = span<NasmInstruction>(count);

@@ -199,8 +199,8 @@ namespace Z0.llvm
             var counter = 0u;
             for(var i=0; i<count-1; i++)
             {
-                ref readonly var a = ref skip(lines, i).Content;
-                ref readonly var b = ref skip(lines, i+1).Content;
+                ref readonly var a = ref lines[i].Content;
+                ref readonly var b = ref lines[i+1].Content;
 
                 var m = text.index(a, EntryMarker);
                 if(!a.Contains(EntryMarker))

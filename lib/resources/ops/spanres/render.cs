@@ -27,7 +27,7 @@ namespace Z0
             dst.Append(Chars.Space);
             dst.Append(src.Name);
             dst.Append(" => ");
-            dst.Append(string.Concat(string.Format("new {0}", src.CellType), RP.bracket(bytes.Length), RP.embrace(payload)));
+            dst.Append(string.Concat(string.Format("new {0}", src.CellType), text.bracket(bytes.Length), text.embrace(payload)));
             dst.Append(Chars.Semicolon);
         }
 
@@ -45,7 +45,7 @@ namespace Z0
             var data = src.Data;
             var count = data.Length;
 
-            dst.Append(string.Concat(string.Format("new {0}", src.CellType), RP.bracket(count)));
+            dst.Append(string.Concat(string.Format("new {0}", src.CellType), text.bracket(count)));
             dst.Append(Open());
 
             for(var i=0; i<src.Data.Length; i++)
@@ -66,7 +66,7 @@ namespace Z0
             tmp.Append(Chars.Space);
             tmp.Append(src.Name);
             tmp.Append(" => ");
-            tmp.Append(string.Concat(string.Format("new {0}", src.CellType), RP.bracket(src.Data.Length), RP.embrace(format(src.Data))));
+            tmp.Append(string.Concat(string.Format("new {0}", src.CellType), text.bracket(src.Data.Length), text.embrace(format(src.Data))));
             tmp.Append(Term());
             dst.IndentLine(margin,tmp.Emit());
         }
@@ -81,7 +81,7 @@ namespace Z0
             dst.Append(Chars.Space);
             dst.Append(src.Name);
             dst.Append(" => ");
-            dst.Append(string.Concat(string.Format("new {0}", src.CellType), RP.bracket(src.Data.Length), RP.embrace(payload)));
+            dst.Append(string.Concat(string.Format("new {0}", src.CellType), text.bracket(src.Data.Length), text.embrace(payload)));
             dst.Append(Term());
         }
     }

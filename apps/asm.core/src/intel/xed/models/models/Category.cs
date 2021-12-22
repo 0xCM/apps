@@ -10,16 +10,15 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataType(Names.reg)]
-        public readonly struct Register : IEnumCover<RegId>
+        [DataType(Names.category)]
+        public readonly struct Category : IEnumCover<CategoryKind>
         {
-            public RegId Value {get;}
+            public CategoryKind Value {get;}
 
             [MethodImpl(Inline)]
-            public Register(RegId src)
+            public Category(CategoryKind src)
             {
                 Value = src;
-                Symbols.expr(src);
             }
 
             public string Format()
@@ -29,11 +28,15 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator Register(RegId src)
-                => new Register(src);
+            public static implicit operator Category(EnumCover<CategoryKind> src)
+                => new Category(src.Value);
 
             [MethodImpl(Inline)]
-            public static implicit operator RegId(Register src)
+            public static implicit operator Category(CategoryKind src)
+                => new Category(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator CategoryKind(Category src)
                 => src.Value;
         }
     }

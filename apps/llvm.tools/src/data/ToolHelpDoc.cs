@@ -8,9 +8,11 @@ namespace Z0.llvm
 
     using static Root;
 
-    public class ToolHelpDoc : IDocument<ToolHelpDoc,TextBlock>
+    public class ToolHelpDoc
     {
-        TextDoc Source;
+        FS.FilePath Source;
+
+        TextBlock Data;
 
         public bool IsEmpty {get;}
 
@@ -27,31 +29,31 @@ namespace Z0.llvm
         {
             IsEmpty = true;
             Tag = EmptyString;
+            Data = EmptyString;
+            Source = FS.FilePath.Empty;
         }
 
         public ToolHelpDoc(ToolId id, FS.FilePath path)
         {
-            Source = new TextDoc(path);
+            Source = path;
             Tool = id;
             IsEmpty = false;
             Tag = EmptyString;
+            Data = EmptyString;
         }
 
-        ToolHelpDoc(ToolId id, string tag, TextDoc src)
+        ToolHelpDoc(ToolId id, string tag, FS.FilePath src, TextBlock data)
         {
             Tool = id;
             Source = src;
             IsEmpty = false;
             Tag = tag;
+            Data = data;
         }
 
         public TextBlock Content
-            => Source.Content;
+            => Data;
 
-        public ILocatable Location
-        {
-            get => Source.Location;
-        }
 
         public string Format()
         {
@@ -59,7 +61,7 @@ namespace Z0.llvm
         }
 
         public ToolHelpDoc Load()
-            => new ToolHelpDoc(Tool, Tag, Source.Load());
+            => new ToolHelpDoc(Tool, Tag, Source, Source.ReadText());
 
         public static ToolHelpDoc Empty => new ToolHelpDoc();
     }

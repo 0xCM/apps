@@ -20,6 +20,10 @@ namespace Z0
             => Asm.IntelIntrinsics.create(wf);
 
         [Op]
+        public static XedRules XedRules(this IWfRuntime wf)
+            => Z0.XedRules.create(wf);
+
+        [Op]
         public static IntelXed IntelXed(this IWfRuntime wf)
             => Asm.IntelXed.create(wf);
 

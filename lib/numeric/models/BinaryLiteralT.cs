@@ -46,7 +46,7 @@ namespace Z0
         }
 
         public string Format()
-            => $"{Name}({Data}:{NumericKinds.kind<T>().Keyword()}) := " + RP.enquote(Text);
+            => $"{Name}({Data}:{NumericKinds.kind<T>().Keyword()}) := " + text.enquote(Text);
 
         public override string ToString()
             => Format();

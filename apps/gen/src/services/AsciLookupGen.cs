@@ -71,7 +71,7 @@ namespace Z0
             content.AppendFormat("{0}{1}", rbrace, semi);
 
             var right = TextTools.buffer();
-            right.Append(string.Concat(string.Format("new {0}", spec.CellType), RP.bracket(spec.Data.Length), content.Emit()));
+            right.Append(string.Concat(string.Format("new {0}", spec.CellType), text.bracket(spec.Data.Length), content.Emit()));
 
             dst.IndentLine(indent, Assign.Format(left.Emit(), right.Emit()));
         }

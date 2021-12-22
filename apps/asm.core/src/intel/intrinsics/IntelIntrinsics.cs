@@ -34,7 +34,7 @@ namespace Z0.Asm
         XmlDoc XmlSouceDoc()
         {
             var src = Sources() + FS.file("intel.intrinsics", FS.Xml);
-            return text.xml(src.ReadUtf8());
+            return src.ReadUtf8();
         }
 
         ReadOnlySpan<Intrinsic> Parse()

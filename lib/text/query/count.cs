@@ -14,6 +14,30 @@ namespace Z0
 
     partial struct SymbolicQuery
     {
+        [MethodImpl(Inline), Op]
+        public static uint count(Base16 @base, ReadOnlySpan<C> src)
+        {
+            var length = src.Length;
+            var counter = 0u;
+            for(var i=0; i<length; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(whitespace(c))
+                {
+                    if(counter == 0)
+                        continue;
+                }
+                else
+                    return counter;
+
+                if(digit(@base, c))
+                    counter++;
+                else
+                    break;
+            }
+            return counter;
+        }
+
         /// <summary>
         /// Counts the number of characters in a specified source that match one of the characters in a specified sequence
         /// </summary>

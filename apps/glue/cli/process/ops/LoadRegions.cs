@@ -39,12 +39,12 @@ namespace Z0
                 return (false,"No data");
             }
 
-            ref readonly var header = ref first(lines);
+            ref readonly var header = ref lines.First;
             var cells = header.Split(Chars.Pipe);
             if(cells.Length != ProcessMemoryRegion.FieldCount)
                 return (false, Tables.FieldCountMismatch.Format(cells.Length, ProcessMemoryRegion.FieldCount));
 
-            var data = slice(lines,1);
+            var data = slice(lines.View,1);
             var buffer = alloc<ProcessMemoryRegion>(data.Length);
             ref var dst = ref first(buffer);
             var counter = 0;

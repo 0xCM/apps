@@ -68,7 +68,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-             => $"{Name}({Data}:{kind(this).Keyword()}) := " + RP.enquote(Text);
+             => $"{Name}({Data}:{kind(this).Keyword()}) := " + text.enquote(Text);
 
         public override string ToString()
             => Format();
