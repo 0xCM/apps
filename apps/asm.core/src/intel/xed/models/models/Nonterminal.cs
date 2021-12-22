@@ -11,6 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [DataType(Names.nonterminal)]
         public readonly struct Nonterminal : IEnumCover<NonterminalKind>
         {
             public NonterminalKind Value {get;}

@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    using System;
+
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class OptionAttribute : Attribute
     {
-        [CmdOp("xed/query/pointers")]
-        Outcome XedPointers(CmdArgs args)
-            => ShowSyms(Xed.PointerWidths());
+
+
     }
 }

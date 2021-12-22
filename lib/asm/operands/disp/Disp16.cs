@@ -30,7 +30,7 @@ namespace Z0.Asm
             get => Value == 0;
         }
 
-        int IDisplacement.Value
+        long IDisplacement.Value
             => Value;
 
         public string Format()

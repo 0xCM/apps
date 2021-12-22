@@ -43,7 +43,7 @@ namespace Z0
 
         EnumParser<EncodingGroup> Groups {get;}
 
-        EnumParser<OperandTypeKind> OperandKinds {get;}
+        EnumParser<OperandAspectKind> OperandKinds {get;}
 
         EnumParser<OperandVisibility> Visibilities {get;}
 
@@ -65,7 +65,7 @@ namespace Z0
 
         EnumParser<RegId> Regs;
 
-        EnumParser<ElementTypeKind> ElementTypes;
+        EnumParser<OperandTypeKind> OperandTypes;
 
         [MethodImpl(Inline)]
         Span<char> DigitBuffer()
@@ -92,7 +92,7 @@ namespace Z0
             IFormParser = new();
             Nonterminals = new();
             Regs = new();
-            ElementTypes = new();
+            OperandTypes = new();
             _DigitBuffer = alloc<char>(12);
         }
 
@@ -237,7 +237,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = ElementTypes.Parse(skip(parts,i++), out var tk);
+            result = OperandTypes.Parse(skip(parts,i++), out var tk);
             if(result)
                 dst.Type = tk;
             else

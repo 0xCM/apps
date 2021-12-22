@@ -5,10 +5,10 @@
 namespace Z0
 {
     [Actor]
-    public abstract class Tool<A> : Actor<A>
-        where A : Tool<A>,new()
+    public abstract class Tool<T> : Actor<T>, ITool<T>
+        where T : Tool<T>,new()
     {
-        public static A Instance = new A();
+        public static T Instance = new T();
 
         public ToolId ToolId {get;}
 
@@ -18,7 +18,7 @@ namespace Z0
             ToolId = name;
         }
 
-        public static implicit operator ToolId(Tool<A> src)
+        public static implicit operator ToolId(Tool<T> src)
             => src.ToolId;
     }
 }

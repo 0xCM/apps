@@ -19,7 +19,7 @@ namespace Z0
 
         public StringAddress Name {get;}
 
-        public T Data {get;}
+        public T Value {get;}
 
         public ClrLiteralKind Kind {get;}
 
@@ -30,24 +30,24 @@ namespace Z0
         {
             Source = source;
             Name = name;
-            Data = value;
+            Value = value;
             Kind = kind;
             Usage = usage;
         }
 
         [MethodImpl(Inline)]
         public bool Equals(RuntimeLiteral<T> src)
-            => Data.Equals(src.Data) && Kind == src.Kind && Usage == src.Usage;
+            => Value.Equals(src.Value) && Kind == src.Kind && Usage == src.Usage;
 
         [MethodImpl(Inline)]
         public string Format()
-            => Data.ToString();
+            => Value.ToString();
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => Data.GetHashCode();
+            => Value.GetHashCode();
 
         public override bool Equals(object src)
             => src is RuntimeLiteral<T> v && Equals(v);

@@ -12,9 +12,9 @@ namespace Z0
     using api = DataFlows;
 
     public abstract class DataFlow<A,S,T> : IDataFlow<A,S,T>
+        where A : IActor
         where S : IType
         where T : IType
-        where A : IActor
     {
         public A Actor {get;}
 

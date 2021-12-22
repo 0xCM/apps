@@ -32,7 +32,6 @@ namespace Z0.llvm
         {
             ToolsetDir = Ws.Project("tools/llvm").Home();
             HelpDir = ToolsetDir + FS.folder("help");
-            //Tooling = Wf.Tooling();
             LoadToolset();
             CalcHelpPaths();
             InitHelpDocs();

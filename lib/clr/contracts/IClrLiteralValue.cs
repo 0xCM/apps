@@ -6,18 +6,14 @@ namespace Z0
 {
     using System;
 
-    public interface ILiteralValue
+    public interface IClrLiteralValue : IKinded<ClrLiteralKind>
     {
-        ClrLiteralKind Kind {get;}
+
     }
 
-    /// <summary>
-    /// Characterizes a kinded literal value
-    /// </summary>
-    /// <typeparam name="L">The literal type</typeparam>
-    public interface ILiteralValue<T> : ILiteralValue
+    public interface IClrLiteralValue<T> : IClrLiteralValue
         where T : IEquatable<T>
     {
-        T Data {get;}
+        T Value {get;}
     }
 }

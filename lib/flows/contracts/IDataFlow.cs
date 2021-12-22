@@ -27,9 +27,9 @@ namespace Z0
 
     [Free]
     public interface IDataFlow<A,S,T> : IDataFlow<S,T>
+        where A : IActor
         where S : IType
         where T : IType
-        where A : IActor
     {
         new A Actor {get;}
 

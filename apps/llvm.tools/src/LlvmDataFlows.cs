@@ -7,16 +7,27 @@ namespace Z0.llvm
     using static LlvmTools;
     using static KnownFileTypes;
 
-    public readonly struct LlvmFlows
+    public readonly struct LlvmDataFlows
     {
         /// <summary>
         /// llc:asm -> mc.asm
         /// </summary>
-
         public class AsmToMcAsm : DataFlow<AsmToMcAsm,Llc,Asm,McAsm>
         {
             public AsmToMcAsm()
-                : base(llc,asm,mcasm)
+                : base(llc, asm, mcasm)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// llc:asm -> encoding.asm
+        /// </summary>
+        public class AsmToMcEncoding : DataFlow<AsmToMcEncoding,LlvmMc,Asm,EncodingAsm>
+        {
+            public AsmToMcEncoding()
+                : base(llvm_mc, asm, encasm)
             {
 
             }
@@ -33,7 +44,6 @@ namespace Z0.llvm
 
             }
         }
-
 
         /// <summary>
         /// llc:ll -> obj

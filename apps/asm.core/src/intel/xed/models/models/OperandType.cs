@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-OperandType-enum.h
+// Source      : xed-OperandElementType-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -11,6 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [DataType(Names.optype)]
         public readonly struct OperandType : IEnumCover<OperandTypeKind>
         {
             public OperandTypeKind Value {get;}

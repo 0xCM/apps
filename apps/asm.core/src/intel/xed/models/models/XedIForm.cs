@@ -9,43 +9,47 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static XedModels;
 
-    public readonly struct XedIForm : IEquatable<XedIForm>, IComparable<XedIForm>, IEnumCover<IFormType>
+    partial struct XedModels
     {
-        public IFormType Value {get;}
+        [DataType(Names.iform)]
+        public readonly struct IForm : IEquatable<IForm>, IComparable<IForm>, IEnumCover<IFormType>
+        {
+            public IFormType Value {get;}
 
-        [MethodImpl(Inline)]
-        public XedIForm(IFormType src)
-            => Value = src;
+            [MethodImpl(Inline)]
+            public IForm(IFormType src)
+                => Value = src;
 
-        [MethodImpl(Inline)]
-        public bool Equals(XedIForm src)
-            => ((ushort)Value).Equals((ushort)src.Value);
+            [MethodImpl(Inline)]
+            public bool Equals(IForm src)
+                => ((ushort)Value).Equals((ushort)src.Value);
 
-        [MethodImpl(Inline)]
-        public int CompareTo(XedIForm src)
-            => ((ushort)Value).CompareTo((ushort)src.Value);
+            [MethodImpl(Inline)]
+            public int CompareTo(IForm src)
+                => ((ushort)Value).CompareTo((ushort)src.Value);
 
 
-        public override int GetHashCode()
-            =>(int)Value;
+            public override int GetHashCode()
+                =>(int)Value;
 
-        public override bool Equals(object src)
-            => src is XedIForm && Equals(src);
+            public override bool Equals(object src)
+                => src is IForm && Equals(src);
 
-        public string Format()
-            => Value.ToString();
+            public string Format()
+                => Value.ToString();
 
-        public override string ToString()
-            => Format();
+            public override string ToString()
+                => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator XedIForm(IFormType src)
-            => new XedIForm(src);
+            [MethodImpl(Inline)]
+            public static implicit operator IForm(IFormType src)
+                => new IForm(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator IFormType(XedIForm src)
-            => src.Value;
+            [MethodImpl(Inline)]
+            public static implicit operator IFormType(IForm src)
+                => src.Value;
+        }
+
     }
 }

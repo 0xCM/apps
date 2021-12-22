@@ -28,15 +28,6 @@ namespace Z0
                     ref readonly var inst = ref instructions[j];
                     Write(string.Format("{0,-16} | {1,-64} | {2}", inst.Class, inst.Form, inst.Props.Delimit()));
                 }
-
-                // var kB = blocks.Count;
-                // for(var j=0; j<kB; j++)
-                // {
-                //     ref readonly var block = ref blocks[j];
-                //     var statement = text.right(block.YDis.Content, Chars.Colon);
-                //     Write(statement);
-
-                // }
             }
 
             return true;

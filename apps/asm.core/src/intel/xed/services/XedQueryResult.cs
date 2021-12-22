@@ -21,7 +21,7 @@ namespace Z0
 
         public IClass Class;
 
-        public XedIForm Form;
+        public IForm Form;
 
         public IsaKind Isa;
 

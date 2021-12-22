@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-OperandElementType-enum.h
+// Source      : xed-OperandType-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -11,12 +11,12 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct ElementType : IEnumCover<ElementTypeKind>
+        public readonly struct OperandAspect : IEnumCover<OperandAspectKind>
         {
-            public ElementTypeKind Value {get;}
+            public OperandAspectKind Value {get;}
 
             [MethodImpl(Inline)]
-            public ElementType(ElementTypeKind src)
+            public OperandAspect(OperandAspectKind src)
             {
                 Value = src;
             }
@@ -28,15 +28,15 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator ElementType(EnumCover<ElementTypeKind> src)
-                => new ElementType(src.Value);
+            public static implicit operator OperandAspect(EnumCover<OperandAspectKind> src)
+                => new OperandAspect(src.Value);
 
             [MethodImpl(Inline)]
-            public static implicit operator ElementType(ElementTypeKind src)
-                => new ElementType(src);
+            public static implicit operator OperandAspect(OperandAspectKind src)
+                => new OperandAspect(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator ElementTypeKind(ElementType src)
+            public static implicit operator OperandAspectKind(OperandAspect src)
                 => src.Value;
         }
     }

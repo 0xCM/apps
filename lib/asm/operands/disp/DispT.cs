@@ -24,10 +24,10 @@ namespace Z0.Asm
             Source = src;
         }
 
-        public int Value
+        public long Value
         {
             [MethodImpl(Inline)]
-            get => int32(Source.Value);
+            get => int64(Source.Value);
         }
 
         public byte StorageWidth
@@ -65,6 +65,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Disp<T>(Disp32 src)
             => new Disp<T>(@as<int,T>(src.Value));
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp<T>(Disp64 src)
+            => new Disp<T>(@as<long,T>(src.Value));
 
         [MethodImpl(Inline)]
         public static implicit operator T(Disp<T> src)

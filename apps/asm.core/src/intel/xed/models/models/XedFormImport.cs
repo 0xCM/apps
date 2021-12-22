@@ -18,7 +18,7 @@ namespace Z0
 
         public ushort Index;
 
-        public XedIForm Form;
+        public IForm Form;
 
         public IClass Class;
 

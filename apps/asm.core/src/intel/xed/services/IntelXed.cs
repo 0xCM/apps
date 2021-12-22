@@ -21,8 +21,8 @@ namespace Z0.Asm
 
         protected override void OnInit()
         {
-            XedSources = Ws.Project("db").Subdir("sources") + FS.folder("intel/xed.primary");
-            XedTargets = Ws.Project("db").Subdir("xed");
+            XedSources = ProjectDb.Sources("intel/xed.primary");
+            XedTargets = ProjectDb.Subdir("xed");
         }
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
@@ -35,9 +35,6 @@ namespace Z0.Asm
         public Symbols<IsaKind> IsaKinds()
             => Symbols.index<IsaKind>();
 
-        public Symbols<PointerWidth> PointerWidths()
-            => Symbols.index<PointerWidth>();
-
         public Symbols<Extension> IsaExtensions()
             => Symbols.index<Extension>();
 
@@ -49,9 +46,6 @@ namespace Z0.Asm
 
         public Symbols<Category> Categories()
             => Symbols.index<Category>();
-
-        public Symbols<OperandTypeKind> OperandKinds()
-            => Symbols.index<OperandTypeKind>();
 
         public Symbols<IFormType> FormTypes()
             => Symbols.index<IFormType>();
@@ -205,7 +199,7 @@ namespace Z0.Asm
                     dst.Add(result);
                 }
             }
-            var path = Ws.Project("db").Subdir("xed/queries") + FS.file(monic, FS.Csv);
+            var path = ProjectDb.Subdir("xed/queries") + FS.file(monic, FS.Csv);
             var records = dst.ViewDeposited();
             if(emit)
                 TableEmit(records, XedQueryResult.RenderWidths, path);
@@ -281,18 +275,28 @@ namespace Z0.Asm
         {
             ApiMetadata.EmitApiTokens("xed", "xed");
             ApiMetadata.EmitTokens<AttributeKind>(xed);
-            ApiMetadata.EmitTokens<IClass>(xed);
-            ApiMetadata.EmitTokens<LookupKind>(xed);
-            ApiMetadata.EmitTokens<ChipCode>(xed);
             ApiMetadata.EmitTokens<Category>(xed);
-            ApiMetadata.EmitTokens<NonterminalKind>(xed);
-            ApiMetadata.EmitTokens<Extension>(xed);
-            ApiMetadata.EmitTokens<IsaKind>(xed);
-            ApiMetadata.EmitTokens<RegId>(xed);
-            ApiMetadata.EmitTokens<EncodingGroup>(xed);
+            ApiMetadata.EmitTokens<ChipCode>(xed);
+            ApiMetadata.EmitTokens<CpuidBit>(xed);
+            ApiMetadata.EmitTokens<DataType>(xed);
+            ApiMetadata.EmitTokens<EASZ>(xed);
             ApiMetadata.EmitTokens<OperandTypeKind>(xed);
+            ApiMetadata.EmitTokens<EncodingGroup>(xed);
+            ApiMetadata.EmitTokens<EOSZ>(xed);
+            ApiMetadata.EmitTokens<Extension>(xed);
+            ApiMetadata.EmitTokens<FlagAction>(xed);
+            ApiMetadata.EmitTokens<FormFacets>(xed);
+            ApiMetadata.EmitTokens<IClass>(xed);
+            ApiMetadata.EmitTokens<IsaKind>(xed);
+            ApiMetadata.EmitTokens<LookupKind>(xed);
+            ApiMetadata.EmitTokens<NonterminalKind>(xed);
+            ApiMetadata.EmitTokens<OperandAspectKind>(xed);
+            ApiMetadata.EmitTokens<OperandWidthType>(xed);
             ApiMetadata.EmitTokens<OpCodeMap>(xed);
             ApiMetadata.EmitTokens<OperandAction>(xed);
+            ApiMetadata.EmitTokens<PointerWidth>(xed);
+            ApiMetadata.EmitTokens<RegId>(xed);
+            ApiMetadata.EmitTokens<RegClassCode>(xed);
         }
 
         public void EmitChipForms()
@@ -308,7 +312,9 @@ namespace Z0.Asm
             EmitChipForms(ChipCode.P4PRESCOTT);
             EmitChipForms(ChipCode.BROADWELL);
             EmitChipForms(ChipCode.SKYLAKE);
+            EmitChipForms(ChipCode.SKYLAKE_SERVER);
             EmitChipForms(ChipCode.CASCADE_LAKE);
+            EmitChipForms(ChipCode.SAPPHIRE_RAPIDS);
         }
 
         public Outcome EmitChipMap()

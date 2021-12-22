@@ -32,10 +32,12 @@ namespace Z0
             var dst = span<AttributeKind>(count);
             for(var i=0; i<count; i++)
             {
-                var result = DataParser.eparse(skip(parts,i), out seek(dst,i));
+                ref var target = ref seek(dst,i);
+                var result = DataParser.eparse(skip(parts,i), out target);
                 if(result)
                 {
-                    counter++;
+                    if(target != 0)
+                        counter++;
                 }
                 else
                     return default;
@@ -79,7 +81,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            dst.Attributes = XedModels.attributes(skip(cells,j++));
+            dst.Attributes = attributes(skip(cells,j++)).Delimit(fence:Fencing.Embraced);
 
             return result;
         }
@@ -94,7 +96,7 @@ namespace Z0
             result = DataParser.eparse(src.Form, out IFormType ft);
             dst.Form = ft;
             result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
-            dst.Attributes = Z0.seq.index(Chars.Colon, 0, attributes(src.Attributes));
+            dst.Attributes = attributes(src.Attributes);
             return true;
         }
 
@@ -137,7 +139,6 @@ namespace Z0
                 T.B80 => W.W80,
                 _ => 0
             };
-
 
         [Op]
         public static RegId ArAX(EASZ easz)

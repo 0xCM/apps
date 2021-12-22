@@ -1,287 +1,57 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-iclass-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static XedModels.OperandTypeKind;
-
     partial struct XedModels
     {
-        [MethodImpl(Inline), Op]
-        public static bool is_memory_addressing_register(OperandTypeKind kind)
-            => kind == BASE0 ||
-              kind == INDEX ||
-              kind == SEG0  ||
-              kind == BASE1 ||
-              kind == SEG1;
-
-        [MethodImpl(Inline), Op]
-        public static bool is_register(OperandTypeKind kind)
-            => kind >= REG0 && kind <= REG9;
-
-
         [SymSource(xed)]
-        public enum OperandTypeKind : byte
+        public enum OperandTypeKind
         {
             INVALID,
 
-            AGEN,
+            B80,
 
-            AMD3DNOW,
+            BF16,
 
-            ASZ,
+            F16,
 
-            BASE0,
+            F32,
 
-            BASE1,
+            F64,
 
-            BCAST,
+            F80,
 
-            BCRC,
+            I1,
 
-            BRDISP_WIDTH,
+            I16,
 
-            CET,
+            I32,
 
-            CHIP,
+            I64,
 
-            CLDEMOTE,
+            I8,
 
-            DEFAULT_SEG,
+            INT,
 
-            DF32,
+            STRUCT,
 
-            DF64,
+            U128,
 
-            DISP,
+            U16,
 
-            DISP_WIDTH,
+            U256,
 
-            DUMMY,
+            U32,
 
-            EASZ,
+            U64,
 
-            ELEMENT_SIZE,
+            U8,
 
-            ENCODER_PREFERRED,
+            UINT,
 
-            ENCODE_FORCE,
-
-            EOSZ,
-
-            ERROR,
-
-            ESRC,
-
-            FIRST_F2F3,
-
-            HAS_MODRM,
-
-            HAS_SIB,
-
-            HINT,
-
-            ICLASS,
-
-            ILD_F2,
-
-            ILD_F3,
-
-            ILD_SEG,
-
-            IMM0,
-
-            IMM0SIGNED,
-
-            IMM1,
-
-            IMM1_BYTES,
-
-            IMM_WIDTH,
-
-            INDEX,
-
-            LAST_F2F3,
-
-            LLRC,
-
-            LOCK,
-
-            LZCNT,
-
-            MAP,
-
-            MASK,
-
-            MAX_BYTES,
-
-            MEM0,
-
-            MEM1,
-
-            MEM_WIDTH,
-
-            MOD,
-
-            MODE,
-
-            MODEP5,
-
-            MODEP55C,
-
-            MODE_FIRST_PREFIX,
-
-            MODRM_BYTE,
-
-            MPXMODE,
-
-            MUST_USE_EVEX,
-
-            NEEDREX,
-
-            NEED_MEMDISP,
-
-            NEED_SIB,
-
-            NELEM,
-
-            NOMINAL_OPCODE,
-
-            NOREX,
-
-            NO_SCALE_DISP8,
-
-            NPREFIXES,
-
-            NREXES,
-
-            NSEG_PREFIXES,
-
-            OSZ,
-
-            OUTREG,
-
-            OUT_OF_BYTES,
-
-            P4,
-
-            POS_DISP,
-
-            POS_IMM,
-
-            POS_IMM1,
-
-            POS_MODRM,
-
-            POS_NOMINAL_OPCODE,
-
-            POS_SIB,
-
-            PREFIX66,
-
-            PTR,
-
-            REALMODE,
-
-            REG,
-
-            REG0,
-
-            REG1,
-
-            REG2,
-
-            REG3,
-
-            REG4,
-
-            REG5,
-
-            REG6,
-
-            REG7,
-
-            REG8,
-
-            REG9,
-
-            RELBR,
-
-            REP,
-
-            REX,
-
-            REXB,
-
-            REXR,
-
-            REXRR,
-
-            REXW,
-
-            REXX,
-
-            RM,
-
-            ROUNDC,
-
-            SAE,
-
-            SCALE,
-
-            SEG0,
-
-            SEG1,
-
-            SEG_OVD,
-
-            SIBBASE,
-
-            SIBINDEX,
-
-            SIBSCALE,
-
-            SMODE,
-
-            SRM,
-
-            TZCNT,
-
-            UBIT,
-
-            UIMM0,
-
-            UIMM1,
-
-            USING_DEFAULT_SEGMENT0,
-
-            USING_DEFAULT_SEGMENT1,
-
-            VEXDEST210,
-
-            VEXDEST3,
-
-            VEXDEST4,
-
-            VEXVALID,
-
-            VEX_C4,
-
-            VEX_PREFIX,
-
-            VL,
-
-            WBNOINVD,
-
-            ZEROING,
-
-            LAST
+            VAR,
         }
     }
 }

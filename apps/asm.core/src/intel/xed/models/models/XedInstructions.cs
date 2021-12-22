@@ -69,7 +69,7 @@ namespace Z0
 
             public byte OpIndex;
 
-            public OperandTypeKind Kind;
+            public OperandAspectKind Kind;
 
             public OperandVisibility Visibility;
 
@@ -77,7 +77,7 @@ namespace Z0
 
             public LookupKind Lookup;
 
-            public ElementType Type;
+            public OperandType Type;
 
             public Nonterminal NonTerm;
 

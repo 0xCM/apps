@@ -16,8 +16,8 @@ namespace Z0
             _Files = FS.Files.Empty;
         }
 
-        [CmdOp("open")]
-        Outcome OpenProject(CmdArgs args)
+        [CmdOp("project")]
+        Outcome LoadProject(CmdArgs args)
         {
             var result = Outcome.Success;
             Project(Ws.Project(arg(args,0).Value));

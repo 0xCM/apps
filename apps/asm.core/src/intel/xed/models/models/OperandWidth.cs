@@ -11,6 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [DataType(Names.opwidth)]
         public readonly struct OperandWidth : IEnumCover<OperandWidthType>
         {
             public OperandWidthType Value {get;}

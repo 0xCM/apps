@@ -9,11 +9,11 @@ namespace Z0
     [Free]
     public interface ITool
     {
-        ToolId Id {get;}
+        ToolId ToolId {get;}
     }
 
     [Free]
-    public interface ITool<T> : ITool
+    public interface ITool<T> : ITool, IActor<T>
         where T : ITool<T>, new()
     {
 

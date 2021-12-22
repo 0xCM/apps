@@ -6,14 +6,14 @@ namespace Z0
 {
     using System;
 
-    public interface IRuntimeLiteral : ILiteralValue
+    public interface IRuntimeLiteral : IClrLiteralValue
     {
         StringAddress Source {get;}
 
         StringAddress Name {get;}
     }
 
-    public interface IRuntimeLiteral<T> : IRuntimeLiteral, ILiteralValue<T>
+    public interface IRuntimeLiteral<T> : IRuntimeLiteral, IClrLiteralValue<T>
         where T : IEquatable<T>
     {
 

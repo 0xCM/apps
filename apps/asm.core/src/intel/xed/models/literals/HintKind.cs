@@ -1,25 +1,24 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-address-width-enum.h
+// Source      : all-fields.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
         [SymSource(xed)]
-        public enum AddressWidth : byte
+        public enum HintKind : byte
         {
-            INVALID=0,
+            None = 0,
 
-            [Symbol("16b", "16-bit addressing")]
-            WIDTH_16b=2,
+            CsUntaken = 1,
 
-            [Symbol("32b", "32-bit addressing")]
-            WIDTH_32b=4,
+            DsTaken = 2,
 
-            [Symbol("64b", "64-bit addressing")]
-            WIDTH_64b=8,
+            ValidatedUntaken = 3,
+
+            ValidatedTaken = 4
         }
     }
 }

@@ -29,6 +29,9 @@ namespace Z0
         public FS.Files DisasmFiles(IProjectWs ws)
             => ws.OutFiles(FS.ext("xed.txt"));
 
+        public FS.FilePath DisasmTable(IProjectWs project)
+            => ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Project), FS.Csv);
+
         public Outcome ParseInstructions(ReadOnlySpan<Block> src, out Index<Instruction> dst)
         {
             var count = src.Length;
@@ -36,56 +39,9 @@ namespace Z0
             dst = alloc<Instruction>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var block = ref skip(src,i);
-                ref readonly var content = ref block.Instruction.Content;
-                ref var inst = ref dst[i];
-
-                if(text.nonempty(content))
-                {
-                    var j = text.index(content, Chars.Space);
-                    if(j > 0)
-                    {
-                        var expr = text.left(content,j);
-                        if(Classes.Lookup(expr, out var @class))
-                            inst.Class = @class;
-                        else
-                        {
-                            result = (false,string.Format("Instruction class not found in '{0}'", content));
-                            break;
-                        }
-
-                        var k = text.index(content, j+1, Chars.Space);
-                        if(k > 0)
-                        {
-                            expr = text.inside(content, j, k);
-                            if(Forms.Lookup(expr, out var form))
-                                inst.Form = form;
-                            else
-                            {
-                                result = (false,string.Format("IFormType not found in '{0}'", expr));
-                                break;
-                            }
-                        }
-
-                        var props = text.words(text.right(content,k), Chars.Comma);
-                        var kP = props.Count;
-                        inst.Props = alloc<Facet<string>>(kP);
-                        for(var m=0; m<kP; m++)
-                        {
-                            ref readonly var p = ref props[m];
-                            if(p.Contains(Chars.Colon))
-                            {
-                                var kv = text.split(p, Chars.Colon);
-                                if(kv.Length == 2)
-                                    inst.Props[m] = (skip(kv,0).Trim(), skip(kv,1).Trim());
-                            }
-                            else
-                            {
-                                inst.Props[m] = (p.Trim(), EmptyString);
-                            }
-                        }
-                    }
-                }
+                result = ParseInstruction(skip(src,i), out dst[i]);
+                if(result.Fail)
+                    break;
             }
             return result;
         }
@@ -96,8 +52,7 @@ namespace Z0
             var paths = DisasmFiles(project);
             var records = ParseEncodings(paths);
             var count = paths.Length;
-            var dst = ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Project), FS.Csv);
-            TableEmit(records.View, AsmStatementEncoding.RenderWidths, dst);
+            TableEmit(records.View, AsmStatementEncoding.RenderWidths, DisasmTable(project));
             return records;
         }
 
@@ -138,6 +93,67 @@ namespace Z0
         /// </summary>
         /// <param name="src">And xed-emitted disassemly file</param>
         public Index<Block> ParseBlocks(FS.FilePath src)
+            => Blocks(src);
+
+        Outcome ParseInstruction(in Block block, out Instruction inst)
+        {
+            var result = Outcome.Success;
+            inst = default(Instruction);
+            ref readonly var content = ref block.Instruction.Content;
+            if(text.nonempty(content))
+            {
+                var j = text.index(content, Chars.Space);
+                if(j > 0)
+                {
+                    var expr = text.left(content,j);
+                    if(Classes.Lookup(expr, out var @class))
+                        inst.Class = @class;
+                    else
+                    {
+                        result = (false,string.Format("IClass not found in '{0}'", content));
+                        return result;
+                    }
+
+                    var k = text.index(content, j+1, Chars.Space);
+                    if(k > 0)
+                    {
+                        expr = text.inside(content, j, k);
+                        if(Forms.Lookup(expr, out var form))
+                            inst.Form = form;
+                        else
+                        {
+                            result = (false,string.Format("IFormType not found in '{0}'", expr));
+                            return result;
+                        }
+                    }
+
+                    var props = text.words(text.right(content,k), Chars.Comma);
+                    var kP = props.Count;
+                    inst.Props = alloc<Facet<string>>(kP);
+                    for(var m=0; m<kP; m++)
+                    {
+                        ref readonly var p = ref props[m];
+                        if(p.Contains(Chars.Colon))
+                        {
+                            var kv = text.split(p, Chars.Colon);
+                            if(kv.Length == 2)
+                                inst.Props[m] = (skip(kv,0).Trim(), skip(kv,1).Trim());
+                        }
+                        else
+                        {
+                            inst.Props[m] = (p.Trim(), EmptyString);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        const string XDIS = "XDIS ";
+
+        const string YDIS = "YDIS:";
+
+        static Index<Block> Blocks(FS.FilePath src)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
@@ -163,7 +179,7 @@ namespace Z0
                         {
                             ref readonly var l = ref skip(lines,i);
                             blocklines.Add(l);
-                            if(l.StartsWith("XDIS"))
+                            if(l.StartsWith(XDIS))
                                 break;
                         }
                         dst.Add(blocklines.ToArray());
@@ -174,7 +190,43 @@ namespace Z0
             return dst.ToArray();
         }
 
-        ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<Block> src)
+        static Outcome ParseEncodings(FS.FilePath src, List<AsmStatementEncoding> dst)
+            => ParseEncodings(Blocks(src), dst);
+
+        static Outcome ParseEncodings(ReadOnlySpan<Block> blocks, List<AsmStatementEncoding> dst)
+        {
+            var summaries = SummaryLines(blocks);
+            var expr = expressions(blocks);
+            var counter = 0u;
+            var count = summaries.Length;
+            var result = Outcome.Success;
+            if(expr.Length != count)
+                return (false, string.Format("{0} != {1}", expr.Length - 1, count));
+
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref skip(summaries,i);
+                ref readonly var content = ref line.Content;
+                var record = new AsmStatementEncoding();
+                ref readonly var expression = ref skip(expr,i);
+                record.DocSeq = counter++;
+                record.Asm = expression;
+                record.Line = line.LineNumber;
+                result = ParseOffset(content, out record.Offset);
+                if(result.Fail)
+                    return result;
+
+                result = ParseHexCode(line, out record.Encoding);
+                if(result.Fail)
+                    return result;
+
+                dst.Add(record);
+            }
+
+            return true;
+        }
+
+        static ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<Block> src)
         {
             var dst = list<TextLine>();
             var count = src.Length;
@@ -192,74 +244,31 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
-        ReadOnlySpan<AsmExpr> Expressions(ReadOnlySpan<Block> src)
+        static ReadOnlySpan<AsmExpr> expressions(ReadOnlySpan<Block> src)
         {
-            const string Marker = "YDIS:";
             var dst = list<AsmExpr>();
             foreach(var block in src)
             {
                 foreach(var line in block.Lines)
                 {
-                    var i = text.index(line.Content,"YDIS:");
+                    var i = text.index(line.Content, YDIS);
                     if(i >= 0)
-                        dst.Add(text.trim(text.right(line.Content, i + Marker.Length)));
+                        dst.Add(text.trim(text.right(line.Content, i + YDIS.Length)));
                 }
             }
             return dst.ViewDeposited();
         }
 
-        Outcome ParseEncodings(FS.FilePath src, List<AsmStatementEncoding> dst)
+        static Outcome ParseOffset(string src, out Address32 dst)
         {
-            var blocks = ParseBlocks(src);
-            var summaries = SummaryLines(blocks);
-            var expressions = Expressions(blocks);
-            var counter = 0u;
-            var count = summaries.Length;
-            var result = Outcome.Success;
-            if(expressions.Length != count)
-            {
-                return (false, string.Format("{0} != {1}", expressions.Length - 1, count));
-            }
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref skip(summaries,i);
-                ref readonly var content = ref line.Content;
-                var record = new AsmStatementEncoding();
-                ref readonly var expression = ref skip(expressions,i);
-                record.DocSeq = counter++;
-                record.Asm = expression;
-                record.Line = line.LineNumber;
-                result = ParseXedOffset(content, out record.Offset);
-                if(result.Fail)
-                    return result;
-
-                result = ParseHexCode(line, out record.Encoding);
-                if(result.Fail)
-                    return result;
-
-                dst.Add(record);
-            }
-
-            return true;
-        }
-
-        const string XDIS = "XDIS ";
-
-        static Outcome ParseXedOffset(string src, out Address32 dst)
-        {
-            const string Marker = "XDIS ";
-            var i = text.index(src,XDIS);
+            var result = Outcome.Failure;
+            var i = text.index(src, XDIS);
             var j = XDIS.Length;
             var k = text.index(src, Chars.Colon);
             var length = k-j;
-            var result = Outcome.Failure;
             dst = 0;
             if(j >= 0 && length > 0)
-            {
-                var spec = text.slice(src,j,length).Trim();
-                result = DataParser.parse(spec, out dst);
-            }
+                result = DataParser.parse(text.slice(src,j,length).Trim(), out dst);
             return result;
         }
 

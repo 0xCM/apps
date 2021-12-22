@@ -7,7 +7,7 @@ namespace Z0
     using M = XedModels;
 
     [LiteralProvider]
-    readonly struct XedDiasmProps
+    readonly struct XedDisasmNames
     {
         public const string DISP_WIDTH = nameof(DISP_WIDTH);
 
@@ -24,12 +24,18 @@ namespace Z0
         public const string EOSZ = nameof(EOSZ);
 
         /// <summary>
-        /// A bit
+        /// A bit indicating whether an instruction has a ModRM byte
         /// </summary>
         public const string HAS_MODRM = nameof(HAS_MODRM);
 
+        /// <summary>
+        /// A bit indicating whether an instruction has a SIB byte
+        /// </summary>
         public const string HAS_SIB = nameof(HAS_SIB);
 
+        /// <summary>
+        /// A base-16 integer that specifies the value of an immediate
+        /// </summary>
         public const string IMM0 = nameof(IMM0);
 
         public const string IMM_WIDTH = nameof(IMM_WIDTH);
@@ -39,6 +45,9 @@ namespace Z0
         /// </summary>
         public const string LZCNT = nameof(LZCNT);
 
+        /// <summary>
+        /// A numeric value from <see cref='M.OpCodeMap'/>
+        /// </summary>
         public const string MAP = nameof(MAP);
 
         public const string MASK = nameof(MASK);
@@ -53,6 +62,9 @@ namespace Z0
         /// </summary>
         public const string MEM0 = nameof(MEM0);
 
+        /// <summary>
+        /// A 2-bit base-10 integer that specifes the MOD part of the ModRM bitfield
+        /// </summary>
         public const string MOD = nameof(MOD);
 
         /// <summary>
@@ -60,6 +72,9 @@ namespace Z0
         /// </summary>
         public const string MODE = nameof(MODE);
 
+        /// <summary>
+        /// An 8-bit base-10 integer that specifies the value of the ModRm bytee
+        /// </summary>
         public const string MODRM_BYTE = nameof(MODRM_BYTE);
 
         public const string NEED_MEMDISP = nameof(NEED_MEMDISP);
@@ -90,20 +105,49 @@ namespace Z0
 
         public const string POS_SIB = nameof(POS_SIB);
 
+        /// <summary>
+        /// A 3-bit base-10 integer that specifes the REG part of the ModRM bitfield
+        /// </summary>
         public const string REG = nameof(REG);
 
+        /// <summary>
+        /// An identifier from <see cref='M.RegId'/>
+        /// </summary>
         public const string REG0 = nameof(REG0);
 
+        /// <summary>
+        /// An identifier from <see cref='M.RegId'/>
+        /// </summary>
         public const string REG1 = nameof(REG1);
 
+        /// <summary>
+        /// An identifier from <see cref='M.RegId'/>
+        /// </summary>
         public const string REG2 = nameof(REG2);
 
+        /// <summary>
+        /// An indicator, when present, that specifies Rex is applicable
+        /// </summary>
         public const string REX = nameof(REX);
 
+        /// <summary>
+        /// An indicator, when present, that specifies RexB is applicable
+        /// </summary>
+        public const string REXB = nameof(REXB);
+
+        /// <summary>
+        /// An indicator, when present, that specifies RexW is applicable
+        /// </summary>
         public const string REXW = nameof(REXW);
 
+        /// <summary>
+        /// An indicator, when present, that specifies RexX is applicable
+        /// </summary>
         public const string REXX = nameof(REXX);
 
+        /// <summary>
+        /// A 3-bit base-10 integer that specifes the RM part of the ModRM bitfield
+        /// </summary>
         public const string RM = nameof(RM);
 
         public const string SIBINDEX = nameof(SIBINDEX);

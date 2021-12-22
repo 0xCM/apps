@@ -26,11 +26,6 @@ namespace Z0
             public Index<Facet<string>> Props;
         }
 
-        public struct Operand
-        {
-            public byte Index;
-        }
-
         /// <summary>
         /// Represents the content of a verbose xed instruction disassembly
         /// </summary>

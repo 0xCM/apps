@@ -57,10 +57,7 @@ namespace Z0
         [Symbol(PN.SeqN, "Designates a sequence of parametric length over a parametric type")]
         SeqN,
 
-        [Symbol(PN.CharBlock, "Designates a contiguous character sequence of parametric length and type")]
-        CharBlock,
-
-        [Symbol(PN.CharBlock, "Designates a contiguous byte sequence of parametric length")]
-        ByteBlock
+        [Symbol(PN.Block, "Designates a contiguous sequence of sized values of parametric length and element type")]
+        Block,
     }
 }

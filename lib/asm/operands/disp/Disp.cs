@@ -16,12 +16,12 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack =1)]
     public readonly struct Disp : IDisplacement
     {
-        public int Value {get;}
+        public long Value {get;}
 
         public byte StorageWidth {get;}
 
         [MethodImpl(Inline)]
-        public Disp(int value, byte width)
+        public Disp(long value, byte width)
         {
             Value = value;
             StorageWidth = width;
@@ -62,10 +62,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator ulong(Disp src)
             => (ulong)src.Value;
-
-        [MethodImpl(Inline)]
-        public static implicit operator int(Disp src)
-            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator long(Disp src)

@@ -21,6 +21,10 @@ namespace Z0
         public static string format(ClrPrimitiveKind src)
             => src.ToString().ToLower();
 
+        public static DiscreteRefinement<T,V> refinement<T,V>(Identifier name, T type, params V[] values)
+            where T : IType
+                => new DiscreteRefinement<T,V>(name, type, values);
+
         [MethodImpl(Inline)]
         public static LiteralType<V> literal<V>(Identifier name, V value)
             where V : IScalarValue

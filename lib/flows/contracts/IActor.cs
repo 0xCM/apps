@@ -13,7 +13,7 @@ namespace Z0
     }
 
     public interface IActor<A> : IActor
-        where A : IActor<A>
+        where A : IActor
     {
 
     }

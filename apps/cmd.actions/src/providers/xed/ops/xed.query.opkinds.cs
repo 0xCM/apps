@@ -11,7 +11,7 @@ namespace Z0
         [CmdOp(XedOpKindQuery)]
         Outcome QueryOpKinds(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<XedModels.OperandTypeKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
+            TableEmit(Symbols.syminfo<XedModels.OperandAspectKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
             return true;
         }
     }

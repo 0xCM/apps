@@ -33,11 +33,8 @@ namespace Z0.Asm
             get => Value == 0;
         }
 
-        int IDisplacement.Value
-        {
-            [MethodImpl(Inline)]
-            get => Value;
-        }
+        long IDisplacement.Value
+            => Value;
 
         public string Format()
             => Value.ToString("x");

@@ -27,5 +27,13 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref long i64<T>(in T src)
             => ref @as<T,long>(src);
+
+        [MethodImpl(Inline), Op]
+        public static ref readonly long i64(ReadOnlySpan<byte> src)
+            => ref first64i(src);
+
+        [MethodImpl(Inline), Op]
+        public static ref long i64(Span<byte> src)
+            => ref first64i(src);
     }
 }

@@ -9,7 +9,7 @@ namespace Z0.Asm
     [Free]
     public interface IDisplacement
     {
-        int Value {get;}
+        long Value {get;}
 
         byte StorageWidth {get;}
     }

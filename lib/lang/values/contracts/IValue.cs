@@ -11,7 +11,6 @@ namespace Z0
     {
         dynamic Value {get;}
 
-
     }
 
     [Free]

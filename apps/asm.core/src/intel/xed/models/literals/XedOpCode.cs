@@ -10,6 +10,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [DataType("xed.opcode")]
         public readonly struct OpCode
         {
             public readonly Hex8 Value {get;}

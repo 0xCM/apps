@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static XedModels;
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential), DataType("xed.chipisa")]
     public readonly struct XedChipIsa
     {
         public ChipCode Chip {get;}

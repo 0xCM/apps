@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using N = LlvmNames.Tools;
 
-    using static core;
-
     public readonly struct LlvmTools
     {
         public static readonly Llc llc = Llc.Instance;
@@ -35,6 +33,11 @@ namespace Z0.llvm
             }
         }
 
+        public sealed class LlcOptions : ToolOptions<LlcOptions,Llc>
+        {
+
+        }
+
         public sealed class LlvmMc : Tool<LlvmMc>
         {
             public LlvmMc()
@@ -42,6 +45,11 @@ namespace Z0.llvm
             {
 
             }
+        }
+
+        public sealed class LlvmMcOptions : ToolOptions<LlvmMcOptions,LlvmMc>
+        {
+
         }
 
         public sealed class Clang : Tool<Clang>

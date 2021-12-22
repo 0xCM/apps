@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static FormatDelegates;
 
-    [DataType("delix<t:{0}>")]
+    [DataType("dindex<t:{0}>")]
     public readonly struct DelimitedIndex<T> : IIndex<T>, ITextual
     {
         public Index<T> Data {get;}
@@ -84,7 +84,7 @@ namespace Z0
         public string Format()
         {
             var content = Render(Data, Delimiter, CellPad);
-            if(Fence != null)
+            if(Fence != null && text.nonempty(content))
                 return text.enclose(content, Fence.Value);
             else
                 return content;

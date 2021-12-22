@@ -10,14 +10,14 @@ namespace Z0.Asm
     using static Root;
 
     /// <summary>
-    /// Defines a signed 32-bit displacement
+    /// Defines a signed 64-bit displacement
     /// </summary>
-    public readonly struct Disp32 : IDisplacement<Disp32,int>
+    public readonly struct Disp64 : IDisplacement<Disp64,long>
     {
-        public int Value {get;}
+        public long Value {get;}
 
         [MethodImpl(Inline)]
-        public Disp32(int value)
+        public Disp64(long value)
         {
             Value = value;
         }
@@ -25,7 +25,7 @@ namespace Z0.Asm
         public byte StorageWidth
         {
             [MethodImpl(Inline)]
-            get => 32;
+            get => 64;
         }
 
         public bool IsNonZero
@@ -40,34 +40,30 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        long IDisplacement.Value
-            => Value;
+        [MethodImpl(Inline)]
+        public static implicit operator ulong(Disp64 src)
+            => (ulong)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Disp32(uint src)
-            => new Disp32((int)src);
+        public static implicit operator long(Disp64 src)
+            => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Disp32(int src)
-            => new Disp32(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator uint(Disp32 src)
-            => (uint)src.Value;
-
-        [MethodImpl(Inline)]
-        public static implicit operator Disp(Disp32 src)
+        public static implicit operator Disp(Disp64 src)
             => new Disp(src.Value, src.StorageWidth);
 
         [MethodImpl(Inline)]
-        public static explicit operator Disp32(long src)
-            => new Disp32((int)src);
+        public static implicit operator Disp64(ulong src)
+            => new Disp64((long)src);
 
-        public static Disp32 Empty
+        [MethodImpl(Inline)]
+        public static implicit operator Disp64(long src)
+            => new Disp64((int)src);
+
+        public static Disp64 Empty
         {
             [MethodImpl(Inline)]
-            get => new Disp32(0);
+            get => new Disp64(0);
         }
-
     }
 }
