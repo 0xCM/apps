@@ -12,7 +12,8 @@ namespace Z0
     public class EnumGen : CodeGenerator
     {
         public Outcome Emit<T>(uint offset, LiteralSeq<T> literals, ITextBuffer dst)
-            => Emit(offset, literals.Name, string.Empty, literals.View, dst);
+            where T : IComparable<T>, IEquatable<T>
+                => Emit(offset, literals.Name, string.Empty, literals.Elements, dst);
 
         public Outcome Emit<T>(uint offset, Identifier name, ReadOnlySpan<Literal<T>> literals, ITextBuffer dst)
             => Emit(offset, name, string.Empty, literals, dst);

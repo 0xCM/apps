@@ -6,15 +6,13 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum OperandIndex : byte
+        public enum RuleTableKind : byte
         {
-            Op0 = 0,
+            None,
 
-            Op1 = 1,
+            Encoding,
 
-            Op2 = 2,
-
-            Op3 = 3
+            Decoding
         }
     }
 }

@@ -33,21 +33,31 @@ namespace Z0
         }
 
         [Op]
-        public static string right(string src, string marker)
+        public static string right(string src, char match)
         {
-            var i = index(src, marker);
+            var i = index(src,match);
             if(i>0)
-                return right(src, i + marker.Length - 1);
+                return right(src,i);
             else
                 return EmptyString;
         }
 
         [Op]
-        public static string right(string src, char c)
+        public static string right(string src, string match)
         {
-            var i = index(src,c);
+            var i = index(src, match);
             if(i>0)
-                return right(src,i);
+                return right(src, i + match.Length - 1);
+            else
+                return EmptyString;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> right(ReadOnlySpan<char> src, string match)
+        {
+            var i = text.index(src,match);
+            if(i > 0)
+                return right(src,i + match.Length - 1);
             else
                 return EmptyString;
         }

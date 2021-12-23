@@ -34,14 +34,35 @@ namespace Z0
         }
 
         [Op]
-        public static string left(string src, char c)
+        public static string left(string src, char match)
         {
-            var i = index(src,c);
+            var i = index(src,match);
             if(i>0)
                 return left(src,i);
             else
                 return EmptyString;
         }
+
+        [Op]
+        public static string left(string src, string match)
+        {
+            var i = text.index(src,match);
+            if(i > 0)
+                return left(src,i);
+            else
+                return EmptyString;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, string match)
+        {
+            var i = text.index(src,match);
+            if(i > 0)
+                return left(src,i);
+            else
+                return EmptyString;
+        }
+
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, int index)

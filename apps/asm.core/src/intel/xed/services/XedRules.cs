@@ -11,28 +11,8 @@ namespace Z0
     using static Root;
 
     using static XedModels.RuleNames;
-    using P = XedRulePart;
-
-    public enum XedRulePart : byte
-    {
-        IClass,
-
-        IForm,
-
-        Attributes,
-
-        Category,
-
-        Extension,
-
-        Flags,
-
-        Pattern,
-
-        Operands,
-
-        Isa
-    }
+    using P = XedModels.RulePart;
+    using EK = XedModels.RuleExprKind;
 
     [ApiHost]
     public class XedRules : AppService<XedRules>
@@ -47,7 +27,7 @@ namespace Z0
 
         Symbols<IFormType> Forms;
 
-        Index<XedRulePart,string> PartNames;
+        Index<RulePart,string> PartNames;
 
         public XedRules()
         {
@@ -66,19 +46,49 @@ namespace Z0
             => ParseInstDefs(RuleSource(RuleDocKind.DecInstDef));
 
         public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
-            => Emit(src,RuleTarget(RuleDocKind.EncInstDef));
+            => Emit(src, RuleTarget(RuleDocKind.EncInstDef));
 
         public FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
-            => Emit(src,RuleTarget(RuleDocKind.DecInstDef));
+            => Emit(src, RuleTarget(RuleDocKind.DecInstDef));
 
-        bool Part(string src, out XedRulePart part)
+        public FS.FilePath EmitEncRuleTables(ReadOnlySpan<RuleTable> src)
+            => Emit(src, RuleTarget(RuleDocKind.EncRuleTable));
+
+        public FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
+            => Emit(src, RuleTarget(RuleDocKind.DecRuleTable));
+
+        FS.FilePath Emit(ReadOnlySpan<RuleTable> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var table = ref skip(src,i);
+                if(table.ReturnType.IsNonEmpty)
+                    writer.WriteLine(string.Format("{0} {1}()", table.ReturnType, table.Name));
+                else
+                    writer.WriteLine(string.Format("{0}()", table.Name));
+                writer.WriteLine("{");
+                foreach(var expr in table.Expressions)
+                {
+                    writer.WriteLine(string.Format("    {0}", expr.Format()));
+                }
+                writer.WriteLine("}");
+                writer.WriteLine();
+            }
+            EmittedFile(emitting,count);
+            return dst;
+        }
+
+        bool Part(string src, out RulePart part)
         {
             var count = PartNames.Count;
             var result = false;
             part = default;
             for(var i=0; i<count; i++)
             {
-                var p = (XedRulePart)i;
+                var p = (RulePart)i;
                 ref readonly var n = ref PartNames[p];
                 if(n == src)
                 {
@@ -169,8 +179,178 @@ namespace Z0
             => Targets() + ( kind switch{
                  RuleDocKind.EncInstDef => FS.file("xed.rules.encoding", FS.Txt),
                  RuleDocKind.DecInstDef=> FS.file("xed.rules.decoding", FS.Txt),
+                 RuleDocKind.EncRuleTable => FS.file("xed.rules.encoding.tables", FS.Txt),
+                 RuleDocKind.DecRuleTable => FS.file("xed.rules.decoding.tables", FS.Txt),
                  _ => FS.FileName.Empty
             });
+
+
+        const string RuleDeclMarker = "()::";
+
+        const string InvokeMarker = "()";
+
+        const string EncStepMarker = " -> ";
+
+        const string DecStepMarker = " | ";
+
+        const string SeqDeclMarker = "SEQUENCE ";
+
+        EK ClassifyExpr(TextLine src)
+        {
+            var i = text.index(src.Content, Chars.Hash);
+            var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
+
+            if(content.EndsWith(RuleDeclMarker))
+                return EK.RuleDeclaration;
+            if(content.Contains(EncStepMarker))
+                return EK.EncodeStep;
+            if(content.Contains(DecStepMarker))
+                return EK.DecodeStep;
+            if(content.EndsWith(InvokeMarker))
+                return EK.Invocation;
+            if(content.StartsWith(SeqDeclMarker))
+                return EK.SeqDeclaration;
+            return 0;
+        }
+
+        static MsgPattern<string> StepParseFailed => "Failed to parse step fromo '{0}'";
+
+        public Index<RuleTable> ParseEncRuleTables()
+            => ParseRuleTables(RuleSource(RuleDocKind.EncRuleTable));
+
+        public Index<RuleTable> ParseDecRuleTables()
+            => ParseRuleTables(RuleSource(RuleDocKind.DecRuleTable));
+
+        Index<RuleTable> ParseRuleTables(FS.FilePath src)
+        {
+            var tables = list<RuleTable>();
+            using var reader = src.Utf8LineReader();
+            var table = RuleTable.Empty;
+            var expressions = list<RuleExpr>();
+            var kind = EK.None;
+            var line = TextLine.Empty;
+
+            void ParseSeqTerms()
+            {
+                while(reader.Next(out line))
+                {
+                    if(line.IsEmpty || line.StartsWith(Chars.Hash))
+                        continue;
+
+                    kind = ClassifyExpr(line);
+                    if(kind == 0 || kind == EK.Invocation)
+                        continue;
+                    else
+                        break;
+                }
+            }
+
+            string Normalize(string src)
+            {
+                var i = text.index(src, Chars.Hash);
+                if(i>0)
+                    return text.trim(text.left(src,i));
+                else
+                    return text.trim(src);
+            }
+
+
+            Outcome ParseRuleDeclTerms()
+            {
+                var result = Outcome.Success;
+                while(reader.Next(out line))
+                {
+                    if(line.IsEmpty || line.StartsWith(Chars.Hash))
+                        continue;
+
+                    kind = ClassifyExpr(line);
+                    if(kind == 0)
+                        continue;
+
+                    var content = Normalize(line.Content);
+
+                    if(kind == EK.EncodeStep)
+                    {
+                        var parts = text.split(content, EncStepMarker).Map(x => x.Trim());
+                        if(parts.Length != 2)
+                        {
+                            result = (false, StepParseFailed.Format(content));
+                            break;
+                        }
+                        table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
+                    }
+                    else if(kind == EK.DecodeStep)
+                    {
+                        var parts = text.split(content, DecStepMarker);
+                        if(parts.Length != 2)
+                        {
+                            result = (false, StepParseFailed.Format(content));
+                            break;
+                        }
+                        table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
+                    }
+                    else
+                        break;
+
+                }
+                return result;
+            }
+
+            Outcome ParseRuleDecl()
+            {
+                var result = Outcome.Success;
+                var ruledecl = text.trim(text.left(line.Content, RuleDeclMarker));
+                var i = text.index(ruledecl, Chars.Space);
+                if(i > 0)
+                {
+                    table.Name = text.right(ruledecl,i);
+                    table.ReturnType = text.left(ruledecl,i);
+                }
+                else
+                {
+                    table.Name = ruledecl;
+                    table.ReturnType = EmptyString;
+                }
+                result = ParseRuleDeclTerms();
+                if(result.Fail)
+                    return result;
+                tables.Add(table);
+                table = RuleTable.Empty;
+                return result;
+            }
+
+            Outcome ParseNext()
+            {
+                var result = Outcome.Success;
+                if(kind == EK.SeqDeclaration)
+                    ParseSeqTerms();
+
+                while(kind == EK.RuleDeclaration)
+                {
+                    result = ParseRuleDecl();
+                    if(result.Fail)
+                        return result;
+                }
+
+                return result;
+            }
+
+            while(reader.Next(out line))
+            {
+                if(line.IsEmpty || line.StartsWith(Chars.Hash))
+                    continue;
+
+                kind = ClassifyExpr(line);
+                var result = ParseNext();
+                if(result.Fail)
+                {
+                    Error(result.Message);
+                    break;
+                }
+            }
+
+            return tables.ToArray();
+        }
 
         Index<InstDef> ParseInstDefs(FS.FilePath src)
         {

@@ -16,6 +16,12 @@ namespace Z0
 
             [Symbol("all-dec-instructions")]
             DecInstDef,
+
+            [Symbol("all-enc-patterns")]
+            EncRuleTable,
+
+            [Symbol("all-dec-patterns")]
+            DecRuleTable
         }
 
         [LiteralProvider("xed.names.rules")]

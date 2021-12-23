@@ -6,17 +6,19 @@ namespace Z0
 {
     using System;
 
+
     using static core;
     using static CsPatterns;
 
     public class LiteralProviderGen : AppService<LiteralProviderGen>
     {
         public void Emit<T>(Identifier ns, LiteralSeq<T> literals, FS.FilePath dst)
+            where T : IComparable<T>, IEquatable<T>
         {
             var buffer = text.buffer();
             var margin = 0u;
             var typename = typeof(T).Name.ToLower();
-            var count = literals.Length;
+            var count = literals.Count;
             buffer.IndentLine(margin, CsPatterns.NamespaceDecl(ns));
             buffer.IndentLine(margin, Open());
             margin += 4;

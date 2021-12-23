@@ -94,7 +94,8 @@ namespace Z0
         }
 
         public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
-            => new LiteralSeq<T>(name, from(names,values).Storage);
+            where T : IEquatable<T>, IComparable<T>
+                => new LiteralSeq<T>(name, from(names,values).Storage);
 
         public static Index<Literal<T>> from<T>(KeyedValue<string,T>[] src)
         {
@@ -115,7 +116,7 @@ namespace Z0
             };
 
         public static LiteralSeq<E> seq<E>(LiteralNameSource ns)
-            where E : unmanaged, Enum
+            where E : unmanaged, Enum, IComparable<E>, IEquatable<E>
         {
             var src = Symbols.index<E>();
             var symbols = src.View;

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class XedCmdProvider
     {
         [CmdOp("xed/emit/catalog")]
@@ -18,6 +19,8 @@ namespace Z0
         {
             Xed.Rules.EmitEncInstDefs(Xed.Rules.ParseEncInstDefs());
             Xed.Rules.EmitDecInstDefs(Xed.Rules.ParseDecInstDefs());
+            Xed.Rules.EmitEncRuleTables(Xed.Rules.ParseEncRuleTables());
+            Xed.Rules.EmitDecRuleTables(Xed.Rules.ParseDecRuleTables());
             return true;
         }
     }

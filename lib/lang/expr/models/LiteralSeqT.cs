@@ -9,64 +9,42 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct LiteralSeq<T> : IIndex<Literal<T>>
+    public class LiteralSeq<T> : ILiteralSeq<T>
+        where T : IEquatable<T>, IComparable<T>
     {
-        Index<Literal<T>> _Terms {get;}
+        Index<Literal<T>> Data;
 
         public Identifier Name {get;}
 
-        [MethodImpl(Inline)]
-        public LiteralSeq(Identifier name, Literal<T>[] src)
+        public LiteralSeq(Identifier name, Literal<T>[] values)
         {
             Name = name;
-            _Terms = src;
+            Data = values;
+        }
+
+        public ReadOnlySpan<Literal<T>> Elements
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
+
+        public ref readonly Literal<T> this[ulong index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[index];
+        }
+
+        public ref readonly Literal<T> this[long index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[index];
         }
 
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => _Terms.Count;
+            get => Data.Count;
         }
-
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => _Terms.Length;
-        }
-
-        public ReadOnlySpan<Literal<T>> View
-        {
-            [MethodImpl(Inline)]
-            get => _Terms.Edit;
-        }
-
-        public Span<Literal<T>> Edit
-        {
-            [MethodImpl(Inline)]
-            get => _Terms.Edit;
-        }
-
-        public Literal<T>[] Storage
-        {
-            get => _Terms;
-        }
-
-        public ref Literal<T> this[ulong index]
-        {
-            [MethodImpl(Inline)]
-            get => ref _Terms[index];
-        }
-
-        public ref Literal<T> this[long index]
-        {
-            [MethodImpl(Inline)]
-            get => ref _Terms[index];
-        }
-
-        public string Format()
-            => ExprFormatters.format(this);
-
-        public override string ToString()
-            => Format();
     }
 }

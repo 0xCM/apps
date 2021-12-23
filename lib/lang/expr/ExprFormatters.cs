@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using XF = ExprPatterns;
 
     using Expr;
@@ -35,6 +37,7 @@ namespace Z0
             => format(vck,var, Chars.Eq);
 
         public static string format<T>(LiteralSeq<T> src)
+            where T : IEquatable<T>, IComparable<T>
         {
             var dst = text.buffer();
             var w = core.width<T>();
