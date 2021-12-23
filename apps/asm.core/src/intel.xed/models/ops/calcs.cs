@@ -11,7 +11,7 @@ namespace Z0
     using static core;
     using static XedModels.RegId;
     using static XedModels.EASZ;
-    using static XedModels.SAMode;
+    using static XedModels.SMode;
 
     using T = XedModels.DataType;
     using W = DataWidth;
@@ -62,9 +62,9 @@ namespace Z0
         public static RegId ArAX(EASZ easz)
             => easz switch
             {
-                easz16 => AX,
-                easz32 => EAX,
-                easz64 => RAX,
+                EaMode16 => AX,
+                EaMode32 => EAX,
+                EaMode64 => RAX,
                 _ => 0
             };
 
@@ -72,9 +72,9 @@ namespace Z0
         public static RegId ArBX(EASZ easz)
             => easz switch
             {
-                easz16 => BX,
-                easz32 => EBX,
-                easz64 => RAX,
+                EaMode16 => BX,
+                EaMode32 => EBX,
+                EaMode64 => RAX,
                 _ => 0
             };
 
@@ -82,9 +82,9 @@ namespace Z0
         public static RegId ArCX(EASZ easz)
             => easz switch
             {
-                easz16 => CX,
-                easz32 => ECX,
-                easz64 => RCX,
+                EaMode16 => CX,
+                EaMode32 => ECX,
+                EaMode64 => RCX,
                 _ => 0
             };
 
@@ -92,9 +92,9 @@ namespace Z0
         public static RegId ArDX(EASZ easz)
             => easz switch
             {
-                easz16 => DX,
-                easz32 => EDX,
-                easz64 => RDX,
+                EaMode16 => DX,
+                EaMode32 => EDX,
+                EaMode64 => RDX,
                 _ => 0
             };
 
@@ -102,9 +102,9 @@ namespace Z0
         public static RegId ArSI(EASZ easz)
             => easz switch
             {
-                easz16 => SI,
-                easz32 => ESI,
-                easz64 => RSI,
+                EaMode16 => SI,
+                EaMode32 => ESI,
+                EaMode64 => RSI,
                 _ => 0
             };
 
@@ -112,9 +112,9 @@ namespace Z0
         public static RegId ArDI(EASZ easz)
             => easz switch
             {
-                easz16 => DI,
-                easz32 => EDI,
-                easz64 => RDI,
+                EaMode16 => DI,
+                EaMode32 => EDI,
+                EaMode64 => RDI,
                 _ => 0
             };
 
@@ -122,9 +122,9 @@ namespace Z0
         public static RegId ArSP(EASZ easz)
             => easz switch
             {
-                easz16 => SP,
-                easz32 => ESP,
-                easz64 => RSP,
+                EaMode16 => SP,
+                EaMode32 => ESP,
+                EaMode64 => RSP,
                 _ => 0
             };
 
@@ -132,29 +132,29 @@ namespace Z0
         public static RegId ArBP(EASZ easz)
             => easz switch
             {
-                easz16 => BP,
-                easz32 => EBP,
-                easz64 => RBP,
+                EaMode16 => BP,
+                EaMode32 => EBP,
+                EaMode64 => RBP,
                 _ => 0
             };
 
         [Op]
-        public static RegId SrSP(SAMode easz)
+        public static RegId SrSP(SMode easz)
             => easz switch
             {
-                smode16 => SP,
-                smode32 => ESP,
-                smode64 => RSP,
+                SMode16 => SP,
+                SMode32 => ESP,
+                SMode64 => RSP,
                 _ => 0
             };
 
         [Op]
-        public static RegId SrBP(SAMode easz)
+        public static RegId SrBP(SMode easz)
             => easz switch
             {
-                smode16 => BP,
-                smode32 => EBP,
-                smode64 => RBP,
+                SMode16 => BP,
+                SMode32 => EBP,
+                SMode64 => RBP,
                 _ => 0
             };
     }

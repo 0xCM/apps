@@ -14,9 +14,9 @@ namespace Z0
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct OperandValue
+        public struct OperandState
         {
-            public const string TableId = "xed.operand.value";
+            public const string TableId = "xed.operand.state";
 
             public bit agen;
 

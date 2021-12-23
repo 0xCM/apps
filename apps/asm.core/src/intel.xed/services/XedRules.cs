@@ -191,7 +191,7 @@ namespace Z0
 
         const string EncStepMarker = " -> ";
 
-        const string DecStepMarker = " | ";
+        const string DecStepMarker = " |";
 
         const string SeqDeclMarker = "SEQUENCE ";
 
@@ -272,22 +272,26 @@ namespace Z0
                     if(kind == EK.EncodeStep)
                     {
                         var parts = text.split(content, EncStepMarker).Map(x => x.Trim());
-                        if(parts.Length != 2)
+                        if(parts.Length == 2)
+                            table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
+                        else
                         {
                             result = (false, StepParseFailed.Format(content));
                             break;
                         }
-                        table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
                     }
                     else if(kind == EK.DecodeStep)
                     {
-                        var parts = text.split(content, DecStepMarker);
-                        if(parts.Length != 2)
+                        var parts = text.split(content, DecStepMarker).Map(x => x.Trim());
+                        if(parts.Length == 1)
+                            table.Expressions.Add(new RuleExpr(kind, parts[0], EmptyString));
+                        else if(parts.Length == 2)
+                            table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
+                        else
                         {
                             result = (false, StepParseFailed.Format(content));
                             break;
                         }
-                        table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
                     }
                     else
                         break;

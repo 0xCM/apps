@@ -1,25 +1,25 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-cpuid-bit-enum.h
+// Source      : all-state.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed)]
+        [SymSource(state)]
         public enum Mode : sbyte
         {
-            [Symbol("mode16")]
+            [Symbol("mode16", "MODE=0")]
             Mode16 = 0,
 
-            [Symbol("mode32")]
+            [Symbol("mode32", "MODE=1")]
             Mode32 = 1,
 
-            [Symbol("mode64")]
+            [Symbol("mode64", "MODE=2")]
             Mode64 = 2,
 
-            [Symbol("not64")]
+            [Symbol("not64", "MODE!=2")]
             Not64 = Mode16 | Mode32,
         }
     }

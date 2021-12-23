@@ -8,5 +8,7 @@ namespace Z0
     public readonly partial struct XedModels
     {
         internal const string xed = nameof(xed);
+
+        internal const string state = "xed.state";
    }
 }

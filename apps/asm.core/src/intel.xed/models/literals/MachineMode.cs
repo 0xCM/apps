@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-machine-mode-enum.h
+// Source      : xed-machine-modes-enum.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {

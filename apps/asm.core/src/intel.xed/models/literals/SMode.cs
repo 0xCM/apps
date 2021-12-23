@@ -1,26 +1,26 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-reg-class.h
+// Source      : xed-state-bits.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
         /// <summary>
-        /// Derived from xed-state-bits.txt
+        /// Stack addressing mode
         /// </summary>
-        [SymSource(xed)]
-        public enum SAMode : sbyte
+        [SymSource(state)]
+        public enum SMode : sbyte
         {
-            [Symbol("smode16")]
-            smode16 = 0,
+            [Symbol("smode16", "SMODE=0")]
+            SMode16 = 0,
 
-            [Symbol("smode32")]
-            smode32= 1,
+            [Symbol("smode32","SMODE=1")]
+            SMode32= 1,
 
-            [Symbol("smode64")]
-            smode64 = 3
+            [Symbol("smode64","SMODE=2")]
+            SMode64 = 2
         }
     }
 }
