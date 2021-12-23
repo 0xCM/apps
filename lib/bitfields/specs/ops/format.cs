@@ -19,7 +19,7 @@ namespace Z0
         public static string format<K>(in BitfieldSegModel<K> src)
             where K : unmanaged
         {
-            var i = endpos(src.Offset,src.Width);
+            var i = Bitfields.endpos(src.Offset,src.Width);
             if(i == 0)
                 return string.Format("{0}[{1}]", src.SegName, src.Offset);
             else
@@ -66,7 +66,7 @@ namespace Z0
             else
                 return string.Format("{0}[{1}:{2}]:{3}",
                     src.Name,
-                    endpos(src.Offset, src.Width),
+                    Bitfields.endpos(src.Offset, src.Width),
                     src.Offset,
                     src.Width
                     );

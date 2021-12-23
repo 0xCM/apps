@@ -13,7 +13,7 @@ namespace Z0
 
     partial struct expr
     {
-        [MethodImpl(Inline), Op]
+       [MethodImpl(Inline), Op]
         public static Var var(string name, Type t, Func<IExpr> resolver)
             => new Var(name, t, resolver);
 

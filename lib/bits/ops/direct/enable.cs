@@ -10,6 +10,7 @@ namespace Z0
     using static Root;
     using static LimitValues;
     using static BitMasks;
+    using static core;
 
     partial class bits
     {

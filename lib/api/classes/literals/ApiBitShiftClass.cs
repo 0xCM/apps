@@ -7,7 +7,7 @@ namespace Z0
     using Id = ApiClassKind;
 
     /// <summary>
-    /// Identifies bitwise shift operators
+    /// Classifies bitwise shift operators
     /// </summary>
     [ApiClass, SymSource("api.classes")]
     public enum ApiBitShiftClass : ushort
@@ -18,80 +18,99 @@ namespace Z0
         None = 0,
 
         /// <summary>
-        /// Identifies a logical left-shift operator
+        /// Classifies logical left-shift operators
         /// </summary>
+        [Symbol("sll")]
         Sll = Id.Sll,
 
         /// <summary>
-        /// Identifies a variable logical left-shift operator
+        /// Classifies variable logical left-shift operators
         /// </summary>
+        [Symbol("sllv")]
         Sllv = Id.Sllv,
 
         /// <summary>
-        /// Identifies a logical right-shift operator
+        /// Classifies logical right-shift operators
         /// </summary>
+        [Symbol("srl")]
         Srl = Id.Srl,
 
         /// <summary>
-        /// Identifies a variable logical right-shift operator
+        /// Classifies variable logical right-shift operators
         /// </summary>
+        [Symbol("srlv")]
         Srlv = Id.Srlv,
 
         /// <summary>
-        /// Identifies an arithmetic left-shift operator
+        /// Classifies arithmetic left-shift operators
         /// </summary>
+        [Symbol("sal")]
         Sal = Id.Sal,
 
         /// <summary>
-        /// Identifies an arithmetic right-shift operator
+        /// Classifies arithmetic right-shift operators
         /// </summary>
+        [Symbol("sra")]
         Sra = Id.Sra,
 
         /// <summary>
-        /// Identifies a left circular shift operator
+        /// Classifies left circular shift operators
         /// </summary>
+        [Symbol("rotl")]
         Rotl = Id.Rotl,
 
         /// <summary>
-        /// Identifies a right circular shift operator
+        /// Classifies right circular shift operators
         /// </summary>
+        [Symbol("rotr")]
         Rotr  = Id.Rotr,
 
         /// <summary>
-        /// Identifies a segmented right circular shift operator with potentially varying shift amounts per segment
+        /// Classifies segmented right circular shift operators with potentially varying shift amounts per segment
         /// </summary>
+        [Symbol("rotrv")]
         Rotrv  = Id.Rotrv,
 
         /// <summary>
-        /// Identifies a segmented left circular shift operator with potentially varying shift amounts per segment
+        /// Classifies segmented left circular shift operators with potentially varying shift amounts per segment
         /// </summary>
+        [Symbol("rotlv")]
         Rotlv  = Id.Rotlv,
 
         /// <summary>
-        /// Identifies a composite shift operator of the form a^(a << offset)
+        /// Classifies composite shift operators of the form a^(a << offset)
         /// </summary>
+        [Symbol("xorsl")]
         XorSl = Id.XorSl,
 
         /// <summary>
-        /// Identifies a composite shift operator of the form a^(a >> offset)
+        /// Classifies composite shift operators of the form a^(a >> offset)
         /// </summary>
+        [Symbol("xorsr")]
         XorSr = Id.XorSr,
 
         /// <summary>
-        /// Identifies a composite shift operator of the form a ^ ((a << offset) ^ (a >> offset))
+        /// Classifies composite shift operators of the form a ^ ((a << offset) ^ (a >> offset))
         /// </summary>
+        [Symbol("xors")]
         Xors = Id.Xors,
 
+        [Symbol("bsrl")]
         Bsrl = Id.Bsrl,
 
+        [Symbol("bsll")]
         Bsll = Id.Bsll,
 
+        [Symbol("rotrx")]
         Rotrx = Id.Rotrx,
 
+        [Symbol("rotlx")]
         Rotlx = Id.Rotlx,
 
+        [Symbol("sllx")]
         Sllx = Id.Sllx,
 
+        [Symbol("srlx")]
         Srlx = Id.Srlx,
     }
 }

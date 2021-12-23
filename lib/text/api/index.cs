@@ -41,7 +41,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// Returns the index of first source character that matches the specified predicate
+        /// Returns the index of first source character that matches the specified characters
         /// </summary>
         /// <param name="src">The data source</param>
         /// <param name="a">A match</param>

@@ -15,13 +15,13 @@ namespace Z0
         {
             public TextBlock Pattern {get;}
 
-            public TextBlock Operands {get;}
+            public Index<RuleOperand> Operands {get;}
 
             [MethodImpl(Inline)]
-            public PatternOperands(string pattern, string operands)
+            public PatternOperands(string pattern, RuleOperand[] operands)
             {
-                Pattern = pattern;
-                Operands = text.despace(operands);
+                Pattern = text.despace(pattern);
+                Operands = operands;
             }
 
             public string Format()

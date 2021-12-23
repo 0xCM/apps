@@ -35,7 +35,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bitfield spec</param>
         [MethodImpl(Inline), Op]
-        public static uint width<T>(in BitFieldModel<T> src)
+        public static uint width<T>(in BitfieldModel<T> src)
             where T : unmanaged
         {
             var total = 0u;

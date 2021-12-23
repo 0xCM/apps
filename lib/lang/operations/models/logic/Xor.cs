@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Logic
 {
-    public class Xor : OpExpr2<Xor,LogicExprKind>, ILogicOp
+    public class Xor : OpExpr2<Xor,IBooleanExpr,LogicExprKind>, ILogicOp
     {
-        public Xor(IExpr a, IExpr b)
+        public Xor(IBooleanExpr a, IBooleanExpr b)
             : base(a,b)
         {
 
@@ -18,7 +18,7 @@ namespace Z0.Ops.Logic
         public override Label OpName
             => "xor";
 
-        public override Xor Create(IExpr a, IExpr b)
+        public override Xor Create(IBooleanExpr a, IBooleanExpr b)
             => new Xor(a,b);
     }
 }

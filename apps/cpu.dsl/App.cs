@@ -7,16 +7,17 @@ namespace Z0.Vdsl
     using static core;
     using static Intrinsics;
 
+
     class App : WfApp<App>
     {
         public static void Main(params string[] args)
             => run(args, PartId.CpuDsl);
 
-        IPolySource Source;
-
         EventQueue Queue;
 
         Checks Checks;
+
+        IAppCmdService Commands;
 
         void EventRaised(IWfEvent e)
         {
@@ -26,8 +27,8 @@ namespace Z0.Vdsl
         protected override void OnInit()
         {
             Queue = EventQueue.allocate(GetType(), EventRaised);
-            Source = Rng.@default();
             Checks = Checks.create(Wf);
+            Commands = CpuDslCmd.create(Wf);
         }
 
         protected override void Disposing()
@@ -43,24 +44,13 @@ namespace Z0.Vdsl
         }
 
         protected override void Run()
-        {
+            => Commands.Run();
 
-        }
-
-
-        void Run(string spec)
-        {
-
-        }
-
-        protected override void Run(string[] args)
-        {
-            var formatter = Tables.formatter<PageBankInfo>();
-            Write(formatter.Format(Checks.BufferInfo,RecordFormatKind.KeyValuePairs));
-            Checks.Run();
-            // var count = args.Length;
-            // for(var i=0; i<count; i++)
-            //     Run(skip(args,i));
-        }
+        // protected override void Run(string[] args)
+        // {
+        //     var formatter = Tables.formatter<PageBankInfo>();
+        //     Write(formatter.Format(Checks.BufferInfo,RecordFormatKind.KeyValuePairs));
+        //     Checks.Run();
+        // }
     }
 }

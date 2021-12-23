@@ -16,7 +16,8 @@ namespace Z0
         [CmdOp("xed/emit/rules")]
         protected Outcome EmitXedRules(CmdArgs args)
         {
-            Xed.Rules.Emit(Xed.Rules.ParseEncInstDefs());
+            Xed.Rules.EmitEncInstDefs(Xed.Rules.ParseEncInstDefs());
+            Xed.Rules.EmitDecInstDefs(Xed.Rules.ParseDecInstDefs());
             return true;
         }
     }

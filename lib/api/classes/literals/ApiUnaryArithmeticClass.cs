@@ -14,20 +14,28 @@ namespace Z0
     {
         None = 0,
 
+        [Symbol("inc")]
         Inc = Id.Inc,
 
+        [Symbol("dec")]
         Dec = Id.Dec,
 
+        [Symbol("negate")]
         Negate = Id.Negate,
 
+        [Symbol("abs")]
         Abs = Id.Abs,
 
+        [Symbol("square")]
         Square = Id.Square,
 
+        [Symbol("sqrt")]
         Sqrt = Id.Sqrt,
 
+        [Symbol("even")]
         Even = Id.Even,
 
+        [Symbol("odd")]
         Odd = Id.Odd,
     }
 }

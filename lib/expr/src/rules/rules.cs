@@ -15,17 +15,17 @@ namespace Z0.Rules
     {
         const NumericKind Closure = UnsignedInts;
 
-        public static IEnumerable<IExpr> tests()
-        {
-            var counter = 7u;
-            var x = expr.var("x", () => expr.value(counter++));
-            var y = expr.var("y", () => expr.value(counter+=2));
-            var a = logic.and(x,y);
-            var b = logic.or(a,x);
-            var c = logic.xor(a,b);
-            yield return c;
-            yield return c;
-            yield return c;
-        }
+        // public static IEnumerable<IExpr> tests()
+        // {
+        //     var counter = 7u;
+        //     var x = expr.var("x", () => expr.value(counter++));
+        //     var y = expr.var("y", () => expr.value(counter+=2));
+        //     var a = logic.and(x,y);
+        //     var b = logic.or(a,x);
+        //     var c = logic.xor(a,b);
+        //     yield return c;
+        //     yield return c;
+        //     yield return c;
+        // }
     }
 }

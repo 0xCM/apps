@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Logic
 {
-    public class Impl : OpExpr2<Impl,LogicExprKind>
+    public class Impl : OpExpr2<Impl,IBooleanExpr,LogicExprKind>
     {
-        public Impl(IExpr a, IExpr b)
+        public Impl(IBooleanExpr a, IBooleanExpr b)
             : base(a,b)
         {
         }
@@ -17,7 +17,7 @@ namespace Z0.Ops.Logic
         public override LogicExprKind Kind
             => LogicExprKind.Impl;
 
-        public override Impl Create(IExpr a, IExpr b)
+        public override Impl Create(IBooleanExpr a, IBooleanExpr b)
             => new Impl(a,b);
     }
 }

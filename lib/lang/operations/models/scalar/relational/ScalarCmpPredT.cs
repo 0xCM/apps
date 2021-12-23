@@ -33,7 +33,7 @@ namespace Z0.Ops
 
 
         public Label OpName
-            => "cmp<{0}>";
+            => "cmp<t:{0}>";
 
         public string Format()
             => api.format(this);

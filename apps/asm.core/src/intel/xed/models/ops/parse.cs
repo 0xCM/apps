@@ -48,7 +48,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            dst.Attributes = attributes(skip(cells,j++)).Delimit(fence:Fencing.Embraced);
+            dst.Attributes = attributes(skip(cells,j++), Chars.Colon).Delimit(fence:Fencing.Embraced);
 
             return result;
         }
@@ -63,7 +63,7 @@ namespace Z0
             result = DataParser.eparse(src.Form, out IFormType ft);
             dst.Form = ft;
             result = DataParser.eparse(src.IsaSet, out dst.IsaKind);
-            dst.Attributes = attributes(src.Attributes);
+            dst.Attributes = attributes(src.Attributes, Chars.Colon);
             return true;
         }
     }

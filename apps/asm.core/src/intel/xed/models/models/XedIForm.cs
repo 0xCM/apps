@@ -21,6 +21,18 @@ namespace Z0
             public IForm(IFormType src)
                 => Value = src;
 
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value != 0;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value == 0;
+            }
+
             [MethodImpl(Inline)]
             public bool Equals(IForm src)
                 => ((ushort)Value).Equals((ushort)src.Value);
@@ -37,7 +49,7 @@ namespace Z0
                 => src is IForm && Equals(src);
 
             public string Format()
-                => Value.ToString();
+                => Value != 0 ? Value.ToString() : string.Empty;
 
             public override string ToString()
                 => Format();
@@ -50,6 +62,5 @@ namespace Z0
             public static implicit operator IFormType(IForm src)
                 => src.Value;
         }
-
     }
 }

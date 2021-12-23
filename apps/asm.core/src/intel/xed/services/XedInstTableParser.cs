@@ -237,9 +237,9 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = OperandTypes.Parse(skip(parts,i++), out var tk);
+            result = OperandTypes.Parse(skip(parts,i++), out var ot);
             if(result)
-                dst.Type = tk;
+                dst.Type = ot;
             else
                 return result;
 

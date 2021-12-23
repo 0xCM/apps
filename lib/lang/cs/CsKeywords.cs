@@ -6,14 +6,12 @@ namespace Z0
 {
     using System;
 
-
     using static Root;
 
     using LK = ClrLiteralKind;
     using AK = ClrAccessKind;
     using MK = ClrModifierKind;
     using EK = ClrEnumKind;
-    using PK = ClrPrimitiveKind;
 
     [ApiHost, LiteralProvider]
     public readonly struct CsKeywords

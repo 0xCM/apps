@@ -14,20 +14,28 @@ namespace Z0
     {
         None = 0,
 
+        [Symbol("testc")]
         TestC = Id.TestC,
 
+        [Symbol("testz")]
         TestZ = Id.TestZ,
 
+        [Symbol("ntz")]
         Ntz = Id.Ntz,
 
+        [Symbol("nlz")]
         Nlz = Id.Nlz,
 
+        [Symbol("pop")]
         Pop = Id.Pop,
 
+        [Symbol("mux")]
         Mux = Id.Mux,
 
+        [Symbol("scatter")]
         Scatter = Id.Scatter,
 
+        [Symbol("gather")]
         Gather = Id.Gather,
 
         Mix = Id.Mix,

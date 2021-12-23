@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IConstExpr<T> : IExpr
+    public interface IConstExpr<T> : IValue<T>
     {
-        T Value {get;}
     }
 }

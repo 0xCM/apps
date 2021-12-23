@@ -5,17 +5,19 @@
 namespace Z0
 {
     using System;
+
     using static XedModels;
     using static core;
     using static Root;
 
     using static XedModels.RuleNames;
-
     using P = XedRulePart;
 
     public enum XedRulePart : byte
     {
         IClass,
+
+        IForm,
 
         Attributes,
 
@@ -27,7 +29,9 @@ namespace Z0
 
         Pattern,
 
-        Operands
+        Operands,
+
+        Isa
     }
 
     [ApiHost]
@@ -39,6 +43,10 @@ namespace Z0
 
         Symbols<ExtensionKind> Extensions;
 
+        Symbols<IsaKind> IsaKinds;
+
+        Symbols<IFormType> Forms;
+
         Index<XedRulePart,string> PartNames;
 
         public XedRules()
@@ -46,8 +54,22 @@ namespace Z0
             Classes = Symbols.index<IClass>();
             Categories = Symbols.index<CategoryKind>();
             Extensions = Symbols.index<ExtensionKind>();
-            PartNames = new string[]{ICLASS,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS};
+            Forms = Symbols.index<IFormType>();
+            IsaKinds = Symbols.index<IsaKind>();
+            PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
         }
+
+        public Index<InstDef> ParseEncInstDefs()
+            => ParseInstDefs(RuleSource(RuleDocKind.EncInstDef));
+
+        public Index<InstDef> ParseDecInstDefs()
+            => ParseInstDefs(RuleSource(RuleDocKind.DecInstDef));
+
+        public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
+            => Emit(src,RuleTarget(RuleDocKind.EncInstDef));
+
+        public FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
+            => Emit(src,RuleTarget(RuleDocKind.DecInstDef));
 
         bool Part(string src, out XedRulePart part)
         {
@@ -71,6 +93,9 @@ namespace Z0
         Outcome Parse(string src, out IClass dst)
             => Classes.ExprKind(src, out dst);
 
+        Outcome Parse(string src, out IsaKind dst)
+            => IsaKinds.ExprKind(src, out dst);
+
         Outcome Parse(string src, out Category dst)
         {
             dst = default;
@@ -78,6 +103,12 @@ namespace Z0
             if(result)
                 dst = kind;
             return result;
+        }
+
+        Outcome Parse(string src, out Index<AttributeKind> dst)
+        {
+            dst = attributes(src,Chars.Space);
+            return true;
         }
 
         Outcome Parse(string src, out Extension dst)
@@ -89,9 +120,17 @@ namespace Z0
             return result;
         }
 
-        public FS.FilePath Emit(ReadOnlySpan<EncInstDef> src)
+        Outcome Parse(string src, out IForm dst)
         {
-            var dst = RuleTarget(RuleDocKind.EncInstDef);
+            dst = default;
+            var result = Forms.ExprKind(src, out var kind);
+            if(result)
+                dst = kind;
+            return result;
+        }
+
+        FS.FilePath Emit(ReadOnlySpan<InstDef> src, FS.FilePath dst)
+        {
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<src.Length; i++)
@@ -99,11 +138,17 @@ namespace Z0
                 ref readonly var def = ref skip(src,i);
                 writer.WriteLine(RP.PageBreak120);
                 writer.WriteLine(string.Format("{0}:{1}", nameof(def.Class), def.Class));
+                if(def.Form.IsNonEmpty)
+                    writer.WriteLine(string.Format("{0}:{1}", nameof(def.Form), def.Form));
                 writer.WriteLine(string.Format("{0}:{1}", nameof(def.Category), def.Category));
                 writer.WriteLine(string.Format("{0}:{1}", nameof(def.Extension), def.Extension));
+                if(def.Isa != 0)
+                    writer.WriteLine(string.Format("{0}:{1}", nameof(def.Isa), def.Isa));
+                if(def.Attributes.IsNonEmpty)
+                    writer.WriteLine(string.Format("{0}:{1}", nameof(def.Attributes), def.Attributes.Delimit(fence:Fencing.Embraced)));
                 iter(def.PatternOps, p => {
                     writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Pattern));
-                    writer.WriteLine(string.Format("{0}:{1}", "Operands", p.Operands));
+                    writer.WriteLine(string.Format("{0}:{1}", "Operands", p.Operands.Delimit(fence:Fencing.Embraced)));
                 });
                 writer.WriteLine();
             }
@@ -122,16 +167,16 @@ namespace Z0
 
         FS.FilePath RuleTarget(RuleDocKind kind)
             => Targets() + ( kind switch{
-                 RuleDocKind.EncInstDef => FS.file("xed.rules.instdef", FS.Txt),
+                 RuleDocKind.EncInstDef => FS.file("xed.rules.encoding", FS.Txt),
+                 RuleDocKind.DecInstDef=> FS.file("xed.rules.decoding", FS.Txt),
                  _ => FS.FileName.Empty
             });
 
-        public Index<EncInstDef> ParseEncInstDefs()
+        Index<InstDef> ParseInstDefs(FS.FilePath src)
         {
-            var src = RuleSource(RuleDocKind.EncInstDef);
-            var buffer = list<EncInstDef>();
+            var buffer = list<InstDef>();
             using var reader = src.Utf8LineReader();
-            var def = default(EncInstDef);
+            var def = default(InstDef);
             while(reader.Next(out var line))
             {
                 if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
@@ -139,9 +184,9 @@ namespace Z0
 
                 if(line.StartsWith(Chars.LBrace))
                 {
-                    var dst = default(EncInstDef);
+                    var dst = default(InstDef);
                     var pattern = EmptyString;
-                    var pops = list<PatternOperands>();
+                    var operands = list<PatternOperands>();
                     while(!line.StartsWith(Chars.RBrace) && reader.Next(out line))
                     {
                         if(line.IsEmpty)
@@ -157,7 +202,11 @@ namespace Z0
                             {
                                 switch(p)
                                 {
+                                    case P.IForm:
+                                        Parse(value, out dst.Form);
+                                    break;
                                     case P.Attributes:
+                                        Parse(value, out dst.Attributes);
                                     break;
                                     case P.Category:
                                         Parse(value, out dst.Category);
@@ -173,19 +222,23 @@ namespace Z0
                                     case P.Operands:
                                         if(nonempty(pattern))
                                         {
-                                            pops.Add(new PatternOperands(pattern, value));
+                                            var ops = text.split(text.despace(value), Chars.Space).Select(x => new RuleOperand(x));
+                                            operands.Add(new PatternOperands(pattern, ops));
                                             pattern=EmptyString;
                                         }
                                     break;
                                     case P.Pattern:
                                         pattern = value;
                                     break;
+                                    case P.Isa:
+                                        Parse(value, out dst.Isa);
+                                    break;
                                 }
                             }
                         }
                     }
 
-                    dst.PatternOps = pops.Array();
+                    dst.PatternOps = operands.Array();
                     buffer.Add(dst);
                 }
             }

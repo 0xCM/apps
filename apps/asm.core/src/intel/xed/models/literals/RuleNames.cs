@@ -13,13 +13,17 @@ namespace Z0
         {
             [Symbol("all-enc-instructions")]
             EncInstDef,
-        }
 
+            [Symbol("all-dec-instructions")]
+            DecInstDef,
+        }
 
         [LiteralProvider("xed.names.rules")]
         internal readonly struct RuleNames
         {
             public const string ICLASS = nameof(ICLASS);
+
+            public const string IFORM = nameof(IFORM);
 
             public const string ATTRIBUTES = nameof(ATTRIBUTES);
 
@@ -32,6 +36,8 @@ namespace Z0
             public const string PATTERN = nameof(PATTERN);
 
             public const string OPERANDS = nameof(OPERANDS);
+
+            public const string ISA_SET = nameof(ISA_SET);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public readonly struct BitFieldModel<T>
+    public readonly struct BitfieldModel<T>
         where T : unmanaged
     {
         public readonly text31 Name;
@@ -28,7 +28,7 @@ namespace Z0
         readonly Index<BitfieldSegModel<T>> Data;
 
         [MethodImpl(Inline)]
-        public BitFieldModel(text31 name, Index<BitfieldSegModel<T>> segments, uint width)
+        public BitfieldModel(text31 name, Index<BitfieldSegModel<T>> segments, uint width)
         {
             Name = name;
             SegCount = segments.Count;

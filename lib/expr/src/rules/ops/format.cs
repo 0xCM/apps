@@ -14,10 +14,6 @@ namespace Z0.Rules
         internal static string format<T>(in Between<T> src)
             => string.Format(InclusiveRange, src.Min, src.Max);
 
-        internal static string format<T>(in Rule<T> src)
-            where T : IExpr
-                => string.Format(Definition, src.Name, src.Expr.Format());
-
         internal static string format<K,T>(in Branch<K,T> src)
             where T : IExpr
             where K : unmanaged

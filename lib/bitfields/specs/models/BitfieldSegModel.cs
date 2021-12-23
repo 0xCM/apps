@@ -36,7 +36,7 @@ namespace Z0
         public uint Offset;
 
         /// <summary>
-        /// The index, of the last bit in the segment
+        /// The segment width
         /// </summary>
         public uint Width;
 

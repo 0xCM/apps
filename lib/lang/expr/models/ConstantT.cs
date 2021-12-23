@@ -22,6 +22,8 @@ namespace Z0
             Value = value;
         }
 
+        public bool IsEmpty => false;
+
         public string Format()
             => ExprFormatters.format(this);
 

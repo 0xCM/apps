@@ -29,13 +29,9 @@ namespace Z0
         {
             var succeeded = Eval(src, out var v);
             if(succeeded)
-            {
                 dst = v;
-            }
             else
-            {
                 dst = default(T);
-            }
             return succeeded;
         }
     }

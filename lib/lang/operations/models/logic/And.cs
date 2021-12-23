@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops.Logic
 {
-    public class And : OpExpr2<And,LogicExprKind>, ILogicOp
+    public class And : OpExpr2<And,IBooleanExpr,LogicExprKind>, ILogicOp
     {
-        public And(IExpr a, IExpr b)
+        public And(IBooleanExpr a, IBooleanExpr b)
             : base(a,b)
         {
         }
@@ -17,7 +17,7 @@ namespace Z0.Ops.Logic
         public override LogicExprKind Kind
             => LogicExprKind.And;
 
-        public override And Create(IExpr a, IExpr b)
+        public override And Create(IBooleanExpr a, IBooleanExpr b)
             => new And(a,b);
     }
 }

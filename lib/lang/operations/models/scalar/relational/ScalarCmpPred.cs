@@ -29,7 +29,6 @@ namespace Z0.Ops
         public bool Eval()
             => default;
 
-
         public string Format()
             => api.format(this);
 

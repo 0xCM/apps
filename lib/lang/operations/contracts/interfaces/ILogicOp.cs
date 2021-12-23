@@ -25,5 +25,7 @@ namespace Z0.Ops
         Impl = (byte)BinaryBitLogicKind.Impl,
 
         Not = (byte)BinaryBitLogicKind.LNot,
+
+        True = (byte)BinaryBitLogicKind.True,
     }
 }

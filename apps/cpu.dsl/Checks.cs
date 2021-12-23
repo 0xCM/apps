@@ -9,7 +9,7 @@ namespace Z0.Vdsl
 
     using static core;
     using static Root;
-    using Types;
+    using Expr;
 
     partial struct Intrinsics
     {
