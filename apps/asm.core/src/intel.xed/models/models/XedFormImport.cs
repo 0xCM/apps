@@ -5,12 +5,13 @@
 namespace Z0
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
 
     using static XedModels;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct XedFormImport : IRecord<XedFormImport>
+    public struct XedFormImport : IComparable<XedFormImport>
     {
         public const string TableId = "xed.iform";
 
@@ -30,7 +31,10 @@ namespace Z0
 
         public DelimitedIndex<AttributeKind> Attributes;
 
+        public int CompareTo(XedFormImport src)
+            => Index.CompareTo(src.Index);
+
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,60,32,16,16,16,1};
+            => new byte[FieldCount]{8,60,32,24,24,16,1};
     }
 }

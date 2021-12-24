@@ -10,6 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum IFormType : ushort
         {
+            [Symbol("")]
             INVALID = 0,
 
             AAA=1,

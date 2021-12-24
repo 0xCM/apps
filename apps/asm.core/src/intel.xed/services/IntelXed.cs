@@ -106,7 +106,7 @@ namespace Z0.Asm
 
             var kinds = map[code].ToHashSet();
             var matches = list<XedFormImport>();
-            var forms = LoadForms();
+            var forms = LoadFormImports();
             var count = forms.Length;
             for(var i=0; i<count; i++)
             {
@@ -130,45 +130,47 @@ namespace Z0.Asm
             return EmitChipForms(code);
         }
 
-        public ReadOnlySpan<XedFormImport> LoadForms()
+        public ReadOnlySpan<XedFormImport> LoadFormImports()
         {
-            var src = FormCatalogPath();
-            var counter = 0u;
-            var outcome = Outcome.Success;
-            var dst = list<XedFormImport>();
-            using var reader = src.AsciReader();
-            reader.ReadLine();
-            while(!reader.EndOfStream)
+            return Data(nameof(LoadFormImports), Load);
+
+            Index<XedFormImport> Load()
             {
-                var line = reader.ReadLine(counter);
-
-                if(line.StartsWith(CommentMarker))
-                    continue;
-
-                if(line.IsEmpty)
-                    continue;
-
-                outcome = XedModels.parse(line, out var row);
-                if(outcome)
-                    dst.Add(row);
-                else
+                var src = FormCatalogPath();
+                var counter = 0u;
+                var outcome = Outcome.Success;
+                var dst = list<XedFormImport>();
+                using var reader = src.AsciReader();
+                reader.ReadLine();
+                while(!reader.EndOfStream)
                 {
-                    Wf.Error(outcome.Message);
-                    break;
-                }
+                    var line = reader.ReadLine(counter);
 
-                counter++;
+                    if(line.StartsWith(CommentMarker) || line.IsEmpty)
+                        continue;
+
+
+                    outcome = XedModels.parse(line, out var row);
+                    if(outcome)
+                        dst.Add(row);
+                    else
+                    {
+                        Warn(outcome.Message);
+                    }
+
+                    counter++;
+                }
+                if(outcome)
+                    return dst.ToArray();
+                else
+                    return default;
             }
-            if(outcome)
-                return dst.ViewDeposited();
-            else
-                return default;
         }
 
         public ReadOnlySpan<XedQueryResult> QueryCatalog(string monic, bool emit = true)
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";
-            var src = LoadForms();
+            var src = LoadFormImports();
             var types = FormTypes();
             var cats = Categories();
             var _isa = IsaKinds();
@@ -210,7 +212,7 @@ namespace Z0.Asm
             return records;
         }
 
-        public Index<XedFormSource> LoadFormSources()
+        Index<XedFormSource> ParseFormSources()
         {
             var src = FormSourcePath();
             var tableid = Tables.identify<XedFormSource>();
@@ -224,10 +226,7 @@ namespace Z0.Asm
             {
                 var line = reader.ReadLine(counter);
 
-                if(line.StartsWith(CommentMarker))
-                    continue;
-
-                if(line.IsEmpty)
+                if(line.StartsWith(CommentMarker) || line.IsEmpty)
                     continue;
 
                 if(counter==0)
@@ -246,7 +245,7 @@ namespace Z0.Asm
                    var outcome = ParseSummary(line, out dst);
                    if(outcome)
                    {
-                       records.Add(dst);
+                        records.Add(dst);
                    }
                    else
                    {
@@ -257,6 +256,7 @@ namespace Z0.Asm
                 }
 
                 counter++;
+
             }
 
             if(succeeded)
@@ -269,7 +269,7 @@ namespace Z0.Asm
         {
             XedTargets.Clear();
             EmitChipMap();
-            EmitFormCatalog();
+            ImportForms();
             EmitTokens();
             EmitInstructions();
             EmitChipForms();
@@ -277,20 +277,19 @@ namespace Z0.Asm
 
         public void EmitTokens()
         {
-            ApiMetadata.EmitApiTokens("xed", "xed");
+            ApiMetadata.EmitApiTokens(xed, xed);
+            ApiMetadata.EmitApiTokens(state,xed);
             ApiMetadata.EmitTokens<AttributeKind>(xed);
             ApiMetadata.EmitTokens<CategoryKind>(xed);
             ApiMetadata.EmitTokens<ChipCode>(xed);
             ApiMetadata.EmitTokens<CpuidBit>(xed);
             ApiMetadata.EmitTokens<DataType>(xed);
-            ApiMetadata.EmitTokens<EASZ>(xed);
             ApiMetadata.EmitTokens<OperandTypeKind>(xed);
             ApiMetadata.EmitTokens<EncodingGroup>(xed);
-            ApiMetadata.EmitTokens<EOSZ>(xed);
             ApiMetadata.EmitTokens<ExtensionKind>(xed);
-            ApiMetadata.EmitTokens<FlagActionKind>(xed);
             ApiMetadata.EmitTokens<FormFacets>(xed);
             ApiMetadata.EmitTokens<IClass>(xed);
+            ApiMetadata.EmitTokens<IFormType>(xed);
             ApiMetadata.EmitTokens<IsaKind>(xed);
             ApiMetadata.EmitTokens<LookupKind>(xed);
             ApiMetadata.EmitTokens<NonterminalKind>(xed);
@@ -405,33 +404,30 @@ namespace Z0.Asm
             return true;
         }
 
-        public void EmitFormCatalog()
+        public void ImportForms()
         {
-            var src = LoadFormSources().View;
+            var src = ParseFormSources().View;
             var dst = FormCatalogPath();
-            var emitting = EmittingTable<XedFormImport>(dst);
             var formatter = Tables.formatter<XedFormImport>(XedFormImport.RenderWidths);
             var count = src.Length;
             var result = Outcome.Success;
             var rows = list<XedFormImport>();
-            using var writer = dst.Writer();
-            writer.WriteLine(formatter.FormatHeader());
             for(var i=z16; i<count; i++)
             {
                 result = XedModels.parse(skip(src,i), i, out var import);
+
                 if(result)
-                {
-                    import.Index = i;
-                    writer.WriteLine(formatter.Format(import));
                     rows.Add(import);
-                }
                 else
                 {
                     Error(result.Message);
                     break;
                 }
             }
-            EmittedTable(emitting,count);
+
+            rows.Sort();
+
+            TableEmit(rows.ViewDeposited(), XedFormImport.RenderWidths, dst);
         }
 
         FS.FilePath FormSourcePath()
@@ -456,7 +452,7 @@ namespace Z0.Asm
         static Outcome ParseSummary(TextLine src, out XedFormSource dst)
         {
             dst = default;
-            var parts = src.Split(FieldDelimiter);
+            var parts = text.despace(src.Content).Split(FieldDelimiter);
             var count = parts.Length;
             if(count != XedFormSource.FieldCount)
                 return(false, $"Line splits into {count} parts, not {XedFormSource.FieldCount} as required");

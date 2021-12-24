@@ -49,7 +49,7 @@ namespace Z0
                 => src is IForm && Equals(src);
 
             public string Format()
-                => Value != 0 ? Value.ToString() : string.Empty;
+                => Value != 0 ? Value.ToString() : "INVALID";
 
             public override string ToString()
                 => Format();

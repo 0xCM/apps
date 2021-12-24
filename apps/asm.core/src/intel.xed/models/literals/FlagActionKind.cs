@@ -10,29 +10,29 @@ namespace Z0
         /// <summary>
         /// xed-flag-action-enum.h
         /// </summary>
-        [SymSource(xed)]
+        [SymSource(state)]
         public enum FlagActionKind
         {
             [Symbol("u", "undefined (treated as a write)")]
-            FLAG_ACTION_u,
+            Undefined,
 
             [Symbol("tst", "test (read)")]
-            FLAG_ACTION_tst,
+            Test,
 
             [Symbol("mod", "modification (write)")]
-            FLAG_ACTION_mod,
+            Modify,
 
             [Symbol("0", "value will be zero (write)")]
-            FLAG_ACTION_0,
+            Disable,
 
             [Symbol("pop", "value comes from the stack (write)")]
-            FLAG_ACTION_pop,
+            Pop,
 
             [Symbol("ah", "value comes from AH (write)")]
-            FLAG_ACTION_ah,
+            AH,
 
             [Symbol("1", "value will be 1 (write)")]
-            FLAG_ACTION_1,
+            Enable,
         }
     }
 }

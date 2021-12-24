@@ -10,6 +10,7 @@ namespace Z0
         [SymSource(xed)]
         public enum IClass : ushort
         {
+            [Symbol("")]
             INVALID,
 
             AAA,
