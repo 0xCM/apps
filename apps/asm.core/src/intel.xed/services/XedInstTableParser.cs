@@ -51,8 +51,6 @@ namespace Z0
 
         EnumParser<LookupKind> Lookups {get;}
 
-        EnumParser<DataType> DataTypes {get;}
-
         Index<char> _DigitBuffer;
 
         EnumParser<IsaKind> IsaKinds;
@@ -86,7 +84,6 @@ namespace Z0
             Visibilities = new();
             Actions = new();
             Lookups = new();
-            DataTypes = new();
             IsaKinds = new();
             IClassParser = new();
             IFormParser = new();

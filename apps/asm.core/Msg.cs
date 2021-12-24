@@ -43,5 +43,7 @@ namespace Z0
 
         public static MsgPattern<FS.FileUri,string> FileParseError => "Error parsing {0}:{1}";
 
+        public static MsgPattern<string,string> ParseFailure => "Parsing {0} from '{1}' failed";
+
     }
 }

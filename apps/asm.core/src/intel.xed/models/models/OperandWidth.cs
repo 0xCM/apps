@@ -11,20 +11,21 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataType(Names.opwidth)]
-        public struct OperandWidth : IEnumCover<OperandWidthType>
+        [Record(TableId)]
+        public struct OperandWidth
         {
-            public OperandWidthType Value {get;set;}
+            public const string TableId = "xed.rules.widths";
 
-            [MethodImpl(Inline)]
-            public OperandWidth(OperandWidthType kind)
-            {
-                Value = kind;
-            }
+            public OperandWidthType Code;
 
-            [MethodImpl(Inline)]
-            public static implicit operator OperandWidth(OperandWidthType type)
-                => new OperandWidth(type);
+            public DataType BaseType;
+
+            public uint Width16;
+
+            public uint Width32;
+
+            public uint Width64;
         }
+
     }
 }

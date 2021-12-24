@@ -22,7 +22,10 @@ namespace Z0
             DecRuleTable,
 
             [Symbol("all-enc-dec-patterns")]
-            EncDecRuleTable
+            EncDecRuleTable,
+
+            [Symbol("all-widths")]
+            Widths
         }
     }
 }

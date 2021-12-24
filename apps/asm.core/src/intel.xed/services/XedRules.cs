@@ -25,6 +25,10 @@ namespace Z0
 
         Symbols<OperandKind> OperandKinds;
 
+        Symbols<OperandWidthType> WidthCodes;
+
+        Symbols<DataType> DataTypes;
+
         Symbols<IsaKind> IsaKinds;
 
         Symbols<IFormType> Forms;
@@ -39,6 +43,8 @@ namespace Z0
             Forms = Symbols.index<IFormType>();
             IsaKinds = Symbols.index<IsaKind>();
             OperandKinds = Symbols.index<OperandKind>();
+            WidthCodes = Symbols.index<OperandWidthType>();
+            DataTypes = Symbols.index<DataType>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
         }
 
@@ -50,8 +56,6 @@ namespace Z0
             EmitDecRuleTables();
             EmitEncDecRuleTables();
         }
-
-
 
         public Index<InstDef> EmitEncInstDefs()
         {
@@ -108,6 +112,100 @@ namespace Z0
 
         public FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
             => Emit(src, RuleTarget(RuleDocKind.EncDecRuleTable));
+
+
+        public Index<OperandWidth> ParseOperandWidths()
+        {
+            var buffer = list<OperandWidth>();
+            var src = RuleSource(RuleDocKind.Widths);
+            using var reader = src.Utf8LineReader();
+            var result = Outcome.Success;
+            while(reader.Next(out var line))
+            {
+                var content = text.trim(line.Content);
+                if(text.empty(content) || content.StartsWith(Chars.Hash))
+                    continue;
+
+                var i = text.index(content, Chars.Hash);
+                if(i>0)
+                    content = text.left(content,i);
+
+                var cells = text.split(text.despace(content), Chars.Space);
+                if(cells.Length < 3)
+                {
+                    result = (false, content);
+                    break;
+                }
+
+                ref readonly var c0 = ref skip(cells,0);
+                ref readonly var c1 = ref skip(cells,1);
+                ref readonly var c2 = ref skip(cells,2);
+
+                var dst = default(OperandWidth);
+
+                result = WidthCodes.ExprKind(c0, out dst.Code);
+                if(result.Fail)
+                {
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.Code), c0));
+                    break;
+                }
+
+                result = DataTypes.ExprKind(c1, out dst.BaseType);
+                if(result.Fail)
+                {
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.BaseType), c1));
+                    break;
+                }
+
+                static Outcome ParseWidthValue(string src, out uint bits)
+                {
+                    var result = Outcome.Success;
+                    bits = 0;
+                    var i = text.index(src, "bits");
+                    if(i > 0)
+                        result = DataParser.parse(text.left(src,i), out bits);
+                    else
+                    {
+                        result = DataParser.parse(src, out ushort bytes);
+                        if(result)
+                            bits = (uint)(bytes*8);
+                    }
+                    return result;
+                }
+
+                result = ParseWidthValue(c2, out dst.Width16);
+                if(result.Fail)
+                {
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.Width16), c2));
+                    break;
+                }
+                dst.Width32 = dst.Width16;
+                dst.Width64 = dst.Width16;
+
+                if(cells.Length >= 4)
+                    result = ParseWidthValue(skip(cells,3), out dst.Width32);
+                if(result.Fail)
+                {
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.Width32), skip(cells,3)));
+                    break;
+                }
+
+                if(cells.Length >= 5)
+                    result = ParseWidthValue(skip(cells,4), out dst.Width64);
+                if(result.Fail)
+                {
+                    result = (false,Msg.ParseFailure.Format(nameof(dst.Width64), skip(cells,4)));
+                    break;
+                }
+
+                buffer.Add(dst);
+            }
+
+            if(result.Fail)
+                Error(result.Message);
+
+            return buffer.ToArray();
+        }
 
         FS.FilePath Emit(ReadOnlySpan<RuleTable> src, FS.FilePath dst)
         {
@@ -234,6 +332,7 @@ namespace Z0
                  RuleDocKind.EncRuleTable => FS.file("xed.rules.encoding.tables", FS.Txt),
                  RuleDocKind.DecRuleTable => FS.file("xed.rules.decoding.tables", FS.Txt),
                  RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
+                 RuleDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
                  _ => FS.FileName.Empty
             });
 
@@ -266,7 +365,7 @@ namespace Z0
             return 0;
         }
 
-        static MsgPattern<string> StepParseFailed => "Failed to parse step fromo '{0}'";
+        static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";
 
         public Index<RuleTable> ParseEncRuleTables()
             => ParseRuleTables(RuleSource(RuleDocKind.EncRuleTable));

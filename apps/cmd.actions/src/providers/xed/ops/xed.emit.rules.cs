@@ -17,5 +17,14 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/emit/widths")]
+        protected Outcome EmitXedWidths(CmdArgs args)
+        {
+            var src = Xed.Rules.ParseOperandWidths();
+            var dst = ProjectDb.TablePath<OperandWidth>("xed");
+            TableEmit(src.View,dst);
+            return true;
+        }
+
     }
 }
