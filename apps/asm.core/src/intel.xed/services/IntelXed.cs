@@ -48,6 +48,9 @@ namespace Z0.Asm
         public Symbols<AttributeKind> Attributes()
             => Symbols.index<AttributeKind>();
 
+        public Symbols<NonterminalKind> Nonterminals()
+            => Symbols.index<NonterminalKind>();
+
         public Symbols<CategoryKind> Categories()
             => Symbols.index<CategoryKind>();
 
@@ -273,6 +276,7 @@ namespace Z0.Asm
             EmitTokens();
             EmitInstructions();
             EmitChipForms();
+            Rules.EmitCatalog();
         }
 
         public void EmitTokens()
@@ -284,7 +288,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<ChipCode>(xed);
             ApiMetadata.EmitTokens<CpuidBit>(xed);
             ApiMetadata.EmitTokens<DataType>(xed);
-            ApiMetadata.EmitTokens<OperandTypeKind>(xed);
+            ApiMetadata.EmitTokens<BaseTypeKind>(xed);
             ApiMetadata.EmitTokens<EncodingGroup>(xed);
             ApiMetadata.EmitTokens<ExtensionKind>(xed);
             ApiMetadata.EmitTokens<FormFacets>(xed);
@@ -293,7 +297,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<IsaKind>(xed);
             ApiMetadata.EmitTokens<LookupKind>(xed);
             ApiMetadata.EmitTokens<NonterminalKind>(xed);
-            ApiMetadata.EmitTokens<OperandAspectKind>(xed);
+            ApiMetadata.EmitTokens<OperandKind>(xed);
             ApiMetadata.EmitTokens<OperandWidthType>(xed);
             ApiMetadata.EmitTokens<OpCodeMap>(xed);
             ApiMetadata.EmitTokens<OperandAction>(xed);

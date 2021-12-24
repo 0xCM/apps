@@ -25,14 +25,17 @@ namespace Z0
         /// </summary>
         public FieldInfo Definition {get;}
 
-        readonly string _Name;
+        /// <summary>
+        /// The external field name
+        /// </summary>
+        public Name FieldName {get;}
 
         [MethodImpl(Inline)]
-        public ClrTableField(ushort index, FieldInfo def, string name)
+        public ClrTableField(ushort index, FieldInfo def)
         {
             FieldIndex = index;
             Definition = def;
-            _Name = name;
+            FieldName = Tables.name(def);
         }
 
         public bool IsEmpty
@@ -48,12 +51,12 @@ namespace Z0
         }
 
         /// <summary>
-        /// The field name
+        /// The member field name
         /// </summary>
-        public string Name
+        public Name MemberName
         {
             [MethodImpl(Inline)]
-            get => _Name ?? EmptyString;
+            get => IsNonEmpty ? Definition.Name : Name.Empty;
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("{0:D2} {1}", FieldIndex, Name);
+            => string.Format("{0:D2} {1}", FieldIndex, FieldName);
 
         public override string ToString()
             => Format();

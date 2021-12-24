@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
@@ -11,7 +13,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        public struct InstDef
+        public struct InstDef : IComparable<InstDef>
         {
             public IClass Class;
 
@@ -28,6 +30,9 @@ namespace Z0
             public Index<FlagAction> FlagActions;
 
             public Index<PatternOperands> PatternOps;
+
+            public int CompareTo(InstDef src)
+                => ((ushort)Class).CompareTo((ushort)src.Class);
         }
     }
 }

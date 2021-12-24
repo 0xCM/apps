@@ -15,10 +15,10 @@ namespace Z0
         {
             INVALID,
 
-            [Symbol("asz", "Varies with effective address width and may be one of [2 | 4 | 8]")]
+            [Symbol("asz", "Varies with effective address width and may be one of 2, 4, 8")]
             ASZ,
 
-            [Symbol("ssz", "Varies with stack address width and may be one of 2, 4, or 8]")]
+            [Symbol("ssz", "Varies with stack address width and may be one of 2, 4, or 8")]
             SSZ,
 
             [Symbol("pseudo")]
@@ -280,8 +280,10 @@ namespace Z0
 
             ZU128,
 
+            [Symbol("m384", "struct/48 bytes")]
             M384,
 
+            [Symbol("m512", "struct/64 bytes")]
             M512,
 
             PTR,

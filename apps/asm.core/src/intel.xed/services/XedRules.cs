@@ -23,6 +23,8 @@ namespace Z0
 
         Symbols<ExtensionKind> Extensions;
 
+        Symbols<OperandKind> OperandKinds;
+
         Symbols<IsaKind> IsaKinds;
 
         Symbols<IFormType> Forms;
@@ -36,7 +38,54 @@ namespace Z0
             Extensions = Symbols.index<ExtensionKind>();
             Forms = Symbols.index<IFormType>();
             IsaKinds = Symbols.index<IsaKind>();
+            OperandKinds = Symbols.index<OperandKind>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
+        }
+
+        public void EmitCatalog()
+        {
+            EmitEncInstDefs();
+            EmitDecInstDefs();
+            EmitEncRuleTables();
+            EmitDecRuleTables();
+            EmitEncDecRuleTables();
+        }
+
+
+
+        public Index<InstDef> EmitEncInstDefs()
+        {
+            var src = ParseEncInstDefs();
+            EmitEncInstDefs(src);
+            return src;
+        }
+
+        public Index<InstDef> EmitDecInstDefs()
+        {
+            var src = ParseDecInstDefs();
+            EmitDecInstDefs(src);
+            return src;
+        }
+
+        public Index<RuleTable> EmitEncRuleTables()
+        {
+            var src = ParseEncRuleTables();
+            EmitEncRuleTables(src);
+            return src;
+        }
+
+        public Index<RuleTable> EmitDecRuleTables()
+        {
+            var src = ParseDecRuleTables();
+            EmitDecRuleTables(src);
+            return src;
+        }
+
+        public Index<RuleTable> EmitEncDecRuleTables()
+        {
+            var src = ParseEncDecRuleTables();
+            EmitEncDecRuleTables(src);
+            return src;
         }
 
         public Index<InstDef> ParseEncInstDefs()
@@ -56,6 +105,9 @@ namespace Z0
 
         public FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
             => Emit(src, RuleTarget(RuleDocKind.DecRuleTable));
+
+        public FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
+            => Emit(src, RuleTarget(RuleDocKind.EncDecRuleTable));
 
         FS.FilePath Emit(ReadOnlySpan<RuleTable> src, FS.FilePath dst)
         {
@@ -181,6 +233,7 @@ namespace Z0
                  RuleDocKind.DecInstDef=> FS.file("xed.rules.decoding", FS.Txt),
                  RuleDocKind.EncRuleTable => FS.file("xed.rules.encoding.tables", FS.Txt),
                  RuleDocKind.DecRuleTable => FS.file("xed.rules.decoding.tables", FS.Txt),
+                 RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
                  _ => FS.FileName.Empty
             });
 
@@ -220,6 +273,9 @@ namespace Z0
 
         public Index<RuleTable> ParseDecRuleTables()
             => ParseRuleTables(RuleSource(RuleDocKind.DecRuleTable));
+
+        public Index<RuleTable> ParseEncDecRuleTables()
+            => ParseRuleTables(RuleSource(RuleDocKind.EncDecRuleTable));
 
         Index<RuleTable> ParseRuleTables(FS.FilePath src)
         {
@@ -268,10 +324,10 @@ namespace Z0
                         continue;
 
                     var content = Normalize(line.Content);
-
+                    var parts = sys.empty<string>();
                     if(kind == EK.EncodeStep)
                     {
-                        var parts = text.split(content, EncStepMarker).Map(x => x.Trim());
+                        parts = text.split(content, EncStepMarker).Map(x => x.Trim());
                         if(parts.Length == 2)
                             table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
                         else
@@ -282,7 +338,7 @@ namespace Z0
                     }
                     else if(kind == EK.DecodeStep)
                     {
-                        var parts = text.split(content, DecStepMarker).Map(x => x.Trim());
+                        parts = text.split(content, DecStepMarker).Map(x => x.Trim());
                         if(parts.Length == 1)
                             table.Expressions.Add(new RuleExpr(kind, parts[0], EmptyString));
                         else if(parts.Length == 2)
@@ -427,7 +483,43 @@ namespace Z0
                 }
             }
 
-            return buffer.ToArray();
+            return buffer.ToArray().Sort();
+        }
+
+        public Outcome ParseAssignment(string src, out OperandAssignment dst)
+        {
+            var result = Outcome.Success;
+            dst = OperandAssignment.Empty;
+            var i = text.index(src,Chars.Eq);
+            if(i >  0)
+            {
+                result = OperandKinds.MapExpr(text.trim(text.left(src,i)), out var kind);
+                if(result)
+                {
+                    result = Parse(text.trim(text.right(src,i)),kind, out var value);
+                    dst = new OperandAssignment(kind,value);
+                }
+            }
+            else
+            {
+                result = (false, "Not an assignment");
+            }
+            return result;
+        }
+
+        Outcome Parse(string src, OperandKind kind, out ulong dst)
+        {
+            var result = Outcome.Success;
+            dst = default;
+            switch(kind)
+            {
+                case OperandKind.REG0:
+                break;
+
+                default:
+                    break;
+            }
+            return result;
         }
     }
 }

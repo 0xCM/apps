@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Reflection;
 
     using static core;
 
@@ -22,8 +23,8 @@ namespace Z0
             ref var spec = ref first(specs);
             for(ushort i=0; i<count; i++)
             {
-                ref readonly var field = ref skip(fields,i);
-                seek(spec,i) = new RecordFieldSpec(i, field.Name, field.FieldType.DisplayName());
+                var field = skip(fields,i);
+                seek(spec,i) = new RecordFieldSpec(i, name(field), field.FieldType.DisplayName());
             }
             return new TableSchema(TableId.identify(src), specs);
         }

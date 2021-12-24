@@ -4,26 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using M = XedModels;
-
     partial struct XedModels
     {
-        [SymSource(xed)]
-        public enum RuleDocKind : byte
-        {
-            [Symbol("all-enc-instructions")]
-            EncInstDef,
-
-            [Symbol("all-dec-instructions")]
-            DecInstDef,
-
-            [Symbol("all-enc-patterns")]
-            EncRuleTable,
-
-            [Symbol("all-dec-patterns")]
-            DecRuleTable
-        }
-
         [LiteralProvider("xed.names.rules")]
         internal readonly struct RuleNames
         {

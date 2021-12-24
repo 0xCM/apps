@@ -32,10 +32,7 @@ namespace Z0
             var buffer = sys.alloc<ClrTableField>(count);
             ref var dst = ref first(buffer);
             for(var i=z16; i<count; i++)
-            {
-                ref readonly var f = ref skip(fields,i);
-                seek(dst, i) = new ClrTableField(i, f, f.Name);
-            }
+                seek(dst, i) = new ClrTableField(i, skip(fields,i));
             return buffer;
         }
     }

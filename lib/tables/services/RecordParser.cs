@@ -52,7 +52,7 @@ namespace Z0
                     result = parser.Parse(value, out var v);
                     if(result.Fail)
                     {
-                        result = (false,string.Format("An attempt to parse the '{0}' field from '{1}' failed", field.Name, value));
+                        result = (false,string.Format("An attempt to parse the '{0}' field from '{1}' failed", field.MemberName, value));
                         break;
                     }
 

@@ -28,7 +28,7 @@ namespace Z0
         public string DataType;
 
         /// <summary>
-        /// The field name
+        /// The name of the represented member
         /// </summary>
         public string Name;
 

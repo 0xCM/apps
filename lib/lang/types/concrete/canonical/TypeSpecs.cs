@@ -45,6 +45,31 @@ namespace Z0
 
         internal const string Block = "block<n:{0},t:{1}>";
 
+        internal const string Address = "address";
+
+        internal const string Address8 = "address<w:8>";
+
+        internal const string Address16 = "address<w:16>";
+
+        internal const string Address32 = "address<w:32>";
+
+        internal const string Address64 = "address<w:64>";
+
+        internal const string AddressW = "address<w:{0}>";
+
+        /// <summary>
+        /// Defines an address type with default width
+        /// </summary>
+        [TypeFactory(AddressW)]
+        public static TypeSpec address() => Address;
+
+        /// <summary>
+        /// Defines an address type of specified width
+        /// </summary>
+        /// <param name="n">The bit-width</param>
+        [TypeFactory(AddressW)]
+        public static TypeSpec address(uint w) => string.Format(I,w);
+
         /// <summary>
         /// Defines a signed integer type of specified bit-width
         /// </summary>

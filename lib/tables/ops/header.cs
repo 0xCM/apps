@@ -47,7 +47,7 @@ namespace Z0
                         ref readonly var content = ref skip(parts,i);
                         var length = (ushort)content.Length;
                         var name = text.trim(content);
-                        seek(cell,i) = new HeaderCell(i,name, length);
+                        seek(cell,i) = new HeaderCell(i, name, length);
                     }
                     dst = new RowHeader(cells, delimiter);
                     return true;
@@ -90,7 +90,7 @@ namespace Z0
             var buffer = alloc<HeaderCell>(count);
             var cells = span(buffer);
             for(var i=0u; i<count; i++)
-                seek(cells, i) = new HeaderCell(i, skip(_fields,i).Name, fieldwidth);
+                seek(cells, i) = new HeaderCell(i, skip(_fields,i).FieldName, fieldwidth);
             return new RowHeader(buffer, delimiter);
         }
 
@@ -107,7 +107,10 @@ namespace Z0
             var buffer = alloc<HeaderCell>(count);
             var cells = span(buffer);
             for(var i=0u; i<count; i++)
-                seek(cells,i) = new HeaderCell(i, skip(_fields,i).Name, skip(widths,i));
+            {
+                ref readonly var field = ref skip(_fields,i);
+                seek(cells,i) = new HeaderCell(i, field.FieldName, skip(widths,i));
+            }
             return new RowHeader(buffer, delimiter);
         }
 

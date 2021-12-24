@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public struct RecordFieldSpec
+    public readonly struct RecordFieldSpec
     {
         public ushort FieldIndex {get;}
 

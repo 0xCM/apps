@@ -22,7 +22,7 @@ namespace Z0
             var count = cells.Length;
             var fields = src.Fields.View;
             for(var i=0; i<count; i++)
-                dst.AppendFormat(KVRP, skip(fields,i).Name, skip(cells,i));
+                dst.AppendFormat(KVRP, skip(fields,i).MemberName, skip(cells,i));
             return dst.Emit();
         }
     }

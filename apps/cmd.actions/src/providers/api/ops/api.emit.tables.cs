@@ -37,7 +37,7 @@ namespace Z0
                 for(var j=0; j<fields.Length; j++)
                 {
                     ref readonly var field = ref skip(fields,j);
-                    writer.WriteLine(string.Format("{0,-8} | {1,-42} | {2}", field.FieldIndex, field.Name, field.DataType));
+                    writer.WriteLine(string.Format("{0,-8} | {1,-42} | {2}", field.FieldIndex, field.FieldName, field.DataType));
                 }
             }
 

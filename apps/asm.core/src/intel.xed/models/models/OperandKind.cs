@@ -9,12 +9,12 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static XedModels.OperandAspectKind;
+    using static XedModels.OperandKind;
 
     partial struct XedModels
     {
         [MethodImpl(Inline), Op]
-        public static bool is_memory_addressing_register(OperandAspectKind kind)
+        public static bool is_memory_addressing_register(OperandKind kind)
             => kind == BASE0 ||
               kind == INDEX ||
               kind == SEG0  ||
@@ -22,12 +22,11 @@ namespace Z0
               kind == SEG1;
 
         [MethodImpl(Inline), Op]
-        public static bool is_register(OperandAspectKind kind)
+        public static bool is_register(OperandKind kind)
             => kind >= REG0 && kind <= REG9;
 
-
         [SymSource(xed)]
-        public enum OperandAspectKind : byte
+        public enum OperandKind : byte
         {
             INVALID,
 

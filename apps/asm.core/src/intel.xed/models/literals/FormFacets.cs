@@ -3272,10 +3272,13 @@ namespace Z0
             XSAVES64_LAST=6393,
             XSETBV_FIRST=6394,
             XSETBV_LAST=6394,
+
             XSTORE_FIRST=6395,
             XSTORE_LAST=6395,
+
             XSUSLDTRK_FIRST=6396,
             XSUSLDTRK_LAST=6396,
+
             XTEST_FIRST=6397,
             XTEST_LAST=6397,
         }

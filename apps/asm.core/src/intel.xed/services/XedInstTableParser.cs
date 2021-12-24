@@ -43,7 +43,7 @@ namespace Z0
 
         EnumParser<EncodingGroup> Groups {get;}
 
-        EnumParser<OperandAspectKind> OperandKinds {get;}
+        EnumParser<OperandKind> OperandKinds {get;}
 
         EnumParser<OperandVisibility> Visibilities {get;}
 
@@ -65,7 +65,7 @@ namespace Z0
 
         EnumParser<RegId> Regs;
 
-        EnumParser<OperandTypeKind> OperandTypes;
+        EnumParser<BaseTypeKind> OperandTypes;
 
         [MethodImpl(Inline)]
         Span<char> DigitBuffer()

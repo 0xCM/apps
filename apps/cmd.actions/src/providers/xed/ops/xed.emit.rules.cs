@@ -4,15 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
+    using static XedModels;
+
     partial class XedCmdProvider
     {
-        const string XedOpKindQuery = "xed/query/opkinds";
-
-        [CmdOp(XedOpKindQuery)]
-        Outcome QueryOpKinds(CmdArgs args)
+        [CmdOp("xed/emit/rules")]
+        protected Outcome EmitXedRules(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<XedModels.OperandKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
+            Xed.Rules.EmitCatalog();
             return true;
         }
+
     }
 }

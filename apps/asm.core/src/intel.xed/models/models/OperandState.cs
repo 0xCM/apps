@@ -9,8 +9,6 @@ namespace Z0
 
     using Asm;
 
-    using static Root;
-
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
@@ -140,12 +138,15 @@ namespace Z0
 
             public uint2 llrc;
 
+            [Field("MOD")]
             public uint3 mod;
 
-            public uint2 mode;
+            [Field("MODE",2)]
+            public Mode mode;
 
             public uint2 rep;
 
+            [Field("SIBSCALE")]
             public uint2 sibscale;
 
             public uint2 smode;
@@ -184,16 +185,19 @@ namespace Z0
 
             public uint4 nelem;
 
+            [Field("SCALE")]
             public uint4 scale;
 
             public uint5 bcast;
 
+            [Field("NEED_MEMDISP")]
             public bit need_memdisp;
 
             public ChipCode chip;
 
             public byte brdisp_width;
 
+            [Field("DISP_WIDTH")]
             public byte disp_width;
 
             public byte ild_seg;
@@ -228,6 +232,7 @@ namespace Z0
 
             public imm8 uimm1;
 
+            [Field("BASE0")]
             public Register base0;
 
             public Register base1;

@@ -17,7 +17,7 @@ namespace Z0
 
             public const string reg = xed + nameof(reg);
 
-            public const string optype = xed + nameof(optype);
+            public const string basetype = xed + nameof(basetype);
 
             public const string opwidth = xed + nameof(opwidth);
 
