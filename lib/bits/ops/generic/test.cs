@@ -13,7 +13,7 @@ namespace Z0
     partial class gbits
     {
         [MethodImpl(Inline)]
-        public static bit testbit<T,I>(T src, I index)
+        public static bit test<T,I>(T src, I index)
             where T : unmanaged
             where I : unmanaged
                 => bit.gtest(src, index);
@@ -24,7 +24,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit, Closures(AllNumeric)]
-        public static bit testbit<T>(T src, byte pos)
+        public static bit test<T>(T src, byte pos)
             where T : unmanaged
                 => bit.gtest(src,pos);
     }

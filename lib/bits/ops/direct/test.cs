@@ -17,7 +17,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(sbyte src, byte pos)
+        public static bit test(sbyte src, byte pos)
             => bit.test(src, pos);
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(byte src, byte pos)
+        public static bit test(byte src, byte pos)
             => bit.test(src, pos);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(short src, byte pos)
+        public static bit test(short src, byte pos)
             => bit.test(src, pos);
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(ushort src, byte pos)
+        public static bit test(ushort src, byte pos)
             => bit.test(src,pos);
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(int src, byte pos)
+        public static bit test(int src, byte pos)
             => bit.test(src,pos);
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(uint src, byte pos)
+        public static bit test(uint src, byte pos)
             => bit.test(src,pos);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(long src, byte pos)
+        public static bit test(long src, byte pos)
             => bit.test(src, pos);
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(ulong src, byte pos)
+        public static bit test(ulong src, byte pos)
             => bit.test(src, pos);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(float src, byte pos)
+        public static bit test(float src, byte pos)
            => bit.test(BitConverter.SingleToInt32Bits(src),pos);
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Z0
         /// <param name="src">The value to test</param>
         /// <param name="pos">The bit index to check</param>
         [MethodImpl(Inline), TestBit]
-        public static bit testbit(double src, byte pos)
+        public static bit test(double src, byte pos)
             => bit.test(BitConverter.DoubleToInt64Bits(src),pos);
     }
 }

@@ -41,8 +41,8 @@ namespace Z0
                 var x = Random.Next<uint>();
                 bits.split(x,out var x0, out var x1);
 
-                var y0 = gbits.segment(x, 0, 15);
-                var y1 = gbits.segment(x, 16, 31);
+                var y0 = gbits.extract(x, 0, 15);
+                var y1 = gbits.extract(x, 16, 31);
                 PrimalClaims.eq(y0,x0);
                 PrimalClaims.eq(y1,x1);
             }
@@ -54,8 +54,8 @@ namespace Z0
             {
                 var x = Random.Next<ulong>();
                 bits.split(x, out var x0, out var x1);
-                var y0 = gbits.segment(x, 0, 31);
-                var y1 = gbits.segment(x, 32, 63);
+                var y0 = gbits.extract(x, 0, 31);
+                var y1 = gbits.extract(x, 32, 63);
 
                 PrimalClaims.eq(y0,x0);
                 PrimalClaims.eq(y1,x1);
@@ -68,12 +68,12 @@ namespace Z0
             {
                 var x = Random.Next<ushort>();
 
-                var x0 = gbits.segment(x,0, 2);
-                var x1 = gmath.sll(gbits.segment(x,3, 5),3);
-                var x2 = gmath.sll(gbits.segment(x,6, 8),6);
-                var x3 = gmath.sll(gbits.segment(x,9, 11),9);
-                var x4 = gmath.sll(gbits.segment(x,12, 14),12);
-                var x5 = gmath.sll(gbits.segment(x,15, 15),15);
+                var x0 = gbits.extract(x,0, 2);
+                var x1 = gmath.sll(gbits.extract(x,3, 5),3);
+                var x2 = gmath.sll(gbits.extract(x,6, 8),6);
+                var x3 = gmath.sll(gbits.extract(x,9, 11),9);
+                var x4 = gmath.sll(gbits.extract(x,12, 14),12);
+                var x5 = gmath.sll(gbits.extract(x,15, 15),15);
                 var y = x0;
                 y |= x1;
                 y |= x2;

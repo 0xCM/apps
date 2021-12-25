@@ -92,7 +92,7 @@ namespace Z0
         public bit this[int index]
         {
             [MethodImpl(Inline)]
-            get => gbits.testbit(Data, (byte)index);
+            get => gbits.test(Data, (byte)index);
 
             [MethodImpl(Inline)]
             set => Data = gbits.setbit(Data, (byte)index, value);
@@ -106,7 +106,7 @@ namespace Z0
         public ScalarBits<T> this[byte first, byte last]
         {
             [MethodImpl(Inline)]
-            get => BitVectors.bitseg(this, first, last);
+            get => BitVectors.extract(this, first, last);
         }
 
         [MethodImpl(Inline)]

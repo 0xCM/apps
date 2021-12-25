@@ -55,7 +55,7 @@ namespace Z0
             ref var dst = ref gcpu.vref(ref buffer);
             var length = min(count, width<S>());
             for(var i=0u; i<length; i++)
-                seek(dst, i) = gbits.testbit(src,(byte)i) ? enabled : default;
+                seek(dst, i) = gbits.test(src,(byte)i) ? enabled : default;
             return buffer;
         }
 
@@ -76,7 +76,7 @@ namespace Z0
             ref var dst = ref gcpu.vref(ref buffer);
             var length = min(count, width<S>());
             for(var i=0u; i<length; i++)
-                seek(dst, i) = gbits.testbit(src,(byte)i) ? enabled : default;
+                seek(dst, i) = gbits.test(src,(byte)i) ? enabled : default;
             return buffer;
         }
 

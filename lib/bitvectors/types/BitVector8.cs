@@ -109,7 +109,7 @@ namespace Z0
         public BitVector8 this[byte first, byte last]
         {
             [MethodImpl(Inline)]
-            get => BitVectors.bitseg(this,first,last);
+            get => BitVectors.extract(this,first,last);
         }
 
         [MethodImpl(Inline)]

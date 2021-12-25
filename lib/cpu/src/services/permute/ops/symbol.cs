@@ -24,7 +24,7 @@ namespace Z0
             const byte SegWidth = 2;
             var first = (byte)(index * SegWidth);
             var last = (byte)(first + SegWidth - 1);
-            dst = (Perm4L)bits.segment((byte)src, first, last);
+            dst = (Perm4L)bits.extract((byte)src, first, last);
             return test(dst);
         }
 
@@ -41,7 +41,7 @@ namespace Z0
             const byte Segwidth = 3;
             var first = (byte)(index * Segwidth);
             var last = (byte)(first + Segwidth - 1);
-            dst = (Perm8L)bits.segment((uint)src, first, last);
+            dst = (Perm8L)bits.extract((uint)src, first, last);
             return test(dst);
         }
 
@@ -58,7 +58,7 @@ namespace Z0
             const byte Segwidth = 4;
             var first = (byte)(index * Segwidth);
             var last = (byte)(first + Segwidth - 1);
-            dst = (Perm16L)bits.segment((ulong)src, first, last);
+            dst = (Perm16L)bits.extract((ulong)src, first, last);
             return test(dst);
         }
     }

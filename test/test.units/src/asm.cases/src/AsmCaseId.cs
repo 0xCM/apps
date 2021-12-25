@@ -22,11 +22,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ulong Segment(byte offset, byte length)
-            => bits.segment(Data, offset, length);
+            => bits.extract(Data, offset, length);
 
         [MethodImpl(Inline)]
         public T Segment<T>(byte offset, byte length)
-            => @as<ulong,T>(bits.segment(Data, offset, length));
+            => @as<ulong,T>(bits.extract(Data, offset, length));
 
         public ulong this[byte offset, byte length]
         {

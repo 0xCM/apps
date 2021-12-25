@@ -19,6 +19,6 @@ namespace Z0
         [MethodImpl(Inline), HiSeg, Closures(Closure)]
         public static ScalarBits<T> hiseg<T>(ScalarBits<T> x, byte n)
             where T : unmanaged
-                => bitseg(x, (byte)(x.Width - n), (byte)(x.Width - 1));
+                => extract(x, (byte)(x.Width - n), (byte)(x.Width - 1));
     }
 }

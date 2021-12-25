@@ -62,7 +62,7 @@ namespace Z0
         public bit this[int row, int col]
         {
             [MethodImpl(Inline)]
-            get => gbits.testbit(Data[row],(byte)col);
+            get => gbits.test(Data[row],(byte)col);
 
             [MethodImpl(Inline)]
             set => Data[row] = gbits.setbit(Data[row], (byte)col, value);

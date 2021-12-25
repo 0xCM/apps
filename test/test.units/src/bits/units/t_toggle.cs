@@ -52,9 +52,9 @@ namespace Z0
                 var x = src[i];
                 for(byte j =0; j< tLen; j++)
                 {
-                    var before = gbits.testbit(x, j);
+                    var before = gbits.test(x, j);
                     x = gbits.toggle(x, j);
-                    var after = gbits.testbit(x, j);
+                    var after = gbits.test(x, j);
                     NumericClaims.neq((uint)before, (uint)after);
                     x = gbits.toggle(x, j);
                     Claim.eq(x, src[i]);

@@ -118,7 +118,7 @@ namespace Z0
             get
             {
                 var index = CellCalcs.index(row, col, RowDim, ColDim, default(T));
-                return gbits.testbit(Data[index.CellIndex], index.BitOffset);
+                return gbits.test(Data[index.CellIndex], index.BitOffset);
             }
 
             [MethodImpl(Inline)]

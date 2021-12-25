@@ -26,7 +26,7 @@ namespace Z0.Asm
         /// </summary>
         [MethodImpl(Inline)]
         public byte Rm()
-            => bits.segment(Data, 0, 2);
+            => bits.extract(Data, 0, 2);
 
         [MethodImpl(Inline)]
         public void Rm(byte rm)
@@ -37,7 +37,7 @@ namespace Z0.Asm
         /// </summary>
         [MethodImpl(Inline)]
         public byte Reg()
-            => bits.segment(Data, 3, 5);
+            => bits.extract(Data, 3, 5);
 
         /// <summary>
         /// Specifies bits [5:3], which specifies a register operand or extends the operation encoding
@@ -51,7 +51,7 @@ namespace Z0.Asm
         /// </summary>
         [MethodImpl(Inline)]
         public byte Mod()
-            => bits.segment(Data, 6, 7);
+            => bits.extract(Data, 6, 7);
 
         [MethodImpl(Inline)]
         public void Mod(byte mod)

@@ -46,7 +46,7 @@ namespace Z0
 
                 var x = src[i];
                 for(byte j = 0; j<n; j++)
-                    ClaimPrimal.eq(gbits.testbit(x,j), bc[j]);
+                    ClaimPrimal.eq(gbits.test(x,j), bc[j]);
             }
         }
 

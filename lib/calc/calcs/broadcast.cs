@@ -121,7 +121,7 @@ namespace Z0
         {
             var length = core.min(dst.CellCount, width<S>());
             for(var i=0; i<length; i++)
-                dst[i] = gbits.testbit(src, (byte)i) ? enabled : default;
+                dst[i] = gbits.test(src, (byte)i) ? enabled : default;
             return ref dst;
         }
 
@@ -140,7 +140,7 @@ namespace Z0
         {
             var length = core.min(dst.CellCount, width<S>());
             for(var i=0; i<length; i++)
-                dst[i] = gbits.testbit(src,(byte)i) ? enabled : default;
+                dst[i] = gbits.test(src,(byte)i) ? enabled : default;
             return ref dst;
         }
 

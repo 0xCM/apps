@@ -10,7 +10,6 @@ namespace Z0
     using static Root;
     using static LimitValues;
     using static BitMasks;
-    using static core;
 
     partial class bits
     {
@@ -157,8 +156,8 @@ namespace Z0
         /// Enables a contiguous sequence of source bits starting at a specified index
         /// </summary>
         /// <param name="src">The bit source</param>
-        /// <param name="index">The index at which to begin clearing bits</param>
-        /// <param name="count">The number of bits to clear</param>
+        /// <param name="index">The index at which to begin enabling bits</param>
+        /// <param name="count">The number of bits to enable</param>
         [MethodImpl(Inline), Enable]
         public static short enable(short src, byte index, byte count)
         {

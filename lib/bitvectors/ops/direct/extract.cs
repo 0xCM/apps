@@ -17,8 +17,8 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline), BitSeg]
-        public static BitVector4 bitseg(BitVector4 x, byte first, byte last)
-            => bits.segment(x.State, first, last);
+        public static BitVector4 extract(BitVector4 x, byte first, byte last)
+            => bits.extract(x.State, first, last);
 
         /// <summary>
         /// Extracts a contiguous sequence of bits defined by an inclusive range
@@ -26,8 +26,8 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline), BitSeg]
-        public static BitVector8 bitseg(BitVector8 x, byte first, byte last)
-            => bits.segment(x.State, first, last);
+        public static BitVector8 extract(BitVector8 x, byte first, byte last)
+            => bits.extract(x.State, first, last);
 
         /// <summary>
         /// Extracts a contiguous sequence of bits defined by an inclusive range
@@ -35,8 +35,8 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline), BitSeg]
-        public static BitVector16 bitseg(BitVector16 x, byte first, byte last)
-            => bits.segment(x.State, first, last);
+        public static BitVector16 extract(BitVector16 x, byte first, byte last)
+            => bits.extract(x.State, first, last);
 
         /// <summary>
         /// Extracts a contiguous sequence of bits defined by an inclusive range
@@ -44,8 +44,8 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline), BitSeg]
-        public static BitVector32 bitseg(BitVector32 x, byte first, byte last)
-            => bits.segment(x.State, first, last);
+        public static BitVector32 extract(BitVector32 x, byte first, byte last)
+            => bits.extract(x.State, first, last);
 
         /// <summary>
         /// Extracts a contiguous sequence of bits defined by an inclusive range
@@ -53,7 +53,7 @@ namespace Z0
         /// <param name="first">The first bit position</param>
         /// <param name="last">The last bit position</param>
         [MethodImpl(Inline), BitSeg]
-        public static BitVector64 bitseg(BitVector64 x, byte first, byte last)
-            => bits.segment(x.State, first, last);
+        public static BitVector64 extract(BitVector64 x, byte first, byte last)
+            => bits.extract(x.State, first, last);
     }
 }

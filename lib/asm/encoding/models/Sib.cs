@@ -23,7 +23,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public byte Base()
-            => bits.segment(Data, 0, 2);
+            => bits.extract(Data, 0, 2);
 
         [MethodImpl(Inline)]
         public void Base(byte b)
@@ -31,7 +31,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public byte Index()
-            => bits.segment(Data, 3, 5);
+            => bits.extract(Data, 3, 5);
 
         [MethodImpl(Inline)]
         public void Index(byte i)
@@ -39,7 +39,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public byte Scale()
-            => bits.segment(Data, 6, 7);
+            => bits.extract(Data, 6, 7);
 
         [MethodImpl(Inline)]
         public void Scale(byte s)

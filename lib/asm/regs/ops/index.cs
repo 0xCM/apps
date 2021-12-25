@@ -13,7 +13,7 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static RegIndexCode index(RegOp src)
-            => (RegIndexCode)bits.segment(src.Bitfield, 10, 15);
+            => (RegIndexCode)bits.extract(src.Bitfield, 10, 15);
 
         /// <summary>
         /// Determines the register code from the kind

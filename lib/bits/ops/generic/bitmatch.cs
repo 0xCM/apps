@@ -24,6 +24,6 @@ namespace Z0
         public static bit bitmatch<S,T>(S a, byte i, T b, byte j)
             where S : unmanaged
             where T : unmanaged
-                => testbit(a,i) == testbit(b,j);
+                => test(a,i) == test(b,j);
     }
 }

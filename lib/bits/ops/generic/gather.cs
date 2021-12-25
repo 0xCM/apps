@@ -22,13 +22,13 @@ namespace Z0
             where T : unmanaged
         {
             if(typeof(T) == typeof(byte))
-                return generic<T>(BitMasks.gather(uint8(src), uint8(mask)));
+                return generic<T>(bits.gather(uint8(src), uint8(mask)));
             else if(typeof(T) == typeof(ushort))
-                return generic<T>(BitMasks.gather(uint16(src), uint16(mask)));
+                return generic<T>(bits.gather(uint16(src), uint16(mask)));
             else if(typeof(T) == typeof(uint))
-                return generic<T>(BitMasks.gather(uint32(src), uint32(mask)));
+                return generic<T>(bits.gather(uint32(src), uint32(mask)));
             else if(typeof(T) == typeof(ulong))
-                return generic<T>(BitMasks.gather(uint64(src), uint64(mask)));
+                return generic<T>(bits.gather(uint64(src), uint64(mask)));
             else
                 throw no<T>();
         }

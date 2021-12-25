@@ -30,6 +30,6 @@ namespace Z0.Asm
         /// <param name="src">The register operand</param>
         [MethodImpl(Inline), Op]
         public static RegClassCode @class(RegOp src)
-            => (RegClassCode)bits.segment(src.Bitfield, 5, 9);
+            => (RegClassCode)bits.extract(src.Bitfield, 5, 9);
     }
 }

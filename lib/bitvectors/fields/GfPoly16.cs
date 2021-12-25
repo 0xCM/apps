@@ -48,7 +48,7 @@ namespace Z0
         public bit this[byte i]
         {
             [MethodImpl(Inline)]
-            get => gbits.testbit(Data,i);
+            get => gbits.test(Data,i);
         }
 
         /// <summary>

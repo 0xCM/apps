@@ -181,7 +181,7 @@ namespace Z0
             Span<char> symbols = new char[count];
             for(uint i=0, bitpos = 0; i<count; i++, bitpos += segwidth)
             {
-                var key = gbits.segment(src, (byte)bitpos, (byte)(bitpos + segwidth - 1));
+                var key = gbits.extract(src, (byte)bitpos, (byte)(bitpos + segwidth - 1));
                 if(index.TryGetValue(key, out var value))
                     seek(symbols,i) = value;
                 else

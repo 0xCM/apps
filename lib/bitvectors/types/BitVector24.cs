@@ -167,7 +167,7 @@ namespace Z0
         public BitVector24 this[byte first, byte last]
         {
             [MethodImpl(Inline)]
-            get =>  bits.segment(Data, first, last);
+            get =>  bits.extract(Data, first, last);
         }
 
         [MethodImpl(Inline)]

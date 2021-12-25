@@ -18,6 +18,6 @@ namespace Z0
         [MethodImpl(Inline), LoSeg, Closures(Closure)]
         public static ScalarBits<T> lo<T>(ScalarBits<T> src, byte n)
             where T : unmanaged
-                => bitseg(src, 0, n -=1);
+                => extract(src, 0, n -=1);
     }
 }

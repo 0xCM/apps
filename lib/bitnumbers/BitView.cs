@@ -47,49 +47,49 @@ namespace Z0
         public uint2 View(W2 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (uint2)bits.segment(skip(Data,d), (byte)r, 2) : uint2.Zero;
+            return d < Size ? (uint2)bits.extract(skip(Data,d), (byte)r, 2) : uint2.Zero;
         }
 
         [MethodImpl(Inline)]
         public uint3 View(W3 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (uint3)bits.segment(skip(Data,d), (byte)r, 3) : uint3.Zero;
+            return d < Size ? (uint3)bits.extract(skip(Data,d), (byte)r, 3) : uint3.Zero;
         }
 
         [MethodImpl(Inline)]
         public uint4 View(W4 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (uint4)bits.segment(skip(Data,d), (byte)r, 4) : uint4.Zero;
+            return d < Size ? (uint4)bits.extract(skip(Data,d), (byte)r, 4) : uint4.Zero;
         }
 
         [MethodImpl(Inline)]
         public uint5 View(W5 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (uint5)bits.segment(skip(Data,d), (byte)r, 5) : uint5.Zero;
+            return d < Size ? (uint5)bits.extract(skip(Data,d), (byte)r, 5) : uint5.Zero;
         }
 
         [MethodImpl(Inline)]
         public uint6 View(W6 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (uint6)bits.segment(skip(Data,d), (byte)r, 6) : uint6.Zero;
+            return d < Size ? (uint6)bits.extract(skip(Data,d), (byte)r, 6) : uint6.Zero;
         }
 
         [MethodImpl(Inline)]
         public uint7 View(W7 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (uint7)bits.segment(skip(Data,d), (byte)r, 7) : uint7.Zero;
+            return d < Size ? (uint7)bits.extract(skip(Data,d), (byte)r, 7) : uint7.Zero;
         }
 
         [MethodImpl(Inline)]
         public eight View(W8 w, ByteSize offset)
         {
             math.divmod(offset, CellWidth, out var d, out var r);
-            return d < Size ? (eight)bits.segment(skip(Data,d), (byte)r, 8) : eight.Zero;
+            return d < Size ? (eight)bits.extract(skip(Data,d), (byte)r, 8) : eight.Zero;
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace Z0
         {
             var src = ones<T>();
             for(var i=0; i<width<T>(); i++)
-                Claim.require(gbits.testbit(src,i));
+                Claim.require(gbits.test(src,i));
         }
     }
 }

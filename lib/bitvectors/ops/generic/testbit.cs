@@ -19,7 +19,7 @@ namespace Z0
         [MethodImpl(Inline), TestBit, Closures(Closure)]
         public static bit testbit<T>(ScalarBits<T> src, byte index)
             where T : unmanaged
-                => gbits.testbit(src.State, index);
+                => gbits.test(src.State, index);
 
         /// <summary>
         /// Determines whether an index-identified bit is enabled
@@ -30,7 +30,7 @@ namespace Z0
         public static bit testbit<N,T>(ScalarBits<N,T> src, byte index)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => gbits.testbit(src.State, index);
+                => gbits.test(src.State, index);
 
         /// <summary>
         /// Determines whether an index-identified bit is enabled

@@ -19,6 +19,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static T BitSeg<T>(this Span<T> src, byte first, byte last)
             where T : unmanaged
-                => gbits.segment(src, first, last);
+                => gbits.extract(src, first, last);
     }
 }

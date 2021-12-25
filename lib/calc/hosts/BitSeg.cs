@@ -21,7 +21,7 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             public T Invoke(T a, byte k1, byte k2)
-                => gbits.segment(a,k1,k2);
+                => gbits.extract(a,k1,k2);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public readonly AsmPrefixKind Kind()
-            => (AsmPrefixKind)bits.segment(Data, 24, 27);
+            => (AsmPrefixKind)bits.extract(Data, 24, 27);
 
         [MethodImpl(Inline)]
         public void Kind(AsmPrefixKind kind)
@@ -33,7 +33,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public uint Content()
-            => bits.segment(Data,0,23);
+            => bits.extract(Data,0,23);
 
         [MethodImpl(Inline)]
         public void Content(uint src)

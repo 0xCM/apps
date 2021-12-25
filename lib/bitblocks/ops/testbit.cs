@@ -22,7 +22,7 @@ namespace Z0
             where T : unmanaged
         {
             var pos = bit.bitpos<T>((uint)index);
-            return gbits.testbit(src[pos.CellIndex], (byte)pos.BitOffset);
+            return gbits.test(src[pos.CellIndex], (byte)pos.BitOffset);
         }
     }
 }

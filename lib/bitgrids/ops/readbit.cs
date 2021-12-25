@@ -15,12 +15,12 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bit readbit<T>(in T src, int bitpos)
             where T : unmanaged
-                => gbits.testbit(readcell(in src, bitpos), (byte)(bitpos % width<T>()));
+                => gbits.test(readcell(in src, bitpos), (byte)(bitpos % width<T>()));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static bit readbit<T>(in T src, uint bitpos)
             where T : unmanaged
-                => gbits.testbit(readcell(in src, (int)bitpos), (byte)(bitpos % width<T>()));
+                => gbits.test(readcell(in src, (int)bitpos), (byte)(bitpos % width<T>()));
 
         /// <summary>
         /// Reads a cell determined by a linear bit position

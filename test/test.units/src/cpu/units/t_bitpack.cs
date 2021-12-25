@@ -166,7 +166,7 @@ namespace Z0
         {
             var count = math.min(width<T>(), y.Length);
             for(var i=0; i<count; i++)
-                Claim.eq((byte)gbits.testbit(src, (byte)i), y[i]);
+                Claim.eq((byte)gbits.test(src, (byte)i), y[i]);
 
             Claim.eq(BitStrings.load(y.ToArray()).TakeScalar<T>(), src);
         }

@@ -94,35 +94,35 @@ namespace Z0
         public static uint digits(uint src, Span<ODV> dst)
         {
             //[0 1 2 | 3 4 5 | 6 7 8 | ... | 21 22 23] -> 256x32
-            seek(dst,0) = (ODV)bits.segment(src, 0, 2);
-            seek(dst,1) = (ODV)bits.segment(src, 3, 5);
-            seek(dst,2) = (ODV)bits.segment(src, 6, 8);
-            seek(dst,3) = (ODV)bits.segment(src, 9, 11);
-            seek(dst,4) = (ODV)bits.segment(src, 12, 14);
-            seek(dst,5) = (ODV)bits.segment(src, 15, 17);
-            seek(dst,6) = (ODV)bits.segment(src, 18, 20);
-            seek(dst,7) = (ODV)bits.segment(src, 21, 23);
+            seek(dst,0) = (ODV)bits.extract(src, 0, 2);
+            seek(dst,1) = (ODV)bits.extract(src, 3, 5);
+            seek(dst,2) = (ODV)bits.extract(src, 6, 8);
+            seek(dst,3) = (ODV)bits.extract(src, 9, 11);
+            seek(dst,4) = (ODV)bits.extract(src, 12, 14);
+            seek(dst,5) = (ODV)bits.extract(src, 15, 17);
+            seek(dst,6) = (ODV)bits.extract(src, 18, 20);
+            seek(dst,7) = (ODV)bits.extract(src, 21, 23);
             return 8;
         }
 
         [MethodImpl(Inline), Op]
         public static uint digits(byte src, Span<ODV> dst)
         {
-            seek(dst,0) = (ODV)bits.segment(src, 0, 2);
-            seek(dst,1) = (ODV)bits.segment(src, 3, 5);
-            seek(dst,2) = (ODV)bits.segment(src, 6, 7);
+            seek(dst,0) = (ODV)bits.extract(src, 0, 2);
+            seek(dst,1) = (ODV)bits.extract(src, 3, 5);
+            seek(dst,2) = (ODV)bits.extract(src, 6, 7);
             return 3;
         }
 
         [MethodImpl(Inline), Op]
         public static uint digits(ushort src, Span<ODV> dst)
         {
-            seek(dst,0) = (ODV)bits.segment(src, 0, 2);
-            seek(dst,1) = (ODV)bits.segment(src, 3, 5);
-            seek(dst,2) = (ODV)bits.segment(src, 6, 8);
-            seek(dst,3) = (ODV)bits.segment(src, 9, 11);
-            seek(dst,4) = (ODV)bits.segment(src, 12, 14);
-            seek(dst,5) = (ODV)bits.segment(src, 15, 16);
+            seek(dst,0) = (ODV)bits.extract(src, 0, 2);
+            seek(dst,1) = (ODV)bits.extract(src, 3, 5);
+            seek(dst,2) = (ODV)bits.extract(src, 6, 8);
+            seek(dst,3) = (ODV)bits.extract(src, 9, 11);
+            seek(dst,4) = (ODV)bits.extract(src, 12, 14);
+            seek(dst,5) = (ODV)bits.extract(src, 15, 16);
             return 3;
         }
 
@@ -239,22 +239,22 @@ namespace Z0
         public static uint digits(Perm16L src, Span<HDV> dst)
         {
             var scalar = (ulong)src;
-            seek(dst,0) = (HDV)bits.segment(scalar, 0, 3);
-            seek(dst,1) = (HDV)bits.segment(scalar, 4, 7);
-            seek(dst,2) = (HDV)bits.segment(scalar, 8, 11);
-            seek(dst,3) = (HDV)bits.segment(scalar, 12, 15);
-            seek(dst,4) = (HDV)bits.segment(scalar, 16, 19);
-            seek(dst,5) = (HDV)bits.segment(scalar, 20, 23);
-            seek(dst,6) = (HDV)bits.segment(scalar, 24, 27);
-            seek(dst,7) = (HDV)bits.segment(scalar, 28, 31);
-            seek(dst,8) = (HDV)bits.segment(scalar, 32, 35);
-            seek(dst,9) = (HDV)bits.segment(scalar, 36, 39);
-            seek(dst,10) = (HDV)bits.segment(scalar, 40, 43);
-            seek(dst,11) = (HDV)bits.segment(scalar, 44, 47);
-            seek(dst,12) = (HDV)bits.segment(scalar, 48, 53);
-            seek(dst,13) = (HDV)bits.segment(scalar, 52, 55);
-            seek(dst,14) = (HDV)bits.segment(scalar, 56, 59);
-            seek(dst,15) = (HDV)bits.segment(scalar, 60, 63);
+            seek(dst,0) = (HDV)bits.extract(scalar, 0, 3);
+            seek(dst,1) = (HDV)bits.extract(scalar, 4, 7);
+            seek(dst,2) = (HDV)bits.extract(scalar, 8, 11);
+            seek(dst,3) = (HDV)bits.extract(scalar, 12, 15);
+            seek(dst,4) = (HDV)bits.extract(scalar, 16, 19);
+            seek(dst,5) = (HDV)bits.extract(scalar, 20, 23);
+            seek(dst,6) = (HDV)bits.extract(scalar, 24, 27);
+            seek(dst,7) = (HDV)bits.extract(scalar, 28, 31);
+            seek(dst,8) = (HDV)bits.extract(scalar, 32, 35);
+            seek(dst,9) = (HDV)bits.extract(scalar, 36, 39);
+            seek(dst,10) = (HDV)bits.extract(scalar, 40, 43);
+            seek(dst,11) = (HDV)bits.extract(scalar, 44, 47);
+            seek(dst,12) = (HDV)bits.extract(scalar, 48, 53);
+            seek(dst,13) = (HDV)bits.extract(scalar, 52, 55);
+            seek(dst,14) = (HDV)bits.extract(scalar, 56, 59);
+            seek(dst,15) = (HDV)bits.extract(scalar, 60, 63);
             return 16;
         }
 
@@ -401,10 +401,10 @@ namespace Z0
         public static void digits(Perm4L src, Span<byte> dst)
         {
             var scalar = (byte)src;
-            seek(dst,0) = bits.segment(scalar, 0, 1);
-            seek(dst,1) = bits.segment(scalar, 2, 3);
-            seek(dst,2) = bits.segment(scalar, 4, 5);
-            seek(dst,3) = bits.segment(scalar, 6, 7);
+            seek(dst,0) = bits.extract(scalar, 0, 1);
+            seek(dst,1) = bits.extract(scalar, 2, 3);
+            seek(dst,2) = bits.extract(scalar, 4, 5);
+            seek(dst,3) = bits.extract(scalar, 6, 7);
         }
 
         /// <summary>
@@ -415,10 +415,10 @@ namespace Z0
         public static ref readonly NatSpan<N4,byte> digits(Perm4L src, in NatSpan<N4,byte> dst)
         {
             var scalar = (byte)src;
-            dst[0] = bits.segment(scalar, 0, 1);
-            dst[1] = bits.segment(scalar, 2, 3);
-            dst[2] = bits.segment(scalar, 4, 5);
-            dst[3] = bits.segment(scalar, 6, 7);
+            dst[0] = bits.extract(scalar, 0, 1);
+            dst[1] = bits.extract(scalar, 2, 3);
+            dst[2] = bits.extract(scalar, 4, 5);
+            dst[3] = bits.extract(scalar, 6, 7);
             return ref dst;
         }
 
