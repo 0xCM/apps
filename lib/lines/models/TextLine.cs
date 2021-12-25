@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Represents a line of text in the context of a line-oriented text data source
     /// </summary>
+    [DataType("line")]
     public readonly struct TextLine : IComparable<TextLine>
     {
         /// <summary>

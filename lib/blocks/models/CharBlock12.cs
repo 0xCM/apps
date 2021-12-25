@@ -14,7 +14,7 @@ namespace Z0
     using api = CharBlocks;
     using B = CharBlock12;
 
-    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:12,t:c16>", BlockKind.Char16)]
+    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:12,t:c16>")]
     public struct CharBlock12 : ICharBlock<B>
     {
         public const ushort CharCount = 12;

@@ -14,6 +14,7 @@ namespace Z0
     /// <summary>
     /// Describes an operation result
     /// </summary>
+    [DataType("outcome<t:{0}>")]
     public readonly struct Outcome<T> : IOutcome<T>
     {
         public bool Ok {get;}

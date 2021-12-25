@@ -10,7 +10,7 @@ namespace Z0
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("grid.stats")]
     public struct GridStats
     {
         public string Name;

@@ -12,6 +12,7 @@ namespace Z0
 
     using api = grids;
 
+    [DataType("grid<t:{0}>")]
     public readonly struct Grid<T>
     {
         readonly Index<T> Data;

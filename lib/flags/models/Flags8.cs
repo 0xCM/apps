@@ -11,7 +11,6 @@ namespace Z0
 
     using api = Flags;
 
-    [DataType("flags<w:8,k:{0}>")]
     public struct Flags8<K> : IFlags<K>
         where K : unmanaged
     {

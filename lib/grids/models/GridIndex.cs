@@ -6,12 +6,14 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
     /// <summary>
     /// Correlates a linear bit index, a cell index and bit offset, and a row/column coordinate in a grid/matrix
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("grid.index")]
     public struct GridIndex
     {
         /// <summary>

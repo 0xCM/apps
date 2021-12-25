@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class ClrTypeSystem
     {
+        [DataType("clr.float",true)]
         public readonly struct Float : IType<ClrPrimitiveKind>
         {
             public Identifier Name => nameof(Float);

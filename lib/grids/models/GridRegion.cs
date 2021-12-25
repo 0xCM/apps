@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("grid.region")]
     public readonly struct GridRegion
     {
         public readonly GridPoint UpperLeft;

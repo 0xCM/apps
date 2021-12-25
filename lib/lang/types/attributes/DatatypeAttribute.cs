@@ -25,13 +25,19 @@ namespace Z0
             Kind = 0ul;
         }
 
+        public DataTypeAttribute(string name,bool @virtual)
+        {
+            NameSyntax = name;
+            Kind = 0ul;
+            Virtual = @virtual;
+        }
+
         public DataTypeAttribute(string name, uint content, uint storage = 0)
         {
             NameSyntax = name;
             Kind = 0ul;
             ContentWidth = content;
             StorageWidth = storage;
-
         }
 
         public DataTypeAttribute(string name, object kind, uint content = 0, uint storage = 0)
@@ -49,5 +55,7 @@ namespace Z0
         public BitWidth ContentWidth {get;}
 
         public BitWidth StorageWidth {get;}
+
+        public bool Virtual {get;}
     }
 }

@@ -6,6 +6,8 @@ namespace Z0
 {
     partial class ClrTypeSystem
     {
+
+        [DataType("clr.decimal",true)]
         public readonly struct Decimal : IType<ClrPrimitiveKind>
         {
             public Identifier Name => nameof(Decimal);

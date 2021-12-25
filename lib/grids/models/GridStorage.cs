@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Specifies the memory storage required for a specified grid
     /// </summary>
+    [DataType("grid.storage")]
     public readonly struct GridStorage : IEquatable<GridStorage>
     {
         /// <summary>

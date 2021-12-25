@@ -14,6 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines the outcome of an operation/process
     /// </summary>
+    [DataType("outcome")]
     public readonly struct Outcome : IOutcome
     {
         [MethodImpl(Inline)]

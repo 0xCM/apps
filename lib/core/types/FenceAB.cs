@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("fence<{0},{1}>")]
+    [DataType("fence<l:{0},r:{1}>")]
     public readonly struct Fence<A,B>
     {
         public readonly A Left;

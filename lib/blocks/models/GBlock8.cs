@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines storage for contiguous sequence of 8 T-cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("block<n:7,t:{0}>")]
     public struct GBlock8<T> : IStorageBlock<GBlock8<T>>, ICellBlock<GBlock8<T>,T>
         where T : unmanaged
     {

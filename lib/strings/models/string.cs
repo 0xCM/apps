@@ -12,6 +12,7 @@ namespace Z0
 
     using T = @string;
 
+    [DataType("string")]
     public readonly struct @string : IString<string>, IComparable<T>, IEquatable<T>
     {
         readonly string Data;

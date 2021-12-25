@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("grid.region<t:{0}>")]
     public readonly struct GridRegion<T>
         where T : unmanaged
     {

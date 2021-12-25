@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("line.offset")]
     public readonly struct LineOffset : IEquatable<LineOffset>, IComparable<LineOffset>
     {
         public const string RenderPattern = "{0}:{1:D3}";

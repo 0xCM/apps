@@ -21,7 +21,7 @@ namespace Z0
                 ref readonly var type = ref skip(types,i);
                 var tag = type.Tag<DataTypeAttribute>().Require();
                 ref var dst = ref seek(buffer,i);
-                dst = new ApiDataType(type.DisplayName(), tag.NameSyntax, type.IsOpenGeneric(), tag.Kind, tag.ContentWidth, tag.StorageWidth);
+                dst = new ApiDataType(type.DisplayName(), tag.NameSyntax, type.IsOpenGeneric(), tag.Kind, tag.ContentWidth, tag.StorageWidth, tag.Virtual);
             }
             return buffer.Sort();
         }

@@ -131,7 +131,7 @@ namespace Z0
             get => data;
         }
 
-        public Dim<M,N> Dim
+        public GridDim<M,N> Dim
             => default;
 
         [MethodImpl(Inline)]
@@ -166,7 +166,7 @@ namespace Z0
         bool IsRowHead(int index)
             => index == 0 || index % RowLength == 0;
 
-        public TableSpan<I,J,T> SubSpan<I,J>((uint r, uint c) origin, Dim<I,J> dim = default)
+        public TableSpan<I,J,T> SubSpan<I,J>((uint r, uint c) origin, GridDim<I,J> dim = default)
             where I : unmanaged, ITypeNat
             where J : unmanaged, ITypeNat
         {

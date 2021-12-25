@@ -8,78 +8,87 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
+    using static TypeNats;
 
     /// <summary>
-    /// Encapsulates metrics that characterize a grid of natural rectangular dimensions
+    /// Defines a rectangular dimension
     /// </summary>
-    [DataType("dim<m:{0},n:{1},t:{2}>")]
-    public readonly struct GridDim<M,N,T>
+    /// <typeparam name="M">The type of the first dimension</typeparam>
+    /// <typeparam name="N">The type of the second dimension</typeparam>
+    [DataType("dim<m:{0},n:{1}>")]
+    public readonly struct GridDim<M,N> : IDim2, IDim<M,N>
         where M : unmanaged, ITypeNat
         where N : unmanaged, ITypeNat
-        where T : unmanaged
     {
         /// <summary>
-        /// The total number gb of grid bits determined by gb := MxN
+        /// Specifies the first component of the dimension
         /// </summary>
-        public BitWidth BitCount
+        public ulong I
+            => value<M>();
+
+        /// <summary>
+        /// Specifies the second component of the dimension
+        /// </summary>
+        public ulong J
+            => value<N>();
+
+        /// <summary>
+        /// The volume bound by the rectangle defined by the two axes
+        /// </summary>
+        public ulong Volume
+            => NatCalc.mul<M,N>();
+
+        /// <summary>
+        /// Returns the axis corresponding to its 0-based index
+        /// </summary>
+        public ulong this[int axis]
         {
             [MethodImpl(Inline)]
-            get => grids.gridwidth<M,N,T>();
+            get => axis == 0 ? I  :  axis == 1 ? J :  0;
         }
 
         /// <summary>
-        /// The number of grid rows
+        /// The axis count - 2
         /// </summary>
-        public uint RowCount
+        public int Order
         {
             [MethodImpl(Inline)]
-            get => nat32u<M>();
+            get => 2;
         }
 
-        /// <summary>
-        /// The number of grid columns
-        /// </summary>
-        public uint ColCount
-        {
-            [MethodImpl(Inline)]
-            get => nat32u<N>();
-        }
-
-        /// <summary>
-        /// The bit width of a storage cell
-        /// </summary>
-        public uint CellWidth
-        {
-            [MethodImpl(Inline)]
-            get => width<T>();
-        }
-
-        /// <summary>
-        /// The number of cells required cover a grid
-        /// </summary>
-        public uint CellCount
-        {
-            [MethodImpl(Inline)]
-            get => grids.gridcells<M,N,T>();
-        }
-
-        /// <summary>
-        /// The number of bytes required to cover a grid
-        /// </summary>
-        public ByteSize GridSize
-        {
-            [MethodImpl(Inline)]
-            get => grids.gridsize<M,N,T>();
-        }
-
-        /// <summary>
-        /// Returns a dimension expression of the form RxCxWw where
-        /// R := row count
-        /// C := column count
-        /// W := cell width
-        /// </summary>
         public string Format()
-            => $"{RowCount}x{ColCount}x{CellWidth}w";
+            => $"{I}×{J}";
+
+        public override string ToString()
+            => Format();
+
+        public override int GetHashCode()
+            => HashCode.Combine(I,J);
+
+        public bool Equals(GridDim<M,N> y)
+            => this.I == y.I && this.J == y.J;
+
+        public override bool Equals(object y)
+            => y is GridDim<M,N> d && Equals(d);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Pair<ulong>(GridDim<M,N> x)
+            => (TypeNats.value<M>(), TypeNats.value<N>());
+
+        [MethodImpl(Inline)]
+        public static implicit operator Dim2<byte>(GridDim<M,N> src)
+            => new Dim2<byte>((byte)src.I, (byte)src.J);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Dim2<ushort>(GridDim<M,N> src)
+            => new Dim2<ushort>((ushort)src.I, (ushort)src.J);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Dim2<uint>(GridDim<M,N> src)
+            => new Dim2<uint>((uint)src.I, (uint)src.J);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Dim2<ulong>(GridDim<M,N> src)
+            => new Dim2<ulong>(src.I, src.J);
     }
 }

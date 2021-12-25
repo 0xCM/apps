@@ -12,7 +12,7 @@ namespace Z0.Expr
     using static core;
     using static TV;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g3x3<{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g3x3<t:{0}>")]
     public struct g3x3<T> : IGrid<g3x3<T>,N3,T>
         where T : unmanaged
     {

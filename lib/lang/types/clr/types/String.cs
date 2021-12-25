@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class ClrTypeSystem
     {
+        [DataType("clr.string",true)]
         public readonly struct String : IType<ClrPrimitiveKind>
         {
             public Identifier Name => nameof(String);

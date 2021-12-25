@@ -11,7 +11,7 @@ namespace Z0
 
     using static core;
 
-    [DataType("linemap<{0}>")]
+    [DataType("linemap<t:{0}>")]
     public readonly struct LineMap<T>
     {
         readonly LineInterval<T>[] _Intervals;

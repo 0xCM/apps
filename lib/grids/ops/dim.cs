@@ -17,7 +17,7 @@ namespace Z0
         /// <typeparam name="M">The type of the first axis</typeparam>
         /// <typeparam name="N">The type of the second axis</typeparam>
         [MethodImpl(Inline)]
-        public static Dim<M,N> dim<M,N>(M m = default, N n = default)
+        public static GridDim<M,N> dim<M,N>(M m = default, N n = default)
             where M : unmanaged, ITypeNat
             where N : unmanaged, ITypeNat
                 => default;

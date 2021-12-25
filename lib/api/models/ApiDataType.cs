@@ -14,7 +14,7 @@ namespace Z0
     {
         public const string TableId = "api.datatype";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 7;
 
         public Identifier Name;
 
@@ -28,8 +28,10 @@ namespace Z0
 
         public BitWidth StorageWidth;
 
+        public bool Virtual;
+
         [MethodImpl(Inline)]
-        public ApiDataType(Identifier name, @string syntax, bool parametric, object kind, BitWidth content, BitWidth storage)
+        public ApiDataType(Identifier name, @string syntax, bool parametric, object kind, BitWidth content, BitWidth storage, bool @virtual)
         {
             Name = name;
             Specifier = syntax;
@@ -37,12 +39,13 @@ namespace Z0
             Kind = kind;
             ContentWidth = content;
             StorageWidth = storage;
+            Virtual = @virtual;
         }
 
         public int CompareTo(ApiDataType src)
             => Name.CompareTo(src.Name);
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,12,12,12,12};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,48,12,12,12,12,12};
 
     }
 }

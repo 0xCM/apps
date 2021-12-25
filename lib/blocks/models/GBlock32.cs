@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines storage for contiguous sequence of 32 T-cells
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("block<n:32,t:{0}>")]
     public struct GBlock32<T> : IStorageBlock<GBlock32<T>>, ICellBlock<T>
         where T : unmanaged
     {

@@ -11,6 +11,7 @@ namespace Z0
 
     using api = Faceted;
 
+    [DataType("facet<t:{0}>")]
     public readonly struct Facet<T> : IFacet<string,T>
     {
         public string Key {get;}

@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("num<t:{0}>")]
     public struct num<T> : IScalarValue<T>
         where T : unmanaged
     {

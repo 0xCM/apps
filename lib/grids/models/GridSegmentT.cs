@@ -11,6 +11,7 @@ namespace Z0
     using static core;
     using static CharText;
 
+    [DataType("grid.segment<t:{0}>")]
     public readonly struct GridSegment<T>
         where T : unmanaged
     {

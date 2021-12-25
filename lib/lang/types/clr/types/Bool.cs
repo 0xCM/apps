@@ -6,6 +6,7 @@ namespace Z0
 {
     partial class ClrTypeSystem
     {
+        [DataType("clr.bool",true)]
         public readonly struct Bool : IType<ClrPrimitiveKind>
         {
             public IParser<bool> ValueParser => Parsers.Service.Parser<bool>();

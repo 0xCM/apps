@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("textblock")]
     public readonly struct TextBlock : IComparable<TextBlock>, IEquatable<TextBlock>, IText
     {
         readonly string Data;

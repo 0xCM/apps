@@ -17,7 +17,7 @@ namespace Z0
     /// <summary>
     /// Covers 80 bytes of storage
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:80,t:u8>")]
     public struct ByteBlock80 : IStorageBlock<B>
     {
         public const ushort Size = 80;

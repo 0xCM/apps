@@ -12,7 +12,7 @@ namespace Z0.Expr
     using static core;
     using static TV;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g8x8<{0}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g8x8<t:{0}>")]
     public struct g8x8<T> : IGrid<g8x8<T>,N8,T>
         where T : unmanaged
     {

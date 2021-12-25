@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Correlates a value with a key that uniquely identifies the value within some context
     /// </summary>
-    [DataType("kvp<{0},{1}>")]
+    [DataType("kvp<k:{0},v:{1}>")]
     public struct KeyedValue<K,V>
     {
         /// <summary>

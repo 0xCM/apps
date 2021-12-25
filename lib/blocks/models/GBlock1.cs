@@ -14,7 +14,7 @@ namespace Z0
     /// <summary>
     /// Defines storage for a T-cell
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("block<n:1,t:{0}}>")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("block<n:1,t:{0}>")]
     public struct GBlock1<T> : IStorageBlock<GBlock1<T>>, ICellBlock<GBlock1<T>,T>
         where T : unmanaged
     {
