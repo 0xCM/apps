@@ -17,7 +17,7 @@ namespace Z0
     /// <summary>
     /// Defines a character block b with capacity(b) = 64x16u
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size= (int)SZ, Pack=2)]
+    [StructLayout(LayoutKind.Sequential, Pack=2, Size=(int)Size), DataType("block<n:64,t:c16>", BlockKind.Char16)]
     public struct CharBlock64 : ICharBlock<B>
     {
         /// <summary>
@@ -28,7 +28,7 @@ namespace Z0
         /// <summary>
         /// The size of the block, in bytes
         /// </summary>
-        public const uint SZ = CharCount * 2;
+        public const uint Size = CharCount * 2;
 
         CharBlock32 Lo;
 

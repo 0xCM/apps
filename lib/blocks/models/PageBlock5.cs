@@ -11,10 +11,10 @@ namespace Z0
     /// <summary>
     /// Reserves 5 pages of memory
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = (int)SZ)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
     public struct PageBlock5 : IPageBlock<PageBlock5>
     {
-        public const uint SZ = PageCount*PageSize;
+        public const uint Size = PageCount*PageSize;
 
         public const uint PageCount = 5;
     }

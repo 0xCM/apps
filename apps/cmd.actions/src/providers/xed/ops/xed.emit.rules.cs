@@ -25,6 +25,5 @@ namespace Z0
             TableEmit(src.View,dst);
             return true;
         }
-
     }
 }

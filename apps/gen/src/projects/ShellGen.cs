@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Gen
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -10,7 +10,7 @@ namespace Z0.Gen
 
     using static Root;
 
-    using Projects;
+    using Gen;
 
     public class ShellGen : AppService<ShellGen>
     {

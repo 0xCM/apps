@@ -26,18 +26,13 @@ namespace Z0
             var count = tables.Length;
             for(var i=0; i<count; i++)
             {
-                if(i != 0)
-                    writer.WriteLine();
-
                 var table = skip(tables,i);
-                writer.WriteLine(string.Format("{0,-8} | {1,-42}", i, table.Id.Identifier));
-                writer.WriteLine(RP.PageBreak80);
-
                 var fields = @readonly(table.Fields);
                 for(var j=0; j<fields.Length; j++)
                 {
                     ref readonly var field = ref skip(fields,j);
-                    writer.WriteLine(string.Format("{0,-8} | {1,-42} | {2}", field.FieldIndex, field.FieldName, field.DataType));
+                    var spec = field.DataType.Spec();
+                    writer.WriteLine(string.Format("{0,-24} | {1,-48} | {2,-8} | {3,-42} | {4}", table.Type.DisplayName(), table.Id.Identifier, field.FieldIndex, field.FieldName, spec));
                 }
             }
 

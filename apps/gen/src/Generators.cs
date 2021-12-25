@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+   using Gen;
 
     using static core;
     using static CsPatterns;
@@ -12,22 +13,28 @@ namespace Z0
     public class Generators : AppService<Generators>
     {
         public StringLiteralGen StringLiterals()
-            => Z0.StringLiteralGen.create(Wf);
+            => Service(() => StringLiteralGen.create(Wf));
 
         public EnumGen CsEnum()
-            => new EnumGen();
+            => Service(() => new EnumGen());
+
+        public ShellGen Shells()
+            => Service(() => ShellGen.create(Wf));
+
+        public RecordGen Records()
+            => Service(() => RecordGen.create(Wf));
 
         public InterfaceGen Interfaces()
-            => InterfaceGen.create(Wf);
+            => Service(() => InterfaceGen.create(Wf));
+
+        public LiteralProviderGen LiteralProvider()
+            => Service(() => LiteralProviderGen.create(Wf));
 
         public FS.FolderPath CodeGenDir(string scope)
             => Env.ZDev + FS.folder("generated/src") + FS.folder(scope);
 
         public FS.FilePath CodeGenPath(string scope, string id, FS.FileExt ext)
             => CodeGenDir(scope) + FS.file(id,ext);
-
-        public LiteralProviderGen LiteralProvider()
-            => LiteralProviderGen.create(Wf);
 
         public void EmitArrayInitializer<T>(ItemList<Constant<T>> src, ITextBuffer dst)
         {

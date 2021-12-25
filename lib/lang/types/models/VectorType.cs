@@ -13,6 +13,7 @@ namespace Z0.Expr
     public class VectorType : IVectorType
     {
         public Identifier Name {get;}
+
         public ScalarType CellType {get;}
 
         public uint CellCount {get;}

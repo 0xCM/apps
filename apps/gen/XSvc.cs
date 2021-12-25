@@ -11,12 +11,8 @@ namespace Z0
         public static Generators Generators(this IWfRuntime wf)
             => Z0.Generators.create(wf);
 
-        public static ShellGen ShellGen(this IWfRuntime wf)
-            => Gen.ShellGen.create(wf);
-
         [Op]
         public static Asm.AsmModelGen AsmModelGen(this IWfRuntime wf)
             => Asm.AsmModelGen.create(wf);
-
     }
 }

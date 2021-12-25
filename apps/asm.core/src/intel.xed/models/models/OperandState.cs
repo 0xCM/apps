@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct OperandState
         {
             public const string TableId = "xed.operand.state";

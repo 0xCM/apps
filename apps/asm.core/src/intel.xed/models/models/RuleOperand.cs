@@ -12,16 +12,19 @@ namespace Z0
     {
         public readonly struct RuleOperand
         {
+            public OperandKind Kind {get;}
+
             public TextBlock Value {get;}
 
             [MethodImpl(Inline)]
-            public RuleOperand(string value)
+            public RuleOperand(OperandKind kind, string value)
             {
+                Kind = kind;
                 Value = value;
             }
 
             public string Format()
-                => Value.Format();
+                => Kind == 0 ? Value : string.Format("{0} ({1} kind)", Value, Kind);
 
             public override string ToString()
                 => Format();

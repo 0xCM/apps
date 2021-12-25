@@ -14,5 +14,9 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool IsSigned(this ClrPrimitiveKind src)
             => PrimalBits.sign(src) == PolarityKind.Left ? true : false;
+
+        [MethodImpl(Inline), Op]
+        public static NativeTypeWidth BitWidth(this ClrPrimitiveKind src)
+            => PrimalBits.width(src);
     }
 }

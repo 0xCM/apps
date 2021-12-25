@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using static Root;
 
     [ApiHost]
@@ -57,6 +59,36 @@ namespace Z0
 
         internal const string AddressW = "address<w:{0}>";
 
+        internal const string Enum = "enum<name:{0},base:{1}>";
+
+        internal const string Scalar = "{0}{1}";
+
+        internal const string Array = "array<t:{0}>";
+
+        internal static string name(ScalarClass @class) => Symbols.expr(@class).Format();
+
+        /// <summary>
+        /// Defines a scalar type of specified class and width
+        /// </summary>
+        [TypeFactory(Scalar)]
+        public static TypeSpec scalar(ScalarClass @class, BitWidth width) => string.Format(Scalar, name(@class), width);
+
+        /// <summary>
+        /// Defines a refined literal sequence
+        /// </summary>
+        /// <param name="n">The sequence name</param>
+        /// <param name="@base">The sequence term type</param>
+        [TypeFactory(Enum)]
+        public static TypeSpec @enum(string name, IType @base) => string.Format(Enum, name, @base);
+
+        /// <summary>
+        /// Defines a refined literal sequence
+        /// </summary>
+        /// <param name="n">The sequence name</param>
+        /// <param name="@base">The sequence term type</param>
+        [TypeFactory(Enum)]
+        public static TypeSpec @enum(string name, TypeSpec @base) => string.Format(Enum, name, @base);
+
         /// <summary>
         /// Defines an address type with default width
         /// </summary>
@@ -92,12 +124,34 @@ namespace Z0
         public static TypeSpec seq(IType type) => string.Format(Seq, type.Format());
 
         /// <summary>
+        /// Defines a sequence of arbitrary length over a parametric type
+        /// </summary>
+        /// <param name="type">The element type</param>
+        [TypeFactory(Seq)]
+        public static TypeSpec seq(TypeSpec type) => string.Format(Seq, type.Format());
+
+        /// <summary>
         /// Defines a sequence of parametric length over a parametric type
         /// </summary>
         /// <param name="n">The sequence length</param>
-        /// <param name="type">The elememnt type</param>
+        /// <param name="type">The element type</param>
         [TypeFactory(SeqN)]
         public static TypeSpec seq(uint n, IType type) => string.Format(SeqN, type.Format(), n);
+
+        /// <summary>
+        /// Defines a sequence of parametric length over a parametric type
+        /// </summary>
+        /// <param name="n">The sequence length</param>
+        /// <param name="type">The element type</param>
+        [TypeFactory(SeqN)]
+        public static TypeSpec seq(uint n, TypeSpec type) => string.Format(SeqN, type.Format(), n);
+
+        /// <summary>
+        /// Defines a 1-dimensional array over a specified element type
+        /// </summary>
+        /// <param name="element">The array element type</param>
+        [TypeFactory(Scalar)]
+        public static TypeSpec array(TypeSpec element) => string.Format(Array, element.Format());
 
         /// <summary>
         /// Defines a character type of parametric width no greater than 32
@@ -112,6 +166,13 @@ namespace Z0
         /// <param name="n">The bit width</param>
         [TypeFactory(C)]
         public static TypeSpec ct(byte n, IType t) => n <= 32 ? string.Format(C, n, t.Format()) : EmptyString;
+
+        /// <summary>
+        /// Defines a character type of parametric kind and parametric width no greater than 32
+        /// </summary>
+        /// <param name="n">The bit width</param>
+        [TypeFactory(C)]
+        public static TypeSpec ct(byte n, TypeSpec t) => n <= 32 ? string.Format(C, n, t.Format()) : EmptyString;
 
         /// <summary>
         /// Defines a type classifier
@@ -147,11 +208,25 @@ namespace Z0
         public static TypeSpec s(ICharType t) => string.Format(St, t.Format());
 
         /// <summary>
+        /// Defines a string of arbitrary length over a parametric character type
+        /// </summary>
+        /// <param name="t">The character type</param>
+        [TypeFactory(St)]
+        public static TypeSpec s(TypeSpec t) => string.Format(St, t.Format());
+
+        /// <summary>
         /// Defines a string of parametric length over a parametric character type
         /// </summary>
         /// <param name="t">The character type</param>
         [TypeFactory(Snt)]
         public static TypeSpec s(uint n, ICharType t) => string.Format(Snt, t.Format());
+
+        /// <summary>
+        /// Defines a string of parametric length over a parametric character type
+        /// </summary>
+        /// <param name="t">The character type</param>
+        [TypeFactory(Snt)]
+        public static TypeSpec s(uint n, TypeSpec t) => string.Format(Snt, t.Format());
 
         /// <summary>
         /// Defines a character block specification
@@ -162,11 +237,26 @@ namespace Z0
         public static TypeSpec block(uint n, ISizedType t) => string.Format(Block, n, t.Format());
 
         /// <summary>
+        /// Defines a character block specification
+        /// </summary>
+        /// <param name="n">The number of characters in the block</param>
+        /// <param name="t">The character type</param>
+        [TypeFactory(Block)]
+        public static TypeSpec block(uint n, TypeSpec t) => string.Format(Block, n, t.Format());
+
+        /// <summary>
         /// Defines a sequence of bits of length bounded by a parametric type
         /// </summary>
         /// <param name="t">The type</param>
         [TypeFactory(Bits)]
         public static TypeSpec bits(IScalarType t) => string.Format(Bits, t.Format());
+
+        /// <summary>
+        /// Defines a sequence of bits of length bounded by a parametric type
+        /// </summary>
+        /// <param name="t">The type</param>
+        [TypeFactory(Bits)]
+        public static TypeSpec bits(TypeSpec t) => string.Format(Bits, t.Format());
 
         /// <summary>
         /// Defines a sequence of bits of length bounded by both parametric type and length
@@ -175,6 +265,14 @@ namespace Z0
         /// <param name="t">The length</param>
         [TypeFactory(BitsN)]
         public static TypeSpec bits(uint n, IScalarType t) => string.Format(BitsN, t.Format());
+
+        /// <summary>
+        /// Defines a sequence of bits of length bounded by both parametric type and length
+        /// </summary>
+        /// <param name="t">The type</param>
+        /// <param name="t">The length</param>
+        [TypeFactory(BitsN)]
+        public static TypeSpec bits(uint n, TypeSpec t) => string.Format(BitsN, t.Format());
 
         /// <summary>
         /// Defines a bitvector type of content width n
@@ -188,6 +286,39 @@ namespace Z0
         /// </summary>
         /// <param name="cells">The cell type</param>
         /// <param name="n">The number of vector components</param>
+        [TypeFactory(V)]
         public static TypeSpec v(uint n, IScalarType cells) => string.Format(V, n, cells.Format());
+
+        /// <summary>
+        /// Defines an n-component vector over a specified cell type
+        /// </summary>
+        /// <param name="cells">The cell type</param>
+        /// <param name="n">The number of vector components</param>
+        [TypeFactory(V)]
+        public static TypeSpec v(uint n, TypeSpec cells) => string.Format(V, n, cells.Format());
+
+        public static TypeSpec infer(Type src)
+        {
+            var spec = new TypeSpec(src.DisplayName());
+            if(src.IsEnum)
+            {
+                var kind = (ClrPrimitiveKind)src.EnumScalarKind();
+                var width = (uint)kind.BitWidth();
+                var @base = kind.IsSigned() ? TypeSpecs.i(width) : TypeSpecs.u(width);
+                spec = TypeSpecs.@enum(src.Name, @base);
+            }
+            else if(src.IsArray)
+            {
+                spec = array(infer(src.GetElementType()));
+            }
+            else
+            {
+                var tag = src.Tag<DataTypeAttribute>();
+                if(tag)
+                    spec = new TypeSpec(tag.Require().NameSyntax);
+            }
+
+            return spec;
+        }
     }
 }

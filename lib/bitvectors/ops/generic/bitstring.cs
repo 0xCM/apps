@@ -29,7 +29,6 @@ namespace Z0
             where N : unmanaged, ITypeNat
                 => BitStrings.scalar<T>(x.State, storage, x.Width);
 
-
         /// <summary>
         /// Converts the vector to a bitstring representation
         /// </summary>

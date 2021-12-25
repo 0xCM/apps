@@ -289,6 +289,8 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<CpuidBit>(xed);
             ApiMetadata.EmitTokens<DataType>(xed);
             ApiMetadata.EmitTokens<BaseTypeKind>(xed);
+            ApiMetadata.EmitTokens<EASZ>(xed);
+            ApiMetadata.EmitTokens<EOSZ>(xed);
             ApiMetadata.EmitTokens<EncodingGroup>(xed);
             ApiMetadata.EmitTokens<ExtensionKind>(xed);
             ApiMetadata.EmitTokens<FormFacets>(xed);

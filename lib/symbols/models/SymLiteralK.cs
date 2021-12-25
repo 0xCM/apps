@@ -10,11 +10,9 @@ namespace Z0
 
     using static Root;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct SymLiteral<K> : IComparableRecord<SymLiteral<K>>
     {
-        public const string TableId = "symbolic.literals.typed";
-
         /// <summary>
         /// The component that defines the literal
         /// </summary>

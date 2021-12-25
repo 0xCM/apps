@@ -16,5 +16,9 @@ namespace Z0
 
         public static ProjectCmdProvider ProjectCommands(this IWfRuntime wf)
             => ProjectCmdProvider.create(wf);
+
+        public static CodeGenProvider CodeGenCommands(this IWfRuntime wf)
+            => CodeGenProvider.create(wf);
+
     }
 }

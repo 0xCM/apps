@@ -36,7 +36,7 @@ namespace Z0
         {
             var sum = vadd(v64u(x.State), v64u(y.State));
             bit carry = x.Lo > cpu.vcell(sum,0);
-            return  generic<T>(vadd(sum, vbroadcast(w128, (ulong)carry)));
+            return generic<T>(vadd(sum, vbroadcast(w128, (ulong)carry)));
         }
     }
 }

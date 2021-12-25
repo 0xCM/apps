@@ -11,10 +11,10 @@ namespace Z0
     /// <summary>
     /// Reserves 16 pages of memory that covers 2^16 = 65,536 bytes
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Size = (int)SZ)]
+    [StructLayout(LayoutKind.Sequential, Size = (int)Size)]
     public struct PageBlock16 : IPageBlock<PageBlock16>
     {
-        public const uint SZ = PageCount*PageSize;
+        public const uint Size = PageCount*PageSize;
 
         public const uint PageCount = 16;
     }

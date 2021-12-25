@@ -41,6 +41,12 @@ namespace Z0
         public bool Equals(TypeSpec src)
             => Text.Equals(src.Text);
 
+        public string Format()
+            => Text;
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator TypeSpec(string src)
             => new TypeSpec(src);
@@ -49,10 +55,6 @@ namespace Z0
         public static implicit operator string(TypeSpec src)
             => src.Text;
 
-        public string Format()
-            => Text;
-
-        public override string ToString()
-            => Format();
+        public static TypeSpec Empty => new TypeSpec(EmptyString);
     }
 }

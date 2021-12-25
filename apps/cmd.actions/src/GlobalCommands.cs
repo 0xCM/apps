@@ -15,7 +15,13 @@ namespace Z0
         }
 
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => array<ICmdProvider>(this, wf.XedCommands(), wf.ApiCommands(), wf.LlvmCommands(), wf.ProjectCommands());
+            => array<ICmdProvider>(this,
+                wf.XedCommands(),
+                wf.ApiCommands(),
+                wf.LlvmCommands(),
+                wf.ProjectCommands(),
+                wf.CodeGenCommands()
+                );
 
         IntelXed Xed => Service(Wf.IntelXed);
 

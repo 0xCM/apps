@@ -55,6 +55,15 @@ namespace Z0
             EmitEncRuleTables();
             EmitDecRuleTables();
             EmitEncDecRuleTables();
+            EmitWidths();
+        }
+
+        public Index<OperandWidth> EmitWidths()
+        {
+            var src = ParseOperandWidths();
+            var dst = ProjectDb.TablePath<OperandWidth>("xed");
+            TableEmit(src.View,dst);
+            return src;
         }
 
         public Index<InstDef> EmitEncInstDefs()
@@ -283,9 +292,11 @@ namespace Z0
         Outcome Parse(string src, out IForm dst)
         {
             dst = default;
-            var result = Forms.ExprKind(src, out var kind);
+            Outcome result = Forms.ExprKind(src, out var kind);
             if(result)
                 dst = kind;
+            else
+                result = (false, Msg.ParseFailure.Format(nameof(IFormType), src));
             return result;
         }
 
@@ -308,7 +319,11 @@ namespace Z0
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Attributes), def.Attributes.Delimit(fence:Fencing.Embraced)));
                 iter(def.PatternOps, p => {
                     writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Pattern));
-                    writer.WriteLine(string.Format("{0}:{1}", "Operands", p.Operands.Delimit(fence:Fencing.Embraced)));
+                    if(p.Operands.Count != 0)
+                    {
+                        writer.WriteLine("Operands:");
+                        iter(p.Operands, o => writer.WriteLine(o));
+                    }
                 });
                 writer.WriteLine();
             }
@@ -516,6 +531,7 @@ namespace Z0
             var buffer = list<InstDef>();
             using var reader = src.Utf8LineReader();
             var def = default(InstDef);
+            var result = Outcome.Success;
             while(reader.Next(out var line))
             {
                 if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
@@ -531,12 +547,14 @@ namespace Z0
                         if(line.IsEmpty)
                             continue;
 
-                        ref readonly var content = ref line.Content;
-                        var i = text.index(content, Chars.Colon);
+                        var i = text.index(line.Content, Chars.Colon);
                         if(i > 0)
                         {
-                            var name = text.trim(text.left(content,i));
-                            var value = text.trim(text.right(content,i));
+                            var name = text.trim(text.left(line.Content,i));
+                            var value = text.trim(text.right(line.Content,i));
+                            if(empty(value))
+                                continue;
+
                             if(Part(name, out var p))
                             {
                                 switch(p)
@@ -559,12 +577,37 @@ namespace Z0
                                         Parse(value, out dst.Class);
                                     break;
                                     case P.Operands:
-                                        if(nonempty(pattern))
+                                        var ops = list<RuleOperand>();
+                                        var abc = text.despace(value);
+                                        if(abc.Contains(Chars.Space))
                                         {
-                                            var ops = text.split(text.despace(value), Chars.Space).Select(x => new RuleOperand(x));
-                                            operands.Add(new PatternOperands(pattern, ops));
-                                            pattern=EmptyString;
+                                            var opssrc = text.split(abc, Chars.Space);
+                                            var count = opssrc.Length;
+                                            for(var j=0; j<count; j++)
+                                            {
+                                                result = ParseOperand(skip(opssrc, j), out var op);
+                                                if(result)
+                                                    ops.Add(op);
+                                                else
+                                                {
+                                                    Error(result.Message);
+                                                    return sys.empty<InstDef>();
+                                                }
+                                            }
                                         }
+                                        else
+                                        {
+                                            result = ParseOperand(abc, out var op);
+                                            if(result)
+                                                ops.Add(op);
+                                            else
+                                            {
+                                                Error(result.Message);
+                                                return sys.empty<InstDef>();
+                                            }
+                                        }
+                                        operands.Add(new PatternOperands(pattern, ops.Array()));
+                                        pattern=EmptyString;
                                     break;
                                     case P.Pattern:
                                         pattern = value;
@@ -583,6 +626,23 @@ namespace Z0
             }
 
             return buffer.ToArray().Sort();
+        }
+
+        Outcome ParseOperand(string src, out RuleOperand dst)
+        {
+            var result = Outcome.Success;
+            dst = new RuleOperand(0,src);
+            var i = text.index(src,Chars.Eq,Chars.Colon);
+            if(i > 0)
+            {
+                var type = text.left(src,i);
+                result = OperandKinds.ExprKind(type, out var k);
+                if(result.Fail)
+                    result = (false, Msg.ParseFailure.Format(nameof(dst.Kind), type));
+                else
+                    dst = new RuleOperand(k, src);
+            }
+            return result;
         }
 
         public Outcome ParseAssignment(string src, out OperandAssignment dst)
