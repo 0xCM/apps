@@ -70,7 +70,7 @@ namespace Z0.Asm
             var mask = cpu.vindices(cpu.vload(w256,x7ffaa76f0ae0), 0x48);
             var bits = recover<bit>(Cells.alloc(w256).Bytes);
             var buffer = Cells.alloc(w256).Bytes;
-            BitPack.unpack1x32(mask, bits);
+            BitPack.unpack1x32x8(mask, bits);
             var j=z8;
             for(byte i=0; i<count; i++)
             {
