@@ -324,10 +324,10 @@ namespace Z0
                 var p = pSrc.First();
 
                 // Disassemble the spec
-                var p0 = BitMasks.gather((byte)p, (byte)0b11);
-                var p1 = BitMasks.gather((byte)p, (byte)0b1100);
-                var p2 = BitMasks.gather((byte)p, (byte)0b110000);
-                var p3 = BitMasks.gather((byte)p, (byte)0b11000000);
+                var p0 = bits.gather((byte)p, (byte)0b11);
+                var p1 = bits.gather((byte)p, (byte)0b1100);
+                var p2 = bits.gather((byte)p, (byte)0b110000);
+                var p3 = bits.gather((byte)p, (byte)0b11000000);
 
                 // Reassemble the spec
                 Perm4L q = (Perm4L)(p0 | p1 << 2 | p2 << 4 | p3 << 6);

@@ -19,13 +19,13 @@ namespace Z0
         /// <param name="src">The packed source bits</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static ref byte unpack1x32x32(uint src, ref byte dst)
+        public static ref byte unpack1x32x8(uint src, ref byte dst)
         {
             var m = lsb<ulong>(n8,n1);
-            seek64(dst, 0) = scatter((ulong)(byte)src, m);
-            seek64(dst, 1) = scatter((ulong)((byte)(src >> 8)), m);
-            seek64(dst, 2) = scatter((ulong)((byte)(src >> 16)), m);
-            seek64(dst, 3) = scatter((ulong)((byte)(src >> 24)), m);
+            seek64(dst, 0) = bits.scatter((ulong)(byte)src, m);
+            seek64(dst, 1) = bits.scatter((ulong)((byte)(src >> 8)), m);
+            seek64(dst, 2) = bits.scatter((ulong)((byte)(src >> 16)), m);
+            seek64(dst, 3) = bits.scatter((ulong)((byte)(src >> 24)), m);
             return ref dst;
         }
 
@@ -35,7 +35,7 @@ namespace Z0
         /// <param name="src">The source value</param>
         /// <param name="dst">The target reference</param>
         [MethodImpl(Inline), Op]
-        public static void unpack1x32(byte src, ref uint dst)
+        public static void unpack1x32x32(byte src, ref uint dst)
         {
             var buffer = z64;
             ref var tmp = ref uint8(ref buffer);
@@ -49,8 +49,8 @@ namespace Z0
         /// <param name="src">The packed source bits</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static void unpack1x32(uint src, Span<bit> dst)
-            => unpack1x32x32(src, ref u8(first(dst)));
+        public static void unpack1x32x8(uint src, Span<bit> dst)
+            => unpack1x32x8(src, ref u8(first(dst)));
 
         /// <summary>
         /// Unpacks 32 source bits over 32 32-bit target segments
@@ -59,7 +59,7 @@ namespace Z0
         /// <param name="buffer">The intermediate buffer</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static void unpack1x32(uint src, Span<uint> dst)
+        public static void unpack1x32x32(uint src, Span<uint> dst)
         {
             var buffer = z64;
             var w = w256;
@@ -77,7 +77,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static Span<uint> unpack1x32(uint src)
+        public static Span<uint> unpack1x32x32(uint src)
         {
             var buffer = ByteBlocks.alloc(n32);
             ref var tmp = ref ByteBlocks.first<byte>(ref buffer);
@@ -85,7 +85,7 @@ namespace Z0
             var block = ByteBlocks.alloc(n128);
             ref var target = ref ByteBlocks.first<uint>(ref block);
 
-            unpack1x32x32(src, ref tmp);
+            unpack1x32x8(src, ref tmp);
             vpack.vinflate8x256x32u(tmp, 0, ref target);
             vpack.vinflate8x256x32u(tmp, 1, ref target);
             vpack.vinflate8x256x32u(tmp, 2, ref target);
@@ -99,8 +99,8 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="dst">The bit target</param>
         [MethodImpl(Inline), Unpack]
-        public static void unpack1x32(uint src, in SpanBlock256<byte> dst)
-            => unpack1x32(src, dst.Storage);
+        public static void unpack1x32x8(uint src, in SpanBlock256<byte> dst)
+            => unpack1x32x8(src, dst.Storage);
 
         /// <summary>
         /// Sends each source bit to a corresponding target cell
@@ -108,7 +108,7 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="dst">The bit target</param>
         [MethodImpl(Inline), Unpack]
-        public static void unpack1x32(uint src, Span<byte> dst)
+        public static void unpack1x32x8(uint src, Span<byte> dst)
             => unpack1x8x32(src, ref first64u(dst));
 
         /// <summary>
@@ -119,9 +119,9 @@ namespace Z0
         /// <param name="block">The block index</param>
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op]
-        public static ref readonly SpanBlock256<byte> unpack1x32(uint src, in SpanBlock256<byte> dst, int block)
+        public static ref readonly SpanBlock256<byte> unpack1x32x8(uint src, in SpanBlock256<byte> dst, int block)
         {
-            unpack1x32(src, dst.CellBlock(block));
+            unpack1x32x8(src, dst.CellBlock(block));
             return ref dst;
         }
     }

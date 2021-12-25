@@ -21,7 +21,7 @@ namespace Z0
         /// <param name="buffer">The intermediate buffer</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static void unpack1x16(ushort src, Span<uint> dst)
+        public static void unpack1x16x32(ushort src, Span<uint> dst)
         {
             var buffer = z64;
             ref var tmp = ref uint8(ref buffer);
@@ -39,8 +39,8 @@ namespace Z0
         /// <param name="src">The packed source bits</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static void unpack1x16(ushort src, Span<bit> dst)
-            => unpack1x16(src, ref u8(first(dst)));
+        public static void unpack1x16x8(ushort src, Span<bit> dst)
+            => unpack1x16x8(src, ref u8(first(dst)));
 
         /// <summary>
         /// Distributes each packed source bit to the least significant bit of 16 corresponding target bytes
@@ -48,11 +48,11 @@ namespace Z0
         /// <param name="src">The packed source bits</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static ref byte unpack1x16(ushort src, ref byte dst)
+        public static ref byte unpack1x16x8(ushort src, ref byte dst)
         {
             var m = lsb<ulong>(n8, n1);
-            seek64(dst, 0) = scatter((ulong)(byte)src, m);
-            seek64(dst, 1) = scatter((ulong)((byte)(src >> 8)), m);
+            seek64(dst, 0) = bits.scatter((ulong)(byte)src, m);
+            seek64(dst, 1) = bits.scatter((ulong)((byte)(src >> 8)), m);
             return ref dst;
         }
 
@@ -62,12 +62,12 @@ namespace Z0
         /// <param name="src">The packed source bits</param>
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
-        public static void unpack1x16(ushort src, Span<byte> dst)
+        public static void unpack1x16x8(ushort src, Span<byte> dst)
         {
             var mask = lsb<ulong>(n8, n1);
             ref var lead = ref first(dst);
-            seek64(lead, 0) = scatter((ulong)(byte)src, mask);
-            seek64(lead, 1) = scatter((ulong)((byte)(src >> 8)), mask);
+            seek64(lead, 0) = bits.scatter((ulong)(byte)src, mask);
+            seek64(lead, 1) = bits.scatter((ulong)((byte)(src >> 8)), mask);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Z0
         /// <param name="src">The bit source</param>
         /// <param name="dst">The bit target</param>
         [MethodImpl(Inline), Unpack]
-        public static void unpack1x16(ushort src, in SpanBlock128<byte> dst)
+        public static void unpack1x16x8(ushort src, in SpanBlock128<byte> dst)
             => unpack1x8x16(src, dst.Storage);
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace Z0
         /// <param name="block">The block index</param>
         /// <typeparam name="T">The source type</typeparam>
         [MethodImpl(Inline), Op]
-        public static ref readonly SpanBlock128<byte> unpack1x16(ushort src, in SpanBlock128<byte> dst, int block)
+        public static ref readonly SpanBlock128<byte> unpack1x16x8(ushort src, in SpanBlock128<byte> dst, int block)
         {
-            unpack1x16(src, dst.CellBlock(block));
+            unpack1x16x8(src, dst.CellBlock(block));
             return ref dst;
         }
 
@@ -106,8 +106,8 @@ namespace Z0
         public static ref ulong unpack1x8x16(ushort src, ref ulong dst)
         {
             const ulong M = (ulong)Lsb64x8x1;
-            seek(dst, 0) = BitMasks.scatter(src, M);
-            seek(dst, 1) = BitMasks.scatter((ushort)(src >> 8), M);
+            seek(dst, 0) = bits.scatter(src, M);
+            seek(dst, 1) = bits.scatter((ushort)(src >> 8), M);
             return ref dst;
         }
     }

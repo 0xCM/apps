@@ -30,8 +30,8 @@ namespace Z0
             for(var i=0; i< RepCount; i++)
             {
                 var x = Random.Next<uint>();
-                BitPack.unpack1x32(x, y1);
-                BitPack.unpack1x32(x, y2);
+                BitPack.unpack1x32x8(x, y1);
+                BitPack.unpack1x32x8(x, y2);
                 Claim.eq(y1.ToBitString(), y2.ToBitString());
             }
         }

@@ -9,7 +9,6 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static BitMasks;
     using static BitMaskLiterals;
 
     partial struct BitPack
@@ -17,8 +16,8 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte unpack3x10(uint src, ref byte dst)
         {
-            seek64(dst, 0) = scatter(src, Lsb64x8x3);
-            seek16(dst, 4) = (ushort)scatter(src >> 24, Lsb64x8x3);
+            seek64(dst, 0) = bits.scatter(src, Lsb64x8x3);
+            seek16(dst, 4) = (ushort)bits.scatter(src >> 24, Lsb64x8x3);
             return ref dst;
         }
     }

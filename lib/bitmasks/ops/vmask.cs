@@ -13,6 +13,8 @@ namespace Z0
     using static System.Runtime.Intrinsics.Vector128;
     using static Root;
 
+    using x64 = System.Runtime.Intrinsics.X86.Bmi2.X64;
+
     partial class BitMasks
     {
         /// <summary>
@@ -42,5 +44,15 @@ namespace Z0
         [MethodImpl(Inline)]
         static Vector256<byte> vconcat(Vector128<byte> lo, Vector128<byte> hi)
             => InsertVector128(InsertVector128(default, lo, 0), hi, 1);
+
+        /// <summary>
+        /// unsigned __int64 _pdep_u64 (unsigned __int64 a, unsigned __int64 mask) PDEP r64a, r64b, reg/m64
+        /// Deposits contiguous low bits from the source across a target according to a mask
+        /// </summary>
+        /// <param name="src">The source value</param>
+        /// <param name="mask">The mask</param>
+        [MethodImpl(Inline), Scatter]
+        static ulong scatter(ulong src, ulong mask)
+            => x64.ParallelBitDeposit(src,mask);
     }
 }

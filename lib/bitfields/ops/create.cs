@@ -8,6 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     partial struct Bitfields
     {
@@ -48,14 +49,18 @@ namespace Z0
                 => new Bitfield64<T>(state);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Bitfield<T> create<T>(BitfieldSegModel[] segs, T state)
+        public static Bitfield<T> create<T>(BitfieldModel model, T state)
             where T : unmanaged
-                => new Bitfield<T>(segs,state);
+                => new Bitfield<T>(model,state);
 
         [MethodImpl(Inline)]
-        public static Bitfield<T,K> create<T,K>(BitfieldSegModel<K>[] segs, T state)
+        public static Bitfield<T,K> create<T,K>(text31 name, BitfieldSegModel<K>[] segs, T state)
             where T : unmanaged
             where K : unmanaged
-                => new Bitfield<T,K>(segs,state);
+        {
+            var w = BitfieldSpecs.width(@readonly(segs));
+            var m = new BitfieldModel<K>(name, segs, w);
+            return new Bitfield<T,K>(m,state);
+        }
     }
 }

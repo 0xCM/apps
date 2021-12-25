@@ -11,8 +11,8 @@ namespace Z0
         public void gather_masks()
         {
             var m2 = BitMaskLiterals.Lsb32x8x1;
-            var x2 = BitMasks.gather(UInt32.MaxValue, m2);
-            var y2 = BitMasks.scatter(x2, m2).ToBitVector32();
+            var x2 = bits.gather(UInt32.MaxValue, m2);
+            var y2 = bits.scatter(x2, m2).ToBitVector32();
             var bv = m2.ToBitVector32();
 
             Claim.eq(y2.State, bv.State);

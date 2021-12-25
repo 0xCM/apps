@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="dst">The target buffer</param>
         [MethodImpl(Inline), Op]
         public static void unpack1x8(byte src, Span<byte> dst)
-            => seek64(first(dst), 0) = scatter((ulong)(byte)src, lsb<ulong>(n8, n1));
+            => seek64(first(dst), 0) = bits.scatter((ulong)(byte)src, lsb<ulong>(n8, n1));
 
         /// <summary>
         /// Sends each source bit to to least bit of each 8-bit segment in the target
@@ -30,7 +30,7 @@ namespace Z0
         [MethodImpl(Inline), Unpack]
         public static ref ulong unpack1x8(byte src, ref ulong dst)
         {
-            dst = scatter(src, lsb<ulong>(n8,n1));
+            dst = bits.scatter(src, lsb<ulong>(n8,n1));
             return ref dst;
         }
 
@@ -42,7 +42,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte unpack1x8(byte src, ref byte dst)
         {
-            seek64(dst, 0) = scatter(src, lsb<ulong>(n8,n1));
+            seek64(dst, 0) = bits.scatter(src, lsb<ulong>(n8,n1));
             return ref dst;
         }
 

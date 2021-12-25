@@ -30,13 +30,13 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static BitVector4 diagonal(in BitMatrix4 A)
-            => (byte)BitMasks.gather((uint)A, 0b1000_0100_0010_0001);
+            => (byte)bits.gather((uint)A, 0b1000_0100_0010_0001);
 
         [MethodImpl(Inline), Op]
         public static BitVector8 diagonal(in BitMatrix8 A)
         {
             const ulong mask = 0b10000000_01000000_00100000_00010000_00001000_00000100_00000010_00000001ul;
-            return (byte)BitMasks.gather((ulong)A, mask);
+            return (byte)bits.gather((ulong)A, mask);
         }
 
         /// <summary>

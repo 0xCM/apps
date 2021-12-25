@@ -89,10 +89,10 @@ namespace Z0
         {
             var x = Random.Next<uint>();
             var y = Random.Next<uint>();
-            var xE = BitMasks.scatter(BitMasks.gather(x,L.Even32), L.Even32);
-            var xO = BitMasks.scatter(BitMasks.gather(x,L.Odd32), L.Even32);
-            var yE = BitMasks.scatter(BitMasks.gather(y,L.Even32), L.Odd32);
-            var yO = BitMasks.scatter(BitMasks.gather(y,L.Odd32), L.Odd32);
+            var xE = bits.scatter(bits.gather(x,L.Even32), L.Even32);
+            var xO = bits.scatter(bits.gather(x,L.Odd32), L.Even32);
+            var yE = bits.scatter(bits.gather(y,L.Even32), L.Odd32);
+            var yO = bits.scatter(bits.gather(y,L.Odd32), L.Odd32);
             var xEy = xE | yE;
             var xOy = xO | yO;
             var t = text.build();

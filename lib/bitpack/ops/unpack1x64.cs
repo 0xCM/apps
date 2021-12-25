@@ -21,8 +21,8 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref byte unpack1x64x8(ulong src, ref byte dst)
         {
-            unpack1x32x32((uint)src, ref dst);
-            unpack1x32x32((uint)(src >> 32), ref seek(dst, 32));
+            unpack1x32x8((uint)src, ref dst);
+            unpack1x32x8((uint)(src >> 32), ref seek(dst, 32));
             return ref dst;
         }
 
@@ -83,13 +83,13 @@ namespace Z0
             ref var tmp = ref first(slice(dst,56,8).Recover<uint,byte>());
             ref var target = ref first(dst);
 
-            unpack1x32x32((uint)src, ref tmp);
+            unpack1x32x8((uint)src, ref tmp);
             vinflate8x256x32u(tmp, 0, ref target, 0);
             vinflate8x256x32u(tmp, 1, ref target, 1);
             vinflate8x256x32u(tmp, 2, ref target, 2);
             vinflate8x256x32u(tmp, 3, ref target, 3);
 
-            unpack1x32x32((uint)(src >> 32), ref tmp);
+            unpack1x32x8((uint)(src >> 32), ref tmp);
             vinflate8x256x32u(tmp, 0, ref target, 4);
             vinflate8x256x32u(tmp, 1, ref target, 5);
             vinflate8x256x32u(tmp, 2, ref target, 6);
@@ -118,7 +118,7 @@ namespace Z0
         public static ref ulong unpack1x64(ulong src, ref ulong dst)
         {
             unpack1x8x32((uint)src, ref dst);
-            unpack1x32x32((uint)(src >> 32), ref seek8(dst, 32));
+            unpack1x32x8((uint)(src >> 32), ref seek8(dst, 32));
             return ref dst;
         }
 

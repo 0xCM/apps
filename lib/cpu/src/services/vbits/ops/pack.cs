@@ -7,7 +7,6 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using static BitMasks;
     using static BitMaskLiterals;
     using static Numeric;
     using static Root;
@@ -24,14 +23,14 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static byte pack4x8x1<T>(in SpanBlock32<T> src, int block)
             where T : unmanaged
-                => (byte)gather(uint32(src.BlockLead(block)), Lsb32x8x1);
+                => (byte)bits.gather(uint32(src.BlockLead(block)), Lsb32x8x1);
 
         /// <summary>
         /// Packs 8 1-bit values taken from the least significant bit of each source byte
         /// </summary>
         [MethodImpl(Inline), Op]
         static byte pack8(ulong src)
-            => (byte)gather(src, Lsb64x8x1);
+            => (byte)bits.gather(src, Lsb64x8x1);
 
         /// <summary>
         /// Packs 8 1-bit values taken from the least significant bit of each source byte
@@ -40,7 +39,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static byte pack8x8x1<T>(in T src)
             where T : unmanaged
-                => (byte)gather(force<T,ulong>(src), Lsb64x8x1);
+                => (byte)bits.gather(force<T,ulong>(src), Lsb64x8x1);
 
         /// <summary>
         /// Packs 8 1-bit values taken from the least significant bit of each source byte
@@ -129,43 +128,6 @@ namespace Z0
         public static ulong pack64x8x1<T>(ReadOnlySpan<T> src, uint offset)
             where T : unmanaged
                 => pack64x8x1(skip(src, offset));
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // public static T pack32x1<T>(Span<uint> src)
-        //     where T : unmanaged
-        //         => pack32x1_u<T>(src);
-
-        // [MethodImpl(Inline)]
-        // static T pack32x1_u<T>(Span<uint> src)
-        //     where T : unmanaged
-        // {
-        //     if(typeof(T) == typeof(byte))
-        //         return convert<T>(BitPack.pack1x8(src));
-        //     else if(typeof(T) == typeof(ushort))
-        //         return convert<T>(BitPack.pack1x16(src));
-        //     else if(typeof(T) == typeof(uint))
-        //         return convert<T>(BitPack.pack1x32(src));
-        //     else if(typeof(T) == typeof(ulong))
-        //         return convert<T>(BitPack.pack1x64(src));
-        //     else
-        //         return pack32x1_i<T>(src);
-        // }
-
-        // [MethodImpl(Inline)]
-        // static T pack32x1_i<T>(Span<uint> src)
-        //     where T : unmanaged
-        // {
-        //     if(typeof(T) == typeof(sbyte))
-        //         return convert<T>(BitPack.pack1x8(src));
-        //     else if(typeof(T) == typeof(short))
-        //         return convert<T>(BitPack.pack1x16(src));
-        //     else if(typeof(T) == typeof(int))
-        //         return convert<T>(BitPack.pack1x32(src));
-        //     else if(typeof(T) == typeof(long))
-        //         return convert<T>(BitPack.pack1x64(src));
-        //     else
-        //         throw no<T>();
-        // }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ref T pack<T>(ReadOnlySpan<byte> src, uint offset, out T dst)

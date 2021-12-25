@@ -23,9 +23,9 @@ namespace Z0
         public static ref byte unpack3x21(ulong src, ref byte dst)
         {
             var x = lo(n63) & src;
-            seek64(dst, 0) = scatter(x, Lsb64x8x3);
-            seek64(dst, 1) = scatter(x >> 24, Lsb64x8x3);
-            seek64(dst, 2) = scatter(x >> 48, Lsb64x8x3);
+            seek64(dst, 0) = bits.scatter(x, Lsb64x8x3);
+            seek64(dst, 1) = bits.scatter(x >> 24, Lsb64x8x3);
+            seek64(dst, 2) = bits.scatter(x >> 48, Lsb64x8x3);
             return ref dst;
         }
     }

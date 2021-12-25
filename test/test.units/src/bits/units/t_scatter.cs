@@ -17,7 +17,7 @@ namespace Z0
             var src1 = 0b00000000_00000000_00000000_10101010u;
             var m1 =   0b00000011_00000011_00000011_00000011u;
             var d1e =  0b00000010_00000010_00000010_00000010u;
-            var d1a = BitMasks.scatter(src1, m1);
+            var d1a = bits.scatter(src1, m1);
             PrimalClaims.eq(d1e,d1a);
         }
 

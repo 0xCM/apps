@@ -25,9 +25,9 @@ namespace Z0
             if(typeof(T) == typeof(byte))
                 BitPack.unpack1x8x32(uint8(src), dst);
             else if(typeof(T) == typeof(ushort))
-                BitPack.unpack1x16(uint16(src), dst);
+                BitPack.unpack1x16x32(uint16(src), dst);
             else if(typeof(T) == typeof(uint))
-                BitPack.unpack1x32(uint32(src), dst);
+                BitPack.unpack1x32x32(uint32(src), dst);
             else if(typeof(T) == typeof(ulong))
                 BitPack.unpack1x64x32(uint64(src), dst);
             else
