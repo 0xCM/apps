@@ -14,7 +14,7 @@ namespace Z0
     {
         [Op]
         public static string[] names(Assembly src, string match)
-            => minicore.nonempty(match) ? src.ManifestResourceNames().Where(n => n.Contains(match)) : src.ManifestResourceNames();
+            => core.nonempty(match) ? src.ManifestResourceNames().Where(n => n.Contains(match)) : src.ManifestResourceNames();
 
         [MethodImpl(Inline), Op]
         public static string[] names(Assembly src)

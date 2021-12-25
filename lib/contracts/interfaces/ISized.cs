@@ -22,10 +22,10 @@ namespace Z0
         where T : unmanaged
     {
         ByteSize ISized.Size
-            => minicore.size<T>();
+            => core.size<T>();
 
         BitWidth ISized.Width
-            => minicore.width<T>();
+            => core.width<T>();
     }
 
 }

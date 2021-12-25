@@ -10,7 +10,7 @@ namespace Z0
     using System.Collections.Generic;
 
     using static Root;
-    using static minicore;
+    using static core;
 
     public readonly struct Index<I,T> : IIndex<I,T>
         where I : unmanaged

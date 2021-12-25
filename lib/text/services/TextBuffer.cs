@@ -9,7 +9,7 @@ namespace Z0
     using System.Text;
 
     using static Root;
-    using static minicore;
+    using static core;
 
     public class TextBuffer : ITextBuffer
     {

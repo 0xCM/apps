@@ -10,7 +10,7 @@ namespace Z0
     using System.Threading.Tasks;
 
     using static Root;
-    using static minicore;
+    using static core;
 
     public sealed class TextEmitter : TextWriter, ITextWriter
     {

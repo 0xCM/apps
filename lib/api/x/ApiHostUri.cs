@@ -8,7 +8,7 @@ namespace Z0
     using System.Reflection;
     using System.Collections.Generic;
 
-    using static minicore;
+    using static core;
 
     partial class XApi
     {

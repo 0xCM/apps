@@ -25,7 +25,7 @@ namespace Z0
         {
             Cmd = cmd;
             Succeeded = success;
-            Message = minicore.ifempty(msg, CmdResult.DefaultMsg(Cmd.CmdId, success));
+            Message = core.ifempty(msg, CmdResult.DefaultMsg(Cmd.CmdId, success));
             Payload = Succeeded;
         }
 

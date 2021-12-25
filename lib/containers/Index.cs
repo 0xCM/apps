@@ -10,7 +10,7 @@ namespace Z0
     using System.Linq;
 
     using static Root;
-    using static minicore;
+    using static core;
 
     [ApiHost]
     public readonly struct Index

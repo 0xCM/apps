@@ -8,7 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static minicore;
+    using static core;
 
     public readonly struct ApiClass<K> : ITextual
         where K : unmanaged, IApiClass<K>

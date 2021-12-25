@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static minicore;
+    using static core;
 
     public interface IApiClass : ITextual
     {

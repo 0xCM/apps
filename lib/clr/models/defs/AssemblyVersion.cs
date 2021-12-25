@@ -35,7 +35,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static explicit operator ulong(AssemblyVersion src)
-            => minicore.uint64(src);
+            => core.uint64(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AssemblyVersion(Version src)

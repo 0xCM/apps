@@ -76,13 +76,13 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => minicore.empty(IdentityText);
+            get => core.empty(IdentityText);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => minicore.nonempty(IdentityText);
+            get => core.nonempty(IdentityText);
         }
 
         public override int GetHashCode()

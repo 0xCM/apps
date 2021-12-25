@@ -8,6 +8,7 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static System.Runtime.InteropServices.MemoryMarshal;
 
     partial struct core
     {
@@ -24,7 +25,7 @@ namespace Z0
         /// <typeparam name="T">The target cell type</typeparam>
         [MethodImpl(Inline)]
         public static Span<T> recover<S,T>(Span<S> src)
-            => minicore.recover<S,T>(src);
+            => CreateSpan(ref @as<S,T>(first(src)), (int)((src.Length * size<S>())/size<T>()));
 
         /// <summary>
         /// Presents a readonly span of S-cells as a readonly span of T-cells
@@ -34,7 +35,7 @@ namespace Z0
         /// <typeparam name="T">The target cell type</typeparam>
         [MethodImpl(Inline)]
         public static ReadOnlySpan<T> recover<S,T>(ReadOnlySpan<S> src)
-            => minicore.recover<S,T>(src);
+            => CreateReadOnlySpan(ref @as<S,T>(first(src)), (int)((src.Length * size<S>())/size<T>()));
 
         /// <summary>
         /// Presents a <see cref='sbyte'/> span as a T-span

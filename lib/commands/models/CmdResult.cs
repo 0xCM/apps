@@ -42,7 +42,7 @@ namespace Z0
         {
             CmdId = id;
             Succeeded = success;
-            Message = minicore.ifempty(message, DefaultMsg(id,success));
+            Message = core.ifempty(message, DefaultMsg(id,success));
             Payload = Succeeded;
         }
 

@@ -15,7 +15,7 @@ namespace Z0
             var count = src.Length;
             var dst = new HashSet<T>(count);
             for(var i=0; i<count; i++)
-                dst.Add(minicore.skip(src,i));
+                dst.Add(core.skip(src,i));
             return dst.Array();
         }
     }

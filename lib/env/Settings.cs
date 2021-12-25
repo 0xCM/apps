@@ -342,7 +342,7 @@ namespace Z0
             if(json)
                 return string.Concat(src.Name.Enquote(), Chars.Colon, Chars.Space, src.Value.Enquote());
             else
-                return format(minicore.ifempty(src.Name, "<anonymous>"), src.Value);
+                return format(core.ifempty(src.Name, "<anonymous>"), src.Value);
         }
 
         /// <summary>

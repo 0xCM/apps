@@ -48,7 +48,7 @@ namespace Z0
             if(result.Fail)
                 return (false,FormParseFailed.Format(nameof(dst.Extension), src));
 
-            dst.Attributes = attributes(skip(cells,j++), Chars.Colon).Delimit(fence:Fencing.Embraced);
+            dst.Attributes = attributes(skip(cells,j++), Chars.Colon).Delimit(fence:RenderFence.Embraced);
 
             return result;
         }

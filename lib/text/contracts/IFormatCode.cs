@@ -7,7 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using static minicore;
+    using static core;
 
     public interface IFormatCode : ITextual
     {

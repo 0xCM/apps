@@ -8,23 +8,6 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Fencing
-    {
-        public static Fence<char> Embraced => (Chars.LBrace, Chars.RBrace);
-
-        public static Fence<char> Bracketed => (Chars.LBracket, Chars.RBracket);
-
-        public static Fence<char> Angled => (Chars.Lt, Chars.Gt);
-
-        public static Fence<char> Dirac => ((char)MathSym.LeftBra, (char)MathSym.RightKet);
-
-        public static Fence<char> Paren => (Chars.LParen, Chars.RParen);
-
-        [MethodImpl(Inline)]
-        public static Fence<T> fence<T>(T left, T right)
-            => (left,right);
-    }
-
     public readonly struct RenderFence
     {
         public static RenderFence Embraced => (Chars.LBrace, Chars.RBrace);

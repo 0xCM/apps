@@ -52,13 +52,13 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => minicore.empty(HostName);
+            get => core.empty(HostName);
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => minicore.nonempty(HostName);
+            get => core.nonempty(HostName);
         }
 
         ApiHostUri INullary<ApiHostUri>.Zero
