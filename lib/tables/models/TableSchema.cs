@@ -11,17 +11,17 @@ namespace Z0
 
     public readonly struct TableSchema
     {
-        public TableId Id {get;}
+        public TableId TableId {get;}
 
-        public Identifier TableName {get;}
+        public Identifier TypeName {get;}
 
-        public RecordFieldSpec[] Fields{get;}
+        public RecordFieldSpec[] Fields {get;}
 
         [MethodImpl(Inline)]
         public TableSchema(TableId id, Identifier name, RecordFieldSpec[] fields)
         {
-            Id = id;
-            TableName = name;
+            TableId = id;
+            TypeName = name;
             Fields = fields;
         }
 

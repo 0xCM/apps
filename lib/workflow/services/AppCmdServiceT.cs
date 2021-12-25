@@ -86,6 +86,11 @@ namespace Z0
         protected Outcome Commands(CmdArgs args)
         {
             iter(Dispatcher.SupportedActions, cmd => Write(cmd));
+            var dst = ProjectDb.Api() + FS.file("commands", FS.Csv);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            iter(Dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
+            EmittedFile(emitting, Dispatcher.SupportedActions.Length);
             return true;
         }
 
@@ -340,23 +345,26 @@ namespace Z0
             }
         }
 
-        public void Dispatch(CmdSpec cmd)
+        public bool Dispatch(CmdSpec cmd)
         {
+            var result = Outcome.Success;
             try
             {
-                var outcome = Dispatcher.Dispatch(cmd.Name, cmd.Args);
-                if(outcome.Fail)
-                    Error(outcome.Message ?? RP.Null);
+                result = Dispatcher.Dispatch(cmd.Name, cmd.Args);
+                if(result.Fail)
+                    Error(result.Message ?? RP.Null);
                 else
                 {
-                    if(nonempty(outcome.Message))
-                        Status(outcome.Message);
+                    if(nonempty(result.Message))
+                        Status(result.Message);
                 }
             }
             catch(Exception e)
             {
                 Error(e);
+                result = e;
             }
+            return result;
         }
 
         protected Outcome ShowSyms<K>(Symbols<K> src)
@@ -431,10 +439,6 @@ namespace Z0
 
         static MsgPattern<ProjectId> UndefinedProject
             => "Undefined project:{0}";
-
-        static MsgPattern EmptyArgList => "No arguments specified";
-
-        static MsgPattern ArgSpecError => "Argument specification error";
     }
 
     public abstract class AppCmdService<T,S> : AppCmdService<T>

@@ -14,10 +14,10 @@ namespace Z0
         public void Emit(uint margin, TableSchema spec, ITextBuffer dst)
         {
             dst.IndentLine(margin, "[Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]");
-            dst.IndentLineFormat(margin, "public struct {0}", spec.TableName);
+            dst.IndentLineFormat(margin, "public struct {0}", spec.TypeName);
             dst.IndentLine(margin, Chars.LBrace);
             margin += 4;
-            dst.IndentLineFormat(margin,"public const string TableId = \"{0}\";", spec.Id);
+            dst.IndentLineFormat(margin,"public const string TableId = \"{0}\";", spec.TableId);
 
             var fields = spec.Fields;
             var count = fields.Length;

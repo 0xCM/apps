@@ -15,10 +15,10 @@ namespace Z0
 
         public string FieldName {get;}
 
-        public string DataType {get;}
+        public TypeSpec DataType {get;}
 
         [MethodImpl(Inline)]
-        public RecordFieldSpec(ushort index, string name, string type)
+        public RecordFieldSpec(ushort index, string name, TypeSpec type)
         {
             FieldIndex = index;
             FieldName = name;

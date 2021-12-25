@@ -16,7 +16,7 @@ namespace Z0
 
         public TableDb(TableSchema[] schemas)
         {
-            _Schemas = schemas.Map(s => (s.Id, s)).ToConstLookup();
+            _Schemas = schemas.Map(s => (s.TableId, s)).ToConstLookup();
         }
 
         public bool Schema(TableId table, out TableSchema schema)

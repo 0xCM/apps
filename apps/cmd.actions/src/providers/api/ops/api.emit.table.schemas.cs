@@ -21,11 +21,11 @@ namespace Z0
                 ref readonly var schema = ref schemas[i];
                 var fields = schema.Fields;
                 var fcount = fields.Length;
-                writer.WriteLine(string.Format("table {0} {{", schema.Id));
+                writer.WriteLine(string.Format("table {0} {{", schema.TableId));
                 for(var j=0; j<fcount; j++)
                 {
                     ref readonly var field = ref skip(fields,j);
-                    writer.WriteLine(string.Format("  {0}",field.Format()));
+                    writer.WriteLine(string.Format("  {0}", field.Format()));
                 }
                 writer.WriteLine("}");
                 if(i != count - 1)

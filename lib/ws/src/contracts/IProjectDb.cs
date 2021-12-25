@@ -33,6 +33,15 @@ namespace Z0
         FS.Files SourcePaths(string scope)
             => Sources(scope).AllFiles;
 
+        FS.FolderPath Jobs()
+            => Subdir("jobs");
+
+        FS.Files JobSpecs()
+            => (Jobs() + FS.folder("specs")).Files(FS.ext("job"));
+
+        FS.FilePath JobSpec(string name)
+            => Jobs() + FS.file(name, FS.ext("job"));
+
         FS.FilePath Source(string scope, string name, FS.FileExt ext)
             => Sources(scope) + FS.file(name, ext);
 
@@ -47,6 +56,5 @@ namespace Z0
         FS.FilePath ApiTablePath<T>(string scope, string suffix)
             where T : struct
                 => Api() + FS.folder(scope) + TableFile<T>(suffix);
-
     }
 }
