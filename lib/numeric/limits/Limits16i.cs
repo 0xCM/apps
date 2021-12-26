@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for <see cref='short'/> values
     /// </summary>
-    [SymSource("limits")]
+    [SymSource("limits", NumericBaseKind.Base16)]
     public enum Limits16i : short
     {
         /// <summary>

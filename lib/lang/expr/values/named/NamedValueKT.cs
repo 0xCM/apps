@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Assigns a K-parametric name to a T-value
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), Blittable]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("namedvalue<k:{0},v:{1}>")]
     public readonly struct NamedValue<K,T>
     {
         /// <summary>

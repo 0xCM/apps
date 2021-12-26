@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for a <see cref='BitSeq5'/> value
     /// </summary>
-    [SymSource("limits")]
+    [SymSource("limits", NumericBaseKind.Base16)]
     public enum Limits5u : byte
     {
         /// <summary>

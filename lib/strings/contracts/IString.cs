@@ -14,7 +14,7 @@ namespace Z0
 
     }
 
-    public interface IString<K,T> : IString<T>, IValue<K,T>
+    public interface IString<K,T> : IString<T>
         where K : unmanaged
     {
 

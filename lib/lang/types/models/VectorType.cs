@@ -8,7 +8,6 @@ namespace Z0.Expr
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
     public class VectorType : IVectorType
     {
@@ -36,7 +35,7 @@ namespace Z0.Expr
         }
 
         public string Format()
-            => TypeSpecs.v(CellCount, CellType);
+            => TypeSyntax.v(CellCount, CellType.Format());
 
         public override string ToString()
             => Format();

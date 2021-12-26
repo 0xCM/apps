@@ -29,7 +29,7 @@ namespace Z0
         }
 
         public string Format()
-            => FunctionTypeFormatter.Service.Format(this);
+            => TypeFactory.format(this);
 
         public override string ToString()
             => Format();

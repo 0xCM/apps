@@ -7,55 +7,47 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 5-bit unsigned integer
     /// </summary>
-    [SymSource("hexseq")]
+    [SymSource("hexseq", NumericBaseKind.Base16)]
     public enum Hex5Seq : byte
     {
         /// <summary>
         /// Defines 0x00 = 0
         /// </summary>
-        [Symbol("00")]
         x00 = 0x00,
 
         /// <summary>
         /// Defines 0x01 = 1
         /// </summary>
-        [Symbol("01")]
         x01 = 0x01,
 
         /// <summary>
         /// Defines 0x02 = 2
         /// </summary>
-        [Symbol("02")]
         x02 = 0x02,
 
         /// <summary>
         /// Defines 0x03 = 3
         /// </summary>
-        [Symbol("03")]
         x03 = 0x03,
 
         /// <summary>
         /// Defines 0x04 = 4
         /// </summary>
-        [Symbol("04")]
         x04 = 0x04,
 
         /// <summary>
         /// Defines 0x05 = 5
         /// </summary>
-        [Symbol("05")]
         x05 = 0x05,
 
         /// <summary>
         /// Defines 0x06 = 6
         /// </summary>
-        [Symbol("06")]
         x06 = 0x06,
 
         /// <summary>
         /// Defines 0x07 = 7
         /// </summary>
-        [Symbol("07")]
         x07 = 0x07,
 
         /// <summary>

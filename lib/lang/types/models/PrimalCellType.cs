@@ -26,12 +26,12 @@ namespace Z0
             Kind = @class;
         }
 
-        public static PrimalCellType Empty => default;
-
         public string Format()
-            => CellTypes.format(this);
+            => TypeFactory.format(this);
 
         public override string ToString()
             => Format();
+
+        public static PrimalCellType Empty => default;
     }
 }

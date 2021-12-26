@@ -31,10 +31,10 @@ namespace Z0.Expr
         public bit this[uint i]
         {
             [MethodImpl(Inline)]
-            get => expr.state(this,i);
+            get => gbits.state(this,i);
 
             [MethodImpl(Inline)]
-            set => expr.state(value, i, ref this);
+            set => gbits.state(value, i, ref this);
         }
 
         [MethodImpl(Inline)]

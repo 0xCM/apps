@@ -16,6 +16,11 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
+            where T : unmanaged, IEquatable<T>
+                => new ScalarValue<T>(src,content);
+
         [MethodImpl(Inline), Op]
         public static OpExprSpec spec(ExprScope scope, string opname, IExpr[] operands)
             => new OpExprSpec(scope,opname,operands);

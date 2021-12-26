@@ -12,6 +12,7 @@ namespace Z0
     /// <summary>
     /// Assings a name to a value
     /// </summary>
+    [DataType("namedvalue<v:{0}>")]
     public readonly struct NamedValue<V>
     {
         /// <summary>

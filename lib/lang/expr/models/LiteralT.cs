@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a literal value which, by definition, is a named constant
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential), DataType(TypeSyntax.Literal)]
     public readonly struct Literal<T> : ILiteralExpr<T>
     {
         public string Name {get;}

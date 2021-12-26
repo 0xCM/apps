@@ -28,7 +28,7 @@ namespace Z0
         where K : unmanaged
         where T : unmanaged
     {
-        K Kind {get;}
+
     }
 
     [Free]

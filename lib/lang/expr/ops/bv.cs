@@ -18,26 +18,6 @@ namespace Z0
         public static bvNx64 bv(N64 n, Span<ulong> src)
             => new bvNx64(src);
 
-        [MethodImpl(Inline)]
-        public static bit state<T>(in T src, uint pos)
-            where T : unmanaged, IIndexedBits
-        {
-            var b = core.bytes(src);
-            var i = pos / 8u;
-            var j = (byte)(pos % 8u);
-            return bit.test(skip(b,i),j);
-        }
-
-        [MethodImpl(Inline)]
-        public static void state<T>(bit src, uint pos, ref T dst)
-            where T : unmanaged, IIndexedBits
-        {
-            var data = core.bytes(src);
-            var i = pos / 8u;
-            var j = (byte)(pos % 8u);
-            bit.set(ref seek(data,i),j,src);
-        }
-
         [MethodImpl(Inline), Op]
         public static bv1 bv(N1 n, byte src)
             => new bv1(src);

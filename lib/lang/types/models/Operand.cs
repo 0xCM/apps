@@ -38,7 +38,7 @@ namespace Z0
         }
 
         public string Format()
-            => OperandFormatter.Service.Format(this);
+            => string.Format("{0}:{1}", Name, Type.Format());
 
         public override string ToString()
             => Format();

@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines lower/upper bounds for <see cref='int'/> values
     /// </summary>
-    [SymSource("limits")]
+    [SymSource("limits", NumericBaseKind.Base16)]
     public enum Limits32i : int
     {
         /// <summary>

@@ -9,6 +9,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType(TypeSyntax.Seq)]
     public readonly struct Seq<T> : ISeq<T>
         where T : IEquatable<T>
     {
@@ -99,7 +100,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator T[](Seq<T> src)
-            => src;
+            => src.Data.Storage;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Index<T>(Seq<T> src)
+            => src.Data;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Seq<T>(Index<T> src)
+            => new Seq<T>(src.Storage);
 
         public static Seq<T> Empty => new Seq<T>(sys.empty<T>());
     }

@@ -8,7 +8,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 6-bit unsigned integer
     /// </summary>
-    [SymSource("hexseq")]
+    [SymSource("hexseq", NumericBaseKind.Base16)]
     public enum Hex6Seq : byte
     {
         /// <summary>

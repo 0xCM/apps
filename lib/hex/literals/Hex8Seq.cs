@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with an 8-bit unsigned integer
     /// </summary>
-    [SymSource("hexseq")]
+    [SymSource("hexseq", NumericBaseKind.Base16)]
     public enum Hex8Seq : byte
     {
         /// <summary>

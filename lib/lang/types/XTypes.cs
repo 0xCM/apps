@@ -11,6 +11,6 @@ namespace Z0
     partial class XTend
     {
         public static TypeSpec Spec(this Type src)
-            => TypeSpecs.infer(src);
+            => TypeSyntax.infer(src);
     }
 }

@@ -8,23 +8,24 @@ namespace Z0
 
     using static Root;
 
+    [DataType("namedvalue")]
     public readonly struct NamedValue
     {
         /// <summary>
         /// The name of the value
         /// </summary>
-        public string Name {get;}
+        public Name Name {get;}
 
         /// <summary>
         /// The named value
         /// </summary>
-        public string Value {get;}
+        public object Value {get;}
 
         [MethodImpl(Inline)]
-        public NamedValue(string name, string value)
+        public NamedValue(string name, object value)
         {
             Name = name;
-            Value = value;
+            Value = value ?? string.Empty;
         }
 
         public string Format()
@@ -34,7 +35,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator NamedValue((string name, string value) src)
+        public static implicit operator NamedValue((string name, object value) src)
             => new NamedValue(src.name, src.value);
 
         public static NamedValue Empty
