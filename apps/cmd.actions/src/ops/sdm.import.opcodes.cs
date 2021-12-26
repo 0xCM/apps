@@ -6,12 +6,6 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        const string RunSdmEtl = "sdm/run/etl";
-
-        [CmdOp(RunSdmEtl)]
-        Outcome runsdmetl(CmdArgs args)
-            => Service(Wf.IntelSdm).RunEtl();
-
         const string ImportSdmOpcodes = "sdm/import/opcodes";
 
         [CmdOp(ImportSdmOpcodes)]

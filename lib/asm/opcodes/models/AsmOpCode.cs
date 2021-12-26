@@ -18,10 +18,10 @@ namespace Z0.Asm
 
         public AsmOpCodeBits Bits;
 
-        public CharBlock48 Expr;
+        public CharBlock36 Expr;
 
         [MethodImpl(Inline)]
-        public AsmOpCode(uint key, AsmOpCodeBits bits, CharBlock48 expr)
+        public AsmOpCode(uint key, AsmOpCodeBits bits, CharBlock36 expr)
         {
             Key = key;
             Bits = bits;

@@ -39,5 +39,19 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => new NativeSize((NativeSizeCode)(byte)(Data >> 16));
         }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data != 0;
+        }
+
+        public static AsmSigOp Empty => default;
     }
 }

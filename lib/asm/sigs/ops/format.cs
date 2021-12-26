@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public static string format(in AsmSig src)
+        public static string format(in AsmSigExpr src)
         {
             var storage = CharBlock64.Null;
             var dst = storage.Data;

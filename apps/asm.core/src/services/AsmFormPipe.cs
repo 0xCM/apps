@@ -129,7 +129,7 @@ namespace Z0.Asm
                 var i = 0u;
                 DataParser.parse(NextCell(parts, ref i), out dst.Seq);
                 dst.OpCode = new AsmOpCodeString(NextCell(parts, ref i));
-                AsmParser.sigxpr(NextCell(parts, ref i), out dst.Sig);
+                AsmParser.siginfo(NextCell(parts, ref i), out dst.Sig);
                 dst.FormExpr = new AsmFormInfo(dst.OpCode, dst.Sig);
                 return true;
             }

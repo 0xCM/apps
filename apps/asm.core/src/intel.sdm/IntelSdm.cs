@@ -26,13 +26,15 @@ namespace Z0.Asm
             SdmPaths.Targets().Clear();
         }
 
-        public Outcome RunEtl()
+        public Outcome Import()
         {
             var result = Outcome.Success;
 
             try
             {
                 ClearTargets();
+
+                ImportOpCodes();
 
                 result = EmitCharMaps();
                 if(result.Fail)
@@ -69,7 +71,6 @@ namespace Z0.Asm
             }
             catch(Exception e)
             {
-                Wf.Error(e);
                 result = e;
             }
 

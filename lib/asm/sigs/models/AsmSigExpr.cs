@@ -13,7 +13,7 @@ namespace Z0.Asm
     using api = AsmSigs;
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct AsmSig
+    public struct AsmSigExpr
     {
         public AsmMnemonic Mnemonic;
 
@@ -28,7 +28,7 @@ namespace Z0.Asm
         public readonly byte OperandCount;
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic monic)
+        public AsmSigExpr(AsmMnemonic monic)
         {
             Mnemonic = monic;
             Op0 = AsmSigOpExpr.Empty;
@@ -39,7 +39,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic monic, AsmSigOpExpr op0)
+        public AsmSigExpr(AsmMnemonic monic, AsmSigOpExpr op0)
         {
             Mnemonic = monic;
             Op0 = op0;
@@ -50,7 +50,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1)
+        public AsmSigExpr(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1)
         {
             Mnemonic = monic;
             Op0 = op0;
@@ -61,7 +61,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2)
+        public AsmSigExpr(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2)
         {
             Mnemonic = monic;
             Op0 = op0;
@@ -72,7 +72,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3)
+        public AsmSigExpr(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3)
         {
             Mnemonic = monic;
             Op0 = op0;
@@ -100,10 +100,10 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        public static AsmSig Empty
+        public static AsmSigExpr Empty
         {
             [MethodImpl(Inline)]
-            get => new AsmSig(AsmMnemonic.Empty);
+            get => new AsmSigExpr(AsmMnemonic.Empty);
         }
     }
 }

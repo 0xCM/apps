@@ -16,6 +16,6 @@ namespace Z0.Asm
 
         public CharBlock64 Operands;
 
-        public CharBlock48 Expr;
+        public CharBlock36 Expr;
     }
 }

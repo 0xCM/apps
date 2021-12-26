@@ -12,7 +12,7 @@ namespace Z0.Asm
     partial class AsmSigs
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AsmSigToken<K> token<K>(AsmSigTokenKind kind, K value)
+        public static AsmSigToken<K> token<K>(AsmSigOpKind kind, K value)
             where K : unmanaged
                 => new AsmSigToken<K>(kind,value);
     }

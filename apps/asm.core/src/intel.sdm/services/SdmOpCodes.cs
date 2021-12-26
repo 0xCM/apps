@@ -77,7 +77,7 @@ namespace Z0.Asm
                 ref var oc = ref opcode(record, out _);
                 ref var current = ref seek(dst,i);
                 current = asm.form(
-                    asm.sig(oc.Mnemonic.Format(), operands(oc)),
+                    AsmSigs.expression(oc.Mnemonic.Format(), operands(oc)),
                     asm.opcode(oc.OpCodeKey, oc.Expr)
                     );
             }

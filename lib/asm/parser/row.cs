@@ -31,8 +31,8 @@ namespace Z0.Asm
             var i = 0;
             DataParser.parse(src[i++], out dst.Seq);
             dst.OpCode = new AsmOpCodeString(src[i++]);
-            sigxpr(src[i++], out dst.Sig);
-            formxpr(src[i++], out dst.FormExpr);
+            siginfo(src[i++], out dst.Sig);
+            forminfo(src[i++], out dst.FormExpr);
             return ref dst;
         }
 
@@ -134,7 +134,7 @@ namespace Z0.Asm
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Encoded), src.LineNumber));
 
-            outcome += sigxpr(skip(parts,i++), out dst.Sig);
+            outcome += siginfo(skip(parts,i++), out dst.Sig);
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Sig), src.LineNumber));
 
@@ -175,7 +175,7 @@ namespace Z0.Asm
 
             dst.Expression = AsmExpr.parse(skip(cells, i++));
             dst.Encoded = AsmHexCode.parse(skip(cells, i++));
-            result = sigxpr(skip(cells, i++), out dst.Sig);
+            result = siginfo(skip(cells, i++), out dst.Sig);
             if(result.Fail)
                 return result;
 

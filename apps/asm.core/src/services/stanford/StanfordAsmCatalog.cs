@@ -63,7 +63,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref skip(imported, i);
-                if(AsmParser.sigxpr(row.Instruction, out var sig))
+                if(AsmParser.siginfo(row.Instruction, out var sig))
                     seek(buffer, k++) = (asm.ocstring(row.OpCode), sig);
                 else
                 {

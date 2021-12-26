@@ -11,12 +11,14 @@ namespace Z0.Asm
     {
         public byte OpCount;
 
+        public AsmSigOp Op0;
+
         public AsmSigOp Op1;
 
         public AsmSigOp Op2;
 
         public AsmSigOp Op3;
 
-        public AsmSigOp Op4;
+        public static AsmSigOps Empty => default;
     }
 }

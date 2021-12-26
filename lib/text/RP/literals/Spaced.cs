@@ -139,6 +139,19 @@ namespace Z0
         public const string Spaced34 = Spaced33 + Spaced1;
 
         /// <summary>
+        /// Defines a string consisting of 35 spaces
+        /// </summary>
+        [RenderLiteral(Spaced35, 35)]
+        public const string Spaced35 = Spaced34 + Spaced1;
+
+        /// <summary>
+        /// Defines a string consisting of 36 spaces
+        /// </summary>
+        [RenderLiteral(Spaced36, 36)]
+        public const string Spaced36 = Spaced35 + Spaced1;
+
+
+        /// <summary>
         /// Defines a string consisting of 48 spaces
         /// </summary>
         [RenderLiteral(Spaced48, 48)]

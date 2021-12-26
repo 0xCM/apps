@@ -29,6 +29,15 @@ namespace Z0.Asm
 
             [Symbol("REX.W", "Indicates the W-bit is enabled which signals a 64-bit operand size")]
             RexW,
+
+            [Symbol("REX.R", "Identifies the Rex 'R' bit")]
+            RexR,
+
+            [Symbol("REX.R", "Identifies the Rex 'X' bit")]
+            RexX,
+
+            [Symbol("REX.R", "Identifies the Rex 'B' bit")]
+            RexB,
         }
 
         [SymSource(tokens)]

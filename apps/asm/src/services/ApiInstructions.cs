@@ -68,7 +68,7 @@ namespace Z0.Asm
                 statement.IP = instruction.IP;
                 statement.OpUri = src.Uri;
                 statement.Expression = instruction.FormattedInstruction;
-                AsmParser.sigxpr(instruction.OpCode.InstructionString, out statement.Sig);
+                AsmParser.siginfo(instruction.OpCode.InstructionString, out statement.Sig);
                 statement.Encoded = AsmHexCode.load(bytes.Slice(offset, size));
                 statement.OpCode = opcode;
                 statement.Bitstring = statement.Encoded;

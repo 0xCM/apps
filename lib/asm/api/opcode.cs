@@ -12,7 +12,7 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmOpCode opcode(uint key, in CharBlock48 expr)
+        public static AsmOpCode opcode(uint key, in CharBlock36 expr)
             => new AsmOpCode(key, AsmOpCodeBits.Empty, expr);
     }
 }

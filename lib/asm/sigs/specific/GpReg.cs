@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    using K = AsmSigTokenKind;
+    using K = AsmSigOpKind;
 
     partial class AsmSigs
     {

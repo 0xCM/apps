@@ -11,33 +11,8 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
-        [MethodImpl(Inline), Op]
-        public static AsmSigInfo sigxpr(AsmMnemonic mnemonic, string content)
-            => new AsmSigInfo(mnemonic, content);
-
         [Parser]
-        public static Outcome sigxpr(string src, out AsmSigInfo dst)
-        {
-            dst = default;
-
-            if(text.empty(src))
-                return true;
-
-            var trimmed = src.Trim();
-            var i = text.index(trimmed, Chars.Space);
-            if(i == NotFound)
-                dst = sigxpr(new AsmMnemonic(src), src);
-            else
-            {
-                var mnemonic = new AsmMnemonic(text.slice(trimmed,0,i));
-                var operands = text.slice(trimmed, i + 1);
-                dst = sigxpr(mnemonic, trimmed);
-            }
-            return true;
-        }
-
-        [Parser]
-        public static Outcome formxpr(string src, out AsmFormInfo dst)
+        public static Outcome forminfo(string src, out AsmFormInfo dst)
         {
             dst = AsmFormInfo.Empty;
             var result = Outcome.Success;
@@ -46,7 +21,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return (false, FenceNotFound.Format(SigFence,src));
 
-            result = sigxpr(sigexpr, out var _sig);
+            result = siginfo(sigexpr, out var _sig);
             if(result.Fail)
                 return (false, CouldNotParseSigExpr.Format(sigexpr));
 

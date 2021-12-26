@@ -15,10 +15,10 @@ namespace Z0.Asm
     {
         public byte Value {get;}
 
-        public AsmSigTokenKind Kind {get;}
+        public AsmSigOpKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public AsmSigToken(byte value, AsmSigTokenKind kind)
+        public AsmSigToken(byte value, AsmSigOpKind kind)
         {
             Value = value;
             Kind = kind;

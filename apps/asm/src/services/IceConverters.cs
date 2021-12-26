@@ -36,7 +36,7 @@ namespace Z0.Asm
             var ocinfo = Iced.EncoderCodeExtensions.ToOpCode(src.Code);
             return (
                 ocxpr(ocinfo.ToOpCodeString()),
-                asm.sigxpr(src.Mnemonic.ToString(),
+                asm.siginfo(src.Mnemonic.ToString(),
                 ocinfo.ToInstructionString())
                 );
         }

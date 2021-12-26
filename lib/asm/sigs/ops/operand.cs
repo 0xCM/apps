@@ -11,8 +11,9 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
+
         [MethodImpl(Inline), Op]
-        public static ref readonly AsmSigOpExpr operand(in AsmSig src, byte i)
+        public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
         {
             if(i==3)
                 return ref src.Op3;

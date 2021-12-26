@@ -4,189 +4,56 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    /// <summary>
-    /// Classifies asm signature operands
-    /// </summary>
     public enum AsmSigOpKind : byte
     {
-        /// <summary>
-        /// A specific 8-bit gp register
-        /// </summary>
-        Gp8Reg,
+        None = 0,
 
-        /// <summary>
-        /// A range of 8-bit gp registers
-        /// </summary>
-        Gp8RegRange,
+        GpReg,
 
-        /// <summary>
-        /// A specific 16-bit gp register
-        /// </summary>
-        Gp16Reg,
+        VecReg,
 
-        /// <summary>
-        /// A range of 16-bit gp registers
-        /// </summary>
-        Gp16RegRange,
+        MaskReg,
 
-        /// <summary>
-        /// A specific 32-bit gp register
-        /// </summary>
-        Gp32Reg,
+        FpuReg,
 
-        /// <summary>
-        /// A range of 32-bit gp registers
-        /// </summary>
-        Gp32RegRange,
+        SysReg,
 
-        /// <summary>
-        /// A specific 64-bit gp register
-        /// </summary>
-        Gp64Reg,
+        MmxReg,
 
-        /// <summary>
-        /// A range of 64-bit gp registers
-        /// </summary>
-        Gp64RegRange,
+        Imm,
 
-        /// <summary>
-        /// A range MMX registers
-        /// </summary>
-        MmxRegRange,
+        Mem,
 
-        /// <summary>
-        /// A range FPU registers
-        /// </summary>
-        FpuRegRange,
+        FpuMem,
 
-        /// <summary>
-        /// A range of 128-bit vector registers
-        /// </summary>
-        XmmRegRange,
+        GpRm,
 
-        /// <summary>
-        /// A range of 256-bit vector registers
-        /// </summary>
-        YmmRegRange,
+        VecRm,
 
-        /// <summary>
-        /// A range of 512-bit vector registers
-        /// </summary>
-        ZmmRegRange,
+        Moffs,
 
-        /// <summary>
-        /// A 64-bit mask register
-        /// </summary>
-        MaskRegRange,
+        Rel,
 
-        /// <summary>
-        /// A range of control registers
-        /// </summary>
-        CrRegRange,
+        SrcOp,
 
-        /// <summary>
-        /// A range of debug registers registers
-        /// </summary>
-        DbRegRange,
+        Ptr,
 
-        /// <summary>
-        /// A specific segment register
-        /// </summary>
-        SegReg,
+        Rounding,
 
-        /// <summary>
-        /// A range of segment registers
-        /// </summary>
-        SegRegRange,
+        FarPtr,
 
-        /// <summary>
-        /// An 8-bit immediate value
-        /// </summary>
-        Imm8,
+        MemPair,
 
-        /// <summary>
-        /// A 16-bit immediate value
-        /// </summary>
-        Imm16,
+        Vsib,
 
-        /// <summary>
-        /// A 32-bit immediate value
-        /// </summary>
-        Imm32,
+        Broadcast,
 
-        /// <summary>
-        /// A 64-bit immediate value
-        /// </summary>
-        Imm64,
+        XmmReg,
 
-        /// <summary>
-        /// An 8-bit memory reference
-        /// </summary>
-        Mem8,
+        YmmReg,
 
-        /// <summary>
-        /// A 16-bit memory reference
-        /// </summary>
-        Mem16,
+        ZmmReg,
 
-        /// <summary>
-        /// A 32-bit memory reference
-        /// </summary>
-        Mem32,
-
-        /// <summary>
-        /// A 64-bit memory reference
-        /// </summary>
-        Mem64,
-
-        /// <summary>
-        /// A 128-bit memory reference
-        /// </summary>
-        Mem128,
-
-        /// <summary>
-        /// A 256-bit memory reference
-        /// </summary>
-        Mem256,
-
-        /// <summary>
-        /// A 512-bit memory reference
-        /// </summary>
-        Mem512,
-
-        /// <summary>
-        /// An 8-bit RIP-relative address
-        /// </summary>
-        Rel8,
-
-        /// <summary>
-        /// A 16-bit RIP-relative address
-        /// </summary>
-        Rel16,
-
-        /// <summary>
-        /// A 32-bit RIP-relative address
-        /// </summary>
-        Rel32,
-
-        /// <summary>
-        /// A segbase-relative 8-bit address
-        /// </summary>
-        Moffs8,
-
-        /// <summary>
-        /// A segbase-relative 16-bit address
-        /// </summary>
-        Moffs16,
-
-        /// <summary>
-        /// A segbase-relative 32-bit address
-        /// </summary>
-        Moffs32,
-
-        /// <summary>
-        /// A segbase-relative 64-bit address
-        /// </summary>
-        Moffs64
+        OpMask
     }
 }

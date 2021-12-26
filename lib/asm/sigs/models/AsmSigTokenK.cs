@@ -15,12 +15,12 @@ namespace Z0.Asm
     public readonly struct AsmSigToken<K>
         where K : unmanaged
     {
-        public AsmSigTokenKind Kind {get;}
+        public AsmSigOpKind Kind {get;}
 
         readonly byte _Value;
 
         [MethodImpl(Inline)]
-        public AsmSigToken(AsmSigTokenKind kind, K value)
+        public AsmSigToken(AsmSigOpKind kind, K value)
         {
             Kind = kind;
             _Value = @as<K,byte>(value);
@@ -33,7 +33,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmSigToken<K>((AsmSigTokenKind kind, K value) src)
+        public static implicit operator AsmSigToken<K>((AsmSigOpKind kind, K value) src)
             => new AsmSigToken<K>(src.kind, src.value);
 
         [MethodImpl(Inline)]

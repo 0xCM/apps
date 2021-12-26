@@ -20,7 +20,7 @@ namespace Z0.Asm
 
         public CharBlock16 Mnemonic;
 
-        public CharBlock48 OpCode;
+        public CharBlock36 OpCode;
 
         public CharBlock64 Sig;
 
@@ -38,7 +38,7 @@ namespace Z0.Asm
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{
-                12,16,48,64,
+                12,16,36,64,
                 10,10,10,10,
                 16,
                 254};

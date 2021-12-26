@@ -60,7 +60,7 @@ namespace Z0.Asm
                     statement.IP = ip;
                     statement.OpUri = routine.Uri;
                     statement.Statement = instruction.FormattedInstruction;
-                    AsmParser.sigxpr(instruction.OpCode.InstructionString, out statement.Sig);
+                    AsmParser.siginfo(instruction.OpCode.InstructionString, out statement.Sig);
                     statement.Encoded = AsmHexCode.load(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode;
                     statement.Bitstring = statement.Encoded;
@@ -124,7 +124,7 @@ namespace Z0.Asm
                     statement.IP = ip;
                     statement.OpUri = code.OpUri;
                     statement.Statement = instruction.FormattedInstruction;
-                    AsmParser.sigxpr(instruction.OpCode.InstructionString, out statement.Sig);
+                    AsmParser.siginfo(instruction.OpCode.InstructionString, out statement.Sig);
                     statement.Encoded = AsmHexCode.load(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode;
                     statement.Bitstring = statement.Encoded;
