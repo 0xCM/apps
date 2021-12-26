@@ -11,6 +11,7 @@ namespace Z0
 
     using static Root;
 
+    [DataType("lookup<k:{0},v:{1}>")]
     public class ConstLookup<K,V>
     {
         readonly ConcurrentDictionary<K,V> Storage;

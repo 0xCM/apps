@@ -12,7 +12,6 @@ namespace Z0
 
     partial struct Symbols
     {
-        [MethodImpl(Inline)]
         public static SymExpr expr<E>(E src)
             where E : unmanaged, Enum
                 => index<E>()[src].Expr;

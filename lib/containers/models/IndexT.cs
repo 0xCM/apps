@@ -11,6 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("index<t:{1}>")]
     public readonly struct Index<T> : IIndex<T>
     {
         readonly T[] Data;

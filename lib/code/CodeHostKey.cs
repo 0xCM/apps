@@ -9,11 +9,9 @@ namespace Z0
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1, Size=(int)SZ), Blittable(SZ)]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct CodeHostKey
     {
-        public const uint SZ = 2*PrimalSizes.U32;
-
         public uint Component {get;}
 
         public uint HostSeq {get;}

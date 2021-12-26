@@ -12,12 +12,28 @@ namespace Z0
     partial class ClrQuery
     {
         /// <summary>
+        /// Determines the <see cref='Z0.ClrPrimitiveKind'/> of a specified type
+        /// </summary>
+        /// <param name="t">The type to examine</param>
+        [MethodImpl(Inline), Op]
+        public static ClrPrimitiveKind ClrPrimitiveKind(this Type t)
+            => PrimalBits.kind(t);
+
+        /// <summary>
         /// Determines whether a type is system-defined primitive
         /// </summary>
         /// <param name="t">The type to examine</param>
         [MethodImpl(Inline), Op]
         public static bool IsSystemDefined(this Type t)
             => t.IsPrimalNumeric() || t.IsBool() || t.IsVoid() || t.IsChar() || t.IsString() || t.IsObject() || t.IsDynamic();
+
+        /// <summary>
+        /// Determines whether a type is a directly instantiable <see cref='Z0.ClrPrimitiveKind'/>
+        /// </summary>
+        /// <param name="t">The type to examine</param>
+        [MethodImpl(Inline), Op]
+        public static bool IsConreteClrPrimitive(this Type t)
+            => t.IsPrimalNumeric() || t.IsBool() || t.IsChar() || t.IsString();
 
         /// <summary>
         /// Determines whether a type is a system-defined and architecture-suppored numeric type or a system-defined variation thereof

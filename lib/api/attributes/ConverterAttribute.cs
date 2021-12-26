@@ -6,7 +6,7 @@ namespace Z0
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Method)]
     public class ConverterAttribute : Attribute
     {
         public Type SourceType {get;}

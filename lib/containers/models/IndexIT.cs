@@ -12,6 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
+    [DataType("index<i:{0},t:{1}>")]
     public readonly struct Index<I,T> : IIndex<I,T>
         where I : unmanaged
     {

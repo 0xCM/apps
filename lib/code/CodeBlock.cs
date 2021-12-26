@@ -6,12 +6,14 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
     /// <summary>
     /// Encoded x86 bytes extracted from a memory source with a known (nonzero) location
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct CodeBlock
     {
         /// <summary>

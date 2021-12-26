@@ -65,13 +65,20 @@ namespace Z0
 
         internal const string Array = "array<t:{0}>";
 
-        internal static string name(ScalarClass @class) => Symbols.expr(@class).Format();
+        internal const string Clr = "clr.{0}";
+
+        internal static string symbol<K>(K kind)
+            where K : unmanaged, Enum
+                => Symbols.expr(kind).Format();
+
+        [TypeFactory(Scalar)]
+        public static TypeSpec clr(ClrPrimitiveKind kind) => string.Format(Clr, symbol(kind));
 
         /// <summary>
         /// Defines a scalar type of specified class and width
         /// </summary>
         [TypeFactory(Scalar)]
-        public static TypeSpec scalar(ScalarClass @class, BitWidth width) => string.Format(Scalar, name(@class), width);
+        public static TypeSpec scalar(ScalarClass @class, BitWidth width) => string.Format(Scalar, symbol(@class), width);
 
         /// <summary>
         /// Defines a refined literal sequence
@@ -300,12 +307,14 @@ namespace Z0
         public static TypeSpec infer(Type src)
         {
             var spec = new TypeSpec(src.DisplayName());
-            if(src.IsEnum)
+            if(src.IsConreteClrPrimitive())
+                spec = string.Format(Clr,src.ClrPrimitiveKind().ToString().ToLower());
+            else if(src.IsEnum)
             {
                 var kind = (ClrPrimitiveKind)src.EnumScalarKind();
                 var width = (uint)kind.BitWidth();
-                var @base = kind.IsSigned() ? TypeSpecs.i(width) : TypeSpecs.u(width);
-                spec = TypeSpecs.@enum(src.Name, @base);
+                var @base = kind.IsSigned() ? i(width) : u(width);
+                spec = @enum(src.Name, @base);
             }
             else if(src.IsArray)
             {
@@ -315,7 +324,7 @@ namespace Z0
             {
                 var tag = src.Tag<DataTypeAttribute>();
                 if(tag)
-                    spec = new TypeSpec(tag.Require().NameSyntax);
+                    spec = tag.Require().NameSyntax;
             }
 
             return spec;

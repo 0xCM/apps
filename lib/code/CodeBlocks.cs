@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     [ApiHost]
-    public readonly partial struct CodeBlocks
+    public readonly struct CodeBlocks
     {
         const NumericKind Closure = NumericKind.UnsignedInts;
 
