@@ -9,16 +9,17 @@ namespace Z0.Asm
     [ApiHost]
     public partial class IntelSdm : AppService<IntelSdm>
     {
-        const string lined = nameof(lined);
-
         CharMapper CharMapper;
 
         IntelSdmPaths SdmPaths;
+
+        TextMap OpTransforms;
 
         protected override void OnInit()
         {
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
+            OpTransforms = TextMap.load(ProjectDb.SourceSettingsPath("intel", "operand.transforms", FS.ext("map")));
         }
 
         public void ClearTargets()

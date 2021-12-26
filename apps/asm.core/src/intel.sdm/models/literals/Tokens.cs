@@ -155,6 +155,5 @@ namespace Z0.Asm
 
             VI2,
         }
-
     }
 }

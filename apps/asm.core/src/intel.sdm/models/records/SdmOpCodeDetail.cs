@@ -40,8 +40,7 @@ namespace Z0.Asm
             => new byte[FieldCount]{
                 12,16,36,64,
                 10,10,10,10,
-                16,
-                254};
+                16,254};
 
         public int CompareTo(SdmOpCodeDetail src)
             => Sig.String.CompareTo(src.Sig.String, NoCase);

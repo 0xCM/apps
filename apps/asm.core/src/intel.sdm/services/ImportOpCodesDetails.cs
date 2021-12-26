@@ -14,23 +14,21 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<SdmOpCode> ImportOpCodes()
+        public Index<SdmOpCodeDetail> ImportOpCodes()
         {
             var result = Outcome.Success;
             var details = ImportOpCodeDetails();
             var forms = EmitForms(details);
-            var _opcodes = SdmOpCodes.summarize(details);
-            var count = _opcodes.Length;
+            var summary = SdmOpCodes.summarize(details);
+            var count = summary.Length;
             var dst = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
-                writer.WriteLine(SdmOpCodes.format(_opcodes[i]));
-
+                writer.WriteLine(SdmOpCodes.format(summary[i]));
             EmittedFile(emitting,count);
-            return _opcodes;
+            return details;
         }
-
 
         public Index<ListItem<string>> ExtractOpCodeStrings(ReadOnlySpan<SdmOpCode> src)
         {
@@ -78,7 +76,7 @@ namespace Z0.Asm
                     if(kind == SdmTableKind.OpCodes)
                     {
                         var current = slice(buffer, counter);
-                        counter += fill(table, current);
+                        counter += Fill(table, current);
                     }
                 }
             }
@@ -152,7 +150,7 @@ namespace Z0.Asm
             => Tables.columns<SdmColumnKind>(src);
 
         [Op]
-        static uint fill(Table src, Span<SdmOpCodeDetail> dst)
+        uint Fill(Table src, Span<SdmOpCodeDetail> dst)
         {
             var counter = 0u;
             var rows = src.Rows;
@@ -173,7 +171,7 @@ namespace Z0.Asm
                     switch(col.Name)
                     {
                         case "Opcode":
-                        var oc = ocnormal(content);
+                        var oc = NormalizeOpcode(content);
                         target.OpCode = oc;
                         if(empty(oc))
                             valid = false;
@@ -187,7 +185,7 @@ namespace Z0.Asm
                                 break;
                             }
 
-                            var ops = operands(content);
+                            var ops = CalcOperands(content);
                             if(nonempty(ops))
                                 target.Sig = string.Format("{0} {1}", monic, ops);
                             else
@@ -239,7 +237,7 @@ namespace Z0.Asm
             return counter;
         }
 
-        static string ocnormal(string src)
+        string NormalizeOpcode(string src)
         {
             return
                 src.Replace("+ rb", " +rb")
@@ -251,45 +249,37 @@ namespace Z0.Asm
                     ;
         }
 
-        static string opnormal(string src)
-            => src switch {
-                "r32a" => "r32",
-                "r32b" => "r32",
-                "r64a" => "r64",
-                "r64b" => "r64",
-                "mm1" => "mm",
-                "mm2" => "mm",
-                "mm2/m64" => "mm/m64",
-                "xmm1" => "xmm",
-                "xmm1/m128" => "xmm/m128",
-                "xmm2" => "xmm",
-                "xmm2/m128" => "xmm/m128",
-                "xmm3" => "xmm",
-                "xmm3/m128" => "xmm/m128",
-                "ymm1" => "ymm",
-                "ymm2" => "ymm",
-                "ymm2/m256" => "ymm/m256",
-                "ymm3/m256 " => "ymm/m256",
-                "ymm3/m256/m64bcst" => "ymm/m256/m64bcst",
-                "zmm1" => "zmm",
-                "zmm2" => "zmm",
-                "zmm2/m512" => "zmm/m512",
-                "zmm3" => "zmm",
-                "xmm3/m128/m32bcst" => "xmm/m128/m32bcst",
-                "xmm3/m128/m64bcst" => "xmm/m128/m64bcst",
-                _ => src
-            };
-
-        static string operands(string sig)
+        string CalcOperands(string sig)
         {
-            static ReadOnlySpan<string> _operands(string src)
-                => text.split(src, Chars.Comma).Select(op => opnormal(op.Trim()));
+            ReadOnlySpan<string> _operands(string src)
+                => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
 
             var i = SQ.index(sig, Chars.Space);
             if(i > 0)
                 return text.join(", ", _operands(text.format(SQ.right(sig,i))));
             else
                 return EmptyString;
+        }
+
+        string CalcOperand(string op)
+        {
+            var n = text.index(op, Chars.FSlash);
+            var dst = op;
+            if(text.fenced(dst,RenderFence.Angled))
+                dst = text.unfence(dst,RenderFence.Angled);
+
+            if(n > 0)
+            {
+                var m = text.index(dst, Chars.Space);
+                if(m > n)
+                {
+                    var components = text.join(Chars.FSlash, text.trim(text.split(text.left(dst,m), Chars.FSlash)));
+                    dst = string.Format("{0} {1}", components, text.right(dst,m));
+                }
+                else
+                    dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
+            }
+            return OpTransforms.Apply(dst);
         }
     }
 }

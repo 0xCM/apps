@@ -6,9 +6,7 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        const string RunSdmEtl = "sdm/import";
-
-        [CmdOp(RunSdmEtl)]
+        [CmdOp("sdm/import")]
         Outcome runsdmetl(CmdArgs args)
             => Sdm.Import();
     }

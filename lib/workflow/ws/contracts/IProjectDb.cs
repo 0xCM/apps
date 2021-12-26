@@ -24,6 +24,12 @@ namespace Z0
         FS.FolderPath Sources()
             => Home() + FS.folder("sources");
 
+        FS.FolderPath SourceSettings(string scope)
+            => Sources(scope) + FS.folder("settings");
+
+        FS.FilePath SourceSettingsPath(string scope, string name, FS.FileExt ext)
+            => SourceSettings(scope) + FS.file(name,ext);
+
         FS.FolderPath Sources(string scope)
             => Sources() + FS.folder(scope);
 

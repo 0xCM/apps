@@ -80,5 +80,11 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Operands.OpCount;
         }
+
+        public static AsmSig Empty
+        {
+            [MethodImpl(Inline)]
+            get => new AsmSig(AsmMnemonic.Empty);
+        }
     }
 }
