@@ -15,6 +15,7 @@ namespace Z0.Asm
             using var flow = Running(nameof(CheckStringRes));
             var resources = Resources.strings(typeof(AsciText)).View;
             var count = resources.Length;
+            Ran(flow);
             // for(var i=0; i<count; i++)
             // {
             //     Write(skip(resources,i));

@@ -71,11 +71,16 @@ namespace Z0
 
         internal const string Constant = "const<t:{0}>";
 
+        internal const string Num = "num<t:{0}>";
+
         internal static string symbol<K>(K kind)
             where K : unmanaged, Enum
                 => Symbols.expr(kind).Format();
 
-        [TypeSyntax(Scalar)]
+        [TypeSyntax(Num)]
+        public static string num(TypeSpec type) => string.Format(Num, type);
+
+        [TypeSyntax(Clr)]
         public static TypeSpec clr(ClrPrimitiveKind kind) => string.Format(Clr, symbol(kind));
 
         /// <summary>
@@ -83,6 +88,12 @@ namespace Z0
         /// </summary>
         [TypeSyntax(Scalar)]
         public static TypeSpec scalar(ScalarClass @class, BitWidth width) => string.Format(Scalar, symbol(@class), width);
+
+        /// <summary>
+        /// Defines a scalar type predicated on a specified underlying type
+        /// </summary>
+        [TypeSyntax(Scalar)]
+        public static TypeSpec scalar(TypeSpec type) => string.Format(Scalar, type);
 
         /// <summary>
         /// Defines a refined literal sequence
@@ -258,5 +269,8 @@ namespace Z0
 
             return spec;
         }
+
+        public static TypeSpec infer<T>()
+            => infer(typeof(T));
     }
 }

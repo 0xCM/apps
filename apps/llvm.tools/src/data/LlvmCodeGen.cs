@@ -29,7 +29,7 @@ namespace Z0.llvm
         {
             var src = DataProvider.SelectAsmMnemonicNames();
             var name = "AsmMnemonicNames";
-            var literals = Literals.seq(name, src.View, src.View);
+            var literals = expr.literals(name, src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
             Generators.LiteralProvider().Emit(TargetNs, literals, dst);
         }

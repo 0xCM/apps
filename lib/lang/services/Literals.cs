@@ -80,10 +80,10 @@ namespace Z0
             => literal<string>(name, value);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        static Literal<T> literal<T>(string name, Constant<T> value)
+        public static Literal<T> literal<T>(string name, T value)
             => new Literal<T>(name, value);
 
-        public static Index<Literal<T>> from<T>(ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+        public static Index<Literal<T>> literals<T>(ReadOnlySpan<string> names, ReadOnlySpan<T> values)
         {
             var count = names.Length;
             Require.equal(count, values.Length);
@@ -93,9 +93,9 @@ namespace Z0
             return literals;
         }
 
-        public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+        public static LiteralSeq<T> literals<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
             where T : IEquatable<T>, IComparable<T>
-                => new LiteralSeq<T>(name, from(names,values).Storage);
+                => new LiteralSeq<T>(name, literals(names,values).Storage);
 
         public static Index<Literal<T>> from<T>(KeyedValue<string,T>[] src)
         {

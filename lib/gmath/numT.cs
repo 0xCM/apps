@@ -9,11 +9,14 @@ namespace Z0
 
     using static Root;
 
-    [DataType("num<t:{0}>")]
+    [DataType(TypeSyntax.Num)]
     public struct num<T> : IScalarValue<T>
         where T : unmanaged
     {
         public T Value;
+
+        public TypeSpec ScalarType
+            => TypeSyntax.num(TypeSyntax.infer<T>());
 
         public BitWidth ContentWidth
             => core.size<T>();

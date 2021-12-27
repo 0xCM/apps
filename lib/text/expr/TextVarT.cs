@@ -11,7 +11,7 @@ namespace Z0
     public class TextVar<K> : ITextVar<K>
         where K : ITextVarExpr
     {
-        public string Name {get;}
+        public VarSymbol Name {get;}
 
         public K VarExpr {get;}
 

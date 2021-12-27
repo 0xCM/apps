@@ -4,22 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-     using System;
     using System.Runtime.CompilerServices;
 
+    using Ops;
+
     using static Root;
-    using static core;
 
-
-    public class ExpressionChecks : Checker<ExpressionChecks>
+    readonly struct ScalarOpParser
     {
-        public Outcome CheckRelationalExpressions()
+        public static Outcome parse(ScalarType type, string src, out ScalarCmpPred dst)
         {
-            var result = Outcome.Success;
-
-
-            return result;
+            dst = default;
+            return true;
         }
     }
-
 }

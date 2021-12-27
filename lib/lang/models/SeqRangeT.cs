@@ -15,6 +15,7 @@ namespace Z0
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct SeqRange<T> : IExpr
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// The min value in the range

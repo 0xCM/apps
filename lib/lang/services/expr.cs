@@ -10,11 +10,15 @@ namespace Z0
     using Expr;
 
     using static Root;
+    using static core;
 
     [ApiHost("expr.api")]
     public readonly struct expr
     {
         const NumericKind Closure = UnsignedInts;
+
+        public static ExprContext context()
+            => new ExprContext();
 
         [MethodImpl(Inline), Op]
         public static ExprVar var(VarSymbol name)
@@ -37,9 +41,13 @@ namespace Z0
             => new ExprScope(parent,name);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
+        public static Constant<T> constant<T>(T value)
+            => new Constant<T>(value);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static scalar<T> scalar<T>(T src, BitWidth content = default)
             where T : unmanaged, IEquatable<T>
-                => new ScalarValue<T>(src,content);
+                => new scalar<T>(src,content);
 
         [MethodImpl(Inline), Op]
         public static OpExprSpec spec(ExprScope scope, string opname, IExpr[] operands)
@@ -56,11 +64,26 @@ namespace Z0
         /// <param name="max">The maximum scalar in the range</param>
         /// <typeparam name="T">The scalar type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static SeqRange<T> range<T>(Value<T> min, Value<T> max)
-            => new SeqRange<T>(min, max);
+        public static SeqRange<T> range<T>(T min, T max)
+            where T : IComparable<T>, IEquatable<T>
+                => new SeqRange<T>(min, max);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Value<T> value<T>(T src)
-            => src;
+        public static Literal<T> literal<T>(string name, T value)
+            => new Literal<T>(name, value);
+
+        public static LiteralSeq<T> literals<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+            where T : IEquatable<T>, IComparable<T>
+                => new LiteralSeq<T>(name, literals(names,values).Storage);
+
+        static Index<Literal<T>> literals<T>(ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+        {
+            var count = names.Length;
+            Require.equal(count, values.Length);
+            var literals = alloc<Literal<T>>(count);
+            for(var i=0; i<count; i++)
+                seek(literals,i) = new Literal<T>(skip(names,i), skip(values,i));
+            return literals;
+        }
    }
 }

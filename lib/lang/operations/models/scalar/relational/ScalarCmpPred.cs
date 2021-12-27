@@ -8,7 +8,7 @@ namespace Z0.Ops
 
     using static Root;
 
-    using api = ScalarCmpPreds;
+    using api = ScalarOps;
 
     public readonly struct ScalarCmpPred : IScalarCmpPred<IScalarExpr>
     {
@@ -30,7 +30,7 @@ namespace Z0.Ops
             => default;
 
         public string Format()
-            => api.format(this);
+            => ScalarOpFormatter.format(this);
 
         public override string ToString()
             => Format();

@@ -20,7 +20,7 @@ namespace Z0
         public static TextTemplateVar define(string name)
             => new TextTemplateVar(name);
 
-        public readonly string Name;
+        public readonly VarSymbol Name;
 
         public string Value;
 
@@ -50,7 +50,7 @@ namespace Z0
             get => text.nonempty(Value);
         }
 
-        string IVar.Name
+        VarSymbol IVar.Name
             => Name;
 
         string IVar<string>.Value

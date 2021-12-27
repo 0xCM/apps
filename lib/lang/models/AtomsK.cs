@@ -21,7 +21,7 @@ namespace Z0.Lang
         }
 
         public Atoms<K> Concat(Atoms<K> src)
-            => lang.concat(this, src);
+            => Grammars.concat(this, src);
 
         public ReadOnlySpan<Atom<K>> Members
         {

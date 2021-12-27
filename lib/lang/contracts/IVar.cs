@@ -11,7 +11,7 @@ namespace Z0
     [Free]
     public interface IVar : IExpr
     {
-        string Name {get;}
+        VarSymbol Name {get;}
     }
 
     [Free]

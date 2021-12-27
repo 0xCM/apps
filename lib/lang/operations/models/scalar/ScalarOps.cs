@@ -11,17 +11,9 @@ namespace Z0
 
     using static Root;
 
-    using RFM = ExprPatterns;
-
-    public readonly struct ScalarCmpPreds
+    [ApiHost]
+    public readonly struct ScalarOps
     {
-        internal static string format<T>(in ScalarCmpPred<T> src)
-            where T : IScalarExpr
-                => string.Format(RFM.PackedSlots3, src.Left, symbol(src.Kind), src.Right);
-
-        internal static string format(in ScalarCmpPred src)
-            => string.Format(RFM.PackedSlots3, src.Left, symbol(src.Kind), src.Right);
-
         [Op]
         public static Sym<CmpPredKind> symbol(CmpPredKind kind)
             => Symbols.index<CmpPredKind>()[kind];
@@ -29,37 +21,6 @@ namespace Z0
         [Op]
         public static CmpPredKind kind(SymExpr src)
             => Symbols.index<CmpPredKind>().Lookup(src, out var kind) ? kind : CmpPredKind.None;
-
-        public static Outcome parse(ScalarType type, string src, out ScalarCmpPred dst)
-        {
-            dst = default;
-            return true;
-        }
-
-
-        public static bool eval<T>(Eq<T> expr)
-            where T : IScalarExpr
-                => default;
-
-        public static bool eval<T>(Neq<T> expr)
-            where T : IScalarExpr
-                => default;
-
-        public static bool eval<T>(Gt<T> expr)
-            where T : IScalarExpr
-                => default;
-
-        public static bool eval<T>(Ge<T> expr)
-            where T : IScalarExpr
-                => default;
-
-        public static bool eval<T>(Lt<T> expr)
-            where T : IScalarExpr
-                => default;
-
-        public static bool eval<T>(Le<T> expr)
-            where T : IScalarExpr
-                => default;
 
         [MethodImpl(Inline)]
         public static Eq<T> eq<T>(T a, T b)

@@ -9,7 +9,7 @@ namespace Z0.Ops.Scalar
 
     using static Root;
 
-    using api = ScalarCmpPreds;
+    using api = ScalarOps;
 
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Le<T> : IScalarCmpPred<Le<T>,T>
@@ -25,9 +25,6 @@ namespace Z0.Ops.Scalar
             Left = a;
             Right = b;
         }
-
-        public bool Eval()
-            => api.eval(this);
 
         public Label OpName
             => "le<{0}>";

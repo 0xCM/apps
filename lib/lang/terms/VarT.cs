@@ -16,7 +16,7 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Var<T> : IVar<Value<T>>
     {
-        public string Name {get;}
+        public VarSymbol Name {get;}
 
         readonly Func<T> Resolver;
 

@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface IScalarExpr : IExpr
     {
-
+        TypeSpec ScalarType {get;}
     }
 
     [Free]

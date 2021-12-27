@@ -75,6 +75,12 @@ namespace Z0
         public bool Equals(VarSymbol src)
             => Name.Equals(src.Name);
 
+        public override int GetHashCode()
+            => Name.GetHashCode();
+
+        public override bool Equals(object src)
+            => src is VarSymbol v && Equals(v);
+
         [MethodImpl(Inline)]
         public static implicit operator VarSymbol(string name)
             => new VarSymbol(name);
@@ -82,5 +88,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator VarSymbol(char name)
             => new VarSymbol(name);
+
+        public static bool operator ==(VarSymbol a, VarSymbol b)
+            => a.Equals(b);
+
+        public static bool operator !=(VarSymbol a, VarSymbol b)
+            => !a.Equals(b);
     }
 }

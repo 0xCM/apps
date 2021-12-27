@@ -10,11 +10,13 @@ namespace Z0.Ops.Scalar
 
     using static Root;
 
-    using api = ScalarCmpPreds;
+    using api = ScalarOps;
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct Eq<T> : IScalarCmpPred<Eq<T>,T>
         where T : IScalarExpr
     {
+        const string RenderPattern = "eq<{0}>({1}, {2})";
+
         public T Left {get;}
 
         public T Right {get;}
@@ -26,9 +28,6 @@ namespace Z0.Ops.Scalar
             Right = b;
         }
 
-        public bool Eval()
-            => api.eval(this);
-
         public Label OpName
             => "eq<{0}>";
 
@@ -39,12 +38,11 @@ namespace Z0.Ops.Scalar
             => new Eq(Left,Right);
 
         [MethodImpl(Inline)]
-        public string Format()
-            => Untyped().Format();
-
-        [MethodImpl(Inline)]
         public Eq<T> Create(T a0, T a1)
             => new Eq<T>(a0,a1);
+
+        public string Format()
+            => string.Format(RenderPattern, typeof(T).DisplayName() , Left, Right);
 
         public override string ToString()
             => Format();

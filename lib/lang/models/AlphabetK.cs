@@ -108,7 +108,7 @@ namespace Z0.Lang
         }
 
         public string Format()
-            => lang.format(this);
+            => Grammars.format(this);
 
         public override string ToString()
             => Format();

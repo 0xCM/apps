@@ -24,7 +24,7 @@ namespace Z0.Expr
             Value = val;
         }
 
-        public Label Name
+        public VarSymbol Name
         {
             [MethodImpl(Inline)]
             get => Var.Name;

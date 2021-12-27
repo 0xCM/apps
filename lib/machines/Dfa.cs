@@ -32,7 +32,7 @@ namespace Z0.Expr
             const AsciLetterLoSym Max = AsciLetterLoSym.z;
 
             var states = Dfa.states<Hex5Seq>();
-            var alphabet = lang.alphabet<AsciLetterLoSym>("asci-lo");
+            var alphabet = Grammars.alphabet<AsciLetterLoSym>("asci-lo");
             var length = src.Length;
             if(length > 16)
                 @throw(string.Format("Strings of length {0} > {1} are not accepted", length, Hex4.Max));

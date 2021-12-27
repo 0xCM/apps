@@ -10,7 +10,7 @@ namespace Z0
     {
         public string Value;
 
-        public string Name {get;}
+        public VarSymbol Name {get;}
 
         string IVar<string>.Value
             => Value;

@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class ExprContext : IVarResolver
+    public class ExprContext : IExprContext
     {
         ConcurrentDictionary<VarSymbol,IExpr> Vars;
 
@@ -20,21 +20,31 @@ namespace Z0
             Vars = new();
         }
 
-        public ExprContext(params (VarSymbol name,IExpr value)[] src)
+        public void Inject(params (ExprVar var, IExpr value)[] src)
         {
-            Vars = new();
-            iter(src, x => Inject(x.name, x.value));
+            iter(src, x => Inject(x.var, x.value));
         }
 
-        public bool Inject(VarSymbol name, IExpr value)
-            => Vars.TryAdd(name,value);
+        public void Inject(ExprVar var, IExpr value)
+        {
+            Vars[var.Name] = value;
+        }
 
         public IExpr Resolve(VarSymbol name)
         {
             if(Vars.TryGetValue(name, out var expr))
                 return expr;
             else
-                return EmptyExpr.Empty;
+                return Errors.Throw<IExpr>(string.Format("The variable '{0}' cannot be resolved", name));
+        }
+
+        public T Resolve<T>(VarSymbol name)
+            where T : IExpr
+        {
+            if(Vars.TryGetValue(name, out var expr))
+                return (T)expr;
+            else
+                return Errors.Throw<T>(string.Format("The variable '{0}' cannot be resolved", name));
         }
     }
 }

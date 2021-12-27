@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public class ExprVar : INamedTerm
+    public class ExprVar : IVar
     {
         public VarSymbol Name {get;}
 
@@ -21,13 +21,26 @@ namespace Z0
         public IExpr Eval(IExprContext context)
             => context.Resolve(Name);
 
+        public T Eval<T>(IExprContext context)
+            where T : IExpr
+                => context.Resolve<T>(Name);
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => Name.IsEmpty;
         }
 
-        Name INamed.Name
+        public string Format()
             => Name.Format();
+
+        public override int GetHashCode()
+            => Name.GetHashCode();
+
+        public bool Equals(ExprVar src)
+            => Name.Equals(src.Name);
+
+        public override bool Equals(object src)
+            => src is ExprVar v && Equals(v);
     }
 }

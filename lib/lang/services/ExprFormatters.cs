@@ -18,7 +18,8 @@ namespace Z0
             => string.Format("{0} = {1}", src.Name, src.Value.Format());
 
         public static string format<T>(SeqRange<T> src)
-            => string.Format(XF.InclusiveRange, src.Min, src.Max);
+            where T : IComparable<T>,IEquatable<T>
+                => string.Format(XF.InclusiveRange, src.Min, src.Max);
 
         [Op]
         public static string format(IExprVar var, char assign)

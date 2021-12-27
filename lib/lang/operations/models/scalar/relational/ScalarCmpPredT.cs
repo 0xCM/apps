@@ -9,8 +9,6 @@ namespace Z0.Ops
 
     using static Root;
 
-    using api = ScalarCmpPreds;
-
     public readonly struct ScalarCmpPred<T> : IScalarCmpPred<ScalarCmpPred<T>,T>
         where T : IScalarExpr
     {
@@ -28,15 +26,11 @@ namespace Z0.Ops
             Kind = kind;
         }
 
-        public bool Eval()
-            => default;
-
-
         public Label OpName
             => "cmp<t:{0}>";
 
         public string Format()
-            => api.format(this);
+            => ScalarOpFormatter.format(this);
 
         public override string ToString()
             => Format();
