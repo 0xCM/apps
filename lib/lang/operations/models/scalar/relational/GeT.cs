@@ -29,7 +29,6 @@ namespace Z0.Ops.Scalar
         public bool Eval()
             => api.eval(this);
 
-
         public Label OpName
             => "ge<{0}>";
 

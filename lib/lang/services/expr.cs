@@ -12,9 +12,29 @@ namespace Z0
     using static Root;
 
     [ApiHost("expr.api")]
-    public readonly partial struct expr
+    public readonly struct expr
     {
         const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op]
+        public static ExprVar var(VarSymbol name)
+            => new ExprVar(name);
+
+        /// <summary>
+        /// Creates a global scope
+        /// </summary>
+        /// <param name="name">The scope name</param>
+        [MethodImpl(Inline), Op]
+        public static ExprScope scope(string name)
+            => new ExprScope(EmptyString, name);
+
+        /// <summary>
+        /// Creates a child scope
+        /// </summary>
+        /// <param name="name">The scope name</param>
+        [MethodImpl(Inline), Op]
+        public static ExprScope scope(string parent, string name)
+            => new ExprScope(parent,name);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)

@@ -2,24 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0
 {
+     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    public struct gbv<T>
-        where T : unmanaged
+
+    public class ExpressionChecks : Checker<ExpressionChecks>
     {
-        public uint Width;
-
-        public T Storage;
-
-        [MethodImpl(Inline)]
-        public gbv(uint width, T bits)
+        public Outcome CheckRelationalExpressions()
         {
-            Width = width;
-            Storage = bits;
+            var result = Outcome.Success;
+
+
+            return result;
         }
     }
+
 }
