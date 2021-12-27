@@ -100,13 +100,13 @@ namespace Z0.llvm
         }
 
         public static dag<L,R> dag<L,R>(L left, R right)
-            where L : ITerm
-            where R : ITerm
+            where L : IExpr
+            where R : IExpr
                 => new dag<L,R>(left,right);
 
-        public static Outcome parse(string src, out dag<ITerm> dag)
+        public static Outcome parse(string src, out dag<IExpr> dag)
         {
-            dag = new dag<ITerm>(@string.Empty, @string.Empty);
+            dag = new dag<IExpr>(@string.Empty, @string.Empty);
             if(src.Contains("->"))
             {
                 var parts = src.SplitClean("->").Select(x => x.Trim());
@@ -114,9 +114,9 @@ namespace Z0.llvm
                 for(var i=1; i<count; i++)
                 {
                     if(i==1)
-                        dag = new dag<ITerm>((@string)skip(parts,i-1), (@string)skip(parts,i));
+                        dag = new dag<IExpr>((@string)skip(parts,i-1), (@string)skip(parts,i));
                     else
-                        dag = new dag<ITerm>(dag, (@string)skip(parts,i));
+                        dag = new dag<IExpr>(dag, (@string)skip(parts,i));
                 }
             }
             else if(src.Contains(","))
@@ -126,14 +126,14 @@ namespace Z0.llvm
                 for(var i=1; i<count; i++)
                 {
                     if(i==1)
-                        dag = new dag<ITerm>((@string)skip(parts,i-1), (@string)skip(parts,i));
+                        dag = new dag<IExpr>((@string)skip(parts,i-1), (@string)skip(parts,i));
                     else
-                        dag = new dag<ITerm>(dag, (@string)skip(parts,i));
+                        dag = new dag<IExpr>(dag, (@string)skip(parts,i));
                 }
             }
             else
             {
-                dag = new dag<ITerm>((@string)src, @string.Empty);
+                dag = new dag<IExpr>((@string)src, @string.Empty);
             }
             return true;
         }

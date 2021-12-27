@@ -10,8 +10,8 @@ namespace Z0.llvm
     using static Root;
 
     public class dag<L,R> : IDag<L,R>
-        where L : ITerm
-        where R : ITerm
+        where L : IExpr
+        where R : IExpr
     {
         public L Left {get;}
 

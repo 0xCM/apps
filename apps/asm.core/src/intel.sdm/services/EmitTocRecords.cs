@@ -15,13 +15,12 @@ namespace Z0.Asm
         public Outcome EmitTocRecords()
         {
             var result = Outcome.Success;
-            var flow = Wf.Running(nameof(EmitTocRecords));
-            var vols = VolumeMarkers(1,4);
+            var flow = Running();
             var src = SdmPaths.TocImportPath();
             if(!src.Exists)
             {
                 result = (false,FS.missing(src));
-                Wf.Error(result.Message);
+                Error(result.Message);
                 return result;
             }
 
@@ -34,6 +33,7 @@ namespace Z0.Asm
             var tn = TableNumber.Empty;
             var title = TocTitle.Empty;
             var entry = TocEntry.Empty;
+            var vn = VolNumber.Empty;
             var entries = list<TocEntry>();
             var _snbuffer = span<SectionNumber>(1);
             ref var _sn = ref first(_snbuffer);
@@ -42,10 +42,13 @@ namespace Z0.Asm
             {
                 var content = line.Content;
                 var number = line.LineNumber;
-                if(vols.Contains(content))
+                if(content.Contains(ContentMarkers.VolNumber))
                 {
+                    result = parse(content, out vn);
+                    if(result.Fail)
+                        break;
+
                     writer.WriteLine(string.Format("{0}:{1}", number, content));
-                    continue;
                 }
 
                 if(parse(content, out cn))
@@ -65,7 +68,7 @@ namespace Z0.Asm
 
                 if(parse(content, out title))
                 {
-                    entry = toc(_sn, title);
+                    entry = toc(vn, _sn, title);
                     entries.Add(entry);
                     render(number, entry, buffer);
                     writer.WriteLine(buffer.Emit());
@@ -80,20 +83,12 @@ namespace Z0.Asm
                 }
             }
 
-            var rowcount = TableEmit(entries.ViewDeposited(), SdmPaths.TocEntryTable());
-            Wf.Ran(flow, string.Format("Collected {0} toc entries", rowcount));
+            if(result.Ok)
+            {
+                var rowcount = TableEmit(entries.ViewDeposited(), TocEntry.RenderWidths, SdmPaths.TocEntryTable());
+                Ran(flow, string.Format("Collected {0} toc entries", rowcount));
+            }
             return result;
-        }
-
-        string VolumeMarker(byte vol)
-            => string.Format("Vol. {0}", vol);
-
-        HashSet<string> VolumeMarkers(byte min, byte max)
-        {
-            var dst = hashset<string>();
-            for(var i=min; i<=max; i++)
-                dst.Add(VolumeMarker(i));
-            return dst;
         }
     }
 }

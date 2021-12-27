@@ -36,11 +36,11 @@ namespace Z0.llvm
         public string Namespace
             => this[nameof(Namespace)];
 
-        public dag<ITerm> InOperandList
-            => Parse(nameof(InOperandList), out dag<ITerm> _);
+        public dag<IExpr> InOperandList
+            => Parse(nameof(InOperandList), out dag<IExpr> _);
 
-        public dag<ITerm> OutOperandList
-            => Parse(nameof(OutOperandList), out dag<ITerm> _);
+        public dag<IExpr> OutOperandList
+            => Parse(nameof(OutOperandList), out dag<IExpr> _);
 
         public bit isPseudo
             => Parse(nameof(isPseudo), out bit _);

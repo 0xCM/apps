@@ -14,21 +14,21 @@ namespace Z0
     {
         readonly Index<T> Data;
 
-        public string Name {get;}
+        public string Id {get;}
 
         uint Current;
 
-        public Bucket(uint capacity, string name = null)
+        public Bucket(uint capacity, string id = null)
         {
             Data = alloc<T>(capacity);
-            Name = name ?? EmptyString;
+            Id = id ?? EmptyString;
             Current = 0;
         }
 
-        public Bucket(T[] data, string name = null)
+        public Bucket(T[] data, string id = null)
         {
             Data = data;
-            Name = name ?? EmptyString;
+            Id = id ?? EmptyString;
             Current = (uint)data.Length;
         }
 
@@ -67,8 +67,8 @@ namespace Z0
         public string Format(string sep = ", ")
         {
             var dst = text.buffer();
-            if(nonempty(Name))
-                dst.Append(Name);
+            if(nonempty(Id))
+                dst.Append(Id);
 
             dst.Append(Chars.LParen);
             for(var i=0; i<Current; i++)

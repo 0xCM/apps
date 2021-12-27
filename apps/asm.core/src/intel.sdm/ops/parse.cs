@@ -106,6 +106,28 @@ namespace Z0.Asm
             return false;
         }
 
+        public static Outcome parse(string src, out VolNumber dst)
+        {
+            dst = VolNumber.Empty;
+            var i = text.index(src,ContentMarkers.VolNumber);
+            if(i < 0)
+                return (false,string.Format("Volume marker not found in '{0}'", src));
+
+            var spec = text.right(src,i + ContentMarkers.VolNumber.Length - 1);
+            if(spec.Length == 0)
+                return (false,string.Format("Parsing volume spec from '{0}' failed", src));
+
+            var value = (byte)Digital.digit(spec[0]);
+            if(value >= 1 && value<= 4)
+            {
+                dst = value;
+                return true;
+            }
+            else
+                return (false, string.Format("Parsing digit from {0} failed", spec));
+        }
+
+
         [Op]
         public static Outcome parse(string src, out ChapterNumber dst)
         {

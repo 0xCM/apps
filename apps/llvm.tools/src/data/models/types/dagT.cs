@@ -17,7 +17,7 @@ namespace Z0.llvm
     }
 
     public class dag<T> : IDag<T>
-        where T : ITerm
+        where T : IExpr
     {
         public T Left {get;}
 

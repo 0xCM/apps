@@ -30,6 +30,7 @@ namespace Z0.Asm
             return details;
         }
 
+
         public Index<ListItem<string>> ExtractOpCodeStrings(ReadOnlySpan<SdmOpCode> src)
         {
             var count = src.Length;
@@ -168,11 +169,20 @@ namespace Z0.Asm
                     ref readonly var col = ref skip(cols,k);
                     ref readonly var cell = ref skip(cells,k);
                     var content = text.format(cell.Content).Trim();
-                    switch(col.Name)
+                    var name = text.trim(col.Name);
+                    if(empty(content))
+                        continue;
+
+                    if(empty(name))
+                    {
+                        Warn(string.Format("Unnamed column with content '{0}'", content));
+                        continue;
+                    }
+                    switch(name)
                     {
                         case "Opcode":
                         var oc = NormalizeOpcode(content);
-                        target.OpCode = oc;
+                        target.OpCode = text.despace(oc);
                         if(empty(oc))
                             valid = false;
                         break;
@@ -194,28 +204,40 @@ namespace Z0.Asm
                             valid = true;
                         break;
 
+                        case "Op En":
+                        case "Op/ En":
                         case "Op / En":
                         case "Op/En":
+                        case "Op /En":
                             target.EncXRef = content;
                             valid = true;
                         break;
 
                         case "Compat/Leg Mode":
                             target.LegacyMode = content;
+                            if(content == "N.E.")
+                                target.LegacyMode = "Invalid";
                             valid = true;
                         break;
 
+                        case "64-Bit Mode":
                         case "64-bit Mode":
                             target.Mode64 = content;
+                            if(content == "N.E." || content == "N.S." | content == "Inv.")
+                                target.Mode64 = "Invalid";
                             valid = true;
                         break;
 
+                        case "64/32-bit Mode":
                         case "64/32 -bit Mode":
                         case "64/32 bit Mode Support":
                             target.Mode64x32 = content;
+                            if(text.trim(text.left(content, Chars.FSlash)) == "V")
+                                target.Mode64 = "Valid";
                             valid = true;
                         break;
 
+                        case "CPUID":
                         case "CPUID Feature Flag":
                             target.CpuId = content;
                             valid = true;
@@ -225,8 +247,20 @@ namespace Z0.Asm
                             target.Description = content;
                             valid = true;
                         break;
+                        case "Operand1":
+                        case "Operand 1":
+                        case "Operand2":
+                        case "Operand 2":
+                        case "Operand3":
+                        case "Operand 3":
+                        case "Operand4":
+                        case "Operand 4":
+                            valid = false;
+                            break;
+
                         default:
                             valid = false;
+                            Warn(string.Format("Column {0} unrecognized", col.Name));
                             break;
                     }
                 }

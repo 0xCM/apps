@@ -18,8 +18,8 @@ namespace Z0.Asm
             => new ChapterNumber(number);
 
         [MethodImpl(Inline), Op]
-        public static TocEntry toc(in SectionNumber sn, in TocTitle title)
-            => new TocEntry(sn, title);
+        public static TocEntry toc(VolNumber vol, in SectionNumber sn, in TocTitle title)
+            => new TocEntry(vol, sn, title);
 
         [MethodImpl(Inline), Op]
         public static TableNumber tablenumber(ReadOnlySpan<char> src)
@@ -94,9 +94,9 @@ namespace Z0.Asm
         [Op]
         public static void render(in TocEntry src, ITextBuffer dst)
         {
-            dst.Append(src.Title.Content.String);
+            dst.Append(src.Title.String);
             dst.Append(" -> ");
-            render(src.Section, src.Title.Page, dst);
+            render(src.Section, src.Page, dst);
         }
 
         [Op]

@@ -38,11 +38,11 @@ namespace Z0
         public static Bucket<T> bucket<T>(uint capacity, string label = null)
             => new Bucket<T>(capacity, label);
 
-        public static Bucket<L,T> bucket<L,T>(L label, uint capacity)
-            => new Bucket<L,T>(capacity, label);
+        public static Bucket<L,T> bucket<L,T>(L id, uint capacity)
+            => new Bucket<L,T>(capacity, id);
 
-        public static Bucket<L,T> bucket<L,T>(L label, T[] items)
-            => new Bucket<L,T>(items, label);
+        public static Bucket<L,T> bucket<L,T>(L id, T[] items)
+            => new Bucket<L,T>(items, id);
 
         public static BucketList<T> list<T>(uint capacity)
             => new BucketList<T>(capacity);

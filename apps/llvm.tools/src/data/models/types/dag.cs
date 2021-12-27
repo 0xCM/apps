@@ -9,14 +9,14 @@ namespace Z0.llvm
 
     using static Root;
 
-    public class dag : IDag<ITerm>
+    public class dag : IDag<IExpr>
     {
-        public ITerm Left {get;}
+        public IExpr Left {get;}
 
-        public ITerm Right {get;}
+        public IExpr Right {get;}
 
         [MethodImpl(Inline)]
-        public dag(ITerm left, ITerm right)
+        public dag(IExpr left, IExpr right)
         {
             Left = left;
             Right = right;
@@ -44,4 +44,3 @@ namespace Z0.llvm
             => Format();
     }
 }
-

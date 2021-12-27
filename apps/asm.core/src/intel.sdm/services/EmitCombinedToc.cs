@@ -17,9 +17,22 @@ namespace Z0.Asm
 
             var encoding = pair(TextEncodingKind.Unicode, TextEncodingKind.Unicode);
             var dst = SdmPaths.TocImportPath();
-            var flow = Wf.Running(string.Format("Creating combined toc from {0} source files", src.Length));
-            CombineDocs(src, dst, encoding);
-            Wf.Ran(flow);
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref src[i];
+                var name = path.FileName.WithoutExtension.Format();
+                var last = name.Length - 1;
+                if(last > 0)
+                {
+                    var vol = (byte)Digital.digit(name[last]);
+
+                }
+            }
+
+            // var flow = Running(string.Format("Creating combined toc from {0} source files", src.Length));
+             CombineDocs(src, dst, encoding);
+            // Ran(flow);
             return result;
         }
     }

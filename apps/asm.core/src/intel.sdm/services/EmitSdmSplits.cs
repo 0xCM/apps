@@ -49,7 +49,7 @@ namespace Z0.Asm
         {
             var count = src.Length;
             var result = Outcome.Success;
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             var counter = 0u;
             using var writer = dst.Writer(encoding.Right);
             for(var i=0; i<count; i++)
@@ -58,17 +58,17 @@ namespace Z0.Asm
                 if(input.IsEmpty)
                 {
                     result = (false,string.Format("A supplied source path at index {0} is empty", i));
-                    Wf.Error(result.Message);
+                    Error(result.Message);
                     return result;
                 }
                 if(!input.Exists)
                 {
                     result = (false,FS.Msg.DoesNotExist.Format(input));
-                    Wf.Error(result.Message);
+                    Error(result.Message);
                     return result;
                 }
 
-                var processing = Wf.Running(string.Format("Appending {0} to {1}", input.ToUri(), dst.ToUri()));
+                var processing = Running(string.Format("Appending {0} to {1}", input.ToUri(), dst.ToUri()));
                 using var reader = input.Reader(encoding.Left);
                 var line = reader.ReadLine();
                 while(line != null)
@@ -77,9 +77,9 @@ namespace Z0.Asm
                     counter++;
                     line = reader.ReadLine();
                 }
-                Wf.Ran(processing);
+                Ran(processing);
             }
-            Wf.EmittedFile(flow,counter);
+            EmittedFile(flow,counter);
             return result;
         }
 

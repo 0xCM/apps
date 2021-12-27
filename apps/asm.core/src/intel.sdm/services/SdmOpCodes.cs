@@ -18,13 +18,14 @@ namespace Z0.Asm
         [Op]
         public static string format(in SdmOpCode src)
         {
-            const string OcPattern0 = "opcode({0}) = {1}";
-            const string OcPattern1 = "opcode({0}, {1}) = {2}";
+            const string OcPattern0 = "{0}() = {1}";
+            const string OcPattern1 = "{0}({1}) = {2}";
+            var mnemonic = src.Mnemonic.Format().ToLower();
             var ops = operands(src);
             if(ops.Length == 0)
-                return string.Format(OcPattern0, src.Mnemonic, src.Expr);
+                return string.Format(OcPattern0, mnemonic, src.Expr);
             else
-                return string.Format(OcPattern1, src.Mnemonic, text.join(", ", ops), src.Expr);
+                return string.Format(OcPattern1, mnemonic, text.join(", ", ops), src.Expr);
         }
 
         public static Index<SdmOpCode> summarize(ReadOnlySpan<SdmOpCodeDetail> src)

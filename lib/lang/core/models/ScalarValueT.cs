@@ -2,31 +2,29 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Lang
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct Production<T> : IProduction<T>
-        where T : IExpr
+    public readonly struct ScalarValue<T> : IScalarValue<T>
+        where T : unmanaged, IEquatable<T>
     {
-        public Identifier Name {get;}
+        public T Value {get;}
 
-        public T Term {get;}
+        public BitWidth ContentWidth {get;}
 
         [MethodImpl(Inline)]
-        public Production(Identifier name, T term)
+        public ScalarValue(T value, BitWidth content = default)
         {
-            Name = name;
-            Term = term;
+            Value = value;
+            ContentWidth = content == 0 ? core.width<T>() : content;
         }
 
         public string Format()
-            => lang.format(this);
+            => Value.ToString();
 
         public override string ToString()
             => Format();

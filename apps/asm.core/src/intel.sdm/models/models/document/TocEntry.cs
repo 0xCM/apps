@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
@@ -16,15 +17,23 @@ namespace Z0.Asm
         {
             public const string TableId ="intel.sdm.toc-entries";
 
+            public const byte FieldCount = 4;
+
+            public VolNumber Volume;
+
             public SectionNumber Section;
 
-            public TocTitle Title;
+            public ChapterPage Page;
+
+            public CharBlock128 Title;
 
             [MethodImpl(Inline)]
-            public TocEntry(in SectionNumber sn, in TocTitle toc)
+            public TocEntry(VolNumber vol, in SectionNumber sn, in TocTitle toc)
             {
+                Volume = vol;
                 Section = sn;
-                Title = toc;
+                Page = toc.Page;
+                Title = toc.Content;
             }
 
             public string Format()
@@ -34,6 +43,8 @@ namespace Z0.Asm
                 => Format();
 
             public static TocEntry Empty => default;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{10,10,10,1};
         }
     }
 }

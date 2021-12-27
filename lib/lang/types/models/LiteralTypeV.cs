@@ -23,6 +23,11 @@ namespace Z0
             Kind = 0;
         }
 
+        public bool IsEmpty
+        {
+            get => Name.IsEmpty;
+        }
+
         public string Format()
             => string.Format("{0}:{1}", Value, Name);
     }

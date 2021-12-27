@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static core;
+    using static Root;
 
     partial class AsmCmdService
     {
-        [CmdOp(".matcher")]
-        Outcome Matcher(CmdArgs args)
+        Outcome Matcher0(CmdArgs args)
         {
             var gen = Ws.Project("gen");
             var input = gen.Subdir("sources") + FS.file("matcher-a", FS.Txt);

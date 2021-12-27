@@ -7,7 +7,7 @@ namespace Z0.llvm
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IDag : ITerm
+    public interface IDag : IExpr
     {
         dynamic Left {get;}
 
@@ -16,8 +16,8 @@ namespace Z0.llvm
 
     [Free]
     public interface IDag<L,R> : IDag
-        where L : ITerm
-        where R : ITerm
+        where L : IExpr
+        where R : IExpr
     {
         new L Left {get;}
 
@@ -32,7 +32,7 @@ namespace Z0.llvm
 
     [Free]
     public interface IDag<T> : IDag<T,T>
-        where T : ITerm
+        where T : IExpr
     {
 
     }

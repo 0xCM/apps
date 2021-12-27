@@ -7,9 +7,16 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IExpr : ITextual
+    public interface IExpr : ITextual, INullity
     {
         ulong Kind => 0;
+
+        bool INullity.IsEmpty
+            => false;
+
+       string ITextual.Format()
+            => string.Empty;
+
     }
 
     [Free]

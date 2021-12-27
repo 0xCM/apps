@@ -16,6 +16,9 @@ namespace Z0.Asm
 
             [TextMarker]
             public const string TocTitle = " . . . . . . . . . .";
+
+            [TextMarker]
+            public const string VolNumber = "Vol. ";
         }
     }
 }

@@ -6,10 +6,6 @@ namespace Z0.Lang
 {
     partial struct lang
     {
-        internal static string format<T>(in Production<T> src)
-            where T : IExpr
-                => string.Format("<{0}> -> {1}", src.Name, src.Term.Format());
-
         internal static string format<K>(in Alphabet<K> src)
             where K : unmanaged
         {

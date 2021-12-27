@@ -4,26 +4,44 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
+
+    using static Root;
     using static core;
+    using static SdmModels;
 
     partial class IntelSdm
     {
-        public Outcome<Index<SdmOpCodeDetail>> LoadImportedOpcodes()
+        public Index<SdmOpCode> LoadImportedOpCodes()
         {
-            var result = Outcome.Success;
-            var dst = sys.empty<SdmOpCodeDetail>();
-            var src = SdmPaths.ImportTable<SdmOpCodeDetail>();
-            var lines = src.ReadLines(TextEncodingKind.Unicode).View;
-            result = TextGrids.load(lines, out var grid);
-            if(result.Fail)
-                return result;
-            var count = grid.RowCount;
-            dst = alloc<SdmOpCodeDetail>(count);
-            result = rows(grid, dst);
-            if(result.Fail)
-                return result;
-            else
-                return (true,dst);
+            var src = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
+            var data = src.ReadLines().Where(text.nonempty);
+            var count = data.Length;
+            var buffer = alloc<SdmOpCode>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var line = ref data[i];
+                ref var dst = ref seek(buffer,i);
+                dst.OpCodeKey = i;
+
+                var j = text.index(line,Chars.LParen);
+                var k = text.index(line,Chars.RParen);
+                if(j <  0 || k < 0)
+                {
+                    Error(string.Format("Operand fence in {0} not found", line));
+                    break;
+                }
+
+                if(k - j == 1)
+                    dst.Operands = CharBlock64.Null;
+                else
+                    dst.Operands = text.inside(line,j, k);
+
+                dst.Mnemonic = text.left(line,j);
+                dst.Expr = text.trim(text.right(line,Chars.Eq));
+            }
+
+            return buffer;
         }
     }
 }

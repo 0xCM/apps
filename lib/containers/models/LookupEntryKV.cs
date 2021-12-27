@@ -22,6 +22,12 @@ namespace Z0
             Value = value;
         }
 
+        public string Format()
+            => string.Format("[{0}] = {1}", Key, Value);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator LookupEntry<K,V>((K key, V value) src)
             => new LookupEntry<K,V>(src.key, src.value);

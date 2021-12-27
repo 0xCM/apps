@@ -12,7 +12,7 @@ namespace Z0.Asm
         [CmdOp(".inst-info")]
         Outcome ShowInstInfo(CmdArgs args)
         {
-            var result = Sdm.LoadImportedOpcodes();
+            var result = Sdm.LoadImportedOpcodeDetails();
             var selected = args.Length > 0 ? arg(args,0).Value.Format() : EmptyString;
             result.OnSuccess(records =>{
                 var count = records.Count;
