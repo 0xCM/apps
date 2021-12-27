@@ -8,6 +8,50 @@ namespace Z0.Asm
     {
         const string tokens = "asm.opcodes";
 
+        public enum TokenSlot : byte
+        {
+            None,
+
+            Byte,
+
+            Exclusion,
+
+            ModRm,
+
+            Extension,
+
+            Rex,
+
+            RexW,
+
+            Vex,
+
+            VexL0,
+
+            VexL1,
+
+            LZ,
+
+            Wig,
+
+            W0,
+
+            W1,
+
+            V128,
+
+            V256,
+
+            V512,
+
+            Evex,
+
+
+
+
+
+        }
+
         [SymSource(tokens)]
         public enum EscapeToken : ushort
         {

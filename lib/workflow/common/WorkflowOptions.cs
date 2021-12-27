@@ -64,6 +64,8 @@ namespace Z0
 
         public bool EmitCliRowStats;
 
+        public bool EmitMetaBlocks;
+
         public static WorkflowOptions @default()
         {
             var dst = new WorkflowOptions();
@@ -96,6 +98,7 @@ namespace Z0
             dst.EmitApiClasses = true;
             dst.EmitMethodDefs = true;
             dst.EmitCliRowStats = true;
+            dst.EmitMetaBlocks = true;
             return dst;
         }
 

@@ -2,12 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class AsmCmdService
+    partial class ProjectCmdProvider
     {
-        [CmdOp(".dump-dll")]
-        Outcome DumpDll(CmdArgs args)
-            => DumpModules(FileModuleKind.Dll);
+        [CmdOp("dumpbin/dump-obj")]
+        Outcome DumpObj(CmdArgs args)
+            => DumpBin.DumpModules(Project(), FileModuleKind.Obj);
     }
 }

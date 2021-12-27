@@ -9,36 +9,33 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct VarName : ITextual
+    public readonly struct VarSymbol<T> : IVarSymbol<T>
     {
-        readonly string Value;
+        public T Id {get;}
 
         [MethodImpl(Inline)]
-        public VarName(string value)
-        {
-            Value = value;
-        }
+        public VarSymbol(T id)
+            => Id= id;
 
-        public string Content
+        public Name Name
         {
             [MethodImpl(Inline)]
-            get => Value ?? EmptyString;
+            get => Id?.ToString() ?? EmptyString;
         }
-
 
         [MethodImpl(Inline)]
         public string Format()
-            => Content;
+            => VarSymbol.format(this);
+
+        [MethodImpl(Inline)]
+        public string Format(VarContextKind vck)
+            => VarSymbol.format(vck, this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator string(VarName src)
-            => src.Content;
-
-        [MethodImpl(Inline)]
-        public static implicit operator VarName(string src)
-            => new VarName(src);
+        public static implicit operator VarSymbol<T>(T id)
+            => new VarSymbol<T>(id);
     }
 }

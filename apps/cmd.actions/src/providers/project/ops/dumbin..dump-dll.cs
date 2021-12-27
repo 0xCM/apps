@@ -4,19 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IString : IValue, ITextual, IMeasured, ITerm
+    partial class ProjectCmdProvider
     {
+        DumpBin DumpBin => Service(Wf.DumpBin);
 
-    }
-
-    public interface IString<T> : IString, ITerm<T>
-    {
-
-    }
-
-    public interface IString<K,T> : IString<T>
-        where K : unmanaged
-    {
-
+        [CmdOp("dumpbin/dump-dll")]
+        Outcome DumpDll(CmdArgs args)
+            => DumpBin.DumpModules(Project(), FileModuleKind.Dll);
     }
 }

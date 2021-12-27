@@ -4,24 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using K = ConditionCodes.ConditionKind;
     using E = ConditionCodes.Expressions;
+
+    using static ConditionCodes.Names;
 
     partial struct ConditionCodes
     {
         [SymSource(tokens)]
         public enum Jcc32 : byte
         {
-            [Symbol("jo", "Jump near if overflow", E.O)]
+            [Symbol(jo, "Jump near if overflow", E.O)]
             JO = 0x80,
 
-            [Symbol("jno", "Jump near if not overflow", E.NO)]
+            [Symbol(jno, "Jump near if not overflow", E.NO)]
             JNO = 0x81,
 
-            [Symbol("jb", "Jump near if below", E.B)]
+            [Symbol(jb, "Jump near if below", E.B)]
             JB = 0x82,
 
-            [Symbol("jnb", "Jump near if not below", E.NB)]
+            [Symbol(jnb, "Jump near if not below", E.NB)]
             JNB = 0x83,
 
             [Symbol("jz", "Jump near if zero", E.Z)]

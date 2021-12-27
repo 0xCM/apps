@@ -7,15 +7,18 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IVarSymbol
+    public interface IVarSymbol : INamedTerm
     {
-        Name Name {get;}
+
     }
 
     [Free]
     public interface IVarSymbol<T> : IVarSymbol, ITypedIdentity<T>
     {
-        Name IVarSymbol.Name
+        Name INamed.Name
             => Id?.ToString() ?? string.Empty;
+
+        bool INullity.IsEmpty
+            => Name.IsEmpty;
     }
 }

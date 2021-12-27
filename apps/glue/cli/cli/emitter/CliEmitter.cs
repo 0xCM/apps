@@ -51,6 +51,9 @@ namespace Z0
                 EmitSystemStringInfo();
             }
 
+            if(options.EmitMetaBlocks)
+                EmitMetaBlocks();
+
             if(options.EmitCliConstants)
                 EmitConstants();
 

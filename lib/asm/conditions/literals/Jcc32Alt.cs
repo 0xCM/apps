@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using E = ConditionCodes.Expressions;
 
+    using static ConditionCodes.Names;
+
     partial struct ConditionCodes
     {
         [SymSource(tokens)]

@@ -182,17 +182,6 @@ namespace Z0.Asm
             }
         }
 
-        public void ShowCommands()
-        {
-            var models = Cmd.cmdtypes(Wf.Components).View;
-            var count = models.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var model = ref skip(models,i);
-                Wf.Row(string.Format("{0,-3} {1}", i, model.SourceType.Name));
-            }
-        }
-
         static string FormatAttributes(IXmlElement src)
             => src.Attributes.Select(x => string.Format("{0}={1}",x.Name, x.Value)).Delimit(Chars.Comma).Format();
 

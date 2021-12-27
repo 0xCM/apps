@@ -4,21 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using K = ConditionCodes.ConditionKind;
     using E = ConditionCodes.Expressions;
+
+    using static ConditionCodes.Names;
 
     partial struct ConditionCodes
     {
         [SymSource(tokens)]
         public enum Jcc8Alt : byte
         {
-            [Symbol("jo", "Jump short if overflow", E.O)]
+            [Symbol(jo, "Jump short if overflow", E.O)]
             JO = 0x70,
 
-            [Symbol("jno", "Jump short if not overflow", E.NO)]
+            [Symbol(jno, "Jump short if not overflow", E.NO)]
             JNO = 0x71,
 
-            [Symbol("jnae", "Jump short if not above or equal", E.NAE)]
+            [Symbol(jnae, "Jump short if not above or equal", E.NAE)]
             JNAE = 0x72,
 
             [Symbol("jae", "Jump short if above or equal", E.AE)]
@@ -36,10 +37,10 @@ namespace Z0.Asm
             [Symbol("jnbe", "Jump short if not below or equal", E.NBE)]
             JNBE = 0x77,
 
-            [Symbol("js", "Jump short if sign", E.S)]
+            [Symbol(js, "Jump short if sign", E.S)]
             JS = 0x78,
 
-            [Symbol("jns", "Jump short if not sign", E.NS)]
+            [Symbol(jns, "Jump short if not sign", E.NS)]
             JNS = 0x79,
 
             [Symbol("jp", "Jump short if parity", E.P)]

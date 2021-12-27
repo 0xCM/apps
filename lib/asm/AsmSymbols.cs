@@ -56,14 +56,11 @@ namespace Z0.Asm
 
         readonly Symbols<RegClassCode> _RegClasses;
 
-        //readonly Symbols<ModRmEncKind> _ModRmEncKind;
-
         public static AsmSymbols create()
             => new AsmSymbols();
 
         AsmSymbols()
         {
-            //_Mnemonics = Symbols.index<AsmMnemonicCode>();
             _Gp8Regs = AsmRegCodes.Gp8Regs();
             _Gp8HiRegs = AsmRegCodes.Gp8Regs(true);
             _Gp16Regs = AsmRegCodes.Gp16Regs();
@@ -84,12 +81,7 @@ namespace Z0.Asm
             _RegIndices = AsmRegCodes.RegIndices();
             _RegWidths = AsmRegCodes.RegWidths();
             _RegClasses = AsmRegCodes.RegClasses();
-            //_ModRmEncKind = Symbols.index<ModRmEncKind>();
         }
-
-        // [MethodImpl(Inline), Op]
-        // public ref readonly Sym<AsmMnemonicCode> Symbol(AsmMnemonicCode key)
-        //     => ref _Mnemonics[key];
 
         [MethodImpl(Inline), Op]
         public ref readonly Sym<Gp8Reg> Symbol(Gp8Reg key)
@@ -130,12 +122,6 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public ref readonly Sym<DebugReg> Symbol(DebugReg key)
             => ref _DebugRegs[key];
-
-        // public ref readonly Sym<AsmMnemonicCode> this[AsmMnemonicCode key]
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => ref Symbol(key);
-        // }
 
         public ref readonly Sym<Gp8Reg> this[Gp8Reg key]
         {

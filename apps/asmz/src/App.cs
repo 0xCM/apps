@@ -53,10 +53,6 @@ namespace Z0.Asm
             //return new ToolScript(Toolspace.xed, opcode, ;
         }
 
-        public void EmitApiImageContent()
-        {
-            Wf.CliEmitter().EmitImageContent();
-        }
 
         void EmitRuntimeMembers()
         {
@@ -96,12 +92,6 @@ namespace Z0.Asm
         {
             var resolver = Wf.ApiResolver();
             resolver.ResolveParts(parts);
-        }
-
-
-        void EmitMetadataBlocks()
-        {
-            Wf.CliEmitter().EmitMetaBlocks();
         }
 
         void CheckHeap()

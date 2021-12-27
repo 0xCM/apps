@@ -16,7 +16,6 @@ namespace Z0
 
        string ITextual.Format()
             => string.Empty;
-
     }
 
     [Free]
