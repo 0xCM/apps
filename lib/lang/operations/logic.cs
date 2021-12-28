@@ -45,8 +45,8 @@ namespace Z0.Ops
             => new Sum<IBooleanExpr>(src);
 
         [MethodImpl(Inline)]
-        public static Union untype<T>(Union<T> src)
+        public static Sum untype<T>(Sum<T> src)
             where T : IBooleanExpr
-                => new Union(src.Terms.MapArray(x => (IBooleanExpr)x));
+                => new Sum(src.Terms.MapArray(x => (IBooleanExpr)x));
     }
 }

@@ -26,7 +26,7 @@ namespace Z0.Ops
             Kind = kind;
         }
 
-        public Label OpName
+        public Name OpName
             => "cmp<t:{0}>";
 
         public string Format()

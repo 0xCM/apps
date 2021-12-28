@@ -13,9 +13,9 @@ namespace Z0.Ops
     readonly struct OpFormatters
     {
         [Formatter]
-        public static string format(Union src)
+        public static string format(Sum src)
         {
-            var terms = src.Terms;
+            var terms = src.Members;
             var count = terms.Length;
             var dst = text.buffer();
 
@@ -38,30 +38,6 @@ namespace Z0.Ops
             return dst.Emit();
         }
 
-        public static string format<T>(Union<T> src)
-            where T : IExpr
-        {
-            var dst = text.buffer();
-            var terms = src.Terms;
-            var count = terms.Length;
-            dst.Append(XF.ListOpen);
-
-            for(var i=0; i<count; i++)
-            {
-                if(i != 0)
-                    dst.Append(Chars.Space);
-
-                dst.AppendFormat(RP.Slot0, skip(terms,i));
-
-                if(i != count - 1)
-                {
-                    dst.Append(Chars.Space);
-                    dst.Append(XF.Choice);
-                }
-            }
-            dst.Append(XF.ListClose);
-            return dst.Emit();
-        }
 
         [Formatter]
         public static string format(Product src)

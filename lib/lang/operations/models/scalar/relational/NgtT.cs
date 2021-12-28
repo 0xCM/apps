@@ -31,7 +31,7 @@ namespace Z0.Ops.Scalar
             => default;
 
 
-        public Label OpName
+        public Name OpName
             => "ngt<{0}>";
 
         public CmpPredKind Kind

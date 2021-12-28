@@ -5,15 +5,20 @@
 namespace Z0
 {
     using System;
+    using System.Runtime.InteropServices;
 
-    [Record(TableId)]
+    using static StringMatcher;
+
+    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct CharMatchRow : IComparable<CharMatchRow>
     {
-        public const string TableId = "charmatch";
+        public const string TableId = "strings.match";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 7;
 
         public uint Seq;
+
+        public CharGroup Group;
 
         public Constant<char> Char;
 
@@ -35,6 +40,6 @@ namespace Z0
             return i;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,6,6,14,14,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,10,6,6,14,14,1};
     }
 }

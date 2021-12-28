@@ -14,7 +14,7 @@ namespace Z0.Ops
         where F : OpExpr<F,K>
         where K : unmanaged
     {
-        public abstract Label OpName {get;}
+        public abstract Name OpName {get;}
 
         [MethodImpl(Inline)]
         public static implicit operator AnyExpr(OpExpr<F,K> src)

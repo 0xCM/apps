@@ -15,7 +15,7 @@ namespace Z0.Ops.Logic
         public override LogicExprKind Kind
             => LogicExprKind.Not;
 
-        public override Label OpName
+        public override Name OpName
             => "not";
 
         public override Not Create(IExpr a)

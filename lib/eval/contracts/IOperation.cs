@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface IOperation
     {
-        Label OpName {get;}        
+        Name OpName {get;}
     }
 
     public interface IOperation<S> : IOperation

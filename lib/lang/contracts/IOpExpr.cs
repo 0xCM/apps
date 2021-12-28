@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface IOpExpr : IExpr
     {
-        Label OpName {get;}
+        Name OpName {get;}
     }
 
     [Free]

@@ -11,8 +11,9 @@ namespace Z0.Ops.Logic
         {
         }
 
-        public override Label OpName
+        public override Name OpName
             => "impl";
+
 
         public override LogicExprKind Kind
             => LogicExprKind.Impl;

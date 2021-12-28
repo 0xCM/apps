@@ -11,7 +11,7 @@ namespace Z0.Ops.Logic
         {
         }
 
-        public override Label OpName
+        public override Name OpName
             => "and";
 
         public override LogicExprKind Kind

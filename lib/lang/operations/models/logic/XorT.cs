@@ -32,7 +32,7 @@ namespace Z0.Ops.Logic
             Right = src.Right;
         }
 
-        public Label Name
+        public Name Name
             => "xor<{0}>";
 
         public string Format()

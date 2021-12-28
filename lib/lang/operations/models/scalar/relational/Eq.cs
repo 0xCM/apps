@@ -11,7 +11,7 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName
+        public override Name OpName
             => "eq";
 
         public override CmpPredKind Kind

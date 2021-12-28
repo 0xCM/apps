@@ -9,22 +9,21 @@ namespace Z0.Ops.Logic
 
     using static Root;
 
-    public readonly struct Union : IExpr
+    public readonly struct Sum : ILogicOp
     {
-        public Index<IExpr> Terms {get;}
+        public Index<IExpr> Members {get;}
 
         [MethodImpl(Inline)]
-        public Union(Index<IExpr> choices)
-            => Terms = choices;
+        public Sum(Index<IExpr> members)
+            => Members = members;
 
         public uint N
         {
             [MethodImpl(Inline)]
-            get => Terms.Count;
+            get => Members.Count;
         }
 
-        public Label Name
-            => "union";
+        public Name OpName => "sum";
 
         public string Format()
             => OpFormatters.format(this);

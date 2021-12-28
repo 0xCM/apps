@@ -21,46 +21,30 @@ namespace Z0
             var opcodes = Sdm.LoadImportedOpCodes();
             var matcher = StringMatcher.build(opcodes.Select(x => x.Expr.Format()));
             var dst = ProjectDb.Settings() + Tables.filename<CharMatchRow>();
-            EmitTable(matcher,dst);
-            return true;
-        }
+            TableEmit(matcher.MatchRows, CharMatchRow.RenderWidths, dst);
 
-        Index<CharMatchRow> EmitTable(StringMatcher src, FS.FilePath dst)
-        {
-            var entries = src.Entries;
-            var chars = src.CharCounts.Chars.ToArray().Sort();
-            var positions = src.CharPositions;
-            var lengths = src.Lengths.Distinct().Sort();
-            var points = Intervals.points(Intervals.closed(z16, src.MaxLength));
-            var buffer = list<CharMatchRow>();
-            var counter = 0u;
-            for(var j=0; j<chars.Length; j++)
+            var groups = matcher.GroupRows;
+
+            dst = ProjectDb.Settings() + Tables.filename<CharGroupMembers>();
+            TableEmit(groups, CharGroupMembers.RenderWidths, dst);
+
+            var count = groups.Length;
+            for(var i=0; i<count; i++)
             {
-                ref readonly var c = ref skip(chars,j);
-                for(var k=z16; k<points.Length; k++)
+                ref readonly var g = ref skip(groups,i);
+                var members = matcher.MemberRows(g);
+                ref readonly var element = ref first(members);
+                var length = element.TargetLength;
+                var pos = element.Pos;
+                for(var j=0; j<members.Length; j++)
                 {
-                    var targets = positions.Targets(c,k);
-                    for(var i=0; i<targets.Length; i++)
-                    {
-                        var target = skip(targets,i);
-                        var entry = src[target];
-                        var row = default(CharMatchRow);
-                        row.Char = c;
-                        row.Pos = k;
-                        row.TargetLength = entry.Length;
-                        row.TargetId = entry.Key;
-                        row.Target = entry.Target;
-                        buffer.Add(row);
-                    }
+                    ref readonly var member = ref skip(members,j);
+                    Require.equal(member.TargetLength, length);
+                    Require.equal(member.Pos, pos);
                 }
             }
 
-            var data = buffer.ToArray().Sort();
-            var count = data.Length;
-            for(var i=0u; i<count; i++)
-                seek(data,i).Seq = i;
-            TableEmit(@readonly(data), CharMatchRow.RenderWidths, dst);
-            return data;
+            return true;
         }
     }
 }

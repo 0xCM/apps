@@ -11,7 +11,7 @@ namespace Z0.Ops.Scalar
         {
         }
 
-        public override Label OpName => "sll";
+        public override Name OpName => "sll";
 
         public override BinaryBitLogicKind Kind
             => BinaryBitLogicKind.And;
