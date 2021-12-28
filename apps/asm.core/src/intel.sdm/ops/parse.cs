@@ -17,14 +17,14 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         [Op]
-        public static Outcome row(in TextRow src, out SdmOpCodeDetail dst)
+        public static Outcome row(TextLine src, out SdmOpCodeDetail dst)
         {
             var result = Outcome.Success;
-            var count = src.CellCount;
-            var cells = src.Cells;
+            var cells = src.Split(Chars.Pipe);
+            var count = cells.Length;
             dst = default;
-            if(src.CellCount != SdmOpCodeDetail.FieldCount)
-                return (false, Tables.FieldCountMismatch.Format(SdmOpCodeDetail.FieldCount, src.CellCount));
+            if(count != SdmOpCodeDetail.FieldCount)
+                return (false, Tables.FieldCountMismatch.Format(SdmOpCodeDetail.FieldCount, count));
 
             var i=0;
 
@@ -32,7 +32,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
 
-            DataParser.block(skip(cells, i++), out dst.Mnemonic);
+            dst.Mnemonic = asm.mnemonic(skip(cells, i++));
             DataParser.block(skip(cells, i++), out dst.OpCode);
             DataParser.block(skip(cells, i++), out dst.Sig);
             DataParser.block(skip(cells, i++), out dst.EncXRef);
@@ -44,16 +44,8 @@ namespace Z0.Asm
             return result;
         }
 
-        public static Outcome<uint> rows(in TextGrid src, Span<SdmOpCodeDetail> dst)
-        {
-            var cells = src.Header.Labels.Count;
-            if(cells != SdmOpCodeDetail.FieldCount)
-                return (false, Tables.FieldCountMismatch.Format(SdmOpCodeDetail.FieldCount, cells));
-            return rows(src.Rows, dst);
-        }
-
         [Op]
-        public static Outcome<uint> rows(ReadOnlySpan<TextRow> src, Span<SdmOpCodeDetail> dst)
+        public static Outcome<uint> rows(ReadOnlySpan<TextLine> src, Span<SdmOpCodeDetail> dst)
         {
             var counter = 0u;
             var result = Outcome.Success;

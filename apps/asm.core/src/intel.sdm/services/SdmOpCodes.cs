@@ -44,7 +44,7 @@ namespace Z0.Asm
             dst.OpCodeKey = src.OpCodeKey;
             dst.Mnemonic = src.Mnemonic;
             operands(src, out dst.Operands);
-            dst.Expr = src.OpCode;
+            dst.Expr = asm.opcode(src.OpCodeKey,src.OpCode);
             return ref dst;
         }
 
@@ -79,7 +79,7 @@ namespace Z0.Asm
                 ref var current = ref seek(dst,i);
                 current = asm.form(
                     AsmSigs.expression(oc.Mnemonic.Format(), operands(oc)),
-                    asm.opcode(oc.OpCodeKey, oc.Expr)
+                    oc.Expr
                     );
             }
             return buffer;

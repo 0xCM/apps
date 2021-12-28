@@ -14,8 +14,6 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmSymbols
     {
-        //readonly Symbols<AsmMnemonicCode> _Mnemonics;
-
         readonly Symbols<Gp8Reg> _Gp8Regs;
 
         readonly Symbols<Gp8HiReg> _Gp8HiRegs;

@@ -17,34 +17,34 @@ namespace Z0
         {
             var result = Outcome.Success;
             var opcodes = Sdm.ImportOpCodes();
-            var ops = operands(opcodes);
-            var count = ops.Count;
-
+            var count = opcodes.Count;
+            var buffer = span<AsmSigOpExpr>(4);
+            var sigs = Sdm.Sigs(opcodes);
             for(var i=0; i<count; i++)
             {
-                var op = ops[i];
-                Write(string.Format("{0} -> {1}", op, op));
+                buffer.Clear();
+                ref readonly var oc = ref opcodes[i];
+                ref readonly var sig = ref sigs[i];
+                Write(format(oc.OpCode, sig));
             }
+
             return result;
         }
 
-        static Index<string> operands(ReadOnlySpan<SdmOpCodeDetail> src)
+        static string format(string oc, AsmSigExpr src)
         {
-            var count = src.Length;
-            var dst = hashset<string>();
-            for(var i=0; i<count; i++)
+            var mnemonic = src.Mnemonic.Format(MnemonicCase.Lowercase);
+            var count = src.OperandCount;
+            if(count == 0)
             {
-                ref readonly var opcode = ref skip(src,i);
-                var sigtext = text.despace(text.trim(opcode.Sig.Format()));
-                var j = text.index(sigtext,Chars.Space);
-                if(j > 0)
-                {
-                    var ops = text.trim(text.split(text.right(sigtext,j), Chars.Comma));
-                    for(var k = 0; k<ops.Length; k++)
-                        dst.Add(skip(ops,k));
-                }
+                return string.Format("{0,-48} | {1}()", oc, mnemonic);
             }
-            return dst.Array().Sort();
+            else
+            {
+                var operands = alloc<AsmSigOpExpr>(src.OperandCount);
+                src.Operands(operands);
+                return string.Format("{0,-48} | {1}({2})", oc, mnemonic, operands.Delimit(Chars.Comma).Format());
+            }
         }
    }
 }

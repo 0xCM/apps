@@ -9,6 +9,7 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     using static Root;
+    using static core;
 
     using api = AsmSigs;
 
@@ -80,6 +81,27 @@ namespace Z0.Asm
             Op2 = op2;
             Op3 = op3;
             OperandCount = 4;
+        }
+
+        public byte Operands(Span<AsmSigOpExpr> dst)
+        {
+            if(OperandCount >= 1)
+            {
+                seek(dst,0) = Op0;
+                if(OperandCount >= 2)
+                {
+                    seek(dst,1) = Op1;
+                    if(OperandCount >= 3)
+                    {
+                        seek(dst,2) = Op2;
+
+                        if(OperandCount == 4)
+                            seek(dst,3) = Op3;
+                    }
+                }
+            }
+
+            return OperandCount;
         }
 
         public bool IsEmpty

@@ -11,23 +11,13 @@ namespace Z0.Asm
     using static core;
 
     [ApiComplete]
-    public class AsmRegSets : Service<AsmRegSets>
+    public class AsmRegSets : AppService<AsmRegSets>
     {
-        AsmSymbols Symbols;
-
-        GpRegGrid _GpGrid;
-
         Index<char> _Buffer;
 
         public AsmRegSets()
         {
-            _GpGrid = GpRegGrid.Empty;
             _Buffer = alloc<char>(256);
-        }
-
-        protected override void Initialized()
-        {
-            Symbols = AsmSymbols.create();
         }
 
         Span<char> Buffer()
@@ -67,29 +57,101 @@ namespace Z0.Asm
 
         public RegSet XmmRegs()
         {
-            const byte Count = 32;
-            var dst = alloc<RegOp>(Count);
-            for(var i=0; i<Count; i++)
-                seek(dst,i) = AsmRegs.reg(NativeSizeCode.W128, RegClassCode.XMM, (RegIndexCode)i);
-            return dst;
+            return Data(nameof(XmmRegs), Load);
+
+            RegSet Load()
+            {
+                const byte Count = 32;
+                var dst = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(dst,i) = AsmRegs.reg(NativeSizeCode.W128, RegClassCode.XMM, (RegIndexCode)i);
+                return dst;
+            }
         }
 
         public RegSet YmmRegs()
         {
-            const byte Count = 32;
-            var dst = alloc<RegOp>(Count);
-            for(var i=0; i<Count; i++)
-                seek(dst,i) = AsmRegs.reg(NativeSizeCode.W128, RegClassCode.YMM, (RegIndexCode)i);
-            return dst;
+            return Data(nameof(YmmRegs), Load);
+            RegSet Load()
+            {
+                const byte Count = 32;
+                var dst = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(dst,i) = AsmRegs.reg(NativeSizeCode.W128, RegClassCode.YMM, (RegIndexCode)i);
+                return dst;
+            }
         }
 
         public RegSet ZmmRegs()
         {
-            const byte Count = 32;
-            var dst = alloc<RegOp>(Count);
-            for(var i=0; i<Count; i++)
-                seek(dst,i) = AsmRegs.reg(NativeSizeCode.W512, RegClassCode.ZMM, (RegIndexCode)i);
-            return dst;
+            return Data(nameof(ZmmRegs), Load);
+            RegSet Load()
+            {
+                const byte Count = 32;
+                var dst = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(dst,i) = AsmRegs.reg(NativeSizeCode.W512, RegClassCode.ZMM, (RegIndexCode)i);
+                return dst;
+            }
+        }
+
+        public RegSet Gp8Regs()
+        {
+            return Data(nameof(Gp8Regs), Load);
+
+            RegSet Load()
+            {
+                var width = NativeSizeCode.W8;
+                var count = 20;
+                var buffer = alloc<RegOp>(count);
+                for(var i=0; i<16; i++)
+                    seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP, (RegIndexCode)i);
+                for(var i=16; i<20; i++)
+                    seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP8HI, (RegIndexCode)(i - 16));
+                return buffer;
+            }
+        }
+
+        public RegSet Gp16Regs()
+        {
+            return Data(nameof(Gp16Regs), Load);
+
+            RegSet Load()
+            {
+                const byte Count = 16;
+                var buffer = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(buffer,i) = AsmRegs.reg(NativeSizeCode.W16, RegClassCode.GP, (RegIndexCode)i);
+                return buffer;
+            }
+        }
+
+        public RegSet Gp32Regs()
+        {
+            return Data(nameof(Gp32Regs), Load);
+
+            RegSet Load()
+            {
+                const byte Count = 16;
+                var buffer = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(buffer,i) = AsmRegs.reg(NativeSizeCode.W32, RegClassCode.GP, (RegIndexCode)i);
+                return buffer;
+            }
+        }
+
+        public RegSet Gp64Regs()
+        {
+            return Data(nameof(Gp64Regs), Load);
+
+            RegSet Load()
+            {
+                const byte Count = 16;
+                var buffer = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(buffer,i) = AsmRegs.reg(NativeSizeCode.W64, RegClassCode.GP, (RegIndexCode)i);
+                return buffer;
+            }
         }
 
         public RegSet GpRegs(NativeSizeCode width)
@@ -98,26 +160,16 @@ namespace Z0.Asm
             switch(width)
             {
                 case NativeSizeCode.W8:
-                    {
-                        var count = 20;
-                        var buffer = alloc<RegOp>(count);
-                        for(var i=0; i<16; i++)
-                            seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP, (RegIndexCode)i);
-                        for(var i=16; i<20; i++)
-                            seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP8HI, (RegIndexCode)(i - 16));
-                        dst = buffer;
-                    }
+                    dst = Gp8Regs();
                 break;
                 case NativeSizeCode.W16:
+                    dst = Gp16Regs();
+                break;
                 case NativeSizeCode.W32:
+                    dst = Gp32Regs();
+                break;
                 case NativeSizeCode.W64:
-                {
-                    var Count = 16;
-                    var buffer = alloc<RegOp>(Count);
-                    for(var i=0; i<Count; i++)
-                        seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP, (RegIndexCode)i);
-                    dst = buffer;
-                }
+                    dst = Gp64Regs();
                 break;
             }
             return dst;
@@ -125,11 +177,16 @@ namespace Z0.Asm
 
         public RegSet MaskRegs()
         {
-            const byte Count = 8;
-            var dst = alloc<RegOp>(Count);
-            for(var i=0; i<Count; i++)
-                seek(dst,i) = AsmRegs.reg(NativeSizeCode.W64, RegClassCode.MASK, (RegIndexCode)i);
-            return dst;
+            return Data(nameof(MaskRegs), Load);
+
+            RegSet Load()
+            {
+                const byte Count = 8;
+                var dst = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(dst,i) = AsmRegs.reg(NativeSizeCode.W64, RegClassCode.MASK, (RegIndexCode)i);
+                return dst;
+            }
         }
     }
 }

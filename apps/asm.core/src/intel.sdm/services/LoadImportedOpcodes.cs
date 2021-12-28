@@ -38,7 +38,7 @@ namespace Z0.Asm
                     dst.Operands = text.inside(line,j, k);
 
                 dst.Mnemonic = text.left(line,j);
-                dst.Expr = text.trim(text.right(line,Chars.Eq));
+                dst.Expr = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
             }
 
             return buffer;

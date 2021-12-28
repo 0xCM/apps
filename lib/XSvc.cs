@@ -23,7 +23,7 @@ namespace Z0
             => Asm.AsmSymbols.create();
 
         [Op]
-        public static AsmRegSets AsmRegSets(this IServiceContext context)
+        public static AsmRegSets AsmRegSets(this IWfRuntime context)
             => Asm.AsmRegSets.create(context);
 
         [Op]

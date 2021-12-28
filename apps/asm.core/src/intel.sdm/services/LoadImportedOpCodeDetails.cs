@@ -13,13 +13,10 @@ namespace Z0.Asm
             var result = Outcome.Success;
             var dst = sys.empty<SdmOpCodeDetail>();
             var src = SdmPaths.ImportTable<SdmOpCodeDetail>();
-            var lines = src.ReadLines(TextEncodingKind.Unicode).View;
-            result = TextGrids.load(lines, out var grid);
-            if(result.Fail)
-                return result;
-            var count = grid.RowCount;
+            var lines = src.ReadNumberedLines();
+            var count = lines.Count -1;
             dst = alloc<SdmOpCodeDetail>(count);
-            result = rows(grid, dst);
+            result = rows(slice(lines.View,1), dst);
             if(result.Fail)
                 return result;
             else

@@ -12,10 +12,10 @@ namespace Z0.Asm
     {
         public uint OpCodeKey;
 
-        public CharBlock16 Mnemonic;
+        public AsmMnemonic Mnemonic;
 
         public CharBlock64 Operands;
 
-        public CharBlock36 Expr;
+        public AsmOpCode Expr;
     }
 }

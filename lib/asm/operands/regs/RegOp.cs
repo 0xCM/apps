@@ -10,7 +10,6 @@ namespace Z0.Asm
 
     using api = AsmRegs;
 
-
     /// <summary>
     /// Specifies a register operand
     /// </summary>

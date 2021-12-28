@@ -30,7 +30,6 @@ namespace Z0.Asm
             return details;
         }
 
-
         public Index<ListItem<string>> ExtractOpCodeStrings(ReadOnlySpan<SdmOpCode> src)
         {
             var count = src.Length;
