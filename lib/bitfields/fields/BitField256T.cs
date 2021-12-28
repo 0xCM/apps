@@ -10,6 +10,8 @@ namespace Z0
 
     using static Root;
 
+    using api = Bitfields;
+
     public struct Bitfield256<T>
         where T : unmanaged
     {
@@ -27,23 +29,26 @@ namespace Z0
         public T this[byte index]
         {
             [MethodImpl(Inline)]
-            get => Read(index);
+            get => api.extract(this, index);
+
+            [MethodImpl(Inline)]
+            set => api.store(value, index, ref this);
         }
 
         [MethodImpl(Inline)]
         public byte SegWidth(byte index)
-            => Bitfields.segwidth(this, index);
+            => api.segwidth(this, index);
 
         [MethodImpl(Inline)]
         public T Mask(byte index)
             => vmask.mask(this, index);
 
         [MethodImpl(Inline)]
-        public T Read(byte index)
-            => Bitfields.extract(this, index);
+        public T Extract(byte index)
+            => api.extract(this, index);
 
         [MethodImpl(Inline)]
-        public void Write(T src, byte index)
-            => Bitfields.store(src, index, ref this);
+        public void Store(T src, byte index)
+            => api.store(src, index, ref this);
     }
 }

@@ -30,23 +30,25 @@ namespace Z0
         public T this[E index]
         {
             [MethodImpl(Inline)]
-            get => Read(index);
+            get => api.extract(this, index);
+            [MethodImpl(Inline)]
+            set => api.store(value, index, ref this);
         }
 
         [MethodImpl(Inline)]
         public byte SegWidth(E index)
-            => Bitfields.segwidth(this, index);
+            => api.segwidth(this, index);
 
         [MethodImpl(Inline)]
         public T Mask(E index)
             => vmask.mask(this, index);
 
         [MethodImpl(Inline)]
-        public T Read(E index)
-            => Bitfields.extract(this, index);
+        public T Extract(E index)
+            => api.extract(this, index);
 
         [MethodImpl(Inline)]
-        public void Write(T src, E index)
-            => Bitfields.store(src, index, ref this);
+        public void Store(T src, E index)
+            => api.store(src, index, ref this);
     }
 }

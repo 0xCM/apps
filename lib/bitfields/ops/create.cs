@@ -74,11 +74,5 @@ namespace Z0
             where E : unmanaged
             where T : unmanaged
                 => new Bitfield256<E,T>(widths, state);
-
-        [MethodImpl(Inline)]
-        public static Bitfield256<E,T> create<E,T>(Vector256<T> state, Symbols<E> symbols)
-            where E : unmanaged
-            where T : unmanaged
-                => new Bitfield256<E,T>(segwidths<E>(w256, symbols), state);
     }
 }
