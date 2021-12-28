@@ -6,6 +6,14 @@ namespace Z0
 {
     using System;
 
-    public delegate void EdgeReader<V>(in Edge<V> e)
-        where V : IEquatable<V>, IVertex<V>;
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+
+    [Free]
+    public interface IArraySource<T> : ISpanProvider<T>
+    {
+        new T[] Data();
+
+        Span<T> ISpanProvider<T>.Data()
+            => Data();
+    }
 }

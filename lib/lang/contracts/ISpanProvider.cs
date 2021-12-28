@@ -4,19 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IEdge : IExpr
+    public interface IReadOnlySpanProvider<T> : IDataProvider
     {
-
+        ReadOnlySpan<T> Data();
     }
 
     [Free]
-    public interface IEdge<V> : IEdge
+    public interface ISpanProvider<T> : IReadOnlySpanProvider<T>
     {
-        V Source {get;}
+        new Span<T> Data();
 
-        V Target {get;}
+        ReadOnlySpan<T> IReadOnlySpanProvider<T>.Data()
+            => Data();
     }
 }

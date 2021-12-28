@@ -22,9 +22,6 @@ namespace Z0
 
         const string ImageHexScope = CliScope + "/image.hex";
 
-
-        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
-
         public void EmitMetadaSets(WorkflowOptions options)
         {
             if(options.EmitAssemblyRefs)

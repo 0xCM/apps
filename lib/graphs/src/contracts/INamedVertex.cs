@@ -4,17 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ILabeledVertex : IVertex
+    public interface INamedVertex : IVertex, INamed
     {
-        Name Name {get;}
+
     }
 
     [Free]
-    public interface ILabeledVertex<V> : ILabeledVertex
+    public interface INamedVertex<V> : INamedVertex, IVertex<V>
+        where V : IEquatable<V>
+
     {
-        V Value {get;}
     }
 }

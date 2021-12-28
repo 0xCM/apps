@@ -12,9 +12,6 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
-
-
         [CmdOp(".api-members")]
         Outcome ApiMembers(CmdArgs args)
         {

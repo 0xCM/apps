@@ -6,23 +6,22 @@ namespace Z0
 {
     using System;
 
-    public class LabeledDigraph<V>
-        where V : unmanaged, ILabeledVertex, IEquatable<V>
+    public class Digraph<V>
+        where V : IEquatable<V>, IVertex<V>
     {
-        MutableSet<V> _Vertices;
+        DataList<Edge<V>> _Edges;
 
-        MutableSet<LabeledEdge<V>> _Edges;
-
-        public LabeledDigraph()
+        public Digraph()
         {
-            _Vertices = new();
             _Edges = new();
         }
 
-        public void Connect(Name label, V src, V dst)
+        public Edge<V> Connect(V src, V dst)
         {
-            _Vertices.Union(src,dst);
-            _Edges.Union(new LabeledEdge<V>(label, src,dst));
+            src.Targets.Add(dst);
+            var edge = Graphs.edge(src, dst);
+            _Edges.Add(edge);
+            return edge;
         }
 
         public void Trace(EdgeReader<V> f)

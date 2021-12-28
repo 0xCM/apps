@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     using System;
 
-    partial class XTend
-    {
-        public static TypeSpec Spec(this Type src)
-            => TypeSyntax.infer(src);
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-        public static Index<TypeSpec> Specs(this Type[] src)
-            => src.Map(TypeSyntax.infer);
+    [Free]
+    public interface IStringProvider : IReadOnlySpanProvider<char>
+    {
+        new string Data();
+
+        ReadOnlySpan<char> IReadOnlySpanProvider<char>.Data()
+            => Data();
     }
 }

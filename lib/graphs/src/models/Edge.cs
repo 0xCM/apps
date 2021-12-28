@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Edge : IEquatable<Edge>
+    public readonly struct Edge : IEquatable<Edge>, IEdge<Vertex>
     {
         public Vertex Source {get;}
 
@@ -27,12 +27,6 @@ namespace Z0
         {
             src = Source;
             dst = Target;
-        }
-
-        public ulong Key
-        {
-            [MethodImpl(Inline)]
-            get => (ulong)Source.Key | ((ulong)Target.Key << 32);
         }
 
         public string Format()

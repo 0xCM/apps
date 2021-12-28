@@ -18,7 +18,6 @@ namespace Z0
     /// <remarks>For terminology consult, for example, https://xlinux.nist.gov/dads/<remarks>
     [DataType("graph<t:{0}>")]
     public class Graph<T>
-        where T : unmanaged
     {
         readonly Node<T>[] Nodes;
 

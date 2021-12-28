@@ -10,7 +10,7 @@ namespace Z0
 
     [DataType("box<t:{0}>")]
     public sealed class Box<T> : StrongBox<T>
-        where T : struct
+        //where T : struct
     {
         [MethodImpl(Inline)]
         public Box(T src)

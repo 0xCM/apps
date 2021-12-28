@@ -12,13 +12,13 @@ namespace Z0
     partial struct Graphs
     {
         /// <summary>
-        /// Finds the edges in a graph that target an identified vertex
+        /// Finds the edges in a graph that emit from an identified vertex
         /// </summary>
         /// <param name="graph">The declaring graph</param>
         /// <param name="target">The index of the target vertex</param>
         /// <typeparam name="V">The vertex index type</typeparam>
-        public static ReadOnlySpan<Arrow<Node<V>>> incoming<V>(Graph<V> graph, V target)
-            where V : unmanaged
+        public static ReadOnlySpan<Arrow<Node<V>>> targets<V>(Graph<V> graph, V source)
+            where V : IEquatable<V>
         {
             var count = graph.EdgeCount;
             var buffer = alloc<Arrow<Node<V>>>(count);
@@ -27,7 +27,7 @@ namespace Z0
             for(var i = 0; i<count; i++)
             {
                 ref readonly var edge = ref graph.Edge(i);
-                if(edge.Target.Equals(target))
+                if(edge.Source.Equals(source))
                     seek(edges,j++) = edge;
             }
             return slice(edges,0, j);

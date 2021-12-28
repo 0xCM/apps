@@ -17,7 +17,6 @@ namespace Z0
         /// <param name="label">An optional label for the graph</param>
         /// <typeparam name="V">The verex index type</typeparam>
         public static string format<V>(Graph<V> src, string label = null)
-            where V : unmanaged
         {
             var count = src.EdgeCount;
             var buffer = TextTools.buffer();

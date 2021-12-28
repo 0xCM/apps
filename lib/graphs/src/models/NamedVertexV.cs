@@ -9,28 +9,32 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct LabeledVertex<V> : ILabeledVertex<V>, IEquatable<LabeledVertex<V>>
+    public class NamedVertex<V> : INamedVertex<V>, IEquatable<NamedVertex<V>>
+        where V : IEquatable<V>
     {
         public Name Name {get;}
 
         public V Value {get;}
 
+        public DataList<Vertex<V>> Targets {get;}
+
         [MethodImpl(Inline)]
-        public LabeledVertex(Name name, V value)
+        public NamedVertex(Name name, V value)
         {
             Name = name;
             Value = value;
+            Targets = new();
         }
 
         [MethodImpl(Inline)]
-        public bool Equals(LabeledVertex<V> src)
+        public bool Equals(NamedVertex<V> src)
             => Name.Equals(src.Name);
 
         public override int GetHashCode()
             => (int)Name.Hash;
 
         public override bool Equals(object obj)
-            => obj is LabeledVertex<V> v && Equals(v);
+            => obj is NamedVertex<V> v && Equals(v);
 
         public string Format()
             => string.Format("{0}({1})", Name, Value);

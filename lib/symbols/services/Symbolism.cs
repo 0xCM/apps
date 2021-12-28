@@ -20,8 +20,6 @@ namespace Z0
             return records;
         }
 
-        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
-
         public Index<SymHeapEntry> EmitSymHeap()
         {
             var literals = Symbols.literals(ApiRuntimeCatalog.Components);

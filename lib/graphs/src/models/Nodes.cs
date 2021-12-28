@@ -11,7 +11,6 @@ namespace Z0
     using static Root;
 
     public class Nodes<V>
-        where V : unmanaged
     {
         /// <summary>
         /// Correlates sources with their targets

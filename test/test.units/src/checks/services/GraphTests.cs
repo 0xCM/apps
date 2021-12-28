@@ -41,7 +41,7 @@ namespace Z0
             var counter = 0u;
             var connector = " -> ";
             dst.AppendLine("digraph G {");
-            src.Walk(e => dst.AppendLineFormat("  \"{0}\"{1}\"{2}\"", e.Source.Key, connector, e.Target.Key));
+            src.Walk(e => dst.AppendLineFormat("  \"{0}\"{1}\"{2}\"", e.Source.Value, connector, e.Target.Value));
             dst.AppendLine("}");
         }
 
@@ -55,9 +55,9 @@ namespace Z0
                 ref readonly var edge = ref skip(edges,i);
                 var v0 = edge.Source;
                 var v1 = edge.Target;
-                ref readonly var a0 = ref skip(labels, v0.Key);
-                ref readonly var a1 = ref skip(labels, v1.Key);
-                dst.AppendLineFormat("  {0}{1}{2}", a0, connector, a1);
+                // ref readonly var a0 = ref skip(labels, v0.Value);
+                // ref readonly var a1 = ref skip(labels, v1.Value);
+                // dst.AppendLineFormat("  {0}{1}{2}", a0, connector, a1);
             }
             dst.AppendLine("}");
         }

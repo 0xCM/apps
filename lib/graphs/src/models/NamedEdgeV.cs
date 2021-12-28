@@ -9,8 +9,8 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct LabeledEdge<V> : IEdge<V>, IEquatable<LabeledEdge<V>>
-        where V : unmanaged, ILabeledVertex, IEquatable<V>
+    public readonly struct NamedEdge<V> : IEdge<V>, IEquatable<NamedEdge<V>>
+        where V : IEquatable<V>, IVertex<V>
     {
         public Name Name {get;}
 
@@ -19,15 +19,18 @@ namespace Z0
         public V Target {get;}
 
         [MethodImpl(Inline)]
-        public LabeledEdge(Name label, V src, V dst)
+        public NamedEdge(Name name, V src, V dst)
         {
-            Name = label;
+            Name = name;
             Source = src;
             Target = dst;
         }
 
+        public override int GetHashCode()
+            => (int)alg.hash.combine(Source.GetHashCode(), Target.GetHashCode());
+
         [MethodImpl(Inline)]
-        public bool Equals(LabeledEdge<V> src)
+        public bool Equals(NamedEdge<V> src)
             => Source.Equals(src.Source) && Target.Equals(src.Target) && Name.Equals(src.Name);
 
         public string Format()

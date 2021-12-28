@@ -9,39 +9,32 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Vertex<T> : IVertex<Vertex<T>,T>
-        where T : unmanaged
+    public class Vertex<T> : IVertex<T>
+        where T : IEquatable<T>
     {
-        public T Key {get;}
+        public T Value {get;}
+
+        public DataList<Vertex<T>> Targets {get;}
 
         [MethodImpl(Inline)]
-        public Vertex(T key)
+        public Vertex(T value)
         {
-            Key = key;
-        }
-
-        ulong Key64
-        {
-            [MethodImpl(Inline)]
-            get => core.bw64(Key);
+            Value = value;
+            Targets = new();
         }
 
         public string Format()
-            => Key64.ToString();
-
-        [MethodImpl(Inline)]
-        public int CompareTo(Vertex<T> src)
-            => Key64.CompareTo(src.Key64);
+            => Value.ToString();
 
         [MethodImpl(Inline)]
         public bool Equals(Vertex<T> src)
-            => Key64.Equals(src.Key64);
+            => Value.Equals(src.Value);
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => (int)Key64;
+            => Value.GetHashCode();
 
         public override bool Equals(object src)
             => src is Vertex<T> v && Equals(v);
@@ -49,6 +42,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Vertex<T>(T key)
             => new Vertex<T>(key);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Vertex(Vertex<T> src)
+            => new Vertex(src.Value);
 
         [MethodImpl(Inline)]
         public static bool operator ==(Vertex<T> a, Vertex<T> b)

@@ -9,14 +9,14 @@ namespace Z0
 
     using static Root;
 
-    partial struct Graphs
+    partial class ClrQuery
     {
         [MethodImpl(Inline), Op]
-        public static bool eq(ArrowType a, ArrowType b)
-            => a.Source == b.Source && a.Target == b.Target;
+        public static bool IsSpan(this Type src)
+            => src.IsGenericType && src.GetGenericTypeDefinition() == typeof(Span<>);
 
-        [Op]
-        public static uint hash32(ArrowType src)
-            => alg.hash.calc(src.Source) ^ alg.hash.calc(src.Target) ^ alg.hash.calc(src.Kind);
+        [MethodImpl(Inline), Op]
+        public static bool IsReadOnlySpan(this Type src)
+            => src.IsGenericType && src.GetGenericTypeDefinition() == typeof(ReadOnlySpan<>);
     }
 }

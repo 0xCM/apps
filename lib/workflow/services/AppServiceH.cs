@@ -152,6 +152,8 @@ namespace Z0
             }
         }
 
+        protected IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
+
         protected void Babble<T>(T content)
             => Wf.Babble(HostType, content);
 

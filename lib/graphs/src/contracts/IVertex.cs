@@ -11,32 +11,23 @@ namespace Z0
     [Free]
     public interface IVertex : IExpr
     {
+        object Value {get;}
 
+        DataList<Vertex> Targets {get;}
     }
 
     [Free]
-    public interface IVertex<V,T> : IVertex, IEquatable<V>, IComparable<V>
-        where V : struct, IVertex<V,T>
-        where T : unmanaged
+    public interface IVertex<V> : IVertex
+        where V : IEquatable<V>
     {
-        T Key {get;}
-    }
+        new V Value {get;}
 
-    [Free]
-    public interface IVertex<V,K,T> : IVertex<V,T>
-        where V : struct, IVertex<V,K,T>
-        where K : unmanaged
-        where T : unmanaged
-    {
+        new DataList<Vertex<V>> Targets {get;}
 
-    }
+        object IVertex.Value
+            => Value;
 
-    [Free]
-    public interface IVertex<V,P,K,T> : IVertex<V,K,T>
-        where V : struct, IVertex<V,P,K,T>
-        where K : unmanaged
-        where T : unmanaged
-    {
-        P Value {get;}
+        DataList<Vertex> IVertex.Targets
+            => new DataList<Vertex>(Targets.Map(x => (Vertex)x));
     }
 }

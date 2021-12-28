@@ -12,12 +12,12 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack =1)]
     public readonly struct Relation : IRelation
     {
-        public Label Source {get;}
+        public Name Source {get;}
 
-        public Label Target {get;}
+        public Name Target {get;}
 
         [MethodImpl(Inline)]
-        public Relation(Label src, Label dst)
+        public Relation(Name src, Name dst)
         {
             Source = src;
             Target = dst;

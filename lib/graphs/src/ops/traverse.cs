@@ -8,13 +8,16 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static core;
-    using static Root;
 
     partial struct Graphs
     {
-        [MethodImpl(Inline)]
-        public static GraphPath<V> path<V>(params V[] src)
+        public static void Traverse<V>(V src, Action<V> receiver)
             where V : IEquatable<V>, IVertex<V>
-                => new GraphPath<V>(src);
+        {
+            receiver(src);
+            var targets = src.Targets.View();
+            for(var i=0; i<targets.Length; i++)
+                Traverse<V>(skip(targets,i).Value, receiver);
+        }
     }
 }

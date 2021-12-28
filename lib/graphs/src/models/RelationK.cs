@@ -16,12 +16,12 @@ namespace Z0
     {
         public K Kind {get;}
 
-        public Label Source {get;}
+        public Name Source {get;}
 
-        public Label Target {get;}
+        public Name Target {get;}
 
         [MethodImpl(Inline)]
-        public Relation(K kind, Label src, Label dst)
+        public Relation(K kind, Name src, Name dst)
         {
             Kind = kind;
             Source = src;

@@ -33,7 +33,6 @@ namespace Z0
         public static string format<S,T>(ArrowType<S,T> src)
             =>string.Format("{0} -> {1}", src.Source.Name, src.Target.Name);
 
-
         /// <summary>
         /// Defines an edge from a specified source to specified target
         /// </summary>
@@ -63,8 +62,7 @@ namespace Z0
         /// <typeparam name="T">The vertex payload type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Arrow<Node<T>> connect<T>(in Node<T> src, in Node<T> dst)
-            where T : unmanaged
-                => new Arrow<Node<T>>(src, dst);
+            => new Arrow<Node<T>>(src, dst);
 
         /// <summary>
         /// Connects a source vertex to a target vertex
@@ -76,7 +74,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static Arrow<V> connect<V,T>(in Node<V,T> src, in Node<V,T> dst)
             where V : unmanaged
-            where T : unmanaged
                 => new Arrow<V>(src.Index, dst.Index);
 
         /// <summary>

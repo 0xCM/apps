@@ -9,32 +9,31 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Vertex : IEquatable<Vertex>, IComparable<Vertex>
+    public class Vertex : IEquatable<Vertex>, IVertex
     {
-        public uint Key {get;}
+        public object Value {get;}
+
+        public DataList<Vertex> Targets {get;}
 
         [MethodImpl(Inline)]
-        public Vertex(uint key)
+        public Vertex(object value)
         {
-            Key = key;
+            Value = value;
+            Targets = new();
         }
 
         public string Format()
-            => Key.ToString();
-
-        [MethodImpl(Inline)]
-        public int CompareTo(Vertex src)
-            => Key.CompareTo(src.Key);
+            => Value.ToString();
 
         [MethodImpl(Inline)]
         public bool Equals(Vertex src)
-            => Key.Equals(src.Key);
+            => Value.Equals(src.Value);
 
         public override string ToString()
             => Format();
 
         public override int GetHashCode()
-            => (int)Key;
+            => Value.GetHashCode();
 
         public override bool Equals(object src)
             => src is Vertex v && Equals(v);

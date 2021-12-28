@@ -6,9 +6,9 @@ namespace Z0
 {
     public interface IRelation
     {
-        Label Source {get;}
+        Name Source {get;}
 
-        Label Target {get;}
+        Name Target {get;}
     }
 
     public interface IRelation<K> : IRelation

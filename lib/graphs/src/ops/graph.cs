@@ -19,7 +19,6 @@ namespace Z0
         /// <typeparam name="V">The vertex index type</typeparam>
         [MethodImpl(Inline)]
         public static Graph<V> graph<V>(Node<V>[] nodes, Arrow<Node<V>>[] edges)
-            where V : unmanaged
-                => new Graph<V>(nodes, edges);
+            => new Graph<V>(nodes, edges);
     }
 }

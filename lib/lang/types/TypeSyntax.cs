@@ -73,6 +73,10 @@ namespace Z0
 
         internal const string Num = "num<t:{0}>";
 
+        internal const string Span = "span<t:{0}>";
+
+        internal const string ConstSpan = "cspan<t:{0}>";
+
         internal static string symbol<K>(K kind)
             where K : unmanaged, Enum
                 => Symbols.expr(kind).Format();
@@ -158,6 +162,22 @@ namespace Z0
         /// <param name="n">The bit width</param>
         [TypeSyntax(C)]
         public static TypeSpec c(byte n) => n <= 32 ? string.Format(C, n) : EmptyString;
+
+        /// <summary>
+        /// Defines a type that represents a readonly span over a specified element type
+        /// </summary>
+        /// <param name="element">The element type</param>
+        [TypeSyntax(ConstSpan)]
+        public static TypeSpec cspan(TypeSpec element) => string.Format(ConstSpan, element);
+
+        /// <summary>
+        /// Defines a type that represents a span over a specified element type
+        /// </summary>
+        /// <param name="element">The element type</param>
+        [TypeSyntax(Span)]
+        public static TypeSpec span(TypeSpec element) => string.Format(Span, element);
+
+        public static TypeSpec span(TypeSpec element, bool @const) => @const ? cspan(element) : span(element);
 
         /// <summary>
         /// Defines a character type of parametric kind and parametric width no greater than 32
@@ -259,6 +279,37 @@ namespace Z0
             else if(src.IsArray)
             {
                 spec = array(infer(src.GetElementType()));
+            }
+            else if(src.IsSpan())
+            {
+                if(src.IsOpenGeneric())
+                {
+                    var parameters = src.GenericParameters();
+                    if(parameters.Length == 1)
+                        spec = span(infer(core.first(parameters)));
+                }
+                else
+                {
+                    var args = src.GetGenericArguments();
+                    if(args.Length == 1)
+                        spec = span(infer(core.first(args)));
+                }
+
+            }
+            else if(src.IsReadOnlySpan())
+            {
+                if(src.IsOpenGeneric())
+                {
+                    var parameters = src.GenericParameters();
+                    if(parameters.Length == 1)
+                        spec = cspan(infer(core.first(parameters)));
+                }
+                else
+                {
+                    var args = src.GetGenericArguments();
+                    if(args.Length == 1)
+                        spec = cspan(infer(core.first(args)));
+                }
             }
             else
             {

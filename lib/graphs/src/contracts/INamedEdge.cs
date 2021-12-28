@@ -4,8 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
+    public interface INamedEdge : IEdge, INamed
+    {
 
-    public delegate void EdgeReader<V>(in Edge<V> e)
-        where V : IEquatable<V>, IVertex<V>;
+    }
+
+    public interface INamedEdge<V> : INamedEdge, IEdge<V>
+    {
+
+    }
 }

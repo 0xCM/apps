@@ -29,14 +29,22 @@ namespace Z0
             result = (eval1 == a1 && eval2 == b1);
 
             var eq1 = ScalarOps.eq(a1,b1);
-            Write(eq1.Format());
+            //Write(eq1.Format());
 
             context.Inject((v1,a2), (v2,b2));
             var eval3 = v1.Eval(context);
             var eval4 = v2.Eval(context);
             var eq2 = ScalarOps.eq(a2,b2);
-            Write(eq2.Format());
+            //Write(eq2.Format());
 
+            return result;
+        }
+
+        public Outcome CheckTypeSyntax()
+        {
+            var result = Outcome.Success;
+
+            Write(typeof(Span<int>).Spec());
             return result;
         }
     }

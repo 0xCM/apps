@@ -19,7 +19,6 @@ namespace Z0
         /// <typeparam name="V">The index type</typeparam>
         public static Index<Node<V,T>> nodes<V,T>(V s0, params T[] data)
             where V : unmanaged
-            where T : unmanaged
         {
             var start = Numeric.force<V,ulong>(s0);
             var buffer = alloc<Node<V,T>>(data.Length);

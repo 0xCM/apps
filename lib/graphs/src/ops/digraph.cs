@@ -12,9 +12,9 @@ namespace Z0
     partial struct Graphs
     {
         [MethodImpl(Inline)]
-        public static LabeledDigraph<V> digraph<V>()
-            where V : unmanaged, ILabeledVertex, IEquatable<V>
-                => new LabeledDigraph<V>();
+        public static Digraph<V> digraph<V>()
+            where V : IEquatable<V>, IVertex<V>
+                => new Digraph<V>();
 
         [MethodImpl(Inline)]
         public static Digraph digraph(params Edge[] edges)

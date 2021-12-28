@@ -11,9 +11,12 @@ namespace Z0
 
     partial struct Graphs
     {
-        [MethodImpl(Inline)]
-        public static LabeledEdge<V> edge<V>(Name label, V src, V dst)
-            where V : unmanaged, ILabeledVertex, IEquatable<V>
-                => new LabeledEdge<V>(label,src,dst);
+        public static Edge<V> edge<V>(V src, V dst)
+            where V : IEquatable<V>, IVertex<V>
+                => new Edge<V>(src, dst);
+
+        public static NamedEdge<V> edge<V>(Name name, V src, V dst)
+            where V : IEquatable<V>, IVertex<V>
+                => new NamedEdge<V>(name, src, dst);
     }
 }

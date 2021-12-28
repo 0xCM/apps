@@ -24,8 +24,6 @@ namespace Z0
 
         ApiPackArchive ApiPackArchive => Service(ApiPacks.Archive);
 
-        IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
-
         AsmCallPipe AsmCalls => Service(Wf.AsmCallPipe);
 
         AsmDecoder AsmDecoder => Service(Wf.AsmDecoder);
