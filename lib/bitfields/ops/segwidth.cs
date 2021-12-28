@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct vbits
+    partial struct Bitfields
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static byte segwidth<T>(in Bitfield256<T> src, byte index)

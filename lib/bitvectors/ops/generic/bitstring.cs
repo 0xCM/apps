@@ -55,5 +55,10 @@ namespace Z0
         public static BitString bitstring<T>(ScalarBits<T> src, int width)
             where T : unmanaged
                 => BitStrings.scalar<T>(src.State, width);
+
+        [MethodImpl(Inline), Op]
+        public static BitString bitstring<T>(BitVector<T> src)
+            where T : unmanaged, IEquatable<T>
+                => new BitString(core.bytes(src.State));
    }
 }

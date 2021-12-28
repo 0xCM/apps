@@ -40,7 +40,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public T Read(byte index)
-            => api.read(this, index);
+            => api.extract(this, index);
 
         [MethodImpl(Inline)]
         public Bitfield<T,K> Store(byte index, T src)

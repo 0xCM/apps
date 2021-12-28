@@ -33,7 +33,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public T Read(byte offset, byte width)
-            => api.read(this, offset, width);
+            => api.extract(this, offset, width);
 
         public Bitfield8<T> Lo
         {

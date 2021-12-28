@@ -10,15 +10,21 @@ namespace Z0
     using static Root;
     using static core;
 
-    public struct BitVector<T>
-        where T : unmanaged
+    public struct BitVector<T> : IBitVector<BitVector<T>,T>
+        where T : unmanaged, IEquatable<T>
     {
-        T State;
+        T _State;
 
         [MethodImpl(Inline)]
         public BitVector(in T state)
         {
-            State = state;
+            _State = state;
+        }
+
+        public T State
+        {
+            [MethodImpl(Inline)]
+            get => _State;
         }
 
         public BitWidth Width
@@ -27,10 +33,17 @@ namespace Z0
             get => width<T>();
         }
 
+        public string Format()
+            => BitVectors.format(this);
+
+        [MethodImpl(Inline)]
+        public bool Equals(BitVector<T> src)
+            => State.Equals(src.State);
+
         Span<byte> Bytes
         {
             [MethodImpl(Inline)]
-            get => bytes(State);
+            get => bytes(_State);
         }
 
         [MethodImpl(Inline)]
@@ -52,5 +65,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref ScalarBits<ulong> Scalar(W64 w, uint offset)
             => ref first(recover<ScalarBits<ulong>>(Segment(offset)));
+
     }
 }

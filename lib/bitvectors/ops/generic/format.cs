@@ -24,12 +24,22 @@ namespace Z0
         /// <summary>
         /// Formats the bitvector as a bitstring
         /// </summary>
-        /// <param name="x">The source vector</param>
+        /// <param name="src">The source vector</param>
         /// <param name="fmt">Optional formatting style</param>
         [MethodImpl(Inline)]
-        public static string format<T>(in BitVector128<T> x, BitFormat? fmt = null)
+        public static string format<T>(in BitVector128<T> src, BitFormat? fmt = null)
             where T : unmanaged
-                => bitstring(x).Format(fmt);
+                => bitstring(src).Format(fmt);
+
+        /// <summary>
+        /// Formats the bitvector as a bitstring
+        /// </summary>
+        /// <param name="src">The source vector</param>
+        /// <param name="fmt">Optional formatting style</param>
+        [MethodImpl(Inline)]
+        public static string format<T>(in BitVector<T> src, BitFormat? fmt = null)
+            where T : unmanaged, IEquatable<T>
+                => bitstring(src).Format(fmt);
 
         /// <summary>
         /// Formats the bitvector as a bitstring

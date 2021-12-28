@@ -20,7 +20,7 @@ namespace Z0
     /// <typeparam name="T">The cell type</typeparam>
     /// <typeparam name="N">The bit-width type</typeparam>
     [StructLayout(LayoutKind.Sequential, Size = 16)]
-    public struct BitVector128<T> : IEquatable<BitVector128<T>>
+    public struct BitVector128<T> : IBitVector<BitVector128<T>, Vector128<T>>
         where T : unmanaged
     {
         Vector128<T> Data;

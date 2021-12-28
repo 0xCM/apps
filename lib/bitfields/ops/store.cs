@@ -13,6 +13,7 @@ namespace Z0
 
     partial struct Bitfields
     {
+
         [MethodImpl(Inline), Op]
         public static ref Bitfield8 store(byte src, byte offset, byte width, ref Bitfield8 dst)
         {
@@ -91,5 +92,16 @@ namespace Z0
             dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.Width))));
             return ref dst;
         }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static void store<T>(T src, byte index, ref Bitfield256<T> dst)
+            where T : unmanaged
+                => dst.State = cpu.vcell(dst.State, index, gmath.and(src, dst.Mask(index)));
+
+        [MethodImpl(Inline)]
+        public static void store<E,T>(T src, E index, ref Bitfield256<E,T> dst)
+            where E : unmanaged
+            where T : unmanaged
+                => dst.State = cpu.vcell(dst.State, bw8(index), gmath.and(src, dst.Mask(index)));
    }
 }

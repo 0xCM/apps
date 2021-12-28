@@ -13,43 +13,43 @@ namespace Z0
     partial struct Bitfields
     {
         [MethodImpl(Inline), Op]
-        public static byte read(Bitfield8 src, byte pos, byte width)
+        public static byte extract(Bitfield8 src, byte pos, byte width)
             => bits.slice(src.State, pos, width);
 
         [MethodImpl(Inline), Op]
-        public static ushort read(Bitfield16 src, byte i0, byte i1)
+        public static ushort extract(Bitfield16 src, byte i0, byte i1)
             => bits.slice(src.State, i0, i1);
 
         [MethodImpl(Inline), Op]
-        public static uint read(Bitfield32 src, byte i0, byte i1)
+        public static uint extract(Bitfield32 src, byte i0, byte i1)
             => bits.slice(src.State, i0, i1);
 
         [MethodImpl(Inline), Op]
-        public static ulong read(Bitfield64 src, byte i0, byte i1)
+        public static ulong extract(Bitfield64 src, byte i0, byte i1)
             => bits.slice(src.State, i0, i1);
 
         [MethodImpl(Inline), Op, Closures(UInt8k)]
-        public static T read<T>(Bitfield8<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield8<T> src, byte i0, byte i1)
             where T : unmanaged
                 => @as<T>(bits.slice(src.State, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16k)]
-        public static T read<T>(Bitfield16<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield16<T> src, byte i0, byte i1)
             where T : unmanaged
                 => @as<T>(bits.slice(src.State, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(UInt8x16x32k)]
-        public static T read<T>(Bitfield32<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield32<T> src, byte i0, byte i1)
             where T : unmanaged
                 => @as<T>(bits.slice(src.State, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
-        public static T read<T>(Bitfield64<T> src, byte i0, byte i1)
+        public static T extract<T>(Bitfield64<T> src, byte i0, byte i1)
             where T : unmanaged
                 => @as<T>(bits.slice(src.State, i0, i1));
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T read<T>(in Bitfield<T> src, byte i)
+        public static T extract<T>(in Bitfield<T> src, byte i)
             where T : unmanaged
         {
             ref readonly var spec = ref skip(src.SegSpecs,i);
@@ -57,12 +57,24 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T read<T,K>(in Bitfield<T,K> src, byte i)
+        public static T extract<T,K>(in Bitfield<T,K> src, byte i)
             where T : unmanaged
             where K : unmanaged
         {
             ref readonly var spec = ref skip(src.SegSpecs,i);
             return gbits.slice(src.State, (byte)spec.Offset, (byte)spec.Width);
         }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T extract<T>(in Bitfield256<T> src, byte index)
+            where T : unmanaged
+                => gmath.and(cpu.vcell(src.State, index), src.Mask(index));
+
+        [MethodImpl(Inline)]
+        public static T extract<E,T>(in Bitfield256<E,T> src, E index)
+            where E : unmanaged
+            where T : unmanaged
+                => gmath.and(cpu.vcell(src.State, bw8(index)), src.Mask(index));
+
     }
 }

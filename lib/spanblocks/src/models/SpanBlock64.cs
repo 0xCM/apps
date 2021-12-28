@@ -17,6 +17,8 @@ namespace Z0
     public readonly ref struct SpanBlock64<T>
         where T : unmanaged
     {
+        static uint CellWidth => width<T>();
+
         readonly Span<T> Data;
 
         [MethodImpl(Inline)]
@@ -38,6 +40,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref Cell64 Cell(uint block)
             => ref first(recover<T,Cell64>(CellBlock((int)block)));
+
+        [MethodImpl(Inline)]
+        public T Bits(byte start, byte length)
+            => gbits.slice(Data[(int)(start/CellWidth)], (byte)(start % CellWidth), length);
 
         /// <summary>
         /// The unblocked storage cells

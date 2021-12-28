@@ -32,8 +32,8 @@ namespace Z0
             => _State = state;
 
         [MethodImpl(Inline)]
-        public T Read(byte offset, byte width)
-            => api.read(this, offset, width);
+        public T Extract(byte offset, byte width)
+            => api.extract(this, offset, width);
 
         public ReadOnlySpan<byte> Bytes
         {

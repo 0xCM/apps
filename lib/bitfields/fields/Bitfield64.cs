@@ -24,8 +24,8 @@ namespace Z0
             => _State = state;
 
         [MethodImpl(Inline)]
-        public S Read(byte offset, byte width)
-            => api.read(this, offset, width);
+        public S Extract(byte offset, byte width)
+            => api.extract(this, offset, width);
 
         [MethodImpl(Inline)]
         public Bitfield64 Store(S src, byte offset, byte width)
