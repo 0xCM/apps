@@ -12,14 +12,14 @@ namespace Z0
     public readonly struct LabeledEdge<V> : IEdge<V>, IEquatable<LabeledEdge<V>>
         where V : unmanaged, ILabeledVertex, IEquatable<V>
     {
-        public Label Name {get;}
+        public Name Name {get;}
 
         public V Source {get;}
 
         public V Target {get;}
 
         [MethodImpl(Inline)]
-        public LabeledEdge(Label label, V src, V dst)
+        public LabeledEdge(Name label, V src, V dst)
         {
             Name = label;
             Source = src;

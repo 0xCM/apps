@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct relations
+    partial struct Graphs
     {
         public static RenderPattern<S,T> RenderLink<S,T>() => "{0} -> {1}";
 

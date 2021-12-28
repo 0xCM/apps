@@ -9,10 +9,10 @@ namespace Z0
 
     using static Root;
 
-    partial struct relations
+    partial struct Graphs
     {
-       [MethodImpl(Inline)]
-        public static LabeledEdge<V> edge<V>(Label label, V src, V dst)
+        [MethodImpl(Inline)]
+        public static LabeledEdge<V> edge<V>(Name label, V src, V dst)
             where V : unmanaged, ILabeledVertex, IEquatable<V>
                 => new LabeledEdge<V>(label,src,dst);
     }

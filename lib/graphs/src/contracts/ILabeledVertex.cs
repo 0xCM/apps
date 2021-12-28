@@ -9,7 +9,7 @@ namespace Z0
     [Free]
     public interface ILabeledVertex : IVertex
     {
-        Label Name {get;}
+        Name Name {get;}
     }
 
     [Free]

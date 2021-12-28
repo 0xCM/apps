@@ -80,13 +80,13 @@ namespace Z0
             where T : unmanaged
         {
             var n = nat32i<N>();
-            var nodes = relations.nodes<T>(n);
+            var nodes = Graphs.nodes<T>(n);
             var edges = new List<Arrow<Node<T>>>();
             for(var row=0; row<n; row++)
             for(var col=0; col<n; col++)
                 if(src[row,col])
                     edges.Add(flows.connect(nodes[row], nodes[col]));
-            return relations.graph(nodes, edges.ToArray());
+            return Graphs.graph(nodes, edges.ToArray());
         }
     }
 }

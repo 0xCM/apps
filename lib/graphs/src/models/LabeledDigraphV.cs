@@ -19,7 +19,7 @@ namespace Z0
             _Edges = new();
         }
 
-        public void Connect(Label label, V src, V dst)
+        public void Connect(Name label, V src, V dst)
         {
             _Vertices.Union(src,dst);
             _Edges.Union(new LabeledEdge<V>(label, src,dst));

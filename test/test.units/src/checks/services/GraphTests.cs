@@ -26,7 +26,7 @@ namespace Z0
 
         public static Digraph cycle(uint src, uint dst)
         {
-            var g = relations.digraph();
+            var g = Graphs.digraph();
             for(var i=src; i<dst; i+=2)
                 g.Connect(i, i+1);
             g.Connect(dst,src);

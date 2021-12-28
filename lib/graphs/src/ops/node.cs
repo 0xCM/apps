@@ -10,7 +10,7 @@ namespace Z0
     using static core;
     using static Root;
 
-    partial struct relations
+    partial struct Graphs
     {
         /// <summary>
         /// Creates a vertex with payload
@@ -30,7 +30,7 @@ namespace Z0
             => new Node<T>(index,src);
 
         [MethodImpl(Inline)]
-        public static LabeledVertex<V> vertex<V>(Label name, V value)
+        public static LabeledVertex<V> vertex<V>(Name name, V value)
             where V : unmanaged, IEquatable<V>
                 => new LabeledVertex<V>(name,value);
     }

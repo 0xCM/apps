@@ -11,12 +11,12 @@ namespace Z0
 
     public readonly struct LabeledVertex<V> : ILabeledVertex<V>, IEquatable<LabeledVertex<V>>
     {
-        public Label Name {get;}
+        public Name Name {get;}
 
         public V Value {get;}
 
         [MethodImpl(Inline)]
-        public LabeledVertex(Label name, V value)
+        public LabeledVertex(Name name, V value)
         {
             Name = name;
             Value = value;
