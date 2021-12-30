@@ -194,7 +194,7 @@ namespace Z0
             public uint2 first_f2f3;
 
             [OperandKind(HAS_MODRM)]
-            public uint2 has_modrm;
+            public bit has_modrm;
 
             [OperandKind(LAST_F2F3)]
             public uint2 last_f2f3;
@@ -203,7 +203,7 @@ namespace Z0
             public uint2 llrc;
 
             [OperandKind(MOD)]
-            public uint3 mod;
+            public uint2 mod;
 
             [OperandKind(MODE)]
             public Mode mode;
@@ -215,7 +215,7 @@ namespace Z0
             public uint2 sibscale;
 
             [OperandKind(SMODE)]
-            public uint2 smode;
+            public SMode smode;
 
             [OperandKind(VEX_PREFIX)]
             public uint2 vex_prefix;
@@ -263,7 +263,7 @@ namespace Z0
             public uint4 esrc;
 
             [OperandKind(MAP)]
-            public OpCodeMap map;
+            public byte map;
 
             [OperandKind(NELEM)]
             public uint4 nelem;

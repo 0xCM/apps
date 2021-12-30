@@ -20,6 +20,10 @@ namespace Z0.Asm
     [ApiComplete]
     public struct RexPrefix : IAsmPrefix<RexPrefix>
     {
+        [MethodImpl(Inline)]
+        public static RexPrefix init()
+            => new RexPrefix(0x40);
+
         byte Data;
 
         [MethodImpl(Inline)]
@@ -87,6 +91,9 @@ namespace Z0.Asm
 
         public string Format()
             => Data.FormatAsmHex();
+
+        public string ToBitString()
+            => BitRender.format8x4(Data);
 
         public override string ToString()
             => Format();

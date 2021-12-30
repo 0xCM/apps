@@ -10,35 +10,33 @@ namespace Z0
         [SymSource(xed)]
         public enum OpCodeMap : byte
         {
-            None,
+            AMD_3DNOW=4,
 
-            AMD_3DNOW,
+            AMD_XOP8=8,
 
-            AMD_XOP8,
+            AMD_XOP9=9,
 
-            AMD_XOP9,
+            AMD_XOPA=10,
 
-            AMD_XOPA,
+            EVEX_MAP1=1,
 
-            EVEX_MAP1,
+            EVEX_MAP2=2,
 
-            EVEX_MAP2,
+            EVEX_MAP3=3,
 
-            EVEX_MAP3,
+            LEGACY_MAP0=0,
 
-            LEGACY_MAP0,
+            LEGACY_MAP1=1,
 
-            LEGACY_MAP1,
+            LEGACY_MAP2=2,
 
-            LEGACY_MAP2,
+            LEGACY_MAP3=3,
 
-            LEGACY_MAP3,
+            VEX_MAP1=1,
 
-            VEX_MAP1,
+            VEX_MAP2=2,
 
-            VEX_MAP2,
-
-            VEX_MAP3,
+            VEX_MAP3=3,
         }
     }
 }

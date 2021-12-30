@@ -15,80 +15,82 @@ namespace Z0.Asm
     [ApiComplete]
     public struct ModRm
     {
-        byte Data;
+        public static ModRm init(byte src = 0)
+            => new ModRm();
 
-        [MethodImpl(Inline)]
+        byte _Value;
+
         public ModRm(byte src)
-            => Data = src;
-
-        /// <summary>
-        /// Reads bits [2:0] of the modrm byte
-        /// </summary>
-        [MethodImpl(Inline)]
-        public byte Rm()
-            => bits.extract(Data, 0, 2);
-
-        [MethodImpl(Inline)]
-        public void Rm(byte rm)
-            => Data = bits.replace(Data, 0, 2, rm);
-
-        /// <summary>
-        /// Reads bits [5:3], which specifies a register operand or extends the operation encoding
-        /// </summary>
-        [MethodImpl(Inline)]
-        public byte Reg()
-            => bits.extract(Data, 3, 5);
-
-        /// <summary>
-        /// Specifies bits [5:3], which specifies a register operand or extends the operation encoding
-        /// </summary>
-        [MethodImpl(Inline)]
-        public void Reg(byte reg)
-            => Data = bits.replace(Data, 3, 5, reg);
-
-        /// <summary>
-        /// Reads bits [7:6] of the modrm byte that, together with the r/m field, specifies an operand addressing mode
-        /// </summary>
-        [MethodImpl(Inline)]
-        public byte Mod()
-            => bits.extract(Data, 6, 7);
-
-        [MethodImpl(Inline)]
-        public void Mod(byte mod)
-            => Data = bits.replace(Data, 6, 7, mod);
-
-        /// <summary>
-        /// The encoded bitfield value
-        /// </summary>
-        public byte Encoded
         {
-            [MethodImpl(Inline)]
-            get => Data;
+            _Value = src;
         }
 
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => (byte)Data != 0;
-        }
+        const byte RmMask = 0b11_111_000;
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => (byte)Data == 0;
-        }
+        const byte RmOffset = 0;
 
-        [MethodImpl(Inline)]
-        public static ModRm operator ^(ModRm a, ModRm b)
-            => new ModRm(math.xor(a.Data, b.Data));
+        const byte RegMask = 0b11_000_111;
+
+        const byte RegOffset = 3;
+
+        const byte ModMask = 0b00_111_111;
+
+        const byte ModOffset = 6;
 
         [MethodImpl(Inline)]
-        public static ModRm operator |(ModRm a, ModRm b)
-            => new ModRm(math.or(a.Data, b.Data));
+        public uint3 Rm()
+            => (uint3)(math.srl((byte)(_Value & ~RmMask), RmOffset));
+
+        [MethodImpl(Inline)]
+        public void Rm(uint3 src)
+            => _Value = math.or(math.and(_Value, RmMask), math.sll(src,RmOffset));
+
+        [MethodImpl(Inline)]
+        public uint3 Reg()
+            => (uint3)(math.srl((byte)(_Value & ~RegMask), RegOffset));
+
+        [MethodImpl(Inline)]
+        public void Reg(uint3 src)
+            => _Value = math.or(math.and(_Value, RegMask),math.sll(src,RegOffset));
+
+        [MethodImpl(Inline)]
+        public uint2 Mod()
+            => (uint2)(math.srl((byte)(_Value & ~ModMask), ModOffset));
+
+        [MethodImpl(Inline)]
+        public void Mod(uint2 src)
+            => _Value = math.or(math.and(_Value, ModMask), math.sll(src,ModOffset));
+
+        public byte Value()
+            => _Value;
+
+        public string ToBitString()
+            => string.Format("{0} {1} {2}", Mod(), Reg(), Rm());
+
+        public string Format()
+            => Value().FormatHex(2);
+
+        public override string ToString()
+            => Format();
+
+        public bool Equals(ModRm src)
+            => _Value == src._Value;
+
+        public override bool Equals(object src)
+            => src is ModRm x && Equals(x);
+
+        public override int GetHashCode()
+            => _Value;
 
         [MethodImpl(Inline)]
         public static implicit operator byte(ModRm src)
-            => src.Encoded;
+            => src.Value();
+
+        public static bool operator ==(ModRm a, ModRm b)
+            => a.Equals(b);
+
+        public static bool operator !=(ModRm a, ModRm b)
+            => !a.Equals(b);
 
         public static ModRm Empty => default;
     }

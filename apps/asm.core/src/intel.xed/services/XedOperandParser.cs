@@ -6,106 +6,11 @@ namespace Z0
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
 
-    using Asm;
     using static core;
-    using static Root;
-
     using static XedModels;
 
     using K = XedModels.OperandKind;
-
-    partial class ProjectCmdProvider
-    {
-        Outcome Emit(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<XedDisasm.Block> blocks, FS.FilePath dst)
-        {
-            const string RenderPattern = "{0,-22}: {1}";
-
-            var parser = new XedOperandParser();
-            var count = (uint)Require.equal(encodings.Length, blocks.Length);
-            var result = XedDisasm.ParseInstructions(blocks, out var instructions);
-            if(result.Fail)
-                return result;
-
-            Require.equal(instructions.Count, count);
-
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var encoding = ref skip(encodings,i);
-                ref readonly var inst = ref instructions[i];
-                ref readonly var block = ref skip(blocks,i);
-
-                parser.ParseState(inst.Props.Edit, out var state);
-                iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
-                iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
-
-                var parsed = parser.ParsedFields.ToHashSet();
-                writer.WriteLine(RP.PageBreak80);
-                writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
-                writer.WriteLine(string.Format(RenderPattern, "Encoding (hex)", encoding.Encoding));
-                writer.WriteLine(string.Format(RenderPattern, "Encoding (bits)", encoding.Encoding.ToBitString()));
-                writer.WriteLine(string.Format(RenderPattern, "Class", inst.Class));
-                writer.WriteLine(string.Format(RenderPattern, "Form", inst.Form));
-
-                for(var k=0; k<block.OperandCount; k++)
-                {
-                    ref readonly var opsrc = ref skip(block.Operands,k);
-                    result = parser.ParseInstOperand(opsrc.Content, out var op);
-                    if(result.Fail)
-                        return result;
-
-                    var title = string.Format("Operand {0}", k);
-                    var content = string.Format("{0,-12} | {1,-12} | {2,-12} | {3}", op.Kind, op.Action, op.Visiblity, op.Prop2);
-                    writer.WriteLine(string.Format(RenderPattern, title, content));
-                }
-
-                var fields = state.ToLookup();
-                var kinds = fields.Keys;
-                var values = fields.Values;
-                for(var k=0; k<kinds.Length; k++)
-                {
-                    ref readonly var kind = ref skip(kinds,k);
-                    if(parsed.Contains(kind))
-                    {
-                        ref readonly var value = ref skip(values,k);
-                        writer.WriteLine(string.Format(RenderPattern, kind, value));
-                    }
-                }
-            }
-
-            writer.WriteLine();
-
-            EmittedFile(emitting, count);
-            return result;
-        }
-
-        [CmdOp("xed/disasm/blocks")]
-        protected Outcome EmitXedDisasmBlocks(CmdArgs args)
-        {
-            var project = Project();
-            var encodings = XedDisasm.ParseEncodings(project);
-            var blocks = XedDisasm.ParseBlocks(project);
-            var files = blocks.Keys;
-            var count = files.Length;
-            var dir = ProjectDb.ProjectData() + FS.folder(string.Format("{0}.{1}", project.Name, "xed.disasm.detail"));
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(files,i);
-                var block = blocks[path];
-                var encoding = encodings[path];
-                var dst = dir + FS.file(string.Format("{0}.details",path.FileName), FS.Txt);
-                var result = Emit(path,encoding.Encoded, block.Blocks, dst);
-                if(result.Fail)
-                    return result;
-            }
-
-
-            return true;
-        }
-    }
 
     public class XedOperandParser
     {
@@ -218,8 +123,6 @@ namespace Z0
         void Parse(string src, OperandKind kind)
         {
             var value = text.trim(src);
-            if(text.empty(value))
-                return;
 
             var result = Outcome.Success;
             switch(kind)
@@ -229,11 +132,11 @@ namespace Z0
                 break;
 
                 case K.AMD3DNOW:
-                    result = DataParser.parse(value, out State.amd3dnow);
+                    State.amd3dnow = bit.On;
                 break;
 
                 case K.ASZ:
-                    result = DataParser.parse(value, out State.asz);
+                    State.asz = bit.On;
                 break;
 
                 case K.BASE0:
@@ -249,7 +152,7 @@ namespace Z0
                 break;
 
                 case K.BCRC:
-                    result = DataParser.parse(value, out State.bcrc);
+                    State.bcrc = bit.On;
                 break;
 
                 case K.BRDISP_WIDTH:
@@ -257,7 +160,7 @@ namespace Z0
                 break;
 
                 case K.CET:
-                    result = DataParser.parse(value, out State.cet);
+                    State.cet = bit.On;
                 break;
 
                 case K.CHIP:
@@ -265,19 +168,19 @@ namespace Z0
                 break;
 
                 case K.CLDEMOTE:
-                    result = DataParser.parse(value, out State.cldemote);
-                    break;
+                    State.cldemote = bit.On;
+                break;
 
                 case K.DEFAULT_SEG:
                     result = DataParser.parse(value, out State.default_seg);
                 break;
 
                 case K.DF32:
-                    result = DataParser.parse(value, out State.df32);
+                    State.df32 = bit.On;
                 break;
 
                 case K.DF64:
-                    result = DataParser.parse(value, out State.df64);
+                    State.df64 = bit.On;
                 break;
 
                 case K.DISP:
@@ -289,7 +192,7 @@ namespace Z0
                 break;
 
                 case K.DUMMY:
-                    result = DataParser.parse(value, out State.dummy);
+                    State.dummy = bit.On;
                 break;
 
                 case K.EASZ:
@@ -301,11 +204,11 @@ namespace Z0
                 break;
 
                 case K.ENCODER_PREFERRED:
-                    result = DataParser.parse(value, out State.encoder_preferred);
+                    State.encoder_preferred = bit.On;
                 break;
 
                 case K.ENCODE_FORCE:
-                    result = DataParser.parse(value, out State.encode_force);
+                    State.encode_force = bit.On;
                 break;
 
                 case K.EOSZ:
@@ -321,11 +224,11 @@ namespace Z0
                 break;
 
                 case K.HAS_MODRM:
-                    result = DataParser.parse(value, out State.has_modrm);
+                    State.has_modrm = bit.On;
                 break;
 
                 case K.HAS_SIB:
-                    result = DataParser.parse(value, out State.has_sib);
+                    State.has_sib = bit.On;
                 break;
 
                 case K.HINT:
@@ -337,11 +240,11 @@ namespace Z0
                 break;
 
                 case K.ILD_F2:
-                    result = DataParser.parse(value, out State.ild_f2);
+                    State.ild_f2 = bit.On;
                 break;
 
                 case K.ILD_F3:
-                    result = DataParser.parse(value, out State.ild_f3);
+                    State.ild_f3 = bit.On;
                 break;
 
                 case K.ILD_SEG:
@@ -349,15 +252,15 @@ namespace Z0
                 break;
 
                 case K.IMM0:
-                    result = DataParser.parse(value, out State.imm0);
+                    State.imm0 = bit.On;
                 break;
 
                 case K.IMM0SIGNED:
-                    result = DataParser.parse(value, out State.imm0signed);
+                    State.imm0signed = bit.On;
                 break;
 
                 case K.IMM1:
-                    result = DataParser.parse(value, out State.imm1);
+                    State.imm1 = bit.On;
                 break;
 
                 case K.IMM1_BYTES:
@@ -381,15 +284,15 @@ namespace Z0
                 break;
 
                 case K.LOCK:
-                    result = DataParser.parse(value, out State.@lock);
+                    State.@lock = bit.On;
                 break;
 
                 case K.LZCNT:
-                    result = DataParser.parse(value, out State.lzcnt);
+                    State.lzcnt = bit.On;
                 break;
 
                 case K.MAP:
-                    result = DataParser.eparse(value, out State.map);
+                    result = DataParser.parse(value, out State.map);
                 break;
 
                 case K.MASK:
@@ -421,15 +324,15 @@ namespace Z0
                 break;
 
                 case K.MODEP5:
-                    result = DataParser.parse(value, out State.modep5);
+                    State.modep5 = bit.On;
                 break;
 
                 case K.MODEP55C:
-                    result = DataParser.parse(value, out State.modep55c);
+                    State.modep55c = bit.On;
                 break;
 
                 case K.MODE_FIRST_PREFIX:
-                    result = DataParser.parse(value, out State.mode_first_prefix);
+                    State.mode_first_prefix = bit.On;
                 break;
 
                 case K.MODRM_BYTE:
@@ -439,23 +342,23 @@ namespace Z0
                 break;
 
                 case K.MPXMODE:
-                    result = DataParser.parse(value, out State.mpxmode);
+                    State.mpxmode = bit.On;
                 break;
 
                 case K.MUST_USE_EVEX:
-                    result = DataParser.parse(value, out State.must_use_evex);
+                    State.must_use_evex = bit.On;
                 break;
 
                 case K.NEEDREX:
-                    result = DataParser.parse(value, out State.needrex);
+                    State.needrex = bit.On;
                 break;
 
                 case K.NEED_MEMDISP:
-                    result = DataParser.parse(value, out State.need_memdisp);
+                    State.need_memdisp = bit.On;
                 break;
 
                 case K.NEED_SIB:
-                    result = DataParser.parse(value, out State.need_sib);
+                    State.need_sib = bit.On;
                 break;
 
                 case K.NELEM:
@@ -469,11 +372,11 @@ namespace Z0
                 break;
 
                 case K.NOREX:
-                    result = DataParser.parse(value, out State.norex);
+                    State.norex = bit.On;
                 break;
 
                 case K.NO_SCALE_DISP8:
-                    result = DataParser.parse(value, out State.no_scale_disp8);
+                    State.no_scale_disp8 = bit.On;
                 break;
 
                 case K.NPREFIXES:
@@ -489,7 +392,7 @@ namespace Z0
                 break;
 
                 case K.OSZ:
-                    result = DataParser.parse(value, out State.osz);
+                    State.osz = bit.On;
                 break;
 
                 case K.OUTREG:
@@ -497,11 +400,11 @@ namespace Z0
                 break;
 
                 case K.OUT_OF_BYTES:
-                    result = DataParser.parse(value, out State.out_of_bytes);
+                    State.out_of_bytes = bit.On;
                 break;
 
                 case K.P4:
-                    result = DataParser.parse(value, out State.p4);
+                    State.p4 = bit.On;
                 break;
 
                 case K.POS_DISP:
@@ -529,15 +432,15 @@ namespace Z0
                 break;
 
                 case K.PREFIX66:
-                    result = DataParser.parse(value, out State.prefix66);
+                    State.prefix66 = bit.On;
                 break;
 
                 case K.PTR:
-                    result = DataParser.parse(value, out State.ptr);
+                    State.ptr = bit.On;
                 break;
 
                 case K.REALMODE:
-                    result = DataParser.parse(value, out State.realmode);
+                    State.realmode = bit.On;
                 break;
 
                 case K.REG:
@@ -585,7 +488,7 @@ namespace Z0
                 break;
 
                 case K.RELBR:
-                    result = DataParser.parse(value, out State.relbr);
+                    State.relbr = bit.On;
                 break;
 
                 case K.REP:
@@ -593,27 +496,27 @@ namespace Z0
                 break;
 
                 case K.REX:
-                    result = DataParser.parse(value, out State.rex);
+                    State.rex = bit.On;
                 break;
 
                 case K.REXB:
-                    result = DataParser.parse(value, out State.rexb);
+                    State.rexb = bit.On;
                 break;
 
                 case K.REXR:
-                    result = DataParser.parse(value, out State.rexr);
+                    State.rexr = bit.On;
                 break;
 
                 case K.REXRR:
-                    result = DataParser.parse(value, out State.rexrr);
+                    State.rexrr = bit.On;
                 break;
 
                 case K.REXW:
-                    result = DataParser.parse(value, out State.rexw);
+                    State.rexw = bit.On;
                 break;
 
                 case K.REXX:
-                    result = DataParser.parse(value, out State.rexx);
+                    State.rexx = bit.On;
                 break;
 
                 case K.RM:
@@ -625,7 +528,7 @@ namespace Z0
                 break;
 
                 case K.SAE:
-                    result = DataParser.parse(value, out State.sae);
+                    State.sae = bit.On;
                 break;
 
                 case K.SCALE:
@@ -657,7 +560,7 @@ namespace Z0
                 break;
 
                 case K.SMODE:
-                    result = DataParser.parse(value, out State.smode);
+                    result = DataParser.eparse(value, out State.smode);
                     break;
 
                 case K.SRM:
@@ -665,11 +568,11 @@ namespace Z0
                 break;
 
                 case K.TZCNT:
-                    result = DataParser.parse(value, out State.tzcnt);
+                    State.tzcnt = bit.On;
                 break;
 
                 case K.UBIT:
-                    result = DataParser.parse(value, out State.ubit);
+                    State.ubit = bit.On;
                 break;
 
                 case K.UIMM0:
@@ -681,11 +584,11 @@ namespace Z0
                 break;
 
                 case K.USING_DEFAULT_SEGMENT0:
-                    result = DataParser.parse(value, out State.using_default_segment0);
+                    State.using_default_segment0 = bit.On;
                 break;
 
                 case K.USING_DEFAULT_SEGMENT1:
-                    result = DataParser.parse(value, out State.using_default_segment1);
+                    State.using_default_segment1 = bit.On;
                 break;
 
                 case K.VEXDEST210:
@@ -693,11 +596,11 @@ namespace Z0
                 break;
 
                 case K.VEXDEST3:
-                    result = DataParser.parse(value, out State.vexdest3);
+                    State.vexdest3 = bit.On;
                 break;
 
                 case K.VEXDEST4:
-                    result = DataParser.parse(value, out State.vexdest4);
+                    State.vexdest4 = bit.On;
                 break;
 
                 case K.VEXVALID:
@@ -705,7 +608,7 @@ namespace Z0
                 break;
 
                 case K.VEX_C4:
-                    result = DataParser.parse(value, out State.vex_c4);
+                    State.vex_c4 = bit.On;
                 break;
 
                 case K.VEX_PREFIX:
@@ -717,11 +620,11 @@ namespace Z0
                 break;
 
                 case K.WBNOINVD:
-                    result = DataParser.parse(value, out State.wbnoinvd);
+                    State.wbnoinvd = bit.On;
                 break;
 
                 case K.ZEROING:
-                    result = DataParser.parse(value, out State.zeroing);
+                    State.zeroing = bit.On;
                 break;
             }
 

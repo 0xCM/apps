@@ -14,8 +14,6 @@ namespace Z0.Asm
     {
         const string ModRmHeader = "mod | reg | r/m | hex | bitstring";
 
-        const string ModRmBitstring = "{0} {1} {2}";
-
         [Op]
         public static uint ModRmTable(Span<char> dst)
         {
@@ -36,9 +34,6 @@ namespace Z0.Asm
             return k;
         }
 
-        public static string bitstring(ModRm src)
-            => string.Format(ModRmBitstring, BitRender.format2(src.Mod()), BitRender.format3(src.Reg()), BitRender.format3(src.Rm()));
-
         public static uint modrm(ModRm src, ref uint i, Span<char> dst)
         {
             var i0 = i;
@@ -52,11 +47,11 @@ namespace Z0.Asm
             BitRender.render3(src.Rm(), ref i, dst);
             text.copy(FieldSep, ref i, dst);
 
-            text.copy(src.Encoded.FormatHex(2), ref i, dst);
+            text.copy(src.Format(), ref i, dst);
             seek(dst,i++) = Chars.Space;
             text.copy(FieldSep, ref i, dst);
 
-            text.copy(bitstring(src), ref i, dst);
+            text.copy(src.ToBitString(), ref i, dst);
 
             return i - i0;
         }

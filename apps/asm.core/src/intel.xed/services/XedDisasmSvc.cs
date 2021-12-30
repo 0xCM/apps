@@ -6,6 +6,7 @@ namespace Z0
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     using Asm;
 
@@ -13,6 +14,8 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedDisasm;
+
+    using K = XedModels.OperandKind;
 
     public class XedDisasmSvc : AppService<XedDisasmSvc>
     {
@@ -328,6 +331,230 @@ namespace Z0
             }
 
             return result;
+        }
+
+        public Outcome EmitDisasmDetails(IProjectWs src)
+        {
+            var result = Outcome.Success;
+            var encodings = ParseEncodings(src);
+            var blocks = ParseBlocks(src);
+            var files = blocks.Keys;
+            var count = files.Length;
+            var dir = ProjectDb.ProjectData() + FS.folder(string.Format("{0}.{1}", src.Name, "xed.disasm.detail"));
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(files,i);
+                var block = blocks[path];
+                var encoding = encodings[path];
+                var dst = dir + FS.file(string.Format("{0}.details",path.FileName), FS.Txt);
+                result = Emit(path,encoding.Encoded, block.Blocks, dst);
+                if(result.Fail)
+                    break;
+            }
+
+            return result;
+        }
+
+        Outcome Emit(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<XedDisasm.Block> blocks, FS.FilePath dst)
+        {
+            const string RenderPattern = "{0,-22}: {1}";
+            const string Cols2Pattern = "{0,-12} | {1}";
+
+            var parser = new XedOperandParser();
+            var count = (uint)Require.equal(encodings.Length, blocks.Length);
+            var result = ParseInstructions(blocks, out var instructions);
+            if(result.Fail)
+                return result;
+
+            Require.equal(instructions.Count, count);
+
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var encoding = ref skip(encodings,i);
+                ref readonly var inst = ref instructions[i];
+                ref readonly var block = ref skip(blocks,i);
+                ref readonly var code = ref encoding.Encoding;
+
+                parser.ParseState(inst.Props.Edit, out var state);
+                iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
+                iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
+
+                var parsed = parser.ParsedFields.ToHashSet();
+                writer.WriteLine(RP.PageBreak80);
+                writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
+                writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
+                writer.WriteLine(string.Format(RenderPattern, "Class", inst.Class));
+                writer.WriteLine(string.Format(RenderPattern, "Form", inst.Form));
+                writer.WriteLine(string.Format(RenderPattern, "OpCode", state.nominal_opcode));
+
+                for(var k=0; k<block.OperandCount; k++)
+                {
+                    ref readonly var opsrc = ref skip(block.Operands,k);
+                    result = parser.ParseInstOperand(opsrc.Content, out var op);
+                    if(result.Fail)
+                        return result;
+
+                    var title = string.Format("Op{0}", k);
+                    var content = string.Format("{0,-12} | {1,-12} | {2,-12} | {3}", op.Kind, op.Action, op.Visiblity, op.Prop2);
+                    writer.WriteLine(string.Format(RenderPattern, title, content));
+                }
+
+                if(rex(state, out var rexprefix))
+                {
+                    writer.WriteLine(string.Format(RenderPattern, "RexPrefix", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
+                }
+
+                if(modrm(state, out var modrmval))
+                {
+                    if(modrmval.Value() != state.modrm_byte)
+                        return (false, string.Format("Derived RM value {0} differs from parsed value {1}", modrmval, state.modrm_byte));
+
+                    if(modrmval.Value() != code[state.pos_modrm])
+                        return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
+
+                    writer.WriteLine(string.Format(RenderPattern, "ModRM", string.Format(Cols2Pattern, modrmval.Format(), modrmval.ToBitString())));
+                }
+
+                if(sib(state, out var sibval))
+                {
+                    var sibenc = Sib.init(code[state.pos_sib]);
+
+                    if(sibenc.Value() != sibval.Value())
+                        return (false, string.Format("Derived Sib value {0} differs from encoded value {1}", sibval, sibenc));
+
+                    writer.WriteLine(string.Format(RenderPattern, "Sib", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
+                }
+
+                if(state.disp_width != 0)
+                {
+                    var dispcount = state.disp_width/8;
+                    var dispval = 0ul;
+                    var dispoffset = state.pos_disp;
+                    switch(dispcount)
+                    {
+                        case 1:
+                            dispval = code[dispoffset];
+                        break;
+                        case 2:
+                            dispval = slice(code.Bytes,dispoffset, dispcount).TakeUInt16();
+                        break;
+                        case 4:
+                            dispval = slice(code.Bytes,dispoffset, dispcount).TakeUInt32();
+                        break;
+                        case 8:
+                            dispval = slice(code.Bytes,dispoffset, dispcount).TakeUInt64();
+                        break;
+                    }
+
+                    writer.WriteLine(string.Format(RenderPattern, "Disp", dispval.FormatHex(zpad:false)));
+                }
+
+                var fields = state.ToLookup();
+                var kinds = fields.Keys;
+                var values = fields.Values;
+                for(var k=0; k<kinds.Length; k++)
+                {
+                    ref readonly var kind = ref skip(kinds,k);
+
+                    switch(kind)
+                    {
+                        case K.HAS_MODRM:
+                        case K.POS_MODRM:
+                        case K.MODRM_BYTE:
+                        case K.MOD:
+                        case K.REG:
+                        case K.RM:
+                        case K.HAS_SIB:
+                        case K.SIBBASE:
+                        case K.SIBINDEX:
+                        case K.SIBSCALE:
+                        case K.POS_SIB:
+                        case K.REX:
+                        case K.REXB:
+                        case K.REXX:
+                        case K.REXR:
+                        case K.REXW:
+                        case K.NREXES:
+                        case K.NOMINAL_OPCODE:
+                        case K.POS_NOMINAL_OPCODE:
+                        case K.MAX_BYTES:
+                        case K.NPREFIXES:
+                        case K.DISP_WIDTH:
+                        case K.DISP:
+                        case K.POS_DISP:
+                        break;
+                        default:
+                        if(parsed.Contains(kind))
+                        {
+                            ref readonly var value = ref skip(values,k);
+                            writer.WriteLine(string.Format(RenderPattern, kind, value));
+                        }
+                        break;
+                    }
+                }
+            }
+
+            writer.WriteLine();
+
+            EmittedFile(emitting, count);
+            return result;
+        }
+
+        [MethodImpl(Inline), Op]
+        static bool rex(in OperandState src, out RexPrefix dst)
+        {
+            if(src.rex)
+            {
+                dst = RexPrefix.init();
+                dst.W(src.rexw);
+                dst.R(src.rexr);
+                dst.X(src.rexx);
+                dst.B(src.rexb);
+                return true;
+            }
+            else
+            {
+                dst = RexPrefix.Empty;
+                return false;
+            }
+        }
+
+        [MethodImpl(Inline), Op]
+        static bool sib(in OperandState src, out Sib dst)
+        {
+            if(src.has_sib)
+            {
+                dst = Sib.init();
+                dst.Base(src.sibbase);
+                dst.Index(src.sibindex);
+                dst.Scale(src.sibscale);
+                return true;
+            }
+            else
+            {
+                dst = Sib.Empty;
+                return false;
+            }
+        }
+
+        [MethodImpl(Inline), Op]
+        static bool modrm(in OperandState src, out ModRm dst)
+        {
+            if(src.has_modrm)
+            {
+                dst = ModRm.init();
+                dst.Mod(src.mod);
+                dst.Reg(src.reg);
+                dst.Rm(src.rm);
+                return true;
+            }
+            else
+            {
+                dst = ModRm.Empty;
+                return false;
+            }
         }
     }
 }

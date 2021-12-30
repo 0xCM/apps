@@ -51,12 +51,11 @@ namespace Z0
             => movzx(a, w4) | (movzx(b, w4) << 2);
 
         /// <summary>
-        /// (a,b) -> [bbaa]
+        /// (a,b) -> [cc bb aa]
         /// </summary>
         /// <param name="a">Source bits 0-1</param>
         /// <param name="b">Source bits 2-3</param>
         /// <param name="c">Source bits 4-5</param>
-        /// <param name="d">Source bits 6-7</param>
         [MethodImpl(Inline), Op]
         public static uint6 join(uint2 a, uint2 b, uint2 c)
             => movzx(a,w6) | (movzx(b,w6) << 2) | (movzx(b,w6) << 4);
@@ -91,7 +90,7 @@ namespace Z0
             => movzx(a, w8) | (movxz(b, w8) << 3);
 
         /// <summary>
-        /// Produces a <see cref='eight'/> value by contcatenating the operand-suppled bits
+        /// (a,b,c,d) -> [cc bbb aaa]
         /// </summary>
         /// <param name="a">Source bits 0-2</param>
         /// <param name="b">Source bits 3-5</param>
