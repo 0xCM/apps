@@ -45,7 +45,8 @@ namespace Z0
                 var parsed = parser.ParsedFields.ToHashSet();
                 writer.WriteLine(RP.PageBreak80);
                 writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
-                writer.WriteLine(string.Format(RenderPattern, "Encoding", encoding.Encoding));
+                writer.WriteLine(string.Format(RenderPattern, "Encoding (hex)", encoding.Encoding));
+                writer.WriteLine(string.Format(RenderPattern, "Encoding (bits)", encoding.Encoding.ToBitString()));
                 writer.WriteLine(string.Format(RenderPattern, "Class", inst.Class));
                 writer.WriteLine(string.Format(RenderPattern, "Form", inst.Form));
 

@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Root;
+    using static ProjectScriptNames;
+
     partial class ProjectCmdProvider
     {
-        [CmdOp("dumpbin/dump-exe")]
-        Outcome DumpExe(CmdArgs args)
-            => DumpBin.DumpModules(Project(), FileModuleKind.Exe);
+        [CmdOp("cpp/build")]
+        Outcome BuildCpp(CmdArgs args)
+            => ProjectScripts.RunScript(Project(), EmptyString, CppBuild, "cpp");
     }
 }

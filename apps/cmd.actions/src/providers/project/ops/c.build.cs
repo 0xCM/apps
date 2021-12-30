@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Root;
+    using static ProjectScriptNames;
+
     partial class ProjectCmdProvider
     {
-        [CmdOp("dumpbin/dump-lib")]
-        Outcome DumpLib(CmdArgs args)
-            => DumpBin.DumpModules(Project(), FileModuleKind.Lib);
+        [CmdOp("c/build")]
+        Outcome BuildCProj(CmdArgs args)
+            => ProjectScripts.RunScript(Project(), EmptyString, CBuild, "c");
     }
 }

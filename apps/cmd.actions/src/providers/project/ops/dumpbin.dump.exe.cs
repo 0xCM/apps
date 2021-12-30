@@ -6,10 +6,8 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        DumpBin DumpBin => Service(Wf.DumpBin);
-
-        [CmdOp("dumpbin/dump-dll")]
-        Outcome DumpDll(CmdArgs args)
-            => DumpBin.DumpModules(Project(), FileModuleKind.Dll);
+        [CmdOp("dumpbin/dump/exe")]
+        Outcome DumpExe(CmdArgs args)
+            => DumpBin.DumpModules(Project(), FileModuleKind.Exe);
     }
 }

@@ -32,6 +32,8 @@ namespace Z0
 
         LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
 
+        DumpBin DumpBin => Service(Wf.DumpBin);
+
         FS.Files _Files;
 
         FS.Files Files()
