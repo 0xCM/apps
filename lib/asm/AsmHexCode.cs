@@ -64,6 +64,9 @@ namespace Z0.Asm
         public uint ToUInt64()
             => (uint)Data.Lo;
 
+        public string ToBitString()
+            => bitstring(this);
+
         public override int GetHashCode()
             => hash(this);
 
@@ -215,7 +218,7 @@ namespace Z0.Asm
         public static string bitstring(in AsmHexCode src)
         {
             if(src.IsEmpty)
-                return default;
+                return EmptyString;
 
             CharBlocks.alloc(n256, out var block);
             var dst = block.Data;

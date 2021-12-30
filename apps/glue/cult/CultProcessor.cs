@@ -210,7 +210,7 @@ namespace Z0.Tools
             var bitstring = "<error>";
             var formatted = FormatBytes(comment, out var count);
             if(Hex.hexdata(formatted, out var parsed))
-                bitstring = AsmRender.format8x4(AsmHexCode.load(parsed));
+                bitstring = AsmHexCode.load(parsed).ToBitString();
 
             if(count != 0)
                 comment = string.Format(StatementCommentPattern, comment, count, formatted, bitstring);

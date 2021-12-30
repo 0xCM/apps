@@ -74,7 +74,7 @@ namespace Z0.Asm
             if(!outcome)
                 return outcome;
 
-            outcome = DataParser.parse(skip(input, i++), out dst.Encoded);
+            outcome = AsmHexCode.parse(skip(input, i++).View, out dst.Encoded);
             if(!outcome)
                 return outcome;
 

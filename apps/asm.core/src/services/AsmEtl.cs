@@ -54,9 +54,9 @@ namespace Z0.Asm
         [Op]
         public static string thumbprint(in AsmEncodingInfo src)
         {
-            var bits = AsmRender.format8x4(src.Encoded);
+            var bits = src.Encoded.ToBitString();
             var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
-            return string.Format("{0} => {1}", statement, AsmRender.format8x4(src.Encoded));
+            return string.Format("{0} => {1}", statement, bits);
         }
 
         public void EmitThumbprints(SortedSpan<ProcessAsmRecord> src, FS.FilePath dst)

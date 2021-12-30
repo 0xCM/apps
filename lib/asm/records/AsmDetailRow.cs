@@ -37,7 +37,7 @@ namespace Z0
 
         public string Statement;
 
-        public BinaryCode Encoded;
+        public AsmHexCode Encoded;
 
 		public string CpuId;
 

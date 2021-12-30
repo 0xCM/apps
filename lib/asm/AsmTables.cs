@@ -245,11 +245,11 @@ namespace Z0.Asm
                     row.Statement,
                     row.BlockAddress,
                     row.LocalOffset,
-                    row.Encoded.Length,
+                    row.Encoded.Size,
                     row.Instruction,
                     row.OpCode,
                     row.Encoded,
-                    AsmRender.format8x4(row.Encoded),
+                    row.Encoded.ToBitString(),
                     AsmRender.semantic(row)
                 );
                 writer.WriteLine(rendered);

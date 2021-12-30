@@ -30,5 +30,12 @@ namespace Z0.Asm
             Identity = identity;
             Base = @base;
         }
+
+        public string Format()
+            => string.Concat(Base.Format(), Chars.Colon, Chars.Space, Identity);
+
+        public override string ToString()
+            => Format();
+
     }
 }

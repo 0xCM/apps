@@ -16,31 +16,31 @@ namespace Z0.Asm
     {
         const NumericKind Closure = UnsignedInts;
 
-        [Op]
-        public static string bitstring(in AsmHexCode src)
-        {
-            if(src.IsEmpty)
-                return default;
+        // [Op]
+        // public static string bitstring(in AsmHexCode src)
+        // {
+        //     if(src.IsEmpty)
+        //         return default;
 
-            CharBlocks.alloc(n256, out var block);
-            var dst = block.Data;
-            var count = AsmBitstring.render(src, dst);
-            if(count == 0)
-                return EmptyString;
+        //     CharBlocks.alloc(n256, out var block);
+        //     var dst = block.Data;
+        //     var count = AsmBitstring.render(src, dst);
+        //     if(count == 0)
+        //         return EmptyString;
 
-            return text.format(slice(dst, 0, count));
-        }
+        //     return text.format(slice(dst, 0, count));
+        // }
 
-        [Op]
-        public static string format8x4(AsmHexCode src)
-            => src.IsEmpty ? EmptyString : bitstring(src);
+        // [Op]
+        // public static string format8x4(AsmHexCode src)
+        //     => src.ToBitString();
 
         public static string format(in HostAsmRecord src)
             => string.Format("{0} {1,-36} # {2} => {3}",
                         src.BlockOffset,
                         src.Expression,
                         string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()),
-                        format8x4(src.Encoded)
+                        src.Encoded.ToBitString()
                         );
 
         const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
@@ -112,16 +112,16 @@ namespace Z0.Asm
                 _ => EmptyString
             };
 
-        [Op]
-        public static string format(AsmFormInfo src)
-            => string.Format("({0})<{1}>", src.Sig, src.OpCode);
-        [Op]
-        public static string format(in AsmCaller src)
-            => string.Format("{0} {1}", src.Base, src.Identity);
+        // [Op]
+        // public static string format(AsmFormInfo src)
+        //     => string.Format("({0})<{1}>", src.Sig, src.OpCode);
+        // [Op]
+        // public static string format(in AsmCaller src)
+        //     => string.Format("{0} {1}", src.Base, src.Identity);
 
-        [Op]
-        public static string format(in AsmCallee src)
-            => string.Concat(src.Base.Format(), Colon, Chars.Space, src.Identity);
+        // [Op]
+        // public static string format(in AsmCallee src)
+        //     => string.Concat(src.Base.Format(), Colon, Chars.Space, src.Identity);
 
         [Op]
         public static string format(in AsmCallInfo src)
@@ -134,7 +134,7 @@ namespace Z0.Asm
         [Op]
         public static string semantic(in AsmDetailRow row)
         {
-            var encoded = row.Encoded;
+            var encoded = row.Encoded.Bytes;
             var ip = row.IP;
             var @base = row.BlockAddress;
 

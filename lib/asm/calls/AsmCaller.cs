@@ -25,6 +25,12 @@ namespace Z0.Asm
             Identity = identity;
         }
 
+        public string Format()
+            => string.Format("{0} {1}", Base, Identity);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator AsmCaller((MemoryAddress address, string name) src)
             => new AsmCaller(src.address, src.name);

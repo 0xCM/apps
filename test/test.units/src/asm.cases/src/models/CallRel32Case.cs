@@ -38,7 +38,7 @@ namespace Z0.Asm
             {
                 var dst = text.buffer();
                 dst.AppendLine(src.AsmSource);
-                dst.AppendLine(text.prop(nameof(src.Caller), AsmRender.format(src.Caller)));
+                dst.AppendLine(text.prop(nameof(src.Caller), src.Caller.Format()));
                 dst.AppendLine(text.prop(nameof(src.Ip), src.Ip.Format()));
                 dst.AppendLine(text.prop(nameof(src.NextIp), src.NextIp.Format()));
                 dst.AppendLine(text.prop(nameof(src.Target), src.Target.Format()));
