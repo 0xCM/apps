@@ -44,35 +44,6 @@ namespace Z0.Asm
             return result;
         }
 
-        [CmdOp("test/flags")]
-        Outcome TestFlags(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            void Check1()
-            {
-                var expect = "1000001001000100";
-                var flags = Flags.create(Pow2x16.P2ᐞ02 | Pow2x16.P2ᐞ06 | Pow2x16.P2ᐞ09 | Pow2x16.P2ᐞ15);
-                var actual = flags.Format();
-                result = actual == expect;
-            }
-
-            Check1();
-            if(result.Fail)
-                return result;
-
-            void Check2()
-            {
-                var flags = Flags.create(Pow2x32.P2ᐞ06 | Pow2x32.P2ᐞ07 | Pow2x32.P2ᐞ08 | Pow2x32.P2ᐞ09);
-            }
-
-            Check2();
-            if(result.Fail)
-                return result;
-
-
-            return result;
-        }
 
         [CmdOp(".test-native-cells")]
         unsafe Outcome TestNativeCells(CmdArgs args)

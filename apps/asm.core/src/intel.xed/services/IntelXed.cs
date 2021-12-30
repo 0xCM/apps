@@ -91,7 +91,7 @@ namespace Z0.Asm
             if(result)
             {
                 TableEmit(inst.Descriptions, XedInstructions.InstInfo.RenderWidths, ProjectDb.TablePath<XedInstructions.InstInfo>("xed"));
-                TableEmit(inst.Operands, XedInstructions.InstOperand.RenderWidths,  ProjectDb.TablePath<XedInstructions.InstOperand>("xed"));
+                TableEmit(inst.Operands, XedInstructions.InstOperandInfo.RenderWidths,  ProjectDb.TablePath<XedInstructions.InstOperandInfo>("xed"));
                 return inst;
             }
             else

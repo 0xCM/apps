@@ -17,12 +17,50 @@ namespace Z0
     {
         public static MsgPattern<Name,string> ParseFailure => "Parse failure {0}:{1}";
 
-        // public static Outcome parse(TextLine src, out SymLiteralRow dst)
-        //     => SP.parse(src, out dst);
+        public static Outcome parse(string src, out uint2 dst)
+            => BitNumbers.parse(src, out dst);
 
+        public static Outcome parse(string src, out uint3 dst)
+            => BitNumbers.parse(src, out dst);
 
-        // public static Outcome parse(TextLine src, out SymInfo dst)
-        //     => SP.parse(src, out dst);
+        public static Outcome parse(string src, out uint4 dst)
+            => BitNumbers.parse(src, out dst);
+
+        public static Outcome parse(string src, out uint5 dst)
+            => BitNumbers.parse(src, out dst);
+
+        public static Outcome parse(string src, out uint6 dst)
+            => BitNumbers.parse(src, out dst);
+
+        public static Outcome parse(string src, out uint7 dst)
+            => BitNumbers.parse(src, out dst);
+
+        public static Outcome parse(string src, out eight dst)
+            => BitNumbers.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex8 dst)
+            => Hex8.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex16 dst)
+            => Hex16.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex32 dst)
+            => Hex32.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex64 dst)
+            => Hex64.parse(src, out dst);
+
+        public static Outcome parse(string src, out Disp32 dst)
+            => Disp32.parse(src, out dst);
+
+        public static Outcome parse(string src, out Disp64 dst)
+            => Disp64.parse(src, out dst);
+
+        public static Outcome parse(string src, out imm8 dst)
+            => imm8.parse(src, out dst);
+
+        public static Outcome parse(string src, out imm64 dst)
+            => imm64.parse(src, out dst);
 
         public static Outcome parse(string src, out LineInterval<Identifier> dst)
             => LineInterval.parse(src, out dst);
@@ -38,6 +76,38 @@ namespace Z0
 
         public static Outcome parse(string src, out LineNumber dst)
             => LineNumber.parse(src, out dst);
+
+        public static Outcome parse(string src, out MemoryAddress dst)
+            => AddressParser.parse(src, out dst);
+
+        public static Outcome parse(string src, out Address64 dst)
+            => AddressParser.parse(src, out dst);
+
+        public static Outcome parse(string src, out Address32 dst)
+            => AddressParser.parse(src, out dst);
+
+        public static Outcome parse(string src, out Address16 dst)
+            => AddressParser.parse(src, out dst);
+
+        public static Outcome parse(string src, out Address8 dst)
+            => AddressParser.parse(src, out dst);
+
+        public static Outcome eparse<T>(string src, out T dst)
+            where T : unmanaged
+                => Enums.parse(src, out dst);
+
+        public static Outcome parse(string src, out ByteSize dst)
+            => Sizes.parse(src, out dst);
+
+        public static Outcome parse(string src, out BitWidth dst)
+            => Sizes.parse(src, out dst);
+
+        public static Outcome parse<T>(string src, out Size<T> dst)
+            where T : unmanaged
+                => Sizes.parse(src, out dst);
+
+        public static Outcome parse(string src, out SymExpr dst)
+            => SP.parse(src, out dst);
 
         [Parser]
         public static Outcome parse(string src, out AsmMnemonic dst)
@@ -116,30 +186,6 @@ namespace Z0
             => NumericParser.parse(src, out dst);
 
         [Parser]
-        public static Outcome parse(string src, out Hex8 dst)
-            => Hex8.parse(src, out dst);
-
-        [Parser]
-        public static Outcome parse(string src, out Hex16 dst)
-            => Hex16.parse(src, out dst);
-
-        [Parser]
-        public static Outcome parse(string src, out Hex32 dst)
-        {
-            var outcome = HexParser.parse32u(src, out var x);
-            dst = x;
-            return outcome;
-        }
-
-        [Parser]
-        public static Outcome parse(string src, out Hex64 dst)
-        {
-            var outcome = HexParser.parse64u(src, out var x);
-            dst = x;
-            return outcome;
-        }
-
-        [Parser]
         public static Outcome parse(string src, out bool dst)
         {
             dst = default;
@@ -200,37 +246,6 @@ namespace Z0
             return true;
         }
 
-        public static Outcome parse(string src, out MemoryAddress dst)
-            => AddressParser.parse(src, out dst);
-
-        public static Outcome parse(string src, out Address64 dst)
-            => AddressParser.parse(src, out dst);
-
-        public static Outcome parse(string src, out Address32 dst)
-            => AddressParser.parse(src, out dst);
-
-        public static Outcome parse(string src, out Address16 dst)
-            => AddressParser.parse(src, out dst);
-
-        public static Outcome parse(string src, out Address8 dst)
-            => AddressParser.parse(src, out dst);
-
-        public static Outcome eparse<T>(string src, out T dst)
-            where T : unmanaged
-                => Enums.parse(src, out dst);
-
-        public static Outcome parse(string src, out ByteSize dst)
-            => Sizes.parse(src, out dst);
-
-        public static Outcome parse(string src, out BitWidth dst)
-            => Sizes.parse(src, out dst);
-
-        public static Outcome parse<T>(string src, out Size<T> dst)
-            where T : unmanaged
-                => Sizes.parse(src, out dst);
-
-        public static Outcome parse(string src, out SymExpr dst)
-            => SP.parse(src, out dst);
 
         [Parser]
         public static Outcome parse(string src, out ClrMemberName dst)

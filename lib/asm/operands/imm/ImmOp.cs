@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("imm")]
+    [DataType("immop")]
     public readonly struct ImmOp : IImm<ImmOp,ulong>
     {
         public ulong Value {get;}

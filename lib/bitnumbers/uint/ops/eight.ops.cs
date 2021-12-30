@@ -183,7 +183,6 @@ namespace Z0
                 return src;
         }
 
-
         static BitFormat FormatConfig8
             => BitFormat.limited(U.Width,U.Width);
 

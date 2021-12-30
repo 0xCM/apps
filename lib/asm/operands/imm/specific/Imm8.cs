@@ -15,9 +15,31 @@ namespace Z0
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
-    [DataType("imm8", Kind, Width, Width)]
+    [DataType(TypeSyntax.Imm8, Kind, Width, Width)]
     public readonly struct imm8 : IImm<I,byte>
     {
+        [Parser]
+        public static Outcome parse(string src, out imm8 dst)
+        {
+            var result = Outcome.Success;
+            dst = default;
+            var i = text.index(src,HexFormatSpecs.PreSpec);
+            var imm = z8;
+            if(i>=0)
+            {
+                result = HexParser.parse8u(src, out imm);
+                if(result)
+                    dst = imm;
+            }
+            else
+            {
+                result = DataParser.parse(src, out imm);
+                if(result)
+                    dst = imm;
+            }
+            return result;
+        }
+
         public const ImmKind Kind = ImmKind.Imm8;
 
         public const byte Width = 8;

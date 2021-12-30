@@ -6,8 +6,15 @@ namespace Z0
 {
     using System;
 
-    public interface ISeqReceiver<T>
+    [AttributeUsage(AttributeTargets.Field)]
+    public class FieldKindAttribute : Attribute
     {
-        void Deposit(ReadOnlySpan<T> src);
+        public FieldKindAttribute(object kind)
+        {
+            FieldKind = kind;
+        }
+
+        public object FieldKind {get;}
+
     }
 }

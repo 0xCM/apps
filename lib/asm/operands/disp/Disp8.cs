@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a signed 8-bit displacement
     /// </summary>
+    [DataType(TypeSyntax.Disp8)]
     public readonly struct Disp8 : IDisplacement<Disp8,sbyte>
     {
         /// <summary>

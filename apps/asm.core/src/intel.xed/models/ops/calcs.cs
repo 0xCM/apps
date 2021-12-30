@@ -15,6 +15,24 @@ namespace Z0
 
     partial struct XedModels
     {
+        public static ConstLookup<OperandKind,TypeSpec> OpKindTypes()
+        {
+            var fields = typeof(OperandState).PublicInstanceFields();
+            var count = fields.Length;
+            var dst = dict<OperandKind,TypeSpec>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var field = ref skip(fields,i);
+                var tag = field.Tag<OperandKindAttribute>();
+                if(tag)
+                {
+                    var spec = TypeSyntax.infer(field.FieldType);
+                    dst.TryAdd(tag.Value.Kind, spec);
+                }
+            }
+            return dst;
+        }
+
         /// <summary>
         /// Creates a <see cref='AttributeVector'/> from a <see cref='AttributeKind'> sequence
         /// </summary>

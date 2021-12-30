@@ -4,6 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
     public readonly struct AsmOpCodeTokens
     {
         const string tokens = "asm.opcodes";
@@ -45,11 +49,6 @@ namespace Z0.Asm
             V512,
 
             Evex,
-
-
-
-
-
         }
 
         [SymSource(tokens)]
@@ -345,5 +344,28 @@ namespace Z0.Asm
             [Symbol(".")]
             Dot,
         }
-   }
+
+        public readonly struct ImmSize
+        {
+            public ImmSizeToken Token {get;}
+
+            [MethodImpl(Inline)]
+            public ImmSize(ImmSizeToken src)
+            {
+                Token = src;
+            }
+
+            [MethodImpl(Inline)]
+            public static implicit operator ImmSize(ImmSizeToken src)
+                => new ImmSize(src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator ImmSizeToken(ImmSize src)
+                => src.Token;
+
+            [MethodImpl(Inline)]
+            public static explicit operator byte(ImmSize src)
+                => (byte)src.Token;
+        }
+    }
 }

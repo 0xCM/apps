@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Defines a 16-bit immediate value
     /// </summary>
-    [DataType("imm16", Kind, Width, Width)]
+    [DataType(TypeSyntax.Imm16, Kind, Width, Width)]
     public readonly struct imm16 : IImm<I,ushort>
     {
         public const ImmKind Kind = ImmKind.Imm16;

@@ -11,7 +11,7 @@ namespace Z0
 
     using static Root;
 
-    [DataType("lookup<k:{0},v:{1}>")]
+    [DataType(TypeSyntax.Lookup)]
     public class ConstLookup<K,V>
     {
         readonly ConcurrentDictionary<K,V> Storage;
@@ -85,6 +85,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool ContainsKey(K key)
             => Storage.ContainsKey(key);
+
+        public V this[K key]
+        {
+            [MethodImpl(Inline)]
+            get => Storage[key];
+        }
 
         [MethodImpl(Inline)]
         public bool Find(K key, out V value)

@@ -16,7 +16,7 @@ namespace Z0
     [DataType("hex<w:16>", HexNumberKind.Hex16, ContentWidth, StorageWidth)]
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
-        [MethodImpl(Inline), Op]
+        [Parser]
         public static Outcome parse(string src, out Hex16 dst)
         {
             var outcome = Hex.parse16u(src, out var x);

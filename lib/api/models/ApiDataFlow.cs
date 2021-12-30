@@ -15,10 +15,6 @@ namespace Z0
 
         public Name Actor => Flow.Actor.Name;
 
-        public Name Source => Flow.SourceName;
-
-        public Name Target => Flow.TargetName;
-
         [MethodImpl(Inline)]
         public ApiDataFlow(IDataFlow flow)
         {

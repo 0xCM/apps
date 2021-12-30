@@ -77,21 +77,68 @@ namespace Z0
 
         internal const string ConstSpan = "cspan<t:{0}>";
 
+        internal const string Disp = "disp<w:{0}>";
+
+        internal const string Disp8 = "disp<w:8>";
+
+        internal const string Disp16 = "disp<w:16>";
+
+        internal const string Disp32 = "disp<w:32>";
+
+        internal const string Disp64 = "disp<w:64>";
+
+        internal const string Imm = "imm<w:{0}>";
+
+        internal const string Imm8 = "imm<w:8>";
+
+        internal const string Imm16 = "imm<w:16>";
+
+        internal const string Imm32 = "imm<w:32>";
+
+        internal const string Imm64 = "imm<w:64>";
+
+        internal const string Mem = "mem<w:{0}>";
+
+        internal const string Mem8 = "mem<w:8>";
+
+        internal const string Mem16 = "mem<w:16>";
+
+        internal const string Mem32 = "mem<w:32>";
+
+        internal const string Mem64 = "mem<w:64>";
+
+        internal const string Mem128 = "mem<w:128>";
+
+        internal const string Mem256 = "mem<w:256>";
+
+        internal const string Mem512 = "mem<w:512>";
+
+        internal const string Lookup = "lookup<k:{0},v:{1}>";
+
         internal static string symbol<K>(K kind)
             where K : unmanaged, Enum
                 => Symbols.expr(kind).Format();
 
         [TypeSyntax(Num)]
-        public static string num(TypeSpec type) => string.Format(Num, type);
+        public static TypeSpec num(TypeSpec type) => string.Format(Num, type);
 
         [TypeSyntax(Clr)]
         public static TypeSpec clr(ClrPrimitiveKind kind) => string.Format(Clr, symbol(kind));
+
+        [TypeSyntax(Disp)]
+        public static TypeSpec disp(BitWidth w) => string.Format(Disp, w);
+
+        [TypeSyntax(Imm)]
+        public static TypeSpec imm(BitWidth w) => string.Format(Imm, w);
+
+        [TypeSyntax(Mem)]
+        public static TypeSpec mem(BitWidth w) => string.Format(Mem, w);
 
         /// <summary>
         /// Defines a scalar type of specified class and width
         /// </summary>
         [TypeSyntax(Scalar)]
-        public static TypeSpec scalar(ScalarClass @class, BitWidth width) => string.Format(Scalar, symbol(@class), width);
+        public static TypeSpec scalar(ScalarClass @class, BitWidth w) => string.Format(Scalar, symbol(@class), w);
 
         /// <summary>
         /// Defines a scalar type predicated on a specified underlying type
@@ -177,6 +224,11 @@ namespace Z0
         [TypeSyntax(Span)]
         public static TypeSpec span(TypeSpec element) => string.Format(Span, element);
 
+        /// <summary>
+        /// Defines a type that represents a span or readonly span over a specified element type
+        /// </summary>
+        /// <param name="element">The element type</param>
+        /// <param name="@const">Whether the type is readonly</param>
         public static TypeSpec span(TypeSpec element, bool @const) => @const ? cspan(element) : span(element);
 
         /// <summary>
@@ -268,7 +320,7 @@ namespace Z0
         {
             var spec = new TypeSpec(src.DisplayName());
             if(src.IsConreteClrPrimitive())
-                spec = string.Format(Clr,src.ClrPrimitiveKind().ToString().ToLower());
+                spec = string.Format(Clr, src.ClrPrimitiveKind().ToString().ToLower());
             else if(src.IsEnum)
             {
                 var kind = (ClrPrimitiveKind)src.EnumScalarKind();

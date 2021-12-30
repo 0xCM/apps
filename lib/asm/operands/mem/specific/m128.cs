@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
 
     using static Root;
 
+    [DataType(TypeSyntax.Mem128)]
     public readonly struct m128 : IMemOp128<m128>
     {
         public AsmAddress Address {get;}

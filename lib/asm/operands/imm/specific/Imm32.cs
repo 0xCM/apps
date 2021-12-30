@@ -15,7 +15,7 @@ namespace Z0
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType("imm32", Kind, Width, Width)]
+    [DataType(TypeSyntax.Imm32, Kind, Width, Width)]
     public readonly struct imm32 : IImm<I,uint>
     {
         public const ImmKind Kind = ImmKind.Imm32;

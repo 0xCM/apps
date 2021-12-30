@@ -199,7 +199,7 @@ namespace Z0
             return result;
         }
 
-        Outcome Parse(in TextLine src, ushort instix, out InstOperand dst)
+        Outcome Parse(in TextLine src, ushort instix, out InstOperandInfo dst)
         {
             var result = Outcome.Success;
             var content = text.trim(src.Content);
@@ -294,10 +294,10 @@ namespace Z0
             using var reader = src.Utf8LineReader();
             var result = Outcome.Success;
             var entries = list<InstInfo>();
-            var operands = list<InstOperand>();
-            var allops = list<InstOperand>();
+            var operands = list<InstOperandInfo>();
+            var allops = list<InstOperandInfo>();
             var inst = default(InstInfo);
-            var op = default(InstOperand);
+            var op = default(InstOperandInfo);
             while(reader.Next(out var line))
             {
                 var kind = Classify(line);

@@ -2,13 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using static Root;
+    using System;
 
-    [ApiHost]
-    public readonly partial struct Flags
+    public partial class AsmByteParser
     {
-        const NumericKind Closure = UnsignedInts;
+
+
+
+
     }
+
 }

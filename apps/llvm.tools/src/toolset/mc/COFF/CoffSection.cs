@@ -36,7 +36,7 @@ namespace Z0
 
         public uint LineNumberCount;
 
-        public Flags<IMAGE_SECTION_CHARACTERISTICS> Characteristics;
+        public IMAGE_SECTION_CHARACTERISTICS Characteristics;
 
         public static CoffSection Empty => default;
     }

@@ -16,6 +16,15 @@ namespace Z0
     [DataType("hex<w:32>", HexNumberKind.Hex32, ContentWidth, StorageWidth)]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
+
+        [Parser]
+        public static Outcome parse(string src, out Hex32 dst)
+        {
+            var outcome = HexParser.parse32u(src, out var x);
+            dst = x;
+            return outcome;
+        }
+
         public const byte ContentWidth = 32;
 
         public const byte StorageWidth = 32;

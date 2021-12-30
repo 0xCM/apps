@@ -12,8 +12,31 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a signed 64-bit displacement
     /// </summary>
+    [DataType(TypeSyntax.Disp64)]
     public readonly struct Disp64 : IDisplacement<Disp64,long>
     {
+        [Parser]
+        public static Outcome parse(string src, out Disp64 dst)
+        {
+            var result = Outcome.Success;
+            dst = default;
+            var i = text.index(src,HexFormatSpecs.PreSpec);
+            var disp = 0ul;
+            if(i>=0)
+            {
+                result = HexParser.parse64u(src, out disp);
+                if(result)
+                    dst = disp;
+            }
+            else
+            {
+                result = DataParser.parse(src, out disp);
+                if(result)
+                    dst = disp;
+            }
+            return result;
+        }
+
         public long Value {get;}
 
         [MethodImpl(Inline)]

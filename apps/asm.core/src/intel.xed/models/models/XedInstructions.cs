@@ -16,9 +16,9 @@ namespace Z0
     {
         Index<InstInfo> _Descriptions {get;}
 
-        Index<InstOperand> _Operands {get;}
+        Index<InstOperandInfo> _Operands {get;}
 
-        public XedInstructions(InstInfo[] entries, InstOperand[] operands)
+        public XedInstructions(InstInfo[] entries, InstOperandInfo[] operands)
         {
             _Descriptions = entries;
             _Operands = operands;
@@ -42,7 +42,7 @@ namespace Z0
             get => _Descriptions;
         }
 
-        public ReadOnlySpan<InstOperand> Operands
+        public ReadOnlySpan<InstOperandInfo> Operands
         {
             [MethodImpl(Inline)]
             get => _Operands;
@@ -53,15 +53,15 @@ namespace Z0
             => ref _Descriptions[index];
 
         [MethodImpl(Inline)]
-        public ref readonly InstOperand Operand(uint index)
+        public ref readonly InstOperandInfo Operand(uint index)
             => ref _Operands[index];
 
-        public static XedInstructions Empty => new XedInstructions(sys.empty<InstInfo>(), sys.empty<InstOperand>());
+        public static XedInstructions Empty => new XedInstructions(sys.empty<InstInfo>(), sys.empty<InstOperandInfo>());
 
         [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
-        public struct InstOperand
+        public struct InstOperandInfo
         {
-            public const string TableId = "xed.instruction.operand";
+            public const string TableId = "xed.inst.operand.info";
 
             public const byte FieldCount = 9;
 

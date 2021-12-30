@@ -9,14 +9,9 @@ namespace Z0
     using static Root;
 
     [Free]
-    public interface IArrow : ITextual, IIdentified
+    public interface IArrow : ITextual
     {
-        Name SourceName {get;}
 
-        Name TargetName {get;}
-
-        string ITextual.Format()
-            => IdentityText;
     }
 
     /// <summary>
@@ -31,17 +26,8 @@ namespace Z0
 
         T Target {get;}
 
-        Name IArrow.SourceName
-            => Source?.ToString() ?? EmptyString;
-
-        Name IArrow.TargetName
-            => Target?.ToString() ?? EmptyString;
-
-        string IIdentified.IdentityText
-            => string.Format(RP.Arrow, SourceName, TargetName);
-
         string ITextual.Format()
-            => IdentityText;
+            => string.Format(RP.Arrow, Source, Target);
     }
 
     [Free]
@@ -54,10 +40,5 @@ namespace Z0
     public interface IArrow<S,T,K> : IArrow<S,T>
     {
         K Kind {get;}
-
-        string IIdentified.IdentityText
-            => string.Format(RP.Arrow, Source, Target);
-        string ITextual.Format()
-            => IdentityText;
    }
 }

@@ -35,7 +35,7 @@ namespace Z0
         public static H Max => KMax;
 
 
-        [MethodImpl(Inline), Op]
+        [Parser]
         public static Outcome parse(string src, out Hex8 dst)
         {
             var outcome = Hex.parse8u(src, out var x);

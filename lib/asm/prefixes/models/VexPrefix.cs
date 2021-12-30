@@ -68,7 +68,6 @@ namespace Z0.Asm
         public void Kind(K k)
             => Data = Bytes.inject((byte)k,0, ref Data);
 
-
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct VexPrefix16
         {

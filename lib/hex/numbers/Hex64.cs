@@ -16,6 +16,14 @@ namespace Z0
     [DataType("hex<w:64>", HexNumberKind.Hex64, ContentWidth, StorageWidth)]
     public readonly struct Hex64 : IHexNumber<H,W,K>
     {
+        [Parser]
+        public static Outcome parse(string src, out Hex64 dst)
+        {
+            var outcome = HexParser.parse64u(src, out var x);
+            dst = x;
+            return outcome;
+        }
+
         public const byte ContentWidth = 64;
 
         public const byte StorageWidth = 64;

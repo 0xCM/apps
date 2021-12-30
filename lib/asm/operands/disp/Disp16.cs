@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a signed 16-bit displacement
     /// </summary>
+    [DataType(TypeSyntax.Disp16)]
     public readonly struct Disp16 : IDisplacement<Disp16,short>
     {
         public short Value {get;}

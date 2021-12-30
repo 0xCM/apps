@@ -26,6 +26,19 @@ namespace Z0
             public Index<Facet<string>> Props;
         }
 
+        public readonly struct FileBlocks
+        {
+            public FS.FilePath Source {get;}
+
+            public Index<Block> Blocks {get;}
+
+            public FileBlocks(FS.FilePath src, Block[] blocks)
+            {
+                Source = src;
+                Blocks = blocks;
+            }
+        }
+
         /// <summary>
         /// Represents the content of a verbose xed instruction disassembly
         /// </summary>

@@ -13,10 +13,8 @@ namespace Z0
     }
 
     [Free]
-    public interface IEdge<V> : IEdge
+    public interface IEdge<V> : IEdge, IArrow<V>
     {
-        V Source {get;}
 
-        V Target {get;}
     }
 }

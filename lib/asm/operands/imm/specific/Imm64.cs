@@ -15,9 +15,32 @@ namespace Z0
     /// <summary>
     /// Defines a 64-bit immediate value
     /// </summary>
-    [DataType("imm64", Kind, Width, Width)]
+    [DataType(TypeSyntax.Imm64, Kind, Width, Width)]
     public readonly struct imm64 : IImm<imm64,ulong>
     {
+        [Parser]
+        public static Outcome parse(string src, out imm64 dst)
+        {
+            var result = Outcome.Success;
+            dst = default;
+            var i = text.index(src,HexFormatSpecs.PreSpec);
+            var imm = 0ul;
+            if(i>=0)
+            {
+                result = HexParser.parse64u(src, out imm);
+                if(result)
+                    dst = imm;
+            }
+            else
+            {
+                result = DataParser.parse(src, out imm);
+                if(result)
+                    dst = imm;
+            }
+            return result;
+        }
+
+
         public const ImmKind Kind = ImmKind.Imm64;
 
         public const byte Width = 64;

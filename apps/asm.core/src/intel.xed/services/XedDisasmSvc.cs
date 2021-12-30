@@ -79,13 +79,37 @@ namespace Z0
             return encodings;
         }
 
-        public Index<AsmStatementEncoding> ParseEncodings(FS.FilePath src)
+        public ConstLookup<FS.FilePath,StatementEncodings> ParseEncodings(IProjectWs project)
+        {
+            var src = project.OutFiles(FS.ext("xed.txt"));
+            var count = src.Count;
+            var dst = dict<FS.FilePath,StatementEncodings>();
+            for(var i=0; i<count; i++)
+                dst[src[i]] =(ParseEncodings(src[i]));
+            return dst;
+        }
+
+        public StatementEncodings ParseEncodings(FS.FilePath src)
         {
             var dst = list<AsmStatementEncoding>();
             var result = ParseEncodings(src,dst);
             if(result.Fail)
                 Error(result);
-            return dst.ToArray();
+            return new StatementEncodings(src,dst.ToArray());
+        }
+
+        public ConstLookup<FS.FilePath,FileBlocks> ParseBlocks(IProjectWs project)
+        {
+            var src = project.OutFiles(FS.ext("xed.txt"));
+            var dst = dict<FS.FilePath,FileBlocks>();
+            var blocks = list<Block>();
+            foreach(var path in src)
+            {
+                blocks.Clear();
+                Blocks(path,blocks);
+                dst[path] =new FileBlocks(path, blocks.ToArray());
+            }
+            return dst;
         }
 
         /// <summary>
@@ -158,6 +182,14 @@ namespace Z0
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
             var dst = list<Block>();
+            Blocks(src,dst);
+            return dst.ToArray();
+        }
+
+        static void Blocks(FS.FilePath src, List<Block> dst)
+        {
+            var lines = src.ReadNumberedLines();
+            var count = lines.Length;
             var blocklines = list<TextLine>();
             var imax = count-1;
             for(var i=0; i<imax; i++)
@@ -186,8 +218,6 @@ namespace Z0
                     }
                 }
             }
-
-            return dst.ToArray();
         }
 
         static Outcome ParseEncodings(FS.FilePath src, List<AsmStatementEncoding> dst)

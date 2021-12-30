@@ -25,6 +25,10 @@ namespace Z0
             public static implicit operator OpCode(byte src)
                 => new OpCode(src);
 
+            [MethodImpl(Inline)]
+            public static implicit operator OpCode(Hex8 src)
+                => new OpCode(src);
+
             public string Format()
                 => Value.ToString();
 
