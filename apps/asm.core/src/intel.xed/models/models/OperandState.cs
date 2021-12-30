@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using System.Runtime.InteropServices;
 
     using Asm;
@@ -62,13 +61,13 @@ namespace Z0
             [OperandKind(ILD_F3)]
             public bit ild_f3;
 
-            [OperandKind(IMM0)]
+            [OperandKind(IMM0, "Indicates whether a first imm operand is present")]
             public bit imm0;
 
-            [OperandKind(IMM0SIGNED)]
+            [OperandKind(IMM0SIGNED, "Indicates whether a first imm operand is signed")]
             public bit imm0signed;
 
-            [OperandKind(IMM1)]
+            [OperandKind(IMM1, "Indicates whether a second imm operand is present")]
             public bit imm1;
 
             [OperandKind(LOCK)]
@@ -193,7 +192,7 @@ namespace Z0
             [OperandKind(FIRST_F2F3)]
             public uint2 first_f2f3;
 
-            [OperandKind(HAS_MODRM)]
+            [OperandKind(HAS_MODRM, "Indicates whether a modrm byte is specified")]
             public bit has_modrm;
 
             [OperandKind(LAST_F2F3)]
@@ -254,7 +253,7 @@ namespace Z0
             public uint3 vexdest210;
 
             [OperandKind(VEXVALID)]
-            public uint3 vexvalid;
+            public VexValidityKind vexvalid;
 
             [OperandKind(ERROR)]
             public ErrorKind error;

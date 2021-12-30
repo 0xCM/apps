@@ -359,6 +359,7 @@ namespace Z0
         {
             const string RenderPattern = "{0,-22}: {1}";
             const string Cols2Pattern = "{0,-12} | {1}";
+            const string Cols3Pattern = "{0,-12} | {1,-12} | {2}";
 
             var parser = new XedOperandParser();
             var count = (uint)Require.equal(encodings.Length, blocks.Length);
@@ -408,52 +409,102 @@ namespace Z0
 
                 if(modrm(state, out var modrmval))
                 {
+                    var pos = state.pos_modrm;
                     if(modrmval.Value() != state.modrm_byte)
                         return (false, string.Format("Derived RM value {0} differs from parsed value {1}", modrmval, state.modrm_byte));
 
-                    if(modrmval.Value() != code[state.pos_modrm])
-                        return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
+                    if(modrmval.Value() != code[pos])
+                        return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[pos]));
 
-                    writer.WriteLine(string.Format(RenderPattern, "ModRM", string.Format(Cols2Pattern, modrmval.Format(), modrmval.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "ModRM", string.Format(Cols3Pattern, pos, modrmval.Format(), modrmval.ToBitString())));
                 }
 
                 if(sib(state, out var sibval))
                 {
-                    var sibenc = Sib.init(code[state.pos_sib]);
-
+                    var pos = state.pos_sib;
+                    var sibenc = Sib.init(code[pos]);
                     if(sibenc.Value() != sibval.Value())
                         return (false, string.Format("Derived Sib value {0} differs from encoded value {1}", sibval, sibenc));
 
-                    writer.WriteLine(string.Format(RenderPattern, "Sib", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "Sib", string.Format(Cols3Pattern, pos, sibval.Format(), sibval.ToBitString())));
                 }
 
                 if(state.disp_width != 0)
                 {
                     var dispcount = state.disp_width/8;
-                    var dispval = 0ul;
-                    var dispoffset = state.pos_disp;
+                    var val = 0ul;
+                    var pos = state.pos_disp;
                     switch(dispcount)
                     {
                         case 1:
-                            dispval = code[dispoffset];
+                            val = code[pos];
                         break;
                         case 2:
-                            dispval = slice(code.Bytes,dispoffset, dispcount).TakeUInt16();
+                            val = slice(code.Bytes,pos, dispcount).TakeUInt16();
                         break;
                         case 4:
-                            dispval = slice(code.Bytes,dispoffset, dispcount).TakeUInt32();
+                            val = slice(code.Bytes,pos, dispcount).TakeUInt32();
                         break;
                         case 8:
-                            dispval = slice(code.Bytes,dispoffset, dispcount).TakeUInt64();
+                            val = slice(code.Bytes,pos, dispcount).TakeUInt64();
                         break;
                     }
 
-                    writer.WriteLine(string.Format(RenderPattern, "Disp", dispval.FormatHex(zpad:false)));
+                    writer.WriteLine(string.Format(RenderPattern, "Disp", string.Format(Cols2Pattern, pos, val.FormatHex(zpad:false))));
                 }
+
+                if(state.imm0)
+                {
+                    var size = NativeSize.code(state.imm_width);
+                    var signed = state.imm0signed;
+                    var pos = state.pos_imm;
+                    var val = 0ul;
+                    switch(size)
+                    {
+                        case NativeSizeCode.W8:
+                            val = code[pos];
+                        break;
+                        case NativeSizeCode.W16:
+                            val = slice(code.Bytes,pos, 2).TakeUInt16();
+                        break;
+                        case NativeSizeCode.W32:
+                            val = slice(code.Bytes,pos, 4).TakeUInt32();
+                        break;
+                        case NativeSizeCode.W64:
+                            val = slice(code.Bytes,pos, 8).TakeUInt64();
+                        break;
+                    }
+                    writer.WriteLine(string.Format(RenderPattern, "Imm0", string.Format(Cols2Pattern, pos, val.FormatHex(zpad:false))));
+                }
+
+                var easzW = widths(state.easz);
+                if(easzW > 64)
+                {
+                    var w0 = (byte)easzW;
+                    var w1 =(byte)(easzW >> 8);
+                    writer.WriteLine(RenderPattern, "EASZ", string.Format("{0}, {1}", w0, w1));
+                }
+                else
+                    writer.WriteLine(RenderPattern, "EASZ", easzW);
+
+                var eoszW = widths(state.eosz);
+                if(eoszW > 64)
+                {
+                    var w0 = (byte)eoszW;
+                    var w1 = (byte)(eoszW >> 8);
+                    var w2 = (byte)(eoszW >> 16);
+                    if(w2 > 0)
+                        writer.WriteLine(RenderPattern, "EASZ", string.Format("{0}, {1}, {2}", w0, w1, w2));
+                    else
+                        writer.WriteLine(RenderPattern, "EASZ", string.Format("{0}, {1}", w0, w1));
+                }
+                else
+                    writer.WriteLine(RenderPattern, "EOSZ", eoszW);
 
                 var fields = state.ToLookup();
                 var kinds = fields.Keys;
                 var values = fields.Values;
+                var flags = list<OperandKind>();
                 for(var k=0; k<kinds.Length; k++)
                 {
                     ref readonly var kind = ref skip(kinds,k);
@@ -484,16 +535,40 @@ namespace Z0
                         case K.DISP_WIDTH:
                         case K.DISP:
                         case K.POS_DISP:
+                        case K.IMM0:
+                        case K.POS_IMM:
+                        case K.IMM0SIGNED:
+                        case K.IMM_WIDTH:
+                        case K.EOSZ:
+                        case K.EASZ:
                         break;
                         default:
-                        if(parsed.Contains(kind))
-                        {
-                            ref readonly var value = ref skip(values,k);
-                            writer.WriteLine(string.Format(RenderPattern, kind, value));
-                        }
+                            if(parsed.Contains(kind))
+                            {
+                                ref readonly var value = ref skip(values,k);
+                                switch(kind)
+                                {
+                                    case K.P4:
+                                    case K.USING_DEFAULT_SEGMENT0:
+                                    case K.USING_DEFAULT_SEGMENT1:
+                                    case K.LZCNT:
+                                    case K.TZCNT:
+                                    case K.NEED_MEMDISP:
+                                    case K.DF32:
+                                    case K.DF64:
+                                        flags.Add(kind);
+                                    break;
+                                    default:
+                                        writer.WriteLine(string.Format(RenderPattern, kind, value));
+                                    break;
+                                }
+
+                            }
                         break;
                     }
                 }
+
+                writer.WriteLine(RenderPattern, "Flags", flags.Delimit().Format());
             }
 
             writer.WriteLine();
@@ -556,5 +631,27 @@ namespace Z0
                 return false;
             }
         }
+
+        static uint widths(EASZ src)
+            => src switch
+            {
+                EASZ.EaMode16 => 16,
+                EASZ.EaMode32 => 32,
+                EASZ.EaMode64 => 64,
+                EASZ.Not16 => 32 | (64 << 8),
+                _ => 0,
+            };
+
+        static uint widths(EOSZ src)
+            => src switch
+            {
+                EOSZ.EOSZ8 => 8,
+                EOSZ.EAOSZ16 => 16,
+                EOSZ.EAOSZ32 => 32,
+                EOSZ.EAOSZ64 => 64,
+                EOSZ.Not16 => 8 | (32 << 8) | (64 << 16),
+                EOSZ.Not64 => 8 | (16 << 8) | (32 << 16),
+                _ => 0,
+            };
     }
 }

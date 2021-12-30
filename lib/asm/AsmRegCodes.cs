@@ -16,7 +16,7 @@ namespace Z0.Asm
             => _RegCodeTypes.Storage;
 
         [Op]
-        public static Symbols<Gp8Reg> Gp8Regs()
+        public static Symbols<Gp8LoReg> Gp8Regs()
             => _Gp8;
 
         [Op]
@@ -95,7 +95,7 @@ namespace Z0.Asm
         public static Symbols<RegClassCode> RegClasses()
             => _RegClasses;
 
-        static Symbols<Gp8Reg> _Gp8;
+        static Symbols<Gp8LoReg> _Gp8;
 
         static Symbols<Gp8HiReg> _Gp8Hi;
 
@@ -144,7 +144,7 @@ namespace Z0.Asm
         static AsmRegCodes()
         {
             _RegCodeTypes = typeof(AsmCodes).GetNestedTypes().Tagged<RegCodeAttribute>();
-            _Gp8 = symbols<Gp8Reg>();
+            _Gp8 = symbols<Gp8LoReg>();
             _Gp8Hi = symbols<Gp8HiReg>();
             _Gp16 = symbols<Gp16Reg>();
             _Gp32 = symbols<Gp32Reg>();

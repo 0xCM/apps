@@ -89,8 +89,12 @@ namespace Z0.Asm
             get => Data != 0;
         }
 
+        [MethodImpl(Inline)]
+        public byte Value()
+            => Data;
+
         public string Format()
-            => Data.FormatAsmHex();
+            => Value().FormatHex(2,prespec:true);
 
         public string ToBitString()
             => BitRender.format8x4(Data);

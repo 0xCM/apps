@@ -84,7 +84,7 @@ namespace Z0.Asm
 
             text.copy(FieldSep, ref i, dst);
 
-            text.copy(src.Encoded.FormatHex(2), ref i, dst);
+            text.copy(src.Value().FormatHex(2), ref i, dst);
             seek(dst,i++) = Chars.Space;
             text.copy(FieldSep, ref i, dst);
 

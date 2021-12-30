@@ -11,7 +11,7 @@ namespace Z0.Asm.Operands
 
     using I = RegIndexCode;
     using G = r8;
-    using K = AsmRegTokens.Gp8Reg;
+    using K = AsmRegTokens.Gp8LoReg;
     using api = AsmRegs;
 
     public readonly struct r8 : IRegOp8<r8>

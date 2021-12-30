@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(state)]
-        public enum VectorLengthKind : byte
+        public enum VexLengthKind : byte
         {
             [Symbol("VL128", "VL=0")]
             VL128 = 0,

@@ -8,7 +8,6 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static Chars;
     using static core;
 
     [ApiHost]
@@ -16,24 +15,9 @@ namespace Z0.Asm
     {
         const NumericKind Closure = UnsignedInts;
 
-        // [Op]
-        // public static string bitstring(in AsmHexCode src)
-        // {
-        //     if(src.IsEmpty)
-        //         return default;
-
-        //     CharBlocks.alloc(n256, out var block);
-        //     var dst = block.Data;
-        //     var count = AsmBitstring.render(src, dst);
-        //     if(count == 0)
-        //         return EmptyString;
-
-        //     return text.format(slice(dst, 0, count));
-        // }
-
-        // [Op]
-        // public static string format8x4(AsmHexCode src)
-        //     => src.ToBitString();
+        public static string asmbyte<T>(T src)
+            where T : unmanaged, IAsmByte
+                => src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
 
         public static string format(in HostAsmRecord src)
             => string.Format("{0} {1,-36} # {2} => {3}",

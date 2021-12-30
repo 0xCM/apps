@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     // SIB[Scale[6,7] | Index[3,5] | Base[0,2]]
     [ApiComplete]
-    public struct Sib
+    public struct Sib : IAsmByte<Sib>
     {
         public static Sib init(byte src = 0)
             => new Sib(src);
@@ -45,14 +45,6 @@ namespace Z0.Asm
         public void Base(uint3 src)
             => _Value = math.or(math.and(_Value, BaseMask), math.sll(src,BaseOffset));
 
-        // [MethodImpl(Inline)]
-        // public byte Base()
-        //     => bits.extract(_Value, 0, 2);
-
-        // [MethodImpl(Inline)]
-        // public void Base(byte b)
-        //     => _Value = bits.replace(_Value, 0, 2, b);
-
         [MethodImpl(Inline)]
         public uint3 Index()
             => (uint3)(math.srl((byte)(_Value & ~IndexMask), IndexOffset));
@@ -60,15 +52,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public void Index(uint3 src)
             => _Value = math.or(math.and(_Value, IndexMask),math.sll(src,IndexOffset));
-
-
-        // [MethodImpl(Inline)]
-        // public byte Index()
-        //     => bits.extract(_Value, 3, 5);
-
-        // [MethodImpl(Inline)]
-        // public void Index(byte i)
-        //     => _Value = bits.replace(_Value, 3, 5, i);
 
         [MethodImpl(Inline)]
         public uint2 Scale()
@@ -78,24 +61,10 @@ namespace Z0.Asm
         public void Scale(uint2 src)
             => _Value = math.or(math.and(_Value, ScaleMask), math.sll(src,ScaleOffset));
 
-        // [MethodImpl(Inline)]
-        // public byte Scale()
-        //     => bits.extract(_Value, 6, 7);
-
-        // [MethodImpl(Inline)]
-        // public void Scale(byte s)
-        //     => _Value = bits.replace(_Value, 6, 7, s);
-
         public MemoryScale ScaleFactor
         {
             [MethodImpl(Inline)]
             get => Pow2.pow8u(Scale());
-        }
-
-        public byte Encoded
-        {
-            [MethodImpl(Inline)]
-            get => _Value;
         }
 
         public bool IsEmpty
@@ -133,7 +102,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => _Value.FormatHex(2);
+            => Value().FormatHex(2,prespec:true);
 
         public override string ToString()
             => Format();

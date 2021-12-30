@@ -13,7 +13,7 @@ namespace Z0.Asm
     /// ModRM[mod[7:6] | reg[5:3] | r/m[2:0]]
     /// </summary>
     [ApiComplete]
-    public struct ModRm
+    public struct ModRm : IAsmByte<ModRm>
     {
         public static ModRm init(byte src = 0)
             => new ModRm();
@@ -68,7 +68,7 @@ namespace Z0.Asm
             => string.Format("{0} {1} {2}", Mod(), Reg(), Rm());
 
         public string Format()
-            => Value().FormatHex(2);
+            => Value().FormatHex(2,prespec:true);
 
         public override string ToString()
             => Format();

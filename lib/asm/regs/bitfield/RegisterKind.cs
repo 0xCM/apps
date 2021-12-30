@@ -38,102 +38,147 @@ namespace Z0.Asm
         // ~ FLAGS registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("flags")]
         FLAGS = F.Flags,
 
+        [Symbol("eflags")]
         EFLAGS = F.EFlags,
 
+        [Symbol("rflags")]
         RFLAGS = F.RFlags,
 
         // ~ 16-bit segment registers
         // ~ ------------------------------------------------------------------
+        [Symbol("cs")]
         CS = SR.CS,
 
+        [Symbol("ds")]
         DS = SR.DS,
 
+        [Symbol("ss")]
         SS = SR.SS,
 
+        [Symbol("es")]
         ES = SR.ES,
 
+        [Symbol("fs")]
         FS = SR.FS,
 
+        [Symbol("gs")]
         GS = SR.GS,
 
         // ~ 8-bit general-purpose registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("al")]
         AL = G8.AL,
 
+        [Symbol("ah")]
         AH = G8.AH,
 
+        [Symbol("cl")]
         CL = G8.CL,
 
+        [Symbol("ch")]
         CH = G8.CH,
 
+        [Symbol("dl")]
         DL = G8.DL,
 
+        [Symbol("dh")]
         DH = G8.DH,
 
+        [Symbol("bl")]
         BL = G8.BL,
 
+        [Symbol("bh")]
         BH = G8.BH,
 
+        [Symbol("spl")]
         SPL = G8.SPL,
 
+        [Symbol("bpl")]
         BPL = G8.BPL,
 
+        [Symbol("sil")]
         SIL = G8.SIL,
 
+        [Symbol("dil")]
         DIL = G8.DIL,
 
+        [Symbol("r8b")]
         R8B = G8.R8B,
 
+        [Symbol("r9b")]
         R9B = G8.R9B,
 
+        [Symbol("r10b")]
         R10B = G8.R10B,
 
+        [Symbol("r11b")]
         R11B = G8.R11B,
 
+        [Symbol("r12b")]
         R12B = G8.R12B,
 
+        [Symbol("r13b")]
         R13B = G8.R13B,
 
+        [Symbol("r14b")]
         R14B = G8.R14B,
 
+        [Symbol("r15b")]
         R15B = G8.R15B,
 
         // ~ 16-bit general-purpose registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("ax")]
         AX = G16.AX,
 
+        [Symbol("cx")]
         CX = G16.CX,
 
+        [Symbol("dx")]
         DX = G16.DX,
 
+        [Symbol("bx")]
         BX = G16.BX,
 
+        [Symbol("sp")]
         SP = G16.SP,
 
+        [Symbol("bp")]
         BP = G16.BP,
 
+        [Symbol("si")]
         SI = G16.SI,
 
+        [Symbol("di")]
         DI = G16.DI,
 
+        [Symbol("r8w")]
         R8W = G16.R8W,
 
+        [Symbol("r9w")]
         R9W = G16.R9W,
 
+        [Symbol("r10w")]
         R10W = G16.R10W,
 
+        [Symbol("r11w")]
         R11W = G16.R11W,
 
+        [Symbol("r12w")]
         R12W = G16.R12W,
 
+        [Symbol("r13w")]
         R13W = G16.R13W,
 
+        [Symbol("r14w")]
         R14W = G16.R14W,
 
+        [Symbol("r15w")]
         R15W = G16.R15W,
 
         // ~ 32-bit general-purpose registers
@@ -249,28 +294,40 @@ namespace Z0.Asm
 
         XMM19 = X.XMM19,
 
+        [Symbol("xmm20")]
         XMM20 = X.XMM20,
 
+        [Symbol("xmm21")]
         XMM21 = X.XMM21,
 
+        [Symbol("xmm22")]
         XMM22 = X.XMM22,
 
+        [Symbol("xmm23")]
         XMM23 = X.XMM23,
 
+        [Symbol("xmm24")]
         XMM24 = X.XMM24,
 
+        [Symbol("xmm25")]
         XMM25 = X.XMM25,
 
+        [Symbol("xmm26")]
         XMM26 = X.XMM26,
 
+        [Symbol("xmm27")]
         XMM27 = X.XMM27,
 
+        [Symbol("xmm28")]
         XMM28 = X.XMM28,
 
+        [Symbol("xmm29")]
         XMM29 = X.XMM29,
 
+        [Symbol("xmm30")]
         XMM30 = X.XMM30,
 
+        [Symbol("xmm31")]
         XMM31 = X.XMM31,
 
         // ~ 256-bit vectorized registers
@@ -410,116 +467,124 @@ namespace Z0.Asm
         // ~ 64-bit mask registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("k0")]
         K0 = M.K0,
 
+        [Symbol("k1")]
         K1 = M.K1,
 
+        [Symbol("k2")]
         K2 = M.K2,
 
+        [Symbol("k3")]
         K3 = M.K3,
 
+        [Symbol("k4")]
         K4 = M.K4,
 
+        [Symbol("k5")]
         K5 = M.K5,
 
+        [Symbol("k6")]
         K6 = M.K6,
 
+        [Symbol("k7")]
         K7 = M.K7,
 
         // ~ Control registers
         // ~ ------------------------------------------------------------------
 
-        [Symbol("CR0")]
+        [Symbol("cr0")]
         CR0 = C.CR0,
 
-        [Symbol("CR1")]
+        [Symbol("cr1")]
         CR1 = C.CR1,
 
-        [Symbol("CR2")]
+        [Symbol("cr2")]
         CR2 = C.CR2,
 
-        [Symbol("CR3")]
+        [Symbol("cr3")]
         CR3 = C.CR3,
 
-        [Symbol("CR4")]
+        [Symbol("cr4")]
         CR4 = C.CR4,
 
-        [Symbol("CR5")]
+        [Symbol("cr5")]
         CR5 = C.CR5,
 
-        [Symbol("CR6")]
+        [Symbol("cr6")]
         CR6 = C.CR6,
 
-        [Symbol("CR7")]
+        [Symbol("cr7")]
         CR7 = C.CR7,
 
         // ~ Debug registers
         // ~ ------------------------------------------------------------------
 
-        [Symbol("DR0")]
+        [Symbol("dr0")]
         DR0 = D.DR0,
 
-        [Symbol("DR1")]
+        [Symbol("dr1")]
         DR1 = D.DR1,
 
-        [Symbol("DR2")]
+        [Symbol("dr2")]
         DR2 = D.DR2,
 
-        [Symbol("DR3")]
+        [Symbol("dr3")]
         DR3 = D.DR3,
 
-        [Symbol("DR4")]
+        [Symbol("dr4")]
         DR4 = D.DR4,
 
-        [Symbol("DR5")]
+        [Symbol("dr5")]
         DR5 = D.DR5,
 
-        [Symbol("DR6")]
+        [Symbol("dr6")]
         DR6 = D.DR6,
 
-        [Symbol("DR7")]
+        [Symbol("dr7")]
         DR7 = D.DR7,
 
         // ~ Test registers
         // ~ ------------------------------------------------------------------
 
-        [Symbol("DR0")]
+        [Symbol("tr0")]
         TR0 = TR.TR0,
 
-        [Symbol("TR1")]
+        [Symbol("tr1")]
         TR1 = TR.TR1,
 
-        [Symbol("TR2")]
+        [Symbol("tr2")]
         TR2 = TR.TR2,
 
-        [Symbol("TR3")]
+        [Symbol("tr3")]
         TR3 = TR.TR3,
 
-        [Symbol("TR4")]
+        [Symbol("tr4")]
         TR4 = TR.TR4,
 
-        [Symbol("TR5")]
+        [Symbol("tr5")]
         TR5 = TR.TR5,
 
-        [Symbol("TR6")]
+        [Symbol("tr6")]
         TR6 = TR.TR6,
 
-        [Symbol("TR7")]
+        [Symbol("tr7")]
         TR7 = TR.TR7,
 
         // ~ BND registers
         // ~ ------------------------------------------------------------------
 
-        [Symbol("BND0")]
+        [Symbol("bnd0")]
         BND0 = B.DR0,
 
-        [Symbol("BND1")]
+        [Symbol("bnd1")]
         BND1 = B.DR1,
 
-        [Symbol("BND2")]
+        [Symbol("bnd2")]
         BND2 = B.DR2,
 
-        [Symbol("BND3")]
+        [Symbol("bnd3")]
         BND3 = B.DR3,
 
         // ~ FP registers
@@ -579,20 +644,27 @@ namespace Z0.Asm
         // ~ Intruction pointer registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("ip")]
         IP = I.IP,
 
+        [Symbol("eip")]
         EIP = I.EIP,
 
+        [Symbol("rip")]
         RIP = I.RIP,
 
         // ~ System pointer registers
 
+        [Symbol("gdtr")]
         GDTR = SPTR.GDTR,
 
+        [Symbol("ldtr")]
         LDTR = SPTR.LDTR,
 
+        [Symbol("idtr")]
         IDTR = SPTR.IDTR,
 
+        [Symbol("xcr0")]
         XCR0 = XCR.XCR0,
     }
 }

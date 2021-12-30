@@ -27,8 +27,8 @@ namespace Z0.Asm
                 => src.Kind;
 
             [MethodImpl(Inline), Op]
-            public static ReadOnlySpan<Gp8Reg> regs(W8 w)
-                => recover<Gp8Reg>(slice(WinX64Data,0,Win64MaxReg + 1));
+            public static ReadOnlySpan<Gp8LoReg> regs(W8 w)
+                => recover<Gp8LoReg>(slice(WinX64Data,0,Win64MaxReg + 1));
 
             [MethodImpl(Inline), Op]
             public static ReadOnlySpan<Gp16Reg> regs(W16 w)
@@ -43,7 +43,7 @@ namespace Z0.Asm
                 => recover<Gp64Reg>(slice(WinX64Data,0,Win64MaxReg + 1));
 
             [MethodImpl(Inline), Op]
-            public static ref readonly Gp8Reg reg(W8 w, byte index)
+            public static ref readonly Gp8LoReg reg(W8 w, byte index)
                 => ref skip(regs(w), index);
 
             [MethodImpl(Inline), Op]
@@ -75,7 +75,7 @@ namespace Z0.Asm
             //     => ref first(recover<v4<Gp64Reg>>(bytes(regs(w))));
 
             [MethodImpl(Inline), Op]
-            public static bit slot(Win64 cc, byte index, out Gp8Reg dst)
+            public static bit slot(Win64 cc, byte index, out Gp8LoReg dst)
             {
                 var i = math.and(index,Win64MaxReg);
                 bit valid = i <= Win64MaxReg;

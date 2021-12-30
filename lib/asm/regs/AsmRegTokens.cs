@@ -18,8 +18,8 @@ namespace Z0.Asm
         {
             None,
 
-            [Symbol("gp8")]
-            Gp8,
+            [Symbol("gp8lo")]
+            Gp8Lo,
 
             [Symbol("gp8hi")]
             Gp8Hi,
@@ -107,8 +107,8 @@ namespace Z0.Asm
         /// <remarks>
         /// al, cl, dl, bl, spl, bpl, sil, dil, r8b, r9b, r10b, r11b, r12b, r13b, r14b, r15b
         /// </remarks/>
-        [SymSource(tokens), RegCode(K.Gp8)]
-        public enum Gp8Reg : byte
+        [SymSource(tokens), RegCode(K.Gp8Lo)]
+        public enum Gp8LoReg : byte
         {
             [Symbol("al")]
             al = r0,
@@ -693,25 +693,25 @@ namespace Z0.Asm
         [SymSource(tokens), RegCode(K.Cr)]
         public enum ControlReg : byte
         {
-            [Symbol("CR0")]
+            [Symbol("cr0")]
             cr0 = r0,
 
-            [Symbol("CR1")]
+            [Symbol("cr1")]
             cr1 = r1,
 
-            [Symbol("CR2")]
+            [Symbol("cr2")]
             cr2 = r2,
 
-            [Symbol("CR3")]
+            [Symbol("cr3")]
             cr3 = r3,
 
-            [Symbol("CR4")]
+            [Symbol("cr4")]
             cr4 = r4,
 
-            [Symbol("CR5")]
+            [Symbol("cr5")]
             cr5 = r5,
 
-            [Symbol("CR6")]
+            [Symbol("cr6")]
             cr6 = r6,
 
             [Symbol("CR7")]
@@ -724,7 +724,7 @@ namespace Z0.Asm
         [SymSource(tokens), RegCode(K.XCr)]
         public enum XControlReg : byte
         {
-            [Symbol("XCR0")]
+            [Symbol("xcr0")]
             xcr0 = r0,
         }
 
@@ -735,28 +735,28 @@ namespace Z0.Asm
         [SymSource(tokens), RegCode(K.Db)]
         public enum DebugReg : uint
         {
-            [Symbol("DR0")]
+            [Symbol("dr0")]
             dr0 = r0,
 
-            [Symbol("DR1")]
+            [Symbol("dr1")]
             dr1 = r1,
 
-            [Symbol("DR2")]
+            [Symbol("dr2")]
             dr2 = r2,
 
-            [Symbol("DR3")]
+            [Symbol("dr3")]
             dr3 = r3,
 
-            [Symbol("DR4")]
+            [Symbol("dr4")]
             dr4 = r4,
 
-            [Symbol("DR5")]
+            [Symbol("dr5")]
             dr5 = r5,
 
-            [Symbol("DR6")]
+            [Symbol("dr6")]
             dr6 = r6,
 
-            [Symbol("DR7")]
+            [Symbol("dr7")]
             dr7 = r7,
         }
 
@@ -795,28 +795,28 @@ namespace Z0.Asm
         [SymSource(tokens), RegCode(K.Test)]
         public enum TestReg : byte
         {
-            [Symbol("TR0")]
+            [Symbol("tr0")]
             tr0 = r0,
 
-            [Symbol("TR1")]
+            [Symbol("tr1")]
             tr1 = r1,
 
-            [Symbol("TR2")]
+            [Symbol("tr2")]
             tr2 = r2,
 
-            [Symbol("TR3")]
+            [Symbol("tr3")]
             tr3 = r3,
 
-            [Symbol("TR4")]
+            [Symbol("tr4")]
             tr4 = r4,
 
-            [Symbol("TR5")]
+            [Symbol("tr5")]
             tr5 = r5,
 
-            [Symbol("TR6")]
+            [Symbol("tr6")]
             tr6 = r6,
 
-            [Symbol("TR7")]
+            [Symbol("tr7")]
             tr7 = r7
         }
 

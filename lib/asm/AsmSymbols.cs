@@ -14,7 +14,7 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmSymbols
     {
-        readonly Symbols<Gp8Reg> _Gp8Regs;
+        readonly Symbols<Gp8LoReg> _Gp8Regs;
 
         readonly Symbols<Gp8HiReg> _Gp8HiRegs;
 
@@ -82,7 +82,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public ref readonly Sym<Gp8Reg> Symbol(Gp8Reg key)
+        public ref readonly Sym<Gp8LoReg> Symbol(Gp8LoReg key)
             => ref _Gp8Regs[key];
 
         [MethodImpl(Inline), Op]
@@ -121,7 +121,7 @@ namespace Z0.Asm
         public ref readonly Sym<DebugReg> Symbol(DebugReg key)
             => ref _DebugRegs[key];
 
-        public ref readonly Sym<Gp8Reg> this[Gp8Reg key]
+        public ref readonly Sym<Gp8LoReg> this[Gp8LoReg key]
         {
             [MethodImpl(Inline)]
             get => ref Symbol(key);
@@ -181,7 +181,7 @@ namespace Z0.Asm
                 => RegsGp<K>();
 
         [Op]
-        public Symbols<Gp8Reg> Gp8Regs()
+        public Symbols<Gp8LoReg> Gp8Regs()
             => _Gp8Regs;
 
         [Op]
@@ -252,8 +252,8 @@ namespace Z0.Asm
         ReadOnlySpan<Sym<K>> RegsGp<K>()
             where K : unmanaged
         {
-            if(typeof(K) == typeof(Gp8Reg))
-                return recover<Sym<Gp8Reg>,Sym<K>>(_Gp8Regs.View);
+            if(typeof(K) == typeof(Gp8LoReg))
+                return recover<Sym<Gp8LoReg>,Sym<K>>(_Gp8Regs.View);
             else if(typeof(K) == typeof(Gp16Reg))
                 return recover<Sym<Gp16Reg>,Sym<K>>(_Gp16Regs.View);
             else if(typeof(K) == typeof(Gp32Reg))

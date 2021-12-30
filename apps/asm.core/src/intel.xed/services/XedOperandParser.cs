@@ -604,7 +604,7 @@ namespace Z0
                 break;
 
                 case K.VEXVALID:
-                    result = DataParser.parse(value, out State.vexvalid);
+                    result = DataParser.eparse(value, out State.vexvalid);
                 break;
 
                 case K.VEX_C4:

@@ -26,10 +26,10 @@ namespace Z0
             EAOSZ64 = 3,
 
             [Symbol("not_eosz16", "EOSZ!=1")]
-            Not16 = EOSZ8 | EAOSZ32 | EAOSZ64,
+            Not16 = 5,
 
             [Symbol("eosznot64", "EOSZ!=3")]
-            Not64 = EOSZ8 | EAOSZ16 | EAOSZ32
+            Not64 = 6
         }
     }
 }
