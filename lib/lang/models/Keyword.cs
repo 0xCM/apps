@@ -2,18 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Lang
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct Keyword : ITerminalExpr<Label>
+    public readonly struct LangKeyword : ITerminalExpr<Label>
     {
         public Label Value {get;}
 
         [MethodImpl(Inline)]
-        public unsafe Keyword(string src)
+        public unsafe LangKeyword(string src)
             => Value = src;
 
         [MethodImpl(Inline)]
@@ -24,7 +24,7 @@ namespace Z0.Lang
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Keyword(string name)
-            => new Keyword(name);
+        public static implicit operator LangKeyword(string name)
+            => new LangKeyword(name);
     }
 }

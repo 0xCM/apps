@@ -18,7 +18,7 @@ namespace Z0
     using W = W128;
 
     /// <summary>
-    /// Defines a type-level representation of <see cref='DW.W128'/> with a <see cref='TV.Signed'/> classifier
+    /// Defines a type-level representation of <see cref='DW.W128'/> with a <see cref='TypeSign'/> classifier
     /// </summary>
     public readonly struct W128 : IVectorWidth<W>
     {

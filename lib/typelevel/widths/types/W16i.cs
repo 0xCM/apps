@@ -18,7 +18,7 @@ namespace Z0
     using W = W16i;
 
     /// <summary>
-    /// Defines a type-level representation of <see cref='DW.W16'/> with a <see cref='TV.Signed'/> classifier
+    /// Defines a type-level representation of <see cref='DW.W16'/> with a <see cref='TSK'/> classifier
     /// </summary>
     public readonly struct W16i : WNumeric<W>
     {

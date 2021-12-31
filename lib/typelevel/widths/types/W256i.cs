@@ -18,7 +18,7 @@ namespace Z0
     using W = W256i;
 
     /// <summary>
-    /// Defines a type-level representation of <see cref='DW.W256'/> with a <see cref='TV.Signed'/> classifier
+    /// Defines a type-level representation of <see cref='DW.W256'/> with a <see cref='TSK'/> classifier
     /// </summary>
     public readonly struct W256i : IVectorWidth<W>
     {
