@@ -6,14 +6,9 @@ namespace Z0
 {
     using System;
 
-    public interface ITypedLiterals
-    {
-        Identifier Name {get;}
-    }
-
-    public interface ILiteralSeq<T> : ITypedLiterals, ISeq<Literal<T>>
+    public interface ILiteralSeq<T> : ISeq<Literal<T>>
         where T : IEquatable<T>, IComparable<T>
     {
-
+        Identifier Name {get;}
     }
 }

@@ -16,43 +16,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Atom<K> atom<K>(uint key, K value)
-            where K : unmanaged
-                => new Atom<K>(key, value);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Product<K> product<K>(K left, K right)
-            => new Product<K>(left,right);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Sum<K> sum<K>(K left, K right)
-            => new Sum<K>(left, right);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Sum<Product<K>> sum<K>(Product<K> left, Product<K> right)
-            => new Sum<Product<K>>(left,right);
-
-        [Op, Closures(Closure)]
-        public static Sum<Atoms<K>> sum<K>(Atoms<K> src)
-            where K : unmanaged
-        {
-            var empty = Atoms<K>.Empty;
-            if(src.IsEmpty)
-                return new Sum<Atoms<K>>(empty, empty);
-            else
-            {
-                if(src.Length == 1)
-                    return new Sum<Atoms<K>>(src, empty);
-                else
-                    return new Sum<Atoms<K>>(new Atoms<K>(src.First), new Atoms<K>(core.slice(src.Members,1).ToArray()));
-            }
-        }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Sum<Atoms<K>> sum<K>(Atoms<K> left, Atoms<K> right)
-            where K : unmanaged
-                => new Sum<Atoms<K>>(left,right);
 
         /// <summary>
         /// Defines an alphabet over a caller-supplied symbol sequence
@@ -92,23 +55,6 @@ namespace Z0
             where K : unmanaged, Enum
                 => alphabet(name, Symbols.index<K>().Kinds);
 
-
-        [Op, Closures(Closure)]
-        public static Atoms<K> concat<K>(Atoms<K> a, Atoms<K> b)
-            where K : unmanaged
-        {
-            var ka = a.Count;
-            var kb = b.Count;
-            var k=0u;
-            var length = a.Count + b.Count;
-            var dst = alloc<K>(length);
-            for(var i=0; i<ka; i++)
-                seek(dst,k++) = a[i];
-            for(var i=0; i<kb; i++)
-                seek(dst,k++) = b[i];
-            return default;
-        }
-
         internal static string format<K>(in Alphabet<K> src)
             where K : unmanaged
         {
@@ -120,6 +66,5 @@ namespace Z0
             dst.Append("}");
             return dst.Emit();
         }
-
     }
 }

@@ -7,7 +7,6 @@ namespace Z0
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
-    using System.Text;
 
     using static Root;
 
@@ -40,33 +39,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static DelimitedIndex<T> Delimit<T>(this IIndex<T> src, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
             => new DelimitedIndex<T>(src.Storage, delimiter, pad, fence);
-
-        // public static void Delimit<T>(this StringBuilder sb, string content, char delimiter, int pad)
-        // {
-        //     sb.Append(RP.rspace(delimiter));
-        //     sb.Append($"{content}".PadRight((int)pad));
-        // }
-
-        // public static void Delimit<T>(this StringBuilder sb, T content, char delimiter, int pad)
-        //     where T : ITextual
-        // {
-        //     sb.Append(RP.rspace(delimiter));
-        //     sb.Append($"{content.Format()}".PadRight((int)pad));
-        // }
-
-        // public static void Delimit<F,T>(this StringBuilder sb, F field, T content, char delimiter = ListDelimiter)
-        //     where F : unmanaged, Enum
-        //     where T : ITextual
-        // {
-        //     sb.Append(RP.rspace(delimiter));
-        //     sb.Append($"{content.Format()}".PadRight(width(field)));
-        // }
-
-        // public static void Delimit<F>(this StringBuilder sb, F field, object content, char delimiter = ListDelimiter)
-        //     where F : unmanaged, Enum
-        // {
-        //     sb.Append(RP.rspace(delimiter));
-        //     sb.Append($"{content}".PadRight(width(field)));
-        // }
     }
 }

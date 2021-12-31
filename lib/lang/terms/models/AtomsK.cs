@@ -2,14 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Lang
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct Atoms<K>
+    using api = Terms;
+
+    public readonly struct Atoms<K> : ITerm
         where K : unmanaged
     {
         readonly Index<Atom<K>> Data;
@@ -21,7 +23,13 @@ namespace Z0.Lang
         }
 
         public Atoms<K> Concat(Atoms<K> src)
-            => Grammars.concat(this, src);
+            => api.concat(this, src);
+
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
         public ReadOnlySpan<Atom<K>> Members
         {

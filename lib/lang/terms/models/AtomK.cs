@@ -2,8 +2,9 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Lang
+namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
@@ -12,7 +13,7 @@ namespace Z0.Lang
     /// <summary>
     /// A terminal atomic
     /// </summary>
-    public readonly struct Atom<K> : ITerminalExpr<K>
+    public readonly struct Atom<K> : IAtom<K>
         where K : unmanaged
     {
         public uint Key {get;}

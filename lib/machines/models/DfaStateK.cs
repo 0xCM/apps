@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using Z0.Lang;

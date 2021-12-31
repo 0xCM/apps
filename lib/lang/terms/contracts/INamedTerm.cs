@@ -7,14 +7,20 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ITerminalExpr : IValue
+    public interface INamedTerm : ITerm, INamed
     {
 
     }
 
     [Free]
-    public interface ITerminalExpr<T> : ITerminalExpr, IValue<T>
+    public interface INamedTerm<V> : INamedTerm, ITerm<V>
     {
+
     }
 
+    public interface INamedTerm<T,V> : INamedTerm<V>, ITerm<T,V>
+        where T : INamedTerm<T,V>
+    {
+
+    }
 }

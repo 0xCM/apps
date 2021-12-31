@@ -4,17 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    public interface IAtom : ITerminalExpr, ITerm
+    {
+        uint Key {get;}
+    }
 
-    [Free]
-    public interface ITerminalExpr : IValue
+    public interface IAtom<K> : IAtom, ITerminalExpr<K>, ITerm<K>
+        where K : unmanaged
     {
 
     }
-
-    [Free]
-    public interface ITerminalExpr<T> : ITerminalExpr, IValue<T>
-    {
-    }
-
 }

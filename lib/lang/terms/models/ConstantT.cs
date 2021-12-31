@@ -13,7 +13,7 @@ namespace Z0
     /// Defines an invariant value
     /// </summary>
     [DataType(TypeSyntax.Constant)]
-    public readonly struct Constant<T> : IConstExpr<T>, ITerm<Constant<T>,T>
+    public readonly struct Constant<T> : IConstExpr<Constant<T>,T>
     {
         public T Value {get;}
 
@@ -26,7 +26,7 @@ namespace Z0
         public bool IsEmpty => false;
 
         public string Format()
-            => ExprFormatters.format(this);
+            => Terms.format(this);
 
         public override string ToString()
             => Format();

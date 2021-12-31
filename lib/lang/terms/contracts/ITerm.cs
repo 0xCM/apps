@@ -27,22 +27,4 @@ namespace Z0
     {
 
     }
-
-    [Free]
-    public interface INamedTerm : ITerm, INamed
-    {
-
-    }
-
-    [Free]
-    public interface INamedTerm<V> : INamedTerm, ITerm<V>
-    {
-
-    }
-
-    public interface INamedTerm<T,V> : INamedTerm<V>, ITerm<T,V>
-        where T : INamedTerm<T,V>
-    {
-
-    }
 }

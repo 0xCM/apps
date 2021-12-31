@@ -17,6 +17,7 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+
         [MethodImpl(Inline), Op]
         public static Xor xor(IBooleanExpr a, IBooleanExpr b)
             => new Xor(a,b);

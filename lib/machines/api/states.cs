@@ -9,8 +9,6 @@ namespace Z0.Expr
 
     using static core;
 
-    using Lang;
-
     partial struct Dfa
     {
         [Op]
@@ -18,7 +16,7 @@ namespace Z0.Expr
         {
             var dst = alloc<DfaState<uint>>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = state(i, Grammars.atom((uint)(i + 1), (uint)i));
+                seek(dst,i) = state(i, Terms.atom((uint)(i + 1), (uint)i));
             return dst;
         }
 
@@ -32,7 +30,7 @@ namespace Z0.Expr
             for(var i=0; i<count; i++)
             {
                 ref readonly var s = ref skip(view,i);
-                seek(dst,i) = state(i, Grammars.atom(s.Key, s.Kind));
+                seek(dst,i) = state(i, Terms.atom(s.Key, s.Kind));
             }
             return dst;
         }
@@ -48,7 +46,7 @@ namespace Z0.Expr
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(src,i);
-                seek(dst,i) = state(i, Grammars.atom((uint)c, c));
+                seek(dst,i) = state(i, Terms.atom((uint)c, c));
             }
             return dst;
         }
