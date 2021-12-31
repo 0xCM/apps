@@ -17,7 +17,6 @@ public readonly struct ApiNames
 
     public const string ConstBytes256 = @const + dot + bytes + dot + n256;
 
-    public const string XSFx = sfunc + dot + core + extensions;
 
     public const string Seq = seq;
 

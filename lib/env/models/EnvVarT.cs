@@ -19,7 +19,7 @@ namespace Z0
         public T Value {get;}
 
 
-        string IExprVar.Value
+        string IVarValue.Value
             => Value?.ToString() ?? EmptyString;
 
         [MethodImpl(Inline)]

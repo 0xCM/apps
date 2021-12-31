@@ -13,13 +13,16 @@ namespace Z0.Asm
 
         IntelSdmPaths SdmPaths;
 
-        TextMap OpTransforms;
+        TextMap SigOpNormal;
+
+        TextMap SigOpProd;
 
         protected override void OnInit()
         {
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
-            OpTransforms = TextMap.load(ProjectDb.SourceSettingsPath("intel", "operand.transforms", FS.ext("map")));
+            SigOpNormal = TextMap.load(ProjectDb.Settings("asm.sigs.normal", FS.ext("map")));
+            SigOpProd = TextMap.load(ProjectDb.Settings("asm.sigs.productions", FS.ext("map")));
         }
 
         public void ClearTargets()

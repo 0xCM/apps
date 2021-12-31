@@ -4,17 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
-    [Free]
-    public interface ICmdScriptVar : IVarValue
+    public interface IConstExpr<T> : IValue<T>, ITerm<T>
     {
-
-    }
-
-    [Free]
-    public interface ICmdScriptVar<T> : ICmdScriptVar, IVarValue<T>
-    {
-
     }
 }

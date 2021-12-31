@@ -312,7 +312,7 @@ namespace Z0.Asm
                 else
                     dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
             }
-            return OpTransforms.Apply(dst);
+            return SigOpNormal.Apply(dst);
         }
     }
 }

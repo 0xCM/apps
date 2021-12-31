@@ -22,19 +22,19 @@ namespace Z0
                 => string.Format(XF.InclusiveRange, src.Min, src.Max);
 
         [Op]
-        public static string format(IExprVar var, char assign)
+        public static string format(IVarValue var, char assign)
             => string.Format("{0}{1}{2}", format(var.Name), assign, var.Value);
 
         [Formatter]
-        public static string format(IExprVar var)
+        public static string format(IVarValue var)
             => format(var, Chars.Eq);
 
         [Op]
-        public static string format(VarContextKind vck, IExprVar var, char assign)
+        public static string format(VarContextKind vck, IVarValue var, char assign)
             => string.Format("{0}{1}{2}", format(vck, var.Name), assign, var.Value);
 
         [Op]
-        public static string format(VarContextKind vck, IExprVar var)
+        public static string format(VarContextKind vck, IVarValue var)
             => format(vck,var, Chars.Eq);
 
         public static string format<T>(LiteralSeq<T> src)

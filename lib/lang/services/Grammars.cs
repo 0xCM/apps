@@ -21,14 +21,6 @@ namespace Z0
             where K : unmanaged
                 => new Atom<K>(key, value);
 
-        [MethodImpl(Inline)]
-        public static NamedTerm<T> term<T>(Name name, T value, params ITerm[] terms)
-            => new NamedTerm<T>(name,value,terms);
-
-        [MethodImpl(Inline)]
-        public static Constant<T> constant<T>(T value)
-            => new Constant<T>(value);
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static Product<K> product<K>(K left, K right)
             => new Product<K>(left,right);
@@ -61,7 +53,6 @@ namespace Z0
         public static Sum<Atoms<K>> sum<K>(Atoms<K> left, Atoms<K> right)
             where K : unmanaged
                 => new Sum<Atoms<K>>(left,right);
-
 
         /// <summary>
         /// Defines an alphabet over a caller-supplied symbol sequence
