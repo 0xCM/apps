@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static AsmPrefixCodes;
 
-    public struct RepPrefix : IAsmPrefix<RepPrefixCode>
+    public struct RepPrefix : IAsmPrefix<RepPrefixCode>, IAsmByte<RepPrefix>
     {
         public RepPrefixCode _Code;
 
@@ -19,6 +19,10 @@ namespace Z0.Asm
         {
             _Code = src;
         }
+
+        [MethodImpl(Inline)]
+        public byte Value()
+            => (byte)_Code;
 
         public byte Encoded
         {
@@ -50,7 +54,7 @@ namespace Z0.Asm
             => Format();
 
         public string Format()
-            => Encoded.FormatHex();
+            => AsmRender.asmbyte(this);
 
         [MethodImpl(Inline)]
         public static implicit operator RepPrefix(RepPrefixCode src)

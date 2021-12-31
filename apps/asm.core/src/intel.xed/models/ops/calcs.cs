@@ -7,6 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
+    using Asm;
     using static Root;
     using static core;
     using static XedModels.RegId;
@@ -15,6 +16,229 @@ namespace Z0
 
     partial struct XedModels
     {
+        [Op]
+        public static Disp disp(in OperandState state, in AsmHexCode code)
+        {
+            var val = Disp.Zero;
+            if(state.disp_width != 0)
+            {
+                var dispcount = state.disp_width/8;
+                var pos = state.pos_disp;
+                switch(dispcount)
+                {
+                    case 1:
+                        val = new Disp(code[pos], state.disp_width);
+                    break;
+                    case 2:
+                        val = new Disp(slice(code.Bytes, pos, dispcount).TakeUInt16(), state.disp_width);
+                    break;
+                    case 4:
+                        val = new Disp(slice(code.Bytes,pos, dispcount).TakeUInt32(),state.disp_width);
+                    break;
+                    case 8:
+                        val = new Disp((long)slice(code.Bytes,pos, dispcount).TakeUInt64(),state.disp_width);
+                    break;
+                }
+            }
+            return val;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static bool rex(in OperandState src, out RexPrefix dst)
+        {
+            if(src.rex)
+            {
+                dst = RexPrefix.init();
+                dst.W(src.rexw);
+                dst.R(src.rexr);
+                dst.X(src.rexx);
+                dst.B(src.rexb);
+                return true;
+            }
+            else
+            {
+                dst = RexPrefix.Empty;
+                return false;
+            }
+        }
+
+        [MethodImpl(Inline), Op]
+        public static bool sib(in OperandState src, out Sib dst)
+        {
+            if(src.has_sib)
+            {
+                dst = Sib.init();
+                dst.Base(src.sibbase);
+                dst.Index(src.sibindex);
+                dst.Scale(src.sibscale);
+                return true;
+            }
+            else
+            {
+                dst = Sib.Empty;
+                return false;
+            }
+        }
+
+        [MethodImpl(Inline), Op]
+        public static bool modrm(in OperandState src, out ModRm dst)
+        {
+            if(src.has_modrm)
+            {
+                dst = ModRm.init();
+                dst.Mod(src.mod);
+                dst.Reg(src.reg);
+                dst.Rm(src.rm);
+                return true;
+            }
+            else
+            {
+                dst = ModRm.Empty;
+                return false;
+            }
+        }
+
+        public static uint widths(EASZ src)
+            => src switch
+            {
+                EASZ.EaMode16 => 16,
+                EASZ.EaMode32 => 32,
+                EASZ.EaMode64 => 64,
+                EASZ.Not16 => 32 | (64 << 8),
+                _ => 0,
+            };
+
+        public static uint widths(EOSZ src)
+            => src switch
+            {
+                EOSZ.EOSZ8 => 8,
+                EOSZ.EAOSZ16 => 16,
+                EOSZ.EAOSZ32 => 32,
+                EOSZ.EAOSZ64 => 64,
+                EOSZ.Not16 => 8 | (32 << 8) | (64 << 16),
+                EOSZ.Not64 => 8 | (16 << 8) | (32 << 16),
+                _ => 0,
+            };
+
+        public static BCastSpec spec(BCastKind kind)
+        {
+            var dst = BCastSpec.Empty;
+            var id = (uint5)(byte)kind;
+            switch(kind)
+            {
+                case BCastKind.BCast_1TO16_8:
+                    dst = BCastSpec.define(id, BCastClass.BCast8, Symbols.expr(BCast8Kind.BCast_1TO16_8).Format(), 1, 16);
+                break;
+
+                case BCastKind.BCast_1TO32_8:
+                    dst = BCastSpec.define(id, BCastClass.BCast8, Symbols.expr(BCast8Kind.BCast_1TO32_8).Format(), 1, 32);
+                break;
+
+                case BCastKind.BCast_1TO64_8:
+                    dst = BCastSpec.define(id, BCastClass.BCast8, Symbols.expr(BCast8Kind.BCast_1TO64_8).Format(), 1, 64);
+                break;
+
+                case BCastKind.BCast_1TO2_8:
+                    dst = BCastSpec.define(id, BCastClass.BCast8, Symbols.expr(BCast8Kind.BCast_1TO2_8).Format(), 1, 8);
+                break;
+
+                case BCastKind.BCast_1TO4_8:
+                    dst = BCastSpec.define(id, BCastClass.BCast8, Symbols.expr(BCast8Kind.BCast_1TO4_8).Format(), 1, 4);
+                break;
+
+                case BCastKind.BCast_1TO8_8:
+                    dst = BCastSpec.define(id, BCastClass.BCast8, Symbols.expr(BCast8Kind.BCast_1TO8_8).Format(), 1, 8);
+                break;
+
+                case BCastKind.BCast_1TO8_16:
+                    dst = BCastSpec.define(id, BCastClass.BCast16, Symbols.expr(BCast16Kind.BCast_1TO8_16).Format(), 1, 8);
+                break;
+
+                case BCastKind.BCast_1TO16_16:
+                    dst = BCastSpec.define(id, BCastClass.BCast16, Symbols.expr(BCast16Kind.BCast_1TO16_16).Format(), 1, 16);
+                break;
+
+                case BCastKind.BCast_1TO32_16:
+                    dst = BCastSpec.define(id, BCastClass.BCast16, Symbols.expr(BCast16Kind.BCast_1TO32_16).Format(), 1, 32);
+                break;
+
+                case BCastKind.BCast_1TO2_16:
+                    dst = BCastSpec.define(id, BCastClass.BCast16, Symbols.expr(BCast16Kind.BCast_1TO2_16).Format(), 1, 2);
+                break;
+
+                case BCastKind.BCast_1TO4_16:
+                    dst = BCastSpec.define(id, BCastClass.BCast16, Symbols.expr(BCast16Kind.BCast_1TO4_16).Format(), 1, 4);
+                break;
+
+                case BCastKind.BCast_1TO16_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, Symbols.expr(BCast32Kind.BCast_1TO16_32).Format(), 1, 16);
+                break;
+
+                case BCastKind.BCast_4TO16_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, Symbols.expr(BCast32Kind.BCast_4TO16_32).Format(), 4, 16);
+                break;
+
+                case BCastKind.BCast_1TO8_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, Symbols.expr(BCast32Kind.BCast_1TO8_32).Format(), 1, 8);
+                break;
+
+                case BCastKind.BCast_4TO8_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, Symbols.expr(BCast32Kind.BCast_4TO8_32).Format(), 4, 8);
+                break;
+
+                case BCastKind.BCast_2TO16_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, default, 2, 16);
+                break;
+
+                case BCastKind.BCast_8TO16_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, default, 8, 16);
+                break;
+
+                case BCastKind.BCast_1TO4_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, default, 1, 4);
+                break;
+
+                case BCastKind.BCast_2TO4_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, default, 2, 4);
+                break;
+
+                case BCastKind.BCast_2TO8_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, default, 2, 8);
+                break;
+
+                case BCastKind.BCast_1TO2_32:
+                    dst = BCastSpec.define(id, BCastClass.BCast32, default, 1, 2);
+                break;
+
+                case BCastKind.BCast_1TO8_64:
+                    dst = BCastSpec.define(id, BCastClass.BCast64, default, 1, 8);
+                break;
+
+                case BCastKind.BCast_4TO8_64:
+                    dst = BCastSpec.define(id, BCastClass.BCast64, default, 4, 8);
+                break;
+
+                case BCastKind.BCast_2TO8_64:
+                    dst = BCastSpec.define(id, BCastClass.BCast64, default, 2, 8);
+                break;
+
+                case BCastKind.BCast_1TO2_64:
+                    dst = BCastSpec.define(id, BCastClass.BCast64, default, 1, 2);
+                break;
+
+                case BCastKind.BCast_1TO4_64:
+                    dst = BCastSpec.define(id, BCastClass.BCast64, default, 1, 4);
+                break;
+
+                case BCastKind.BCast_2TO4_64:
+                    dst = BCastSpec.define(id, BCastClass.BCast64, default, 2, 64);
+                break;
+
+            }
+
+            return dst;
+        }
+
         public static ConstLookup<OperandKind,TypeSpec> OpKindTypes()
         {
             var fields = typeof(OperandState).PublicInstanceFields();

@@ -23,11 +23,28 @@ namespace Z0
 
         Symbols<IClass> Classes;
 
+        Symbols<OperandWidthType> WidthTypes;
+
+        XedRules Rules => Service(Wf.XedRules);
+
+        ConstLookup<OperandWidthType,OperandWidth> OperandWidths;
+
         public XedDisasmSvc()
         {
             Forms = Symbols.index<IFormType>();
             Classes = Symbols.index<IClass>();
+            WidthTypes = Symbols.index<OperandWidthType>();
         }
+
+        protected override void OnInit()
+        {
+            var dst = dict<OperandWidthType, OperandWidth>();
+            iter(Rules.LoadEmittedWidths(), w => dst.TryAdd(w.Code, w));
+            OperandWidths = dst;
+        }
+
+        OperandWidth OperandWidth(OperandWidthType type)
+            => OperandWidths[type];
 
         public FS.Files DisasmFiles(IProjectWs ws)
             => ws.OutFiles(FS.ext("xed.txt"));
@@ -358,8 +375,9 @@ namespace Z0
         Outcome Emit(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<XedDisasm.Block> blocks, FS.FilePath dst)
         {
             const string RenderPattern = "{0,-22}: {1}";
-            const string Cols2Pattern = "{0,-12} | {1}";
-            const string Cols3Pattern = "{0,-12} | {1,-12} | {2}";
+            const string Cols2Pattern = "{0,-12} | {1,-12}";
+            const string Cols3Pattern = "{0,-12} | {1,-12} | {2,-12}";
+            const string Cols4Pattern = Cols3Pattern + " | {3, -12}";
 
             var parser = new XedOperandParser();
             var count = (uint)Require.equal(encodings.Length, blocks.Length);
@@ -383,14 +401,25 @@ namespace Z0
                 iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
 
                 var parsed = parser.ParsedFields.ToHashSet();
-                writer.WriteLine(RP.PageBreak80);
+                writer.WriteLine(RP.PageBreak120);
                 writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
                 writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
                 writer.WriteLine(string.Format(RenderPattern, "Class", inst.Class));
                 writer.WriteLine(string.Format(RenderPattern, "Form", inst.Form));
-                writer.WriteLine(string.Format(RenderPattern, "OpCode", state.nominal_opcode));
 
-                for(var k=0; k<block.OperandCount; k++)
+                if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
+                    continue;
+
+                var oc = state.nominal_opcode;
+                var ocpos = state.pos_nominal_opcode;
+                var srm = state.srm;
+                var ocsrm = (uint3)math.and((byte)srm, oc);
+                var ocbits = (eight)(byte)oc;
+                Require.equal(srm,ocsrm);
+
+                var maxopcount = 5u;
+                var opcount = block.OperandCount;
+                for(var k=0; k<opcount; k++)
                 {
                     ref readonly var opsrc = ref skip(block.Operands,k);
                     result = parser.ParseInstOperand(opsrc.Content, out var op);
@@ -398,14 +427,43 @@ namespace Z0
                         return result;
 
                     var title = string.Format("Op{0}", k);
-                    var content = string.Format("{0,-12} | {1,-12} | {2,-12} | {3}", op.Kind, op.Action, op.Visiblity, op.Prop2);
+                    var opwidth = OperandWidth(op.WidthType);
+                    var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
+                    var content = string.Format("{0,-12} | {1,-12} | {2,-12} | {3,-12} | {4,-12}", op.Kind, op.Action, op.Visiblity, widthdesc, op.Prop2);
                     writer.WriteLine(string.Format(RenderPattern, title, content));
                 }
 
-                if(rex(state, out var rexprefix))
+                if(ocpos != 0)
                 {
-                    writer.WriteLine(string.Format(RenderPattern, "RexPrefix", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
+                    var prefixbytes = slice(code.Bytes,0,ocpos);
+                    writer.WriteLine(string.Format(RenderPattern, "PrefixCount", state.nprefixes));
+                    writer.WriteLine(string.Format(RenderPattern, "PrefixBytes", prefixbytes.FormatHex()));
                 }
+
+                if(rex(state, out var rexprefix))
+                    writer.WriteLine(string.Format(RenderPattern, "RexPrefix", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
+
+                if(state.vex_prefix != 0)
+                {
+                    writer.WriteLine(string.Format(RenderPattern, "VexPrefix", string.Format(Cols2Pattern, state.vex_prefix, ((uint2)(byte)(state.vex_prefix)))));
+                    writer.WriteLine(string.Format(RenderPattern, "VexKind", state.vexvalid));
+                    writer.WriteLine(string.Format(RenderPattern, "VL", string.Format(Cols2Pattern, state.vl, ((uint2)(byte)(state.vl)))));
+
+                    var vexdest = string.Format("{0}{1}{2}", state.vexdest4, state.vexdest3, state.vexdest210);
+                    result = DataParser.parse(vexdest, out uint5 uvdst);
+                    if(result.Fail)
+                        return result;
+
+                    writer.WriteLine(string.Format(RenderPattern, "VEXDEST", string.Format(Cols2Pattern, vexdest, ((byte)uvdst).FormatHex())));
+                }
+
+                if(oc != code[ocpos])
+                    return (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", oc, state.modrm_byte));
+
+                if(srm != 0)
+                    writer.WriteLine(string.Format(RenderPattern, "OpCodeSrm", string.Format(Cols4Pattern, ocpos, oc.Format(true,true,true), ocbits, srm)));
+                else
+                    writer.WriteLine(string.Format(RenderPattern, "OpCode", string.Format(Cols3Pattern, ocpos, oc.Format(true,true,true), ocbits)));
 
                 if(modrm(state, out var modrmval))
                 {
@@ -430,28 +488,7 @@ namespace Z0
                 }
 
                 if(state.disp_width != 0)
-                {
-                    var dispcount = state.disp_width/8;
-                    var val = 0ul;
-                    var pos = state.pos_disp;
-                    switch(dispcount)
-                    {
-                        case 1:
-                            val = code[pos];
-                        break;
-                        case 2:
-                            val = slice(code.Bytes,pos, dispcount).TakeUInt16();
-                        break;
-                        case 4:
-                            val = slice(code.Bytes,pos, dispcount).TakeUInt32();
-                        break;
-                        case 8:
-                            val = slice(code.Bytes,pos, dispcount).TakeUInt64();
-                        break;
-                    }
-
-                    writer.WriteLine(string.Format(RenderPattern, "Disp", string.Format(Cols2Pattern, pos, val.FormatHex(zpad:false))));
-                }
+                    writer.WriteLine(string.Format(RenderPattern, "Disp", string.Format(Cols2Pattern, state.pos_disp, disp(state,code))));
 
                 if(state.imm0)
                 {
@@ -474,7 +511,7 @@ namespace Z0
                             val = slice(code.Bytes,pos, 8).TakeUInt64();
                         break;
                     }
-                    writer.WriteLine(string.Format(RenderPattern, "Imm0", string.Format(Cols2Pattern, pos, val.FormatHex(zpad:false))));
+                    writer.WriteLine(string.Format(RenderPattern, "Imm0", string.Format(Cols2Pattern, pos, val.FormatHex(zpad:false,uppercase:true))));
                 }
 
                 var easzW = widths(state.easz);
@@ -494,12 +531,35 @@ namespace Z0
                     var w1 = (byte)(eoszW >> 8);
                     var w2 = (byte)(eoszW >> 16);
                     if(w2 > 0)
-                        writer.WriteLine(RenderPattern, "EASZ", string.Format("{0}, {1}, {2}", w0, w1, w2));
+                        writer.WriteLine(RenderPattern, "EOSZ", string.Format("{0}, {1}, {2}", w0, w1, w2));
                     else
-                        writer.WriteLine(RenderPattern, "EASZ", string.Format("{0}, {1}", w0, w1));
+                        writer.WriteLine(RenderPattern, "EOSZ", string.Format("{0}, {1}", w0, w1));
                 }
                 else
                     writer.WriteLine(RenderPattern, "EOSZ", eoszW);
+
+
+                if(state.vexvalid != 0)
+                {
+                    if(state.vexvalid == VexValidityKind.EVV)
+                    {
+                        var mkind = (EvexMapKind)(state.map);
+                        writer.WriteLine(string.Format(RenderPattern, "Map", string.Format(Cols2Pattern, "EVEX", mkind)));
+                    }
+                    else
+                    {
+                        var mkind = (VexMapKind)(state.map);
+                        writer.WriteLine(string.Format(RenderPattern, "Map", string.Format(Cols2Pattern, "VEX", mkind)));
+                    }
+                }
+                else
+                {
+                    var mkind = (LegacyMapKind)(state.map);
+                    writer.WriteLine(string.Format(RenderPattern, "Map", string.Format(Cols2Pattern, "LEGACY", mkind)));
+                }
+
+                if(state.nelem != 0)
+                    writer.WriteLine(string.Format(RenderPattern, "Segments", string.Format("{0}x{1}", state.nelem, state.element_size)));
 
                 var fields = state.ToLookup();
                 var kinds = fields.Keys;
@@ -541,6 +601,17 @@ namespace Z0
                         case K.IMM_WIDTH:
                         case K.EOSZ:
                         case K.EASZ:
+                        case K.AMD3DNOW:
+                        case K.MAP:
+                        case K.VEXVALID:
+                        case K.VEX_PREFIX:
+                        case K.VEXDEST210:
+                        case K.VEXDEST3:
+                        case K.VEXDEST4:
+                        case K.VL:
+                        case K.NELEM:
+                        case K.ELEMENT_SIZE:
+                        case K.SRM:
                         break;
                         default:
                             if(parsed.Contains(kind))
@@ -556,13 +627,14 @@ namespace Z0
                                     case K.NEED_MEMDISP:
                                     case K.DF32:
                                     case K.DF64:
+                                    case K.MUST_USE_EVEX:
+                                    case K.REXRR:
                                         flags.Add(kind);
                                     break;
                                     default:
                                         writer.WriteLine(string.Format(RenderPattern, kind, value));
                                     break;
                                 }
-
                             }
                         break;
                     }
@@ -577,81 +649,5 @@ namespace Z0
             return result;
         }
 
-        [MethodImpl(Inline), Op]
-        static bool rex(in OperandState src, out RexPrefix dst)
-        {
-            if(src.rex)
-            {
-                dst = RexPrefix.init();
-                dst.W(src.rexw);
-                dst.R(src.rexr);
-                dst.X(src.rexx);
-                dst.B(src.rexb);
-                return true;
-            }
-            else
-            {
-                dst = RexPrefix.Empty;
-                return false;
-            }
-        }
-
-        [MethodImpl(Inline), Op]
-        static bool sib(in OperandState src, out Sib dst)
-        {
-            if(src.has_sib)
-            {
-                dst = Sib.init();
-                dst.Base(src.sibbase);
-                dst.Index(src.sibindex);
-                dst.Scale(src.sibscale);
-                return true;
-            }
-            else
-            {
-                dst = Sib.Empty;
-                return false;
-            }
-        }
-
-        [MethodImpl(Inline), Op]
-        static bool modrm(in OperandState src, out ModRm dst)
-        {
-            if(src.has_modrm)
-            {
-                dst = ModRm.init();
-                dst.Mod(src.mod);
-                dst.Reg(src.reg);
-                dst.Rm(src.rm);
-                return true;
-            }
-            else
-            {
-                dst = ModRm.Empty;
-                return false;
-            }
-        }
-
-        static uint widths(EASZ src)
-            => src switch
-            {
-                EASZ.EaMode16 => 16,
-                EASZ.EaMode32 => 32,
-                EASZ.EaMode64 => 64,
-                EASZ.Not16 => 32 | (64 << 8),
-                _ => 0,
-            };
-
-        static uint widths(EOSZ src)
-            => src switch
-            {
-                EOSZ.EOSZ8 => 8,
-                EOSZ.EAOSZ16 => 16,
-                EOSZ.EAOSZ32 => 32,
-                EOSZ.EAOSZ64 => 64,
-                EOSZ.Not16 => 8 | (32 << 8) | (64 << 16),
-                EOSZ.Not64 => 8 | (16 << 8) | (32 << 16),
-                _ => 0,
-            };
     }
 }

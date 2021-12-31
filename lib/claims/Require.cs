@@ -46,7 +46,18 @@ namespace Z0
             return src;
         }
 
-        [MethodImpl(Inline), Op]
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T nonzero<T>(T src)
+            where T : unmanaged
+        {
+            if(core.bw64(src) == 0)
+            {
+                Throw.message("The source value is zero");
+            }
+            return src;
+        }
+
+        [MethodImpl(Inline)]
         public static T notnull<T>(T src, [Caller] string caller = null, [File] string file = null, [Line] int? line = null)
         {
             if(src == null)

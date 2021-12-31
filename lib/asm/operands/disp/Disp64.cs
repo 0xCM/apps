@@ -58,7 +58,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => Value.ToString("x");
+            => AsmRender.format(this);
 
         public override string ToString()
             => Format();

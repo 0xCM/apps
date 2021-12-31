@@ -13,26 +13,26 @@ namespace Z0
             /// <summary>
             /// MAP=0
             /// </summary>
-            [Symbol("VMAP0", "MAP=0")]
-            VMAP0 = 0,
+            [Symbol("Vex0", "MAP=0")]
+            VEX_MAP0 = 0,
 
             /// <summary>
             /// MAP=1
             /// </summary>
-            [Symbol("V0F", "MAP=1")]
-            V0F = 1,
+            [Symbol("Vex0F", "MAP=1")]
+            VEX_MAP_0F = 1,
 
             /// <summary>
             /// MAP=2
             /// </summary>
-            [Symbol("V0F38", "MAP=2")]
-            V0F38 = 2,
+            [Symbol("Vex0F38", "MAP=2")]
+            VEX_MAP_0F38 = 2,
 
             /// <summary>
             /// MAP=3
             /// </summary>
-            [Symbol("V0F3A", "MAP=3")]
-            V0F3A = 3
+            [Symbol("Vex0F3A", "MAP=3")]
+            VEX_MAP_0F3A = 3
         }
     }
 }

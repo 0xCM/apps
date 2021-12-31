@@ -66,6 +66,9 @@ namespace Z0
             return src;
         }
 
+        public Index<OperandWidth> LoadEmittedWidths()
+            => Data(nameof(LoadEmittedWidths), ParseOperandWidths);
+
         public Index<InstDef> EmitEncInstDefs()
         {
             var src = ParseEncInstDefs();
@@ -122,7 +125,6 @@ namespace Z0
         public FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
             => Emit(src, RuleTarget(RuleDocKind.EncDecRuleTable));
 
-
         public Index<OperandWidth> ParseOperandWidths()
         {
             var buffer = list<OperandWidth>();
@@ -158,6 +160,8 @@ namespace Z0
                     result = (false,Msg.ParseFailure.Format(nameof(dst.Code), c0));
                     break;
                 }
+
+                dst.Name = WidthCodes[dst.Code].Expr.Format();
 
                 result = DataTypes.ExprKind(c1, out dst.BaseType);
                 if(result.Fail)
@@ -321,7 +325,6 @@ namespace Z0
                     writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Pattern));
                     if(p.Operands.Count != 0)
                     {
-                        writer.WriteLine("Operands:");
                         iter(p.Operands, o => writer.WriteLine(o));
                     }
                 });
@@ -526,6 +529,36 @@ namespace Z0
             return tables.ToArray();
         }
 
+        Outcome ParseOperands(string src, out Index<RuleOperand> dst)
+        {
+            var result = Outcome.Success;
+            dst = sys.empty<RuleOperand>();
+            var buffer = list<RuleOperand>();
+            var input = text.despace(src);
+            if(input.Contains(Chars.Space))
+            {
+                var opssrc = text.split(input, Chars.Space);
+                var count = opssrc.Length;
+                for(var j=0; j<count; j++)
+                {
+                    result = ParseOperand(skip(opssrc, j), out var op);
+                    if(result)
+                        buffer.Add(op);
+                    else
+                        break;
+                }
+            }
+            else
+            {
+                result = ParseOperand(input, out var op);
+                if(result)
+                    buffer.Add(op);
+            }
+            if(result)
+                dst = buffer.ToArray();
+            return result;
+        }
+
         Index<InstDef> ParseInstDefs(FS.FilePath src)
         {
             var buffer = list<InstDef>();
@@ -577,37 +610,17 @@ namespace Z0
                                         Parse(value, out dst.Class);
                                     break;
                                     case P.Operands:
-                                        var ops = list<RuleOperand>();
-                                        var abc = text.despace(value);
-                                        if(abc.Contains(Chars.Space))
+                                        result = ParseOperands(value, out var ops);
+                                        if(result)
                                         {
-                                            var opssrc = text.split(abc, Chars.Space);
-                                            var count = opssrc.Length;
-                                            for(var j=0; j<count; j++)
-                                            {
-                                                result = ParseOperand(skip(opssrc, j), out var op);
-                                                if(result)
-                                                    ops.Add(op);
-                                                else
-                                                {
-                                                    Error(result.Message);
-                                                    return sys.empty<InstDef>();
-                                                }
-                                            }
+                                            operands.Add(new PatternOperands(pattern, ops));
+                                            pattern=EmptyString;
                                         }
                                         else
                                         {
-                                            result = ParseOperand(abc, out var op);
-                                            if(result)
-                                                ops.Add(op);
-                                            else
-                                            {
-                                                Error(result.Message);
-                                                return sys.empty<InstDef>();
-                                            }
+                                            Error(result.Message);
+                                            return sys.empty<InstDef>();
                                         }
-                                        operands.Add(new PatternOperands(pattern, ops.Array()));
-                                        pattern=EmptyString;
                                     break;
                                     case P.Pattern:
                                         pattern = value;
@@ -636,11 +649,12 @@ namespace Z0
             if(i > 0)
             {
                 var type = text.left(src,i);
+                var value = text.right(src,i);
                 result = OperandKinds.ExprKind(type, out var k);
                 if(result.Fail)
                     result = (false, Msg.ParseFailure.Format(nameof(dst.Kind), type));
                 else
-                    dst = new RuleOperand(k, src);
+                    dst = new RuleOperand(k, value);
             }
             return result;
         }

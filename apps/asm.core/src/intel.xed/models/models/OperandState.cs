@@ -73,8 +73,11 @@ namespace Z0
             [OperandKind(LOCK)]
             public bit @lock;
 
-            [OperandKind(LZCNT)]
+            [OperandKind(LZCNT, "F3+BSR")]
             public bit lzcnt;
+
+            [OperandKind(TZCNT, "F3+BSF")]
+            public bit tzcnt;
 
             [OperandKind(MEM0)]
             public string mem0;
@@ -153,16 +156,13 @@ namespace Z0
             [OperandKind(SAE)]
             public bit sae;
 
-            [OperandKind(TZCNT)]
-            public bit tzcnt;
-
             [OperandKind(UBIT)]
             public bit ubit;
 
-            [OperandKind(USING_DEFAULT_SEGMENT0)]
+            [OperandKind(USING_DEFAULT_SEGMENT0, "Indicates an overridden segment selector that was not the default segment selector")]
             public bit using_default_segment0;
 
-            [OperandKind(USING_DEFAULT_SEGMENT1)]
+            [OperandKind(USING_DEFAULT_SEGMENT1, "Indicates an overridden segment selector that was not the default segment selector")]
             public bit using_default_segment1;
 
             [OperandKind(VEXDEST3)]
@@ -217,10 +217,10 @@ namespace Z0
             public SMode smode;
 
             [OperandKind(VEX_PREFIX)]
-            public uint2 vex_prefix;
+            public VexPrefixKind vex_prefix;
 
             [OperandKind(VL)]
-            public uint2 vl;
+            public VexLengthKind vl;
 
             [OperandKind(HINT)]
             public HintKind hint;
@@ -246,7 +246,7 @@ namespace Z0
             [OperandKind(SIBINDEX)]
             public uint3 sibindex;
 
-            [OperandKind(SRM)]
+            [OperandKind(SRM, "Specifies partial-byte opcodes that capture an RM-like field.")]
             public uint3 srm;
 
             [OperandKind(VEXDEST210)]
@@ -265,13 +265,13 @@ namespace Z0
             public byte map;
 
             [OperandKind(NELEM)]
-            public uint4 nelem;
+            public byte nelem;
 
             [OperandKind(SCALE)]
             public uint4 scale;
 
             [OperandKind(BCAST)]
-            public uint5 bcast;
+            public BCastKind bcast;
 
             [OperandKind(NEED_MEMDISP)]
             public byte need_memdisp;

@@ -49,6 +49,62 @@ namespace Z0
             }
         }
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ref T pack<T>(ReadOnlySpan<bit> src, uint offset, ref T dst)
+            where T : unmanaged
+        {
+            var bitcount = min(src.Length, width<T>());
+            var bytecount = bitcount/8;
+            var bitmod = bitcount%8;
+            ref var b = ref @as<T,byte>(dst);
+
+            var bitpos = z8;
+            for(var i=0; i<bytecount; i++)
+            {
+                b = ref seek(b,i);
+                for(var j=0; j<7; j++, bitpos++)
+                    b |= math.sll((byte)skip(src,bitpos),bitpos);
+            }
+
+            if(bitmod != 0)
+            {
+                b = ref seek(b,bytecount);
+                for(var j=0; j<bitmod; j++,bitpos++)
+                    b |= math.sll((byte)skip(src,bitpos),bitpos);
+            }
+
+            return ref dst;
+        }
+
+        /// <summary>
+        /// Reads a partial value if there aren't a sufficient number of bytes to comprise a target value
+        /// </summary>
+        /// <param name="src">The source span</param>
+        /// <typeparam name="T">The target type</typeparam>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T scalar<T>(ReadOnlySpan<bit> src)
+            where T : unmanaged
+        {
+            var dst = default(T);
+            if(src.Length == 0)
+                return dst;
+
+            return pack(src,0, ref dst);
+        }
+
+        /// <summary>
+        /// Packs a section of bits into a scalar
+        /// </summary>
+        /// <typeparam name="T">The primal type</typeparam>
+        /// <param name="offset">The index of the first bit </param>
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T scalar<T>(ReadOnlySpan<bit> src, int offset = 0, int? count = null)
+            where T : unmanaged
+        {
+            var len = min((count == null ? (int)width<T>() : count.Value), src.Length - offset);
+            return scalar<T>(core.slice(src,offset, len));;
+        }
+
         /// <summary>
         /// Packs bitsize[T] values taken from the least significant bit of each source byte
         /// </summary>

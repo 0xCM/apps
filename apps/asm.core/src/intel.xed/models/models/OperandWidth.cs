@@ -18,6 +18,8 @@ namespace Z0
 
             public OperandWidthType Code;
 
+            public text15 Name;
+
             public DataType BaseType;
 
             public uint Width16;
@@ -26,6 +28,5 @@ namespace Z0
 
             public uint Width64;
         }
-
     }
 }

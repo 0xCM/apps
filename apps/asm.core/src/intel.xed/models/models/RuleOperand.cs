@@ -24,7 +24,7 @@ namespace Z0
             }
 
             public string Format()
-                => Kind == 0 ? Value : string.Format("{0} ({1} kind)", Value, Kind);
+                => string.Format("{0}:{1}", Kind,Value);
 
             public override string ToString()
                 => Format();

@@ -18,7 +18,7 @@ namespace Z0.Asm
     /// REX = [ 0100 | REX.W:4 | R:3 | X:2 | B:1 ]
     /// </summary>
     [ApiComplete]
-    public struct RexPrefix : IAsmPrefix<RexPrefix>
+    public struct RexPrefix : IAsmPrefix<RexPrefix>, IAsmByte<RexPrefix>
     {
         [MethodImpl(Inline)]
         public static RexPrefix init()
@@ -94,7 +94,7 @@ namespace Z0.Asm
             => Data;
 
         public string Format()
-            => Value().FormatHex(2,prespec:true);
+            => AsmRender.asmbyte(this);
 
         public string ToBitString()
             => BitRender.format8x4(Data);

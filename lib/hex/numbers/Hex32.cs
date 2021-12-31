@@ -87,6 +87,9 @@ namespace Z0
         public string Format()
             => HexFormatter.format(Value, W, false);
 
+        public string Format(bool zpad = true, bool prespec = false, bool uppercase = false)
+            => ((uint)Value).FormatHex(zpad:zpad, prespec:prespec, uppercase:uppercase);
+
         public override string ToString()
             => Format();
 
@@ -152,6 +155,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator!=(H x, H y)
             => x.Value != y.Value;
-
     }
 }

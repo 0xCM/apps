@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public struct LegacyPrefix : IAsmPrefix<LegacyPrefix>
+    public struct LegacyPrefix : IAsmPrefix<LegacyPrefix>, IAsmByte<LegacyPrefix>
     {
         public readonly byte Code;
 
@@ -19,6 +19,10 @@ namespace Z0.Asm
             Code = code;
         }
 
+        [MethodImpl(Inline)]
+        public byte Value()
+            => Code;
+
         public byte Encoded
         {
             [MethodImpl(Inline)]
@@ -26,7 +30,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => Code.FormatHex(2);
+            => AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

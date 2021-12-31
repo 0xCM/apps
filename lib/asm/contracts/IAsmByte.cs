@@ -6,9 +6,12 @@ namespace Z0.Asm
 {
     using System;
 
-    public interface IAsmByte : ITextual
+    public interface IAsmByte : ITextual, INullity
     {
         byte Value();
+
+        bool INullity.IsEmpty
+            => Value() == 0;
     }
 
     public interface IAsmByte<T> : IAsmByte, IEquatable<T>, IComparable<T>

@@ -61,6 +61,7 @@ namespace Z0.Asm
         public void Mod(uint2 src)
             => _Value = math.or(math.and(_Value, ModMask), math.sll(src,ModOffset));
 
+        [MethodImpl(Inline)]
         public byte Value()
             => _Value;
 
@@ -68,7 +69,7 @@ namespace Z0.Asm
             => string.Format("{0} {1} {2}", Mod(), Reg(), Rm());
 
         public string Format()
-            => Value().FormatHex(2,prespec:true);
+            => AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

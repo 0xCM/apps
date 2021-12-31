@@ -301,8 +301,8 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<NonterminalKind>(xed);
             ApiMetadata.EmitTokens<OperandKind>(xed);
             ApiMetadata.EmitTokens<OperandWidthType>(xed);
-            ApiMetadata.EmitTokens<OpCodeMap>(xed);
             ApiMetadata.EmitTokens<OperandAction>(xed);
+            ApiMetadata.EmitTokens<OpCodeMap>(xed);
             ApiMetadata.EmitTokens<PointerWidth>(xed);
             ApiMetadata.EmitTokens<RegId>(xed);
             ApiMetadata.EmitTokens<RegClassCode>(xed);

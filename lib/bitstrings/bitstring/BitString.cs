@@ -479,8 +479,7 @@ namespace Z0
             where T : unmanaged
         {
             var len = min((count == null ? (int)width<T>() : count.Value), Length - offset);
-            var bits = BitSeq.Slice(offset, len);
-            return bits.Take<T>();
+            return BitSeq.Slice(offset, len).Take<T>();
         }
 
         [MethodImpl(Inline)]
@@ -489,9 +488,7 @@ namespace Z0
         {
             var src = View;
             var packed = api.pack(src, offset, (int)width<T>());
-            return packed.Length != 0
-                ? core.seek<byte,T>(packed)
-                : default;
+            return packed.Length != 0 ? core.seek<byte,T>(packed) : default;
         }
 
         ReadOnlySpan<byte> View

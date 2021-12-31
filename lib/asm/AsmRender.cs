@@ -39,6 +39,9 @@ namespace Z0.Asm
         public static AsmInlineComment hexarray(BinaryCode src)
             => AsmDocBuilder.comment(CommentMarker, Hex.hexarray(src).Format(true));
 
+        public static string format(IDisplacement src)
+            => src.Value.FormatHex(zpad:false,specifier:true,uppercase:true);
+
         [Op]
         public static byte format(in ApiCodeBlockHeader src, Span<string> dst)
         {

@@ -12,7 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Operand size override
     /// </summary>
-    public readonly struct OpszPrefix : IAsmPrefix<OpszPrefix>
+    public readonly struct OpszPrefix : IAsmPrefix<OpszPrefix>, IAsmByte<OpszPrefix>
     {
         public SizeOverrideCode Code {get;}
 
@@ -21,6 +21,10 @@ namespace Z0.Asm
         {
             Code = code;
         }
+
+        [MethodImpl(Inline)]
+        public byte Value()
+            => (byte)Code;
 
         public byte Encoded
         {
@@ -33,6 +37,12 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Code == 0;
         }
+
+        public string Format()
+            => AsmRender.asmbyte(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator SizeOverrides(OpszPrefix src)

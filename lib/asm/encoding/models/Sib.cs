@@ -102,7 +102,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => Value().FormatHex(2,prespec:true);
+            => AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

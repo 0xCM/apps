@@ -83,7 +83,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = DataParser.parse(skip(parts,i++), out dst.Prop1);
+            result = DataParser.eparse(skip(parts,i++), out dst.WidthType);
             if(result.Fail)
                 return result;
 
@@ -100,7 +100,6 @@ namespace Z0
                 return result;
 
             return result;
-
         }
 
         public void ParseState(ReadOnlySpan<Facet<string>> src, out OperandState dst)
@@ -123,7 +122,6 @@ namespace Z0
         void Parse(string src, OperandKind kind)
         {
             var value = text.trim(src);
-
             var result = Outcome.Success;
             switch(kind)
             {
@@ -148,7 +146,7 @@ namespace Z0
                 break;
 
                 case K.BCAST:
-                    result = DataParser.parse(value, out State.bcast);
+                    result = DataParser.eparse(value, out State.bcast);
                 break;
 
                 case K.BCRC:
@@ -612,11 +610,11 @@ namespace Z0
                 break;
 
                 case K.VEX_PREFIX:
-                    result = DataParser.parse(value, out State.vex_prefix);
+                    result = DataParser.eparse(value, out State.vex_prefix);
                 break;
 
                 case K.VL:
-                    result = DataParser.parse(value, out State.vl);
+                    result = DataParser.eparse(value, out State.vl);
                 break;
 
                 case K.WBNOINVD:
