@@ -13,24 +13,24 @@ namespace Z0
         where I : unmanaged
         where T : unmanaged
     {
-        readonly Index<I,PointMap<I,T>> Storage;
+        readonly Index<I,Paired<I,T>> Storage;
 
-        public PointMapper(PointMap<I,T>[] maps)
+        public PointMapper(Paired<I,T>[] maps)
         {
             Storage = maps;
         }
 
         [MethodImpl(Inline)]
-        public ref PointMap<I,T> Map(I index)
+        public ref Paired<I,T> Map(I index)
             => ref Storage[index];
 
-        public ref PointMap<I,T> this[I index]
+        public ref Paired<I,T> this[I index]
         {
             [MethodImpl(Inline)]
             get => ref Map(index);
         }
 
-        public Span<PointMap<I,T>> Points
+        public Span<Paired<I,T>> Points
         {
             [MethodImpl(Inline)]
             get => Storage.Edit;

@@ -2,17 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
-    using Logic;
+    using Ops.Logic;
 
     using static Root;
 
+
     [ApiHost]
-    public readonly struct logic
+    public readonly struct LogicOps
     {
         const NumericKind Closure = UnsignedInts;
 

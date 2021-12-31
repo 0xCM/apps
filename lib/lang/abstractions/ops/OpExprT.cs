@@ -2,25 +2,21 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0.Ops
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public abstract class Expr<F,K> : IExpr
-        where F : Expr<F,K>
+
+    public abstract class OpExpr<F,K> : Expr<F,K>
+        where F : OpExpr<F,K>
         where K : unmanaged
     {
-        public abstract K Kind {get;}
-
-        public abstract string Format();
-
-        public override string ToString()
-            => Format();
+        public abstract Name OpName {get;}
 
         [MethodImpl(Inline)]
-        public static implicit operator AnyExpr(Expr<F,K> src)
+        public static implicit operator AnyExpr(OpExpr<F,K> src)
             => new AnyExpr(src);
     }
 }

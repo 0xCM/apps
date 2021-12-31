@@ -5,10 +5,6 @@
 namespace Z0
 {
     using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public abstract class Production<S,T> : IProduction<S,T>
         where S : IExpr

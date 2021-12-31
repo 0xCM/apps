@@ -14,8 +14,8 @@ namespace Z0.Asm
             var result = Outcome.Success;
             var symbols = Symbols.index<ConditionCodes.Condition>();
             var symview = symbols.View;
-            var map = PointMappers.define<ConditionCodes.Condition,Pow2x16>(symbols, (i,k) => (Pow2x16)Pow2.pow((byte)i));
-            var data = PointMappers.serialize(map).View;
+            var map = PointFunctions.mapper<ConditionCodes.Condition,Pow2x16>(symbols, (i,k) => (Pow2x16)Pow2.pow((byte)i));
+            var data = PointFunctions.serialize(map).View;
             var count = map.PointCount;
             var indices = slice(data,0, count);
             var bits = recover<ushort>(slice(data,count,count*size<Pow2x16>()));
