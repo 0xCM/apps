@@ -7,6 +7,8 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
+    using Asm;
+
     using static Root;
 
     using W = W32;
@@ -33,6 +35,11 @@ namespace Z0
 
         public ImmKind ImmKind
             => ImmKind.Imm32;
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
 
         public string Format()
             => HexFormatter.format(Value, W, true);

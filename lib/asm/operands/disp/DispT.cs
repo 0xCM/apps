@@ -24,17 +24,17 @@ namespace Z0.Asm
             Source = src;
         }
 
+        public NativeSize Size => NativeSize.code(width<T>());
+
         public long Value
         {
             [MethodImpl(Inline)]
             get => int64(Source.Value);
         }
 
-        public byte StorageWidth
-        {
-            [MethodImpl(Inline)]
-            get => Source.StorageWidth;
-        }
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => AsmRender.format(this);
@@ -67,11 +67,19 @@ namespace Z0.Asm
             => new Disp<T>(@as<int,T>(src.Value));
 
         [MethodImpl(Inline)]
+        public static implicit operator Disp(Disp<T> src)
+            => new Disp(src.Value, src.Size);
+
+        [MethodImpl(Inline)]
         public static implicit operator Disp<T>(Disp64 src)
             => new Disp<T>(@as<long,T>(src.Value));
 
         [MethodImpl(Inline)]
         public static implicit operator T(Disp<T> src)
             => src.Source;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp<T> src)
+            => src.Untyped();
     }
 }

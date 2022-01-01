@@ -4,14 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmOpVar
+    public class ImmVar : AsmOpVar<ImmVar,ImmOp>
     {
-        AsmOperand Resolve(uint seq);
-    }
 
-    public interface IAsmOpVar<T> : IAsmOpVar
-        where T : IAsmOp
-    {
-        new T Resolve(uint seq);
+        public ImmVar(VarSymbol name)
+            : base(name)
+        {
+
+        }
+
+        public ImmVar(VarSymbol name, ImmOp value)
+            : base(name, value)
+        {
+
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace Z0.Asm
     {
         public short Value {get;}
 
+        public NativeSize Size => NativeSizeCode.W16;
+
         [MethodImpl(Inline)]
         public Disp16(short value)
         {
@@ -33,6 +35,10 @@ namespace Z0.Asm
 
         long IDisplacement.Value
             => Value;
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => AsmRender.format(this);
@@ -58,7 +64,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp16 src)
-            => (src.Value,src.StorageWidth);
+            => (src.Value,src.Size);
 
         [MethodImpl(Inline)]
         public static explicit operator uint(Disp16 src)
@@ -75,5 +81,9 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator Disp16(ByteSize src)
             => new Disp16((short)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp16 src)
+            => src.Untyped();
     }
 }

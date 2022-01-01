@@ -10,7 +10,7 @@ namespace Z0.Logix
 
     using static Root;
 
-    public readonly struct VectorExprEval
+    public readonly struct LogixVectorEval
     {
         const NumericKind Closure = UInt64k;
 
@@ -65,7 +65,7 @@ namespace Z0.Logix
                 case IBinaryBitwiseOpExpr<Vector128<T>> x:
                     return VLogixOps.eval(x.ApiClass, eval(x.Left).Value, eval(x.Right).Value);
                 case IShiftOpExpr<Vector128<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.Subject).Value, ScalarExprEval.eval(x.Offset).Value);
+                    return VLogixOps.eval(x.ApiClass, eval(x.Subject).Value, LogixScalarEval.eval(x.Offset).Value);
                 case ITernaryBitwiseOpExpr<Vector128<T>> x:
                     return VLogixOps.eval(x.ApiClass, eval(x.First).Value, eval(x.Second).Value, eval(x.Third));
                 default: throw new NotSupportedException(expr.GetType().Name);
@@ -83,7 +83,7 @@ namespace Z0.Logix
                 case IBinaryBitwiseOpExpr<Vector256<T>> x:
                     return VLogixOps.eval(x.ApiClass, eval(x.Left).Value, eval(x.Right).Value);
                 case IShiftOpExpr<Vector256<T>> x:
-                    return VLogixOps.eval(x.ApiClass, eval(x.Subject).Value, ScalarExprEval.eval(x.Offset).Value);
+                    return VLogixOps.eval(x.ApiClass, eval(x.Subject).Value, LogixScalarEval.eval(x.Offset).Value);
                 case ITernaryBitwiseOpExpr<Vector256<T>> x:
                     return VLogixOps.eval(x.ApiClass, eval(x.First).Value, eval(x.Second).Value, eval(x.Third));
                 default: throw new NotSupportedException(expr.GetType().Name);

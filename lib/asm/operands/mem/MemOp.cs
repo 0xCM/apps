@@ -23,5 +23,21 @@ namespace Z0.Asm
             Size = size;
             Address = address;
         }
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
+        public string Format()
+            => Address.Format();
+
+        public override string ToString()
+            => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(MemOp src)
+            => src.Untyped();
+
+        public static MemOp Empty => default;
     }
 }

@@ -13,7 +13,7 @@ namespace Z0.Asm
     using static NativeSizeCode;
     using static RegClassCode;
     using static RegIndexCode;
-    using static RegFieldFacets;
+    using static RegFacets;
 
     [ApiHost]
     public readonly struct AsmRegData

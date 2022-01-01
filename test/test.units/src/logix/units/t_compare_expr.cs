@@ -69,7 +69,7 @@ namespace Z0.Logix
                 var a = va.Set(Random);
                 var b = vb.Set(Random);
                 var result = eval(x).Value;
-                var expect = PredicateEval.eval(ApiComparisonClass.Lt,a,b);
+                var expect = LogixPredicateEval.eval(ApiComparisonClass.Lt,a,b);
                 Claim.eq(expect,result);
             }
         }
@@ -85,7 +85,7 @@ namespace Z0.Logix
                 var a = va.Set(Random);
                 var b = vb.Set(Random);
                 var result = eval(x).Value;
-                var expect = PredicateEval.eval(ApiComparisonClass.LtEq,a,b);
+                var expect = LogixPredicateEval.eval(ApiComparisonClass.LtEq,a,b);
                 Claim.eq(expect,result);
             }
         }
@@ -100,7 +100,7 @@ namespace Z0.Logix
             {
                 var a = va.Set(Random);
                 var b = vb.Set(Random);
-                var expect = PredicateEval.eval(ApiComparisonClass.Gt,a,b);
+                var expect = LogixPredicateEval.eval(ApiComparisonClass.Gt,a,b);
                 var actual = eval(x).Value;
                 if(gmath.neq(actual,expect))
                     Notify($"{a} > {b}?");
@@ -118,7 +118,7 @@ namespace Z0.Logix
             {
                 var a = va.Set(Random);
                 var b = vb.Set(Random);
-                var expect = PredicateEval.eval(ApiComparisonClass.GtEq,a,b);
+                var expect = LogixPredicateEval.eval(ApiComparisonClass.GtEq,a,b);
                 var actual = eval(x).Value;
                 Claim.eq(expect,actual);
             }

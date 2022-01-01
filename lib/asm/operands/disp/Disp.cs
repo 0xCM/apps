@@ -18,13 +18,20 @@ namespace Z0.Asm
     {
         public long Value {get;}
 
-        public byte StorageWidth {get;}
+        public NativeSize Size {get;}
 
         [MethodImpl(Inline)]
         public Disp(long value, byte width)
         {
             Value = value;
-            StorageWidth = width;
+            Size = NativeSize.code(width);
+        }
+
+        [MethodImpl(Inline)]
+        public Disp(long value, NativeSize width)
+        {
+            Value = value;
+            Size = width;
         }
 
         public bool IsNonZero
@@ -32,6 +39,10 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Value != 0;
         }
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => AsmRender.format(this);
@@ -41,6 +52,10 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator Disp((int value, byte width) src)
+            => new Disp(src.value,src.width);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp((int value, NativeSize width) src)
             => new Disp(src.value,src.width);
 
         [MethodImpl(Inline)]
@@ -66,6 +81,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator long(Disp src)
             => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp src)
+            => src.Untyped();
 
         public static Disp Empty => default;
 

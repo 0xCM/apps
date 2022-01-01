@@ -16,7 +16,7 @@ namespace Z0.Asm
             var lines = src.ReadNumberedLines();
             var count = lines.Count -1;
             dst = alloc<SdmOpCodeDetail>(count);
-            result = rows(slice(lines.View,1), dst);
+            result = ocdetails(slice(lines.View,1), dst);
             if(result.Fail)
                 return result;
             else

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
+
     using static core;
 
     partial class AsmSigs
@@ -20,6 +22,30 @@ namespace Z0.Asm
             if(count != 0)
                 seek(dst,i++) = Chars.Space;
 
+            operands(src, ref i, dst);
+            // for(byte j=0; j<count; j++)
+            // {
+            //     ref readonly var op = ref operand(src,j);
+            //     if(op.IsEmpty)
+            //         break;
+
+            //     if(j != 0)
+            //     {
+            //         seek(dst,i++) = Chars.Comma;
+            //         seek(dst,i++) = Chars.Space;
+            //     }
+
+            //     text.copy(op.Text, ref i, dst);
+            // }
+            seek(dst,i++) = Chars.RParen;
+            return storage.Format();
+        }
+
+        [Op]
+        public static uint operands(in AsmSigExpr src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var count = src.OperandCount;
             for(byte j=0; j<count; j++)
             {
                 ref readonly var op = ref operand(src,j);
@@ -34,8 +60,8 @@ namespace Z0.Asm
 
                 text.copy(op.Text, ref i, dst);
             }
-            seek(dst,i++) = Chars.RParen;
-            return storage.Format();
+
+            return i - i0;
         }
     }
 }

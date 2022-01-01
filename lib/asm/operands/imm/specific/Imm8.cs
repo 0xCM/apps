@@ -12,6 +12,8 @@ namespace Z0
     using W = W8;
     using I = imm8;
 
+    using Asm;
+
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
@@ -61,6 +63,10 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Value;
         }
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => HexFormatter.format(Value, W, true);

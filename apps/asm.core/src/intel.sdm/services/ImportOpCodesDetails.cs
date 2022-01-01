@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using System;
 
+    using System.Runtime.CompilerServices;
+
     using static Root;
     using static core;
     using static SdmModels;
@@ -17,41 +19,18 @@ namespace Z0.Asm
         public Index<SdmOpCodeDetail> ImportOpCodes()
         {
             var result = Outcome.Success;
-            var details = ImportOpCodeDetails();
+            var details = ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
             var forms = EmitForms(details);
-            var summary = SdmOpCodes.summarize(details);
+            var summary = summarize(details);
             var count = summary.Length;
             var dst = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
-                writer.WriteLine(SdmOpCodes.format(summary[i]));
+                writer.WriteLine(format(summary[i]));
             EmittedFile(emitting,count);
             return details;
         }
-
-        public Index<ListItem<string>> ExtractOpCodeStrings(ReadOnlySpan<SdmOpCode> src)
-        {
-            var count = src.Length;
-            var items = list<string>(count);
-            var counter = 0u;
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var detail = ref skip(src,i);
-                var fmt = detail.Expr.Format().Trim();
-                if(nonempty(fmt))
-                {
-                    items.Add(fmt);
-                    counter++;
-                }
-
-            }
-            items.Sort();
-            return items.ToArray().Mapi((i,x) => new ListItem<string>((uint)i,x));
-        }
-
-        Index<SdmOpCodeDetail> ImportOpCodeDetails()
-            => ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
 
         Index<SdmOpCodeDetail> ImportOpCodeDetails(ReadOnlySpan<FS.FilePath> src)
         {
@@ -100,7 +79,7 @@ namespace Z0.Asm
             var dst = SdmPaths.ImportPath("asm.forms", FS.Csv);
             var emitting = EmittingTable<AsmForm>(dst);
             using var writer = dst.UnicodeWriter();
-            var _forms = SdmOpCodes.forms(opcodes);
+            var _forms = forms(opcodes);
             var count = _forms.Length;
             for(var i=0; i<count; i++)
             {
@@ -144,7 +123,6 @@ namespace Z0.Asm
 
             return _forms;
         }
-
 
         public static Index<TableColumn> columns(ReadOnlySpan<string> src)
             => Tables.columns<SdmColumnKind>(src);

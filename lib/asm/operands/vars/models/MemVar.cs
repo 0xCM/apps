@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Operands;
-
-
-    public readonly struct AsmVars
+    public class MemVar : AsmOpVar<MemVar,MemOp>
     {
 
+        public MemVar(VarSymbol name)
+            : base(name)
+        {
 
+        }
+
+        public MemVar(VarSymbol name, MemOp value)
+            : base(name, value)
+        {
+
+        }
     }
-
 }

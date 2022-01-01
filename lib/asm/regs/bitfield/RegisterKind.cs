@@ -7,7 +7,7 @@ namespace Z0.Asm
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
-    using static RegFieldFacets;
+    using static RegFacets;
     using static NumericBaseKind;
 
     using SR = SegRegKind;
@@ -576,16 +576,16 @@ namespace Z0.Asm
         // ~ ------------------------------------------------------------------
 
         [Symbol("bnd0")]
-        BND0 = B.DR0,
+        BND0 = B.BND0,
 
         [Symbol("bnd1")]
-        BND1 = B.DR1,
+        BND1 = B.BND1,
 
         [Symbol("bnd2")]
-        BND2 = B.DR2,
+        BND2 = B.BND2,
 
         [Symbol("bnd3")]
-        BND3 = B.DR3,
+        BND3 = B.BND3,
 
         // ~ FP registers
         // ~ ------------------------------------------------------------------

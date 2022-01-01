@@ -9,6 +9,8 @@ namespace Z0
 
     using static Root;
 
+    using Asm;
+
     using W = W16;
     using I = imm16;
 
@@ -35,6 +37,10 @@ namespace Z0
 
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => HexFormatter.format(Value, W, true);

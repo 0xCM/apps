@@ -17,5 +17,11 @@ namespace Z0
 
         public static ExprContext context()
             => new ExprContext();
+
+        public static VectorExpr vector(params ITerm[] terms)
+            => new VectorExpr(terms);
+
+        public static ListExpr list(params ITerm[] terms)
+            => new ListExpr(terms);
    }
 }

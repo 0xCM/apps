@@ -58,8 +58,16 @@ namespace Z0.Asm.Operands
         }
 
         [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
+        [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
             => api.reg(src.WidthCode, src.RegClassCode, src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(G src)
+            => src.Untyped();
 
         [MethodImpl(Inline)]
         public static implicit operator K(G src)

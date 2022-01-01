@@ -16,5 +16,4 @@ namespace Z0
     public interface ITerminalExpr<T> : ITerminalExpr, IValue<T>
     {
     }
-
 }

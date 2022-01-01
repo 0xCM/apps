@@ -10,14 +10,14 @@ namespace Z0.Logix
 
     using static Root;
 
-    public static class CmpExprEval
+    public static class LogixCmpEval
     {
         const NumericKind Closure = UInt64k;
 
         [Op, Closures(Closure)]
         public static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
-                => PredicateEval.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
+                => LogixPredicateEval.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, Closures(Closure)]
         public static bit eval<T>(IComparisonPredExpr<T> expr)
@@ -40,7 +40,7 @@ namespace Z0.Logix
         {
             switch(expr)
             {
-                case IArithmeticExpr<T> x: return ArithExprEval.eval(x);
+                case IArithmeticExpr<T> x: return LogixArithEval.eval(x);
                 default: return LogicEngine.eval(expr);
             }
         }

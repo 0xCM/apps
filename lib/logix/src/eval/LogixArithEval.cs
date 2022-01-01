@@ -11,7 +11,7 @@ namespace Z0.Logix
 
     using UAR = ApiUnaryArithmeticClass;
 
-    public class ArithExprEval
+    public class LogixArithEval
     {
         const NumericKind Closure = UInt64k;
 
@@ -104,7 +104,7 @@ namespace Z0.Logix
         [Op, NumericClosures(Closure)]
         static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
-                => PredicateEval.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
+                => LogixPredicateEval.eval(expr.ComparisonKind, eval(expr.Left).Value, eval(expr.Right).Value);
 
         [Op, NumericClosures(Closure)]
         static LogixLiteral<T> inc<T>(IUnaryArithmeticOpExpr<T> a)

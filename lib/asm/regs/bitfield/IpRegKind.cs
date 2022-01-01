@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     using static NativeSizeCode;
-    using static RegFieldFacets;
+    using static RegFacets;
     using static RegClassCode;
     using static NumericBaseKind;
 

@@ -23,7 +23,7 @@ namespace Z0.Logix
         /// <param name="expr">The expression to evaluate</param>
         [Op]
         public static bit eval(ILogicExpr expr)
-            => LogicExprEval.eval(require(expr));
+            => LogixLogicEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a typed logic expression
@@ -32,7 +32,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static bit eval<T>(ILogicExpr<T> expr)
             where T : unmanaged
-                => LogicExprEval.eval(require(expr));
+                => LogixLogicEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a typed scalar expression
@@ -41,7 +41,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<T> eval<T>(ILogixExpr<T> expr)
             where T : unmanaged
-                => ScalarExprEval.eval(require(expr));
+                => LogixScalarEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a comparison expression, returning literal expression over the comparison type
@@ -52,7 +52,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<T> eval<T>(IComparisonExpr<T> expr)
             where T : unmanaged
-                => CmpExprEval.eval(require(expr));
+                => LogixCmpEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a comparison expression over 128-bit intrinsic vectors
@@ -62,7 +62,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<Vector128<T>> eval<T>(IComparisonExpr<Vector128<T>> expr)
             where T : unmanaged
-                => CmpExprEval.eval(require(expr));
+                => LogixCmpEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a comparison expression over 256-bit intrinsic vectors
@@ -72,7 +72,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<Vector256<T>> eval<T>(IComparisonExpr<Vector256<T>> expr)
             where T : unmanaged
-                => CmpExprEval.eval(require(expr));
+                => LogixCmpEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a comparison predicate, returning an enabled bit if the comparison succeeds and
@@ -83,7 +83,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static bit eval<T>(IComparisonPredExpr<T> expr)
             where T : unmanaged
-                => CmpExprEval.eval(require(expr));
+                => LogixCmpEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a typed scalar expression
@@ -92,7 +92,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<T> eval<T>(IArithmeticExpr<T> expr)
             where T : unmanaged
-                => ArithExprEval.eval(require(expr));
+                => LogixArithEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a typed 128-bit intrinsic expression
@@ -101,7 +101,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<Vector128<T>> eval<T>(ILogixExpr<Vector128<T>> expr)
             where T : unmanaged
-                => VectorExprEval.eval(require(expr));
+                => LogixVectorEval.eval(require(expr));
 
         /// <summary>
         /// Evaluates a typed 256-bit intrinsic expression
@@ -110,7 +110,7 @@ namespace Z0.Logix
         [Op, Closures(Closure)]
         public static LogixLiteral<Vector256<T>> eval<T>(ILogixExpr<Vector256<T>> expr)
             where T : unmanaged
-                => VectorExprEval.eval(require(expr));
+                => LogixVectorEval.eval(require(expr));
 
         /// <summary>
         /// Returns an enabled bit if the equality expression is satisfied with

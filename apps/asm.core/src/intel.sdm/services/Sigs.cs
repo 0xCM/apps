@@ -16,26 +16,7 @@ namespace Z0.Asm
             var count = src.Length;
             var buffer = alloc<AsmSigExpr>(count);
             for(var i=0; i<count; i++)
-            {
-                ref readonly var record = ref skip(src,i);
-                ref var dst = ref seek(buffer,i);
-                var sig = record.Sig.Format().Trim();
-                var mnemonic = record.Mnemonic.Format(MnemonicCase.Lowercase);
-                var j = text.index(sig,Chars.Space);
-                if(j > 0)
-                {
-                    var operands = text.right(sig,j);
-                    if(text.contains(sig,Chars.Comma))
-                        dst = AsmSigs.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
-                    else
-                        dst = AsmSigs.expression(mnemonic, operands);
-                }
-                else
-                {
-                    dst = AsmSigs.expression(mnemonic);
-                }
-
-            }
+                seek(buffer,i) = sig(skip(src,i));
             return buffer;
         }
     }

@@ -6,7 +6,7 @@ namespace Z0.Logix
 {
     using System;
 
-    public readonly struct LogicExprEval
+    public readonly struct LogixLogicEval
     {
         static BitLogix bitlogix => BitLogix.Service;
 

@@ -54,6 +54,10 @@ namespace Z0.Asm.Operands
             get => this;
         }
 
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
         public string Format()
             => Address.Format();
 
@@ -63,5 +67,9 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator AsmAddress(mem<T> src)
             => new AsmAddress(src.Base, src.Index, src.Scale, src.Disp);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(mem<T> src)
+            => src.Untyped();
     }
 }

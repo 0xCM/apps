@@ -34,7 +34,7 @@ namespace Z0.Asm
         [Symbol("imm", "Classifies an immediate operand")]
         Imm = P2ᐞ02,
 
-        [Symbol("r/m", "Classifies an operand that can refer to a register or memory location")]
-        RM = R | M,
+        [Symbol("disp", "Classifies a displacement operand")]
+        Disp = P2ᐞ03,
     }
 }

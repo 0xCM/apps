@@ -45,17 +45,17 @@ namespace Z0.Asm
             Value = value;
         }
 
-        public byte StorageWidth
-        {
-            [MethodImpl(Inline)]
-            get => 64;
-        }
+        public NativeSize Size => NativeSizeCode.W64;
 
         public bool IsNonZero
         {
             [MethodImpl(Inline)]
             get => Value == 0;
         }
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => AsmRender.format(this);
@@ -73,7 +73,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp64 src)
-            => new Disp(src.Value, src.StorageWidth);
+            => new Disp(src.Value, src.Size);
 
         [MethodImpl(Inline)]
         public static implicit operator Disp64(ulong src)
@@ -82,6 +82,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Disp64(long src)
             => new Disp64((int)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp64 src)
+            => src.Untyped();
 
         public static Disp64 Empty
         {

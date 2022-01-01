@@ -8,7 +8,7 @@ namespace Z0.Logix
 
     using static Root;
 
-    public readonly struct ScalarExprEval
+    public readonly struct LogixScalarEval
     {
         const NumericKind Closure = UInt64k;
 

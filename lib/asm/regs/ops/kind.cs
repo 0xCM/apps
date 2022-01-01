@@ -8,7 +8,7 @@ namespace Z0.Asm
      using System.Runtime.CompilerServices;
 
     using static Root;
-    using static RegFieldFacets;
+    using static RegFacets;
 
     partial struct AsmRegs
     {

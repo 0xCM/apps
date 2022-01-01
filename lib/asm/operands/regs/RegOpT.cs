@@ -83,10 +83,17 @@ namespace Z0.Asm
             get => api.name(this);
         }
 
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
         public string Format()
-            => string.Format("{0}/{1}/{2}", Index, RegClassCode, WidthCode);
+            => Name.Format();
 
         public override string ToString()
             =>  Format();
+
+        public static implicit operator RegOp(RegOp<T> src)
+            => new RegOp(src.Bitfield);
     }
 }

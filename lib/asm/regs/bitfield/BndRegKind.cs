@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static RegFieldFacets;
+    using static RegFacets;
     using static RegIndexCode;
     using static RegClassCode;
     using static NativeSizeCode;
@@ -13,12 +13,12 @@ namespace Z0.Asm
     [SymSource("asm.regs.bits", Base16)]
     public enum BndRegKind : ushort
     {
-        DR0 = r0 | BND << ClassField | W128 << WidthField,
+        BND0 = r0 | BND << ClassField | W128 << WidthField,
 
-        DR1 = r1 | BND << ClassField | W128 << WidthField,
+        BND1 = r1 | BND << ClassField | W128 << WidthField,
 
-        DR2 = r2 | BND << ClassField | W128 << WidthField,
+        BND2 = r2 | BND << ClassField | W128 << WidthField,
 
-        DR3 = r3 | BND << ClassField | W128 << WidthField,
+        BND3 = r3 | BND << ClassField | W128 << WidthField,
     }
 }

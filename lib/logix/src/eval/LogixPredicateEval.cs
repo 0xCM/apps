@@ -11,7 +11,7 @@ namespace Z0.Logix
 
     using BCK = ApiComparisonClass;
 
-    public readonly struct PredicateEval
+    public readonly struct LogixPredicateEval
     {
         const NumericKind Closure = UInt64k;
 

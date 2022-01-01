@@ -8,16 +8,15 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static SdmModels;
 
     partial class IntelSdm
     {
-        public Index<SdmOpCode> LoadImportedOpCodes()
+        public Index<SdmSigOpCode> LoadImportedOpCodes()
         {
             var src = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
             var data = src.ReadLines().Where(text.nonempty);
             var count = data.Length;
-            var buffer = alloc<SdmOpCode>(count);
+            var buffer = alloc<SdmSigOpCode>(count);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var line = ref data[i];
@@ -32,13 +31,15 @@ namespace Z0.Asm
                     break;
                 }
 
-                if(k - j == 1)
-                    dst.Operands = CharBlock64.Null;
-                else
-                    dst.Operands = text.inside(line,j, k);
+                // if(k - j == 1)
+                //     dst.Operands = CharBlock64.Null;
+                // else
+                //     dst.Operands = text.inside(line,j, k);
 
-                dst.Mnemonic = text.left(line,j);
-                dst.Expr = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
+                var operands = (k - j == 1) ? sys.empty<string>() : text.trim(text.split(text.inside(line,j, k),Chars.Comma));
+                var mnemonic = (AsmMnemonic)text.left(line,j);
+                dst.OpCode = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
+                dst.Sig = AsmSigs.expression((AsmMnemonic)text.left(line,j),operands);
             }
 
             return buffer;

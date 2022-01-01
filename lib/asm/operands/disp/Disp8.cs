@@ -20,6 +20,8 @@ namespace Z0.Asm
         /// </summary>
         public sbyte Value {get;}
 
+        public NativeSize Size => NativeSizeCode.W8;
+
         [MethodImpl(Inline)]
         public Disp8(sbyte @base)
         {
@@ -36,6 +38,10 @@ namespace Z0.Asm
 
         long IDisplacement.Value
             => Value;
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
 
         public string Format()
             => AsmRender.format(this);
@@ -62,5 +68,9 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp8 src)
             => (src.Value,src.StorageWidth);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp8 src)
+            => src.Untyped();
     }
 }

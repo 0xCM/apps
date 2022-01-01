@@ -100,6 +100,11 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => api.name(this);
         }
+
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
         public string Format()
             => Name.Format().Trim();
 
@@ -109,6 +114,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator RegOp(RegKind kind)
             => new RegOp((ushort)kind);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(RegOp src)
+            => src.Untyped();
 
         public static RegOp Invalid
         {

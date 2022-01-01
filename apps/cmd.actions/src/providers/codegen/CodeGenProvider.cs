@@ -19,7 +19,7 @@ namespace Z0
         Outcome Matcher(CmdArgs args)
         {
             var opcodes = Sdm.LoadImportedOpCodes();
-            var matcher = StringMatcher.build(opcodes.Select(x => x.Expr.Format()));
+            var matcher = StringMatcher.build(opcodes.Select(x => x.OpCode.Format()));
             var dst = ProjectDb.Settings() + Tables.filename<CharMatchRow>();
             TableEmit(matcher.MatchRows, CharMatchRow.RenderWidths, dst);
 

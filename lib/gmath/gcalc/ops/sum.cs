@@ -34,6 +34,17 @@ namespace Z0
             return result;
         }
 
+        [MethodImpl(Inline), Sum, Closures(Closure)]
+        public static T sum<T>(T[] src)
+            where T : unmanaged
+        {
+            var count = src.Length;
+            var result = default(T);
+            for(var i=0; i<count; i++)
+                result = checked(gmath.add(result, skip(src,i)));
+            return result;
+        }
+
         [MethodImpl(Inline)]
         public static T sum<T>(Span<T> src)
             where T : unmanaged

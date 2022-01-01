@@ -8,14 +8,12 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct SdmOpCode
+    public struct SdmSigOpCode
     {
         public uint OpCodeKey;
 
-        public AsmMnemonic Mnemonic;
+        public AsmSigExpr Sig;
 
-        public CharBlock64 Operands;
-
-        public AsmOpCode Expr;
+        public AsmOpCode OpCode;
     }
 }

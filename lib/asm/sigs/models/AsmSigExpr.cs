@@ -83,6 +83,20 @@ namespace Z0.Asm
             OperandCount = 4;
         }
 
+        public ReadOnlySpan<AsmSigOpExpr> Operands()
+        {
+            var dst = alloc<AsmSigOpExpr>(OperandCount);
+            Operands(dst);
+            return dst;
+        }
+
+        public ref CharBlock64 OperandText(ref CharBlock64 dst)
+        {
+            var i=0u;
+            api.operands(this, ref i, dst.Data);
+            return ref dst;
+        }
+
         public byte Operands(Span<AsmSigOpExpr> dst)
         {
             if(OperandCount >= 1)

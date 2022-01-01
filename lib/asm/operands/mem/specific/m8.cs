@@ -31,6 +31,11 @@ namespace Z0.Asm.Operands
             get => Sizes.native(8);
         }
 
+        [MethodImpl(Inline)]
+        public AsmOperand Untyped()
+            => new AsmOperand(this);
+
+
         public string Format()
             => Address.Format();
 

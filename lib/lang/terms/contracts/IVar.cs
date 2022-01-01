@@ -9,13 +9,13 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IVar : IExpr,ITerm
+    public interface IVar : IExpr, ITerm
     {
         VarSymbol Name {get;}
     }
 
     [Free]
-    public interface IVar<T> : IVar,ITerm
+    public interface IVar<T> : IVar, ITerm
     {
         T Value {get;}
     }
