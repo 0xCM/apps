@@ -13,9 +13,9 @@ namespace Z0
     {
         public Name Name {get;}
 
-        public Index<ITerm> Terms {get;}
+        public Index<IExpr> Terms {get;}
 
-        public NamedTerm(string name, ITerm[] terms)
+        public NamedTerm(string name, IExpr[] terms)
         {
             Name = name;
             Terms = terms;

@@ -4,16 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    [Free]
-    public interface ISeqExpr<T> : IExpr
+    public interface IRule : IArrow
     {
-        ReadOnlySpan<T> Terms {get;}
+    }
 
-        string ITextual.Format()
-            => Terms.MapArray(t => t.ToString()).Concat(" ");
+    public interface IRule<A,C> : IRule, IArrow<A,C>
+        where A : IExpr
+        where C : IExpr
+    {
+
+    }
+
+    public interface IRule<T> : IRule<T,T>
+        where T : IExpr
+    {
+
     }
 }

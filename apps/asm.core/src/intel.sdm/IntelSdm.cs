@@ -21,8 +21,8 @@ namespace Z0.Asm
         {
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
-            SigOpNormal = TextMap.load(ProjectDb.Settings("asm.sigs.normal", FS.ext("map")));
-            SigOpProd = TextMap.load(ProjectDb.Settings("asm.sigs.productions", FS.ext("map")));
+            SigOpNormal = rules.textmap(ProjectDb.Settings("asm.sigs.normal", FS.ext("map")));
+            SigOpProd = rules.textmap(ProjectDb.Settings("asm.sigs.productions", FS.ext("map")));
         }
 
         public void ClearTargets()

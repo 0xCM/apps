@@ -8,6 +8,7 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     /// <summary>
     /// Represents an operand in the context of an instruction signature
@@ -34,11 +35,26 @@ namespace Z0.Asm
             get => Text;
         }
 
+        public bool IsComposite
+        {
+            [MethodImpl(Inline)]
+            get => text.contains(Text, Chars.FSlash);
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => text.length(Text) == 0;
         }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.length(Text) != 0;
+        }
+
+        public Index<AsmSigOpExpr> Decompose()
+            => IsComposite ? map(text.split(Text, Chars.FSlash), x => (AsmSigOpExpr)x) : array(this);
 
         public string Format()
             => Text;

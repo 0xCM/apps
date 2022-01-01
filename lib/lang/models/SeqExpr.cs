@@ -9,20 +9,38 @@ namespace Z0
 
     using static Root;
 
-    public class ListExpr : IExpr
+    public class SeqExpr : ISeqExpr<IExpr>
     {
+        readonly Index<IExpr> Data;
 
-        readonly Index<ITerm> Data;
-
-        public ListExpr(params ITerm[] terms)
+        public SeqExpr(params IExpr[] terms)
         {
             Data = terms;
         }
 
-        public ReadOnlySpan<ITerm> Terms
+        public uint N
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
+        }
+
+
+        public ReadOnlySpan<IExpr> Terms
         {
             [MethodImpl(Inline)]
             get => Data;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
         }
 
         public string Format()
@@ -31,7 +49,7 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static implicit operator ListExpr(ITerm[] src)
-            => new ListExpr(src);
+        public static implicit operator SeqExpr(IExpr[] src)
+            => new SeqExpr(src);
     }
 }

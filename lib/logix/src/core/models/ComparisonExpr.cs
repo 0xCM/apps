@@ -56,7 +56,7 @@ namespace Z0
                 _Vars[i].Set(values[i]);
         }
 
-        public byte SetVars(ILiteralLogicSeqExpr values)
+        public byte SetVars(ILiteralLogixSeqExpr values)
         {
             var count = min(VarCount, (byte)values.Length);
             for(var i=0; i<count; i++)

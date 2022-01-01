@@ -10,8 +10,10 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct imm16 : IImmOpClass<imm16>
+        public readonly struct imm16 : IImmOpClass<imm16>, IAsmSigOp<imm16,ImmToken>
         {
+            public ImmToken Token => ImmToken.imm16;
+
             public AsmOpClass OpClass
                 => AsmOpClass.Imm;
 

@@ -11,12 +11,33 @@ namespace Z0
 
     using static Root;
 
-
     [ApiHost]
     public readonly struct LogicOps
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline)]
+        public Product<T> product<T>(params T[] src)
+            where T : IExpr
+                => new Product<T>(src);
+
+        [MethodImpl(Inline)]
+        public Sum<T> sum<T>(params T[] src)
+            where T : IExpr
+                => new Sum<T>(src);
+
+        [MethodImpl(Inline)]
+        public static Sop<T> sop<T>(params Product<T>[] src)
+            where T : IExpr
+                => new Sop<T>(src);
+
+        public static Sum untype<T>(Sum<T> src)
+            where T : IExpr
+                => new Sum(src.Terms.MapArray(x => (IExpr)x));
+
+        public static Product untype<T>(Product<T> src)
+            where T : IExpr
+                => new Product(src.Terms.MapArray(x => (IExpr)x));
 
         [MethodImpl(Inline), Op]
         public static Xor xor(IBooleanExpr a, IBooleanExpr b)
@@ -37,18 +58,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Or or(IBooleanExpr a, IBooleanExpr b)
             => new Or(a,b);
-
-        [MethodImpl(Inline), Op]
-        public Product<IBooleanExpr> product(params IBooleanExpr[] src)
-            => new Product<IBooleanExpr>(src);
-
-        [MethodImpl(Inline), Op]
-        public Sum<IBooleanExpr> sum(params IBooleanExpr[] src)
-            => new Sum<IBooleanExpr>(src);
-
-        [MethodImpl(Inline)]
-        public static Sum untype<T>(Sum<T> src)
-            where T : IBooleanExpr
-                => new Sum(src.Terms.MapArray(x => (IBooleanExpr)x));
     }
 }

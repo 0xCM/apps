@@ -21,10 +21,6 @@ namespace Z0.Ops.Logic
         public Product(T[] src)
             => Data = src;
 
-        [MethodImpl(Inline)]
-        public Product(uint count)
-            => Data = sys.alloc<T>(count);
-
         public ReadOnlySpan<T> Terms
         {
             [MethodImpl(Inline)]

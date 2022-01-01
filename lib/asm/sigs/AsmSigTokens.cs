@@ -9,22 +9,8 @@ namespace Z0.Asm
         const string tokens = "asm.sigs";
 
         [SymSource(tokens)]
-        public enum RoundingToken : byte
-        {
-            None = 0,
-
-            [Symbol("{sae}")]
-            sae,
-
-            [Symbol("{er}")]
-            er,
-        }
-
-        [SymSource(tokens)]
         public enum RelKind : byte
         {
-            None = 0,
-
             [Symbol("rel8")]
             Rel8=1,
 
@@ -86,12 +72,6 @@ namespace Z0.Asm
             /// </summary>
             [Symbol("r64", "A 64-bit gp register")]
             r64,
-
-            [Symbol("r32a", "A first r32 register operand")]
-            r32a,
-
-            [Symbol("r32b", "A second r32 register operand")]
-            r32b,
         }
 
         [SymSource(tokens)]
@@ -110,49 +90,31 @@ namespace Z0.Asm
         [SymSource(tokens)]
         public enum MaskRegToken : byte
         {
-            [Symbol("k1", "A mask register used as a regular operand (either destination or source)")]
-            k1,
+            [Symbol("rK", "A mask register used as a regular operand (either destination or source)")]
+            rK,
         }
 
         [SymSource(tokens)]
         public enum OpMaskToken : byte
         {
-            [Symbol("{k1}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
-            k1,
+            [Symbol("{rK}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
+            rK,
 
             [Symbol("{z}")]
             z,
 
-            [Symbol("{k1}{z}", "A mask register used as instruction writemask")]
-            k1z,
+            [Symbol("{rK}{z}", "A mask register used as instruction writemask")]
+            rKz,
         }
 
         [SymSource(tokens)]
         public enum VRegToken : byte
         {
-            [Symbol("xmm", "An XMM register. The 128-bit XMM registers are: XMM0 through XMM7; XMM8 through XMM15 are available using REX.R in 64-bit mode.The contents of memory are found at the address provided by the effective address computation")]
+            [Symbol("xmm", "An XMM register")]
             xmm,
-
-            [Symbol("xmm1", "A first xmm register operand")]
-            xmm1,
-
-            [Symbol("xmm2", "A second xmm register operand")]
-            xmm2,
-
-            [Symbol("xmm3", "A third xmm register operand")]
-            xmm3,
 
             [Symbol("ymm", "A YMM register")]
             ymm,
-
-            [Symbol("ymm1", "A first ymm register operand")]
-            ymm1,
-
-            [Symbol("ymm2", "A second ymm register operand")]
-            ymm2,
-
-            [Symbol("ymm3", "A third ymm register operand")]
-            ymm3,
 
             [Symbol("zmm", "A zmm register")]
             zmm,
@@ -405,25 +367,29 @@ namespace Z0.Asm
         [SymSource(tokens)]
         public enum BroadcastToken
         {
-            [Symbol("bcast32", "Represents a 32-bit memory location that defines a scalar to broadcast to vector operands")]
+            [Symbol("m32bcst", "Represents a 32-bit memory location that defines a scalar to broadcast to vector operands")]
             bcast32,
 
-            [Symbol("bcast64", "Represents a 64-bit memory location that defines a scalar to broadcast to vector operands")]
+            [Symbol("m64bcst", "Represents a 64-bit memory location that defines a scalar to broadcast to vector operands")]
             bcast64,
+        }
+
+        [SymSource(tokens)]
+        public enum RoundingToken : byte
+        {
+            [Symbol("{sae}")]
+            sae,
+
+            [Symbol("{er}")]
+            er,
         }
 
         [SymSource(tokens)]
         public enum VecBCastToken : byte
         {
-            /// <summary>
-            /// Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 32-bit memory location
-            /// </summary>
             [Symbol("zmm/m512/m32bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 32-bit memory location")]
             z512x32bcst,
 
-            /// <summary>
-            /// Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 64-bit memory location
-            /// </summary>
             [Symbol("zmm/m512/m64bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 64-bit memory location")]
             z512x64bcst,
         }

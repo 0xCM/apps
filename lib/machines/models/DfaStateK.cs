@@ -7,8 +7,6 @@ namespace Z0.Expr
     using System;
     using System.Runtime.CompilerServices;
 
-    using Z0.Lang;
-
     using static Root;
 
     public readonly struct DfaState<K>
@@ -17,28 +15,19 @@ namespace Z0.Expr
         /// <summary>
         /// The state position within a given string
         /// </summary>
-        public int Order {get;}
+        public uint Key {get;}
 
-        public Atom<K> Symbol {get;}
+        public K Symbol {get;}
 
         [MethodImpl(Inline)]
-        public DfaState(int order, Atom<K> b)
+        public DfaState(uint key, K b)
         {
-            Order = order;
+            Key = key;
             Symbol = b;
         }
 
-        /// <summary>
-        /// The state key
-        /// </summary>
-        public uint Key
-        {
-            [MethodImpl(Inline)]
-            get => Symbol.Key;
-        }
-
         public string Format()
-            => Symbol.Format();
+            => Symbol.ToString();
 
         public override string ToString()
             => Format();

@@ -6,9 +6,9 @@ namespace Z0.Asm
 {
     partial class AsmSigs
     {
-        public readonly struct Rel16: IAsmRel<Rel16>
+        public readonly struct Rel16 : IAsmSigOp<Rel16,RelToken>
         {
-            public RelToken Kind => RelToken.rel16;
+            public RelToken Token => RelToken.rel16;
 
             public string Name => "rel16";
 

@@ -35,11 +35,11 @@ namespace Z0
         /// <param name="bs">The source bitstring</param>
         /// <typeparam name="N">The length type</typeparam>
         [MethodImpl(Inline)]
-        public static LiteralLogicSeqExpr<N> ToLogicSeq<N>(this BitString src, N n = default)
+        public static LiteralLogixSeqExpr<N> ToLogicSeq<N>(this BitString src, N n = default)
             where N : unmanaged, ITypeNat
         {
             Require.equal<N>(src.Length);
-            return new LiteralLogicSeqExpr<N>(src.ToLogicSeq().Terms);
+            return new LiteralLogixSeqExpr<N>(src.ToLogicSeq().Terms);
         }
     }
 }

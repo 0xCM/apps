@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a sequence of literal bit values
     /// </summary>
-    public readonly struct LiteralLogicSeqExpr : ILiteralLogicSeqExpr
+    public readonly struct LiteralLogicSeqExpr : ILiteralLogixSeqExpr
     {
         public Index<bit> Terms {get;}
 

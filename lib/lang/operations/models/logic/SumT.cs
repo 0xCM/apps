@@ -18,10 +18,6 @@ namespace Z0.Ops.Logic
         public Sum(T[] src)
             => Data = src;
 
-        [MethodImpl(Inline)]
-        public Sum(uint count)
-            => Data = core.alloc<T>(count);
-
         public ReadOnlySpan<T> Terms
         {
             [MethodImpl(Inline)]

@@ -10,8 +10,10 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct mem : IMemOpClass<mem>
+        public readonly struct mem : IMemOpClass<mem>, IAsmSigOp<mem, MemToken>
         {
+            public MemToken Token => MemToken.mem;
+
             public NativeSize Size {get;}
 
             [MethodImpl(Inline)]
@@ -28,8 +30,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m8 : IMemOpClass<m8>
+        public readonly struct m8 : IMemOpClass<m8>, IAsmSigOp<m8, MemToken>
         {
+            public MemToken Token => MemToken.m8;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 
@@ -45,8 +49,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m16 : IMemOpClass<m16>
+        public readonly struct m16 : IMemOpClass<m16>, IAsmSigOp<m16, MemToken>
         {
+            public MemToken Token => MemToken.m16;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 
@@ -62,8 +68,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m32 : IMemOpClass<m32>
+        public readonly struct m32 : IMemOpClass<m32>, IAsmSigOp<m32, MemToken>
         {
+            public MemToken Token => MemToken.m32;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 
@@ -79,8 +87,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m64 : IMemOpClass<m64>
+        public readonly struct m64 : IMemOpClass<m64>, IAsmSigOp<m64, MemToken>
         {
+            public MemToken Token => MemToken.m64;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 
@@ -96,8 +106,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m128 : IMemOpClass<m128>
+        public readonly struct m128 : IMemOpClass<m128>, IAsmSigOp<m128, MemToken>
         {
+            public MemToken Token => MemToken.m128;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 
@@ -113,8 +125,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m256 : IMemOpClass<m256>
+        public readonly struct m256 : IMemOpClass<m256>, IAsmSigOp<m256, MemToken>
         {
+            public MemToken Token => MemToken.m256;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 
@@ -130,8 +144,10 @@ namespace Z0.Asm
                 => new AsmOperand(src.OpClass, src.Size);
         }
 
-        public readonly struct m512 : IMemOpClass<m512>
+        public readonly struct m512 : IMemOpClass<m512>, IAsmSigOp<m512, MemToken>
         {
+            public MemToken Token => MemToken.m512;
+
             public AsmOpClass OpClass
                 => AsmOpClass.M;
 

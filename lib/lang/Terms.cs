@@ -18,13 +18,11 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Atom<K> atom<K>(uint key, K value)
-            where K : unmanaged
-                => new Atom<K>(key, value);
+        public static Atom<K> atom<K>(K value)
+            => new Atom<K>(value);
 
         [Op, Closures(Closure)]
         public static Atoms<K> concat<K>(Atoms<K> a, Atoms<K> b)
-            where K : unmanaged
         {
             var ka = a.Count;
             var kb = b.Count;
@@ -65,12 +63,15 @@ namespace Z0
             => bind ? src.Value.Format() : string.Format(XF.TypedVar, src);
 
         internal static string format<K>(Atoms<K> src)
-            where K : unmanaged
         {
             var dst = text.buffer();
             var count = src.Count;
             for(var i=0; i<count; i++)
+            {
+                if(i != 0)
+                    dst.Append(" | ");
                 dst.Append(src[i].Format());
+            }
             return dst.Emit();
         }
 

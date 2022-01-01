@@ -4,45 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static core;
-
-    public interface IProduction
+    public interface IProduction : IRule, IArrow<IExpr>
     {
-        ReadOnlySpan<IExpr> Terms(IExpr src);
-    }
+        bool YieldsSeq => false;
 
-    public interface IProduction<T> : IProduction
-        where T : IExpr
-    {
-        ReadOnlySpan<T> Terms(T src);
-
-        ReadOnlySpan<IExpr> IProduction.Terms(IExpr src)
-        {
-            var terms = Terms((T)src);
-            var count = terms.Length;
-            var dst = alloc<IExpr>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = skip(terms,i);
-            return dst;
-        }
     }
 
     public interface IProduction<S,T> : IProduction
         where S : IExpr
         where T : IExpr
     {
-        ReadOnlySpan<T> Terms(S src);
+        new S Source {get;}
 
-        ReadOnlySpan<IExpr> IProduction.Terms(IExpr src)
-        {
-            var terms = Terms((S)src);
-            var count = terms.Length;
-            var dst = alloc<IExpr>(count);
-            for(var i=0; i<count; i++)
-                seek(dst,i) = skip(terms,i);
-            return dst;
-        }
+        new T Target {get;}
+
+        IExpr IArrow<IExpr,IExpr>.Source
+            => Source;
+
+        IExpr IArrow<IExpr,IExpr>.Target
+            => Target;
     }
 }

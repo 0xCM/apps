@@ -12,7 +12,6 @@ namespace Z0
     using api = Terms;
 
     public readonly struct Atoms<K> : ITerm
-        where K : unmanaged
     {
         readonly Index<Atom<K>> Data;
 

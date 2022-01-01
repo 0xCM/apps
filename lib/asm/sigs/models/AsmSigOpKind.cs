@@ -18,6 +18,7 @@ namespace Z0.Asm
 
         SysReg,
 
+        [Symbol("mm")]
         MmxReg,
 
         Imm,
@@ -48,12 +49,16 @@ namespace Z0.Asm
 
         Broadcast,
 
+        [Symbol("xmm")]
         XmmReg,
 
+        [Symbol("ymm")]
         YmmReg,
 
+        [Symbol("zmm")]
         ZmmReg,
 
+        [Symbol("rK")]
         OpMask
     }
 }

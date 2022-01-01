@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct OpMask
+        public readonly struct OpMask : IAsmSigOp<OpMask,OpMaskToken>
         {
             public OpMaskToken Token {get;}
 

@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct FarPtr
+        public readonly struct FarPtr : IAsmSigOp<FarPtr,FarPtrToken>
         {
             public FarPtrToken Token {get;}
 

@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct GpReg
+        public readonly struct GpReg : IAsmSigOp<GpReg,GpRegToken>
         {
             public GpRegToken Token {get;}
 

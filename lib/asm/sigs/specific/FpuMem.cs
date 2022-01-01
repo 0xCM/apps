@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct FpuMem
+        public readonly struct FpuMem : IAsmSigOp<FpuMem,FpuMemToken>
         {
             public FpuMemToken Token {get;}
 

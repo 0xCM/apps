@@ -13,7 +13,7 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var pred = arg(args,0).Value;
-            var selected = RegSet.Empty;
+            var selected = RegOpSeq.Empty;
             switch(pred)
             {
                 case "gp8":
@@ -44,7 +44,7 @@ namespace Z0.Asm
             }
 
             var buffer = text.buffer();
-            iter(selected.View, reg => buffer.AppendFormat("{0} ", reg));
+            iter(selected.Elements, reg => buffer.AppendFormat("{0} ", reg));
             Write(buffer.Emit());
 
             return result;

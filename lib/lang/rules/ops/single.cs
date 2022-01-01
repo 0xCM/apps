@@ -11,7 +11,6 @@ namespace Z0
 
     using static Root;
 
-
     partial struct rules
     {
         [MethodImpl(Inline), Op, Closures(Closure)]

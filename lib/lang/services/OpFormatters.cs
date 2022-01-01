@@ -19,7 +19,7 @@ namespace Z0.Ops
             var count = terms.Length;
             var dst = text.buffer();
 
-            dst.Append(XF.ListOpen);
+            dst.Append(Chars.LBracket);
             for(var i=0; i<count; i++)
             {
                 if(i != 0)
@@ -30,19 +30,19 @@ namespace Z0.Ops
                 if(i != count - 1)
                 {
                     dst.Append(Chars.Space);
-                    dst.Append(XF.Choice);
+                    dst.Append(Chars.Pipe);
                 }
             }
-            dst.Append(XF.ListClose);
+            dst.Append(Chars.RBracket);
 
             return dst.Emit();
         }
-
 
         [Formatter]
         public static string format(Product src)
         {
-            const char Delimiter = (char)LogicSym.And;
+            //const char Delimiter = (char)LogicSym.And;
+            const char Delimiter = Chars.Comma;
             var dst = text.buffer();
             var count = src.Count;
             for(var i=0; i<count; i++)
@@ -55,40 +55,41 @@ namespace Z0.Ops
             }
             return dst.Emit();
         }
-
-        public static string format<T>(Xor<T> src)
-            => string.Format(XF.BinaryChoice, src.Left, src.Right);
 
         public static string format<T>(Product<T> src)
             where T : IExpr
         {
-            const char Delimiter = (char)LogicSym.And;
+            //const char Delimiter = (char)LogicSym.And;
+            const char Delimiter = Chars.Comma;
             var dst = text.buffer();
+            dst.Append(Chars.LParen);
             var count = src.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var expr = ref src[i];
-                dst.Append(expr.Format());
+                dst.Append(src[i].Format());
                 if(i != count - 1)
                     dst.Append(Delimiter);
 
             }
+            dst.Append(Chars.RParen);
             return dst.Emit();
         }
+
+
+        public static string format<T>(Xor<T> src)
+            => string.Format(XF.BinaryChoice, src.Left, src.Right);
 
         public static string format<T>(Sop<T> src)
             where T : IExpr
         {
-            const char Delimiter = (char)LogicSym.Or;
+            const char Delimiter = Chars.Pipe;
             var dst = text.buffer();
             var count = src.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var product = ref src[i];
 
-                dst.Append(Chars.LParen);
                 dst.Append(product.Format());
-                dst.Append(Chars.RParen);
 
                 if(i != count - 1)
                     dst.Append(Delimiter);

@@ -11,11 +11,13 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct reg : IRegOpClass<reg>
+        public readonly struct reg : IRegOpClass<reg>, IAsmSigOp<reg,GpRegToken>
         {
             public NativeSize Size {get;}
 
             public RegClassCode RegClass {get;}
+
+            public GpRegToken Token => GpRegToken.reg;
 
             [MethodImpl(Inline)]
             public reg(NativeSize size, RegClassCode @class)
@@ -34,6 +36,8 @@ namespace Z0.Asm
 
         public readonly struct r8 : IRegOpClass<r8>
         {
+             public GpRegToken Token => GpRegToken.r8;
+
             public AsmOpClass OpClass
                 => AsmOpClass.R;
 
@@ -74,7 +78,10 @@ namespace Z0.Asm
 
         public readonly struct r16 : IRegOpClass<r16>
         {
-            public AsmOpClass OpClass
+
+             public GpRegToken Token => GpRegToken.r16;
+
+             public AsmOpClass OpClass
                 => AsmOpClass.R;
 
             public NativeSize Size
@@ -94,6 +101,8 @@ namespace Z0.Asm
 
         public readonly struct r32 : IRegOpClass<r32>
         {
+            public GpRegToken Token => GpRegToken.r32;
+
             public AsmOpClass OpClass
                 => AsmOpClass.R;
 
@@ -251,7 +260,8 @@ namespace Z0.Asm
 
         public readonly struct db : IRegOpClass<db>
         {
-            public AsmOpClass OpClass
+
+           public AsmOpClass OpClass
                 => AsmOpClass.R;
 
             public NativeSize Size

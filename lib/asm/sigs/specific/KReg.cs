@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct KReg
+        public readonly struct KReg : IAsmSigOp<KReg,MaskRegToken>
         {
             public MaskRegToken Token {get;}
 

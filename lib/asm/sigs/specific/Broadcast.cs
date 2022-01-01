@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct Broadcast
+        public readonly struct Broadcast : IAsmSigOp<Broadcast,BroadcastToken>
         {
             public BroadcastToken Token {get;}
 

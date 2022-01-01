@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILiteralLogixSeqExpr : ILogixSeqExpr<bit>, ILogicExpr
+    public class SeqProduction : Production<Value<string>, SeqExpr>, ISeqProduction<Value<string>>
     {
+        internal SeqProduction(string src, SeqExpr dst)
+            : base(src, dst)
+        {
 
+        }
     }
 }

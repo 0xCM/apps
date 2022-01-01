@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct Moffs
+        public readonly struct Moffs : IAsmSigOp<Moffs,MoffsToken>
         {
             public MoffsToken Token {get;}
 

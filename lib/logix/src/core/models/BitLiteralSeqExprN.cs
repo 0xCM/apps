@@ -12,13 +12,13 @@ namespace Z0
     /// <summary>
     /// Defines a natural-length sequence of literal bit values
     /// </summary>
-    public readonly struct LiteralLogicSeqExpr<N> : ILiteralLogicSeqExpr
+    public readonly struct LiteralLogixSeqExpr<N> : ILiteralLogixSeqExpr
         where N : unmanaged, ITypeNat
     {
         public Index<bit> Terms {get;}
 
         [MethodImpl(Inline)]
-        public LiteralLogicSeqExpr(bit[] terms)
+        public LiteralLogixSeqExpr(bit[] terms)
             => Terms = terms;
 
         public bit this[int index]

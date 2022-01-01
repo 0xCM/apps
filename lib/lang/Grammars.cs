@@ -16,7 +16,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-
         /// <summary>
         /// Defines an alphabet over a caller-supplied symbol sequence
         /// </summary>

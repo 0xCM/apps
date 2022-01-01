@@ -9,12 +9,12 @@ namespace Z0
 
     using static Root;
 
-    public class VectorExpr : IExpr, ISeq<IExpr>
+    public class SeqExpr<T> : ISeqExpr<T>
+        where T : IExpr
     {
+        readonly Index<T> Data;
 
-        readonly Index<IExpr> Data;
-
-        public VectorExpr(params IExpr[] terms)
+        public SeqExpr(params T[] terms)
         {
             Data = terms;
         }
@@ -25,25 +25,32 @@ namespace Z0
             get => Data.Count;
         }
 
+        public ReadOnlySpan<T> Terms
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => Data.IsEmpty;
         }
 
-        public ReadOnlySpan<IExpr> Elements
+        public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data;
+            get => Data.IsNonEmpty;
         }
 
         public string Format()
-            => string.Format("<{0}>",Data.Delimit().Format());
+            => text.bracket(Data.Delimit().Format());
 
         public override string ToString()
             => Format();
 
-        public static implicit operator VectorExpr(IExpr[] src)
-            => new VectorExpr(src);
+        [MethodImpl(Inline)]
+        public static implicit operator SeqExpr<T>(T[] src)
+            => new SeqExpr<T>(src);
     }
 }

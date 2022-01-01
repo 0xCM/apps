@@ -10,9 +10,9 @@ namespace Z0
     /// The idea is to loosely follow https://en.wikipedia.org/wiki/Term_(logic)
     /// </summary>
     [Free]
-    public interface ITerm : ITextual, INullity
+    public interface ITerm : IExpr, INullity
     {
-        Index<ITerm> Terms => sys.empty<ITerm>();
+        Index<IExpr> Terms => sys.empty<IExpr>();
     }
 
     [Free]

@@ -47,7 +47,7 @@ namespace Z0
         /// <param name="dst">The target</param>
         /// <typeparam name="S">The source cell type</typeparam>
         /// <typeparam name="T">The target cell type</typeparam>
-        public static Span<T> map<S,T>(ReadOnlySpan<S> src, Func<S,T> f)
+        public static T[] map<S,T>(ReadOnlySpan<S> src, Func<S,T> f)
         {
             var dst = alloc<T>(src.Length);
             map(src, f, dst);

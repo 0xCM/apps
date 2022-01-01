@@ -24,27 +24,11 @@ namespace Z0.Lang
 
         readonly NativeBuffer<K> Buffer;
 
-        readonly Index<Atom<K>> _Atoms;
+        readonly Index<K> _Chars;
 
         public void Dispose()
         {
             Buffer.Dispose();
-        }
-
-        [MethodImpl(Inline)]
-        internal Alphabet(Label name, Atom<K>[] src)
-        {
-            Name = name;
-            var count = (uint)src.Length;
-            Buffer = memory.native<K>(count);
-            _Atoms = core.alloc<Atom<K>>(count);
-            for(var i=0u; i<src.Length; i++)
-            {
-                ref readonly var atom = ref skip(src,i);
-                Buffer[atom.Key] = skip(atom.Value, i);
-                _Atoms[atom.Key] = atom;
-
-            }
         }
 
         [MethodImpl(Inline)]
@@ -53,22 +37,19 @@ namespace Z0.Lang
             Name = name;
             var count = (uint)src.Length;
             Buffer = memory.native<K>(count);
-            _Atoms = core.alloc<Atom<K>>(count);
-            for(var i=0u; i<count; i++)
+            _Chars = src;
+            for(var i=0u; i<src.Length; i++)
             {
-                ref readonly var symbol = ref skip(src,i);
-                Buffer[i] = symbol;
-                _Atoms[i] = (i,symbol);
+                ref readonly var atom = ref skip(src,i);
+                Buffer[i] = atom;
+                _Chars[i] = atom;
             }
         }
 
-        [MethodImpl(Inline)]
-        public ref readonly Atom<K> Atom(uint key)
-            => ref _Atoms[key];
 
         [MethodImpl(Inline)]
-        public Atom<K> Atom(int index)
-            => new Atom<K>((uint)index, this[index]);
+        public ref readonly K Char(uint key)
+            => ref _Chars[key];
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<K> Letters(uint offset, uint count)

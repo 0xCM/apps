@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ILiteralLogixSeqExpr : ILogixSeqExpr<bit>, ILogicExpr
+    public interface ISeqProduction<S> : IProduction<S,SeqExpr>
+        where S : IExpr
     {
-
+        bool IProduction.YieldsSeq
+            => true;
     }
 }

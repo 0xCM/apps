@@ -5,15 +5,15 @@
 namespace Z0
 {
     using System;
+    using System.Runtime.CompilerServices;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+    using static Root;
 
-    [Free]
-    public interface ISeqExpr<T> : IExpr
+    partial struct expr
     {
-        ReadOnlySpan<T> Terms {get;}
 
-        string ITextual.Format()
-            => Terms.MapArray(t => t.ToString()).Concat(" ");
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Value<T> value<T>(T src)
+            => src;
     }
 }

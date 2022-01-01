@@ -37,14 +37,14 @@ namespace Z0.Expr
 
         public DfaState<K> CurrentState {get; private set;}
 
-        public void Process(ReadOnlySpan<Atom<K>> src)
+        public void Process(ReadOnlySpan<K> src)
         {
             var count = src.Length;
             for(var i=0; i<count; i++)
                 CurrentState = Evaluate(src[i]);
         }
 
-        protected abstract DfaState<K> Evaluate(Atom<K> src);
+        protected abstract DfaState<K> Evaluate(K src);
 
         protected Dfa(Alphabet<A> alphabet, DfaState<K>[] states, DfaState<K>[] terminals, DfaState<K> s0)
         {
