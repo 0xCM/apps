@@ -25,7 +25,10 @@ namespace Z0
             EncDecRuleTable,
 
             [Symbol("all-widths")]
-            Widths
+            Widths,
+
+            [Symbol("all-pointer-names")]
+            PointerWidths,
         }
     }
 }

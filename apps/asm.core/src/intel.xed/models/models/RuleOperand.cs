@@ -12,19 +12,65 @@ namespace Z0
     {
         public readonly struct RuleOperand
         {
-            public OperandKind Kind {get;}
+            public RuleOpKind Kind {get;}
 
-            public TextBlock Value {get;}
+            public OpDirection Direction {get;}
+
+            public OperandWidth Width {get;}
+
+            public @string WidthRefinement {get;}
+
+            public TableFunction Function {get;}
+
+            public Index<string> Attributes {get;}
 
             [MethodImpl(Inline)]
-            public RuleOperand(OperandKind kind, string value)
+            public RuleOperand(RuleOpKind kind, string[] attributes)
             {
                 Kind = kind;
-                Value = value;
+                Direction = 0;
+                Width = OperandWidth.Empty;
+                WidthRefinement = @string.Empty;
+                Function = TableFunction.Empty;
+                Attributes = attributes;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleOperand(RuleOpKind kind, OpDirection dir, OperandWidth width, string refinement, TableFunction fx)
+            {
+                Kind = kind;
+                Direction = dir;
+                Width = width;
+                Function = fx;
+                WidthRefinement = refinement;
+                Attributes = sys.empty<string>();
+            }
+
+            [MethodImpl(Inline)]
+            public RuleOperand(RuleOpKind kind, OpDirection dir, OperandWidth width, string refinement)
+            {
+                Kind = kind;
+                Width = width;
+                Direction = dir;
+                WidthRefinement = refinement;
+                Function = TableFunction.Empty;
+                Attributes = sys.empty<string>();
             }
 
             public string Format()
-                => string.Format("{0}:{1}", Kind,Value);
+            {
+                if(Attributes.IsNonEmpty)
+                    return string.Format("{0}:{1}", Kind, Attributes.Delimit(Chars.Colon));
+
+                var dir = Symbols.expr(Direction);
+
+                if(Function.IsNonEmpty)
+                    return string.Format("{0}:{1}:{2}:{3}:{4}", Kind, dir, Function, Width, WidthRefinement);
+                else if(Width.IsEmpty)
+                    return string.Format("{0}:{1}", Kind, dir);
+                else
+                    return string.Format("{0}:{1}:{2}:{3}", Kind, dir, Width, WidthRefinement);
+            }
 
             public override string ToString()
                 => Format();

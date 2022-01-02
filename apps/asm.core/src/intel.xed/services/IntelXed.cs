@@ -303,7 +303,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<OperandWidthType>(xed);
             ApiMetadata.EmitTokens<OperandAction>(xed);
             ApiMetadata.EmitTokens<OpCodeMap>(xed);
-            ApiMetadata.EmitTokens<PointerWidth>(xed);
+            ApiMetadata.EmitTokens<PointerWidthKind>(xed);
             ApiMetadata.EmitTokens<RegId>(xed);
             ApiMetadata.EmitTokens<RegClassCode>(xed);
         }

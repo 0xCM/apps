@@ -9,7 +9,7 @@ namespace Z0
     using NBK = NumericBaseKind;
 
     [SymSource("api.kinds", NBK.Base16), Flags]
-    public enum ParamDirection : byte
+    public enum OpDirection : byte
     {
         None = 0,
 
@@ -19,7 +19,7 @@ namespace Z0
         [Symbol("out")]
         Out = 2,
 
-        [Symbol("inout")]
-        Bidirectional = In | Out,
+        [Symbol("io")]
+        IO = In | Out,
     }
 }

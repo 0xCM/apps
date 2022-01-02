@@ -5,85 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static XedModels.OperandKind;
-
     partial struct XedModels
     {
-        [MethodImpl(Inline), Op]
-        public static bool is_memory_addressing_register(OperandKind kind)
-            => kind == BASE0 || kind == BASE1 ||
-              kind == SEG0  || kind == SEG1 ||
-              kind == INDEX;
-
-        [MethodImpl(Inline), Op]
-        public static bool is_register(OperandKind kind)
-            => kind >= REG0 && kind <= REG9;
-
-        [MethodImpl(Inline), Op]
-        public static bool is_memory(OperandKind kind)
-            => kind == MEM0 || kind == MEM1;
-
-        [MethodImpl(Inline), Op]
-        public static bool is_imm(OperandKind kind)
-            => kind == IMM0 || kind == IMM1;
-
-        [Op]
-        public static sbyte reg_index(OperandKind kind)
-            => kind switch
-            {
-                REG0 => 0,
-                REG1 => 1,
-                REG2 => 2,
-                REG3 => 3,
-                REG4 => 4,
-                REG5 => 5,
-                REG6 => 6,
-                REG7 => 7,
-                REG8 => 8,
-                REG9 => 9,
-                _ => -1,
-            };
-
-        [Op]
-        public static sbyte base_reg_index(OperandKind kind)
-            => kind switch
-            {
-                BASE0 => 0,
-                BASE1 => 1,
-                _ => -1,
-            };
-
-        [Op]
-        public static sbyte seg_reg_index(OperandKind kind)
-            => kind switch
-            {
-                SEG0 => 0,
-                SEG1 => 1,
-                _ => -1,
-            };
-
-        [Op]
-        public static sbyte imm_index(OperandKind kind)
-            => kind switch
-            {
-                IMM0 => 0,
-                IMM1 => 1,
-                _ => -1,
-            };
-
-        [Op]
-        public static sbyte mem_index(OperandKind kind)
-            => kind switch
-            {
-                MEM0 => 0,
-                MEM1 => 1,
-                _ => -1,
-            };
-
         [SymSource(xed)]
         public enum OperandKind : byte
         {

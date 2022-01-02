@@ -39,7 +39,7 @@ namespace Z0
         protected override void OnInit()
         {
             var dst = dict<OperandWidthType, OperandWidth>();
-            iter(Rules.LoadEmittedWidths(), w => dst.TryAdd(w.Code, w));
+            iter(Rules.LoadOperandWidths(), w => dst.TryAdd(w.Code, w));
             OperandWidths = dst;
         }
 
@@ -648,6 +648,5 @@ namespace Z0
             EmittedFile(emitting, count);
             return result;
         }
-
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
 
         IType Type {get;}
 
-        ParamDirection Direction {get;}
+        OpDirection Direction {get;}
 
         Facets Facets {get;}
 
