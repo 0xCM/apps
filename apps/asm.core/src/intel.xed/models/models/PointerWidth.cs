@@ -15,10 +15,15 @@ namespace Z0
         {
             public PointerWidthKind Kind {get;}
 
-            [MethodImpl(Inline)]
-            public PointerWidth(PointerWidthKind kind)
+            public char Spec {get;}
+
+            public text15 Name {get;}
+
+            public PointerWidth(Sym<PointerWidthKind> src)
             {
-                Kind = kind;
+                Kind = src.Kind;
+                Spec = src.Expr.Format()[0];
+                Name = src.Kind.ToString().ToLower();
             }
 
             public NativeSize Size
@@ -27,19 +32,12 @@ namespace Z0
                 get => NativeSize.code(((uint)Kind)*8);
             }
 
-            public char Spec
-                => Symbols.expr(Kind).Format()[0];
-
-            public text15 Name
-                => Kind.ToString().ToLower();
-
             public string Format()
                 => Name.Format();
 
             public override string ToString()
                 => Format();
 
-            [MethodImpl(Inline)]
             public PointerWidthRecord ToRecord(byte seq)
             {
                 var dst = new PointerWidthRecord();
@@ -51,8 +49,8 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public static implicit operator PointerWidth(PointerWidthKind kind)
-                => new PointerWidth(kind);
+            public static implicit operator PointerWidth(Sym<PointerWidthKind> src)
+                => new PointerWidth(src);
 
             public static PointerWidth Empty => default;
         }

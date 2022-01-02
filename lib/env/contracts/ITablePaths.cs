@@ -30,9 +30,9 @@ namespace Z0
             where T : struct
                 => FS.file(string.Format("{0}.{1}", TableId<T>(), suffix), DefaultTableExt);
 
-        FS.FileName TableFile<T>(string scope, string suffix)
+        FS.FileName TableFile<T>(string prefix, string suffix)
             where T : struct
-                => FS.file(string.Format("{0}.{1}.{2}",scope, TableId<T>(), suffix), DefaultTableExt);
+                => FS.file(string.Format("{0}.{1}.{2}",prefix, TableId<T>(), suffix), DefaultTableExt);
 
         FS.FolderName TableFolder(Type t)
             => FS.folder(TableId(t));

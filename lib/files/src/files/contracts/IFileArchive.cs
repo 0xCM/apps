@@ -63,5 +63,9 @@ namespace Z0
         FS.FilePath TablePath<T>(string scope, string suffix)
             where T : struct
                 => Subdir(scope) + TableFile<T>(suffix);
+
+        FS.FilePath TablePath<T>(string scope, string prefix, string suffix)
+            where T : struct
+                => Subdir(scope) + TableFile<T>(prefix,suffix);
     }
 }

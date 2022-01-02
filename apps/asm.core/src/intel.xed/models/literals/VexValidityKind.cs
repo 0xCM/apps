@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using PS = XedModels.VexPrefixSpecs;
+
     partial struct XedModels
     {
         [SymSource(state)]
@@ -19,14 +21,26 @@ namespace Z0
             /// <summary>
             /// VEXVALID=1
             /// </summary>
-            [Symbol("VV1", "VEXVALID=1")]
+            [Symbol(PS.VV1, "VEXVALID=1")]
             VV1 = 1,
 
             /// <summary>
             /// VEXVALID=2
             /// </summary>
-            [Symbol("EVV", "VEXVALID=2")]
+            [Symbol(PS.EVV, "VEXVALID=2")]
             EVV = 2,
+
+            /// <summary>
+            /// VEXVALID=3
+            /// </summary>
+            [Symbol(PS.XOPV, "VEXVALID=3")]
+            XOPV = 3,
+
+            /// <summary>
+            /// VEXVALID=4
+            /// </summary>
+            [Symbol(PS.KVV, "VEXVALID=4, KNC EVEX")]
+            KVV = 4,
         }
     }
 }

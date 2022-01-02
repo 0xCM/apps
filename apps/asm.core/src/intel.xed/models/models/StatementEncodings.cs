@@ -18,6 +18,8 @@ namespace Z0
                 Source =src;
                 Encoded = encoded;
             }
+
+            public static StatementEncodings Empty => new StatementEncodings(FS.FilePath.Empty, sys.empty<AsmStatementEncoding>());
         }
     }
 }

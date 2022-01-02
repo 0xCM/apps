@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Collections.Generic;
 
     using static XedModels;
     using static core;
@@ -15,10 +16,14 @@ namespace Z0
         {
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
-            for(var i=0; i<src.Length; i++)
+            for(var i=0u; i<src.Length; i++)
             {
                 ref readonly var def = ref skip(src,i);
+                if(def.PatternOps.IsEmpty)
+                    continue;
+
                 writer.WriteLine(RP.PageBreak120);
+                writer.WriteLine(string.Format("{0}:{1}", "Seq", i));
                 writer.WriteLine(string.Format("{0}:{1}", nameof(def.Class), def.Class));
                 if(def.Form.IsNonEmpty)
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Form), def.Form));

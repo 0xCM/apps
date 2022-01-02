@@ -138,6 +138,15 @@ namespace Z0
             return src;
         }
 
+        public Index<SymInfo> EmitTokens<E>(string scope, string prefix)
+            where E : unmanaged, Enum
+        {
+            var src = Symbols.syminfo<E>();
+            var dst = ProjectDb.TablePath<SymInfo>(scope, prefix, typeof(E).Name);
+            TableEmit(src.View, SymInfo.RenderWidths, dst);
+            return src;
+        }
+
         public uint EmitTokens(Type src, string scope)
         {
             var name = src.Name;

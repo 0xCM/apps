@@ -101,38 +101,6 @@ namespace Z0.Asm
             }
         }
 
-        public Outcome EmitChipForms(ChipCode code)
-        {
-            var result = LoadChipMap(out var map);
-            if(result.Fail)
-                return result;
-
-            var kinds = map[code].ToHashSet();
-            var matches = list<XedFormImport>();
-            var forms = LoadFormImports();
-            var count = forms.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var form = ref skip(forms,i);
-                if(kinds.Contains(form.IsaKind))
-                    matches.Add(form);
-            }
-
-            var dst = IsaCatalogPath(code);
-            TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, dst);
-            return result;
-        }
-
-        public Outcome EmitChipForms(string chip)
-        {
-            var result = Outcome.Success;
-            var symbols = ChipCodes();
-            if(!symbols.Lookup(chip, out var code))
-                return (false, string.Format("Chip '{0}' not found", chip));
-
-            return EmitChipForms(code);
-        }
-
         public ReadOnlySpan<XedFormImport> LoadFormImports()
         {
             return Data(nameof(LoadFormImports), Load);
@@ -247,9 +215,7 @@ namespace Z0.Asm
                    var dst = new XedFormSource();
                    var outcome = ParseSummary(line, out dst);
                    if(outcome)
-                   {
                         records.Add(dst);
-                   }
                    else
                    {
                         Error(outcome.Message);
@@ -270,60 +236,13 @@ namespace Z0.Asm
 
         public void EmitCatalog()
         {
-            XedTargets.Clear();
+            XedTargets.Clear(true);
             EmitChipMap();
             ImportForms();
             EmitTokens();
             EmitInstructions();
-            EmitChipForms();
+            EmitIsaForms();
             Rules.EmitCatalog();
-        }
-
-        public void EmitTokens()
-        {
-            ApiMetadata.EmitApiTokens(xed, xed);
-            ApiMetadata.EmitApiTokens(state,xed);
-            ApiMetadata.EmitTokens<AttributeKind>(xed);
-            ApiMetadata.EmitTokens<CategoryKind>(xed);
-            ApiMetadata.EmitTokens<ChipCode>(xed);
-            ApiMetadata.EmitTokens<CpuidBit>(xed);
-            ApiMetadata.EmitTokens<DataType>(xed);
-            ApiMetadata.EmitTokens<BaseTypeKind>(xed);
-            ApiMetadata.EmitTokens<EASZ>(xed);
-            ApiMetadata.EmitTokens<EOSZ>(xed);
-            ApiMetadata.EmitTokens<EncodingGroup>(xed);
-            ApiMetadata.EmitTokens<ExtensionKind>(xed);
-            ApiMetadata.EmitTokens<FormFacets>(xed);
-            ApiMetadata.EmitTokens<IClass>(xed);
-            ApiMetadata.EmitTokens<IFormType>(xed);
-            ApiMetadata.EmitTokens<IsaKind>(xed);
-            ApiMetadata.EmitTokens<LookupKind>(xed);
-            ApiMetadata.EmitTokens<NonterminalKind>(xed);
-            ApiMetadata.EmitTokens<OperandKind>(xed);
-            ApiMetadata.EmitTokens<OperandWidthType>(xed);
-            ApiMetadata.EmitTokens<OperandAction>(xed);
-            ApiMetadata.EmitTokens<OpCodeMap>(xed);
-            ApiMetadata.EmitTokens<PointerWidthKind>(xed);
-            ApiMetadata.EmitTokens<RegId>(xed);
-            ApiMetadata.EmitTokens<RegClassCode>(xed);
-        }
-
-        public void EmitChipForms()
-        {
-            EmitChipForms(ChipCode.I186);
-            EmitChipForms(ChipCode.I286);
-            EmitChipForms(ChipCode.I386);
-            EmitChipForms(ChipCode.I486);
-            EmitChipForms(ChipCode.PENTIUM);
-            EmitChipForms(ChipCode.PENTIUM2);
-            EmitChipForms(ChipCode.PENTIUM3);
-            EmitChipForms(ChipCode.PENTIUM4);
-            EmitChipForms(ChipCode.P4PRESCOTT);
-            EmitChipForms(ChipCode.BROADWELL);
-            EmitChipForms(ChipCode.SKYLAKE);
-            EmitChipForms(ChipCode.SKYLAKE_SERVER);
-            EmitChipForms(ChipCode.CASCADE_LAKE);
-            EmitChipForms(ChipCode.SAPPHIRE_RAPIDS);
         }
 
         public Outcome EmitChipMap()
@@ -442,8 +361,8 @@ namespace Z0.Asm
         FS.FilePath ChipSourcePath()
             => XedSources + FS.file("xed-cdata", FS.Txt);
 
-        FS.FilePath IsaCatalogPath(ChipCode chip)
-            => XedTargets + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
+        FS.FilePath IsaFormsPath(ChipCode chip)
+            => XedTargets + FS.folder("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 
         FS.FilePath ChipMapCatalogPath()
             => XedTargets + FS.file("xed.chipmap", FS.Csv);

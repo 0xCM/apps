@@ -32,7 +32,15 @@ namespace Z0
             public Index<PatternOperands> PatternOps;
 
             public int CompareTo(InstDef src)
-                => ((ushort)Class).CompareTo((ushort)src.Class);
+            {
+                var result = ((ushort)Class).CompareTo((ushort)src.Class);
+                if(result == 0)
+                {
+                    if(PatternOps.IsNonEmpty && src.PatternOps.IsNonEmpty)
+                        result = PatternOps.First.Pattern.CompareTo(src.PatternOps.First.Pattern);
+                }
+                return result;
+            }
         }
     }
 }

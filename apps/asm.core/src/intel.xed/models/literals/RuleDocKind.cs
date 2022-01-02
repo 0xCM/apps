@@ -29,6 +29,8 @@ namespace Z0
 
             [Symbol("all-pointer-names")]
             PointerWidths,
+
+            Patterns,
         }
     }
 }

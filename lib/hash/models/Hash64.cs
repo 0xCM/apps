@@ -25,7 +25,7 @@ namespace Z0
         }
 
         public string Format()
-            => Primitive.ToString("X");
+            => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
 
         public override string ToString()
             => Format();

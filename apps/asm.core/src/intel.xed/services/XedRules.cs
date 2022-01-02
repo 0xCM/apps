@@ -36,6 +36,7 @@ namespace Z0
 
         Index<PointerWidth> PointerWidths;
 
+        Symbols<PointerWidthKind> PointerWidthSymbols;
         public XedRules()
         {
             Classes = Symbols.index<IClass>();
@@ -46,14 +47,16 @@ namespace Z0
             OpWidthTypes = Symbols.index<OperandWidthType>();
             DataTypes = Symbols.index<DataType>();
             OpKinds = Symbols.index<RuleOpKind>();
-            PointerWidths = map(slice(Symbols.index<PointerWidthKind>().Kinds,1), k => (PointerWidth)k);
+            PointerWidthSymbols = Symbols.index<PointerWidthKind>();
+            PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
         }
 
         public void EmitCatalog()
         {
-            EmitEncInstDefs();
-            EmitDecInstDefs();
+            var enc = EmitEncInstDefs();
+            var dec = EmitDecInstDefs();
+            EmitRulePatterns(enc,dec);
             EmitEncRuleTables();
             EmitDecRuleTables();
             EmitEncDecRuleTables();
@@ -71,7 +74,7 @@ namespace Z0
 
         public Index<PointerWidthRecord> EmitPointerWidths()
         {
-            var src = mapi(PointerWidths, (i,w) => w.ToRecord((byte)i));
+            var src = mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i));
             var dst = RuleTarget(RuleDocKind.PointerWidths);
             TableEmit(src.View, PointerWidthRecord.RenderWidths, dst);
             return src;
@@ -91,6 +94,33 @@ namespace Z0
 
         public Index<RuleTable> ParseEncDecRuleTables()
             => ParseRuleTables(RuleSource(RuleDocKind.EncDecRuleTable));
+
+        Index<RulePattern> EmitRulePatterns(Index<InstDef> x, Index<InstDef> y)
+        {
+            var enc = x.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
+            var dec = y.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
+            var count = Require.equal(enc.Count, dec.Count);
+            var buffer = alloc<RulePattern>(count);
+            var hashes = hashset<Hash32>();
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var a = ref enc[i];
+                ref readonly var b = ref dec[i];
+                ref var dst = ref seek(buffer,i);
+                dst.Seq = i;
+                dst.Content = Require.equal(a,b);
+                dst.Hash = alg.hash.calc(dst.Content.Text);
+                hashes.Add(dst.Hash);
+            }
+
+            var path = RuleTarget(RuleDocKind.Patterns);
+            TableEmit(@readonly(buffer), RulePattern.RenderWidths, path);
+            if(hashes.Count != count)
+                Warn(string.Format("Hash imperfect: <{0}>", path.ToUri()));
+            else
+                Status(string.Format("Hash perfect: <{0}>", path.ToUri()));
+            return buffer;
+        }
 
         public Index<InstDef> EmitEncInstDefs()
         {
@@ -226,6 +256,7 @@ namespace Z0
                  RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
                  RuleDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
                  RuleDocKind.PointerWidths => Tables.filename<PointerWidthRecord>(),
+                 RuleDocKind.Patterns => Tables.filename<RulePattern>(),
                  _ => FS.FileName.Empty
             });
 

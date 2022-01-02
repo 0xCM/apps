@@ -26,7 +26,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => Value.ToString("X");
+            => Value.FormatHex(zpad:true, specifier:true, uppercase:true);
 
         public override string ToString()
             => Format();

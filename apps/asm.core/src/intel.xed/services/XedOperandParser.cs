@@ -627,13 +627,9 @@ namespace Z0
             }
 
             if(result.Fail)
-            {
                 _Failures[kind] = value;
-            }
             else
-            {
                 _ParsedKinds.Add(kind);
-            }
         }
 
         Outcome Parse(string src, out Register dst)

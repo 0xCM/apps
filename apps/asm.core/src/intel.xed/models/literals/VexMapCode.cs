@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using PS = XedModels.VexPrefixSpecs;
+
     partial struct XedModels
     {
         /// <summary>
@@ -47,19 +49,19 @@ namespace Z0
             /// <summary>
             /// VL256 VEX_PREFIX=1  ->	emit 0b101
             /// </summary>
-            [Symbol("VL0 + V0F")]
+            [Symbol("VL1 + V0F")]
             VL1_V0F = 0b101,
 
             /// <summary>
             /// VL256 VEX_PREFIX=2  ->	emit 0b111
             /// </summary>
-            [Symbol("VL0 + V0F38")]
+            [Symbol("VL1 + V0F38")]
             VL1_V0F38 = 0b111,
 
             /// <summary>
             /// VL256 VEX_PREFIX=3  ->	emit 0b110
             /// </summary>
-            [Symbol("VL0 + V0F3A")]
+            [Symbol("VL1 + V0F3A")]
             VL1_V0F3A = 0b110,
         }
     }

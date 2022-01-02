@@ -11,10 +11,11 @@ namespace Z0
     partial class XedCmdProvider
     {
         [CmdOp("xed/emit/rules")]
-        protected Outcome EmitXedRules(CmdArgs args)
+        Outcome EmitXedRules(CmdArgs args)
         {
             Xed.Rules.EmitCatalog();
             return true;
         }
+
     }
 }

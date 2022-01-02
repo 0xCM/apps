@@ -32,6 +32,5 @@ namespace Z0
         public static XedQueryResult Empty => default;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{16,16,48,16,16,1};
-
     }
 }
