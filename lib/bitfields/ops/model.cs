@@ -10,8 +10,12 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct BitfieldSpecs
+    partial struct Bitfields
     {
+        [MethodImpl(Inline), Op]
+        public static BitfieldModel model(text31 name, Index<BitfieldSegModel> segs)
+            => new BitfieldModel(name, segs, Bitfields.totalwidth(segs));
+
         /// <summary>
         /// Defines a bitfield specification that represents a bitvector
         /// </summary>
@@ -25,10 +29,10 @@ namespace Z0
             for(var i=0u; i<count; i++)
             {
                 ref readonly var item = ref skip(src,i);
-                seek(segs,i) = segment(item.Value.Format(), i, i, 1);
+                seek(segs,i) = segmodel(item.Value.Format(), i, i, i);
             }
 
-            return bitfield(name, segs);
+            return model(name, segs);
         }
     }
 }

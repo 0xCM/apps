@@ -89,45 +89,111 @@ namespace Z0
             EmitTokenSet(Tokens.set(tag, selected.Array()), scope);
         }
 
-        public void EmitApiTokens()
+        public ConstLookup<string,Index<SymInfo>> CollectApiTokens()
         {
-            var components = ApiCatalog.Components.Storage;
-            var types = components.Enums().Tagged<SymSourceAttribute>();
-            var groups = dict<string,List<Type>>();
-            var individuals = list<Type>();
-            foreach(var type in types)
+            return Data(nameof(CollectApiTokens), Load);
+
+            ConstLookup<string,Index<SymInfo>> Load()
             {
-                var tag = type.Tag<SymSourceAttribute>().Require();
-                var kind = tag.SymKind;
-                var @base = tag.NumericBase;
-                if(nonempty(kind))
+                var dst = dict<string,Index<SymInfo>>();
+                var components = ApiCatalog.Components.Storage;
+                var types = components.Enums().Tagged<SymSourceAttribute>();
+                var groups = dict<string,List<Type>>();
+                var individuals = list<Type>();
+                foreach(var type in types)
                 {
-                    if(groups.TryGetValue(kind, out var list))
+                    var tag = type.Tag<SymSourceAttribute>().Require();
+                    var kind = tag.SymKind;
+                    var @base = tag.NumericBase;
+                    if(nonempty(kind))
                     {
-                        list.Add(type);
+                        if(groups.TryGetValue(kind, out var list))
+                        {
+                            list.Add(type);
+                        }
+                        else
+                        {
+                            list = new();
+                            list.Add(type);
+                            groups[kind] = list;
+                        }
                     }
                     else
                     {
-                        list = new();
-                        list.Add(type);
-                        groups[kind] = list;
+                        individuals.Add(type);
                     }
                 }
-                else
-                {
-                    individuals.Add(type);
-                }
+
+                foreach(var g in groups.Keys)
+                    dst[g] = Symbols.syminfo(groups[g].ViewDeposited());
+
+                foreach(var i in individuals)
+                    dst[i.Name] = Symbols.syminfo(i);
+
+                return dst;
+            }
+        }
+
+        public FS.FilePath EmitApiTokens(string name, ReadOnlySpan<SymInfo> src)
+        {
+            var dst = ProjectDb.TablePath<SymInfo>("api/tokens", name);
+            TableEmit(src, SymInfo.RenderWidths, dst);
+            return dst;
+        }
+
+        public ConstLookup<string,Index<SymInfo>> EmitApiTokens()
+        {
+            var tokens = CollectApiTokens();
+            var names = tokens.Keys;
+            var count = names.Length;
+            for(var i=0; i<count; i++)
+            {
+                var name = skip(names,i);
+                EmitApiTokens(name,tokens[name]);
             }
 
-            var scope = "api/tokens";
-            ProjectDb.Subdir(scope).Clear();
-
-            foreach(var g in groups.Keys)
-                EmitTokenSet(Tokens.set(g, groups[g].Array()), scope);
-
-            foreach(var i in individuals)
-                EmitTokens(i,scope);
+            return tokens;
         }
+
+        // public void EmitApiTokens()
+        // {
+        //     var components = ApiCatalog.Components.Storage;
+        //     var types = components.Enums().Tagged<SymSourceAttribute>();
+        //     var groups = dict<string,List<Type>>();
+        //     var individuals = list<Type>();
+        //     foreach(var type in types)
+        //     {
+        //         var tag = type.Tag<SymSourceAttribute>().Require();
+        //         var kind = tag.SymKind;
+        //         var @base = tag.NumericBase;
+        //         if(nonempty(kind))
+        //         {
+        //             if(groups.TryGetValue(kind, out var list))
+        //             {
+        //                 list.Add(type);
+        //             }
+        //             else
+        //             {
+        //                 list = new();
+        //                 list.Add(type);
+        //                 groups[kind] = list;
+        //             }
+        //         }
+        //         else
+        //         {
+        //             individuals.Add(type);
+        //         }
+        //     }
+
+        //     var scope = "api/tokens";
+        //     ProjectDb.Subdir(scope).Clear();
+
+        //     foreach(var g in groups.Keys)
+        //         EmitTokenSet(Tokens.set(g, groups[g].Array()), scope);
+
+        //     foreach(var i in individuals)
+        //         EmitTokens(i,scope);
+        // }
 
         public Index<SymInfo> EmitTokens<E>(string scope)
             where E : unmanaged, Enum
@@ -160,6 +226,7 @@ namespace Z0
             var dst = ProjectDb.TablePath<SymInfo>(scope, name);
             return TableEmit(Symbols.syminfo(src).View, SymInfo.RenderWidths, dst);
         }
+
 
         public uint EmitTokenSet(ITokenSet src, string scope)
             => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, ProjectDb.TablePath<SymInfo>(scope, src.Name));

@@ -17,6 +17,8 @@ namespace Z0.Asm
     /// <remarks>
     /// Documentation taken from vol 4 of ADM reference manuals, p. 6
     /// </remarks>
+    [DataType("asm.vsib")]
+
     public readonly struct Vsib
     {
         readonly byte Data;

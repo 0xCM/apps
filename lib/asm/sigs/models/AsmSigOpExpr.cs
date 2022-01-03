@@ -13,6 +13,7 @@ namespace Z0.Asm
     /// <summary>
     /// Represents an operand in the context of an instruction signature
     /// </summary>
+    [DataType("asm.sigop.expr")]
     public readonly struct AsmSigOpExpr
     {
         readonly string Content;

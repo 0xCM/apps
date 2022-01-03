@@ -45,7 +45,7 @@ namespace Z0
 
         EnumParser<OperandKind> OperandKinds {get;}
 
-        EnumParser<OperandVisibility> Visibilities {get;}
+        EnumParser<VisibilityKind> Visibilities {get;}
 
         EnumParser<OperandAction> Actions {get;}
 

@@ -7,9 +7,10 @@ namespace Z0
     /// <summary>
     /// Captures state machine execution metrics
     /// </summary>
-    [Record]
+    [Record(TableId)]
     public struct FsmStats : IRecord<FsmStats>
     {
+        public const string TableId = "fsm.stats";
         /// <summary>
         /// Identifies the machine within the executing process
         /// </summary>

@@ -4,39 +4,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using static core;
 
     partial class ApiCmdProvider
     {
-        const string EmitApiTables = "api/emit/tables";
+        static uint FieldCount(ReadOnlySpan<TableDef> src)
+        {
+            var counter = 0u;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var table = ref skip(src,i);
+                counter += (uint)table.Fields.Length;
+            }
+            return counter;
+        }
 
-        [CmdOp(EmitApiTables)]
+        [CmdOp("api/emit/tables")]
         Outcome EmitTableReport(CmdArgs args)
         {
             var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
-            EmitTableReport(dst);
-            return true;
-        }
-
-        void EmitTableReport(FS.FilePath dst)
-        {
-            using var writer = dst.Writer();
-            var emitting = EmittingFile(dst);
-            var tables = Tables.reflected(ApiRuntimeCatalog.Components);
-            var count = tables.Length;
-            for(var i=0; i<count; i++)
+            var tables = ApiRuntimeCatalog.TableDefs;
+            var kTables = tables.Length;
+            var kFields = FieldCount(tables);
+            var buffer = alloc<TableDefRecord>(kFields);
+            var k=0u;
+            for(var i=0; i<kTables; i++)
             {
-                var table = skip(tables,i);
-                var fields = @readonly(table.Fields);
+                ref readonly var table = ref skip(tables,i);
+                var fields = table.Fields;
                 for(var j=0; j<fields.Length; j++)
                 {
                     ref readonly var field = ref skip(fields,j);
-                    var spec = field.DataType.Spec();
-                    writer.WriteLine(string.Format("{0,-24} | {1,-48} | {2,-8} | {3,-42} | {4}", table.Type.DisplayName(), table.Id.Identifier, field.FieldIndex, field.FieldName, spec));
+                    ref var record = ref seek(buffer,k);
+                    record.Seq = k;
+                    record.TableId = table.TableId;
+                    record.TableType = table.TypeName;
+                    record.FieldIndex = field.FieldIndex;
+                    record.FieldType = field.DataType;
+                    record.FieldName = field.FieldName;
+                    k++;
                 }
             }
 
-            EmittedFile(emitting, count);
+            TableEmit(@readonly(buffer), TableDefRecord.RenderWidths, dst);
+            return true;
         }
     }
 }

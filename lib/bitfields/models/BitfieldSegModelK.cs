@@ -10,47 +10,56 @@ namespace Z0
 
     using static Root;
 
-    using api = BitfieldSpecs;
+    using api = Bitfields;
 
-    /// <summary>
-    /// Defines an identified, contiguous bitsequence, represented symbolically as {Identifier}:[Min,Max]
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
-    public struct BitfieldSegModel
+    [StructLayout(LayoutKind.Sequential)]
+    public readonly struct BitfieldSegModel<K>
+        where K : unmanaged
     {
-        public const string TableId = "bitfields.models.segments";
-
         /// <summary>
         /// The segment name
         /// </summary>
-        public text31 Name;
+        public readonly Identifier SegName;
 
         /// <summary>
         /// The 0-based position of the segment within the field
         /// </summary>
-        public uint Index;
+        public readonly uint SegPos;
+
+        /// <summary>
+        /// The segment position within the field
+        /// </summary>
+        public readonly K SegId;
 
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public uint Offset;
+        public readonly uint MinIndex;
+
+        /// <summary>
+        /// The index of the last bit in the segment
+        /// </summary>
+        public readonly uint MaxIndex;
 
         /// <summary>
         /// The segment width
         /// </summary>
-        public uint Width;
+        public readonly uint SegWidth;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(text31 name, uint pos,  uint offset, uint width)
+        public BitfieldSegModel(K id, uint pos, uint min, uint max)
         {
-            Name = name;
-            Index = pos;
-            Offset = offset;
-            Width = width;
+            SegPos = pos;
+            SegName = id.ToString();
+            SegId = id;
+            MinIndex = min;
+            MaxIndex = max;
+            SegWidth = max - min + 1;
         }
 
         public string Format()
             => api.format(this);
+
 
         public override string ToString()
             => Format();

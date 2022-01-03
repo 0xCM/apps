@@ -16,12 +16,12 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bit source</param>
         [MethodImpl(Inline), Op]
-        public static int pop(in BitSpan src)
+        public static uint pop(in BitSpan src)
         {
-            var enabled = 0;
+            var enabled = 0u;
             var count = src.Length;
             for(var i=0; i< count; i++)
-                enabled += (int)src[i];
+                enabled += (uint)src[i];
             return enabled;
         }
     }

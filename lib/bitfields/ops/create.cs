@@ -59,7 +59,7 @@ namespace Z0
             where T : unmanaged
             where K : unmanaged
         {
-            var w = BitfieldSpecs.width(@readonly(segs));
+            var w = totalwidth(@readonly(segs));
             var m = new BitfieldModel<K>(name, segs, w);
             return new Bitfield<T,K>(m,state);
         }

@@ -6,32 +6,31 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using static Root;
 
     public class TableDb
     {
-        ConstLookup<TableId,TableSchema> _Schemas;
+        ConstLookup<TableId,TableDef> _Defs;
 
-        public TableDb(TableSchema[] schemas)
+        public TableDb(TableDef[] schemas)
         {
-            _Schemas = schemas.Map(s => (s.TableId, s)).ToConstLookup();
+            _Defs = schemas.Map(s => (s.TableId, s)).ToConstLookup();
         }
 
-        public bool Schema(TableId table, out TableSchema schema)
-            => _Schemas.Find(table, out schema);
+        public bool Schema(TableId table, out TableDef schema)
+            => _Defs.Find(table, out schema);
 
-        public ReadOnlySpan<TableSchema> TableSchemas
+        public ReadOnlySpan<TableDef> TableDefs
         {
             [MethodImpl(Inline)]
-            get => _Schemas.Values;
+            get => _Defs.Values;
         }
 
         public ReadOnlySpan<TableId> TableNames
         {
             [MethodImpl(Inline)]
-            get => _Schemas.Keys;
+            get => _Defs.Keys;
         }
     }
 }

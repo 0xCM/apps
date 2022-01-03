@@ -9,6 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
+    [DataType("asm.ptr.near")]
     public readonly struct NearPtr
     {
         public MemoryAddress Address {get;}

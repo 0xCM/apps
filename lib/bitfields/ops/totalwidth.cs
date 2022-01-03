@@ -6,38 +6,39 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.Intrinsics;
 
     using static Root;
     using static core;
 
-    partial struct BitfieldSpecs
+    partial struct Bitfields
     {
         /// <summary>
         /// Computes the aggregate width of the segments that comprise the bitfield
         /// </summary>
         /// <param name="src">The bitfield spec</param>
         [MethodImpl(Inline), Op]
-        public static uint width(in BitfieldModel src)
-            => width(src.Segments);
+        public static uint totalwidth(in BitfieldModel src)
+            => totalwidth(src.Segments);
 
         [MethodImpl(Inline), Op]
-        public static uint width(ReadOnlySpan<BitfieldSegModel> src)
+        public static uint totalwidth(ReadOnlySpan<BitfieldSegModel> src)
         {
             var count = src.Length;
             var w = 0u;
             for(var i=0; i<count; i++)
-                w += skip(src,i).Width;
+                w += skip(src,i).SegWidth;
             return w;
         }
 
         [MethodImpl(Inline), Op]
-        public static uint width<K>(ReadOnlySpan<BitfieldSegModel<K>> src)
+        public static uint totalwidth<K>(ReadOnlySpan<BitfieldSegModel<K>> src)
             where K : unmanaged
         {
             var count = src.Length;
             var w = 0u;
             for(var i=0; i<count; i++)
-                w += skip(src,i).Width;
+                w += skip(src,i).SegWidth;
             return w;
         }
 
@@ -46,14 +47,14 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bitfield spec</param>
         [MethodImpl(Inline), Op]
-        public static uint width<T>(in BitfieldModel<T> src)
+        public static uint totalwidth<T>(in BitfieldModel<T> src)
             where T : unmanaged
         {
             var total = 0u;
             var count = src.SegCount;
             var segments = src.Segments;
             for(byte i=0; i<count; i++)
-                total += skip(segments, i).Width;
+                total += skip(segments, i).SegWidth;
             return total;
         }
     }

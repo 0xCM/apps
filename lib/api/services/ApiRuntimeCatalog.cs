@@ -50,6 +50,10 @@ namespace Z0
 
         Index<ApiDataType> _DataTypes;
 
+        Index<TableDef> _TableDefs;
+
+        object locker;
+
         public ApiRuntimeCatalog(Index<IPart> parts, Index<Assembly> components, ApiPartCatalogs catalogs, Index<IApiHost> hosts, Index<PartId> partIds, Index<MethodInfo> ops)
         {
             _Parts = parts;
@@ -61,6 +65,23 @@ namespace Z0
             _ComponentNames = components.Select(x => x.GetName().Name);
             _DataTypes = ApiQuery.datatypes(components);
             _DataFlows = ApiQuery.dataflows(components);
+            _TableDefs = sys.empty<TableDef>();
+            locker = new();
+        }
+
+        public ReadOnlySpan<TableDef> TableDefs
+        {
+            get
+            {
+                lock(locker)
+                {
+                    if(_TableDefs.IsEmpty)
+                    {
+                        _TableDefs = Tables.definitions(Components);;
+                    }
+                }
+                return _TableDefs;
+            }
         }
 
         public Index<IApiHost> FindHosts(ReadOnlySpan<ApiHostUri> src)

@@ -20,6 +20,10 @@ namespace Z0
         public static BitSpan ToBitSpan(this Span<bit> src)
             => BitSpans.load(src);
 
+        [MethodImpl(Inline), Op]
+        public static BitSpan ToBitSpan(this ReadOnlySpan<bit> src)
+            => BitSpans.create(src);
+
         /// <summary>
         /// Loads a bitspan from a packed span of scalars
         /// </summary>

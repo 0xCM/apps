@@ -41,6 +41,26 @@ namespace Z0
             return result;
         }
 
+        static AsmPrefixClass PrefixClasses(in OperandState state, in AsmHexCode code)
+        {
+            var ocpos = state.pos_nominal_opcode;
+            var prefixbytes = default(Span<byte>);
+            if(ocpos != 0)
+                prefixbytes = slice(code.Bytes,0,ocpos);
+
+            if(prefixbytes.Length == 0)
+                return AsmPrefixClass.None;
+
+            else if(state.rex)
+                return AsmPrefixClass.REX;
+            else if(state.vexvalid == VexValidityKind.VV1)
+                return AsmPrefixClass.VEX;
+            else if(state.vexvalid == VexValidityKind.EVV)
+                return AsmPrefixClass.EVEX;
+            else
+                return AsmPrefixClass.Legacy;
+        }
+
         Outcome EmitDisasmDetails(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<XedDisasm.Block> blocks, FS.FilePath dst)
         {
             const string RenderPattern = "{0,-22}: {1}";
@@ -76,10 +96,11 @@ namespace Z0
                 writer.WriteLine(RP.PageBreak120);
                 writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
                 writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, codebs)));
-                writer.WriteLine(string.Format(RenderPattern, "Class", inst.Class));
-                writer.WriteLine(string.Format(RenderPattern, "Form", inst.Form));
+                writer.WriteLine(string.Format(RenderPattern, "IClass", inst.Class));
+                writer.WriteLine(string.Format(RenderPattern, "IForm", inst.Form));
 
                 var prefixbytes = default(Span<byte>);
+                var prefixkinds = AsmPrefixKind.None;
                 var oc = state.nominal_opcode;
                 var ocpos = state.pos_nominal_opcode;
                 offsets.OpCode =(sbyte)(state.pos_nominal_opcode);
@@ -88,6 +109,27 @@ namespace Z0
                 var ocsrm = (uint3)math.and((byte)srm, oc);
                 var ocbits = (eight)(byte)oc;
                 Require.equal(srm,ocsrm);
+
+                var pfxclass = PrefixClasses(state,code);
+
+                var mapname = EmptyString;
+
+                switch(pfxclass)
+                {
+                    case AsmPrefixClass.None:
+                    case AsmPrefixClass.Legacy:
+                    case AsmPrefixClass.REX:
+                        mapname = ((LegacyMapKind)state.map).ToString();
+                    break;
+
+                    case AsmPrefixClass.VEX:
+                        mapname = ((VexMapKind)state.map).ToString();
+                    break;
+
+                    case AsmPrefixClass.EVEX:
+                        mapname = ((EvexMapKind)state.map).ToString();
+                    break;
+                }
 
                 if(oc != code[ocpos])
                     return (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", oc, state.modrm_byte));
@@ -99,6 +141,8 @@ namespace Z0
 
                 if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
                     continue;
+
+                writer.WriteLine(string.Format(RenderPattern, "OpCodeMap", mapname));
 
                 var maxopcount = 5u;
                 var opcount = block.OperandCount;
@@ -116,32 +160,41 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, title, content));
                 }
 
-
                 if(ocpos != 0)
                 {
                     prefixbytes = slice(code.Bytes,0,ocpos);
                     writer.WriteLine(string.Format(RenderPattern, "PrefixBytes", prefixbytes.FormatHex()));
                 }
 
+                // if(prefixbytes.Length > 0)
+                // {
+                //     prefixkinds = AsmPrefixCalcs.kinds(prefixbytes);
+                //     writer.WriteLine(string.Format(RenderPattern, "PrefixKinds", prefixkinds.ToString()));
+                // }
+
                 if(rex(state, out var rexprefix))
-                    writer.WriteLine(string.Format(RenderPattern, "RexPrefix", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "REX", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
 
                 if(state.vexvalid == VexValidityKind.VV1)
                 {
-                    var mkind = (VexMapKind)(state.map);
-                    var mname = VexMapKinds[mkind].Expr;
                     var vexcode = VexPrefix.code(prefixbytes);
                     var vexsize = VexPrefix.size(vexcode.Value);
                     var vexbytes = slice(prefixbytes, vexcode.Offset, vexsize);
                     Require.equal(vexbytes.Length, vexsize);
 
-                    writer.WriteLine(string.Format(RenderPattern, "VEX", string.Format("{0} {1} {2} {3}", vexcode.Value, state.vex_prefix, state.vl, mname)));
+                    writer.WriteLine(string.Format(RenderPattern, "VEX", string.Format("{0} {1} {2}", vexcode.Value, state.vex_prefix, state.vl)));
                     writer.WriteLine(string.Format(RenderPattern, "VEXBytes", vexbytes.FormatHex()));
 
                     if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
                     {
                         var vex = VexPrefixC4.init(skip(vexbytes,1),skip(vexbytes,2));
                         writer.WriteLine(string.Format(RenderPattern, "VEXBitPattern", VexPrefixC4.BitPattern));
+                        writer.WriteLine(string.Format(RenderPattern, "VEXBits", vex.ToBitstring()));
+                    }
+                    else if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C5)
+                    {
+                        var vex = VexPrefixC5.init(skip(vexbytes,1));
+                        writer.WriteLine(string.Format(RenderPattern, "VEXBitPattern", VexPrefixC5.BitPattern));
                         writer.WriteLine(string.Format(RenderPattern, "VEXBits", vex.ToBitstring()));
                     }
 
@@ -246,26 +299,6 @@ namespace Z0
                     writer.WriteLine(RenderPattern, "EOSZ", eoszW);
 
 
-                if(state.vexvalid != 0)
-                {
-                    if(state.vexvalid == VexValidityKind.EVV)
-                    {
-                        var mkind = (EvexMapKind)(state.map);
-                        writer.WriteLine(string.Format(RenderPattern, "Map", string.Format(Cols2Pattern, "EVEX", mkind)));
-                    }
-                    else
-                    {
-                        var mkind = (VexMapKind)(state.map);
-                        var mname = VexMapKinds[mkind].Expr;
-                        writer.WriteLine(string.Format(RenderPattern, "Map", string.Format(Cols2Pattern, "VEX", mname)));
-                    }
-                }
-                else
-                {
-                    var mkind = (LegacyMapKind)(state.map);
-                    writer.WriteLine(string.Format(RenderPattern, "Map", string.Format(Cols2Pattern, "LEGACY", mkind)));
-                }
-
                 if(state.nelem != 0)
                     writer.WriteLine(string.Format(RenderPattern, "Segments", string.Format("{0}x{1}", state.nelem, state.element_size)));
 
@@ -323,6 +356,7 @@ namespace Z0
                         case K.NELEM:
                         case K.ELEMENT_SIZE:
                         case K.SRM:
+                        case K.OUTREG:
                         break;
                         default:
                             if(parsed.Contains(kind))

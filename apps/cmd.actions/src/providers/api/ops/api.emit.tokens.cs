@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/tokens")]
         protected Outcome EmitApiTokens(CmdArgs args)
         {
-            ApiMetadata.EmitApiTokens();
+            var tokens = ApiMetadata.EmitApiTokens();
             return true;
         }
     }

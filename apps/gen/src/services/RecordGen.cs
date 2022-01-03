@@ -11,7 +11,7 @@ namespace Z0
 
     public class RecordGen : AppService<RecordGen>
     {
-        public void Emit(uint margin, TableSchema spec, ITextBuffer dst)
+        public void Emit(uint margin, TableDef spec, ITextBuffer dst)
         {
             dst.IndentLine(margin, "[Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]");
             dst.IndentLineFormat(margin, "public struct {0}", spec.TypeName);

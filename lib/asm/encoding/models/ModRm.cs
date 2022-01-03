@@ -12,7 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// ModRM[mod[7:6] | reg[5:3] | r/m[2:0]]
     /// </summary>
-    [ApiComplete]
+    [ApiComplete, DataType("asm.modrm")]
     public struct ModRm : IAsmByte<ModRm>
     {
         public static ModRm init(byte src = 0)

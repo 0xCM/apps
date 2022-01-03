@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static core;
-    using static BitfieldSpecs;
 
     public class BitfieldChecks : Checker<BitfieldChecks>
     {
@@ -26,11 +25,11 @@ namespace Z0
 
         public void CheckBitfield()
         {
-            var segs = segments(
-                segment(0, BF_A.Seg0, 0, 2),
-                segment(1, BF_A.Seg1, 2, 2),
-                segment(2, BF_A.Seg2, 4, 2),
-                segment(3,BF_A.Seg3, 6, 2)
+            var segs = array(
+                Bitfields.segmodel(0, BF_A.Seg0, 0, 1),
+                Bitfields.segmodel(1, BF_A.Seg1, 2, 2),
+                Bitfields.segmodel(2, BF_A.Seg2, 3, 5),
+                Bitfields.segmodel(3, BF_A.Seg3, 6, 8)
                 );
 
             var s0 = (byte)0b01_11_10_11;
@@ -45,7 +44,7 @@ namespace Z0
                 var state = field.Read(i);
                 var j=0u;
 
-                var bitstring = BitRender.gformat(state, (byte)seg.Width);
+                var bitstring = BitRender.gformat(state, (byte)seg.SegWidth);
                 buffer.Append(string.Format("{0}={1}",seg.Format(), bitstring));
                 if(i !=count -1)
                     buffer.Append(" | ");

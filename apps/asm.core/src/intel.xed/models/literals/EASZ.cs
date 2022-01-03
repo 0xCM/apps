@@ -14,16 +14,16 @@ namespace Z0
         public enum EASZ : sbyte
         {
             [Symbol("eamode16", "MODE=0")]
-            EaMode16 = 1,
+            EASZ16 = 0,
 
             [Symbol("eamode32", "MODE=1")]
-            EaMode32 = 2,
+            EASZ32 = 1,
 
             [Symbol("eamode64", "MODE=2")]
-            EaMode64 = 3,
+            EASZ64 = 2,
 
             [Symbol("eanot16", "MODE!=2")]
-            Not16,
+            EASZNot16 = 3,
         }
     }
 }

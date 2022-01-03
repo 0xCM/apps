@@ -14,7 +14,7 @@ namespace Z0
     {
         public string TableId {get;}
 
-        public RecordAttribute(string name = "")
+        public RecordAttribute(string name)
         {
             TableId = name;
         }

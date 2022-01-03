@@ -10,6 +10,7 @@ namespace Z0.Asm
 
     using static Root;
 
+    [DataType("asm.varcode",15*8, 16*8)]
     public readonly struct AsmVariationCode : IEquatable<AsmVariationCode>, IComparable<AsmVariationCode>
     {
         public readonly text15 Name;

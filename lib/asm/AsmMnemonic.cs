@@ -9,6 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
+    [DataType("asm.mnemonic",31*8,32*8)]
     public readonly struct AsmMnemonic
     {
         public text31 Name {get;}

@@ -14,9 +14,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool Equals(this BitSpan a, BitSpan b)
             => BitSpans.same(a,b);
-
-        [MethodImpl(Inline)]
-        public static int Pop(this BitSpan src)
-            => BitSpans.pop(src);
     }
 }

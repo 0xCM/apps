@@ -13,8 +13,6 @@ namespace Z0
         [SymSource(xed)]
         public enum OpCodeMap : byte
         {
-            INVALID = 0,
-
             [Symbol("AMD_3DNOW")]
             AMD_3DNOW = 1,
 
@@ -48,14 +46,17 @@ namespace Z0
             [Symbol("LEGACY_MAP3")]
             LEGACY_MAP3 = 11,
 
-            [Symbol("VEX_MAP1")]
-            VEX_MAP1 = 12,
+            [Symbol("MAP=0")]
+            MAP_VMAP0 = 0,
+
+            [Symbol("MAP=1")]
+            MAP_V0F = 12,
 
             [Symbol("VEX_MAP2")]
-            VEX_MAP2 = 13,
+            MAP_V0F38 = 13,
 
             [Symbol("VEX_MAP3")]
-            VEX_MAP3 = 14,
+            MAP_V0F3A = 14,
         }
     }
 }

@@ -40,6 +40,8 @@ namespace Z0
 
         ReadOnlySpan<MethodInfo> Methods {get;}
 
+        ReadOnlySpan<TableDef> TableDefs {get;}
+
         bool FindPart(PartId id, out IPart dst);
 
         bool FindComponent(PartId id, out Assembly dst);

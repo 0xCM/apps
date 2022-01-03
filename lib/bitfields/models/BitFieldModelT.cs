@@ -50,11 +50,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint Width(int index)
-            => Seg(index).Width;
+            => Seg(index).SegWidth;
 
         [MethodImpl(Inline)]
         public uint Position(int index)
-            => bw32(Seg(index).Offset);
+            => bw32(Seg(index).MinIndex);
 
         [MethodImpl(Inline)]
         public ref BitfieldSegModel<T> Seg(int index)

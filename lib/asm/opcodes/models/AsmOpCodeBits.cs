@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    [ApiComplete]
+    [ApiComplete,DataType("asm.opcode.bits")]
     public struct AsmOpCodeBits
     {
         const ulong CountSegClear = 0xFF_FF_FF_FF_FF_00_FF_FF;

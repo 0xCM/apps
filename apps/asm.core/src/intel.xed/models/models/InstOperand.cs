@@ -21,7 +21,7 @@ namespace Z0
 
             public OperandAction Action;
 
-            public OperandVisibility Visiblity;
+            public VisibilityKind Visiblity;
 
             public OperandWidthType WidthType;
 

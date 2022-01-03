@@ -9,6 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
+    [DataType("asm.callsite")]
     public readonly struct AsmCallSite
     {
         public AsmCaller Caller {get;}

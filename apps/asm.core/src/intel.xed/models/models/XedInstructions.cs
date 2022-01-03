@@ -71,7 +71,7 @@ namespace Z0
 
             public OperandKind Kind;
 
-            public OperandVisibility Visibility;
+            public VisibilityKind Visibility;
 
             public OperandAction Action;
 

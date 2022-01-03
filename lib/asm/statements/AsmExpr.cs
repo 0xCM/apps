@@ -9,6 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
+    [DataType("asm.expr")]
     public readonly struct AsmExpr : IEquatable<AsmExpr>, IComparable<AsmExpr>
     {
         [MethodImpl(Inline), Op]

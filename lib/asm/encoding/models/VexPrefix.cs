@@ -94,7 +94,6 @@ namespace Z0.Asm
                 _ => 0
             };
 
-
         uint Data;
 
         [MethodImpl(Inline)]

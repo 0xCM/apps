@@ -28,25 +28,13 @@ namespace Z0
                 var name = inpath.FileName.WithoutExtension.Format();
                 var outpath = dst + inpath.FileName.ChangeExtension(FileKind.Bv.Ext());
                 var emitting = EmittingFile(outpath);
-                var bitfield = BitfieldSpecs.bitvector(name, items);
+                var bitfield = Bitfields.bitvector(name, items);
                 using var writer = outpath.AsciWriter();
                 writer.Write(bitfield.Format());
                 EmittedFile(emitting, bitfield.SegCount);
                 seek(bitfields,counter++) = bitfield;
             }
             return slice(bitfields,0, counter);
-        }
-
-        public BitfieldModel EmitBitfield<K>(Symbols<K> segs, Identifier name, FS.FolderPath dst)
-            where K : unmanaged
-        {
-            var bitfield = BitfieldSpecs.bitfield(name, segs);
-            var outpath = dst + FS.file(name.Format(), FileKind.Bits.Ext());
-            var emitting = EmittingFile(outpath);
-            using var writer = outpath.AsciWriter();
-            writer.Write(bitfield.Format());
-            EmittedFile(emitting, bitfield.SegCount);
-            return bitfield;
         }
     }
 }

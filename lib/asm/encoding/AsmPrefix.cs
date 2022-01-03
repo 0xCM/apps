@@ -36,9 +36,6 @@ namespace Z0.Asm
         public static MandatoryPrefix mandatory(MandatoryPrefixCode code)
             => new MandatoryPrefix(code);
 
-        [MethodImpl(Inline), Op]
-        public static AsmPrefixCode encoded(AsmPrefixKind kind, uint value)
-            => new AsmPrefixCode(kind, value);
 
         // RexBBits:[Index[00000] | Token[000]]
         [MethodImpl(Inline), Op]

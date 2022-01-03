@@ -13,6 +13,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a sequence of bits that specifies an instruction encoding
     /// </summary>
+    [DataType("asm.bitstring")]
     public readonly struct AsmBitstring
     {
         [MethodImpl(Inline), Op]

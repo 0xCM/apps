@@ -10,7 +10,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential,Pack=1), DataType("asmsig")]
+    [StructLayout(LayoutKind.Sequential,Pack=1), DataType("asm.sig")]
     public readonly struct AsmSig
     {
         public readonly AsmMnemonic Mnemonic;

@@ -10,16 +10,20 @@ namespace Z0
 
     using static Root;
 
-    using api = BitfieldSpecs;
+    using api = Bitfields;
 
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct BitfieldSegModel<K>
-        where K : unmanaged
+    /// <summary>
+    /// Defines an identified, contiguous bitsequence, represented symbolically as {Identifier}:[Min,Max]
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
+    public struct BitfieldSegModel
     {
+        public const string TableId = "bitfields.models.segments";
+
         /// <summary>
         /// The segment name
         /// </summary>
-        public readonly Identifier SegName;
+        public text31 SegName;
 
         /// <summary>
         /// The 0-based position of the segment within the field
@@ -27,33 +31,32 @@ namespace Z0
         public readonly uint SegPos;
 
         /// <summary>
-        /// The segment position within the field
-        /// </summary>
-        public readonly K SegId;
-
-        /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly uint Offset;
+        public uint MinIndex;
 
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public readonly uint Width;
+        public uint MaxIndex;
+
+        /// <summary>
+        /// The segment width
+        /// </summary>
+        public uint SegWidth;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(K id, uint pos, uint offset, uint width)
+        public BitfieldSegModel(text31 name, uint pos, uint min, uint max)
         {
+            SegName = name;
             SegPos = pos;
-            SegName = id.ToString();
-            SegId = id;
-            Offset = offset;
-            Width = width;
+            MinIndex = min;
+            MaxIndex = max;
+            SegWidth = max - min + 1;
         }
 
         public string Format()
             => api.format(this);
-
 
         public override string ToString()
             => Format();

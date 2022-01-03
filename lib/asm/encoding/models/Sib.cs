@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static core;
 
     // SIB[Scale[6,7] | Index[3,5] | Base[0,2]]
-    [ApiComplete]
+    [ApiComplete, DataType("asm.sib")]
     public struct Sib : IAsmByte<Sib>
     {
         public static Sib init(byte src = 0)

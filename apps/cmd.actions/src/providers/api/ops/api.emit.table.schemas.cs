@@ -11,17 +11,17 @@ namespace Z0
         [CmdOp("api/emit/tables/schemas")]
         Outcome EmitTableSchemas(CmdArgs args)
         {
-            var schemas = Tables.schemas(ApiRuntimeCatalog.Components);
-            var count = schemas.Count;
+            var defs = Tables.definitions(ApiRuntimeCatalog.Components);
+            var count = defs.Count;
             var dst = ProjectDb.Api() + FS.file("api.tables.schema");
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
-                ref readonly var schema = ref schemas[i];
-                var fields = schema.Fields;
+                ref readonly var def = ref defs[i];
+                var fields = def.Fields;
                 var fcount = fields.Length;
-                writer.WriteLine(string.Format("table {0} {{", schema.TableId));
+                writer.WriteLine(string.Format("table {0} {{", def.TableId));
                 for(var j=0; j<fcount; j++)
                 {
                     ref readonly var field = ref skip(fields,j);

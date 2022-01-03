@@ -9,36 +9,34 @@ namespace Z0
 
     using static Root;
     using static core;
-    using static math;
 
     partial struct Bitfields
     {
-
         [MethodImpl(Inline), Op]
         public static ref Bitfield8 store(byte src, byte offset, byte width, ref Bitfield8 dst)
         {
-            dst.Overwrite(or(dst.State, sll(src, width)));
+            dst.Overwrite(math.or(dst.State, math.sll(src, width)));
             return ref dst;
         }
 
         [MethodImpl(Inline), Op]
         public static ref Bitfield16 store(ushort src, byte offset, byte width, ref Bitfield16 dst)
         {
-            dst.Overwrite(or(dst.State, sll(src, width)));
+            dst.Overwrite(math.or(dst.State, math.sll(src, width)));
             return ref dst;
         }
 
         [MethodImpl(Inline), Op]
         public static ref Bitfield32 store(uint src, byte offset, byte width, ref Bitfield32 dst)
         {
-            dst.Overwrite(or(dst.State, sll(src, width)));
+            dst.Overwrite(math.or(dst.State, math.sll(src, width)));
             return ref dst;
         }
 
         [MethodImpl(Inline), Op]
         public static ref Bitfield64 store(ulong src, byte offset, byte width, ref Bitfield64 dst)
         {
-            dst.Overwrite(or(dst.State, sll(src, width)));
+            dst.Overwrite(math.or(dst.State, math.sll(src, width)));
             return ref dst;
         }
 
@@ -46,7 +44,7 @@ namespace Z0
         public static ref Bitfield8<T> store<T>(T src, byte offset, byte width, ref Bitfield8<T> dst)
             where T : unmanaged
         {
-            dst.Overwrite(or(dst.State, sll(u8(src), width)));
+            dst.Overwrite(math.or(dst.State, math.sll(u8(src), width)));
             return ref dst;
         }
 
@@ -54,7 +52,7 @@ namespace Z0
         public static ref Bitfield16<T> store<T>(T src, byte offset, byte width, ref Bitfield16<T> dst)
             where T : unmanaged
         {
-            dst.Overwrite(or(dst.State, sll(u8(src), width)));
+            dst.Overwrite(math.or(dst.State, math.sll(u8(src), width)));
             return ref dst;
         }
 
@@ -62,7 +60,7 @@ namespace Z0
         public static ref Bitfield32<T> store<T>(T src, byte offset, byte width, ref Bitfield32<T> dst)
             where T : unmanaged
         {
-            dst.Overwrite(or(dst.State, sll(u8(src), width)));
+            dst.Overwrite(math.or(dst.State, math.sll(u8(src), width)));
             return ref dst;
         }
 
@@ -70,7 +68,7 @@ namespace Z0
         public static ref Bitfield64<T> store<T>(T src, byte offset, byte width, ref Bitfield64<T> dst)
             where T : unmanaged
         {
-            dst.Overwrite(or(dst.State, sll(u8(src), width)));
+            dst.Overwrite(math.or(dst.State, math.sll(u8(src), width)));
             return ref dst;
         }
 
@@ -79,7 +77,7 @@ namespace Z0
             where T : unmanaged
         {
             ref readonly var spec = ref skip(dst.SegSpecs,i);
-            dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.Width))));
+            dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.SegWidth))));
             return ref dst;
         }
 
@@ -89,7 +87,7 @@ namespace Z0
             where K : unmanaged
         {
             ref readonly var spec = ref skip(dst.SegSpecs,i);
-            dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.Width))));
+            dst.Overwrite(gmath.or(dst.State, gmath.sll(dst.State, u8(spec.SegWidth))));
             return ref dst;
         }
 

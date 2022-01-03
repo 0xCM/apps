@@ -25,13 +25,21 @@ namespace Z0
             return dst;
         }
 
+        [Parser]
+        public static Outcome parse(string src, out BitSpan dst)
+        {
+            dst = alloc<bit>(src.Length);
+            return parse(src,dst);
+        }
+
         /// <summary>
         /// Creates a bitspan from text encoding of a binary number
         /// </summary>
         /// <param name="src">The bit source</param>
         [MethodImpl(Inline), Op]
-        public static void parse(ReadOnlySpan<char> src, BitSpan dst)
+        public static bool parse(ReadOnlySpan<char> src, BitSpan dst)
         {
+            var result = true;
             ref var target = ref dst.First;
             var input = src;
             var count = min(input.Length, dst.BitCount);
@@ -43,7 +51,13 @@ namespace Z0
                     seek(target, lastix - i) = bit.Off;
                 else if(c == bit.One)
                     seek(target, lastix - i) = bit.On;
+                else
+                {
+                    result = false;
+                    break;
+                }
             }
+            return result;
         }
     }
 }

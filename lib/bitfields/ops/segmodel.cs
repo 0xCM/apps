@@ -9,15 +9,15 @@ namespace Z0
 
     using static Root;
 
-    partial struct BitfieldSpecs
+    partial struct Bitfields
     {
         [MethodImpl(Inline), Op]
-        public static BitfieldSegModel segment(text31 name, uint pos, uint offset, uint width)
-            => new BitfieldSegModel(name, pos, offset, width);
+        public static BitfieldSegModel segmodel(text31 name, uint pos, uint min, uint max)
+            => new BitfieldSegModel(name, pos, min, max);
 
         [MethodImpl(Inline), Op]
-        public static BitfieldSegModel<K> segment<K>(uint pos, K segid, uint offset, uint width)
+        public static BitfieldSegModel<K> segmodel<K>(uint pos, K segid, uint min, uint max)
             where K : unmanaged
-                => new BitfieldSegModel<K>(segid, pos, offset, width);
+                => new BitfieldSegModel<K>(segid, pos, min, max);
     }
 }

@@ -9,9 +9,11 @@ namespace Z0
 
     partial struct PeRecords
     {
-        [Record, StructLayout(LayoutKind.Sequential)]
+        [Record(TableId), StructLayout(LayoutKind.Sequential)]
         public struct BaseRelocationRow : IRecord<BaseRelocationRow>
         {
+            public const string TableId = "image.baserelocations";
+
             public Address32 VirtualAddress;
 
             public uint SizeOfBlock;

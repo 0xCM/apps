@@ -13,7 +13,7 @@ namespace Z0.llvm
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct ObjDumpRow
     {
-        public const string TableId = "objdump";
+        public const string TableId = "llvm.objdump";
 
         public const byte FieldCount = 9;
 

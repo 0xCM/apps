@@ -13,7 +13,7 @@ namespace Z0
     partial class BitSpans
     {
         [MethodImpl(Inline), Op]
-        public static Span<byte> extract(in BitSpan src, uint offset, uint count)
-            => recover<bit,byte>(core.slice(src.Storage, offset, count));
+        public static Span<bit> extract(in BitSpan src, uint offset, uint count)
+            => core.slice(src.Storage, offset, count);
     }
 }

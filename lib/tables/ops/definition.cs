@@ -12,21 +12,22 @@ namespace Z0
     partial struct Tables
     {
         [Op]
-        public static TableSchema schema(Type src)
+        public static TableDef definition(Type src)
         {
             var fields = @readonly(src.DeclaredInstanceFields());
             var count = fields.Length;
             if(count == 0)
-                return new TableSchema(TableId.identify(src), src.Name, sys.empty<RecordFieldSpec>());
+                return new TableDef(TableId.identify(src), src.Name, sys.empty<TableFieldDef>());
 
-            var specs = alloc<RecordFieldSpec>(count);
+            var specs = alloc<TableFieldDef>(count);
             ref var spec = ref first(specs);
             for(ushort i=0; i<count; i++)
             {
                 var field = skip(fields,i);
-                seek(spec,i) = new RecordFieldSpec(i, name(field), field.FieldType.Name);
+                seek(spec,i) = new TableFieldDef(i, name(field), field.FieldType.Spec());
             }
-            return new TableSchema(TableId.identify(src), src.Name, specs);
+
+            return new TableDef(TableId.identify(src), src.Name, specs);
         }
     }
 }

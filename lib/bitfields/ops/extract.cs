@@ -12,6 +12,20 @@ namespace Z0
 
     partial struct Bitfields
     {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static T extract<T>(T src, byte i0, byte i1)
+            where T : unmanaged
+        {
+            if(width<T>() == 8)
+                return @as<byte,T>(bits.extract(bw8(src), i0, i1));
+            else if(width<T>() == 16)
+                return @as<ushort,T>(bits.extract(bw16(src), i0, i1));
+            else if(width<T>() == 32)
+                return @as<uint,T>(bits.extract(bw32(src), i0, i1));
+            else
+                return @as<ulong,T>(bits.extract(bw64(src), i0, i1));
+        }
+
         [MethodImpl(Inline), Op]
         public static byte extract(Bitfield8 src, byte pos, byte width)
             => bits.slice(src.State, pos, width);
@@ -53,7 +67,7 @@ namespace Z0
             where T : unmanaged
         {
             ref readonly var spec = ref skip(src.SegSpecs,i);
-            return gbits.slice(src.State, (byte)spec.Offset, (byte)spec.Width);
+            return gbits.slice(src.State, (byte)spec.MinIndex, (byte)spec.SegWidth);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -62,7 +76,7 @@ namespace Z0
             where K : unmanaged
         {
             ref readonly var spec = ref skip(src.SegSpecs,i);
-            return gbits.slice(src.State, (byte)spec.Offset, (byte)spec.Width);
+            return gbits.slice(src.State, (byte)spec.MinIndex, (byte)spec.SegWidth);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -75,6 +89,5 @@ namespace Z0
             where E : unmanaged
             where T : unmanaged
                 => gmath.and(cpu.vcell(src.State, bw8(index)), src.Mask(index));
-
     }
 }

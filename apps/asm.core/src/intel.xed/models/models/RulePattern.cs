@@ -12,19 +12,35 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId)]
-        public struct RulePattern
+        public struct RulePattern : IEquatable<RulePattern>, IComparable<RulePattern>
         {
             public const string TableId = "xed.rules.patterns";
 
-            public const byte FieldCount = 3;
+            public const byte FieldCount = 4;
 
             public uint Seq;
 
             public Hash32 Hash;
 
+            public IClass Class;
+
             public TextBlock Content;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,1};
+
+            public override int GetHashCode()
+                => (int)Hash;
+
+            public bool Equals(RulePattern src)
+                => Content.Equals(src.Content);
+
+            public int CompareTo(RulePattern src)
+            {
+                var i = ((ushort)Class).CompareTo(((ushort)src.Class));
+                if(i == 0)
+                    i = Content.CompareTo(src.Content);
+                return i;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct RecordFieldSpec
+    public readonly struct TableFieldDef
     {
         public ushort FieldIndex {get;}
 
@@ -18,7 +18,7 @@ namespace Z0
         public TypeSpec DataType {get;}
 
         [MethodImpl(Inline)]
-        public RecordFieldSpec(ushort index, string name, TypeSpec type)
+        public TableFieldDef(ushort index, string name, TypeSpec type)
         {
             FieldIndex = index;
             FieldName = name;

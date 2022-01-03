@@ -12,17 +12,17 @@ namespace Z0
     partial struct Tables
     {
         [Op]
-        public static Index<TableSchema> schemas(ReadOnlySpan<Type> src)
+        public static Index<TableDef> definitions(ReadOnlySpan<Type> src)
         {
             var count = src.Length;
-            var dst = alloc<TableSchema>(count);
+            var dst = alloc<TableDef>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = schema(skip(src,i));
+                seek(dst,i) = definition(skip(src,i));
             return dst;
         }
 
         [Op]
-        public static Index<TableSchema> schemas(params Assembly[] src)
-            => schemas(src.Types().Tagged<RecordAttribute>());
+        public static Index<TableDef> definitions(params Assembly[] src)
+            => definitions(src.Types().Tagged<RecordAttribute>());
     }
 }

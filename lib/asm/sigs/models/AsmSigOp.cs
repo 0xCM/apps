@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines an asm signature operand
     /// </summary>
+    [DataType("asm.sigop")]
     public readonly struct AsmSigOp
     {
         readonly ulong Data;

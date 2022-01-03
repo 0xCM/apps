@@ -13,7 +13,7 @@ namespace Z0.Asm
 
     using api = AsmSigs;
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential), DataType("asm.sig.expr")]
     public struct AsmSigExpr
     {
         public AsmMnemonic Mnemonic;

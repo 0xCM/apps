@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.opcode")]
     public struct AsmOpCode
     {
         public uint Key;

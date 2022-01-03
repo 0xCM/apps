@@ -9,14 +9,14 @@ namespace Z0
 
     using static Root;
 
-    using api = BitfieldSpecs;
+    using api = Bitfields;
 
     public readonly struct BitfieldModel
     {
         /// <summary>
         /// The bitfield name
         /// </summary>
-        public readonly Identifier Name;
+        public readonly text31 Name;
 
         /// <summary>
         /// The number of defined segments
@@ -31,7 +31,7 @@ namespace Z0
         readonly Index<BitfieldSegModel> Data;
 
         [MethodImpl(Inline)]
-        public BitfieldModel(Identifier name, Index<BitfieldSegModel> segs, uint width)
+        public BitfieldModel(text31 name, Index<BitfieldSegModel> segs, uint width)
         {
             Name = name;
             SegCount = segs.Count;
@@ -42,7 +42,7 @@ namespace Z0
         public bool IsBitvector
         {
             [MethodImpl(Inline)]
-            get => api.bitvector(this);
+            get => SegCount == TotalWidth;
         }
 
         public Span<BitfieldSegModel> Segments
@@ -63,15 +63,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public uint SegWidth(uint i)
-            => Seg(i).Width;
+            => Seg(i).SegWidth;
 
         [MethodImpl(Inline)]
         public uint SegStart(uint i)
-            => Seg(i).Offset;
+            => Seg(i).MinIndex;
 
         [MethodImpl(Inline)]
         public uint SegEnd(uint i)
-            => Seg(i).Width;
+            => Seg(i).SegWidth;
 
         public string Format()
             => api.format(this);

@@ -11,25 +11,25 @@ namespace Z0
         public enum SegPrefixKind : byte
         {
             [Symbol("no_seg_prefix", "SEG_OVD=0")]
-            None,
+            None = 0,
 
             [Symbol("cs_prefix", "SEG_OVD=1")]
-            Cs,
+            CS = 1,
 
             [Symbol("ds_prefix", "SEG_OVD=2")]
-            Ds,
+            DS = 2,
 
             [Symbol("es_prefix", "SEG_OVD=3")]
-            Es,
+            ES = 3,
 
             [Symbol("fs_prefix", "SEG_OVD=4")]
-            Fs,
+            FS = 4,
 
             [Symbol("gs_prefix", "SEG_OVD=5")]
-            Gs,
+            GS = 5,
 
             [Symbol("ss_prefix", "SEG_OVD=6")]
-            Ss
+            SS = 6
         }
     }
 }

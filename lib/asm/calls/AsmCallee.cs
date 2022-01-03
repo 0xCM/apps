@@ -12,6 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Represents the target of an invocation
     /// </summary>
+    [DataType("asm.callee")]
     public struct AsmCallee
     {
         /// <summary>

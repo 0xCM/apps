@@ -101,10 +101,22 @@ namespace Z0
         public static uint widths(EASZ src)
             => src switch
             {
-                EASZ.EaMode16 => 16,
-                EASZ.EaMode32 => 32,
-                EASZ.EaMode64 => 64,
-                EASZ.Not16 => 32 | (64 << 8),
+                EASZ.EASZ16 => 16,
+                EASZ.EASZ32 => 32,
+                EASZ.EASZ64 => 64,
+                EASZ.EASZNot16 => 32 | (64 << 8),
+                _ => 0,
+            };
+
+        public static uint modes(EOSZ src)
+            => src switch
+            {
+                EOSZ.EOSZ8 => 0,
+                EOSZ.EOSZ16 => 1,
+                EOSZ.EOSZ32 => 2,
+                EOSZ.EOSZ64 => 3,
+                EOSZ.EOSZNot16 => 0 | (2 << 8) | (3 << 16),
+                EOSZ.EOSZNot64 => 0 | (1 << 8) | (2 << 16),
                 _ => 0,
             };
 
@@ -112,11 +124,11 @@ namespace Z0
             => src switch
             {
                 EOSZ.EOSZ8 => 8,
-                EOSZ.EAOSZ16 => 16,
-                EOSZ.EAOSZ32 => 32,
-                EOSZ.EAOSZ64 => 64,
-                EOSZ.Not16 => 8 | (32 << 8) | (64 << 16),
-                EOSZ.Not64 => 8 | (16 << 8) | (32 << 16),
+                EOSZ.EOSZ16 => 16,
+                EOSZ.EOSZ32 => 32,
+                EOSZ.EOSZ64 => 64,
+                EOSZ.EOSZNot16 => 8 | (32 << 8) | (64 << 16),
+                EOSZ.EOSZNot64 => 8 | (16 << 8) | (32 << 16),
                 _ => 0,
             };
 
@@ -280,9 +292,9 @@ namespace Z0
         public static RegId ArAX(EASZ easz)
             => easz switch
             {
-                EaMode16 => AX,
-                EaMode32 => EAX,
-                EaMode64 => RAX,
+                EASZ16 => AX,
+                EASZ32 => EAX,
+                EASZ64 => RAX,
                 _ => 0
             };
 
@@ -290,9 +302,9 @@ namespace Z0
         public static RegId ArBX(EASZ easz)
             => easz switch
             {
-                EaMode16 => BX,
-                EaMode32 => EBX,
-                EaMode64 => RAX,
+                EASZ16 => BX,
+                EASZ32 => EBX,
+                EASZ64 => RAX,
                 _ => 0
             };
 
@@ -300,9 +312,9 @@ namespace Z0
         public static RegId ArCX(EASZ easz)
             => easz switch
             {
-                EaMode16 => CX,
-                EaMode32 => ECX,
-                EaMode64 => RCX,
+                EASZ16 => CX,
+                EASZ32 => ECX,
+                EASZ64 => RCX,
                 _ => 0
             };
 
@@ -310,9 +322,9 @@ namespace Z0
         public static RegId ArDX(EASZ easz)
             => easz switch
             {
-                EaMode16 => DX,
-                EaMode32 => EDX,
-                EaMode64 => RDX,
+                EASZ16 => DX,
+                EASZ32 => EDX,
+                EASZ64 => RDX,
                 _ => 0
             };
 
@@ -320,9 +332,9 @@ namespace Z0
         public static RegId ArSI(EASZ easz)
             => easz switch
             {
-                EaMode16 => SI,
-                EaMode32 => ESI,
-                EaMode64 => RSI,
+                EASZ16 => SI,
+                EASZ32 => ESI,
+                EASZ64 => RSI,
                 _ => 0
             };
 
@@ -330,9 +342,9 @@ namespace Z0
         public static RegId ArDI(EASZ easz)
             => easz switch
             {
-                EaMode16 => DI,
-                EaMode32 => EDI,
-                EaMode64 => RDI,
+                EASZ16 => DI,
+                EASZ32 => EDI,
+                EASZ64 => RDI,
                 _ => 0
             };
 
@@ -340,9 +352,9 @@ namespace Z0
         public static RegId ArSP(EASZ easz)
             => easz switch
             {
-                EaMode16 => SP,
-                EaMode32 => ESP,
-                EaMode64 => RSP,
+                EASZ16 => SP,
+                EASZ32 => ESP,
+                EASZ64 => RSP,
                 _ => 0
             };
 
@@ -350,9 +362,9 @@ namespace Z0
         public static RegId ArBP(EASZ easz)
             => easz switch
             {
-                EaMode16 => BP,
-                EaMode32 => EBP,
-                EaMode64 => RBP,
+                EASZ16 => BP,
+                EASZ32 => EBP,
+                EASZ64 => RBP,
                 _ => 0
             };
 
