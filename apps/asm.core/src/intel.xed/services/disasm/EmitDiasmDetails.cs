@@ -79,7 +79,7 @@ namespace Z0
                 writer.WriteLine(string.Format(RenderPattern, "Class", inst.Class));
                 writer.WriteLine(string.Format(RenderPattern, "Form", inst.Form));
 
-
+                var prefixbytes = default(Span<byte>);
                 var oc = state.nominal_opcode;
                 var ocpos = state.pos_nominal_opcode;
                 offsets.OpCode =(sbyte)(state.pos_nominal_opcode);
@@ -116,20 +116,34 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, title, content));
                 }
 
+
                 if(ocpos != 0)
                 {
-                    var prefixbytes = slice(code.Bytes,0,ocpos);
+                    prefixbytes = slice(code.Bytes,0,ocpos);
                     writer.WriteLine(string.Format(RenderPattern, "PrefixBytes", prefixbytes.FormatHex()));
                 }
 
                 if(rex(state, out var rexprefix))
                     writer.WriteLine(string.Format(RenderPattern, "RexPrefix", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
 
-                if(state.vexvalid != 0)
+                if(state.vexvalid == VexValidityKind.VV1)
                 {
                     var mkind = (VexMapKind)(state.map);
                     var mname = VexMapKinds[mkind].Expr;
-                    writer.WriteLine(string.Format(RenderPattern, "VEX", string.Format("{0} {1} {2} {3}", state.vexvalid, state.vex_prefix, state.vl, mname)));
+                    var vexcode = VexPrefix.code(prefixbytes);
+                    var vexsize = VexPrefix.size(vexcode.Value);
+                    var vexbytes = slice(prefixbytes, vexcode.Offset, vexsize);
+                    Require.equal(vexbytes.Length, vexsize);
+
+                    writer.WriteLine(string.Format(RenderPattern, "VEX", string.Format("{0} {1} {2} {3}", vexcode.Value, state.vex_prefix, state.vl, mname)));
+                    writer.WriteLine(string.Format(RenderPattern, "VEXBytes", vexbytes.FormatHex()));
+
+                    if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
+                    {
+                        var vex = VexPrefixC4.init(skip(vexbytes,1),skip(vexbytes,2));
+                        writer.WriteLine(string.Format(RenderPattern, "VEXBitPattern", VexPrefixC4.BitPattern));
+                        writer.WriteLine(string.Format(RenderPattern, "VEXBits", vex.ToBitstring()));
+                    }
 
                     var vexdest = string.Format("{0}{1}{2}", state.vexdest4, state.vexdest3, state.vexdest210);
                     result = DataParser.parse(vexdest, out uint5 uvdst);

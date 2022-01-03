@@ -35,16 +35,6 @@ namespace Z0.Asm
         }
 
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct Layout11
-        {
-            public EscapePrefix Escape;
-
-            public Hex8 OpCode;
-
-            public K Kind => K.Escape | K.OpCode;
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct Layout2
         {
             public Hex8 OpCode;
@@ -56,19 +46,6 @@ namespace Z0.Asm
             public K Kind => K.OpCode | K.ModRm | K.Sib;
         }
 
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct Layout12
-        {
-            public EscapePrefix Escape;
-
-            public Hex8 OpCode;
-
-            public ModRm ModRm;
-
-            public Sib Sib;
-
-            public K Kind => K.Escape | K.OpCode | K.ModRm | K.Sib;
-        }
 
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct Layout3

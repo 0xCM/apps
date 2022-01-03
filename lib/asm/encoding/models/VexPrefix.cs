@@ -9,6 +9,8 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     using static Root;
+    using static core;
+    using static AsmPrefixCodes;
 
     using K = AsmPrefixCodes.VexPrefixKind;
 
@@ -32,8 +34,67 @@ namespace Z0.Asm
     /// 10 => F3
     /// 11 => F2
     /// </summary>
+    [ApiHost]
     public struct VexPrefix
     {
+        [MethodImpl(Inline)]
+        public static BitfieldSeg<VexPrefixCode> code(ReadOnlySpan<byte> src)
+        {
+            var seg = BitfieldSeg<VexPrefixCode>.Empty;
+            var count = src.Length;
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var b = ref skip(src,i);
+                if(b == (byte)VexPrefixCode.C4)
+                {
+                    seg = Bitfields.segment(VexPrefixCode.C4,i,8);
+                    break;
+                }
+                if(b == (byte)VexPrefixCode.C5)
+                {
+                    seg = Bitfields.segment(VexPrefixCode.C5,i,8);
+                    break;
+                }
+            }
+            return seg;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ushort leading(VexM src)
+            => src switch {
+                VexM.V0F => 0x0F,
+                VexM.V0F38 => 0x0F38,
+                VexM.V0F3A => 0x0F3A,
+                _ => 0,
+            };
+
+        [MethodImpl(Inline), Op]
+        public static ushort width(VexM src)
+            => src switch {
+                VexM.V0F => 8,
+                VexM.V0F38 => 16,
+                VexM.V0F3A => 16,
+                _ => 0,
+            };
+
+        [MethodImpl(Inline), Op]
+        public static ushort value(VexOpCodeExtension src)
+            => src switch {
+                VexOpCodeExtension.X66 => 0x66,
+                VexOpCodeExtension.F2 => 0xF2,
+                VexOpCodeExtension.F3 => 0xF3,
+                _ => 0,
+            };
+
+        [MethodImpl(Inline), Op]
+        public static byte size(VexPrefixCode src)
+            => src switch{
+                VexPrefixCode.C4 => 3,
+                VexPrefixCode.C5 => 2,
+                _ => 0
+            };
+
+
         uint Data;
 
         [MethodImpl(Inline)]

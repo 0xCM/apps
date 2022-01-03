@@ -5,6 +5,9 @@
 namespace Z0.Asm
 {
     using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
 
     using static Hex8Seq;
     using static NumericBaseKind;
@@ -35,6 +38,146 @@ namespace Z0.Asm
             /// </summary>
             [Symbol("SS")]
             SS = 6,
+        }
+
+        /// <summary>
+        /// Specifies the RXB segment of the 3-byte C4 vex prefix or the R bit of the 2-byte C5 vex prefix
+        /// </summary>
+        [SymSource(tokens,NumericBaseKind.Base2), DataWidth(3)]
+        public enum VexRXB : byte
+        {
+            /// <summary>
+            /// VL128 VEX_PREFIX=0  ->	emit 0b000
+            /// </summary>
+            [Symbol("L0 + VNP")]
+            L0_VNP = 0b000,
+
+            /// <summary>
+            /// VL128 VEX_PREFIX=1  ->	emit 0b001
+            /// </summary>
+            [Symbol("L0 + V0F")]
+            L0_V0F = 0b001,
+
+            /// <summary>
+            /// VL128 VEX_PREFIX=2  ->	emit 0b011
+            /// </summary>
+            [Symbol("L0 + V0F38")]
+            L0_V0F38 = 0b011,
+
+            /// <summary>
+            /// VL128 VEX_PREFIX=3  ->	emit 0b010
+            /// </summary>
+            [Symbol("L0 + V0F3A")]
+            L0_V0F3A = 0b010,
+
+            /// <summary>
+            /// VL256 VEX_PREFIX=0  ->	emit 0b100
+            /// </summary>
+            [Symbol("L1 + VNP")]
+            L1_VNP = 0b100,
+
+            /// <summary>
+            /// VL256 VEX_PREFIX=1  ->	emit 0b101
+            /// </summary>
+            [Symbol("L1 + V0F")]
+            L1_V0F = 0b101,
+
+            /// <summary>
+            /// VL256 VEX_PREFIX=2  ->	emit 0b111
+            /// </summary>
+            [Symbol("L1 + V0F38")]
+            L1_V0F38 = 0b111,
+
+            /// <summary>
+            /// VL256 VEX_PREFIX=3  ->	emit 0b110
+            /// </summary>
+            [Symbol("L1 + V0F3A")]
+            L1_V0F3A = 0b110,
+        }
+
+        /// <summary>
+        /// Specifies an opcode extension providing equivalent functionality of a SIMD prefix and specifies the encoding of the 'pp' field, Vol. 2A 2-15
+        /// </summary>
+        [SymSource(tokens)]
+        public enum VexOpCodeExtension : byte
+        {
+            None = 0,
+
+            [Symbol("66")]
+            X66 = 0b1,
+
+            [Symbol("F3")]
+            F3 = 0b10,
+
+            [Symbol("F2")]
+            F2 = 0b11,
+        }
+
+        /// <summary>
+        /// Specifies a vector length in the context of the VEX encoding scheme, Vol. 2A 2-15
+        /// </summary>
+        [SymSource(tokens)]
+        public enum VexLengthCode : byte
+        {
+            [Symbol("L0", "Specifies a vector length of 128 in the contex of the VEX encoding scheme")]
+            L0 = VectorWidthCode.V128,
+
+            [Symbol("L1", "Specifies a vector length of 256 in the contex of the VEX encoding scheme")]
+            L1 = VectorWidthCode.V256,
+        }
+
+        /// <summary>
+        /// Specifies field bits m-mmmmm in the context of the VEX encoding scheme, Vol. 2A 2-15
+        /// </summary>
+        [SymSource(tokens,NumericBaseKind.Base2), DataWidth(2)]
+        public enum VexM : byte
+        {
+            None = 0b0,
+
+            [Symbol("V0F", "Specifies 0x0F as the leading opcode byte in the context of the VEX encoding scheme")]
+            V0F = 0b01,
+
+            [Symbol("V0F38", "Specifies 0F 38 as the leading opcode byte in the context of the VEX encoding scheme")]
+            V0F38 = 0b10,
+
+            [Symbol("V0F3A", "Specifies 0F 3A as the leading opcode byte in the context of the VEX encoding scheme")]
+            V0F3A = 0b11,
+        }
+
+        [SymSource(tokens, NumericBaseKind.Base16)]
+        public enum VexPrefixCode
+        {
+            [Symbol("C4", "Indicates a VEX prefix begins with 0xC4 and is 3 bytes in length")]
+            C4 = 0xC4,
+
+            [Symbol("C5", "Indicates a VEX prefix begins with 0xC5 and is 2 bytes in length")]
+            C5 = 0xC5,
+        }
+
+        [SymSource(tokens)]
+        public enum EvexWidthCode
+        {
+            [Symbol("V128", "VL=0")]
+            V128 = VectorWidthCode.V128,
+
+            [Symbol("V256", "VL=1")]
+            V256 = VectorWidthCode.V256,
+
+            [Symbol("V512", "VL=2")]
+            V512 = VectorWidthCode.V512,
+        }
+
+        [SymSource(tokens)]
+        public enum VectorWidthCode : byte
+        {
+            [Symbol("V128", "VL=0")]
+            V128 = 0,
+
+            [Symbol("V256", "VL=1")]
+            V256 = 1,
+
+            [Symbol("V512", "VL=2")]
+            V512 = 2
         }
 
         /// <summary>
@@ -122,19 +265,6 @@ namespace Z0.Asm
 
             [Symbol("F3")]
             F3 = 0xF3,
-        }
-
-        [SymSource(tokens, Base16)]
-        public enum EscapeCode : ushort
-        {
-            [Symbol("0F")]
-            x0F = 0x0F,
-
-            [Symbol("0F38")]
-            x0F38 = 0x0F38,
-
-            [Symbol("0F3A")]
-            x0F3A = 0x0F3A,
         }
 
         [SymSource(tokens, Base16)]

@@ -47,10 +47,6 @@ namespace Z0.Asm
         public static implicit operator LegacyPrefix(OpszPrefix src)
             => new LegacyPrefix(src.Encoded);
 
-        [MethodImpl(Inline)]
-        public static implicit operator LegacyPrefix(EscapePrefix src)
-            => new LegacyPrefix(src.Encoded);
-
         public static LegacyPrefix Empty => default;
     }
 }

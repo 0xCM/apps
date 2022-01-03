@@ -10,6 +10,7 @@ namespace Z0
     using Asm;
 
     using static XedModels.OperandKind;
+    using static Asm.AsmPrefixCodes;
     using static core;
 
     partial struct XedModels
@@ -174,6 +175,12 @@ namespace Z0
             [OperandKind(VEX_C4)]
             public bit vex_c4;
 
+            [OperandKind(VEX_PREFIX)]
+            public VexPrefixKind vex_prefix;
+
+            [OperandKind(VL)]
+            public VectorWidthCode vl;
+
             [OperandKind(WBNOINVD)]
             public bit wbnoinvd;
 
@@ -215,12 +222,6 @@ namespace Z0
 
             [OperandKind(SMODE)]
             public SMode smode;
-
-            [OperandKind(VEX_PREFIX)]
-            public VexPrefixKind vex_prefix;
-
-            [OperandKind(VL)]
-            public VexLengthKind vl;
 
             [OperandKind(HINT)]
             public HintKind hint;
