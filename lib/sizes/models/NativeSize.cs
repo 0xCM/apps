@@ -51,5 +51,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator NativeSizeCode(NativeSize src)
             => (NativeSizeCode)src.Code;
+
+        [MethodImpl(Inline)]
+        public static implicit operator BitWidth(NativeSize src)
+            => src.Width;
     }
 }

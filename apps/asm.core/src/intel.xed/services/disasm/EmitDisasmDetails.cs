@@ -86,6 +86,7 @@ namespace Z0
                 var srm = state.srm;
                 var ocsrm = (uint3)math.and((byte)srm, oc);
                 var ocbits = (eight)(byte)oc;
+                var dispwidth = state.disp_width;
                 Require.equal(srm,ocsrm);
 
                 if(oc != code[ocpos])
@@ -99,9 +100,10 @@ namespace Z0
                 if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
                     continue;
 
+
                 var _ops = list<RuleOpInfo>();
-                if(state.disp_width != 0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.DISP, disp(state, code)));
+                if(dispwidth != 0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.DISP, disp(state, code), dispwidth));
 
                 if(state.imm0)
                     _ops.Add(new RuleOpInfo(RuleOpName.IMM0, imm(state, code)));

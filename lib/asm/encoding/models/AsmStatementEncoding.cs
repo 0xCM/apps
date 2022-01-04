@@ -13,7 +13,7 @@ namespace Z0.Asm
     /// Bindes an expression with its encoding
     /// </summary>
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmStatementEncoding : IEquatable<AsmStatementEncoding>, IComparable<AsmStatementEncoding>
+    public struct AsmStatementEncoding : IEquatable<AsmStatementEncoding>, IComparable<AsmStatementEncoding>, IAsmStatementEncoding
     {
         public const string TableId = "asm.statement.encoding";
 
@@ -45,5 +45,14 @@ namespace Z0.Asm
             => (int)alg.hash.combine(Asm.GetHashCode(), Encoding.GetHashCode());
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,12,12,64,1};
+
+        AsmExpr IAsmStatementEncoding.Asm
+            => Asm;
+
+        AsmHexCode IAsmStatementEncoding.Encoding
+            => Encoding;
+
+        MemoryAddress IAsmStatementEncoding.Offset
+            => Offset;
     }
 }

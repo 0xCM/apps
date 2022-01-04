@@ -8,10 +8,12 @@ namespace Z0.llvm
     using System.Runtime.InteropServices;
     using System.Runtime.CompilerServices;
 
+    using Asm;
+
     using static Root;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow
+    public struct ObjDumpRow : IAsmStatementEncoding
     {
         public const string TableId = "llvm.objdump";
 
@@ -67,6 +69,15 @@ namespace Z0.llvm
         {
             get => text.contains(Asm.Format(), BlockStartMarker);
         }
+
+        AsmExpr IAsmStatementEncoding.Asm
+            => Asm.Text;
+
+        AsmHexCode IAsmStatementEncoding.Encoding
+            => Encoding;
+
+        MemoryAddress IAsmStatementEncoding.Offset
+            => IP;
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{8,12,12,16,40,16,42,90,1};

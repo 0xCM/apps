@@ -26,7 +26,11 @@ namespace Z0
 
         public void Collect(IProjectWs project)
         {
-            ObjDump.Consolidate(project);
+            var result = ObjDump.Consolidate(project);
+            if(result)
+            {
+
+            }
 
             Nm.Collect(project);
             CollectObjHex(project);

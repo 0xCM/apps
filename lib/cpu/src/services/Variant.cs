@@ -17,6 +17,52 @@ namespace Z0
     [ApiHost]
     public readonly struct Variant
     {
+        [Op]
+        public static variant integer(object src, byte width, bool signed)
+        {
+            var value = variant.Zero;
+            if(src == null)
+                return value;
+
+            if(signed)
+            {
+                switch(width)
+                {
+                    case 8:
+                        value = (sbyte)NumericBox.rebox(src, NumericKind.I8);
+                    break;
+                    case 16:
+                        value = (short)NumericBox.rebox(src, NumericKind.I16);
+                    break;
+                    case 32:
+                        value = (int)NumericBox.rebox(src, NumericKind.I32);
+                    break;
+                    case 64:
+                        value = (long)NumericBox.rebox(src, NumericKind.I64);
+                    break;
+                }
+            }
+            else
+            {
+                switch(width)
+                {
+                    case 8:
+                        value = (byte)NumericBox.rebox(src, NumericKind.U8);
+                    break;
+                    case 16:
+                        value = (ushort)NumericBox.rebox(src, NumericKind.U16);
+                    break;
+                    case 32:
+                        value = (uint)NumericBox.rebox(src, NumericKind.U32);
+                    break;
+                    case 64:
+                        value = (ulong)NumericBox.rebox(src, NumericKind.U64);
+                    break;
+                }
+            }
+            return value;
+        }
+
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static variant from<T>(T src)
             where T : unmanaged

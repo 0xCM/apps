@@ -39,8 +39,29 @@ namespace Z0.Asm
         public static AsmInlineComment hexarray(BinaryCode src)
             => AsmDocBuilder.comment(CommentMarker, Hex.hexarray(src).Format(true));
 
+        [Op]
         public static string format(IDisplacement src)
-            => src.Value.FormatHex(zpad:false,specifier:true,uppercase:true);
+        {
+            var size = src.Size.Code;
+            if(size == 0)
+                return "0";
+
+            var value = src.Value;
+
+            var dst = RP.Empty;
+            switch(size)
+            {
+                case NativeSizeCode.W8:
+                    return ((sbyte)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+                case NativeSizeCode.W16:
+                    return ((short)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+                case NativeSizeCode.W32:
+                    return ((int)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+                case NativeSizeCode.W64:
+                    return ((long)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+            }
+            return dst;
+        }
 
         [Op]
         public static byte format(in ApiCodeBlockHeader src, Span<string> dst)
@@ -99,16 +120,6 @@ namespace Z0.Asm
                 _ => EmptyString
             };
 
-        // [Op]
-        // public static string format(AsmFormInfo src)
-        //     => string.Format("({0})<{1}>", src.Sig, src.OpCode);
-        // [Op]
-        // public static string format(in AsmCaller src)
-        //     => string.Format("{0} {1}", src.Base, src.Identity);
-
-        // [Op]
-        // public static string format(in AsmCallee src)
-        //     => string.Concat(src.Base.Format(), Colon, Chars.Space, src.Identity);
 
         [Op]
         public static string format(in AsmCallInfo src)

@@ -28,19 +28,24 @@ namespace Z0
                 => first(w8, src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static byte TakeUInt8<T>(this Span<T> src)
+        public static sbyte TakeInt8<T>(this ReadOnlySpan<T> src)
             where T : unmanaged
-                => first(w8, src);
+                => first(w8i, src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ushort TakeUInt16<T>(this Span<T> src)
+        public static short TakeInt16<T>(this ReadOnlySpan<T> src)
             where T : unmanaged
-                => first(w16, src);
+                => first(w16i, src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint TakeUInt32<T>(this ReadOnlySpan<T> src)
+        public static int TakeInt32<T>(this ReadOnlySpan<T> src)
             where T : unmanaged
-                => first(w32, src);
+                => first(w32i, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static long TakeInt64<T>(this ReadOnlySpan<T> src)
+            where T : unmanaged
+                => first(w64i, src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static uint TakeUInt24<T>(this ReadOnlySpan<T> src)
@@ -55,18 +60,8 @@ namespace Z0
             return storage;
         }
 
-        /// <summary>
-        /// Converts the leading elements of a primal source span to a 24-bit unsigned integer
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The primal source type</typeparam>
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint TakeUInt24<T>(this Span<T> src)
-            where T : unmanaged
-                => src.ReadOnly().TakeUInt24();
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static uint TakeUInt32<T>(this Span<T> src)
+        public static uint TakeUInt32<T>(this ReadOnlySpan<T> src)
             where T : unmanaged
                 => first(w32, src);
 
@@ -74,6 +69,46 @@ namespace Z0
         public static ulong TakeUInt64<T>(this ReadOnlySpan<T> src)
             where T : unmanaged
                 => first(w64, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static byte TakeUInt8<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w8, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static sbyte TakeInt8<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w8i, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static short TakeInt16<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w16i, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ushort TakeUInt16<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w16, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static uint TakeUInt24<T>(this Span<T> src)
+            where T : unmanaged
+                => src.ReadOnly().TakeUInt24();
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static int TakeInt32<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w32i, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static uint TakeUInt32<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w32, src);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static long TakeInt64<T>(this Span<T> src)
+            where T : unmanaged
+                => first(w64i, src);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ulong TakeUInt64<T>(this Span<T> src)

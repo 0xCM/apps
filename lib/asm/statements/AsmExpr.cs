@@ -20,8 +20,7 @@ namespace Z0.Asm
             if(i>0)
             {
                 var monic = text.left(body,i);
-                var operands = text.right(body,i).Trim();
-                return new AsmExpr(string.Format("{0} {1}", monic, operands));
+                return new AsmExpr(string.Format("{0} {1}", monic, text.right(body,i).Trim()));
             }
             return new AsmExpr(body);
         }
@@ -45,6 +44,15 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => Content.View;
+        }
+
+        public AsmInlineComment Comment()
+        {
+            var result = AsmParser.comment(Data, out var comment);
+            if(result)
+                return comment;
+            else
+                return AsmInlineComment.Empty;
         }
 
         public string FormatPadded(int padding = DefaultPadding)

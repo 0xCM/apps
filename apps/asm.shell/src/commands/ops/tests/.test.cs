@@ -93,21 +93,6 @@ namespace Z0.Asm
             }
         }
 
-        Outcome ShowObjDump(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            var tool = Wf.LlvmObjDump();
-            var rows = tool.Consolidated(State.ProjectId()).View;
-            var count = rows.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var row = ref skip(rows,i);
-                Write(string.Format("Statement:{0}", row.Asm));
-                Write(string.Format("Encoding :{0}", row.Encoding));
-            }
-            return result;
-        }
 
         void CheckCells()
         {

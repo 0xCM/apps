@@ -45,34 +45,36 @@ namespace Z0
         }
 
         [Op]
-        public static Disp disp(in OperandState state, in AsmHexCode code)
+        public static long disp(in OperandState state, in AsmHexCode code)
         {
             var val = Disp.Zero;
-            var _val = 0ul;
+            var _val = 0L;
             if(state.disp_width != 0)
             {
-                var dispcount = state.disp_width/8;
-                var pos = state.pos_disp;
-                switch(dispcount)
+                var width = state.disp_width;
+                var length = width/8;
+                var offset = state.pos_disp;
+                switch(length)
                 {
                     case 1:
-                        val = new Disp(code[pos], state.disp_width);
-                        _val = code[pos];
+                        val = new Disp((sbyte)code[offset], width);
+                        _val = (sbyte)code[offset];
                     break;
                     case 2:
-                        val = new Disp(slice(code.Bytes, pos, dispcount).TakeUInt16(), state.disp_width);
-                        _val = slice(code.Bytes, pos, dispcount).TakeUInt16();
+                        val = new Disp(slice(code.Bytes, offset, length).TakeInt16(), width);
+                        _val = slice(code.Bytes, offset, length).TakeInt16();
                     break;
                     case 4:
-                        val = new Disp(slice(code.Bytes,pos, dispcount).TakeUInt32(), state.disp_width);
-                        _val = slice(code.Bytes, pos, dispcount).TakeUInt32();
+                        val = new Disp(slice(code.Bytes, offset, length).TakeInt32(), width);
+                        _val = slice(code.Bytes, offset, length).TakeInt32();
                     break;
                     case 8:
-                        val = new Disp((long)slice(code.Bytes,pos, dispcount).TakeUInt64(), state.disp_width);
-                        _val = slice(code.Bytes, pos, dispcount).TakeUInt64();
+                        val = new Disp(slice(code.Bytes, offset, length).TakeInt64(), width);
+                        _val = slice(code.Bytes, offset, length).TakeInt64();
                     break;
                 }
             }
+
             return val;
         }
 
