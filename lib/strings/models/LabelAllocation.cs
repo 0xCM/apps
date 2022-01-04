@@ -12,14 +12,14 @@ namespace Z0
 
     public class LabelAllocation : IDisposable
     {
-        readonly StringBuffer Buffer;
+        readonly IStringAllocator Allocator;
 
         readonly Index<Label> Labels;
 
         [MethodImpl(Inline)]
-        internal LabelAllocation(StringBuffer buffer, Label[] labels)
+        internal LabelAllocation(IStringAllocator allocator, Label[] labels)
         {
-            Buffer = buffer;
+            Allocator = allocator;
             Labels = labels;
         }
 
@@ -31,7 +31,7 @@ namespace Z0
 
         public void Dispose()
         {
-            Buffer.Dispose();
+            Allocator.Dispose();
         }
     }
 }

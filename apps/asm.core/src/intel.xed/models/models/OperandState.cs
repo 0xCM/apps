@@ -281,7 +281,7 @@ namespace Z0
             public BCastKind bcast;
 
             [OperandKind(NEED_MEMDISP)]
-            public byte need_memdisp;
+            public bit need_memdisp;
 
             [OperandKind(CHIP)]
             public ChipCode chip;

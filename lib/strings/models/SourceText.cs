@@ -9,14 +9,14 @@ namespace Z0
 
     using static Root;
 
-    public unsafe readonly struct SourceText : IEquatable<SourceText>, ITextual
+    public unsafe readonly struct SourceText : IMemoryString<SourceText>
     {
-        readonly MemoryAddress Address;
+        public MemoryAddress Address {get;}
 
-        readonly uint Length;
+        public int Length {get;}
 
         [MethodImpl(Inline)]
-        public SourceText(MemoryAddress @base, uint length)
+        public SourceText(MemoryAddress @base, int length)
         {
             Address = @base;
             Length = length;
@@ -55,6 +55,8 @@ namespace Z0
         public bool Equals(SourceText src)
             => text.equals(Data,src.Data);
 
+        public int CompareTo(SourceText src)
+            => Data.CompareTo(src.Data, StringComparison.InvariantCulture);
         public string Format()
             => new string(Data);
 

@@ -10,8 +10,11 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class SourceAllocator
+    public class SourceAllocator : IStringAllocator<SourceText>
     {
+        public static SourceAllocator create(uint capacity)
+            => new SourceAllocator(StringBuffers.buffer(capacity));
+
         StringBuffer Buffer;
 
         MemoryAddress MaxAddress;
@@ -21,7 +24,7 @@ namespace Z0
         internal SourceAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
-            MaxAddress =  buffer.Address(buffer.Length);
+            MaxAddress = buffer.Address(buffer.Length);
             Position = 0;
         }
 
@@ -36,6 +39,11 @@ namespace Z0
             dst = Buffer.StoreSource(src, Position);
             Position += length;
             return true;
+        }
+
+        public void Dispose()
+        {
+            Buffer.Dispose();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class LabelAllocator
+    public class LabelAllocator : IStringAllocator<Label>
     {
         StringBuffer Buffer;
 
@@ -38,6 +38,11 @@ namespace Z0
             dst = Buffer.StoreLabel(src, Position);
             Position += length;
             return true;
+        }
+
+        public void Dispose()
+        {
+            Buffer.Dispose();
         }
     }
 }

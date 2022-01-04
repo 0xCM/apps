@@ -17,45 +17,49 @@ namespace Z0
 
             REG2 = 3,
 
-            REG3 = 4,
+            REG3,
 
-            REG4 = 5,
+            REG4,
 
-            REG5 = 6,
+            REG5,
 
-            REG6 = 7,
+            REG6,
 
-            REG7 = 8,
+            REG7,
 
-            REG8 = 9,
+            REG8,
 
-            MEM0 = 10,
+            REG9,
 
-            MEM1 = 11,
+            MEM0,
 
-            IMM0 = 12,
+            MEM1,
 
-            IMM1 = 13,
+            IMM0,
 
-            IMM2 = 14,
+            IMM1,
 
-            RELBR = 15,
+            IMM2,
 
-            BASE0 = 16,
+            RELBR,
 
-            BASE1 = 17,
+            BASE0,
 
-            SEG0 = 18,
+            BASE1,
 
-            SEG1 = 19,
+            SEG0,
 
-            AGEN = 20,
+            SEG1,
+
+            AGEN,
 
             PTR,
 
             INDEX,
 
             SCALE,
+
+            DISP,
         }
     }
 }

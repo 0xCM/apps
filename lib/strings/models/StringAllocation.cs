@@ -12,14 +12,14 @@ namespace Z0
 
     public class StringAllocation : IDisposable
     {
-        readonly StringBuffer Buffer;
+        readonly IStringAllocator Allocator;
 
         readonly Index<StringRef> _Allocated;
 
         [MethodImpl(Inline)]
-        internal StringAllocation(StringBuffer buffer, StringRef[] allocated)
+        internal StringAllocation(IStringAllocator allocator, StringRef[] allocated)
         {
-            Buffer = buffer;
+            Allocator = allocator;
             _Allocated = allocated;
         }
 
@@ -31,7 +31,7 @@ namespace Z0
 
         public void Dispose()
         {
-            Buffer.Dispose();
+            Allocator.Dispose();
         }
     }
 }

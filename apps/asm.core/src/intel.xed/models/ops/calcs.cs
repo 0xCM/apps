@@ -16,10 +16,39 @@ namespace Z0
 
     partial struct XedModels
     {
+        public static ImmOp imm(in OperandState state, in AsmHexCode code)
+        {
+            var dst = ImmOp.Empty;
+            if(state.imm0)
+            {
+                var size = NativeSize.code(state.imm_width);
+                var signed = state.imm0signed;
+                var pos = state.pos_imm;
+
+                switch(size)
+                {
+                    case NativeSizeCode.W8:
+                        dst = ImmOp.define(size,signed, code[pos]);
+                    break;
+                    case NativeSizeCode.W16:
+                        dst = ImmOp.define(size, signed,slice(code.Bytes,pos, 2).TakeUInt16());
+                    break;
+                    case NativeSizeCode.W32:
+                        dst = ImmOp.define(size, signed, slice(code.Bytes,pos, 4).TakeUInt32());
+                    break;
+                    case NativeSizeCode.W64:
+                        dst = ImmOp.define(size, signed, slice(code.Bytes,pos, 8).TakeUInt64());
+                    break;
+                }
+            }
+            return dst;
+        }
+
         [Op]
         public static Disp disp(in OperandState state, in AsmHexCode code)
         {
             var val = Disp.Zero;
+            var _val = 0ul;
             if(state.disp_width != 0)
             {
                 var dispcount = state.disp_width/8;
@@ -28,15 +57,19 @@ namespace Z0
                 {
                     case 1:
                         val = new Disp(code[pos], state.disp_width);
+                        _val = code[pos];
                     break;
                     case 2:
                         val = new Disp(slice(code.Bytes, pos, dispcount).TakeUInt16(), state.disp_width);
+                        _val = slice(code.Bytes, pos, dispcount).TakeUInt16();
                     break;
                     case 4:
-                        val = new Disp(slice(code.Bytes,pos, dispcount).TakeUInt32(),state.disp_width);
+                        val = new Disp(slice(code.Bytes,pos, dispcount).TakeUInt32(), state.disp_width);
+                        _val = slice(code.Bytes, pos, dispcount).TakeUInt32();
                     break;
                     case 8:
-                        val = new Disp((long)slice(code.Bytes,pos, dispcount).TakeUInt64(),state.disp_width);
+                        val = new Disp((long)slice(code.Bytes,pos, dispcount).TakeUInt64(), state.disp_width);
+                        _val = slice(code.Bytes, pos, dispcount).TakeUInt64();
                     break;
                 }
             }

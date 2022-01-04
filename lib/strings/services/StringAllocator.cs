@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Allocates strings from a suplied <see cref='StringBuffer'/>
     /// </summary>
-    public class StringAllocator
+    public class StringAllocator : IStringAllocator<StringRef>
     {
         StringBuffer Buffer;
 
@@ -45,6 +45,11 @@ namespace Z0
             dst = Buffer.StoreString(src, Position);
             Position += length;
             return true;
+        }
+
+        public void Dispose()
+        {
+            Buffer.Dispose();
         }
     }
 }

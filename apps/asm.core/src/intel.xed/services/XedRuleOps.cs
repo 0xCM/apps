@@ -87,6 +87,9 @@ namespace Z0
                 case K.SCALE:
                     name = SCALE;
                 break;
+                case K.DISP:
+                    name = DISP;
+                break;
             }
             return name;
         }

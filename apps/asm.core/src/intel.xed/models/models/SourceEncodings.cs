@@ -5,21 +5,22 @@
 namespace Z0
 {
     using Asm;
+
     partial struct XedModels
     {
-        public readonly struct StatementEncodings
+        public readonly struct SourceEncodings
         {
             public FS.FilePath Source {get;}
 
             public Index<AsmStatementEncoding> Encoded {get;}
 
-            public StatementEncodings(FS.FilePath src, AsmStatementEncoding[] encoded)
+            public SourceEncodings(FS.FilePath src, AsmStatementEncoding[] encoded)
             {
                 Source =src;
                 Encoded = encoded;
             }
 
-            public static StatementEncodings Empty => new StatementEncodings(FS.FilePath.Empty, sys.empty<AsmStatementEncoding>());
+            public static SourceEncodings Empty => new SourceEncodings(FS.FilePath.Empty, sys.empty<AsmStatementEncoding>());
         }
     }
 }

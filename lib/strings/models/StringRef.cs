@@ -13,41 +13,41 @@ namespace Z0
     /// <summary>
     /// Defines a reference to an immutable character sequence
     /// </summary>
-    public unsafe readonly struct StringRef
+    public unsafe readonly struct StringRef : IMemoryString<StringRef>
     {
-        readonly MemoryAddress Base;
+        public MemoryAddress Address {get;}
 
         public uint Length {get;}
 
         [MethodImpl(Inline)]
         public StringRef(MemoryAddress @base, uint length)
         {
-            Base = @base;
+            Address = @base;
             Length = length;
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Length == 0 || Base == 0;
+            get => Length == 0 || Address == 0;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Length != 0 || Base != 0;
+            get => Length != 0 || Address != 0;
         }
 
         public ref readonly char this[ulong index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Base.Ref<char>(), index);
+            get => ref seek(Address.Ref<char>(), index);
         }
 
         public ref readonly char this[long index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Base.Ref<char>(), index);
+            get => ref seek(Address.Ref<char>(), index);
         }
 
         public ByteSize Size
@@ -56,11 +56,20 @@ namespace Z0
             get => Length*size<char>();
         }
 
-        public ReadOnlySpan<char> View
+        public uint Hash
+            => alg.hash.marvin(Data);
+
+        public ReadOnlySpan<char> Data
         {
             [MethodImpl(Inline)]
-            get => cover<char>(Base.Pointer<char>(), Length);
+            get => cover<char>(Address.Pointer<char>(), Length);
         }
+
+        public bool Equals(StringRef src)
+            => text.equals(Data,src.Data);
+
+        public int CompareTo(StringRef src)
+            => Data.CompareTo(src.Data, StringComparison.InvariantCulture);
 
         public string Format()
             => strings.format(this);

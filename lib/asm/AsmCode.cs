@@ -12,7 +12,7 @@ namespace Z0.Asm
     using static core;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct AsmCode
+    public readonly struct AsmCode : IComparable<AsmCode>
     {
         public SourceText Asm {get;}
 
@@ -24,5 +24,8 @@ namespace Z0.Asm
             Asm = asm;
             Code = code;
         }
+
+        public int CompareTo(AsmCode src)
+            => Asm.CompareTo(src.Asm);
     }
 }

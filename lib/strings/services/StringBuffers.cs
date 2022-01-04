@@ -58,7 +58,7 @@ namespace Z0
             var dst = core.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
                 allocator.Allocate(skip(src,i), out seek(dst,i));
-            return new StringAllocation(storage, dst);
+            return new StringAllocation(allocator, dst);
         }
 
         public static SourceAllocation sources(ReadOnlySpan<string> src)
@@ -73,7 +73,7 @@ namespace Z0
             var dst = core.alloc<SourceText>(count);
             for(var i=0; i<count; i++)
                 allocator.Allocate(skip(src,i), out seek(dst,i));
-            return new SourceAllocation(storage, dst);
+            return new SourceAllocation(allocator, dst);
         }
 
         public static LabelAllocation labels(ReadOnlySpan<string> src)
@@ -88,7 +88,7 @@ namespace Z0
             var labels = core.alloc<Label>(count);
             for(var i=0; i<count; i++)
                 allocator.Allocate(skip(src,i), out seek(labels,i));
-            return new LabelAllocation(storage, labels);
+            return new LabelAllocation(allocator, labels);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Z0
         {
             var length = src.Length;
             if(length <= byte.MaxValue && store(src, offset, dst))
-                return new SourceText(dst.Address(offset), (uint)length);
+                return new SourceText(dst.Address(offset), length);
             else
                 return SourceText.Empty;
         }

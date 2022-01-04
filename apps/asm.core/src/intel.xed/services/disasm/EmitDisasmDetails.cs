@@ -13,27 +13,28 @@ namespace Z0
     using static Root;
     using static core;
     using static XedModels;
-    using static XedDisasm;
 
     using K = XedModels.OperandKind;
 
+
     partial class XedDisasmSvc
     {
-        public Outcome EmitDisasmDetails(IProjectWs src)
+        public Outcome EmitDisasmDetails(IProjectWs project)
         {
             var result = Outcome.Success;
-            var encodings = ParseEncodings(src);
-            var blocks = XedDisasmOps.LoadBlocks(src);
+            var encodings = ParseEncodings(project);
+            var sources = DisasmSources(project);
+            var blocks = XedDisasmOps.LoadFileBlocks(sources);
             var files = blocks.Keys;
             var count = files.Length;
-            var dir = ProjectDb.ProjectData() + FS.folder(string.Format("{0}.{1}", src.Name, "xed.disasm.detail"));
+            var dir = DisasmDetailDir(project);
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(files,i);
                 var block = blocks[path];
                 var encoding = encodings[path];
-                var dst = dir + FS.file(string.Format("{0}.details",path.FileName), FS.Txt);
-                result = EmitDisasmDetails(path,encoding.Encoded, block.Blocks, dst);
+                var dst = DisasmDetailTarget(project, path.FileName);
+                result = EmitDisasmDetails(path,encoding.Encoded, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
             }
@@ -41,7 +42,7 @@ namespace Z0
             return result;
         }
 
-        Outcome EmitDisasmDetails(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<XedDisasm.Block> blocks, FS.FilePath dst)
+        Outcome EmitDisasmDetails(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
         {
             const string RenderPattern = "{0,-22}: {1}";
             const string Cols2Pattern = "{0,-12} | {1,-12}";
@@ -71,19 +72,16 @@ namespace Z0
                 iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
                 iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
 
-                var codebs = code.ToBitString();
-                var parsed = parser.ParsedFields.ToHashSet();
                 writer.WriteLine(RP.PageBreak120);
                 writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
-                writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, codebs)));
+                writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
                 writer.WriteLine(string.Format(RenderPattern, "IClass", inst.Class));
                 writer.WriteLine(string.Format(RenderPattern, "IForm", inst.Form));
 
                 var prefixbytes = default(Span<byte>);
-                var prefixkinds = AsmPrefixKind.None;
                 var oc = state.nominal_opcode;
                 var ocpos = state.pos_nominal_opcode;
-                offsets.OpCode =(sbyte)(state.pos_nominal_opcode);
+                offsets.OpCode = (sbyte)(state.pos_nominal_opcode);
 
                 var srm = state.srm;
                 var ocsrm = (uint3)math.and((byte)srm, oc);
@@ -101,7 +99,65 @@ namespace Z0
                 if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
                     continue;
 
-                var maxopcount = 5u;
+                var _ops = list<RuleOpInfo>();
+                if(state.disp_width != 0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.DISP, disp(state, code)));
+
+                if(state.imm0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.IMM0, imm(state, code)));
+
+                if(state.base0.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.BASE0, state.base0));
+
+                if(state.base1.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.BASE1, state.base1));
+
+                if(state.scale != 0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.SCALE, state.scale));
+
+                if(state.index.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.INDEX, state.index));
+
+                if(state.reg0.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG0, state.reg0));
+
+                if(state.reg1.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG1, state.reg1));
+
+                if(state.reg2.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG2, state.reg2));
+
+                if(state.reg3.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG3, state.reg3));
+
+                if(state.reg4.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG4, state.reg4));
+
+                if(state.reg5.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG5, state.reg5));
+
+                if(state.reg6.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG6, state.reg6));
+
+                if(state.reg7.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG7, state.reg7));
+
+                if(state.reg8.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG8, state.reg8));
+
+                if(state.reg9.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG9, state.reg9));
+
+                if(nonempty(state.mem0))
+                    _ops.Add(new RuleOpInfo(RuleOpName.MEM0, state.mem0));
+
+                if(nonempty(state.mem1))
+                    _ops.Add(new RuleOpInfo(RuleOpName.MEM1, state.mem1));
+
+                if(nonempty(state.agen))
+                    _ops.Add(new RuleOpInfo(RuleOpName.AGEN, state.agen));
+
+                var ops = map(_ops, o => (o.Name, o)).ToDictionary();
                 var opcount = block.OperandCount;
                 for(var k=0; k<opcount; k++)
                 {
@@ -114,9 +170,24 @@ namespace Z0
                     var opwidth = OperandWidth(op.WidthType);
                     var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
                     var opname = XedRuleOps.name(op.Kind);
-                    var content = string.Format("{0,-12} | {1,-12} | {2,-12} | {3,-12} | {4,-12} | {5,-12}", op.Kind, opname, op.Action, op.Visiblity, widthdesc, op.Prop2);
+                    var opval = RuleOpInfo.Empty;
+                    ops.TryGetValue(opname, out opval);
+                    var content = string.Format("{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}", opname, opval, op.Action, op.Visiblity, widthdesc, op.Prop2);
                     writer.WriteLine(string.Format(RenderPattern, title, content));
                 }
+
+                if(ops.TryGetValue(RuleOpName.SCALE, out var x0))
+                    writer.WriteLine(string.Format(RenderPattern, x0.Name, x0));
+
+                if(ops.TryGetValue(RuleOpName.DISP, out var x1))
+                    writer.WriteLine(string.Format(RenderPattern, x1.Name, x1));
+
+                if(ops.TryGetValue(RuleOpName.INDEX, out var x2))
+                    writer.WriteLine(string.Format(RenderPattern, x2.Name, x2));
+
+                if(ops.TryGetValue(RuleOpName.BASE0, out var x3))
+                    writer.WriteLine(string.Format(RenderPattern, x3.Name, x3));
+
 
                 if(ocpos != 0)
                 {
@@ -188,15 +259,15 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, "Sib", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
                 }
 
-                if(state.disp_width != 0)
-                {
-                    var pos = state.pos_disp;
+                // if(state.disp_width != 0)
+                // {
+                //     var pos = state.pos_disp;
 
-                    if(pos != 0)
-                        offsets.Disp = (sbyte)pos;
+                //     if(pos != 0)
+                //         offsets.Disp = (sbyte)pos;
 
-                    writer.WriteLine(string.Format(RenderPattern, "Disp", disp(state,code)));
-                }
+                //     writer.WriteLine(string.Format(RenderPattern, "Disp", disp(state,code)));
+                // }
 
                 if(state.imm0)
                 {
@@ -224,93 +295,6 @@ namespace Z0
                         break;
                     }
                     writer.WriteLine(string.Format(RenderPattern, "Imm0", val.FormatHex(zpad:false,uppercase:true)));
-                }
-
-                if(state.imm1)
-                {
-
-                }
-
-                if(state.base0.IsNonEmpty)
-                {
-
-                }
-
-                if(state.base1.IsNonEmpty)
-                {
-
-                }
-
-                if(state.scale != 0)
-                {
-
-                }
-
-                if(state.index.IsNonEmpty)
-                {
-
-                }
-
-
-                if(state.reg0.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg1.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg2.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg3.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg4.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg5.IsNonEmpty)
-                {
-
-                }
-
-
-                if(state.reg6.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg7.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg8.IsNonEmpty)
-                {
-
-                }
-
-                if(state.reg9.IsNonEmpty)
-                {
-
-                }
-
-                if(nonempty(state.mem0))
-                {
-
-                }
-
-                if(nonempty(state.mem1))
-                {
-
                 }
 
                 var easzW = widths(state.easz);
@@ -344,85 +328,27 @@ namespace Z0
 
                 writer.WriteLine(string.Format(RenderPattern, "Offsets", offsets));
 
-                var fields = state.ToLookup();
-                var kinds = fields.Keys;
-                var values = fields.Values;
-                var flags = list<OperandKind>();
-                for(var k=0; k<kinds.Length; k++)
-                {
-                    ref readonly var kind = ref skip(kinds,k);
-
-                    switch(kind)
-                    {
-                        case K.HAS_MODRM:
-                        case K.POS_MODRM:
-                        case K.MODRM_BYTE:
-                        case K.MOD:
-                        case K.REG:
-                        case K.RM:
-                        case K.HAS_SIB:
-                        case K.SIBBASE:
-                        case K.SIBINDEX:
-                        case K.SIBSCALE:
-                        case K.POS_SIB:
-                        case K.REX:
-                        case K.REXB:
-                        case K.REXX:
-                        case K.REXR:
-                        case K.REXW:
-                        case K.NREXES:
-                        case K.NOMINAL_OPCODE:
-                        case K.POS_NOMINAL_OPCODE:
-                        case K.MAX_BYTES:
-                        case K.NPREFIXES:
-                        case K.DISP_WIDTH:
-                        case K.DISP:
-                        case K.POS_DISP:
-                        case K.IMM0:
-                        case K.POS_IMM:
-                        case K.IMM0SIGNED:
-                        case K.IMM_WIDTH:
-                        case K.EOSZ:
-                        case K.EASZ:
-                        case K.AMD3DNOW:
-                        case K.MAP:
-                        case K.VEXVALID:
-                        case K.VEX_PREFIX:
-                        case K.VEXDEST210:
-                        case K.VEXDEST3:
-                        case K.VEXDEST4:
-                        case K.VL:
-                        case K.NELEM:
-                        case K.ELEMENT_SIZE:
-                        case K.SRM:
-                        case K.OUTREG:
-                        break;
-                        default:
-                            if(parsed.Contains(kind))
-                            {
-                                ref readonly var value = ref skip(values,k);
-                                switch(kind)
-                                {
-                                    case K.P4:
-                                    case K.USING_DEFAULT_SEGMENT0:
-                                    case K.USING_DEFAULT_SEGMENT1:
-                                    case K.LZCNT:
-                                    case K.TZCNT:
-                                    case K.NEED_MEMDISP:
-                                    case K.DF32:
-                                    case K.DF64:
-                                    case K.MUST_USE_EVEX:
-                                    case K.REXRR:
-                                        flags.Add(kind);
-                                    break;
-                                    default:
-                                        writer.WriteLine(string.Format(RenderPattern, kind, value));
-                                    break;
-                                }
-                            }
-                        break;
-                    }
-                }
+                var flags = list<K>();
+                if(state.need_memdisp)
+                    flags.Add(K.NEED_MEMDISP);
+                if(state.p4)
+                    flags.Add(K.P4);
+                if(state.using_default_segment0)
+                    flags.Add(K.USING_DEFAULT_SEGMENT0);
+                if(state.using_default_segment1)
+                    flags.Add(K.USING_DEFAULT_SEGMENT1);
+                if(state.lzcnt)
+                    flags.Add(K.LZCNT);
+                if(state.tzcnt)
+                    flags.Add(K.TZCNT);
+                if(state.df32)
+                    flags.Add(K.DF32);
+                if(state.df64)
+                    flags.Add(K.DF64);
+                if(state.must_use_evex)
+                    flags.Add(K.MUST_USE_EVEX);
+                if(state.rexrr)
+                    flags.Add(K.REXRR);
 
                 writer.WriteLine(RenderPattern, "Flags", flags.Delimit().Format());
             }

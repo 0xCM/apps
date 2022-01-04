@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public unsafe readonly struct Label : IEquatable<Label>, ITextual
+    public unsafe readonly struct Label : IMemoryString<Label>
     {
         readonly ulong Storage;
 
@@ -19,7 +19,7 @@ namespace Z0
             Storage = (ulong)@base | ((ulong)length << 56);
         }
 
-        public byte Length
+        public int Length
         {
             [MethodImpl(Inline)]
             get => (byte)(Storage >> 56);
@@ -62,7 +62,10 @@ namespace Z0
         }
 
         public bool Equals(Label src)
-            => Storage == src.Storage;
+            => text.equals(Data,src.Data);
+
+        public int CompareTo(Label src)
+            => Data.CompareTo(src.Data, StringComparison.InvariantCulture);
 
         public string Format()
             => new string(Data);

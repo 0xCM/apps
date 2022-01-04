@@ -12,9 +12,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    using static XedDisasm;
     using static XedModels;
-
 
     public readonly struct XedDisasmOps
     {
@@ -25,7 +23,7 @@ namespace Z0
         public static Outcome ParseEncodings(FS.FilePath src, List<AsmStatementEncoding> dst)
             => ParseEncodings(LoadBlocks(src), dst);
 
-        public static Outcome ParseEncodings(ReadOnlySpan<Block> blocks, List<AsmStatementEncoding> dst)
+        public static Outcome ParseEncodings(ReadOnlySpan<DisasmLineBlock> blocks, List<AsmStatementEncoding> dst)
         {
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);
@@ -58,39 +56,38 @@ namespace Z0
             return true;
         }
 
-        public static Outcome ParseEncodings(FS.FilePath src, out StatementEncodings dst)
+        public static Outcome ParseEncodings(FS.FilePath src, out SourceEncodings dst)
         {
             var buffer = list<AsmStatementEncoding>();
             var result = ParseEncodings(src,buffer);
             if(result)
-                dst = new StatementEncodings(src, buffer.ToArray());
+                dst = new SourceEncodings(src, buffer.ToArray());
             return result;
         }
 
-        public static ConstLookup<FS.FilePath,FileBlocks> LoadBlocks(IProjectWs project)
+        public static ConstLookup<FS.FilePath,DisasmFileBlocks> LoadFileBlocks(FS.Files src)
         {
-            var src = project.OutFiles(FS.ext("xed.txt"));
-            var dst = dict<FS.FilePath,FileBlocks>();
-            var blocks = list<Block>();
+            var dst = dict<FS.FilePath,DisasmFileBlocks>();
+            var blocks = list<DisasmLineBlock>();
             foreach(var path in src)
             {
                 blocks.Clear();
                 LoadBlocks(path,blocks);
-                dst[path] = new FileBlocks(path, blocks.ToArray());
+                dst[path] = new DisasmFileBlocks(path, blocks.ToArray());
             }
             return dst;
         }
 
-        public static Index<Block> LoadBlocks(FS.FilePath src)
+        public static Index<DisasmLineBlock> LoadBlocks(FS.FilePath src)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
-            var dst = list<Block>();
+            var dst = list<DisasmLineBlock>();
             LoadBlocks(src,dst);
             return dst.ToArray();
         }
 
-        public static void LoadBlocks(FS.FilePath src, List<Block> dst)
+        public static void LoadBlocks(FS.FilePath src, List<DisasmLineBlock> dst)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
@@ -124,8 +121,7 @@ namespace Z0
             }
         }
 
-
-        static ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<Block> src)
+        static ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
         {
             var dst = list<TextLine>();
             var count = src.Length;
@@ -143,7 +139,7 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
-        static ReadOnlySpan<AsmExpr> expressions(ReadOnlySpan<Block> src)
+        static ReadOnlySpan<AsmExpr> expressions(ReadOnlySpan<DisasmLineBlock> src)
         {
             var dst = list<AsmExpr>();
             foreach(var block in src)

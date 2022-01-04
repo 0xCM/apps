@@ -4,14 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using static core;
+
+    using Asm;
+
     partial class ProjectCmdProvider
     {
-        const string CollectXedDisasmCmd = "xed/disasm/collect";
 
-        [CmdOp(CollectXedDisasmCmd)]
+        [CmdOp("xed/disasm/collect")]
         Outcome CollectXedDisasm(CmdArgs args)
         {
-            var records = XedDisasm.Collect(Project());
+            var project = Project();
+            var records = XedDisasm.Collect(project);
+
             return true;
         }
     }

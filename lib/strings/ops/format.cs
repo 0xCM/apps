@@ -13,7 +13,7 @@ namespace Z0
     {
         [Op]
         public static string format(in StringRef src)
-            => new string(src.View);
+            => new string(src.Data);
 
         public static string format<S>(in StringRef<S> src)
             where S : unmanaged
