@@ -42,7 +42,6 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<OperandKind>(scope, xed);
             ApiMetadata.EmitTokens<OperandWidthType>(scope, xed);
             ApiMetadata.EmitTokens<OperandAction>(scope, xed);
-            ApiMetadata.EmitTokens<OpCodeMap>(scope, xed);
             ApiMetadata.EmitTokens<PointerWidthKind>(scope, xed);
             ApiMetadata.EmitTokens<RegId>(scope, xed);
             ApiMetadata.EmitTokens<RegClassCode>(scope, xed);

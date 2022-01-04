@@ -115,6 +115,7 @@ namespace Z0.Asm
             }
         }
 
+
         public ReadOnlySpan<XedQueryResult> QueryCatalog(string monic, bool emit = true)
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";

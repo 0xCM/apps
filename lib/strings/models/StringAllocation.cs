@@ -10,23 +10,23 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class LabelAllocation : IDisposable
+    public class StringAllocation : IDisposable
     {
         readonly StringBuffer Buffer;
 
-        readonly Index<Label> Labels;
+        readonly Index<StringRef> _Allocated;
 
         [MethodImpl(Inline)]
-        internal LabelAllocation(StringBuffer buffer, Label[] labels)
+        internal StringAllocation(StringBuffer buffer, StringRef[] allocated)
         {
             Buffer = buffer;
-            Labels = labels;
+            _Allocated = allocated;
         }
 
-        public ReadOnlySpan<Label> Allocated
+        public ReadOnlySpan<StringRef> Allocated
         {
             [MethodImpl(Inline)]
-            get => Labels;
+            get => _Allocated;
         }
 
         public void Dispose()

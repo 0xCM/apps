@@ -25,7 +25,7 @@ namespace Z0.Asm
         public static byte movzx(r16 dst, r8 src, ref byte hex)
         {
             const byte Size = 5;
-            seek(hex,0) = AsmEncoding.modrm(dst.Index, src.Index, 0);
+            seek(hex,0) = AsmEncodings.modrm(dst.Index, src.Index, 0);
             seek(hex,1)  = 0xB6;
             seek(hex,2)  = 0x0F;
             seek(hex,3)  = 0x66;

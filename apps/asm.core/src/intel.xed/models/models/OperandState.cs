@@ -56,12 +56,6 @@ namespace Z0
             [OperandKind(HAS_SIB)]
             public bit has_sib;
 
-            [OperandKind(ILD_F2)]
-            public bit ild_f2;
-
-            [OperandKind(ILD_F3)]
-            public bit ild_f3;
-
             [OperandKind(IMM0, "Indicates whether a first imm operand is present")]
             public bit imm0;
 
@@ -70,6 +64,15 @@ namespace Z0
 
             [OperandKind(IMM1, "Indicates whether a second imm operand is present")]
             public bit imm1;
+
+            [OperandKind(OperandKind.IMM_WIDTH)]
+            public byte imm_width;
+
+            [OperandKind(IMM1_BYTES)]
+            public byte imm1_bytes;
+
+            [OperandKind(UIMM0)]
+            public imm64 uimm0;
 
             [OperandKind(LOCK)]
             public bit @lock;
@@ -205,6 +208,12 @@ namespace Z0
             [OperandKind(LAST_F2F3)]
             public uint2 last_f2f3;
 
+            [OperandKind(ILD_F2)]
+            public bit ild_f2;
+
+            [OperandKind(ILD_F3)]
+            public bit ild_f3;
+
             [OperandKind(LLRC)]
             public uint2 llrc;
 
@@ -268,9 +277,6 @@ namespace Z0
             [OperandKind(NELEM)]
             public byte nelem;
 
-            [OperandKind(SCALE)]
-            public uint4 scale;
-
             [OperandKind(BCAST)]
             public BCastKind bcast;
 
@@ -288,12 +294,6 @@ namespace Z0
 
             [OperandKind(ILD_SEG)]
             public byte ild_seg;
-
-            [OperandKind(IMM1_BYTES)]
-            public byte imm1_bytes;
-
-            [OperandKind(OperandKind.IMM_WIDTH)]
-            public byte imm_width;
 
             [OperandKind(OperandKind.MAX_BYTES)]
             public byte max_bytes;
@@ -346,6 +346,9 @@ namespace Z0
             [OperandKind(INDEX)]
             public Register index;
 
+            [OperandKind(SCALE)]
+            public uint4 scale;
+
             [OperandKind(OUTREG)]
             public Register outreg;
 
@@ -394,8 +397,6 @@ namespace Z0
             [OperandKind(DISP)]
             public Disp64 disp;
 
-            [OperandKind(UIMM0)]
-            public imm64 uimm0;
 
             public static OperandState Empty => default;
 

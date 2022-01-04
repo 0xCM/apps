@@ -20,8 +20,6 @@ namespace Z0
 
         Symbols<IClass> Classes;
 
-        Symbols<VexMapKind> VexMapKinds;
-
         Symbols<OperandWidthType> WidthTypes;
 
         XedRules Rules => Service(Wf.XedRules);
@@ -33,7 +31,6 @@ namespace Z0
             Forms = Symbols.index<IFormType>();
             Classes = Symbols.index<IClass>();
             WidthTypes = Symbols.index<OperandWidthType>();
-            VexMapKinds = Symbols.index<VexMapKind>();
         }
 
         protected override void OnInit()

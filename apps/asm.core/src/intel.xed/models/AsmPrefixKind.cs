@@ -7,283 +7,128 @@ namespace Z0.Asm
     using System;
 
     using static Pow2x32;
-    using static core;
 
-    using C = AsmPrefixCode;
-    using K = AsmPrefixKind;
-    using L = AsmPrefixClass;
-
-    public readonly struct AsmPrefixCalcs
-    {
-        public static AsmPrefixKind kinds(ReadOnlySpan<byte> src)
-        {
-            var count = src.Length;
-            var result = AsmPrefixKind.None;
-            for(var i=0; i<count; i++)
-            {
-                var c = code(skip(src,i));
-                if(c != 0)
-                    result |= kind(c);
-            }
-            return result;
-        }
-
-        public static AsmPrefixClass @class(AsmPrefixCode src)
-            => src switch
-            {
-                C.Escape => L.Escape,
-
-                C.SsSegOverride => L.Legacy,
-
-                C.EsSegOverride => L.Legacy,
-
-                C.FsSegOverride => L.Legacy,
-
-                C.GsSegOverride => L.Legacy,
-
-                C.OSZ => L.Legacy,
-
-                C.ASZ => L.Legacy,
-
-                C.BranchTaken => L.Legacy,
-
-                C.BranchNotTaken => L.Legacy,
-
-                C.Lock => L.Legacy,
-
-                C.RepF2 => L.Legacy,
-
-                C.RepF3 => L.Legacy,
-
-                C.Rex => L.REX,
-
-                C.VexC4 => L.VEX,
-
-                C.VexC5 => L.VEX,
-                _ => L.None,
-
-            };
-
-        public static AsmPrefixClass @class(AsmPrefixKind src)
-            => src switch
-            {
-                K.Escape => L.Escape,
-
-                K.SsSegOverride => L.Legacy,
-
-                K.EsSegOverride => L.Legacy,
-
-                K.FsSegOverride => L.Legacy,
-
-                K.GsSegOverride => L.Legacy,
-
-                K.OSZ => L.Legacy,
-
-                K.ASZ => L.Legacy,
-
-                K.BranchTaken => L.Legacy,
-
-                K.BranchNotTaken => L.Legacy,
-
-                K.Lock => L.Legacy,
-
-                K.RepF2 => L.Legacy,
-
-                K.RepF3 => L.Legacy,
-
-                K.Rex => L.REX,
-
-                K.VexC4 => L.VEX,
-
-                K.VexC5 => L.VEX,
-                _ => L.None,
-            };
-
-        public static AsmPrefixKind kind(AsmPrefixCode code)
-            => code switch
-            {
-                C.Escape => K.Escape,
-
-                C.SsSegOverride => K.SsSegOverride,
-
-                C.EsSegOverride => K.EsSegOverride,
-
-                C.FsSegOverride => K.FsSegOverride,
-
-                C.GsSegOverride => K.GsSegOverride,
-
-                C.Rex => K.Rex,
-
-                C.OSZ => K.OSZ,
-
-                C.ASZ => K.ASZ,
-
-                C.BranchTaken => K.BranchTaken,
-
-                C.BranchNotTaken => K.BranchNotTaken,
-
-                C.Lock => K.Lock,
-
-                C.RepF2 => K.RepF2,
-
-                C.RepF3 => K.RepF3,
-
-                C.VexC4 => K.VexC4,
-
-                C.VexC5 => K.VexC5,
-
-                _ => K.None,
-            };
-
-        public static AsmPrefixCode code(byte src)
-            => src switch
-            {
-                0x0F => C.Escape,
-
-                //0x2E => C.CsSegOverride,
-                //0x3E => C.DsSegOverride,
-
-                0x36 => C.SsSegOverride,
-
-                0x26 => C.EsSegOverride,
-
-                0x64 => C.FsSegOverride,
-
-                0x65 => C.GsSegOverride,
-
-                0x40 => C.Rex,
-
-                0x66 => C.OSZ,
-
-                0x67 => C.ASZ,
-
-                0x3E => C.BranchTaken,
-
-                0x2E => C.BranchNotTaken,
-
-                0xF0 => C.Lock,
-
-                0xF2 => C.RepF2,
-
-                0xF3 => C.RepF3,
-
-                0xC4 => C.VexC4,
-
-                0xC5 => C.VexC5,
-
-                _ => C.None,
-            };
-    }
+    using static AsmPrefixGroup;
 
     [Flags]
-    public enum AsmPrefixClass : byte
+    public enum AsmPrefixGroup : byte
     {
-        None = 0,
+        None,
 
-        Escape = Pow2x8.P2ᐞ00,
+        Group1 = 1,
 
-        Legacy = Pow2x8.P2ᐞ01,
+        Group2 = 2,
 
-        REX = Pow2x8.P2ᐞ02,
+        Group3 = 4,
 
-        VEX = Pow2x8.P2ᐞ03,
-
-        EVEX = Pow2x8.P2ᐞ04,
+        Group4 = 8,
     }
 
-    [Flags]
+    [Flags,SymSource("asm.encoding")]
     public enum AsmPrefixKind : uint
     {
         None = 0,
 
         /// <summary>
-        /// Escape prefix
-        /// </summary>
-        Escape = P2ᐞ00,
-
-        /// <summary>
         /// Lock prefix (Group 1)
         /// </summary>
-        Lock = P2ᐞ01,
+        [Symbol("LOCK")]
+        Lock = P2ᐞ01 | (Group1 << 25),
 
         /// <summary>
         /// F2 Repeat prefix (Group 1)
         /// </summary>
-        RepF2 = P2ᐞ02,
+        [Symbol("REPF2")]
+        RepF2 = P2ᐞ02 | (Group1 << 25),
 
         /// <summary>
         /// F3 Repeat prefix (Group 1)
         /// </summary>
-        RepF3 = P2ᐞ03,
+        [Symbol("REPF3")]
+        RepF3 = P2ᐞ03 | (Group1 << 25),
 
         /// <summary>
         /// CS seg override prefix (Group 2)
         /// </summary>
-        CsSegOverride = P2ᐞ04,
+        [Symbol("CS")]
+        CsSegOverride = P2ᐞ04 | (Group2 << 25),
 
         /// <summary>
         /// SS seg override prefix (Group 2)
         /// </summary>
-        SsSegOverride = P2ᐞ05,
+        [Symbol("SS")]
+        SsSegOverride = P2ᐞ05 | (Group3 << 25),
 
         /// <summary>
         /// DS seg override prefix (Group 2)
         /// </summary>
-        DsSegOverride = P2ᐞ06,
+        [Symbol("DS")]
+        DsSegOverride = P2ᐞ06 | (Group2 << 25),
 
         /// <summary>
         /// ES seg override prefix (Group 2)
         /// </summary>
-        EsSegOverride = P2ᐞ07,
+        [Symbol("ES")]
+        EsSegOverride = P2ᐞ07 | (Group2 << 25),
 
         /// <summary>
         /// FS seg override prefix (Group 2)
         /// </summary>
-        FsSegOverride = P2ᐞ08,
+        [Symbol("FS")]
+        FsSegOverride = P2ᐞ08 | (Group2 << 25),
 
         /// <summary>
         /// GS seg override prefix (Group 2)
         /// </summary>
-        GsSegOverride = P2ᐞ09,
+        [Symbol("GS")]
+        GsSegOverride = P2ᐞ09 | (Group2 << 25),
 
         /// <summary>
         /// Branch hint taken (Group 2)
         /// </summary>
-        BranchTaken = P2ᐞ10,
+        [Symbol("BR1")]
+        BranchTaken = P2ᐞ10 | (Group2 << 25),
 
         /// <summary>
         /// Branch hint not taken  (Group 2)
         /// </summary>
-        BranchNotTaken = P2ᐞ11,
+        [Symbol("BR0")]
+        BranchNotTaken = P2ᐞ11 | (Group2 << 25),
 
         /// <summary>
         /// Operand size override (Group 3)
         /// </summary>
-        OSZ = P2ᐞ12,
+        [Symbol("OSZ")]
+        OSZ = P2ᐞ12 | (Group3 << 25),
 
         /// <summary>
         /// Address size override (Group 4)
         /// </summary>
-        ASZ = P2ᐞ13,
+        [Symbol("ASZ")]
+        ASZ = P2ᐞ13 | (Group4 << 25),
 
         /// <summary>
         /// Rex prefix
         /// </summary>
+        [Symbol("REX")]
         Rex = P2ᐞ20,
 
         /// <summary>
         /// VEX C4 prefix
         /// </summary>
+        [Symbol("VexC4")]
         VexC4 = P2ᐞ21,
 
         /// <summary>
         /// VEX C5 prefix
         /// </summary>
+        [Symbol("VexC5")]
         VexC5 = P2ᐞ22,
 
         /// <summary>
         /// EVEX prefix
         /// </summary>
+        [Symbol("EVEX")]
         Evex = P2ᐞ23,
     }
 

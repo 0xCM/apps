@@ -65,7 +65,7 @@ namespace Z0
                                         ParseIClass(value, out dst.Class);
                                     break;
                                     case P.Operands:
-                                        result = ParseOperands2(value, out var ops);
+                                        result = ParseOperands(value, out var ops);
                                         if(result)
                                         {
                                             operands.Add(new PatternOperands(pattern, ops));

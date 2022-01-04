@@ -12,10 +12,6 @@ namespace Z0.Asm
     public class AsmRegCodes
     {
         [Op]
-        public static Type[] RegCodeTypes()
-            => _RegCodeTypes.Storage;
-
-        [Op]
         public static Symbols<Gp8LoReg> Gp8Regs()
             => _Gp8;
 
@@ -135,15 +131,12 @@ namespace Z0.Asm
 
         static Symbols<RegClassCode> _RegClasses;
 
-        static Index<Type> _RegCodeTypes;
-
         static Symbols<K> symbols<K>()
             where K : unmanaged, Enum
                 => Symbols.index<K>();
 
         static AsmRegCodes()
         {
-            _RegCodeTypes = typeof(AsmCodes).GetNestedTypes().Tagged<RegCodeAttribute>();
             _Gp8 = symbols<Gp8LoReg>();
             _Gp8Hi = symbols<Gp8HiReg>();
             _Gp16 = symbols<Gp16Reg>();

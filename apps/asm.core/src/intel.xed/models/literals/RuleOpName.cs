@@ -7,7 +7,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed)]
-        public enum RuleOpKind : byte
+        public enum RuleOpName : byte
         {
             None = 0,
 

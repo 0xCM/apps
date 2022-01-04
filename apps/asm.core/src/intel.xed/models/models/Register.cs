@@ -22,6 +22,18 @@ namespace Z0
                 Symbols.expr(src);
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Value != 0;
+            }
+
             public string Format()
                 => Value != 0 ? Symbols.format(Value) : EmptyString;
 

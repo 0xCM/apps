@@ -13,7 +13,7 @@ namespace Z0
             const string Case2 = "n -> o -> p -> q -> r -> s -> t";
             const string Case3 = "u -> v -> w -> x -> y -> z";
 
-            using var buffer = strings.buffer(Pow2.T14);
+            using var buffer = StringBuffers.buffer(Pow2.T14);
             var allocator = buffer.LabelAllocator();
 
             RequireEq(Lineage2.parse(allocator, Case0).Format(), Case0);

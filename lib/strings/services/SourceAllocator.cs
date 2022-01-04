@@ -7,10 +7,10 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    /// Allocates strings from a suplied <see cref='StringBuffer'/>
-    /// </summary>
-    public class StringAllocator
+    using static Root;
+    using static core;
+
+    public class SourceAllocator
     {
         StringBuffer Buffer;
 
@@ -18,28 +18,22 @@ namespace Z0
 
         uint Position;
 
-        internal StringAllocator(StringBuffer buffer)
+        internal SourceAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
             MaxAddress =  buffer.Address(buffer.Length);
             Position = 0;
         }
 
-        /// <summary>
-        /// Populates a <see cref='StringRef'/> that represents the input if the buffer has sufficient capacity and returns true; otherwise,
-        /// returns false
-        /// </summary>
-        /// <param name="src">The input sequence</param>
-        /// <param name="dst">The input sequence reference, if successful, otherwise a reference to the empty string</param>
-        public bool Allocate(ReadOnlySpan<char> src, out StringRef dst)
+        public bool Allocate(ReadOnlySpan<char> src, out SourceText dst)
         {
             var length = (uint)src.Length;
-            dst = StringRef.Empty;
+            dst = SourceText.Empty;
 
             if(Buffer.Address(Position + length) > MaxAddress)
                 return false;
 
-            dst = Buffer.StoreString(src, Position);
+            dst = Buffer.StoreSource(src, Position);
             Position += length;
             return true;
         }

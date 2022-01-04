@@ -11,6 +11,7 @@ namespace Z0
     using static Root;
 
     using static XedModels.RuleNames;
+
     using EK = XedModels.RuleExprKind;
 
     [ApiHost]
@@ -30,13 +31,15 @@ namespace Z0
 
         Symbols<IFormType> Forms;
 
-        Symbols<RuleOpKind> OpKinds;
+        Symbols<RuleOpName> OpKinds;
 
         Index<RulePart,string> PartNames;
 
         Index<PointerWidth> PointerWidths;
 
         Symbols<PointerWidthKind> PointerWidthSymbols;
+
+
         public XedRules()
         {
             Classes = Symbols.index<IClass>();
@@ -46,7 +49,7 @@ namespace Z0
             IsaKinds = Symbols.index<IsaKind>();
             OpWidthTypes = Symbols.index<OperandWidthType>();
             DataTypes = Symbols.index<DataType>();
-            OpKinds = Symbols.index<RuleOpKind>();
+            OpKinds = Symbols.index<RuleOpName>();
             PointerWidthSymbols = Symbols.index<PointerWidthKind>();
             PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
@@ -62,7 +65,22 @@ namespace Z0
             EmitEncDecRuleTables();
             EmitOperandWidths();
             EmitPointerWidths();
+            EmitOpCodeMaps();
         }
+
+        OpCodeMaps DeriveOpCodeMaps()
+            => Data(nameof(DeriveOpCodeMaps), () => new OpCodeMaps());
+
+        public OpCodeMaps EmitOpCodeMaps()
+        {
+            var src = DeriveOpCodeMaps();
+            var dst = ProjectDb.TablePath<OpCodeMap>("xed");
+            TableEmit(src.Records, OpCodeMap.RenderWidths, dst);
+            return src;
+        }
+
+        public OpCodeMaps LoadOpCodeMaps()
+            => DeriveOpCodeMaps();
 
         public Index<OperandWidth> EmitOperandWidths()
         {
@@ -110,7 +128,8 @@ namespace Z0
                     var pattern = new RulePattern();
                     pattern.Class = inst.Class;
                     pattern.Content = op.Pattern;
-                    pattern.Hash = alg.hash.calc(op.Pattern.Text);
+                    pattern.Hash = alg.hash.marvin(op.Pattern.Text);
+                    pattern.OpCodeMap = OpCodeMaps.identify(op.Pattern.Text);
                     buffer.Add(pattern);
                 }
             }
@@ -140,19 +159,6 @@ namespace Z0
             var dec = y.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
             var count = Require.equal(enc.Count, dec.Count);
             var patterns = ExtractRulePatterns(x);
-            // var buffer = alloc<RulePattern>(count);
-            // var hashes = hashset<Hash32>();
-            // for(var i=0u; i<count; i++)
-            // {
-            //     ref readonly var a = ref enc[i];
-            //     ref readonly var b = ref dec[i];
-            //     ref var dst = ref seek(buffer,i);
-            //     dst.Seq = i;
-            //     dst.Content = Require.equal(a,b);
-            //     dst.Hash = alg.hash.calc(dst.Content.Text);
-            //     hashes.Add(dst.Hash);
-            // }
-
             var path = RuleTarget(RuleDocKind.Patterns);
             TableEmit(patterns.View, RulePattern.RenderWidths, path);
             return patterns;

@@ -60,7 +60,7 @@ namespace Z0.Asm
         }
 
         public void EmitThumbprints(SortedSpan<ProcessAsmRecord> src, FS.FilePath dst)
-            => EmitThumbprints(AsmEncoding.encodings(src), dst);
+            => EmitThumbprints(AsmEncodings.encodings(src), dst);
 
         public SortedSpan<AsmThumbprint> EmitThumbprints(ReadOnlySpan<HostAsmRecord> src, FS.FilePath dst)
         {

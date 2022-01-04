@@ -16,7 +16,7 @@ namespace Z0
         {
             public const string TableId = "xed.rules.patterns";
 
-            public const byte FieldCount = 4;
+            public const byte FieldCount = 5;
 
             public uint Seq;
 
@@ -24,9 +24,11 @@ namespace Z0
 
             public IClass Class;
 
+            public OpCodeMapIdentity OpCodeMap;
+
             public TextBlock Content;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
 
             public override int GetHashCode()
                 => (int)Hash;

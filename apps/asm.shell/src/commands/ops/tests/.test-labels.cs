@@ -8,20 +8,54 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        Outcome LabelTest2()
+        Outcome CheckStringBuffer()
+        {
+            var result = Outcome.Success;
+            var count = Pow2.T16;
+            var inputlen = Pow2.T04;
+            var totallen = count*inputlen;
+            var size = totallen*core.size<char>();
+            using var buffer = StringBuffers.buffer(totallen);
+            var allocator = buffer.StringAllocator();
+            var refs = core.alloc<StringRef>(count);
+            for(var i=0; i<count; i++)
+            {
+                var input = BitRender.format16((ushort)i);
+                if(!allocator.Allocate(input, out seek(refs,i)))
+                {
+                    result = (false,"Capacity exceeded");
+                    break;
+                }
+
+                ref readonly var allocated = ref skip(refs,i);
+                var formatted = allocated.Format();
+                if(!input.Equals(formatted))
+                {
+                    result = (false, string.Format("input:{0} != output:{1}", input, formatted));
+                    break;
+                }
+            }
+            if(result)
+                result = (true, string.Format("Verified string allocator for {0} inputs over a buffer of size {1}", count, size));
+
+            return result;
+        }
+
+        Outcome CheckStringAllocator()
         {
             var result = Outcome.Success;
             var count = Pow2.T12;
-            var input = alloc<string>(count);
+            var src = alloc<string>(count);
             for(var i=0; i<count; i++)
-                seek(input,i) = i.FormatBits();
+                seek(src,i) = i.FormatBits();
 
-            using var buffer = strings.buffer(input, out var index);
+            using var allocation = StringBuffers.strings(src);
+            var allocated = allocation.Allocated;
             for(var i=0; i<count; i++)
             {
-                ref readonly var label = ref index[i];
+                ref readonly var sref = ref skip(allocated,i);
                 var expect = i.FormatBits();
-                var actual = label.Format();
+                var actual = sref.Format();
                 if(expect != actual)
                 {
                     result = (false,string.Format("{0} != {1}", actual, expect));
@@ -30,7 +64,7 @@ namespace Z0.Asm
             }
 
             if(result)
-                Write(string.Format("Verified {0} direct label allocations", count));
+                result = (true,string.Format("Verified {0} string allocations", count));
 
             return result;
         }
@@ -43,7 +77,7 @@ namespace Z0.Asm
             for(uint i=0; i<count; i++)
                 seek(src,i) = BitRender.format8((byte)i);
 
-            using var allocation = LabelAllocation.allocate(src);
+            using var allocation = StringBuffers.labels(src);
             var labels = allocation.Allocated;
             if(labels.Length != count)
                 result = (false, string.Format("{0} != {1}", labels.Length, count));
@@ -62,24 +96,29 @@ namespace Z0.Asm
                 }
             }
             if(result)
-                Write("Label allocation succeeded", FlairKind.Status);
+                result = (true, string.Format("Verified {0} label allocations", count));
 
             return result;
         }
 
-        [CmdOp(".test-labels")]
+        [CmdOp(".test/stringbuffers")]
         Outcome TestLabels(CmdArgs args)
         {
             var result = Outcome.Success;
 
-            result = LabelTest2();
+            result = CheckStringAllocator();
             if(result.Fail)
                 return result;
+            else
+                Status(result.Message);
 
             result = CheckLabelAllocator();
             if(result.Fail)
                 return result;
+            else
+                Status(result.Message);
 
+            result = CheckStringBuffer();
 
             return result;
         }

@@ -10,6 +10,8 @@ namespace Z0
     using static Root;
     using static core;
 
+    using api = StringBuffers;
+
     /// <summary>
     /// Defines a character string allocated over a native buffer
     /// </summary>
@@ -83,15 +85,19 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Store(ReadOnlySpan<char> src, uint offset)
-            => strings.store(src, offset, this);
+            => api.store(src, offset, this);
 
         [MethodImpl(Inline)]
         public Label StoreLabel(ReadOnlySpan<char> src, uint offset)
-            => strings.label(src, offset, this);
+            => api.label(src, offset, this);
 
         [MethodImpl(Inline)]
         public StringRef StoreString(ReadOnlySpan<char> src, uint offset)
-            => strings.stringref(src, offset, this);
+            => api.stringref(src, offset, this);
+
+        [MethodImpl(Inline)]
+        public SourceText StoreSource(ReadOnlySpan<char> src, uint offset)
+            => api.source(src,offset,this);
 
         public Span<char> Edit
         {
@@ -117,10 +123,13 @@ namespace Z0
             get => Buffer.Width;
         }
 
-        public StringAllocator Allocator()
+        public StringAllocator StringAllocator()
             => new StringAllocator(this);
 
         public LabelAllocator LabelAllocator()
             => new LabelAllocator(this);
+
+        public SourceAllocator SourceAllocator()
+            => new SourceAllocator(this);
     }
 }

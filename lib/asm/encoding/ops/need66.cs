@@ -7,7 +7,7 @@ namespace Z0.Asm
     using static OpModeKind;
     using static OpszKind;
 
-    partial struct AsmEncoding
+    partial struct AsmEncodings
     {
         /// <summary>
         /// Determines whether a 66h prefix is required to indicate an operand-size override

@@ -23,7 +23,7 @@ namespace Z0
         internal SymbolTable(uint count, ByteSize capacity)
         {
             _Symbols = alloc<SymbolHash>(count);
-            _Strings = strings.buffer(capacity/2);
+            _Strings = StringBuffers.buffer(capacity/2);
             Allocated = 0;
             SymIndex = 0;
         }

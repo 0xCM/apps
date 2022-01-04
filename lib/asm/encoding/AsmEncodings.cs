@@ -15,7 +15,7 @@ namespace Z0.Asm
     using K = AsmPrefixCodes.RexPrefixCode;
 
     [ApiHost]
-    public readonly partial struct AsmEncoding
+    public readonly partial struct AsmEncodings
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -32,7 +32,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var statement = ref skip(src,i);
-                if(collected.Add(AsmEncoding.describe(statement)))
+                if(collected.Add(AsmEncodings.describe(statement)))
                     counter++;
             }
             return collected.Array().ToSortedSpan();

@@ -12,7 +12,7 @@ namespace Z0
     {
         public readonly struct RuleOperand
         {
-            public RuleOpKind Kind {get;}
+            public RuleOpName Kind {get;}
 
             public OpDirection Direction {get;}
 
@@ -25,7 +25,7 @@ namespace Z0
             public Index<string> Attributes {get;}
 
             [MethodImpl(Inline)]
-            public RuleOperand(RuleOpKind kind, string[] attributes)
+            public RuleOperand(RuleOpName kind, string[] attributes)
             {
                 Kind = kind;
                 Direction = 0;
@@ -36,7 +36,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleOperand(RuleOpKind kind, OpDirection dir, OperandWidth width, string refinement, TableFunction fx)
+            public RuleOperand(RuleOpName kind, OpDirection dir, OperandWidth width, string refinement, TableFunction fx)
             {
                 Kind = kind;
                 Direction = dir;
@@ -47,7 +47,7 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleOperand(RuleOpKind kind, OpDirection dir, OperandWidth width, string refinement)
+            public RuleOperand(RuleOpName kind, OpDirection dir, OperandWidth width, string refinement)
             {
                 Kind = kind;
                 Width = width;

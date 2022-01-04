@@ -4,9 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [ApiHost]
-    public readonly partial struct AsmCodes
-    {
+    using System;
 
+    [Flags]
+    public enum AsmPrefixClass : byte
+    {
+        None = 0,
+
+        Legacy = Pow2x8.P2ᐞ01,
+
+        REX = Pow2x8.P2ᐞ02,
+
+        VEX = Pow2x8.P2ᐞ03,
+
+        EVEX = Pow2x8.P2ᐞ04,
     }
 }

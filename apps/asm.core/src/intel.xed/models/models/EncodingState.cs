@@ -15,7 +15,6 @@ namespace Z0
     using static XedModels.SMode;
     using static XedModels.RepPrefix;
     using static XedModels.SegPrefixKind;
-    using static XedModels.OpCodeMap;
 
     partial struct XedModels
     {
@@ -58,7 +57,7 @@ namespace Z0
 
             public VexPrefixKind VEX_PREFIX;
 
-            public OpCodeMap MAP;
+            public uint4 MAP;
 
             public uint3 VEXDEST210;
 
@@ -421,27 +420,21 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public void VMAP0()
-            {
-                MAP = MAP_VMAP0;
-            }
-
-            [MethodImpl(Inline)]
             public void V0F()
             {
-                MAP = MAP_V0F;
+                MAP = (byte)VexMapKind.VEX_MAP_0F38;
             }
 
             [MethodImpl(Inline)]
             public void V0F38()
             {
-                MAP = MAP_V0F38;
+                MAP = (byte)VexMapKind.VEX_MAP_0F38;
             }
 
             [MethodImpl(Inline)]
             public void V0F3A()
             {
-                MAP = MAP_V0F3A;
+                MAP = (byte)VexMapKind.VEX_MAP_0F3A;
             }
 
             [MethodImpl(Inline)]

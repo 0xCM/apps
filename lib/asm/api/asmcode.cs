@@ -2,21 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public abstract class SourceText<T> : ISourceText
-        where T : SourceText<T>
+    partial struct asm
     {
-        public TextBlock Content {get;}
-
-        [MethodImpl(Inline)]
-        protected SourceText(TextBlock src)
-        {
-            Content = src;
-        }
+        [MethodImpl(Inline), Op]
+        public static AsmCode asmcode(SourceText src, AsmHexCode hex)
+            => new AsmCode(src,hex);
     }
 }

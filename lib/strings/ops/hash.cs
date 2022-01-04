@@ -13,6 +13,6 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static uint hash(ReadOnlySpan<char> src)
-            => alg.hash.marvin(core.bytes(src));
+            => alg.hash.marvin(src);
     }
 }

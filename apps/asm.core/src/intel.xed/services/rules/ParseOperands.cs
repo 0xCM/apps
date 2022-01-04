@@ -13,7 +13,7 @@ namespace Z0
 
     partial class XedRules
     {
-        Outcome ParseOperands2(string src, out Index<RuleOperand> dst)
+        Outcome ParseOperands(string src, out Index<RuleOperand> dst)
         {
             var result = Outcome.Success;
             dst = sys.empty<RuleOperand>();
@@ -65,7 +65,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseOperand(RuleOpKind kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
         {
             var result = Outcome.Success;
             if(result)
@@ -76,7 +76,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseImmOperand(RuleOpKind kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseImmOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -86,7 +86,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseMemOperand(RuleOpKind kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseMemOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -106,7 +106,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseRegOperand(RuleOpKind kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseRegOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -117,17 +117,17 @@ namespace Z0
             return result;
         }
 
-        Outcome ClassifyOperand(string src, out RuleOpKind kind)
+        Outcome ParseOpName(string src, out RuleOpName kind)
         {
             var result = Outcome.Success;
             var i = text.index(src, Chars.Eq, Chars.Colon);
-            kind = RuleOpKind.None;
+            kind = RuleOpName.None;
             if(i > 0)
             {
                 var name = text.left(src,i);
                 result = OpKinds.ExprKind(name, out kind);
                 if(result.Fail)
-                    result = (false, Msg.ParseFailure.Format(nameof(RuleOpKind), src));
+                    result = (false, Msg.ParseFailure.Format(nameof(RuleOpName), src));
             }
             return result;
         }
@@ -152,10 +152,10 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default;
-            var kind = RuleOpKind.None;
+            var kind = RuleOpName.None;
             var attribs = sys.empty<string>();
 
-            result = ClassifyOperand(src,out kind);
+            result = ParseOpName(src, out kind);
 
             if(result)
                 result = ExtractOpAttributes(src, out attribs);

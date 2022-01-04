@@ -31,37 +31,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static Label label(ReadOnlySpan<char> src)
             => new Label(address(src), (byte)src.Length);
-
-        /// <summary>
-        /// Deposits a character sequence into a caller-supplied buffer and returns the label representation of the input
-        /// </summary>
-        /// <param name="src">The input sequence</param>
-        /// <param name="offset">The buffer offset</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static Label label(ReadOnlySpan<char> src, int offset, StringBuffer dst)
-        {
-            var length = src.Length;
-            if(length <= byte.MaxValue && strings.store(src, offset, dst))
-                return new Label(dst.Address(offset), (byte)length);
-            else
-                return Label.Empty;
-        }
-
-        /// <summary>
-        /// Deposits a character sequence into a caller-supplied buffer and returns the label representation of the input
-        /// </summary>
-        /// <param name="src">The input sequence</param>
-        /// <param name="offset">The buffer offset</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static Label label(ReadOnlySpan<char> src, uint offset, StringBuffer dst)
-        {
-            var length = src.Length;
-            if(length <= byte.MaxValue && strings.store(src, offset, dst))
-                return new Label(dst.Address(offset), (byte)length);
-            else
-                return Label.Empty;
-        }
     }
 }

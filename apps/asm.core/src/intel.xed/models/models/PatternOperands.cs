@@ -24,6 +24,9 @@ namespace Z0
                 Operands = operands;
             }
 
+            public Index<PatternComponent> Componentize()
+                => PatternComponent.components(Pattern);
+
             public string Format()
                 => string.Format("Pattern:{0}\nOperands:{1}", Pattern, Operands);
 

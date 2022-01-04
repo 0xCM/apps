@@ -10,6 +10,8 @@ namespace Z0
     using static Root;
     using static core;
 
+    using api = StringBuffers;
+
     /// <summary>
     /// Defines a string over S-symbols allocated over a native buffer
     /// </summary>
@@ -90,6 +92,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Store(ReadOnlySpan<S> src, uint offset)
-            => strings.store(src, offset, this);
+            => api.store(src, offset, this);
     }
 }

@@ -28,7 +28,7 @@ namespace Z0.Asm
             for(var b=0u; b<f1.Length; b++)
             for(var a=0u; a<f0.Length; a++)
             {
-                modrm(AsmEncoding.modrm(skip(f0, a), skip(f1, b), skip(f2, c)), ref k, dst);
+                modrm(AsmEncodings.modrm(skip(f0, a), skip(f1, b), skip(f2, c)), ref k, dst);
                 text.crlf(ref k, dst);
             }
             return k;
