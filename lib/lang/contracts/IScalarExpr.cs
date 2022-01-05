@@ -11,11 +11,4 @@ namespace Z0
     {
         TypeSpec ScalarType {get;}
     }
-
-    [Free]
-    public interface IScalarExpr<K> : IScalarExpr, IExpr<K>
-        where K : unmanaged
-    {
-
-    }
 }

@@ -127,6 +127,8 @@ namespace Z0
 
         internal const string RegKind = "regkind<k:{0}>";
 
+        internal const string Natural = "nat<n:{0}>";
+
         internal static string symbol<K>(K kind)
             where K : unmanaged, Enum
                 => Symbols.expr(kind).Format();
@@ -134,6 +136,11 @@ namespace Z0
         public static TypeParam param(string name, string value) => new TypeParam(name,value);
 
         public static TypeParam param<T>(string name, T value) => new TypeParam<T>(name,value);
+
+        public static TypeSpec native(NativeSize w, bool signed) => signed ? i(w.Width) : u(w.Width);
+
+        [TypeSyntax(Natural)]
+        public static TypeSpec nat(ulong n) => string.Format(Natural, n);
 
         [TypeSyntax(Reg)]
         public static TypeSpec reg(string name, BitWidth width) => string.Format(Reg, name, width);

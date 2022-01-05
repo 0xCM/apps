@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ITypeInventory
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
+    public interface ITypeProvider
     {
-
-
+        IType Resolve(uint key);
     }
 }

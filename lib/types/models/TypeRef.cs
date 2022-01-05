@@ -8,20 +8,20 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct SourceFile : ISourceCode
+    public readonly struct TypeRef
     {
-        public LangKind LangKind {get;}
+        public uint Key {get;}
 
-        public FileKind FileKind {get;}
-
-        public FS.FilePath Location {get;}
+        readonly ITypeProvider Source;
 
         [MethodImpl(Inline)]
-        public SourceFile(LangKind lang, FileKind fk, FS.FilePath loc)
+        public TypeRef(ITypeProvider src, uint key)
         {
-            LangKind = lang;
-            FileKind = fk;
-            Location = loc;
+            Source = src;
+            Key = key;
         }
+
+        public IType Resolve()
+            => Source.Resolve(Key);
     }
 }

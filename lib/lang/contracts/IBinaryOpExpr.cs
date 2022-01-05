@@ -20,5 +20,4 @@ namespace Z0
         where K : unmanaged
     {
     }
-
 }

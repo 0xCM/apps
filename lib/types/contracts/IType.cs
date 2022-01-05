@@ -16,11 +16,6 @@ namespace Z0
 
         string Format()
             => Name;
-        // bool INullity.IsEmpty
-        //     => false;
-
-        // string ITextual.Format()
-        //     => Name;
     }
 
     public interface IType<K> : IType

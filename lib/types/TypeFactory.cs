@@ -47,6 +47,14 @@ namespace Z0
         public static ScalarType c()
             => scalar(Specs.c(0).Text, SK.C, 0, 0);
 
+        [MethodImpl(Inline), Op]
+        public static ScalarBitSeqType bits(uint content, NativeSize storage)
+            => new ScalarBitSeqType(content,storage);
+
+        [MethodImpl(Inline), Op]
+        public static NaturalType natural(ulong value)
+            => new NaturalType(value);
+
         [Op]
         public static ScalarType c(BitWidth n)
         {
@@ -86,15 +94,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ScalarType scalar(Identifier name, ScalarClass @class, BitWidth content, BitWidth storage)
             => new ScalarType(name,@class,content,storage);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static TypeKind<K> kind<K>(K key, Identifier name, byte arity = 0)
-            where K : unmanaged
-                => new TypeKind<K>(key, name, arity);
-
-        [MethodImpl(Inline), Op]
-        public static TypeKind kind(ulong key, Identifier @class, Identifier name, byte arity = 0)
-            => new TypeKind(key, @class, name, arity);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static TypeKind untype<K>(TypeKind<K> src)
@@ -137,7 +136,6 @@ namespace Z0
                 dst = string.Format("({0}:{1}){2}", src.ContentWidth, src.StorageWidth, TypeFactory.format(src.Kind));
             return dst;
         }
-
 
         [Parser]
         public static Outcome parse(string src, out PrimalCellType dst)

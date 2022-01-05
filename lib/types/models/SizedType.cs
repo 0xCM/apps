@@ -11,7 +11,7 @@ namespace Z0
 
     public class SizedType : ISizedType
     {
-        public Identifier Name {get;}
+        public virtual Identifier Name {get;}
 
         public Identifier Class {get;}
 
