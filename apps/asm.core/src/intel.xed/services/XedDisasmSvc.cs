@@ -91,6 +91,7 @@ namespace Z0
             var count = src.Length;
             TableEmit(records.View, AsmStatementEncoding.RenderWidths, DisasmTable(project));
             CollectAsmCode(project, records);
+            EmitDisasmDetails(project);
             return records;
         }
 

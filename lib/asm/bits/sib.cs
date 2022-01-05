@@ -74,13 +74,13 @@ namespace Z0.Asm
         public static uint sib(Sib src, ref uint i, Span<char> dst)
         {
             var i0=i;
-            BitRender.render2(src.Scale(), ref i, dst);
+            BitRender.render2(src.Scale, ref i, dst);
             text.copy(FieldSep, ref i, dst);
 
-            BitRender.render3(src.Index(), ref i, dst);
+            BitRender.render3(src.Index, ref i, dst);
             text.copy(FieldSep, ref i, dst);
 
-            BitRender.render3(src.Base(), ref i, dst);
+            BitRender.render3(src.Base, ref i, dst);
 
             text.copy(FieldSep, ref i, dst);
 
@@ -94,6 +94,6 @@ namespace Z0.Asm
         }
 
         public static string bitstring(Sib src)
-            => string.Format("{0} {1} {2}", BitRender.format2(src.Scale()), BitRender.format3(src.Index()), BitRender.format3(src.Base()));
+            => string.Format("{0} {1} {2}", BitRender.format2(src.Scale), BitRender.format3(src.Index), BitRender.format3(src.Base));
     }
 }

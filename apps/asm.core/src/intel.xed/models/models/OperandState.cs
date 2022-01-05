@@ -6,6 +6,7 @@
 namespace Z0
 {
     using System.Runtime.InteropServices;
+    using System.Collections.Generic;
 
     using Asm;
 
@@ -397,8 +398,86 @@ namespace Z0
             [OperandKind(DISP)]
             public Disp64 disp;
 
-
             public static OperandState Empty => default;
+
+            public EncodingOffsets Offsets()
+            {
+                var offsets = EncodingOffsets.init();
+                offsets.OpCode = (sbyte)(pos_nominal_opcode);
+                if(has_modrm)
+                    offsets.ModRm = (sbyte)pos_modrm;
+                if(pos_sib != 0)
+                    offsets.Sib = (sbyte)pos_sib;
+                if(pos_disp != 0)
+                    offsets.Disp = (sbyte)pos_disp;
+                if(imm0)
+                    offsets.Imm0 = (sbyte)pos_imm;
+                return offsets;
+            }
+
+            public Dictionary<RuleOpName,RuleOpInfo> RuleOperands(in AsmHexCode code)
+            {
+                var _ops = list<RuleOpInfo>();
+                if(disp_width != 0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.DISP, disp(this, code), disp_width));
+
+                if(imm0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.IMM0, imm(this, code)));
+
+                if(base0.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.BASE0, base0));
+
+                if(base1.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.BASE1, base1));
+
+                if(scale != 0)
+                    _ops.Add(new RuleOpInfo(RuleOpName.SCALE, scale));
+
+                if(index.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.INDEX, index));
+
+                if(reg0.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG0, reg0));
+
+                if(reg1.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG1, reg1));
+
+                if(reg2.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG2, reg2));
+
+                if(reg3.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG3, reg3));
+
+                if(reg4.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG4, reg4));
+
+                if(reg5.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG5, reg5));
+
+                if(reg6.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG6, reg6));
+
+                if(reg7.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG7, reg7));
+
+                if(reg8.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG8, reg8));
+
+                if(reg9.IsNonEmpty)
+                    _ops.Add(new RuleOpInfo(RuleOpName.REG9, reg9));
+
+                if(nonempty(mem0))
+                    _ops.Add(new RuleOpInfo(RuleOpName.MEM0, mem0));
+
+                if(nonempty(mem1))
+                    _ops.Add(new RuleOpInfo(RuleOpName.MEM1, mem1));
+
+                if(nonempty(agen))
+                    _ops.Add(new RuleOpInfo(RuleOpName.AGEN, agen));
+
+                return map(_ops, o => (o.Name, o)).ToDictionary();
+
+            }
 
             public ConstLookup<OperandKind,object> ToLookup()
             {

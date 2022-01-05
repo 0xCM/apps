@@ -13,6 +13,17 @@ namespace Z0.Asm
     [DataWidth(24), ApiComplete]
     public struct VexPrefixC4
     {
+        public const string BitPattern = "cccccccc RXB mmmmm W vvvv L pp";
+
+        // ~ RXB
+        const byte RXB_Mask = 0b1110_0000;
+
+        const byte RXB_Min = 5;
+
+        const byte RXB_Max = 7;
+
+        const byte RXB_Width = RXB_Max - RXB_Min + 1;
+
         public static Segments segments()
             => new Segments();
 
@@ -32,7 +43,6 @@ namespace Z0.Asm
 
             public PPSeg PP {get;} = new();
 
-            public const string BitPattern = "cccccccc RXB mmmmm W vvvv L pp";
 
             public string ToBitstring()
             {
@@ -176,14 +186,6 @@ namespace Z0.Asm
 
         byte Unused;
 
-        // ~ RXB
-        const byte RXB_Mask = 0b1110_0000;
-
-        const byte RXB_Min = 5;
-
-        const byte RXB_Max = 7;
-
-        const byte RXB_Width = RXB_Max - RXB_Min + 1;
 
         public VexRXB RXB
         {
@@ -323,8 +325,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => (byte)PP;
         }
-
-        public const string BitPattern = "cccccccc RXB mmmmm W vvvv L pp";
 
         const string SemanticFormat = "{0}\n{1}\n{2}";
 

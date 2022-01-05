@@ -9,9 +9,11 @@ namespace Z0
 
     public static class XSvc
     {
+        [Op]
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
             => llvm.LlvmDataCalcs.create(wf);
 
+        [Op]
         public static LlvmCmdProvider LlvmCommands(this IWfRuntime wf)
             => LlvmCmdProvider.create(wf);
         [Op]
@@ -81,5 +83,9 @@ namespace Z0
         [Op]
         public static LlvmData LlvmData(this IWfRuntime wf)
             => llvm.LlvmData.create(wf);
+
+        [Op]
+        public static CoffObjects CoffObjects(this IWfRuntime wf)
+            => Z0.CoffObjects.create(wf);
     }
 }

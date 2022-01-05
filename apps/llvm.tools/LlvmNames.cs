@@ -91,6 +91,7 @@ namespace Z0.llvm
             public const string Predicate = nameof(Predicate);
         }
 
+        [LiteralProvider("llvm.entities")]
         public readonly struct Entities
         {
             public const string InstAlias = nameof(InstAlias);

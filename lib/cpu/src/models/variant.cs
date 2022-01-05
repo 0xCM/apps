@@ -70,49 +70,6 @@ namespace Z0
         public variant(double value)
             => Storage = Store(value, NK.F64, 64);
 
-        [MethodImpl(Inline)]
-        public static implicit operator variant(sbyte src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(byte src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(short src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(ushort src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(int src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(uint src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(long src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(ulong src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(float src)
-            => new variant(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator variant(double src)
-            => new variant(src);
-
-        public static variant Zero
-            => default;
-
         public NK CellKind
         {
             [MethodImpl(Inline)]
@@ -160,34 +117,26 @@ namespace Z0
             switch(CellKind)
             {
                 case NK.I8:
-                    dst = cell<sbyte>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
-                break;
                 case NK.U8:
-                    dst = cell<byte>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
+                    dst = ((byte)this).FormatHex(zpad:false,specifier:true,uppercase:true);
                 break;
                 case NK.I16:
-                    dst = cell<short>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
-                break;
                 case NK.U16:
-                    dst = cell<ushort>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
+                    dst = ((ushort)this).FormatHex(zpad:false,specifier:true,uppercase:true);
                 break;
                 case NK.I32:
-                    dst = cell<int>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
-                break;
                 case NK.U32:
-                    dst = cell<uint>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
+                    dst = ((uint)this).FormatHex(zpad:false,specifier:true,uppercase:true);
                 break;
                 case NK.I64:
-                    dst = cell<long>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
-                break;
                 case NK.U64:
-                    dst = cell<ulong>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
+                    dst = ((ulong)this).FormatHex(zpad:false,specifier:true,uppercase:true);
                 break;
                 case NK.F32:
-                    dst = cell<float>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
+                    dst = ((float)this).FormatHex(zpad:false,specifier:true,uppercase:true);
                 break;
                 case NK.F64:
-                    dst = cell<double>(0).FormatHex(zpad:false,specifier:true,uppercase:true);
+                    dst = ((double)this).FormatHex(zpad:false,specifier:true,uppercase:true);
                 break;
             }
             return dst;
@@ -235,5 +184,88 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator !=(variant x, variant y)
             => !x.Equals(y);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(sbyte src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(byte src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(short src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(ushort src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(int src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(uint src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(long src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(ulong src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(float src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator variant(double src)
+            => new variant(src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator sbyte(variant src)
+            => src.cell<sbyte>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator byte(variant src)
+            => src.cell<byte>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator short(variant src)
+            => src.cell<short>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(variant src)
+            => src.cell<ushort>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator int(variant src)
+            => src.cell<int>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint(variant src)
+            => src.cell<uint>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator long(variant src)
+            => src.cell<long>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator ulong(variant src)
+            => src.cell<ulong>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator float(variant src)
+            => src.cell<float>(0);
+
+        [MethodImpl(Inline)]
+        public static explicit operator double(variant src)
+            => src.cell<double>(0);
+
+        public static variant Zero
+            => default;
     }
 }

@@ -75,7 +75,7 @@ namespace Z0
                 }
             }
 
-            return val;
+            return _val;
         }
 
         [MethodImpl(Inline), Op]
@@ -103,9 +103,9 @@ namespace Z0
             if(src.has_sib)
             {
                 dst = Sib.init();
-                dst.Base(src.sibbase);
-                dst.Index(src.sibindex);
-                dst.Scale(src.sibscale);
+                dst.Base = src.sibbase;
+                dst.Index = src.sibindex;
+                dst.Scale = src.sibscale;
                 return true;
             }
             else
@@ -280,7 +280,6 @@ namespace Z0
                 case BCastKind.BCast_2TO4_64:
                     dst = BCastSpec.define(id, BCastClass.BCast64, default, 2, 64);
                 break;
-
             }
 
             return dst;

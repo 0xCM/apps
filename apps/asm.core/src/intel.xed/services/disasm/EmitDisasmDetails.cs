@@ -66,7 +66,6 @@ namespace Z0
                 ref readonly var block = ref skip(blocks,i);
                 ref readonly var code = ref encoding.Encoding;
 
-                var offsets = EncodingOffsets.init();
 
                 parser.ParseState(inst.Props.Edit, out var state);
                 iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
@@ -78,11 +77,13 @@ namespace Z0
                 writer.WriteLine(string.Format(RenderPattern, "IClass", inst.Class));
                 writer.WriteLine(string.Format(RenderPattern, "IForm", inst.Form));
 
-                var prefixbytes = default(Span<byte>);
                 var oc = state.nominal_opcode;
                 var ocpos = state.pos_nominal_opcode;
-                offsets.OpCode = (sbyte)(state.pos_nominal_opcode);
-
+                var prefixbytes = default(Span<byte>);
+                var ops = state.RuleOperands(code);
+                var has_rex = rex(state, out var rexprefix);
+                var has_modrm = modrm(state, out var modrmval);
+                var has_sib = sib(state, out var sibval);
                 var srm = state.srm;
                 var ocsrm = (uint3)math.and((byte)srm, oc);
                 var ocbits = (eight)(byte)oc;
@@ -100,66 +101,9 @@ namespace Z0
                 if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
                     continue;
 
+                if(ocpos != 0)
+                    prefixbytes = slice(code.Bytes,0,ocpos);
 
-                var _ops = list<RuleOpInfo>();
-                if(dispwidth != 0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.DISP, disp(state, code), dispwidth));
-
-                if(state.imm0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.IMM0, imm(state, code)));
-
-                if(state.base0.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.BASE0, state.base0));
-
-                if(state.base1.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.BASE1, state.base1));
-
-                if(state.scale != 0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.SCALE, state.scale));
-
-                if(state.index.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.INDEX, state.index));
-
-                if(state.reg0.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG0, state.reg0));
-
-                if(state.reg1.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG1, state.reg1));
-
-                if(state.reg2.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG2, state.reg2));
-
-                if(state.reg3.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG3, state.reg3));
-
-                if(state.reg4.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG4, state.reg4));
-
-                if(state.reg5.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG5, state.reg5));
-
-                if(state.reg6.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG6, state.reg6));
-
-                if(state.reg7.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG7, state.reg7));
-
-                if(state.reg8.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG8, state.reg8));
-
-                if(state.reg9.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG9, state.reg9));
-
-                if(nonempty(state.mem0))
-                    _ops.Add(new RuleOpInfo(RuleOpName.MEM0, state.mem0));
-
-                if(nonempty(state.mem1))
-                    _ops.Add(new RuleOpInfo(RuleOpName.MEM1, state.mem1));
-
-                if(nonempty(state.agen))
-                    _ops.Add(new RuleOpInfo(RuleOpName.AGEN, state.agen));
-
-                var ops = map(_ops, o => (o.Name, o)).ToDictionary();
                 var opcount = block.OperandCount;
                 for(var k=0; k<opcount; k++)
                 {
@@ -178,28 +122,23 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, title, content));
                 }
 
-                if(ops.TryGetValue(RuleOpName.SCALE, out var x0))
-                    writer.WriteLine(string.Format(RenderPattern, x0.Name, x0));
-
-                if(ops.TryGetValue(RuleOpName.DISP, out var x1))
-                    writer.WriteLine(string.Format(RenderPattern, x1.Name, x1));
+                if(ops.TryGetValue(RuleOpName.BASE0, out var x3))
+                    writer.WriteLine(string.Format(RenderPattern, x3.Name, x3));
 
                 if(ops.TryGetValue(RuleOpName.INDEX, out var x2))
                     writer.WriteLine(string.Format(RenderPattern, x2.Name, x2));
 
-                if(ops.TryGetValue(RuleOpName.BASE0, out var x3))
-                    writer.WriteLine(string.Format(RenderPattern, x3.Name, x3));
+                if(ops.TryGetValue(RuleOpName.SCALE, out var x0))
+                    writer.WriteLine(string.Format(RenderPattern, x0.Name, x0));
 
+                if(ops.TryGetValue(RuleOpName.DISP, out var x1))
+                    writer.WriteLine(string.Format(RenderPattern, x1.Name, string.Format(Cols2Pattern, x1, x1.Width)));
 
-                if(ocpos != 0)
-                {
-                    prefixbytes = slice(code.Bytes,0,ocpos);
+                if(prefixbytes.Length != 0)
                     writer.WriteLine(string.Format(RenderPattern, "PrefixBytes", prefixbytes.FormatHex()));
-                }
 
-                if(rex(state, out var rexprefix))
+                if(has_rex)
                     writer.WriteLine(string.Format(RenderPattern, "REX", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
-
 
                 if(state.vexvalid == VexValidityKind.VV1)
                 {
@@ -213,7 +152,7 @@ namespace Z0
 
                     if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
                     {
-                        var vex = VexPrefixC4.init(skip(vexbytes,1),skip(vexbytes,2));
+                        var vex = VexPrefixC4.init(skip(vexbytes,1), skip(vexbytes,2));
                         writer.WriteLine(string.Format(RenderPattern, "VEXBitPattern", VexPrefixC4.BitPattern));
                         writer.WriteLine(string.Format(RenderPattern, "VEXBits", vex.ToBitstring()));
                     }
@@ -232,44 +171,25 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, "VEXDEST", string.Format(Cols2Pattern, vexdest, ((byte)(uvdst)).FormatHex())));
                 }
 
-                if(modrm(state, out var modrmval))
+                if(has_modrm)
                 {
-                    var pos = state.pos_modrm;
-
                     if(modrmval.Value() != state.modrm_byte)
                         return (false, string.Format("Derived RM value {0} differs from parsed value {1}", modrmval, state.modrm_byte));
 
-                    if(modrmval.Value() != code[pos])
-                        return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[pos]));
-
-                    if(pos != 0)
-                        offsets.ModRm = (sbyte)pos;
+                    if(modrmval.Value() != code[state.pos_modrm])
+                        return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
 
                     writer.WriteLine(string.Format(RenderPattern, "ModRM", string.Format(Cols2Pattern, modrmval.Format(), modrmval.ToBitString())));
                 }
 
-                if(sib(state, out var sibval))
+                if(has_sib)
                 {
-                    var pos = state.pos_sib;
-                    var sibenc = Sib.init(code[pos]);
+                    var sibenc = Sib.init(code[state.pos_sib]);
                     if(sibenc.Value() != sibval.Value())
                         return (false, string.Format("Derived Sib value {0} differs from encoded value {1}", sibval, sibenc));
 
-                    if(pos != 0)
-                        offsets.Sib = (sbyte)pos;
-
                     writer.WriteLine(string.Format(RenderPattern, "Sib", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
                 }
-
-                // if(state.disp_width != 0)
-                // {
-                //     var pos = state.pos_disp;
-
-                //     if(pos != 0)
-                //         offsets.Disp = (sbyte)pos;
-
-                //     writer.WriteLine(string.Format(RenderPattern, "Disp", disp(state,code)));
-                // }
 
                 if(state.imm0)
                 {
@@ -277,9 +197,6 @@ namespace Z0
                     var signed = state.imm0signed;
                     var pos = state.pos_imm;
                     var val = 0ul;
-
-                    if(pos != 0)
-                        offsets.Imm0 = (sbyte)pos;
 
                     switch(size)
                     {
@@ -328,6 +245,7 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, "Segments", string.Format("{0}x{1}", state.nelem, state.element_size)));
 
 
+                var offsets = state.Offsets();
                 writer.WriteLine(string.Format(RenderPattern, "Offsets", offsets));
 
                 var flags = list<K>();
