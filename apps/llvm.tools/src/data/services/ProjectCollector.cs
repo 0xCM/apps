@@ -39,24 +39,5 @@ namespace Z0
             Mc.Collect(project);
             XedDisasm.Collect(project);
         }
-
-        // Outcome CollectObjHex(IProjectWs ws)
-        // {
-        //     var result = Outcome.Success;
-        //     var paths = ws.OutFiles(FileKind.Obj, FileKind.O).View;
-        //     var count = paths.Length;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var src = ref skip(paths,i);
-        //         var id = src.FileName.WithoutExtension.Format();
-        //         var dst = ProjectDb.Subdir("projects/" + ws.Project.Format() + ".objhex") + FS.file(id,FileTypes.ext(FileKind.HexDat));
-        //         using var writer = dst.AsciWriter();
-        //         var data = src.ReadBytes();
-        //         var size = HexFormatter.emit(data, writer);
-        //         Write(string.Format("({0:D5} bytes)[{1} -> {2}]", size, src.ToUri(), dst.ToUri()));
-        //     }
-
-        //     return result;
-        // }
     }
 }

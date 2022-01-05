@@ -194,6 +194,7 @@ namespace Z0.llvm
         uint ParseSyntaxLogRows(FS.FilePath src, List<AsmSyntaxRow> dst)
         {
             const string EntryMarker = "note: parsed instruction:";
+            const string EncodingMarker = "# encoding:";
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
             var counter = 0u;
@@ -211,18 +212,27 @@ namespace Z0.llvm
                 locator = text.slice(locator,0, locator.Length - 1);
 
                 var syntax = text.right(a, m + EntryMarker.Length);
-                var semfound = text.unfence(syntax, Brackets, out var semantic);
-                syntax = semfound ? RP.parenthetical(semantic) : syntax;
+                syntax = text.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
                 var body = b.Replace(Chars.Tab, Chars.Space);
-                var ci = text.index(body, Chars.Hash);
-                if (ci > 0)
-                    body = text.left(body, ci);
-
                 var record = new AsmSyntaxRow();
                 record.Seq = counter++;
+
+                var ci = text.index(body, Chars.Hash);
+                if (ci > 0)
+                    record.Expr = AsmExpr.parse(text.left(body, ci));
+                else
+                    record.Expr = RP.Empty;
+
+                var xi = text.index(body, EncodingMarker);
+                if(xi > 0)
+                {
+                    var enc = text.right(body,xi + EncodingMarker.Length + 1);
+                    if(AsmHexCode.parse(enc, out var encoding))
+                        record.Encoding = encoding;
+                }
+
                 FS.point(locator, out var point);
                 record.Location = point.Location;
-                record.Expr = AsmExpr.parse(body);
                 record.Syntax = syntax;
                 record.Source = point.Path.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);

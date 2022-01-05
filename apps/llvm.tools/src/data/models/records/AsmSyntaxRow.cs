@@ -9,12 +9,12 @@ namespace Z0.llvm
 
     using Asm;
 
-    [DbRecord(Schema,TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmSyntaxRow
     {
-        public const string Schema = "llvm";
+        public const string TableId = "llvm.asm.syntax";
 
-        public const string TableId = "asm.syntax";
+        public const byte FieldCount = 6;
 
         public uint Seq;
 
@@ -24,8 +24,10 @@ namespace Z0.llvm
 
         public string Syntax;
 
+        public AsmHexCode Encoding;
+
         public FS.FileUri Source;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[5]{8,12,62,120,5};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,62,120,48,5};
     }
 }

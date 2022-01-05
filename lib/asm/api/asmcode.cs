@@ -12,7 +12,7 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmCode asmcode(SourceText src, AsmHexCode hex)
-            => new AsmCode(src,hex);
+        public static AsmCode asmcode(MemoryAddress offset, SourceText src, AsmHexCode hex)
+            => new AsmCode(offset, src,hex);
     }
 }

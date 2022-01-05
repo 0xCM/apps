@@ -5,7 +5,8 @@
 namespace Z0
 {
     using static Root;
-    using static ProjectScriptNames;
+
+    using llvm;
 
     partial class ProjectCmdProvider
     {
@@ -18,34 +19,34 @@ namespace Z0
 
         [CmdOp("llc/build/sse")]
         Outcome LlcSse(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildSse);
+            => Llc.Build(Project(), LlcSubtarget.Sse);
 
         [CmdOp("llc/build/sse2")]
         Outcome LlcSse2(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildSse2);
+            => Llc.Build(Project(), LlcSubtarget.Sse2);
 
         [CmdOp("llc/build/sse3")]
         Outcome LlcSse3(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildSse3);
+            => Llc.Build(Project(), LlcSubtarget.Sse3);
 
         [CmdOp("llc/build/sse41")]
         Outcome LlcSse41(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildSse41);
+            => Llc.Build(Project(), LlcSubtarget.Sse41);
 
         [CmdOp("llc/build/sse42")]
         Outcome LlcSse42(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildSse42);
+            => Llc.Build(Project(), LlcSubtarget.Sse42);
 
         [CmdOp("llc/build/avx")]
         Outcome LlcAvx(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildAvx);
+            => Llc.Build(Project(), LlcSubtarget.Avx);
 
         [CmdOp("llc/build/avx2")]
         Outcome LlcAvx2(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildAvx2);
+            => Llc.Build(Project(), LlcSubtarget.Avx2);
 
         [CmdOp("llc/build/avx512")]
         Outcome LlcAvx512(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, LlcBuildAvx512);
+            => Llc.Build(Project(), LlcSubtarget.Avx512);
     }
 }

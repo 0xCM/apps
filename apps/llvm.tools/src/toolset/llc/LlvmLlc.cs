@@ -6,7 +6,30 @@ namespace Z0.llvm
 {
     using System;
 
+
     using static core;
+    using static Root;
+
+    using static LlcSubtarget;
+
+    public enum LlcSubtarget : byte
+    {
+        Sse,
+
+        Sse2,
+
+        Sse3,
+
+        Sse41,
+
+        Sse42,
+
+        Avx,
+
+        Avx2,
+
+        Avx512
+    }
 
     [Tool(ToolId)]
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
@@ -18,6 +41,29 @@ namespace Z0.llvm
         {
 
 
+        }
+
+        public Outcome Build(IProjectWs project, LlcSubtarget subtarget)
+        {
+            var result = Outcome.Success;
+            var name = subtarget switch
+            {
+                Sse => "llc-build-sse",
+                Sse2 => "llc-build-sse2",
+                Sse3 => "llc-build-sse3",
+                Sse41 => "llc-build-sse41",
+                Sse42 => "llc-build-sse42",
+                Avx => "llc-build-avx",
+                Avx2 => "llc-build-avx2",
+                Avx512 => "llc-build-avx512",
+                _ => EmptyString
+            };
+
+            if(nonempty(name))
+                result = ProjectScripts.RunScript(project, EmptyString, name);
+            else
+                result = (false, string.Format("The subtarget {0} is unknown", subtarget));
+            return result;
         }
 
         public void Build(IProjectWs project)
