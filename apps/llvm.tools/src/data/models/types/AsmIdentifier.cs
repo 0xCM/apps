@@ -19,24 +19,24 @@ namespace Z0.llvm
         /// <summary>
         /// The identified instruction name
         /// </summary>
-        public readonly text31 InstName;
+        public readonly text31 Instruction;
 
         [MethodImpl(Inline)]
         public AsmIdentifier(ushort id, text31 instname)
         {
             Id = id;
-            InstName = instname;
+            Instruction = instname;
         }
 
         public string Format()
-            => string.Format("{0:D5} {1}", Id, InstName);
+            => string.Format("{0:D5} {1}", Id, Instruction);
 
 
         public override string ToString()
             => Format();
 
         public bool Equals(AsmIdentifier src)
-            => Id == src.Id && InstName.Equals(src.InstName);
+            => Id == src.Id && Instruction.Equals(src.Instruction);
 
         [MethodImpl(Inline)]
         public int CompareTo(AsmIdentifier src)

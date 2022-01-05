@@ -10,7 +10,7 @@ namespace Z0.llvm
         {
             var src = DataProvider.DiscoverRegIdentifiers();
             var values = src.Values;
-            var items = values.Select(x => new LlvmListItem(x.Id, x.Name.Format())).ToArray();
+            var items = values.Select(x => new LlvmListItem(x.Id, x.RegName.Format())).ToArray();
             var dst = LlvmPaths.Table("llvm.asm.RegId");
             var list = new LlvmList(dst,items);
             EmitList(list, dst);

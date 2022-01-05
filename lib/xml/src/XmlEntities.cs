@@ -9,5 +9,7 @@ namespace Z0
         public const string gt = "&gt;";
 
         public const string lt = "&lt;";
+
+        public const string amp = "&amp;";
     }
 }

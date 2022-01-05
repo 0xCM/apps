@@ -41,9 +41,9 @@ namespace Z0.Tools
 
         protected override void OnInit()
         {
-            TargetRoot = Ws.Imports().Subdir(Tool);
+            TargetRoot = ProjectDb.Subdir(Tool);
             DetailRoot = TargetRoot + FS.folder("details");
-            InputFile = Ws.Sources().Path(Tool.Format(), FS.Asm);
+            InputFile = ProjectDb.Source(Tool.Format(), FS.Asm);
             SummaryPath = TargetRoot + FS.file(Tool.Format() + ".summary", FS.Csv);
         }
 
@@ -207,7 +207,7 @@ namespace Z0.Tools
         {
             var statement = skip(parts,0).Remove(RexRemove);
             var comment = skip(parts,1);
-            var bitstring = "<error>";
+            var bitstring = RP.Error;
             var formatted = FormatBytes(comment, out var count);
             if(Hex.hexdata(formatted, out var parsed))
                 bitstring = AsmHexCode.load(parsed).ToBitString();

@@ -12,7 +12,7 @@ namespace Z0.llvm
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmSyntaxRow
     {
-        public const string TableId = "llvm.asm.syntax";
+        public const string TableId = "asm.syntax";
 
         public const byte FieldCount = 6;
 
@@ -22,7 +22,7 @@ namespace Z0.llvm
 
         public AsmExpr Expr;
 
-        public string Syntax;
+        public @string Syntax;
 
         public AsmHexCode Encoding;
 

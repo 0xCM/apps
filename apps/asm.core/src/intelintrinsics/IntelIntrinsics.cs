@@ -180,7 +180,8 @@ namespace Z0.Asm
 
         static void read(XmlReader reader, ref Operation dst)
         {
-            var content = reader.ReadInnerXml().Replace(XmlEntities.gt, ">").Replace(XmlEntities.lt, "<");
+            const string amp = "&amp;";
+            var content = reader.ReadInnerXml().Replace(XmlEntities.gt, ">").Replace(XmlEntities.lt, "<").Replace(amp, "&");
             foreach(var line in Lines.read(content))
                 dst.Content.Add(line);
         }

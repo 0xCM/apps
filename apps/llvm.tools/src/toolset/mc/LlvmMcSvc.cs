@@ -30,12 +30,6 @@ namespace Z0.llvm
             var instructions = CollectInstructions(ws);
         }
 
-        public FS.Files EncodingSourcePaths(IProjectWs ws)
-            => ws.OutFiles(FS.ext("encoding.asm"));
-
-        public FS.Files SyntaxSourcePaths(IProjectWs ws)
-            => ws.OutFiles(FileKind.AsmSyntax);
-
         public Index<AsmDocument> SyntaxSourceDocs(IProjectWs ws)
         {
             var src = SyntaxSourcePaths(ws).View;
@@ -46,11 +40,11 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public Index<AsmDocInstruction> CollectInstructions(IProjectWs ws)
+        public Index<AsmDocInstruction> CollectInstructions(IProjectWs project)
         {
             var result = Outcome.Success;
 
-            var docs = SyntaxSourceDocs(ws);
+            var docs = SyntaxSourceDocs(project);
             var buffer = list<AsmDocInstruction>();
             var counter = 0u;
             foreach(var doc in docs)
@@ -76,16 +70,15 @@ namespace Z0.llvm
             }
 
             var records = buffer.ToArray();
-            var dst = ProjectDb.TablePath<AsmDocInstruction>("projects", ws.Project.Format());
-            TableEmit(@readonly(records), AsmDocInstruction.RenderWidths, dst);
+            TableEmit(@readonly(records), AsmDocInstruction.RenderWidths, InstructionTable(project));
             return records;
         }
 
-        public ConstLookup<FS.FileUri,AsmEncodingDoc> CollectEncodings(IProjectWs ws)
+        public ConstLookup<FS.FileUri,AsmEncodingDoc> CollectEncodings(IProjectWs project)
         {
             var result = Outcome.Success;
-            var docs = DeriveEncodings(ws);
-            var dst = ProjectDb.TablePath<AsmDocEncoding>("projects", ws.Project.Format());
+            var docs = DeriveEncodings(project);
+            var dst = ProjectDb.TablePath<AsmDocEncoding>("projects", project.Project.Format());
 
             var counter=0u;
             var record = AsmDocEncoding.Empty;
@@ -115,10 +108,10 @@ namespace Z0.llvm
             return docs;
         }
 
-        public ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs ws)
+        public ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs project)
         {
-            var logs = ws.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
-            var dst = ProjectDb.TablePath<AsmSyntaxRow>("projects", ws.Project.Format());
+            var logs = project.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
+            var dst = SyntaxTable(project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var tmp = list<AsmSyntaxRow>();
@@ -163,9 +156,90 @@ namespace Z0.llvm
             return docs.Seal();
         }
 
-        ConstLookup<FS.FileUri,AsmEncodingDoc> DeriveEncodings(IProjectWs ws)
+        public Index<AsmSyntaxRow> LoadSyntaxRows(IProjectWs project)
+            => LoadSyntaxRows(SyntaxTable(project));
+
+        public Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
         {
-            var src = EncodingSourcePaths(ws).View;
+            const byte FieldCount = AsmSyntaxRow.FieldCount;
+            using var reader = src.Utf8LineReader();
+            var rowcount = FS.linecount(src).Lines - 1;
+            var counter = 0u;
+            var result = Outcome.Success;
+            var buffer = alloc<AsmSyntaxRow>(rowcount);
+            while(reader.Next(out var line))
+            {
+                if(counter == 0)
+                {
+                    counter++;
+                    continue;
+                }
+
+                var cells = text.trim(text.split(line.Content, Chars.Pipe));
+                var count = cells.Length;
+                if(count != FieldCount)
+                {
+                    result = (false,Tables.FieldCountMismatch.Format(count,FieldCount));
+                    break;
+                }
+
+                ref var dst = ref seek(buffer,counter++);
+                var j=0;
+
+                result = DataParser.parse(skip(cells,j++), out dst.Seq);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Seq)));
+                    break;
+                }
+
+                result = DataParser.parse(skip(cells,j++), out dst.Location);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Location)));
+                    break;
+                }
+
+                dst.Expr = skip(cells,j++);
+                dst.Syntax = skip(cells,j++);
+
+                var hex = skip(cells,j++);
+                if(empty(hex))
+                {
+                    dst.Encoding = AsmHexCode.Empty;
+                    dst.Source = FS.FilePath.Empty;
+                    continue;
+                }
+
+                result = AsmHexCode.parse(hex, out dst.Encoding);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Encoding)));
+                    break;
+                }
+
+                result = DataParser.parse(skip(cells,j++), out dst.Source);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Source)));
+                    break;
+                }
+            }
+
+            if(result)
+            {
+                return buffer;
+            }
+            else
+            {
+                Error(result.Message);
+                return sys.empty<AsmSyntaxRow>();
+            }
+        }
+
+        ConstLookup<FS.FileUri,AsmEncodingDoc> DeriveEncodings(IProjectWs project)
+        {
+            var src = EncodingSourcePaths(project).View;
             var count = src.Length;
             var dst = lookup<FS.FileUri,AsmEncodingDoc>();
             var counter = 0u;
@@ -181,7 +255,6 @@ namespace Z0.llvm
 
                 var scount = doc.StatmentCount;
                 var statements = doc.Statements;
-
                 for(var j=0; j<scount; j++)
                     seek(statements,j).Seq = counter++;
 
@@ -195,6 +268,10 @@ namespace Z0.llvm
         {
             const string EntryMarker = "note: parsed instruction:";
             const string EncodingMarker = "# encoding:";
+            const string ReplaceA = "{, ";
+            const string ReplaceAWith = "{";
+            const string ReplaceB = ", }";
+            const string ReplaceBWith = "}";
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
             var counter = 0u;
@@ -233,11 +310,24 @@ namespace Z0.llvm
 
                 FS.point(locator, out var point);
                 record.Location = point.Location;
-                record.Syntax = syntax;
+                record.Syntax = syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith);
                 record.Source = point.Path.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);
             }
             return counter;
         }
+
+        FS.FilePath SyntaxTable(IProjectWs project)
+            => ProjectDb.TablePath<AsmSyntaxRow>("projects", project.Name);
+
+        FS.FilePath InstructionTable(IProjectWs project)
+            => ProjectDb.TablePath<AsmDocInstruction>("projects", project.Name);
+
+        FS.Files EncodingSourcePaths(IProjectWs project)
+            => project.OutFiles(FS.ext("encoding.asm"));
+
+        FS.Files SyntaxSourcePaths(IProjectWs project)
+            => project.OutFiles(FileKind.AsmSyntax);
+
     }
 }

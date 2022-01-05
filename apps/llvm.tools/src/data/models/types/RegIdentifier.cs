@@ -19,26 +19,26 @@ namespace Z0.llvm
         public readonly ushort Id;
 
         /// <summary>
-        /// The identified instruction name
+        /// The name of the identified register
         /// </summary>
-        public readonly text15 Name;
+        public readonly text15 RegName;
 
         [MethodImpl(Inline)]
-        public RegIdentifier(ushort id, text15 instname)
+        public RegIdentifier(ushort id, text15 name)
         {
             Id = id;
-            Name = instname;
+            RegName = name;
         }
 
         public string Format()
-            => string.Format("{0:D5} {1}", Id, Name);
+            => string.Format("{0:D5} {1}", Id, RegName);
 
 
         public override string ToString()
             => Format();
 
         public bool Equals(RegIdentifier src)
-            => Id == src.Id && Name == src.Name;
+            => Id == src.Id && RegName == src.RegName;
 
         [MethodImpl(Inline)]
         public int CompareTo(RegIdentifier src)

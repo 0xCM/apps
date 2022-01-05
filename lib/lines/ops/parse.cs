@@ -15,9 +15,9 @@ namespace Z0
     partial struct Lines
     {
         [Op]
-        public static Outcome number(ReadOnlySpan<char> src, out uint consumed, out LineNumber dst)
+        public static Outcome number(ReadOnlySpan<char> src, out uint j, out LineNumber dst)
         {
-            consumed = 0;
+            j = 0;
             dst = default;
             var i = text.index(src,Chars.Colon);
             if(i == NotFound)
@@ -25,7 +25,7 @@ namespace Z0
 
             if(uint.TryParse(slice(src,0, i), out var n))
             {
-                consumed = (uint)(i + 1);
+                j = (uint)(i + 1);
                 dst = n;
                 return true;
             }

@@ -37,13 +37,13 @@ namespace Z0.Asm
             else if(src.Statement.IsNonEmpty)
             {
                 if(src.Comment.IsNonEmpty)
-                    return string.Format("{0,-46} ; {1}", src.Statement, src.Comment.Content);
+                    return string.Format("{0,-46} {1}", src.Statement, src.Comment);
                 else
                     return src.Statement.Format();
             }
             else if(src.Comment.IsNonEmpty)
             {
-                return string.Format("; {0}", src.Comment.Content);
+                return src.Comment.Format();
             }
             else
                 return EmptyString;

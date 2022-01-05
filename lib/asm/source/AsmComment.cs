@@ -25,7 +25,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public string Format()
-            => Content.IsNonEmpty ? string.Format("# {0}",Content) : EmptyString;
+            => Content.IsNonEmpty ? string.Format("# {0}", Content) : EmptyString;
 
         public override string ToString()
             => Format();
