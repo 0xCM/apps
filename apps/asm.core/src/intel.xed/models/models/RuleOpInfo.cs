@@ -52,7 +52,7 @@ namespace Z0
                 UseWidth = false;
             }
 
-            public RuleOpInfo(RuleOpName name, RegId value)
+            public RuleOpInfo(RuleOpName name, XedRegId value)
             {
                 Name = name;
                 Value = value;

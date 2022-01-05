@@ -34,6 +34,28 @@ namespace Z0
             return result;
         }
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static ulong sumzx<T>(ReadOnlySpan<T> src)
+            where T : unmanaged
+        {
+            var count = src.Length;
+            var result = 0ul;
+            for(var i=0; i<count; i++)
+                result = checked(math.add(bw64(result), bw64(skip(src,i))));
+            return result;
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static long sumsx<T>(ReadOnlySpan<T> src)
+            where T : unmanaged
+        {
+            var count = src.Length;
+            var result = 0L;
+            for(var i=0; i<count; i++)
+                result = checked(math.add(bw64i(result), bw64i(skip(src,i))));
+            return result;
+        }
+
         [MethodImpl(Inline), Sum, Closures(Closure)]
         public static T sum<T>(T[] src)
             where T : unmanaged

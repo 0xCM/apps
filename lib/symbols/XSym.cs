@@ -28,10 +28,6 @@ namespace Z0
                 => Symbols.tokenize(src);
 
         [Op]
-        public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)
-            => TokenSetEmitter.create(wf);
-
-        [Op]
         public static Label CsKeyword(this ClrLiteralKind src)
             => Z0.CsKeywords.keyword(src);
 

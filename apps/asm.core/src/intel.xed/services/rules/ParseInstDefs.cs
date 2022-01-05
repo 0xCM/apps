@@ -43,7 +43,7 @@ namespace Z0
                             if(empty(value))
                                 continue;
 
-                            if(Part(name, out var p))
+                            if(ClassifyPart(name, out var p))
                             {
                                 switch(p)
                                 {
@@ -94,6 +94,26 @@ namespace Z0
             }
 
             return buffer.ToArray().Sort();
+        }
+
+
+        bool ClassifyPart(string src, out RulePart part)
+        {
+            var count = PartNames.Count;
+            var result = false;
+            part = default;
+            for(var i=0; i<count; i++)
+            {
+                var p = (RulePart)i;
+                ref readonly var n = ref PartNames[p];
+                if(n == src)
+                {
+                    part = p;
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

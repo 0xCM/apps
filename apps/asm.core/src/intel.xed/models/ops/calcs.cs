@@ -10,7 +10,7 @@ namespace Z0
     using Asm;
     using static Root;
     using static core;
-    using static XedModels.RegId;
+    using static XedRegId;
     using static XedModels.EASZ;
     using static XedModels.SMode;
 
@@ -323,7 +323,7 @@ namespace Z0
         }
 
         [Op]
-        public static RegId ArAX(EASZ easz)
+        public static XedRegId ArAX(EASZ easz)
             => easz switch
             {
                 EASZ16 => AX,
@@ -333,7 +333,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArBX(EASZ easz)
+        public static XedRegId ArBX(EASZ easz)
             => easz switch
             {
                 EASZ16 => BX,
@@ -343,7 +343,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArCX(EASZ easz)
+        public static XedRegId ArCX(EASZ easz)
             => easz switch
             {
                 EASZ16 => CX,
@@ -353,7 +353,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArDX(EASZ easz)
+        public static XedRegId ArDX(EASZ easz)
             => easz switch
             {
                 EASZ16 => DX,
@@ -363,7 +363,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArSI(EASZ easz)
+        public static XedRegId ArSI(EASZ easz)
             => easz switch
             {
                 EASZ16 => SI,
@@ -373,7 +373,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArDI(EASZ easz)
+        public static XedRegId ArDI(EASZ easz)
             => easz switch
             {
                 EASZ16 => DI,
@@ -383,7 +383,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArSP(EASZ easz)
+        public static XedRegId ArSP(EASZ easz)
             => easz switch
             {
                 EASZ16 => SP,
@@ -393,7 +393,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId ArBP(EASZ easz)
+        public static XedRegId ArBP(EASZ easz)
             => easz switch
             {
                 EASZ16 => BP,
@@ -403,7 +403,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId SrSP(SMode easz)
+        public static XedRegId SrSP(SMode easz)
             => easz switch
             {
                 SMode16 => SP,
@@ -413,7 +413,7 @@ namespace Z0
             };
 
         [Op]
-        public static RegId SrBP(SMode easz)
+        public static XedRegId SrBP(SMode easz)
             => easz switch
             {
                 SMode16 => BP,

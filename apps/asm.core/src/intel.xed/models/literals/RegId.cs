@@ -5,698 +5,695 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    [SymSource("xed")]
+    public enum XedRegId : ushort
     {
-        [SymSource(xed)]
-        public enum RegId : ushort
-        {
-            INVALID,
+        INVALID,
 
-            BNDCFGU,
+        BNDCFGU,
 
-            BNDSTATUS,
+        BNDSTATUS,
 
-            BND0,
+        BND0,
 
-            BND1,
+        BND1,
 
-            BND2,
+        BND2,
 
-            BND3,
+        BND3,
 
-            CR0,
+        CR0,
 
-            CR1,
+        CR1,
 
-            CR2,
+        CR2,
 
-            CR3,
+        CR3,
 
-            CR4,
+        CR4,
 
-            CR5,
+        CR5,
 
-            CR6,
+        CR6,
 
-            CR7,
+        CR7,
 
-            CR8,
+        CR8,
 
-            CR9,
+        CR9,
 
-            CR10,
+        CR10,
 
-            CR11,
+        CR11,
 
-            CR12,
+        CR12,
 
-            CR13,
+        CR13,
 
-            CR14,
+        CR14,
 
-            CR15,
+        CR15,
 
-            DR0,
+        DR0,
 
-            DR1,
+        DR1,
 
-            DR2,
+        DR2,
 
-            DR3,
+        DR3,
 
-            DR4,
+        DR4,
 
-            DR5,
+        DR5,
 
-            DR6,
+        DR6,
 
-            DR7,
+        DR7,
 
-            FLAGS,
+        FLAGS,
 
-            EFLAGS,
+        EFLAGS,
 
-            RFLAGS,
+        RFLAGS,
 
-            AX,
+        AX,
 
-            CX,
+        CX,
 
-            DX,
+        DX,
 
-            BX,
+        BX,
 
-            SP,
+        SP,
 
-            BP,
+        BP,
 
-            SI,
+        SI,
 
-            DI,
+        DI,
 
-            R8W,
+        R8W,
 
-            R9W,
+        R9W,
 
-            R10W,
+        R10W,
 
-            R11W,
+        R11W,
 
-            R12W,
+        R12W,
 
-            R13W,
+        R13W,
 
-            R14W,
+        R14W,
 
-            R15W,
+        R15W,
 
-            EAX,
+        EAX,
 
-            ECX,
+        ECX,
 
-            EDX,
+        EDX,
 
-            EBX,
+        EBX,
 
-            ESP,
+        ESP,
 
-            EBP,
+        EBP,
 
-            ESI,
+        ESI,
 
-            EDI,
+        EDI,
 
-            R8D,
+        R8D,
 
-            R9D,
+        R9D,
 
-            R10D,
+        R10D,
 
-            R11D,
+        R11D,
 
-            R12D,
+        R12D,
 
-            R13D,
+        R13D,
 
-            R14D,
+        R14D,
 
-            R15D,
+        R15D,
 
-            RAX,
+        RAX,
 
-            RCX,
+        RCX,
 
-            RDX,
+        RDX,
 
-            RBX,
+        RBX,
 
-            RSP,
+        RSP,
 
-            RBP,
+        RBP,
 
-            RSI,
+        RSI,
 
-            RDI,
+        RDI,
 
-            R8,
+        R8,
 
-            R9,
+        R9,
 
-            R10,
+        R10,
 
-            R11,
+        R11,
 
-            R12,
+        R12,
 
-            R13,
+        R13,
 
-            R14,
+        R14,
 
-            R15,
+        R15,
 
-            AL,
+        AL,
 
-            CL,
+        CL,
 
-            DL,
+        DL,
 
-            BL,
+        BL,
 
-            SPL,
+        SPL,
 
-            BPL,
+        BPL,
 
-            SIL,
+        SIL,
 
-            DIL,
+        DIL,
 
-            R8B,
+        R8B,
 
-            R9B,
+        R9B,
 
-            R10B,
+        R10B,
 
-            R11B,
+        R11B,
 
-            R12B,
+        R12B,
 
-            R13B,
+        R13B,
 
-            R14B,
+        R14B,
 
-            R15B,
+        R15B,
 
-            AH,
+        AH,
 
-            CH,
+        CH,
 
-            DH,
+        DH,
 
-            BH,
+        BH,
 
-            ERROR,
+        ERROR,
 
-            RIP,
+        RIP,
 
-            EIP,
+        EIP,
 
-            IP,
+        IP,
 
-            K0,
+        K0,
 
-            K1,
+        K1,
 
-            K2,
+        K2,
 
-            K3,
+        K3,
 
-            K4,
+        K4,
 
-            K5,
+        K5,
 
-            K6,
+        K6,
 
-            K7,
+        K7,
 
-            MMX0,
+        MMX0,
 
-            MMX1,
+        MMX1,
 
-            MMX2,
+        MMX2,
 
-            MMX3,
+        MMX3,
 
-            MMX4,
+        MMX4,
 
-            MMX5,
+        MMX5,
 
-            MMX6,
+        MMX6,
 
-            MMX7,
+        MMX7,
 
-            SSP,
+        SSP,
 
-            IA32_U_CET,
+        IA32_U_CET,
 
-            MXCSR,
+        MXCSR,
 
-            STACKPUSH,
+        STACKPUSH,
 
-            STACKPOP,
+        STACKPOP,
 
-            GDTR,
+        GDTR,
 
-            LDTR,
+        LDTR,
 
-            IDTR,
+        IDTR,
 
-            TR,
+        TR,
 
-            TSC,
+        TSC,
 
-            TSCAUX,
+        TSCAUX,
 
-            MSRS,
+        MSRS,
 
-            FSBASE,
+        FSBASE,
 
-            GSBASE,
+        GSBASE,
 
-            TILECONFIG,
+        TILECONFIG,
 
-            X87CONTROL,
+        X87CONTROL,
 
-            X87STATUS,
+        X87STATUS,
 
-            X87TAG,
+        X87TAG,
 
-            X87PUSH,
+        X87PUSH,
 
-            X87POP,
+        X87POP,
 
-            X87POP2,
+        X87POP2,
 
-            X87OPCODE,
+        X87OPCODE,
 
-            X87LASTCS,
+        X87LASTCS,
 
-            X87LASTIP,
+        X87LASTIP,
 
-            X87LASTDS,
+        X87LASTDS,
 
-            X87LASTDP,
+        X87LASTDP,
 
-            ES,
+        ES,
 
-            CS,
+        CS,
 
-            SS,
+        SS,
 
-            DS,
+        DS,
 
-            FS,
+        FS,
 
-            GS,
+        GS,
 
-            TMP0,
+        TMP0,
 
-            TMP1,
+        TMP1,
 
-            TMP2,
+        TMP2,
 
-            TMP3,
+        TMP3,
 
-            TMP4,
+        TMP4,
 
-            TMP5,
+        TMP5,
 
-            TMP6,
+        TMP6,
 
-            TMP7,
+        TMP7,
 
-            TMP8,
+        TMP8,
 
-            TMP9,
+        TMP9,
 
-            TMP10,
+        TMP10,
 
-            TMP11,
+        TMP11,
 
-            TMP12,
+        TMP12,
 
-            TMP13,
+        TMP13,
 
-            TMP14,
+        TMP14,
 
-            TMP15,
+        TMP15,
 
-            TMM0,
+        TMM0,
 
-            TMM1,
+        TMM1,
 
-            TMM2,
+        TMM2,
 
-            TMM3,
+        TMM3,
 
-            TMM4,
+        TMM4,
 
-            TMM5,
+        TMM5,
 
-            TMM6,
+        TMM6,
 
-            TMM7,
+        TMM7,
 
-            UIF,
+        UIF,
 
-            [Symbol("ST(0)")]
-            ST0,
+        [Symbol("ST(0)")]
+        ST0,
 
-            [Symbol("ST(1)")]
-            ST1,
+        [Symbol("ST(1)")]
+        ST1,
 
-            [Symbol("ST(2)")]
-            ST2,
+        [Symbol("ST(2)")]
+        ST2,
 
-            [Symbol("ST(3)")]
-            ST3,
+        [Symbol("ST(3)")]
+        ST3,
 
-            [Symbol("ST(4)")]
-            ST4,
+        [Symbol("ST(4)")]
+        ST4,
 
-            [Symbol("ST(5)")]
-            ST5,
+        [Symbol("ST(5)")]
+        ST5,
 
-            [Symbol("ST(6)")]
-            ST6,
+        [Symbol("ST(6)")]
+        ST6,
 
-            [Symbol("ST(7)")]
-            ST7,
+        [Symbol("ST(7)")]
+        ST7,
 
-            XCR0,
+        XCR0,
 
-            XMM0,
+        XMM0,
 
-            XMM1,
+        XMM1,
 
-            XMM2,
+        XMM2,
 
-            XMM3,
+        XMM3,
 
-            XMM4,
+        XMM4,
 
-            XMM5,
+        XMM5,
 
-            XMM6,
+        XMM6,
 
-            XMM7,
+        XMM7,
 
-            XMM8,
+        XMM8,
 
-            XMM9,
+        XMM9,
 
-            XMM10,
+        XMM10,
 
-            XMM11,
+        XMM11,
 
-            XMM12,
+        XMM12,
 
-            XMM13,
+        XMM13,
 
-            XMM14,
+        XMM14,
 
-            XMM15,
+        XMM15,
 
-            XMM16,
+        XMM16,
 
-            XMM17,
+        XMM17,
 
-            XMM18,
+        XMM18,
 
-            XMM19,
+        XMM19,
 
-            XMM20,
+        XMM20,
 
-            XMM21,
+        XMM21,
 
-            XMM22,
+        XMM22,
 
-            XMM23,
+        XMM23,
 
-            XMM24,
+        XMM24,
 
-            XMM25,
+        XMM25,
 
-            XMM26,
+        XMM26,
 
-            XMM27,
+        XMM27,
 
-            XMM28,
+        XMM28,
 
-            XMM29,
+        XMM29,
 
-            XMM30,
+        XMM30,
 
-            XMM31,
+        XMM31,
 
-            YMM0,
+        YMM0,
 
-            YMM1,
+        YMM1,
 
-            YMM2,
+        YMM2,
 
-            YMM3,
+        YMM3,
 
-            YMM4,
+        YMM4,
 
-            YMM5,
+        YMM5,
 
-            YMM6,
+        YMM6,
 
-            YMM7,
+        YMM7,
 
-            YMM8,
+        YMM8,
 
-            YMM9,
+        YMM9,
 
-            YMM10,
+        YMM10,
 
-            YMM11,
+        YMM11,
 
-            YMM12,
+        YMM12,
 
-            YMM13,
+        YMM13,
 
-            YMM14,
+        YMM14,
 
-            YMM15,
+        YMM15,
 
-            YMM16,
+        YMM16,
 
-            YMM17,
+        YMM17,
 
-            YMM18,
+        YMM18,
 
-            YMM19,
+        YMM19,
 
-            YMM20,
+        YMM20,
 
-            YMM21,
+        YMM21,
 
-            YMM22,
+        YMM22,
 
-            YMM23,
+        YMM23,
 
-            YMM24,
+        YMM24,
 
-            YMM25,
+        YMM25,
 
-            YMM26,
+        YMM26,
 
-            YMM27,
+        YMM27,
 
-            YMM28,
+        YMM28,
 
-            YMM29,
+        YMM29,
 
-            YMM30,
+        YMM30,
 
-            YMM31,
+        YMM31,
 
-            ZMM0,
+        ZMM0,
 
-            ZMM1,
+        ZMM1,
 
-            ZMM2,
+        ZMM2,
 
-            ZMM3,
+        ZMM3,
 
-            ZMM4,
+        ZMM4,
 
-            ZMM5,
+        ZMM5,
 
-            ZMM6,
+        ZMM6,
 
-            ZMM7,
+        ZMM7,
 
-            ZMM8,
+        ZMM8,
 
-            ZMM9,
+        ZMM9,
 
-            ZMM10,
+        ZMM10,
 
-            ZMM11,
+        ZMM11,
 
-            ZMM12,
+        ZMM12,
 
-            ZMM13,
+        ZMM13,
 
-            ZMM14,
+        ZMM14,
 
-            ZMM15,
+        ZMM15,
 
-            ZMM16,
+        ZMM16,
 
-            ZMM17,
+        ZMM17,
 
-            ZMM18,
+        ZMM18,
 
-            ZMM19,
+        ZMM19,
 
-            ZMM20,
+        ZMM20,
 
-            ZMM21,
+        ZMM21,
 
-            ZMM22,
+        ZMM22,
 
-            ZMM23,
+        ZMM23,
 
-            ZMM24,
+        ZMM24,
 
-            ZMM25,
+        ZMM25,
 
-            ZMM26,
+        ZMM26,
 
-            ZMM27,
+        ZMM27,
 
-            ZMM28,
+        ZMM28,
 
-            ZMM29,
+        ZMM29,
 
-            ZMM30,
+        ZMM30,
 
-            ZMM31,
+        ZMM31,
 
-            BNDCFG_FIRST=BNDCFGU,
+        BNDCFG_FIRST=BNDCFGU,
 
-            BNDCFG_LAST=BNDCFGU,
+        BNDCFG_LAST=BNDCFGU,
 
-            BNDSTAT_FIRST=BNDSTATUS,
+        BNDSTAT_FIRST=BNDSTATUS,
 
-            BNDSTAT_LAST=BNDSTATUS,
+        BNDSTAT_LAST=BNDSTATUS,
 
-            BOUND_FIRST=BND0,
+        BOUND_FIRST=BND0,
 
-            BOUND_LAST=BND3,
+        BOUND_LAST=BND3,
 
-            CR_FIRST=CR0,
+        CR_FIRST=CR0,
 
-            CR_LAST=CR15,
+        CR_LAST=CR15,
 
-            DR_FIRST=DR0,
+        DR_FIRST=DR0,
 
-            DR_LAST=DR7,
+        DR_LAST=DR7,
 
-            FLAGS_FIRST=FLAGS,
+        FLAGS_FIRST=FLAGS,
 
-            FLAGS_LAST=RFLAGS,
+        FLAGS_LAST=RFLAGS,
 
-            GPR16_FIRST=AX,
+        GPR16_FIRST=AX,
 
-            GPR16_LAST=R15W,
+        GPR16_LAST=R15W,
 
-            GPR32_FIRST=EAX,
+        GPR32_FIRST=EAX,
 
-            GPR32_LAST=R15D,
+        GPR32_LAST=R15D,
 
-            GPR64_FIRST=RAX,
+        GPR64_FIRST=RAX,
 
-            GPR64_LAST=R15,
+        GPR64_LAST=R15,
 
-            GPR8_FIRST=AL,
+        GPR8_FIRST=AL,
 
-            GPR8_LAST=R15B,
+        GPR8_LAST=R15B,
 
-            GPR8h_FIRST=AH,
+        GPR8h_FIRST=AH,
 
-            GPR8h_LAST=BH,
+        GPR8h_LAST=BH,
 
-            INVALID_FIRST=INVALID,
+        INVALID_FIRST=INVALID,
 
-            INVALID_LAST=ERROR,
+        INVALID_LAST=ERROR,
 
-            IP_FIRST=RIP,
+        IP_FIRST=RIP,
 
-            IP_LAST=IP,
+        IP_LAST=IP,
 
-            MASK_FIRST=K0,
+        MASK_FIRST=K0,
 
-            MASK_LAST=K7,
+        MASK_LAST=K7,
 
-            MMX_FIRST=MMX0,
+        MMX_FIRST=MMX0,
 
-            MMX_LAST=MMX7,
+        MMX_LAST=MMX7,
 
-            MSR_FIRST=SSP,
+        MSR_FIRST=SSP,
 
-            MSR_LAST=IA32_U_CET,
+        MSR_LAST=IA32_U_CET,
 
-            MXCSR_FIRST=MXCSR,
+        MXCSR_FIRST=MXCSR,
 
-            MXCSR_LAST=MXCSR,
+        MXCSR_LAST=MXCSR,
 
-            PSEUDO_FIRST=STACKPUSH,
+        PSEUDO_FIRST=STACKPUSH,
 
-            PSEUDO_LAST=TILECONFIG,
+        PSEUDO_LAST=TILECONFIG,
 
-            PSEUDOX87_FIRST=X87CONTROL,
+        PSEUDOX87_FIRST=X87CONTROL,
 
-            PSEUDOX87_LAST=X87LASTDP,
+        PSEUDOX87_LAST=X87LASTDP,
 
-            SR_FIRST=ES,
+        SR_FIRST=ES,
 
-            SR_LAST=GS,
+        SR_LAST=GS,
 
-            TMP_FIRST=TMP0,
+        TMP_FIRST=TMP0,
 
-            TMP_LAST=TMP15,
+        TMP_LAST=TMP15,
 
-            TREG_FIRST=TMM0,
+        TREG_FIRST=TMM0,
 
-            TREG_LAST=TMM7,
+        TREG_LAST=TMM7,
 
-            UIF_FIRST=UIF,
+        UIF_FIRST=UIF,
 
-            UIF_LAST=UIF,
+        UIF_LAST=UIF,
 
-            X87_FIRST=ST0,
+        X87_FIRST=ST0,
 
-            X87_LAST=ST7,
+        X87_LAST=ST7,
 
-            XCR_FIRST=XCR0,
+        XCR_FIRST=XCR0,
 
-            XCR_LAST=XCR0,
+        XCR_LAST=XCR0,
 
-            XMM_FIRST=XMM0,
+        XMM_FIRST=XMM0,
 
-            XMM_LAST=XMM31,
+        XMM_LAST=XMM31,
 
-            YMM_FIRST=YMM0,
+        YMM_FIRST=YMM0,
 
-            YMM_LAST=YMM31,
+        YMM_LAST=YMM31,
 
-            ZMM_FIRST=ZMM0,
+        ZMM_FIRST=ZMM0,
 
-            ZMM_LAST=ZMM31
-        }
+        ZMM_LAST=ZMM31
     }
 }

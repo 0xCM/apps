@@ -61,7 +61,7 @@ namespace Z0
 
         EnumParser<NonterminalKind> Nonterminals;
 
-        EnumParser<RegId> Regs;
+        EnumParser<XedRegId> Regs;
 
         EnumParser<BaseTypeKind> OperandTypes;
 

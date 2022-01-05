@@ -22,13 +22,13 @@ namespace Z0
 
             public text31 Name;
 
-            public FieldType Type;
+            public TypeSpec Type;
 
             public byte Width;
 
             public VisibilityKind Visibility;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{24,14,8,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,8,1};
 
             public static FieldDef Empty => default;
         }

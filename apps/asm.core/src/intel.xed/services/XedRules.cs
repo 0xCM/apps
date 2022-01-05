@@ -39,7 +39,6 @@ namespace Z0
 
         Symbols<PointerWidthKind> PointerWidthSymbols;
 
-
         public XedRules()
         {
             Classes = Symbols.index<IClass>();
@@ -55,48 +54,11 @@ namespace Z0
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
         }
 
-        public void EmitCatalog()
-        {
-            var enc = EmitEncInstDefs();
-            var dec = EmitDecInstDefs();
-            EmitRulePatterns(enc,dec);
-            EmitEncRuleTables();
-            EmitDecRuleTables();
-            EmitEncDecRuleTables();
-            EmitOperandWidths();
-            EmitPointerWidths();
-            EmitOpCodeMaps();
-        }
-
         OpCodeMaps DeriveOpCodeMaps()
             => Data(nameof(DeriveOpCodeMaps), () => new OpCodeMaps());
 
-        public OpCodeMaps EmitOpCodeMaps()
-        {
-            var src = DeriveOpCodeMaps();
-            var dst = ProjectDb.TablePath<OpCodeMap>("xed");
-            TableEmit(src.Records, OpCodeMap.RenderWidths, dst);
-            return src;
-        }
-
         public OpCodeMaps LoadOpCodeMaps()
             => DeriveOpCodeMaps();
-
-        public Index<OperandWidth> EmitOperandWidths()
-        {
-            var src = ParseOperandWidths();
-            var dst = ProjectDb.TablePath<OperandWidth>("xed");
-            TableEmit(src.View,dst);
-            return src;
-        }
-
-        public Index<PointerWidthRecord> EmitPointerWidths()
-        {
-            var src = mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i));
-            var dst = RuleTarget(RuleDocKind.PointerWidths);
-            TableEmit(src.View, PointerWidthRecord.RenderWidths, dst);
-            return src;
-        }
 
         public Index<PointerWidthRecord> LoadPointerWidths()
             => Data(nameof(LoadPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
@@ -113,131 +75,11 @@ namespace Z0
         public Index<RuleTable> ParseEncDecRuleTables()
             => ParseRuleTables(RuleSource(RuleDocKind.EncDecRuleTable));
 
-        Index<RulePattern> ExtractRulePatterns(ReadOnlySpan<InstDef> src)
-        {
-            var buffer = hashset<RulePattern>();
-            var instcount = src.Length;
-            for(var i=0; i<instcount; i++)
-            {
-                ref readonly var inst = ref skip(src,i);
-                var operands = inst.PatternOps;
-                var opcount = operands.Length;
-                for(var j=0; j<opcount;j++)
-                {
-                    ref readonly var op = ref operands[j];
-                    var pattern = new RulePattern();
-                    pattern.Class = inst.Class;
-                    pattern.Content = op.Pattern;
-                    pattern.Hash = alg.hash.marvin(op.Pattern.Text);
-                    pattern.OpCodeMap = OpCodeMaps.identify(op.Pattern.Text);
-                    buffer.Add(pattern);
-                }
-            }
-
-            var dst = buffer.Array().Sort();
-            var count = dst.Length;
-            var hashes = hashset<Hash32>();
-
-            for(var i=0u; i<count; i++)
-            {
-                ref var record = ref seek(dst,i);
-                record.Seq = i;
-                hashes.Add(record.Hash);
-            }
-
-            if(hashes.Count != count)
-                Warn(string.Format("Rule hash imperfect"));
-            else
-                Status(string.Format("Rule hash perfect"));
-
-            return dst;
-        }
-
-        Index<RulePattern> EmitRulePatterns(Index<InstDef> x, Index<InstDef> y)
-        {
-            var enc = x.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
-            var dec = y.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
-            var count = Require.equal(enc.Count, dec.Count);
-            var patterns = ExtractRulePatterns(x);
-            var path = RuleTarget(RuleDocKind.Patterns);
-            TableEmit(patterns.View, RulePattern.RenderWidths, path);
-            return patterns;
-        }
-
-        public Index<InstDef> EmitEncInstDefs()
-        {
-            var src = ParseEncInstDefs();
-            EmitEncInstDefs(src);
-            return src;
-        }
-
-        public Index<InstDef> EmitDecInstDefs()
-        {
-            var src = ParseDecInstDefs();
-            EmitDecInstDefs(src);
-            return src;
-        }
-
-        public Index<RuleTable> EmitEncRuleTables()
-        {
-            var src = ParseEncRuleTables();
-            EmitEncRuleTables(src);
-            return src;
-        }
-
-        public Index<RuleTable> EmitDecRuleTables()
-        {
-            var src = ParseDecRuleTables();
-            EmitDecRuleTables(src);
-            return src;
-        }
-
-        public Index<RuleTable> EmitEncDecRuleTables()
-        {
-            var src = ParseEncDecRuleTables();
-            EmitEncDecRuleTables(src);
-            return src;
-        }
-
         public Index<InstDef> ParseEncInstDefs()
             => ParseInstDefs(RuleSource(RuleDocKind.EncInstDef));
 
         public Index<InstDef> ParseDecInstDefs()
             => ParseInstDefs(RuleSource(RuleDocKind.DecInstDef));
-
-        public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
-            => EmitInstDefs(src, RuleTarget(RuleDocKind.EncInstDef));
-
-        public FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
-            => EmitInstDefs(src, RuleTarget(RuleDocKind.DecInstDef));
-
-        public FS.FilePath EmitEncRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, RuleTarget(RuleDocKind.EncRuleTable));
-
-        public FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, RuleTarget(RuleDocKind.DecRuleTable));
-
-        public FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, RuleTarget(RuleDocKind.EncDecRuleTable));
-
-        bool Part(string src, out RulePart part)
-        {
-            var count = PartNames.Count;
-            var result = false;
-            part = default;
-            for(var i=0; i<count; i++)
-            {
-                var p = (RulePart)i;
-                ref readonly var n = ref PartNames[p];
-                if(n == src)
-                {
-                    part = p;
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
 
         Outcome ParseIClass(string src, out IClass dst)
             => Classes.ExprKind(src, out dst);

@@ -122,7 +122,7 @@ namespace Z0
 
                 rhs.StoreTo(rDst);
 
-                var expect = mspan.fcmp(lDst, rDst, mode);
+                var expect = fmath.fcmp(lDst, rDst, mode);
                 var actual = vcmpf(lhs, rhs, mode);
                 Claim.eq(expect, actual);
             }
@@ -145,7 +145,7 @@ namespace Z0
 
                 y.StoreTo(yDst);
 
-                var expect = mspan.fcmp(xDst, yDst, mode);
+                var expect = fmath.fcmp(xDst, yDst, mode);
                 var actual = cmpf(x, y, mode);
                 Claim.eq(expect, actual);
             }
@@ -167,7 +167,7 @@ namespace Z0
 
                 y.StoreTo(ref first(yDst));
 
-                var expect = mspan.fcmp(xDst, yDst, mode);
+                var expect = fmath.fcmp(xDst, yDst, mode);
                 var actual = cmpf(x, y, mode);
                 Claim.eq(expect, actual);
             }

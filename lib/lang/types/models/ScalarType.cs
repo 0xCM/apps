@@ -9,36 +9,17 @@ namespace Z0
 
     using static Root;
 
-    public class ScalarType : IScalarType, IEquatable<ScalarType>
+    public class ScalarType : SizedType, IScalarType, IEquatable<ScalarType>
     {
-        public Identifier Name {get;}
-
         public ScalarClass ScalarClass {get;}
-
-        public BitWidth ContentWidth {get;}
-
-        public BitWidth StorageWidth {get;}
 
         [MethodImpl(Inline)]
         public ScalarType(Identifier name, ScalarClass kind, BitWidth content, BitWidth storage)
+            : base(name, nameof(ScalarType), (ulong)kind, content, storage)
         {
-            Name = name;
             ScalarClass = kind;
-            ContentWidth = content;
-            StorageWidth = storage;
         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Name.IsEmpty;
-        }
-
-        public virtual string Format()
-            => IsEmpty ? RP.Empty : Name;
-
-        public override string ToString()
-            => Format();
 
         public bool Equals(ScalarType src)
             => Name.Equals(src.Name) && ContentWidth == src.ContentWidth;

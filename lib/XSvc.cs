@@ -8,8 +8,13 @@ namespace Z0
 
     using Asm;
 
-    partial class XSvc
+    [ApiHost]
+    public partial class XSvc
     {
+        [Op]
+        public static TypeParser TypeParser(this IWfRuntime wf)
+            => Svc.TypeParser.create(wf);
+
         [Op]
         public static CmdLineRunner CmdLineRunner(this IWfRuntime wf)
             => Svc.CmdLineRunner.create(wf);
@@ -51,6 +56,10 @@ namespace Z0
             => Svc.Symbolism.create(wf);
 
         [Op]
+        public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)
+            => TokenSetEmitter.create(wf);
+
+        [Op]
         public static AppSettings AppSettings(this IWfRuntime wf)
             => Svc.AppSettings.create(wf);
 
@@ -80,5 +89,77 @@ namespace Z0
         [Op]
         public static StringTableGen StringTableGen(this IWfRuntime context)
             => Svc.StringTableGen.create(context);
+
+        [Op]
+        public static ApiResProvider ApiResProvider(this IWfRuntime wf)
+            => Svc.ApiResProvider.create(wf);
+
+        [Op]
+        public static BitMaskServices ApiBitMasks(this IWfRuntime wf)
+            => Svc.BitMaskServices.create(wf);
+
+        [Op]
+        public static ApiHex ApiHex(this IWfRuntime wf)
+            => Svc.ApiHex.create(wf);
+
+        [Op]
+        public static ApiCaptureArchive ApiCaptureArchive(this IWfRuntime wf)
+            => Svc.ApiCaptureArchive.create(wf);
+
+        [Op]
+        public static ApiPackages ApiPackages(this IEnvPaths src)
+            => src.PackageRoot();
+
+        [Op]
+        public static ApiHexPacks ApiHexPacks(this IWfRuntime wf)
+            => Svc.ApiHexPacks.create(wf);
+
+        [Op]
+        public static ApiMetadataService ApiMetadata(this IWfRuntime context)
+            => Svc.ApiMetadataService.create(context);
+
+        [Op]
+        public static ApiComments ApiComments(this IWfRuntime wf)
+            => Svc.ApiComments.create(wf);
+
+        [Op]
+        public static ApiRuntime ApiRuntime(this IWfRuntime wf)
+            => Svc.ApiRuntime.create(wf);
+
+        /// <summary>
+        /// Closes generic operations over the set of primal types that each operation supports
+        /// </summary>
+        /// <param name="generics">Metadata for generic operations</param>
+        [Op]
+        public static ApiIndexBuilder ApiIndexBuilder(this IWfRuntime wf)
+             => Svc.ApiIndexBuilder.create(wf);
+
+        [Op]
+        public static ApiAssets ApiAssets(this IWfRuntime wf)
+            => Svc.ApiAssets.create(wf);
+
+        [Op]
+        public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
+            => Svc.ApiCatalogs.create(wf);
+
+        [Op]
+        public static ApiJit ApiJit(this IWfRuntime wf)
+            => Svc.ApiJit.create(wf);
+
+        [Op]
+        public static ApiQuery ApiQuery(this IWfRuntime wf)
+            => Svc.ApiQuery.create(wf);
+
+        [Op]
+        public static MemoryEmitter MemoryEmitter(this IWfRuntime wf)
+            => Svc.MemoryEmitter.create(wf);
+
+        [Op]
+        public static ApiPacks ApiPacks(this IWfRuntime wf)
+            => Svc.ApiPacks.create(wf);
+
+        [Op]
+        public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
+            => Svc.ApiResPackEmitter.create(wf);
     }
 }

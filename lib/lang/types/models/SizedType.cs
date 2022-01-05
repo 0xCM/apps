@@ -4,6 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
     public class SizedType : ISizedType
     {
         public Identifier Name {get;}
@@ -24,7 +29,18 @@ namespace Z0
             ContentWidth = content;
             StorageWidth = storage;
         }
-        public string Format()
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public virtual string Format()
             => Name;
+
+
+        public override string ToString()
+            => Format();
     }
 }

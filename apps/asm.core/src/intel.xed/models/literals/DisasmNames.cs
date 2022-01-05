@@ -52,17 +52,17 @@ namespace Z0
             public const string REG = nameof(REG);
 
             /// <summary>
-            /// An identifier from <see cref='M.RegId'/>
+            /// An identifier from <see cref='M.XedRegId'/>
             /// </summary>
             public const string REG0 = nameof(REG0);
 
             /// <summary>
-            /// An identifier from <see cref='M.RegId'/>
+            /// An identifier from <see cref='M.XedRegId'/>
             /// </summary>
             public const string REG1 = nameof(REG1);
 
             /// <summary>
-            /// An identifier from <see cref='M.RegId'/>
+            /// An identifier from <see cref='M.XedRegId'/>
             /// </summary>
             public const string REG2 = nameof(REG2);
 

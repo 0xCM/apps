@@ -11,12 +11,12 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(Names.reg)]
-        public struct Register : IEnumCover<RegId>
+        public struct Register : IEnumCover<XedRegId>
         {
-            public RegId Value {get;set;}
+            public XedRegId Value {get;set;}
 
             [MethodImpl(Inline)]
-            public Register(RegId src)
+            public Register(XedRegId src)
             {
                 Value = src;
                 Symbols.expr(src);
@@ -41,11 +41,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator Register(RegId src)
+            public static implicit operator Register(XedRegId src)
                 => new Register(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator RegId(Register src)
+            public static implicit operator XedRegId(Register src)
                 => src.Value;
         }
     }

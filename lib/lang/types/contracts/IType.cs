@@ -4,17 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IType : ITextual, INullity
+    public interface IType
     {
         Identifier Name {get;}
 
         ulong Kind => 0;
 
-        bool INullity.IsEmpty
-            => false;
+        bool IsEmpty => Name.IsEmpty;
 
-        string ITextual.Format()
+        bool IsNonEmpty => !IsEmpty;
+
+        string Format()
             => Name;
+        // bool INullity.IsEmpty
+        //     => false;
+
+        // string ITextual.Format()
+        //     => Name;
     }
 
     public interface IType<K> : IType

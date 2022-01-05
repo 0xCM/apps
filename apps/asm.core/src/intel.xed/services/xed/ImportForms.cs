@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using System;
+
     using static Root;
     using static core;
 
@@ -102,5 +104,21 @@ namespace Z0.Asm
             dst.Attributes = skip(parts,i++);
             return true;
         }
+
+
+        static Outcome ParseSourceHeader(TextLine src, Span<string> dst)
+        {
+            var parts = src.Split(FieldDelimiter);
+            var count = parts.Length;
+            if(count != XedFormSource.FieldCount)
+                return(false, $"Line splits into {count} parts, not {XedFormSource.FieldCount} as required");
+
+            for(var i=0; i<count; i++)
+                seek(dst,i) = skip(parts,i);
+
+            return true;
+        }
+
+
     }
 }

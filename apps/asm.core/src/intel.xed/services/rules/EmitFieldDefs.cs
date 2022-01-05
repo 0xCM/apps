@@ -6,20 +6,13 @@ namespace Z0
 {
     using System;
 
-    public interface IActor : IType
+    using static Root;
+    using static core;
+    using static XedModels;
+
+    partial class XedRules
     {
 
-    }
 
-    public interface IActor<A> : IActor
-        where A : IActor
-    {
-
-    }
-
-    public interface IActor<A,K> : IActor<A>
-        where A : IActor<A,K>
-    {
-        ReadOnlySpan<K> Capabilities {get;}
     }
 }

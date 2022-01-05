@@ -39,9 +39,11 @@ namespace Z0
 
         internal const string Bit = "bit";
 
-        internal const string Bits = "bits<t:{0}>";
+        internal const string BitsN = "bits<n:{0}>";
 
-        internal const string BitsN = "bits<n:{0},t:{1}>";
+        internal const string BitsT = "bits<t:{0}>";
+
+        internal const string BitsNT = "bits<n:{0},t:{1}>";
 
         internal const string Kind = "kind<k:{0}>";
 
@@ -89,6 +91,10 @@ namespace Z0
 
         internal const string Imm = "imm<w:{0}>";
 
+        internal const string ImmU = "immu<w:{0}>";
+
+        internal const string ImmI = "immi<w:{0}>";
+
         internal const string Imm8 = "imm<w:8>";
 
         internal const string Imm16 = "imm<w:16>";
@@ -115,9 +121,28 @@ namespace Z0
 
         internal const string Lookup = "lookup<k:{0},v:{1}>";
 
+        internal const string Reg = "reg<name:{0},w:{1}>";
+
+        internal const string RegW = "reg<w:{0}>";
+
+        internal const string RegKind = "regkind<k:{0}>";
+
         internal static string symbol<K>(K kind)
             where K : unmanaged, Enum
                 => Symbols.expr(kind).Format();
+
+        public static TypeParam param(string name, string value) => new TypeParam(name,value);
+
+        public static TypeParam param<T>(string name, T value) => new TypeParam<T>(name,value);
+
+        [TypeSyntax(Reg)]
+        public static TypeSpec reg(string name, BitWidth width) => string.Format(Reg, name, width);
+
+        [TypeSyntax(RegW)]
+        public static TypeSpec reg(BitWidth width) => string.Format(RegW, width);
+
+        [TypeSyntax(RegKind)]
+        public static TypeSpec regkind(string name) => string.Format(Reg, name);
 
         [TypeSyntax(Num)]
         public static TypeSpec num(TypeSpec type) => string.Format(Num, type);
@@ -131,6 +156,24 @@ namespace Z0
         [TypeSyntax(Imm)]
         public static TypeSpec imm(BitWidth w) => string.Format(Imm, w);
 
+        /// <summary>
+        /// Defines an unsigned immediate type of specified width
+        /// </summary>
+        /// <param name="w">The width</param>
+        [TypeSyntax(ImmU)]
+        public static TypeSpec immu(BitWidth w) => string.Format(ImmU, w);
+
+        /// <summary>
+        /// Defines a signed immediate type of specified width
+        /// </summary>
+        /// <param name="w">The width</param>
+        [TypeSyntax(ImmI)]
+        public static TypeSpec immi(BitWidth w) => string.Format(ImmI, w);
+
+        /// <summary>
+        /// Defines a memory type of specified width
+        /// </summary>
+        /// <param name="w">The width</param>
         [TypeSyntax(Mem)]
         public static TypeSpec mem(BitWidth w) => string.Format(Mem, w);
 
@@ -180,6 +223,76 @@ namespace Z0
         /// <param name="n">The width</param>
         [TypeSyntax(U)]
         public static TypeSpec u(uint n) => string.Format(U,n);
+
+        /// <summary>
+        /// Defines a u8 integer type
+        /// </summary>
+        public static TypeSpec u8() => u(8);
+
+        /// <summary>
+        /// Defines a u16 integer type
+        /// </summary>
+        public static TypeSpec u16() => u(16);
+
+        /// <summary>
+        /// Defines a u32 integer type
+        /// </summary>
+        public static TypeSpec u32() => u(32);
+
+        /// <summary>
+        /// Defines a u64 integer type
+        /// </summary>
+        public static TypeSpec u64() => u(64);
+
+        /// <summary>
+        /// Defines a u128 integer type
+        /// </summary>
+        public static TypeSpec u128() => u(128);
+
+        /// <summary>
+        /// Defines a u256 integer type
+        /// </summary>
+        public static TypeSpec u256() => u(256);
+
+        /// <summary>
+        /// Defines a u512 integer type
+        /// </summary>
+        public static TypeSpec u512() => u(512);
+
+        /// <summary>
+        /// Defines an i8 integer type
+        /// </summary>
+        public static TypeSpec i8() => i(8);
+
+        /// <summary>
+        /// Defines an i16 integer type
+        /// </summary>
+        public static TypeSpec i16() => i(16);
+
+        /// <summary>
+        /// Defines an i32 integer type
+        /// </summary>
+        public static TypeSpec i32() => i(32);
+
+        /// <summary>
+        /// Defines an i64 integer type
+        /// </summary>
+        public static TypeSpec i64() => i(64);
+
+        /// <summary>
+        /// Defines an i128 integer type
+        /// </summary>
+        public static TypeSpec i128() => i(128);
+
+        /// <summary>
+        /// Defines an i256 integer type
+        /// </summary>
+        public static TypeSpec i256() => i(256);
+
+        /// <summary>
+        /// Defines an i512 integer type
+        /// </summary>
+        public static TypeSpec i512() => i(512);
 
         /// <summary>
         /// Defines a sequence of arbitrary length over a parametric type
@@ -290,16 +403,23 @@ namespace Z0
         /// Defines a sequence of bits of length bounded by a parametric type
         /// </summary>
         /// <param name="t">The type</param>
-        [TypeSyntax(Bits)]
-        public static TypeSpec bits(TypeSpec t) => string.Format(Bits, t.Format());
+        [TypeSyntax(BitsT)]
+        public static TypeSpec bits(TypeSpec t) => string.Format(BitsT, t.Format());
 
         /// <summary>
         /// Defines a sequence of bits of length bounded by both parametric type and length
         /// </summary>
         /// <param name="t">The type</param>
         /// <param name="t">The length</param>
+        [TypeSyntax(BitsNT)]
+        public static TypeSpec bits(uint n, TypeSpec t) => string.Format(BitsNT, t.Format());
+
+        /// <summary>
+        /// Defines a sequence of bits of parametric length
+        /// </summary>
+        /// <param name="n">The bit count</param>
         [TypeSyntax(BitsN)]
-        public static TypeSpec bits(uint n, TypeSpec t) => string.Format(BitsN, t.Format());
+        public static TypeSpec bits(uint n) => string.Format(BitsN, n);
 
         /// <summary>
         /// Defines a bitvector type of content width n

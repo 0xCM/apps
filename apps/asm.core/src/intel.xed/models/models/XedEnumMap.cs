@@ -19,7 +19,7 @@ namespace Z0
         }
 
         static Dictionary<string,Type> Data = core.dict(
-            ("xed_reg_enum_t", typeof(RegId))
+            ("xed_reg_enum_t", typeof(XedRegId))
 
             );
     }

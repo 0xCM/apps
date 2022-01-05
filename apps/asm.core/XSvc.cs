@@ -35,6 +35,10 @@ namespace Z0
             => Z0.XedTool.create(wf);
 
         [Op]
+        public static XedTypeProvider XedTypeProvider(this IWfRuntime wf)
+            => Z0.XedTypeProvider.create(wf);
+
+        [Op]
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
             => Svc.NasmCatalog.create(wf);
 

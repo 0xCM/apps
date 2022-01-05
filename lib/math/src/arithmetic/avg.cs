@@ -7,31 +7,11 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using static math;
     using static core;
     using static Root;
 
-    [ApiHost]
-    public readonly struct mspan
+    partial class math
     {
-        public static ReadOnlySpan<bool> fcmp(Span<float> a, Span<float> b, FpCmpMode kind)
-        {
-            var count =  core.min(a.Length,b.Length);
-            var dst = span<bool>(count);
-            for(var i = 0; i<count; i++)
-                seek(dst,i) = fmath.fcmp(a[i], b[i], kind);
-            return dst;
-        }
-
-        public static ReadOnlySpan<bool> fcmp(Span<double> a, Span<double> b, FpCmpMode kind)
-        {
-            var count = core.min(a.Length,b.Length);
-            var dst = span<bool>(count);
-            for(var i = 0; i< count; i++)
-                seek(dst,i) = fmath.fcmp(a[i], b[i], kind);
-            return dst;
-        }
-
         [MethodImpl(Inline), Avg]
         public static sbyte avg(ReadOnlySpan<sbyte> src, bool @checked)
             => @checked ? avg_checked(src) : avg_unchecked(src);

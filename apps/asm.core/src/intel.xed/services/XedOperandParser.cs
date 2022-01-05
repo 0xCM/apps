@@ -16,7 +16,7 @@ namespace Z0
     {
         Symbols<OperandKind> Kinds;
 
-        Symbols<RegId> Registers;
+        Symbols<XedRegId> Registers;
 
         OperandState State;
 
@@ -29,7 +29,7 @@ namespace Z0
         public XedOperandParser()
         {
             Kinds = Symbols.index<OperandKind>();
-            Registers = Symbols.index<RegId>();
+            Registers = Symbols.index<XedRegId>();
             State = OperandState.Empty;
             _ParsedKinds = new();
             _UnknownFields = new();

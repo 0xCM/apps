@@ -7,8 +7,30 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
+    using static math;
+    using static core;
+    using static Root;
+
     partial class fmath
     {
+        public static ReadOnlySpan<bool> fcmp(Span<float> a, Span<float> b, FpCmpMode kind)
+        {
+            var count =  core.min(a.Length,b.Length);
+            var dst = span<bool>(count);
+            for(var i = 0; i<count; i++)
+                seek(dst,i) = fmath.fcmp(a[i], b[i], kind);
+            return dst;
+        }
+
+        public static ReadOnlySpan<bool> fcmp(Span<double> a, Span<double> b, FpCmpMode kind)
+        {
+            var count = core.min(a.Length,b.Length);
+            var dst = span<bool>(count);
+            for(var i = 0; i< count; i++)
+                seek(dst,i) = fmath.fcmp(a[i], b[i], kind);
+            return dst;
+        }
+
         /// <summary>
         /// Returns true if the source value is greater than zero, false otherwise
         /// </summary>

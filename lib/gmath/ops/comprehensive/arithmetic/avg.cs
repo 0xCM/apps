@@ -53,7 +53,7 @@ namespace Z0
             else if(typeof(T) == typeof(ulong))
                 return generic<T>(math.avgi(uint64(a), uint64(b)));
             else
-                throw Unsupported.define<T>();
+                throw no<T>();
         }
     }
 }

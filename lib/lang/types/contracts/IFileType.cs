@@ -13,8 +13,6 @@ namespace Z0
 
         FS.FileExt PrimaryExtension
             => DefaultExtensions.IsNonEmpty ?  DefaultExtensions.First : FS.FileExt.Empty;
-        string ITextual.Format()
-            => PrimaryExtension.Format();
     }
 
     public interface IFileType<K> : IFileType, IType<K>
