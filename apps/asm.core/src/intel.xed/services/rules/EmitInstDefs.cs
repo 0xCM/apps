@@ -33,6 +33,9 @@ namespace Z0
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Isa), def.Isa));
                 if(def.Attributes.IsNonEmpty)
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Attributes), def.Attributes.Delimit(fence:RenderFence.Embraced)));
+                if(def.Flags.IsNonEmpty)
+                    writer.WriteLine(string.Format("{0}:{1}", nameof(def.Flags), def.Flags.Delimit(fence:RenderFence.Embraced)));
+
                 iter(def.PatternOps, p => {
                     writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Pattern));
                     if(p.Operands.Count != 0)

@@ -179,7 +179,7 @@ namespace Z0
                     if(modrmval.Value() != code[state.pos_modrm])
                         return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
 
-                    writer.WriteLine(string.Format(RenderPattern, "MODRM", string.Format(Cols2Pattern, modrmval.Format(), modrmval.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "MODRM", string.Format(Cols2Pattern, modrmval.ToBitString(), modrmval.Format())));
                 }
 
                 if(has_sib)
@@ -188,7 +188,7 @@ namespace Z0
                     if(sibenc.Value() != sibval.Value())
                         return (false, string.Format("Derived Sib value {0} differs from encoded value {1}", sibval, sibenc));
 
-                    writer.WriteLine(string.Format(RenderPattern, "SIB", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "SIB", string.Format(Cols2Pattern, sibval.ToBitString(), sibval.Format())));
                 }
 
                 if(state.imm0)

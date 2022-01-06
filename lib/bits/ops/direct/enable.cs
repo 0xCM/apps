@@ -14,6 +14,46 @@ namespace Z0
     partial class bits
     {
         /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The index of the first bit to enable</param>
+        /// <param name="i1">The index of the last bit to enable</param>
+        [MethodImpl(Inline), Enable]
+        public static byte enable(W8 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The index of the first bit to enable</param>
+        /// <param name="i1">The index of the last bit to enable</param>
+        [MethodImpl(Inline), Enable]
+        public static ushort enable(W16 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The index of the first bit to enable</param>
+        /// <param name="i1">The index of the last bit to enable</param>
+        [MethodImpl(Inline), Enable]
+        public static uint enable(W32 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
+        /// Creates a mask that covers an inclusive range of bits
+        /// </summary>
+        /// <param name="w">The target width selector</param>
+        /// <param name="i0">The index of the first bit to enable</param>
+        /// <param name="i1">The index of the last bit to enable</param>
+        [MethodImpl(Inline), Enable]
+        public static ulong enable(W64 w, byte i0, byte i1)
+            => math.sll(zhi(max(w), segwidth(i0,i1)), i0);
+
+        /// <summary>
         /// Enables a specified source bit
         /// </summary>
         /// <param name="src">The source value to manipulate</param>

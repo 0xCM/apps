@@ -127,5 +127,16 @@ namespace Z0
         /// </summary>
         public const double Max64f = double.MaxValue;
 
+        public static byte max(W8 w)
+            => byte.MaxValue;
+
+        public static ushort max(W16 w)
+            => ushort.MaxValue;
+
+        public static uint max(W32 w)
+            => uint.MaxValue;
+
+        public static ulong max(W64 w)
+            => ulong.MaxValue;
     }
 }

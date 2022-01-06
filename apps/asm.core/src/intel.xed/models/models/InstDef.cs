@@ -27,7 +27,7 @@ namespace Z0
 
             public Index<AttributeKind> Attributes;
 
-            public Index<FlagAction> FlagActions;
+            public Index<FlagAction> Flags;
 
             public Index<PatternOperands> PatternOps;
 

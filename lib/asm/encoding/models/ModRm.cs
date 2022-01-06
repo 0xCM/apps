@@ -9,12 +9,16 @@ namespace Z0.Asm
 
     using static Root;
 
+    using static ModRmFields;
+
     /// <summary>
     /// ModRM[mod[7:6] | reg[5:3] | r/m[2:0]]
     /// </summary>
     [ApiComplete, DataType("asm.modrm")]
     public struct ModRm : IAsmByte<ModRm>
     {
+        public const string BitPattern = ModRmFields.BitPattern;
+
         public static ModRm init(byte src = 0)
             => new ModRm();
 

@@ -48,6 +48,10 @@ namespace Z0
 
         Symbols<OperandKind> OperandKinds;
 
+        Symbols<RegFlag> Flags;
+
+        Symbols<FlagActionKind> FlagActionKinds;
+
         FieldKinds FieldKinds;
 
         public XedRules()
@@ -66,6 +70,8 @@ namespace Z0
             FieldTypes = Symbols.index<FieldType>();
             FieldKinds = new();
             OperandKinds = Symbols.index<OperandKind>();
+            FlagActionKinds = Symbols.index<FlagActionKind>();
+            Flags = Symbols.index<RegFlag>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
         }
 

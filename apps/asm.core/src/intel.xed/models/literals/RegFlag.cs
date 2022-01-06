@@ -11,7 +11,7 @@ namespace Z0
         /// Mirrors the content of xed-flag-enum.txt data file
         /// </summary>
         [SymSource(xed)]
-        public enum EFlag : byte
+        public enum RegFlag : byte
         {
             INVALID,
 
@@ -30,7 +30,7 @@ namespace Z0
             [Symbol("pf", "parity flag")]
             pf,
 
-            [Symbol("df", "carry flag")]
+            [Symbol("cf", "carry flag")]
             cf,
 
             [Symbol("df", "direction flag")]

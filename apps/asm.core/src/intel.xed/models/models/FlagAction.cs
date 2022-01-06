@@ -13,12 +13,12 @@ namespace Z0
     {
         public readonly struct FlagAction
         {
-            public EFlag Flag {get;}
+            public RegFlag Flag {get;}
 
             public FlagActionKind ActionKind {get;}
 
             [MethodImpl(Inline)]
-            public FlagAction(EFlag f, FlagActionKind k)
+            public FlagAction(RegFlag f, FlagActionKind k)
             {
                 Flag = f;
                 ActionKind = k;
@@ -43,7 +43,7 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator FlagAction((EFlag f, FlagActionKind k) src)
+            public static implicit operator FlagAction((RegFlag f, FlagActionKind k) src)
                 => new FlagAction(src.f, src.k);
         }
     }

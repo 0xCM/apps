@@ -10,35 +10,12 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    // SIB[Scale[6,7] | Index[3,5] | Base[0,2]]
+    using static SibFields;
+
     [ApiComplete, DataType("asm.sib")]
     public struct Sib : IAsmByte<Sib>
     {
-        public const string BitPattern = "ss iii bbb";
-
-        const byte Base_Mask = 0b00_000_111;
-
-        const byte Base_Min = 0;
-
-        const byte Base_Max = 2;
-
-        const byte Base_Width = Base_Max - Base_Min + 1;
-
-        const byte Index_Mask = 0b00_111_000;
-
-        const byte Index_Min = 3;
-
-        const byte Index_Max = 5;
-
-        const byte Index_Width = Index_Max - Index_Min + 1;
-
-        const byte Scale_Mask = 0b11_000_000;
-
-        const byte Scale_Min = 6;
-
-        const byte Scale_Max = 7;
-
-        const byte Scale_Width = Scale_Max - Scale_Min + 1;
+        public const string BitPattern = SibFields.BitPattern;
 
         [MethodImpl(Inline)]
         public static Sib init(byte src = 0)
@@ -51,7 +28,6 @@ namespace Z0.Asm
         {
             _Value = src;
         }
-
 
         public uint3 Base
         {
@@ -80,46 +56,6 @@ namespace Z0.Asm
             set => _Value = math.or(bits.scatter((byte)value, Scale_Mask), math.and(_Value, math.not(Scale_Mask)));
         }
 
-        const byte BaseOffset = 0;
-
-        const byte IndexMask = 0b11_000_111;
-
-        const byte IndexOffset = 3;
-
-        const byte ScaleMask = 0b00_111_111;
-
-        const byte ScaleOffset = 6;
-
-        // [MethodImpl(Inline)]
-        // public uint3 Base()
-        //     => (uint3)(math.srl((byte)(_Value & ~Base_Mask), BaseOffset));
-
-        // [MethodImpl(Inline)]
-        // public void Base(uint3 src)
-        //     => _Value = math.or(math.and(_Value, Base_Mask), math.sll(src,BaseOffset));
-
-        // [MethodImpl(Inline)]
-        // public uint3 Index()
-        //     => (uint3)(math.srl((byte)(_Value & ~IndexMask), IndexOffset));
-
-        // [MethodImpl(Inline)]
-        // public void Index(uint3 src)
-        //     => _Value = math.or(math.and(_Value, IndexMask),math.sll(src,IndexOffset));
-
-        // [MethodImpl(Inline)]
-        // public uint2 Scale()
-        //     => (uint2)(math.srl((byte)(_Value & ~ScaleMask), ScaleOffset));
-
-        // [MethodImpl(Inline)]
-        // public void Scale(uint2 src)
-        //     => _Value = math.or(math.and(_Value, ScaleMask), math.sll(src,ScaleOffset));
-
-        public MemoryScale ScaleFactor
-        {
-            [MethodImpl(Inline)]
-            get => Pow2.pow8u(Scale);
-        }
-
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -141,7 +77,7 @@ namespace Z0.Asm
 
         public string ToBitString()
         {
-            Span<char> dst = stackalloc char[10];
+            Span<char> dst = stackalloc char[RenderWidth];
 
             var i = 0u;
             BitRender.render2(Scale, ref i, dst);

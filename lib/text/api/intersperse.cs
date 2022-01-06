@@ -64,23 +64,19 @@ namespace Z0
         }
 
         /// <summary>
-        /// Intersperses the source strings with a delimiter followed by a space, i.e.,
-        /// result := "{s1}{delimiter} {s2}{delimiter} ... {sn}{delimiter}"
+        /// Joins the source strings using a specified separator
         /// </summary>
-        /// <param name="fields">The fields to delimit</param>
-        /// <param name="delimiter">The delimiter to use</param>
-        public static string intersperse(ReadOnlySpan<string> fields, char delimiter)
+        /// <param name="src">The fields to delimit</param>
+        /// <param name="sep">The delimiter to use</param>
+        public static string intersperse(ReadOnlySpan<string> src, char sep)
         {
             var dst = buffer();
-            var count = fields.Length;
+            var count = src.Length;
             for(var i=0; i<count; i++)
             {
-                dst.Append(skip(fields, i));
+                dst.Append(skip(src, i));
                 if(i != count - 1)
-                {
-                    dst.Append(delimiter);
-                    dst.Append(Chars.Space);
-                }
+                    dst.Append(sep);
             }
             return dst.Emit();
         }
