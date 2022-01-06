@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-iclass-enum.h
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -261,8 +260,6 @@ namespace Z0
             WBNOINVD,
 
             ZEROING,
-
-            LAST
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Z0
 
         public ConstLookup<FS.FilePath,SourceEncodings> ParseEncodings(IProjectWs project)
         {
-            var src = DisasmSources(project);
+            var src = XedPaths.DisasmSources(project);
             var count = src.Count;
             var dst = dict<FS.FilePath,SourceEncodings>();
             for(var i=0; i<count; i++)

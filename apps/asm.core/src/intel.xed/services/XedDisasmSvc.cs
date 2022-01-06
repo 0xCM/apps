@@ -20,6 +20,8 @@ namespace Z0
 
         XedRules Rules => Service(Wf.XedRules);
 
+        XedPaths XedPaths => Service(Wf.XedPaths);
+
         ConstLookup<OperandWidthType,OperandWidth> OperandWidths;
 
         public XedDisasmSvc()
@@ -37,21 +39,6 @@ namespace Z0
 
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
-
-        public FS.Files DisasmSources(IProjectWs project)
-            => project.OutFiles(FS.ext("xed.txt"));
-
-        public FS.FilePath DisasmTable(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Project), FS.Csv);
-
-        public FS.FilePath DisasmCode(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Name), FS.Asm);
-
-        public FS.FolderPath DisasmDetailDir(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.folder(string.Format("{0}.{1}", project.Name, "xed.disasm.detail"));
-
-        public FS.FilePath DisasmDetailTarget(IProjectWs project, FS.FileName file)
-            => DisasmDetailDir(project) + FS.file(string.Format("{0}.details",file), FS.Txt);
 
         public Outcome ParseInstructions(ReadOnlySpan<DisasmLineBlock> src, out Index<DisasmInstruction> dst)
         {
@@ -71,7 +58,7 @@ namespace Z0
         {
             using var unique = AsmCodeAllocation.create(src);
             var count = unique.Count;
-            var dst = DisasmCode(project);
+            var dst = XedPaths.DisasmCode(project);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
@@ -86,10 +73,10 @@ namespace Z0
         public Index<AsmStatementEncoding> Collect(IProjectWs project)
         {
             var result = Outcome.Success;
-            var src = DisasmSources(project);
+            var src = XedPaths.DisasmSources(project);
             var records = ParseEncodings(src);
             var count = src.Length;
-            TableEmit(records.View, AsmStatementEncoding.RenderWidths, DisasmTable(project));
+            TableEmit(records.View, AsmStatementEncoding.RenderWidths, XedPaths.DisasmTable(project));
             CollectAsmCode(project, records);
             EmitDisasmDetails(project);
             return records;

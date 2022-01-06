@@ -14,7 +14,7 @@ namespace Z0.Asm
         public void ImportForms()
         {
             var src = ParseFormSources().View;
-            var dst = FormCatalogPath();
+            var dst = XedPaths.FormCatalogPath();
             var formatter = Tables.formatter<XedFormImport>(XedFormImport.RenderWidths);
             var count = src.Length;
             var result = Outcome.Success;
@@ -39,7 +39,7 @@ namespace Z0.Asm
 
         Index<XedFormSource> ParseFormSources()
         {
-            var src = FormSourcePath();
+            var src = XedPaths.FormSourcePath();
             var tableid = Tables.identify<XedFormSource>();
             var flow = Running(string.Format("Loading form sources from {0}", src.ToUri()));
             using var reader = src.Utf8Reader();

@@ -127,7 +127,6 @@ namespace Z0
             EVEX_MAP_0F3A = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F3A << 8),
         }
 
-
         [Record(TableId)]
         public struct OpCodeMap
         {

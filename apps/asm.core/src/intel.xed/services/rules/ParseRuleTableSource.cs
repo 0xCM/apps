@@ -14,7 +14,7 @@ namespace Z0
 
     partial class XedRules
     {
-        Index<RuleTable> ParseRuleTables(FS.FilePath src)
+        Index<RuleTable> ParseRuleTableSource(FS.FilePath src)
         {
             var tables = list<RuleTable>();
             using var reader = src.Utf8LineReader();
@@ -38,13 +38,27 @@ namespace Z0
                 }
             }
 
-            string Normalize(string src)
+            static string Normalize(string src)
             {
                 var i = text.index(src, Chars.Hash);
                 if(i>0)
                     return text.trim(text.left(src,i));
                 else
                     return text.trim(src);
+            }
+
+            RuleExpr CreateRuleExpr(EK kind, string premise, string consequent = EmptyString)
+            {
+                var left = sys.empty<RuleCriterion>();
+                var right = sys.empty<RuleCriterion>();
+
+                if(nonempty(premise))
+                    left = ParseRuleCriteria(premise);
+
+                if(nonempty(consequent))
+                    right = ParseRuleCriteria(consequent);
+
+                return new RuleExpr(kind, premise, consequent, left, right);
             }
 
 
@@ -66,7 +80,7 @@ namespace Z0
                     {
                         parts = text.split(content, EncStepMarker).Map(x => x.Trim());
                         if(parts.Length == 2)
-                            table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
+                            table.Expressions.Add(CreateRuleExpr(kind, parts[0], parts[1]));
                         else
                         {
                             result = (false, StepParseFailed.Format(content));
@@ -77,9 +91,9 @@ namespace Z0
                     {
                         parts = text.split(content, DecStepMarker).Map(x => x.Trim());
                         if(parts.Length == 1)
-                            table.Expressions.Add(new RuleExpr(kind, parts[0], EmptyString));
+                            table.Expressions.Add(CreateRuleExpr(kind, parts[0]));
                         else if(parts.Length == 2)
-                            table.Expressions.Add(new RuleExpr(kind, parts[0], parts[1]));
+                            table.Expressions.Add(CreateRuleExpr(kind, parts[0], parts[1]));
                         else
                         {
                             result = (false, StepParseFailed.Format(content));

@@ -1,79 +1,112 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
+    using Asm;
 
     using static Root;
 
     partial struct XedModels
     {
-        public readonly struct RuleOperand
+        public struct RuleOperand
         {
-            public RuleOpName Kind {get;}
+            public RuleOpName Name;
 
-            public OpDirection Direction {get;}
+            public object Value;
 
-            public OperandWidth Width {get;}
+            public readonly byte Width;
 
-            public @string WidthRefinement {get;}
+            readonly bool UseWidth;
 
-            public TableFunction Function {get;}
-
-            public Index<string> Attributes {get;}
-
-            [MethodImpl(Inline)]
-            public RuleOperand(RuleOpName kind, string[] attributes)
+            public RuleOperand(RuleOpName name, ulong value)
             {
-                Kind = kind;
-                Direction = 0;
-                Width = OperandWidth.Empty;
-                WidthRefinement = @string.Empty;
-                Function = TableFunction.Empty;
-                Attributes = attributes;
+                Name = name;
+                Value = value;
+                Width = 64;
+                UseWidth = false;
             }
 
-            [MethodImpl(Inline)]
-            public RuleOperand(RuleOpName kind, OpDirection dir, OperandWidth width, string refinement, TableFunction fx)
+            public RuleOperand(RuleOpName name, long value)
             {
-                Kind = kind;
-                Direction = dir;
+                Name = name;
+                Value = value;
+                Width = 64;
+                UseWidth = false;
+            }
+
+            public RuleOperand(RuleOpName name, long value, byte width)
+            {
+                Name = name;
+                Value = value;
                 Width = width;
-                Function = fx;
-                WidthRefinement = refinement;
-                Attributes = sys.empty<string>();
+                UseWidth = true;
             }
 
-            [MethodImpl(Inline)]
-            public RuleOperand(RuleOpName kind, OpDirection dir, OperandWidth width, string refinement)
+            public RuleOperand(RuleOpName name, uint4 value)
             {
-                Kind = kind;
-                Width = width;
-                Direction = dir;
-                WidthRefinement = refinement;
-                Function = TableFunction.Empty;
-                Attributes = sys.empty<string>();
+                Name = name;
+                Value = value;
+                Width = 4;
+                UseWidth = false;
             }
+
+            public RuleOperand(RuleOpName name, XedRegId value)
+            {
+                Name = name;
+                Value = value;
+                Width = 16;
+                UseWidth = false;
+            }
+
+            public RuleOperand(RuleOpName name, string value)
+            {
+                Name = name;
+                Value = value;
+                Width = 0;
+                UseWidth = false;
+            }
+
+            public RuleOperand(RuleOpName name, ImmOp value)
+            {
+                Name = name;
+                Value = value;
+                Width = (byte)value.Width;
+                UseWidth = false;
+            }
+
+            public RuleOperand(RuleOpName name, Disp value)
+            {
+                Name = name;
+                Value = value;
+                Width = (byte)value.Size.Code;
+                UseWidth = false;
+            }
+
+            static string FormatHexInt(object src, byte width, bool signed)
+                => src != null ? variant.integer(src, width, signed).FormatHex() : EmptyString;
 
             public string Format()
             {
-                if(Attributes.IsNonEmpty)
-                    return string.Format("{0}:{1}", Kind, Attributes.Delimit(Chars.Colon));
+                if(Value == null)
+                    return EmptyString;
 
-                var dir = Symbols.expr(Direction);
-
-                if(Function.IsNonEmpty)
-                    return string.Format("{0}:{1}:{2}:{3}:{4}", Kind, dir, Function, Width, WidthRefinement);
-                else if(Width.IsEmpty)
-                    return string.Format("{0}:{1}", Kind, dir);
+                var dst = EmptyString;
+                var type = Value.GetType();
+                var kind = type.NumericKind();
+                if(UseWidth && Width != 0)
+                    dst = FormatHexInt(Value, Width, kind.IsSigned());
                 else
-                    return string.Format("{0}:{1}:{2}:{3}", Kind, dir, Width, WidthRefinement);
+                    dst = Value.ToString();
+
+                return dst;
             }
 
             public override string ToString()
                 => Format();
+
+            public static RuleOperand Empty => new RuleOperand(RuleOpName.None, EmptyString);
         }
     }
 }

@@ -12,7 +12,18 @@ namespace Z0
 
     partial class XedRules
     {
+        public Index<FieldDef> EmitFieldDefs()
+        {
+            var src = ParseSourceFieldDefs();
+            EmitFieldDefs(src);
+            return src;
+        }
 
-
+        public FS.FilePath EmitFieldDefs(ReadOnlySpan<FieldDef> src)
+        {
+            var dst = XedPaths.FieldDefsTarget();
+            TableEmit(src, FieldDef.RenderWidths, dst);
+            return dst;
+        }
     }
 }

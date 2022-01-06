@@ -10,14 +10,10 @@ namespace Z0
     using static core;
     using static Root;
 
-    using static XedModels.RuleNames;
-
-    using EK = XedModels.RuleExprKind;
-
     partial class XedRules
     {
          Index<RulePattern> ExtractRulePatterns(ReadOnlySpan<InstDef> src)
-        {
+         {
             var buffer = hashset<RulePattern>();
             var instcount = src.Length;
             for(var i=0; i<instcount; i++)

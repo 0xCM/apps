@@ -15,7 +15,7 @@ namespace Z0.Asm
                 Error(outcome.Message);
             else
             {
-                var dst = ChipMapCatalogPath();
+                var dst = XedPaths.ChipMapTarget();
                 var emitting = EmittingFile(dst);
                 var counter = 0u;
                 var writer = dst.AsciWriter();

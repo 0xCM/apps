@@ -415,85 +415,67 @@ namespace Z0
                 return offsets;
             }
 
-            public Dictionary<RuleOpName,RuleOpInfo> RuleOperands(in AsmHexCode code)
+            public Dictionary<RuleOpName,RuleOperand> RuleOperands(in AsmHexCode code)
             {
-                var _ops = list<RuleOpInfo>();
+                var _ops = list<RuleOperand>();
                 if(disp_width != 0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.DISP, disp(this, code), disp_width));
+                    _ops.Add(new RuleOperand(RuleOpName.DISP, disp(this, code), disp_width));
 
                 if(imm0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.IMM0, imm(this, code)));
+                    _ops.Add(new RuleOperand(RuleOpName.IMM0, imm(this, code)));
 
                 if(base0.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.BASE0, base0));
+                    _ops.Add(new RuleOperand(RuleOpName.BASE0, base0));
 
                 if(base1.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.BASE1, base1));
+                    _ops.Add(new RuleOperand(RuleOpName.BASE1, base1));
 
                 if(scale != 0)
-                    _ops.Add(new RuleOpInfo(RuleOpName.SCALE, scale));
+                    _ops.Add(new RuleOperand(RuleOpName.SCALE, scale));
 
                 if(index.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.INDEX, index));
+                    _ops.Add(new RuleOperand(RuleOpName.INDEX, index));
 
                 if(reg0.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG0, reg0));
+                    _ops.Add(new RuleOperand(RuleOpName.REG0, reg0));
 
                 if(reg1.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG1, reg1));
+                    _ops.Add(new RuleOperand(RuleOpName.REG1, reg1));
 
                 if(reg2.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG2, reg2));
+                    _ops.Add(new RuleOperand(RuleOpName.REG2, reg2));
 
                 if(reg3.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG3, reg3));
+                    _ops.Add(new RuleOperand(RuleOpName.REG3, reg3));
 
                 if(reg4.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG4, reg4));
+                    _ops.Add(new RuleOperand(RuleOpName.REG4, reg4));
 
                 if(reg5.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG5, reg5));
+                    _ops.Add(new RuleOperand(RuleOpName.REG5, reg5));
 
                 if(reg6.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG6, reg6));
+                    _ops.Add(new RuleOperand(RuleOpName.REG6, reg6));
 
                 if(reg7.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG7, reg7));
+                    _ops.Add(new RuleOperand(RuleOpName.REG7, reg7));
 
                 if(reg8.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG8, reg8));
+                    _ops.Add(new RuleOperand(RuleOpName.REG8, reg8));
 
                 if(reg9.IsNonEmpty)
-                    _ops.Add(new RuleOpInfo(RuleOpName.REG9, reg9));
+                    _ops.Add(new RuleOperand(RuleOpName.REG9, reg9));
 
                 if(nonempty(mem0))
-                    _ops.Add(new RuleOpInfo(RuleOpName.MEM0, mem0));
+                    _ops.Add(new RuleOperand(RuleOpName.MEM0, mem0));
 
                 if(nonempty(mem1))
-                    _ops.Add(new RuleOpInfo(RuleOpName.MEM1, mem1));
+                    _ops.Add(new RuleOperand(RuleOpName.MEM1, mem1));
 
                 if(nonempty(agen))
-                    _ops.Add(new RuleOpInfo(RuleOpName.AGEN, agen));
+                    _ops.Add(new RuleOperand(RuleOpName.AGEN, agen));
 
                 return map(_ops, o => (o.Name, o)).ToDictionary();
-
-            }
-
-            public ConstLookup<OperandKind,object> ToLookup()
-            {
-                var dst = dict<OperandKind,object>();
-                var fields = typeof(OperandState).DeclaredInstanceFields().Tagged<OperandKindAttribute>();
-                var count = fields.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var field = ref skip(fields,i);
-                    var kind = field.Tag<OperandKindAttribute>().Require().Kind;
-                    var result = dst.TryAdd(kind, field.GetValue(this));
-                    if(!result)
-                        Errors.Throw(string.Format("Duplicate kind {0} for {1}", kind, field.Name));
-
-                }
-                return dst;
             }
         }
     }

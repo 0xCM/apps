@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
-// Source      : xed-Extension-enum.h
+// Source      : all-state.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -18,8 +18,8 @@ namespace Z0
 
     partial struct XedModels
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct EncodingState
+        [StructLayout(LayoutKind.Sequential), ApiComplete("xed.machinestate")]
+        public struct MachineState
         {
             public Mode MODE;
 
@@ -66,6 +66,20 @@ namespace Z0
             public bit VEXDEST4;
 
             public bit REXRR;
+
+            public uint2 MOD;
+
+            public SegDefaultKind DEFAULT_SEG;
+
+            public bit NO_RETURN;
+
+            public ErrorKind ERROR;
+
+            public bit DUMMY;
+
+            bit RepNeq3;
+
+            bit SegPrefixNeq0;
 
             [MethodImpl(Inline)]
             public void not64()
@@ -158,13 +172,13 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public void not_easz16()
+            public void not_eosz16()
             {
                 EOSZ = EOSZNot16;
             }
 
             [MethodImpl(Inline)]
-            public void easz_not64()
+            public void eosznot64()
             {
                 EOSZ = EOSZNot64;
             }
@@ -281,13 +295,81 @@ namespace Z0
                 REP = 0;
             }
 
+            [MethodImpl(Inline), Name("66_prefix")]
+            public void x66_prefix()
+            {
+                EOSZ = EOSZ.EOSZ16;
+            }
+
+            [MethodImpl(Inline)]
+            public void nof3_prefix()
+            {
+                RepNeq3 = true;
+            }
+
+            [MethodImpl(Inline)]
+            public void no66_prefix()
+            {
+                EOSZ = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void not_refining()
+            {
+                REP = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void refining_f2()
+            {
+                REP = RepPrefix.REPF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void refining_f3()
+            {
+                REP = RepPrefix.REPF3;
+            }
+
+            [MethodImpl(Inline)]
+            public void not_refining_f3()
+            {
+                RepNeq3 = true;
+            }
+
+            [MethodImpl(Inline)]
+            public void no_refining_prefix()
+            {
+                REP = 0;
+                EOSZ = EOSZ.EOSZ16;
+            }
+
+            [MethodImpl(Inline)]
+            public void osz_refining_prefix()
+            {
+                REP = 0;
+                EOSZ = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void f2_refining_prefix()
+            {
+                REP = RepPrefix.REPF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void f3_refining_prefix()
+            {
+                REP = RepPrefix.REPF3;
+            }
+
             [MethodImpl(Inline)]
             public void no67_prefix()
             {
                 ASZ = 0;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), Name("67_prefix")]
             public void x67_prefix()
             {
                 ASZ = 1;
@@ -303,6 +385,36 @@ namespace Z0
             public void nolock_prefix()
             {
                 LOCK = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void default_ds()
+            {
+                DEFAULT_SEG = SegDefaultKind.DefaultDS;
+            }
+
+            [MethodImpl(Inline)]
+            public void default_ss()
+            {
+                DEFAULT_SEG = SegDefaultKind.DefaultSS;
+            }
+
+            [MethodImpl(Inline)]
+            public void default_es()
+            {
+                DEFAULT_SEG = SegDefaultKind.DefaultES;
+            }
+
+            [MethodImpl(Inline)]
+            public void no_seg_prefix()
+            {
+                SEG_OVD = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void some_seg_prefix()
+            {
+                SegPrefixNeq0 = true;
             }
 
             [MethodImpl(Inline)]
@@ -354,6 +466,54 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public void enc()
+            {
+
+            }
+
+            [MethodImpl(Inline)]
+            public void no_return()
+            {
+                NO_RETURN = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void error()
+            {
+                ERROR = ErrorKind.GENERAL_ERROR;
+            }
+
+            [MethodImpl(Inline), Name("true")]
+            public void @true()
+            {
+                DUMMY = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void XMAP8()
+            {
+                MAP = 8;
+            }
+
+            [MethodImpl(Inline)]
+            public void XMAP9()
+            {
+                MAP = 9;
+            }
+
+            [MethodImpl(Inline)]
+            public void XMAPA()
+            {
+                MAP = 10;
+            }
+
+            [MethodImpl(Inline)]
+            public void XOPV()
+            {
+                VEXVALID = VexValidityKind.XOPV;
+            }
+
+            [MethodImpl(Inline)]
             public void VL128()
             {
                 VL = 0;
@@ -366,9 +526,39 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public void VL512()
+            public void VV1()
             {
-                VL = 2;
+                VEXVALID = VexValidityKind.VV1;
+            }
+
+            [MethodImpl(Inline)]
+            public void VV0()
+            {
+                VEXVALID = VexValidityKind.VV0;
+            }
+
+            [MethodImpl(Inline)]
+            public void VMAP0()
+            {
+                MAP = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void V0F()
+            {
+                MAP = (byte)VexMapKind.VEX_MAP_0F38;
+            }
+
+            [MethodImpl(Inline)]
+            public void V0F38()
+            {
+                MAP = (byte)VexMapKind.VEX_MAP_0F38;
+            }
+
+            [MethodImpl(Inline)]
+            public void V0F3A()
+            {
+                MAP = (byte)VexMapKind.VEX_MAP_0F3A;
             }
 
             [MethodImpl(Inline)]
@@ -396,52 +586,82 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public void VV0()
+            public void NOVSR()
             {
-                VEXVALID = VexValidityKind.VV0;
+                VEXDEST3=1;
+                VEXDEST210=0b111;
             }
 
             [MethodImpl(Inline)]
-            public void VV1()
+            public void EMX_BROADCAST_1TO4_32()
             {
-                VEXVALID = VexValidityKind.VV1;
+                BCAST = BCastKind.BCast_1TO4_32;
             }
 
             [MethodImpl(Inline)]
-            public void EVV()
+            public void EMX_BROADCAST_1TO4_64()
             {
-                VEXVALID = VexValidityKind.EVV;
+                BCAST = BCastKind.BCast_1TO4_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_32()
+            {
+               BCAST = BCastKind.BCast_1TO8_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO4_64()
+            {
+               BCAST = BCastKind.BCast_2TO4_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_64()
+            {
+               BCAST = BCastKind.BCast_1TO2_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_16()
+            {
+               BCAST = BCastKind.BCast_1TO8_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO16_16()
+            {
+               BCAST = BCastKind.BCast_1TO16_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO16_8()
+            {
+               BCAST = BCastKind.BCast_1TO16_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO32_8()
+            {
+               BCAST = BCastKind.BCast_1TO32_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void VL512()
+            {
+                VL = 2;
+            }
+
+            [MethodImpl(Inline)]
+            public void VLBAD()
+            {
+                VL = 3;
             }
 
             [MethodImpl(Inline)]
             public void KVV()
             {
                 VEXVALID = VexValidityKind.KVV;
-            }
-
-            [MethodImpl(Inline)]
-            public void V0F()
-            {
-                MAP = (byte)VexMapKind.VEX_MAP_0F38;
-            }
-
-            [MethodImpl(Inline)]
-            public void V0F38()
-            {
-                MAP = (byte)VexMapKind.VEX_MAP_0F38;
-            }
-
-            [MethodImpl(Inline)]
-            public void V0F3A()
-            {
-                MAP = (byte)VexMapKind.VEX_MAP_0F3A;
-            }
-
-            [MethodImpl(Inline)]
-            public void NOVSR()
-            {
-                VEXDEST3=1;
-                VEXDEST210=0b111;
             }
 
             [MethodImpl(Inline)]
@@ -460,9 +680,123 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO16_32()
+            {
+               BCAST = BCastKind.BCast_1TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_4TO16_32()
+            {
+               BCAST = BCastKind.BCast_4TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_64()
+            {
+               BCAST = BCastKind.BCast_1TO8_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_4TO8_64()
+            {
+               BCAST = BCastKind.BCast_4TO8_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EVV()
+            {
+                VEXVALID = VexValidityKind.EVV;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO16_32()
+            {
+               BCAST = BCastKind.BCast_2TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO8_64()
+            {
+               BCAST = BCastKind.BCast_2TO8_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_8TO16_32()
+            {
+               BCAST = BCastKind.BCast_8TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO32_16()
+            {
+               BCAST = BCastKind.BCast_1TO32_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO64_8()
+            {
+               BCAST = BCastKind.BCast_1TO64_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_4TO8_32()
+            {
+               BCAST = BCastKind.BCast_4TO8_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO4_32()
+            {
+               BCAST = BCastKind.BCast_2TO4_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO8_32()
+            {
+               BCAST = BCastKind.BCast_2TO8_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_32()
+            {
+               BCAST = BCastKind.BCast_1TO2_32;
+            }
+
+            [MethodImpl(Inline)]
             public void EVEXRR_ONE()
             {
                 REXRR = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_8()
+            {
+               BCAST = BCastKind.BCast_1TO2_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO4_8()
+            {
+               BCAST = BCastKind.BCast_1TO4_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_8()
+            {
+               BCAST = BCastKind.BCast_1TO8_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_16()
+            {
+               BCAST = BCastKind.BCast_1TO2_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO4_16()
+            {
+               BCAST = BCastKind.BCast_1TO4_16;
             }
         }
     }

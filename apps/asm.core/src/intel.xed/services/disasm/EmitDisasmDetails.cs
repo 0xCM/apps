@@ -23,17 +23,17 @@ namespace Z0
         {
             var result = Outcome.Success;
             var encodings = ParseEncodings(project);
-            var sources = DisasmSources(project);
+            var sources = XedPaths.DisasmSources(project);
             var blocks = XedDisasmOps.LoadFileBlocks(sources);
             var files = blocks.Keys;
             var count = files.Length;
-            var dir = DisasmDetailDir(project);
+            var dir = XedPaths.DisasmDetailDir(project);
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(files,i);
                 var block = blocks[path];
                 var encoding = encodings[path];
-                var dst = DisasmDetailTarget(project, path.FileName);
+                var dst = XedPaths.DisasmDetailTarget(project, path.FileName);
                 result = EmitDisasmDetails(path,encoding.Encoded, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
@@ -66,7 +66,6 @@ namespace Z0
                 ref readonly var block = ref skip(blocks,i);
                 ref readonly var code = ref encoding.Encoding;
 
-
                 parser.ParseState(inst.Props.Edit, out var state);
                 iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
                 iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
@@ -76,6 +75,9 @@ namespace Z0
                 writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
                 writer.WriteLine(string.Format(RenderPattern, "IClass", inst.Class));
                 writer.WriteLine(string.Format(RenderPattern, "IForm", inst.Form));
+
+                if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
+                    continue;
 
                 var oc = state.nominal_opcode;
                 var ocpos = state.pos_nominal_opcode;
@@ -98,8 +100,6 @@ namespace Z0
                 else
                     writer.WriteLine(string.Format(RenderPattern, "OpCode", string.Format(Cols2Pattern, oc.Format(true,true,true), ocbits)));
 
-                if(inst.Class == IClass.RET_NEAR || inst.Class == IClass.NOP)
-                    continue;
 
                 if(ocpos != 0)
                     prefixbytes = slice(code.Bytes,0,ocpos);
@@ -116,7 +116,7 @@ namespace Z0
                     var opwidth = OperandWidth(op.WidthType);
                     var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
                     var opname = XedRuleOps.name(op.Kind);
-                    var opval = RuleOpInfo.Empty;
+                    var opval = RuleOperand.Empty;
                     ops.TryGetValue(opname, out opval);
                     var content = string.Format("{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}", opname, opval, op.Action, op.Visiblity, widthdesc, op.Prop2);
                     writer.WriteLine(string.Format(RenderPattern, title, content));
@@ -179,7 +179,7 @@ namespace Z0
                     if(modrmval.Value() != code[state.pos_modrm])
                         return (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
 
-                    writer.WriteLine(string.Format(RenderPattern, "ModRM", string.Format(Cols2Pattern, modrmval.Format(), modrmval.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "MODRM", string.Format(Cols2Pattern, modrmval.Format(), modrmval.ToBitString())));
                 }
 
                 if(has_sib)
@@ -188,7 +188,7 @@ namespace Z0
                     if(sibenc.Value() != sibval.Value())
                         return (false, string.Format("Derived Sib value {0} differs from encoded value {1}", sibval, sibenc));
 
-                    writer.WriteLine(string.Format(RenderPattern, "Sib", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "SIB", string.Format(Cols2Pattern, sibval.Format(), sibval.ToBitString())));
                 }
 
                 if(state.imm0)
@@ -213,7 +213,7 @@ namespace Z0
                             val = slice(code.Bytes,pos, 8).TakeUInt64();
                         break;
                     }
-                    writer.WriteLine(string.Format(RenderPattern, "Imm0", val.FormatHex(zpad:false,uppercase:true)));
+                    writer.WriteLine(string.Format(RenderPattern, "IMM0", val.FormatHex(zpad:false,uppercase:true)));
                 }
 
                 var easzW = widths(state.easz);

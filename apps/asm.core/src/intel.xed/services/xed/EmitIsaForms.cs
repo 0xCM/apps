@@ -48,7 +48,7 @@ namespace Z0.Asm
                     matches.Add(form);
             }
 
-            var dst = IsaFormsPath(code);
+            var dst = XedPaths.IsaFormsPath(code);
             TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, dst);
             return result;
         }

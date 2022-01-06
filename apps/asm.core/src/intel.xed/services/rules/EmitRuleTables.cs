@@ -25,9 +25,7 @@ namespace Z0
                     writer.WriteLine(string.Format("{0}()", table.Name));
                 writer.WriteLine("{");
                 foreach(var expr in table.Expressions)
-                {
                     writer.WriteLine(string.Format("    {0}", expr.Format()));
-                }
                 writer.WriteLine("}");
                 writer.WriteLine();
             }

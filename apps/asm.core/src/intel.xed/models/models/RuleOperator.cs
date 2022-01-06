@@ -6,9 +6,20 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum ErrorKind : byte
+        [SymSource(xed)]
+        public enum RuleOperator
         {
-            GENERAL_ERROR,
+            [Symbol("")]
+            None,
+
+            [Symbol("=")]
+            Eq,
+
+            [Symbol("!=")]
+            Neq,
+
+            [Symbol(":=")]
+            Assign
         }
     }
 }

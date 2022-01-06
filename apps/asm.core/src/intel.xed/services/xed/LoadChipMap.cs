@@ -14,7 +14,7 @@ namespace Z0.Asm
     partial class IntelXed
     {
         public Outcome LoadChipMap(out XedChipMap dst)
-            => ParseChipMap(ChipSourcePath(), out dst);
+            => ParseChipMap(XedPaths.ChipSourcePath(), out dst);
 
         Outcome ParseChipMap(FS.FilePath src, out XedChipMap dst)
         {

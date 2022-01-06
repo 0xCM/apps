@@ -19,7 +19,7 @@ namespace Z0.Asm
 
             Index<XedFormImport> Load()
             {
-                var src = FormCatalogPath();
+                var src = XedPaths.FormCatalogPath();
                 var counter = 0u;
                 var outcome = Outcome.Success;
                 var dst = list<XedFormImport>();

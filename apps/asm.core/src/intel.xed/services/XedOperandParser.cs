@@ -10,6 +10,7 @@ namespace Z0
     using static core;
     using static XedModels;
 
+
     using K = XedModels.OperandKind;
 
     public class XedOperandParser
@@ -114,522 +115,526 @@ namespace Z0
         void Parse(in Facet<string> src)
         {
             if(Kinds.Lookup(src.Key, out var k))
-                Parse(src.Value, k.Kind);
+            {
+                var value = text.trim(src.Value);
+                var kind = k.Kind;
+                var result = Parse(value, kind, ref State);
+                if(result.Fail)
+                    _Failures[kind] = value;
+                else
+                    _ParsedKinds.Add(kind);
+            }
             else
                 _UnknownFields.Add(src);
         }
 
-        void Parse(string src, OperandKind kind)
+        Outcome Parse(string src, OperandKind kind, ref OperandState state)
         {
-            var value = text.trim(src);
             var result = Outcome.Success;
             switch(kind)
             {
                 case K.AGEN:
-                    result = DataParser.parse(value, out State.agen);
+                    result = DataParser.parse(src, out state.agen);
                 break;
 
                 case K.AMD3DNOW:
-                    State.amd3dnow = bit.On;
+                    state.amd3dnow = bit.On;
                 break;
 
                 case K.ASZ:
-                    State.asz = bit.On;
+                    state.asz = bit.On;
                 break;
 
                 case K.BASE0:
-                    result = Parse(value, out State.base0);
+                    result = Parse(src, out state.base0);
                 break;
 
                 case K.BASE1:
-                    result = Parse(value, out State.base1);
+                    result = Parse(src, out state.base1);
                 break;
 
                 case K.BCAST:
-                    result = DataParser.eparse(value, out State.bcast);
+                    result = DataParser.eparse(src, out state.bcast);
                 break;
 
                 case K.BCRC:
-                    State.bcrc = bit.On;
+                    state.bcrc = bit.On;
                 break;
 
                 case K.BRDISP_WIDTH:
-                    result = DataParser.parse(value, out State.brdisp_width);
+                    result = DataParser.parse(src, out state.brdisp_width);
                 break;
 
                 case K.CET:
-                    State.cet = bit.On;
+                    state.cet = bit.On;
                 break;
 
                 case K.CHIP:
-                    result = DataParser.eparse(value, out State.chip);
+                    result = DataParser.eparse(src, out state.chip);
                 break;
 
                 case K.CLDEMOTE:
-                    State.cldemote = bit.On;
+                    state.cldemote = bit.On;
                 break;
 
                 case K.DEFAULT_SEG:
-                    result = DataParser.parse(value, out State.default_seg);
+                    result = DataParser.parse(src, out state.default_seg);
                 break;
 
                 case K.DF32:
-                    State.df32 = bit.On;
+                    state.df32 = bit.On;
                 break;
 
                 case K.DF64:
-                    State.df64 = bit.On;
+                    state.df64 = bit.On;
                 break;
 
                 case K.DISP:
-                    result = DataParser.parse(value, out State.disp);
+                    result = DataParser.parse(src, out state.disp);
                 break;
 
                 case K.DISP_WIDTH:
-                    result = DataParser.parse(value, out State.disp_width);
+                    result = DataParser.parse(src, out state.disp_width);
                 break;
 
                 case K.DUMMY:
-                    State.dummy = bit.On;
+                    state.dummy = bit.On;
                 break;
 
                 case K.EASZ:
-                    result = DataParser.eparse(value, out State.easz);
+                    result = DataParser.eparse(src, out state.easz);
                 break;
 
                 case K.ELEMENT_SIZE:
-                    result = DataParser.parse(value, out State.element_size);
+                    result = DataParser.parse(src, out state.element_size);
                 break;
 
                 case K.ENCODER_PREFERRED:
-                    State.encoder_preferred = bit.On;
+                    state.encoder_preferred = bit.On;
                 break;
 
                 case K.ENCODE_FORCE:
-                    State.encode_force = bit.On;
+                    state.encode_force = bit.On;
                 break;
 
                 case K.EOSZ:
-                    result = DataParser.eparse(value, out State.eosz);
+                    result = DataParser.eparse(src, out state.eosz);
                 break;
 
                 case K.ESRC:
-                    result = DataParser.parse(value, out State.esrc);
+                    result = DataParser.parse(src, out state.esrc);
                 break;
 
                 case K.FIRST_F2F3:
-                    result = DataParser.parse(value, out State.first_f2f3);
+                    result = DataParser.parse(src, out state.first_f2f3);
                 break;
 
                 case K.HAS_MODRM:
-                    State.has_modrm = bit.On;
+                    state.has_modrm = bit.On;
                 break;
 
                 case K.HAS_SIB:
-                    State.has_sib = bit.On;
+                    state.has_sib = bit.On;
                 break;
 
                 case K.HINT:
-                    result = DataParser.eparse(value, out State.iclass);
+                    result = DataParser.eparse(src, out state.iclass);
                 break;
 
                 case K.ICLASS:
-                    result = DataParser.eparse(value, out State.iclass);
+                    result = DataParser.eparse(src, out state.iclass);
                 break;
 
                 case K.ILD_F2:
-                    State.ild_f2 = bit.On;
+                    state.ild_f2 = bit.On;
                 break;
 
                 case K.ILD_F3:
-                    State.ild_f3 = bit.On;
+                    state.ild_f3 = bit.On;
                 break;
 
                 case K.ILD_SEG:
-                    result = DataParser.parse(value, out State.ild_seg);
+                    result = DataParser.parse(src, out state.ild_seg);
                 break;
 
                 case K.IMM0:
-                    State.imm0 = bit.On;
+                    state.imm0 = bit.On;
                 break;
 
                 case K.IMM0SIGNED:
-                    State.imm0signed = bit.On;
+                    state.imm0signed = bit.On;
                 break;
 
                 case K.IMM1:
-                    State.imm1 = bit.On;
+                    state.imm1 = bit.On;
                 break;
 
                 case K.IMM1_BYTES:
-                    result = DataParser.parse(value, out State.imm1_bytes);
+                    result = DataParser.parse(src, out state.imm1_bytes);
                 break;
 
                 case K.IMM_WIDTH:
-                    result = DataParser.parse(value, out State.imm_width);
+                    result = DataParser.parse(src, out state.imm_width);
                 break;
 
                 case K.INDEX:
-                    result = Parse(value, out State.index);
+                    result = Parse(src, out state.index);
                 break;
 
                 case K.LAST_F2F3:
-                    result = DataParser.parse(value, out State.last_f2f3);
+                    result = DataParser.parse(src, out state.last_f2f3);
                 break;
 
                 case K.LLRC:
-                    result = DataParser.parse(value, out State.llrc);
+                    result = DataParser.parse(src, out state.llrc);
                 break;
 
                 case K.LOCK:
-                    State.@lock = bit.On;
+                    state.@lock = bit.On;
                 break;
 
                 case K.LZCNT:
-                    State.lzcnt = bit.On;
+                    state.lzcnt = bit.On;
                 break;
 
                 case K.MAP:
-                    result = DataParser.parse(value, out State.map);
+                    result = DataParser.parse(src, out state.map);
                 break;
 
                 case K.MASK:
-                    result = DataParser.parse(value, out State.mask);
+                    result = DataParser.parse(src, out state.mask);
                 break;
 
                 case K.MAX_BYTES:
-                    result = DataParser.parse(value, out State.max_bytes);
+                    result = DataParser.parse(src, out state.max_bytes);
                 break;
 
                 case K.MEM0:
-                    result = DataParser.parse(value, out State.mem0);
+                    result = DataParser.parse(src, out state.mem0);
                 break;
 
                 case K.MEM1:
-                    result = DataParser.parse(value, out State.mem1);
+                    result = DataParser.parse(src, out state.mem1);
                 break;
 
                 case K.MEM_WIDTH:
-                    result = DataParser.parse(value, out State.mem_width);
+                    result = DataParser.parse(src, out state.mem_width);
                 break;
 
                 case K.MOD:
-                    result = DataParser.parse(value, out State.mod);
+                    result = DataParser.parse(src, out state.mod);
                 break;
 
                 case K.MODE:
-                    result = DataParser.eparse(value, out State.mode);
+                    result = DataParser.eparse(src, out state.mode);
                 break;
 
                 case K.MODEP5:
-                    State.modep5 = bit.On;
+                    state.modep5 = bit.On;
                 break;
 
                 case K.MODEP55C:
-                    State.modep55c = bit.On;
+                    state.modep55c = bit.On;
                 break;
 
                 case K.MODE_FIRST_PREFIX:
-                    State.mode_first_prefix = bit.On;
+                    state.mode_first_prefix = bit.On;
                 break;
 
                 case K.MODRM_BYTE:
-                    result = DataParser.parse(value, out byte modrm);
+                    result = DataParser.parse(src, out byte modrm);
                     if(result)
-                        State.modrm_byte = modrm;
+                        state.modrm_byte = modrm;
                 break;
 
                 case K.MPXMODE:
-                    State.mpxmode = bit.On;
+                    state.mpxmode = bit.On;
                 break;
 
                 case K.MUST_USE_EVEX:
-                    State.must_use_evex = bit.On;
+                    state.must_use_evex = bit.On;
                 break;
 
                 case K.NEEDREX:
-                    State.needrex = bit.On;
+                    state.needrex = bit.On;
                 break;
 
                 case K.NEED_MEMDISP:
-                    State.need_memdisp = bit.On;
+                    state.need_memdisp = bit.On;
                 break;
 
                 case K.NEED_SIB:
-                    State.need_sib = bit.On;
+                    state.need_sib = bit.On;
                 break;
 
                 case K.NELEM:
-                    result = DataParser.parse(value, out State.nelem);
+                    result = DataParser.parse(src, out state.nelem);
                 break;
 
                 case K.NOMINAL_OPCODE:
-                    result = DataParser.parse(value, out byte opcode);
+                    result = DataParser.parse(src, out byte opcode);
                     if(result)
-                        State.nominal_opcode = opcode;
+                        state.nominal_opcode = opcode;
                 break;
 
                 case K.NOREX:
-                    State.norex = bit.On;
+                    state.norex = bit.On;
                 break;
 
                 case K.NO_SCALE_DISP8:
-                    State.no_scale_disp8 = bit.On;
+                    state.no_scale_disp8 = bit.On;
                 break;
 
                 case K.NPREFIXES:
-                    result = DataParser.parse(value, out State.nprefixes);
+                    result = DataParser.parse(src, out state.nprefixes);
                 break;
 
                 case K.NREXES:
-                    result = DataParser.parse(value, out State.nrexes);
+                    result = DataParser.parse(src, out state.nrexes);
                 break;
 
                 case K.NSEG_PREFIXES:
-                    result = DataParser.parse(value, out State.nseg_prefixes);
+                    result = DataParser.parse(src, out state.nseg_prefixes);
                 break;
 
                 case K.OSZ:
-                    State.osz = bit.On;
+                    state.osz = bit.On;
                 break;
 
                 case K.OUTREG:
-                    result = Parse(value, out State.outreg);
+                    result = Parse(src, out state.outreg);
                 break;
 
                 case K.OUT_OF_BYTES:
-                    State.out_of_bytes = bit.On;
+                    state.out_of_bytes = bit.On;
                 break;
 
                 case K.P4:
-                    State.p4 = bit.On;
+                    state.p4 = bit.On;
                 break;
 
                 case K.POS_DISP:
-                    result = DataParser.parse(value, out State.pos_disp);
+                    result = DataParser.parse(src, out state.pos_disp);
                 break;
 
                 case K.POS_IMM:
-                    result = DataParser.parse(value, out State.pos_imm);
+                    result = DataParser.parse(src, out state.pos_imm);
                 break;
 
                 case K.POS_IMM1:
-                    result = DataParser.parse(value, out State.pos_imm1);
+                    result = DataParser.parse(src, out state.pos_imm1);
                 break;
 
                 case K.POS_MODRM:
-                    result = DataParser.parse(value, out State.pos_modrm);
+                    result = DataParser.parse(src, out state.pos_modrm);
                 break;
 
                 case K.POS_NOMINAL_OPCODE:
-                    result = DataParser.parse(value, out State.pos_nominal_opcode);
+                    result = DataParser.parse(src, out state.pos_nominal_opcode);
                 break;
 
                 case K.POS_SIB:
-                    result = DataParser.parse(value, out State.pos_sib);
+                    result = DataParser.parse(src, out state.pos_sib);
                 break;
 
                 case K.PREFIX66:
-                    State.prefix66 = bit.On;
+                    state.prefix66 = bit.On;
                 break;
 
                 case K.PTR:
-                    State.ptr = bit.On;
+                    state.ptr = bit.On;
                 break;
 
                 case K.REALMODE:
-                    State.realmode = bit.On;
+                    state.realmode = bit.On;
                 break;
 
                 case K.REG:
-                    result = DataParser.parse(value, out State.reg);
+                    result = DataParser.parse(src, out state.reg);
                 break;
 
                 case K.REG0:
-                    result = Parse(value, out State.reg0);
+                    result = Parse(src, out state.reg0);
                 break;
 
                 case K.REG1:
-                    result = Parse(value, out State.reg1);
+                    result = Parse(src, out state.reg1);
                 break;
 
                 case K.REG2:
-                    result = Parse(value, out State.reg2);
+                    result = Parse(src, out state.reg2);
                 break;
 
                 case K.REG3:
-                    result = Parse(value, out State.reg3);
+                    result = Parse(src, out state.reg3);
                 break;
 
                 case K.REG4:
-                    result = Parse(value, out State.reg4);
+                    result = Parse(src, out state.reg4);
                 break;
 
                 case K.REG5:
-                    result = Parse(value, out State.reg5);
+                    result = Parse(src, out state.reg5);
                 break;
 
                 case K.REG6:
-                    result = Parse(value, out State.reg6);
+                    result = Parse(src, out state.reg6);
                 break;
 
                 case K.REG7:
-                    result = Parse(value, out State.reg7);
+                    result = Parse(src, out state.reg7);
                 break;
 
                 case K.REG8:
-                    result = Parse(value, out State.reg8);
+                    result = Parse(src, out state.reg8);
                 break;
 
                 case K.REG9:
-                    result = Parse(value, out State.reg9);
+                    result = Parse(src, out state.reg9);
                 break;
 
                 case K.RELBR:
-                    State.relbr = bit.On;
+                    state.relbr = bit.On;
                 break;
 
                 case K.REP:
-                    result = DataParser.parse(value, out State.rep);
+                    result = DataParser.parse(src, out state.rep);
                 break;
 
                 case K.REX:
-                    State.rex = bit.On;
+                    state.rex = bit.On;
                 break;
 
                 case K.REXB:
-                    State.rexb = bit.On;
+                    state.rexb = bit.On;
                 break;
 
                 case K.REXR:
-                    State.rexr = bit.On;
+                    state.rexr = bit.On;
                 break;
 
                 case K.REXRR:
-                    State.rexrr = bit.On;
+                    state.rexrr = bit.On;
                 break;
 
                 case K.REXW:
-                    State.rexw = bit.On;
+                    state.rexw = bit.On;
                 break;
 
                 case K.REXX:
-                    State.rexx = bit.On;
+                    state.rexx = bit.On;
                 break;
 
                 case K.RM:
-                    result = DataParser.parse(value, out State.rm);
+                    result = DataParser.parse(src, out state.rm);
                 break;
 
                 case K.ROUNDC:
-                    result = DataParser.parse(value, out State.roundc);
+                    result = DataParser.parse(src, out state.roundc);
                 break;
 
                 case K.SAE:
-                    State.sae = bit.On;
+                    state.sae = bit.On;
                 break;
 
                 case K.SCALE:
-                    result = DataParser.parse(value, out State.scale);
+                    result = DataParser.parse(src, out state.scale);
                 break;
 
                 case K.SEG0:
-                    result = Parse(value, out State.seg0);
+                    result = Parse(src, out state.seg0);
                 break;
 
                 case K.SEG1:
-                    result = Parse(value, out State.seg1);
+                    result = Parse(src, out state.seg1);
                 break;
 
                 case K.SEG_OVD:
-                    result = DataParser.parse(value, out State.seg_ovd);
+                    result = DataParser.parse(src, out state.seg_ovd);
                 break;
 
                 case K.SIBBASE:
-                    result = DataParser.parse(value, out State.sibbase);
+                    result = DataParser.parse(src, out state.sibbase);
                 break;
 
                 case K.SIBINDEX:
-                    result = DataParser.parse(value, out State.sibindex);
+                    result = DataParser.parse(src, out state.sibindex);
                 break;
 
                 case K.SIBSCALE:
-                    result = DataParser.parse(value, out State.sibscale);
+                    result = DataParser.parse(src, out state.sibscale);
                 break;
 
                 case K.SMODE:
-                    result = DataParser.eparse(value, out State.smode);
+                    result = DataParser.eparse(src, out state.smode);
                     break;
 
                 case K.SRM:
-                    result = DataParser.parse(value, out State.srm);
+                    result = DataParser.parse(src, out state.srm);
                 break;
 
                 case K.TZCNT:
-                    State.tzcnt = bit.On;
+                    state.tzcnt = bit.On;
                 break;
 
                 case K.UBIT:
-                    State.ubit = bit.On;
+                    state.ubit = bit.On;
                 break;
 
                 case K.UIMM0:
-                    result = DataParser.parse(value, out State.uimm0);
+                    result = DataParser.parse(src, out state.uimm0);
                 break;
 
                 case K.UIMM1:
-                    result = DataParser.parse(value, out State.uimm1);
+                    result = DataParser.parse(src, out state.uimm1);
                 break;
 
                 case K.USING_DEFAULT_SEGMENT0:
-                    State.using_default_segment0 = bit.On;
+                    state.using_default_segment0 = bit.On;
                 break;
 
                 case K.USING_DEFAULT_SEGMENT1:
-                    State.using_default_segment1 = bit.On;
+                    state.using_default_segment1 = bit.On;
                 break;
 
                 case K.VEXDEST210:
-                    result = DataParser.parse(value, out State.vexdest210);
+                    result = DataParser.parse(src, out state.vexdest210);
                 break;
 
                 case K.VEXDEST3:
-                    State.vexdest3 = bit.On;
+                    state.vexdest3 = bit.On;
                 break;
 
                 case K.VEXDEST4:
-                    State.vexdest4 = bit.On;
+                    state.vexdest4 = bit.On;
                 break;
 
                 case K.VEXVALID:
-                    result = DataParser.eparse(value, out State.vexvalid);
+                    result = DataParser.eparse(src, out state.vexvalid);
                 break;
 
                 case K.VEX_C4:
-                    State.vex_c4 = bit.On;
+                    state.vex_c4 = bit.On;
                 break;
 
                 case K.VEX_PREFIX:
-                    result = DataParser.eparse(value, out State.vex_prefix);
+                    result = DataParser.eparse(src, out state.vex_prefix);
                 break;
 
                 case K.VL:
-                    result = DataParser.eparse(value, out State.vl);
+                    result = DataParser.eparse(src, out state.vl);
                 break;
 
                 case K.WBNOINVD:
-                    State.wbnoinvd = bit.On;
+                    state.wbnoinvd = bit.On;
                 break;
 
                 case K.ZEROING:
-                    State.zeroing = bit.On;
+                    state.zeroing = bit.On;
                 break;
             }
 
-            if(result.Fail)
-                _Failures[kind] = value;
-            else
-                _ParsedKinds.Add(kind);
+            return result;
         }
 
         Outcome Parse(string src, out Register dst)

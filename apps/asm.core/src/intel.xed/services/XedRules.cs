@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     using System;
+    using System.Reflection;
+    using System.Collections.Generic;
 
     using static XedModels;
     using static core;
@@ -39,6 +42,14 @@ namespace Z0
 
         Symbols<PointerWidthKind> PointerWidthSymbols;
 
+        Symbols<VisibilityKind> Visibilities;
+
+        Symbols<FieldType> FieldTypes;
+
+        Symbols<OperandKind> OperandKinds;
+
+        FieldKinds FieldKinds;
+
         public XedRules()
         {
             Classes = Symbols.index<IClass>();
@@ -51,8 +62,14 @@ namespace Z0
             OpKinds = Symbols.index<RuleOpName>();
             PointerWidthSymbols = Symbols.index<PointerWidthKind>();
             PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
+            Visibilities = Symbols.index<VisibilityKind>();
+            FieldTypes = Symbols.index<FieldType>();
+            FieldKinds = new();
+            OperandKinds = Symbols.index<OperandKind>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
         }
+
+        XedPaths XedPaths => Service(Wf.XedPaths);
 
         OpCodeMaps DeriveOpCodeMaps()
             => Data(nameof(DeriveOpCodeMaps), () => new OpCodeMaps());
@@ -67,19 +84,19 @@ namespace Z0
             => Data(nameof(LoadOperandWidths), ParseOperandWidths);
 
         public Index<RuleTable> ParseEncRuleTables()
-            => ParseRuleTables(RuleSource(RuleDocKind.EncRuleTable));
+            => ParseRuleTableSource(XedPaths.RuleSource(RuleDocKind.EncRuleTable));
 
         public Index<RuleTable> ParseDecRuleTables()
-            => ParseRuleTables(RuleSource(RuleDocKind.DecRuleTable));
+            => ParseRuleTableSource(XedPaths.RuleSource(RuleDocKind.DecRuleTable));
 
         public Index<RuleTable> ParseEncDecRuleTables()
-            => ParseRuleTables(RuleSource(RuleDocKind.EncDecRuleTable));
+            => ParseRuleTableSource(XedPaths.RuleSource(RuleDocKind.EncDecRuleTable));
 
         public Index<InstDef> ParseEncInstDefs()
-            => ParseInstDefs(RuleSource(RuleDocKind.EncInstDef));
+            => ParseInstDefs(XedPaths.RuleSource(RuleDocKind.EncInstDef));
 
         public Index<InstDef> ParseDecInstDefs()
-            => ParseInstDefs(RuleSource(RuleDocKind.DecInstDef));
+            => ParseInstDefs(XedPaths.RuleSource(RuleDocKind.DecInstDef));
 
         Outcome ParseIClass(string src, out IClass dst)
             => Classes.ExprKind(src, out dst);
@@ -121,29 +138,6 @@ namespace Z0
                 result = (false, Msg.ParseFailure.Format(nameof(IFormType), src));
             return result;
         }
-
-        FS.FolderPath Sources()
-            => ProjectDb.Sources("intel/xed.primary");
-
-        FS.FolderPath Targets()
-            => ProjectDb.Subdir("xed");
-
-        FS.FilePath RuleSource(RuleDocKind kind)
-            => Sources() + FS.file(Symbols.format(kind), FS.Txt);
-
-        FS.FilePath RuleTarget(RuleDocKind kind)
-            => Targets() + ( kind switch{
-                 RuleDocKind.EncInstDef => FS.file("xed.rules.encoding", FS.Txt),
-                 RuleDocKind.DecInstDef=> FS.file("xed.rules.decoding", FS.Txt),
-                 RuleDocKind.EncRuleTable => FS.file("xed.rules.encoding.tables", FS.Txt),
-                 RuleDocKind.DecRuleTable => FS.file("xed.rules.decoding.tables", FS.Txt),
-                 RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
-                 RuleDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
-                 RuleDocKind.PointerWidths => Tables.filename<PointerWidthRecord>(),
-                 RuleDocKind.Patterns => Tables.filename<RulePattern>(),
-                 _ => FS.FileName.Empty
-            });
-
 
         const string RuleDeclMarker = "()::";
 
@@ -190,6 +184,19 @@ namespace Z0
                 }
                 return dst;
             }
+        }
+
+        public ConstLookup<OperandKind,object> FieldValues(in OperandState src)
+        {
+            var dst = dict<OperandKind,object>();
+            var fields = FieldKinds.RightValues;
+            foreach(var f in fields)
+            {
+                var kind = FieldKinds[f];
+                dst.Add(kind, f.GetValue(src));
+            }
+
+            return dst;
         }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

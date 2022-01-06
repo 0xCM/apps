@@ -15,10 +15,10 @@ namespace Z0
         {
             public TextBlock Pattern {get;}
 
-            public Index<RuleOperand> Operands {get;}
+            public Index<RuleOpSpec> Operands {get;}
 
             [MethodImpl(Inline)]
-            public PatternOperands(string pattern, RuleOperand[] operands)
+            public PatternOperands(string pattern, RuleOpSpec[] operands)
             {
                 Pattern = text.despace(pattern);
                 Operands = operands;

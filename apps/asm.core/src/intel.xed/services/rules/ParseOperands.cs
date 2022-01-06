@@ -13,11 +13,11 @@ namespace Z0
 
     partial class XedRules
     {
-        Outcome ParseOperands(string src, out Index<RuleOperand> dst)
+        Outcome ParseOperands(string src, out Index<RuleOpSpec> dst)
         {
             var result = Outcome.Success;
-            dst = sys.empty<RuleOperand>();
-            var buffer = list<RuleOperand>();
+            dst = sys.empty<RuleOpSpec>();
+            var buffer = list<RuleOpSpec>();
             var input = text.despace(src);
             if(input.Contains(Chars.Space))
             {
@@ -65,18 +65,18 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             if(result)
-                dst = new RuleOperand(kind, attribs);
+                dst = new RuleOpSpec(kind, attribs);
             else
                 dst = default;
 
             return result;
         }
 
-        Outcome ParseImmOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseImmOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -86,7 +86,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseMemOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseMemOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -106,7 +106,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseRegOperand(RuleOpName kind, string[] attribs, out RuleOperand dst)
+        Outcome ParseRegOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -148,7 +148,7 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseOperand(string src, out RuleOperand dst)
+        Outcome ParseOperand(string src, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             dst = default;

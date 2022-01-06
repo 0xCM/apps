@@ -37,6 +37,9 @@ namespace Z0.Asm
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
+
+        XedPaths XedPaths => Service(Wf.XedPaths);
+
         public XedRules Rules => Service(Wf.XedRules);
 
         public Symbols<IClass> Classes()
@@ -95,30 +98,8 @@ namespace Z0.Asm
             EmitTokens();
             EmitInstructions();
             EmitIsaForms();
-            EmitFieldDefs();
             Rules.EmitCatalog();
         }
-
-        FS.FilePath FieldDefSource()
-            => XedSources + FS.file("all-fields", FS.Txt);
-
-        FS.FilePath FormSourcePath()
-            => XedSources + FS.file("xed-idata", FS.Txt);
-
-        FS.FilePath ChipSourcePath()
-            => XedSources + FS.file("xed-cdata", FS.Txt);
-
-        FS.FilePath IsaFormsPath(ChipCode chip)
-            => XedTargets + FS.folder("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
-
-        FS.FilePath ChipMapCatalogPath()
-            => XedTargets + FS.file("xed.chipmap", FS.Csv);
-
-        FS.FilePath FormCatalogPath()
-            => XedTargets + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
-
-        FS.FilePath FieldDefsPath()
-            => XedTargets + Tables.filename<FieldDef>();
 
         const char CommentMarker = Chars.Hash;
 
