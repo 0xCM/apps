@@ -14,7 +14,7 @@ namespace Z0.Asm
         public Outcome EmitSdmSplits()
         {
             var specs = LoadSplitSpecs(SdmPaths.SplitSpecs());
-            var buffer = new CBag<LineRange>();
+            var buffer = new PllBag<LineRange>();
             iter(specs, spec => Split(spec, buffer));
             return true;
         }

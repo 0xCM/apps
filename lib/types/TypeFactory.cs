@@ -35,15 +35,6 @@ namespace Z0
             => new LiteralType<@string>(name, value);
 
         [MethodImpl(Inline), Op]
-        public static FunctionType function(Identifier name, ulong kind, Operand[] operands, Operand ret, Facets? facets = null)
-            => new FunctionType(name, kind, operands, ret, facets ?? Facets.Empty);
-
-        [MethodImpl(Inline), Op]
-        public static FunctionType<K> function<K>(Identifier name, K kind, Operand[] operands, Operand ret, Facets? facets = null)
-            where K : unmanaged
-                => new FunctionType<K>(name, kind, operands, ret, facets ?? Facets.Empty);
-
-        [MethodImpl(Inline), Op]
         public static ScalarType c()
             => scalar(Specs.c(0).Text, SK.C, 0, 0);
 
@@ -108,23 +99,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static TypeAlias alias(IType type, Identifier alias)
             => new TypeAlias(type, alias);
-
-        public static string format(FunctionType src)
-        {
-            var dst = text.buffer();
-            dst.Append(src.Name);
-            dst.AppendFormat("[{0}]", src.KindName);
-            dst.Append(":");
-            var operands = src.Operands;
-            var count = operands.Count;
-            for(var i=0; i<count; i++)
-            {
-                dst.Append(operands[i].Format());
-                if(i != count - 1)
-                    dst.Append(" -> ");
-            }
-            return dst.Emit();
-        }
 
         [Formatter]
         public static string format(PrimalCellType src)

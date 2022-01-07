@@ -8,30 +8,21 @@ namespace Z0
     {
         public Identifier Name {get;}
 
-        public Index<Operand> Operands {get;}
+        public Index<TypeRef> Operands {get;}
 
-        public Operand Return {get;}
+        public TypeRef Return {get;}
 
-        public Facets Facets {get;}
+        public KeyedValues<string,TypeParam> Parameters {get;}
 
-        public ulong Kind {get;}
-
-        public virtual Identifier KindName {get;}
-
-        public FunctionType(Identifier name, ulong kind, Operand[] operands, Operand ret, Facets facets)
+        public FunctionType(Identifier name, KeyedValues<string,TypeParam> parameters, TypeRef[] ops, TypeRef ret)
         {
             Name = name;
-            Kind = kind;
-            Operands = operands;
+            Operands = ops;
+            Parameters = parameters;
             Return = ret;
-            Facets = facets;
-            KindName = Identifier.Empty;
         }
 
         public string Format()
-            => TypeFactory.format(this);
-
-        public override string ToString()
-            => Format();
+            => TypeFormatter.format(this);
     }
 }

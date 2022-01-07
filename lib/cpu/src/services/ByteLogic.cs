@@ -17,6 +17,18 @@ namespace Z0
     [ApiHost]
     public readonly struct ByteLogic
     {
+        /// <summary>
+        /// Projects 64 source bits onto a contiguous sequence of 8 bytes
+        /// </summary>
+        /// <param name="src">The source data</param>
+        /// <param name="dst">The target reference</param>
+        [MethodImpl(Inline), Op]
+        static unsafe ref byte store(ulong src, ref byte dst)
+        {
+             *(gptr<ulong>(dst)) = src;
+             return ref dst;
+        }
+
         [MethodImpl(Inline), Not]
         public static void not(in byte a, ref byte dst)
             => store(L.not(u64(a)), ref dst);

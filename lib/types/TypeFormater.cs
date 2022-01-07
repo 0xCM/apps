@@ -30,5 +30,22 @@ namespace Z0
                 K.Ptr => "{0}*",
                 _ => "{0}",
             };
+
+        public static string format(FunctionType src)
+        {
+            var dst = text.buffer();
+            dst.Append(src.Name);
+            var parameters = src.Operands;
+            var count = parameters.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var p = ref parameters[i];
+
+                dst.Append(format(p));
+                dst.Append(" -> ");
+            }
+            dst.Append(format(src.Return));
+            return dst.Emit();
+        }
     }
 }

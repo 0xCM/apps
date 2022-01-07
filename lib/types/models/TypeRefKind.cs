@@ -18,7 +18,10 @@ namespace Z0
         [Symbol("out")]
         Out = 4 | Indirect,
 
-        [Symbol("ptr")]
+        [Symbol("ref")]
+        IO = In | Out,
+
+        [Symbol("*")]
         Ptr = 8 | Indirect,
     }
 }

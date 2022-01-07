@@ -8,8 +8,6 @@ namespace Z0
 
     using static Root;
 
-    using K = TypeRefKind;
-
     public readonly struct TypeRef
     {
         public TypeSpec Type {get;}
@@ -24,15 +22,6 @@ namespace Z0
         }
 
         public string Format(params object[] args)
-        {
-            var pattern = Kind switch{
-                K.In => "in {0}",
-                K.Out => "out {0}",
-                K.Ptr => "{0}*",
-                _ => "{0}",
-            };
-            var format = args.Length != 0 ? string.Format(Type.Text, args) : Type.Text;
-            return string.Format(pattern,format);
-        }
+            => TypeFormatter.format(this,args);
     }
 }

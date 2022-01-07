@@ -9,17 +9,17 @@ namespace Z0
 
     using static core;
 
-    public sealed class CBag<T> : IReceiver<T>
+    public sealed class PllBag<T> : IReceiver<T>
     {
         readonly ConcurrentBag<T> Data;
 
-        public CBag()
+        public PllBag()
         {
             Data = new();
         }
 
 
-        public CBag(ReadOnlySpan<T> src)
+        public PllBag(ReadOnlySpan<T> src)
             : this()
         {
             Add(src);
@@ -43,5 +43,7 @@ namespace Z0
             Data.Clear();
             return data;
         }
+
+
     }
 }

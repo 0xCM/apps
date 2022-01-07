@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Reflection;
 
     using static Root;
 
@@ -462,9 +463,8 @@ namespace Z0
         [TypeSyntax(V)]
         public static TypeSpec v(uint n, TypeSpec cells, params object[] parameters) => string.Format(V, n, cells.Format(parameters));
 
-        internal static string symbol<K>(K kind)
-            where K : unmanaged, Enum
-                => Symbols.expr(kind).Format();
+        public static TypeRef typeref(TypeSpec type, TypeRefKind kind)
+            => new TypeRef(type,kind);
 
         [Op]
         public static bool concrete(TypeSpec src)
@@ -473,6 +473,32 @@ namespace Z0
         [Op]
         public static bool closed(TypeParam src)
             => text.index(src.Value, "{") == NotFound;
+
+        [Op]
+        static TypeRefKind refkind(Type src)
+        {
+            if(src.IsPointer)
+                return TypeRefKind.Ptr;
+            else if(src.IsByRef)
+                return TypeRefKind.IO;
+            else
+                return TypeRefKind.Direct;
+        }
+
+        [Op]
+        static TypeRefKind refkind(ParameterInfo src)
+        {
+            if(src.ParameterType.IsPointer)
+                return TypeRefKind.Ptr;
+            else if(src.ParameterType.IsByRef)
+                return TypeRefKind.IO;
+            else if(src.IsOut)
+                return TypeRefKind.Out;
+            else if(src.IsIn)
+                return TypeRefKind.In;
+            else
+                return TypeRefKind.Direct;
+        }
 
         [Op]
         public static TypeSpec infer(Type src)
@@ -534,5 +560,9 @@ namespace Z0
 
         public static TypeSpec infer<T>()
             => infer(typeof(T));
+
+        internal static string symbol<K>(K kind)
+            where K : unmanaged, Enum
+                => Symbols.expr(kind).Format();
     }
 }
