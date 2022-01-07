@@ -11,7 +11,7 @@ namespace Z0
 
     partial class ApiExtractor
     {
-        uint ExtractPart(ResolvedPart src)
+        uint ExtractPart(ResolvedPart src, IApiPack pack)
         {
             var hosts = src.Hosts.View;
             var count = (uint)hosts.Length;
@@ -22,14 +22,14 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var host = ref skip(hosts,i);
-                var extracted = ExtractHostDatast(host);
+                var extracted = ExtractHostDatast(host, pack);
                 counter += extracted.Routines.Count;
                 DatasetReceiver.Add(extracted);
             }
             return counter;
         }
 
-        public Task<uint> BeginExtractPart(ResolvedPart src)
-            => run(() => ExtractPart(src));
+        public Task<uint> BeginExtractPart(ResolvedPart src, IApiPack pack)
+            => run(() => ExtractPart(src,pack));
     }
 }

@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class ApiExtractor
     {
-        ApiHostDataset ExtractHostDatast(in ResolvedHost src)
+        ApiHostDataset ExtractHostDatast(in ResolvedHost src, IApiPack pack)
         {
             var dst = new ApiHostDataset();
             dst.HostResolution = src;
@@ -16,7 +16,7 @@ namespace Z0
             EmitRawHex(host, extracts.View);
             var parsed = ParseExtracts(extracts.View);
             dst.HostBlocks = parsed;
-            EmitParsedHex(host, parsed.View);
+            EmitParsedHex(host, parsed.View, pack);
             var decoded = DecodeMembers(parsed.View);
             dst.Routines = decoded;
             EmitAsmSource(host, decoded);

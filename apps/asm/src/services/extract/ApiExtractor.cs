@@ -66,7 +66,7 @@ namespace Z0
             PackArchive.AsmCaptureRoot().Clear(true);
         }
 
-        void ResolveParts(ReadOnlySpan<IPart> parts)
+        void ResolveParts(ReadOnlySpan<IPart> parts, IApiPack pack)
         {
             var count = parts.Length;
             ResolvedParts = alloc<ResolvedPart>(count);
@@ -81,10 +81,10 @@ namespace Z0
         }
 
         void ResolveParts(IApiPack pack)
-            => ResolveParts(Wf.ApiCatalog.Parts.ToReadOnlySpan());
+            => ResolveParts(Wf.ApiCatalog.Parts.ToReadOnlySpan(), pack);
 
         void ExtractParts(IApiPack pack)
-            => ExtractParts(ResolvedParts, false);
+            => ExtractParts(ResolvedParts, false, pack);
 
         void EmitProcessContext(IApiPack pack)
         {
@@ -143,5 +143,20 @@ namespace Z0
 
         FS.FolderPath SegDir
             => Db.TableDir("segments");
+
+        FS.FolderPath ParsedExtractRoot(IApiPack pack)
+            => pack.Root + FS.folder("parsed");
+
+        FS.Files ParsedExtractPaths(IApiPack pack)
+            => ParsedExtractRoot(pack).Files(FS.PCsv);
+
+        FS.FilePath ParsedExtractPath(IApiPack pack, FS.FileName name)
+            => ParsedExtractRoot(pack) + name;
+
+        FS.FilePath ParsedExtractPath(IApiPack pack, ApiHostUri host)
+            => ParsedExtractPath(pack, ApiFiles.filename(host, FS.PCsv));
+
+        FS.Files ParsedExtractPaths(IApiPack pack, PartId part)
+            => ParsedExtractPaths(pack).Where(f => f.IsOwner(part));
     }
 }

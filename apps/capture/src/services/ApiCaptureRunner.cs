@@ -13,21 +13,9 @@ namespace Z0
 
     public class ApiCaptureRunner : AppService<ApiCaptureRunner>
     {
-        // [Op]
-        // public ReadOnlySpan<AsmHostRoutines> Capture(Index<PartId> parts, FS.FolderPath dst)
-        // {
-        //     var jit = Wf.ApiJit();
-        //     var hex = Wf.ApiHex();
-        //     var capture = Wf.ApiCapture();
-        //     var pipe = Wf.AsmStatementPipe();
-        //     var partcount = parts.Length;
-        //     var hosts = Wf.ApiCatalog.PartHosts(parts).View;
-        //     var hostcount = hosts.Length;
-        //     var routines = list<AsmHostRoutines>();
-        //     for(var i=0; i<hostcount; i++)
-        //         routines.Add(capture.CaptureHost(skip(hosts,i), dst));
-        //     return routines.ViewDeposited();
-        // }
+        ApiCaptureService ApiCapture => Service(Wf.ApiCapture);
+
+        ApiImmEmitter ImmEmitter => Service(Wf.ImmEmitter);
 
         [Op]
         public ReadOnlySpan<AsmHostRoutines> Capture(ReadOnlySpan<IApiHost> hosts, FS.FolderPath dst)
@@ -62,7 +50,7 @@ namespace Z0
 
         public Index<AsmHostRoutines> Capture(Index<PartId> parts, CaptureWorkflowOptions options)
         {
-            var flow = Running(nameof(Capture));
+            var flow = Running();
             Status(Seq.enclose(parts.Storage));
             var captured = CaptureParts(parts);
 
@@ -102,39 +90,37 @@ namespace Z0
 
         Index<AsmHostRoutines> CaptureParts(Index<PartId> parts)
         {
-            var flow = Running(nameof(CaptureParts));
-            using var step = Wf.ApiCapture();
-            var captured = step.CaptureParts(parts);
+            var flow = Running();
+            var captured = ApiCapture.CaptureParts(parts);
             Ran(flow);
             return captured;
         }
 
         Index<AsmHostRoutines> CaptureHosts(ReadOnlySpan<ApiHostUri> src)
         {
-            var flow = Running(nameof(CaptureHosts));
-            using var step = Wf.ApiCapture();
-            var captured = step.CaptureHosts(src);
+            var flow = Running();
+            var captured = ApiCapture.CaptureHosts(src);
             Ran(flow);
             return captured;
         }
 
         void EmitImm(Index<PartId> parts)
         {
-            var flow = Running(nameof(EmitImm));
-            Wf.ImmEmitter().Emit(parts);
+            var flow = Running();
+            ImmEmitter.Emit(parts);
             Ran(flow);
         }
 
         void EmitImm(ReadOnlySpan<ApiHostUri> hosts)
         {
-            var flow = Running(nameof(EmitImm));
-            Wf.ImmEmitter().Emit(hosts);
+            var flow = Running();
+            ImmEmitter.Emit(hosts);
             Ran(flow);
         }
 
         void EmitRebase(ApiMembers members, Timestamp ts)
         {
-            var rebasing = Wf.Running(nameof(EmitRebase));
+            var rebasing = Running(nameof(EmitRebase));
             var dst = Db.ContextTable<ApiCatalogEntry>(ts);
             var entries = Wf.ApiCatalogs().EmitApiCatalog(members, dst);
             Ran(rebasing);

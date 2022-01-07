@@ -64,7 +64,7 @@ namespace Z0
             try
             {
                 var cilpaths = Db.CilPaths;
-                var flow = Wf.Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
+                var flow = Running(Msg.RunningHostEmissionWorkflow.Format(host,src.Count));
                 var extracts = EmitExtracts(host, src, Db.RawExtractPath(dst, host));
                 var parsed = ParseExtracts(host, src);
                 if(parsed.Length != 0)
@@ -74,11 +74,11 @@ namespace Z0
                     EmitMsilCode(host, parsed, cilpaths.CilCodePath(dst, host));
                     routines = DecodeMembers(host, parsed, src, Db.AsmCapturePath(dst,host));
                 }
-                Wf.Ran(flow);
+                Ran(flow);
             }
             catch(Exception e)
             {
-                Wf.Error(e);
+                Error(e);
             }
             return routines;
         }
@@ -113,9 +113,9 @@ namespace Z0
         {
             if(src.Length != 0)
             {
-                var flow = Wf.Running(nameof(ParseExtracts));
+                var flow = Running();
                 var parsed = ExtractParser.ParseMembers(src);
-                Wf.Ran(flow, Msg.ParsedExtractBlocks.Format(parsed.Count, host));
+                Ran(flow, Msg.ParsedExtractBlocks.Format(parsed.Count, host));
                 return parsed;
             }
             else

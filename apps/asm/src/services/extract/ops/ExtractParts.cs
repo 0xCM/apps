@@ -11,30 +11,30 @@ namespace Z0
 
     partial class ApiExtractor
     {
-        public uint ExtractParts(ReadOnlySpan<ResolvedPart> src)
+        public uint ExtractParts(ReadOnlySpan<ResolvedPart> src, IApiPack pack)
         {
             var count = src.Length;
             var counter = 0u;
             for(var i=0; i<count; i++)
-                counter += ExtractPart(skip(src,i));
+                counter += ExtractPart(skip(src,i), pack);
             return counter;
         }
 
-        uint ExtractParts(ResolvedPart[] src, bool pll)
+        uint ExtractParts(ResolvedPart[] src, bool pll, IApiPack pack)
         {
-            var flow = Wf.Running(Msg.ExtractingResolved.Format(src.Length));
+            var flow = Running(Msg.ExtractingResolved.Format(src.Length));
             var counter = 0u;
             if(pll)
             {
-                var tasks = src.Select(BeginExtractPart);
+                var tasks = src.Select(p => BeginExtractPart(p,pack));
                 Task.WaitAll(tasks);
                 iter(tasks, t => counter += t.Result);
             }
             else
             {
-                counter = ExtractParts(src);
+                counter = ExtractParts(src, pack);
             }
-            Wf.Ran(flow, string.Format(Msg.ExtractedResolved.Format(counter)));
+            Ran(flow, string.Format(Msg.ExtractedResolved.Format(counter)));
 
             return counter;
         }

@@ -22,7 +22,7 @@ namespace Z0
                 if(Parser.Parse(input, out output))
                     Channel.Raise(new MemberParsedEvent(input,output));
                 else
-                    Wf.Error(string.Format("Extract parse failure for {0}", input.Member.OpUri));
+                    Error(string.Format("Extract parse failure for {0}", input.Member.OpUri));
 
             }
             return buffer;
