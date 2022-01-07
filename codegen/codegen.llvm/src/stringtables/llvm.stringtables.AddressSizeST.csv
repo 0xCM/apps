@@ -1,5 +1,0 @@
-TableName                | EntryIndex   | EntryName
-AddressSizeST            | 0            | AdSize16
-AddressSizeST            | 1            | AdSize32
-AddressSizeST            | 2            | AdSize64
-AddressSizeST            | 3            | AdSizeX 

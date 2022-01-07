@@ -11,7 +11,7 @@ namespace Z0
         [CmdOp("api/emit/respack")]
         Outcome EmitResPack(CmdArgs args)
         {
-            ResPackEmitter.Emit(Blocks(),false);
+            ResPackEmitter.Emit(Blocks());
             return true;
         }
     }

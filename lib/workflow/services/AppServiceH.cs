@@ -79,6 +79,8 @@ namespace Z0
 
         protected ProjectScripts ProjectScripts => Service(Wf.ProjectScripts);
 
+        protected CmdLineRunner CmdRunner => Service(Wf.CmdLineRunner);
+
         protected ConstLookup<ToolId,ToolProfile> ToolProfiles
             => Data(nameof(ToolProfiles), () => Tooling.LoadProfiles(Env.Toolbase));
 
@@ -456,6 +458,56 @@ namespace Z0
             => CgRoot + FS.folder(id);
         protected FS.FilePath CgProject(string id)
             => CgDir(id) + FS.file(string.Format("z0.{0}",id), FS.CsProj);
+
+
+        protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                Warn("No response to parse");
+
+            for(var i=0; i<count; i++)
+            {
+                if(CmdResponse.parse(skip(src,i).Content, out var response))
+                    Write(response);
+            }
+        }
+
+
+        void ReceiveCmdStatus(in string src)
+        {
+
+        }
+
+        void ReceiveCmdError(in string src)
+        {
+            Error(src);
+        }
+
+        protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+            => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
+
+        protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
+            => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
+
+        protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
+            => CmdRunner.Run(WinCmd.cmd(spec), out response);
+
+        protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
+        {
+            var result = Outcome.Success;
+
+            void OnError(Exception e)
+            {
+                result = e;
+                Error(e);
+            }
+
+            var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
+            response = ScriptRunner.RunCmd(cmd, OnError);
+            return result;
+        }
+
 
         protected virtual void OnInit()
         {

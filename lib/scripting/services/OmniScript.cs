@@ -11,10 +11,6 @@ namespace Z0
 
     public class OmniScript : AppService<OmniScript>
     {
-        ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
-
-        CmdLineRunner CmdRunner => Service(Wf.CmdLineRunner);
-
         public Outcome Run(CmdLine cmd, List<string> status = null, List<string> errors = null)
         {
             status = status ?? list<string>();
@@ -197,12 +193,6 @@ namespace Z0
         public Outcome Run(string content, out ReadOnlySpan<TextLine> response)
             => CmdRunner.Run(WinCmd.cmd(content), ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
-        public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
-
-        public Outcome Run(ToolScript script, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(script, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
-
         public Outcome Run(FS.FilePath src, CmdVars vars, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(Cmd.cmdline(src.Format(PathSeparator.BS)), vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
@@ -211,6 +201,13 @@ namespace Z0
 
         public Outcome Run(CmdLine cmd, CmdVars vars, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
             => ScriptProcess.run(cmd, vars, log, status, error, out dst);
+
+        public new Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+            => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+
+        public new Outcome Run(ToolScript script, out ReadOnlySpan<TextLine> response)
+            => ScriptRunner.RunCmd(script, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
+
 
         public ReadOnlySpan<TextLine> RunCmd(CmdLine cmd, Action<Exception> error = null)
         {

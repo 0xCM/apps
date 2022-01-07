@@ -15,9 +15,6 @@ namespace Z0
     {
         public virtual ToolId Id {get;}
 
-        ScriptRunner ScriptRunner;
-
-        CmdLineRunner CmdRunner;
 
         protected ToolService(ToolId id)
         {
@@ -29,59 +26,52 @@ namespace Z0
 
         }
 
-        protected override void OnInit()
-        {
-            base.OnInit();
-            ScriptRunner = Wf.ScriptRunner();
-            CmdRunner = Wf.CmdLineRunner();
-        }
+        // void ReceiveCmdStatus(in string src)
+        // {
 
-        void ReceiveCmdStatus(in string src)
-        {
+        // }
 
-        }
+        // void ReceiveCmdError(in string src)
+        // {
+        //     Error(src);
+        // }
 
-        void ReceiveCmdError(in string src)
-        {
-            Error(src);
-        }
+        // protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
+        // {
+        //     var count = src.Length;
+        //     if(count == 0)
+        //         Warn("No response to parse");
 
-        protected void DisplayResponse(ReadOnlySpan<TextLine> src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                Warn("No response to parse");
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         if(CmdResponse.parse(skip(src,i).Content, out var response))
+        //             Write(response);
+        //     }
+        // }
 
-            for(var i=0; i<count; i++)
-            {
-                if(CmdResponse.parse(skip(src,i).Content, out var response))
-                    Write(response);
-            }
-        }
+        // protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+        //     => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
 
-        protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
+        // protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
+        //     => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
 
-        protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
+        // protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
+        //     => CmdRunner.Run(WinCmd.cmd(spec), out response);
 
-        protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
-            => CmdRunner.Run(WinCmd.cmd(spec), out response);
+        // protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
+        // {
+        //     var result = Outcome.Success;
 
-        protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-        {
-            var result = Outcome.Success;
+        //     void OnError(Exception e)
+        //     {
+        //         result = e;
+        //         Error(e);
+        //     }
 
-            void OnError(Exception e)
-            {
-                result = e;
-                Error(e);
-            }
-
-            var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
-            response = ScriptRunner.RunCmd(cmd, OnError);
-            return result;
-        }
+        //     var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
+        //     response = ScriptRunner.RunCmd(cmd, OnError);
+        //     return result;
+        // }
 
         protected FS.FolderPath Home
             => Db.DevWs() + FS.folder("tools") + FS.folder(Id.Format());
