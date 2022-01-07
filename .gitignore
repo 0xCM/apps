@@ -9,3 +9,4 @@ test/obj/
 tools/bin/
 tools/obj/
 codegen/codegen.respack/content
+codegen/codegen.llvm/src
