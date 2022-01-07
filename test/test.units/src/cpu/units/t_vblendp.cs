@@ -107,7 +107,7 @@ namespace Z0
         {
             var w = w512;
             var t = z64;
-            var maskspec = BitMasks.Specs.msb(n2,n1,t);
+            var maskspec = BitMasks.msbspec(n2,n1,t);
 
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval<ulong>());
@@ -129,7 +129,7 @@ namespace Z0
         {
             var w = w512;
             var t = z64;
-            var maskspec = BitMasks.Specs.msb(n4,n1,t);
+            var maskspec = BitMasks.msbspec(n4,n1,t);
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
             var target = gcpu.vblendp(source, blendspec);
@@ -150,7 +150,7 @@ namespace Z0
         {
             var w = w512;
             var t = z64;
-            var maskspec = BitMasks.Specs.lsb(n2,n1,t);
+            var maskspec = BitMasks.lsbspec(n2,n1,t);
 
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
@@ -172,7 +172,7 @@ namespace Z0
         {
             var w = n512;
             var t = z64;
-            var maskspec = BitMasks.Specs.jsb(n8,n2,t);
+            var maskspec = BitMasks.jsbspec(n8,n2,t);
 
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
@@ -194,7 +194,7 @@ namespace Z0
         {
             var w = n512;
             var t = z32;
-            var maskspec = BitMasks.Specs.jsb(n8,n2,t);
+            var maskspec = BitMasks.jsbspec(n8,n2,t);
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
             var target = gcpu.vblendp(source, blendspec);
@@ -215,7 +215,7 @@ namespace Z0
         {
             var w = n512;
             var t = z16;
-            var maskspec = BitMasks.Specs.jsb(n8,n2,t);
+            var maskspec = BitMasks.jsbspec(n8,n2,t);
 
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
@@ -237,7 +237,7 @@ namespace Z0
         {
             var w = n512;
             var t = z8;
-            var maskspec = BitMasks.Specs.jsb(n8,n2,t);
+            var maskspec = BitMasks.jsbspec(n8,n2,t);
 
             var source = gcpu.vinc(w,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
@@ -252,7 +252,7 @@ namespace Z0
         {
             var w = w512;
             var t = z8;
-            var maskspec = BitMasks.Specs.jsb(n8,n2,t);
+            var maskspec = BitMasks.jsbspec(n8,n2,t);
             var blendspec = vbroadcast(w256, BitMasks.create(maskspec), Limits.maxval(t));
             var maskbits = BitMasks.create(maskspec.As(z64));
 

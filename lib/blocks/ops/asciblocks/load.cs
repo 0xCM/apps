@@ -12,7 +12,7 @@ namespace Z0
 
     partial struct AsciBlocks
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static ref T load<T>(ReadOnlySpan<AsciCode> src, out T dst)
             where T : unmanaged, IAsciBlock<T>
         {

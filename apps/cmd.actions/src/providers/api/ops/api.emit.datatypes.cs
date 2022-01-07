@@ -11,11 +11,9 @@ namespace Z0
         const string DatatypesEmitCmd = "api/emit/datatypes";
 
         [CmdOp(DatatypesEmitCmd)]
-        protected Outcome EmitApiDataTypes(CmdArgs args)
+        Outcome EmitApiDataTypes(CmdArgs args)
         {
-            var catalog = ApiRuntimeCatalog;
-            var types = catalog.ApiDataTypes;
-            TableEmit(types, ApiDataType.RenderWidths, ProjectDb.ApiTablePath<ApiDataType>());
+            EmitApiDataTypes();
             return true;
         }
     }

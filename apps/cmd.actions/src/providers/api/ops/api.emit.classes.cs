@@ -7,9 +7,9 @@ namespace Z0
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/classes")]
-        protected Outcome EmitApiClasses(CmdArgs args)
+        Outcome EmitApiClasses(CmdArgs args)
         {
-            ApiCatalogs.EmitApiClasses();
+            EmitApiClasses();
             return true;
         }
     }

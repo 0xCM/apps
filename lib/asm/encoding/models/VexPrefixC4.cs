@@ -186,7 +186,6 @@ namespace Z0.Asm
 
         byte Unused;
 
-
         public VexRXB RXB
         {
             [MethodImpl(Inline)]

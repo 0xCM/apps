@@ -19,35 +19,34 @@ namespace Z0
                 => force<T>(1);
 
         [MethodImpl(Inline), Op]
-        public static NumericLiteral literal(string Name, object Value, string Text, NBK @base)
-            => new NumericLiteral(Name,Value,Text, @base);
+        public static NumericLiteral literal(NBK @base, string name, object value, string text)
+            => new NumericLiteral(@base, name, value ?? 0u, text ?? EmptyString);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static NumericLiteral<T> literal<T>(string Name, T data, string Text, NBK @base)
+        public static NumericLiteral<T> literal<T>(NBK @base, string Name, T data, string Text)
             where T : unmanaged
                 => new NumericLiteral<T>(Name,data, Text, @base);
-
-        [MethodImpl(Inline), Op]
-        public static NumericLiteral literal(Base2 b, string Name, object Value, string Text)
-            => new NumericLiteral(Name, Value, Text, NBK.Base2);
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static NumericLiteral<T> literal<T>(Base2 b, string Name, T Value, string Text)
-            where T : unmanaged
-                => new NumericLiteral<T>(Name, Value, Text, NBK.Base2);
-
-        [MethodImpl(Inline), Op]
-        public static NumericLiteral literal(Base10 b, string Name, object Value, string Text)
-            => new NumericLiteral(Name, Value, Text, NBK.Base10);
+        [Op]
+        public static NumericLiteral literal(Base2 @base, string name, object value, string text)
+            => new NumericLiteral(@base, name, value ?? 0u, text ?? EmptyString);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static NumericLiteral<T> literal<T>(Base10 b, string Name, T data, string Text)
+        public static NumericLiteral<T> literal<T>(Base2 @base, string Name, T Value, string text)
             where T : unmanaged
-            => new NumericLiteral<T>(Name, data, Text, NBK.Base10);
+                => new NumericLiteral<T>(Name, Value, text, NBK.Base2);
 
         [MethodImpl(Inline), Op]
-        public static NumericLiteral literal(Base16 b, string Name, object Value, string Text)
-            => new NumericLiteral(Name, Value, Text, NBK.Base16);
+        public static NumericLiteral literal(Base10 @base, string Name, object Value, string text)
+            => new NumericLiteral(@base,Name, Value, text);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static NumericLiteral<T> literal<T>(Base10 @base, string Name, T data, string text)
+            where T : unmanaged
+                => new NumericLiteral<T>(Name, data, text, NBK.Base10);
+
+        [MethodImpl(Inline), Op]
+        public static NumericLiteral literal(Base16 @base, string name, object value, string text)
+            => new NumericLiteral(@base,name, value, text);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static NumericLiteral<T> literal<T>(Base16 b,  string Name, T data, string Text)

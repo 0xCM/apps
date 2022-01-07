@@ -21,9 +21,9 @@ namespace Z0
             where T : unmanaged
         {
             if(index < 64)
-                return generic<T>(cpu.vparts(w128, bits.setbit(src.Lo,index,state), src.Hi));
+                return generic<T>(cpu.vparts(w128, bits.set(src.Lo,index,state), src.Hi));
             else
-                return generic<T>(cpu.vparts(w128, src.Lo, bits.setbit(src.Hi,(byte)(index-64),state)));
+                return generic<T>(cpu.vparts(w128, src.Lo, bits.set(src.Hi,(byte)(index-64),state)));
         }
     }
 }

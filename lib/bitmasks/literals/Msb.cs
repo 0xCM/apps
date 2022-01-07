@@ -12,25 +12,25 @@ namespace Z0
         /// <summary>
         /// [10000000]
         /// </summary>
-        [BitMask ("[10000000]")]
+        [BitMask ("10000000")]
         public const byte Msb8x8x1 = 1 << 7;
 
         /// <summary>
         /// [10000000 10000000]
         /// </summary>
-        [BitMask ("[10000000 10000000]")]
+        [BitMask ("10000000 10000000")]
         public const ushort Msb16x8x1 = (ushort) Msb8x8x1 | (ushort) Msb8x8x1 << 8;
 
         /// <summary>
         /// [10000000 10000000 10000000 10000000]
         /// </summary>
-        [BitMask ("[10000000 10000000 10000000 10000000]")]
+        [BitMask ("10000000 10000000 10000000 10000000")]
         public const uint Msb32x8x1 = (uint) Msb16x8x1 | (uint) Msb16x8x1 << 16;
 
         /// <summary>
         /// [10000000 10000000 10000000 10000000 10000000 10000000 10000000 10000000]
         /// </summary>
-        [BitMask ("[10000000 10000000 10000000 10000000 10000000 10000000 10000000 10000000]")]
+        [BitMask ("10000000 10000000 10000000 10000000 10000000 10000000 10000000 10000000")]
         public const ulong Msb64x8x1 = (ulong) Msb32x8x1 | (ulong) Msb32x8x1 << 32;
 
         // ~ Msb16x1: The greatest bit of each 16-bit segment is enabled
@@ -39,19 +39,19 @@ namespace Z0
         /// <summary>
         /// [10000000 00000000]
         /// </summary>
-        [BitMask ("[10000000 00000000]")]
+        [BitMask ("10000000 00000000")]
         public const ushort Msb16x16x1 = 1 << 15;
 
         /// <summary>
         /// [10000000 00000000 10000000 00000000]
         /// </summary>
-        [BitMask ("[10000000 00000000 10000000 00000000]")]
+        [BitMask ("10000000 00000000 10000000 00000000")]
         public const uint Msb32x16x1 = (uint) Msb16x16x1 | (uint) Msb16x16x1 << 16;
 
         /// <summary>
         /// [10000000 00000000 10000000 00000000 10000000 00000000 10000000 00000000]
         /// </summary>
-        [BitMask ("[10000000 00000000 10000000 00000000 10000000 00000000 10000000 00000000]")]
+        [BitMask ("10000000 00000000 10000000 00000000 10000000 00000000 10000000 00000000")]
         public const ulong Msb64x16x1 = (ulong) Msb32x16x1 | (ulong) Msb32x16x1 << 32;
 
         // ~ 2x1: The most signifcant bit of each 2-bit segment is enabled
@@ -60,55 +60,55 @@ namespace Z0
         /// <summary>
         /// [1010]
         /// </summary>
-        [BitMask ("[1010]")]
+        [BitMask ("1010")]
         public const byte Msb4x2x1 = 0b1010;
 
         /// <summary>
         /// [010101]
         /// </summary>
-        [BitMask ("[010101]")]
+        [BitMask ("010101")]
         public const byte Msb6x2x1 = Msb4x2x1 | 1 << 4;
 
         /// <summary>
         /// [10101010]
         /// </summary>
-        [BitMask ("[10101010]")]
+        [BitMask ("10101010")]
         public const byte Msb8x2x1 = Lsb8x2x1 << 1;
 
         /// <summary>
         /// [10 10101010]
         /// </summary>
-        [BitMask ("[10 10101010]")]
+        [BitMask ("10 10101010")]
         public const ushort Msb10x2x1 = (ushort)Msb8x2x1 | 1 << 9;
 
         /// <summary>
         /// [1010 10101010]
         /// </summary>
-        [BitMask ("[1010 10101010]")]
+        [BitMask ("1010 10101010")]
         public const ushort Msb12x2x1 = Msb10x2x1 | 1 << 11;
 
         /// <summary>
         /// [101010 10101010]
         /// </summary>
-        [BitMask ("[101010 10101010]")]
+        [BitMask ("101010 10101010")]
         public const ushort Msb14x2x1 = Msb12x2x1 | 1 << 13;
 
         /// <summary>
         /// [10101010 10101010]
         /// </summary>
-        [BitMask ("[10101010 10101010]")]
+        [BitMask ("10101010 10101010")]
         public const ushort Msb16x2x1 = (ushort)Msb8x2x1 | (ushort)Msb8x2x1 << 8;
 
         /// <summary>
         /// [10 10101010 10101010]
         /// </summary>
-        [BitMask ("[10 10101010 10101010]")]
+        [BitMask ("10 10101010 10101010")]
         public const uint Msb18x2x1 = Lsb8x2x1 << 1;
 
         /// <summary>
         /// [10101010 10101010 10101010 10101010]
         /// </summary>
-        [BitMask ("[10101010 10101010 10101010 10101010]")]
+        [BitMask ("10101010 10101010 10101010 10101010")]
         public const uint Msb32x2x1 = (uint)Msb16x2x1 | (uint)Msb16x2x1 << 16;
 
         /// <summary>

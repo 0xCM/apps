@@ -11,9 +11,30 @@ namespace Z0
 
     partial class BitMasks
     {
-        [MethodImpl(Inline),Op, Closures(Closure)]
-        public static BitMask<T> mask<T>(T invariant)
-            where T : unmanaged, IDataCell
-                => new BitMask<T>(invariant);
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(W8 w, byte i0, byte i1)
+            => new BitMask((byte)w, bits.enable(w, i0, i1));
+
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(W16 w, byte i0, byte i1)
+            => new BitMask((byte)w, bits.enable(w, i0, i1));
+
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(W32 w, byte i0, byte i1)
+            => new BitMask((byte)w, bits.enable(w, i0, i1));
+
+        [MethodImpl(Inline), Op]
+        public static BitMask mask(W64 w, byte i0, byte i1)
+            => new BitMask((byte)w, bits.enable(w, i0, i1));
+
+        [Op]
+        public static BitMask mask(NativeSize size, byte i0, byte i1)
+            => size.Code switch{
+                NativeSizeCode.W8 => mask(w8, i0, i1),
+                NativeSizeCode.W16 => mask(w16, i0, i1),
+                NativeSizeCode.W32 => mask(w32, i0, i1),
+                NativeSizeCode.W64 => mask(w64, i0, i1),
+                _ => BitMask.Empty
+            };
     }
 }

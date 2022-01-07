@@ -29,7 +29,7 @@ namespace Z0
             var data = core.bytes(src);
             var i = pos / 8u;
             var j = (byte)(pos % 8u);
-            bit.set(ref seek(data,i),j,src);
+            bits.set(ref seek(data,i),j,src);
         }
     }
 }

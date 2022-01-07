@@ -175,5 +175,19 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator >=(C a, C b)
             => a.Code >= b.Code;
+
+        [MethodImpl(Inline)]
+        public static C operator ++(C a)
+        {
+            var next = (byte)a + 1;
+            return new C((AsciCode)next);
+        }
+
+        [MethodImpl(Inline)]
+        public static C operator --(C a)
+        {
+            var prior = (byte)a - 1;
+            return new C((AsciCode)prior);
+        }
     }
 }

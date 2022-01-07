@@ -138,7 +138,7 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, "PrefixBytes", prefixbytes.FormatHex()));
 
                 if(has_rex)
-                    writer.WriteLine(string.Format(RenderPattern, "REX", string.Format(Cols2Pattern, rexprefix.Format(), rexprefix.ToBitString())));
+                    writer.WriteLine(string.Format(RenderPattern, "REX", string.Format(Cols2Pattern, rexprefix.ToBitString(), rexprefix.Format())));
 
                 if(state.vexvalid == VexValidityKind.VV1)
                 {
@@ -153,14 +153,14 @@ namespace Z0
                     if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
                     {
                         var vex = VexPrefixC4.init(skip(vexbytes,1), skip(vexbytes,2));
-                        writer.WriteLine(string.Format(RenderPattern, "VEXBitPattern", VexPrefixC4.BitPattern));
-                        writer.WriteLine(string.Format(RenderPattern, "VEXBits", vex.ToBitstring()));
+                        writer.WriteLine(string.Format(RenderPattern, "VEXBits", VexPrefixC4.BitPattern));
+                        writer.WriteLine(string.Format(RenderPattern, EmptyString, vex.ToBitstring()));
                     }
                     else if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C5)
                     {
                         var vex = VexPrefixC5.init(skip(vexbytes,1));
-                        writer.WriteLine(string.Format(RenderPattern, "VEXBitPattern", VexPrefixC5.BitPattern));
-                        writer.WriteLine(string.Format(RenderPattern, "VEXBits", vex.ToBitstring()));
+                        writer.WriteLine(string.Format(RenderPattern, "VEXBits", VexPrefixC5.BitPattern));
+                        writer.WriteLine(string.Format(RenderPattern, EmptyString, vex.ToBitstring()));
                     }
 
                     var vexdest = string.Format("{0}{1}{2}", state.vexdest4, state.vexdest3, state.vexdest210);

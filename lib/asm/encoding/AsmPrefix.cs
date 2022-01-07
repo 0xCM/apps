@@ -28,7 +28,7 @@ namespace Z0.Asm
         {
             const string RexFieldPattern = "[W:{0} | R:{1} | X:{2} | B:{3}]";
             var bits = text.format(BitRender.render8x4(src.Encoded));
-            var bitfield = string.Format(RexFieldPattern, src.W(), src.R(), src.X(), src.B());
+            var bitfield = string.Format(RexFieldPattern, src.W, src.R, src.X, src.B);
             return $"{src.Encoded.FormatAsmHex()} | [{bits}] => {bitfield}";
         }
 

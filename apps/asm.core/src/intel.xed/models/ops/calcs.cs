@@ -84,10 +84,10 @@ namespace Z0
             if(src.rex)
             {
                 dst = RexPrefix.init();
-                dst.W(src.rexw);
-                dst.R(src.rexr);
-                dst.X(src.rexx);
-                dst.B(src.rexb);
+                dst.W = src.rexw;
+                dst.R = src.rexr;
+                dst.X = src.rexx;
+                dst.B= src.rexb;
                 return true;
             }
             else

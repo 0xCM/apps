@@ -57,14 +57,15 @@ namespace Z0
                     if(length > 0)
                     {
                         var nbi = NumericBases.indicator(first(component));
+                        var nbk = NumericBases.kind(nbi);
 
                         if(nbi != 0)
-                            seek(dst, i) = BitMasks.describe(Numeric.literal(src.Name, value, component.Substring(1), NumericBases.kind(nbi)));
+                            seek(dst, i) = BitMasks.describe(Numeric.literal(nbk, src.Name, value, component.Substring(1)));
                         else
                         {
                             nbi = NumericBases.indicator(component[length - 1]);
                             nbi = nbi != 0 ? nbi : NBI.Base2;
-                            seek(dst, i) = BitMasks.describe(Numeric.literal(src.Name, value, component.Substring(0, length - 1), NumericBases.kind(nbi)));
+                            seek(dst, i) = BitMasks.describe(Numeric.literal(nbk, src.Name, value, component.Substring(0, length - 1)));
                         }
                     }
                     else
@@ -75,11 +76,8 @@ namespace Z0
             return sys.empty<BitMaskInfo>();
         }
 
-        readonly BitMaskFormatter Formatter;
-
         public BitMaskServices()
         {
-            Formatter = BitMaskFormatter.create();
         }
 
         public Index<BitMaskInfo> Load()
@@ -89,24 +87,13 @@ namespace Z0
             => descriptions(src);
 
         public Index<BitMaskInfo> Emit()
-            => Emit(Db.IndexTable<BitMaskInfo>());
+            => Emit(ProjectDb.ApiTablePath<BitMaskInfo>());
 
         public Index<BitMaskInfo> Emit(FS.FilePath dst)
         {
             var masks = Load();
-            Emit(masks.View, dst);
+            TableEmit(masks.View, BitMaskInfo.RenderWidths, dst);
             return masks;
-        }
-
-        public ExecToken Emit(ReadOnlySpan<BitMaskInfo> src, FS.FilePath dst)
-        {
-            var flow = Wf.EmittingTable<BitMaskInfo>(dst);
-            var count = src.Length;
-            using var writer = dst.Writer();
-            writer.WriteLine(Formatter.HeaderText);
-            for(var i=0u; i<count; i++)
-                writer.WriteLine(Formatter.Format(skip(src, i)));
-            return Wf.EmittedTable<BitMaskInfo>(flow, count, dst);
         }
 
         static Type DefaultProvider => typeof(BitMaskLiterals);

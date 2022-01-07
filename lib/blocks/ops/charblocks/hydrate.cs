@@ -12,7 +12,7 @@ namespace Z0
 
     partial struct CharBlocks
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline)]
         public static ref T hydrate<T>(StringAddress src, out T dst)
             where T : unmanaged, ICharBlock<T>
         {

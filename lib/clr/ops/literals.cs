@@ -39,7 +39,7 @@ namespace Z0
                 ref readonly var field = ref skip(fields,i);
                 var tc = Type.GetTypeCode(field.FieldType);
                 var vRaw = field.GetRawConstantValue();
-                dst.Add(Numeric.literal(field.Name, vRaw, BitRender.format(vRaw, tc), b));
+                dst.Add(Numeric.literal(b,field.Name, vRaw, BitRender.format(vRaw, tc)));
             }
             return dst.ToArray();
         }

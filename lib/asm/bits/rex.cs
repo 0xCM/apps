@@ -21,6 +21,6 @@ namespace Z0.Asm
 
         [Op]
         public static string bitstring(RexPrefix src)
-            => string.Format("0100 {0} {1} {2} {3}", src.W(), src.R(), src.X(), src.B());
+            => string.Format("0100 {0} {1} {2} {3}", src.W, src.R, src.X, src.B);
     }
 }

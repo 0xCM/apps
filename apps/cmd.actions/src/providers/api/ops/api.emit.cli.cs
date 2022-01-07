@@ -7,9 +7,9 @@ namespace Z0
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/cli")]
-        protected Outcome EmitMetadataSets(CmdArgs args)
+        Outcome EmitMetadataCli(CmdArgs args)
         {
-            CliEmitter.EmitMetadaSets(WorkflowOptions.@default());
+            EmitCliMetadata();
             return true;
         }
     }

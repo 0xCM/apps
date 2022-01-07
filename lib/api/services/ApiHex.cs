@@ -185,7 +185,7 @@ namespace Z0
 
         public ReadOnlySpan<ApiHostBlocks> ReadHostBlocks(FS.FolderPath root)
         {
-            var flow = Wf.Running(string.Format("Loading host blocks from {0}", root));
+            var flow = Running(string.Format("Loading host blocks from {0}", root));
             var files = Files(root).View;
             var count = files.Length;
             var dst = list<ApiHostBlocks>();
@@ -200,11 +200,11 @@ namespace Z0
                     counter += blocks.Count;
                 }
                 else
-                    Wf.Warn(string.Format("Unable to infer host for {0}", file.ToUri()));
+                    Warn(string.Format("Unable to infer host for {0}", file.ToUri()));
             }
 
             var deposited = dst.ViewDeposited();
-            Wf.Ran(flow,string.Format("Loaded {0} blocks from {1} hosts", counter, deposited.Length));
+            Ran(flow,string.Format("Loaded {0} blocks from {1} hosts", counter, deposited.Length));
 
             return deposited;
         }

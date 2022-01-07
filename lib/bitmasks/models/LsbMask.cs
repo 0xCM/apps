@@ -46,6 +46,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator MaskSpec(LsbMask<F,D,T> src)
-            => BitMasks.Specs.describe<F,D,T>(M);
+            => BitMasks.spec<F,D,T>(M);
     }
 }

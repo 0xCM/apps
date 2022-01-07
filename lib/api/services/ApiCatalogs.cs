@@ -15,34 +15,70 @@ namespace Z0
     [ApiHost]
     public class ApiCatalogs : AppService<ApiCatalogs>
     {
-        ApiQuery Query;
+        ApiQuery Query => Service(Wf.ApiQuery);
 
-        ApiRuntime Runtime;
+        ApiRuntime Runtime => Service(Wf.ApiRuntime);
 
-        protected override void OnInit()
+        static uint FieldCount(ReadOnlySpan<TableDef> src)
         {
-            Query = Wf.ApiQuery();
-            Runtime = Wf.ApiRuntime();
+            var counter = 0u;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var table = ref skip(src,i);
+                counter += (uint)table.Fields.Length;
+            }
+            return counter;
         }
 
-        public ReadOnlySpan<SymLiteralRow> EmitApiClasses()
+        public Index<TableDefRecord> EmitTableDefs()
+        {
+            var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
+            var tables = ApiRuntimeCatalog.TableDefs;
+            var kTables = tables.Length;
+            var kFields = FieldCount(tables);
+            var buffer = alloc<TableDefRecord>(kFields);
+            var k=0u;
+            for(var i=0; i<kTables; i++)
+            {
+                ref readonly var table = ref skip(tables,i);
+                var fields = table.Fields;
+                for(var j=0; j<fields.Length; j++)
+                {
+                    ref readonly var field = ref skip(fields,j);
+                    ref var record = ref seek(buffer,k);
+                    record.Seq = k;
+                    record.TableId = table.TableId;
+                    record.TableType = table.TypeName;
+                    record.FieldIndex = field.FieldIndex;
+                    record.FieldType = field.DataType;
+                    record.FieldName = field.FieldName;
+                    k++;
+                }
+            }
+
+            TableEmit(@readonly(buffer), TableDefRecord.RenderWidths, dst);
+            return buffer;
+        }
+
+        public Index<SymLiteralRow> EmitApiClasses()
             => EmitApiClasses(ProjectDb.Api() +  FS.file("api.classes", FS.Csv));
 
-        public ReadOnlySpan<SymLiteralRow> EmitApiClasses(FS.FilePath dst)
+        public Index<SymLiteralRow> EmitApiClasses(FS.FilePath dst)
         {
             var literals = Query.ApiClassLiterals();
-            TableEmit(literals, dst);
+            TableEmit(literals.View, dst);
             return literals;
         }
 
-        public ReadOnlySpan<ApiCatalogEntry> EmitApiCatalog(ApiMembers src, FS.FilePath dst)
+        public Index<ApiCatalogEntry> EmitApiCatalog(ApiMembers src, FS.FilePath dst)
         {
             var records = rebase(src.BaseAddress, src.View);
             TableEmit(records.View, dst);
             return records;
         }
 
-        public ReadOnlySpan<ApiCatalogEntry> LoadApiCatalog(FS.FilePath src)
+        public Index<ApiCatalogEntry> LoadApiCatalog(FS.FilePath src)
         {
             var rows = list<ApiCatalogEntry>();
             using var reader = src.Utf8Reader();
@@ -55,25 +91,25 @@ namespace Z0
                     rows.Add(row);
                 else
                 {
-                    Wf.Error(outcome.Message);
+                    Error(outcome.Message);
                     return array<ApiCatalogEntry>();
                 }
                 line = reader.ReadLine();
             }
-            return rows.ViewDeposited();
+            return rows.ToArray();
         }
 
-        public ReadOnlySpan<ApiCatalogEntry> LoadApiCatalog(FS.FolderPath dir)
+        public Index<ApiCatalogEntry> LoadApiCatalog(FS.FolderPath dir)
         {
             var files = dir.Files(FS.Csv).Where(f => f.FileName.StartsWith(ApiCatalogEntry.TableId)).OrderBy(f => f.Name).ToReadOnlySpan();
             var count = files.Length;
-            var rows = default(ReadOnlySpan<ApiCatalogEntry>);
+            var rows = sys.empty<ApiCatalogEntry>();
             if(count != 0)
             {
                 ref readonly var current = ref skip(files,count - 1);
-                var flow = Wf.Running(Msg.LoadingApiCatalog.Format(current));
+                var flow = Running(Msg.LoadingApiCatalog.Format(current));
                 rows = LoadApiCatalog(current);
-                Wf.Ran(flow, Msg.LoadedApiCatalog.Format(rows.Length, current));
+                Ran(flow, Msg.LoadedApiCatalog.Format(rows.Length, current));
             }
 
             return rows;
@@ -112,18 +148,18 @@ namespace Z0
             return (uint)count;
         }
 
-        public ReadOnlySpan<ApiMemberCode> Correlate()
-            => Correlate(Wf.ApiCatalog.PartCatalogs());
+        public Index<ApiMemberCode> Correlate()
+            => Correlate(ApiRuntimeCatalog.PartCatalogs());
 
-        public ReadOnlySpan<ApiMemberCode> Correlate(FS.FilePath dst)
-            => Correlate(Wf.ApiCatalog.PartCatalogs(), dst);
+        public Index<ApiMemberCode> Correlate(FS.FilePath dst)
+            => Correlate(ApiRuntimeCatalog.PartCatalogs(), dst);
 
-        public ReadOnlySpan<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src)
-            => Correlate(src,Db.IndexTable<ApiCorrelationEntry>());
+        public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src)
+            => Correlate(src, Db.IndexTable<ApiCorrelationEntry>());
 
-        public ReadOnlySpan<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
+        public Index<ApiMemberCode> Correlate(ReadOnlySpan<IApiPartCatalog> src, FS.FilePath path)
         {
-            var flow = Wf.Running(Msg.CorrelatingParts.Format(src.Length));
+            var flow = Running(Msg.CorrelatingParts.Format(src.Length));
             var hex = Wf.ApiHex();
             var count = src.Length;
             var dst = list<ApiMemberCode>();
@@ -131,7 +167,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 var part = skip(src,i);
-                var inner = Wf.Running(Msg.CorrelatingOperations.Format(part.PartId.Format()));
+                var inner = Running(Msg.CorrelatingOperations.Format(part.PartId.Format()));
                 var hosts = part.ApiHosts.View;
                 var kHost = hosts.Length;
                 for(var j=0; j<kHost; j++)
@@ -141,20 +177,20 @@ namespace Z0
                     if(hexpath.Exists)
                     {
                         var blocks = hex.ReadBlocks(hexpath);
-                        Require.invariant(Wf.ApiCatalog.FindHost(srcHost.HostUri, out var host));
+                        Require.invariant(ApiRuntimeCatalog.FindHost(srcHost.HostUri, out var host));
                         var catalog = Runtime.HostCatalog(host);
                         Correlate(catalog, blocks, dst, records);
                     }
                 }
-                Wf.Ran(inner);
+                Ran(inner);
             }
 
-            var emitting = Wf.EmittingTable<ApiCorrelationEntry>(path);
+            var emitting = EmittingTable<ApiCorrelationEntry>(path);
             var output = @readonly(records.OrderBy(x => x.RuntimeAddress).Array());
             Tables.emit(output, path);
-            Wf.EmittedTable(emitting, output.Length);
+            EmittedTable(emitting, output.Length);
 
-            Wf.Ran(flow);
+            Ran(flow);
             return dst.ToArray();
         }
 

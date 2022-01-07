@@ -8,10 +8,12 @@ namespace Z0
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/tokens")]
-        protected Outcome EmitApiTokens(CmdArgs args)
+        Outcome EmitApiTokens(CmdArgs args)
         {
-            var tokens = ApiMetadata.EmitApiTokens();
+            EmitApiTokens();
             return true;
         }
+
+
     }
 }

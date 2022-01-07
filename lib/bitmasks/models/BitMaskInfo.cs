@@ -9,16 +9,20 @@ namespace Z0
     [Record(TableId)]
     public struct BitMaskInfo : IRecord<BitMaskInfo>
     {
-        public const string TableId = "bitmasks";
+        public const string TableId = "api.bitmasks";
+
+        public const byte FieldCount = 5;
 
         public string Name;
 
-        public TypeCode TypeCode;
+        public NumericBaseKind Base;
 
-        public object Data;
+        public TypeSpec DataType;
+
+        public BitNumber MaskData;
 
         public string Text;
 
-        public NumericBaseKind Base;
+        public static ReadOnlySpan<byte> RenderWidths => new byte[]{32,8,12,82,1};
     }
 }

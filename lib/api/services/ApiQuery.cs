@@ -29,34 +29,34 @@ namespace Z0
             locker = new object();
         }
 
-        public ReadOnlySpan<IApiClass> ApiKinds()
+        public Index<IApiClass> ApiKinds()
         {
             lock(locker)
             {
                 if(_Classes.IsEmpty)
                     _Classes = kinds();
             }
-            return _Classes.View;
+            return _Classes;
         }
 
-        public ReadOnlySpan<SymLiteralRow> ApiClassLiterals()
+        public Index<SymLiteralRow> ApiClassLiterals()
         {
             lock(locker)
             {
                 if(_ClassLiterals.IsEmpty)
                     _ClassLiterals = ClassLiterals();
             }
-            return _ClassLiterals.View;
+            return _ClassLiterals;
         }
 
-        public ReadOnlySpan<ApiClassifier> ApiClassifiers()
+        public Index<ApiClassifier> ApiClassifiers()
         {
             lock(locker)
             {
                 if(_Classifiers.IsEmpty)
                     _Classifiers = Classifiers();
             }
-            return _Classifiers.View;
+            return _Classifiers;
         }
 
         [Op]

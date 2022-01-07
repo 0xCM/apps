@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("api/emit/symheap")]
         Outcome EmitSymHeap(CmdArgs args)
         {
-            Symbolism.EmitSymHeap();
+            EmitSymHeap();
             return true;
         }
     }

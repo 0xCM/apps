@@ -9,10 +9,11 @@ namespace Z0
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/comments")]
-        protected Outcome EmitApiComments(CmdArgs args)
+        Outcome EmitApiComments(CmdArgs args)
         {
-            var collected = ApiComments.Collect();
+            EmitApiComments();
             return true;
         }
+
     }
 }

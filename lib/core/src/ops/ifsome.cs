@@ -19,7 +19,6 @@ namespace Z0
         /// <param name="f">The action to invoke if possible</param>
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static void ifsome<T>(T x, Action<T> f)
-            where T : class
         {
             if(x != null)
                 f(x);

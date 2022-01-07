@@ -28,7 +28,7 @@ namespace Z0
         where T : unmanaged
     {
         MaskSpec Untyped
-            => BitMasks.Specs.describe<F,D,T>(M);
+            => BitMasks.spec<F,D,T>(M);
 
         uint IBitFrequency.F
             => nat32u<F>();

@@ -13,10 +13,10 @@ namespace Z0
     partial struct BitRender
     {
         [Op]
-        public static uint render(byte src, ref uint i, uint n, Span<char> dst)
+        public static uint render(byte src, ref uint i, uint w, Span<char> dst)
         {
             var i0 = i;
-            switch(n)
+            switch(w)
             {
                 case 1:
                     render1(src, ref i, dst);

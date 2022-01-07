@@ -15,20 +15,20 @@ namespace Z0
     /// </summary>
     public readonly struct NumericLiteral : INumericLiteral<NumericLiteral>
     {
+        public NumericBaseKind Base {get;}
+
         public string Name {get;}
 
         public object Data {get;}
 
         public string Text {get;}
 
-        public NumericBaseKind Base {get;}
-
         [MethodImpl(Inline)]
-        public NumericLiteral(string name, object data, string text, NumericBaseKind @base)
+        internal NumericLiteral(NumericBaseKind @base, string name, object data, string text)
         {
             Name = name;
-            Data = data ?? 0;
-            Text = text ?? Data.ToString();
+            Data = data;
+            Text = text;
             Base = @base;
         }
 
@@ -42,12 +42,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => !IsEmpty;
-        }
-
-        public bool HasValue
-        {
-            [MethodImpl(Inline)]
-            get => Data != null && Data.GetType() != typeof(string);
         }
 
         public Type SystemType
@@ -74,7 +68,12 @@ namespace Z0
             get => SystemType.IsEnum;
         }
         public string Format()
-            => Text;
+        {
+            if(Base == NumericBaseKind.Base2)
+                return BitRender.format(Data, Type.GetTypeCode(Data.GetType()));
+            else
+                return Data.ToString();
+        }
 
         public override string ToString()
             => Format();
@@ -92,7 +91,7 @@ namespace Z0
         string ILiteral.Text
             => Text;
 
-       public static NumericLiteral Empty
-            => new NumericLiteral(EmptyString, EmptyString, EmptyString, 0);
+        public static NumericLiteral Empty
+            => new NumericLiteral(0, EmptyString, 0u, EmptyString);
     }
 }

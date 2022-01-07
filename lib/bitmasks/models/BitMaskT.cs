@@ -9,8 +9,6 @@ namespace Z0
 
     using static Root;
 
-
-
     public struct BitMask<T>
         where T : unmanaged, IDataCell
     {

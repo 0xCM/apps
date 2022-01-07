@@ -167,6 +167,10 @@ namespace Z0
         }
 
         [Op]
+        public static string format(object src, NumericKind type)
+            => format(src, type.ToTypeCode());
+
+        [Op]
         static string format8(object src)
             => BitRender.formatter<byte>().Format((byte)NumericBox.rebox(src, NumericKind.U8));
 
