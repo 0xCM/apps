@@ -25,11 +25,5 @@ namespace Z0
         SortedIndex<ApiCodeBlock> SortedBlocks()
             => ApiHex.ReadBlocks().Storage.ToSortedIndex();
 
-        [CmdOp("emit-respack")]
-        Outcome EmitResPack(CmdArgs args)
-        {
-            Wf.ResPackEmitter().Emit(Blocks());
-            return true;
-        }
     }
 }

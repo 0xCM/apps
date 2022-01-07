@@ -33,6 +33,12 @@ namespace Z0
             get => Name.IsNonEmpty || Value.IsNonEmpty;
         }
 
+        public bool IsClosed
+        {
+            [MethodImpl(Inline)]
+            get => TypeSyntax.closed(this);
+        }
+
         public string Format()
             => string.Format(RP.Attrib, Name, Value);
 

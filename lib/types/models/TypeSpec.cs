@@ -41,11 +41,14 @@ namespace Z0
         public bool Equals(TypeSpec src)
             => Text.Equals(src.Text);
 
-        public string Format()
-            => Text;
+        public bool IsConcrete
+        {
+            [MethodImpl(Inline)]
+            get => TypeSyntax.concrete(this);
+        }
 
-        public override string ToString()
-            => Format();
+        public string Format(params object[] args)
+            => TypeFormatter.format(this, args);
 
         [MethodImpl(Inline)]
         public static implicit operator TypeSpec(string src)

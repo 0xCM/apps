@@ -11,36 +11,43 @@ namespace Z0
 
     public sealed class ApiResPackEmitter : AppService<ApiResPackEmitter>
     {
+        const string ProjId = "codgen.respack";
+
+        FS.FilePath ProjectPath => CgProject(ProjId);
+
+        FS.FolderPath ProjectDir => CgDir(ProjId);
+
         FS.FolderPath SourceDir
-            => Db.PartSrcDir("respack") + FS.folder("content") + FS.folder("bytes");
+            => ProjectDir + FS.folder("content") + FS.folder("bytes");
+
+        ApiHex ApiHex => Service(Wf.ApiHex);
 
         protected override void OnInit()
         {
         }
 
-        public ReadOnlySpan<ApiHostRes> Emit()
+        public ReadOnlySpan<ApiHostRes> Emit(bool build = true)
         {
-            return Emit(Wf.ApiHex().ReadBlocks().Storage);
+            return Emit(ApiHex.ReadBlocks().Storage);
         }
 
         void RunScripts()
         {
-            var runner = Wf.ScriptRunner();
-            var build = runner.RunControlScript(ControlScripts.BuildRespack);
-            iter(build, line => Wf.Row(line));
-            var pack = runner.RunControlScript(ControlScripts.PackRespack);
-            iter(pack, line => Wf.Row(line));
+            var build = ScriptRunner.RunControlScript(DevScripts.BuildRespack);
+            iter(build, line => Write(line));
+            var pack = ScriptRunner.RunControlScript(DevScripts.PackRespack);
+            iter(pack, line => Write(line));
         }
 
-        public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks)
-            => Emit(blocks, SourceDir);
+        public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, bool build = true)
+            => Emit(blocks, SourceDir, build);
 
-        public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, FS.FolderPath dst)
-            => Emit(ApiCodeBlocks.hosted(blocks), dst);
+        public ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiCodeBlock> blocks, FS.FolderPath dst, bool build = true)
+            => Emit(ApiCodeBlocks.hosted(blocks), dst, build);
 
-        ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiHostBlocks> src, FS.FolderPath dst)
+        ReadOnlySpan<ApiHostRes> Emit(ReadOnlySpan<ApiHostBlocks> src, FS.FolderPath dst, bool build = true)
         {
-            var flow = Running();
+            var running = Running();
             var count = src.Length;
             var counter = 0u;
             var buffer = alloc<ApiHostRes>(count);
@@ -53,26 +60,13 @@ namespace Z0
                 counter += seek(target,i).Count;
             }
 
-            RunScripts();
+            if(build)
+                RunScripts();
 
-            Ran(flow);
+            Ran(running);
 
             return buffer;
         }
-
-        // ReadOnlySpan<ApiHostRes> Emit(ApiBlockIndex index, FS.FolderPath dst)
-        // {
-        //     var emissions = list<ApiHostRes>();
-        //     var flow = Running();
-        //     dst.Clear();
-        //     foreach(var host in index.NonemptyHosts)
-        //     {
-        //         var emitted = Emit(index.HostCodeBlocks(host), dst);
-        //         emissions.Add(emitted);
-        //     }
-        //     Ran(flow);
-        //     return emissions.ViewDeposited();
-        // }
 
         ApiHostRes Emit(in ApiHostBlocks src, FS.FolderPath dst)
         {

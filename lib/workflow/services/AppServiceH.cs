@@ -65,17 +65,19 @@ namespace Z0
 
         protected IEnvPaths Paths => Wf.EnvPaths;
 
-        protected TableEmitters TableEmitters
-            => Service(Wf.TableEmitters);
+        protected TableEmitters TableEmitters => Service(Wf.TableEmitters);
 
-        protected AppSettings AppSettings
-            => Service(Wf.AppSettings);
+        protected AppSettings AppSettings => Service(Wf.AppSettings);
 
-        protected IToolWs Tools
-            => Service(Ws.Tools);
+        protected IToolWs Tools => Service(Ws.Tools);
 
-        protected Tooling Tooling
-            => Service(Wf.Tooling);
+        protected Tooling Tooling => Service(Wf.Tooling);
+
+        protected OmniScript OmniScript => Service(Wf.OmniScript);
+
+        protected ScriptRunner ScriptRunner => Service(Wf.ScriptRunner);
+
+        protected ProjectScripts ProjectScripts => Service(Wf.ProjectScripts);
 
         protected ConstLookup<ToolId,ToolProfile> ToolProfiles
             => Data(nameof(ToolProfiles), () => Tooling.LoadProfiles(Env.Toolbase));
@@ -87,12 +89,6 @@ namespace Z0
             => typeof(H);
 
         protected DevWs Ws;
-
-        protected OmniScript OmniScript
-            => Service(Wf.OmniScript);
-
-        protected ProjectScripts ProjectScripts
-            => Service(Wf.ProjectScripts);
 
         public void Init(IWfRuntime wf)
         {
@@ -452,6 +448,14 @@ namespace Z0
             iter(settings, setting => Write(setting));
             return true;
         }
+
+        protected FS.FolderPath CgRoot
+            => Env.ZDev + FS.folder("codegen");
+
+        protected FS.FolderPath CgDir(string id)
+            => CgRoot + FS.folder(id);
+        protected FS.FilePath CgProject(string id)
+            => CgDir(id) + FS.file(string.Format("z0.{0}",id), FS.CsProj);
 
         protected virtual void OnInit()
         {

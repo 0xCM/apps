@@ -75,9 +75,6 @@ namespace Z0
 
         internal const string Num = "num<t:{0}>";
 
-        internal const string Span = "span<t:{0}>";
-
-        internal const string ConstSpan = "cspan<t:{0}>";
 
         internal const string Disp = "disp<w:{0}>";
 
@@ -129,9 +126,11 @@ namespace Z0
 
         internal const string Natural = "nat<n:{0}>";
 
-        internal static string symbol<K>(K kind)
-            where K : unmanaged, Enum
-                => Symbols.expr(kind).Format();
+        public const string Idx = "index<t:{0}>";
+
+        internal const string Span = "span<t:{0}>";
+
+        internal const string ConstSpan = "cspan<t:{0}>";
 
         public static TypeParam param(string name, string value) => new TypeParam(name,value);
 
@@ -157,23 +156,31 @@ namespace Z0
         [TypeSyntax(Clr)]
         public static TypeSpec clr(ClrPrimitiveKind kind) => string.Format(Clr, symbol(kind));
 
+        /// <summary>
+        /// Defines a type that represents a singed displacement of specified width
+        /// </summary>
+        /// <param name="w">The displacement width</param>
         [TypeSyntax(Disp)]
         public static TypeSpec disp(BitWidth w) => string.Format(Disp, w);
 
+        /// <summary>
+        /// Defines a type that represents an immediate value of specified width
+        /// </summary>
+        /// <param name="w">The immediate width</param>
         [TypeSyntax(Imm)]
-        public static TypeSpec imm(BitWidth w) => string.Format(Imm, w);
+        public static TypeSpec imm(NativeSize w) => string.Format(Imm, w);
 
         /// <summary>
-        /// Defines an unsigned immediate type of specified width
+        /// Defines a type that represents an unsigned immediate value of specified width
         /// </summary>
-        /// <param name="w">The width</param>
+        /// <param name="w">The immediate width</param>
         [TypeSyntax(ImmU)]
         public static TypeSpec immu(BitWidth w) => string.Format(ImmU, w);
 
         /// <summary>
-        /// Defines a signed immediate type of specified width
+        /// Defines a type that represents a signed immediate value of specified width
         /// </summary>
-        /// <param name="w">The width</param>
+        /// <param name="w">The immediate width</param>
         [TypeSyntax(ImmI)]
         public static TypeSpec immi(BitWidth w) => string.Format(ImmI, w);
 
@@ -305,23 +312,34 @@ namespace Z0
         /// Defines a sequence of arbitrary length over a parametric type
         /// </summary>
         /// <param name="type">The element type</param>
+        /// <param name="parameters">The type parameter(s), if any</param>
         [TypeSyntax(Seq)]
-        public static TypeSpec seq(TypeSpec type) => string.Format(Seq, type.Format());
+        public static TypeSpec seq(TypeSpec type, params object[] parameters) => string.Format(Seq, type.Format(parameters));
 
         /// <summary>
         /// Defines a sequence of parametric length over a parametric type
         /// </summary>
         /// <param name="n">The sequence length</param>
         /// <param name="type">The element type</param>
+        /// <param name="parameters">The type parameter(s), if any</param>
         [TypeSyntax(SeqN)]
-        public static TypeSpec seq(uint n, TypeSpec type) => string.Format(SeqN, type.Format(), n);
+        public static TypeSpec seq(uint n, TypeSpec type, params object[] parameters) => string.Format(SeqN, type.Format(parameters), n);
+
+        /// <summary>
+        /// Defines an index of parametric type
+        /// </summary>
+        /// <param name="type">The cell type</param>
+        /// <param name="parameters">The type parameter(s), if any</param>
+        [TypeSyntax(Idx)]
+        public static TypeSpec index(TypeSpec type, params object[] parameters) => string.Format(Idx, type.Format(parameters));
 
         /// <summary>
         /// Defines a 1-dimensional array over a specified element type
         /// </summary>
         /// <param name="e">The array element type</param>
+        /// <param name="parameters">The type parameter(s), if any</param>
         [TypeSyntax(Scalar)]
-        public static TypeSpec array(TypeSpec e) => string.Format(Array, e.Format());
+        public static TypeSpec array(TypeSpec e, params object[] parameters) => string.Format(Array, e.Format(parameters));
 
         /// <summary>
         /// Defines a character type of parametric width no greater than 32
@@ -355,8 +373,9 @@ namespace Z0
         /// Defines a character type of parametric kind and parametric width no greater than 32
         /// </summary>
         /// <param name="n">The bit width</param>
+        /// <param name="parameters">The type parameter(s), if any</param>
         [TypeSyntax(C)]
-        public static TypeSpec ct(byte n, TypeSpec t) => n <= 32 ? string.Format(C, n, t.Format()) : EmptyString;
+        public static TypeSpec ct(byte n, TypeSpec t, params object[] parameters) => n <= 32 ? string.Format(C, n, t.Format(parameters)) : EmptyString;
 
         /// <summary>
         /// Defines a type classifier
@@ -372,7 +391,7 @@ namespace Z0
         public static TypeSpec s() => S;
 
         /// <summary>
-        /// Defines teh bit type
+        /// Defines the bit type
         /// </summary>
         [TypeSyntax(Bit)]
         public static TypeSpec bit() => Bit;
@@ -419,7 +438,7 @@ namespace Z0
         /// <param name="t">The type</param>
         /// <param name="t">The length</param>
         [TypeSyntax(BitsNT)]
-        public static TypeSpec bits(uint n, TypeSpec t) => string.Format(BitsNT, t.Format());
+        public static TypeSpec bits(uint n, TypeSpec t, params object[] parameters) => string.Format(BitsNT, t.Format(parameters));
 
         /// <summary>
         /// Defines a sequence of bits of parametric length
@@ -441,8 +460,21 @@ namespace Z0
         /// <param name="cells">The cell type</param>
         /// <param name="n">The number of vector components</param>
         [TypeSyntax(V)]
-        public static TypeSpec v(uint n, TypeSpec cells) => string.Format(V, n, cells.Format());
+        public static TypeSpec v(uint n, TypeSpec cells, params object[] parameters) => string.Format(V, n, cells.Format(parameters));
 
+        internal static string symbol<K>(K kind)
+            where K : unmanaged, Enum
+                => Symbols.expr(kind).Format();
+
+        [Op]
+        public static bool concrete(TypeSpec src)
+            => text.index(src.Text, "{") == NotFound;
+
+        [Op]
+        public static bool closed(TypeParam src)
+            => text.index(src.Value, "{") == NotFound;
+
+        [Op]
         public static TypeSpec infer(Type src)
         {
             var spec = new TypeSpec(src.DisplayName());
@@ -469,9 +501,9 @@ namespace Z0
                 }
                 else
                 {
-                    var args = src.GetGenericArguments();
-                    if(args.Length == 1)
-                        spec = span(infer(core.first(args)));
+                    var parameters = src.GetGenericArguments();
+                    if(parameters.Length == 1)
+                        spec = span(infer(core.first(parameters)));
                 }
 
             }
@@ -485,9 +517,9 @@ namespace Z0
                 }
                 else
                 {
-                    var args = src.GetGenericArguments();
-                    if(args.Length == 1)
-                        spec = cspan(infer(core.first(args)));
+                    var parameters = src.GetGenericArguments();
+                    if(parameters.Length == 1)
+                        spec = cspan(infer(core.first(parameters)));
                 }
             }
             else

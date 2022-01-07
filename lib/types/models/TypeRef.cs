@@ -8,20 +8,31 @@ namespace Z0
 
     using static Root;
 
+    using K = TypeRefKind;
+
     public readonly struct TypeRef
     {
-        public uint Key {get;}
+        public TypeSpec Type {get;}
 
-        readonly ITypeProvider Source;
+        public TypeRefKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public TypeRef(ITypeProvider src, uint key)
+        public TypeRef(TypeSpec src, TypeRefKind kind)
         {
-            Source = src;
-            Key = key;
+            Type = src;
+            Kind = kind;
         }
 
-        public IType Resolve()
-            => Source.Resolve(Key);
+        public string Format(params object[] args)
+        {
+            var pattern = Kind switch{
+                K.In => "in {0}",
+                K.Out => "out {0}",
+                K.Ptr => "{0}*",
+                _ => "{0}",
+            };
+            var format = args.Length != 0 ? string.Format(Type.Text, args) : Type.Text;
+            return string.Format(pattern,format);
+        }
     }
 }
