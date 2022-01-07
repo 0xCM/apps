@@ -29,31 +29,30 @@ namespace Z0
                 ref readonly var syntax = ref row.Syntax;
                 if(syntax.IsNonEmpty)
                 {
-                    var parts = text.split(text.unfence(syntax,RenderFence.Paren), Chars.Comma);
-                    ParseSyntaxParts(parts);
+                    ParseSyntaxParts(text.trim(text.despace(text.unfence(syntax,RenderFence.Paren))));
                 }
             }
 
             return true;
         }
 
-        void ParseSyntaxParts(ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-            var dst = text.buffer();
-            if(!src.IsEmpty)
-            {
-                AsmMnemonic mnemonic = first(src);
-                dst.AppendFormat("{0,-16}", mnemonic.Format(MnemonicCase.Lowercase));
-                for(var i=1; i<count; i++)
-                {
-                    ref readonly var part = ref skip(src,i);
-                    dst.AppendFormat(" | {0,-12}", part);
-                }
 
-                Write(dst.Emit());
+        void ParseSyntaxParts(string src)
+        {
+            var dst = text.buffer();
+
+            var i = text.index(src,Chars.Comma);
+            if(i > 0)
+            {
+                AsmMnemonic mnemonic = text.left(src,i);
+                dst.Append(mnemonic.Format(MnemonicCase.Lowercase));
+
+                var args = text.right(src, i + 1);
+                dst.Append(" | ");
+                dst.Append(args);
             }
 
+            Write(dst.Emit());
         }
     }
 }

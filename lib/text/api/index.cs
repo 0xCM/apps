@@ -71,7 +71,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static bool index(ReadOnlySpan<char> src, ReadOnlySpan<char> match, out int i)
         {
-            i =  index(src,match);
+            i = index(src,match);
             return i >= 0;
         }
 

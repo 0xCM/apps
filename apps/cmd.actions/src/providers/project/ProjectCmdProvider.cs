@@ -11,9 +11,17 @@ namespace Z0
 
     public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>
     {
+        ProjectId DefaultProject;
+
         public ProjectCmdProvider()
         {
             _Files = FS.Files.Empty;
+            DefaultProject = "mc.models";
+        }
+
+        protected override void OnInit()
+        {
+            Project(Ws.Project(DefaultProject));
         }
 
         [CmdOp("project")]

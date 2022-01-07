@@ -7,7 +7,7 @@ namespace Z0
     partial class ProjectCmdProvider
     {
         [CmdOp("xed/disasm/details")]
-        protected Outcome EmitDisasmDetails(CmdArgs args)
+        Outcome EmitDisasmDetails(CmdArgs args)
         {
             var project = Project();
             return XedDisasm.EmitDisasmDetails(project);

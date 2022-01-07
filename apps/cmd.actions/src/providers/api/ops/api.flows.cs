@@ -9,7 +9,7 @@ namespace Z0
     partial class ApiCmdProvider
     {
         [CmdOp("api/flows")]
-        protected Outcome RevealDataFlows(CmdArgs args)
+        Outcome RevealDataFlows(CmdArgs args)
         {
             var src = ApiRuntimeCatalog.DataFlows;
             iter(src, flow => Write(flow.Format()));
