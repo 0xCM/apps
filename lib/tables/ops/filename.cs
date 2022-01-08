@@ -19,5 +19,9 @@ namespace Z0
         public static FS.FileName filename<T>(FS.FileExt ext)
             where T : struct
                 => filename(identify<T>());
+
+        public static FS.FileName filename<T>(string prefix)
+            where T : struct
+                => FS.file(string.Format("{0}.{1}", prefix, identify<T>()), FS.Csv);
     }
 }

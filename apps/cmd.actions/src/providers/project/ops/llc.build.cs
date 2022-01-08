@@ -48,5 +48,9 @@ namespace Z0
         [CmdOp("llc/build/avx512")]
         Outcome LlcAvx512(CmdArgs args)
             => Llc.Build(Project(), LlcSubtarget.Avx512);
+
+        [CmdOp("llc/build+run/avx512")]
+        Outcome LlcAvx512BuildRun(CmdArgs args)
+            => Llc.Build(Project(), LlcSubtarget.Avx512, true);
     }
 }

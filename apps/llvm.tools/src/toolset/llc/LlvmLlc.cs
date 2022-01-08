@@ -6,47 +6,29 @@ namespace Z0.llvm
 {
     using System;
 
-
     using static core;
     using static Root;
-
     using static LlcSubtarget;
-
-    public enum LlcSubtarget : byte
-    {
-        Sse,
-
-        Sse2,
-
-        Sse3,
-
-        Sse41,
-
-        Sse42,
-
-        Avx,
-
-        Avx2,
-
-        Avx512
-    }
 
     [Tool(ToolId)]
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
     {
         public const string ToolId = LlvmNames.Tools.llc;
 
+        ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
+
+        BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
+
         public LlvmLlcSvc()
             : base(ToolId)
         {
 
-
         }
 
-        public Outcome Build(IProjectWs project, LlcSubtarget subtarget)
+        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, LlcSubtarget subtarget, bool runexe = false)
         {
             var result = Outcome.Success;
-            var name = subtarget switch
+            var scriptid = subtarget switch
             {
                 Sse => "llc-build-sse",
                 Sse2 => "llc-build-sse2",
@@ -59,11 +41,7 @@ namespace Z0.llvm
                 _ => EmptyString
             };
 
-            if(nonempty(name))
-                result = ProjectScripts.RunScript(project, EmptyString, name);
-            else
-                result = (false, string.Format("The subtarget {0} is unknown", subtarget));
-            return result;
+            return ScriptSvc.RunScript(project, scriptid, EmptyString, flow => ResponseHandler.HandleBuildResponse(flow,runexe));
         }
 
         public void Build(IProjectWs project)

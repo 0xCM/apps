@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType("folder", ObjectKind.FolderName)]
+        [DataType(TypeSyntax.Folder)]
         public readonly struct FolderName : IFsEntry<FolderName>
         {
             public static FS.FolderName version(byte major, byte minor, byte revision)

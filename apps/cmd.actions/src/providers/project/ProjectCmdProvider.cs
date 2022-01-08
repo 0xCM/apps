@@ -44,6 +44,8 @@ namespace Z0
 
         DumpBin DumpBin => Service(Wf.DumpBin);
 
+        ClangSvc Clang => Service(Wf.Clang);
+
         FS.Files _Files;
 
         FS.Files Files()

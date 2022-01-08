@@ -19,6 +19,5 @@ namespace Z0
 
         public static CodeGenProvider CodeGenCommands(this IWfRuntime wf)
             => CodeGenProvider.create(wf);
-
     }
 }

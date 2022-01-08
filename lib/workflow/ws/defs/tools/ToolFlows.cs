@@ -26,7 +26,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var flow = ref skip(src,i);
-                if(flow.Target.Is(ext))
+                if(flow.TargetPath.Is(ext))
                 {
                     dst = flow;
                     result = true;

@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-    using static ProjectScriptNames;
+    using System;
+    using System.Runtime.CompilerServices;
 
-    partial class ProjectCmdProvider
+    using static Root;
+
+    partial struct FS
     {
-        [CmdOp("cpp/build")]
-        Outcome BuildCpp(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, CppBuild, "cpp");
+        [Op]
+        public static bool matches(FS.FileName name, FS.FileExt ext)
+            => name.Format().EndsWith(ext.Name, NoCase);
     }
 }

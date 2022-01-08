@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType("ext", ObjectKind.FileExt)]
+        [DataType(TypeSyntax.FileExt)]
         public readonly struct FileExt : IFsEntry<FileExt>, IComparable<FileExt>
         {
             public PathPart Name {get;}
@@ -57,30 +57,23 @@ namespace Z0
 
             }
 
-            [MethodImpl(Inline)]
-            public bool Matches(FilePath src)
-            {
+            // public bool Matches(FilePath src)
+            //     => Matches(src.Ext);
 
-                var left = Name.View;
-                var right = src.Ext.Name.View;
-                return left.Same(right);
-            }
+            // public bool Matches(FileName src)
+            //     => Matches(src.Ext);
 
-            [MethodImpl(Inline)]
-            public bool Matches(FileName src)
-            {
-                var left = Name.View;
-                var right = src.FileExt.Name.View;
-                return left.Same(right);
-            }
-
-            [MethodImpl(Inline)]
-            public bool Matches(FileExt src)
-            {
-                var left = Name.View;
-                var right = src.Name.View;
-                return left.Same(right);
-            }
+            // public bool Matches(FileExt src)
+            // {
+            //     var a = Format().ToLower();
+            //     var b = Format().ToLower();
+            //     var i = text.lastindex(a,Chars.Dot);
+            //     var j = text.lastindex(b,Chars.Dot);
+            //     if(i >= 0 && j >= 0)
+            //         return text.right(a,i) == text.right(b,j);
+            //     else
+            //         return a == b;
+            // }
 
             public bool IsEmpty
             {

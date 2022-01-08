@@ -133,6 +133,18 @@ namespace Z0
 
         internal const string ConstSpan = "cspan<t:{0}>";
 
+        internal const string FileName = "filename";
+
+        internal const string FileExt = "ext";
+
+        internal const string Dir = "dir";
+
+        internal const string FileUri = "uri<k:file>";
+
+        internal const string Folder = "folder";
+
+        internal const string FilePath = "path";
+
         public static TypeParam param(string name, string value) => new TypeParam(name,value);
 
         public static TypeParam param<T>(string name, T value) => new TypeParam<T>(name,value);

@@ -12,7 +12,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType("filename", ObjectKind.FileExt)]
+        [DataType(TypeSyntax.FileName)]
         public readonly struct FileName : IFsEntry<FileName>, IComparable<FileName>
         {
             public PathPart Name {get;}
@@ -36,6 +36,9 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => HasExtension ? FS.ext(Path.GetExtension(Name)) : FileExt.Empty;
             }
+
+            public FileExt Ext
+                => HasExtension ? FS.ext(Path.GetExtension(Name)) : FileExt.Empty;
 
             public bool IsEmpty
             {
@@ -100,7 +103,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public bool Is(FileExt ext)
-                => ext.Matches(this);
+                => FS.matches(this, ext);
 
             public override int GetHashCode()
                 => Name.GetHashCode();

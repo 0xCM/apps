@@ -13,7 +13,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType("path", ObjectKind.FileExt)]
+        [DataType(TypeSyntax.FilePath)]
         public readonly struct FilePath : IFsEntry<FilePath>, IComparable<FilePath>, ILocatable<FilePath>, IEquatable<FilePath>
         {
             public PathPart Name {get;}

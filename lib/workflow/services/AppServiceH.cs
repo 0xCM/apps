@@ -316,8 +316,8 @@ namespace Z0
         {
             if(ToolFlows.target(flows,FS.Exe, out var flow))
             {
-                ref readonly var target = ref flow.Target;
-                Write(string.Format("Executing {0}", flow.Target.ToUri()));
+                ref readonly var target = ref flow.TargetPath;
+                Write(string.Format("Executing {0}", flow.TargetPath.ToUri()));
                 var result = OmniScript.Run(target, CmdVars.Empty, true, out var response);
                 if(result.Fail)
                     return result;

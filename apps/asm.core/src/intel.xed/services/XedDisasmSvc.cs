@@ -56,6 +56,9 @@ namespace Z0
 
         void CollectAsmCode(IProjectWs project, ReadOnlySpan<AsmStatementEncoding> src)
         {
+            if(src.Length == 0)
+                return;
+
             using var unique = AsmCodeAllocation.create(src);
             var count = unique.Count;
             var dst = XedPaths.DisasmCode(project);

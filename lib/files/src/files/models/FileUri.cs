@@ -11,7 +11,7 @@ namespace Z0
 
     partial struct FS
     {
-        [DataType("uri", ObjectKind.Uri)]
+        [DataType(TypeSyntax.FileUri)]
         public readonly struct FileUri : IFsEntry<FileUri>, ITextual, IComparable<FileUri>
         {
             readonly FilePath Source;

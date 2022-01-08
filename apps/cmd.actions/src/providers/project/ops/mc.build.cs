@@ -7,16 +7,16 @@ namespace Z0
     using System;
 
     using Asm;
+    using llvm;
 
     using static Root;
     using static core;
-    using static ProjectScriptNames;
 
     partial class ProjectCmdProvider
     {
         [CmdOp("mc/build")]
         Outcome BuildMc(CmdArgs args)
-            => ProjectScripts.RunScript(Project(), EmptyString, McBuild, "asm");
+            => LlvmMc.Build(Project());
 
         [CmdOp("mc/syntax")]
         Outcome McSyntax(CmdArgs args)

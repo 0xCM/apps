@@ -9,6 +9,8 @@ namespace Z0
 
     public static class XSvc
     {
+        public static ProjectScriptSvc ProjectScriptSvc(this IWfRuntime wf)
+            => Z0.ProjectScriptSvc.create(wf);
         [Op]
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
             => llvm.LlvmDataCalcs.create(wf);
@@ -87,5 +89,9 @@ namespace Z0
         [Op]
         public static CoffObjects CoffObjects(this IWfRuntime wf)
             => Z0.CoffObjects.create(wf);
+
+        [Op]
+        public static ClangSvc Clang(this IWfRuntime wf)
+            => llvm.ClangSvc.create(wf);
     }
 }

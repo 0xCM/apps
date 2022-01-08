@@ -11,8 +11,6 @@ namespace Z0
 
         public const string CppBuild = "cpp-build";
 
-        public const string McBuild = "mc-build";
-
         public const string DumpLayouts = "dump-layouts";
 
         public const string DumpAst = "dump-ast";
