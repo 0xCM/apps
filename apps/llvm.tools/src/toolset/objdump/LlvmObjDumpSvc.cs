@@ -163,20 +163,10 @@ namespace Z0.llvm
         public FS.FilePath EmitConsolidatedAsmCode()
         {
             var project = Project();
-            var src = ProjectDb.TablePath<ObjDumpRow>("projects", project.Name);
+            var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var rows = LoadConsolidated(src).View;
             var dst = src.ChangeExtension(FS.Asm);
             EmitAsmCode(rows,dst);
-            // var count = rows.Length;
-            // var buffer = alloc<IAsmStatementEncoding>(count);
-            // for(var i=0; i<count; i++)
-            //     seek(buffer,i) = skip(rows,i);
-
-            // using var writer = dst.AsciWriter();
-            // using var allocation = AsmCodeAllocation.create(buffer);
-            // var allocated = allocation.Allocated;
-            // for(var i=0; i<allocated.Length; i++)
-            //     writer.WriteLine(allocation[i].ToAsmString());
             return dst;
         }
 
@@ -198,10 +188,10 @@ namespace Z0.llvm
             EmittedFile(emitting, count);
         }
 
-        public Outcome Consolidate(IProjectWs ws)
+        public Outcome Consolidate(IProjectWs project)
         {
-            var src = ws.OutFiles(FileKind.ObjAsm).View;
-            var dst = ProjectDb.TablePath<ObjDumpRow>("projects", ws.Project.Format());
+            var src = project.OutFiles(FileKind.ObjAsm).View;
+            var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
             var count = src.Length;
             var formatter = Tables.formatter<ObjDumpRow>(ObjDumpRow.RenderWidths);
@@ -233,7 +223,7 @@ namespace Z0.llvm
                 }
                 total += counter;
             }
-            EmittedTable(flow,total);
+            EmittedTable(flow, total);
             EmitAsmCode(emitted.ViewDeposited(), dst.ChangeExtension(FS.Asm));
             return result;
         }
@@ -347,7 +337,6 @@ namespace Z0.llvm
         {
             var count = src.Length;
             var tool = LlvmNames.Tools.llvm_objdump;
-
             var cmd = Cmd.cmdline(Ws.Tools().Script(tool, "run").Format(PathSeparator.BS));
             var result = Outcome.Success;
             var responses = list<CmdResponse>();

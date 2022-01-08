@@ -23,7 +23,6 @@ namespace Z0
             XedTargets = ProjectDb.Subdir("xed");
         }
 
-
         public FS.FolderPath Sources()
             => XedSources;
 
@@ -72,13 +71,13 @@ namespace Z0
             => project.OutFiles(FS.ext("xed.txt"));
 
         public FS.FilePath DisasmTable(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Project), FS.Csv);
+            => ProjectDb.ProjectDataFile(project, "xed.disasm", FS.Csv);
 
         public FS.FilePath DisasmCode(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.file(string.Format("xed.disasm.{0}", project.Name), FS.Asm);
+            => ProjectDb.ProjectDataFile(project, "xed.disasm", FS.Asm);
 
         public FS.FolderPath DisasmDetailDir(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.folder(string.Format("{0}.{1}", project.Name, "xed.disasm.detail"));
+            => ProjectDb.ProjectData(string.Format("{0}.{1}", project.Name, "xed.disasm.detail"));
 
         public FS.FilePath DisasmDetailTarget(IProjectWs project, FS.FileName file)
             => DisasmDetailDir(project) + FS.file(string.Format("{0}.details",file), FS.Txt);

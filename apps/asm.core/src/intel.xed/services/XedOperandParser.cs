@@ -54,6 +54,35 @@ namespace Z0
         public ReadOnlySpan<OperandKind> ParsedFields
             => _ParsedKinds.View();
 
+        public Outcome ParseRegister(string src, out Register dst)
+        {
+            var result = Registers.Lookup(src, out var reg);
+            if(result)
+                dst = reg.Kind;
+            else
+            {
+                if(src == "MM0")
+                {
+                    dst = XedRegId.MMX0;
+                    result = true;
+                }
+                else if(src == "MM1")
+                {
+                    dst = XedRegId.MMX1;
+                    result = true;
+                }
+                else if(src == "MM2")
+                {
+                    dst = XedRegId.MMX2;
+                    result = true;
+                }
+
+                dst = default;
+
+            }
+            return result;
+        }
+
         public Outcome ParseInstOperand(string src, out InstOperand dst)
         {
             dst = default;
@@ -146,11 +175,11 @@ namespace Z0
                 break;
 
                 case K.BASE0:
-                    result = Parse(src, out state.base0);
+                    result = ParseRegister(src, out state.base0);
                 break;
 
                 case K.BASE1:
-                    result = Parse(src, out state.base1);
+                    result = ParseRegister(src, out state.base1);
                 break;
 
                 case K.BCAST:
@@ -278,7 +307,7 @@ namespace Z0
                 break;
 
                 case K.INDEX:
-                    result = Parse(src, out state.index);
+                    result = ParseRegister(src, out state.index);
                 break;
 
                 case K.LAST_F2F3:
@@ -325,6 +354,16 @@ namespace Z0
                     result = DataParser.parse(src, out state.mod);
                 break;
 
+                case K.REG:
+                    result = DataParser.parse(src, out state.reg);
+                break;
+
+                case K.MODRM_BYTE:
+                    result = DataParser.parse(src, out byte modrm);
+                    if(result)
+                        state.modrm_byte = modrm;
+                break;
+
                 case K.MODE:
                     result = DataParser.eparse(src, out state.mode);
                 break;
@@ -339,12 +378,6 @@ namespace Z0
 
                 case K.MODE_FIRST_PREFIX:
                     state.mode_first_prefix = bit.On;
-                break;
-
-                case K.MODRM_BYTE:
-                    result = DataParser.parse(src, out byte modrm);
-                    if(result)
-                        state.modrm_byte = modrm;
                 break;
 
                 case K.MPXMODE:
@@ -401,10 +434,6 @@ namespace Z0
                     state.osz = bit.On;
                 break;
 
-                case K.OUTREG:
-                    result = Parse(src, out state.outreg);
-                break;
-
                 case K.OUT_OF_BYTES:
                     state.out_of_bytes = bit.On;
                 break;
@@ -449,48 +478,48 @@ namespace Z0
                     state.realmode = bit.On;
                 break;
 
-                case K.REG:
-                    result = DataParser.parse(src, out state.reg);
+                case K.OUTREG:
+                    result = ParseRegister(src, out state.outreg);
                 break;
 
                 case K.REG0:
-                    result = Parse(src, out state.reg0);
+                    result = ParseRegister(src, out state.reg0);
                 break;
 
                 case K.REG1:
-                    result = Parse(src, out state.reg1);
+                    result = ParseRegister(src, out state.reg1);
                 break;
 
                 case K.REG2:
-                    result = Parse(src, out state.reg2);
+                    result = ParseRegister(src, out state.reg2);
                 break;
 
                 case K.REG3:
-                    result = Parse(src, out state.reg3);
+                    result = ParseRegister(src, out state.reg3);
                 break;
 
                 case K.REG4:
-                    result = Parse(src, out state.reg4);
+                    result = ParseRegister(src, out state.reg4);
                 break;
 
                 case K.REG5:
-                    result = Parse(src, out state.reg5);
+                    result = ParseRegister(src, out state.reg5);
                 break;
 
                 case K.REG6:
-                    result = Parse(src, out state.reg6);
+                    result = ParseRegister(src, out state.reg6);
                 break;
 
                 case K.REG7:
-                    result = Parse(src, out state.reg7);
+                    result = ParseRegister(src, out state.reg7);
                 break;
 
                 case K.REG8:
-                    result = Parse(src, out state.reg8);
+                    result = ParseRegister(src, out state.reg8);
                 break;
 
                 case K.REG9:
-                    result = Parse(src, out state.reg9);
+                    result = ParseRegister(src, out state.reg9);
                 break;
 
                 case K.RELBR:
@@ -542,11 +571,11 @@ namespace Z0
                 break;
 
                 case K.SEG0:
-                    result = Parse(src, out state.seg0);
+                    result = ParseRegister(src, out state.seg0);
                 break;
 
                 case K.SEG1:
-                    result = Parse(src, out state.seg1);
+                    result = ParseRegister(src, out state.seg1);
                 break;
 
                 case K.SEG_OVD:
@@ -637,14 +666,5 @@ namespace Z0
             return result;
         }
 
-        Outcome Parse(string src, out Register dst)
-        {
-            var result = Registers.Lookup(src, out var reg);
-            if(result)
-                dst = reg.Kind;
-            else
-                dst = default;
-            return result;
-        }
     }
 }

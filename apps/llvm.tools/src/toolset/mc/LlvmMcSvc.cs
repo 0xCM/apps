@@ -37,9 +37,9 @@ namespace Z0.llvm
             var instructions = CollectInstructions(ws);
         }
 
-        public Index<AsmDocument> SyntaxSourceDocs(IProjectWs ws)
+        public Index<AsmDocument> SyntaxSourceDocs(IProjectWs project)
         {
-            var src = SyntaxSourcePaths(ws).View;
+            var src = SyntaxSourcePaths(project).View;
             var count = src.Length;
             var dst = list<AsmDocument>();
             for(var i=0; i<count; i++)
@@ -85,8 +85,7 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var docs = DeriveEncodings(project);
-            var dst = ProjectDb.TablePath<AsmDocEncoding>("projects", project.Project.Format());
-
+            var dst = ProjectDb.ProjectTable<AsmDocEncoding>(project);
             var counter=0u;
             var record = AsmDocEncoding.Empty;
             var formatter = Tables.formatter<AsmDocEncoding>(AsmDocEncoding.RenderWidths);
@@ -141,7 +140,7 @@ namespace Z0.llvm
             var result = Outcome.Success;
             var src = SyntaxSourcePaths(project).View;
             var count = src.Length;
-            var dst = ProjectDb.ProjectData() + FS.file("asm.syntax.tree." + project.Name.Format(), FS.Asm);
+            var dst = ProjectDb.ProjectDataFile(project, "asm.syntax.tree", FS.Asm);
             var docs = lookup<FS.FileUri,AsmDocument>();
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
@@ -325,10 +324,10 @@ namespace Z0.llvm
         }
 
         FS.FilePath SyntaxTable(IProjectWs project)
-            => ProjectDb.TablePath<AsmSyntaxRow>("projects", project.Name);
+            => ProjectDb.ProjectTable<AsmSyntaxRow>(project);
 
         FS.FilePath InstructionTable(IProjectWs project)
-            => ProjectDb.TablePath<AsmDocInstruction>("projects", project.Name);
+            => ProjectDb.ProjectTable<AsmDocInstruction>(project);
 
         FS.Files EncodingSourcePaths(IProjectWs project)
             => project.OutFiles(FS.ext("encoding.asm"));

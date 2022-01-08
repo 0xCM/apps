@@ -16,7 +16,6 @@ namespace Z0
 
     using K = XedModels.OperandKind;
 
-
     partial class XedDisasmSvc
     {
         public Outcome EmitDisasmDetails(IProjectWs project)
@@ -99,7 +98,6 @@ namespace Z0
                     writer.WriteLine(string.Format(RenderPattern, "OpCodeSrm", string.Format(Cols3Pattern, oc.Format(true,true,true), ocbits, srm)));
                 else
                     writer.WriteLine(string.Format(RenderPattern, "OpCode", string.Format(Cols2Pattern, oc.Format(true,true,true), ocbits)));
-
 
                 if(ocpos != 0)
                     prefixbytes = slice(code.Bytes,0,ocpos);

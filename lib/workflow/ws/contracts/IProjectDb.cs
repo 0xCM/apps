@@ -21,6 +21,9 @@ namespace Z0
         FS.FolderPath ProjectData()
             => Home() + FS.folder("projects");
 
+        FS.FolderPath ProjectData(string scope)
+            => ProjectData() + FS.folder(scope);
+
         FS.FolderPath Sources()
             => Home() + FS.folder("sources");
 
@@ -50,6 +53,20 @@ namespace Z0
 
         FS.FilePath Source(string scope, string name, FS.FileExt ext)
             => Sources(scope) + FS.file(name, ext);
+
+        FS.FilePath ProjectTable<T>(IProjectWs ws)
+            where T : struct
+                => ProjectData() + FS.file(string.Format("{0}.{1}", ws.Project, TableId<T>()), FS.Csv);
+
+        FS.FilePath ProjectTable<T>(IProjectWs ws, string scope)
+            where T : struct
+                => ProjectData(scope) + FS.file(string.Format("{0}.{1}", ws.Project, TableId<T>()), FS.Csv);
+
+        FS.FilePath ProjectDataFile(IProjectWs ws, string name, FS.FileExt ext)
+            => ProjectData() + FS.file(string.Format("{0}.{1}", ws.Project, name), ext);
+
+        FS.FilePath ProjectDataFile(IProjectWs ws, string scope, string name, FS.FileExt ext)
+            => ProjectData(scope) + FS.file(string.Format("{0}.{1}", ws.Project, name), ext);
 
         FS.FilePath ApiTablePath<T>()
             where T : struct

@@ -24,7 +24,7 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var src = ws.OutFiles(FS.Sym).View;
-            var dst = ProjectDb.TablePath<ObjSymRow>("projects", ws.Project.Format());
+            var dst = ProjectDb.ProjectTable<ObjSymRow>(ws);
             var symbols = Collect(src, dst);
             return result;
         }
