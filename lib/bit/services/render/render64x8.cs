@@ -27,14 +27,5 @@ namespace Z0
             var i=0u;
             return render64x8(src, ref i, dst);
         }
-
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render64x8(ulong src)
-        {
-            var buffer = CharBlock128.Null.Data;
-            var i=0u;
-            var count = render64x8(src, ref i, buffer);
-            return slice(buffer, 0, count);
-        }
     }
 }

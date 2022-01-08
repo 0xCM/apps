@@ -42,7 +42,13 @@ namespace Z0
 
         [Op]
         public static string format8x4(byte src)
-            => text.format(render8x4(src));
+        {
+            var storage = CharBlock16.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render8x4(src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
 
         [Op]
         public static string format5(byte src)
@@ -56,7 +62,8 @@ namespace Z0
         [Op]
         public static string format6(byte src)
         {
-            var buffer = CharBlock6.Null.Data;
+            var storage = CharBlock6.Null;
+            var buffer = storage.Data;
             var i=0u;
             var count = render6(src, ref i, buffer);
             return text.format(slice(buffer,0,count));
@@ -73,23 +80,51 @@ namespace Z0
 
         [Op]
         public static string format8(byte src)
-            => text.format(render8(src));
+        {
+            var storage = CharBlock8.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render8(src, ref i, buffer);
+            return text.format(slice(buffer,0,count));
+        }
 
         [Op]
-        public static string format16x8(ushort src, char sep = Chars.Space)
-            => text.format(render16x8(src, sep));
+        public static string format16x8(ushort src)
+        {
+            var storage = CharBlock24.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render16x8(src, ref i, buffer);
+            return text.format(slice(buffer,0,count));
+        }
 
         [Op]
         public static string format16(ushort src)
-            => text.format(render16(src));
+        {
+            var storage = CharBlock16.Null;
+            var buffer = storage.Data;
+            var i=0u;
+            var count = render16(src, ref i, buffer);
+            return text.format(slice(buffer,0,count));
+        }
 
         [Op]
-        public static string format32x8(uint src, char sep = Chars.Space)
-            => new string(render32x8(src, sep));
+        public static string format32x8(uint src)
+        {
+            var buffer = CharBlock64.Null.Data;
+            var i=0u;
+            var count = render32x8(src, ref i, buffer);
+            return text.format(slice(buffer,0,count));
+        }
 
         [Op]
         public static string format64x8(ulong src)
-            => text.format(render64x8(src));
+        {
+            var buffer = CharBlock128.Null.Data;
+            var i=0u;
+            var count = render64x8(src, ref i, buffer);
+            return text.format(slice(buffer, 0, count));
+        }
 
         public static string format(ReadOnlySpan<byte> src, in BitFormat config)
         {

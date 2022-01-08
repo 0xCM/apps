@@ -20,7 +20,7 @@ namespace Z0
         [MethodImpl(Inline), CNonImpl, Closures(Closure)]
         public static ScalarBits<T> cnonimpl<T>(ScalarBits<T> x, ScalarBits<T> y)
             where T : unmanaged
-                => gbits.cnonimpl(x.State, y.State);
+                => gmath.cnonimpl(x.State, y.State);
 
         /// <summary>
         /// Computes the converse nonimplication, z := x & ~y, for bitvectors x and y
@@ -32,7 +32,7 @@ namespace Z0
         public static ScalarBits<N,T> cnonimpl<N,T>(ScalarBits<N,T> x, ScalarBits<N,T> y)
             where T : unmanaged
             where N : unmanaged, ITypeNat
-                => gbits.cnonimpl(x.State, y.State);
+                => gmath.cnonimpl(x.State, y.State);
 
         /// <summary>
         /// Computes the converse nonimplication, z := x & ~y, for bitvectors x and y

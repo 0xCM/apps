@@ -20,7 +20,7 @@ namespace Z0
 
             readonly bool UseWidth;
 
-            public RuleOperand(RuleOpName name, ulong value)
+            public RuleOperand(RuleOpName name, Hex64 value)
             {
                 Name = name;
                 Value = value;

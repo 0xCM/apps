@@ -47,6 +47,7 @@ namespace Z0
             const string Cols2Pattern = "{0,-12} | {1,-12}";
             const string Cols3Pattern = "{0,-12} | {1,-12} | {2,-12}";
             const string Cols4Pattern = Cols3Pattern + " | {3, -12}";
+            const string OpPattern = "{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}";
 
             var parser = new XedOperandParser();
             var count = (uint)Require.equal(encodings.Length, blocks.Length);
@@ -115,8 +116,28 @@ namespace Z0
                     var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
                     var opname = XedRuleOps.name(op.Kind);
                     var opval = RuleOperand.Empty;
-                    ops.TryGetValue(opname, out opval);
-                    var content = string.Format("{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}", opname, opval, op.Action, op.Visiblity, widthdesc, op.Prop2);
+                    var opvalfmt = EmptyString;
+                    if(ops.TryGetValue(opname, out opval))
+                    {
+                        if(opname == RuleOpName.RELBR)
+                        {
+                            var w = state.brdisp_width;
+                            var val = (Hex64)opval.Value;
+                            if(w <= 8)
+                                opvalfmt = ((byte)val).FormatHex();
+                            else if(w <= 16)
+                                opvalfmt = ((ushort)val).FormatHex();
+                            else if(w <= 32)
+                                opvalfmt = ((uint)val).FormatHex();
+                            else
+                                opvalfmt = val.Format();
+                        }
+                        else
+                            opvalfmt = opval.Format();
+                    }
+
+
+                    var content = string.Format(OpPattern, opname, opvalfmt, op.Action, op.Visiblity, widthdesc, op.Prop2);
                     writer.WriteLine(string.Format(RenderPattern, title, content));
                 }
 
@@ -241,7 +262,6 @@ namespace Z0
 
                 if(state.nelem != 0)
                     writer.WriteLine(string.Format(RenderPattern, "Segments", string.Format("{0}x{1}", state.nelem, state.element_size)));
-
 
                 var offsets = state.Offsets();
                 writer.WriteLine(string.Format(RenderPattern, "Offsets", offsets));

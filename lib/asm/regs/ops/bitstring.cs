@@ -11,18 +11,18 @@ namespace Z0.Asm
 
     partial struct AsmRegs
     {
-         [Op,Closures(Closure)]
-        public static ReadOnlySpan<char> bitstring<T>(in AsmRegValue<T> src, char sep = Chars.Space)
+        [Op,Closures(Closure)]
+        public static string bitstring<T>(in AsmRegValue<T> src)
             where T : unmanaged
         {
             if(size<T>() == 1)
-                return BitRender.render8(u8(src.Value));
+                return BitRender.format8(u8(src.Value));
             else if(size<T>() == 2)
-                return BitRender.render16x8(u16(src.Value), sep);
+                return BitRender.format16x8(u16(src.Value));
             else if(size<T>() == 4)
-                return BitRender.render32x8(u32(src.Value));
+                return BitRender.format32x8(u32(src.Value));
             else if(size<T>() == 8)
-                return BitRender.render64x8(u64(src.Value));
+                return BitRender.format64x8(u64(src.Value));
             else
                 return EmptyString;
         }

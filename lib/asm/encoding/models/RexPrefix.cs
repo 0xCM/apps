@@ -9,11 +9,8 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static RexFields;
 
     using F = RexFields;
-
-    using RFI = AsmPrefixCodes.RexFieldIndex;
 
     using static AsmPrefixCodes;
 

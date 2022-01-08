@@ -138,7 +138,7 @@ namespace Z0
             public bit realmode;
 
             [OperandKind(RELBR)]
-            public bit relbr;
+            public Hex64 relbr;
 
             [OperandKind(REX)]
             public bit rex;
@@ -423,6 +423,9 @@ namespace Z0
 
                 if(imm0)
                     _ops.Add(new RuleOperand(RuleOpName.IMM0, imm(this, code)));
+
+                if(relbr != 0)
+                    _ops.Add(new RuleOperand(RuleOpName.RELBR, relbr));
 
                 if(base0.IsNonEmpty)
                     _ops.Add(new RuleOperand(RuleOpName.BASE0, base0));

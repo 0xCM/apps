@@ -18,21 +18,24 @@ namespace Z0
             var i0 = i;
             var cells = bytes(src);
             render8(skip(cells,3), ref i, dst);
-            i += separate(sep, dst);
+            seek(dst,i++) = Chars.Space;
+
             render8(skip(cells,2), ref i, dst);
-            i+= separate(sep, dst);
+            seek(dst,i++) = Chars.Space;
+
             render8(skip(cells,1), ref i, dst);
-            i+= separate(sep, dst);
+            seek(dst,i++) = Chars.Space;
+
             render8(skip(cells,0), ref i, dst);
 
             return i-i0;
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render32x8(uint src, Span<char> dst, char sep = Chars.Space)
+        public static uint render32x8(uint src, Span<char> dst)
         {
             var i = 0u;
-            return render32x8(src, ref i, dst, sep);
+            return render32x8(src, ref i, dst);
         }
 
         [MethodImpl(Inline), Op]
@@ -40,7 +43,7 @@ namespace Z0
         {
             var buffer = CharBlock64.Null.Data;
             var i=0u;
-            var count = render32x8(src, ref i, buffer, sep);
+            var count = render32x8(src, ref i, buffer);
             return slice(buffer,0,count);
         }
     }

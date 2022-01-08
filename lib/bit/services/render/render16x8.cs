@@ -24,8 +24,15 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static uint render16x8(ushort src, char sep, Span<char> dst)
-            => render16x8(src,0, sep, dst);
+        public static uint render16x8(ushort src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var cells = bytes(src);
+            render8(skip(cells,1), ref i, dst);
+            seek(dst,i++) = Chars.Space;
+            render8(skip(cells,0), ref i, dst);
+            return i-i0;
+        }
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> render16x8(ushort src, char sep)

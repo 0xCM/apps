@@ -190,6 +190,10 @@ namespace Z0
                     state.bcrc = bit.On;
                 break;
 
+                case K.RELBR:
+                    result = DataParser.parse(src, out state.relbr);
+                break;
+
                 case K.BRDISP_WIDTH:
                     result = DataParser.parse(src, out state.brdisp_width);
                 break;
@@ -520,10 +524,6 @@ namespace Z0
 
                 case K.REG9:
                     result = ParseRegister(src, out state.reg9);
-                break;
-
-                case K.RELBR:
-                    state.relbr = bit.On;
                 break;
 
                 case K.REP:

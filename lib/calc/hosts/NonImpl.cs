@@ -26,7 +26,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public T Invoke(T a, T b)
-                => gbits.nonimpl(a,b);
+                => gmath.nonimpl(a,b);
         }
 
         [Closures(Integers), NonImpl]
@@ -39,7 +39,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public T Invoke(T a, T b)
-                => gbits.cnonimpl(a,b);
+                => gmath.cnonimpl(a,b);
        }
 
         [Closures(Integers), NonImpl]
