@@ -20,11 +20,18 @@ namespace Z0
 
         const string YDIS = "YDIS:";
 
-        public static Outcome ParseEncodings(FS.FilePath src, List<AsmStatementEncoding> dst)
-            => ParseEncodings(LoadBlocks(src), dst);
-
-        public static Outcome ParseEncodings(ReadOnlySpan<DisasmLineBlock> blocks, List<AsmStatementEncoding> dst)
+        public static Outcome ParseEncodings(FS.FilePath src, out SourceEncodings dst)
         {
+            var buffer = list<AsmDocEncoding>();
+            var result = ParseEncodings(src,buffer);
+            if(result)
+                dst = new SourceEncodings(src, buffer.ToArray());
+            return result;
+        }
+
+        public static Outcome ParseEncodings(FS.FilePath src, List<AsmDocEncoding> dst)
+        {
+            var blocks = LoadBlocks(src);
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);
             var counter = 0u;
@@ -37,35 +44,29 @@ namespace Z0
             {
                 ref readonly var line = ref skip(summaries,i);
                 ref readonly var content = ref line.Content;
-                var record = new AsmStatementEncoding();
+                var record = new AsmDocEncoding();
                 ref readonly var expression = ref skip(expr,i);
                 record.DocSeq = counter++;
+                result = ParseIP(content, out record.IP);
                 record.Asm = expression;
-                record.Line = line.LineNumber;
-                result = ParseIP(content, out record.Offset);
+                record.Doc = src;
+                record.Doc = record.Doc.LineRef(line.LineNumber);
                 if(result.Fail)
                     return result;
 
-                result = ParseHexCode(line, out record.Encoding);
+                result = ParseHexCode(line, out record.Code);
                 if(result.Fail)
                     return result;
 
+                record.Size = record.Code.Size;
                 dst.Add(record);
             }
 
             return true;
         }
 
-        public static Outcome ParseEncodings(FS.FilePath src, out SourceEncodings dst)
-        {
-            var buffer = list<AsmStatementEncoding>();
-            var result = ParseEncodings(src,buffer);
-            if(result)
-                dst = new SourceEncodings(src, buffer.ToArray());
-            return result;
-        }
 
-        public static ConstLookup<FS.FilePath,DisasmFileBlocks> LoadFileBlocks(FS.Files src)
+        public static ConstLookup<FS.FilePath,DisasmFileBlocks> LoadFileBlocks(ReadOnlySpan<FS.FilePath> src)
         {
             var dst = dict<FS.FilePath,DisasmFileBlocks>();
             var blocks = list<DisasmLineBlock>();

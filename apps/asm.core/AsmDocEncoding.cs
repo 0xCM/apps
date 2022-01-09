@@ -23,7 +23,7 @@ namespace Z0
 
         public uint DocSeq;
 
-        public Address32 Offset;
+        public Address32 IP;
 
         public AsmExpr Asm;
 

@@ -149,10 +149,10 @@ namespace Z0
             }
         }
 
-        public sealed class Csv : FileType<Csv,WfFileKind>
+        public sealed class Csv : WfFileType<Csv>
         {
             public Csv()
-                : base(WfFileKind.Csv, WfFileKind.Csv.Ext())
+                : base(WfFileKind.Csv)
             {
 
             }
@@ -167,64 +167,73 @@ namespace Z0
             }
         }
 
-        public sealed class Dll : FileType<Dll,WfFileKind>
+        public sealed class Dll : WfFileType<Dll>
         {
             public Dll()
-                : base(WfFileKind.Dll, WfFileKind.Dll.Ext())
+                : base(WfFileKind.Dll)
             {
 
             }
         }
 
-        public sealed class EncodingAsm : FileType<EncodingAsm,WfFileKind>
+        public sealed class EncodingAsm : WfFileType<EncodingAsm>
         {
             public EncodingAsm()
-                : base(WfFileKind.EncodingAsm, WfFileKind.EncodingAsm.Ext())
+                : base(WfFileKind.EncodingAsm)
             {
 
             }
         }
 
-        public sealed class Exe : FileType<Exe,WfFileKind>
+        public sealed class Exe : WfFileType<Exe>
         {
             public Exe()
-                : base(WfFileKind.Exe, WfFileKind.Exe.Ext())
+                : base(WfFileKind.Exe)
             {
 
             }
         }
 
-        public sealed class Header : FileType<Header,WfFileKind>
+        public sealed class Header : WfFileType<Header>
         {
             public Header()
-                : base(WfFileKind.H, WfFileKind.H.Ext())
+                : base(WfFileKind.H)
             {
 
             }
         }
 
-        public sealed class Hex : FileType<Hex,WfFileKind>
+        public sealed class Hex : WfFileType<Hex>
         {
             public Hex()
-                : base(WfFileKind.Hex, WfFileKind.Hex.Ext())
+                : base(WfFileKind.Hex)
             {
 
             }
         }
 
-        public sealed class Lib : FileType<Lib,WfFileKind>
+        public sealed class HexDat : WfFileType<HexDat>
+        {
+            public HexDat()
+                : base(WfFileKind.HexDat)
+            {
+
+            }
+        }
+
+        public sealed class Lib : WfFileType<Lib>
         {
             public Lib()
-                : base(WfFileKind.Lib, WfFileKind.Lib.Ext())
+                : base(WfFileKind.Lib)
             {
 
             }
         }
 
-        public sealed class LlAsm : FileType<LlAsm,WfFileKind>
+        public sealed class LlAsm : WfFileType<LlAsm>
         {
             public LlAsm()
-                : base(WfFileKind.LlAsm, WfFileKind.LlAsm.Ext())
+                : base(WfFileKind.LlAsm)
             {
 
             }
@@ -239,19 +248,19 @@ namespace Z0
             }
         }
 
-        public sealed class Log : FileType<Log,WfFileKind>
+        public sealed class Log : WfFileType<Log>
         {
             public Log()
-                : base(WfFileKind.Log, WfFileKind.Log.Ext())
+                : base(WfFileKind.Log)
             {
 
             }
         }
 
-        public sealed class McAsm : FileType<McAsm,WfFileKind>
+        public sealed class McAsm : WfFileType<McAsm>
         {
             public McAsm()
-                : base(WfFileKind.McAsm, WfFileKind.McAsm.Ext())
+                : base(WfFileKind.McAsm)
             {
 
             }

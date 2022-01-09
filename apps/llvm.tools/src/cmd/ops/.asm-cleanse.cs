@@ -5,7 +5,7 @@
 namespace Z0.llvm
 {
     using static core;
-    using static LlvmToolNames;
+    using static ToolNames;
 
     partial class LlvmCmd
     {

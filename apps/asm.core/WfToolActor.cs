@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class FileType<K> : FileType, IFileType<K>
-        where K : unmanaged
+    public abstract class WfToolActor<T> : WfActor<T>, IWfToolActor
+        where T : WfToolActor<T>, new()
     {
-        public FileType(K kind, params FS.FileExt[] ext)
-            : base(kind.ToString(), ext)
+        protected WfToolActor(string name)
+            : base(name)
         {
-            Kind = kind;
-        }
 
-        public new K Kind {get;}
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public class ClangSvc : ToolService<ClangSvc>
     {
-        public const string ToolId = LlvmToolNames.clang;
+        public const string ToolId = ToolNames.clang;
 
         ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
 

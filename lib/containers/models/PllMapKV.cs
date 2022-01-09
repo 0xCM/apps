@@ -39,6 +39,14 @@ namespace Z0
         public bool Find(K key, out V value)
             => Data.TryGetValue(key, out value);
 
+        [MethodImpl(Inline)]
+        public V Include(K key, Func<K,V> f)
+            => Data.GetOrAdd(key,f);
+
+        [MethodImpl(Inline)]
+        public Index<V> Include(ReadOnlySpan<K> keys, Func<K,V> f)
+            => map(keys, key => Data.GetOrAdd(key,f));
+
         public ICollection<K> Keys
         {
             [MethodImpl(Inline)]

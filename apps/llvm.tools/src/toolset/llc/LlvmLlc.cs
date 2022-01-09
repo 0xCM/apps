@@ -13,7 +13,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
     {
-        public const string ToolId = LlvmToolNames.llc;
+        public const string ToolId = ToolNames.llc;
 
         ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
 

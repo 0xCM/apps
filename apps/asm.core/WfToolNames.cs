@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [LiteralProvider("llvm.tools")]
-    public readonly struct LlvmToolNames
+    [LiteralProvider("wf.tools")]
+    public readonly struct ToolNames
     {
         public const string clang = "clang";
 

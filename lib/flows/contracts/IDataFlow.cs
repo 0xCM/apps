@@ -19,17 +19,14 @@ namespace Z0
     /// <typeparam name="T">The target type</typeparam>
     [Free]
     public interface IDataFlow<S,T> : IDataFlow, IArrow<S,T>
-        where S : IType
-        where T : IType
     {
-
+        string ITextual.Format()
+            => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
     }
 
     [Free]
     public interface IDataFlow<A,S,T> : IDataFlow<S,T>
         where A : IActor
-        where S : IType
-        where T : IType
     {
         new A Actor {get;}
 

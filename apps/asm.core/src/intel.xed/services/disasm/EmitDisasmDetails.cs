@@ -5,8 +5,6 @@
 namespace Z0
 {
     using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
 
     using Asm;
 
@@ -21,19 +19,22 @@ namespace Z0
         public Outcome EmitDisasmDetails(IProjectWs project)
         {
             var result = Outcome.Success;
-            var encodings = ParseEncodings(project);
-            var sources = XedPaths.DisasmSources(project);
-            var blocks = XedDisasmOps.LoadFileBlocks(sources);
-            var files = blocks.Keys;
-            var count = files.Length;
-            var dir = XedPaths.DisasmDetailDir(project);
+            var encodings = ParseDisasmSources(project);
+            var paths = encodings.Keys.ToArray().Sort();
+            var count = paths.Length;
+            var blocks = XedDisasmOps.LoadFileBlocks(paths);
+            var dir = XedPaths.SemanticDisasmDir(project);
             for(var i=0; i<count; i++)
             {
-                ref readonly var path = ref skip(files,i);
+                ref readonly var path = ref skip(paths,i);
                 var block = blocks[path];
                 var encoding = encodings[path];
-                var dst = XedPaths.DisasmDetailTarget(project, path.FileName);
-                result = EmitDisasmDetails(path, encoding.Encoded, block.LineBlocks, dst);
+                var srcid = path.FileName.WithoutExtension.Format();
+                var k = text.index(srcid, ".xed.");
+                if(k > 0)
+                    srcid = text.left(srcid,k);
+                var dst = XedPaths.SemanticDisasmTarget(project, srcid);
+                result = EmitDisasmDetails(path, encoding, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
             }
@@ -41,16 +42,16 @@ namespace Z0
             return result;
         }
 
-        Outcome EmitDisasmDetails(FS.FilePath src, ReadOnlySpan<AsmStatementEncoding> encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
+        Outcome EmitDisasmDetails(FS.FilePath src, SourceEncodings encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
         {
             const string RenderPattern = "{0,-22}: {1}";
             const string Cols2Pattern = "{0,-12} | {1,-12}";
             const string Cols3Pattern = "{0,-12} | {1,-12} | {2,-12}";
             const string Cols4Pattern = Cols3Pattern + " | {3, -12}";
             const string OpPattern = "{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}";
-
+            var encoded = encodings.Encoded;
             var parser = new XedOperandParser();
-            var count = (uint)Require.equal(encodings.Length, blocks.Length);
+            var count = (uint)Require.equal(encoded.Length, blocks.Length);
             var result = ParseInstructions(blocks, out var instructions);
             if(result.Fail)
                 return result;
@@ -61,11 +62,11 @@ namespace Z0
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
-                ref readonly var encoding = ref skip(encodings,i);
+                ref readonly var encoding = ref encoded[i];
                 ref readonly var inst = ref instructions[i];
                 ref readonly var block = ref skip(blocks,i);
-                ref readonly var code = ref encoding.Encoding;
-                ref readonly var IP = ref encoding.Offset;
+                ref readonly var code = ref encoding.Code;
+                ref readonly var IP = ref encoding.IP;
                 parser.ParseState(inst.Props.Edit, out var state);
                 iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
                 iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
@@ -144,7 +145,6 @@ namespace Z0
                             }
                         }
                     }
-
 
                     var content = string.Format(OpPattern, opname, opvalfmt, op.Action, op.Visiblity, widthdesc, op.Prop2);
                     writer.WriteLine(string.Format(RenderPattern, title, content));

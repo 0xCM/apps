@@ -9,23 +9,23 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ToolSpec
-    {
-        public ToolId Id {get;}
+    // public readonly struct ToolSpec
+    // {
+    //     public ToolId Id {get;}
 
-        public CmdFlagSpecs Flags {get;}
+    //     public CmdFlagSpecs Flags {get;}
 
-        public CmdOptionSpecs Options {get;}
+    //     public CmdOptionSpecs Options {get;}
 
-        public TextBlock Usage {get;}
+    //     public TextBlock Usage {get;}
 
-        [MethodImpl(Inline)]
-        public ToolSpec(ToolId id, CmdFlagSpec[] flags, CmdOptionSpec[] options, TextBlock usage)
-        {
-            Id = id;
-            Flags = flags;
-            Options = options;
-            Usage = usage;
-        }
-    }
+    //     [MethodImpl(Inline)]
+    //     public ToolSpec(ToolId id, CmdFlagSpec[] flags, CmdOptionSpec[] options, TextBlock usage)
+    //     {
+    //         Id = id;
+    //         Flags = flags;
+    //         Options = options;
+    //         Usage = usage;
+    //     }
+    // }
 }

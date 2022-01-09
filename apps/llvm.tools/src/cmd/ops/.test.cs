@@ -60,7 +60,7 @@ namespace Z0.llvm
         Outcome ParseHelp(CmdArgs args)
         {
             var result = Outcome.Success;
-            result = Toolset.HelpDoc(WfTools.llc, out var doc);
+            result = Toolset.HelpDoc(ToolNames.llc, out var doc);
             if(result.Fail)
                 return result;
 
@@ -96,7 +96,6 @@ namespace Z0.llvm
                     Write(name.Trim());
                 }
             }
-
 
             return result;
         }

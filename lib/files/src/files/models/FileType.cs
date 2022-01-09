@@ -14,6 +14,8 @@ namespace Z0
 
         public Identifier Name {get;}
 
+        public ulong Kind => 0;
+
         public Index<FS.FileExt> DefaultExtensions {get;}
 
         public FS.FileExt PrimaryExtension

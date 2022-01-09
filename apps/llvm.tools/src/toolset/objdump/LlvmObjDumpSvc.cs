@@ -17,7 +17,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public sealed class LlvmObjDumpSvc : ToolService<LlvmObjDumpSvc>
     {
-        public const string ToolId = LlvmToolNames.llvm_objdump;
+        public const string ToolId = ToolNames.llvm_objdump;
 
         const string SectionMarker = "Disassembly of section ";
 
@@ -60,7 +60,7 @@ namespace Z0.llvm
 
         public Outcome Run(FS.FilePath src, FS.FolderPath dst)
         {
-            var tool = LlvmToolNames.llvm_objdump;
+            var tool = ToolNames.llvm_objdump;
             var cmd = Cmd.cmdline(Ws.Tools().Script(tool, "run").Format(PathSeparator.BS));
             var vars = WsVars.create();
             vars.DstDir = dst;
@@ -336,7 +336,7 @@ namespace Z0.llvm
         public Outcome DumpObjects(ReadOnlySpan<FS.FilePath> src, FS.FolderPath outdir, Action<CmdResponse> handler)
         {
             var count = src.Length;
-            var tool = LlvmToolNames.llvm_objdump;
+            var tool = ToolNames.llvm_objdump;
             var cmd = Cmd.cmdline(Ws.Tools().Script(tool, "run").Format(PathSeparator.BS));
             var result = Outcome.Success;
             var responses = list<CmdResponse>();

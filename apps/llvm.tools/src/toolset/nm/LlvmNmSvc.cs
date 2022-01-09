@@ -11,12 +11,14 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public sealed class LlvmNmSvc : ToolService<LlvmNmSvc>
     {
-        public const string ToolId = LlvmToolNames.llvm_nm;
+        public const string ToolId = ToolNames.llvm_nm;
+
+        Symbols<NmSymCode> SymCodes;
 
         public LlvmNmSvc()
             : base(ToolId)
         {
-
+            SymCodes = Symbols.index<NmSymCode>();
         }
 
         public Outcome Collect(IProjectWs ws)
@@ -59,7 +61,7 @@ namespace Z0.llvm
             using var reader = path.Utf8LineReader();
             while(reader.Next(out var line))
             {
-                if(parse(line, ref counter, out var sym))
+                if(ParseSymRow(line, ref counter, out var sym))
                     seek(buffer, j++) = sym;
             }
             return slice(buffer, 0,j);
@@ -78,7 +80,7 @@ namespace Z0.llvm
                 var counter = 0u;
                 while(reader.Next(out var line))
                 {
-                    if(parse(line, ref counter, out var sym))
+                    if(ParseSymRow(line, ref counter, out var sym))
                         buffer.Add(sym);
                 }
             }
@@ -87,7 +89,7 @@ namespace Z0.llvm
             return records;
         }
 
-        static Outcome parse(TextLine src, ref uint seq, out ObjSymRow dst)
+        Outcome ParseSymRow(TextLine src, ref uint seq, out ObjSymRow dst)
         {
             var result = Outcome.Success;
             var content = src.Content;
@@ -106,7 +108,8 @@ namespace Z0.llvm
                     dst.Seq = seq++;
                     dst.Offset = hex;
                     var pos = k + 1 + 8 + 2;
-                    dst.Kind = content[pos];
+                    SymCodes.ExprKind(content[pos].ToString(), out dst.Code);
+                    dst.Kind = NmSymCalcs.kind(dst.Code);
                     dst.Name = text.right(content, pos + 1).Trim();
                 }
             }

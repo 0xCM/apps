@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class FileType<K> : FileType, IFileType<K>
-        where K : unmanaged
+    public class WfFileFlowExec : WfStepExec<FS.FilePath,FS.FilePath>
     {
-        public FileType(K kind, params FS.FileExt[] ext)
-            : base(kind.ToString(), ext)
+        protected WfFileFlowExec(IWfFileFlow flow, FS.FilePath src, FS.FilePath dst)
+            : base(flow,src,dst)
         {
-            Kind = kind;
-        }
 
-        public new K Kind {get;}
+        }
     }
 }

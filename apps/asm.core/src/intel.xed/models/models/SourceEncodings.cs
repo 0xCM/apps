@@ -12,15 +12,15 @@ namespace Z0
         {
             public FS.FilePath Source {get;}
 
-            public Index<AsmStatementEncoding> Encoded {get;}
+            public Index<AsmDocEncoding> Encoded {get;}
 
-            public SourceEncodings(FS.FilePath src, AsmStatementEncoding[] encoded)
+            public SourceEncodings(FS.FilePath src, AsmDocEncoding[] encoded)
             {
                 Source =src;
                 Encoded = encoded;
             }
 
-            public static SourceEncodings Empty => new SourceEncodings(FS.FilePath.Empty, sys.empty<AsmStatementEncoding>());
+            public static SourceEncodings Empty => new SourceEncodings(FS.FilePath.Empty, sys.empty<AsmDocEncoding>());
         }
     }
 }

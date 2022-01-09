@@ -10,7 +10,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public sealed class ClangQuerySvc : ToolService<ClangQuerySvc>
     {
-        public const string ToolId = LlvmToolNames.clang_query;
+        public const string ToolId = ToolNames.clang_query;
 
         Interpreter Controller;
 

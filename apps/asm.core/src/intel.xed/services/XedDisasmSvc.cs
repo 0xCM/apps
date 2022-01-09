@@ -54,35 +54,29 @@ namespace Z0
             return result;
         }
 
-        void CollectAsmCode(IProjectWs project, ReadOnlySpan<AsmStatementEncoding> src)
-        {
-            if(src.Length == 0)
-                return;
-
-            using var unique = AsmCodeAllocation.create(src);
-            var count = unique.Count;
-            var dst = XedPaths.DisasmCode(project);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var code = ref unique[i];
-                var line = string.Format("{0,-80} ; {1}", code.Asm, code.Code);
-                writer.WriteLine(line);
-            }
-            EmittedFile(emitting,count);
-        }
-
-        public Index<AsmStatementEncoding> Collect(IProjectWs project)
+        public void Collect(IProjectWs project)
         {
             var result = Outcome.Success;
             var src = XedPaths.DisasmSources(project);
-            var records = ParseEncodings(src);
-            var count = src.Length;
-            TableEmit(records.View, AsmStatementEncoding.RenderWidths, XedPaths.DisasmTable(project));
-            CollectAsmCode(project, records);
+            var sources = ParseDisasmSources(project);
+            var paths = sources.Keys.ToArray().Sort();
+            var recordcount = 0u;
+            iter(sources.Values, src => recordcount += src.Encoded.Count);
+            var buffer = alloc<AsmDocEncoding>(recordcount);
+            var count = paths.Length;
+            var counter = 0u;
+            for(var i=0; i<count;i++)
+            {
+                sources.Find(skip(paths,i), out var encodings);
+                var encoded = encodings.Encoded;
+                for(var j=0; j<encoded.Count; j++)
+                {
+                    seek(buffer,counter++) = encoded[j];
+                    seek(buffer,counter).Seq = counter;
+                }
+            }
+            TableEmit(@readonly(buffer), AsmDocEncoding.RenderWidths, XedPaths.DisasmSummary(project));
             EmitDisasmDetails(project);
-            return records;
         }
 
         /// <summary>

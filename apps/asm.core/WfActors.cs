@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using LLN = LlvmToolNames;
+    using LLN = ToolNames;
 
-    public readonly struct WfTools
+    public readonly struct WfActors
     {
         public static readonly Llc llc = Llc.Instance;
 
@@ -28,18 +28,20 @@ namespace Z0
 
         public static readonly LlvmLld llvm_lld = LlvmLld.Instance;
 
-        public abstract class LlvmTool<T> : Tool<T>
-            where T : LlvmTool<T>, new()
-        {
+        public static readonly ZTool ztool = ZTool.Instance;
 
-            protected LlvmTool(string name)
-                : base(name)
+        public static readonly Xed xed = Xed.Instance;
+
+        public sealed class ZTool : WfToolActor<ZTool>
+        {
+            public ZTool()
+                : base(nameof(ZTool))
             {
 
             }
         }
 
-        public sealed class Llc : LlvmTool<Llc>
+        public sealed class Llc : WfToolActor<Llc>
         {
             public Llc()
                 : base(LLN.llc)
@@ -48,7 +50,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmMc : LlvmTool<LlvmMc>
+        public sealed class LlvmMc : WfToolActor<LlvmMc>
         {
             public LlvmMc()
                 : base(LLN.llvm_mc)
@@ -57,7 +59,7 @@ namespace Z0
             }
         }
 
-        public sealed class Clang : LlvmTool<Clang>
+        public sealed class Clang : WfToolActor<Clang>
         {
             public Clang()
                 : base(LLN.clang)
@@ -66,7 +68,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmObjDump : LlvmTool<LlvmObjDump>
+        public sealed class LlvmObjDump : WfToolActor<LlvmObjDump>
         {
             public LlvmObjDump()
                 : base(LLN.llvm_objdump)
@@ -75,7 +77,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmConfig : LlvmTool<LlvmConfig>
+        public sealed class LlvmConfig : WfToolActor<LlvmConfig>
         {
             public LlvmConfig()
                 : base(LLN.llvm_config)
@@ -84,7 +86,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmReadObj : LlvmTool<LlvmReadObj>
+        public sealed class LlvmReadObj : WfToolActor<LlvmReadObj>
         {
             public LlvmReadObj()
                 : base(LLN.llvm_readobj)
@@ -93,7 +95,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmAs : LlvmTool<LlvmAs>
+        public sealed class LlvmAs : WfToolActor<LlvmAs>
         {
             public LlvmAs()
                 : base(LLN.llvm_as)
@@ -102,7 +104,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmTableGen : LlvmTool<LlvmTableGen>
+        public sealed class LlvmTableGen : WfToolActor<LlvmTableGen>
         {
             public LlvmTableGen()
                 : base(LLN.llvm_tblgen)
@@ -111,7 +113,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmDis : LlvmTool<LlvmDis>
+        public sealed class LlvmDis : WfToolActor<LlvmDis>
         {
             public LlvmDis()
                 : base(LLN.llvm_dis)
@@ -120,7 +122,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmLld : LlvmTool<LlvmLld>
+        public sealed class LlvmLld : WfToolActor<LlvmLld>
         {
             public LlvmLld()
                 : base(LLN.llvm_lld)
@@ -129,10 +131,19 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmNm : LlvmTool<LlvmNm>
+        public sealed class LlvmNm : WfToolActor<LlvmNm>
         {
             public LlvmNm()
                 : base(LLN.llvm_nm)
+            {
+
+            }
+        }
+
+        public sealed class Xed : WfToolActor<Xed>
+        {
+            public Xed()
+                : base("xed")
             {
 
             }

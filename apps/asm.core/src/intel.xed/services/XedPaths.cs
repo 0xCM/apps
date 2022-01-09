@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-    using static core;
-
     using static XedModels;
 
     public class XedPaths : AppService<XedPaths>
@@ -68,18 +63,15 @@ namespace Z0
 
 
         public FS.Files DisasmSources(IProjectWs project)
-            => project.OutFiles(FS.ext("xed.txt"));
+            => project.OutFiles(WfFileKind.XedRawDisasm);
 
-        public FS.FilePath DisasmTable(IProjectWs project)
-            => ProjectDb.ProjectDataFile(project, "xed.disasm", FS.Csv);
+        public FS.FilePath DisasmSummary(IProjectWs project)
+            => ProjectDb.ProjectDataFile(project, WfFileKind.XedSummaryDisasm);
 
-        public FS.FilePath DisasmCode(IProjectWs project)
-            => ProjectDb.ProjectDataFile(project, "xed.disasm", FS.Asm);
+        public FS.FolderPath SemanticDisasmDir(IProjectWs project)
+            => ProjectDb.ProjectData(string.Format("{0}.{1}", project.Name, "xed.semantic.disasm"));
 
-        public FS.FolderPath DisasmDetailDir(IProjectWs project)
-            => ProjectDb.ProjectData(string.Format("{0}.{1}", project.Name, "xed.disasm.detail"));
-
-        public FS.FilePath DisasmDetailTarget(IProjectWs project, FS.FileName file)
-            => DisasmDetailDir(project) + FS.file(string.Format("{0}.details",file), FS.Txt);
+        public FS.FilePath SemanticDisasmTarget(IProjectWs project, string srcid)
+            => SemanticDisasmDir(project) + FS.file(srcid, WfFileKind.XedSemanticDisasm.Ext());
     }
 }

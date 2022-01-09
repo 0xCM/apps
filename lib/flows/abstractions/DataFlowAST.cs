@@ -13,8 +13,6 @@ namespace Z0
 
     public abstract class DataFlow<A,S,T> : IDataFlow<A,S,T>
         where A : IActor
-        where S : IType
-        where T : IType
     {
         public A Actor {get;}
 
@@ -30,7 +28,7 @@ namespace Z0
             Target = dst;
         }
 
-        public string Format()
+        public virtual string Format()
             => api.format(this);
 
         public override string ToString()

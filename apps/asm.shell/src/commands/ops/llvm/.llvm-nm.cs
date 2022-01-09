@@ -17,7 +17,7 @@ namespace Z0.Asm
             var files = State.Files(FS.Obj, FS.Dll, FS.Lib, FS.Exe).View;
             var count = files.Length;
             var outdir = AsmWs.ObjSymDir().Create();
-            var script = Ws.Tools().Script(LlvmToolNames.llvm_nm, "run");
+            var script = Ws.Tools().Script(ToolNames.llvm_nm, "run");
             for(var i=0; i<count; i++)
             {
                 var src = skip(files,i);

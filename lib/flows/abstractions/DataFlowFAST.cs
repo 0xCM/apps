@@ -11,8 +11,6 @@ namespace Z0
 
     [DataFlow]
     public abstract class DataFlow<F,A,S,T> : DataFlow<A,S,T>
-        where S : IType
-        where T : IType
         where A : IActor
         where F : DataFlow<F,A,S,T>, new()
     {

@@ -4,10 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFileType : IType
+    public interface IFileType : IKinded
     {
-        ulong IType.Kind
-            => 0;
+        Identifier Name {get;}
+
+        bool IsEmpty => Name.IsEmpty;
+
+        bool IsNonEmpty => !IsEmpty;
+
+        string ITextual.Format()
+            => Name;
 
         Index<FS.FileExt> DefaultExtensions {get;}
 
@@ -15,10 +21,10 @@ namespace Z0
             => DefaultExtensions.IsNonEmpty ?  DefaultExtensions.First : FS.FileExt.Empty;
     }
 
-    public interface IFileType<K> : IFileType, IType<K>
+    public interface IFileType<K> : IFileType, IKinded<K>
         where K : unmanaged
     {
-        ulong IType.Kind
-            => core.bw64(Kind);
+
+
     }
 }

@@ -14,7 +14,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public partial class LlvmMcSvc : ToolService<LlvmMcSvc>
     {
-        public const string ToolId = LlvmToolNames.llvm_mc;
+        public const string ToolId = ToolNames.llvm_mc;
 
         ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
 
@@ -104,7 +104,7 @@ namespace Z0.llvm
                     record.DocSeq = i;
                     record.Asm = e.Asm;
                     record.Size = e.Encoding.Size;
-                    record.Offset = e.Offset;
+                    record.IP = e.Offset;
                     record.Code = e.Encoding;
                     record.Doc = doc.Source.LineRef(e.Line);
                     writer.WriteLine(formatter.Format(record));
