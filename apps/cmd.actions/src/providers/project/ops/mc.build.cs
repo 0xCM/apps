@@ -28,14 +28,11 @@ namespace Z0
                 ref readonly var row = ref src[i];
                 ref readonly var syntax = ref row.Syntax;
                 if(syntax.IsNonEmpty)
-                {
                     ParseSyntaxParts(text.trim(text.despace(text.unfence(syntax,RenderFence.Paren))));
-                }
             }
 
             return true;
         }
-
 
         void ParseSyntaxParts(string src)
         {

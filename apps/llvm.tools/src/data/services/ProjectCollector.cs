@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static LlvmNames;
-    using static core;
-
     public class ProjectCollector : AppService<ProjectCollector>
     {
         llvm.LlvmNmSvc Nm => Service(Wf.LlvmNm);
@@ -19,10 +16,6 @@ namespace Z0
 
         CoffObjects Coff => Service(Wf.CoffObjects);
 
-        public void Collect()
-        {
-            iter(Projects.ProjectNames, name => Collect(Ws.Project(name)));
-        }
 
         public void Collect(IProjectWs project)
         {

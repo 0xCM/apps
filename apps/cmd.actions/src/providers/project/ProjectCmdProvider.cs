@@ -46,13 +46,12 @@ namespace Z0
 
         ClangSvc Clang => Service(Wf.Clang);
 
+        LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
+
         FS.Files _Files;
 
         FS.Files Files()
             => _Files;
-
-        FS.Files Files(FS.FileExt ext)
-            => Files().Where(f => f.Ext == ext);
 
         FS.Files Files(FS.Files src, bool write =true)
         {

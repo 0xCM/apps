@@ -37,7 +37,7 @@ namespace Z0.llvm
 
         protected override void Initialized()
         {
-            Data = Ws.Project(Projects.LlvmData);
+            Data = Ws.Project(ProjectNames.LlvmData);
             State.Init(Wf, Ws);
             State.Project(Data);
         }

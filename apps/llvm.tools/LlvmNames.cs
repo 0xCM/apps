@@ -4,6 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [LiteralProvider("projects.names")]
+    public readonly struct ProjectNames
+    {
+        public const string Canonical = "canonical";
+
+        public const string LlvmModels = "llvm.models";
+
+        public const string ClangModels = "clang.models";
+
+        public const string ClangAlgs = "clang.algs";
+
+        public const string McModels = "mc.models";
+
+        public const string McRecoded = "mc.recoded";
+
+        public const string LlvmData = "llvm.data";
+
+    }
+
     public readonly struct LlvmNames
     {
         [LiteralProvider("llvm.datasets")]
@@ -28,24 +47,6 @@ namespace Z0
             public const string OpCodes = "llvm.opcodes";
         }
 
-        [LiteralProvider("llvm.projects")]
-        public readonly struct Projects
-        {
-            public const string Canonical = "canonical";
-
-            public const string LlvmModels = "llvm.models";
-
-            public const string ClangModels = "clang.models";
-
-            public const string ClangAlgs = "clang.algs";
-
-            public const string McModels = "mc.models";
-
-            public const string LlvmData = "llvm.data";
-
-            public static string[] ProjectNames
-                = new string[]{Canonical,LlvmModels,ClangModels,McModels,ClangAlgs};
-        }
 
         [LiteralProvider("llvm.repo")]
         public readonly struct Repo

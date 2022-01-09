@@ -35,7 +35,7 @@ namespace Z0.llvm
 
         public BinaryCode Encoding;
 
-        public TextBlock Asm;
+        public TextBlock Statement;
 
         public FS.FileUri Source;
 
@@ -48,7 +48,7 @@ namespace Z0.llvm
             dst.BlockName = TextBlock.Empty;
             dst.IP = 0;
             dst.Encoding = BinaryCode.Empty;
-            dst.Asm = EmptyString;
+            dst.Statement = EmptyString;
             dst.Source = FS.FilePath.Empty;
             return dst;
         }
@@ -67,11 +67,11 @@ namespace Z0.llvm
 
         public bool IsBlockStart
         {
-            get => text.contains(Asm.Format(), BlockStartMarker);
+            get => text.contains(Statement.Format(), BlockStartMarker);
         }
 
         AsmExpr IAsmStatementEncoding.Asm
-            => Asm.Text;
+            => Statement.Text;
 
         AsmHexCode IAsmStatementEncoding.Encoding
             => Encoding;
