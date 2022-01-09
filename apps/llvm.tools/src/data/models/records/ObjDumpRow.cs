@@ -17,7 +17,7 @@ namespace Z0.llvm
     {
         public const string TableId = "llvm.objdump";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 10;
 
         public const string BlockStartMarker = "<blockstart>";
 
@@ -37,6 +37,8 @@ namespace Z0.llvm
 
         public TextBlock Statement;
 
+        public AsmInlineComment Comment;
+
         public FS.FileUri Source;
 
         public static ObjDumpRow Empty()
@@ -50,6 +52,7 @@ namespace Z0.llvm
             dst.Encoding = BinaryCode.Empty;
             dst.Statement = EmptyString;
             dst.Source = FS.FilePath.Empty;
+            dst.Comment = AsmInlineComment.Empty;
             return dst;
         }
 
@@ -80,6 +83,6 @@ namespace Z0.llvm
             => IP;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,12,12,16,40,16,42,90,1};
+            => new byte[FieldCount]{8,12,12,16,52,12,42,90,90,1};
     }
 }

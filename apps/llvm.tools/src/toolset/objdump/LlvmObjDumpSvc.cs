@@ -110,7 +110,14 @@ namespace Z0.llvm
                         if(y > 0)
                         {
                             DataParser.parse(text.trim(text.left(asm, y)), out Row.Encoding);
-                            Row.Statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
+                            var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
+                            Row.Statement = statement;
+                            if(AsmParser.comment(statement, out Row.Comment))
+                            {
+                                var m = text.index(statement, Chars.Hash);
+                                if(m>0)
+                                    Row.Statement = text.left(statement, m);
+                            }
                         }
                         Buffer.Add(Row);
                         Row = ObjDumpRow.Empty();
@@ -249,6 +256,7 @@ namespace Z0.llvm
                 DataParser.parse(data[j++], out dst.IP);
                 DataParser.parse(data[j++], out dst.Encoding);
                 DataParser.parse(data[j++], out dst.Statement);
+                AsmParser.comment(data[j++].View, out dst.Comment);
                 DataParser.parse(data[j++], out dst.Source);
             }
 

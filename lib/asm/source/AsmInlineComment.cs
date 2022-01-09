@@ -23,7 +23,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => string.Format("{0} {1}", (char)Marker, Content);
+            => text.empty(Content) ? EmptyString : string.Format("{0} {1}", (char)Marker, Content);
 
         public override string ToString()
             => Format();
