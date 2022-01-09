@@ -11,12 +11,12 @@ namespace Z0.Asm
 
     public readonly struct AsmLabel
     {
-        public TextBlock Name {get;}
+        public Identifier Name {get;}
 
         [MethodImpl(Inline)]
-        public AsmLabel(TextBlock name)
+        public AsmLabel(Identifier name)
         {
-            Name = name;
+            Name = text.remove(name.Text,Chars.Colon);
         }
 
         public AsmLinePart TokenKind
@@ -25,10 +25,28 @@ namespace Z0.Asm
             get => AsmLinePart.Label;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Name.IsNonEmpty;
+        }
+
         public string Format()
             => string.Format("{0}:", Name);
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmLabel(string src)
+            => new AsmLabel(src);
+
+        public static AsmLabel Empty => new AsmLabel(EmptyString);
     }
 }

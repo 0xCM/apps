@@ -75,52 +75,6 @@ namespace Z0.llvm
             return result;
         }
 
-        static Outcome parse(string src, out ObjDumpRow dst)
-        {
-            Index<string> data = text.trim(text.split(src,Chars.Pipe));
-            var count = data.Length;
-            dst = default;
-            if(count != ObjDumpRow.FieldCount)
-                return (false,Tables.FieldCountMismatch.Format(count, ObjDumpRow.FieldCount));
-
-            var j=0;
-            var result = Outcome.Success;
-            result = DataParser.parse(data[j++], out dst.Seq);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.Line);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.Section);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.BlockAddress);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.BlockName);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.IP);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.Encoding);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.Asm);
-            if(result.Fail)
-                return result;
-
-            result = DataParser.parse(data[j++], out dst.Source);
-            return result;
-        }
-
         public Index<AsmCode> ExtractAsmCode(FS.FilePath src)
         {
             var rows = LoadConsolidated(src);
@@ -160,33 +114,33 @@ namespace Z0.llvm
             return buffer;
         }
 
-        public FS.FilePath EmitConsolidatedAsmCode()
-        {
-            var project = Project();
-            var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
-            var rows = LoadConsolidated(src).View;
-            var dst = src.ChangeExtension(FS.Asm);
-            EmitAsmCode(rows,dst);
-            return dst;
-        }
+        // public FS.FilePath EmitConsolidatedAsmCode()
+        // {
+        //     var project = Project();
+        //     var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
+        //     var rows = LoadConsolidated(src).View;
+        //     var dst = src.ChangeExtension(FS.Asm);
+        //     EmitAsmCode(rows,dst);
+        //     return dst;
+        // }
 
-        void EmitAsmCode(ReadOnlySpan<ObjDumpRow> rows, FS.FilePath dst)
-        {
-            var emitting = EmittingFile(dst);
-            var count = rows.Length;
-            var buffer = alloc<IAsmStatementEncoding>(count);
-            for(var i=0; i<count; i++)
-                seek(buffer,i) = skip(rows,i);
+        // void EmitAsmCode(ReadOnlySpan<ObjDumpRow> rows, FS.FilePath dst)
+        // {
+        //     var emitting = EmittingFile(dst);
+        //     var count = rows.Length;
+        //     var buffer = alloc<IAsmStatementEncoding>(count);
+        //     for(var i=0; i<count; i++)
+        //         seek(buffer,i) = skip(rows,i);
 
-            using var writer = dst.AsciWriter();
-            using var allocation = AsmCodeAllocation.create(buffer);
-            var allocated = allocation.Allocated;
-            count = allocated.Length;
-            for(var i=0; i<count; i++)
-                writer.WriteLine(allocation[i].ToAsmString());
+        //     using var writer = dst.AsciWriter();
+        //     using var allocation = AsmCodeAllocation.create(buffer);
+        //     var allocated = allocation.Allocated;
+        //     count = allocated.Length;
+        //     for(var i=0; i<count; i++)
+        //         writer.WriteLine(allocation[i].ToAsmString());
 
-            EmittedFile(emitting, count);
-        }
+        //     EmittedFile(emitting, count);
+        // }
 
         public Outcome Consolidate(IProjectWs project)
         {
@@ -203,7 +157,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                result = ParseDump(path, out var rows);
+                result = ParseDumpSource(path, out var rows);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -213,7 +167,7 @@ namespace Z0.llvm
                 var counter = 0u;
                 for(var j=0; j<rows.Length; j++)
                 {
-                    ref var row = ref seek(rows,j);
+                    ref var row = ref rows[j];
                     if(row.IsBlockStart)
                         continue;
 
@@ -224,11 +178,10 @@ namespace Z0.llvm
                 total += counter;
             }
             EmittedTable(flow, total);
-            EmitAsmCode(emitted.ViewDeposited(), dst.ChangeExtension(FS.Asm));
             return result;
         }
 
-        public Outcome ParseDump(FS.FilePath src, out Span<ObjDumpRow> dst)
+        public Outcome ParseDumpSource(FS.FilePath src, out Index<ObjDumpRow> dst)
         {
             dst = default;
             var result = Outcome.Success;

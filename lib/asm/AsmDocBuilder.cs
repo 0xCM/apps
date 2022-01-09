@@ -26,7 +26,7 @@ namespace Z0.Asm
             => new AsmOffsetLabel(width, value);
 
         [MethodImpl(Inline), Op]
-        public static AsmLabel label(TextBlock name)
+        public static AsmLabel label(Identifier name)
             => new AsmLabel(name);
 
         [MethodImpl(Inline), Op]
@@ -73,7 +73,7 @@ namespace Z0.Asm
             return this;
         }
 
-        public AsmDocBuilder WithBlockLabel(TextBlock name)
+        public AsmDocBuilder WithBlockLabel(Identifier name)
         {
             Parts.Add(label(name));
             return this;

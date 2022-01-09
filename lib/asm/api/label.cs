@@ -16,7 +16,7 @@ namespace Z0.Asm
             => AsmDocBuilder.label(width,value);
 
         [MethodImpl(Inline), Op]
-        public static AsmLabel label(TextBlock name)
+        public static AsmLabel label(Identifier name)
             => AsmDocBuilder.label(name);
     }
 }

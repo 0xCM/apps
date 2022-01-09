@@ -14,5 +14,9 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmBlockLabel blocklabel(MemoryAddress address)
             => new AsmBlockLabel(string.Format("_{0}", address));
+
+        // [MethodImpl(Inline), Op]
+        // public static AsmBlockLabel blocklabel(Identifier name)
+        //     => new AsmBlockLabel(name);
     }
 }

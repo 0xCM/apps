@@ -7,10 +7,16 @@ namespace Z0
     using static Root;
     using static core;
 
+    using Asm;
+    using llvm;
+
     public static partial class XTend
     {
         public static string SrcId(this FS.FilePath src, params WfFileKind[] kinds)
             => src.FileName.SrcId(kinds);
+
+        public static string SrcId(this ObjDumpRow row)
+            => FS.path(row.Source.WithoutLine.Format()).SrcId(WfFileKind.ObjAsm);
 
         public static string SrcId(this FS.FileName src, params WfFileKind[] kinds)
         {

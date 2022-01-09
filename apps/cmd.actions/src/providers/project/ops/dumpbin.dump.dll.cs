@@ -5,6 +5,8 @@
 namespace Z0
 {
     using static core;
+    using System.IO;
+    using static Root;
 
     using llvm;
     using Asm;
@@ -15,26 +17,8 @@ namespace Z0
         Outcome DumpDll(CmdArgs args)
             => DumpBin.DumpModules(Project(), FileModuleKind.Dll);
 
-        [CmdOp("llvm/objdump/consolidated")]
-        Outcome ShowObjDump(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var project = Project();
-            var tool = Wf.LlvmObjDump();
-            var src = ProjectDb.TablePath<ObjDumpRow>("projects", project.Name);
-            var rows = tool.LoadConsolidated(src).View;
-            var count = rows.Length;
-            var buffer = alloc<IAsmStatementEncoding>(count);
-            for(var i=0; i<count; i++)
-                seek(buffer,i) = skip(rows,i);
+        LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
 
-            var dst = src.ChangeExtension(FS.Asm);
-            using var writer = dst.AsciWriter();
-            using var allocation = AsmCodeAllocation.create(buffer);
-            var allocated = allocation.Allocated;
-            for(var i=0; i<allocated.Length; i++)
-                writer.WriteLine(allocation[i].ToAsmString());
-            return result;
-        }
-    }
+
+   }
 }

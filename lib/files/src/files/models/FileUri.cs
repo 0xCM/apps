@@ -34,6 +34,32 @@ namespace Z0
             public string MarkdownBullet(string label = null)
                 => string.Format("* {0}", Source.ToUri().FormatMarkdown(label));
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Source.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Source.IsNonEmpty;
+            }
+
+            public FileUri WithoutLine
+            {
+                get
+                {
+                    var src = Source.Format();
+                    var i = text.index(src,Chars.Hash);
+                    if(i > 0)
+                    {
+                        return path(text.left(src,i));
+                    }
+                    else
+                        return this;
+                }
+            }
 
             public override string ToString()
                 => Format();
@@ -44,6 +70,8 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator FileUri(FilePath src)
                 => new FileUri(src);
+
+            public static FileUri Empty => new FileUri(FilePath.Empty);
         }
     }
 }
