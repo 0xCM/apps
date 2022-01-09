@@ -42,7 +42,7 @@ namespace Z0
                 record.DocSeq = counter++;
                 record.Asm = expression;
                 record.Line = line.LineNumber;
-                result = ParseOffset(content, out record.Offset);
+                result = ParseIP(content, out record.Offset);
                 if(result.Fail)
                     return result;
 
@@ -121,6 +121,19 @@ namespace Z0
             }
         }
 
+        public static Outcome ParseIP(string src, out Address32 dst)
+        {
+            var result = Outcome.Failure;
+            var i = text.index(src, XDIS);
+            var j = XDIS.Length;
+            var k = text.index(src, Chars.Colon);
+            var length = k-j;
+            dst = 0;
+            if(j >= 0 && length > 0)
+                result = DataParser.parse(text.slice(src,j,length).Trim(), out dst);
+            return result;
+        }
+
         static ReadOnlySpan<TextLine> SummaryLines(ReadOnlySpan<DisasmLineBlock> src)
         {
             var dst = list<TextLine>();
@@ -154,18 +167,6 @@ namespace Z0
             return dst.ViewDeposited();
         }
 
-        static Outcome ParseOffset(string src, out Address32 dst)
-        {
-            var result = Outcome.Failure;
-            var i = text.index(src, XDIS);
-            var j = XDIS.Length;
-            var k = text.index(src, Chars.Colon);
-            var length = k-j;
-            dst = 0;
-            if(j >= 0 && length > 0)
-                result = DataParser.parse(text.slice(src,j,length).Trim(), out dst);
-            return result;
-        }
 
         static Outcome ParseHexCode(TextLine src, out AsmHexCode dst)
         {

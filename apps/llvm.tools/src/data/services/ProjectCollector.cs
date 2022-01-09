@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static llvm.LlvmNames;
+    using static LlvmNames;
     using static core;
 
     public class ProjectCollector : AppService<ProjectCollector>

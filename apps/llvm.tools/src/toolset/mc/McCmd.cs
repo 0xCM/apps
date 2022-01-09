@@ -7,7 +7,7 @@ namespace Z0.llvm
     using System;
     using System.Runtime.InteropServices;
 
-    [Cmd(LlvmNames.Tools.llvm_mc), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [Cmd(LlvmToolNames.llvm_mc), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct McCmd : IToolCmd<McCmd>
     {
         [CmdFlag("--assemble")]

@@ -11,7 +11,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public sealed class LlvmConfigSvc : ToolService<LlvmConfigSvc>
     {
-        public const string ToolId = LlvmNames.Tools.llvm_config;
+        public const string ToolId = LlvmToolNames.llvm_config;
 
         public LlvmConfigSet CollectSettings()
         {

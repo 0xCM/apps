@@ -23,17 +23,17 @@ namespace Z0
 
         public uint DocSeq;
 
+        public Address32 Offset;
+
         public AsmExpr Asm;
 
         public byte Size;
-
-        public Address32 Offset;
 
         public AsmHexCode Code;
 
         public FS.FileUri Doc;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,84,8,10,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,10,84,8,42,1};
 
         public static AsmDocEncoding Empty => default;
     }

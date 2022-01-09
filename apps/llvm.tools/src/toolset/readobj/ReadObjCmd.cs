@@ -7,7 +7,7 @@ namespace Z0.llvm
     using System;
     using System.Runtime.InteropServices;
 
-    [Cmd(LlvmNames.Tools.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
+    [Cmd(LlvmToolNames.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ReadObjCmd : IToolCmd<ReadObjCmd>
     {
         [CmdArg(0)]

@@ -74,6 +74,9 @@ namespace Z0
         public string FormatMinimal()
             => Location.FormatTrimmedAsmHex();
 
+        public string FormatTrimmed(bool prespec = false, bool postspec = false)
+            => Location.FormatTrimmedHex(prespec, postspec);
+
         public override string ToString()
             => Format();
 

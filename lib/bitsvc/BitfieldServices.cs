@@ -26,7 +26,7 @@ namespace Z0
                     continue;
                 }
                 var name = inpath.FileName.WithoutExtension.Format();
-                var outpath = dst + inpath.FileName.ChangeExtension(FileKind.Bv.Ext());
+                var outpath = dst + inpath.FileName.ChangeExtension(FS.ext("bv"));
                 var emitting = EmittingFile(outpath);
                 var bitfield = Bitfields.bitvector(name, items);
                 using var writer = outpath.AsciWriter();

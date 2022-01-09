@@ -6,8 +6,6 @@ namespace Z0.llvm
 {
     using static core;
     using static Root;
-    using SQ = SymbolicQuery;
-
 
     partial class LlvmCmd
     {
@@ -62,7 +60,7 @@ namespace Z0.llvm
         Outcome ParseHelp(CmdArgs args)
         {
             var result = Outcome.Success;
-            result = Toolset.HelpDoc(LlvmTools.llc, out var doc);
+            result = Toolset.HelpDoc(WfTools.llc, out var doc);
             if(result.Fail)
                 return result;
 

@@ -93,34 +93,6 @@ namespace Z0
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator H(K src)
-            => new H(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator K(H src)
-            => src.Value;
-
-        [MethodImpl(Inline)]
-        public static implicit operator H(int src)
-            => new H((uint)src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Address64(H src)
-            => src.Value;
-
-        [MethodImpl(Inline)]
-        public static implicit operator H(Address64 src)
-            => new H(src.Location);
-
-        [MethodImpl(Inline)]
-        public static implicit operator MemoryAddress(H src)
-            => src.Value;
-
-        [MethodImpl(Inline)]
-        public static explicit operator H(MemoryAddress src)
-            => new H((uint)src.Location);
-
-        [MethodImpl(Inline)]
         public static H operator+(H x, K y)
             => new H((K)(x.Value + y));
 
@@ -147,6 +119,62 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator!=(H x, H y)
             => x.Value != y.Value;
+
+       [MethodImpl(Inline)]
+        public static implicit operator H(K src)
+            => new H(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(H src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator H(int src)
+            => new H((uint)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Address64(H src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator H(Address64 src)
+            => new H(src.Location);
+
+        [MethodImpl(Inline)]
+        public static implicit operator MemoryAddress(H src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator byte(H src)
+            => (byte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator sbyte(H src)
+            => (sbyte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator short(H src)
+            => (short)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(H src)
+            => (ushort)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator int(H src)
+            => (int)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint(H src)
+            => (uint)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator long(H src)
+            => (long)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator H(MemoryAddress src)
+            => new H((uint)src.Location);
 
         public static H Zero => default;
 

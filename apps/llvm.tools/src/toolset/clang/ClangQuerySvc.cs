@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm.clang
+namespace Z0.llvm
 {
     using System;
     using System.IO;
@@ -10,7 +10,7 @@ namespace Z0.llvm.clang
     [Tool(ToolId)]
     public sealed class ClangQuerySvc : ToolService<ClangQuerySvc>
     {
-        public const string ToolId = LlvmNames.Tools.clang_query;
+        public const string ToolId = LlvmToolNames.clang_query;
 
         Interpreter Controller;
 

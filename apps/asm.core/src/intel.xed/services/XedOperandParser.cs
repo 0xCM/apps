@@ -9,7 +9,7 @@ namespace Z0
 
     using static core;
     using static XedModels;
-
+    using Asm;
 
     using K = XedModels.OperandKind;
 
@@ -136,17 +136,37 @@ namespace Z0
         {
             Clear();
             var count = src.Length;
+
+            var dispwidth = 0u;
+            var relbranch = Disp.Empty;
             for(var i=0; i<count; i++)
-                Parse(skip(src,i));
+            {
+                var kind = Parse(skip(src,i));
+                switch(kind)
+                {
+                    case K.BRDISP_WIDTH:
+                    break;
+                    case K.RELBR:
+                    break;
+                }
+
+            }
             dst = State;
+            if(dst.relbr != 0 && dst.brdisp_width != 0)
+            {
+                dst._relbr = asm.disp((long)dst.relbr, dst.disp_width);
+            }
+
         }
 
-        void Parse(in Facet<string> src)
+        K Parse(Facet<string> src)
         {
+            var kind = K.INVALID;
+
             if(Kinds.Lookup(src.Key, out var k))
             {
                 var value = text.trim(src.Value);
-                var kind = k.Kind;
+                kind = k.Kind;
                 var result = Parse(value, kind, ref State);
                 if(result.Fail)
                     _Failures[kind] = value;
@@ -155,6 +175,7 @@ namespace Z0
             }
             else
                 _UnknownFields.Add(src);
+            return kind;
         }
 
         Outcome Parse(string src, OperandKind kind, ref OperandState state)

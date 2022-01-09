@@ -6,11 +6,11 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        [CmdOp("xed/disasm/details")]
-        Outcome EmitDisasmDetails(CmdArgs args)
-        {
-            var project = Project();
-            return XedDisasm.EmitDisasmDetails(project);
-        }
+        // [CmdOp("xed/disasm/details")]
+        // Outcome EmitDisasmDetails(CmdArgs args)
+        // {
+        //     var project = Project();
+        //     return XedDisasm.EmitDisasmDetails(project);
+        // }
     }
 }

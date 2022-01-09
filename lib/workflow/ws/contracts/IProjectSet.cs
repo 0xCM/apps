@@ -36,10 +36,10 @@ namespace Z0
         FS.Files OutFiles(ProjectId project, FS.FileExt ext)
             => Out(project).Files(ext, true);
 
-        FS.Files OutFiles(ProjectId project, FileKind kind)
+        FS.Files OutFiles(ProjectId project, WfFileKind kind)
             => OutFiles(project, FileTypes.ext(kind));
 
-        FS.Files OutFiles(ProjectId project, params FileKind[] kinds)
+        FS.Files OutFiles(ProjectId project, params WfFileKind[] kinds)
             => Out(project).Files(true, kinds.Select(FileTypes.ext));
 
         FS.Files OutFiles(ProjectId project, FS.FolderName subdir)

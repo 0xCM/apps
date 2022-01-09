@@ -14,7 +14,7 @@ namespace Z0.Asm
             var result = Outcome.Success;
             var src = State.Files(FS.Obj, FS.Exe, FS.Lib, FS.Dll).View;
             var count = src.Length;
-            var tool = LlvmNames.Tools.llvm_objdump;
+            var tool = LlvmToolNames.llvm_objdump;
             var outdir = GetToolOut(tool);
             var svc = Wf.LlvmObjDump();
             return svc.DumpObjects(src,outdir, response => Write(response));

@@ -20,9 +20,29 @@ namespace Z0
         public const string asm = nameof(asm);
 
         /// <summary>
+        /// Defines the 'syn.asm' literal
+        /// </summary>
+        public const string asmsyn = syn + sep + asm;
+
+        /// <summary>
+        /// Defines the 'syn.asm.log' literal
+        /// </summary>
+        public const string asmsynlog = syn + sep + asm + sep + log;
+
+        /// <summary>
         /// Defines the 'bat' literal
         /// </summary>
         public const string bat = nameof(bat);
+
+        /// <summary>
+        /// Defines the 'bits' literal
+        /// </summary>
+        public const string bits = nameof(bits);
+
+        /// <summary>
+        /// Defines the 'bc' literal
+        /// </summary>
+        public const string bc = nameof(bc);
 
         /// <summary>
         /// Defines the 'bin' literal
@@ -215,11 +235,6 @@ namespace Z0
         public const string syn = nameof(syn);
 
         /// <summary>
-        /// Defines the 'syn.asm' literal
-        /// </summary>
-        public const string asmsyn = syn + sep + asm;
-
-        /// <summary>
         /// Defines the 'encoding' literal
         /// </summary>
         public const string encoding = nameof(encoding);
@@ -228,11 +243,6 @@ namespace Z0
         /// Defines the 'encoding.asm' literal
         /// </summary>
         public const string encodingasm = encoding + sep + asm;
-
-        /// <summary>
-        /// Defines the 'syn.asm.log' literal
-        /// </summary>
-        public const string asmsynlog = syn + sep + asm + sep + log;
 
         /// <summary>
         /// Defines the 'mlir' literal
@@ -268,6 +278,11 @@ namespace Z0
         /// Defines the 'o' literal
         /// </summary>
         public const string o = nameof(o);
+
+        /// <summary>
+        /// Defines the 'obi' literal
+        /// </summary>
+        public const string obi = nameof(obj);
 
         /// <summary>
         /// Defines the 'obj' literal
@@ -360,16 +375,6 @@ namespace Z0
         public const string txt = nameof(txt);
 
         /// <summary>
-        /// Defines the 'xpack' literal
-        /// </summary>
-        public const string xpack = nameof(xpack);
-
-        /// <summary>
-        /// Defines the 'xarray' literal
-        /// </summary>
-        public const string xarray = nameof(xarray);
-
-        /// <summary>
         /// Defines the 'xml' literal
         /// </summary>
         public const string xml = nameof(xml);
@@ -424,13 +429,13 @@ namespace Z0
         public const string td = nameof(td);
 
         /// <summary>
-        /// Defines the 'bits' literal
+        /// Defines the 'xpack' literal
         /// </summary>
-        public const string bits = nameof(bits);
+        public const string xpack = nameof(xpack);
 
         /// <summary>
-        /// Defines the 'bc' literal
+        /// Defines the 'xarray' literal
         /// </summary>
-        public const string bc = nameof(bc);
+        public const string xarray = nameof(xarray);
     }
 }

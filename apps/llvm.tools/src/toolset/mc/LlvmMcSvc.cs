@@ -14,7 +14,7 @@ namespace Z0.llvm
     [Tool(ToolId)]
     public partial class LlvmMcSvc : ToolService<LlvmMcSvc>
     {
-        public const string ToolId = LlvmNames.Tools.llvm_mc;
+        public const string ToolId = LlvmToolNames.llvm_mc;
 
         ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
 
@@ -116,7 +116,7 @@ namespace Z0.llvm
 
         public ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs project)
         {
-            var logs = project.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
+            var logs = project.OutFiles(FileTypes.ext(WfFileKind.AsmSyntaxLog)).View;
             var dst = SyntaxTable(project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
@@ -330,9 +330,9 @@ namespace Z0.llvm
             => ProjectDb.ProjectTable<AsmDocInstruction>(project);
 
         FS.Files EncodingSourcePaths(IProjectWs project)
-            => project.OutFiles(FS.ext("encoding.asm"));
+            => project.OutFiles(WfFileKind.EncodingAsm);
 
         FS.Files SyntaxSourcePaths(IProjectWs project)
-            => project.OutFiles(FileKind.AsmSyntax);
+            => project.OutFiles(WfFileKind.AsmSyntax);
     }
 }

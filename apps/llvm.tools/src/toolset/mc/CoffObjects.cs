@@ -15,14 +15,14 @@ namespace Z0
         public Outcome CollectObjHex(IProjectWs project)
         {
             var result = Outcome.Success;
-            var paths = project.OutFiles(FileKind.Obj, FileKind.O).View;
+            var paths = project.OutFiles(WfFileKind.Obj, WfFileKind.O).View;
             var count = paths.Length;
             for(var i=0; i<count; i++)
             {
                 ref readonly var src = ref skip(paths,i);
                 var scope = string.Format("{0}.{1}", project.Name, "objhex");
                 var id = src.FileName.WithoutExtension.Format();
-                var dst = ProjectDb.ProjectDataFile(project, scope, id, FileKind.HexDat.Ext());
+                var dst = ProjectDb.ProjectDataFile(project, scope, id, WfFileKind.HexDat.Ext());
                 var running = Running(string.Format("Emitting {0}", dst));
                 using var writer = dst.AsciWriter();
                 var data = src.ReadBytes();

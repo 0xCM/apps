@@ -13,26 +13,26 @@ namespace Z0
             where K : unmanaged
                 => new FileType<K>(kind, ext);
 
-        public static FS.FileExt ext(FileKind src)
+        public static FS.FileExt ext(WfFileKind src)
             => FS.ext(format(src));
 
-        public static string name(FileKind src)
-            => Symbols.index<FileKind>()[src].Name.ToLower();
+        public static string name(WfFileKind src)
+            => Symbols.index<WfFileKind>()[src].Name.ToLower();
 
         [Op]
-        public static string format(FileKind src)
-            => Symbols.index<FileKind>()[src].Expr.Format();
+        public static string format(WfFileKind src)
+            => Symbols.index<WfFileKind>()[src].Expr.Format();
     }
 
     partial class XTend
     {
-        public static FS.FileExt Ext(this FileKind src)
+        public static FS.FileExt Ext(this WfFileKind src)
             => FileTypes.ext(src);
 
-        public static FileType<FileKind> FileType(this FileKind src)
+        public static FileType<WfFileKind> FileType(this WfFileKind src)
             => FileTypes.define(src, FileTypes.ext(src));
 
-        public static string Name(this FileKind src)
+        public static string Name(this WfFileKind src)
             => FileTypes.name(src);
     }
 }

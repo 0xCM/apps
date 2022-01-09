@@ -92,7 +92,7 @@ namespace Z0
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);
 
-        FS.Files OutFiles(params FileKind[] kinds)
+        FS.Files OutFiles(params WfFileKind[] kinds)
             => Out().Files(true, kinds.Select(FileTypes.ext));
 
         FS.Files OutFiles(FS.FolderName subdir)
@@ -119,7 +119,7 @@ namespace Z0
         FS.Files SrcFiles(string scope)
             => (Src() + FS.folder(scope)).AllFiles;
 
-        FS.FilePath SrcFile(string scope, string fileid, FileKind kind)
+        FS.FilePath SrcFile(string scope, string fileid, WfFileKind kind)
             => Src() + FS.folder(scope) + FS.file(fileid, kind.Ext());
 
         FS.FolderPath Assets()

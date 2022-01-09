@@ -57,7 +57,6 @@ namespace Z0.Asm
 
                 C.VexC5 => L.VEX,
                 _ => L.None,
-
             };
 
         public static AsmPrefixClass @class(AsmPrefixKind src)

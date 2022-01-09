@@ -33,7 +33,7 @@ namespace Z0
                 var block = blocks[path];
                 var encoding = encodings[path];
                 var dst = XedPaths.DisasmDetailTarget(project, path.FileName);
-                result = EmitDisasmDetails(path,encoding.Encoded, block.LineBlocks, dst);
+                result = EmitDisasmDetails(path, encoding.Encoded, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
             }
@@ -65,12 +65,13 @@ namespace Z0
                 ref readonly var inst = ref instructions[i];
                 ref readonly var block = ref skip(blocks,i);
                 ref readonly var code = ref encoding.Encoding;
-
+                ref readonly var IP = ref encoding.Offset;
                 parser.ParseState(inst.Props.Edit, out var state);
                 iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));
                 iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
 
                 writer.WriteLine(RP.PageBreak120);
+                writer.WriteLine(string.Format(RenderPattern, "IP", IP.FormatMinimal()));
                 writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
                 writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
                 writer.WriteLine(string.Format(RenderPattern, "IClass", inst.Class));
@@ -119,21 +120,29 @@ namespace Z0
                     var opvalfmt = EmptyString;
                     if(ops.TryGetValue(opname, out opval))
                     {
+                        opvalfmt = opval.Format();
                         if(opname == RuleOpName.RELBR)
                         {
                             var w = state.brdisp_width;
                             var val = (Hex64)opval.Value;
+                            opvalfmt = val.Format();
                             if(w <= 8)
+                            {
                                 opvalfmt = ((byte)val).FormatHex();
+                            }
                             else if(w <= 16)
+                            {
                                 opvalfmt = ((ushort)val).FormatHex();
+                            }
                             else if(w <= 32)
+                            {
                                 opvalfmt = ((uint)val).FormatHex();
+                            }
                             else
+                            {
                                 opvalfmt = val.Format();
+                            }
                         }
-                        else
-                            opvalfmt = opval.Format();
                     }
 
 
