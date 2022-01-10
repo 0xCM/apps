@@ -2,15 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    using Asm;
-
+    /// <summary>
+    /// Represents an asm source document
+    /// </summary>
     public class AsmDocument
     {
         public FS.FilePath Path {get;}
@@ -23,9 +24,9 @@ namespace Z0.llvm
 
         Index<AsmSourceLine> _SourceLines;
 
-        Index<MCInstRef> _Instructions;
+        Index<DocInstRef> _Instructions;
 
-        public AsmDocument(FS.FilePath path, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, MCInstRef[] inst)
+        public AsmDocument(FS.FilePath path, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, DocInstRef[] inst)
         {
             Path = path;
             _Directives = d;
@@ -59,7 +60,7 @@ namespace Z0.llvm
             get => _SourceLines.View;
         }
 
-        public ReadOnlySpan<MCInstRef> Instructions
+        public ReadOnlySpan<DocInstRef> Instructions
         {
             [MethodImpl(Inline)]
             get => _Instructions.View;

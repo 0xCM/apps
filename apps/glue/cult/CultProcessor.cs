@@ -137,14 +137,14 @@ namespace Z0.Tools
         void Process(ReadOnlySpan<CultRecord> src)
         {
             var count = src.Length;
-
             for(var i=0; i<count; i++)
             {
                 ref readonly var record = ref skip(src,i);
+
                 if(record.RecordKind == CultRecordKind.Statement)
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, EmptyString, AsmExpr.parse(record.Statement), AsmDocBuilder.comment(record.Comment)));
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.AsmSource, EmptyString, AsmExpr.parse(record.Statement), AsmDocBuilder.comment(record.Comment)));
                 else if(record.RecordKind == CultRecordKind.Label)
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, record.Label.Format(), EmptyString, AsmDocBuilder.comment(record.Comment)));
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.Label, record.Label.Format(), EmptyString, AsmDocBuilder.comment(record.Comment)));
                 else if(record.RecordKind == CultRecordKind.Summary)
                 {
                     var summary = Summarize(record);

@@ -13,24 +13,10 @@ namespace Z0.llvm
     using static Root;
     using static core;
 
-    using SQ = SymbolicQuery;
-    using C = LlvmMcSvc.LineClass;
+    using C = Asm.AsmLineClass;
 
     partial class LlvmMcSvc
     {
-        internal enum LineClass : byte
-        {
-            None,
-
-            Empty,
-
-            Directive,
-
-            Label,
-
-            AsmSource
-        }
-
         public class LlvmMcParser : Service<LlvmMcParser>
         {
             public static AsmDocument asmdoc(FS.FilePath src)
@@ -53,7 +39,7 @@ namespace Z0.llvm
 
             List<AsmSourceLine> SourceLines;
 
-            List<MCInstRef> Instructions;
+            List<DocInstRef> Instructions;
 
             const string InstructionMarker = "<MCInst #";
 
@@ -127,7 +113,7 @@ namespace Z0.llvm
 
             void Parse(in TextLine src)
             {
-                var @class = Classify(src);
+                var @class = AsmLine.classify(src.Content);
                 var content = src.Content.Replace(Chars.Tab, Chars.Space).Trim();
                 switch(@class)
                 {
@@ -136,7 +122,7 @@ namespace Z0.llvm
                         {
                             BlockLabels.Add(label);
                             BlockOffsets.Add(src.LineNumber);
-                            SourceLines.Add(new AsmSourceLine(src.LineNumber, label, EmptyString));
+                            SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, label, EmptyString));
                         }
                     break;
 
@@ -155,7 +141,6 @@ namespace Z0.llvm
                                 statement = RP.Spaced4 + statement;
 
                             var comment = ilc.Content;
-
                             if(comment.Contains(InstructionMarker))
                             {
                                 var number = DigitBuffer();
@@ -164,54 +149,30 @@ namespace Z0.llvm
                                 var inst = text.remove(text.slice(comment,i), Chars.Gt);
                                 var j = text.whitespace(inst);
                                 if(j != NotFound)
-                                    Instructions.Add(new MCInstRef(DocSeq, src.LineNumber, text.right(inst,j)));
+                                    Instructions.Add(new DocInstRef(DocSeq, src.LineNumber, text.right(inst,j)));
                                 else
-                                    Instructions.Add(new MCInstRef(DocSeq, src.LineNumber, inst));
+                                    Instructions.Add(new DocInstRef(DocSeq, src.LineNumber, inst));
                                 DocSeq++;
                             }
 
                             if(comment.Contains("encoding: "))
                             {
-                                SourceLines.Add(new AsmSourceLine(src.LineNumber, EmptyString, statement));
-                                SourceLines.Add(new AsmSourceLine(src.LineNumber, EmptyString, "#" + RP.Spaced2 + comment));
+                                SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, EmptyString, statement));
+                                SourceLines.Add(new AsmSourceLine(src.LineNumber, @class,EmptyString, "#" + RP.Spaced2 + comment));
                             }
                             else if(comment.Contains(InstructionMarker) && statement.Length != 0)
                             {
-                                SourceLines.Add(new AsmSourceLine(src.LineNumber, EmptyString, statement));
-                                SourceLines.Add(new AsmSourceLine(src.LineNumber, EmptyString, "#" + RP.Spaced2 + comment));
+                                SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, EmptyString, statement));
+                                SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, EmptyString, "#" + RP.Spaced2 + comment));
                             }
                             else
-                                SourceLines.Add(new AsmSourceLine(src.LineNumber, EmptyString, statement, comment));
+                                SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, EmptyString, statement, comment));
                         }
                         else
-                            SourceLines.Add(new AsmSourceLine(src.LineNumber, EmptyString, RP.Spaced4 + content));
+                            SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, EmptyString, RP.Spaced4 + content));
                     break;
                 }
             }
-
-            static LineClass Classify(in TextLine src)
-            {
-                var content = src.Content.Trim();
-
-                if(text.empty(content))
-                    return C.Empty;
-
-                if(IsLabel(content))
-                    return C.Label;
-
-                if(IsDirective(content))
-                    return C.Directive;
-
-                return C.AsmSource;
-            }
-
-            [MethodImpl(Inline)]
-            static bool IsLabel(string src)
-                => SQ.xedni(src, Chars.Colon) == src.Length - 1;
-
-            [MethodImpl(Inline)]
-            static bool IsDirective(string src)
-                => SQ.index(src, Chars.Dot) == 0;
         }
     }
 }

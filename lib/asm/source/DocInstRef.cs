@@ -1,8 +1,8 @@
-//-----------------------------------------------------------------------------------------//
-// Source : LLVM - https://github.com/llvm/llvm-project/
-// License: Apache-2.0 WITH LLVM-exception
-//-----------------------------------------------------------------------------------------//
-namespace Z0.llvm
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0.Asm
 {
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
@@ -10,7 +10,7 @@ namespace Z0.llvm
     using static Root;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct MCInstRef
+    public struct DocInstRef
     {
         public uint Seq;
 
@@ -19,7 +19,7 @@ namespace Z0.llvm
         public text31 Name;
 
         [MethodImpl(Inline)]
-        public MCInstRef(uint seq, LineNumber line, string name)
+        public DocInstRef(uint seq, LineNumber line, string name)
         {
             Seq = seq;
             Line = line;

@@ -31,15 +31,9 @@ namespace Z0
 
     }
 
-    public static partial class XSvc
-    {
-
-    }
-
     partial struct Msg
     {
         const NumericKind Closure = Root.UnsignedInts;
-
 
         [MethodImpl(Inline), Op, Closures(UnsignedInts)]
         public static RenderPattern<T,ClosedInterval<T>> NotIn<T>()

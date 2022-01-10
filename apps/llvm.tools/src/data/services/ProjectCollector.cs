@@ -19,12 +19,8 @@ namespace Z0
 
         public void Collect(IProjectWs project)
         {
-            var result = ObjDump.Consolidate(project);
-            if(result)
-            {
-
-            }
-
+            ObjDump.Consolidate(project);
+            ObjDump.Recode(project);
             Nm.Collect(project);
             Coff.CollectObjHex(project);
             Mc.Collect(project);

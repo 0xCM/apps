@@ -18,6 +18,8 @@ namespace Z0.llvm
 
         ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
 
+        AsmSourceDocs AsmDocs => Service(Wf.AsmSourceDocs);
+
         BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
 
         public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, bool runexe = false)
@@ -31,10 +33,10 @@ namespace Z0.llvm
 
         public void Collect(IProjectWs ws)
         {
-            var logs = CollectSyntaxLogs(ws);
-            var encodings = CollectEncodings(ws);
-            var trees = CollectSyntaxTrees(ws);
-            var instructions = CollectInstructions(ws);
+            CollectSyntaxLogs(ws);
+            CollectEncodings(ws);
+            CollectSyntaxTrees(ws);
+            CollectInstructions(ws);
         }
 
         public Index<AsmDocument> SyntaxSourceDocs(IProjectWs project)
@@ -43,14 +45,13 @@ namespace Z0.llvm
             var count = src.Length;
             var dst = list<AsmDocument>();
             for(var i=0; i<count; i++)
-                dst.Add(LlvmMcParser.asmdoc(skip(src,i)));
+                dst.Add(AsmDocs.ParseAsmDoc(skip(src,i)));
             return dst.Array();
         }
 
         public Index<AsmDocInstruction> CollectInstructions(IProjectWs project)
         {
             var result = Outcome.Success;
-
             var docs = SyntaxSourceDocs(project);
             var buffer = list<AsmDocInstruction>();
             var counter = 0u;
@@ -64,14 +65,12 @@ namespace Z0.llvm
                 {
                     ref readonly var instruction = ref skip(inst,i);
                     var expr = lines[instruction.Line];
-                    var loc = path.LineRef(instruction.Line);
-
                     var record = new AsmDocInstruction();
                     record.Seq = counter++;
                     record.DocSeq = instruction.Seq;
                     record.Instruction = instruction.Name;
                     record.Statement = expr;
-                    record.Doc = loc;
+                    record.Doc = path.LineRef(instruction.Line);
                     buffer.Add(record);
                 }
             }
@@ -81,10 +80,11 @@ namespace Z0.llvm
             return records;
         }
 
-        public ConstLookup<FS.FileUri,AsmEncodingDoc> CollectEncodings(IProjectWs project)
+        public ConstLookup<FS.FilePath,AsmEncodingDoc> CollectEncodings(IProjectWs project)
         {
             var result = Outcome.Success;
             var docs = DeriveEncodings(project);
+            var paths = docs.Keys.ToArray().Sort();
             var dst = ProjectDb.ProjectTable<AsmDocEncoding>(project);
             var counter=0u;
             var record = AsmDocEncoding.Empty;
@@ -92,8 +92,9 @@ namespace Z0.llvm
             var emitting = EmittingTable<AsmDocEncoding>(dst);
             using var writer = dst.Utf8Writer();
             writer.WriteLine(formatter.FormatHeader());
-            foreach(var doc in docs.Values)
+            foreach(var path in paths)
             {
+                var doc = docs[path];
                 var encoded = doc.Statements;
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
@@ -114,14 +115,14 @@ namespace Z0.llvm
             return docs;
         }
 
-        public ConstLookup<FS.FileUri,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs project)
+        public ConstLookup<FS.FilePath,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs project)
         {
             var logs = project.OutFiles(FileTypes.ext(WfFileKind.AsmSyntaxLog)).View;
             var dst = SyntaxTable(project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var tmp = list<AsmSyntaxRow>();
-            var docs = lookup<FS.FileUri,AsmSyntaxDoc>();
+            var docs = lookup<FS.FilePath,AsmSyntaxDoc>();
             for(var i=0; i<count; i++)
             {
                 tmp.Clear();
@@ -135,28 +136,25 @@ namespace Z0.llvm
             return docs.Seal();
         }
 
-        public ConstLookup<FS.FileUri,AsmDocument> CollectSyntaxTrees(IProjectWs project)
+        public ConstLookup<FS.FilePath,AsmDocument> CollectSyntaxTrees(IProjectWs project)
         {
             var result = Outcome.Success;
             var src = SyntaxSourcePaths(project).View;
             var count = src.Length;
             var dst = ProjectDb.ProjectDataFile(project, "asm.syntax.tree", FS.Asm);
-            var docs = lookup<FS.FileUri,AsmDocument>();
+            var docs = lookup<FS.FilePath,AsmDocument>();
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var doc = LlvmMcParser.asmdoc(path);
+                var doc = AsmDocs.ParseAsmDoc(path);
 
                 docs.Include(path,doc);
 
                 var lines = doc.SourceLines;
                 writer.WriteLine(string.Format("# Source: {0}", path.ToUri()));
                 for(var j=0; j<lines.Length; j++)
-                {
-                    ref readonly var line = ref skip(lines,j);
-                    writer.WriteLine(line);
-                }
+                    writer.WriteLine(skip(lines,j));
             }
 
             return docs.Seal();
@@ -243,11 +241,11 @@ namespace Z0.llvm
             }
         }
 
-        ConstLookup<FS.FileUri,AsmEncodingDoc> DeriveEncodings(IProjectWs project)
+        ConstLookup<FS.FilePath,AsmEncodingDoc> DeriveEncodings(IProjectWs project)
         {
             var src = EncodingSourcePaths(project).View;
             var count = src.Length;
-            var dst = lookup<FS.FileUri,AsmEncodingDoc>();
+            var dst = lookup<FS.FilePath,AsmEncodingDoc>();
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
@@ -264,7 +262,7 @@ namespace Z0.llvm
                 for(var j=0; j<scount; j++)
                     seek(statements,j).Seq = counter++;
 
-                dst.Include(doc.Source, doc);
+                dst.Include(FS.path(doc.Source.WithoutLine.Format()), doc);
             }
 
             return dst.Seal();
