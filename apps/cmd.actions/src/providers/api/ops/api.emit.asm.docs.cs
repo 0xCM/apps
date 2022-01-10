@@ -28,7 +28,7 @@ namespace Z0
             var bits = RexPrefix.Range();
             using var writer = dst.AsciWriter();
             var buffer = text.buffer();
-            var count = AsmPrefix.RexTable(buffer);
+            var count = RexPrefix.table(buffer);
             writer.Write(buffer.Emit());
             EmittedFile(emitting,count);
         }

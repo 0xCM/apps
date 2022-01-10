@@ -47,10 +47,6 @@ namespace Z0
             => Svc.NasmCatalog.create(wf);
 
         [Op]
-        public static AsmEtl AsmEtl(this IWfRuntime context)
-            => Svc.AsmEtl.create(context);
-
-        [Op]
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
             => Svc.StanfordAsmCatalog.create(wf);
 

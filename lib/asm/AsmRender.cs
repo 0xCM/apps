@@ -31,6 +31,24 @@ namespace Z0.Asm
 
         const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
 
+        public static string format(AsmRegMask src)
+        {
+            var dst = EmptyString;
+            if(src.MaskKind == AsmRegMaskKind.Merge)
+                dst = string.Format("{{0}}", src.Reg);
+            else if(src.MaskKind == AsmRegMaskKind.Zero)
+                dst = string.Format("{{0}}{{1}}", src.Reg, Chars.z);
+            return dst;
+        }
+
+        [Op]
+        public static string thumbprint(in AsmEncodingInfo src)
+        {
+            var bits = src.Encoded.ToBitString();
+            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
+            return string.Format("{0} => {1}", statement, bits);
+        }
+
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
             => AsmDocBuilder.comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));

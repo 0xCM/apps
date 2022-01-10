@@ -32,10 +32,6 @@ namespace Z0.Asm
             get => int64(Source.Value);
         }
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
         public string Format()
             => AsmRender.format(this);
 
@@ -80,6 +76,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(Disp<T> src)
-            => src.Untyped();
+            => new AsmOperand(src);
     }
 }

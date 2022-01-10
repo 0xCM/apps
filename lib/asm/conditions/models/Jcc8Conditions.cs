@@ -14,9 +14,9 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.conditions.jcc8")]
     public struct Jcc8Conditions : IConditional
     {
-        public JccInfo<Jcc8> Primary;
+        public JccInfo<Jcc8Code> Primary;
 
-        public JccInfo<Jcc8Alt> Alt;
+        public JccInfo<Jcc8AltCode> Alt;
 
         public CharBlock64 PrimaryInfo;
 

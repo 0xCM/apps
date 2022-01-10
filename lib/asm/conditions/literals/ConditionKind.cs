@@ -4,24 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    partial struct ConditionCodes
+    [SymSource("asm.cc")]
+    public enum JccKind : byte
     {
-        [SymSource(tokens)]
-        public enum ConditionKind : byte
-        {
-            None,
+        None,
 
-            Code,
+        Jcc8,
 
-            CodeAlt,
+        Jcc8Alt,
 
-            Jcc8,
+        Jcc16,
 
-            Jcc8Alt,
+        Jcc16Alt,
 
-            Jcc32,
+        Jcc32,
 
-            Jcc32Alt,
-        }
+        Jcc32Alt,
     }
 }

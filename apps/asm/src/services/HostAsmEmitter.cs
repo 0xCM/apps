@@ -16,6 +16,8 @@ namespace Z0.Asm
     {
         AsmDecoder Decoder => Service(Wf.AsmDecoder);
 
+        AsmEtl AsmEtl => Service(Wf.AsmEtl);
+
         public AsmHostRoutines EmitHostRoutines(ApiHostUri host, ReadOnlySpan<ApiMemberCode> src)
             => EmitHostRoutines(host,src, Db.AsmCapturePath(host));
 
@@ -171,7 +173,8 @@ namespace Z0.Asm
                 counter++;
             }
 
-            AsmEtl.emit(thumbprints.ToArray().ToSortedSpan(), ThumbprintPath(root));
+            AsmEtl.EmitThumbprints(thumbprints.ToArray(), ThumbprintPath(root));
+            //AsmEtl.emit(thumbprints.ToArray().ToSortedSpan(), ThumbprintPath(root));
             tableWriter.Dispose();
             EmittedTable(tableFlow, counter);
 

@@ -145,7 +145,7 @@ namespace Z0.Asm.Operands
 
     public readonly struct k3 : IRegOp64<k3>
     {
-        public I Index => I.r2;
+        public I Index => I.r3;
 
         [MethodImpl(Inline)]
         public static implicit operator G(k3 src)
@@ -153,6 +153,58 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator K(k3 src)
+            => (K)src.Index;
+    }
+
+    public readonly struct k4 : IRegOp64<k4>
+    {
+        public I Index => I.r4;
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(k4 src)
+            => new G(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(k4 src)
+            => (K)src.Index;
+    }
+
+    public readonly struct k5 : IRegOp64<k5>
+    {
+        public I Index => I.r5;
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(k5 src)
+            => new G(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(k5 src)
+            => (K)src.Index;
+    }
+
+    public readonly struct k6 : IRegOp64<k6>
+    {
+        public I Index => I.r6;
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(k6 src)
+            => new G(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(k6 src)
+            => (K)src.Index;
+    }
+
+    public readonly struct k7 : IRegOp64<k7>
+    {
+        public I Index => I.r7;
+
+        [MethodImpl(Inline)]
+        public static implicit operator G(k7 src)
+            => new G(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(k7 src)
             => (K)src.Index;
     }
 

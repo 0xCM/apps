@@ -10,6 +10,9 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
+    using static OpModeKind;
+    using static OpszKind;
+
     using REP = AsmPrefixCodes.RepPrefixCode;
     using L = AsmPrefixCodes.LockPrefixCode;
     using SZ = AsmPrefixCodes.SizeOverrideCode;
@@ -24,24 +27,6 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static bit rex(in AsmOpCodeString src)
             => src.Data.Contains("REX", StringComparison.InvariantCultureIgnoreCase);
-
-        /// <summary>
-        /// Tests whether a specified byte represents the operand size override prefix,
-        /// that selects an instruction's non-default operand size
-        /// </summary>
-        /// <param name="src">The byte to thest</param>
-        [MethodImpl(Inline), Op]
-        public static bit opsz(byte src)
-            => (SZ)src == SZ.OPSZ;
-
-        /// <summary>
-        /// Tests whether a specified byte represents the address size override prefix
-        /// that selects an instruction's non-default address size
-        /// </summary>
-        /// <param name="src">The byte to thest</param>
-        [MethodImpl(Inline), Op]
-        public static bit adsz(byte src)
-            => (SZ)src == SZ.ADSZ;
 
         [MethodImpl(Inline), Op]
         public static bit rex(byte src)
@@ -108,5 +93,98 @@ namespace Z0.Asm
             }
             return i - i0;
         }
+
+        /// <summary>
+        /// Tests whether a specified byte represents the operand size override prefix, selecting an instruction's non-default operand size
+        /// </summary>
+        /// <param name="src">The byte to test</param>
+        [MethodImpl(Inline), Op]
+        public static bit opsz(byte src)
+            => (SZ)src == SZ.OPSZ;
+
+        /// <summary>
+        /// Tests whether a specified byte represents the address size override prefix selecting an instruction's non-default address size
+        /// </summary>
+        /// <param name="src">The byte to test</param>
+        [MethodImpl(Inline), Op]
+        public static bit adsz(byte src)
+            => (SZ)src == SZ.ADSZ;
+
+        /// <summary>
+        /// Determines whether a 66h prefix is required to indicate an operand-size override
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="default"></param>
+        /// <param name="effective"></param>
+        [Op]
+        public static bit opsz(OpModeKind mode, OpszKind @default, OpszKind effective)
+            => mode switch{
+                IA32e => effective switch {
+                    W16 => 1,
+                    W32 => 0,
+                    W64 => 0,
+                    _ => 0,
+                },
+
+                Compatibilty => effective switch {
+                    W16 => @default switch{
+                        W16 => 1,
+                        W32 => 0,
+                        _ => 0,
+                    },
+
+                    W32 => @default switch{
+                        W16 => 0,
+                        W32 => 1,
+                        _ => 0,
+                    },
+
+                    _ => 0
+                },
+
+                Protected => effective switch {
+                    W16 => @default switch {
+                        W16 => 1,
+                        W32 => 0,
+                        _ => 0,
+                    },
+                    W32 => @default switch {
+                        W16 => 0,
+                        W32 => 1,
+                        _ => 0,
+                    },
+                    _ => 0
+                },
+
+                Virtual8086 => effective switch {
+                    W16 => @default switch {
+                        W16 => 1,
+                        W32 => 0,
+                        _ => 0,
+                    },
+                    W32 => @default switch {
+                        W16 => 0,
+                        W32 => 1,
+                        _ => 0,
+                    },
+                    _ => 0
+                },
+
+                Real => effective switch {
+                    W16 => @default switch {
+                        W16 => 1,
+                        W32 => 0,
+                        _ => 0,
+                    },
+                    W32 => @default switch {
+                        W16 => 0,
+                        W32 => 1,
+                        _ => 0,
+                    },
+                    _ => 0
+                },
+              _ => 0
+            };
+
     }
 }

@@ -36,10 +36,6 @@ namespace Z0.Asm
         long IDisplacement.Value
             => Value;
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
         public string Format()
             => AsmRender.format(this);
 
@@ -81,9 +77,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator Disp16(ByteSize src)
             => new Disp16((short)src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp16 src)
-            => src.Untyped();
     }
 }

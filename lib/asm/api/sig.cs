@@ -12,10 +12,6 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmSigOp sigop(AsmOpClass @class, AsmSigOpKind kind, NativeSize size)
-            => new AsmSigOp(@class,kind,size);
-
-        [MethodImpl(Inline), Op]
         public static AsmSig sig(AsmMnemonic mnemonic)
             => new AsmSig(mnemonic);
 

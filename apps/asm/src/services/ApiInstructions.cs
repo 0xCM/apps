@@ -81,7 +81,7 @@ namespace Z0.Asm
 
         [Op]
         public static AsmInstructionInfo summarize(MemoryAddress @base, IceInstruction src, CodeBlock encoded, AsmExpr statement, uint offset)
-            => new AsmInstructionInfo(@base, offset,  statement,  src.Specifier, asm.code(encoded, offset, src.InstructionSize));
+            => new AsmInstructionInfo(@base, offset,  statement,  src.Specifier, asm.hexcode(encoded, offset, src.InstructionSize));
 
         public static ReadOnlySpan<ApiInstruction> filter(ReadOnlySpan<ApiInstruction> src, byte opcode)
         {

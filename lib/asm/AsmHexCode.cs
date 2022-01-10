@@ -42,6 +42,7 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Data.IsEmpty;
         }
+
         public ref byte this[byte index]
         {
             [MethodImpl(Inline)]

@@ -23,5 +23,7 @@ namespace Z0
 
         public static MsgPattern<Count,FS.FileUri,Count> FinishedFileSplit
             => "Partitioned {0} lines from {1} into {2} parts";
+
+        public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
     }
 }

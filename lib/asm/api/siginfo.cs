@@ -11,7 +11,6 @@ namespace Z0.Asm
 
     partial struct asm
     {
-
         [MethodImpl(Inline), Op]
         public static AsmSigInfo siginfo(AsmMnemonic mnemonic, string content)
             => new AsmSigInfo(mnemonic, content);

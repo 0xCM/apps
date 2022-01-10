@@ -21,7 +21,6 @@ namespace Z0.Asm
         where T : unmanaged
     {
         new T Value {get;}
-
     }
 
     [Free]

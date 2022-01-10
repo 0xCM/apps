@@ -117,10 +117,6 @@ namespace Z0
             where N : unmanaged, ITypeNat
                 => new NativeChannel<N,W>(mask);
 
-        [MethodImpl(Inline), Op]
-        public static MergeMask mmask(ulong value)
-            => new MergeMask(value);
-
         [MethodImpl(Inline)]
         public static NativeFiber<T> fiber<T>(T channel, uint cell = 0, ushort offset = 0, byte width = 0)
             where T : unmanaged,INativeChannel
@@ -129,10 +125,6 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static NativeFiber fiber(NativeChannel channel, uint cell = 0, ushort offset = 0, byte width = 0)
             => new NativeFiber(channel,cell,offset,width);
-
-        [MethodImpl(Inline), Op]
-        public static ZeroMask zmask(ulong value)
-            => new ZeroMask(value);
 
          public static string syntax<S,T>(NativeFlow<S,T> flow)
             where S : INativeChannel
@@ -150,12 +142,6 @@ namespace Z0
             const string Pattern = "{0}:{1} |{2}:{3}> {4}:{5}";
             return string.Format(Pattern, flow.Source, typeof(S).Name, flow.Kind, typeof(K).Name, flow.Target, typeof(T).Name);
         }
-
-        internal static string format(ZeroMask src)
-            => string.Format("z{{0}}", src.Value.FormatBits());
-
-        internal static string format(MergeMask src)
-            => string.Format("k{{0}}", src.Value.FormatBits());
 
         internal static string format(ChannelMask src)
         {

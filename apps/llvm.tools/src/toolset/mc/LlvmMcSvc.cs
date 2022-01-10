@@ -241,6 +241,47 @@ namespace Z0.llvm
             }
         }
 
+        public Outcome ParseEncoding(FS.FilePath src, out AsmEncodingDoc dst)
+        {
+            const string EncodingMarker = "# encoding:";
+
+            var result = Outcome.Success;
+            dst = AsmEncodingDoc.Empty;
+            var lines = FS.readlines(src).View;
+            var count = (uint)lines.Length;
+            var buffer = list<AsmStatementEncoding>();
+            var offset = Address32.Zero;
+            var seq = 0u;
+            var record = default(AsmStatementEncoding);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var line = ref skip(lines,i);
+                if(line.Contains(EncodingMarker))
+                {
+                    var content = line.Content.Replace(Chars.Tab, Chars.Space);
+                    var j = text.index(content, Chars.Hash);
+                    result = AsmParser.asmxpr(text.left(content,j), out record.Asm);
+                    if(result.Fail)
+                        return result;
+
+                    var enc = text.right(content, j + EncodingMarker.Length);
+                    result = AsmHexCode.parse(enc, out record.Encoding);
+                    if(result.Fail)
+                        return result;
+
+                    record.DocSeq = seq++;
+                    record.Line = line.LineNumber;
+                    record.Offset = offset;
+                    buffer.Add(record);
+
+                    offset += record.Encoding.Size;
+                    record = default(AsmStatementEncoding);
+                }
+            }
+            dst = new AsmEncodingDoc(src, buffer.ToArray());
+            return result;
+        }
+
         ConstLookup<FS.FilePath,AsmEncodingDoc> DeriveEncodings(IProjectWs project)
         {
             var src = EncodingSourcePaths(project).View;
@@ -250,7 +291,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var result = LlvmMcParser.encoding(path, out var doc);
+                var result = ParseEncoding(path, out var doc);
                 if(result.Fail)
                 {
                     Error(result.Message);

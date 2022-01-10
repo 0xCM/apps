@@ -14,12 +14,7 @@ namespace Z0.Asm
     {
         [Op]
         public static AsmHexCode hexcode(string src)
-        {
-            if(AsmHexCode.parse(src, out var dst))
-                return dst;
-            else
-                return AsmHexCode.Empty;
-        }
+            => AsmHexCode.parse(src);
 
         [MethodImpl(Inline), Op]
         public static AsmHexCode hexcode(ulong src)
@@ -28,6 +23,10 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static Outcome hexcode(ReadOnlySpan<char> src, out AsmHexCode dst)
             => AsmHexCode.parse(src, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static BinaryCode hexcode(in CodeBlock src, uint offset, byte size)
+            => core.slice(src.View, offset, size).ToArray();
 
         [MethodImpl(Inline), Op]
         public static AsmHexCode hexcode(ReadOnlySpan<byte> src)

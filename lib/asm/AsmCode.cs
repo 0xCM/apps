@@ -15,6 +15,7 @@ namespace Z0.Asm
     public readonly struct AsmCode : IComparable<AsmCode>, IEquatable<AsmCode>, ITextual
     {
         public MemoryAddress Offset {get;}
+
         public SourceText Asm {get;}
 
         public AsmHexCode Code {get;}

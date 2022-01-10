@@ -189,5 +189,9 @@ namespace Z0
         [Op]
         public static AsmRegSets AsmRegSets(this IWfRuntime context)
             => Asm.AsmRegSets.create(context);
+
+        [Op]
+        public static AsmEtl AsmEtl(this IWfRuntime context)
+            => Asm.AsmEtl.create(context);
     }
 }
