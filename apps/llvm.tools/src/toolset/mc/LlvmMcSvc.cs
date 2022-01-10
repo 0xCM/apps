@@ -58,6 +58,7 @@ namespace Z0.llvm
             foreach(var doc in docs)
             {
                 var path = doc.Path.ToUri();
+                var srcid = doc.Path.SrcId(WfFileKind.AsmSyntax);
                 var inst = doc.Instructions;
                 var lines = doc.SourceLines.Map(x => (x.LineNumber, x.Statement.Format().Trim())).ToDictionary();
                 var count = inst.Length;
@@ -68,6 +69,7 @@ namespace Z0.llvm
                     var record = new AsmDocInstruction();
                     record.Seq = counter++;
                     record.DocSeq = instruction.Seq;
+                    record.SrcId = srcid;
                     record.Instruction = instruction.Name;
                     record.Statement = expr;
                     record.Doc = path.LineRef(instruction.Line);
@@ -96,18 +98,21 @@ namespace Z0.llvm
             {
                 var doc = docs[path];
                 var encoded = doc.Statements;
+                var srcid = ((FS.FilePath)doc.Source).SrcId(WfFileKind.EncodingAsm);
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var e = ref skip(encoded,i);
+
                     record = AsmDocEncoding.Empty;
                     record.Seq = counter++;
                     record.DocSeq = i;
+                    record.SrcId = srcid;
                     record.Asm = e.Asm;
                     record.Size = e.Encoding.Size;
                     record.IP = e.Offset;
                     record.Code = e.Encoding;
-                    record.Doc = doc.Source.LineRef(e.Line);
+                    record.DocPath = doc.Source.LineRef(e.Line);
                     writer.WriteLine(formatter.Format(record));
                 }
             }
@@ -123,11 +128,12 @@ namespace Z0.llvm
             var buffer = list<AsmSyntaxRow>();
             var tmp = list<AsmSyntaxRow>();
             var docs = lookup<FS.FilePath,AsmSyntaxDoc>();
+            var seq = 0u;
             for(var i=0; i<count; i++)
             {
                 tmp.Clear();
                 ref readonly var path = ref skip(logs,i);
-                ParseSyntaxLogRows(path, tmp);
+                ParseSyntaxLogRows(path, ref seq, tmp);
                 docs.Include(path, new AsmSyntaxDoc(path, tmp.ToArray()));
                 buffer.AddRange(tmp);
             }
@@ -190,10 +196,10 @@ namespace Z0.llvm
                 ref var dst = ref seek(buffer,counter++);
                 var j=0;
 
-                result = DataParser.parse(skip(cells,j++), out dst.Seq);
+                result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
                 if(result.Fail)
                 {
-                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Seq)));
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.DocSeq)));
                     break;
                 }
 
@@ -309,7 +315,7 @@ namespace Z0.llvm
             return dst.Seal();
         }
 
-        uint ParseSyntaxLogRows(FS.FilePath src, List<AsmSyntaxRow> dst)
+        void ParseSyntaxLogRows(FS.FilePath src, ref uint seq, List<AsmSyntaxRow> dst)
         {
             const string EntryMarker = "note: parsed instruction:";
             const string EncodingMarker = "# encoding:";
@@ -319,7 +325,7 @@ namespace Z0.llvm
             const string ReplaceBWith = "}";
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
-            var counter = 0u;
+            var docseq = 0u;
             for(var i=0; i<count-1; i++)
             {
                 ref readonly var a = ref lines[i].Content;
@@ -332,12 +338,17 @@ namespace Z0.llvm
                 Fence<char> Brackets = (Chars.LBracket, Chars.RBracket);
                 var locator = text.left(a,m).Trim();
                 locator = text.slice(locator,0, locator.Length - 1);
-
+                FS.point(locator, out var point);
+                var srcpath = point.Path;
                 var syntax = text.right(a, m + EntryMarker.Length);
                 syntax = text.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
                 var body = b.Replace(Chars.Tab, Chars.Space);
                 var record = new AsmSyntaxRow();
-                record.Seq = counter++;
+                record.Seq = seq++;
+                record.DocSeq = docseq++;
+                record.SrcId = srcpath.SrcId(WfFileKind.EncodingAsm);
+                record.Location = point.Location;
+                record.Syntax = syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith);
 
                 var ci = text.index(body, Chars.Hash);
                 if (ci > 0)
@@ -353,13 +364,10 @@ namespace Z0.llvm
                         record.Encoding = encoding;
                 }
 
-                FS.point(locator, out var point);
-                record.Location = point.Location;
-                record.Syntax = syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith);
-                record.Source = point.Path.ToUri().LineRef(point.Location.Line);
+                record.Source = srcpath.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);
             }
-            return counter;
+
         }
 
         FS.FilePath SyntaxTable(IProjectWs project)

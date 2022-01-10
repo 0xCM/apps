@@ -8,11 +8,11 @@ namespace Z0
 
     partial struct XedModels
     {
-        public readonly struct SourceEncodings
+        public struct SourceEncodings
         {
-            public FS.FilePath Source {get;}
+            public FS.FilePath Source;
 
-            public Index<AsmDocEncoding> Encoded {get;}
+            public Index<AsmDocEncoding> Encoded;
 
             public SourceEncodings(FS.FilePath src, AsmDocEncoding[] encoded)
             {

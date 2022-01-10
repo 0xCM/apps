@@ -17,11 +17,13 @@ namespace Z0
     {
         public const string TableId = "asm.encoding";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 8;
 
         public uint Seq;
 
         public uint DocSeq;
+
+        public @string SrcId;
 
         public Address32 IP;
 
@@ -31,9 +33,9 @@ namespace Z0
 
         public AsmHexCode Code;
 
-        public FS.FileUri Doc;
+        public FS.FileUri DocPath;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,10,84,8,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,10,84,8,42,1};
 
         public static AsmDocEncoding Empty => default;
     }

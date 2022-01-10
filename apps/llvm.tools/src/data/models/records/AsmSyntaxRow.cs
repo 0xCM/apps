@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System;
     using System.Runtime.InteropServices;
@@ -14,9 +14,13 @@ namespace Z0.llvm
     {
         public const string TableId = "asm.syntax";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 8;
 
         public uint Seq;
+
+        public uint DocSeq;
+
+        public @string SrcId;
 
         public LineOffset Location;
 
@@ -28,6 +32,6 @@ namespace Z0.llvm
 
         public FS.FileUri Source;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,62,120,48,5};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,62,120,48,5};
     }
 }

@@ -71,6 +71,10 @@ namespace Z0
             public static implicit operator FileUri(FilePath src)
                 => new FileUri(src);
 
+            [MethodImpl(Inline)]
+            public static explicit operator FilePath(FileUri src)
+                => src.WithoutLine.Source;
+
             public static FileUri Empty => new FileUri(FilePath.Empty);
         }
     }

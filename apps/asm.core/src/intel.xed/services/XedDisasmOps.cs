@@ -31,6 +31,7 @@ namespace Z0
 
         public static Outcome ParseEncodings(FS.FilePath src, List<AsmDocEncoding> dst)
         {
+            var srcid = src.SrcId(WfFileKind.XedRawDisasm);
             var blocks = LoadBlocks(src);
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);
@@ -47,10 +48,12 @@ namespace Z0
                 var record = new AsmDocEncoding();
                 ref readonly var expression = ref skip(expr,i);
                 record.DocSeq = counter++;
+                record.SrcId = srcid;
                 result = ParseIP(content, out record.IP);
                 record.Asm = expression;
-                record.Doc = src;
-                record.Doc = record.Doc.LineRef(line.LineNumber);
+                record.DocPath = src;
+                record.DocPath = record.DocPath.LineRef(line.LineNumber);
+
                 if(result.Fail)
                     return result;
 
@@ -64,7 +67,6 @@ namespace Z0
 
             return true;
         }
-
 
         public static ConstLookup<FS.FilePath,DisasmFileBlocks> LoadFileBlocks(ReadOnlySpan<FS.FilePath> src)
         {
@@ -167,7 +169,6 @@ namespace Z0
             }
             return dst.ViewDeposited();
         }
-
 
         static Outcome ParseHexCode(TextLine src, out AsmHexCode dst)
         {

@@ -72,6 +72,7 @@ namespace Z0
                 iter(parser.Failures, f => Warn(string.Format("Parse failure for {0}:{1}", f.Key, f.Value)));
 
                 writer.WriteLine(RP.PageBreak120);
+                writer.WriteLine(string.Format(RenderPattern, "SrcId", encoding.SrcId));
                 writer.WriteLine(string.Format(RenderPattern, "IP", IP.FormatMinimal()));
                 writer.WriteLine(string.Format(RenderPattern, "Statement", encoding.Asm));
                 writer.WriteLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));

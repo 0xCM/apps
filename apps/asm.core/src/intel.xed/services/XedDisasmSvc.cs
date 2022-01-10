@@ -40,42 +40,32 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
 
-        public Outcome ParseInstructions(ReadOnlySpan<DisasmLineBlock> src, out Index<DisasmInstruction> dst)
-        {
-            var count = src.Length;
-            var result = Outcome.Success;
-            dst = alloc<DisasmInstruction>(count);
-            for(var i=0; i<count; i++)
-            {
-                result = ParseInstruction(skip(src,i), out dst[i]);
-                if(result.Fail)
-                    break;
-            }
-            return result;
-        }
 
-        public void Collect(IProjectWs project)
+        void EmitDisasmSummary(ConstLookup<FS.FilePath,SourceEncodings> sources, FS.FilePath dst)
         {
-            var result = Outcome.Success;
-            var src = XedPaths.DisasmSources(project);
-            var sources = ParseDisasmSources(project);
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
             iter(sources.Values, src => recordcount += src.Encoded.Count);
             var buffer = alloc<AsmDocEncoding>(recordcount);
-            var count = paths.Length;
             var counter = 0u;
-            for(var i=0; i<count;i++)
+            for(var i=0; i<paths.Length;i++)
             {
                 sources.Find(skip(paths,i), out var encodings);
                 var encoded = encodings.Encoded;
                 for(var j=0; j<encoded.Count; j++)
                 {
-                    seek(buffer,counter++) = encoded[j];
-                    seek(buffer,counter).Seq = counter;
+                    ref var target = ref seek(buffer, counter++);
+                    target = encoded[j];
+                    target.Seq = counter;
                 }
             }
-            TableEmit(@readonly(buffer), AsmDocEncoding.RenderWidths, XedPaths.DisasmSummary(project));
+            TableEmit(@readonly(buffer), AsmDocEncoding.RenderWidths, dst);
+        }
+
+        public void Collect(IProjectWs project)
+        {
+            var result = Outcome.Success;
+            EmitDisasmSummary(ParseDisasmSources(project), XedPaths.DisasmSummary(project));
             EmitDisasmDetails(project);
         }
 

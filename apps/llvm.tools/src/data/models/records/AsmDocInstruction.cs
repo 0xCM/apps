@@ -16,11 +16,13 @@ namespace Z0.llvm
     {
         public const string TableId = "asm.instruction";
 
-        public const byte FieldCount = 5;
+        public const byte FieldCount = 6;
 
         public uint Seq;
 
         public uint DocSeq;
+
+        public @string SrcId;
 
         public text31 Instruction;
 
@@ -28,6 +30,6 @@ namespace Z0.llvm
 
         public FS.FileUri Doc;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,32,64,1};
     }
 }
