@@ -22,17 +22,6 @@ namespace Z0
         public BinaryCode(byte[] bytes)
             => Data = bytes;
 
-        public ByteSize Size
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length;
-        }
-
-        public BitWidth Width
-        {
-            [MethodImpl(Inline)]
-            get => Data.Length*8;
-        }
 
         public byte[] Storage
         {
@@ -76,6 +65,24 @@ namespace Z0
             get => Data?.Length ?? 0;
         }
 
+        public ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Length;
+        }
+
+        public BitWidth Width
+        {
+            [MethodImpl(Inline)]
+            get => Length*8;
+        }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Length;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -98,12 +105,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
-        }
-
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => (uint)Data.Length;
         }
 
 

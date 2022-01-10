@@ -77,6 +77,12 @@ namespace Z0
         FS.FilePath ProjectDataFile(IProjectWs src, string scope, string name, FS.FileExt ext)
             => ProjectData(scope) + FS.file(string.Format("{0}.{1}", src.Project, name), ext);
 
+        FS.Files ProjectDataFiles(IProjectWs src, FS.FileExt ext)
+            => ProjectData().Files(ext,true);
+
+        FS.Files ProjectDataFiles(IProjectWs src, string scope, FS.FileExt ext)
+            => ProjectData(scope).Files(ext,true);
+
         FS.FilePath ApiTablePath<T>()
             where T : struct
                 => TablePath<T>("api");

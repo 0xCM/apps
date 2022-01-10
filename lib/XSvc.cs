@@ -193,5 +193,9 @@ namespace Z0
         [Op]
         public static AsmEtl AsmEtl(this IWfRuntime context)
             => Asm.AsmEtl.create(context);
+
+        [Op]
+        public static HexDataReader HexDataReader(this IWfRuntime context)
+            => Z0.HexDataReader.create(context);
     }
 }

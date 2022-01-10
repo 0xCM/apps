@@ -53,7 +53,7 @@ namespace Z0
             else
             {
                 dst = MemoryAddress.Zero;
-                return result;
+                return (false, Msg.AddressParseFailure.Format(src));
             }
         }
 
@@ -69,7 +69,7 @@ namespace Z0
             else
             {
                 dst = Address64.Zero;
-                return result;
+                return (false, Msg.AddressParseFailure.Format(src));
             }
         }
 
@@ -85,7 +85,7 @@ namespace Z0
             else
             {
                 dst = Address32.Zero;
-                return result;
+                return (false, Msg.AddressParseFailure.Format(src));
             }
         }
 
@@ -101,7 +101,7 @@ namespace Z0
             else
             {
                 dst = Address16.Zero;
-                return result;
+                return (false, Msg.AddressParseFailure.Format(src));
             }
         }
 
@@ -117,8 +117,14 @@ namespace Z0
             else
             {
                 dst = Address8.Zero;
-                return result;
+                return (false, Msg.AddressParseFailure.Format(src));
             }
         }
+    }
+
+    partial struct Msg
+    {
+
+        public static MsgPattern<string> AddressParseFailure => "Parsing address from {0} failed";
     }
 }

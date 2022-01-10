@@ -197,6 +197,6 @@ namespace Z0
         public static void copy<S,T>(Span<S> src, uint start, uint count, Span<T> dst, uint offset = 0)
             where S: unmanaged
             where T :unmanaged
-                => copy(@readonly(src), start,count,dst,offset);
+                => copy(@readonly(src), start, count, dst, offset);
     }
 }

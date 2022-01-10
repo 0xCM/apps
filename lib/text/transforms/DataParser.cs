@@ -304,7 +304,7 @@ namespace Z0
             else
             {
                 dst = BinaryCode.Empty;
-                return result;
+                return (false, Msg.ParsingBytesFailed.Format(src));
             }
         }
 
@@ -363,5 +363,10 @@ namespace Z0
 
         public static Outcome setting<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
             => Settings.parse(src, out dst, delimiter);
+     }
+
+     partial struct Msg
+     {
+         public static MsgPattern<string> ParsingBytesFailed => "Parsing bytes from {0} failed";
      }
 }

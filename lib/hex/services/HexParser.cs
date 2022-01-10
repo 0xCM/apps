@@ -137,6 +137,39 @@ namespace Z0
         }
 
         [Op]
+        public static uint data(ReadOnlySpan<char> src, uint offset, Span<byte> dst)
+        {
+            var counter = offset;
+            var count = (uint)src.Length;
+            ref var target = ref first(dst);
+            var hi = byte.MaxValue;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(whitespace(c) || fence(c) || separator(c))
+                    continue;
+
+                if(parse(c, out HexDigitValue d))
+                {
+                    if(hi == byte.MaxValue)
+                        hi = (byte)d;
+                    else
+                    {
+                        var lo = (byte)d;
+                        seek(target, counter++) = Bytes.or(Bytes.sll(hi,4), lo);
+                        hi = byte.MaxValue;
+                    }
+                }
+                else
+                {
+                    count = 0;
+                    break;
+                }
+            }
+            return offset - counter;
+        }
+
+        [Op]
         public static Outcome parse(ReadOnlySpan<AsciCode> src, out ulong dst)
         {
             var lead = recover<AsciCode,byte>(src);
