@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics;
-
     using static core;
 
     partial class ProcessContextPipe

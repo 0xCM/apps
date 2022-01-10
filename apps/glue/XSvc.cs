@@ -15,6 +15,7 @@ namespace Z0
 
     }
 
+    [ApiHost]
     public static partial class XSvc
     {
         [Op]
@@ -57,5 +58,41 @@ namespace Z0
             seek(dst,1) = new RobocopyResultHandler(paths);
             return buffer;
         }
+
+        [Op]
+        public static CliEmitter CliEmitter(this IWfRuntime wf)
+            => Z0.CliEmitter.create(wf);
+
+        [Op]
+        public static AppModules AppModules(this IWfRuntime wf)
+            => Z0.AppModules.create(wf);
+
+        [Op]
+        public static PdbSymbolStore PdbSymbolStore(this IWfRuntime wf)
+            => Z0.PdbSymbolStore.create(wf);
+
+        [Op]
+        public static PdbReader PdbReader(this IWfRuntime wf, in PdbSymbolSource src)
+            => Z0.PdbServices.reader(wf,src);
+
+        [Op]
+        public static ProcessContextPipe ProcessContextPipe(this IWfRuntime wf)
+            => Z0.ProcessContextPipe.create(wf);
+
+        [Op]
+        public static RegionProcessor RegionProcessor(this IWfRuntime wf)
+            => Z0.RegionProcessor.create(wf);
+
+        [Op]
+        public static PdbIndex PdbIndex(this IWfRuntime wf)
+            => Z0.PdbIndex.create(wf);
+
+        [Op]
+        public static PdbIndexBuilder PdbIndexBuilder(this IWfRuntime wf)
+            => Z0.PdbIndexBuilder.create(wf);
+
+        [Op]
+        public static DumpParser DumpParser(this IWfRuntime wf)
+            => Z0.DumpParser.create(wf);
     }
 }

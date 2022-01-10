@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static PeRecords;
     partial class ProjectCmdProvider
     {
         [CmdOp("objdump/recode")]
@@ -12,5 +13,6 @@ namespace Z0
             LlvmObjDump.Recode(Project());
             return  true;
         }
+
     }
 }

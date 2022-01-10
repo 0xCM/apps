@@ -74,10 +74,5 @@ namespace Z0
 
             NOBYTES = P2ᐞ18,
         }
-
-        public readonly struct Options
-        {
-
-        }
     }
 }

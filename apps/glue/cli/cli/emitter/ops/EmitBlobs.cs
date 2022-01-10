@@ -30,11 +30,9 @@ namespace Z0
         {
             var flow = EmittingTable<CliBlob>(dst);
             using var reader = PeReader.create(src);
-
             var rows = reader.ReadBlobInfo();
             var count = (uint)rows.Length;
             var formatter = Tables.formatter<CliBlob>(16);
-
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)

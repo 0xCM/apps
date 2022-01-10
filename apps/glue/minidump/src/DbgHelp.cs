@@ -15,6 +15,7 @@ namespace Z0
     public readonly struct CodeRepoLink
     {
         public string Http {get;}
+
         public CodeRepoLink(string http)
         {
             Http = http;
