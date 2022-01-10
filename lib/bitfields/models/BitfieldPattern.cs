@@ -10,13 +10,13 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("bitpattern")]
-    public readonly struct BitPattern
+    [DataType("bitfields.pattern")]
+    public readonly struct BitfieldPattern
     {
         readonly string Content;
 
         [MethodImpl(Inline)]
-        public BitPattern(string src)
+        public BitfieldPattern(string src)
         {
             Content = src ?? EmptyString;
         }
@@ -40,13 +40,13 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator BitPattern(string src)
-            => new BitPattern(src);
+        public static implicit operator BitfieldPattern(string src)
+            => new BitfieldPattern(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator string(BitPattern src)
+        public static implicit operator string(BitfieldPattern src)
             => src.Text;
 
-        public static BitPattern Empty => new BitPattern(EmptyString);
+        public static BitfieldPattern Empty => new BitfieldPattern(EmptyString);
     }
 }

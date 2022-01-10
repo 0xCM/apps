@@ -26,11 +26,11 @@ namespace Z0
         [CmdOp("gen/bitfield")]
         Outcome GenBitfield(CmdArgs args)
         {
-            var sib = BitPatterns.describe(Sib.BitPattern);
-            var modrm = BitPatterns.describe(ModRm.BitPattern);
-            var rex = BitPatterns.describe(RexPrefix.BitPattern);
-            var vexC4 = BitPatterns.describe(VexPrefixC4.BitPattern);
-            var vexC5 = BitPatterns.describe(VexPrefixC5.BitPattern);
+            var sib = BitfieldPatterns.describe(Sib.BitPattern);
+            var modrm = BitfieldPatterns.describe(ModRm.BitPattern);
+            var rex = BitfieldPatterns.describe(RexPrefix.BitPattern);
+            var vexC4 = BitfieldPatterns.describe(VexPrefixC4.BitPattern);
+            var vexC5 = BitfieldPatterns.describe(VexPrefixC5.BitPattern);
             Write(modrm.Descriptor);
             Write(sib.Descriptor);
             Write(rex.Descriptor);
@@ -38,7 +38,7 @@ namespace Z0
             Write(vexC5.Descriptor);
 
             byte data = 0b10_110_011;
-            Write(BitPatterns.bitstring(sib,data));
+            Write(BitfieldPatterns.bitstring(sib,data));
             return true;
         }
     }
