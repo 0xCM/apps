@@ -23,6 +23,6 @@ namespace Windows.Image
 
         public ushort NumberOfLinenumbers;
 
-        public IMAGE_SECTION_CHARACTERISTICS Characteristics;
+        public IMAGE_SECTION_FLAGS Characteristics;
     }
 }

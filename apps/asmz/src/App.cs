@@ -50,7 +50,6 @@ namespace Z0.Asm
             var @case = tool.DefineCase(opcode.ToString(), dir);
             var content = tool.CreateScript(@case);
             return content;
-            //return new ToolScript(Toolspace.xed, opcode, ;
         }
 
 

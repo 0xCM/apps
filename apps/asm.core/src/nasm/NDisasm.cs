@@ -13,7 +13,7 @@ namespace Z0
     public sealed class NDisasm : ToolService<NDisasm>
     {
         public NDisasm()
-            : base(Toolspace.ndisasm)
+            : base("ndisasm")
         {
 
         }
@@ -22,7 +22,7 @@ namespace Z0
         {
             const string Pattern = "{0} -b {1} -p intel {2} > {3}";
             var id = src.FileName.WithoutExtension.Format();
-            var body = Cmd.expr(string.Format(Pattern, (byte)mode, Toolspace.ndisasm, src.Format(PathSeparator.BS), dst.Format(PathSeparator.BS)));
+            var body = Cmd.expr(string.Format(Pattern, (byte)mode, "ndisasm", src.Format(PathSeparator.BS), dst.Format(PathSeparator.BS)));
             return Cmd.script(id, body);
         }
 

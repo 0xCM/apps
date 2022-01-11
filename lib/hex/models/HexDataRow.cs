@@ -57,13 +57,10 @@ namespace Z0
             var offset = 0u;
             for(var i=0; i<count; i++)
             {
-                ref readonly var row = ref skip(src,i);
-                if(row.IsEmpty)
-                    continue;
+                var data = skip(src,i).Data.View;
+                for(var j=0; j<data.Length; j++)
+                    seek(dst,offset++) = skip(data,j);
 
-                ref readonly var data = ref row.Data;
-                core.copy(data.View,0u, data.Size, dst, offset);
-                offset += data.Size;
             }
             return buffer;
         }

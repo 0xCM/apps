@@ -15,7 +15,6 @@ namespace Z0
 
         public ToolId ToolId {get;}
 
-
         public static implicit operator ToolId(Tool<T> src)
             => src.ToolId;
     }

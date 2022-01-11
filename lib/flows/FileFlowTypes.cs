@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static KnownActors;
+    using static Tools;
     using static FileTypes;
 
     using FT = FileTypes;

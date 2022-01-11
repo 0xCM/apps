@@ -3,7 +3,7 @@ namespace Windows.Image
     using System;
 
     [Flags]
-    public enum IMAGE_SECTION_CHARACTERISTICS : uint
+    public enum IMAGE_SECTION_FLAGS : uint
     {
         IMAGE_SCN_TYPE_NO_PAD = 0x8u,
 

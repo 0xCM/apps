@@ -4,9 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [Record(TableId)]
     public struct CoffObject
     {
-        public FS.FilePath Source;
+        public const string TableId = "coff.object";
+
+        public Identifier SrcId;
+
+        public FS.FilePath Path;
 
         public BinaryCode Data;
 
@@ -15,8 +20,9 @@ namespace Z0
             get
             {
                 var dst = new CoffObject();
-                dst.Source = FS.FilePath.Empty;
+                dst.Path = FS.FilePath.Empty;
                 dst.Data = BinaryCode.Empty;
+                dst.SrcId = Identifier.Empty;
                 return dst;
             }
         }

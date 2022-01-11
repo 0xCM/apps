@@ -3,7 +3,7 @@
 // License     :  MIT
 // Source      : Adapted from miengine/src/WindowsDebugLauncher/DebugLauncher.cs
 //-----------------------------------------------------------------------------
-namespace Z0.Tools
+namespace Z0.Toolz
 {
     using System;
     using System.Diagnostics;

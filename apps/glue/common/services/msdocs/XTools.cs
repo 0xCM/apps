@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Tools;
+    using Z0.Toolz;
 
-    using Svc = Tools;
+    using Svc = Toolz;
 
     [ApiHost]
     public static partial class XTools

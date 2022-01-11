@@ -2,7 +2,7 @@
 // Copyright   :  Copyright 2020 Aaron R Robinson
 // License     :  See Robinson.lic in project license directory
 //-----------------------------------------------------------------------------
-namespace Z0.Tools
+namespace Z0.Toolz
 {
     using System;
     using System.IO;

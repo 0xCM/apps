@@ -42,8 +42,7 @@ namespace Z0
         {
             var src = ProjectDb.ProjectDataFiles(project, scope(project), FileKind.HexDat.Ext());
             var count = src.Length;
-            var stats = HexReader.Stats(src);
-            var dst = new HexFileData(stats);
+            var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref src[i];
@@ -53,16 +52,21 @@ namespace Z0
             return dst;
         }
 
-        public FileData<CoffObject> LoadObjects(IProjectWs project)
+        public CoffObjectData LoadObjData(IProjectWs project)
         {
             var src = project.OutFiles(FileKind.Obj, FileKind.O);
             var count = src.Length;
-            var dst = new FileData<CoffObject>();
+            var dst = dict<FS.FilePath,CoffObject>(count);
             for(var i=0; i<count; i++)
             {
+                ref readonly var path = ref src[i];
                 var obj = CoffObject.Empty;
-                obj.Source = src[i];
-                obj.Data = obj.Source.ReadBytes();
+                obj.SrcId = path.Ext == FS.Obj
+                    ? path.SrcId(FileKind.Obj)
+                    : path.SrcId(FileKind.O);
+                obj.Path = path;
+                obj.Data = obj.Path.ReadBytes();
+                dst[path] = obj;
             }
             return dst;
         }

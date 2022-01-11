@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using LLN = ToolNames;
+    using TN = ToolNames;
 
-    public readonly struct KnownActors
+    public readonly struct Tools
     {
         public static readonly Llc llc = Llc.Instance;
 
@@ -44,7 +44,7 @@ namespace Z0
         public sealed class Llc : Tool<Llc>
         {
             public Llc()
-                : base(LLN.llc)
+                : base(TN.llc)
             {
 
             }
@@ -53,7 +53,7 @@ namespace Z0
         public sealed class LlvmMc : Tool<LlvmMc>
         {
             public LlvmMc()
-                : base(LLN.llvm_mc)
+                : base(TN.llvm_mc)
             {
 
             }
@@ -62,7 +62,7 @@ namespace Z0
         public sealed class Clang : Tool<Clang>
         {
             public Clang()
-                : base(LLN.clang)
+                : base(TN.clang)
             {
 
             }
@@ -71,7 +71,7 @@ namespace Z0
         public sealed class LlvmObjDump : Tool<LlvmObjDump>
         {
             public LlvmObjDump()
-                : base(LLN.llvm_objdump)
+                : base(TN.llvm_objdump)
             {
 
             }
@@ -80,7 +80,7 @@ namespace Z0
         public sealed class LlvmConfig : Tool<LlvmConfig>
         {
             public LlvmConfig()
-                : base(LLN.llvm_config)
+                : base(TN.llvm_config)
             {
 
             }
@@ -89,7 +89,7 @@ namespace Z0
         public sealed class LlvmReadObj : Tool<LlvmReadObj>
         {
             public LlvmReadObj()
-                : base(LLN.llvm_readobj)
+                : base(TN.llvm_readobj)
             {
 
             }
@@ -98,7 +98,7 @@ namespace Z0
         public sealed class LlvmAs : Tool<LlvmAs>
         {
             public LlvmAs()
-                : base(LLN.llvm_as)
+                : base(TN.llvm_as)
             {
 
             }
@@ -107,7 +107,7 @@ namespace Z0
         public sealed class LlvmTableGen : Tool<LlvmTableGen>
         {
             public LlvmTableGen()
-                : base(LLN.llvm_tblgen)
+                : base(TN.llvm_tblgen)
             {
 
             }
@@ -116,7 +116,7 @@ namespace Z0
         public sealed class LlvmDis : Tool<LlvmDis>
         {
             public LlvmDis()
-                : base(LLN.llvm_dis)
+                : base(TN.llvm_dis)
             {
 
             }
@@ -125,7 +125,7 @@ namespace Z0
         public sealed class LlvmLld : Tool<LlvmLld>
         {
             public LlvmLld()
-                : base(LLN.llvm_lld)
+                : base(TN.llvm_lld)
             {
 
             }
@@ -134,7 +134,7 @@ namespace Z0
         public sealed class LlvmNm : Tool<LlvmNm>
         {
             public LlvmNm()
-                : base(LLN.llvm_nm)
+                : base(TN.llvm_nm)
             {
 
             }

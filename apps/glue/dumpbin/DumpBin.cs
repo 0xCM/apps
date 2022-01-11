@@ -97,7 +97,7 @@ namespace Z0
                 return (false, string.Format("{0} not supported", kind));
 
             var outdir = ProjectDb.ProjectData();
-            var cmd = Cmd.cmdline(Ws.Tools().Script(Toolspace.dumpbin, script).Format(PathSeparator.BS));
+            var cmd = Cmd.cmdline(Ws.Tools().Script(dumpbin, script).Format(PathSeparator.BS));
             var input = project.Files(ext);
             var count = input.Length;
             for(var i=0; i<count; i++)
@@ -168,7 +168,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public DumpBin()
-            :base(Toolspace.dumpbin)
+            :base(dumpbin)
         {
             Args =  alloc<ToolCmdArg<Flag,object>>(MaxVarCount);
             ArgIndex = 0;

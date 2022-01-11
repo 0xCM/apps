@@ -5,7 +5,7 @@
 namespace Z0
 {
     using Z0.Asm;
-    using Z0.Tools;
+    using Z0.Toolz;
 
     using static core;
 
@@ -28,11 +28,11 @@ namespace Z0
 
         [Op]
         public static Robocopy Robocopy(this IWfRuntime wf)
-            => Tools.Robocopy.create(wf);
+            => Toolz.Robocopy.create(wf);
 
         [Op]
         public static CultProcessor CultProcessor(this IWfRuntime wf)
-            => Tools.CultProcessor.create(wf);
+            => Toolz.CultProcessor.create(wf);
 
         [Op]
         public static DumpBin DumpBin(this IWfRuntime wf)
@@ -40,7 +40,7 @@ namespace Z0
 
         [Op]
         public static BdDisasm BdDisasm(this IWfRuntime wf)
-            => Tools.BdDisasm.create(wf);
+            => Toolz.BdDisasm.create(wf);
 
         [Op]
         public static WinSdk WinSdk(this IWfRuntime wf)

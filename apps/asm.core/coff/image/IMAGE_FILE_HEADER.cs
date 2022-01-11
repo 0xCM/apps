@@ -2,6 +2,8 @@ namespace Windows.Image
 {
     using System.Runtime.InteropServices;
 
+    using Z0;
+
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct IMAGE_FILE_HEADER
     {
@@ -9,14 +11,14 @@ namespace Windows.Image
 
         public ushort NumberOfSections;
 
-        public uint TimeDateStamp;
+        public Hex32 TimeDateStamp;
 
-        public uint PointerToSymbolTable;
+        public Address32 PointerToSymbolTable;
 
         public uint NumberOfSymbols;
 
-        public ushort SizeOfOptionalHeader;
+        public Hex16 SizeOfOptionalHeader;
 
-        public IMAGE_FILE_CHARACTERISTICS Characteristics;
+        public IMAGE_FILE_FLAGS Characteristics;
     }
 }

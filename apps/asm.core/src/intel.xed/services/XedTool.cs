@@ -65,7 +65,7 @@ namespace Z0
         }
 
         public XedTool()
-            : base(Toolspace.xed)
+            : base("xed")
         {
 
         }

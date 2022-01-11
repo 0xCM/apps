@@ -8,11 +8,8 @@ namespace Z0.llvm
 
     using K = llvm.LlvmConfigKind;
 
-    [Tool(ToolId)]
     public sealed class LlvmConfigSvc : ToolService<LlvmConfigSvc>
     {
-        public const string ToolId = ToolNames.llvm_config;
-
         public LlvmConfigSet CollectSettings()
         {
             const string Pattern = "llvm-config --{0}";

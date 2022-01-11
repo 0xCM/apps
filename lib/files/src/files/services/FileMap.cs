@@ -6,20 +6,21 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
 
     using static Root;
 
-    public struct FileMap : IArrow<FS.FilePath, FS.FilePath>
+    public readonly struct FileMapEntry : IArrow<FS.FilePath,FS.FilePath>
     {
         public FS.FilePath Source {get;}
 
-        public FileKind SourceKind;
+        public FileKind SourceKind {get;}
 
         public FS.FilePath Target {get;}
 
-        public FileKind TargetKind;
+        public FileKind TargetKind {get;}
 
-        public FileMap(FS.FilePath src, FileKind srckind, FS.FilePath dst, FileKind dstkind)
+        public FileMapEntry(FS.FilePath src, FileKind srckind, FS.FilePath dst, FileKind dstkind)
         {
             Source = src;
             SourceKind = srckind;

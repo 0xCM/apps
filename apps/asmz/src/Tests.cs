@@ -187,7 +187,7 @@ namespace Z0.Asm
 
         void ConvertPdbXml()
         {
-            var dir = Db.ToolOutDir(Toolspace.pdb2xml);
+            var dir = Db.ToolOutDir("pdb2xml");
             var file = PartId.Math.Component(FS.Pdb, FS.Xml);
             var srcPath = dir + file;
             var buffer = text.buffer();

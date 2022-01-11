@@ -3,7 +3,7 @@ namespace Windows.Image
     using System;
 
     [Flags]
-    public enum IMAGE_DLL_CHARACTERISTICS : uint
+    public enum IMAGE_DLL_FLAGS : uint
     {
         IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = 0x20u,
 

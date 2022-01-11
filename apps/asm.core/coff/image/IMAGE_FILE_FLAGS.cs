@@ -3,7 +3,7 @@ namespace Windows.Image
     using System;
 
     [Flags]
-    public enum IMAGE_FILE_CHARACTERISTICS : uint
+    public enum IMAGE_FILE_FLAGS : uint
     {
         IMAGE_FILE_RELOCS_STRIPPED = 0x1u,
 

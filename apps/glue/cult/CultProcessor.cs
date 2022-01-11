@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Tools
+namespace Z0.Toolz
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -35,7 +35,7 @@ namespace Z0.Tools
             Summaries = new();
             AsmLines = new();
             HexCharBuffer = sys.alloc<char>(HexBufferLength);
-            Tool = Toolspace.cult;
+            Tool = "cult";
             InputFile = FS.FilePath.Empty;
         }
 

@@ -1,17 +1,18 @@
 namespace Windows.Image
 {
+    using Z0;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct COFF_SYMBOL_TABLE
+    public struct COFF_SYMBOL
     {
-        public ulong Name;
+        public CoffSymbolName Name;
 
-        public uint Value;
+        public Hex32 Value;
 
         public ushort SectionNumber;
 
-        public ushort Type;
+        public SYM_TYPE Type;
 
         public SYM_STORAGE_CLASS StorageClass;
 

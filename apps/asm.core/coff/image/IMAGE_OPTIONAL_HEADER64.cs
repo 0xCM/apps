@@ -50,7 +50,7 @@ namespace Windows.Image
 
         public IMAGE_SUBSYSTEM Subsystem;
 
-        public IMAGE_DLL_CHARACTERISTICS DllCharacteristics;
+        public IMAGE_DLL_FLAGS DllCharacteristics;
 
         public ulong SizeOfStackReserve;
 

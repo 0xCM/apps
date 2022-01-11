@@ -3,7 +3,7 @@
 // License     :  MIT
 // Origin      : https://github.com/microsoft/CsWin32/src/ScrapeDocs/Program.cs
 //-----------------------------------------------------------------------------
-namespace Z0.Tools
+namespace Z0.Toolz
 {
     using System;
     using System.Collections.Concurrent;

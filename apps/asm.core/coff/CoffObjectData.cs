@@ -7,15 +7,15 @@ namespace Z0
     using System;
     using System.Collections.Generic;
 
-    public class HexFileData : FileData<Index<HexDataRow>>
+    public class CoffObjectData : FileData<CoffObject>
     {
-        public HexFileData(Dictionary<FS.FilePath,Index<HexDataRow>> src)
+        public CoffObjectData(Dictionary<FS.FilePath,CoffObject> src)
             : base(src)
         {
 
         }
 
-        public static implicit operator HexFileData(Dictionary<FS.FilePath,Index<HexDataRow>> src)
-            => new HexFileData(src);
+        public static implicit operator CoffObjectData(Dictionary<FS.FilePath,CoffObject> src)
+            => new CoffObjectData(src);
     }
 }
