@@ -119,7 +119,7 @@ namespace Z0.Asm
             var tableFlow = default(WfTableFlow<HostAsmRecord>);
             var asmWriter = default(StreamWriter);
             var asmPath = FS.FilePath.Empty;
-            var asmFlow = default(WfFileFlow);
+            var asmFlow = default(WfFileWritten);
             var buffer = text.buffer();
 
             for(var i=0; i<count; i++)

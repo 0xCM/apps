@@ -39,7 +39,6 @@ namespace Z0
 
     partial class XTend
     {
-
         public static ByteSize TotalSize(this HexDataRow[] src)
             => src.Select(x => x.Data.Count).Sum();
 

@@ -188,13 +188,13 @@ namespace Z0
         protected ExecToken Ran<T>(WfExecFlow<T> flow, string msg, FlairKind flair = FlairKind.Ran)
             => Wf.Ran(HostType, flow.WithMsg(msg), flair);
 
-        protected WfFileFlow EmittingFile(FS.FilePath dst)
+        protected WfFileWritten EmittingFile(FS.FilePath dst)
             => Wf.EmittingFile(HostType, dst);
 
-        public ExecToken EmittedFile(WfFileFlow flow, Count count)
+        public ExecToken EmittedFile(WfFileWritten flow, Count count)
             => Wf.EmittedFile(HostType, flow, count);
 
-        protected void EmittedFile(WfFileFlow file, Count count, Arrow<FS.FileUri> flow)
+        protected void EmittedFile(WfFileWritten file, Count count, Arrow<FS.FileUri> flow)
             => Wf.EmittedFile(HostType, file,count);
 
         protected WfTableFlow<T> EmittingTable<T>(FS.FilePath dst)

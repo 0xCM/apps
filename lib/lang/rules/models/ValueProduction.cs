@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public class ValueProduction : ValueProduction<@string>, INullity
+    public class ValueProduction : ValueProduction<@string>, INullity, IProduction
     {
         [MethodImpl(Inline)]
         public ValueProduction(string src, string dst)
@@ -29,7 +29,13 @@ namespace Z0
             get => Source.IsNonEmpty || Target.IsNonEmpty;
         }
 
-        public override string Format()
+        IExpr IArrow<IExpr, IExpr>.Source
+            => Source;
+
+        IExpr IArrow<IExpr, IExpr>.Target
+            => Target;
+
+        public string Format()
         {
             if(Source.IsNonEmpty && Target.IsNonEmpty)
                 return string.Format("{0} -> {1}", Source, Target);

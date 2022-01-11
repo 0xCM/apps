@@ -11,6 +11,6 @@ namespace Z0
         ref readonly WfTableFlow<T> LogEmission<T>(in WfTableFlow<T> flow)
             where T : struct;
 
-        ref readonly WfFileFlow LogEmission(in WfFileFlow flow);
+        ref readonly WfFileWritten LogEmission(in WfFileWritten flow);
     }
 }

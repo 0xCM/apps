@@ -87,10 +87,6 @@ namespace Z0
             => llvm.LlvmData.create(wf);
 
         [Op]
-        public static CoffObjects CoffObjects(this IWfRuntime wf)
-            => Z0.CoffObjects.create(wf);
-
-        [Op]
         public static ClangSvc Clang(this IWfRuntime wf)
             => llvm.ClangSvc.create(wf);
     }

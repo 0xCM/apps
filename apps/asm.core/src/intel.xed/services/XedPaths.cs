@@ -63,15 +63,15 @@ namespace Z0
 
 
         public FS.Files DisasmSources(IProjectWs project)
-            => project.OutFiles(WfFileKind.XedRawDisasm);
+            => project.OutFiles(FileKind.XedRawDisasm);
 
         public FS.FilePath DisasmSummary(IProjectWs project)
-            => ProjectDb.ProjectDataFile(project, WfFileKind.XedSummaryDisasm);
+            => ProjectDb.ProjectDataFile(project, FileKind.XedSummaryDisasm);
 
         public FS.FolderPath SemanticDisasmDir(IProjectWs project)
             => ProjectDb.ProjectData(string.Format("{0}.{1}", project.Name, "xed.semantic.disasm"));
 
         public FS.FilePath SemanticDisasmTarget(IProjectWs project, string srcid)
-            => SemanticDisasmDir(project) + FS.file(srcid, WfFileKind.XedSemanticDisasm.Ext());
+            => SemanticDisasmDir(project) + FS.file(srcid, FileKind.XedSemanticDisasm.Ext());
     }
 }

@@ -31,7 +31,7 @@ namespace Z0
 
         const string FormatPattern = "{0,-24} | {1,-24} | {2,-12} | {3,-12} | {4}";
 
-        public ref readonly WfFileFlow LogEmission(in WfFileFlow flow)
+        public ref readonly WfFileWritten LogEmission(in WfFileWritten flow)
         {
             try
             {

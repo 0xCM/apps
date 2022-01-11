@@ -126,8 +126,8 @@ namespace Z0
             where T : struct
                 => new WfTableFlow<T>(this, dst, NextExecToken());
 
-        WfFileFlow Flow(FS.FilePath dst)
-            => new WfFileFlow(this, dst, NextExecToken());
+        WfFileWritten Flow(FS.FilePath dst)
+            => new WfFileWritten(this, dst, NextExecToken());
 
         Task<CmdResult> Dispatch(ICmd cmd)
             => Task.Factory.StartNew(() => Router.Dispatch(cmd));
@@ -239,19 +239,19 @@ namespace Z0
             return completed;
         }
 
-        WfFileFlow EmittingFile(FS.FilePath dst)
+        WfFileWritten EmittingFile(FS.FilePath dst)
         {
             signal(this).EmittingFile(dst);
             return Emissions.LogEmission(Flow(dst));
         }
 
-        WfFileFlow EmittingFile(WfHost host, FS.FilePath dst)
+        WfFileWritten EmittingFile(WfHost host, FS.FilePath dst)
         {
             signal(this,host).EmittingFile(dst);
             return Emissions.LogEmission(Flow(dst));
         }
 
-        ExecToken EmittedFile(WfFileFlow flow, Count count)
+        ExecToken EmittedFile(WfFileWritten flow, Count count)
         {
             var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);
@@ -260,7 +260,7 @@ namespace Z0
             return completed;
         }
 
-        ExecToken EmittedFile(WfHost host, WfFileFlow flow, Count count)
+        ExecToken EmittedFile(WfHost host, WfFileWritten flow, Count count)
         {
             var completed = Completed(flow);
             var counted = flow.WithCount(count).WithToken(completed);

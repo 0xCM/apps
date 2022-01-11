@@ -33,7 +33,7 @@ namespace Z0
             DataConfig = HexFormatSpecs.HexData;
         }
 
-        public string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter = Chars.Space)
+        public string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter)
         {
             var line = text.buffer();
             var count = data.Length;
@@ -41,11 +41,7 @@ namespace Z0
             {
                 var pos = BaseAddress + offset;
                 line.AppendFormat("{0,-12}", pos.ToString("x") + HexFormatSpecs.PostSpec);
-                if(delimiter != Space)
-                    line.Append(Space);
                 line.Append(delimiter);
-                if(delimiter != Space)
-                    line.Append(Space);
             }
 
             line.Append(data.FormatHex());
@@ -77,20 +73,22 @@ namespace Z0
                 }
 
                 line.Append(skip(data,i).FormatHex(DataConfig));
-                line.Append(Chars.Space);
+
+                if(i != count - 1)
+                    line.Append(Chars.Space);
 
                 offset += 1;
             }
 
             var last = line.ToString();
-            if(!string.IsNullOrWhiteSpace(last))
+            if(text.nonempty(last))
                 receiver(last);
         }
 
         public ReadOnlySpan<string> FormatLines(ReadOnlySpan<byte> src)
         {
             const char delimiter = Chars.Space;
-            var dst = core.list<string>();
+            var dst = list<string>();
             var line = text.buffer();
             var count = src.Length;
 
@@ -99,9 +97,7 @@ namespace Z0
                 if(i % LineConfig.BytesPerLine == 0)
                 {
                     if(i != 0)
-                    {
-                        dst.Add(line.Emit());
-                    }
+                        dst.Add(line.Emit().Trim());
 
                     if(LineConfig.LineLabels)
                     {
@@ -114,8 +110,8 @@ namespace Z0
                 line.Append(delimiter);
             }
 
-            var last = line.Emit();
-            if(!string.IsNullOrWhiteSpace(last))
+            var last = line.Emit().Trim();
+            if(text.nonempty(last))
                 dst.Add(last);
 
             return dst.ToArray();

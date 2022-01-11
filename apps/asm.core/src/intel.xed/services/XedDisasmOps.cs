@@ -31,7 +31,7 @@ namespace Z0
 
         public static Outcome ParseEncodings(FS.FilePath src, List<AsmDocEncoding> dst)
         {
-            var srcid = src.SrcId(WfFileKind.XedRawDisasm);
+            var srcid = src.SrcId(FileKind.XedRawDisasm);
             var blocks = LoadBlocks(src);
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);

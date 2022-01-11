@@ -58,7 +58,7 @@ namespace Z0.llvm
             foreach(var doc in docs)
             {
                 var path = doc.Path.ToUri();
-                var srcid = doc.Path.SrcId(WfFileKind.AsmSyntax);
+                var srcid = doc.Path.SrcId(FileKind.AsmSyntax);
                 var inst = doc.Instructions;
                 var lines = doc.SourceLines.Map(x => (x.LineNumber, x.Statement.Format().Trim())).ToDictionary();
                 var count = inst.Length;
@@ -98,7 +98,7 @@ namespace Z0.llvm
             {
                 var doc = docs[path];
                 var encoded = doc.Statements;
-                var srcid = ((FS.FilePath)doc.Source).SrcId(WfFileKind.EncodingAsm);
+                var srcid = ((FS.FilePath)doc.Source).SrcId(FileKind.EncodingAsm);
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
@@ -122,7 +122,7 @@ namespace Z0.llvm
 
         public ConstLookup<FS.FilePath,AsmSyntaxDoc> CollectSyntaxLogs(IProjectWs project)
         {
-            var logs = project.OutFiles(FileTypes.ext(WfFileKind.AsmSyntaxLog)).View;
+            var logs = project.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
             var dst = SyntaxTable(project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
@@ -346,7 +346,7 @@ namespace Z0.llvm
                 var record = new AsmSyntaxRow();
                 record.Seq = seq++;
                 record.DocSeq = docseq++;
-                record.SrcId = srcpath.SrcId(WfFileKind.EncodingAsm);
+                record.SrcId = srcpath.SrcId(FileKind.EncodingAsm);
                 record.Location = point.Location;
                 record.Syntax = syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith);
 
@@ -377,9 +377,9 @@ namespace Z0.llvm
             => ProjectDb.ProjectTable<AsmDocInstruction>(project);
 
         FS.Files EncodingSourcePaths(IProjectWs project)
-            => project.OutFiles(WfFileKind.EncodingAsm);
+            => project.OutFiles(FileKind.EncodingAsm);
 
         FS.Files SyntaxSourcePaths(IProjectWs project)
-            => project.OutFiles(WfFileKind.AsmSyntax);
+            => project.OutFiles(FileKind.AsmSyntax);
     }
 }

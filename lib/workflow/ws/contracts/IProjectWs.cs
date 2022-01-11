@@ -81,18 +81,10 @@ namespace Z0
             where T : struct
                 => Logs() +FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
 
-        // FS.FilePath Table<T>()
-        //     where T : struct
-        //         => Tables() + FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
-
-        // FS.FilePath Table<T>(string subject)
-        //     where T : struct
-        //         => Tables() + FS.file(string.Format("{0}.{1}", subject, Z0.TableId.identify<T>().Format()), FS.Csv);
-
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);
 
-        FS.Files OutFiles(params WfFileKind[] kinds)
+        FS.Files OutFiles(params FileKind[] kinds)
             => Out().Files(true, kinds.Select(FileTypes.ext));
 
         FS.Files OutFiles(FS.FolderName subdir)
@@ -119,7 +111,7 @@ namespace Z0
         FS.Files SrcFiles(string scope)
             => (Src() + FS.folder(scope)).AllFiles;
 
-        FS.FilePath SrcFile(string scope, string fileid, WfFileKind kind)
+        FS.FilePath SrcFile(string scope, string fileid, FileKind kind)
             => Src() + FS.folder(scope) + FS.file(fileid, kind.Ext());
 
         FS.FolderPath Assets()

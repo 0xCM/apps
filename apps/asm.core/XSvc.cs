@@ -62,5 +62,9 @@ namespace Z0
         [Op]
         public static NDisasm NDisasm(this IWfRuntime wf)
             => Z0.NDisasm.create(wf);
+
+        [Op]
+        public static CoffObjects CoffObjects(this IWfRuntime wf)
+            => Z0.CoffObjects.create(wf);
     }
 }

@@ -10,6 +10,6 @@ namespace Z0
     {
         void FormatLines(ReadOnlySpan<byte> data, Action<string> receiver);
 
-        string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter = Chars.Space);
+        string FormatLine(ReadOnlySpan<byte> data, ulong offset, char delimiter);
     }
 }

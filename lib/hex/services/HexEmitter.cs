@@ -16,7 +16,7 @@ namespace Z0
             const char Delimiter = Chars.Pipe;
             var @base = MemoryAddress.Zero;
             var size = src.Length;
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var formatter = HexDataFormatter.create(@base, rowsize, false);
             var buffer = alloc<byte>(rowsize);
@@ -26,8 +26,7 @@ namespace Z0
             for(var i=0; i<parts; i++)
             {
                 data = slice(src, offset, rowsize);
-                var line = formatter.FormatLine(data, offset, Delimiter);
-                writer.WriteLine(line);
+                writer.WriteLine(formatter.FormatLine(data, offset, Delimiter));
                 offset += rowsize;
             }
 
@@ -35,11 +34,10 @@ namespace Z0
             if(remainder != 0)
             {
                 data = slice(src, offset, remainder);
-                var line = formatter.FormatLine(data, offset, Delimiter);
-                writer.WriteLine(line);
+                writer.WriteLine(formatter.FormatLine(data, offset, Delimiter));
             }
 
-            Wf.EmittedFile(flow,size);
+            EmittedFile(flow,size);
             return size;
         }
 

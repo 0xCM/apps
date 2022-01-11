@@ -65,10 +65,10 @@ namespace Z0
             where T : struct
                 => ProjectData(scope) + FS.file(string.Format("{0}.{1}", src.Project, TableId<T>()), FS.Csv);
 
-        FS.FilePath ProjectDataFile(IProjectWs src, WfFileKind kind)
+        FS.FilePath ProjectDataFile(IProjectWs src, FileKind kind)
             => ProjectData() + FS.file(src.Project.Format(), kind.Ext());
 
-        FS.FilePath ProjectDataFile(IProjectWs src, string scope, WfFileKind kind)
+        FS.FilePath ProjectDataFile(IProjectWs src, string scope, FileKind kind)
             => ProjectData(scope) + FS.file(src.Project.Format(), kind.Ext());
 
         FS.FilePath ProjectDataFile(IProjectWs src, string name, FS.FileExt ext)

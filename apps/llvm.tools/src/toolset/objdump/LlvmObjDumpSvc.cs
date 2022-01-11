@@ -114,7 +114,7 @@ namespace Z0.llvm
 
         public Outcome Consolidate(IProjectWs project)
         {
-            var src = project.OutFiles(WfFileKind.ObjAsm).View;
+            var src = project.OutFiles(FileKind.ObjAsm).View;
             var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
             var count = src.Length;
@@ -195,18 +195,18 @@ namespace Z0.llvm
             var block = EmptyString;
             var dstdir = dstProject.SrcDir(srcProject.Project.Format());
             var dstpath = FS.FilePath.Empty;
-            var emitting = default(WfFileFlow);
+            var emitting = default(WfFileWritten);
             var lines = list<string>();
             var label = AsmLabel.Empty;
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref rows[i];
-                var _srcid = FS.path(row.Source.WithoutLine.Format()).SrcId(WfFileKind.ObjAsm);
+                var _srcid = FS.path(row.Source.WithoutLine.Format()).SrcId(FileKind.ObjAsm);
 
                 if(empty(srcid))
                 {
                     srcid = _srcid;
-                    dstpath = dstdir + FS.file(srcid, WfFileKind.Asm.Ext());
+                    dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
                     lines.Add(".intel_syntax noprefix");
                     emitting = EmittingFile(dstpath);
                 }
@@ -221,7 +221,7 @@ namespace Z0.llvm
                     lines.Clear();
                     lines.Add(".intel_syntax noprefix");
                     srcid = _srcid;
-                    dstpath = dstdir + FS.file(srcid, WfFileKind.Asm.Ext());
+                    dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
                     EmittingFile(dstpath);
                 }
 

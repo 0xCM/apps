@@ -18,13 +18,13 @@ namespace Z0
 
     public static partial class XTend
     {
-        public static string SrcId(this FS.FilePath src, params WfFileKind[] kinds)
+        public static string SrcId(this FS.FilePath src, params FileKind[] kinds)
             => src.FileName.SrcId(kinds);
 
         public static string SrcId(this ObjDumpRow row)
-            => FS.path(row.Source.WithoutLine.Format()).SrcId(WfFileKind.ObjAsm);
+            => FS.path(row.Source.WithoutLine.Format()).SrcId(FileKind.ObjAsm);
 
-        public static string SrcId(this FS.FileName src, params WfFileKind[] kinds)
+        public static string SrcId(this FS.FileName src, params FileKind[] kinds)
         {
             var file = src.Format();
             var count = kinds.Length;

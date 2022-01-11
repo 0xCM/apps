@@ -11,7 +11,9 @@ namespace Z0
     [Free]
     public interface IArrow : ITextual
     {
+        dynamic Source {get;}
 
+        dynamic Target {get;}
     }
 
     /// <summary>
@@ -22,9 +24,15 @@ namespace Z0
     [Free]
     public interface IArrow<S,T> : IArrow
     {
-        S Source {get;}
+        new S Source {get;}
 
-        T Target {get;}
+        new T Target {get;}
+
+        dynamic IArrow.Source
+            => ((IArrow<S,T>)this).Source;
+
+        dynamic IArrow.Target
+            => ((IArrow<S,T>)this).Target;
 
         string ITextual.Format()
             => string.Format(RP.Arrow, Source, Target);
