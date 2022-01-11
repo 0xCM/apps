@@ -101,10 +101,10 @@ namespace Z0
             return dst;
         }
 
-        public CoffInfo ReadCoffInfo()
+        public Z0.CoffHeader ReadCoffInfo()
         {
             var src = PeHeaders.CoffHeader;
-            var dst = new CoffInfo();
+            var dst = new Z0.CoffHeader();
             dst.Characteristics = src.Characteristics;
             dst.Machine = src.Machine;
             dst.NumberOfSections = (ushort)src.NumberOfSections;

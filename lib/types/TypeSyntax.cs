@@ -214,7 +214,7 @@ namespace Z0
         /// Defines a scalar type predicated on a specified underlying type
         /// </summary>
         [TypeSyntax(Scalar)]
-        public static TypeSpec scalar(TypeSpec type) => string.Format(Scalar, type);
+        public static TypeSpec scalar(TypeSpec type) => string.Format(Scalar, type.Format());
 
         /// <summary>
         /// Defines a refined literal sequence
@@ -222,7 +222,7 @@ namespace Z0
         /// <param name="n">The sequence name</param>
         /// <param name="@base">The sequence term type</param>
         [TypeSyntax(Enum)]
-        public static TypeSpec @enum(string name, TypeSpec @base) => string.Format(Enum, name, @base);
+        public static TypeSpec @enum(string name, TypeSpec @base) => string.Format(Enum, name, @base.Format());
 
         /// <summary>
         /// Defines an address type with default width

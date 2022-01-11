@@ -69,6 +69,10 @@ namespace Z0
         FS.FolderPath TablesOut()
             => Out(tables);
 
+        FS.FilePath SettingsTable<T>()
+            where T : struct
+                => Home() + FS.folder("settings") + TableFile<T>();
+
         FS.FilePath TableOut<T>()
             where T : struct
                 => TablesOut() + FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);

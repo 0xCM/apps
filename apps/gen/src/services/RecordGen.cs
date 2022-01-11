@@ -25,7 +25,7 @@ namespace Z0
             {
                 dst.AppendLine();
                 ref readonly var field = ref skip(fields,i);
-                dst.IndentLineFormat(margin,"public {0} {1};", field.DataType, field.FieldName);
+                dst.IndentLineFormat(margin,"public {0} {1};", field.DataType.Format(), field.FieldName);
             }
 
             margin -= 4;

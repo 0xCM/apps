@@ -7,8 +7,6 @@ namespace Z0
     using static Root;
     using static core;
 
-    using Windows.Image;
-
     partial class ProjectCmdProvider
     {
         [CmdOp("objects/load")]
@@ -24,7 +22,7 @@ namespace Z0
                 return false;
             }
             var formatter = Tables.formatter<CoffObject>();
-            var headerFormatter = Tables.formatter<IMAGE_FILE_HEADER>();
+            var headerFormatter = Tables.formatter<CoffHeader>();
             var keys = objSrc.Paths.Array();
             var count = keys.Length;
             for(var i=0; i<count; i++)
@@ -62,15 +60,15 @@ namespace Z0
                 }
 
                 var offset = 0u;
-                ref readonly var header = ref skip(recover<IMAGE_FILE_HEADER>(objData.View), offset);
-                offset += size<IMAGE_FILE_HEADER>();
+                ref readonly var header = ref skip(recover<CoffHeader>(objData.View), offset);
+                offset += size<CoffHeader>();
 
                 ref readonly var symcount = ref header.NumberOfSymbols;
                 ref readonly var symoffset = ref header.PointerToSymbolTable;
 
                 Write(string.Format("{0,-24} | {1,-8} | {2}", id, symcount,symoffset));
 
-                ref readonly var s0 = ref first(recover<COFF_SYMBOL>(slice(objData.View,(uint)symoffset)));
+                ref readonly var s0 = ref first(recover<CoffSymbol>(slice(objData.View,(uint)symoffset)));
                 for(var j=0; j<symcount; j++)
                 {
                     ref readonly var s = ref skip(s0,j);

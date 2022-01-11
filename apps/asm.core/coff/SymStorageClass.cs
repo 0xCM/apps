@@ -1,9 +1,11 @@
-namespace Windows.Image
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
 {
-    using Z0;
-
     [SymSource("image")]
-    public enum SYM_STORAGE_CLASS : byte
+    public enum SymStorageClass : byte
     {
         [Symbol("null")]
         IMAGE_SYM_CLASS_NULL = 0,

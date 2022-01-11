@@ -88,12 +88,6 @@ namespace Z0
             get => PE.PEHeaders;
         }
 
-        public CoffHeader CoffHeader
-        {
-            [MethodImpl(Inline)]
-            get => PeHeaders.CoffHeader;
-        }
-
         public CorHeader CorHeader
         {
             [MethodImpl(Inline)]
