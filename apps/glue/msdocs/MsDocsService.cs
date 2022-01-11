@@ -11,7 +11,7 @@ namespace Z0.Toolz
 
     }
 
-    public class MsDocPipe : AppService<MsDocPipe>
+    public class MsDocsService : AppService<MsDocsService>
     {
         public void Process(FS.FolderPath src, FS.FilePath dst)
         {

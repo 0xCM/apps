@@ -19,7 +19,7 @@ namespace Z0
         /// See https://docs.microsoft.com/en-us/dotnet/api/system.reflection.portableexecutable.coffheader?view=net-5.0
         /// </remarks>
         [Record(TableId), StructLayout(LayoutKind.Sequential)]
-        public struct CoffInfo : IRecord<CoffInfo>
+        public struct CoffInfo
         {
             public const string TableId = "pe.coff-header";
 

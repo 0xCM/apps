@@ -94,5 +94,9 @@ namespace Z0
         [Op]
         public static DumpParser DumpParser(this IWfRuntime wf)
             => Z0.DumpParser.create(wf);
+
+        [Op]
+        public static MsDocsService MsDocs(this IWfRuntime wf)
+            => Toolz.MsDocsService.create(wf);
     }
 }

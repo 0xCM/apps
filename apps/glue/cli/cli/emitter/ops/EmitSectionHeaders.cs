@@ -26,15 +26,15 @@ namespace Z0
 
         public void EmitSectionHeaders(IRuntimeArchive src, FS.FolderPath dir)
         {
-            EmitSectionHeaders(src.DllFiles.View, ProjectDb.TablePath<SectionHeaderInfo>(CliScope,"dll"));
-            EmitSectionHeaders(src.ExeFiles.View, ProjectDb.TablePath<SectionHeaderInfo>(CliScope,"exe"));
+            EmitSectionHeaders(src.DllFiles.View, ProjectDb.TablePath<PeSectionHeader>(CliScope,"dll"));
+            EmitSectionHeaders(src.ExeFiles.View, ProjectDb.TablePath<PeSectionHeader>(CliScope,"exe"));
         }
 
         public Outcome<Count> EmitSectionHeaders(ReadOnlySpan<FS.FilePath> src, FS.FilePath dst)
         {
             var total = Count.Zero;
-            var formatter = Tables.formatter<SectionHeaderInfo>(SectionHeaderWidths);
-            var flow = EmittingTable<SectionHeaderInfo>(dst);
+            var formatter = Tables.formatter<PeSectionHeader>(SectionHeaderWidths);
+            var flow = EmittingTable<PeSectionHeader>(dst);
             using var writer = dst.Writer();
             writer.WriteLine(formatter.FormatHeader());
             foreach(var file in src)

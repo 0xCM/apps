@@ -11,13 +11,13 @@ namespace Z0
 
     partial class PeReader
     {
-        public ReadOnlySpan<SectionHeaderInfo> ReadHeaderInfo()
+        public ReadOnlySpan<PeSectionHeader> ReadHeaderInfo()
         {
             var headers = PeHeaders;
             var pe = headers.PEHeader;
             var sections = SectionHeaders;
             var count = sections.Length;
-            var buffer = alloc<SectionHeaderInfo>(count);
+            var buffer = alloc<PeSectionHeader>(count);
             ref var target = ref first(buffer);
             for(var i=0; i<count; i++)
             {
@@ -28,7 +28,7 @@ namespace Z0
                 record.CodeBase = (Address32)pe.BaseOfCode;
                 record.GptRva = (Address32)pe.GlobalPointerTableDirectory.RelativeVirtualAddress;
                 record.GptSize = (ByteSize)pe.GlobalPointerTableDirectory.Size;
-                record.SectionAspects = section.SectionCharacteristics;
+                record.SectionFlags = section.SectionCharacteristics;
                 record.SectionName = section.Name;
                 record.RawDataAddress = (Address32)section.PointerToRawData;
                 record.RawDataSize = (uint)section.SizeOfRawData;
