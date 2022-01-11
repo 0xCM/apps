@@ -4,12 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WfFileFlowExec : FlowExec<FS.FilePath,FS.FilePath>
+    public interface IFlow : IDataFlow
     {
-        protected WfFileFlowExec(IFileFLow flow, FS.FilePath src, FS.FilePath dst)
-            : base(flow,src,dst)
-        {
+        IFlowType FlowType {get;}
 
-        }
+        IActor IDataFlow.Actor
+            => FlowType.Actor;
+    }
+
+    public interface IFlow<S,T> : IFlow, IDataFlow<S,T>
+    {
+
+
     }
 }

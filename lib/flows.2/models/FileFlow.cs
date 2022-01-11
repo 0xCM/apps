@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IToolRep : IActor
+    public class FileFlow : Flow<FS.FilePath,FS.FilePath>
     {
+        protected FileFlow(IFileFlowType type, FS.FilePath src, FS.FilePath dst)
+            : base(type,src,dst)
+        {
 
+        }
     }
 }

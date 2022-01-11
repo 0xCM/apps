@@ -7,15 +7,8 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ITool
+    public interface IFlowType : IArrow
     {
-        ToolId ToolId {get;}
-    }
-
-    [Free]
-    public interface ITool<T> : ITool, IActor<T>
-        where T : ITool<T>, new()
-    {
-
+        IActor Actor {get;}
     }
 }

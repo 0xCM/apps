@@ -14,25 +14,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op]
-        public static bool eq(ArrowType a, ArrowType b)
-            => a.Source == b.Source && a.Target == b.Target;
-
-        [Op]
-        public static uint hash32(ArrowType src)
-            => alg.hash.calc(src.Source) ^ alg.hash.calc(src.Target) ^ alg.hash.calc(src.Kind);
-
-        [Op, Closures(Closure)]
-        public static string format(ArrowType src)
-            =>string.Format("{0} -> {1}", src.Source.Name, src.Target.Name);
-
-        [Op, Closures(Closure)]
-        public static string format<T>(ArrowType<T> src)
-            =>string.Format("{0} -> {1}", src.Source.Name, src.Target.Name);
-
-        public static string format<S,T>(ArrowType<S,T> src)
-            =>string.Format("{0} -> {1}", src.Source.Name, src.Target.Name);
-
         /// <summary>
         /// Defines an edge from a specified source to specified target
         /// </summary>

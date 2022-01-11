@@ -6,19 +6,18 @@ namespace Z0
 {
     using static FileTypes;
 
-    public abstract class WfFileFlow<F,A,S,T> : FileFlow<F,A,FileKind,S,T>, IFileFLow
-        where F : WfFileFlow<F,A,S,T>,new()
+    public abstract class FileFlowType<F,A,S,T> : FileFlowType<F,A,FileKind,S,T>, IFileFlowType
+        where F : FileFlowType<F,A,S,T>,new()
         where A : IActor
         where S : IWfFileType
         where T : IWfFileType
     {
-        protected WfFileFlow(A actor, S source, T target)
+        protected FileFlowType(A actor, S source, T target)
             : base(actor,source,target)
         {
 
 
         }
-
 
         public FileKind SourceKind
             => Source.Kind;
@@ -27,6 +26,6 @@ namespace Z0
             => Source.Kind;
 
         public override string Format()
-            => FileFlows.format(this);
+            => FileFlowTypes.format(this);
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFileFLow : IDataFlow
+    public interface IFileFlowType : IFlowType
     {
         FileKind SourceKind {get;}
 
@@ -16,13 +16,7 @@ namespace Z0
         FS.FileExt TargetExt
             => TargetKind.Ext();
 
-        // FileKind IArrow<FileKind,FileKind>.Source
-        //     => SourceKind;
-
-        // FileKind IArrow<FileKind,FileKind>.Target
-        //     => TargetKind;
-
         string ITextual.Format()
-            => FileFlows.format(this);
+            => FileFlowTypes.format(this);
     }
 }

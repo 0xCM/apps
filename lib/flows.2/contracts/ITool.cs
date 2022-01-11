@@ -4,17 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFlowExec : IDataFlow
-    {
-        IDataFlow Flow {get;}
+    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-        IActor IDataFlow.Actor
-            => Flow.Actor;
+    [Free]
+    public interface ITool : IActor
+    {
+        ToolId ToolId {get;}
     }
 
-    public interface IFlowExec<S,T> : IFlowExec, IDataFlow<S,T>
+    [Free]
+    public interface ITool<T> : ITool, IActor<T>
+        where T : ITool<T>, new()
     {
-
 
     }
 }

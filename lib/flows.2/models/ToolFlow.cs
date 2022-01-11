@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class WfToolExec : WfFileFlowExec
+    public class ToolFlow : FileFlow
     {
-        public WfToolExec(IFileFLow flow, CmdScript script, FS.FilePath src, FS.FilePath dst)
+        public ToolFlow(IFileFlowType flow, CmdScript script, FS.FilePath src, FS.FilePath dst)
             : base(flow,src,dst)
         {
             Script = script;
@@ -14,7 +14,7 @@ namespace Z0
 
         public CmdScript Script {get;}
 
-        public IToolRep Tool
-            => (IToolRep)Flow.Actor;
+        public ITool Tool
+            => (ITool)FlowType.Actor;
     }
 }

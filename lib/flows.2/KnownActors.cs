@@ -6,7 +6,7 @@ namespace Z0
 {
     using LLN = ToolNames;
 
-    public readonly struct WfActors
+    public readonly struct KnownActors
     {
         public static readonly Llc llc = Llc.Instance;
 
@@ -32,7 +32,7 @@ namespace Z0
 
         public static readonly Xed xed = Xed.Instance;
 
-        public sealed class ZTool : ToolRep<ZTool>
+        public sealed class ZTool : Tool<ZTool>
         {
             public ZTool()
                 : base(nameof(ZTool))
@@ -41,7 +41,7 @@ namespace Z0
             }
         }
 
-        public sealed class Llc : ToolRep<Llc>
+        public sealed class Llc : Tool<Llc>
         {
             public Llc()
                 : base(LLN.llc)
@@ -50,7 +50,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmMc : ToolRep<LlvmMc>
+        public sealed class LlvmMc : Tool<LlvmMc>
         {
             public LlvmMc()
                 : base(LLN.llvm_mc)
@@ -59,7 +59,7 @@ namespace Z0
             }
         }
 
-        public sealed class Clang : ToolRep<Clang>
+        public sealed class Clang : Tool<Clang>
         {
             public Clang()
                 : base(LLN.clang)
@@ -68,7 +68,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmObjDump : ToolRep<LlvmObjDump>
+        public sealed class LlvmObjDump : Tool<LlvmObjDump>
         {
             public LlvmObjDump()
                 : base(LLN.llvm_objdump)
@@ -77,7 +77,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmConfig : ToolRep<LlvmConfig>
+        public sealed class LlvmConfig : Tool<LlvmConfig>
         {
             public LlvmConfig()
                 : base(LLN.llvm_config)
@@ -86,7 +86,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmReadObj : ToolRep<LlvmReadObj>
+        public sealed class LlvmReadObj : Tool<LlvmReadObj>
         {
             public LlvmReadObj()
                 : base(LLN.llvm_readobj)
@@ -95,7 +95,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmAs : ToolRep<LlvmAs>
+        public sealed class LlvmAs : Tool<LlvmAs>
         {
             public LlvmAs()
                 : base(LLN.llvm_as)
@@ -104,7 +104,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmTableGen : ToolRep<LlvmTableGen>
+        public sealed class LlvmTableGen : Tool<LlvmTableGen>
         {
             public LlvmTableGen()
                 : base(LLN.llvm_tblgen)
@@ -113,7 +113,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmDis : ToolRep<LlvmDis>
+        public sealed class LlvmDis : Tool<LlvmDis>
         {
             public LlvmDis()
                 : base(LLN.llvm_dis)
@@ -122,7 +122,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmLld : ToolRep<LlvmLld>
+        public sealed class LlvmLld : Tool<LlvmLld>
         {
             public LlvmLld()
                 : base(LLN.llvm_lld)
@@ -131,7 +131,7 @@ namespace Z0
             }
         }
 
-        public sealed class LlvmNm : ToolRep<LlvmNm>
+        public sealed class LlvmNm : Tool<LlvmNm>
         {
             public LlvmNm()
                 : base(LLN.llvm_nm)
@@ -140,7 +140,7 @@ namespace Z0
             }
         }
 
-        public sealed class Xed : ToolRep<Xed>
+        public sealed class Xed : Tool<Xed>
         {
             public Xed()
                 : base("xed")

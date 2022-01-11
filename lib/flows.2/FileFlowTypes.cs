@@ -4,17 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static WfActors;
+    using static KnownActors;
     using static FileTypes;
 
     using FT = FileTypes;
 
-    public readonly struct FileFlows
+    public readonly struct FileFlowTypes
     {
-        public static string format(IFileFLow flow)
+        public static string format(IFileFlowType flow)
             => string.Format("{0}:*.{1} -> *.{2}", flow.Actor, flow.SourceExt, flow.TargetExt);
 
-        public static IFileFLow flow(FileKind src, FileKind dst)
+        public static IFileFlowType flow(FileKind src, FileKind dst)
         {
             var flow = EmptyFlow.Instance;
             switch(src)
@@ -50,7 +50,7 @@ namespace Z0
         /// <summary>
         /// *.ll -> *ll.asm
         /// </summary>
-        public class LlToAsm : WfFileFlow<LlToAsm,Llc,Llir,FT.Asm>
+        public class LlToAsm : FileFlowType<LlToAsm,Llc,Llir,FT.Asm>
         {
             public LlToAsm()
                 : base(llc, Llir.Instance, FT.Asm.Instance)
@@ -62,7 +62,7 @@ namespace Z0
         /// <summary>
         /// *.ll -> *.bc
         /// </summary>
-        public class LlToBc : WfFileFlow<LlToBc,LlvmAs,Llir,Bc>
+        public class LlToBc : FileFlowType<LlToBc,LlvmAs,Llir,Bc>
         {
             public LlToBc()
                 : base(llvm_as, Llir.Instance, Bc.Instance)
@@ -74,7 +74,7 @@ namespace Z0
         /// <summary>
         /// *.ll -> *.obj
         /// </summary>
-        public class LlToObj : WfFileFlow<LlToObj,Llc,Llir,Obj>
+        public class LlToObj : FileFlowType<LlToObj,Llc,Llir,Obj>
         {
             public LlToObj()
                 : base(llc, Llir.Instance, Obj.Instance)
@@ -86,7 +86,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.exe
         /// </summary>
-        public class ObjToExe : WfFileFlow<ObjToExe,LlvmLld,Obj,Exe>
+        public class ObjToExe : FileFlowType<ObjToExe,LlvmLld,Obj,Exe>
         {
             public ObjToExe()
                 : base(llvm_lld, Obj.Instance, Exe.Instance)
@@ -98,7 +98,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.exe
         /// </summary>
-        public class ObjToObjAsm : WfFileFlow<ObjToObjAsm,LlvmObjDump,Obj,ObjAsm>
+        public class ObjToObjAsm : FileFlowType<ObjToObjAsm,LlvmObjDump,Obj,ObjAsm>
         {
             public ObjToObjAsm()
                 : base(llvm_objdump, Obj.Instance, ObjAsm.Instance)
@@ -110,7 +110,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.hex.dat
         /// </summary>
-        public class ObjToHexDat : WfFileFlow<ObjToHexDat,ZTool,Obj,HexDat>
+        public class ObjToHexDat : FileFlowType<ObjToHexDat,ZTool,Obj,HexDat>
         {
             public ObjToHexDat()
                 : base(ztool, Obj.Instance, HexDat.Instance)
@@ -122,7 +122,7 @@ namespace Z0
         /// <summary>
         /// *.obj -> *.hex.dat
         /// </summary>
-        public class OToHexDat : WfFileFlow<OToHexDat,ZTool,O,HexDat>
+        public class OToHexDat : FileFlowType<OToHexDat,ZTool,O,HexDat>
         {
             public OToHexDat()
                 : base(ztool, O.Instance, HexDat.Instance)
@@ -134,7 +134,7 @@ namespace Z0
         /// <summary>
         /// *.bc -> *.ll.bc
         /// </summary>
-        public class BcToLlBc : WfFileFlow<BcToLlBc,LlvmDis,Llir,Bc>
+        public class BcToLlBc : FileFlowType<BcToLlBc,LlvmDis,Llir,Bc>
         {
             public BcToLlBc()
                 : base(llvm_dis, Llir.Instance, Bc.Instance)
@@ -146,7 +146,7 @@ namespace Z0
         /// <summary>
         /// *ll.asm -> *.encoding.asm
         /// </summary>
-        public class LlAsmToAsmEncoding : WfFileFlow<LlAsmToAsmEncoding,LlvmMc,FT.Asm,EncodingAsm>
+        public class LlAsmToAsmEncoding : FileFlowType<LlAsmToAsmEncoding,LlvmMc,FT.Asm,EncodingAsm>
         {
             public LlAsmToAsmEncoding ()
                 : base(llvm_mc, FT.Asm.Instance, EncodingAsm.Instance)
@@ -158,7 +158,7 @@ namespace Z0
         /// <summary>
         /// *ll.asm -> *.mc.asm
         /// </summary>
-        public class LlasmToMcAsm : WfFileFlow<LlasmToMcAsm,LlvmMc,FT.Asm,McAsm>
+        public class LlasmToMcAsm : FileFlowType<LlasmToMcAsm,LlvmMc,FT.Asm,McAsm>
         {
             public LlasmToMcAsm()
                 : base(llvm_mc, FT.Asm.Instance, McAsm.Instance)
@@ -170,7 +170,7 @@ namespace Z0
         /// <summary>
         /// *.asm -> *.mc.asm
         /// </summary>
-        public class AsmToMcAsm : WfFileFlow<AsmToMcAsm,LlvmMc,FT.Asm,McAsm>
+        public class AsmToMcAsm : FileFlowType<AsmToMcAsm,LlvmMc,FT.Asm,McAsm>
         {
             public AsmToMcAsm()
                 : base(llvm_mc, FT.Asm.Instance, McAsm.Instance)
@@ -182,7 +182,7 @@ namespace Z0
         /// <summary>
         /// *.encoding.asm -> *.syn.asm
         /// </summary>
-        public class AsmEncodingToSynAsm : WfFileFlow<AsmEncodingToSynAsm,LlvmMc,EncodingAsm,AsmSyntax>
+        public class AsmEncodingToSynAsm : FileFlowType<AsmEncodingToSynAsm,LlvmMc,EncodingAsm,AsmSyntax>
         {
             public AsmEncodingToSynAsm()
                 : base(llvm_mc, EncodingAsm.Instance, AsmSyntax.Instance)
@@ -194,7 +194,7 @@ namespace Z0
         /// <summary>
         /// *.encoding.asm -> *.syn.asm.log
         /// </summary>
-        public class AsmEncodingToSynLog : WfFileFlow<AsmEncodingToSynLog, LlvmMc, EncodingAsm, AsmSyntaxLog>
+        public class AsmEncodingToSynLog : FileFlowType<AsmEncodingToSynLog, LlvmMc, EncodingAsm, AsmSyntaxLog>
         {
             public AsmEncodingToSynLog()
                 : base(llvm_mc, EncodingAsm.Instance, AsmSyntaxLog.Instance)
@@ -206,7 +206,7 @@ namespace Z0
         /// <summary>
         /// *.asm -> *.encoding.asm
         /// </summary>
-        public class AsmToMcEncoding : WfFileFlow<AsmToMcEncoding,LlvmMc,FT.Asm,EncodingAsm>
+        public class AsmToMcEncoding : FileFlowType<AsmToMcEncoding,LlvmMc,FT.Asm,EncodingAsm>
         {
             public AsmToMcEncoding()
                 : base(llvm_mc, asm, EncodingAsm.Instance)
@@ -218,7 +218,7 @@ namespace Z0
         /// <summary>
         /// *.asm -> *.encoding.asm
         /// </summary>
-        public class ObjToXedDisasm : WfFileFlow<ObjToXedDisasm,Xed,Obj,XedRawDisasm>
+        public class ObjToXedDisasm : FileFlowType<ObjToXedDisasm,Xed,Obj,XedRawDisasm>
         {
             public ObjToXedDisasm()
                 : base(xed, obj, xed_raw)
@@ -227,7 +227,7 @@ namespace Z0
             }
         }
 
-        sealed class EmptyFlow : IFileFLow
+        sealed class EmptyFlow : IFileFlowType
         {
             public static EmptyFlow Instance = new();
 

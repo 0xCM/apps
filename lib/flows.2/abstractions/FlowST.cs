@@ -4,22 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class FlowExec<S,T> : IFlowExec<S,T>
+    public abstract class Flow<S,T> : IDataFlow<S,T>
     {
-        public IDataFlow Flow {get;}
+        public IFlowType FlowType {get;}
 
         public S Source {get;}
 
         public T Target {get;}
 
-        public IActor Actor => Flow.Actor;
+        public IActor Actor => FlowType.Actor;
 
         public string Descriptor
-            => Flow.Format();
+            => FlowType.Format();
 
-        protected FlowExec(IDataFlow flow, S src, T dst)
+        protected Flow(IFlowType flow, S src, T dst)
         {
-            Flow = flow;
+            FlowType = flow;
             Source =src;
             Target = dst;
         }

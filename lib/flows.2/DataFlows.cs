@@ -17,4 +17,3 @@ namespace Z0
                 => string.Format("{0}:{1} -> {2}", flow.Actor, flow.Source, flow.Target);
     }
 }
-
