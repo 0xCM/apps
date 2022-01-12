@@ -16,13 +16,13 @@ namespace Z0
 
         CoffServices Coff => Service(Wf.CoffServices);
 
-
         public void Collect(IProjectWs project)
         {
             ObjDump.Consolidate(project);
             ObjDump.Recode(project);
             Nm.Collect(project);
             Coff.CollectObjHex(project);
+            Coff.EmitSymbols(project);
             Mc.Collect(project);
             XedDisasm.Collect(project);
         }

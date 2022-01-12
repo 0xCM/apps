@@ -34,6 +34,20 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("capture")]
+        Outcome CaptureV1(CmdArgs args)
+        {
+            var result = Capture.run();
+            return true;
+        }
+
+        [CmdOp("capture-v2")]
+        Outcome CaptureV2(CmdArgs args)
+        {
+           Wf.ApiExtractWorkflow().Run(args);
+           return true;
+        }
+
         [CmdOp("jobs/run")]
         Outcome RunJobs(CmdArgs args)
         {
@@ -59,5 +73,6 @@ namespace Z0
             for(var i=0; i<count; i++)
                 Dispatch(Cmd.cmdspec(lines[i].Content));
         }
+
     }
 }

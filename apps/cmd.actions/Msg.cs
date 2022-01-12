@@ -37,11 +37,20 @@ namespace Z0
         public static MsgPattern<Count,FS.FileUri> ProcessedStatements
             => "Processed {0} statements from {1}";
 
-        public static MsgPattern<Count> CreatingStatements => "Creating statements for {0} routines";
+        public static MsgPattern<ProjectId> ProjectUndefined
+            => "Project {0} undefined";
 
-        public static MsgPattern<FS.FolderPath> CapturingRoutines => "Capturing routines from {0}";
+        public static MsgPattern<ProjectId> LoadingSources
+            => "Loading {0} sources";
 
-        public static MsgPattern<Count,Count> CapturedRoutines => "Captured {0} routines from {1} hosts";
+        public static MsgPattern<Count> CreatingStatements
+            => "Creating statements for {0} routines";
+
+        public static MsgPattern<FS.FolderPath> CapturingRoutines
+            => "Capturing routines from {0}";
+
+        public static MsgPattern<Count,Count> CapturedRoutines
+            => "Captured {0} routines from {1} hosts";
 
         public static MsgPattern<Count, DelimitedIndex<PartId>> RunningMachine => "Executing machine workflow for {0} parts: {1}";
 

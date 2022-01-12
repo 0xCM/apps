@@ -66,5 +66,102 @@ namespace Z0
             }
             return dst;
         }
+
+        public FS.FilePath EmitSymbols(IProjectWs project)
+        {
+            var src = LoadObjData(project);
+            var paths = src.Paths.Array();
+            var objCount = paths.Length;
+            var path = ProjectDb.ProjectTable<CoffSymRecord>(project);
+            var formatter = Tables.formatter<CoffSymRecord>(CoffSymRecord.RenderWidths);
+            var seq = 0u;
+            var emitting = EmittingFile(path);
+            using var writer = path.Writer();
+            writer.WriteLine(formatter.FormatHeader());
+            for(var i=0; i<objCount; i++)
+            {
+                ref readonly var objPath = ref skip(paths,i);
+                var obj = src[objPath];
+                ref readonly var srcId = ref obj.SrcId;
+
+                var objData = obj.Data.View;
+                var offset = 0u;
+                var view = CoffObjectView.cover(obj.Data, offset);
+
+                ref readonly var symcount = ref view.SymCount;
+                if(symcount == 0)
+                    break;
+
+                var syms = view.Symbols;
+                var strings = view.StringTable;
+                var size = 0u;
+                for(var j=0; j<symcount; j++)
+                {
+                    ref readonly var sym = ref skip(syms,j);
+                    var symtext = strings.Text(sym);
+                    if(nonempty(symtext))
+                    {
+                        var record = default(CoffSymRecord);
+                        var name = sym.Name;
+                        record.Seq = seq++;
+                        record.SrcId = srcId;
+                        record.Timestamp = view.Timestamp;
+                        record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
+                        record.Size = CoffObjects.length(strings, name);
+                        record.Section = sym.SectionNumber;
+                        record.Value = sym.Value;
+                        record.SymType = sym.Type;
+                        record.SymClass = sym.StorageClass;
+                        record.SymText = symtext;
+                        writer.WriteLine(formatter.Format(record));
+
+                        size += record.Size;
+                    }
+                }
+            }
+
+            EmittedFile(emitting, seq);
+
+            return path;
+        }
+
+        public Outcome CheckObjHex(IProjectWs project)
+        {
+            var result = Outcome.Success;
+            var hexSrc = LoadObjHex(project);
+            var hexDat = hexSrc.ToLookup(FileKind.HexDat);
+            var objSrc = LoadObjData(project);
+            if(hexSrc.Count != objSrc.Count)
+                result = (false,string.Format("Counts differ"));
+
+            if(result.Fail)
+                return result;
+
+            var paths = objSrc.Paths.Array();
+            var count = paths.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var objPath = ref skip(paths,i);
+                var obj = objSrc[objPath];
+                ref readonly var srcId = ref obj.SrcId;
+                if(!hexDat.ContainsKey(srcId))
+                {
+                    Warn("No hex data found for {0}", srcId);
+                    continue;
+                }
+
+                var hex = hexDat[srcId];
+                result = CoffHex.validate(obj, hex);
+                if(result.Fail)
+                    break;
+
+                result = (true,string.Format("{0}.{1} validated", srcId, FileKind.HexDat.Ext()));
+
+                if(i!=count-1)
+                    Status(result.Message);
+            }
+
+            return result;
+        }
     }
 }

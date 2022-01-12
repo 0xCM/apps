@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ProjectCmdProvider
     {
         [CmdOp("intrinsics/import")]
         Outcome ImportIntrinsics(CmdArgs args)

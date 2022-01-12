@@ -5,7 +5,7 @@
 namespace Z0
 {
     [SymSource("image")]
-    public enum SymStorageClass : byte
+    public enum ImageSymClass : byte
     {
         None = 0,
 
@@ -41,7 +41,7 @@ namespace Z0
 
         EnumMember = 16,
 
-        REGISTER_PARAM = 17,
+        RegisterParm = 17,
 
         Bitfield = 18,
 

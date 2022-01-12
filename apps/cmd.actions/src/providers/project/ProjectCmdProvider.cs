@@ -24,14 +24,6 @@ namespace Z0
             Project(Ws.Project(DefaultProject));
         }
 
-        [CmdOp("project")]
-        Outcome LoadProject(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            Project(Ws.Project(arg(args,0).Value));
-            return result;
-        }
-
         XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
 
         IntelXed Xed => Service(Wf.IntelXed);
@@ -49,6 +41,8 @@ namespace Z0
         LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
+
+        IntelSdm Sdm => Service(Wf.IntelSdm);
 
         FS.Files _Files;
 
@@ -78,7 +72,7 @@ namespace Z0
         Outcome LoadProjectSources()
         {
             var project = Project();
-            Write(string.Format("Loading sources for {0}", project.Name));
+            Write(Msg.LoadingSources.Format(project.Project));
             if(project == null)
                 return (false, "Project unspecified");
 
@@ -88,11 +82,8 @@ namespace Z0
             if(outcome)
                 Files(project.SrcFiles());
             else
-                outcome = (false, UndefinedProject.Format(project.Project));
+                outcome = (false, Msg.ProjectUndefined.Format(project.Project));
             return outcome;
         }
-
-        static MsgPattern<ProjectId> UndefinedProject
-            => "Undefined project:{0}";
     }
 }

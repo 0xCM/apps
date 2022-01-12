@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ProjectCmdProvider
     {
-        [CmdOp("sdm/import")]
-        Outcome runsdmetl(CmdArgs args)
-            => Sdm.Import();
+        [CmdOp("nasm/emit/catalog")]
+        Outcome EmitNasmCatalog(CmdArgs args)
+        {
+            Service(Wf.NasmCatalog).ImportInstructions();
+            return true;
+        }
     }
 }

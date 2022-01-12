@@ -451,6 +451,59 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("tool/script")]
+        protected Outcome ToolScript(CmdArgs args)
+        {
+            var tool = (ToolId)arg(args,0).Value;
+            var script = Tools.Script(tool, arg(args,1).Value);
+            if(!script.Exists)
+                return (false, FS.missing(script));
+            else
+                return OmniScript.Run(script, out var _);
+        }
+
+        [CmdOp("tools/emit/catalog")]
+        protected Outcome CatalogTools(CmdArgs args)
+        {
+            var subdirs = Tools.Root.SubDirs();
+            var counter = 0u;
+            var formatter = Tables.formatter<ToolConfig>();
+            var dst = Tools.Inventory();
+            using var writer = dst.AsciWriter();
+            foreach(var dir in subdirs)
+            {
+                var configCmd = dir + FS.file(WsAtoms.config, FS.Cmd);
+                if(configCmd.Exists)
+                {
+                    var config =  dir + FS.folder(WsAtoms.logs) + FS.file(WsAtoms.config, FS.Log);
+                    if(config.Exists)
+                    {
+                        var result = Tooling.parse(config.ReadText(), out var c);
+                        if(result.Fail)
+                        {
+                            Error(string.Format("{0}:{1}", config.ToUri(), result.Message));
+                            continue;
+                        }
+
+                        var settings = formatter.Format(c,RecordFormatKind.KeyValuePairs);
+                        var title = string.Format("# {0}", c.ToolId);
+                        var sep = string.Format("# {0}", RP.PageBreak80);
+
+                        Write(title, FlairKind.Status);
+                        Write(sep);
+                        Write(settings);
+                        writer.WriteLine(title);
+                        writer.WriteLine(sep);
+                        writer.WriteLine(settings);
+                        counter++;
+                    }
+                }
+            }
+
+            Write(string.Format("{0} tools cataloged: {1}", counter, dst.ToUri()));
+            return true;
+        }
+
         protected FS.FolderPath CgRoot
             => Env.ZDev + FS.folder("codegen");
 
@@ -508,6 +561,39 @@ namespace Z0
             return result;
         }
 
+
+        protected Outcome ShowSyms<K>(Symbols<K> src)
+            where K : unmanaged
+        {
+            const string Pattern1 = "{0,-4} {1}";
+            const string Pattern2 = "{0,-4} {1}('{2}')";
+            var count = src.Length;
+            var view = src.View;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var symbol = ref skip(view,i);
+                var key = symbol.Key;
+                var name = symbol.Name;
+                var expr = symbol.Expr.Format();
+                if(name.Equals(expr))
+                    Write(string.Format(Pattern1, key, expr));
+                else
+                    Write(string.Format(Pattern2, key, name, expr));
+            }
+            return true;
+        }
+
+        protected Index<SymKindRow> EmitSymKinds<K>(in Symbols<K> src, FS.FilePath dst)
+            where K : unmanaged
+        {
+            var result = Outcome.Success;
+            var kinds = src.Kinds;
+            var count = kinds.Length;
+            var buffer = alloc<SymKindRow>(count);
+            Symbols.kinds(src,buffer);
+            TableEmit(@readonly(buffer), SymKindRow.RenderWidths, dst);
+            return buffer;
+        }
 
         protected virtual void OnInit()
         {

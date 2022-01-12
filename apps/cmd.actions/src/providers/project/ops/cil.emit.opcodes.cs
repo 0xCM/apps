@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ProjectCmdProvider
     {
         [CmdOp("cil/emit/opcodes")]
-        protected Outcome EmitCilOpCodes(CmdArgs args)
+        Outcome EmitCilOpCodes(CmdArgs args)
         {
-            var dst = Db.IndexTable<CilOpCode>();
+            var dst = ProjectDb.ApiTablePath<CilOpCode>();
             TableEmit(Cil.opcodes(), dst);
             return true;
         }

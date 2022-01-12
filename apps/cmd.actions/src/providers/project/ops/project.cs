@@ -6,12 +6,12 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        [CmdOp("xed/query/isa-ext")]
-        Outcome XedIsaExt(CmdArgs args)
+        [CmdOp("project")]
+        Outcome LoadProject(CmdArgs args)
         {
-            var extensions = Xed.IsaExtensions();
-
-            return true;
+            var result = Outcome.Success;
+            Project(Ws.Project(arg(args,0).Value));
+            return result;
         }
     }
 }

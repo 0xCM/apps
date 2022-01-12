@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Asm;
-    using llvm;
-
-    using static Root;
-    using static core;
 
     partial class ProjectCmdProvider
     {

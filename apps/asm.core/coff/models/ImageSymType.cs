@@ -11,13 +11,13 @@ namespace Z0
 
         Void = 1,
 
-        Char  = 2,
+        Char = 2,
 
         Short = 3,
 
-        Int  = 4,
+        Int = 4,
 
-        Long  = 5,
+        Long = 5,
 
         Float = 6,
 
@@ -29,14 +29,14 @@ namespace Z0
 
         Enum = 10,
 
-        MOE   = 11,
+        MOE = 11,
 
-        Byte  = 12,
+        Byte = 12,
 
-        Word  = 13,
+        Word = 13,
 
-        UInt  = 14,
+        UInt = 14,
 
-        DWord= 15
+        DWord = 15
     }
 }

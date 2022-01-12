@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class ProjectCmdProvider
     {
-        [CmdOp("nasm/emit/catalog")]
-        Outcome EmitNasmCatalog(CmdArgs args)
-        {
-            Service(Wf.NasmCatalog).ImportInstructions();
-            return true;
-        }
+        [CmdOp("objhex/check")]
+        Outcome CheckObjHex(CmdArgs args)
+            => CoffServices.CheckObjHex(Project());
     }
 }

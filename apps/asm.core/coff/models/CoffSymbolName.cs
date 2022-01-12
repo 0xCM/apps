@@ -4,18 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
-
-    public enum CoffNameKind : byte
-    {
-        None,
-
-        String,
-
-        Address,
-    }
 
     public struct CoffSymbolName
     {
@@ -49,6 +41,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => (uint)(Data >> 32);
+        }
+
+        public ReadOnlySpan<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => core.bytes(this);
         }
 
         public bool IsEmpty

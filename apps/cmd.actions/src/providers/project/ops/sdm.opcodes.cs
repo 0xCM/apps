@@ -10,7 +10,7 @@ namespace Z0
 
     using static core;
 
-    partial class GlobalCommands
+    partial class ProjectCmdProvider
     {
         [CmdOp("sdm/productions")]
         Outcome SdmProductions(CmdArgs args)

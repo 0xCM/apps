@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    public enum CoffNameKind : byte
     {
-        [CmdOp("xed/query/isa-ext")]
-        Outcome XedIsaExt(CmdArgs args)
-        {
-            var extensions = Xed.IsaExtensions();
+        None,
 
-            return true;
-        }
+        String,
+
+        Address,
     }
 }

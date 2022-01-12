@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ImageRelocation
+    public struct ImageReloc
     {
         /// <summary>
         /// The virtual address (or count)
@@ -26,14 +26,14 @@ namespace Z0
         /// <summary>
         /// The relocation type
         /// </summary>
-        public IMAGE_REL_KIND Type;
+        public ImageRelocKind Kind;
 
         [MethodImpl(Inline)]
-        public ImageRelocation(Address32 value, uint index, IMAGE_REL_KIND type)
+        public ImageReloc(Address32 value, uint index, ImageRelocKind kind)
         {
             Value = value;
             SymbolIndex = index;
-            Type = type;
+            Kind = kind;
         }
     }
 }
