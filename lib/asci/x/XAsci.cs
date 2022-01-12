@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public static partial class XAsci
+    partial class XTend
     {
         [MethodImpl(Inline)]
         public static int FirstIndexOf<T>(this T src, AsciCharSym match)
@@ -20,5 +20,8 @@ namespace Z0
         public static bool Contains<T>(this T src, AsciCharSym match)
             where T : IAsciSeq
                 => AsciG.contains(src, match);
+
+        public static string Format(this ReadOnlySpan<AsciCode> src)
+            => Asci.format(src);
     }
 }

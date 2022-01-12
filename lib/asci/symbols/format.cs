@@ -17,7 +17,7 @@ namespace Z0
             => format(seq.Storage.ToReadOnlySpan());
 
         [Op]
-        public static string format(in ReadOnlySpan<byte> src, Span<char> buffer)
+        public static string format(ReadOnlySpan<byte> src, Span<char> buffer)
         {
             var len = src.Length;
             for(var i=0u; i<len; i++)
@@ -26,7 +26,7 @@ namespace Z0
         }
 
         [Op]
-        public static string format(in ReadOnlySpan<byte> src)
+        public static string format(ReadOnlySpan<byte> src)
         {
             var len = src.Length;
             var dst = span(alloc<char>(len));

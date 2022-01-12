@@ -43,7 +43,7 @@ namespace Z0.Asm
             const string RenderPattern = "{0,-80} {1} {2}";
             var dst = text.buffer();
             var marker = (char)AsmCommentMarker.Hash;
-            if(AsmParser.comment(Asm.Data, out var comment))
+            if(AsmParser.comment(Asm.Cells, out var comment))
             {
                 marker = (char)comment.Marker;
                 var prior = comment.Content;

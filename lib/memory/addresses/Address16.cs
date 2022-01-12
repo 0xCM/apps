@@ -42,6 +42,12 @@ namespace Z0
              get => Location != 0;
         }
 
+        public bool IsNonZero
+        {
+             [MethodImpl(Inline)]
+            get => Location != 0;
+        }
+
         public Address8 Lo
         {
             [MethodImpl(Inline)]

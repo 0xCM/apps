@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public unsafe readonly struct SourceText : IMemoryString<SourceText>
+    public unsafe readonly struct SourceText : IMemoryString<SourceText,char>
     {
         public MemoryAddress Address {get;}
 
@@ -28,7 +28,13 @@ namespace Z0
             get => Length*2;
         }
 
-        public ReadOnlySpan<char> Data
+        public ReadOnlySpan<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => core.cover(Address.Pointer<byte>(), Size);
+        }
+
+        public ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
             get => core.cover(Address.Pointer<char>(), Length);
@@ -37,7 +43,7 @@ namespace Z0
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.ghash.calc(Data);
+            get => alg.ghash.calc(Cells);
         }
 
         public bool IsEmpty
@@ -53,12 +59,12 @@ namespace Z0
         }
 
         public bool Equals(SourceText src)
-            => text.equals(Data,src.Data);
+            => text.equals(Cells,src.Cells);
 
         public int CompareTo(SourceText src)
-            => Data.CompareTo(src.Data, StringComparison.InvariantCulture);
+            => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
         public string Format()
-            => new string(Data);
+            => new string(Cells);
 
         public override string ToString()
             => Format();

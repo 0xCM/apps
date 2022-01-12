@@ -42,6 +42,12 @@ namespace Z0
              get => Location != 0;
         }
 
+        public bool IsNonZero
+        {
+             [MethodImpl(Inline)]
+            get => Location != 0;
+        }
+
         [MethodImpl(Inline)]
         public bool Between(A min, A max)
             => this >= min && this <= max;

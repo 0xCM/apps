@@ -6,38 +6,38 @@ namespace Z0
 {
     using System;
 
-    public interface IMemoryString : INullity, ITextual, IMeasured, IHashed
+    public interface IMemoryString : INullity, IMeasured, IHashed
     {
-        ReadOnlySpan<char> Data {get;}
+        ReadOnlySpan<byte> Bytes {get;}
 
         MemoryAddress Address {get;}
 
         uint IHashed.Hash
-            => alg.hash.marvin(Data);
-
-        int IMeasured.Length
-            => Data.Length;
+            => alg.hash.marvin(Bytes);
 
         bool INullity.IsEmpty
-            => Data.Length == 0;
+            => Bytes.Length == 0;
 
         bool INullity.IsNonEmpty
-            => Data.Length != 0;
-
-        ByteSize Size => Data.Length*2;
-
-        string ITextual.Format()
-            => new string(Data);
+            => Bytes.Length != 0;
     }
 
-    public interface IMemoryString<T> : IMemoryString, IEquatable<T>, IComparable<T>
-        where T : unmanaged, IMemoryString<T>
-
+    public interface IMemoryString<T> : IMemoryString
+        where T : unmanaged
     {
-        bool IEquatable<T>.Equals(T src)
-            => text.equals(Data,src.Data);
+        ReadOnlySpan<T> Cells {get;}
 
-        int IComparable<T>.CompareTo(T src)
-            => Data.CompareTo(src.Data, StringComparison.InvariantCulture);
+        ReadOnlySpan<byte> IMemoryString.Bytes
+            => core.recover<T,byte>(Cells);
+
+        int IMeasured.Length
+            => Cells.Length;
+    }
+
+    public interface IMemoryString<F,T> : IMemoryString<T>, IEquatable<F>, IComparable<F>
+        where T : unmanaged
+        where F : IMemoryString<F,T>
+    {
+
     }
 }

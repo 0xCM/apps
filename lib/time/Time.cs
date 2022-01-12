@@ -26,6 +26,16 @@ namespace Z0
         public static Duration duration<T>(T src)
             => Numeric.force<T,long>(src);
 
+        public static DateTime EpochBase
+        {
+            [MethodImpl(Inline)]
+            get => new DateTime(1970,1,1);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static DateTime epoch(TimeSpan src)
+            => EpochBase + src;
+
         [Op]
         public static Outcome parse(string src, out Timestamp dst)
         {
@@ -193,13 +203,13 @@ namespace Z0
                     format = date;
                     break;
                 case TimeResolution.Hour:
-                    format = String.Format("{0} {1}:00:00.000", date, hour);
+                    format = String.Format("{0} {1}", date, hour);
                     break;
                 case TimeResolution.Minute:
-                    format = String.Format("{0} {1}:{2}:00.000", date, hour, minute);
+                    format = String.Format("{0} {1}:{2}", date, hour, minute);
                     break;
                 case TimeResolution.Second:
-                    format = String.Format("{0} {1}:{2}:{3}.000", date, hour, minute, second);
+                    format = String.Format("{0} {1}:{2}:{3}", date, hour, minute, second);
                     break;
                 case TimeResolution.Ms:
                     format = String.Format("{0} {1}:{2}:{3}.{4}", date, hour, minute, second, ms);

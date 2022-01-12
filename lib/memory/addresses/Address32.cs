@@ -40,6 +40,12 @@ namespace Z0
              get => Location != 0;
         }
 
+        public bool IsNonZero
+        {
+             [MethodImpl(Inline)]
+            get => Location != 0;
+        }
+
         public Address16 Lo
         {
             [MethodImpl(Inline)]
@@ -112,8 +118,24 @@ namespace Z0
             => new A(src.Location);
 
         [MethodImpl(Inline)]
+        public static explicit operator long(A src)
+            => src.Location;
+
+        [MethodImpl(Inline)]
         public static explicit operator ulong(A src)
             => src.Location;
+
+        [MethodImpl(Inline)]
+        public static explicit operator int(A src)
+            => (int)src.Location;
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(A src)
+            => (ushort)src.Location;
+
+        [MethodImpl(Inline)]
+        public static explicit operator short(A src)
+            => (short)src.Location;
 
         [MethodImpl(Inline)]
         public static A operator+(A x, T y)

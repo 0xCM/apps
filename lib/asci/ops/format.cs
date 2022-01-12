@@ -49,5 +49,13 @@ namespace Z0
             AsciSymbols.decode(src, dst);
             return new string(dst);
         }
+
+        [Op]
+        public static string format(ReadOnlySpan<AsciCode> src)
+        {
+            var dst = span<char>(src.Length);
+            AsciSymbols.decode(src, dst);
+            return new string(dst);
+        }
     }
 }

@@ -5,6 +5,8 @@
 namespace Z0
 {
     using static Root;
+
+    using System;
     using static core;
 
     partial class ProjectCmdProvider
@@ -13,16 +15,16 @@ namespace Z0
         Outcome LoadObjects(CmdArgs args)
         {
             var project = Project();
-            var hexSrc = CoffObjects.LoadObjHex(project);
+            var hexSrc = CoffServices.LoadObjHex(project);
             var hexLu = hexSrc.ToLookup(FileKind.HexDat);
-            var objSrc = CoffObjects.LoadObjData(project);
+            var objSrc = CoffServices.LoadObjData(project);
+            var tsBase = new DateTime(1970,1,1);
             if(hexSrc.Count != objSrc.Count)
             {
                 Error(string.Format("Counts differ"));
                 return false;
             }
-            var formatter = Tables.formatter<CoffObject>();
-            var headerFormatter = Tables.formatter<CoffHeader>();
+
             var keys = objSrc.Paths.Array();
             var count = keys.Length;
             for(var i=0; i<count; i++)
@@ -37,47 +39,43 @@ namespace Z0
                 }
 
                 var hex = hexLu[id];
-                var hexData = hex.Compact();
-                var objData = obj.Data;
-                var size = (uint)objData.Size;
-                var hexSize = (uint)hexData.Size;
-                if(size != hexSize)
+                var valid = CoffHex.validate(obj, hex);
+                if(valid.Fail)
                 {
-                    Error(string.Format("{0} size mismatch: {1} != {2}", id, size.FormatHex(), hexSize.FormatHex()));
+                    Error(valid.Message);
                     break;
                 }
 
-                for(var j=0u; j<size; j++)
-                {
-                    MemoryAddress curoffset = j;
-                    ref readonly var a = ref objData[j];
-                    ref readonly var b = ref hexData[j];
-                    if(a != b)
-                    {
-                        Error(string.Format("{0} != {1} at offset {2} for {3}", a.FormatHex(), b.FormatHex(), curoffset, id));
-                        break;
-                    }
-                }
-
+                var objData = obj.Data.View;
                 var offset = 0u;
-                ref readonly var header = ref skip(recover<CoffHeader>(objData.View), offset);
-                offset += size<CoffHeader>();
+                var view = CoffObjectView.cover(obj.Data, offset);
 
-                ref readonly var symcount = ref header.NumberOfSymbols;
-                ref readonly var symoffset = ref header.PointerToSymbolTable;
 
-                Write(string.Format("{0,-24} | {1,-8} | {2}", id, symcount,symoffset));
+                ref readonly var symcount = ref view.SymCount;
+                if(symcount == 0)
+                    break;
 
-                ref readonly var s0 = ref first(recover<CoffSymbol>(slice(objData.View,(uint)symoffset)));
+                //Write(string.Format("{0,-24} | {1,-8} | {2}", id, symcount, view.SymTableOffset));
+
+                var syms = view.Symbols;
+                var strings = view.StringTable;
                 for(var j=0; j<symcount; j++)
                 {
-                    ref readonly var s = ref skip(s0,j);
-                    ref readonly var name = ref s.Name;
-                    var kind = name.IsAddress ? "Address" : "String";
-                    var @class = Symbols.format(s.StorageClass);
-                    var symtype = Symbols.format(s.Type);
-                    var section = s.SectionNumber;
-                    Write(string.Format("{0,-8} | {1,-16} | {2,-8} | {3,-8} | {4,-14} | {5}", section, s.Name, kind, s.Value, symtype, @class));
+                    ref readonly var sym = ref skip(syms,j);
+                    var symtext = strings.Text(sym);
+                    if(nonempty(symtext))
+                    {
+                        Write(string.Format("{0,-24} | {1} | {2,-8} | {3,-12} | {4,-8} | {5,-8} | {6,-10} | {7}",
+                            id,
+                            view.Timestamp.ToLexicalString(TimeResolution.Second),
+                            sym.SectionNumber,
+                            sym.Value,
+                            sym.Type,
+                            sym.StorageClass,
+                            sym.Name.NameKind == CoffNameKind.String ? Address32.Zero.Format() : sym.Name.Address.Format(),
+                            strings.Text(sym)
+                            ));
+                    }
                 }
             }
 

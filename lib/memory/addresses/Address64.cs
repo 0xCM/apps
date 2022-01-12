@@ -40,6 +40,12 @@ namespace Z0
              get => Location != 0;
         }
 
+        public bool IsNonZero
+        {
+             [MethodImpl(Inline)]
+            get => Location != 0;
+        }
+
         public Address32 Lo
         {
             [MethodImpl(Inline)]
@@ -79,9 +85,6 @@ namespace Z0
 
         public override bool Equals(object src)
             => src is A a && Equals(a);
-
-        public static A Empty
-            => new A(0);
 
         [MethodImpl(Inline)]
         public static implicit operator MemoryAddress(Address64 src)
@@ -135,10 +138,13 @@ namespace Z0
         public static bool operator!=(A x, A y)
             => x.Location != y.Location;
 
+        public static A Empty
+            => new A(0);
+
         public static A Zero
         {
              [MethodImpl(Inline)]
-             get => Empty;
+             get => 0;
         }
     }
 }

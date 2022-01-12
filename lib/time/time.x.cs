@@ -21,7 +21,7 @@ namespace Z0
         /// <param name="t">The instant to render</param>
         /// <param name="accuracy">The accuracy with which to render the instant</param>
         public static string ToLexicalString(this DateTime t, TimeResolution accuracy = TimeResolution.Ms)
-            => api.lexical(t,accuracy);
+            => api.lexical(t, accuracy);
 
         public static IEnumerable<DateRange> Partition(this DateRange Period, int MaxLen)
             => api.partition(Period, MaxLen);

@@ -54,7 +54,6 @@ namespace Z0
         public static AsmFormPipe AsmFormPipe(this IWfRuntime wf)
             => Svc.AsmFormPipe.create(wf);
 
-
         [Op]
         public static Nasm Nasm(this IWfRuntime wf)
             => Z0.Nasm.create(wf);
@@ -64,7 +63,7 @@ namespace Z0
             => Z0.NDisasm.create(wf);
 
         [Op]
-        public static CoffObjects CoffObjects(this IWfRuntime wf)
-            => Z0.CoffObjects.create(wf);
+        public static CoffServices CoffServices(this IWfRuntime wf)
+            => Z0.CoffServices.create(wf);
     }
 }

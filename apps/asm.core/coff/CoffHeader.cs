@@ -7,6 +7,9 @@ namespace Z0
     using System;
     using System.Runtime.InteropServices;
     using System.Reflection.PortableExecutable;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
 
     /// <summary>
     /// At the beginning of an object file, or immediately after the signature of an image file,

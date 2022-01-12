@@ -13,7 +13,7 @@ namespace Z0
     /// <summary>
     /// Defines a reference to an immutable character sequence
     /// </summary>
-    public unsafe readonly struct StringRef : IMemoryString<StringRef>
+    public unsafe readonly struct StringRef : IMemoryString<StringRef,char>
     {
         public MemoryAddress Address {get;}
 
@@ -57,19 +57,25 @@ namespace Z0
         }
 
         public uint Hash
-            => alg.hash.marvin(Data);
+            => alg.hash.marvin(Cells);
 
-        public ReadOnlySpan<char> Data
+        public ReadOnlySpan<char> Cells
         {
             [MethodImpl(Inline)]
             get => cover<char>(Address.Pointer<char>(), Length);
         }
 
+        public ReadOnlySpan<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => core.cover(Address.Pointer<byte>(), Size);
+        }
+
         public bool Equals(StringRef src)
-            => text.equals(Data,src.Data);
+            => text.equals(Cells,src.Cells);
 
         public int CompareTo(StringRef src)
-            => Data.CompareTo(src.Data, StringComparison.InvariantCulture);
+            => Cells.CompareTo(src.Cells, StringComparison.InvariantCulture);
 
         public string Format()
             => strings.format(this);

@@ -48,8 +48,12 @@ namespace Z0
         public ref readonly Sym<K> this[K index]
         {
             [MethodImpl(Inline)]
-            get => ref Data[bw16(index)];
+            get => ref Data[bw32(index)];
         }
+
+        [MethodImpl(Inline)]
+        public bool Includes(K index)
+            => bw32(index) < Data.Count;
 
         public bool Lookup(SymExpr src, out Sym<K> dst)
             => ExprMap.TryGetValue(src.Text, out dst);

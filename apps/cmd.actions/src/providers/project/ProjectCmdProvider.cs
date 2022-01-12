@@ -48,7 +48,7 @@ namespace Z0
 
         LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
 
-        CoffObjects CoffObjects => Service(Wf.CoffObjects);
+        CoffServices CoffServices => Service(Wf.CoffServices);
 
         FS.Files _Files;
 

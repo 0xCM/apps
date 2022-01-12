@@ -8,6 +8,15 @@ namespace Z0
 
     using static Root;
 
+    public enum CoffNameKind : byte
+    {
+        None,
+
+        String,
+
+        Address,
+    }
+
     public struct CoffSymbolName
     {
         readonly ulong Data;
@@ -46,6 +55,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Data == 0;
+        }
+
+        public CoffNameKind NameKind
+        {
+            [MethodImpl(Inline)]
+            get => IsAddress ? CoffNameKind.Address : CoffNameKind.String;
         }
 
         public string Format()

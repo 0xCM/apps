@@ -14,7 +14,7 @@ namespace Z0
 
         XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
 
-        CoffObjects Coff => Service(Wf.CoffObjects);
+        CoffServices Coff => Service(Wf.CoffServices);
 
 
         public void Collect(IProjectWs project)

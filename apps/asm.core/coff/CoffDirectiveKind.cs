@@ -2,12 +2,12 @@
 // Source : LLVM - https://github.com/llvm/llvm-project/
 // License: Apache-2.0 WITH LLVM-exception
 //-----------------------------------------------------------------------------------------//
-namespace Z0.llvm
+namespace Z0
 {
     /// <summary>
     /// From https://github.com/llvm/llvm-project/blob/632ebc4ab4374e53fce1ec870465c587e0a33668/llvm/lib/MC/MCParser/COFFAsmParser.cpp
     /// </summary>
-    [SymSource("llvm.mc")]
+    [SymSource("asm")]
     public enum CoffDirectiveKind : byte
     {
         [Symbol(".text","")]
