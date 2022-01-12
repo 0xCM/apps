@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/comments")]
@@ -14,6 +12,5 @@ namespace Z0
             EmitApiComments();
             return true;
         }
-
     }
 }

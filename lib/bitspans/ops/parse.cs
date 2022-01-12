@@ -25,7 +25,6 @@ namespace Z0
             return dst;
         }
 
-        [Parser]
         public static Outcome parse(string src, out BitSpan dst)
         {
             dst = alloc<bit>(src.Length);

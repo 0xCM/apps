@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using static core;
-
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/metadata")]
@@ -47,5 +44,8 @@ namespace Z0
 
         void EmitApiTokens()
             => ApiMetadata.EmitApiTokens();
+
+        void EmitApiLiterals()
+            => TableEmit(ApiLiterals().View, ProjectDb.ApiTablePath<CompilationLiteral>());
     }
 }

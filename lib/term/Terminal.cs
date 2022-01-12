@@ -241,8 +241,8 @@ namespace Z0
                         Console.ForegroundColor = current;
                     }
 
-                    lock(ErrLock)
-                        File.AppendAllText(ErrorLogPath, rendered + "\r\n");
+                    // lock(ErrLock)
+                    //     File.AppendAllText(ErrorLogPath, rendered + "\r\n");
                 }
             }
         }

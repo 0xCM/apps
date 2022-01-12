@@ -9,10 +9,13 @@ namespace Z0
     partial class ApiCmdProvider
     {
         [CmdOp("api/parsers")]
-        protected Outcome RevealParsers(CmdArgs args)
+        Outcome RevealParsers(CmdArgs args)
         {
-            var src = Parsers.Identities;
-            iter(src, x => Write(string.Format("parse:string -> {0}", x.Target.DisplayName())));
+            var parsers = ApiRuntimeCatalog.Parsers;
+            var targets = parsers.Keys;
+            foreach(var target in targets)
+                Write(string.Format("parse:string -> {0}", target.DisplayName()));
+
             return true;
         }
     }

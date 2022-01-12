@@ -52,6 +52,7 @@ namespace Z0
 
         Index<TableDef> _TableDefs;
 
+        ConstLookup<Type,IParser> _Parsers;
         object locker;
 
         public ApiRuntimeCatalog(Index<IPart> parts, Index<Assembly> components, ApiPartCatalogs catalogs, Index<IApiHost> hosts, Index<PartId> partIds, Index<MethodInfo> ops)
@@ -66,7 +67,23 @@ namespace Z0
             _DataTypes = ApiQuery.datatypes(components);
             _DataFlows = ApiQuery.dataflows(components);
             _TableDefs = sys.empty<TableDef>();
+            _Parsers = ConstLookup<Type,IParser>.Empty;
             locker = new();
+        }
+
+        public ConstLookup<Type,IParser> Parsers
+        {
+            get
+            {
+                lock(locker)
+                {
+                    if(_Parsers.IsEmpty)
+                    {
+                        _Parsers = Z0.Parsers.discover(_PartComponents, out _);
+                    }
+                }
+                return _Parsers;
+            }
         }
 
         public ReadOnlySpan<TableDef> TableDefs

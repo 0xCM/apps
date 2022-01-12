@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class ApiCmdProvider
     {
-        const string DatatypesEmitCmd = "api/emit/datatypes";
-
-        [CmdOp(DatatypesEmitCmd)]
+        [CmdOp("api/emit/datatypes")]
         Outcome EmitApiDataTypes(CmdArgs args)
         {
             EmitApiDataTypes();

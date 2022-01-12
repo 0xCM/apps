@@ -6,8 +6,6 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    using static Root;
-
     [Free]
     public interface IArrow : ITextual
     {

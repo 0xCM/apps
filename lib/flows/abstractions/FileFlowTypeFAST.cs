@@ -23,7 +23,7 @@ namespace Z0
             => Source.Kind;
 
         public FileKind TargetKind
-            => Source.Kind;
+            => Target.Kind;
 
         public override string Format()
             => FileFlowTypes.format(this);

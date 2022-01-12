@@ -10,7 +10,7 @@ namespace Z0
     {
         BitMaskServices ApiBitmasks => Service(Wf.ApiBitMasks);
 
-        [CmdOp("api/emit/asm/calls")]
+        [CmdOp("api/emit/asmcalls")]
         protected Outcome EmitCallTable(CmdArgs args)
         {
             var blocks = Data(nameof(ApiCodeBlock),Blocks);
@@ -24,6 +24,5 @@ namespace Z0
 
         SortedIndex<ApiCodeBlock> SortedBlocks()
             => ApiHex.ReadBlocks().Storage.ToSortedIndex();
-
     }
 }

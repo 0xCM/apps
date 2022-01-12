@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using static core;
-
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/tables")]

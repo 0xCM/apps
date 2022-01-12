@@ -6,8 +6,6 @@ namespace Z0
 {
     partial class ApiCmdProvider
     {
-        ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
-
         [CmdOp("api/emit/respack")]
         Outcome EmitResPack(CmdArgs args)
         {

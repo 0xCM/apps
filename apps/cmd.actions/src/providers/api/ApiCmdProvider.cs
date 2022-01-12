@@ -40,6 +40,8 @@ namespace Z0
 
         Index<ProcessAsmRecord> ProcessAsmBuffer() => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
 
+        ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
+
         Index<ProcessAsmRecord> _LoadProcessAsm()
         {
             var archive = ApiPacks.Current().Archive();

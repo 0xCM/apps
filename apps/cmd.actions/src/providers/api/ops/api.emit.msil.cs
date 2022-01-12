@@ -9,5 +9,9 @@ namespace Z0
         [CmdOp("api/emit/msil")]
         Outcome EmitMsil(CmdArgs args)
             => ApiMetadata.EmitMsil();
+
+        [CmdOp("api/emit/msil-host")]
+        Outcome EmitHostMsil(CmdArgs args)
+            => ApiMetadata.EmitHostMsil(arg(args,0));
     }
 }

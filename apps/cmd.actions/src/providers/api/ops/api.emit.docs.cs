@@ -11,7 +11,7 @@ namespace Z0
 
     partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/asm/docs")]
+        [CmdOp("api/emit/docs")]
         Outcome EmitAsmDocs(CmdArgs args)
         {
             EmitRexDocs();
@@ -23,7 +23,7 @@ namespace Z0
 
         void EmitRexDocs()
         {
-            var dst = ProjectDb.Subdir("asm/docs") + FS.file("asm.docs.rex", FS.ext("bits") + FS.Csv);
+            var dst = ApiDoc("asm.docs.rex", FS.ext("bits") + FS.Csv);
             var emitting = EmittingFile(dst);
             var bits = RexPrefix.Range();
             using var writer = dst.AsciWriter();
@@ -36,36 +36,38 @@ namespace Z0
         void EmitSibDocs()
         {
             var result = Outcome.Success;
-            var path = ProjectDb.Subdir("asm/docs") + FS.file("asm.docs.sib", FS.ext("bits") + FS.Csv);
+            var path = ApiDoc("asm.docs.sib", FS.ext("bits") + FS.Csv);
             var rows = AsmBits.SibRows().View;
             TableEmit(rows, SibBitfieldRow.RenderWidths, path);
         }
 
         void EmitModRmDocs()
         {
-            var path = ProjectDb.Subdir("asm/docs") + FS.file("asm.docs.modrm", FS.ext("bits") + FS.Csv);
-            var flow = Wf.EmittingFile(path);
+            var path = ApiDoc("asm.docs.modrm", FS.ext("bits") + FS.Csv);
+            var flow = EmittingFile(path);
             using var writer = path.AsciWriter();
             var dst = span<char>(256*128);
             var count = AsmBits.ModRmTable(dst);
             var rendered = slice(dst,0,count);
             writer.Write(rendered);
-            Wf.EmittedFile(flow,count);
+            EmittedFile(flow,count);
         }
 
-        FS.FolderPath AsmDocs()
-            => ProjectDb.Subdir("asmdocs");
+        FS.FolderPath ApiDocs()
+            => ProjectDb.Api() + FS.folder("docs");
+
+        FS.FilePath ApiDoc(string name, FS.FileExt ext)
+            => ApiDocs() + FS.file(name, ext);
 
         void EmitConditionDocs()
         {
-            var db = AsmDocs();
-            var jcc8 = db + FS.file("jcc8", FS.Txt);
+            var jcc8 = ApiDoc("jcc8", FS.Txt);
             EmitConditionDocs(Conditions.jcc8(), jcc8);
             using var jcc8Reader = jcc8.AsciLineReader();
             while(jcc8Reader.Next(out var line))
                 Write(text.format(line.Codes));
 
-            var jcc32 = db + FS.file("jcc32", FS.Txt);
+            var jcc32 = ApiDoc("jcc32", FS.Txt);
             EmitConditionDocs(Conditions.jcc32(), jcc32);
             using var jcc32Reader = jcc32.AsciLineReader();
             while(jcc32Reader.Next(out var line))

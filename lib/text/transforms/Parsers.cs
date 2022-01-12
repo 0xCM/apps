@@ -28,9 +28,8 @@ namespace Z0
                 return ParseFunction<T>.Empty;
         }
 
-        public static ConstLookup<Type,IParser> discover(out List<string> log)
+        public static ConstLookup<Type,IParser> discover(Assembly[] src, out List<string> log)
         {
-            var src = ApiRuntimeLoader.catalog().Components.Storage;
             var methods = src.DeclaredStaticMethods().Tagged<ParserAttribute>();
             var count = methods.Length;
             var parsers = dict<Type,IParser>();
@@ -43,21 +42,28 @@ namespace Z0
                     var parameters = method.Parameters();
                     if(parameters.Length == 2)
                     {
-                        ref readonly var input = ref skip(parameters,0);
-                        ref readonly var output = ref skip(parameters,1);
-                        var target = output.ParameterType.EffectiveType();
+                        try
+                        {
+                            ref readonly var input = ref skip(parameters,0);
+                            ref readonly var output = ref skip(parameters,1);
+                            var target = output.ParameterType.EffectiveType();
 
-                        if(input.ParameterType != typeof(string))
-                            continue;
+                            if(input.ParameterType != typeof(string))
+                                continue;
 
-                        if(target.ContainsGenericParameters)
-                            continue;
+                            if(target.ContainsGenericParameters)
+                                continue;
 
-                        log.Add(string.Format("Making a parser from {0}", method.DisplaySig()));
-                        var @delegate = method.CreateDelegate(typeof(ParserDelegate<>).MakeGenericType(target));
-                        var parseFx = typeof(ParseFunction<>).MakeGenericType(target);
-                        var parser = (IParser)Activator.CreateInstance(parseFx, @delegate);
-                        parsers[parser.TargetType] = parser;
+                            log.Add(string.Format("Making a parser from {0}", method.DisplaySig()));
+                            var @delegate = method.CreateDelegate(typeof(ParserDelegate<>).MakeGenericType(target));
+                            var parseFx = typeof(ParseFunction<>).MakeGenericType(target);
+                            var parser = (IParser)Activator.CreateInstance(parseFx, @delegate);
+                            parsers[parser.TargetType] = parser;
+                        }
+                        catch(Exception)
+                        {
+                            term.error(string.Format("Unable to create parser delegate from {0}.{1}", method.DeclaringType, method.Name));
+                        }
                     }
                 }
             }
@@ -65,10 +71,11 @@ namespace Z0
             return parsers.ToConstLookup();
         }
 
+        public static ConstLookup<Type,IParser> discover(out List<string> log)
+            => discover(ApiRuntimeLoader.catalog().Components.Storage, out log);
+
         public ReadOnlySpan<Arrow<Name,Type>> Identities
-        {
-            get => _Identities;
-        }
+            => _Identities;
 
 
         public Outcome Parse(Type t, string src, out dynamic dst)

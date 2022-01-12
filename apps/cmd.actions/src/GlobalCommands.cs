@@ -25,8 +25,6 @@ namespace Z0
 
         IntelXed Xed => Service(Wf.IntelXed);
 
-        IntelSdm Sdm => Service(Wf.IntelSdm);
-
         [CmdOp("asm-gen-models")]
         protected Outcome GenAsmModels(CmdArgs args)
         {
@@ -73,6 +71,5 @@ namespace Z0
             for(var i=0; i<count; i++)
                 Dispatch(Cmd.cmdspec(lines[i].Content));
         }
-
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/asm/hexrows")]
+        [CmdOp("api/emit/hexrows")]
         Outcome ApiEmitAsmHexTextBlocks(CmdArgs args)
         {
             var result = Outcome.Success;

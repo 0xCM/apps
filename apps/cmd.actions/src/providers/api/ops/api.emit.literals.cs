@@ -17,9 +17,7 @@ namespace Z0
         Outcome EmitApiLiterals(CmdArgs args)
         {
             var result = Outcome.Success;
-            var literals = ApiLiterals();
-            var dst = ProjectDb.Api() + FS.folder("literals");
-            TableEmitters.Emit(literals, dst);
+            EmitApiLiterals();
             return result;
         }
     }

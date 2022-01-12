@@ -8,7 +8,7 @@ namespace Z0
 
     partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/asm/blocks")]
+        [CmdOp("api/emit/asmblocks")]
         Outcome EmitApiAsmBlocks(CmdArgs args)
         {
             var result = Outcome.Success;

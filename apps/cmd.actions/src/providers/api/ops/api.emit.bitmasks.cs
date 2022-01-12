@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/bitmasks")]
