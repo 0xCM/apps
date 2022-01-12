@@ -11,7 +11,6 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmEtl : AppService<AsmEtl>
     {
-
         public static ReadOnlySpan<TextLine> emit(SortedSpan<AsmThumbprint> src, FS.FilePath dst)
         {
             var count = src.Length;
@@ -60,7 +59,7 @@ namespace Z0.Asm
             src.Sort();
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
-                writer.WriteLine(skip(src,i).Format());
+                writer.WriteLine(src[i].Format());
             return true;
         }
     }
