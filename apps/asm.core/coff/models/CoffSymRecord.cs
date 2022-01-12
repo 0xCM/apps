@@ -26,7 +26,7 @@ namespace Z0
 
         public Address32 Address;
 
-        public uint Size;
+        public uint SymSize;
 
         public ushort Section;
 

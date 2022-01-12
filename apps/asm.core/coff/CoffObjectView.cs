@@ -40,7 +40,25 @@ namespace Z0
             get => size<CoffHeader>();
         }
 
-        public DateTime Timestamp
+        uint SectionHeaderOffset
+        {
+            [MethodImpl(Inline)]
+            get => HeaderSize + (uint)Header.SizeOfOptionalHeader;
+        }
+
+        uint SectionHeaderCount
+        {
+            [MethodImpl(Inline)]
+            get => Header.NumberOfSections;
+        }
+
+        public ReadOnlySpan<ImageSectionHeader> SectionHeaders
+        {
+            [MethodImpl(Inline)]
+            get => recover<ImageSectionHeader>(slice(Data, SectionHeaderOffset, SectionHeaderCount*size<ImageSectionHeader>()));
+        }
+
+        public Timestamp Timestamp
         {
             [MethodImpl(Inline)]
             get => CoffObjects.timestamp(Header.TimeDateStamp);

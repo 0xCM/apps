@@ -4,59 +4,92 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
+    using System;
     using System.Reflection.PortableExecutable;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
+    using static core;
 
-    /// <summary>
-    /// At the beginning of an object file, or immediately after the signature of an image file,
-    /// is a standard COFF file header in the following format. Note that the Windows loader limits
-    /// the number of sections to 96.
-    /// </summary>
-    /// <remarks>
-    /// See https://docs.microsoft.com/en-us/dotnet/api/system.reflection.portableexecutable.coffheader?view=net-5.0
-    /// </remarks>
-    [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct CoffHeader
+    public struct CoffHeaderView
     {
-        public const string TableId = "coff.header";
+        readonly CoffHeader Source;
+
+        ReadOnlySpan<byte> Data
+        {
+            [MethodImpl(Inline)]
+            get => core.bytes(Source);
+        }
 
         /// <summary>
         /// Specifies the target machine's CPU architecture.
         /// </summary>
-        public Machine Machine;
+        public ref readonly Machine Machine
+        {
+            [MethodImpl(Inline)]
+            get => ref first(recover<Machine>(Data));
+        }
 
         /// <summary>
         /// The section count that indicates the size of the section table, which immediately follows the headers.
         /// </summary>
-        public ushort NumberOfSections;
+        public ushort SectionCount
+        {
+            [MethodImpl(Inline)]
+            get => Source.NumberOfSections;
+        }
 
         /// <summary>
         /// The low 32 bits of the number of seconds since 00:00 January 1, 1970, which indicates when the file was created.
         /// </summary>
-        public Hex32 TimeDateStamp;
+        public Timestamp Timestamp
+        {
+            [MethodImpl(Inline)]
+            get => CoffObjects.timestamp(Source.TimeDateStamp);
+        }
 
         /// <summary>
         /// The file pointer to the COFF symbol table, or zero if no COFF symbol table is present. This value should be zero for a PE image.
         /// </summary>
-        public Address32 PointerToSymbolTable;
+        public Address32 SymTableOffset
+        {
+            [MethodImpl(Inline)]
+            get => Source.PointerToSymbolTable;
+        }
 
         /// <summary>
         /// Specifies the number of entries in the symbol table. This data can be used to locate
         /// the string table, which immediately follows the symbol table. This value should be zero for a PE image.
         /// </summary>
-        public uint NumberOfSymbols;
+        public uint SymCount
+        {
+            [MethodImpl(Inline)]
+            get => Source.NumberOfSymbols;
+        }
 
         /// <summary>
         /// Gets the size of the optional header, which is required for executable files but not for object files. This value should be zero for an object file.
         /// </summary>
-        public Hex16 SizeOfOptionalHeader;
+        public Hex16 OptionalHeaderSize
+        {
+            [MethodImpl(Inline)]
+            get => Source.SizeOfOptionalHeader;
+        }
 
         /// <summary>
         /// https://docs.microsoft.com/en-us/dotnet/api/system.reflection.portableexecutable.characteristics?view=net-5.0
         /// </summary>
-        public Characteristics Characteristics;
+        public Characteristics Flags
+        {
+            [MethodImpl(Inline)]
+            get => Source.Characteristics;
+        }
+
+        public bool HasOptionalHeader
+        {
+            [MethodImpl(Inline)]
+            get => OptionalHeaderSize != 0;
+        }
     }
 }

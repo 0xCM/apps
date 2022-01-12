@@ -362,22 +362,22 @@ namespace Z0
         [Symbol(".cv_filechecksums")]
         DK_CV_FILECHECKSUMS,
 
-        [Symbol("")]
+        [Symbol(".cv_filechecksumoffset")]
         DK_CV_FILECHECKSUM_OFFSET,
 
-        [Symbol("")]
+        [Symbol(".cv_fpo_data")]
         DK_CV_FPO_DATA,
 
-        [Symbol("")]
+        [Symbol(".cfi_sections")]
         DK_CFI_SECTIONS,
 
-        [Symbol("")]
+        [Symbol(".cfi_startpro")]
         DK_CFI_STARTPROC,
 
-        [Symbol("")]
+        [Symbol(".cfi_endproc")]
         DK_CFI_ENDPROC,
 
-        [Symbol("")]
+        [Symbol(".cfi_def_cfa")]
         DK_CFI_DEF_CFA,
 
         [Symbol("")]
@@ -437,16 +437,16 @@ namespace Z0
         [Symbol("")]
         DK_CFI_B_KEY_FRAME,
 
-        [Symbol("")]
+        [Symbol(".macros_on")]
         DK_MACROS_ON,
 
-        [Symbol("")]
+        [Symbol(".macros_off")]
         DK_MACROS_OFF,
 
-        [Symbol("")]
+        [Symbol(".altmacr")]
         DK_ALTMACRO,
 
-        [Symbol("")]
+        [Symbol(".noaltmacro")]
         DK_NOALTMACRO,
 
         [Symbol(".macro")]

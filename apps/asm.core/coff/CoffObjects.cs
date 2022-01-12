@@ -64,6 +64,17 @@ namespace Z0
             return len;
         }
 
+        public static string format(in CoffStringTable strings, CoffSymbolName name)
+        {
+            var len = length(strings, name);
+            var dst = EmptyString;
+            if(len <= 8)
+                dst = recover<AsciCode>(slice(name.Bytes,0,len)).Format();
+            else if(name.Address.IsNonZero)
+                dst = entry(strings, name.Address).Format();
+            return dst;
+        }
+
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<AsciCode> entry(in CoffStringTable strings, Address32 offset)
         {
@@ -80,7 +91,7 @@ namespace Z0
             => new CoffObject(path.Ext == FS.Obj ? path.SrcId(FileKind.Obj) : path.SrcId(FileKind.O), path, path.ReadBytes());
 
         [MethodImpl(Inline), Op]
-        public static DateTime timestamp(Hex32 src)
+        public static Timestamp timestamp(Hex32 src)
             => Time.epoch(TimeSpan.FromSeconds(src));
 
         [MethodImpl(Inline), Op]

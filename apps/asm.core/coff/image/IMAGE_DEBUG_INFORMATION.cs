@@ -1,5 +1,6 @@
 namespace Windows.Image
 {
+    using Z0;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
@@ -23,7 +24,7 @@ namespace Windows.Image
 
         public uint ReservedNumberOfSections;
 
-        public unsafe IMAGE_SECTION_HEADER* ReservedSections;
+        public unsafe ImageSectionHeader* ReservedSections;
 
         public uint ReservedExportedNamesSize;
 

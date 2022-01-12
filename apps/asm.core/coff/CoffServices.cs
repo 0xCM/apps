@@ -88,7 +88,7 @@ namespace Z0
                 var offset = 0u;
                 var view = CoffObjectView.cover(obj.Data, offset);
 
-                ref readonly var symcount = ref view.SymCount;
+                var symcount = view.SymCount;
                 if(symcount == 0)
                     break;
 
@@ -107,7 +107,7 @@ namespace Z0
                         record.SrcId = srcId;
                         record.Timestamp = view.Timestamp;
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
-                        record.Size = CoffObjects.length(strings, name);
+                        record.SymSize = CoffObjects.length(strings, name);
                         record.Section = sym.SectionNumber;
                         record.Value = sym.Value;
                         record.SymType = sym.Type;
@@ -115,7 +115,7 @@ namespace Z0
                         record.SymText = symtext;
                         writer.WriteLine(formatter.Format(record));
 
-                        size += record.Size;
+                        size += record.SymSize;
                     }
                 }
             }
