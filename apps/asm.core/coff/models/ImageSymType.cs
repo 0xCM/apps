@@ -7,36 +7,36 @@ namespace Z0
     [SymSource("image")]
     public enum ImageSymType : ushort
     {
-        None = 0,
+        NULL = 0,
 
-        Void = 1,
+        VOID = 1,
 
-        Char = 2,
+        CHAR = 2,
 
-        Short = 3,
+        SHORT = 3,
 
-        Int = 4,
+        INT = 4,
 
-        Long = 5,
+        LONG = 5,
 
-        Float = 6,
+        FLOAT = 6,
 
-        Double = 7,
+        DOUBLE = 7,
 
-        Struct = 8,
+        STRUCT = 8,
 
-        Union = 9,
+        UNION = 9,
 
-        Enum = 10,
+        ENUM = 10,
 
         MOE = 11,
 
-        Byte = 12,
+        BYTE = 12,
 
-        Word = 13,
+        WORD = 13,
 
-        UInt = 14,
+        UINT = 14,
 
-        DWord = 15
+        DWORD = 15
     }
 }

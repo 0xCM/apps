@@ -2,17 +2,20 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Ops
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    partial struct expr
+    public abstract class OpExpr<F,K> : Expr<F,K>
+        where F : OpExpr<F,K>
+        where K : unmanaged
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Value<T> value<T>(T src)
-            => src;
+        public abstract Name OpName {get;}
+
+        [MethodImpl(Inline)]
+        public static implicit operator AnyExpr(OpExpr<F,K> src)
+            => new AnyExpr(src);
     }
 }

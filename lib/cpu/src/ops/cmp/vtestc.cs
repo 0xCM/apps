@@ -73,6 +73,8 @@ namespace Z0
         /// <summary>
         /// int _mm_testc_si128 (__m128i a, __m128i b) PTEST xmm, xmm/m128
         /// Returns true if all mask-identified source bits are on
+        /// Compute the bitwise AND of 128 bits (representing integer data) in "a" and "b", and set "ZF" to 1 if the result is zero, otherwise set "ZF" to 0.
+        /// Compute the bitwise NOT of "a" and then AND with "b", and set "CF" to 1 if the result is zero, otherwise set "CF" to 0. Return the "CF" value.
         /// </summary>
         /// <param name="src">The source bits</param>
         /// <param name="mask">Specifies the bits the source to test</param>

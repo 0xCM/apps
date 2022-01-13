@@ -173,6 +173,7 @@ namespace Z0
         [MethodImpl(Inline), CNonImpl]
         public static Vector256<ulong> vcnonimpl(Vector256<ulong> x, Vector256<ulong> y)
             => AndNot(y, x);
+
         /// <summary>
         /// __m128 _mm_andnot_ps (__m128 a, __m128 b) ANDNPS xmm, xmm/m128
         /// Effects the composite operation x & (~y) for the left and right operands

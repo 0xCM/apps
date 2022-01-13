@@ -11,7 +11,6 @@ namespace Z0
 
     public class VectorExpr : IExpr, ISeq<IExpr>
     {
-
         readonly Index<IExpr> Data;
 
         public VectorExpr(params IExpr[] terms)

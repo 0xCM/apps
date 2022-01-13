@@ -65,7 +65,7 @@ namespace Z0
         Left = 0b0011,
 
         /// <summary>
-        /// Identifies a logical binary operator notimply(a,b) := and(~a, b) = bv(0100)
+        /// Identifies a logical binary operator nonimpl(a,b) := and(~a, b) = bv(0100)
         /// </summary>
         /// <remarks>
         /// bv(0100) = id(Nonimplication)
@@ -163,7 +163,7 @@ namespace Z0
         RNot = 0b1010,
 
         /// <summary>
-        /// Classifies a logical binary operator imply(a,b) := or(a, not(b)) = bv(1011)
+        /// Classifies a logical binary operator impl(a,b) := or(a, not(b)) = bv(1011)
         /// </summary>
         /// <remarks>
         /// bv(1011) = id(Implication)

@@ -18,7 +18,7 @@ namespace Z0
 
         public ImageSymType Type;
 
-        public ImageSymClass StorageClass;
+        public SymStorageClass StorageClass;
 
         public byte NumberOfAuxSymbols;
     }

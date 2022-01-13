@@ -34,7 +34,7 @@ namespace Z0
 
         public ImageSymType SymType;
 
-        public ImageSymClass SymClass;
+        public SymStorageClass SymClass;
 
         public @string SymText;
 

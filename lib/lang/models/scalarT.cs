@@ -58,6 +58,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator scalar<T>(T src)
             => new scalar<T>(src);
-
     }
 }
