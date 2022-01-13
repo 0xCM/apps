@@ -2,16 +2,24 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    public class FileTypeAttribute : Attribute
+    public enum SubtargetKind : byte
     {
+        Sse,
 
+        Sse2,
+
+        Sse3,
+
+        Sse41,
+
+        Sse42,
+
+        Avx,
+
+        Avx2,
+
+        Avx512
     }
 }

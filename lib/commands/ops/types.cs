@@ -6,13 +6,12 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-
-    using static Root;
+    using System.Reflection;
 
     partial struct Cmd
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static CmdFlow<T> flow<T>(IActor actor, T src, T dst)
-            => new CmdFlow<T>(actor,src,dst);
+        [Op]
+        public static Type[] types(params Assembly[] src)
+            =>  src.Types().Tagged<CmdAttribute>();
     }
 }

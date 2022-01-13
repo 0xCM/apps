@@ -16,7 +16,7 @@ namespace Z0
 
         public const byte FieldCount = 5;
 
-        public text31 Actor;
+        public Tool Tool;
 
         public @string SourceName;
 
@@ -27,9 +27,9 @@ namespace Z0
         public FS.FilePath TargetPath;
 
         [MethodImpl(Inline)]
-        public ToolCmdFlow(text31 tool, FS.FilePath src, FS.FilePath dst)
+        public ToolCmdFlow(Tool tool, FS.FilePath src, FS.FilePath dst)
         {
-            Actor = tool;
+            Tool = tool;
             SourceName = src.FileName.Format();
             TargetName = dst.FileName.Format();
             SourcePath = src;
@@ -37,18 +37,18 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("{0}:{1} -> {2}", Actor, SourceName, TargetName);
+            => string.Format("{0}:{1} -> {2}", Tool, SourceName, TargetName);
 
         public override string ToString()
             => Format();
 
         public static implicit operator CmdFlow<FS.FilePath>(ToolCmdFlow src)
-            => new CmdFlow<FS.FilePath>(src.Actor, src.SourcePath, src.TargetPath);
+            => new CmdFlow<FS.FilePath>(src.Tool, src.SourcePath, src.TargetPath);
 
         public static ToolCmdFlow Empty
         {
             [MethodImpl(Inline)]
-            get => new ToolCmdFlow(text31.Empty, FS.FilePath.Empty, FS.FilePath.Empty);
+            get => new ToolCmdFlow(Tool.Empty, FS.FilePath.Empty, FS.FilePath.Empty);
         }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{24,60,60,80,1};

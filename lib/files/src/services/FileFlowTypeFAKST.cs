@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [FileFlowType]
     public abstract class FileFlowType<F,A,K,S,T> : DataFlow<F,A,S,T>, IFlowType
         where A : IActor
         where S : IFileType<K>
@@ -19,6 +20,5 @@ namespace Z0
 
         IActor IFlowType.Actor
             => Actor;
-
     }
 }

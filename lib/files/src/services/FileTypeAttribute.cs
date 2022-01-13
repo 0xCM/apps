@@ -6,20 +6,9 @@ namespace Z0
 {
     using System;
 
-    public interface IActor
-    {
-        Identifier Name {get;}
-    }
-
-    public interface IActor<A> : IActor
-        where A : IActor
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    public class FileTypeAttribute : Attribute
     {
 
-    }
-
-    public interface IActor<A,K> : IActor<A>
-        where A : IActor<A,K>
-    {
-        ReadOnlySpan<K> Capabilities {get;}
     }
 }

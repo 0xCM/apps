@@ -8,13 +8,11 @@ namespace Z0.llvm
     using System.Runtime.InteropServices;
 
     [Cmd(ToolNames.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ReadObjCmd : IToolCmd<ReadObjCmd>
+    public struct ReadObjCmd : IFileFlowCmd<ReadObjCmd>
     {
-        [CmdArg(0)]
-        public FS.FilePath SrcPath;
+        public FS.FilePath Source;
 
-        [CmdArg(1)]
-        public FS.FilePath DstPath;
+        public FS.FilePath Target;
 
         [CmdFlag("--coff-tls-directory")]
         public bit CoffTlsDirectory;
@@ -60,5 +58,13 @@ namespace Z0.llvm
 
         [CmdFlag("--version-info")]
         public bit VersionInfo;
+
+        public IActor Actor => throw new NotImplementedException();
+
+        FS.FilePath IFileFlowCmd.Source
+            => Source;
+
+        FS.FilePath IFileFlowCmd.Target
+            => Target;
     }
 }

@@ -22,5 +22,9 @@ namespace Z0
             Field = field;
             Value = value;
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator FieldValue((FieldInfo f, object val) src)
+            => new FieldValue(src.f,src.val);
     }
 }

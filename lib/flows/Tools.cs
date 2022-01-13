@@ -8,6 +8,9 @@ namespace Z0
 
     public readonly struct Tools
     {
+        public static Tool tool(ToolId id)
+            => id;
+
         public static readonly Llc llc = Llc.Instance;
 
         public static readonly LlvmMc llvm_mc = LlvmMc.Instance;

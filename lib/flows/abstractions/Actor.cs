@@ -6,11 +6,11 @@ namespace Z0
 {
     using System;
 
-    public abstract class Actor : IActor
+    public class Actor : IActor
     {
         public Identifier Name {get;}
 
-        protected Actor(Identifier name)
+        public Actor(Identifier name)
         {
             Name = name;
         }

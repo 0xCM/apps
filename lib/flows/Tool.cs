@@ -9,26 +9,29 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct CmdFlow<T>
+    public readonly struct Tool : ITool
     {
-        public readonly IActor Actor;
-
-        public readonly T Source;
-
-        public readonly T Target;
+        public ToolId ToolId {get;}
 
         [MethodImpl(Inline)]
-        public CmdFlow(IActor actor, T src, T dst)
+        public Tool(ToolId id)
         {
-            Actor = actor;
-            Source = src;
-            Target = dst;
+            ToolId = id;
         }
 
+        public Identifier Name
+            => ToolId.Format();
+
         public string Format()
-            => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
+            => Name;
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator Tool(ToolId id)
+            => new Tool(id);
+
+        public static Tool Empty => new Tool(ToolId.Empty);
     }
 }

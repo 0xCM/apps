@@ -27,8 +27,9 @@ namespace Z0
                 var j = text.index(content, Chars.Colon);
                 if(j >= 0)
                 {
-                    text31 tool = text.left(content, j);
-                    var flow = text.right(content, j);
+                    ToolId tool = text.left(content, j);
+                    var flow = text.unfence(text.right(content,j), RenderFence.Bracketed);
+
                     j = text.index(flow, "--");
                     if(j == NotFound)
                         j = text.index(flow, "->");
@@ -36,7 +37,7 @@ namespace Z0
                     if(j>=0)
                     {
                         var a = text.left(flow,j).Trim();
-                        var b = text.left(text.right(flow, j + 2), Chars.RBracket).Trim();
+                        var b = text.right(flow,j+2).Trim();
                         if(nonempty(a) && nonempty(b))
                             seek(dst,counter++) = new ToolCmdFlow(tool, FS.path(a), FS.path(b));
                     }

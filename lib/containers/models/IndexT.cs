@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    [DataType("index<t:{1}>")]
+    [DataType("index<t:{0}>")]
     public readonly struct Index<T> : IIndex<T>
     {
         readonly T[] Data;
@@ -129,7 +129,7 @@ namespace Z0
             where C : IEqualityComparer<T>
                 => Index.equals(View, src.View, comparer);
         public string Format()
-            => string.Join(Chars.Comma, Data);
+            => IsNonEmpty ? string.Join(Chars.Comma, Data) : EmptyString;
 
         public override string ToString()
             => Format();

@@ -7,6 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
     using System.Reflection;
+    using System.Collections.Generic;
 
     using static Root;
     using static core;
@@ -16,6 +17,16 @@ namespace Z0
     public readonly struct ClrFields
     {
         const NumericKind Closure = UnsignedInts;
+
+        public static Dictionary<string,FieldValue> values(object src)
+        {
+            var type = src.GetType();
+            var fields = type.DeclaredInstanceFields();
+            var dst = dict<string,FieldValue>();
+            foreach(var f in fields)
+                dst[f.Name] = (f,f.GetValue(src));
+            return dst;
+        }
 
         [Op, Closures(Closure)]
         public static ReadOnlySpan<FieldValue> values<T>(in T src)

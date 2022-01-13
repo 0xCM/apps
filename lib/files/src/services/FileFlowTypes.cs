@@ -4,48 +4,47 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Reflection;
+
     using static Tools;
     using static FileTypes;
+    using static core;
 
     using FT = FileTypes;
 
     public readonly struct FileFlowTypes
     {
+        public static FileFlowType define(Identifier actor, FileKind src, FileKind dst)
+            => new FileFlowType(actor,src,dst);
+
+        public static Index<IFileFlowType> discover(Assembly[] src)
+        {
+            var types = src.Types().Tagged<FileFlowTypeAttribute>().Concrete();
+            var count = types.Length;
+            var dst = alloc<IFileFlowType>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var type = ref skip(types,i);
+                seek(dst,i) = (IFileFlowType)Activator.CreateInstance(type);
+            }
+            return dst;
+        }
+
         public static string format(IFileFlowType flow)
             => string.Format("{0}:*.{1} -> *.{2}", flow.Actor, flow.SourceExt, flow.TargetExt);
 
-        public static IFileFlowType flow(FileKind src, FileKind dst)
+        /// <summary>
+        /// *.asm -> *.mc.asm
+        /// </summary>
+        public class AsmToMcAsm : FileFlowType<AsmToMcAsm,LlvmMc,FT.Asm,McAsm>
         {
-            var flow = EmptyFlow.Instance;
-            switch(src)
+            public AsmToMcAsm()
+                : base(llvm_mc, FT.Asm.Instance, McAsm.Instance)
             {
-                case FileKind.Asm:
-                break;
-                case FileKind.Bc:
-                break;
-                case FileKind.HexDat:
-                break;
-                case FileKind.Exe:
-                break;
-                case FileKind.Llir:
-                break;
-                case FileKind.LlAsm:
-                break;
-                case FileKind.McAsm:
-                break;
-
-                case FileKind.O:
-                case FileKind.Obj:
-                break;
-
-                case FileKind.Sym:
-                break;
 
             }
-
-            return flow;
         }
-
 
         /// <summary>
         /// *.ll -> *ll.asm
@@ -167,17 +166,6 @@ namespace Z0
             }
         }
 
-        /// <summary>
-        /// *.asm -> *.mc.asm
-        /// </summary>
-        public class AsmToMcAsm : FileFlowType<AsmToMcAsm,LlvmMc,FT.Asm,McAsm>
-        {
-            public AsmToMcAsm()
-                : base(llvm_mc, FT.Asm.Instance, McAsm.Instance)
-            {
-
-            }
-        }
 
         /// <summary>
         /// *.encoding.asm -> *.syn.asm

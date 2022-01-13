@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+
     using static core;
     using static Root;
 
@@ -18,25 +19,19 @@ namespace Z0
             {
                 var files = ProjectFiles(project, scope);
                 int length = files.Length;
-                for (var i=0; i<length; i++)
+                for(var i=0; i<length; i++)
                 {
-                    var srcid = files[i].FileName.WithoutExtension.Format();
-
-                    result = OmniScript.RunProjectScript(project.Project, srcid, scriptid, true, out var flows);
+                    var path = files[i];
+                    var srcid = path.FileName.WithoutExtension.Format();
+                    result = RunScript(project.Project, scriptid, srcid);
                     if(result)
                     {
-                        var count = flows.Length;
-                        for(var j=0; j<count; j++)
+                        cmdflows.AddRange(result.Data);
+                        foreach(var flow in result.Data)
                         {
-                            ref readonly var flow = ref skip(flows,j);
-                            cmdflows.Add(flow);
                             Status(flow.Format());
                             receiver?.Invoke(flow);
                         }
-                    }
-                    else
-                    {
-                        result = (false, result.Message);
                     }
                 }
             }
@@ -49,6 +44,21 @@ namespace Z0
                 Index<ToolCmdFlow> records = cmdflows.ToArray();
                 TableEmit(records.View, ToolCmdFlow.RenderWidths, dst);
                 result = (true,records);
+            }
+
+            return result;
+        }
+
+        Outcome<Index<ToolCmdFlow>> RunScript(ProjectId project, ScriptId script, string srcid)
+        {
+            var cmdflows = list<ToolCmdFlow>();
+            var result = OmniScript.RunProjectScript(project, srcid, script, true, out var flows);
+            if(result)
+            {
+                var count = flows.Length;
+                for(var j=0; j<count; j++)
+                    cmdflows.Add(skip(flows,j));
+                return (true, cmdflows.ToArray());
             }
 
             return result;

@@ -23,7 +23,6 @@ namespace Z0
         public static string format(FileKind src)
             => Symbols.index<FileKind>()[src].Expr.Format();
 
-
         public static Asm asm = Asm.Instance;
 
         public static AsmSyntax asmsyn = AsmSyntax.Instance;

@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     using static core;
     using static Root;
-    using static LlcSubtarget;
+    using static SubtargetKind;
 
     [Tool(ToolId)]
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
@@ -25,7 +25,7 @@ namespace Z0.llvm
 
         }
 
-        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, LlcSubtarget subtarget, bool runexe = false)
+        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, SubtargetKind subtarget, bool runexe = false)
         {
             var result = Outcome.Success;
             var scriptid = subtarget switch
@@ -41,54 +41,71 @@ namespace Z0.llvm
                 _ => EmptyString
             };
 
-            return ScriptSvc.RunScript(project, scriptid, EmptyString, flow => ResponseHandler.HandleBuildResponse(flow,runexe));
+            return ScriptSvc.RunScript(project, scriptid, EmptyString, flow => ResponseHandler.HandleBuildResponse(flow, runexe));
+        }
+
+        Outcome Build(IProjectWs project, Paired<FS.FilePath,Index<string>> spec)
+        {
+            var isets = spec.Right;
+            var path = spec.Left;
+            var result = Outcome.Success;
+            if(isets.Length == 0)
+            {
+               return (false, string.Format("No instruction sets specified for {0}", path));
+            }
+
+            var id = path.FileName.WithoutExtension.Format();
+            for(var j=0; j<isets.Length; j++)
+            {
+                ref readonly var iset = ref isets[j];
+                var script = project.Script(string.Format("llc-build-{0}", iset));
+                if(script.Exists)
+                {
+                    var vars = Cmd.vars(("SrcId",id));
+                    result = OmniScript.Run(script, vars, false, out var response);
+                    if(result.Fail)
+                        break;
+                }
+                else
+                {
+                    result = (false,FS.missing(script));
+                    break;
+                }
+            }
+            return result;
+        }
+
+        FS.Files Sources(IProjectWs project)
+        {
+            var result = Outcome.Success;
+            var dir = project.Subdir("src");
+            var files = FS.Files.Empty;
+            if(!dir.Exists)
+            {
+                Error(string.Format("The project directory '{0}' does not exist", dir));
+            }
+            else
+            {
+                files = dir.Files(true, FS.ext("ll"));
+            }
+
+            return files;
         }
 
         public void Build(IProjectWs project)
         {
             var result = Outcome.Success;
-            var ll = FS.ext("ll");
-            var dir = project.Subdir("src/ll");
-            if(!dir.Exists)
-            {
-                Error(string.Format("The project directory '{0}' does not exist", dir));
-                return;
-            }
-
-            var src = dir.Files(false, FS.ext("ll"));
+            var src = Sources(project);
             var specs = isets(src);
             var count = specs.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var spec = ref specs[i];
-                var isets = spec.Right;
-                var path = spec.Left;
-                if(isets.Length == 0)
+                result = Build(project,spec);
+                if(result.Fail)
                 {
-                    Error(string.Format("No instruction sets specified for {0}", path));
+                    Error(result.Message);
                     break;
-                }
-
-                var id = path.FileName.WithoutExtension.Format();
-                for(var j=0; j<isets.Length; j++)
-                {
-                    ref readonly var iset = ref isets[j];
-                    var script = project.Script(string.Format("llc-build-{0}", iset));
-                    if(script.Exists)
-                    {
-                        var vars = Cmd.vars(("SrcId",id));
-                        result = OmniScript.Run(script, vars, false, out var response);
-                        if(result.Fail)
-                        {
-                            Error(result.Message);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Error(FS.missing(script));
-                        break;
-                    }
                 }
             }
         }

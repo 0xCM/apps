@@ -2,24 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    public enum LlcSubtarget : byte
+    using System;
+
+    public class FileFlowTypeAttribute : Attribute
     {
-        Sse,
 
-        Sse2,
-
-        Sse3,
-
-        Sse41,
-
-        Sse42,
-
-        Avx,
-
-        Avx2,
-
-        Avx512
     }
 }
