@@ -2,39 +2,45 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System;
-    using System.Runtime.InteropServices;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct AsmSyntaxDoc
+    public abstract class TableDoc<T>
+        where T : struct
     {
-        readonly Index<AsmSyntaxRow> Data;
+        protected readonly Index<T> Data;
 
-        public FS.FileUri Source {get;}
+        public FS.FilePath Location {get;}
 
-        public AsmSyntaxDoc(FS.FileUri src, AsmSyntaxRow[] rows)
+        protected TableDoc(FS.FilePath path, T[] rows)
         {
-            Source = src;
+            Location = path;
             Data = rows;
         }
 
-        public ReadOnlySpan<AsmSyntaxRow> Rows
+        public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
         }
 
-        public ref readonly AsmSyntaxRow this[uint i]
+        public uint RowCount
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
+        }
+
+        public ref readonly T this[int i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
 
-        public ref readonly AsmSyntaxRow this[int i]
+        public ref readonly T this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];

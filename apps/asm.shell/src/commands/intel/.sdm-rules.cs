@@ -12,7 +12,7 @@ namespace Z0.Asm
         [CmdOp(".sdm-rules")]
         Outcome SdmRules(CmdArgs args)
         {
-            var tables = Sdm.LoadInstructionSourceTables();
+            var tables = Sdm.LoadCsvTables();
             var count = tables.Length;
             var buffer = text.buffer();
             for(var i=0; i<count; i++)

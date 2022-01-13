@@ -20,8 +20,6 @@ namespace Z0.llvm
 
         LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
 
-        LlvmReadObjSvc ReadObj => Service(Wf.LlvmReadObj);
-
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);

@@ -33,9 +33,9 @@ namespace Z0
 
         public MemoryAddress IP;
 
-        public BinaryCode Encoding;
+        public AsmHexCode HexCode;
 
-        public TextBlock Statement;
+        public AsmExpr Asm;
 
         public AsmInlineComment Comment;
 
@@ -49,8 +49,8 @@ namespace Z0
             dst.BlockAddress = 0;
             dst.BlockName = TextBlock.Empty;
             dst.IP = 0;
-            dst.Encoding = BinaryCode.Empty;
-            dst.Statement = EmptyString;
+            dst.HexCode = BinaryCode.Empty;
+            dst.Asm = EmptyString;
             dst.Source = FS.FilePath.Empty;
             dst.Comment = AsmInlineComment.Empty;
             return dst;
@@ -70,14 +70,18 @@ namespace Z0
 
         public bool IsBlockStart
         {
-            get => text.contains(Statement.Format(), BlockStartMarker);
+            [MethodImpl(Inline)]
+            get => text.contains(Asm.Format(), BlockStartMarker);
         }
 
+        uint ISequential.Seq
+            => Seq;
+
         AsmExpr IAsmStatementEncoding.Asm
-            => Statement.Text;
+            => Asm;
 
         AsmHexCode IAsmStatementEncoding.Encoding
-            => Encoding;
+            => HexCode;
 
         MemoryAddress IAsmStatementEncoding.Offset
             => IP;

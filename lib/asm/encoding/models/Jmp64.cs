@@ -22,16 +22,12 @@ namespace Z0.Asm
         public const byte OpCode = 0xFF;
 
         [MethodImpl(Inline), Op]
-        public static bit rex(ReadOnlySpan<byte> src)
-            => first(src) == 0x48;
-
-        [MethodImpl(Inline), Op]
         public static bool test(ReadOnlySpan<byte> src)
-            => (src.Length == MaxSize && rex(src) && skip(src,1) == OpCode)
+            => (src.Length == MaxSize && AsmPrefixTests.rex(src) && skip(src,1) == OpCode)
             || (src.Length == MinSize && first(src) == OpCode);
 
         [MethodImpl(Inline), Op]
         public static r64 target(ReadOnlySpan<byte> src)
-            => rex(src) ? (RegIndexCode)(skip(src,2) & 0xF) : (RegIndexCode)(skip(src,1) & 0xF);
+            => AsmPrefixTests.rex(src) ? (RegIndexCode)(skip(src,2) & 0xF) : (RegIndexCode)(skip(src,1) & 0xF);
     }
 }

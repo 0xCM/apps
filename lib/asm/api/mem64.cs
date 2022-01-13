@@ -6,6 +6,7 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
+
     using Operands;
 
     using static Root;
@@ -13,23 +14,15 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static RegOp reg(NativeSizeCode width, RegClassCode @class, RegIndexCode r)
-            => AsmRegs.reg(width, @class,r);
+        public static m64 mem64(RegOp @base)
+            => new m64(@base, RegOp.Invalid, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
-        public static RegOp reg(in AsmOperand src)
-            => AsmRegs.reg(src);
+        public static m64 mem64(AsmAddress address)
+            => new m64(address);
 
         [MethodImpl(Inline), Op]
-        public static rCr rCr(RegIndexCode r)
-            => r;
-
-        [MethodImpl(Inline), Op]
-        public static rDb rDb(RegIndexCode r)
-            => r;
-
-        [MethodImpl(Inline), Op]
-        public static xCr xCr(RegIndexCode r)
-            => r;
+        public static m64 mem64(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
+            => new m64(@base, index, scale, disp);
     }
 }

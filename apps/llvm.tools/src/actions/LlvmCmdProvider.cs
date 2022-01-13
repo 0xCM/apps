@@ -22,8 +22,10 @@ namespace Z0.llvm
 
         LlvmDataEmitter DataEmitter => Service(Wf.LlvmDataEmitter);
 
-        LlvmCodeGen CodeGen => Service(Wf.LlvmCodeGen);
+        LlvmCodeGen LlvmCodeGen => Service(Wf.LlvmCodeGen);
 
         LlvmConfigSvc LlvmConfig => Service(Wf.LlvmConfig);
+
+        Generators Generators => Service(Wf.Generators);
     }
 }

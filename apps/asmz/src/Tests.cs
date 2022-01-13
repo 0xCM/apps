@@ -233,17 +233,17 @@ namespace Z0.Asm
 
         MemoryAddress GetKernel32Proc(string name = "CreateDirectoryA")
         {
-            var flow = Wf.Running(nameof(GetKernel32Proc));
+            var flow = Running();
             using var kernel = NativeModules.kernel32();
-            Wf.Row(kernel);
+            Write(kernel);
 
             var f = NativeModules.func<OS.Delegates.GetProcAddress>(kernel, nameof(OS.Delegates.GetProcAddress));
-            Wf.Row(f);
+            Write(f);
 
             var address = (MemoryAddress)f.Invoke(kernel, name);
-            Wf.Row(address);
+            Write(address);
 
-            Wf.Ran(flow);
+            Ran(flow);
 
             return address;
         }
@@ -285,17 +285,6 @@ namespace Z0.Asm
                 address++;
             }
             return 0;
-        }
-
-        void CheckApiSigs()
-        {
-            var t0 = ApiSigs.type("uint");
-            var t1 = ApiSigs.type("uint");
-            var t2 = ApiSigs.type("bool");
-            var op0 = ApiSigs.operand("a", t0);
-            var op1 = ApiSigs.operand("b", t1);
-            var r = ApiSigs.@return(t2);
-            Wf.Row(ApiSigs.operation("equals", r, op0, op1));
         }
 
 

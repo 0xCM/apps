@@ -10,7 +10,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmSyntaxRow
+    public struct AsmSyntaxRow : ISequential
     {
         public const string TableId = "asm.syntax";
 
@@ -28,9 +28,12 @@ namespace Z0
 
         public @string Syntax;
 
-        public AsmHexCode Encoding;
+        public AsmHexCode HexCode;
 
         public FS.FileUri Source;
+
+        uint ISequential.Seq
+            => Seq;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,62,120,48,5};
     }

@@ -185,6 +185,5 @@ namespace Z0.Asm
                 },
               _ => 0
             };
-
     }
 }

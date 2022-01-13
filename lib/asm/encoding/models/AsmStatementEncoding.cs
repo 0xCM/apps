@@ -7,8 +7,6 @@ namespace Z0.Asm
     using System;
     using System.Runtime.InteropServices;
 
-    using static Root;
-
     /// <summary>
     /// Bindes an expression with its encoding
     /// </summary>
@@ -44,8 +42,8 @@ namespace Z0.Asm
         public override int GetHashCode()
             => (int)alg.hash.combine(Asm.GetHashCode(), Encoding.GetHashCode());
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,12,12,64,1};
-
+        uint ISequential.Seq
+            => Seq;
         AsmExpr IAsmStatementEncoding.Asm
             => Asm;
 
@@ -54,5 +52,8 @@ namespace Z0.Asm
 
         MemoryAddress IAsmStatementEncoding.Offset
             => Offset;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,12,12,64,1};
+
     }
 }

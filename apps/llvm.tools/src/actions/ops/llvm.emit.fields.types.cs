@@ -6,9 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
-        const string EmitFieldTypesCmd = "llvm/emit/fields/types";
-
-        [CmdOp(EmitFieldTypesCmd)]
+        [CmdOp("llvm/emit/fields/types")]
         Outcome EmitFieldTypes(CmdArgs args)
         {
             DataEmitter.EmitQueryResults("llvm/def/fields/types",

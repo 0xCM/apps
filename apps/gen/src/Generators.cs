@@ -5,7 +5,6 @@
 namespace Z0
 {
     using System;
-   using Gen;
 
     using static core;
     using static CsPatterns;

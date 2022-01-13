@@ -12,6 +12,20 @@ namespace Z0
 
     public class AsmCodeAllocation : Allocation<AsmCode>
     {
+        public static AsmCodeAllocation allocate(ReadOnlySpan<IAsmStatementEncoding> src)
+        {
+            var count = src.Length;
+            var indices = dict<AsmHexCode,uint>();
+            var statements = dict<uint,AsmExprOffset>();
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var record = ref skip(src,i);
+                include(record, i, indices, statements);
+            }
+
+            return allocation(indices,statements);
+        }
+
         static void include(IAsmStatementEncoding src, uint i, Dictionary<AsmHexCode,uint> indices, Dictionary<uint,AsmExprOffset> statements)
         {
             var asm = src.Asm.Format();
@@ -46,20 +60,6 @@ namespace Z0
                 seek(dst,j++) = new AsmCode(asm.Offset,source,key);
             }
             return new AsmCodeAllocation(dst.Sort(), alloc);
-        }
-
-        public static AsmCodeAllocation create(ReadOnlySpan<IAsmStatementEncoding> src)
-        {
-            var count = src.Length;
-            var indices = dict<AsmHexCode,uint>();
-            var statements = dict<uint,AsmExprOffset>();
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var record = ref skip(src,i);
-                include(record, i, indices, statements);
-            }
-
-            return allocation(indices,statements);
         }
 
         internal AsmCodeAllocation(AsmCode[] data, IStringAllocator allocator)

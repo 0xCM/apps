@@ -108,14 +108,14 @@ namespace Z0.llvm
                         var y = text.index(asm, Chars.Tab);
                         if(y > 0)
                         {
-                            DataParser.parse(text.trim(text.left(asm, y)), out Row.Encoding);
+                            AsmHexCode.parse(text.trim(text.left(asm, y)), out Row.HexCode);
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
-                            Row.Statement = statement;
+                            Row.Asm = statement;
                             if(AsmParser.comment(statement, out Row.Comment))
                             {
                                 var m = text.index(statement, Chars.Hash);
                                 if(m>0)
-                                    Row.Statement = text.left(statement, m);
+                                    Row.Asm = text.left(statement, m);
                             }
                         }
                         Buffer.Add(Row);
@@ -137,8 +137,8 @@ namespace Z0.llvm
                 Row.Source = Source;
                 Row.Line = N;
                 Row.Section = Section;
-                Row.Encoding = BinaryCode.Empty;
-                Row.Statement = ObjDumpRow.BlockStartMarker;
+                Row.HexCode = BinaryCode.Empty;
+                Row.Asm = ObjDumpRow.BlockStartMarker;
                 var k = text.index(content, Chars.Gt);
                 if(k>=0)
                     Row.BlockName = text.inside(content, j, k);

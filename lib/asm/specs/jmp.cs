@@ -36,7 +36,7 @@ namespace Z0.Asm
             var encoded = AsmHexCode.Empty;
             var bytes = encoded.Bytes;
             seek(hex, 0) = opcode;
-            u32(seek(hex, 1)) = asm.disp32(rip,dst);
+            u32(seek(hex, 1)) = asm.disp32(rip, dst);
             return Size;
         }
 

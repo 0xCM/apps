@@ -65,7 +65,7 @@ namespace Z0
                 ref readonly var encoding = ref encoded[i];
                 ref readonly var inst = ref instructions[i];
                 ref readonly var block = ref skip(blocks,i);
-                ref readonly var code = ref encoding.Code;
+                ref readonly var code = ref encoding.HexCode;
                 ref readonly var IP = ref encoding.IP;
                 parser.ParseState(inst.Props.Edit, out var state);
                 iter(parser.UnknownFields, u => Warn(string.Format("Unknown field:{0}", u)));

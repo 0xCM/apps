@@ -57,11 +57,11 @@ namespace Z0
                 if(result.Fail)
                     return result;
 
-                result = ParseHexCode(line, out record.Code);
+                result = ParseHexCode(line, out record.HexCode);
                 if(result.Fail)
                     return result;
 
-                record.Size = record.Code.Size;
+                record.Size = record.HexCode.Size;
                 dst.Add(record);
             }
 

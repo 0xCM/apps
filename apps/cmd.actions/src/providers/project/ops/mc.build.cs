@@ -4,7 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using Asm;
+
+    using static core;
+    using static Root;
 
     partial class ProjectCmdProvider
     {
@@ -37,7 +41,6 @@ namespace Z0
             {
                 AsmMnemonic mnemonic = text.left(src,i);
                 dst.Append(mnemonic.Format(MnemonicCase.Lowercase));
-
                 var args = text.right(src, i + 1);
                 dst.Append(" | ");
                 dst.Append(args);
@@ -45,5 +48,19 @@ namespace Z0
 
             Write(dst.Emit());
         }
-    }
+
+        [CmdOp("cmdlog/parse")]
+        Outcome ParseCmdLog(CmdArgs args)
+        {
+            var project = Project();
+            var src = project.Out() + FS.file("commands", FileKind.Log.Ext());
+            using var reader = src.Utf8LineReader();
+            while(reader.Next(out var line))
+            {
+                var content = text.trim(line.Content);
+            }
+            return true;
+        }
+
+   }
 }

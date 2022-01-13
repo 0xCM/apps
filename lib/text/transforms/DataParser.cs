@@ -149,6 +149,13 @@ namespace Z0
         }
 
         [Parser]
+        public static Outcome parse(string src, out @string dst)
+        {
+            dst = src ?? EmptyString;
+            return true;
+        }
+
+        [Parser]
         public static Outcome parse(string src, out byte dst)
             => NumericParser.parse(src, out dst);
 

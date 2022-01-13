@@ -2,14 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    public interface IAsmStatementEncoding
+    public sealed class AsmSyntaxDoc : TableDoc<AsmSyntaxRow>
     {
-        AsmExpr Asm {get;}
+        public AsmSyntaxDoc(FS.FilePath src, AsmSyntaxRow[] rows)
+            : base(src,rows)
+        {
 
-        AsmHexCode Encoding {get;}
-
-        MemoryAddress Offset {get;}
+        }
     }
 }

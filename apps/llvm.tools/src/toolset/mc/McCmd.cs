@@ -15,7 +15,7 @@ namespace Z0.llvm
     {
         public FS.FilePath Source;
 
-        [CmdFlag("-o {0}")]
+        [CmdArg("-o {0}")]
         public FS.FilePath Target;
 
         [CmdFlag("--assemble")]
@@ -69,7 +69,7 @@ namespace Z0.llvm
             MasmHexFloats = true;
         }
 
-        public IActor Actor
+        IActor IFileFlowCmd.Actor
             => Tools.llvm_mc;
 
         FS.FilePath IFileFlowCmd.Source
@@ -77,6 +77,7 @@ namespace Z0.llvm
 
         FS.FilePath IFileFlowCmd.Target
             => Target;
+
         public static McCmd Default => new();
     }
 }

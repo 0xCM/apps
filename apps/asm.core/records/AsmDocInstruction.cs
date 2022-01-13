@@ -2,17 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System;
     using System.Runtime.InteropServices;
 
     using Asm;
 
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmDocInstruction
+    public struct AsmDocInstruction : ISequential
     {
         public const string TableId = "asm.instruction";
 
@@ -26,9 +24,12 @@ namespace Z0.llvm
 
         public text31 Instruction;
 
-        public AsmExpr Statement;
+        public AsmExpr Asm;
 
         public FS.FileUri Doc;
+
+        uint ISequential.Seq
+            => Seq;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,32,64,1};
     }

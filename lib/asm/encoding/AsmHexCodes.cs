@@ -18,38 +18,47 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmHexCode define(Hex8 a0, imm8 a1)
         {
-            var writer = write(buffer());
-            writer.Write8(a0);
-            writer.Write8(a1);
-            return load(writer);
+            var dst = writer(buffer());
+            dst.Write8(a0);
+            dst.Write8(a1);
+            return load(dst);
         }
 
         [MethodImpl(Inline), Op]
         public static AsmHexCode define(RexPrefix a0, Hex8 a1, imm64 a2)
         {
-            var writer = write(buffer());
-            writer.Write8(a0);
-            writer.Write8(a1);
-            writer.Write64(a2);
-            return load(writer);
+            var dst = writer(buffer());
+            dst.Write8(a0);
+            dst.Write8(a1);
+            dst.Write64(a2);
+            return load(dst);
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmHexCode write(RexPrefix a0, ref AsmHexCode dst)
+        public static byte write(RexPrefix a0, Span<byte> buffer)
         {
-            var writer = write(dst.Bytes);
-            writer.Write8(a0);
-            dst = close(writer, dst.Bytes);
-            return ref dst;
+            var count = z8;
+            var dst = writer(buffer);
+            count += dst.Write8(a0);
+            return count;
         }
+
+        [MethodImpl(Inline), Op]
+        public static ref AsmHexCode write(RexPrefix a0, ref AsmHexCode hex)
+        {
+            var dst = writer(hex.Bytes);
+            dst.Write8(a0);
+            hex = close(dst, hex.Bytes);
+            return ref hex;
+        }
+
+        [MethodImpl(Inline), Op]
+        static SpanWriter writer(Span<byte> buffer)
+            => Spans.writer(buffer);
 
         [MethodImpl(Inline), Op]
         static Span<byte> buffer()
             => ByteBlocks.alloc(n16).Bytes;
-
-        [MethodImpl(Inline)]
-        static SpanWriter write(Span<byte> dst)
-            => Spans.writer(dst);
 
         [MethodImpl(Inline), Op]
         static AsmHexCode close(in SpanWriter writer, Span<byte> dst)

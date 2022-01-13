@@ -44,14 +44,6 @@ namespace Z0.llvm
             return result;
         }
 
-        public Index<AsmCode> ExtractAsmCode(FS.FilePath src)
-        {
-            var rows = LoadConsolidated(src);
-            var count = rows.Length;
-
-            return default;
-        }
-
         public Index<ObjDumpRow> LoadConsolidated(FS.FilePath src)
         {
             var result = TextGrids.load(src, TextEncodingKind.Asci, out var grid);
@@ -70,47 +62,19 @@ namespace Z0.llvm
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
-                // if(result.Fail)
-                //     break;
-
                 result = DataParser.parse(data[j++], out dst.Line);
-                // if(result.Fail)
-                //     break;
-
                 result = DataParser.parse(data[j++], out dst.Section);
-                // if(result.Fail)
-                //     break;
-
                 result = DataParser.parse(data[j++], out dst.BlockAddress);
-                // if(result.Fail)
-                //     break;
-
                 result = DataParser.parse(data[j++], out dst.BlockName);
-                // if(result.Fail)
-                //     break;
-
                 result = DataParser.parse(data[j++], out dst.IP);
-                // if(result.Fail)
-                //     break;
-
-                result = DataParser.parse(data[j++], out dst.Encoding);
-                // if(result.Fail)
-                //     break;
-
-                result = DataParser.parse(data[j++], out dst.Statement);
-                // if(result.Fail)
-                //     break;
-
+                result = AsmHexCode.parse(data[j++].View, out dst.HexCode);
+                dst.Asm = text.trim(data[j++].Text);
                 result = AsmParser.comment(data[j++].View, out dst.Comment);
-                // if(result.Fail)
-                //     break;
-
                 result = DataParser.parse(data[j++], out dst.Source);
             }
 
             return buffer;
         }
-
 
         public Outcome Consolidate(IProjectWs project)
         {
@@ -236,8 +200,8 @@ namespace Z0.llvm
                     continue;
                 }
 
-                if(row.Statement.IsNonEmpty)
-                    lines.Add(string.Format("    {0}", row.Statement));
+                if(row.Asm.IsNonEmpty)
+                    lines.Add(string.Format("    {0}", row.Asm));
             }
 
             if(lines.Count != 0)

@@ -12,11 +12,6 @@ namespace Z0.Asm
 
     partial class AsmSpecs
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static JccInfo<K> jcc<K>(K kind, text7 name, NativeSize size)
-            where K : unmanaged
-                => new JccInfo<K>(kind, name, size);
-
         [MethodImpl(Inline), Op]
         public static byte jo(Hex8 cb, ref byte hex)
         {

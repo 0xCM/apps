@@ -10,10 +10,8 @@ namespace Z0
 
     using Asm;
 
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmDocEncoding
+    public struct AsmDocEncoding : IAsmStatementEncoding
     {
         public const string TableId = "asm.encoding";
 
@@ -31,9 +29,21 @@ namespace Z0
 
         public byte Size;
 
-        public AsmHexCode Code;
+        public AsmHexCode HexCode;
 
         public FS.FileUri DocPath;
+
+        uint ISequential.Seq
+            => Seq;
+
+        AsmExpr IAsmStatementEncoding.Asm
+            => Asm;
+
+        AsmHexCode IAsmStatementEncoding.Encoding
+            => HexCode;
+
+        MemoryAddress IAsmStatementEncoding.Offset
+            => IP;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,10,84,8,42,1};
 

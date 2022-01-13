@@ -15,6 +15,13 @@ namespace Z0.Asm
     [ApiComplete]
     public sealed class Conditions
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static JccInfo<K> jcc<K>(K kind, text7 name, NativeSize size)
+            where K : unmanaged
+                => new JccInfo<K>(kind, name, size);
+
         public static Conditions create()
             => _Instance.Value;
 
@@ -54,21 +61,21 @@ namespace Z0.Asm
         [Op]
         public static uint jcc8(Conditions src, Span<Jcc8Conditions> dst)
         {
-            var jcc = src.JccCodes(w8, n0);
-            var jccAlt = src.JccCodes(w8, n1);
-            var count = jcc.Length;
+            var codes = src.JccCodes(w8, n0);
+            var codesAlt = src.JccCodes(w8, n1);
+            var count = codes.Length;
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
-                ref readonly var code = ref skip(jcc,i);
-                ref readonly var codeAlt = ref skip(jccAlt,i);
+                ref readonly var code = ref skip(codes,i);
+                ref readonly var codeAlt = ref skip(codesAlt,i);
                 ref readonly var name = ref src.Name(code);
                 ref readonly var nameAlt = ref src.Name(codeAlt);
                 ref readonly var info = ref src.Describe(code);
                 ref readonly var infoAlt = ref src.Describe(codeAlt);
                 ref var target = ref seek(dst,counter++);
-                target.Primary = AsmSpecs.jcc(code, name, NativeSizeCode.W8);
-                target.Alt = AsmSpecs.jcc(codeAlt, nameAlt, NativeSizeCode.W8);
+                target.Primary = jcc(code, name, NativeSizeCode.W8);
+                target.Alt = jcc(codeAlt, nameAlt, NativeSizeCode.W8);
                 target.PrimaryInfo = info.Text;
                 target.AltInfo = infoAlt.Text;
            }
@@ -87,21 +94,21 @@ namespace Z0.Asm
         [Op]
         public static uint jcc32(Conditions src, Span<Jcc32Conditions> dst)
         {
-            var jcc = src.JccCodes(w32, n0);
-            var jccAlt = src.JccCodes(w32, n1);
-            var count = jcc.Length;
+            var codes = src.JccCodes(w32, n0);
+            var codesAlt = src.JccCodes(w32, n1);
+            var count = codes.Length;
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
-                ref readonly var code = ref skip(jcc,i);
-                ref readonly var codeAlt = ref skip(jccAlt,i);
+                ref readonly var code = ref skip(codes,i);
+                ref readonly var codeAlt = ref skip(codesAlt,i);
                 ref readonly var name = ref src.Name(code);
                 ref readonly var nameAlt = ref src.Name(codeAlt);
                 ref readonly var info = ref src.Describe(code);
                 ref readonly var infoAlt = ref src.Describe(codeAlt);
                 ref var target = ref seek(dst,counter++);
-                target.Primary = AsmSpecs.jcc(code, name, NativeSizeCode.W32);
-                target.Alt = AsmSpecs.jcc(codeAlt, nameAlt, NativeSizeCode.W32);
+                target.Primary = jcc(code, name, NativeSizeCode.W32);
+                target.Alt = jcc(codeAlt, nameAlt, NativeSizeCode.W32);
                 target.PrimaryInfo = info.Text;
                 target.AltInfo = infoAlt.Text;
            }

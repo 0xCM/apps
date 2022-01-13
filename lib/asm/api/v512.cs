@@ -5,11 +5,15 @@
 namespace Z0.Asm
 {
     using System;
+    using System.Runtime.CompilerServices;
+    using Operands;
 
-    partial class IntelSdm
+    using static Root;
+
+    partial struct asm
     {
-        public ReadOnlySpan<Table> LoadInstructionSourceTables()
-            => LoadCsvTables((SdmPaths.Sources() + FS.folder("sdm.instructions")).Files(FS.Csv).ToReadOnlySpan());
-
+        [MethodImpl(Inline), Op]
+        public static zmm v512(RegIndexCode r)
+            => r;
     }
 }
