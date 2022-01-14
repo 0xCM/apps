@@ -55,7 +55,7 @@ namespace Z0.Asm
 
         void Parse(in TextLine src)
         {
-            var @class = AsmLine.classify(src.Content);
+            var @class = AsmParser.lineclass(src.Content);
             var content = src.Content.Replace(Chars.Tab, Chars.Space).Trim();
             switch(@class)
             {

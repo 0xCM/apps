@@ -16,30 +16,15 @@ namespace Z0
 
     partial struct XedModels
     {
-        public static ImmOp imm(in OperandState state, in AsmHexCode code)
+        public static Imm imm(in OperandState state, in AsmHexCode code)
         {
-            var dst = ImmOp.Empty;
+            var dst = Imm.Empty;
             if(state.imm0)
             {
                 var size = NativeSize.code(state.imm_width);
                 var signed = state.imm0signed;
                 var pos = state.pos_imm;
-
-                switch(size)
-                {
-                    case NativeSizeCode.W8:
-                        dst = ImmOp.define(size,signed, code[pos]);
-                    break;
-                    case NativeSizeCode.W16:
-                        dst = ImmOp.define(size, signed,slice(code.Bytes,pos, 2).TakeUInt16());
-                    break;
-                    case NativeSizeCode.W32:
-                        dst = ImmOp.define(size, signed, slice(code.Bytes,pos, 4).TakeUInt32());
-                    break;
-                    case NativeSizeCode.W64:
-                        dst = ImmOp.define(size, signed, slice(code.Bytes,pos, 8).TakeUInt64());
-                    break;
-                }
+                dst = AsmEncoding.imm(code, pos, signed, size);
             }
             return dst;
         }

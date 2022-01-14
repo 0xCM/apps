@@ -50,7 +50,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(ImmOp src)
+        internal AsmOperand(Imm src)
         {
             OpClass = AsmOpClass.Imm;
             Size = src.Size;

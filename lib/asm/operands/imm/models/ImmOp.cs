@@ -9,47 +9,22 @@ namespace Z0
 
     using static Root;
 
-    [DataType("immop")]
-    public readonly struct ImmOp : IImm<ImmOp,ulong>
+    [DataType("imm")]
+    public readonly struct Imm : IImm<Imm,ulong>
     {
-        public static ImmOp define(NativeSize size, bool signed, ulong value)
-        {
-            var kind = ImmKind.None;
-            switch(size.Code)
-            {
-                case NativeSizeCode.W8:
-                    kind = signed ? ImmKind.Imm8i : ImmKind.Imm8;
-                break;
-                case NativeSizeCode.W16:
-                    kind = signed ? ImmKind.Imm16i : ImmKind.Imm16;
-                break;
-                case NativeSizeCode.W32:
-                    kind = signed ? ImmKind.Imm32i : ImmKind.Imm32;
-                break;
-                case NativeSizeCode.W64:
-                    kind = signed ? ImmKind.Imm64i : ImmKind.Imm64;
-                break;
-            }
-            return new ImmOp(kind, value);
-        }
-
-        [MethodImpl(Inline)]
-        public static ImmOp define(ImmKind kind, ulong value)
-            => new ImmOp(kind, value);
-
         public ulong Value {get;}
 
         public ImmKind ImmKind {get;}
 
         [MethodImpl(Inline)]
-        public ImmOp(ImmKind kind, ulong src)
+        public Imm(ImmKind kind, ulong src)
         {
             ImmKind = kind;
             Value = src;
         }
 
         [MethodImpl(Inline)]
-        public ImmOp(IImm src)
+        public Imm(IImm src)
         {
             ImmKind = src.ImmKind;
             Value = src.Value;
@@ -104,6 +79,6 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public static ImmOp Empty => default;
+        public static Imm Empty => default;
     }
 }

@@ -19,6 +19,18 @@ namespace Z0.Asm
             Value = value;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.empty(Value);
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => text.nonempty(Value);
+        }
+
         public string Format()
             => Value ?? EmptyString;
 
@@ -28,5 +40,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmDirectiveOp(string src)
             => new AsmDirectiveOp(src);
+
+        public static AsmDirectiveOp Empty => new AsmDirectiveOp(EmptyString);
     }
 }

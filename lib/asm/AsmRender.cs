@@ -51,11 +51,11 @@ namespace Z0.Asm
 
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
-            => AsmDocBuilder.comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
+            => asm.comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
 
         [Op]
         public static AsmInlineComment hexarray(BinaryCode src)
-            => AsmDocBuilder.comment(CommentMarker, Hex.hexarray(src).Format(true));
+            => asm.comment(CommentMarker, Hex.hexarray(src).Format(true));
 
         [Op]
         public static string format(IDisplacement src)
@@ -86,13 +86,13 @@ namespace Z0.Asm
         {
             var i = z8;
             seek(dst, i++) = PageBreak;
-            seek(dst, i++) = AsmDocBuilder.comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
+            seek(dst, i++) = asm.comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
             seek(dst, i++) = spanres(src.Uri, src.CodeBlock);
             seek(dst, i++) = hexarray(src.CodeBlock);
-            seek(dst, i++) = AsmDocBuilder.comment(CommentMarker, string.Concat(nameof(src.CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
-            seek(dst, i++) = AsmDocBuilder.comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
+            seek(dst, i++) = asm.comment(CommentMarker, string.Concat(nameof(src.CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
+            seek(dst, i++) = asm.comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
             seek(dst, i++) = PageBreak;
-            seek(dst, i++) = AsmDocBuilder.comment(src.Uri.OpId.Name);
+            seek(dst, i++) = asm.comment(src.Uri.OpId.Name);
             return i;
         }
 
@@ -110,7 +110,6 @@ namespace Z0.Asm
             const string AbsolutePattern = "{0} {1} {2}";
             const string RelativePattern = "{0} {1}";
             var label = AsmRender.offset(src.Offset, w16);
-            var _label = AsmDocBuilder.label(16, src.Offset);
             var address = @base + src.Offset;
             if(config.EmitLineLabels)
             {
@@ -124,7 +123,7 @@ namespace Z0.Asm
                 dst.Append(src.Statement.FormatPadded());
             }
 
-            dst.Append(AsmDocBuilder.comment(CommentMarker, AsmOffsetLabel.format(_label, src.AsmForm, src.Encoded)));
+            dst.Append(asm.comment(CommentMarker, AsmOffsetLabel.format(asm.label(16, src.Offset), src.AsmForm, src.Encoded)));
         }
 
 

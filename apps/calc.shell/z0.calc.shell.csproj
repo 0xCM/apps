@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
-    <Reference Include="$(ZTestName)" HintPath="$(ZTestPath)"/>
+    <Reference Include="$(Checks)" HintPath="$(ChecksPath)"/>
 
   </ItemGroup>
 

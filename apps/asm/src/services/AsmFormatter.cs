@@ -16,7 +16,7 @@ namespace Z0.Asm
         {
             Address16 offset = z16;
             var count = instructions.Length;
-            dst.AppendLine(AsmDocBuilder.comment(block.FormatHex()));
+            dst.AppendLine(asm.comment(block.FormatHex()));
             for(var i=0; i<count; i++)
             {
                 ref readonly var instruction = ref skip(instructions,i);

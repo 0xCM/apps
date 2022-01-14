@@ -68,7 +68,7 @@ namespace Z0
                 UseWidth = false;
             }
 
-            public RuleOperand(RuleOpName name, ImmOp value)
+            public RuleOperand(RuleOpName name, Imm value)
             {
                 Name = name;
                 Value = value;

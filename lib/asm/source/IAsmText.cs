@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         StringAddress Source {get;}
 
-        AsmTextKind Kind {get;}
+        AsmPartKind Kind {get;}
 
         uint Render(ref uint i, Span<char> dst);
     }

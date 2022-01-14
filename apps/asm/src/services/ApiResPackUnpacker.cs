@@ -13,14 +13,15 @@ namespace Z0.Asm
 
     public class ApiResPackUnpacker : AppService<ApiResPackUnpacker>
     {
+        ApiResProvider ApiResProvider => Service(Wf.ApiResProvider);
+
         public ReadOnlySpan<MemorySeg> Emit(FS.FolderPath dst)
         {
             var asmpath = dst + FS.file("respack",FS.Asm);
             var hexpath = asmpath.ChangeExtension(FS.Hex);
-            var provider = Wf.ApiResProvider();
-            var path = provider.ResPackPath();
+            var path = ApiResProvider.ResPackPath();
             var assembly = Assembly.LoadFrom(path.Name);
-            var accessors = provider.ResPackAccessors();
+            var accessors = ApiResProvider.ResPackAccessors();
             var count = accessors.Length;
             var decoder = Wf.AsmDecoder();
             var buffer = text.buffer();
@@ -37,7 +38,7 @@ namespace Z0.Asm
                 var bytes = SpanRes.definition(accessor);
                 var decoded = decoder.Decode(bytes.ToArray(), MemoryAddress.Zero).View;
                 var name = accessor.DeclaringType.Name + "/" + accessor.Member.Name;
-                asmwriter.WriteLine(AsmDocBuilder.comment(seqlabel + name));
+                asmwriter.WriteLine(asm.comment(seqlabel + name));
                 AsmFormatter.render(bytes, decoded, buffer);
                 asmwriter.Write(buffer.Emit());
 
@@ -80,7 +81,7 @@ namespace Z0.Asm
 
         void EmitHexPack(ReadOnlySpan<MemorySeg> src, FS.FilePath dst)
         {
-            var flow= Wf.EmittingFile(dst);
+            var flow= EmittingFile(dst);
             var count = src.Length;
             var buffer = alloc<char>(Pow2.T16);
             using var writer = dst.Writer();
@@ -90,12 +91,12 @@ namespace Z0.Asm
                 buffer.Clear();
                 writer.WriteLine(MemoryStore.linepack(seg, i, buffer));
             }
-            Wf.EmittedFile(flow, count);
+            EmittedFile(flow, count);
         }
 
         void EmitHexArrays(ReadOnlySpan<MemorySeg> src, FS.FilePath dst)
         {
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             var count = src.Length;
             var buffer = alloc<char>(Pow2.T16);
             using var writer = dst.Writer();
@@ -105,7 +106,7 @@ namespace Z0.Asm
                 buffer.Clear();
                 writer.WriteLine(MemoryStore.arraypack(seg, i, buffer));
             }
-            Wf.EmittedFile(flow, count);
+            EmittedFile(flow, count);
         }
     }
 }

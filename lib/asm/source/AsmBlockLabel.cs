@@ -12,7 +12,7 @@ namespace Z0.Asm
     /// <summary>
     /// Represents a syntactically-valid label
     /// </summary>
-    public readonly struct AsmBlockLabel
+    public readonly struct AsmBlockLabel : IAsmSourcePart
     {
         public static string format(AsmBlockLabel src)
             => src.Name.IsEmpty ? EmptyString : string.Format("{0}:", src.Name);
@@ -23,10 +23,10 @@ namespace Z0.Asm
         public AsmBlockLabel(Identifier name)
             => Name = name;
 
-        public AsmLinePart TokenKind
+        public AsmPartKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmLinePart.BlockLabel;
+            get => AsmPartKind.BlockLabel;
         }
 
         public bool IsEmpty
@@ -56,5 +56,13 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmBlockLabel(string src)
             => new AsmBlockLabel(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmLabel(AsmBlockLabel src)
+            => new AsmLabel(src.Name);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmBlockLabel src)
+            => asm.cell(src.Format(), src.PartKind);
     }
 }

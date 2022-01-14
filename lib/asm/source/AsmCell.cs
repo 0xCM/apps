@@ -9,20 +9,29 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmCell
+    public readonly struct AsmCell : IAsmSourcePart
     {
-        public byte Position {get;}
+        /// <summary>
+        /// The content origin
+        /// </summary>
+        public GridPoint<uint> Location {get;}
 
-        public BinaryCode Content {get;}
+        public @string Content {get;}
 
-        public AsmCellKind Kind {get;}
+        public AsmPartKind PartKind {get;}
 
         [MethodImpl(Inline)]
-        public AsmCell(byte pos, BinaryCode data, AsmCellKind kind)
+        public AsmCell(GridPoint<uint> loc, AsmPartKind kind, string content)
         {
-            Content = data;
-            Position = pos;
-            Kind = kind;
+            Location = loc;
+            Content = content;
+            PartKind = kind;
         }
+
+        public string Format()
+            => Content;
+
+        public override string ToString()
+            => Format();
     }
 }

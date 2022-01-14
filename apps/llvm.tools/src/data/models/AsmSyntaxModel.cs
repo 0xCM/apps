@@ -19,7 +19,7 @@ namespace Z0.llvm
             => new RegOperand(reg);
 
         [MethodImpl(Inline), Op]
-        public static ImmOperand imm(ImmOp src)
+        public static ImmOperand imm(Imm src)
             => new ImmOperand(src);
 
         [MethodImpl(Inline), Op]

@@ -100,8 +100,8 @@ namespace Z0
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ImmOp<uint>(I src)
-            => new ImmOp<uint>(src);
+        public static implicit operator Imm<uint>(I src)
+            => new Imm<uint>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator I(uint src)

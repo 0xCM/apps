@@ -12,7 +12,7 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<AsmLinePart> parts(AsmLinePart src)
-            => AsmLineParts.parts(src);
+        public static ReadOnlySpan<AsmPartKind> parts(AsmPartKind src)
+            => AsmSourceParts.parts(src);
     }
 }

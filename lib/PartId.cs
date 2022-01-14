@@ -55,8 +55,8 @@ public enum PartId : byte
     [Symbol("digital")]
     Digital = 18,
 
-    [Symbol("check")]
-    Check = 19,
+    [Symbol("test.checks")]
+    Checks = 19,
 
     [Symbol("res")]
     Res = 20,

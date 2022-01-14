@@ -101,8 +101,8 @@ namespace Z0
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ImmOp<ushort>(imm16 src)
-            => new ImmOp<ushort>(src);
+        public static implicit operator Imm<ushort>(imm16 src)
+            => new Imm<ushort>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator I(ushort src)

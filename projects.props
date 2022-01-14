@@ -27,6 +27,10 @@
 
     <TestUnits>$(MSBuildThisFileDirectory)test/test.units/z0.test.units.csproj</TestUnits>
     <ZLib>$(MSBuildThisFileDirectory)lib/z0.lib.csproj</ZLib>
+
+    <Checks>test.checks</Checks>
+    <ZTestName>test.units</ZTestName>
+
   </PropertyGroup>
 
 </Project>

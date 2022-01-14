@@ -12,11 +12,11 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmText asmtext(StringAddress src, AsmTextKind kind = default)
+        public static AsmText asmtext(StringAddress src, AsmPartKind kind = default)
             => new AsmText(src, kind);
 
         [MethodImpl(Inline), Op]
-        public static AsmText asmtext(string src, AsmTextKind kind = default)
+        public static AsmText asmtext(string src, AsmPartKind kind = default)
             => asmtext(strings.address(src), kind);
     }
 }

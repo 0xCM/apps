@@ -58,18 +58,18 @@ namespace Z0.Asm
 
         public void Produce(string name, FS.FilePath dst, params PartId[] parts)
         {
-            var flow = Wf.Running(nameof(Produce));
+            var flow = Running(nameof(Produce));
             var options = CaptureWorkflowOptions.EmitImm;
             var routines = Capture.run(Wf, parts, options);
             var statements = Produce(routines, dst);
-            Wf.Ran(flow);
+            Ran(flow);
         }
 
         static void FormatHeader(in AsmMemberRoutine src, ITextBuffer dst)
         {
-            dst.AppendLine(AsmDocBuilder.comment(src.Member.OpUri.Format()));
-            dst.AppendLine(AsmDocBuilder.comment(format(src.Base, src.CodeBlock.Code)));
-            dst.AppendLine(asm.blocklabel(src.Base));
+            dst.AppendLine(asm.comment(src.Member.OpUri.Format()));
+            dst.AppendLine(asm.comment(format(src.Base, src.CodeBlock.Code)));
+            dst.AppendLine(asm.label(16, src.Base));
         }
 
         static uint produce(in AsmMemberRoutine src, ITextBuffer dst)
@@ -105,7 +105,7 @@ namespace Z0.Asm
             => src.Statment.Replace(" ptr", EmptyString);
 
         static void produce(in ApiInstruction src, ITextBuffer dst)
-            => dst.Append(string.Format("{0} {1}", string.Format("{0,-46}", statement(src)), AsmDocBuilder.comment(describe(src))));
+            => dst.Append(string.Format("{0} {1}", string.Format("{0,-46}", statement(src)), asm.comment(describe(src))));
 
         const string PageBreak = "----------------------------------------------------------------------------------------------------------------------------------------------------------------";
     }

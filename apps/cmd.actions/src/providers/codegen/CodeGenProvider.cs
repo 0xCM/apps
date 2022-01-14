@@ -14,6 +14,5 @@ namespace Z0
         Generators Generators => Service(Wf.Generators);
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
-
     }
 }

@@ -9,6 +9,7 @@
     <ProjectReference Include="$(MachinesX86)" />
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(LlvmTools)" />
+    <Reference Include="$(Checks)" HintPath="$(ChecksPath)"/>
   </ItemGroup>
 
   <Import Project="../imports.props"/>

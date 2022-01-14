@@ -12,14 +12,14 @@ namespace Z0.llvm
 
     partial struct AsmSyntaxModel
     {
-        public struct ImmOperand : IOperand<AsmOpClass,ImmOp>
+        public struct ImmOperand : IOperand<AsmOpClass,Imm>
         {
-            public ImmOp Value {get;}
+            public Imm Value {get;}
 
             public AsmOpClass Kind => AsmOpClass.Imm;
 
             [MethodImpl(Inline)]
-            public ImmOperand(ImmOp value)
+            public ImmOperand(Imm value)
             {
                 Value = value;
             }

@@ -15,11 +15,11 @@ namespace Z0.Asm
     public readonly struct AsmText : IAsmText<AsmText>
     {
         [MethodImpl(Inline), Op]
-        public static AsmText asmtext(StringAddress src, AsmTextKind kind = default)
+        public static AsmText asmtext(StringAddress src, AsmPartKind kind = default)
             => new AsmText(src, kind);
 
         [MethodImpl(Inline), Op]
-        public static AsmText asmtext(string src, AsmTextKind kind = default)
+        public static AsmText asmtext(string src, AsmPartKind kind = default)
             => asmtext(strings.address(src), kind);
 
         public static string format(AsmText src)
@@ -51,30 +51,30 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmText opcode(string src)
-            => asmtext(src, AsmTextKind.OpCode);
+            => asmtext(src, AsmPartKind.OpCode);
 
         [MethodImpl(Inline), Op]
         public static AsmText sig(string src)
-            => asmtext(src, AsmTextKind.Sig);
+            => asmtext(src, AsmPartKind.Sig);
 
-        [MethodImpl(Inline), Op]
-        public static AsmText rule(string src)
-            => asmtext(src, AsmTextKind.EncodingRule);
+        // [MethodImpl(Inline), Op]
+        // public static AsmText rule(string src)
+        //     => asmtext(src, AsmPartKind.EncodingRule);
 
         [MethodImpl(Inline), Op]
         public static AsmText statement(string src)
-            => asmtext(src, AsmTextKind.Statement);
+            => asmtext(src, AsmPartKind.Statement);
 
         [MethodImpl(Inline), Op]
         public static AsmText hex(string src)
-            => asmtext(src, AsmTextKind.HexCode);
+            => asmtext(src, AsmPartKind.HexCode);
 
         public StringAddress Source {get;}
 
-        public AsmTextKind Kind {get;}
+        public AsmPartKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public AsmText(StringAddress src, AsmTextKind kind = default)
+        public AsmText(StringAddress src, AsmPartKind kind = default)
         {
             Source = src;
             Kind = kind;

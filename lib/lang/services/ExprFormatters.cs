@@ -61,10 +61,6 @@ namespace Z0
         internal static string format(VarContextKind vck, VarSymbol src)
             => string.Format(RP.pattern(vck), src.Name);
 
-        [Formatter]
-        internal static string format(ExprScope src)
-            => src.IsRoot ? src.Name : string.Format(XF.SourceToTarget, src.Name, src.Parent);
-
         internal static string format(in Var src, bool bind = true)
             => bind ? src.Resolve().Format() : string.Format(XF.UntypedVar, src);
 

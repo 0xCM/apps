@@ -9,20 +9,20 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmLabel
+    public readonly struct AsmLabel : IAsmSourcePart
     {
         public Identifier Name {get;}
 
         [MethodImpl(Inline)]
         public AsmLabel(Identifier name)
         {
-            Name = text.remove(name.Text,Chars.Colon);
+            Name = text.remove(name.Text, Chars.Colon);
         }
 
-        public AsmLinePart TokenKind
+        public AsmPartKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmLinePart.Label;
+            get => AsmPartKind.Label;
         }
 
         public bool IsEmpty
@@ -46,6 +46,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmLabel(string src)
             => new AsmLabel(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmLabel src)
+            => asm.cell(src.Format(), src.PartKind);
 
         public static AsmLabel Empty => new AsmLabel(EmptyString);
     }

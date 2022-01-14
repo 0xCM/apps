@@ -13,7 +13,7 @@ namespace Z0.Asm
     /// <summary>
     /// Represents an line offset label
     /// </summary>
-    public readonly struct AsmOffsetLabel
+    public readonly struct AsmOffsetLabel : IAsmSourcePart
     {
         [Op]
         public static string format(AsmOffsetLabel src)
@@ -54,6 +54,12 @@ namespace Z0.Asm
             Data = ((ulong)width << Cut) | (offset & OffsetMask);
         }
 
+        public AsmPartKind PartKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmPartKind.OffsetLabel;
+        }
+
         public ulong OffsetValue
         {
             [MethodImpl(Inline)]
@@ -74,5 +80,9 @@ namespace Z0.Asm
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmOffsetLabel src)
+            => asm.cell(src.Format(), src.PartKind);
     }
 }

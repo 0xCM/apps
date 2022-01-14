@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class ImmVar : AsmOpVar<ImmVar,ImmOp>
+    public class ImmVar : AsmOpVar<ImmVar,Imm>
     {
 
         public ImmVar(VarSymbol name)
@@ -13,7 +13,7 @@ namespace Z0.Asm
 
         }
 
-        public ImmVar(VarSymbol name, ImmOp value)
+        public ImmVar(VarSymbol name, Imm value)
             : base(name, value)
         {
 

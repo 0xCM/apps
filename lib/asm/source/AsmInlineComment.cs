@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmInlineComment
+    public readonly struct AsmInlineComment : IAsmSourcePart
     {
         public AsmCommentMarker Marker {get;}
 
@@ -22,6 +22,12 @@ namespace Z0.Asm
             Content = content;
         }
 
+        public AsmPartKind PartKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmPartKind.InlineComment;
+        }
+
         public string Format()
             => text.empty(Content) ? EmptyString : string.Format("{0} {1}", (char)Marker, Content);
 
@@ -30,6 +36,10 @@ namespace Z0.Asm
 
         public static implicit operator string(AsmInlineComment src)
             => src.Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmInlineComment src)
+            => asm.cell(src.Format(), src.PartKind);
 
         public static AsmInlineComment Empty
         {

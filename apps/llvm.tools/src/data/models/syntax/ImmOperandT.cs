@@ -27,7 +27,7 @@ namespace Z0.llvm
 
             [MethodImpl(Inline)]
             public static implicit operator ImmOperand(ImmOperand<T> src)
-                => new ImmOperand(new ImmOp(src.Value));
+                => new ImmOperand(new Imm(src.Value));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmComment : ISyntaxPart<AsmComment>
+    public readonly struct AsmComment : IAsmSourcePart
     {
         public TextBlock Content {get;}
 
@@ -17,10 +17,10 @@ namespace Z0.Asm
         public AsmComment(TextBlock text)
             => Content = text;
 
-        public AsmLinePart TokenKind
+        public AsmPartKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmLinePart.Comment;
+            get => AsmPartKind.Comment;
         }
 
         [MethodImpl(Inline)]
@@ -55,5 +55,9 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator string(AsmComment src)
             => src.Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmComment src)
+            => asm.cell(src.Format(), src.PartKind);
     }
 }

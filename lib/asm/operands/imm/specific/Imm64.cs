@@ -125,8 +125,8 @@ namespace Z0
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ImmOp<ulong>(I src)
-            => new ImmOp<ulong>(src);
+        public static implicit operator Imm<ulong>(I src)
+            => new Imm<ulong>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator I(ulong src)

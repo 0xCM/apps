@@ -14,8 +14,6 @@
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(Asm)" />
     <ProjectReference Include="$(LlvmTools)" />
-    <Reference Include="$(ZTestName)" HintPath="$(ZTestPath)"/>
-
   </ItemGroup>
 
   <Import Project="../imports.props"/>

@@ -39,7 +39,7 @@ namespace Z0.Asm
             => new ImmVar(name);
 
         [MethodImpl(Inline), Op]
-        public static ImmVar imm(VarSymbol name, ImmOp value)
+        public static ImmVar imm(VarSymbol name, Imm value)
             => new ImmVar(name,value);
 
         [MethodImpl(Inline), Op]

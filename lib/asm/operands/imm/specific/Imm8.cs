@@ -121,8 +121,8 @@ namespace Z0
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ImmOp<byte>(I src)
-            => new ImmOp<byte>(src);
+        public static implicit operator Imm<byte>(I src)
+            => new Imm<byte>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator I(byte src)

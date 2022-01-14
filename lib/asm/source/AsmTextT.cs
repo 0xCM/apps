@@ -16,10 +16,10 @@ namespace Z0.Asm
     {
         public StringAddress Source {get;}
 
-        public AsmTextKind Kind {get;}
+        public AsmPartKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public AsmText(StringAddress src, AsmTextKind kind = default)
+        public AsmText(StringAddress src, AsmPartKind kind = default)
         {
             Source = src;
             Kind = kind;
