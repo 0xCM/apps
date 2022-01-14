@@ -57,10 +57,6 @@ namespace Z0.Asm
         public static AsmText sig(string src)
             => asmtext(src, AsmPartKind.Sig);
 
-        // [MethodImpl(Inline), Op]
-        // public static AsmText rule(string src)
-        //     => asmtext(src, AsmPartKind.EncodingRule);
-
         [MethodImpl(Inline), Op]
         public static AsmText statement(string src)
             => asmtext(src, AsmPartKind.Statement);

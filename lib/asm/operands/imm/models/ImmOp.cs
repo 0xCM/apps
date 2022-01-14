@@ -24,6 +24,13 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public Imm(ImmKind kind, long src)
+        {
+            ImmKind = kind;
+            Value = (ulong)src;
+        }
+
+        [MethodImpl(Inline)]
         public Imm(IImm src)
         {
             ImmKind = src.ImmKind;
@@ -48,10 +55,22 @@ namespace Z0
             get => Value;
         }
 
+        public long Imm64i
+        {
+            [MethodImpl(Inline)]
+            get => (long)Value;
+        }
+
         public uint Imm32
         {
             [MethodImpl(Inline)]
             get => (uint)Value;
+        }
+
+        public int Imm32i
+        {
+            [MethodImpl(Inline)]
+            get => (int)Value;
         }
 
         public ushort Imm16
@@ -60,10 +79,22 @@ namespace Z0
             get => (ushort)Value;
         }
 
+        public short Imm16i
+        {
+            [MethodImpl(Inline)]
+            get => (short)Value;
+        }
+
         public byte Imm8
         {
             [MethodImpl(Inline)]
             get => (byte)Value;
+        }
+
+        public sbyte Imm8i
+        {
+            [MethodImpl(Inline)]
+            get => (sbyte)Value;
         }
 
         public string Format()

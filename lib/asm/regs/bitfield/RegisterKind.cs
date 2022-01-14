@@ -184,100 +184,145 @@ namespace Z0.Asm
         // ~ 32-bit general-purpose registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("eax")]
         EAX = G32.EAX,
 
+        [Symbol("ecx")]
         ECX = G32.ECX,
 
+        [Symbol("edx")]
         EDX = G32.EDX,
 
+        [Symbol("ebx")]
         EBX = G32.EBX,
 
+        [Symbol("esp")]
         ESP = G32.ESP,
 
+        [Symbol("ebp")]
         EBP = G32.EBP,
 
+        [Symbol("esi")]
         ESI = G32.ESI,
 
+        [Symbol("edi")]
         EDI = G32.EDI,
 
+        [Symbol("r8d")]
         R8D = G32.R8D,
 
+        [Symbol("r9d")]
         R9D = G32.R9D,
 
+        [Symbol("r10d")]
         R10D = G32.R10D,
 
+        [Symbol("r11d")]
         R11D = G32.R11D,
 
+        [Symbol("r12d")]
         R12D = G32.R12D,
 
+        [Symbol("r13d")]
         R13D = G32.R13D,
 
+        [Symbol("r14d")]
         R14D = G32.R14D,
 
+        [Symbol("r15d")]
         R15D = G32.R15D,
 
         // ~ 64-bit general-purpose registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("rax")]
         RAX = G64.RAX,
 
+        [Symbol("rcx")]
         RCX = G64.RCX,
 
+        [Symbol("rdx")]
         RDX = G64.RDX,
 
+        [Symbol("rbx")]
         RBX = G64.RBX,
 
+        [Symbol("rsp")]
         RSP = G64.RSP,
 
+        [Symbol("rbp")]
         RBP = G64.RBP,
 
+        [Symbol("rsi")]
         RSI = G64.RSI,
 
+        [Symbol("rdi")]
         RDI = G64.RDI,
 
+        [Symbol("r8q")]
         R8Q = G64.R8Q,
 
+        [Symbol("r9q")]
         R9Q = G64.R9Q,
 
+        [Symbol("r10q")]
         R10Q = G64.R10Q,
 
+        [Symbol("r11q")]
         R11Q = G64.R11Q,
 
+        [Symbol("r12q")]
         R12Q = G64.R12Q,
 
+        [Symbol("r13q")]
         R13Q = G64.R13Q,
 
+        [Symbol("r14q")]
         R14Q = G64.R14Q,
 
+        [Symbol("r15q")]
         R15Q = G64.R15Q,
 
         // ~ 128-bit vectorized registers
         // ~ ------------------------------------------------------------------
 
+        [Symbol("xmm0")]
         XMM0 = X.XMM0,
 
+        [Symbol("xmm1")]
         XMM1 = X.XMM1,
 
+        [Symbol("xmm2")]
         XMM2 = X.XMM2,
 
+        [Symbol("xmm3")]
         XMM3 = X.XMM3,
 
+        [Symbol("xmm4")]
         XMM4 = X.XMM4,
 
+        [Symbol("xmm5")]
         XMM5 = X.XMM5,
 
+        [Symbol("xmm6")]
         XMM6 = X.XMM6,
 
+        [Symbol("xmm7")]
         XMM7 = X.XMM7,
 
+        [Symbol("xmm8")]
         XMM8 = X.XMM8,
 
+        [Symbol("xmm9")]
         XMM9 = X.XMM9,
 
+        [Symbol("xmm10")]
         XMM10 = X.XMM10,
 
+        [Symbol("xmm11")]
         XMM11 = X.XMM11,
 
+        [Symbol("xmm12")]
         XMM12 = X.XMM12,
 
         XMM13 = X.XMM13,

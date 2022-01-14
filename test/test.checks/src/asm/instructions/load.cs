@@ -12,17 +12,13 @@ namespace Z0.Asm
 
     partial class AsmCaseArchive
     {
-        [MethodImpl(Inline), Op]
-        static AsmCaller asmcaller(MemoryAddress @base, string symbol)
-            => new AsmCaller(@base, symbol);
-
         public static AsmCell cell(GridPoint loc, AsmComment comment)
             => new AsmCell(loc, comment.PartKind, comment.Content);
 
         [Op]
         public static Index<CallRel32Case> callrel32()
         {
-            var caller = asmcaller(0x7ffe6818a0e0ul, "canonical/abi2/Run");
+            var caller = asm.caller(0x7ffe6818a0e0ul, "canonical/abi2/Run");
             var cases = alloc<CallRel32Case>(4);
             var buffer = span(cases);
             var index = 0u;

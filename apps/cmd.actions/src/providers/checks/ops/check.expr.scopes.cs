@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using Asm;
 
     partial class CheckCmdProvider
     {

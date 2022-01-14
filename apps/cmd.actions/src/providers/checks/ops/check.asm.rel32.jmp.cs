@@ -10,7 +10,7 @@ namespace Z0
 
     partial class CheckCmdProvider
     {
-        [CmdOp("check/asm/rel32")]
+        [CmdOp("check/asm/rel32/jmp")]
         Outcome TestJmpRel32(CmdArgs args)
         {
             var result = Outcome.Success;

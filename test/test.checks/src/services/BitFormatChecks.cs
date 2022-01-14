@@ -79,7 +79,6 @@ namespace Z0
             CheckNibbleSpan();
             Check(w3);
             CheckJoin();
-
         }
 
         public void Show(HexVector8<N4> src)
