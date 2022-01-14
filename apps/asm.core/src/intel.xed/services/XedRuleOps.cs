@@ -11,87 +11,142 @@ namespace Z0
     using static XedModels.RuleOpName;
     using static XedModels;
 
-    using K = XedModels.OperandKind;
+    using OK = XedModels.OperandKind;
+    using ROK = XedModels.RuleOpKind;
 
     [ApiHost]
     public readonly struct XedRuleOps
     {
-        public static RuleOpName name(K kind)
+        [Op]
+        public static RuleOpName name(OK kind)
         {
             var name = RuleOpName.None;
             switch(kind)
             {
-                case K.REG0:
+                case OK.REG0:
                     name = REG0;
                 break;
-                case K.REG1:
+                case OK.REG1:
                     name = REG1;
                 break;
-                case K.REG2:
+                case OK.REG2:
                     name = REG2;
                 break;
-                case K.REG3:
+                case OK.REG3:
                     name = REG3;
                 break;
-                case K.REG4:
+                case OK.REG4:
                     name = REG4;
                 break;
-                case K.REG5:
+                case OK.REG5:
                     name = REG5;
                 break;
-                case K.REG6:
+                case OK.REG6:
                     name = REG6;
                 break;
-                case K.REG7:
+                case OK.REG7:
                     name = REG7;
                 break;
-                case K.REG8:
+                case OK.REG8:
                     name = REG8;
                 break;
-                case K.MEM0:
+                case OK.MEM0:
                     name = MEM0;
                 break;
-                case K.MEM1:
+                case OK.MEM1:
                     name = MEM1;
                 break;
-                case K.IMM0:
+                case OK.IMM0:
                     name = IMM0;
                 break;
-                case K.IMM1:
+                case OK.IMM1:
                     name = IMM1;
                 break;
-                case K.RELBR:
+                case OK.RELBR:
                     name = RELBR;
                 break;
-                case K.BASE0:
+                case OK.BASE0:
                     name = BASE0;
                 break;
-                case K.BASE1:
+                case OK.BASE1:
                     name = BASE1;
                 break;
-                case K.SEG0:
+                case OK.SEG0:
                     name = SEG0;
                 break;
-                case K.SEG1:
+                case OK.SEG1:
                     name = SEG1;
                 break;
-                case K.AGEN:
+                case OK.AGEN:
                     name = AGEN;
                 break;
-                case K.PTR:
+                case OK.PTR:
                     name = PTR;
                 break;
-                case K.INDEX:
+                case OK.INDEX:
                     name = INDEX;
                 break;
-                case K.SCALE:
+                case OK.SCALE:
                     name = SCALE;
                 break;
-                case K.DISP:
+                case OK.DISP:
                     name = DISP;
                 break;
             }
             return name;
+        }
+
+        [Op]
+        public static RuleOpKind kind(RuleOpName src)
+        {
+            var dst = RuleOpKind.None;
+            switch(src)
+            {
+                case REG0:
+                case REG1:
+                case REG2:
+                case REG3:
+                case REG4:
+                case REG5:
+                case REG6:
+                case REG7:
+                case REG8:
+                case REG9:
+                    dst = ROK.Reg;
+                break;
+                case MEM0:
+                case MEM1:
+                    dst = ROK.Mem;
+                break;
+                case IMM0:
+                case IMM1:
+                case IMM2:
+                    dst = ROK.Imm;
+                break;
+                case RELBR:
+                    dst = ROK.RelBr;
+                break;
+                case SEG0:
+                case SEG1:
+                    dst = ROK.Seg;
+                break;
+                case AGEN:
+                    dst = ROK.Agen;
+                break;
+                case PTR:
+                    dst = ROK.Ptr;
+                break;
+                case INDEX:
+                    dst = ROK.Index;
+                break;
+                case SCALE:
+                    dst = ROK.Scale;
+                break;
+                case DISP:
+                    dst = ROK.Disp;
+                break;
+            }
+            return dst;
         }
 
         [MethodImpl(Inline), Op]

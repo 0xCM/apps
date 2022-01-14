@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using K = TypeRefKind;
-
 
     public readonly struct TypeFormatter
     {
@@ -39,9 +33,7 @@ namespace Z0
             var count = parameters.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var p = ref parameters[i];
-
-                dst.Append(format(p));
+                dst.Append(format(parameters[i]));
                 dst.Append(" -> ");
             }
             dst.Append(format(src.Return));

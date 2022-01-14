@@ -24,7 +24,7 @@ namespace Z0.llvm
                 {
                     var intrinsic = entity.ToIntrinsic();
                     if(intrinsic.TargetPrefix == "x86")
-                        specs.Add(intrinsic.CanonicalName);
+                        specs.Add(intrinsic.EntityName);
                 }
             }
 

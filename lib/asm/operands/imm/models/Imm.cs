@@ -100,10 +100,10 @@ namespace Z0
         public string Format()
             => Width switch
             {
-                ImmBitWidth.W8 => HexFormatter.format(w8, Value, true),
-                ImmBitWidth.W16 => HexFormatter.format(w16, Value, true),
-                ImmBitWidth.W32 => HexFormatter.format(w32, Value, true),
-                ImmBitWidth.W64 => HexFormatter.format(w64, Value, true),
+                ImmBitWidth.W8 => HexFormatter.format(w8, Imm8, prespec:true, @case:UpperCase),
+                ImmBitWidth.W16 => HexFormatter.format(w16, Imm16, prespec:true, @case:UpperCase),
+                ImmBitWidth.W32 => HexFormatter.format(w32, Imm32, prespec:true, @case:UpperCase),
+                ImmBitWidth.W64 => HexFormatter.format(w64, Imm64, prespec:true, @case:UpperCase),
                 _ => EmptyString
             };
 

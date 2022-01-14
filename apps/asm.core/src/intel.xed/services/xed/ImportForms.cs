@@ -79,7 +79,6 @@ namespace Z0.Asm
                 }
 
                 counter++;
-
             }
 
             if(succeeded)
@@ -105,7 +104,6 @@ namespace Z0.Asm
             return true;
         }
 
-
         static Outcome ParseSourceHeader(TextLine src, Span<string> dst)
         {
             var parts = src.Split(FieldDelimiter);
@@ -118,7 +116,5 @@ namespace Z0.Asm
 
             return true;
         }
-
-
     }
 }

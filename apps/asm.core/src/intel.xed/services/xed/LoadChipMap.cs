@@ -32,7 +32,7 @@ namespace Z0.Asm
                 if(i != -1)
                 {
                     if(Verbose)
-                        Wf.Row(line);
+                        Write(line);
 
                     var name = line.Left(i).Trim();
                     if(blank(name))
@@ -48,7 +48,7 @@ namespace Z0.Asm
                 }
                 else
                 {
-                    var kinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,IsaKind.INVALID)).Where(x => x != 0).Array();
+                    var kinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,0)).Where(x => x != 0).Array();
                     chips[chip].Add(kinds);
                     if(chips.TryGetValue(chip, out var entry))
                         entry.Add(kinds);

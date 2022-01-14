@@ -65,6 +65,7 @@ namespace Z0
             return result;
         }
 
+
         Outcome ParseOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;

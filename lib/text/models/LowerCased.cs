@@ -25,5 +25,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator LetterCase(LowerCased src)
             => new LetterCase(src.IsUpper, src.IsLower, src.Kind);
+
+        [MethodImpl(Inline)]
+        public static implicit operator LetterCaseKind(LowerCased src)
+            => src.Kind;
     }
 }

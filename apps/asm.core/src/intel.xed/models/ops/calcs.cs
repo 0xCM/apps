@@ -281,8 +281,7 @@ namespace Z0
                 var tag = field.Tag<OperandKindAttribute>();
                 if(tag)
                 {
-                    var spec = TypeSyntax.infer(field.FieldType);
-                    dst.TryAdd(tag.Value.Kind, spec);
+                    dst.TryAdd(tag.Value.Kind, TypeSyntax.infer(field.FieldType));
                 }
             }
             return dst;

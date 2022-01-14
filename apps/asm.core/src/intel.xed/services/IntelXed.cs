@@ -23,10 +23,24 @@ namespace Z0.Asm
 
         Symbols<VisibilityKind> Visibilities;
 
+        EnumParser<OperandWidthType> OpWidthParser;
+
+        EnumParser<BaseTypeKind> BaseTypeParser;
+
+        EnumParser<IClass> IClassParser;
+
+        EnumParser<IsaKind> IsaKindParser;
+
+        EnumParser<IFormType> IFormParser;
+
         public IntelXed()
         {
             FieldTypes = Symbols.index<FieldType>();
             Visibilities = Symbols.index<VisibilityKind>();
+            OpWidthParser = new();
+            IClassParser = new();
+            BaseTypeParser = new();
+            IsaKindParser = new();
         }
 
         protected override void OnInit()
@@ -37,10 +51,24 @@ namespace Z0.Asm
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
-
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         public XedRules Rules => Service(Wf.XedRules);
+
+        public bool WidthType(string src, out OperandWidthType dst)
+            => OpWidthParser.Parse(src, out dst);
+
+        public bool IClass(string src, out IClass dst)
+            => IClassParser.Parse(src, out dst);
+
+        public bool IsaKind(string src, out IsaKind dst)
+            => IsaKindParser.Parse(src, out dst);
+
+        public bool BaseType(string src, out BaseTypeKind dst)
+            => BaseTypeParser.Parse(src, out dst);
+
+        public bool IForm(string src, out IFormType dst)
+            => IFormParser.Parse(src, out dst);
 
         public Symbols<IClass> Classes()
             => Symbols.index<IClass>();
@@ -72,23 +100,6 @@ namespace Z0.Asm
         public ReadOnlySpan<string> ClassNames()
             => Classes().Storage.Select(x => x.Expr.Text).ToArray();
 
-        XedInstTableParser InstTableParser
-            => Service(() => XedInstTableParser.create(Wf));
-
-        public XedInstructions ParseInstructions()
-        {
-            var src =  XedSources + FS.file("xed-tables", FS.Txt);
-            var result = InstTableParser.Parse(src, out var dst);
-            if(result.Fail)
-            {
-                Error(result.Message);
-                return XedInstructions.Empty;
-            }
-            else
-            {
-                return dst;
-            }
-        }
 
         public void EmitCatalog()
         {
@@ -96,7 +107,6 @@ namespace Z0.Asm
             EmitChipMap();
             ImportForms();
             EmitTokens();
-            EmitInstructions();
             EmitIsaForms();
             Rules.EmitCatalog();
         }

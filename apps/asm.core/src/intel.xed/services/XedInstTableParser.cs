@@ -53,7 +53,7 @@ namespace Z0
 
         Index<char> _DigitBuffer;
 
-        EnumParser<IsaKind> IsaKinds;
+        EnumParser<IsaKind> IsaKindParser;
 
         EnumParser<IClass> IClassParser;
 
@@ -63,7 +63,7 @@ namespace Z0
 
         EnumParser<XedRegId> Regs;
 
-        EnumParser<BaseTypeKind> OperandTypes;
+        EnumParser<BaseTypeKind> OpTypeParser;
 
         [MethodImpl(Inline)]
         Span<char> DigitBuffer()
@@ -84,12 +84,12 @@ namespace Z0
             Visibilities = new();
             Actions = new();
             Lookups = new();
-            IsaKinds = new();
+            IsaKindParser = new();
             IClassParser = new();
             IFormParser = new();
             Nonterminals = new();
             Regs = new();
-            OperandTypes = new();
+            OpTypeParser = new();
             _DigitBuffer = alloc<char>(12);
         }
 
@@ -160,7 +160,7 @@ namespace Z0
                 if(result.Fail)
                     return result;
 
-                result = IsaKinds.Parse(skip(parts,j++), out dst.Isa);
+                result = IsaKindParser.Parse(skip(parts,j++), out dst.Isa);
                 if(result.Fail)
                     return result;
 
@@ -234,7 +234,7 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            result = OperandTypes.Parse(skip(parts,i++), out var ot);
+            result = OpTypeParser.Parse(skip(parts,i++), out var ot);
             if(result)
                 dst.Type = ot;
             else

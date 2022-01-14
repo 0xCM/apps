@@ -40,7 +40,6 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
 
-
         void EmitDisasmSummary(ConstLookup<FS.FilePath,SourceEncodings> sources, FS.FilePath dst)
         {
             var paths = sources.Keys.ToArray().Sort();

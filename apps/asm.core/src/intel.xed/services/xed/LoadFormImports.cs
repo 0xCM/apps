@@ -28,7 +28,6 @@ namespace Z0.Asm
                 while(!reader.EndOfStream)
                 {
                     var line = reader.ReadLine(counter);
-
                     if(line.StartsWith(CommentMarker) || line.IsEmpty)
                         continue;
 

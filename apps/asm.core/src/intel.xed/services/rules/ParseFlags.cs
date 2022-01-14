@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static XedModels;
     using static core;
-    using static Root;
 
     partial class XedRules
     {

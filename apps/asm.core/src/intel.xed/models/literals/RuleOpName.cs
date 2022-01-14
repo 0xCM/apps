@@ -11,11 +11,11 @@ namespace Z0
         {
             None = 0,
 
-            REG0 = 1,
+            REG0,
 
-            REG1 = 2,
+            REG1,
 
-            REG2 = 3,
+            REG2,
 
             REG3,
 

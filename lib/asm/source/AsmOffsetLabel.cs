@@ -18,29 +18,23 @@ namespace Z0.Asm
         [Op]
         public static string format(AsmOffsetLabel src)
         {
-            const string LabelPattern = "{0}h ";
+            const string LabelPattern = "{0} ";
             var width = src.OffsetWidth;
             var value = src.OffsetValue;
             var f = EmptyString;
             if(width <= 16)
-                f = HexFormatter.format(w16,(ushort)value);
+                f = HexFormatter.format(w16,(ushort)value, postspec:true);
             else if(width <= 32)
-                f = HexFormatter.format(w32,(uint)value);
+                f = HexFormatter.format(w32,(uint)value, postspec:true);
             else
-                f = HexFormatter.format(w64,(ulong)value);
+                f = HexFormatter.format(w64,(ulong)value, postspec:true);
 
             return string.Format(LabelPattern, f);
         }
 
         [Op]
         public static string format(in AsmOffsetLabel label, in AsmFormInfo src, byte[] encoded)
-            => string.Format(InstInfoPattern,
-                label,
-                encoded.Length,
-                encoded.FormatHex(),
-                src.Sig,
-                src.OpCode
-                );
+            => string.Format(InstInfoPattern, label, encoded.Length, encoded.FormatHex(), src.Sig, src.OpCode);
 
         const ulong OffsetMask = 0xFF_FF_FF_FF_FF_FF_FF;
 

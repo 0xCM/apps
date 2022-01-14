@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static XedModels;
     using static core;
     using static Root;
@@ -96,7 +94,6 @@ namespace Z0
 
             return buffer.ToArray().Sort();
         }
-
 
         bool ClassifyPart(string src, out RulePart part)
         {

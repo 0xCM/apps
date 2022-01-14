@@ -14,8 +14,38 @@ namespace Z0
     using static Asm.AsmPrefixCodes;
     using static core;
 
+    using K = XedModels.OperandKind;
+
     partial struct XedModels
     {
+        public class RuleOperands
+        {
+            readonly Dictionary<RuleOpName,RuleOperand> Data;
+
+            public RuleOperands(Dictionary<RuleOpName,RuleOperand> src)
+            {
+                Data = src;
+            }
+
+            public bool TryGetValue(RuleOpName key, out RuleOperand value)
+                => Data.TryGetValue(key, out value);
+
+            public ICollection<RuleOpName> Keys
+                => Data.Keys;
+
+            public ICollection<RuleOperand> Values
+                => Data.Values;
+
+            public RuleOperand this[RuleOpName name]
+            {
+                get => Data[name];
+                set => Data[name] = value;
+            }
+
+            public static implicit operator RuleOperands(Dictionary<RuleOpName,RuleOperand> src)
+                => new RuleOperands(src);
+        }
+
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct OperandState
         {
@@ -417,7 +447,33 @@ namespace Z0
                 return offsets;
             }
 
-            public Dictionary<RuleOpName,RuleOperand> RuleOperands(in AsmHexCode code)
+            public Index<K> Flags()
+            {
+                var flags = list<K>();
+                if(need_memdisp)
+                    flags.Add(K.NEED_MEMDISP);
+                if(p4)
+                    flags.Add(K.P4);
+                if(using_default_segment0)
+                    flags.Add(K.USING_DEFAULT_SEGMENT0);
+                if(using_default_segment1)
+                    flags.Add(K.USING_DEFAULT_SEGMENT1);
+                if(lzcnt)
+                    flags.Add(K.LZCNT);
+                if(tzcnt)
+                    flags.Add(K.TZCNT);
+                if(df32)
+                    flags.Add(K.DF32);
+                if(df64)
+                    flags.Add(K.DF64);
+                if(must_use_evex)
+                    flags.Add(K.MUST_USE_EVEX);
+                if(rexrr)
+                    flags.Add(K.REXRR);
+                return flags.ToArray();
+            }
+
+            public RuleOperands RuleOperands(in AsmHexCode code)
             {
                 var _ops = list<RuleOperand>();
                 if(disp_width != 0)

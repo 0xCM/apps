@@ -197,11 +197,7 @@ namespace Z0
             var dst = dict<OperandKind,object>();
             var fields = FieldKinds.RightValues;
             foreach(var f in fields)
-            {
-                var kind = FieldKinds[f];
-                dst.Add(kind, f.GetValue(src));
-            }
-
+                dst.Add(FieldKinds[f], f.GetValue(src));
             return dst;
         }
 

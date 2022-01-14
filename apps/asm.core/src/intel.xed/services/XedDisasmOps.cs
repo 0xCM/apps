@@ -13,6 +13,9 @@ namespace Z0
     using static core;
 
     using static XedModels;
+    using static XedModels.RuleOpName;
+
+    using ROK = XedModels.RuleOpKind;
 
     public readonly struct XedDisasmOps
     {

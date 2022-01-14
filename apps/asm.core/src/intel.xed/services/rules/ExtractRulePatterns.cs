@@ -8,7 +8,6 @@ namespace Z0
 
     using static XedModels;
     using static core;
-    using static Root;
 
     partial class XedRules
     {
@@ -36,7 +35,6 @@ namespace Z0
             var dst = buffer.Array().Sort();
             var count = dst.Length;
             var hashes = hashset<Hash32>();
-
             for(var i=0u; i<count; i++)
             {
                 ref var record = ref seek(dst,i);

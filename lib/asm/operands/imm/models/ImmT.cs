@@ -97,13 +97,13 @@ namespace Z0
         public string Format()
         {
             if(width<T>() == 8)
-                return HexFormatter.format(w8, Value, true);
+                return HexFormatter.format(w8, Imm8, prespec:true, @case:UpperCase);
             else if(width<T>() == 16)
-                return HexFormatter.format(w16, Value, true);
+                return HexFormatter.format(w16, Imm16, prespec:true, @case:UpperCase);
             else if(width<T>() == 32)
-                return HexFormatter.format(w32, Value, true);
+                return HexFormatter.format(w32, Imm32, prespec:true, @case:UpperCase);
             else
-                return HexFormatter.format(w64, Value, true);
+                return HexFormatter.format(w64, Imm64, prespec:true, @case:UpperCase);
         }
 
         public override string ToString()

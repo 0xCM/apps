@@ -8,7 +8,6 @@ namespace Z0
 
     using static XedModels;
     using static core;
-    using static Root;
 
     partial class XedRules
     {

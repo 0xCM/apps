@@ -50,7 +50,6 @@ namespace Z0
             return buffer;
         }
 
-
         public bool IsParametric(TypeSpec src)
             => parametric(src);
 

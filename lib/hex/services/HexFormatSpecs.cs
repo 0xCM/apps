@@ -193,24 +193,125 @@ namespace Z0
         /// </summary>
         public const string Hex32Spec = "x8";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 36
+        /// </summary>
         public const string Hex36Spec = "x9";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 40
+        /// </summary>
         public const string Hex40Spec = "x10";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 44
+        /// </summary>
         public const string Hex44Spec = "x11";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 48
+        /// </summary>
         public const string Hex48Spec = "x12";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 52
+        /// </summary>
         public const string Hex52Spec = "x13";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 56
+        /// </summary>
         public const string Hex56Spec = "x14";
 
+        /// <summary>
+        /// Lowercase format specifier for a segment of bit-width 60
+        /// </summary>
         public const string Hex60Spec = "x15";
 
         /// <summary>
-        /// Lowercase format specifier for a segment of width <see cref="Hex16Width"/>
+        /// Lowercase format specifier for a segment of bit-width 64
         /// </summary>
         public const string Hex64Spec = "x16";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of width <see cref="Hex4Width"/>
+        /// </summary>
+        public const string Hex4SpecUC = "X1";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of width <see cref="Hex8Width"/>
+        /// </summary>
+        public const string Hex8SpecUC = "X2";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of width <see cref="Hex12Width"/>
+        /// </summary>
+        public const string Hex12SpecUC = "X3";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 16
+        /// </summary>
+        public const string Hex16SpecUC = "X4";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 20
+        /// </summary>
+        public const string Hex20SpecUC = "X5";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 24
+        /// </summary>
+        public const string Hex24SpecUC = "X6";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 28
+        /// </summary>
+        public const string Hex28SpecUC = "X7";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 32
+        /// </summary>
+        public const string Hex32SpecUC = "X8";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 36
+        /// </summary>
+        public const string Hex36SpecUC = "X9";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 40
+        /// </summary>
+        public const string Hex40SpecUC = "X10";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 44
+        /// </summary>
+        public const string Hex44SpecUC = "X11";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 48
+        /// </summary>
+        public const string Hex48SpecUC = "X12";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 52
+        /// </summary>
+        public const string Hex52SpecUC = "X13";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 56
+        /// </summary>
+        public const string Hex56SpecUC = "X14";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 60
+        /// </summary>
+        public const string Hex60SpecUC = "X15";
+
+        /// <summary>
+        /// Uppercase format specifier for a segment of bit-width 64
+        /// </summary>
+        public const string Hex64SpecUC = "X16";
 
         /// <summary>
         /// Specifies the default configuration for hex data emission

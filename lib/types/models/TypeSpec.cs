@@ -50,6 +50,9 @@ namespace Z0
         public string Format(params object[] args)
             => TypeFormatter.format(this, args);
 
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator TypeSpec(string src)
             => new TypeSpec(src);

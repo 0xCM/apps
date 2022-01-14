@@ -105,7 +105,7 @@ namespace Z0
             var count = src.Length;
             for(var i = 0; i<count; i++)
             {
-                result.Append(format(skip(src,i), true, specifier));
+                result.Append(format(skip(src,i), true, specifier, uppercase:false, prespec:true));
                 if(i != count - 1)
                     result.Append(sep);
             }
@@ -133,25 +133,25 @@ namespace Z0
             where T : unmanaged
                 => new HexFormatter<T>(sysformatter<T>());
 
-        [Op, Closures(Closure)]
-        public static string format<T>(W8 w, T src, bool postspec = false)
-            where T : unmanaged
-                => format(w, bw8(src), postspec);
+        // [Op, Closures(Closure)]
+        // public static string format<T>(W8 w, T src, bool prespec = false, bool postspec = false)
+        //     where T : unmanaged
+        //         => format(w, bw8(src), prespec, postspec);
 
-        [Op, Closures(Closure)]
-        public static string format<T>(W16 w, T src, bool postspec = false)
-            where T : unmanaged
-                => format(w, bw16(src), postspec);
+        // [Op, Closures(Closure)]
+        // public static string format<T>(W16 w, T src, bool prespec = false, bool postspec = false)
+        //     where T : unmanaged
+        //         => format(w, bw16(src), prespec, postspec);
 
-        [Op, Closures(Closure)]
-        public static string format<T>(W32 w, T src, bool postspec = false)
-            where T : unmanaged
-                => format(w, bw32(src), postspec);
+        // [Op, Closures(Closure)]
+        // public static string format<T>(W32 w, T src, bool prespec = false, bool postspec = false)
+        //     where T : unmanaged
+        //         => format(w, bw32(src), prespec, postspec);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static string format<T>(W64 w, T src, bool postspec = false)
-             where T : unmanaged
-                => format(w, bw64(src), postspec);
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static string format<T>(W64 w, T src, bool prespec = false, bool postspec = false)
+        //      where T : unmanaged
+        //         => format(w, bw64(src), prespec, postspec);
 
         [Op]
         public static string format(ReadOnlySpan<byte> src, in HexFormatOptions config)
@@ -187,36 +187,44 @@ namespace Z0
         }
 
         [Op]
-        public static string format(W8 w, byte src, bool postspec = false)
-            => src.ToString(HexFormatSpecs.Hex8Spec) + (postspec ? HexFormatSpecs.PostSpec : EmptyString);
+        public static string format(W8 w, byte src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex8Spec) : src.ToString(Hex8SpecUC))
+             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(W16 w, ushort src, bool postspec = false)
-            => src.ToString(HexFormatSpecs.Hex16Spec) + (postspec ? HexFormatSpecs.PostSpec : EmptyString);
+        public static string format(W16 w, ushort src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex16Spec) : src.ToString(Hex16SpecUC))
+             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(W32 w, uint src, bool postspec = false)
-            => src.ToString(HexFormatSpecs.Hex32Spec) + (postspec ? HexFormatSpecs.PostSpec : EmptyString);
+        public static string format(W32 w, uint src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex32Spec) : src.ToString(Hex32SpecUC))
+             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(W64 w, ulong src, bool postspec = false)
-            => src.ToString(HexFormatSpecs.Hex64Spec) + (postspec ? HexFormatSpecs.PostSpec : EmptyString);
+        public static string format(W64 w, ulong src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex64Spec) : src.ToString(Hex64SpecUC))
+             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string asmhex(sbyte src, int? digits = null)
-            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x2")) + PostSpec;
+            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString(Hex8Spec)) + PostSpec;
 
         [Op]
         public static string asmhex(byte src, int? digits = null)
-            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x2")) + PostSpec;
+            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString(Hex8Spec)) + PostSpec;
 
         [Op]
         public static string asmhex(short src, int? digits = null)
-            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x4")) + PostSpec;
+            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString(Hex16Spec)) + PostSpec;
 
         [Op]
         public static string asmhex(ushort src, int? digits = null)
-            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x4")) + PostSpec;
+            => digits.Map(n => src.ToString($"x{n}"), () => src.ToString(Hex16Spec)) + PostSpec;
 
         [Op]
         public static string asmhex(int src, int? digits = null)
@@ -234,52 +242,64 @@ namespace Z0
         public static string asmhex(long src, int? digits = null)
             => digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x")) + PostSpec;
 
+        static string spec(W8 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex8Spec) : digits.Map(n => $"X{n}", () => Hex8SpecUC);
+
+        static string spec(W16 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex16Spec) : digits.Map(n => $"X{n}", () => Hex16SpecUC);
+
+        static string spec(W32 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex32Spec) : digits.Map(n => $"X{n}", () => Hex32SpecUC);
+
+        static string spec(W64 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => "x") : digits.Map(n => $"X{n}", () => "X");
+
         [Op]
-        public static string format(byte src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format8u(byte src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x2"))
+            + spec(w8, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(sbyte src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format8i(sbyte src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x2"))
+            + spec(w8, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(short src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format16i(short src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x4"))
+            + spec(w16, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(ushort src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format16u(ushort src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x4"))
+            + spec(w16, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(int src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format32i(int src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x8"))
+            + spec(w32, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(uint src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format32u(uint src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x8"))
+            + spec(w32, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(long src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format64i(long src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x"))
+            + spec(w64, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
-        public static string format(ulong src, int? digits = null, bool prespec = false, bool postspec = false)
+        public static string format64u(ulong src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x"))
+            + spec(w64, @case, digits)
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
@@ -365,13 +385,13 @@ namespace Z0
             where T : unmanaged
         {
             if(typeof(W) == typeof(W8))
-                return format(w8, bw8(value), postspec);
+                return format(w8, bw8(value), postspec:postspec);
             else if(typeof(W) == typeof(W16))
-                return format(w16, bw16(value), postspec);
+                return format(w16, bw16(value), postspec:postspec);
             else if(typeof(W) == typeof(W32))
-                return format(w32, bw32(value), postspec);
+                return format(w32, bw32(value), postspec:postspec);
             else
-                return format(w64, bw64(value), postspec);
+                return format(w64, bw64(value), postspec:postspec);
         }
 
         [MethodImpl(Inline)]

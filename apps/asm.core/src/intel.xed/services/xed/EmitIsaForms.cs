@@ -48,8 +48,7 @@ namespace Z0.Asm
                     matches.Add(form);
             }
 
-            var dst = XedPaths.IsaFormsPath(code);
-            TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, dst);
+            TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, XedPaths.IsaFormsPath(code));
             return result;
         }
 
@@ -59,7 +58,6 @@ namespace Z0.Asm
             var symbols = ChipCodes();
             if(!symbols.Lookup(chip, out var code))
                 return (false, string.Format("Chip '{0}' not found", chip));
-
             return EmitIsaForms(code);
         }
     }
