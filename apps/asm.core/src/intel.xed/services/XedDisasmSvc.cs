@@ -45,7 +45,7 @@ namespace Z0
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
             iter(sources.Values, src => recordcount += src.Encoded.Count);
-            var buffer = alloc<AsmDocEncoding>(recordcount);
+            var buffer = alloc<AsmEncodingRow>(recordcount);
             var counter = 0u;
             for(var i=0; i<paths.Length;i++)
             {
@@ -58,7 +58,7 @@ namespace Z0
                     target.Seq = counter;
                 }
             }
-            TableEmit(@readonly(buffer), AsmDocEncoding.RenderWidths, dst);
+            TableEmit(@readonly(buffer), AsmEncodingRow.RenderWidths, dst);
         }
 
         public void Collect(IProjectWs project)

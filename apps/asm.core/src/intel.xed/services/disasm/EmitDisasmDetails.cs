@@ -50,7 +50,7 @@ namespace Z0
 
         const string OpPattern = "{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}";
 
-        void RenderHeader(in AsmDocEncoding encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
+        void RenderHeader(in AsmEncodingRow encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
         {
             ref readonly var IP = ref encoding.IP;
             dst.AppendLine(string.Format(RenderPattern, "SrcId", encoding.SrcId));

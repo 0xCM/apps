@@ -10,7 +10,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmDocInstruction : ISequential
+    public struct AsmInstructionRow : ISequential
     {
         public const string TableId = "asm.instruction";
 

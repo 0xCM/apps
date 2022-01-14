@@ -49,11 +49,11 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public Index<AsmDocInstruction> CollectInstructions(IProjectWs project)
+        public Index<AsmInstructionRow> CollectInstructions(IProjectWs project)
         {
             var result = Outcome.Success;
             var docs = SyntaxSourceDocs(project);
-            var buffer = list<AsmDocInstruction>();
+            var buffer = list<AsmInstructionRow>();
             var counter = 0u;
             foreach(var doc in docs)
             {
@@ -66,7 +66,7 @@ namespace Z0.llvm
                 {
                     ref readonly var instruction = ref skip(inst,i);
                     var expr = lines[instruction.Line];
-                    var record = new AsmDocInstruction();
+                    var record = new AsmInstructionRow();
                     record.Seq = counter++;
                     record.DocSeq = instruction.Seq;
                     record.SrcId = srcid;
@@ -78,7 +78,7 @@ namespace Z0.llvm
             }
 
             var records = buffer.ToArray();
-            TableEmit(@readonly(records), AsmDocInstruction.RenderWidths, InstructionTable(project));
+            TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, InstructionTable(project));
             return records;
         }
 
@@ -89,22 +89,22 @@ namespace Z0.llvm
             var paths = docs.Keys.ToArray().Sort();
             var dst = EncodingTable(project);
             var counter=0u;
-            var record = AsmDocEncoding.Empty;
-            var formatter = Tables.formatter<AsmDocEncoding>(AsmDocEncoding.RenderWidths);
-            var emitting = EmittingTable<AsmDocEncoding>(dst);
+            var record = AsmEncodingRow.Empty;
+            var formatter = Tables.formatter<AsmEncodingRow>(AsmEncodingRow.RenderWidths);
+            var emitting = EmittingTable<AsmEncodingRow>(dst);
             using var writer = dst.Utf8Writer();
             writer.WriteLine(formatter.FormatHeader());
             foreach(var path in paths)
             {
                 var doc = docs[path];
-                var encoded = doc.Statements;
-                var srcid = ((FS.FilePath)doc.Source).SrcId(FileKind.EncodingAsm);
+                var encoded = doc.View;
+                var srcid = ((FS.FilePath)doc.Location).SrcId(FileKind.EncodingAsm);
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var e = ref skip(encoded,i);
 
-                    record = AsmDocEncoding.Empty;
+                    record = AsmEncodingRow.Empty;
                     record.Seq = counter++;
                     record.DocSeq = i;
                     record.SrcId = srcid;
@@ -112,7 +112,7 @@ namespace Z0.llvm
                     record.Size = e.Encoding.Size;
                     record.IP = e.Offset;
                     record.HexCode = e.Encoding;
-                    record.DocPath = doc.Source.LineRef(e.Line);
+                    record.DocPath = doc.Location.ToUri().LineRef(e.Line);
                     writer.WriteLine(formatter.Format(record));
                 }
             }
@@ -318,17 +318,15 @@ namespace Z0.llvm
                     break;
                 }
 
-                var scount = doc.StatmentCount;
-                var statements = doc.Statements;
+                var scount = doc.RowCount;
+                var statements = doc.Edit;
                 for(var j=0; j<scount; j++)
                     seek(statements,j).Seq = counter++;
 
-                //dst.Include(FS.path(doc.Source.WithoutLine.Format()), doc);
-                dst[FS.path(doc.Source.WithoutLine.Format())] = doc;
+                dst[doc.Location] = doc;
             }
 
             return dst;
-            //return dst.Seal();
         }
 
         void ParseSyntaxLogRows(FS.FilePath src, ref uint seq, List<AsmSyntaxRow> dst)
@@ -389,10 +387,10 @@ namespace Z0.llvm
             => ProjectDb.ProjectTable<AsmSyntaxRow>(project);
 
         FS.FilePath InstructionTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmDocInstruction>(project);
+            => ProjectDb.ProjectTable<AsmInstructionRow>(project);
 
         FS.FilePath EncodingTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmDocEncoding>(project);
+            => ProjectDb.ProjectTable<AsmEncodingRow>(project);
 
         FS.Files EncodingSourcePaths(IProjectWs project)
             => project.OutFiles(FileKind.EncodingAsm);

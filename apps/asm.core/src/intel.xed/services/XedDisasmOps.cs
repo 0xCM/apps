@@ -25,14 +25,14 @@ namespace Z0
 
         public static Outcome ParseEncodings(FS.FilePath src, out SourceEncodings dst)
         {
-            var buffer = list<AsmDocEncoding>();
+            var buffer = list<AsmEncodingRow>();
             var result = ParseEncodings(src,buffer);
             if(result)
                 dst = new SourceEncodings(src, buffer.ToArray());
             return result;
         }
 
-        public static Outcome ParseEncodings(FS.FilePath src, List<AsmDocEncoding> dst)
+        public static Outcome ParseEncodings(FS.FilePath src, List<AsmEncodingRow> dst)
         {
             var srcid = src.SrcId(FileKind.XedRawDisasm);
             var blocks = LoadBlocks(src);
@@ -48,7 +48,7 @@ namespace Z0
             {
                 ref readonly var line = ref skip(summaries,i);
                 ref readonly var content = ref line.Content;
-                var record = new AsmDocEncoding();
+                var record = new AsmEncodingRow();
                 ref readonly var expression = ref skip(expr,i);
                 record.DocSeq = counter++;
                 record.SrcId = srcid;

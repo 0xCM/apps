@@ -22,6 +22,12 @@ namespace Z0
             Data = rows;
         }
 
+        public Span<T> Edit
+        {
+            [MethodImpl(Inline)]
+            get => Data.Edit;
+        }
+
         public ReadOnlySpan<T> View
         {
             [MethodImpl(Inline)]
@@ -34,16 +40,28 @@ namespace Z0
             get => Data.Count;
         }
 
-        public ref readonly T this[int i]
+        public ref T this[int i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
 
-        public ref readonly T this[uint i]
+        public ref T this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
+        }
+    }
+
+
+    public abstract class TableDoc<D,T> : TableDoc<T>
+        where T : struct
+        where D : TableDoc<D,T>
+    {
+        protected TableDoc(FS.FilePath path, T[] rows)
+            : base(path,rows)
+        {
+
         }
     }
 }
