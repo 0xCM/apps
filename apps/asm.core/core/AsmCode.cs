@@ -14,6 +14,10 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct AsmCode : IComparable<AsmCode>, IEquatable<AsmCode>, ITextual
     {
+        [MethodImpl(Inline), Op]
+        public static AsmCode define(MemoryAddress offset, SourceText src, AsmHexCode hex)
+            => new AsmCode(offset, src, hex);
+
         public MemoryAddress Offset {get;}
 
         public SourceText Asm {get;}

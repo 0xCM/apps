@@ -9,7 +9,6 @@ namespace Z0.Asm
     [AttributeUsage(AttributeTargets.Enum)]
     public class RegCodeAttribute : Attribute
     {
-
         public RegCodeAttribute()
         {
 

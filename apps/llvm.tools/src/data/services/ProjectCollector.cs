@@ -150,6 +150,8 @@ namespace Z0
 
                 if(result.Fail)
                     break;
+
+                handler.Correlated(enc,syn,inst,dst);
             }
 
             if(result)

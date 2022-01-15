@@ -25,23 +25,21 @@ namespace Z0.Asm
 
             public const string jna = nameof(jna);
 
-            public const string js = nameof(js);
+            public const string jng = nameof(jng);
+
+            public const string jnle = nameof(jnle);
+
+            public const string jnl = nameof(jnl);
 
             public const string jns = nameof(jns);
+
+            public const string js = nameof(js);
 
             public const string jpe = nameof(jpe);
 
             public const string jpo = nameof(jpo);
 
             public const string jl = nameof(jl);
-
-            public const string jnl = nameof(jnl);
-
-            public const string jng = nameof(jng);
-
-             public const string jnle = nameof(jnle);
-
-             public const string jnae = nameof(jnae);
         }
     }
 }
