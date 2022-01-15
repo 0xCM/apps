@@ -19,7 +19,7 @@ namespace Z0
         [CmdOp("mc/syntax")]
         Outcome McSyntax(CmdArgs args)
         {
-            var src = LlvmMc.LoadSyntaxRows(Project());
+            var src = LlvmMc.LoadSyntax(Project());
             var count = src.Length;
             for(var i=0; i<count; i++)
             {

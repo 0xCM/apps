@@ -54,8 +54,8 @@ namespace Z0
                 record.SrcId = srcid;
                 result = ParseIP(content, out record.IP);
                 record.Asm = expression;
-                record.DocPath = src;
-                record.DocPath = record.DocPath.LineRef(line.LineNumber);
+                record.Source = src;
+                record.Source = record.Source.LineRef(line.LineNumber);
 
                 if(result.Fail)
                     return result;

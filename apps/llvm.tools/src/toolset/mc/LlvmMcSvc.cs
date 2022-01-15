@@ -70,9 +70,9 @@ namespace Z0.llvm
                     record.Seq = counter++;
                     record.DocSeq = instruction.Seq;
                     record.SrcId = srcid;
-                    record.Instruction = instruction.Name;
+                    record.AsmId = instruction.Name;
                     record.Asm = expr;
-                    record.Doc = path.LineRef(instruction.Line);
+                    record.Source = path.LineRef(instruction.Line);
                     buffer.Add(record);
                 }
             }
@@ -112,7 +112,7 @@ namespace Z0.llvm
                     record.Size = e.Encoding.Size;
                     record.IP = e.Offset;
                     record.HexCode = e.Encoding;
-                    record.DocPath = doc.Location.ToUri().LineRef(e.Line);
+                    record.Source = doc.Location.ToUri().LineRef(e.Line);
                     writer.WriteLine(formatter.Format(record));
                 }
             }
@@ -166,10 +166,72 @@ namespace Z0.llvm
             return docs.Seal();
         }
 
-        public Index<AsmSyntaxRow> LoadSyntaxRows(IProjectWs project)
+        public Index<AsmEncodingRow> LoadEncodings(IProjectWs project)
+        {
+            const byte FieldCount = AsmEncodingRow.FieldCount;
+            var src = EncodingTable(project);
+            var lines = slice(src.ReadNumberedLines().View,1);
+            var count = lines.Length;
+            var buffer = alloc<AsmEncodingRow>(count);
+            var result = Outcome.Success;
+            for(var i=0; i<count; i++)
+            {
+                var cells = text.trim(skip(lines,i).Content.Split(Chars.Pipe));
+                if(cells.Length != FieldCount)
+                {
+                    result = (false, Tables.FieldCountMismatch.Format(cells.Length, FieldCount));
+                    break;
+                }
+
+                ref var dst = ref seek(buffer,i);
+
+                var j = 0;
+                result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
+                result = DataParser.parse(skip(cells, j++), out dst.SrcId);
+                result = DataParser.parse(skip(cells, j++), out dst.IP);
+                result = DataParser.parse(skip(cells, j++), out dst.Asm);
+                result = DataParser.parse(skip(cells, j++), out dst.Size);
+                result = DataParser.parse(skip(cells, j++), out dst.HexCode);
+                result = DataParser.parse(skip(cells, j++), out dst.Source);
+            }
+            return buffer;
+        }
+
+        public Index<AsmInstructionRow> LoadInstructions(IProjectWs project)
+        {
+            const byte FieldCount = AsmInstructionRow.FieldCount;
+            var src = InstructionTable(project);
+            var lines = slice(src.ReadNumberedLines().View,1);
+            var count = lines.Length;
+            var buffer = alloc<AsmInstructionRow>(count);
+            var result = Outcome.Success;
+            for(var i=0; i<count; i++)
+            {
+                var cells = text.trim(skip(lines,i).Content.Split(Chars.Pipe));
+                if(cells.Length != FieldCount)
+                {
+                    result = (false, Tables.FieldCountMismatch.Format(cells.Length, FieldCount));
+                    break;
+                }
+
+                ref var dst = ref seek(buffer,i);
+                var j = 0;
+                result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
+                result = DataParser.parse(skip(cells, j++), out dst.SrcId);
+                result = DataParser.parse(skip(cells, j++), out dst.AsmId);
+                result = DataParser.parse(skip(cells, j++), out dst.Asm);
+                result = DataParser.parse(skip(cells, j++), out dst.Source);
+            }
+            return buffer;
+
+        }
+
+        public Index<AsmSyntaxRow> LoadSyntax(IProjectWs project)
             => LoadSyntaxRows(SyntaxTable(project));
 
-        public Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
+        Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
         {
             const byte FieldCount = AsmSyntaxRow.FieldCount;
             using var reader = src.Utf8LineReader();
@@ -177,14 +239,9 @@ namespace Z0.llvm
             var counter = 0u;
             var result = Outcome.Success;
             var buffer = alloc<AsmSyntaxRow>(rowcount);
+            reader.Next(out _);
             while(reader.Next(out var line))
             {
-                if(counter == 0)
-                {
-                    counter++;
-                    continue;
-                }
-
                 var cells = text.trim(text.split(line.Content, Chars.Pipe));
                 var count = cells.Length;
                 if(count != FieldCount)

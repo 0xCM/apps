@@ -156,6 +156,27 @@ namespace Z0
         }
 
         [Parser]
+        public static Outcome parse(string src, out text7 dst)
+        {
+            dst = src ?? EmptyString;
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out text15 dst)
+        {
+            dst = src ?? EmptyString;
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out text31 dst)
+        {
+            dst = src ?? EmptyString;
+            return true;
+        }
+
+        [Parser]
         public static Outcome parse(string src, out byte dst)
             => NumericParser.parse(src, out dst);
 
@@ -370,6 +391,20 @@ namespace Z0
 
         public static Outcome setting<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
             => Settings.parse(src, out dst, delimiter);
+
+        [Parser]
+        public static Outcome parse(string src, out AsmExpr dst)
+        {
+            dst = text.trim(src);
+            return true;
+        }
+
+        [Parser]
+        public static Outcome parse(string src, out AsmHexCode dst)
+        {
+            dst = AsmHexCode.parse(src);
+            return true;
+        }
      }
 
      partial struct Msg

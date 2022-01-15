@@ -31,7 +31,7 @@ namespace Z0
 
         public AsmHexCode HexCode;
 
-        public FS.FileUri DocPath;
+        public FS.FileUri Source;
 
         uint ISequential.Seq
             => Seq;

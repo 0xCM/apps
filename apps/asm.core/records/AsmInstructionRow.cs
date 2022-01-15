@@ -22,11 +22,11 @@ namespace Z0
 
         public @string SrcId;
 
-        public text31 Instruction;
+        public text31 AsmId;
 
         public AsmExpr Asm;
 
-        public FS.FileUri Doc;
+        public FS.FileUri Source;
 
         uint ISequential.Seq
             => Seq;
