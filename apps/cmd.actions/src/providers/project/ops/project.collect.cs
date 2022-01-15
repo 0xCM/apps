@@ -5,10 +5,11 @@
 namespace Z0
 {
     using System;
-    using static core;
     using System.Collections.Generic;
 
     using Asm;
+
+    using static core;
 
     [Record(TableId)]
     public struct AsmStat : IComparable<AsmStat>
@@ -21,7 +22,6 @@ namespace Z0
 
         public int CompareTo(AsmStat src)
             => Id.ToString().CompareTo(src.Id.ToString());
-
     }
 
     partial class ProjectCmdProvider
@@ -37,6 +37,27 @@ namespace Z0
             TableEmit(stats.View, dst);
             return true;
         }
+
+        [CmdOp("project/index")]
+        public Outcome IndexEncoding(CmdArgs args)
+        {
+            var project = Project();
+            var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
+            var rows = ObjDump.LoadRows(src);
+            using var allocation = AsmCodeAllocation.allocate(rows);
+            var allocated = allocation.Allocated;
+            var count = allocated.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var code = ref skip(allocated,i);
+                ref readonly var row = ref rows[i];
+                Write(string.Format("{0,-132} | {1}", code.Format(), row.HexCode.Format()));
+            }
+
+            return true;
+            //ObjDump.LoadRows();
+        }
+
     }
 
 

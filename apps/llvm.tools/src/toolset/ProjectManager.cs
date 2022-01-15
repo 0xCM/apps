@@ -57,9 +57,9 @@ namespace Z0
             Mc.Collect(project);
             XedDisasm.Collect(project);
 
-            result = Correlate(project, handler);
-            if(result.Fail)
-                Error(result.Message);
+            // result = Correlate(project, handler);
+            // if(result.Fail)
+            //     Error(result.Message);
         }
 
         public Outcome Consolidate(IProjectWs project, AsmEventReceiver receiver = null)
@@ -124,12 +124,14 @@ namespace Z0
                 ref readonly var syn = ref synRows[i];
                 ref readonly var inst = ref instRows[i];
                 ref readonly var seq = ref enc.Seq;
+                ref readonly var hex = ref enc.HexCode;
 
                 if(syn.Seq != seq)
                 {
                     result = (false, string.Format("Seq mismatch on row {0}", i));
                     break;
                 }
+
                 if(inst.Seq != seq)
                 {
                     result = (false, string.Format("Seq mismatch on row {0}", i));
@@ -143,8 +145,8 @@ namespace Z0
                 dst.IP = enc.IP;
                 dst.AsmId = inst.AsmId;
                 dst.Asm = enc.Asm;
-                dst.Size = enc.Size;
-                dst.HexCode = enc.HexCode;
+                dst.Size = hex.Size;
+                dst.HexCode = hex;
                 dst.Syntax = syn.Syntax;
                 dst.Source = enc.Source;
 
@@ -164,7 +166,7 @@ namespace Z0
             var handler = receiver ?? EventReceiver;
             var dstProject = Ws.Project(ProjectNames.McRecoded);
             var srcTable = ProjectDb.ProjectTable<ObjDumpRow>(srcProject);
-            var rows = ObjDump.LoadConsolidated(srcTable);
+            var rows = ObjDump.LoadRows(srcTable);
             var count = rows.Length;
             var srcid = EmptyString;
             var block = EmptyString;

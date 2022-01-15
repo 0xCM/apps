@@ -9,7 +9,6 @@ namespace Z0
     [Free]
     public interface ICorrelated
     {
-        CorrelationToken Ct
-            => CorrelationToken.Default;
+
     }
 }

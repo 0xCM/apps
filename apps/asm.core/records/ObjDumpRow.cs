@@ -13,7 +13,7 @@ namespace Z0
     using static Root;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IAsmStatementEncoding
+    public struct ObjDumpRow : IAsmEncoding
     {
         public const string TableId = "llvm.objdump";
 
@@ -41,6 +41,7 @@ namespace Z0
 
         public FS.FileUri Source;
 
+
         public static ObjDumpRow Empty()
         {
             var dst = new ObjDumpRow();
@@ -55,6 +56,7 @@ namespace Z0
             dst.Comment = AsmInlineComment.Empty;
             return dst;
         }
+
 
         public bool IsEmpty
         {
@@ -77,13 +79,13 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
-        AsmExpr IAsmStatementEncoding.Asm
+        AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmStatementEncoding.Encoding
+        AsmHexCode IAsmEncoding.Encoding
             => HexCode;
 
-        MemoryAddress IAsmStatementEncoding.Offset
+        MemoryAddress IAsmEncoding.Offset
             => IP;
 
         public static ReadOnlySpan<byte> RenderWidths

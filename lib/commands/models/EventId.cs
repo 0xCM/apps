@@ -13,7 +13,7 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static EventId define(string name, WfStepId step)
-            => new EventId(name, step, CorrelationToken.Default);
+            => new EventId(name, step, PartToken.Default);
 
         public static EventId Empty
         {
@@ -42,56 +42,56 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        EventId(string name, CorrelationToken ct, Timestamp? ts = null)
+        EventId(string name, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase, Ts, name);
         }
 
         [MethodImpl(Inline)]
-        EventId(string name, string label, WfStepId step, CorrelationToken ct, Timestamp? ts = null)
+        EventId(string name, string label, WfStepId step, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2} | {3}", Ts, name, label, step);
         }
 
         [MethodImpl(Inline)]
-        EventId(string name, string label, CorrelationToken ct, Timestamp? ts = null)
+        EventId(string name, string label, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2}", Ts, name, label);
         }
 
         [MethodImpl(Inline)]
-        EventId(string name, CmdId cmd, CorrelationToken ct, Timestamp? ts = null)
+        EventId(string name, CmdId cmd, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2}", Ts, name, cmd);
         }
 
         [MethodImpl(Inline)]
-        EventId(string name, WfStepId step, CorrelationToken ct, Timestamp? ts = null)
+        EventId(string name, WfStepId step, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2,-24}", Ts, name, step);
         }
 
         [MethodImpl(Inline)]
-        EventId(string name, WfStepId step, EventLevel level, CorrelationToken ct, Timestamp? ts = null)
+        EventId(string name, WfStepId step, EventLevel level, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2} | {3}", Ts, name, level, step);
         }
 
         [MethodImpl(Inline)]
-        EventId(EventKind kind, WfStepId step, EventLevel level, CorrelationToken ct, Timestamp? ts = null)
+        EventId(EventKind kind, WfStepId step, EventLevel level, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2} | {3}", Ts, kind, level, step);
         }
 
         [MethodImpl(Inline)]
-        EventId(Type type, WfStepId step, CorrelationToken ct, Timestamp? ts = null)
+        EventId(Type type, WfStepId step, PartToken ct, Timestamp? ts = null)
         {
             Ts = ts ?? Timestamp.now();
             Identifier = string.Format(PatternBase + " | {2}", Ts, type.Name, step);
@@ -132,31 +132,31 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((Type type, WfStepId step, CorrelationToken ct) src)
+        public static implicit operator EventId((Type type, WfStepId step, PartToken ct) src)
             => new EventId(src.type, src.step, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((string name, WfStepId step, CorrelationToken ct) src)
+        public static implicit operator EventId((string name, WfStepId step, PartToken ct) src)
             => new EventId(src.name, src.step, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((EventKind kind, WfStepId step, CorrelationToken ct) src)
+        public static implicit operator EventId((EventKind kind, WfStepId step, PartToken ct) src)
             => new EventId(src.kind.ToString(), src.step, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((EventKind kind, CmdId cmd, CorrelationToken ct) src)
+        public static implicit operator EventId((EventKind kind, CmdId cmd, PartToken ct) src)
             => new EventId(src.kind.ToString(), src.cmd, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((string name, WfStepId step, EventLevel level, CorrelationToken ct) src)
+        public static implicit operator EventId((string name, WfStepId step, EventLevel level, PartToken ct) src)
             => new EventId(src.name, src.step, src.level, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((EventKind kind, WfStepId step, EventLevel level, CorrelationToken ct) src)
+        public static implicit operator EventId((EventKind kind, WfStepId step, EventLevel level, PartToken ct) src)
             => new EventId(src.kind, src.step, src.level, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((string name, CorrelationToken ct) src)
+        public static implicit operator EventId((string name, PartToken ct) src)
             => new EventId(src.name, src.ct);
 
         [MethodImpl(Inline)]
@@ -164,15 +164,15 @@ namespace Z0
             => new EventId(name);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((string name, string label, WfStepId step, CorrelationToken ct) src)
+        public static implicit operator EventId((string name, string label, WfStepId step, PartToken ct) src)
             => new EventId(src.name, src.label, src.step, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((string name, string label, CorrelationToken ct) src)
+        public static implicit operator EventId((string name, string label, PartToken ct) src)
             => new EventId(src.name, src.label, src.ct);
 
         [MethodImpl(Inline)]
-        public static implicit operator EventId((string name, CmdId cmd, CorrelationToken ct) src)
+        public static implicit operator EventId((string name, CmdId cmd, PartToken ct) src)
             => new EventId(src.name, src.cmd, src.ct);
 
         [MethodImpl(Inline)]

@@ -38,7 +38,7 @@ namespace Z0
 
         ClangSvc Clang => Service(Wf.Clang);
 
-        LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
+        LlvmObjDumpSvc ObjDump => Service(Wf.LlvmObjDump);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
 

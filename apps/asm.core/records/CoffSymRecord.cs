@@ -16,7 +16,7 @@ namespace Z0
     {
         public const string TableId = "coff.symbols";
 
-        public const byte FieldCount = 10;
+        public const byte FieldCount = 11;
 
         public uint Seq;
 
@@ -36,8 +36,10 @@ namespace Z0
 
         public SymStorageClass SymClass;
 
+        public ushort AuxCount;
+
         public @string SymText;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,24,10,8,8,10,8,8,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,24,10,8,8,10,8,8,8,1};
     }
 }

@@ -20,7 +20,7 @@ namespace Z0
 
         IApiParts ApiParts {get;}
 
-        CorrelationToken Ct {get;}
+        PartToken Ct {get;}
 
         string[] Args {get;}
 

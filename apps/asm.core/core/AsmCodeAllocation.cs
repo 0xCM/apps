@@ -12,21 +12,27 @@ namespace Z0
 
     public class AsmCodeAllocation : Allocation<AsmCode>
     {
-        public static AsmCodeAllocation allocate(ReadOnlySpan<IAsmStatementEncoding> src)
+        public static AsmCodeAllocation allocate(ReadOnlySpan<ObjDumpRow> src)
         {
             var count = src.Length;
             var indices = dict<AsmHexCode,uint>();
             var statements = dict<uint,AsmExprOffset>();
             for(var i=0u; i<count; i++)
-            {
-                ref readonly var record = ref skip(src,i);
-                include(record, i, indices, statements);
-            }
-
+                include(skip(src,i), i, indices, statements);
             return allocation(indices, statements);
         }
 
-        static void include(IAsmStatementEncoding src, uint i, Dictionary<AsmHexCode,uint> indices, Dictionary<uint,AsmExprOffset> statements)
+        public static AsmCodeAllocation allocate(ReadOnlySpan<IAsmEncoding> src)
+        {
+            var count = src.Length;
+            var indices = dict<AsmHexCode,uint>();
+            var statements = dict<uint,AsmExprOffset>();
+            for(var i=0u; i<count; i++)
+                include(skip(src,i), i, indices, statements);
+            return allocation(indices, statements);
+        }
+
+        static void include(IAsmEncoding src, uint i, Dictionary<AsmHexCode,uint> indices, Dictionary<uint,AsmExprOffset> statements)
         {
             var asm = src.Asm.Format();
             var encoding = src.Encoding;

@@ -11,7 +11,7 @@ namespace Z0
     /// that describes an occurrence of something interesting
     /// </summary>
     [Free]
-    public interface IAppEvent : ICorrelated, ITextual, IChronic
+    public interface IAppEvent : ITextual, IChronic
     {
         FlairKind Flair
             => FlairKind.Status;
@@ -25,7 +25,7 @@ namespace Z0
     /// </summary>
     /// <typeparam name="F">The reification type</typeparam>
     [Free]
-    public interface IAppEvent<F> : IAppEvent, INullary<F>, ICorrelated, IChronic
+    public interface IAppEvent<F> : IAppEvent, INullary<F>, IChronic
         where F : IAppEvent<F>, new()
     {
         F INullary<F>.Zero

@@ -14,11 +14,11 @@ namespace Z0
 
         public Hex32 Value;
 
-        public ushort SectionNumber;
+        public ushort Section;
 
         public ImageSymType Type;
 
-        public SymStorageClass StorageClass;
+        public SymStorageClass Class;
 
         public byte NumberOfAuxSymbols;
     }

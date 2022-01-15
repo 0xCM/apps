@@ -61,7 +61,14 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => ToAsmString();
+        {
+            var dst = text.buffer();
+            dst.AppendFormat("{0,-8}", Offset);
+            dst.AppendFormat("{0,-80}", Asm);
+            dst.AppendFormat("# {0}", Code.Format());
+
+            return dst.Emit();
+        }
 
 
         public override int GetHashCode()

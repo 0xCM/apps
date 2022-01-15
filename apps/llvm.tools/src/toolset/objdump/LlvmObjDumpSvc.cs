@@ -5,8 +5,6 @@
 namespace Z0.llvm
 {
     using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using Asm;
 
@@ -45,7 +43,7 @@ namespace Z0.llvm
             return result;
         }
 
-        public Index<ObjDumpRow> LoadConsolidated(FS.FilePath src)
+        public Index<ObjDumpRow> LoadRows(FS.FilePath src)
         {
             var result = TextGrids.load(src, TextEncodingKind.Asci, out var grid);
             if(result.Fail)

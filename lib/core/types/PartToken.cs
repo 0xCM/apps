@@ -13,16 +13,16 @@ namespace Z0
     /// <summary>
     /// Correlates a value with a key that uniquely identifies the value within some context
     /// </summary>
-    public readonly struct CorrelationToken : IComparable<CorrelationToken>, IEquatable<CorrelationToken>
+    public readonly struct PartToken : IComparable<PartToken>, IEquatable<PartToken>
     {
         [MethodImpl(Inline)]
-        public static CorrelationToken create(PartId src)
-            => new CorrelationToken(src);
+        public static PartToken create(PartId src)
+            => new PartToken(src);
 
         PartId Value {get;}
 
         [MethodImpl(Inline)]
-        public CorrelationToken(PartId value)
+        public PartToken(PartId value)
             => Value = value;
 
         public bool IsEmpty
@@ -32,11 +32,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public bool Equals(CorrelationToken src)
+        public bool Equals(PartToken src)
             => Value == src.Value;
 
         [MethodImpl(Inline)]
-        public int CompareTo(CorrelationToken other)
+        public int CompareTo(PartToken other)
             => Value.CompareTo(other.Value);
 
         public string Format()
@@ -49,25 +49,25 @@ namespace Z0
             => (int)Value;
 
         public override bool Equals(object src)
-            => src is CorrelationToken t && Equals(t);
+            => src is PartToken t && Equals(t);
 
         [MethodImpl(Inline)]
-        public static implicit operator PartId(CorrelationToken src)
+        public static implicit operator PartId(PartToken src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator CorrelationToken(PartId src)
-            => new CorrelationToken(src);
+        public static implicit operator PartToken(PartId src)
+            => new PartToken(src);
 
         [MethodImpl(Inline)]
-        public static bool operator==(CorrelationToken a, CorrelationToken b)
+        public static bool operator==(PartToken a, PartToken b)
             => a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator!=(CorrelationToken a, CorrelationToken b)
+        public static bool operator!=(PartToken a, PartToken b)
             => !a.Equals(b);
 
-        public static CorrelationToken Default
-            => new CorrelationToken(Assembly.GetEntryAssembly().Id());
+        public static PartToken Default
+            => new PartToken(Assembly.GetEntryAssembly().Id());
     }
 }

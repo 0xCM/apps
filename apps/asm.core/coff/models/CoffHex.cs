@@ -24,6 +24,24 @@ namespace Z0
             HexData = compacted;
         }
 
+        public ref readonly HexDataRow this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref HexRows[i];
+        }
+
+        public ref readonly HexDataRow this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref HexRows[i];
+        }
+
+        public uint RowCount
+        {
+            [MethodImpl(Inline)]
+            get => HexRows.Count;
+        }
+
         public BinaryCode ObjectData
         {
             [MethodImpl(Inline)]

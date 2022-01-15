@@ -108,10 +108,11 @@ namespace Z0
                         record.Timestamp = view.Timestamp;
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
-                        record.Section = sym.SectionNumber;
+                        record.Section = sym.Section;
                         record.Value = sym.Value;
                         record.SymType = sym.Type;
-                        record.SymClass = sym.StorageClass;
+                        record.SymClass = sym.Class;
+                        record.AuxCount = sym.NumberOfAuxSymbols;
                         record.SymText = symtext;
                         writer.WriteLine(formatter.Format(record));
 

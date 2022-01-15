@@ -25,7 +25,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Babble;
 
         [MethodImpl(Inline)]
-        public BabbleEvent(WfStepId step, T data, CorrelationToken ct)
+        public BabbleEvent(WfStepId step, T data, PartToken ct)
         {
             EventId = (EventName, step, ct);
             Payload = data;

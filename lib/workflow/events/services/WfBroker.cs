@@ -21,10 +21,10 @@ namespace Z0
 
         object locker;
 
-        public CorrelationToken Ct {get;}
+        public PartToken Ct {get;}
 
         [MethodImpl(Inline)]
-        public WfBroker(IEventSink sink, CorrelationToken ct)
+        public WfBroker(IEventSink sink, PartToken ct)
         {
             Ct = ct;
             Sink = sink;

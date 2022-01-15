@@ -33,7 +33,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ErrorEvent(CmdId cmd, T data, EventOrigin source)
         {
-            EventId = (Kind, cmd, CorrelationToken.Default);
+            EventId = (Kind, cmd, PartToken.Default);
             Exception = Option.none<Exception>();
             Payload = data;
             Source = source;
@@ -43,7 +43,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ErrorEvent(Exception error, T data, EventOrigin source)
         {
-            EventId = (EventName, CorrelationToken.Default);
+            EventId = (EventName, PartToken.Default);
             Exception = error;
             Payload = data;
             Source = source;
@@ -53,7 +53,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ErrorEvent(string label, T data,  EventOrigin source)
         {
-            EventId = (EventName, label, CorrelationToken.Default);
+            EventId = (EventName, label, PartToken.Default);
             Exception = Option.none<Exception>();
             Payload = data;
             Source = source;
@@ -63,7 +63,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public ErrorEvent(WfStepId step, T data, EventOrigin source)
         {
-            EventId = (EventName, step, CorrelationToken.Default);
+            EventId = (EventName, step, PartToken.Default);
             Exception = Option.none<Exception>();
             Payload = data;
             Source = source;

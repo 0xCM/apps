@@ -25,7 +25,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Status;
 
         [MethodImpl(Inline)]
-        public StatusEvent(WfStepId step, T data, CorrelationToken ct = default)
+        public StatusEvent(WfStepId step, T data, PartToken ct = default)
         {
             EventId = EventId.define(EventName, step);
             Payload = data;

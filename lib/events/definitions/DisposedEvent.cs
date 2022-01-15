@@ -21,7 +21,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Disposed;
 
         [MethodImpl(Inline)]
-        public DisposedEvent(WfStepId step, CorrelationToken ct)
+        public DisposedEvent(WfStepId step, PartToken ct)
         {
             EventId = (EventName, step, ct);
         }

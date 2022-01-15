@@ -23,7 +23,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Running;
 
         [MethodImpl(Inline)]
-        public ProcessingFileEvent(WfStepId step, FS.FilePath src, CorrelationToken ct)
+        public ProcessingFileEvent(WfStepId step, FS.FilePath src, PartToken ct)
         {
             EventId = EventId.define(EventName, step);
             SourcePath = src;

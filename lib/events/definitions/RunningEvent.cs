@@ -23,7 +23,7 @@ namespace Z0
         public EventId EventId {get;}
 
         [MethodImpl(Inline)]
-        public RunningEvent(WfStepId step, CorrelationToken ct)
+        public RunningEvent(WfStepId step, PartToken ct)
         {
             EventId = EventId.define(EventName, step);
         }

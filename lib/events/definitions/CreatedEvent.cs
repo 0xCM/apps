@@ -21,7 +21,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Created;
 
         [MethodImpl(Inline)]
-        public CreatedEvent(WfStepId step, CorrelationToken ct)
+        public CreatedEvent(WfStepId step, PartToken ct)
         {
             EventId = (EventName, step, ct);
         }

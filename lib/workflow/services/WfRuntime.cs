@@ -30,7 +30,7 @@ namespace Z0
 
         public IJsonSettings Settings {get;}
 
-        public CorrelationToken Ct {get;}
+        public PartToken Ct {get;}
 
         public IApiCatalog ApiCatalog {get;}
 
@@ -57,7 +57,7 @@ namespace Z0
             Env = Z0.Env.load().Data;
             Context = config.Shell;
             Id = config.ControlId;
-            Ct = CorrelationToken.create(config.ControlId);
+            Ct = PartToken.create(config.ControlId);
             EventSink = Loggers.events(config.LogConfig);
             EventBroker = new WfBroker(EventSink, Ct);
             Host = new WfHost(typeof(WfRuntime), typeof(WfRuntime));

@@ -11,7 +11,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmDocCorrelation : IAsmStatementEncoding
+    public struct AsmDocCorrelation : IAsmEncoding
     {
         public const string TableId = "asm.correlation";
 
@@ -40,15 +40,15 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
-        AsmExpr IAsmStatementEncoding.Asm
+        AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmStatementEncoding.Encoding
+        AsmHexCode IAsmEncoding.Encoding
             => HexCode;
 
-        MemoryAddress IAsmStatementEncoding.Offset
+        MemoryAddress IAsmEncoding.Offset
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,32,84,4,42,84,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,22,124,4,42,84,1};
     }
 }

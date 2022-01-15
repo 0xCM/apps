@@ -11,7 +11,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmEncodingRow : IAsmStatementEncoding
+    public struct AsmEncodingRow : IAsmEncoding
     {
         public const string TableId = "asm.encoding";
 
@@ -36,13 +36,13 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
-        AsmExpr IAsmStatementEncoding.Asm
+        AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmStatementEncoding.Encoding
+        AsmHexCode IAsmEncoding.Encoding
             => HexCode;
 
-        MemoryAddress IAsmStatementEncoding.Offset
+        MemoryAddress IAsmEncoding.Offset
             => IP;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,10,84,8,42,1};

@@ -28,7 +28,7 @@ namespace Z0
         /// <param name="ct">The correlation token</param>
         /// <typeparam name="T">The content type</typeparam>
         [Op, Closures(Closure)]
-        public static BabbleEvent<T> babble<T>(WfStepId step, T content, CorrelationToken ct = default)
+        public static BabbleEvent<T> babble<T>(WfStepId step, T content, PartToken ct = default)
             => new BabbleEvent<T>(step, content, ct);
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Z0
             => new ErrorEvent<string>(cmd, string.Format(HandlerNotFound, cmd.GetType().Name), source);
 
         [Op, Closures(Closure)]
-        public static ProcessedEvent<T> processed<T>(WfStepId step, T content, CorrelationToken ct = default)
+        public static ProcessedEvent<T> processed<T>(WfStepId step, T content, PartToken ct = default)
             => new ProcessedEvent<T>(step, content);
 
         /// <summary>
@@ -105,35 +105,35 @@ namespace Z0
             => originate(typeof(T), caller, file, line);
 
         [Op, Closures(Closure)]
-        public static EmittingFileEvent<T> emittingFile<T>(WfStepId step, T payload, FS.FilePath dst, CorrelationToken ct = default)
+        public static EmittingFileEvent<T> emittingFile<T>(WfStepId step, T payload, FS.FilePath dst, PartToken ct = default)
             => new EmittingFileEvent<T>(step, payload, dst, ct);
 
         [Op, Closures(Closure)]
-        public static EmittedFileEvent<T> emittedFile<T>(WfStepId step, T payload, Count count, FS.FilePath dst, CorrelationToken ct = default)
+        public static EmittedFileEvent<T> emittedFile<T>(WfStepId step, T payload, Count count, FS.FilePath dst, PartToken ct = default)
             => new EmittedFileEvent<T>(step, payload, count, dst, ct);
 
         [Op, Closures(Closure)]
-        public static EmittedFileEvent<T> emittedFile<T>(WfStepId step, T payload, FS.FilePath dst, CorrelationToken ct = default)
+        public static EmittedFileEvent<T> emittedFile<T>(WfStepId step, T payload, FS.FilePath dst, PartToken ct = default)
             => new EmittedFileEvent<T>(step, payload, dst, ct);
 
         [Op, Closures(Closure)]
-        public static EmittingFileEvent emittingFile(WfStepId step, FS.FilePath dst, CorrelationToken ct = default)
+        public static EmittingFileEvent emittingFile(WfStepId step, FS.FilePath dst, PartToken ct = default)
             => new EmittingFileEvent(step, dst);
 
         [Op]
-        public static EmittedFileEvent emittedFile(WfStepId step, FS.FilePath path, Count segments, CorrelationToken ct = default)
+        public static EmittedFileEvent emittedFile(WfStepId step, FS.FilePath path, Count segments, PartToken ct = default)
             => new EmittedFileEvent(step, path, segments);
 
         [Op]
-        public static EmittedFileEvent emittedFile(WfStepId step, FS.FilePath path, CorrelationToken ct = default)
+        public static EmittedFileEvent emittedFile(WfStepId step, FS.FilePath path, PartToken ct = default)
             => new EmittedFileEvent(step, path);
 
         [Op]
-        public static ProcessingFileEvent processingFile(WfStepId step, FS.FilePath dst, CorrelationToken ct = default)
+        public static ProcessingFileEvent processingFile(WfStepId step, FS.FilePath dst, PartToken ct = default)
             => new ProcessingFileEvent(step, dst, ct);
 
         [Op]
-        public static ProcessedFileEvent processedFile(WfStepId step, FS.FilePath dst, CorrelationToken ct = default)
+        public static ProcessedFileEvent processedFile(WfStepId step, FS.FilePath dst, PartToken ct = default)
             => new ProcessedFileEvent(step, dst, ct);
 
         [Op, Closures(Closure)]
@@ -164,7 +164,7 @@ namespace Z0
                 => new EmittedTableEvent<T>(step, dst);
 
         [Op]
-        public static RunningEvent running(WfStepId step, CorrelationToken ct = default)
+        public static RunningEvent running(WfStepId step, PartToken ct = default)
             => new RunningEvent(step, ct);
 
         [MethodImpl(Inline)]
@@ -192,7 +192,7 @@ namespace Z0
         /// <param name="ct">The correlation token</param>
         /// <param name="flair">The flair</param>
         [Op, Closures(Closure)]
-        public static CreatingEvent<T> creating<T>(WfStepId id, T content, CorrelationToken ct = default)
+        public static CreatingEvent<T> creating<T>(WfStepId id, T content, PartToken ct = default)
             => new CreatingEvent<T>(id, content, ct);
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Z0
         /// <param name="ct">The correlation token</param>
         /// <param name="flair">The flair</param>
         [Op, Closures(Closure)]
-        public static CreatedEvent<T> created<T>(WfStepId id, T content, CorrelationToken ct = default)
+        public static CreatedEvent<T> created<T>(WfStepId id, T content, PartToken ct = default)
             => new CreatedEvent<T>(id, content, ct);
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Z0
         /// <param name="id">The step identifier</param>
         /// <param name="ct">The correlation token</param>
         [Op]
-        public static DisposedEvent disposed(WfStepId step, CorrelationToken ct = default)
+        public static DisposedEvent disposed(WfStepId step, PartToken ct = default)
             => new DisposedEvent(step,ct);
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Z0
         /// <param name="payload">The payload data</param>
         /// <param name="ct">The correlation token</param>
         [Op, Closures(Closure)]
-        public static Disposed<T> disposed<T>(WfStepId step, T payload, CorrelationToken ct = default)
+        public static Disposed<T> disposed<T>(WfStepId step, T payload, PartToken ct = default)
             => new Disposed<T>(step, payload, ct);
     }
 }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmStatementEncoding : ISequential
+    public interface IAsmEncoding : ISequential
     {
         AsmExpr Asm {get;}
 
