@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("api/emit/respack")]
         Outcome EmitResPack(CmdArgs args)
         {
-            ResPackEmitter.Emit(Blocks().Storage);
+            ResPackEmitter.Emit(Blocks().Storage, false);
             return true;
         }
     }

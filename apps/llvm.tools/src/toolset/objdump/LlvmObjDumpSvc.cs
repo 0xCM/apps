@@ -6,6 +6,7 @@ namespace Z0.llvm
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
 
     using Asm;
 
@@ -76,45 +77,6 @@ namespace Z0.llvm
             return buffer;
         }
 
-        public Outcome Consolidate(IProjectWs project)
-        {
-            var src = project.OutFiles(FileKind.ObjAsm).View;
-            var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
-            var result = Outcome.Success;
-            var count = src.Length;
-            var formatter = Tables.formatter<ObjDumpRow>(ObjDumpRow.RenderWidths);
-            var flow = EmittingTable<ObjDumpRow>(dst);
-            var emitted = list<ObjDumpRow>();
-            var total =0u;
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                result = ParseDumpSource(path, out var rows);
-                if(result.Fail)
-                {
-                    Error(result.Message);
-                    continue;
-                }
-
-                var counter = 0u;
-                for(var j=0; j<rows.Length; j++)
-                {
-                    ref var row = ref rows[j];
-                    if(row.IsBlockStart)
-                        continue;
-
-                    row.Seq = counter++;
-                    writer.WriteLine(formatter.Format(row));
-                    emitted.Add(row);
-                }
-                total += counter;
-            }
-            EmittedTable(flow, total);
-            return result;
-        }
-
         public Outcome ParseDumpSource(FS.FilePath src, out Index<ObjDumpRow> dst)
         {
             var parser = new LlvmObjDumpParser();
@@ -147,69 +109,6 @@ namespace Z0.llvm
                 }
             }
             return result;
-        }
-
-        public void Recode(IProjectWs srcProject)
-        {
-            var dstProject = Ws.Project(ProjectNames.McRecoded);
-            var srcTable = ProjectDb.ProjectTable<ObjDumpRow>(srcProject);
-            var rows = LoadConsolidated(srcTable);
-            var count = rows.Length;
-            var srcid = EmptyString;
-            var block = EmptyString;
-            var dstdir = dstProject.SrcDir(srcProject.Project.Format());
-            var dstpath = FS.FilePath.Empty;
-            var emitting = default(WfFileWritten);
-            var lines = list<string>();
-            var label = AsmLabel.Empty;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var row = ref rows[i];
-                var _srcid = FS.path(row.Source.WithoutLine.Format()).SrcId(FileKind.ObjAsm);
-
-                if(empty(srcid))
-                {
-                    srcid = _srcid;
-                    dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
-                    lines.Add(".intel_syntax noprefix");
-                    emitting = EmittingFile(dstpath);
-                }
-                else if(srcid != _srcid)
-                {
-                    if(lines.Count != 0)
-                    {
-                        using var writer = dstpath.AsciWriter();
-                        iter(lines, line => writer.WriteLine(line));
-                        EmittedFile(emitting, lines.Count);
-                    }
-                    lines.Clear();
-                    lines.Add(".intel_syntax noprefix");
-                    srcid = _srcid;
-                    dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
-                    EmittingFile(dstpath);
-                }
-
-                var _block = row.BlockName;
-                if(empty(block) || block !=_block)
-                {
-                    if(nonempty(block))
-                        lines.Add(EmptyString);
-                    block = _block;
-                    label = asm.label(block);
-                    lines.Add(label.Format());
-                    continue;
-                }
-
-                if(row.Asm.IsNonEmpty)
-                    lines.Add(string.Format("    {0}", row.Asm));
-            }
-
-            if(lines.Count != 0)
-            {
-                using var writer = dstpath.AsciWriter();
-                iter(lines, line => writer.WriteLine(line));
-                EmittedFile(emitting, lines.Count);
-            }
         }
     }
 }

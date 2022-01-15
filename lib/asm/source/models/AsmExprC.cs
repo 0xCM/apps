@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmExpr<C>  : IEquatable<AsmExpr<C>>, IComparable<AsmExpr<C>>
+    public readonly struct AsmExpr<C>  : IEquatable<AsmExpr<C>>, IComparable<AsmExpr<C>>, INullity
         where C : unmanaged, ICharBlock<C>
     {
         public C Content {get;}
@@ -88,6 +88,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmExpr<C> src)
             => asm.cell(src.Format(), src.PartKind);
-
     }
 }

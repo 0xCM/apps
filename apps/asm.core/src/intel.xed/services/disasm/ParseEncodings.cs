@@ -6,15 +6,14 @@ namespace Z0
 {
     using static Root;
     using static core;
-    using static XedModels;
 
     partial class XedDisasmSvc
     {
-        public ConstLookup<FS.FilePath,SourceEncodings> ParseDisasmSources(IProjectWs project)
+        public AsmEncodingDocs ParseEncodings(IProjectWs project)
         {
             var src = XedPaths.DisasmSources(project);
             var count = src.Count;
-            var dst = dict<FS.FilePath,SourceEncodings>();
+            var dst = dict<FS.FilePath,AsmEncodingDoc>();
             for(var i=0; i<count; i++)
             {
                 var result = XedDisasmOps.ParseEncodings(src[i], out var encodings);
@@ -23,7 +22,7 @@ namespace Z0
                 else
                 {
                     Error(result.Message);
-                    return dict<FS.FilePath,SourceEncodings>();
+                    return dict<FS.FilePath,AsmEncodingDoc>();
                 }
             }
             return dst;

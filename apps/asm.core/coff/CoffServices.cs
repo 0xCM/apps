@@ -151,7 +151,7 @@ namespace Z0
                 }
 
                 var hex = hexDat[srcId];
-                result = CoffHex.validate(obj, hex);
+                result = CoffObjects.validate(obj, hex, out var _);
                 if(result.Fail)
                     break;
 

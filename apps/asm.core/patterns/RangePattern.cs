@@ -25,7 +25,7 @@ namespace Z0
             Max = max;
         }
 
-        public ClosedInterval<T> State
+        public ClosedInterval<T> Content
         {
             [MethodImpl(Inline)]
             get => (Min,Max);

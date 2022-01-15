@@ -22,7 +22,7 @@ namespace Z0
 
         public @string SrcId;
 
-        public text31 AsmId;
+        public AsmId AsmId;
 
         public AsmExpr Asm;
 

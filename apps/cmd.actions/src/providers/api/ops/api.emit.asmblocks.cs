@@ -12,8 +12,9 @@ namespace Z0
         Outcome EmitApiAsmBlocks(CmdArgs args)
         {
             var result = Outcome.Success;
-            var dst = ProjectDb.Subdir("asm") + Tables.filename<AsmDataBlock>();
-            var blocks = AsmTables.DistillBlocks(HostAsm());
+            var dst = ProjectDb.ApiTablePath<AsmDataBlock>();
+            var hostasm = HostAsm();
+            var blocks = AsmTables.DistillBlocks(hostasm);
             AsmTables.EmitBlocks(blocks, dst);
             return result;
         }

@@ -13,12 +13,12 @@ namespace Z0
     {
         public MatchKind MatchKind {get;}
 
-        public T State {get;}
+        public T Content {get;}
 
         [MethodImpl(Inline)]
         public PatternCell(MatchKind kind, T state)
         {
-            State = state;
+            Content = state;
             MatchKind = kind;
         }
 

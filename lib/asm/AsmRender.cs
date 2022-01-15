@@ -105,6 +105,10 @@ namespace Z0.Asm
         }
 
         [Op]
+        public static string format(in AsmOffsetLabel label, in AsmFormInfo src, byte[] encoded)
+            => string.Format(AsmOffsetLabel.InstInfoPattern, label, encoded.Length, encoded.FormatHex(), src.Sig, src.OpCode);
+
+        [Op]
         public static void render(MemoryAddress @base, in AsmInstructionInfo src, in AsmFormatConfig config, ITextBuffer dst)
         {
             const string AbsolutePattern = "{0} {1} {2}";
@@ -123,9 +127,8 @@ namespace Z0.Asm
                 dst.Append(src.Statement.FormatPadded());
             }
 
-            dst.Append(asm.comment(CommentMarker, AsmOffsetLabel.format(asm.label(16, src.Offset), src.AsmForm, src.Encoded)));
+            dst.Append(asm.comment(CommentMarker, format(asm.label(16, src.Offset), src.AsmForm, src.Encoded)));
         }
-
 
         [Op]
         public static string offset(ulong offset, DataWidth width)

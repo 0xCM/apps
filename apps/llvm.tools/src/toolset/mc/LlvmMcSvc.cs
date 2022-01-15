@@ -20,6 +20,8 @@ namespace Z0.llvm
 
         AsmSourceDocs AsmDocs => Service(Wf.AsmSourceDocs);
 
+        EnumParser<AsmId> AsmIdParser => Service(() => new EnumParser<AsmId>());
+
         BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
 
         public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, bool runexe = false)
@@ -33,10 +35,13 @@ namespace Z0.llvm
 
         public void Collect(IProjectWs ws)
         {
+            var result = Outcome.Success;
             CollectSyntaxLogs(ws);
             CollectEncodings(ws);
             CollectSyntaxTrees(ws);
-            CollectInstructions(ws);
+            result = CollectInstructions(ws);
+            if(result.Fail)
+                Error(result.Message);
         }
 
         public Index<AsmDocument> SyntaxSourceDocs(IProjectWs project)
@@ -49,7 +54,7 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public Index<AsmInstructionRow> CollectInstructions(IProjectWs project)
+        public Outcome CollectInstructions(IProjectWs project)
         {
             var result = Outcome.Success;
             var docs = SyntaxSourceDocs(project);
@@ -70,23 +75,29 @@ namespace Z0.llvm
                     record.Seq = counter++;
                     record.DocSeq = instruction.Seq;
                     record.SrcId = srcid;
-                    record.AsmId = instruction.Name;
+                    record.AsmId = instruction.AsmId;
                     record.Asm = expr;
                     record.Source = path.LineRef(instruction.Line);
+                    if(result.Fail)
+                        break;
                     buffer.Add(record);
                 }
+
+                if(result.Fail)
+                    break;
             }
 
-            var records = buffer.ToArray();
-            TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, InstructionTable(project));
-            return records;
+            if(result)
+                TableEmit(buffer.ViewDeposited(), AsmInstructionRow.RenderWidths, InstructionTable(project));
+            return result;
         }
 
-        public ConstLookup<FS.FilePath,AsmEncodingDoc> CollectEncodings(IProjectWs project)
+        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(IProjectWs project)
         {
             var result = Outcome.Success;
-            var docs = ParseEncodingSources(project);
-            var paths = docs.Keys.ToArray().Sort();
+            //var docs = ParseEncodingSources(project);
+            var _docs = ParseEncodingSources(project);
+            var paths = _docs.Keys.ToArray().Sort();
             var dst = EncodingTable(project);
             var counter=0u;
             var record = AsmEncodingRow.Empty;
@@ -96,9 +107,9 @@ namespace Z0.llvm
             writer.WriteLine(formatter.FormatHeader());
             foreach(var path in paths)
             {
-                var doc = docs[path];
+                var doc = _docs[path];
                 var encoded = doc.View;
-                var srcid = ((FS.FilePath)doc.Location).SrcId(FileKind.EncodingAsm);
+                var srcid = path.SrcId(FileKind.EncodingAsm);
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
@@ -109,15 +120,15 @@ namespace Z0.llvm
                     record.DocSeq = i;
                     record.SrcId = srcid;
                     record.Asm = e.Asm;
-                    record.Size = e.Encoding.Size;
-                    record.IP = e.Offset;
-                    record.HexCode = e.Encoding;
-                    record.Source = doc.Location.ToUri().LineRef(e.Line);
+                    record.Size = e.Size;
+                    record.IP = e.IP;
+                    record.HexCode = e.HexCode;
+                    record.Source = e.Source;
                     writer.WriteLine(formatter.Format(record));
                 }
             }
             EmittedTable(emitting, counter);
-            return docs;
+            return _docs;
         }
 
         public AsmSyntaxDocs CollectSyntaxLogs(IProjectWs project)
@@ -221,7 +232,7 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.SrcId);
-                result = DataParser.parse(skip(cells, j++), out dst.AsmId);
+                result = AsmIdParser.Parse(skip(cells, j++), out dst.AsmId);
                 result = DataParser.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
@@ -319,18 +330,18 @@ namespace Z0.llvm
             }
         }
 
-        Outcome ParseEncodingSource(FS.FilePath src, out AsmEncodingDoc dst)
+        Outcome ParseEncodingSource(FS.FilePath src, out Index<AsmEncodingRow> dst)
         {
             const string EncodingMarker = "# encoding:";
 
             var result = Outcome.Success;
-            dst = AsmEncodingDoc.Empty;
+            dst = sys.empty<AsmEncodingRow>();
             var lines = FS.readlines(src).View;
             var count = (uint)lines.Length;
-            var buffer = list<AsmStatementEncoding>();
+            var buffer = list<AsmEncodingRow>();
             var offset = Address32.Zero;
             var seq = 0u;
-            var record = default(AsmStatementEncoding);
+            var record = default(AsmEncodingRow);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var line = ref skip(lines,i);
@@ -343,28 +354,30 @@ namespace Z0.llvm
                         return result;
 
                     var enc = text.right(content, j + EncodingMarker.Length);
-                    result = AsmHexCode.parse(enc, out record.Encoding);
+                    result = AsmHexCode.parse(enc, out record.HexCode);
                     if(result.Fail)
                         return result;
 
+                    record.Size = record.HexCode.Size;
                     record.DocSeq = seq++;
-                    record.Line = line.LineNumber;
-                    record.Offset = offset;
+                    record.SrcId = src.SrcId(FileKind.EncodingAsm);
+                    record.IP = offset;
+                    record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
 
-                    offset += record.Encoding.Size;
-                    record = default(AsmStatementEncoding);
+                    offset += record.Size;
+                    record = default(AsmEncodingRow);
                 }
             }
-            dst = new AsmEncodingDoc(src, buffer.ToArray());
+            dst = buffer.ToArray();
             return result;
         }
 
-        AsmEncodingDocs ParseEncodingSources(IProjectWs project)
+        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncodingSources(IProjectWs project)
         {
             var src = EncodingSourcePaths(project).View;
             var count = src.Length;
-            var dst = dict<FS.FilePath,AsmEncodingDoc>();
+            var dst = dict<FS.FilePath,Index<AsmEncodingRow>>();
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
@@ -376,12 +389,12 @@ namespace Z0.llvm
                     break;
                 }
 
-                var scount = doc.RowCount;
+                var scount = doc.Count;
                 var statements = doc.Edit;
                 for(var j=0; j<scount; j++)
                     seek(statements,j).Seq = counter++;
 
-                dst[doc.Location] = doc;
+                dst[path] = doc;
             }
 
             return dst;

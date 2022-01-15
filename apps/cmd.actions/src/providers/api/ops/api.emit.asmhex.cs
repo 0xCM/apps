@@ -16,7 +16,7 @@ namespace Z0
             var blocks = ApiHexPacks.LoadBlocks(ApiPackArchive.HexPackRoot()).View;
             var count = blocks.Length;
             var buffer = span<char>(BufferLength);
-            var dst = ProjectDb.Subdir("api") + FS.file("api", FS.Hex);
+            var dst = ProjectDb.Api() + FS.file("api", FS.Hex);
             using var writer = dst.AsciWriter();
             for(var i=0u; i<count; i++)
             {

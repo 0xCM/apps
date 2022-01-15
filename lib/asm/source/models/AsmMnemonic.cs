@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
 
     [DataType("asm.mnemonic",31*8,32*8)]
-    public readonly struct AsmMnemonic
+    public readonly struct AsmMnemonic : IAsmSourcePart
     {
         public text31 Name {get;}
 
@@ -49,6 +49,9 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Length != 0;
         }
+
+        AsmPartKind IAsmSourcePart.PartKind
+            => AsmPartKind.Mnemonic;
 
         public override int GetHashCode()
             => Content.GetHashCode();
@@ -96,6 +99,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static bool operator !=(AsmMnemonic a, AsmMnemonic b)
             => !a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmMnemonic src)
+            => new AsmCell(default, AsmPartKind.Mnemonic, src.Format());
 
         public static AsmMnemonic Empty
         {

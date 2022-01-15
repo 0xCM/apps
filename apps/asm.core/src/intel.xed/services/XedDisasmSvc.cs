@@ -24,10 +24,13 @@ namespace Z0
 
         ConstLookup<OperandWidthType,OperandWidth> OperandWidths;
 
+        AsmEventReceiver EventReceiver;
+
         public XedDisasmSvc()
         {
             Forms = Symbols.index<IFormType>();
             Classes = Symbols.index<IClass>();
+            EventReceiver = new();
         }
 
         protected override void OnInit()
@@ -40,31 +43,32 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
 
-        void EmitDisasmSummary(ConstLookup<FS.FilePath,SourceEncodings> sources, FS.FilePath dst)
+        void EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
         {
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
-            iter(sources.Values, src => recordcount += src.Encoded.Count);
+            iter(sources.Values, src => recordcount += src.RowCount);
             var buffer = alloc<AsmEncodingRow>(recordcount);
             var counter = 0u;
             for(var i=0; i<paths.Length;i++)
             {
                 sources.Find(skip(paths,i), out var encodings);
-                var encoded = encodings.Encoded;
-                for(var j=0; j<encoded.Count; j++)
+                var encoded = encodings.View;
+                for(var j=0; j<encoded.Length; j++)
                 {
                     ref var target = ref seek(buffer, counter++);
-                    target = encoded[j];
+                    target = skip(encoded,j);
                     target.Seq = counter;
                 }
             }
             TableEmit(@readonly(buffer), AsmEncodingRow.RenderWidths, dst);
         }
 
-        public void Collect(IProjectWs project)
+        public void Collect(IProjectWs project, AsmEventReceiver receiver = null)
         {
             var result = Outcome.Success;
-            EmitDisasmSummary(ParseDisasmSources(project), XedPaths.DisasmSummary(project));
+            var handler = receiver ?? EventReceiver;
+            EmitDisasmSummary(ParseEncodings(project), XedPaths.DisasmSummary(project));
             EmitDisasmDetails(project);
         }
 

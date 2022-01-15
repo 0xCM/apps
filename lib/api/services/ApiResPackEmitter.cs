@@ -11,14 +11,14 @@ namespace Z0
 
     public sealed class ApiResPackEmitter : AppService<ApiResPackEmitter>
     {
-        const string ProjId = "codgen.respack";
+        const string ProjId = "codegen.respack";
 
         FS.FilePath ProjectPath => CgProject(ProjId);
 
         FS.FolderPath ProjectDir => CgDir(ProjId);
 
         FS.FolderPath SourceDir
-            => ProjectDir + FS.folder("content") + FS.folder("bytes");
+            => ProjectDir + FS.folder("src");
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 

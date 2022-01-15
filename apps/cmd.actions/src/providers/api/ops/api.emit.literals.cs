@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     using L = ApiLiterals;
 
     partial class ApiCmdProvider

@@ -17,18 +17,11 @@ namespace Z0.Asm
         public AsmComment(TextBlock text)
             => Content = text;
 
-        public AsmPartKind PartKind
+        AsmPartKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
             get => AsmPartKind.Comment;
         }
-
-        [MethodImpl(Inline)]
-        public string Format()
-            => Content.IsNonEmpty ? string.Format("# {0}", Content) : EmptyString;
-
-        public override string ToString()
-            => Format();
 
         public bool IsNonEmpty
         {
@@ -42,11 +35,12 @@ namespace Z0.Asm
             get => Content.IsEmpty;
         }
 
-        public static AsmComment Empty
-        {
-            [MethodImpl(Inline)]
-            get => new AsmComment(TextBlock.Empty);
-        }
+        [MethodImpl(Inline)]
+        public string Format()
+            => Content.IsNonEmpty ? string.Format("# {0}", Content) : EmptyString;
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator AsmComment(string src)
@@ -58,6 +52,12 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmComment src)
-            => asm.cell(src.Format(), src.PartKind);
+            => asm.cell(src.Format(), AsmPartKind.Comment);
+
+        public static AsmComment Empty
+        {
+            [MethodImpl(Inline)]
+            get => new AsmComment(TextBlock.Empty);
+        }
     }
 }

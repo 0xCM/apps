@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
+    <ProjectReference Include="$(CodeGenLlvm)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

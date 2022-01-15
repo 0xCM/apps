@@ -9,9 +9,9 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmDirectiveOp
+    public readonly struct AsmDirectiveOp : IAsmSourcePart
     {
-        public string Value {get;}
+        public @string Value {get;}
 
         [MethodImpl(Inline)]
         public AsmDirectiveOp(string value)
@@ -22,17 +22,20 @@ namespace Z0.Asm
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => text.empty(Value);
+            get => Value.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => text.nonempty(Value);
+            get => Value.IsNonEmpty;
         }
 
+        AsmPartKind IAsmSourcePart.PartKind
+            => AsmPartKind.DirectiveOp;
+
         public string Format()
-            => Value ?? EmptyString;
+            => Value;
 
         public override string ToString()
             => Format();
@@ -40,6 +43,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmDirectiveOp(string src)
             => new AsmDirectiveOp(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmCell(AsmDirectiveOp src)
+            => new AsmCell(default, AsmPartKind.DirectiveOp, src.Value);
 
         public static AsmDirectiveOp Empty => new AsmDirectiveOp(EmptyString);
     }

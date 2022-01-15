@@ -13,7 +13,7 @@ namespace Z0.Asm
     partial class AsmCaseArchive
     {
         public static AsmCell cell(GridPoint loc, AsmComment comment)
-            => new AsmCell(loc, comment.PartKind, comment.Content);
+            => new AsmCell(loc, AsmPartKind.Comment, comment.Content);
 
         [Op]
         public static Index<CallRel32Case> callrel32()

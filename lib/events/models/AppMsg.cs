@@ -24,8 +24,15 @@ namespace Z0
         public static MsgPattern<Count,Count> FieldCountMismatch
             => "The target requires {0} fields but {1} were found in the source";
 
+        public static MsgPattern<FS.FileUri,Count,Count> CsvHeaderMismatch
+            => "The records defined in {0} require {0} fields but {1} were found in the source";
+
+        public static MsgPattern<uint,FS.FileUri,Count,Count> CsvDataMismatch
+            => "The record {0} defined in {1} requires {2} fields but {3} were found in the source";
+
+
         public static MsgPattern<string,string> ParseFailure
-            => "Parsing {0} from {1} failed";
+            => "Could not parse {0} from {1}";
 
         public static MsgPattern<string> UriParseFailure
             => "Coult not parse '{0}' as a uri";
@@ -35,6 +42,9 @@ namespace Z0
 
         public static MsgPattern<ApiHostUri> HostNotFound
             => "Host {0} not found";
+
+        public static MsgPattern<string,Fence<char>> FenceNotFound
+            => "The source text {0} is not fenced by {1}";
 
         public static StatusMsg<T> status<T>(T data)
             => new StatusMsg<T>(data);

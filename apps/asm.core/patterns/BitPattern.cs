@@ -9,7 +9,6 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     using static Root;
-    using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct BitPattern : IDataPattern<bit>
@@ -25,7 +24,7 @@ namespace Z0
             State = state;
         }
 
-        bit IDataPattern<bit>.State
+        bit IDataPattern<bit>.Content
             => State;
 
         public static implicit operator BitPattern(bit state)

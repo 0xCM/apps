@@ -46,6 +46,10 @@ namespace Z0.Asm
         // .xyx a,b,c
         Directive = 2048,
 
-        InlineComment = Directive*2,
+        DirectiveOp = Directive*2,
+
+        InlineComment = DirectiveOp*2,
+
+        Mnemonic = InlineComment*2,
     }
 }

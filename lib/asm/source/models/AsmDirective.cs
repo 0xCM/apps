@@ -28,7 +28,7 @@ namespace Z0.Asm
             Op2 = op2;
         }
 
-        public AsmPartKind PartKind
+        AsmPartKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
             get => AsmPartKind.Directive;
@@ -62,7 +62,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmDirective src)
-            => asm.cell(src.Format(), src.PartKind);
+            => asm.cell(src.Format(), AsmPartKind.Directive);
 
         public static AsmDirective Empty => new AsmDirective(EmptyString, EmptyString, EmptyString, EmptyString);
 

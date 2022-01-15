@@ -11,6 +11,16 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
+        public static ref AsmFormRecord row(in TextRow src, ref AsmFormRecord dst)
+        {
+            var i = 0;
+            DataParser.parse(src[i++], out dst.Seq);
+            dst.OpCode = new AsmOpCodeString(src[i++]);
+            AsmParser.siginfo(src[i++], out dst.Sig);
+            AsmParser.forminfo(src[i++], out dst.FormExpr);
+            return ref dst;
+        }
+
         [Parser]
         public static Outcome forminfo(string src, out AsmFormInfo dst)
         {
@@ -19,25 +29,18 @@ namespace Z0.Asm
 
             result = text.unfence(src, SigFence, out var sigexpr);
             if(result.Fail)
-                return (false, FenceNotFound.Format(SigFence,src));
+                return (false, AppMsg.FenceNotFound.Format(src,SigFence));
 
             result = siginfo(sigexpr, out var _sig);
             if(result.Fail)
-                return (false, CouldNotParseSigExpr.Format(sigexpr));
+                return (false, AppMsg.ParseFailure.Format("Sig", sigexpr));
 
             result = text.unfence(src, OpCodeFence, out var opcode);
             if(result.Fail)
-                return (false, FenceNotFound.Format(OpCodeFence, src));
+                return (false, AppMsg.FenceNotFound.Format(src,OpCodeFence));
 
             dst = new AsmFormInfo(new AsmOpCodeString(opcode), _sig);
             return true;
         }
-
-        public static MsgPattern<Fence<char>,string> FenceNotFound
-            => "No content fenced with {0} exists int the input text '{1}'";
-
-        public static MsgPattern<string> CouldNotParseSigExpr => "Could not created a signature expression from {0}";
-
-        public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
     }
 }

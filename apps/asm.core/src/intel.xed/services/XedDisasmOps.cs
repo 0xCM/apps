@@ -13,9 +13,6 @@ namespace Z0
     using static core;
 
     using static XedModels;
-    using static XedModels.RuleOpName;
-
-    using ROK = XedModels.RuleOpKind;
 
     public readonly struct XedDisasmOps
     {
@@ -23,12 +20,14 @@ namespace Z0
 
         const string YDIS = "YDIS:";
 
-        public static Outcome ParseEncodings(FS.FilePath src, out SourceEncodings dst)
+        public static Outcome ParseEncodings(FS.FilePath src, out AsmEncodingDoc dst)
         {
             var buffer = list<AsmEncodingRow>();
             var result = ParseEncodings(src,buffer);
             if(result)
-                dst = new SourceEncodings(src, buffer.ToArray());
+                dst = (src,buffer.ToArray());
+            else
+                dst = (src,sys.empty<AsmEncodingRow>());
             return result;
         }
 

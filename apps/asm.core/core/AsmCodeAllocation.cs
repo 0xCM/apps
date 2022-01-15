@@ -23,7 +23,7 @@ namespace Z0
                 include(record, i, indices, statements);
             }
 
-            return allocation(indices,statements);
+            return allocation(indices, statements);
         }
 
         static void include(IAsmStatementEncoding src, uint i, Dictionary<AsmHexCode,uint> indices, Dictionary<uint,AsmExprOffset> statements)

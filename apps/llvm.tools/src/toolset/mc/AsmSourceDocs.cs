@@ -23,7 +23,7 @@ namespace Z0.Asm
 
         List<AsmSourceLine> SourceLines;
 
-        List<DocInstRef> Instructions;
+        List<AsmInstRef> Instructions;
 
         const string InstructionMarker = "<MCInst #";
 
@@ -33,6 +33,8 @@ namespace Z0.Asm
 
         Span<DecimalDigitValue> DigitBuffer()
             => _DigitBuffer.Clear();
+
+        EnumParser<AsmId> AsmIdParser {get;} = new EnumParser<AsmId>();
 
         public AsmDocument ParseAsmDoc(FS.FilePath src)
         {
@@ -61,9 +63,33 @@ namespace Z0.Asm
 
         LineNumber LabelLine;
 
+        public static AsmLineClass lineclass(string src)
+        {
+            var content = text.trim(src);
+
+            [MethodImpl(Inline)]
+            static bool IsLabel(string src)
+                => text.xedni(src, Chars.Colon) == src.Length - 1;
+
+            [MethodImpl(Inline)]
+            static bool IsDirective(string src)
+                => text.index(src, Chars.Dot) == 0;
+
+            if(text.empty(content))
+                return C.Empty;
+
+            if(IsLabel(content))
+                return C.Label;
+
+            if(IsDirective(content))
+                return C.Directive;
+
+            return C.AsmSource;
+        }
+
         void Parse(in TextLine src)
         {
-            var @class = AsmParser.lineclass(src.Content);
+            var @class = lineclass(src.Content);
             var content = src.Content.Replace(Chars.Tab, Chars.Space).Trim();
             switch(@class)
             {
@@ -101,16 +127,22 @@ namespace Z0.Asm
                             var inst = text.remove(text.slice(comment,i), Chars.Gt);
                             var j = text.whitespace(inst);
                             if(j != NotFound)
-                                Instructions.Add(new DocInstRef(DocSeq, src.LineNumber, text.right(inst,j)));
+                            {
+                                AsmIdParser.Parse(text.right(inst,j), out var asmid);
+                                Instructions.Add(new AsmInstRef(DocSeq, src.LineNumber, asmid));
+                            }
                             else
-                                Instructions.Add(new DocInstRef(DocSeq, src.LineNumber, inst));
+                            {
+                                AsmIdParser.Parse(inst, out var asmid);
+                                Instructions.Add(new AsmInstRef(DocSeq, src.LineNumber, asmid));
+                            }
                             DocSeq++;
                         }
 
                         if(comment.Contains("encoding: "))
                         {
                             SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, Label, statement));
-                            SourceLines.Add(new AsmSourceLine(src.LineNumber, @class,Label, "#" + RP.Spaced2 + comment));
+                            SourceLines.Add(new AsmSourceLine(src.LineNumber, @class, Label, "#" + RP.Spaced2 + comment));
                         }
                         else if(comment.Contains(InstructionMarker) && statement.Length != 0)
                         {

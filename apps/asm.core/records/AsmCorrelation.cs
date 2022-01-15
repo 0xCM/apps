@@ -25,7 +25,7 @@ namespace Z0
 
         public Address32 IP;
 
-        public text31 AsmId;
+        public AsmId AsmId;
 
         public AsmExpr Asm;
 

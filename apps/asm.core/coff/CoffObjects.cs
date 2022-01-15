@@ -13,6 +13,38 @@ namespace Z0
     [ApiHost]
     public readonly struct CoffObjects
     {
+        public static Outcome<CoffHex> hex(CoffObject coff, HexDataRow[] rows)
+        {
+            var result = validate(coff, rows, out var hex);
+            if(result)
+                return new CoffHex(coff, rows, hex);
+            else
+                return result;
+        }
+
+        public static Outcome validate(CoffObject coff, HexDataRow[] rows, out BinaryCode hex)
+        {
+            hex = rows.Compact();
+            var hexsize = hex.Size;
+            var objsize = coff.Size;
+            if(hexsize != objsize)
+                return (false,string.Format("Size mismatch: {0} != {1}", objsize, hexsize));
+
+            var objData = coff.Data;
+            var hexData = hex;
+            var size = (uint)objsize;
+            for(var j=0u; j<size; j++)
+            {
+                MemoryAddress curoffset = j;
+                ref readonly var a = ref coff[j];
+                ref readonly var b = ref hex[j];
+                if(a != b)
+                    return (false, string.Format("{0} != {1} at offset {2}", a.FormatHex(), b.FormatHex(), curoffset));
+            }
+
+            return true;
+        }
+
         [MethodImpl(Inline), Op]
         public static uint size(in CoffStringTable src)
             => first(recover<uint>(slice(src.Data,0,4)));

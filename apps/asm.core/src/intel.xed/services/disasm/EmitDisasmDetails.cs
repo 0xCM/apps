@@ -17,7 +17,7 @@ namespace Z0
         public Outcome EmitDisasmDetails(IProjectWs project)
         {
             var result = Outcome.Success;
-            var encodings = ParseDisasmSources(project);
+            var encodings = ParseEncodings(project);
             var paths = encodings.Keys.ToArray().Sort();
             var count = paths.Length;
             var blocks = XedDisasmOps.LoadFileBlocks(paths);
@@ -61,9 +61,9 @@ namespace Z0
             dst.Append(string.Format(RenderPattern, "IForm", inst.Form));
         }
 
-        Outcome EmitDisasmDetails(FS.FilePath src, SourceEncodings encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
+        Outcome EmitDisasmDetails(FS.FilePath src, AsmEncodingDoc encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
         {
-            var encoded = encodings.Encoded;
+            var encoded = encodings.View;
             var parser = new XedOperandParser();
             var count = (uint)Require.equal(encoded.Length, blocks.Length);
             var result = ParseInstructions(blocks, out var instructions);

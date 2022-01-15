@@ -14,16 +14,13 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct AsmBlockLabel : IAsmSourcePart
     {
-        public static string format(AsmBlockLabel src)
-            => src.Name.IsEmpty ? EmptyString : string.Format("{0}:", src.Name);
-
         public Identifier Name {get;}
 
         [MethodImpl(Inline)]
         public AsmBlockLabel(Identifier name)
             => Name = name;
 
-        public AsmPartKind PartKind
+        AsmPartKind IAsmSourcePart.PartKind
         {
             [MethodImpl(Inline)]
             get => AsmPartKind.BlockLabel;
@@ -42,7 +39,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => format(this);
+            => Name.IsEmpty ? EmptyString : string.Format("{0}:", Name);
 
         public override string ToString()
             => Format();
@@ -63,6 +60,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmBlockLabel src)
-            => asm.cell(src.Format(), src.PartKind);
+            => asm.cell(src.Format(), AsmPartKind.BlockLabel);
     }
 }

@@ -12,6 +12,6 @@ namespace Z0
     public interface IDataPattern<T> : IDataPattern
         where T : unmanaged
     {
-        T State {get;}
+        T Content {get;}
     }
 }

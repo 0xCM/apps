@@ -7,9 +7,10 @@ namespace Z0
     using System;
     using System.Collections.Generic;
 
+    using Asm;
+
     using static core;
     using static XedModels;
-    using Asm;
 
     using K = XedModels.OperandKind;
 
@@ -686,6 +687,5 @@ namespace Z0
 
             return result;
         }
-
     }
 }

@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmCell : IAsmSourcePart
+    public readonly struct AsmCell : IAsmSourcePart, INullity
     {
         /// <summary>
         /// The content origin
@@ -26,6 +26,18 @@ namespace Z0.Asm
             Location = loc;
             Content = content;
             PartKind = kind;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content.IsEmpty;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Content.IsNonEmpty;
         }
 
         public string Format()

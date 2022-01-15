@@ -16,7 +16,7 @@ namespace Z0.llvm
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
 
-        ProjectCollector ProjectCollector => Service(Wf.ProjectCollector);
+        ProjectManager ProjectCollector => Service(Wf.ProjectManager);
 
         LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
 
