@@ -29,11 +29,11 @@ namespace Z0
 
         public AsmExpr Asm;
 
-        public @string Syntax;
-
         public byte Size;
 
         public AsmHexCode HexCode;
+
+        public @string Syntax;
 
         public FS.FileUri Source;
 
@@ -49,6 +49,6 @@ namespace Z0
         MemoryAddress IAsmStatementEncoding.Offset
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,32,84,84,5,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,32,84,4,42,84,1};
     }
 }

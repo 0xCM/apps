@@ -6,26 +6,24 @@ namespace Z0
 {
     using Z0.Asm;
 
-    using Services = Z0.Asm;
-
     [ApiHost]
-    public static partial class XSvc
+    public static class XSvc
     {
         [Op]
         public static AsmRowBuilder AsmRowBuilder(this IWfRuntime wf)
-            => Services.AsmRowBuilder.create(wf);
+            => Asm.AsmRowBuilder.create(wf);
 
         [Op]
         public static HostAsmEmitter HostAsmEmitter(this IWfRuntime wf)
-            => Services.HostAsmEmitter.create(wf);
+            => Asm.HostAsmEmitter.create(wf);
 
         [Op]
         public static ApiResPackUnpacker ResPackUnpacker(this IWfRuntime wf)
-            => Services.ApiResPackUnpacker.create(wf);
+            => Asm.ApiResPackUnpacker.create(wf);
 
         [Op]
         public static AsmJmpPipe AsmJmpPipe(this IWfRuntime wf)
-            => Services.AsmJmpPipe.create(wf);
+            => Asm.AsmJmpPipe.create(wf);
 
         [Op]
         public static AsmImmWriter ImmWriter(this IWfRuntime wf, in ApiHostUri host)
@@ -37,18 +35,38 @@ namespace Z0
 
         [Op]
         public static AsmDecoder AsmDecoder(this IWfRuntime wf)
-            => Services.AsmDecoder.create(wf);
+            => Asm.AsmDecoder.create(wf);
 
         [Op]
         public static ProcessAsmSvc ProcessAsm(this IWfRuntime wf)
-            => Services.ProcessAsmSvc.create(wf);
+            => Asm.ProcessAsmSvc.create(wf);
 
         [Op]
         public static ApiCodeBlockTraverser ApiCodeBlockTraverser(this IWfRuntime src)
-            => Services.ApiCodeBlockTraverser.create(src);
+            => Asm.ApiCodeBlockTraverser.create(src);
 
         [Op]
         public static AsmCallPipe AsmCallPipe(this IWfRuntime wf)
-            => Services.AsmCallPipe.create(wf);
+            => Asm.AsmCallPipe.create(wf);
+
+        [Op]
+        public static ApiExtractor ApiExtractor(this IWfRuntime wf)
+            => Z0.ApiExtractor.create(wf);
+
+        [Op]
+        public static SegmentTraverser SegmentTraverser(this IWfRuntime wf)
+            => Z0.SegmentTraverser.create(wf);
+
+        [Op]
+        public static ApiSegmentLocator ApiSegmentLocator(this IWfRuntime wf)
+            => Z0.ApiSegmentLocator.create(wf);
+
+        [Op]
+        public static AsmAnalyzer AsmAnalyzer(this IWfRuntime wf)
+            => Z0.AsmAnalyzer.create(wf);
+
+        [Op]
+        public static ApiExtractWorkflow ApiExtractWorkflow(this IWfRuntime wf)
+            => Z0.ApiExtractWorkflow.create(wf);
     }
 }

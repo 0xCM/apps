@@ -146,5 +146,20 @@ namespace Z0
 
         public FS.FilePath ApiCatalogPath()
             => TableDir() + FS.file(TableId.identify<ApiCatalogEntry>().Format(), FS.Csv);
+
+        public FS.FolderPath ParsedExtractRoot(IApiPack pack)
+            => pack.Root + FS.folder("parsed");
+
+        public FS.Files ParsedExtractPaths(IApiPack pack)
+            => ParsedExtractRoot(pack).Files(FS.PCsv);
+
+        public FS.FilePath ParsedExtractPath(IApiPack pack, FS.FileName name)
+            => ParsedExtractRoot(pack) + name;
+
+        public FS.FilePath ParsedExtractPath(IApiPack pack, ApiHostUri host)
+            => ParsedExtractPath(pack, ApiFiles.filename(host, FS.PCsv));
+
+        public FS.Files ParsedExtractPaths(IApiPack pack, PartId part)
+            => ParsedExtractPaths(pack).Where(f => f.IsOwner(part));
     }
 }

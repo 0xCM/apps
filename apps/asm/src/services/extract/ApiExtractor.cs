@@ -41,6 +41,8 @@ namespace Z0
 
         ApiCatalogs ApiCatalogs;
 
+        ApiHex ApiHex => Service(Wf.ApiHex);
+
         public ApiExtractor()
         {
             Buffer = ApiExtracts.buffer();
@@ -147,16 +149,11 @@ namespace Z0
         FS.FolderPath ParsedExtractRoot(IApiPack pack)
             => pack.Root + FS.folder("parsed");
 
-        FS.Files ParsedExtractPaths(IApiPack pack)
-            => ParsedExtractRoot(pack).Files(FS.PCsv);
-
         FS.FilePath ParsedExtractPath(IApiPack pack, FS.FileName name)
             => ParsedExtractRoot(pack) + name;
 
         FS.FilePath ParsedExtractPath(IApiPack pack, ApiHostUri host)
             => ParsedExtractPath(pack, ApiFiles.filename(host, FS.PCsv));
 
-        FS.Files ParsedExtractPaths(IApiPack pack, PartId part)
-            => ParsedExtractPaths(pack).Where(f => f.IsOwner(part));
     }
 }

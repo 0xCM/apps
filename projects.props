@@ -31,6 +31,11 @@
     <Checks>test.checks</Checks>
     <ZTestName>test.units</ZTestName>
 
+    <CodeGenRoot>$(MSBuildThisFileDirectory)codegen</CodeGenRoot>
+    <CodeGenLlvm>$(CodeGenRoot)/codegen.llvm/z0.codegen.llvm.csproj</CodeGenLlvm>
+    <CodeGenResPack>$(CodeGenRoot)/codegen.respack/z0.codegen.respack.csproj</CodeGenResPack>
+    <CodeGenIntel>$(CodeGenRoot)/codegen.intel/z0.codegen.intel.csproj</CodeGenIntel>
+
   </PropertyGroup>
 
 </Project>

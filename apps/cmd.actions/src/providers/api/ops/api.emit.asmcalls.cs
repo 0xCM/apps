@@ -13,16 +13,29 @@ namespace Z0
         [CmdOp("api/emit/asmcalls")]
         protected Outcome EmitCallTable(CmdArgs args)
         {
-            var blocks = Data(nameof(ApiCodeBlock),Blocks);
-            var dst = ProjectDb.Subdir("api/asm/calls");
-            AsmCalls.EmitRows(AsmDecoder.Decode(blocks), dst);
+            AsmCalls.EmitRows(AsmDecoder.Decode(Blocks().Storage), ProjectDb.Subdir("api/asm/calls"));
             return true;
         }
 
-        Index<ApiCodeBlock> Blocks()
-            => ApiHex.ReadBlocks().Storage;
+        SortedIndex<ApiCodeBlock> Blocks()
+        {
+            SortedIndex<ApiCodeBlock> Load()
+            {
+                var pack = ApiPacks.Current();
+                return ApiHex.ReadBlocks(pack.Archive().ParsedExtractPaths(pack));
+            }
 
-        SortedIndex<ApiCodeBlock> SortedBlocks()
-            => ApiHex.ReadBlocks().Storage.ToSortedIndex();
+            return Data(nameof(Blocks), Load);
+        }
+
+        Index<HostAsmRecord> HostAsm()
+        {
+            Index<HostAsmRecord> Load()
+            {
+                var pack = ApiPacks.Current();
+                return AsmTables.LoadHostAsmRows(pack.Archive().HostAsm());
+            }
+            return Data(nameof(HostAsm),Load);
+        }
     }
 }

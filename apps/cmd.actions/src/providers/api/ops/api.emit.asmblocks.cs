@@ -13,8 +13,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var dst = ProjectDb.Subdir("asm") + Tables.filename<AsmDataBlock>();
-            var records = AsmTables.LoadHostAsmRows(ApiPackArchive.HostAsm());
-            var blocks = AsmTables.DistillBlocks(records);
+            var blocks = AsmTables.DistillBlocks(HostAsm());
             AsmTables.EmitBlocks(blocks, dst);
             return result;
         }

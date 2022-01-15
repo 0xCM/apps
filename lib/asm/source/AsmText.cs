@@ -30,25 +30,6 @@ namespace Z0.Asm
             return text.format(slice(dst,0,count));
         }
 
-        public static string format(in AsmSourceLine src)
-        {
-            if(src.Label.IsNonEmpty)
-                return src.Label.Format();
-            else if(src.Statement.IsNonEmpty)
-            {
-                if(src.Comment.IsNonEmpty)
-                    return string.Format("{0,-46} {1}", src.Statement, src.Comment);
-                else
-                    return src.Statement.Format();
-            }
-            else if(src.Comment.IsNonEmpty)
-            {
-                return src.Comment.Format();
-            }
-            else
-                return EmptyString;
-        }
-
         [MethodImpl(Inline), Op]
         public static AsmText opcode(string src)
             => asmtext(src, AsmPartKind.OpCode);

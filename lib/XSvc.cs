@@ -174,9 +174,6 @@ namespace Z0
         public static AsmTables AsmTables(this IWfRuntime wf)
             => Asm.AsmTables.create(wf);
 
-        [Op]
-        public static AsmSourceDocs AsmSourceDocs(this IWfRuntime wf)
-            => Asm.AsmSourceDocs.create(wf);
 
         [Op]
         public static AsmTokens AsmTokens(this IServiceContext context)

@@ -10,9 +10,6 @@ namespace Z0
 
     partial class ApiExtractor
     {
-        ApiHex ApiHex => Service(Wf.ApiHex);
-
-
         uint EmitParsedHex(ApiHostUri host, ReadOnlySpan<ApiMemberCode> src, IApiPack pack)
         {
             var count = (uint)src.Length;
@@ -27,8 +24,8 @@ namespace Z0
                 ref readonly var code = ref skip(src,i);
                 seek(target, i) = new MemoryBlock(code.Address, code.Size, code.Encoded);
             }
-            HexPacks.Emit(MemoryStore.pack(buffer),dst);
-            ApiHex.WriteBlocks(host, src, ParsedExtractPath(pack, host));
+            HexPacks.Emit(MemoryStore.pack(buffer), dst);
+            ApiHex.WriteBlocks(host, src, PackArchive.ParsedExtractPath(pack, host));
 
             return count;
         }

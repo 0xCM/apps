@@ -150,6 +150,7 @@ namespace Z0.llvm
             var dst = ProjectDb.ProjectDataFile(project, "asm.syntax.tree", FS.Asm);
             var docs = lookup<FS.FilePath,AsmDocument>();
             using var writer = dst.AsciWriter();
+
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);

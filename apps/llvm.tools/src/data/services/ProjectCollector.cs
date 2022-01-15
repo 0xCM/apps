@@ -68,9 +68,9 @@ namespace Z0
                 dst.IP = enc.IP;
                 dst.AsmId = inst.AsmId;
                 dst.Asm = enc.Asm;
-                dst.Syntax = syn.Syntax;
                 dst.Size = enc.Size;
                 dst.HexCode = enc.HexCode;
+                dst.Syntax = syn.Syntax;
                 dst.Source = enc.Source;
             }
 

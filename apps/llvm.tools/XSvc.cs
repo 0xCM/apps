@@ -6,9 +6,14 @@
 namespace Z0
 {
     using Z0.llvm;
+    using Asm;
 
     public static class XSvc
     {
+        [Op]
+        public static AsmSourceDocs AsmSourceDocs(this IWfRuntime wf)
+            => Asm.AsmSourceDocs.create(wf);
+
         public static ProjectScriptSvc ProjectScriptSvc(this IWfRuntime wf)
             => Z0.ProjectScriptSvc.create(wf);
         [Op]
