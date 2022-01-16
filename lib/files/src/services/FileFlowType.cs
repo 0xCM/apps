@@ -39,10 +39,9 @@ namespace Z0
             => TargetKind.Ext();
 
         public string Format()
-            => FileFlowTypes.format(this);
+            => FileTypes.format(this);
 
         public override string ToString()
             => Format();
-
     }
 }

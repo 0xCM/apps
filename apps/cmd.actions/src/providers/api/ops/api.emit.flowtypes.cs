@@ -8,14 +8,13 @@ namespace Z0
     using static Root;
 
     using System;
-    using System.Reflection;
 
     partial class ApiCmdProvider
     {
         [CmdOp("api/emit/flowtypes")]
         Outcome EmitFlowTypes(CmdArgs args)
         {
-            var types = FileFlowTypes.discover(ApiRuntimeCatalog.Components);
+            var types = FileTypes.flows(ApiRuntimeCatalog.Components);
             iter(types, t => Write(t.Format()));
             return true;
         }
@@ -30,15 +29,11 @@ namespace Z0
                 var cmdargs = type.DeclaredInstanceFields();
                 var instance = Activator.CreateInstance(type);
                 var values = ClrFields.values(instance);
-
-
                 Write(string.Format("{0}:{1}", name, type.Name));
                 Write(RP.PageBreak80);
                 foreach(var arg in cmdargs)
                 {
                     var expr = arg.Tag<CmdArgAttribute>().MapValueOrDefault(x => x.Expression, EmptyString);
-
-
                     Write(string.Format("{0,-32} | {1,-24} | {2,-32} | {3}", arg.Name, arg.FieldType.Name, expr, values[arg.Name].Value ?? RP.Null));
                 }
                 Write(EmptyString);

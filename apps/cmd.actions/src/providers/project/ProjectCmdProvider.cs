@@ -28,7 +28,7 @@ namespace Z0
 
         IntelXed Xed => Service(Wf.IntelXed);
 
-        ProjectManager ProjectCollector => Service(Wf.ProjectManager);
+        ProjectManager Projects => Service(Wf.ProjectManager);
 
         LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
 

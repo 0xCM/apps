@@ -17,13 +17,31 @@ namespace Z0
         {
             var project = Project();
             var receiver = new AsmStatsCollector();
-            ProjectCollector.Collect(project, receiver);
+            Projects.Collect(project, receiver);
             var stats = receiver.Collected();
             var dst = ProjectDb.ProjectTable<AsmStat>(project);
             TableEmit(stats.View, dst);
             return true;
         }
 
+        [CmdOp("project/files")]
+        Outcome IndexFiles(CmdArgs args)
+        {
+            var symbols = Symbols.index<FileKind>();
+            var kinds = symbols.Kinds;
+            var project = Project();
+            var files = Projects.IndexFiles(project).Files;
+            var count = files.Count;
+            var matches = FileTypes.match(files);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var match = ref matches[i];
+                Write(string.Format("{0,-16} | {1}", match.Right, match.Left));
+            }
+
+
+            return true;
+        }
         [CmdOp("project/index")]
         public Outcome IndexEncoding(CmdArgs args)
         {
@@ -44,8 +62,6 @@ namespace Z0
                 dst.Asm = code.Asm.Format();
                 dst.Encoding = code.Code;
                 dst.Offset = code.Offset;
-
-                //Write(string.Format("{0,-8} | {1,-8} | {2,-132} | {3}", (ulong)code.CT, row.Seq, code.Format(), row.HexCode.Format()));
             }
 
             TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, ProjectDb.ProjectTable<AsmCodeIndexRow>(project));

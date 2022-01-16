@@ -66,13 +66,15 @@ namespace Z0
         public FileIndex IndexFiles(IProjectWs project)
         {
             var src = project.Files().Exclude(FS.Cmd);
+            var matches = FileTypes.match(src);
             var count = src.Count;
             var dst = alloc<FileIndexRow>(count);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var file = ref src[i];
                 var hash = alg.hash.marvin(file.Format());
-                seek(dst,i) = new FileIndexRow(i, hash, file);
+                ref readonly var kind = ref matches[i].Right;
+                seek(dst,i) = new FileIndexRow(i, kind, hash, file);
             }
             TableEmit(@readonly(dst), FileIndexRow.RenderWidths, ProjectDb.ProjectTable<FileIndexRow>(project));
             return dst;

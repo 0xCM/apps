@@ -15,18 +15,21 @@ namespace Z0
     {
         public const string TableId = "files.index";
 
-        public const byte FieldCount = 3;
+        public const byte FieldCount = 4;
 
         public uint Seq;
+
+        public FileKind Kind;
 
         public Hash32 Hash;
 
         public FS.FilePath Path;
 
         [MethodImpl(Inline)]
-        public FileIndexRow(uint seq, Hash32 hash, FS.FilePath path)
+        public FileIndexRow(uint seq, FileKind kind, Hash32 hash, FS.FilePath path)
         {
             Seq = seq;
+            Kind = kind;
             Path = path;
             Hash = hash;
         }
@@ -34,6 +37,6 @@ namespace Z0
         public int CompareTo(FileIndexRow src)
             => Seq.CompareTo(src.Seq);
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,16,12,1};
     }
 }

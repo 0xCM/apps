@@ -13,13 +13,8 @@ namespace Z0
 
     partial class XTend
     {
-        /// <summary>
-        /// Creates a dictionary from a span using the element indices as keys
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The element type</typeparam>
         [Op, Closures(Closure)]
-        public static IDictionary<K,V> ToDictionary<K,V>(this ReadOnlySpan<(K,V)> src)
+        public static Dictionary<K,V> ToDictionary<K,V>(this ReadOnlySpan<(K,V)> src)
         {
             var count = src.Length;
             var dst = dict<K,V>(count);
@@ -31,13 +26,22 @@ namespace Z0
             return dst;
         }
 
-        /// <summary>
-        /// Creates a dictionary from a span using the element indices as keys
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The element type</typeparam>
         [Op, Closures(Closure)]
-        public static IDictionary<K,V> ToDictionary<K,V>(this Span<(K,V)> src)
+        public static Dictionary<K,V> ToDictionary<K,V>(this Span<(K,V)> src)
             => src.ReadOnly().ToDictionary();
+
+        public static SortedDictionary<K,V> ToSortedDictionary<K,V>(this ReadOnlySpan<(K,V)> src)
+            where K : IComparable<K>
+                => new SortedDictionary<K, V>(src.ToDictionary());
+
+        public static SortedDictionary<K,V> ToSortedDictionary<K,V>(this Span<(K,V)> src)
+            where K : IComparable<K>
+                => new SortedDictionary<K,V>(src.ToDictionary());
+
+        public static SortedDictionary<K,V> ToSortedDictionary<K,V>(this Span<(K,V)> src, IComparer<K> comparer)
+            => new SortedDictionary<K,V>(src.ToDictionary(), comparer);
+
+        public static SortedDictionary<K,V> ToSortedDictionary<K,V>(this ReadOnlySpan<(K,V)> src, IComparer<K> comparer)
+            => new SortedDictionary<K,V>(src.ToDictionary(), comparer);
     }
 }

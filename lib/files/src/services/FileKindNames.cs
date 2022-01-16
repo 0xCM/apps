@@ -282,7 +282,7 @@ namespace Z0
         /// <summary>
         /// Defines the 'obi' literal
         /// </summary>
-        public const string obi = nameof(obj);
+        public const string obi = nameof(obi);
 
         /// <summary>
         /// Defines the 'obj' literal

@@ -157,5 +157,11 @@ namespace Z0
 
         [Symbol(xeddisasm_semantic, "Xed disassembly details with semantic interpretation")]
         XedSemanticDisasm,
+
+        [Symbol("ll.bc")]
+        LlBc,
+
+        [Symbol("s")]
+        S,
     }
 }

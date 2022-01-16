@@ -21,8 +21,10 @@ namespace Z0
         public FileIndex(FileIndexRow[] rows)
             : base(rows.Select(row => (row.Path,row)).ToDictionary())
         {
-
+            Files = rows.Select(x => x.Path);
         }
+
+        public FS.Files Files {get;}
 
         public static implicit operator FileIndex(FileIndexRow[] src)
             => new FileIndex(src);

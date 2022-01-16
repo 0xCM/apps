@@ -24,6 +24,13 @@ namespace Z0
         public static Dictionary<Name,V> ToDictionary<V>(this IEnumerable<NamedValue<V>> src)
             => src.Select(x => (x.Name, x.Value)).ToDictionary();
 
+        public static SortedDictionary<K,V> ToSortedDictionary<K,V>(this IEnumerable<(K key, V value)> src)
+            where K : IComparable<K>
+                => new SortedDictionary<K,V>(src.ToDictionary());
+
+        public static SortedDictionary<K,V> ToSortedDictionary<K,V>(this IEnumerable<(K,V)> src, IComparer<K> comparer)
+            => new SortedDictionary<K,V>(src.ToDictionary(), comparer);
+
         /// <summary>
         /// Creates a read-only dictionary from an existing mutable dictionary
         /// </summary>
