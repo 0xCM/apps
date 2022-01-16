@@ -20,15 +20,15 @@ namespace Z0
 
         public uint Seq;
 
-        public Identifier SrcId;
+        public uint DocId;
+
+        public ushort Section;
 
         public Timestamp Timestamp;
 
         public Address32 Address;
 
         public uint SymSize;
-
-        public ushort Section;
 
         public Hex32 Value;
 
@@ -40,6 +40,6 @@ namespace Z0
 
         public @string SymText;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,24,10,8,8,10,8,8,8,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,24,10,8,10,8,8,8,1};
     }
 }

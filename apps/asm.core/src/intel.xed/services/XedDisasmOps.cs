@@ -53,7 +53,6 @@ namespace Z0
                 ref readonly var expression = ref skip(expr,i);
                 record.DocSeq = counter++;
                 record.DocId = fref.DocId;
-                record.SrcId = srcid;
                 result = ParseIP(content, out record.IP);
                 record.Asm = expression;
                 record.Source = src;

@@ -14,15 +14,13 @@ namespace Z0
     {
         public const string TableId = "asm.instruction";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 6;
 
         public uint Seq;
 
         public uint DocId;
 
         public uint DocSeq;
-
-        public @string SrcId;
 
         public AsmId AsmId;
 
@@ -33,6 +31,6 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,32,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,64,1};
     }
 }

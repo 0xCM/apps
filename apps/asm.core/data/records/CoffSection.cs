@@ -4,7 +4,7 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct ImageSectionInfo
+    public struct CoffSection
     {
         public const string TableId = "coff.sections";
 
@@ -12,9 +12,9 @@ namespace Z0
 
         public uint Seq;
 
-        public Identifier SrcId;
+        public uint DocId;
 
-        public uint SectionNumber;
+        public ushort Section;
 
         public @string SectionName;
 
@@ -28,6 +28,6 @@ namespace Z0
 
         public ImageSectionFlags Flags;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,16,16,16,16,16,16,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,16,16,16,16,16,1};
     }
 }

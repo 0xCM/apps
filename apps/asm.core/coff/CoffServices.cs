@@ -16,10 +16,10 @@ namespace Z0
 
         HexDataFormatter Formatter => Service(() => HexDataFormatter.create(0,32,true));
 
-        public Outcome CollectObjHex(ProjectCollection collection)
+        public Outcome CollectObjHex(ProjectCollection collect)
         {
             var result = Outcome.Success;
-            var project = collection.Project;
+            var project = collect.Project;
             var paths = project.OutFiles(FileKind.Obj, FileKind.O).View;
             var count = paths.Length;
             for(var i=0; i<count; i++)
@@ -68,9 +68,51 @@ namespace Z0
             return dst;
         }
 
-        public Outcome CollectSymbols(ProjectCollection collection)
+        public Outcome CollectObjHeaders(ProjectCollection collect)
         {
-            var project = collection.Project;
+            var project = collect.Project;
+            var src = LoadObjData(project);
+            var entries = src.Entries;
+            var count = entries.Count;
+            var records = list<CoffSection>();
+            var seq = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref entries[i];
+                ref readonly var path = ref entry.Left;
+                ref readonly var obj = ref entry.Right;
+                var fref = collect.File(path);
+                var view = CoffObjectView.cover(obj.Data);
+                ref readonly var header = ref view.Header;
+                var strings = view.StringTable;
+                var sections = view.SectionHeaders;
+                for(var j=0u; j<sections.Length; j++)
+                {
+                    ref readonly var section = ref skip(sections,j);
+                    var number = j+1 ;
+                    var name = CoffObjects.format(strings, section.Name);
+                    var record = default(CoffSection);
+                    record.Seq = seq++;
+                    record.DocId = fref.DocId;
+                    record.Section = (ushort)number;
+                    record.SectionName = name;
+                    record.RawDataAddress = section.PointerToRawData;
+                    record.RawDataSize = section.SizeOfRawData;
+                    record.RelocAddress = section.PointerToRelocations;
+                    record.RelocCount = section.NumberOfRelocations;
+                    record.Flags = section.Characteristics;
+                    records.Add(record);
+                }
+            }
+
+            var dst = ProjectDb.ProjectTable<CoffSection>(project);
+            TableEmit(records.ViewDeposited(), CoffSection.RenderWidths, dst);
+            return true;
+        }
+
+        public Outcome CollectSymbols(ProjectCollection collect)
+        {
+            var project = collect.Project;
             var src = LoadObjData(project);
             var paths = src.Paths.Array();
             var objCount = paths.Length;
@@ -84,7 +126,7 @@ namespace Z0
             {
                 ref readonly var objPath = ref skip(paths,i);
                 var obj = src[objPath];
-                ref readonly var srcId = ref obj.SrcId;
+                var fref = collect.File(objPath);
 
                 var objData = obj.Data.View;
                 var offset = 0u;
@@ -106,7 +148,7 @@ namespace Z0
                         var record = default(CoffSymRecord);
                         var name = sym.Name;
                         record.Seq = seq++;
-                        record.SrcId = srcId;
+                        record.DocId = fref.DocId;
                         record.Timestamp = view.Timestamp;
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);

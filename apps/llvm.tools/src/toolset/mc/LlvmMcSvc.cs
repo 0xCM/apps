@@ -79,7 +79,6 @@ namespace Z0.llvm
                     record.Seq = counter++;
                     record.DocId = fref.DocId;
                     record.DocSeq = instruction.Seq;
-                    record.SrcId = srcid;
                     record.AsmId = instruction.AsmId;
                     record.Asm = expr;
                     record.Source = path.LineRef(instruction.Line);
@@ -125,7 +124,6 @@ namespace Z0.llvm
                     record.Seq = counter++;
                     record.DocId = fref.DocId;
                     record.DocSeq = i;
-                    record.SrcId = srcid;
                     record.Asm = e.Asm;
                     record.Size = e.Size;
                     record.IP = e.IP;
@@ -211,7 +209,6 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
-                result = DataParser.parse(skip(cells, j++), out dst.SrcId);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
                 result = DataParser.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
@@ -243,7 +240,6 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
-                result = DataParser.parse(skip(cells, j++), out dst.SrcId);
                 result = AsmIdParser.Parse(skip(cells, j++), out dst.AsmId);
                 result = DataParser.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
@@ -291,13 +287,6 @@ namespace Z0.llvm
                 if(result.Fail)
                 {
                     result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.DocSeq)));
-                    break;
-                }
-
-                result = DataParser.parse(skip(cells,j++), out dst.SrcId);
-                if(result.Fail)
-                {
-                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.SrcId)));
                     break;
                 }
 
@@ -375,7 +364,6 @@ namespace Z0.llvm
 
                     record.Size = record.HexCode.Size;
                     record.DocSeq = seq++;
-                    record.SrcId = src.SrcId(FileKind.EncodingAsm);
                     record.IP = offset;
                     record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
@@ -448,7 +436,6 @@ namespace Z0.llvm
                 record.Seq = seq++;
                 record.DocId = fref.DocId;
                 record.DocSeq = docseq++;
-                record.SrcId = srcpath.SrcId(FileKind.EncodingAsm);
                 record.Location = point.Location;
                 record.Syntax = syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith);
 

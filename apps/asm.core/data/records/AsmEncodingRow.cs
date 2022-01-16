@@ -16,15 +16,13 @@ namespace Z0
     {
         public const string TableId = "asm.encoding";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 8;
 
         public uint Seq;
 
         public uint DocId;
 
         public uint DocSeq;
-
-        public @string SrcId;
 
         public Address32 IP;
 
@@ -54,7 +52,7 @@ namespace Z0
         MemoryAddress IAsmEncoding.Offset
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,10,84,8,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,10,84,8,42,1};
 
         public static AsmEncodingRow Empty => default;
     }

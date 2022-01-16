@@ -64,8 +64,10 @@ namespace Z0
                 Error(result.Message);
 
             result = Nm.Collect(Collection);
-            Coff.CollectObjHex(Collection);
-            Coff.CollectSymbols(Collection);
+            result = Coff.CollectObjHex(Collection);
+            result = Coff.CollectSymbols(Collection);
+
+            result = Coff.CollectObjHeaders(Collection);
             Mc.Collect(Collection);
             XedDisasm.Collect(Collection);
 
@@ -211,7 +213,6 @@ namespace Z0
                 dst.Seq = seq;
                 dst.DocId = enc.DocId;
                 dst.DocSeq = enc.DocSeq;
-                dst.SrcId = enc.SrcId;
                 dst.IP = enc.IP;
                 dst.AsmId = inst.AsmId;
                 dst.Asm = enc.Asm;

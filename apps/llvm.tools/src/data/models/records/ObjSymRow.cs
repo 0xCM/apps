@@ -11,9 +11,13 @@ namespace Z0.llvm
     {
         public const string TableId = "objsyms";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 8;
 
         public uint Seq;
+
+        public uint DocId;
+
+        public uint DocSeq;
 
         public Hex32 Offset;
 
@@ -26,6 +30,6 @@ namespace Z0.llvm
         public FS.FileUri Source;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{12,10,6,24,80,1};
+            => new byte[FieldCount]{8,8,8,10,6,24,80,1};
     }
 }

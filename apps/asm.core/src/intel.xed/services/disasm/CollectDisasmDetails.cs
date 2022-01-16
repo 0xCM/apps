@@ -32,7 +32,7 @@ namespace Z0
                 if(k > 0)
                     srcid = text.left(srcid,k);
                 var dst = XedPaths.SemanticDisasmTarget(collect.Project, srcid);
-                result = EmitDisasmDetails(path, encoding, block.LineBlocks, dst);
+                result = EmitDisasmDetails(encoding, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
             }
@@ -50,10 +50,10 @@ namespace Z0
 
         const string OpPattern = "{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}";
 
-        void RenderHeader(in AsmEncodingRow encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
+        void RenderHeader(FS.FilePath path, in AsmEncodingRow encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
         {
             ref readonly var IP = ref encoding.IP;
-            dst.AppendLine(string.Format(RenderPattern, "SrcId", encoding.SrcId));
+            dst.AppendLine(string.Format(RenderPattern, "SrcId", path.SrcId(FileKind.XedRawDisasm)));
             dst.AppendLine(string.Format(RenderPattern, "IP", ((uint)IP).FormatHex(zpad:false, specifier:true, uppercase:true)));
             dst.AppendLine(string.Format(RenderPattern, "Statement", encoding.Asm));
             dst.AppendLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
@@ -61,9 +61,9 @@ namespace Z0
             dst.Append(string.Format(RenderPattern, "IForm", inst.Form));
         }
 
-        Outcome EmitDisasmDetails(FS.FilePath src, AsmEncodingDoc encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
+        Outcome EmitDisasmDetails(AsmEncodingDoc src, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
         {
-            var encoded = encodings.View;
+            var encoded = src.View;
             var parser = new XedOperandParser();
             var count = (uint)Require.equal(encoded.Length, blocks.Length);
             var result = ParseInstructions(blocks, out var instructions);
@@ -84,7 +84,7 @@ namespace Z0
 
                 writer.WriteLine(RP.PageBreak120);
                 var header = text.buffer();
-                RenderHeader(encoding, block, inst, code, header);
+                RenderHeader(src.Location, encoding, block, inst, code, header);
                 writer.WriteLine(header.Emit());
 
                 parser.ParseState(inst.Props.Edit, out var state);

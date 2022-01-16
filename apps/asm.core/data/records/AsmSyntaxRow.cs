@@ -14,15 +14,13 @@ namespace Z0
     {
         public const string TableId = "asm.syntax";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 8;
 
         public uint Seq;
 
         public uint DocId;
 
         public uint DocSeq;
-
-        public @string SrcId;
 
         public LineOffset Location;
 
@@ -37,6 +35,6 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,12,62,120,48,5};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,62,120,48,5};
     }
 }

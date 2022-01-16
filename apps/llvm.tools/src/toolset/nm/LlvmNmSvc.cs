@@ -21,13 +21,33 @@ namespace Z0.llvm
             SymCodes = Symbols.index<NmSymCode>();
         }
 
-        public Outcome Collect(ProjectCollection collection)
+        public Outcome Collect(ProjectCollection collect)
         {
             var result = Outcome.Success;
-            var project = collection.Project;
+            var project = collect.Project;
             var src = project.OutFiles(FS.Sym).View;
             var dst = ProjectDb.ProjectTable<ObjSymRow>(project);
-            var symbols = Collect(src, dst);
+            var count = src.Length;
+            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
+            var buffer = list<ObjSymRow>();
+            var seq = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref skip(src,i);
+                var fref = collect.File(path);
+                using var reader = path.Utf8LineReader();
+                var counter = 0u;
+                while(reader.Next(out var line))
+                {
+                    if(ParseSymRow(line, ref counter, out var sym))
+                    {
+                        sym.Seq = seq++;
+                        sym.DocId = fref.DocId;
+                        buffer.Add(sym);
+                    }
+                }
+            }
+            TableEmit(buffer.ViewDeposited(), ObjSymRow.RenderWidths, dst);
             return result;
         }
 
@@ -68,28 +88,6 @@ namespace Z0.llvm
             return slice(buffer, 0,j);
         }
 
-        public ReadOnlySpan<ObjSymRow> Collect(ReadOnlySpan<FS.FilePath> src, FS.FilePath outpath)
-        {
-            var result = Outcome.Success;
-            var count = src.Length;
-            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
-            var buffer = list<ObjSymRow>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                using var reader = path.Utf8LineReader();
-                var counter = 0u;
-                while(reader.Next(out var line))
-                {
-                    if(ParseSymRow(line, ref counter, out var sym))
-                        buffer.Add(sym);
-                }
-            }
-            var records = buffer.ViewDeposited();
-            TableEmit(records, ObjSymRow.RenderWidths, outpath);
-            return records;
-        }
-
         Outcome ParseSymRow(TextLine src, ref uint seq, out ObjSymRow dst)
         {
             var result = Outcome.Success;
@@ -106,7 +104,7 @@ namespace Z0.llvm
                     var hex = Hex32.Max;
                     if(nonempty(digits))
                         DataParser.parse(digits, out hex);
-                    dst.Seq = seq++;
+                    dst.DocSeq = seq++;
                     dst.Offset = hex;
                     var pos = k + 1 + 8 + 2;
                     SymCodes.ExprKind(content[pos].ToString(), out dst.Code);
