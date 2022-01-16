@@ -4,25 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Collections.Generic;
 
     using Asm;
 
     using static core;
-
-    [Record(TableId)]
-    public struct AsmStat : IComparable<AsmStat>
-    {
-        public const string TableId = "asm.stats";
-
-        public AsmId Id;
-
-        public uint Count;
-
-        public int CompareTo(AsmStat src)
-            => Id.ToString().CompareTo(src.Id.ToString());
-    }
 
     partial class ProjectCmdProvider
     {
@@ -38,24 +24,49 @@ namespace Z0
             return true;
         }
 
+        FileIndex IndexFiles(IProjectWs project)
+        {
+            var src = project.Files().Array().Sort();
+            var count = src.Length;
+            var dst = alloc<FileIndexRow>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var file = ref skip(src,i);
+                var hash = alg.hash.marvin(file.Format());
+                seek(dst,i) = new FileIndexRow(i,hash, file);
+            }
+            TableEmit(@readonly(dst), FileIndexRow.RenderWidths, ProjectDb.ProjectTable<FileIndexRow>(project));
+            return dst;
+        }
+
         [CmdOp("project/index")]
         public Outcome IndexEncoding(CmdArgs args)
         {
             var project = Project();
+            var files = IndexFiles(project);
             var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var rows = ObjDump.LoadRows(src);
-            using var allocation = AsmCodeAllocation.allocate(rows);
+            using var allocation = AsmCodeAllocation.allocate(rows.View);
             var allocated = allocation.Allocated;
             var count = allocated.Length;
+            var buffer = alloc<AsmCodeIndexRow>(count);
             for(var i=0; i<count; i++)
             {
+                ref var dst = ref seek(buffer,i);
                 ref readonly var code = ref skip(allocated,i);
                 ref readonly var row = ref rows[i];
-                Write(string.Format("{0,-132} | {1}", code.Format(), row.HexCode.Format()));
+                dst.Seq = row.Seq;
+                dst.CT = code.CT;
+                dst.Asm = code.Asm.Format();
+                dst.Encoding = code.Code;
+                dst.Offset = code.Offset;
+
+                //Write(string.Format("{0,-8} | {1,-8} | {2,-132} | {3}", (ulong)code.CT, row.Seq, code.Format(), row.HexCode.Format()));
             }
 
+            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, ProjectDb.ProjectTable<AsmCodeIndexRow>(project));
+
             return true;
-            //ObjDump.LoadRows();
         }
 
     }

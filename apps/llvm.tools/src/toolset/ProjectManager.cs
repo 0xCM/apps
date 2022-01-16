@@ -72,7 +72,8 @@ namespace Z0
             var formatter = Tables.formatter<ObjDumpRow>(ObjDumpRow.RenderWidths);
             var flow = EmittingTable<ObjDumpRow>(dst);
             var emitted = list<ObjDumpRow>();
-            var total =0u;
+            var total=0u;
+            var seq = 0u;
             using var writer = dst.AsciWriter();
             writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<count; i++)
@@ -85,19 +86,20 @@ namespace Z0
                     continue;
                 }
 
-                var counter = 0u;
+                var docseq = 0u;
                 for(var j=0; j<records.Length; j++)
                 {
                     ref var record = ref records[j];
                     if(record.IsBlockStart)
                         continue;
 
-                    record.Seq = counter++;
+                    record.Seq = seq++;
+                    record.DocSeq = docseq++;
                     ObjDumpRows.Add(record);
                     writer.WriteLine(formatter.Format(record));
                     emitted.Add(record);
                 }
-                total += counter;
+                total += docseq;
             }
             EmittedTable(flow, total);
             return true;

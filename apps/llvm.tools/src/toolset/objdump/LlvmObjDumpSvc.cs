@@ -61,6 +61,7 @@ namespace Z0.llvm
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
+                result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Line);
                 result = DataParser.parse(data[j++], out dst.Section);
                 result = DataParser.parse(data[j++], out dst.BlockAddress);

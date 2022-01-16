@@ -12,61 +12,24 @@ namespace Z0
 
     public class AsmCodeAllocation : Allocation<AsmCode>
     {
-        public static AsmCodeAllocation allocate(ReadOnlySpan<ObjDumpRow> src)
+        public static AsmCodeAllocation allocate<T>(ReadOnlySpan<T> src)
+            where T : IAsmEncoding
         {
+            var alloc = allocator(src);
             var count = src.Length;
-            var indices = dict<AsmHexCode,uint>();
-            var statements = dict<uint,AsmExprOffset>();
-            for(var i=0u; i<count; i++)
-                include(skip(src,i), i, indices, statements);
-            return allocation(indices, statements);
-        }
-
-        public static AsmCodeAllocation allocate(ReadOnlySpan<IAsmEncoding> src)
-        {
-            var count = src.Length;
-            var indices = dict<AsmHexCode,uint>();
-            var statements = dict<uint,AsmExprOffset>();
-            for(var i=0u; i<count; i++)
-                include(skip(src,i), i, indices, statements);
-            return allocation(indices, statements);
-        }
-
-        static void include(IAsmEncoding src, uint i, Dictionary<AsmHexCode,uint> indices, Dictionary<uint,AsmExprOffset> statements)
-        {
-            var asm = src.Asm.Format();
-            var encoding = src.Encoding;
-            if(indices.TryAdd(src.Encoding, i))
-                statements[i] = (src.Asm,src.Offset);
-            else
+            var dst = core.alloc<AsmCode>(count);
+            for(var i=0; i<count; i++)
             {
-                var i0 = indices[encoding];
-                if(statements[i0].Asm.Content.Length > asm.Length)
-                    statements[i0] = (src.Asm,src.Offset);
+                ref readonly var encoding = ref skip(src,i);
+                alloc.Allocate(encoding.Asm.Data, out var source);
+                seek(dst,i) = new AsmCode(encoding.Offset, source, encoding.Encoding, encoding.CT);
             }
+            return new AsmCodeAllocation(dst, alloc);
         }
 
-        static SourceAllocator allocater(Dictionary<uint,AsmExprOffset> src)
-        {
-            var length = gcalc.sum(map(src.Values, v => (uint)v.Asm.Data.Length));
-            return SourceAllocator.create(length);
-        }
-
-        static AsmCodeAllocation allocation(Dictionary<AsmHexCode,uint> indices, Dictionary<uint,AsmExprOffset> statements)
-        {
-            var alloc = allocater(statements);
-            var ucount = indices.Count;
-            var dst = core.alloc<AsmCode>(ucount);
-            var j=0u;
-            foreach(var key in indices.Keys)
-            {
-                var index = indices[key];
-                var asm = statements[index];
-                alloc.Allocate(asm.Asm.Data, out var source);
-                seek(dst,j++) = new AsmCode(asm.Offset,source,key);
-            }
-            return new AsmCodeAllocation(dst.Sort(), alloc);
-        }
+        static SourceAllocator allocator<T>(ReadOnlySpan<T> src)
+            where T : IAsmEncoding
+                => SourceAllocator.create(gcalc.sum(src.Select(x => (uint)x.Asm.Data.Length)));
 
         internal AsmCodeAllocation(AsmCode[] data, IStringAllocator allocator)
             : base(data,allocator)

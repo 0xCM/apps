@@ -28,8 +28,8 @@ namespace Z0
         string ITextual.Format()
             => Root.Format();
 
-        Deferred<FS.FilePath> Files()
-            => Root.EnumerateFiles(true);
+        FS.Files Files()
+            => Root.EnumerateFiles(true).Array();
 
         FS.FolderPath Queries()
             => Root + FS.folder("queries");

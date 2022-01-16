@@ -48,6 +48,9 @@ namespace Z0
             where T : struct
                 => Subdir(scope) + TableFile<T>(suffix);
 
+        FS.Files IFileArchive.Files()
+            => Home().EnumerateFiles(true).Array();
+
         FS.FilePath FilePath(string scope, string suffix, FS.FileExt ext)
             => Subdir(scope) +  FS.file(suffix, ext);
 
@@ -83,7 +86,7 @@ namespace Z0
 
         FS.FilePath LogTable<T>()
             where T : struct
-                => Logs() +FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
+                => Logs() + FS.file(Z0.TableId.identify<T>().Format(), FS.Csv);
 
         FS.Files OutFiles(FS.FileExt ext)
             => Out().Files(ext, true);

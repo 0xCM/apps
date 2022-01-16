@@ -10,6 +10,7 @@ namespace Z0
 
     using Asm;
 
+    using static Root;
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct AsmEncodingRow : IAsmEncoding
     {
@@ -32,6 +33,12 @@ namespace Z0
         public AsmHexCode HexCode;
 
         public FS.FileUri Source;
+
+        public CorrelationToken CT
+        {
+            [MethodImpl(Inline)]
+            get => Seq;
+        }
 
         uint ISequential.Seq
             => Seq;

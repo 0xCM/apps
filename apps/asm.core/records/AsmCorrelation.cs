@@ -10,6 +10,8 @@ namespace Z0
 
     using Asm;
 
+    using static Root;
+
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct AsmDocCorrelation : IAsmEncoding
     {
@@ -36,6 +38,12 @@ namespace Z0
         public @string Syntax;
 
         public FS.FileUri Source;
+
+        public CorrelationToken CT
+        {
+            [MethodImpl(Inline)]
+            get => Seq;
+        }
 
         uint ISequential.Seq
             => Seq;

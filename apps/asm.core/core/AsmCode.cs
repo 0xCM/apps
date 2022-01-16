@@ -14,30 +14,30 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct AsmCode : IComparable<AsmCode>, IEquatable<AsmCode>, ITextual
     {
-        [MethodImpl(Inline), Op]
-        public static AsmCode define(MemoryAddress offset, SourceText src, AsmHexCode hex)
-            => new AsmCode(offset, src, hex);
-
         public MemoryAddress Offset {get;}
 
         public SourceText Asm {get;}
 
         public AsmHexCode Code {get;}
 
+        public CorrelationToken CT {get;}
+
         [MethodImpl(Inline)]
-        public AsmCode(MemoryAddress offset, SourceText asm, AsmHexCode code)
+        public AsmCode(MemoryAddress offset, SourceText asm, AsmHexCode code, CorrelationToken ct)
         {
             Offset = offset;
             Asm = asm;
             Code = code;
+            CT = ct;
         }
 
         [MethodImpl(Inline)]
         public bool Equals(AsmCode src)
-            => Code.Equals(src);
+            => CT.Equals(src.CT);
 
+        [MethodImpl(Inline)]
         public int CompareTo(AsmCode src)
-            => Asm.CompareTo(src.Asm);
+            => CT.CompareTo(src.CT);
 
         public override bool Equals(object src)
             => src is AsmCode x && Equals(x);
@@ -63,7 +63,7 @@ namespace Z0.Asm
         public string Format()
         {
             var dst = text.buffer();
-            dst.AppendFormat("{0,-8}", Offset);
+            dst.AppendFormat("{0,-8}", Offset.Format(4));
             dst.AppendFormat("{0,-80}", Asm);
             dst.AppendFormat("# {0}", Code.Format());
 
