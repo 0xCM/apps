@@ -11,6 +11,7 @@ namespace Z0
     using System.Collections.Generic;
 
     using static Root;
+    using static core;
 
     partial struct FS
     {
@@ -62,6 +63,22 @@ namespace Z0
             {
                 [MethodImpl(Inline)]
                 get => Data.Storage;
+            }
+
+            public FS.Files Exclude(FileExt ext)
+            {
+                var buffer = list<FilePath>();
+                var view = View;
+                var count = view.Length;
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var path = ref skip(view,i);
+                    if(!path.Is(ext))
+                    {
+                        buffer.Add(path);
+                    }
+                }
+                return buffer.ToArray();
             }
 
             public ReadOnlySpan<FilePath> ViewNonEmpty

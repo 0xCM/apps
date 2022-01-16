@@ -15,15 +15,15 @@ namespace Z0
     /// Captures a heterogenous pair sequence
     /// </summary>
     /// <typeparam name="T">The sequence element type</typeparam>
-    public readonly ref struct Pairings<S,T>
+    public readonly struct Pairings<S,T>
     {
         /// <summary>
         /// The captured sequence
         /// </summary>
-        readonly Span<Paired<S,T>> Data;
+        readonly Index<Paired<S,T>> Data;
 
         [MethodImpl(Inline)]
-        public Pairings(Span<Paired<S,T>> data)
+        public Pairings(Paired<S,T>[] data)
             => Data = data;
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Z0
         public ref Paired<S,T> this[long index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Data, (uint)index);
+            get => ref Data[index];
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Z0
         public ref Paired<S,T> this[ulong index]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Data,index);
+            get => ref Data[index];
         }
 
         /// <summary>
@@ -55,15 +55,12 @@ namespace Z0
             get => Data.Length;
         }
 
-        /// <summary>
-        /// Lifts sequence content into the LINQ monad
-        /// </summary>
         public IEnumerable<Paired<S,T>> Enumerate()
-            => Data.ToEnumerable();
+            => Data;
 
-        [MethodImpl(Inline)]
-        public static implicit operator Pairings<S,T>(Span<Paired<S,T>> src)
-            => new Pairings<S,T>(src);
+        // [MethodImpl(Inline)]
+        // public static implicit operator Pairings<S,T>(Span<Paired<S,T>> src)
+        //     => new Pairings<S,T>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Pairings<S,T>(Paired<S,T>[] src)

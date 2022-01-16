@@ -78,6 +78,6 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator Pairings<T,T>(Pairs<T> src)
-            => new Pairings<T,T>(core.recover<Pair<T>,Paired<T,T>>(src.Data));
+            => new Pairings<T,T>(src.Data.Map(x => core.paired(x.Left, x.Right)));
     }
 }

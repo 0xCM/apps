@@ -17,10 +17,10 @@ namespace Z0
         [Symbol(encodingasm, "An asm file that contains the encoding as comments")]
         EncodingAsm,
 
-        [Symbol(asmsyn)]
+        [Symbol(synasm)]
         AsmSyntax,
 
-        [Symbol(asmsynlog)]
+        [Symbol(synasmlog)]
         AsmSyntaxLog,
 
         [Symbol(bat, "A windows batch file")]
@@ -149,13 +149,13 @@ namespace Z0
         [Symbol(yamltok)]
         YamlTok,
 
-        [Symbol("xed.disasm.txt", "Xed disassembly information as emitted from the xed tool")]
+        [Symbol(xeddisasm_raw, "Xed disassembly information as emitted from the xed tool")]
         XedRawDisasm,
 
-        [Symbol("xed.disasm.summary.csv", "Xed disassembly tabular summary")]
+        [Symbol(xeddisasm_summary, "Xed disassembly tabular summary")]
         XedSummaryDisasm,
 
-        [Symbol("xed.disasm.semantic.txt", "Xed disassembly details with semantic interpretation")]
+        [Symbol(xeddisasm_semantic, "Xed disassembly details with semantic interpretation")]
         XedSemanticDisasm,
     }
 }

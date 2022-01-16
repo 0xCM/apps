@@ -22,12 +22,12 @@ namespace Z0
         /// <summary>
         /// Defines the 'syn.asm' literal
         /// </summary>
-        public const string asmsyn = syn + sep + asm;
+        public const string synasm = syn + sep + asm;
 
         /// <summary>
         /// Defines the 'syn.asm.log' literal
         /// </summary>
-        public const string asmsynlog = syn + sep + asm + sep + log;
+        public const string synasmlog = syn + sep + asm + sep + log;
 
         /// <summary>
         /// Defines the 'bat' literal
@@ -437,5 +437,20 @@ namespace Z0
         /// Defines the 'xarray' literal
         /// </summary>
         public const string xarray = nameof(xarray);
+
+        public const string xed = nameof(xed);
+
+        public const string disasm = nameof(disasm);
+
+        public const string xeddisasm = xed + sep + disasm;
+
+        /// <summary>
+        /// Defines the 'xed.disasm.txt' literal
+        /// </summary>
+        public const string xeddisasm_raw = xeddisasm + sep + txt;
+
+        public const string xeddisasm_summary = xeddisasm + sep + "summary" + sep + csv;
+
+        public const string xeddisasm_semantic = xeddisasm + sep + "semantic" + sep + txt;
     }
 }

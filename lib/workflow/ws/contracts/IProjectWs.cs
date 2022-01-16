@@ -49,7 +49,7 @@ namespace Z0
                 => Subdir(scope) + TableFile<T>(suffix);
 
         FS.Files IFileArchive.Files()
-            => Home().EnumerateFiles(true).Array();
+            => Home().EnumerateFiles(true).Array().Sort();
 
         FS.FilePath FilePath(string scope, string suffix, FS.FileExt ext)
             => Subdir(scope) +  FS.file(suffix, ext);

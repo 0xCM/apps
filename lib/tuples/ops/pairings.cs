@@ -19,7 +19,7 @@ namespace Z0
         public static Pairings<A,B> pairings<A,B>(ReadOnlySpan<A> left, ReadOnlySpan<B> right)
         {
             var count = min(left.Length, right.Length);
-            var dst = span<Paired<A,B>>(count);
+            var dst = alloc<Paired<A,B>>(count);
             pairings(left,right,dst);
             return dst;
         }

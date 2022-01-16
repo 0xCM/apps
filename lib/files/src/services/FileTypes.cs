@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using static core;
+
     public class FileTypes
     {
         public static FileType define(string name, params FS.FileExt[] ext)
@@ -22,6 +25,15 @@ namespace Z0
         [Op]
         public static string format(FileKind src)
             => Symbols.index<FileKind>()[src].Expr.Format();
+
+        public static Pairings<FS.FilePath,FileKind> match(ReadOnlySpan<FS.FilePath> src)
+        {
+            var count = src.Length;
+            var kinds = Symbols.index<FileKind>().View.Map(x => (x.Expr.Format(), x.Kind)).ToDictionary();
+            var dst = alloc<Paired<FS.FilePath,FileKind>>(count);
+
+            return dst;
+        }
 
         public static Asm asm = Asm.Instance;
 

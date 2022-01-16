@@ -41,7 +41,7 @@ namespace Z0
             ObjDumpRows.Clear();
 
             var handler = receiver ?? EventReceiver;
-
+            var files = IndexFiles(project);
             var result = Outcome.Success;
             result = Consolidate(project, handler);
             if(result.Fail)
@@ -60,6 +60,22 @@ namespace Z0
             // result = Correlate(project, handler);
             // if(result.Fail)
             //     Error(result.Message);
+        }
+
+
+        public FileIndex IndexFiles(IProjectWs project)
+        {
+            var src = project.Files().Exclude(FS.Cmd);
+            var count = src.Count;
+            var dst = alloc<FileIndexRow>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var file = ref src[i];
+                var hash = alg.hash.marvin(file.Format());
+                seek(dst,i) = new FileIndexRow(i, hash, file);
+            }
+            TableEmit(@readonly(dst), FileIndexRow.RenderWidths, ProjectDb.ProjectTable<FileIndexRow>(project));
+            return dst;
         }
 
         public Outcome Consolidate(IProjectWs project, AsmEventReceiver receiver = null)
