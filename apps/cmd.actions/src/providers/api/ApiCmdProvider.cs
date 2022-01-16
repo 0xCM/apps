@@ -42,6 +42,8 @@ namespace Z0
 
         ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
 
+        ProjectFlows ProjectFlows => Service(Wf.ProjectFlows);
+
         Index<ProcessAsmRecord> _LoadProcessAsm()
         {
             var archive = ApiPacks.Current().Archive();

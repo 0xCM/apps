@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     public class ProjectEventReceiver
     {
-        FileIndex Files;
+        FileCatalog Files;
 
         Index<AsmCodeIndexRow> _IndexedCode;
 
@@ -20,7 +20,7 @@ namespace Z0.Asm
 
         public ProjectEventReceiver()
         {
-            Files = new();
+            Files = FileCatalog.create();
             _IndexedCode = sys.empty<AsmCodeIndexRow>();
         }
 
@@ -34,7 +34,7 @@ namespace Z0.Asm
 
         }
 
-        public virtual void FilesIndexed(FileIndex src)
+        public virtual void FilesIndexed(FileCatalog src)
         {
             Files = src;
         }

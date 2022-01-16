@@ -14,6 +14,9 @@ namespace Z0
 
     public readonly struct FileFlowTypes
     {
+        public static FileFlowType define(Identifier actor, FileKind src, FileKind dst)
+            => new FileFlowType(actor,src,dst);
+
         public abstract class FileFlowType<F,A> : FileFlowType<F,A,FileKind>, IFileFlowType
             where F : FileFlowType<F,A>,new()
             where A : IActor

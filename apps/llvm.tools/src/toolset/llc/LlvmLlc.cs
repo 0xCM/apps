@@ -50,9 +50,7 @@ namespace Z0.llvm
             var path = spec.Left;
             var result = Outcome.Success;
             if(isets.Length == 0)
-            {
                return (false, string.Format("No instruction sets specified for {0}", path));
-            }
 
             var id = path.FileName.WithoutExtension.Format();
             for(var j=0; j<isets.Length; j++)
@@ -101,7 +99,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var spec = ref specs[i];
-                result = Build(project,spec);
+                result = Build(project, spec);
                 if(result.Fail)
                 {
                     Error(result.Message);

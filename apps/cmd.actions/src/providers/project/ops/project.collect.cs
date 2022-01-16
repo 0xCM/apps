@@ -23,6 +23,17 @@ namespace Z0
             TableEmit(stats.View, dst);
             return true;
         }
+
+        [CmdOp("project/files")]
+        Outcome IndexFiles(CmdArgs args)
+        {
+            var catalog = FileCatalog.create();
+            var project = Project();
+            catalog.Include(project);
+            var entries = catalog.Entries();
+            TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+            return true;
+        }
     }
 
     public class AsmStatsCollector : ProjectEventReceiver

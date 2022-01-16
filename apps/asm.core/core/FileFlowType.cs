@@ -6,6 +6,9 @@ namespace Z0
 {
     public readonly struct FileFlowType : IFileFlowType
     {
+        internal static string format(IFileFlowType flow)
+            => string.Format("{0}:*.{1} -> *.{2}", flow.Actor, flow.SourceExt, flow.TargetExt);
+
         public IActor Actor {get;}
 
         public FileKind SourceKind {get;}
@@ -39,7 +42,7 @@ namespace Z0
             => TargetKind.Ext();
 
         public string Format()
-            => FileTypes.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

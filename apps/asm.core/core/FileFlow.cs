@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [FileType]
-    public abstract class FileType<F,K> : FileType<K>
-        where K : unmanaged
-        where F : FileType<F,K>,new()
+    public class FileFlow : Flow<FS.FilePath,FS.FilePath>
     {
-        public static F Instance = new();
-
-        public FileType(K kind, params FS.FileExt[] ext)
-            : base(kind, ext)
+        public FileFlow(IFileFlowType type, FS.FilePath src, FS.FilePath dst)
+            : base(type,src,dst)
         {
 
         }

@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class FileType<K> : FileType, IFileType<K>
-        where K : unmanaged
+    public class ProjectFlow : FileFlow
     {
-        public FileType(K kind, params FS.FileExt[] ext)
-            : base(kind.ToString(), ext)
+        public ProjectFlow(ProjectId project, IFileFlowType type, FS.FilePath src, FS.FilePath dst)
+            : base(type,src,dst)
         {
-            Kind = kind;
+            Project = project;
         }
 
-        public new K Kind {get;}
+        public ProjectId Project {get;}
     }
 }

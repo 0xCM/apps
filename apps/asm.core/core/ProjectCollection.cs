@@ -10,11 +10,11 @@ namespace Z0
     {
         public IProjectWs Project {get;}
 
-        FileIndex Files {get;}
+        FileCatalog Files {get;}
 
         public ProjectEventReceiver EventReceiver {get;}
 
-        public ProjectCollection(IProjectWs project, FileIndex files, ProjectEventReceiver receiver)
+        public ProjectCollection(IProjectWs project, FileCatalog files, ProjectEventReceiver receiver)
         {
             Project = project;
             Files = files;

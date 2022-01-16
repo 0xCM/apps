@@ -8,7 +8,6 @@ namespace Z0
     using static Root;
 
     using System.Collections.Generic;
-
     using Asm;
 
     public class ProjectManager : AppService<ProjectManager>
@@ -23,11 +22,13 @@ namespace Z0
 
         CoffServices Coff => Service(Wf.CoffServices);
 
+        ProjectFlows ProjectFlows => Service(Wf.ProjectFlows);
+
         List<ObjDumpRow> ObjDumpRows;
 
         ProjectEventReceiver EventReceiver;
 
-        FileIndex Files;
+        FileCatalog Files;
 
         ProjectCollection Collection;
 
@@ -39,7 +40,7 @@ namespace Z0
         void Clear()
         {
             ObjDumpRows = new();
-            Files = new();
+            Files = FileCatalog.create();
             EventReceiver = new();
         }
 
@@ -49,7 +50,7 @@ namespace Z0
             if(receiver != null)
                 EventReceiver = receiver;
 
-            Files = IndexFiles(project);
+            Files = CatalogFiles(project);
             Collection = new ProjectCollection(project,Files, EventReceiver);
             var result = Outcome.Success;
             result = Consolidate(Collection);
@@ -71,26 +72,37 @@ namespace Z0
             IndexEncoding(Collection);
         }
 
-        public FileIndex IndexFiles(IProjectWs project)
+        public FileCatalog CatalogFiles(IProjectWs project, bool emit = true)
         {
-            var src = project.Files().Exclude(FS.Cmd);
-            var matches = FileTypes.match(src);
-            var count = src.Count;
-            var buffer = alloc<FileRef>(count);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var file = ref src[i];
-                var hash = alg.hash.marvin(file.Format());
-                ref readonly var kind = ref matches[i].Right;
-                ref var dst = ref seek(buffer,i);
-                dst = new FileRef(i, kind, hash, file);
-                EventReceiver.Indexed(dst);
-            }
-
-            TableEmit(@readonly(buffer), FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
-            EventReceiver.FilesIndexed(buffer);
-            return buffer;
+            var catalog = FileCatalog.create();
+            catalog.Include(project);
+            var entries = catalog.Entries();
+            if(emit)
+                TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+            EventReceiver.FilesIndexed(catalog);
+            return catalog;
         }
+
+        // public FileIndex IndexFiles(IProjectWs project)
+        // {
+        //     var src = project.Files().Exclude(FS.Cmd);
+        //     var matches = ProjectFlows.Match(src);
+        //     var count = src.Count;
+        //     var buffer = alloc<FileRef>(count);
+        //     for(var i=0u; i<count; i++)
+        //     {
+        //         ref readonly var file = ref src[i];
+        //         var hash = alg.hash.marvin(file.Format());
+        //         ref readonly var kind = ref matches[i].Right;
+        //         ref var dst = ref seek(buffer,i);
+        //         dst = new FileRef(i, kind, hash, file);
+        //         EventReceiver.Indexed(dst);
+        //     }
+
+        //     TableEmit(@readonly(buffer), FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+        //     EventReceiver.FilesIndexed(buffer);
+        //     return buffer;
+        // }
 
         Outcome IndexEncoding(ProjectCollection collect)
         {
@@ -172,88 +184,29 @@ namespace Z0
             return true;
         }
 
-        // Outcome Correlate(ProjectCollection collect)
-        // {
-        //     var project = collect.Project;
-        //     var result = Outcome.Success;
-        //     var encRows = Mc.LoadEncodings(project);
-        //     var synRows = Mc.LoadSyntax(project);
-        //     var instRows = Mc.LoadInstructions(project);
-        //     var count = encRows.Count;
-        //     if(synRows.Count != count)
-        //         return (false, string.Format("Row count mismatch"));
-
-        //     if(instRows.Count != count)
-        //         return (false, string.Format("Row count mismatch"));
-
-        //     Correlations = alloc<AsmDocCorrelation>(count);
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var enc = ref encRows[i];
-        //         ref readonly var syn = ref synRows[i];
-        //         ref readonly var inst = ref instRows[i];
-        //         ref readonly var seq = ref enc.Seq;
-        //         ref readonly var hex = ref enc.HexCode;
-
-        //         if(syn.Seq != seq)
-        //         {
-        //             result = (false, string.Format("Seq mismatch on row {0}", i));
-        //             break;
-        //         }
-
-        //         if(inst.Seq != seq)
-        //         {
-        //             result = (false, string.Format("Seq mismatch on row {0}", i));
-        //             break;
-        //         }
-
-        //         ref var dst = ref Correlations[i];
-        //         dst.Seq = seq;
-        //         dst.DocId = enc.DocId;
-        //         dst.DocSeq = enc.DocSeq;
-        //         dst.SrcId = collect.File(enc.DocId).Path.SrcId(FileKind.EncodingAsm);
-        //         dst.IP = enc.IP;
-        //         dst.AsmId = inst.AsmId;
-        //         dst.Asm = enc.Asm;
-        //         dst.Size = hex.Size;
-        //         dst.HexCode = hex;
-        //         dst.Syntax = syn.Syntax;
-        //         dst.Source = enc.Source;
-
-        //         if(result.Fail)
-        //             break;
-
-        //     }
-
-        //     if(result)
-        //         TableEmit(Correlations.View, AsmDocCorrelation.RenderWidths, CorrelationTable(project));
-        //     return result;
-        // }
-
         Outcome Recode(ProjectCollection collection)
         {
-            var dstProject = Ws.Project(ProjectNames.McRecoded);
-            var srcTable = ProjectDb.ProjectTable<ObjDumpRow>(collection.Project);
-            var rows = ObjDump.LoadRows(srcTable);
+            const string intel_syntax = ".intel_syntax noprefix";
+            var project = Ws.Project(ProjectNames.McRecoded);
+            var rows = ObjDump.LoadRows(ProjectDb.ProjectTable<ObjDumpRow>(collection.Project));
             var count = rows.Length;
             var srcid = EmptyString;
             var block = EmptyString;
-            var dstdir = dstProject.SrcDir(collection.Project.Project.Format());
+            var dstdir = project.SrcDir(collection.Project.Project.Format());
             var dstpath = FS.FilePath.Empty;
             var emitting = default(WfFileWritten);
             var lines = list<string>();
-            var label = AsmLabel.Empty;
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref rows[i];
-                FS.FilePath path = (FS.FilePath)row.Source;
+                var path = (FS.FilePath)row.Source;
                 var _srcid = path.SrcId(FileKind.ObjAsm);
 
                 if(empty(srcid))
                 {
                     srcid = _srcid;
                     dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
-                    lines.Add(".intel_syntax noprefix");
+                    lines.Add(intel_syntax);
                     emitting = EmittingFile(dstpath);
                 }
                 else if(srcid != _srcid)
@@ -264,21 +217,21 @@ namespace Z0
                         iter(lines, line => writer.WriteLine(line));
                         EmittedFile(emitting, lines.Count);
                     }
+
                     lines.Clear();
-                    lines.Add(".intel_syntax noprefix");
+                    lines.Add(intel_syntax);
                     srcid = _srcid;
                     dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
                     EmittingFile(dstpath);
                 }
 
-                var _block = row.BlockName;
-                if(empty(block) || block !=_block)
+                if(empty(block) || block != row.BlockName)
                 {
                     if(nonempty(block))
                         lines.Add(EmptyString);
-                    block = _block;
-                    label = asm.label(block);
-                    lines.Add(label.Format());
+
+                    block = row.BlockName;
+                    lines.Add(asm.label(block).Format());
                     continue;
                 }
 
@@ -290,7 +243,6 @@ namespace Z0
             {
                 using var writer = dstpath.AsciWriter();
                 iter(lines, line => writer.WriteLine(line));
-
                 EmittedFile(emitting, lines.Count);
             }
             return true;

@@ -14,7 +14,7 @@ namespace Z0
         [CmdOp("api/emit/flowtypes")]
         Outcome EmitFlowTypes(CmdArgs args)
         {
-            var types = FileTypes.flows(ApiRuntimeCatalog.Components);
+            var types = ProjectFlows.FlowTypes();
             iter(types, t => Write(t.Format()));
             return true;
         }

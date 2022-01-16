@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IFileFlowType<K> : IFlowType
-        where K : unmanaged
-    {
-        K SourceKind {get;}
-
-        K TargetKind {get;}
-    }
-
     public interface IFileFlowType : IFlowType
     {
         FileKind SourceKind {get;}
@@ -25,6 +17,6 @@ namespace Z0
             => TargetKind.Ext();
 
         string ITextual.Format()
-            => FileTypes.format(this);
+            => FileFlowType.format(this);
     }
 }
