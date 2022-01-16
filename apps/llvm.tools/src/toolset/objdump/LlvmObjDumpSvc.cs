@@ -61,6 +61,7 @@ namespace Z0.llvm
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
+                result = DataParser.parse(data[j++], out dst.DocId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Line);
                 result = DataParser.parse(data[j++], out dst.Section);
@@ -76,11 +77,8 @@ namespace Z0.llvm
             return buffer;
         }
 
-        public Outcome ParseDumpSource(FS.FilePath src, out Index<ObjDumpRow> dst)
-        {
-            var parser = new LlvmObjDumpParser();
-            return parser.ParseSource(src, out dst);
-        }
+        public Outcome ParseDumpSource(in FileRef src, out Index<ObjDumpRow> dst)
+            => new LlvmObjDumpParser().ParseSource(src, out dst);
 
         public Outcome DumpObjects(ReadOnlySpan<FS.FilePath> src, FS.FolderPath outdir, Action<CmdResponse> handler)
         {

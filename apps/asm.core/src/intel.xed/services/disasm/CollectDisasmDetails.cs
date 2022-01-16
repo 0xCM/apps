@@ -14,14 +14,14 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Outcome EmitDisasmDetails(IProjectWs project)
+        public Outcome CollectDisasmDetails(ProjectCollection collect)
         {
             var result = Outcome.Success;
-            var encodings = ParseEncodings(project);
+            var encodings = CollectEncodingDocs(collect);
             var paths = encodings.Keys.ToArray().Sort();
             var count = paths.Length;
             var blocks = XedDisasmOps.LoadFileBlocks(paths);
-            var dir = XedPaths.SemanticDisasmDir(project);
+            var dir = XedPaths.SemanticDisasmDir(collect.Project);
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(paths,i);
@@ -31,7 +31,7 @@ namespace Z0
                 var k = text.index(srcid, ".xed.");
                 if(k > 0)
                     srcid = text.left(srcid,k);
-                var dst = XedPaths.SemanticDisasmTarget(project, srcid);
+                var dst = XedPaths.SemanticDisasmTarget(collect.Project, srcid);
                 result = EmitDisasmDetails(path, encoding, block.LineBlocks, dst);
                 if(result.Fail)
                     break;

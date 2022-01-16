@@ -17,9 +17,11 @@ namespace Z0
     {
         public const string TableId = "asm.correlation";
 
-        public const byte FieldCount = 10;
+        public const byte FieldCount = 11;
 
         public uint Seq;
+
+        public uint DocId;
 
         public uint DocSeq;
 
@@ -57,6 +59,6 @@ namespace Z0
         MemoryAddress IAsmEncoding.Offset
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,12,22,124,4,42,84,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,12,22,124,4,42,84,1};
     }
 }

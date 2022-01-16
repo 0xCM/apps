@@ -17,11 +17,13 @@ namespace Z0
     {
         public const string TableId = "llvm.objdump";
 
-        public const byte FieldCount = 11;
+        public const byte FieldCount = 12;
 
         public const string BlockStartMarker = "<blockstart>";
 
         public uint Seq;
+
+        public uint DocId;
 
         public uint DocSeq;
 
@@ -64,6 +66,13 @@ namespace Z0
             return dst;
         }
 
+        public static ObjDumpRow Init(in FileRef src)
+        {
+            var dst = Empty();
+            dst.DocId = src.DocId;
+            return dst;
+        }
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -95,6 +104,6 @@ namespace Z0
             => IP;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,8,12,12,16,52,12,42,90,90,1};
+            => new byte[FieldCount]{8,8,8,12,12,16,52,12,42,90,90,1};
     }
 }

@@ -16,9 +16,9 @@ namespace Z0.Asm
     {
         public MemoryAddress Offset {get;}
 
-        public SourceText Asm {get;}
+        public SourceText AsmText {get;}
 
-        public AsmHexCode Code {get;}
+        public AsmHexCode HexCode {get;}
 
         public CorrelationToken CT {get;}
 
@@ -26,8 +26,8 @@ namespace Z0.Asm
         public AsmCode(MemoryAddress offset, SourceText asm, AsmHexCode code, CorrelationToken ct)
         {
             Offset = offset;
-            Asm = asm;
-            Code = code;
+            AsmText = asm;
+            HexCode = code;
             CT = ct;
         }
 
@@ -47,15 +47,15 @@ namespace Z0.Asm
             const string RenderPattern = "{0,-80} {1} {2}";
             var dst = text.buffer();
             var marker = (char)AsmCommentMarker.Hash;
-            if(AsmParser.comment(Asm.Cells, out var comment))
+            if(AsmParser.comment(AsmText.Cells, out var comment))
             {
                 marker = (char)comment.Marker;
                 var prior = comment.Content;
-                var asm = text.trim(text.left(Asm.Format(), marker));
-                dst.AppendFormat(RenderPattern, asm, marker, string.Format("{0,-42} | {1}", Code, prior));
+                var asm = text.trim(text.left(AsmText.Format(), marker));
+                dst.AppendFormat(RenderPattern, asm, marker, string.Format("{0,-42} | {1}", HexCode, prior));
             }
             else
-                dst.AppendFormat(RenderPattern, Asm, marker, Code);
+                dst.AppendFormat(RenderPattern, AsmText, marker, HexCode);
 
             return dst.Emit();
         }
@@ -64,15 +64,15 @@ namespace Z0.Asm
         {
             var dst = text.buffer();
             dst.AppendFormat("{0,-8}", Offset.Format(4));
-            dst.AppendFormat("{0,-80}", Asm);
-            dst.AppendFormat("# {0}", Code.Format());
+            dst.AppendFormat("{0,-80}", AsmText);
+            dst.AppendFormat("# {0}", HexCode.Format());
 
             return dst.Emit();
         }
 
 
         public override int GetHashCode()
-            => Code.GetHashCode();
+            => HexCode.GetHashCode();
 
         public override string ToString()
             => Format();

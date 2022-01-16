@@ -16,9 +16,10 @@ namespace Z0
 
         HexDataFormatter Formatter => Service(() => HexDataFormatter.create(0,32,true));
 
-        public Outcome CollectObjHex(IProjectWs project)
+        public Outcome CollectObjHex(ProjectCollection collection)
         {
             var result = Outcome.Success;
+            var project = collection.Project;
             var paths = project.OutFiles(FileKind.Obj, FileKind.O).View;
             var count = paths.Length;
             for(var i=0; i<count; i++)
@@ -67,8 +68,9 @@ namespace Z0
             return dst;
         }
 
-        public FS.FilePath EmitSymbols(IProjectWs project)
+        public Outcome CollectSymbols(ProjectCollection collection)
         {
+            var project = collection.Project;
             var src = LoadObjData(project);
             var paths = src.Paths.Array();
             var objCount = paths.Length;
@@ -123,7 +125,7 @@ namespace Z0
 
             EmittedFile(emitting, seq);
 
-            return path;
+            return true;
         }
 
         public Outcome CheckObjHex(IProjectWs project)

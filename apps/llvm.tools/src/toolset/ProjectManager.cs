@@ -27,62 +27,109 @@ namespace Z0
 
         List<ObjDumpRow> ObjDumpRows;
 
-        AsmEventReceiver EventReceiver;
+        ProjectEventReceiver EventReceiver;
+
+        FileIndex Files;
+
+        ProjectCollection Collection;
 
         public ProjectManager()
         {
+            Clear();
+        }
+
+        void Clear()
+        {
+            Correlations = sys.empty<AsmDocCorrelation>();
             ObjDumpRows = new();
+            Files = new();
             EventReceiver = new();
         }
 
-        public void Collect(IProjectWs project, AsmEventReceiver receiver = null)
+        public void Collect(IProjectWs project, ProjectEventReceiver receiver = null)
         {
-            Correlations = sys.empty<AsmDocCorrelation>();
-            ObjDumpRows.Clear();
+            Clear();
+            if(receiver != null)
+                EventReceiver = receiver;
 
-            var handler = receiver ?? EventReceiver;
-            var files = IndexFiles(project);
+            Files = IndexFiles(project);
+            Collection = new ProjectCollection(project,Files, EventReceiver);
             var result = Outcome.Success;
-            result = Consolidate(project, handler);
+            result = Consolidate(Collection);
             if(result.Fail)
                 Error(result.Message);
 
-            result = Recode(project);
+            result = Recode(Collection);
             if(result.Fail)
                 Error(result.Message);
 
-            result = Nm.Collect(project);
-            Coff.CollectObjHex(project);
-            Coff.EmitSymbols(project);
-            Mc.Collect(project);
-            XedDisasm.Collect(project);
+            result = Nm.Collect(Collection);
+            Coff.CollectObjHex(Collection);
+            Coff.CollectSymbols(Collection);
+            Mc.Collect(Collection);
+            XedDisasm.Collect(Collection);
 
-            // result = Correlate(project, handler);
-            // if(result.Fail)
-            //     Error(result.Message);
+            IndexEncoding(Collection);
         }
-
 
         public FileIndex IndexFiles(IProjectWs project)
         {
             var src = project.Files().Exclude(FS.Cmd);
             var matches = FileTypes.match(src);
             var count = src.Count;
-            var dst = alloc<FileIndexRow>(count);
+            var buffer = alloc<FileRef>(count);
             for(var i=0u; i<count; i++)
             {
                 ref readonly var file = ref src[i];
                 var hash = alg.hash.marvin(file.Format());
                 ref readonly var kind = ref matches[i].Right;
-                seek(dst,i) = new FileIndexRow(i, kind, hash, file);
+                ref var dst = ref seek(buffer,i);
+                dst = new FileRef(i, kind, hash, file);
+                EventReceiver.FileIndexed(dst);
             }
-            TableEmit(@readonly(dst), FileIndexRow.RenderWidths, ProjectDb.ProjectTable<FileIndexRow>(project));
-            return dst;
+
+            TableEmit(@readonly(buffer), FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+            EventReceiver.FilesIndexed(buffer);
+            return buffer;
         }
 
-        public Outcome Consolidate(IProjectWs project, AsmEventReceiver receiver = null)
+        Outcome IndexEncoding(ProjectCollection collection)
         {
-            var handler = receiver ?? EventReceiver;
+            var project = collection.Project;
+            var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
+            var rows = ObjDump.LoadRows(src);
+            using var allocation = AsmCodeAllocation.allocate(rows.View);
+            var allocated = allocation.Allocated;
+            var count = allocated.Length;
+            var buffer = alloc<AsmCodeIndexRow>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var dst = ref seek(buffer,i);
+                ref readonly var code = ref skip(allocated,i);
+                ref readonly var row = ref rows[i];
+                if(code.HexCode != row.HexCode)
+                {
+                    Error("Hex mismatch");
+                }
+
+                dst.Seq = row.Seq;
+                dst.DocId = row.DocId;
+                dst.DocSeq = row.DocSeq;
+                dst.CT = code.CT;
+                dst.Asm = code.AsmText.Format();
+                dst.Encoding = code.HexCode;
+                dst.Offset = code.Offset;
+                EventReceiver.CodeIndexed(dst);
+            }
+
+            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, ProjectDb.ProjectTable<AsmCodeIndexRow>(project));
+
+            return true;
+        }
+
+        Outcome Consolidate(ProjectCollection collection)
+        {
+            var project = collection.Project;
             var src = project.OutFiles(FileKind.ObjAsm).View;
             var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
@@ -97,7 +144,8 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                result = ObjDump.ParseDumpSource(path, out var records);
+                var fref = Files[path];
+                result = ObjDump.ParseDumpSource(fref, out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -112,8 +160,10 @@ namespace Z0
                         continue;
 
                     record.Seq = seq++;
-                    record.DocSeq = docseq++;
+                    //record.DocSeq = docseq++;
+                    //record.DocId = fref.Seq;
                     ObjDumpRows.Add(record);
+                    EventReceiver.Consolidated(fref,record);
                     writer.WriteLine(formatter.Format(record));
                     emitted.Add(record);
                 }
@@ -123,10 +173,9 @@ namespace Z0
             return true;
         }
 
-        public Outcome Correlate(IProjectWs project, AsmEventReceiver receiver = null)
+        Outcome Correlate(IProjectWs project)
         {
             var result = Outcome.Success;
-            var handler = receiver ?? EventReceiver;
             var encRows = Mc.LoadEncodings(project);
             var synRows = Mc.LoadSyntax(project);
             var instRows = Mc.LoadInstructions(project);
@@ -160,6 +209,7 @@ namespace Z0
 
                 ref var dst = ref Correlations[i];
                 dst.Seq = seq;
+                dst.DocId = enc.DocId;
                 dst.DocSeq = enc.DocSeq;
                 dst.SrcId = enc.SrcId;
                 dst.IP = enc.IP;
@@ -173,7 +223,7 @@ namespace Z0
                 if(result.Fail)
                     break;
 
-                handler.Correlated(enc,syn,inst,dst);
+                EventReceiver.Correlated(enc, syn, inst, dst);
             }
 
             if(result)
@@ -181,16 +231,15 @@ namespace Z0
             return result;
         }
 
-        public Outcome Recode(IProjectWs srcProject, AsmEventReceiver receiver = null)
+        Outcome Recode(ProjectCollection collection)
         {
-            var handler = receiver ?? EventReceiver;
             var dstProject = Ws.Project(ProjectNames.McRecoded);
-            var srcTable = ProjectDb.ProjectTable<ObjDumpRow>(srcProject);
+            var srcTable = ProjectDb.ProjectTable<ObjDumpRow>(collection.Project);
             var rows = ObjDump.LoadRows(srcTable);
             var count = rows.Length;
             var srcid = EmptyString;
             var block = EmptyString;
-            var dstdir = dstProject.SrcDir(srcProject.Project.Format());
+            var dstdir = dstProject.SrcDir(collection.Project.Project.Format());
             var dstpath = FS.FilePath.Empty;
             var emitting = default(WfFileWritten);
             var lines = list<string>();
@@ -198,7 +247,8 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref rows[i];
-                var _srcid = FS.path(row.Source.WithoutLine.Format()).SrcId(FileKind.ObjAsm);
+                FS.FilePath path = (FS.FilePath)row.Source;
+                var _srcid = path.SrcId(FileKind.ObjAsm);
 
                 if(empty(srcid))
                 {
@@ -241,6 +291,7 @@ namespace Z0
             {
                 using var writer = dstpath.AsciWriter();
                 iter(lines, line => writer.WriteLine(line));
+
                 EmittedFile(emitting, lines.Count);
             }
             return true;

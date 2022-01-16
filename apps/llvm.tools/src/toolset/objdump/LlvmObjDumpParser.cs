@@ -35,12 +35,12 @@ namespace Z0.llvm
 
         public LlvmObjDumpParser()
         {
-            Reset();
+            Reset(FileRef.Empty);
         }
 
-        void Reset()
+        void Reset(in FileRef src)
         {
-            Row = ObjDumpRow.Empty();
+            Row = ObjDumpRow.Init(src);
             Section = EmptyString;
             Buffer = new();
             ParsingSection = false;
@@ -49,14 +49,15 @@ namespace Z0.llvm
             N = LineNumber.Empty;
         }
 
-        public Outcome ParseSource(FS.FilePath src, out Index<ObjDumpRow> dst)
+        public Outcome ParseSource(in FileRef src, out Index<ObjDumpRow> dst)
         {
+            Reset(src);
             var result = Outcome.Success;
+            var path = src.Path;
             dst = sys.empty<ObjDumpRow>();
-            Reset();
-
-            var data = src.ReadLines().Where(x => x != null).View;
+            var data = path.ReadLines().Where(x => x != null).View;
             var count = data.Length;
+            var docseq = 0u;
             for(var x =0; x<count; x++)
             {
                 N++;
@@ -84,18 +85,18 @@ namespace Z0.llvm
                     if(result.Fail)
                         break;
 
-                    Buffer.Add(Row);
-                    Row = ObjDumpRow.Empty();
+                    // Buffer.Add(Row);
+                    // Row = ObjDumpRow.Init(src);
                 }
                 else
                 {
                     var k = text.index(content, Chars.Colon);
                     if(k>=0)
                     {
-                        Row = ObjDumpRow.Empty();
+                        Row = ObjDumpRow.Init(src);
                         Row.Line = N;
                         Row.Section = Section;
-                        Row.Source = src;
+                        Row.Source = path;
                         result = DataParser.parse(text.left(content, k), out Row.IP);
                         if(result.Fail)
                         {
@@ -118,8 +119,9 @@ namespace Z0.llvm
                                     Row.Asm = text.left(statement, m);
                             }
                         }
+                        Row.DocSeq = docseq++;
                         Buffer.Add(Row);
-                        Row = ObjDumpRow.Empty();
+                        Row = ObjDumpRow.Init(src);
                     }
                 }
             }

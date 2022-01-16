@@ -5,28 +5,26 @@
 namespace Z0
 {
     using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
     using System.Collections.Generic;
 
     using static Root;
 
-    public class FileIndex : Dictionary<FS.FilePath, FileIndexRow>
+    public class FileIndex : Dictionary<FS.FilePath, FileRef>
     {
         public FileIndex()
         {
 
         }
 
-        public FileIndex(FileIndexRow[] rows)
-            : base(rows.Select(row => (row.Path,row)).ToDictionary())
+        public FileIndex(FileRef[] src)
+            : base(src.Select(row => (row.Path,row)).ToDictionary())
         {
-            Files = rows.Select(x => x.Path);
+            Files = src.Select(x => x.Path);
         }
 
         public FS.Files Files {get;}
 
-        public static implicit operator FileIndex(FileIndexRow[] src)
+        public static implicit operator FileIndex(FileRef[] src)
             => new FileIndex(src);
 
         public static FileIndex Empty => new();

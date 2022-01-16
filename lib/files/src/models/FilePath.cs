@@ -87,6 +87,12 @@ namespace Z0
                 get => new FileInfo(Name);
             }
 
+            public Timestamp Timestamp
+            {
+                [MethodImpl(Inline)]
+                get => Info.LastWriteTime;
+            }
+
             /// <summary>
             /// The size of the file in bytes
             /// </summary>
@@ -170,8 +176,8 @@ namespace Z0
             public string ReadUnicode()
                 => File.ReadAllText(Name, Encoding.Unicode);
 
-            public FilePath Timestamped()
-                => timestamped(this);
+            // public FilePath Timestamped()
+            //     => timestamped(this);
 
             public RelativeFilePath RelativeTo(FS.FolderPath src)
                 => relative(src, this);

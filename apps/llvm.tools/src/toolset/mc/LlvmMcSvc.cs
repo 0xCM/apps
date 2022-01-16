@@ -33,20 +33,22 @@ namespace Z0.llvm
 
         }
 
-        public void Collect(IProjectWs ws)
+        public Outcome Collect(ProjectCollection collect)
         {
             var result = Outcome.Success;
-            CollectSyntaxLogs(ws);
-            CollectEncodings(ws);
-            CollectSyntaxTrees(ws);
-            result = CollectInstructions(ws);
+            var project = collect.Project;
+            CollectSyntaxLogs(collect);
+            CollectEncodings(collect);
+            CollectSyntaxTrees(collect);
+            result = CollectInstructions(collect);
             if(result.Fail)
                 Error(result.Message);
+            return result;
         }
 
-        public Index<AsmDocument> SyntaxSourceDocs(IProjectWs project)
+        public Index<AsmDocument> CollectSyntaxSources(ProjectCollection collect)
         {
-            var src = SyntaxSourcePaths(project).View;
+            var src = SyntaxSourcePaths(collect.Project).View;
             var count = src.Length;
             var dst = list<AsmDocument>();
             for(var i=0; i<count; i++)
@@ -54,15 +56,17 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public Outcome CollectInstructions(IProjectWs project)
+        public Outcome CollectInstructions(ProjectCollection collect)
         {
+            var project = collect.Project;
             var result = Outcome.Success;
-            var docs = SyntaxSourceDocs(project);
+            var docs = CollectSyntaxSources(collect);
             var buffer = list<AsmInstructionRow>();
             var counter = 0u;
             foreach(var doc in docs)
             {
                 var path = doc.Path.ToUri();
+                var fref = collect.File(doc.Path);
                 var srcid = doc.Path.SrcId(FileKind.AsmSyntax);
                 var inst = doc.Instructions;
                 var lines = doc.SourceLines.Map(x => (x.LineNumber, x.Statement.Format().Trim())).ToDictionary();
@@ -73,6 +77,7 @@ namespace Z0.llvm
                     var expr = lines[instruction.Line];
                     var record = new AsmInstructionRow();
                     record.Seq = counter++;
+                    record.DocId = fref.DocId;
                     record.DocSeq = instruction.Seq;
                     record.SrcId = srcid;
                     record.AsmId = instruction.AsmId;
@@ -92,13 +97,13 @@ namespace Z0.llvm
             return result;
         }
 
-        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(IProjectWs project)
+        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(ProjectCollection collect)
         {
+            var project = collect.Project;
             var result = Outcome.Success;
-            //var docs = ParseEncodingSources(project);
-            var _docs = ParseEncodingSources(project);
+            var _docs = ParseEncodingSources(collect);
             var paths = _docs.Keys.ToArray().Sort();
-            var dst = EncodingTable(project);
+            var dst = EncodingTable(collect.Project);
             var counter=0u;
             var record = AsmEncodingRow.Empty;
             var formatter = Tables.formatter<AsmEncodingRow>(AsmEncodingRow.RenderWidths);
@@ -108,6 +113,7 @@ namespace Z0.llvm
             foreach(var path in paths)
             {
                 var doc = _docs[path];
+                var fref = collect.File(path);
                 var encoded = doc.View;
                 var srcid = path.SrcId(FileKind.EncodingAsm);
                 var count = encoded.Length;
@@ -117,6 +123,7 @@ namespace Z0.llvm
 
                     record = AsmEncodingRow.Empty;
                     record.Seq = counter++;
+                    record.DocId = fref.DocId;
                     record.DocSeq = i;
                     record.SrcId = srcid;
                     record.Asm = e.Asm;
@@ -131,8 +138,9 @@ namespace Z0.llvm
             return _docs;
         }
 
-        public AsmSyntaxDocs CollectSyntaxLogs(IProjectWs project)
+        public AsmSyntaxDocs CollectSyntaxLogs(ProjectCollection collect)
         {
+            var project = collect.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.AsmSyntaxLog)).View;
             var dst = SyntaxTable(project);
             var count = logs.Length;
@@ -144,7 +152,8 @@ namespace Z0.llvm
             {
                 tmp.Clear();
                 ref readonly var path = ref skip(logs,i);
-                ParseSyntaxLogRows(path, ref seq, tmp);
+
+                ParseSyntaxLogRows(collect.File(path), ref seq, tmp);
                 docs[path] = new AsmSyntaxDoc(path, tmp.ToArray());
                 buffer.AddRange(tmp);
             }
@@ -153,9 +162,10 @@ namespace Z0.llvm
             return docs;
         }
 
-        public ConstLookup<FS.FilePath,AsmDocument> CollectSyntaxTrees(IProjectWs project)
+        public ConstLookup<FS.FilePath,AsmDocument> CollectSyntaxTrees(ProjectCollection collect)
         {
             var result = Outcome.Success;
+            var project = collect.Project;
             var src = SyntaxSourcePaths(project).View;
             var count = src.Length;
             var dst = ProjectDb.ProjectDataFile(project, "asm.syntax.tree", FS.Asm);
@@ -199,6 +209,7 @@ namespace Z0.llvm
 
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.SrcId);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
@@ -230,6 +241,7 @@ namespace Z0.llvm
                 ref var dst = ref seek(buffer,i);
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.SrcId);
                 result = AsmIdParser.Parse(skip(cells, j++), out dst.AsmId);
@@ -272,7 +284,10 @@ namespace Z0.llvm
                     break;
                 }
 
+                result = DataParser.parse(skip(cells,j++), out dst.DocId);
+
                 result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
+
                 if(result.Fail)
                 {
                     result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.DocSeq)));
@@ -373,9 +388,9 @@ namespace Z0.llvm
             return result;
         }
 
-        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncodingSources(IProjectWs project)
+        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncodingSources(ProjectCollection collect)
         {
-            var src = EncodingSourcePaths(project).View;
+            var src = EncodingSourcePaths(collect.Project).View;
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<AsmEncodingRow>>();
             var counter = 0u;
@@ -400,8 +415,9 @@ namespace Z0.llvm
             return dst;
         }
 
-        void ParseSyntaxLogRows(FS.FilePath src, ref uint seq, List<AsmSyntaxRow> dst)
+        void ParseSyntaxLogRows(in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
         {
+            var src = fref.Path;
             const string EntryMarker = "note: parsed instruction:";
             const string EncodingMarker = "# encoding:";
             const string ReplaceA = "{, ";
@@ -430,6 +446,7 @@ namespace Z0.llvm
                 var body = b.Replace(Chars.Tab, Chars.Space);
                 var record = new AsmSyntaxRow();
                 record.Seq = seq++;
+                record.DocId = fref.DocId;
                 record.DocSeq = docseq++;
                 record.SrcId = srcpath.SrcId(FileKind.EncodingAsm);
                 record.Location = point.Location;

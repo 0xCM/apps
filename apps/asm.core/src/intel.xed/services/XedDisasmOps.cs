@@ -20,10 +20,11 @@ namespace Z0
 
         const string YDIS = "YDIS:";
 
-        public static Outcome ParseEncodings(FS.FilePath src, out AsmEncodingDoc dst)
+        public static Outcome ParseEncodings(in FileRef fref, out AsmEncodingDoc dst)
         {
+            var src = fref.Path;
             var buffer = list<AsmEncodingRow>();
-            var result = ParseEncodings(src,buffer);
+            var result = ParseEncodings(fref,buffer);
             if(result)
                 dst = (src,buffer.ToArray());
             else
@@ -31,8 +32,9 @@ namespace Z0
             return result;
         }
 
-        public static Outcome ParseEncodings(FS.FilePath src, List<AsmEncodingRow> dst)
+        public static Outcome ParseEncodings(in FileRef fref, List<AsmEncodingRow> dst)
         {
+            var src = fref.Path;
             var srcid = src.SrcId(FileKind.XedRawDisasm);
             var blocks = LoadBlocks(src);
             var summaries = SummaryLines(blocks);
@@ -50,6 +52,7 @@ namespace Z0
                 var record = new AsmEncodingRow();
                 ref readonly var expression = ref skip(expr,i);
                 record.DocSeq = counter++;
+                record.DocId = fref.DocId;
                 record.SrcId = srcid;
                 result = ParseIP(content, out record.IP);
                 record.Asm = expression;

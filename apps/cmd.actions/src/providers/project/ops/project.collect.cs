@@ -24,24 +24,6 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("project/files")]
-        Outcome IndexFiles(CmdArgs args)
-        {
-            var symbols = Symbols.index<FileKind>();
-            var kinds = symbols.Kinds;
-            var project = Project();
-            var files = Projects.IndexFiles(project).Files;
-            var count = files.Count;
-            var matches = FileTypes.match(files);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var match = ref matches[i];
-                Write(string.Format("{0,-16} | {1}", match.Right, match.Left));
-            }
-
-
-            return true;
-        }
         [CmdOp("project/index")]
         public Outcome IndexEncoding(CmdArgs args)
         {
@@ -57,10 +39,17 @@ namespace Z0
                 ref var dst = ref seek(buffer,i);
                 ref readonly var code = ref skip(allocated,i);
                 ref readonly var row = ref rows[i];
+                if(code.HexCode != row.HexCode)
+                {
+                    Error("Hex mismatch");
+                }
+
                 dst.Seq = row.Seq;
+                dst.DocId = row.DocId;
+                dst.DocSeq = row.DocSeq;
                 dst.CT = code.CT;
-                dst.Asm = code.Asm.Format();
-                dst.Encoding = code.Code;
+                dst.Asm = code.AsmText.Format();
+                dst.Encoding = code.HexCode;
                 dst.Offset = code.Offset;
             }
 
@@ -68,11 +57,10 @@ namespace Z0
 
             return true;
         }
-
     }
 
 
-    public class AsmStatsCollector : AsmEventReceiver
+    public class AsmStatsCollector : ProjectEventReceiver
     {
         Dictionary<AsmId,uint> _AsmIdCounts;
 

@@ -14,9 +14,13 @@ namespace Z0
     {
         public const string TableId = "asm.index";
 
-        public const byte FieldCount = 5;
+        public const byte FieldCount = 7;
 
         public uint Seq;
+
+        public uint DocId;
+
+        public uint DocSeq;
 
         public ulong CT;
 
@@ -26,6 +30,6 @@ namespace Z0
 
         public AsmHexCode Encoding;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,82,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,8,8,82,1};
     }
 }

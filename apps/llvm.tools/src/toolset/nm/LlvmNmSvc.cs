@@ -21,11 +21,12 @@ namespace Z0.llvm
             SymCodes = Symbols.index<NmSymCode>();
         }
 
-        public Outcome Collect(IProjectWs ws)
+        public Outcome Collect(ProjectCollection collection)
         {
             var result = Outcome.Success;
-            var src = ws.OutFiles(FS.Sym).View;
-            var dst = ProjectDb.ProjectTable<ObjSymRow>(ws);
+            var project = collection.Project;
+            var src = project.OutFiles(FS.Sym).View;
+            var dst = ProjectDb.ProjectTable<ObjSymRow>(project);
             var symbols = Collect(src, dst);
             return result;
         }
