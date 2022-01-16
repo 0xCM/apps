@@ -4,34 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IProjectEventReceiver
-    {
-        void Consolidated(in FileRef file, in ObjDumpRow row);
+    using System;
 
-        void Correlated(in AsmEncodingRow enc, in AsmSyntaxRow syn, in AsmInstructionRow inst, in AsmDocCorrelation result);
-
-        void FileIndexed(in FileRef file);
-
-        void FilesIndexed(FileIndex src);
-
-        void CodeIndexed(in AsmCodeIndexRow dst);
-    }
-
-    public class ProjectEventReceiver : IProjectEventReceiver
+    public class ProjectEventReceiver
     {
         FileIndex Files;
+
+        Index<AsmCodeIndexRow> _IndexedCode;
+
+        public ReadOnlySpan<AsmCodeIndexRow> IndexedCode
+        {
+            get => _IndexedCode;
+        }
+
 
         public ProjectEventReceiver()
         {
             Files = new();
+            _IndexedCode = sys.empty<AsmCodeIndexRow>();
         }
 
-        public virtual void FileIndexed(in FileRef file)
+        public virtual void Indexed(in FileRef file)
         {
 
         }
 
-        public virtual void CodeIndexed(in AsmCodeIndexRow dst)
+        public virtual void Indexed(in AsmCodeIndexRow dst)
         {
 
         }
@@ -41,14 +39,29 @@ namespace Z0.Asm
             Files = src;
         }
 
-        public virtual void Consolidated(in FileRef file, in ObjDumpRow row)
+        public virtual void Collected(in FileRef src, in ObjDumpRow row)
         {
 
         }
 
-        public virtual void Correlated(in AsmEncodingRow enc, in AsmSyntaxRow syn, in AsmInstructionRow inst, in AsmDocCorrelation result)
+        public virtual void Collected(in FileRef src, in AsmInstructionRow row)
         {
 
+        }
+
+        public virtual void Collected(in FileRef src, in AsmSyntaxRow row)
+        {
+
+        }
+
+        public virtual void Collected(in FileRef src, in AsmEncodingRow row)
+        {
+
+        }
+
+        public virtual void Emitted(Index<AsmCodeIndexRow> src, FS.FilePath dst)
+        {
+            _IndexedCode = src;
         }
     }
 }

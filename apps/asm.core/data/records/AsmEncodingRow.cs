@@ -16,7 +16,7 @@ namespace Z0
     {
         public const string TableId = "asm.encoding";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
         public uint Seq;
 
@@ -26,6 +26,8 @@ namespace Z0
 
         public Address32 IP;
 
+        public CorrelationToken CT;
+
         public AsmExpr Asm;
 
         public byte Size;
@@ -33,12 +35,6 @@ namespace Z0
         public AsmHexCode HexCode;
 
         public FS.FileUri Source;
-
-        public CorrelationToken CT
-        {
-            [MethodImpl(Inline)]
-            get => Seq;
-        }
 
         uint ISequential.Seq
             => Seq;
@@ -52,7 +48,10 @@ namespace Z0
         MemoryAddress IAsmEncoding.Offset
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,10,84,8,42,1};
+        CorrelationToken ICorrelated.CT
+            => CT;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,12,84,8,42,1};
 
         public static AsmEncodingRow Empty => default;
     }

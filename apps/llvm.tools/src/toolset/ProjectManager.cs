@@ -23,8 +23,6 @@ namespace Z0
 
         CoffServices Coff => Service(Wf.CoffServices);
 
-        Index<AsmDocCorrelation> Correlations;
-
         List<ObjDumpRow> ObjDumpRows;
 
         ProjectEventReceiver EventReceiver;
@@ -40,7 +38,6 @@ namespace Z0
 
         void Clear()
         {
-            Correlations = sys.empty<AsmDocCorrelation>();
             ObjDumpRows = new();
             Files = new();
             EventReceiver = new();
@@ -87,7 +84,7 @@ namespace Z0
                 ref readonly var kind = ref matches[i].Right;
                 ref var dst = ref seek(buffer,i);
                 dst = new FileRef(i, kind, hash, file);
-                EventReceiver.FileIndexed(dst);
+                EventReceiver.Indexed(dst);
             }
 
             TableEmit(@readonly(buffer), FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
@@ -95,10 +92,9 @@ namespace Z0
             return buffer;
         }
 
-        Outcome IndexEncoding(ProjectCollection collection)
+        Outcome IndexEncoding(ProjectCollection collect)
         {
-            var project = collection.Project;
-            var src = ProjectDb.ProjectTable<ObjDumpRow>(project);
+            var src = ProjectDb.ProjectTable<ObjDumpRow>(collect.Project);
             var rows = ObjDump.LoadRows(src);
             using var allocation = AsmCodeAllocation.allocate(rows.View);
             var allocated = allocation.Allocated;
@@ -120,18 +116,21 @@ namespace Z0
                 dst.CT = code.CT;
                 dst.Asm = code.AsmText.Format();
                 dst.Encoding = code.HexCode;
-                dst.Offset = code.Offset;
-                EventReceiver.CodeIndexed(dst);
+                dst.IP = (Address32)code.Offset;
+                EventReceiver.Indexed(dst);
             }
 
-            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, ProjectDb.ProjectTable<AsmCodeIndexRow>(project));
+            buffer.Sort();
 
+            var path = ProjectDb.ProjectTable<AsmCodeIndexRow>(collect.Project);
+            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, path);
+            collect.EventReceiver.Emitted(buffer,path);
             return true;
         }
 
-        Outcome Consolidate(ProjectCollection collection)
+        Outcome Consolidate(ProjectCollection collect)
         {
-            var project = collection.Project;
+            var project = collect.Project;
             var src = project.OutFiles(FileKind.ObjAsm).View;
             var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
@@ -162,12 +161,10 @@ namespace Z0
                         continue;
 
                     record.Seq = seq++;
-                    //record.DocSeq = docseq++;
-                    //record.DocId = fref.Seq;
                     ObjDumpRows.Add(record);
-                    EventReceiver.Consolidated(fref,record);
                     writer.WriteLine(formatter.Format(record));
                     emitted.Add(record);
+                    collect.EventReceiver.Collected(fref, record);
                 }
                 total += docseq;
             }
@@ -175,62 +172,63 @@ namespace Z0
             return true;
         }
 
-        Outcome Correlate(IProjectWs project)
-        {
-            var result = Outcome.Success;
-            var encRows = Mc.LoadEncodings(project);
-            var synRows = Mc.LoadSyntax(project);
-            var instRows = Mc.LoadInstructions(project);
-            var count = encRows.Count;
-            if(synRows.Count != count)
-                return (false, string.Format("Row count mismatch"));
+        // Outcome Correlate(ProjectCollection collect)
+        // {
+        //     var project = collect.Project;
+        //     var result = Outcome.Success;
+        //     var encRows = Mc.LoadEncodings(project);
+        //     var synRows = Mc.LoadSyntax(project);
+        //     var instRows = Mc.LoadInstructions(project);
+        //     var count = encRows.Count;
+        //     if(synRows.Count != count)
+        //         return (false, string.Format("Row count mismatch"));
 
-            if(instRows.Count != count)
-                return (false, string.Format("Row count mismatch"));
+        //     if(instRows.Count != count)
+        //         return (false, string.Format("Row count mismatch"));
 
-            Correlations = alloc<AsmDocCorrelation>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var enc = ref encRows[i];
-                ref readonly var syn = ref synRows[i];
-                ref readonly var inst = ref instRows[i];
-                ref readonly var seq = ref enc.Seq;
-                ref readonly var hex = ref enc.HexCode;
+        //     Correlations = alloc<AsmDocCorrelation>(count);
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var enc = ref encRows[i];
+        //         ref readonly var syn = ref synRows[i];
+        //         ref readonly var inst = ref instRows[i];
+        //         ref readonly var seq = ref enc.Seq;
+        //         ref readonly var hex = ref enc.HexCode;
 
-                if(syn.Seq != seq)
-                {
-                    result = (false, string.Format("Seq mismatch on row {0}", i));
-                    break;
-                }
+        //         if(syn.Seq != seq)
+        //         {
+        //             result = (false, string.Format("Seq mismatch on row {0}", i));
+        //             break;
+        //         }
 
-                if(inst.Seq != seq)
-                {
-                    result = (false, string.Format("Seq mismatch on row {0}", i));
-                    break;
-                }
+        //         if(inst.Seq != seq)
+        //         {
+        //             result = (false, string.Format("Seq mismatch on row {0}", i));
+        //             break;
+        //         }
 
-                ref var dst = ref Correlations[i];
-                dst.Seq = seq;
-                dst.DocId = enc.DocId;
-                dst.DocSeq = enc.DocSeq;
-                dst.IP = enc.IP;
-                dst.AsmId = inst.AsmId;
-                dst.Asm = enc.Asm;
-                dst.Size = hex.Size;
-                dst.HexCode = hex;
-                dst.Syntax = syn.Syntax;
-                dst.Source = enc.Source;
+        //         ref var dst = ref Correlations[i];
+        //         dst.Seq = seq;
+        //         dst.DocId = enc.DocId;
+        //         dst.DocSeq = enc.DocSeq;
+        //         dst.SrcId = collect.File(enc.DocId).Path.SrcId(FileKind.EncodingAsm);
+        //         dst.IP = enc.IP;
+        //         dst.AsmId = inst.AsmId;
+        //         dst.Asm = enc.Asm;
+        //         dst.Size = hex.Size;
+        //         dst.HexCode = hex;
+        //         dst.Syntax = syn.Syntax;
+        //         dst.Source = enc.Source;
 
-                if(result.Fail)
-                    break;
+        //         if(result.Fail)
+        //             break;
 
-                EventReceiver.Correlated(enc, syn, inst, dst);
-            }
+        //     }
 
-            if(result)
-                TableEmit(Correlations.View, AsmDocCorrelation.RenderWidths, CorrelationTable(project));
-            return result;
-        }
+        //     if(result)
+        //         TableEmit(Correlations.View, AsmDocCorrelation.RenderWidths, CorrelationTable(project));
+        //     return result;
+        // }
 
         Outcome Recode(ProjectCollection collection)
         {
@@ -297,8 +295,5 @@ namespace Z0
             }
             return true;
         }
-
-       FS.FilePath CorrelationTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmDocCorrelation>(project);
     }
 }

@@ -12,53 +12,10 @@ namespace Z0
 
     using static Root;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmDocCorrelation : IAsmEncoding
+    public readonly struct AsmCorrelation
     {
-        public const string TableId = "asm.correlation";
-
-        public const byte FieldCount = 11;
-
-        public uint Seq;
-
-        public uint DocId;
-
-        public uint DocSeq;
-
-        public @string SrcId;
-
-        public Address32 IP;
-
-        public AsmId AsmId;
-
-        public AsmExpr Asm;
-
-        public byte Size;
-
-        public AsmHexCode HexCode;
-
-        public @string Syntax;
-
-        public FS.FileUri Source;
-
-        public CorrelationToken CT
-        {
-            [MethodImpl(Inline)]
-            get => Seq;
-        }
-
-        uint ISequential.Seq
-            => Seq;
-
-        AsmExpr IAsmEncoding.Asm
-            => Asm;
-
-        AsmHexCode IAsmEncoding.Encoding
-            => HexCode;
-
-        MemoryAddress IAsmEncoding.Offset
-            => IP;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,12,22,124,4,42,84,1};
+        [MethodImpl(Inline)]
+        public static CorrelationToken token(uint docid, Address32 ip)
+            => math.or(math.sll(docid, 24),  (uint)ip);
     }
 }

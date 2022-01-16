@@ -48,7 +48,7 @@ namespace Z0
         public CorrelationToken CT
         {
             [MethodImpl(Inline)]
-            get => Seq;
+            get => AsmCorrelation.token(DocId, (Address32)IP);
         }
 
         public static ObjDumpRow Empty()

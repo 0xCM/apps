@@ -85,6 +85,7 @@ namespace Z0.llvm
                     if(result.Fail)
                         break;
                     buffer.Add(record);
+                    collect.EventReceiver.Collected(fref, record);
                 }
 
                 if(result.Fail)
@@ -124,12 +125,15 @@ namespace Z0.llvm
                     record.Seq = counter++;
                     record.DocId = fref.DocId;
                     record.DocSeq = i;
+                    record.IP = e.IP;
+                    record.CT = e.CT;
                     record.Asm = e.Asm;
                     record.Size = e.Size;
-                    record.IP = e.IP;
                     record.HexCode = e.HexCode;
                     record.Source = e.Source;
                     writer.WriteLine(formatter.Format(record));
+                    collect.EventReceiver.Collected(fref, record);
+
                 }
             }
             EmittedTable(emitting, counter);
@@ -151,7 +155,7 @@ namespace Z0.llvm
                 tmp.Clear();
                 ref readonly var path = ref skip(logs,i);
 
-                ParseSyntaxLogRows(collect.File(path), ref seq, tmp);
+                ParseSyntaxLogRows(collect, collect.File(path), ref seq, tmp);
                 docs[path] = new AsmSyntaxDoc(path, tmp.ToArray());
                 buffer.AddRange(tmp);
             }
@@ -334,10 +338,10 @@ namespace Z0.llvm
             }
         }
 
-        Outcome ParseEncodingSource(FS.FilePath src, out Index<AsmEncodingRow> dst)
+        Outcome ParseEncodingSource(FileRef fref, out Index<AsmEncodingRow> dst)
         {
             const string EncodingMarker = "# encoding:";
-
+            var src = fref.Path;
             var result = Outcome.Success;
             dst = sys.empty<AsmEncodingRow>();
             var lines = FS.readlines(src).View;
@@ -363,8 +367,10 @@ namespace Z0.llvm
                         return result;
 
                     record.Size = record.HexCode.Size;
+                    record.DocId = fref.DocId;
                     record.DocSeq = seq++;
                     record.IP = offset;
+                    record.CT = AsmCorrelation.token(fref.DocId, offset);
                     record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
 
@@ -385,7 +391,8 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var result = ParseEncodingSource(path, out var doc);
+                var fref = collect.File(path);
+                var result = ParseEncodingSource(fref, out var doc);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -403,7 +410,7 @@ namespace Z0.llvm
             return dst;
         }
 
-        void ParseSyntaxLogRows(in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
+        void ParseSyntaxLogRows(ProjectCollection collect, in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
         {
             var src = fref.Path;
             const string EntryMarker = "note: parsed instruction:";
@@ -455,6 +462,7 @@ namespace Z0.llvm
 
                 record.Source = srcpath.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);
+                collect.EventReceiver.Collected(fref, record);
             }
         }
 

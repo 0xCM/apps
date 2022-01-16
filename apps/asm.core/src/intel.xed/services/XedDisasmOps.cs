@@ -54,6 +54,7 @@ namespace Z0
                 record.DocSeq = counter++;
                 record.DocId = fref.DocId;
                 result = ParseIP(content, out record.IP);
+                record.CT = AsmCorrelation.token(fref.DocId, record.IP);
                 record.Asm = expression;
                 record.Source = src;
                 record.Source = record.Source.LineRef(line.LineNumber);

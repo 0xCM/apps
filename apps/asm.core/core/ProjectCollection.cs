@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using Asm;
 
     public class ProjectCollection
     {
         public IProjectWs Project {get;}
 
-        public FileIndex Files {get;}
+        FileIndex Files {get;}
 
         public ProjectEventReceiver EventReceiver {get;}
 
@@ -24,5 +23,8 @@ namespace Z0
 
         public FileRef File(FS.FilePath path)
             => Files[path];
+
+        public FileRef File(uint docid)
+            => Files[docid];
     }
 }

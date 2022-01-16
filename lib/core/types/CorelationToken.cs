@@ -45,7 +45,7 @@ namespace Z0
             => Value.CompareTo(other.Value);
 
         public string Format()
-            => Value.FormatHex();
+            => Value.FormatHex(zpad:false,uppercase:true);
 
         public override string ToString()
             => Format();
