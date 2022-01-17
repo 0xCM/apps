@@ -9,31 +9,23 @@ namespace Z0
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
     public class CmdArgAttribute : Attribute
     {
-        public CmdArgAttribute(string expr)
+        public CmdArgAttribute(string expr, object missing = null)
         {
-            Position = 0;
+            //Position = 0;
             Expression = expr;
-        }
-
-        public CmdArgAttribute(int pos, string expr)
-        {
-            Position = pos;
-            Expression = expr;
-        }
-
-        public CmdArgAttribute(int pos)
-        {
-            Expression = string.Empty;
-            Position = pos;
+            Missing = missing == null ? Option.none<object>() : missing;
         }
 
         public CmdArgAttribute()
         {
-            Position = 0;
+            //Position = 0;
             Expression = string.Empty;
+            Missing = Option.none<object>();
         }
 
-        public int Position {get;}
+        //public int Position {get;}
+
+        public Option<object> Missing {get;}
 
         public string Expression {get;}
 

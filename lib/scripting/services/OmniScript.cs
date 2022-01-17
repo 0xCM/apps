@@ -208,12 +208,6 @@ namespace Z0
         public Outcome Run(ToolScript script, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(script, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
-        // public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-        //     => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
-
-        // public Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
-        //     => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
-
         public Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
             => CmdRunner.Run(WinCmd.cmd(spec), out response);
 

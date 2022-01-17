@@ -13,8 +13,8 @@ namespace Z0.llvm
     [Cmd(ToolNames.llvm_mc), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct McCmd : IFileFlowCmd<McCmd>
     {
-         [CmdArg("<src>")]
-         public FS.FilePath Source;
+        [CmdArg("<src>")]
+        public FS.FilePath Source;
 
         [CmdArg("-o {0}")]
         public FS.FilePath Target;
@@ -23,25 +23,25 @@ namespace Z0.llvm
         public bit Assemble;
 
         [CmdArg("--filetype={0}")]
-        public @string FileType;
+        public string FileType;
 
         [CmdArg("--target-abi={0}")]
-        public @string TargetAbi;
+        public string TargetAbi;
 
         [CmdArg("--triple={0}")]
-        public @string Triple;
+        public string Triple;
 
         [CmdArg("--mcpu={0}")]
-        public @string Cpu;
+        public string Cpu;
 
         [CmdFlag("--incremental-linker-compatible")]
         public bit IncrementalLinkerCompatible;
 
         [CmdArg("--x86-asm-syntax={0}")]
-        public @string X86AsmSyntax;
+        public string X86AsmSyntax;
 
-        [CmdArg("--output-asm-variant={0}")]
-        public byte OutputAsmVariant;
+        [CmdArg("--output-asm-variant={0}", -1)]
+        public sbyte OutputAsmVariant;
 
         [CmdFlag("--print-imm-hex")]
         public bit PrintImmHex;
@@ -51,6 +51,12 @@ namespace Z0.llvm
 
         [CmdFlag("--masm-hexfloats")]
         public bit MasmHexFloats;
+
+        [CmdArg("--x86-align-branch-boundary={0}", -1)]
+        public int X86AlignBranchBoundary;
+
+        [CmdFlag(" --x86-branches-within-32B-boundaries")]
+        public bit X86BranchesWithin32bBoundaries;
 
         [MethodImpl(Inline)]
         public McCmd()
@@ -68,6 +74,8 @@ namespace Z0.llvm
             PrintImmHex = true;
             MasmIntegers = true;
             MasmHexFloats = true;
+            X86AlignBranchBoundary = 32;
+            X86BranchesWithin32bBoundaries = false;
         }
 
         IActor IFileFlowCmd.Actor

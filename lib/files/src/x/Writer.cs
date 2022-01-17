@@ -23,25 +23,25 @@ namespace Z0
             => FileWriters.writer(dst, FileWriteMode.Overwrite, encoding);
 
         [Op]
-        public static StreamWriter Writer(this FS.FilePath dst, TextEncodingKind encoding)
+        public static StreamWriter Writer(this FS.FilePath dst, TextEncodingKind encoding, bool append = false)
             => encoding switch {
-                TextEncodingKind.Asci => FileWriters.asci(dst),
-                TextEncodingKind.Utf8 => FileWriters.utf8(dst),
-                TextEncodingKind.Unicode => FileWriters.unicode(dst),
-                _ => FileWriters.unicode(dst)
+                TextEncodingKind.Asci => FileWriters.asci(dst,append ? FileWriteMode.Append : FileWriteMode.Overwrite),
+                TextEncodingKind.Utf8 => FileWriters.utf8(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite),
+                TextEncodingKind.Unicode => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite),
+                _ => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite)
             };
 
         [Op]
-        public static StreamWriter AsciWriter(this FS.FilePath dst)
-            => FileWriters.asci(dst);
+        public static StreamWriter AsciWriter(this FS.FilePath dst, bool append = false)
+            => FileWriters.asci(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite);
 
         [Op]
-        public static StreamWriter UnicodeWriter(this FS.FilePath dst)
-            => FileWriters.unicode(dst);
+        public static StreamWriter UnicodeWriter(this FS.FilePath dst, bool append = false)
+            => FileWriters.unicode(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite);
 
         [Op]
-        public static StreamWriter Utf8Writer(this FS.FilePath dst)
-            => FileWriters.utf8(dst);
+        public static StreamWriter Utf8Writer(this FS.FilePath dst, bool append = false)
+            => FileWriters.utf8(dst, append ? FileWriteMode.Append : FileWriteMode.Overwrite);
 
         [Op]
         public static void AppendLines(this FS.FilePath dst, string src)

@@ -58,7 +58,7 @@ namespace Z0
                 var lines =  Lines.read(process.Output);
                 if(log.IsNonEmpty)
                 {
-                    using var writer = log.AsciWriter();
+                    using var writer = log.AsciWriter(true);
                     iter(lines, line => writer.WriteLine(line));
                 }
                 dst = lines;
