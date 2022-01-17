@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    public class LlvmPaths : WsService<LlvmPaths>
+    public class LlvmPaths : AppService<LlvmPaths>
     {
         IProjectWs LlvmData;
 
-        IProjectDb Db;
+        new IProjectDb Db;
 
-        protected override void Initialized()
+        protected override void OnInit()
         {
             LlvmData = Ws.Project("llvm.data");
             Db = Ws.ProjectDb();

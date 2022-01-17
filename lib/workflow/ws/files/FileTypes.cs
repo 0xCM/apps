@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using static core;
-
     public class FileTypes
     {
         public static FS.FileExt ext(FileKind src)
@@ -19,15 +15,11 @@ namespace Z0
         [Op]
         internal static string format(FileKind src)
             => Symbols.index<FileKind>()[src].Expr.Format();
-
     }
 
     partial class XTend
     {
         public static FS.FileExt Ext(this FileKind src)
             => FileTypes.ext(src);
-
-        // public static string Name(this FileKind src)
-        //     => FileTypes.name(src);
     }
 }

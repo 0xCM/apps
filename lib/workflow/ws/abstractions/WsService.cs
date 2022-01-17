@@ -4,23 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class WsService<T> : Service<T>, IWsService<T>
+    public abstract class WsService<T> : AppService<T>, IWsService<T>
         where T : WsService<T>,new()
     {
         protected WsService()
-            : base(Init)
+            : base()
         {
-
+            Init((T)this);
         }
 
-        static void Init(T svc)
-        {
-            svc.Ws = DevWs.create(svc.Env.DevWs);
-        }
+        void Init(T svc)
+            => svc.Ws = DevWs.create(svc.Env.DevWs);
 
-        protected DevWs Ws;
+        protected new DevWs Ws;
 
         IWorkspace IWsService.Ws
             => Ws;
+
+
+        protected ProjectScripts ProjectScripts => Service(Wf.ProjectScripts);
+
     }
 }

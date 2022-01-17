@@ -7,16 +7,9 @@ namespace Z0
     using System;
 
     using static core;
+
     public class TokenSetEmitter : AppService<TokenSetEmitter>
     {
-        public Index<SymInfo> EmitTokens(ITokenSet src, IProjectWs project)
-        {
-            var records = Symbols.syminfo(src.Types());
-            var dst = project.TablePath<SymInfo>("tokens", src.Name);
-            TableEmit(records.View, SymInfo.RenderWidths, dst);
-            return records;
-        }
-
         public Index<SymInfo> EmitTokens(ITokenSet src, FS.FilePath dst)
         {
             var records = Symbols.syminfo(src.Types());

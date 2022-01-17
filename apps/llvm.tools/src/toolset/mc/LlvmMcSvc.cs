@@ -25,7 +25,7 @@ namespace Z0.llvm
         BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
 
         public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, bool runexe = false)
-            => ScriptSvc.RunScript(project, "mc-build", "asm", flow => ResponseHandler.HandleBuildResponse(flow,runexe));
+            => ScriptSvc.RunScript(project, "build", "asm", flow => ResponseHandler.HandleBuildResponse(flow,runexe));
 
         public LlvmMcSvc()
             : base(ToolId)

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using System;
 
-    public class AsmTokens : WsService<AsmTokens>
+    public class AsmTokens : AppService<AsmTokens>
     {
         OpCodes _OpCodes;
 

@@ -12,6 +12,10 @@ namespace Z0
     public static partial class XSvc
     {
         [Op]
+        public static Workspaces WorkSpaces(this IWfRuntime wf)
+            => Workspaces.create(wf);
+
+        [Op]
         public static ApiResolver ApiResolver(this IWfRuntime wf)
             => Z0.ApiResolver.create(wf);
 
@@ -174,9 +178,8 @@ namespace Z0
         public static AsmTables AsmTables(this IWfRuntime wf)
             => Asm.AsmTables.create(wf);
 
-
         [Op]
-        public static AsmTokens AsmTokens(this IServiceContext context)
+        public static AsmTokens AsmTokens(this IWfRuntime context)
             => Asm.AsmTokens.create(context);
 
         [Op]

@@ -60,12 +60,12 @@ namespace Z0
             => Z0.ProjectManager.create(wf);
 
         [Op]
-        public static LlvmPaths LlvmPaths(this IServiceContext context)
+        public static LlvmPaths LlvmPaths(this IWfRuntime context)
             => llvm.LlvmPaths.create(context);
 
         [Op]
-        public static ILlvmWorkspace LlvmWs(this IEnvProvider env)
-            => Z0.LlvmWs.create(env.Env.LlvmRoot);
+        public static ILlvmWorkspace LlvmWs(this IWfRuntime src)
+            => Z0.LlvmWs.create(src.Env.LlvmRoot);
 
         [Op]
         public static LlvmToolset LLvmToolset(this IWfRuntime wf)
