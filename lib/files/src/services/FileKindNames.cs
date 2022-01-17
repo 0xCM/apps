@@ -237,12 +237,12 @@ namespace Z0
         /// <summary>
         /// Defines the 'encoding' literal
         /// </summary>
-        public const string encoding = nameof(encoding);
+        public const string enc = nameof(enc);
 
         /// <summary>
         /// Defines the 'encoding.asm' literal
         /// </summary>
-        public const string encodingasm = encoding + sep + asm;
+        public const string encasm = enc + sep + asm;
 
         /// <summary>
         /// Defines the 'mlir' literal

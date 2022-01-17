@@ -146,7 +146,7 @@ namespace Z0
         public class LlAsmToAsmEncoding : FileFlowType<LlAsmToAsmEncoding,LlvmMc>
         {
             public LlAsmToAsmEncoding ()
-                : base(llvm_mc, FK.Asm, FK.EncodingAsm)
+                : base(llvm_mc, FK.Asm, FK.EncAsm)
             {
 
             }
@@ -171,7 +171,7 @@ namespace Z0
         public class AsmEncodingToSynAsm : FileFlowType<AsmEncodingToSynAsm,LlvmMc>
         {
             public AsmEncodingToSynAsm()
-                : base(llvm_mc, FK.EncodingAsm, FK.AsmSyntax)
+                : base(llvm_mc, FK.EncAsm, FK.SynAsm)
             {
 
             }
@@ -183,7 +183,7 @@ namespace Z0
         public class AsmEncodingToSynLog : FileFlowType<AsmEncodingToSynLog, LlvmMc>
         {
             public AsmEncodingToSynLog()
-                : base(llvm_mc, FK.EncodingAsm, FK.AsmSyntaxLog)
+                : base(llvm_mc, FK.EncAsm, FK.SynAsmLog)
             {
 
             }
@@ -195,7 +195,7 @@ namespace Z0
         public class AsmToMcEncoding : FileFlowType<AsmToMcEncoding,LlvmMc>
         {
             public AsmToMcEncoding()
-                : base(llvm_mc, FK.Asm, FK.EncodingAsm)
+                : base(llvm_mc, FK.Asm, FK.EncAsm)
             {
 
             }
@@ -208,7 +208,7 @@ namespace Z0
         public class ObjToXedDisasm : FileFlowType<ObjToXedDisasm,Xed>
         {
             public ObjToXedDisasm()
-                : base(xed, FileKind.Asm, FileKind.EncodingAsm)
+                : base(xed, FileKind.Asm, FileKind.EncAsm)
             {
 
             }

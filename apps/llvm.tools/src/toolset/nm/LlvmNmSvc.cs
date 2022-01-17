@@ -34,7 +34,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var fref = collect.File(path);
+                var fref = collect.FileRef(path);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
                 while(reader.Next(out var line))

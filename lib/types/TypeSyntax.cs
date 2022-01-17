@@ -16,8 +16,6 @@ namespace Z0
 
         internal const string C = "c{0}";
 
-        internal const string Ct = "c{0}<t:{1}>";
-
         internal const string I = "i{0}";
 
         internal const string U = "u{0}";
@@ -76,7 +74,6 @@ namespace Z0
 
         internal const string Num = "num<t:{0}>";
 
-
         internal const string Disp = "disp<w:{0}>";
 
         internal const string Disp8 = "disp<w:8>";
@@ -133,17 +130,17 @@ namespace Z0
 
         internal const string ConstSpan = "cspan<t:{0}>";
 
-        internal const string FileName = "filename";
+        internal const string FileName = "fs.filename";
 
-        internal const string FileExt = "ext";
+        internal const string FileExt = "fs.ext";
 
-        internal const string Dir = "dir";
+        internal const string Dir = "fs.dir";
 
-        internal const string FileUri = "uri<k:file>";
+        internal const string FileUri = "fs.uri";
 
-        internal const string Folder = "folder";
+        internal const string Folder = "fs.folder";
 
-        internal const string FilePath = "path";
+        internal const string FilePath = "fs.path";
 
         public static TypeParam param(string name, string value) => new TypeParam(name,value);
 
@@ -254,71 +251,85 @@ namespace Z0
         /// <summary>
         /// Defines a u8 integer type
         /// </summary>
+        [TypeSyntax(nameof(u8))]
         public static TypeSpec u8() => u(8);
 
         /// <summary>
         /// Defines a u16 integer type
         /// </summary>
+        [TypeSyntax(nameof(u16))]
         public static TypeSpec u16() => u(16);
 
         /// <summary>
         /// Defines a u32 integer type
         /// </summary>
+        [TypeSyntax(nameof(u32))]
         public static TypeSpec u32() => u(32);
 
         /// <summary>
         /// Defines a u64 integer type
         /// </summary>
+        [TypeSyntax(nameof(u64))]
         public static TypeSpec u64() => u(64);
 
         /// <summary>
         /// Defines a u128 integer type
         /// </summary>
+        [TypeSyntax(nameof(u128))]
         public static TypeSpec u128() => u(128);
 
         /// <summary>
         /// Defines a u256 integer type
         /// </summary>
+        [TypeSyntax(nameof(u256))]
         public static TypeSpec u256() => u(256);
 
         /// <summary>
         /// Defines a u512 integer type
         /// </summary>
+        [TypeSyntax(nameof(u512))]
         public static TypeSpec u512() => u(512);
 
         /// <summary>
         /// Defines an i8 integer type
         /// </summary>
+        [TypeSyntax(nameof(i8))]
         public static TypeSpec i8() => i(8);
 
         /// <summary>
         /// Defines an i16 integer type
         /// </summary>
+        [TypeSyntax(nameof(i16))]
         public static TypeSpec i16() => i(16);
 
         /// <summary>
         /// Defines an i32 integer type
         /// </summary>
+        [TypeSyntax(nameof(i32))]
         public static TypeSpec i32() => i(32);
 
         /// <summary>
         /// Defines an i64 integer type
         /// </summary>
+        [TypeSyntax(nameof(i64))]
         public static TypeSpec i64() => i(64);
 
         /// <summary>
         /// Defines an i128 integer type
         /// </summary>
+        [TypeSyntax(nameof(i128))]
         public static TypeSpec i128() => i(128);
 
         /// <summary>
         /// Defines an i256 integer type
         /// </summary>
+        [TypeSyntax(nameof(i256))]
         public static TypeSpec i256() => i(256);
 
         /// <summary>
         /// Defines an i512 integer type
         /// </summary>
+        [TypeSyntax(nameof(i512))]
         public static TypeSpec i512() => i(512);
 
         /// <summary>
@@ -360,6 +371,12 @@ namespace Z0
         /// <param name="n">The bit width</param>
         [TypeSyntax(C)]
         public static TypeSpec c(byte n) => n <= 32 ? string.Format(C, n) : EmptyString;
+
+        [TypeSyntax(nameof(c16))]
+        public static TypeSpec c16() => c(16);
+
+        [TypeSyntax(nameof(c8))]
+        public static TypeSpec c8() => c(8);
 
         /// <summary>
         /// Defines a type that represents a readonly span over a specified element type
@@ -475,7 +492,22 @@ namespace Z0
         [TypeSyntax(V)]
         public static TypeSpec v(uint n, TypeSpec cells, params object[] parameters) => string.Format(V, n, cells.Format(parameters));
 
-        public static TypeRef typeref(TypeSpec type, TypeRefKind kind)
+        [TypeSyntax(FilePath)]
+        public static TypeSpec path() => FilePath;
+
+        [TypeSyntax(Dir)]
+        public static TypeSpec dir() => Dir;
+
+        [TypeSyntax(FileUri)]
+        public static TypeSpec fileuri() => FileUri;
+
+        [TypeSyntax(FileName)]
+        public static TypeSpec filename() => FileName;
+
+        [TypeSyntax(Folder)]
+        public static TypeSpec folder() => Folder;
+
+        public static TypeRef refer(TypeSpec type, TypeRefKind kind)
             => new TypeRef(type,kind);
 
         [Op]

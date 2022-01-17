@@ -16,7 +16,7 @@ namespace Z0
             var dst = dict<FS.FilePath,AsmEncodingDoc>();
             for(var i=0; i<count; i++)
             {
-                var result = XedDisasmOps.ParseEncodings(collect.File(src[i]), out var encodings);
+                var result = XedDisasmOps.ParseEncodings(collect.FileRef(src[i]), out var encodings);
                 if(result)
                     dst[src[i]] = encodings;
                 else

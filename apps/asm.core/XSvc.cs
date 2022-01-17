@@ -12,6 +12,10 @@ namespace Z0
     public static class XSvc
     {
         [Op]
+        public static ApiAssets ApiAssets(this IWfRuntime wf)
+            => Z0.ApiAssets.create(wf);
+
+        [Op]
         public static WsProjects WsProjects(this IWfRuntime wf)
             => Z0.WsProjects.create(wf);
 

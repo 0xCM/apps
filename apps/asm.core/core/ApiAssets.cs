@@ -7,25 +7,22 @@ namespace Z0
     using System;
     using System.Reflection;
     using System.IO;
-    using System.Collections.Generic;
 
     using static core;
 
     public sealed class ApiAssets : AppService<ApiAssets>
     {
-
-
-
         public Index<ResEmission> Run(EmitResDataCmd cmd)
             => EmitEmbedded(cmd.Source, cmd.Target, cmd.Match, cmd.ClearTarget);
 
         public Index<ResEmission> EmitAssetContent()
         {
-            var outer = Wf.Running("Emitting reference data");
-            var components = Wf.ApiCatalog.Components;
+            var outer = Running("Emitting reference data");
+            var components = ApiRuntimeCatalog.Components;
             var descriptors = Resources.descriptors(components).SelectMany(x => x.Storage).View;
             var count = descriptors.Length;
-            var root = Db.RefDataRoot();
+            var root = ProjectDb.Api() + FS.folder("assets");
+            root.Clear();
             var emissions = sys.alloc<ResEmission>(count);
             for(var i=0; i<count; i++)
             {
@@ -37,18 +34,11 @@ namespace Z0
                 }
                 catch(Exception e)
                 {
-                    Wf.Error(e);
+                    Error(e);
                 }
             }
-            Wf.Ran(outer, string.Format("Emitted <{0}> reference files", count));
+            Ran(outer, string.Format("Emitted <{0}> reference files", count));
             return emissions;
-        }
-
-        void Emit(ReadOnlySpan<Assembly> src, StreamWriter dst, List<DocLibEntry> entries)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-                entries.AddRange(Emit(skip(src,i),dst));
         }
 
         static Index<DocLibEntry> entries(Assembly src)
@@ -62,32 +52,39 @@ namespace Z0
             return buffer;
         }
 
-        Index<DocLibEntry> Emit(Assembly src, StreamWriter dst)
+        public Index<ResEmission> EmitEmbedded()
         {
-            var _entries = entries(src);
-            Emit(_entries, dst);
-            return _entries;
-        }
+            var running = Running();
+            var src = ApiRuntimeCatalog.Components;
+            var assets = Resources.descriptors(src);
+            var count = assets.Length;
+            var buffer = list<ResEmission>();
+            var root = ProjectDb.Api() + FS.folder("assets");
+            for(var i=0; i<count; i++)
+            {
+                var sources = assets[i].View;
 
-        uint Emit(ReadOnlySpan<DocLibEntry> entries, StreamWriter dst)
-        {
-            var count = (uint)entries.Length;
-            var formatter = Tables.formatter<DocLibEntry>(82);
-            for(var i=0u; i<count; i++)
-                dst.WriteLine(formatter.Format(skip(entries, i)));
-            return count;
+                for(var j=0; j<sources.Length; j++)
+                {
+                    ref readonly var descriptor = ref skip(sources,j);
+                    var size = descriptor.Size;
+                    buffer.Add(Emit(descriptor, root));
+                }
+            }
+
+            Ran(running);
+
+            return buffer.ToArray();
         }
 
         public Index<ResEmission> EmitEmbedded(Assembly src, FS.FolderPath root, utf8 match, bool clear)
         {
-            var flow = Wf.Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
+            var flow = Running(string.Format("Emitting resources embedded in {0}", src.GetSimpleName()));
             var descriptors = match.IsEmpty ? Resources.descriptors(src) : Resources.descriptors(src, match);
             var count = descriptors.ResourceCount;
 
             if(count == 0)
-                Wf.Warn(Msg.NoMatchingResources.Format(src, match));
-            else
-                Wf.Status(Msg.EmittingResources.Format(src, count));
+                return sys.empty<ResEmission>();
 
             var buffer = sys.alloc<ResEmission>(count);
             ref var emission = ref first(buffer);
@@ -95,17 +92,15 @@ namespace Z0
             if(clear)
                 root.Clear();
 
-            var invalid = Path.GetInvalidPathChars();
             var sources = descriptors.View;
             for(var i=0; i<count; i++)
             {
                 ref readonly var descriptor = ref skip(sources,i);
                 var size = descriptor.Size;
                 seek(emission,i) = Emit(descriptor, root);
-                Wf.Status($"Emitted {emission.Target}");
             }
 
-            Wf.Ran(flow);
+            Ran(flow);
             return buffer;
         }
 
@@ -114,17 +109,12 @@ namespace Z0
             var invalid = Path.GetInvalidPathChars();
             var name =  src.Name.ToString().ReplaceAny(invalid, Chars.Underscore);
             var target = root + FS.file(name);
-            var flow = Wf.EmittingFile(target);
+            var flow = EmittingFile(target);
             var utf = Resources.utf8(src);
             using var writer = target.Writer();
             writer.Write(utf);
-            Wf.EmittedFile(flow,1);
+            EmittedFile(flow,1);
             return flows.arrow(src,target);
         }
-    }
-
-    partial struct Msg
-    {
-
     }
 }

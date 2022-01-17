@@ -10,9 +10,6 @@ namespace Z0
 
     partial struct FS
     {
-        /// <summary>
-        /// Defines the <see cref='asm'/> <see cref='FileExt'/>
-        /// </summary>
         public static FileExt Asm => ext(asm);
 
         /// <summary>
@@ -155,9 +152,6 @@ namespace Z0
         /// </summary>
         public static FileExt Targets => ext(targets);
 
-        /// <summary>
-        /// Defines the <see cref='N.alg'/> <see cref='FileExt'/>
-        /// </summary>
         public static FileExt Alg => ext(N.alg);
 
         /// <summary>

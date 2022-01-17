@@ -21,10 +21,10 @@ namespace Z0
             EventReceiver = receiver;
         }
 
-        public FileRef File(FS.FilePath path)
+        public FileRef FileRef(FS.FilePath path)
             => Files[path];
 
-        public FileRef File(uint docid)
+        public FileRef FileRef(uint docid)
             => Files[docid];
     }
 }

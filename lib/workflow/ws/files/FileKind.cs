@@ -14,14 +14,14 @@ namespace Z0
         [Symbol(asm,"Formatted x86 assembly")]
         Asm,
 
-        [Symbol(encodingasm, "An asm file that contains the encoding as comments")]
-        EncodingAsm,
+        [Symbol(encasm, "An asm file that contains the encoding as comments")]
+        EncAsm,
 
         [Symbol(synasm)]
-        AsmSyntax,
+        SynAsm,
 
         [Symbol(synasmlog)]
-        AsmSyntaxLog,
+        SynAsmLog,
 
         [Symbol(bat, "A windows batch file")]
         Bat,
@@ -163,5 +163,11 @@ namespace Z0
 
         [Symbol("s")]
         S,
+
+        [Symbol(pdb)]
+        Pdb,
+
+        [Symbol(td, "An llvm table definition file")]
+        Td,
     }
 }

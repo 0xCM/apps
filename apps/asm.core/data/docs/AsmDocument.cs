@@ -28,9 +28,9 @@ namespace Z0
 
         Index<AsmInstRef> _Instructions;
 
-        public AsmDocument(FS.FilePath path, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, AsmInstRef[] inst)
+        public AsmDocument(in FileRef fref, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, AsmInstRef[] inst)
         {
-            Path = path;
+            Path = fref.Path;
             _Directives = d;
             _BlockLabels = b;
             _BlockOffsets = l;

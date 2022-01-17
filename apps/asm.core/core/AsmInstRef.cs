@@ -12,25 +12,27 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmInstRef
     {
-        public uint Seq;
+        public uint DocId;
+
+        public uint DocSeq;
 
         public LineNumber Line;
 
         public AsmId AsmId;
 
         [MethodImpl(Inline)]
-        public AsmInstRef(uint seq, LineNumber line, AsmId name)
+        public AsmInstRef(uint docid, uint seq, LineNumber line, AsmId name)
         {
-            Seq = seq;
+            DocId = docid;
+            DocSeq = seq;
             Line = line;
             AsmId = name;
         }
 
         public string Format()
-            => string.Format("{0,-8} | {1,-8} | {1}", Seq, Line, AsmId);
+            => string.Format("{0,-8} | {1,-8} | {2,-8} | {3}", DocId, DocSeq, Line, AsmId);
 
         public override string ToString()
             => Format();
     }
 }
-

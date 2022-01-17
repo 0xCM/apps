@@ -138,10 +138,6 @@ namespace Z0
              => Z0.ApiIndexBuilder.create(wf);
 
         [Op]
-        public static ApiAssets ApiAssets(this IWfRuntime wf)
-            => Z0.ApiAssets.create(wf);
-
-        [Op]
         public static ApiCatalogs ApiCatalogs(this IWfRuntime wf)
             => Z0.ApiCatalogs.create(wf);
 

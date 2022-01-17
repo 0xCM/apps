@@ -81,7 +81,7 @@ namespace Z0
                 ref readonly var entry = ref entries[i];
                 ref readonly var path = ref entry.Left;
                 ref readonly var obj = ref entry.Right;
-                var fref = collect.File(path);
+                var fref = collect.FileRef(path);
                 var view = CoffObjectView.cover(obj.Data);
                 ref readonly var header = ref view.Header;
                 var strings = view.StringTable;
@@ -126,7 +126,7 @@ namespace Z0
             {
                 ref readonly var objPath = ref skip(paths,i);
                 var obj = src[objPath];
-                var fref = collect.File(objPath);
+                var fref = collect.FileRef(objPath);
 
                 var objData = obj.Data.View;
                 var offset = 0u;

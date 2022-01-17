@@ -41,6 +41,8 @@ namespace Z0
             EmitApiDataFlows();
         }
 
+        ApiAssets ApiAssets => Service(Wf.ApiAssets);
+
         void EmitTableReport()
             => ApiCatalogs.EmitTableDefs();
 

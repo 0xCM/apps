@@ -13,7 +13,6 @@ namespace Z0
         [CmdOp("llc/build")]
         Outcome LlcBuild(CmdArgs args)
         {
-            //Llc.Build(Project());
             var result = Llc.Build(Project(), SubtargetKind.Avx512, true);
             if(result)
             {
