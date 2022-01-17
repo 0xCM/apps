@@ -5,14 +5,14 @@
 namespace Z0
 {
     using static core;
+    using static Root;
 
     partial class ApiCmdProvider
     {
-        [CmdOp("api/flows")]
-        Outcome RevealDataFlows(CmdArgs args)
+        [CmdOp("api/emit/commands")]
+        Outcome EmitCmdTypes(CmdArgs args)
         {
-            var src = ApiRuntimeCatalog.DataFlows;
-            iter(src, flow => Write(flow.Format()));
+            EmitApiCommands();
             return true;
         }
     }

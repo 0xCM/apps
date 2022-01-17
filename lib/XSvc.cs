@@ -4,16 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Svc = Z0;
-
     using Asm;
 
     [ApiHost]
     public static partial class XSvc
     {
-        [Op]
-        public static Workspaces WorkSpaces(this IWfRuntime wf)
-            => Workspaces.create(wf);
 
         [Op]
         public static ApiResolver ApiResolver(this IWfRuntime wf)
@@ -45,15 +40,15 @@ namespace Z0
 
         [Op]
         public static Tooling Tooling(this IWfRuntime wf)
-            => Svc.Tooling.create(wf);
+            => Z0.Tooling.create(wf);
 
         [Op]
         public static HexCsvReader HexCsvReader(this IWfRuntime wf)
-            => Svc.HexCsvReader.create(wf);
+            => Z0.HexCsvReader.create(wf);
 
         [Op]
         public static HexCsvWriter HexCsvWriter(this IWfRuntime wf)
-            => Svc.HexCsvWriter.create(wf);
+            => Z0.HexCsvWriter.create(wf);
 
         [Op]
         public static AssetServices Assets(this IWfRuntime wf)
@@ -61,11 +56,11 @@ namespace Z0
 
         [Op]
         public static CharMapper CharMapper(this IServiceContext context)
-            => Svc.CharMapper.create(context);
+            => Z0.CharMapper.create(context);
 
         [Op]
         public static Symbolism Symbolism(this IWfRuntime wf)
-            => Svc.Symbolism.create(wf);
+            => Z0.Symbolism.create(wf);
 
         [Op]
         public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)
@@ -73,26 +68,26 @@ namespace Z0
 
         [Op]
         public static AppSettings AppSettings(this IWfRuntime wf)
-            => Svc.AppSettings.create(wf);
+            => Z0.AppSettings.create(wf);
 
         public static FileSplitter FileSplitter(this IWfRuntime wf)
-            => Svc.FileSplitter.create(wf);
+            => Z0.FileSplitter.create(wf);
 
         [Op]
         public static SymServices SymServices(this IWfRuntime wf)
-            => Svc.SymServices.create(wf);
+            => Z0.SymServices.create(wf);
 
         [Op]
         public static HexEmitter HexEmitter(this IWfRuntime wf)
-            => Svc.HexEmitter.create(wf);
+            => Z0.HexEmitter.create(wf);
 
         [Op]
         public static BitfieldServices Bitfields(this IWfRuntime wf)
-            => Svc.BitfieldServices.create(wf);
+            => Z0.BitfieldServices.create(wf);
 
         [Op]
         public static ProjectScripts ProjectScripts(this IWfRuntime wf)
-            => Svc.ProjectScripts.create(wf);
+            => Z0.ProjectScripts.create(wf);
 
         [Op]
         public static TableEmitters TableEmitters(this IWfRuntime context)
@@ -124,11 +119,11 @@ namespace Z0
 
         [Op]
         public static ApiHexPacks ApiHexPacks(this IWfRuntime wf)
-            => Svc.ApiHexPacks.create(wf);
+            => Z0.ApiHexPacks.create(wf);
 
         [Op]
         public static ApiMetadataService ApiMetadata(this IWfRuntime context)
-            => Svc.ApiMetadataService.create(context);
+            => Z0.ApiMetadataService.create(context);
 
         [Op]
         public static ApiComments ApiComments(this IWfRuntime wf)

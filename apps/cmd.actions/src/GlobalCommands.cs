@@ -73,5 +73,27 @@ namespace Z0
             for(var i=0; i<count; i++)
                 Dispatch(Cmd.cmdspec(lines[i].Content));
         }
+
+        [CmdOp(".commands")]
+        Outcome EmitShellCommands(CmdArgs args)
+        {
+            return EmitShellCommands(Dispatcher);
+        }
+
+        Outcome EmitShellCommands(ICmdDispatcher dispatcher)
+        {
+            var dst = ProjectDb.Api() + FS.file("api.shell.commands", FS.Csv);
+            return EmitCommands(dispatcher, dst);
+        }
+
+        Outcome EmitCommands(ICmdDispatcher dispatcher, FS.FilePath dst)
+        {
+            iter(dispatcher.SupportedActions, cmd => Write(cmd));
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            iter(dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
+            EmittedFile(emitting, dispatcher.SupportedActions.Length);
+            return true;
+        }
     }
 }

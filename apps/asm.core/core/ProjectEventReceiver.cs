@@ -12,11 +12,13 @@ namespace Z0.Asm
 
         Index<AsmCodeIndexRow> _IndexedCode;
 
-        public ReadOnlySpan<AsmCodeIndexRow> IndexedCode
+        public ReadOnlySpan<AsmCodeIndexRow> AsmCodeRows
         {
             get => _IndexedCode;
         }
 
+        public FileCatalog FileCatalog
+            => Files;
 
         public ProjectEventReceiver()
         {
@@ -24,17 +26,7 @@ namespace Z0.Asm
             _IndexedCode = sys.empty<AsmCodeIndexRow>();
         }
 
-        public virtual void Indexed(in FileRef file)
-        {
-
-        }
-
-        public virtual void Indexed(in AsmCodeIndexRow dst)
-        {
-
-        }
-
-        public virtual void FilesIndexed(FileCatalog src)
+        public virtual void Indexed(FileCatalog src)
         {
             Files = src;
         }

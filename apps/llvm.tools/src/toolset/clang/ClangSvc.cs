@@ -11,9 +11,7 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.clang;
 
-        ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
-
-        BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
+        WsProjects WsProjects => Service(Wf.WsProjects);
 
         public ClangSvc()
             : base(ToolId)
@@ -22,9 +20,9 @@ namespace Z0.llvm
         }
 
         public Outcome<Index<ToolCmdFlow>> CBuild(IProjectWs project, bool runexe = false)
-            => ScriptSvc.RunScript(project, "c-build", "c", flow => ResponseHandler.HandleBuildResponse(flow,runexe));
+            => WsProjects.RunScript(project, "c-build", "c", flow => WsProjects.HandleBuildResponse(flow,runexe));
 
         public Outcome<Index<ToolCmdFlow>> CppBuild(IProjectWs project, bool runexe = false)
-            => ScriptSvc.RunScript(project, "cpp-build", "cpp", flow => ResponseHandler.HandleBuildResponse(flow,runexe));
+            => WsProjects.RunScript(project, "cpp-build", "cpp", flow => WsProjects.HandleBuildResponse(flow,runexe));
     }
 }

@@ -16,16 +16,14 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llvm_mc;
 
-        ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
-
         AsmSourceDocs AsmDocs => Service(Wf.AsmSourceDocs);
 
         EnumParser<AsmId> AsmIdParser => Service(() => new EnumParser<AsmId>());
 
-        BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
+        WsProjects WsProjects => Service(Wf.WsProjects);
 
         public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, bool runexe = false)
-            => ScriptSvc.RunScript(project, "build", "asm", flow => ResponseHandler.HandleBuildResponse(flow,runexe));
+            => WsProjects.RunScript(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, runexe));
 
         public LlvmMcSvc()
             : base(ToolId)

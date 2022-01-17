@@ -13,7 +13,8 @@ namespace Z0.llvm
     [Cmd(ToolNames.llvm_mc), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct McCmd : IFileFlowCmd<McCmd>
     {
-        public FS.FilePath Source;
+         [CmdArg("<src>")]
+         public FS.FilePath Source;
 
         [CmdArg("-o {0}")]
         public FS.FilePath Target;

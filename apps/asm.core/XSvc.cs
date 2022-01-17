@@ -11,8 +11,10 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        public static ProjectFlows ProjectFlows(this IWfRuntime wf)
-            => Z0.ProjectFlows.create(wf);
+        [Op]
+        public static WsProjects WsProjects(this IWfRuntime wf)
+            => Z0.WsProjects.create(wf);
+
         [Op]
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Asm.IntelSdm.create(wf);

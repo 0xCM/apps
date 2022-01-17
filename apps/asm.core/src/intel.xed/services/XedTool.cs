@@ -11,35 +11,35 @@ namespace Z0
         {
             None = 0,
 
-            [Symbol("-i", "A pecoff file")]
+            [Symbol("i", "A pecoff file")]
             PeCoffFile,
 
-            [Symbol("-ir", "A raw unformatted binary file")]
+            [Symbol("ir", "A raw unformatted binary file")]
             RawBinFile,
 
-            [Symbol("-ih", "A raw unformatted ASCII hex file")]
+            [Symbol("ih", "A raw unformatted ASCII hex file")]
             HexFile,
 
-            [Symbol("-d", "A sequence of hex-formatted bytes")]
+            [Symbol("d", "A sequence of hex-formatted bytes")]
             HexText,
         }
 
         [SymSource("xedtool")]
         public enum Verbosity : byte
         {
-            [Symbol("-v 0", "Quiet")]
+            [Symbol("0", "Quiet")]
             Level0,
 
-            [Symbol("-v 1", "Errors")]
+            [Symbol("1", "Errors")]
             Level1,
 
-            [Symbol("-v 2", "Info")]
+            [Symbol("2", "Info")]
             Level2,
 
-            [Symbol("-v 3", "Trace")]
+            [Symbol("3", "Trace")]
             Level3,
 
-            [Symbol("-v 5", "Very verbose")]
+            [Symbol("5", "Very verbose")]
             Level5,
         }
 
@@ -48,19 +48,19 @@ namespace Z0
         {
             None = 0,
 
-            [Symbol("-r", "REAL_16 mode, 16b addressing (20b addresses), 16b default data size")]
+            [Symbol("r", "REAL_16 mode, 16b addressing (20b addresses), 16b default data size")]
             Real16,
 
-            [Symbol("-r32", "REAL_32 mode, 16b addressing (20b addresses), 32b default data size")]
+            [Symbol("r32", "REAL_32 mode, 16b addressing (20b addresses), 32b default data size")]
             Real32,
 
-            [Symbol("-16", "LEGACY_16 mode, 16b addressing, 16b default data size")]
+            [Symbol("16", "LEGACY_16 mode, 16b addressing, 16b default data size")]
             Bits16,
 
-            [Symbol("-32", "LEGACY_32 mode, 32b addressing, 32b default data size")]
+            [Symbol("32", "LEGACY_32 mode, 32b addressing, 32b default data size")]
             Bits32,
 
-            [Symbol("-64", "LONG_64 mode w/64b addressing")]
+            [Symbol("64", "LONG_64 mode w/64b addressing")]
             Bits64,
         }
 

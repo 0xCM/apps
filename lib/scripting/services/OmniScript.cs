@@ -202,12 +202,20 @@ namespace Z0
         public Outcome Run(CmdLine cmd, CmdVars vars, FS.FilePath log, Receiver<string> status, Receiver<string> error, out ReadOnlySpan<TextLine> dst)
             => ScriptProcess.run(cmd, vars, log, status, error, out dst);
 
-        public new Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+        public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
-        public new Outcome Run(ToolScript script, out ReadOnlySpan<TextLine> response)
+        public Outcome Run(ToolScript script, out ReadOnlySpan<TextLine> response)
             => ScriptRunner.RunCmd(script, ReceiveCmdStatusQuiet, ReceiveCmdError, out response);
 
+        // public Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+        //     => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
+
+        // public Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
+        //     => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
+
+        public Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
+            => CmdRunner.Run(WinCmd.cmd(spec), out response);
 
         public ReadOnlySpan<TextLine> RunCmd(CmdLine cmd, Action<Exception> error = null)
         {

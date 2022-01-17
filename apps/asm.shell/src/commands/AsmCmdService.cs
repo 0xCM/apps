@@ -35,6 +35,8 @@ namespace Z0.Asm
 
         PdbIndexBuilder PdbIndexBuilder => Service(Wf.PdbIndexBuilder);
 
+        WsProjects WsProjects => Service(Wf.WsProjects);
+
         CliMemoryMap ResPack;
 
         IPolyrand Random;

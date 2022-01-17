@@ -30,6 +30,8 @@ namespace Z0
 
         ProjectManager Projects => Service(Wf.ProjectManager);
 
+        WsProjects WsProjects => Service(Wf.WsProjects);
+
         LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
 
         LlvmMcSvc LlvmMc => Service(Wf.LlvmMc);

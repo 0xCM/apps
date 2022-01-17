@@ -15,9 +15,7 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llc;
 
-        ProjectScriptSvc ScriptSvc => Service(Wf.ProjectScriptSvc);
-
-        BuildResponseHandler ResponseHandler => Service(() => BuildResponseHandler.create(Wf));
+        WsProjects WsProjects => Service(Wf.WsProjects);
 
         public LlvmLlcSvc()
             : base(ToolId)
@@ -41,7 +39,7 @@ namespace Z0.llvm
                 _ => EmptyString
             };
 
-            return ScriptSvc.RunScript(project, scriptid, EmptyString, flow => ResponseHandler.HandleBuildResponse(flow, runexe));
+            return WsProjects.RunScript(project, scriptid, EmptyString, flow => WsProjects.HandleBuildResponse(flow, runexe));
         }
 
         Outcome Build(IProjectWs project, Paired<FS.FilePath,Index<string>> spec)

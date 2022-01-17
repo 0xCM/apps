@@ -10,8 +10,10 @@ namespace Z0.llvm
     [Cmd(ToolNames.llvm_readobj), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct ReadObjCmd : IFileFlowCmd<ReadObjCmd>
     {
+        [CmdArg("<src>")]
         public FS.FilePath Source;
 
+        [CmdArg("<dst>")]
         public FS.FilePath Target;
 
         [CmdFlag("--coff-tls-directory")]
@@ -59,7 +61,8 @@ namespace Z0.llvm
         [CmdFlag("--version-info")]
         public bit VersionInfo;
 
-        public IActor Actor => throw new NotImplementedException();
+        IActor IFileFlowCmd.Actor
+            => Tools.llvm_readobj;
 
         FS.FilePath IFileFlowCmd.Source
             => Source;

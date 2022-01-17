@@ -14,8 +14,6 @@ namespace Z0
         public static AsmSourceDocs AsmSourceDocs(this IWfRuntime wf)
             => Asm.AsmSourceDocs.create(wf);
 
-        public static ProjectScriptSvc ProjectScriptSvc(this IWfRuntime wf)
-            => Z0.ProjectScriptSvc.create(wf);
         [Op]
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
             => llvm.LlvmDataCalcs.create(wf);

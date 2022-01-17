@@ -9,8 +9,6 @@ namespace Z0
 
     using static core;
 
-    using L = ApiLiterals;
-
     public abstract class AppCmdService<T> : AppService<T>, IAppCmdService
         where T : AppCmdService<T>, new()
     {
@@ -21,7 +19,6 @@ namespace Z0
         Option<IToolCmdShell> Shell;
 
         protected IProjectSet ProjectWs;
-
 
         protected AppCmdService()
         {
@@ -79,18 +76,6 @@ namespace Z0
         protected Outcome ShowToolProfiles(CmdArgs args)
         {
             iter(ToolProfiles.Values, profile => Write(string.Format("{0,-12} {1,-32} {2}", profile.Memberhisp, profile.Id, profile.Path)));
-            return true;
-        }
-
-        [CmdOp("commands")]
-        protected Outcome Commands(CmdArgs args)
-        {
-            iter(Dispatcher.SupportedActions, cmd => Write(cmd));
-            var dst = ProjectDb.Api() + FS.file("commands", FS.Csv);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            iter(Dispatcher.SupportedActions, cmd => writer.WriteLine(cmd));
-            EmittedFile(emitting, Dispatcher.SupportedActions.Length);
             return true;
         }
 
@@ -174,8 +159,7 @@ namespace Z0
         protected Outcome ApiCatalog(CmdArgs args)
         {
             var result = Outcome.Success;
-            var catalog = Service(ApiRuntimeLoader.catalog);
-            var parts = catalog.PartIdentities;
+            var parts = ApiRuntimeCatalog.PartIdentities;
             var desc = string.Format("Parts:[{0}]", parts.Map(p => p.Format()).Delimit());
             Write(desc);
             return result;
@@ -335,9 +319,6 @@ namespace Z0
             Files(ProjectFiles(ws,scope));
             return true;
         }
-
-        protected Outcome RunProjectScript(CmdArgs args, ScriptId script, Subject? scope = null)
-            => RunProjectScript(CommonState.Project(), args, script, scope);
 
         static MsgPattern<ProjectId> UndefinedProject
             => "Undefined project:{0}";

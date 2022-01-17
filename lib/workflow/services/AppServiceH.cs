@@ -148,7 +148,23 @@ namespace Z0
             }
         }
 
-        protected IApiCatalog ApiRuntimeCatalog => Service(ApiRuntimeLoader.catalog);
+        static IApiCatalog _ApiCatalog;
+
+        static object _ApiLocker = new object();
+
+        static IApiCatalog GetApiCatalog()
+        {
+            lock(_ApiLocker)
+            {
+                if(_ApiCatalog == null)
+                {
+                    _ApiCatalog = ApiRuntimeLoader.catalog();
+                }
+            }
+            return _ApiCatalog;
+        }
+
+        protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
 
         protected void Babble<T>(T content)
             => Wf.Babble(HostType, content);
@@ -310,24 +326,6 @@ namespace Z0
             dst = AppSettings.Load(path.ReadNumberedLines());
         }
 
-        protected Outcome RunExe(ReadOnlySpan<ToolCmdFlow> flows)
-        {
-            if(ToolFlows.target(flows,FS.Exe, out var flow))
-            {
-                ref readonly var target = ref flow.TargetPath;
-                Write(string.Format("Executing {0}", flow.TargetPath));
-                var result = OmniScript.Run(target, CmdVars.Empty, true, out var response);
-                if(result.Fail)
-                    return result;
-
-                for(var j=0; j<response.Length; j++)
-                    Write(skip(response, j).Content);
-                return true;
-            }
-            else
-                return false;
-        }
-
         protected FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
         {
             if(scope != null)
@@ -336,40 +334,40 @@ namespace Z0
                 return ws.SrcFiles();
         }
 
-        protected Outcome RunProjectScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
-        {
-            var result = Outcome.Success;
-            if(args.Count != 0)
-            {
-                result = OmniScript.RunProjectScript(ws.Project, arg(args,0).Value, script, false, out _);
-                return result;
-            }
+        // protected Outcome RunProjectScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
+        // {
+        //     var result = Outcome.Success;
+        //     if(args.Count != 0)
+        //     {
+        //         result = OmniScript.RunProjectScript(ws.Project, arg(args,0).Value, script, false, out _);
+        //         return result;
+        //     }
 
-            var src = ProjectFiles(ws, scope).View;
-            if(result.Fail)
-                return result;
+        //     var src = ProjectFiles(ws, scope).View;
+        //     if(result.Fail)
+        //         return result;
 
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                RunProjectScript(ws,path,script);
-            }
+        //     var count = src.Length;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var path = ref skip(src,i);
+        //         RunProjectScript(ws,path,script);
+        //     }
 
-            return result;
-        }
+        //     return result;
+        // }
 
-        protected Outcome RunProjectScript(IProjectWs ws, FS.FilePath path, ScriptId script)
-        {
-            var srcid = path.FileName.WithoutExtension.Format();
-            OmniScript.RunProjectScript(ws.Project, srcid, script, true, out var flows);
-            for(var j=0; j<flows.Length; j++)
-            {
-                ref readonly var flow = ref skip(flows, j);
-                Write(flow.Format());
-            }
-            return true;
-        }
+        // protected Outcome RunProjectScript(IProjectWs ws, FS.FilePath path, ScriptId script)
+        // {
+        //     var srcid = path.FileName.WithoutExtension.Format();
+        //     OmniScript.RunProjectScript(ws.Project, srcid, script, true, out var flows);
+        //     for(var j=0; j<flows.Length; j++)
+        //     {
+        //         ref readonly var flow = ref skip(flows, j);
+        //         Write(flow.Format());
+        //     }
+        //     return true;
+        // }
 
         protected static CmdArg arg(in CmdArgs src, int index)
         {
@@ -382,16 +380,16 @@ namespace Z0
             return src[(ushort)index];
         }
 
-        protected Outcome RunProjectScript(IProjectWs ws, ScriptId script)
-        {
-            OmniScript.RunProjectScript(ws.Project, script, true, out var flows);
-            for(var j=0; j<flows.Length; j++)
-            {
-                ref readonly var flow = ref skip(flows, j);
-                Write(flow.Format());
-            }
-            return true;
-        }
+        // protected Outcome RunProjectScript(IProjectWs ws, ScriptId script)
+        // {
+        //     OmniScript.RunProjectScript(ws.Project, script, true, out var flows);
+        //     for(var j=0; j<flows.Length; j++)
+        //     {
+        //         ref readonly var flow = ref skip(flows, j);
+        //         Write(flow.Format());
+        //     }
+        //     return true;
+        // }
 
         protected ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
             where E : unmanaged, Enum
@@ -399,8 +397,8 @@ namespace Z0
             return Service(Wf.Symbolism).EmitLiterals<E>(dst);
         }
 
-        protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
-            => CmdResponse.parse(src);
+        // protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
+        //     => CmdResponse.parse(src);
 
         [CmdOp("env/logs")]
         protected Outcome EnvLogs(CmdArgs args)
@@ -483,39 +481,39 @@ namespace Z0
         }
 
 
-        void ReceiveCmdStatus(in string src)
-        {
+        // void ReceiveCmdStatus(in string src)
+        // {
 
-        }
+        // }
 
-        void ReceiveCmdError(in string src)
-        {
-            Error(src);
-        }
+        // void ReceiveCmdError(in string src)
+        // {
+        //     Error(src);
+        // }
 
-        protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
+        // protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
+        //     => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
 
-        protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
-            => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
+        // protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
+        //     => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
 
-        protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
-            => CmdRunner.Run(WinCmd.cmd(spec), out response);
+        // protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
+        //     => CmdRunner.Run(WinCmd.cmd(spec), out response);
 
-        protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-        {
-            var result = Outcome.Success;
+        // protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
+        // {
+        //     var result = Outcome.Success;
 
-            void OnError(Exception e)
-            {
-                result = e;
-                Error(e);
-            }
+        //     void OnError(Exception e)
+        //     {
+        //         result = e;
+        //         Error(e);
+        //     }
 
-            var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
-            response = ScriptRunner.RunCmd(cmd, OnError);
-            return result;
-        }
+        //     var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
+        //     response = ScriptRunner.RunCmd(cmd, OnError);
+        //     return result;
+        // }
 
 
         protected Outcome ShowSyms<K>(Symbols<K> src)

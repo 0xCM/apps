@@ -22,8 +22,6 @@ namespace Z0
 
         CoffServices Coff => Service(Wf.CoffServices);
 
-        ProjectFlows ProjectFlows => Service(Wf.ProjectFlows);
-
         List<ObjDumpRow> ObjDumpRows;
 
         ProjectEventReceiver EventReceiver;
@@ -79,30 +77,9 @@ namespace Z0
             var entries = catalog.Entries();
             if(emit)
                 TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
-            EventReceiver.FilesIndexed(catalog);
+            EventReceiver.Indexed(catalog);
             return catalog;
         }
-
-        // public FileIndex IndexFiles(IProjectWs project)
-        // {
-        //     var src = project.Files().Exclude(FS.Cmd);
-        //     var matches = ProjectFlows.Match(src);
-        //     var count = src.Count;
-        //     var buffer = alloc<FileRef>(count);
-        //     for(var i=0u; i<count; i++)
-        //     {
-        //         ref readonly var file = ref src[i];
-        //         var hash = alg.hash.marvin(file.Format());
-        //         ref readonly var kind = ref matches[i].Right;
-        //         ref var dst = ref seek(buffer,i);
-        //         dst = new FileRef(i, kind, hash, file);
-        //         EventReceiver.Indexed(dst);
-        //     }
-
-        //     TableEmit(@readonly(buffer), FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
-        //     EventReceiver.FilesIndexed(buffer);
-        //     return buffer;
-        // }
 
         Outcome IndexEncoding(ProjectCollection collect)
         {
@@ -129,7 +106,6 @@ namespace Z0
                 dst.Asm = code.AsmText.Format();
                 dst.Encoding = code.HexCode;
                 dst.IP = (Address32)code.Offset;
-                EventReceiver.Indexed(dst);
             }
 
             buffer.Sort();

@@ -20,6 +20,8 @@ namespace Z0.llvm
 
         const string FormatMarker = "file format ";
 
+        WsProjects WsProjects => Service(Wf.WsProjects);
+
         public LlvmObjDumpSvc()
             : base(ToolId)
         {
@@ -37,7 +39,7 @@ namespace Z0.llvm
             var result = OmniScript.Run(cmd, vars.ToCmdVars(), out var response);
             if(result)
             {
-               var items = ParseCmdResponse(response);
+               var items = WsProjects.ParseCmdResponse(response);
                iter(items, item => Write(item));
             }
             return result;
@@ -94,7 +96,7 @@ namespace Z0.llvm
                 vars.DstDir = outdir;
                 vars.SrcDir = path.FolderPath;
                 vars.SrcFile = path.FileName;
-                result = Run(cmd, vars.ToCmdVars(), out var lines);
+                result = OmniScript.Run(cmd, vars.ToCmdVars(), out var lines);
                 if(result.Fail)
                     break;
 

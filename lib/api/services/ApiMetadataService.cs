@@ -12,8 +12,6 @@ namespace Z0
 
     public sealed class ApiMetadataService : AppService<ApiMetadataService>
     {
-        IApiCatalog ApiCatalog => Service(ApiRuntimeLoader.catalog);
-
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         MsilPipe MsilPipe => Service(Wf.MsilPipe);
@@ -24,7 +22,7 @@ namespace Z0
             result = ApiParsers.host(hostid, out var uri);
             if(result.Ok)
             {
-                result = ApiCatalog.FindHost(uri, out var host);
+                result = ApiRuntimeCatalog.FindHost(uri, out var host);
                 if(result.Ok)
                     result = EmitMsil(array(host));
             }
@@ -35,7 +33,7 @@ namespace Z0
         public Outcome EmitMsil()
         {
             var result = Outcome.Success;
-            result = EmitMsil(ApiCatalog.ApiHosts);
+            result = EmitMsil(ApiRuntimeCatalog.ApiHosts);
             return result;
         }
 
@@ -78,7 +76,7 @@ namespace Z0
 
         public void EmitApiTokens(string tag, string scope)
         {
-            var types = ApiCatalog.Components.Storage.Enums().TypeTags<SymSourceAttribute>();
+            var types = ApiRuntimeCatalog.Components.Storage.Enums().TypeTags<SymSourceAttribute>();
             var selected = list<Type>();
             foreach(var (t,tv) in types.Enumerate())
             {
@@ -96,7 +94,7 @@ namespace Z0
             ConstLookup<string,Index<SymInfo>> Load()
             {
                 var dst = dict<string,Index<SymInfo>>();
-                var components = ApiCatalog.Components.Storage;
+                var components = ApiRuntimeCatalog.Components.Storage;
                 var types = components.Enums().Tagged<SymSourceAttribute>();
                 var groups = dict<string,List<Type>>();
                 var individuals = list<Type>();
