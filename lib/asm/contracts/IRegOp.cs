@@ -56,7 +56,7 @@ namespace Z0.Asm
         ushort IRegOp.Bitfield
             => u16(this);
         AsmOpClass IAsmOp.OpClass
-            => AsmOpClass.R | (AsmOpClass)width<T>(w16);
+            => AsmOpClass.Reg | (AsmOpClass)width<T>(w16);
 
         BitWidth ISized.Width
             => width<T>();

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [Actor]
     public abstract class Actor<A> : Actor, IActor<A>
         where A : Actor<A>,new()
     {

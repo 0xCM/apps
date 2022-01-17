@@ -145,7 +145,7 @@ namespace Z0
         /// </summary>
         public class LlAsmToAsmEncoding : FileFlowType<LlAsmToAsmEncoding,LlvmMc>
         {
-            public LlAsmToAsmEncoding ()
+            public LlAsmToAsmEncoding()
                 : base(llvm_mc, FK.Asm, FK.EncAsm)
             {
 
@@ -166,11 +166,11 @@ namespace Z0
 
 
         /// <summary>
-        /// *.encoding.asm -> *.syn.asm
+        /// *.enc.asm -> *.syn.asm
         /// </summary>
-        public class AsmEncodingToSynAsm : FileFlowType<AsmEncodingToSynAsm,LlvmMc>
+        public class EncAsmToSynAsm : FileFlowType<EncAsmToSynAsm,LlvmMc>
         {
-            public AsmEncodingToSynAsm()
+            public EncAsmToSynAsm()
                 : base(llvm_mc, FK.EncAsm, FK.SynAsm)
             {
 
@@ -178,11 +178,11 @@ namespace Z0
         }
 
         /// <summary>
-        /// *.encoding.asm -> *.syn.asm.log
+        /// *.enc.asm -> *.syn.asm.log
         /// </summary>
-        public class AsmEncodingToSynLog : FileFlowType<AsmEncodingToSynLog, LlvmMc>
+        public class EncAsmToSynLog : FileFlowType<EncAsmToSynLog, LlvmMc>
         {
-            public AsmEncodingToSynLog()
+            public EncAsmToSynLog()
                 : base(llvm_mc, FK.EncAsm, FK.SynAsmLog)
             {
 
@@ -190,25 +190,24 @@ namespace Z0
         }
 
         /// <summary>
-        /// *.asm -> *.encoding.asm
+        /// *.asm -> *.enc.asm
         /// </summary>
-        public class AsmToMcEncoding : FileFlowType<AsmToMcEncoding,LlvmMc>
+        public class AsmToEncAsm : FileFlowType<AsmToEncAsm,LlvmMc>
         {
-            public AsmToMcEncoding()
+            public AsmToEncAsm()
                 : base(llvm_mc, FK.Asm, FK.EncAsm)
             {
 
             }
         }
 
-
         /// <summary>
-        /// *.asm -> *.encoding.asm
+        /// *.obj -> *.xed.disam.txt
         /// </summary>
         public class ObjToXedDisasm : FileFlowType<ObjToXedDisasm,Xed>
         {
             public ObjToXedDisasm()
-                : base(xed, FileKind.Asm, FileKind.EncAsm)
+                : base(xed, FileKind.Obj, FileKind.XedRawDisasm)
             {
 
             }

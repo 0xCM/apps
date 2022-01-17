@@ -16,7 +16,7 @@ namespace Z0
         AsmRegMaskKind MaskKind {get;}
 
         AsmOpClass IAsmOp.OpClass
-            => AsmOpClass.Mask;
+            => AsmOpClass.RegMask;
 
         NativeSize IAsmOp.Size
             => NativeSizeCode.W64;

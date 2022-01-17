@@ -68,7 +68,7 @@ namespace Z0.Asm
         public AsmOpClass OpClass
         {
             [MethodImpl(Inline)]
-            get => AsmOpClass.R;
+            get => AsmOpClass.Reg;
         }
 
         public bool IsEmpty

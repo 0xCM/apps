@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
+    [Actor]
     public class Actor : IActor
     {
         public Identifier Name {get;}

@@ -15,7 +15,7 @@ namespace Z0.Asm
         AsmAddress Address {get;}
 
         AsmOpClass IAsmOp.OpClass
-            => AsmOpClass.M;
+            => AsmOpClass.Mem;
     }
 
     [Free]

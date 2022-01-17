@@ -15,13 +15,15 @@ namespace Z0
     {
         public const string TableId = "files.index";
 
-        public const byte FieldCount = 4;
+        public const byte FieldCount = 5;
 
         public uint DocId;
 
         public FileKind Kind;
 
         public Hash32 NameHash;
+
+        public Timestamp Timestamp;
 
         public FS.FilePath Path;
 
@@ -30,8 +32,9 @@ namespace Z0
         {
             DocId = id;
             Kind = kind;
-            Path = path;
             NameHash = hash;
+            Timestamp = path.Timestamp;
+            Path = path;
         }
 
         public bool IsEmpty
@@ -52,7 +55,7 @@ namespace Z0
         uint ISequential.Seq
             => DocId;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,16,12,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,16,12,24,1};
 
         public static FileRef Empty => default;
     }

@@ -9,8 +9,6 @@ namespace Z0
 
     using static Root;
 
-    using api = DataFlows;
-
     public abstract class DataFlow<A,S,T> : IDataFlow<A,S,T>
         where A : IActor
     {
@@ -29,7 +27,7 @@ namespace Z0
         }
 
         public virtual string Format()
-            => api.format(this);
+            => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
 
         public override string ToString()
             => Format();

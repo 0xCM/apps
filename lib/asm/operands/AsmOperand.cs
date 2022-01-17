@@ -35,7 +35,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(MemOp src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,MemOp>(_Data) = src;
@@ -44,7 +44,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(RegOp src)
         {
-            OpClass = AsmOpClass.R;
+            OpClass = AsmOpClass.Reg;
             Size = src.RegWidth;
             _Data = u16(src);
         }
@@ -92,7 +92,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m8 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W8;
             _Data = B.Empty;
             @as<B,m8>(_Data) = src;
@@ -101,7 +101,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m16 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W16;
             _Data = B.Empty;
             @as<B,m16>(_Data) = src;
@@ -110,7 +110,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m32 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W32;
             _Data = B.Empty;
             @as<B,m32>(_Data) = src;
@@ -119,7 +119,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m64 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W64;
             _Data = B.Empty;
             @as<B,m64>(_Data) = src;
@@ -128,7 +128,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m128 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W128;
             _Data = B.Empty;
             @as<B,m128>(_Data) = src;
@@ -137,7 +137,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m256 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W256;
             _Data = B.Empty;
             @as<B,m256>(_Data) = src;
@@ -146,7 +146,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(m512 src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = NativeSizeCode.W512;
             _Data = B.Empty;
             @as<B,m512>(_Data) = src;
@@ -155,7 +155,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(AsmAddress src)
         {
-            OpClass = AsmOpClass.M;
+            OpClass = AsmOpClass.Mem;
             Size = src.AddressSize;
             _Data = B.Empty;
             @as<B,AsmAddress>(_Data) = src;
@@ -217,7 +217,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         internal AsmOperand(AsmRegMask src)
         {
-            OpClass = AsmOpClass.Mask;
+            OpClass = AsmOpClass.RegMask;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,AsmRegMask>(_Data) = src;

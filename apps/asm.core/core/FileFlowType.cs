@@ -15,13 +15,6 @@ namespace Z0
 
         public FileKind TargetKind {get;}
 
-        public FileFlowType(IActor actor, FileKind src, FileKind dst)
-        {
-            Actor = actor;
-            SourceKind = src;
-            TargetKind = dst;
-        }
-
         public FileFlowType(Identifier actor, FileKind src, FileKind dst)
         {
             Actor = new Actor(actor);

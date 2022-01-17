@@ -23,7 +23,7 @@ namespace Z0.Asm
             }
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             [MethodImpl(Inline)]
             public static implicit operator AsmOperand(mem src)
@@ -35,7 +35,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m8;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W8;
@@ -54,7 +54,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m16;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W16;
@@ -73,7 +73,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m32;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W32;
@@ -92,7 +92,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m64;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W64;
@@ -111,7 +111,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m128;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W128;
@@ -130,7 +130,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m256;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W256;
@@ -149,7 +149,7 @@ namespace Z0.Asm
             public MemToken Token => MemToken.m512;
 
             public AsmOpClass OpClass
-                => AsmOpClass.M;
+                => AsmOpClass.Mem;
 
             public NativeSize Size
                 => NativeSizeCode.W512;

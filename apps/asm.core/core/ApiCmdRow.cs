@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using System;
 
     [Record(TableId)]
@@ -12,18 +11,20 @@ namespace Z0
     {
         public const string TableId = "api.commands";
 
-        public const byte FieldCount = 5;
+        public const byte FieldCount = 6;
 
-        public @string CmdName;
+        public string CmdName;
 
-        public @string ArgName;
+        public string CmdType;
+
+        public string ArgName;
 
         public TypeSpec DataType;
 
-        public @string Expression;
+        public string Expression;
 
-        public @string Value;
+        public string DefaultValue;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{36,36,48,32,3};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{22,22,36,48,32,3};
     }
 }

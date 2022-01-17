@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static Root;
 
     partial class ApiCmdProvider
     {
@@ -17,12 +18,20 @@ namespace Z0
 
         void EmitApiDataFlows()
         {
-            var dst = ProjectDb.Api() + FS.file("api.dataflows", FS.Txt);
-            var emitting = EmittingFile(dst);
             var src = ApiRuntimeCatalog.DataFlows;
-            using var writer = dst.AsciWriter();
-            iter(src, flow => writer.WriteLine(flow.Format()));
-            EmittedFile(emitting, src.Length);
+            var count = src.Length;
+            var buffer = alloc<ApiFlowType>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref var dst = ref seek(buffer,i);
+                ref readonly var flow = ref skip(src,i);
+                dst.Actor = flow.Actor.Name;
+                dst.Source = flow.Source?.ToString() ?? EmptyString;
+                dst.Target = flow.Target?.ToString() ?? EmptyString;
+                dst.Description = flow.Format();
+            }
+
+            TableEmit(@readonly(buffer.Sort()), ApiFlowType.RenderWidths, ProjectDb.ApiTablePath<ApiFlowType>());
         }
     }
 }

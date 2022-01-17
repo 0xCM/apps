@@ -14,10 +14,10 @@ namespace Z0.Asm
         None = 0,
 
         [Symbol("r", "Classifies a register operand")]
-        R = P2ᐞ00,
+        Reg = P2ᐞ00,
 
         [Symbol("m", "Classifies a memory operand")]
-        M = P2ᐞ01,
+        Mem = P2ᐞ01,
 
         [Symbol("imm", "Classifies an immediate operand")]
         Imm = P2ᐞ02,
@@ -26,6 +26,6 @@ namespace Z0.Asm
         Disp = P2ᐞ03,
 
         [Symbol("mask", "Classifies a regmask operand")]
-        Mask = P2ᐞ04,
+        RegMask = P2ᐞ04,
     }
 }

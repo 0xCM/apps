@@ -32,6 +32,6 @@ namespace Z0
             => Format();
 
         public static implicit operator ApiDataFlow<S,T>(ApiDataFlow src)
-            => DataFlows.typed<S,T>(src);
+            => ApiDataFlow.typed<S,T>(src);
     }
 }

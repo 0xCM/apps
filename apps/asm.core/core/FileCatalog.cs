@@ -56,22 +56,16 @@ namespace Z0
             PathRefs = new();
         }
 
-        FileRef Entry(uint id)
-        {
-            IdMap.Find(id, out var fref);
-            return fref;
-        }
-
         public Index<FileRef> Entries()
             => map(IdMap.Keys, Entry).Sort();
 
-        public FileRef Ref(FS.FilePath path)
+        public FileRef Entry(FS.FilePath path)
         {
             PathRefs.Find(path, out var fref);
             return fref;
         }
 
-        public FileRef Ref(uint docid)
+        public FileRef Entry(uint docid)
         {
             IdMap.Find(docid, out var fref);
             return fref;
@@ -79,12 +73,12 @@ namespace Z0
 
         public FileRef this[FS.FilePath path]
         {
-            get => Ref(path);
+            get => Entry(path);
         }
 
         public FileRef this[uint docid]
         {
-            get => Ref(docid);
+            get => Entry(docid);
         }
 
         static FileKind Match(FS.FilePath src)

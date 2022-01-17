@@ -27,7 +27,7 @@ namespace Z0.Asm
             }
 
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             [MethodImpl(Inline)]
             public static implicit operator AsmOperand(reg src)
@@ -39,7 +39,7 @@ namespace Z0.Asm
              public GpRegToken Token => GpRegToken.r8;
 
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W8;
@@ -59,7 +59,7 @@ namespace Z0.Asm
         public readonly struct r8h : IRegOpClass<r8>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W8;
@@ -82,7 +82,7 @@ namespace Z0.Asm
              public GpRegToken Token => GpRegToken.r16;
 
              public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W16;
@@ -104,7 +104,7 @@ namespace Z0.Asm
             public GpRegToken Token => GpRegToken.r32;
 
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W32;
@@ -124,7 +124,7 @@ namespace Z0.Asm
         public readonly struct r64 : IRegOpClass<r64>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W64;
@@ -144,7 +144,7 @@ namespace Z0.Asm
         public readonly struct xmm : IRegOpClass<xmm>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W128;
@@ -164,7 +164,7 @@ namespace Z0.Asm
         public readonly struct ymm : IRegOpClass<ymm>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W256;
@@ -184,7 +184,7 @@ namespace Z0.Asm
         public readonly struct zmm : IRegOpClass<zmm>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W512;
@@ -204,7 +204,7 @@ namespace Z0.Asm
         public readonly struct mask : IRegOpClass<mask>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W64;
@@ -224,7 +224,7 @@ namespace Z0.Asm
         public readonly struct cr : IRegOpClass<cr>
         {
             public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W64;
@@ -243,7 +243,7 @@ namespace Z0.Asm
 
         public readonly struct rflags : IRegOpClass<rflags>
         {
-            public AsmOpClass OpClass => AsmOpClass.R;
+            public AsmOpClass OpClass => AsmOpClass.Reg;
 
             public NativeSize Size => NativeSizeCode.W64;
 
@@ -262,7 +262,7 @@ namespace Z0.Asm
         {
 
            public AsmOpClass OpClass
-                => AsmOpClass.R;
+                => AsmOpClass.Reg;
 
             public NativeSize Size
                 => NativeSizeCode.W64;

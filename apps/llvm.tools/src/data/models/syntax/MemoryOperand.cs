@@ -25,7 +25,7 @@ namespace Z0.llvm
 
             public Disp Displacement;
 
-            public AsmOpClass Kind => AsmOpClass.M;
+            public AsmOpClass Kind => AsmOpClass.Mem;
 
             public MemoryOperand Value
                 => this;

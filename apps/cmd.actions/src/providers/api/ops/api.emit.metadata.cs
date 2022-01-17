@@ -73,7 +73,6 @@ namespace Z0
         void EmitApiCommands()
         {
             var types = Cmd.types(ApiRuntimeCatalog.Components);
-            var dst = ProjectDb.ApiTablePath<ApiCmdRow>();
             var buffer = list<ApiCmdRow>();
             foreach(var type in types)
             {
@@ -81,19 +80,19 @@ namespace Z0
                 var cmdargs = type.DeclaredInstanceFields();
                 var instance = Activator.CreateInstance(type);
                 var values = ClrFields.values(instance);
-                var cmdname = string.Format("{0}:{1}", name, type.Name);
                 foreach(var arg in cmdargs)
                 {
                     var cmdarg = new ApiCmdRow();
-                    cmdarg.CmdName = cmdname;
+                    cmdarg.CmdName = name;
+                    cmdarg.CmdType = type.Name;
                     cmdarg.ArgName = arg.Name;
                     cmdarg.DataType = TypeSyntax.infer(arg.FieldType);
                     cmdarg.Expression = arg.Tag<CmdArgAttribute>().MapValueOrDefault(x => x.Expression, EmptyString);
-                    cmdarg.Value = values[arg.Name].Value?.ToString() ?? EmptyString;
+                    cmdarg.DefaultValue = values[arg.Name].Value?.ToString() ?? EmptyString;
                     buffer.Add(cmdarg);
                 }
             }
-            TableEmit(buffer.ViewDeposited(), ApiCmdRow.RenderWidths, dst);
+            TableEmit(buffer.ViewDeposited(), ApiCmdRow.RenderWidths, ProjectDb.ApiTablePath<ApiCmdRow>());
         }
     }
 }

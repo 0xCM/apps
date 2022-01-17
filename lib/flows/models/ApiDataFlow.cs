@@ -10,6 +10,9 @@ namespace Z0
 
     public readonly struct ApiDataFlow : IDataFlow
     {
+        public static ApiDataFlow<S,T> typed<S,T>(ApiDataFlow src)
+            => new ApiDataFlow<S,T>((IDataFlow<S,T>)(IDataFlow)src);
+
         readonly IDataFlow Flow;
 
 

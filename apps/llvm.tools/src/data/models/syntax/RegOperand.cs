@@ -24,7 +24,7 @@ namespace Z0.llvm
                 Value = value;
             }
 
-            public AsmOpClass Kind => AsmOpClass.R;
+            public AsmOpClass Kind => AsmOpClass.Reg;
         }
     }
 }
