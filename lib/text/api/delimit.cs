@@ -18,14 +18,10 @@ namespace Z0
 
         [Op, Closures(Closure)]
         public static string delimit<T>(IEnumerable<T> src, char delimiter)
-            => string.Join($"{delimiter} ", src);
+            => string.Join(delimiter, src);
 
         [Op, Closures(Closure)]
         public static string delimit<T>(ReadOnlySpan<T> src, char delimiter, int pad)
-            => delimit(src, delimiter, pad, false);
-
-        [Op, Closures(Closure)]
-        public static string delimit<T>(ReadOnlySpan<T> src, char delimiter, int pad, bool space)
         {
             var dst = buffer();
             var count = src.Length;
@@ -35,11 +31,7 @@ namespace Z0
             {
                 dst.AppendFormat(slot, skip(src,i));
                 if(i != last)
-                {
                     dst.Append(delimiter);
-                    if(space)
-                        dst.Append(Chars.Space);
-                }
             }
             return dst.Emit();
         }
@@ -53,12 +45,8 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 dst.AppendItem(skip(src,i));
-
                 if(i != last)
-                {
                     dst.Append(delimiter);
-                    dst.Append(Chars.Space);
-                }
 
             }
             return dst.ToString();

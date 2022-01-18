@@ -19,69 +19,30 @@ namespace Z0
         [CmdOp("mc/syntax")]
         Outcome McSyntax(CmdArgs args)
         {
-            var src = LlvmMc.LoadSyntax(Project());
-            var count = src.Length;
+            var rows = LlvmMc.LoadSyntax(Project());
+            var count = rows.Count;
+            var ops = LlvmMc.ExtractSyntaxOpLists(rows);
+            Require.equal(count,ops.Count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var row = ref src[i];
-                ref readonly var syntax = ref row.Syntax;
-                if(syntax.IsNonEmpty)
-                {
-                    var dst = text.buffer();
-                    var content = row.SyntaxContent;
-                    var mnemonic = AsmMnemonic.parse(content, out var mx);
-                    var optext = EmptyString;
-                    if(mx > 0)
-                        optext = text.right(content,mx);
+                ref readonly var row = ref rows[i];
+                ref readonly var op = ref ops[i];
+                var content = row.Syntax;
+                var mnemonic = AsmMnemonic.parse(content, out _);
+                var opkinds = op.OpClasses.Count != 0 ? string.Format("<{0}>", op.OpClasses.Delimit(Chars.Comma).Format()) : EmptyString;
 
-                    var indices = text.indices(optext, Chars.Colon);
-                    var ixcount = indices.Count;
-                    for(var j=0; j<ixcount; j++)
-                    {
-                        ref readonly var k = ref indices[j];
-                        if(j == 0)
-                        {
-                            dst.Append(text.left(optext, k));
-                        }
-                        else
-                        {
-                            ref readonly var p = ref indices[j-1];
-                            var xx = text.inside(optext, p, k);
-                            var m = text.xedni(xx,Chars.Space);
-                            var yy = text.right(xx,m);
-                            if(yy.Contains(Chars.LBrace))
-                            {
-                                yy = "RegMask";
-                            }
-                            dst.Append(string.Format(" | {0}", yy));
-                        }
-                    }
-
-                    var classes = dst.Emit();
-                    if(text.nonempty(classes))
-                    {
-                        var _classes = classes.SplitClean(Chars.Pipe);
-                        var classlist = _classes.Delimit(Chars.Pipe).Format();
-                        Write(string.Format("{0,-20} | {1,-40} | {2}", mnemonic.Format(MnemonicCase.Lowercase), classlist, content));
-                    }
-                    else
-                        Write(mnemonic.Format(MnemonicCase.Lowercase));
-
-                }
+                Write(string.Format("{0,-8} | {1,-18} | {2,-42} | {3}",
+                    row.Seq,
+                    mnemonic.Format(MnemonicCase.Lowercase),
+                    opkinds,
+                    content)
+                    );
             }
 
             return true;
         }
 
-        [CmdOp("mc/syntax2")]
-        Outcome McSyntax2(CmdArgs args)
-        {
-            var src = LlvmMc.LoadSyntax(Project());
-            var ops = LlvmMc.ExtractSyntaxOpLists(src).Map(x => x.Format());
-            iter(ops, op => Write(op));
 
-            return true;
-        }
         bool ExtractMemOp(string src, out string dst)
         {
             const string Marker = "Memory:";
@@ -105,52 +66,6 @@ namespace Z0
                 }
             }
             return result;
-        }
-
-        Index<string> ParseArgs(string src)
-        {
-            var indices = text.indices(src,Chars.Colon);
-            var count = indices.Length;
-            if(count == 0)
-                return sys.empty<string>();
-            var dst = alloc<string>(count);
-            for(var i=0; i<count - 1; i++)
-            {
-                ref readonly var j = ref indices[i];
-                ref readonly var k = ref indices[i+1];
-                seek(dst,i) = text.inside(src,j,k);
-            }
-            seek(dst,count - 1) = text.right(src, indices[count - 1]);
-            return dst;
-        }
-
-        void ParseSyntaxParts(string src)
-        {
-            var dst = text.buffer();
-
-            var i = text.index(src,Chars.Comma);
-            if(i > 0)
-            {
-                AsmMnemonic mnemonic = text.left(src,i);
-                dst.Append(mnemonic.Format(MnemonicCase.Lowercase));
-                //var args = text.right(src, i + 1);
-                var args = ParseArgs(text.right(src, i+1));
-                dst.Append(" | ");
-                dst.Append(args.Delimit(Chars.Pipe).Format());
-            }
-
-            Write(dst.Emit());
-        }
-
-        static string Args(string src)
-        {
-            var i = text.index(src,Chars.Comma);
-            var args = EmptyString;
-            if(i > 0)
-            {
-                args = text.right(src, i+1);
-            }
-            return args;
         }
 
         [CmdOp("cmdlog/parse")]

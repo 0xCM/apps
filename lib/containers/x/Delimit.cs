@@ -13,14 +13,6 @@ namespace Z0
     partial class XTend
     {
         [MethodImpl(Inline)]
-        static int width<E>(E field)
-            where E : unmanaged
-        {
-            var w = core.@as<E,uint>(field) >> 16;
-            return (int)w;
-        }
-
-        [MethodImpl(Inline)]
         public static DelimitedIndex<T> Delimit<T>(this T[] src, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
             => new DelimitedIndex<T>(src, delimiter, pad, fence);
 

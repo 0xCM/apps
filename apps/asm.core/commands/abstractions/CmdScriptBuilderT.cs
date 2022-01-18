@@ -94,6 +94,6 @@ namespace Z0
             return new CmdScript(dst.Emit());
         }
 
-        public abstract Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc);
+        public abstract Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc, IFileFlowType flowtype);
     }
 }

@@ -15,7 +15,7 @@ namespace Z0
 
         const string FlowsPattern = "{0}.flows";
 
-        public void RunScripts(IProjectWs project, string cmdname, string cmdsrc, FileKind srckind, ICmdScriptBuilder builder)
+        public void RunScripts(IProjectWs project, string cmdname, string cmdsrc, IFileFlowType flowtype, ICmdScriptBuilder builder)
         {
             project.Out().Delete();
             var runlog = project.Out() + FS.file(cmdname, FS.Log);
@@ -24,7 +24,7 @@ namespace Z0
             var eflows = EmittingFile(flowlog);
             var counter = 0u;
 
-            using var flows = ProjectLog.open(project,string.Format(FlowsPattern, cmdname));
+            using var flows = ProjectLog.open(project, string.Format(FlowsPattern, cmdname));
 
             void OnStatus(in string msg)
             {
@@ -47,7 +47,7 @@ namespace Z0
                 iter(responses, r => flows.WriteLine(r.Format()));
             }
 
-            iter(builder.BuildCmdLines(project, cmdsrc), ExecCmd);
+            iter(builder.BuildCmdLines(project, cmdsrc, flowtype), ExecCmd);
 
             EmittedFile(eflows, counter);
             Ran(running);

@@ -254,53 +254,72 @@ namespace Z0.llvm
         public Index<AsmSyntaxRow> LoadSyntax(IProjectWs project)
             => LoadSyntaxRows(SyntaxTable(project));
 
+        static Index<string> optext(ReadOnlySpan<AsmSyntaxRow> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<string>(count);
+            for(var i =0; i<count; i++)
+            {
+                ref readonly var record = ref src[i];
+                var content = record.Syntax.Format();
+                var monic = AsmMnemonic.parse(content, out var mx);
+                var _args = EmptyString;
+                if(mx >= 0)
+                {
+                    var j = text.index(content, Chars.Comma);
+                    if(j > 0)
+                        _args = text.right(content, j);
+                }
+
+                seek(buffer,i) = _args;
+            }
+            return buffer;
+        }
+
+        static string syncontent(string src)
+        {
+            if(text.fenced(src, RenderFence.Paren))
+                return text.trim(text.despace(text.unfence(src,RenderFence.Paren)));
+            else
+                return text.trim(text.despace(src));
+        }
+
         public Index<AsmSyntaxOpList> ExtractSyntaxOpLists(ReadOnlySpan<AsmSyntaxRow> src)
         {
             var count = src.Length;
             var buffer = alloc<AsmSyntaxOpList>(count);
+            var ops = optext(src);
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref skip(src,i);
-                ref readonly var syntax = ref row.Syntax;
-                if(syntax.IsNonEmpty)
+                ref readonly var op = ref ops[i];
+                var dst = text.buffer();
+                var indices = text.indices(op, Chars.Colon);
+                var ixcount = indices.Count;
+                for(var j=0; j<ixcount; j++)
                 {
-                    var dst = text.buffer();
-                    var content = row.SyntaxContent;
-                    var mnemonic = AsmMnemonic.parse(content, out var mx);
-                    var optext = EmptyString;
-                    if(mx > 0)
-                        optext = text.right(content,mx);
-
-                    var indices = text.indices(optext, Chars.Colon);
-                    var ixcount = indices.Count;
-                    for(var j=0; j<ixcount; j++)
+                    ref readonly var k = ref indices[j];
+                    if(j == 0)
+                        dst.Append(text.left(op, k));
+                    else
                     {
-                        ref readonly var k = ref indices[j];
-                        if(j == 0)
-                            dst.Append(text.left(optext, k));
-                        else
-                        {
-                            ref readonly var p = ref indices[j-1];
-                            var xx = text.inside(optext, p, k);
-                            var m = text.xedni(xx,Chars.Space);
-                            var yy = text.right(xx,m);
-                            if(yy.Contains(Chars.LBrace))
-                                yy = "RegMask";
-                            dst.Append(string.Format(" | {0}", yy));
-                        }
+                        ref readonly var p = ref indices[j-1];
+                        var xx = text.inside(op, p, k);
+                        var m = text.xedni(xx,Chars.Space);
+                        var yy = text.right(xx,m);
+                        if(yy.Contains(Chars.LBrace))
+                            yy = "RegMask";
+                        dst.Append(string.Format(" | {0}", yy));
                     }
-
-                    var classes = dst.Emit();
-                    if(text.nonempty(classes))
-                        seek(buffer,i) = new AsmSyntaxOpList(row, classes.SplitClean(Chars.Pipe), indices);
                 }
-                else
-                    seek(buffer,i) = new AsmSyntaxOpList(row, sys.empty<string>(), sys.empty<int>());
+
+                var classes = dst.Emit();
+                if(text.nonempty(classes))
+                    seek(buffer,i) = new AsmSyntaxOpList(row, text.trim(classes.SplitClean(Chars.Pipe)), indices);
             }
 
             return buffer;
         }
-
 
         Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
         {
@@ -491,7 +510,7 @@ namespace Z0.llvm
                 record.DocId = fref.DocId;
                 record.DocSeq = docseq++;
                 record.Location = point.Location;
-                record.Syntax = syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith);
+                record.Syntax = syncontent(syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith));
 
                 var ci = text.index(body, Chars.Hash);
                 if (ci > 0)

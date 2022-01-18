@@ -8,6 +8,6 @@ namespace Z0
     {
         CmdScript BuildCmdScript(IFileFlowCmd src);
 
-        Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc);
+        Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc, IFileFlowType flowtype);
     }
 }

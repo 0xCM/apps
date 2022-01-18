@@ -55,11 +55,7 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static DelimitedIndex<T> index<T>(char delimiter, int pad, T[] src)
             where T : unmanaged
-                => new DelimitedIndex<T>(src, unspaced, delimiter, pad);
-
-        [Op, Closures(Closure)]
-        static string unspaced<T>(ReadOnlySpan<T> src, char delimiter, int pad)
-            => text.delimit(src, delimiter, pad, false);
+                => new DelimitedIndex<T>(src, text.delimit, delimiter, pad);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static DelimitedIndex<object> index(char delimiter, int pad, params object[] src)

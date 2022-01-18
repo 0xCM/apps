@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static core;
     using llvm;
 
@@ -15,7 +14,7 @@ namespace Z0
 
         }
 
-        public override Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc)
+        public override Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc, IFileFlowType flowtype)
         {
             var dst = core.bag<CmdLine>();
             var src = project.SrcFiles(cmdsrc, false);
@@ -27,7 +26,7 @@ namespace Z0
             {
                 var cmd = McCmd.Empty;
                 cmd.Source = path;
-                cmd.Target = outdir + path.FileName.ChangeExtension(FS.Asm);
+                cmd.Target = outdir + path.FileName.ChangeExtension(flowtype.TargetExt);
                 cmd.FileType = "asm";
                 cmd.Triple = "x86_64-pc-windows-msvc";
                 cmd.MCpu = "cascadelake";
