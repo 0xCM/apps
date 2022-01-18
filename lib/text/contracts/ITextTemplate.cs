@@ -8,9 +8,10 @@ namespace Z0
     {
         TextBlock Pattern {get;}
 
-        object[] Parameters {get;}
+        Index<object> Parameters {get;}
 
-        uint ParameterCount {get;}
+        uint ParameterCount
+            => Parameters.Count;
 
         bool INullity.IsEmpty
             => Pattern.IsEmpty;

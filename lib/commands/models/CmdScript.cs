@@ -37,7 +37,11 @@ namespace Z0
 
         public static CmdScript Empty
         {
+            [MethodImpl(Inline)]
             get => new CmdScript(CmdScriptExpr.Empty);
         }
+
+        public CmdLine ToCmdLine()
+            => new CmdLine(Format());
     }
 }

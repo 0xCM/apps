@@ -112,14 +112,20 @@ namespace Z0
         FS.FolderPath Src()
             => Home() + FS.folder(src);
 
+        FS.FolderPath Src(string scope)
+            => Home() + FS.folder(src) + FS.folder(scope);
+
         FS.Files SrcFiles(bool recurse = true)
             => Src().Files(recurse);
+
+        FS.Files SrcFiles(string scope, FileKind kind, bool recurse = true)
+            => Src(scope).Files(kind.Ext(), recurse);
 
         FS.Files SrcFiles(FileKind kind, bool recurse = true)
             => Src().Files(kind.Ext(), recurse);
 
         FS.Files SrcFiles(string scope, bool recurse = true)
-            => (Src() + FS.folder(scope)).Files(recurse);
+            => Src(scope).Files(recurse);
 
         FS.FilePath SrcFile(string scope, string fileid, FileKind kind)
             => Src() + FS.folder(scope) + FS.file(fileid, kind.Ext());
@@ -129,6 +135,9 @@ namespace Z0
 
         FS.FolderPath Scripts()
             => Home() + FS.folder(scripts);
+
+        FS.FolderPath OutScripts(string scope)
+            => Out() + FS.folder(scope);
 
         FS.FolderPath Scripts(string scope)
             => Scripts() + FS.folder(scope);

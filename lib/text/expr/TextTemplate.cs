@@ -14,13 +14,15 @@ namespace Z0
     {
         public TextBlock Pattern {get;}
 
-        public virtual object[] Parameters {get;}
+        public virtual Index<object> Parameters {get;}
 
         public virtual uint ParameterCount {get;}
 
         public TextTemplate(string src)
         {
             Pattern = src ?? EmptyString;
+            Parameters = sys.empty<object>();
+            ParameterCount = 0;
         }
 
         public TextTemplate(string src, object[] parameters)
@@ -32,16 +34,18 @@ namespace Z0
 
         public bool IsEmpty
         {
+            [MethodImpl(Inline)]
             get => Pattern.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
+            [MethodImpl(Inline)]
             get => Pattern.IsNonEmpty;
         }
 
         public string Format()
-            => string.Format(Pattern, Parameters);
+            => Parameters.IsNonEmpty ? string.Format(Pattern, Parameters) : Pattern;
 
         public override string ToString()
             => Format();
@@ -65,7 +69,7 @@ namespace Z0
             set => Param0 = value;
         }
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0);
 
         public override uint ParameterCount => 1;
@@ -91,7 +95,7 @@ namespace Z0
 
         public override uint ParameterCount => 2;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1);
     }
 
@@ -115,7 +119,7 @@ namespace Z0
 
         public override uint ParameterCount => 3;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1, Param2);
     }
 
@@ -139,7 +143,7 @@ namespace Z0
 
         public override uint ParameterCount => 4;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1, Param2, Param3);
     }
 
@@ -163,7 +167,7 @@ namespace Z0
 
         public override uint ParameterCount => 5;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1, Param2, Param3, Param4);
     }
 
@@ -187,7 +191,7 @@ namespace Z0
 
         public override uint ParameterCount => 6;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1, Param2, Param3, Param4, Param5);
     }
 
@@ -212,7 +216,7 @@ namespace Z0
 
         public override uint ParameterCount => 7;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1, Param2, Param3, Param4, Param5, Param6);
     }
 
@@ -236,7 +240,7 @@ namespace Z0
 
         public override uint ParameterCount => 8;
 
-        public override object[] Parameters
+        public override Index<object> Parameters
             => array<object>(Param0, Param1, Param2, Param3, Param4, Param5, Param6, Param7);
     }
 }
