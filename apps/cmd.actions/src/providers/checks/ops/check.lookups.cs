@@ -2,23 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
+    using static core;
     using static Root;
 
-    partial class AsmCmdService
+    partial class CheckCmdProvider
     {
-        [CmdOp(".lookup")]
+        [CmdOp("check/lookups")]
         Outcome TestKeys(CmdArgs args)
         {
             var outcome = Outcome.Success;
-            outcome = DataParser.parse(arg(args,0), out ushort rows);
-            if(outcome.Fail)
-                return outcome;
-
-            outcome = DataParser.parse(arg(args,1), out ushort cols);
-            if(outcome.Fail)
-                return outcome;
+            ushort rows = 128;
+            ushort cols = 128;
 
             var keys = LookupTables.keys(rows,cols);
             for(var i=z16; i<rows; i++)
@@ -30,7 +26,7 @@ namespace Z0.Asm
                     return (false, "Test failed");
             }
 
-            Write("Success");
+            Status(string.Format("Verifified {0} lookup operations", rows*cols));
 
             return true;
         }

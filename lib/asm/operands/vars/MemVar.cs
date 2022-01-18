@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class ImmVar : AsmOpVar<ImmVar,Imm>
+    public class MemVar : AsmOpVar<MemVar,MemOp>
     {
-
-        public ImmVar(VarSymbol name)
+        public MemVar(VarSymbol name)
             : base(name)
         {
 
         }
 
-        public ImmVar(VarSymbol name, Imm value)
+        public MemVar(VarSymbol name, MemOp value)
             : base(name, value)
         {
 

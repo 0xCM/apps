@@ -27,10 +27,18 @@ namespace Z0
         [CmdOp("sdm/opcodes")]
         Outcome SdmOpCodes(CmdArgs args)
         {
+            EmitSdmOpCodeDocs();
+            return true;
+        }
+
+        void EmitSdmOpCodeDocs()
+        {
             var codes = Sdm.LoadImportedOpCodes();
             var count = codes.Count;
             var buffer = alloc<AsmSigOpExpr>(12);
-            var dst = text.buffer();
+            var dst = ProjectDb.Subdir("sdm") + FS.file("sdm.opcodes.tables", FS.Txt);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.AsciWriter();
 
             for(var i=0; i<count; i++)
             {
@@ -39,17 +47,14 @@ namespace Z0
                 ref readonly var sig = ref entry.Sig;
                 ref readonly var opcode = ref entry.OpCode;
                 var opcount = sig.Operands(buffer);
-                dst.AppendLineFormat("{0,-64} | {1,-36}", sig.Format(), opcode.Expr.Format());
+                writer.WriteLine(string.Format("{0,-8} | {1,-64} | {2,-36}", entry.OpCodeKey, sig.Format(), opcode.Expr.Format()));
                 for(var j=0; j<opcount; j++)
                 {
                     ref readonly var op = ref skip(buffer,j);
-                    dst.AppendLineFormat("  {0} {1}", j, op.Format());
+                    writer.WriteLine(string.Format("       {0} | {1}", j, op.Format()));
                 }
-
-                Write(dst.Emit());
             }
-
-            return true;
+            EmittedFile(emitting,count);
         }
    }
 }

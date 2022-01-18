@@ -2,14 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    partial class AsmCmdService
+    partial class CheckCmdProvider
     {
-        [CmdOp(".test-hex-pack")]
-        unsafe Outcome TestHexPack(CmdArgs args)
+        [CmdOp("check/hex/pack")]
+        unsafe Outcome CheckHexPack(CmdArgs args)
         {
             var result = Outcome.Success;
             const string DataSource = "38D10F9FC00FB6C0C338D10F97C00FB6C0C36639D10F9FC00FB6C0C36639D10F97C00FB6C0C339D10F9FC00FB6C0C339D10F97C0C34839D10F9FC00FB6C0C34839D10F97C00FB6C0C3";

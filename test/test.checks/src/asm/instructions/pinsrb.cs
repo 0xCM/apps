@@ -12,11 +12,11 @@ namespace Z0.Asm
     partial class AsmCaseArchive
     {
         [MethodImpl(Inline), Op]
-        public static AsmText pinsrb_opcode(N0 n)
-            => AsmText.opcode("66 0F 3A 20 /r ib");
+        public static ResText pinsrb_opcode(N0 n)
+            => ResText.from("66 0F 3A 20 /r ib");
 
         [MethodImpl(Inline), Op]
-        public static AsmText pinsrb_sig(N0 n)
-            => AsmText.sig("PINSRB xmm1, r32/m8, imm8");
+        public static ResText pinsrb_sig(N0 n)
+            => ResText.from("PINSRB xmm1, r32/m8, imm8");
     }
 }

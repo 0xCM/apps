@@ -2,12 +2,34 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    partial class AsmCmdService
+    partial class CheckCmdProvider
     {
+        [CmdOp("check/strings/buffers")]
+        Outcome CheckStringBuffers(CmdArgs args)
+        {
+            var result = Outcome.Success;
+
+            result = CheckStringAllocator();
+            if(result.Fail)
+                return result;
+            else
+                Status(result.Message);
+
+            result = CheckLabelAllocator();
+            if(result.Fail)
+                return result;
+            else
+                Status(result.Message);
+
+            result = CheckStringBuffer();
+
+            return result;
+        }
+
         Outcome CheckStringBuffer()
         {
             var result = Outcome.Success;
@@ -101,26 +123,5 @@ namespace Z0.Asm
             return result;
         }
 
-        [CmdOp(".test/stringbuffers")]
-        Outcome TestLabels(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            result = CheckStringAllocator();
-            if(result.Fail)
-                return result;
-            else
-                Status(result.Message);
-
-            result = CheckLabelAllocator();
-            if(result.Fail)
-                return result;
-            else
-                Status(result.Message);
-
-            result = CheckStringBuffer();
-
-            return result;
-        }
-   }
+    }
 }

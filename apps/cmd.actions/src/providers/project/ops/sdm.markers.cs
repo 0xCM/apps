@@ -2,19 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System;
 
-    using static SdmModels;
+    using static Asm.SdmModels;
     using static core;
     using static Root;
 
     using SQ = SymbolicQuery;
 
-    partial class AsmCmdService
+    partial class ProjectCmdProvider
     {
-        [CmdOp(".sdm-markers")]
+        [CmdOp("sdm/markers")]
         Outcome SdmMarkers(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -28,6 +28,18 @@ namespace Z0.Asm
             matches = SdmMarkers(n6, lines, marker);
             DisplayMatches(lines, marker, matches);
             return result;
+        }
+
+        [CmdOp("sdm/sigs")]
+        Outcome SdmSigs(CmdArgs args)
+        {
+            var sigs = Sdm.Sigs();
+            var counter = 0u;
+            foreach(var sig in sigs)
+            {
+                Write(string.Format("{0,-8} | {1}", counter++, sig.Format()));
+            }
+            return true;
         }
 
         void DisplayMatches(ReadOnlySpan<UnicodeLine> src, TextMarker marker,  ReadOnlySpan<TextMatch> matches)

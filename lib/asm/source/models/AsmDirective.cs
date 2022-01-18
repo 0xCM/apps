@@ -22,7 +22,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmDirective(text31 name, AsmDirectiveOp op0 = default, AsmDirectiveOp op1 = default, AsmDirectiveOp op2 = default)
         {
-            Name = name;
+            Name = name.IsNonEmpty ? (name[0] == Chars.Dot ? core.slice(name.Bytes,1) : name.Bytes) : default(ReadOnlySpan<byte>);
             Op0 = op0;
             Op1 = op1;
             Op2 = op2;

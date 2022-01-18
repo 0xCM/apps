@@ -13,7 +13,7 @@ namespace Z0
             => new ProjectLog(dst);
 
         public static ProjectLog open(IProjectWs project, string name)
-            => create(project.Out() + FS.file(name));
+            => create(project.Out() + FS.file(name, FS.Log));
 
         public static ProjectLog open(IProjectWs project, string scope, string name)
             => create(project.Out(scope) + FS.file(name, FS.Log));

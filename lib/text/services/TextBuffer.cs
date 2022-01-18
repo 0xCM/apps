@@ -27,7 +27,6 @@ namespace Z0
         public StringBuilder ToStringBuilder()
             => Target;
 
-        [MethodImpl(Inline)]
         public string Emit(bool reset = true)
         {
             var content = Target.ToString();
@@ -36,53 +35,44 @@ namespace Z0
             return content;
         }
 
-        [MethodImpl(Inline)]
         public void Clear()
         {
             Target.Clear();
         }
 
-        [MethodImpl(Inline)]
         public void Append(string src)
             => Target.Append(src);
 
-        [MethodImpl(Inline)]
         public void AppendLine(string src)
             => Target.AppendLine(src);
 
-        [MethodImpl(Inline)]
         public void AppendLine()
             => Target.AppendLine();
 
-        [MethodImpl(Inline)]
         public void Append(char src)
             => Target.Append(src);
 
-        [MethodImpl(Inline)]
         public void Append(ReadOnlySpan<char> src)
             => Target.Append(src);
 
-        [MethodImpl(Inline)]
         public void AppendFormat(string pattern, params object[] args)
             => Target.AppendFormat(pattern, args);
 
-        [MethodImpl(Inline)]
         public void AppendLineFormat(string pattern, params object[] args)
             => AppendLine(string.Format(pattern, args));
 
-        [MethodImpl(Inline)]
         public void AppendLine<T>(T src)
             => Target.AppendLine(src?.ToString() ?? RP.Null);
 
-        [MethodImpl(Inline)]
         public void Append(char[] src)
             => Target.Append(src);
 
-        [MethodImpl(Inline)]
         public void AppendItem<T>(T src)
             => Append(src?.ToString() ?? RP.Null);
 
-        [MethodImpl(Inline)]
+        public void Indent<T>(uint margin, T src)
+            => Target.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
+
         public void IndentLine<T>(uint margin, T src)
             => AppendLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
 

@@ -494,6 +494,9 @@ namespace Z0
         [Symbol(".lto_discard")]
         DK_LTO_DISCARD,
 
+        [Symbol(".intel_syntax")]
+        DK_INTEL_SYNTAX,
+
         [Symbol("")]
         DK_END
     }

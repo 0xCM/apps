@@ -19,5 +19,13 @@ namespace Z0.Asm
                 seek(buffer,i) = sig(skip(src,i));
             return buffer;
         }
+
+        public Index<AsmSigExpr> Sigs()
+        {
+            return Data(nameof(Sigs), Load);
+
+            Index<AsmSigExpr> Load()
+                => Sigs(LoadImportedOpcodeDetails());
+        }
     }
 }

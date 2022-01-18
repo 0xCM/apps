@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
+    using llvm;
 
     using static Tools;
-    using static core;
 
     using FK = FileKind;
 
@@ -17,7 +15,7 @@ namespace Z0
         public static FileFlowType define(Identifier actor, FileKind src, FileKind dst)
             => new FileFlowType(actor,src,dst);
 
-        public abstract class FileFlowType<F,A> : FileFlowType<F,A,FileKind>, IFileFlowType
+        public abstract class FileFlowType<F,A> : FileFlowType<F,A,FileKind>, IFileFlowType<F>
             where F : FileFlowType<F,A>,new()
             where A : IActor
         {
@@ -27,9 +25,27 @@ namespace Z0
 
             }
 
+            public FS.FileExt SourceExt => Source.Ext();
+
+            public FS.FileExt TargetExt => Target.Ext();
+
             public FK SourceKind => Source;
 
             public FK TargetKind => Target;
+        }
+
+        public abstract class FileCmdFlow<F,A,C> : FileFlowType<F,A>, IFileCmdFlow<C>
+            where F : FileCmdFlow<F,A,C>,new()
+            where A : IActor
+        {
+            protected FileCmdFlow(A actor, FileKind src, FileKind dst)
+                : base(actor,src,dst)
+            {
+
+
+            }
+
+            public abstract C Cmd(IProjectWs project, string scope, FS.FilePath src);
         }
 
         /// <summary>
@@ -216,7 +232,7 @@ namespace Z0
         /// <summary>
         /// *.s -> *.asm
         /// </summary>
-        public class SToAsm : FileFlowType<SToAsm,LlvmMc>
+        public class SToAsm : FileCmdFlow<SToAsm,LlvmMc,McCmd>
         {
             public SToAsm()
                 :base(llvm_mc, FileKind.S, FileKind.Asm)
@@ -224,6 +240,18 @@ namespace Z0
 
             }
 
+            public override McCmd Cmd(IProjectWs project, string scope, FS.FilePath src)
+            {
+                var cmd = McCmd.Empty;
+                cmd.Source = src;
+                cmd.Target = project.Out(scope).Create() + src.FileName.ChangeExtension(TargetExt);
+                cmd.FileType = "asm";
+                cmd.Triple = "x86_64-pc-windows-msvc";
+                cmd.MCpu = "cascadelake";
+                cmd.OutputAsmVariant = 1;
+                cmd.PrintImmHex = 1;
+                return cmd;
+            }
         }
 
         sealed class EmptyFlow : IFileFlowType

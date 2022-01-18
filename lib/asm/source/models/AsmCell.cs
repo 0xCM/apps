@@ -11,19 +11,13 @@ namespace Z0.Asm
 
     public readonly struct AsmCell : IAsmSourcePart, INullity
     {
-        /// <summary>
-        /// The content origin
-        /// </summary>
-        public GridPoint<uint> Location {get;}
-
         public @string Content {get;}
 
         public AsmPartKind PartKind {get;}
 
         [MethodImpl(Inline)]
-        public AsmCell(GridPoint<uint> loc, AsmPartKind kind, string content)
+        public AsmCell(AsmPartKind kind, string content)
         {
-            Location = loc;
             Content = content;
             PartKind = kind;
         }

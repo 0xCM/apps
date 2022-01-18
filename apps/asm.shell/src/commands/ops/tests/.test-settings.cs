@@ -38,18 +38,5 @@ namespace Z0.Asm
 
             return result;
         }
-
-
-        [CmdOp("api/parsers")]
-        Outcome FindParsers(CmdArgs args)
-        {
-            var parser = Parsers.Service;
-            var x = 32u;
-            if(parser.Parse(x.ToString(), out uint dst))
-            {
-                Write(string.Format("Parsed {0}", dst));
-            }
-            return true;
-        }
     }
 }

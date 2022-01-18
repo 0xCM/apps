@@ -75,7 +75,7 @@ namespace Z0.Asm
                 var gp16 = Gp16Regs();
                 var gp32 = Gp32Regs();
                 var gp64 = Gp64Regs();
-                return gp8.Concat(gp16,gp32,gp64);
+                return gp8.Concat(gp16, gp32, gp64);
             }
         }
 
@@ -130,6 +130,21 @@ namespace Z0.Asm
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<count; i++)
                     seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP8HI, (RegIndexCode)(i - 16));
+                return buffer;
+            }
+        }
+
+        public RegOpSeq Gp8LoRegs()
+        {
+            return Data(nameof(Gp8LoRegs), Load);
+
+            RegOpSeq Load()
+            {
+                var width = NativeSizeCode.W8;
+                var count = Gp8LoRegCount;
+                var buffer = alloc<RegOp>(count);
+                for(var i=0; i<count; i++)
+                    seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -283,6 +298,5 @@ namespace Z0.Asm
                 return dst;
             }
         }
-
     }
 }

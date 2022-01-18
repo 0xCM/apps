@@ -23,13 +23,5 @@ namespace Z0
         /// An abbreviation for the somewhat verbose "StringComparison.InvariantCulture"
         /// </summary>
         public const StringComparison Cased = StringComparison.InvariantCulture;
-
-        [Op]
-        public static ITextBuffer buffer()
-            => new TextBuffer(new StringBuilder());
-
-        [Op]
-        public static ITextBuffer buffer(uint capacity)
-            => new TextBuffer(capacity);
     }
 }

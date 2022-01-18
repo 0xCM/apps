@@ -13,6 +13,6 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static AsmCell cell(string content, AsmPartKind kind)
-            => new AsmCell(default, kind, content);
+            => new AsmCell(kind, content);
     }
 }

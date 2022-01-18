@@ -248,7 +248,7 @@ namespace Z0.Asm
             return address;
         }
 
-        public static ReadOnlySpan<byte> TestCase01
+        static ReadOnlySpan<byte> JmpRaxCode
             => new byte[44]{0x0f,0x1f,0x44,0x00,0x00,0x49,0xb8,0x68,0xd5,0x9e,0x18,0x36,0x02,0x00,0x00,0x4d,0x8b,0x00,0x48,0xba,0x28,0xd5,0x9e,0x18,0x36,0x02,0x00,0x00,0x48,0x8b,0x12,0x48,0xb8,0x90,0x2c,0x8b,0x64,0xfe,0x7f,0x00,0x00,0x48,0xff,0xe0};
 
         public static bool TestJmpRax(ReadOnlySpan<byte> src, int offset, out byte delta)
@@ -270,7 +270,7 @@ namespace Z0.Asm
 
         public int TestJmpRax()
         {
-            var tc = TestCase01;
+            var tc = JmpRaxCode;
             var count = tc.Length;
             var address = MemoryAddress.Zero;
             for(var i=0; i<count; i++)
@@ -286,7 +286,6 @@ namespace Z0.Asm
             }
             return 0;
         }
-
 
         void ListDescriptors()
         {

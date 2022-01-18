@@ -65,6 +65,19 @@ namespace Z0
             return new text31(storage);
         }
 
+        [MethodImpl(Inline), Op]
+        public static text31 txt(N31 n, ReadOnlySpan<byte> src)
+        {
+            const byte Max = text31.MaxLength;
+            var length = (byte)min(available(src), Max);
+            var storage = text31.StorageType.Empty;
+            var dst = storage.Bytes;
+            for(var i=0; i<length; i++)
+                seek(dst,i) = skip(src,i);
+            seek(dst,31) = length;
+            return new text31(storage);
+        }
+
         [Op]
         public static string format(in text31 src)
         {
@@ -90,6 +103,21 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         static uint available(ReadOnlySpan<char> src)
+        {
+            var present = 0u;
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                if(skip(src,i) != 0)
+                    present++;
+                else
+                    break;
+            }
+            return present;
+        }
+
+        [MethodImpl(Inline), Op]
+        static uint available(ReadOnlySpan<byte> src)
         {
             var present = 0u;
             var count = src.Length;

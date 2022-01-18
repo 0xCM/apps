@@ -15,5 +15,12 @@ namespace Z0.Asm
         public AsmSigExpr Sig;
 
         public AsmOpCode OpCode;
+
+        public string Format()
+            => string.Format("{0} {1}", Sig, OpCode);
+
+
+        public override string ToString()
+            => Format();
     }
 }

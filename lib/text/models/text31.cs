@@ -38,6 +38,12 @@ namespace Z0
                 get => bytes(this);
             }
 
+            public char this[byte i]
+            {
+                [MethodImpl(Inline)]
+                get => (char)Cell(i);
+            }
+
             [MethodImpl(Inline)]
             public ref byte Cell(byte i)
                 => ref seek(Bytes,i);
@@ -77,6 +83,11 @@ namespace Z0
             get => Storage.Cell(31);
         }
 
+        public char this[byte index]
+        {
+            [MethodImpl(Inline)]
+            get => Storage[index];
+        }
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -113,6 +124,10 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator text31(ReadOnlySpan<char> src)
+            => FixedChars.txt(N,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator text31(ReadOnlySpan<byte> src)
             => FixedChars.txt(N,src);
 
         public static text31 Empty => default;

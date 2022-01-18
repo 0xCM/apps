@@ -113,7 +113,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmMnemonic src)
-            => new AsmCell(default, AsmPartKind.Mnemonic, src.Format());
+            => new AsmCell(AsmPartKind.Mnemonic, src.Format());
 
         public static AsmMnemonic Empty
         {

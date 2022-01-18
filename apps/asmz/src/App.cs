@@ -127,22 +127,6 @@ namespace Z0.Asm
             Wf.ApiCatalogs().Correlate(dst);
         }
 
-        [Op]
-        static Address32 rel32(BinaryCode src, byte skip)
-            => core.u32(slice(src.View, skip));
-
-        void TestRel32()
-        {
-            var @base = 0x7fff328f9430;
-            var ip = @base + 0x36;
-            var sz = 5;
-            var nip = ip + sz;
-            var code = new byte[]{0xe8, 0x25, 0xe4, 0xb2, 0x5f};
-            const string Statement = "0036h call 7fff92427890h; e8 25 e4 b2 5f";
-            var dx = rel32(code,1);
-            Wf.Row(dx);
-        }
-
         public void ParseDump()
         {
             using var clrmd = ClrMdSvc.create(Wf);

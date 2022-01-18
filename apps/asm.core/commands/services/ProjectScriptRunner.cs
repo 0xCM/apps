@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static core;
 
     public class ProjectScriptRunner : AppService<ProjectScriptRunner>
@@ -13,18 +12,16 @@ namespace Z0
 
         const string WarningMarker = "warning:";
 
-        const string FlowsPattern = "{0}.flows";
-
-        public void RunScripts(IProjectWs project, string cmdname, string cmdsrc, IFileFlowType flowtype, ICmdScriptBuilder builder)
+        public void RunScripts<F>(IProjectWs project, string cmdname, string cmdsrc, F flowtype, ICmdScriptBuilder builder)
+            where F : IFileFlowType<F>
         {
             project.Out().Delete();
             var runlog = project.Out() + FS.file(cmdname, FS.Log);
             var running = Running();
-            var flowlog = project.Out() + FS.file(string.Format(FlowsPattern, cmdname), FS.Log);
-            var eflows = EmittingFile(flowlog);
             var counter = 0u;
 
-            using var flows = ProjectLog.open(project, string.Format(FlowsPattern, cmdname));
+            using var flows = ProjectLog.open(project, string.Format("{0}.flows", cmdname));
+            var eflows = EmittingFile(flows.Target);
 
             void OnStatus(in string msg)
             {

@@ -8,12 +8,14 @@ namespace Z0
     using System.Collections.Generic;
     using System.Collections.Concurrent;
     using System.Reflection;
-    using static Root;
 
-    public abstract class CmdScriptBuilder<T> : ICmdScriptBuilder
-        where T : CmdScriptBuilder<T>, new()
+    using static Root;
+    using static core;
+
+    public abstract class CmdScriptBuilder<B> : ICmdScriptBuilder
+        where B : CmdScriptBuilder<B>, new()
     {
-        public static T create() => new T();
+        public static B create() => new B();
 
         ConcurrentDictionary<Type,FieldInfo[]> CmdTypes;
 
@@ -65,6 +67,12 @@ namespace Z0
                             dst.AppendFormat(" {0}", expr);
                     }
                 }
+                else if(type == typeof(FS.FolderPath))
+                {
+                    var x = value as FS.FolderPath?;
+                    if(x.HasValue)
+                        dst.AppendFormat(" {0}", x.Value.Format(PathSeparator.BS,true));
+                }
                 else
                 {
                     if(missing.Exists && object.Equals(value, missing.Value))
@@ -74,7 +82,7 @@ namespace Z0
                     {
                         var path = (FS.FilePath)value;
                         if(expr == "<src>" || expr == "<dst>" || text.empty(expr))
-                            dst.AppendFormat(" {0}", path.Format(PathSeparator.BS,true));
+                            dst.AppendFormat(" {0}", path.Format(PathSeparator.BS, true));
                         else
                             dst.AppendFormat(" {0}", string.Format(expr, path.Format(PathSeparator.BS, true)));
                     }
@@ -94,6 +102,21 @@ namespace Z0
             return new CmdScript(dst.Emit());
         }
 
-        public abstract Index<CmdLine> BuildCmdLines(IProjectWs project, string cmdsrc, IFileFlowType flowtype);
+        public abstract Index<CmdLine> BuildCmdLines(IProjectWs project, string scope, IFileFlowType flow);
     }
+
+    public abstract class CmdScriptBuilder<B,F,C> : CmdScriptBuilder<B>
+         where B : CmdScriptBuilder<B,F,C>, new()
+         where F : IFileFlowType
+         where C : IFileFlowCmd
+   {
+        public abstract C BuildCmd(IProjectWs project, string scope, FS.FilePath src, F flow);
+
+        public override Index<CmdLine> BuildCmdLines(IProjectWs project, string scope, IFileFlowType flow)
+        {
+            var buffer = core.bag<CmdLine>();
+            iter(project.SrcFiles(scope, false), path => buffer.Add(BuildCmd(project, scope, path, (F)flow).Format()), true);
+            return buffer.Array();
+        }
+   }
 }

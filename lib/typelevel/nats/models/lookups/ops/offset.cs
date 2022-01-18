@@ -13,10 +13,10 @@ namespace Z0
     {
        [MethodImpl(Inline), Op]
         public static uint offset(GridDim<ushort> dim, ushort row, ushort col)
-            => CellCalcs.offset(dim,row,col);
+            => CellCalcs.offset(dim, row, col);
 
         [MethodImpl(Inline), Op]
         public static uint offset(GridDim<ushort> dim, LookupKey key)
-            => CellCalcs.offset(dim,key.Row(), key.Col());
+            => CellCalcs.offset(dim, key.Row(), key.Col());
     }
 }

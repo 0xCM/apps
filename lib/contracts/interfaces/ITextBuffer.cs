@@ -31,6 +31,8 @@ namespace Z0
 
         void IndentLine<T>(uint margin, T src);
 
+        void Indent<T>(uint margin, T src);
+
         void IndentLineFormat(uint margin, string pattern, params object[] args);
 
         void AppendItem<T>(T src);

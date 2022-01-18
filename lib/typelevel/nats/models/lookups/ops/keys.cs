@@ -21,7 +21,7 @@ namespace Z0
         public static LookupKeys keys(ushort rows, ushort cols)
         {
             var dst = alloc<LookupKey>(rows*cols);
-            keys(rows,cols,dst);
+            keys(rows, cols, dst);
             return new LookupKeys((rows,cols),dst);
         }
 
