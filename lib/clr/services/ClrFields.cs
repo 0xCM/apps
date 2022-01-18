@@ -18,10 +18,20 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        [Op]
         public static Dictionary<string,FieldValue> values(object src)
         {
             var type = src.GetType();
             var fields = type.DeclaredInstanceFields();
+            var dst = dict<string,FieldValue>();
+            foreach(var f in fields)
+                dst[f.Name] = (f,f.GetValue(src));
+            return dst;
+        }
+
+        [Op]
+        public static Dictionary<string,FieldValue> values(object src, FieldInfo[] fields)
+        {
             var dst = dict<string,FieldValue>();
             foreach(var f in fields)
                 dst[f.Name] = (f,f.GetValue(src));

@@ -46,6 +46,11 @@ namespace Z0
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
+        McCmdScriptBuilder McScriptBuilder => Service(McCmdScriptBuilder.create);
+
+        ProjectScriptRunner ProjectScriptRunner => Service(Wf.ProjectScriptRunner);
+
+
         FS.Files _Files;
 
         FS.Files Files()

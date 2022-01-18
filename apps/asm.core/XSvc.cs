@@ -6,11 +6,13 @@ namespace Z0
 {
     using Z0.Asm;
 
-    using Svc = Z0.Asm;
-
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static ProjectScriptRunner ProjectScriptRunner(this IWfRuntime wf)
+            => Z0.ProjectScriptRunner.create(wf);
+
         [Op]
         public static ApiAssets ApiAssets(this IWfRuntime wf)
             => Z0.ApiAssets.create(wf);
@@ -52,15 +54,15 @@ namespace Z0
 
         [Op]
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)
-            => Svc.NasmCatalog.create(wf);
+            => Asm.NasmCatalog.create(wf);
 
         [Op]
         public static StanfordAsmCatalog StanfordCatalog(this IWfRuntime wf)
-            => Svc.StanfordAsmCatalog.create(wf);
+            => Asm.StanfordAsmCatalog.create(wf);
 
         [Op]
         public static AsmFormPipe AsmFormPipe(this IWfRuntime wf)
-            => Svc.AsmFormPipe.create(wf);
+            => Asm.AsmFormPipe.create(wf);
 
         [Op]
         public static Nasm Nasm(this IWfRuntime wf)

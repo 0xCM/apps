@@ -10,6 +10,7 @@ namespace Z0.llvm
     using Asm;
 
     using static core;
+    using static Root;
 
     [Tool(ToolId)]
     public partial class LlvmMcSvc : ToolService<LlvmMcSvc>
@@ -252,6 +253,54 @@ namespace Z0.llvm
 
         public Index<AsmSyntaxRow> LoadSyntax(IProjectWs project)
             => LoadSyntaxRows(SyntaxTable(project));
+
+        public Index<AsmSyntaxOpList> ExtractSyntaxOpLists(ReadOnlySpan<AsmSyntaxRow> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<AsmSyntaxOpList>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref skip(src,i);
+                ref readonly var syntax = ref row.Syntax;
+                if(syntax.IsNonEmpty)
+                {
+                    var dst = text.buffer();
+                    var content = row.SyntaxContent;
+                    var mnemonic = AsmMnemonic.parse(content, out var mx);
+                    var optext = EmptyString;
+                    if(mx > 0)
+                        optext = text.right(content,mx);
+
+                    var indices = text.indices(optext, Chars.Colon);
+                    var ixcount = indices.Count;
+                    for(var j=0; j<ixcount; j++)
+                    {
+                        ref readonly var k = ref indices[j];
+                        if(j == 0)
+                            dst.Append(text.left(optext, k));
+                        else
+                        {
+                            ref readonly var p = ref indices[j-1];
+                            var xx = text.inside(optext, p, k);
+                            var m = text.xedni(xx,Chars.Space);
+                            var yy = text.right(xx,m);
+                            if(yy.Contains(Chars.LBrace))
+                                yy = "RegMask";
+                            dst.Append(string.Format(" | {0}", yy));
+                        }
+                    }
+
+                    var classes = dst.Emit();
+                    if(text.nonempty(classes))
+                        seek(buffer,i) = new AsmSyntaxOpList(row, classes.SplitClean(Chars.Pipe), indices);
+                }
+                else
+                    seek(buffer,i) = new AsmSyntaxOpList(row, sys.empty<string>(), sys.empty<int>());
+            }
+
+            return buffer;
+        }
+
 
         Index<AsmSyntaxRow> LoadSyntaxRows(FS.FilePath src)
         {

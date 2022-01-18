@@ -28,11 +28,11 @@ namespace Z0
                 if(syntax.IsNonEmpty)
                 {
                     var dst = text.buffer();
-                    var input = text.trim(text.despace(text.unfence(syntax,RenderFence.Paren)));
-                    var mnemonic = ParseMnemonic(input, out var mx);
+                    var content = row.SyntaxContent;
+                    var mnemonic = AsmMnemonic.parse(content, out var mx);
                     var optext = EmptyString;
                     if(mx > 0)
-                        optext = text.right(input,mx);
+                        optext = text.right(content,mx);
 
                     var indices = text.indices(optext, Chars.Colon);
                     var ixcount = indices.Count;
@@ -59,26 +59,29 @@ namespace Z0
 
                     var classes = dst.Emit();
                     if(text.nonempty(classes))
-                        Write(string.Format("{0,-20} | {1,-40} | {2}", mnemonic.Format(MnemonicCase.Lowercase), classes, input));
+                    {
+                        var _classes = classes.SplitClean(Chars.Pipe);
+                        var classlist = _classes.Delimit(Chars.Pipe).Format();
+                        Write(string.Format("{0,-20} | {1,-40} | {2}", mnemonic.Format(MnemonicCase.Lowercase), classlist, content));
+                    }
                     else
                         Write(mnemonic.Format(MnemonicCase.Lowercase));
+
                 }
             }
 
             return true;
         }
 
-        static AsmMnemonic ParseMnemonic(string src, out int i)
+        [CmdOp("mc/syntax2")]
+        Outcome McSyntax2(CmdArgs args)
         {
-            i = text.index(src,Chars.Comma,Chars.Space);
-            if(i>0)
-            {
-                return text.left(src,i);
-            }
-            else
-                return src;
-        }
+            var src = LlvmMc.LoadSyntax(Project());
+            var ops = LlvmMc.ExtractSyntaxOpLists(src).Map(x => x.Format());
+            iter(ops, op => Write(op));
 
+            return true;
+        }
         bool ExtractMemOp(string src, out string dst)
         {
             const string Marker = "Memory:";

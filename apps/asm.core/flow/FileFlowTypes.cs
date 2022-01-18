@@ -213,6 +213,19 @@ namespace Z0
             }
         }
 
+        /// <summary>
+        /// *.s -> *.asm
+        /// </summary>
+        public class SToAsm : FileFlowType<SToAsm,LlvmMc>
+        {
+            public SToAsm()
+                :base(llvm_mc, FileKind.S, FileKind.Asm)
+            {
+
+            }
+
+        }
+
         sealed class EmptyFlow : IFileFlowType
         {
             public static EmptyFlow Instance = new();

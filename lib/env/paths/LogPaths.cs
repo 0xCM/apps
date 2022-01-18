@@ -17,9 +17,6 @@ namespace Z0
         FS.FolderPath AppLogDir(string id)
             => AppLogRoot() + FS.folder(id);
 
-        FS.FolderPath StepLogRoot()
-            => LogRoot() + FS.folder(steps);
-
         FS.FilePath AppLog(string id)
             => AppLogRoot() + FS.file(id, FS.Log);
 
@@ -39,11 +36,5 @@ namespace Z0
 
         FS.FilePath ShowLog(FS.FileName file)
             => ShowLogRoot() + file;
-
-        FS.FilePath StepLogPath(WfStepId step, FS.FileExt ext)
-            => StepLogRoot() + FS.file(step.Format(), ext);
-
-        FS.FilePath StepLogPath<T>(WfStepId step, T subject, FS.FileExt ext)
-            => StepLogRoot() + FS.file(string.Format("{0}.{1}", step.Format(), subject), ext);
     }
 }

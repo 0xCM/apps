@@ -35,6 +35,17 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
+        public string SyntaxContent
+        {
+            get
+            {
+                if(text.fenced(Syntax, RenderFence.Paren))
+                    return text.trim(text.despace(text.unfence(Syntax,RenderFence.Paren)));
+                else
+                    return text.trim(text.despace(Syntax.Format()));
+            }
+        }
+
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,62,120,48,5};
     }
 }
