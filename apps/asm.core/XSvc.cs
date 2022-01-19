@@ -9,10 +9,8 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        [Op]
-        public static FlowScriptRunner FlowScriptRunner(this IWfRuntime wf)
-            => Z0.FlowScriptRunner.create(wf);
-
+        public static FlowCommands FlowCommands(this IWfRuntime wf)
+            => Z0.FlowCommands.create(wf);
         [Op]
         public static ApiAssets ApiAssets(this IWfRuntime wf)
             => Z0.ApiAssets.create(wf);

@@ -16,7 +16,6 @@ namespace Z0
 
         }
 
-
         IActor IFlowType.Actor
             => Actor;
     }

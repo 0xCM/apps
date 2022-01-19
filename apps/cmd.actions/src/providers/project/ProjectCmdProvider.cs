@@ -46,9 +46,7 @@ namespace Z0
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        McCmdScriptBuilder McScriptBuilder => Service(McCmdScriptBuilder.create);
-
-        FlowScriptRunner FlowScriptRunner => Service(Wf.FlowScriptRunner);
+        //FlowScriptRunner FlowScriptRunner => Service(Wf.FlowScriptRunner);
 
         FS.Files _Files;
 
