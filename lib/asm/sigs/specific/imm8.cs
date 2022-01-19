@@ -12,7 +12,6 @@ namespace Z0.Asm
     {
         public readonly struct imm8 : IImmOpClass<imm8>, IAsmSigOp<imm8,ImmToken>
         {
-
             public ImmToken Token => ImmToken.imm8;
 
             public AsmOpClass OpClass

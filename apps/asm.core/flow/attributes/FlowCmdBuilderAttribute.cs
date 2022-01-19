@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class FileFlow : Flow<FS.FilePath,FS.FilePath>
-    {
-        public FileFlow(IFileFlowType type, FS.FilePath src, FS.FilePath dst)
-            : base(type,src,dst)
-        {
+    using System;
 
-        }
+    public class FlowCmdBuilderAttribute : Attribute
+    {
+
     }
 }

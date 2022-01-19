@@ -6,7 +6,6 @@
 namespace Z0
 {
     using System.Runtime.InteropServices;
-    using System.Collections.Generic;
 
     using Asm;
 
@@ -18,34 +17,6 @@ namespace Z0
 
     partial struct XedModels
     {
-        public class RuleOperands
-        {
-            readonly Dictionary<RuleOpName,RuleOperand> Data;
-
-            public RuleOperands(Dictionary<RuleOpName,RuleOperand> src)
-            {
-                Data = src;
-            }
-
-            public bool TryGetValue(RuleOpName key, out RuleOperand value)
-                => Data.TryGetValue(key, out value);
-
-            public ICollection<RuleOpName> Keys
-                => Data.Keys;
-
-            public ICollection<RuleOperand> Values
-                => Data.Values;
-
-            public RuleOperand this[RuleOpName name]
-            {
-                get => Data[name];
-                set => Data[name] = value;
-            }
-
-            public static implicit operator RuleOperands(Dictionary<RuleOpName,RuleOperand> src)
-                => new RuleOperands(src);
-        }
-
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct OperandState
         {
@@ -311,7 +282,7 @@ namespace Z0
             public byte nelem;
 
             [OperandKind(BCAST)]
-            public BCastKind bcast;
+            public AsmBCastKind bcast;
 
             [OperandKind(NEED_MEMDISP)]
             public bit need_memdisp;

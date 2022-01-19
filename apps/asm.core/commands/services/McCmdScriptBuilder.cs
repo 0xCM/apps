@@ -7,13 +7,6 @@ namespace Z0
     using llvm;
 
     using static core;
-    using static FileFlowTypes;
-
-    public class McXyz : CmdScriptBuilder<McXyz, SToAsm, McCmd>
-    {
-        public override McCmd BuildCmd(IProjectWs project, string scope, FS.FilePath src, SToAsm flow)
-            => flow.Cmd(project, scope, src);
-    }
 
     public class McCmdScriptBuilder : CmdScriptBuilder<McCmdScriptBuilder>
     {
@@ -21,7 +14,6 @@ namespace Z0
         {
 
         }
-
 
         public override Index<CmdLine> BuildCmdLines(IProjectWs project, string scope, IFileFlowType flowtype)
         {

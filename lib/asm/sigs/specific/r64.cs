@@ -1,0 +1,35 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0.Asm
+{
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
+    partial class AsmSigs
+    {
+        public readonly struct r64 : IRegOpClass<r64>, IAsmSigOp<r64,GpRegToken>
+        {
+            public GpRegToken Token => GpRegToken.r64;
+
+            public AsmOpClass OpClass
+                => AsmOpClass.Reg;
+
+            public NativeSize Size
+                => NativeSizeCode.W64;
+
+            public RegClassCode RegClass
+                => RegClassCode.GP;
+
+            [MethodImpl(Inline)]
+            public static implicit operator reg(r64 src)
+                => new reg(src.Size, src.RegClass);
+
+            [MethodImpl(Inline)]
+            public static implicit operator AsmOperand(r64 src)
+                => new AsmOperand(src.OpClass, src.Size, (byte)src.RegClass);
+        }
+    }
+}

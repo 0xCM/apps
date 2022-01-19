@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class ProjectScriptRunner : AppService<ProjectScriptRunner>
+    public class FlowScriptRunner : AppService<FlowScriptRunner>
     {
         const string ErrorMarker = "error:";
 

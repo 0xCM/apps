@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct MemPair
+        public readonly struct MemPair : IAsmSigOp<MemPair, MemPairToken>
         {
             public MemPairToken Token {get;}
 

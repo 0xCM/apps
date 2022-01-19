@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct FpuReg
+        public readonly struct FpuReg : IRegOpClass<FpuReg>, IAsmSigOp<FpuReg,FpuRegToken>
         {
             public FpuRegToken Token {get;}
 
@@ -21,6 +21,15 @@ namespace Z0.Asm
             {
                 Token = token;
             }
+
+            public AsmOpClass OpClass
+                => AsmOpClass.Reg;
+
+            public NativeSize Size
+                => NativeSizeCode.W80;
+
+            public RegClassCode RegClass
+                => RegClassCode.ST;
 
             public K Kind => K.FpuReg;
 

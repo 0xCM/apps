@@ -48,7 +48,7 @@ namespace Z0
 
         McCmdScriptBuilder McScriptBuilder => Service(McCmdScriptBuilder.create);
 
-        ProjectScriptRunner ProjectScriptRunner => Service(Wf.ProjectScriptRunner);
+        FlowScriptRunner FlowScriptRunner => Service(Wf.FlowScriptRunner);
 
         FS.Files _Files;
 

@@ -16,6 +16,8 @@ namespace Z0.Asm
         {
             public OpMaskToken Token {get;}
 
+
+
             [MethodImpl(Inline)]
             public OpMask(OpMaskToken token)
             {

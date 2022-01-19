@@ -17,12 +17,15 @@ namespace Z0.Asm
 
         TextMap SigOpProd;
 
+        ConstLookup<string,Atoms<string>> SigAtomics;
+
         protected override void OnInit()
         {
             CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
             SigOpNormal = rules.textmap(ProjectDb.Settings("asm.sigs.normal", FS.ext("map")));
             SigOpProd = rules.textmap(ProjectDb.Settings("asm.sigs.productions", FS.ext("map")));
+            SigAtomics = rules.atomics(ProjectDb.Settings("asm.sigs.atomics", FS.ext("map")));
         }
 
         public void ClearTargets()

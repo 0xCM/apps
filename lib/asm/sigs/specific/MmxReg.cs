@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public readonly struct MmxReg
+        public readonly struct MmxReg : IRegOpClass<MmxReg>, IAsmSigOp<MmxReg,MmxRegToken>
         {
             public MmxRegToken Token {get;}
 
@@ -23,6 +23,9 @@ namespace Z0.Asm
             }
 
             public K Kind => K.MmxReg;
+
+            public RegClassCode RegClass
+                => RegClassCode.MMX;
 
             [MethodImpl(Inline)]
             public static implicit operator MmxReg(MmxRegToken src)

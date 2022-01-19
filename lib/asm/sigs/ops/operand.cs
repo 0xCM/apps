@@ -11,7 +11,6 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-
         [MethodImpl(Inline), Op]
         public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
         {
@@ -42,10 +41,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static GpRm operand(GpRmToken src)
-            => src;
-
-        [MethodImpl(Inline), Op]
-        public static OpMask operand(OpMaskToken src)
             => src;
 
         [MethodImpl(Inline), Op]

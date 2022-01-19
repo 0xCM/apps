@@ -3,21 +3,18 @@
 // License     : Apache
 // Source      : all-state.txt
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    partial struct XedModels
+    public enum AsmBCastClass : byte
     {
-        public enum BCastClass : byte
-        {
-            None = 0,
+        None = 0,
 
-            BCast8 = 1,
+        BCast8 = 1,
 
-            BCast16 = 16,
+        BCast16 = 16,
 
-            BCast32 = 32,
+        BCast32 = 32,
 
-            BCast64 = 64
-        }
+        BCast64 = 64
     }
 }

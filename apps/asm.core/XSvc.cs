@@ -10,8 +10,8 @@ namespace Z0
     public static class XSvc
     {
         [Op]
-        public static ProjectScriptRunner ProjectScriptRunner(this IWfRuntime wf)
-            => Z0.ProjectScriptRunner.create(wf);
+        public static FlowScriptRunner FlowScriptRunner(this IWfRuntime wf)
+            => Z0.FlowScriptRunner.create(wf);
 
         [Op]
         public static ApiAssets ApiAssets(this IWfRuntime wf)

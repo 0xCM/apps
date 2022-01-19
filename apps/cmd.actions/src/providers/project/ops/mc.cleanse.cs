@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("mc/cleanse")]
         Outcome McTest(CmdArgs args)
         {
-            ProjectScriptRunner.RunScripts(Project(), "cleanse", "att/64", FileFlowTypes.SToAsm.Instance, McScriptBuilder);
+            FlowScriptRunner.RunScripts(Project(), "cleanse", "att/64", FileFlowTypes.SToAsm.Instance, McScriptBuilder);
             return true;
         }
     }

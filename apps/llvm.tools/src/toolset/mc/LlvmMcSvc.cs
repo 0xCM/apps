@@ -254,28 +254,6 @@ namespace Z0.llvm
         public Index<AsmSyntaxRow> LoadSyntax(IProjectWs project)
             => LoadSyntaxRows(SyntaxTable(project));
 
-        static Index<string> optext(ReadOnlySpan<AsmSyntaxRow> src)
-        {
-            var count = src.Length;
-            var buffer = alloc<string>(count);
-            for(var i =0; i<count; i++)
-            {
-                ref readonly var record = ref src[i];
-                var content = record.Syntax.Format();
-                var monic = AsmMnemonic.parse(content, out var mx);
-                var _args = EmptyString;
-                if(mx >= 0)
-                {
-                    var j = text.index(content, Chars.Comma);
-                    if(j > 0)
-                        _args = text.right(content, j);
-                }
-
-                seek(buffer,i) = _args;
-            }
-            return buffer;
-        }
-
         static string syncontent(string src)
         {
             if(text.fenced(src, RenderFence.Paren))
@@ -284,38 +262,19 @@ namespace Z0.llvm
                 return text.trim(text.despace(src));
         }
 
-        public Index<AsmSyntaxOpList> ExtractSyntaxOpLists(ReadOnlySpan<AsmSyntaxRow> src)
+        public Index<Index<string>> ExtractSyntaxOpLists(ReadOnlySpan<AsmSyntaxRow> src)
         {
             var count = src.Length;
-            var buffer = alloc<AsmSyntaxOpList>(count);
-            var ops = optext(src);
+            var buffer = alloc<Index<string>>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref skip(src,i);
-                ref readonly var op = ref ops[i];
-                var dst = text.buffer();
-                var indices = text.indices(op, Chars.Colon);
-                var ixcount = indices.Count;
-                for(var j=0; j<ixcount; j++)
-                {
-                    ref readonly var k = ref indices[j];
-                    if(j == 0)
-                        dst.Append(text.left(op, k));
-                    else
-                    {
-                        ref readonly var p = ref indices[j-1];
-                        var xx = text.inside(op, p, k);
-                        var m = text.xedni(xx,Chars.Space);
-                        var yy = text.right(xx,m);
-                        if(yy.Contains(Chars.LBrace))
-                            yy = "RegMask";
-                        dst.Append(string.Format(" | {0}", yy));
-                    }
-                }
+                var syntax = row.Syntax.Format();
+                if(syntax.Contains(Chars.Colon))
+                    seek(buffer,i) = text.trim(text.split(syntax, Chars.Space));
+                else
+                    seek(buffer,i) = sys.empty<string>();
 
-                var classes = dst.Emit();
-                if(text.nonempty(classes))
-                    seek(buffer,i) = new AsmSyntaxOpList(row, text.trim(classes.SplitClean(Chars.Pipe)), indices);
             }
 
             return buffer;
@@ -366,6 +325,8 @@ namespace Z0.llvm
                     result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Location)));
                     break;
                 }
+
+                dst.Mnemonic = skip(cells,j++);
 
                 dst.Expr = skip(cells, j++);
                 dst.Syntax = skip(cells, j++);
@@ -510,7 +471,17 @@ namespace Z0.llvm
                 record.DocId = fref.DocId;
                 record.DocSeq = docseq++;
                 record.Location = point.Location;
-                record.Syntax = syncontent(syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith));
+                record.Syntax = syncontent(syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith).Replace("Memory: ", "Mem:"));
+                record.Mnemonic = AsmMnemonic.parse(record.Syntax, out var mx);
+                if(mx >=0)
+                {
+                    var s = record.Syntax.Format();
+                    var mi = text.index(s, mx, Chars.Space);
+                    if(mi > 0)
+                    {
+                        record.Syntax = text.right(s,mi);
+                    }
+                }
 
                 var ci = text.index(body, Chars.Hash);
                 if (ci > 0)

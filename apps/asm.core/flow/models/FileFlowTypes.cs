@@ -10,6 +10,12 @@ namespace Z0
 
     using FK = FileKind;
 
+    public readonly struct FileFlows
+    {
+
+
+    }
+
     public readonly struct FileFlowTypes
     {
         public static FileFlowType define(Identifier actor, FileKind src, FileKind dst)
@@ -32,20 +38,6 @@ namespace Z0
             public FK SourceKind => Source;
 
             public FK TargetKind => Target;
-        }
-
-        public abstract class FileCmdFlow<F,A,C> : FileFlowType<F,A>, IFileCmdFlow<C>
-            where F : FileCmdFlow<F,A,C>,new()
-            where A : IActor
-        {
-            protected FileCmdFlow(A actor, FileKind src, FileKind dst)
-                : base(actor,src,dst)
-            {
-
-
-            }
-
-            public abstract C Cmd(IProjectWs project, string scope, FS.FilePath src);
         }
 
         /// <summary>
@@ -232,25 +224,12 @@ namespace Z0
         /// <summary>
         /// *.s -> *.asm
         /// </summary>
-        public class SToAsm : FileCmdFlow<SToAsm,LlvmMc,McCmd>
+        public class SToAsm : FileFlowType<SToAsm,LlvmMc>
         {
             public SToAsm()
                 :base(llvm_mc, FileKind.S, FileKind.Asm)
             {
 
-            }
-
-            public override McCmd Cmd(IProjectWs project, string scope, FS.FilePath src)
-            {
-                var cmd = McCmd.Empty;
-                cmd.Source = src;
-                cmd.Target = project.Out(scope).Create() + src.FileName.ChangeExtension(TargetExt);
-                cmd.FileType = "asm";
-                cmd.Triple = "x86_64-pc-windows-msvc";
-                cmd.MCpu = "cascadelake";
-                cmd.OutputAsmVariant = 1;
-                cmd.PrintImmHex = 1;
-                return cmd;
             }
         }
 

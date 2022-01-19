@@ -40,5 +40,24 @@ namespace Z0
 
             return dst.ToArray();
         }
+
+        public static Index<T> partition<T>(Interval<T> src)
+            where T : unmanaged
+        {
+            var left = bw64i(src.Left);
+            var right = bw64i(src.Right);
+            var min = (src.Closed || src.LeftClosed) ? left : left + 1;
+            var max = (src.Closed || src.RightClosed) ? right : right - 1;
+            var count = max - min + 1;
+            var dst = sys.empty<T>();
+            if(count > 0)
+            {
+                var k = min;
+                dst = alloc<T>(count);
+                for(var i=0; i<count; i++,k++)
+                    seek(dst,i) = Numeric.force<T>(k);
+            }
+            return dst;
+        }
     }
 }
