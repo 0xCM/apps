@@ -42,7 +42,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         bool Contains(MemoryAddress src)
-            => src >= _Strings.BaseAddress && src <= _Strings.BaseAddress + _Strings.Size;
+            => src >= _Strings.BaseAddress && src <= _Strings.BaseAddress + _Strings.Capacity;
 
         public bool Deposit(string src)
         {

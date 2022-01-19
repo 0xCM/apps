@@ -16,7 +16,7 @@ namespace Z0
             var sz = count * size<NativeCell<T>>();
             var buffer = memory.native(sz);
             Allocations.TryAdd(id,buffer);
-            return new NativeCells<T>(id, buffer.Address, size<NativeCell<T>>(), count);
+            return new NativeCells<T>(id, buffer.BaseAddress, size<NativeCell<T>>(), count);
         }
 
         internal static void free(long id)

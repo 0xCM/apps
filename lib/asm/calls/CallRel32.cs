@@ -11,14 +11,14 @@ namespace Z0.Asm
 
     public readonly struct CallRel32
     {
-        public MemoryAddress ClientAddress {get;}
+        public MemoryAddress IP {get;}
 
         public Address32 TargetDx {get;}
 
         [MethodImpl(Inline)]
-        public CallRel32(MemoryAddress client, Address32 dx)
+        public CallRel32(MemoryAddress rip, Address32 dx)
         {
-            ClientAddress = client;
+            IP = rip;
             TargetDx = dx;
         }
 
@@ -31,7 +31,7 @@ namespace Z0.Asm
         public MemoryAddress TargetAddress
         {
             [MethodImpl(Inline)]
-            get => ClientAddress + InstructionSize + TargetDx;
+            get => IP + InstructionSize + TargetDx;
         }
     }
 }

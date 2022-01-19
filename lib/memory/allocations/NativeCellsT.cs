@@ -13,7 +13,7 @@ namespace Z0
     {
         readonly long Id;
 
-        public MemoryAddress Address {get;}
+        public MemoryAddress BaseAddress {get;}
 
         public uint CellCount {get;}
 
@@ -21,7 +21,7 @@ namespace Z0
 
         public BitWidth Width {get;}
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
             get => (ByteSize)Width;
@@ -31,7 +31,7 @@ namespace Z0
         public NativeCells(long id, MemoryAddress @base, uint cellsize, uint count)
         {
             Id = id;
-            Address = @base;
+            BaseAddress = @base;
             CellCount = count;
             CellSize = cellsize;
             Width = (count*cellsize)*8;
@@ -39,7 +39,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ref NativeCell<T> Cell(uint index)
-            => ref core.@as<NativeCell<T>>((Address + CellSize*index).Pointer());
+            => ref core.@as<NativeCell<T>>((BaseAddress + CellSize*index).Pointer());
 
         [MethodImpl(Inline)]
         public ref T Content(uint index)

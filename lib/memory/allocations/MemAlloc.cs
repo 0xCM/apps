@@ -21,16 +21,16 @@ namespace Z0
 
         public uint PageCapacity {get;}
 
-        public MemoryAddress Address
+        public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
-            get => Memory.Address;
+            get => Memory.BaseAddress;
         }
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
-            get => Memory.Size;
+            get => Memory.Capacity;
         }
 
         public BitWidth Width

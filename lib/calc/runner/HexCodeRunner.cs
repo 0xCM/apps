@@ -47,7 +47,7 @@ namespace Z0
         void Exec(object[] args)
         {
             LoadBuffer(0,min64u_64u_64u);
-            var pCode = CodeBuffer.Address.Pointer<byte>();
+            var pCode = CodeBuffer.BaseAddress.Pointer<byte>();
             var name = "min64u";
             var f = BinaryOpDynamics.create<ulong>(name, pCode);
             var a = 4ul;

@@ -24,7 +24,7 @@ namespace Z0
             _Size = size;
         }
 
-        public MemoryAddress Address
+        public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
             get => _Handle.AddrOfPinnedObject();
@@ -33,22 +33,22 @@ namespace Z0
         public ref byte First
         {
             [MethodImpl(Inline)]
-            get => ref  @ref<byte>(Address);
+            get => ref  @ref<byte>(BaseAddress);
         }
 
         public Span<byte> Edit
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(Address, _Size);
+            get => cover<byte>(BaseAddress, _Size);
         }
 
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
-            get => cover<byte>(Address, _Size);
+            get => cover<byte>(BaseAddress, _Size);
         }
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
             get => _Size;
@@ -57,13 +57,13 @@ namespace Z0
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Size;
+            get => Capacity;
         }
 
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Size;
+            get => Capacity;
         }
 
         public void Dispose()

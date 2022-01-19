@@ -42,7 +42,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public MemoryAddress Address(uint index)
-            => Buffer(index).Address;
+            => Buffer(index).BaseAddress;
 
         [MethodImpl(Inline)]
         public BitWidth Width(uint index)
@@ -50,7 +50,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ByteSize Size(uint index)
-            => Buffer(index).Size;
+            => Buffer(index).Capacity;
 
         [MethodImpl(Inline)]
         public void Clear(uint index)

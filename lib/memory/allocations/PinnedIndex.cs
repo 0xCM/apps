@@ -31,13 +31,13 @@ namespace Z0
             Count = (uint)content.Length;
         }
 
-        public MemoryAddress Address
+        public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
             get => pData;
         }
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
             get => size<T>() * Count;
@@ -46,7 +46,7 @@ namespace Z0
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Size;
+            get => Capacity;
         }
 
         public int Length

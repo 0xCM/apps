@@ -33,10 +33,8 @@ namespace Z0.Asm
             const byte OpCode = 0xE9;
             const byte Size = 5;
             var opcode = OpCode;
-            var encoded = AsmHexCode.Empty;
-            var bytes = encoded.Bytes;
             seek(hex, 0) = opcode;
-            u32(seek(hex, 1)) = asm.disp32(rip, dst);
+            i32(seek(hex, 1)) = asm.disp32(rip + Size, dst);
             return Size;
         }
 
@@ -55,7 +53,7 @@ namespace Z0.Asm
             var encoded = AsmHexCode.Empty;
             var bytes = encoded.Bytes;
             seek(hex,0) = opcode;
-            u8(seek(hex, 1)) = asm.disp8(rip,dst);
+            u8(seek(hex, 1)) = asm.disp8(rip + Size, dst);
             return 2;
         }
     }

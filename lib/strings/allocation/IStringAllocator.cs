@@ -6,11 +6,7 @@ namespace Z0
 {
     using System;
 
-    public interface IStringAllocator : IDisposable
-    {
-    }
-
-    public interface IStringAllocator<T> : IStringAllocator
+    public interface IStringAllocator<T> : IBufferAllocator
         where T : IMemoryString
     {
         bool Allocate(ReadOnlySpan<char> src, out T dst);

@@ -71,7 +71,7 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(src,i) = i.FormatBits();
 
-            using var allocation = StringBuffers.strings(src);
+            using var allocation = StringAllocation.allocate(src);
             var allocated = allocation.Allocated;
             for(var i=0; i<count; i++)
             {
@@ -99,7 +99,7 @@ namespace Z0
             for(uint i=0; i<count; i++)
                 seek(src,i) = BitRender.format8((byte)i);
 
-            using var allocation = StringBuffers.labels(src);
+            using var allocation = LabelAllocation.allocate(src);
             var labels = allocation.Allocated;
             if(labels.Length != count)
                 result = (false, string.Format("{0} != {1}", labels.Length, count));

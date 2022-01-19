@@ -30,7 +30,7 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static Span<byte> span(NativeBuffer src)
-            => new Span<byte>(src.Handle.ToPointer(), (int)src.Size);
+            => new Span<byte>(src.Handle.ToPointer(), (int)src.Capacity);
 
         [MethodImpl(Inline), Op]
         public static Span<T> span<T>(in NativeBuffer<T> src)

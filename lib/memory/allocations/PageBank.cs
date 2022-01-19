@@ -32,16 +32,16 @@ namespace Z0
             Buffer.Dispose();
         }
 
-        public MemoryAddress Address
+        public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
-            get => Buffer.Address;
+            get => Buffer.BaseAddress;
         }
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
-            get => Buffer.Size;
+            get => Buffer.Capacity;
         }
 
         public BitWidth Width

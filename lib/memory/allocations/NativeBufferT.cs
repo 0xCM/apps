@@ -21,16 +21,16 @@ namespace Z0
     {
         public IntPtr Handle {get;}
 
-        public ByteSize Size {get;}
+        public ByteSize Capacity {get;}
 
         [MethodImpl(Inline)]
         internal NativeBuffer(BufferToken token)
         {
             Handle = token.Handle;
-            Size = (uint)token.Size;
+            Capacity = (uint)token.Size;
         }
 
-        public MemoryAddress Address
+        public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
             get => Handle;
@@ -39,19 +39,19 @@ namespace Z0
         public ref T this[long index]
         {
             [MethodImpl(Inline)]
-            get => ref seek<T>(Address.Pointer<T>(), index);
+            get => ref seek<T>(BaseAddress.Pointer<T>(), index);
         }
 
         public ref T this[ulong index]
         {
             [MethodImpl(Inline)]
-            get => ref seek<T>(Address.Pointer<T>(), index);
+            get => ref seek<T>(BaseAddress.Pointer<T>(), index);
         }
 
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Size.Bits;
+            get => Capacity.Bits;
         }
 
         [MethodImpl(Inline)]
@@ -61,7 +61,7 @@ namespace Z0
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Size/size<T>();
+            get => Capacity/size<T>();
         }
 
         /// <summary>

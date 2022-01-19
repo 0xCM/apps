@@ -44,16 +44,16 @@ namespace Z0
             get => Buffer.Count;
         }
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
             get => Length*size<S>();
         }
 
-        MemoryAddress IAddressable.Address
+        public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
-            get => Buffer.Address;
+            get => Buffer.BaseAddress;
         }
 
         public BitWidth Width
@@ -64,7 +64,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public MemoryAddress Address(ulong index)
-            => Buffer.Address + index*size<S>();
+            => Buffer.BaseAddress + index*size<S>();
 
         [MethodImpl(Inline)]
         public MemoryAddress Address(long index)

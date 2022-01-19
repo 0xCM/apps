@@ -18,9 +18,15 @@ namespace Z0
 
         uint Position;
 
+        public MemoryAddress BaseAddress {get;}
+
+        public ByteSize Capacity {get;}
+
         internal LabelAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
+            BaseAddress = buffer.BaseAddress;
+            Capacity = buffer.Capacity;
             MaxAddress =  buffer.Address(buffer.Length);
             Position = 0;
         }

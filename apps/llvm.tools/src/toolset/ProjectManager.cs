@@ -103,9 +103,9 @@ namespace Z0
                 dst.DocId = row.DocId;
                 dst.DocSeq = row.DocSeq;
                 dst.CT = code.CT;
-                dst.Asm = code.AsmText.Format();
+                dst.Asm = code.Source.Format();
                 dst.Encoding = code.HexCode;
-                dst.IP = (Address32)code.Offset;
+                dst.IP = (Address32)code.Location;
             }
 
             buffer.Sort();

@@ -147,7 +147,7 @@ namespace Z0.Asm
 
         [Op]
         public static string format(in CallRel32 src)
-            => string.Format("{0}:{1} -> {2}", src.ClientAddress, src.TargetDx, src.TargetAddress);
+            => string.Format("{0}:{1} -> {2}", src.IP, src.TargetDx, src.TargetAddress);
 
         [Op]
         public static string semantic(in AsmDetailRow row)

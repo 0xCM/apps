@@ -35,7 +35,7 @@ namespace Z0.Machines.X86
 
             var buffer = memory.native(size);
             buffer.Clear();
-            var @base = buffer.Address;
+            var @base = buffer.BaseAddress;
             var address = @base;
             var allocations = alloc<RegAlloc>(count);
             ref var allocation = ref first(allocations);

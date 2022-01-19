@@ -17,6 +17,23 @@ namespace Z0
     /// </summary>
     public unsafe struct StringBuffer : IBufferAllocation
     {
+        [Op]
+        public static StringBuffer buffer(ReadOnlySpan<string> src)
+        {
+            var count = (uint)src.Length;
+            var dst = StringBuffers.buffer(strings.length(src) + count);
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var s = ref skip(src,i);
+                var view = span(s);
+                for(var j=0; j<count; j++)
+                    dst[counter++] = skip(view,j);
+                dst[counter++] = (char)0;
+            }
+            return dst;
+        }
+
         readonly NativeBuffer<char> Buffer;
 
         public StringBuffer(uint count)
@@ -37,7 +54,7 @@ namespace Z0
         public MemoryAddress BaseAddress
         {
             [MethodImpl(Inline)]
-            get => Buffer.Address;
+            get => Buffer.BaseAddress;
         }
 
         /// <summary>
@@ -49,7 +66,7 @@ namespace Z0
             get => Buffer.Count;
         }
 
-        public ByteSize Size
+        public ByteSize Capacity
         {
             [MethodImpl(Inline)]
             get => Length*size<char>();
@@ -57,7 +74,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public MemoryAddress Address(ulong index)
-            => Buffer.Address + index*2;
+            => Buffer.BaseAddress + index*2;
 
         [MethodImpl(Inline)]
         public MemoryAddress Address(long index)
@@ -109,12 +126,6 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Buffer.View;
-        }
-
-        MemoryAddress IAddressable.Address
-        {
-            [MethodImpl(Inline)]
-            get => Buffer.Address;
         }
 
         public BitWidth Width

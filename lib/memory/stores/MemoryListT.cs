@@ -22,7 +22,7 @@ namespace Z0
         MemoryAddress Base
         {
             [MethodImpl(Inline)]
-             get => Buffer.Address;
+             get => Buffer.BaseAddress;
         }
 
         [MethodImpl(Inline)]
@@ -34,7 +34,7 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Buffer.Size;
+            get => Buffer.Capacity;
         }
 
         public ref T First

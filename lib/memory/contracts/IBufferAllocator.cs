@@ -7,10 +7,11 @@ namespace Z0
 {
     using System;
 
-    public interface IBufferAllocation : IDisposable
+    public interface IBufferAllocator : IDisposable
     {
         MemoryAddress BaseAddress {get;}
 
         ByteSize Capacity {get;}
     }
+
 }

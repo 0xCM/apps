@@ -36,7 +36,7 @@ namespace Z0.Asm
             RoutineName = name;
             CodeBuffer.Clear();
             var size = src.Length;
-            if(size > CodeBuffer.Size)
+            if(size > CodeBuffer.Capacity)
                 return (false, CapacityExceeded.Format());
 
             var buffer = CodeBuffer.Edit;

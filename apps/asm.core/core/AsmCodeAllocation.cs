@@ -31,7 +31,7 @@ namespace Z0
             where T : IAsmEncoding
                 => SourceAllocator.create(gcalc.sum(src.Select(x => (uint)x.Asm.Data.Length)));
 
-        internal AsmCodeAllocation(AsmCode[] data, IStringAllocator allocator)
+        internal AsmCodeAllocation(AsmCode[] data, IBufferAllocator allocator)
             : base(data,allocator)
         {
 

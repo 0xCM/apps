@@ -71,8 +71,12 @@ namespace Z0.Asm
             => new Disp32(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator uint(Disp32 src)
+        public static explicit operator uint(Disp32 src)
             => (uint)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator int(Disp32 src)
+            => src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp32 src)
