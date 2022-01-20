@@ -29,9 +29,6 @@ namespace Z0.Asm
             public static implicit operator reg(ymm src)
                 => new reg(src.Size, src.RegClass);
 
-            [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(ymm src)
-                => new AsmOperand(src.OpClass, src.Size, (byte)src.RegClass);
         }
     }
 }

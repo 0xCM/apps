@@ -56,10 +56,16 @@ namespace Z0.Asm
                     regs = MaskRegs();
                 break;
                 case RegClassCode.MMX:
-                    regs = MaskRegs();
+                    regs = MmxRegs();
                 break;
                 case RegClassCode.BND:
                     regs = BndRegs();
+                break;
+                case RegClassCode.CR:
+                    regs = CrRegs();
+                break;
+                case RegClassCode.DB:
+                    regs = DbRegs();
                 break;
             }
             return regs;
@@ -156,7 +162,7 @@ namespace Z0.Asm
             RegOpSeq Load()
             {
                 var width = NativeSizeCode.W8;
-                var count = GpRegCount;
+                var count = Gp8RegCount;
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<16; i++)
                     seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP, (RegIndexCode)i);

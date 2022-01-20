@@ -13,20 +13,24 @@ namespace Z0.Asm
 
     using api = AsmSigs;
 
-    [StructLayout(LayoutKind.Sequential), DataType("asm.sig.expr")]
+    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.sig.expr")]
     public struct AsmSigExpr
     {
-        public AsmMnemonic Mnemonic;
+        public readonly AsmMnemonic Mnemonic;
 
-        internal AsmSigOpExpr Op0;
+        public AsmSigOpExpr Op0;
 
-        internal AsmSigOpExpr Op1;
+        public AsmSigOpExpr Op1;
 
-        internal AsmSigOpExpr Op2;
+        public AsmSigOpExpr Op2;
 
-        internal AsmSigOpExpr Op3;
+        public AsmSigOpExpr Op3;
 
-        public readonly byte OperandCount;
+        public byte OperandCount
+        {
+            [MethodImpl(Inline)]
+            get => CalcOpCount();
+        }
 
         [MethodImpl(Inline)]
         public AsmSigExpr(AsmMnemonic monic)
@@ -36,7 +40,6 @@ namespace Z0.Asm
             Op1 = AsmSigOpExpr.Empty;
             Op2 = AsmSigOpExpr.Empty;
             Op3 = AsmSigOpExpr.Empty;
-            OperandCount = 0;
         }
 
         [MethodImpl(Inline)]
@@ -47,7 +50,6 @@ namespace Z0.Asm
             Op1 = AsmSigOpExpr.Empty;
             Op2 = AsmSigOpExpr.Empty;
             Op3 = AsmSigOpExpr.Empty;
-            OperandCount = 1;
         }
 
         [MethodImpl(Inline)]
@@ -58,7 +60,6 @@ namespace Z0.Asm
             Op1 = op1;
             Op2 = AsmSigOpExpr.Empty;
             Op3 = AsmSigOpExpr.Empty;
-            OperandCount = 2;
         }
 
         [MethodImpl(Inline)]
@@ -69,7 +70,6 @@ namespace Z0.Asm
             Op1 = op1;
             Op2 = op2;
             Op3 = AsmSigOpExpr.Empty;
-            OperandCount = 3;
         }
 
         [MethodImpl(Inline)]
@@ -80,7 +80,26 @@ namespace Z0.Asm
             Op1 = op1;
             Op2 = op2;
             Op3 = op3;
-            OperandCount = 4;
+        }
+
+        public AsmSigExpr WithOperand(byte n, AsmSigOpExpr op)
+        {
+            switch(n)
+            {
+                case 0:
+                    Op0 = op;
+                break;
+                case 1:
+                    Op1 = op;
+                break;
+                case 2:
+                    Op2 = op;
+                break;
+                case 3:
+                    Op3 = op;
+                break;
+            }
+            return this;
         }
 
         public ReadOnlySpan<AsmSigOpExpr> Operands()
@@ -95,6 +114,30 @@ namespace Z0.Asm
             var i=0u;
             api.operands(this, ref i, dst.Data);
             return ref dst;
+        }
+
+        [MethodImpl(Inline)]
+        byte CalcOpCount()
+        {
+            if(Op3.IsEmpty)
+            {
+                if(Op2.IsEmpty)
+                {
+                    if(Op1.IsEmpty)
+                    {
+                        if(Op0.IsEmpty)
+                            return 0;
+                        else
+                            return 1;
+                    }
+                    else
+                        return 2;
+                }
+                else
+                    return 3;
+            }
+            else
+                return 4;
         }
 
         public byte Operands(Span<AsmSigOpExpr> dst)

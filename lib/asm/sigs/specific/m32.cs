@@ -24,7 +24,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator mem(m32 src)
-                => new mem(src.Size);
+                => new mem(src.Token);
 
 
             [MethodImpl(Inline)]

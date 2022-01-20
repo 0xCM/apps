@@ -15,7 +15,7 @@ namespace Z0
         {
             var parts = Wf.ApiCatalog.PartIdentities;
             var partCount = parts.Length;
-            var flow = Wf.Running(RunningMachine.Format(partCount, Seq.index(Chars.Comma, 0, parts)));
+            var flow = Wf.Running(RunningMachine.Format(partCount, parts.Delimit()));
             try
             {
                 var blocks = Wf.ApiHex().ReadBlocks().Storage;

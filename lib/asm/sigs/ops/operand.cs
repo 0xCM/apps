@@ -27,59 +27,71 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static M.FarPtr operand(FarPtrToken src)
+        public static M.FarPtr sigop(FarPtrToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static FpuMem operand(FpuMemToken src)
+        public static FpuMem sigop(FpuMemToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static FpuReg operand(FpuRegToken src)
+        public static FpuReg sigop(FpuRegToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static GpReg operand(GpRegToken src)
+        public static GpReg sigop(GpRegToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static GpRm operand(GpRmToken src)
+        public static GpRm sigop(GpRmToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static MemPair operand(MemPairToken src)
+        public static MemPair sigop(MemPairToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static MmxReg operand(MmxRegToken src)
+        public static MmxReg sigop(MmxRegToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static Moffs operand(MoffsToken src)
+        public static Moffs sigop(MoffsToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static Ptr operand(PtrToken src)
+        public static Ptr sigop(PtrToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static Rel operand(RelToken src)
+        public static Rel sigop(RelToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static SrcOp src(SrcOpToken src)
+        public static SrcOp sigop(SrcOpToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static VecRm src(VecRmToken src)
+        public static VecRm sigop(VecRmToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static Broadcast src(BroadcastToken src)
+        public static bcast sigop(BroadcastToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static SysReg src(SysRegToken src)
+        public static SysReg sigop(SysRegToken src)
+            => src;
+
+        [MethodImpl(Inline), Op]
+        public static OpMask sigop(OpMaskToken src)
+            => src;
+
+        [MethodImpl(Inline), Op]
+        public static imm sigop(ImmToken src)
+            => src;
+
+        [MethodImpl(Inline), Op]
+        public static mem sigop(MemToken src)
             => src;
     }
 }

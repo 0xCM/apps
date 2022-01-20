@@ -12,24 +12,28 @@ namespace Z0.Asm
 
     partial class AsmSigModels
     {
-        public readonly struct imm : IImmOpClass<imm>
+        public readonly struct imm : IImmOpClass<imm>, IAsmSigOp<imm,ImmToken>
         {
-            public NativeSize Size {get;}
+            public ImmToken Token {get;}
 
             public AsmSigOpKind Kind => AsmSigOpKind.Imm;
 
             [MethodImpl(Inline)]
-            public imm(NativeSize size)
+            public imm(ImmToken token)
             {
-                Size = size;
+                Token = token;
             }
 
             public AsmOpClass OpClass
                 => AsmOpClass.Imm;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(imm src)
-                => new AsmOperand(src.OpClass, src.Size);
+            public static implicit operator AsmSigOp(imm src)
+                => asm.sigop(src.Kind, src.Token);
+
+            [MethodImpl(Inline)]
+            public static implicit operator imm(ImmToken src)
+                => new imm(src);
         }
     }
 }

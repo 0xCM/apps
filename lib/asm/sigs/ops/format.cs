@@ -8,7 +8,6 @@ namespace Z0.Asm
 
     using static core;
 
-
     partial class AsmSigs
     {
         public static string format(in AsmSigExpr src)

@@ -1,99 +1,99 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0.Asm
-{
-    using System;
-    using System.Runtime.CompilerServices;
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0.Asm
+// {
+//     using System;
+//     using System.Runtime.CompilerServices;
 
-    using static Root;
-    using static core;
+//     using static Root;
+//     using static core;
 
-    using api = AsmRegs;
+//     using api = AsmRegs;
 
-    public readonly struct RegOp<T> : IRegOp<T>
-        where T : unmanaged, IRegOp
-    {
-        readonly T Data;
+//     public readonly struct RegOp<T> : IRegOp<T>
+//         where T : unmanaged, IRegOp
+//     {
+//         readonly T Data;
 
-        [MethodImpl(Inline)]
-        public RegOp(T src)
-        {
-            Data = src;
-        }
+//         [MethodImpl(Inline)]
+//         public RegOp(T src)
+//         {
+//             Data = src;
+//         }
 
-        public ushort Bitfield
-        {
-            [MethodImpl(Inline)]
-            get => u16(Data);
-        }
+//         public ushort Bitfield
+//         {
+//             [MethodImpl(Inline)]
+//             get => u16(Data);
+//         }
 
-        public RegIndexCode Index
-        {
-            [MethodImpl(Inline)]
-            get => Data.Index;
-        }
+//         public RegIndexCode Index
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.Index;
+//         }
 
-        public RegClassCode RegClassCode
-        {
-            [MethodImpl(Inline)]
-            get => Data.RegClassCode;
-        }
+//         public RegClassCode RegClassCode
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.RegClassCode;
+//         }
 
-        public NativeSizeCode Size
-        {
-            [MethodImpl(Inline)]
-            get => Data.WidthCode;
-        }
+//         public NativeSizeCode Size
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.WidthCode;
+//         }
 
-        public NativeSizeCode WidthCode
-        {
-            [MethodImpl(Inline)]
-            get => Data.WidthCode;
-        }
+//         public NativeSizeCode WidthCode
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.WidthCode;
+//         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => WidthCode;
-        }
+//         public RegWidth RegWidth
+//         {
+//             [MethodImpl(Inline)]
+//             get => WidthCode;
+//         }
 
-        public RegClass RegClass
-        {
-            [MethodImpl(Inline)]
-            get => RegClassCode;
-        }
+//         public RegClass RegClass
+//         {
+//             [MethodImpl(Inline)]
+//             get => RegClassCode;
+//         }
 
-        public AsmOpClass OpClass
-        {
-            [MethodImpl(Inline)]
-            get => AsmOpClass.Reg;
-        }
+//         public AsmOpClass OpClass
+//         {
+//             [MethodImpl(Inline)]
+//             get => AsmOpClass.Reg;
+//         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => OpClass == 0;
-        }
+//         public bool IsEmpty
+//         {
+//             [MethodImpl(Inline)]
+//             get => OpClass == 0;
+//         }
 
-        public AsmRegName Name
-        {
-            [MethodImpl(Inline)]
-            get => api.name(this);
-        }
+//         public AsmRegName Name
+//         {
+//             [MethodImpl(Inline)]
+//             get => api.name(this);
+//         }
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
+//         [MethodImpl(Inline)]
+//         public AsmOperand Untyped()
+//             => new AsmOperand(this);
 
-        public string Format()
-            => Name.Format();
+//         public string Format()
+//             => Name.Format();
 
-        public override string ToString()
-            =>  Format();
+//         public override string ToString()
+//             =>  Format();
 
-        public static implicit operator RegOp(RegOp<T> src)
-            => new RegOp(src.Bitfield);
-    }
-}
+//         public static implicit operator RegOp(RegOp<T> src)
+//             => new RegOp(src.Bitfield);
+//     }
+// }

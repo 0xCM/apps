@@ -53,11 +53,6 @@ namespace Z0.Asm
         public static RegOp reg(RegKind kind)
             => new RegOp((ushort)kind);
 
-        [MethodImpl(Inline)]
-        public static RegOp<T> reg<T>(T src)
-            where T : unmanaged, IRegOp
-                => new RegOp<T>(src);
-
         [MethodImpl(Inline), Op]
         public static RegOp reg(in AsmOperand src)
             => new RegOp(first(span16u(src.Data)));

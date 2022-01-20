@@ -22,27 +22,24 @@ namespace Z0
 
         public Fence<char>? Fence {get;}
 
-        readonly FormatCells<T> Render;
-
         [MethodImpl(Inline)]
         public DelimitedIndex(T[] src, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
         {
             Data = src;
             Delimiter = delimiter;
-            Render = text.delimit;
             CellPad = pad;
             Fence = fence;
         }
 
-        [MethodImpl(Inline)]
-        public DelimitedIndex(T[] src, FormatCells<T> fx, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
-        {
-            Data = src;
-            Delimiter = delimiter;
-            Render = fx;
-            CellPad = pad;
-            Fence = fence;
-        }
+        // [MethodImpl(Inline)]
+        // public DelimitedIndex(T[] src, FormatCells<T> fx, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
+        // {
+        //     Data = src;
+        //     Delimiter = delimiter;
+        //     Render = fx;
+        //     CellPad = pad;
+        //     Fence = fence;
+        // }
 
         public T[] Storage
         {
@@ -83,7 +80,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public string Format()
         {
-            var content = Render(Data, Delimiter, CellPad);
+            var content = text.delimit(Data, Delimiter, CellPad);
             if(Fence != null && text.nonempty(content))
                 return text.enclose(content, Fence.Value);
             else

@@ -18,8 +18,32 @@ namespace Z0
             EmitSibDocs();
             EmitModRmDocs();
             EmitConditionDocs();
+            EmitRegDocs();
             return true;
         }
+
+        AsmRegSets Regs => Service(Wf.AsmRegSets);
+
+        void EmitRegDocs()
+        {
+            var dst = ApiDoc("asm.regs.strings", FS.Cs);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            writer.WriteLine(Regs.Gp8LoRegs().ToNameArray("Gp8Regs"));
+            writer.WriteLine(Regs.Gp16Regs().ToNameArray("Gp16Regs"));
+            writer.WriteLine(Regs.Gp32Regs().ToNameArray("Gp32Regs"));
+            writer.WriteLine(Regs.Gp64Regs().ToNameArray("Gp64Regs"));
+            writer.WriteLine(Regs.XmmRegs().ToNameArray("XmmRegs"));
+            writer.WriteLine(Regs.YmmRegs().ToNameArray("YmmRegs"));
+            writer.WriteLine(Regs.ZmmRegs().ToNameArray("ZmmRegs"));
+            writer.WriteLine(Regs.MmxRegs().ToNameArray("MmxRegs"));
+            writer.WriteLine(Regs.MaskRegs().ToNameArray("MaskRegs"));
+            writer.WriteLine(Regs.CrRegs().ToNameArray("CrRegs"));
+            writer.WriteLine(Regs.DbRegs().ToNameArray("DbRegs"));
+
+            EmittedFile(emitting,4);
+        }
+
 
         void EmitRexDocs()
         {

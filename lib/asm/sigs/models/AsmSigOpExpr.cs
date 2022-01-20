@@ -36,11 +36,11 @@ namespace Z0.Asm
             get => Text;
         }
 
-        public bool IsComposite
-        {
-            [MethodImpl(Inline)]
-            get => text.contains(Text, Chars.FSlash);
-        }
+        // public bool IsComposite
+        // {
+        //     [MethodImpl(Inline)]
+        //     get => text.contains(Text, Chars.FSlash);
+        // }
 
         public bool IsEmpty
         {
@@ -54,8 +54,8 @@ namespace Z0.Asm
             get => text.length(Text) != 0;
         }
 
-        public Index<AsmSigOpExpr> Decompose()
-            => IsComposite ? map(text.split(Text, Chars.FSlash), x => (AsmSigOpExpr)x) : array(this);
+        // public Index<AsmSigOpExpr> Decompose()
+        //     => IsComposite ? map(text.split(Text, Chars.FSlash), x => (AsmSigOpExpr)x) : array(this);
 
         public string Format()
             => Text;

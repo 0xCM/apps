@@ -23,12 +23,8 @@ namespace Z0.Asm
                 => NativeSizeCode.W8;
 
             [MethodImpl(Inline)]
-            public static implicit operator imm(imm8 src)
-                => new imm(src.Size);
-
-            [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(imm8 src)
-                => new AsmOperand(src.OpClass, src.Size);
-        }
+            public static implicit operator AsmSigOp(imm8 src)
+                => asm.sigop(src.Kind, src.Token);
+       }
     }
 }

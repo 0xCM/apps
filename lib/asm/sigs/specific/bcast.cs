@@ -13,12 +13,12 @@ namespace Z0.Asm
 
     partial class AsmSigModels
     {
-        public readonly struct Broadcast : IAsmSigOp<Broadcast,BroadcastToken>
+        public readonly struct bcast : IAsmSigOp<bcast,BroadcastToken>
         {
             public BroadcastToken Token {get;}
 
             [MethodImpl(Inline)]
-            public Broadcast(BroadcastToken token)
+            public bcast(BroadcastToken token)
             {
                 Token = token;
             }
@@ -26,19 +26,19 @@ namespace Z0.Asm
             public K Kind => K.Broadcast;
 
             [MethodImpl(Inline)]
-            public static implicit operator Broadcast(BroadcastToken src)
-                => new Broadcast(src);
+            public static implicit operator bcast(BroadcastToken src)
+                => new bcast(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator BroadcastToken(Broadcast src)
+            public static implicit operator BroadcastToken(bcast src)
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigOp(Broadcast src)
+            public static implicit operator AsmSigOp(bcast src)
                 => asm.sigop(src.Kind, src.Token);
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(Broadcast src)
+            public static implicit operator AsmSigToken(bcast src)
                 => token(src.Kind, src);
         }
     }

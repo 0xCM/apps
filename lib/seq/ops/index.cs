@@ -52,10 +52,10 @@ namespace Z0
         public static IndexedSeq<T> index<T>(params T[] src)
             => new IndexedSeq<T>(src, true);
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static DelimitedIndex<T> index<T>(char delimiter, int pad, T[] src)
-            where T : unmanaged
-                => new DelimitedIndex<T>(src, text.delimit, delimiter, pad);
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static DelimitedIndex<T> index<T>(char delimiter, int pad, T[] src)
+        //     where T : unmanaged
+        //         => new DelimitedIndex<T>(src, text.delimit, delimiter, pad);
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static DelimitedIndex<object> index(char delimiter, int pad, params object[] src)

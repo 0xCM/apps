@@ -67,5 +67,11 @@ namespace Z0.Asm
 
         public static RegOpSeq Empty
             => new RegOpSeq(sys.empty<RegOp>());
+
+        public string ToNameArray(string name)
+        {
+            const string Pattern = "string[] {0} = new string[]{1};";
+            return string.Format(Pattern, name, text.embrace(Elements.Map(x => text.enquote(x.Name.Format().Trim())).Delimit(Chars.Comma).Format()));
+        }
     }
 }

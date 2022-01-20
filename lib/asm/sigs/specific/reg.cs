@@ -28,10 +28,6 @@ namespace Z0.Asm
 
             public AsmOpClass OpClass
                 => AsmOpClass.Reg;
-
-            [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(reg src)
-                => new AsmOperand(src.OpClass, src.Size, (byte)src.RegClass);
         }
     }
 }

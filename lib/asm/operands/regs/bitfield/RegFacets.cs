@@ -110,7 +110,7 @@ namespace Z0.Asm
         /// <summary>
         /// The number of available Gp8 registers
         /// </summary>
-        public const byte Gp8RegCount = 20;
+        public const byte Gp8RegCount = Gp8LoRegCount + Gp8HiRegCount;
 
         /// <summary>
         /// The number of available Gp16 registers

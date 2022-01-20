@@ -12,16 +12,14 @@ namespace Z0.Asm
     {
         public readonly struct mem : IMemOpClass<mem>, IAsmSigOp<mem,MemToken>
         {
-            public MemToken Token => MemToken.mem;
+            public MemToken Token {get;}
 
             public AsmSigOpKind Kind => AsmSigOpKind.Mem;
 
-            public NativeSize Size {get;}
-
             [MethodImpl(Inline)]
-            public mem(NativeSize size)
+            public mem(MemToken token)
             {
-                Size = size;
+                Token = token;
             }
 
             public AsmOpClass OpClass
@@ -30,6 +28,10 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(mem src)
                 => asm.sigop(src.Kind, src.Token);
+
+            [MethodImpl(Inline)]
+            public static implicit operator mem(MemToken src)
+                => new mem(src);
         }
     }
 }
