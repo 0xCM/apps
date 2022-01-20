@@ -11,6 +11,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static SdmModels;
+    using static AsmSigs;
 
     using SQ = SymbolicQuery;
 
@@ -90,27 +91,27 @@ namespace Z0.Asm
                 switch(opcount)
                 {
                     case 1:
-                        operands = AsmSigs.operand(sig,0).Format();
+                        operands = operand(sig,0).Format();
                     break;
                     case 2:
                         operands = string.Format(RP.delimit(n2, OpSep),
-                            AsmSigs.operand(sig,0),
-                            AsmSigs.operand(sig,1)
+                            operand(sig,0),
+                            operand(sig,1)
                             );
                     break;
                     case 3:
                         operands = string.Format(RP.delimit(n3, OpSep),
-                            AsmSigs.operand(sig,0),
-                            AsmSigs.operand(sig,1),
-                            AsmSigs.operand(sig,2)
+                            operand(sig,0),
+                            operand(sig,1),
+                            operand(sig,2)
                             );
                     break;
                     case 4:
                         operands = string.Format(RP.delimit(n4, OpSep),
-                            AsmSigs.operand(sig,0),
-                            AsmSigs.operand(sig,1),
-                            AsmSigs.operand(sig,2),
-                            AsmSigs.operand(sig,3)
+                            operand(sig,0),
+                            operand(sig,1),
+                            operand(sig,2),
+                            operand(sig,3)
                             );
                     break;
                     default:

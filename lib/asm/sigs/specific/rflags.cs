@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct rflags : IRegOpClass<rflags>
         {

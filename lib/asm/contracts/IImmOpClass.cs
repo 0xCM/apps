@@ -7,6 +7,7 @@ namespace Z0.Asm
     public interface IImmOpClass<T> : IAsmOpClass<T>
         where T : unmanaged, IImmOpClass<T>
     {
-
+        AsmOpClass IAsmOpClass.OpClass
+            => AsmOpClass.Imm;
     }
 }

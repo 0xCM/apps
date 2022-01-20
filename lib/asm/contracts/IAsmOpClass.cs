@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     public interface IAsmOpClass
     {
-
+        AsmOpClass OpClass {get;}
     }
 
     public interface IAsmOpClass<T> : IAsmOpClass

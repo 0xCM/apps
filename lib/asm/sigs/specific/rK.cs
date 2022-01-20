@@ -7,10 +7,11 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static AsmSigs;
 
     using K = AsmSigOpKind;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct rK : IRegOpClass<rK>, IAsmSigOp<rK,MaskRegToken>
         {

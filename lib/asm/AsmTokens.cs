@@ -57,7 +57,7 @@ namespace Z0.Asm
                 => "asm.sigs";
 
             public override Type[] Types()
-                => typeof(AsmSigs).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
+                => typeof(AsmSigModels).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
         }
 
         public sealed class Prefixes : TokenSet<Prefixes>

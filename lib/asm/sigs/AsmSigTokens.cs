@@ -72,7 +72,7 @@ namespace Z0.Asm
         OpMask
     }
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         const string tokens = "asm.sigs";
 
@@ -97,6 +97,12 @@ namespace Z0.Asm
 
             [Symbol("Sreg", "A segment register. The segment register bit assignments are ES = 0, CS = 1, SS = 2, DS = 3, FS = 4, and GS = 5")]
             Sreg,
+
+            [Symbol("cr")]
+            cr,
+
+            [Symbol("db")]
+            db,
         }
 
         [SymSource(tokens)]

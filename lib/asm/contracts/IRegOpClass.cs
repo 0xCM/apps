@@ -6,7 +6,8 @@ namespace Z0.Asm
 {
     public interface IRegOpClass : IAsmOpClass
     {
-
+        AsmOpClass IAsmOpClass.OpClass
+            => AsmOpClass.Reg;
     }
 
     public interface IRegOpClass<T> : IRegOpClass, IAsmOpClass<T>

@@ -12,7 +12,12 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmSigOp sigop(AsmOpClass @class, AsmSigOpKind kind, NativeSize size)
-            => new AsmSigOp(@class,kind,size);
+        public static AsmSigOp sigop(AsmSigOpKind kind, byte value)
+            => new AsmSigOp(kind,value);
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static AsmSigOp<T> sigop<T>(AsmSigOpKind kind, T token)
+            where T : unmanaged
+                => new AsmSigOp<T>(kind,token);
     }
 }

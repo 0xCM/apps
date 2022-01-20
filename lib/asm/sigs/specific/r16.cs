@@ -8,12 +8,17 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct r16 : IRegOpClass<r16>, IAsmSigOp<r16,GpRegToken>
         {
+            public GpRegToken Token {get;}
 
-             public GpRegToken Token => GpRegToken.r16;
+            [MethodImpl(Inline)]
+            public r16(GpRegToken token = GpRegToken.r16)
+            {
+                Token = token;
+            }
 
              public AsmOpClass OpClass
                 => AsmOpClass.Reg;

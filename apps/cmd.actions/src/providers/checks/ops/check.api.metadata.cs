@@ -51,8 +51,8 @@ namespace Z0
                             desc += string.Format("{0} {1}", desc, loc.ToString());
                         }
                     }
-                    Write(desc);
 
+                    Write(desc);
                 }
             }
         }

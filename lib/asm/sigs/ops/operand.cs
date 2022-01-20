@@ -8,6 +8,9 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static AsmSigModels;
+
+    using M = AsmSigModels;
 
     partial class AsmSigs
     {
@@ -24,7 +27,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static FarPtr operand(FarPtrToken src)
+        public static M.FarPtr operand(FarPtrToken src)
             => src;
 
         [MethodImpl(Inline), Op]

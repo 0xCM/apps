@@ -9,20 +9,35 @@ namespace Z0
 
     using static Root;
 
-    public abstract class Allocation<T> : IDisposable
+    public interface IBufferAllocation<T> : IBufferAllocation
+        where T : unmanaged
     {
-        IDisposable Allocator;
+        ReadOnlySpan<T> Allocated {get;}
+    }
+
+
+    public abstract class Allocation<T> : IBufferAllocation<T>
+        where T : unmanaged
+    {
+        IBufferAllocator Allocator;
+
+        protected Allocation(IBufferAllocator allocator, T[] allocated)
+        {
+            Allocator = allocator;
+            Data = allocated;
+            BaseAddress = allocator.BaseAddress;
+            Capacity = allocator.Capacity;
+        }
 
         public void Dispose()
         {
             Allocator.Dispose();
         }
 
-        protected Allocation(T[] allocated, IDisposable allocator)
-        {
-            Data = allocated;
-            Allocator = allocator;
-        }
+
+        public MemoryAddress BaseAddress {get;}
+
+        public ByteSize Capacity {get;}
 
         protected Index<T> Data;
 

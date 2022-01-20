@@ -8,12 +8,15 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static AsmSigs;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct imm : IImmOpClass<imm>
         {
             public NativeSize Size {get;}
+
+            public AsmSigOpKind Kind => AsmSigOpKind.Imm;
 
             [MethodImpl(Inline)]
             public imm(NativeSize size)

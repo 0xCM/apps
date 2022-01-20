@@ -7,13 +7,9 @@ namespace Z0.Asm
     using static Root;
 
     [ApiHost]
-    public partial class AsmSigs : Service<AsmSigs>
+    public partial class AsmSigs
     {
-        public AsmSigs()
-        {
-
-        }
-
         const NumericKind Closure = UnsignedInts;
     }
+
 }

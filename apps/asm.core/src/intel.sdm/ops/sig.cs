@@ -8,6 +8,7 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
+    using static AsmSigs;
 
     partial class IntelSdm
     {
@@ -22,13 +23,13 @@ namespace Z0.Asm
             {
                 var operands = text.right(sig,j);
                 if(text.contains(sig,Chars.Comma))
-                    dst = AsmSigs.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
+                    dst = expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
                 else
-                    dst = AsmSigs.expression(mnemonic, operands);
+                    dst = expression(mnemonic, operands);
             }
             else
             {
-                dst = AsmSigs.expression(mnemonic);
+                dst = expression(mnemonic);
             }
             return dst;
         }

@@ -7,10 +7,11 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static AsmSigs;
 
     using K = AsmSigOpKind;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct GpReg : IAsmSigOp<GpReg,GpRegToken>
         {
@@ -35,6 +36,10 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator AsmSigToken(GpReg src)
                 => token(src.Kind, src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator AsmSigOp(GpReg src)
+                => asm.sigop(src.Kind, src.Token);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
+    using static AsmSigs;
 
     partial class IntelSdm
     {
@@ -38,7 +39,7 @@ namespace Z0.Asm
                     var operands = (k - j == 1) ? sys.empty<string>() : text.trim(text.split(text.inside(line,j, k),Chars.Comma));
                     var mnemonic = (AsmMnemonic)text.left(line,j);
                     dst.OpCode = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
-                    dst.Sig = AsmSigs.expression((AsmMnemonic)text.left(line,j),operands);
+                    dst.Sig = expression((AsmMnemonic)text.left(line,j),operands);
                 }
 
                 return buffer;

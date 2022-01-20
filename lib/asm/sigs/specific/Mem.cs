@@ -8,11 +8,13 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
-        public readonly struct mem : IMemOpClass<mem>, IAsmSigOp<mem, MemToken>
+        public readonly struct mem : IMemOpClass<mem>, IAsmSigOp<mem,MemToken>
         {
             public MemToken Token => MemToken.mem;
+
+            public AsmSigOpKind Kind => AsmSigOpKind.Mem;
 
             public NativeSize Size {get;}
 
@@ -26,8 +28,8 @@ namespace Z0.Asm
                 => AsmOpClass.Mem;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(mem src)
-                => new AsmOperand(src.OpClass, src.Size);
+            public static implicit operator AsmSigOp(mem src)
+                => asm.sigop(src.Kind, src.Token);
         }
     }
 }

@@ -8,10 +8,13 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmSigs
+
+    partial class AsmSigModels
     {
-        public readonly struct cr : IRegOpClass<cr>
+        public readonly struct cr : IRegOpClass<cr>, IAsmSigOp<cr,SysRegToken>
         {
+            public AsmSigOpKind Kind
+                => AsmSigOpKind.SysReg;
             public AsmOpClass OpClass
                 => AsmOpClass.Reg;
 
@@ -21,6 +24,9 @@ namespace Z0.Asm
             public RegClassCode RegClass
                 => RegClassCode.CR;
 
+            public SysRegToken Token
+                => SysRegToken.cr;
+
             [MethodImpl(Inline)]
             public static implicit operator reg(cr src)
                 => new reg(src.Size, src.RegClass);
@@ -28,6 +34,12 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator AsmOperand(cr src)
                 => new AsmOperand(src.OpClass, src.Size, (byte)src.RegClass);
+
+            [MethodImpl(Inline)]
+            public static implicit operator AsmSigOp(cr src)
+                => asm.sigop(src.Kind, src.Token);
+
+
         }
     }
 }

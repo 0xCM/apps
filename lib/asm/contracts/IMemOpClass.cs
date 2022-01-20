@@ -9,6 +9,8 @@ namespace Z0.Asm
     [Free]
     public interface IMemOpClass : IAsmOpClass
     {
+        AsmOpClass IAsmOpClass.OpClass
+            => AsmOpClass.Mem;
 
     }
 

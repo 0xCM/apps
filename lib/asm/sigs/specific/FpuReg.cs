@@ -7,10 +7,11 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static AsmSigs;
 
     using K = AsmSigOpKind;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct FpuReg : IRegOpClass<FpuReg>, IAsmSigOp<FpuReg,FpuRegToken>
         {
@@ -44,6 +45,10 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator AsmSigToken(FpuReg src)
                 => token(src.Kind, src);
+
+            [MethodImpl(Inline)]
+            public static implicit operator AsmSigOp(FpuReg src)
+                => asm.sigop(src.Kind, src.Token);
         }
     }
 }

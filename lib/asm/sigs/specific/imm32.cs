@@ -8,11 +8,13 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct imm32 : IImmOpClass<imm32>, IAsmSigOp<imm32,ImmToken>
         {
             public ImmToken Token => ImmToken.imm32;
+
+            public AsmSigOpKind Kind => AsmSigOpKind.Imm;
 
             public AsmOpClass OpClass
                 => AsmOpClass.Imm;

@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct Rel16 : IAsmSigOp<Rel16,RelToken>
         {
             public RelToken Token => RelToken.rel16;
 
-            public string Name => "rel16";
+            public AsmSigOpKind Kind => AsmSigOpKind.Rel;
 
-            public string Format()
-                => Name;
-
-            public override string ToString()
-                => Format();
         }
     }
 }

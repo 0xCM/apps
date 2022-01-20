@@ -8,11 +8,13 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmSigs
+    partial class AsmSigModels
     {
         public readonly struct m512 : IMemOpClass<m512>, IAsmSigOp<m512, MemToken>
         {
             public MemToken Token => MemToken.m512;
+
+            public AsmSigOpKind Kind => AsmSigOpKind.Mem;
 
             public AsmOpClass OpClass
                 => AsmOpClass.Mem;
@@ -25,8 +27,8 @@ namespace Z0.Asm
                 => new mem(src.Size);
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(m512 src)
-                => new AsmOperand(src.OpClass, src.Size);
+            public static implicit operator AsmSigOp(m512 src)
+                => asm.sigop(src.Kind, src.Token);
         }
     }
 }
