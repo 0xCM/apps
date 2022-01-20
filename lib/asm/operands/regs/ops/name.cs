@@ -47,6 +47,5 @@ namespace Z0.Asm
             }
             return text7.Empty;
         }
-
     }
 }

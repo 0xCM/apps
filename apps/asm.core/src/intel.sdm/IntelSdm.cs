@@ -10,31 +10,6 @@ namespace Z0.Asm
 
     using static core;
 
-
-    [Record(TableId)]
-    public struct SdmOpCodeSig
-    {
-        public const string TableId = "sdm.sigs";
-
-        public const byte FieldCount = 7;
-
-        public uint Seq;
-
-        public AsmSigExpr Sig;
-
-        public AsmOpCode OpCode;
-
-        public AsmSigOpExpr Op0;
-
-        public AsmSigOpExpr Op1;
-
-        public AsmSigOpExpr Op2;
-
-        public AsmSigOpExpr Op3;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,48,36,20,20,20,20};
-    }
-
     [ApiHost]
     public partial class IntelSdm : AppService<IntelSdm>
     {
@@ -46,9 +21,9 @@ namespace Z0.Asm
 
         TextMap SigOpProd;
 
-        ConstLookup<string,Atoms<string>> SigAtomics;
+        Productions SigAtomics;
 
-        ConstLookup<string,Atoms<string>> SigDecomp;
+        Productions SigDecomp;
 
         protected override void OnInit()
         {
@@ -56,7 +31,7 @@ namespace Z0.Asm
             SdmPaths = IntelSdmPaths.create(Wf);
             SigOpNormal = rules.textmap(ProjectDb.Settings("asm.sigs.normal", FS.ext("map")));
             SigOpProd = rules.textmap(ProjectDb.Settings("asm.sigs.productions", FS.ext("map")));
-            SigAtomics = rules.atomics(ProjectDb.Settings("asm.sigs.atomics", FS.ext("map")));
+            SigAtomics = rules.productions(ProjectDb.Settings("asm.sigs.atomics", FS.ext("map")));
         }
 
         public void ClearTargets()
@@ -66,7 +41,7 @@ namespace Z0.Asm
 
         void LoadSigDecomp()
         {
-            SigDecomp = rules.atomics(ProjectDb.Settings("asm.sigs.decomp", FS.ext("map")));
+            SigDecomp = rules.productions(ProjectDb.Settings("asm.sigs.decomp", FS.ext("map")));
         }
 
         public void EmitOpCodeSigs()
@@ -148,7 +123,7 @@ namespace Z0.Asm
         {
             var names = core.array(src.Text);
             if(SigDecomp.Find(src.Text, out var decomp))
-                names = core.map(decomp.Members, x => x.Value);
+                names = decomp;
             return names.Map(x => (AsmSigOpExpr)x);
         }
 

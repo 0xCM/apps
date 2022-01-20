@@ -85,7 +85,7 @@ namespace Z0.Machines
             for(byte i=0; i<7; i++)
             {
                 regs[i] = i;
-                seek(names,i) = AsmRegs.name(KReg, (RegIndexCode)i);
+                seek(names,i) = KReg.RegName((RegIndexCode)i);
                 grid[i]= asm.regval(skip(names,i), regs[i]);
             }
 
