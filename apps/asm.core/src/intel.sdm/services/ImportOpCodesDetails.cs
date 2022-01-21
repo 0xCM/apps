@@ -18,13 +18,13 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var details = ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
-            var summary = summarize(details);
+            var summary = SdmOps.summarize(details);
             var count = summary.Length;
             var dst = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
-                writer.WriteLine(format(summary[i]));
+                writer.WriteLine(SdmOps.format(summary[i]));
             EmittedFile(emitting,count);
             return details;
         }
@@ -76,6 +76,7 @@ namespace Z0.Asm
             var rows = src.Rows;
             var count = rows.Length;
             var cols = src.Cols;
+            var rules = SigNormalizationRules();
             for(var i=0; i<count; i++)
             {
                 ref readonly var input = ref skip(rows,i);
@@ -101,7 +102,7 @@ namespace Z0.Asm
                     {
                         case "Opcode":
                         var oc = NormalizeOpcode(content);
-                        target.OpCode = text.despace(oc);
+                        target.OpCode = text.trim(text.despace(oc));
                         if(empty(oc))
                             valid = false;
                         break;
@@ -189,6 +190,7 @@ namespace Z0.Asm
             }
             return counter;
 
+
             string CalcOperands(string sig)
             {
                 ReadOnlySpan<string> _operands(string src)
@@ -219,7 +221,7 @@ namespace Z0.Asm
                     else
                         dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
                 }
-                return SigOpNormal.Apply(dst);
+                return rules.Apply(dst);
             }
 
             static string NormalizeOpcode(string src)

@@ -6,11 +6,9 @@ namespace Z0.Asm
 {
     using System;
 
-    using static Root;
-    using static core;
     using static AsmSigs;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         [Op]
         public static AsmSigExpr sig(in SdmOpCodeDetail detail)

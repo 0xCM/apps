@@ -94,7 +94,7 @@ namespace Z0.Asm
                 if(content.StartsWith(TableMarker))
                 {
                     table.Clear();
-                    table.WithKind((uint)tablekind(content.Remove(TableMarker).Trim()));
+                    table.WithKind((uint)SdmOps.tablekind(content.Remove(TableMarker).Trim()));
                     foundtable = true;
                 }
             }

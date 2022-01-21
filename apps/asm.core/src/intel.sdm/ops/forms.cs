@@ -9,7 +9,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         [Op]
         public static Index<AsmForm> forms(ReadOnlySpan<SdmOpCodeDetail> src)
@@ -20,8 +20,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var record = ref skip(src,i);
-                ref var oc = ref opcode(record, out _);
-                seek(dst,i) = asm.form(sig(record), oc.OpCode);
+                seek(dst,i) = asm.form(sig(record), sigoc(record).OpCode);
             }
             return buffer;
         }

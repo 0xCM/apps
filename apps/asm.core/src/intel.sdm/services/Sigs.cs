@@ -16,7 +16,7 @@ namespace Z0.Asm
             var count = src.Length;
             var buffer = alloc<AsmSigExpr>(count);
             for(var i=0; i<count; i++)
-                seek(buffer,i) = sig(skip(src,i));
+                seek(buffer,i) = SdmOps.sig(skip(src,i));
             return buffer;
         }
 

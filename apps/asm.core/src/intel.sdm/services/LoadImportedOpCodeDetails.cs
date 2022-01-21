@@ -9,7 +9,7 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         public Index<SdmSigOpCode> LoadImportedSigOpCodes()
-            => LoadImportedOpcodeDetails().Select(x => sigoc(x));
+            => LoadImportedOpcodeDetails().Select(x => SdmOps.sigoc(x));
 
         public Index<SdmOpCodeDetail> LoadImportedOpcodeDetails()
         {
@@ -22,7 +22,7 @@ namespace Z0.Asm
                 var lines = src.ReadNumberedLines();
                 var count = lines.Count -1;
                 dst = alloc<SdmOpCodeDetail>(count);
-                ocdetails(slice(lines.View,1), dst);
+                SdmOps.ocdetails(slice(lines.View,1), dst);
                 return dst;
             }
         }

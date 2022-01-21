@@ -11,14 +11,14 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-       Index<AsmForm> EmitSigs(ReadOnlySpan<SdmOpCodeDetail> opcodes)
+        Index<AsmForm> EmitSigs(ReadOnlySpan<SdmOpCodeDetail> opcodes)
         {
             const string Pattern = "{0,-16} | {1,-64} | {2}";
             const string OpSep = ", ";
             var dst = SdmPaths.ImportPath("sdm.sigs", FS.Csv);
             var emitting = EmittingTable<AsmForm>(dst);
             using var writer = dst.UnicodeWriter();
-            var _forms = forms(opcodes);
+            var _forms = SdmOps.forms(opcodes);
             var count = _forms.Length;
             for(var i=0; i<count; i++)
             {

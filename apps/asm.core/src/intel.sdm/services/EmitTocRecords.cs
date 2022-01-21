@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Collections.Generic;
-
     using static core;
     using static SdmModels;
 
@@ -44,21 +41,21 @@ namespace Z0.Asm
                 var number = line.LineNumber;
                 if(content.Contains(ContentMarkers.VolNumber))
                 {
-                    result = parse(content, out vn);
+                    result = SdmOps.parse(content, out vn);
                     if(result.Fail)
                         break;
 
                     writer.WriteLine(string.Format("{0}:{1}", number, content));
                 }
 
-                if(parse(content, out cn))
+                if(SdmOps.parse(content, out cn))
                 {
                     render(number, cn, buffer);
                     writer.WriteLine(buffer.Emit());
                     continue;
                 }
 
-                if(parse(content, out SectionNumber sn))
+                if(SdmOps.parse(content, out SectionNumber sn))
                 {
                     _sn = sn;
                     render(number, _sn, buffer);
@@ -66,7 +63,7 @@ namespace Z0.Asm
                     continue;
                 }
 
-                if(parse(content, out title))
+                if(SdmOps.parse(content, out title))
                 {
                     entry = toc(vn, _sn, title);
                     entries.Add(entry);
@@ -75,7 +72,7 @@ namespace Z0.Asm
                     continue;
                 }
 
-                if(parse(content, out tn))
+                if(SdmOps.parse(content, out tn))
                 {
                     render(number, tn, buffer);
                     writer.WriteLine(buffer.Emit());

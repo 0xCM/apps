@@ -36,7 +36,7 @@ namespace Z0.Asm
                     var operands = (k - j == 1) ? sys.empty<string>() : text.trim(text.split(text.inside(line,j, k),Chars.Comma));
                     var mnemonic = (AsmMnemonic)text.left(line,j);
                     var sig = expression((AsmMnemonic)text.left(line,j),operands);
-                    var oc = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
+                    var oc = asm.opcode(i, text.trim(text.right(line,Chars.Eq)));
                     seek(buffer,i) = new SdmSigOpCode(sig, oc);
                 }
 

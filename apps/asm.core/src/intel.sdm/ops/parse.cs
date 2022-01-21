@@ -14,7 +14,7 @@ namespace Z0.Asm
     using SP = ScalarParser;
     using SQ = SymbolicQuery;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         public static Outcome parse(string src, out TocTitle dst)
         {
@@ -200,5 +200,6 @@ namespace Z0.Asm
             }
             return true;
         }
+
     }
 }

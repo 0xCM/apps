@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     using K = SdmModels.SdmTableKind;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         [Op]
         public static K tablekind(string name)
@@ -21,5 +21,6 @@ namespace Z0.Asm
                 _ => parse(name, out TableNumber dst)
                     ? K.Numbered : K.None
             };
+
     }
 }

@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static core;
     using static Root;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         [Op]
         public static Outcome ocdetail(TextLine src, out SdmOpCodeDetail dst)
@@ -29,7 +29,7 @@ namespace Z0.Asm
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
 
             dst.Mnemonic = asm.mnemonic(skip(cells, i++));
-            DataParser.block(skip(cells, i++), out dst.OpCode);
+            DataParser.block(skip(cells, i++).Trim(), out dst.OpCode);
             DataParser.block(skip(cells, i++), out dst.Sig);
             DataParser.block(skip(cells, i++), out dst.EncXRef);
             DataParser.block(skip(cells, i++), out dst.Mode64);

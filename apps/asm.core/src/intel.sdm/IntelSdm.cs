@@ -11,24 +11,19 @@ namespace Z0.Asm
     [ApiHost]
     public partial class IntelSdm : AppService<IntelSdm>
     {
-        CharMapper CharMapper;
+        CharMapper CharMapper => Service(Wf.CharMapper);
+
+        SdmSigOpRules SigOpRules => Service(() => SdmSigOpRules.create(Wf));
 
         IntelSdmPaths SdmPaths;
 
-        TextMap SigOpNormal;
-
-        TextMap SigOpProd;
-
-        Productions SigAtomics;
-
         protected override void OnInit()
         {
-            CharMapper = Wf.CharMapper();
             SdmPaths = IntelSdmPaths.create(Wf);
-            SigOpNormal = Rules.textmap(ProjectDb.Settings("asm.sigs.normal", FS.ext("map")));
-            SigOpProd = Rules.textmap(ProjectDb.Settings("asm.sigs.productions", FS.ext("map")));
-            SigAtomics = Rules.productions(ProjectDb.Settings("asm.sigs.atomics", FS.ext("map")));
         }
+
+        TextMap SigNormalizationRules()
+            => Data(nameof(SigNormalizationRules), () => Rules.textmap(ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"))));
 
         public void ClearTargets()
         {
@@ -42,11 +37,6 @@ namespace Z0.Asm
             try
             {
                 ClearTargets();
-
-                var details = ImportOpCodeDetails();
-                EmitSigs(details);
-
-                EmitSigDecomps();
 
                 result = EmitCharMaps();
                 if(result.Fail)
@@ -80,6 +70,9 @@ namespace Z0.Asm
                 if(result.Fail)
                     return result;
 
+                var details = ImportOpCodeDetails();
+                EmitSigs(details);
+                EmitSigDecomps(details);
             }
             catch(Exception e)
             {

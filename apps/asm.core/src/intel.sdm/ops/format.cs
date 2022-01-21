@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial class IntelSdm
+    partial struct SdmOps
     {
         [Op]
         public static string format(in SdmSigOpCode src)
@@ -25,14 +20,6 @@ namespace Z0.Asm
                 src.Sig.OperandText(ref buffer);
                 return string.Format("{0}({1}) = {2}", mnemonic, buffer.Format().Trim(), src.OpCode);
             }
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref SdmSigOpCode opcode(in SdmOpCodeDetail src, out SdmSigOpCode dst)
-        {
-            dst.OpCode = asm.opcode(src.OpCodeKey,src.OpCode);
-            dst.Sig = sig(src);
-            return ref dst;
         }
     }
 }

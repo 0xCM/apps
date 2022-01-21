@@ -5,14 +5,12 @@
 namespace Z0.Asm
 {
     using System;
-    using System.Runtime.CompilerServices;
 
-    using static Root;
+    using static core;
 
-    partial struct SdmOps
+    [ApiHost]
+    public readonly partial struct SdmOps
     {
-        [MethodImpl(Inline), Op]
-        public static SdmSigOpCode sigoc(in SdmOpCodeDetail src)
-            => new SdmSigOpCode(sig(src), asm.opcode(src.OpCodeKey, src.OpCode));
+
     }
 }

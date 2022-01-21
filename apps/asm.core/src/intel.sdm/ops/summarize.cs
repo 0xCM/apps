@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     using static core;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         public static Index<SdmSigOpCode> summarize(ReadOnlySpan<SdmOpCodeDetail> src)
         {
@@ -16,7 +16,7 @@ namespace Z0.Asm
             var buffer = alloc<SdmSigOpCode>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
-                opcode(skip(src,i), out seek(dst,i));
+                seek(dst,i) = sigoc(skip(src,i));
             return buffer;
         }
     }

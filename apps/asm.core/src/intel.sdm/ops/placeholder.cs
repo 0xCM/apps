@@ -11,7 +11,7 @@ namespace Z0.Asm
     using static Root;
     using static SdmModels;
 
-    partial class IntelSdm
+    partial struct SdmOps
     {
         /// <summary>
         /// Tests whether the specified input sequence is of the form ' .' or '. '

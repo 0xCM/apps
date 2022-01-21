@@ -23,19 +23,7 @@ namespace Z0
 
             return true;
         }
-        [CmdOp("sdm/productions")]
-        Outcome SdmProductions(CmdArgs args)
-        {
-            var path = ProjectDb.Settings("asm.sigs.atomics", FS.ext("map"));
-            var src = Rules.productions(path);
-            foreach(var e in src.Entries)
-            {
-                var regs = e.Value;
-                var expr = e.Key;
-                Write(string.Format("{0} -> [{1}]", expr, regs));
-            }
-            return true;
-        }
+
 
         [CmdOp("sdm/opcodes")]
         Outcome SdmOpCodes(CmdArgs args)
@@ -46,70 +34,16 @@ namespace Z0
 
         void EmitSdmOpCodeDocs()
         {
-            var codes = Sdm.LoadImportedOpCodes();
-            var count = codes.Count;
+            var rules = Rules.productions(ProjectDb.Settings("asm.sigs.expansions", FS.ext("map")));
 
-            void EmitTable()
-            {
-                var dst = ProjectDb.Subdir("sdm") + FS.file("sdm.opcodes.tables", FS.Md);
-                var emitting = EmittingFile(dst);
-                using var writer = dst.AsciWriter();
-
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var entry = ref codes[i];
-                    writer.Write(format(entry));
-                    writer.WriteLine();
-                }
-                EmittedFile(emitting,count);
-            }
-            EmitTable();
+            // foreach(var e in src.Entries)
+            // {
+            //     var regs = e.Value;
+            //     var expr = e.Key;
+            //     Write(string.Format("{0} -> [{1}]", expr, regs));
+            // }
         }
 
-        static string format(in SdmSigOpCode entry, bool rw = true)
-        {
-            var dst = text.buffer();
-            ref readonly var sig = ref entry.Sig;
-            ref readonly var opcode = ref entry.OpCode;
-            var operands = sig.Operands();
-            var count = operands.Length;
-            dst.AppendLine(string.Format("## {0,-36}", sig.Format()));
-            dst.AppendLine(string.Format("   {0}", opcode.Expr.Format()));
-            for(var j=0; j<count; j++)
-            {
-                ref readonly var op = ref skip(operands,j);
-                if(rw)
-                {
-                    var content = rewrite(op.Format());
-                    var ops = content.IsEmpty ? EmptyString : content.Length > 1 ? text.bracket(content.Delimit(Chars.Pipe).Format()) : content.First;
-                    dst.AppendLine(string.Format("       {0} | {1}", j, ops));
-                }
-                else
-                {
-                    dst.AppendLine(string.Format("       {0} | {1}", j, op.Format()));
-
-                }
-            }
-            return dst.Emit();
-        }
-
-        static string[] _Rm8 = new string[]{"r8", "m8"};
-
-        static string[] _Rm16 = new string[]{"r16", "m16"};
-
-        static string[] _Rm32 = new string[]{"r32", "m32"};
-
-        static string[] _Rm64 = new string[]{"r64", "m64"};
-
-        static string[] XmmM128 = new string[]{"xmm", "m128"};
-
-        static string[] YmmM256 = new string[]{"ymm", "m256"};
-
-        static string[] ZmmM512 = new string[]{"zmm", "m512"};
-
-        static string[] MmxM64 = new string[]{"mm", "m64"};
-
-        static string[] XmmM64 = new string[]{"xmm", "m64"};
 
         static string[] Gp8Regs = new string[]{"al","cl","dl","bl","spl","bpl","sil","dil","r8b","r9b","r10b","r11b","r12b","r13b","r14b","r15b"};
 
@@ -133,11 +67,8 @@ namespace Z0
 
         static string[] DbRegs = new string[]{"db0","db1","db2","db3","db4","db5","db6","db7"};
 
-        static bool nonterminal(string src)
+        bool nonterminal(string src)
         {
-            if(text.contains(src,Chars.FSlash) || text.contains(src, Chars.Dash))
-                return true;
-
             switch(src)
             {
                 case "r8":
@@ -149,13 +80,15 @@ namespace Z0
                 case "zmm":
                 case "k":
                 case "mm":
+                case "CR":
+                case "DR":
                     return true;
             }
 
             return false;
         }
 
-        static Index<string> rewrite(string src)
+        Index<string> rewrite(string src)
         {
             if(empty(src))
                 return sys.empty<string>();
@@ -164,24 +97,6 @@ namespace Z0
             {
                 switch(src)
                 {
-                    case "r/m8":
-                        return rewrite(_Rm8);
-                    case "r/m16":
-                        return rewrite(_Rm16);
-                    case "r/m32":
-                        return rewrite(_Rm32);
-                    case "r/m64":
-                        return rewrite(_Rm64);
-                    case "xmm/m128":
-                        return rewrite(XmmM128);
-                    case "xmm/m64":
-                        return rewrite(XmmM64);
-                    case "mm/m64":
-                        return rewrite(MmxM64);
-                    case "ymm/m256":
-                        return rewrite(YmmM256);
-                    case "zmm/m512":
-                        return rewrite(ZmmM512);
                     case "r8":
                         return rewrite(Gp8Regs);
                     case "r16":
@@ -200,9 +115,9 @@ namespace Z0
                         return rewrite(MmxRegs);
                     case "k":
                         return rewrite(MaskRegs);
-                    case "CR0-CR7":
+                    case "CR":
                         return rewrite(CrRegs);
-                    case "DR0-DR7":
+                    case "DR":
                         return rewrite(DbRegs);
                 }
             }
@@ -210,7 +125,7 @@ namespace Z0
             return array(src);
         }
 
-        static Index<string> rewrite(Index<string> src)
+        Index<string> rewrite(Index<string> src)
         {
             var count = src.Count;
             var dst = alloc<Index<string>>(count);
