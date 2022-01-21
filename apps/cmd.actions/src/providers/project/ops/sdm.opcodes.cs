@@ -6,6 +6,8 @@ namespace Z0
 {
     using System;
 
+    using System.Collections.Generic;
+
     using Asm;
 
     using static core;
@@ -24,14 +26,68 @@ namespace Z0
             return true;
         }
 
+        static byte sigops(in SigOpCode src, Span<AsmSigOpExpr> dst)
+        {
+            var counter = z8;
+            if(src.Op0.IsNonEmpty)
+                seek(dst,counter++) = src.Op0;
+            if(src.Op1.IsNonEmpty)
+                seek(dst,counter++) = src.Op1;
+            if(src.Op2.IsNonEmpty)
+                seek(dst,counter++) = src.Op2;
+            if(src.Op3.IsNonEmpty)
+                seek(dst,counter++) = src.Op3;
+            return counter;
+        }
 
-        [CmdOp("sdm/opcodes")]
+        [CmdOp("sdm/sigs")]
         Outcome SdmOpCodes(CmdArgs args)
         {
-            EmitSdmOpCodeDocs();
+            var decomps = Sdm.LoadSigDecomps();
+            var count = decomps.Count;
+            var opexpr = span<AsmSigOpExpr>(4);
+            var identity = text.buffer();
+            var identities = dict<Identifier, HashSet<SigOpCode>>();
+            for(var i=0; i<count; i++)
+            {
+                opexpr.Clear();
+                identity.Clear();
+
+                ref readonly var sig = ref decomps[i];
+                var opcount = sigops(sig, opexpr);
+                var operands = slice(opexpr,0, opcount);
+
+                identity.Append(sig.Sig.Mnemonic.Format(MnemonicCase.Lowercase));
+                for(var j=0; j<opcount; j++)
+                {
+                    identity.Append(Chars.Underscore);
+                    identity.Append(identifier(skip(operands,j)));
+                }
+
+                var id = identity.Emit();
+                if(!identities.ContainsKey(id))
+                    identities.Add(id, new());
+
+                identities[id].Add(sig);
+
+                //Write(string.Format("{0,-8} | {1,-32} | {2}", sig.Seq, id, sig.Sig.Format()));
+            }
+
+            foreach(var entry in identities)
+            {
+                var id = entry.Key;
+                var opcodes = entry.Value.Map(x => x.OpCode.Format()).Delimit(Chars.Pipe,-32);
+                Write(string.Format("{0,-32} | {1}", id, opcodes));
+            }
+
+            //Write(string.Format("Count:{0}", identities.Count));
             return true;
         }
 
+        static string identifier(AsmSigOpExpr src)
+        {
+            return src.Text.Replace(" {k1}{z}", EmptyString).Replace(" {k1}", EmptyString).ToLower();
+        }
         void EmitSdmOpCodeDocs()
         {
             var rules = Rules.productions(ProjectDb.Settings("asm.sigs.expansions", FS.ext("map")));

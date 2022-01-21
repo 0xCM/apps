@@ -30,16 +30,16 @@ namespace Z0.Asm
             ExpansionRules = Rules.productions(ProjectDb.Settings("asm.sigs.expansions", FS.ext("map")));
         }
 
-        public Index<SdmOpCodeSig> DecomposeSigs(ReadOnlySpan<SdmSigOpCode> codes)
+        public Index<SigOpCode> DecomposeSigs(ReadOnlySpan<SdmSigOpCode> codes)
         {
-            var records = list<SdmOpCodeSig>();
+            var records = list<SigOpCode>();
             var count = codes.Length;
             var seq =0u;
             foreach(var code in codes)
             {
                 foreach(var decomp in Decompose(code))
                 {
-                    var record = new SdmOpCodeSig();
+                    var record = new SigOpCode();
                     record.Seq = seq++;
                     record.Sig = decomp.Sig;
                     record.OpCode = decomp.OpCode;

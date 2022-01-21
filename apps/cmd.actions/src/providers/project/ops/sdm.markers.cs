@@ -30,18 +30,6 @@ namespace Z0
             return result;
         }
 
-        [CmdOp("sdm/sigs")]
-        Outcome SdmSigs(CmdArgs args)
-        {
-            var sigs = Sdm.Sigs();
-            var counter = 0u;
-            foreach(var sig in sigs)
-            {
-                Write(string.Format("{0,-8} | {1}", counter++, sig.Format()));
-            }
-            return true;
-        }
-
         void DisplayMatches(ReadOnlySpan<UnicodeLine> src, TextMarker marker,  ReadOnlySpan<TextMatch> matches)
         {
             foreach(var m in matches)

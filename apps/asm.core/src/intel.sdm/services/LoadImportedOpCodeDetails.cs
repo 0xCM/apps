@@ -22,7 +22,7 @@ namespace Z0.Asm
                 var lines = src.ReadNumberedLines();
                 var count = lines.Count -1;
                 dst = alloc<SdmOpCodeDetail>(count);
-                SdmOps.ocdetails(slice(lines.View,1), dst);
+                SdmOps.rows(slice(lines.View,1), dst);
                 return dst;
             }
         }

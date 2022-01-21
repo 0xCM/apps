@@ -11,11 +11,11 @@ namespace Z0.Asm
     using static Root;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct SdmSigOpCode : IEquatable<SdmSigOpCode>, IComparable<SdmSigOpCode>
+    public readonly struct SdmSigOpCode : IEquatable<SdmSigOpCode>, IComparable<SdmSigOpCode>
     {
-        public AsmSigExpr Sig;
+        public readonly AsmSigExpr Sig;
 
-        public AsmOpCode OpCode;
+        public readonly AsmOpCode OpCode;
 
         [MethodImpl(Inline)]
         public SdmSigOpCode(AsmSigExpr sig, AsmOpCode oc)
@@ -56,6 +56,5 @@ namespace Z0.Asm
 
         public override bool Equals(object obj)
             => obj is SdmSigOpCode x && Equals(x);
-
     }
 }
