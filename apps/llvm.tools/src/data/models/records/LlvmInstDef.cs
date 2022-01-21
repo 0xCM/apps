@@ -30,11 +30,11 @@ namespace Z0.llvm
 
         public AsmVariationCode VarCode;
 
-        public string FormatPattern;
+        public TextBlock FormatPattern;
 
-        public string InOperandList;
+        public dag<IExpr> InOperandList;
 
-        public string OutOperandList;
+        public dag<IExpr> OutOperandList;
 
         [MethodImpl(Inline)]
         public int CompareTo(LlvmInstDef src)

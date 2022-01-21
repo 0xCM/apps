@@ -8,39 +8,12 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static core;
-    using static AsmSigs;
 
     partial struct SdmOps
     {
-        [Parser]
-        public static Outcome parse(string src, out AsmSigExpr dst)
+        public static Outcome row(TextLine src, out AsmSigOpCode dst)
         {
-            var result = Outcome.Success;
-            var sig = text.trim(src);
-            var j = text.index(text.trim(sig), Chars.Space);
-            var mnemonic = AsmMnemonic.Empty;
-            dst = AsmSigExpr.Empty;
-            if(j>0)
-            {
-                mnemonic = text.left(sig,j);
-                var operands = text.right(sig,j);
-                if(text.contains(sig, Chars.Comma))
-                    dst = expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
-                else
-                    dst = expression(mnemonic, operands);
-            }
-            else
-            {
-                mnemonic = sig;
-                dst = expression(mnemonic);
-            }
-
-            return result;
-        }
-
-        public static Outcome row(TextLine src, out SigOpCode dst)
-        {
-            const byte FieldCount = SigOpCode.FieldCount;
+            const byte FieldCount = AsmSigOpCode.FieldCount;
 
             var result = Outcome.Success;
             var cells = src.Split(Chars.Pipe);
@@ -51,7 +24,7 @@ namespace Z0.Asm
 
             var i=0;
             DataParser.parse(skip(cells,i++), out dst.Seq);
-            parse(skip(cells,i++), out dst.Sig);
+            AsmSigs.parse(skip(cells,i++), out dst.Sig);
             dst.OpCode = asm.opcode(0u, skip(cells,i++).Trim());
             dst.Op0 = skip(cells,i++).Trim();
             dst.Op1 = skip(cells,i++).Trim();

@@ -26,7 +26,7 @@ namespace Z0
             return true;
         }
 
-        static byte sigops(in SigOpCode src, Span<AsmSigOpExpr> dst)
+        static byte sigops(in AsmSigOpCode src, Span<AsmSigOpExpr> dst)
         {
             var counter = z8;
             if(src.Op0.IsNonEmpty)
@@ -47,7 +47,7 @@ namespace Z0
             var count = decomps.Count;
             var opexpr = span<AsmSigOpExpr>(4);
             var identity = text.buffer();
-            var identities = dict<Identifier, HashSet<SigOpCode>>();
+            var identities = dict<Identifier, HashSet<AsmSigOpCode>>();
             for(var i=0; i<count; i++)
             {
                 opexpr.Clear();

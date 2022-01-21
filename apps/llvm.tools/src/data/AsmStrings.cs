@@ -46,14 +46,29 @@ namespace Z0.llvm
         }
 
         static string normalize(string src)
+            => text.trim(text.remove(text.replace(src, Chars.Tab, Chars.Space), Chars.Quote));
+
+        static Replacements<string> PatternReplacements = Rules.replacements<string>(new Pair<string>[]{
+            ("${mask}","$mask"),
+            ("${src2}","$src2"),
+            });
+
+        static string replace(string src)
         {
-            var input = text.trim(text.remove(text.replace(src, Chars.Tab, Chars.Space), Chars.Quote));
-            return input;
+            var dst = src;
+            var rules = PatternReplacements.View;
+            var count = rules.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var rule = ref skip(rules,i);
+                dst = text.replace(dst, rule.Match, rule.Replace);
+            }
+            return dst;
         }
 
         static string pattern(string src)
         {
-            var input = text.replace(src,"${mask}", "$mask");
+            var input = replace(src);
             var monic = mnemonic(input).Format();
             var i = text.index(input, Chars.Space);
             if(i == NotFound)
@@ -79,11 +94,11 @@ namespace Z0.llvm
                 return input;
 
             var dst = text.left(input,i);
-            var j = text.index(dst,Chars.LBrace);
+            var j = text.index(dst, Chars.LBrace);
             if(j>0)
-                return text.left(dst,j);
-            else
-                return dst;
+                dst = text.left(dst,j);
+
+            return dst;
         }
     }
 }

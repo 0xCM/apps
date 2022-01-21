@@ -7,7 +7,7 @@ namespace Z0.Asm
     using System;
 
     [Record(TableId)]
-    public struct SigOpCode
+    public struct AsmSigOpCode
     {
         public const string TableId = "sdm.sigs";
 

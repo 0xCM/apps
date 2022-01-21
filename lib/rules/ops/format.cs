@@ -42,7 +42,7 @@ namespace Z0
         internal static string format<T>(in ReplaceRule<T> src)
             => string.Concat(
                 string.Format("replace" + XF.AngledSlot0, typeof(T).Name),
-                string.Format(XF.SourceToTarget, src.Match, src.Value)
+                string.Format(XF.SourceToTarget, src.Match, src.Replace)
                 );
     }
 }

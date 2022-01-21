@@ -40,8 +40,8 @@ namespace Z0.llvm
                 dst.InstName = entity.InstName;
                 dst.Mnemonic = asmstr.Mnemonic;
                 dst.FormatPattern = asmstr.FormatPattern;
-                dst.InOperandList = entity.InOperandList.Format();
-                dst.OutOperandList = entity.OutOperandList.Format();
+                dst.InOperandList = entity.InOperandList;
+                dst.OutOperandList = entity.OutOperandList;
                 dst.VarCode = entity.VarCode;
             }
             return buffer.Sort();

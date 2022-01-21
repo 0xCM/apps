@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static core;
     using static LlvmNames;
 
@@ -27,10 +25,11 @@ namespace Z0.llvm
             run(() => observer.ToolHelpEmitted(help));
 
             var asmids = DataProvider.DiscoverAsmIdentifiers();
-            DataEmitter.Emit(asmids);
+            DataEmitter.EmitAsmIdentifiers(asmids);
             run(() => observer.AsmIdDefsEmitted(asmids));
 
-            var regids = DataEmitter.EmitRegIdentifiers();
+            var regids = DataProvider.DiscoverRegIdentifiers();
+            DataEmitter.EmitRegIdentifiers(regids);
             run(() => observer.RegIdDefsEmitted(regids));
 
             var records = DataProvider.SelectX86SourceRecords();
@@ -59,25 +58,29 @@ namespace Z0.llvm
             var entities = DataProvider.SelectEntities();
             run(() => observer.EntitiesSelected(entities));
 
+            var instructions = entities.Where(e => e.IsInstruction()).Select(e => e.ToInstruction());
+
             var lists = DataEmitter.EmitLists(entities);
             run(() => observer.ListsEmitted(lists));
 
             var childRelations = DataEmitter.EmitChildRelations(entities);
             run(() => observer.ChildRelationsEmitted(childRelations));
 
-            var variations = DataEmitter.EmitAsmVariations();
+            var variations = DataCalcs.CalcAsmVariations(asmids, instructions);
+            DataEmitter.EmitAsmVariations(variations);
             run(() => observer.AsmVariationsEmitted(variations));
 
-            var instdefs = DataProvider.SelectInstDefs(asmids, entities);
+            var instdefs = DataCalcs.CalcInstDefs(asmids, entities);
             DataEmitter.Emit(instdefs.View);
             run(() => observer.InstDefsEmitted(instdefs));
 
-            var patterns = DataEmitter.EmitInstPatterns();
+            var patterns = DataCalcs.CalcInstPatterns(asmids, entities);
+            DataEmitter.EmitInstPatterns(patterns);
             run(() => observer.InstPatternsEmitted(patterns));
 
-            var ocmap = DataProvider.SelectOpCodeMap();
+            var ocmap = DataCalcs.CalcOpCodeMap(instructions);
             var opcodes = DataCalcs.CalcAsmOpCodes(asmids, ocmap);
-            DataEmitter.Emit(opcodes.View);
+            DataEmitter.EmitOpCodes(opcodes.View);
 
             run(() => observer.EtlCompleted());
         }

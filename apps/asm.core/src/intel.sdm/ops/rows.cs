@@ -28,7 +28,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static Outcome<uint> rows(ReadOnlySpan<TextLine> src, Span<SigOpCode> dst)
+        public static Outcome<uint> rows(ReadOnlySpan<TextLine> src, Span<AsmSigOpCode> dst)
         {
             var counter = 0u;
             var result = Outcome.Success;

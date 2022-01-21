@@ -8,6 +8,7 @@ namespace Z0.llvm
     {
         public virtual void EtlStarted()
         {
+
         }
 
         public virtual void ToolHelpEmitted(Index<ToolHelpDoc> src)

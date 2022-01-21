@@ -10,6 +10,38 @@ namespace Z0.llvm
 
     partial class LlvmDataCalcs
     {
+        public LlvmOpCodeMap CalcOpCodeMap(ReadOnlySpan<InstEntity> src)
+        {
+            var count = src.Length;
+            var dst = dict<Identifier,DataList<InstEntity>>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var inst = ref src[i];
+                if(inst.isCodeGenOnly || inst.isPseudo)
+                    continue;
+
+                if(text.nonempty(inst.OpMap))
+                {
+                    if(dst.TryGetValue(inst.OpMap, out var map))
+                    {
+                        map.Add(inst);
+                    }
+                    else
+                    {
+                        dst[inst.OpMap] = new();
+                        dst[inst.OpMap].Add(inst);
+                    }
+                }
+            }
+            return dst.Map(x => (x.Key, new Index<InstEntity>(x.Value.Array()))).ToDictionary();
+        }
+
+        public LlvmOpCodeMap CalcOpCodeMap(ReadOnlySpan<LlvmEntity> entities)
+        {
+            var src = entities.Where(e => e.IsInstruction()).Select(e => e.ToInstruction());
+            return CalcOpCodeMap(src);
+        }
+
         public Index<LlvmAsmOpCode> CalcAsmOpCodes(AsmIdentifiers asmids, LlvmOpCodeMap src)
         {
             var entries = src.Entries;

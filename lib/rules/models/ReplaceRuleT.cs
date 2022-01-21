@@ -24,13 +24,13 @@ namespace Z0
         /// <summary>
         /// The replacement value when matched
         /// </summary>
-        public readonly T Value;
+        public readonly T Replace;
 
         [MethodImpl(Inline)]
-        public ReplaceRule(T match, T value)
+        public ReplaceRule(T match, T replace)
         {
             Match = match;
-            Value = value;
+            Replace = replace;
         }
 
         public Label Name

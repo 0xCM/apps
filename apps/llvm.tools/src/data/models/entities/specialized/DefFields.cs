@@ -67,8 +67,17 @@ namespace Z0.llvm
 
         protected ref list<string> Parse(string attrib, string type, out list<string> dst)
         {
+            // list<string> parse()
+            //     => new list<string>(type, text.trim(text.split(text.unfence(this[attrib], RenderFence.Bracketed), Chars.Comma)));
+
             list<string> parse()
-                => new list<string>(type, text.trim(text.split(text.unfence(this[attrib], RenderFence.Bracketed), Chars.Comma)));
+            {
+                var result = LlvmTypes.parse(this[attrib], type, out var l);
+                if(result)
+                    return l;
+                else
+                    return list<string>.Empty;
+            }
 
             dst = Value(attrib, parse);
             return ref dst;

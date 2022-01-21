@@ -15,12 +15,6 @@ namespace Z0.llvm
     {
         public static Fence<char> Parenthetical => (Chars.LParen, Chars.RParen);
 
-        public static Outcome ParseList(string src, out list<string> dst)
-        {
-            dst = new list<string>(EmptyString, text.trim(text.split(text.unfence(src, Parenthetical), Chars.Comma)));
-            return true;
-        }
-
         [Op]
         public static LlvmDataType type(string src)
         {
@@ -103,6 +97,12 @@ namespace Z0.llvm
             where L : IExpr
             where R : IExpr
                 => new dag<L,R>(left,right);
+
+        public static Outcome parse(string src, string type, out list<string> dst)
+        {
+            dst = new list<string>(type, text.trim(text.split(text.unfence(src, RenderFence.Bracketed), Chars.Comma)));
+            return true;
+        }
 
         public static Outcome parse(string src, out dag<IExpr> dag)
         {

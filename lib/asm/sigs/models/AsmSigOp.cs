@@ -9,8 +9,6 @@ namespace Z0.Asm
 
     using static Root;
 
-    using static AsmSigModels;
-
     /// <summary>
     /// Defines an asm signature operand
     /// </summary>

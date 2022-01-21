@@ -21,44 +21,11 @@ namespace Z0.llvm
 
         }
 
-        public int Size
-            => Parse(nameof(Size), out int _);
+        public string AdSize
+            => this[nameof(AdSize)];
 
-        public string DecoderNamespace
-            => this[nameof(DecoderNamespace)];
-
-        public list<string> Predicates
-            => Parse(nameof(Predicates), ListTypes.Predicate, out list<string> _);
-
-        public string DecoderMethod
-            => this[nameof(DecoderMethod)];
-
-        public string Namespace
-            => this[nameof(Namespace)];
-
-        public dag<IExpr> InOperandList
-            => Parse(nameof(InOperandList), out dag<IExpr> _);
-
-        public dag<IExpr> OutOperandList
-            => Parse(nameof(OutOperandList), out dag<IExpr> _);
-
-        public bit isPseudo
-            => Parse(nameof(isPseudo), out bit _);
-
-        public bit isCodeGenOnly
-            => Parse(nameof(isCodeGenOnly), out bit _);
-
-        public bit hasREX_WPrefix
-            => Parse(nameof(hasREX_WPrefix), out bit _);
-
-        public bit HasVex_W
-            => Parse(nameof(HasVex_W), out bit _);
-
-        public int CodeSize
-            => Parse(nameof(CodeSize), out int _);
-
-        public string ImmT
-            => this[nameof(ImmT)];
+        public bits<byte> AdSizeBits
+            => Parse(nameof(AdSizeBits), out bits<byte> dst);
 
         public string AsmStringSource
             => Value(nameof(AsmStringSource),() => text.remove(this[nameof(AsmString)].Replace(Chars.Tab, Chars.Space), Chars.Quote));
@@ -66,20 +33,110 @@ namespace Z0.llvm
         public AsmString AsmString
             => Value(nameof(AsmString), () => llvm.AsmStrings.extract(this));
 
+        public int CodeSize
+            => Parse(nameof(CodeSize), out int _);
+
+       public bits<ulong> CD8_Form
+            => Parse(nameof(CD8_Form), out bits<ulong> dst);
+
+       public bits<ulong> CD8_Scale
+            => Parse(nameof(CD8_Scale), out bits<ulong> dst);
+
+        public string Constraints
+            => this[nameof(Constraints)];
+
+        public string DecoderNamespace
+            => this[nameof(DecoderNamespace)];
+
+        public string DecoderMethod
+            => this[nameof(DecoderMethod)];
+
+        public string Form
+            => this[nameof(Form)];
+
+        public bits<byte> FormBits
+            => Parse(nameof(FormBits), out bits<byte> dst);
+
+        public string InstName
+            => EntityName;
+
+        public dag<IExpr> InOperandList
+            => Parse(nameof(InOperandList), out dag<IExpr> _);
+
+        public dag<IExpr> OutOperandList
+            => Parse(nameof(OutOperandList), out dag<IExpr> _);
+
+        public bit hasREX_WPrefix
+            => Parse(nameof(hasREX_WPrefix), out bit _);
+
+        public bit HasVex_W
+            => Parse(nameof(HasVex_W), out bit _);
+
+        public bit hasLockPrefix
+            => Parse(nameof(hasLockPrefix), out bit _);
+
+        public bit hasREPPrefix
+            => Parse(nameof(hasREPPrefix), out bit _);
+
+        public bit IgnoresVEX_W
+            => Parse(nameof(IgnoresVEX_W), out bit _);
+
+        public bit hasVEX_4V
+            => Parse(nameof(hasVEX_4V), out bit _);
+
+        public bit hasVEX_L
+            => Parse(nameof(hasVEX_L), out bit _);
+
+        public bit ignoresVEX_L
+            => Parse(nameof(ignoresVEX_L), out bit _);
+
+        public bit EVEX_W1_VEX_W0
+            => Parse(nameof(EVEX_W1_VEX_W0), out bit _);
+
+        public bit hasEVEX_K
+            => Parse(nameof(hasEVEX_K), out bit _);
+
+        public bit hasEVEX_Z
+            => Parse(nameof(hasEVEX_Z), out bit _);
+
+        public bit hasEVEX_L2
+            => Parse(nameof(hasEVEX_L2), out bit _);
+
+        public bit hasEVEX_B
+            => Parse(nameof(hasEVEX_B), out bit _);
+
+        public bit hasEVEX_RC
+            => Parse(nameof(hasEVEX_RC), out bit _);
+
+        public bit isBranch
+            => Parse(nameof(isBranch), out bit _);
+
+        public bit isIndirectBranch
+            => Parse(nameof(isIndirectBranch), out bit _);
+
+        public bit isCall
+            => Parse(nameof(isCall), out bit _);
+
+        public bit isPseudo
+            => Parse(nameof(isPseudo), out bit _);
+
+        public bit isCodeGenOnly
+            => Parse(nameof(isCodeGenOnly), out bit _);
+
+        public string ImmT
+            => this[nameof(ImmT)];
+
+        public AsmMnemonic Mnemonic
+            => Value(nameof(Mnemonic), () => AsmString.Mnemonic);
+
+        public string Namespace
+            => this[nameof(Namespace)];
+
         public string OpMap
             => this[nameof(OpMap)];
 
         public bits<byte> OpMapBits
             => Parse(nameof(OpMapBits), out bits<byte> dst);
-
-        public string InstName
-            => EntityName;
-
-        public string AdSize
-            => this[nameof(AdSize)];
-
-        public bits<byte> AdSizeBits
-            => Parse(nameof(AdSizeBits), out bits<byte> dst);
 
         public string OpSize
             => this[nameof(OpSize)];
@@ -87,17 +144,14 @@ namespace Z0.llvm
         public bits<byte> OpSizeBits
             => Parse(nameof(OpSizeBits), out bits<byte> dst);
 
-        public AsmMnemonic Mnemonic
-            => Value(nameof(Mnemonic), () => AsmString.Mnemonic);
-
-        public bits<ulong> TSFlags
-            => Parse(nameof(TSFlags), out bits<ulong> dst);
-
         public bits<byte> Opcode
             => Parse(nameof(Opcode), out bits<byte> dst);
 
-        public bits<byte> FormBits
-            => Parse(nameof(FormBits), out bits<byte> dst);
+        public string OpEnc
+            => this[nameof(OpEnc)];
+
+        public bits<byte> OpEncBits
+            => Parse(nameof(OpEncBits), out bits<byte> dst);
 
         public string OpPrefix
             => this[nameof(OpPrefix)];
@@ -105,7 +159,19 @@ namespace Z0.llvm
         public bits<byte> OpPrefixBits
             => Parse(nameof(OpPrefixBits), out bits<byte> dst);
 
+        public list<string> Predicates
+            => Parse(nameof(Predicates), ListTypes.Predicate, out list<string> _);
+
+        public int Size
+            => Parse(nameof(Size), out int _);
+
+        public bits<ulong> TSFlags
+            => Parse(nameof(TSFlags), out bits<ulong> dst);
+
         public AsmVariationCode VarCode
             => Value(nameof(VarCode), () => llvm.AsmStrings.varcode(InstName, Mnemonic));
+
+        public bits<byte> VectSize
+            => Parse(nameof(VectSize), out bits<byte> dst);
     }
 }

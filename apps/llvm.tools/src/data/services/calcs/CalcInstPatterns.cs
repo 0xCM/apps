@@ -8,18 +8,16 @@ namespace Z0.llvm
 
     using static core;
 
-    partial class LlvmDataEmitter
+    partial class LlvmDataCalcs
     {
-        public Index<LlvmInstPattern> EmitInstPatterns()
+        public Index<LlvmInstPattern> CalcInstPatterns(AsmIdentifiers asmids, ReadOnlySpan<LlvmEntity> entities)
         {
-            var entities = DataProvider.SelectEntities();
-            var asmids = DataProvider.SelectAsmIdentifiers();
             var count = entities.Length;
             var dst = list<LlvmInstPattern>();
 
             for(var i=0; i<count; i++)
             {
-                ref readonly var entity = ref entities[i];
+                ref readonly var entity = ref skip(entities,i);
                 if(entity.IsInstAlias())
                 {
                     var alias = entity.ToInstAlias();
@@ -51,9 +49,7 @@ namespace Z0.llvm
                 }
             }
 
-            var records = dst.ToArray().Sort();
-            TableEmit(@readonly(records), LlvmInstPattern.RenderWidths, LlvmPaths.Table<LlvmInstPattern>());
-            return records;
+            return dst.ToArray().Sort();
         }
     }
 }

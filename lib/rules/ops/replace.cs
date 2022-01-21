@@ -18,15 +18,13 @@ namespace Z0
                 => new ReplaceRule<T>(src,dst);
 
         [Op, Closures(Closure)]
-        public static Replacements<T> replace<T>(ReadOnlySpan<T> src, T dst)
+        public static Replacements<T> replacements<T>(params Pair<T>[] src)
             where T : IEquatable<T>
         {
             var count = src.Length;
             var buffer = sys.alloc<ReplaceRule<T>>(count);
-            ref var target = ref first(buffer);
-            ref readonly var input = ref first(src);
             for(var i=0; i<count; i++)
-                seek(target,i) = new ReplaceRule<T>(skip(input,i), dst);
+                seek(buffer,i) = new ReplaceRule<T>(skip(src,i).Left, skip(src,i).Right);
             return buffer;
         }
     }
