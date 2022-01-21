@@ -7,15 +7,15 @@ namespace Z0.llvm
     partial struct X86Disassembler
     {
         [SymSource("llvm.mc")]
-        public enum DisassemblerMode
+        public enum DisassemblerMode  : byte
         {
-            [Symbol("","real mode")]
+            [Symbol("16","real mode")]
             MODE_16BIT,
 
-            [Symbol("","IA-32e")]
+            [Symbol("32","IA-32e")]
             MODE_32BIT,
 
-            [Symbol("","IA-32e in 64-bit mode")]
+            [Symbol("64","IA-32e in 64-bit mode")]
             MODE_64BIT
         };
     }
