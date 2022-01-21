@@ -2,22 +2,22 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct PairDelimit<T>
+    public readonly struct PairDelimitRule<T>
         where T : IEquatable<T>
     {
-        public Delimit<T> Left {get;}
+        public DelimitRule<T> Left {get;}
 
-        public Delimit<T> Right {get;}
+        public DelimitRule<T> Right {get;}
 
         [MethodImpl(Inline)]
-        public PairDelimit(Delimit<T> left, Delimit<T> right)
+        public PairDelimitRule(DelimitRule<T> left, DelimitRule<T> right)
         {
             Left = left;
             Right = right;
@@ -28,11 +28,11 @@ namespace Z0.Rules
             => Left.Test(a0) && Right.Test(a1);
 
         [MethodImpl(Inline)]
-        public static implicit operator PairDelimit<T>((T left, T right) src)
-            => new PairDelimit<T>(src.left, src.right);
+        public static implicit operator PairDelimitRule<T>((T left, T right) src)
+            => new PairDelimitRule<T>(src.left, src.right);
 
         [MethodImpl(Inline)]
-        public static implicit operator PairDelimit<T>((Delimit<T> left, Delimit<T> right) src)
-            => new PairDelimit<T>(src.left, src.right);
+        public static implicit operator PairDelimitRule<T>((DelimitRule<T> left, DelimitRule<T> right) src)
+            => new PairDelimitRule<T>(src.left, src.right);
     }
 }

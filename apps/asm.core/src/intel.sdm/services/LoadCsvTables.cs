@@ -10,6 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static SdmCsvLiterals;
+    using static SdmModels;
 
     partial class IntelSdm
     {
@@ -102,5 +103,8 @@ namespace Z0.Asm
 
             return tables.ViewDeposited();
         }
+
+        static Index<TableColumn> columns(ReadOnlySpan<string> src)
+            => Tables.columns<SdmColumnKind>(src);
     }
 }

@@ -27,7 +27,7 @@ namespace Z0
         Outcome SdmProductions(CmdArgs args)
         {
             var path = ProjectDb.Settings("asm.sigs.atomics", FS.ext("map"));
-            var src = rules.productions(path);
+            var src = Rules.productions(path);
             foreach(var e in src.Entries)
             {
                 var regs = e.Value;
@@ -63,10 +63,7 @@ namespace Z0
                 }
                 EmittedFile(emitting,count);
             }
-
-
             EmitTable();
-            Sdm.EmitOpCodeSigs();
         }
 
         static string format(in SdmSigOpCode entry, bool rw = true)

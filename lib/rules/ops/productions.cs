@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct rules
+    partial struct Rules
     {
         public static Productions productions(FS.FilePath src)
         {

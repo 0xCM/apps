@@ -30,7 +30,6 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static ref SdmSigOpCode opcode(in SdmOpCodeDetail src, out SdmSigOpCode dst)
         {
-            dst.OpCodeKey = src.OpCodeKey;
             dst.OpCode = asm.opcode(src.OpCodeKey,src.OpCode);
             dst.Sig = sig(src);
             return ref dst;

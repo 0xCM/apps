@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using static Root;
-
-    public readonly partial struct rules
+    partial class IntelSdm
     {
-        const NumericKind Closure = UnsignedInts;
+        public static SdmSigOpCode sigoc(in SdmOpCodeDetail src)
+            => new SdmSigOpCode(sig(src),asm.opcode(src.OpCodeKey, src.OpCode));
     }
 }

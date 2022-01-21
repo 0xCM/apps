@@ -9,14 +9,12 @@ namespace Z0
 
     using XF = ExprPatterns;
 
-    using Rules;
-
-    partial struct rules
+    partial struct Rules
     {
-        internal static string format<T>(in Between<T> src)
+        internal static string format<T>(in BetweenRule<T> src)
             => string.Format(InclusiveRange, src.Min, src.Max);
 
-        internal static string format<K,T>(in Branch<K,T> src)
+        internal static string format<K,T>(in BranchRule<K,T> src)
             where T : IExpr
             where K : unmanaged
         {
@@ -35,13 +33,13 @@ namespace Z0
             return dst.Emit();
         }
 
-        internal static string format(in Adjacent src)
+        internal static string format(in AdjacentRule src)
             => string.Format(RP.Adjacent2,src.A, src.B);
 
-        internal static string format<T>(in Adjacent<T> src)
+        internal static string format<T>(in AdjacentRule<T> src)
             => string.Format(RP.Adjacent2,src.A, src.B);
 
-        internal static string format<T>(in Replace<T> src)
+        internal static string format<T>(in ReplaceRule<T> src)
             => string.Concat(
                 string.Format("replace" + XF.AngledSlot0, typeof(T).Name),
                 string.Format(XF.SourceToTarget, src.Match, src.Value)

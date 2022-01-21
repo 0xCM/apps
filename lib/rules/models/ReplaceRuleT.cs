@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -14,7 +14,7 @@ namespace Z0.Rules
     /// Defines a rule r:seq[T] -> seq[T] that defines a sequence element that, if found, is replaced with another
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Replace<T> : IExpr
+    public readonly struct ReplaceRule<T> : IExpr
     {
         /// <summary>
         /// The sequence term to match
@@ -27,17 +27,17 @@ namespace Z0.Rules
         public readonly T Value;
 
         [MethodImpl(Inline)]
-        public Replace(T match, T value)
+        public ReplaceRule(T match, T value)
         {
             Match = match;
             Value = value;
         }
 
-        public Label Name 
+        public Label Name
             => "replace<{0}>";
 
         public string Format()
-            => rules.format(this);
+            => Rules.format(this);
 
         public override string ToString()
             => Format();

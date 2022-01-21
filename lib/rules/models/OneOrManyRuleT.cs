@@ -2,18 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct OneOrMany<T>
+    public readonly struct OneOrManyRule<T>
     {
         public Index<T> Elements {get;}
 
         [MethodImpl(Inline)]
-        public OneOrMany(Index<T> src)
+        public OneOrManyRule(Index<T> src)
             => Elements = src;
 
         public bool IsZero
@@ -32,7 +32,7 @@ namespace Z0.Rules
             => MultiplicityKind.OneOrMany;
 
         [MethodImpl(Inline)]
-        public static implicit operator OneOrMany<T>(T[] src)
-            => new OneOrMany<T>(src);
+        public static implicit operator OneOrManyRule<T>(T[] src)
+            => new OneOrManyRule<T>(src);
     }
 }

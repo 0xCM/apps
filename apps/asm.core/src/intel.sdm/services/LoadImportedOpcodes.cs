@@ -25,9 +25,6 @@ namespace Z0.Asm
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var line = ref data[i];
-                    ref var dst = ref seek(buffer,i);
-                    dst.OpCodeKey = i;
-
                     var j = text.index(line,Chars.LParen);
                     var k = text.index(line,Chars.RParen);
                     if(j <  0 || k < 0)
@@ -38,8 +35,9 @@ namespace Z0.Asm
 
                     var operands = (k - j == 1) ? sys.empty<string>() : text.trim(text.split(text.inside(line,j, k),Chars.Comma));
                     var mnemonic = (AsmMnemonic)text.left(line,j);
-                    dst.OpCode = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
-                    dst.Sig = expression((AsmMnemonic)text.left(line,j),operands);
+                    var sig = expression((AsmMnemonic)text.left(line,j),operands);
+                    var oc = asm.opcode(i,text.trim(text.right(line,Chars.Eq)));
+                    seek(buffer,i) = new SdmSigOpCode(sig, oc);
                 }
 
                 return buffer;

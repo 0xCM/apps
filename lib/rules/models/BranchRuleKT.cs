@@ -2,14 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public class Branch<K,T> : IExpr
+    public class BranchRule<K,T> : IExpr
         where K : unmanaged
         where T : IExpr
     {
@@ -19,7 +19,7 @@ namespace Z0.Rules
 
         public Label Name {get;}
 
-        public Branch(Label name, Literal<K>[] src, T[] terms)
+        public BranchRule(Label name, Literal<K>[] src, T[] terms)
         {
             Name = name;
             _Choices = src;
@@ -40,7 +40,7 @@ namespace Z0.Rules
         }
 
         public string Format()
-            => rules.format(this);
+            => Rules.format(this);
 
         public override string ToString()
             => Format();

@@ -2,21 +2,17 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct Split<T> 
+    partial struct Rules
     {
-        public readonly T Delimiter;
-
-        [MethodImpl(Inline)]
-        public Split(T delimiter)
-        {
-            Delimiter = delimiter;
-        }
-    }    
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static AdjacentRule<T> adjacent<T>(T a, T b)
+            => new AdjacentRule<T>(a, b);
+   }
 }

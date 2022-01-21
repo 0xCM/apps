@@ -9,12 +9,10 @@ namespace Z0
 
     using static Root;
 
-    using Rules;
-
-    partial struct rules
+    partial struct Rules
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Adjacent<T> adjacent<T>(T a, T b)
-            => new Adjacent<T>(a, b);
-   }
+        public static SingleRule<T> single<T>(T term)
+            => new SingleRule<T>(term);
+    }
 }

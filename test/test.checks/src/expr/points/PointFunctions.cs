@@ -10,7 +10,6 @@ namespace Z0
     using static Root;
     using static core;
 
-    using Rules;
     using Ops;
 
     [ApiHost]
@@ -111,23 +110,23 @@ namespace Z0
         /// <param name="spec"></param>
         /// <typeparam name="T"></typeparam>
         [Op, Closures(Closure)]
-        public static Span<Replace<T>> replace<T>(in BijectivePoints<T> spec)
+        public static Span<ReplaceRule<T>> replace<T>(in BijectivePoints<T> spec)
             where T : IEquatable<T>
         {
             var src = spec.Source;
             var dst = spec.Target;
             var count = src.Length;
-            var buffer = alloc<Replace<T>>(count);
+            var buffer = alloc<ReplaceRule<T>>(count);
             ref var target = ref first(buffer);
             ref readonly var input = ref src.First;
             ref readonly var output = ref dst.First;
             for(var i=0; i<count; i++)
-                seek(target,i) = rules.replace(skip(input,i), skip(output,i));
+                seek(target,i) = Rules.replace(skip(input,i), skip(output,i));
             return buffer;
         }
 
         [Op, Closures(Closure)]
-        public static Span<Replace<T>> replace<T>(Index<T> src, Index<T> dst)
+        public static Span<ReplaceRule<T>> replace<T>(Index<T> src, Index<T> dst)
             where T : IEquatable<T>
                 => replace(bijection<T>(src,dst));
 

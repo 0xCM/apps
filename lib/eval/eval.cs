@@ -10,8 +10,6 @@ namespace Z0
     using static Root;
     using static core;
 
-    using Z0.Rules;
-
     using XF = ExprPatterns;
 
     public readonly partial struct eval
@@ -33,7 +31,7 @@ namespace Z0
         }
 
         [Op, Closures(Closure)]
-        public static uint evaluate<T>(Adjacent<T> rule, ReadOnlySpan<T> src, Span<uint> dst)
+        public static uint evaluate<T>(AdjacentRule<T> rule, ReadOnlySpan<T> src, Span<uint> dst)
             where T : unmanaged, IEquatable<T>
         {
             var terms = Math.Min(src.Length - 1, dst.Length);

@@ -6,22 +6,18 @@ namespace Z0.Asm
 {
     using System;
 
-    using System.Runtime.CompilerServices;
-
     using static Root;
     using static core;
     using static SdmModels;
-    using static AsmSigs;
 
     using SQ = SymbolicQuery;
 
     partial class IntelSdm
     {
-        public Index<SdmOpCodeDetail> ImportOpCodes()
+        public Index<SdmOpCodeDetail> ImportOpCodeDetails()
         {
             var result = Outcome.Success;
             var details = ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
-            var forms = EmitForms(details);
             var summary = summarize(details);
             var count = summary.Length;
             var dst = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
@@ -72,61 +68,6 @@ namespace Z0.Asm
             Ran(running);
             return rows;
         }
-
-        Index<AsmForm> EmitForms(ReadOnlySpan<SdmOpCodeDetail> opcodes)
-        {
-            const string Pattern = "{0,-16} | {1,-64} | {2}";
-            const string OpSep = ", ";
-            var dst = SdmPaths.ImportPath("asm.forms", FS.Csv);
-            var emitting = EmittingTable<AsmForm>(dst);
-            using var writer = dst.UnicodeWriter();
-            var _forms = forms(opcodes);
-            var count = _forms.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var form = ref _forms[i];
-                ref readonly var sig = ref form.Sig;
-                var operands = EmptyString;
-                var opcount = form.Sig.OperandCount;
-                switch(opcount)
-                {
-                    case 1:
-                        operands = operand(sig,0).Format();
-                    break;
-                    case 2:
-                        operands = string.Format(RP.delimit(n2, OpSep),
-                            operand(sig,0),
-                            operand(sig,1)
-                            );
-                    break;
-                    case 3:
-                        operands = string.Format(RP.delimit(n3, OpSep),
-                            operand(sig,0),
-                            operand(sig,1),
-                            operand(sig,2)
-                            );
-                    break;
-                    case 4:
-                        operands = string.Format(RP.delimit(n4, OpSep),
-                            operand(sig,0),
-                            operand(sig,1),
-                            operand(sig,2),
-                            operand(sig,3)
-                            );
-                    break;
-                    default:
-                    break;
-                }
-                writer.WriteLine(string.Format(Pattern, form.Sig.Mnemonic, operands, form.OpCode.Format()));
-            }
-
-            EmittedTable(emitting, count);
-
-            return _forms;
-        }
-
-        public static Index<TableColumn> columns(ReadOnlySpan<string> src)
-            => Tables.columns<SdmColumnKind>(src);
 
         [Op]
         uint Fill(Table src, Span<SdmOpCodeDetail> dst)
@@ -247,51 +188,51 @@ namespace Z0.Asm
                     seek(dst, counter++) = target;
             }
             return counter;
-        }
 
-        string NormalizeOpcode(string src)
-        {
-            return
-                src.Replace("+ rb", " +rb")
-                    .Replace("+ rw", " +rw")
-                    .Replace("+ rd", " +rd")
-                    .Replace("+ ro", " +ro")
-                    .Replace("/ r", "/r")
-                    .Trim()
-                    ;
-        }
-
-        string CalcOperands(string sig)
-        {
-            ReadOnlySpan<string> _operands(string src)
-                => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
-
-            var i = SQ.index(sig, Chars.Space);
-            if(i > 0)
-                return text.join(", ", _operands(text.format(SQ.right(sig,i))));
-            else
-                return EmptyString;
-        }
-
-        string CalcOperand(string op)
-        {
-            var n = text.index(op, Chars.FSlash);
-            var dst = op;
-            if(text.fenced(dst,RenderFence.Angled))
-                dst = text.unfence(dst,RenderFence.Angled);
-
-            if(n > 0)
+            string CalcOperands(string sig)
             {
-                var m = text.index(dst, Chars.Space);
-                if(m > n)
-                {
-                    var components = text.join(Chars.FSlash, text.trim(text.split(text.left(dst,m), Chars.FSlash)));
-                    dst = string.Format("{0} {1}", components, text.right(dst,m));
-                }
+                ReadOnlySpan<string> _operands(string src)
+                    => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
+
+                var i = SQ.index(sig, Chars.Space);
+                if(i > 0)
+                    return text.join(", ", _operands(text.format(SQ.right(sig,i))));
                 else
-                    dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
+                    return EmptyString;
             }
-            return SigOpNormal.Apply(dst);
+
+            string CalcOperand(string op)
+            {
+                var n = text.index(op, Chars.FSlash);
+                var dst = op;
+                if(text.fenced(dst,RenderFence.Angled))
+                    dst = text.unfence(dst,RenderFence.Angled);
+
+                if(n > 0)
+                {
+                    var m = text.index(dst, Chars.Space);
+                    if(m > n)
+                    {
+                        var components = text.join(Chars.FSlash, text.trim(text.split(text.left(dst,m), Chars.FSlash)));
+                        dst = string.Format("{0} {1}", components, text.right(dst,m));
+                    }
+                    else
+                        dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
+                }
+                return SigOpNormal.Apply(dst);
+            }
+
+            static string NormalizeOpcode(string src)
+            {
+                return
+                    src.Replace("+ rb", " +rb")
+                        .Replace("+ rw", " +rw")
+                        .Replace("+ rd", " +rd")
+                        .Replace("+ ro", " +ro")
+                        .Replace("/ r", "/r")
+                        .Trim()
+                        ;
+            }
         }
     }
 }

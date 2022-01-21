@@ -8,16 +8,15 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static core;
 
-    using Rules;
-
-    partial struct rules
+    public readonly struct SplitRule<T>
     {
+        public readonly T Delimiter;
+
         [MethodImpl(Inline)]
-        public static Branch<K,T> branch<K,T>(Label name, Literal<K>[] choices, T[] targets)
-            where K : unmanaged
-            where T : IExpr
-                => new Branch<K,T>(name, choices, targets);
+        public SplitRule(T delimiter)
+        {
+            Delimiter = delimiter;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    partial struct rules
+    partial struct Rules
     {
         public static IProduction production(string src, string dst)
         {

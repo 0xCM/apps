@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -12,13 +12,13 @@ namespace Z0.Rules
     /// <summary>
     /// Specifies that an element either occurs once or not at all
     /// </summary>
-    public readonly struct ZeroOrOne<T>
+    public readonly struct ZeroOrOneRule<T>
         where T : IEquatable<T>
     {
         public Option<T> Element {get;}
 
         [MethodImpl(Inline)]
-        public ZeroOrOne(T src)
+        public ZeroOrOneRule(T src)
             => Element = src;
 
         public bool IsOne
@@ -38,7 +38,7 @@ namespace Z0.Rules
             => MultiplicityKind.ZeroOrOne;
 
         [MethodImpl(Inline)]
-        public static implicit operator ZeroOrOne<T>(T src)
-            => new ZeroOrOne<T>(src);
+        public static implicit operator ZeroOrOneRule<T>(T src)
+            => new ZeroOrOneRule<T>(src);
     }
 }

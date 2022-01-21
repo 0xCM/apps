@@ -2,20 +2,20 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct Delimit<T>
+    public readonly struct DelimitRule<T>
         where T : IEquatable<T>
     {
         public T Marker {get;}
 
         [MethodImpl(Inline)]
-        public Delimit(T marker)
+        public DelimitRule(T marker)
         {
             Marker = marker;
         }
@@ -25,7 +25,7 @@ namespace Z0.Rules
             => src.Equals(Marker);
 
         [MethodImpl(Inline)]
-        public static implicit operator Delimit<T>(T src)
-            => new Delimit<T>(src);
+        public static implicit operator DelimitRule<T>(T src)
+            => new DelimitRule<T>(src);
     }
 }

@@ -2,14 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Rules
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct ZeroOrMany<T>
+    public readonly struct ZeroOrManyRule<T>
         where T : IEquatable<T>
     {
         public Index<T> Elements {get;}
@@ -30,11 +30,11 @@ namespace Z0.Rules
             => MultiplicityKind.ZeroOrMany;
 
         [MethodImpl(Inline)]
-        public ZeroOrMany(T[] src)
+        public ZeroOrManyRule(T[] src)
             => Elements = src;
 
         [MethodImpl(Inline)]
-        public static implicit operator ZeroOrMany<T>(T[] src)
-            => new ZeroOrMany<T>(src);
+        public static implicit operator ZeroOrManyRule<T>(T[] src)
+            => new ZeroOrManyRule<T>(src);
     }
 }
