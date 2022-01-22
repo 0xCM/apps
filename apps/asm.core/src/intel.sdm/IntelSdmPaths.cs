@@ -65,6 +65,9 @@ namespace Z0.Asm
         public FS.FilePath SdmSrcPath()
             => Sources() + FS.file("intel-sdm", FS.Txt);
 
+        public FS.FolderPath CsvSources()
+            => Sources() + FS.folder("sdm.instructions");
+
         public FS.FilePath ImportTable<T>()
             where T : struct
                 => Targets() + Tables.filename<T>();

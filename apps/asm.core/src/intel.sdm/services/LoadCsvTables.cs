@@ -15,7 +15,7 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         public ReadOnlySpan<Table> LoadCsvTables()
-            => LoadCsvTables((SdmPaths.Sources() + FS.folder("sdm.instructions")).Files(FS.Csv).ToReadOnlySpan());
+            => LoadCsvTables(SdmPaths.CsvSources().Files(FS.Csv).ToReadOnlySpan());
 
         public ReadOnlySpan<Table> LoadCsvTables(ReadOnlySpan<FS.FilePath> src)
         {

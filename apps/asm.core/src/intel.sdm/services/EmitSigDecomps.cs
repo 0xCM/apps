@@ -9,10 +9,7 @@ namespace Z0.Asm
         void EmitSigDecomps(Index<SdmOpCodeDetail> details)
         {
             var opcodes = details.Select(x => SdmOps.sigoc(x));
-            var records = SigOpRules.DecomposeSigs(opcodes);
-            TableEmit(records.View, AsmSigOpCode.RenderWidths, ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed"));
+            TableEmit(SigOpRules.DecomposeSigs(opcodes).View, AsmSigOpCode.RenderWidths, ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed"));
         }
     }
-
-
 }
