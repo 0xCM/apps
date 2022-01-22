@@ -31,6 +31,12 @@ namespace Z0.Asm
             Kind = (AsmOcTokenKind)(src >> 8);
         }
 
+        public string Format()
+            => string.Format("{0}[{1}]", Kind, Value);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator ushort(AsmOcToken src)
             => core.bw16(src);

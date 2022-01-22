@@ -58,6 +58,34 @@ namespace Z0
         public static implicit operator ulong(SymVal src)
             => src.Value;
 
+        [MethodImpl(Inline)]
+        public static explicit operator byte(SymVal src)
+            => (byte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator sbyte(SymVal src)
+            => (sbyte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(SymVal src)
+            => (ushort)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator short(SymVal src)
+            => (short)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator uint(SymVal src)
+            => (uint)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator int(SymVal src)
+            => (int)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator long(SymVal src)
+            => (long)src.Value;
+
         public static SymVal Zero => default;
     }
 }

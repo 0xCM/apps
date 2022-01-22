@@ -30,7 +30,7 @@ namespace Z0
         [CmdOp("asm-gen-models")]
         protected Outcome GenAsmModels(CmdArgs args)
         {
-            var dst = Service(Wf.Generators).CodeGenDir("asm.models");
+            var dst = Service(Wf.CodeGen).CodeGenDir("asm.models");
             return true;
         }
 

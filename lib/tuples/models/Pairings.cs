@@ -9,7 +9,6 @@ namespace Z0
     using System.Collections.Generic;
 
     using static Root;
-    using static core;
 
     /// <summary>
     /// Captures a heterogenous pair sequence
@@ -57,10 +56,6 @@ namespace Z0
 
         public IEnumerable<Paired<S,T>> Enumerate()
             => Data;
-
-        // [MethodImpl(Inline)]
-        // public static implicit operator Pairings<S,T>(Span<Paired<S,T>> src)
-        //     => new Pairings<S,T>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Pairings<S,T>(Paired<S,T>[] src)

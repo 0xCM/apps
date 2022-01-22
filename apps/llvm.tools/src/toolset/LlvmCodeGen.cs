@@ -14,7 +14,7 @@ namespace Z0.llvm
 
         LlvmDataProvider DataProvider => Service(Wf.LlvmDataProvider);
 
-        Generators Generators => Service(Wf.Generators);
+        CgSvc CodeGen => Service(Wf.CodeGen);
 
         const string TargetNs = "Z0.llvm";
 
@@ -26,14 +26,14 @@ namespace Z0.llvm
             EmitAsmIds();
         }
 
+
         public void EmitAsmIds()
         {
             var asmids = DataProvider.SelectAsmIdentifiers().ToItemList();
             var name = "AsmId";
-            //var syntax = StringTables.syntax(TargetNs, "AsmIdData", "AsmId", ClrEnumKind.U16, "z0.llvm");
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             EmitStringTable(TargetNs, ClrEnumKind.U16, items);
-            var gen = Generators.CsEnum();
+            var gen = CodeGen.CsEnum();
             var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => expr.literal(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
@@ -55,7 +55,7 @@ namespace Z0.llvm
             var name = "AsmMnemonicNames";
             var literals = expr.literals(name, src.View, src.View);
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
-            Generators.LiteralProvider().Emit("Z0", literals, dst);
+            CodeGen.LiteralProvider().Emit("Z0", literals, dst);
         }
 
         public void EmitStringTable(string listid)

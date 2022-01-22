@@ -29,7 +29,7 @@ namespace Z0
             if(i == NotFound)
                 return EmptyString;
             else
-                return text.right(src.Name, i);
+                return text.right(src.Name, i + KindScope.Length - 1);
         }
 
         [Op]

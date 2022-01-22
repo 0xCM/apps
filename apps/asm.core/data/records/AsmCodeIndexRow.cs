@@ -32,12 +32,13 @@ namespace Z0
         public AsmHexCode Encoding;
 
         public int CompareTo(AsmCodeIndexRow src)
-        {
-            var result = DocId.CompareTo(src.DocId);
-            if(result == 0)
-                result = IP.CompareTo(src.IP);
-            return result;
-        }
+            => Asm.CompareTo(src.Asm);
+        // {
+        //     var result = DocId.CompareTo(src.DocId);
+        //     if(result == 0)
+        //         result = IP.CompareTo(src.IP);
+        //     return result;
+        // }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,12,82,1};
     }

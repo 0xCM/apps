@@ -13,6 +13,8 @@ namespace Z0
     using static core;
     using static HexFormatSpecs;
 
+    using SK = HexSpecKind;
+
     [ApiHost]
     public readonly struct HexFormatter
     {
@@ -37,6 +39,72 @@ namespace Z0
 
         public static HexLineConfig DefaultLineConfig
             => new HexLineConfig(bpl: 32, labels: true, delimiter: Chars.Space, zeropad: true);
+
+        [Op, Closures(Closure)]
+        public static void quoted<T>(T src, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+                => quoted_u(src, null, 0, @case, dst);
+
+        [Op, Closures(Closure)]
+        public static void quoted<T>(T src, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+                => quoted_u(src, null, spec, @case, dst);
+
+        [Op, Closures(Closure)]
+        public static void quoted<T>(T src, int? digits, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+                => quoted_u(src, digits, 0, @case, dst);
+
+        [Op, Closures(Closure)]
+        public static void quoted<T>(T src, int? digits, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+                => quoted_u(src, digits, spec, @case, dst);
+
+        [MethodImpl(Inline)]
+        static void quoted_u<T>(T src, int? digits, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+        {
+            if(typeof(T) == typeof(byte))
+                dst.Append(text.enquote(HexFormatter.format8u(uint8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(typeof(T) == typeof(ushort))
+                dst.Append(text.enquote(HexFormatter.format16u(uint16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(typeof(T) == typeof(uint))
+                dst.Append(text.enquote(HexFormatter.format32u(uint32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(typeof(T) == typeof(ulong))
+                dst.Append(text.enquote(HexFormatter.format64u(uint64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else
+                quoted_i(src,digits, spec, @case,dst);
+        }
+
+        [MethodImpl(Inline)]
+        static void quoted_i<T>(T src, int? digits, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+        {
+            if(typeof(T) == typeof(byte))
+                dst.Append(text.enquote(HexFormatter.format8i(int8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(typeof(T) == typeof(ushort))
+                dst.Append(text.enquote(HexFormatter.format16i(int16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(typeof(T) == typeof(uint))
+                dst.Append(text.enquote(HexFormatter.format32i(int32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(typeof(T) == typeof(ulong))
+                dst.Append(text.enquote(HexFormatter.format64i(int64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else
+                quoted_x(src, digits, spec, @case, dst);
+        }
+
+        [MethodImpl(Inline)]
+        static void quoted_x<T>(T src, int? digits, HexSpecKind spec, LetterCaseKind @case, ITextBuffer dst)
+            where T : unmanaged
+        {
+            if(size<T>() == 1)
+                dst.Append(text.enquote(HexFormatter.format8u(bw8(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(size<T>() == 2)
+                dst.Append(text.enquote(HexFormatter.format16u(bw16(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else if(size<T>() == 4)
+                dst.Append(text.enquote(HexFormatter.format32u(bw32(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+            else
+                dst.Append(text.enquote(HexFormatter.format64u(bw64(src), digits, prespec:spec == SK.PreSpec, postspec:spec == SK.PostSpec, @case:@case)));
+        }
 
         [Op]
         public static uint emit(ReadOnlySpan<byte> src, StreamWriter dst, HexLineConfig? c = null)
@@ -132,26 +200,6 @@ namespace Z0
         public static HexFormatter<T> formatter<T>()
             where T : unmanaged
                 => new HexFormatter<T>(sysformatter<T>());
-
-        // [Op, Closures(Closure)]
-        // public static string format<T>(W8 w, T src, bool prespec = false, bool postspec = false)
-        //     where T : unmanaged
-        //         => format(w, bw8(src), prespec, postspec);
-
-        // [Op, Closures(Closure)]
-        // public static string format<T>(W16 w, T src, bool prespec = false, bool postspec = false)
-        //     where T : unmanaged
-        //         => format(w, bw16(src), prespec, postspec);
-
-        // [Op, Closures(Closure)]
-        // public static string format<T>(W32 w, T src, bool prespec = false, bool postspec = false)
-        //     where T : unmanaged
-        //         => format(w, bw32(src), prespec, postspec);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // public static string format<T>(W64 w, T src, bool prespec = false, bool postspec = false)
-        //      where T : unmanaged
-        //         => format(w, bw64(src), prespec, postspec);
 
         [Op]
         public static string format(ReadOnlySpan<byte> src, in HexFormatOptions config)
@@ -257,49 +305,49 @@ namespace Z0
         [Op]
         public static string format8u(byte src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w8, @case, digits)
+            + src.ToString(spec(w8, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format8i(sbyte src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w8, @case, digits)
+            + src.ToString(spec(w8, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format16i(short src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w16, @case, digits)
+            + src.ToString(spec(w16, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format16u(ushort src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w16, @case, digits)
+            + src.ToString(spec(w16, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format32i(int src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w32, @case, digits)
+            + src.ToString(spec(w32, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format32u(uint src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w32, @case, digits)
+            + src.ToString(spec(w32, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format64i(long src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w64, @case, digits)
+            + src.ToString(spec(w64, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]
         public static string format64u(ulong src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? HexFormatSpecs.PreSpec : EmptyString)
-            + spec(w64, @case, digits)
+            + src.ToString(spec(w64, @case, digits))
             + (postspec ? PostSpec : EmptyString);
 
         [Op]

@@ -8,7 +8,7 @@ namespace Z0
 
     public partial class CodeGenProvider : AppCmdProvider<CodeGenProvider>
     {
-        Generators Generators => Service(Wf.Generators);
+        CgSvc CodeGen => Service(Wf.CodeGen);
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
     }

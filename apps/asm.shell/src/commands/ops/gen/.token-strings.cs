@@ -18,7 +18,7 @@ namespace Z0.Asm
             var src = Symbols.concat(Symbols.index<AsmOpCodeTokens.VexToken>());
             var name = "VexTokens";
             var dst = Ws.Project("gen").Subdir("literals") + FS.file(name, FS.Cs);
-            var svc = Wf.Generators().StringLiterals();
+            var svc = Wf.CodeGen().StringLiterals();
             using var writer = dst.Writer();
             writer.WriteLine(string.Format("public readonly struct {0}", name));
             writer.WriteLine("{");
@@ -39,7 +39,7 @@ namespace Z0.Asm
             for(var i=min; i<=max; i++)
                 values.Add(i.ToString().PadLeft(n));
             var dst = Ws.Project("gen").Subdir("literals") + FS.file(name, FS.Cs);
-            var svc = Wf.Generators().StringLiterals();
+            var svc = Wf.CodeGen().StringLiterals();
             svc.Emit(name,values.ViewDeposited(), dst);
             return result;
         }

@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmCmdService
     {
-        Generators Generators => Service(Wf.Generators);
+        CgSvc Generators => Service(Wf.CodeGen);
 
         [CmdOp(".gen-shell")]
         Outcome GenShell(CmdArgs args)

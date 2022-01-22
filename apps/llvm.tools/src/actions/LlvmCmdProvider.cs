@@ -26,6 +26,6 @@ namespace Z0.llvm
 
         LlvmConfigSvc LlvmConfig => Service(Wf.LlvmConfig);
 
-        Generators Generators => Service(Wf.Generators);
+        CgSvc CodeGen => Service(Wf.CodeGen);
     }
 }

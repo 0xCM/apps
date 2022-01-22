@@ -4,11 +4,69 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+    using System;
+    using System.Runtime.InteropServices;
+
     using static core;
     using static Root;
 
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public struct ParseTableEntry : IComparable<ParseTableEntry>
+    {
+        public const string TableId = "parse.tables";
+
+        public const byte FieldCount = 5;
+
+        public uint Seq;
+
+        public ushort KindSeq;
+
+        public text31 KindName;
+
+        public ushort ExprSeq;
+
+        public text31 Expr;
+
+        public int CompareTo(ParseTableEntry src)
+        {
+            var result = KindSeq.CompareTo(src.KindSeq);
+            if(result == 0)
+                result = ExprSeq.CompareTo(src.ExprSeq);
+            return result;
+        }
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,32,8,32};
+    }
+
     partial class CheckCmdProvider
     {
+        [CmdOp("check/ocparser")]
+        Outcome CheckOpCodeParser(CmdArgs args)
+        {
+            var outcome = Outcome.Success;
+            var parser = Wf.AsmOpCodeParser();
+            var matches = parser.Matches;
+            var count = matches.Length;
+            var buffer = alloc<ParseTableEntry>(count);
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var match = ref skip(matches,i);
+                ref var dst = ref seek(buffer,i);
+                dst.KindName = match.Value.Kind.ToString();
+                dst.KindSeq = (byte)match.Value.Kind;
+                dst.Expr = match.Key;
+                dst.ExprSeq = match.Value.Value;
+            }
+
+            buffer.Sort();
+            for(var i=0u; i<count; i++)
+                seek(buffer,i).Seq = i;
+
+            iter(buffer, m => Write(string.Format("{0} -> {1}[{2}:{3}]", m.Expr, m.KindName, m.KindSeq, m.ExprSeq)));
+            return true;
+        }
+
         [CmdOp("check/lookups")]
         Outcome TestKeys(CmdArgs args)
         {

@@ -11,7 +11,7 @@ namespace Z0.Asm
         {
             var dst = Ws.Project("gen").Path("regcodes", FS.Cs);
             var src = typeof(AsmRegTokens).GetNestedTypes().Where(x => x.Tagged<SymSourceAttribute>());
-            Wf.Generators().GenSymFactories("Z0.Asm", "AsmRegNames", src, dst);
+            Wf.CodeGen().GenSymFactories("Z0.Asm", "AsmRegNames", src, dst);
             return true;
         }
     }

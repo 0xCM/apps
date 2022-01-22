@@ -13,4 +13,10 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
     }
+
+    partial struct SymGroups
+    {
+        public const string hex = nameof(hex);
+    }
+
 }

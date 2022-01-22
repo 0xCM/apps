@@ -29,60 +29,73 @@ namespace Z0.Asm
             => new AsmOcToken(src);
 
         [MethodImpl(Inline), Op]
-        public static AsmOcToken<Hex8Kind> value(Hex8 value)
-            => token<Hex8Kind>(AsmOcTokenKind.Value, value);
+        public static AsmOcToken<Hex8Kind> hex8(Hex8 value)
+            => token<Hex8Kind>(TK.Hex8, value);
+
+        public static AsmOcToken<WordToken> word(WordToken t)
+            => token(TK.WordLiteral, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<ExclusionToken> exclude(ExclusionToken t)
-            => token(AsmOcTokenKind.Exclusion, t);
+            => token(TK.Exclusion, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<RexToken> rex(RexToken t)
-            => token(AsmOcTokenKind.Rex, t);
+            => token(TK.Rex, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<RexBToken> rexb(RexBToken t)
-            => token(AsmOcTokenKind.RexB, t);
+            => token(TK.RexB, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<VexToken> vex(VexToken t)
-            => token(AsmOcTokenKind.Vex, t);
+            => token(TK.Vex, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<EvexToken> evex(EvexToken t)
-            => token(AsmOcTokenKind.Evex, t);
+            => token(TK.Evex, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<DispToken> disp(DispToken t)
-            => token(AsmOcTokenKind.Disp, t);
+            => token(TK.Disp, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<SegOverrideToken> ov(SegOverrideToken t)
-            => token(AsmOcTokenKind.SegOverride, t);
+            => token(TK.SegOverride, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<OpCodeExtension> extension(OpCodeExtension t)
-            => token(AsmOcTokenKind.OcExtension, t);
+            => token(TK.OcExtension, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<ImmSizeToken> immsize(ImmSizeToken t)
-            => token(AsmOcTokenKind.ImmSize, t);
+            => token(TK.ImmSize, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<ModRmToken> modrm(ModRmToken t)
-            => token(AsmOcTokenKind.ModRm, t);
+            => token(TK.ModRm, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<FpuDigitToken> fpudigit(FpuDigitToken t)
-            => token(AsmOcTokenKind.FpuDigit, t);
+            => token(TK.FpuDigit, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<MaskToken> mask(MaskToken t)
-            => token(AsmOcTokenKind.Mask, t);
+            => token(TK.Mask, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<OperatorToken> op(OperatorToken t)
-            => token(AsmOcTokenKind.Operator, t);
+            => token(TK.Operator, t);
+
+        [SymSource(Group, TK.WordLiteral)]
+        public enum WordToken : byte
+        {
+            [Symbol("0F38")]
+            x0F38,
+
+            [Symbol("0F3A")]
+            x0F3A,
+        }
 
         [SymSource(Group, TK.Rex)]
         public enum RexToken : byte
@@ -160,27 +173,6 @@ namespace Z0.Asm
         {
             [Symbol("EVEX")]
             EVEX,
-
-            [Symbol("LZ")]
-            LZ,
-
-            [Symbol("LIG")]
-            LIG,
-
-            [Symbol("WIG")]
-            WIG,
-
-            [Symbol("W0")]
-            W0,
-
-            [Symbol("W1")]
-            W1,
-
-            [Symbol("128")]
-            W128,
-
-            [Symbol("256")]
-            W256,
 
             [Symbol("512")]
             W512,

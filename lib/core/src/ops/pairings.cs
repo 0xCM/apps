@@ -4,17 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+    using System.Runtime.CompilerServices;
+
     using static Root;
 
-    [ApiHost]
-    public readonly partial struct cpu
+    partial struct core
     {
-        const NumericKind Closure = UnsignedInts;
-    }
-
-    [ApiHost]
-    public readonly partial struct gcpu
-    {
-        const NumericKind Closure = UnsignedInts;
+        [MethodImpl(Inline)]
+        public static Pairings<A,B> pairings<A,B>(Paired<A,B>[] src)
+            => src;
     }
 }

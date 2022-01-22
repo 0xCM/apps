@@ -73,6 +73,9 @@ namespace Z0
         public void Indent<T>(uint margin, T src)
             => Target.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
 
+        public void IndentFormat<T>(uint margin, string format, T src)
+            => Indent(margin,string.Format(format,src));
+
         public void IndentLine<T>(uint margin, T src)
             => AppendLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
 

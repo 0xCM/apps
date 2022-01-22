@@ -13,7 +13,7 @@ namespace Z0.llvm
             var asmids = DataProvider.SelectAsmIdentifiers().ToItemList();
             var syntax = StringTables.syntax("Z0.llvm", "AsmIdData", "AsmId", ClrEnumKind.U16, "z0.llvm");
             ItemList<string> items = ("AsmId", asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            var gen = Generators.CsEnum();
+            var gen = CodeGen.CsEnum();
             var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => expr.literal(e.Key, e.Value.Id)));
             var dst = text.buffer();
             gen.Emit(0u, "AsmId", literals, dst);

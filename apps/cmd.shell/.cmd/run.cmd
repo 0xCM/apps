@@ -1,3 +1,3 @@
 @echo off
 call %~dp0config.cmd
-call %ExeTargetPath%
+call %ExeTargetPath% %1 %2 %3 %4

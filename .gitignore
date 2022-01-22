@@ -10,3 +10,5 @@ tools/bin/
 tools/obj/
 codegen/codegen.respack/src
 codegen/codegen.llvm/src
+codegen/codegen.common/src
+codegen/codegen.intel/src

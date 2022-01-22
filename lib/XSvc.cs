@@ -59,6 +59,10 @@ namespace Z0
             => Z0.CharMapper.create(context);
 
         [Op]
+        public static AsmOpCodeParser AsmOpCodeParser(this IServiceContext context)
+            => Asm.AsmOpCodeParser.create(context);
+
+        [Op]
         public static Symbolism Symbolism(this IWfRuntime wf)
             => Z0.Symbolism.create(wf);
 

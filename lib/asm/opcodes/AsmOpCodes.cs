@@ -15,7 +15,6 @@ namespace Z0.Asm
     using K = AsmOcTokenKind;
     using P = Pow2x32;
 
-    using static AsmOpCodeTokens;
     [ApiHost]
     public readonly partial struct AsmOpCodes
     {
@@ -79,8 +78,8 @@ namespace Z0.Asm
             kseek(dst, K.None).Left = K.None;
             kseek(dst, K.None).Right = P.P2ᐞ00;
 
-            kseek(dst, K.Value).Left = K.Value;
-            kseek(dst, K.Value).Right = P.P2ᐞ01;
+            kseek(dst, K.Hex8).Left = K.Hex8;
+            kseek(dst, K.Hex8).Right = P.P2ᐞ01;
 
             kseek(dst, K.Rex).Left = K.Rex;
             kseek(dst, K.Rex).Right = P.P2ᐞ02;

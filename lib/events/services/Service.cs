@@ -16,7 +16,7 @@ namespace Z0
         /// Instantites the serice without initialization
         /// </summary>
         [MethodImpl(Inline)]
-        protected static H @new() => new H();
+        protected static H create() => new H();
 
         public EnvData Env {get; protected set;}
 
@@ -26,7 +26,7 @@ namespace Z0
         /// <param name="wf">The source workflow</param>
         public static H create(IServiceContext ctx)
         {
-            var service = @new();
+            var service = create();
             service.Init(ctx);
             return service;
         }

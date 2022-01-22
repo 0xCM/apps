@@ -14,7 +14,7 @@ namespace Z0
         [CmdOp("gen/records")]
         Outcome GenRecords(CmdArgs args)
         {
-            var g = Generators.Records();
+            var g = CodeGen.Records();
             var src = Tables.definition(typeof(XedModels.OperandState));
             var dst =  text.buffer();
             g.Emit(0u,src,dst);
