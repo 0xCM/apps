@@ -256,36 +256,36 @@ namespace Z0
             => chars(first(LowerHexDigits), src);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(in HexString<Hex1Seq> src, Hex1Seq kind)
+        public static ReadOnlySpan<char> render(in HexString<Hex1Kind> src, Hex1Kind kind)
             => src.Chars(kind);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(in HexString<Hex2Seq> src, Hex2Seq kind)
+        public static ReadOnlySpan<char> render(in HexString<Hex2Kind> src, Hex2Kind kind)
             => src.Chars(kind);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(in HexString<Hex3Seq> src, Hex3Seq kind)
+        public static ReadOnlySpan<char> render(in HexString<Hex3Kind> src, Hex3Kind kind)
             => src.Chars(kind);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(in HexString<Hex4Seq> src, Hex4Seq kind)
+        public static ReadOnlySpan<char> render(in HexString<Hex4Kind> src, Hex4Kind kind)
             => src.Chars(kind);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(Hex1Seq src)
-            => render(hexstring<Hex1Seq>(), src);
+        public static ReadOnlySpan<char> render(Hex1Kind src)
+            => render(hexstring<Hex1Kind>(), src);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(Hex2Seq src)
-            => render(hexstring<Hex2Seq>(), src);
+        public static ReadOnlySpan<char> render(Hex2Kind src)
+            => render(hexstring<Hex2Kind>(), src);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(Hex3Seq src)
-            => render(hexstring<Hex3Seq>(), src);
+        public static ReadOnlySpan<char> render(Hex3Kind src)
+            => render(hexstring<Hex3Kind>(), src);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> render(Hex4Seq src)
-            => render(hexstring<Hex4Seq>(), src);
+        public static ReadOnlySpan<char> render(Hex4Kind src)
+            => render(hexstring<Hex4Kind>(), src);
 
         [MethodImpl(Inline), Op]
         public static uint render(UpperCased @case, byte src, uint offset, Span<char> dst)

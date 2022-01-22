@@ -8,9 +8,14 @@ namespace Z0.Asm
     {
         public readonly struct Rel16 : IAsmSigOp<Rel16,RelToken>
         {
-            public RelToken Token => RelToken.rel16;
+            public RelToken Token
+                => RelToken.rel16;
 
-            public AsmSigOpKind Kind => AsmSigOpKind.Rel;
+            public AsmSigOpKind Kind
+                => AsmSigOpKind.Rel;
+
+            public NativeSize Size
+                => NativeSizeCode.W16;
 
         }
     }

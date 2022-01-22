@@ -12,9 +12,11 @@ namespace Z0.Asm
     {
         public readonly struct imm32 : IImmOpClass<imm32>, IAsmSigOp<imm32,ImmToken>
         {
-            public ImmToken Token => ImmToken.imm32;
+            public ImmToken Token
+                => ImmToken.imm32;
 
-            public AsmSigOpKind Kind => AsmSigOpKind.Imm;
+            public AsmSigOpKind Kind
+                => AsmSigOpKind.Imm;
 
             public AsmOpClass OpClass
                 => AsmOpClass.Imm;
@@ -25,6 +27,10 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(imm32 src)
                 => asm.sigop(src.Kind, src.Token);
+
+            [MethodImpl(Inline)]
+            public static implicit operator Imm(imm32 src)
+                => new Imm(src.Token);
         }
     }
 }

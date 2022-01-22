@@ -23,8 +23,8 @@ namespace Z0.Asm
                 => NativeSizeCode.W64;
 
             [MethodImpl(Inline)]
-            public static implicit operator mem(m64 src)
-                => new mem(src.Token);
+            public static implicit operator Mem(m64 src)
+                => new Mem(src.Token);
 
 
             [MethodImpl(Inline)]

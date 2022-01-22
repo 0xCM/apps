@@ -37,8 +37,8 @@ namespace Z0.Asm
                 => token(src.Kind, src);
 
             [MethodImpl(Inline)]
-            public static implicit operator reg(rK src)
-                => new reg(src.Size, src.RegClass);
+            public static implicit operator Reg(rK src)
+                => new Reg(src.Size, src.RegClass);
         }
     }
 }

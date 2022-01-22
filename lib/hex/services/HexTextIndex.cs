@@ -29,13 +29,13 @@ namespace Z0
         public static HexStrings<K> init<K>()
             where K : unmanaged, Enum
         {
-            if(typeof(K) == typeof(Hex1Seq))
+            if(typeof(K) == typeof(Hex1Kind))
                 return Hex.generic<K>(init(n1));
-            else if(typeof(K) == typeof(Hex2Seq))
+            else if(typeof(K) == typeof(Hex2Kind))
                 return Hex.generic<K>(init(n2));
-            else if(typeof(K) == typeof(Hex3Seq))
+            else if(typeof(K) == typeof(Hex3Kind))
                 return Hex.generic<K>(init(n3));
-            else if(typeof(K) == typeof(Hex4Seq))
+            else if(typeof(K) == typeof(Hex4Kind))
                 return Hex.generic<K>(init(n4));
             else
                 return HexStrings<K>.Empty;
@@ -47,53 +47,53 @@ namespace Z0
                 => new HexString<K>(src);
 
         [MethodImpl(Inline), Op]
-        public static HexStrings<Hex1Seq> init(N1 n)
-            => new HexStrings<Hex1Seq>(sys.array(
-                    hs<Hex1Seq>(Hex1Text.x00),
-                    hs<Hex1Seq>(Hex1Text.x01))
+        public static HexStrings<Hex1Kind> init(N1 n)
+            => new HexStrings<Hex1Kind>(sys.array(
+                    hs<Hex1Kind>(Hex1Text.x00),
+                    hs<Hex1Kind>(Hex1Text.x01))
                     );
 
         [MethodImpl(Inline), Op]
-        public static HexStrings<Hex2Seq> init(N2 n)
-            => new HexStrings<Hex2Seq>(sys.array(
-                hs<Hex2Seq>(Hex2Text.x00),
-                hs<Hex2Seq>(Hex2Text.x01),
-                hs<Hex2Seq>(Hex2Text.x02),
-                hs<Hex2Seq>(Hex2Text.x03)
+        public static HexStrings<Hex2Kind> init(N2 n)
+            => new HexStrings<Hex2Kind>(sys.array(
+                hs<Hex2Kind>(Hex2Text.x00),
+                hs<Hex2Kind>(Hex2Text.x01),
+                hs<Hex2Kind>(Hex2Text.x02),
+                hs<Hex2Kind>(Hex2Text.x03)
                 ));
 
         [Op]
-        public static HexStrings<Hex3Seq> init(N3 n)
-            => new HexStrings<Hex3Seq>(sys.array(
-                    hs<Hex3Seq>(Hex3Text.x00),
-                    hs<Hex3Seq>(Hex3Text.x01),
-                    hs<Hex3Seq>(Hex3Text.x02),
-                    hs<Hex3Seq>(Hex3Text.x03),
-                    hs<Hex3Seq>(Hex3Text.x04),
-                    hs<Hex3Seq>(Hex3Text.x05),
-                    hs<Hex3Seq>(Hex3Text.x06),
-                    hs<Hex3Seq>(Hex3Text.x07)
+        public static HexStrings<Hex3Kind> init(N3 n)
+            => new HexStrings<Hex3Kind>(sys.array(
+                    hs<Hex3Kind>(Hex3Text.x00),
+                    hs<Hex3Kind>(Hex3Text.x01),
+                    hs<Hex3Kind>(Hex3Text.x02),
+                    hs<Hex3Kind>(Hex3Text.x03),
+                    hs<Hex3Kind>(Hex3Text.x04),
+                    hs<Hex3Kind>(Hex3Text.x05),
+                    hs<Hex3Kind>(Hex3Text.x06),
+                    hs<Hex3Kind>(Hex3Text.x07)
                         ));
 
         [Op]
-        public static HexStrings<Hex4Seq> init(N4 n)
-            => new HexStrings<Hex4Seq>(sys.array(
-                    hs<Hex4Seq>(Hex4Text.x00),
-                    hs<Hex4Seq>(Hex4Text.x01),
-                    hs<Hex4Seq>(Hex4Text.x02),
-                    hs<Hex4Seq>(Hex4Text.x03),
-                    hs<Hex4Seq>(Hex4Text.x04),
-                    hs<Hex4Seq>(Hex4Text.x05),
-                    hs<Hex4Seq>(Hex4Text.x06),
-                    hs<Hex4Seq>(Hex4Text.x07),
-                    hs<Hex4Seq>(Hex4Text.x08),
-                    hs<Hex4Seq>(Hex4Text.x09),
-                    hs<Hex4Seq>(Hex4Text.x0A),
-                    hs<Hex4Seq>(Hex4Text.x0B),
-                    hs<Hex4Seq>(Hex4Text.x0C),
-                    hs<Hex4Seq>(Hex4Text.x0D),
-                    hs<Hex4Seq>(Hex4Text.x0E),
-                    hs<Hex4Seq>(Hex4Text.x0F)
+        public static HexStrings<Hex4Kind> init(N4 n)
+            => new HexStrings<Hex4Kind>(sys.array(
+                    hs<Hex4Kind>(Hex4Text.x00),
+                    hs<Hex4Kind>(Hex4Text.x01),
+                    hs<Hex4Kind>(Hex4Text.x02),
+                    hs<Hex4Kind>(Hex4Text.x03),
+                    hs<Hex4Kind>(Hex4Text.x04),
+                    hs<Hex4Kind>(Hex4Text.x05),
+                    hs<Hex4Kind>(Hex4Text.x06),
+                    hs<Hex4Kind>(Hex4Text.x07),
+                    hs<Hex4Kind>(Hex4Text.x08),
+                    hs<Hex4Kind>(Hex4Text.x09),
+                    hs<Hex4Kind>(Hex4Text.x0A),
+                    hs<Hex4Kind>(Hex4Text.x0B),
+                    hs<Hex4Kind>(Hex4Text.x0C),
+                    hs<Hex4Kind>(Hex4Text.x0D),
+                    hs<Hex4Kind>(Hex4Text.x0E),
+                    hs<Hex4Kind>(Hex4Text.x0F)
                     ));
     }
 }

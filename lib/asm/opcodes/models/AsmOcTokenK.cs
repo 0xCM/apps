@@ -12,7 +12,7 @@ namespace Z0.Asm
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Size=2)]
-    public readonly struct AsmOcToken<K>
+    public readonly struct AsmOcToken<K> : IAsmOpCodeToken<K>
         where K : unmanaged
     {
         public AsmOcTokenKind Kind {get;}

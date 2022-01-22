@@ -2,15 +2,19 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using K = Hex1Kind;
+    using System;
 
-    [LiteralProvider]
-    public readonly struct Hex1Text
+    public interface IAsmOpCode
     {
-        public const string x00 = nameof(K.x00);
-
-        public const string x01 = nameof(K.x01);
+        ReadOnlySpan<AsmOcToken> Tokens {get;}
     }
+
+    public interface IAsmOpCode<T> : IAsmOpCode
+        where  T : IAsmOpCode<T>
+    {
+
+    }
+
 }

@@ -8,18 +8,17 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static AsmSigs;
 
     partial class AsmSigModels
     {
-        public readonly struct imm : IImmOpClass<imm>, IAsmSigOp<imm,ImmToken>
+        public readonly struct Imm : IImmOpClass<Imm>, IAsmSigOp<Imm,ImmToken>
         {
             public ImmToken Token {get;}
 
             public AsmSigOpKind Kind => AsmSigOpKind.Imm;
 
             [MethodImpl(Inline)]
-            public imm(ImmToken token)
+            public Imm(ImmToken token)
             {
                 Token = token;
             }
@@ -28,12 +27,12 @@ namespace Z0.Asm
                 => AsmOpClass.Imm;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigOp(imm src)
+            public static implicit operator AsmSigOp(Imm src)
                 => asm.sigop(src.Kind, src.Token);
 
             [MethodImpl(Inline)]
-            public static implicit operator imm(ImmToken src)
-                => new imm(src);
+            public static implicit operator Imm(ImmToken src)
+                => new Imm(src);
         }
     }
 }

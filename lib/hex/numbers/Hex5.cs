@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     using H = Hex5;
-    using K = Hex5Seq;
+    using K = Hex5Kind;
     using W = W5;
 
     [DataType("hex<w:5>", HexNumberKind.Hex5, ContentWidth, StorageWidth)]

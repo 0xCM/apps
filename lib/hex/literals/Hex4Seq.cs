@@ -7,8 +7,8 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 4-bit unsigned integer
     /// </summary>
-    [SymSource("hexseq", NumericBaseKind.Base16)]
-    public enum Hex4Seq : byte
+    [SymSource("hexkind", NumericBaseKind.Base16)]
+    public enum Hex4Kind : byte
     {
         /// <summary>
         /// Identifies the hex value 0x00 := 0

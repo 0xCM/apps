@@ -10,7 +10,7 @@ namespace Z0.Asm
     using Operands;
 
     using static Root;
-    using static Hex8Seq;
+    using static Hex8Kind;
 
     partial class AsmSpecs
     {

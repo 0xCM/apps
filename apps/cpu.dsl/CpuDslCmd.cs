@@ -27,9 +27,9 @@ namespace Z0
         Outcome CheckCaseMaps(CmdArgs args)
         {
             var map = CaseMaps.@enum("map",
-                paired(Hex3Seq.x02, u8(2)),
-                paired(Hex3Seq.x03, u8(3)),
-                paired(Hex3Seq.x04, u8(4))
+                paired(Hex3Kind.x02, u8(2)),
+                paired(Hex3Kind.x03, u8(3)),
+                paired(Hex3Kind.x04, u8(4))
                 );
 
             var dst = text.buffer();

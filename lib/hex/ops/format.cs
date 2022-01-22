@@ -12,39 +12,39 @@ namespace Z0
     partial struct Hex
     {
         [MethodImpl(Inline), Op]
-        public static string format(in HexString<Hex1Seq> src, Hex1Seq kind)
+        public static string format(in HexString<Hex1Kind> src, Hex1Kind kind)
             => src.String(kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(in HexString<Hex2Seq> src,  Hex2Seq kind)
+        public static string format(in HexString<Hex2Kind> src,  Hex2Kind kind)
             => src.String(kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(in HexString<Hex3Seq> src, Hex3Seq kind)
+        public static string format(in HexString<Hex3Kind> src, Hex3Kind kind)
             => src.String(kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(in HexString<Hex4Seq> src, Hex4Seq kind)
+        public static string format(in HexString<Hex4Kind> src, Hex4Kind kind)
             => src.String(kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(in HexString<Hex5Seq> src, Hex5Seq kind)
+        public static string format(in HexString<Hex5Kind> src, Hex5Kind kind)
             => src.String(kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(Hex1Seq kind)
+        public static string format(Hex1Kind kind)
             => format(hexstring(n1), kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(Hex2Seq kind)
+        public static string format(Hex2Kind kind)
             => format(hexstring(n2), kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(Hex3Seq kind)
+        public static string format(Hex3Kind kind)
             => format(hexstring(n3), kind);
 
         [MethodImpl(Inline), Op]
-        public static string format(Hex4Seq kind)
+        public static string format(Hex4Kind kind)
             => format(hexstring(n4), kind);
     }
 }

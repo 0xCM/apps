@@ -49,15 +49,15 @@ namespace Z0
             return ref slot;
         }
 
-        internal Hex8Seq Index;
+        internal Hex8Kind Index;
 
         [MethodImpl(Inline)]
-        public MemorySlot(Hex8Seq value)
+        public MemorySlot(Hex8Kind value)
             => Index = value;
 
         [MethodImpl(Inline)]
         public MemorySlot(byte value)
-            => Index = (Hex8Seq)value;
+            => Index = (Hex8Kind)value;
 
         [MethodImpl(Inline)]
         public MemorySlot Advance()
@@ -81,14 +81,14 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator MemorySlot(int src)
-            => new MemorySlot((Hex8Seq)src);
+            => new MemorySlot((Hex8Kind)src);
 
         [MethodImpl(Inline)]
         public static implicit operator MemorySlot(byte src)
-            => new MemorySlot((Hex8Seq)src);
+            => new MemorySlot((Hex8Kind)src);
 
-        internal const Hex8Seq FirstKey = Hex8Seq.x00;
+        internal const Hex8Kind FirstKey = Hex8Kind.x00;
 
-        internal const Hex8Seq LastKey = Hex8Seq.xff;
+        internal const Hex8Kind LastKey = Hex8Kind.xff;
     }
 }

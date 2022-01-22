@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     using H = Hex2;
-    using K = Hex2Seq;
+    using K = Hex2Kind;
     using W = W2;
 
     [DataType("hex<w:2>", HexNumberKind.Hex2, ContentWidth, StorageWidth)]
@@ -137,7 +137,7 @@ namespace Z0
             => (ulong)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator H(Hex1Seq src)
+        public static implicit operator H(Hex1Kind src)
             => new H((byte)src);
     }
 }

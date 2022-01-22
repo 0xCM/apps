@@ -23,16 +23,16 @@ namespace Z0
                 => (byte)h.Value;
 
         [MethodImpl(Inline), Op]
-        public static HexIndex<Hex5> index(Hex5Seq[] src)
-            => index<Hex5>(@as<Hex5Seq[],Hex5[]>(src));
+        public static HexIndex<Hex5> index(Hex5Kind[] src)
+            => index<Hex5>(@as<Hex5Kind[],Hex5[]>(src));
 
         [MethodImpl(Inline), Op]
-        public static HexIndex<Hex6> index(Hex6Seq[] src)
-            => index<Hex6>(@as<Hex6Seq[],Hex6[]>(src));
+        public static HexIndex<Hex6> index(Hex6Kind[] src)
+            => index<Hex6>(@as<Hex6Kind[],Hex6[]>(src));
 
         [MethodImpl(Inline), Op]
-        public static HexIndex<Hex8> index(Hex8Seq[] src)
-            => index<Hex8>(@as<Hex8Seq[],Hex8[]>(src));
+        public static HexIndex<Hex8> index(Hex8Kind[] src)
+            => index<Hex8>(@as<Hex8Kind[],Hex8[]>(src));
 
         [MethodImpl(Inline), Op]
         public static HexIndex<Hex1> index(N1 n, byte[] src)

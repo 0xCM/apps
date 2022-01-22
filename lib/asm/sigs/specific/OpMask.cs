@@ -15,19 +15,18 @@ namespace Z0.Asm
     {
         public readonly struct OpMask : IAsmSigOp<OpMask,OpMaskToken>
         {
+            public Reg Reg {get;}
+
             public OpMaskToken Token {get;}
 
             [MethodImpl(Inline)]
-            public OpMask(OpMaskToken token)
+            public OpMask(Reg r, OpMaskToken token)
             {
+                Reg = r;
                 Token = token;
             }
 
             public K Kind => K.OpMask;
-
-            [MethodImpl(Inline)]
-            public static implicit operator OpMask(OpMaskToken src)
-                => new OpMask(src);
 
             [MethodImpl(Inline)]
             public static implicit operator OpMaskToken(OpMask src)
@@ -36,6 +35,9 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator AsmSigToken(OpMask src)
                 => token(src.Kind, src);
+
+            public static implicit operator Reg(OpMask src)
+                => src.Reg;
         }
     }
 }

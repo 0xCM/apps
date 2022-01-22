@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Hex4Seq;
+    using static Hex4Kind;
 
     partial struct AsmPrototypes
     {
@@ -12,9 +12,9 @@ namespace Z0.Asm
         public struct NestedSwitch
         {
             [Op]
-            static Hex4Seq calc00(Hex4Seq src, Hex4Seq dst)
+            static Hex4Kind calc00(Hex4Kind src, Hex4Kind dst)
             {
-                var result = Hex4Seq.x00;
+                var result = Hex4Kind.x00;
                 switch(dst)
                 {
                     case x00:
@@ -75,9 +75,9 @@ namespace Z0.Asm
             }
 
             [Op]
-            static Hex4Seq calc01(Hex4Seq src, Hex4Seq dst)
+            static Hex4Kind calc01(Hex4Kind src, Hex4Kind dst)
             {
-                var result = Hex4Seq.x00;
+                var result = Hex4Kind.x00;
                 switch(dst)
                 {
                     case x00:
@@ -139,9 +139,9 @@ namespace Z0.Asm
             }
 
             [Op]
-            static Hex4Seq calc02(Hex4Seq src, Hex4Seq dst)
+            static Hex4Kind calc02(Hex4Kind src, Hex4Kind dst)
             {
-                var result = Hex4Seq.x00;
+                var result = Hex4Kind.x00;
                 switch(dst)
                 {
                     case x00:
@@ -203,7 +203,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            static Hex4Seq calc03(Hex4Seq src, Hex4Seq dst)
+            static Hex4Kind calc03(Hex4Kind src, Hex4Kind dst)
             {
                 switch(dst)
                 {
@@ -245,7 +245,7 @@ namespace Z0.Asm
             }
 
             [Op]
-            public static Hex4Seq calc(Hex4Seq src, Hex4Seq dst)
+            public static Hex4Kind calc(Hex4Kind src, Hex4Kind dst)
             {
                 switch(src)
                 {

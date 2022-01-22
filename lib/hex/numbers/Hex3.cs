@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     using H = Hex3;
-    using K = Hex3Seq;
+    using K = Hex3Kind;
     using W = W3;
 
     [DataType("hex<w:3>", HexNumberKind.Hex3, ContentWidth, StorageWidth)]
@@ -110,16 +110,16 @@ namespace Z0
             => new Hex8((byte)src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator Hex4Seq(Hex3 src)
-            => (Hex4Seq)src;
+        public static implicit operator Hex4Kind(Hex3 src)
+            => (Hex4Kind)src;
 
         [MethodImpl(Inline)]
-        public static implicit operator Hex5Seq(Hex3 src)
-            => (Hex5Seq)src;
+        public static implicit operator Hex5Kind(Hex3 src)
+            => (Hex5Kind)src;
 
         [MethodImpl(Inline)]
-        public static implicit operator Hex8Seq(Hex3 src)
-            => (Hex8Seq)src;
+        public static implicit operator Hex8Kind(Hex3 src)
+            => (Hex8Kind)src;
 
         [MethodImpl(Inline)]
         public static implicit operator H(byte src)
@@ -142,11 +142,11 @@ namespace Z0
             => (ulong)src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator H(Hex1Seq src)
+        public static implicit operator H(Hex1Kind src)
             => new H((byte)src);
 
         [MethodImpl(Inline)]
-        public static implicit operator H(Hex2Seq src)
+        public static implicit operator H(Hex2Kind src)
             => new H((byte)src);
     }
 }

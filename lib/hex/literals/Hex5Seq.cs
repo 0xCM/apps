@@ -7,8 +7,8 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to each value that can be represented with a 5-bit unsigned integer
     /// </summary>
-    [SymSource("hexseq", NumericBaseKind.Base16)]
-    public enum Hex5Seq : byte
+    [SymSource("hexkind", NumericBaseKind.Base16)]
+    public enum Hex5Kind : byte
     {
         /// <summary>
         /// Defines 0x00 = 0

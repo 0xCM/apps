@@ -13,27 +13,32 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential,Pack=1), DataType("asm.sig")]
     public readonly struct AsmSig
     {
+        public readonly AsmOpCode OpCode;
+
         public readonly AsmMnemonic Mnemonic;
 
         public readonly AsmSigOps Operands;
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic mnemonic, AsmSigOps operands)
+        public AsmSig(AsmOpCode opcode, AsmMnemonic mnemonic, AsmSigOps operands)
         {
+            OpCode = opcode;
             Mnemonic = mnemonic;
             Operands = operands;
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic mnemonic)
+        public AsmSig(AsmOpCode opcode, AsmMnemonic mnemonic)
         {
+            OpCode = opcode;
             Mnemonic = mnemonic;
             Operands = AsmSigOps.Empty;
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic mnemonic, AsmSigOp op0)
+        public AsmSig(AsmOpCode opcode, AsmMnemonic mnemonic, AsmSigOp op0)
         {
+            OpCode = opcode;
             Mnemonic = mnemonic;
             Operands.OpCount = 1;
             Operands.Op0 = op0;
@@ -43,8 +48,9 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic mnemonic, AsmSigOp op0, AsmSigOp op1)
+        public AsmSig(AsmOpCode opcode, AsmMnemonic mnemonic, AsmSigOp op0, AsmSigOp op1)
         {
+            OpCode = opcode;
             Mnemonic = mnemonic;
             Operands.OpCount = 2;
             Operands.Op0 = op0;
@@ -54,8 +60,9 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic mnemonic, AsmSigOp op0, AsmSigOp op1, AsmSigOp op2)
+        public AsmSig(AsmOpCode opcode, AsmMnemonic mnemonic, AsmSigOp op0, AsmSigOp op1, AsmSigOp op2)
         {
+            OpCode = opcode;
             Mnemonic = mnemonic;
             Operands.OpCount = 3;
             Operands.Op0 = op0;
@@ -65,8 +72,9 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSig(AsmMnemonic mnemonic, AsmSigOp op0, AsmSigOp op1, AsmSigOp op2, AsmSigOp op3)
+        public AsmSig(AsmOpCode opcode, AsmMnemonic mnemonic, AsmSigOp op0, AsmSigOp op1, AsmSigOp op2, AsmSigOp op3)
         {
+            OpCode = opcode;
             Mnemonic = mnemonic;
             Operands.OpCount = 4;
             Operands.Op0 = op0;
@@ -84,7 +92,7 @@ namespace Z0.Asm
         public static AsmSig Empty
         {
             [MethodImpl(Inline)]
-            get => new AsmSig(AsmMnemonic.Empty);
+            get => new AsmSig(AsmOpCode.Empty, AsmMnemonic.Empty);
         }
     }
 }

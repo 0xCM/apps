@@ -11,5 +11,4 @@ namespace Z0.Asm
     {
         const NumericKind Closure = UnsignedInts;
     }
-
 }

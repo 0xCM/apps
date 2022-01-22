@@ -22,19 +22,19 @@ namespace Z0
             => (HexDigitSym)(index < UpperSymbolCount ? skip(UpperSymbols, index) : HexUpperSym.None);
 
         [MethodImpl(Inline), Op]
-        public static HexDigitSym symbol(LowerCased casing, Hex3Seq src)
+        public static HexDigitSym symbol(LowerCased casing, Hex3Kind src)
             => symbol(casing, (HexDigitValue)src);
 
         [MethodImpl(Inline), Op]
-        public static HexDigitSym symbol(UpperCased casing, Hex3Seq src)
+        public static HexDigitSym symbol(UpperCased casing, Hex3Kind src)
             => symbol(casing, (HexDigitValue)src);
 
         [MethodImpl(Inline), Op]
-        public static HexDigitSym symbol(LowerCased casing, Hex4Seq src)
+        public static HexDigitSym symbol(LowerCased casing, Hex4Kind src)
             => symbol(casing, (HexDigitValue)src);
 
         [MethodImpl(Inline), Op]
-        public static HexDigitSym symbol(UpperCased casing, Hex4Seq src)
+        public static HexDigitSym symbol(UpperCased casing, Hex4Kind src)
             => symbol(casing, (HexDigitValue)src);
 
         [MethodImpl(Inline), Op]

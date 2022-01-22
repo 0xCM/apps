@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using H = Hex8Seq;
+    using H = Hex8Kind;
 
     partial struct HexLevel
     {

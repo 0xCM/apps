@@ -20,8 +20,8 @@ namespace Z0.Asm
             public RegClassCode RegClass => RegClassCode.FLAG;
 
             [MethodImpl(Inline)]
-            public static implicit operator reg(rflags src)
-                => new reg(src.Size, src.RegClass);
+            public static implicit operator Reg(rflags src)
+                => new Reg(src.Size, src.RegClass);
 
             [MethodImpl(Inline)]
             public static implicit operator AsmOperand(rflags src)

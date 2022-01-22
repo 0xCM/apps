@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = Hex2Seq;
+    using K = Hex2Kind;
 
+    [LiteralProvider]
     public readonly struct Hex2Text
     {
         public const string x00 = nameof(K.x00);

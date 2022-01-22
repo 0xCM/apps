@@ -10,14 +10,14 @@ namespace Z0.Asm
 
     partial class AsmSigModels
     {
-        public readonly struct mem : IMemOpClass<mem>, IAsmSigOp<mem,MemToken>
+        public readonly struct Mem : IMemOpClass<Mem>, IAsmSigOp<Mem,MemToken>
         {
             public MemToken Token {get;}
 
             public AsmSigOpKind Kind => AsmSigOpKind.Mem;
 
             [MethodImpl(Inline)]
-            public mem(MemToken token)
+            public Mem(MemToken token)
             {
                 Token = token;
             }
@@ -26,12 +26,12 @@ namespace Z0.Asm
                 => AsmOpClass.Mem;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigOp(mem src)
+            public static implicit operator AsmSigOp(Mem src)
                 => asm.sigop(src.Kind, src.Token);
 
             [MethodImpl(Inline)]
-            public static implicit operator mem(MemToken src)
-                => new mem(src);
+            public static implicit operator Mem(MemToken src)
+                => new Mem(src);
         }
     }
 }

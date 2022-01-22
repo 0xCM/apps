@@ -10,14 +10,14 @@ namespace Z0.Asm
 
     partial class AsmSigModels
     {
-        public readonly struct reg : IRegOpClass<reg>, IAsmSigOp<reg,GpRegToken>
+        public readonly struct Reg : IRegOpClass<Reg>, IAsmSigOp<Reg,GpRegToken>
         {
             public NativeSize Size {get;}
 
             public RegClassCode RegClass {get;}
 
             [MethodImpl(Inline)]
-            public reg(NativeSize size, RegClassCode @class)
+            public Reg(NativeSize size, RegClassCode @class)
             {
                 Size = size;
                 RegClass = @class;

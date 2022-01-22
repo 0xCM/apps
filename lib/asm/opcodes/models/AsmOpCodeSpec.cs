@@ -6,22 +6,23 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Size=2)]
-    public readonly struct AsmOcToken : IAsmOpCodeToken
+    public readonly struct AsmOpCodeSpec : IAsmOpCode<AsmOpCodeSpec>
     {
-        public AsmOcTokenKind Kind {get;}
-
-        public byte Value {get;}
+        readonly Index<AsmOcToken> Data;
 
         [MethodImpl(Inline)]
-        public AsmOcToken(AsmOcTokenKind kind, byte value)
+        public AsmOpCodeSpec(AsmOcToken[] tokens)
         {
-            Kind = kind;
-            Value = value;
+            Data = tokens;
+        }
+
+        public ReadOnlySpan<AsmOcToken> Tokens
+        {
+            [MethodImpl(Inline)]
+            get => Data;
         }
     }
 }

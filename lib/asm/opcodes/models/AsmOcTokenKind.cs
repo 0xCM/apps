@@ -14,74 +14,80 @@ namespace Z0.Asm
         None = 0,
 
         /// <summary>
-        /// Classifies the 256 literal hex bytes [0xOO, 0x01, ..., 0xFF]
+        /// Classifies the 256 literal hex bytes [0xOO, 0x01, ..., 0xFF] defined by <see cref='Hex8Kind'/>
         /// </summary>
-        Byte = 1,
+        Value,
 
         /// <summary>
         /// Classifies <see cref='RexToken'/> tokens
         /// </summary>
-        Rex = 2,
+        Rex,
 
         /// <summary>
         /// Classifies <see cref='VexToken'/> tokens
         /// </summary>
-        Vex = 3,
+        Vex,
 
         /// <summary>
         /// Classifies <see cref='EvexToken'/> tokens
         /// </summary>
-        Evex = 4,
+        Evex,
 
         /// <summary>
         /// Classifies <see cref='EscapeToken'/> prefix tokens
         /// </summary>
-        Escape = 5,
+        Escape,
 
         /// <summary>
         /// <summary>
         /// Classifies <see cref='RexBToken'/> tokens
         /// </summary>
-        RexBExtension = 6,
+        RexBExtension,
 
         /// <summary>
         /// Classifies <see cref='OcExtension'/> tokens
         /// </summary>
-        OcExtension = 7,
+        OcExtension,
 
         /// <summary>
         /// Classifies <see cref='SegOverrideToken'/> tokens
         /// </summary>
-        SegOverride = 8,
+        SegOverride,
 
         /// <summary>
         /// Classifies <see cref='DispToken'/> tokens
         /// </summary>
-        Disp = 9,
+        Disp,
 
         /// <summary>
         /// Classifies <see cref='ImmSizeToken'/> tokens
         /// </summary>
-        ImmSize = 10,
+        ImmSize,
 
         /// <summary>
         /// Classifies <see cref='ExclusionToken'/> tokens
         /// </summary>
-        Exclusion = 11,
+        Exclusion,
 
         /// <summary>
         /// Classifies <see cref='FpuDigitToken'/> tokens
         /// </summary>
-        FpuDigit = 12,
+        FpuDigit,
 
         /// <summary>
         /// Classifies <see cref='MaskToken'/> tokens
         /// </summary>
-        Mask = 13,
+        Mask,
 
         /// <summary>
-        /// Classifies <see cref='OpCodeOperator'/> tokens
+        /// Classifies <see cref='OperatorToken'/> tokens
         /// </summary>
-        Operator = 14,
+        Operator,
+
+
+        /// <summary>
+        /// Classifies <see cref='ModRmToken'/> tokens
+        /// </summary>
+        ModRm,
     }
 }

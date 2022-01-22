@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     using H = Hex7;
-    using K = Hex7Seq;
+    using K = Hex7Kind;
     using W = W7;
 
     [DataType("hex<w:7>", HexNumberKind.Hex7, ContentWidth, StorageWidth)]

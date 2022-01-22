@@ -47,10 +47,6 @@ namespace Z0.Asm
             => src;
 
         [MethodImpl(Inline), Op]
-        public static Ptr sigop(PtrToken src)
-            => src;
-
-        [MethodImpl(Inline), Op]
         public static Rel sigop(RelToken src)
             => src;
 
@@ -63,7 +59,7 @@ namespace Z0.Asm
             => src;
 
         [MethodImpl(Inline), Op]
-        public static bcast sigop(BroadcastToken src)
+        public static BCast sigop(BroadcastToken src)
             => src;
 
         [MethodImpl(Inline), Op]
@@ -71,15 +67,15 @@ namespace Z0.Asm
             => src;
 
         [MethodImpl(Inline), Op]
-        public static OpMask sigop(OpMaskToken src)
+        public static OpMask sigop(Reg r, OpMaskToken src)
+            => new OpMask(r, src);
+
+        [MethodImpl(Inline), Op]
+        public static Imm sigop(ImmToken src)
             => src;
 
         [MethodImpl(Inline), Op]
-        public static imm sigop(ImmToken src)
-            => src;
-
-        [MethodImpl(Inline), Op]
-        public static mem sigop(MemToken src)
+        public static Mem sigop(MemToken src)
             => src;
     }
 }

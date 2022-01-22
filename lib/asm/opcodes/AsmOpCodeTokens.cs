@@ -5,51 +5,73 @@
 namespace Z0.Asm
 {
     using System.Runtime.CompilerServices;
+    using System;
 
     using static Root;
+    using static core;
+    using static AsmOpCodes;
 
+    [ApiHost]
     public readonly struct AsmOpCodeTokens
     {
         const string tokens = "asm.opcodes";
 
-        public enum TokenSlot : byte
-        {
-            None,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<Hex8Kind> value(Hex8 value)
+            => token<Hex8Kind>(AsmOcTokenKind.Value, value);
 
-            Byte,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<ExclusionToken> exclude(ExclusionToken t)
+            => token(AsmOcTokenKind.Exclusion, t);
 
-            Exclusion,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<RexToken> rex(RexToken t)
+            => token(AsmOcTokenKind.Rex, t);
 
-            ModRm,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<RexBToken> rexb(RexBToken t)
+            => token(AsmOcTokenKind.RexBExtension, t);
 
-            Extension,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<VexToken> vex(VexToken t)
+            => token(AsmOcTokenKind.Vex, t);
 
-            Rex,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<EvexToken> evex(EvexToken t)
+            => token(AsmOcTokenKind.Evex, t);
 
-            RexW,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<DispToken> disp(DispToken t)
+            => token(AsmOcTokenKind.Disp, t);
 
-            Vex,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<SegOverrideToken> ov(SegOverrideToken t)
+            => token(AsmOcTokenKind.SegOverride, t);
 
-            VexL0,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<OpCodeExtension> extension(OpCodeExtension t)
+            => token(AsmOcTokenKind.OcExtension, t);
 
-            VexL1,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<ImmSizeToken> immsize(ImmSizeToken t)
+            => token(AsmOcTokenKind.ImmSize, t);
 
-            LZ,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<ModRmToken> modrm(ModRmToken t)
+            => token(AsmOcTokenKind.ModRm, t);
 
-            Wig,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<FpuDigitToken> fpudigit(FpuDigitToken t)
+            => token(AsmOcTokenKind.FpuDigit, t);
 
-            W0,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<MaskToken> mask(MaskToken t)
+            => token(AsmOcTokenKind.Mask, t);
 
-            W1,
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken<OperatorToken> op(OperatorToken t)
+            => token(AsmOcTokenKind.Operator, t);
 
-            V128,
-
-            V256,
-
-            V512,
-
-            Evex,
-        }
 
         [SymSource(tokens)]
         public enum EscapeToken : ushort
@@ -291,28 +313,28 @@ namespace Z0.Asm
         public enum FpuDigitToken : byte
         {
             [Symbol("+0")]
-            i0,
+            st0,
 
             [Symbol("+1")]
-            i1,
+            st1,
 
             [Symbol("+2")]
-            i2,
+            st2,
 
             [Symbol("+3")]
-            i3,
+            st3,
 
             [Symbol("+4")]
-            i4,
+            st4,
 
             [Symbol("+5")]
-            i5,
+            st5,
 
             [Symbol("+6")]
-            i6,
+            st6,
 
             [Symbol("+7")]
-            i7,
+            st7,
         }
 
         [SymSource(tokens)]
@@ -331,12 +353,15 @@ namespace Z0.Asm
             [Symbol("{k1}", "Indicates a mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
             Mask,
 
+            [Symbol("{z}", "Indicates a mask register used as instruction writemask for instructions that allow zeroing-masking")]
+            ZeroMask,
+
             [Symbol("{k1}{z}", "Indicates a mask register used as instruction writemask")]
             WriteMask,
         }
 
         [SymSource(tokens)]
-        public enum OpCodeOperator : byte
+        public enum OperatorToken : byte
         {
             [Symbol("+")]
             Plus,

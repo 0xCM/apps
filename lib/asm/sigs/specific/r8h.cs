@@ -30,8 +30,12 @@ namespace Z0.Asm
                 => RegClassCode.GP8HI;
 
             [MethodImpl(Inline)]
-            public static implicit operator reg(r8h src)
-                => new reg(src.Size, src.RegClass);
+            public static implicit operator Reg(r8h src)
+                => new Reg(src.Size, src.RegClass);
+
+            [MethodImpl(Inline)]
+            public static implicit operator GpReg(r8h src)
+                => new GpReg(src.Token);
 
         }
     }

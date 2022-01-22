@@ -7,8 +7,8 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to the hex digits 0,..,3
     /// </summary>
-    [SymSource("hexseq", NumericBaseKind.Base16)]
-    public enum Hex2Seq : byte
+    [SymSource("hexkind", NumericBaseKind.Base16)]
+    public enum Hex2Kind : byte
     {
         /// <summary>
         /// Identifies the hex value 0x00 := 0

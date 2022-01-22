@@ -28,8 +28,8 @@ namespace Z0.Asm
                 => SysRegToken.db;
 
             [MethodImpl(Inline)]
-            public static implicit operator reg(db src)
-                => new reg(src.Size, src.RegClass);
+            public static implicit operator Reg(db src)
+                => new Reg(src.Size, src.RegClass);
 
             [MethodImpl(Inline)]
             public static implicit operator AsmOperand(db src)

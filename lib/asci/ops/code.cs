@@ -15,27 +15,27 @@ namespace Z0
     partial struct Asci
     {
         [MethodImpl(Inline), Op]
-        public static C code(in asci2 src, Hex1Seq index)
+        public static C code(in asci2 src, Hex1Kind index)
             => (C)(src.Storage >> (byte)index);
 
         [MethodImpl(Inline), Op]
-        public static C code(in asci4 src, Hex2Seq index)
+        public static C code(in asci4 src, Hex2Kind index)
             => (C)(src.Storage >> (byte)index);
 
         [MethodImpl(Inline), Op]
-        public static C code(in asci8 src, Hex3Seq index)
+        public static C code(in asci8 src, Hex3Kind index)
             => (C)(src.Storage >> (byte)index);
 
         [MethodImpl(Inline), Op]
-        public static C code(in asci16 src, Hex4Seq index)
+        public static C code(in asci16 src, Hex4Kind index)
             => (C)skip(bytes(src), (byte)index);
 
         [MethodImpl(Inline), Op]
-        public static C code(in asci32 src, Hex5Seq index)
+        public static C code(in asci32 src, Hex5Kind index)
             => (C)skip(bytes(src), (byte)index);
 
         [MethodImpl(Inline), Op]
-        public static C code(in asci64 src, Hex6Seq index)
+        public static C code(in asci64 src, Hex6Kind index)
             => (C)skip(bytes(src), (byte)index);
 
         [MethodImpl(Inline), Op]

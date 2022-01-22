@@ -10,7 +10,7 @@ namespace Z0.Asm
 
     partial class AsmSigModels
     {
-        public readonly struct zmm : IRegOpClass<zmm>, IAsmSigOp<zmm,VRegToken>
+        public readonly struct Zmm : IRegOpClass<Zmm>, IAsmSigOp<Zmm,VRegToken>
         {
             public VRegToken Token => VRegToken.zmm;
 
@@ -26,8 +26,8 @@ namespace Z0.Asm
                 => RegClassCode.ZMM;
 
             [MethodImpl(Inline)]
-            public static implicit operator reg(zmm src)
-                => new reg(src.Size, src.RegClass);
+            public static implicit operator Reg(Zmm src)
+                => new Reg(src.Size, src.RegClass);
         }
     }
 }

@@ -144,7 +144,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The classifier</param>
         [MethodImpl(Inline)]
-        public static implicit operator BitVector8(Hex8Seq src)
+        public static implicit operator BitVector8(Hex8Kind src)
             => (byte)src;
 
         /// <summary>
@@ -152,8 +152,8 @@ namespace Z0
         /// </summary>
         /// <param name="src">The vector</param>
         [MethodImpl(Inline)]
-        public static implicit operator Hex8Seq(BitVector8 src)
-            => (Hex8Seq)src.Data;
+        public static implicit operator Hex8Kind(BitVector8 src)
+            => (Hex8Kind)src.Data;
 
         /// <summary>
         /// Converts the source vector to the underlying scalar

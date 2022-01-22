@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    using static Hex8Seq;
+    using static Hex8Kind;
     using static NumericBaseKind;
 
     public readonly struct AsmPrefixCodes

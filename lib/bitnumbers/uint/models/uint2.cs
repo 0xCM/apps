@@ -214,7 +214,7 @@ namespace Z0
             => (K)src.data;
 
         [MethodImpl(Inline)]
-        public static implicit operator U(Hex2Seq src)
+        public static implicit operator U(Hex2Kind src)
             => (byte)src;
 
         [MethodImpl(Inline)]
