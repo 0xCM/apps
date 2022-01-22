@@ -24,5 +24,11 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Data;
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOpCodeSpec(AsmOcToken[] src)
+            => new AsmOpCodeSpec(src);
+
+        public static AsmOpCodeSpec Empty => new AsmOpCodeSpec(sys.empty<AsmOcToken>());
     }
 }

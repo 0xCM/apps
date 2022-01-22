@@ -18,12 +18,6 @@ namespace Z0
             Name = name;
         }
 
-        public string Format()
-            => Name ?? EmptyString;
-
-        public override string ToString()
-            => Format();
-
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -35,6 +29,18 @@ namespace Z0
             [MethodImpl(Inline)]
             get => core.nonempty(Name);
         }
+
+        public string Group
+            => Symbols.symgroup(this);
+
+        public string Kind
+            => Symbols.symkind(this);
+
+        public string Format()
+            => Name ?? EmptyString;
+
+        public override string ToString()
+            => Format();
 
         public static SymClass Empty
         {

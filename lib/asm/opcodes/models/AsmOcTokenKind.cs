@@ -34,15 +34,9 @@ namespace Z0.Asm
         Evex,
 
         /// <summary>
-        /// Classifies <see cref='EscapeToken'/> prefix tokens
-        /// </summary>
-        Escape,
-
-        /// <summary>
-        /// <summary>
         /// Classifies <see cref='RexBToken'/> tokens
         /// </summary>
-        RexBExtension,
+        RexB,
 
         /// <summary>
         /// Classifies <see cref='OcExtension'/> tokens

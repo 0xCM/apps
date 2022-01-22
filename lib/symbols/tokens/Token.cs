@@ -14,6 +14,8 @@ namespace Z0
     {
         public readonly SymKey Key;
 
+        public readonly SymClass Class;
+
         public readonly Identifier Type;
 
         public readonly Identifier Name;
@@ -23,9 +25,10 @@ namespace Z0
         public readonly SymVal Value;
 
         [MethodImpl(Inline)]
-        public Token(SymKey key, Identifier type, Identifier name, SymExpr expr, SymVal value)
+        public Token(SymKey key, SymClass @class, Identifier type, Identifier name, SymExpr expr, SymVal value)
         {
             Key = key;
+            Class = @class;
             Type = type;
             Name = name;
             Expr = expr;

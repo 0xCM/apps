@@ -15,9 +15,9 @@ namespace Z0.Asm
     public readonly struct AsmOcToken<K> : IAsmOpCodeToken<K>
         where K : unmanaged
     {
-        public AsmOcTokenKind Kind {get;}
-
         readonly byte _Value;
+
+        public AsmOcTokenKind Kind {get;}
 
         [MethodImpl(Inline)]
         public AsmOcToken(AsmOcTokenKind kind, K value)
@@ -26,11 +26,22 @@ namespace Z0.Asm
             _Value = @as<K,byte>(value);
         }
 
+        [MethodImpl(Inline)]
+        public AsmOcToken(ushort src)
+        {
+            _Value = (byte)src;
+            Kind = (AsmOcTokenKind)(src >> 8);
+        }
+
         public K Value
         {
             [MethodImpl(Inline)]
             get => @as<byte,K>(_Value);
         }
+
+        [MethodImpl(Inline)]
+        public static implicit operator ushort(AsmOcToken<K> src)
+            => core.bw16(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOcToken<K>((AsmOcTokenKind kind, K value) src)

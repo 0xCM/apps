@@ -27,18 +27,18 @@ namespace Z0
                 return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
             }
 
-            outcome += DataParser.parse(skip(cells,j++), out dst.Component);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Type);
-            outcome += parse(skip(cells,j++), out dst.Class);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Position);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Name);
-            outcome += parse(skip(cells,j++), out dst.Symbol);
-            outcome += DataParser.eparse(skip(cells,j++), out dst.DataType);
-            outcome += parse(skip(cells,j++), out dst.Value);
-            outcome += DataParser.eparse(skip(cells,j++), out dst.NumericBase);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Hidden);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Description);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Identity);
+            DataParser.parse(skip(cells,j++), out dst.Component);
+            DataParser.parse(skip(cells,j++), out dst.Type);
+            parse(skip(cells,j++), out dst.Class);
+            DataParser.parse(skip(cells,j++), out dst.Position);
+            DataParser.parse(skip(cells,j++), out dst.Name);
+            parse(skip(cells,j++), out dst.Symbol);
+            DataParser.eparse(skip(cells,j++), out dst.DataType);
+            parse(skip(cells,j++), out dst.Value);
+            DataParser.eparse(skip(cells,j++), out dst.NumericBase);
+            DataParser.parse(skip(cells,j++), out dst.Hidden);
+            DataParser.parse(skip(cells,j++), out dst.Description);
+            DataParser.parse(skip(cells,j++), out dst.Identity);
             return outcome;
         }
 
@@ -60,12 +60,13 @@ namespace Z0
                 return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
             }
 
-            outcome += DataParser.parse(skip(cells,j++), out dst.TokenType);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Index);
-            outcome += parse(skip(cells,j++), out dst.Value);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Name);
-            outcome += parse(skip(cells,j++), out dst.Expr);
-            outcome += DataParser.parse(skip(cells,j++), out dst.Description);
+            DataParser.parse(skip(cells,j++), out dst.TokenType);
+            parse(skip(cells,j++), out dst.TokenClass);
+            DataParser.parse(skip(cells,j++), out dst.Index);
+            parse(skip(cells,j++), out dst.Value);
+            DataParser.parse(skip(cells,j++), out dst.Name);
+            parse(skip(cells,j++), out dst.Expr);
+            DataParser.parse(skip(cells,j++), out dst.Description);
             return outcome;
         }
 

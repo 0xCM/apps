@@ -74,12 +74,6 @@ namespace Z0
             Value = bw64(Kind);
         }
 
-        // public ulong Value
-        // {
-        //     [MethodImpl(Inline)]
-        //     get => bw64(Kind);
-        // }
-
         public Identifier Type
             => typeof(K).Name;
 

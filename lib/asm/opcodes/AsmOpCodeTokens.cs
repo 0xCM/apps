@@ -9,12 +9,24 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static AsmOpCodes;
+
+    using TK = AsmOcTokenKind;
 
     [ApiHost]
     public readonly struct AsmOpCodeTokens
     {
-        const string tokens = "asm.opcodes";
+        const string Group = "asm.opcodes";
+
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static AsmOcToken<K> token<K>(AsmOcTokenKind kind, K value)
+            where K : unmanaged
+                => new AsmOcToken<K>(kind,value);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOcToken token(ushort src)
+            => new AsmOcToken(src);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<Hex8Kind> value(Hex8 value)
@@ -30,7 +42,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<RexBToken> rexb(RexBToken t)
-            => token(AsmOcTokenKind.RexBExtension, t);
+            => token(AsmOcTokenKind.RexB, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<VexToken> vex(VexToken t)
@@ -72,21 +84,7 @@ namespace Z0.Asm
         public static AsmOcToken<OperatorToken> op(OperatorToken t)
             => token(AsmOcTokenKind.Operator, t);
 
-
-        [SymSource(tokens)]
-        public enum EscapeToken : ushort
-        {
-            [Symbol("0F")]
-            x0F = 0x0F,
-
-            [Symbol("0F38")]
-            x0F38 = 0x0F38,
-
-            [Symbol("0F3A")]
-            x0F3A = 0x0F3A,
-        }
-
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Rex)]
         public enum RexToken : byte
         {
             [Symbol("REX", "Indicates the presence of a REX prefix")]
@@ -105,7 +103,7 @@ namespace Z0.Asm
             RexB,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Vex)]
         public enum VexToken : byte
         {
             [Symbol("W", "Opcode extension field")]
@@ -157,7 +155,7 @@ namespace Z0.Asm
             pp,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Evex)]
         public enum EvexToken : byte
         {
             [Symbol("EVEX")]
@@ -188,7 +186,7 @@ namespace Z0.Asm
             W512,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Disp)]
         public enum DispToken : byte
         {
             [Symbol("cb", "Indicates a 1-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
@@ -210,7 +208,7 @@ namespace Z0.Asm
             ct,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.SegOverride)]
         public enum SegOverrideToken : byte
         {
             [Symbol("cs", "CS segment override")]
@@ -232,7 +230,7 @@ namespace Z0.Asm
             GS,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.OcExtension)]
         public enum OpCodeExtension : byte
         {
             [Symbol("/0", "The ModR/M byte of the instruction uses only the r/m operand; The register field digit 0 provides an extension to the instruction's opcode")]
@@ -264,7 +262,7 @@ namespace Z0.Asm
         /// Specifies a '/r' token where r = 0..7. A digit between 0 and 7 indicates that the ModR/M byte of the instruction
         /// uses only the r/m (register or memory) operand. The reg field contains the digit that provides an extension to the instruction's opcode.
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(Group, TK.ModRm)]
         public enum ModRmToken : byte
         {
             [Symbol("/r", "The ModR/M byte of the instruction contains a register operand and an r/m operand")]
@@ -274,7 +272,7 @@ namespace Z0.Asm
         /// <summary>
         /// Indicates the lower 3 bits of the opcode byte is used to encode the register operand without a modR/M byte Represents one of ['+rb', '+rw', '+rd', '+ro']
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(Group, TK.RexB)]
         public enum RexBToken : byte
         {
             [Symbol("+rb", "For an 8-bit register, indicates the four bit field of REX.b and opcode[2:0] field encodes the register operand of the instruction")]
@@ -293,7 +291,7 @@ namespace Z0.Asm
         /// <summary>
         /// "Specifies the size of an immediate operand in the context of an opcode specification"
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(Group, TK.ImmSize)]
         public enum ImmSizeToken : byte
         {
             [Symbol("ib", "Indicates a 1-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
@@ -309,7 +307,7 @@ namespace Z0.Asm
             io,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.FpuDigit)]
         public enum FpuDigitToken : byte
         {
             [Symbol("+0")]
@@ -337,7 +335,7 @@ namespace Z0.Asm
             st7,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Exclusion)]
         public enum ExclusionToken
         {
             [Symbol("NP", "Indicates the use of 66/F2/F3 prefixes are not allowed with the instruction")]
@@ -347,7 +345,7 @@ namespace Z0.Asm
             NFx,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Mask)]
         public enum MaskToken : byte
         {
             [Symbol("{k1}", "Indicates a mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
@@ -360,7 +358,7 @@ namespace Z0.Asm
             WriteMask,
         }
 
-        [SymSource(tokens)]
+        [SymSource(Group, TK.Operator)]
         public enum OperatorToken : byte
         {
             [Symbol("+")]
@@ -370,27 +368,13 @@ namespace Z0.Asm
             Dot,
         }
 
-        public readonly struct ImmSize
+        public sealed class OpCodeTokenSet : TokenSet<OpCodeTokenSet>
         {
-            public ImmSizeToken Token {get;}
+            public override string Name
+                => "asm.opcodes";
 
-            [MethodImpl(Inline)]
-            public ImmSize(ImmSizeToken src)
-            {
-                Token = src;
-            }
-
-            [MethodImpl(Inline)]
-            public static implicit operator ImmSize(ImmSizeToken src)
-                => new ImmSize(src);
-
-            [MethodImpl(Inline)]
-            public static implicit operator ImmSizeToken(ImmSize src)
-                => src.Token;
-
-            [MethodImpl(Inline)]
-            public static explicit operator byte(ImmSize src)
-                => (byte)src.Token;
+            public override Type[] Types()
+                => typeof(AsmOpCodeTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
         }
     }
 }

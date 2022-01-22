@@ -22,7 +22,7 @@ namespace Z0
             dst.Name = src.Name;
             dst.DataType = type;
             dst.Flags = src.Tag<FlagsAttribute>().IsSome();
-            dst.SymbolKind = src.Tag<SymSourceAttribute>().MapValueOrElse(x => x.SymKind, () => EmptyString);
+            dst.SymbolKind = src.Tag<SymSourceAttribute>().MapValueOrElse(x => x.SymGroup, () => EmptyString);
             for(var i=0; i<count; i++)
             {
                 ref readonly var sec = ref specs[i];

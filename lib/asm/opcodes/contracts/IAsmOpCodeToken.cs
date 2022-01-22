@@ -19,14 +19,4 @@ namespace Z0.Asm
         byte IAsmOpCodeToken.Value
             => core.bw8(Value);
     }
-
-    public interface IAsmOpCodeToken<T,V> : IAsmOpCodeToken
-        where V : unmanaged
-        where T : unmanaged, IAsmOpCodeToken<T,V>
-    {
-        new V Value {get;}
-
-        byte IAsmOpCodeToken.Value
-            => core.bw8(Value);
-    }
 }

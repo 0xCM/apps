@@ -27,6 +27,7 @@ namespace Z0
                     var tag = type.Tag<SymSourceAttribute>();
                     var nbk = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
                     record.TokenType = type.Name;
+                    record.TokenClass = symbol.Class;
                     record.Index = j;
                     record.Value = (symbol.Value,nbk);
                     record.Name = symbol.Name;
@@ -52,6 +53,7 @@ namespace Z0
                 ref readonly var symbol = ref skip(symbols,i);
                 ref var record = ref seek(dst,i);
                 record.TokenType = src.Name;
+                record.TokenClass = symbol.Class;
                 record.Index = i;
                 record.Value = (symbol.Value, nbk);
                 record.Name =  symbol.Name;

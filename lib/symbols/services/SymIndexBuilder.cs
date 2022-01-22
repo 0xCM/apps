@@ -168,7 +168,7 @@ namespace Z0
             var count = fields.Length;
             var dst = span<SymLiteral<E>>(count);
             var kind = PrimalBits.kind(src);
-            var klass = Symbols.@class(typeof(E));
+            var @class = Symbols.@class(typeof(E));
             var counter = 0u;
             for(var i=z16; i<count; i++)
             {
@@ -180,7 +180,7 @@ namespace Z0
                 row.Component = component;
                 row.Type = src.Name;
                 row.DataType = kind;
-                row.Class = klass;
+                row.Class = @class;
                 row.Position = i;
                 row.Name = f.Name;
                 row.Symbol = (litval,expr);
@@ -201,7 +201,7 @@ namespace Z0
             var count = fields.Length;
             var dst = span<SymLiteral>(count);
             var kind = PrimalBits.kind(src);
-            var klass = Symbols.@class(src);
+            var @class = Symbols.@class(src);
             var counter = 0u;
             for(var i=z16; i<count; i++)
             {
@@ -213,7 +213,7 @@ namespace Z0
                 row.Component = component;
                 row.Type = src.Name;
                 row.DataType = kind;
-                row.Class = klass;
+                row.Class = @class;
                 row.Position = i;
                 row.Name = f.Name;
                 row.Symbol = expr;

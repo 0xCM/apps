@@ -13,15 +13,30 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Size=2)]
     public readonly struct AsmOcToken : IAsmOpCodeToken
     {
-        public AsmOcTokenKind Kind {get;}
-
         public byte Value {get;}
+
+        public AsmOcTokenKind Kind {get;}
 
         [MethodImpl(Inline)]
         public AsmOcToken(AsmOcTokenKind kind, byte value)
         {
-            Kind = kind;
             Value = value;
+            Kind = kind;
         }
+
+        [MethodImpl(Inline)]
+        public AsmOcToken(ushort src)
+        {
+            Value = (byte)src;
+            Kind = (AsmOcTokenKind)(src >> 8);
+        }
+
+        [MethodImpl(Inline)]
+        public static implicit operator ushort(AsmOcToken src)
+            => core.bw16(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOcToken(ushort src)
+            => new AsmOcToken(src);
     }
 }

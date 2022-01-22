@@ -12,9 +12,11 @@ namespace Z0
     {
         public const string TableId = "tokens";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 7;
 
         public Identifier TokenType;
+
+        public SymClass TokenClass;
 
         public uint Index;
 
@@ -27,6 +29,6 @@ namespace Z0
         public TextBlock Description;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24,8,16,64,64,64};
+            => new byte[FieldCount]{24,32,8,16,32,32,1};
     }
 }

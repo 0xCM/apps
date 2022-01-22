@@ -8,23 +8,23 @@ namespace Z0.Asm
 
     public class AsmTokens : AppService<AsmTokens>
     {
-        OpCodes _OpCodes;
+        AsmOpCodeTokens.OpCodeTokenSet _OpCodes;
 
-        Sigs _Sigs;
+        AsmSigModels.SigTokenSet _Sigs;
 
-        Regs _Regs;
+        AsmRegTokens.RegTokenSet _Regs;
 
-        Conditions _Conditions;
+        ConditionCodes.ConditionTokenSet _Conditions;
 
-        Prefixes _Prefixes;
+        AsmPrefixCodes.PrefixTokenSet _Prefixes;
 
         public AsmTokens()
         {
-            _OpCodes = OpCodes.create();
-            _Sigs = Sigs.create();
-            _Regs = Regs.create();
-            _Conditions = Conditions.create();
-            _Prefixes = Prefixes.create();
+            _OpCodes = AsmOpCodeTokens.OpCodeTokenSet.create();
+            _Sigs = AsmSigModels.SigTokenSet.create();
+            _Regs = AsmRegTokens.RegTokenSet.create();
+            _Conditions = ConditionCodes.ConditionTokenSet.create();
+            _Prefixes = AsmPrefixCodes.PrefixTokenSet.create();
         }
 
         public ITokenSet OpCodeTokens()
@@ -41,50 +41,5 @@ namespace Z0.Asm
 
         public ITokenSet PrefixTokens()
             => _Prefixes;
-
-        public sealed class OpCodes : TokenSet<OpCodes>
-        {
-            public override string Name
-                => "asm.opcodes";
-
-            public override Type[] Types()
-                => typeof(AsmOpCodeTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-        }
-
-        public sealed class Sigs : TokenSet<Sigs>
-        {
-            public override string Name
-                => "asm.sigs";
-
-            public override Type[] Types()
-                => typeof(AsmSigModels).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-        }
-
-        public sealed class Prefixes : TokenSet<Prefixes>
-        {
-            public override string Name
-                => "asm.prefixes";
-
-            public override Type[] Types()
-                => typeof(AsmPrefixCodes).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-        }
-
-        public sealed class Regs : TokenSet<Regs>
-        {
-            public override string Name
-                => "asm.regs";
-
-            public override Type[] Types()
-                => typeof(AsmRegTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-        }
-
-        public sealed class Conditions : TokenSet<Conditions>
-        {
-            public override string Name
-                => "asm.cc";
-
-            public override Type[] Types()
-                => typeof(ConditionCodes).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-        }
     }
 }

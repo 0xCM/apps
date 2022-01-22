@@ -22,6 +22,10 @@ namespace Z0.Asm
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
+        public static AsmOpCodeSpec define(params AsmOcToken[] src)
+            => new AsmOpCodeSpec(src);
+
+        [MethodImpl(Inline), Op]
         public static AsmOpCodeBits bits()
             => default;
 
@@ -87,11 +91,8 @@ namespace Z0.Asm
             kseek(dst, K.Evex).Left = K.Evex;
             kseek(dst, K.Evex).Right = P.P2ᐞ04;
 
-            kseek(dst, K.Escape).Left = K.Escape;
-            kseek(dst, K.Escape).Right = P.P2ᐞ05;
-
-            kseek(dst, K.RexBExtension).Left = K.RexBExtension;
-            kseek(dst, K.RexBExtension).Right = P.P2ᐞ06;
+            kseek(dst, K.RexB).Left = K.RexB;
+            kseek(dst, K.RexB).Right = P.P2ᐞ06;
 
             kseek(dst, K.OcExtension).Left = K.OcExtension;
             kseek(dst, K.OcExtension).Right = P.P2ᐞ07;

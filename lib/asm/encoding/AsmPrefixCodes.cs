@@ -16,9 +16,9 @@ namespace Z0.Asm
     {
         public static RexPrefixCode RexW => RexPrefixCode.W;
 
-        const string tokens = "asm.prefixes";
+        const string HostName = "asm.prefixes";
 
-        [SymSource(tokens)]
+        [SymSource(HostName)]
         public enum VsibField : byte
         {
             /// <summary>
@@ -43,7 +43,7 @@ namespace Z0.Asm
         /// <summary>
         /// Specifies the RXB segment of the 3-byte C4 vex prefix or the R bit of the 2-byte C5 vex prefix
         /// </summary>
-        [SymSource(tokens,NumericBaseKind.Base2), DataWidth(3)]
+        [SymSource(HostName,NumericBaseKind.Base2), DataWidth(3)]
         public enum VexRXB : byte
         {
             /// <summary>
@@ -98,7 +98,7 @@ namespace Z0.Asm
         /// <summary>
         /// Specifies an opcode extension providing equivalent functionality of a SIMD prefix and specifies the encoding of the 'pp' field, Vol. 2A 2-15
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(HostName)]
         public enum VexOpCodeExtension : byte
         {
             None = 0,
@@ -116,7 +116,7 @@ namespace Z0.Asm
         /// <summary>
         /// Specifies a vector length in the context of the VEX encoding scheme, Vol. 2A 2-15
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(HostName)]
         public enum VexLengthCode : byte
         {
             [Symbol("L0", "Specifies a vector length of 128 in the contex of the VEX encoding scheme")]
@@ -129,7 +129,7 @@ namespace Z0.Asm
         /// <summary>
         /// Specifies field bits m-mmmmm in the context of the VEX encoding scheme, Vol. 2A 2-15
         /// </summary>
-        [SymSource(tokens,NumericBaseKind.Base2), DataWidth(2)]
+        [SymSource(HostName,NumericBaseKind.Base2), DataWidth(2)]
         public enum VexM : byte
         {
             None = 0b0,
@@ -144,7 +144,7 @@ namespace Z0.Asm
             V0F3A = 0b11,
         }
 
-        [SymSource(tokens, NumericBaseKind.Base16)]
+        [SymSource(HostName, NumericBaseKind.Base16)]
         public enum VexPrefixCode
         {
             [Symbol("C4", "Indicates a VEX prefix begins with 0xC4 and is 3 bytes in length")]
@@ -154,7 +154,7 @@ namespace Z0.Asm
             C5 = 0xC5,
         }
 
-        [SymSource(tokens)]
+        [SymSource(HostName)]
         public enum EvexWidthCode
         {
             [Symbol("V128", "VL=0")]
@@ -167,7 +167,7 @@ namespace Z0.Asm
             V512 = VectorWidthCode.V512,
         }
 
-        [SymSource(tokens)]
+        [SymSource(HostName)]
         public enum VectorWidthCode : byte
         {
             [Symbol("V128", "VL=0")]
@@ -183,7 +183,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines REX field identifiers
         /// </summary>
-        [SymSource(tokens)]
+        [SymSource(HostName)]
         public enum RexFieldIndex : byte
         {
             [Symbol("b")]
@@ -202,14 +202,14 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the lock prefix code
         /// </summary>
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum LockPrefixCode : byte
         {
             [Symbol("F0", "Lock Prefix")]
             LOCK = 0xF0,
         }
 
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum BranchHintCode : byte
         {
             /// <summary>
@@ -225,7 +225,7 @@ namespace Z0.Asm
             BNT = 0x3e,
         }
 
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum SizeOverrideCode
         {
             None = 0,
@@ -254,7 +254,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines the mandatory prefix codes as specified by Intel Vol II, 2.1.2
         /// </summary>
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum MandatoryPrefixCode : byte
         {
             [Symbol("66")]
@@ -267,7 +267,7 @@ namespace Z0.Asm
             F3 = 0xF3,
         }
 
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum BndPrefixCode : byte
         {
             [Symbol("BND")]
@@ -277,7 +277,7 @@ namespace Z0.Asm
         /// <summary>
         /// The segment override codes as specified by Intel Vol II, 2.1.1
         /// </summary>
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum SegOverrideCode : byte
         {
             [Symbol("cs", "CS segment override")]
@@ -302,7 +302,7 @@ namespace Z0.Asm
         /// <summary>
         /// Classfies vex prefix codes
         /// </summary>
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum VexPrefixKind : byte
         {
             [Symbol("C4", "The leading byte of a 3-byte vex prefix sequence")]
@@ -316,7 +316,7 @@ namespace Z0.Asm
         /// [0100 0001] | W:0 | R:0 | X:0 | B:1
         /// </summary>
         [Flags]
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum RexPrefixCode : byte
         {
             /// <summary>
@@ -353,7 +353,7 @@ namespace Z0.Asm
             W = 0x48,
         }
 
-        [SymSource(tokens, Base16)]
+        [SymSource(HostName, Base16)]
         public enum RepPrefixCode : byte
         {
             [Symbol("F2")]
@@ -361,6 +361,15 @@ namespace Z0.Asm
 
             [Symbol("F3")]
             REPZ = 0xf3,
+        }
+
+        public sealed class PrefixTokenSet : TokenSet<PrefixTokenSet>
+        {
+            public override string Name
+                => "asm.prefixes";
+
+            public override Type[] Types()
+                => typeof(AsmPrefixCodes).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
         }
     }
 }
