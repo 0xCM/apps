@@ -31,7 +31,6 @@ namespace Z0.Asm
 
         const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
 
-
         [Op]
         public static string thumbprint(in AsmEncodingInfo src)
         {

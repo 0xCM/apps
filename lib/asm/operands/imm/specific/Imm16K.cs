@@ -71,5 +71,8 @@ namespace Z0
         public static implicit operator ushort(imm16<K> src)
             => src.AsPrimitive();
 
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(imm16<K> src)
+            => new Imm(src.ImmKind, src.AsPrimitive());
     }
 }

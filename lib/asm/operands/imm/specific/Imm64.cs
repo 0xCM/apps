@@ -13,6 +13,7 @@ namespace Z0
 
     using W = W64;
     using I = imm64;
+    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines a 64-bit immediate value
@@ -61,10 +62,6 @@ namespace Z0
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
         public uint Hash
         {
             [MethodImpl(Inline)]
@@ -76,7 +73,7 @@ namespace Z0
             => (int)Hash;
 
         public string Format()
-            => HexFormatter.format(Value, W, true);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -139,5 +136,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator I(MemoryAddress src)
             => new I(src);
-    }
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(I src)
+            => new Imm(src.ImmKind, src.Value);
+   }
 }

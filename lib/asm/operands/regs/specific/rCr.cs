@@ -92,6 +92,10 @@ namespace Z0.Asm.Operands
             => new((I)src.Kind);
 
         [MethodImpl(Inline)]
+        public static implicit operator G(RegKind src)
+            => new G(asm.index(src));
+
+        [MethodImpl(Inline)]
         public static G operator ++(G src)
             => api.next(src);
 

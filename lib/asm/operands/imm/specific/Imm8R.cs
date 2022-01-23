@@ -12,6 +12,7 @@ namespace Z0
     using static Root;
 
     using W = W8;
+    using I = imm8R;
 
     /// <summary>
     /// Describes an 8-bit immediate that is potentially refined
@@ -44,6 +45,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator byte(imm8R imm8)
             => imm8.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(I src)
+            => new Imm(src.ImmKind, src.Value);
 
        public static W W => default;
     }

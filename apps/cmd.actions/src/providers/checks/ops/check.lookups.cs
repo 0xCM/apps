@@ -41,32 +41,6 @@ namespace Z0
 
     partial class CheckCmdProvider
     {
-        [CmdOp("check/ocparser")]
-        Outcome CheckOpCodeParser(CmdArgs args)
-        {
-            var outcome = Outcome.Success;
-            var parser = Wf.AsmOpCodeParser();
-            var matches = parser.Matches;
-            var count = matches.Length;
-            var buffer = alloc<ParseTableEntry>(count);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var match = ref skip(matches,i);
-                ref var dst = ref seek(buffer,i);
-                dst.KindName = match.Value.Kind.ToString();
-                dst.KindSeq = (byte)match.Value.Kind;
-                dst.Expr = match.Key;
-                dst.ExprSeq = match.Value.Value;
-            }
-
-            buffer.Sort();
-            for(var i=0u; i<count; i++)
-                seek(buffer,i).Seq = i;
-
-            iter(buffer, m => Write(string.Format("{0} -> {1}[{2}:{3}]", m.Expr, m.KindName, m.KindSeq, m.ExprSeq)));
-            return true;
-        }
-
         [CmdOp("check/lookups")]
         Outcome TestKeys(CmdArgs args)
         {

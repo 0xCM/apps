@@ -10,20 +10,20 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    public readonly struct AsmOpCodeSpec
+    public struct AsmOcSpec
     {
-        const byte Capacity = 15;
+        public const byte TokenCapacity = 15;
 
-        readonly Cell256 Data;
+        Cell256 Data;
 
         [MethodImpl(Inline)]
-        public AsmOpCodeSpec(ReadOnlySpan<AsmOcToken> tokens)
+        public AsmOcSpec(ReadOnlySpan<AsmOcToken> tokens)
         {
             Data = first(recover<AsmOcToken,Cell256>(tokens));
 
             var _tokens = Tokens();
             var counter = z8;
-            for(var i=0; i<Capacity; i++)
+            for(var i=0; i<TokenCapacity; i++)
             {
                 if(skip(_tokens,i) != 0)
                     counter++;
@@ -31,35 +31,41 @@ namespace Z0.Asm
                     break;
             }
 
-            seek(_tokens,Capacity-1) = counter;
+            TokenCount = counter;
         }
 
         [MethodImpl(Inline)]
         Span<AsmOcToken> Tokens()
             => recover<AsmOcToken>(Data.Bytes);
 
-        public byte TokenCount
+        public ref ushort TokenCount
         {
             [MethodImpl(Inline)]
-            get => (byte)this[Capacity-1];
+            get => ref seek(recover<ushort>(Data.Bytes), TokenCapacity-1);
         }
 
-        public ref readonly AsmOcToken this[uint i]
+        public ref AsmOcToken this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref skip(Tokens(),i);
+            get => ref seek(Tokens(),i);
         }
 
-        public ref readonly AsmOcToken this[int i]
+        public ref AsmOcToken this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref skip(Tokens(),i);
+            get => ref seek(Tokens(),i);
         }
+
+        public string Format()
+            => AsmOcSpecs.format(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOpCodeSpec(AsmOcToken[] src)
-            => new AsmOpCodeSpec(src);
+        public static implicit operator AsmOcSpec(AsmOcToken[] src)
+            => new AsmOcSpec(src);
 
-        public static AsmOpCodeSpec Empty => new AsmOpCodeSpec(sys.empty<AsmOcToken>());
+        public static AsmOcSpec Empty => new AsmOcSpec(sys.empty<AsmOcToken>());
     }
 }

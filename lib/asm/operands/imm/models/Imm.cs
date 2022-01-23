@@ -6,12 +6,13 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
     using Asm;
 
-    [DataType("imm")]
+    [DataType("imm"), StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Imm : IImm<Imm,ulong>
     {
         public ulong Value {get;}
@@ -30,13 +31,6 @@ namespace Z0
         {
             ImmKind = kind;
             Value = (ulong)src;
-        }
-
-        [MethodImpl(Inline)]
-        public Imm(IImm src)
-        {
-            ImmKind = src.ImmKind;
-            Value = src.Value;
         }
 
         public ImmBitWidth Width
@@ -110,6 +104,10 @@ namespace Z0
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Imm src)
+            => new AsmOperand(src);
 
         public static Imm Empty => default;
     }

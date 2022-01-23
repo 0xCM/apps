@@ -7,12 +7,11 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using Asm;
-
     using static Root;
 
     using W = W32;
     using I = imm32;
+    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines a 32-bit immediate value
@@ -36,13 +35,8 @@ namespace Z0
         public ImmKind ImmKind
             => ImmKind.Imm32;
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
-
         public string Format()
-            => HexFormatter.format(Value, W, true);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -106,6 +100,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator I(uint src)
             => new I(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(I src)
+            => new Imm(src.ImmKind, src.Value);
+
         public static W W => default;
     }
 }

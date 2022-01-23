@@ -9,10 +9,9 @@ namespace Z0
 
     using static Root;
 
-    using Asm;
-
     using W = W16;
     using I = imm16;
+    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines a 16-bit immediate value
@@ -37,13 +36,8 @@ namespace Z0
 
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
-
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
         public string Format()
-            => HexFormatter.format(Value, W, true);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -101,11 +95,16 @@ namespace Z0
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(imm16 src)
+        public static implicit operator Imm<ushort>(I src)
             => new Imm<ushort>(src);
 
         [MethodImpl(Inline)]
         public static implicit operator I(ushort src)
             => new I(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(I src)
+            => new Imm(src.ImmKind, src.Value);
+
      }
 }

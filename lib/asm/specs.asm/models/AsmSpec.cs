@@ -15,10 +15,16 @@ namespace Z0.Asm
     {
         public AsmMnemonic Mnemonic;
 
-        public AsmOpCodeSpec OpCode;
+        public AsmOcSpec OpCode;
 
         public AsmOperands Operands;
 
         public static AsmSpec Empty => default;
+
+        public string Format()
+            => AsmSpecs.format(this);
+
+        public override string ToString()
+            => Format();
     }
 }

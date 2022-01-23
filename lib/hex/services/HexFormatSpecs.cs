@@ -153,6 +153,10 @@ namespace Z0
 
         public const string SmallHexSpec = "x4";
 
+        public const string HexSpec = "x";
+
+        public const string HexSpecU = "X";
+
         /// <summary>
         /// Lowercase format specifier for a segment of width <see cref="Hex4Width"/>
         /// </summary>
@@ -345,12 +349,72 @@ namespace Z0
         public static char CaseSpec(bool upper)
             => upper ? 'X' : 'x';
 
+        [MethodImpl(Inline)]
+        public static string CaseSpec(LetterCaseKind @case)
+            => @case == LetterCaseKind.Upper ? "X" : "x";
+
         /// <summary>
         /// Removes leading or trailing hex specifiers
         /// </summary>
         /// <param name="src">The source string</param>
         public static string ClearSpecs(string src)
             => src.Remove("0x").RemoveAny('h');
+
+        public static string spec(W8 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex8SpecUC : Hex8Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W8i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w8, pad, @case);
+
+        public static string spec(W16 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex16SpecUC : Hex16Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W16i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w16, pad, @case);
+
+        public static string spec(W32 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex32SpecUC : Hex32Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W32i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w32, pad, @case);
+
+        public static string spec(W64 w, HexPadStyle pad, LetterCaseKind @case)
+        {
+            if(pad == HexPadStyle.Zero)
+                return @case == LetterCaseKind.Upper ? Hex64SpecUC : Hex64Spec;
+            else
+                 return CaseSpec(@case);
+        }
+
+        public static string spec(W64i w, HexPadStyle pad, LetterCaseKind @case)
+            => spec(w64, pad, @case);
+
+        public static string spec(W8 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex8Spec) : digits.Map(n => $"X{n}", () => Hex8SpecUC);
+
+        public static string spec(W16 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex16Spec) : digits.Map(n => $"X{n}", () => Hex16SpecUC);
+
+        public static string spec(W32 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex32Spec) : digits.Map(n => $"X{n}", () => Hex32SpecUC);
+
+        public static string spec(W64 w, LetterCaseKind @case, int? digits)
+            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => "x") : digits.Map(n => $"X{n}", () => "X");
 
         public static ReadOnlySpan<char> ClearSpecs(ReadOnlySpan<char> src)
             => ClearSpecs(text.format(src));

@@ -18,7 +18,6 @@ namespace Z0.Asm
         /// </summary>
         Hex8,
 
-
         WordLiteral,
 
         /// <summary>

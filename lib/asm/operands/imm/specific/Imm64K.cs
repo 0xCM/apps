@@ -7,8 +7,6 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using Asm;
-
     using static Root;
     using static core;
 
@@ -61,6 +59,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator imm64<K>(K src)
             => new imm64<K>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(imm64<K> src)
+            => new Imm(src.ImmKind, src.AsPrimitive());
 
         public static W W => default;
     }

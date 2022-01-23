@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static partial class XSvc
     {
+        [Op]
+        public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
+            => Asm.AsmOpCodes.create(context);
 
         [Op]
         public static ApiResolver ApiResolver(this IWfRuntime wf)
@@ -57,10 +60,6 @@ namespace Z0
         [Op]
         public static CharMapper CharMapper(this IServiceContext context)
             => Z0.CharMapper.create(context);
-
-        [Op]
-        public static AsmOpCodeParser AsmOpCodeParser(this IServiceContext context)
-            => Asm.AsmOpCodeParser.create(context);
 
         [Op]
         public static Symbolism Symbolism(this IWfRuntime wf)

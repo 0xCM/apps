@@ -12,7 +12,7 @@ namespace Z0
     using W = W8;
     using I = imm8;
 
-    using Asm;
+    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines an 8-bit immediate value
@@ -64,12 +64,8 @@ namespace Z0
             get => Value;
         }
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
         public string Format()
-            => HexFormatter.format(Value, W, true);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -127,6 +123,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator I(byte src)
             => new I(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(I src)
+            => new Imm(src.ImmKind, src.Value);
 
         public static W W => default;
     }

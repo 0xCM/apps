@@ -13,7 +13,17 @@ namespace Z0
     using static core;
     using static HexFormatSpecs;
 
+
     using SK = HexSpecKind;
+
+    public enum HexPadStyle : byte
+    {
+        Unpadded,
+
+        Zero,
+
+        Byte,
+    }
 
     [ApiHost]
     public readonly struct HexFormatter
@@ -283,6 +293,54 @@ namespace Z0
              + (postspec ? PostSpec : EmptyString);
 
         [Op]
+        public static string format(W8 w, byte src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W8i w, sbyte src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W16 w, ushort src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W16i w, short src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W32 w, uint src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W32i w, int src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w,pad,@case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W64 w, ulong src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W64i w, long src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + src.ToString(spec(w, pad, @case))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
         public static string asmhex(sbyte src, int? digits = null)
             => digits.Map(n => src.ToString($"x{n}"), () => src.ToString(Hex8Spec)) + PostSpec;
 
@@ -313,18 +371,6 @@ namespace Z0
         [Op]
         public static string asmhex(long src, int? digits = null)
             => digits.Map(n => src.ToString($"x{n}"), () => src.ToString("x")) + PostSpec;
-
-        static string spec(W8 w, LetterCaseKind @case, int? digits)
-            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex8Spec) : digits.Map(n => $"X{n}", () => Hex8SpecUC);
-
-        static string spec(W16 w, LetterCaseKind @case, int? digits)
-            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex16Spec) : digits.Map(n => $"X{n}", () => Hex16SpecUC);
-
-        static string spec(W32 w, LetterCaseKind @case, int? digits)
-            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => Hex32Spec) : digits.Map(n => $"X{n}", () => Hex32SpecUC);
-
-        static string spec(W64 w, LetterCaseKind @case, int? digits)
-            => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => "x") : digits.Map(n => $"X{n}", () => "X");
 
         [Op]
         public static string format8u(byte src, int? digits = null, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)

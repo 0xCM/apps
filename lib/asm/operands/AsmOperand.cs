@@ -24,7 +24,7 @@ namespace Z0.Asm
 
         public readonly NativeSize Size;
 
-        B _Data {get;}
+        B _Data;
 
         [MethodImpl(Inline)]
         internal AsmOperand(MemOp src)
@@ -46,11 +46,22 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
+        internal AsmOperand(Imm src)
+        {
+            OpClass = AsmOpClass.Imm;
+            Size = src.Size;
+            _Data = B.Empty;
+            @as<B,Imm>(_Data) = src;
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.Imm | ((ushort)src.Size.Code << 8));
+        }
+
+        [MethodImpl(Inline)]
         internal AsmOperand(imm8 src)
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W8;
-            _Data = (byte)src;
+            _Data = B.Empty;
+            @as<B,imm8>(_Data) = src;
             OpKind = AsmOpKind.Imm8;
         }
 
@@ -59,7 +70,8 @@ namespace Z0.Asm
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W16;
-            _Data = (ushort)src;
+            _Data = B.Empty;
+            @as<B,imm16>(_Data) = src;
             OpKind = AsmOpKind.Imm16;
         }
 
@@ -68,7 +80,8 @@ namespace Z0.Asm
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W32;
-            _Data = (uint)src;
+            _Data = B.Empty;
+            @as<B,imm32>(_Data) = src;
             OpKind = AsmOpKind.Imm32;
         }
 
@@ -77,7 +90,8 @@ namespace Z0.Asm
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W64;
-            _Data = (ulong)src;
+            _Data = B.Empty;
+            @as<B,imm64>(_Data) = src;
             OpKind = AsmOpKind.Imm64;
         }
 
@@ -378,6 +392,12 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get  => ref first(recover<imm64>(Data));
         }
+
+        public string Format()
+            => AsmSpecs.format(this);
+
+        public override string ToString()
+            => Format();
 
         AsmOpClass IAsmOp.OpClass
             => OpClass;

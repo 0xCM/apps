@@ -128,5 +128,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Imm<T>(ulong src)
             => new Imm<T>(force<ulong,T>(src));
+
+        [MethodImpl(Inline)]
+        public static implicit operator Imm(Imm<T> src)
+            => new Imm(src.ImmKind, bw64(src.Value));
     }
 }
