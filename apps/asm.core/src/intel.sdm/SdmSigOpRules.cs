@@ -14,6 +14,8 @@ namespace Z0.Asm
 
         Productions ExpansionRules;
 
+        IntelSdmPaths SdmPaths => Service(Wf.SdmPaths);
+
         public SdmSigOpRules()
         {
 
@@ -26,11 +28,11 @@ namespace Z0.Asm
 
         void LoadRules()
         {
-            DecompRules = Rules.productions(ProjectDb.Settings("asm.sigs.decomp", FS.ext("map")));
-            ExpansionRules = Rules.productions(ProjectDb.Settings("asm.sigs.expansions", FS.ext("map")));
+            DecompRules = Rules.productions(SdmPaths.SigDecompRules());
+            ExpansionRules = Rules.productions(SdmPaths.SigExpansionRules());
         }
 
-        public Index<AsmSigOpCode> DecomposeSigs(ReadOnlySpan<SdmSigOpCode> codes)
+        public Index<AsmSigOpCode> DecomposeSigs(ReadOnlySpan<AsmForm> codes)
         {
             var records = list<AsmSigOpCode>();
             var count = codes.Length;
@@ -80,7 +82,7 @@ namespace Z0.Asm
             return records.ToArray();
         }
 
-        Index<SdmSigOpCode> Decompose(in SdmSigOpCode entry)
+        Index<AsmForm> Decompose(in AsmForm entry)
         {
             var opcount = entry.Sig.Operands().Length;
             var sigops = ExprSets(entry);
@@ -88,21 +90,21 @@ namespace Z0.Asm
             for(byte j=0; j<opcount; j++)
                 sigbase = sigbase.WithOperand(j, sigops[j].Expressions.First);
 
-            var buffer = hashset<SdmSigOpCode>();
+            var buffer = hashset<AsmForm>();
             for(byte j=0; j<opcount; j++)
             {
                 var dstops = sigops[j].Expressions;
                 for(var k=0; k<dstops.Count; k++)
                 {
                     ref readonly var dstop = ref dstops[k];
-                    buffer.Add(new SdmSigOpCode(sigbase.WithOperand(j, dstop), entry.OpCode));
+                    buffer.Add(new AsmForm(sigbase.WithOperand(j, dstop), entry.OpCode));
                 }
             }
 
             return buffer.Array().Sort();
         }
 
-        AsmSigOpExprSets ExprSets(in SdmSigOpCode entry)
+        AsmSigOpExprSets ExprSets(in AsmForm entry)
         {
             var dst = new AsmSigOpExprSets();
             ref readonly var sig = ref entry.Sig;

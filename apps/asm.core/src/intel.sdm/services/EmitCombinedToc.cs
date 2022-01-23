@@ -16,7 +16,7 @@ namespace Z0.Asm
                 return (false, "Found no toc's to combine");
 
             var encoding = pair(TextEncodingKind.Unicode, TextEncodingKind.Unicode);
-            var dst = SdmPaths.TocImportPath();
+            var dst = SdmPaths.TocImportDoc();
             var count = src.Length;
             for(var i=0; i<count; i++)
             {

@@ -46,9 +46,13 @@ namespace Z0
         public static XedTypes XedTypeProvider(this IWfRuntime wf)
             => Z0.XedTypes.create(wf);
 
-       [Op]
+        [Op]
         public static XedPaths XedPaths(this IWfRuntime wf)
             => Z0.XedPaths.create(wf);
+
+        [Op]
+        public static IntelSdmPaths SdmPaths(this IWfRuntime wf)
+            => Asm.IntelSdmPaths.create(wf);
 
         [Op]
         public static NasmCatalog NasmCatalog(this IWfRuntime wf)

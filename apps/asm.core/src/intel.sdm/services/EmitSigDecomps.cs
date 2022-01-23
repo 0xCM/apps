@@ -7,9 +7,6 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         void EmitSigDecomps(Index<SdmOpCodeDetail> details)
-        {
-            var opcodes = details.Select(x => SdmOps.sigoc(x));
-            TableEmit(SigOpRules.DecomposeSigs(opcodes).View, AsmSigOpCode.RenderWidths, ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed"));
-        }
+            => TableEmit(SigOpRules.DecomposeSigs(details.Select(x => SdmOps.form(x))).View, AsmSigOpCode.RenderWidths, SdmPaths.SigDecompTable());
     }
 }

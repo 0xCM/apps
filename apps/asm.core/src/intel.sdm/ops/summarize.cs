@@ -10,13 +10,13 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
-        public static Index<SdmSigOpCode> summarize(ReadOnlySpan<SdmOpCodeDetail> src)
+        public static Index<AsmForm> summarize(ReadOnlySpan<SdmOpCodeDetail> src)
         {
             var count = src.Length;
-            var buffer = alloc<SdmSigOpCode>(count);
+            var buffer = alloc<AsmForm>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
-                seek(dst,i) = sigoc(skip(src,i));
+                seek(dst,i) = form(skip(src,i));
             return buffer;
         }
     }

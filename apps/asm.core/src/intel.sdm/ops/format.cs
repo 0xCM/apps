@@ -7,7 +7,7 @@ namespace Z0.Asm
     partial struct SdmOps
     {
         [Op]
-        public static string format(in SdmSigOpCode src)
+        public static string format(in AsmForm src)
         {
             var mnemonic = src.Sig.Mnemonic.Format(MnemonicCase.Lowercase);
             if(src.Sig.OperandCount == 0)

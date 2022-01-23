@@ -8,9 +8,6 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<SdmSigOpCode> LoadImportedSigOpCodes()
-            => LoadImportedOpcodeDetails().Select(x => SdmOps.sigoc(x));
-
         public Index<SdmOpCodeDetail> LoadImportedOpcodeDetails()
         {
             return Data(nameof(LoadImportedOpcodeDetails), Load);

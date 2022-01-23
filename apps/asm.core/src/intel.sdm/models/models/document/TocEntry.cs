@@ -15,7 +15,7 @@ namespace Z0.Asm
         [StructLayout(LayoutKind.Sequential, Pack =1), Record(TableId)]
         public struct TocEntry : IRecord<TocEntry>
         {
-            public const string TableId ="intel.sdm.toc-entries";
+            public const string TableId ="intel.sdm.toc.entries";
 
             public const byte FieldCount = 4;
 

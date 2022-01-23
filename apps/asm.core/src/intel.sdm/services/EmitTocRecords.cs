@@ -12,8 +12,7 @@ namespace Z0.Asm
         public Outcome EmitTocRecords()
         {
             var result = Outcome.Success;
-            var flow = Running();
-            var src = SdmPaths.TocImportPath();
+            var src = SdmPaths.TocImportDoc();
             if(!src.Exists)
             {
                 result = (false,FS.missing(src));
@@ -82,8 +81,7 @@ namespace Z0.Asm
 
             if(result.Ok)
             {
-                var rowcount = TableEmit(entries.ViewDeposited(), TocEntry.RenderWidths, SdmPaths.TocEntryTable());
-                Ran(flow, string.Format("Collected {0} toc entries", rowcount));
+                TableEmit(entries.ViewDeposited(), TocEntry.RenderWidths, encoding, SdmPaths.TocImportTable());
             }
             return result;
         }

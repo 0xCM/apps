@@ -20,7 +20,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var record = ref skip(src,i);
-                seek(dst,i) = asm.form(sig(record), sigoc(record).OpCode);
+                seek(dst,i) = asm.form(sig(record), record.OpCode);
             }
             return buffer;
         }

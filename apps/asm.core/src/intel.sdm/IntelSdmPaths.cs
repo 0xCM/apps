@@ -20,6 +20,15 @@ namespace Z0.Asm
         public FS.FolderPath Settings()
             => ProjectDb.Settings();
 
+        public FS.FilePath SigDecompRules()
+            => ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
+
+        public FS.FilePath SigExpansionRules()
+            => ProjectDb.Settings("asm.sigs.expansions", FS.ext("map"));
+
+        public FS.FilePath SigDecompTable()
+            => ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed");
+
         public FS.FolderPath Sources()
             => Project().Home();
 
@@ -32,7 +41,7 @@ namespace Z0.Asm
         public FS.FilePath SdmDstPath(byte vol)
             => Targets() + FS.file(string.Format("intel-sdm-vol{0}-{1}", vol, "lined"), FS.Txt);
 
-        public FS.FilePath TocImportPath()
+        public FS.FilePath TocImportDoc()
             => Targets() + FS.file("sdm.toc", FS.Txt);
 
         public FS.FilePath ProcessLog(string name)
@@ -41,7 +50,7 @@ namespace Z0.Asm
         public SortedSpan<FS.FilePath> TocPaths()
             => Targets().AllFiles.Where(f => IsTocPart(f)).Array().ToSortedSpan();
 
-        public FS.FilePath TocEntryTable()
+        public FS.FilePath TocImportTable()
             => Targets() + FS.file(TableId.identify<TocEntry>().Format(), FS.Csv);
 
         public FS.FolderPath Imports()

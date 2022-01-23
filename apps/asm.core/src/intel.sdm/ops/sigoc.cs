@@ -12,7 +12,7 @@ namespace Z0.Asm
     partial struct SdmOps
     {
         [MethodImpl(Inline), Op]
-        public static SdmSigOpCode sigoc(in SdmOpCodeDetail src)
-            => new SdmSigOpCode(sig(src), src.OpCode);
+        public static AsmForm form(in SdmOpCodeDetail src)
+            => asm.form(sig(src), src.OpCode);
     }
 }
