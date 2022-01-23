@@ -23,8 +23,8 @@ namespace Z0
 
         public Name FieldName;
 
-        public TypeSpec FieldType;
+        public Identifier FieldType;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,24,12,24,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,36,36,12,36,1};
     }
 }

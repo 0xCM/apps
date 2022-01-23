@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Flows
+namespace Z0
 {
     using static core;
 
@@ -13,12 +13,12 @@ namespace Z0.Flows
         {
             var channels = alloc<Comparator<T>>(6);
             var i=0;
-            seek(channels,i++) = new Comparator<T>();
-            seek(channels,i++) = new Comparator<T>();
-            seek(channels,i++) = new Comparator<T>();
-            seek(channels,i++) = new Comparator<T>();
-            seek(channels,i++) = new Comparator<T>();
-            seek(channels,i++) = new Comparator<T>();
+            seek(channels, i++) = new Comparator<T>();
+            seek(channels, i++) = new Comparator<T>();
+            seek(channels, i++) = new Comparator<T>();
+            seek(channels, i++) = new Comparator<T>();
+            seek(channels, i++) = new Comparator<T>();
+            seek(channels, i++) = new Comparator<T>();
             return new SortingNetwork<T>(channels);
         }
     }

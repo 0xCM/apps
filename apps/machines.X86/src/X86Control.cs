@@ -2,9 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines.X86
+namespace Z0.Machines
 {
     using static core;
+
+    using Asm;
 
     public readonly struct X86Control
     {

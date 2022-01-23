@@ -31,17 +31,5 @@ namespace Z0
 
             return true;
         }
-
-        [CmdOp("gen/switch/map")]
-        Outcome GenSwitchMap(CmdArgs args)
-        {
-            var g = CodeGen.SwitchMap();
-            var src = array<uint>(34, 51, 98, 101, 264, 888, 911, 902, 3828, 13, 19);
-            var dst = array<uint>(3000, 201, 197, 313145, 264801, 911122, 4, 7, 11, 54, 99);
-            var spec = CgSpecs.@switch("test", src, dst);
-            var result = g.Generate(spec);
-            Write(result);
-            return true;
-        }
     }
 }

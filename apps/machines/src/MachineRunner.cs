@@ -7,13 +7,8 @@ namespace Z0.Machines
     using System;
     using System.Threading.Tasks;
 
-    using Asm;
-    using Flows;
-    using X86;
-
     using static Root;
     using static core;
-    using static Asm.RegClasses;
 
     public class MachineRunner : AppCmdService<MachineRunner,CmdShellState>
     {
@@ -61,7 +56,7 @@ namespace Z0.Machines
         [CmdOp("run")]
         Outcome RunMachine(CmdArgs args)
         {
-            Machine.Run(Verbose);
+            var dispatcher = Machine.Run(Verbose);
             return true;
         }
 
@@ -79,41 +74,6 @@ namespace Z0.Machines
             DumpRegs();
             return result;
         }
-
-        [CmdOp(".test-kregs")]
-        Outcome KRegTests(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var grid = default(RegGrid8x64);
-            var regs = X86Control.regs(n8,w64);
-            var names = recover<AsmRegName>(ByteBlock64.Empty.Bytes);
-            var pairs = recover<AsmRegValue<ulong>>(ByteBlock128.Empty.Bytes);
-
-            for(byte i=0; i<7; i++)
-            {
-                regs[i] = i;
-                seek(names,i) = KReg.RegName((RegIndexCode)i);
-                grid[i]= asm.regval(skip(names,i), regs[i]);
-            }
-
-            for(byte i=0; i<7; i++)
-            {
-                ref readonly var name = ref skip(names,i);
-                ref readonly var value = ref regs[i];
-                var output = grid[i].Format();
-                Write(output);
-            }
-
-            var input = (ulong)PermLits.Perm16Identity;
-            for(byte i=0; i<7; i++)
-            {
-                regs[i] = input << i*3;
-                Write(asm.regval(skip(names,i), regs[i]));
-            }
-
-            return result;
-        }
-
 
         [CmdOp(".dump-bss")]
         Outcome TestBss(CmdArgs args)
@@ -167,20 +127,6 @@ namespace Z0.Machines
         [CmdOp(".test-mm")]
         Outcome TestMatchMachine(CmdArgs args)
             => TestMatchMachine();
-
-        [CmdOp(".test-sorters")]
-        Outcome RunSorters(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var sorter = SortingNetworks.define<byte>();
-            byte x0 = 9, x1 = 5, x2 = 2, x3 = 6;
-            sorter.Send(x0,x1,x2,x3, out var y0, out var y1, out var y2, out var y3);
-            Write(string.Format("{0} -> {1}", x0, y0));
-            Write(string.Format("{0} -> {1}", x1, y1));
-            Write(string.Format("{0} -> {1}", x2, y2));
-            Write(string.Format("{0} -> {1}", x3, y3));
-            return result;
-        }
 
         Outcome TestMatchMachine()
         {

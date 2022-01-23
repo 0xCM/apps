@@ -24,7 +24,7 @@ namespace Z0
             for(ushort i=0; i<count; i++)
             {
                 var field = skip(fields,i);
-                seek(spec,i) = new TableFieldDef(i, name(field), field.FieldType.Spec());
+                seek(spec,i) = new TableFieldDef(i, name(field), field.FieldType.CodeName());
             }
 
             return new TableDef(TableId.identify(src), src.Name, specs);

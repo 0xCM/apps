@@ -22,9 +22,9 @@ namespace Z0.Machines
 
         uint Max;
 
-        public ByteMachine(in Section bss)
+        public ByteMachine(in Section src)
         {
-            Buffer = bss;
+            Buffer = src;
             Pos = 0;
             Max = Buffer.TotalSize - 1;
             Fill(int3());

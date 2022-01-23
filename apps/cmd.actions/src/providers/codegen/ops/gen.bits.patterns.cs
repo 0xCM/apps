@@ -11,18 +11,7 @@ namespace Z0
 
     partial class CodeGenProvider
     {
-        [CmdOp("gen/records")]
-        Outcome GenRecords(CmdArgs args)
-        {
-            var g = CodeGen.Records();
-            var src = Tables.definition(typeof(XedModels.OperandState));
-            var dst =  text.buffer();
-            g.Emit(0u,src,dst);
-            Write(dst.Emit());
-            return true;
-        }
-
-        [CmdOp("gen/bitfield")]
+        [CmdOp("gen/bits/patterns")]
         Outcome GenBitfield(CmdArgs args)
         {
             var sib = BitfieldPatterns.describe(Sib.BitPattern);
@@ -37,7 +26,7 @@ namespace Z0
             Write(vexC5.Descriptor);
 
             byte data = 0b10_110_011;
-            Write(BitfieldPatterns.bitstring(sib,data));
+            Write(BitfieldPatterns.bitstring(sib, data));
             return true;
         }
     }

@@ -4,20 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using System;
 
     using static core;
 
-    using Vdsl;
-
-    public sealed partial class CpuDslCmd : AppCmdService<CpuDslCmd,CmdShellState>
+    partial class CodeGenProvider
     {
-        Intrinsics.Checks IntrinsicChecks => Service(() => Intrinsics.Checks.create(Wf));
-
-        [CmdOp("check")]
-        Outcome RunChecks(CmdArgs args)
+        [CmdOp("gen/records")]
+        Outcome GenRecords(CmdArgs args)
         {
-            IntrinsicChecks.Run();
+            var g = CodeGen.Records();
+            var dst = text.buffer();
+            iter(ApiRuntimeCatalog.TableDefs, src => g.Emit(0u,src,dst));
+            Write(dst.Emit());
+
             return true;
         }
     }

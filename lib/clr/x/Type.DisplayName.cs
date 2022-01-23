@@ -8,6 +8,8 @@ namespace Z0
     using System.Reflection;
     using System.ComponentModel;
 
+    using static Root;
+
     partial class ClrQuery
     {
         /// <summary>

@@ -14,14 +14,13 @@ namespace Z0.Machines
 
     using Asm;
 
-
-    public interface IX86Dispatcher
+    public interface IAsmDispatcher
     {
-        void Dispatch(X86Cmd asm);
+        void Dispatch(AsmSpec asm);
     }
 
     [ApiHost]
-    public unsafe partial class X86Machine : IDisposable, IX86Dispatcher
+    public unsafe partial class X86Machine : IDisposable, IAsmDispatcher
     {
         RegBank Regs;
 
@@ -49,7 +48,7 @@ namespace Z0.Machines
 
         Task Dispatcher;
 
-        ConcurrentQueue<X86Cmd> Queue;
+        ConcurrentQueue<AsmSpec> Queue;
 
         bool Verbose;
 
@@ -72,12 +71,12 @@ namespace Z0.Machines
             rip() = CodeBase;
         }
 
-        public void Dispatch(X86Cmd cmd)
+        public void Dispatch(AsmSpec cmd)
         {
             Queue.Enqueue(cmd);
         }
 
-        void Execute(X86Cmd cmd)
+        void Execute(AsmSpec cmd)
         {
 
         }
@@ -103,7 +102,7 @@ namespace Z0.Machines
             spinner.Spin();
         }
 
-        public IX86Dispatcher Run(bool verbose)
+        public IAsmDispatcher Run(bool verbose)
         {
             Verbose = verbose;
             Dispatcher = run(Spin);

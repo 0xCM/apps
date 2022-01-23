@@ -13,12 +13,12 @@ namespace Z0
     {
         public ushort FieldIndex {get;}
 
-        public string FieldName {get;}
+        public Identifier FieldName {get;}
 
-        public TypeSpec DataType {get;}
+        public Identifier DataType {get;}
 
         [MethodImpl(Inline)]
-        public TableFieldDef(ushort index, string name, TypeSpec type)
+        public TableFieldDef(ushort index, string name, Identifier type)
         {
             FieldIndex = index;
             FieldName = name;

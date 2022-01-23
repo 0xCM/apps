@@ -31,9 +31,8 @@ namespace Z0
             return counter;
         }
 
-        public Index<TableDefRecord> EmitTableDefs()
+        public Index<TableDefRecord> TableDefRecords()
         {
-            var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
             var tables = ApiRuntimeCatalog.TableDefs;
             var kTables = tables.Length;
             var kFields = FieldCount(tables);
@@ -56,9 +55,15 @@ namespace Z0
                     k++;
                 }
             }
-
-            TableEmit(@readonly(buffer), TableDefRecord.RenderWidths, dst);
             return buffer;
+        }
+
+        public Index<TableDefRecord> EmitTableDefs()
+        {
+            var dst = ProjectDb.Subdir("api") + FS.file("api.tables", FS.Csv);
+            var src = TableDefRecords();
+            TableEmit(src.View, TableDefRecord.RenderWidths, dst);
+            return src;
         }
 
         public Index<SymLiteralRow> EmitApiClasses()

@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
@@ -11,11 +11,11 @@ namespace Z0.Machines
     using static Root;
     using static core;
 
-    public struct RegGrid8x64
+    public struct RegGrid16x64
     {
-        ByteBlock64 Names;
+        ByteBlock128 Names;
 
-        RegStore8x64 Values;
+        RegStore16x64 Values;
 
         [MethodImpl(Inline)]
         public ref AsmRegName RegName(byte index)

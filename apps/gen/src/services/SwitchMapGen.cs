@@ -24,7 +24,7 @@ namespace Z0
                 return EmptyString;
             var dst = text.buffer();
             var margin = 0u;
-            dst.IndentLineFormat(margin, "public static {0} {1}({2} src)", dstType.DisplayName(), spec.Name, srcType.DisplayName());
+            dst.IndentLineFormat(margin, "public static {0} {1}({2} src)", dstType.CodeName(), spec.Name, srcType.CodeName());
             margin+=4;
             dst.IndentLine(margin, "=> src switch {");
             margin+=4;
