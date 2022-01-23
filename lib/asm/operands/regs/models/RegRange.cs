@@ -12,9 +12,6 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1, Size =4)]
     public readonly struct RegRange
     {
-        public static string format(in RegRange src)
-            => string.Format("{0}[{1}..{2}]", src.Class, src.MinIndex, src.MaxIndex);
-
         public RegClass Class {get;}
 
         public RegIndex MinIndex {get;}
@@ -30,7 +27,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => format(this);
+            => AsmSpecs.format(this);
 
         public override string ToString()
             => Format();

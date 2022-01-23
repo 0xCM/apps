@@ -48,13 +48,6 @@ namespace Z0.Asm
             Expressions = lookup;
         }
 
-        public Outcome Parse(string src, out AsmOpCodeSpec dst)
-        {
-            var result = Outcome.Success;
-            dst = AsmOpCodeSpec.Empty;
-
-            return result;
-        }
 
         public ReadOnlySpan<LookupEntry<string,AsmOcToken>> Matches
             => Expressions.Entries;

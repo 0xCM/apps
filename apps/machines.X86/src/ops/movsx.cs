@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines.X86
+namespace Z0.Machines
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -10,12 +10,10 @@ namespace Z0.Machines.X86
 
     using static Root;
 
-    using O = Asm.Operands;
-
     partial class X86Machine
     {
         [MethodImpl(Inline), Op]
-        public void movsx(O.r16 a, O.r8 b)
+        public void movsx(r16 a, r8 b)
         {
             ref readonly var src = ref reg8(b);
             ref var dst = ref reg16(a);

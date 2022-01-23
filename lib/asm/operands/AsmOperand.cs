@@ -15,22 +15,16 @@ namespace Z0.Asm
 
     using B = ByteBlock10;
 
-    [StructLayout(LayoutKind.Sequential,Pack=1)]
+    [StructLayout(LayoutKind.Sequential,Pack=1), ApiComplete]
     public struct AsmOperand : IAsmOp
     {
         public readonly AsmOpClass OpClass;
 
+        public readonly AsmOpKind OpKind;
+
         public readonly NativeSize Size;
 
         B _Data {get;}
-
-        [MethodImpl(Inline)]
-        internal AsmOperand(AsmOpClass opclass, NativeSize size)
-        {
-            OpClass = opclass;
-            Size = size;
-            _Data = default;
-        }
 
         [MethodImpl(Inline)]
         internal AsmOperand(MemOp src)
@@ -39,6 +33,7 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,MemOp>(_Data) = src;
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.Mem | ((ushort)src.Size.Code << 8));
         }
 
         [MethodImpl(Inline)]
@@ -47,14 +42,7 @@ namespace Z0.Asm
             OpClass = AsmOpClass.Reg;
             Size = src.RegWidth;
             _Data = u16(src);
-        }
-
-        [MethodImpl(Inline)]
-        internal AsmOperand(Imm src)
-        {
-            OpClass = AsmOpClass.Imm;
-            Size = src.Size;
-            _Data = src.Value;
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.Reg | ((ushort)src.Size.Code << 8));
         }
 
         [MethodImpl(Inline)]
@@ -63,6 +51,7 @@ namespace Z0.Asm
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W8;
             _Data = (byte)src;
+            OpKind = AsmOpKind.Imm8;
         }
 
         [MethodImpl(Inline)]
@@ -71,6 +60,7 @@ namespace Z0.Asm
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W16;
             _Data = (ushort)src;
+            OpKind = AsmOpKind.Imm16;
         }
 
         [MethodImpl(Inline)]
@@ -79,6 +69,7 @@ namespace Z0.Asm
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W32;
             _Data = (uint)src;
+            OpKind = AsmOpKind.Imm32;
         }
 
         [MethodImpl(Inline)]
@@ -87,6 +78,7 @@ namespace Z0.Asm
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W64;
             _Data = (ulong)src;
+            OpKind = AsmOpKind.Imm64;
         }
 
         [MethodImpl(Inline)]
@@ -96,6 +88,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W8;
             _Data = B.Empty;
             @as<B,m8>(_Data) = src;
+            OpKind = AsmOpKind.Mem8;
         }
 
         [MethodImpl(Inline)]
@@ -105,6 +98,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W16;
             _Data = B.Empty;
             @as<B,m16>(_Data) = src;
+            OpKind = AsmOpKind.Mem16;
         }
 
         [MethodImpl(Inline)]
@@ -114,6 +108,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W32;
             _Data = B.Empty;
             @as<B,m32>(_Data) = src;
+            OpKind = AsmOpKind.Mem32;
         }
 
         [MethodImpl(Inline)]
@@ -123,6 +118,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W64;
             _Data = B.Empty;
             @as<B,m64>(_Data) = src;
+            OpKind = AsmOpKind.Mem64;
         }
 
         [MethodImpl(Inline)]
@@ -132,6 +128,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W128;
             _Data = B.Empty;
             @as<B,m128>(_Data) = src;
+            OpKind = AsmOpKind.Mem128;
         }
 
         [MethodImpl(Inline)]
@@ -141,6 +138,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W256;
             _Data = B.Empty;
             @as<B,m256>(_Data) = src;
+            OpKind = AsmOpKind.Mem256;
         }
 
         [MethodImpl(Inline)]
@@ -150,23 +148,7 @@ namespace Z0.Asm
             Size = NativeSizeCode.W512;
             _Data = B.Empty;
             @as<B,m512>(_Data) = src;
-        }
-
-        [MethodImpl(Inline)]
-        internal AsmOperand(AsmAddress src)
-        {
-            OpClass = AsmOpClass.Mem;
-            Size = src.AddressSize;
-            _Data = B.Empty;
-            @as<B,AsmAddress>(_Data) = src;
-        }
-
-        [MethodImpl(Inline)]
-        internal AsmOperand(AsmOpClass opclass, NativeSize size, B data)
-        {
-            OpClass = opclass;
-            Size = size;
-            _Data = data;
+            OpKind = AsmOpKind.Mem512;
         }
 
         [MethodImpl(Inline)]
@@ -176,6 +158,7 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp8>(_Data) = src;
+            OpKind = AsmOpKind.Disp8;
         }
 
         [MethodImpl(Inline)]
@@ -185,6 +168,7 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp16>(_Data) = src;
+            OpKind = AsmOpKind.Disp16;
         }
 
         [MethodImpl(Inline)]
@@ -194,6 +178,7 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp32>(_Data) = src;
+            OpKind = AsmOpKind.Disp32;
         }
 
         [MethodImpl(Inline)]
@@ -203,6 +188,7 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp64>(_Data) = src;
+            OpKind = AsmOpKind.Disp64;
         }
 
         [MethodImpl(Inline)]
@@ -212,15 +198,59 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp>(_Data) = src;
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.Disp | ((ushort)src.Size.Code << 8));
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(AsmRegMask src)
+        internal AsmOperand(RegMask src)
         {
             OpClass = AsmOpClass.RegMask;
             Size = src.Size;
             _Data = B.Empty;
-            @as<B,AsmRegMask>(_Data) = src;
+            @as<B,RegMask>(_Data) = src;
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.RegMask | ((ushort)src.Size.Code << 8));
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpClass == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpClass == 0;
+        }
+
+        public bool IsReg
+        {
+            [MethodImpl(Inline)]
+            get => AsmSpecs.IsReg(OpKind);
+        }
+
+        public bool IsMem
+        {
+            [MethodImpl(Inline)]
+            get => AsmSpecs.IsMem(OpKind);
+        }
+
+        public bool IsImm
+        {
+            [MethodImpl(Inline)]
+            get => AsmSpecs.IsImm(OpKind);
+        }
+
+        public bool IsDisp
+        {
+            [MethodImpl(Inline)]
+            get => AsmSpecs.IsDisp(OpKind);
+        }
+
+        public bool IsRegMask
+        {
+            [MethodImpl(Inline)]
+            get => AsmSpecs.IsRegMask(OpKind);
         }
 
         public ReadOnlySpan<byte> Data
@@ -229,16 +259,124 @@ namespace Z0.Asm
             get => _Data.Bytes;
         }
 
-        public bit IsEmpty
+        public ref readonly RegOp Reg
         {
             [MethodImpl(Inline)]
-            get => OpClass == 0;
+            get => ref @as<RegOp>(Data);
         }
 
-        public bit IsNonEmpty
+        public ref readonly MemOp Mem
         {
             [MethodImpl(Inline)]
-            get => OpClass == 0;
+            get => ref @as<MemOp>(Data);
+        }
+
+        public ref readonly Imm Imm
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<Imm>(Data));
+        }
+
+        public ref readonly RegMask RegMask
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<RegMask>(Data);
+        }
+
+        public ref readonly Disp Disp
+        {
+            [MethodImpl(Inline)]
+            get => ref first(recover<Disp>(Data));
+        }
+
+        public ref readonly r8 Reg8
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<r8>(Data);
+        }
+
+        public ref readonly r16 Reg16
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<r16>(Data);
+        }
+
+        public ref readonly r32 Reg32
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<r32>(Data);
+        }
+
+        public ref readonly r64 Reg64
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<r64>(Data);
+        }
+
+        public ref readonly m8 Mem8
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<m8>(Data);
+        }
+
+        public ref readonly m16 Mem16
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<m16>(Data);
+        }
+
+        public ref readonly m32 Mem32
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<m32>(Data);
+        }
+
+        public ref readonly m64 Mem64
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<m64>(Data));
+        }
+
+        public ref readonly m128 Mem128
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<m128>(Data));
+        }
+
+        public ref readonly m256 Mem256
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<m256>(Data));
+        }
+
+        public ref readonly m512 Mem512
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<m512>(Data));
+        }
+
+        public ref readonly imm8 Imm8
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<imm8>(Data);
+        }
+
+        public ref readonly imm16 Imm16
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<imm16>(Data);
+        }
+
+        public ref readonly imm32 Imm32
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<imm32>(Data));
+        }
+
+        public ref readonly imm64 Imm64
+        {
+            [MethodImpl(Inline)]
+            get  => ref first(recover<imm64>(Data));
         }
 
         AsmOpClass IAsmOp.OpClass
@@ -249,10 +387,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(RegOp src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(AsmAddress src)
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]
@@ -272,7 +406,7 @@ namespace Z0.Asm
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(AsmRegMask src)
+        public static implicit operator AsmOperand(RegMask src)
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]

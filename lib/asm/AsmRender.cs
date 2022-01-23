@@ -31,15 +31,6 @@ namespace Z0.Asm
 
         const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
 
-        public static string format(AsmRegMask src)
-        {
-            var dst = EmptyString;
-            if(src.MaskKind == AsmRegMaskKind.Merge)
-                dst = string.Format("{{0}}", src.Reg);
-            else if(src.MaskKind == AsmRegMaskKind.Zero)
-                dst = string.Format("{{0}}{{1}}", src.Reg, Chars.z);
-            return dst;
-        }
 
         [Op]
         public static string thumbprint(in AsmEncodingInfo src)

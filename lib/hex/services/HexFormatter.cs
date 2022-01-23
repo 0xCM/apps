@@ -241,7 +241,19 @@ namespace Z0
              + (postspec ? PostSpec : EmptyString);
 
         [Op]
+        public static string format(W8i w, sbyte src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex8Spec) : src.ToString(Hex8SpecUC))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
         public static string format(W16 w, ushort src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex16Spec) : src.ToString(Hex16SpecUC))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W16i w, short src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? PreSpec : EmptyString)
              + (@case == LetterCaseKind.Lower ? src.ToString(Hex16Spec) : src.ToString(Hex16SpecUC))
              + (postspec ? PostSpec : EmptyString);
@@ -253,7 +265,19 @@ namespace Z0
              + (postspec ? PostSpec : EmptyString);
 
         [Op]
+        public static string format(W32i w, int src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex32Spec) : src.ToString(Hex32SpecUC))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
         public static string format(W64 w, ulong src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => (prespec ? PreSpec : EmptyString)
+             + (@case == LetterCaseKind.Lower ? src.ToString(Hex64Spec) : src.ToString(Hex64SpecUC))
+             + (postspec ? PostSpec : EmptyString);
+
+        [Op]
+        public static string format(W64i w, long src, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
             => (prespec ? PreSpec : EmptyString)
              + (@case == LetterCaseKind.Lower ? src.ToString(Hex64Spec) : src.ToString(Hex64SpecUC))
              + (postspec ? PostSpec : EmptyString);

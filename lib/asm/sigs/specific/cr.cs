@@ -28,18 +28,8 @@ namespace Z0.Asm
                 => SysRegToken.cr;
 
             [MethodImpl(Inline)]
-            public static implicit operator Reg(cr src)
-                => new Reg(src.Size, src.RegClass);
-
-            [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(cr src)
-                => new AsmOperand(src.OpClass, src.Size, (byte)src.RegClass);
-
-            [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(cr src)
                 => asm.sigop(src.Kind, src.Token);
-
-
         }
     }
 }

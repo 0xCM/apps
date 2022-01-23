@@ -13,15 +13,18 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct MemOp : IMemOp
     {
-        public NativeSize Size {get;}
-
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
-        public MemOp(NativeSize size, AsmAddress address)
+        public MemOp(AsmAddress address)
         {
-            Size = size;
             Address = address;
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Address.Base.Size;
         }
 
         [MethodImpl(Inline)]
@@ -29,7 +32,7 @@ namespace Z0.Asm
             => new AsmOperand(this);
 
         public string Format()
-            => Address.Format();
+            => AsmSpecs.format(this);
 
         public override string ToString()
             => Format();

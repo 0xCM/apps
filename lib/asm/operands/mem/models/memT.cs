@@ -17,46 +17,53 @@ namespace Z0.Asm
     public readonly struct mem<T> : IMemOp<T>
         where T : unmanaged, IMemOp<T>
     {
-        public RegOp Base {get;}
-
-        public RegOp Index {get;}
-
-        public MemoryScale Scale {get;}
-
-        public Disp Disp {get;}
+        public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
         public mem(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
-        {
-            Base = @base;
-            Index = index;
-            Scale = scale;
-            Disp = disp;
+        {   Address = new AsmAddress(@base, index, scale, disp);
         }
 
         [MethodImpl(Inline)]
         public mem(AsmAddress src)
         {
-            Base = src.Base;
-            Index = src.Index;
-            Scale = src.Scale;
-            Disp = src.Disp;
+            Address = src;
         }
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => default(T).Size;
+            get => Address.Base.Size;
         }
 
-        public AsmAddress Address
+        public RegOp Base
         {
             [MethodImpl(Inline)]
-            get => this;
+            get => Address.Base;
         }
 
+        public RegOp Index
+        {
+            [MethodImpl(Inline)]
+            get => Address.Index;
+        }
+
+        public MemoryScale Scale
+        {
+            [MethodImpl(Inline)]
+            get => Address.Scale;
+        }
+
+        public Disp Disp
+        {
+            [MethodImpl(Inline)]
+            get => Address.Disp;
+        }
+
+
         [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
+        public MemOp Untyped()
+            => new MemOp(Address);
 
         public string Format()
             => Address.Format();

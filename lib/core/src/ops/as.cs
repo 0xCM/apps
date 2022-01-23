@@ -14,10 +14,6 @@ namespace Z0
 
     partial struct core
     {
-        [MethodImpl(Inline), Keyword, Closures(Closure)]
-        public static unsafe ref T @as<T>(void* pSrc)
-            => ref AsRef<T>(pSrc);
-
         /// <summary>
         /// Presents an S-cell as a T-cell
         /// </summary>
@@ -29,7 +25,40 @@ namespace Z0
             => ref As<S,T>(ref edit(src));
 
         /// <summary>
-        /// Presents an S-cell as a T-cell
+        /// Presents the leading S-cells as a T-cell reference
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <typeparam name="S">The source cell type</typeparam>
+        /// <typeparam name="T">The target cell type</typeparam>
+        [MethodImpl(Inline), Keyword, Closures(Closure)]
+        public static ref T @as<S,T>(Span<S> src)
+            where S : unmanaged
+            where T : unmanaged
+                => ref first(recover<S,T>(src));
+
+        /// <summary>
+        /// Presents the leading S-cells as a readonly <typeparamref name='T'/>-cell reference
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <typeparam name="S">The source cell type</typeparam>
+        /// <typeparam name="T">The target cell type</typeparam>
+        [MethodImpl(Inline), Keyword, Closures(Closure)]
+        public static ref readonly T @as<S,T>(ReadOnlySpan<S> src)
+            where S : unmanaged
+            where T : unmanaged
+                => ref first(recover<S,T>(src));
+
+        /// <summary>
+        /// Presents the source as a <typeparamref name='T'/>-cell reference
+        /// </summary>
+        /// <param name="pSrc">A pointer to the source</param>
+        /// <typeparam name="T">The target cell type</typeparam>
+        [MethodImpl(Inline), Keyword, Closures(Closure)]
+        public static unsafe ref T @as<T>(void* pSrc)
+            => ref AsRef<T>(pSrc);
+
+        /// <summary>
+        /// Presents an S-cell as a <typeparamref name='T'/>-cell reference
         /// </summary>
         /// <param name="src">The source cell</param>
         /// <param name="src">The target cell</param>
@@ -40,7 +69,7 @@ namespace Z0
             => ref As<S,T>(ref edit(src));
 
         /// <summary>
-        /// Presents a <see cref='sbyte'/> as a <typeparamref name='T'/> cell
+        /// Presents a <see cref='sbyte'/> as a <typeparamref name='T'/>-cell reference
         /// </summary>
         /// <param name="src">The source value</param>
         /// <typeparam name="T">The output value type</typeparam>
@@ -49,7 +78,7 @@ namespace Z0
             => ref As<sbyte,T>(ref AsRef(src));
 
         /// <summary>
-        /// Presents a <see cref='byte'/> as a <typeparamref name='T'/> cell
+        /// Presents a <see cref='byte'/> as a <typeparamref name='T'/>-cell reference
         /// </summary>
         /// <param name="src">The source value</param>
         /// <typeparam name="T">The output value type</typeparam>
@@ -58,7 +87,7 @@ namespace Z0
             => ref As<byte,T>(ref AsRef(src));
 
         /// <summary>
-        /// Presents a <see cref='short'/> as a <typeparamref name='T'/> cell
+        /// Presents a <see cref='short'/> as a <typeparamref name='T'/>-cell reference
         /// </summary>
         /// <param name="src">The source value</param>
         /// <typeparam name="T">The output value type</typeparam>
@@ -148,7 +177,7 @@ namespace Z0
             => ref As<char,T>(ref AsRef(src));
 
         /// <summary>
-        /// Presents a <see cref='bool'/> as a <typeparamref name='T'/> cell
+        /// Presents a <see cref='bool'/> as a <typeparamref name='T'/>-cell reference
         /// </summary>
         /// <param name="src">The source value</param>
         /// <typeparam name="T">The output value type</typeparam>
@@ -159,6 +188,26 @@ namespace Z0
         [MethodImpl(Inline), Keyword, Closures(AllNumeric)]
         public static ref T @as<T>(in string src)
             => ref As<string,T>(ref AsRef(src));
+
+        /// <summary>
+        /// Presents the leading source bytes as a <typeparamref name='T'/>-cell reference
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <typeparam name="T">The cell type</typeparam>
+        [MethodImpl(Inline), Keyword, Closures(Closure)]
+        public static ref T @as<T>(Span<byte> src)
+            where T : unmanaged
+                => ref first(recover<T>(src));
+
+        /// <summary>
+        /// Presents the leading source bytes as a readonly <typeparamref name='T'/>-cell reference
+        /// </summary>
+        /// <param name="src">The data source</param>
+        /// <typeparam name="T">The cell type</typeparam>
+        [MethodImpl(Inline), Keyword, Closures(Closure)]
+        public static ref readonly T @as<T>(ReadOnlySpan<byte> src)
+            where T : unmanaged
+                => ref first(recover<T>(src));
 
         /// <summary>
         /// Reinterprets a vector over S-cells as a vector over T-cells

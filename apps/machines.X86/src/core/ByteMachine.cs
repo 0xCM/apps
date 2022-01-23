@@ -10,7 +10,7 @@ namespace Z0.Machines
     using static Root;
     using static core;
 
-    using static Asm.AsmSpecs;
+    using static Asm.AsmHexSpecs;
     using static MemorySections;
 
     [ApiComplete]

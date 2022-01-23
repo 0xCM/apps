@@ -28,7 +28,7 @@ namespace Z0
         {
             try
             {
-                using var machine = MachineRunner.create(Wf);
+                using var machine = WfMachine.create(Wf);
                 var options = WorkflowOptions.@default();
                 machine.Run(options);
             }

@@ -9,7 +9,7 @@ namespace Z0
     using static Msg;
     using static core;
 
-    public class MachineRunner : AppService<MachineRunner>
+    public class WfMachine : AppService<WfMachine>
     {
         public void Run(WorkflowOptions options)
         {

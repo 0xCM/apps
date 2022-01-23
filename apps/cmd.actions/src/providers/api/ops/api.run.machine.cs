@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("api/run/machine")]
         Outcome RunApiMachine(CmdArgs args)
         {
-            using var machine = MachineRunner.create(Wf);
+            using var machine = WfMachine.create(Wf);
             machine.Run(WorkflowOptions.@default());
             return true;
         }

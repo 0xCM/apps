@@ -14,44 +14,9 @@ namespace Z0.Asm
     /// <summary>
     /// Represents an operand expression of the form BaseReg + IndexReg*Scale + Displacement
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct AsmAddress
     {
-        public static string format(in AsmAddress src)
-        {
-            var dst = CharBlock32.Null.Data;
-            var i=0u;
-            var count = render(src, ref i, dst);
-            return text.format(dst, count);
-        }
-
-        public static uint render(in AsmAddress src, ref uint i, Span<char> dst)
-        {
-            var i0 = i;
-            var @base = src.Base.Format();
-            var index = src.Index.Format();
-            text.copy(@base, ref i, dst);
-            var scale = src.Scale.Format();
-            if(src.Scale.IsNonZero)
-            {
-                seek(dst,i++) = Chars.Plus;
-                text.copy(index, ref i, dst);
-                if(src.Scale.IsNonUnital)
-                {
-                    seek(dst,i++) = Chars.Star;
-                    text.copy(scale,ref i, dst);
-                }
-            }
-
-            if(src.Disp.Value != 0)
-            {
-                seek(dst,i++) = Chars.Plus;
-                text.copy(src.Disp.Value.ToString("x") + "h", ref i, dst);
-            }
-
-            return i - i0;
-        }
-
         public readonly RegOp Base;
 
         public readonly RegOp Index;
@@ -69,16 +34,10 @@ namespace Z0.Asm
             Disp = disp;
         }
 
-        public NativeSize AddressSize
+        public NativeSize Size
         {
             [MethodImpl(Inline)]
             get => Base.Size;
-        }
-
-        public bit HasBase
-        {
-            [MethodImpl(Inline)]
-            get => Base.IsNonEmpty;
         }
 
         public bit HasIndex
@@ -100,7 +59,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => format(this);
+            => AsmSpecs.format(this);
 
         public override string ToString()
             => Format();

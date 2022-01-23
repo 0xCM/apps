@@ -14,7 +14,7 @@ namespace Z0.Machines
         public static void Main(params string[] args)
             => run(args, PartId.Cpu, PartId.CalcShell);
 
-        TestMachine TM;
+        MachineRunner TM;
 
         protected override void Disposing()
         {
@@ -23,7 +23,7 @@ namespace Z0.Machines
 
         void Run(N22 n)
         {
-            TM = TestMachine.create(Wf);
+            TM = MachineRunner.create(Wf);
             TM.Run();
         }
 

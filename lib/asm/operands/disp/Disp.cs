@@ -13,7 +13,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines an 8, 16, or 32-bit signed displacement
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack =1)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public readonly struct Disp : IDisplacement
     {
         public long Value {get;}

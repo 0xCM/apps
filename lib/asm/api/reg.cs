@@ -21,10 +21,6 @@ namespace Z0.Asm
             => AsmRegs.reg(src);
 
         [MethodImpl(Inline), Op]
-        public static rDb rDb(RegIndexCode r)
-            => r;
-
-        [MethodImpl(Inline), Op]
         public static xCr xCr(RegIndexCode r)
             => r;
     }

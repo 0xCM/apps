@@ -32,10 +32,6 @@ namespace Z0.Asm
                 => new Reg(src.Size, src.RegClass);
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmOperand(db src)
-                => new AsmOperand(src.OpClass, src.Size, (byte)src.RegClass);
-
-            [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(db src)
                 => asm.sigop(src.Kind, src.Token);
         }

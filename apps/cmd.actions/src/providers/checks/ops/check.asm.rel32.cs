@@ -8,7 +8,7 @@ namespace Z0
     using System;
 
     using static core;
-    using static Asm.AsmSpecs;
+    using static Asm.AsmHexSpecs;
 
     partial class CheckCmdProvider
     {
@@ -25,7 +25,7 @@ namespace Z0
                 var result = Outcome.Success;
 
                 MemoryAddress client = FunctionBase + InstructionOffset;
-                var call = AsmSpecs.call(client, Displacement);
+                var call = AsmHexSpecs.call(client, Displacement);
                 Write(AsmRender.format(call));
             }
 
@@ -77,7 +77,7 @@ namespace Z0
                 Hex.hexbytes(Encoding, out var enc1);
                 var dx = asm.disp32(enc1,1);
 
-                var enc2 = AsmSpecs.call32(ip, Target);
+                var enc2 = AsmHexSpecs.call32(ip, Target);
                 if(enc1 != enc2)
                 {
                     Error(string.Format("Encoding mismatch '{0}' != '{1}'", enc1, enc2));

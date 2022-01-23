@@ -50,6 +50,26 @@ namespace Z0.Asm
             => reg(NativeSizeCode.W128, RegClassCode.ZMM, r);
 
         [MethodImpl(Inline), Op]
+        public static RegOp rK(RegIndexCode r)
+            => reg(NativeSizeCode.W64, RegClassCode.MASK, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp rK8(RegIndexCode r)
+            => reg(NativeSizeCode.W8, RegClassCode.MASK, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp rK16(RegIndexCode r)
+            => reg(NativeSizeCode.W16, RegClassCode.MASK, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp rK32(RegIndexCode r)
+            => reg(NativeSizeCode.W32, RegClassCode.MASK, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp rK64(RegIndexCode r)
+            => reg(NativeSizeCode.W64, RegClassCode.MASK, r);
+
+        [MethodImpl(Inline), Op]
         public static RegOp reg(RegKind kind)
             => new RegOp((ushort)kind);
 

@@ -106,7 +106,7 @@ namespace Z0.Asm
             => new AsmOperand(this);
 
         public string Format()
-            => Name.Format().Trim();
+            => AsmSpecs.format(this);
 
         public override string ToString()
             =>  Format();
