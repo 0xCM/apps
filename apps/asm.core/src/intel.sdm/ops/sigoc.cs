@@ -13,6 +13,6 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static SdmSigOpCode sigoc(in SdmOpCodeDetail src)
-            => new SdmSigOpCode(sig(src), asm.opcode(src.OpCodeKey, src.OpCode));
+            => new SdmSigOpCode(sig(src), src.OpCode);
     }
 }

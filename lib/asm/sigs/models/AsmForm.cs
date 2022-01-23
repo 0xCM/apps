@@ -13,10 +13,10 @@ namespace Z0.Asm
     {
         readonly public AsmSigExpr Sig;
 
-        public readonly AsmOpCode OpCode;
+        public readonly CharBlock36 OpCode;
 
         [MethodImpl(Inline)]
-        public AsmForm(in AsmSigExpr sig, in AsmOpCode oc)
+        public AsmForm(in AsmSigExpr sig, in CharBlock36 oc)
         {
             Sig = sig;
             OpCode = oc;

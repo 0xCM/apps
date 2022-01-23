@@ -25,7 +25,7 @@ namespace Z0.Asm
             var i=0;
             DataParser.parse(skip(cells,i++), out dst.Seq);
             AsmSigs.parse(skip(cells,i++), out dst.Sig);
-            dst.OpCode = asm.opcode(0u, skip(cells,i++).Trim());
+            dst.OpCode = skip(cells,i++).Trim();
             dst.Op0 = skip(cells,i++).Trim();
             dst.Op1 = skip(cells,i++).Trim();
             dst.Op2 = skip(cells,i++).Trim();

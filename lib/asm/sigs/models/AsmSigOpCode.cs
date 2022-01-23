@@ -17,7 +17,7 @@ namespace Z0.Asm
 
         public AsmSigExpr Sig;
 
-        public AsmOpCode OpCode;
+        public CharBlock36 OpCode;
 
         public AsmSigOpExpr Op0;
 

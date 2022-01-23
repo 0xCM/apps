@@ -16,6 +16,7 @@ namespace Z0.Asm
         readonly AsmOcDatasets _Datasets;
 
         readonly AsmOcParser Parser;
+
         public AsmOpCodes()
         {
             _Datasets = AsmOcDatasets.load();
@@ -24,27 +25,6 @@ namespace Z0.Asm
 
         public Outcome Parse(string src, out AsmOcSpec dst)
             => Parser.Parse(src, out dst);
-        // {
-        //     var result = Outcome.Success;
-        //     var parts = text.trim(text.split(text.despace(src),Chars.Space));
-        //     var count = (byte)min(parts.Length, 15);
-        //     dst = AsmOcSpec.Empty;
-        //     dst.TokenCount = count;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var expr = ref skip(parts,i);
-        //         if(Token(expr, out var token))
-        //         {
-        //             dst[i] = token;
-        //         }
-        //         else
-        //         {
-        //             result = (false, string.Format("A token matching the expression '{0}' was not found", expr));
-        //             break;
-        //         }
-        //     }
-        //     return result;
-        // }
 
         public string Format(in AsmOcSpec src)
         {

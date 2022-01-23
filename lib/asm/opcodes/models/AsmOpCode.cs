@@ -11,19 +11,16 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.opcode")]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmOpCode
     {
-        public uint Key;
-
         public AsmOpCodeBits Bits;
 
         public CharBlock36 Expr;
 
         [MethodImpl(Inline)]
-        public AsmOpCode(uint key, AsmOpCodeBits bits, CharBlock36 expr)
+        public AsmOpCode(AsmOpCodeBits bits, CharBlock36 expr)
         {
-            Key = key;
             Bits = bits;
             Expr = expr;
         }
