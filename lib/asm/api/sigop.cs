@@ -15,9 +15,10 @@ namespace Z0.Asm
         public static AsmSigOp sigop(AsmSigOpKind kind, byte value)
             => new AsmSigOp(kind,value);
 
+
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AsmSigOp<T> sigop<T>(AsmSigOpKind kind, T token)
+        public static AsmSigOp sigop<T>(AsmSigOpKind kind, T value)
             where T : unmanaged
-                => new AsmSigOp<T>(kind,token);
+                => new AsmSigOp(kind, core.bw8(value));
     }
 }

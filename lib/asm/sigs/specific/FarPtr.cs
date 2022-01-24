@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.FarPtr;
+            public K OpKind => K.FarPtr;
 
             [MethodImpl(Inline)]
             public static implicit operator FarPtr(FarPtrToken src)
@@ -34,12 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(FarPtr src)
-                => token(src.Kind, src);
-
-            [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(FarPtr src)
-                => asm.sigop(src.Kind, src.Token);
+                => sigop(src.OpKind, src);
         }
     }
 }

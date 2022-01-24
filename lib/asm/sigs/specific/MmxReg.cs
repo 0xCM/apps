@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.MmxReg;
+            public K OpKind => K.MmxReg;
 
             public RegClassCode RegClass
                 => RegClassCode.MMX;
@@ -37,8 +37,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(MmxReg src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(MmxReg src)
+                => sigop(src.OpKind, src);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Z0
 
             CheckBinaryOpExec(buffer);
             CheckUnaryOpExec(buffer);
+            CheckUnaryFuncExec(buffer);
 
             return result;
         }
@@ -33,9 +34,9 @@ namespace Z0
             var code = min64u_64u_64u;
             var a = 3ul;
             var b = 4ul;
-            var c = buffer.ExecBinOp(name, code, a, b);
-            var desc = string.Format("{0}({1}, {2}) = {3}", name, a, b, c);
-            Write(desc);
+            var f = buffer.LoadBinOp<ulong>(name,code);
+            var c = f.Invoke(a,b);
+            Write(f.Format(a,b,c));
         }
 
         void CheckUnaryOpExec(CodeBuffer buffer)
@@ -43,9 +44,19 @@ namespace Z0
             var name = nameof(dec_64u);
             var code = dec_64u;
             var a = 52ul;
-            var b = buffer.ExecUnaryOp(name, code, a);
-            var desc = string.Format("{0}({1}) = {2}", name, a, b);
-            Write(desc);
+            var f = buffer.LoadUnaryOp<ulong>(name, code);
+            var b = f.Invoke(a);
+            Write(f.Format(a,b));
+        }
+
+        void CheckUnaryFuncExec(CodeBuffer buffer)
+        {
+            var name = nameof(nonz_64u);
+            var code = nonz_64u;
+            var a = 52ul;
+            var f = buffer.LoadUnaryFunc<ulong,bit>(name,code);
+            var b = f.Invoke(a);
+            Write(f.Format(a,b));
         }
     }
 

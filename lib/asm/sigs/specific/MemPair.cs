@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.MemPair;
+            public K OpKind => K.MemPair;
 
             [MethodImpl(Inline)]
             public static implicit operator MemPair(MemPairToken src)
@@ -34,8 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(MemPair src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(MemPair src)
+                => sigop(src.OpKind, src);
         }
     }
 }

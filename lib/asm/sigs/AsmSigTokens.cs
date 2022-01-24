@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using System;
+
     public enum AsmSigOpKind : byte
     {
         None = 0,
@@ -468,7 +469,6 @@ namespace Z0.Asm
             [Symbol("zmm/m512/m64bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 64-bit memory location")]
             z512x64bcst,
         }
-
 
         public sealed class SigTokenSet : TokenSet<SigTokenSet>
         {

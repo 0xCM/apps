@@ -15,7 +15,8 @@ namespace Z0.Asm
         {
             public ImmToken Token {get;}
 
-            public AsmSigOpKind Kind => AsmSigOpKind.Imm;
+            public AsmSigOpKind OpKind
+                => AsmSigOpKind.Imm;
 
             [MethodImpl(Inline)]
             public Imm(ImmToken token)
@@ -28,7 +29,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(Imm src)
-                => asm.sigop(src.Kind, src.Token);
+                => asm.sigop(src.OpKind, src.Token);
 
             [MethodImpl(Inline)]
             public static implicit operator Imm(ImmToken src)

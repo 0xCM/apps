@@ -12,7 +12,7 @@ namespace Z0.Asm
     {
         public readonly struct db : IRegOpClass<db>, IAsmSigOp<db,SysRegToken>
         {
-            public AsmSigOpKind Kind
+            public AsmSigOpKind OpKind
                 => AsmSigOpKind.SysReg;
 
            public AsmOpClass OpClass
@@ -33,7 +33,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(db src)
-                => asm.sigop(src.Kind, src.Token);
+                => asm.sigop(src.OpKind, src.Token);
         }
     }
 }

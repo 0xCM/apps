@@ -15,7 +15,8 @@ namespace Z0.Asm
     {
         public readonly struct rK : IRegOpClass<rK>, IAsmSigOp<rK,MaskRegToken>
         {
-            public MaskRegToken Token => MaskRegToken.rK;
+            public MaskRegToken Token
+                => MaskRegToken.rK;
 
             public AsmOpClass OpClass
                 => AsmOpClass.Reg;
@@ -26,15 +27,15 @@ namespace Z0.Asm
             public RegClassCode RegClass
                 => RegClassCode.MASK;
 
-            public K Kind => K.MaskReg;
+            public K OpKind => K.MaskReg;
 
             [MethodImpl(Inline)]
             public static implicit operator MaskRegToken(rK src)
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(rK src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(rK src)
+                => sigop(src.OpKind, src);
 
             [MethodImpl(Inline)]
             public static implicit operator Reg(rK src)

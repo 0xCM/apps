@@ -12,32 +12,32 @@ namespace Z0.Asm
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Size=2)]
-    public readonly struct AsmSigToken<K>
+    public readonly struct AsmSigOp<K> : IAsmSigOp<K>
         where K : unmanaged
     {
-        public AsmSigOpKind Kind {get;}
-
         readonly byte _Value;
 
+        public AsmSigOpKind Kind {get;}
+
         [MethodImpl(Inline)]
-        public AsmSigToken(AsmSigOpKind kind, K value)
+        public AsmSigOp(AsmSigOpKind kind, K value)
         {
             Kind = kind;
             _Value = @as<K,byte>(value);
         }
 
-        public K Value
+        public K Token
         {
             [MethodImpl(Inline)]
             get => @as<byte,K>(_Value);
         }
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmSigToken<K>((AsmSigOpKind kind, K value) src)
-            => new AsmSigToken<K>(src.kind, src.value);
+        public static implicit operator AsmSigOp<K>((AsmSigOpKind kind, K value) src)
+            => new AsmSigOp<K>(src.kind, src.value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmSigToken(AsmSigToken<K> src)
-            => new AsmSigToken(src._Value, src.Kind);
+        public static implicit operator AsmSigOp(AsmSigOp<K> src)
+            => new AsmSigOp(src.Kind, src._Value);
     }
 }

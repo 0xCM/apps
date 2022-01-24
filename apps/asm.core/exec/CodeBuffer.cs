@@ -8,6 +8,9 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static core;
+    using static Root;
+
+    using static DFx;
 
     public readonly struct OperationSpec
     {
@@ -34,12 +37,13 @@ namespace Z0
 
         ByteSize Capacity;
 
-        OperationKind OpKind;
+        uint Offset;
 
         CodeBuffer(ByteSize size)
         {
             Code = memory.native(size);
             Capacity = size;
+            Clear();
         }
 
         public void Dispose()
@@ -48,9 +52,16 @@ namespace Z0
         }
 
 
-        void Clear()
+        public void Clear()
         {
             Code.Clear();
+            Offset = 0;
+        }
+
+        public ByteSize Remainder
+        {
+            [MethodImpl(Inline)]
+            get => Capacity - Offset;
         }
 
         public ByteSize Load(ReadOnlySpan<byte> src)
@@ -65,29 +76,27 @@ namespace Z0
             return EffectiveSize;
         }
 
-
-        public T ExecUnaryOp<T>(string name, ReadOnlySpan<byte> src, T a)
+        [MethodImpl(Inline)]
+        NativeBuffer Reserve(ByteSize size)
         {
-            Clear();
-            var f = DFx.unaryop<T>(name, DFx.load(src, 0, Code));
-            return f.Invoke(a);
+            //Clear();
+            Offset += size;
+            return Code;
         }
 
-        public T ExecBinOp<T>(string name, ReadOnlySpan<byte> src, T a, T b)
-        {
-            Clear();
-            var f = DFx.binop<T>(name, DFx.load(src, 0, Code));
-            return f.Invoke(a,b);
-        }
+        public FuncSpec<A,B> LoadUnaryFunc<A,B>(Identifier name, ReadOnlySpan<byte> src)
+            => DFx.func<A,B>(name, DFx.load(src, Offset, Reserve(src.Length)), out _);
 
-        public T ExecEmitter<T>(string name, ReadOnlySpan<byte> src)
-        {
-            Clear();
-            var block = DFx.load(src, 0, Code);
-            //var _f = Marshal.GetDelegateForFunctionPointer<DelegateBindings.cpuid>(block.Address);
-            var f = DFx.emitter<T>(name, block);
-            // var f = DynamicOperations.binop<ulong>(RoutineName, block);
-            return f.Operation.Invoke();
-        }
+        public UnaryOpSpec<T> LoadUnaryOp<T>(Identifier name, ReadOnlySpan<byte> src)
+            => DFx.unaryop<T>(name, DFx.load(src, Offset, Reserve(src.Length)));
+
+        public BinOpSpec<T> LoadBinOp<T>(Identifier name, ReadOnlySpan<byte> src)
+            => DFx.binop<T>(name, DFx.load(src, Offset, Reserve(src.Length)));
+
+        public EmitterSpec<T> LoadEmitter<T>(Identifier name, ReadOnlySpan<byte> src)
+            => DFx.emitter<T>(name, DFx.load(src, Offset, Reserve(src.Length)));
+
+        //var _f = Marshal.GetDelegateForFunctionPointer<DelegateBindings.cpuid>(block.Address);
+        // var f = DynamicOperations.binop<ulong>(RoutineName, block);
     }
 }

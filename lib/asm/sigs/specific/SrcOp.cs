@@ -34,8 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(SrcOp src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(SrcOp src)
+                => sigop(src.Kind, src);
         }
     }
 }

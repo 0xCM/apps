@@ -12,9 +12,11 @@ namespace Z0.Asm
     {
         public readonly struct m8 : IMemOpClass<m8>, IAsmSigOp<m8, MemToken>
         {
-            public MemToken Token => MemToken.m8;
+            public MemToken Token
+                => MemToken.m8;
 
-            public AsmSigOpKind Kind => AsmSigOpKind.Mem;
+            public AsmSigOpKind OpKind
+                => AsmSigOpKind.Mem;
 
             public AsmOpClass OpClass
                 => AsmOpClass.Mem;
@@ -28,7 +30,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(m8 src)
-                => asm.sigop(src.Kind, src.Token);
+                => asm.sigop(src.OpKind, src.Token);
         }
     }
 }

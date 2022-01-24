@@ -6,42 +6,37 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
 
     using static Root;
 
-    /// <summary>
-    /// Defines an asm signature operand
-    /// </summary>
-    [DataType("asm.sigop")]
-    public readonly struct AsmSigOp
+    [StructLayout(LayoutKind.Sequential, Size=2)]
+    public readonly struct AsmSigOp : IAsmSigOp
     {
-        public AsmSigOpKind Kind {get;}
+        public byte Value {get;}
 
-        public byte TokenValue {get;}
-
-        [MethodImpl(Inline)]
-        internal AsmSigOp(AsmSigOpKind kind, byte token)
-        {
-            Kind = kind;
-            TokenValue = token;
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Kind == 0;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Kind != 0;
-        }
-
-        public static AsmSigOp Empty => default;
+        public AsmSigOpKind OpKind {get;}
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmSigOp((AsmSigOpKind kind, byte value) src)
-            => new AsmSigOp(src.kind,src.value);
+        public AsmSigOp(AsmSigOpKind kind, byte value)
+        {
+            Value = value;
+            OpKind = kind;
+        }
+
+        public bit IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpKind == 0;
+        }
+
+        public bit IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => OpKind != 0;
+        }
+
+
+        public static AsmSigOp Empty =>default;
     }
 }

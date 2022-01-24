@@ -16,6 +16,13 @@ namespace Z0
         public static FileCatalog create()
             => new();
 
+        public static FileCatalog load(IProjectWs project)
+        {
+            var dst = create();
+            dst.Include(project);
+            return dst;
+        }
+
         int FileId;
 
         [MethodImpl(Inline)]

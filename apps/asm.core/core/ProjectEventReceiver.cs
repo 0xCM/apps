@@ -26,9 +26,9 @@ namespace Z0.Asm
             _IndexedCode = sys.empty<AsmCodeIndexRow>();
         }
 
-        public virtual void Indexed(FileCatalog src)
+        public virtual void Initialized(ProjectCollection collect)
         {
-            Files = src;
+            Files = collect.Files;
         }
 
         public virtual void Collected(in FileRef src, in ObjDumpRow row)

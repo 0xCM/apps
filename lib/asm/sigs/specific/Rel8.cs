@@ -11,7 +11,7 @@ namespace Z0.Asm
             public RelToken Token
                 => RelToken.rel8;
 
-            public AsmSigOpKind Kind
+            public AsmSigOpKind OpKind
                 => AsmSigOpKind.Rel;
 
             public NativeSize Size

@@ -26,15 +26,15 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.OpMask;
+            public K OpKind => K.OpMask;
 
             [MethodImpl(Inline)]
             public static implicit operator OpMaskToken(OpMask src)
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(OpMask src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(OpMask src)
+                => sigop(src.OpKind, src);
 
             public static implicit operator Reg(OpMask src)
                 => src.Reg;

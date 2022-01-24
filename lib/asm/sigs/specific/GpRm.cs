@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.GpRm;
+            public K OpKind => K.GpRm;
 
             [MethodImpl(Inline)]
             public static implicit operator GpRm(GpRmToken src)
@@ -34,13 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(GpRm src)
-                => token(src.Kind, src);
-
-            [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(GpRm src)
-                => asm.sigop(src.Kind, src.Token);
-
+                => sigop(src.OpKind, src);
         }
     }
 }

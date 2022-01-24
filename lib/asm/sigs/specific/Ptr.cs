@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.Ptr;
+            public K OpKind => K.Ptr;
 
             [MethodImpl(Inline)]
             public static implicit operator Ptr(PtrToken src)
@@ -34,8 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(Ptr src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(Ptr src)
+                => sigop(src.OpKind, src);
         }
     }
 }

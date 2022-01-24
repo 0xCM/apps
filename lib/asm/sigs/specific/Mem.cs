@@ -14,7 +14,7 @@ namespace Z0.Asm
         {
             public MemToken Token {get;}
 
-            public AsmSigOpKind Kind => AsmSigOpKind.Mem;
+            public AsmSigOpKind OpKind => AsmSigOpKind.Mem;
 
             [MethodImpl(Inline)]
             public Mem(MemToken token)
@@ -27,7 +27,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(Mem src)
-                => asm.sigop(src.Kind, src.Token);
+                => asm.sigop(src.OpKind, src.Token);
 
             [MethodImpl(Inline)]
             public static implicit operator Mem(MemToken src)

@@ -15,7 +15,7 @@ namespace Z0.Asm
             public ImmToken Token
                 => ImmToken.imm16;
 
-            public AsmSigOpKind Kind
+            public AsmSigOpKind OpKind
                 => AsmSigOpKind.Imm;
 
             public AsmOpClass OpClass
@@ -26,7 +26,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(imm16 src)
-                => asm.sigop(src.Kind, src.Token);
+                => asm.sigop(src.OpKind, src.Token);
 
             [MethodImpl(Inline)]
             public static implicit operator Imm(imm16 src)

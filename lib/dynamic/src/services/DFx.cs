@@ -14,6 +14,44 @@ namespace Z0
     using static Root;
     using static core;
 
+    public class OpExecInfo
+    {
+        public Identifier FunctionName;
+
+        public Index<object> Input;
+
+        public object Output;
+
+        public @string Description;
+
+        public OpExecInfo(Identifier name, object[] input, object output, @string description)
+        {
+            FunctionName = name;
+            Input = input;
+            Output = output;
+            Description = description;
+        }
+
+        public string Format()
+            => Description;
+
+        public override string ToString()
+            => Format();
+    }
+
+    public interface IDFxSpec
+    {
+        Identifier Name {get;}
+
+        SegRef Code {get;}
+    }
+
+    public interface IDFxSpec<T> : IDFxSpec
+        where T : IDFxSpec<T>
+    {
+
+    }
+
     [ApiHost]
     public unsafe readonly struct DFx
     {
@@ -27,8 +65,44 @@ namespace Z0
 
             public UnaryOp<T> Operation;
 
+            [MethodImpl(Inline)]
             public T Invoke(T a)
                 => Operation(a);
+
+            public string Format(T a, T b)
+            {
+                const string Pattern = "{0}({1}) = {2}";
+                return string.Format(Pattern, Name, a, b);
+            }
+
+            public OpExecInfo ExecInfo(T a, T b)
+                => new OpExecInfo(Name, array<object>(a), b, Format(a,b));
+
+            public static UnaryOpSpec<T> Empty => default;
+        }
+
+        public struct FuncSpec<A,B>
+        {
+            public Identifier Name;
+
+            public SegRef Code;
+
+            public Func<A,B> Operation;
+
+            [MethodImpl(Inline)]
+            public B Invoke(A a)
+                => Operation(a);
+
+            public string Format(A a, B b)
+            {
+                const string Pattern = "{0}({1}) = {2}";
+                return string.Format(Pattern, Name, a, b);
+            }
+
+            public OpExecInfo ExecInfo(A a, B b)
+                => new OpExecInfo(Name, array<object>(a), b, Format(a,b));
+
+            public static FuncSpec<A,B> Empty => default;
         }
 
         public struct BinOpSpec<T>
@@ -39,8 +113,44 @@ namespace Z0
 
             public BinaryOp<T> Operation;
 
+            [MethodImpl(Inline)]
             public T Invoke(T a, T b)
                 => Operation(a,b);
+
+            public string Format(T a, T b, T c)
+            {
+                const string Pattern = "{0}({1},{2}) = {3}";
+                return string.Format(Pattern, Name, a, b, c);
+            }
+
+            public OpExecInfo ExecInfo(T a, T b, T c)
+                => new OpExecInfo(Name, array<object>(a,b), c, Format(a,b,c));
+
+            public static BinOpSpec<T> Empty => default;
+        }
+
+        public struct FuncSpec<A,B,C>
+        {
+            public Identifier Name;
+
+            public SegRef Code;
+
+            public Func<A,B,C> Operation;
+
+            [MethodImpl(Inline)]
+            public C Invoke(A a, B b)
+                => Operation(a,b);
+
+            public string Format(A a, B b, C c)
+            {
+                const string Pattern = "{0}({1},{2}) = {3}";
+                return string.Format(Pattern, Name, a, b, c);
+            }
+
+            public OpExecInfo ExecInfo(A a, B b, C c)
+                => new OpExecInfo(Name, array<object>(a,b), c,  Format(a,b,c));
+
+            public static FuncSpec<A,B,C> Empty => default;
         }
 
         public struct EmitterSpec<T>
@@ -51,9 +161,21 @@ namespace Z0
 
             public Emitter<T> Operation;
 
+            [MethodImpl(Inline)]
             public T Invoke()
                 => Operation();
+
+            public string Format(T a)
+            {
+                const string Pattern = "{0}() = {1}";
+                return string.Format(Pattern, Name, a);
+            }
+
+            public OpExecInfo ExecInfo(T a)
+                => new OpExecInfo(Name, sys.empty<object>(), a,  Format(a));
+
         }
+
 
         [Op, Closures(Closure)]
         public static UnaryOpSpec<T> unaryop<T>(Identifier name, SegRef dst)
@@ -69,23 +191,39 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BinOpSpec<T> binop<T>(Identifier name, SegRef block)
+        public static BinOpSpec<T> binop<T>(Identifier name, SegRef dst)
         {
             var spec = new BinOpSpec<T>();
             spec.Name = name;
-            spec.Code = block;
-            spec.Operation = BinaryOpDynamics.create<T>(spec.Name, spec.Code.Pointer());
+            spec.Code = dst;
+            spec.Operation = (BinaryOp<T>)DFx.emit(name, functype:typeof(BinaryOp<T>), result:typeof(T), args: array(typeof(T), typeof(T)), dst.Address);
             return spec;
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static EmitterSpec<T> emitter<T>(Identifier name, SegRef block)
+        public static EmitterSpec<T> emitter<T>(Identifier name, SegRef dst)
         {
             var spec = new EmitterSpec<T>();
             spec.Name = name;
-            spec.Code = block;
-            spec.Operation = DFx.emitter<T>(spec.Name, block.Address.Pointer<byte>());
+            spec.Code = dst;
+            spec.Operation = (Emitter<T>)DFx.emit(name, functype:typeof(Emitter<T>), result:typeof(T), args: sys.empty<Type>(), dst.Address);
             return spec;
+        }
+
+        public static ref FuncSpec<A,B> func<A,B>(Identifier name, SegRef dst, out FuncSpec<A,B> spec)
+        {
+            spec.Name = name;
+            spec.Code = dst;
+            spec.Operation = (Func<A,B>)DFx.emit(name, functype:typeof(Func<A,B>), result:typeof(B), args: array(typeof(A)), dst.Address);
+            return ref spec;
+        }
+
+        public static ref FuncSpec<A,B,C> func<A,B,C>(Identifier name, SegRef dst, out FuncSpec<A,B,C> spec)
+        {
+            spec.Name = name;
+            spec.Code = dst;
+            spec.Operation = (Func<A,B,C>)DFx.emit(name, functype:typeof(Func<A,B,C>), result:typeof(C), args: array(typeof(A), typeof(B)), dst.Address);
+            return ref spec;
         }
 
         [Op, Closures(Closure)]
@@ -95,10 +233,6 @@ namespace Z0
         [Op, Closures(Closure)]
         public static unsafe Emitter<T> emitter<T>(Identifier name, ReadOnlySpan<byte> code)
             => emitter<T>(name.Format(), memory.liberate(code), out _);
-
-        // [Op, Closures(Closure)]
-        // public static unsafe Emitter<T> emitter<T>(Identifier name, ReadOnlySpan<byte> f)
-        //     => emitter<T>(name, (MemoryAddress)memory.liberate(f), out _);
 
         public static unsafe Emitter<T> emitter<T>(Identifier name, MemoryAddress address, out DynamicMethod method)
         {
@@ -135,24 +269,6 @@ namespace Z0
             for(var i=0; i<src.Length; i++)
                 seek(target, offset++) = skip(src,i);
             return (location, offset - i0);
-        }
-
-        [Op, Closures(Closure)]
-        public static T invoke<T>(in UnaryOpSpec<T> f, T a)
-            => f.Operation(a);
-
-        [Op, Closures(Closure)]
-        public static T invoke<T>(in BinOpSpec<T> f, T a, T b)
-            => f.Operation(a, b);
-
-        [Op, Closures(Closure)]
-        public static T invoke<T>(in EmitterSpec<T> f)
-            => f.Operation();
-
-        public static string format<T>(in BinOpSpec<T> f, T a, T b, T result)
-        {
-            const string Pattern = "{0}({1},{2}) = {3}";
-            return string.Format(Pattern, f.Name, a, b, result);
         }
 
         public static Func<T0,R> emit<T0,R>(ApiCodeBlock src, Span<byte> buffer, out Func<T0,R> fx)

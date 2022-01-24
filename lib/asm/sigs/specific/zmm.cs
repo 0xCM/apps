@@ -12,9 +12,11 @@ namespace Z0.Asm
     {
         public readonly struct Zmm : IRegOpClass<Zmm>, IAsmSigOp<Zmm,VRegToken>
         {
-            public VRegToken Token => VRegToken.zmm;
+            public VRegToken Token
+                => VRegToken.zmm;
 
-            public AsmSigOpKind Kind => AsmSigOpKind.ZmmReg;
+            public AsmSigOpKind OpKind
+                => AsmSigOpKind.ZmmReg;
 
             public AsmOpClass OpClass
                 => AsmOpClass.Reg;

@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.FpuMem;
+            public K OpKind => K.FpuMem;
 
             [MethodImpl(Inline)]
             public static implicit operator FpuMem(FpuMemToken src)
@@ -34,8 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(FpuMem src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(FpuMem src)
+                => sigop(src.OpKind, src);
         }
     }
 }

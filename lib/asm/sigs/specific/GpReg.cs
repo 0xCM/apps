@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.GpReg;
+            public K OpKind => K.GpReg;
 
             [MethodImpl(Inline)]
             public static implicit operator GpReg(GpRegToken src)
@@ -34,12 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(GpReg src)
-                => token(src.Kind, src);
-
-            [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(GpReg src)
-                => asm.sigop(src.Kind, src.Token);
+                => sigop(src.OpKind, src);
         }
     }
 }

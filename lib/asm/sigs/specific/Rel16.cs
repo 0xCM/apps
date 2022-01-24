@@ -11,12 +11,11 @@ namespace Z0.Asm
             public RelToken Token
                 => RelToken.rel16;
 
-            public AsmSigOpKind Kind
+            public AsmSigOpKind OpKind
                 => AsmSigOpKind.Rel;
 
             public NativeSize Size
                 => NativeSizeCode.W16;
-
         }
     }
 }

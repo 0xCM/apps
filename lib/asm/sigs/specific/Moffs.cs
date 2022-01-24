@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.Moffs;
+            public K OpKind => K.Moffs;
 
             [MethodImpl(Inline)]
             public static implicit operator Moffs(MoffsToken src)
@@ -34,8 +34,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(Moffs src)
-                => token(src.Kind, src);
+            public static implicit operator AsmSigOp(Moffs src)
+                => sigop(src.OpKind, src);
         }
     }
 }

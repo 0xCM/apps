@@ -12,7 +12,7 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmSig sig(AsmOpCode opcode, AsmMnemonic mnemonic, params AsmSigOp[] ops)
-            => AsmSigs.sig(opcode, mnemonic, ops);
+        public static AsmSig sig(AsmMnemonic mnemonic, params AsmSigOp[] ops)
+            => AsmSigs.sig(mnemonic, ops);
     }
 }

@@ -32,7 +32,7 @@ namespace Z0.Asm
             public RegClassCode RegClass
                 => RegClassCode.ST;
 
-            public K Kind => K.FpuReg;
+            public K OpKind => K.FpuReg;
 
             [MethodImpl(Inline)]
             public static implicit operator FpuReg(FpuRegToken src)
@@ -43,12 +43,8 @@ namespace Z0.Asm
                 => src.Token;
 
             [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(FpuReg src)
-                => token(src.Kind, src);
-
-            [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(FpuReg src)
-                => asm.sigop(src.Kind, src.Token);
+                => sigop(src.OpKind, src);
         }
     }
 }

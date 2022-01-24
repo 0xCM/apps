@@ -13,7 +13,7 @@ namespace Z0.Asm
     {
         public readonly struct cr : IRegOpClass<cr>, IAsmSigOp<cr,SysRegToken>
         {
-            public AsmSigOpKind Kind
+            public AsmSigOpKind OpKind
                 => AsmSigOpKind.SysReg;
             public AsmOpClass OpClass
                 => AsmOpClass.Reg;
@@ -29,7 +29,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(cr src)
-                => asm.sigop(src.Kind, src.Token);
+                => asm.sigop(src.OpKind, src.Token);
         }
     }
 }

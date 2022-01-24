@@ -16,6 +16,13 @@ namespace Z0
 
         HexDataFormatter Formatter => Service(() => HexDataFormatter.create(0,32,true));
 
+        public void Collect(ProjectCollection collect)
+        {
+            CollectObjHex(collect);
+            CollectSymbols(collect);
+            CollectObjHeaders(collect);
+        }
+
         public Outcome CollectObjHex(ProjectCollection collect)
         {
             var result = Outcome.Success;

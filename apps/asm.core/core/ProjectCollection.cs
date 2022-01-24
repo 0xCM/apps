@@ -10,7 +10,7 @@ namespace Z0
     {
         public IProjectWs Project {get;}
 
-        FileCatalog Files {get;}
+        public FileCatalog Files {get;}
 
         public ProjectEventReceiver EventReceiver {get;}
 

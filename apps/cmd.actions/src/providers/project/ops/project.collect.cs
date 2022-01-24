@@ -24,14 +24,10 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("project/files")]
+        [CmdOp("project/catalog")]
         Outcome IndexFiles(CmdArgs args)
         {
-            var catalog = FileCatalog.create();
-            var project = Project();
-            catalog.Include(project);
-            var entries = catalog.Entries();
-            TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+            Projects.CatalogFiles(Project());
             return true;
         }
     }

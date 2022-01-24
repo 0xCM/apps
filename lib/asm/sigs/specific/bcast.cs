@@ -23,7 +23,7 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.Broadcast;
+            public K OpKind => K.Broadcast;
 
             [MethodImpl(Inline)]
             public static implicit operator BCast(BroadcastToken src)
@@ -35,11 +35,7 @@ namespace Z0.Asm
 
             [MethodImpl(Inline)]
             public static implicit operator AsmSigOp(BCast src)
-                => asm.sigop(src.Kind, src.Token);
-
-            [MethodImpl(Inline)]
-            public static implicit operator AsmSigToken(BCast src)
-                => token(src.Kind, src);
+                => sigop(src.OpKind, src);
         }
     }
 }

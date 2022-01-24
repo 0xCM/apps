@@ -17,6 +17,6 @@ namespace Z0.Asm
 
         [Op, MethodImpl(Inline)]
         public static AsmSig and_al_imm8()
-            =>  sig(AsmOpCode.Empty, "and", al(), imm8());
+            =>  sig("and", al(), imm8());
     }
 }
