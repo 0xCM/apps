@@ -173,13 +173,13 @@ namespace Z0.Asm
         [SymSource(tokens)]
         public enum OpMaskToken : byte
         {
-            [Symbol("{rK}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
+            [Symbol("{k1}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
             rK,
 
             [Symbol("{z}")]
             z,
 
-            [Symbol("{rK}{z}", "A mask register used as instruction writemask")]
+            [Symbol("{k1}{z}", "A mask register used as instruction writemask")]
             rKz,
         }
 

@@ -23,7 +23,8 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K OpKind => K.Rel;
+            public K OpKind
+                => K.Rel;
 
             [MethodImpl(Inline)]
             public static implicit operator Rel(RelToken src)

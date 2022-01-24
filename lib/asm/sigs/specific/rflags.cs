@@ -13,11 +13,14 @@ namespace Z0.Asm
     {
         public readonly struct rflags : IRegOpClass<rflags>
         {
-            public AsmOpClass OpClass => AsmOpClass.Reg;
+            public AsmOpClass OpClass
+                => AsmOpClass.Reg;
 
-            public NativeSize Size => NativeSizeCode.W64;
+            public NativeSize Size
+                => NativeSizeCode.W64;
 
-            public RegClassCode RegClass => RegClassCode.FLAG;
+            public RegClassCode RegClass
+                => RegClassCode.FLAG;
 
             [MethodImpl(Inline)]
             public static implicit operator Reg(rflags src)

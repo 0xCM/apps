@@ -72,8 +72,8 @@ namespace Z0.Asm
             => src;
 
         [MethodImpl(Inline), Op]
-        public static OpMask sigop(Reg r, OpMaskToken src)
-            => new OpMask(r, src);
+        public static OpMask sigop(OpMaskToken src)
+            => new OpMask(src);
 
         [MethodImpl(Inline), Op]
         public static Imm sigop(ImmToken src)

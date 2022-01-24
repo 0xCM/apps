@@ -86,7 +86,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public int CompareTo(AsmHexCode src)
-            => compare(this, src);
+            => cmp(Bytes, src.Bytes);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmHexCode(BinaryCode src)
@@ -122,17 +122,17 @@ namespace Z0.Asm
         public static string format(in AsmHexCode src)
             => src.Data.FormatHexData(src.Size);
 
-        [MethodImpl(Inline), Op]
-        public static int compare(in AsmHexCode a, in AsmHexCode b)
-        {
-            var left = recover<ulong>(raw(a));
-            var right = recover<ulong>(raw(b));
-            var x = first(left).CompareTo(first(right));
-            if(x != 0)
-                return x;
-            else
-                return skip(left,1).CompareTo(skip(right,1));
-        }
+        // [MethodImpl(Inline), Op]
+        // public static int compare(in AsmHexCode a, in AsmHexCode b)
+        // {
+        //     var left = recover<ulong>(raw(a));
+        //     var right = recover<ulong>(raw(b));
+        //     var x = first(left).CompareTo(first(right));
+        //     if(x != 0)
+        //         return x;
+        //     else
+        //         return skip(left,1).CompareTo(skip(right,1));
+        // }
 
         [MethodImpl(Inline), Op]
         public static AsmHexCode load(ReadOnlySpan<byte> src)

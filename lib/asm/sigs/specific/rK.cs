@@ -27,7 +27,8 @@ namespace Z0.Asm
             public RegClassCode RegClass
                 => RegClassCode.MASK;
 
-            public K OpKind => K.MaskReg;
+            public K OpKind
+                => K.MaskReg;
 
             [MethodImpl(Inline)]
             public static implicit operator MaskRegToken(rK src)

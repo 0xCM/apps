@@ -23,6 +23,9 @@ namespace Z0.Asm
                 RegClass = @class;
             }
 
+            public AsmSigOpKind OpKind
+                => AsmSigOpKind.GpReg;
+
             public GpRegToken Token
                 => GpRegToken.reg;
 

@@ -23,6 +23,9 @@ namespace Z0.Asm
             public AsmOpClass OpClass
                 => AsmOpClass.Reg;
 
+            public AsmSigOpKind OpKind
+                => AsmSigOpKind.GpReg;
+
             public NativeSize Size
                 => NativeSizeCode.W8;
 

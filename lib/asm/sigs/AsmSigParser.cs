@@ -19,6 +19,29 @@ namespace Z0.Asm
             Datasets = AsmSigDatasets.load();
         }
 
+        const string OpMask = "{k1}{z}";
+
+        static ReadOnlySpan<string> partition(string src)
+        {
+            var parts = text.trim(text.split(src, Chars.Comma));
+            var dst = span<string>(5);
+            var count = min(parts.Length,5);
+            var k=0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var a = ref skip(parts,i);
+                var j = text.index(a, OpMask);
+                if(j > 0)
+                {
+                    seek(dst,k++) = text.left(a,j);
+                    seek(dst,k++) = OpMask;
+                }
+                else
+                    seek(dst,k++) = a;
+            }
+            return slice(dst,0,k);
+        }
+
         [Parser]
         public static Outcome parse(string src, out AsmSig dst)
         {
@@ -33,7 +56,9 @@ namespace Z0.Asm
             else
                 mnemonic = src;
 
-            var ops = k > 0 ? text.trim(text.split(text.right(input, k), Chars.Comma)) : sys.empty<string>();
+            var optext = k > 0 ? text.trim(text.right(input, k), Chars.Comma) : EmptyString;
+
+            var ops = nonempty(optext) ? partition(optext) : sys.empty<string>();
             var count = ops.Length;
             switch(count)
             {

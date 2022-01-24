@@ -23,7 +23,8 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K OpKind => K.Ptr;
+            public K OpKind
+                => K.Ptr;
 
             [MethodImpl(Inline)]
             public static implicit operator Ptr(PtrToken src)

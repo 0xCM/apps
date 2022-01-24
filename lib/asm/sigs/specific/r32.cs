@@ -35,7 +35,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             public static implicit operator GpReg(r32 src)
                 => new GpReg(src.Token);
-
         }
     }
 }

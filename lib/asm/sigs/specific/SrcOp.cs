@@ -23,7 +23,8 @@ namespace Z0.Asm
                 Token = token;
             }
 
-            public K Kind => K.SrcOp;
+            public K Kind
+                => K.SrcOp;
 
             [MethodImpl(Inline)]
             public static implicit operator SrcOp(SrcOpToken src)

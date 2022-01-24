@@ -29,6 +29,9 @@ namespace Z0.Asm
             public RegClassCode RegClass
                 => RegClassCode.GP8HI;
 
+            public AsmSigOpKind OpKind
+                => AsmSigOpKind.GpReg;
+
             [MethodImpl(Inline)]
             public static implicit operator Reg(r8h src)
                 => new Reg(src.Size, src.RegClass);

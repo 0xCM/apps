@@ -20,6 +20,8 @@ namespace Z0.Asm
 
         public AsmSigOp Op3;
 
+        public AsmSigOp Op4;
+
         public AsmSigOp this[int i]
         {
             get => i switch {
@@ -27,6 +29,7 @@ namespace Z0.Asm
                 1 => Op1,
                 2 => Op2,
                 3 => Op3,
+                4 => Op4,
                 _ => AsmSigOp.Empty,
             };
         }
@@ -34,7 +37,7 @@ namespace Z0.Asm
         public byte OpCount
         {
             [MethodImpl(Inline)]
-            get => (byte)((uint)Op0.IsNonEmpty + (uint)Op1.IsNonEmpty + (uint)Op2.IsNonEmpty + (uint)Op3.IsNonEmpty);
+            get => (byte)((uint)Op0.IsNonEmpty + (uint)Op1.IsNonEmpty + (uint)Op2.IsNonEmpty + (uint)Op3.IsNonEmpty + (uint)Op4.IsNonEmpty);
         }
 
         public static AsmSigOps Empty => default;
