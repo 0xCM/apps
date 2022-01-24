@@ -12,7 +12,7 @@ namespace Z0
     partial struct Hex
     {
         [MethodImpl(Inline)]
-        internal static char delimiter(string src)
+        public static char delimiter(string src)
             => text.index(src,Chars.Comma) > 0 ? Chars.Comma : Chars.Space;
     }
 }

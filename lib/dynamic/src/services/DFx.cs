@@ -19,28 +19,73 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
+        public struct UnaryOpSpec<T>
+        {
+            public Identifier Name;
+
+            public SegRef Code;
+
+            public UnaryOp<T> Operation;
+
+            public T Invoke(T a)
+                => Operation(a);
+        }
+
         public struct BinOpSpec<T>
         {
             public Identifier Name;
 
-            public SegRef Definition;
-
-            public T Arg0;
-
-            public T Arg1;
+            public SegRef Code;
 
             public BinaryOp<T> Operation;
 
-            public Outcome<T> Result;
+            public T Invoke(T a, T b)
+                => Operation(a,b);
         }
 
         public struct EmitterSpec<T>
         {
             public Identifier Name;
 
-            public SegRef Definition;
+            public SegRef Code;
 
             public Emitter<T> Operation;
+
+            public T Invoke()
+                => Operation();
+        }
+
+        [Op, Closures(Closure)]
+        public static UnaryOpSpec<T> unaryop<T>(Identifier name, SegRef dst)
+        {
+            var spec = new UnaryOpSpec<T>();
+            spec.Name = name;
+            spec.Code = dst;
+            var tOperand = typeof(T);
+            var tResult = typeof(T);
+            var tOperator = typeof(UnaryOp<T>);
+            spec.Operation = (UnaryOp<T>)DFx.emit(name, functype:tOperator, result:tResult, args: array(tOperand), dst.Address);
+            return spec;
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static BinOpSpec<T> binop<T>(Identifier name, SegRef block)
+        {
+            var spec = new BinOpSpec<T>();
+            spec.Name = name;
+            spec.Code = block;
+            spec.Operation = BinaryOpDynamics.create<T>(spec.Name, spec.Code.Pointer());
+            return spec;
+        }
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static EmitterSpec<T> emitter<T>(Identifier name, SegRef block)
+        {
+            var spec = new EmitterSpec<T>();
+            spec.Name = name;
+            spec.Code = block;
+            spec.Operation = DFx.emitter<T>(spec.Name, block.Address.Pointer<byte>());
+            return spec;
         }
 
         [Op, Closures(Closure)]
@@ -48,12 +93,12 @@ namespace Z0
             => emitter<T>(name, (MemoryAddress)pCode, out _);
 
         [Op, Closures(Closure)]
-        public static unsafe Emitter<T> emitter<T>(OpIdentity id, ReadOnlySpan<byte> code)
-            => emitter<T>(id.Format(), memory.liberate(code), out _);
+        public static unsafe Emitter<T> emitter<T>(Identifier name, ReadOnlySpan<byte> code)
+            => emitter<T>(name.Format(), memory.liberate(code), out _);
 
-        [Op, Closures(Closure)]
-        public static unsafe Emitter<T> emitter<T>(Identifier name, ReadOnlySpan<byte> f)
-            => emitter<T>(name, (MemoryAddress)memory.liberate(f), out _);
+        // [Op, Closures(Closure)]
+        // public static unsafe Emitter<T> emitter<T>(Identifier name, ReadOnlySpan<byte> f)
+        //     => emitter<T>(name, (MemoryAddress)memory.liberate(f), out _);
 
         public static unsafe Emitter<T> emitter<T>(Identifier name, MemoryAddress address, out DynamicMethod method)
         {
@@ -67,10 +112,10 @@ namespace Z0
             return (Emitter<T>)CellDelegate.define(name, address, method, method.CreateDelegate(tFunc));
         }
 
-        public static unsafe DynamicAction action(string name, ReadOnlySpan<byte> f)
+        public static unsafe DynamicAction action(Identifier name, ReadOnlySpan<byte> f)
             => action(name, memory.liberate(f));
 
-        public static unsafe DynamicAction action(string name, MemoryAddress f)
+        public static unsafe DynamicAction action(Identifier name, MemoryAddress f)
         {
             var tFunc = typeof(Action);
             var method = new DynamicMethod(name, null, null, tFunc.Module);
@@ -92,46 +137,22 @@ namespace Z0
             return (location, offset - i0);
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BinOpSpec<T> binop<T>(Identifier name, SegRef block)
-        {
-            var spec = new BinOpSpec<T>();
-            spec.Name = name;
-            spec.Definition = block;
-            spec.Operation = BinaryOpDynamics.create<T>(spec.Name, spec.Definition.Pointer());
-            return spec;
-        }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static EmitterSpec<T> emitter<T>(Identifier name, SegRef block)
-        {
-            var spec = new EmitterSpec<T>();
-            spec.Name = name;
-            spec.Definition = block;
-            spec.Operation = DFx.emitter<T>(spec.Name, block.Address.Pointer<byte>());
-            return spec;
-        }
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static ref BinOpSpec<T> specify<T>(in T arg0, in T arg1, ref BinOpSpec<T> dst)
-        {
-            dst.Arg0 = arg0;
-            dst.Arg1 = arg1;
-            return ref dst;
-        }
+        [Op, Closures(Closure)]
+        public static T invoke<T>(in UnaryOpSpec<T> f, T a)
+            => f.Operation(a);
 
         [Op, Closures(Closure)]
-        public static T invoke<T>(in BinOpSpec<T> f)
-            => f.Operation(f.Arg0, f.Arg1);
+        public static T invoke<T>(in BinOpSpec<T> f, T a, T b)
+            => f.Operation(a, b);
 
         [Op, Closures(Closure)]
         public static T invoke<T>(in EmitterSpec<T> f)
             => f.Operation();
 
-        public static string format<T>(in BinOpSpec<T> f, T result)
+        public static string format<T>(in BinOpSpec<T> f, T a, T b, T result)
         {
             const string Pattern = "{0}({1},{2}) = {3}";
-            return string.Format(Pattern, f.Name, f.Arg0, f.Arg1, result);
+            return string.Format(Pattern, f.Name, a, b, result);
         }
 
         public static Func<T0,R> emit<T0,R>(ApiCodeBlock src, Span<byte> buffer, out Func<T0,R> fx)
@@ -170,6 +191,39 @@ namespace Z0
             fx = (TernaryOp<T>)builder.Emit(code.OpUri.OpId, functype:tOperator, result:tResult, args: array(tOperand), dst);
         }
 
+        public static UnaryOp<T> unaryop<T>(BufferToken dst, ApiCodeBlock src)
+            where T : unmanaged
+        {
+            try
+            {
+                return unaryop<T>(src.Id.Format(), dst.Load(src.Encoded));
+            }
+            catch(Exception e)
+            {
+                term.magenta($"Operator production for {src.Id} failed");
+                term.magenta(src);
+                term.error(e);
+                return empty;
+            }
+        }
+
+        [MethodImpl(Inline)]
+        public static BinaryOp<T> binaryop<T>(BufferToken dst, ApiCodeBlock src)
+            where T : unmanaged
+        {
+            try
+            {
+                return binaryop<T>(src.Id.Format(), dst.Load(src.Encoded));
+            }
+            catch(Exception e)
+            {
+                term.magenta($"Operator production for {src.Id} failed");
+                term.magenta(src);
+                term.error(e);
+                return empty;
+            }
+        }
+
         public static void emit<T0,T1,R>(MethodInfo src, bool calli, out Func<T0,T1,R> fx)
         {
             var args = new Type[]{typeof(T0), typeof(T1)};
@@ -194,62 +248,29 @@ namespace Z0
             fx = (Func<T0,T1,R>)method.CreateDelegate(typeof(Func<T0,T1,R>));
         }
 
-        public static UnaryOp<T> unaryop<T>(BufferToken dst, ApiCodeBlock src)
-            where T : unmanaged
-        {
-            try
-            {
-                return unaryop<T>(src.Id, dst.Load(src.Encoded));
-            }
-            catch(Exception e)
-            {
-                term.magenta($"Operator production for {src.Id} failed");
-                term.magenta(src);
-                term.error(e);
-                return empty;
-            }
-        }
-
         [MethodImpl(Inline)]
-        public static BinaryOp<T> binaryop<T>(BufferToken dst, ApiCodeBlock src)
-            where T : unmanaged
-        {
-            try
-            {
-                return binaryop<T>(src.Id, dst.Load(src.Encoded));
-            }
-            catch(Exception e)
-            {
-                term.magenta($"Operator production for {src.Id} failed");
-                term.magenta(src);
-                term.error(e);
-                return empty;
-            }
-        }
-
-        [MethodImpl(Inline)]
-        static BinaryOp<T> binaryop<T>(OpIdentity id, BufferToken dst)
+        static BinaryOp<T> binaryop<T>(Identifier name, BufferToken dst)
             where T : unmanaged
         {
             var tOperand = typeof(T);
             var tResult = typeof(T);
             var tOperator = typeof(BinaryOp<T>);
-            return (BinaryOp<T>)emit(id, functype:tOperator, result:tResult, args: array(tOperand,tOperand), dst.Address);
+            return (BinaryOp<T>)emit(name, functype:tOperator, result:tResult, args: array(tOperand,tOperand), dst.Address);
         }
 
         [MethodImpl(Inline)]
-        static UnaryOp<T> unaryop<T>(OpIdentity id, BufferToken dst)
+        static UnaryOp<T> unaryop<T>(Identifier name, BufferToken dst)
             where T : unmanaged
         {
             var tOperand = typeof(T);
             var tResult = typeof(T);
             var tOperator = typeof(UnaryOp<T>);
-            return (UnaryOp<T>)emit(id, functype:tOperator, result:tResult, args: array(tOperand), dst.Address);
+            return (UnaryOp<T>)emit(name, functype:tOperator, result:tResult, args: array(tOperand), dst.Address);
         }
 
-        static CellDelegate emit(OpIdentity id, Type functype, Type result, Type[] args, MemoryAddress dst)
+        internal static CellDelegate emit(Identifier name, Type functype, Type result, Type[] args, MemoryAddress dst)
         {
-            var method = new DynamicMethod(id, result, args, functype.Module);
+            var method = new DynamicMethod(name, result, args, functype.Module);
             var g = method.GetILGenerator();
             switch(args.Length)
             {
@@ -276,7 +297,7 @@ namespace Z0
             g.Emit(OpCodes.Ldc_I8, (long)dst);
             g.EmitCalli(OpCodes.Calli, CallingConvention.StdCall, result, args);
             g.Emit(OpCodes.Ret);
-            return CellDelegates.define(id, dst, method, method.CreateDelegate(functype));
+            return CellDelegates.define(name, dst, method, method.CreateDelegate(functype));
         }
 
         static T empty<T>(T src)

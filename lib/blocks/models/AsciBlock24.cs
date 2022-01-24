@@ -41,6 +41,18 @@ namespace Z0
             get => ref first(Bytes);
         }
 
+        public ref AsciCode this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Codes,index);
+        }
+
+        public ref AsciCode this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Codes,index);
+        }
+
         [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged

@@ -27,10 +27,10 @@ namespace Z0
             get => Memory.BaseAddress;
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Memory.Capacity;
+            get => Memory.Size;
         }
 
         public BitWidth Width

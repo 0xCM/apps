@@ -40,6 +40,12 @@ namespace Z0
             get => ref seek(First, index);
         }
 
+        public ref T this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First, index);
+        }
+
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]

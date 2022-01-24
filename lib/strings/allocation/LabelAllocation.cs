@@ -33,17 +33,17 @@ namespace Z0
 
         public MemoryAddress BaseAddress {get;}
 
-        public ByteSize Capacity {get;}
+        public ByteSize Size {get;}
 
         public BitWidth Width
-            => Capacity;
+            => Size;
 
         [MethodImpl(Inline)]
         internal LabelAllocation(IBufferAllocator allocator, Label[] labels)
         {
             Allocator = allocator;
             Labels = labels;
-            Capacity = allocator.Capacity;
+            Size = allocator.Size;
         }
 
         public ReadOnlySpan<Label> Allocated

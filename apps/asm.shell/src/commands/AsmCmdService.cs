@@ -11,12 +11,6 @@ namespace Z0.Asm
 
     public sealed partial class AsmCmdService : AppCmdService<AsmCmdService,AsmShellState>
     {
-        NativeBuffer CodeBuffer;
-
-        ByteSize CodeSize;
-
-        Identifier RoutineName;
-
         IWorkspace AsmWs;
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
@@ -43,14 +37,8 @@ namespace Z0.Asm
 
         IWorkspace OutWs;
 
-        byte[] _Assembled;
-
         public AsmCmdService()
         {
-            CodeBuffer = memory.native(Pow2.T14);
-            RoutineName = Identifier.Empty;
-            CodeSize = 0;
-            _Assembled = array<byte>();
             ResPack = CliMemoryMap.Empty;
         }
 
@@ -64,7 +52,6 @@ namespace Z0.Asm
 
         protected override void Disposing()
         {
-            CodeBuffer.Dispose();
             ResPack.Dispose();
         }
 

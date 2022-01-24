@@ -23,13 +23,13 @@ namespace Z0
             Data = data;
         }
 
-        public ref AsciCode this[ulong index]
+        public ref AsciCode this[uint index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];
         }
 
-        public ref AsciCode this[long index]
+        public ref AsciCode this[int index]
         {
             [MethodImpl(Inline)]
             get => ref Data[index];

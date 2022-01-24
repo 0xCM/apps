@@ -33,7 +33,7 @@ namespace Z0
 
         public MemoryAddress BaseAddress {get;}
 
-        public ByteSize Capacity {get;}
+        public ByteSize Size {get;}
 
         [MethodImpl(Inline)]
         internal StringAllocation(IBufferAllocator allocator, StringRef[] allocated)
@@ -41,7 +41,7 @@ namespace Z0
             Allocator = allocator;
             _Allocated = allocated;
             BaseAddress = allocator.BaseAddress;
-            Capacity = allocator.Capacity;
+            Size = allocator.Size;
         }
 
         public ReadOnlySpan<StringRef> Allocated

@@ -66,6 +66,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public ref T Cell<T>(int index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged
                 => recover<T>(Bytes);

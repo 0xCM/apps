@@ -62,6 +62,18 @@ namespace Z0
             get => ref first(Data);
         }
 
+        public ref char this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
+        public ref char this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
         public uint Capacity
             => CharCount;
 
@@ -88,6 +100,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator B(ReadOnlySpan<char> src)
             => api.init(src, out B dst);
-
     }
 }

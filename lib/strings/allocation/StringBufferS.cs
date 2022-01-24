@@ -44,7 +44,7 @@ namespace Z0
             get => Buffer.Count;
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => Length*size<S>();

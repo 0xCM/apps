@@ -49,7 +49,7 @@ namespace Z0
             get => cover<T>(BaseAddress, _Size);
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => _Size;
@@ -64,7 +64,7 @@ namespace Z0
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Capacity/size<T>();
+            get => Size/size<T>();
         }
 
 

@@ -48,7 +48,7 @@ namespace Z0
             get => cover<byte>(BaseAddress, _Size);
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => _Size;
@@ -57,13 +57,13 @@ namespace Z0
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Capacity;
+            get => Size;
         }
 
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Capacity;
+            get => Size;
         }
 
         public void Dispose()

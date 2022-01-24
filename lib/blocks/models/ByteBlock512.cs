@@ -36,14 +36,19 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public Span<T> Edit<T>()
+        public Span<T> Storage<T>()
             where T : unmanaged
                 => recover<T>(Bytes);
 
         [MethodImpl(Inline)]
-        public ReadOnlySpan<T> View<T>()
+        public ref T Cell<T>(int index)
             where T : unmanaged
-                => recover<T>(Bytes);
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
 
         public static B Empty => default;
    }

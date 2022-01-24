@@ -50,7 +50,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ByteSize Size(uint index)
-            => Buffer(index).Capacity;
+            => Buffer(index).Size;
 
         [MethodImpl(Inline)]
         public void Clear(uint index)

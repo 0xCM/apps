@@ -24,3 +24,11 @@ namespace Z0.Asm
             => "Emitted {0} instructions to {1}";
     }
 }
+
+namespace Z0
+{
+    partial struct Msg
+    {
+
+    }
+}

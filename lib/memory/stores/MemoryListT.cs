@@ -34,7 +34,7 @@ namespace Z0
         public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Buffer.Capacity;
+            get => Buffer.Size;
         }
 
         public ref T First

@@ -26,7 +26,7 @@ namespace Z0
             Allocator = allocator;
             Data = allocated;
             BaseAddress = allocator.BaseAddress;
-            Capacity = allocator.Capacity;
+            Size = allocator.Size;
         }
 
         public void Dispose()
@@ -37,7 +37,7 @@ namespace Z0
 
         public MemoryAddress BaseAddress {get;}
 
-        public ByteSize Capacity {get;}
+        public ByteSize Size {get;}
 
         protected Index<T> Data;
 

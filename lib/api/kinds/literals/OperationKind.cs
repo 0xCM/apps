@@ -23,22 +23,22 @@ namespace Z0
         /// <summary>
         /// Classifies operations of arity 0
         /// </summary>
-        Nullary = p.P2ᐞ00,
+        Nullary = p.P2ᐞ00 | Arity0,
 
         /// <summary>
         /// Classifies operations of arity 1
         /// </summary>
-        Unary = p.P2ᐞ01,
+        Unary = p.P2ᐞ01 | Arity1,
 
         /// <summary>
         /// Classifies operations of arity 2
         /// </summary>
-        Binary = p.P2ᐞ02,
+        Binary = p.P2ᐞ02 | Arity2,
 
         /// <summary>
         /// Classifies operations of arity 3
         /// </summary>
-        Ternary = p.P2ᐞ03,
+        Ternary = p.P2ᐞ03 | Arity3,
 
         /// <summary>
         /// Classifies operations with void return
@@ -61,19 +61,49 @@ namespace Z0
         Predicate = p.P2ᐞ07,
 
         /// <summary>
-        /// Classifies functions that shift/rotate bits
+        /// Classifies operations of arity 0
         /// </summary>
-        Shift = p.P2ᐞ08,
+        Arity0 = p.P2ᐞ08,
 
         /// <summary>
-        /// Classifies system-level operations
+        /// Classifies operations of arity 1
         /// </summary>
-        System = p.P2ᐞ09,
+        Arity1 = Arity0 + 1,
 
         /// <summary>
-        /// The last pure classifier
+        /// Classifies operations of arity 2
         /// </summary>
-        LastClass = System,
+        Arity2 = Arity1 + 1,
+
+        /// <summary>
+        /// Classifies operations of arity 3
+        /// </summary>
+        Arity3 = Arity2 + 1,
+
+        /// <summary>
+        /// Classifies operations of arity 4
+        /// </summary>
+        Arity4 = Arity3 + 1,
+
+        /// <summary>
+        /// Classifies operations of arity 5
+        /// </summary>
+        Arity5 = Arity4 + 1,
+
+        /// <summary>
+        /// Classifies operations of arity 6
+        /// </summary>
+        Arity6 = Arity5 + 1,
+
+        /// <summary>
+        /// Classifies operations of arity 7
+        /// </summary>
+        Arity7 = Arity6 + 1,
+
+        /// <summary>
+        /// Classifies operations of arity 7
+        /// </summary>
+        Arity8 = Arity7 + 1,
 
         /// <summary>
         /// Classifies actions that accept one argument

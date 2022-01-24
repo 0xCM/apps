@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static CodeLoader CodeLoader(this IWfRuntime wf)
+            => Z0.CodeLoader.create(wf);
+
         public static FlowCommands FlowCommands(this IWfRuntime wf)
             => Z0.FlowCommands.create(wf);
         [Op]

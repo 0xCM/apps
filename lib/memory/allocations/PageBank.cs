@@ -38,10 +38,10 @@ namespace Z0
             get => Buffer.BaseAddress;
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Buffer.Capacity;
+            get => Buffer.Size;
         }
 
         public BitWidth Width

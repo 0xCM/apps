@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
     using System.Runtime.InteropServices;
+    using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
     /// <summary>
     /// Reserves 1 pages of memory that covers 2^12 = 4096 bytes
@@ -17,5 +20,32 @@ namespace Z0
         public const uint Size = PageSize;
 
         public const uint PageCount = 1;
+
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => bytes(this);
+        }
+
+        public ref byte First
+        {
+            [MethodImpl(Inline)]
+            get => ref first(Bytes);
+        }
+
+        [MethodImpl(Inline)]
+        public Span<T> Storage<T>()
+            where T : unmanaged
+                => recover<T>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(int index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
     }
 }

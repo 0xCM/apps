@@ -357,7 +357,7 @@ namespace Z0
         /// Removes leading or trailing hex specifiers
         /// </summary>
         /// <param name="src">The source string</param>
-        public static string ClearSpecs(string src)
+        public static string clear(string src)
             => src.Remove("0x").RemoveAny('h');
 
         public static string spec(W8 w, HexPadStyle pad, LetterCaseKind @case)
@@ -417,7 +417,7 @@ namespace Z0
             => @case == LetterCaseKind.Lower ? digits.Map(n => $"x{n}", () => "x") : digits.Map(n => $"X{n}", () => "X");
 
         public static ReadOnlySpan<char> ClearSpecs(ReadOnlySpan<char> src)
-            => ClearSpecs(text.format(src));
+            => clear(text.format(src));
 
         [MethodImpl(Inline)]
         public static bool HasPrespec(ReadOnlySpan<char> src)

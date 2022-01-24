@@ -37,7 +37,7 @@ namespace Z0
             get => pData;
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => size<T>() * Count;
@@ -46,7 +46,7 @@ namespace Z0
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Capacity;
+            get => Size;
         }
 
         public int Length

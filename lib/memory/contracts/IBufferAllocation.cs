@@ -11,6 +11,6 @@ namespace Z0
     {
         MemoryAddress BaseAddress {get;}
 
-        ByteSize Capacity {get;}
+        ByteSize Size {get;}
     }
 }

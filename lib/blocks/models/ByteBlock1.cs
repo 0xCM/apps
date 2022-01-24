@@ -34,6 +34,16 @@ namespace Z0
                 => recover<T>(Bytes);
 
         [MethodImpl(Inline)]
+        public ref T Cell<T>(int index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
         public static implicit operator B(byte src)
             => @as<uint,B>(src);
 

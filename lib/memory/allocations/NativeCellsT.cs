@@ -21,7 +21,7 @@ namespace Z0
 
         public BitWidth Width {get;}
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
             get => (ByteSize)Width;

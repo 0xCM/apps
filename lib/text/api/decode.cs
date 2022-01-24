@@ -12,13 +12,13 @@ namespace Z0
 
     partial class text
     {
-        [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<char> decode(AsciCode src)
-        {
-            var storage = 0u;
-            ref var dst = ref @as<uint,char>(storage);
-            seek(dst, 0) = (char)(byte)src;
-            return cover(dst, 2);
-        }
+        // [MethodImpl(Inline), Op]
+        // public static ReadOnlySpan<char> decode(AsciCode src)
+        // {
+        //     var storage = 0u;
+        //     ref var dst = ref @as<uint,char>(storage);
+        //     seek(dst, 0) = (char)(byte)src;
+        //     return cover(dst, 2);
+        // }
     }
 }

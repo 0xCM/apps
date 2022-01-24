@@ -121,6 +121,10 @@ namespace Z0
             => new H((K)src);
 
         [MethodImpl(Inline)]
+        public static explicit operator sbyte(H src)
+            => (sbyte)src.Value;
+
+        [MethodImpl(Inline)]
         public static implicit operator byte(H src)
             => (byte)src.Value;
 

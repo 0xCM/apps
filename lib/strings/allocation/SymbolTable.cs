@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class SymbolTable : IDisposable
+    public class SymbolTable : IBufferAllocation
     {
         StringBuffer _Strings;
 
@@ -42,7 +42,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         bool Contains(MemoryAddress src)
-            => src >= _Strings.BaseAddress && src <= _Strings.BaseAddress + _Strings.Capacity;
+            => src >= _Strings.BaseAddress && src <= _Strings.BaseAddress + _Strings.Size;
 
         public bool Deposit(string src)
         {
@@ -69,5 +69,11 @@ namespace Z0
             [MethodImpl(Inline)]
             get => slice(_Symbols.View, 0, SymIndex);
         }
+
+        public MemoryAddress BaseAddress
+            => _Strings.BaseAddress;
+
+        ByteSize IBufferAllocation.Size
+            => _Strings.Size;
     }
 }

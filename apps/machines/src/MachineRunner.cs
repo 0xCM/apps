@@ -161,9 +161,9 @@ namespace Z0.Machines
             var cells = size/size<Cell128>();
 
             var left = bank.Block(n0);
-            Random.Fill(left.Edit);
+            Random.Fill(left.Bytes);
             var right = bank.Block(n1);
-            Random.Fill(right.Edit);
+            Random.Fill(right.Bytes);
 
             var dst = bank.Block(n2);
             or(left, right, dst);
@@ -206,9 +206,9 @@ namespace Z0.Machines
             var size = PageBank16x4x4.BlockSize;
             var w = w128;
             var left = bank.Block(n0);
-            Random.Fill(left.Edit);
+            Random.Fill(left.Bytes);
             var right = bank.Block(n1);
-            Random.Fill(right.Edit);
+            Random.Fill(right.Bytes);
 
             var dst = bank.Block(n2);
             or(left, right, dst);

@@ -1,4 +1,3 @@
-
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
@@ -7,10 +6,13 @@ namespace Z0
 {
     using System;
 
-    public interface IBufferAllocator : IDisposable
-    {
-        MemoryAddress BaseAddress {get;}
+    using static Root;
+    using static core;
 
-        ByteSize Size {get;}
+    public struct SemanticHash
+    {
+        ByteBlock16 Data;
+
+
     }
 }

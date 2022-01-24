@@ -39,17 +39,17 @@ namespace Z0
             get => @string(Code);
         }
 
-        public ReadOnlySpan<byte> Encoded
-        {
-            [MethodImpl(Inline), Op]
-            get => bytes(this);
-        }
+        // public ReadOnlySpan<byte> Encoded
+        // {
+        //     [MethodImpl(Inline), Op]
+        //     get => bytes(this);
+        // }
 
-        public ReadOnlySpan<char> Decoded
-        {
-            [MethodImpl(Inline), Op]
-            get => text.decode(this);
-        }
+        // public ReadOnlySpan<char> Decoded
+        // {
+        //     [MethodImpl(Inline), Op]
+        //     get => text.decode(this);
+        // }
 
         public bool IsEmpty
         {

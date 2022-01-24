@@ -51,10 +51,10 @@ namespace Z0
             get => _Labels.Count;
         }
 
-        public ByteSize Capacity
+        public ByteSize Size
         {
             [MethodImpl(Inline)]
-            get => Buffer.Capacity;
+            get => Buffer.Size;
         }
 
         public MemoryAddress BaseAddress
@@ -66,7 +66,7 @@ namespace Z0
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Buffer.Capacity;
+            get => Buffer.Size;
         }
     }
 }

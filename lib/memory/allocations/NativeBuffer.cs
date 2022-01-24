@@ -19,13 +19,13 @@ namespace Z0
     {
         public IntPtr Handle {get;}
 
-        public ByteSize Capacity {get;}
+        public ByteSize Size {get;}
 
         [MethodImpl(Inline)]
         internal NativeBuffer(BufferToken token)
         {
             Handle = token.Handle;
-            Capacity = (uint)token.Size;
+            Size = (uint)token.Size;
         }
 
         public MemoryAddress BaseAddress
@@ -37,17 +37,17 @@ namespace Z0
         public BitWidth Width
         {
             [MethodImpl(Inline)]
-            get => Capacity.Bits;
+            get => Size.Bits;
         }
 
         [MethodImpl(Inline)]
         public void Clear()
             => Edit.Clear();
 
-        public bool Allocated
+        public bool IsAllocated
         {
             [MethodImpl(Inline)]
-            get => Capacity != 0;
+            get => Size != 0;
         }
 
         /// <summary>
@@ -59,10 +59,16 @@ namespace Z0
             get => api.span(this);
         }
 
+        public Span<byte> Bytes
+        {
+            [MethodImpl(Inline)]
+            get => api.span(this);
+        }
+
         public uint Count
         {
             [MethodImpl(Inline)]
-            get => Capacity;
+            get => Size;
         }
 
         [MethodImpl(Inline)]
@@ -71,7 +77,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator BufferToken(NativeBuffer src)
-            => api.token(src.BaseAddress, src.Capacity);
+            => api.token(src.BaseAddress, src.Size);
 
         [MethodImpl(Inline)]
         public static implicit operator Span<byte>(NativeBuffer src)

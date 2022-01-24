@@ -35,22 +35,50 @@ namespace Z0
             get => Range.Size;
         }
 
-        public Span<byte> Edit
+        public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
             get => cover<byte>(Range.Min.Pointer<byte>(), Range.Size);
         }
 
-        public ReadOnlySpan<byte> View
+        public ref byte First
         {
             [MethodImpl(Inline)]
-            get => Edit;
+            get => ref first(Bytes);
         }
+
+        public ref byte this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
+        public ref byte this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
+        [MethodImpl(Inline)]
+        public Span<T> Storage<T>()
+            where T : unmanaged
+                => recover<T>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(int index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
 
         [MethodImpl(Inline)]
         public ref T Segment<T>(ByteSize offset)
             where T : unmanaged
-                => ref @as<T>(seek(Edit,offset));
+                => ref @as<T>(seek(Bytes,offset));
 
         public uint PageCount
         {
@@ -65,6 +93,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public Span<T> Cells<T>()
             where T : unmanaged
-                => recover<T>(Edit);
+                => recover<T>(Bytes);
     }
 }

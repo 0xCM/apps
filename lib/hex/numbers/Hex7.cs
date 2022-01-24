@@ -106,6 +106,10 @@ namespace Z0
             => (byte)src.Value;
 
         [MethodImpl(Inline)]
+        public static explicit operator sbyte(H src)
+            => (sbyte)src.Value;
+
+        [MethodImpl(Inline)]
         public static explicit operator uint(H src)
             => (uint)src.Value;
 

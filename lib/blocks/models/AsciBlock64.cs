@@ -36,6 +36,18 @@ namespace Z0
             get => recover<AsciCode>(Bytes);
         }
 
+        public ref AsciCode this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Codes,index);
+        }
+
+        public ref AsciCode this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Codes,index);
+        }
+
         public ref byte First
         {
             [MethodImpl(Inline)]

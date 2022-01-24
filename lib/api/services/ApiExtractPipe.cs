@@ -19,7 +19,7 @@ namespace Z0
 
         static byte parse8u(string src)
         {
-            if(byte.TryParse(ClearSpecs(src), NumberStyles.HexNumber, null, out var b))
+            if(byte.TryParse(clear(src), NumberStyles.HexNumber, null, out var b))
                 return b;
             else
                 return 0;

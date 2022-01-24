@@ -83,6 +83,16 @@ namespace Z0
                 => recover<T>(Bytes);
 
         [MethodImpl(Inline)]
+        public ref T Cell<T>(int index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
         public Vector256<T> Vector<T>()
             where T : unmanaged
                 => vcore.vload<T>(w256, @as<T>(First));

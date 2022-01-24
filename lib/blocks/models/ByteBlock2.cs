@@ -23,16 +23,26 @@ namespace Z0
 
         ByteBlock1 B;
 
-        [MethodImpl(Inline)]
-        public Span<T> Storage<T>()
-            where T : unmanaged
-                => recover<T>(Bytes);
-
         public Span<byte> Bytes
         {
             [MethodImpl(Inline)]
             get => bytes(this);
         }
+
+        [MethodImpl(Inline)]
+        public Span<T> Storage<T>()
+            where T : unmanaged
+                => recover<T>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(int index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
+
+        [MethodImpl(Inline)]
+        public ref T Cell<T>(uint index)
+            where T : unmanaged
+                => ref seek(Storage<T>(), index);
 
         [MethodImpl(Inline)]
         public static implicit operator B(ushort src)
