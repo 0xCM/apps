@@ -17,7 +17,6 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
             var exe = AsmWs.ExePath(id);
-
             var clock = Time.counter(true);
             var process = Process.Start(exe.Format());
             process.WaitForExit();

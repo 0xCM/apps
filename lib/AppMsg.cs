@@ -27,8 +27,8 @@ namespace Z0
         public static MsgPattern<FS.FileUri,Count,Count> CsvHeaderMismatch
             => "The records defined in {0} require {0} fields but {1} were found in the source";
 
-        public static MsgPattern<uint,FS.FileUri,Count,Count> CsvDataMismatch
-            => "The record {0} defined in {1} requires {2} fields but {3} were found in the source";
+        public static MsgPattern<Count,Count,string> CsvDataMismatch
+            => "The target requires {0} fields but {1} were found in {2}";
 
         public static RenderPattern<FS.FileUri> Emitted
             => "Emitted {0}";

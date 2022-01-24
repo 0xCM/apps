@@ -12,6 +12,9 @@ namespace Z0
     [DataType("opuri")]
     public class OpUri : IApiUri<OpUri>
     {
+        internal static string safe(string src)
+            => (src ?? EmptyString).Replace(Chars.Lt, IDI.TypeArgsOpen).Replace(Chars.Gt, IDI.TypeArgsClose).Replace(Chars.Pipe, Chars.Caret);
+
         /// <summary>
         /// The full uri in the form {scheme}://{hostpath}/{opid}
         /// </summary>
@@ -38,7 +41,7 @@ namespace Z0
         {
             Host = host;
             OpId = opid;
-            UriText = Require.notnull(uritext);
+            UriText = safe(Require.notnull(uritext));
         }
 
         /// <summary>

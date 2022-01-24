@@ -33,7 +33,7 @@ namespace Z0
         public void Analyze(ReadOnlySpan<AsmRoutine> src, ApiPackArchive dst)
         {
             var blocks = CollectBlocks(src);
-            var statements = Wf.ProcessAsm();
+            var statements = Wf.ProcessAsmSvc();
             var asmcsv = Wf.HostAsmEmitter();
             if(Settings.EmitCalls)
                 EmitCalls(src, dst);

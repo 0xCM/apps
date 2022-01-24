@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
+            => Asm.ProcessAsmBuffers.create(wf);
+
         public static CodeLoader CodeLoader(this IWfRuntime wf)
             => Z0.CodeLoader.create(wf);
 

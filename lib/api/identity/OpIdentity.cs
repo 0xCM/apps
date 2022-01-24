@@ -54,7 +54,7 @@ namespace Z0
 
         public OpIdentity(string data, string name, string suffix, bool generic, bool imm, string[] components)
         {
-            IdentityText = Safe(data).Trim();
+            IdentityText = OpUri.safe(data).Trim();
             Name = name.Trim();
             Suffix = suffix.Trim();
             IsGeneric = generic;
@@ -111,9 +111,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator!=(OpIdentity a, OpIdentity b)
             => !a.Equals(b);
-
-        static string Safe(string src)
-            => src.Replace(Chars.Lt, IDI.TypeArgsOpen).Replace(Chars.Gt, IDI.TypeArgsClose);
 
         public static OpIdentity Empty
             => new OpIdentity(EmptyString);

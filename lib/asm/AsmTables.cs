@@ -59,7 +59,7 @@ namespace Z0.Asm
             if(count != ProcessAsmRecord.FieldCount)
             {
                 dst = default;
-                return (false, AppMsg.FieldCountMismatch.Format(ProcessAsmRecord.FieldCount, count));
+                return (false, AppMsg.CsvDataMismatch.Format(ProcessAsmRecord.FieldCount, count, src.Content));
             }
             dst = default;
             var i=0u;
@@ -243,15 +243,6 @@ namespace Z0.Asm
             return results.ToArray();
         }
 
-        // static Index<Outcome<uint>> rows(ReadOnlySpan<TextGrid> src, ConcurrentBag<HostAsmRecord> dst)
-        // {
-        //     var results = bag<Outcome<uint>>();
-        //     iter(src, doc => {
-        //         results.Add(rows(doc, dst));
-        //     }, true);
-        //     return results.ToArray();
-        // }
-
         static Outcome row(TextRow src, out AsmDetailRow dst)
         {
             var input = src.Cells;
@@ -380,13 +371,6 @@ namespace Z0.Asm
             {
                 foreach(var file in src)
                 {
-                    // var result = TextGrids.load(file, out var grid);
-                    // if(result.Fail)
-                    // {
-                    //     Error(result.Message);
-                    //     continue;
-                    // }
-
                     var parsed = rows(file, dst);
                     if(parsed.Fail)
                         Error(FileParseError.Format(file, parsed.Message));

@@ -2,12 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    partial class AsmCmdService
+    partial class CheckCmdProvider
     {
-        [CmdOp(".symstore")]
-        Outcome SymStore(CmdArgs args)
+        [CmdOp("check/sym/stores")]
+        Outcome CheckSymStores(CmdArgs args)
         {
             var store = SymbolStores.symstore<string>(24);
             store.Deposit("abc", out var s1);

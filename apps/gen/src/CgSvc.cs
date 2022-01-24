@@ -44,6 +44,9 @@ namespace Z0
         public RecordGen Records()
             => Service(() => RecordGen.create(Wf));
 
+        public AsciLookupGen AsciLookups()
+            => Service(() => AsciLookupGen.create(Wf));
+
         public InterfaceGen Interfaces()
             => Service(() => InterfaceGen.create(Wf));
 

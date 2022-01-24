@@ -38,7 +38,7 @@ namespace Z0
             => Asm.AsmDecoder.create(wf);
 
         [Op]
-        public static ProcessAsmSvc ProcessAsm(this IWfRuntime wf)
+        public static ProcessAsmSvc ProcessAsmSvc(this IWfRuntime wf)
             => Asm.ProcessAsmSvc.create(wf);
 
         [Op]
