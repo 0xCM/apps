@@ -33,7 +33,7 @@ namespace Z0.Asm
             => math.between(src, MinRexCode, MaxRexCode);
 
         [MethodImpl(Inline), Op]
-        public static bit rex(AsmOpCode src)
+        public static bit rex(AsmOcExpr src)
             => rex(src.Lead);
 
         [MethodImpl(Inline), Op]
@@ -57,11 +57,11 @@ namespace Z0.Asm
             => (byte)src == 0x62;
 
         [MethodImpl(Inline), Op]
-        public static bit repeat(AsmOpCode src)
+        public static bit repeat(AsmOcExpr src)
             => emath.oneof(src.Lead, REP.REPNZ, REP.REPZ);
 
         [MethodImpl(Inline), Op]
-        public static bit @lock(AsmOpCode src)
+        public static bit @lock(AsmOcExpr src)
             => emath.same(L.LOCK, src.Lead);
 
         [MethodImpl(Inline), Op]

@@ -23,10 +23,10 @@ namespace Z0.Asm
             Parser = new AsmOcParser();
         }
 
-        public Outcome Parse(string src, out AsmOcSpec dst)
+        public Outcome Parse(string src, out AsmOpCode dst)
             => Parser.Parse(src, out dst);
 
-        public string Format(in AsmOcSpec src)
+        public string Format(in AsmOpCode src)
         {
             var dst = text.buffer();
             var count = src.TokenCount;

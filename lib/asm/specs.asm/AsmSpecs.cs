@@ -16,7 +16,7 @@ namespace Z0.Asm
         const NumericKind Closure = UnsignedInts;
 
         [Op]
-        public static AsmSpec define(in AsmMnemonic mnemonic, in AsmOcSpec opcode, params AsmOperand[] ops)
+        public static AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, params AsmOperand[] ops)
         {
             var count = ops.Length;
             switch(count)
@@ -36,7 +36,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOcSpec opcode, out AsmSpec dst)
+        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, out AsmSpec dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -45,7 +45,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOcSpec opcode, in AsmOperand op0, out AsmSpec dst)
+        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, out AsmSpec dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -58,7 +58,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOcSpec opcode, in AsmOperand op0, in AsmOperand op1, out AsmSpec dst)
+        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, out AsmSpec dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -71,7 +71,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOcSpec opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, out AsmSpec dst)
+        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, out AsmSpec dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -84,7 +84,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOcSpec opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, in AsmOperand op3, out AsmSpec dst)
+        public static ref AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, in AsmOperand op3, out AsmSpec dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;

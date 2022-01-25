@@ -30,9 +30,7 @@ namespace Z0.Asm
                 }
             }
 
-            // var flow = Running(string.Format("Creating combined toc from {0} source files", src.Length));
-             CombineDocs(src, dst, encoding);
-            // Ran(flow);
+            CombineDocs(src, dst, encoding);
             return result;
         }
     }

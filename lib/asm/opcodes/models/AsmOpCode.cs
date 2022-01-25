@@ -6,56 +6,78 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
     using static core;
 
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmOpCode
     {
-        public AsmOpCodeBits Bits;
+        public const byte TokenCapacity = 15;
 
-        public CharBlock36 Expr;
+        Cell256 Data;
 
         [MethodImpl(Inline)]
-        public AsmOpCode(AsmOpCodeBits bits, CharBlock36 expr)
+        public AsmOpCode(ReadOnlySpan<AsmOcToken> tokens)
         {
-            Bits = bits;
-            Expr = expr;
+            Data = first(recover<AsmOcToken,Cell256>(tokens));
+
+            var _tokens = Tokens();
+            var counter = z8;
+            for(var i=0; i<TokenCapacity; i++)
+            {
+                if(skip(_tokens,i) != 0)
+                    counter++;
+                else
+                    break;
+            }
+
+            TokenCount = counter;
         }
 
-        public ref byte Lead
+        [MethodImpl(Inline)]
+        Span<AsmOcToken> Tokens()
+            => recover<AsmOcToken>(Data.Bytes);
+
+        ref ushort Settings
         {
             [MethodImpl(Inline)]
-            get => ref seek(Bytes,0);
+            get => ref seek(recover<ushort>(Data.Bytes), TokenCapacity-1);
         }
 
-        public bool IsEmpty
+        public ref byte TokenCount
         {
             [MethodImpl(Inline)]
-            get => Bits.IsEmpty;
+            get => ref @as<byte>(Settings);
         }
 
-        public bool IsNonEmpty
+        public ref AsmOcClass OcClass
         {
             [MethodImpl(Inline)]
-            get => Bits.IsNonEmpty;
+            get => ref seek(@as<AsmOcClass>(Settings),1);
         }
 
-        Span<byte> Bytes
+        public ref AsmOcToken this[uint i]
         {
             [MethodImpl(Inline)]
-            get => slice(bytes(Bits),0, 3);
+            get => ref seek(Tokens(),i);
+        }
+
+        public ref AsmOcToken this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Tokens(),i);
         }
 
         public string Format()
-            => Expr.Format();
+            => AsmOcFormatter.format(this);
 
         public override string ToString()
             => Format();
 
-        public static AsmOpCode Empty
-            => default;
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOpCode(AsmOcToken[] src)
+            => new AsmOpCode(src);
+
+        public static AsmOpCode Empty => new AsmOpCode(sys.empty<AsmOcToken>());
     }
 }

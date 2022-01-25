@@ -13,7 +13,7 @@ namespace Z0.Asm
             Datasets = AsmOcDatasets.load();
         }
 
-        public static string format(in AsmOcSpec src)
+        public static string format(in AsmOpCode src)
         {
             var dst = text.buffer();
             var count = src.TokenCount;
@@ -26,7 +26,7 @@ namespace Z0.Asm
             return dst.Emit();
         }
 
-        public string Format(in AsmOcSpec src)
+        public string Format(in AsmOpCode src)
         {
             var dst = text.buffer();
             var count = src.TokenCount;

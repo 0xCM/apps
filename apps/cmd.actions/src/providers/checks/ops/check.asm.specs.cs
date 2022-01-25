@@ -18,7 +18,7 @@ namespace Z0
     {
         // and r32, imm32 | 81 /4 id
         public static AsmSpec and(r32 a, imm32 b)
-            => AsmSpecs.define(AsmMnemonicNames.and, AsmOcSpec.Empty, a, b);
+            => AsmSpecs.define(AsmMnemonicNames.and, AsmOpCode.Empty, a, b);
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 

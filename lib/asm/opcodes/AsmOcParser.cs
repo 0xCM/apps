@@ -66,12 +66,12 @@ namespace Z0.Asm
         }
 
         [Parser]
-        public static Outcome parse(string src, out AsmOcSpec dst)
+        public static Outcome parse(string src, out AsmOpCode dst)
         {
             var result = Outcome.Success;
             var parts = text.trim(text.split(text.despace(src),Chars.Space));
             var count = (byte)min(parts.Length, 15);
-            dst = AsmOcSpec.Empty;
+            dst = AsmOpCode.Empty;
             dst.TokenCount = count;
             dst.OcClass = classify(src);
             for(var i=0; i<count; i++)
@@ -96,30 +96,9 @@ namespace Z0.Asm
         public bool Token(string src, out AsmOcToken dst)
             => Datasets.TokensByExpression.Find(src, out dst);
 
-        public Outcome Parse(string src, out AsmOcSpec dst)
+        public Outcome Parse(string src, out AsmOpCode dst)
             => parse(src, out dst);
 
-        // {
-        //     var result = Outcome.Success;
-        //     var parts = text.trim(text.split(text.despace(src),Chars.Space));
-        //     var count = (byte)min(parts.Length, 15);
-        //     dst = AsmOcSpec.Empty;
-        //     dst.TokenCount = count;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var expr = ref skip(parts,i);
-        //         if(Token(expr, out var token))
-        //         {
-        //             dst[i] = token;
-        //         }
-        //         else
-        //         {
-        //             result = (false, string.Format("A token matching the expression '{0}' was not found", expr));
-        //             break;
-        //         }
-        //     }
-        //     return result;
-        // }
 
         static AsmOcParser()
         {

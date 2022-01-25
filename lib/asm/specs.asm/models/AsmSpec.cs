@@ -15,7 +15,7 @@ namespace Z0.Asm
     {
         public AsmMnemonic Mnemonic;
 
-        public AsmOcSpec OpCode;
+        public AsmOpCode OpCode;
 
         public AsmOperands Operands;
 

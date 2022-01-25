@@ -24,8 +24,8 @@ namespace Z0.Asm
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static AsmOcSpec define(params AsmOcToken[] src)
-            => new AsmOcSpec(src);
+        public static AsmOpCode define(params AsmOcToken[] src)
+            => new AsmOpCode(src);
 
         [MethodImpl(Inline), Op]
         public static AsmOpCodeBits bits()
@@ -41,14 +41,14 @@ namespace Z0.Asm
             => (offset + 4) <= src.Length && skip(src, offset) == 0xE8;
 
         [MethodImpl(Inline), Op]
-        public static bit HasSegOverride(AsmOpCode src)
+        public static bit HasSegOverride(AsmOcExpr src)
             => emath.oneof(src.Lead, SegOverrideCodes);
 
         [MethodImpl(Inline), Op]
-        public static bit HasSizeOverride(AsmOpCode src)
+        public static bit HasSizeOverride(AsmOcExpr src)
             => emath.oneof(src.Lead, SZ.ADSZ, SZ.OPSZ);
 
-        public static string format(in AsmOcSpec src)
+        public static string format(in AsmOpCode src)
         {
             var dst = text.buffer();
             var count = src.TokenCount;
