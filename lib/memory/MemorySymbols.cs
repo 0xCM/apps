@@ -23,6 +23,18 @@ namespace Z0
             => (uint)src;
 
         [MethodImpl(Inline), Op]
+        public static MemorySymbol symbol(uint key, Identifier name, SegRef seg)
+        {
+            var dst = new MemorySymbol();
+            dst.Key = key;
+            dst.Address = seg.BaseAddress;
+            dst.HashCode = strings.hash(name);
+            dst.Size = seg.Size;
+            dst.Expr = name.Content;
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
         public static MemorySymbol symbol(uint key, StringAddress address)
         {
             var dst = new MemorySymbol();

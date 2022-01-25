@@ -177,10 +177,6 @@ namespace Z0
             => Asm.AsmTokens.create(context);
 
         [Op]
-        public static AsmSymbols AsmSymbols(this IServiceContext context)
-            => Asm.AsmSymbols.create();
-
-        [Op]
         public static AsmRegSets AsmRegSets(this IWfRuntime context)
             => Asm.AsmRegSets.create(context);
 

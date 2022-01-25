@@ -24,10 +24,6 @@ namespace Z0.Asm
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static AsmOpCode define(params AsmOcToken[] src)
-            => new AsmOpCode(src);
-
-        [MethodImpl(Inline), Op]
         public static AsmOpCodeBits bits()
             => default;
 
@@ -368,6 +364,6 @@ namespace Z0.Asm
         }
 
         static ReadOnlySpan<SG> SegOverrideCodes
-                => new SG[]{SG.CS, SG.DS, SG.ES, SG.FS, SG.GS, SG.SS};
+            => new SG[]{SG.CS, SG.DS, SG.ES, SG.FS, SG.GS, SG.SS};
     }
 }

@@ -23,8 +23,10 @@ namespace Z0.llvm
 
         WsProjects WsProjects => Service(Wf.WsProjects);
 
-        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, bool runexe = false)
-            => WsProjects.RunScript(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, runexe));
+        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project)
+        {
+            return WsProjects.RunScript(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, false));
+        }
 
         public LlvmMcSvc()
             : base(ToolId)

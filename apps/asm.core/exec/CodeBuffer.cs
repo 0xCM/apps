@@ -9,22 +9,7 @@ namespace Z0
 
     using static core;
     using static Root;
-
     using static DFx;
-
-    public readonly struct OperationSpec
-    {
-        public readonly OperationKind Kind;
-
-        readonly ulong OpSizes;
-
-        readonly ulong OpKinds;
-    }
-
-    public readonly struct OperandSpec
-    {
-        public readonly NativeSizeCode Size;
-    }
 
     public class CodeBuffer : IDisposable
     {
@@ -79,7 +64,6 @@ namespace Z0
         [MethodImpl(Inline)]
         NativeBuffer Reserve(ByteSize size)
         {
-            //Clear();
             Offset += size;
             return Code;
         }

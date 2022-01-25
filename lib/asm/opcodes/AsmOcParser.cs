@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static Root;
     using static core;
     using static AsmOpCodeTokens;
@@ -98,7 +95,6 @@ namespace Z0.Asm
 
         public Outcome Parse(string src, out AsmOpCode dst)
             => parse(src, out dst);
-
 
         static AsmOcParser()
         {

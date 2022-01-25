@@ -10,34 +10,8 @@ namespace Z0
     using System.Runtime.InteropServices;
     using System.Runtime.CompilerServices;
 
-
     using static Root;
     using static core;
-
-    public class OpExecInfo
-    {
-        public Identifier FunctionName;
-
-        public Index<object> Input;
-
-        public object Output;
-
-        public @string Description;
-
-        public OpExecInfo(Identifier name, object[] input, object output, @string description)
-        {
-            FunctionName = name;
-            Input = input;
-            Output = output;
-            Description = description;
-        }
-
-        public string Format()
-            => Description;
-
-        public override string ToString()
-            => Format();
-    }
 
     public interface IDFxSpec
     {
@@ -56,6 +30,29 @@ namespace Z0
     public unsafe readonly struct DFx
     {
         const NumericKind Closure = UnsignedInts;
+
+        public readonly struct ActionSpec : IDFxSpec
+        {
+            public Identifier Name {get;}
+
+            public SegRef Code {get;}
+
+            public Action Operation {get;}
+
+            [MethodImpl(Inline)]
+            public ActionSpec(Identifier name, SegRef code, Action op)
+            {
+                Name = name;
+                Code = code;
+                Operation = op;
+            }
+
+            [MethodImpl(Inline)]
+            public void Invoke()
+                => Operation();
+
+            public static ActionSpec Empty => default;
+        }
 
         public struct UnaryOpSpec<T>
         {
@@ -138,6 +135,14 @@ namespace Z0
             public Func<A,B,C> Operation;
 
             [MethodImpl(Inline)]
+            public FuncSpec(Identifier name, SegRef code, Func<A,B,C> op)
+            {
+                Name = name;
+                Code = code;
+                Operation = op;
+            }
+
+            [MethodImpl(Inline)]
             public C Invoke(A a, B b)
                 => Operation(a,b);
 
@@ -173,7 +178,6 @@ namespace Z0
 
             public OpExecInfo ExecInfo(T a)
                 => new OpExecInfo(Name, sys.empty<object>(), a,  Format(a));
-
         }
 
 
@@ -186,7 +190,7 @@ namespace Z0
             var tOperand = typeof(T);
             var tResult = typeof(T);
             var tOperator = typeof(UnaryOp<T>);
-            spec.Operation = (UnaryOp<T>)DFx.emit(name, functype:tOperator, result:tResult, args: array(tOperand), dst.Address);
+            spec.Operation = (UnaryOp<T>)emit(name, functype:tOperator, result:tResult, args: array(tOperand), dst.Address);
             return spec;
         }
 
@@ -196,7 +200,7 @@ namespace Z0
             var spec = new BinOpSpec<T>();
             spec.Name = name;
             spec.Code = dst;
-            spec.Operation = (BinaryOp<T>)DFx.emit(name, functype:typeof(BinaryOp<T>), result:typeof(T), args: array(typeof(T), typeof(T)), dst.Address);
+            spec.Operation = (BinaryOp<T>)emit(name, functype:typeof(BinaryOp<T>), result:typeof(T), args: array(typeof(T), typeof(T)), dst.Address);
             return spec;
         }
 
@@ -206,15 +210,19 @@ namespace Z0
             var spec = new EmitterSpec<T>();
             spec.Name = name;
             spec.Code = dst;
-            spec.Operation = (Emitter<T>)DFx.emit(name, functype:typeof(Emitter<T>), result:typeof(T), args: sys.empty<Type>(), dst.Address);
+            spec.Operation = (Emitter<T>)emit(name, functype:typeof(Emitter<T>), result:typeof(T), args: sys.empty<Type>(), dst.Address);
             return spec;
         }
+
+        [Op]
+        public static ActionSpec action(Identifier name, SegRef dst)
+            => new ActionSpec(name, dst, (Action)emit(name, functype:typeof(Action), result:typeof(void), args: sys.empty<Type>(), dst.Address));
 
         public static ref FuncSpec<A,B> func<A,B>(Identifier name, SegRef dst, out FuncSpec<A,B> spec)
         {
             spec.Name = name;
             spec.Code = dst;
-            spec.Operation = (Func<A,B>)DFx.emit(name, functype:typeof(Func<A,B>), result:typeof(B), args: array(typeof(A)), dst.Address);
+            spec.Operation = (Func<A,B>)emit(name, functype:typeof(Func<A,B>), result:typeof(B), args: array(typeof(A)), dst.Address);
             return ref spec;
         }
 

@@ -9,13 +9,6 @@ namespace Z0
 
     using static Root;
 
-    public interface IBufferAllocation<T> : IBufferAllocation
-        where T : unmanaged
-    {
-        ReadOnlySpan<T> Allocated {get;}
-    }
-
-
     public abstract class Allocation<T> : IBufferAllocation<T>
         where T : unmanaged
     {
@@ -33,7 +26,6 @@ namespace Z0
         {
             Allocator.Dispose();
         }
-
 
         public MemoryAddress BaseAddress {get;}
 

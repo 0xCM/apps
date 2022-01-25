@@ -21,15 +21,6 @@ namespace Z0
 
         SortedDictionary<string,FileKind> FileKindMatch;
 
-        // protected Outcome SourceFiles(IProjectWs project)
-        // {
-        //     if(args.Length == 0)
-        //         Files(Project().SrcFiles());
-        //     else
-        //         Files(Project().SrcFiles(arg(args,0)));
-        //     return true;
-        // }
-
         public Index<IFileFlowType> FileFlowTypes()
         {
             return Data(nameof(FileFlowTypes), Load);
@@ -106,32 +97,6 @@ namespace Z0
 
             return result;
         }
-
-        // void ReceiveCmdStatus(in string src)
-        // {
-
-        // }
-
-        // void ReceiveCmdError(in string src)
-        // {
-        //     Error(src);
-        // }
-
-        // public Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-        // {
-        //     var result = Outcome.Success;
-
-        //     void OnError(Exception e)
-        //     {
-        //         result = e;
-        //         Error(e);
-        //     }
-
-        //     var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
-        //     response = ScriptRunner.RunCmd(cmd, OnError);
-        //     return result;
-        // }
-
 
         public ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
             => CmdResponse.parse(src);

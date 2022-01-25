@@ -5,7 +5,6 @@
 namespace Z0
 {
     using System;
-    using System.IO;
 
     using static Root;
     using static core;
@@ -79,7 +78,6 @@ namespace Z0
             return i - offset;
         }
 
-
         public Index<HexDataRow> Read(FS.FilePath src)
         {
             var lines = src.ReadNumberedLines();
@@ -113,6 +111,7 @@ namespace Z0
                     }
                 }
             }
+
             if(result.Fail)
             {
                 Error(result.Message);
