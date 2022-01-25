@@ -52,7 +52,7 @@ namespace Z0.Asm
                     if(kind == SdmTableKind.OpCodes)
                     {
                         var current = slice(buffer, counter);
-                        counter += Fill(table, current);
+                        counter += Project(table, current);
                     }
                 }
             }
@@ -70,7 +70,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        uint Fill(Table src, Span<SdmOpCodeDetail> dst)
+        uint Project(Table src, Span<SdmOpCodeDetail> dst)
         {
             var counter = 0u;
             var rows = src.Rows;
@@ -232,6 +232,7 @@ namespace Z0.Asm
                         .Replace("+ rd", " +rd")
                         .Replace("+ ro", " +ro")
                         .Replace("/ r", "/r")
+                        .Replace("REX.w", "REX.W")
                         .Trim()
                         ;
             }

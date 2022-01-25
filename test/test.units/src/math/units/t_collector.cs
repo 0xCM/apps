@@ -33,7 +33,6 @@ namespace Z0
             return ref a;
         }
 
-
         public static ref uint avg(ref uint a, uint b)
         {
             a = avg(a,b);

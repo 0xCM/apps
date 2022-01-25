@@ -8,17 +8,17 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<AsmSigOpCode> LoadSigDecomps()
+        public Index<SdmSigOpCode> LoadSigDecomps()
         {
             return Data(nameof(LoadSigDecomps),Load);
 
-            Index<AsmSigOpCode> Load()
+            Index<SdmSigOpCode> Load()
             {
-                var dst = sys.empty<AsmSigOpCode>();
-                var src = ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed");
+                var dst = sys.empty<SdmSigOpCode>();
+                var src = ProjectDb.TablePath<SdmSigOpCode>("sdm", "decomposed");
                 var lines = src.ReadNumberedLines();
                 var count = lines.Count - 1;
-                dst = alloc<AsmSigOpCode>(count);
+                dst = alloc<SdmSigOpCode>(count);
                 SdmOps.rows(slice(lines.View, 1), dst);
                 return dst;
             }

@@ -18,8 +18,6 @@ namespace Z0.Asm
         /// </summary>
         Hex8,
 
-        WordLiteral,
-
         /// <summary>
         /// Classifies <see cref='RexToken'/> tokens
         /// </summary>
@@ -80,10 +78,29 @@ namespace Z0.Asm
         /// </summary>
         Operator,
 
-
         /// <summary>
         /// Classifies <see cref='ModRmToken'/> tokens
         /// </summary>
         ModRm,
+
+        /// <summary>
+        /// Classifies two adjacent hex bytes
+        /// </summary>
+        WordLiteral,
+
+        /// <summary>
+        /// Classifies <see cref='RepToken'/> tokens
+        /// </summary>
+        Rep,
+
+        /// <summary>
+        /// Classifies <see cref='SizeToken'/> tokens
+        /// </summary>
+        Size,
+
+        /// <summary>
+        /// Classifies <see cref='LockToken'/> tokens
+        /// </summary>
+        Lock,
     }
 }

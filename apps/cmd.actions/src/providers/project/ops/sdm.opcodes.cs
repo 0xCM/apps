@@ -26,7 +26,7 @@ namespace Z0
             return true;
         }
 
-        static byte sigops(in AsmSigOpCode src, Span<AsmSigOpExpr> dst)
+        static byte sigops(in SdmSigOpCode src, Span<AsmSigOpExpr> dst)
         {
             var counter = z8;
             if(src.Op0.IsNonEmpty)
@@ -37,6 +37,8 @@ namespace Z0
                 seek(dst,counter++) = src.Op2;
             if(src.Op3.IsNonEmpty)
                 seek(dst,counter++) = src.Op3;
+            if(src.Op4.IsNonEmpty)
+                seek(dst,counter++) = src.Op4;
             return counter;
         }
 
@@ -45,9 +47,9 @@ namespace Z0
         {
             var decomps = Sdm.LoadSigDecomps();
             var count = decomps.Count;
-            var opexpr = span<AsmSigOpExpr>(4);
+            var opexpr = span<AsmSigOpExpr>(5);
             var identity = text.buffer();
-            var identities = dict<Identifier, HashSet<AsmSigOpCode>>();
+            var identities = dict<Identifier, HashSet<SdmSigOpCode>>();
             for(var i=0; i<count; i++)
             {
                 opexpr.Clear();
@@ -69,8 +71,6 @@ namespace Z0
                     identities.Add(id, new());
 
                 identities[id].Add(sig);
-
-                //Write(string.Format("{0,-8} | {1,-32} | {2}", sig.Seq, id, sig.Sig.Format()));
             }
 
             foreach(var entry in identities)
@@ -80,26 +80,11 @@ namespace Z0
                 Write(string.Format("{0,-32} | {1}", id, opcodes));
             }
 
-            //Write(string.Format("Count:{0}", identities.Count));
             return true;
         }
 
         static string identifier(AsmSigOpExpr src)
-        {
-            return src.Text.Replace(" {k1}{z}", EmptyString).Replace(" {k1}", EmptyString).ToLower();
-        }
-        void EmitSdmOpCodeDocs()
-        {
-            var rules = Rules.productions(ProjectDb.Settings("asm.sigs.expansions", FS.ext("map")));
-
-            // foreach(var e in src.Entries)
-            // {
-            //     var regs = e.Value;
-            //     var expr = e.Key;
-            //     Write(string.Format("{0} -> [{1}]", expr, regs));
-            // }
-        }
-
+            => src.Text.Replace(" {k1}{z}", EmptyString).Replace(" {k1}", EmptyString).ToLower();
 
         static string[] Gp8Regs = new string[]{"al","cl","dl","bl","spl","bpl","sil","dil","r8b","r9b","r10b","r11b","r12b","r13b","r14b","r15b"};
 

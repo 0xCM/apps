@@ -27,7 +27,13 @@ namespace Z0.Asm
             => ProjectDb.Settings("asm.sigs.expansions", FS.ext("map"));
 
         public FS.FilePath SigDecompTable()
-            => ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed");
+            => ProjectDb.TablePath<SdmSigOpCode>("sdm", "decomposed");
+
+        public FS.FilePath SigNormalRules()
+            => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));
+
+        public FS.FilePath SigOpMaskRules()
+            => ProjectDb.Settings("asm.sigs.opmasks", FS.ext("map"));
 
         public FS.FolderPath Sources()
             => Project().Home();

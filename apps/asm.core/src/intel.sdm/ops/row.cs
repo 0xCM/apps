@@ -11,9 +11,9 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
-        public static Outcome row(TextLine src, out AsmSigOpCode dst)
+        public static Outcome row(TextLine src, out SdmSigOpCode dst)
         {
-            const byte FieldCount = AsmSigOpCode.FieldCount;
+            const byte FieldCount = SdmSigOpCode.FieldCount;
 
             var result = Outcome.Success;
             var cells = src.Split(Chars.Pipe);
@@ -24,6 +24,7 @@ namespace Z0.Asm
 
             var i=0;
             DataParser.parse(skip(cells,i++), out dst.Seq);
+            DataParser.parse(skip(cells,i++), out dst.Identity);
             AsmSigs.parse(skip(cells,i++), out dst.Sig);
             dst.OpCode = skip(cells,i++).Trim();
             dst.Op0 = skip(cells,i++).Trim();

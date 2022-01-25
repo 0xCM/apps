@@ -25,9 +25,10 @@ namespace Z0.Asm
         TextMap SigNormalizationRules()
             => Data(nameof(SigNormalizationRules), () => Rules.textmap(ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"))));
 
-        public void ClearTargets()
+        void Clear()
         {
             SdmPaths.Targets().Clear();
+            ClearCache();
         }
 
         public Outcome Import()
@@ -36,7 +37,7 @@ namespace Z0.Asm
 
             try
             {
-                ClearTargets();
+                Clear();
 
                 result = EmitCharMaps();
                 if(result.Fail)

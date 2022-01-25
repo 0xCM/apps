@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelSdm
     {
-        public Index<AsmForm> LoadImportedForms()
+        public Index<AsmFormExpr> LoadImportedForms()
             => LoadImportedOpcodeDetails().Select(x => SdmOps.form(x));
     }
 }

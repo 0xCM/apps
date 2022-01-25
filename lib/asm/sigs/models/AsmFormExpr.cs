@@ -9,18 +9,23 @@ namespace Z0.Asm
 
     using static Root;
 
-    public readonly struct AsmForm : IEquatable<AsmForm>, IComparable<AsmForm>
+    using api = AsmSigs;
+
+    public readonly struct AsmFormExpr : IEquatable<AsmFormExpr>, IComparable<AsmFormExpr>
     {
         readonly public AsmSigExpr Sig;
 
         public readonly CharBlock36 OpCode;
 
         [MethodImpl(Inline)]
-        public AsmForm(in AsmSigExpr sig, in CharBlock36 oc)
+        public AsmFormExpr(in AsmSigExpr sig, in CharBlock36 oc)
         {
             Sig = sig;
             OpCode = oc;
         }
+
+        public Identifier Identity
+            => api.identify(this);
 
         public string Text
             => string.Format("{0} {1}", Sig, OpCode);
@@ -37,16 +42,16 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        public int CompareTo(AsmForm src)
+        public int CompareTo(AsmFormExpr src)
             =>  Text.CompareTo(src.Text);
 
-        public bool Equals(AsmForm src)
+        public bool Equals(AsmFormExpr src)
             => Text.Equals(src.Text);
 
         public override int GetHashCode()
             => (int)Hash;
 
         public override bool Equals(object obj)
-            => obj is AsmForm x && Equals(x);
+            => obj is AsmFormExpr x && Equals(x);
     }
 }

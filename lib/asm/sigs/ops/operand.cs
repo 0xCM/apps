@@ -131,6 +131,8 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
         {
+            if(i==4)
+                return ref src.Op4;
             if(i==3)
                 return ref src.Op3;
             if(i==2)

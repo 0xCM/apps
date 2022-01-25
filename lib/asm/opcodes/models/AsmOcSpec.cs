@@ -38,10 +38,22 @@ namespace Z0.Asm
         Span<AsmOcToken> Tokens()
             => recover<AsmOcToken>(Data.Bytes);
 
-        public ref ushort TokenCount
+        ref ushort Settings
         {
             [MethodImpl(Inline)]
             get => ref seek(recover<ushort>(Data.Bytes), TokenCapacity-1);
+        }
+
+        public ref byte TokenCount
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<byte>(Settings);
+        }
+
+        public ref AsmOcClass OcClass
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(@as<AsmOcClass>(Settings),1);
         }
 
         public ref AsmOcToken this[uint i]

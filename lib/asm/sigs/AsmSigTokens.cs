@@ -10,31 +10,22 @@ namespace Z0.Asm
     {
         None = 0,
 
-        [Symbol("rel")]
         Rel,
 
-        [Symbol("reg.sys")]
         SysReg,
 
-        [Symbol("reg.gp")]
         GpReg,
 
-        [Symbol("reg.V")]
         VecReg,
 
-        [Symbol("reg.K")]
         MaskReg,
 
-        [Symbol("reg.fpu")]
         FpuReg,
 
-        [Symbol("mm")]
         MmxReg,
 
-        [Symbol("imm")]
         Imm,
 
-        [Symbol("mem")]
         Mem,
 
         FpuMem,
@@ -55,23 +46,19 @@ namespace Z0.Asm
 
         MemPair,
 
-        [Symbol("vsib")]
         Vsib,
 
-        [Symbol("bcast")]
         Broadcast,
 
-        [Symbol("xmm")]
         XmmReg,
 
-        [Symbol("ymm")]
         YmmReg,
 
-        [Symbol("zmm")]
         ZmmReg,
 
-        [Symbol("rK")]
-        OpMask
+        OpMask,
+
+        RegLiteral,
     }
 
     partial class AsmSigModels
@@ -105,6 +92,22 @@ namespace Z0.Asm
 
             [Symbol("db")]
             db,
+        }
+
+        [SymSource(tokens)]
+        public enum RegLiteralToken : byte
+        {
+            [Symbol("AL")]
+            AL,
+
+            [Symbol("AX")]
+            AX,
+
+            [Symbol("EAX")]
+            EAX,
+
+            [Symbol("RAX")]
+            RAX
         }
 
         [SymSource(tokens)]

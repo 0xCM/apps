@@ -11,6 +11,7 @@ namespace Z0.Asm
     using static core;
 
     using TK = AsmOcTokenKind;
+    using T = AsmOpCodeTokens.OpCodeText;
 
     [ApiHost]
     public readonly struct AsmOpCodeTokens
@@ -87,6 +88,55 @@ namespace Z0.Asm
         public static AsmOcToken<OperatorToken> op(OperatorToken t)
             => token(TK.Operator, t);
 
+        public readonly struct OpCodeText
+        {
+            public const string Rex = "REX";
+
+            public const string Vex = "VEX";
+
+            public const string Evex = "EVEX";
+
+            public const string RexW = "REX.W";
+
+            public const string NP = "NP";
+
+            public const string x66 = "66";
+
+            public const string x67 = "67";
+
+            public const string F2 = "F2";
+
+            public const string F3 = "F3";
+
+            public const string x0F = "0F";
+
+            public const string xF0 = "F0";
+
+            public const string n128 = "128";
+
+            public const string n256 = "256";
+
+            public const string n512 = "512";
+        }
+
+
+        [SymSource(Group, TK.Lock)]
+        public enum LockToken : byte
+        {
+            [Symbol(T.xF0, "Indicates an atomic instruction")]
+            F0,
+        }
+
+        [SymSource(Group, TK.Size)]
+        public enum SizeToken : byte
+        {
+            [Symbol(T.x66, "Indicates operand size override")]
+            OPSZ,
+
+            [Symbol(T.x67, "Indicates address size override")]
+            ADSZ,
+        }
+
         [SymSource(Group, TK.WordLiteral)]
         public enum WordToken : byte
         {
@@ -100,7 +150,7 @@ namespace Z0.Asm
         [SymSource(Group, TK.Rex)]
         public enum RexToken : byte
         {
-            [Symbol("REX", "Indicates the presence of a REX prefix")]
+            [Symbol(T.Rex, "Indicates the presence of a REX prefix")]
             Rex,
 
             [Symbol("REX.W", "Indicates the W-bit is enabled which signals a 64-bit operand size")]
@@ -134,7 +184,7 @@ namespace Z0.Asm
             [Symbol("L", "Vector length, where 1 => w=256 and 2 => w=128 or scalar")]
             L,
 
-            [Symbol("VEX")]
+            [Symbol(T.Vex)]
             VEX,
 
             [Symbol("LZ")]
@@ -171,7 +221,7 @@ namespace Z0.Asm
         [SymSource(Group, TK.Evex)]
         public enum EvexToken : byte
         {
-            [Symbol("EVEX")]
+            [Symbol(T.Evex)]
             EVEX,
 
             [Symbol("512")]
@@ -198,6 +248,16 @@ namespace Z0.Asm
 
             [Symbol("ct", "Indicates a 10-byte value follows the opcode to specify a code offset and/or new value for the code segment register")]
             ct,
+        }
+
+        [SymSource(Group, TK.Rep)]
+        public enum RepToken : byte
+        {
+            [Symbol(T.F2)]
+            F2,
+
+            [Symbol(T.F3)]
+            F3,
         }
 
         [SymSource(Group, TK.SegOverride)]
@@ -330,7 +390,7 @@ namespace Z0.Asm
         [SymSource(Group, TK.Exclusion)]
         public enum ExclusionToken
         {
-            [Symbol("NP", "Indicates the use of 66/F2/F3 prefixes are not allowed with the instruction")]
+            [Symbol(T.NP, "Indicates the use of 66/F2/F3 prefixes are not allowed with the instruction")]
             NP,
 
             [Symbol("NFx", "Indicates the use of F2/F3 prefixes are not allowed with the instruction")]

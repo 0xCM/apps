@@ -48,6 +48,10 @@ namespace Z0
         protected D Data<D>(string key, Func<D> factory)
             => (D)_Data.GetOrAdd(key, k => factory());
 
+        [MethodImpl(Inline)]
+        protected void ClearCache()
+            => _Data.Clear();
+
         protected T Service<T>(Func<T> factory)
             => (T)ServiceCache.GetOrAdd(typeof(T), key => factory());
 

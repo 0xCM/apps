@@ -26,6 +26,8 @@ namespace Z0.Asm
 
         public AsmSigOpExpr Op3;
 
+        public AsmSigOpExpr Op4;
+
         public byte OperandCount
         {
             [MethodImpl(Inline)]
@@ -40,6 +42,7 @@ namespace Z0.Asm
             Op1 = AsmSigOpExpr.Empty;
             Op2 = AsmSigOpExpr.Empty;
             Op3 = AsmSigOpExpr.Empty;
+            Op4 = AsmSigOpExpr.Empty;
         }
 
         [MethodImpl(Inline)]
@@ -50,6 +53,7 @@ namespace Z0.Asm
             Op1 = AsmSigOpExpr.Empty;
             Op2 = AsmSigOpExpr.Empty;
             Op3 = AsmSigOpExpr.Empty;
+            Op4 = AsmSigOpExpr.Empty;
         }
 
         [MethodImpl(Inline)]
@@ -60,6 +64,7 @@ namespace Z0.Asm
             Op1 = op1;
             Op2 = AsmSigOpExpr.Empty;
             Op3 = AsmSigOpExpr.Empty;
+            Op4 = AsmSigOpExpr.Empty;
         }
 
         [MethodImpl(Inline)]
@@ -70,6 +75,7 @@ namespace Z0.Asm
             Op1 = op1;
             Op2 = op2;
             Op3 = AsmSigOpExpr.Empty;
+            Op4 = AsmSigOpExpr.Empty;
         }
 
         [MethodImpl(Inline)]
@@ -80,6 +86,18 @@ namespace Z0.Asm
             Op1 = op1;
             Op2 = op2;
             Op3 = op3;
+            Op4 = AsmSigOpExpr.Empty;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmSigExpr(AsmMnemonic monic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3, AsmSigOpExpr op4)
+        {
+            Mnemonic = monic;
+            Op0 = op0;
+            Op1 = op1;
+            Op2 = op2;
+            Op3 = op3;
+            Op4 = op4;
         }
 
         public AsmSigExpr WithOperand(byte n, AsmSigOpExpr op)
@@ -97,6 +115,9 @@ namespace Z0.Asm
                 break;
                 case 3:
                     Op3 = op;
+                break;
+                case 4:
+                    Op4 = op;
                 break;
             }
             return this;
@@ -119,25 +140,30 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         byte CalcOpCount()
         {
-            if(Op3.IsEmpty)
+            if(Op4.IsEmpty)
             {
-                if(Op2.IsEmpty)
+                if(Op3.IsEmpty)
                 {
-                    if(Op1.IsEmpty)
+                    if(Op2.IsEmpty)
                     {
-                        if(Op0.IsEmpty)
-                            return 0;
+                        if(Op1.IsEmpty)
+                        {
+                            if(Op0.IsEmpty)
+                                return 0;
+                            else
+                                return 1;
+                        }
                         else
-                            return 1;
+                            return 2;
                     }
                     else
-                        return 2;
+                        return 3;
                 }
                 else
-                    return 3;
-            }
+                    return 4;
+                }
             else
-                return 4;
+                return 5;
         }
 
         public byte Operands(Span<AsmSigOpExpr> dst)
@@ -152,8 +178,13 @@ namespace Z0.Asm
                     {
                         seek(dst,2) = Op2;
 
-                        if(OperandCount == 4)
+                        if(OperandCount >= 4)
+                        {
                             seek(dst,3) = Op3;
+
+                            if(OperandCount >= 5)
+                                seek(dst,4) = Op4;
+                        }
                     }
                 }
             }
