@@ -13,6 +13,17 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct RegMask : IRegMask
     {
+        [Op]
+        public static string format(in RegMask src)
+        {
+            var dst = EmptyString;
+            if(src.Kind == RegMaskKind.Merge)
+                dst = string.Format("{0} {{1}}", src.Target, AsmRegs.rK(src.Mask));
+            else if(src.Kind == RegMaskKind.Zero)
+                dst = string.Format("{0} {{{1}}{{2}}", src.Target, AsmRegs.rK(src.Mask), Chars.z);
+            return dst;
+        }
+
         public RegOp Target {get;}
 
         public RegIndex Mask {get;}
@@ -34,7 +45,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmSpecs.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

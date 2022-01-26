@@ -73,7 +73,7 @@ namespace Z0
             => (int)Hash;
 
         public string Format()
-            => api.format(this);
+            => HexFormatter.format(w64, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();

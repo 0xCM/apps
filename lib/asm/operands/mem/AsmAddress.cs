@@ -17,6 +17,43 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct AsmAddress
     {
+        [Op]
+        internal static string format(in AsmAddress src)
+        {
+            var dst = CharBlock32.Null.Data;
+            var i=0u;
+            var count = render(src, ref i, dst);
+            return text.format(dst, count);
+        }
+
+        [Op]
+        internal static uint render(in AsmAddress src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var @base = src.Base.Format();
+            var index = src.Index.Format();
+            text.copy(@base, ref i, dst);
+            var scale = src.Scale.Format();
+            if(src.Scale.IsNonZero)
+            {
+                seek(dst,i++) = Chars.Plus;
+                text.copy(index, ref i, dst);
+                if(src.Scale.IsNonUnital)
+                {
+                    seek(dst,i++) = Chars.Star;
+                    text.copy(scale,ref i, dst);
+                }
+            }
+
+            if(src.Disp.Value != 0)
+            {
+                seek(dst,i++) = Chars.Plus;
+                text.copy(src.Disp.Value.ToString("x") + "h", ref i, dst);
+            }
+
+            return i - i0;
+        }
+
         public readonly RegOp Base;
 
         public readonly RegOp Index;
@@ -59,7 +96,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmSpecs.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

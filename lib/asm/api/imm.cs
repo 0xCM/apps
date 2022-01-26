@@ -80,5 +80,38 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static Imm imm(ImmKind kind, ulong value)
             => new Imm(kind, value);
+
+        /// <summary>
+        /// Defines an 8-bit immediate operand
+        /// </summary>
+        /// <param name="src">The source value</param>
+        [MethodImpl(Inline), Op]
+        public static imm8 imm8(byte src)
+            => new imm8(src);
+
+        /// <summary>
+        /// Defines a 16-bit immediate operand
+        /// </summary>
+        /// <param name="src">The source value</param>
+        [MethodImpl(Inline), Op]
+        public static imm16 imm16(ushort src)
+            => new imm16(src);
+
+        /// <summary>
+        /// Defines a 32-bit immediate operand
+        /// </summary>
+        /// <param name="src">The source value</param>
+        [MethodImpl(Inline), Op]
+        public static imm32 imm32(uint src)
+            => new imm32(src);
+
+        /// <summary>
+        /// Defines a 64-bit immediate operand
+        /// </summary>
+        /// <param name="src">The source value</param>
+        [MethodImpl(Inline), Op]
+        public static imm64 imm64(ulong src)
+            => new imm64(src);
+
     }
 }

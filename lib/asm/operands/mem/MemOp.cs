@@ -32,7 +32,7 @@ namespace Z0.Asm
             => new AsmOperand(this);
 
         public string Format()
-            => AsmSpecs.format(this);
+            => Address.Format();
 
         public override string ToString()
             => Format();

@@ -15,6 +15,22 @@ namespace Z0
     [DataType("imm"), StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Imm : IImm<Imm,ulong>
     {
+
+        [Op]
+        internal static string format(in Imm src)
+            => src.ImmKind switch
+            {
+                ImmKind.Imm8 => HexFormatter.format(w8, src.Imm8, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm8i => HexFormatter.format(w8i, src.Imm8i, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm16 => HexFormatter.format(w16, src.Imm16, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm16i => HexFormatter.format(w16i, src.Imm16i, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm32 => HexFormatter.format(w32, src.Imm32, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm32i => HexFormatter.format(w32, src.Imm32, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm64 => HexFormatter.format(w64, src.Imm64, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm64i => HexFormatter.format(w64, src.Imm64, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                _ => string.Format("{0}:<1>", HexFormatter.format(w64, src.Imm64, HexPadStyle.Unpadded, prespec:true, @case:UpperCase), src.ImmKind),
+            };
+
         public ulong Value {get;}
 
         public ImmKind ImmKind {get;}
@@ -100,7 +116,7 @@ namespace Z0
         }
 
         public string Format()
-            => AsmSpecs.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

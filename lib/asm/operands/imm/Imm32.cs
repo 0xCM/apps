@@ -9,66 +9,43 @@ namespace Z0
 
     using static Root;
 
-    using W = W8;
-    using I = imm8;
-
+    using W = W32;
+    using I = imm32;
     using api = Asm.AsmSpecs;
 
     /// <summary>
-    /// Defines an 8-bit immediate value
+    /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm8, Kind, Width, Width)]
-    public readonly struct imm8 : IImm<I,byte>
+    [DataType(TypeSyntax.Imm32, Kind, Width, Width)]
+    public readonly struct imm32 : IImm<I,uint>
     {
-        [Parser]
-        public static Outcome parse(string src, out imm8 dst)
-        {
-            var result = Outcome.Success;
-            dst = default;
-            var i = text.index(src,HexFormatSpecs.PreSpec);
-            var imm = z8;
-            if(i>=0)
-            {
-                result = HexParser.parse8u(src, out imm);
-                if(result)
-                    dst = imm;
-            }
-            else
-            {
-                result = DataParser.parse(src, out imm);
-                if(result)
-                    dst = imm;
-            }
-            return result;
-        }
+        public const ImmKind Kind = ImmKind.Imm32;
 
-        public const ImmKind Kind = ImmKind.Imm8;
+        public const byte Width = 32;
 
-        public const byte Width = 8;
-
-        public byte Value {get;}
+        public uint Value {get;}
 
         [MethodImpl(Inline)]
-        public imm8(byte src)
+        public imm32(uint src)
             => Value = src;
 
-        public ImmKind ImmKind
-            => Kind;
-
         public ImmBitWidth ImmWidth
-            => (ImmBitWidth)Width;
+            => ImmBitWidth.W32;
+
+        public ImmKind ImmKind
+            => ImmKind.Imm32;
+
+        public string Format()
+            => HexFormatter.format(w32, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+
+        public override string ToString()
+            => Format();
 
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => Value;
+            get => alg.hash.calc(Value);
         }
-
-        public string Format()
-            => api.format(this);
-
-        public override string ToString()
-            => Format();
 
         public override int GetHashCode()
             => (int)Hash;
@@ -85,7 +62,7 @@ namespace Z0
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address8 ToAddress()
+        public Address32 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
@@ -113,15 +90,15 @@ namespace Z0
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(I src)
+        public static implicit operator uint(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<byte>(I src)
-            => new Imm<byte>(src);
+        public static implicit operator Imm<uint>(I src)
+            => new Imm<uint>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(byte src)
+        public static implicit operator I(uint src)
             => new I(src);
 
         [MethodImpl(Inline)]

@@ -124,7 +124,7 @@ namespace Z0.Asm
             => src.ImmParameters(ImmRefinementKind.Refined).First().ParameterType;
 
         Index<imm8R> RefinedValues(MethodInfo src)
-            => RefiningParameter(src).RefinedImmValues();
+            => imm8.refined(RefiningParameter(src));
 
         ReadOnlySpan<AsmRoutine> EmitDirectRefinements(in CaptureExchange exchange, IApiHost host, IAsmImmWriter dst)
         {

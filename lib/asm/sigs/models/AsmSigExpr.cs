@@ -14,6 +14,71 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.sig.expr")]
     public struct AsmSigExpr
     {
+        [Parser]
+        public static Outcome parse(string src, out AsmSigExpr dst)
+        {
+            var result = Outcome.Success;
+            var sig = text.trim(src);
+            var j = text.index(text.trim(sig), Chars.Space);
+            var mnemonic = AsmMnemonic.Empty;
+            dst = AsmSigExpr.Empty;
+            if(j>0)
+            {
+                mnemonic = text.left(sig,j);
+                var operands = text.right(sig,j);
+                if(text.contains(sig, Chars.Comma))
+                    dst = expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
+                else
+                    dst = expression(mnemonic, operands);
+            }
+            else
+            {
+                mnemonic = sig;
+                dst = expression(mnemonic);
+            }
+
+            return result;
+        }
+
+        [MethodImpl(Inline)]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic)
+            =>  new AsmSigExpr(mnemonic);
+
+        [MethodImpl(Inline), Op]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0)
+            => new AsmSigExpr(mnemonic, op0);
+
+        [MethodImpl(Inline), Op]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1)
+            => new AsmSigExpr(mnemonic, op0, op1);
+
+        [MethodImpl(Inline), Op]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2)
+            => new AsmSigExpr(mnemonic, op0, op1, op2);
+
+        [MethodImpl(Inline), Op]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3)
+            => new AsmSigExpr(mnemonic, op0, op1, op2, op3);
+
+        [Op]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic, ReadOnlySpan<string> ops)
+        {
+            var count = min(ops.Length, 4);
+            switch(count)
+            {
+                case 1:
+                    return expression(mnemonic, skip(ops, 0));
+                case 2:
+                    return expression(mnemonic, skip(ops, 0), skip(ops, 1));
+                case 3:
+                    return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2));
+                case 4:
+                    return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2), skip(ops, 3));
+            }
+
+            return expression(mnemonic);
+        }
+
         [MethodImpl(Inline), Op]
         public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
         {

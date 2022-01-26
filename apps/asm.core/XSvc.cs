@@ -10,6 +10,10 @@ namespace Z0
     public static class XSvc
     {
         [Op]
+        public static AsmVars AsmVars(this IWfRuntime wf)
+            => Asm.AsmVars.create(wf);
+
+        [Op]
         public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
             => Asm.AsmOpCodes.create(context);
 

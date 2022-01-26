@@ -160,9 +160,6 @@ namespace Z0
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
 
-        [Op]
-        public static AsmVars AsmVars(this IWfRuntime wf)
-            => Asm.AsmVars.create(wf);
 
         [Op]
         public static AsmTables AsmTables(this IWfRuntime wf)

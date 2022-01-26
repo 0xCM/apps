@@ -5,30 +5,60 @@
 namespace Z0
 {
     using System;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
+    using System.Linq;
 
     using static Root;
 
-    using W = W16;
-    using I = imm16;
-    using api = Asm.AsmSpecs;
+    using W = W8;
+    using I = imm8;
 
     /// <summary>
-    /// Defines a 16-bit immediate value
+    /// Defines an 8-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm16, Kind, Width, Width)]
-    public readonly struct imm16 : IImm<I,ushort>
+    [DataType(TypeSyntax.Imm8, Kind, Width, Width)]
+    public readonly struct imm8 : IImm<I,byte>
     {
-        public const ImmKind Kind = ImmKind.Imm16;
+        [Op]
+        public static Index<imm8R> refined(ParameterInfo param)
+        {
+            if(param.IsRefinedImmediate())
+                return param.ParameterType.GetEnumValues().Cast<byte>().Array().ToImm8Values(ImmRefinementKind.Refined);
+            else
+                return sys.empty<imm8R>();
+        }
 
-        public const byte Width = 16;
+        [Parser]
+        public static Outcome parse(string src, out imm8 dst)
+        {
+            var result = Outcome.Success;
+            dst = default;
+            var i = text.index(src,HexFormatSpecs.PreSpec);
+            var imm = z8;
+            if(i>=0)
+            {
+                result = HexParser.parse8u(src, out imm);
+                if(result)
+                    dst = imm;
+            }
+            else
+            {
+                result = DataParser.parse(src, out imm);
+                if(result)
+                    dst = imm;
+            }
+            return result;
+        }
 
-        public ushort Value {get;}
+        public const ImmKind Kind = ImmKind.Imm8;
 
-        public static W W => default;
+        public const byte Width = 8;
+
+        public byte Value {get;}
 
         [MethodImpl(Inline)]
-        public imm16(ushort src)
+        public imm8(byte src)
             => Value = src;
 
         public ImmKind ImmKind
@@ -36,17 +66,18 @@ namespace Z0
 
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
-        public string Format()
-            => api.format(this);
-
-        public override string ToString()
-            => Format();
 
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => alg.hash.calc(Value);
+            get => Value;
         }
+
+        public string Format()
+            => HexFormatter.format(w8, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+
+        public override string ToString()
+            => Format();
 
         public override int GetHashCode()
             => (int)Hash;
@@ -63,7 +94,7 @@ namespace Z0
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address16 ToAddress()
+        public Address8 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
@@ -91,20 +122,21 @@ namespace Z0
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(I src)
+        public static implicit operator byte(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(I src)
-            => new Imm<ushort>(src);
+        public static implicit operator Imm<byte>(I src)
+            => new Imm<byte>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(ushort src)
+        public static implicit operator I(byte src)
             => new I(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
 
-     }
+        public static W W => default;
+    }
 }

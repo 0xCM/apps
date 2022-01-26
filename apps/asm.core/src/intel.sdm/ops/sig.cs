@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using System;
 
-    using static AsmSigs;
+    using static AsmSigExpr;
 
     partial struct SdmOps
     {
