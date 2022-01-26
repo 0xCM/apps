@@ -23,25 +23,5 @@ namespace Z0.Asm
                 4 => new AsmSig(mnemonic, skip(ops,0), skip(ops,1), skip(ops,2), skip(ops,3)),
                 _ => AsmSig.Empty
             };
-
-        [Op, MethodImpl(Inline)]
-        public static AsmSig sig(AsmMnemonic name, GpReg reg0, GpReg reg1)
-            => new AsmSig(name, reg0, reg1);
-
-        [Op, MethodImpl(Inline)]
-        public static AsmSig sig(AsmMnemonic name, GpReg reg, Imm imm)
-            => new AsmSig(name, reg, imm);
-
-        [Op, MethodImpl(Inline)]
-        public static AsmSig sig(AsmMnemonic name, Mem mem, GpReg reg)
-            => new AsmSig(name, mem, reg);
-
-        [Op, MethodImpl(Inline)]
-        public static AsmSig sig(AsmMnemonic name, Mem mem, Imm imm)
-            => new AsmSig(name, mem, imm);
-
-        [Op, MethodImpl(Inline)]
-        public static AsmSig sig(AsmMnemonic name, GpReg reg, Mem mem)
-            => new AsmSig(name, reg, mem);
     }
 }

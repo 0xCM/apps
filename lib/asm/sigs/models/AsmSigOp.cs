@@ -17,11 +17,15 @@ namespace Z0.Asm
 
         public AsmSigOpKind OpKind {get;}
 
+        public NativeSize Size {get;}
+
         [MethodImpl(Inline)]
-        public AsmSigOp(AsmSigOpKind kind, byte value)
+        public AsmSigOp(AsmSigOpKind kind, byte value, NativeSizeCode size = NativeSizeCode.Unknown)
         {
             Value = value;
             OpKind = kind;
+            Size = size;
+
         }
 
         public bit IsEmpty
@@ -35,7 +39,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => OpKind != 0;
         }
-
 
         public static AsmSigOp Empty =>default;
     }

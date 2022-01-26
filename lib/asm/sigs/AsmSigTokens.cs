@@ -4,79 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    public enum AsmSigOpKind : byte
-    {
-        None = 0,
-
-        Rel,
-
-        SysReg,
-
-        GpReg,
-
-        VecReg,
-
-        MaskReg,
-
-        FpuReg,
-
-        MmxReg,
-
-        Imm,
-
-        Mem,
-
-        FpuMem,
-
-        GpRm,
-
-        VecRm,
-
-        Moffs,
-
-        SrcOp,
-
-        Ptr,
-
-        Rounding,
-
-        FarPtr,
-
-        MemPair,
-
-        Vsib,
-
-        Broadcast,
-
-        XmmReg,
-
-        YmmReg,
-
-        ZmmReg,
-
-        OpMask,
-
-        RegLiteral,
-    }
-
     partial class AsmSigModels
     {
         const string tokens = "asm.sigs";
-
-        [SymSource(tokens)]
-        public enum RelKind : byte
-        {
-            [Symbol("rel8")]
-            Rel8=1,
-
-            [Symbol("rel16")]
-            Rel16=2,
-
-            [Symbol("rel32")]
-            Rel32=3
-        }
 
         [SymSource(tokens)]
         public enum SysRegToken : byte
@@ -174,19 +104,6 @@ namespace Z0.Asm
         }
 
         [SymSource(tokens)]
-        public enum OpMaskToken : byte
-        {
-            [Symbol("{k1}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
-            rK,
-
-            [Symbol("{z}")]
-            z,
-
-            [Symbol("{k1}{z}", "A mask register used as instruction writemask")]
-            rKz,
-        }
-
-        [SymSource(tokens)]
         public enum VRegToken : byte
         {
             [Symbol("xmm", "An XMM register")]
@@ -253,20 +170,46 @@ namespace Z0.Asm
         public enum ImmToken : byte
         {
             [Symbol("imm8", "An immediate 8-bit value in the inclusive range [–128, 127]. For instructions in which imm8 is combined with a word or doubleword operand, the immediate value is sign-extended to form a word or doubleword. The upper byte of the word is filled with the topmost bit of the immediate value")]
-            imm8,
+            imm8 = NativeSizeCode.W8,
 
             [Symbol("imm16", "An immediate value for a 16-bit operand in the inclusive range [-32_768, 32_767]")]
-            imm16,
+            imm16 = NativeSizeCode.W16,
 
             [Symbol("imm32", "An immediate value for a 16-bit operand in the inclusive range [-32_768, 32_767]")]
-            imm32,
+            imm32 = NativeSizeCode.W32,
 
             [Symbol("imm64", "An immediate value for a 64-bit operand in the inclusive range [-9_223_372_036_854_775_808, 9_223_372_036_854_775_807]")]
-            imm64,
+            imm64 = NativeSizeCode.W64,
         }
 
         [SymSource(tokens)]
         public enum MemToken : byte
+        {
+            [Symbol("m8", "A byte operand in memory ( usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. In 64-bit mode, it is pointed to by the RSI or RDI registers")]
+            m8 = NativeSizeCode.W8,
+
+            [Symbol("m16", "A word operand in memory (usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. This nomenclature is used only with the string instructions")]
+            m16 = NativeSizeCode.W16,
+
+            [Symbol("m32", "A doubleword operand in memory (usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. This nomenclature is used only with the string instructions")]
+            m32 = NativeSizeCode.W32,
+
+            [Symbol("m64", "A 64-bit operand in memory")]
+            m64 = NativeSizeCode.W64,
+
+            [Symbol("m128", "A 128-bit memory operand")]
+            m128 = NativeSizeCode.W128,
+
+            [Symbol("m256", "A 256-bit memory operand")]
+            m256 = NativeSizeCode.W256,
+
+            [Symbol("m512", "A 512-bit memory operand")]
+            m512 = NativeSizeCode.W512,
+
+        }
+
+        [SymSource(tokens)]
+        public enum DependentToken : byte
         {
             [Symbol("m", "A memory operand of width 16, 32 or 64 bits")]
             m,
@@ -274,80 +217,46 @@ namespace Z0.Asm
             [Symbol("mem", "A memory operand of width 16, 32 or 64 bits")]
             mem,
 
-            [Symbol("m8", "A byte operand in memory ( usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. In 64-bit mode, it is pointed to by the RSI or RDI registers")]
-            m8,
+            [Symbol("/r", "Indicates that the ModR/M byte of the instruction contains a register operand and an r/m operand")]
+            r,
 
-            [Symbol("m16", "A word operand in memory (usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. This nomenclature is used only with the string instructions")]
-            m16,
-
-            [Symbol("m32", "A doubleword operand in memory (usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. This nomenclature is used only with the string instructions")]
-            m32,
-
-            [Symbol("m64", "A 64-bit operand in memory")]
-            m64,
-
-            [Symbol("m128", "A 128-bit memory operand")]
-            m128,
-
-            [Symbol("m256", "A 256-bit memory operand")]
-            m256,
-
-            [Symbol("m512", "A 512-bit memory operand")]
-            m512,
-        }
-
-        [SymSource(tokens)]
-        public enum MemPairToken : byte
-        {
-            [Symbol("m16&16", "A memory operand that defines a 16-bit x 16-bit pair")]
-            m16x16,
-
-            [Symbol("m16&32", "A memory operand that defines a 16-bit x 32-bit pair")]
-            m16x32,
-
-            [Symbol("m32&32", "A memory operand that defines a 32-bit x 32-bit pair")]
-            m32x32,
-
-            [Symbol("m16&64", "A memory operand that defines a 16-bit x 64-bit pair")]
-            m16x64,
+            [Symbol("mV", "A vector memory operand; the operand size is dependent on the instruction")]
+            mV,
         }
 
         [SymSource(tokens)]
         public enum GpRmToken : byte
         {
-            [Symbol("/r", "Indicates that the ModR/M byte of the instruction contains a register operand and an r/m operand")]
-            r,
-
             [Symbol("r/m8", "A byte operand that is either the contents of a byte general-purpose register: {AL CL DL BL AH CH DH BH BPL SPL DIL SIL}; or a byte from memory. Byte registers R8L - R15L are available using REX.R in 64-bit mode")]
-            rm8,
+            rm8 = NativeSizeCode.W8,
 
             [Symbol("r/m16", "A word general-purpose register or memory operand used for instructions whose operand-size attribute is 16 bits. The word general-purpose registers are: AX, CX, DX, BX, SP, BP, SI, DI. The contents of memory are found at the address provided by the effective address computation. Word registers R8W - R15W are available using REX.R in 64-bit mode")]
-            rm16,
+            rm16 = NativeSizeCode.W16,
 
             [Symbol("r/m32", "A doubleword general-purpose register or memory operand used for instructions whose operand size attribute is 32 bits. The doubleword general-purpose registers are: EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI. The contents of memory are found at the address provided by the effective address computation. Doubleword registers R8D - R15D are available when using REX.R in 64-bit mode")]
-            rm32,
+            rm32 = NativeSizeCode.W32,
 
             [Symbol("r/m64", "A quadword general-purpose register or memory operand used for instructions whose operand-size attribute is 64 bits when using REX.W. Quadword general-purpose registers are: RAX, RBX, RCX, RDX, RDI, RSI, RBP, RSP, R8–R15; these are available only in 64-bit mode. The contents of memory are found at the address provided by the effective address computation")]
-            rm64,
+            rm64 = NativeSizeCode.W64,
         }
 
         [SymSource(tokens)]
         public enum VecRmToken : byte
         {
             [Symbol("xmm/m32", "An XMM register or a 32-bit memory operand. The 128-bit XMM registers are XMM0 through XMM7; XMM8 through XMM15 are available using REX.R in 64-bit mode. The contents of memory are found at the address provided by the effective address computation")]
-            xmm32,
+            xmm32 = NativeSizeCode.W32,
 
             [Symbol("xmm/m64", "An XMM register or a 64-bit memory operand. The 128-bit SIMD floating-point registers are XMM0 through XMM7; XMM8 through XMM15 are available using REX.R in 64-bit mode. The contents of memory are found at the address provided by the effective address computation")]
-            xmm64,
-
-            [Symbol("mV", "A vector memory operand; the operand size is dependent on the instruction")]
-            mV,
+            xmm64 = NativeSizeCode.W64,
 
             [Symbol("xmm/m128", "An XMM register or a 128-bit memory operand")]
-            xmm128,
+            xmm128 = NativeSizeCode.W128,
+
+            [Symbol("xmm/m128", "An XMM register or a 128-bit memory operand")]
+            ymm256 = NativeSizeCode.W256,
 
             [Symbol("zmm/m512", "A ZMM register or a 512-bit memory operand")]
-            zmm512,
+            zmm512 = NativeSizeCode.W512,
         }
 
         [SymSource(tokens)]
@@ -379,52 +288,64 @@ namespace Z0.Asm
         public enum MoffsToken : byte
         {
             [Symbol("moffs8", "A segbase-relative address of width 8")]
-            moffs8,
+            moffs8 = NativeSizeCode.W8,
 
             [Symbol("moffs16", "A segbase-relative address of width 16")]
-            moffs16,
+            moffs16 = NativeSizeCode.W16,
 
             [Symbol("moffs32", "A segbase-relative address of width 32")]
-            moffs32,
+            moffs32 = NativeSizeCode.W32,
 
             [Symbol("moffs64", "A segbase-relative address of width 64")]
-            moffs64,
+            moffs64 = NativeSizeCode.W64,
         }
 
         [SymSource(tokens)]
         public enum RelToken: byte
         {
             [Symbol("rel8", "A relative address in the range from 128 bytes before the end of the instruction to 127 bytes after the end of the instruction")]
-            rel8,
+            rel8 = NativeSizeCode.W8,
 
             [Symbol("rel16", "A relative address within the same code segment as the instruction assembled, and applicable to instructions with an operand-size attribute of 16 bits")]
-            rel16,
+            rel16 = NativeSizeCode.W16,
 
             [Symbol("rel32", "A relative address within the same code segment as the instruction assembled. and applicable to instructions with an operand-size attribute of 32 bits")]
-            rel32,
+            rel32 = NativeSizeCode.W32,
+        }
+
+        [SymSource(tokens)]
+        public enum MemPairToken : byte
+        {
+            [Symbol("m16&16", "A memory operand that defines a 16-bit x 16-bit pair")]
+            m16x16,
+
+            [Symbol("m16&32", "A memory operand that defines a 16-bit x 32-bit pair")]
+            m16x32,
+
+            [Symbol("m32&32", "A memory operand that defines a 32-bit x 32-bit pair")]
+            m32x32,
+
+            [Symbol("m16&64", "A memory operand that defines a 16-bit x 64-bit pair")]
+            m16x64,
         }
 
         [SymSource(tokens)]
         public enum PtrToken : byte
         {
             [Symbol("ptr16:16", "A far pointer typically to a code segment different from that of the instruction. The notation 16:16 indicates that the value of the pointer has two parts. The value to the left of the colon is a 16- bit selector or value destined for the code segment register. The value to the right corresponds to the offset within the destination segment. The ptr16:16 symbol is used when the instruction's operand-size attribute is 16 bits E.G, CALL ptr16:16 (Call far, absolute, address given in operand")]
-            ptr16x16,
+            Ptr16x16,
 
             [Symbol("ptr16:32", "A far pointer typically to a code segment different from that of the instruction and similar to ptr16:16 notation; in this case the ptr16:32 symbol is used when the operand-size attribute is 32 bits A memory operand using SIB addressing form, where the index register is not used in address calculation, Scale is ignored. Only the base and displacement are used in effective address calculation E.G, CALL ptr16:32 (Call far, absolute, address given in operand)")]
-            ptr16x32,
-        }
+            Ptr16x32,
 
-        [SymSource(tokens)]
-        public enum FarPtrToken : byte
-        {
             [Symbol("m16:16", "A far pointer defined by a 16-bit segment selector an 16-bit offset")]
-            p16x16,
+            MemPtr16x16,
 
             [Symbol("m16:32", "A far pointer defined by a 16-bit segment selector a 32-bit offset")]
-            p16x32,
+            MemPtr16x32,
 
             [Symbol("m16:64", "A far pointer defined by a 16-bit segment selector a 64-bit offset")]
-            p16x64
+            MemPtr16x64
         }
 
         [SymSource(tokens)]
@@ -444,13 +365,33 @@ namespace Z0.Asm
         }
 
         [SymSource(tokens)]
+        public enum OpMaskToken : byte
+        {
+            [Symbol("{k1}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
+            rK,
+
+            [Symbol("{z}")]
+            z,
+
+            [Symbol("{k1}{z}", "A mask register used as instruction writemask")]
+            rKz,
+        }
+
+        [SymSource(tokens)]
         public enum BroadcastToken
         {
             [Symbol("m32bcst", "Represents a 32-bit memory location that defines a scalar to broadcast to vector operands")]
-            bcast32,
+            m32bcast,
 
             [Symbol("m64bcst", "Represents a 64-bit memory location that defines a scalar to broadcast to vector operands")]
-            bcast64,
+            m64bcast,
+
+            [Symbol("zmm/m512/m32bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 32-bit memory location")]
+            z512x32bcst,
+
+            [Symbol("zmm/m512/m64bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 64-bit memory location")]
+            z512x64bcst,
+
         }
 
         [SymSource(tokens)]
@@ -461,25 +402,6 @@ namespace Z0.Asm
 
             [Symbol("{er}")]
             er,
-        }
-
-        [SymSource(tokens)]
-        public enum VecBCastToken : byte
-        {
-            [Symbol("zmm/m512/m32bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 32-bit memory location")]
-            z512x32bcst,
-
-            [Symbol("zmm/m512/m64bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 64-bit memory location")]
-            z512x64bcst,
-        }
-
-        public sealed class SigTokenSet : TokenSet<SigTokenSet>
-        {
-            public override string Name
-                => "asm.sigs";
-
-            public override Type[] Types()
-                => typeof(AsmSigModels).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
         }
     }
 }

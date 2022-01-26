@@ -11,14 +11,9 @@ namespace Z0.Asm
 
     partial struct asm
     {
-        [MethodImpl(Inline), Op]
-        public static AsmSigOp sigop(AsmSigOpKind kind, byte value)
-            => new AsmSigOp(kind,value);
-
-
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AsmSigOp sigop<T>(AsmSigOpKind kind, T value)
+        public static AsmSigOp sigop<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
             where T : unmanaged
-                => new AsmSigOp(kind, core.bw8(value));
+                => new AsmSigOp(kind, core.bw8(value), size);
     }
 }

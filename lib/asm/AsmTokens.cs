@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         AsmOpCodeTokens.OpCodeTokenSet _OpCodes;
 
-        AsmSigModels.SigTokenSet _Sigs;
+        AsmSigTokenSet _Sigs;
 
         AsmRegTokens.RegTokenSet _Regs;
 
@@ -21,7 +21,7 @@ namespace Z0.Asm
         public AsmTokens()
         {
             _OpCodes = AsmOpCodeTokens.OpCodeTokenSet.create();
-            _Sigs = AsmSigModels.SigTokenSet.create();
+            _Sigs = AsmSigTokenSet.create();
             _Regs = AsmRegTokens.RegTokenSet.create();
             _Conditions = ConditionCodes.ConditionTokenSet.create();
             _Prefixes = AsmPrefixCodes.PrefixTokenSet.create();

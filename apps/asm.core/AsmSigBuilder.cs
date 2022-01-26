@@ -8,15 +8,14 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static AsmSigModels;
     using static AsmSigs;
 
     public readonly struct AsmSigBuilder
     {
         const NumericKind Closure = UnsignedInts;
 
-        [Op, MethodImpl(Inline)]
-        public static AsmSig and_al_imm8()
-            =>  sig("and", al(), imm8());
+        // [Op, MethodImpl(Inline)]
+        // public static AsmSig and_al_imm8()
+        //     =>  sig("and", al(), imm8());
     }
 }
