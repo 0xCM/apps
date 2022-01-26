@@ -25,7 +25,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmBranchInfo branch(MemoryAddress @base, in IceInstruction src, in AsmBranchTarget target)
-            => new AsmBranchInfo(@base, src.IP, target, (MemoryAddress)(long)asm.disp64(src.IP, (byte)src.ByteLength, target.Address));
+            => new AsmBranchInfo(@base, src.IP, target, (MemoryAddress)(long)AsmOpFactory.disp64(src.IP, (byte)src.ByteLength, target.Address));
 
         [MethodImpl(Inline), Op]
         public static AsmBranchInfo branch(MemoryAddress @base, in IceInstruction src, byte index)

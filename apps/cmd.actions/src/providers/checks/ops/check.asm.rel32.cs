@@ -35,7 +35,7 @@ namespace Z0
                 result = Hex.hexbytes(Input, out var code);
                 if(result)
                 {
-                    var disp = asm.disp32(code,1);
+                    var disp = AsmOpFactory.disp32(code,1);
                     Write(string.Format("{0} => disp32={1:x8}", Input, disp));
                 }
             }
@@ -50,7 +50,7 @@ namespace Z0
                 var sz = 5u;
                 var nip = ip + sz;
                 result = Hex.hexbytes(Input, out var code);
-                var dx = asm.disp32(code,1);
+                var dx = AsmOpFactory.disp32(code,1);
                 var target = (MemoryAddress)(nip + dx);
                 var expect = (MemoryAddress)0x7fff92427890;
                 if(target == expect)
@@ -75,7 +75,7 @@ namespace Z0
 
                 MemoryAddress ip = Base + Offset;
                 Hex.hexbytes(Encoding, out var enc1);
-                var dx = asm.disp32(enc1,1);
+                var dx = AsmOpFactory.disp32(enc1,1);
 
                 var enc2 = AsmHexSpecs.call32(ip, Target);
                 if(enc1 != enc2)
@@ -123,7 +123,7 @@ namespace Z0
 
             var label0 = 0x005a;
             var ip0 = @base + label0;
-            var dx0 = asm.disp32(ip0, @return);
+            var dx0 = AsmOpFactory.disp32(ip0, @return);
             var actual0 = jmp32(ip0, @return);
             var expect0 = asm.hexcode("e9 58 10 00 00");
             var d0l = asm.link(dx0, ip0, @return);
@@ -135,7 +135,7 @@ namespace Z0
 
             var label1 = 0x0065;
             var ip1 = @base + label1;
-            var dx1 = asm.disp32(ip1, @return);
+            var dx1 = AsmOpFactory.disp32(ip1, @return);
             var actual1 = jmp32(ip1, @return);
             var expect1 = asm.hexcode("e9 4d 10 00 00");
             var d1l = asm.link(dx1, ip1, @return);
@@ -147,7 +147,7 @@ namespace Z0
 
             var label2 = 0x0070;
             var ip2 = @base + label2;
-            var dx2 = asm.disp32(ip2, @return);
+            var dx2 = AsmOpFactory.disp32(ip2, @return);
             var actual2 = jmp32(ip2, @return);
             var expect2 = asm.hexcode("e9 42 10 00 00");
             var d2l = asm.link(dx2, ip2, @return);
@@ -159,7 +159,7 @@ namespace Z0
 
             var label3 = 0x007b;
             var ip3 = @base + label3;
-            var dx3 = asm.disp32(ip3, @return);
+            var dx3 = AsmOpFactory.disp32(ip3, @return);
             var actual3 = jmp32(ip3, @return);
             var expect3 = asm.hexcode("e9 37 10 00 00");
             var d3l = asm.link(dx3,ip3,@return);

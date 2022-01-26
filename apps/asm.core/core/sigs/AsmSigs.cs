@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using Operands;
-
     using static Root;
 
-    partial struct asm
+    [ApiHost]
+    public class AsmSigs
     {
+        const NumericKind Closure = UnsignedInts;
+
+        [Op]
+        public static AsmForm form(in AsmSig sig, in AsmOpCode oc)
+        {
+
+            return default;
+        }
+
     }
 }

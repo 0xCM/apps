@@ -18,6 +18,78 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential,Pack=1), ApiComplete]
     public struct AsmOperand : IAsmOp
     {
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(r8 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(r16 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(r32 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(r64 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(xmm src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(ymm src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(zmm src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(imm8 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(imm16 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(imm32 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(imm64 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m8 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m16 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m32 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m64 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m128 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m256 src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(m512 src)
+            => new AsmOperand(src);
+
         public readonly AsmOpClass OpClass;
 
         public readonly AsmOpKind OpKind;
@@ -240,31 +312,31 @@ namespace Z0.Asm
         public bool IsReg
         {
             [MethodImpl(Inline)]
-            get => AsmSpecs.IsReg(OpKind);
+            get => AsmOpTests.IsReg(OpKind);
         }
 
         public bool IsMem
         {
             [MethodImpl(Inline)]
-            get => AsmSpecs.IsMem(OpKind);
+            get => AsmOpTests.IsMem(OpKind);
         }
 
         public bool IsImm
         {
             [MethodImpl(Inline)]
-            get => AsmSpecs.IsImm(OpKind);
+            get => AsmOpTests.IsImm(OpKind);
         }
 
         public bool IsDisp
         {
             [MethodImpl(Inline)]
-            get => AsmSpecs.IsDisp(OpKind);
+            get => AsmOpTests.IsDisp(OpKind);
         }
 
         public bool IsRegMask
         {
             [MethodImpl(Inline)]
-            get => AsmSpecs.IsRegMask(OpKind);
+            get => AsmOpTests.IsRegMask(OpKind);
         }
 
         public ReadOnlySpan<byte> Data
@@ -394,7 +466,30 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmSpecs.format(this);
+        {
+            if(IsReg)
+                return Reg.Format();
+            else if(IsMem)
+                return Mem.Format();
+            else if(IsImm)
+            {
+                return Size.Code switch
+                {
+                    NativeSizeCode.W8 => Imm8.Format(),
+                    NativeSizeCode.W16 => Imm16.Format(),
+                    NativeSizeCode.W32 => Imm32.Format(),
+                    NativeSizeCode.W64 => Imm64.Format(),
+                    _ => "<unsized>",
+
+                };
+            }
+            else if(IsRegMask)
+                return RegMask.Format();
+            else if(IsDisp)
+                return Disp.Format();
+            else
+                return EmptyString;
+        }
 
         public override string ToString()
             => Format();

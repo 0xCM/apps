@@ -71,7 +71,7 @@ namespace Z0.Asm
             {
                 ref readonly var call = ref skip(calls,i);
                 ref var dst = ref seek(row,i);
-                asm.rel32dx(call.Encoded, out var offset);
+                AsmEncoding.rel32dx(call.Encoded, out var offset);
                 dst.SourcePart = call.Part;
                 dst.Block = call.BaseAddress;
                 dst.InstructionSize = call.InstructionSize;
@@ -87,7 +87,7 @@ namespace Z0.Asm
         public Index<AsmCallRow> LoadRows()
         {
             var paths = Db.TableDir<AsmCallRow>().AllFiles.View;
-            var flow = Wf.Running(string.Format("Loading {0} call recordsets", paths.Length));
+            var flow = Running(string.Format("Loading {0} call recordsets", paths.Length));
             var dst = list<AsmCallRow>();
             var count = paths.Length;
             for(var i=0; i<count; i++)
@@ -120,7 +120,7 @@ namespace Z0.Asm
                 }
             }
 
-            Wf.Ran(flow, string.Format("Loaded {0} total call instructions", dst.Count));
+            Ran(flow, string.Format("Loaded {0} total call instructions", dst.Count));
             return dst.ToArray();
         }
     }

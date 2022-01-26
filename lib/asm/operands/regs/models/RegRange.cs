@@ -27,8 +27,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmSpecs.format(this);
-
+            => string.Format("{0}[{1}..{2}]", Class, MinIndex, MaxIndex);
         public override string ToString()
             => Format();
     }

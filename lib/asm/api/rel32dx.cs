@@ -12,17 +12,5 @@ namespace Z0.Asm
 
     partial struct asm
     {
-        [MethodImpl(Inline), Op]
-        public static bool rel32dx(BinaryCode src, out int dx)
-        {
-            var opcode = src.First;
-            if(opcode == 0xe8)
-            {
-                dx = i32(slice(src.View, 1));
-                return true;
-            }
-            dx = default;
-            return false;
-        }
     }
 }

@@ -7,13 +7,10 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using Asm;
-
     using static Root;
 
     using W = W64;
     using I = imm64;
-    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines a 64-bit immediate value

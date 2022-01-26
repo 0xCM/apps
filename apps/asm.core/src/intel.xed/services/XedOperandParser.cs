@@ -155,7 +155,7 @@ namespace Z0
             dst = State;
             if(dst.relbr != 0 && dst.brdisp_width != 0)
             {
-                dst._relbr = asm.disp((long)dst.relbr, dst.disp_width);
+                dst._relbr = AsmOpFactory.disp((long)dst.relbr, dst.disp_width);
             }
 
         }

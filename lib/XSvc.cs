@@ -160,22 +160,13 @@ namespace Z0
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
 
-
         [Op]
         public static AsmTables AsmTables(this IWfRuntime wf)
             => Asm.AsmTables.create(wf);
 
         [Op]
-        public static AsmTokens AsmTokens(this IWfRuntime context)
-            => Asm.AsmTokens.create(context);
-
-        [Op]
         public static AsmRegSets AsmRegSets(this IWfRuntime context)
             => Asm.AsmRegSets.create(context);
-
-        [Op]
-        public static AsmEtl AsmEtl(this IWfRuntime context)
-            => Asm.AsmEtl.create(context);
 
         [Op]
         public static HexDataReader HexDataReader(this IWfRuntime context)

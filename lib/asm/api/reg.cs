@@ -16,14 +16,6 @@ namespace Z0.Asm
         public static RegOp reg(NativeSizeCode width, RegClassCode @class, RegIndexCode r)
             => AsmRegs.reg(width, @class,r);
 
-        /// <summary>
-        /// Determines the register code from the kind
-        /// </summary>
-        /// <param name="src">The source kind</param>
-        [MethodImpl(Inline), Op]
-        public static RegIndexCode index(RegKind src)
-            => AsmRegs.index(src);
-
         [MethodImpl(Inline), Op]
         public static RegOp reg(RegKind kind)
             => AsmRegs.reg(kind);
@@ -32,8 +24,12 @@ namespace Z0.Asm
         public static RegOp reg(in AsmOperand src)
             => AsmRegs.reg(src);
 
+        /// <summary>
+        /// Determines the register code from the kind
+        /// </summary>
+        /// <param name="src">The source kind</param>
         [MethodImpl(Inline), Op]
-        public static xCr xCr(RegIndexCode r)
-            => r;
+        public static RegIndexCode index(RegKind src)
+            => AsmRegs.index(src);
     }
 }

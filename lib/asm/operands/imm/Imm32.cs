@@ -11,7 +11,6 @@ namespace Z0
 
     using W = W32;
     using I = imm32;
-    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines a 32-bit immediate value

@@ -11,7 +11,6 @@ namespace Z0
 
     using W = W16;
     using I = imm16;
-    using api = Asm.AsmSpecs;
 
     /// <summary>
     /// Defines a 16-bit immediate value

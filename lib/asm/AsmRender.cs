@@ -31,13 +31,13 @@ namespace Z0.Asm
 
         const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
 
-        [Op]
-        public static string thumbprint(in AsmEncodingInfo src)
-        {
-            var bits = src.Encoded.ToBitString();
-            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
-            return string.Format("{0} => {1}", statement, bits);
-        }
+        // [Op]
+        // public static string thumbprint(in AsmEncodingInfo src)
+        // {
+        //     var bits = src.Encoded.ToBitString();
+        //     var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
+        //     return string.Format("{0} => {1}", statement, bits);
+        // }
 
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
@@ -139,32 +139,6 @@ namespace Z0.Asm
         public static string format(in CallRel32 src)
             => string.Format("{0}:{1} -> {2}", src.IP, src.TargetDx, src.TargetAddress);
 
-        [Op]
-        public static string semantic(in AsmDetailRow row)
-        {
-            var encoded = row.Encoded.Bytes;
-            var ip = row.IP;
-            var @base = row.BlockAddress;
-
-            if(row.Mnemonic.Format(MnemonicCase.Lowercase) == "jmp")
-            {
-                if(JmpRel8.test(encoded))
-                    return string.Format("jmp(rel8,{0},{1}) -> {2}",
-                        JmpRel8.dx(encoded),
-                        JmpRel8.offset(@base, ip, encoded),
-                        JmpRel8.target(ip, encoded)
-                        );
-                else if(JmpRel32.test(encoded))
-                    return string.Format("jmp(rel32,{0},{1}) -> {2}",
-                        JmpRel32.dx(encoded).FormatMinimal(),
-                        JmpRel32.offset(@base, ip, encoded).FormatMinimal(),
-                        JmpRel32.target(ip, encoded)
-                        );
-                else if(Jmp64.test(encoded))
-                    return string.Format("jmp({0})", Jmp64.target(encoded));
-            }
-            return EmptyString;
-        }
 
         public static string regop<T>(T src)
             where T : unmanaged, IRegOp<T>
