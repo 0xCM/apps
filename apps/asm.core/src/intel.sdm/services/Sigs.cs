@@ -25,7 +25,7 @@ namespace Z0.Asm
             return Data(nameof(Sigs), Load);
 
             Index<AsmSigExpr> Load()
-                => Sigs(LoadImportedOpcodeDetails());
+                => Sigs(LoadImportedOpcodes());
         }
     }
 }

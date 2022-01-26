@@ -52,6 +52,8 @@ namespace Z0.Asm
 
         RegLiteral,
 
+        IntLiteral,
+
         Dependent,
     }
 }

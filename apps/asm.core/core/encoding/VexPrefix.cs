@@ -37,6 +37,18 @@ namespace Z0.Asm
     [ApiHost]
     public struct VexPrefix
     {
+        [MethodImpl(Inline), Op]
+        public static VexPrefix define(K kind)
+            => new VexPrefix(kind);
+
+        [MethodImpl(Inline), Op]
+        public static VexPrefix define(K kind, byte b1)
+            => new VexPrefix(kind, b1);
+
+        [MethodImpl(Inline), Op]
+        public static VexPrefix define(K kind, byte b1, byte b2)
+            => new VexPrefix(kind, b1, b2);
+
         [MethodImpl(Inline)]
         public static BitfieldSeg<VexPrefixCode> code(ReadOnlySpan<byte> src)
         {

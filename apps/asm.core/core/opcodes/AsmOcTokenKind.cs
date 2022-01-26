@@ -14,91 +14,91 @@ namespace Z0.Asm
         /// <summary>
         /// Classifies the 256 literal hex bytes [0x00, 0x01, ..., 0xFF] defined by <see cref='Hex8Kind'/>
         /// </summary>
-        Hex8,
+        Hex8 = 2,
 
         /// <summary>
         /// Classifies <see cref='RexToken'/> tokens
         /// </summary>
-        Rex,
+        Rex = 3,
 
         /// <summary>
         /// Classifies <see cref='VexToken'/> tokens
         /// </summary>
-        Vex,
+        Vex = 4,
 
         /// <summary>
         /// Classifies <see cref='EvexToken'/> tokens
         /// </summary>
-        Evex,
+        Evex = 5,
 
         /// <summary>
         /// Classifies <see cref='RexBToken'/> tokens
         /// </summary>
-        RexB,
+        RexB = 6,
 
         /// <summary>
         /// Classifies <see cref='OcExtension'/> tokens
         /// </summary>
-        OcExtension,
+        OcExtension = 7,
 
         /// <summary>
         /// Classifies <see cref='SegOverrideToken'/> tokens
         /// </summary>
-        SegOverride,
+        SegOverride = 8,
 
         /// <summary>
         /// Classifies <see cref='DispToken'/> tokens
         /// </summary>
-        Disp,
+        Disp = 9,
 
         /// <summary>
         /// Classifies <see cref='ImmSizeToken'/> tokens
         /// </summary>
-        ImmSize,
+        ImmSize = 10,
 
         /// <summary>
         /// Classifies <see cref='ExclusionToken'/> tokens
         /// </summary>
-        Exclusion,
+        Exclusion = 11,
 
         /// <summary>
         /// Classifies <see cref='FpuDigitToken'/> tokens
         /// </summary>
-        FpuDigit,
+        FpuDigit = 12,
 
         /// <summary>
         /// Classifies <see cref='MaskToken'/> tokens
         /// </summary>
-        Mask,
+        Mask = 13,
 
         /// <summary>
         /// Classifies <see cref='OperatorToken'/> tokens
         /// </summary>
-        Operator,
+        Operator = 14,
 
         /// <summary>
         /// Classifies <see cref='ModRmToken'/> tokens
         /// </summary>
-        ModRm,
+        ModRm = 15,
 
         /// <summary>
         /// Classifies two adjacent hex bytes
         /// </summary>
-        OcLiteral,
+        OcLiteral = 16,
 
         /// <summary>
         /// Classifies <see cref='RepToken'/> tokens
         /// </summary>
-        Rep,
+        Rep = 17,
 
         /// <summary>
         /// Classifies <see cref='SizeToken'/> tokens
         /// </summary>
-        Size,
+        Size = 18,
 
         /// <summary>
         /// Classifies <see cref='LockToken'/> tokens
         /// </summary>
-        Lock,
+        Lock = 19,
     }
 }

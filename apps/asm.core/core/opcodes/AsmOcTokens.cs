@@ -134,6 +134,8 @@ namespace Z0.Asm
 
             public const string Dot = ".";
 
+            public const string W = "W";
+
         }
 
         [SymSource(Group, TK.OcLiteral)]

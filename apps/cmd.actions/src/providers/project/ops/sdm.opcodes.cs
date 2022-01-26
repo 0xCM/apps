@@ -44,26 +44,26 @@ namespace Z0
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
+
         [CmdOp("sdm/forms")]
         Outcome SdmForms(CmdArgs args)
         {
-            var result = Outcome.Success;;
-            var decomps = Sdm.LoadSigDecomps();
-            var count = decomps.Count;
+            var result = Outcome.Success;
+            var src = Sdm.LoadSigDecomps();
+            var count = src.Count;
+            count = src.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var decomp = ref decomps[i];
-                result = OpCodes.Parse(decomp.OpCode, out var opcode);
+                ref readonly var record = ref src[i];
+                result = OpCodes.Parse(record.OpCode, out var opcode);
                 if(result)
                 {
-                    var expr = opcode.Format();
-                    if(text.empty(text.trim(expr)))
+                    var expect = text.trim(text.despace(record.OpCode.Format()));
+                    var actual = opcode.Format();
+                    if(expect != actual)
                     {
-                        Write(decomp.OpCode, FlairKind.Error);
-                    }
-                    else
-                    {
-                        Write(expr);
+                        Error(string.Format("'{0}' != '{1}'", actual, expect));
+                        break;
                     }
                 }
                 else
@@ -71,6 +71,15 @@ namespace Z0
                     Error(result.Message);
                     break;
                 }
+
+                result = AsmSigParser.parse(record.Sig.Format(), out var sig);
+                if(result.Fail)
+                {
+                    Error(string.Format("Sig parse failure:{0}", record.Sig.Format()));
+                    break;
+                }
+
+                Write(string.Format("{0,-48} | {1}", sig.Format(), opcode.Format()));
             }
 
             return result;

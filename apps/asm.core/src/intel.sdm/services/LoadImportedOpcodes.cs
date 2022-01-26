@@ -4,9 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
+
     partial class IntelSdm
     {
-        public Index<AsmFormExpr> LoadImportedForms()
-            => LoadImportedOpcodeDetails().Select(x => SdmOps.form(x));
+        public Index<SdmOpCodeDetail> LoadImportedOpcodes()
+        {
+            return Data(nameof(LoadImportedOpcodes), Load);
+
+            Index<SdmOpCodeDetail> Load()
+            {
+                var dst = sys.empty<SdmOpCodeDetail>();
+                var src = SdmPaths.ImportTable<SdmOpCodeDetail>();
+                var lines = src.ReadNumberedLines();
+                var count = lines.Count -1;
+                dst = alloc<SdmOpCodeDetail>(count);
+                SdmOps.rows(slice(lines.View,1), dst);
+                return dst;
+            }
+        }
     }
 }

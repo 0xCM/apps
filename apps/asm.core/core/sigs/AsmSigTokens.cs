@@ -10,6 +10,16 @@ namespace Z0.Asm
     {
         const string tokens = "asm.sigs";
 
+        [SymSource(tokens, K.IntLiteral)]
+        public enum IntLiteral : byte
+        {
+            [Symbol("0")]
+            n0,
+
+            [Symbol("1")]
+            n1,
+        }
+
         [SymSource(tokens, K.GpRm)]
         public enum GpRmToken : byte
         {
@@ -48,33 +58,63 @@ namespace Z0.Asm
         [SymSource(tokens, K.SysReg)]
         public enum SysRegToken : byte
         {
-            [Symbol("bnd", "A 128-bit bounds register. BND0 through BND3")]
-            bnd,
+            [Symbol("BND", "A 128-bit bounds register. BND0 through BND3")]
+            BND,
 
             [Symbol("Sreg", "A segment register. The segment register bit assignments are ES = 0, CS = 1, SS = 2, DS = 3, FS = 4, and GS = 5")]
             Sreg,
 
-            [Symbol("cr")]
-            cr,
+            [Symbol("CR")]
+            CR,
 
-            [Symbol("db")]
-            db,
+            [Symbol("DR")]
+            DR,
+
+            [Symbol("CR8")]
+            CR8,
         }
 
         [SymSource(tokens, K.RegLiteral)]
         public enum RegLiteralToken : byte
         {
             [Symbol("AL")]
-            AL = NativeSizeCode.W8,
+            AL,
 
             [Symbol("AX")]
-            AX = NativeSizeCode.W16,
+            AX,
+
+            [Symbol("DX")]
+            DX,
 
             [Symbol("EAX")]
-            EAX = NativeSizeCode.W32,
+            EAX,
+
+            [Symbol("EDX")]
+            EDX,
 
             [Symbol("RAX")]
-            RAX = NativeSizeCode.W64
+            RAX,
+
+            [Symbol("DS")]
+            DS,
+
+            [Symbol("ES")]
+            ES,
+
+            [Symbol("FS")]
+            FS,
+
+            [Symbol("GS")]
+            GS,
+
+            [Symbol("SS")]
+            SS,
+
+            [Symbol("CS")]
+            CS,
+
+            [Symbol("CL")]
+            CL,
         }
 
         [SymSource(tokens, K.GpReg)]
@@ -119,7 +159,16 @@ namespace Z0.Asm
         public enum MaskRegToken : byte
         {
             [Symbol("rK", "A mask register used as a regular operand (either destination or source)")]
-            rK = NativeSizeCode.W64,
+            rK,
+
+            [Symbol("k")]
+            k,
+
+            [Symbol("k1")]
+            k1,
+
+            [Symbol("k2")]
+            k2
         }
 
         [SymSource(tokens, K.VecReg)]
@@ -228,6 +277,9 @@ namespace Z0.Asm
 
             [Symbol("m512", "A 512-bit memory operand")]
             m512 = NativeSizeCode.W512,
+
+            [Symbol("mib")]
+            mib,
         }
 
         /// <summary>
@@ -312,6 +364,9 @@ namespace Z0.Asm
 
             [Symbol("{k1}{z}", "A mask register used as instruction writemask")]
             rKz,
+
+            [Symbol("k1z")]
+            k1z
         }
 
         [SymSource(tokens, K.Broadcast)]

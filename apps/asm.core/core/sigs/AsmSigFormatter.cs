@@ -16,11 +16,17 @@ namespace Z0.Asm
         public static string format(in AsmSig src)
         {
             var dst = text.buffer();
+            dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
             var count = src.OpCount;
             for(byte i=0; i<count; i++)
             {
                 if(i != 0)
-                    dst.Append(Chars.Comma);
+                {
+                    dst.Append(", ");
+                }
+                else
+                    dst.Append(Chars.Space);
+
                 dst.Append(expression(src[i]));
             }
             return dst.Emit();

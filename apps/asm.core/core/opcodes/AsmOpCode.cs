@@ -12,14 +12,14 @@ namespace Z0.Asm
 
     public struct AsmOpCode
     {
-        public const byte TokenCapacity = 15;
+        public const byte TokenCapacity = 31;
 
-        Cell256 Data;
+        Cell512 Data;
 
         [MethodImpl(Inline)]
         public AsmOpCode(ReadOnlySpan<AsmOcToken> tokens)
         {
-            Data = first(recover<AsmOcToken,Cell256>(tokens));
+            Data = first(recover<AsmOcToken,Cell512>(tokens));
             var _tokens = Tokens();
             var counter = z8;
             for(var i=0; i<TokenCapacity; i++)
@@ -52,19 +52,19 @@ namespace Z0.Asm
         public ref AsmOcClass OcClass
         {
             [MethodImpl(Inline)]
-            get => ref seek(@as<AsmOcClass>(Settings),1);
+            get => ref seek(@as<AsmOcClass>(Settings), 1);
         }
 
         public ref AsmOcToken this[uint i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Tokens(),i);
+            get => ref seek(Tokens(), i);
         }
 
         public ref AsmOcToken this[int i]
         {
             [MethodImpl(Inline)]
-            get => ref seek(Tokens(),i);
+            get => ref seek(Tokens(), i);
         }
 
         public string Format()

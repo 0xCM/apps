@@ -10,23 +10,9 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    using K = AsmPrefixCodes.VexPrefixKind;
     [ApiHost]
     public class AsmOpCodes : AppService<AsmOpCodes>
     {
-
-        [MethodImpl(Inline), Op]
-        public static VexPrefix vex(K kind)
-            => new VexPrefix(kind);
-
-        [MethodImpl(Inline), Op]
-        public static VexPrefix vex(K kind, byte b1)
-            => new VexPrefix(kind, b1);
-
-        [MethodImpl(Inline), Op]
-        public static VexPrefix vex(K kind, byte b1, byte b2)
-            => new VexPrefix(kind, b1, b2);
-
         readonly AsmOcDatasets _Datasets;
 
         readonly AsmOcParser Parser;

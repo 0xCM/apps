@@ -68,24 +68,23 @@ namespace Z0.Asm
             var result = Outcome.Success;
             dst = AsmOpCode.Empty;
             dst.OcClass = classify(src);
-
             var parts = sys.empty<string>();
             var input = text.trim(text.despace(src));
             if(dst.OcClass == AsmOcClass.Vex || dst.OcClass == AsmOcClass.Evex)
             {
                 var tokens = list<string>();
-                var i = text.index(input,Chars.Space);
+                var i = text.index(input, Chars.Space);
                 var dotted = text.split(text.left(input,i), Chars.Dot);
                 var spaced = text.split(text.right(input, i), Chars.Space);
                 for(var m = 0; m<dotted.Length; m++)
                 {
                     if(m != 0)
-                        tokens.Add(".");
+                        tokens.Add(OpCodeText.Dot);
                     tokens.Add(skip(dotted,m));
                 }
                 for(var m = 0; m<spaced.Length; m++)
                 {
-                    tokens.Add(" ");
+                    tokens.Add(OpCodeText.Sep);
                     tokens.Add(skip(spaced,m));
                 }
 
@@ -98,14 +97,14 @@ namespace Z0.Asm
                 for(var m=0; m<_parts.Length; m++)
                 {
                     if(m != 0)
-                        tokens.Add(" ");
+                        tokens.Add(OpCodeText.Sep);
                     tokens.Add(skip(_parts,m));
                 }
 
                 parts = tokens.ToArray();
             }
 
-            var count = (byte)min(parts.Length, 15);
+            var count = (byte)min(parts.Length, AsmOpCode.TokenCapacity);
             dst.TokenCount = count;
             for(var i=0; i<count; i++)
             {
