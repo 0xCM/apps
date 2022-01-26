@@ -13,37 +13,32 @@ namespace Z0.Asm
 
     partial struct AsmRegs
     {
-        static AsmRegName gp8hi(RegIndexCode index)
-        {
-            const byte RegLength = 2;
-            const string Data = "ahchdhbh";
-            var i0 = (ushort)((uint)index*RegLength);
-            return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
-        }
-
         public static AsmRegName name<T>(T src)
             where T : unmanaged, IRegOp
+                => name(src.Size, src.RegClassCode, src.Index);
+
+        public static AsmRegName name(NativeSizeCode size, RegClassCode @class, RegIndexCode index)
         {
-            switch(src.RegClassCode)
+            switch(@class)
             {
                 case RegClassCode.GP:
-                    return Gp.RegName(src.Index, (NativeSizeCode)(u16(src) & 0b111));
+                    return Gp.RegName(index, size);
                 case RegClassCode.GP8HI:
-                    return gp8hi(src.Index);
+                    return Gp8Hi.RegName(index);
                 case RegClassCode.XMM:
-                    return Xmm.RegName(src.Index);
+                    return Xmm.RegName(index);
                 case RegClassCode.YMM:
-                    return Ymm.RegName(src.Index);
+                    return Ymm.RegName(index);
                 case RegClassCode.ZMM:
-                    return Zmm.RegName(src.Index);
+                    return Zmm.RegName(index);
                 case RegClassCode.MASK:
-                    return KReg.RegName(src.Index);
+                    return KReg.RegName(index);
                 case RegClassCode.MMX:
-                    return Mmx.RegName(src.Index);
+                    return Mmx.RegName(index);
                 case RegClassCode.DB:
-                    return Db.RegName(src.Index);
+                    return Db.RegName(index);
                 case RegClassCode.CR:
-                    return Cr.RegName(src.Index);
+                    return Cr.RegName(index);
             }
             return text7.Empty;
         }

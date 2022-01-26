@@ -134,8 +134,11 @@ namespace Z0.Asm
                 var width = NativeSizeCode.W8;
                 var count = Gp8HiRegCount;
                 var buffer = alloc<RegOp>(count);
-                for(var i=0; i<count; i++)
-                    seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP8HI, (RegIndexCode)(i - 16));
+                for(byte i=0; i<count; i++)
+                {
+                    //seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP8HI, (RegIndexCode)(i - 16));
+                    seek(buffer,i) = AsmRegs.reg(width, RegClassCode.GP8HI, (RegIndexCode)i);
+                }
                 return buffer;
             }
         }

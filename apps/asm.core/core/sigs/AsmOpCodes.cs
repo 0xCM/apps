@@ -9,16 +9,11 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static AsmOpCodeTokens;
 
     using K = AsmPrefixCodes.VexPrefixKind;
     [ApiHost]
     public class AsmOpCodes : AppService<AsmOpCodes>
     {
-
-        [MethodImpl(Inline), Op]
-        public static RexB rexb(RexBToken token, RegIndexCode r)
-            => new RexB(token,r);
 
         [MethodImpl(Inline), Op]
         public static VexPrefix vex(K kind)

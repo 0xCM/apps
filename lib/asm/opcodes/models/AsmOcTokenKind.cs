@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static AsmOpCodeTokens;
-
     public enum AsmOcTokenKind : byte
     {
         /// <summary>

@@ -12,10 +12,11 @@ namespace Z0.Asm
 
     using CC = RegClassCode;
 
-
     public readonly struct RegClasses
     {
         public static GpClass Gp => default;
+
+        public static GP8HiClass Gp8Hi => default;
 
         public static SegClass Seg => default;
 
@@ -44,6 +45,21 @@ namespace Z0.Asm
         public static StClass St => default;
 
         public static MmxClass Mmx => default;
+
+        public readonly struct GP8HiClass : IRegClass<GP8HiClass>
+        {
+            public CC Kind => CC.GP8HI;
+
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(RegIndexCode index)
+            {
+                const byte RegLength = 2;
+                const string Data = "ahchdhbh";
+                //var i0 = ((byte)index - 16)*RegLength;
+                var i0 = (byte)index*RegLength;
+                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+            }
+        }
 
         public readonly struct GpClass : IRegClass<GpClass>
         {

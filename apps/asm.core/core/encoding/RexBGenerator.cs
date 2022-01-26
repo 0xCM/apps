@@ -9,19 +9,16 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static AsmRegCodes;
     using static AsmOpCodeTokens;
 
     /// <summary>
     /// Generates <see cref='RexB'/> tables
     /// </summary>
-    public sealed class RexBGenerator : Service<RexBGenerator>
+    public sealed class RexBGenerator : AppService<RexBGenerator>
     {
         // RexBBits:[Index[00000] | Token[000]]
-        public static RexB rexb(RexBToken token, RegIndexCode r)
-            => new RexB(token,r);
-
-        Symbols<RexBToken> _Tokens;
+        public static RexB rexb(RexBToken token, RegIndexCode r, bit gpHi)
+            => new RexB(token,r,gpHi);
 
         [MethodImpl(Inline)]
         static RexBToken rb()
@@ -41,83 +38,30 @@ namespace Z0.Asm
 
         public RexBGenerator()
         {
-            _Tokens = Symbols.index<RexBToken>();
+
         }
 
-        ReadOnlySpan<RexBToken> Tokens
+        public Index<RexB> Generate()
         {
-            [MethodImpl(Inline)]
-            get => _Tokens.Kinds;
+            var regs = Wf.AsmRegSets();
+            var dst = alloc<RexB>(16*4 + 4);
+            var j=0u;
+            Gen(regs.Gp8LoRegs(), rb(), 0, ref j, dst);
+            Gen(regs.Gp8HiRegs(),rb(), 1, ref j, dst);
+            Gen(regs.Gp16Regs(), rw(), 0, ref j, dst);
+            Gen(regs.Gp32Regs(), rd(), 0, ref j, dst);
+            Gen(regs.Gp64Regs(), ro(), 0, ref j, dst);
+            return dst;
         }
 
-        public ReadOnlySpan<RexB> Generate()
+        void Gen(RegOpSeq src, RexBToken token, bit hi, ref uint j, Span<RexB> dst)
         {
-            var dst = span<RexB>(256);
-            var i=0u;
-            var counter = 0u;
-            counter += IncludeGp8(ref i, dst);
-            counter += IncludeGp16(ref i, dst);
-            counter += IncludeGp32(ref i, dst);
-            counter += IncludeGp64(ref i, dst);
-            return slice(dst,0,counter);
-        }
-
-        byte IncludeGp8(ref uint i, Span<RexB> dst)
-        {
-            const byte RegCount = 16;
-            var i0 = i;
-            var j = z8;
-            var regs = Gp8Regs().Kinds;
-            for(j=0; j<RegCount; j++)
+            var count = src.Count;
+            for(byte i=0; i<count; i++)
             {
-                if(j>=4)
-                    seek(dst,i++) = rexb(rb(), (RegIndexCode)skip(regs,j));
+                ref readonly var reg = ref src[i];
+                seek(dst,j++) = rexb(token, (RegIndexCode)reg.Index, hi);
             }
-
-            return (byte)(i - i0);
-        }
-
-        byte IncludeGp16(ref uint i, Span<RexB> dst)
-        {
-            const byte RegCount = 16;
-            var i0 = i;
-            var regs = Gp16Regs().Kinds;
-            var j = z8;
-            for(j=0; j<RegCount; j++)
-            {
-                if(j>=8)
-                    seek(dst,i++) = rexb(rw(), (RegIndexCode)skip(regs,j));
-            }
-
-            return (byte)(i - i0);
-        }
-
-        byte IncludeGp32(ref uint i, Span<RexB> dst)
-        {
-            const byte RegCount = 16;
-            var i0 = i;
-            var j = z8;
-            var regs = Gp32Regs().Kinds;
-            for(j=0; j<RegCount; j++)
-            {
-                if(j>=8)
-                    seek(dst,i++) = rexb(rd(), (RegIndexCode)skip(regs,j));
-            }
-            return (byte)(i - i0);
-        }
-
-        byte IncludeGp64(ref uint i, Span<RexB> dst)
-        {
-            const byte RegCount = 16;
-            var i0 = i;
-            var j = z8;
-            var regs = Gp64Regs().Kinds;
-            for(j=0; j<RegCount; j++)
-            {
-                if(j >=8)
-                    seek(dst,i++) = rexb(ro(), (RegIndexCode)skip(regs,j));
-            }
-            return (byte)(i - i0);
         }
     }
 }
