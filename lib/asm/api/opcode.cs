@@ -13,6 +13,6 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static AsmOcExpr opcode(in CharBlock36 expr)
-            => new AsmOcExpr(AsmOpCodeBits.Empty, expr);
+            => new AsmOcExpr(expr);
     }
 }

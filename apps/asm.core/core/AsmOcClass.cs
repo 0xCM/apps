@@ -4,17 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    public interface IAsmOpCode
+    public enum AsmOcClass : byte
     {
-        ReadOnlySpan<AsmOcToken> Tokens {get;}
+        General,
+
+        Rex,
+
+        Vex,
+
+        Evex
     }
-
-    public interface IAsmOpCode<T> : IAsmOpCode
-        where  T : IAsmOpCode<T>
-    {
-
-    }
-
 }

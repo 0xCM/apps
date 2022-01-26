@@ -53,7 +53,7 @@ namespace Z0
 
                 var buffer = StatementBuffer();
                 var count = text.render(right, ref j, buffer);
-                dst = asm.disassembly(offset, text.format(slice(buffer,0,count)));
+                dst = AsmDisassembly.define(offset, text.format(slice(buffer,0,count)));
                 return true;
             }
 

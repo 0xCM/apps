@@ -36,13 +36,13 @@ namespace Z0.Asm
         public static bit IsCallRel32(ReadOnlySpan<byte> src, uint offset)
             => (offset + 4) <= src.Length && skip(src, offset) == 0xE8;
 
-        [MethodImpl(Inline), Op]
-        public static bit HasSegOverride(AsmOcExpr src)
-            => emath.oneof(src.Lead, SegOverrideCodes);
+        // [MethodImpl(Inline), Op]
+        // public static bit HasSegOverride(AsmOcExpr src)
+        //     => emath.oneof(src.Lead, SegOverrideCodes);
 
-        [MethodImpl(Inline), Op]
-        public static bit HasSizeOverride(AsmOcExpr src)
-            => emath.oneof(src.Lead, SZ.ADSZ, SZ.OPSZ);
+        // [MethodImpl(Inline), Op]
+        // public static bit HasSizeOverride(AsmOcExpr src)
+        //     => emath.oneof(src.Lead, SZ.ADSZ, SZ.OPSZ);
 
         public static string format(in AsmOpCode src)
         {

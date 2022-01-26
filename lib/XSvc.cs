@@ -161,10 +161,6 @@ namespace Z0
             => Z0.ApiResPackEmitter.create(wf);
 
         [Op]
-        public static AsmTables AsmTables(this IWfRuntime wf)
-            => Asm.AsmTables.create(wf);
-
-        [Op]
         public static AsmRegSets AsmRegSets(this IWfRuntime context)
             => Asm.AsmRegSets.create(context);
 

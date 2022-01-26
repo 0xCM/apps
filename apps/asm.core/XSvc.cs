@@ -99,5 +99,11 @@ namespace Z0
         [Op]
         public static CoffServices CoffServices(this IWfRuntime wf)
             => Z0.CoffServices.create(wf);
+
+        [Op]
+        public static AsmTables AsmTables(this IWfRuntime wf)
+            => Asm.AsmTables.create(wf);
+
+
     }
 }

@@ -12,6 +12,10 @@ namespace Z0.Asm
     [Record(TableId)]
     public struct AsmDisassembly : IRecord<AsmDisassembly>
     {
+        [MethodImpl(Inline), Op]
+        public static AsmDisassembly define(MemoryAddress offset, AsmExpr statement)
+            => new AsmDisassembly(offset, statement);
+
         public static string format(in AsmDisassembly src)
         {
             var left = string.Format("{0,-12} {1,-64}", src.Offset, src.Statement);

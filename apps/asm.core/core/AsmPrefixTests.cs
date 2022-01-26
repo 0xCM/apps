@@ -32,9 +32,9 @@ namespace Z0.Asm
         public static bit rex(byte src)
             => math.between(src, MinRexCode, MaxRexCode);
 
-        [MethodImpl(Inline), Op]
-        public static bit rex(AsmOcExpr src)
-            => rex(src.Lead);
+        // [MethodImpl(Inline), Op]
+        // public static bit rex(AsmOcExpr src)
+        //     => rex(src.Lead);
 
         [MethodImpl(Inline), Op]
         public static bit vex(byte src)
@@ -56,13 +56,13 @@ namespace Z0.Asm
         public static bit evex(uint src)
             => (byte)src == 0x62;
 
-        [MethodImpl(Inline), Op]
-        public static bit repeat(AsmOcExpr src)
-            => emath.oneof(src.Lead, REP.REPNZ, REP.REPZ);
+        // [MethodImpl(Inline), Op]
+        // public static bit repeat(AsmOcExpr src)
+        //     => emath.oneof(src.Lead, REP.REPNZ, REP.REPZ);
 
-        [MethodImpl(Inline), Op]
-        public static bit @lock(AsmOcExpr src)
-            => emath.same(L.LOCK, src.Lead);
+        // [MethodImpl(Inline), Op]
+        // public static bit @lock(AsmOcExpr src)
+        //     => emath.same(L.LOCK, src.Lead);
 
         [MethodImpl(Inline), Op]
         public static uint rex<T>(ReadOnlySpan<T> src, ref uint i, Span<T> dst)
