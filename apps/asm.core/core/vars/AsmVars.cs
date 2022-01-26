@@ -15,14 +15,6 @@ namespace Z0.Asm
         AsmRegSets RegSets => Service(Wf.AsmRegSets);
 
         [MethodImpl(Inline), Op]
-        public static ImmVar imm(VarSymbol name)
-            => new ImmVar(name);
-
-        [MethodImpl(Inline), Op]
-        public static ImmVar imm(VarSymbol name, Imm value)
-            => new ImmVar(name, value);
-
-        [MethodImpl(Inline), Op]
         public static RegVar reg(VarSymbol name)
             => new RegVar(name);
 
@@ -31,19 +23,19 @@ namespace Z0.Asm
             => new RegVar(name, value);
 
         [MethodImpl(Inline), Op]
-        public static DispVar disp(VarSymbol name)
-            => new DispVar(name);
-
-        [MethodImpl(Inline), Op]
-        public static DispVar disp(VarSymbol name, Disp value)
-            => new DispVar(name, value);
-
-        [MethodImpl(Inline), Op]
         public static MemVar mem(VarSymbol name)
             => new MemVar(name);
 
         [MethodImpl(Inline), Op]
         public static MemVar mem(VarSymbol name, MemOp value)
             => new MemVar(name,value);
+
+        [MethodImpl(Inline), Op]
+        public static ImmVar imm(VarSymbol name)
+            => new ImmVar(name);
+
+        [MethodImpl(Inline), Op]
+        public static ImmVar imm(VarSymbol name, Imm value)
+            => new ImmVar(name, value);
     }
 }

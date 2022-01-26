@@ -9,7 +9,6 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     using static Root;
-    using static ConditionCodes;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.conditions.jcc8")]
     public struct Jcc8Conditions : IConditional

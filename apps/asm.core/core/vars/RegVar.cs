@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class RegVar : AsmOpVar<RegVar,RegOp>
+    public class RegVar : AsmOpVar<RegOp>
     {
         public RegVar(VarSymbol name)
-            : base(name)
+            : base(name, RegOp.Invalid)
         {
 
         }

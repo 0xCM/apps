@@ -12,7 +12,6 @@ namespace Z0.Asm
         AsmOpClass OpClass {get;}
 
         NativeSize Size {get;}
-
     }
 
     public interface IAsmOp<T> : IAsmOp

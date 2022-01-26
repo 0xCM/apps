@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class ImmVar : AsmOpVar<ImmVar,Imm>
+    public class ImmVar : AsmOpVar<Imm>
     {
         public ImmVar(VarSymbol name)
-            : base(name)
+            : base(name, Imm.Empty)
         {
 
         }

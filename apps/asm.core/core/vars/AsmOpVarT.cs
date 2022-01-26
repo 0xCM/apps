@@ -9,8 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    public abstract class AsmOpVar<F,T> : IAsmOpVar<F,T>
-        where F : AsmOpVar<F,T>
+    public abstract class AsmOpVar<T> : IAsmOpVar<T>
         where T : struct, IAsmOp
     {
         public VarSymbol Name {get;}
@@ -30,12 +29,10 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public F Set(T value)
+        public void Update(T value)
         {
             Value = value;
-            return (F)this;
         }
-
 
         public AsmOpClass OpClass => Value.OpClass;
 

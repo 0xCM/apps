@@ -18,7 +18,7 @@ namespace Z0.Asm
         }
 
 
-        public sealed class ConditionTokenSet : TokenSet<ConditionTokenSet>
+        public sealed class ConditionTokens : TokenSet<ConditionTokens>
         {
             public override string Name
                 => "asm.cc";

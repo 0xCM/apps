@@ -14,9 +14,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmCallSite callsite(AsmCaller caller, Address16 offset, uint4 size)
             => new AsmCallSite(caller, offset, size);
-
-
-        public static Conditions conditions()
-            => Conditions.create();
     }
 }
