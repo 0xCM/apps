@@ -15,7 +15,7 @@ namespace Z0.Asm
         Outcome GenTokenSpecs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = Symbols.concat(Symbols.index<AsmOpCodeTokens.VexToken>());
+            var src = Symbols.concat(Symbols.index<AsmOcTokens.VexToken>());
             var name = "VexTokens";
             var dst = Ws.Project("gen").Subdir("literals") + FS.file(name, FS.Cs);
             var svc = Wf.CodeGen().StringLiterals();

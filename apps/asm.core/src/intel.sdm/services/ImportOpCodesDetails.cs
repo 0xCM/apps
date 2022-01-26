@@ -76,7 +76,8 @@ namespace Z0.Asm
             var rows = src.Rows;
             var count = rows.Length;
             var cols = src.Cols;
-            var rules = SigNormalizationRules();
+            var sigRules = SigNormalRules();
+            var ocRules = OcReplaceRules();
             for(var i=0; i<count; i++)
             {
                 ref readonly var input = ref skip(rows,i);
@@ -101,8 +102,8 @@ namespace Z0.Asm
                     switch(name)
                     {
                         case "Opcode":
-                        var oc = NormalizeOpcode(content);
-                        target.OpCode = text.trim(text.despace(oc));
+                        var oc = CalcOpCode(content);
+                        target.OpCode = oc;
                         if(empty(oc))
                             valid = false;
                         break;
@@ -221,7 +222,13 @@ namespace Z0.Asm
                     else
                         dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
                 }
-                return rules.Apply(dst);
+                return sigRules.Apply(dst);
+            }
+
+            string CalcOpCode(string src)
+            {
+                return text.despace(ocRules.Apply(text.trim(src)));
+                //return NormalizeOpcode(src);
             }
 
             static string NormalizeOpcode(string src)

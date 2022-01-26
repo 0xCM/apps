@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static Root;
     using static core;
-    using static AsmOpCodeTokens;
+    using static AsmOcTokens;
 
     public class AsmOcParser
     {
@@ -66,11 +66,47 @@ namespace Z0.Asm
         public static Outcome parse(string src, out AsmOpCode dst)
         {
             var result = Outcome.Success;
-            var parts = text.trim(text.split(text.despace(src),Chars.Space));
-            var count = (byte)min(parts.Length, 15);
             dst = AsmOpCode.Empty;
-            dst.TokenCount = count;
             dst.OcClass = classify(src);
+
+            var parts = sys.empty<string>();
+            var input = text.trim(text.despace(src));
+            if(dst.OcClass == AsmOcClass.Vex || dst.OcClass == AsmOcClass.Evex)
+            {
+                var tokens = list<string>();
+                var i = text.index(input,Chars.Space);
+                var dotted = text.split(text.left(input,i), Chars.Dot);
+                var spaced = text.split(text.right(input, i), Chars.Space);
+                for(var m = 0; m<dotted.Length; m++)
+                {
+                    if(m != 0)
+                        tokens.Add(".");
+                    tokens.Add(skip(dotted,m));
+                }
+                for(var m = 0; m<spaced.Length; m++)
+                {
+                    tokens.Add(" ");
+                    tokens.Add(skip(spaced,m));
+                }
+
+                parts = tokens.ToArray();
+            }
+            else
+            {
+                var tokens = list<string>();
+                var _parts = text.trim(text.split(input,Chars.Space));
+                for(var m=0; m<_parts.Length; m++)
+                {
+                    if(m != 0)
+                        tokens.Add(" ");
+                    tokens.Add(skip(_parts,m));
+                }
+
+                parts = tokens.ToArray();
+            }
+
+            var count = (byte)min(parts.Length, 15);
+            dst.TokenCount = count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var expr = ref skip(parts,i);

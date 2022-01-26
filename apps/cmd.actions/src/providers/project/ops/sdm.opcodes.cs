@@ -42,6 +42,40 @@ namespace Z0
             return counter;
         }
 
+        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
+
+        [CmdOp("sdm/forms")]
+        Outcome SdmForms(CmdArgs args)
+        {
+            var result = Outcome.Success;;
+            var decomps = Sdm.LoadSigDecomps();
+            var count = decomps.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var decomp = ref decomps[i];
+                result = OpCodes.Parse(decomp.OpCode, out var opcode);
+                if(result)
+                {
+                    var expr = opcode.Format();
+                    if(text.empty(text.trim(expr)))
+                    {
+                        Write(decomp.OpCode, FlairKind.Error);
+                    }
+                    else
+                    {
+                        Write(expr);
+                    }
+                }
+                else
+                {
+                    Error(result.Message);
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         [CmdOp("sdm/sigs")]
         Outcome SdmOpCodes(CmdArgs args)
         {

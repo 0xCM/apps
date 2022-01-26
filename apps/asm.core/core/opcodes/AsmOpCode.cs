@@ -20,7 +20,6 @@ namespace Z0.Asm
         public AsmOpCode(ReadOnlySpan<AsmOcToken> tokens)
         {
             Data = first(recover<AsmOcToken,Cell256>(tokens));
-
             var _tokens = Tokens();
             var counter = z8;
             for(var i=0; i<TokenCapacity; i++)

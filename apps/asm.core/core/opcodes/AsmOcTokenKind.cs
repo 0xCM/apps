@@ -84,7 +84,7 @@ namespace Z0.Asm
         /// <summary>
         /// Classifies two adjacent hex bytes
         /// </summary>
-        WordLiteral,
+        OcLiteral,
 
         /// <summary>
         /// Classifies <see cref='RepToken'/> tokens

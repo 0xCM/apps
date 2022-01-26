@@ -22,8 +22,11 @@ namespace Z0.Asm
             SdmPaths = IntelSdmPaths.create(Wf);
         }
 
-        TextMap SigNormalizationRules()
-            => Data(nameof(SigNormalizationRules), () => Rules.textmap(ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"))));
+        TextMap SigNormalRules()
+            => Data(nameof(SigNormalRules), () => Rules.textmap(SdmPaths.SigNormalRules()));
+
+        TextReplace OcReplaceRules()
+            => Data(nameof(OcReplaceRules), () => Rules.replace(SdmPaths.OcReplaceRules()));
 
         void Clear()
         {

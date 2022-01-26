@@ -19,8 +19,8 @@ namespace Z0.Asm
             var count = src.TokenCount;
             for(var i=0; i<count; i++)
             {
-                if(i != 0)
-                    dst.Append(Chars.Space);
+                // if(i != 0)
+                //     dst.Append(Chars.Space);
                 dst.Append(expression(src[i]));
             }
             return dst.Emit();

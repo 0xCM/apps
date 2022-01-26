@@ -24,5 +24,8 @@ namespace Z0.Asm
             Sig = sig;
             OpCode = oc;
         }
+
+        public static AsmForm Empty => default;
+
     }
 }

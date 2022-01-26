@@ -12,6 +12,34 @@ namespace Z0
 
     partial struct Rules
     {
+        public static TextReplace replace(FS.FilePath src)
+        {
+            const string Sep = " -> ";
+            var dst = dict<string,string>();
+            using var reader = src.Utf8LineReader();
+            while(reader.Next(out var line))
+            {
+                if(line.IsEmpty)
+                    continue;
+                var i = line.Index(Sep);
+                if(i == NotFound)
+                    continue;
+
+                var source = text.left(line.Content,i);
+                var target = text.right(line.Content,i + Sep.Length - 1);
+                if(text.fenced(target, RenderFence.SQuote))
+                {
+                    dst[source] = text.unfence(target, RenderFence.SQuote);
+                }
+                else
+                {
+                    dst[source] = target;
+                }
+            }
+            return new TextReplace(dst);
+        }
+
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReplaceRule<T> replace<T>(T src, T dst)
             where T : IEquatable<T>

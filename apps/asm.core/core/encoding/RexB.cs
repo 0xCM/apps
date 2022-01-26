@@ -8,7 +8,7 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
-    using static AsmOpCodeTokens;
+    using static AsmOcTokens;
 
     /// <summary>
     /// [Index:[00000] | Token:[000]]

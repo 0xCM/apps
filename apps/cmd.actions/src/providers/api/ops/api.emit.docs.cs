@@ -8,7 +8,7 @@ namespace Z0
     using System;
 
     using static core;
-    using static Asm.AsmOpCodeTokens;
+    using static Asm.AsmOcTokens;
 
     partial class ApiCmdProvider
     {

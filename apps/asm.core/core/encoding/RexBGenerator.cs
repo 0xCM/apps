@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
     using static core;
-    using static AsmOpCodeTokens;
+    using static AsmOcTokens;
 
     /// <summary>
     /// Generates <see cref='RexB'/> tables

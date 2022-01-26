@@ -10,9 +10,8 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static AsciCharSym;
-    using static AsmOpCodeTokens;
+    using static AsmOcTokens;
 
-    using SZ = AsmPrefixCodes.SizeOverrideCode;
     using SG = AsmPrefixCodes.SegOverrideCode;
     using K = AsmOcTokenKind;
     using P = Pow2x32;

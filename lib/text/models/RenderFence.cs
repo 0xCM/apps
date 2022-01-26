@@ -20,6 +20,8 @@ namespace Z0
 
         public static RenderFence Paren => (Chars.LParen, Chars.RParen);
 
+        public static RenderFence SQuote => (Chars.SQuote, Chars.SQuote);
+
         [MethodImpl(Inline)]
         public static Fence<T> define<T>(T left, T right)
             => (left,right);

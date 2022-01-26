@@ -11,10 +11,10 @@ namespace Z0.Asm
     using static core;
 
     using TK = AsmOcTokenKind;
-    using T = AsmOpCodeTokens.OpCodeText;
+    using T = AsmOcTokens.OpCodeText;
 
     [ApiHost]
-    public readonly struct AsmOpCodeTokens
+    public readonly struct AsmOcTokens
     {
         const string Group = "asm.opcodes";
 
@@ -33,8 +33,8 @@ namespace Z0.Asm
         public static AsmOcToken<Hex8Kind> hex8(Hex8 value)
             => token<Hex8Kind>(TK.Hex8, value);
 
-        public static AsmOcToken<WordToken> word(WordToken t)
-            => token(TK.WordLiteral, t);
+        public static AsmOcToken<OcLiteralToken> word(OcLiteralToken t)
+            => token(TK.OcLiteral, t);
 
         [MethodImpl(Inline), Op]
         public static AsmOcToken<ExclusionToken> exclude(ExclusionToken t)
@@ -117,8 +117,37 @@ namespace Z0.Asm
             public const string n256 = "256";
 
             public const string n512 = "512";
+
+            public const string L0 = "L0";
+
+            public const string L1 = "L1";
+
+            public const string L2 = "L2";
+
+            public const string LZ = "LZ";
+
+            public const string Vsib = "/vsib";
+
+            public const string Sep = " ";
+
+            public const string Plus = "+";
+
+            public const string Dot = ".";
+
         }
 
+        [SymSource(Group, TK.OcLiteral)]
+        public enum OcLiteralToken : byte
+        {
+            [Symbol("1")]
+            x1,
+
+            [Symbol("0F38")]
+            x0F38,
+
+            [Symbol("0F3A")]
+            x0F3A,
+        }
 
         [SymSource(Group, TK.Lock)]
         public enum LockToken : byte
@@ -135,16 +164,6 @@ namespace Z0.Asm
 
             [Symbol(T.x67, "Indicates address size override")]
             ADSZ,
-        }
-
-        [SymSource(Group, TK.WordLiteral)]
-        public enum WordToken : byte
-        {
-            [Symbol("0F38")]
-            x0F38,
-
-            [Symbol("0F3A")]
-            x0F3A,
         }
 
         [SymSource(Group, TK.Rex)]
@@ -181,13 +200,19 @@ namespace Z0.Asm
             [Symbol("B", "Logically equivalent to REX.B, but represented in 1's complement form")]
             B,
 
-            [Symbol("L", "Vector length, where 1 => w=256 and 2 => w=128 or scalar")]
-            L,
+            [Symbol(T.L0)]
+            L0,
+
+            [Symbol(T.L1, "Vector length, where 1 => w=256 and 2 => w=128 or scalar")]
+            L1,
+
+            [Symbol(T.L2, "Vector length, where 1 => w=256 and 2 => w=128 or scalar")]
+            L2,
 
             [Symbol(T.Vex)]
             VEX,
 
-            [Symbol("LZ")]
+            [Symbol(T.LZ)]
             LZ,
 
             [Symbol("LIG")]
@@ -202,10 +227,10 @@ namespace Z0.Asm
             [Symbol("W1")]
             W1,
 
-            [Symbol("128")]
+            [Symbol(T.n128)]
             W128,
 
-            [Symbol("256")]
+            [Symbol(T.n256)]
             W256,
 
             [Symbol("vvvv", "A register specifier in 1's complement form")]
@@ -216,6 +241,9 @@ namespace Z0.Asm
 
             [Symbol("pp", "opcode extension providing equivalent functionality of a SIMD prefix")]
             pp,
+
+            [Symbol(T.Vsib)]
+            Vsib,
         }
 
         [SymSource(Group, TK.Evex)]
@@ -224,7 +252,7 @@ namespace Z0.Asm
             [Symbol(T.Evex)]
             EVEX,
 
-            [Symbol("512")]
+            [Symbol(T.n512)]
             W512,
         }
 
@@ -395,6 +423,9 @@ namespace Z0.Asm
 
             [Symbol("NFx", "Indicates the use of F2/F3 prefixes are not allowed with the instruction")]
             NFx,
+
+            [Symbol("NDS")]
+            NDS,
         }
 
         [SymSource(Group, TK.Mask)]
@@ -413,11 +444,14 @@ namespace Z0.Asm
         [SymSource(Group, TK.Operator)]
         public enum OperatorToken : byte
         {
-            [Symbol("+")]
+            [Symbol(T.Plus)]
             Plus,
 
-            [Symbol(".")]
+            [Symbol(T.Dot)]
             Dot,
+
+            [Symbol(T.Sep)]
+            Sep,
         }
 
         public sealed class OpCodeTokenSet : TokenSet<OpCodeTokenSet>
@@ -426,7 +460,7 @@ namespace Z0.Asm
                 => "asm.opcodes";
 
             public override Type[] Types()
-                => typeof(AsmOpCodeTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
+                => typeof(AsmOcTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
         }
     }
 }
