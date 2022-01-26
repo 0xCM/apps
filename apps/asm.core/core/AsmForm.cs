@@ -9,10 +9,12 @@ namespace Z0.Asm
 
     using static Root;
 
-    using api = AsmSigs;
-
     public readonly struct AsmForm
     {
+        [MethodImpl(Inline), Op]
+        public static AsmForm define(Identifier name, in AsmSig sig, in AsmOpCode oc)
+            => new AsmForm(name, sig, oc);
+
         public readonly Identifier Name;
 
         public readonly AsmSig Sig;

@@ -8,6 +8,7 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     using static Root;
+    using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmSigOps
@@ -37,7 +38,7 @@ namespace Z0.Asm
         public byte OpCount
         {
             [MethodImpl(Inline)]
-            get => (byte)((uint)Op0.IsNonEmpty + (uint)Op1.IsNonEmpty + (uint)Op2.IsNonEmpty + (uint)Op3.IsNonEmpty + (uint)Op4.IsNonEmpty);
+            get => (byte)(u8(Op0.IsNonEmpty) + u8(Op1.IsNonEmpty) + u8(Op2.IsNonEmpty) + u8(Op3.IsNonEmpty) + u8(Op4.IsNonEmpty));
         }
 
         public static AsmSigOps Empty => default;

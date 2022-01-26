@@ -10,10 +10,6 @@ namespace Z0
     public static partial class XSvc
     {
         [Op]
-        public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
-            => Asm.AsmOpCodes.create(context);
-
-        [Op]
         public static ApiResolver ApiResolver(this IWfRuntime wf)
             => Z0.ApiResolver.create(wf);
 

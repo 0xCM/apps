@@ -21,6 +21,5 @@ namespace Z0.Asm
                 _ => parse(name, out TableNumber dst)
                     ? K.Numbered : K.None
             };
-
     }
 }

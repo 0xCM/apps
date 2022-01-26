@@ -8,11 +8,26 @@ namespace Z0.Asm
     using System.Runtime.CompilerServices;
 
     using static Root;
-
-    using api = AsmSigs;
+    using static core;
 
     public readonly struct AsmFormExpr : IEquatable<AsmFormExpr>, IComparable<AsmFormExpr>
     {
+        public static Identifier identify(in AsmFormExpr src)
+        {
+            var dst = text.buffer();
+            ref readonly var sig = ref src.Sig;
+            dst.Append(sig.Mnemonic.Format(MnemonicCase.Lowercase));
+            var ops = sig.Operands();
+            var count = ops.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var op = ref skip(ops,i);
+                dst.Append(Chars.Underscore);
+                dst.Append(text.replace(op.Text, Chars.Colon, Chars.x));
+            }
+
+            return dst.Emit();
+        }
         readonly public AsmSigExpr Sig;
 
         public readonly CharBlock36 OpCode;
@@ -25,7 +40,7 @@ namespace Z0.Asm
         }
 
         public Identifier Identity
-            => api.identify(this);
+            => identify(this);
 
         public string Text
             => string.Format("{0} {1}", Sig, OpCode);

@@ -9,6 +9,10 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
+            => Asm.AsmOpCodes.create(context);
+
         public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
             => Asm.ProcessAsmBuffers.create(wf);
 

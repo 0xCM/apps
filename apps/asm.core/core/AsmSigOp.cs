@@ -13,6 +13,11 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Size=2)]
     public readonly struct AsmSigOp : IAsmSigOp
     {
+        [MethodImpl(Inline)]
+        public static AsmSigOp define<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
+            where T : unmanaged
+                => new AsmSigOp(kind, core.bw8(value), size);
+
         public byte Value {get;}
 
         public AsmSigOpKind OpKind {get;}
@@ -28,13 +33,13 @@ namespace Z0.Asm
 
         }
 
-        public bit IsEmpty
+        public bool IsEmpty
         {
             [MethodImpl(Inline)]
             get => OpKind == 0;
         }
 
-        public bit IsNonEmpty
+        public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
             get => OpKind != 0;

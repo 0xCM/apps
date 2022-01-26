@@ -11,11 +11,61 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    using api = AsmSigs;
-
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.sig.expr")]
     public struct AsmSigExpr
     {
+        [MethodImpl(Inline), Op]
+        public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
+        {
+            if(i==4)
+                return ref src.Op4;
+            if(i==3)
+                return ref src.Op3;
+            if(i==2)
+                return ref src.Op2;
+            if(i==1)
+                return ref src.Op1;
+            return ref src.Op0;
+        }
+
+        public static string format(in AsmSigExpr src)
+        {
+            var storage = CharBlock64.Null;
+            var dst = storage.Data;
+            var i=0u;
+            text.copy(src.Mnemonic.Format(MnemonicCase.Lowercase), ref i, dst);
+            var count = src.OperandCount;
+
+            if(count != 0)
+                seek(dst,i++) = Chars.Space;
+
+            operands(src, ref i, dst);
+            return storage.Format();
+        }
+
+        [Op]
+        public static uint operands(in AsmSigExpr src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var count = src.OperandCount;
+            for(byte j=0; j<count; j++)
+            {
+                ref readonly var op = ref operand(src,j);
+                if(op.IsEmpty)
+                    break;
+
+                if(j != 0)
+                {
+                    seek(dst,i++) = Chars.Comma;
+                    seek(dst,i++) = Chars.Space;
+                }
+
+                text.copy(op.Text, ref i, dst);
+            }
+
+            return i - i0;
+        }
+
         public readonly AsmMnemonic Mnemonic;
 
         public AsmSigOpExpr Op0;
@@ -133,7 +183,7 @@ namespace Z0.Asm
         public ref CharBlock64 OperandText(ref CharBlock64 dst)
         {
             var i=0u;
-            api.operands(this, ref i, dst.Data);
+            operands(this, ref i, dst.Data);
             return ref dst;
         }
 
@@ -205,7 +255,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => api.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

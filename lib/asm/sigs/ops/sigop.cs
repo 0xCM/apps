@@ -11,9 +11,9 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AsmSigOp<K> sigop<K>(AsmSigOpKind kind, K value)
-            where K : unmanaged
-                => new AsmSigOp<K>(kind,value);
+        // [MethodImpl(Inline), Op, Closures(Closure)]
+        // public static AsmSigOp<K> sigop<K>(AsmSigOpKind kind, K value)
+        //     where K : unmanaged
+        //         => new AsmSigOp<K>(kind,value);
     }
 }
