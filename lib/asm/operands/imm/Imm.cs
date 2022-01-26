@@ -49,16 +49,22 @@ namespace Z0
             Value = (ulong)src;
         }
 
-        public ImmBitWidth Width
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => ImmKind.NativeSize();
+        }
+
+        public BitWidth Width
         {
             [MethodImpl(Inline)]
             get => ImmKind.Width();
         }
 
-        public NativeSize Size
+        public AsmOpKind OpKind
         {
             [MethodImpl(Inline)]
-            get => NativeSize.from((BitWidth)(byte)Width);
+            get => AsmOperand.kind(AsmOpClass.Imm, Size);
         }
 
         public bool Signed

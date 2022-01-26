@@ -45,7 +45,11 @@ namespace Z0.Asm
             Value = value;
         }
 
-        public NativeSize Size => NativeSizeCode.W32;
+        public NativeSize Size
+            => NativeSizeCode.W32;
+
+        public AsmOpKind OpKind
+            => AsmOpKind.Disp32;
 
         public bool IsNonZero
         {

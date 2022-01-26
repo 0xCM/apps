@@ -7,6 +7,7 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
+    using Asm;
     using static Root;
 
     using W = W64;
@@ -58,6 +59,9 @@ namespace Z0
 
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
+
+        public AsmOpKind OpKind
+            => AsmOpKind.Imm64;
 
         public uint Hash
         {

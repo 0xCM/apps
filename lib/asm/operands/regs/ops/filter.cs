@@ -42,7 +42,7 @@ namespace Z0.Asm
                 if(invalid(candidate.Index))
                     continue;
 
-                if(candidate.WidthCode == width)
+                if(candidate.Size == width)
                     seek(dst,k++) = candidate;
             }
             return k;
@@ -60,7 +60,7 @@ namespace Z0.Asm
                 if(invalid(candidate.Index))
                     continue;
 
-                if(candidate.WidthCode == width && candidate.RegClassCode == @class)
+                if(candidate.Size == width && candidate.RegClassCode == @class)
                     seek(dst,k++) = candidate;
             }
             return k;

@@ -17,9 +17,9 @@ namespace Z0.Asm
         public static string format(in RegMask src)
         {
             var dst = EmptyString;
-            if(src.Kind == RegMaskKind.Merge)
+            if(src.MaskKind == RegMaskKind.Merge)
                 dst = string.Format("{0} {{1}}", src.Target, AsmRegs.rK(src.Mask));
-            else if(src.Kind == RegMaskKind.Zero)
+            else if(src.MaskKind == RegMaskKind.Zero)
                 dst = string.Format("{0} {{{1}}{{2}}", src.Target, AsmRegs.rK(src.Mask), Chars.z);
             return dst;
         }
@@ -28,20 +28,26 @@ namespace Z0.Asm
 
         public RegIndex Mask {get;}
 
-        public RegMaskKind Kind {get;}
+        public RegMaskKind MaskKind {get;}
 
         [MethodImpl(Inline)]
         public RegMask(RegOp target, RegIndex mask, RegMaskKind kind)
         {
             Target = target;
             Mask = mask;
-            Kind = kind;
+            MaskKind = kind;
         }
 
         public NativeSize Size
         {
             [MethodImpl(Inline)]
             get => NativeSizeCode.W64;
+        }
+
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOperand.kind(AsmOpClass.RegMask, Size);
         }
 
         public string Format()

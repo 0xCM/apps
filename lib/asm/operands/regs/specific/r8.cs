@@ -48,6 +48,11 @@ namespace Z0.Asm.Operands
             get => RegClassCode;
         }
 
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOperand.kind(AsmOpClass.Reg, Size);
+        }
 
         [MethodImpl(Inline)]
         public AsmOperand Untyped()

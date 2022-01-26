@@ -15,7 +15,10 @@ namespace Z0
 
         RegIndex Mask {get;}
 
-        RegMaskKind Kind {get;}
+        RegMaskKind MaskKind {get;}
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.RegMask;
 
         AsmOpClass IAsmOp.OpClass
             => AsmOpClass.RegMask;

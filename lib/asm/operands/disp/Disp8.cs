@@ -20,8 +20,6 @@ namespace Z0.Asm
         /// </summary>
         public sbyte Value {get;}
 
-        public NativeSize Size => NativeSizeCode.W8;
-
         [MethodImpl(Inline)]
         public Disp8(sbyte @base)
         {
@@ -29,6 +27,12 @@ namespace Z0.Asm
         }
 
         public byte StorageWidth => 8;
+
+        public NativeSize Size
+            => NativeSizeCode.W8;
+
+        public AsmOpKind OpKind
+            => AsmOpKind.Disp8;
 
         public bool IsNonZero
         {

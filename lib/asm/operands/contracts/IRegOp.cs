@@ -25,18 +25,13 @@ namespace Z0.Asm
         /// </summary>
         RegClassCode RegClassCode {get;}
 
-        /// <summary>
-        /// The width of the represented register operand
-        /// </summary>
-        NativeSizeCode WidthCode {get;}
-
         ushort Bitfield {get;}
 
         NativeSize IAsmOp.Size
-            => new NativeSize(WidthCode);
+            => new NativeSize(Size);
 
         RegWidth RegWidth
-            => WidthCode;
+            => Size;
 
         RegClass RegClass
             => RegClassCode;
@@ -50,19 +45,14 @@ namespace Z0.Asm
     /// </summary>
     /// <typeparam name="T">The represented storage type</typeparam>
     [Free]
-    public interface IRegOp<T> : IRegOp, ISized<T>
+    public interface IRegOp<T> : IRegOp
         where T : unmanaged
     {
         ushort IRegOp.Bitfield
             => u16(this);
+
         AsmOpClass IAsmOp.OpClass
             => AsmOpClass.Reg | (AsmOpClass)width<T>(w16);
-
-        BitWidth ISized.Width
-            => width<T>();
-
-        ByteSize ISized.Size
-            => size<T>();
     }
 
     /// <summary>
@@ -71,8 +61,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp8 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W8;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.GpReg8;
     }
 
     [Free]
@@ -89,8 +82,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp16 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W16;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.GpReg16;
     }
 
     [Free]
@@ -107,8 +103,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp32 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W32;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.GpReg32;
     }
 
     [Free]
@@ -122,8 +121,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp64 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W64;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.GpReg64;
     }
 
     [Free]
@@ -140,8 +142,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp128 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W128;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.VReg128;
     }
 
     [Free]
@@ -155,8 +160,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp256 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W256;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.VReg256;
     }
 
     [Free]
@@ -173,8 +181,11 @@ namespace Z0.Asm
     [Free]
     public interface IRegOp512 : IRegOp
     {
-        NativeSizeCode IRegOp.WidthCode
+        NativeSize IAsmOp.Size
             => NativeSizeCode.W512;
+
+        AsmOpKind IAsmOp.OpKind
+            => AsmOpKind.VReg512;
     }
 
     [Free]

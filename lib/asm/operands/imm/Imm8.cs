@@ -14,6 +14,8 @@ namespace Z0
     using W = W8;
     using I = imm8;
 
+    using Asm;
+
     /// <summary>
     /// Defines an 8-bit immediate value
     /// </summary>
@@ -66,6 +68,9 @@ namespace Z0
 
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
+
+        public AsmOpKind OpKind
+            => AsmOpKind.Imm8;
 
         public uint Hash
         {

@@ -35,7 +35,6 @@ namespace Z0.Asm.Operands
         public AsmOperand Untyped()
             => new AsmOperand(this);
 
-
         public string Format()
             => Address.Format();
 

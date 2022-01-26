@@ -47,6 +47,9 @@ namespace Z0.Asm
 
         public NativeSize Size => NativeSizeCode.W64;
 
+        public AsmOpKind OpKind
+            => AsmOpKind.Disp64;
+
         public bool IsNonZero
         {
             [MethodImpl(Inline)]

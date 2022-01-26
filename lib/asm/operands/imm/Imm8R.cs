@@ -36,6 +36,9 @@ namespace Z0
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;
 
+        public AsmOpKind OpKind
+            => AsmOpKind.Imm8;
+
         public string Format()
             => HexFormatter.format(Value, W, true);
 

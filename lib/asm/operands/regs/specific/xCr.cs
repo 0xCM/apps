@@ -30,7 +30,7 @@ namespace Z0.Asm.Operands
         public override string ToString()
             => Format();
 
-        public NativeSizeCode WidthCode
+        public NativeSizeCode Size
         {
             [MethodImpl(Inline)]
             get => NativeSizeCode.W64;
@@ -61,7 +61,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
-            => api.reg(src.WidthCode, src.RegClassCode, src.Index);
+            => api.reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(G src)

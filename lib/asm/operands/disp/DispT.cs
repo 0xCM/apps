@@ -24,13 +24,17 @@ namespace Z0.Asm
             Source = src;
         }
 
-        public NativeSize Size => NativeSize.code(width<T>());
-
         public long Value
         {
             [MethodImpl(Inline)]
             get => int64(Source.Value);
         }
+
+        public NativeSize Size
+            => NativeSize.code(width<T>());
+
+        public AsmOpKind OpKind
+            => Source.OpKind;
 
         public string Format()
             => AsmRender.format(this);

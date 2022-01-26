@@ -7,6 +7,8 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
+    using Asm;
+
     using static Root;
 
     using W = W32;
@@ -33,6 +35,9 @@ namespace Z0
 
         public ImmKind ImmKind
             => ImmKind.Imm32;
+
+        public AsmOpKind OpKind
+            => AsmOpKind.Imm32;
 
         public string Format()
             => HexFormatter.format(w32, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);

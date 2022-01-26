@@ -41,12 +41,6 @@ namespace Z0.Asm.Operands
             get => NativeSizeCode.W64;
         }
 
-        public NativeSizeCode WidthCode
-        {
-            [MethodImpl(Inline)]
-            get => NativeSizeCode.W64;
-        }
-
         public RegClassCode RegClassCode
         {
             [MethodImpl(Inline)]
@@ -67,7 +61,7 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
-            => api.reg(src.WidthCode, src.RegClassCode, src.Index);
+            => api.reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(G src)

@@ -17,7 +17,8 @@ namespace Z0.Asm
     {
         public short Value {get;}
 
-        public NativeSize Size => NativeSizeCode.W16;
+        public NativeSize Size
+            => NativeSizeCode.W16;
 
         [MethodImpl(Inline)]
         public Disp16(short value)
@@ -25,7 +26,11 @@ namespace Z0.Asm
             Value = value;
         }
 
-        public byte StorageWidth => 16;
+        public AsmOpKind OpKind
+            => AsmOpKind.Disp16;
+
+        public byte StorageWidth
+            => 16;
 
         public bool IsNonZero
         {

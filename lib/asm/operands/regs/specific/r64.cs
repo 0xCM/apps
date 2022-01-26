@@ -41,12 +41,6 @@ namespace Z0.Asm.Operands
             get => NativeSizeCode.W64;
         }
 
-        public NativeSizeCode WidthCode
-        {
-            [MethodImpl(Inline)]
-            get => NativeSizeCode.W64;
-        }
-
         public RegClassCode RegClassCode
         {
             [MethodImpl(Inline)]
@@ -63,6 +57,12 @@ namespace Z0.Asm.Operands
         {
             [MethodImpl(Inline)]
             get => RegClassCode;
+        }
+
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOperand.kind(AsmOpClass.Reg, Size);
         }
 
         [MethodImpl(Inline)]

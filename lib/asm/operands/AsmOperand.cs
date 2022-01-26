@@ -19,6 +19,10 @@ namespace Z0.Asm
     public struct AsmOperand : IAsmOp
     {
         [MethodImpl(Inline), Op]
+        public static AsmOpKind kind(AsmOpClass @class, NativeSizeCode size)
+            => (AsmOpKind)math.or((ushort)@class, math.sll((ushort)(size), 8));
+
+        [MethodImpl(Inline), Op]
         public static AsmOperand op(r8 src)
             => new AsmOperand(src);
 
@@ -114,7 +118,7 @@ namespace Z0.Asm
             OpClass = AsmOpClass.Reg;
             Size = src.RegWidth;
             _Data = u16(src);
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.Reg | ((ushort)src.Size.Code << 8));
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.Reg | ((ushort)src.Size << 8));
         }
 
         [MethodImpl(Inline)]
@@ -124,7 +128,7 @@ namespace Z0.Asm
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Imm>(_Data) = src;
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.Imm | ((ushort)src.Size.Code << 8));
+            OpKind = (AsmOpKind)((ushort)AsmOpKind.Imm | ((ushort)src.Size << 8));
         }
 
         [MethodImpl(Inline)]

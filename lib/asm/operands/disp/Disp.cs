@@ -34,6 +34,12 @@ namespace Z0.Asm
             Size = width;
         }
 
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOperand.kind(AsmOpClass.Disp, Size);
+        }
+
         public bool IsNonZero
         {
             [MethodImpl(Inline)]

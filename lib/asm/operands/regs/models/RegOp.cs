@@ -41,13 +41,7 @@ namespace Z0.Asm
             get => Data == ushort.MaxValue;
         }
 
-        public NativeSize Size
-        {
-            [MethodImpl(Inline)]
-            get => api.width(this);
-        }
-
-        public NativeSizeCode WidthCode
+        public NativeSizeCode Size
         {
             [MethodImpl(Inline)]
             get => api.width(this);
@@ -81,6 +75,12 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => RegClassCode;
+        }
+
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOperand.kind(AsmOpClass.Reg, Size);
         }
 
         public bool IsEmpty

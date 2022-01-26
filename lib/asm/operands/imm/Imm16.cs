@@ -7,6 +7,8 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
+    using Asm;
+
     using static Root;
 
     using W = W16;
@@ -32,6 +34,9 @@ namespace Z0
 
         public ImmKind ImmKind
             => Kind;
+
+        public AsmOpKind OpKind
+            => AsmOpKind.Imm16;
 
         public ImmBitWidth ImmWidth
             => (ImmBitWidth)Width;

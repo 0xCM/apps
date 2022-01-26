@@ -59,6 +59,12 @@ namespace Z0.Asm.Operands
             get => RegClassCode;
         }
 
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOperand.kind(AsmOpClass.Reg, Size);
+        }
+
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
             => api.reg(src.Size, src.RegClassCode, src.Index);
