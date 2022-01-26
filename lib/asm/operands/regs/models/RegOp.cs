@@ -59,12 +59,6 @@ namespace Z0.Asm
             get => api.index(this);
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegKind RegKind
         {
             [MethodImpl(Inline)]
@@ -98,7 +92,7 @@ namespace Z0.Asm
         public AsmRegName Name
         {
             [MethodImpl(Inline)]
-            get => api.name(this);
+            get => api.name(Size, RegClass, Index);
         }
 
         [MethodImpl(Inline)]

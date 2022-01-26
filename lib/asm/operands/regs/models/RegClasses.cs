@@ -64,7 +64,7 @@ namespace Z0.Asm
         public readonly struct GpClass : IRegClass<GpClass>
         {
             [MethodImpl(Inline), Op]
-            public AsmRegName RegName(RegIndexCode index, NativeSizeCode width)
+            public AsmRegName RegName(RegIndexCode index, NativeSizeCode size)
             {
                 const byte RegLength = 4;
                 const string R0 = "rax eax ax  al  ";
@@ -85,22 +85,22 @@ namespace Z0.Asm
                 const string R15 = "r15 r15dr15wr15b";
                 const string Data = R0 + R1 + R2 + R3 + R4 + R5 + R6 + R7 + R8 + R9 + R10 + R11 + R12 + R13 + R14 + R15;
                 var data = 0ul;
-                var i0 = offset(index, width);
+                var i0 = offset(index, size);
                 return FixedChars.txt(n7, slice(text.chars(Data), i0, RegLength));
             }
 
             [MethodImpl(Inline), Op]
-            static ushort offset(RegIndexCode index, NativeSizeCode width)
+            static ushort offset(RegIndexCode index, NativeSizeCode size)
             {
                 const byte RegLength = 4;
                 const byte RowLength = 4*RegLength;
                 var row = (uint)((uint)index*RowLength);
                 var col = z32;
-                if(width == NativeSizeCode.W64)
+                if(size == NativeSizeCode.W64)
                     col = 0;
-                else if(width == NativeSizeCode.W32)
+                else if(size == NativeSizeCode.W32)
                     col = 4;
-                else if(width == NativeSizeCode.W16)
+                else if(size == NativeSizeCode.W16)
                     col = 8;
                 else
                     col = 12;

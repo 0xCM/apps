@@ -18,7 +18,7 @@ namespace Z0.Asm
     {
         // RexBBits:[Index[00000] | Token[000]]
         public static RexB rexb(RexBToken token, RegIndexCode r, bit gpHi)
-            => new RexB(token,r,gpHi);
+            => new RexB(token, r, gpHi);
 
         [MethodImpl(Inline)]
         static RexBToken rb()
@@ -47,7 +47,7 @@ namespace Z0.Asm
             var dst = alloc<RexB>(16*4 + 4);
             var j=0u;
             Gen(regs.Gp8LoRegs(), rb(), 0, ref j, dst);
-            Gen(regs.Gp8HiRegs(),rb(), 1, ref j, dst);
+            Gen(regs.Gp8HiRegs(), rb(), 1, ref j, dst);
             Gen(regs.Gp16Regs(), rw(), 0, ref j, dst);
             Gen(regs.Gp32Regs(), rd(), 0, ref j, dst);
             Gen(regs.Gp64Regs(), ro(), 0, ref j, dst);

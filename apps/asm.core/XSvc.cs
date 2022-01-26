@@ -10,6 +10,10 @@ namespace Z0
     public static class XSvc
     {
         [Op]
+        public static AsmEncoding AsmEncoding(this IWfRuntime wf)
+            => Asm.AsmEncoding.create(wf);
+
+        [Op]
         public static AsmEtl AsmEtl(this IWfRuntime context)
             => Asm.AsmEtl.create(context);
 

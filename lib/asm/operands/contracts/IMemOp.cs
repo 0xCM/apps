@@ -31,7 +31,6 @@ namespace Z0.Asm
 
         AsmOpKind IAsmOp.OpKind
             => AsmOpKind.Mem8;
-
     }
 
     public interface IMemOp8<T> : IMemOp8, IMemOp<T>
@@ -126,13 +125,5 @@ namespace Z0.Asm
     public interface IMemOp512<T> : IMemOp512, IMemOp<T>
         where T : unmanaged, IMemOp512<T>
     {
-    }
-
-    [Free]
-    public interface IMemOp<F,W> : IMemOp
-        where F : unmanaged, IMemOp<F,W>
-        where W : unmanaged, ITypeWidth
-    {
-        W Width => default(W);
     }
 }

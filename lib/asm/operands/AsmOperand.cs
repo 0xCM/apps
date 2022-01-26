@@ -116,7 +116,7 @@ namespace Z0.Asm
         internal AsmOperand(RegOp src)
         {
             OpClass = AsmOpClass.Reg;
-            Size = src.RegWidth;
+            Size = src.Size;
             _Data = u16(src);
             OpKind = (AsmOpKind)((ushort)AsmOpKind.Reg | ((ushort)src.Size << 8));
         }

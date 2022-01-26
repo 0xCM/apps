@@ -58,6 +58,5 @@ namespace Z0.Asm
 
         [Symbol(jnle, "Jump short if not less or equal", E.NLE)]
         JNLE = 0x7F,
-    };
-
+    }
 }

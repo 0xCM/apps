@@ -12,7 +12,7 @@ namespace Z0
 
     partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/docs")]
+        [CmdOp("api/emit/asmdocs")]
         Outcome EmitAsmDocs(CmdArgs args)
         {
             EmitRexDocs();
@@ -20,10 +20,13 @@ namespace Z0
             EmitModRmDocs();
             EmitConditionDocs();
             EmitRegDocs();
+            EmitRexBDocs();
             return true;
         }
 
         AsmRegSets Regs => Service(Wf.AsmRegSets);
+
+        AsmEncoding Encoding => Service(Wf.AsmEncoding);
 
         void EmitRegDocs()
         {
@@ -45,7 +48,6 @@ namespace Z0
             EmittedFile(emitting,4);
         }
 
-
         void EmitRexDocs()
         {
             var dst = ApiDoc("asm.docs.rex", FS.ext("bits") + FS.Csv);
@@ -60,10 +62,11 @@ namespace Z0
 
         void EmitSibDocs()
         {
-            var result = Outcome.Success;
-            var path = ApiDoc("asm.docs.sib", FS.ext("bits") + FS.Csv);
-            var rows = AsmBits.SibRows().View;
-            TableEmit(rows, SibBitfieldRow.RenderWidths, path);
+            var rows = AsmEncoding.SibRows().View;
+            TableEmit(rows, SibBitfieldRow.RenderWidths, ApiDoc("asm.docs.sib.bits", FS.Csv));
+
+            var codes = AsmEncoding.SibRegCodes();
+            TableEmit(codes.View, SibRegCodes.RenderWidths, ApiDoc("asm.docs.sib.regs", FS.Csv));
         }
 
         void EmitModRmDocs()
@@ -84,9 +87,7 @@ namespace Z0
         FS.FilePath ApiDoc(string name, FS.FileExt ext)
             => ApiDocs() + FS.file(name, ext);
 
-
-        [CmdOp("api/gen/rexb")]
-        Outcome EmitRexBDocs(CmdArgs args)
+        void EmitRexBDocs()
         {
             var tokens = Symbols.index<RexBToken>();
             var g = RexBGenerator.create(Wf);
@@ -97,11 +98,17 @@ namespace Z0
                 ref readonly var b = ref src[i];
                 ref readonly var token = ref tokens[b.Token];
                 uint2 value = (byte)token.Kind;
-
-
                 var reg = asm.reg(b.RegSize, b.Hi ? RegClassCode.GP8HI : RegClassCode.GP, b.Reg.Code);
                 Write(string.Format("{0,-5} | {1,-5} | {2,-5} | {3,-5} | {4}", i, reg.Name, b.Reg.Code, b.Reg, value, token.Expr));
             }
+
+        }
+
+        [CmdOp("api/emit/rexb")]
+        Outcome EmitRexBDocs(CmdArgs args)
+        {
+            EmitRexBDocs();
+
             return true;
         }
         void EmitConditionDocs()

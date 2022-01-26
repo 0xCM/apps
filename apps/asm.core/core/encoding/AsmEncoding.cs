@@ -6,15 +6,149 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
 
-    using static System.Runtime.Intrinsics.X86.Sse3;
     using static Root;
     using static core;
 
     [ApiHost]
-    public readonly struct AsmEncoding
+    public class AsmEncoding : AppService<AsmEncoding>
     {
+        const string FieldSep = " | ";
+
+        public static string bitstring(Sib src)
+            => string.Format("{0} {1} {2}", BitRender.format2(src.Scale), BitRender.format3(src.Index), BitRender.format3(src.Base));
+
+
+        [MethodImpl(Inline), Op]
+        static uint sib(Sib src, ref uint i, Span<char> dst)
+        {
+            var i0=i;
+            BitRender.render2(src.Scale, ref i, dst);
+            text.copy(FieldSep, ref i, dst);
+
+            BitRender.render3(src.Index, ref i, dst);
+            text.copy(FieldSep, ref i, dst);
+
+            BitRender.render3(src.Base, ref i, dst);
+
+            text.copy(FieldSep, ref i, dst);
+
+            text.copy(src.Value().FormatHex(2), ref i, dst);
+            seek(dst,i++) = Chars.Space;
+            text.copy(FieldSep, ref i, dst);
+
+            text.copy(bitstring(src), ref i, dst);
+
+            return i-i0;
+        }
+
+        [Op]
+        public static uint bits(Span<char> dst)
+        {
+            const string Header = "scale | index | base | hex | bitstring";
+
+            var m=0u;
+            text.copy(Header, ref m, dst);
+            text.crlf(ref m, dst);
+
+            var f0 = BitSeq.bits(n3);
+            var f1 = BitSeq.bits(n3);
+            var f2 = BitSeq.bits(n2);
+
+            for(var k=0; k<f2.Length; k++)
+            {
+                for(var j=0; j<f1.Length; j++)
+                {
+                    for(var i=0; i<f0.Length; i++)
+                    {
+                        var b0 = skip(f0, i);
+                        var b1 = skip(f1, j);
+                        var b2 = skip(f2, k);
+                        sib(new Sib(BitNumbers.join(b0,b1,b2)), ref m, dst);
+                        text.crlf(ref m, dst);
+                    }
+                }
+            }
+            return m;
+        }
+
+        public static Index<SibRegCodes> SibRegCodes()
+        {
+            var count = 256*4;
+            var dst = alloc<SibRegCodes>(count);
+            var offset = 0u;
+            offset += SibRegCodes(RegClassCode.GP, NativeSizeCode.W8, offset, dst);
+            offset += SibRegCodes(RegClassCode.GP, NativeSizeCode.W16, offset, dst);
+            offset += SibRegCodes(RegClassCode.GP, NativeSizeCode.W32, offset, dst);
+            offset += SibRegCodes(RegClassCode.GP, NativeSizeCode.W64, offset, dst);
+            return dst;
+        }
+
+        public static Index<SibBitfieldRow> SibRows()
+        {
+            var buffer = alloc<SibBitfieldRow>(256);
+            var f0 = BitSeq.bits(n3);
+            var f1 = BitSeq.bits(n3);
+            var f2 = BitSeq.bits(n2);
+            ref var dst = ref first(buffer);
+            var m = 0u;
+            for(var k=0; k<f2.Length; k++)
+            {
+                for(var j=0; j<f1.Length; j++)
+                {
+                    for(var i=0; i<f0.Length; i++)
+                    {
+                        ref var row = ref seek(dst,m);
+                        row.@base = skip(f0, i);
+                        row.index = skip(f1, j);
+                        row.scale = skip(f2, k);
+                        var sib = new Sib(BitNumbers.join(row.@base, row.index, row.scale));
+                        row.bitstring = bitstring(sib);
+                        row.hex = (byte)m;
+                        m++;
+                    }
+                }
+            }
+            return buffer;
+        }
+
+        public static Index<SibRegCodes> SibRegCodes(RegClassCode @class, NativeSize size)
+        {
+            var buffer = alloc<SibRegCodes>(256);
+            SibRegCodes(@class,size,0,buffer);
+            return buffer;
+        }
+
+        public static uint SibRegCodes(RegClassCode @class, NativeSize size, uint offset, Span<SibRegCodes> buffer)
+        {
+            var f0 = BitSeq.bits(n3);
+            var f1 = BitSeq.bits(n3);
+            var f2 = BitSeq.bits(n2);
+            ref var dst = ref first(buffer);
+            var counter = 0u;
+            var q = offset;
+            for(var k=0; k<f2.Length; k++)
+            {
+                for(var j=0; j<f1.Length; j++)
+                {
+                    for(var i=0; i<f0.Length; i++, counter++, q++)
+                    {
+                        ref var row = ref seek(dst, q);
+                        var @base = skip(f0, i);
+                        var index = skip(f1, j);
+                        var scale = skip(f2,k);
+                        row.Base = AsmRegs.name(size, @class, (RegIndexCode)(byte)@base);
+                        row.Index  = AsmRegs.name(size, @class, (RegIndexCode)(byte)index);
+                        row.Scale = scale;
+                        var sib = new Sib(BitNumbers.join(@base, index, scale));
+                        row.Bits = bitstring(sib);
+                        row.Hex= (byte)counter;
+                    }
+                }
+            }
+            return counter;
+        }
+
         [MethodImpl(Inline), Op]
         public static bool rel32dx(BinaryCode src, out int dx)
         {
