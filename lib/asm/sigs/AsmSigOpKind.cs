@@ -26,6 +26,8 @@ namespace Z0.Asm
 
         Mem,
 
+        FpuInt,
+
         FpuMem,
 
         GpRm,
@@ -34,13 +36,11 @@ namespace Z0.Asm
 
         Moffs,
 
-        SrcOp,
-
         Ptr,
 
         Rounding,
 
-        FarPtr,
+        MemPtr,
 
         MemPair,
 
@@ -48,14 +48,10 @@ namespace Z0.Asm
 
         Broadcast,
 
-        XmmReg,
-
-        YmmReg,
-
-        ZmmReg,
-
         OpMask,
 
         RegLiteral,
+
+        Dependent,
     }
 }
