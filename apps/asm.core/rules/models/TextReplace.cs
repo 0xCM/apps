@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class TextReplace
+    public class TextReplace : Rule
     {
         readonly Dictionary<string,string> Rules;
 
@@ -26,6 +26,13 @@ namespace Z0
             foreach(var rule in Rules)
                 dst = text.replace(dst, rule.Key, rule.Value);
             return dst;
+        }
+
+        public override string Format()
+        {
+            var dst = text.buffer();
+            iter(Rules, r => dst.AppendLineFormat("{0} -> {1}", r.Key, r.Value));
+            return dst.Emit();
         }
     }
 }

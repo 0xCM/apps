@@ -25,5 +25,8 @@ namespace Z0
                 return new ValueProduction(text.trim(src), text.trim(dst));
             }
         }
+
+        public static SeqProduction<S,T> production<S,T>(S src, T[] dst)
+            =>  new SeqProduction<S,T>(src,dst);
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct OneOfRule<T> : IRule
+    public class OneOfRule<T> : Rule
     {
         public Index<T> Elements {get;}
 
@@ -16,11 +16,8 @@ namespace Z0
         public OneOfRule(Index<T> src)
             => Elements = src;
 
-        public string Format()
-            => Elements.Delimit(Chars.Pipe).Format();
-
-        public override string ToString()
-            => Format();
+        public override string Format()
+            => Elements.Delimit(Chars.Pipe, fence:RenderFence.Angled).Format();
 
         [MethodImpl(Inline)]
         public static implicit operator OneOfRule<T>(T[] src)

@@ -7,25 +7,24 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using static core;
     using static Root;
 
-    public class Production<S,T> : Rule, IProduction<S,T>
-        where S : IExpr
-        where T : IExpr
+    public class LiteralRule<T> : Rule
     {
-        public S Source {get;}
+        public T Value {get;}
 
-        public T Target {get;}
-
-        [MethodImpl(Inline)]
-        public Production(S src, T dst)
+        public LiteralRule(T src)
         {
-            Source = src;
-            Target = dst;
+            Value = src;
         }
 
         public override string Format()
-            => string.Format("{0} -> {1}", Source, Target);
+            => Value.ToString();
+
+        public override bool IsTerminal
+            => true;
+
+        public static implicit operator LiteralRule<T>(T src)
+            => new LiteralRule<T>(src);
     }
 }

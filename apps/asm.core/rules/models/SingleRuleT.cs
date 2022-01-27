@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Just one, neither more nor less
     /// </summary>
-    public readonly struct SingleRule<T>
+    public class SingleRule<T>
     {
         public T Element {get;}
 
@@ -20,15 +20,8 @@ namespace Z0
         public SingleRule(T src)
             => Element = src;
 
-        public Label Name
-            => "single<{0}>";
-
         [MethodImpl(Inline)]
         public static implicit operator SingleRule<T>(T src)
             => new SingleRule<T>(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator SingleRule(SingleRule<T> src)
-            => new SingleRule(src.Element);
     }
 }

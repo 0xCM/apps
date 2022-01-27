@@ -9,9 +9,9 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct Replacements<T>
+    public class Replacements<T>
     {
-        readonly Index<ReplaceRule<T>> Data {get;}
+        Index<ReplaceRule<T>> Data {get;}
 
         [MethodImpl(Inline)]
         public Replacements(ReplaceRule<T>[] src)

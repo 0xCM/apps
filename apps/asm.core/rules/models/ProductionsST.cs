@@ -13,7 +13,7 @@ namespace Z0
 
     public class Productions<S,T> : ConstLookup<S,Index<T>>
     {
-        public Productions(Dictionary<S, Index<T>> src)
+        public Productions(Dictionary<S,Index<T>> src)
             : base(src)
         {
 

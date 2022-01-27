@@ -4,19 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct SplitRule<T>
+    public class SplitRule<T> : Rule
     {
-        public readonly T Delimiter;
+        public T Source {get;}
 
-        [MethodImpl(Inline)]
-        public SplitRule(T delimiter)
-        {
-            Delimiter = delimiter;
-        }
+        public Index<T> Target {get;}
+        public override string Format()
+            => string.Format("{0} -> {1}", Source, Target.Delimit(Chars.Comma, fence:RenderFence.Paren).Format());
     }
 }

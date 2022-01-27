@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct ZeroOrManyRule<T>
+    public class ZeroOrManyRule<T>
         where T : IEquatable<T>
     {
         public Index<T> Elements {get;}

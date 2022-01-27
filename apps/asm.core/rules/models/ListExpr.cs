@@ -4,28 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct AdjacentRule : IExpr
+    public class ListExpr<T> : IExpr
     {
-        public readonly dynamic A;
+        public Index<T> Items {get;}
 
-        public readonly dynamic B;
-
-        [MethodImpl(Inline)]
-        public AdjacentRule(dynamic a, dynamic b)
+        public ListExpr(T[] src)
         {
-            A = a;
-            B = b;
+            Items = src;
         }
 
         public string Format()
-            => Rules.format(this);
-
+            => Items.Delimit(Chars.Comma, fence:RenderFence.Embraced).Format();
 
         public override string ToString()
             => Format();
+
+        public static implicit operator ListExpr<T>(T[] src)
+            => new ListExpr<T>(src);
     }
 }

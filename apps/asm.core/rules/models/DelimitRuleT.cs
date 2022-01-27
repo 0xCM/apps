@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct DelimitRule<T>
+    public class DelimitRule<T> : Rule
         where T : IEquatable<T>
     {
         public T Marker {get;}
@@ -23,6 +23,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public bool Test(T src)
             => src.Equals(Marker);
+
+        public override string Format()
+            => Marker.ToString();
 
         [MethodImpl(Inline)]
         public static implicit operator DelimitRule<T>(T src)

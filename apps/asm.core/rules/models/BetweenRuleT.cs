@@ -9,13 +9,14 @@ namespace Z0
     using System.Runtime.InteropServices;
 
     using static Root;
+    using static ExprPatterns;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct BetweenRule<T>
+    public class BetweenRule<T> : Rule
     {
-        public readonly T Min;
+        public T Min {get;}
 
-        public readonly T Max;
+        public T Max {get;}
 
         public BetweenRule(T min, T max)
         {
@@ -23,13 +24,8 @@ namespace Z0
             Max = max;
         }
 
-        public Label Name => "between<{0}>";
-
-        public string Format()
-            => Rules.format(this);
-
-        public override string ToString()
-            => Format();
+        public override string Format()
+           => string.Format(InclusiveRange, Min, Max);
 
         [MethodImpl(Inline)]
         public static implicit operator BetweenRule<T>((T min, T max) src)

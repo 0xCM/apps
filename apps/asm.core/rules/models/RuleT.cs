@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class SeqProduction : Production<Value<string>, SeqExpr>, ISeqProduction<Value<string>>
+    public abstract class Rule : IRule
     {
-        public SeqProduction(string src, SeqExpr dst)
-            : base(src, dst)
-        {
+        public abstract string Format();
 
-        }
+        public override string ToString()
+            => Format();
+
+        public virtual bool IsTerminal => false;
     }
 }

@@ -17,11 +17,5 @@ namespace Z0
 
         public static ExprContext context()
             => new ExprContext();
-
-        public static VectorExpr vector(params IExpr[] terms)
-            => new VectorExpr(terms);
-
-        public static SeqExpr list(params IExpr[] terms)
-            => new SeqExpr(terms);
    }
 }

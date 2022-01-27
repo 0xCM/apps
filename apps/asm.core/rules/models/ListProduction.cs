@@ -4,22 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static core;
-    using static Root;
-
-    public class Production<S,T> : Rule, IProduction<S,T>
+    public class ListProduction<S,T> : Rule, IProduction<S,ListExpr<T>>
         where S : IExpr
         where T : IExpr
     {
         public S Source {get;}
 
-        public T Target {get;}
+        public ListExpr<T> Target {get;}
 
-        [MethodImpl(Inline)]
-        public Production(S src, T dst)
+        public ListProduction(S src, T[] dst)
         {
             Source = src;
             Target = dst;
@@ -27,5 +20,8 @@ namespace Z0
 
         public override string Format()
             => string.Format("{0} -> {1}", Source, Target);
+
+        public override string ToString()
+            => Format();
     }
 }

@@ -39,7 +39,6 @@ namespace Z0
             return new TextReplace(dst);
         }
 
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static ReplaceRule<T> replace<T>(T src, T dst)
             where T : IEquatable<T>

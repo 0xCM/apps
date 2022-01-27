@@ -16,7 +16,7 @@ namespace Z0
     /// Constrains an element or sequence to live within a specified range
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct SeqRange<T> : IExpr
+    public class SeqRange<T> : Rule
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -36,11 +36,8 @@ namespace Z0
             Max = max;
         }
 
-        public string Format()
+        public override string Format()
             => string.Format(XF.InclusiveRange, Min, Max);
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator SeqRange<T>((T min, T max) src)

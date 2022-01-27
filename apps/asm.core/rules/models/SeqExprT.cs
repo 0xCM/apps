@@ -10,7 +10,6 @@ namespace Z0
     using static Root;
 
     public class SeqExpr<T> : ISeqExpr<T>
-        where T : IExpr
     {
         readonly Index<T> Data;
 

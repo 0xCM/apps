@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class SeqProduction : Production<Value<string>, SeqExpr>, ISeqProduction<Value<string>>
+    public class SeqProduction<S,T> : Production<Value<S>, SeqExpr<T>>
     {
-        public SeqProduction(string src, SeqExpr dst)
-            : base(src, dst)
+        public SeqProduction(S src, T[] dst)
+            : base(src,dst)
         {
+
 
         }
     }

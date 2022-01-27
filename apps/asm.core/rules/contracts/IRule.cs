@@ -9,6 +9,7 @@ namespace Z0
     [Free]
     public interface IRule : ITextual
     {
+        bool IsTerminal {get;}
     }
 
     [Free]

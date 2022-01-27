@@ -35,7 +35,7 @@ namespace Z0
         IExpr IArrow<IExpr, IExpr>.Target
             => Target;
 
-        public string Format()
+        public override string Format()
         {
             if(Source.IsNonEmpty && Target.IsNonEmpty)
                 return string.Format("{0} -> {1}", Source, Target);

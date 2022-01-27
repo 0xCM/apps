@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public readonly struct OneOrManyRule<T>
+    public class OneOrManyRule<T>
     {
         public Index<T> Elements {get;}
 

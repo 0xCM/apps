@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public sealed class TextMap
+    public sealed class TextMap : Rule
     {
         ConstLookup<string,string> Data;
 
@@ -41,6 +41,17 @@ namespace Z0
                 return dst;
             else
                 return src;
+        }
+
+        public override string Format()
+        {
+            var dst = text.buffer();
+            var count = _Productions.Count;
+            for(var i=0; i<count; i++)
+            {
+                dst.AppendLine(_Productions[i].Format());
+            }
+            return dst.Emit();
         }
     }
 }

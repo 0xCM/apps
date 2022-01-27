@@ -7,19 +7,12 @@ namespace Z0
     using System;
     using System.Runtime.CompilerServices;
 
-    using static core;
     using static Root;
+    using static core;
 
-    public abstract class ValueProduction<T> : Rule
+    partial struct Rules
     {
-        protected ValueProduction(T src, T dst)
-        {
-            Source = src;
-            Target = dst;
-        }
-
-        public T Source {get;}
-
-        public T Target {get;}
+        public static OptionRule<T> option<T>(T value)
+            => new OptionRule<T>(value);
     }
 }

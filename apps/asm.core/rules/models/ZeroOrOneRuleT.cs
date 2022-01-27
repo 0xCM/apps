@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Specifies that an element either occurs once or not at all
     /// </summary>
-    public readonly struct ZeroOrOneRule<T>
+    public class ZeroOrOneRule<T>
         where T : IEquatable<T>
     {
         public Option<T> Element {get;}

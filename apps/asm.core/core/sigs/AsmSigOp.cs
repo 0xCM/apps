@@ -25,7 +25,6 @@ namespace Z0.Asm
             Value = value;
             OpKind = kind;
             Size = size;
-
         }
 
         public bool IsEmpty

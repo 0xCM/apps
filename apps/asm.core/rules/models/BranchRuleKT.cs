@@ -8,6 +8,9 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
+
+    using XF = ExprPatterns;
 
     public class BranchRule<K,T> : IExpr
         where K : unmanaged
@@ -39,8 +42,22 @@ namespace Z0
             get => _Targets.View;
         }
 
-        public string Format()
-            => Rules.format(this);
+         public string Format()
+         {
+            var dst = text.buffer();
+            var margin = 0u;
+            var choices = Choices;
+            var terms = Targets;
+            var count = choices.Length;
+            dst.IndentLineFormat(margin, "{0}({1}) {", "branch", Name);
+            margin += 2;
+            for(var i=0; i<count; i++)
+                dst.IndentLineFormat(margin, XF.BranchCase, skip(choices,i).Format(), skip(terms,i).Format());
+            margin -=2;
+            dst.IndentLine(margin, "}");
+
+            return dst.Emit();
+        }
 
         public override string ToString()
             => Format();

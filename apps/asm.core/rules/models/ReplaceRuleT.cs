@@ -10,21 +10,18 @@ namespace Z0
 
     using static Root;
 
-    /// <summary>
-    /// Defines a rule r:seq[T] -> seq[T] that defines a sequence element that, if found, is replaced with another
-    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct ReplaceRule<T> : IExpr
+    public class ReplaceRule<T> : Rule
     {
         /// <summary>
         /// The sequence term to match
         /// </summary>
-        public readonly T Match;
+        public T Match {get;}
 
         /// <summary>
         /// The replacement value when matched
         /// </summary>
-        public readonly T Replace;
+        public T Replace {get;}
 
         [MethodImpl(Inline)]
         public ReplaceRule(T match, T replace)
@@ -33,13 +30,7 @@ namespace Z0
             Replace = replace;
         }
 
-        public Label Name
-            => "replace<{0}>";
-
-        public string Format()
-            => Rules.format(this);
-
-        public override string ToString()
-            => Format();
+        public override string Format()
+            => string.Format("{0} -> {1}", Match, Replace);
     }
 }
