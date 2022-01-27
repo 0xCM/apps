@@ -6,17 +6,20 @@ namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
-    public interface IRule : IArrow
+    [Free]
+    public interface IRule : ITextual
     {
     }
 
-    public interface IRule<A,C> : IRule, IArrow<A,C>
+    [Free]
+    public interface IRule<A,C> : IRule
         where A : IExpr
         where C : IExpr
     {
 
     }
 
+    [Free]
     public interface IRule<T> : IRule<T,T>
         where T : IExpr
     {

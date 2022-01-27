@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
     using static core;
 
-    public class Productions<S,T> : ConstLookup<S, Index<T>>
+    public class Productions<S,T> : ConstLookup<S,Index<T>>
     {
         public Productions(Dictionary<S, Index<T>> src)
             : base(src)

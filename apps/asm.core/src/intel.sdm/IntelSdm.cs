@@ -76,7 +76,7 @@ namespace Z0.Asm
 
                 var details = ImportOpCodeDetails();
                 EmitSigs(details);
-                EmitSigDecomps(details);
+                SigOpRules.EmitSigDecomps(details);
             }
             catch(Exception e)
             {

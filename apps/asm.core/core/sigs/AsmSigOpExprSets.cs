@@ -18,7 +18,6 @@ namespace Z0.Asm
             Data = new();
         }
 
-
         public AsmSigOpExprSet this[byte i]
         {
             get => Data[i];

@@ -4,21 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     using static Root;
 
     public readonly struct AsmForm
     {
-        public readonly Identifier Name;
+        public readonly CharBlock36 Name;
 
         public readonly AsmSig Sig;
 
         public readonly AsmOpCode OpCode;
 
         [MethodImpl(Inline)]
-        public AsmForm(Identifier name, AsmSig sig, AsmOpCode oc)
+        public AsmForm(CharBlock36 name, AsmSig sig, AsmOpCode oc)
         {
             Name = name;
             Sig = sig;
@@ -26,6 +25,5 @@ namespace Z0.Asm
         }
 
         public static AsmForm Empty => default;
-
     }
 }

@@ -8,8 +8,9 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    partial struct expr
+    partial struct Rules
     {
         /// <summary>
         /// Defines a scalar range expression

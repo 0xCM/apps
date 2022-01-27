@@ -104,32 +104,6 @@ namespace Z0
             return buffer;
         }
 
-        /// <summary>
-        /// Transforms a bijection into a sequence of replacement rules
-        /// </summary>
-        /// <param name="spec"></param>
-        /// <typeparam name="T"></typeparam>
-        [Op, Closures(Closure)]
-        public static Span<ReplaceRule<T>> replace<T>(in BijectivePoints<T> spec)
-            where T : IEquatable<T>
-        {
-            var src = spec.Source;
-            var dst = spec.Target;
-            var count = src.Length;
-            var buffer = alloc<ReplaceRule<T>>(count);
-            ref var target = ref first(buffer);
-            ref readonly var input = ref src.First;
-            ref readonly var output = ref dst.First;
-            for(var i=0; i<count; i++)
-                seek(target,i) = Rules.replace(skip(input,i), skip(output,i));
-            return buffer;
-        }
-
-        [Op, Closures(Closure)]
-        public static Span<ReplaceRule<T>> replace<T>(Index<T> src, Index<T> dst)
-            where T : IEquatable<T>
-                => replace(bijection<T>(src,dst));
-
         [Op]
         public static Fx8 fx(N8 n, MemoryAddress src, MemoryAddress dst)
             => new Fx8(src, dst);

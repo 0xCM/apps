@@ -10,6 +10,8 @@ namespace Z0
 
     using static Root;
 
+    using XF = ExprPatterns;
+
     /// <summary>
     /// Constrains an element or sequence to live within a specified range
     /// </summary>
@@ -20,22 +22,22 @@ namespace Z0
         /// <summary>
         /// The min value in the range
         /// </summary>
-        public Value<T> Min {get;}
+        public T Min {get;}
 
         /// <summary>
         /// The max value in the range
         /// </summary>
-        public Value<T> Max {get;}
+        public T Max {get;}
 
         [MethodImpl(Inline)]
-        public SeqRange(Value<T> min, Value<T> max)
+        public SeqRange(T min, T max)
         {
             Min = min;
             Max = max;
         }
 
         public string Format()
-            => ExprFormatters.format(this);
+            => string.Format(XF.InclusiveRange, Min, Max);
 
         public override string ToString()
             => Format();

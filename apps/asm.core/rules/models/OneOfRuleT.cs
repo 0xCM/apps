@@ -5,32 +5,25 @@
 namespace Z0
 {
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
 
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct SeqRange : IExpr
+    public readonly struct OneOfRule<T> : IRule
     {
-        public long Min {get;}
-
-        public long Max {get;}
+        public Index<T> Elements {get;}
 
         [MethodImpl(Inline)]
-        public SeqRange(long min, long max)
-        {
-            Min = min;
-            Max = max;
-        }
+        public OneOfRule(Index<T> src)
+            => Elements = src;
 
         public string Format()
-            => ExprFormatters.format(this);
+            => Elements.Delimit(Chars.Pipe).Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator SeqRange((long min, long max) src)
-            => new SeqRange(src.min, src.max);
+        public static implicit operator OneOfRule<T>(T[] src)
+            => new OneOfRule<T>(src);
     }
 }

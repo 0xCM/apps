@@ -10,21 +10,9 @@ namespace Z0.Asm
 
     using static Root;
 
-    public interface IAsmSigOp
-    {
-        AsmSigOpKind OpKind => AsmSigOpKind.None;
-
-        byte Value {get;}
-    }
-
     [StructLayout(LayoutKind.Sequential, Size=2)]
-    public readonly struct AsmSigOp : IAsmSigOp
+    public readonly struct AsmSigOp
     {
-        [MethodImpl(Inline)]
-        public static AsmSigOp define<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
-            where T : unmanaged
-                => new AsmSigOp(kind, core.bw8(value), size);
-
         public byte Value {get;}
 
         public AsmSigOpKind OpKind {get;}

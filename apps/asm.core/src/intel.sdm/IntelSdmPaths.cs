@@ -29,6 +29,9 @@ namespace Z0.Asm
         public FS.FilePath SigDecompTable()
             => ProjectDb.TablePath<SdmSigOpCode>("sdm", "decomposed");
 
+        public FS.FilePath SigDuplicateTable()
+            => ProjectDb.TablePath<SdmSigOpCode>("sdm", "duplicates");
+
         public FS.FilePath SigNormalRules()
             => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));
 

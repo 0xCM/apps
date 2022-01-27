@@ -42,7 +42,7 @@ namespace Z0
             return counter;
         }
 
-        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
+        AsmSigs AsmSigs => Service(Wf.AsmSigs);
 
         [CmdOp("sdm/forms")]
         Outcome SdmForms(CmdArgs args)
@@ -50,36 +50,28 @@ namespace Z0
             var result = Outcome.Success;
             var src = Sdm.LoadSigDecomps();
             var count = src.Count;
+            var forms = alloc<SdmFormRecord>(count);
+
             count = src.Count;
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
                 ref readonly var record = ref src[i];
-                result = OpCodes.Parse(record.OpCode, out var opcode);
-                if(result)
+                var form = AsmSigs.BuildForm(record.Sig, record.OpCode);
+                if(form.Fail)
                 {
-                    var expect = text.trim(text.despace(record.OpCode.Format()));
-                    var actual = opcode.Format();
-                    if(expect != actual)
-                    {
-                        Error(string.Format("'{0}' != '{1}'", actual, expect));
-                        break;
-                    }
-                }
-                else
-                {
-                    Error(result.Message);
+                    result = (false, form.Message);
                     break;
                 }
 
-                result = AsmSigParser.parse(record.Sig.Format(), out var sig);
-                if(result.Fail)
-                {
-                    Error(string.Format("Sig parse failure:{0}", record.Sig.Format()));
-                    break;
-                }
-
-                Write(string.Format("{0,-48} | {1}", sig.Format(), opcode.Format()));
+                var data = form.Data;
+                ref var dst = ref seek(forms,i);
+                dst.Seq = i;
+                dst.Name = data.Name;
+                dst.Sig = data.Sig;
+                dst.OpCode = data.OpCode;
             }
+
+            TableEmit(@readonly(forms), SdmFormRecord.RenderWidths, ProjectDb.TablePath<SdmFormRecord>("sdm"));
 
             return result;
         }

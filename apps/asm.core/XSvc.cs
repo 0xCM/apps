@@ -45,6 +45,9 @@ namespace Z0
         public static IntelSdm IntelSdm(this IWfRuntime wf)
             => Asm.IntelSdm.create(wf);
 
+        public static SdmSigOpRules SdmRules(this IWfRuntime wf)
+            => Asm.SdmSigOpRules.create(wf);
+
         [Op]
         public static IntelIntrinsics IntelIntrinsics(this IWfRuntime wf)
             => Asm.IntelIntrinsics.create(wf);
@@ -104,6 +107,9 @@ namespace Z0
         public static AsmTables AsmTables(this IWfRuntime wf)
             => Asm.AsmTables.create(wf);
 
+        [Op]
+        public static AsmSigs AsmSigs(this IWfRuntime wf)
+            => Asm.AsmSigs.create(wf);
 
     }
 }

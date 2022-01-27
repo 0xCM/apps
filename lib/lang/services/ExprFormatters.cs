@@ -17,10 +17,6 @@ namespace Z0
         public static string format<T>(Literal<T> src)
             => string.Format("{0} = {1}", src.Name, src.Value.Format());
 
-        public static string format<T>(SeqRange<T> src)
-            where T : IComparable<T>,IEquatable<T>
-                => string.Format(XF.InclusiveRange, src.Min, src.Max);
-
         [Op]
         public static string format(IVarValue var, char assign)
             => string.Format("{0}{1}{2}", format(var.Name), assign, var.Value);
@@ -70,9 +66,5 @@ namespace Z0
         [Formatter]
         internal static string format(in BoundVar src)
             => string.Format(XF.Binding, src.Var.Name, src.Value);
-
-        [Formatter]
-        internal static string format(in SeqRange src)
-            => string.Format(XF.InclusiveRange, src.Min, src.Max);
     }
 }

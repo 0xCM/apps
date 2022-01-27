@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IProduction : IRule, IArrow<IExpr>
+    public interface IProduction : IArrow<IExpr>
     {
         bool YieldsSeq => false;
 

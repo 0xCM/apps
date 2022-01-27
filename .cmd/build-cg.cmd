@@ -1,4 +1,4 @@
 @echo off
 call %~dp0config.cmd
-call %BuildCgCmd%
+call %BuildCgSlnCmd%
 if errorlevel 1 goto:eof

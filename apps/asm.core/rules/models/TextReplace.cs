@@ -13,7 +13,6 @@ namespace Z0
 
     public class TextReplace
     {
-
         readonly Dictionary<string,string> Rules;
 
         public TextReplace(Dictionary<string,string> rules)
