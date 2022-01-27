@@ -30,7 +30,16 @@ namespace Z0
         public static MsgPattern<Count,Count,string> CsvDataMismatch
             => "The target requires {0} fields but {1} were found in {2}";
 
-        public static RenderPattern<FS.FileUri> Emitted
+        public static RenderPattern<TableId,Count,FS.FileUri> EmittedTable
+            => "Emitted <{1}> <{0}> rows to {2}";
+
+        public static RenderPattern<TableId,FS.FileUri> EmittingTable
+            => "Emitting <{0}> to {1}";
+
+        public static RenderPattern<FS.FileUri> EmittingFile
+            => "Emitting {0}";
+
+        public static RenderPattern<FS.FileUri> EmittedFile
             => "Emitted {0}";
 
         public static MsgPattern<string,string> ParseFailure

@@ -14,7 +14,7 @@ namespace Z0.llvm
             var spec = Symbols.set(typeof(clang.index.SymbolSubKind));
             var type = spec.DataType;
             var buffer = text.buffer();
-            svc.Generate(0,spec,buffer);
+            svc.Emit(0,spec,buffer);
             Write(buffer.Emit());
             return result;
         }

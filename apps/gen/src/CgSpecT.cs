@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public struct CgSpec<T>
+    public readonly struct CgSpec<T>
     {
-        public @string TargetNs;
+        public readonly @string TargetNs;
 
-        public Index<string> Usings;
+        public readonly Index<string> Usings;
 
-        public T Content;
+        public readonly T Content;
 
         public CgSpec(@string ns, string[] usings, T content)
         {

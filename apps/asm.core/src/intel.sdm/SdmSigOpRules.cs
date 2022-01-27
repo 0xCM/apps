@@ -43,7 +43,7 @@ namespace Z0.Asm
 
         public Index<SdmSigOpCode> DecomposeSigs(ReadOnlySpan<AsmFormExpr> codes)
         {
-            var records = list<SdmSigOpCode>();
+            var records = hashset<SdmSigOpCode>();
             var count = codes.Length;
             var seq =0u;
             foreach(var code in codes)
@@ -52,7 +52,7 @@ namespace Z0.Asm
                 {
                     var record = new SdmSigOpCode();
                     record.Seq = seq++;
-                    record.Identity = decomp.Identity;
+                    record.Identity = AsmSigs.identify(asm.form(decomp.Sig,decomp.OpCode));
                     record.Sig = decomp.Sig;
                     record.OpCode = decomp.OpCode;
                     var __count = decomp.Sig.OperandCount;
@@ -100,7 +100,7 @@ namespace Z0.Asm
                 }
             }
 
-            return records.ToArray();
+            return records.Array().Sort();
         }
 
         string Format(in AsmFormExpr src)

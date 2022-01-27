@@ -47,7 +47,7 @@ namespace Z0
             return default;
         }
 
-        public void Generate(uint offset, SymSet spec, ITextBuffer dst)
+        public void Emit(uint offset, SymSet spec, ITextBuffer dst)
         {
             var counter = 0ul;
             var indent = offset;

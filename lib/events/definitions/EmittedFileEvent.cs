@@ -40,7 +40,7 @@ namespace Z0
 
         public string Format()
             => SegmentCount != 0
-            ? text.format(EventId, SegmentCount, Msg.EmittedFile.Capture(Path))
-            : text.format(EventId, Msg.EmittedFile.Capture(Path));
+            ? text.format(EventId, SegmentCount, AppMsg.EmittedFile.Capture(Path))
+            : text.format(EventId, AppMsg.EmittedFile.Capture(Path));
     }
 }

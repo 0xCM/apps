@@ -14,7 +14,7 @@ namespace Z0.Asm
             var spec = Symbols.set(typeof(AsmOcTokens.VexToken));
             var type = spec.DataType;
             var buffer = text.buffer();
-            svc.Generate(0,spec,buffer);
+            svc.Emit(0,spec,buffer);
             Write(buffer.Emit());
             return result;
         }

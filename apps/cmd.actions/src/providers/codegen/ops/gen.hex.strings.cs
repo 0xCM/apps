@@ -27,7 +27,7 @@ namespace Z0
             content.IndentLine(margin,Chars.RBrace);
 
             var path = CodeGen.EmitFile(CgSpecs.define(ns).WithContent(content.Emit()), name, CgTarget.Common);
-            Status(AppMsg.Emitted.Format(path));
+            Status(AppMsg.EmittedFile.Format(path));
 
             return true;
         }

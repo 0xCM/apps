@@ -15,8 +15,7 @@ namespace Z0
         {
             const string Content = "    ret\n\n";
             var comment = asm.comment(string.Format("{0} | {1}", src.Sig.Format(), src.OpCode.Format()));
-            var form = asm.form(src.Sig, src.OpCode);
-            var label = asm.label(form.Identity);
+            var label = asm.label(AsmSigs.identify(asm.form(src.Sig, src.OpCode)));
             return AsmBlockSpec.define(comment, label, Content);
         }
 
@@ -71,7 +70,7 @@ namespace Z0
                 {
                     if(counter != 0)
                     {
-                        Babble(AppMsg.Emitted.Format(Emit(mnemonic, slice(buffer,0,counter))));
+                        Babble(AppMsg.EmittedFile.Format(Emit(mnemonic, slice(buffer,0,counter))));
                         mnemonic = m;
                         buffer.Clear();
                         counter = 0;
@@ -85,7 +84,7 @@ namespace Z0
             }
 
             if(counter != 0)
-                Babble(AppMsg.Emitted.Format(Emit(mnemonic, slice(buffer,0,counter))));
+                Babble(AppMsg.EmittedFile.Format(Emit(mnemonic, slice(buffer,0,counter))));
 
             Ran(running);
 

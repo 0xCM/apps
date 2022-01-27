@@ -11,12 +11,17 @@ namespace Z0
     /// </summary>
     public class SymSet
     {
+        public static SymSet create(uint count)
+            => new SymSet(count);
+
         internal SymSet(uint count)
         {
             Symbols = alloc<SymExpr>(count);
             Names = alloc<Identifier>(count);
             Values = alloc<SymVal>(count);
             Descriptions = alloc<string>(count);
+            Name = Identifier.Empty;
+            Description = TextBlock.Empty;
         }
 
         public Identifier Name;

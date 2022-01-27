@@ -34,7 +34,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => text.format(EventId, Msg.EmittingTable.Capture(TableId, Target));
+            => text.format(EventId, AppMsg.EmittingTable.Capture(TableId, Target));
 
 
         public override string ToString()

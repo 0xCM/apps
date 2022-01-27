@@ -245,7 +245,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Name dst)
         {
-            dst = src ?? EmptyString;
+            dst = text.trim(src ?? EmptyString);
             return true;
         }
 
@@ -259,14 +259,14 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Identifier dst)
         {
-            dst = src ?? EmptyString;
+            dst = text.trim(src ?? EmptyString);
             return true;
         }
 
         [Parser]
         public static Outcome parse(string src, out SymIdentity dst)
         {
-            dst = src ?? EmptyString;
+            dst = text.trim(src ?? EmptyString);
             return true;
         }
 

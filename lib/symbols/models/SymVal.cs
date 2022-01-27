@@ -43,6 +43,18 @@ namespace Z0
             => new SymVal(src);
 
         [MethodImpl(Inline)]
+        public static implicit operator SymVal(ushort src)
+            => new SymVal(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator SymVal(uint src)
+            => new SymVal(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator SymVal(byte src)
+            => new SymVal(src);
+
+        [MethodImpl(Inline)]
         public static implicit operator SymVal((ulong src, NumericBaseKind nbk) x)
             => new SymVal(x.src, x.nbk);
 

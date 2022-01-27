@@ -11,7 +11,7 @@ namespace Z0
 
     public class CgSvc : AppService<CgSvc>
     {
-        ConstLookup<CgTarget, string> TargetExpressions;
+        ConstLookup<CgTarget,string> TargetExpressions;
 
         public CgSvc()
         {
@@ -102,18 +102,15 @@ namespace Z0
             dst.IndentLine(offset, Chars.RBrace);
         }
 
-        public void Emit(CgSpec src, string content, ITextBuffer dst)
-        {
-            Emit(src.WithContent(content),dst);
-        }
-
         public FS.FilePath EmitFile<T>(CgSpec<T> src, string name, CgTarget target)
         {
             var path = SourceFile(name, target);
+            var emitting = EmittingFile(path);
             var buffer = text.buffer();
             Emit(src,buffer);
             using var writer = path.Utf8Writer();
             writer.WriteLine(buffer.Emit());
+            EmittedFile(emitting,1);
             return path;
         }
 

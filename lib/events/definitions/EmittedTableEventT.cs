@@ -53,7 +53,7 @@ namespace Z0
         public FlairKind Flair => FlairKind.Ran;
 
         public string Format()
-            => text.format(EventId, Msg.EmittedTable.Capture(TableId, RowCount, Target));
+            => text.format(EventId, AppMsg.EmittedTable.Capture(TableId, RowCount, Target));
 
 
         public override string ToString()
