@@ -28,10 +28,6 @@ namespace Z0.Asm
 
         const string HostName = "asm.prefixes";
 
-        // [MethodImpl(Inline), Op]
-        // public static BranchHintPrefix hint(bit taken)
-        //     => taken ? BranchHintCode.BT : BranchHintCode.BNT;
-
         [MethodImpl(Inline), Op]
         public static RexPrefix rex(uint4 wrxb)
             => math.or((byte)RexPrefixCode.Base, (byte)wrxb);
@@ -392,7 +388,5 @@ namespace Z0.Asm
             [Symbol("F3")]
             REPZ = 0xf3,
         }
-
-
     }
 }

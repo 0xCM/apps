@@ -95,6 +95,8 @@ namespace Z0.Asm
         public static AsmPrefixKind kind(AsmPrefixCode code)
             => code switch
             {
+                C.CsSegOverride => K.CsSegOverride,
+
                 C.SsSegOverride => K.SsSegOverride,
 
                 C.EsSegOverride => K.EsSegOverride,
@@ -103,15 +105,13 @@ namespace Z0.Asm
 
                 C.GsSegOverride => K.GsSegOverride,
 
+                C.DsSegOverride => K.DsSegOverride,
+
                 C.Rex => K.Rex,
 
                 C.OSZ => K.OSZ,
 
                 C.ASZ => K.ASZ,
-
-                C.BranchTaken => K.BranchTaken,
-
-                C.BranchNotTaken => K.BranchNotTaken,
 
                 C.Lock => K.Lock,
 
@@ -131,9 +131,6 @@ namespace Z0.Asm
             {
                 0x0F => C.Escape,
 
-                //0x2E => C.CsSegOverride,
-                //0x3E => C.DsSegOverride,
-
                 0x36 => C.SsSegOverride,
 
                 0x26 => C.EsSegOverride,
@@ -147,10 +144,6 @@ namespace Z0.Asm
                 0x66 => C.OSZ,
 
                 0x67 => C.ASZ,
-
-                0x3E => C.BranchTaken,
-
-                0x2E => C.BranchNotTaken,
 
                 0xF0 => C.Lock,
 
