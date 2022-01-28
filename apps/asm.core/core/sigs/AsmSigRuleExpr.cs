@@ -48,9 +48,7 @@ namespace Z0.Asm
             get
             {
                 if(!IsValid)
-                {
-                    Errors.Throw(string.Format("Invalid rule for {0}", Mnemonic));
-                }
+                    return false;
 
                 var result = true;
                 var count = Operands.Count;
@@ -67,6 +65,54 @@ namespace Z0.Asm
             return dst.Array();
         }
 
+        void Replace(AsmSigRuleExpr src, ReadOnlySpan<IRuleExpr> ops, byte j, List<AsmSigRuleExpr> dst)
+        {
+            var sources = src.Operands;
+            var srcCount = (byte)sources.Count;
+            var opCount = ops.Length;
+            for(var i=0; i<opCount; i++)
+            {
+                var expr = new AsmSigRuleExpr(src.Mnemonic, srcCount);
+                for(byte k=0; k<srcCount; k++)
+                {
+                    if(k == j)
+                        expr.WithOperand(k, skip(ops,i));
+                    else
+                        expr.WithOperand(k, sources[k]);
+                }
+                Terminate(expr,dst);
+            }
+        }
+
+        void Replace(AsmSigRuleExpr src, IRuleExpr op, byte j, List<AsmSigRuleExpr> dst)
+        {
+            var ops = src.Operands;
+            var srcCount = (byte)ops.Count;
+            var expr = new AsmSigRuleExpr(src.Mnemonic,srcCount);
+            for(byte k=0; k<srcCount; k++)
+            {
+                if(k != j)
+                    expr.WithOperand(k, ops[k]);
+                else
+                    expr.WithOperand(k, op);
+            }
+            Terminate(expr,dst);
+        }
+
+        void Remove(AsmSigRuleExpr src, byte j, List<AsmSigRuleExpr> dst)
+        {
+            var ops = src.Operands;
+            var count = (byte)ops.Count;
+            var expr = new AsmSigRuleExpr(src.Mnemonic, (byte)(count - 1));
+            var k = z8;
+            for(byte i=0; i<count; i++)
+            {
+                if(i != j)
+                    expr.WithOperand(k++, ops[i]);
+            }
+            Terminate(expr,dst);
+        }
+
         void Terminate(AsmSigRuleExpr src, List<AsmSigRuleExpr> dst)
         {
             if(src.IsTerminal)
@@ -77,67 +123,28 @@ namespace Z0.Asm
 
             var count = (byte)src.Operands.Count;
             var rule = new AsmSigRuleExpr(Mnemonic,count);
+            var counter = 0u;
             for(byte i=0; i<count; i++)
             {
                 var op = src.Operands[i];
                 if(op is IChoiceRule choice)
                 {
-                    var terms = choice.Terms;
-                    foreach(var t in terms)
-                    {
-                        var selected= new AsmSigRuleExpr(Mnemonic, count);
-                        for(byte j=0; j<count; j++)
-                        {
-                            if(j != i)
-                                selected.Operands[j] = t;
-                            else
-                                selected.Operands[j] = op;
-                        }
-
-                        if(selected.IsTerminal)
-                            dst.Add(selected);
-                        else
-                            Terminate(selected, dst);
-                    }
+                    Replace(src, choice.Terms, i, dst);
                 }
                 else if(op is IOptionRule option)
                 {
-                    var with = new AsmSigRuleExpr(Mnemonic, count);
-                    for(byte j=0; j<count; j++)
-                    {
-                        if(j != i)
-                            with.Operands[j] = src.Operands[j];
-                        else
-                            with.Operands[j] = option.Potential;
-                    }
-                    if(with.IsTerminal)
-                        dst.Add(with);
-                    else
-                        Terminate(with,dst);
-
-                    var without = new AsmSigRuleExpr(Mnemonic,(byte)(count-1));
-                    for(byte j = 0; j<count-1; j++)
-                    {
-                        if(j == i)
-                            continue;
-
-                        without.Operands[j] = op;
-                    }
-                    if(without.IsTerminal)
-                        dst.Add(without);
-                    else
-                        Terminate(without,dst);
+                    Replace(src, option.Potential, i, dst);
+                    Remove(src, i, dst);
                 }
                 else
                 {
-                    rule.Operands[i] = Rules.value(op,true);
+                    rule.WithOperand(i, Rules.value(op.Format(), true));
+                    counter++;
                 }
-
-                if(rule.IsTerminal)
-                    dst.Add(rule);
-                else
-                    Terminate(rule,dst);
             }
+
+            if(counter == count)
+                Terminate(rule, dst);
         }
 
         public bool IsEmpty

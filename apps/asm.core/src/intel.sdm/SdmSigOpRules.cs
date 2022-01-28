@@ -267,21 +267,38 @@ namespace Z0.Asm
         ConstLookup<byte,IRuleExpr> SymbolizeOperands(in AsmSigExpr sig)
         {
             var opcount = sig.OperandCount;
-            var dst = dict<byte,Index<string>>();
+            var dst = dict<byte,Index<IRuleExpr>>();
             var operands = sig.Operands();
             for(byte i=0; i<opcount; i++)
             {
                 ref readonly var op = ref skip(operands,i);
                 if(DecompRules.Find(op.Text, out var choices))
-                    dst[i] = choices;
+                    dst[i] = choices.Select(c => (IRuleExpr)Rules.value(c));
                 else
-                    dst[i] = array(op.Text);
+                    dst[i] = array(Rules.value(op.Text));
             }
 
             return SymbolizeOpMasks(dst);
         }
 
-        ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,Index<string>> src)
+        Index<IRuleExpr> SymbolizeOpMask(string src)
+        {
+            if(OpMaskRules.Find(src, out var output))
+            {
+                if(output.Count == 2)
+                {
+                    var j = text.index(src, Chars.LBrace);
+                    var unmasked = text.trim(text.left(src, j));
+                    return array<IRuleExpr>(Rules.value(unmasked), Rules.option(output[1]));
+                }
+                else
+                    Throw.message("Unexpected");
+            }
+
+            return array<IRuleExpr>(Rules.value(src));
+        }
+
+        ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,Index<IRuleExpr>> src)
         {
             var opcount = src.EntryCount;
             var dst = dict<byte,IRuleExpr>();
@@ -292,9 +309,7 @@ namespace Z0.Asm
                 var output = DecomposeOpMasks(input);
                 if(input.Count == 1 && output.Count == 2)
                 {
-                    var j = text.index(input.First, Chars.LBrace);
-                    var unmasked = text.trim(text.left(input.First, j));
-                    dst[i++] = Rules.value(unmasked);
+                    dst[i++] = Rules.value(output[0]);
                     dst[i++] = Rules.option(output[1]);
                 }
                 else
@@ -305,13 +320,13 @@ namespace Z0.Asm
             return dst;
         }
 
-        Index<string> DecomposeOpMasks(Index<string> src)
+        Index<IRuleExpr> DecomposeOpMasks(Index<IRuleExpr> src)
         {
-            var dst = list<string>();
+            var dst = list<IRuleExpr>();
             foreach(var item in src)
             {
-                if(OpMaskRules.Find(item, out var decomp))
-                    dst.AddRange(decomp);
+                if(OpMaskRules.Find(item.Format(), out var decomp))
+                    dst.AddRange(decomp.Map(d => Rules.value(d)));
                 else
                     dst.Add(item);
             }
