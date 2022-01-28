@@ -11,5 +11,7 @@ namespace Z0
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
         SdmSigOpRules SdmRules => Service(Wf.SdmRules);
+
+        IntelSdmPaths SdmPaths => Service(Wf.SdmPaths);
     }
 }

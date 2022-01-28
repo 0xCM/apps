@@ -26,6 +26,11 @@ namespace Z0
             }
         }
 
+        public static Production<S,T> production<S,T>(S src, T dst)
+            where S : IRuleExpr
+            where T : IRuleExpr
+                => new Production<S,T>(src,dst);
+
         public static SeqProduction<S,T> production<S,T>(S src, T[] dst)
             where T : IRuleExpr
                 =>  new SeqProduction<S,T>(src,dst);

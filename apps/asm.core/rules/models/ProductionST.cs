@@ -11,8 +11,8 @@ namespace Z0
     using static Root;
 
     public class Production<S,T> : Rule, IProduction<S,T>
-        where S : IExpr
-        where T : IExpr
+        where S : IRuleExpr
+        where T : IRuleExpr
     {
         public S Source {get;}
 

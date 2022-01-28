@@ -12,8 +12,8 @@ namespace Z0
 
     partial struct Rules
     {
-        public static SeqExpr<T> seq<T>(T[] src)
+        public static SeqRule<T> seq<T>(T[] src)
             where T : IRuleExpr
-                => new SeqExpr<T>(src);
+                => new SeqRule<T>(src);
     }
 }

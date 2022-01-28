@@ -4,15 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
-    partial struct Rules
+    public interface ISeqRule : IRuleExpr
     {
-       public static RuleValue<T>[] values<T>(params T[] values)
-            => values.Select(value);
+        Index<IRuleExpr> Terms {get;}
     }
 }

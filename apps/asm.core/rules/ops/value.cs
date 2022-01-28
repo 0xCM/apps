@@ -12,10 +12,10 @@ namespace Z0
 
     partial struct Rules
     {
-        public static RuleValueExpr<T> value<T>(T value)
-            => new RuleValueExpr<T>(value, false);
+        public static RuleValue<T> value<T>(T value)
+            => new RuleValue<T>(value, false);
 
-        public static RuleValueExpr<T> value<T>(T value, bool terminal)
-            => new RuleValueExpr<T>(value, terminal);
+        public static RuleValue<T> value<T>(T value, bool terminal)
+            => new RuleValue<T>(value, terminal);
     }
 }

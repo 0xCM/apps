@@ -8,13 +8,23 @@ namespace Z0
 
     using static Root;
 
-    public class ValueProduction : Production<@string,@string>, INullity, IProduction
+    public class ValueProduction : Production<RuleValue<@string>, RuleValue<@string>>, INullity, IProduction
     {
         [MethodImpl(Inline)]
-        public ValueProduction(string src, string dst)
-            : base(src,dst)
+        public ValueProduction(@string src, @string dst)
+            : base(src, dst)
         {
 
+        }
+
+        new @string Source
+        {
+            get => base.Source;
+        }
+
+        new @string Target
+        {
+            get => base.Target;
         }
 
         public bool IsEmpty

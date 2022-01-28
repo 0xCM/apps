@@ -6,6 +6,6 @@ namespace Z0
 {
     public interface IChoiceRule : IRuleExpr
     {
-        Index<IRuleExpr> Choices {get;}
+        Index<IRuleExpr> Terms {get;}
     }
 }

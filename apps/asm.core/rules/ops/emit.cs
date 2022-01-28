@@ -1,0 +1,33 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0
+{
+    using System;
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+    using static core;
+
+    partial struct Rules
+    {
+        public static void emit<S,T>(ReadOnlySpan<Production<S,T>> src, FS.FilePath dst)
+            where S : IRuleExpr
+            where T : IRuleExpr
+        {
+            var count = src.Length;
+            using var writer = dst.Utf8Writer();
+            for(var i=0; i<count; i++)
+                writer.WriteLine(skip(src,i).Format());
+        }
+
+        public static void emit(ReadOnlySpan<IProduction> src, FS.FilePath dst)
+        {
+            var count = src.Length;
+            using var writer = dst.Utf8Writer();
+            for(var i=0; i<count; i++)
+                writer.WriteLine(skip(src,i).Format());
+        }
+    }
+}

@@ -4,19 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class RuleValueExpr<T> : RuleExpr<T>
+    using System.Runtime.CompilerServices;
+
+    using static Root;
+
+    public sealed class RuleValue<T> : RuleExpr<T>
     {
-        public RuleValueExpr(T src, bool terminal = false)
+        public RuleValue(T src, bool terminal = false)
             : base(src)
         {
             IsTerminal = terminal;
         }
 
         public override bool IsTerminal {get;}
+
         public override string Format()
             => Content.ToString();
 
-        public static implicit operator RuleValueExpr<T>(T src)
-            => new RuleValueExpr<T>(src);
+        [MethodImpl(Inline)]
+        public static implicit operator RuleValue<T>(T src)
+            => new RuleValue<T>(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator T (RuleValue<T> src)
+            => src.Content;
     }
 }

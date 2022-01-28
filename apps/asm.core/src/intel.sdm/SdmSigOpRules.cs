@@ -39,6 +39,7 @@ namespace Z0.Asm
             OpMaskRules = Rules.productions(SdmPaths.SigOpMaskRules());
         }
 
+
         public Index<SdmSigOpCode> EmitSigDecomps(ReadOnlySpan<SdmOpCodeDetail> details)
         {
             var records = dict<Identifier,SdmSigOpCode>();

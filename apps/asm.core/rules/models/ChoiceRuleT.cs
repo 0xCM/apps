@@ -15,10 +15,11 @@ namespace Z0
         public ChoiceRule(Index<T> src)
             : base(src)
         {
-            Choices = src.Map(x => (IRuleExpr)x);
+
         }
 
-        public Index<IRuleExpr> Choices {get;}
+        public new Index<IRuleExpr> Terms
+            => Content.Map(x => (IRuleExpr)x);
 
         public override string Format()
             => Content.Delimit(Chars.Pipe, fence:RenderFence.Angled).Format();

@@ -11,7 +11,7 @@ namespace Z0
     using static Root;
 
     public abstract class ValueProduction<T> : Production<T,T>
-        where T : IExpr
+        where T : IRuleExpr
     {
         protected ValueProduction(T src, T dst)
             : base(src,dst)

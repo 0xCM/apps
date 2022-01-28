@@ -20,6 +20,9 @@ namespace Z0.Asm
         public FS.FolderPath Settings()
             => ProjectDb.Settings();
 
+        public FS.FilePath SigProductions()
+            => Targets() + FS.file("sdm.sigs.productions", FS.ext("map"));
+
         public FS.FilePath SigDecompRules()
             => ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
 

@@ -15,11 +15,14 @@ namespace Z0
         public OptionRule(T opt)
             : base(opt)
         {
-            Potential = opt;
+
         }
 
-        public IRuleExpr Potential {get;}
+        public IRuleExpr Potential
+            => Content;
 
+        public Index<IRuleExpr> Terms
+            => core.array(Potential);
         public override string Format()
             => text.bracket(Content.ToString());
 

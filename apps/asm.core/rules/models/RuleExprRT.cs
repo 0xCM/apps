@@ -24,6 +24,7 @@ namespace Z0
 
     public abstract class RuleExpr<R,T> : RuleExpr<Index<T>>
         where R : RuleExpr<R,T>
+        where T : IRuleExpr
     {
         protected RuleExpr(Index<T> terms)
             : base(terms)

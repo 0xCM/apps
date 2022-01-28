@@ -9,22 +9,21 @@ namespace Z0
 
     using static Root;
 
-    public class SeqExpr<T> : RuleExpr<SeqExpr<T>,T>, ISeqExpr<T>
+    public class SeqRule<T> : RuleExpr<SeqRule<T>,T>, ISeqRule
         where T : IRuleExpr
     {
-        public SeqExpr(params T[] terms)
+        public SeqRule(params T[] terms)
             : base(terms)
         {
         }
 
-        ReadOnlySpan<T> ISeqExpr<T>.Terms
-            => Terms;
-
+        public new Index<IRuleExpr> Terms
+            => Content.Map(x => (IRuleExpr)x);
         public override string Format()
             => text.embrace(Content.Delimit().Format());
 
         [MethodImpl(Inline)]
-        public static implicit operator SeqExpr<T>(T[] src)
-            => new SeqExpr<T>(src);
+        public static implicit operator SeqRule<T>(T[] src)
+            => new SeqRule<T>(src);
     }
 }
