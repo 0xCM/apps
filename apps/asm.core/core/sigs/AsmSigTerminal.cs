@@ -11,9 +11,9 @@ namespace Z0.Asm
     using static core;
 
     [Record(TableId)]
-    public struct AsmSigProductionInfo
+    public struct AsmSigTerminal
     {
-        public const string TableId = "sdm.sigs.productions";
+        public const string TableId = "sdm.sigs.terminals";
 
         public const byte FieldCount = 3;
 

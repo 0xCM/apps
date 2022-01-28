@@ -27,7 +27,7 @@ namespace Z0
             }
 
             var prodCount = productions.Count;
-            var records = alloc<AsmSigProductionInfo>(prodCount);
+            var records = alloc<AsmSigTerminal>(prodCount);
             for(var i=0u; i<prodCount; i++)
             {
                 ref var record = ref seek(records,i);
@@ -36,8 +36,8 @@ namespace Z0
                 record.Target = productions[(int)i].Target;
             }
 
-            var dst = ProjectDb.TablePath<AsmSigProductionInfo>("sdm");
-            TableEmit(@readonly(records), AsmSigProductionInfo.RenderWidths, dst);
+            var dst = ProjectDb.TablePath<AsmSigTerminal>("sdm");
+            TableEmit(@readonly(records), AsmSigTerminal.RenderWidths, dst);
 
             return true;
         }
