@@ -12,7 +12,7 @@ namespace Z0
 
     partial struct Rules
     {
-        public static OptionRule<RuleValueExpr<T>> option<T>(T src)
-            => new OptionRule<RuleValueExpr<T>>(src);
+       public static RuleValueExpr<T>[] values<T>(params T[] values)
+            => values.Select(value);
     }
 }

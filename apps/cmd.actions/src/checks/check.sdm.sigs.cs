@@ -26,5 +26,34 @@ namespace Z0
 
             return true;
         }
+
+        Index<AsmSigExpr> Concretize(AsmSigRule<IRuleExpr> src)
+        {
+            var dst = list<AsmSigExpr>();
+            var opcount = src.Operands.Count;
+            for(var i=0; i<opcount; i++)
+            {
+
+                ref readonly var op = ref src.Operands[i];
+                if(op is IChoiceRule c)
+                {
+                    var choices = c.Choices;
+                }
+                else if(op is IOptionRule o)
+                {
+                    var potential = o.Potential;
+                }
+                else
+                {
+
+                }
+
+            }
+
+
+
+            return dst.ToArray();
+        }
+
     }
 }

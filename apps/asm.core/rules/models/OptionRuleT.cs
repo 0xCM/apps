@@ -9,13 +9,17 @@ namespace Z0
 
     using static Root;
 
-    public class OptionRule<T> : RuleExpr<T>
+    public class OptionRule<T> : RuleExpr<T>, IOptionRule
+        where T : IRuleExpr
     {
         public OptionRule(T opt)
             : base(opt)
         {
-
+            Potential = opt;
         }
+
+        public IRuleExpr Potential {get;}
+
         public override string Format()
             => text.bracket(Content.ToString());
 

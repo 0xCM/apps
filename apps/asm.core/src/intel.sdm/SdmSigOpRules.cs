@@ -122,19 +122,13 @@ namespace Z0.Asm
         public AsmSigRule<IRuleExpr> Symbolize(in AsmSigExpr src)
         {
             var ops = SymbolizeOperands(src);
-            var dst = AsmSigRules.define<IRuleExpr>(src.Mnemonic, (byte)ops.EntryCount);
+            var dst = AsmSigs.rule<IRuleExpr>(src.Mnemonic, (byte)ops.EntryCount);
             for(byte i=0; i<ops.EntryCount; i++)
-            {
-                var opvals = ops[i];
-                if(opvals.Count > 1)
-                    dst = dst.WithOperand(i, Rules.oneof(opvals.Storage));
-                else
-                    dst = dst.WithOperand(i, Rules.value(opvals.First.ToString()));
-            }
+                dst = dst.WithOperand(i, ops[i]);
             return dst;
         }
 
-        ConstLookup<byte,Index<IAsmSigOpRule>> SymbolizeOperands(in AsmSigExpr sig)
+        ConstLookup<byte,IRuleExpr> SymbolizeOperands(in AsmSigExpr sig)
         {
             var opcount = sig.OperandCount;
             var dst = dict<byte,Index<string>>();
@@ -151,10 +145,10 @@ namespace Z0.Asm
             return SymbolizeOpMasks(dst);
         }
 
-        ConstLookup<byte,Index<IAsmSigOpRule>> SymbolizeOpMasks(ConstLookup<byte,Index<string>> src)
+        ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,Index<string>> src)
         {
             var opcount = src.EntryCount;
-            var dst = dict<byte,Index<IAsmSigOpRule>>();
+            var dst = dict<byte,IRuleExpr>();
             var i = z8;
             foreach(var entry in src.Entries)
             {
@@ -162,12 +156,12 @@ namespace Z0.Asm
                 var output = DecomposeOpMasks(input);
                 if(input.Count == 1 && output.Count == 2)
                 {
-                    dst[i++] = array(AsmSigRules.value(output[0]));
-                    dst[i++] = array(AsmSigRules.option(output[1]));
+                    dst[i++] = Rules.value(output[0]);
+                    dst[i++] = Rules.option(output[1]);
                 }
                 else
                 {
-                    dst[i++] = input.Map(x => (IAsmSigOpRule)AsmSigRules.value(x));
+                    dst[i++] = input.Count > 1 ? Rules.choices(input) : Rules.value(input.First);
                 }
             }
             return dst;

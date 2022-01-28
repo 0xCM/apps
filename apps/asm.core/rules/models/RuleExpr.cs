@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
-    partial struct Rules
+    public abstract class RuleExpr : IRuleExpr
     {
-        public static OneOfRule<T> oneof<T>(T[] src)
-            => new OneOfRule<T>(src);
+        public abstract string Format();
+
+        public override string ToString()
+            => Format();
+
+        public virtual bool IsTerminal => false;
     }
 }

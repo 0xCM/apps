@@ -9,19 +9,14 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     using static Root;
-    using static core;
 
-    public class AsmSigRule<T> : RuleExpr
+    public class AsmSigRule<T> : AsmSigRule
         where T : IRuleExpr
     {
-        public AsmMnemonic Mnemonic {get;}
-
-        public Index<AsmSigOpRule<T>> Operands {get;}
-
         public AsmSigRule(AsmMnemonic mnemonic, byte opcount)
+            : base(mnemonic, opcount)
         {
-            Mnemonic = mnemonic;
-            Operands = alloc<AsmSigOpRule<T>>(opcount);
+
         }
 
         public bool IsEmpty
@@ -41,25 +36,5 @@ namespace Z0.Asm
             Operands[index] = operand;
             return this;
         }
-
-        public override string Format()
-        {
-            var dst = text.buffer();
-            dst.Append(Mnemonic.Format(MnemonicCase.Lowercase));
-            var count = Operands.Count;
-            for(var i=0; i<count; i++)
-            {
-                if(i == 0)
-                    dst.Append(Chars.Space);
-                else
-                    dst.Append(", ");
-
-                dst.Append(Operands[i].ToString());
-            }
-            return dst.Emit();
-        }
-
-        public override string ToString()
-            => Format();
     }
 }

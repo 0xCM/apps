@@ -17,8 +17,5 @@ namespace Z0
 
         public static RuleValueExpr<T> value<T>(T value, bool terminal)
             => new RuleValueExpr<T>(value, terminal);
-
-        public static SeqExpr<RuleValueExpr<T>> values<T>(params T[] values)
-            => values.Select(value);
     }
 }

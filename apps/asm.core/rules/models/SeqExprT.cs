@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public class SeqExpr<T> : RuleExpr<Index<T>>, ISeqExpr<T>
+    public class SeqExpr<T> : RuleExpr<SeqExpr<T>,T>, ISeqExpr<T>
         where T : IRuleExpr
     {
         public SeqExpr(params T[] terms)
@@ -17,35 +17,11 @@ namespace Z0
         {
         }
 
-        public uint N
-        {
-            [MethodImpl(Inline)]
-            get => Content.Count;
-        }
+        ReadOnlySpan<T> ISeqExpr<T>.Terms
+            => Terms;
 
-        public ReadOnlySpan<T> Terms
-        {
-            [MethodImpl(Inline)]
-            get => Content;
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Content.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Content.IsNonEmpty;
-        }
-
-         public override string Format()
+        public override string Format()
             => text.embrace(Content.Delimit().Format());
-
-        public override string ToString()
-            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator SeqExpr<T>(T[] src)
