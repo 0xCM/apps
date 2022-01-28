@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public class ValueProduction : ValueProduction<@string>, INullity, IProduction
+    public class ValueProduction : Production<@string,@string>, INullity, IProduction
     {
         [MethodImpl(Inline)]
         public ValueProduction(string src, string dst)

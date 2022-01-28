@@ -77,6 +77,38 @@ namespace Z0.Asm
             => State = (F)bit.set((uint)State, (byte)I.ZF, f);
 
         [MethodImpl(Inline)]
+        public bit NO()
+            => (State & F.OF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit NC()
+            => (State & F.CF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit NZ()
+            => (State & F.ZF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit NS()
+            => (State & F.SF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit NP()
+            => (State & F.PF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit LT()
+            => SF() != OF();
+
+        [MethodImpl(Inline)]
+        public bit A()
+            => (State & F.CF) == 0 && (State & F.ZF) == 0;
+
+        [MethodImpl(Inline)]
+        public bit NA()
+            => !A();
+
+        [MethodImpl(Inline)]
         public bit Read(I i)
             => bit.test((uint)State, (byte)i);
 

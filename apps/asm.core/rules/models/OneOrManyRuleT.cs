@@ -8,28 +8,20 @@ namespace Z0
 
     using static Root;
 
-    public class OneOrManyRule<T>
+    public class OneOrManyRule<T> : RuleExpr<Index<T>>
     {
         public Index<T> Elements {get;}
 
         [MethodImpl(Inline)]
         public OneOrManyRule(Index<T> src)
-            => Elements = src;
-
-        public bool IsZero
+            : base(src)
         {
-            [MethodImpl(Inline)]
-            get => Elements.Count == 0;
+
+
         }
 
-        public bool IsMore
-        {
-            [MethodImpl(Inline)]
-            get => Elements.Count > 0;
-        }
-
-        public MultiplicityKind Kind
-            => MultiplicityKind.OneOrMany;
+        public override string Format()
+            =>  string.Format(string.Format("({0})", Content.Delimit()));
 
         [MethodImpl(Inline)]
         public static implicit operator OneOrManyRule<T>(T[] src)

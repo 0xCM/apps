@@ -12,20 +12,20 @@ namespace Z0
     using static ExprPatterns;
 
     [StructLayout(LayoutKind.Sequential)]
-    public class BetweenRule<T> : Rule
+    public class BetweenRule<T> : RuleExpr<Pair<T>>
     {
-        public T Min {get;}
+        public T Left => Content.Left;
 
-        public T Max {get;}
+        public T Right => Content.Right;
 
         public BetweenRule(T min, T max)
+            : base((min,max))
         {
-            Min = min;
-            Max = max;
+
         }
 
         public override string Format()
-           => string.Format(InclusiveRange, Min, Max);
+           => string.Format(InclusiveRange, Left, Right);
 
         [MethodImpl(Inline)]
         public static implicit operator BetweenRule<T>((T min, T max) src)

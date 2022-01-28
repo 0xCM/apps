@@ -11,16 +11,17 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    public class AsmSigExpr<T>
+    public class AsmSigRule<T> : RuleExpr
+        where T : IRuleExpr
     {
         public AsmMnemonic Mnemonic {get;}
 
-        public Index<T> Operands {get;}
+        public Index<AsmSigOpRule<T>> Operands {get;}
 
-        public AsmSigExpr(AsmMnemonic mnemonic, params T[] ops)
+        public AsmSigRule(AsmMnemonic mnemonic, byte opcount)
         {
             Mnemonic = mnemonic;
-            Operands = ops;
+            Operands = alloc<AsmSigOpRule<T>>(opcount);
         }
 
         public bool IsEmpty
@@ -35,7 +36,13 @@ namespace Z0.Asm
             get => Mnemonic.IsNonEmpty;
         }
 
-        public string Format()
+        public AsmSigRule<T> WithOperand(byte index, T operand)
+        {
+            Operands[index] = operand;
+            return this;
+        }
+
+        public override string Format()
         {
             var dst = text.buffer();
             dst.Append(Mnemonic.Format(MnemonicCase.Lowercase));
@@ -51,5 +58,8 @@ namespace Z0.Asm
             }
             return dst.Emit();
         }
+
+        public override string ToString()
+            => Format();
     }
 }

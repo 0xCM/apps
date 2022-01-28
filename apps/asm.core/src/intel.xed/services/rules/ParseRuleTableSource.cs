@@ -17,7 +17,7 @@ namespace Z0
             var tables = list<RuleTable>();
             using var reader = src.Utf8LineReader();
             var table = RuleTable.Empty;
-            var expressions = list<RuleExpr>();
+            var expressions = list<XedRuleExpr>();
             var kind = EK.None;
             var line = TextLine.Empty;
 
@@ -45,7 +45,7 @@ namespace Z0
                     return text.trim(src);
             }
 
-            RuleExpr CreateRuleExpr(EK kind, string premise, string consequent = EmptyString)
+            XedRuleExpr CreateRuleExpr(EK kind, string premise, string consequent = EmptyString)
             {
                 var left = sys.empty<RuleCriterion>();
                 var right = sys.empty<RuleCriterion>();
@@ -56,7 +56,7 @@ namespace Z0
                 if(nonempty(consequent))
                     right = ParseRuleCriteria(consequent);
 
-                return new RuleExpr(kind, premise, consequent, left, right);
+                return new XedRuleExpr(kind, premise, consequent, left, right);
             }
 
 

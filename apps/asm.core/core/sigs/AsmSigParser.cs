@@ -110,7 +110,6 @@ namespace Z0.Asm
                         break;
 
                     dst = new AsmSig(mnemonic, op0, op1, op2);
-
                 }
                 break;
                 case 4:

@@ -84,9 +84,7 @@ namespace Z0
         }
 
         public FileRef this[uint docid]
-        {
-            get => Entry(docid);
-        }
+            => Entry(docid);
 
         static FileKind Match(FS.FilePath src)
         {

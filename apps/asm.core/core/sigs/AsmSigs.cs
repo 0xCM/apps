@@ -21,6 +21,9 @@ namespace Z0.Asm
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value), size);
 
+        public Outcome Parse(string src, out AsmSig dst)
+            => AsmSigParser.parse(src, out dst);
+
         public Outcome<AsmForm> BuildForm(in AsmSigExpr sigexpr, in CharBlock36 ocexpr)
         {
             var result = Outcome<AsmForm>.Empty;
@@ -38,7 +41,7 @@ namespace Z0.Asm
             else
                 return result;
 
-            result = AsmSigParser.parse(sigexpr.Format(), out var sig);
+            result = Parse(sigexpr.Format(), out var sig);
             if(result.Fail)
             {
                 result = (false,string.Format("Sig parse failure:{0}", sigexpr.Format()));

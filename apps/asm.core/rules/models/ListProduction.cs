@@ -17,7 +17,6 @@ namespace Z0
             Source = src;
             Target = dst;
         }
-
         public override string Format()
             => string.Format("{0} -> {1}", Source, Target);
 

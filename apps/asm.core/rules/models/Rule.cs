@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class Rule : IRule
+    public abstract class Rule : RuleExpr
     {
-        public abstract string Format();
 
-        public override string ToString()
-            => Format();
-
-        public virtual bool IsTerminal => false;
     }
 }

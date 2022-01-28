@@ -40,7 +40,6 @@ namespace Z0.Asm
             return dst.Emit();
         }
 
-
         [Op]
         public static AsmSpec define(in AsmMnemonic mnemonic, in AsmOpCode opcode, params AsmOperand[] ops)
         {

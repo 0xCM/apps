@@ -14,7 +14,7 @@ namespace Z0
 
             public Identifier ReturnType;
 
-            public DataList<RuleExpr> Expressions;
+            public DataList<XedRuleExpr> Expressions;
 
             public static RuleTable Empty
             {

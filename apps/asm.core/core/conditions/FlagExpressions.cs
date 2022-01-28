@@ -150,7 +150,7 @@ namespace Z0.Asm
             public const string NGE = "SF!=OF";
 
             /// <summary>
-            /// Greator or Equal
+            /// Greater or Equal
             /// </summary>
             public const string GE = "SF=OF";
 

@@ -7,9 +7,9 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface IRule : ITextual
+    public interface IRule : IRuleExpr
     {
-        bool IsTerminal {get;}
+
     }
 
     [Free]
@@ -17,7 +17,9 @@ namespace Z0
         where A : IExpr
         where C : IExpr
     {
+        A Antecedant {get;}
 
+        C Consequent {get;}
     }
 
     [Free]
@@ -26,4 +28,5 @@ namespace Z0
     {
 
     }
+
 }

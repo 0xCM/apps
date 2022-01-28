@@ -20,7 +20,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref forms[i];
-                var decomp = SdmRules.Decompose(form.Sig);
+                var decomp = SdmRules.Symbolize(form.Sig);
                 Write(string.Format("{0} -> {1}", form.Sig, decomp));
             }
 

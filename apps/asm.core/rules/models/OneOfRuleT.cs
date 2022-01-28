@@ -8,16 +8,18 @@ namespace Z0
 
     using static Root;
 
-    public class OneOfRule<T> : Rule
+    public class OneOfRule<T> : RuleExpr<Index<T>>
     {
-        public Index<T> Elements {get;}
 
         [MethodImpl(Inline)]
         public OneOfRule(Index<T> src)
-            => Elements = src;
+            : base(src)
+        {
+
+        }
 
         public override string Format()
-            => Elements.Delimit(Chars.Pipe, fence:RenderFence.Angled).Format();
+            => Content.Delimit(Chars.Pipe, fence:RenderFence.Angled).Format();
 
         [MethodImpl(Inline)]
         public static implicit operator OneOfRule<T>(T[] src)

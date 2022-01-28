@@ -119,24 +119,22 @@ namespace Z0.Asm
             return dataset;
         }
 
-        public AsmSigExpr Decompose(in AsmSigExpr src)
+        public AsmSigRule<IRuleExpr> Symbolize(in AsmSigExpr src)
         {
-            var ops = DecomposeOperands(src);
-            var dst = new AsmSigExpr(src.Mnemonic);
+            var ops = SymbolizeOperands(src);
+            var dst = AsmSigRules.define<IRuleExpr>(src.Mnemonic, (byte)ops.EntryCount);
             for(byte i=0; i<ops.EntryCount; i++)
             {
                 var opvals = ops[i];
                 if(opvals.Count > 1)
-                {
-                    dst = dst.WithOperand(i, (opvals.Delimit(Chars.Pipe, fence:RenderFence.Angled).Format()));
-                }
+                    dst = dst.WithOperand(i, Rules.oneof(opvals.Storage));
                 else
-                    dst = dst.WithOperand(i, opvals.First);
+                    dst = dst.WithOperand(i, Rules.value(opvals.First.ToString()));
             }
             return dst;
         }
 
-        public ConstLookup<byte,Index<string>> DecomposeOperands(in AsmSigExpr sig)
+        ConstLookup<byte,Index<IAsmSigOpRule>> SymbolizeOperands(in AsmSigExpr sig)
         {
             var opcount = sig.OperandCount;
             var dst = dict<byte,Index<string>>();
@@ -148,16 +146,15 @@ namespace Z0.Asm
                     dst[i] = choices;
                 else
                     dst[i] = array(op.Text);
-
             }
 
-            return DecomposeOpMasks(dst);
+            return SymbolizeOpMasks(dst);
         }
 
-        ConstLookup<byte,Index<string>> DecomposeOpMasks(ConstLookup<byte,Index<string>> src)
+        ConstLookup<byte,Index<IAsmSigOpRule>> SymbolizeOpMasks(ConstLookup<byte,Index<string>> src)
         {
             var opcount = src.EntryCount;
-            var dst = dict<byte,Index<string>>();
+            var dst = dict<byte,Index<IAsmSigOpRule>>();
             var i = z8;
             foreach(var entry in src.Entries)
             {
@@ -165,16 +162,29 @@ namespace Z0.Asm
                 var output = DecomposeOpMasks(input);
                 if(input.Count == 1 && output.Count == 2)
                 {
-                    dst[i++] = array(output[0]);
-                    dst[i++] = array(text.bracket(output[1]));
+                    dst[i++] = array(AsmSigRules.value(output[0]));
+                    dst[i++] = array(AsmSigRules.option(output[1]));
                 }
                 else
                 {
-                    dst[i++] = input;
+                    dst[i++] = input.Map(x => (IAsmSigOpRule)AsmSigRules.value(x));
                 }
-
             }
             return dst;
+        }
+
+        Index<string> DecomposeOpMasks(Index<string> src)
+        {
+            var dst = list<string>();
+            foreach(var item in src)
+            {
+                if(OpMaskRules.Find(item, out var decomp))
+                    dst.AddRange(decomp);
+                else
+                    dst.Add(item);
+            }
+
+            return dst.Array();
         }
 
         Index<AsmFormExpr> Decompose(in AsmFormExpr entry)
@@ -234,20 +244,6 @@ namespace Z0.Asm
                 names.Add(src.Text);
 
             return DecomposeOpMasks(names).Map(x => (AsmSigOpExpr)x);
-        }
-
-        Index<string> DecomposeOpMasks(Index<string> src)
-        {
-            var dst = list<string>();
-            foreach(var item in src)
-            {
-                if(OpMaskRules.Find(item, out var decomp))
-                    dst.AddRange(decomp);
-                else
-                    dst.Add(item);
-            }
-
-            return dst.Array();
         }
 
         List<string> DecomposeOpMasks(List<string> src)

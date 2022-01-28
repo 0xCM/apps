@@ -4,14 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class SeqProduction<S,T> : Production<Value<S>, SeqExpr<T>>
-        where T : IRuleExpr
+    public abstract class Rule<A,C> : Rule
     {
-        public SeqProduction(S src, T[] dst)
-            : base(src,dst)
+
+        public A Antecedant {get;}
+
+        public C Consequent {get;}
+
+        protected Rule(A a, C c)
         {
-
-
+            Antecedant = a;
+            Consequent = c;
         }
     }
 }

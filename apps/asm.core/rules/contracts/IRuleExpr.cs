@@ -2,17 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
-    [ApiHost]
-    public readonly struct AsmSpecs
+    public interface IRuleExpr : IExpr
     {
-        const NumericKind Closure = UnsignedInts;
-   }
+        bool IsTerminal {get;}
+    }
+
+    public interface IRuleExpr<T> : IRuleExpr
+    {
+        T Content {get;}
+    }
 }

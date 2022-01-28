@@ -9,45 +9,37 @@ namespace Z0
 
     using static Root;
 
-    public class SeqExpr : ISeqExpr<IExpr>
+    public class SeqExpr : RuleExpr<Index<IExpr>>, ISeqExpr<IExpr>
     {
-        readonly Index<IExpr> Data;
-
         public SeqExpr(params IExpr[] terms)
+            : base(terms)
         {
-            Data = terms;
+
         }
 
         public uint N
         {
             [MethodImpl(Inline)]
-            get => Data.Count;
+            get => Content.Count;
         }
-
 
         public ReadOnlySpan<IExpr> Terms
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
+            => Content;
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsEmpty;
+            get => Content.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
+            get => Content.IsNonEmpty;
         }
 
-        public string Format()
-            => text.bracket(Data.Delimit().Format());
-
-        public override string ToString()
-            => Format();
+        public override string Format()
+            => text.embrace(Content.Delimit().Format());
 
         public static implicit operator SeqExpr(IExpr[] src)
             => new SeqExpr(src);

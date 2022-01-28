@@ -8,18 +8,12 @@ namespace Z0
     using System.Runtime.CompilerServices;
 
     using static Root;
+    using static core;
 
-    public class OptionRule<T> : RuleExpr<T>
+    partial struct Rules
     {
-        public OptionRule(T opt)
-            : base(opt)
-        {
-
-        }
-        public override string Format()
-            => text.bracket(Content.ToString());
-
-        public static implicit operator OptionRule<T>(T value)
-            => new OptionRule<T>(value);
+        public static SeqExpr<T> seq<T>(T[] src)
+            where T : IRuleExpr
+                => new SeqExpr<T>(src);
     }
 }

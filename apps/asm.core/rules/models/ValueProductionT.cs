@@ -10,16 +10,13 @@ namespace Z0
     using static core;
     using static Root;
 
-    public abstract class ValueProduction<T> : Rule
+    public abstract class ValueProduction<T> : Production<T,T>
+        where T : IExpr
     {
         protected ValueProduction(T src, T dst)
+            : base(src,dst)
         {
-            Source = src;
-            Target = dst;
+
         }
-
-        public T Source {get;}
-
-        public T Target {get;}
     }
 }

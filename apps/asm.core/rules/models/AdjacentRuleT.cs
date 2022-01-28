@@ -12,24 +12,17 @@ namespace Z0
     /// <summary>
     /// Represents the consecutive occurrence of two values within a sequence
     /// </summary>
-    public class AdjacentRule<T> : Rule
+    public class AdjacentRule<T> : RuleExpr<Pair<T>>
     {
-        public T A {get;}
-
-        public T B {get;}
-
         [MethodImpl(Inline)]
         public AdjacentRule(T a, T b)
+            : base((a,b))
         {
-            A = a;
-            B = b;
+
         }
 
         public override string Format()
-            => string.Format(RP.Adjacent2,A, B);
-
-        public override string ToString()
-            => Format();
+            => string.Format(RP.Adjacent2,Content.Left, Content.Right);
 
         [MethodImpl(Inline)]
         public static implicit operator AdjacentRule<T>((T left, T right) src)

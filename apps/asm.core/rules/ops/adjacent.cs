@@ -22,7 +22,7 @@ namespace Z0
             {
                 ref readonly var s0 = ref skip(src, i);
                 ref readonly var s1 = ref skip(src, i + 1);
-                if((s0.Equals(rule.A) && s1.Equals(rule.B)))
+                if((s0.Equals(rule.Content.Left) && s1.Equals(rule.Content.Right)))
                     seek(dst, matched++) = i;
             }
             return matched;
@@ -31,5 +31,8 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static AdjacentRule<T> adjacent<T>(T a, T b)
             => new AdjacentRule<T>(a, b);
+
+        public static LiteralRule<T> literal<T>(T value)
+            => new LiteralRule<T>(value);
    }
 }
