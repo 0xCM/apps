@@ -13,38 +13,21 @@ namespace Z0
         [CmdOp("check/sdm/sigs")]
         Outcome CheckSdmSigs(CmdArgs args)
         {
+            var rules = SdmRules.LoadSigProductions();
+            var count = rules.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var rule = ref rules[i];
+                // var terminals = rule.Target.Terminate();
+                // for(var j=0; j<terminals.Count; j++)
+                // {
+                //     ref readonly var terminal = ref terminals[j];
+                //     Write(terminal.Format());
+                // }
 
+                Write(rule.Format());
+            }
             return true;
         }
-
-        Index<AsmSigExpr> Concretize(AsmSigRule<IRuleExpr> src)
-        {
-            var dst = list<AsmSigExpr>();
-            var opcount = src.Operands.Count;
-            for(var i=0; i<opcount; i++)
-            {
-                var sig = new AsmSigExpr(src.Mnemonic);
-
-                ref readonly var op = ref src.Operands[i];
-                if(op is IChoiceRule c)
-                {
-                    var choices = c.Terms;
-                }
-                else if(op is IOptionRule o)
-                {
-                    var potential = o.Potential;
-                }
-                else
-                {
-
-                }
-
-            }
-
-
-
-            return dst.ToArray();
-        }
-
     }
 }

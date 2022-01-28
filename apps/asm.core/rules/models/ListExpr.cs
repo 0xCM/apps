@@ -5,6 +5,7 @@
 namespace Z0
 {
     public class ListExpr<T> : RuleExpr<Index<T>>
+        where T : IRuleExpr
     {
         public Index<T> Items
             => Content;

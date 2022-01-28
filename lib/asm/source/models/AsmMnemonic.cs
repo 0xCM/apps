@@ -94,7 +94,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public bool Equals(AsmMnemonic src)
-            => Content.Equals(src.Content);
+            => Content.Equals(src.Content,StringComparison.InvariantCultureIgnoreCase);
 
         public override bool Equals(object src)
             => src is AsmMnemonic x && Equals(x);

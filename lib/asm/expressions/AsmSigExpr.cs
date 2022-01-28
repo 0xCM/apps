@@ -12,8 +12,10 @@ namespace Z0.Asm
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.sig.expr")]
-    public struct AsmSigExpr
+    public struct AsmSigExpr : IEquatable<AsmSigExpr>
     {
+        public const byte MaxOpCount = 5;
+
         [Parser]
         public static Outcome parse(string src, out AsmSigExpr dst)
         {
@@ -60,10 +62,14 @@ namespace Z0.Asm
         public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3)
             => new AsmSigExpr(mnemonic, op0, op1, op2, op3);
 
+        [MethodImpl(Inline), Op]
+        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3, AsmSigOpExpr op4)
+            => new AsmSigExpr(mnemonic, op0, op1, op2, op3, op4);
+
         [Op]
         public static AsmSigExpr expression(AsmMnemonic mnemonic, ReadOnlySpan<string> ops)
         {
-            var count = min(ops.Length, 4);
+            var count = min(ops.Length, MaxOpCount);
             switch(count)
             {
                 case 1:
@@ -74,6 +80,8 @@ namespace Z0.Asm
                     return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2));
                 case 4:
                     return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2), skip(ops, 3));
+                case 5:
+                    return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2), skip(ops, 3), skip(ops, 4));
             }
 
             return expression(mnemonic);
@@ -82,15 +90,15 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
         {
-            if(i==4)
-                return ref src.Op4;
-            if(i==3)
-                return ref src.Op3;
-            if(i==2)
-                return ref src.Op2;
+            if(i==0)
+                return ref src.Op0;
             if(i==1)
                 return ref src.Op1;
-            return ref src.Op0;
+            if(i==2)
+                return ref src.Op2;
+            if(i==3)
+                return ref src.Op3;
+            return ref src.Op4;
         }
 
         public static string format(in AsmSigExpr src)
@@ -255,30 +263,19 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         byte CalcOpCount()
         {
+            var count = z8;
+            if(Op0.IsEmpty)
+                return 0;
+            if(Op1.IsEmpty)
+                return 1;
+            if(Op2.IsEmpty)
+                return 2;
+            if(Op3.IsEmpty)
+                return 3;
             if(Op4.IsEmpty)
-            {
-                if(Op3.IsEmpty)
-                {
-                    if(Op2.IsEmpty)
-                    {
-                        if(Op1.IsEmpty)
-                        {
-                            if(Op0.IsEmpty)
-                                return 0;
-                            else
-                                return 1;
-                        }
-                        else
-                            return 2;
-                    }
-                    else
-                        return 3;
-                }
-                else
-                    return 4;
-                }
-            else
-                return 5;
+                return 4;
+
+            return 5;
         }
 
         public byte Operands(Span<AsmSigOpExpr> dst)
@@ -317,6 +314,24 @@ namespace Z0.Asm
         {
             [MethodImpl(Inline)]
             get => Mnemonic.IsNonEmpty;
+        }
+
+        public bool Equals(AsmSigExpr src)
+        {
+            if(Mnemonic != src.Mnemonic)
+                return false;
+
+            var count = OperandCount;
+
+            if(count != src.OperandCount)
+                return false;
+
+            var ops = Operands();
+            var srcOps = src.Operands();
+            var result = true;
+            for(var i=0; i<count; i++)
+                result &= skip(ops,i).Equals(skip(srcOps,i));
+            return result;
         }
 
         public string Format()

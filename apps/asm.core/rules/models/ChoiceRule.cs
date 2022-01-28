@@ -6,19 +6,20 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using static Root;
-    using static core;
 
-    public abstract class RuleExpr : IRuleExpr
+    public class ChoiceRule : ChoiceRule<RuleValue>
     {
-        public abstract string Format();
+        public ChoiceRule(Index<RuleValue> src)
+            : base(src)
+        {
 
-        public override string ToString()
-            => Format();
 
+        }
 
-        public virtual bool IsTerminal {get; protected set;}
+        [MethodImpl(Inline)]
+        public static implicit operator ChoiceRule(RuleValue[] src)
+            => new ChoiceRule(src);
     }
 }

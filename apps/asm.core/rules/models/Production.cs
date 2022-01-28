@@ -8,10 +8,10 @@ namespace Z0
 
     using static Root;
 
-    public class ValueProduction : Production<RuleValue<@string>, RuleValue<@string>>, INullity, IProduction
+    public sealed class Production : Production<RuleValue<@string>, RuleValue<@string>>, INullity, IProduction
     {
         [MethodImpl(Inline)]
-        public ValueProduction(@string src, @string dst)
+        public Production(@string src, @string dst)
             : base(src, dst)
         {
 
@@ -39,12 +39,6 @@ namespace Z0
             get => Source.IsNonEmpty || Target.IsNonEmpty;
         }
 
-        IExpr IArrow<IExpr, IExpr>.Source
-            => Source;
-
-        IExpr IArrow<IExpr, IExpr>.Target
-            => Target;
-
         public override string Format()
         {
             if(Source.IsNonEmpty && Target.IsNonEmpty)
@@ -61,7 +55,7 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ValueProduction((string src, string dst) x)
-            => new ValueProduction(x.src,x.dst);
+        public static implicit operator Production((string src, string dst) x)
+            => new Production(x.src,x.dst);
     }
 }

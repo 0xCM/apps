@@ -7,7 +7,7 @@ namespace Z0
     partial class ProjectCmdProvider
     {
         [CmdOp("sdm/import")]
-        Outcome runsdmetl(CmdArgs args)
+        Outcome SdmImport(CmdArgs args)
             => Sdm.Import();
     }
 }

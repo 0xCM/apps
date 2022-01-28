@@ -14,7 +14,7 @@ namespace Z0
     {
         [Op, Closures(Closure)]
         public static uint evaluate<T>(AdjacentRule<T> rule, ReadOnlySpan<T> src, Span<uint> dst)
-            where T : unmanaged, IEquatable<T>
+            where T : IEquatable<T>
         {
             var terms = Math.Min(src.Length - 1, dst.Length);
             var matched = 0u;

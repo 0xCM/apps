@@ -14,5 +14,6 @@ namespace Z0
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static SingleRule<T> single<T>(T term)
             => new SingleRule<T>(term);
+
     }
 }

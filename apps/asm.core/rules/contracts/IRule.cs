@@ -9,24 +9,24 @@ namespace Z0
     [Free]
     public interface IRule : IRuleExpr
     {
+        IRuleExpr Antecedant {get;}
 
+        IRuleExpr Consequent {get;}
     }
 
     [Free]
     public interface IRule<A,C> : IRule
-        where A : IExpr
-        where C : IExpr
+        where A : IRuleExpr
+        where C : IRuleExpr
     {
-        A Antecedant {get;}
+        new A Antecedant {get;}
 
-        C Consequent {get;}
+        new C Consequent {get;}
+
+        IRuleExpr IRule.Antecedant
+            => Antecedant;
+
+        IRuleExpr IRule.Consequent
+            => Consequent;
     }
-
-    [Free]
-    public interface IRule<T> : IRule<T,T>
-        where T : IExpr
-    {
-
-    }
-
 }

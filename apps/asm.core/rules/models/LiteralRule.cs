@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISeqProduction<S> : IProduction<S,SeqExpr>
-        where S : IRuleExpr
+    public class LiteralRule : LiteralRule<RuleValue>
     {
-        bool IProduction.YieldsSeq
-            => true;
+        public LiteralRule(@string src)
+            : base(src)
+        {
+
+        }
+
     }
 }

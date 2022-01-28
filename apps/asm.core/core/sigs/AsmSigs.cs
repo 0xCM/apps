@@ -16,10 +16,6 @@ namespace Z0.Asm
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
-        public static AsmSigRule<T> rule<T>(AsmMnemonic mnemonic, byte opcount)
-            where T : IRuleExpr
-                => new AsmSigRule<T>(mnemonic, opcount);
-
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static AsmSigOp operand<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
             where T : unmanaged

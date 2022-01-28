@@ -2,39 +2,35 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
     using static Root;
 
-    public class AsmSigRule<T> : AsmSigRule
+    public abstract class IndexRuleExpr<R,T> : RuleExpr<Index<T>>
+        where R : IndexRuleExpr<R,T>
         where T : IRuleExpr
     {
-        public AsmSigRule(AsmMnemonic mnemonic, byte opcount)
-            : base(mnemonic, opcount)
+        protected IndexRuleExpr(Index<T> terms)
+            : base(terms)
         {
-
+            Terms = terms;
         }
+
+        public Index<T> Terms {get;}
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Mnemonic.IsEmpty;
+            get => Content.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Mnemonic.IsNonEmpty;
-        }
-
-        public AsmSigRule<T> WithOperand(byte index, T operand)
-        {
-            Operands[index] = operand;
-            return this;
+            get => Content.IsNonEmpty;
         }
     }
 }

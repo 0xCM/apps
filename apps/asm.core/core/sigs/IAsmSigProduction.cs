@@ -2,12 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    public interface ISeqProduction<S> : IProduction<S,SeqExpr>
-        where S : IRuleExpr
+    public interface IAsmSigProduction : IProduction<RuleValue<AsmSigExpr>,AsmSigRuleExpr>
     {
-        bool IProduction.YieldsSeq
-            => true;
+
+
     }
 }

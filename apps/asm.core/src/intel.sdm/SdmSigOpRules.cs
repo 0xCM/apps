@@ -120,11 +120,146 @@ namespace Z0.Asm
             return dataset;
         }
 
-        public AsmSigRule<IRuleExpr> Symbolize(in AsmSigExpr src)
+        public Index<AsmSigProduction> EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
+        {
+            var sigs = SdmOps.sigs(src);
+            var count = sigs.Length;
+            var buffer = text.buffer();
+            var dst = alloc<AsmSigProduction>(count);
+            for(var i=0; i<count; i++)
+                seek(dst,i) = Production(sigs[i]);
+
+            var path = SdmPaths.SigProductions();
+            var emitting = EmittingFile(path);
+            Rules.emit(dst, path);
+            EmittedFile(emitting, count);
+
+            if(check)
+            {
+                var output = LoadSigProductions();
+                if(count != output.Count)
+                {
+                    Error(string.Format("Record count mismatch: {0} != {1}", count, output.Count));
+                }
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var expect = ref skip(dst,i);
+                    ref readonly var actual = ref output[i];
+                    if(!expect.Source.Content.Equals(actual.Source.Content))
+                    {
+                        Error(string.Format("'{0}' != '{1}'",  expect.Source, actual.Source));
+                        break;
+                    }
+
+                    if(!expect.Target.Format().Equals(actual.Target.Format()))
+                    {
+                        Error(string.Format("'{0}' != '{1}'",  expect.Target, actual.Target));
+                        break;
+                    }
+
+                }
+            }
+            return dst;
+        }
+
+        AsmSigProduction Production(AsmSigExpr src)
+            => new AsmSigProduction(src, Symbolize(src));
+
+        Outcome Parse(string src, out AsmSigProduction dst)
+        {
+            var result = Outcome.Success;
+            dst = AsmSigProduction.Empty;
+            result = RuleText.parse(src, out IProduction prod);
+            if(result)
+            {
+                result = AsmSigExpr.parse(prod.Source.Format(), out var sig);
+                if(result)
+                {
+                    result = Parse(prod.Target.Format(), out AsmSigRuleExpr expr);
+                    if(result)
+                        dst = new AsmSigProduction(sig,expr);
+                }
+            }
+
+            return result;
+        }
+
+        Outcome Parse(string src, out AsmSigRuleExpr dst)
+        {
+            var result = Outcome.Success;
+            dst = AsmSigRuleExpr.Empty;
+            result = AsmSigExpr.parse(src, out var sig);
+            if(result)
+            {
+                var ops = sig.Operands();
+                var count = (byte)ops.Length;
+                dst = new AsmSigRuleExpr(sig.Mnemonic, count);
+                for(byte i=0; i<count; i++)
+                {
+                    ref readonly var op = ref skip(ops,i);
+                    if(RuleText.IsChoice(op.Text))
+                    {
+                        result = RuleText.parse(op.Text, out IChoiceRule rule);
+                        if(result)
+                            dst.WithOperand(i,rule);
+                        else
+                            break;
+
+                    }
+                    else if(RuleText.IsOption(op.Text))
+                    {
+                        result = RuleText.parse(op.Text, out IOptionRule rule);
+                        if(result)
+                            dst.WithOperand(i,rule);
+                        else
+                            break;
+                    }
+                    else
+                    {
+                        dst.WithOperand(i, RuleText.value(op.Text));
+                    }
+                }
+
+            }
+            return result;
+        }
+
+        public Index<AsmSigProduction> LoadSigProductions()
+        {
+            var result = Outcome.Success;
+            var path = SdmPaths.SigProductions();
+            var lines = path.ReadLines();
+            var count = lines.Count;
+            var dst = alloc<AsmSigProduction>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i];
+                if(empty(line))
+                    continue;
+
+                result = Parse(line, out seek(dst,i));
+                if(result.Fail)
+                    break;
+            }
+
+            if(result)
+                return dst;
+            else
+            {
+                Error(result);
+                return sys.empty<AsmSigProduction>();
+            }
+        }
+
+        AsmSigRuleExpr ProductionTarget(AsmMnemonic mnemonic, byte opcount)
+            => new AsmSigRuleExpr(mnemonic, opcount);
+
+        public AsmSigRuleExpr Symbolize(in AsmSigExpr src)
         {
             var ops = SymbolizeOperands(src);
-            var dst = AsmSigs.rule<IRuleExpr>(src.Mnemonic, (byte)ops.EntryCount);
-            for(byte i=0; i<ops.EntryCount; i++)
+            var count = (byte)ops.EntryCount;
+            var dst = ProductionTarget(src.Mnemonic, count);
+            for(byte i=0; i<count; i++)
                 dst = dst.WithOperand(i, ops[i]);
             return dst;
         }
@@ -157,7 +292,9 @@ namespace Z0.Asm
                 var output = DecomposeOpMasks(input);
                 if(input.Count == 1 && output.Count == 2)
                 {
-                    dst[i++] = Rules.value(output[0]);
+                    var j = text.index(input.First, Chars.LBrace);
+                    var unmasked = text.trim(text.left(input.First, j));
+                    dst[i++] = Rules.value(unmasked);
                     dst[i++] = Rules.option(output[1]);
                 }
                 else

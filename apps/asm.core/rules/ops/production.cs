@@ -22,7 +22,7 @@ namespace Z0
             }
             else
             {
-                return new ValueProduction(text.trim(src), text.trim(dst));
+                return new Production(text.trim(src), text.trim(dst));
             }
         }
 
@@ -33,6 +33,6 @@ namespace Z0
 
         public static SeqProduction<S,T> production<S,T>(S src, T[] dst)
             where T : IRuleExpr
-                =>  new SeqProduction<S,T>(src,dst);
+                => new SeqProduction<S,T>(src,dst);
     }
 }

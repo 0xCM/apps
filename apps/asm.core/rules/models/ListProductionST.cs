@@ -4,10 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISeqProduction<S> : IProduction<S,SeqExpr>
+    public class ListProduction<S,T> : Production<S,ListExpr<T>>
         where S : IRuleExpr
+        where T : IRuleExpr
     {
-        bool IProduction.YieldsSeq
-            => true;
+        public ListProduction(S src, T[] dst)
+            : base(src, Rules.list(dst))
+        {
+
+        }
     }
 }

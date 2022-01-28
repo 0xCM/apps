@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    public class ChoiceRule<T> : RuleExpr<ChoiceRule<T>,T>, IChoiceRule
+    public class ChoiceRule<T> : RuleExpr<ChoiceRule<T>,Index<T>>, IChoiceRule
         where T : IRuleExpr
     {
         [MethodImpl(Inline)]
@@ -18,7 +18,7 @@ namespace Z0
 
         }
 
-        public new Index<IRuleExpr> Terms
+        public Index<IRuleExpr> Terms
             => Content.Map(x => (IRuleExpr)x);
 
         public override string Format()

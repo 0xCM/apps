@@ -6,19 +6,19 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using static Root;
     using static core;
 
-    public abstract class RuleExpr : IRuleExpr
+    partial struct RuleText
     {
-        public abstract string Format();
+        public static bool IsChoice(string src)
+            => text.fenced(src,ChoiceFence);
 
-        public override string ToString()
-            => Format();
+        public static bool IsOption(string src)
+            => text.fenced(src, OptionFence);
 
-
-        public virtual bool IsTerminal {get; protected set;}
+        public static bool IsProduction(string src)
+            => text.split(src,YieldsSymbol).Length == 2;
     }
 }

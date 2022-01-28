@@ -8,15 +8,13 @@ namespace Z0
 
     using static Root;
 
-    public sealed class RuleValue<T> : RuleExpr<T>
+    public class RuleValue<T> : RuleExpr<RuleValue<T>,T>
     {
         public RuleValue(T src, bool terminal = false)
             : base(src)
         {
             IsTerminal = terminal;
         }
-
-        public override bool IsTerminal {get;}
 
         public override string Format()
             => Content.ToString();

@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public class OptionRule<T> : RuleExpr<T>, IOptionRule
+    public class OptionRule<T> : RuleExpr<OptionRule<T>,T>, IOptionRule
         where T : IRuleExpr
     {
         public OptionRule(T opt)
@@ -23,6 +23,7 @@ namespace Z0
 
         public Index<IRuleExpr> Terms
             => core.array(Potential);
+
         public override string Format()
             => text.bracket(Content.ToString());
 

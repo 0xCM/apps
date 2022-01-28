@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public class SeqRule<T> : RuleExpr<SeqRule<T>,T>, ISeqRule
+    public class SeqRule<T> : IndexRuleExpr<SeqRule<T>,T>, ISeqRule
         where T : IRuleExpr
     {
         public SeqRule(params T[] terms)

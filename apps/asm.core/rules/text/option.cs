@@ -6,19 +6,13 @@ namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using static Root;
     using static core;
 
-    public abstract class RuleExpr : IRuleExpr
+    partial struct RuleText
     {
-        public abstract string Format();
-
-        public override string ToString()
-            => Format();
-
-
-        public virtual bool IsTerminal {get; protected set;}
+        public static OptionRule option(string src)
+            => new OptionRule(src);
     }
 }

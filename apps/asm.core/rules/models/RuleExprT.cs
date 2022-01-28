@@ -22,28 +22,22 @@ namespace Z0
             => Content.ToString();
     }
 
-    public abstract class RuleExpr<R,T> : RuleExpr<Index<T>>
+    public abstract class RuleExpr<R,T> : RuleExpr<T>
         where R : RuleExpr<R,T>
-        where T : IRuleExpr
     {
-        protected RuleExpr(Index<T> terms)
-            : base(terms)
+        protected RuleExpr(T content)
+            : base(content)
         {
-            Terms = terms;
+
         }
 
-        public Index<T> Terms {get;}
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Content.IsEmpty;
-        }
+        public override bool IsTerminal {get; protected set;}
 
-        public bool IsNonEmpty
+        public virtual Index<R> Terminate()
         {
-            [MethodImpl(Inline)]
-            get => Content.IsNonEmpty;
+            IsTerminal = true;
+            return core.array((R)this);
         }
     }
 }

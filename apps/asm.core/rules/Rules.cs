@@ -10,4 +10,9 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
     }
+
+    public readonly partial struct RuleText
+    {
+
+    }
 }
