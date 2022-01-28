@@ -312,23 +312,6 @@ namespace Z0.Asm
             return SymbolizeOpMasks(dst);
         }
 
-        Index<IRuleExpr> SymbolizeOpMask(string src)
-        {
-            if(OpMaskRules.Find(src, out var output))
-            {
-                if(output.Count == 2)
-                {
-                    var j = text.index(src, Chars.LBrace);
-                    var unmasked = text.trim(text.left(src, j));
-                    return array<IRuleExpr>(Rules.value(unmasked), Rules.option(output[1]));
-                }
-                else
-                    Throw.message("Unexpected");
-            }
-
-            return array<IRuleExpr>(Rules.value(src));
-        }
-
         ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,Index<IRuleExpr>> src)
         {
             var opcount = src.EntryCount;
