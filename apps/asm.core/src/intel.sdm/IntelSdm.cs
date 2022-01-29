@@ -89,7 +89,13 @@ namespace Z0.Asm
         {
             var details = ImportOpCodeDetails();
             EmitSigs(details);
-            SigOpRules.EmitSigProductions(details,true);
+            var result = SigOpRules.EmitSigProductions(details,true);
+            if(result.Fail)
+            {
+                Error(result.Message);
+                return;
+            }
+
             SigOpRules.EmitTerminals();
         }
     }

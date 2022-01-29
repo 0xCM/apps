@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using System;
-    using System.Collections.Generic;
 
     using static core;
     using static Root;
@@ -34,8 +33,9 @@ namespace Z0.Asm
             OpMaskRules = Rules.productions(SdmPaths.SigOpMaskRules());
         }
 
-        public void EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
+        public Outcome EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
         {
+            var result = Outcome.Success;
             var sigs = SdmOps.sigs(src);
             var count = sigs.Length;
             var buffer = text.buffer();
@@ -54,10 +54,9 @@ namespace Z0.Asm
 
             if(check)
             {
-                var result = ValidateHydration(dst);
-                if(result.Fail)
-                    Error(result.Message);
+                result = ValidateHydration(dst);
             }
+            return result;
         }
 
         Outcome ValidateHydration(Index<AsmSigProduction> src)
@@ -75,9 +74,35 @@ namespace Z0.Asm
             {
                 ref readonly var expect = ref src[i];
                 ref readonly var actual = ref output[i];
+
+                if(actual == null)
+                {
+                    result = (false, string.Format("Null production for '{0}'", expect.Source));
+                    break;
+
+                }
+
+                if(actual.Source == null)
+                {
+                    result = (false, string.Format("Source for '{0}' is null",  expect.Source));
+                    break;
+                }
+
+                if(!actual.Target.IsValid)
+                {
+                    result = (false, string.Format("Target for '{0}' is invalid",  expect.Target));
+                    break;
+                }
+
                 if(!expect.Source.Content.Equals(actual.Source.Content))
                 {
                     result = (false, string.Format("'{0}' != '{1}'",  expect.Source, actual.Source));
+                    break;
+                }
+
+                if(actual.Target == null)
+                {
+                    result = (false, string.Format("Target for '{0}' is null",  expect.Target));
                     break;
                 }
 
@@ -198,9 +223,9 @@ namespace Z0.Asm
             {
                 ref readonly var op = ref skip(operands,i);
                 var key = op.Text;
-                if(DecompRules.Find(key, out var choices))
+                if(DecompRules.Find(key, out var production))
                 {
-                    dst[i] = Rules.choices(choices);
+                    dst[i] = production.Consequent;
                 }
                 else
                 {
@@ -208,49 +233,30 @@ namespace Z0.Asm
                 }
             }
 
-            var unmasked = SymbolizeOpMasks(dst);
-            var umCount = (byte)unmasked.EntryCount;
-            var expr = new AsmSigRuleExpr(sig.Mnemonic,umCount);
-            for(byte i=0; i<umCount; i++)
+            var exprOps = list<IRuleExpr>();
+            var k = z8;
+            for(byte i=0; i<opcount; i++)
             {
-                expr.WithOperand(i,unmasked[i]);
+                var op = dst[i];
+                // var opText = op.Format();
+                // var j = text.index(opText, Chars.LBrace);
+                // if(j > 0)
+                // {
+                //     var left = text.left(opText,j).Trim();
+                //     if(nonempty(left))
+                //         exprOps.Add(Rules.value(left));
+
+                //     var right = text.right(opText, j - 1);
+                //     if(nonempty(right))
+                //         exprOps.Add(Rules.option(right));
+                // }
+                // else
+                    exprOps.Add(op);
             }
+
+            var expr = new AsmSigRuleExpr(sig.Mnemonic, exprOps.ToArray());
+            Require.invariant(expr.IsValid, () => expr.Mnemonic.Format());
             return expr;
         }
-
-        ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,IRuleExpr> src)
-        {
-            var opcount = src.EntryCount;
-            var dst = dict<byte,IRuleExpr>();
-            var i = z8;
-            foreach(var entry in src.Entries)
-            {
-                var input = entry.Value;
-                if(DecomposeOpMasks(input, out var val, out var opt))
-                {
-                    dst[i++] = val;
-                    dst[i++] = opt;
-                }
-                else
-                    dst[i++] = input;
-            }
-            return dst;
-        }
-
-        bool DecomposeOpMasks(IRuleExpr src, out IRuleExpr value, out IOptionRule option)
-        {
-            if(OpMaskRules.Find(src.Format(), out var decomp))
-            {
-                value = Rules.value(decomp[0]);
-                option = Rules.option(decomp[1]);
-                return true;
-            }
-            else
-            {
-                value = default;
-                option = default;
-                return false;
-            }
-        }
-    }
+   }
 }

@@ -4,26 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
-
     public class Productions
     {
-        ConstLookup<string, Index<string>> Data;
+        ConstLookup<string, IProduction> Data;
 
-        public Productions(Dictionary<string, Index<string>> src)
+        public Productions(Dictionary<string,IProduction> src)
         {
             Data = src;
         }
 
-        public Index<string> this[string left]
-        {
-            get => Data[left];
-        }
+        public static implicit operator Productions(Dictionary<string,IProduction> src)
+            => new Productions(src);
 
-        public bool Find(string src, out Index<string> dst)
+        public bool Find(string src, out IProduction dst)
             => Data.Find(src, out dst);
 
-        public static implicit operator Productions(Dictionary<string,Index<string>> src)
-            => new Productions(src);
+        public IProduction this[string src]
+            => Data[src];
+
+        public ReadOnlySpan<string> Keys
+            => Data.Keys;
+
+        public ReadOnlySpan<IProduction> Values
+            => Data.Values;
     }
 }

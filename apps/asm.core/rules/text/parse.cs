@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct RuleText
@@ -78,7 +74,21 @@ namespace Z0
             if(IsOption(src))
             {
                 var content = text.unfence(src, OptionFence);
-                dst = new OptionRule(RuleText.value(content));
+                if(text.contains(content, ChoiceSep))
+                {
+                    var inner = text.trim(text.split(content, ChoiceSep));
+                    var count = inner.Length;
+                    var terms = alloc<IRuleExpr>(count);
+                    for(var i=0; i<count; i++)
+                    {
+                        result = parse(skip(inner,i),  out seek(terms,i));
+                        if(result.Fail)
+                            break;
+                    }
+
+                }
+                else
+                    dst = new OptionRule(RuleText.value(content));
             }
             else
             {

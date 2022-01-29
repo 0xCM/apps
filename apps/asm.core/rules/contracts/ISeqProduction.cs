@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface ISeqProduction<S> : IProduction<S,SeqExpr>
+    public interface IListProduction<S> : IProduction<S,SeqExpr>
         where S : IRuleExpr
     {
 

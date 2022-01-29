@@ -21,6 +21,43 @@ namespace Z0.Asm
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value), size);
 
+        Productions DecompRules;
+
+        IntelSdmPaths SdmPaths => Service(Wf.SdmPaths);
+
+        protected override void OnInit()
+        {
+            DecompRules = Rules.productions(SdmPaths.SigDecompRules());
+
+        }
+
+        public AsmSigRuleExpr Symbolize(in AsmSigExpr sig)
+        {
+            var opcount = sig.OperandCount;
+            var dst = dict<byte,IRuleExpr>();
+            var operands = sig.Operands();
+            for(byte i=0; i<opcount; i++)
+            {
+                ref readonly var op = ref skip(operands,i);
+                if(DecompRules.Find(op.Text, out var production))
+                {
+                    dst[i] = production.Consequent;
+                }
+                else
+                {
+                    dst[i] = RuleText.value(op.Text);
+                }
+            }
+            var expr = new AsmSigRuleExpr(sig.Mnemonic, opcount);
+            for(byte i=0; i<opcount; i++)
+            {
+                expr.WithOperand(i,dst[i]);
+            }
+
+            return expr;
+        }
+
+
         public Outcome Parse(string src, out AsmSig dst)
             => AsmSigParser.parse(src, out dst);
 

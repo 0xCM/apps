@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ListExpr<T> : RuleExpr<Index<T>>
+    public class ListExprRule<T> : RuleExpr<Index<T>>, IListRule<T>
         where T : IRuleExpr
     {
-        public Index<T> Items
+        public Index<T> Terms
             => Content;
 
-        public ListExpr(T[] src)
+        public ListExprRule(T[] src)
             : base(src)
         {
 
@@ -18,18 +18,21 @@ namespace Z0
 
         public bool IsEmpty
         {
-            get => Items.IsEmpty;
+            [MethodImpl(Inline)]
+            get => Terms.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
-            get => Items.IsNonEmpty;
+            [MethodImpl(Inline)]
+            get => Terms.IsNonEmpty;
         }
 
         public override string Format()
-            => Items.Delimit(Chars.Comma, fence:RenderFence.Embraced).Format();
+            => Terms.Delimit(Chars.Comma, fence:RenderFence.Embraced).Format();
 
-        public static implicit operator ListExpr<T>(T[] src)
-            => new ListExpr<T>(src);
+        [MethodImpl(Inline)]
+        public static implicit operator ListExprRule<T>(T[] src)
+            => new ListExprRule<T>(src);
     }
 }

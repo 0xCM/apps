@@ -23,6 +23,12 @@ namespace Z0.Asm
             Operands = alloc<IRuleExpr>(opcount);
         }
 
+        public AsmSigRuleExpr(AsmMnemonic mnemonic, IRuleExpr[] operands)
+        {
+            Mnemonic = mnemonic;
+            Operands = operands;
+        }
+
         public AsmSigRuleExpr WithOperand(byte index, IRuleExpr operand)
         {
             Operands[index] = operand;

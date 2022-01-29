@@ -34,5 +34,25 @@ namespace Z0
             var lu = dst.ToConstLookup();
             return new TextMap(lu, core.map(lu.Entries, e => production(e.Key, e.Value)));
         }
+
+        static IProduction production(string src, string dst)
+        {
+            if(text.fenced(dst, RenderFence.Bracketed))
+            {
+                var content = text.unfence(dst, RenderFence.Bracketed);
+                var terms = map(text.trim(text.split(content,Chars.Pipe)), x => RuleText.value(x));
+                return new ListProduction(RuleText.value(text.trim(src)), new SeqExpr(terms));
+            }
+            else if(text.fenced(dst, RenderFence.Angled))
+            {
+                var content = text.unfence(dst, RenderFence.Angled);
+                var terms = map(text.trim(text.split(content,Chars.Pipe)), x => RuleText.value(x));
+                return new ListProduction(RuleText.value(text.trim(src)), new SeqExpr(terms));
+            }
+            else
+            {
+                return new Production(RuleText.value(text.trim(src)), RuleText.value(text.trim(dst)));
+            }
+        }
     }
 }

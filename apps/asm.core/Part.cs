@@ -5,7 +5,9 @@
 global using System;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using System.Collections.Generic;
 global using static Z0.Root;
+
 [assembly: PartId(PartId.AsmCore)]
 
 namespace Z0.Parts

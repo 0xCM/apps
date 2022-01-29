@@ -32,16 +32,17 @@ namespace Z0
         Outcome CheckRules(CmdArgs args)
         {
             var src = ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
-            var rules = Productions2.load(src);
+            var rules = Rules.productions(src);
+            //iter(rules.Keys, k => Write(rules[k].Format()));
+
             var details = Sdm.LoadImportedOpcodes();
             var sigs = SdmOps.sigs(details);
             var count = sigs.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var sig = ref sigs[i];
-                var expr = rules.Symbolize(sig);
-                Write(expr.Format());
-                //Write(string.Format("{0} -> {1}", sig, expr));
+                // var expr = rules.Symbolize(sig);
+                // Write(expr.Format());
             }
 
             return true;

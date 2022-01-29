@@ -11,8 +11,8 @@ namespace Z0
 
     partial struct Rules
     {
-        public static ListExpr<T> list<T>(T[] src)
+        public static ListExprRule<T> list<T>(T[] src)
             where T : IRuleExpr
-                => new ListExpr<T>(src);
+                => new ListExprRule<T>(src);
     }
 }
