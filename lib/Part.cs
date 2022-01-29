@@ -2,8 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-using System;
-using System.Runtime.CompilerServices;
+global using System;
+global using System.Runtime.CompilerServices;
+global using System.Runtime.InteropServices;
+
+global using static Z0.Root;
 
 [assembly: PartId(PartId.Lib)]
 

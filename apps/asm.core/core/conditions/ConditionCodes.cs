@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     public readonly partial struct ConditionCodes
     {
         public readonly struct ConditionFacets

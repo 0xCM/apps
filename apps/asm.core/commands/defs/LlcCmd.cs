@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.InteropServices;
-
     [Cmd(ToolNames.llc), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct LlcCmd : IFileFlowCmd<LlcCmd>
     {

@@ -24,7 +24,7 @@ public readonly struct ApiNameParts
 
     public const string @const = Const;
 
-    public const string @char = Char;
+    public const string @char = "char";
 
     public const string cmd = nameof(cmd);
 

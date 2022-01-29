@@ -78,7 +78,7 @@ namespace Z0
             if(IsOption(src))
             {
                 var content = text.unfence(src, OptionFence);
-                dst = new OptionRule(content);
+                dst = new OptionRule(RuleText.value(content));
             }
             else
             {

@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     public class Production<S,T> : Rule, IProduction<S,T>
         where S : IRuleExpr

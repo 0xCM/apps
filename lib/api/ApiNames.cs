@@ -15,7 +15,7 @@ public readonly struct ApiNames
     // ~~ Symbolic
     // ~~ -----------------------------------------------------------------------------------------
 
-    public const string ConstBytes256 = @const + dot + bytes + dot + n256;
+    public const string ConstBytes256 = @const + dot + bytes + dot + "256";
 
 
     public const string Seq = seq;

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class ChoiceRule<T> : RuleExpr<ChoiceRule<T>,Index<T>>, IChoiceRule
         where T : IRuleExpr
     {

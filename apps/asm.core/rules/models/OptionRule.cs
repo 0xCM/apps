@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public class OptionRule : OptionRule<RuleValue>
+    public class OptionRule : OptionRule<IRuleExpr>
     {
-        public OptionRule(RuleValue src)
+        public OptionRule(IRuleExpr src)
             : base(src)
         {
 

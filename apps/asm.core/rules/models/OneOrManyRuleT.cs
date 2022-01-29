@@ -17,7 +17,6 @@ namespace Z0
             : base(src)
         {
 
-
         }
 
         public override string Format()
