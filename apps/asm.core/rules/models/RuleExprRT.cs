@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
-    public readonly partial struct Rules
+    public abstract class RuleExpr<R,T> : RuleExpr<T>
+        where R : RuleExpr<R,T>
     {
-        const NumericKind Closure = UnsignedInts;
+        protected RuleExpr(T content)
+            : base(content)
+        {
+
+        }
+
+        public override bool IsTerminal {get; protected set;}
     }
 }

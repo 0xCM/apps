@@ -55,32 +55,36 @@ namespace Z0
 
         static Outcome parse(string src, out IChoiceRule dst)
         {
+            var result = Outcome.Success;
+            dst = default;
             if(IsChoice(src))
             {
-                var terms = map(text.trim(text.split(text.unfence(src, ChoiceFence), ChoiceSep)), x => value(x));
+                var termSrc = text.trim(text.split(text.unfence(src, ChoiceFence), ChoiceSep));
+                var count = termSrc.Length;
+                var terms = map(termSrc,value);
                 dst = new ChoiceRule(terms);
-                return true;
             }
             else
             {
-                dst = default;
-                return (false,string.Format("{0} fence not found", ChoiceFence));
+                result = (false,string.Format("{0} fence not found", ChoiceFence));
             }
+            return result;
         }
 
         static Outcome parse(string src, out IOptionRule dst)
         {
+            var result = Outcome.Success;
+            dst = default;
             if(IsOption(src))
             {
                 var content = text.unfence(src, OptionFence);
                 dst = new OptionRule(content);
-                return true;
             }
             else
             {
-                dst = default;
-                return (false,string.Format("{0} fence not found", OptionFence));
+                result = (false, string.Format("{0} fence not found", OptionFence));
             }
+            return result;
         }
 
         static Fence<char> OptionFence => RenderFence.Bracketed;

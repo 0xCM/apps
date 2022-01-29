@@ -32,17 +32,9 @@ namespace Z0
         Outcome CheckRules(CmdArgs args)
         {
             var src = ProjectDb.Settings("asm.sigs.decomp2", FS.ext("map"));
-            var prods = Rules.productions2(src);
-            var rules = prods.Rules;
-            foreach(var rule in rules)
-            {
-                if(rule.Target is IChoiceRule choice)
-                {
-                    Write(string.Format("{0} -> {1}", rule.Source, choice.Terms.Delimit(Chars.Pipe,fence:RenderFence.Angled).Format()));
-                }
-                //Write(string.Format("{0}({1},{2}): {3}", rule.ExprKind, rule.Source.ExprKind, rule.Target.ExprKind, rule.Format()));
-            }
+            var prods = Productions2.load(src);
 
+            iter(prods.Values, p => Write(p.Format()));
             return true;
         }
     }

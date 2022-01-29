@@ -169,13 +169,5 @@ namespace Z0.llvm
             }
             return result;
         }
-
-        public AsmSyntaxTree Parse(FS.FilePath src)
-        {
-            Init();
-            var result = Parse(FS.readlines(src));
-
-            return default;
-        }
     }
 }

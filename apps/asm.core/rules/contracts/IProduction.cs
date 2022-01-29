@@ -6,8 +6,6 @@ namespace Z0
 {
     public interface IProduction : IRule
     {
-        bool YieldsSeq => false;
-
         IRuleExpr Source => Antecedant;
 
         IRuleExpr Target => Consequent;

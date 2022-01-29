@@ -58,12 +58,5 @@ namespace Z0.llvm
             dst.Displacement = src;
             return ref dst;
         }
-
-        public struct AsmSyntaxTree
-        {
-            public FS.FileUri Source;
-
-            public Index<AsmSyntaxStatement> Statements;
-        }
     }
 }

@@ -7,7 +7,6 @@ namespace Z0
     public interface ISeqProduction<S> : IProduction<S,SeqExpr>
         where S : IRuleExpr
     {
-        bool IProduction.YieldsSeq
-            => true;
+
     }
 }

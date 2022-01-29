@@ -25,8 +25,5 @@ namespace Z0
                 return new Production(RuleText.value(text.trim(src)), RuleText.value(text.trim(dst)));
             }
         }
-
-        public static IProduction production(IRuleExpr src, IRuleExpr[] dst)
-            =>  new ListProduction(src, dst);
     }
 }

@@ -12,7 +12,10 @@ namespace Z0
 
     partial struct RuleText
     {
-        public static RuleValue value(string src, bool terminal = false)
+        public static RuleValue value(string src)
+            => new RuleValue(src,false);
+
+        public static RuleValue value(string src, bool terminal)
             => new RuleValue(src,terminal);
     }
 }

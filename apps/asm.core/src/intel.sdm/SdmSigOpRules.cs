@@ -18,7 +18,6 @@ namespace Z0.Asm
 
         IntelSdmPaths SdmPaths => Service(Wf.SdmPaths);
 
-
         public SdmSigOpRules()
         {
 
@@ -198,13 +197,14 @@ namespace Z0.Asm
             for(byte i=0; i<opcount; i++)
             {
                 ref readonly var op = ref skip(operands,i);
-                if(DecompRules.Find(op.Text, out var choices))
+                var key = op.Text;
+                if(DecompRules.Find(key, out var choices))
                 {
                     dst[i] = Rules.choices(choices);
                 }
                 else
                 {
-                    dst[i] = Rules.value(op.Text);
+                    dst[i] = RuleText.value(op.Text);
                 }
             }
 

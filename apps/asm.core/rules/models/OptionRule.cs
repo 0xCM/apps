@@ -15,15 +15,6 @@ namespace Z0
             : base(src)
         {
 
-
         }
-
-        [MethodImpl(Inline)]
-        public static implicit operator OptionRule(RuleValue src)
-            => new OptionRule(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator OptionRule(string src)
-            => new OptionRule(src);
     }
 }

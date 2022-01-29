@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class OptionRule<T> : RuleExpr<OptionRule<T>,T>, IOptionRule
         where T : IRuleExpr
     {
@@ -20,10 +15,6 @@ namespace Z0
 
         public IRuleExpr Potential
             => Content;
-
-        public Index<IRuleExpr> Terms
-            => core.array(Potential);
-
         public override string Format()
             => text.bracket(Content.ToString());
 

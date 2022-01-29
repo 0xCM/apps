@@ -31,7 +31,7 @@ namespace Z0
                 dst[source] = target;
             }
             var lu = dst.ToConstLookup();
-            return new TextMap(lu, core.map(lu.Entries, e =>  production(e.Key, e.Value)));
+            return new TextMap(lu, core.map(lu.Entries, e => production(e.Key, e.Value)));
         }
     }
 }
