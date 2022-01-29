@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmSizeCheck : IAsmCheck<AsmSizeCheck,NativeSize,BitWidth>
     {

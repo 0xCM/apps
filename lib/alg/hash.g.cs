@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.alg
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using H = hash;

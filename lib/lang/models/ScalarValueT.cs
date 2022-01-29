@@ -10,7 +10,7 @@ namespace Z0
     using static Root;
 
     [DataType(TypeSyntax.Scalar)]
-    public readonly struct scalar<T> : IScalarValue<T>
+    public readonly struct ScalarValue<T> : IScalarValue<T>
         where T : unmanaged, IEquatable<T>
     {
         public T Value {get;}
@@ -18,7 +18,7 @@ namespace Z0
         public BitWidth ContentWidth {get;}
 
         [MethodImpl(Inline)]
-        public scalar(T value, BitWidth content = default)
+        public ScalarValue(T value, BitWidth content = default)
         {
             Value = value;
             ContentWidth = content == 0 ? core.width<T>() : content;
@@ -28,11 +28,11 @@ namespace Z0
             => TypeSyntax.scalar(TypeSyntax.infer<T>());
 
         [MethodImpl(Inline)]
-        public bool Equals(scalar<T> src)
+        public bool Equals(ScalarValue<T> src)
             => Value.Equals(src.Value);
 
         public override bool Equals(object src)
-            => src is scalar<T> s &&  Equals(s);
+            => src is ScalarValue<T> s &&  Equals(s);
 
         public override int GetHashCode()
             => Value.GetHashCode();
@@ -44,19 +44,19 @@ namespace Z0
             => Format();
 
         [MethodImpl(Inline)]
-        public static bool operator ==(scalar<T> a, scalar<T> b)
+        public static bool operator ==(ScalarValue<T> a, ScalarValue<T> b)
             => a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(scalar<T> a, scalar<T> b)
+        public static bool operator !=(ScalarValue<T> a, ScalarValue<T> b)
             => !a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static implicit operator T(scalar<T> src)
+        public static implicit operator T(ScalarValue<T> src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator scalar<T>(T src)
-            => new scalar<T>(src);
+        public static implicit operator ScalarValue<T>(T src)
+            => new ScalarValue<T>(src);
     }
 }

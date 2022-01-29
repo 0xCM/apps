@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Cmd(CmdName)]
     public struct ListFilesCmd : ICmd<ListFilesCmd>
     {

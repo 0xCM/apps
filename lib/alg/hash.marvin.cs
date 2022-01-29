@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.alg
 {
-    using System;
     using System.Diagnostics;
     using System.Numerics;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
 
-    using static Z0.Root;
     using static Z0.core;
 
     partial struct hash

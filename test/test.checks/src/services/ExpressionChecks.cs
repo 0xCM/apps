@@ -24,8 +24,8 @@ namespace Z0
             var b2 = expr.scalar((byte)87);
             var context = expr.context();
             context.Inject((v1,a1), (v2,b1));
-            var eval1 =  v1.Eval<scalar<byte>>(context);
-            var eval2 = v2.Eval<scalar<byte>>(context);
+            var eval1 =  v1.Eval<ScalarValue<byte>>(context);
+            var eval2 = v2.Eval<ScalarValue<byte>>(context);
             result = (eval1 == a1 && eval2 == b1);
 
             var eq1 = ScalarOps.eq(a1,b1);

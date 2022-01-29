@@ -8,6 +8,7 @@ namespace Z0.Asm
     {
         bit Passed {get;}
     }
+
     public interface IAsmCheck<C,S,T> : IAsmCheck
         where C : struct, IAsmCheck<C,S,T>
     {

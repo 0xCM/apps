@@ -11,11 +11,8 @@ namespace Z0.Asm
 
     public readonly struct CaptureChecks : ICaptureChecks
     {
-        static IJsonSettings json(FS.FilePath src)
-            => JsonSettings.Load(src);
-
         public static ICheckContext context(IWfRuntime wf)
-            => new CheckContext(wf.AppPaths, Rng.@default(), json(wf.AppPaths.AppConfigPath), MsgExchange.Create());
+            => new CheckContext(wf.AppPaths, Rng.@default(), MsgExchange.Create());
 
         public IAsmContextDepr Context {get;}
 

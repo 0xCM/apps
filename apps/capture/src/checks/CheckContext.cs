@@ -8,8 +8,6 @@ namespace Z0
 
     public class CheckContext : ICheckContext
     {
-        public IJsonSettings Settings {get;}
-
         public IPolyrand Random {get;}
 
         public IMessageQueue MessageQueue {get;}
@@ -20,12 +18,11 @@ namespace Z0
 
         public event Action<IAppMsg> Next;
 
-        public CheckContext(IAppPaths paths, IPolyrand random, IJsonSettings settings, IMessageQueue queue)
+        public CheckContext(IAppPaths paths, IPolyrand random, IMessageQueue queue)
         {
             Paths = paths;
             Next = msg => {};
             Random = random;
-            Settings = settings;
             MessageQueue = queue;
             ApiParts = ApiRuntimeLoader.parts();
         }

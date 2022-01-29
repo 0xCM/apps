@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
 
     using static core;
-    using static Root;
 
     /// <summary>
     /// Correlates command names with command realizations

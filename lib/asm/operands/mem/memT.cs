@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents an operand expression of the form BaseReg + IndexReg*Scale + Displacement
     /// </summary>

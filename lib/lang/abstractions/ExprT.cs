@@ -18,9 +18,5 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator AnyExpr(Expr<F,K> src)
-            => new AnyExpr(src);
     }
 }

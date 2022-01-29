@@ -12,8 +12,8 @@ namespace Z0
     partial struct expr
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static scalar<T> scalar<T>(T src, BitWidth content = default)
+        public static ScalarValue<T> scalar<T>(T src, BitWidth content = default)
             where T : unmanaged, IEquatable<T>
-                => new scalar<T>(src,content);
+                => new ScalarValue<T>(src,content);
     }
 }

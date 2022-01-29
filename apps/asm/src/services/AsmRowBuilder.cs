@@ -37,10 +37,15 @@ namespace Z0.Asm
         public ReadOnlySpan<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src)
             => Emit(src, Db.TableDir<AsmDetailRow>());
 
+
+        [MethodImpl(Inline), Op, Closures(UInt64k)]
+        public static AsmRowSet<T> rowset<T>(T key, AsmDetailRow[] src)
+            => new AsmRowSet<T>(key,src);
+
         public ReadOnlySpan<AsmDetailRow> Emit(ReadOnlySpan<ApiCodeBlock> src, FS.FolderPath dst)
         {
             var rows = BuildRows(src);
-            var rowsets = rows.GroupBy(x => x.Mnemonic).Select(x => asm.rowset(x.Key, x.Array())).Array().ToReadOnlySpan();
+            var rowsets = rows.GroupBy(x => x.Mnemonic).Select(x => rowset(x.Key, x.Array())).Array().ToReadOnlySpan();
             var count = rowsets.Length;
             for(var i=0; i<count; i++)
                 Emit(skip(rowsets,i), dst);

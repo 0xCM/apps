@@ -36,8 +36,6 @@ namespace Z0
 
         Option<Action> TerminationHandler;
 
-        readonly string ErrorLogPath;
-
         Terminal()
         {
              TermLock = new object();
@@ -45,7 +43,6 @@ namespace Z0
              StdLock = new object();
              Console.OutputEncoding = new UnicodeEncoding();
              Console.CancelKeyPress += OnCancelKeyPressed;
-             ErrorLogPath = @"c:\data\zdb\logs\term.erros.log";
         }
 
         /// <summary>

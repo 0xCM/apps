@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -30,14 +26,6 @@ namespace Z0.Asm
         const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
 
         const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
-
-        // [Op]
-        // public static string thumbprint(in AsmEncodingInfo src)
-        // {
-        //     var bits = src.Encoded.ToBitString();
-        //     var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
-        //     return string.Format("{0} => {1}", statement, bits);
-        // }
 
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)

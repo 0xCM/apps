@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.alg
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using Z0;
-
-    using static Z0.Root;
-
     /// <summary>
     /// Computes the FNV-1a hash of various things
     /// See http://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
