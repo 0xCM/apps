@@ -13,6 +13,13 @@ namespace Z0.Asm
     [DataType("asm.varcode",15*8, 16*8)]
     public readonly struct AsmVariationCode : IEquatable<AsmVariationCode>, IComparable<AsmVariationCode>
     {
+        [Parser]
+        public static Outcome parse(string src, out AsmVariationCode dst)
+        {
+            dst = new AsmVariationCode(text.trim(src));
+            return true;
+        }
+
         public readonly text15 Name;
 
         [MethodImpl(Inline)]

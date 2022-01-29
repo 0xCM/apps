@@ -14,6 +14,10 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmOcExpr
     {
+        [MethodImpl(Inline), Op]
+        public static AsmOcExpr define(in CharBlock36 expr)
+            => new AsmOcExpr(expr);
+
         public CharBlock36 Content;
 
         [MethodImpl(Inline)]

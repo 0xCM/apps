@@ -7,5 +7,8 @@ namespace Z0
     public interface IChoiceRule : IRuleExpr
     {
         Index<IRuleExpr> Terms {get;}
+
+        RuleExprKind IRuleExpr.ExprKind
+            => RuleExprKind.Choice;
     }
 }

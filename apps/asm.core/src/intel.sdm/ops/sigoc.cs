@@ -14,6 +14,6 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static AsmFormExpr form(in SdmOpCodeDetail src)
-            => asm.form(sig(src), src.OpCode);
+            => AsmFormExpr.define(sig(src), src.OpCode);
     }
 }

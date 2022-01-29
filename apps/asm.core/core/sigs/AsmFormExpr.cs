@@ -12,6 +12,10 @@ namespace Z0.Asm
 
     public readonly struct AsmFormExpr : IEquatable<AsmFormExpr>, IComparable<AsmFormExpr>
     {
+        [MethodImpl(Inline), Op]
+        public static AsmFormExpr define(in AsmSigExpr sig, in CharBlock36 oc)
+            => new AsmFormExpr(sig, oc);
+
         readonly public AsmSigExpr Sig;
 
         public readonly CharBlock36 OpCode;

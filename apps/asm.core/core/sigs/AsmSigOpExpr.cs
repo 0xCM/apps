@@ -6,7 +6,6 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     using static Root;
     using static core;
@@ -15,7 +14,7 @@ namespace Z0.Asm
     /// Represents an operand in the context of an instruction signature
     /// </summary>
     [DataType("asm.sigop.expr")]
-    public readonly struct AsmSigOpExpr
+    public readonly struct AsmSigOpExpr : IEquatable<AsmSigOpExpr>, ITextual
     {
         readonly string Content;
 
@@ -49,8 +48,11 @@ namespace Z0.Asm
             get => text.length(Text) != 0;
         }
 
-        // public Index<AsmSigOpExpr> Decompose()
-        //     => IsComposite ? map(text.split(Text, Chars.FSlash), x => (AsmSigOpExpr)x) : array(this);
+        public uint Hash
+        {
+            [MethodImpl(Inline)]
+            get => alg.hash.marvin(Text);
+        }
 
         public string Format()
             => Text;
@@ -60,6 +62,12 @@ namespace Z0.Asm
 
         public bool Equals(AsmSigOpExpr src)
             => Text.Equals(src.Text);
+
+        public override int GetHashCode()
+            => (int)Hash;
+
+        public override bool Equals(object src)
+            => src is AsmSigOpExpr x && Equals(x);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmSigOpExpr(string src)

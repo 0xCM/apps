@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum RuleExprKind : byte
+        public enum XedRuleKind : byte
         {
             None,
 

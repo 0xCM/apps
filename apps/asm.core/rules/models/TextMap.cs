@@ -23,12 +23,6 @@ namespace Z0
             _Productions = productions;
         }
 
-        public ReadOnlySpan<string> Inputs
-        {
-            [MethodImpl(Inline)]
-            get => Data.Keys;
-        }
-
         public ReadOnlySpan<IProduction> Productions
         {
             [MethodImpl(Inline)]

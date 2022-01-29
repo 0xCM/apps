@@ -14,17 +14,14 @@ namespace Z0.Asm
     {
         Productions DecompRules;
 
-        TextMap Normalizations;
-
         Productions OpMaskRules;
 
         IntelSdmPaths SdmPaths => Service(Wf.SdmPaths);
 
-        AsmOpMasks OpMasks;
 
         public SdmSigOpRules()
         {
-            OpMasks = new();
+
         }
 
         protected override void OnInit()
@@ -35,99 +32,21 @@ namespace Z0.Asm
         void LoadRules()
         {
             DecompRules = Rules.productions(SdmPaths.SigDecompRules());
-            Normalizations = Rules.textmap(SdmPaths.SigNormalRules());
             OpMaskRules = Rules.productions(SdmPaths.SigOpMaskRules());
         }
 
-
-        public Index<SdmSigOpCode> EmitSigDecomps(ReadOnlySpan<SdmOpCodeDetail> details)
-        {
-            var records = dict<Identifier,SdmSigOpCode>();
-            var codes = details.Select(x => SdmOps.form(x));
-            var count = codes.Length;
-            var seq = 0u;
-            var dupSeq = 0u;
-            var dupes = list<SdmSigOpCode>();
-
-            foreach(var code in codes)
-            {
-                foreach(var decomp in Decompose(code))
-                {
-                    var record = new SdmSigOpCode();
-                    var identity = AsmSigs.identify(asm.form(decomp.Sig, decomp.OpCode));
-                    record.Identity = identity;
-                    record.Sig = decomp.Sig;
-                    record.OpCode = decomp.OpCode;
-                    var __count = decomp.Sig.OperandCount;
-                    var __operands = decomp.Sig.Operands();
-                    switch(__count)
-                    {
-                        case 1:
-                            record.Op0 = skip(__operands,0);
-                            record.Op1 = AsmSigOpExpr.Empty;
-                            record.Op2 = AsmSigOpExpr.Empty;
-                            record.Op3 = AsmSigOpExpr.Empty;
-                            record.Op4 = AsmSigOpExpr.Empty;
-                            break;
-                        case 2:
-                            record.Op0 = skip(__operands,0);
-                            record.Op1 = skip(__operands,1);
-                            record.Op2 = AsmSigOpExpr.Empty;
-                            record.Op3 = AsmSigOpExpr.Empty;
-                            record.Op4 = AsmSigOpExpr.Empty;
-                            break;
-                        case 3:
-                            record.Op0 = skip(__operands,0);
-                            record.Op1 = skip(__operands,1);
-                            record.Op2 = skip(__operands,2);
-                            record.Op3 = AsmSigOpExpr.Empty;
-                            record.Op4 = AsmSigOpExpr.Empty;
-                            break;
-                        case 4:
-                            record.Op0 = skip(__operands,0);
-                            record.Op1 = skip(__operands,1);
-                            record.Op2 = skip(__operands,2);
-                            record.Op3 = skip(__operands,3);
-                            record.Op4 = AsmSigOpExpr.Empty;
-                            break;
-                        case 5:
-                            record.Op0 = skip(__operands,0);
-                            record.Op1 = skip(__operands,1);
-                            record.Op2 = skip(__operands,2);
-                            record.Op3 = skip(__operands,3);
-                            record.Op4 = skip(__operands,4);
-                            break;
-                    }
-
-                    if(!records.TryAdd(record.Identity, record))
-                        dupes.Add(record);
-                }
-            }
-
-            var dataset = records.Values.Array().Sort();
-            for(var i=0u; i<dataset.Length; i++)
-                seek(dataset,i).Seq = i;
-            TableEmit(@readonly(dataset), SdmSigOpCode.RenderWidths, SdmPaths.SigDecompTable());
-
-            if(dupes.Count != 0)
-            {
-                var _dupes = dupes.Array().Sort();
-                for(var i=0u; i<_dupes.Length; i++)
-                    seek(_dupes,i).Seq = i;
-
-                TableEmit(@readonly(_dupes), SdmSigOpCode.RenderWidths, SdmPaths.SigDuplicateTable());
-            }
-            return dataset;
-        }
-
-        public Index<AsmSigProduction> EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
+        public void EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
         {
             var sigs = SdmOps.sigs(src);
             var count = sigs.Length;
             var buffer = text.buffer();
             var dst = alloc<AsmSigProduction>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = Production(sigs[i]);
+            {
+                ref readonly var sig = ref sigs[i];
+                var expr = Symbolize(sig);
+                seek(dst,i) = new AsmSigProduction(sig, expr);
+            }
 
             var path = SdmPaths.SigProductions();
             var emitting = EmittingFile(path);
@@ -136,30 +55,40 @@ namespace Z0.Asm
 
             if(check)
             {
-                var output = LoadSigProductions();
-                if(count != output.Count)
+                var result = ValidateHydration(dst);
+                if(result.Fail)
+                    Error(result.Message);
+            }
+        }
+
+        Outcome ValidateHydration(Index<AsmSigProduction> src)
+        {
+            var count = src.Count;
+            var output = LoadSigProductions();
+            var result = Outcome.Success;
+            if(count != output.Count)
+                result = (false,string.Format("Record count mismatch: {0} != {1}", count, output.Count));
+
+            if(result.Fail)
+                return result;
+
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var expect = ref src[i];
+                ref readonly var actual = ref output[i];
+                if(!expect.Source.Content.Equals(actual.Source.Content))
                 {
-                    Error(string.Format("Record count mismatch: {0} != {1}", count, output.Count));
+                    result = (false, string.Format("'{0}' != '{1}'",  expect.Source, actual.Source));
+                    break;
                 }
-                for(var i=0; i<count; i++)
+
+                if(!expect.Target.Format().Equals(actual.Target.Format()))
                 {
-                    ref readonly var expect = ref skip(dst,i);
-                    ref readonly var actual = ref output[i];
-                    if(!expect.Source.Content.Equals(actual.Source.Content))
-                    {
-                        Error(string.Format("'{0}' != '{1}'",  expect.Source, actual.Source));
-                        break;
-                    }
-
-                    if(!expect.Target.Format().Equals(actual.Target.Format()))
-                    {
-                        Error(string.Format("'{0}' != '{1}'",  expect.Target, actual.Target));
-                        break;
-                    }
-
+                    result = (false, string.Format("'{0}' != '{1}'",  expect.Target, actual.Target));
+                    break;
                 }
             }
-            return dst;
+            return result;
         }
 
         public Index<AsmSigTerminal> EmitTerminals()
@@ -172,10 +101,7 @@ namespace Z0.Asm
                 ref readonly var rule = ref rules[i];
                 var terminals = rule.Target.Terminate();
                 for(var j=0; j<terminals.Count; j++)
-                {
-                    ref readonly var terminal = ref terminals[j];
-                    productions.Add(new AsmSigProduction(rule.Source, terminal));
-                }
+                    productions.Add(new AsmSigProduction(rule.Source, terminals[j]));
             }
 
             var prodCount = productions.Count;
@@ -193,9 +119,6 @@ namespace Z0.Asm
 
             return records;
         }
-
-        AsmSigProduction Production(AsmSigExpr src)
-            => new AsmSigProduction(src, Symbolize(src));
 
         Outcome Parse(string src, out AsmSigProduction dst)
         {
@@ -229,27 +152,12 @@ namespace Z0.Asm
                 for(byte i=0; i<count; i++)
                 {
                     ref readonly var op = ref skip(ops,i);
-                    if(RuleText.IsChoice(op.Text))
-                    {
-                        result = RuleText.parse(op.Text, out IChoiceRule rule);
-                        if(result)
-                            dst.WithOperand(i,rule);
-                        else
-                            break;
+                    result = RuleText.parse(op.Text, out IRuleExpr expr);
 
-                    }
-                    else if(RuleText.IsOption(op.Text))
-                    {
-                        result = RuleText.parse(op.Text, out IOptionRule rule);
-                        if(result)
-                            dst.WithOperand(i,rule);
-                        else
-                            break;
-                    }
+                    if(result)
+                        dst.WithOperand(i, expr);
                     else
-                    {
-                        dst.WithOperand(i, RuleText.value(op.Text));
-                    }
+                        break;
                 }
             }
             return result;
@@ -282,37 +190,35 @@ namespace Z0.Asm
             }
         }
 
-        AsmSigRuleExpr ProductionTarget(AsmMnemonic mnemonic, byte opcount)
-            => new AsmSigRuleExpr(mnemonic, opcount);
-
-        public AsmSigRuleExpr Symbolize(in AsmSigExpr src)
-        {
-            var ops = SymbolizeOperands(src);
-            var count = (byte)ops.EntryCount;
-            var dst = ProductionTarget(src.Mnemonic, count);
-            for(byte i=0; i<count; i++)
-                dst = dst.WithOperand(i, ops[i]);
-            return dst;
-        }
-
-        ConstLookup<byte,IRuleExpr> SymbolizeOperands(in AsmSigExpr sig)
+        public AsmSigRuleExpr Symbolize(in AsmSigExpr sig)
         {
             var opcount = sig.OperandCount;
-            var dst = dict<byte,Index<IRuleExpr>>();
+            var dst = dict<byte,IRuleExpr>();
             var operands = sig.Operands();
             for(byte i=0; i<opcount; i++)
             {
                 ref readonly var op = ref skip(operands,i);
                 if(DecompRules.Find(op.Text, out var choices))
-                    dst[i] = choices.Select(c => (IRuleExpr)Rules.value(c));
+                {
+                    dst[i] = Rules.choices(choices);
+                }
                 else
-                    dst[i] = array(Rules.value(op.Text));
+                {
+                    dst[i] = Rules.value(op.Text);
+                }
             }
 
-            return SymbolizeOpMasks(dst);
+            var xyz = SymbolizeOpMasks(dst);
+            var _xyzCount = (byte)xyz.EntryCount;
+            var expr = new AsmSigRuleExpr(sig.Mnemonic,_xyzCount);
+            for(byte i=0; i<_xyzCount; i++)
+            {
+                expr.WithOperand(i,xyz[i]);
+            }
+            return expr;
         }
 
-        ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,Index<IRuleExpr>> src)
+        ConstLookup<byte,IRuleExpr> SymbolizeOpMasks(ConstLookup<byte,IRuleExpr> src)
         {
             var opcount = src.EntryCount;
             var dst = dict<byte,IRuleExpr>();
@@ -320,105 +226,31 @@ namespace Z0.Asm
             foreach(var entry in src.Entries)
             {
                 var input = entry.Value;
-                var output = DecomposeOpMasks(input);
-                if(input.Count == 1 && output.Count == 2)
+                if(DecomposeOpMasks(input, out var val, out var opt))
                 {
-                    dst[i++] = Rules.value(output[0]);
-                    dst[i++] = Rules.option(output[1]);
+                    dst[i++] = val;
+                    dst[i++] = opt;
                 }
                 else
-                {
-                    dst[i++] = input.Count > 1 ? Rules.choices(input) : Rules.value(input.First);
-                }
+                    dst[i++] = input;
             }
             return dst;
         }
 
-        Index<IRuleExpr> DecomposeOpMasks(Index<IRuleExpr> src)
+        bool DecomposeOpMasks(IRuleExpr src, out IRuleExpr value, out IOptionRule option)
         {
-            var dst = list<IRuleExpr>();
-            foreach(var item in src)
+            if(OpMaskRules.Find(src.Format(), out var decomp))
             {
-                if(OpMaskRules.Find(item.Format(), out var decomp))
-                    dst.AddRange(decomp.Map(d => Rules.value(d)));
-                else
-                    dst.Add(item);
+                value = Rules.value(decomp[0]);
+                option = Rules.option(decomp[1]);
+                return true;
             }
-
-            return dst.Array();
-        }
-
-        Index<AsmFormExpr> Decompose(in AsmFormExpr entry)
-        {
-            var opcount = entry.Sig.Operands().Length;
-            var sigops = ExprSets(entry);
-            var sigbase = entry.Sig;
-            for(byte j=0; j<opcount; j++)
-                sigbase = sigbase.WithOperand(j, sigops[j].Expressions.First);
-
-            var buffer = dict<string, AsmFormExpr>(opcount);
-            byte m=0;
-            for(byte j=0; j<opcount; j++)
-            {
-                var dstops = sigops[j].Expressions;
-                for(var k=0; k<dstops.Count; k++)
-                {
-                    ref readonly var dstop = ref dstops[k];
-                    if(OpMasks.Test(dstop))
-                    {
-                        if(OpMasks.Split(dstop, out var x, out var y))
-                        {
-                            var formX = new AsmFormExpr(sigbase.WithOperand(m++, x), entry.OpCode);
-                            buffer.TryAdd(formX.Format(), formX);
-
-                            var formY = new AsmFormExpr(sigbase.WithOperand(m++, y), entry.OpCode);
-                            buffer.TryAdd(formY.Format(), formY);
-                        }
-                    }
-                    else
-                    {
-                        var form = new AsmFormExpr(sigbase.WithOperand(m++, dstop), entry.OpCode);
-                        buffer.TryAdd(form.Format(), form);
-                    }
-                }
-            }
-
-            return buffer.Values.Array().Sort();
-        }
-
-        AsmSigOpExprSets ExprSets(in AsmFormExpr entry)
-        {
-            var dst = new AsmSigOpExprSets();
-            var operands = entry.Sig.Operands();
-            var opcount = operands.Length;
-            for(byte j=0; j<opcount; j++)
-                dst.Include(j, DecomposeExpr(skip(operands,j)));
-            return dst;
-        }
-
-        Index<AsmSigOpExpr> DecomposeExpr(AsmSigOpExpr src)
-        {
-            var names = list<string>();
-            if(DecompRules.Find(src.Text, out var decomp))
-                names.AddRange(decomp);
             else
-                names.Add(src.Text);
-
-            return DecomposeOpMasks(names).Map(x => (AsmSigOpExpr)x);
-        }
-
-        List<string> DecomposeOpMasks(List<string> src)
-        {
-            var dst = list<string>();
-            foreach(var item in src)
             {
-                if(OpMaskRules.Find(item, out var decomp))
-                    dst.AddRange(decomp);
-                else
-                    dst.Add(item);
+                value = default;
+                option = default;
+                return false;
             }
-
-            return dst;
         }
     }
 }

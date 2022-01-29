@@ -9,7 +9,7 @@ namespace Z0
 
     using static Root;
 
-    public class LiteralRule<T> : RuleExpr<T>
+    public class LiteralRule<T> : RuleExpr<T>, ILiteralRule<T>
     {
         public LiteralRule(T src)
             : base(src)

@@ -6,13 +6,20 @@ namespace Z0.Asm
 {
     using System;
     using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
 
     using static Root;
+    using static core;
 
-    partial struct asm
+    public class AsmOpMaskRule : RuleExpr<AsmOpMask>
     {
-        [MethodImpl(Inline), Op]
-        public static AsmFormExpr form(in AsmSigExpr sig, in CharBlock36 oc)
-            => new AsmFormExpr(sig, oc);
+        public AsmOpMaskRule(AsmOpMask src)
+            : base(src)
+        {
+
+        }
+
+        public static implicit operator AsmOpMaskRule(AsmOpMask src)
+            => new AsmOpMaskRule(src);
     }
 }

@@ -14,7 +14,7 @@ namespace Z0
 
     public struct XedRuleExpr
     {
-        public RuleExprKind Kind;
+        public XedRuleKind Kind;
 
         public TextBlock Premise;
 
@@ -25,7 +25,7 @@ namespace Z0
         public Index<RuleCriterion> RightCriteria {get;}
 
         [MethodImpl(Inline)]
-        public XedRuleExpr(RuleExprKind kind, string premise, string consequent, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
+        public XedRuleExpr(XedRuleKind kind, string premise, string consequent, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
         {
             Kind = kind;
             Premise = premise;
@@ -63,7 +63,7 @@ namespace Z0
 
         internal static string format(in XedRuleExpr src)
         {
-            var sep = src.Kind == RuleExprKind.EncodeStep ? " -> " : " | ";
+            var sep = src.Kind == XedRuleKind.EncodeStep ? " -> " : " | ";
             var dst = text.buffer();
             render(src.LeftCriteria, dst);
             dst.Append(sep);

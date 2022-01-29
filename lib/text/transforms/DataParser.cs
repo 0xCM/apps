@@ -120,13 +120,6 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome parse(string src, out AsmVariationCode dst)
-        {
-            dst = new AsmVariationCode(text.trim(src));
-            return true;
-        }
-
-        [Parser]
         public static Outcome parse(string src, out char dst)
         {
             if(text.nonempty(src))

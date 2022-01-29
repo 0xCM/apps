@@ -21,10 +21,10 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var production = ref skip(productions,i);
-                if(production.YieldsSeq)
+                if(production is ListProduction list)
                 {
-                    var list = production as SeqProduction;
-                    var name = list.Source.Content;
+                    //var list = production as SeqProduction;
+                    var name = list.Source.Format();
                     var elements = core.map(list.Target.Terms, e => e.Format());
                     dst[name] = elements;
                 }
@@ -35,6 +35,31 @@ namespace Z0
                 }
             }
             return dst;
+        }
+
+        public static Productions2 productions2(FS.FilePath src)
+        {
+            var dst = dict<IRuleExpr, IProduction>();
+            using var reader = src.Utf8LineReader();
+            var result = Outcome.Success;
+            while(reader.Next(out var line))
+            {
+                if(line.Trim().IsEmpty)
+                    continue;
+
+                result = RuleText.parse(line.Content, out IProduction prod);
+                if(result)
+                    dst.TryAdd(prod.Source, prod);
+                else
+                    break;
+            }
+            if(result.Fail)
+            {
+                Errors.Throw(result.Message);
+            }
+
+            return dst;
+
         }
     }
 }

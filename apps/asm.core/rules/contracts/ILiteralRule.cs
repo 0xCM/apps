@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ListProduction<S,T> : Production<S,ListExpr<T>>
-        where S : IRuleExpr
-        where T : IRuleExpr
+    public interface ILiteralRule : IRuleExpr
     {
-        public ListProduction(S src, T[] dst)
-            : base(src, Rules.list(dst))
-        {
+        RuleExprKind IRuleExpr.ExprKind
+            => RuleExprKind.Literal;
+    }
 
-        }
+    public interface ILiteralRule<T> : ILiteralRule, IRuleExpr<T>
+    {
+
+
     }
 }

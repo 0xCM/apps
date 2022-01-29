@@ -11,8 +11,5 @@ namespace Z0.Asm
 
     partial struct asm
     {
-        [MethodImpl(Inline), Op]
-        public static AsmOcExpr opcode(in CharBlock36 expr)
-            => new AsmOcExpr(expr);
     }
 }

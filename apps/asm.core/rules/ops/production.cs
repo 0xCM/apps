@@ -17,22 +17,16 @@ namespace Z0
             if(text.fenced(dst, RenderFence.Bracketed))
             {
                 var content = text.unfence(dst, RenderFence.Bracketed);
-                var terms = map(text.trim(text.split(content,Chars.Comma)),x => (IExpr)expr.value(x));
-                return new SeqProduction(text.trim(src), new SeqExpr(terms));
+                var terms = map(text.trim(text.split(content,Chars.Comma)), x => RuleText.value(x));
+                return new ListProduction(RuleText.value(text.trim(src)), new SeqExpr(terms));
             }
             else
             {
-                return new Production(text.trim(src), text.trim(dst));
+                return new Production(RuleText.value(text.trim(src)), RuleText.value(text.trim(dst)));
             }
         }
 
-        public static Production<S,T> production<S,T>(S src, T dst)
-            where S : IRuleExpr
-            where T : IRuleExpr
-                => new Production<S,T>(src,dst);
-
-        public static SeqProduction<S,T> production<S,T>(S src, T[] dst)
-            where T : IRuleExpr
-                => new SeqProduction<S,T>(src,dst);
+        public static IProduction production(IRuleExpr src, IRuleExpr[] dst)
+            =>  new ListProduction(src, dst);
     }
 }

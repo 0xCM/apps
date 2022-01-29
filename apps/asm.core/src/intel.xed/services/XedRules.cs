@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using System;
-    using System.Reflection;
-    using System.Collections.Generic;
-
     using static XedModels;
     using static core;
     using static Root;
 
     using static XedModels.RuleNames;
 
-    using EK = XedModels.RuleExprKind;
+    using EK = XedModels.XedRuleKind;
 
     [ApiHost]
     public partial class XedRules : AppService<XedRules>

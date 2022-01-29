@@ -36,9 +36,9 @@ namespace Z0.llvm
 
         AsmBlockLabel PriorBlockLabel;
 
-        AsmStatement CurrentStatementText;
+        AsmExpr CurrentStatementText;
 
-        AsmStatement PriorStatementText;
+        AsmExpr PriorStatementText;
 
         public AsmSyntaxTreeParser()
         {

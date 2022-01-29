@@ -18,13 +18,42 @@ namespace Z0
             var i = text.index(src, YieldsSymbol);
             dst = default;
             if(i == NotFound)
-                result = (false, string.Format("Yield symbol '{0}' not found", YieldsSymbol));
+                result = (false, string.Format("Yield symbol '{0}' not found in '{1}'", YieldsSymbol, src));
             else
-                dst = new Production(text.trim(text.left(src,i)), text.trim(text.right(src, i+ YieldsSymbol.Length)));
+            {
+                var left = text.trim(text.left(src,i));
+                var right = text.trim(text.right(src, i+ YieldsSymbol.Length));
+                result = parse(right, out IRuleExpr expr);
+                if(result)
+                    dst = new Production(value(left), expr);
+            }
             return result;
         }
 
-        public static Outcome parse(string src, out IChoiceRule dst)
+        public static Outcome parse(string src, out IRuleExpr dst)
+        {
+            var result = Outcome.Success;
+            dst = default;
+            if(IsChoice(src))
+            {
+                result = parse(src, out IChoiceRule choice);
+                if(result)
+                    dst = choice;
+            }
+            else if(IsOption(src))
+            {
+                result = parse(src, out IOptionRule option);
+                if(result)
+                    dst = option;
+            }
+            else
+            {
+                dst = value(src);
+            }
+            return result;
+        }
+
+        static Outcome parse(string src, out IChoiceRule dst)
         {
             if(IsChoice(src))
             {
@@ -39,7 +68,7 @@ namespace Z0
             }
         }
 
-        public static Outcome parse(string src, out IOptionRule dst)
+        static Outcome parse(string src, out IOptionRule dst)
         {
             if(IsOption(src))
             {

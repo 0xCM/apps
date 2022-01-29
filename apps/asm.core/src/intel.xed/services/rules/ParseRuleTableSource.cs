@@ -8,7 +8,7 @@ namespace Z0
     using static core;
     using static Root;
 
-    using EK = XedModels.RuleExprKind;
+    using EK = XedModels.XedRuleKind;
 
     partial class XedRules
     {

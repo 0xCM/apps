@@ -4,12 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class SeqProduction : Production<RuleValue<string>, SeqExpr>, ISeqProduction<RuleValue<string>>
+    public enum RuleExprKind : uint
     {
-        public SeqProduction(string src, SeqExpr dst)
-            : base(src, dst)
-        {
+        None = 0,
 
-        }
+        Choice,
+
+        Option,
+
+        List,
+
+        Literal,
+
+        Production
     }
 }

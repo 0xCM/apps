@@ -12,16 +12,6 @@ namespace Z0
 
     partial struct Rules
     {
-        public static void emit<S,T>(ReadOnlySpan<Production<S,T>> src, FS.FilePath dst)
-            where S : IRuleExpr
-            where T : IRuleExpr
-        {
-            var count = src.Length;
-            using var writer = dst.Utf8Writer();
-            for(var i=0; i<count; i++)
-                writer.WriteLine(skip(src,i).Format());
-        }
-
         public static void emit(ReadOnlySpan<IProduction> src, FS.FilePath dst)
         {
             var count = src.Length;

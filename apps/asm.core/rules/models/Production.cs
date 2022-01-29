@@ -8,23 +8,13 @@ namespace Z0
 
     using static Root;
 
-    public sealed class Production : Production<RuleValue<@string>, RuleValue<@string>>, INullity, IProduction
+    public sealed class Production : Production<IRuleExpr, IRuleExpr>, INullity, IProduction
     {
         [MethodImpl(Inline)]
-        public Production(@string src, @string dst)
+        public Production(IRuleExpr src, IRuleExpr dst)
             : base(src, dst)
         {
 
-        }
-
-        new @string Source
-        {
-            get => base.Source;
-        }
-
-        new @string Target
-        {
-            get => base.Target;
         }
 
         public bool IsEmpty
@@ -53,9 +43,5 @@ namespace Z0
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator Production((string src, string dst) x)
-            => new Production(x.src,x.dst);
     }
 }
