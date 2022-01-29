@@ -208,12 +208,12 @@ namespace Z0.Asm
                 }
             }
 
-            var xyz = SymbolizeOpMasks(dst);
-            var _xyzCount = (byte)xyz.EntryCount;
-            var expr = new AsmSigRuleExpr(sig.Mnemonic,_xyzCount);
-            for(byte i=0; i<_xyzCount; i++)
+            var unmasked = SymbolizeOpMasks(dst);
+            var umCount = (byte)unmasked.EntryCount;
+            var expr = new AsmSigRuleExpr(sig.Mnemonic,umCount);
+            for(byte i=0; i<umCount; i++)
             {
-                expr.WithOperand(i,xyz[i]);
+                expr.WithOperand(i,unmasked[i]);
             }
             return expr;
         }

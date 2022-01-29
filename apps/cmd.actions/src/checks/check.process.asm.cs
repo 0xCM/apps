@@ -31,10 +31,19 @@ namespace Z0
         [CmdOp("check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            var src = ProjectDb.Settings("asm.sigs.decomp2", FS.ext("map"));
-            var prods = Productions2.load(src);
+            var src = ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
+            var rules = Productions2.load(src);
+            var details = Sdm.LoadImportedOpcodes();
+            var sigs = SdmOps.sigs(details);
+            var count = sigs.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var sig = ref sigs[i];
+                var expr = rules.Symbolize(sig);
+                Write(expr.Format());
+                //Write(string.Format("{0} -> {1}", sig, expr));
+            }
 
-            iter(prods.Values, p => Write(p.Format()));
             return true;
         }
     }

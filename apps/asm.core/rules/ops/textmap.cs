@@ -21,6 +21,7 @@ namespace Z0
             {
                 if(line.IsEmpty)
                     continue;
+
                 var i = line.Index(Sep);
                 if(i == NotFound)
                     continue;

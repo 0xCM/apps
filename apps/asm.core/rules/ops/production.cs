@@ -17,7 +17,13 @@ namespace Z0
             if(text.fenced(dst, RenderFence.Bracketed))
             {
                 var content = text.unfence(dst, RenderFence.Bracketed);
-                var terms = map(text.trim(text.split(content,Chars.Comma)), x => RuleText.value(x));
+                var terms = map(text.trim(text.split(content,Chars.Pipe)), x => RuleText.value(x));
+                return new ListProduction(RuleText.value(text.trim(src)), new SeqExpr(terms));
+            }
+            else if(text.fenced(dst, RenderFence.Angled))
+            {
+                var content = text.unfence(dst, RenderFence.Angled);
+                var terms = map(text.trim(text.split(content,Chars.Pipe)), x => RuleText.value(x));
                 return new ListProduction(RuleText.value(text.trim(src)), new SeqExpr(terms));
             }
             else

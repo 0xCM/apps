@@ -22,8 +22,7 @@ namespace Z0
             for(byte i=0; i<opcount; i++)
             {
                 ref readonly var op = ref skip(operands,i);
-                var key = RuleText.value(op.Text);
-                if(Find(key, out var choices))
+                if(Find(op.Text, out var choices))
                 {
                     dst[i] = Rules.choices(choices);
                 }
@@ -43,7 +42,7 @@ namespace Z0
 
         public static Productions2 load(FS.FilePath src)
         {
-            var dst = dict<IRuleExpr,IProduction>();
+            var dst = dict<string,IProduction>();
             using var reader = src.Utf8LineReader();
             var result = Outcome.Success;
             while(reader.Next(out var line))
@@ -53,7 +52,7 @@ namespace Z0
 
                 result = parse(line.Content, out IProduction prod);
                 if(result)
-                    dst.TryAdd(prod.Source, prod);
+                    dst.TryAdd(prod.Source.Format(), prod);
                 else
                     break;
             }
@@ -87,15 +86,16 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default;
-            if(RuleText.IsChoice(src))
+
+            if(RuleText.IsOption(src))
             {
-                result = choice(src, out var r);
+                result = option(src, out var r);
                 if(result)
                     dst = r;
             }
-            else if(RuleText.IsOption(src))
+            else if(RuleText.IsChoice(src))
             {
-                result = option(src, out var r);
+                result = choice(src, out var r);
                 if(result)
                     dst = r;
             }
@@ -113,17 +113,17 @@ namespace Z0
             if(RuleText.IsChoice(src))
             {
                 var termSrc = text.trim(text.split(text.unfence(src, ChoiceFence), ChoiceSep));
-                // var count = termSrc.Length;
-                // var terms = alloc<IRuleExpr>(count);
-                // for(var i=0; i<count; i++)
-                // {
-                //     result = parse(src, out seek(terms,i));
-                //     if(result.Fail)
-                //         break;
-                // }
+                var count = termSrc.Length;
+                var terms = alloc<IRuleExpr>(count);
+                for(var i=0; i<count; i++)
+                {
+                    result = parse(skip(termSrc, i), out seek(terms,i));
+                    if(result.Fail)
+                         break;
+                }
 
                 if(result)
-                    dst = new ChoiceRule<IRuleExpr>(termSrc.Map(RuleText.value));
+                    dst = new ChoiceRule<IRuleExpr>(terms);
             }
             else
             {
@@ -138,8 +138,7 @@ namespace Z0
             dst = default;
             if(RuleText.IsOption(src))
             {
-                var content = text.unfence(src, OptionFence);
-                result = parse(content, out IRuleExpr expr);
+                result = parse(text.unfence(src, OptionFence), out IRuleExpr expr);
                 if(result)
                     dst = new OptionRule<IRuleExpr>(expr);
             }
@@ -158,32 +157,24 @@ namespace Z0
 
         const char ChoiceSep = Chars.Pipe;
 
-        ConstLookup<IRuleExpr, IProduction> Data;
+        ConstLookup<string, IProduction> Data;
 
-        public Productions2(Dictionary<IRuleExpr,IProduction> src)
+        public Productions2(Dictionary<string,IProduction> src)
         {
             Data = src;
         }
 
-        public static implicit operator Productions2(Dictionary<IRuleExpr,IProduction> src)
+        public static implicit operator Productions2(Dictionary<string,IProduction> src)
             => new Productions2(src);
 
-        public bool Find(IRuleExpr src, out IProduction dst)
+        public bool Find(string src, out IProduction dst)
             => Data.Find(src, out dst);
 
-        public bool FindTarget(IRuleExpr src, out IRuleExpr dst)
-        {
-            if(Find(src, out var prod))
-            {
-                dst = prod.Target;
-                return true;
-            }
-            else
-            {
-                dst = default;
-                return false;
-            }
-        }
+        public IProduction this[string src]
+            => Data[src];
+
+        public ReadOnlySpan<string> Keys
+            => Data.Keys;
 
         public ReadOnlySpan<IProduction> Values
             => Data.Values;
