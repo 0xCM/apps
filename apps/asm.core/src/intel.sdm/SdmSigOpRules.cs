@@ -217,44 +217,18 @@ namespace Z0.Asm
         public AsmSigRuleExpr Symbolize(in AsmSigExpr sig)
         {
             var opcount = sig.OperandCount;
-            var dst = dict<byte,IRuleExpr>();
             var operands = sig.Operands();
+            var expr = new AsmSigRuleExpr(sig.Mnemonic, opcount);
             for(byte i=0; i<opcount; i++)
             {
                 ref readonly var op = ref skip(operands,i);
                 var key = op.Text;
                 if(DecompRules.Find(key, out var production))
-                {
-                    dst[i] = production.Consequent;
-                }
+                    expr.WithOperand(i, production.Consequent);
                 else
-                {
-                    dst[i] = RuleText.value(op.Text);
-                }
+                    expr.WithOperand(i, Rules.value(op.Text));
             }
 
-            var exprOps = list<IRuleExpr>();
-            var k = z8;
-            for(byte i=0; i<opcount; i++)
-            {
-                var op = dst[i];
-                // var opText = op.Format();
-                // var j = text.index(opText, Chars.LBrace);
-                // if(j > 0)
-                // {
-                //     var left = text.left(opText,j).Trim();
-                //     if(nonempty(left))
-                //         exprOps.Add(Rules.value(left));
-
-                //     var right = text.right(opText, j - 1);
-                //     if(nonempty(right))
-                //         exprOps.Add(Rules.option(right));
-                // }
-                // else
-                    exprOps.Add(op);
-            }
-
-            var expr = new AsmSigRuleExpr(sig.Mnemonic, exprOps.ToArray());
             Require.invariant(expr.IsValid, () => expr.Mnemonic.Format());
             return expr;
         }
