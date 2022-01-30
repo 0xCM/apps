@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
     <TieredCompilation>false</TieredCompilation>
     <TieredCompilationQuickJit>false</TieredCompilationQuickJit>
     <TieredCompilationQuickJitForLoops>false</TieredCompilationQuickJitForLoops>
     <Configuration>Release</Configuration>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Deterministic>true</Deterministic>
     <Optimize>true</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -33,9 +33,8 @@
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
     <ZLibPath>J:\z0\.build\bin\z0.lib\Release\netcoreapp3.1\z0.lib.dll</ZLibPath>
-    <ChecksPath>$(BuildRootDir)bin\z0.test.checks\$(Configuration)\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
-    <ZTestPath>$(BuildRootDir)bin\z0.test.units\$(Configuration)\$(TargetFramework)\z0.test.units.dll</ZTestPath>
+    <ChecksPath>J:\z0\.build\bin\z0.test.checks\release\netcoreapp3.1\z0.test.checks.dll</ChecksPath>
+    <ZTestPath>J:\z0\.build\bin\z0.test.units\Release\netcoreapp3.1\z0.test.units.dll</ZTestPath>
   </PropertyGroup>
-
 
 </Project>

@@ -46,7 +46,7 @@ namespace Z0
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        //FlowScriptRunner FlowScriptRunner => Service(Wf.FlowScriptRunner);
+        CgSvc CodeGen => Service(Wf.CodeGen);
 
         FS.Files _Files;
 

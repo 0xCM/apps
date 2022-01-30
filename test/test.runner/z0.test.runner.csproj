@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../lib/z0.lib.csproj" />
     <ProjectReference Include="../test.units/z0.test.units.csproj" />
     <ProjectReference Include="../test.checks/z0.test.checks.csproj" />
   </ItemGroup>
 
+  <Import Project="../imports.props"/>
 </Project>

@@ -10,7 +10,6 @@
     <ProjectReference Include="$(AsmCore)" />
     <ProjectReference Include="$(Glue)" />
     <Reference Include="$(Checks)" HintPath="$(ChecksPath)"/>
-
   </ItemGroup>
 
   <Import Project="../imports.props"/>

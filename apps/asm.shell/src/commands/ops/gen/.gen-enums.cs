@@ -10,7 +10,7 @@ namespace Z0.Asm
         Outcome GenEnums(CmdArgs args)
         {
             var result = Outcome.Success;
-            var svc = Wf.CodeGen().CsEnum();
+            var svc = Wf.CodeGen().EnumGen();
             var spec = Symbols.set(typeof(AsmOcTokens.VexToken));
             var type = spec.DataType;
             var buffer = text.buffer();

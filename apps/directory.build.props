@@ -15,7 +15,6 @@
 
   <Import Project="../projects.props"/>
 
-
   <Import Project="../directory.build.props"/>
 
 </Project>

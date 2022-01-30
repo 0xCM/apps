@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static core;
 
     [ApiHost]
@@ -13,13 +11,42 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
-        SdmSigOpRules SigOpRules => Service(() => SdmSigOpRules.create(Wf));
+        SdmSigOpRules SdmRules => Service(() => SdmSigOpRules.create(Wf));
 
         IntelSdmPaths SdmPaths;
 
         protected override void OnInit()
         {
             SdmPaths = IntelSdmPaths.create(Wf);
+        }
+
+        public SymSet AsmSigSymbols()
+        {
+            var src = SdmRules.LoadTerminals();
+            var count = src.Count + 1;
+            var symset = SymSet.create(count);
+            symset.Name = "AsmSigId";
+            symset.DataType = ClrEnumKind.U16;
+            symset.Flags = false;
+            symset.SymbolKind = "asm";
+            var descriptions = symset.Descriptions;
+            var names = symset.Names;
+            var symbols = symset.Symbols;
+            var values = symset.Values;
+
+            names[0] = "None";
+            symbols[0] = EmptyString;
+            descriptions[0] = EmptyString;
+            values[0] = 0;
+            for(var i=1; i<count; i++)
+            {
+                ref readonly var sig = ref src[i - 1];
+                names[i] = sig.Name;
+                descriptions[i] = sig.Source.Format();
+                symbols[i] = sig.Target.Format();
+                values[i] = i;
+            }
+            return symset;
         }
 
         TextMap SigNormalRules()
@@ -88,14 +115,14 @@ namespace Z0.Asm
         void ImportOpCodes()
         {
             var details = ImportOpCodeDetails();
-            var result = SigOpRules.EmitSigProductions(details, true);
+            var result = SdmRules.EmitSigProductions(details, true);
             if(result.Fail)
             {
                 Error(result.Message);
                 return;
             }
 
-            SigOpRules.EmitTerminals();
+            SdmRules.EmitTerminals();
         }
     }
 }

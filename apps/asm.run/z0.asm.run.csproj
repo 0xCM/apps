@@ -3,7 +3,6 @@
   <PropertyGroup>
     <AssemblyName>asmrun</AssemblyName>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <TieredCompilation>false</TieredCompilation>
@@ -21,9 +20,5 @@
   </ItemGroup>
 
   <Import Project="../imports.props"/>
-
-  <!-- <ItemGroup>
-    <PackageReference Include="z0.lib" Version="$(ZLibVersion)" />
-  </ItemGroup> -->
 
 </Project>

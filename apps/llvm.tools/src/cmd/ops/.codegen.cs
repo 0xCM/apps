@@ -10,7 +10,7 @@ namespace Z0.llvm
         Outcome GenEnums(CmdArgs args)
         {
             var result = Outcome.Success;
-            var svc = Generators.CsEnum();
+            var svc = Generators.EnumGen();
             var spec = Symbols.set(typeof(clang.index.SymbolSubKind));
             var type = spec.DataType;
             var buffer = text.buffer();

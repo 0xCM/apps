@@ -1,4 +1,3 @@
 @echo off
-call %~dp0config.cmd
-call %BuildTestCmd%
-if errorlevel 1 goto:eof
+set SlnPath=%~dp0..\test\z0.test.sln
+dotnet build %SlnPath% -c Release

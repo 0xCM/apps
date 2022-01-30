@@ -6,11 +6,9 @@ namespace Z0
 {
     using Asm;
 
-    using System;
     using System.IO;
 
     using static core;
-    using static Root;
 
     partial class CodeGenProvider
     {

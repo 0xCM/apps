@@ -29,7 +29,7 @@ namespace Z0
         public StringLiteralGen StringLiterals()
             => Service(() => StringLiteralGen.create(Wf));
 
-        public EnumGen CsEnum()
+        public EnumGen EnumGen()
             => Service(() => new EnumGen());
 
         public ShellGen Shells()
