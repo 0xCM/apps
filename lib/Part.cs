@@ -11,6 +11,7 @@ global using System.Collections.Concurrent;
 global using static Z0.Root;
 
 global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
+global using SQ = Z0.SymbolicQuery;
 
 [assembly: PartId(PartId.Lib)]
 

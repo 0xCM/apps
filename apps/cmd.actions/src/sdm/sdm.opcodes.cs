@@ -21,34 +21,13 @@ namespace Z0
             return true;
         }
 
-        static byte sigops(in SdmSigOpCode src, Span<AsmSigOpExpr> dst)
-        {
-            var counter = z8;
-            if(src.Op0.IsNonEmpty)
-                seek(dst,counter++) = src.Op0;
-            if(src.Op1.IsNonEmpty)
-                seek(dst,counter++) = src.Op1;
-            if(src.Op2.IsNonEmpty)
-                seek(dst,counter++) = src.Op2;
-            if(src.Op3.IsNonEmpty)
-                seek(dst,counter++) = src.Op3;
-            if(src.Op4.IsNonEmpty)
-                seek(dst,counter++) = src.Op4;
-            return counter;
-        }
-
         SdmSigOpRules SdmRules => Service(Wf.SdmRules);
 
-        [CmdOp("sdm/terminals")]
+        [CmdOp("sdm/forms")]
         Outcome SdmTerminals(CmdArgs args)
         {
-            var terminals = dict<string,AsmSigTerminal>();
-            foreach(var t in SdmRules.LoadTerminals())
-                terminals.TryAdd(t.Target.Format().ToLowerInvariant(), t);
-
             var details = Sdm.LoadImportedOpcodes();
             var occount = details.Count;
-            var lookup = dict<string,List<AsmFormExpr>>();
             var records = list<SdmFormRecord>();
             var result = Outcome.Success;
             var k = 0u;
@@ -60,32 +39,23 @@ namespace Z0
                 if(result.Fail)
                     break;
 
+                var rule = SdmRules.Symbolize(_sig);
+                var terminals = rule.Terminate().Map(t => paired(AsmSigs.identify(t), t));
+
                 result = AsmOcParser.parse(detail.OpCode, out var opcode);
                 if(result.Fail)
                     break;
 
-                var sigid = Identifier.Empty;
-                if(terminals.TryGetValue(s, out var term))
+                for(var j=0; j<terminals.Count; j++)
                 {
-                    sigid = term.Name;
-                }
-
-                var record = new SdmFormRecord();
-                record.SigId = sigid;
-                record.Sig = _sig;
-                record.Seq = k++;
-                record.OpCode = opcode;
-                records.Add(record);
-
-                var form = AsmFormExpr.define(_sig, detail.OpCode);
-                if(lookup.TryGetValue(s, out var forms))
-                {
-                    forms.Add(form);
-                }
-                else
-                {
-                    lookup[s] = new();
-                    lookup[s].Add(form);
+                    var record = new SdmFormRecord();
+                    ref readonly var terminal = ref terminals[j];
+                    record.Seq = k++;
+                    record.Name = terminal.Left;
+                    record.Terminal = AsmSigs.expression(terminal.Right);
+                    record.Sig = _sig;
+                    record.OpCode = opcode;
+                    records.Add(record);
                 }
             }
 

@@ -4,18 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static Asm.SdmModels;
     using static core;
-    using static Root;
-
-    using SQ = SymbolicQuery;
 
     partial class ProjectCmdProvider
     {
-
-
         [CmdOp("sdm/markers")]
         Outcome SdmMarkers(CmdArgs args)
         {

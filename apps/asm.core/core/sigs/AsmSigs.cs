@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
     [ApiHost]
     public class AsmSigs : AppService<AsmSigs>
     {
@@ -16,6 +17,20 @@ namespace Z0.Asm
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value), size);
 
+        public static AsmSigExpr expression(AsmSigRuleExpr target)
+        {
+            var srcOps = target.Operands;
+            var opcount = srcOps.Count;
+            var dstOps = alloc<AsmSigOpExpr>(opcount);
+            var dst = new AsmSigExpr(target.Mnemonic);
+            for(byte i=0; i<opcount; i++)
+                dst.WithOperand(i,sigop(srcOps[i]));
+            return dst;
+        }
+
+        static AsmSigOpExpr sigop(IRuleExpr src)
+            => src.Format().Replace(":", "x").Replace("&", "a");
+
         public static Identifier identify(AsmSigRuleExpr target)
         {
             var operands = target.Operands;
@@ -26,32 +41,12 @@ namespace Z0.Asm
             {
                 buffer.Append(Chars.Underscore);
 
-                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
+                var op = sigop(operands[j]);
                 if(op.Modified(out var t, out var m))
                     buffer.AppendFormat("{0}_{1}", t, m);
                 else
                     buffer.Append(op.Format());
             }
-            var name = buffer.Emit().Replace("lock", "@lock");
-            return name;
-        }
-
-        public static Identifier identify(in AsmSigExpr src)
-        {
-            var operands = src.Operands();
-            var opcount = operands.Length;
-            var buffer = text.buffer();
-            buffer.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
-            for(var j=0; j<opcount; j++)
-            {
-                buffer.Append(Chars.Underscore);
-                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
-                if(op.Modified(out var t, out var m))
-                    buffer.AppendFormat("{0}_{1}", t, m);
-                else
-                    buffer.Append(op.Format());
-            }
-
             var name = buffer.Emit().Replace("lock", "@lock");
             return name;
         }

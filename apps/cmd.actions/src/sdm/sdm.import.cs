@@ -8,11 +8,7 @@ namespace Z0
     {
         [CmdOp("sdm/import")]
         Outcome SdmImport(CmdArgs args)
-        {
-            Sdm.Import();
+            => Sdm.Import();
 
-
-            return true;
-        }
     }
 }
