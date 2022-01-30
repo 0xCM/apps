@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using static core;
+
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct AsmForm
     {

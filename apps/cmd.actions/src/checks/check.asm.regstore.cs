@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Asm;
 
     using static Asm.RegClasses;
@@ -14,6 +12,11 @@ namespace Z0
 
     partial class CheckCmdProvider
     {
+        [MethodImpl(Inline)]
+        static AsmRegValue<T> regval<T>(AsmRegName name, T value)
+            where T : unmanaged
+                => new AsmRegValue<T>(name,value);
+
         [CmdOp("check/asm/regstore")]
         Outcome CheckRegstore(CmdArgs args)
         {
@@ -27,7 +30,7 @@ namespace Z0
             {
                 regs[i] = i;
                 seek(names,i) = KReg.RegName((RegIndexCode)i);
-                grid[i] = asm.regval(skip(names,i), regs[i]);
+                grid[i] = regval(skip(names,i), regs[i]);
             }
 
             for(byte i=0; i<7; i++)
@@ -42,12 +45,10 @@ namespace Z0
             for(byte i=0; i<7; i++)
             {
                 regs[i] = input << i*3;
-                Write(asm.regval(skip(names,i), regs[i]));
+                Write(regval(skip(names,i), regs[i]));
             }
 
             return result;
         }
-
-
     }
 }

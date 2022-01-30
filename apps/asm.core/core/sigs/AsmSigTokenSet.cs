@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     public sealed class AsmSigTokenSet : TokenSet<AsmSigTokenSet>
     {
         public override string Name

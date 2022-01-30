@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Collections.Concurrent;
     using static core;
 
     public class AsmSymbols

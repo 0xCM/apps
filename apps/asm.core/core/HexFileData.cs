@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     public class HexFileData : FileData<Index<HexDataRow>>
     {
         public HexFileData(Dictionary<FS.FilePath,Index<HexDataRow>> src)

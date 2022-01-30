@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("asm.varcode",15*8, 16*8)]
     public readonly struct AsmVariationCode : IEquatable<AsmVariationCode>, IComparable<AsmVariationCode>
     {

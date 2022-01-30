@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct AsmRegValue<T>
@@ -24,10 +21,21 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmRegs.format(this);
+            => string.Format("{0,-5}{1}", Name, HexFormatter.bytes(Value));
 
         public string FormatBits()
-            => AsmRegs.bitstring(this);
+        {
+            if(size<T>() == 1)
+                return BitRender.format8(u8(Value));
+            else if(size<T>() == 2)
+                return BitRender.format16x8(u16(Value));
+            else if(size<T>() == 4)
+                return BitRender.format32x8(u32(Value));
+            else if(size<T>() == 8)
+                return BitRender.format64x8(u64(Value));
+            else
+                return EmptyString;
+        }
 
         public override string ToString()
             => Format();

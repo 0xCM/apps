@@ -37,45 +37,66 @@ namespace Z0
             return counter;
         }
 
-        AsmSigs AsmSigs => Service(Wf.AsmSigs);
-
         SdmSigOpRules SdmRules => Service(Wf.SdmRules);
 
         [CmdOp("sdm/terminals")]
         Outcome SdmTerminals(CmdArgs args)
         {
-            var terminals = SdmRules.LoadTerminals();
-            var count = terminals.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var terminal = ref terminals[i];
-                ref readonly var name = ref terminal.Name;
-                Write(string.Format("{0} | {1}", name, terminal.Target));
-            }
+            var terminals = dict<string,AsmSigTerminal>();
+            foreach(var t in SdmRules.LoadTerminals())
+                terminals.TryAdd(t.Target.Format().ToLowerInvariant(), t);
 
-            return true;
-        }
-
-        [CmdOp("sdm/sigs")]
-        Outcome SdmSigs(CmdArgs args)
-        {
+            var details = Sdm.LoadImportedOpcodes();
+            var occount = details.Count;
+            var lookup = dict<string,List<AsmFormExpr>>();
+            var records = list<SdmFormRecord>();
             var result = Outcome.Success;
-            var src = Symbols.index<AsmSigId>();
-            var count = src.Count;
-            for(var i=0u; i<count; i++)
+            var k = 0u;
+            for(var i=0; i<occount; i++)
             {
-                ref readonly var symbol = ref src[i];
-                var expr = symbol.Expr.Format();
-                result = AsmSigParser.parse(expr, out var sig);
+                ref readonly var detail = ref details[i];
+                var s = detail.Sig.Format().ToLowerInvariant();
+                result = AsmSigExpr.parse(s, out var  _sig);
                 if(result.Fail)
                     break;
 
-                Write(sig.Format());
+                result = AsmOcParser.parse(detail.OpCode, out var opcode);
+                if(result.Fail)
+                    break;
+
+                var sigid = Identifier.Empty;
+                if(terminals.TryGetValue(s, out var term))
+                {
+                    sigid = term.Name;
+                }
+
+                var record = new SdmFormRecord();
+                record.SigId = sigid;
+                record.Sig = _sig;
+                record.Seq = k++;
+                record.OpCode = opcode;
+                records.Add(record);
+
+                var form = AsmFormExpr.define(_sig, detail.OpCode);
+                if(lookup.TryGetValue(s, out var forms))
+                {
+                    forms.Add(form);
+                }
+                else
+                {
+                    lookup[s] = new();
+                    lookup[s].Add(form);
+                }
             }
+
+            if(result.Fail)
+                return result;
+
+            TableEmit(records.ViewDeposited(), SdmFormRecord.RenderWidths, ProjectDb.TablePath<SdmFormRecord>("sdm"));
+
 
             return result;
         }
-
 
         static string[] Gp8Regs = new string[]{"al","cl","dl","bl","spl","bpl","sil","dil","r8b","r9b","r10b","r11b","r12b","r13b","r14b","r15b"};
 

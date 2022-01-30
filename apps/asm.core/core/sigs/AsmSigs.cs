@@ -16,6 +16,46 @@ namespace Z0.Asm
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value), size);
 
+        public static Identifier identify(AsmSigRuleExpr target)
+        {
+            var operands = target.Operands;
+            var opcount = operands.Count;
+            var buffer = text.buffer();
+            buffer.Append(target.Mnemonic.Format(MnemonicCase.Lowercase));
+            for(var j=0; j<opcount; j++)
+            {
+                buffer.Append(Chars.Underscore);
+
+                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
+                if(op.Modified(out var t, out var m))
+                    buffer.AppendFormat("{0}_{1}", t, m);
+                else
+                    buffer.Append(op.Format());
+            }
+            var name = buffer.Emit().Replace("lock", "@lock");
+            return name;
+        }
+
+        public static Identifier identify(in AsmSigExpr src)
+        {
+            var operands = src.Operands();
+            var opcount = operands.Length;
+            var buffer = text.buffer();
+            buffer.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
+            for(var j=0; j<opcount; j++)
+            {
+                buffer.Append(Chars.Underscore);
+                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
+                if(op.Modified(out var t, out var m))
+                    buffer.AppendFormat("{0}_{1}", t, m);
+                else
+                    buffer.Append(op.Format());
+            }
+
+            var name = buffer.Emit().Replace("lock", "@lock");
+            return name;
+        }
+
         public static bool modified(AsmSigOpExpr src, out string target, out AsmModifierKind mod)
         {
             mod = AsmModifierKind.None;

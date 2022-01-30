@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
     using Asm;
-
-    using static Root;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct ObjDumpRow : IAsmEncoding

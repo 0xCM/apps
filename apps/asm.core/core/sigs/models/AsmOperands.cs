@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct AsmOperands
     {

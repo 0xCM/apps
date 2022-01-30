@@ -4,17 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Asm;
 
-    using static Root;
     using static core;
 
-    public struct RegStore8x64
+    public struct RegStore16x64
     {
-        ByteBlock64 Storage;
+        ByteBlock128 Storage;
 
         [MethodImpl(Inline)]
         public ref ulong R(RegIndex index)
@@ -74,6 +70,52 @@ namespace Z0
             get => ref R(7);
         }
 
-        public static RegStore8x64 Empty => default;
+        public ref ulong R8
+        {
+            [MethodImpl(Inline)]
+            get => ref R(8);
+        }
+
+        public ref ulong R9
+        {
+            [MethodImpl(Inline)]
+            get => ref R(9);
+        }
+
+        public ref ulong R10
+        {
+            [MethodImpl(Inline)]
+            get => ref R(10);
+        }
+
+        public ref ulong R11
+        {
+            [MethodImpl(Inline)]
+            get => ref R(11);
+        }
+
+        public ref ulong R12
+        {
+            [MethodImpl(Inline)]
+            get => ref R(12);
+        }
+
+        public ref ulong R13
+        {
+            [MethodImpl(Inline)]
+            get => ref R(13);
+        }
+
+        public ref ulong R14
+        {
+            [MethodImpl(Inline)]
+            get => ref R(14);
+        }
+
+        public ref ulong R15
+        {
+            [MethodImpl(Inline)]
+            get => ref R(15);
+        }
     }
 }

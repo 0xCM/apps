@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static AsciCharSym;
     using static AsmOcTokens;
@@ -34,14 +30,6 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static bit IsCallRel32(ReadOnlySpan<byte> src, uint offset)
             => (offset + 4) <= src.Length && skip(src, offset) == 0xE8;
-
-        // [MethodImpl(Inline), Op]
-        // public static bit HasSegOverride(AsmOcExpr src)
-        //     => emath.oneof(src.Lead, SegOverrideCodes);
-
-        // [MethodImpl(Inline), Op]
-        // public static bit HasSizeOverride(AsmOcExpr src)
-        //     => emath.oneof(src.Lead, SZ.ADSZ, SZ.OPSZ);
 
         public static string format(in AsmOpCode src)
         {

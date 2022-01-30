@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-    using System;
-
-    using static Root;
-    using static core;
-
     using TK = AsmOcTokenKind;
     using T = AsmOcTokens.OpCodeText;
 

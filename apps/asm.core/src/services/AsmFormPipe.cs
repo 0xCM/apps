@@ -64,6 +64,16 @@ namespace Z0.Asm
             return buffer;
         }
 
+        static ref AsmFormRecord row(in TextRow src, ref AsmFormRecord dst)
+        {
+            var i = 0;
+            DataParser.parse(src[i++], out dst.Seq);
+            dst.OpCode = new AsmOpCodeString(src[i++]);
+            AsmParser.siginfo(src[i++], out dst.Sig);
+            AsmParser.forminfo(src[i++], out dst.FormExpr);
+            return ref dst;
+        }
+
         [MethodImpl(Inline)]
         ref AsmFormRecord Fill(ushort seq, AsmFormInfo src, ref AsmFormRecord dst)
         {
@@ -85,13 +95,13 @@ namespace Z0.Asm
                 if(i==0)
                     continue;
 
-                ref readonly var row = ref skip(rows,i);
-                if(row.CellCount != FieldCount)
+                ref readonly var _row = ref skip(rows,i);
+                if(_row.CellCount != FieldCount)
                 {
-                    Wf.Error(FieldCountMismatch.Format(TableId, row.CellCount, FieldCount));
+                    Error(FieldCountMismatch.Format(TableId, _row.CellCount, FieldCount));
                     return array<AsmFormRecord>();
                 }
-                AsmParser.row(row, ref seek(dst,i));
+                row(_row, ref seek(dst,i));
             }
             return buffer;
         }

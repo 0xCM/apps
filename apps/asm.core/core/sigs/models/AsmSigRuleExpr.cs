@@ -13,26 +13,6 @@ namespace Z0.Asm
 
     public class AsmSigRuleExpr : RuleExpr
     {
-        public static Identifier identify(AsmSigRuleExpr target)
-        {
-            var operands = target.Operands;
-            var opcount = operands.Count;
-            var buffer = text.buffer();
-            buffer.Append(target.Mnemonic.Format(MnemonicCase.Lowercase));
-            for(var j=0; j<opcount; j++)
-            {
-                buffer.Append(Chars.Underscore);
-
-                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
-                if(op.Modified(out var t, out var m))
-                    buffer.AppendFormat("{0}_{1}", t, m);
-                else
-                    buffer.Append(op.Format());
-            }
-            var name = buffer.Emit().Replace("lock", "@lock");
-            return name;
-        }
-
         public AsmMnemonic Mnemonic {get;}
 
         public Index<IRuleExpr> Operands {get;}
@@ -179,21 +159,7 @@ namespace Z0.Asm
             get => Mnemonic.IsNonEmpty;
         }
         public override string Format()
-        {
-            var dst = text.buffer();
-            dst.Append(Mnemonic.Format(MnemonicCase.Lowercase));
-            var count = Operands.Count;
-            for(var i=0; i<count; i++)
-            {
-                if(i == 0)
-                    dst.Append(Chars.Space);
-                else
-                    dst.Append(", ");
-
-                dst.Append(Operands[i].ToString());
-            }
-            return dst.Emit();
-        }
+            => AsmSigFormatter.format(this);
 
         public static AsmSigRuleExpr Empty => new AsmSigRuleExpr(AsmMnemonic.Empty, 0);
     }

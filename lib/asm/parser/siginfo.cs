@@ -11,16 +11,6 @@ namespace Z0.Asm
 
     partial struct AsmParser
     {
-        public static ref AsmFormRecord row(in TextRow src, ref AsmFormRecord dst)
-        {
-            var i = 0;
-            DataParser.parse(src[i++], out dst.Seq);
-            dst.OpCode = new AsmOpCodeString(src[i++]);
-            AsmParser.siginfo(src[i++], out dst.Sig);
-            AsmParser.forminfo(src[i++], out dst.FormExpr);
-            return ref dst;
-        }
-
         [Parser]
         public static Outcome forminfo(string src, out AsmFormInfo dst)
         {

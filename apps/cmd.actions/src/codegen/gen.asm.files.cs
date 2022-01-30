@@ -11,15 +11,15 @@ namespace Z0
 
     partial class CodeGenProvider
     {
-        static AsmBlockSpec block(in SdmSigOpCode src)
+        public static AsmBlockSpec block(in AsmFormExpr src)
         {
             const string Content = "    ret\n\n";
             var comment = asm.comment(string.Format("{0} | {1}", src.Sig.Format(), src.OpCode.Format()));
-            var label = asm.label(AsmForm.identify(AsmFormExpr.define(src.Sig, src.OpCode)));
+            var label = asm.label(AsmForm.identify(src));
             return AsmBlockSpec.define(comment, label, Content);
         }
 
-        static Index<AsmComment> comments(ReadOnlySpan<SdmSigOpCode> sigs)
+        static Index<AsmComment> comments(ReadOnlySpan<AsmFormExpr> sigs)
         {
             var formatted = map(sigs, sig => sig.Sig.Format());
             var len = formatted.Select(f => f.Length).Max();
@@ -27,7 +27,7 @@ namespace Z0
             return map(sigs, sig => asm.comment(string.Format(pattern, sig.Sig.Format(), sig.OpCode.Format())));
         }
 
-        static Index<AsmBlockSpec> blocks(ReadOnlySpan<SdmSigOpCode> sigs)
+        static Index<AsmBlockSpec> blocks(ReadOnlySpan<AsmFormExpr> sigs)
         {
             var count = sigs.Length;
             var dst = alloc<AsmBlockSpec>(count);

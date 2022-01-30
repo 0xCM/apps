@@ -13,6 +13,23 @@ namespace Z0.Asm
             Datasets = AsmSigDatasets.load();
         }
 
+        public static string format(AsmSigRuleExpr src)
+        {
+            var dst = text.buffer();
+            dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
+            var count = src.Operands.Count;
+            for(var i=0; i<count; i++)
+            {
+                if(i == 0)
+                    dst.Append(Chars.Space);
+                else
+                    dst.Append(", ");
+
+                dst.Append(src.Operands[i].ToString());
+            }
+            return dst.Emit();
+        }
+
         public static string format(in AsmSig src)
         {
             var dst = text.buffer();

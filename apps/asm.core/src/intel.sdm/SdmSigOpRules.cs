@@ -33,12 +33,13 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var sigs = SdmOps.sigs(src);
-            var count = sigs.Length;
+            var targets = sigs.UniqueTargets;
+            var count = targets.Length;
             var buffer = text.buffer();
             var dst = alloc<AsmSigProduction>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var sig = ref sigs[i];
+                var sig = skip(targets,i).Sig;
                 var expr = Symbolize(sig);
                 seek(dst,i) = new AsmSigProduction(sig, expr);
             }
@@ -135,7 +136,7 @@ namespace Z0.Asm
                 var production = productions[i];
                 var source = production.Source;
                 var target = production.Target;
-                var name = AsmSigRuleExpr.identify(target);
+                var name = AsmSigs.identify(target);
                 if(targets.TryAdd(name, target))
                 {
                     var record = new AsmSigTerminal();
