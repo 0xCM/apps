@@ -19,7 +19,6 @@ namespace Z0.Asm
 
         public AsmSigExpr Sig;
 
-
         public AsmOpCode OpCode;
 
         public static ReadOnlySpan<byte> RenderWidths

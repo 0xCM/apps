@@ -69,6 +69,57 @@ namespace Z0.Asm
             return rows;
         }
 
+        string NormalizeSig(string src)
+        {
+            var i = text.index(src,Chars.Space);
+            if(i > 0)
+            {
+                var mnemonic = text.left(src,i);
+                var ops = CalcOperands(src);
+                if(nonempty(ops))
+                    return string.Format("{0} {1}", mnemonic, ops);
+                else
+                    return mnemonic;
+            }
+            else
+                return src;
+        }
+
+        string CalcOperands(string sig)
+        {
+            var sigRules = SigNormalRules();
+
+            ReadOnlySpan<string> _operands(string src)
+                => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
+
+            var i = SQ.index(sig, Chars.Space);
+            if(i > 0)
+                return text.join(", ", _operands(text.format(SQ.right(sig,i))));
+            else
+                return EmptyString;
+
+            string CalcOperand(string op)
+            {
+                var n = text.index(op, Chars.FSlash);
+                var dst = op;
+                if(text.fenced(dst,RenderFence.Angled))
+                    dst = text.unfence(dst,RenderFence.Angled);
+
+                if(n > 0)
+                {
+                    var m = text.index(dst, Chars.Space);
+                    if(m > n)
+                    {
+                        var components = text.join(Chars.FSlash, text.trim(text.split(text.left(dst,m), Chars.FSlash)));
+                        dst = string.Format("{0} {1}", components, text.right(dst,m));
+                    }
+                    else
+                        dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
+                }
+                return sigRules.Apply(dst);
+            }
+        }
+
         [Op]
         uint Project(Table src, Span<SdmOpCodeDetail> dst)
         {
@@ -116,11 +167,7 @@ namespace Z0.Asm
                                 break;
                             }
 
-                            var ops = CalcOperands(content);
-                            if(nonempty(ops))
-                                target.Sig = string.Format("{0} {1}", monic, ops);
-                            else
-                                target.Sig = monic;
+                            target.Sig = NormalizeSig(content);
                             target.Mnemonic = monic;
                             valid = true;
                         break;
@@ -191,58 +238,8 @@ namespace Z0.Asm
             }
             return counter;
 
-
-            string CalcOperands(string sig)
-            {
-                ReadOnlySpan<string> _operands(string src)
-                    => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
-
-                var i = SQ.index(sig, Chars.Space);
-                if(i > 0)
-                    return text.join(", ", _operands(text.format(SQ.right(sig,i))));
-                else
-                    return EmptyString;
-            }
-
-            string CalcOperand(string op)
-            {
-                var n = text.index(op, Chars.FSlash);
-                var dst = op;
-                if(text.fenced(dst,RenderFence.Angled))
-                    dst = text.unfence(dst,RenderFence.Angled);
-
-                if(n > 0)
-                {
-                    var m = text.index(dst, Chars.Space);
-                    if(m > n)
-                    {
-                        var components = text.join(Chars.FSlash, text.trim(text.split(text.left(dst,m), Chars.FSlash)));
-                        dst = string.Format("{0} {1}", components, text.right(dst,m));
-                    }
-                    else
-                        dst = text.join(Chars.FSlash, text.trim(text.split(dst, Chars.FSlash)));
-                }
-                return sigRules.Apply(dst);
-            }
-
             string CalcOpCode(string src)
-            {
-                return text.despace(ocRules.Apply(text.trim(src)));
-                //return NormalizeOpcode(src);
-            }
-
-            static string NormalizeOpcode(string src)
-            {
-                return
-                    src.Replace("+ rb", " +rb")
-                        .Replace("+ rw", " +rw")
-                        .Replace("+ rd", " +rd")
-                        .Replace("+ ro", " +ro")
-                        .Replace("/ r", "/r")
-                        .Replace("REX.w", "REX.W")
-                        .Trim()
-                        ;
-            }
+                => text.despace(ocRules.Apply(text.trim(src)));
         }
     }
 }
