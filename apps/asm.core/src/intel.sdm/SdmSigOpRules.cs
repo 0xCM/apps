@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static core;
-    using static Root;
 
     public class SdmSigOpRules : AppService<SdmSigOpRules>
     {
@@ -19,7 +16,6 @@ namespace Z0.Asm
 
         public SdmSigOpRules()
         {
-
         }
 
         protected override void OnInit()
@@ -31,6 +27,26 @@ namespace Z0.Asm
         {
             DecompRules = Rules.productions(SdmPaths.SigDecompRules());
             OpMaskRules = Rules.productions(SdmPaths.SigOpMaskRules());
+        }
+
+        public Identifier Identify(AsmSigRuleExpr target)
+        {
+            var operands = target.Operands;
+            var opcount = operands.Count;
+            var buffer = text.buffer();
+            buffer.Append(target.Mnemonic.Format(MnemonicCase.Lowercase));
+            for(var j=0; j<opcount; j++)
+            {
+                buffer.Append(Chars.Underscore);
+
+                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
+                if(op.Modified(out var t, out var m))
+                    buffer.AppendFormat("{0}_{1}", t, m);
+                else
+                    buffer.Append(op.Format());
+            }
+            var name = buffer.Emit().Replace("lock", "@lock");
+            return name;
         }
 
         public Outcome EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
@@ -130,12 +146,15 @@ namespace Z0.Asm
 
             var prodCount = productions.Count;
             var records = alloc<AsmSigTerminal>(prodCount);
-            for(var i=0u; i<prodCount; i++)
+            for(var i=0; i<prodCount; i++)
             {
                 ref var record = ref seek(records,i);
-                record.Seq = i;
-                record.Source = productions[(int)i].Source;
-                record.Target = productions[(int)i].Target;
+                var source = productions[i].Source;
+                var target = productions[i].Target;
+                record.Seq = (uint)i;
+                record.Name = Identify(target);
+                record.Source = source;
+                record.Target = target;
             }
 
             var dst = ProjectDb.TablePath<AsmSigTerminal>("sdm");
@@ -144,11 +163,60 @@ namespace Z0.Asm
             return records;
         }
 
+        public Index<AsmSigTerminal> LoadTerminals()
+        {
+            const byte FieldCount = AsmSigTerminal.FieldCount;
+            var result = Outcome.Success;
+            var src = ProjectDb.TablePath<AsmSigTerminal>("sdm");
+            var buffer = list<AsmSigTerminal>();
+            using var reader = src.Utf8LineReader();
+            reader.Next(out _);
+            while(reader.Next(out var line))
+            {
+                if(line.IsEmpty)
+                    continue;
+
+                var parts = line.Split(Chars.Pipe);
+                var count = parts.Length;
+                if(count != FieldCount)
+                {
+                    result = (false,AppMsg.FieldCountMismatch.Format(count, FieldCount));
+                    break;
+                }
+
+                var dst = new AsmSigTerminal();
+                var i=0;
+
+                result = DataParser.parse(skip(parts,i++), out dst.Seq);
+                if(result.Fail)
+                    break;
+
+                result = DataParser.parse(skip(parts,i++), out dst.Name);
+                if(result.Fail)
+                    break;
+
+                result = AsmSigExpr.parse(skip(parts,i++), out dst.Source);
+                if(result.Fail)
+                    break;
+
+                result = Parse(skip(parts,i++), out dst.Target);
+                if(result.Fail)
+                    break;
+
+                buffer.Add(dst);
+            }
+
+            if(result.Fail)
+                Error(result.Message);
+
+            return buffer.ToArray();
+        }
+
         Outcome Parse(string src, out AsmSigProduction dst)
         {
             var result = Outcome.Success;
             dst = AsmSigProduction.Empty;
-            result = RuleText.parse(src, out IProduction prod);
+            result = RuleParser.production(src, out IProduction prod);
             if(result)
             {
                 result = AsmSigExpr.parse(prod.Source.Format(), out var sig);
@@ -176,7 +244,7 @@ namespace Z0.Asm
                 for(byte i=0; i<count; i++)
                 {
                     ref readonly var op = ref skip(ops,i);
-                    result = RuleText.parse(op.Text, out IRuleExpr expr);
+                    result = RuleParser.expression(op.Text, out IRuleExpr expr);
 
                     if(result)
                         dst.WithOperand(i, expr);

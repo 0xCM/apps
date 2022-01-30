@@ -28,8 +28,10 @@ namespace Z0.Asm
         protected override void OnInit()
         {
             DecompRules = Rules.productions(SdmPaths.SigDecompRules());
-
         }
+
+        public bool IsModified(in AsmSigOpExpr src)
+            => src.Text.Contains(Chars.LBrace);
 
         public AsmSigRuleExpr Symbolize(in AsmSigExpr sig)
         {

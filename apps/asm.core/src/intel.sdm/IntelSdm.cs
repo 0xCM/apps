@@ -88,8 +88,7 @@ namespace Z0.Asm
         void ImportOpCodes()
         {
             var details = ImportOpCodeDetails();
-            EmitSigs(details);
-            var result = SigOpRules.EmitSigProductions(details,true);
+            var result = SigOpRules.EmitSigProductions(details, true);
             if(result.Fail)
             {
                 Error(result.Message);

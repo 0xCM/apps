@@ -4,25 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     [Record(TableId)]
     public struct AsmSigTerminal
     {
         public const string TableId = "sdm.sigs.terminals";
 
-        public const byte FieldCount = 3;
+        public const byte FieldCount = 4;
 
         public uint Seq;
+
+        public Identifier Name;
 
         public AsmSigExpr Source;
 
         public AsmSigRuleExpr Target;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,42,64,1};
     }
 }

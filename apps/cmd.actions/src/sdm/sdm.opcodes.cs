@@ -44,36 +44,21 @@ namespace Z0
 
         AsmSigs AsmSigs => Service(Wf.AsmSigs);
 
-        [CmdOp("sdm/forms")]
-        Outcome SdmForms(CmdArgs args)
+        SdmSigOpRules SdmRules => Service(Wf.SdmRules);
+
+        [CmdOp("sdm/terminals")]
+        Outcome SdmTerminals(CmdArgs args)
         {
-            var result = Outcome.Success;
-            var src = Sdm.LoadSigDecomps();
-            var count = src.Count;
-            var forms = alloc<SdmFormRecord>(count);
-
-            count = src.Count;
-            for(var i=0u; i<count; i++)
+            var terminals = SdmRules.LoadTerminals();
+            var count = terminals.Count;
+            for(var i=0; i<count; i++)
             {
-                ref readonly var record = ref src[i];
-                var form = AsmSigs.BuildForm(record.Sig, record.OpCode);
-                if(form.Fail)
-                {
-                    result = (false, form.Message);
-                    break;
-                }
-
-                var data = form.Data;
-                ref var dst = ref seek(forms,i);
-                dst.Seq = i;
-                dst.Name = data.Name;
-                dst.Sig = data.Sig;
-                dst.OpCode = data.OpCode;
+                ref readonly var terminal = ref terminals[i];
+                ref readonly var name = ref terminal.Name;
+                Write(string.Format("{0} | {1}", name, terminal.Target));
             }
 
-            TableEmit(@readonly(forms), SdmFormRecord.RenderWidths, ProjectDb.TablePath<SdmFormRecord>("sdm"));
-
-            return result;
+            return true;
         }
 
         [CmdOp("sdm/sigs")]

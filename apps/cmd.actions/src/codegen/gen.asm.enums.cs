@@ -5,10 +5,7 @@
 namespace Z0
 {
     using Asm;
-    using System;
-
     using static core;
-    using static Root;
 
     partial class CodeGenProvider
     {
@@ -16,7 +13,8 @@ namespace Z0
         Outcome GenAsmEnums(CmdArgs args)
         {
             var g = CodeGen.CsEnum();
-            var src = Sdm.LoadSigDecomps();
+
+            var src = SdmRules.LoadTerminals();
             var count = src.Count + 1;
             var symset = SymSet.create(count);
             symset.Name = "AsmSigId";
@@ -35,9 +33,9 @@ namespace Z0
             for(var i=1; i<count; i++)
             {
                 ref readonly var sig = ref src[i - 1];
-                names[i] = sig.Identity;
-                descriptions[i] = string.Format("{0} | {1}", sig.Sig, sig.OpCode);
-                symbols[i] = sig.Sig.Format();
+                names[i] = sig.Name;
+                descriptions[i] = sig.Target.Format();
+                symbols[i] = sig.Source.Format();
                 values[i] = i;
             }
 

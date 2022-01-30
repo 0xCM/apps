@@ -9,6 +9,15 @@ namespace Z0
 
     public class RuleParser
     {
+        public static bool IsChoice(string src)
+            => text.fenced(src,ChoiceFence);
+
+        public static bool IsOption(string src)
+            => text.fenced(src, OptionFence);
+
+        public static bool IsProduction(string src)
+            => text.split(src,YieldsSymbol).Length == 2;
+
         public static Outcome production(string src, out IProduction dst)
         {
             var result = Outcome.Success;
@@ -32,13 +41,13 @@ namespace Z0
             var result = Outcome.Success;
             dst = default;
 
-            if(RuleText.IsOption(src))
+            if(IsOption(src))
             {
                 result = option(src, out var r);
                 if(result)
                     dst = r;
             }
-            else if(RuleText.IsChoice(src))
+            else if(IsChoice(src))
             {
                 result = choice(src, out var r);
                 if(result)
@@ -55,7 +64,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default;
-            if(RuleText.IsChoice(src))
+            if(IsChoice(src))
             {
                 var termSrc = text.trim(text.split(text.unfence(src, ChoiceFence), ChoiceSep));
                 var count = termSrc.Length;
@@ -81,7 +90,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default;
-            if(RuleText.IsOption(src))
+            if(IsOption(src))
             {
                 result = expression(text.unfence(src, OptionFence), out IRuleExpr expr);
                 if(result)
