@@ -11,7 +11,7 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<AsmSigExpr> Sigs(ReadOnlySpan<SdmOpCodeDetail> src)
+        public Index<AsmSigExpr> ExtractSigs(ReadOnlySpan<SdmOpCodeDetail> src)
         {
             var count = src.Length;
             var buffer = alloc<AsmSigExpr>(count);
@@ -20,12 +20,12 @@ namespace Z0.Asm
             return buffer;
         }
 
-        public Index<AsmSigExpr> Sigs()
+        public Index<AsmSigExpr> LoadSigs()
         {
-            return Data(nameof(Sigs), Load);
+            return Data(nameof(LoadSigs), Load);
 
             Index<AsmSigExpr> Load()
-                => Sigs(LoadImportedOpcodes());
+                => ExtractSigs(LoadImportedOpcodes());
         }
     }
 }

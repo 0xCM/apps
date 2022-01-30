@@ -30,12 +30,7 @@ namespace Z0
             var project = Project();
             var cmd = FlowCommands.Select(AsmToMcAsm.Instance);
             cmd.Execute(project, (scope, cmdname));
-
-            // var cmds = cmd.BuildCmdLines(project, scope, cmdname);
-            // iter(cmds, cmd => Write(cmd.Format()));
-
             return true;
         }
-
     }
 }

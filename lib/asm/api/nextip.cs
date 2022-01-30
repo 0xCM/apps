@@ -12,11 +12,11 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static MemoryAddress nextip(in AsmCallSite src)
-            => nextip(src.Caller.Base, src.LocalOffset, src.InstructionSize);
+        public static MemoryAddress rip(in AsmCallSite src)
+            => rip(src.Caller.Base, src.LocalOffset, src.InstructionSize);
 
         [MethodImpl(Inline), Op]
-        public static MemoryAddress nextip(MemoryAddress @base, Address16 offset, byte currentsize)
-            => @base + offset + currentsize;
+        public static MemoryAddress rip(MemoryAddress @base, Address32 offset, byte instsize)
+            => @base + offset + instsize;
     }
 }

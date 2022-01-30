@@ -21,53 +21,6 @@ namespace Z0
             return true;
         }
 
-        SdmSigOpRules SdmRules => Service(Wf.SdmRules);
-
-        [CmdOp("sdm/forms")]
-        Outcome SdmTerminals(CmdArgs args)
-        {
-            var details = Sdm.LoadImportedOpcodes();
-            var occount = details.Count;
-            var records = list<SdmFormRecord>();
-            var result = Outcome.Success;
-            var k = 0u;
-            for(var i=0; i<occount; i++)
-            {
-                ref readonly var detail = ref details[i];
-                var s = detail.Sig.Format().ToLowerInvariant();
-                result = AsmSigExpr.parse(s, out var  _sig);
-                if(result.Fail)
-                    break;
-
-                var rule = SdmRules.Symbolize(_sig);
-                var terminals = rule.Terminate().Map(t => paired(AsmSigs.identify(t), t));
-
-                result = AsmOcParser.parse(detail.OpCode, out var opcode);
-                if(result.Fail)
-                    break;
-
-                for(var j=0; j<terminals.Count; j++)
-                {
-                    var record = new SdmFormRecord();
-                    ref readonly var terminal = ref terminals[j];
-                    record.Seq = k++;
-                    record.Name = terminal.Left;
-                    record.Terminal = AsmSigs.expression(terminal.Right);
-                    record.Sig = _sig;
-                    record.OpCode = opcode;
-                    records.Add(record);
-                }
-            }
-
-            if(result.Fail)
-                return result;
-
-            TableEmit(records.ViewDeposited(), SdmFormRecord.RenderWidths, ProjectDb.TablePath<SdmFormRecord>("sdm"));
-
-
-            return result;
-        }
-
         static string[] Gp8Regs = new string[]{"al","cl","dl","bl","spl","bpl","sil","dil","r8b","r9b","r10b","r11b","r12b","r13b","r14b","r15b"};
 
         static string[] Gp16Regs = new string[]{"ax","cx","dx","bx","sp","bp","si","di","r8w","r9w","r10w","r11w","r12w","r13w","r14w","r15w"};
@@ -153,9 +106,7 @@ namespace Z0
             var count = src.Count;
             var dst = alloc<Index<string>>(count);
             for(var i=0; i<count; i++)
-            {
                 seek(dst,i) = rewrite(src[i]);
-            }
             return dst.SelectMany(x => x);
         }
    }

@@ -22,17 +22,6 @@ namespace Z0.Asm
             tool.Process(src,dst);
         }
 
-        const byte FieldCount = 2;
-
-        public static ReadOnlySpan<byte> SlotWidths
-            => new byte[FieldCount]{8,32};
-
-        public static string pattern()
-        {
-            var sbuffer = span<char>(1024);
-            return text.format(slice(sbuffer, 0, text.slot(SlotWidths, Chars.Pipe, sbuffer)));
-        }
-
         void CollectMemStats()
         {
             var dst = Db.ProcessContextRoot();
@@ -56,16 +45,6 @@ namespace Z0.Asm
                 var records = pipe.LoadMetadata(src);
                 pipe.EmitCode(records, dst);
             }
-        }
-
-        public void CollectEntryPoints()
-        {
-            var catalog = Wf.ApiCatalog;
-            var jit = Wf.ApiJit();
-            var members = jit.JitCatalog(catalog);
-            var flow = Wf.Running("Creating method table");
-            var table = MethodEntryPoints.create(core.controller().Id(), members);
-            Wf.Ran(flow, $"Created method table with {table.View.Length} entries");
         }
 
         void CheckMullo(IBoundSource Source)
@@ -149,20 +128,6 @@ namespace Z0.Asm
             Wf.Row(buffer.Emit());
         }
 
-        void CalcAddress()
-        {
-            // ; BaseAddress = 7ffc56862280h
-            // 0025h call 7ffc52e94420h                      ; CALL rel32                       | E8 cd                            | 5   | e8 76 21 63 fc
-            // Expected: 7ffc56862310h
-            const ulong FunctionBase = 0x7ffc56862280;
-            const ushort InstructionOffset = 0x25;
-            const byte InstructionSize = 0x5;
-            const ulong Displacement = 0xfc632176;
-            var instruction = array<byte>(0xe8, 0x76, 0x21, 0x63, 0xfc);
-            MemoryAddress Encoded =  0x7ffc52e94420;
-            MemoryAddress nextIp = asm.nextip(FunctionBase, InstructionOffset, InstructionSize);
-            MemoryAddress target = nextIp + Displacement;
-        }
 
         void CheckFlags()
         {

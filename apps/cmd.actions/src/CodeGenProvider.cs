@@ -11,7 +11,5 @@ namespace Z0
         CgSvc CodeGen => Service(Wf.CodeGen);
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
-
-        SdmSigOpRules SdmRules => Service(Wf.SdmRules);
     }
 }

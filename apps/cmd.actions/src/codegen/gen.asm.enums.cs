@@ -9,7 +9,7 @@ namespace Z0
         [CmdOp("gen/asm/enums")]
         Outcome GenAsmEnums(CmdArgs args)
         {
-            var symbols = Sdm.AsmSigSymbols();
+            var symbols = Sdm.LoadSigSymbols();
             var g = CodeGen.EnumGen();
             var buffer = text.buffer();
             g.Emit(0u, symbols, buffer);

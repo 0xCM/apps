@@ -106,6 +106,10 @@ namespace Z0
             => new Address32((uint)src);
 
         [MethodImpl(Inline)]
+        public static implicit operator Address32(Address16 src)
+            => new Address32(src);
+
+        [MethodImpl(Inline)]
         public static implicit operator Address32(int src)
             => new A((uint)src);
 

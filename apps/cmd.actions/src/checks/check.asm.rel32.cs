@@ -63,10 +63,29 @@ namespace Z0
                 }
             }
 
+            void Check5()
+            {
+                // BaseAddress = 7ffc56862280h
+                // 0025h call 7ffc52e94420h                      ; CALL rel32                       | E8 cd                            | 5   | e8 76 21 63 fc
+                // Expected: 7ffc56862310h
+                const string Asm = "call 7ffc52e94420h";
+                const ulong Base = 0x7ffc56862280;
+                const uint Offset = 0x25;
+                const byte InstSize = 0x5;
+                const ulong Disp = 0xfc632176;
+                MemoryAddress Target = 0x7ffc56862310;
+                AsmHexCode hex = array<byte>(0xe8, 0x76, 0x21, 0x63, 0xfc);
+                MemoryAddress target = asm.rip(Base, Offset, InstSize) + Disp;
+                // if(target != Target)
+                // {
+                //     Error(string.Format("{0} != {1}", target, Target));
+                // }
+            }
+
 
             void Check4()
             {
-                const string Asm = "0036h call 7fff92427890h";
+                const string Asm = "call 7fff92427890h";
                 const string Encoding = "e8 25 e4 b2 5f";
                 const ulong Base = 0x7fff328f9430ul;
                 const byte Offset = 0x36;
@@ -106,6 +125,7 @@ namespace Z0
             Check2();
             Check3();
             Check4();
+            Check5();
             CheckJmpRel32();
 
             return result;

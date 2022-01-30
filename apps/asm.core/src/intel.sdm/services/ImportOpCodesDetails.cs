@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    using static Root;
     using static core;
     using static SdmModels;
 
@@ -87,7 +84,7 @@ namespace Z0.Asm
 
         string CalcOperands(string sig)
         {
-            var sigRules = SigNormalRules();
+            var sigRules = SigNormalRules;
 
             ReadOnlySpan<string> _operands(string src)
                 => text.trim(text.split(src, Chars.Comma)).Select(CalcOperand);
@@ -127,8 +124,8 @@ namespace Z0.Asm
             var rows = src.Rows;
             var count = rows.Length;
             var cols = src.Cols;
-            var sigRules = SigNormalRules();
-            var ocRules = OcReplaceRules();
+            var ocfixups = OcFixupRules;
+            var sigfixups = SigFixupRules;
             for(var i=0; i<count; i++)
             {
                 ref readonly var input = ref skip(rows,i);
@@ -153,7 +150,7 @@ namespace Z0.Asm
                     switch(name)
                     {
                         case "Opcode":
-                        var oc = CalcOpCode(content);
+                        var oc = FixupOpCode(content);
                         target.OpCode = oc;
                         if(empty(oc))
                             valid = false;
@@ -167,7 +164,8 @@ namespace Z0.Asm
                                 break;
                             }
 
-                            target.Sig = NormalizeSig(content);
+                            var sig = FixupSig(content);
+                            target.Sig = NormalizeSig(sig);
                             target.Mnemonic = monic;
                             valid = true;
                         break;
@@ -238,8 +236,11 @@ namespace Z0.Asm
             }
             return counter;
 
-            string CalcOpCode(string src)
-                => text.despace(ocRules.Apply(text.trim(src)));
+            string FixupOpCode(string src)
+                => text.despace(ocfixups.Apply(text.trim(src)));
+
+            string FixupSig(string src)
+                => text.despace(sigfixups.Apply(text.trim(src)));
         }
     }
 }

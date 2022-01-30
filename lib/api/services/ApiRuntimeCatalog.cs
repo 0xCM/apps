@@ -53,6 +53,7 @@ namespace Z0
         Index<TableDef> _TableDefs;
 
         ConstLookup<Type,IParser> _Parsers;
+
         object locker;
 
         public ApiRuntimeCatalog(Index<IPart> parts, Index<Assembly> components, ApiPartCatalogs catalogs, Index<IApiHost> hosts, Index<PartId> partIds, Index<MethodInfo> ops)

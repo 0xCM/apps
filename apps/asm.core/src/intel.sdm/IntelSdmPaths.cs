@@ -26,6 +26,9 @@ namespace Z0.Asm
         public FS.FilePath SigDecompRules()
             => ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
 
+        public FS.FilePath SigFixupRules()
+            => ProjectDb.Settings("asm.sigs.fixups", FS.ext("map"));
+
         public FS.FilePath SigExpansionRules()
             => ProjectDb.Settings("asm.sigs.expansions", FS.ext("map"));
 
@@ -38,11 +41,8 @@ namespace Z0.Asm
         public FS.FilePath SigNormalRules()
             => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));
 
-        public FS.FilePath OcReplaceRules()
-            => ProjectDb.Settings("asm.opcodes.replace", FS.ext("map"));
-
-        public FS.FilePath SigOpMaskRules()
-            => ProjectDb.Settings("asm.sigs.opmasks", FS.ext("map"));
+        public FS.FilePath OcFixupRules()
+            => ProjectDb.Settings("asm.opcodes.fixups", FS.ext("map"));
 
         public FS.FolderPath Sources()
             => Project().Home();
