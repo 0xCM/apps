@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [SymSource("asm")]
-    public enum AsmOpModifierKind : byte
+    public enum AsmModifierKind : byte
     {
         None,
 

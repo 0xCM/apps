@@ -19,11 +19,13 @@ namespace Z0.Asm
 
         public ConstLookup<AsmSigOpKind,Index<AsmSigOp>> TokensByKind {get; private set;}
 
-        public ConstLookup<AsmSigOp,string> TokenExpressions {get; private set;}
+        public ConstLookup<uint,string> TokenExpressions {get; private set;}
 
         public ConstLookup<string,AsmSigOp> TokensByExpression {get; private set;}
 
         public Symbols<AsmSigOpKind> TokenKindSymbols {get; private set;}
+
+        public Symbols<AsmModifierKind> Modifers {get; private set;}
 
         AsmSigDatasets()
         {
@@ -47,7 +49,7 @@ namespace Z0.Asm
                     var count = (uint)symtokens.Length;
                     dst.Tokens = alloc<AsmSigOp>(count);
 
-                    var tokenExpr = dict<AsmSigOp,string>();
+                    var tokenExpr = dict<uint,string>();
                     var exprToken = dict<string,AsmSigOp>();
                     var j=0;
 
@@ -60,7 +62,7 @@ namespace Z0.Asm
                             var sigtoken = new AsmSigOp(kind, (byte)symtoken.Value);
                             var xpr = symtoken.Expr.Text;
                             dst.Tokens[j++] = sigtoken;
-                            tokenExpr[sigtoken] = xpr;
+                            tokenExpr[sigtoken.Id] = xpr;
                             exprToken[xpr] = sigtoken;
 
                         }
@@ -71,6 +73,7 @@ namespace Z0.Asm
                     dst.TokensByKind = dst.Tokens.GroupBy(t => t.OpKind).Select(x => (x.Key, (Index<AsmSigOp>)x.Array())).ToDictionary();
                     dst.TokenExpressions = tokenExpr;
                     dst.TokensByExpression = exprToken;
+                    dst.Modifers = Symbols.index<AsmModifierKind>();
                     _Instance = dst;
                 }
 

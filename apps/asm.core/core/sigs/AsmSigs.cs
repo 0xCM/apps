@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     [ApiHost]
     public class AsmSigs : AppService<AsmSigs>
     {
@@ -21,44 +16,28 @@ namespace Z0.Asm
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value), size);
 
-        Productions DecompRules;
-
-        IntelSdmPaths SdmPaths => Service(Wf.SdmPaths);
+        public static bool modified(AsmSigOpExpr src, out string target, out AsmModifierKind mod)
+        {
+            mod = AsmModifierKind.None;
+            target = EmptyString;
+            var i = text.index(src.Text, Chars.LBrace);
+            if(i > 0)
+            {
+                target = text.trim(text.left(src.Text,i));
+                var modtext = text.trim(text.right(src.Text,i-1));
+                var modifiers = Symbols.index<AsmModifierKind>();
+                modifiers.ExprKind(modtext, out mod);
+            }
+            return mod != 0;
+        }
 
         protected override void OnInit()
         {
-            DecompRules = Rules.productions(SdmPaths.SigDecompRules());
+
         }
 
         public bool IsModified(in AsmSigOpExpr src)
             => src.Text.Contains(Chars.LBrace);
-
-        public AsmSigRuleExpr Symbolize(in AsmSigExpr sig)
-        {
-            var opcount = sig.OperandCount;
-            var dst = dict<byte,IRuleExpr>();
-            var operands = sig.Operands();
-            for(byte i=0; i<opcount; i++)
-            {
-                ref readonly var op = ref skip(operands,i);
-                if(DecompRules.Find(op.Text, out var production))
-                {
-                    dst[i] = production.Consequent;
-                }
-                else
-                {
-                    dst[i] = RuleText.value(op.Text);
-                }
-            }
-            var expr = new AsmSigRuleExpr(sig.Mnemonic, opcount);
-            for(byte i=0; i<opcount; i++)
-            {
-                expr.WithOperand(i,dst[i]);
-            }
-
-            return expr;
-        }
-
 
         public Outcome Parse(string src, out AsmSig dst)
             => AsmSigParser.parse(src, out dst);
@@ -80,31 +59,14 @@ namespace Z0.Asm
             else
                 return result;
 
-            result = Parse(sigexpr.Format(), out var sig);
+            result = AsmSigParser.parse(sigexpr.Format(), out var sig);
             if(result.Fail)
             {
                 result = (false,string.Format("Sig parse failure:{0}", sigexpr.Format()));
                 return result;
             }
 
-            return new AsmForm(identify(new AsmFormExpr(sigexpr, ocexpr)).Text, sig, opcode);
-        }
-
-        public static Identifier identify(in AsmFormExpr src)
-        {
-            var dst = text.buffer();
-            ref readonly var sig = ref src.Sig;
-            dst.Append(sig.Mnemonic.Format(MnemonicCase.Lowercase));
-            var ops = sig.Operands();
-            var count = ops.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var op = ref skip(ops,i);
-                dst.Append(Chars.Underscore);
-                dst.Append(text.replace(text.replace(op.Text, Chars.Colon, Chars.x), Chars.Amp, Chars.a));
-            }
-
-            return dst.Emit();
+            return new AsmForm(AsmForm.identify(new AsmFormExpr(sigexpr, ocexpr)).Text, sig, opcode);
         }
     }
 }

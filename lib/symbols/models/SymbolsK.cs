@@ -24,6 +24,8 @@ namespace Z0
 
         readonly Index<SymVal> SymVals;
 
+        readonly Dictionary<K,Sym<K>> KindMap;
+
         Symbols()
         {
 
@@ -37,6 +39,7 @@ namespace Z0
             ValMap = valMap;
             SymKinds = src.Select(x => x.Kind);
             SymVals = valMap.Keys.Array();
+            KindMap = src.Select(x => (x.Kind, x)).ToDictionary();
         }
 
         public ref readonly Sym<K> this[uint index]
@@ -45,10 +48,10 @@ namespace Z0
             get => ref Data[index];
         }
 
-        public ref readonly Sym<K> this[K index]
+        public ref readonly Sym<K> this[K kind]
         {
             [MethodImpl(Inline)]
-            get => ref Data[bw32(index)];
+            get => ref Data[bw32(kind)];
         }
 
         [MethodImpl(Inline)]
@@ -63,6 +66,9 @@ namespace Z0
 
         public bool MapExpr(SymExpr src, out Sym<K> dst)
             => ExprMap.TryGetValue(src.Text, out dst);
+
+        public bool MakKind(K src, out Sym<K> dst)
+            => KindMap.TryGetValue(src, out dst);
 
         public bool ExprKind(SymExpr src, out K dst)
         {

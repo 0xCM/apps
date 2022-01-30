@@ -9,6 +9,8 @@
     <ProjectReference Include="$(MachinesX86)" />
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(LlvmTools)" />
+    <ProjectReference Include="$(CodeGenIntel)" />
+
     <Reference Include="$(Checks)" HintPath="$(ChecksPath)"/>
   </ItemGroup>
 

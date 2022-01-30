@@ -366,17 +366,20 @@ namespace Z0.Asm
             rKz,
 
             [Symbol("k1z")]
-            k1z
+            k1z,
+
+            [Symbol("{k2}")]
+            k2,
         }
 
         [SymSource(tokens, K.Broadcast)]
         public enum BroadcastToken
         {
             [Symbol("m32bcst", "Represents a 32-bit memory location that defines a scalar to broadcast to vector operands")]
-            m32bcast,
+            m32bcst,
 
             [Symbol("m64bcst", "Represents a 64-bit memory location that defines a scalar to broadcast to vector operands")]
-            m64bcast,
+            m64bcst,
 
             [Symbol("zmm/m512/m32bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 32-bit memory location")]
             z512x32bcst,

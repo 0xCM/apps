@@ -22,6 +22,7 @@ namespace Z0.Asm
                 2 => new AsmSig(mnemonic, skip(ops,0), skip(ops,1)),
                 3 => new AsmSig(mnemonic, skip(ops,0), skip(ops,1), skip(ops,2)),
                 4 => new AsmSig(mnemonic, skip(ops,0), skip(ops,1), skip(ops,2), skip(ops,3)),
+                5 => new AsmSig(mnemonic, skip(ops,0), skip(ops,1), skip(ops,2), skip(ops,3), skip(ops,4)),
                 _ => AsmSig.Empty
             };
 

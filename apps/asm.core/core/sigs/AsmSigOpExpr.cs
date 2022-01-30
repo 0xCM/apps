@@ -48,44 +48,8 @@ namespace Z0.Asm
             get => alg.hash.marvin(Text);
         }
 
-        public bool IsModified
-            => Text.Contains(Chars.LBrace);
-
-        public Outcome Modified(out string target, out AsmOpModifierKind mod)
-        {
-            mod = AsmOpModifierKind.None;
-            target = EmptyString;
-            var i = text.index(Text, Chars.LBrace);
-            if(i > 0)
-            {
-                target = text.trim(text.left(Text,i));
-                var modtext = text.trim(text.right(Text,i-1));
-                switch(modtext)
-                {
-                    case "{k1}{z}":
-                        mod = AsmOpModifierKind.k1z;
-                    break;
-                    case "{k1}":
-                        mod = AsmOpModifierKind.k1;
-                    break;
-                    case "{z}":
-                        mod = AsmOpModifierKind.z;
-                    break;
-                    case "{k2}":
-                        mod = AsmOpModifierKind.k2;
-                    break;
-                    case "{sae}":
-                        mod = AsmOpModifierKind.sae;
-                    break;
-                    case "{er}":
-                        mod = AsmOpModifierKind.er;
-                    break;
-                    default:
-                    break;
-                }
-            }
-            return mod != 0;
-        }
+        public bool Modified(out string target, out AsmModifierKind mod)
+            => AsmSigs.modified(this, out target, out mod);
 
         public string Format()
             => Text;

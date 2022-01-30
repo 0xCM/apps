@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using System.Collections.Generic;
-
     using Asm;
 
     using static core;
-    using static Root;
 
     partial class ProjectCmdProvider
     {
@@ -62,48 +57,25 @@ namespace Z0
         }
 
         [CmdOp("sdm/sigs")]
-        Outcome SdmOpCodes(CmdArgs args)
+        Outcome SdmSigs(CmdArgs args)
         {
-            var decomps = Sdm.LoadSigDecomps();
-            var count = decomps.Count;
-            var opexpr = span<AsmSigOpExpr>(5);
-            var identity = text.buffer();
-            var identities = dict<Identifier, HashSet<SdmSigOpCode>>();
-            for(var i=0; i<count; i++)
+            var result = Outcome.Success;
+            var src = Symbols.index<AsmSigId>();
+            var count = src.Count;
+            for(var i=0u; i<count; i++)
             {
-                opexpr.Clear();
-                identity.Clear();
+                ref readonly var symbol = ref src[i];
+                var expr = symbol.Expr.Format();
+                result = AsmSigParser.parse(expr, out var sig);
+                if(result.Fail)
+                    break;
 
-                ref readonly var sig = ref decomps[i];
-                var opcount = sigops(sig, opexpr);
-                var operands = slice(opexpr,0, opcount);
-
-                identity.Append(sig.Sig.Mnemonic.Format(MnemonicCase.Lowercase));
-                for(var j=0; j<opcount; j++)
-                {
-                    identity.Append(Chars.Underscore);
-                    identity.Append(identifier(skip(operands,j)));
-                }
-
-                var id = identity.Emit();
-                if(!identities.ContainsKey(id))
-                    identities.Add(id, new());
-
-                identities[id].Add(sig);
+                Write(sig.Format());
             }
 
-            foreach(var entry in identities)
-            {
-                var id = entry.Key;
-                var opcodes = entry.Value.Map(x => x.OpCode.Format()).Delimit(Chars.Pipe,-32);
-                Write(string.Format("{0,-32} | {1}", id, opcodes));
-            }
-
-            return true;
+            return result;
         }
 
-        static string identifier(AsmSigOpExpr src)
-            => src.Text.Replace(" {k1}{z}", EmptyString).Replace(" {k1}", EmptyString).ToLower();
 
         static string[] Gp8Regs = new string[]{"al","cl","dl","bl","spl","bpl","sil","dil","r8b","r9b","r10b","r11b","r12b","r13b","r14b","r15b"};
 

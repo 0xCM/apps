@@ -21,35 +21,35 @@ namespace Z0.Asm
             for(byte i=0; i<count; i++)
             {
                 if(i != 0)
-                {
                     dst.Append(", ");
-                }
                 else
                     dst.Append(Chars.Space);
 
-                dst.Append(expression(src[i]));
+                dst.Append(expression(src[i]).Format());
             }
             return dst.Emit();
         }
 
         public string Format(in AsmSig src)
+            => format(src);
+
+        public static AsmSigOpExpr expression(AsmSigOp src)
         {
-            var dst = text.buffer();
-            var count = src.OpCount;
-            for(byte i=0; i<count; i++)
+            if(_Datasets.TokenExpressions.Find(src.Id, out var xpr))
             {
-                if(i != 0)
-                    dst.Append(Chars.Comma);
-                dst.Append(Expression(src[i]));
+                if(src.Modifier != 0)
+                {
+                    if(_Datasets.Modifers.MakKind(src.Modifier, out var mod))
+                        return string.Format("{0} {1}", xpr, mod.Expr);
+                    else
+                        return RP.Error;
+                }
+                else
+                    return xpr;
             }
-            return dst.Emit();
+            else
+                return RP.Error;
         }
-
-        string Expression(AsmSigOp src)
-            => Datasets.TokenExpressions[src];
-
-        static string expression(AsmSigOp src)
-            => _Datasets.TokenExpressions[src];
 
         static AsmSigFormatter()
         {

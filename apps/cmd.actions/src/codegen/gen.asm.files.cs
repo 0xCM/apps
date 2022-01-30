@@ -15,7 +15,7 @@ namespace Z0
         {
             const string Content = "    ret\n\n";
             var comment = asm.comment(string.Format("{0} | {1}", src.Sig.Format(), src.OpCode.Format()));
-            var label = asm.label(AsmSigs.identify(AsmFormExpr.define(src.Sig, src.OpCode)));
+            var label = asm.label(AsmForm.identify(AsmFormExpr.define(src.Sig, src.OpCode)));
             return AsmBlockSpec.define(comment, label, Content);
         }
 
@@ -42,51 +42,49 @@ namespace Z0
         [CmdOp("gen/asm/files")]
         Outcome GenAsmFiles(CmdArgs args)
         {
-            const uint Max = 256;
-            var running = Running();
-            var g = CodeGen.AsmFiles();
-            var src = Sdm.LoadSigDecomps();
-            var count = src.Count;
-            var mnemonic = src.First.Sig.Mnemonic;
-            var buffer = span<SdmSigOpCode>(Max);
-            var counter = 0u;
-            var content = text.buffer();
-            var outdir = ProjectDb.Logs() + FS.folder("asm");
+            // const uint Max = 256;
+            // var running = Running();
+            // var g = CodeGen.AsmFiles();
+            // var src = SdmRules.LoadSigProductions();
+            // var count = src.Count;
+            // var mnemonic = src.First.Target.Mnemonic;
+            // var buffer = span<SdmSigOpCode>(Max);
+            // var counter = 0u;
+            // var content = text.buffer();
+            // var outdir = ProjectDb.Logs() + FS.folder("asm");
 
 
-            FS.FilePath Emit(AsmMnemonic mnemonic, ReadOnlySpan<SdmSigOpCode> sigs)
-            {
-                //var file = AsmFiles.specify(mnemonic.Format(), comments(sigs));
-                var file = AsmFiles.specify(mnemonic.Format(), blocks(sigs));
-                var path = g.Emit(file, outdir);
-                return path;
-            }
+            // FS.FilePath Emit(AsmMnemonic mnemonic, ReadOnlySpan<SdmSigOpCode> sigs)
+            // {
+            //     var file = AsmFiles.specify(mnemonic.Format(), blocks(sigs));
+            //     return g.Emit(file, outdir);
+            // }
 
-            for(var i=0; i<count && counter < Max; i++)
-            {
-                ref readonly var sig = ref src[i];
-                ref readonly var m = ref sig.Sig.Mnemonic;
-                if(m != mnemonic)
-                {
-                    if(counter != 0)
-                    {
-                        Babble(AppMsg.EmittedFile.Format(Emit(mnemonic, slice(buffer,0,counter))));
-                        mnemonic = m;
-                        buffer.Clear();
-                        counter = 0;
-                        seek(buffer,counter++) = sig;
-                    }
-                }
-                else
-                {
-                    seek(buffer, counter++) = sig;
-                }
-            }
+            // for(var i=0; i<count && counter < Max; i++)
+            // {
+            //     ref readonly var sig = ref src[i];
+            //     var m = sig.Target.Mnemonic;
+            //     if(m != mnemonic)
+            //     {
+            //         if(counter != 0)
+            //         {
+            //             Babble(AppMsg.EmittedFile.Format(Emit(mnemonic, slice(buffer,0,counter))));
+            //             mnemonic = m;
+            //             buffer.Clear();
+            //             counter = 0;
+            //             seek(buffer,counter++) = sig;
+            //         }
+            //     }
+            //     else
+            //     {
+            //         seek(buffer, counter++) = sig;
+            //     }
+            // }
 
-            if(counter != 0)
-                Babble(AppMsg.EmittedFile.Format(Emit(mnemonic, slice(buffer,0,counter))));
+            // if(counter != 0)
+            //     Babble(AppMsg.EmittedFile.Format(Emit(mnemonic, slice(buffer,0,counter))));
 
-            Ran(running);
+            // Ran(running);
 
             return true;
         }
