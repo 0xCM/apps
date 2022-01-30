@@ -29,26 +29,6 @@ namespace Z0.Asm
             OpMaskRules = Rules.productions(SdmPaths.SigOpMaskRules());
         }
 
-        public Identifier Identify(AsmSigRuleExpr target)
-        {
-            var operands = target.Operands;
-            var opcount = operands.Count;
-            var buffer = text.buffer();
-            buffer.Append(target.Mnemonic.Format(MnemonicCase.Lowercase));
-            for(var j=0; j<opcount; j++)
-            {
-                buffer.Append(Chars.Underscore);
-
-                AsmSigOpExpr op = operands[j].Format().Replace(":", "x").Replace("&", "a");
-                if(op.Modified(out var t, out var m))
-                    buffer.AppendFormat("{0}_{1}", t, m);
-                else
-                    buffer.Append(op.Format());
-            }
-            var name = buffer.Emit().Replace("lock", "@lock");
-            return name;
-        }
-
         public Outcome EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
         {
             var result = Outcome.Success;
@@ -131,7 +111,7 @@ namespace Z0.Asm
             return result;
         }
 
-        public Index<AsmSigTerminal> EmitTerminals()
+        public void EmitTerminals()
         {
             var rules = LoadSigProductions();
             var count = rules.Length;
@@ -139,28 +119,35 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var rule = ref rules[i];
+                var source = rule.Source;
                 var terminals = rule.Target.Terminate();
                 for(var j=0; j<terminals.Count; j++)
-                    productions.Add(new AsmSigProduction(rule.Source, terminals[j]));
+                    productions.Add(new AsmSigProduction(source, terminals[j]));
             }
 
             var prodCount = productions.Count;
-            var records = alloc<AsmSigTerminal>(prodCount);
+            var records = list<AsmSigTerminal>(prodCount);
+            var targets = dict<Identifier,AsmSigRuleExpr>();
+
+            var k=0u;
             for(var i=0; i<prodCount; i++)
             {
-                ref var record = ref seek(records,i);
-                var source = productions[i].Source;
-                var target = productions[i].Target;
-                record.Seq = (uint)i;
-                record.Name = Identify(target);
-                record.Source = source;
-                record.Target = target;
+                var production = productions[i];
+                var source = production.Source;
+                var target = production.Target;
+                var name = AsmSigRuleExpr.identify(target);
+                if(targets.TryAdd(name, target))
+                {
+                    var record = new AsmSigTerminal();
+                    record.Seq = k++;
+                    record.Name = name;
+                    record.Source = source;
+                    record.Target = target;
+                    records.Add(record);
+                }
             }
 
-            var dst = ProjectDb.TablePath<AsmSigTerminal>("sdm");
-            TableEmit(@readonly(records), AsmSigTerminal.RenderWidths, dst);
-
-            return records;
+            TableEmit(records.ViewDeposited(), AsmSigTerminal.RenderWidths, ProjectDb.TablePath<AsmSigTerminal>("sdm"));
         }
 
         public Index<AsmSigTerminal> LoadTerminals()
