@@ -31,7 +31,6 @@ namespace Z0.Asm
             byte Mul(byte a, byte b);
 
             byte Mod(byte a, byte b);
-
         }
 
         [Free]
@@ -46,17 +45,6 @@ namespace Z0.Asm
 
         }
 
-        [Free]
-        public interface ICalc64
-        {
-            ulong Add(ulong a, ulong b);
-
-            ulong Sub(ulong a, ulong b);
-
-            ulong Mul(ulong a, ulong b);
-
-            ulong Mod(ulong a, ulong b);
-        }
 
         [ApiHost(prototypes + calc8)]
         public readonly struct Calc8 : ICalc8
@@ -78,24 +66,5 @@ namespace Z0.Asm
                 => math.sub(a,b);
         }
 
-        [ApiHost(prototypes + calc64)]
-        public readonly struct Calc64 : ICalc64
-        {
-            [Op]
-            public ulong Add(ulong a, ulong b)
-                => math.add(a,b);
-
-            [Op]
-            public ulong Mod(ulong a, ulong b)
-                => math.mod(a,b);
-
-            [Op]
-            public ulong Mul(ulong a, ulong b)
-                => math.mul(a,b);
-
-            [Op]
-            public ulong Sub(ulong a, ulong b)
-                => math.sub(a,b);
-        }
     }
 }

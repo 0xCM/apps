@@ -18,7 +18,6 @@ namespace Z0.Asm
         public static string bitstring(Sib src)
             => string.Format("{0} {1} {2}", BitRender.format2(src.Scale), BitRender.format3(src.Index), BitRender.format3(src.Base));
 
-
         [MethodImpl(Inline), Op]
         static uint sib(Sib src, ref uint i, Span<char> dst)
         {
@@ -203,32 +202,6 @@ namespace Z0.Asm
         public static ModRm modrm(RegIndex rm, RegIndex reg, byte mod)
             => modrm((byte)rm, (byte)reg, mod);
 
-        [Op]
-        public static string semantic(in AsmDetailRow row)
-        {
-            var encoded = row.Encoded.Bytes;
-            var ip = row.IP;
-            var @base = row.BlockAddress;
-
-            if(row.Mnemonic.Format(MnemonicCase.Lowercase) == "jmp")
-            {
-                if(JmpRel8.test(encoded))
-                    return string.Format("jmp(rel8,{0},{1}) -> {2}",
-                        JmpRel8.dx(encoded),
-                        JmpRel8.offset(@base, ip, encoded),
-                        JmpRel8.target(ip, encoded)
-                        );
-                else if(JmpRel32.test(encoded))
-                    return string.Format("jmp(rel32,{0},{1}) -> {2}",
-                        JmpRel32.dx(encoded).FormatMinimal(),
-                        JmpRel32.offset(@base, ip, encoded).FormatMinimal(),
-                        JmpRel32.target(ip, encoded)
-                        );
-                else if(Jmp64.test(encoded))
-                    return string.Format("jmp({0})", Jmp64.target(encoded));
-            }
-            return EmptyString;
-        }
 
         [Op]
         public static Imm imm(AsmHexCode src, byte pos, bool signed, NativeSize size)

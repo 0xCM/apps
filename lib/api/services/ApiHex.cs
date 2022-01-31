@@ -147,6 +147,16 @@ namespace Z0
             return segsize;
         }
 
+        ApiPacks ApiPacks => Service(Wf.ApiPacks);
+
+        IApiPack ApiPack => ApiPacks.Current();
+
+        public FS.FolderPath ParsedExtractRoot()
+            => ApiPack.ParsedExtractRoot();
+
+        public FS.Files ParsedExtracts()
+            => ParsedExtractRoot().Files(FS.PCsv);
+
         public FS.FolderPath HexRoot()
             => Db.ParsedExtractRoot();
 

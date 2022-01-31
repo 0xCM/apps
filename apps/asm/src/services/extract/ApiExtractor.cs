@@ -146,14 +146,14 @@ namespace Z0
         FS.FolderPath SegDir
             => Db.TableDir("segments");
 
-        FS.FolderPath ParsedExtractRoot(IApiPack pack)
-            => pack.Root + FS.folder("parsed");
+        // FS.FolderPath ParsedExtractRoot(IApiPack pack)
+        //     => pack.Root + FS.folder("parsed");
 
-        FS.FilePath ParsedExtractPath(IApiPack pack, FS.FileName name)
-            => ParsedExtractRoot(pack) + name;
+        // FS.FilePath ParsedExtractPath(IApiPack pack, FS.FileName name)
+        //     => ParsedExtractRoot(pack) + name;
 
-        FS.FilePath ParsedExtractPath(IApiPack pack, ApiHostUri host)
-            => ParsedExtractPath(pack, ApiFiles.filename(host, FS.PCsv));
+        // FS.FilePath ParsedExtractPath(IApiPack pack, ApiHostUri host)
+        //     => ParsedExtractPath(pack, ApiFiles.filename(host, FS.PCsv));
 
     }
 }

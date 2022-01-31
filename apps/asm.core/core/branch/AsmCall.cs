@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using static core;
 
-    using static Root;
-
-    partial struct asm
+    [ApiHost]
+    public readonly struct AsmCall
     {
+
     }
 }

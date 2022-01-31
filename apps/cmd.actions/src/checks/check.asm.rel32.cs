@@ -5,7 +5,6 @@
 namespace Z0
 {
     using Asm;
-    using System;
 
     using static core;
     using static Asm.AsmHexSpecs;
@@ -26,7 +25,7 @@ namespace Z0
 
                 MemoryAddress client = FunctionBase + InstructionOffset;
                 var call = AsmHexSpecs.call(client, Displacement);
-                Write(AsmRender.format(call));
+                Write(call.Format());
             }
 
             void Check2()
@@ -48,10 +47,10 @@ namespace Z0
                 var offset = 0x36;
                 var ip = Base + offset;
                 var sz = 5u;
-                var nip = ip + sz;
+                var rip = ip + sz;
                 result = Hex.hexbytes(Input, out var code);
                 var dx = AsmOpFactory.disp32(code,1);
-                var target = (MemoryAddress)(nip + dx);
+                var target = (MemoryAddress)(rip + dx);
                 var expect = (MemoryAddress)0x7fff92427890;
                 if(target == expect)
                 {
@@ -65,23 +64,21 @@ namespace Z0
 
             void Check5()
             {
-                // BaseAddress = 7ffc56862280h
-                // 0025h call 7ffc52e94420h                      ; CALL rel32                       | E8 cd                            | 5   | e8 76 21 63 fc
-                // Expected: 7ffc56862310h
-                const string Asm = "call 7ffc52e94420h";
-                const ulong Base = 0x7ffc56862280;
-                const uint Offset = 0x25;
-                const byte InstSize = 0x5;
-                const ulong Disp = 0xfc632176;
-                MemoryAddress Target = 0x7ffc56862310;
-                AsmHexCode hex = array<byte>(0xe8, 0x76, 0x21, 0x63, 0xfc);
-                MemoryAddress target = asm.rip(Base, Offset, InstSize) + Disp;
-                // if(target != Target)
-                // {
-                //     Error(string.Format("{0} != {1}", target, Target));
-                // }
-            }
+                const string Input = "e8 25 e4 b2 5f";
+                const string Statement = "0036h call 7fff92427890h";
+                const long Base = 0x7fff328f9430;
+                const long Target = 0x7fff92427890;
+                const byte Offset = 0x36;
+                const long IP = Base + Offset;
+                Hex.hexbytes(Input, out var encoding);
+                if(!AsmRel.isRel32Call(encoding))
+                {
+                    Error("Rel32 test failed");
+                    return;
+                }
 
+
+            }
 
             void Check4()
             {
@@ -130,7 +127,6 @@ namespace Z0
 
             return result;
         }
-
 
         void CheckJmpRel32()
         {

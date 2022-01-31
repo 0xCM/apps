@@ -9,15 +9,6 @@ namespace Z0.Asm
     {
         public const string TableId = "asm.encoding";
 
-        [Op]
-        public static string thumbprint(in AsmEncodingInfo src)
-        {
-            var bits = src.Encoded.ToBitString();
-            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
-            return string.Format("{0} => {1}", statement, bits);
-        }
-
-
         /// <summary>
         /// The form used to produce the encoded bits from the statement
         /// </summary>

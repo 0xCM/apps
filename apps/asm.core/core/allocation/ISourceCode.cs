@@ -23,6 +23,6 @@ namespace Z0.Asm
     public interface ISourceCode<T,D> : ISourceCode<T>
         where T : ISourceCode<T,D>
     {
-        D Descriptor {get;}
+        D Data {get;}
     }
 }

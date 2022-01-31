@@ -119,15 +119,6 @@ namespace Z0.Asm
             };
 
 
-        [Op]
-        public static string format(in AsmCallInfo src)
-            => string.Format("{0} -> {2}", src.CallSite, src.Target);
-
-        [Op]
-        public static string format(in CallRel32 src)
-            => string.Format("{0}:{1} -> {2}", src.IP, src.TargetDx, src.TargetAddress);
-
-
         public static string regop<T>(T src)
             where T : unmanaged, IRegOp<T>
         {

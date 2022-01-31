@@ -12,6 +12,10 @@ namespace Z0.Asm
     [DataType("asm.callsite")]
     public readonly struct AsmCallSite
     {
+        [MethodImpl(Inline), Op]
+        public static AsmCallSite define(AsmCaller caller, Address16 offset, uint4 size)
+            => new AsmCallSite(caller, offset, size);
+
         public AsmCaller Caller {get;}
 
         public Address16 LocalOffset {get;}

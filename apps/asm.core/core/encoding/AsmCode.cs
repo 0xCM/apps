@@ -9,18 +9,17 @@ namespace Z0.Asm
     using System.Runtime.InteropServices;
 
     using static Root;
-    using static core;
 
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct AsmCode : IComparable<AsmCode>, IEquatable<AsmCode>, ITextual, ISourceCode<AsmCode,LocatedHex>
+    public readonly struct AsmCode : IComparable<AsmCode>, IEquatable<AsmCode>, ITextual, ISourceCode<AsmCode,LocatedAsmHex>
     {
-        public SourceText Source {get;}
+        public readonly SourceText Source;
 
-        public CorrelationToken CT {get;}
+        public readonly CorrelationToken CT;
 
-        public LocatedHex Descriptor {get;}
+        public readonly LocatedAsmHex Data;
 
-        public uint Hash {get;}
+        public readonly uint Hash;
 
         [MethodImpl(Inline)]
         public AsmCode(MemoryAddress offset, SourceText asm, AsmHexCode code, CorrelationToken ct)
@@ -28,13 +27,29 @@ namespace Z0.Asm
             Source = asm;
             CT = ct;
             Hash = asm.Hash;
-            Descriptor = (offset,code);
+            Data = (offset,code);
         }
 
-        public MemoryAddress Location => Descriptor.Location;
+        public MemoryAddress Location
+        {
+            [MethodImpl(Inline)]
+            get => Data.Location;
+        }
 
-        public AsmHexCode HexCode => Descriptor.Hex;
+        public AsmHexCode HexCode
+        {
+            [MethodImpl(Inline)]
+            get => Data.Hex;
+        }
 
+        LocatedAsmHex ISourceCode<AsmCode, LocatedAsmHex>.Data
+            => Data;
+
+        SourceText ISourceCode.Source
+            => Source;
+
+        CorrelationToken ICorrelated.CT
+            => CT;
 
         [MethodImpl(Inline)]
         public bool Equals(AsmCode src)
@@ -74,7 +89,6 @@ namespace Z0.Asm
             dst.AppendFormat("{0,-8}", Location.Format(4));
             dst.AppendFormat("{0,-80}", Source);
             dst.AppendFormat("# {0}", HexCode.Format());
-
             return dst.Emit();
         }
 

@@ -9,10 +9,14 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial struct asm
+    public readonly struct AsmRip
     {
         [MethodImpl(Inline), Op]
-        public static AsmCallee callee(MemoryAddress @base, string symbol)
-            => new AsmCallee(@base, symbol);
+        public static MemoryAddress from(in AsmCallSite src)
+            => calc(src.Caller.Base, src.LocalOffset, src.InstructionSize);
+
+        [MethodImpl(Inline), Op]
+        public static MemoryAddress calc(MemoryAddress @base, Address32 offset, byte instsize)
+            => @base + offset + instsize;
     }
 }

@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    partial struct asm
+    public readonly struct Jmp64
     {
+
     }
 }

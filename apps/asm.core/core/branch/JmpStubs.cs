@@ -28,16 +28,16 @@ namespace Z0.Asm
                 ref readonly var entry = ref skip(entries,i);
                 ref var data = ref entry.Ref<byte>();
                 ByteReader.read5(data, encoded);
-                if(JmpRel32.test(encoded))
+                if(AsmRel.isRel32Jmp(encoded))
                 {
-                    var target = JmpRel32.target(entry, encoded);
+                    var target = AsmRel.rel32target(entry, encoded);
                     ref var info = ref seek(located,j++);
                     info.Method = method.Identify();
                     info.StubAddress = entry;
                     info.TargetAddress = target;
                     info.StubCode =  AsmHexCode.load(slice(encoded,0,5));
-                    info.Displacement = JmpRel32.dx(encoded);
-                    info.Offset = JmpRel32.offset(entry,entry,encoded);
+                    info.Displacement = AsmRel.rel32dx(encoded);
+                    info.Offset = AsmRel.rel32offset(entry,entry,encoded);
                 }
             }
             return slice(located,0,j);
@@ -67,39 +67,40 @@ namespace Z0.Asm
             return Trampolines[slot].IsNonEmpty;
         }
 
+        ApiHex ApiHex => Service(Wf.ApiHex);
+
         void Receive64u(ulong a0)
         {
-            Wf.Status($"Received {a0}");
+            Status($"Received {a0}");
         }
 
         public Index<ApiCodeBlock> SearchApi()
         {
             var jumpers = list<ApiCodeBlock>();
             var buffer = list<ApiCodeBlock>();
-            var hex = Wf.ApiHex();
-            var files = hex.Files().View;
-            var flow = Wf.Running(string.Format("Searching {0} hex files", files.Length));
+            var files = ApiHex.ParsedExtracts();
+            var flow = Running(string.Format("Searching {0} hex files", files.Length));
             for(var i=0; i<files.Length; i++)
             {
-                var file = skip(files,i);
+                var file = files[i];
                 Write(string.Format("Searching {0}", file.ToUri()));
                 buffer.Clear();
-                var count = hex.ReadBlocks(file, buffer);
+                var count = ApiHex.ReadBlocks(file, buffer);
                 var k = 0;
                 for(var j=0; j<count; j++)
                 {
                     var block = buffer[j];
-                    if(JmpRel32.test(block.Encoded))
+                    if(AsmJmp.isRel32Jmp(block.Encoded))
                     {
                         jumpers.Add(block);
                         k++;
                     }
                 }
                 if(k != 0)
-                    Status(string.Format("Collected {0} potential jump stubs from {1}", k, file.ToUri()));
+                    Status(string.Format("Collected {0} jump stubs from {1}", k, file.ToUri()));
 
             }
-            Wf.Ran(flow, string.Format("Collected {0} potential jump stubs", jumpers.Count));
+            Ran(flow, string.Format("Collected {0} jump stubs", jumpers.Count));
             return jumpers.ToArray();
         }
 
@@ -111,7 +112,7 @@ namespace Z0.Asm
             var mov = AsmHexSpecs.mov(rcx, target).Bytes;
             var dst = payload.Bytes;
             var j=0;
-            for(var i=0; i< mov.Length; i++)
+            for(var i=0; i<mov.Length; i++)
                 seek(dst,j++) = skip(mov,i);
             return ref payload;
         }

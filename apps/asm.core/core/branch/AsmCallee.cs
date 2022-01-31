@@ -15,6 +15,10 @@ namespace Z0.Asm
     [DataType("asm.callee")]
     public struct AsmCallee
     {
+        [MethodImpl(Inline), Op]
+        public static AsmCallee define(MemoryAddress @base, string symbol)
+            => new AsmCallee(@base, symbol);
+
         /// <summary>
         /// The target's base address
         /// </summary>

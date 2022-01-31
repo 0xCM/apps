@@ -9,8 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(CmdActions)" />
-    <Reference Include="$(ZTestName)" HintPath="$(ZTestPath)"/>
-    <Reference Include="$(Checks)" HintPath="$(ChecksPath)"/>
   </ItemGroup>
 
   <Import Project="../imports.props"/>

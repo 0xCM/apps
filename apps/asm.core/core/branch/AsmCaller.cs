@@ -15,6 +15,10 @@ namespace Z0.Asm
     [DataType("asm.caller")]
     public readonly struct AsmCaller
     {
+        [MethodImpl(Inline), Op]
+        public static AsmCaller define(MemoryAddress @base, string symbol)
+            => new AsmCaller(@base, symbol);
+
         public MemoryAddress Base {get;}
 
         public string Identity {get;}

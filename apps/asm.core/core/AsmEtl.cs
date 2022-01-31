@@ -46,6 +46,14 @@ namespace Z0.Asm
             return lines;
         }
 
+        [Op]
+        static string thumbprint(in AsmEncodingInfo src)
+        {
+            var bits = src.Encoded.ToBitString();
+            var statement = string.Format("{0} # ({1})<{2}>[{3}] => {4}", src.Statement.FormatPadded(), src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format());
+            return string.Format("{0} => {1}", statement, bits);
+        }
+
         public ReadOnlySpan<TextLine> EmitThumbprints(SortedSpan<AsmEncodingInfo> src, FS.FilePath dst)
         {
             var count = src.Length;
@@ -54,7 +62,7 @@ namespace Z0.Asm
             using var writer = dst.Writer();
             for(var i=0u; i<count; i++)
             {
-                var content = AsmEncodingInfo.thumbprint(src[i]);
+                var content = thumbprint(src[i]);
                 writer.WriteLine(content);
                 seek(lines,i) = (i,content);
             }

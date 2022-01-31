@@ -95,7 +95,6 @@ namespace Z0
                 _IP = _next;
                 next = _IP;
                 return true;
-
             }
             else
             {

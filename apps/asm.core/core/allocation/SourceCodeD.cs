@@ -10,21 +10,30 @@ namespace Z0.Asm
 
     public readonly struct SourceCode<D> : ISourceCode<SourceCode<D>,D>
     {
-        public SourceText Source {get;}
+        public readonly SourceText Source;
 
-        public CorrelationToken CT {get;}
+        public readonly CorrelationToken CT;
 
-        public uint Hash {get;}
+        public readonly uint Hash;
 
-        public D Descriptor {get;}
+        public readonly D Data;
 
         public SourceCode(SourceText src, CorrelationToken ct, D desc)
         {
             Source = src;
             CT = ct;
             Hash = src.Hash;
-            Descriptor = desc;
+            Data = desc;
         }
+
+        D ISourceCode<SourceCode<D>, D>.Data
+            => Data;
+
+        SourceText ISourceCode.Source
+            => Source;
+
+        CorrelationToken ICorrelated.CT
+            => CT;
 
         [MethodImpl(Inline)]
         public bool Equals(SourceCode<D> src)

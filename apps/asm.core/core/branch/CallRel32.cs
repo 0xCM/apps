@@ -33,5 +33,12 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => IP + InstructionSize + TargetDx;
         }
+
+        public string Format()
+            => string.Format("{0}:{1} -> {2}", IP, TargetDx, TargetAddress);
+
+        public override string ToString()
+            => Format();
+
     }
 }

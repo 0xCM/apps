@@ -10,8 +10,10 @@
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(LlvmTools)" />
     <ProjectReference Include="$(CodeGenIntel)" />
+  </ItemGroup>
 
-    <Reference Include="$(Checks)" HintPath="$(ChecksPath)"/>
+  <ItemGroup>
+    <EmbeddedResource Include="assets/**/*.*" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>
