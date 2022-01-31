@@ -11,24 +11,37 @@ namespace Z0.Asm
 
     public readonly struct AsmEncodingCases
     {
-        public Index<AsmEncodingCase> Cases {get;}
+        readonly Index<AsmEncodingCase> Data;
 
         [MethodImpl(Inline)]
-        public AsmEncodingCases(Index<AsmEncodingCase> src)
+        public AsmEncodingCases(AsmEncodingCase[] src)
         {
-            Cases = src;
+            Data = src;
         }
 
-        public ref AsmEncodingCase this[ushort index]
+        public ref AsmEncodingCase this[int index]
         {
             [MethodImpl(Inline)]
-            get => ref Cases[index];
+            get => ref Data[index];
+        }
+
+
+        public ref AsmEncodingCase this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[index];
+        }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => Data.Count;
         }
 
         public ReadOnlySpan<AsmEncodingCase> View
         {
             [MethodImpl(Inline)]
-            get => Cases.View;
+            get => Data.View;
         }
     }
 }

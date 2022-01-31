@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-    using static core;
     using Asm;
+
+    using static core;
 
     partial class CheckCmdProvider
     {
@@ -49,11 +47,11 @@ namespace Z0
         {
             void Api()
             {
-                var stubs = JmpStubs.create(Wf);
-                var blocks = stubs.SearchApi();
-                foreach(var block in blocks)
+                var stubs = JmpStubs.SearchCaptured(ApiHostUri.from(typeof(cpu)));
+                foreach(var stub in stubs)
                 {
-
+                    var jmp = stub.ToModel();
+                    Write(jmp.Format());
                 }
             }
 
@@ -61,8 +59,8 @@ namespace Z0
             {
                 var host = typeof(Calc64);
                 var contract = typeof(ICalc64);
-                var stubs = JmpStubs.search(host);
-                Write(stubs, JmpStub.RenderWidths);
+                var stubs = JmpStubs.SearchLive(host);
+                Write(stubs.View, JmpStub.RenderWidths);
                 var imap = Clr.imap(host,contract);
                 Write(imap.Format());
             }

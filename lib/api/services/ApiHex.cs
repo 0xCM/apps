@@ -157,6 +157,12 @@ namespace Z0
         public FS.Files ParsedExtracts()
             => ParsedExtractRoot().Files(FS.PCsv);
 
+        public FS.FilePath ParsedExtracts(ApiHostUri host)
+            => ParsedExtractRoot() + host.FileName(FS.PCsv);
+
+        public FS.FilePath ParsedExtracts(Type host)
+            => ParsedExtractRoot() + ApiHostUri.from(host).FileName(FS.PCsv);
+
         public FS.FolderPath HexRoot()
             => Db.ParsedExtractRoot();
 

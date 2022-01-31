@@ -4,38 +4,61 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct CallRel32
+    public readonly struct CallRel32 : IAsmRel<Disp32>
     {
-        public MemoryAddress IP {get;}
+        public const byte OpCode = 0xE8;
 
-        public Address32 TargetDx {get;}
+        public const byte InstSize = 5;
+
+        public readonly LocatedSymbol Source;
+
+        public readonly LocatedSymbol Target;
 
         [MethodImpl(Inline)]
-        public CallRel32(MemoryAddress rip, Address32 dx)
+        public CallRel32(LocatedSymbol src, LocatedSymbol dst)
         {
-            IP = rip;
-            TargetDx = dx;
+            Source = src;
+            Target = dst;
         }
 
-        public byte InstructionSize
+        public MemoryAddress SourceAddress
         {
             [MethodImpl(Inline)]
-            get => 5;
+            get => Source.Location;
         }
 
         public MemoryAddress TargetAddress
         {
             [MethodImpl(Inline)]
-            get => IP + InstructionSize + TargetDx;
+            get => Target.Location;
         }
 
+        public Disp32 Disp
+        {
+            [MethodImpl(Inline)]
+            get => AsmRel32.disp(SourceAddress, TargetAddress);
+        }
+
+        public AsmHexCode Encoding
+        {
+            [MethodImpl(Inline)]
+            get => AsmRel32.encode(this);
+        }
+
+        public AsmMnemonic Mnemonic
+        {
+            [MethodImpl(Inline)]
+            get => AsmMnemonicNames.call;
+        }
+
+        LocatedSymbol IAsmRel.Source
+            => Source;
+
+        LocatedSymbol IAsmRel.Target
+            => Target;
+
         public string Format()
-            => string.Format("{0}:{1} -> {2}", IP, TargetDx, TargetAddress);
+            => string.Format("call:{0} -> {1}", Source, Target);
 
         public override string ToString()
             => Format();

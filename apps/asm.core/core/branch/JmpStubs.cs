@@ -12,7 +12,7 @@ namespace Z0.Asm
 
     public class JmpStubs : AppService<JmpStubs>
     {
-        public static unsafe ReadOnlySpan<JmpStub> search(Type host)
+        public static unsafe Index<JmpStub> search(Type host)
         {
             var uri = host.ApiHostUri();
             var methods = host.DeclaredMethods();
@@ -21,26 +21,25 @@ namespace Z0.Asm
             var located = span<JmpStub>(count);
             ClrJit.jit(methods, entries);
             var j=0;
-            for(var i=0; i< count; i++)
+            for(var i=0; i<count; i++)
             {
                 var encoded = Cells.alloc(w64).Bytes;
                 ref readonly var method = ref skip(methods,i);
                 ref readonly var entry = ref skip(entries,i);
                 ref var data = ref entry.Ref<byte>();
                 ByteReader.read5(data, encoded);
-                if(AsmRel.isRel32Jmp(encoded))
+                if(AsmRel32.isJmp(encoded))
                 {
-                    var target = AsmRel.rel32target(entry, encoded);
-                    ref var info = ref seek(located,j++);
-                    info.Method = method.Identify();
-                    info.StubAddress = entry;
-                    info.TargetAddress = target;
-                    info.StubCode =  AsmHexCode.load(slice(encoded,0,5));
-                    info.Displacement = AsmRel.rel32dx(encoded);
-                    info.Offset = AsmRel.rel32offset(entry,entry,encoded);
+                    var target = AsmRel32.target(entry, encoded);
+                    ref var stub = ref seek(located,j++);
+                    stub.Name = method.Identify();
+                    stub.Stub = entry;
+                    stub.Target = target;
+                    stub.Encoding =  AsmHexCode.load(slice(encoded,0,5));
+                    stub.Disp = AsmRel32.disp(encoded);
                 }
             }
-            return slice(located,0,j);
+            return slice(located,0,j).ToArray();
         }
 
         Index<MemoryRange> Trampolines;
@@ -74,9 +73,46 @@ namespace Z0.Asm
             Status($"Received {a0}");
         }
 
-        public Index<ApiCodeBlock> SearchApi()
+        public Index<JmpStub> SearchLive(Type host)
+            => search(host);
+
+        static JmpStub stub(in ApiCodeBlock block)
         {
-            var jumpers = list<ApiCodeBlock>();
+            var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
+            var stub = new JmpStub();
+            var source = block.BaseAddress;
+            stub.Name = block.OpId;
+            stub.Stub = source;
+            stub.Target = AsmRel32.target(source, encoding);
+            stub.Encoding =  encoding;
+            stub.Disp = AsmRel32.disp(encoding);
+            return stub;
+        }
+
+        public Index<JmpStub> SearchCaptured(ApiHostUri host)
+        {
+            var src = ApiHex.ParsedExtracts(host);
+            if(!src.Exists)
+            {
+                Error(FS.missing(src));
+                return sys.empty<JmpStub>();
+            }
+
+            var dst = list<JmpStub>();
+            var blocks = ApiHex.ReadBlocks(src);
+            var count = blocks.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref blocks[i];
+                if(AsmRel32.isJmp(block.Encoded))
+                    dst.Add(stub(block));
+            }
+            return dst.ToArray();
+        }
+
+        public Index<JmpStub> SearchCaptured()
+        {
+            var dst = list<JmpStub>();
             var buffer = list<ApiCodeBlock>();
             var files = ApiHex.ParsedExtracts();
             var flow = Running(string.Format("Searching {0} hex files", files.Length));
@@ -90,9 +126,9 @@ namespace Z0.Asm
                 for(var j=0; j<count; j++)
                 {
                     var block = buffer[j];
-                    if(AsmRel.isRel32Jmp(block.Encoded))
+                    if(AsmRel32.isJmp(block.Encoded))
                     {
-                        jumpers.Add(block);
+                        dst.Add(stub(block));
                         k++;
                     }
                 }
@@ -100,8 +136,8 @@ namespace Z0.Asm
                     Status(string.Format("Collected {0} jump stubs from {1}", k, file.ToUri()));
 
             }
-            Ran(flow, string.Format("Collected {0} jump stubs", jumpers.Count));
-            return jumpers.ToArray();
+            Ran(flow, string.Format("Collected {0} jump stubs", dst.Count));
+            return dst.ToArray();
         }
 
         [Op]

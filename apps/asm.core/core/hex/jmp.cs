@@ -28,13 +28,11 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static byte jmp32(MemoryAddress rip, MemoryAddress dst, ref byte hex)
+        public static byte jmp32(MemoryAddress ip, MemoryAddress dst, ref byte hex)
         {
-            const byte OpCode = 0xE9;
             const byte Size = 5;
-            var opcode = OpCode;
-            seek(hex, 0) = opcode;
-            i32(seek(hex, 1)) = AsmOpFactory.disp32(rip + Size, dst);
+            seek(hex, 0) = JmpRel32.OpCode;
+            i32(seek(hex, 1)) = AsmOpFactory.disp32(ip + Size, dst);
             return Size;
         }
 
@@ -42,18 +40,16 @@ namespace Z0.Asm
         /// Jump short, RIP = RIP + 8-bit displacement sign extended to 64-bits
         /// </summary>
         /// <param name="w">The relative width selector</param>
-        /// <param name="rip">The address of the first instruction following the callsite</param>
+        /// <param name="ip">The address of the first instruction following the callsite</param>
         /// <param name="dst">The target address</param>
         [MethodImpl(Inline), Op]
-        public static byte jmp8(MemoryAddress rip, MemoryAddress dst, ref byte hex)
+        public static byte jmp8(MemoryAddress ip, MemoryAddress dst, ref byte hex)
         {
-            const byte OpCode = 0xE8;
             const byte Size = 2;
-            var opcode = OpCode;
             var encoded = AsmHexCode.Empty;
             var bytes = encoded.Bytes;
-            seek(hex,0) = opcode;
-            u8(seek(hex, 1)) = AsmOpFactory.disp8(rip + Size, dst);
+            seek(hex,0) = JmpRel8.OpCode;
+            u8(seek(hex, 1)) = AsmOpFactory.disp8(ip + Size, dst);
             return 2;
         }
     }

@@ -110,9 +110,7 @@ namespace Z0.Asm
             {
                 ref readonly var expr = ref skip(parts,i);
                 if(octoken(expr, out var token))
-                {
                     dst[i] = token;
-                }
                 else
                 {
                     result = (false, string.Format("A token matching the expression '{0}' was not found", expr));

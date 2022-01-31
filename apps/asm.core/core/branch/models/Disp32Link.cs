@@ -7,6 +7,10 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Disp32Link
     {
+        [MethodImpl(Inline), Op]
+        public static Disp32Link define(Disp32 disp, MemoryAddress src, MemoryAddress dst)
+            => new Disp32Link(disp,src,dst);
+
         public static string format(in Disp32Link src)
             => string.Format("{0}h:{1} -> {2}", src.Disp, src.Source, src.Target);
 

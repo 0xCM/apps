@@ -11,8 +11,5 @@ namespace Z0.Asm
 
     partial struct asm
     {
-        [MethodImpl(Inline), Op]
-        public static Disp32Link link(Disp32 disp, MemoryAddress src, MemoryAddress dst)
-            => new Disp32Link(disp,src,dst);
     }
 }

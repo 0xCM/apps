@@ -25,11 +25,7 @@ namespace Z0.Asm
             var dst = text.buffer();
             var count = src.TokenCount;
             for(var i=0; i<count; i++)
-            {
-                if(i != 0)
-                    dst.Append(Chars.Space);
                 dst.Append(Expression(src[i]));
-            }
             return dst.Emit();
         }
 

@@ -9,5 +9,9 @@ namespace Z0
     public partial class CheckCmdProvider : AppCmdProvider<CheckCmdProvider>
     {
         IntelSdm Sdm => Service(Wf.IntelSdm);
+
+        JmpStubs JmpStubs => Service(() => JmpStubs.create(Wf));
+
+        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
     }
 }

@@ -35,7 +35,7 @@ namespace Z0
 
         public LocatedSymbol Add(MemoryAddress location, @string name)
         {
-            var symbol = CreateSymbol(name,location);
+            var symbol = CreateSymbol(location,name);
             NameLookup[name] = symbol;
             AddressLookup[location] = symbol;
             return symbol;
@@ -68,7 +68,7 @@ namespace Z0
             var name = src.Name.Format();
             if(AddressLookup.Remove(src.Location, out var removed) && NameLookup.Remove(name, out _))
             {
-                var symbol = new LocatedSymbol(src.Name, dst);
+                var symbol = new LocatedSymbol(dst, src.Name);
                 NameLookup.TryAdd(name, symbol);
                 AddressLookup.TryAdd(dst,symbol);
                 return symbol;
@@ -117,8 +117,8 @@ namespace Z0
             return label;
         }
 
-        LocatedSymbol CreateSymbol(@string name, MemoryAddress location)
-            => new LocatedSymbol(Allocate(name), location);
+        LocatedSymbol CreateSymbol(MemoryAddress location, @string name)
+            => new LocatedSymbol(location, Allocate(name));
 
         static long Seq;
 

@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using static Root;
     using Asm;
 
     [ApiComplete]
-    public struct MemBox
+    public struct AsmIpBox
     {
         MemoryAddress PhysicalBase {get;}
 
@@ -20,7 +18,7 @@ namespace Z0
         MemoryAddress _IP;
 
         [MethodImpl(Inline)]
-        public MemBox(MemoryAddress @base, ByteSize size)
+        public AsmIpBox(MemoryAddress @base, ByteSize size)
         {
             PhysicalBase = @base;
             VirtualBase = 0;
@@ -29,7 +27,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public MemBox(MemoryAddress @base, MemoryAddress virt, ByteSize size)
+        public AsmIpBox(MemoryAddress @base, MemoryAddress virt, ByteSize size)
         {
             PhysicalBase = @base;
             VirtualBase = virt;

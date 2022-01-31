@@ -10,12 +10,16 @@ namespace Z0
 
     public readonly struct LocatedSymbol
     {
-        public readonly Label Name;
+        [MethodImpl(Inline)]
+        public static LocatedSymbol anonymous(MemoryAddress location)
+            => new LocatedSymbol(location, Label.Empty);
 
         public readonly MemoryAddress Location;
 
+        public readonly Label Name;
+
         [MethodImpl(Inline)]
-        internal LocatedSymbol(Label name, MemoryAddress location)
+        internal LocatedSymbol(MemoryAddress location, Label name)
         {
             Name = name;
             Location = location;
@@ -24,22 +28,27 @@ namespace Z0
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsEmpty;
+            get => Name.IsEmpty && Location.IsEmpty;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Name.IsNonEmpty;
+            get => Name.IsNonEmpty || Location.IsNonEmpty;
         }
 
         public string Format()
-            => string.Format("{0}<->{1}", Name, Location);
+            =>  Name.IsNonEmpty ? string.Format("{0} ({1})", Location, Name) : Location.Format();
 
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
+        public static implicit operator LocatedSymbol(MemoryAddress loc)
+            => anonymous(loc);
+
         public static LocatedSymbol Empty
-            => new LocatedSymbol(Label.Empty, 0);
+            => new LocatedSymbol(0, Label.Empty);
+
     }
 }

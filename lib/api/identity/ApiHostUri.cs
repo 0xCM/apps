@@ -61,6 +61,9 @@ namespace Z0
             get => core.nonempty(HostName);
         }
 
+        public FS.FileName FileName(FS.FileExt ext)
+            => FS.file(string.Format("{0}.{1}", Part.Format(), HostName), ext);
+
         ApiHostUri INullary<ApiHostUri>.Zero
             => Empty;
 
@@ -71,7 +74,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public static bool operator!=(ApiHostUri a, ApiHostUri b)
             => !a.Equals(b);
-
 
         [MethodImpl(Inline)]
         public string Format()

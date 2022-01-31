@@ -11,21 +11,23 @@ namespace Z0.Asm
     {
         public const string TableId = "jmp.stub";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 5;
 
-        public OpIdentity Method;
+        public OpIdentity Name;
 
-        public MemoryAddress StubAddress;
+        public LocatedSymbol Stub;
 
-        public MemoryAddress TargetAddress;
+        public MemoryAddress Target;
 
-        public Address32 Displacement;
+        public Disp32 Disp;
 
-        public Address32 Offset;
+        public AsmHexCode Encoding;
 
-        public AsmHexCode StubCode;
+        [MethodImpl(Inline)]
+        public JmpRel32 ToModel()
+            => AsmRel32.from(this);
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{64,16,16,16,16,1};
+            => new byte[FieldCount]{64,16,16,16,1};
     }
 }

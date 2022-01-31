@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using Operands;
 
-    using static Root;
     using static AsmPrefixCodes;
 
     partial class AsmHexSpecs

@@ -15,7 +15,7 @@ namespace Z0.Asm
         public static AsmEncodingCases mov()
         {
             var dst = new AsmEncodingCases(alloc<AsmEncodingCase>(2));
-            var counter = z16;
+            var counter = 0u;
             var monic = "mov";
             dst[0] = AsmEncodingCase.define(monic, counter++,
                 ResText.from("REX.W B8+ro io"),

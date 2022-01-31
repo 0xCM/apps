@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class AsmHexSpecs
@@ -15,20 +11,18 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static byte jo(Hex8 cb, ref byte hex)
         {
-            const byte OpCode = 0x70;
             const byte Size = 2;
-            seek(hex,0) = OpCode;
+            seek(hex,0) = 0x70;
             seek(hex,1) = cb;
             return Size;
         }
 
         [MethodImpl(Inline), Op]
-        public static byte jo(Hex32 cb, ref byte hex)
+        public static byte jo(Hex32 cd, ref byte hex)
         {
-            const ushort OpCode = 0x7080;
             const byte Size = 6;
-            seek16(hex,0) = OpCode;
-            seek32(hex,1) = cb;
+            seek16(hex,0) = 0x7080;
+            seek32(hex,1) = cd;
             return Size;
         }
     }

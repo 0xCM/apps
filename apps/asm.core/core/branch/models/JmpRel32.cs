@@ -4,30 +4,64 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct JmpRel32
+    public readonly struct JmpRel32 : IAsmRel<Disp32>
     {
-        readonly byte OpCode;
+        public const byte OpCode = 0xE9;
 
-        public readonly Disp32 Disp;
+        public const byte InstSize = 5;
+
+        public readonly LocatedSymbol Source;
+
+        public readonly LocatedSymbol Target;
 
         [MethodImpl(Inline)]
-        public JmpRel32(Disp32 disp)
+        public JmpRel32(LocatedSymbol src, LocatedSymbol dst)
         {
-            OpCode = AsmRel.JmpRel32OpCode;
-            Disp = disp;
+            Source = src;
+            Target = dst;
+        }
+
+        public MemoryAddress SourceAddress
+        {
+            [MethodImpl(Inline)]
+            get => Source.Location;
+        }
+
+        public MemoryAddress TargetAddress
+        {
+            [MethodImpl(Inline)]
+            get => Target.Location;
+        }
+
+        public Disp32 Disp
+        {
+            [MethodImpl(Inline)]
+            get => AsmRel32.disp(SourceAddress, TargetAddress);
         }
 
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmHexCode.load(bytes(this));
+            get => AsmRel32.encode(this);
         }
+
+        public AsmMnemonic Mnemonic
+        {
+            [MethodImpl(Inline)]
+            get => AsmMnemonicNames.jmp;
+        }
+
+        LocatedSymbol IAsmRel.Source
+            => Source;
+
+        LocatedSymbol IAsmRel.Target
+            => Target;
+
+        public string Format()
+            => string.Format("jmp32:{0} [{1}] -> {2} -> {3}", Source, Disp, Target, Encoding);
+
+        public override string ToString()
+            => Format();
     }
 }

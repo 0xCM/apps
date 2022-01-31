@@ -93,7 +93,7 @@ namespace Z0
                     Error(string.Format("Encoding mismatch '{0}' != '{1}'", enc1, enc2));
                 }
 
-                var box = new MemBox(Base, uint.MaxValue);
+                var box = new AsmIpBox(Base, uint.MaxValue);
                 if(!box.IP(ip))
                 {
                     Error("Ip out of range");
@@ -121,13 +121,11 @@ namespace Z0
                 const byte Offset = 0x36;
                 const long IP = Base + Offset;
                 Hex.hexbytes(Input, out var encoding);
-                if(!AsmRel.isRel32Call(encoding))
+                if(!AsmRel32.isCall(encoding))
                 {
                     Error("Rel32 test failed");
                     return;
                 }
-
-
 
             }
 
@@ -167,7 +165,7 @@ namespace Z0
             var dx0 = AsmOpFactory.disp32(ip0, @return);
             var actual0 = jmp32(ip0, @return);
             var expect0 = asm.hexcode("e9 58 10 00 00");
-            var d0l = asm.link(dx0, ip0, @return);
+            var d0l = Disp32Link.define(dx0, ip0, @return);
             Write(d0l);
             if(!actual0.Equals(expect0))
                 Error(string.Format("{0} != {1}", expect0, actual0));
@@ -179,7 +177,7 @@ namespace Z0
             var dx1 = AsmOpFactory.disp32(ip1, @return);
             var actual1 = jmp32(ip1, @return);
             var expect1 = asm.hexcode("e9 4d 10 00 00");
-            var d1l = asm.link(dx1, ip1, @return);
+            var d1l = Disp32Link.define(dx1, ip1, @return);
             Write(d1l);
             if(!actual1.Equals(expect1))
                 Error(string.Format("{0} != {1}", expect1, actual1));
@@ -191,7 +189,7 @@ namespace Z0
             var dx2 = AsmOpFactory.disp32(ip2, @return);
             var actual2 = jmp32(ip2, @return);
             var expect2 = asm.hexcode("e9 42 10 00 00");
-            var d2l = asm.link(dx2, ip2, @return);
+            var d2l = Disp32Link.define(dx2, ip2, @return);
             Write(d2l);
             if(!actual2.Equals(expect2))
                 Error(string.Format("{0} != {1}", expect2, actual2));
@@ -203,7 +201,7 @@ namespace Z0
             var dx3 = AsmOpFactory.disp32(ip3, @return);
             var actual3 = jmp32(ip3, @return);
             var expect3 = asm.hexcode("e9 37 10 00 00");
-            var d3l = asm.link(dx3,ip3,@return);
+            var d3l = Disp32Link.define(dx3,ip3,@return);
             Write(d3l);
             if(!actual3.Equals(expect3))
                 Error(string.Format("{0} != {1}", expect3, actual3));

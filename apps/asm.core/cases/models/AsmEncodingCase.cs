@@ -12,10 +12,10 @@ namespace Z0.Asm
     public readonly struct AsmEncodingCase : ITextual
     {
         [MethodImpl(Inline), Op]
-        public static AsmEncodingCase define(AsmMnemonic monic, ushort seq, ResText oc, ResText sig, ResText statement, ResText encoding)
+        public static AsmEncodingCase define(AsmMnemonic monic, uint seq, ResText oc, ResText sig, ResText statement, ResText encoding)
             => new AsmEncodingCase(monic, seq, oc, sig, statement, encoding);
 
-        public ushort Id {get;}
+        public uint Id {get;}
 
         public AsmMnemonic Mnemonic {get;}
 
@@ -28,7 +28,7 @@ namespace Z0.Asm
         public ResText Encoding {get;}
 
         [MethodImpl(Inline)]
-        public AsmEncodingCase(AsmMnemonic mnemonic, ushort seq, ResText oc, ResText sig, ResText statement, ResText code)
+        public AsmEncodingCase(AsmMnemonic mnemonic, uint seq, ResText oc, ResText sig, ResText statement, ResText code)
         {
             Id= seq;
             Mnemonic = mnemonic;

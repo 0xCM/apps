@@ -195,11 +195,11 @@ namespace Z0.Asm
         /// <summary>
         /// Computes a 32-bit displacement relative to a specified instruction pointer and target address
         /// </summary>
-        /// <param name="ip">The instruction pointer address</param>
+        /// <param name="src">The instruction pointer address</param>
         /// <param name="dst">The target address</param>
         [MethodImpl(Inline), Op]
-        public static Disp32 disp32(MemoryAddress ip, MemoryAddress dst)
-            => disp32((long)dst - (long)ip);
+        public static Disp32 disp32(MemoryAddress src, MemoryAddress dst)
+            => disp32((long)dst - (long)src);
 
         /// <summary>
         /// Defines a 64-bit displacement
@@ -234,8 +234,8 @@ namespace Z0.Asm
         /// <param name="size">The size, in bytes, of the call/branch/jmp instruction</param>
         /// <param name="dst">The call/branch/jmp target</param>
         [MethodImpl(Inline), Op]
-        public static Disp64 disp64(MemoryAddress src, byte fxSize, MemoryAddress dst)
-            => (long)(dst - (src + fxSize));
+        public static Disp64 disp64(MemoryAddress src, byte instsize, MemoryAddress dst)
+            => (long)(dst - (src + instsize));
 
         [MethodImpl(Inline), Op]
         public static m8 mem8(RegOp @base)
