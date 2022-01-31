@@ -9,6 +9,8 @@ global using System.Collections.Generic;
 global using System.Collections.Concurrent;
 global using static Z0.Root;
 
+global using SQ = Z0.SymbolicQuery;
+
 [assembly: PartId(PartId.AsmCore)]
 
 namespace Z0.Parts

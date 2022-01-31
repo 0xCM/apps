@@ -21,8 +21,6 @@ namespace Z0
             return true;
         }
 
-
-
         [CmdOp("check/sdm/forms")]
         Outcome LoadAsmForms(CmdArgs args)
         {

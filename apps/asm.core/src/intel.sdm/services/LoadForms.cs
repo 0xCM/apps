@@ -61,11 +61,12 @@ namespace Z0.Asm
                     var j=0;
                     ref var dst = ref seek(buffer,k);
                     result = DataParser.parse(skip(cells,j++), out dst.Seq);
-                    dst.Mnemonic = AsmMnemonic.parse(skip(cells,j++), out _);
 
                     result = DataParser.parse(skip(cells,j++), out dst.Token);
                     if(result.Fail)
                         break;
+
+                    dst.Mnemonic = AsmMnemonic.parse(skip(cells,j++), out _);
 
                     result = DataParser.parse(skip(cells,j++), out dst.Kind);
                     if(result.Fail)

@@ -7,8 +7,6 @@ namespace Z0.Asm
     using static core;
     using static SdmModels;
 
-    using SQ = SymbolicQuery;
-
     partial class IntelSdm
     {
         public Index<SdmOpCodeDetail> ImportOpCodeDetails()
@@ -24,29 +22,6 @@ namespace Z0.Asm
                 writer.WriteLine(SdmOps.format(summary[i]));
             EmittedFile(emitting,count);
             return details;
-        }
-
-        static Index<SdmOpCodeDetail> deduplicate(ReadOnlySpan<SdmOpCodeDetail> src)
-        {
-            var count = src.Length;
-            var outgoing = span<SdmOpCodeDetail>(count);
-            var j = 0u;
-            var logicalKeys = hashset<string>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var input = ref skip(src,i);
-                var logicalKey = input.Sig.Format() + input.OpCode.Format();
-                if(logicalKeys.Contains(logicalKey))
-                    continue;
-                else
-                    logicalKeys.Add(logicalKey);
-
-                seek(outgoing, j) = input;
-                seek(outgoing, j).OpCodeKey = j;
-                j++;
-
-            }
-            return slice(outgoing, 0, j).ToArray();
         }
 
         Index<SdmOpCodeDetail> ImportOpCodeDetails(ReadOnlySpan<FS.FilePath> src)
@@ -77,7 +52,7 @@ namespace Z0.Asm
                 }
             }
 
-            var rows = deduplicate(slice(buffer,0,counter).ToArray().Sort());
+            var rows = SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
             var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
             using var writer = dst.UnicodeWriter();
             TableEmit(rows.View, SdmOpCodeDetail.RenderWidths, writer, dst);
