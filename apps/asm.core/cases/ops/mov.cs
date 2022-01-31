@@ -10,7 +10,7 @@ namespace Z0.Asm
     // 7ffa095300e5h 0005h mov rax,1f6d13cb5e4h ; MOV r64, imm64 | REX.W B8+ro io | 48 b8 e4 b5 3c d1 f6 01 00 00
     // 7ffa09530115h 0005h mov rax,1f6d12f2f4ch ; MOV r64, imm64 | REX.W B8+ro io | 48 b8 4c 2f 2f d1 f6 01 00 00
 
-    partial class AsmCaseArchive
+    partial class AsmCases
     {
         public static AsmEncodingCases mov()
         {

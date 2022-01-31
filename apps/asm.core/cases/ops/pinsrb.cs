@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using static Root;
 
-    partial class AsmCaseArchive
+    partial class AsmCases
     {
         [MethodImpl(Inline), Op]
         public static ResText pinsrb_opcode(N0 n)

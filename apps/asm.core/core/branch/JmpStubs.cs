@@ -90,7 +90,7 @@ namespace Z0.Asm
                 for(var j=0; j<count; j++)
                 {
                     var block = buffer[j];
-                    if(AsmJmp.isRel32Jmp(block.Encoded))
+                    if(AsmRel.isRel32Jmp(block.Encoded))
                     {
                         jumpers.Add(block);
                         k++;

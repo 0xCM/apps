@@ -17,7 +17,6 @@ namespace Z0.Asm
             return true;
         }
 
-
         [Op]
         public static bit check(ref AsmSizeCheck src)
         {

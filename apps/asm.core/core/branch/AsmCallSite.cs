@@ -13,17 +13,17 @@ namespace Z0.Asm
     public readonly struct AsmCallSite
     {
         [MethodImpl(Inline), Op]
-        public static AsmCallSite define(AsmCaller caller, Address16 offset, uint4 size)
+        public static AsmCallSite define(LocatedSymbol caller, Address16 offset, uint4 size)
             => new AsmCallSite(caller, offset, size);
 
-        public AsmCaller Caller {get;}
+        public LocatedSymbol Caller {get;}
 
         public Address16 LocalOffset {get;}
 
         public uint4 InstructionSize {get;}
 
         [MethodImpl(Inline)]
-        public AsmCallSite(AsmCaller caller, Address16 offset, uint4 size)
+        public AsmCallSite(LocatedSymbol caller, Address16 offset, uint4 size)
         {
             Caller = caller;
             LocalOffset = offset;

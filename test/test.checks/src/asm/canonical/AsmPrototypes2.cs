@@ -2,15 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System;
     using System.Runtime.CompilerServices;
 
-    using static Root;
+    public readonly partial struct AsmPrototypes2
+    {
+        public const MethodImplOptions Inline = MethodImplOptions.AggressiveInlining;
 
-    [ApiHost]
-    public partial class AsmCaseArchive : Service<AsmCaseArchive>
+    }
+
+    public static partial class XCanonical
     {
 
     }

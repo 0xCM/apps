@@ -11,9 +11,9 @@ namespace Z0.Asm
     [ApiHost]
     public readonly struct AsmRel
     {
-        const byte Rel32InstSize = 5;
+        public const byte Rel32InstSize = 5;
 
-        const byte Rel8InstSize = 2;
+        public const byte Rel8InstSize = 2;
 
         public const byte JmpRel8OpCode = 0xEB;
 

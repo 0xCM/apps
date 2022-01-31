@@ -47,6 +47,19 @@ namespace Z0
             return true;
         }
 
+        public ByteSize Consumed
+        {
+            [MethodImpl(Inline)]
+            get => Position*2;
+        }
+
+        public ByteSize Remaining
+        {
+            [MethodImpl(Inline)]
+            get => Size - Consumed;
+        }
+
+
         public void Dispose()
         {
             Buffer.Dispose();

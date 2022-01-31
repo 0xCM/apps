@@ -2,13 +2,16 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using System;
-
-    public readonly struct AsciStringFormatter : IAsciStringFormatter
+    [ApiHost]
+    public partial class AsmCases : AppService<AsmCases>
     {
-        public string Format(ReadOnlySpan<AsciCode> src)
-            => src.Format();
+        static LocatedSymbols AsmSymbols;
+
+        static AsmCases()
+        {
+            AsmSymbols = LocatedSymbols.alloc();
+        }
     }
 }

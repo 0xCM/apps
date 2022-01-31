@@ -4,14 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     public class LabelAllocator : IStringAllocator<Label>
     {
+        public static LabelAllocator alloc(ByteSize capacity)
+            => new LabelAllocator(StringBuffers.buffer(capacity/2));
+
         StringBuffer Buffer;
 
         MemoryAddress MaxAddress;
@@ -44,6 +41,18 @@ namespace Z0
             dst = Buffer.StoreLabel(src, Position);
             Position += length;
             return true;
+        }
+
+        public ByteSize Consumed
+        {
+            [MethodImpl(Inline)]
+            get => Position*2;
+        }
+
+        public ByteSize Remaining
+        {
+            [MethodImpl(Inline)]
+            get => Size - Consumed;
         }
 
         public void Dispose()

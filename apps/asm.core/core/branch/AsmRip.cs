@@ -13,7 +13,7 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static MemoryAddress from(in AsmCallSite src)
-            => calc(src.Caller.Base, src.LocalOffset, src.InstructionSize);
+            => calc(src.Caller.Location, src.LocalOffset, src.InstructionSize);
 
         [MethodImpl(Inline), Op]
         public static MemoryAddress calc(MemoryAddress @base, Address32 offset, byte instsize)

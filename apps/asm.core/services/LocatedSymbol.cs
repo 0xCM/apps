@@ -2,24 +2,21 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using System.Runtime.CompilerServices;
 
     using static Root;
 
-    public readonly struct AsmSymbol
+    public readonly struct LocatedSymbol
     {
-        internal uint Seq {get;}
+        public readonly Label Name;
 
-        public @string Name {get;}
-
-        public MemoryAddress Location {get;}
+        public readonly MemoryAddress Location;
 
         [MethodImpl(Inline)]
-        internal AsmSymbol(uint seq, @string name, MemoryAddress location)
+        internal LocatedSymbol(Label name, MemoryAddress location)
         {
-            Seq = seq;
             Name = name;
             Location = location;
         }
@@ -37,13 +34,12 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => Name.Format();
-
+            => string.Format("{0}<->{1}", Name, Location);
 
         public override string ToString()
             => Format();
 
-        public static AsmSymbol Empty
-            => new AsmSymbol(0u, EmptyString,0);
+        public static LocatedSymbol Empty
+            => new LocatedSymbol(Label.Empty, 0);
     }
 }

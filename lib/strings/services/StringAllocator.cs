@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
@@ -51,6 +47,18 @@ namespace Z0
             dst = Buffer.StoreString(src, Position);
             Position += length;
             return true;
+        }
+
+        public ByteSize Consumed
+        {
+            [MethodImpl(Inline)]
+            get => Position*2;
+        }
+
+        public ByteSize Remaining
+        {
+            [MethodImpl(Inline)]
+            get => Size - Consumed;
         }
 
         public void Dispose()
