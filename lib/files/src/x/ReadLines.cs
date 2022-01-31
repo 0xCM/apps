@@ -13,22 +13,22 @@ namespace Z0
         /// Reads the line-partitioned content of a text file
         /// </summary>
         /// <param name="src">The file path</param>
-        public static Index<string> ReadLines(this FS.FilePath src)
-            => src.Exists ? File.ReadAllLines(src.Name) : sys.empty<string>();
+        public static Index<string> ReadLines(this FS.FilePath src, bool skipBlank = false)
+            => FS.readtext(src, TextEncodingKind.Utf8, skipBlank);
 
         [Op]
-        public static Index<string> ReadLines(this FS.FilePath src, TextEncodingKind encoding)
-            => FS.readtext(src, encoding);
+        public static Index<string> ReadLines(this FS.FilePath src, TextEncodingKind encoding, bool skipBlank = false)
+            => FS.readtext(src, encoding, skipBlank);
 
         /// <summary>
         /// Reads the line-partitioned content of a text file
         /// </summary>
         /// <param name="src">The file path</param>
         [Op]
-        public static Index<TextLine> ReadNumberedLines(this FS.FilePath src)
-            => FS.readlines(src);
+        public static Index<TextLine> ReadNumberedLines(this FS.FilePath src, bool skipBlank = false)
+            => FS.readlines(src, skipBlank);
 
-        public static Index<TextLine> ReadNumberedLines(this FS.FilePath src, TextEncodingKind encoding)
-            => FS.readlines(src,encoding);
+        public static Index<TextLine> ReadNumberedLines(this FS.FilePath src, TextEncodingKind encoding, bool skipBlank = false)
+            => FS.readlines(src,encoding, skipBlank);
     }
 }

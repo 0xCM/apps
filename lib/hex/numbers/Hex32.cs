@@ -129,6 +129,10 @@ namespace Z0
             => new H((uint)src.Location);
 
         [MethodImpl(Inline)]
+        public static explicit operator int(H src)
+            => (int)src.Value;
+
+        [MethodImpl(Inline)]
         public static H operator+(H x, K y)
             => new H((K)(x.Value + y));
 

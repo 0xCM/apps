@@ -40,7 +40,7 @@ namespace Z0.Asm
                 if(result.Fail)
                     break;
 
-                result = AsmSigExpr.parse(skip(parts,i++), out dst.Source);
+                result = AsmSigParser.expression(skip(parts,i++), out dst.Source);
                 if(result.Fail)
                     break;
 

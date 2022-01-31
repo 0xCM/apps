@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
+
     public class AsmSigFormatter
     {
         AsmSigDatasets Datasets;
@@ -11,6 +13,21 @@ namespace Z0.Asm
         public AsmSigFormatter()
         {
             Datasets = AsmSigDatasets.load();
+        }
+
+        public static string format(in AsmSigExpr src)
+        {
+            var storage = CharBlock64.Null;
+            var dst = storage.Data;
+            var i=0u;
+            text.copy(src.Mnemonic.Format(MnemonicCase.Lowercase), ref i, dst);
+            var count = src.OperandCount;
+
+            if(count != 0)
+                seek(dst,i++) = Chars.Space;
+
+            AsmSigExpr.operands(src, ref i, dst);
+            return storage.Format();
         }
 
         public static string format(AsmSigRuleExpr src)

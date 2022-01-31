@@ -21,6 +21,44 @@ namespace Z0
             return true;
         }
 
+
+
+        [CmdOp("check/sdm/forms")]
+        Outcome LoadAsmForms(CmdArgs args)
+        {
+            const string RenderPattern = "{0,-42} | {1,-42} | {2}";
+            var result = Outcome.Success;
+            var lookup = Sdm.LoadFormLookup();
+            var kinds = lookup.Kinds;
+            var count = kinds.Length;
+            var path = ProjectDb.Subdir("sdm") + FS.file("sdm.forms.groups", FS.Csv);
+            using var writer = path.Writer();
+            writer.WriteLine(string.Format(RenderPattern,"Kind", "OpCode", "Sig"));
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var kind = ref skip(kinds,i);
+                var forms = lookup[kind];
+                var specs = forms.Select(x => x.FormSpec());
+                if(specs.Length == 1)
+                {
+                    ref readonly var spec = ref forms.First;
+                    writer.WriteLine(string.Format(RenderPattern, spec.Kind, spec.OpCode, spec.Sig));
+                }
+                else
+                {
+                    for(var j=0; j<specs.Count; j++)
+                    {
+                        ref readonly var spec = ref specs[j];
+                        if(j==0)
+                            writer.WriteLine(spec.Kind, FlairKind.Processed);
+                        writer.WriteLine(string.Format(RenderPattern, EmptyString, spec.OpCode, spec.Sig));
+                    }
+                }
+            }
+
+            return result;
+        }
+
         static string[] Gp8Regs = new string[]{"al","cl","dl","bl","spl","bpl","sil","dil","r8b","r9b","r10b","r11b","r12b","r13b","r14b","r15b"};
 
         static string[] Gp16Regs = new string[]{"ax","cx","dx","bx","sp","bp","si","di","r8w","r9w","r10w","r11w","r12w","r13w","r14w","r15w"};

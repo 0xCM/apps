@@ -16,32 +16,6 @@ namespace Z0.Asm
     {
         public const byte MaxOpCount = 5;
 
-        [Parser]
-        public static Outcome parse(string src, out AsmSigExpr dst)
-        {
-            var result = Outcome.Success;
-            var sig = text.trim(src);
-            var j = text.index(text.trim(sig), Chars.Space);
-            var mnemonic = AsmMnemonic.Empty;
-            dst = AsmSigExpr.Empty;
-            if(j>0)
-            {
-                mnemonic = text.left(sig,j);
-                var operands = text.right(sig,j);
-                if(text.contains(sig, Chars.Comma))
-                    dst = expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
-                else
-                    dst = expression(mnemonic, operands);
-            }
-            else
-            {
-                mnemonic = sig;
-                dst = expression(mnemonic);
-            }
-
-            return result;
-        }
-
         [MethodImpl(Inline)]
         public static AsmSigExpr expression(AsmMnemonic mnemonic)
             =>  new AsmSigExpr(mnemonic);
@@ -99,21 +73,6 @@ namespace Z0.Asm
             if(i==3)
                 return ref src.Op3;
             return ref src.Op4;
-        }
-
-        public static string format(in AsmSigExpr src)
-        {
-            var storage = CharBlock64.Null;
-            var dst = storage.Data;
-            var i=0u;
-            text.copy(src.Mnemonic.Format(MnemonicCase.Lowercase), ref i, dst);
-            var count = src.OperandCount;
-
-            if(count != 0)
-                seek(dst,i++) = Chars.Space;
-
-            operands(src, ref i, dst);
-            return storage.Format();
         }
 
         [Op]
@@ -335,7 +294,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => format(this);
+            => AsmSigFormatter.format(this);
 
         public override string ToString()
             => Format();

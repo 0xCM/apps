@@ -13,25 +13,26 @@ namespace Z0
     partial struct FS
     {
         [Op]
-        public static Index<TextLine> readlines(FilePath src)
+        public static Index<TextLine> readlines(FilePath src, bool skipBlank = false)
         {
-            if(!src.Exists)
-                return array<TextLine>();
+            // if(!src.Exists)
+            //     return array<TextLine>();
 
-            var data = @readonly(File.ReadAllLines(src.Name));
+            // var data = @readonly(File.ReadAllLines(src.Name));
 
-            var count = data.Length;
-            if(count == 0)
-                return array<TextLine>();
+            // var count = data.Length;
+            // if(count == 0)
+            //     return array<TextLine>();
 
-            var buffer = alloc<TextLine>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0u; i<count; i++)
-                seek(dst,i) = text.line(i + 1, skip(data,i));
-            return buffer;
+            // var buffer = alloc<TextLine>(count);
+            // ref var dst = ref first(buffer);
+            // for(var i=0u; i<count; i++)
+            //     seek(dst,i) = text.line(i + 1, skip(data,i));
+            // return buffer;
+            return readlines(src, TextEncodingKind.Utf8, skipBlank);
         }
 
-        public static Index<TextLine> readlines(FS.FilePath src, TextEncodingKind encoding)
+        public static Index<TextLine> readlines(FS.FilePath src, TextEncodingKind encoding, bool skipBlank = false)
         {
             using var reader = src.Reader(encoding);
             var buffer = list<TextLine>();
@@ -39,22 +40,36 @@ namespace Z0
             var number = 1u;
             while(content != null)
             {
-                buffer.Add(text.line(number++, content));
+                if(skipBlank)
+                {
+                    if(!text.blank(content))
+                        buffer.Add(text.line(number++, content));
+
+                }
+                else
+                    buffer.Add(text.line(number++, content));
+
                 content = reader.ReadLine();
             }
 
             return buffer.ToArray();
         }
 
-        public static Index<string> readtext(FS.FilePath src, TextEncodingKind encoding)
+        public static Index<string> readtext(FS.FilePath src, TextEncodingKind encoding, bool skipBlank = false)
         {
             using var reader = src.Reader(encoding);
             var buffer = list<string>();
             var content = reader.ReadLine();
-            var number = 1u;
             while(content != null)
             {
-                buffer.Add(content);
+                if(skipBlank)
+                {
+                    if(!text.blank(content))
+                        buffer.Add(content);
+                }
+                else
+                    buffer.Add(content);
+
                 content = reader.ReadLine();
             }
 

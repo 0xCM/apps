@@ -5,23 +5,38 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct SdmFormRecord
+    public struct SdmFormRecord : IComparable<SdmFormRecord>
     {
         public const string TableId = "sdm.forms";
 
-        public const byte FieldCount = 5;
+        public const byte FieldCount = 7;
 
         public uint Seq;
 
-        public Identifier Name;
+        public Hex32 Token;
 
-        public AsmSigExpr Terminal;
+        public AsmMnemonic Mnemonic;
 
-        public AsmSigExpr Sig;
+        public Identifier Kind;
 
         public AsmOpCode OpCode;
 
+        public AsmSigExpr Sig;
+
+        public AsmSigExpr Source;
+
+        public int CompareTo(SdmFormRecord src)
+        {
+            var result = Kind.CompareTo(src.Kind);
+            if(result == 0)
+                result = OpCode.Format().CompareTo(src.OpCode.Format());
+            return result;
+        }
+
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,42,42,62,1};
+            => new byte[FieldCount]{8,12,16,42,42,62,1};
+
+        public AsmFormSpec FormSpec()
+            => new AsmFormSpec(Kind, Sig, OpCode);
     }
 }

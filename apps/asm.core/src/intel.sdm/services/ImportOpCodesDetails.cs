@@ -26,6 +26,29 @@ namespace Z0.Asm
             return details;
         }
 
+        static Index<SdmOpCodeDetail> deduplicate(ReadOnlySpan<SdmOpCodeDetail> src)
+        {
+            var count = src.Length;
+            var outgoing = span<SdmOpCodeDetail>(count);
+            var j = 0u;
+            var logicalKeys = hashset<string>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var input = ref skip(src,i);
+                var logicalKey = input.Sig.Format() + input.OpCode.Format();
+                if(logicalKeys.Contains(logicalKey))
+                    continue;
+                else
+                    logicalKeys.Add(logicalKey);
+
+                seek(outgoing, j) = input;
+                seek(outgoing, j).OpCodeKey = j;
+                j++;
+
+            }
+            return slice(outgoing, 0, j).ToArray();
+        }
+
         Index<SdmOpCodeDetail> ImportOpCodeDetails(ReadOnlySpan<FS.FilePath> src)
         {
             var running = Running(string.Format("Importing opcodes from {0} source files", src.Length));
@@ -54,13 +77,10 @@ namespace Z0.Asm
                 }
             }
 
-            var rows = slice(buffer,0,counter).ToArray().Sort();
-            for(var i=0u; i<rows.Length; i++)
-                seek(rows,i).OpCodeKey = i;
-
+            var rows = deduplicate(slice(buffer,0,counter).ToArray().Sort());
             var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
             using var writer = dst.UnicodeWriter();
-            TableEmit(@readonly(rows), SdmOpCodeDetail.RenderWidths, writer, dst);
+            TableEmit(rows.View, SdmOpCodeDetail.RenderWidths, writer, dst);
 
             Ran(running);
             return rows;
