@@ -36,30 +36,6 @@ namespace Z0.Asm
             => asm.comment(CommentMarker, Hex.hexarray(src).Format(true));
 
         [Op]
-        public static string format(IDisplacement src)
-        {
-            var size = src.Size.Code;
-            if(size == 0)
-                return "0";
-
-            var value = src.Value;
-
-            var dst = RP.Empty;
-            switch(size)
-            {
-                case NativeSizeCode.W8:
-                    return ((sbyte)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-                case NativeSizeCode.W16:
-                    return ((short)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-                case NativeSizeCode.W32:
-                    return ((int)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-                case NativeSizeCode.W64:
-                    return ((long)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-            }
-            return dst;
-        }
-
-        [Op]
         public static byte format(in ApiCodeBlockHeader src, Span<string> dst)
         {
             var i = z8;

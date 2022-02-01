@@ -4,104 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections;
     using Asm;
 
     using static core;
-
-    public class EncodedMembers
-    {
-        readonly ConcurrentDictionary<OpUri,EncodedMember> Data;
-
-        public EncodedMembers()
-        {
-            Data = new();
-        }
-
-        public bool Include(EncodedMember src)
-        {
-            return Data.TryAdd(src.Name, src);
-        }
-
-        public ConstLookup<OpUri,EncodedMember> ToLookup()
-            => Data;
-    }
-
-
-    public class EncodedMember
-    {
-        public OpUri Name;
-
-        public LocatedSymbol Source;
-
-        public LocatedSymbol Target;
-
-        public BinaryCode Code;
-
-        public EncodingParserState ResultCode;
-
-        public EncodedMember(OpUri name, LocatedSymbol source, LocatedSymbol target, EncodingParserState result, BinaryCode code)
-        {
-            Name = name;
-            Source = source;
-            Target = target;
-            ResultCode = result;
-            Code = code;
-        }
-    }
-
-    public class EncodedMemberExtract
-    {
-        public OpUri Name;
-
-        public LocatedSymbol Source;
-
-        public LocatedSymbol Target;
-
-        public BinaryCode RawCode;
-
-
-
-        public EncodedMemberExtract(OpUri name, LocatedSymbol source, LocatedSymbol target, BinaryCode code)
-        {
-            Name = name;
-            Source = source;
-            Target = target;
-            RawCode = code;
-        }
-    }
-
-    public class EncodedMemberExtracts : IEnumerable<EncodedMemberExtract>
-    {
-        readonly List<EncodedMemberExtract> Data;
-
-        public EncodedMemberExtracts(params EncodedMemberExtract[] src)
-        {
-            Data = new(src);
-        }
-
-        public IEnumerator<EncodedMemberExtract> GetEnumerator()
-        {
-            return ((IEnumerable<EncodedMemberExtract>)Data).GetEnumerator();
-        }
-
-        public void Include(EncodedMemberExtract src)
-        {
-            Data.Add(src);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)Data).GetEnumerator();
-        }
-
-        public uint Count
-        {
-            [MethodImpl(Inline)]
-            get => (uint)Data.Count;
-        }
-    }
-
 
     partial class CheckCmdProvider
     {
@@ -136,27 +41,27 @@ namespace Z0
                 => math.sub(a,b);
         }
 
-        EncodedMembers Parse(Dictionary<ApiHostUri,EncodedMemberExtracts> src)
+        EncodedMembers Parse(Dictionary<ApiHostUri,MemberCodeExtracts> src)
         {
-            var running = Running(string.Format("Parsing members from {0} hosts", src.Count));
-            var buffer = alloc<byte>(Pow2.T13);
+            var running = Running(Msg.ParsingHosts.Format(src.Count));
+            var buffer = alloc<byte>(Pow2.T14);
             var parser = EncodingParser.create(buffer);
             var dst = new EncodedMembers();
             var counter = 0u;
             foreach(var host in src.Keys)
             {
-                var parsing = Running(string.Format("Parsing {0} ", host));
+                var parsing = Running(Msg.ParsingHostMembers.Format(host));
                 var extracts = src[host];
                 foreach(var extract in extracts)
                 {
-                    var result = parser.Parse(extract.RawCode);
-                    dst.Include(new EncodedMember(extract.Name, extract.Source, extract.Target, result, parser.Parsed));
+                    var result = parser.Parse(extract.TargetExtract);
+                    dst.Include(new EncodedMember(extract.Token, parser.Parsed));
                     counter++;
                 }
-                Ran(parsing, string.Format("Parsed {0} {1} members", host, extracts.Count));
+                Ran(parsing, Msg.ParsedHostMembers.Format(extracts.Count, host));
             }
 
-            Ran(running, string.Format("Parsed {0} members", counter));
+            Ran(running, Msg.ParsedHosts.Format(counter, src.Keys.Count));
             return dst;
 
         }
@@ -164,19 +69,26 @@ namespace Z0
         [CmdOp("check/capture")]
         Outcome CheckLiveStubs(CmdArgs args)
         {
-            var stubs = JmpStubs.SearchLive();
-            var count = stubs.Count;
+            using var symbols = SymbolDispenser.alloc();
+            var lively = JmpStubs.SearchLive(symbols);
+            var count = lively.Count;
             var unparsed = span<byte>(Pow2.T16);
             var part = PartId.None;
             var host = ApiHostUri.Empty;
             var blocks = new ApiCodeLookup();
-            var extracts = dict<ApiHostUri,EncodedMemberExtracts>();
+            var extracts = dict<ApiHostUri,MemberCodeExtracts>();
             var max = ByteSize.Zero;
             for(var i=0; i<count; i++)
             {
                 unparsed.Clear();
-                ref readonly var stub = ref stubs[i];
-                ref readonly var uri = ref stub.Name;
+                ref readonly var live = ref lively[i];
+                var uri = live.Uri;
+
+                if(live.StubCode != live.Stub.Encoding)
+                {
+                    Error("Stub code mismatch");
+                    break;
+                }
 
                 if(uri.Host != host)
                 {
@@ -185,22 +97,78 @@ namespace Z0
                     host = uri.Host;
                 }
 
-                part = uri.Part;
-                var extract = slice(unparsed,0, ApiExtracts.extract(stub.Target, unparsed));
-                var extracted = new EncodedMemberExtract(uri, stub.Entry, stub.Target, extract.ToArray());
+                var extract = slice(unparsed,0, ApiExtracts.extract(live.Target, unparsed));
+                var extracted = new MemberCodeExtract(live, extract.ToArray());
                 if(extracts.TryGetValue(host, out var hosted))
                 {
                     hosted.Include(extracted);
                 }
                 else
                 {
-                    extracts[host] = new EncodedMemberExtracts(extracted);
+                    extracts[host] = new MemberCodeExtracts(extracted);
                 }
             }
 
-            var lookup = Parse(extracts).ToLookup();
+            var members = Parse(extracts).Emit().Sort();
+            Emit(members);
+            return true;
+        }
+
+        static string host(string uri)
+        {
+            const string UriMarker = "://";
+            var i = text.index(uri,UriMarker);
+            if(i > 0)
+            {
+                var j = text.index(uri, Chars.Question);
+                if(j > i)
+                {
+                    var host = text.inside(uri,i + UriMarker.Length - 1, j);
+                    return host;
+                }
+            }
+            return uri;
+        }
+
+        void Emit(Index<EncodedMember> src)
+        {
+            var members = src;
+            var count = src.Count;
+            var buffer = alloc<EncodedMemberInfo>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var member = ref src[i];
+                var token = member.Token;
+                ref var dst = ref seek(buffer,i);
+                dst.Id = token.Id;
+                dst.EntryAddress = token.EntryAddress;
+                dst.TargetAddress = token.TargetAddress;
+                if(token.EntryAddress != token.TargetAddress)
+                {
+                    dst.Disp = AsmValues.disp32(token.EntryAddress + JmpRel32.InstSize, token.TargetAddress);
+                }
+                dst.CodeSize = (ushort)member.Code.Size;
+                dst.Sig = token.Sig.Format();
+                dst.Uri = token.Uri.Format();
+                dst.Host = host(dst.Uri);
+            }
+
+            TableEmit(@readonly(buffer), EncodedMemberInfo.RenderWidths, ProjectDb.ApiTablePath<EncodedMemberInfo>());
+        }
+
+
+        [CmdOp("check/stubs/dispatch")]
+        Outcome CheckStubDispatch(CmdArgs args)
+        {
+            var stubs = JmpStubs.create(Wf);
+            if(stubs.Create<ulong>(0))
+            {
+                var encoded = stubs.EncodeDispatch(0);
+                Write(encoded.FormatHexData());
+            }
 
             return true;
+
         }
 
         [CmdOp("check/stubs/captured")]
@@ -208,7 +176,8 @@ namespace Z0
         {
             void Api()
             {
-                var stubs = JmpStubs.SearchCaptured(ApiHostUri.from(typeof(cpu)));
+                using var symbols = SymbolDispenser.alloc();
+                var stubs = JmpStubs.SearchCaptured(symbols, ApiHostUri.from(typeof(cpu)));
                 foreach(var stub in stubs)
                 {
                     var jmp = AsmRel32.from(stub);
@@ -218,27 +187,17 @@ namespace Z0
 
             void Search()
             {
+                using var symbols = SymbolDispenser.alloc();
                 var host = typeof(Calc64);
                 var contract = typeof(ICalc64);
-                var stubs = JmpStubs.SearchLive(host);
-                Write(stubs.View, LiveMemberCode.RenderWidths);
+                var stubs = JmpStubs.SearchLive(symbols,host);
+                //Write(stubs.View, LiveMemberCode.RenderWidths);
                 var imap = Clr.imap(host,contract);
                 Write(imap.Format());
             }
 
-            void Encode()
-            {
-                var stubs = JmpStubs.create(Wf);
-                if(stubs.Create<ulong>(0))
-                {
-                    var encoded = stubs.EncodeDispatch(0);
-                    Write(encoded.FormatHexData());
-                }
-            }
-
             Api();
             Search();
-            Encode();
 
             return true;
         }

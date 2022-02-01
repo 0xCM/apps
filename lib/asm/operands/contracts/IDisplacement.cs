@@ -14,6 +14,10 @@ namespace Z0.Asm
 
         long Value {get;}
 
+        bool Positive => Value > 0;
+
+        bool Negative => Value < 0;
+
     }
 
     [Free]

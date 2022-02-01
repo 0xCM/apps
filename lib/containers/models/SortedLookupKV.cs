@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
+    internal interface ILookupData<K,V>
+    {
+        ConcurrentDictionary<K,V> Storage {get;}
 
-    using static Root;
+        Index<K> Keys{get;}
 
-    [DataType(TypeSyntax.Lookup)]
-    public class ConstLookup<K,V> : ILookupData<K,V>
+        Index<V> Values {get;}
+    }
+
+    public class SortedLookup<K,V>
+        where K : IComparable<K>
     {
         readonly ConcurrentDictionary<K,V> Storage;
 
@@ -20,7 +22,7 @@ namespace Z0
 
         Index<V> _Values;
 
-        Index<LookupEntry<K,V>> _Entries;
+        Index<SortedLookupEntry<K,V>> _Entries;
 
         public bool IsEmpty
         {
@@ -34,28 +36,36 @@ namespace Z0
             get => _Entries.IsNonEmpty;
         }
 
-        ConstLookup()
+        SortedLookup()
         {
             Storage = new();
             _Keys = sys.empty<K>();
             _Values = sys.empty<V>();
-            _Entries = sys.empty<LookupEntry<K,V>>();
+            _Entries = sys.empty<SortedLookupEntry<K,V>>();
         }
 
-        public ConstLookup(ConcurrentDictionary<K,V> src)
+        public SortedLookup(ConcurrentDictionary<K,V> src)
         {
             Storage = src;
-            _Keys = src.Keys.Array();
+            _Keys = src.Keys.Array().Sort();
             _Values = src.Values.Array();
-            _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
+            _Entries = Storage.Map(x => new SortedLookupEntry<K,V>(x.Key,x.Value)).Sort();
         }
 
-        public ConstLookup(Dictionary<K,V> src)
+        public SortedLookup(Dictionary<K,V> src)
         {
             Storage = src.ToConcurrentDictionary();
-            _Keys = src.Keys.Array();
+            _Keys = src.Keys.Array().Sort();
             _Values = src.Values.Array();
-            _Entries = src.Map(x => new LookupEntry<K,V>(x.Key,x.Value));
+            _Entries = Storage.Map(x => new SortedLookupEntry<K,V>(x.Key,x.Value)).Sort();
+        }
+
+        internal SortedLookup(ILookupData<K,V> src)
+        {
+            Storage = src.Storage;
+            _Keys = src.Keys.Sort();
+            _Values = src.Values;
+            _Entries = Storage.Map(x => new SortedLookupEntry<K,V>(x.Key,x.Value)).Sort();
         }
 
         public ReadOnlySpan<K> Keys
@@ -70,7 +80,7 @@ namespace Z0
             get => _Values.View;
         }
 
-        public ReadOnlySpan<LookupEntry<K,V>> Entries
+        public ReadOnlySpan<SortedLookupEntry<K,V>> Entries
         {
             [MethodImpl(Inline)]
             get => _Entries.View;
@@ -92,6 +102,18 @@ namespace Z0
             get => Storage[key];
         }
 
+        public ref readonly V this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref _Values[index];
+        }
+
+        public ref readonly V this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref _Values[index];
+        }
+
         [MethodImpl(Inline)]
         public bool Find(K key, out V value)
             => Storage.TryGetValue(key, out value);
@@ -102,24 +124,15 @@ namespace Z0
         public Index<T> MapKeys<T>(Func<K,T> f)
             => _Keys.Map(f);
 
-        public Index<T> MapEntries<T>(Func<LookupEntry<K,V>,T> f)
+        public Index<T> MapEntries<T>(Func<SortedLookupEntry<K,V>,T> f)
             => _Entries.Map(f);
 
-        public static ConstLookup<K,V> Empty => new();
+        public static SortedLookup<K,V> Empty => new();
 
-        ConcurrentDictionary<K, V> ILookupData<K, V>.Storage
-            => Storage;
+        public static implicit operator SortedLookup<K,V>(Dictionary<K,V> src)
+            => new SortedLookup<K,V>(src);
 
-        Index<K> ILookupData<K, V>.Keys
-            => _Keys;
-
-        Index<V> ILookupData<K, V>.Values
-            => _Values;
-
-        public static implicit operator ConstLookup<K,V>(Dictionary<K,V> src)
-            => new ConstLookup<K,V>(src);
-
-        public static implicit operator ConstLookup<K,V>(ConcurrentDictionary<K,V> src)
-            => new ConstLookup<K,V>(src);
+        public static implicit operator SortedLookup<K,V>(ConcurrentDictionary<K,V> src)
+            => new SortedLookup<K,V>(src);
     }
 }

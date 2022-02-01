@@ -15,13 +15,16 @@ namespace Z0.Asm
         public static AsmDirective @byte(Hex8 src)
             => asm.directive(".byte", src);
 
+        [MethodImpl(Inline), Op]
         public static AsmDirective word(Hex16 src)
-            => asm.directive(".byte2", src);
+            => asm.directive(".2byte", src);
 
+        [MethodImpl(Inline), Op]
         public static AsmDirective dword(Hex32 src)
-            => asm.directive(".byte4", src);
+            => asm.directive(".4byte", src);
 
+        [MethodImpl(Inline), Op]
         public static AsmDirective qword(Hex64 src)
-            => asm.directive(".byte8", src);
+            => asm.directive(".8byte", src);
     }
 }

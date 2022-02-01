@@ -66,7 +66,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref table[i];
-                Write(entry.Format());
+                Write(entry.Uri);
             }
             Ran(flow, $"Created method table with {table.View.Length} entries");
             return true;

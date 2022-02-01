@@ -38,11 +38,23 @@ namespace Z0.Asm
             get => Value == 0;
         }
 
+        public bool Positive
+        {
+            [MethodImpl(Inline)]
+            get => Value > 0;
+        }
+
+        public bool Negative
+        {
+            [MethodImpl(Inline)]
+            get => Value < 0;
+        }
+
         long IDisplacement.Value
             => Value;
 
         public string Format()
-            => AsmRender.format(this);
+            => Disp.format(this);
 
         public override string ToString()
             => Format();

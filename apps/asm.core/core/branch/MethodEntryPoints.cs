@@ -15,18 +15,17 @@ namespace Z0
     {
         public static OpUri Uri(this MethodInfo src)
             => ApiUri.define(ApiUriScheme.Located, ApiHostUri.from(src.DeclaringType), src.Name, src.Identify());
-
     }
 
     public readonly struct MethodEntryPoints
     {
         [Op]
         public static MethodEntryPoint entry(MethodInfo src)
-            => new MethodEntryPoint(src.Uri(), ClrJit.jit(src));
+            => new MethodEntryPoint(src.Uri(), src.DisplaySig(), ClrJit.jit(src));
 
         [Op]
         public static MethodEntryPoint entry(ApiMember src)
-            => new MethodEntryPoint(src.OpUri, src.BaseAddress);
+            => new MethodEntryPoint(src.Method.Uri(), src.Method.DisplaySig(), src.BaseAddress);
 
         [Op]
         public static Index<MethodEntryPoint> create(Identifier name, ReadOnlySpan<MethodInfo> src)

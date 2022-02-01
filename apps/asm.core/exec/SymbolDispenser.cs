@@ -6,13 +6,13 @@ namespace Z0
 {
     using static core;
 
-    public class LocatedSymbols : IDisposable
+    public class SymbolDispenser : IDisposable
     {
-        public static LocatedSymbols alloc(ByteSize capacity)
-            => new LocatedSymbols(capacity);
+        public static SymbolDispenser alloc(ByteSize capacity)
+            => new SymbolDispenser(capacity);
 
-        public static LocatedSymbols alloc()
-            => new LocatedSymbols();
+        public static SymbolDispenser alloc()
+            => new SymbolDispenser();
 
         const uint Capacity = PageBlock.PageSize;
 
@@ -24,7 +24,7 @@ namespace Z0
 
         object locker;
 
-        LocatedSymbols(uint capacity = Capacity)
+        SymbolDispenser(uint capacity = Capacity)
         {
             NameLookup = new();
             Allocators = new();

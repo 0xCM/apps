@@ -35,21 +35,45 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static byte write(RexPrefix a0, Span<byte> buffer)
+        static byte write1<T>(T src, ref byte dst)
+            where T : unmanaged
         {
-            var count = z8;
-            var dst = writer(buffer);
-            count += dst.Write8(a0);
-            return count;
+            dst = u8(src);
+            return 1;
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmHexCode write(RexPrefix a0, ref AsmHexCode hex)
+        static byte write2<T>(T src, ref byte dst)
+            where T : unmanaged
         {
-            var dst = writer(hex.Bytes);
-            dst.Write8(a0);
-            hex = close(dst, hex.Bytes);
-            return ref hex;
+            seek16(dst,0) = u16(src);
+            return 2;
+        }
+
+        [MethodImpl(Inline), Op]
+        static byte write4<T>(T src, ref byte dst)
+            where T : unmanaged
+        {
+            seek32(dst,0) = u32(src);
+            return 4;
+        }
+
+        [MethodImpl(Inline), Op]
+        static byte write8<T>(T src, ref byte dst)
+            where T : unmanaged
+        {
+            seek64(dst,0) = u64(src);
+            return 8;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static byte encode(RexPrefix a0, Hex8 a1, imm64 a2, ref byte dst)
+        {
+            var size = z8;
+            size += write1(a0, ref seek(dst, size));
+            size += write1(a1, ref seek(dst, size));
+            size += write8(a2, ref seek(dst, size));
+            return size;
         }
 
         [MethodImpl(Inline), Op]

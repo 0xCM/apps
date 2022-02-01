@@ -68,35 +68,35 @@ namespace Z0
             => src <= Max && src >=Base;
 
         [MethodImpl(Inline)]
-        public bool Advance(Disp32 dx, out MemoryAddress next)
+        public bool Advance(Disp32 dx, out MemoryAddress dst)
         {
             var _next = _IP + (MemoryAddress)(int)dx;
             if(Contains(_next))
             {
                 _IP = _next;
-                next = _IP;
+                dst = _IP;
                 return true;
             }
             else
             {
-                next = 0;
+                dst = 0;
                 return false;
             }
         }
 
         [MethodImpl(Inline)]
-        public bool Advance(byte sz, Disp32 dx, out MemoryAddress next)
+        public bool Advance(byte sz, Disp32 dx, out MemoryAddress dst)
         {
             var _next = sz + (MemoryAddress)(int)dx + _IP;
             if(Contains(_next))
             {
                 _IP = _next;
-                next = _IP;
+                dst = _IP;
                 return true;
             }
             else
             {
-                next = 0;
+                dst = 0;
                 return false;
             }
         }

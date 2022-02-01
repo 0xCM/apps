@@ -39,7 +39,6 @@ namespace Z0.Asm
         public static CallRel32 call(LocatedSymbol src, Disp32 disp)
             => call(src.Location, disp);
 
-
         [MethodImpl(Inline), Op]
         public static JmpRel32 jmp(MemoryAddress src, MemoryAddress dst)
             => new JmpRel32(src, dst);
@@ -103,6 +102,5 @@ namespace Z0.Asm
             @as<Disp32>(seek(buffer,1)) = AsmRel32.disp(spec.SourceAddress, spec.TargetAddress);
             return encoding;
         }
-
     }
 }

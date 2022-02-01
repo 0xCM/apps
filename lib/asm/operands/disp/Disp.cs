@@ -10,6 +10,30 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public readonly struct Disp : IDisplacement
     {
+        [Op]
+        public static string format(IDisplacement src)
+        {
+            var size = src.Size.Code;
+            if(size == 0)
+                return "0";
+
+            var value = src.Value;
+
+            var dst = RP.Empty;
+            switch(size)
+            {
+                case NativeSizeCode.W8:
+                    return ((sbyte)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+                case NativeSizeCode.W16:
+                    return ((short)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+                case NativeSizeCode.W32:
+                    return ((int)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+                case NativeSizeCode.W64:
+                    return ((long)value).FormatHex(zpad:false,specifier:true,uppercase:true);
+            }
+            return dst;
+        }
+
         public long Value {get;}
 
         public NativeSize Size {get;}
@@ -40,12 +64,24 @@ namespace Z0.Asm
             get => Value != 0;
         }
 
+        public bool Positive
+        {
+            [MethodImpl(Inline)]
+            get => Value > 0;
+        }
+
+        public bool Negative
+        {
+            [MethodImpl(Inline)]
+            get => Value < 0;
+        }
+
         [MethodImpl(Inline)]
         public AsmOperand Untyped()
             => new AsmOperand(this);
 
         public string Format()
-            => AsmRender.format(this);
+            => format(this);
 
         public override string ToString()
             => Format();

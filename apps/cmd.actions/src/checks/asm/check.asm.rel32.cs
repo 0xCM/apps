@@ -33,37 +33,37 @@ namespace Z0
                 result = Hex.hexbytes(Input, out var code);
                 if(result)
                 {
-                    var disp = AsmOpFactory.disp32(code,1);
+                    var disp = AsmValues.disp32(code,1);
                     Write(string.Format("{0} => disp32={1:x8}", Input, disp));
                 }
             }
 
             void Check3()
             {
-                const string Asm = "call 7fff92427890h # 0036h";
+                const string Asm = "call 7fff92427890h";
                 const string Encoding = "e8 25 e4 b2 5f";
+                const byte InstSize = CallRel32.InstSize;
                 const long Base = 0x7fff328f9430;
                 const ushort Offset = 0x36;
+                const long Source = Base + Offset;
                 const long Target = 0x7fff92427890;
-                const long IP = Base + Offset;
-                const byte InstSize = 5;
-                const long RIP = IP + InstSize;
+                const long RIP = Source + InstSize;
                 const uint Disp = 0x5FB2E425;
                 const string RenderPattern = "{0,-12}: {1}";
 
                 result = Hex.hexbytes(Encoding, out var code);
-                var dx = AsmOpFactory.disp32(code,1);
+                var dx = AsmRel32.disp(code);
                 var target = (MemoryAddress)(RIP + dx);
                 if(target == Target && dx == Disp)
                 {
                     var dst = text.buffer();
-                    dst.AppendLineFormat(RenderPattern, nameof(Asm),  Asm);
-                    dst.AppendLineFormat(RenderPattern, nameof(Encoding),  Encoding);
-                    dst.AppendLineFormat(RenderPattern, nameof(Base),  (MemoryAddress)Base);
-                    dst.AppendLineFormat(RenderPattern, nameof(Offset),  (Address16)Offset);
-                    dst.AppendLineFormat(RenderPattern, nameof(Target),  (MemoryAddress)Target);
-                    dst.AppendLineFormat(RenderPattern, nameof(IP),  (MemoryAddress)IP);
-                    dst.AppendLineFormat(RenderPattern, nameof(RIP),  (MemoryAddress)RIP);
+                    dst.AppendLineFormat(RenderPattern, nameof(Asm), Asm);
+                    dst.AppendLineFormat(RenderPattern, nameof(Encoding), Encoding);
+                    dst.AppendLineFormat(RenderPattern, nameof(Base), (MemoryAddress)Base);
+                    dst.AppendLineFormat(RenderPattern, nameof(Offset), (Address16)Offset);
+                    dst.AppendLineFormat(RenderPattern, nameof(Source), (MemoryAddress)Source);
+                    dst.AppendLineFormat(RenderPattern, nameof(RIP), (MemoryAddress)RIP);
+                    dst.AppendLineFormat(RenderPattern, nameof(Target), (MemoryAddress)Target);
                     dst.AppendLineFormat(RenderPattern, "Disp",  dx);
 
                     Write(dst.Emit(), FlairKind.StatusData);
@@ -78,37 +78,32 @@ namespace Z0
             {
                 const string Asm = "call 7fff92427890h";
                 const string Encoding = "e8 25 e4 b2 5f";
+                const byte InstSize = CallRel32.InstSize;
                 const ulong Base = 0x7fff328f9430ul;
-                const byte Offset = 0x36;
-                const byte InstSize = 5;
+                const ushort Offset = 0x36;
                 const ulong Target = 0x7fff92427890ul;
+                const ulong Source = Base + Offset;
+                const ulong RIP = Source + InstSize;
 
-                MemoryAddress ip = Base + Offset;
                 Hex.hexbytes(Encoding, out var enc1);
-                var dx = AsmOpFactory.disp32(enc1,1);
+                var dx = AsmRel32.disp(enc1);
 
-                var enc2 = AsmHexSpecs.call32(ip, Target);
+                var enc2 = AsmHexSpecs.call32(Source, Target);
                 if(enc1 != enc2)
-                {
                     Error(string.Format("Encoding mismatch '{0}' != '{1}'", enc1, enc2));
-                }
 
                 var box = new AsmIpBox(Base, uint.MaxValue);
-                if(!box.IP(ip))
-                {
+                if(!box.IP(Source))
                     Error("Ip out of range");
-                    return;
-                }
 
-                box.Advance(InstSize, dx, out var target);
-                if(target == Target)
-                {
-                    Status("Computed target matched expected target");
-                }
-                else
-                {
+                box.Advance(InstSize, dx, out var target1);
+
+                if(target1 != Target)
                     Error("Computed target did not match expected target");
-                }
+
+                var target2 = AsmRel32.target(Source, enc1);
+                if(target2 != Target)
+                    Error("Computed target did not match expected target");
 
             }
 
@@ -140,12 +135,12 @@ namespace Z0
                 }
             }
 
-            Check1();
-            Check2();
+            // Check1();
+            // Check2();
             Check3();
             Check4();
-            Check5();
-            Check6();
+            // Check5();
+            // Check6();
             CheckJmpRel32();
 
             return result;
@@ -160,21 +155,24 @@ namespace Z0
             var @return = @base + (MemoryAddress)0x10b7;
             var sz = (byte)5;
 
+            // 005ah jmp near ptr 10b7h                            ; JMP rel32                        | E9 cd                            | 5   | e9 58 10 00 00
             var label0 = 0x005a;
             var ip0 = @base + label0;
-            var dx0 = AsmOpFactory.disp32(ip0, @return);
-            var actual0 = jmp32(ip0, @return);
-            var expect0 = asm.hexcode("e9 58 10 00 00");
+            var dx0 = AsmValues.disp32(ip0, @return);
+
+            var code0 = jmp32(ip0, @return);
+            var code1 = asm.hexcode("e9 58 10 00 00");
+
             var d0l = Disp32Link.define(dx0, ip0, @return);
             Write(d0l);
-            if(!actual0.Equals(expect0))
-                Error(string.Format("{0} != {1}", expect0, actual0));
+            if(!code0.Equals(code1))
+                Error(string.Format("{0} != {1}", code1, code0));
             else
-                Write(string.Format("{0} == {1}", expect0, actual0));
+                Write(string.Format("{0} == {1}", code1, code0));
 
             var label1 = 0x0065;
             var ip1 = @base + label1;
-            var dx1 = AsmOpFactory.disp32(ip1, @return);
+            var dx1 = AsmValues.disp32(ip1, @return);
             var actual1 = jmp32(ip1, @return);
             var expect1 = asm.hexcode("e9 4d 10 00 00");
             var d1l = Disp32Link.define(dx1, ip1, @return);
@@ -186,7 +184,7 @@ namespace Z0
 
             var label2 = 0x0070;
             var ip2 = @base + label2;
-            var dx2 = AsmOpFactory.disp32(ip2, @return);
+            var dx2 = AsmValues.disp32(ip2, @return);
             var actual2 = jmp32(ip2, @return);
             var expect2 = asm.hexcode("e9 42 10 00 00");
             var d2l = Disp32Link.define(dx2, ip2, @return);
@@ -198,7 +196,7 @@ namespace Z0
 
             var label3 = 0x007b;
             var ip3 = @base + label3;
-            var dx3 = AsmOpFactory.disp32(ip3, @return);
+            var dx3 = AsmValues.disp32(ip3, @return);
             var actual3 = jmp32(ip3, @return);
             var expect3 = asm.hexcode("e9 37 10 00 00");
             var d3l = Disp32Link.define(dx3,ip3,@return);

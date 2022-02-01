@@ -32,8 +32,20 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => Source.OpKind;
 
+        public bool Positive
+        {
+            [MethodImpl(Inline)]
+            get => Value > 0;
+        }
+
+        public bool Negative
+        {
+            [MethodImpl(Inline)]
+            get => Value < 0;
+        }
+
         public string Format()
-            => AsmRender.format(this);
+            => Disp.format(this);
 
         public override string ToString()
             => Format();

@@ -202,7 +202,6 @@ namespace Z0.Asm
         public static ModRm modrm(RegIndex rm, RegIndex reg, byte mod)
             => modrm((byte)rm, (byte)reg, mod);
 
-
         [Op]
         public static Imm imm(AsmHexCode src, byte pos, bool signed, NativeSize size)
         {
@@ -210,16 +209,16 @@ namespace Z0.Asm
             switch(size.Code)
             {
                 case NativeSizeCode.W8:
-                    dst = AsmOpFactory.imm(size, signed, src[pos]);
+                    dst = AsmValues.imm(size, signed, src[pos]);
                 break;
                 case NativeSizeCode.W16:
-                    dst = AsmOpFactory.imm(size, signed, slice(src.Bytes,pos, 2).TakeUInt16());
+                    dst = AsmValues.imm(size, signed, slice(src.Bytes,pos, 2).TakeUInt16());
                 break;
                 case NativeSizeCode.W32:
-                    dst = AsmOpFactory.imm(size, signed, slice(src.Bytes,pos, 4).TakeUInt32());
+                    dst = AsmValues.imm(size, signed, slice(src.Bytes,pos, 4).TakeUInt32());
                 break;
                 case NativeSizeCode.W64:
-                    dst = AsmOpFactory.imm(size, signed, slice(src.Bytes,pos, 8).TakeUInt64());
+                    dst = AsmValues.imm(size, signed, slice(src.Bytes,pos, 8).TakeUInt64());
                 break;
             }
             return dst;

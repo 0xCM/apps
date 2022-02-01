@@ -12,7 +12,7 @@ namespace Z0.Asm
     {
         // REX.W + B8+ rd io | MOV r64, imm64           | OI    | Valid       | N.E.            | Move imm64 to r64.                                             |
         [MethodImpl(Inline), Op]
-        public static AsmHexCode mov(r64 r64, imm64 imm64)
-            => AsmHexCodes.define(RexW, (Hex8)(0xb8 + (byte)r64.Index), imm64);
+        public static byte mov(r64 r, imm64 imm, ref byte dst)
+            => AsmHexCodes.encode(RexW, (Hex8)(0xb8 + (byte)r.Index), imm, ref dst);
     }
 }

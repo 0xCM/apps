@@ -6,6 +6,7 @@ namespace Z0
 {
     // Classifies assembler directives
     // https://github.com/llvm/llvm-project/blob/a8cfa4b9bda3014a88e089cadcc6d366317aec5b/llvm/lib/MC/MCParser/AsmParser.cpp
+
     [SymSource("asm")]
     public enum AsmDirectiveKind : byte
     {
@@ -20,24 +21,46 @@ namespace Z0
         [Symbol(".equiv")]
         DK_EQUIV,
 
+        /// <summary>
+        /// .ascii	"%s:(0x%llx, 0x%llx, 0x%llx)\n"
+        /// .byte	0
+        /// </summary>
         [Symbol(".ascii")]
         DK_ASCII,
 
+        /// <summary>
+        /// .asciz	"(%llu, %llu, %llu)\n"
+        /// </summary>
         [Symbol(".asciz")]
         DK_ASCIZ,
 
+        /// <summary>
+        ///
+        /// </summary>
         [Symbol(".string")]
         DK_STRING,
 
+        /// <summary>
+        ///
+        /// </summary>
         [Symbol(".byte")]
         DK_BYTE,
 
+        /// <summary>
+        ///
+        /// </summary>
         [Symbol(".short")]
         DK_SHORT,
 
-        [Symbol(".value")]
+        /// <summary>
+        ///
+        /// </summary>
+        [Symbol(".reloc")]
         DK_RELOC,
 
+        /// <summary>
+        ///
+        /// </summary>
         [Symbol(".value")]
         DK_VALUE,
 
@@ -320,6 +343,9 @@ namespace Z0
         [Symbol(".skip")]
         DK_SKIP,
 
+        /// <summary>
+        /// .file	"canonical.c"
+        /// </summary>
         [Symbol(".file")]
         DK_FILE,
 
@@ -380,61 +406,61 @@ namespace Z0
         [Symbol(".cfi_def_cfa")]
         DK_CFI_DEF_CFA,
 
-        [Symbol("")]
+        [Symbol(".cfi_def_cfa_offset")]
         DK_CFI_DEF_CFA_OFFSET,
 
-        [Symbol("")]
+        [Symbol(".cfi_adjust_cfa_offset")]
         DK_CFI_ADJUST_CFA_OFFSET,
 
-        [Symbol("")]
+        [Symbol(".cfi_def_cfa_register")]
         DK_CFI_DEF_CFA_REGISTER,
 
-        [Symbol("")]
+        [Symbol(".cfi_llvm_def_aspace_cfa")]
         DK_CFI_LLVM_DEF_ASPACE_CFA,
 
-        [Symbol("")]
+        [Symbol(".cfi_offset")]
         DK_CFI_OFFSET,
 
-        [Symbol("")]
+        [Symbol(".cfi_rel_offset")]
         DK_CFI_REL_OFFSET,
 
-        [Symbol("")]
+        [Symbol(".cfi_personality")]
         DK_CFI_PERSONALITY,
 
-        [Symbol("")]
+        [Symbol(".cfi_lsda")]
         DK_CFI_LSDA,
 
-        [Symbol("")]
+        [Symbol(".cfi_remember_state")]
         DK_CFI_REMEMBER_STATE,
 
-        [Symbol("")]
+        [Symbol(".cfi_restore_state")]
         DK_CFI_RESTORE_STATE,
 
-        [Symbol("")]
+        [Symbol(".cfi_same_value")]
         DK_CFI_SAME_VALUE,
 
-        [Symbol("")]
+        [Symbol(".cfi_restore")]
         DK_CFI_RESTORE,
 
-        [Symbol("")]
+        [Symbol(".cfi_escape")]
         DK_CFI_ESCAPE,
 
-        [Symbol("")]
+        [Symbol(".cfi_return_column")]
         DK_CFI_RETURN_COLUMN,
 
-        [Symbol("")]
+        [Symbol(".cfi_signal_frame")]
         DK_CFI_SIGNAL_FRAME,
 
-        [Symbol("")]
+        [Symbol(".cfi_undefined")]
         DK_CFI_UNDEFINED,
 
-        [Symbol("")]
+        [Symbol(".cfi_register")]
         DK_CFI_REGISTER,
 
-        [Symbol("")]
+        [Symbol(".cfi_window_save")]
         DK_CFI_WINDOW_SAVE,
 
-        [Symbol("")]
+        [Symbol(".cfi_b_key_frame")]
         DK_CFI_B_KEY_FRAME,
 
         [Symbol(".macros_on")]

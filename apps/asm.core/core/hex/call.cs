@@ -21,7 +21,7 @@ namespace Z0.Asm
         {
             const byte Size = 5;
             seek(hex, 0) = CallRel32.OpCode;
-            i32(seek(hex, 1)) = AsmOpFactory.disp32(src + CallRel32.InstSize, dst);
+            i32(seek(hex, 1)) = AsmValues.disp32(src + CallRel32.InstSize, dst);
             return Size;
         }
 

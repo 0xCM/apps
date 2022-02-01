@@ -12,7 +12,10 @@ namespace Z0.Asm
 
     public class JmpStubs : AppService<JmpStubs>
     {
-        public static unsafe Index<LiveMemberCode> search(Type host)
+        public static JmpStub rel32(MemoryAddress src, MemoryAddress dst)
+            => new JmpStub(src,dst);
+
+        public static unsafe Index<LiveMemberCode> search(SymbolDispenser symbols, Type host)
         {
             var uri = host.ApiHostUri();
             var methods = host.DeclaredMethods();
@@ -32,10 +35,9 @@ namespace Z0.Asm
                 {
                     var target = AsmRel32.target(entry, encoded);
                     ref var stub = ref seek(located,j++);
-                    stub.Name = method.Uri();
                     stub.Entry = entry;
                     stub.Target = target;
-                    stub.StubEncoding =  AsmHexCode.load(slice(encoded,0,5));
+                    stub.StubCode =  AsmHexCode.load(slice(encoded,0,5));
                     stub.Disp = AsmRel32.disp(encoded);
                 }
             }
@@ -75,23 +77,22 @@ namespace Z0.Asm
             Status($"Received {a0}");
         }
 
-        public Index<LiveMemberCode> SearchLive(Type host)
-            => search(host);
+        public Index<LiveMemberCode> SearchLive(SymbolDispenser symbols, Type host)
+            => search(symbols,host);
 
         static LiveMemberCode stub(in ApiCodeBlock block)
         {
             var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
             var stub = new LiveMemberCode();
             var source = block.BaseAddress;
-            stub.Name = block.OpUri;
             stub.Entry = source;
             stub.Target = AsmRel32.target(source, encoding);
-            stub.StubEncoding =  encoding;
+            stub.StubCode =  encoding;
             stub.Disp = AsmRel32.disp(encoding);
             return stub;
         }
 
-        public Index<LiveMemberCode> SearchCaptured(ApiHostUri host)
+        public Index<LiveMemberCode> SearchCaptured(SymbolDispenser symbols, ApiHostUri host)
         {
             var src = ApiHex.ParsedExtracts(host);
             if(!src.Exists)
@@ -112,7 +113,7 @@ namespace Z0.Asm
             return dst.ToArray();
         }
 
-        public Index<LiveMemberCode> SearchLive()
+        public Index<LiveMemberCode> SearchLive(SymbolDispenser symbols)
         {
             var entries = MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
             var count = entries.Count;
@@ -123,17 +124,17 @@ namespace Z0.Asm
                 var buffer = Cells.alloc(w64).Bytes;
                 ref var data = ref entry.Location.Ref<byte>();
                 ByteReader.read5(data, buffer);
-                SearchEntry(entry, out seek(located, i));
+                ref var dst = ref seek(located,i);
+                Collect(symbols, entry, out seek(located, i));
             }
             return located;
         }
 
-        public bool SearchEntry(MethodEntryPoint entry, out LiveMemberCode dst)
+        bool Collect(SymbolDispenser symbols, MethodEntryPoint entry, out LiveMemberCode dst)
         {
             dst = new LiveMemberCode();
-            dst.Name = entry.Name;
             dst.Entry = entry.Location;
-
+            dst.Uri = entry.Uri;
             var buffer = Cells.alloc(w64).Bytes;
             ref var data = ref entry.Location.Ref<byte>();
             ByteReader.read5(data, buffer);
@@ -141,16 +142,22 @@ namespace Z0.Asm
             {
                 var target = AsmRel32.target(entry.Location, buffer);
                 var encoded = AsmHexCode.load(slice(buffer,0,5));
-                dst.IsStub = 1;
                 dst.Target = target;
-                dst.StubEncoding = encoded;
+                dst.StubCode = encoded;
                 dst.Disp = AsmRel32.disp(encoded.Bytes);
+                dst.Stub = rel32(entry.Location, target);
+                dst.Token = ApiToken.create(symbols, entry, target);
                 return true;
             }
+            else
+            {
+                dst.Token = ApiToken.create(symbols, entry);
+            }
+
             return false;
         }
 
-        public Index<LiveMemberCode> SearchCaptured()
+        public Index<LiveMemberCode> SearchCaptured(SymbolDispenser symbols)
         {
             var dst = list<LiveMemberCode>();
             var buffer = list<ApiCodeBlock>();
@@ -185,11 +192,14 @@ namespace Z0.Asm
         {
             var address = Trampolines[slot];
             ref var payload = ref Payloads[slot];
-            var mov = AsmHexSpecs.mov(rcx, target).Bytes;
+            var storage = Cell128.Empty;
+            var buffer = storage.Bytes;
+            var size = AsmHexSpecs.mov(rcx, target, ref first(buffer));
+            //var mov = AsmHexSpecs.mov(rcx, target).Bytes;
             var dst = payload.Bytes;
             var j=0;
-            for(var i=0; i<mov.Length; i++)
-                seek(dst,j++) = skip(mov,i);
+            for(var i=0; i<size; i++)
+                seek(dst,j++) = skip(buffer,i);
             return ref payload;
         }
 

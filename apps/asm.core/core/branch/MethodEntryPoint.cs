@@ -4,31 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Captures a method entry point
     /// </summary>
     public readonly struct MethodEntryPoint
     {
-        public OpUri Name {get;}
-
         public MemoryAddress Location {get;}
 
+        public OpUri Uri {get;}
+
+        public MethodDisplaySig Sig {get;}
+
         [MethodImpl(Inline)]
-        public MethodEntryPoint(OpUri id, MemoryAddress address)
+        public MethodEntryPoint(OpUri uri, MethodDisplaySig sig, MemoryAddress address)
         {
-            Name = id;
+            Uri = uri;
+            Sig = sig;
             Location = address;
         }
-
-        public string Format()
-            => string.Format("{0}: {1}", Location, Name);
-
-        public override string ToString()
-            => Format();
     }
 }

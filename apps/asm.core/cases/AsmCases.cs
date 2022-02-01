@@ -7,11 +7,11 @@ namespace Z0.Asm
     [ApiHost]
     public partial class AsmCases : AppService<AsmCases>
     {
-        static LocatedSymbols AsmSymbols;
+        static SymbolDispenser AsmSymbols;
 
         static AsmCases()
         {
-            AsmSymbols = LocatedSymbols.alloc();
+            AsmSymbols = SymbolDispenser.alloc();
         }
     }
 }
