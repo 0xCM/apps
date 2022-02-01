@@ -4,22 +4,103 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Collections;
     using Asm;
 
     using static core;
+
+    public class EncodedMembers
+    {
+        readonly ConcurrentDictionary<OpUri,EncodedMember> Data;
+
+        public EncodedMembers()
+        {
+            Data = new();
+        }
+
+        public bool Include(EncodedMember src)
+        {
+            return Data.TryAdd(src.Name, src);
+        }
+
+        public ConstLookup<OpUri,EncodedMember> ToLookup()
+            => Data;
+    }
 
 
     public class EncodedMember
     {
         public OpUri Name;
 
-        public LocatedSymbol EntryPoint;
+        public LocatedSymbol Source;
 
-        public LocatedSymbol CodeBase;
+        public LocatedSymbol Target;
 
         public BinaryCode Code;
+
+        public EncodingParserState ResultCode;
+
+        public EncodedMember(OpUri name, LocatedSymbol source, LocatedSymbol target, EncodingParserState result, BinaryCode code)
+        {
+            Name = name;
+            Source = source;
+            Target = target;
+            ResultCode = result;
+            Code = code;
+        }
     }
 
+    public class EncodedMemberExtract
+    {
+        public OpUri Name;
+
+        public LocatedSymbol Source;
+
+        public LocatedSymbol Target;
+
+        public BinaryCode RawCode;
+
+
+
+        public EncodedMemberExtract(OpUri name, LocatedSymbol source, LocatedSymbol target, BinaryCode code)
+        {
+            Name = name;
+            Source = source;
+            Target = target;
+            RawCode = code;
+        }
+    }
+
+    public class EncodedMemberExtracts : IEnumerable<EncodedMemberExtract>
+    {
+        readonly List<EncodedMemberExtract> Data;
+
+        public EncodedMemberExtracts(params EncodedMemberExtract[] src)
+        {
+            Data = new(src);
+        }
+
+        public IEnumerator<EncodedMemberExtract> GetEnumerator()
+        {
+            return ((IEnumerable<EncodedMemberExtract>)Data).GetEnumerator();
+        }
+
+        public void Include(EncodedMemberExtract src)
+        {
+            Data.Add(src);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)Data).GetEnumerator();
+        }
+
+        public uint Count
+        {
+            [MethodImpl(Inline)]
+            get => (uint)Data.Count;
+        }
+    }
 
 
     partial class CheckCmdProvider
@@ -55,43 +136,70 @@ namespace Z0
                 => math.sub(a,b);
         }
 
-        [CmdOp("check/stubs/live")]
+        EncodedMembers Parse(Dictionary<ApiHostUri,EncodedMemberExtracts> src)
+        {
+            var running = Running(string.Format("Parsing members from {0} hosts", src.Count));
+            var buffer = alloc<byte>(Pow2.T13);
+            var parser = EncodingParser.create(buffer);
+            var dst = new EncodedMembers();
+            var counter = 0u;
+            foreach(var host in src.Keys)
+            {
+                var parsing = Running(string.Format("Parsing {0} ", host));
+                var extracts = src[host];
+                foreach(var extract in extracts)
+                {
+                    var result = parser.Parse(extract.RawCode);
+                    dst.Include(new EncodedMember(extract.Name, extract.Source, extract.Target, result, parser.Parsed));
+                    counter++;
+                }
+                Ran(parsing, string.Format("Parsed {0} {1} members", host, extracts.Count));
+            }
+
+            Ran(running, string.Format("Parsed {0} members", counter));
+            return dst;
+
+        }
+
+        [CmdOp("check/capture")]
         Outcome CheckLiveStubs(CmdArgs args)
         {
             var stubs = JmpStubs.SearchLive();
             var count = stubs.Count;
             var unparsed = span<byte>(Pow2.T16);
-            var parsed = alloc<byte>(Pow2.T16);
-            var parser = EncodingParser.create(parsed);
             var part = PartId.None;
             var host = ApiHostUri.Empty;
             var blocks = new ApiCodeLookup();
+            var extracts = dict<ApiHostUri,EncodedMemberExtracts>();
+            var max = ByteSize.Zero;
             for(var i=0; i<count; i++)
             {
                 unparsed.Clear();
-                parsed.Clear();
                 ref readonly var stub = ref stubs[i];
                 ref readonly var uri = ref stub.Name;
-                part = uri.Part;
-                host = uri.Host;
-                var extract = slice(unparsed,0, ApiExtracts.extract(stub.Target, unparsed));
-                var result = parser.Parse(extract);
-                if(result == EncodingParserState.Succeeded)
+
+                if(uri.Host != host)
                 {
-                    var encoded = parser.Parsed;
-                    var size = encoded.Length;
-                    var block = new ApiCodeBlock(stub.Target.Location, uri, encoded);
-                    if(blocks.TryAdd(uri,block))
-                    {
-                        Write(string.Format("{0} -> {1} [{2}] ({3})", stub.Entry.Location, stub.Target, (ByteSize)size, uri));
-                    }
-                    else
-                    {
-                        Warn("Duplicate key");
-                    }
+                    if(host.IsNonEmpty)
+                        Status(string.Format("Collected {0}", host));
+                    host = uri.Host;
                 }
 
+                part = uri.Part;
+                var extract = slice(unparsed,0, ApiExtracts.extract(stub.Target, unparsed));
+                var extracted = new EncodedMemberExtract(uri, stub.Entry, stub.Target, extract.ToArray());
+                if(extracts.TryGetValue(host, out var hosted))
+                {
+                    hosted.Include(extracted);
+                }
+                else
+                {
+                    extracts[host] = new EncodedMemberExtracts(extracted);
+                }
             }
+
+            var lookup = Parse(extracts).ToLookup();
+
             return true;
         }
 
@@ -103,7 +211,7 @@ namespace Z0
                 var stubs = JmpStubs.SearchCaptured(ApiHostUri.from(typeof(cpu)));
                 foreach(var stub in stubs)
                 {
-                    var jmp = stub.ToModel();
+                    var jmp = AsmRel32.from(stub);
                     Write(jmp.Format());
                 }
             }
@@ -113,7 +221,7 @@ namespace Z0
                 var host = typeof(Calc64);
                 var contract = typeof(ICalc64);
                 var stubs = JmpStubs.SearchLive(host);
-                Write(stubs.View, JmpStub.RenderWidths);
+                Write(stubs.View, LiveMemberCode.RenderWidths);
                 var imap = Clr.imap(host,contract);
                 Write(imap.Format());
             }
@@ -134,21 +242,5 @@ namespace Z0
 
             return true;
         }
-
-        static Index<ApiHostUri> NestedHosts(Type src)
-        {
-            var dst = list<ApiHostUri>();
-            var nested = @readonly(src.GetNestedTypes());
-            var count = nested.Length;
-            for(var i=0; i<count; i++)
-            {
-                var candidate = skip(nested,i);
-                var uri = candidate.ApiHostUri();
-                if(uri.IsNonEmpty)
-                    dst.Add(uri);
-            }
-            return dst.ToArray();
-        }
-
     }
 }

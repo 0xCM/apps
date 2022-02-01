@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-    using static Root;
-
-    using System.Collections.Generic;
     using Asm;
 
     public class ProjectManager : AppService<ProjectManager>

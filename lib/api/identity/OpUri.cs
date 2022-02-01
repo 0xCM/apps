@@ -73,10 +73,10 @@ namespace Z0
             => Content;
 
         public int CompareTo(OpUri src)
-            => (Content).CompareTo(src.Content);
+            => Content.CompareTo(src.Content);
 
         public bool Equals(OpUri src)
-            => (Content).Equals(src.Content, NoCase);
+            => Content.Equals(src.Content, NoCase);
 
         public override int GetHashCode()
             => Content.GetHashCode();

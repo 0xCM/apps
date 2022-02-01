@@ -12,13 +12,13 @@ namespace Z0.Asm
 
     public class JmpStubs : AppService<JmpStubs>
     {
-        public static unsafe Index<JmpStub> search(Type host)
+        public static unsafe Index<LiveMemberCode> search(Type host)
         {
             var uri = host.ApiHostUri();
             var methods = host.DeclaredMethods();
             var count = methods.Length;
             var entries = alloc<MemoryAddress>(count);
-            var located = span<JmpStub>(count);
+            var located = span<LiveMemberCode>(count);
             ClrJit.jit(methods, entries);
             var j=0;
             for(var i=0; i<count; i++)
@@ -35,7 +35,7 @@ namespace Z0.Asm
                     stub.Name = method.Uri();
                     stub.Entry = entry;
                     stub.Target = target;
-                    stub.Encoding =  AsmHexCode.load(slice(encoded,0,5));
+                    stub.StubEncoding =  AsmHexCode.load(slice(encoded,0,5));
                     stub.Disp = AsmRel32.disp(encoded);
                 }
             }
@@ -75,32 +75,32 @@ namespace Z0.Asm
             Status($"Received {a0}");
         }
 
-        public Index<JmpStub> SearchLive(Type host)
+        public Index<LiveMemberCode> SearchLive(Type host)
             => search(host);
 
-        static JmpStub stub(in ApiCodeBlock block)
+        static LiveMemberCode stub(in ApiCodeBlock block)
         {
             var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
-            var stub = new JmpStub();
+            var stub = new LiveMemberCode();
             var source = block.BaseAddress;
             stub.Name = block.OpUri;
             stub.Entry = source;
             stub.Target = AsmRel32.target(source, encoding);
-            stub.Encoding =  encoding;
+            stub.StubEncoding =  encoding;
             stub.Disp = AsmRel32.disp(encoding);
             return stub;
         }
 
-        public Index<JmpStub> SearchCaptured(ApiHostUri host)
+        public Index<LiveMemberCode> SearchCaptured(ApiHostUri host)
         {
             var src = ApiHex.ParsedExtracts(host);
             if(!src.Exists)
             {
                 Error(FS.missing(src));
-                return sys.empty<JmpStub>();
+                return sys.empty<LiveMemberCode>();
             }
 
-            var dst = list<JmpStub>();
+            var dst = list<LiveMemberCode>();
             var blocks = ApiHex.ReadBlocks(src);
             var count = blocks.Count;
             for(var i=0; i<count; i++)
@@ -112,29 +112,28 @@ namespace Z0.Asm
             return dst.ToArray();
         }
 
-        public Index<JmpStub> SearchLive()
+        public Index<LiveMemberCode> SearchLive()
         {
             var entries = MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
             var count = entries.Count;
-            var located = span<JmpStub>(count);
-            var j=0;
+            var located = alloc<LiveMemberCode>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref entries[i];
                 var buffer = Cells.alloc(w64).Bytes;
                 ref var data = ref entry.Location.Ref<byte>();
                 ByteReader.read5(data, buffer);
-                if(SearchEntry(entry, out seek(located,j)))
-                {
-                    j++;
-                }
+                SearchEntry(entry, out seek(located, i));
             }
-            return slice(located,0,j).ToArray();
+            return located;
         }
 
-        public bool SearchEntry(MethodEntryPoint entry, out JmpStub dst)
+        public bool SearchEntry(MethodEntryPoint entry, out LiveMemberCode dst)
         {
-            dst = new JmpStub();
+            dst = new LiveMemberCode();
+            dst.Name = entry.Name;
+            dst.Entry = entry.Location;
+
             var buffer = Cells.alloc(w64).Bytes;
             ref var data = ref entry.Location.Ref<byte>();
             ByteReader.read5(data, buffer);
@@ -142,19 +141,18 @@ namespace Z0.Asm
             {
                 var target = AsmRel32.target(entry.Location, buffer);
                 var encoded = AsmHexCode.load(slice(buffer,0,5));
-                dst.Name = entry.Name;
-                dst.Entry = entry.Location;
+                dst.IsStub = 1;
                 dst.Target = target;
-                dst.Encoding = encoded;
+                dst.StubEncoding = encoded;
                 dst.Disp = AsmRel32.disp(encoded.Bytes);
                 return true;
             }
             return false;
         }
 
-        public Index<JmpStub> SearchCaptured()
+        public Index<LiveMemberCode> SearchCaptured()
         {
-            var dst = list<JmpStub>();
+            var dst = list<LiveMemberCode>();
             var buffer = list<ApiCodeBlock>();
             var files = ApiHex.ParsedExtracts();
             var flow = Running(string.Format("Searching {0} hex files", files.Length));

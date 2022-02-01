@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
-    public class ApiCodeLookup : Dictionary<OpUri,ApiCodeBlock>
+    public class ApiCodeLookup : ConcurrentDictionary<OpUri,ApiCodeBlock>
     {
         public static ApiCodeLookup Empty => new ApiCodeLookup();
     }

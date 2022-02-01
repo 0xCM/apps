@@ -61,7 +61,7 @@ namespace Z0.Asm
             => jmp(src.Location, disp);
 
         [MethodImpl(Inline), Op]
-        public static JmpRel32 from(JmpStub src)
+        public static JmpRel32 from(LiveMemberCode src)
             => jmp(src.Entry, src.Target);
 
         [MethodImpl(Inline), Op]
