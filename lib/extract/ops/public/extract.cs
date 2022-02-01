@@ -41,6 +41,14 @@ namespace Z0
             return new ApiMemberExtract(src.ToApiMember(), block);
         }
 
+        [MethodImpl(Inline), Op]
+        public static unsafe int extract(MemoryAddress src, Span<byte> dst)
+        {
+            var pSrc = src.Pointer<byte>();
+            var limit = dst.Length;
+            return read(ref pSrc, limit, dst);
+        }
+
         [Op]
         public static ApiExtractBlock extract(MethodInfo src, Span<byte> buffer)
         {

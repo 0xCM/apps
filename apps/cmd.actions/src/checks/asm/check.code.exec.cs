@@ -59,11 +59,15 @@ namespace Z0
         [CmdOp("check/capture/entries")]
         Outcome CheckEntryPoints(CmdArgs args)
         {
-            var catalog = ApiRuntimeCatalog;
-            var jit = Wf.ApiJit();
-            var members = jit.JitCatalog(catalog);
             var flow = Running("Creating method table");
-            var table = MethodEntryPoints.create(core.controller().Id(), members);
+            var table = MethodEntryPoints.create(Wf.ApiJit().JitCatalog(ApiRuntimeCatalog));
+            var count = table.Count;
+
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref table[i];
+                Write(entry.Format());
+            }
             Ran(flow, $"Created method table with {table.View.Length} entries");
             return true;
         }

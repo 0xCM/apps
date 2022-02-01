@@ -17,6 +17,10 @@ namespace Z0
     [ApiHost]
     public ref struct EncodingParser
     {
+        [MethodImpl(Inline), Op]
+        public static EncodingParser create(byte[] buffer)
+            => new EncodingParser(EncodingPatterns.Default, buffer);
+
         internal readonly Span<byte> Buffer;
 
         internal int Offset;
@@ -46,7 +50,7 @@ namespace Z0
         }
 
         [Op]
-        internal S Parse(ReadOnlySpan<byte> src)
+        public S Parse(ReadOnlySpan<byte> src)
         {
             Start();
 

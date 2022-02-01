@@ -8,6 +8,20 @@ namespace Z0
 
     using static core;
 
+
+    public class EncodedMember
+    {
+        public OpUri Name;
+
+        public LocatedSymbol EntryPoint;
+
+        public LocatedSymbol CodeBase;
+
+        public BinaryCode Code;
+    }
+
+
+
     partial class CheckCmdProvider
     {
         [Free]
@@ -41,8 +55,47 @@ namespace Z0
                 => math.sub(a,b);
         }
 
+        [CmdOp("check/stubs/live")]
+        Outcome CheckLiveStubs(CmdArgs args)
+        {
+            var stubs = JmpStubs.SearchLive();
+            var count = stubs.Count;
+            var unparsed = span<byte>(Pow2.T16);
+            var parsed = alloc<byte>(Pow2.T16);
+            var parser = EncodingParser.create(parsed);
+            var part = PartId.None;
+            var host = ApiHostUri.Empty;
+            var blocks = new ApiCodeLookup();
+            for(var i=0; i<count; i++)
+            {
+                unparsed.Clear();
+                parsed.Clear();
+                ref readonly var stub = ref stubs[i];
+                ref readonly var uri = ref stub.Name;
+                part = uri.Part;
+                host = uri.Host;
+                var extract = slice(unparsed,0, ApiExtracts.extract(stub.Target, unparsed));
+                var result = parser.Parse(extract);
+                if(result == EncodingParserState.Succeeded)
+                {
+                    var encoded = parser.Parsed;
+                    var size = encoded.Length;
+                    var block = new ApiCodeBlock(stub.Target.Location, uri, encoded);
+                    if(blocks.TryAdd(uri,block))
+                    {
+                        Write(string.Format("{0} -> {1} [{2}] ({3})", stub.Entry.Location, stub.Target, (ByteSize)size, uri));
+                    }
+                    else
+                    {
+                        Warn("Duplicate key");
+                    }
+                }
 
-        [CmdOp("check/asm/stubs")]
+            }
+            return true;
+        }
+
+        [CmdOp("check/stubs/captured")]
         Outcome FindJumpStubs(CmdArgs args)
         {
             void Api()

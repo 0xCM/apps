@@ -62,7 +62,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static JmpRel32 from(JmpStub src)
-            => jmp(src.Stub, src.Target);
+            => jmp(src.Entry, src.Target);
 
         [MethodImpl(Inline), Op]
         public static Disp32 disp(ReadOnlySpan<byte> encoding)

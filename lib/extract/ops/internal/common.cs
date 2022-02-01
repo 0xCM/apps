@@ -12,7 +12,6 @@ namespace Z0
 
     partial struct ApiExtracts
     {
-
         [MethodImpl(Inline), Op]
         internal static unsafe int read(ref byte* pSrc, int count, Span<byte> dst)
             => read(ref pSrc, count, ref first(dst));
@@ -35,18 +34,6 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        internal static unsafe int extract(MemoryAddress src, Span<byte> dst)
-        {
-            var pSrc = src.Pointer<byte>();
-            var limit = dst.Length;
-            return read(ref pSrc, limit, dst);
-        }
-
-        [MethodImpl(Inline), Op]
-        internal static EncodingParser encodings(byte[] buffer)
-            => new EncodingParser(EncodingPatterns.Default, buffer);
-
-        [MethodImpl(Inline), Op]
         internal static bool failed(EncodingParserState state)
             => state == EncodingParserState.Failed;
 
@@ -62,6 +49,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         internal static ReadOnlySpan<byte> parsed(in EncodingParser parser)
             => (parser.Offset + parser.Delta - 1) > 0 ? parser.Buffer.Slice(0, parser.Offset + parser.Delta - 1) : Array.Empty<byte>();
-
     }
 }

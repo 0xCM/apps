@@ -17,11 +17,6 @@ namespace Z0
     public readonly struct CodeBlock
     {
         /// <summary>
-        /// A surrogoate key
-        /// </summary>
-        public CodeKey Key {get;}
-
-        /// <summary>
         /// The head of the memory location from which the data originated
         /// </summary>
         public MemoryAddress BaseAddress {get;}
@@ -32,17 +27,8 @@ namespace Z0
         public BinaryCode Code {get;}
 
         [MethodImpl(Inline)]
-        public CodeBlock(CodeKey key, MemoryAddress src, byte[] data)
-        {
-            Key = key;
-            BaseAddress = src;
-            Code = new BinaryCode(data ?? core.array<byte>());
-        }
-
-        [MethodImpl(Inline)]
         public CodeBlock(MemoryAddress src, byte[] data)
         {
-            Key = CodeKey.Empty;
             BaseAddress = src;
             Code = new BinaryCode(data ?? core.array<byte>());
         }
@@ -50,7 +36,6 @@ namespace Z0
         [MethodImpl(Inline)]
         public CodeBlock(MemoryAddress src, in BinaryCode code)
         {
-            Key = CodeKey.Empty;
             BaseAddress = src;
             Code = code;
         }
@@ -58,7 +43,6 @@ namespace Z0
         [MethodImpl(Inline)]
         CodeBlock(ulong zero)
         {
-            Key = CodeKey.Empty;
             BaseAddress = zero;
             Code = Array.Empty<byte>();
         }

@@ -11,20 +11,23 @@ namespace Z0
     using static Root;
     using static core;
 
+    partial class XTend
+    {
+        public static OpUri Uri(this MethodInfo src)
+            => ApiUri.define(ApiUriScheme.Located, ApiHostUri.from(src.DeclaringType), src.Name, src.Identify());
+
+    }
+
     public readonly struct MethodEntryPoints
     {
         [Op]
         public static MethodEntryPoint entry(MethodInfo src)
-            => new MethodEntryPoint(src.MetadataToken, ClrJit.jit(src));
+            => new MethodEntryPoint(src.Uri(), ClrJit.jit(src));
 
         [Op]
         public static MethodEntryPoint entry(ApiMember src)
-            => new MethodEntryPoint(src.Token, src.BaseAddress);
+            => new MethodEntryPoint(src.OpUri, src.BaseAddress);
 
-        [Op, Closures(UInt16k)]
-        public static MethodEntryPoint<K> entry<K>(MethodInfo src, K kind)
-            where K : unmanaged
-                => new MethodEntryPoint<K>(src.MetadataToken, ClrJit.jit(src), kind);
         [Op]
         public static Index<MethodEntryPoint> create(Identifier name, ReadOnlySpan<MethodInfo> src)
         {
@@ -36,11 +39,8 @@ namespace Z0
             return buffer;
         }
 
-        public static Index<MethodEntryPoint> create(PartId part, ApiMembers src)
-            => create(part.Format(), src);
-
         [Op]
-        public static Index<MethodEntryPoint> create(Identifier name, ApiMembers src)
+        public static Index<MethodEntryPoint> create(ApiMembers src)
         {
             var count = src.Length;
             var buffer = alloc<MethodEntryPoint>(count);

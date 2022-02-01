@@ -27,14 +27,14 @@ namespace Z0
         public CodeBlock Code {get;}
 
         [MethodImpl(Inline)]
-        public ApiCodeBlock(MemoryAddress @base, in OpUri uri, in BinaryCode src)
+        public ApiCodeBlock(MemoryAddress @base, OpUri uri, BinaryCode src)
         {
             OpUri = uri;
             Code = new CodeBlock(@base, src);
         }
 
         [MethodImpl(Inline)]
-        public ApiCodeBlock(in OpUri uri, in CodeBlock code)
+        public ApiCodeBlock(OpUri uri, in CodeBlock code)
         {
             OpUri = uri;
             Code = code;

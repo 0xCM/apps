@@ -12,21 +12,23 @@ namespace Z0
     /// <summary>
     /// Captures a method entry point
     /// </summary>
-    public readonly struct MethodEntryPoint<K>
-        where K : unmanaged
+    public readonly struct MethodEntryPoint
     {
-        public CliToken Id {get;}
+        public OpUri Name {get;}
 
         public MemoryAddress Location {get;}
 
-        public K Kind {get;}
-
         [MethodImpl(Inline)]
-        public MethodEntryPoint(CliToken id, MemoryAddress address, K kind)
+        public MethodEntryPoint(OpUri id, MemoryAddress address)
         {
-            Id = id;
+            Name = id;
             Location = address;
-            Kind = kind;
         }
+
+        public string Format()
+            => string.Format("{0}: {1}", Location, Name);
+
+        public override string ToString()
+            => Format();
     }
 }

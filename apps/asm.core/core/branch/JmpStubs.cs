@@ -32,8 +32,8 @@ namespace Z0.Asm
                 {
                     var target = AsmRel32.target(entry, encoded);
                     ref var stub = ref seek(located,j++);
-                    stub.Name = method.Identify();
-                    stub.Stub = entry;
+                    stub.Name = method.Uri();
+                    stub.Entry = entry;
                     stub.Target = target;
                     stub.Encoding =  AsmHexCode.load(slice(encoded,0,5));
                     stub.Disp = AsmRel32.disp(encoded);
@@ -68,6 +68,8 @@ namespace Z0.Asm
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
+        ApiJit ApiJit => Service(Wf.ApiJit);
+
         void Receive64u(ulong a0)
         {
             Status($"Received {a0}");
@@ -81,8 +83,8 @@ namespace Z0.Asm
             var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
             var stub = new JmpStub();
             var source = block.BaseAddress;
-            stub.Name = block.OpId;
-            stub.Stub = source;
+            stub.Name = block.OpUri;
+            stub.Entry = source;
             stub.Target = AsmRel32.target(source, encoding);
             stub.Encoding =  encoding;
             stub.Disp = AsmRel32.disp(encoding);
@@ -108,6 +110,46 @@ namespace Z0.Asm
                     dst.Add(stub(block));
             }
             return dst.ToArray();
+        }
+
+        public Index<JmpStub> SearchLive()
+        {
+            var entries = MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
+            var count = entries.Count;
+            var located = span<JmpStub>(count);
+            var j=0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var entry = ref entries[i];
+                var buffer = Cells.alloc(w64).Bytes;
+                ref var data = ref entry.Location.Ref<byte>();
+                ByteReader.read5(data, buffer);
+                if(SearchEntry(entry, out seek(located,j)))
+                {
+                    j++;
+                }
+            }
+            return slice(located,0,j).ToArray();
+        }
+
+        public bool SearchEntry(MethodEntryPoint entry, out JmpStub dst)
+        {
+            dst = new JmpStub();
+            var buffer = Cells.alloc(w64).Bytes;
+            ref var data = ref entry.Location.Ref<byte>();
+            ByteReader.read5(data, buffer);
+            if(AsmRel32.isJmp(buffer))
+            {
+                var target = AsmRel32.target(entry.Location, buffer);
+                var encoded = AsmHexCode.load(slice(buffer,0,5));
+                dst.Name = entry.Name;
+                dst.Entry = entry.Location;
+                dst.Target = target;
+                dst.Encoding = encoded;
+                dst.Disp = AsmRel32.disp(encoded.Bytes);
+                return true;
+            }
+            return false;
         }
 
         public Index<JmpStub> SearchCaptured()

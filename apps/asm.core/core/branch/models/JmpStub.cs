@@ -13,9 +13,9 @@ namespace Z0.Asm
 
         public const byte FieldCount = 5;
 
-        public OpIdentity Name;
+        public OpUri Name;
 
-        public LocatedSymbol Stub;
+        public LocatedSymbol Entry;
 
         public MemoryAddress Target;
 

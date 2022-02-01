@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
     using static core;
 
     partial class ApiExtractor
@@ -14,7 +11,7 @@ namespace Z0
         public ApiHostExtracts ExtractHost(in ResolvedHost src)
         {
             var dst = list<ApiMemberExtract>();
-            var flow = Wf.Running(Msg.ExtractingHost.Format(src.Host));
+            var flow = Running(Msg.ExtractingHost.Format(src.Host));
             var methods = src.Methods.View;
             var count = methods.Length;
             var counter = 0u;
@@ -25,7 +22,7 @@ namespace Z0
                 counter++;
             }
 
-            Wf.Ran(flow, Msg.ExtractedHost.Format(counter, src.Host));
+            Ran(flow, Msg.ExtractedHost.Format(counter, src.Host));
 
             return new ApiHostExtracts(src.Host, dst.ToArray());
         }

@@ -9,18 +9,9 @@ namespace Z0
     {
         const NumericKind Closure = NumericKind.UnsignedInts;
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static CodeBlock<K> block<K>(K kind, CodeKey key, MemoryAddress src, byte[] data)
-            where K : unmanaged
-                => new CodeBlock<K>(kind, block(key,src,data));
-
         [MethodImpl(Inline), Op]
-        public static CodeBlock block(uint component, uint hostseq, uint blockseq, MemoryAddress src, byte[] data)
-            => block(codekey(component, hostseq, blockseq), src, data);
-
-        [MethodImpl(Inline), Op]
-        public static CodeBlock block(CodeKey key, MemoryAddress src, byte[] data)
-            => new CodeBlock(key, src, data);
+        public static CodeBlock block(MemoryAddress src, byte[] data)
+            => new CodeBlock(src, data);
 
         [MethodImpl(Inline), Op]
         public static CodeHostKey hostkey(uint component, uint host)

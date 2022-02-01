@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines the potential byte parser states
     /// </summary>
-    enum EncodingParserState
+    public enum EncodingParserState
     {
         None = 0,
 

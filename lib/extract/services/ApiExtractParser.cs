@@ -23,7 +23,7 @@ namespace Z0
         EP Parser
         {
             [MethodImpl(Inline)]
-            get => api.encodings(Buffer.Clear());
+            get => EncodingParser.create(Buffer.Clear());
         }
 
         public Index<ApiMemberCode> ParseMembers(ReadOnlySpan<ApiMemberExtract> src)
