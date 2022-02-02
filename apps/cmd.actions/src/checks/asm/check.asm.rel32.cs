@@ -23,7 +23,7 @@ namespace Z0
                 const uint Disp = 0xfc632176;
                 const ulong IP = Base + Offset;
                 Rip rip = Rip.define(IP, 5);
-                var call = AsmHexSpecs.call32(rip, (Disp32)Disp);
+                var call = CallRel32.call(rip, (Disp32)Disp);
                 Write(call.Format());
             }
 
@@ -52,7 +52,7 @@ namespace Z0
                 const string RenderPattern = "{0,-12}: {1}";
 
                 result = Hex.hexbytes(Encoding, out var code);
-                var dx = AsmHexSpecs.disp32(code);
+                var dx = AsmRel32.disp(code);
                 var target = (MemoryAddress)(RIP + dx);
                 if(target == Target && dx == Disp)
                 {
@@ -87,7 +87,7 @@ namespace Z0
                 Rip rip = Rip.define(Source,InstSize);
 
                 Hex.hexbytes(Encoding, out var enc1);
-                var dx = AsmHexSpecs.disp32(enc1);
+                var dx = AsmRel32.disp(enc1);
 
                 var enc2 = AsmHexSpecs.call32(rip, Target);
                 if(enc1 != enc2)

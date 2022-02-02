@@ -41,13 +41,30 @@ namespace Z0
                 => math.sub(a,b);
         }
 
-        ApiHexCollector ApiHexCollector => Service(Wf.ApiHexCollector);
+        ApiCodeCollector CodeCollector => Service(Wf.ApiCodeCollector);
 
         [CmdOp("check/capture")]
         Outcome CheckLiveStubs(CmdArgs args)
         {
             using var symbols = SymbolDispenser.alloc();
-            var encoded = ApiHexCollector.CollectLive(symbols);
+            if(args.Count != 0)
+            {
+                var input = text.trim(arg(args,0).Value.Format());
+                var components = text.split(input,Chars.FSlash);
+                if(components.Length == 2)
+                {
+                    var part = ApiParsers.part(skip(components,0));
+                    var uri = ApiHostUri.define(part, skip(components,1));
+                    var path = ProjectDb.Logs() + Tables.filename<EncodedMemberInfo>(uri.HostName);
+                    var encoded = CodeCollector.CollectLive(symbols, uri, path);
+                }
+
+            }
+            else
+            {
+                var encoded = CodeCollector.CollectLive(symbols);
+
+            }
             return true;
         }
 
@@ -55,30 +72,32 @@ namespace Z0
         Outcome CheckCaptured(CmdArgs args)
         {
             using var symbols = SymbolDispenser.alloc();
-            var src = ApiHexCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
+            var src = CodeCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
             var count = src.Count;
             for(var i=0; i<count; i++)
             {
                 ref readonly var member = ref src[i];
                 Rip rip = (member.EntryAddress, 5);
-                Disp32 disp1 = (Disp32)((long)member.TargetAddress - (long)rip);
-                var target = AsmRel32.target(rip, disp1);
+                Disp32 disp = (Disp32)((long)member.TargetAddress - (long)rip);
+                var target = AsmRel32.target(rip, disp);
                 Require.equal(target, member.TargetAddress);
 
-                var disp2 = AsmHexSpecs.disp32(member.Code);
-                var disp3 = AsmRel32.disp(rip, member.TargetAddress);
+                var disp2 = AsmRel32.disp(member.Code);
+                Require.equal(disp2,disp);
 
-                var relTarget = (int)disp1 + (int)JmpRel32.InstSize;
-                @string statement = string.Format("jmp near ptr {0:x}h", relTarget);
+                var disp3 = AsmRel32.disp(rip, member.TargetAddress);
+                Require.equal(disp3,disp);
+
+                @string statement = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(disp));
 
 
                 var dispFormat = EmptyString;
-                if(disp1 < 0)
+                if(disp < 0)
                 {
-                    dispFormat = string.Format("-0x{0:x}", ~disp1 + 1);
+                    dispFormat = string.Format("-0x{0:x}", ~disp + 1);
                 }
                 else
-                    dispFormat = string.Format("0x{0:x}", disp1);
+                    dispFormat = string.Format("0x{0:x}", disp);
 
                 Write(string.Format("{0} | {1,-12} | {2,-16} | {3,-24} | {4} | {5}", member.EntryAddress, disp2, target,  statement, member.Code, member.Uri), FlairKind.StatusData);
             }
@@ -106,7 +125,7 @@ namespace Z0
             void Api()
             {
                 using var symbols = SymbolDispenser.alloc();
-                var stubs = ApiHexCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
+                var stubs = CodeCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
                 foreach(var stub in stubs)
                 {
 
@@ -118,7 +137,7 @@ namespace Z0
                 using var symbols = SymbolDispenser.alloc();
                 var host = typeof(Calc64);
                 var contract = typeof(ICalc64);
-                var stubs = ApiHexCollector.CollectLive(symbols,host);
+                //var stubs = CodeCollector.CollectLive(symbols,host);
                 //Write(stubs.View, LiveMemberCode.RenderWidths);
                 var imap = Clr.imap(host,contract);
                 Write(imap.Format());

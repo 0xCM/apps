@@ -19,7 +19,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var expect = ref cases[i];
-                var disp = AsmHexSpecs.disp32(expect.Encoding.Bytes);
+                var disp = AsmRel32.disp(expect.Encoding.Bytes);
                 Require.equal(disp, expect.Disp);
                 var source = expect.Source;
                 Rip rip = (source, JmpRel32.InstSize);

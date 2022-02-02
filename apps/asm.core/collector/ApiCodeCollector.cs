@@ -8,27 +8,12 @@ namespace Z0
 
     using Asm;
 
-    public class ApiHexCollector : AppService<ApiHexCollector>
+    public class ApiCodeCollector : AppService<ApiCodeCollector>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
-        static Outcome InferHost(FS.FileName src, FS.FileExt ext, out ApiHostUri host)
-        {
-            var components = @readonly(src.Name.Text.Remove(string.Format(".{0}", ext)).SplitClean(Chars.Dot));
-            var count = components.Length;
-            if(count >= 2)
-            {
-                if(ApiParsers.part(first(components), out var part))
-                {
-                    host =  new ApiHostUri(part, slice(components,1).Join(Chars.Dot));
-                    return true;
-                }
-            }
-            host = ApiHostUri.Empty;
-            return false;
-        }
 
         public Index<EncodedMember> CollectCaptured(SymbolDispenser symbols)
         {
@@ -52,7 +37,6 @@ namespace Z0
             }
 
             return dst.ToArray();
-
         }
 
         public Index<EncodedMember> CollectCaptured(SymbolDispenser symbols, ApiHostUri host)
@@ -69,74 +53,33 @@ namespace Z0
             return members.ToArray();
         }
 
-        void CollectCaptured(SymbolDispenser symbols, ApiHostUri host, List<EncodedMember> members)
-        {
-            var src = ApiHex.ParsedExtracts(host);
-            if(!src.Exists)
-            {
-                Error(FS.missing(src));
-                return;
-            }
-
-            var blocks = ApiHex.ReadBlocks(src);
-            var count = blocks.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var block = ref blocks[i];
-                if(AsmHexSpecs.isJmp32(block.Encoded))
-                {
-                    var entry = new MethodEntryPoint(block.OpUri, MethodDisplaySig.Empty, block.BaseAddress);
-                    var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
-                    var source = block.BaseAddress;
-                    var token = ApiToken.create(symbols, entry, AsmRel32.target((source,JmpRel32.InstSize), encoding));
-                    members.Add(new EncodedMember(token, encoding.ToArray()));
-                }
-            }
-        }
-
-        public Index<RawMemberCode> CollectLive(SymbolDispenser symbols, Type host)
+        public Index<EncodedMember> CollectLive(SymbolDispenser symbols, Type host, FS.FilePath dst)
         {
             var uri = host.ApiHostUri();
-            var methods = host.DeclaredMethods();
-            var count = methods.Length;
-            var entries = alloc<MemoryAddress>(count);
-            var located = span<RawMemberCode>(count);
-            ClrJit.jit(methods, entries);
-            var j=0;
-            for(var i=0; i<count; i++)
-            {
-                var encoded = Cells.alloc(w64).Bytes;
-                ref readonly var method = ref skip(methods,i);
-                ref readonly var entry = ref skip(entries,i);
-                ref var data = ref entry.Ref<byte>();
-                ByteReader.read5(data, encoded);
-                if(AsmHexSpecs.isJmp32(encoded))
-                {
-                    var target = AsmRel32.target((entry,  JmpRel32.InstSize), encoded);
-                    ref var stub = ref seek(located,j++);
-                    stub.Entry = entry;
-                    stub.Target = target;
-                    stub.StubCode = AsmHexCode.load(slice(encoded,0,5));
-                    stub.Disp = AsmHexSpecs.disp32(encoded);
-                }
-            }
-            return slice(located,0,j).ToArray();
+            return CollectLive(symbols,uri, dst);
+        }
+
+        public Index<EncodedMember> CollectLive(SymbolDispenser symbols, ApiHostUri uri, FS.FilePath dst)
+        {
+            var entries = CollectRaw(symbols, uri);
+            var members = DivineCode(entries);
+            Emit(members,dst);
+            return members;
         }
 
         public Index<EncodedMember> CollectLive(SymbolDispenser symbols)
         {
-            var entries = CollectEntryPoints(symbols);
-            var count = entries.Count;
+            var src = CollectRaw(symbols);
+            var count = src.Count;
             var buffer = span<byte>(Pow2.T16);
             var part = PartId.None;
             var host = ApiHostUri.Empty;
-            var blocks = new ApiCodeLookup();
             var lookup = dict<ApiHostUri,MemberCodeExtracts>();
             var max = ByteSize.Zero;
             for(var i=0; i<count; i++)
             {
                 buffer.Clear();
-                ref readonly var raw = ref entries[i];
+                ref readonly var raw = ref src[i];
                 var uri = raw.Uri;
 
                 if(raw.StubCode != raw.Stub.Encoding)
@@ -151,25 +94,85 @@ namespace Z0
                 var extract = slice(buffer,0, ApiExtracts.extract(raw.Target, buffer));
                 var extracted = new MemberCodeExtract(raw, extract.ToArray());
                 if(lookup.TryGetValue(host, out var extracts))
-                {
                     extracts.Include(extracted);
-                    //Babble(string.Format("Parsed {0} bytes from {1} for {0}", extracted.Size, extracted.TargetAddress,  extracted.Sig));
-                }
                 else
-                {
                     lookup[host] = new MemberCodeExtracts(extracted);
-                }
             }
 
-            var members = Parse(lookup).Emit().Sort();
-            Emit(members);
+            var members = Parse(lookup).Emit();
+            GlobalEmit(members);
             return members;
         }
 
-        void Emit(Index<EncodedMember> src)
+        Index<EncodedMember> DivineCode(Index<RawMemberCode> src)
+        {
+            var count = src.Count;
+            var buffer = span<byte>(Pow2.T16);
+            var host = ApiHostUri.Empty;
+            var lookup = dict<ApiHostUri,MemberCodeExtracts>();
+            var max = ByteSize.Zero;
+            for(var i=0; i<count; i++)
+            {
+                buffer.Clear();
+                ref readonly var raw = ref src[i];
+                var uri = raw.Uri;
+
+                if(raw.StubCode != raw.Stub.Encoding)
+                {
+                    Error("Stub code mismatch");
+                    break;
+                }
+
+                if(uri.Host != host)
+                    host = uri.Host;
+
+                var extract = slice(buffer,0, ApiExtracts.extract(raw.Target, buffer));
+                var extracted = new MemberCodeExtract(raw, extract.ToArray());
+                if(lookup.TryGetValue(host, out var extracts))
+                    extracts.Include(extracted);
+                else
+                    lookup[host] = new MemberCodeExtracts(extracted);
+            }
+
+            return Parse(lookup).Emit();
+        }
+
+        void CollectCaptured(SymbolDispenser symbols, ApiHostUri host, List<EncodedMember> members)
+        {
+            var src = ApiHex.ParsedExtracts(host);
+            if(!src.Exists)
+            {
+                Error(FS.missing(src));
+                return;
+            }
+
+            var blocks = ApiHex.ReadBlocks(src);
+            var count = blocks.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var block = ref blocks[i];
+                if(JmpRel32.test(block.Encoded))
+                {
+                    var entry = new MethodEntryPoint(block.OpUri, MethodDisplaySig.Empty, block.BaseAddress);
+                    var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
+                    var source = block.BaseAddress;
+                    var token = ApiToken.create(symbols, entry, AsmRel32.target((source,JmpRel32.InstSize), encoding));
+                    members.Add(new EncodedMember(token, encoding.ToArray()));
+                }
+            }
+        }
+
+        Index<EncodedMemberInfo> Emit(ReadOnlySpan<EncodedMember> src, FS.FilePath path)
+        {
+            var descriptions = Describe(src).Sort();
+            TableEmit(descriptions.View, EncodedMemberInfo.RenderWidths, path);
+            return descriptions;
+        }
+
+        Index<EncodedMemberInfo> Describe(ReadOnlySpan<EncodedMember> src)
         {
             var members = src;
-            var count = src.Count;
+            var count = src.Length;
             var buffer = alloc<EncodedMemberInfo>(count);
             for(var i=0; i<count; i++)
             {
@@ -180,14 +183,33 @@ namespace Z0
                 dst.EntryAddress = token.EntryAddress;
                 dst.TargetAddress = token.TargetAddress;
                 if(token.EntryAddress != token.TargetAddress)
+                {
                     dst.Disp = AsmRel32.disp((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
+                    dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(dst.Disp));
+                }
                 dst.CodeSize = (ushort)member.Code.Size;
                 dst.Sig = token.Sig.Format();
                 dst.Uri = token.Uri.Format();
                 dst.Host = host(dst.Uri);
             }
+            return buffer;
+        }
 
-            TableEmit(@readonly(buffer), EncodedMemberInfo.RenderWidths, ProjectDb.ApiTablePath<EncodedMemberInfo>());
+        void GlobalEmit(Index<EncodedMember> src)
+        {
+            var members = src;
+            var count = src.Count;
+            var descriptions = Describe(src).Storage;
+            var rebase = min(descriptions.Select(x => (ulong)x.EntryAddress).Min(), descriptions.Select(x => (ulong)x.TargetAddress).Min());
+            for(var i=0; i<count; i++)
+            {
+                ref var dst = ref seek(descriptions,i);
+                dst.EntryRebase = dst.EntryAddress - rebase;
+                dst.TargetRebase = dst.TargetAddress - rebase;
+            }
+
+            descriptions.Sort();
+            TableEmit(@readonly(descriptions), EncodedMemberInfo.RenderWidths, ProjectDb.ApiTablePath<EncodedMemberInfo>());
         }
 
         EncodedMembers Parse(Dictionary<ApiHostUri,MemberCodeExtracts> src)
@@ -214,27 +236,45 @@ namespace Z0
             return dst;
         }
 
-        Index<RawMemberCode> CollectEntryPoints(SymbolDispenser symbols)
+        Index<RawMemberCode> CollectRaw(SymbolDispenser symbols)
         {
             var running = Running(string.Format("Collecting entry points"));
             var entries = MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
+            Ran(running, string.Format("Collected {0} entry points", entries.Count));
+            return CollectRaw(symbols,entries);
+        }
+
+        Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, ApiHostUri uri)
+        {
+            if(ApiRuntimeCatalog.FindHost(uri, out var host))
+            {
+                var entries = MethodEntryPoints.create(ApiJit.JitHost(host));
+                return CollectRaw(symbols,entries);
+            }
+            else
+            {
+                Error(string.Format("Host '{0}' not found", uri));
+                return sys.empty<RawMemberCode>();
+            }
+        }
+
+        Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, Index<MethodEntryPoint> entries)
+        {
             var count = entries.Count;
-            var located = alloc<RawMemberCode>(count);
+            var code = alloc<RawMemberCode>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref entries[i];
                 var buffer = Cells.alloc(w64).Bytes;
                 ref var data = ref entry.Location.Ref<byte>();
                 ByteReader.read5(data, buffer);
-                ref var dst = ref seek(located,i);
-                Collect(symbols, entry, out seek(located, i));
+                ref var dst = ref seek(code,i);
+                CollectRaw(symbols, entry, out seek(code, i));
             }
-
-            Ran(running, string.Format("Collected {0} entry points", count));
-            return located;
+            return code;
         }
 
-        bool Collect(SymbolDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
+        bool CollectRaw(SymbolDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
         {
             dst = new RawMemberCode();
             dst.Entry = entry.Location;
@@ -242,13 +282,13 @@ namespace Z0
             var buffer = Cells.alloc(w64).Bytes;
             ref var data = ref entry.Location.Ref<byte>();
             ByteReader.read5(data, buffer);
-            if(AsmHexSpecs.isJmp32(buffer))
+            if(JmpRel32.test(buffer))
             {
                 var encoded = AsmHexCode.load(slice(buffer,0,5));
                 var target = AsmRel32.target((entry.Location, 5), encoded.Bytes);
                 dst.Target = target;
                 dst.StubCode = encoded;
-                dst.Disp = AsmHexSpecs.disp32(encoded.Bytes);
+                dst.Disp = AsmRel32.disp(encoded.Bytes);
                 dst.Stub = new JmpStub(entry.Location, target);
                 dst.Token = ApiToken.create(symbols, entry, target);
                 return true;
@@ -269,6 +309,22 @@ namespace Z0
                     return text.inside(uri,i + UriMarker.Length - 1, j);
             }
             return uri;
+        }
+
+        static Outcome InferHost(FS.FileName src, FS.FileExt ext, out ApiHostUri host)
+        {
+            var components = @readonly(src.Name.Text.Remove(string.Format(".{0}", ext)).SplitClean(Chars.Dot));
+            var count = components.Length;
+            if(count >= 2)
+            {
+                if(ApiParsers.part(first(components), out var part))
+                {
+                    host =  new ApiHostUri(part, slice(components,1).Join(Chars.Dot));
+                    return true;
+                }
+            }
+            host = ApiHostUri.Empty;
+            return false;
         }
     }
 }

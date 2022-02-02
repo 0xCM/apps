@@ -6,6 +6,14 @@ namespace Z0.Asm
 {
     public readonly struct CallRel32 : IAsmRel<Disp32>
     {
+        [MethodImpl(Inline), Op]
+        public static CallRel32 call(Rip rip, Disp32 disp)
+            => new CallRel32(rip, AsmRel32.target(rip,disp));
+
+        [MethodImpl(Inline), Op]
+        public static bool test(ReadOnlySpan<byte> encoding)
+            => encoding.Length >= InstSize && core.first(encoding) == OpCode;
+
         public const byte OpCode = 0xE8;
 
         public const byte InstSize = 5;
@@ -19,6 +27,19 @@ namespace Z0.Asm
         {
             Source = src;
             Target = dst;
+        }
+
+        [MethodImpl(Inline)]
+        public CallRel32(Rip src, LocatedSymbol dst)
+        {
+            Source = src.Address - InstSize;
+            Target = dst;
+        }
+
+        public Rip Rip
+        {
+            [MethodImpl(Inline)]
+            get => (Source.Location, InstSize);
         }
 
         public MemoryAddress SourceAddress
@@ -36,7 +57,7 @@ namespace Z0.Asm
         public Disp32 Disp
         {
             [MethodImpl(Inline)]
-            get => AsmRel32.disp((SourceAddress,InstSize), TargetAddress);
+            get => AsmRel32.disp(Rip, TargetAddress);
         }
 
         public AsmHexCode Encoding

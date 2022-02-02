@@ -12,14 +12,6 @@ namespace Z0.Asm
 
     partial class AsmHexSpecs
     {
-        [MethodImpl(Inline), Op]
-        public static bool isJmp32(ReadOnlySpan<byte> encoding)
-            => encoding.Length >= JmpRel32.InstSize && first(encoding) == JmpRel32.OpCode;
-
-        [MethodImpl(Inline), Op]
-        public static bool isCall32(ReadOnlySpan<byte> encoding)
-            => encoding.Length >= CallRel32.InstSize && first(encoding) == CallRel32.OpCode;
-
         /// <summary>
         /// Jump near, relative
         /// </summary>

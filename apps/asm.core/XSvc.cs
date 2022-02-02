@@ -108,7 +108,7 @@ namespace Z0
         public static AsmSigs AsmSigs(this IWfRuntime wf)
             => Asm.AsmSigs.create(wf);
 
-        public static ApiHexCollector ApiHexCollector(this IWfRuntime wf)
-            => Z0.ApiHexCollector.create(wf);
+        public static ApiCodeCollector ApiCodeCollector(this IWfRuntime wf)
+            => Z0.ApiCodeCollector.create(wf);
     }
 }

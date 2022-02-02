@@ -7,6 +7,26 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct JmpRel32 : IAsmRel<Disp32>
     {
+        [MethodImpl(Inline), Op]
+        public static JmpRel32 from(RawMemberCode src)
+            => new JmpRel32(src.Entry, src.Target);
+
+        [MethodImpl(Inline), Op]
+        public static JmpRel32 jmp(Rip src, MemoryAddress dst)
+            => new JmpRel32(src, dst);
+
+        [MethodImpl(Inline), Op]
+        public static JmpRel32 jmp(LocatedSymbol src, LocatedSymbol dst)
+            => new JmpRel32(src, dst);
+
+        [MethodImpl(Inline), Op]
+        public static JmpRel32 jmp(Rip rip, Disp32 disp)
+            => new JmpRel32(rip.Address, AsmRel32.target(rip, disp));
+
+        [MethodImpl(Inline), Op]
+        public static bool test(ReadOnlySpan<byte> encoding)
+            => encoding.Length >= InstSize && core.first(encoding) == OpCode;
+
         public const byte OpCode = 0xE9;
 
         public const byte InstSize = 5;
@@ -19,6 +39,13 @@ namespace Z0.Asm
         public JmpRel32(LocatedSymbol src, LocatedSymbol dst)
         {
             Source = src;
+            Target = dst;
+        }
+
+        [MethodImpl(Inline)]
+        public JmpRel32(Rip src, LocatedSymbol dst)
+        {
+            Source = src.Address - InstSize;
             Target = dst;
         }
 
@@ -37,7 +64,13 @@ namespace Z0.Asm
         public Disp32 Disp
         {
             [MethodImpl(Inline)]
-            get => AsmRel32.disp((SourceAddress, InstSize), TargetAddress);
+            get => AsmRel32.disp(Rip, TargetAddress);
+        }
+
+        public Rip Rip
+        {
+            [MethodImpl(Inline)]
+            get => (Source.Location, InstSize);
         }
 
         public AsmHexCode Encoding

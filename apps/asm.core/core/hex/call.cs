@@ -13,10 +13,6 @@ namespace Z0.Asm
     partial class AsmHexSpecs
     {
         [MethodImpl(Inline), Op]
-        public static CallRel32 call32(Rip src, Disp32 disp)
-            => AsmRel32.call(src, disp);
-
-        [MethodImpl(Inline), Op]
         public static byte call32(Rip src, MemoryAddress dst, ref byte hex)
         {
             const byte Size = 5;
@@ -26,11 +22,11 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static AsmHexCode call32(Rip src, MemoryAddress dst)
+        public static AsmHexCode call32(Rip rip, MemoryAddress dst)
         {
             var encoded = AsmHexCode.Empty;
             var bytes = encoded.Bytes;
-            seek(bytes,15) = call32(src, dst, ref first(bytes));
+            seek(bytes,15) = call32(rip, dst, ref first(bytes));
             return encoded;
         }
 
@@ -40,7 +36,7 @@ namespace Z0.Asm
             var encoding = AsmHexCode.Empty;
             var buffer = encoding.Bytes;
             seek(buffer,0) = CallRel32.OpCode;
-            @as<Disp32>(seek(buffer,1)) = AsmRel32.disp((spec.SourceAddress, CallRel32.InstSize), spec.TargetAddress);
+            @as<Disp32>(seek(buffer,1)) = AsmRel32.disp(spec.Rip, spec.TargetAddress);
             seek(buffer,15) = CallRel32.InstSize;
             return encoding;
         }
