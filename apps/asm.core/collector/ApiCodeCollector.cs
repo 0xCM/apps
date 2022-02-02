@@ -14,7 +14,6 @@ namespace Z0
 
         ApiHex ApiHex => Service(Wf.ApiHex);
 
-
         public Index<EncodedMember> CollectCaptured(SymbolDispenser symbols)
         {
             var result = Outcome.Success;
@@ -100,7 +99,7 @@ namespace Z0
             }
 
             var members = Parse(lookup).Emit();
-            GlobalEmit(members);
+            Emit(members);
             return members;
         }
 
@@ -169,37 +168,21 @@ namespace Z0
             return descriptions;
         }
 
-        Index<EncodedMemberInfo> Describe(ReadOnlySpan<EncodedMember> src)
+        void Emit(Index<EncodedMember> src)
         {
-            var members = src;
-            var count = src.Length;
-            var buffer = alloc<EncodedMemberInfo>(count);
+            var members = src.Sort();
+            var datapath = ProjectDb.Api() + FS.file("api.members", FS.Hex);
+            var emitting = EmittingFile(datapath);
+            using var writer = datapath.AsciWriter();
+            var count = members.Count;
+            var descriptions = alloc<EncodedMemberInfo>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var member = ref src[i];
-                var token = member.Token;
-                ref var dst = ref seek(buffer,i);
-                dst.Id = token.Id;
-                dst.EntryAddress = token.EntryAddress;
-                dst.TargetAddress = token.TargetAddress;
-                if(token.EntryAddress != token.TargetAddress)
-                {
-                    dst.Disp = AsmRel32.disp((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
-                    dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(dst.Disp));
-                }
-                dst.CodeSize = (ushort)member.Code.Size;
-                dst.Sig = token.Sig.Format();
-                dst.Uri = token.Uri.Format();
-                dst.Host = host(dst.Uri);
+                ref readonly var member = ref members[i];
+                seek(descriptions,i) = Describe(member);
+                writer.WriteLine(member.Code.Format());
             }
-            return buffer;
-        }
 
-        void GlobalEmit(Index<EncodedMember> src)
-        {
-            var members = src;
-            var count = src.Count;
-            var descriptions = Describe(src).Storage;
             var rebase = min(descriptions.Select(x => (ulong)x.EntryAddress).Min(), descriptions.Select(x => (ulong)x.TargetAddress).Min());
             for(var i=0; i<count; i++)
             {
@@ -208,8 +191,36 @@ namespace Z0
                 dst.TargetRebase = dst.TargetAddress - rebase;
             }
 
-            descriptions.Sort();
+            EmittedFile(emitting, count);
             TableEmit(@readonly(descriptions), EncodedMemberInfo.RenderWidths, ProjectDb.ApiTablePath<EncodedMemberInfo>());
+        }
+
+        EncodedMemberInfo Describe(in EncodedMember member)
+        {
+            var token = member.Token;
+            var dst = new EncodedMemberInfo();
+            dst.Id = token.Id;
+            dst.EntryAddress = token.EntryAddress;
+            dst.TargetAddress = token.TargetAddress;
+            if(token.EntryAddress != token.TargetAddress)
+            {
+                dst.Disp = AsmRel32.disp((token.EntryAddress, JmpRel32.InstSize), token.TargetAddress);
+                dst.StubAsm = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(dst.Disp));
+            }
+            dst.CodeSize = (ushort)member.Code.Size;
+            dst.Sig = token.Sig.Format();
+            dst.Uri = token.Uri.Format();
+            dst.Host = host(dst.Uri);
+            return dst;
+        }
+        Index<EncodedMemberInfo> Describe(ReadOnlySpan<EncodedMember> src)
+        {
+            var members = src;
+            var count = src.Length;
+            var buffer = alloc<EncodedMemberInfo>(count);
+            for(var i=0; i<count; i++)
+                seek(buffer,i) = Describe(skip(src,i));
+            return buffer;
         }
 
         EncodedMembers Parse(Dictionary<ApiHostUri,MemberCodeExtracts> src)
@@ -238,10 +249,10 @@ namespace Z0
 
         Index<RawMemberCode> CollectRaw(SymbolDispenser symbols)
         {
-            var running = Running(string.Format("Collecting entry points"));
+            var running = Running(Msg.CollectingEntryPoints.Format());
             var entries = MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
-            Ran(running, string.Format("Collected {0} entry points", entries.Count));
-            return CollectRaw(symbols,entries);
+            Ran(running, Msg.CollectedEntryPoints.Format(entries.Count));
+            return CollectRaw(symbols, entries);
         }
 
         Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, ApiHostUri uri)

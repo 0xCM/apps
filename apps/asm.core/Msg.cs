@@ -18,8 +18,12 @@ namespace Z0
 
         public static MsgPattern<Count,Count> ParsedHosts => "Parsed {0} members from {1} hosts";
 
-        public static MsgPattern<Count,FS.FilePath> LoadedForms => "Loaded {0} forms from {1}";
+        public static RenderPattern<Count,FS.FilePath> LoadedForms => "Loaded {0} forms from {1}";
 
         public static MsgPattern<string,string> ParseFailure => "Parsing {0} from '{1}' failed";
+
+        public static MsgPattern CollectingEntryPoints => "Collecting entry points";
+
+        public static MsgPattern<Count> CollectedEntryPoints => "Collecting {0} entry points";
     }
 }
