@@ -21,7 +21,7 @@ namespace Z0.Asm
         public JmpStub(MemoryAddress src, MemoryAddress dst, bool rel32 = true)
         {
             OpCode = rel32 ? JmpRel32.OpCode : JmpRel8.InstSize;
-            DispData = rel32 ? (int)AsmRel32.disp(src,dst) : (sbyte)AsmRel8.disp(src,dst);
+            DispData = rel32 ? (int)AsmRel32.disp((src,  JmpRel32.InstSize),dst) : (sbyte)AsmRel8.disp((src,JmpRel8.InstSize) ,dst);
             SizeData = rel32 ? JmpRel32.InstSize : JmpRel8.InstSize;
             Source = src;
             Target = dst;
@@ -42,7 +42,7 @@ namespace Z0.Asm
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmHexSpecs.jmp32(Source,Target);
+            get => AsmHexSpecs.jmp32((Source, JmpRel32.InstSize), Target);
         }
     }
 }

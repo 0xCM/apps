@@ -41,121 +41,50 @@ namespace Z0
                 => math.sub(a,b);
         }
 
-        EncodedMembers Parse(Dictionary<ApiHostUri,MemberCodeExtracts> src)
-        {
-            var running = Running(Msg.ParsingHosts.Format(src.Count));
-            var buffer = alloc<byte>(Pow2.T14);
-            var parser = EncodingParser.create(buffer);
-            var dst = new EncodedMembers();
-            var counter = 0u;
-            foreach(var host in src.Keys)
-            {
-                var parsing = Running(Msg.ParsingHostMembers.Format(host));
-                var extracts = src[host];
-                foreach(var extract in extracts)
-                {
-                    var result = parser.Parse(extract.TargetExtract);
-                    dst.Include(new EncodedMember(extract.Token, parser.Parsed));
-                    counter++;
-                }
-                Ran(parsing, Msg.ParsedHostMembers.Format(extracts.Count, host));
-            }
-
-            Ran(running, Msg.ParsedHosts.Format(counter, src.Keys.Count));
-            return dst;
-
-        }
+        ApiHexCollector ApiHexCollector => Service(Wf.ApiHexCollector);
 
         [CmdOp("check/capture")]
         Outcome CheckLiveStubs(CmdArgs args)
         {
             using var symbols = SymbolDispenser.alloc();
-            var lively = JmpStubs.SearchLive(symbols);
-            var count = lively.Count;
-            var unparsed = span<byte>(Pow2.T16);
-            var part = PartId.None;
-            var host = ApiHostUri.Empty;
-            var blocks = new ApiCodeLookup();
-            var extracts = dict<ApiHostUri,MemberCodeExtracts>();
-            var max = ByteSize.Zero;
-            for(var i=0; i<count; i++)
-            {
-                unparsed.Clear();
-                ref readonly var live = ref lively[i];
-                var uri = live.Uri;
-
-                if(live.StubCode != live.Stub.Encoding)
-                {
-                    Error("Stub code mismatch");
-                    break;
-                }
-
-                if(uri.Host != host)
-                {
-                    if(host.IsNonEmpty)
-                        Status(string.Format("Collected {0}", host));
-                    host = uri.Host;
-                }
-
-                var extract = slice(unparsed,0, ApiExtracts.extract(live.Target, unparsed));
-                var extracted = new MemberCodeExtract(live, extract.ToArray());
-                if(extracts.TryGetValue(host, out var hosted))
-                {
-                    hosted.Include(extracted);
-                }
-                else
-                {
-                    extracts[host] = new MemberCodeExtracts(extracted);
-                }
-            }
-
-            var members = Parse(extracts).Emit().Sort();
-            Emit(members);
+            var encoded = ApiHexCollector.CollectLive(symbols);
             return true;
         }
 
-        static string host(string uri)
+        [CmdOp("check/captured")]
+        Outcome CheckCaptured(CmdArgs args)
         {
-            const string UriMarker = "://";
-            var i = text.index(uri,UriMarker);
-            if(i > 0)
-            {
-                var j = text.index(uri, Chars.Question);
-                if(j > i)
-                {
-                    var host = text.inside(uri,i + UriMarker.Length - 1, j);
-                    return host;
-                }
-            }
-            return uri;
-        }
-
-        void Emit(Index<EncodedMember> src)
-        {
-            var members = src;
+            using var symbols = SymbolDispenser.alloc();
+            var src = ApiHexCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
             var count = src.Count;
-            var buffer = alloc<EncodedMemberInfo>(count);
             for(var i=0; i<count; i++)
             {
                 ref readonly var member = ref src[i];
-                var token = member.Token;
-                ref var dst = ref seek(buffer,i);
-                dst.Id = token.Id;
-                dst.EntryAddress = token.EntryAddress;
-                dst.TargetAddress = token.TargetAddress;
-                if(token.EntryAddress != token.TargetAddress)
+                Rip rip = (member.EntryAddress, 5);
+                Disp32 disp1 = (Disp32)((long)member.TargetAddress - (long)rip);
+                var target = AsmRel32.target(rip, disp1);
+                Require.equal(target, member.TargetAddress);
+
+                var disp2 = AsmHexSpecs.disp32(member.Code);
+                var disp3 = AsmRel32.disp(rip, member.TargetAddress);
+
+                var relTarget = (int)disp1 + (int)JmpRel32.InstSize;
+                @string statement = string.Format("jmp near ptr {0:x}h", relTarget);
+
+
+                var dispFormat = EmptyString;
+                if(disp1 < 0)
                 {
-                    dst.Disp = AsmValues.disp32(token.EntryAddress + JmpRel32.InstSize, token.TargetAddress);
+                    dispFormat = string.Format("-0x{0:x}", ~disp1 + 1);
                 }
-                dst.CodeSize = (ushort)member.Code.Size;
-                dst.Sig = token.Sig.Format();
-                dst.Uri = token.Uri.Format();
-                dst.Host = host(dst.Uri);
+                else
+                    dispFormat = string.Format("0x{0:x}", disp1);
+
+                Write(string.Format("{0} | {1,-12} | {2,-16} | {3,-24} | {4} | {5}", member.EntryAddress, disp2, target,  statement, member.Code, member.Uri), FlairKind.StatusData);
             }
 
-            TableEmit(@readonly(buffer), EncodedMemberInfo.RenderWidths, ProjectDb.ApiTablePath<EncodedMemberInfo>());
+            return true;
         }
-
 
         [CmdOp("check/stubs/dispatch")]
         Outcome CheckStubDispatch(CmdArgs args)
@@ -177,11 +106,10 @@ namespace Z0
             void Api()
             {
                 using var symbols = SymbolDispenser.alloc();
-                var stubs = JmpStubs.SearchCaptured(symbols, ApiHostUri.from(typeof(cpu)));
+                var stubs = ApiHexCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
                 foreach(var stub in stubs)
                 {
-                    var jmp = AsmRel32.from(stub);
-                    Write(jmp.Format());
+
                 }
             }
 
@@ -190,14 +118,13 @@ namespace Z0
                 using var symbols = SymbolDispenser.alloc();
                 var host = typeof(Calc64);
                 var contract = typeof(ICalc64);
-                var stubs = JmpStubs.SearchLive(symbols,host);
+                var stubs = ApiHexCollector.CollectLive(symbols,host);
                 //Write(stubs.View, LiveMemberCode.RenderWidths);
                 var imap = Clr.imap(host,contract);
                 Write(imap.Format());
             }
 
             Api();
-            Search();
 
             return true;
         }

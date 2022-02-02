@@ -28,7 +28,7 @@ namespace Z0.Asm
     }
 
     [Free]
-    public interface IDisplacement<H,T> : IDisplacement<T>
+    public interface IDisplacement<H,T> : IDisplacement<T>, IEquatable<H>
         where T : unmanaged
         where H : unmanaged, IDisplacement<H,T>
     {

@@ -18,6 +18,36 @@ namespace Z0
             Code = code;
         }
 
+        public ulong Id
+        {
+            [MethodImpl(Inline)]
+            get => Token.Id;
+        }
+
+        public MemoryAddress EntryAddress
+        {
+            [MethodImpl(Inline)]
+            get => Token.EntryAddress;
+        }
+
+        public MemoryAddress TargetAddress
+        {
+            [MethodImpl(Inline)]
+            get => Token.TargetAddress;
+        }
+
+        public Label Uri
+        {
+            [MethodImpl(Inline)]
+            get => Token.Uri;
+        }
+
+        public Label Sig
+        {
+            [MethodImpl(Inline)]
+            get => Token.Sig;
+        }
+
         public override int GetHashCode()
             => (int)Token.EntryId;
 

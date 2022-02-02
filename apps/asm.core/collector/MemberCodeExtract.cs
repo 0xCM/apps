@@ -16,11 +16,11 @@ namespace Z0
 
         public BinaryCode TargetExtract;
 
-        public MemberCodeExtract(in LiveMemberCode live, BinaryCode extracted)
+        public MemberCodeExtract(in RawMemberCode raw, BinaryCode extracted)
         {
-            Token = live.Token;
-            StubCode = live.StubCode;
-            Disp = live.Disp;
+            Token = raw.Token;
+            StubCode = raw.StubCode;
+            Disp = raw.Disp;
             TargetExtract = extracted;
         }
 
@@ -42,5 +42,16 @@ namespace Z0
             get => Disp.Negative ? PolarityKind.Left : PolarityKind.Right;
         }
 
+        public ByteSize Size
+        {
+            [MethodImpl(Inline)]
+            get => TargetExtract.Size;
+        }
+
+        public Label Sig
+        {
+            [MethodImpl(Inline)]
+            get => Token.Sig;
+        }
     }
 }

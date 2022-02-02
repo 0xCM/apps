@@ -14,12 +14,12 @@ namespace Z0.Asm
         public static Outcome parse(string src, out Disp32 dst)
         {
             var result = Outcome.Success;
+            var input = text.trim(src);
             dst = default;
-            var i = text.index(src,HexFormatSpecs.PreSpec);
-            var disp = 0u;
-            if(i>=0)
+            var disp = 0;
+            if(HexFormatSpecs.HasSpec(input))
             {
-                result = HexParser.parse32u(src, out disp);
+                result = HexParser.parse32i(src, out disp);
                 if(result)
                     dst = disp;
             }
@@ -70,8 +70,28 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
+        public bool Equals(Disp32 src)
+            => Value == src.Value;
+
         long IDisplacement.Value
             => Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp32(short src)
+            => new Disp32(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp32(ushort src)
+            => new Disp32(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp32(sbyte src)
+            => new Disp32(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator Disp32(byte src)
+            => new Disp32(src);
 
         [MethodImpl(Inline)]
         public static implicit operator Disp32(uint src)
@@ -82,11 +102,11 @@ namespace Z0.Asm
             => new Disp32(src);
 
         [MethodImpl(Inline)]
-        public static explicit operator uint(Disp32 src)
-            => (uint)src.Value;
-
-        [MethodImpl(Inline)]
         public static implicit operator int(Disp32 src)
+            => src.Value;
+
+       [MethodImpl(Inline)]
+        public static explicit operator long(Disp32 src)
             => src.Value;
 
         [MethodImpl(Inline)]
@@ -94,8 +114,28 @@ namespace Z0.Asm
             => new Disp(src.Value, src.Size);
 
         [MethodImpl(Inline)]
+        public static explicit operator uint(Disp32 src)
+            => (uint)src.Value;
+
+        [MethodImpl(Inline)]
         public static explicit operator Disp32(long src)
             => new Disp32((int)src);
+
+        [MethodImpl(Inline)]
+        public static explicit operator byte(Disp32 src)
+            => (byte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator sbyte(Disp32 src)
+            => (sbyte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static Disp32 operator +(Disp32 a, Disp32 b)
+            => new Disp32(a.Value + b.Value);
+
+        [MethodImpl(Inline)]
+        public static Disp32 operator -(Disp32 a, Disp32 b)
+            => new Disp32(a.Value - b.Value);
 
         public static Disp32 Empty
         {

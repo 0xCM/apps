@@ -8,7 +8,7 @@ namespace Z0.Asm
     /// Defines an 8, 16, or 32-bit signed displacement
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public readonly struct Disp : IDisplacement
+    public readonly struct Disp : IDisplacement, IEquatable<Disp>
     {
         [Op]
         public static string format(IDisplacement src)
@@ -79,6 +79,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand Untyped()
             => new AsmOperand(this);
+
+        [MethodImpl(Inline)]
+        public bool Equals(Disp src)
+            => Value == src.Value;
 
         public string Format()
             => format(this);

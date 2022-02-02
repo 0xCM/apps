@@ -9,7 +9,7 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a parametric displacement that may resolve to an 8-bit, 16-bit or 32-bit signed displacement
     /// </summary>
-    public readonly struct Disp<T> : IDisplacement
+    public readonly struct Disp<T> : IDisplacement, IEquatable<Disp<T>>
         where T : unmanaged, IDisplacement<T>
     {
         public T Source {get;}
@@ -43,6 +43,10 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Value < 0;
         }
+
+        [MethodImpl(Inline)]
+        public bool Equals(Disp<T> src)
+            => Value == src.Value;
 
         public string Format()
             => Disp.format(this);

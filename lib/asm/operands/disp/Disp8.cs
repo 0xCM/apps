@@ -50,6 +50,10 @@ namespace Z0.Asm
         long IDisplacement.Value
             => Value;
 
+        [MethodImpl(Inline)]
+        public bool Equals(Disp8 src)
+            => Value == src.Value;
+
         public string Format()
             => Disp.format(this);
 

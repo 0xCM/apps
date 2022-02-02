@@ -1,0 +1,36 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0.Asm
+{
+    using static core;
+
+    partial class AsmCases
+    {
+        // 7ffb6db4cab0h jmp near ptr 2ab9e80h                         # 0000h  | 5   | e9 7b 9e ab 02
+        // 7ffb6dd70c38h jmp near ptr 2903798h                         # 0000h  | 5   | e9 93 37 90 02
+        [Op]
+        public static Index<JmpRel32Case> jmp32()
+        {
+            var dst = new JmpRel32Case();
+            var cases = alloc<JmpRel32Case>(2);
+            seek(cases,0) = jmp32("jmp near ptr 2ab9e80h", "e9 7b 9e ab 02", "7ffb6db4cab0h", "2ab9e80h");
+            seek(cases,1) = jmp32("jmp near ptr 2903798h", "e9 93 37 90 02", "7ffb6dd70c38h", "2903798h");
+            return cases;
+        }
+
+
+        static JmpRel32Case jmp32(string statement, string encoding, string source, string target)
+        {
+            var dst = new JmpRel32Case();
+            Require.invariant(DataParser.parse(source, out dst.Source), () => source);
+            dst.Statment = statement;
+            dst.Encoding = asm.hexcode(encoding);
+            dst.Disp = AsmHexSpecs.disp32(dst.Encoding.Bytes);
+            Require.invariant(DataParser.parse(target, out dst.RelativeTarget), () => target);
+            //Require.invariant(Disp32.parse(disp, out dst.Disp), () => disp);
+            return dst;
+        }
+    }
+}

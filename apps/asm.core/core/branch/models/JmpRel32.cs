@@ -37,13 +37,13 @@ namespace Z0.Asm
         public Disp32 Disp
         {
             [MethodImpl(Inline)]
-            get => AsmRel32.disp(SourceAddress, TargetAddress);
+            get => AsmRel32.disp((SourceAddress, InstSize), TargetAddress);
         }
 
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmRel32.encode(this);
+            get => AsmHexSpecs.jmp32(this);
         }
 
         public AsmMnemonic Mnemonic

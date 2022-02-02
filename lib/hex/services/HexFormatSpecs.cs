@@ -421,7 +421,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static bool HasPrespec(ReadOnlySpan<char> src)
-            => src.Length > 2 && skip(src,0) == '0' && skip(src,1) == 'x';
+            => src.Length > 2 && text.begins(src,"0x");
+
+        [MethodImpl(Inline)]
+        public static bool HasPostspec(ReadOnlySpan<char> src)
+            => src.Length > 0 && skip(src, src.Length - 1) == 'h';
+
+        [MethodImpl(Inline)]
+        public static bool HasSpec(ReadOnlySpan<char> src)
+            => HasPrespec(src) || HasPostspec(src);
 
         [MethodImpl(Inline)]
         public static ReadOnlySpan<char> ClearPrespec(ReadOnlySpan<char> src)

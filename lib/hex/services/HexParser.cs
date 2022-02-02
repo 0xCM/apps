@@ -22,17 +22,29 @@ namespace Z0
     [ApiHost]
     public readonly struct HexParser
     {
-        public static Outcome parse64u(string src, out ulong dst)
-            => ulong.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+        public static Outcome parse8i(string src, out sbyte dst)
+            =>sbyte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
-        public static Outcome parse32u(string src, out uint dst)
-            => uint.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+        public static Outcome parse8u(string src, out byte dst)
+            => byte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse16i(string src, out short dst)
+            => short.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
         public static Outcome parse16u(string src, out ushort dst)
             => ushort.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
-        public static Outcome parse8u(string src, out byte dst)
-            => byte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+        public static Outcome parse32i(string src, out int dst)
+            => int.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse32u(string src, out uint dst)
+            => uint.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse64i(string src, out long dst)
+            => long.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse64u(string src, out ulong dst)
+            => ulong.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
         public static Outcome parse(string src, out BinaryCode dst)
         {

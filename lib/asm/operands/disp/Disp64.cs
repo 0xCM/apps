@@ -63,6 +63,10 @@ namespace Z0.Asm
             get => Value < 0;
         }
 
+        [MethodImpl(Inline)]
+        public bool Equals(Disp64 src)
+            => Value == src.Value;
+
         public string Format()
             => Disp.format(this);
 

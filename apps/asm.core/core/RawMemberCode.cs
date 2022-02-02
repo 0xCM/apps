@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public struct LiveMemberCode
+    public struct RawMemberCode
     {
         public ApiToken Token;
-
-        public MemoryAddress Entry;
-
-        public MemoryAddress Target;
 
         public Disp32 Disp;
 
@@ -19,5 +15,9 @@ namespace Z0.Asm
         public OpUri Uri;
 
         public JmpStub Stub;
+
+        public MemoryAddress Entry;
+
+        public MemoryAddress Target;
     }
 }
