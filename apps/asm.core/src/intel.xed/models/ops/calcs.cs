@@ -24,7 +24,7 @@ namespace Z0
                 var size = Sizes.native(state.imm_width);
                 var signed = state.imm0signed;
                 var pos = state.pos_imm;
-                dst = AsmX.imm(code, pos, signed, size);
+                dst = asm.imm(code, pos, signed, size);
             }
             return dst;
         }

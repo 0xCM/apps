@@ -49,7 +49,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmLabel src)
-            => asm.cell(src.Format(), src.PartKind);
+            => AsmCell.define(src.Format(), src.PartKind);
 
         public static AsmLabel Empty => new AsmLabel(EmptyString);
     }

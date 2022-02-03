@@ -6,8 +6,6 @@ namespace Z0.Asm
 {
     using static core;
 
-    using static AsmX;
-
     public readonly struct AsmDirective : IAsmSourcePart
     {
         [Parser]
@@ -29,21 +27,21 @@ namespace Z0.Asm
                     switch(count)
                     {
                         case 1:
-                            dst = directive(name, skip(args,0));
+                            dst = asm.directive(name, skip(args,0));
                         break;
                         case 2:
-                            dst = directive(name, skip(args,0), skip(args,1));
+                            dst = asm.directive(name, skip(args,0), skip(args,1));
                         break;
                         case 3:
-                            dst = directive(name, skip(args,0), skip(args,1), skip(args,2));
+                            dst = asm.directive(name, skip(args,0), skip(args,1), skip(args,2));
                         break;
                         default:
-                            dst = directive(name);
+                            dst = asm.directive(name);
                         break;
                     }
                 }
                 else
-                    dst = directive(name);
+                    dst = asm.directive(name);
 
                 result = Outcome.Success;
             }

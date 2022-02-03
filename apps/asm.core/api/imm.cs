@@ -5,7 +5,8 @@
 namespace Z0.Asm
 {
     using static core;
-    partial struct AsmX
+
+    partial struct asm
     {
         [Op]
         public static Imm imm(AsmHexCode src, byte pos, bool signed, NativeSize size)

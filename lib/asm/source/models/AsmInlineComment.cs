@@ -39,7 +39,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmInlineComment src)
-            => asm.cell(src.Format(), src.PartKind);
+            => AsmCell.define(src.Format(), src.PartKind);
 
         public static AsmInlineComment Empty
         {

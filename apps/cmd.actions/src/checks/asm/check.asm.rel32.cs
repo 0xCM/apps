@@ -52,9 +52,12 @@ namespace Z0
                 const string RenderPattern = "{0,-12}: {1}";
 
                 result = Hex.hexbytes(Encoding, out var code);
-                var dx = AsmRel32.disp(code);
-                var target = (MemoryAddress)(RIP + dx);
-                if(target == Target && dx == Disp)
+
+                var disp1 = AsmRel32.disp(code);
+                var disp2 = AsmBytes.disp(code.View,1, NativeSizeCode.W32);
+                Require.equal(disp1,disp2);
+                var target = (MemoryAddress)(RIP + disp1);
+                if(target == Target && disp1 == Disp)
                 {
                     var dst = text.buffer();
                     dst.AppendLineFormat(RenderPattern, nameof(Asm), Asm);
@@ -64,7 +67,7 @@ namespace Z0
                     dst.AppendLineFormat(RenderPattern, nameof(Source), (MemoryAddress)Source);
                     dst.AppendLineFormat(RenderPattern, nameof(RIP), (MemoryAddress)RIP);
                     dst.AppendLineFormat(RenderPattern, nameof(Target), (MemoryAddress)Target);
-                    dst.AppendLineFormat(RenderPattern, "Disp",  dx);
+                    dst.AppendLineFormat(RenderPattern, "Disp",  disp1);
 
                     Write(dst.Emit(), FlairKind.StatusData);
                 }

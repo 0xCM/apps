@@ -163,7 +163,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmExpr src)
-            => asm.cell(src.Format(), AsmPartKind.Expr);
+            => AsmCell.define(src.Format(), AsmPartKind.Expr);
 
         public static AsmExpr Empty
         {

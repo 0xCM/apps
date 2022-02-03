@@ -20,10 +20,6 @@ namespace Z0.Asm
             => new JmpRel32(src, dst);
 
         [MethodImpl(Inline), Op]
-        public static JmpRel32 jmp(Rip rip, Disp32 disp)
-            => new JmpRel32(rip.Address, AsmRel32.target(rip, disp));
-
-        [MethodImpl(Inline), Op]
         public static bool test(ReadOnlySpan<byte> encoding)
             => encoding.Length >= InstSize && core.first(encoding) == OpCode;
 

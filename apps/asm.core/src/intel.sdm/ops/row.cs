@@ -50,7 +50,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
 
-            dst.Mnemonic = asm.mnemonic(skip(cells, i++));
+            dst.Mnemonic = new AsmMnemonic(skip(cells, i++));
             DataParser.block(skip(cells, i++).Trim(), out dst.OpCode);
             DataParser.block(skip(cells, i++), out dst.Sig);
             DataParser.block(skip(cells, i++), out dst.EncXRef);

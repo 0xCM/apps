@@ -14,6 +14,10 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct AsmOffsetLabel : IAsmSourcePart
     {
+        [MethodImpl(Inline), Op]
+        public static AsmOffsetLabel define(byte width, ulong value)
+            => new AsmOffsetLabel(width, value);
+
         [Parser]
         public static Outcome label(string src, out AsmOffsetLabel dst)
         {
@@ -80,6 +84,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmOffsetLabel src)
-            => asm.cell(src.Format(), AsmPartKind.OffsetLabel);
+            => AsmCell.define(src.Format(), AsmPartKind.OffsetLabel);
     }
 }

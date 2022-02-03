@@ -11,6 +11,10 @@ namespace Z0.Asm
     {
         const NumericKind Closure = UnsignedInts;
 
+        [MethodImpl(Inline), Op]
+        static AsmInlineComment comment(AsmCommentMarker marker, string src)
+            => new AsmInlineComment(marker,src);
+
         public static string asmbyte<T>(T src)
             where T : unmanaged, IAsmByte
                 => src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
@@ -29,24 +33,24 @@ namespace Z0.Asm
 
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
-            => asm.comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
+            => comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
 
         [Op]
         public static AsmInlineComment hexarray(BinaryCode src)
-            => asm.comment(CommentMarker, Hex.hexarray(src).Format(true));
+            => comment(CommentMarker, Hex.hexarray(src).Format(true));
 
         [Op]
         public static byte format(in ApiCodeBlockHeader src, Span<string> dst)
         {
             var i = z8;
             seek(dst, i++) = PageBreak;
-            seek(dst, i++) = asm.comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
+            seek(dst, i++) = comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
             seek(dst, i++) = spanres(src.Uri, src.CodeBlock);
             seek(dst, i++) = hexarray(src.CodeBlock);
-            seek(dst, i++) = asm.comment(CommentMarker, string.Concat(nameof(src.CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
-            seek(dst, i++) = asm.comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
             seek(dst, i++) = PageBreak;
-            seek(dst, i++) = asm.comment(src.Uri.OpId.Name);
+            seek(dst, i++) = new AsmComment(src.Uri.OpId.Name);
             return i;
         }
 
@@ -81,7 +85,7 @@ namespace Z0.Asm
                 dst.Append(src.Statement.FormatPadded());
             }
 
-            dst.Append(asm.comment(CommentMarker, format(asm.label(16, src.Offset), src.AsmForm, src.Encoded)));
+            dst.Append(comment(CommentMarker, format(AsmOffsetLabel.define(16, src.Offset), src.AsmForm, src.Encoded)));
         }
 
         [Op]

@@ -25,7 +25,7 @@ namespace Z0.Asm
         public AsmOffsetLabel Label
         {
             [MethodImpl(Inline)]
-            get => asm.label((byte)(bits.effsize(Offset)*8), Offset);
+            get => new AsmOffsetLabel((byte)(bits.effsize(Offset)*8), Offset);
         }
 
         public string Format()

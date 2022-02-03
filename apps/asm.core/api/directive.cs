@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    partial struct AsmX
+    partial struct asm
     {
         [MethodImpl(Inline), Op]
         public static AsmDirective directive(text31 name)

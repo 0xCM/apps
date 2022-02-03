@@ -13,12 +13,12 @@ namespace Z0.Asm
 
         readonly bit Alt;
 
-        public readonly LocatedSymbol Source;
+        public readonly Rip Source;
 
-        public readonly LocatedSymbol Target;
+        public readonly MemoryAddress Target;
 
         [MethodImpl(Inline)]
-        public Jcc8(Jcc8Code code, LocatedSymbol src, LocatedSymbol dst)
+        public Jcc8(Jcc8Code code, Rip src, MemoryAddress dst)
         {
             Code = (byte)code;
             Alt = 0;
@@ -27,7 +27,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public Jcc8(Jcc8AltCode code, LocatedSymbol src, LocatedSymbol dst)
+        public Jcc8(Jcc8AltCode code, Rip src, MemoryAddress dst)
         {
             Code = (byte)code;
             Alt = 1;

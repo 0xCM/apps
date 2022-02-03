@@ -53,10 +53,10 @@ namespace Z0
             var pattern = "{0} {1}, 0x{2:x}";
             var inst = "and";
             var imm = 256u;
-            buffer.AppendLine(AsmX.directive("intel_syntax", "noprefix").Format());
+            buffer.AppendLine(asm.directive("intel_syntax", "noprefix").Format());
             buffer.AppendLine();
             buffer.AppendLine(asm.comment(SigOpCode));
-            buffer.AppendLine(asm.label("and_r32_imm32").Format());
+            buffer.AppendLine(new AsmBlockLabel("and_r32_imm32").Format());
             var indent = 4u;
             for(var i=0u; i<count; i++)
             {

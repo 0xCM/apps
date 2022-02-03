@@ -50,7 +50,7 @@ namespace Z0.Asm
             => define(src.Expression, src.Sig, src.OpCode, src.Encoded);
 
         public static string comment(in AsmThumbprint src)
-            => asm.comment(AsmCommentMarker.Hash, string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()));
+            => new AsmInlineComment(AsmCommentMarker.Hash, string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()));
 
         [Op]
         public static string format(in AsmThumbprint src)

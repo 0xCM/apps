@@ -235,7 +235,7 @@ namespace Z0.llvm
                         lines.Add(EmptyString);
 
                     block = row.BlockName;
-                    lines.Add(asm.label(block).Format());
+                    lines.Add(new AsmBlockLabel(block).Format());
                     continue;
                 }
 

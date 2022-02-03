@@ -15,7 +15,7 @@ namespace Z0
         {
             const string Content = "    ret\n\n";
             var comment = asm.comment(string.Format("{0} | {1}", src.Sig.Format(), src.OpCode.Format()));
-            var label = asm.label(AsmForm.identify(src));
+            var label = new AsmBlockLabel(AsmForm.identify(src));
             return AsmBlockSpec.define(comment, label, Content);
         }
 

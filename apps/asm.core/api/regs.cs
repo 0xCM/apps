@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Operands;
-
     using static core;
 
-    partial struct AsmX
+    using Operands;
+
+    partial struct asm
     {
         [MethodImpl(Inline), Op]
         public static RegOp reg(NativeSizeCode width, RegClassCode @class, RegIndexCode r)
@@ -69,5 +69,6 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static xCr xCr(RegIndexCode r)
             => r;
+
     }
 }

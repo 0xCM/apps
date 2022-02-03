@@ -6,10 +6,10 @@ namespace Z0.Asm
 {
     using static core;
 
-    partial struct AsmX
+    partial class AsmBytes
     {
         [Op]
-        public static long disp(AsmHexCode src, byte pos, NativeSize size)
+        public static Disp disp(ReadOnlySpan<byte> src, byte pos, NativeSize size)
         {
             var val = Disp.Zero;
             var width = (byte)size.Width;
@@ -17,16 +17,16 @@ namespace Z0.Asm
             switch(size.Code)
             {
                 case NativeSizeCode.W8:
-                    val = new Disp((sbyte)src[pos], width);
+                    val = new Disp((sbyte)skip(src, pos), width);
                 break;
                 case NativeSizeCode.W16:
-                    val = new Disp(slice(src.Bytes, pos, length).TakeInt16(), width);
+                    val = new Disp(slice(src, pos, length).TakeInt16(), width);
                 break;
                 case NativeSizeCode.W32:
-                    val = new Disp(slice(src.Bytes, pos, length).TakeInt32(), width);
+                    val = new Disp(slice(src, pos, length).TakeInt32(), width);
                 break;
                 case NativeSizeCode.W64:
-                    val = new Disp(slice(src.Bytes, pos, length).TakeInt64(), width);
+                    val = new Disp(slice(src, pos, length).TakeInt64(), width);
                 break;
             }
 

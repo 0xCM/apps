@@ -76,6 +76,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmCell(AsmBlockLabel src)
-            => asm.cell(src.Format(), AsmPartKind.BlockLabel);
+            => AsmCell.define(src.Format(), AsmPartKind.BlockLabel);
     }
 }
