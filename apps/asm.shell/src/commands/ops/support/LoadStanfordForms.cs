@@ -19,7 +19,7 @@ namespace Z0.Asm
             {
                 ref readonly var row = ref skip(rows,i);
                 AsmSigInfo.parse(row.Instruction, out var sig);
-                var form = new AsmFormInfo(asm.ocstring(row.OpCode), sig);
+                var form = new AsmFormInfo(new (row.OpCode), sig);
                 seek(forms,i) = form;
                 var spec = string.Format("{0,-32} | {1,-42} | {2,-42}", form.Sig.Mnemonic, form.OpCode, form.Sig);
                 dst.Add(spec);

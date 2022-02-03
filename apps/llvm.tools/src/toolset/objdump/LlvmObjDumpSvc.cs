@@ -158,14 +158,12 @@ namespace Z0.llvm
 
         void EmitIndex(ProjectCollection collect, ReadOnlySpan<ObjDumpRow> rows)
         {
-            using var allocation = AsmCodeAllocation.allocate(rows);
-            var allocated = allocation.Allocated;
-            var count = allocated.Length;
+            var count = rows.Length;
             var buffer = alloc<AsmCodeIndexRow>(count);
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(buffer,i);
-                ref readonly var code = ref skip(allocated,i);
+                ref readonly var code = ref skip(rows,i);
                 ref readonly var row = ref rows[i];
                 if(code.HexCode != row.HexCode)
                 {
@@ -178,7 +176,7 @@ namespace Z0.llvm
                 dst.CT = code.CT;
                 dst.Asm = code.Source.Format();
                 dst.Encoding = code.HexCode;
-                dst.IP = (Address32)code.Location;
+                dst.IP = (Address32)code.IP;
             }
 
             buffer.Sort();

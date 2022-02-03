@@ -56,7 +56,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 ref readonly var instruction = ref skip(instructions,i);
-                var opcode = asm.ocstring(instruction.OpCode.ToString());
+                var opcode = new AsmOpCodeString(instruction.OpCode.ToString());
                 if(!opcode.IsValid)
                     break;
 

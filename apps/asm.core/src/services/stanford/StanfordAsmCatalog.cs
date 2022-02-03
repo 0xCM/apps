@@ -64,7 +64,7 @@ namespace Z0.Asm
             {
                 ref readonly var row = ref skip(imported, i);
                 if(AsmSigInfo.parse(row.Instruction, out var sig))
-                    seek(buffer, k++) = (asm.ocstring(row.OpCode), sig);
+                    seek(buffer, k++) = (new (row.OpCode), sig);
                 else
                 {
                     seek(buffer, k++) = AsmFormInfo.Empty;

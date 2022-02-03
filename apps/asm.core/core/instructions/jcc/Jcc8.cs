@@ -7,8 +7,6 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Jcc8
     {
-        const byte InstSize = 2;
-
         readonly byte Code;
 
         readonly bit Alt;
@@ -33,6 +31,12 @@ namespace Z0.Asm
             Alt = 1;
             Source = src;
             Target = dst;
+        }
+
+        public Disp8 Disp
+        {
+            [MethodImpl(Inline)]
+            get => AsmRel8.disp(Source,Target);
         }
     }
 }

@@ -231,11 +231,11 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public JccInfo Jcc(Jcc8Code code)
-            => new JccInfo(code,Name(code));
+            => new JccInfo(code, Name(code));
 
         [MethodImpl(Inline), Op]
         public JccInfo Jcc(Jcc8AltCode code)
-            => new JccInfo(code,Name(code));
+            => new JccInfo(code, Name(code));
 
         [MethodImpl(Inline), Op]
         public JccInfo Jcc(Jcc32Code code)

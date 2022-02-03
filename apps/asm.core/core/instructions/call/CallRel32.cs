@@ -6,14 +6,6 @@ namespace Z0.Asm
 {
     public readonly struct CallRel32 : IAsmRel<Disp32>
     {
-        [MethodImpl(Inline), Op]
-        public static CallRel32 call(Rip rip, Disp32 disp)
-            => new CallRel32(rip, AsmRel32.target(rip,disp));
-
-        [MethodImpl(Inline), Op]
-        public static bool test(ReadOnlySpan<byte> encoding)
-            => encoding.Length >= InstSize && core.first(encoding) == OpCode;
-
         public const byte OpCode = 0xE8;
 
         public const byte InstSize = 5;

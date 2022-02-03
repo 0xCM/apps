@@ -111,6 +111,7 @@ namespace Z0
 
             return true;
         }
+
         void EmitConditionDocs()
         {
             var jcc8 = ApiDoc("jcc8", FS.Txt);

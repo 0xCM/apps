@@ -45,7 +45,7 @@ namespace Z0.Asm
                 for(var j=0; j<icount; j++)
                 {
                     var instruction = skip(instructions,j).Instruction;
-                    var opcode = asm.ocstring(instruction.OpCode.ToString());
+                    var opcode = new AsmOpCodeString(instruction.OpCode.ToString());
                     if(!opcode.IsValid)
                         break;
 
@@ -109,7 +109,7 @@ namespace Z0.Asm
                 for(var j=0; j<icount; j++)
                 {
                     var instruction = skip(instructions,j);
-                    var opcode = asm.ocstring(instruction.OpCode.ToString());
+                    var opcode = new AsmOpCodeString(instruction.OpCode.ToString());
                     if(!opcode.IsValid)
                         break;
 

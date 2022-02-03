@@ -36,13 +36,13 @@ namespace Z0.Asm
             var ocinfo = Iced.EncoderCodeExtensions.ToOpCode(src.Code);
             return (
                 ocxpr(ocinfo.ToOpCodeString()),
-                asm.siginfo(src.Mnemonic.ToString(),
+                new AsmSigInfo(src.Mnemonic.ToString(),
                 ocinfo.ToInstructionString())
                 );
         }
 
         static AsmOpCodeString ocxpr(string src)
-            => asm.ocstring(src.Replace("o32 ", EmptyString).Replace("o16 ", EmptyString).Replace("+", " +"));
+            => new (src.Replace("o32 ", EmptyString).Replace("o16 ", EmptyString).Replace("+", " +"));
 
         [MethodImpl(Inline), Op]
         public static IceOpAccess[] access(Iced.InstructionInfo src)

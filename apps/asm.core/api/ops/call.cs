@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static core;
 
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static AsmOpCodeString ocstring(string src)
-            => new AsmOpCodeString(src);
+        public static CallRel32 call(Rip rip, Disp32 disp)
+            => new CallRel32(rip, AsmRel32.target(rip,disp));
     }
 }

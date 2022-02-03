@@ -23,7 +23,7 @@ namespace Z0
                 const uint Disp = 0xfc632176;
                 const ulong IP = Base + Offset;
                 Rip rip = Rip.define(IP, 5);
-                var call = CallRel32.call(rip, (Disp32)Disp);
+                var call = asm.call(rip, (Disp32)Disp);
                 Write(call.Format());
             }
 

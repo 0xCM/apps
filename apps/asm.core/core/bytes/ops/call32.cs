@@ -40,5 +40,9 @@ namespace Z0.Asm
             seek(buffer,15) = CallRel32.InstSize;
             return encoding;
         }
+
+        [MethodImpl(Inline), Op]
+        public static bool IsCall32(ReadOnlySpan<byte> encoding)
+            => encoding.Length >= CallRel32.InstSize && core.first(encoding) == CallRel32.OpCode;
     }
 }
