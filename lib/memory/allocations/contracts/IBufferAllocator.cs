@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------------------------
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
@@ -6,9 +7,16 @@ namespace Z0
 {
     using System;
 
-    public interface IStringAllocator<T> : IBufferAllocator
-        where T : IMemoryString
+    public interface IBufferAllocator : IDisposable
     {
-        bool Allocate(ReadOnlySpan<char> src, out T dst);
+        MemoryAddress BaseAddress {get;}
+
+        ByteSize Size {get;}
+    }
+
+
+    public interface IBufferAllocator<S,T> : IBufferAllocator
+    {
+        bool Allocate(S src, out T dst);
     }
 }

@@ -7,10 +7,10 @@ namespace Z0
     public readonly struct ApiToken
     {
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry, MemoryAddress target)
-            => new ApiToken(symbols.Add(entry.Location, entry.Uri.Format()), symbols.Add(target, entry.Sig.Format()));
+            => new ApiToken(symbols.Dispense(entry.Location, entry.Uri.Format()), symbols.Dispense(target, entry.Sig.Format()));
 
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry)
-            => new ApiToken(symbols.Add(entry.Location, entry.Uri.Format()), symbols.Add(entry.Location, entry.Sig.Format()));
+            => new ApiToken(symbols.Dispense(entry.Location, entry.Uri.Format()), symbols.Dispense(entry.Location, entry.Sig.Format()));
 
         readonly LocatedSymbol Entry;
 

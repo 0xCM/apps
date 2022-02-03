@@ -72,6 +72,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public MemoryAddress Address(uint offset)
+            => BaseAddress + offset;
+
+
+        [MethodImpl(Inline)]
         public void Dispose()
             => api.release(this);
 

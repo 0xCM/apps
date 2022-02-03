@@ -56,21 +56,6 @@ namespace Z0
             Write(f.Format(a,b));
         }
 
-        [CmdOp("check/capture/entries")]
-        Outcome CheckEntryPoints(CmdArgs args)
-        {
-            var flow = Running("Creating method table");
-            var table = MethodEntryPoints.create(Wf.ApiJit().JitCatalog(ApiRuntimeCatalog));
-            var count = table.Count;
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var entry = ref table[i];
-                Write(entry.Uri);
-            }
-            Ran(flow, $"Created method table with {table.View.Length} entries");
-            return true;
-        }
     }
 
     readonly struct CodeExecCases

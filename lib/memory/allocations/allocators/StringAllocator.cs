@@ -4,10 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class LabelAllocator : IStringAllocator<Label>
+    using static core;
+
+    /// <summary>
+    /// Allocates strings from a suplied <see cref='StringBuffer'/>
+    /// </summary>
+    public class StringAllocator : IStringAllocator<StringRef>
     {
-        public static LabelAllocator alloc(ByteSize capacity)
-            => new LabelAllocator(StringBuffers.buffer(capacity/2));
+        public static StringAllocator alloc(ByteSize capacity)
+            => new StringAllocator(StringBuffers.buffer(capacity/2));
 
         StringBuffer Buffer;
 
@@ -19,7 +24,7 @@ namespace Z0
 
         public ByteSize Size {get;}
 
-        internal LabelAllocator(StringBuffer buffer)
+        internal StringAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
             BaseAddress = buffer.BaseAddress;
@@ -28,17 +33,24 @@ namespace Z0
             Position = 0;
         }
 
-        public bool Allocate(ReadOnlySpan<char> src, out Label dst)
+        public bool Allocate(string src, out StringRef dst)
+            => Allocate(span(src), out dst);
+
+        /// <summary>
+        /// Populates a <see cref='StringRef'/> that represents the input if the buffer has sufficient capacity and returns true; otherwise,
+        /// returns false
+        /// </summary>
+        /// <param name="src">The input sequence</param>
+        /// <param name="dst">The input sequence reference, if successful, otherwise a reference to the empty string</param>
+        public bool Allocate(ReadOnlySpan<char> src, out StringRef dst)
         {
             var length = (uint)src.Length;
-            dst = Label.Empty;
-            if(length > 256)
-                return false;
+            dst = StringRef.Empty;
 
             if(Buffer.Address(Position + length) > MaxAddress)
                 return false;
 
-            dst = Buffer.StoreLabel(src, Position);
+            dst = Buffer.StoreString(src, Position);
             Position += length;
             return true;
         }

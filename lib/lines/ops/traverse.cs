@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
 
     partial struct Lines
     {
         [Op]
-        public static Count traverse(string src, Action<TextLine> receiver, bool keepblank = false)
+        public static Count traverse(string src, Action<TextLine> receiver, bool keepblank = false, bool trim = true)
         {
             var lineNumber = 0u;
             using(var reader = new StringReader(src))
@@ -25,7 +23,7 @@ namespace Z0
                             receiver(new TextLine(++lineNumber, next));
                     }
                     else
-                        receiver(new TextLine(++lineNumber, next));
+                        receiver(new TextLine(++lineNumber, trim ? text.trim(next) : next));
                     next = reader.ReadLine();
                 }
             }

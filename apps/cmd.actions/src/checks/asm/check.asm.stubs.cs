@@ -89,8 +89,6 @@ namespace Z0
                 Require.equal(disp3,disp);
 
                 @string statement = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(disp));
-
-
                 var dispFormat = EmptyString;
                 if(disp < 0)
                 {

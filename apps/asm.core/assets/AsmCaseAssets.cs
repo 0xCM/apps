@@ -9,6 +9,5 @@ namespace Z0
         public Asset Switch() => Asset("prototypes.switch.asm");
 
         public Asset Branches() => Asset("prototypes.branches.asm");
-
     }
 }

@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
-    public class SourceAllocator : IStringAllocator<SourceText>
+    public class LabelAllocator : IStringAllocator<Label>
     {
-        public static SourceAllocator create(uint capacity)
-            => new SourceAllocator(StringBuffers.buffer(capacity));
+        public static LabelAllocator alloc(ByteSize capacity)
+            => new LabelAllocator(StringBuffers.buffer(capacity/2));
 
         StringBuffer Buffer;
 
@@ -25,24 +19,29 @@ namespace Z0
 
         public ByteSize Size {get;}
 
-        internal SourceAllocator(StringBuffer buffer)
+        internal LabelAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
-            Size = buffer.Size;
             BaseAddress = buffer.BaseAddress;
-            MaxAddress = buffer.Address(buffer.Length);
+            Size = buffer.Size;
+            MaxAddress =  buffer.Address(buffer.Length);
             Position = 0;
         }
 
-        public bool Allocate(ReadOnlySpan<char> src, out SourceText dst)
+        public bool Allocate(string src, out Label dst)
+            => Allocate(core.span(src), out dst);
+
+        public bool Allocate(ReadOnlySpan<char> src, out Label dst)
         {
             var length = (uint)src.Length;
-            dst = SourceText.Empty;
+            dst = Label.Empty;
+            if(length > 256)
+                return false;
 
             if(Buffer.Address(Position + length) > MaxAddress)
                 return false;
 
-            dst = Buffer.StoreSource(src, Position);
+            dst = Buffer.StoreLabel(src, Position);
             Position += length;
             return true;
         }
@@ -58,7 +57,6 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Size - Consumed;
         }
-
 
         public void Dispose()
         {

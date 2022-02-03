@@ -6,11 +6,11 @@ namespace Z0
 {
     using static core;
 
-    /// <summary>
-    /// Allocates strings from a suplied <see cref='StringBuffer'/>
-    /// </summary>
-    public class StringAllocator : IStringAllocator<StringRef>
+    public class SourceAllocator : IStringAllocator<SourceText>
     {
+        public static SourceAllocator alloc(uint capacity)
+            => new SourceAllocator(StringBuffers.buffer(capacity/2));
+
         StringBuffer Buffer;
 
         MemoryAddress MaxAddress;
@@ -21,30 +21,27 @@ namespace Z0
 
         public ByteSize Size {get;}
 
-        internal StringAllocator(StringBuffer buffer)
+        internal SourceAllocator(StringBuffer buffer)
         {
             Buffer = buffer;
-            BaseAddress = buffer.BaseAddress;
             Size = buffer.Size;
-            MaxAddress =  buffer.Address(buffer.Length);
+            BaseAddress = buffer.BaseAddress;
+            MaxAddress = buffer.Address(buffer.Length);
             Position = 0;
         }
 
-        /// <summary>
-        /// Populates a <see cref='StringRef'/> that represents the input if the buffer has sufficient capacity and returns true; otherwise,
-        /// returns false
-        /// </summary>
-        /// <param name="src">The input sequence</param>
-        /// <param name="dst">The input sequence reference, if successful, otherwise a reference to the empty string</param>
-        public bool Allocate(ReadOnlySpan<char> src, out StringRef dst)
+        public bool Allocate(string src, out SourceText dst)
+            => Allocate(span(src), out dst);
+
+        public bool Allocate(ReadOnlySpan<char> src, out SourceText dst)
         {
             var length = (uint)src.Length;
-            dst = StringRef.Empty;
+            dst = SourceText.Empty;
 
             if(Buffer.Address(Position + length) > MaxAddress)
                 return false;
 
-            dst = Buffer.StoreString(src, Position);
+            dst = Buffer.StoreSource(src, Position);
             Position += length;
             return true;
         }
@@ -60,6 +57,7 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Size - Consumed;
         }
+
 
         public void Dispose()
         {

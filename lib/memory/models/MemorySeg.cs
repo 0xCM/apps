@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Runtime.Intrinsics;
 
     using static System.Runtime.Intrinsics.Vector128;
-    using static Root;
     using static core;
 
     using api = MemorySegs;
@@ -164,6 +161,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Vector128<ulong>(in MemorySeg src)
             => src.Segment;
+
+        [MethodImpl(Inline)]
+        public static implicit operator MemorySeg((MemoryAddress left, MemoryAddress right) src)
+            => new MemorySeg(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator MemorySeg(MemoryRange src)
+            => new MemorySeg(src);
 
         public static MemorySeg Empty
             => default;

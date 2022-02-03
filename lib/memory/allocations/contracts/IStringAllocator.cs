@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    unsafe partial struct memory
+    using System;
+
+    public interface IStringAllocator<T> : IBufferAllocator<string,T>
+        where T : IMemoryString
     {
-        [Op]
-        public static MemAlloc allocator(uint pages)
-            => new MemAlloc(pages);
+        bool Allocate(ReadOnlySpan<char> src, out T dst);
     }
 }

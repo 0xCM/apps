@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Operands;
-
     using static core;
 
     partial struct AsmX

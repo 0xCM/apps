@@ -40,7 +40,7 @@ namespace Z0.Machines
 
         Stack<ulong> Stack;
 
-        MemAlloc Ram;
+        PageAllocator Ram;
 
         MemoryAddress CodeBase;
 
@@ -65,7 +65,7 @@ namespace Z0.Machines
             R16 = (ushort*)R64;
             R8 = (byte*)R64;
             Stack = CpuModels.stack<ulong>(64);
-            Ram = MemAlloc.alloc(256);
+            Ram = PageAllocator.alloc(256);
             CodeBase = Ram.AllocPage();
             *CodeBase.Pointer<ulong>() = 0xCC;
             rip() = CodeBase;

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
     using Asm;
 
     using static core;
@@ -29,7 +27,7 @@ namespace Z0
 
         static SourceAllocator allocator<T>(ReadOnlySpan<T> src)
             where T : IAsmEncoding
-                => SourceAllocator.create(gcalc.sum(src.Select(x => (uint)x.Asm.Data.Length)));
+                => SourceAllocator.alloc(gcalc.sum(src.Select(x => (uint)x.Asm.Data.Length)));
 
         internal AsmCodeAllocation(AsmCode[] data, IBufferAllocator allocator)
             : base(allocator,data)

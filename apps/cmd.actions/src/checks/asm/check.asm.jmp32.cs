@@ -32,7 +32,6 @@ namespace Z0
                 @string statement = string.Format("jmp near ptr {0:x}h", relTarget);
                 Require.equal(statement, expect.Statment);
                 Write(statement);
-                //Require.equal(asm, expect.Statment);
             }
 
             return true;

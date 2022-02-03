@@ -33,7 +33,7 @@ namespace Z0
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
 
-        public LocatedSymbol Add(MemoryAddress location, @string name)
+        public LocatedSymbol Dispense(MemoryAddress location, @string name)
         {
             var symbol = CreateSymbol(location,name);
             NameLookup[name] = symbol;

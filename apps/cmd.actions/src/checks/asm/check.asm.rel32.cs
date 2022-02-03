@@ -119,7 +119,7 @@ namespace Z0
         void CheckJmpRel32()
         {
             var result = Outcome.Success;
-            var @case = AsmCaseAssets.create().Switch();
+            //var @case = AsmCaseAssets.create().Switch();
 
             var @base = (MemoryAddress)0x7ffd4512bf30;
             var @return = @base + (MemoryAddress)0x10b7;

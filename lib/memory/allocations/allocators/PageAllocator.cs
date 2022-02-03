@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
-    public unsafe class MemAlloc : IBufferAllocation
+    public unsafe class PageAllocator : IBufferAllocation
     {
-        public static MemAlloc alloc(uint pages)
-            => new MemAlloc(pages);
+        public static PageAllocator alloc(uint pages)
+            => new PageAllocator(pages);
 
         PageBank Memory;
 
@@ -39,7 +35,7 @@ namespace Z0
             get => Memory.Width;
         }
 
-        internal MemAlloc(uint pages)
+        internal PageAllocator(uint pages)
         {
             PageCapacity = pages;
             Memory = PageBank.alloc(PageCapacity);
