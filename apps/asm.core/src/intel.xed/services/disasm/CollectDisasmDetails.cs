@@ -229,7 +229,7 @@ namespace Z0
                     var size = Sizes.native(state.imm_width).Code;
                     var signed = state.imm0signed;
                     var pos = state.pos_imm;
-                    var _val = AsmEncoding.imm(code, pos, signed, size);
+                    var _val = AsmX.imm(code, pos, signed, size);
                     var val = 0ul;
 
                     switch(size)

@@ -2,14 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    public sealed class AsmSyntaxDoc : TableDoc<AsmSyntaxRow>
+    public struct Jcc32
     {
-        public AsmSyntaxDoc(FS.FilePath src, AsmSyntaxRow[] rows)
-            : base(src,rows)
-        {
 
-        }
+
     }
 }

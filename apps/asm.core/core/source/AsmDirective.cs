@@ -6,42 +6,10 @@ namespace Z0.Asm
 {
     using static core;
 
+    using static AsmX;
+
     public readonly struct AsmDirective : IAsmSourcePart
     {
-        [MethodImpl(Inline), Op]
-        public static AsmDirective define(text31 name)
-            => new AsmDirective(name);
-
-        [MethodImpl(Inline), Op]
-        public static AsmDirective define(text31 name, AsmDirectiveOp op0, AsmDirectiveOp op1, AsmDirectiveOp op2 = default)
-            => new AsmDirective(name, op0, op1, op2);
-
-        [MethodImpl(Inline)]
-        public static AsmDirective define<T>(text31 name, T arg)
-            => new AsmDirective(name, new AsmDirectiveOp<T>(arg));
-
-        [Op]
-        public static AsmDirective define(text31 name, ReadOnlySpan<AsmDirectiveOp> args)
-        {
-            var dst = define(name);
-            switch(args.Length)
-            {
-                case 1:
-                    dst = define(name, skip(args,0));
-                break;
-                case 2:
-                    dst = define(name, skip(args,0), skip(args,1));
-                break;
-                case 3:
-                    dst = define(name, skip(args,0), skip(args,1), skip(args,2));
-                break;
-                default:
-                    break;
-            }
-            return dst;
-        }
-
-
         [Parser]
         public static Outcome parse(string src, out AsmDirective dst)
         {
@@ -61,21 +29,21 @@ namespace Z0.Asm
                     switch(count)
                     {
                         case 1:
-                            dst = define(name, skip(args,0));
+                            dst = directive(name, skip(args,0));
                         break;
                         case 2:
-                            dst = define(name, skip(args,0), skip(args,1));
+                            dst = directive(name, skip(args,0), skip(args,1));
                         break;
                         case 3:
-                            dst = define(name, skip(args,0), skip(args,1), skip(args,2));
+                            dst = directive(name, skip(args,0), skip(args,1), skip(args,2));
                         break;
                         default:
-                            dst = define(name);
+                            dst = directive(name);
                         break;
                     }
                 }
                 else
-                    dst = define(name);
+                    dst = directive(name);
 
                 result = Outcome.Success;
             }
@@ -84,6 +52,7 @@ namespace Z0.Asm
 
             return result;
         }
+
         public readonly text31 Name;
 
         public readonly AsmDirectiveOp Op0;
@@ -138,6 +107,5 @@ namespace Z0.Asm
             => asm.cell(src.Format(), AsmPartKind.Directive);
 
         public static AsmDirective Empty => new AsmDirective(EmptyString, EmptyString, EmptyString, EmptyString);
-
     }
 }

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using E = ConditionCodes.FlagExpressions;
 
-    using static ConditionCodes.JccAltNames;
+    using static JccAltNames;
 
     [SymSource("asm.cc")]
     public enum Jcc8AltCode : byte

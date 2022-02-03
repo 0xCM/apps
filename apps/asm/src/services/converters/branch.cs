@@ -16,6 +16,10 @@ namespace Z0.Asm
     partial struct IceConverters
     {
         [MethodImpl(Inline), Op]
+        static Disp64 disp64(MemoryAddress src, byte instsize, MemoryAddress dst)
+            => (long)(dst - (src + instsize));
+
+        [MethodImpl(Inline), Op]
         public static AsmBranchTarget target(BranchTargetKind kind, MemoryAddress dst, BranchTargetWidth size, Address16 selector)
             => new AsmBranchTarget(dst, kind, size, selector);
 
@@ -25,7 +29,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static AsmBranchInfo branch(MemoryAddress @base, in IceInstruction src, in AsmBranchTarget target)
-            => new AsmBranchInfo(@base, src.IP, target, (MemoryAddress)(long)AsmValues.disp64(src.IP, (byte)src.ByteLength, target.Address));
+            => new AsmBranchInfo(@base, src.IP, target, (MemoryAddress)(long)disp64(src.IP, (byte)src.ByteLength, target.Address));
 
         [MethodImpl(Inline), Op]
         public static AsmBranchInfo branch(MemoryAddress @base, in IceInstruction src, byte index)

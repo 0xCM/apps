@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using E = ConditionCodes.FlagExpressions;
 
-    using static ConditionCodes.JccNames;
+    using static JccNames;
 
     [SymSource("asm.cc")]
     public enum Jcc8Code : byte

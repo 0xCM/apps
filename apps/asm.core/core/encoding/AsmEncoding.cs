@@ -201,52 +201,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static ModRm modrm(RegIndex rm, RegIndex reg, byte mod)
             => modrm((byte)rm, (byte)reg, mod);
-
-        [Op]
-        public static Imm imm(AsmHexCode src, byte pos, bool signed, NativeSize size)
-        {
-            var dst = Imm.Empty;
-            switch(size.Code)
-            {
-                case NativeSizeCode.W8:
-                    dst = AsmValues.imm(size, signed, src[pos]);
-                break;
-                case NativeSizeCode.W16:
-                    dst = AsmValues.imm(size, signed, slice(src.Bytes,pos, 2).TakeUInt16());
-                break;
-                case NativeSizeCode.W32:
-                    dst = AsmValues.imm(size, signed, slice(src.Bytes,pos, 4).TakeUInt32());
-                break;
-                case NativeSizeCode.W64:
-                    dst = AsmValues.imm(size, signed, slice(src.Bytes,pos, 8).TakeUInt64());
-                break;
-            }
-            return dst;
-        }
-
-        [Op]
-        public static long disp(AsmHexCode src, byte pos, NativeSize size)
-        {
-            var val = Disp.Zero;
-            var width = (byte)size.Width;
-            var length = (byte)(width/8);
-            switch(size.Code)
-            {
-                case NativeSizeCode.W8:
-                    val = new Disp((sbyte)src[pos], width);
-                break;
-                case NativeSizeCode.W16:
-                    val = new Disp(slice(src.Bytes, pos, length).TakeInt16(), width);
-                break;
-                case NativeSizeCode.W32:
-                    val = new Disp(slice(src.Bytes, pos, length).TakeInt32(), width);
-                break;
-                case NativeSizeCode.W64:
-                    val = new Disp(slice(src.Bytes, pos, length).TakeInt64(), width);
-                break;
-            }
-
-            return val;
-        }
     }
 }

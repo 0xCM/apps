@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
-
     public sealed class AsmEncodingDocs : ConstLookup<FS.FilePath,AsmEncodingDoc>
     {
         public AsmEncodingDocs(Dictionary<FS.FilePath, AsmEncodingDoc> src)

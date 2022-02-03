@@ -45,14 +45,14 @@ namespace Z0.llvm
             return result;
         }
 
-        public AsmDocument ParseAsmDoc(in FileRef src)
+        public McAsmDoc ParseAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseAsmDoc(src);
 
-        public Index<AsmDocument> CollectSyntaxSources(ProjectCollection collect)
+        public Index<McAsmDoc> CollectSyntaxSources(ProjectCollection collect)
         {
             var src = SyntaxSourcePaths(collect.Project).View;
             var count = src.Length;
-            var dst = list<AsmDocument>();
+            var dst = list<McAsmDoc>();
             for(var i=0; i<count; i++)
                 dst.Add(ParseAsmDoc(collect.FileRef(skip(src,i))));
             return dst.Array();
@@ -142,7 +142,7 @@ namespace Z0.llvm
             return _docs;
         }
 
-        public AsmSyntaxDocs CollectSyntaxLogs(ProjectCollection collect)
+        public McAsmSyntaxDocs CollectSyntaxLogs(ProjectCollection collect)
         {
             var project = collect.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
@@ -150,7 +150,7 @@ namespace Z0.llvm
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var tmp = list<AsmSyntaxRow>();
-            var docs = dict<FS.FilePath,AsmSyntaxDoc>();
+            var docs = dict<FS.FilePath,McAsmSyntaxDoc>();
             var seq = 0u;
             for(var i=0; i<count; i++)
             {
@@ -158,7 +158,7 @@ namespace Z0.llvm
                 ref readonly var path = ref skip(logs,i);
 
                 ParseSyntaxLogRows(collect, collect.FileRef(path), ref seq, tmp);
-                docs[path] = new AsmSyntaxDoc(path, tmp.ToArray());
+                docs[path] = new McAsmSyntaxDoc(path, tmp.ToArray());
                 buffer.AddRange(tmp);
             }
             var rows = buffer.ViewDeposited();
@@ -166,14 +166,14 @@ namespace Z0.llvm
             return docs;
         }
 
-        public ConstLookup<FS.FilePath,AsmDocument> CollectSyntaxTrees(ProjectCollection collect)
+        public ConstLookup<FS.FilePath,McAsmDoc> CollectSyntaxTrees(ProjectCollection collect)
         {
             var result = Outcome.Success;
             var project = collect.Project;
             var src = SyntaxSourcePaths(project).View;
             var count = src.Length;
             var dst = ProjectDb.ProjectDataFile(project, "asm.syntax.tree", FS.Asm);
-            var docs = lookup<FS.FilePath,AsmDocument>();
+            var docs = lookup<FS.FilePath,McAsmDoc>();
             using var writer = dst.AsciWriter();
 
             for(var i=0; i<count; i++)

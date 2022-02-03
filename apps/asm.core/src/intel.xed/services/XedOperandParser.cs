@@ -133,6 +133,10 @@ namespace Z0
             return result;
         }
 
+        [MethodImpl(Inline), Op]
+        static Disp disp(long value, BitWidth size)
+            => new Disp(value, Sizes.native(size));
+
         public void ParseState(ReadOnlySpan<Facet<string>> src, out OperandState dst)
         {
             Clear();
@@ -154,7 +158,7 @@ namespace Z0
             }
             dst = State;
             if(dst.relbr != 0 && dst.brdisp_width != 0)
-                dst._relbr = AsmValues.disp((long)dst.relbr, dst.disp_width);
+                dst._relbr = disp((long)dst.relbr, dst.disp_width);
         }
 
         K Parse(Facet<string> src)

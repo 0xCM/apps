@@ -33,8 +33,8 @@ namespace Z0
                 result = Hex.hexbytes(Input, out var code);
                 if(result)
                 {
-                    var disp = AsmValues.disp32(code,1);
-                    Write(string.Format("{0} => disp32={1:x8}", Input, disp));
+                    //var disp = AsmValues.disp32(code,1);
+                    //Write(string.Format("{0} => disp32={1:x8}", Input, disp));
                 }
             }
 

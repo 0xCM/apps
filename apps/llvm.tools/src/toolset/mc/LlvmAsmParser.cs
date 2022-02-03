@@ -40,7 +40,7 @@ namespace Z0.Asm
 
         EnumParser<AsmId> AsmIdParser {get;} = new EnumParser<AsmId>();
 
-        public AsmDocument ParseAsmDoc(in FileRef fref)
+        public McAsmDoc ParseAsmDoc(in FileRef fref)
         {
             DocSource = fref;
             var result = Outcome.Success;
@@ -59,7 +59,7 @@ namespace Z0.Asm
             for(var i=0u; i<count; i++)
                 Parse(skip(data,i));
 
-            return new AsmDocument(DocSource, Directives.ToArray(), BlockLabels.ToArray(), BlockOffsets.ToArray(), SourceLines.ToArray(), Instructions.ToArray());
+            return new McAsmDoc(DocSource, Directives.ToArray(), BlockLabels.ToArray(), BlockOffsets.ToArray(), SourceLines.ToArray(), Instructions.ToArray());
         }
 
         AsmBlockLabel Label;

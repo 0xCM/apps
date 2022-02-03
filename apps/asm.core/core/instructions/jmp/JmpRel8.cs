@@ -7,6 +7,10 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct JmpRel8 : IAsmRel<Disp8>
     {
+        [MethodImpl(Inline), Op]
+        public static bool test(ReadOnlySpan<byte> encoding)
+            => encoding.Length >= JmpRel8.InstSize && core.first(encoding) == JmpRel8.OpCode;
+
         public const byte OpCode = 0xEB;
 
         public const byte InstSize = 2;

@@ -4,17 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using Asm;
 
     /// <summary>
     /// Represents an asm source document
     /// </summary>
-    public class AsmDocument
+    public class McAsmDoc
     {
         public FS.FilePath Path {get;}
 
@@ -28,7 +23,7 @@ namespace Z0
 
         Index<AsmInstRef> _Instructions;
 
-        public AsmDocument(in FileRef fref, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, AsmInstRef[] inst)
+        public McAsmDoc(in FileRef fref, AsmDirective[] d, AsmBlockLabel[] b, LineNumber[] l, AsmSourceLine[] s, AsmInstRef[] inst)
         {
             Path = fref.Path;
             _Directives = d;
