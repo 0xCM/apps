@@ -11,6 +11,10 @@ namespace Z0.Asm
 
     public readonly struct AsmExprOffset
     {
+        [MethodImpl(Inline), Op]
+        public static AsmExprOffset define(string asm, MemoryAddress offset)
+            => new AsmExprOffset(asm, offset);
+
         public AsmExpr Asm {get;}
 
         public MemoryAddress Offset {get;}

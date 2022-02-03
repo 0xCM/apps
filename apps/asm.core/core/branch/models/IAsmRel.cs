@@ -29,7 +29,7 @@ namespace Z0.Asm
         T Disp {get;}
 
         NativeSize IAsmRel.RelSize
-            => NativeSize.code(core.width<T>());
+            => Sizes.native(core.width<T>());
     }
 
 }

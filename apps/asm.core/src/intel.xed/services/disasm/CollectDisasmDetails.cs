@@ -226,7 +226,7 @@ namespace Z0
 
                 if(state.imm0)
                 {
-                    var size = NativeSize.code(state.imm_width);
+                    var size = Sizes.native(state.imm_width).Code;
                     var signed = state.imm0signed;
                     var pos = state.pos_imm;
                     var _val = AsmEncoding.imm(code, pos, signed, size);

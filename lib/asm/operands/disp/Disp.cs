@@ -42,7 +42,7 @@ namespace Z0.Asm
         public Disp(long value, byte width)
         {
             Value = value;
-            Size = NativeSize.code(width);
+            Size = Sizes.native(width);
         }
 
         [MethodImpl(Inline)]

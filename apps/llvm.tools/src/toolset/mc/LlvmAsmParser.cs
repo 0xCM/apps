@@ -13,13 +13,7 @@ namespace Z0.Asm
 
     using C = AsmLineClass;
 
-    public class AsmSourceDocs : AppService<AsmSourceDocs>
-    {
-        public AsmDocument ParseAsmDoc(in FileRef src)
-            => new AsmSourceDocParser().ParseAsmDoc(src);
-    }
-
-    class AsmSourceDocParser
+    class LlvmAsmParser
     {
         List<AsmDirective> Directives;
 
@@ -123,7 +117,7 @@ namespace Z0.Asm
                 break;
 
                 case C.Directive:
-                    if(AsmParser.directive(LineContent, out var directive))
+                    if(AsmDirective.parse(LineContent, out var directive))
                     {
                         Directives.Add(directive);
                     }

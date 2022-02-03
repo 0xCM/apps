@@ -87,7 +87,12 @@ namespace Z0.Asm
         }
 
         static AsmSigInfo sigxpr(in ApiInstruction src)
-            => asm.siginfo(src.Instruction.OpCode.InstructionString);
+        {
+            if(AsmSigInfo.parse(src.Instruction.OpCode.InstructionString, out var info))
+                return info;
+            else
+                return AsmSigInfo.Empty;
+        }
 
         static AsmFormInfo formxpr(in ApiInstruction src)
             => (src.OpCode, sigxpr(src));

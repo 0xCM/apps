@@ -17,8 +17,6 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llvm_mc;
 
-        AsmSourceDocs AsmDocs => Service(Wf.AsmSourceDocs);
-
         EnumParser<AsmId> AsmIdParser => Service(() => new EnumParser<AsmId>());
 
         WsProjects WsProjects => Service(Wf.WsProjects);
@@ -47,13 +45,16 @@ namespace Z0.llvm
             return result;
         }
 
+        public AsmDocument ParseAsmDoc(in FileRef src)
+            => new LlvmAsmParser().ParseAsmDoc(src);
+
         public Index<AsmDocument> CollectSyntaxSources(ProjectCollection collect)
         {
             var src = SyntaxSourcePaths(collect.Project).View;
             var count = src.Length;
             var dst = list<AsmDocument>();
             for(var i=0; i<count; i++)
-                dst.Add(AsmDocs.ParseAsmDoc(collect.FileRef(skip(src,i))));
+                dst.Add(ParseAsmDoc(collect.FileRef(skip(src,i))));
             return dst.Array();
         }
 
@@ -178,7 +179,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var doc = AsmDocs.ParseAsmDoc(collect.FileRef(path));
+                var doc = ParseAsmDoc(collect.FileRef(path));
 
                 docs.Include(path,doc);
 

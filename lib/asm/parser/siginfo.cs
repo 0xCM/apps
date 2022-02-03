@@ -21,7 +21,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return (false, AppMsg.FenceNotFound.Format(src,SigFence));
 
-            result = siginfo(sigexpr, out var _sig);
+            result = AsmSigInfo.parse(sigexpr, out var _sig);
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format("Sig", sigexpr));
 

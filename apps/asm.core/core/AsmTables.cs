@@ -92,7 +92,7 @@ namespace Z0.Asm
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Encoded), src.LineNumber));
 
-            outcome += AsmParser.siginfo(skip(parts,i++), out dst.Sig);
+            outcome += AsmSigInfo.parse(skip(parts,i++), out dst.Sig);
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.Sig), src.LineNumber));
 
@@ -195,7 +195,7 @@ namespace Z0.Asm
 
             dst.Expression = AsmExpr.parse(skip(cells, i++));
             dst.Encoded = AsmHexCode.parse(skip(cells, i++));
-            result = AsmParser.siginfo(skip(cells, i++), out dst.Sig);
+            result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
             if(result.Fail)
                 return result;
 

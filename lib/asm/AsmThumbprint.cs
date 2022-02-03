@@ -85,7 +85,7 @@ namespace Z0.Asm
             var C = parts.Length > 2 ? skip(parts,2) : EmptyString;
             if(text.unfence(A, SigFence, out var sigexpr))
             {
-                result = AsmParser.siginfo(sigexpr, out var sig);
+                result = AsmSigInfo.parse(sigexpr, out var sig);
                 if(result.Fail)
                     return (false, $"Could not parse sig expression from ${sigexpr}");
 

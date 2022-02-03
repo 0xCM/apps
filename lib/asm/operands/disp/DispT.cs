@@ -27,7 +27,7 @@ namespace Z0.Asm
         }
 
         public NativeSize Size
-            => NativeSize.code(width<T>());
+            => Sizes.native(width<T>());
 
         public AsmOpKind OpKind
             => Source.OpKind;

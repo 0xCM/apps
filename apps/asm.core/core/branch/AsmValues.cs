@@ -90,7 +90,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static Disp disp(long value, BitWidth size)
-            => new Disp(value, NativeSize.code(size));
+            => new Disp(value, Sizes.native(size));
 
         [Op]
         public static Imm imm(NativeSize size, bool signed, ulong value)

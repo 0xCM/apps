@@ -13,19 +13,6 @@ namespace Z0
     {
         public readonly NativeSizeCode Code;
 
-        [MethodImpl(Inline)]
-        public static NativeSizeCode code(BitWidth src)
-            => Sizes.native(src);
-
-        [MethodImpl(Inline)]
-        public static NativeSize from<W>(W w)
-            where W : unmanaged, IDataWidth
-                => Sizes.native(w);
-
-        [MethodImpl(Inline)]
-        public static NativeSize from(BitWidth src)
-            => Sizes.native(src);
-
         public BitWidth Width
         {
             [MethodImpl(Inline)]
@@ -59,6 +46,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public static explicit operator ushort(NativeSize src)
             => (ushort)src.Code;
-
     }
 }

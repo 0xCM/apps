@@ -14,6 +14,32 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct AsmSigInfo : IComparable<AsmSigInfo>
     {
+        [MethodImpl(Inline), Op]
+        public static AsmSigInfo define(AsmMnemonic mnemonic, string content)
+            => new AsmSigInfo(mnemonic, content);
+
+        [Parser]
+        public static Outcome parse(string src, out AsmSigInfo dst)
+        {
+            dst = default;
+
+            if(text.empty(src))
+                return true;
+
+            var trimmed = src.Trim();
+            var i = text.index(trimmed, Chars.Space);
+            if(i == NotFound)
+                dst = AsmSigInfo.define(new AsmMnemonic(src), src);
+            else
+            {
+                var mnemonic = new AsmMnemonic(text.slice(trimmed,0,i));
+                var operands = text.slice(trimmed, i + 1);
+                dst = AsmSigInfo.define(mnemonic, trimmed);
+            }
+            return true;
+        }
+
+
         public AsmMnemonic Mnemonic {get;}
 
         public TextBlock Content {get;}

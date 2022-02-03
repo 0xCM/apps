@@ -24,28 +24,28 @@ namespace Z0.Asm
             switch(src.Input.Code)
             {
                 case NativeSizeCode.W8:
-                    src.Expect = (ushort)NativeSize.from(w8).Width;
+                    src.Expect = (ushort)Sizes.native(w8).Width;
                 break;
                 case NativeSizeCode.W16:
-                    src.Expect = (ushort)NativeSize.from(w16).Width;
+                    src.Expect = (ushort)Sizes.native(w16).Width;
                 break;
                 case NativeSizeCode.W32:
-                    src.Expect = (ushort)NativeSize.from(w32).Width;
+                    src.Expect = (ushort)Sizes.native(w32).Width;
                 break;
                 case NativeSizeCode.W64:
-                    src.Expect = (ushort)NativeSize.from(w64).Width;
+                    src.Expect = (ushort)Sizes.native(w64).Width;
                 break;
                 case NativeSizeCode.W128:
-                    src.Expect = (ushort)NativeSize.from(w128).Width;
+                    src.Expect = (ushort)Sizes.native(w128).Width;
                 break;
                 case NativeSizeCode.W256:
-                    src.Expect = (ushort)NativeSize.from(w256).Width;
+                    src.Expect = (ushort)Sizes.native(w256).Width;
                 break;
                 case NativeSizeCode.W512:
-                    src.Expect = (ushort)NativeSize.from(w512).Width;
+                    src.Expect = (ushort)Sizes.native(w512).Width;
                 break;
                 case NativeSizeCode.W80:
-                    src.Expect = (ushort)NativeSize.from(w80).Width;
+                    src.Expect = (ushort)Sizes.native(w80).Width;
                 break;
             }
             return src.Passed;

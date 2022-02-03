@@ -33,10 +33,10 @@ namespace Z0
             BitWidth w32 = 32;
             BitWidth w64 = 64;
 
-            var sz8 = asm.asmsize(w8);
-            var sz16 = asm.asmsize(w16);
-            var sz32 = asm.asmsize(w32);
-            var sz64 = asm.asmsize(w64);
+            var sz8 = Sizes.native(w8);
+            var sz16 = Sizes.native(w16);
+            var sz32 = Sizes.native(w32);
+            var sz64 = Sizes.native(w64);
             Write(sz8);
             Write(sz16);
             Write(sz32);

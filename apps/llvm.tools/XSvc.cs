@@ -11,10 +11,6 @@ namespace Z0
     public static class XSvc
     {
         [Op]
-        public static AsmSourceDocs AsmSourceDocs(this IWfRuntime wf)
-            => Asm.AsmSourceDocs.create(wf);
-
-        [Op]
         public static LlvmDataCalcs LlvmDataCalcs(this IWfRuntime wf)
             => llvm.LlvmDataCalcs.create(wf);
 

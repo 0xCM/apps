@@ -29,7 +29,7 @@ namespace Z0
             public NativeSize Size
             {
                 [MethodImpl(Inline)]
-                get => NativeSize.code(((uint)Kind)*8);
+                get => Sizes.native(((uint)Kind)*8);
             }
 
             public string Format()
