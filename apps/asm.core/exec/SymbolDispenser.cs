@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class SymbolDispenser : IDisposable
+    public class SymbolDispenser : IAllocationDispenser
     {
         public static SymbolDispenser alloc(ByteSize capacity)
             => new SymbolDispenser(capacity);

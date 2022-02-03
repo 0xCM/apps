@@ -10,7 +10,7 @@ namespace Z0
     {
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        JmpStubs JmpStubs => Service(() => JmpStubs.create(Wf));
+        X86Dispatcher JmpStubs => Service(() => X86Dispatcher.create(Wf));
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
     }

@@ -106,7 +106,7 @@ namespace Z0
         [CmdOp("check/stubs/dispatch")]
         Outcome CheckStubDispatch(CmdArgs args)
         {
-            var stubs = JmpStubs.create(Wf);
+            var stubs = X86Dispatcher.create(Wf);
             if(stubs.Create<ulong>(0))
             {
                 var encoded = stubs.EncodeDispatch(0);

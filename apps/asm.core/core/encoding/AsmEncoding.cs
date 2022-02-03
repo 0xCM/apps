@@ -42,7 +42,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static uint bits(Span<char> dst)
+        public static uint sib(Span<char> dst)
         {
             const string Header = "scale | index | base | hex | bitstring";
 
@@ -149,22 +149,8 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static bool rel32dx(BinaryCode src, out int dx)
-        {
-            var opcode = src.First;
-            if(opcode == 0xe8)
-            {
-                dx = i32(slice(src.View, 1));
-                return true;
-            }
-            dx = default;
-            return false;
-        }
-
-        [MethodImpl(Inline), Op]
         public static SizeOverrides overrides(bit opsz, bit adsz)
             => new SizeOverrides(opsz,adsz);
-
         [Op]
         public static AsmEncodingInfo describe(in AsmFormInfo form, in AsmExpr statement, in AsmHexCode encoded)
             => new AsmEncodingInfo(form, statement, encoded, AsmBits.bitstring(encoded));

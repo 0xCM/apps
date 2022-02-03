@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial class AsmHexSpecs
+    partial class AsmBytes
     {
         [MethodImpl(Inline), Op]
         public static byte call32(Rip src, MemoryAddress dst, ref byte hex)

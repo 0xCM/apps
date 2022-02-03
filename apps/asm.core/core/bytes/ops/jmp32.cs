@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial class AsmHexSpecs
+    partial class AsmBytes
     {
         /// <summary>
         /// Jump near, relative

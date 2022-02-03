@@ -106,7 +106,7 @@ namespace Z0.Asm
             switch(LineClass)
             {
                 case C.Label:
-                    if(AsmParser.label(LineContent, out Label))
+                    if(AsmBlockLabel.parse(LineContent, out Label))
                     {
                         LabelSeq++;
                         LabelLine = LineNumber;

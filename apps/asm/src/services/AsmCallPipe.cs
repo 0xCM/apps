@@ -60,6 +60,19 @@ namespace Z0.Asm
             Wf.EmittedTable(flow, count);
         }
 
+        [MethodImpl(Inline), Op]
+        static bool rel32dx(BinaryCode src, out int dx)
+        {
+            var opcode = src.First;
+            if(opcode == 0xe8)
+            {
+                dx = i32(slice(src.View, 1));
+                return true;
+            }
+            dx = default;
+            return false;
+        }
+
         [Op]
         public Index<AsmCallRow> BuildRows(ReadOnlySpan<ApiInstruction> src)
         {
@@ -71,7 +84,7 @@ namespace Z0.Asm
             {
                 ref readonly var call = ref skip(calls,i);
                 ref var dst = ref seek(row,i);
-                AsmEncoding.rel32dx(call.Encoded, out var offset);
+                rel32dx(call.Encoded, out var offset);
                 dst.SourcePart = call.Part;
                 dst.Block = call.BaseAddress;
                 dst.InstructionSize = call.InstructionSize;

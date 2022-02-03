@@ -10,17 +10,21 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial struct AsmRegs
+    partial class AsmBytes
     {
         [MethodImpl(Inline), Op]
-        public static uint regops(RegClassCode @class, NativeSizeCode w, Span<RegOp> dst)
+        public static byte int3(Span<byte> dst)
         {
-            ref var r = ref first(dst);
-            var count = AsmRegData.regcount(@class);
-            var counter = 0u;
-            for(var i=0; i<count; i++)
-                seek(r,counter++) = reg((NativeSizeCode)w, @class, (RegIndexCode)i);
-            return counter;
+            seek(dst,int3());
+            return 1;
         }
+
+        [MethodImpl(Inline), Op]
+        public static byte int3()
+            => 0xCC;
+
+        [MethodImpl(Inline), Op]
+        public static bit int3(byte src)
+            => src == int3();
     }
 }

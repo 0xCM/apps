@@ -4,14 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Operands;
 
-    using static Root;
+    using static core;
 
-    partial struct asm
+    partial struct AsmX
     {
         /// <summary>
         /// Specifies a generalized address

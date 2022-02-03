@@ -19,6 +19,17 @@ namespace Z0.Asm
     public readonly struct AsmRegData
     {
         [MethodImpl(Inline), Op]
+        public static uint regops(RegClassCode @class, NativeSizeCode w, Span<RegOp> dst)
+        {
+            ref var r = ref first(dst);
+            var count = regcount(@class);
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+                seek(r,counter++) = AsmRegs.reg((NativeSizeCode)w, @class, (RegIndexCode)i);
+            return counter;
+        }
+
+        [MethodImpl(Inline), Op]
         public static byte regcount(RegClassCode @class)
             => skip(RegClassCounts, (byte)@class);
 

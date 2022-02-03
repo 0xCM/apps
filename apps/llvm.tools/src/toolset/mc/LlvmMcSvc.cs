@@ -387,9 +387,7 @@ namespace Z0.llvm
                 {
                     var content = line.Content.Replace(Chars.Tab, Chars.Space);
                     var j = text.index(content, Chars.Hash);
-                    result = AsmParser.asmxpr(text.left(content,j), out record.Asm);
-                    if(result.Fail)
-                        return result;
+                    record.Asm = text.trim(text.left(content,j));
 
                     var enc = text.right(content, j + EncodingMarker.Length);
                     result = AsmHexCode.parse(enc, out record.HexCode);

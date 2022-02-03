@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     using static core;
-    using static Asm.AsmHexSpecs;
+    using static Asm.AsmBytes;
 
     partial class CheckCmdProvider
     {
@@ -89,7 +89,7 @@ namespace Z0
                 Hex.hexbytes(Encoding, out var enc1);
                 var dx = AsmRel32.disp(enc1);
 
-                var enc2 = AsmHexSpecs.call32(rip, Target);
+                var enc2 = AsmBytes.call32(rip, Target);
                 if(enc1 != enc2)
                     Error(string.Format("Encoding mismatch '{0}' != '{1}'", enc1, enc2));
 
@@ -105,9 +105,7 @@ namespace Z0
                 var target2 = AsmRel32.target(rip, enc1);
                 if(target2 != Target)
                     Error("Computed target did not match expected target");
-
             }
-
 
             Check3();
             Check4();

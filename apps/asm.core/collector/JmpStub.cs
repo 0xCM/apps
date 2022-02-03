@@ -42,7 +42,7 @@ namespace Z0.Asm
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmHexSpecs.jmp32((Source, JmpRel32.InstSize), Target);
+            get => AsmBytes.jmp32((Source, JmpRel32.InstSize), Target);
         }
     }
 }

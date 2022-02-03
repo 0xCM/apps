@@ -5,13 +5,13 @@
 namespace Z0.Asm
 {
     [Record(TableId)]
-    public struct AsmDisassembly : IRecord<AsmDisassembly>
+    public struct DumpBinDisasm : IRecord<DumpBinDisasm>
     {
         [MethodImpl(Inline), Op]
-        public static AsmDisassembly define(MemoryAddress offset, AsmExpr statement)
-            => new AsmDisassembly(offset, statement);
+        public static DumpBinDisasm define(MemoryAddress offset, AsmExpr statement)
+            => new DumpBinDisasm(offset, statement);
 
-        public static string format(in AsmDisassembly src)
+        public static string format(in DumpBinDisasm src)
         {
             var left = string.Format("{0,-12} {1,-64}", src.Offset, src.Statement);
             var right = new AsmComment(string.Format("{0,-32} {1}", src.Code, src.Bitstring));
@@ -19,7 +19,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static uint render(in AsmDisassembly src, Span<char> dst)
+        public static uint render(in DumpBinDisasm src, Span<char> dst)
         {
             var i=0u;
             Hex.render(LowerCase,(Hex64)src.Offset, ref i, dst);
@@ -28,7 +28,7 @@ namespace Z0.Asm
             return i;
         }
 
-        public static string format(in AsmDisassembly src, Span<char> buffer)
+        public static string format(in DumpBinDisasm src, Span<char> buffer)
         {
             var count = render(src,buffer);
             return text.format(core.slice(buffer,0,count));
@@ -47,7 +47,7 @@ namespace Z0.Asm
         public AsmBitstring Bitstring;
 
         [MethodImpl(Inline)]
-        public AsmDisassembly(MemoryAddress offset, AsmExpr expr, AsmHexCode code, AsmBitstring bs)
+        public DumpBinDisasm(MemoryAddress offset, AsmExpr expr, AsmHexCode code, AsmBitstring bs)
         {
             Offset = offset;
             Statement = expr;
@@ -56,7 +56,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmDisassembly(MemoryAddress offset, AsmExpr expr)
+        public DumpBinDisasm(MemoryAddress offset, AsmExpr expr)
         {
             Offset = offset;
             Statement = expr;

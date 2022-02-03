@@ -13,7 +13,6 @@ namespace Z0.Asm
     {
         const NumericKind Closure = UnsignedInts;
 
-
         public enum RegFieldIndex : byte
         {
             /// <summary>

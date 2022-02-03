@@ -8,30 +8,24 @@ namespace Z0.Asm
     {
         public readonly Address16 Offset;
 
-        public readonly MemorySeg Encoded;
+        public readonly AsmHexRef Encoded;
 
         public readonly SourceText Decoded;
 
         [MethodImpl(Inline)]
-        public DecodedAsm(Address16 offset, MemorySeg encoded, SourceText decoded)
+        public DecodedAsm(Address16 offset, AsmHexRef encoded, SourceText decoded)
         {
             Offset = offset;
             Encoded = encoded;
             Decoded = decoded;
         }
-    }
 
-    public readonly struct DecodedAsmBlock
-    {
-        public readonly LocatedSymbol Base;
+        public string Format()
+            => string.Format("{0,-46} # {1} | {2,-3} | {3}", Decoded, Offset, Encoded.Size, Encoded);
 
-        public readonly Index<DecodedAsm> Statements;
+        public override string ToString()
+            => Format();
 
-        [MethodImpl(Inline)]
-        public DecodedAsmBlock(LocatedSymbol @base, DecodedAsm[] src)
-        {
-            Base = @base;
-            Statements = src;
-        }
+        public static DecodedAsm Empty => default;
     }
 }

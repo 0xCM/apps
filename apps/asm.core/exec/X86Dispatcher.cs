@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static core;
     using static AsmRegOps;
-    using static Root;
 
-    public class JmpStubs : AppService<JmpStubs>
+    public class X86Dispatcher : AppService<X86Dispatcher>
     {
-
         Index<MemoryRange> Trampolines;
 
         Index<Cell128> Payloads;
@@ -21,7 +17,7 @@ namespace Z0.Asm
 
         const uint SlotCount = 256;
 
-        public JmpStubs()
+        public X86Dispatcher()
         {
             Trampolines = alloc<MemoryRange>(SlotCount);
             Payloads = alloc<Cell128>(SlotCount);
@@ -37,10 +33,6 @@ namespace Z0.Asm
             return Trampolines[slot].IsNonEmpty;
         }
 
-        ApiHex ApiHex => Service(Wf.ApiHex);
-
-        ApiJit ApiJit => Service(Wf.ApiJit);
-
         void Receive64u(ulong a0)
         {
             Status($"Received {a0}");
@@ -53,7 +45,7 @@ namespace Z0.Asm
             ref var payload = ref Payloads[slot];
             var storage = Cell128.Empty;
             var buffer = storage.Bytes;
-            var size = AsmHexSpecs.mov(rcx, target, ref first(buffer));
+            var size = AsmBytes.mov(rcx, target, buffer);
             var dst = payload.Bytes;
             var j=0;
             for(var i=0; i<size; i++)

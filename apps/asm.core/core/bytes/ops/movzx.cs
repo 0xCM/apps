@@ -12,7 +12,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    partial class AsmHexSpecs
+    partial class AsmBytes
     {
         /// <summary>
         /// | 0F B6 /r | MOVZX r16, r8 | Move byte to word with zero-extension.

@@ -14,6 +14,16 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct AsmOffsetLabel : IAsmSourcePart
     {
+        [Parser]
+        public static Outcome label(string src, out AsmOffsetLabel dst)
+        {
+            dst = default;
+            var result = DataParser.parse(src, out Hex64 value);
+            if(result)
+                dst = new AsmOffsetLabel(bits.effwidth(value), value);
+            return result;
+        }
+
         internal const string InstInfoPattern = "{0} | {1,-3} | {2,-32} | ({3}) = {4}";
 
         const ulong OffsetMask = 0xFF_FF_FF_FF_FF_FF_FF;

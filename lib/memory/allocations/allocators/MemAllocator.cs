@@ -11,6 +11,8 @@ namespace Z0
 
         NativeBuffer Buffer;
 
+        public ByteSize Size {get;}
+
         uint Offset;
 
         MemoryAddress MaxAddress;
@@ -19,9 +21,9 @@ namespace Z0
         {
             Size = size;
             Buffer = memory.native(size);
+            MaxAddress = Buffer.Address(size);
+            Offset = 0;
         }
-
-        public ByteSize Size {get;}
 
         public ByteSize Consumed
         {

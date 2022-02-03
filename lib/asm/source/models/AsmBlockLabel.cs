@@ -14,6 +14,22 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct AsmBlockLabel : IAsmSourcePart
     {
+        [Parser]
+        public static Outcome parse(string src, out AsmBlockLabel dst)
+        {
+            var i = text.index(src, Chars.Colon);
+            if(i > 0)
+            {
+                dst = new AsmBlockLabel(text.left(src,i).Trim());
+                return true;
+            }
+            else
+            {
+                dst = AsmBlockLabel.Empty;
+                return false;
+            }
+        }
+
         public Identifier Name {get;}
 
         [MethodImpl(Inline)]

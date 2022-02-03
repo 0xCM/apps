@@ -37,7 +37,7 @@ namespace Z0
 
             public static MsgPattern<C> MarkerCodeNotFound => "Markier '{0}' not found";
 
-            Outcome ProcessLine(ref AsciLine src, out AsmDisassembly dst)
+            Outcome ProcessLine(ref AsciLine src, out DumpBinDisasm dst)
             {
                 dst = default;
                 var i = SQ.index(src.Codes, C.Colon);
@@ -53,7 +53,7 @@ namespace Z0
 
                 var buffer = StatementBuffer();
                 var count = text.render(right, ref j, buffer);
-                dst = AsmDisassembly.define(offset, text.format(slice(buffer,0,count)));
+                dst = DumpBinDisasm.define(offset, text.format(slice(buffer,0,count)));
                 return true;
             }
 
@@ -98,7 +98,7 @@ namespace Z0
                             break;
                         }
                         buffer.Clear();
-                        writer.WriteLine(AsmDisassembly.format(content,buffer));
+                        writer.WriteLine(DumpBinDisasm.format(content,buffer));
                         pos++;
                         length = 0;
                         counter = pos;

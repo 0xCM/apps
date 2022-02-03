@@ -13,7 +13,7 @@ namespace Z0
     partial struct Lines
     {
         [Op]
-        public static ReadOnlySpan<TextLine> read(string src, bool keepblank = false)
+        public static ReadOnlySpan<TextLine> read(string src, bool keepblank = false, bool trim = true)
         {
             var lines = list<TextLine>();
             var lineNumber = 0u;
@@ -28,7 +28,7 @@ namespace Z0
                             lines.Add(new TextLine(++lineNumber, next));
                     }
                     else
-                        lines.Add(new TextLine(++lineNumber, next));
+                        lines.Add(new TextLine(++lineNumber, trim ? text.trim(next) : next));
 
                     next = reader.ReadLine();
                 }

@@ -63,7 +63,7 @@ namespace Z0.Asm
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmHexSpecs.call32(this);
+            get => AsmBytes.call32(this);
         }
 
         public AsmMnemonic Mnemonic

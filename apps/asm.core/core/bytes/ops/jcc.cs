@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    partial class AsmHexSpecs
+    partial class AsmBytes
     {
         [MethodImpl(Inline), Op]
         public static byte jo(Hex8 cb, ref byte hex)

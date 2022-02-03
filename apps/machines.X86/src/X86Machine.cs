@@ -14,13 +14,13 @@ namespace Z0.Machines
 
     using Asm;
 
-    public interface IAsmDispatcher
+    public interface IX86Machine
     {
         void Dispatch(AsmSpec asm);
     }
 
     [ApiHost]
-    public unsafe partial class X86Machine : IDisposable, IAsmDispatcher
+    public unsafe partial class X86Machine : IDisposable, IX86Machine
     {
         RegBank Regs;
 
@@ -102,7 +102,7 @@ namespace Z0.Machines
             spinner.Spin();
         }
 
-        public IAsmDispatcher Run(bool verbose)
+        public IX86Machine Run(bool verbose)
         {
             Verbose = verbose;
             Dispatcher = run(Spin);

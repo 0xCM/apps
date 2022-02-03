@@ -80,9 +80,7 @@ namespace Z0.Asm
             if(outcome.Fail)
                 return (false, string.Format(ErrorPattern, nameof(dst.BlockOffset), src.LineNumber));
 
-            outcome += AsmParser.asmxpr(skip(parts,i++), out dst.Statement);
-            if(outcome.Fail)
-                return (false, string.Format(ErrorPattern, nameof(dst.Statement), src.LineNumber));
+            dst.Statement = text.trim(skip(parts,i++));
 
             outcome += AsmHexCode.parse(skip(parts,i++), out dst.Encoded);
             if(outcome.Fail)

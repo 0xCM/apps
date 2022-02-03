@@ -6,7 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public class SourceDispenser : IDisposable
+    public class SourceDispenser : IAllocationDispenser
     {
         public static SourceDispenser alloc(ByteSize capacity)
             => new SourceDispenser(capacity);
@@ -32,6 +32,7 @@ namespace Z0
         {
             locker = new();
             Allocated = new();
+            Allocators = new();
             Allocators[Seq] = SourceAllocator.alloc(Capacity);
         }
 
@@ -56,11 +57,18 @@ namespace Z0
             return dst;
         }
 
-        public SourceText Dispense(Identifier name, @string src)
+        public SourceText Dispense(Identifier name, string src)
         {
             var dst = Allocate(src);
             Allocated[name] = dst;
             return dst;
+        }
+
+        public SourceText Dispense(Identifier name, ReadOnlySpan<string> src)
+        {
+            var dst = text.buffer();
+            iter(src, x => dst.AppendLine(x));
+            return Dispense(name, dst.Emit());
         }
     }
 }

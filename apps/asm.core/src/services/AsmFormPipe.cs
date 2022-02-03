@@ -10,6 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
     using static Msg;
+    using static Chars;
 
     public class AsmFormPipe : RecordPipe<AsmFormPipe,AsmFormRecord>
     {
@@ -17,7 +18,6 @@ namespace Z0.Asm
         {
 
         }
-
 
         public void Emit(ReadOnlySpan<AsmFormInfo> src, FS.FilePath dst)
         {
@@ -62,16 +62,6 @@ namespace Z0.Asm
             var ecount = Tables.emit(@readonly(buffer), dst);
             EmittedTable(emitting, ecount);
             return buffer;
-        }
-
-        static ref AsmFormRecord row(in TextRow src, ref AsmFormRecord dst)
-        {
-            var i = 0;
-            DataParser.parse(src[i++], out dst.Seq);
-            dst.OpCode = new AsmOpCodeString(src[i++]);
-            AsmSigInfo.parse(src[i++], out dst.Sig);
-            AsmParser.forminfo(src[i++], out dst.FormExpr);
-            return ref dst;
         }
 
         [MethodImpl(Inline)]
@@ -153,5 +143,44 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         ref readonly string NextCell(ReadOnlySpan<string> src, ref uint i)
             => ref skip(src, i++);
+
+        [Parser]
+        static Outcome forminfo(string src, out AsmFormInfo dst)
+        {
+            dst = AsmFormInfo.Empty;
+            var result = Outcome.Success;
+
+            result = text.unfence(src, SigFence, out var sigexpr);
+            if(result.Fail)
+                return (false, AppMsg.FenceNotFound.Format(src,SigFence));
+
+            result = AsmSigInfo.parse(sigexpr, out var _sig);
+            if(result.Fail)
+                return (false, AppMsg.ParseFailure.Format("Sig", sigexpr));
+
+            result = text.unfence(src, OpCodeFence, out var opcode);
+            if(result.Fail)
+                return (false, AppMsg.FenceNotFound.Format(src,OpCodeFence));
+
+            dst = new AsmFormInfo(new AsmOpCodeString(opcode), _sig);
+            return true;
+        }
+
+        static ref AsmFormRecord row(in TextRow src, ref AsmFormRecord dst)
+        {
+            var i = 0;
+            DataParser.parse(src[i++], out dst.Seq);
+            dst.OpCode = new AsmOpCodeString(src[i++]);
+            AsmSigInfo.parse(src[i++], out dst.Sig);
+            forminfo(src[i++], out dst.FormExpr);
+            return ref dst;
+        }
+
+
+        static Fence<char> SigFence => (LParen, RParen);
+
+        static Fence<char> OpCodeFence => (Lt, Gt);
+
+        const string Implication = " => ";
     }
 }
