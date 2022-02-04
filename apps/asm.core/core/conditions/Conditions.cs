@@ -138,13 +138,13 @@ namespace Z0.Asm
 
         Index<TextBlock> _AltConditionInfo;
 
-        Index<text7> _Jcc8Names;
-
-        Index<text7> _AltJcc8Names;
-
         Index<TextBlock> _Jcc8Info;
 
         Index<TextBlock> _AltJcc8Info;
+
+        Index<text7> _Jcc8Names;
+
+        Index<text7> _AltJcc8Names;
 
         Index<text7> _Jcc32Names;
 
@@ -165,8 +165,6 @@ namespace Z0.Asm
             _CC = alloc<Condition>(ConditionCount);
             _CCAlt = alloc<ConditionAlt>(ConditionCount);
 
-            _Jcc8Codes = alloc<Jcc8Code>(ConditionCount);
-            _AltJcc8Codes = alloc<Jcc8AltCode>(ConditionCount);
 
             _ConditionNames = alloc<text7>(ConditionCount);
             _AltConditionNames = alloc<text7>(ConditionCount);
@@ -174,18 +172,18 @@ namespace Z0.Asm
             _ConditionInfo = alloc<TextBlock>(ConditionCount);
             _AltConditionInfo = alloc<TextBlock>(ConditionCount);
 
+            _Jcc8Codes = alloc<Jcc8Code>(ConditionCount);
+            _AltJcc8Codes = alloc<Jcc8AltCode>(ConditionCount);
             _Jcc32Codes = alloc<Jcc32Code>(ConditionCount);
             _AltJcc32Codes = alloc<Jcc32AltCode>(ConditionCount);
 
             _Jcc8Names = alloc<text7>(ConditionCount);
             _AltJcc8Names = alloc<text7>(ConditionCount);
-
-            _Jcc8Info = alloc<TextBlock>(ConditionCount);
-            _AltJcc8Info = alloc<TextBlock>(ConditionCount);
-
             _Jcc32Names = alloc<text7>(ConditionCount);
             _AltJcc32Names = alloc<text7>(ConditionCount);
 
+            _Jcc8Info = alloc<TextBlock>(ConditionCount);
+            _AltJcc8Info = alloc<TextBlock>(ConditionCount);
             _Jcc32Info = alloc<TextBlock>(ConditionCount);
             _AltJcc32Info = alloc<TextBlock>(ConditionCount);
         }
@@ -229,21 +227,6 @@ namespace Z0.Asm
             Symbols.kinds(jcc32b, _AltJcc32Codes.Edit);
         }
 
-        [MethodImpl(Inline), Op]
-        public JccInfo Jcc(Jcc8Code code)
-            => new JccInfo(code, Name(code));
-
-        [MethodImpl(Inline), Op]
-        public JccInfo Jcc(Jcc8AltCode code)
-            => new JccInfo(code, Name(code));
-
-        [MethodImpl(Inline), Op]
-        public JccInfo Jcc(Jcc32Code code)
-            => new JccInfo(code,Name(code));
-
-        [MethodImpl(Inline), Op]
-        public JccInfo Jcc(Jcc32AltCode code)
-            => new JccInfo(code,Name(code));
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<Condition> ConditionCodes(N0 n)
@@ -252,22 +235,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public ReadOnlySpan<ConditionAlt> ConditionCodes(N1 n)
             => _CCAlt.View;
-
-        [MethodImpl(Inline)]
-        public ReadOnlySpan<Jcc8Code> Jcc8()
-            => _Jcc8Codes;
-
-        [MethodImpl(Inline)]
-        public ReadOnlySpan<Jcc8AltCode> Jcc8Alt()
-            => _AltJcc8Codes.View;
-
-        [MethodImpl(Inline)]
-        public ReadOnlySpan<Jcc32Code> Jcc32()
-            => _Jcc32Codes;
-
-        [MethodImpl(Inline)]
-        public ReadOnlySpan<Jcc32AltCode> Jcc32Alt()
-            => _AltJcc32Codes.View;
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<Jcc8Code> JccCodes(W8 w, N0 n)

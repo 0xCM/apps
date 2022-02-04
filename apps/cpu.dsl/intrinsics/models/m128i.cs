@@ -42,10 +42,10 @@ namespace Z0.Vdsl
         public bit this[int i]
         {
             [MethodImpl(Inline)]
-            get => Data.TestBit(i);
+            get => Data.TestBit((byte)i);
 
             [MethodImpl(Inline)]
-            set => Data.SetBit(i,value);
+            set => Data.SetBit((byte)i,value);
         }
 
         public T this[int max, int min]

@@ -9,21 +9,17 @@ namespace Z0.Asm
     partial class AsmBytes
     {
         [MethodImpl(Inline), Op]
-        public static byte jo(Hex8 cb, ref byte hex)
+        public static void jo(Hex8 cb, AsmHexWriter dst)
         {
-            const byte Size = 2;
-            seek(hex,0) = 0x70;
-            seek(hex,1) = cb;
-            return Size;
+            dst.Write1(0x70);
+            dst.Write1(cb);
         }
 
         [MethodImpl(Inline), Op]
-        public static byte jo(Hex32 cd, ref byte hex)
+        public static void jo(Hex32 cd, AsmHexWriter dst)
         {
-            const byte Size = 6;
-            seek16(hex,0) = 0x7080;
-            seek32(hex,1) = cd;
-            return Size;
+            dst.Write2(0x7080);
+            dst.Write4(cd);
         }
     }
 }

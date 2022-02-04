@@ -41,6 +41,49 @@ namespace Z0
 
     partial class CheckCmdProvider
     {
+        public class TableInfo
+        {
+            public ulong Count;
+
+            public uint M;
+
+            public uint N;
+        }
+
+        [CmdOp("check/data/tables")]
+        unsafe Outcome TestDataTables(CmdArgs args)
+        {
+            var m = 0xF;
+            var n = 0xA;
+            var data = new ulong[m,n];
+            for(var i=0; i<m; i++)
+            for(var j=0; j<n; j++)
+                data[i,j] = (ulong)(i*j);
+
+
+            fixed(ulong* pSrc = data)
+            {
+                MemoryAddress @base = pSrc;
+                var pCurrent = pSrc;
+                for(var i=0; i<m; i++)
+                {
+                    for(var j=0; j<n; j++)
+                    {
+                        MemoryAddress loc = pCurrent;
+                        var a = *pCurrent++;
+                        Require.equal(a, (ulong)(i*j));
+                        //Require.equal(b, a);
+                        Write(string.Format("{0} {1} {2}x{3}={4}", loc, loc - @base, i, j, a));
+                    }
+                }
+            }
+
+            var dst = Unsafe.As<TableInfo>(data);
+            Write(string.Format("{0}={1}x{2}", dst.Count, dst.M, dst.N));
+
+            return true;
+        }
+
         [CmdOp("check/lookups")]
         Outcome TestKeys(CmdArgs args)
         {

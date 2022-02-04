@@ -18,12 +18,10 @@ namespace Z0.Asm
         /// <param name="r"></param>
         /// <param name="imm8"></param>
         [MethodImpl(Inline), Op]
-        public static byte and(al r, imm8 imm8, Span<byte> dst)
+        public static void and(al r, imm8 imm8, AsmHexWriter dst)
         {
-            var i = z8;
-            seek(dst, i++) = (byte)x24;
-            seek(dst,i++) = imm8;
-            return i;
+            dst.Write1(x24);
+            dst.Write1(imm8);
         }
     }
 }

@@ -32,9 +32,9 @@
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)</IntermediateOutputPath>
     <BuildRootDir>$(TopDir).build\</BuildRootDir>
-    <ZLibPath>J:\z0\.build\bin\z0.lib\Release\netcoreapp3.1\z0.lib.dll</ZLibPath>
-    <ChecksPath>J:\z0\.build\bin\z0.test.checks\release\netcoreapp3.1\z0.test.checks.dll</ChecksPath>
-    <ZTestPath>J:\z0\.build\bin\z0.test.units\Release\netcoreapp3.1\z0.test.units.dll</ZTestPath>
+    <ZLibPath>J:\z0\.build\bin\z0.lib\Release\$(TargetFramework)\z0.lib.dll</ZLibPath>
+    <ChecksPath>J:\z0\.build\bin\z0.test.checks\release\$(TargetFramework)\z0.test.checks.dll</ChecksPath>
+    <ZTestPath>J:\z0\.build\bin\z0.test.units\Release\$(TargetFramework)\z0.test.units.dll</ZTestPath>
   </PropertyGroup>
 
 </Project>

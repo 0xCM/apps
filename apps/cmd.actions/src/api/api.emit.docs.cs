@@ -26,7 +26,7 @@ namespace Z0
 
         AsmRegSets Regs => Service(Wf.AsmRegSets);
 
-        AsmEncoding Encoding => Service(Wf.AsmEncoding);
+        AsmEncoder Encoding => Service(Wf.AsmEncoding);
 
         void EmitRegDocs()
         {
@@ -62,10 +62,10 @@ namespace Z0
 
         void EmitSibDocs()
         {
-            var rows = AsmEncoding.SibRows().View;
+            var rows = AsmEncoder.SibRows().View;
             TableEmit(rows, SibBitfieldRow.RenderWidths, ApiDoc("asm.docs.sib.bits", FS.Csv));
 
-            var codes = AsmEncoding.SibRegCodes();
+            var codes = AsmEncoder.SibRegCodes();
             TableEmit(codes.View, SibRegCodes.RenderWidths, ApiDoc("asm.docs.sib.regs", FS.Csv));
         }
 

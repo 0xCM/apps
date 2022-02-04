@@ -62,6 +62,7 @@ namespace Z0
             get => ref seek(First,index);
         }
 
+
         [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged

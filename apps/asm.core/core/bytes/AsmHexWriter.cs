@@ -11,36 +11,41 @@ namespace Z0
     using static core;
 
     [ApiComplete]
-    public ref struct SpanWriter
+    public ref struct AsmHexWriter
     {
         readonly Span<byte> Data;
 
         uint Position;
 
-        public Span<byte> Target
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
+        byte Counter;
 
-        public ByteSize BytesWritten
+        [MethodImpl(Inline)]
+        public AsmHexWriter Open()
         {
-            [MethodImpl(Inline)]
-            get => Position;
+            Counter = 0;
+            return this;
         }
 
         [MethodImpl(Inline)]
-        public SpanWriter(Span<byte> src)
+        public byte Close()
+        {
+            var size = Counter;
+            Counter = 0;
+            return size;
+        }
+
+        public byte BytesWritten
+        {
+            [MethodImpl(Inline)]
+            get => (byte)Position;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmHexWriter(Span<byte> src)
         {
             Data = src;
             Position = 0;
-        }
-
-        [MethodImpl(Inline)]
-        public byte Write1(byte src)
-        {
-            seek(Data, Position++) = src;
-            return 1;
+            Counter = 0;
         }
 
         [MethodImpl(Inline)]
@@ -81,11 +86,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public byte Write<T>(N1 n, in T src)
+        public byte Write1<T>(in T src)
             where T : unmanaged
         {
-            seek(Data, Position += n) = u8(src);
-            return n;
+            seek(Data, Position += 1) = u8(src);
+            return 1;
         }
 
         [MethodImpl(Inline)]

@@ -27,6 +27,10 @@ namespace Z0.Asm
             => (byte)(dst - rip);
 
         [MethodImpl(Inline), Op]
+        public static MemoryAddress target(Rip rip, Disp8 disp)
+            => (MemoryAddress)((long)rip + (sbyte)disp);
+
+        [MethodImpl(Inline), Op]
         public static MemoryAddress target(MemoryAddress src, ReadOnlySpan<byte> encoding)
         {
             var rip = src + InstSize;

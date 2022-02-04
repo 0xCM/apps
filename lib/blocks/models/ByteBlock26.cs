@@ -47,6 +47,18 @@ namespace Z0
             get => !api.empty(this);
         }
 
+        public ref byte this[int index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
+        public ref byte this[uint index]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(First,index);
+        }
+
         [MethodImpl(Inline)]
         public Span<T> Storage<T>()
             where T : unmanaged

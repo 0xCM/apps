@@ -14,10 +14,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        [MethodImpl(Inline), Op]
-        public static SpanWriter writer(Span<byte> dst)
-            => new SpanWriter(dst);
-
         /// <summary>
         /// Declares a span to be sorted
         /// </summary>

@@ -26,7 +26,7 @@ namespace Z0
                 Write(block.Label.Name);
                 var statements = block.Statements;
                 var kS = statements.Count;
-                for(var  j=0; j<kS; j++)
+                for(var j=0; j<kS; j++)
                 {
                     ref readonly var statement = ref statements[j];
                     ref readonly var encoded = ref statement.Encoded;

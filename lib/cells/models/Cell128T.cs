@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
     using System.Runtime.Intrinsics;
 
     using static core;
@@ -136,11 +133,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public bit TestBit(int index)
-            => bit.test(Data[index/8], (byte)(index%8));
+        public bit TestBit(byte index)
+            => bit.test(Data[(byte)(index/8)], (byte)(index%8));
 
         [MethodImpl(Inline)]
-        public void SetBit(int index, bit state)
+        public void SetBit(byte index, bit state)
         {
             ref var b = ref Data[index];
             b = bit.set(b, (byte)(index%8), state);
