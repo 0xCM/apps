@@ -18,6 +18,21 @@ namespace Z0.Asm
             Data = name;
         }
 
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsNonEmpty;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data.IsEmpty;
+        }
+
+        public bool Equals(AsmRegName src)
+            => Data.Equals(src.Data);
+
         public string Format()
             => Data.Format();
 
@@ -27,5 +42,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmRegName(text7 src)
             => new AsmRegName(src);
+
+        public static AsmRegName Empty => new AsmRegName(text7.Empty);
     }
 }

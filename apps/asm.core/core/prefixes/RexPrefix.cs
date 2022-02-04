@@ -120,7 +120,7 @@ namespace Z0.Asm
             => Data;
 
         public string Format()
-            => AsmRender.asmbyte(this);
+            => AsmBytes.format(this);
 
         public string ToBitString()
             => BitRender.format8x4(Data);

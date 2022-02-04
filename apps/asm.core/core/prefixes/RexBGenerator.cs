@@ -43,7 +43,7 @@ namespace Z0.Asm
 
         public Index<RexB> Generate()
         {
-            var regs = Wf.AsmRegSets();
+            var regs = AsmRegSets.create();
             var dst = alloc<RexB>(16*4 + 4);
             var j=0u;
             Gen(regs.Gp8LoRegs(), rb(), 0, ref j, dst);

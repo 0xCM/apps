@@ -56,5 +56,10 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmDirective qword(Hex64 src)
             => directive(".8byte", src);
+
+        public static Index<AsmDirective> data(ReadOnlySpan<byte> src)
+        {
+            return default;
+        }
     }
 }

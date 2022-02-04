@@ -19,6 +19,12 @@ namespace Z0
             get => Sizes.width(Code);
         }
 
+        public ByteSize ByteCount
+        {
+            [MethodImpl(Inline)]
+            get => Sizes.bytes(Code);
+        }
+
         [MethodImpl(Inline)]
         public NativeSize(NativeSizeCode kind)
         {
@@ -42,6 +48,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator BitWidth(NativeSize src)
             => src.Width;
+
+        [MethodImpl(Inline)]
+        public static implicit operator ByteSize(NativeSize src)
+            => src.ByteCount;
 
         [MethodImpl(Inline)]
         public static explicit operator ushort(NativeSize src)

@@ -223,5 +223,28 @@ namespace Z0
             seek8(dst, i++) = skip(src,i);
             return dst;
         }
+
+        [MethodImpl(Inline), Op]
+        public static ByteBlock12 read12(in byte src)
+        {
+            var dst = ByteBlock12.Empty;
+            var buffer = dst.Bytes;
+            var i=0u;
+            seek32(buffer,i++) = skip32(src,i);
+            seek32(buffer,i++) = skip32(src,i);
+            seek32(buffer,i++) = skip32(src,i);
+            return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static ByteBlock16 read16(in byte src)
+        {
+            var dst = ByteBlock16.Empty;
+            var buffer = dst.Bytes;
+            var i=0u;
+            seek64(buffer,i++) = skip64(src,i);
+            seek64(buffer,i++) = skip64(src,i);
+            return dst;
+        }
     }
 }

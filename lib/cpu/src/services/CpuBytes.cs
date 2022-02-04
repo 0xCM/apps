@@ -8,6 +8,7 @@ namespace Z0
 
     using static HexConst;
 
+    [ApiComplete]
     public readonly struct CpuBytes
     {
         public static ReadOnlySpan<byte> Units128x8u

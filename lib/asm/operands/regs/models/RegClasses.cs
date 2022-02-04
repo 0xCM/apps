@@ -50,12 +50,13 @@ namespace Z0.Asm
         {
             public CC Kind => CC.GP8HI;
 
+            public text7 Name => nameof(CC.GP8HI);
+
             [MethodImpl(Inline), Op]
             public AsmRegName RegName(RegIndexCode index)
             {
                 const byte RegLength = 2;
                 const string Data = "ahchdhbh";
-                //var i0 = ((byte)index - 16)*RegLength;
                 var i0 = (byte)index*RegLength;
                 return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
             }
@@ -110,6 +111,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.GP;
 
+            public text7 Name => nameof(CC.GP);
+
             public static implicit operator CC(GpClass src)
                 => src.Kind;
         }
@@ -118,6 +121,8 @@ namespace Z0.Asm
         {
             public CC Kind => CC.SEG;
 
+            public text7 Name => nameof(CC.SEG);
+
             public static implicit operator CC(SegClass src)
                 => src.Kind;
         }
@@ -125,6 +130,8 @@ namespace Z0.Asm
         public readonly struct FlagClass : IRegClass<FlagClass>
         {
             public CC Kind => CC.FLAG;
+
+            public text7 Name => nameof(CC.FLAG);
 
             public static implicit operator CC(FlagClass src)
                 => src.Kind;
@@ -143,6 +150,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.CR;
 
+            public text7 Name => nameof(CC.CR);
+
             public static implicit operator CC(CrClass src)
                 => src.Kind;
         }
@@ -160,6 +169,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.DB;
 
+            public text7 Name => nameof(CC.DB);
+
             public static implicit operator CC(DbClass src)
                 => src.Kind;
         }
@@ -168,6 +179,8 @@ namespace Z0.Asm
         {
             public CC Kind => CC.IPTR;
 
+            public text7 Name => nameof(CC.IPTR);
+
             public static implicit operator CC(IPtrClass src)
                 => src.Kind;
         }
@@ -175,6 +188,8 @@ namespace Z0.Asm
         public readonly struct SPtrClass : IRegClass<SPtrClass>
         {
             public CC Kind => CC.SPTR;
+
+            public text7 Name => nameof(CC.SPTR);
 
             public static implicit operator CC(SPtrClass src)
                 => src.Kind;
@@ -193,6 +208,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.XMM;
 
+
+            public text7 Name => nameof(CC.XMM);
 
             public static implicit operator CC(XmmClass src)
                 => src.Kind;
@@ -213,6 +230,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.YMM;
 
+            public text7 Name => nameof(CC.YMM);
+
             public static implicit operator CC(YmmClass src)
                 => src.Kind;
         }
@@ -229,6 +248,8 @@ namespace Z0.Asm
             }
 
             public CC Kind => CC.ZMM;
+
+            public text7 Name => nameof(CC.ZMM);
 
             public static implicit operator CC(ZmmClass src)
                 => src.Kind;
@@ -247,6 +268,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.MASK;
 
+            public text7 Name => nameof(CC.MASK);
+
             public static implicit operator CC(MaskClass src)
                 => src.Kind;
         }
@@ -255,6 +278,8 @@ namespace Z0.Asm
         {
             public CC Kind => CC.BND;
 
+            public text7 Name => nameof(CC.BND);
+
             public static implicit operator CC(BndClass src)
                 => src.Kind;
         }
@@ -262,6 +287,8 @@ namespace Z0.Asm
         public readonly struct StClass : IRegClass<StClass>
         {
             public CC Kind => CC.ST;
+
+            public text7 Name => nameof(CC.ST);
 
             public static implicit operator CC(StClass src)
                 => src.Kind;
@@ -280,6 +307,8 @@ namespace Z0.Asm
 
             public CC Kind => CC.MMX;
 
+            public text7 Name => nameof(CC.MMX);
+
             public static implicit operator CC(MmxClass src)
                 => src.Kind;
         }
@@ -287,6 +316,8 @@ namespace Z0.Asm
         public readonly struct XCrClass : IRegClass<XCrClass>
         {
             public CC Kind => CC.XCR;
+
+            public text7 Name => nameof(CC.XCR);
 
             public static implicit operator CC(XCrClass src)
                 => src.Kind;

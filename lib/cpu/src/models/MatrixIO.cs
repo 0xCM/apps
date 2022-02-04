@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
     using System.IO;
 
-    using static Root;
     using static core;
 
     public readonly struct MatrixIO

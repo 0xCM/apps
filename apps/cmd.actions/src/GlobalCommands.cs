@@ -22,7 +22,8 @@ namespace Z0
                 wf.LlvmCommands(),
                 wf.ProjectCommands(),
                 wf.CodeGenCommands(),
-                wf.CheckCommands()
+                wf.CheckCommands(),
+                wf.AsmCommands()
                 );
 
         IntelXed Xed => Service(Wf.IntelXed);

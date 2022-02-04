@@ -38,6 +38,10 @@ namespace Z0
         public static BitWidth width(NativeSizeCode src)
             => src != NativeSizeCode.W80 ? (Pow2.pow((byte)src)*8ul) : 80;
 
+        [MethodImpl(Inline), Op]
+        public static ByteSize bytes(NativeSizeCode src)
+            => (ByteSize)width(src);
+
         [MethodImpl(Inline), Op, Closures(Integers)]
         public static Size<T> size<T>(T src)
             where T : unmanaged

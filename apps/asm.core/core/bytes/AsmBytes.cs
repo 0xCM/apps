@@ -9,6 +9,10 @@ namespace Z0.Asm
     [ApiHost]
     public partial class AsmBytes
     {
+        public static string format<T>(T src)
+            where T : unmanaged, IAsmByte
+                => src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
+
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]

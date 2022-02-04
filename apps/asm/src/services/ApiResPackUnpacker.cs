@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     public class ApiResPackUnpacker : AppService<ApiResPackUnpacker>
@@ -35,9 +30,9 @@ namespace Z0.Asm
             {
                 var seqlabel = sequence.ToString("d6") + ": ";
                 ref readonly var accessor = ref skip(accessors,i);
-                var bytes = SpanRes.definition(accessor);
+                var bytes = ApiCodeCollector.definition(accessor);
                 var decoded = decoder.Decode(bytes.ToArray(), MemoryAddress.Zero).View;
-                var name = accessor.DeclaringType.Name + "/" + accessor.Member.Name;
+                var name = accessor.Host.HostName+ "/" + accessor.OpName;
                 asmwriter.WriteLine(asm.comment(seqlabel + name));
                 AsmFormatter.render(bytes, decoded, buffer);
                 asmwriter.Write(buffer.Emit());
@@ -67,7 +62,7 @@ namespace Z0.Asm
                 hexwriter.Write(string.Format(" ## {0:X} ## {1:X}", imm64, imm32));
                 hexwriter.WriteLine();
 
-                segments.Add(SpanRes.capture(accessor));
+                segments.Add(ApiCodeCollector.capture(accessor));
                 sequence++;
             }
 

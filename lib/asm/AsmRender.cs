@@ -15,10 +15,6 @@ namespace Z0.Asm
         static AsmInlineComment comment(AsmCommentMarker marker, string src)
             => new AsmInlineComment(marker,src);
 
-        public static string asmbyte<T>(T src)
-            where T : unmanaged, IAsmByte
-                => src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
-
         public static string format(in HostAsmRecord src)
             => string.Format("{0} {1,-36} # {2} => {3}",
                         src.BlockOffset,

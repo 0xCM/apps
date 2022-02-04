@@ -18,7 +18,7 @@ namespace Z0.Asm
         where T : unmanaged, IAsmByte<T>
     {
         string ITextual.Format()
-            => AsmRender.asmbyte((T)this);
+            => AsmBytes.format((T)this);
 
         bool IEquatable<T>.Equals(T other)
             => Value() == other.Value();

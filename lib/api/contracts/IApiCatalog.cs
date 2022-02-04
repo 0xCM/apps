@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface IApiCatalog
     {
@@ -43,6 +38,8 @@ namespace Z0
         ReadOnlySpan<TableDef> TableDefs {get;}
 
         ConstLookup<Type,IParser> Parsers {get;}
+
+        ReadOnlySpan<SpanResAccessor> SpanResAccessors {get;}
 
         bool FindPart(PartId id, out IPart dst);
 

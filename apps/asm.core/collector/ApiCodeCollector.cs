@@ -10,6 +10,59 @@ namespace Z0
 
     public class ApiCodeCollector : AppService<ApiCodeCollector>
     {
+
+        [MethodImpl(Inline), Op]
+        public static unsafe ReadOnlySpan<byte> definition(SpanResAccessor src)
+        {
+            const byte size = 29;
+            var block = ByteBlocks.alloc(w32);
+            var storage = block.Bytes;
+            var data = cover<byte>(src.Member.Location.Pointer<byte>(), 29);
+            for(var i=0; i<size; i++)
+                seek(storage,i) = skip(data,i);
+            return slice(data,0,size);
+        }
+
+        /// <remarks>
+        /// Each method is 29 bytes in length and similar to:
+        /// 0000h nop dword ptr [rax+rax]        ; NOP r/m32           | 0F 1F /0        | 5   | 0f 1f 44 00 00
+        /// 0005h mov rax,228ab7d8e44h           ; MOV r64, imm64      | REX.W B8+ro io  | 10  | 48 b8 44 8e 7d ab 28 02 00 00
+        /// 000fh mov [rcx],rax                  ; MOV r/m64, r64      | REX.W 89 /r     | 3   | 48 89 01
+        /// 0012h mov dword ptr [rcx+8],91h      ; MOV r/m32, imm32    | C7 /0 id        | 7   | c7 41 08 91 00 00 00
+        /// 0019h mov rax,rcx                    ; MOV r64, r/m64      | REX.W 8B /r     | 3   | 48 8b c1
+        /// 001ch ret                            ; RET                 | C3              | 1   | c3
+        /// </remarks>
+        [Op]
+        public static MemorySeg capture(SpanResAccessor accessor)
+        {
+            var def = definition(accessor);
+            var address = MemoryAddress.Zero;
+            var size = ByteSize.Zero;
+            for(var i=0; i<RegSegCount; i++)
+            {
+                if(i == 1)
+                {
+                    // MOV r64,imm64 : REX.W B8+ro io => [48 b8] [lo lo lo lo hi hi hi hi]
+                    var start = skip(SpanResSegments, i) + 2;
+                    var width = skip(SpanResSegments, i+1) - start;
+                    address = bw64u(slice(def, start,width));
+                }
+                else if(i==3)
+                {
+                    // MOV r/m32, imm32 : C7 /0 id => [c7 41 08] [lo lo hi hi]
+                    var start = skip(SpanResSegments, i) + 3;
+                    var width = skip(SpanResSegments, i+1) - start;
+                    size = bw32u(slice(def, start, width));
+                }
+            }
+
+            return new MemorySeg(address, size);
+        }
+
+
+        const byte RegSegCount = 6;
+
+
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiHex ApiHex => Service(Wf.ApiHex);
@@ -152,13 +205,50 @@ namespace Z0
                 ref readonly var block = ref blocks[i];
                 if(JmpRel32.test(block.Encoded))
                 {
-                    var entry = new MethodEntryPoint(block.OpUri, MethodDisplaySig.Empty, block.BaseAddress);
+                    var entry = new MethodEntryPoint(block.BaseAddress, block.OpUri, MethodDisplaySig.Empty);
                     var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
                     var source = block.BaseAddress;
                     var token = ApiToken.create(symbols, entry, AsmRel32.target((source,JmpRel32.InstSize), encoding));
                     members.Add(new EncodedMember(token, encoding.ToArray()));
                 }
             }
+        }
+
+        public Index<CapturedAccessor> CaptureAccessors(SymbolDispenser symbols)
+        {
+            var accessors = ApiRuntimeCatalog.SpanResAccessors;
+            var count = accessors.Length;
+            var buffer = alloc<CapturedAccessor>(count);
+            for(var i=0; i<count; i++)
+                seek(buffer,i) = CaptureAccessor(symbols, skip(accessors,i));
+            return buffer;
+        }
+
+        CapturedAccessor CaptureAccessor(SymbolDispenser symbols, SpanResAccessor src)
+        {
+            var target = GetTargetAddress(src.Member, out var stubcode);
+            var token = ApiToken.create(symbols, src.Member, target);
+            var seg = accessor(target);
+            var code = seg.View.ToArray();
+            var encoded = new EncodedMember(token,code);
+            return new CapturedAccessor(encoded, src.Kind);
+        }
+
+        static ReadOnlySpan<byte> SpanResSegments
+            => new byte[RegSegCount]{0,5,0xf,0x12,0x18,0x1c};
+
+        // 24 bytes: [48 b8 c0 f3 bf 2b 38 01 00 00] [48 89 01] [c7 41 08 20 00 00 00] [48 8b c1 c3]
+        // 0 | 00 | mov r64,imm64       # 10        | [48 b8] [c0 f3 bf 2b 38 01 00 00]
+        // 1 | 10 | mov [rcx],rax       # 3         | 48 89 01
+        // 2 | 13 | mov r/m32, imm32    # 7         | [c7 41 08] 20 00 00 00
+        // 3 | 20 | mov r64, r/m64      # 3         | 48 8b c1
+        // 4 | 23 ret                   # 1         | c3
+        static unsafe MemorySeg accessor(MemoryAddress target)
+        {
+            var data = cover(target.Pointer<byte>(), 24);
+            var address = @as<MemoryAddress>(slice(data,2,8));
+            var size = @as<uint>(slice(data, 13 + 3, 4));
+            return new MemorySeg(address,size);
         }
 
         Index<EncodedMemberInfo> Emit(ReadOnlySpan<EncodedMember> src, FS.FilePath path)
@@ -170,6 +260,7 @@ namespace Z0
 
         void Emit(Index<EncodedMember> src)
         {
+            var options = HexFormatSpecs.options();
             var members = src.Sort();
             var datapath = ProjectDb.Api() + FS.file("api.members", FS.Hex);
             var emitting = EmittingFile(datapath);
@@ -180,7 +271,7 @@ namespace Z0
             {
                 ref readonly var member = ref members[i];
                 seek(descriptions,i) = Describe(member);
-                writer.WriteLine(member.Code.Format());
+                writer.WriteLine(member.Code.Format(options));
             }
 
             var rebase = min(descriptions.Select(x => (ulong)x.EntryAddress).Min(), descriptions.Select(x => (ulong)x.TargetAddress).Min());
@@ -213,6 +304,7 @@ namespace Z0
             dst.Host = host(dst.Uri);
             return dst;
         }
+
         Index<EncodedMemberInfo> Describe(ReadOnlySpan<EncodedMember> src)
         {
             var members = src;
@@ -285,28 +377,38 @@ namespace Z0
             return code;
         }
 
-        bool CollectRaw(SymbolDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
+        MemoryAddress GetTargetAddress(MethodEntryPoint entry, out AsmHexCode stub)
         {
-            dst = new RawMemberCode();
-            dst.Entry = entry.Location;
-            dst.Uri = entry.Uri;
+            stub = AsmHexCode.Empty;
+            var target = entry.Location;
             var buffer = Cells.alloc(w64).Bytes;
             ref var data = ref entry.Location.Ref<byte>();
             ByteReader.read5(data, buffer);
             if(JmpRel32.test(buffer))
             {
-                var encoded = AsmHexCode.load(slice(buffer,0,5));
-                var target = AsmRel32.target((entry.Location, 5), encoded.Bytes);
-                dst.Target = target;
-                dst.StubCode = encoded;
-                dst.Disp = AsmRel32.disp(encoded.Bytes);
+                stub = AsmHexCode.load(slice(buffer,0,5));
+                target = AsmRel32.target((entry.Location, 5), stub.Bytes);
+            }
+            return target;
+        }
+
+        void CollectRaw(SymbolDispenser symbols, MethodEntryPoint entry, out RawMemberCode dst)
+        {
+            dst = new RawMemberCode();
+            dst.Entry = entry.Location;
+            dst.Uri = entry.Uri;
+            var target = GetTargetAddress(entry, out dst.StubCode);
+            dst.Target = target;
+            if(target != entry.Location)
+            {
+                dst.Disp = AsmRel32.disp(dst.StubCode.Bytes);
                 dst.Stub = new JmpStub(entry.Location, target);
                 dst.Token = ApiToken.create(symbols, entry, target);
-                return true;
             }
             else
+            {
                 dst.Token = ApiToken.create(symbols, entry);
-            return false;
+            }
         }
 
         static string host(string uri)

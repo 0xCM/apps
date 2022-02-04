@@ -161,10 +161,6 @@ namespace Z0
             => Z0.ApiResPackEmitter.create(wf);
 
         [Op]
-        public static AsmRegSets AsmRegSets(this IWfRuntime context)
-            => Asm.AsmRegSets.create(context);
-
-        [Op]
         public static HexDataReader HexDataReader(this IWfRuntime context)
             => Z0.HexDataReader.create(context);
     }

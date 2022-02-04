@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.InteropServices;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AsmFormatConfig : IRecord<AsmFormatConfig>
     {

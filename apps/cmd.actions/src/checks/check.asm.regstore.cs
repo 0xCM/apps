@@ -7,7 +7,6 @@ namespace Z0
     using Asm;
 
     using static Asm.RegClasses;
-
     using static core;
 
     partial class CheckCmdProvider

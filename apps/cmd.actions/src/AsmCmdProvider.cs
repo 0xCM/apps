@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using Asm;
 
-    using static Root;
-    using static core;
-
-    partial struct SpanRes
+    public sealed partial class AsmCmdProvider : AppCmdProvider<AsmCmdProvider>
     {
+        AsmRegSets RegSets => Service(AsmRegSets.create);
+
     }
+
 }

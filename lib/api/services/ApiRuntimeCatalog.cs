@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
     using System.Linq;
 
-    using static Root;
     using static core;
 
     public class ApiRuntimeCatalog : IApiCatalog
@@ -54,6 +50,8 @@ namespace Z0
 
         ConstLookup<Type,IParser> _Parsers;
 
+        Index<SpanResAccessor> _SpanResAccessors;
+
         object locker;
 
         public ApiRuntimeCatalog(Index<IPart> parts, Index<Assembly> components, ApiPartCatalogs catalogs, Index<IApiHost> hosts, Index<PartId> partIds, Index<MethodInfo> ops)
@@ -69,8 +67,25 @@ namespace Z0
             _DataFlows = ApiQuery.dataflows(components);
             _TableDefs = sys.empty<TableDef>();
             _Parsers = ConstLookup<Type,IParser>.Empty;
+            _SpanResAccessors = sys.empty<SpanResAccessor>();
             locker = new();
         }
+
+        public ReadOnlySpan<SpanResAccessor> SpanResAccessors
+        {
+            get
+            {
+                lock(locker)
+                {
+                    if(_SpanResAccessors.IsEmpty)
+                    {
+                        _SpanResAccessors = SpanRes.accessors(_PartComponents);
+                    }
+                }
+                return _SpanResAccessors;
+            }
+        }
+
 
         public ConstLookup<Type,IParser> Parsers
         {

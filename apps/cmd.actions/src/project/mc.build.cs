@@ -40,7 +40,7 @@ namespace Z0
         }
 
 
-        AsmRegSets Regs => Service(Wf.AsmRegSets);
+        AsmRegSets Regs => Service(AsmRegSets.create);
 
         [CmdOp("mc/gen")]
         Outcome GenAsm(CmdArgs args)

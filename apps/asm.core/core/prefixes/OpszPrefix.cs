@@ -36,7 +36,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmRender.asmbyte(this);
+            => AsmBytes.format(this);
 
         public override string ToString()
             => Format();

@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
 
     using Asm;
+    using Asm.Operands;
 
-    using static Root;
     using static core;
 
     public struct RegGrid16x64
@@ -25,20 +24,5 @@ namespace Z0
         public ref ulong RegVal(byte index)
             => ref Values[index];
 
-        public AsmRegValue<ulong> this[byte index]
-        {
-            [MethodImpl(Inline)]
-            get => paired(RegName(index), RegVal(index));
-
-            [MethodImpl(Inline)]
-            set => Define(index, value.Name, value.Value);
-        }
-
-        [MethodImpl(Inline)]
-        void Define(byte index, AsmRegName name, ulong value)
-        {
-            RegName(index) = name;
-            RegVal(index) = value;
-        }
     }
 }

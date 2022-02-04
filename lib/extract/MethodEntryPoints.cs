@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     partial class XTend
@@ -21,11 +16,11 @@ namespace Z0
     {
         [Op]
         public static MethodEntryPoint entry(MethodInfo src)
-            => new MethodEntryPoint(src.Uri(), src.DisplaySig(), ClrJit.jit(src));
+            => new MethodEntryPoint(ClrJit.jit(src), src.Uri(), src.DisplaySig());
 
         [Op]
         public static MethodEntryPoint entry(ApiMember src)
-            => new MethodEntryPoint(src.Method.Uri(), src.Method.DisplaySig(), src.BaseAddress);
+            => new MethodEntryPoint(src.BaseAddress, src.Method.Uri(), src.Method.DisplaySig());
 
         [Op]
         public static Index<MethodEntryPoint> create(Identifier name, ReadOnlySpan<MethodInfo> src)

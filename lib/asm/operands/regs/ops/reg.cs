@@ -76,5 +76,13 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static RegOp reg(in AsmOperand src)
             => new RegOp(first(span16u(src.Data)));
+
+        [MethodImpl(Inline), Op]
+        public static RegOp sptr(RegIndexCode r)
+            => reg(NativeSizeCode.W16, RegClassCode.SPTR, r);
+
+        [MethodImpl(Inline), Op]
+        public static RegOp seg(RegIndexCode r)
+            => reg(NativeSizeCode.W16, RegClassCode.SEG, r);
     }
 }

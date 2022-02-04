@@ -43,6 +43,34 @@ namespace Z0
 
         ApiCodeCollector CodeCollector => Service(Wf.ApiCodeCollector);
 
+        [CmdOp("check/capture/res")]
+        Outcome CaptureResources(CmdArgs args)
+        {
+            using var symbols = SymbolDispenser.alloc();
+            // var components = ApiRuntimeCatalog.Components;
+            // var accessors = SpanRes.accessors(components);
+            // var count = accessors.Count;
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var accessor = ref accessors[i];
+            //     var address = accessor.Member.Location;
+            //     var data = ByteReader.read16(address.Ref<byte>());
+
+            //     Write(string.Format("{0} {1} {2}", accessor.Member.Location, data.Bytes.FormatHex(), accessor.Member.Sig.Format()));
+            // }
+
+            var captures = CodeCollector.CaptureAccessors(symbols);
+            var count = captures.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var captured = ref captures[i];
+                Write(captured.Member.Uri);
+                Write(captured.Code.FormatHex());
+            }
+
+            return true;
+        }
+
         [CmdOp("check/capture")]
         Outcome CheckLiveStubs(CmdArgs args)
         {
@@ -145,5 +173,6 @@ namespace Z0
 
             return true;
         }
+
     }
 }

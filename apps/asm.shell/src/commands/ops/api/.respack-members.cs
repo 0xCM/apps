@@ -17,10 +17,10 @@ namespace Z0.Asm
             var count = accessors.Length;
             for(var i=0u; i<count; i++)
             {
-                ref readonly var accessor = ref skip(accessors,i);
-                var seg = SpanRes.capture(accessor);
-                var def = CapturedAccessor.define(i, accessor, seg);
-                Write(def);
+                // ref readonly var accessor = ref skip(accessors,i);
+                // var seg = SpanRes.capture(accessor);
+                // var def = CapturedAccessor.define(i, accessor, seg);
+                // Write(def);
             }
             return true;
         }

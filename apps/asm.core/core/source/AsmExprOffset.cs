@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-
     public readonly struct AsmExprOffset
     {
         [MethodImpl(Inline), Op]

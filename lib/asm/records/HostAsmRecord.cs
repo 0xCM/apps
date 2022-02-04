@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
     using Z0.Asm;
 
     using static Root;

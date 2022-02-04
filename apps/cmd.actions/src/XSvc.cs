@@ -22,5 +22,8 @@ namespace Z0
 
         public static CheckCmdProvider CheckCommands(this IWfRuntime wf)
             => CheckCmdProvider.create(wf);
+
+        public static AsmCmdProvider AsmCommands(this IWfRuntime wf)
+            => AsmCmdProvider.create(wf);
     }
 }

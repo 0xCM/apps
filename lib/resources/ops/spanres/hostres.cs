@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     partial struct SpanRes
@@ -25,6 +23,5 @@ namespace Z0
             }
             return new ApiHostRes(src.Host, buffer);
         }
-
     }
 }

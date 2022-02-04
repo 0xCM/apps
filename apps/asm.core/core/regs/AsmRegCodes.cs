@@ -12,86 +12,86 @@ namespace Z0.Asm
     public class AsmRegCodes
     {
         [Op]
-        public static Symbols<Gp8LoReg> Gp8Regs()
-            => _Gp8;
+        public static Symbols<Gp8LoReg> Gp8Lo()
+            => _Gp8Lo;
 
         [Op]
-        public static Symbols<Gp8HiReg> Gp8Regs(bit hi)
+        public static Symbols<Gp8HiReg> Gp8Hi()
             => _Gp8Hi;
 
         [Op]
-        public static Symbols<Gp16Reg> Gp16Regs()
+        public static Symbols<Gp16Reg> Gp16()
             => _Gp16;
 
         [Op]
-        public static Symbols<Gp32Reg> Gp32Regs()
+        public static Symbols<Gp32Reg> Gp32()
             => _Gp32;
 
         [Op]
-        public static Symbols<Gp64Reg> Gp64Regs()
+        public static Symbols<Gp64Reg> Gp64()
             => _Gp64;
 
         [Op]
-        public static Symbols<XmmReg> XmmRegs()
+        public static Symbols<XmmReg> Xmm()
             => _Xmm;
 
         [Op]
-        public static Symbols<YmmReg> YmmRegs()
+        public static Symbols<YmmReg> Ymm()
             => _Ymm;
 
         [Op]
-        public static Symbols<ZmmReg> ZmmRegs()
+        public static Symbols<ZmmReg> Zmm()
             => _Zmm;
 
         [Op]
-        public static Symbols<KReg> MaskRegs()
+        public static Symbols<KReg> Mask()
             => _KRegs;
 
         [Op]
-        public static Symbols<MmxReg> MmxRegs()
+        public static Symbols<MmxReg> Mmx()
             => _MmxRegs;
 
         [Op]
-        public static Symbols<BndReg> BndRegs()
+        public static Symbols<BndReg> Bnd()
             => _BndRegs;
 
         [Op]
-        public static Symbols<ControlReg> ControlRegs()
+        public static Symbols<ControlReg> Control()
             => _CrRegs;
 
         [Op]
-        public static Symbols<DebugReg> DebugRegs()
+        public static Symbols<DebugReg> Debug()
             => _DebugRegs;
 
         [Op]
-        public static Symbols<SegReg> SegRegs()
+        public static Symbols<SegReg> Seg()
             => _SegRegs;
 
         [Op]
-        public static Symbols<FpuReg> FpuRegs()
+        public static Symbols<FpuReg> Fpu()
             => _FpuRegs;
 
         [Op]
-        public static Symbols<TestReg> TestRegs()
+        public static Symbols<TestReg> Test()
             => _TestRegs;
 
         [Op]
-        public static Symbols<SPtrReg> SysPtrRegs()
+        public static Symbols<SPtrReg> SysPtr()
             => _SysPtrRegs;
 
         [Op]
-        public static Symbols<NativeSizeCode> RegWidths()
+        public static Symbols<NativeSizeCode> Widths()
             => _RegWidths;
 
         [Op]
-        public static Symbols<RegIndexCode> RegIndices()
+        public static Symbols<RegIndexCode> Indices()
             => _RegIndices;
 
         [Op]
-        public static Symbols<RegClassCode> RegClasses()
+        public static Symbols<RegClassCode> Classes()
             => _RegClasses;
 
-        static Symbols<Gp8LoReg> _Gp8;
+        static Symbols<Gp8LoReg> _Gp8Lo;
 
         static Symbols<Gp8HiReg> _Gp8Hi;
 
@@ -137,7 +137,7 @@ namespace Z0.Asm
 
         static AsmRegCodes()
         {
-            _Gp8 = symbols<Gp8LoReg>();
+            _Gp8Lo = symbols<Gp8LoReg>();
             _Gp8Hi = symbols<Gp8HiReg>();
             _Gp16 = symbols<Gp16Reg>();
             _Gp32 = symbols<Gp32Reg>();

@@ -12,7 +12,7 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmVars : AppService<AsmVars>
     {
-        AsmRegSets RegSets => Service(Wf.AsmRegSets);
+        AsmRegSets RegSets => Service(AsmRegSets.create);
 
         [MethodImpl(Inline), Op]
         public static RegVar reg(VarSymbol name)

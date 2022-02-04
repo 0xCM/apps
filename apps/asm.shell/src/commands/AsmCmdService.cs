@@ -10,7 +10,7 @@ namespace Z0.Asm
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        AsmRegSets RegSets => Service(Wf.AsmRegSets);
+        AsmRegSets RegSets => Service(AsmRegSets.create);
 
         AsmTables AsmTables => Service(Wf.AsmTables);
 

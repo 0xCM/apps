@@ -10,7 +10,7 @@ namespace Z0.Asm
     using static Root;
     using static core;
 
-    public readonly struct RegOpSeq : ISeq<RegOp>
+    public readonly struct RegOpSeq : IIndex<RegOp>
     {
         Index<RegOp> Data {get;}
 
@@ -26,13 +26,31 @@ namespace Z0.Asm
             get => Data.Count;
         }
 
-        public ref readonly RegOp this[uint i]
+        public ref RegOp this[uint i]
         {
             [MethodImpl(Inline)]
             get => ref Data[i];
         }
 
-        public ReadOnlySpan<RegOp> Elements
+        public ref RegOp this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[i];
+        }
+
+        public ref RegOp this[RegIndexCode reg]
+        {
+            [MethodImpl(Inline)]
+            get => ref Data[(byte)reg];
+        }
+
+        public RegOp[] Storage
+        {
+            [MethodImpl(Inline)]
+            get => Data;
+        }
+
+        public ReadOnlySpan<RegOp> View
         {
             [MethodImpl(Inline)]
             get => Data.View;
@@ -71,7 +89,7 @@ namespace Z0.Asm
         public string ToNameArray(string name)
         {
             const string Pattern = "string[] {0} = new string[]{1};";
-            return string.Format(Pattern, name, text.embrace(Elements.Map(x => text.enquote(x.Name.Format().Trim())).Delimit(Chars.Comma).Format()));
+            return string.Format(Pattern, name, text.embrace(View.Map(x => text.enquote(x.Name.Format().Trim())).Delimit(Chars.Comma).Format()));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Z0
             return true;
         }
 
-        AsmRegSets Regs => Service(Wf.AsmRegSets);
+        AsmRegSets Regs => Service(AsmRegSets.create);
 
         AsmEncoder Encoding => Service(Wf.AsmEncoding);
 
