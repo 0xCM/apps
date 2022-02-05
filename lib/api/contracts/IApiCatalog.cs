@@ -39,8 +39,6 @@ namespace Z0
 
         ConstLookup<Type,IParser> Parsers {get;}
 
-        ReadOnlySpan<SpanResAccessor> SpanResAccessors {get;}
-
         bool FindPart(PartId id, out IPart dst);
 
         bool FindComponent(PartId id, out Assembly dst);

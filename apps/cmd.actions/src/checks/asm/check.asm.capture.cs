@@ -61,11 +61,20 @@ namespace Z0
 
             var captures = CodeCollector.CaptureAccessors(symbols);
             var count = captures.Count;
+            const sbyte Pad = -12;
+
             for(var i=0; i<count; i++)
             {
                 ref readonly var captured = ref captures[i];
-                Write(captured.Member.Uri);
-                Write(captured.Code.FormatHex());
+                Write(RP.attrib(Pad, "MemberUri", captured.Member.Uri));
+                Write(RP.attrib(Pad, "MemberSig", captured.Member.Sig));
+                Write(RP.attrib(Pad, "Code", captured.MemberCode));
+                Write(RP.attrib(Pad, "Location", captured.DataSegment.BaseAddress));
+                Write(RP.attrib(Pad, "Size", captured.DataSegment.Size));
+                var data = captured.DataSegment.View;
+                var partial = slice(data, 0, min(captured.DataSegment.Size, 12));
+                Write(partial.FormatHex());
+                //Write(captured.AccessedData);
             }
 
             return true;
@@ -84,13 +93,12 @@ namespace Z0
                     var part = ApiParsers.part(skip(components,0));
                     var uri = ApiHostUri.define(part, skip(components,1));
                     var path = ProjectDb.Logs() + Tables.filename<EncodedMemberInfo>(uri.HostName);
-                    var encoded = CodeCollector.CollectLive(symbols, uri, path);
+                    var encoded = CodeCollector.Collect(symbols, uri, path);
                 }
-
             }
             else
             {
-                var encoded = CodeCollector.CollectLive(symbols);
+                var encoded = CodeCollector.Collect(symbols);
 
             }
             return true;
@@ -99,37 +107,48 @@ namespace Z0
         [CmdOp("check/captured")]
         Outcome CheckCaptured(CmdArgs args)
         {
-            using var symbols = SymbolDispenser.alloc();
-            var src = CodeCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
-            var count = src.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var member = ref src[i];
-                Rip rip = (member.EntryAddress, 5);
-                Disp32 disp = (Disp32)((long)member.TargetAddress - (long)rip);
-                var target = AsmRel32.target(rip, disp);
-                Require.equal(target, member.TargetAddress);
+            var result = CodeCollector.LoadCollected(out var index, out var members);
+            if(result.Fail)
+                return result;
 
-                var disp2 = AsmRel32.disp(member.Code);
-                Require.equal(disp2,disp);
 
-                var disp3 = AsmRel32.disp(rip, member.TargetAddress);
-                Require.equal(disp3,disp);
-
-                @string statement = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(disp));
-                var dispFormat = EmptyString;
-                if(disp < 0)
-                {
-                    dispFormat = string.Format("-0x{0:x}", ~disp + 1);
-                }
-                else
-                    dispFormat = string.Format("0x{0:x}", disp);
-
-                Write(string.Format("{0} | {1,-12} | {2,-16} | {3,-24} | {4} | {5}", member.EntryAddress, disp2, target,  statement, member.Code, member.Uri), FlairKind.StatusData);
-            }
-
-            return true;
+            return result;
         }
+
+        // [CmdOp("check/captured")]
+        // Outcome CheckCaptured(CmdArgs args)
+        // {
+        //     using var symbols = SymbolDispenser.alloc();
+        //     var src = CodeCollector.CollectCaptured(symbols, ApiHostUri.from(typeof(cpu)));
+        //     var count = src.Count;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var member = ref src[i];
+        //         Rip rip = (member.EntryAddress, 5);
+        //         Disp32 disp = (Disp32)((long)member.TargetAddress - (long)rip);
+        //         var target = AsmRel32.target(rip, disp);
+        //         Require.equal(target, member.TargetAddress);
+
+        //         var disp2 = AsmRel32.disp(member.Code);
+        //         Require.equal(disp2,disp);
+
+        //         var disp3 = AsmRel32.disp(rip, member.TargetAddress);
+        //         Require.equal(disp3,disp);
+
+        //         @string statement = string.Format("jmp near ptr {0:x}h", (int)AsmRel32.reltarget(disp));
+        //         var dispFormat = EmptyString;
+        //         if(disp < 0)
+        //         {
+        //             dispFormat = string.Format("-0x{0:x}", ~disp + 1);
+        //         }
+        //         else
+        //             dispFormat = string.Format("0x{0:x}", disp);
+
+        //         Write(string.Format("{0} | {1,-12} | {2,-16} | {3,-24} | {4} | {5}", member.EntryAddress, disp2, target,  statement, member.Code, member.Uri), FlairKind.StatusData);
+        //     }
+
+        //     return true;
+        // }
 
         [CmdOp("check/stubs/dispatch")]
         Outcome CheckStubDispatch(CmdArgs args)

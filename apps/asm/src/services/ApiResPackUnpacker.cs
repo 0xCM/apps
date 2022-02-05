@@ -30,7 +30,9 @@ namespace Z0.Asm
             {
                 var seqlabel = sequence.ToString("d6") + ": ";
                 ref readonly var accessor = ref skip(accessors,i);
-                var bytes = ApiCodeCollector.definition(accessor);
+
+                var codeSize = AccessorCollector.code(accessor, out var storage);
+                var bytes = slice(storage.Bytes,0, codeSize);
                 var decoded = decoder.Decode(bytes.ToArray(), MemoryAddress.Zero).View;
                 var name = accessor.Host.HostName+ "/" + accessor.OpName;
                 asmwriter.WriteLine(asm.comment(seqlabel + name));
@@ -62,7 +64,7 @@ namespace Z0.Asm
                 hexwriter.Write(string.Format(" ## {0:X} ## {1:X}", imm64, imm32));
                 hexwriter.WriteLine();
 
-                segments.Add(ApiCodeCollector.capture(accessor));
+                segments.Add(AccessorCollector.dataseg(accessor));
                 sequence++;
             }
 

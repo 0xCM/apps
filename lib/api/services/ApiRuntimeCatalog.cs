@@ -71,22 +71,6 @@ namespace Z0
             locker = new();
         }
 
-        public ReadOnlySpan<SpanResAccessor> SpanResAccessors
-        {
-            get
-            {
-                lock(locker)
-                {
-                    if(_SpanResAccessors.IsEmpty)
-                    {
-                        _SpanResAccessors = SpanRes.accessors(_PartComponents);
-                    }
-                }
-                return _SpanResAccessors;
-            }
-        }
-
-
         public ConstLookup<Type,IParser> Parsers
         {
             get

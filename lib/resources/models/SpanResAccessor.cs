@@ -13,7 +13,7 @@ namespace Z0
         [MethodImpl(Inline)]
         public SpanResAccessor(MethodInfo member, SpanResKind format)
         {
-            Member = MethodEntryPoints.entry(member);
+            Member = MethodEntryPoints.create(member);
             Kind = format;
         }
 

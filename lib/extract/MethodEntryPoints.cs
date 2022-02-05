@@ -9,17 +9,17 @@ namespace Z0
     partial class XTend
     {
         public static OpUri Uri(this MethodInfo src)
-            => ApiUri.define(ApiUriScheme.Located, ApiHostUri.from(src.DeclaringType), src.Name, src.Identify());
+            => ApiUri.from(src);
     }
 
     public readonly struct MethodEntryPoints
     {
         [Op]
-        public static MethodEntryPoint entry(MethodInfo src)
+        public static MethodEntryPoint create(MethodInfo src)
             => new MethodEntryPoint(ClrJit.jit(src), src.Uri(), src.DisplaySig());
 
         [Op]
-        public static MethodEntryPoint entry(ApiMember src)
+        public static MethodEntryPoint create(ApiMember src)
             => new MethodEntryPoint(src.BaseAddress, src.Method.Uri(), src.Method.DisplaySig());
 
         [Op]
@@ -29,7 +29,7 @@ namespace Z0
             var buffer = alloc<MethodEntryPoint>(count);
             ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
-                seek(dst,i) = entry(skip(src,i));
+                seek(dst,i) = create(skip(src,i));
             return buffer;
         }
 
@@ -41,7 +41,7 @@ namespace Z0
             ref var dst = ref first(buffer);
             var view = src.View;
             for(var i=0; i<count; i++)
-                seek(dst,i) = entry(skip(view,i));
+                seek(dst,i) = create(skip(view,i));
             return buffer;
         }
     }

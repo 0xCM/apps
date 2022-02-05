@@ -25,5 +25,7 @@ namespace Z0
         public static MsgPattern CollectingEntryPoints => "Collecting entry points";
 
         public static MsgPattern<Count> CollectedEntryPoints => "Collecting {0} entry points";
+
+        public static MsgPattern<string> NotFound => "'{0}' not found";
     }
 }

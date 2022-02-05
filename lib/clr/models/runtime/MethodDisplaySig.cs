@@ -15,7 +15,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         internal MethodDisplaySig(TextBlock src)
-            => Content = src;
+            => Content = ApiUri.safe(src);
 
         [MethodImpl(Inline)]
         public string Format()

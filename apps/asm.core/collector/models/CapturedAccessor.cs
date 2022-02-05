@@ -4,28 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct CapturedAccessor
     {
-        public EncodedMember Member {get;}
+        public readonly EncodedMember Member;
 
-        public SpanResKind ResKind {get;}
+        public readonly MemorySeg DataSegment;
+
+        public readonly SpanResKind ResKind;
 
         [MethodImpl(Inline)]
-        public CapturedAccessor(EncodedMember member, SpanResKind kind)
+        public CapturedAccessor(EncodedMember member, MemorySeg data, SpanResKind kind)
         {
             Member = member;
+            DataSegment = data;
             ResKind = kind;
         }
 
-        public MemoryAddress TargetAddress
-        {
-            [MethodImpl(Inline)]
-            get => Member.TargetAddress;
-        }
-
-        public ReadOnlySpan<byte> Code
+        public BinaryCode MemberCode
         {
             [MethodImpl(Inline)]
             get => Member.Code;

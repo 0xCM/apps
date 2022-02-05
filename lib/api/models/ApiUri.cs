@@ -13,6 +13,9 @@ namespace Z0
     [ApiHost]
     public readonly struct ApiUri
     {
+        internal static string safe(string src)
+            => (src ?? EmptyString).Replace(Chars.Lt, IDI.TypeArgsOpen).Replace(Chars.Gt, IDI.TypeArgsClose).Replace(Chars.Pipe, Chars.Caret);
+
         /// <summary>
         /// Extracts an 8-bit immediate value from an identity if it contains an immediate suffix; otherwise, returns none
         /// </summary>
@@ -25,6 +28,11 @@ namespace Z0
             else
                 return Option.none<byte>();
         }
+
+
+        [Op]
+        public static OpUri from(MethodInfo src)
+            => define(ApiUriScheme.Located, ApiHostUri.from(src.DeclaringType), src.Name, ApiIdentity.identify(src));
 
         [Op]
         public static OpUri define(ApiUriScheme scheme, ApiHostUri host, string group, OpIdentity opid)

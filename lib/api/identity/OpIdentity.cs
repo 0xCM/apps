@@ -20,7 +20,7 @@ namespace Z0
         /// <param name="src">The source text</param>
         [MethodImpl(Inline)]
         public static OpIdentity define(string src)
-            => new OpIdentity(src ?? EmptyString);
+            => new OpIdentity(text.ifempty(src,EmptyString));
 
         /// <summary>
         /// The operation identifier
@@ -52,20 +52,20 @@ namespace Z0
         /// </summary>
         public string[] Components {get;}
 
-        public OpIdentity(string data, string name, string suffix, bool generic, bool imm, string[] components)
+        internal OpIdentity(string data, string name, string suffix, bool generic, bool imm, string[] components)
         {
-            IdentityText = OpUri.safe(data).Trim();
-            Name = name.Trim();
+            IdentityText = text.trim(ApiUri.safe(data));
+            Name = ApiUri.safe(text.trim(name));
             Suffix = suffix.Trim();
             IsGeneric = generic;
             HasImm = imm;
-            Components = components;
+            Components = core.map(components,ApiUri.safe);
         }
 
         [MethodImpl(Inline)]
         OpIdentity(string data)
         {
-            IdentityText = data;
+            IdentityText = text.trim(ApiUri.safe(data));
             Name = EmptyString;
             Suffix = EmptyString;
             IsGeneric = false;
