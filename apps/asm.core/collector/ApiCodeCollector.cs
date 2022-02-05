@@ -12,19 +12,7 @@ namespace Z0
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        FS.FolderPath Collections => ProjectDb.Api() + FS.folder("capture");
-
-        FS.FilePath MemberDataPath() => Collections + FS.file("api", FS.Hex);
-
-        FS.FilePath MemberIndexPath() => Collections + FS.file("api", FS.Csv);
-
-        FS.FilePath MemberIndexPath(PartId part) => Collections + FS.file(part.Format(), FS.Hex);
-
-        FS.FilePath MemberDataPath(PartId part) => Collections + FS.file(part.Format(), FS.Csv);
-
-        FS.FilePath MemberIndexPath(ApiHostUri host) => Collections + host.FileName(FS.Csv);
-
-        FS.FilePath MemberDataPath(ApiHostUri host) => Collections + host.FileName(FS.Hex);
+        ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
         AccessorCollector AccessorCollector => Service(() => AccessorCollector.create(Wf));
 
@@ -46,21 +34,14 @@ namespace Z0
             {
                 var i = text.index(spec, Chars.FSlash);
                 if(i>0)
-                {
-                    var src = ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i));
-                    return CodeBank(src);
-                }
+                    return CodeBank(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
                 else
-                {
-                    var src = ApiParsers.part(spec);
-                    return CodeBank(src);
-                }
+                    return CodeBank(ApiParsers.part(spec));
             }
             else
             {
                 return CodeBank();
             }
-
         }
 
         public ApiCodeBank CodeBank(PartId src)
@@ -86,8 +67,8 @@ namespace Z0
         {
             if(ApiRuntimeCatalog.FindHost(src, out var host))
             {
-                var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
-                Emit(members, MemberIndexPath(src), MemberDataPath(src));
+                var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
+                Emit(members, DataPaths.Path(src, FS.Csv), DataPaths.Path(src, FS.Hex));
                 return members;
             }
             else
@@ -103,7 +84,7 @@ namespace Z0
             {
                 using var symbols = SymbolDispenser.alloc();
                 var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
-                Emit(members, MemberIndexPath(src), MemberDataPath(src));
+                Emit(members, DataPaths.Path(src,FS.Csv), DataPaths.Path(src,FS.Hex));
                 return true;
             }
             else
@@ -118,7 +99,7 @@ namespace Z0
             {
                 using var symbols = SymbolDispenser.alloc();
                 var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitPart(part)));
-                Emit(members, MemberIndexPath(src), MemberDataPath(src));
+                Emit(members, DataPaths.Path(src, FS.Csv), DataPaths.Path(src,FS.Hex));
                 return true;
             }
             else
@@ -130,31 +111,24 @@ namespace Z0
         public Index<EncodedMember> Collect(SymbolDispenser symbols)
         {
             var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members, MemberIndexPath(), MemberDataPath());
+            Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
             return members;
         }
 
         public Outcome Collect(string spec)
         {
             var result = Outcome.Success;
+            var members = Index<EncodedMember>.Empty;
             if(text.nonempty(spec))
             {
                 var i = text.index(spec, Chars.FSlash);
                 if(i>0)
-                {
-                    var src = ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i));
-                    result = Collect(src);
-                }
+                    result = Collect(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
                 else
-                {
-                    var src = ApiParsers.part(spec);
-                    result = Collect(src);
-                }
+                    result = Collect(ApiParsers.part(spec));
             }
             else
-            {
                 result = Collect();
-            }
 
             return result;
         }
@@ -163,7 +137,7 @@ namespace Z0
         {
             using var symbols = SymbolDispenser.alloc();
             var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members, MemberIndexPath(), MemberDataPath());
+            Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
             return true;
         }
 
@@ -253,16 +227,6 @@ namespace Z0
             return dst;
         }
 
-        static Index<EncodedMemberInfo> Describe(ReadOnlySpan<EncodedMember> src)
-        {
-            var members = src;
-            var count = src.Length;
-            var buffer = alloc<EncodedMemberInfo>(count);
-            for(var i=0; i<count; i++)
-                seek(buffer,i) = Describe(skip(src,i));
-            return buffer;
-        }
-
         EncodedMembers Parse(Dictionary<ApiHostUri,MemberCodeExtracts> src)
         {
             var running = Running(Msg.ParsingHosts.Format(src.Count));
@@ -303,17 +267,17 @@ namespace Z0
             return code;
         }
 
-        internal static MemoryAddress GetTargetAddress(MethodEntryPoint entry, out AsmHexCode stub)
+        internal static MemoryAddress GetTargetAddress(MemoryAddress src, out AsmHexCode stub)
         {
             stub = AsmHexCode.Empty;
-            var target = entry.Location;
+            var target = src;
             var buffer = Cells.alloc(w64).Bytes;
-            ref var data = ref entry.Location.Ref<byte>();
+            ref var data = ref src.Ref<byte>();
             ByteReader.read5(data, buffer);
             if(JmpRel32.test(buffer))
             {
                 stub = AsmHexCode.load(slice(buffer,0,5));
-                target = AsmRel32.target((entry.Location, 5), stub.Bytes);
+                target = AsmRel32.target((src, 5), stub.Bytes);
             }
             return target;
         }
@@ -323,7 +287,7 @@ namespace Z0
             dst = new RawMemberCode();
             dst.Entry = entry.Location;
             dst.Uri = entry.Uri;
-            var target = GetTargetAddress(entry, out dst.StubCode);
+            var target = GetTargetAddress(entry.Location, out dst.StubCode);
             dst.Target = target;
             if(target != entry.Location)
             {
@@ -356,8 +320,8 @@ namespace Z0
         Outcome LoadCollected(out Index<EncodedMemberInfo> index, out BinaryCode data)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(MemberIndexPath(), out index);
-            var rB = LoadData(MemberDataPath(), out data);
+            var rA = LoadIndex(DataPaths.Path(FS.Csv), out index);
+            var rB = LoadData(DataPaths.Path(FS.Hex), out data);
             if(rA.Fail)
                 result = rA;
             else
@@ -368,28 +332,26 @@ namespace Z0
         Outcome LoadCollected(PartId src, out Index<EncodedMemberInfo> index, out BinaryCode data)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(MemberIndexPath(src), out index);
-            var rB = LoadData(MemberDataPath(src), out data);
+            var rA = LoadIndex(DataPaths.Path(src,FS.Csv), out index);
+            var rB = LoadData(DataPaths.Path(src,FS.Hex), out data);
             if(rA.Fail)
                 result = rA;
             else
                 result = rB;
             return result;
         }
-
 
         Outcome LoadCollected(ApiHostUri src, out Index<EncodedMemberInfo> index, out BinaryCode data)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(MemberIndexPath(src), out index);
-            var rB = LoadData(MemberDataPath(src), out data);
+            var rA = LoadIndex(DataPaths.Path(src, FS.Csv), out index);
+            var rB = LoadData(DataPaths.Path(src, FS.Hex), out data);
             if(rA.Fail)
                 result = rA;
             else
                 result = rB;
             return result;
         }
-
 
         Outcome LoadIndex(FS.FilePath src, out Index<EncodedMemberInfo> dst)
         {
@@ -452,6 +414,27 @@ namespace Z0
             dst.Sig = text.trim(skip(cells,i++));
             dst.Uri = text.trim(skip(cells,i++));
             return result;
+        }
+
+        class EncodedMembers
+        {
+            readonly ConcurrentDictionary<uint,EncodedMember> Data;
+
+            public EncodedMembers()
+            {
+                Data = new();
+            }
+
+            public bool Include(in EncodedMember src)
+                => Data.TryAdd(src.Token.EntryId,src);
+
+            public Index<EncodedMember> Emit(bool clear = true)
+            {
+                var members = Data.Values.Array();
+                if(clear)
+                    Data.Clear();
+                return members;
+            }
         }
     }
 }

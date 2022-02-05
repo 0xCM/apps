@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
 
+    [ApiHost]
     public class ApiCodeBank : IDisposable
     {
         static Outcome entry(in EncodedMemberInfo src, out MethodEntryPoint dst)
@@ -48,12 +49,13 @@ namespace Z0
 
                 seek(tokens,i) = ApiToken.create(symbols, ep, info.TargetAddress);
                 var code = slice(bytes, offset, size);
+
                 offset += size;
             }
 
             dst.Symbols = symbols;
             dst.Index = index;
-            dst.Data = data;
+            dst.Data = memory.gcpin(data.Storage);
             dst.Offsets = offsets;
             dst.TokenData = tokens;
             return dst;
@@ -67,19 +69,20 @@ namespace Z0
         void IDisposable.Dispose()
         {
             (Symbols as IDisposable).Dispose();
+            Data.Dispose();
         }
 
         SymbolDispenser Symbols;
 
         Index<EncodedMemberInfo> Index;
 
-        BinaryCode Data;
+        ManagedBuffer Data;
 
         Index<uint> Offsets;
 
         Index<ApiToken> TokenData;
 
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public ReadOnlySpan<byte> Code(uint i)
         {
             var offset = Offsets[i];
@@ -87,15 +90,29 @@ namespace Z0
             return slice(Data.View, offset, size);
         }
 
-        [MethodImpl(Inline)]
+        public ByteSize CodeSize
+        {
+            [MethodImpl(Inline), Op]
+            get => Data.Size;
+        }
+
+        [MethodImpl(Inline), Op]
+        public unsafe MemorySeg Segment(uint i)
+            => new MemorySeg(Data.BaseAddress + Offsets[i], Index[i].CodeSize);
+
+        [MethodImpl(Inline), Op]
+        public unsafe MemorySeg Segment(int i)
+            => Segment((uint)i);
+
+        [MethodImpl(Inline), Op]
         public ReadOnlySpan<byte> Code(int i)
             => Code((uint)i);
 
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public ref readonly ApiToken Token(uint i)
             => ref TokenData[i];
 
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public ref readonly ApiToken Token(int i)
             => ref TokenData[i];
 
@@ -105,13 +122,17 @@ namespace Z0
             get => TokenData;
         }
 
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public ref readonly EncodedMemberInfo Description(uint i)
             => ref Index[i];
 
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public ref readonly EncodedMemberInfo Description(int i)
             => ref Index[i];
+
+        [MethodImpl(Inline), Op]
+        public MemberEncoding Encoding(int i)
+            => new MemberEncoding(Token(i), Index[i].CodeSize);
 
         public uint MemberCount
         {

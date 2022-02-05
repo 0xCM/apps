@@ -12,12 +12,12 @@ namespace Z0
 
     partial class ApiExtractor
     {
-        uint EmitAsmSource(ApiHostUri host, ReadOnlySpan<AsmRoutine> src)
+        void EmitAsmSource(ApiHostUri host, ReadOnlySpan<AsmRoutine> src)
         {
             var counter = 0u;
             var count = (uint)src.Length;
             if(count == 0)
-                return 0;
+                return;
             var dst = PackArchive.AsmSrcPath(host);
             var flow = EmittingFile(dst);
             using var writer = dst.Writer();
@@ -31,8 +31,6 @@ namespace Z0
                 counter++;
             }
             EmittedFile(flow, counter);
-
-            return counter;
         }
     }
 }

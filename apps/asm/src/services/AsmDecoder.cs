@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using Iced = Iced.Intel;
@@ -164,7 +160,7 @@ namespace Z0.Asm
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var code = ref skip(src, i);
-                    var outcome = Decode(code, out var decoded);
+                    var outcome = DecodeRoutine(code, out var decoded);
                     if(!outcome)
                     {
                         Wf.Error($"Could not decode {code}");
@@ -191,7 +187,7 @@ namespace Z0.Asm
             if(outcome)
             {
                 var asm = new ApiBlockAsm(src.CodeBlock, instructions.InstructionStorage, src.TermCode);
-                dst = routine(src.OpUri, src.Method.Artifact().DisplaySig, asm);
+                dst = routine(src.OpUri, src.Method.Artifact().DisplaySig.Format(), asm);
                 return true;
             }
             return outcome;
@@ -226,7 +222,33 @@ namespace Z0.Asm
             return buffer;
         }
 
-        public Outcome Decode(in ApiMemberCode src, out AsmRoutine dst)
+        public Outcome DecodeRoutine(in MemberEncoding src, out AsmRoutine dst)
+        {
+            var result = ApiUri.parse(src.Uri.Format(), out var uri);
+            dst = AsmRoutine.Empty;
+            if(result.Fail)
+                return result;
+
+            var cb = new ApiCodeBlock(src.TargetAddress, uri, src.Data.ToArray());
+
+            result = Decode(cb, out var instructions);
+            if(result.Fail)
+                return result;
+
+            dst = routine(uri, src.Sig.Format(), new ApiBlockAsm(cb, instructions, ExtractTermCode.None));
+            return result;
+        }
+
+        public Outcome DecodeAsm(in MemberEncoding src, out string dst)
+        {
+            dst = EmptyString;
+            var result = DecodeRoutine(src, out var routine);
+            if(result)
+                dst = AsmFormatter.format(routine, AsmFormatter.header(src), AsmFormat);
+            return result;
+        }
+
+        public Outcome DecodeRoutine(in ApiMemberCode src, out AsmRoutine dst)
         {
             dst = AsmRoutine.Empty;
             var outcome = Decode(src.Encoded, out var block);
@@ -302,7 +324,7 @@ namespace Z0.Asm
             return decoder;
         }
 
-        static AsmRoutine routine(OpUri uri, MethodDisplaySig sig, ApiBlockAsm src, bool check = false)
+        static AsmRoutine routine(OpUri uri, string sig, ApiBlockAsm src, bool check = false)
         {
             var count = src.InstructionCount;
             var buffer = new AsmInstructionInfo[count];

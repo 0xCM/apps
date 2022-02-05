@@ -8,7 +8,7 @@ namespace Z0
 
     partial class CheckCmdProvider
     {
-        [CmdOp("sdm/sigs")]
+        [CmdOp("check/asm/sigs")]
         Outcome CheckAsmSigs(CmdArgs args)
         {
             var result = Outcome.Success;

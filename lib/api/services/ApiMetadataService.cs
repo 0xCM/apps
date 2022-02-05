@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     public sealed class ApiMetadataService : AppService<ApiMetadataService>
@@ -189,8 +185,10 @@ namespace Z0
             return TableEmit(Symbols.syminfo(src).View, SymInfo.RenderWidths, dst);
         }
 
-
         public uint EmitTokenSet(ITokenSet src, string scope)
             => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, ProjectDb.TablePath<SymInfo>(scope, src.Name));
+
+        public uint EmitTokenSet(ITokenSet src, FS.FilePath dst)
+            => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, dst);
     }
 }

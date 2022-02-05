@@ -4,24 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Root;
     using static core;
     using static AsmOcTokens;
 
     public class AsmOcParser
     {
-        public static AsmOcClass classify(string src)
-        {
-            if(evex(src))
-                return AsmOcClass.Evex;
-            else if(vex(src))
-                return AsmOcClass.Vex;
-            else if(rex(src))
-                return AsmOcClass.Rex;
-            else
-                return AsmOcClass.General;
-        }
-
         public static bool rex(string src)
             => text.index(src, OpCodeText.Rex) >=0;
 
@@ -67,10 +54,9 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             dst = AsmOpCode.Empty;
-            dst.OcClass = classify(src);
             var parts = sys.empty<string>();
             var input = text.trim(text.despace(src));
-            if(dst.OcClass == AsmOcClass.Vex || dst.OcClass == AsmOcClass.Evex)
+            if(evex(input) || vex(input))
             {
                 var tokens = list<string>();
                 var i = text.index(input, Chars.Space);
@@ -124,7 +110,7 @@ namespace Z0.Asm
             => _Datasets.TokensByExpression.Find(src, out dst);
 
         public bool Token(string src, out AsmOcToken dst)
-            => Datasets.TokensByExpression.Find(src, out dst);
+            => octoken(src, out dst);
 
         public Outcome Parse(string src, out AsmOpCode dst)
             => parse(src, out dst);

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     /// <summary>
     /// A succinct type signature
     /// </summary>

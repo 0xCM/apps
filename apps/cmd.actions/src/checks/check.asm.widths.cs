@@ -6,11 +6,39 @@ namespace Z0
 {
     using Asm;
 
+    using K = Asm.AsmOcTokenKind;
+    using P = Pow2x32;
+
     using static core;
     using static Asm.AsmChecks;
 
     partial class CheckCmdProvider
     {
+        [Op]
+        public static uint serialize(PointMapper<K,P> src, Span<ushort> dst)
+        {
+            var points = src.Points;
+            var count = points.Length;
+            var j=0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var point = ref seek(points,i);
+                ref var t0 = ref @as<byte>(seek(dst,i));
+                ref var t1 = ref @as<Log2x32>(seek(t0,1));
+                t0 = u8(point.Left);
+                t1 = Pow2.log(point.Right);
+            }
+
+            return 0;
+        }
+
+        public static Index<ushort> serialize(PointMapper<K,P> src)
+        {
+            var dst = alloc<ushort>(src.PointCount);
+            serialize(src,dst);
+            return dst;
+        }
+
         [CmdOp("check/asm/widths")]
         Outcome TestAsmWidths(CmdArgs args)
         {

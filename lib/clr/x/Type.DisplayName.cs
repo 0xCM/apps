@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
     using System.ComponentModel;
-
-    using static Root;
 
     partial class ClrQuery
     {
@@ -33,7 +29,8 @@ namespace Z0
                     return src.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
 
                 if(src.IsEnum && src.IsConcrete())
-                    return src.Name + ':' + src.GetEnumUnderlyingType().DisplayName(recursion + 1);
+                    //return src.Name + ':' + src.GetEnumUnderlyingType().DisplayName(recursion + 1);
+                    return src.Name;
 
                 if(src.IsPointer)
                     return $"{src.GetElementType().DisplayName(recursion + 1)}*";

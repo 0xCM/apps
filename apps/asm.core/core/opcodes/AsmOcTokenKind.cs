@@ -4,101 +4,103 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static AsmOcTokens;
+
     public enum AsmOcTokenKind : byte
     {
         /// <summary>
-        /// Classifies the untoken
-        /// </summary>
-        None = 0,
-
-        /// <summary>
         /// Classifies the 256 literal hex bytes [0x00, 0x01, ..., 0xFF] defined by <see cref='Hex8Kind'/>
         /// </summary>
-        Hex8 = 2,
+        Hex8,
 
         /// <summary>
         /// Classifies <see cref='RexToken'/> tokens
         /// </summary>
-        Rex = 3,
+        Rex,
 
         /// <summary>
         /// Classifies <see cref='VexToken'/> tokens
         /// </summary>
-        Vex = 4,
+        Vex,
 
         /// <summary>
         /// Classifies <see cref='EvexToken'/> tokens
         /// </summary>
-        Evex = 5,
+        Evex,
 
         /// <summary>
         /// Classifies <see cref='RexBToken'/> tokens
         /// </summary>
-        RexB = 6,
+        RexB,
 
         /// <summary>
-        /// Classifies <see cref='OcExtension'/> tokens
+        /// Classifies <see cref='RegDigitToken'/> tokens
         /// </summary>
-        OcExtension = 7,
+        RegDigit,
 
         /// <summary>
         /// Classifies <see cref='SegOverrideToken'/> tokens
         /// </summary>
-        SegOverride = 8,
+        SegOverride,
 
         /// <summary>
         /// Classifies <see cref='DispToken'/> tokens
         /// </summary>
-        Disp = 9,
+        Disp,
 
         /// <summary>
         /// Classifies <see cref='ImmSizeToken'/> tokens
         /// </summary>
-        ImmSize = 10,
+        ImmSize,
 
         /// <summary>
         /// Classifies <see cref='ExclusionToken'/> tokens
         /// </summary>
-        Exclusion = 11,
+        Exclusion,
 
         /// <summary>
         /// Classifies <see cref='FpuDigitToken'/> tokens
         /// </summary>
-        FpuDigit = 12,
+        FpuDigit,
 
         /// <summary>
         /// Classifies <see cref='MaskToken'/> tokens
         /// </summary>
-        Mask = 13,
-
-        /// <summary>
-        /// Classifies <see cref='OperatorToken'/> tokens
-        /// </summary>
-        Operator = 14,
+        Mask,
 
         /// <summary>
         /// Classifies <see cref='ModRmToken'/> tokens
         /// </summary>
-        ModRm = 15,
+        ModRm,
 
         /// <summary>
-        /// Classifies two adjacent hex bytes
+        /// Classifies a literal numeric value
         /// </summary>
-        OcLiteral = 16,
+        Integer,
 
         /// <summary>
         /// Classifies <see cref='RepToken'/> tokens
         /// </summary>
-        Rep = 17,
+        Rep,
 
         /// <summary>
         /// Classifies <see cref='SizeToken'/> tokens
         /// </summary>
-        Size = 18,
+        Size,
 
         /// <summary>
         /// Classifies <see cref='LockToken'/> tokens
         /// </summary>
-        Lock = 19,
+        Lock,
+
+        /// <summary>
+        /// Classifies <see cref='OperatorToken'/> tokens
+        /// </summary>
+        Operator,
+
+        /// <summary>
+        /// Classifies <see cref='Hex16Token'/> tokens
+        /// </summary>
+        Hex16,
     }
 }

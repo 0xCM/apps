@@ -44,7 +44,7 @@ namespace Z0
 
         ApiResPackEmitter ResPackEmitter => Service(Wf.ResPackEmitter);
 
-        WsProjects WsProjects => Service(Wf.WsProjects);
+        ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
         Index<ProcessAsmRecord> _LoadProcessAsm()
         {

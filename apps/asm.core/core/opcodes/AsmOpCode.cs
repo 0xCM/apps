@@ -6,11 +6,17 @@ namespace Z0.Asm
 {
     using static core;
 
-    public struct AsmOpCode
+    public struct AsmOpCode : IEquatable<AsmOpCode>
     {
         public const byte TokenCapacity = 31;
 
         Cell512 Data;
+
+        [MethodImpl(Inline)]
+        public AsmOpCode(Cell512 data)
+        {
+            Data = data;
+        }
 
         [MethodImpl(Inline)]
         public AsmOpCode(ReadOnlySpan<AsmOcToken> tokens)
@@ -45,12 +51,6 @@ namespace Z0.Asm
             get => ref @as<byte>(Settings);
         }
 
-        public ref AsmOcClass OcClass
-        {
-            [MethodImpl(Inline)]
-            get => ref seek(@as<AsmOcClass>(Settings), 1);
-        }
-
         public ref AsmOcToken this[uint i]
         {
             [MethodImpl(Inline)]
@@ -63,15 +63,28 @@ namespace Z0.Asm
             get => ref seek(Tokens(), i);
         }
 
+        public AsmOcFlags Flags()
+        {
+            var count = TokenCount;
+            var flags = AsmOcFlags.None;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var token = ref this[i];
+                flags |= (AsmOcFlags)Pow2.pow((byte)token.Kind);
+            }
+
+            return flags;
+        }
+
+        [MethodImpl(Inline)]
+        public bool Equals(AsmOpCode src)
+            => Data.Equals(src.Data);
+
         public string Format()
             => AsmOcFormatter.format(this);
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOpCode(AsmOcToken[] src)
-            => new AsmOpCode(src);
 
         public static AsmOpCode Empty => new AsmOpCode(sys.empty<AsmOcToken>());
     }

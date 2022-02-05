@@ -6,7 +6,6 @@ namespace Z0
 {
     using static core;
 
-
     public class AccessorCollector : AppService<AccessorCollector>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
@@ -27,23 +26,21 @@ namespace Z0
         {
             return default;
         }
-            //=> capture(symbols, ApiRuntimeCatalog.SpanResAccessors);
 
         [Op]
         public static MemorySeg dataseg(SpanResAccessor src)
-            => dataseg(ApiCodeCollector.GetTargetAddress(src.Member, out _));
+            => dataseg(ApiCodeCollector.GetTargetAddress(src.Member.Location, out _));
 
         [Op]
         public static MemorySeg codeseg(SpanResAccessor src)
-            => codeseg(ApiCodeCollector.GetTargetAddress(src.Member, out _));
+            => codeseg(ApiCodeCollector.GetTargetAddress(src.Member.Location, out _));
 
         static CapturedAccessor capture(SymbolDispenser symbols, SpanResAccessor src)
         {
-            var target = ApiCodeCollector.GetTargetAddress(src.Member, out _);
+            var target = ApiCodeCollector.GetTargetAddress(src.Member.Location, out _);
             var token = ApiToken.create(symbols, src.Member, target);
             var member = new EncodedMember(token, codeseg(target).View.ToArray());
             return new CapturedAccessor(member, dataseg(target), src.Kind);
-            //return new CapturedAccessor(member, dataseg(target).View.ToArray(), src.Kind);
         }
 
         static Index<CapturedAccessor> capture(SymbolDispenser symbols, ReadOnlySpan<SpanResAccessor> accessors)

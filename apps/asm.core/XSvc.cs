@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
+            => Z0.ApiDataPaths.create(wf);
+
         [Op]
         public static AsmEncoder AsmEncoding(this IWfRuntime wf)
             => Asm.AsmEncoder.create(wf);

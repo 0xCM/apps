@@ -6,6 +6,35 @@ namespace Z0
 {
     partial class CheckCmdProvider
     {
+        [CmdOp("check/captured2")]
+        Outcome CheckCaptured2(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var spec = EmptyString;
+            if(args.Count != 0)
+                spec = text.trim(arg(args,0).Value.Format());
+
+            using var bank = CodeCollector.CodeBank(spec);
+            CheckSize(bank);
+
+            return result;
+        }
+
+        void CheckSize(ApiCodeBank bank)
+        {
+            var count = bank.MemberCount;
+            var rebase = MemoryAddress.Zero;
+            var size = 0u;
+            for(var i=0; i<count; i++)
+            {
+                var seg = bank.Segment(i);
+                rebase = rebase + seg.Size;
+                size += seg.Size;
+            }
+
+            Require.equal((ByteSize)size, bank.CodeSize);
+        }
+
         [CmdOp("check/captured")]
         Outcome CheckCaptured(CmdArgs args)
         {

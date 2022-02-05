@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
 
     using F = Cell512;
@@ -83,6 +78,22 @@ namespace Z0
         public static Cell512 init<T>(in Vector512<T> src)
             where T : unmanaged
                 => new Cell512(src.As<ulong>());
+
+        [MethodImpl(Inline)]
+        public ref Cell8 Cell8(byte i)
+            => ref @as<Cell8>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref Cell16 Cell16(byte i)
+            => ref @as<Cell16>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref Cell32 Cell32(byte i)
+            => ref @as<Cell32>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref Cell64 Cell64(byte i)
+            => ref @as<Cell64>(Bytes);
 
         public string Format()
             => sys.array(X0, X1).FormatList();

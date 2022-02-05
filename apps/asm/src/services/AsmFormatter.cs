@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct AsmFormatter
@@ -27,6 +23,21 @@ namespace Z0.Asm
             }
         }
 
+        public static string header(in MemberEncoding src)
+        {
+            const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
+            const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
+            const sbyte Pad = -14;
+            var dst = text.buffer();
+            dst.AppendLine(PageBreak);
+            dst.AppendLine(new AsmInlineComment(CommentMarker, $"{src.Sig}::{src.Uri}"));
+            dst.AppendLine(AsmInlineComment.array(src.Data).Format());
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.EntryAddress), src.EntryAddress)));
+            dst.AppendLine(new AsmInlineComment(CommentMarker, RP.attrib(Pad, nameof(src.TargetAddress), src.TargetAddress)));
+            dst.Append(PageBreak);
+            return dst.Emit();
+        }
+
         [Op]
         public static string format(AsmRoutine src, in AsmFormatConfig config)
         {
@@ -36,10 +47,20 @@ namespace Z0.Asm
         }
 
         [Op]
+        public static string format(AsmRoutine src, string header, in AsmFormatConfig config)
+        {
+            var dst = text.buffer();
+            dst.AppendLine(header);
+            dst.AppendLine(instructions(src, config).Join(Eol));
+            return dst.Emit();
+        }
+
+        [Op]
         public static void render(AsmRoutine src, in AsmFormatConfig config, ITextBuffer dst)
         {
             var buffer = span<string>(16);
-            var count = AsmRender.format(ApiCodeBlockHeader.define(src.Uri, src.DisplaySig, src.Code, src.TermCode), buffer);
+            var header = new ApiCodeBlockHeader(src.Uri, src.DisplaySig.Format(), src.Code, src.TermCode);
+            var count = render(header,buffer);
             for(var i=0; i<count; i++)
                 dst.AppendLine(skip(buffer,i));
             dst.AppendLine(instructions(src, config).Join(Eol));
@@ -61,6 +82,25 @@ namespace Z0.Asm
             for(var i=0u; i< count; i++)
                 seek(dst,i) = AsmRender.format(src.BaseAddress, skip(summaries,i), config);
             return dst;
+        }
+
+        [MethodImpl(Inline), Op]
+        static AsmInlineComment comment(AsmCommentMarker marker, string src)
+            => new AsmInlineComment(marker,src);
+
+        static byte render(in ApiCodeBlockHeader src, Span<string> dst)
+        {
+            const string PageBreak = "#" + CharText.Space + RP.PageBreak160;
+            const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
+            var i = z8;
+            seek(dst, i++) = PageBreak;
+            seek(dst, i++) = comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
+            seek(dst, i++) = AsmRender.spanres(src.Uri, src.CodeBlock);
+            seek(dst, i++) = AsmRender.hexarray(src.CodeBlock);
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
+            seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
+            seek(dst, i++) = PageBreak;
+            return i;
         }
     }
 }

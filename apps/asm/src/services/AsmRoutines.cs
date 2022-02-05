@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -19,7 +15,7 @@ namespace Z0.Asm
         public static AsmRoutine routine(ApiMemberCode member, AsmInstructionBlock asm)
         {
             var code = new ApiCodeBlock(member.OpUri, member.Encoded);
-            return new AsmRoutine(member.OpUri, member.Method.Artifact().DisplaySig, code, member.TermCode, ApiInstructions.from(code, asm));
+            return new AsmRoutine(member.OpUri, member.Method.Artifact().DisplaySig.Format(), code, member.TermCode, ApiInstructions.from(code, asm));
         }
 
         public static SortedSpan<ApiCodeBlock> blocks(ReadOnlySpan<AsmRoutine> src)

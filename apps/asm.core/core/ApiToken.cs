@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct ApiToken
     {
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry, MemoryAddress target)

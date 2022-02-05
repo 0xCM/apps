@@ -20,7 +20,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var member = ref skip(src,i);
-                var outcome = Decoder.Decode(member, out var decoded);
+                var outcome = Decoder.DecodeRoutine(member, out var decoded);
                 if(outcome)
                 {
                     seek(dst,i) = decoded;

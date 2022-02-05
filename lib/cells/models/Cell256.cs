@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Avx2;
-    using static Root;
     using static core;
 
     [DataType("cell<w:256>", Width, Width)]
@@ -133,6 +128,22 @@ namespace Z0
             [MethodImpl(Inline)]
             get => Content.AsDouble();
         }
+
+        [MethodImpl(Inline)]
+        public ref Cell8 Cell8(byte i)
+            => ref @as<Cell8>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref Cell16 Cell16(byte i)
+            => ref @as<Cell16>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref Cell32 Cell32(byte i)
+            => ref @as<Cell32>(Bytes);
+
+        [MethodImpl(Inline)]
+        public ref Cell64 Cell64(byte i)
+            => ref @as<Cell64>(Bytes);
 
         [MethodImpl(Inline)]
         public byte Cell(W8 w, byte index)

@@ -21,6 +21,7 @@ namespace Z0
             EmitConditionDocs();
             EmitRegDocs();
             EmitRexBDocs();
+            EmitOpCodeDocs();
             return true;
         }
 
@@ -69,6 +70,11 @@ namespace Z0
             TableEmit(codes.View, SibRegCodes.RenderWidths, ApiDoc("asm.docs.sib.regs", FS.Csv));
         }
 
+        void EmitOpCodeDocs()
+        {
+            ApiMetadata.EmitTokenSet(AsmOcTokens.OpCodeTokenSet.create(), ProjectDb.Subdir("sdm") + FS.file("sdm.opcodes.tokens", FS.Csv));
+        }
+
         void EmitModRmDocs()
         {
             var path = ApiDoc("asm.docs.modrm", FS.ext("bits") + FS.Csv);
@@ -101,8 +107,8 @@ namespace Z0
                 var reg = AsmRegs.reg(b.RegSize, b.Hi ? RegClassCode.GP8HI : RegClassCode.GP, b.Reg.Code);
                 Write(string.Format("{0,-5} | {1,-5} | {2,-5} | {3,-5} | {4}", i, reg.Name, b.Reg.Code, b.Reg, value, token.Expr));
             }
-
         }
+
 
         [CmdOp("api/emit/rexb")]
         Outcome EmitRexBDocs(CmdArgs args)

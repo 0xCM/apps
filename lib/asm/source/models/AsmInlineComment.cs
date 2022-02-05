@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public readonly struct AsmInlineComment : IAsmSourcePart
     {
+        public static AsmInlineComment array(ReadOnlySpan<byte> src)
+            => new AsmInlineComment(AsmCommentMarker.Hash, HexFormatter.array(src));
+
         [Parser]
         public static bool parse(ReadOnlySpan<char> src, out AsmInlineComment dst)
         {
