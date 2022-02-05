@@ -29,7 +29,6 @@ namespace Z0
                 return Option.none<byte>();
         }
 
-
         [Op]
         public static OpUri from(MethodInfo src)
             => define(ApiUriScheme.Located, ApiHostUri.from(src.DeclaringType), src.Name, ApiIdentity.identify(src));
@@ -68,11 +67,10 @@ namespace Z0
             if(count != 2)
                 return failure.WithReason(string.Concat("Component count ", count," != ", 2));
 
-            Enum.TryParse(parts[0], true, out PartId owner);
-            if(owner == 0)
+            if(!ApiParsers.part(skip(parts,0), out PartId owner))
                 return failure.WithReason("Invalid part");
 
-            var host = parts[1];
+            var host = skip(parts,1);
             if(blank(host))
                 return failure.WithReason("Host unspecified");
 
@@ -101,6 +99,30 @@ namespace Z0
 
             dst = new ApiHostUri(part,host);
 
+            return result;
+        }
+
+        public static Outcome host2(string uri, out ApiHostUri dst)
+        {
+            const string UriMarker = "://";
+            var result = Outcome.Failure;
+            dst = ApiHostUri.Empty;
+            var i = text.index(uri,UriMarker);
+            if(i > 0)
+            {
+                var j = text.index(uri, Chars.Question);
+                if(j > i)
+                {
+                    var x = text.inside(uri,i + UriMarker.Length - 1, j);
+                    var components = text.split(x,Chars.FSlash);
+                    if(components.Length == 2)
+                    {
+                        var part = ApiParsers.part(skip(components,0));
+                        dst = ApiHostUri.define(part, skip(components,1));
+                        result = true;
+                    }
+                }
+            }
             return result;
         }
 

@@ -12,149 +12,159 @@ namespace Z0
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
-        ApiHex ApiHex => Service(Wf.ApiHex);
+        FS.FolderPath Collections => ProjectDb.Api() + FS.folder("capture");
 
-        FS.FilePath MemberDataPath => ProjectDb.Api() + FS.file("api.members", FS.Hex);
+        FS.FilePath MemberDataPath() => Collections + FS.file("api", FS.Hex);
 
-        FS.FilePath MemberIndexPath => ProjectDb.ApiTablePath<EncodedMemberInfo>();
+        FS.FilePath MemberIndexPath() => Collections + FS.file("api", FS.Csv);
 
+        FS.FilePath MemberIndexPath(PartId part) => Collections + FS.file(part.Format(), FS.Hex);
+
+        FS.FilePath MemberDataPath(PartId part) => Collections + FS.file(part.Format(), FS.Csv);
+
+        FS.FilePath MemberIndexPath(ApiHostUri host) => Collections + host.FileName(FS.Csv);
+
+        FS.FilePath MemberDataPath(ApiHostUri host) => Collections + host.FileName(FS.Hex);
 
         AccessorCollector AccessorCollector => Service(() => AccessorCollector.create(Wf));
 
         public Index<CapturedAccessor> CaptureAccessors(SymbolDispenser symbols)
             => AccessorCollector.CaptureAccessors(symbols);
 
-        public Outcome LoadCollected(SymbolDispenser symbols, out Index<EncodedMember> dst)
+        public ApiCodeBank CodeBank()
         {
-            var result = Outcome.Success;
-            var datasrc = MemberDataPath;
-            dst = sys.empty<EncodedMember>();
-            result = LoadIndex(out var index);
-            result = LoadData(out var data);
-            return result;
+            var result = LoadCollected(out var index, out var code);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+            return ApiCodeBank.load(index,code);
         }
 
-        public Outcome LoadCollected(out Index<EncodedMemberInfo> index, out BinaryCode data)
+        public ApiCodeBank CodeBank(string spec)
         {
             var result = Outcome.Success;
-            var rA = LoadIndex(out index);
-            var rB = LoadData(out data);
-            if(rA.Fail)
+            if(text.nonempty(spec))
             {
-                result = rA;
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                {
+                    var src = ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i));
+                    return CodeBank(src);
+                }
+                else
+                {
+                    var src = ApiParsers.part(spec);
+                    return CodeBank(src);
+                }
             }
             else
             {
-                if(rB.Fail)
-                    result = rB;
+                return CodeBank();
             }
-            return result;
+
         }
 
-        Outcome LoadIndex(out Index<EncodedMemberInfo> dst)
+        public ApiCodeBank CodeBank(PartId src)
         {
-            var result = Outcome.Success;
-            var src = MemberIndexPath;
-            var lines = src.ReadLines(true);
-            var count = lines.Count - 1;
-            dst = alloc<EncodedMemberInfo>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var line = ref lines[i];
-                result = parse(line, out dst[i]);
-                if(result.Fail)
-                    break;
-            }
-
-            return result;
+            var result = LoadCollected(src, out var index, out var code);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+            return ApiCodeBank.load(index,code);
         }
 
-        Outcome LoadData(out BinaryCode dst)
+        public ApiCodeBank CodeBank(ApiHostUri src)
         {
-            var result = Outcome.Success;
-            var cells = MemberDataPath.ReadLines().SelectMany(x => text.split(x,Chars.Space));
-            var count = cells.Count;
-            var data = alloc<byte>(count);
-            for(var i=0; i<count; i++)
+            var result = LoadCollected(src, out var index, out var code);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+            return ApiCodeBank.load(index,code);
+        }
+
+        public Index<EncodedMember> Collect(SymbolDispenser symbols, Type host)
+            => Collect(symbols, host.ApiHostUri());
+
+        public Index<EncodedMember> Collect(SymbolDispenser symbols, ApiHostUri src)
+        {
+            if(ApiRuntimeCatalog.FindHost(src, out var host))
             {
-                ref readonly var cell = ref cells[i];
-                result = HexParser.parse8u(cell, out seek(data,i));
-                if(result.Fail)
-                    break;
+                var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
+                Emit(members, MemberIndexPath(src), MemberDataPath(src));
+                return members;
             }
-            if(result)
-                dst = data;
             else
-                dst = BinaryCode.Empty;
-            return result;
-        }
-
-        static Outcome parse(string src, out EncodedMemberInfo dst)
-        {
-            const byte FieldCount = EncodedMemberInfo.FieldCount;
-            dst = default;
-            var cells = text.split(src, Chars.Pipe);
-            var count = cells.Length;
-            if(count != FieldCount)
-                return (false, AppMsg.CsvDataMismatch.Format(FieldCount,count, src));
-
-            var result = Outcome.Success;
-            var i=0;
-            result = DataParser.parse(skip(cells,i++), out dst.Id);
-            result = DataParser.parse(skip(cells,i++), out dst.EntryAddress);
-            result = DataParser.parse(skip(cells,i++), out dst.EntryRebase);
-            result = DataParser.parse(skip(cells,i++), out dst.TargetAddress);
-            result = DataParser.parse(skip(cells,i++), out dst.TargetRebase);
-            result = DataParser.parse(skip(cells,i++), out dst.StubAsm);
-            result = DataParser.parse(skip(cells,i++), out dst.Disp);
-            result = DataParser.parse(skip(cells,i++), out dst.CodeSize);
-            result = DataParser.parse(skip(cells,i++), out dst.Host);
-            result = DataParser.parse(skip(cells,i++), out dst.Sig);
-            result = DataParser.parse(skip(cells,i++), out dst.Uri);
-            return result;
-        }
-
-        public Index<EncodedMember> CollectCaptured(SymbolDispenser symbols, ApiHostUri host)
-        {
-            var src = ApiHex.ParsedExtracts(host);
-            if(!src.Exists)
             {
-                Error(FS.missing(src));
+                Write(Msg.NotFound.Format(src.Format()));
                 return sys.empty<EncodedMember>();
             }
-
-            var members = list<EncodedMember>();
-            CollectCaptured(symbols, host, members);
-            return members.ToArray();
         }
 
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, Type host, FS.FilePath dst)
+        public Outcome Collect(ApiHostUri src)
         {
-            var uri = host.ApiHostUri();
-            return Collect(symbols,uri, dst);
+            if(ApiRuntimeCatalog.FindHost(src, out var host))
+            {
+                using var symbols = SymbolDispenser.alloc();
+                var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
+                Emit(members, MemberIndexPath(src), MemberDataPath(src));
+                return true;
+            }
+            else
+            {
+                return (false,Msg.NotFound.Format(src.Format()));
+            }
         }
 
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, ApiHostUri src, FS.FilePath dst)
+        public Outcome Collect(PartId src)
         {
-            var entries = CollectRaw(symbols, src);
-            var members = DivineCode(entries);
-            Emit(members,dst);
-            return members;
-        }
-
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, PartId src, FS.FilePath dst)
-        {
-            var entries = CollectRaw(symbols, src);
-            var members = DivineCode(entries);
-            Emit(members,dst);
-            return members;
+            if(ApiRuntimeCatalog.FindPart(src, out var part))
+            {
+                using var symbols = SymbolDispenser.alloc();
+                var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitPart(part)));
+                Emit(members, MemberIndexPath(src), MemberDataPath(src));
+                return true;
+            }
+            else
+            {
+                return (false,Msg.NotFound.Format(src.Format()));
+            }
         }
 
         public Index<EncodedMember> Collect(SymbolDispenser symbols)
         {
             var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
-            Emit(members);
+            Emit(members, MemberIndexPath(), MemberDataPath());
             return members;
+        }
+
+        public Outcome Collect(string spec)
+        {
+            var result = Outcome.Success;
+            if(text.nonempty(spec))
+            {
+                var i = text.index(spec, Chars.FSlash);
+                if(i>0)
+                {
+                    var src = ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i));
+                    result = Collect(src);
+                }
+                else
+                {
+                    var src = ApiParsers.part(spec);
+                    result = Collect(src);
+                }
+            }
+            else
+            {
+                result = Collect();
+            }
+
+            return result;
+        }
+
+        public Outcome Collect()
+        {
+            using var symbols = SymbolDispenser.alloc();
+            var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
+            Emit(members, MemberIndexPath(), MemberDataPath());
+            return true;
         }
 
         public Index<EncodedMember> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
@@ -193,45 +203,12 @@ namespace Z0
             return Parse(lookup).Emit();
         }
 
-        void CollectCaptured(SymbolDispenser symbols, ApiHostUri host, List<EncodedMember> members)
-        {
-            var src = ApiHex.ParsedExtracts(host);
-            if(!src.Exists)
-            {
-                Error(FS.missing(src));
-                return;
-            }
-
-            var blocks = ApiHex.ReadBlocks(src);
-            var count = blocks.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var block = ref blocks[i];
-                if(JmpRel32.test(block.Encoded))
-                {
-                    var entry = new MethodEntryPoint(block.BaseAddress, block.OpUri, MethodDisplaySig.Empty);
-                    var encoding = slice(block.Encoded.View,0, JmpRel32.InstSize);
-                    var source = block.BaseAddress;
-                    var token = ApiToken.create(symbols, entry, AsmRel32.target((source,JmpRel32.InstSize), encoding));
-                    members.Add(new EncodedMember(token, encoding.ToArray()));
-                }
-            }
-        }
-
-        Index<EncodedMemberInfo> Emit(ReadOnlySpan<EncodedMember> src, FS.FilePath path)
-        {
-            var descriptions = Describe(src).Sort();
-            TableEmit(descriptions.View, EncodedMemberInfo.RenderWidths, path);
-            return descriptions;
-        }
-
-        void Emit(Index<EncodedMember> src)
+        void Emit(Index<EncodedMember> src, FS.FilePath index, FS.FilePath data)
         {
             var options = HexFormatSpecs.options();
             var members = src.Sort();
-            var datapath = MemberDataPath;
-            var emitting = EmittingFile(datapath);
-            using var writer = datapath.AsciWriter();
+            var emitting = EmittingFile(data);
+            using var writer = data.AsciWriter();
             var count = members.Count;
             var descriptions = alloc<EncodedMemberInfo>(count);
             for(var i=0; i<count; i++)
@@ -250,7 +227,7 @@ namespace Z0
             }
 
             EmittedFile(emitting, count);
-            TableEmit(@readonly(descriptions), EncodedMemberInfo.RenderWidths, MemberIndexPath);
+            TableEmit(@readonly(descriptions), EncodedMemberInfo.RenderWidths, index);
         }
 
         static EncodedMemberInfo Describe(in EncodedMember member)
@@ -268,7 +245,11 @@ namespace Z0
             dst.CodeSize = (ushort)member.Code.Size;
             dst.Sig = token.Sig.Format();
             dst.Uri = token.Uri.Format();
-            dst.Host = host(dst.Uri);
+            var result = ApiUri.parse(dst.Uri, out var uri);
+            if(result.Fail)
+                Errors.Throw(AppMsg.ParseFailure.Format(nameof(uri), dst.Uri));
+
+            dst.Host = uri.Host.Format();
             return dst;
         }
 
@@ -304,41 +285,6 @@ namespace Z0
 
             Ran(running, Msg.ParsedHosts.Format(counter, src.Keys.Count));
             return dst;
-        }
-
-        Index<RawMemberCode> CollectRaw(SymbolDispenser symbols)
-        {
-            var running = Running(Msg.CollectingEntryPoints.Format());
-            var entries = MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog));
-            Ran(running, Msg.CollectedEntryPoints.Format(entries.Count));
-            return CollectRaw(symbols, entries);
-        }
-
-        Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, ApiHostUri src)
-        {
-            if(ApiRuntimeCatalog.FindHost(src, out var host))
-            {
-                return CollectRaw(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
-            }
-            else
-            {
-                Error(Msg.NotFound.Format(src.Format()));
-                return sys.empty<RawMemberCode>();
-            }
-        }
-
-        Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, PartId src)
-        {
-            if(ApiRuntimeCatalog.FindPart(src, out var part))
-            {
-                return CollectRaw(symbols,MethodEntryPoints.create(ApiJit.JitPart(part)));
-            }
-            else
-            {
-                Error(Msg.NotFound.Format(src.Format()));
-                return sys.empty<RawMemberCode>();
-            }
-
         }
 
         static Index<RawMemberCode> CollectRaw(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> entries)
@@ -391,19 +337,6 @@ namespace Z0
             }
         }
 
-        static string host(string uri)
-        {
-            const string UriMarker = "://";
-            var i = text.index(uri,UriMarker);
-            if(i > 0)
-            {
-                var j = text.index(uri, Chars.Question);
-                if(j > i)
-                    return text.inside(uri,i + UriMarker.Length - 1, j);
-            }
-            return uri;
-        }
-
         static Outcome InferHost(FS.FileName src, FS.FileExt ext, out ApiHostUri host)
         {
             var components = @readonly(src.Name.Text.Remove(string.Format(".{0}", ext)).SplitClean(Chars.Dot));
@@ -418,6 +351,107 @@ namespace Z0
             }
             host = ApiHostUri.Empty;
             return false;
+        }
+
+        Outcome LoadCollected(out Index<EncodedMemberInfo> index, out BinaryCode data)
+        {
+            var result = Outcome.Success;
+            var rA = LoadIndex(MemberIndexPath(), out index);
+            var rB = LoadData(MemberDataPath(), out data);
+            if(rA.Fail)
+                result = rA;
+            else
+                result = rB;
+            return result;
+        }
+
+        Outcome LoadCollected(PartId src, out Index<EncodedMemberInfo> index, out BinaryCode data)
+        {
+            var result = Outcome.Success;
+            var rA = LoadIndex(MemberIndexPath(src), out index);
+            var rB = LoadData(MemberDataPath(src), out data);
+            if(rA.Fail)
+                result = rA;
+            else
+                result = rB;
+            return result;
+        }
+
+
+        Outcome LoadCollected(ApiHostUri src, out Index<EncodedMemberInfo> index, out BinaryCode data)
+        {
+            var result = Outcome.Success;
+            var rA = LoadIndex(MemberIndexPath(src), out index);
+            var rB = LoadData(MemberDataPath(src), out data);
+            if(rA.Fail)
+                result = rA;
+            else
+                result = rB;
+            return result;
+        }
+
+
+        Outcome LoadIndex(FS.FilePath src, out Index<EncodedMemberInfo> dst)
+        {
+            var result = Outcome.Success;
+            var lines = src.ReadLines(true);
+            var count = lines.Count - 1;
+            dst = alloc<EncodedMemberInfo>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i + 1];
+                result = parse(line, out dst[i]);
+                if(result.Fail)
+                    break;
+            }
+
+            return result;
+        }
+
+        Outcome LoadData(FS.FilePath path, out BinaryCode dst)
+        {
+            var result = Outcome.Success;
+            var cells = path.ReadLines().SelectMany(x => text.split(x,Chars.Space));
+            var count = cells.Count;
+            var data = alloc<byte>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var cell = ref cells[i];
+                result = HexParser.parse8u(cell, out seek(data,i));
+                if(result.Fail)
+                    break;
+            }
+            if(result)
+                dst = data;
+            else
+                dst = BinaryCode.Empty;
+            return result;
+
+        }
+
+        static Outcome parse(string src, out EncodedMemberInfo dst)
+        {
+            const byte FieldCount = EncodedMemberInfo.FieldCount;
+            dst = default;
+            var cells = text.split(src, Chars.Pipe);
+            var count = cells.Length;
+            if(count != FieldCount)
+                return (false, AppMsg.CsvDataMismatch.Format(FieldCount,count, src));
+
+            var result = Outcome.Success;
+            var i=0;
+            result = DataParser.parse(skip(cells,i++), out dst.Id);
+            result = DataParser.parse(skip(cells,i++), out dst.EntryAddress);
+            result = DataParser.parse(skip(cells,i++), out dst.EntryRebase);
+            result = DataParser.parse(skip(cells,i++), out dst.TargetAddress);
+            result = DataParser.parse(skip(cells,i++), out dst.TargetRebase);
+            result = DataParser.parse(skip(cells,i++), out dst.StubAsm);
+            result = DataParser.parse(skip(cells,i++), out dst.Disp);
+            result = DataParser.parse(skip(cells,i++), out dst.CodeSize);
+            dst.Host = text.trim(skip(cells,i++));
+            dst.Sig = text.trim(skip(cells,i++));
+            dst.Uri = text.trim(skip(cells,i++));
+            return result;
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Z0
             }
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             core.iter(Allocators.Values, a => a.Dispose());
         }

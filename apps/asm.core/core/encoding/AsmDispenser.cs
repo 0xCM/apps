@@ -24,7 +24,7 @@ namespace Z0.Asm
 
         public void Dispose()
         {
-            Symbols.Dispose();
+            (Symbols as IDisposable).Dispose();
             Sources.Dispose();
             Encodings.Dispose();
         }

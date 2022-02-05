@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     public readonly struct ApiToken
     {
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry, MemoryAddress target)
-            => new ApiToken(symbols.Dispense(entry.Location, entry.Uri.Format()), symbols.Dispense(target, entry.Sig.Format()));
+        {
+            var e = symbols.Dispense(entry.Location, entry.Uri?.Format() ?? EmptyString);
+            var t = symbols.Dispense(target, entry.Sig.Format());
+            return new ApiToken(e, t);
+        }
 
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry)
-            => new ApiToken(symbols.Dispense(entry.Location, entry.Uri.Format()), symbols.Dispense(entry.Location, entry.Sig.Format()));
+            => new ApiToken(symbols.Dispense(entry.Location, text.ifempty(entry.Uri.Format(),EmptyString)), symbols.Dispense(entry.Location, entry.Sig.Format()));
 
         readonly LocatedSymbol Entry;
 
@@ -63,6 +69,17 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Target.Name;
+        }
+
+        public ApiHostUri Host
+        {
+            get
+            {
+                if(ApiUri.parse(Uri.Format(), out var uri))
+                    return uri.Host;
+                else
+                    return ApiHostUri.Empty;
+            }
         }
 
         public bool IsStubbed

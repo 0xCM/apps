@@ -16,11 +16,11 @@ namespace Z0
     {
         [Op]
         public static MethodEntryPoint create(MethodInfo src)
-            => new MethodEntryPoint(ClrJit.jit(src), src.Uri(), src.DisplaySig());
+            => new MethodEntryPoint(ClrJit.jit(src), src.Uri(), src.DisplaySig().Format());
 
         [Op]
         public static MethodEntryPoint create(ApiMember src)
-            => new MethodEntryPoint(src.BaseAddress, src.Method.Uri(), src.Method.DisplaySig());
+            => new MethodEntryPoint(src.BaseAddress, src.Method.Uri(), src.Method.DisplaySig().Format());
 
         [Op]
         public static Index<MethodEntryPoint> create(Identifier name, ReadOnlySpan<MethodInfo> src)

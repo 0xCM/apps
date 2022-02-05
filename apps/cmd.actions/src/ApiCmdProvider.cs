@@ -36,6 +36,8 @@ namespace Z0
 
         Symbolism Symbolism => Service(Wf.Symbolism);
 
+        ApiCodeCollector CodeCollector => Service(Wf.ApiCodeCollector);
+
         Index<ProcessAsmRecord> ProcessAsm() => Data(nameof(ProcessAsm), _LoadProcessAsm);
 
         Index<ProcessAsmRecord> ProcessAsmBuffer() => Data(nameof(ProcessAsmBuffer), () => alloc<ProcessAsmRecord>(ProcessAsm().Count));
