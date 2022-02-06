@@ -73,7 +73,7 @@ namespace Z0
         public Outcome Collect(string spec)
         {
             var result = Outcome.Success;
-            var members = Index<EncodedMember>.Empty;
+            var members = Index<CollectedEncoding>.Empty;
             if(text.nonempty(spec))
             {
                 var i = text.index(spec, Chars.FSlash);
@@ -96,11 +96,11 @@ namespace Z0
             return true;
         }
 
-        Index<EncodedMember> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
+        Index<CollectedEncoding> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
             => DivineCode(CollectRaw(symbols, src));
 
 
-        Index<EncodedMember> DivineCode(ReadOnlySpan<RawMemberCode> src)
+        Index<CollectedEncoding> DivineCode(ReadOnlySpan<RawMemberCode> src)
         {
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
@@ -133,7 +133,7 @@ namespace Z0
             return Parse(lookup).Emit();
         }
 
-        void Emit(Index<EncodedMember> src, FS.FilePath index, FS.FilePath data)
+        void Emit(Index<CollectedEncoding> src, FS.FilePath index, FS.FilePath data)
         {
             var options = HexFormatSpecs.options();
             var members = src.Sort();
@@ -160,7 +160,7 @@ namespace Z0
             TableEmit(@readonly(descriptions), EncodedMemberInfo.RenderWidths, index);
         }
 
-        static EncodedMemberInfo Describe(in EncodedMember member)
+        static EncodedMemberInfo Describe(in CollectedEncoding member)
         {
             var token = member.Token;
             var dst = new EncodedMemberInfo();
@@ -197,7 +197,7 @@ namespace Z0
                 foreach(var extract in extracts)
                 {
                     var result = parser.Parse(extract.TargetExtract);
-                    dst.Include(new EncodedMember(extract.Token, parser.Parsed));
+                    dst.Include(new CollectedEncoding(extract.Token, parser.Parsed));
                     counter++;
                 }
                 Ran(parsing, Msg.ParsedHostMembers.Format(extracts.Count, host));
@@ -400,7 +400,7 @@ namespace Z0
         {
             var target = EncodingCollector.GetTargetAddress(src.Member.Location, out _);
             var token = ApiToken.create(symbols, src.Member, target);
-            var member = new EncodedMember(token, AccessorCode(target).View.ToArray());
+            var member = new CollectedEncoding(token, AccessorCode(target).View.ToArray());
             return new CapturedAccessor(member, AccessorData(target), src.Kind);
         }
 
@@ -495,17 +495,17 @@ namespace Z0
             => new MemorySeg(target, 24);
         class EncodedMembers
         {
-            readonly ConcurrentDictionary<uint,EncodedMember> Data;
+            readonly ConcurrentDictionary<uint,CollectedEncoding> Data;
 
             public EncodedMembers()
             {
                 Data = new();
             }
 
-            public bool Include(in EncodedMember src)
+            public bool Include(in CollectedEncoding src)
                 => Data.TryAdd(src.Token.EntryId,src);
 
-            public Index<EncodedMember> Emit(bool clear = true)
+            public Index<CollectedEncoding> Emit(bool clear = true)
             {
                 var members = Data.Values.Array();
                 if(clear)

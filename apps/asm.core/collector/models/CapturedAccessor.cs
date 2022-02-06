@@ -6,14 +6,14 @@ namespace Z0
 {
     public readonly struct CapturedAccessor
     {
-        public readonly EncodedMember Member;
+        public readonly CollectedEncoding Member;
 
         public readonly MemorySeg DataSegment;
 
         public readonly SpanResKind ResKind;
 
         [MethodImpl(Inline)]
-        public CapturedAccessor(EncodedMember member, MemorySeg data, SpanResKind kind)
+        public CapturedAccessor(CollectedEncoding member, MemorySeg data, SpanResKind kind)
         {
             Member = member;
             DataSegment = data;

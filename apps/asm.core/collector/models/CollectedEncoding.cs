@@ -5,14 +5,14 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct EncodedMember : IEquatable<EncodedMember>, IComparable<EncodedMember>
+    readonly struct CollectedEncoding : IEquatable<CollectedEncoding>, IComparable<CollectedEncoding>
     {
         public readonly ApiToken Token;
 
         public readonly BinaryCode Code;
 
         [MethodImpl(Inline)]
-        public EncodedMember(ApiToken token, BinaryCode code)
+        public CollectedEncoding(ApiToken token, BinaryCode code)
         {
             Token = token;
             Code = code;
@@ -34,13 +34,13 @@ namespace Z0
             => (int)Token.EntryId;
 
         [MethodImpl(Inline)]
-        public bool Equals(EncodedMember src)
+        public bool Equals(CollectedEncoding src)
             => Token.Equals(src.Token);
 
         public override bool Equals(object src)
-            => src is EncodedMember x && Equals(x);
+            => src is CollectedEncoding x && Equals(x);
 
-        public int CompareTo(EncodedMember src)
+        public int CompareTo(CollectedEncoding src)
             => Token.EntryAddress.CompareTo(src.Token.EntryAddress);
     }
 }
