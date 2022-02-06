@@ -10,6 +10,8 @@ namespace Z0.Asm
     {
         ApiResProvider ApiResProvider => Service(Wf.ApiResProvider);
 
+        EncodingCollector EncodingCollector => Service(Wf.EncodingCollector);
+
         public ReadOnlySpan<MemorySeg> Emit(FS.FolderPath dst)
         {
             var asmpath = dst + FS.file("respack",FS.Asm);
@@ -31,7 +33,7 @@ namespace Z0.Asm
                 var seqlabel = sequence.ToString("d6") + ": ";
                 ref readonly var accessor = ref skip(accessors,i);
 
-                var codeSize = AccessorCollector.code(accessor, out var storage);
+                var codeSize = EncodingCollector.AccessorCode(accessor, out var storage);
                 var bytes = slice(storage.Bytes,0, codeSize);
                 var decoded = decoder.Decode(bytes.ToArray(), MemoryAddress.Zero).View;
                 var name = accessor.Host.HostName+ "/" + accessor.OpName;
@@ -64,7 +66,7 @@ namespace Z0.Asm
                 hexwriter.Write(string.Format(" ## {0:X} ## {1:X}", imm64, imm32));
                 hexwriter.WriteLine();
 
-                segments.Add(AccessorCollector.dataseg(accessor));
+                segments.Add(EncodingCollector.AccessorData(accessor));
                 sequence++;
             }
 

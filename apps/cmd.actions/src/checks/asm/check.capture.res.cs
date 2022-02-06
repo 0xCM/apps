@@ -41,7 +41,7 @@ namespace Z0
                 => math.sub(a,b);
         }
 
-        ApiCodeCollector CodeCollector => Service(Wf.ApiCodeCollector);
+        EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
 
         [CmdOp("check/capture/res")]
         Outcome CaptureResources(CmdArgs args)

@@ -12,6 +12,9 @@ namespace Z0
         public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
             => Z0.ApiDataPaths.create(wf);
 
+        public static CodeBanks ApiCodeBanks(this IWfRuntime wf)
+            => Z0.CodeBanks.create(wf);
+
         [Op]
         public static AsmEncoder AsmEncoding(this IWfRuntime wf)
             => Asm.AsmEncoder.create(wf);
@@ -111,7 +114,7 @@ namespace Z0
         public static AsmSigs AsmSigs(this IWfRuntime wf)
             => Asm.AsmSigs.create(wf);
 
-        public static ApiCodeCollector ApiCodeCollector(this IWfRuntime wf)
-            => Z0.ApiCodeCollector.create(wf);
+        public static EncodingCollector EncodingCollector(this IWfRuntime wf)
+            => Z0.EncodingCollector.create(wf);
     }
 }

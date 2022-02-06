@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System.Collections;
     using Asm;
 
     class MemberCodeExtract
@@ -23,35 +24,30 @@ namespace Z0
             Disp = raw.Disp;
             TargetExtract = extracted;
         }
+    }
 
-        public MemoryAddress EntryAddress
+    class MemberCodeExtracts : IEnumerable<MemberCodeExtract>
+    {
+        readonly List<MemberCodeExtract> Data;
+
+        public MemberCodeExtracts(params MemberCodeExtract[] src)
         {
-            [MethodImpl(Inline)]
-            get => Token.EntryAddress;
+            Data = new(src);
         }
 
-        public MemoryAddress TargetAddress
-        {
-            [MethodImpl(Inline)]
-            get => Token.TargetAddress;
-        }
+        public IEnumerator<MemberCodeExtract> GetEnumerator()
+            => ((IEnumerable<MemberCodeExtract>)Data).GetEnumerator();
 
-        public PolarityKind DispKind
-        {
-            [MethodImpl(Inline)]
-            get => Disp.Negative ? PolarityKind.Left : PolarityKind.Right;
-        }
+        public void Include(MemberCodeExtract src)
+            => Data.Add(src);
 
-        public ByteSize Size
-        {
-            [MethodImpl(Inline)]
-            get => TargetExtract.Size;
-        }
+        IEnumerator IEnumerable.GetEnumerator()
+            => ((IEnumerable)Data).GetEnumerator();
 
-        public Label Sig
+        public uint Count
         {
             [MethodImpl(Inline)]
-            get => Token.Sig;
+            get => (uint)Data.Count;
         }
     }
 }

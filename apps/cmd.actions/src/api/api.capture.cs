@@ -20,13 +20,15 @@ namespace Z0
             return result;
         }
 
+        CodeBanks CodeBanks => Service(Wf.ApiCodeBanks);
+
         Outcome EmitAsm(string spec)
         {
             var result = Outcome.Success;
             var path = DataPaths.Path(spec, FS.Asm);
             var emitting = EmittingFile(path);
             using var writer = path.Writer();
-            using var bank = CodeCollector.CodeBank(spec);
+            using var bank = CodeBanks.Encoding(spec);
             var count = bank.MemberCount;
             for(var i=0; i<count; i++)
             {

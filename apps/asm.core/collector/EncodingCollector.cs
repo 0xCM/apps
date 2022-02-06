@@ -8,73 +8,28 @@ namespace Z0
 
     using Asm;
 
-    public class ApiCodeCollector : AppService<ApiCodeCollector>
+    public class EncodingCollector : AppService<EncodingCollector>
     {
         ApiJit ApiJit => Service(Wf.ApiJit);
 
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
-        AccessorCollector AccessorCollector => Service(() => AccessorCollector.create(Wf));
-
         public Index<CapturedAccessor> CaptureAccessors(SymbolDispenser symbols)
-            => AccessorCollector.CaptureAccessors(symbols);
-
-        public ApiCodeBank CodeBank()
         {
-            var result = LoadCollected(out var index, out var code);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-            return ApiCodeBank.load(index,code);
+            return sys.empty<CapturedAccessor>();
         }
 
-        public ApiCodeBank CodeBank(string spec)
-        {
-            var result = Outcome.Success;
-            if(text.nonempty(spec))
-            {
-                var i = text.index(spec, Chars.FSlash);
-                if(i>0)
-                    return CodeBank(ApiHostUri.define(ApiParsers.part(text.left(spec,i)), text.right(spec,i)));
-                else
-                    return CodeBank(ApiParsers.part(spec));
-            }
-            else
-            {
-                return CodeBank();
-            }
-        }
-
-        public ApiCodeBank CodeBank(PartId src)
-        {
-            var result = LoadCollected(src, out var index, out var code);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-            return ApiCodeBank.load(index,code);
-        }
-
-        public ApiCodeBank CodeBank(ApiHostUri src)
-        {
-            var result = LoadCollected(src, out var index, out var code);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-            return ApiCodeBank.load(index,code);
-        }
-
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, Type host)
-            => Collect(symbols, host.ApiHostUri());
-
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, ApiHostUri src)
+        public Outcome Collect(SymbolDispenser symbols, ApiHostUri src)
         {
             if(ApiRuntimeCatalog.FindHost(src, out var host))
             {
                 var members = Collect(symbols, MethodEntryPoints.create(ApiJit.JitHost(host)));
                 Emit(members, DataPaths.Path(src, FS.Csv), DataPaths.Path(src, FS.Hex));
-                return members;
+                return true;
             }
             else
             {
-                Write(Msg.NotFound.Format(src.Format()));
-                return sys.empty<EncodedMember>();
+                return (false, Msg.NotFound.Format(src.Format()));
             }
         }
 
@@ -108,11 +63,11 @@ namespace Z0
             }
         }
 
-        public Index<EncodedMember> Collect(SymbolDispenser symbols)
+        public Outcome Collect(SymbolDispenser symbols)
         {
             var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
             Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
-            return members;
+            return true;
         }
 
         public Outcome Collect(string spec)
@@ -141,8 +96,9 @@ namespace Z0
             return true;
         }
 
-        public Index<EncodedMember> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
+        Index<EncodedMember> Collect(SymbolDispenser symbols, ReadOnlySpan<MethodEntryPoint> src)
             => DivineCode(CollectRaw(symbols, src));
+
 
         Index<EncodedMember> DivineCode(ReadOnlySpan<RawMemberCode> src)
         {
@@ -388,7 +344,6 @@ namespace Z0
             else
                 dst = BinaryCode.Empty;
             return result;
-
         }
 
         static Outcome parse(string src, out EncodedMemberInfo dst)
@@ -416,6 +371,128 @@ namespace Z0
             return result;
         }
 
+        [MethodImpl(Inline), Op]
+        public static unsafe byte AccessorCode(SpanResAccessor src, out ByteBlock16 dst)
+        {
+            dst = ByteBlock16.Empty;
+            var seg = AccessorData(src);
+            var size = (byte)seg.Size;
+            var data = cover<byte>(seg.BaseAddress.Pointer<byte>(), seg.Size);
+            for(var i=0; i<size; i++)
+                dst[i] = skip(data,i);
+            return size;
+        }
+
+        // public Index<CapturedAccessor> CaptureAccessors(SymbolDispenser symbols)
+        // {
+        //     return default;
+        // }
+
+        [Op]
+        public static MemorySeg AccessorData(SpanResAccessor src)
+            => AccessorData(EncodingCollector.GetTargetAddress(src.Member.Location, out _));
+
+        [Op]
+        public static MemorySeg AccessorCode(SpanResAccessor src)
+            => AccessorCode(EncodingCollector.GetTargetAddress(src.Member.Location, out _));
+
+        static CapturedAccessor capture(SymbolDispenser symbols, SpanResAccessor src)
+        {
+            var target = EncodingCollector.GetTargetAddress(src.Member.Location, out _);
+            var token = ApiToken.create(symbols, src.Member, target);
+            var member = new EncodedMember(token, AccessorCode(target).View.ToArray());
+            return new CapturedAccessor(member, AccessorData(target), src.Kind);
+        }
+
+        static Index<CapturedAccessor> capture(SymbolDispenser symbols, ReadOnlySpan<SpanResAccessor> accessors)
+        {
+            var count = accessors.Length;
+            var buffer = alloc<CapturedAccessor>(count);
+            for(var i=0; i<count; i++)
+                seek(buffer,i) = capture(symbols, skip(accessors,i));
+            return buffer;
+        }
+
+        /// <summary>
+        /// Queries the source type for ByteSpan property getters
+        /// </summary>
+        /// <param name="src">The type to query</param>
+        [Op]
+        public void FindAccessors(SymbolDispenser symbols, Type src, List<CapturedAccessor> dst)
+        {
+            var candidates = src.StaticProperties()
+                 .Ignore()
+                  .WithPropertyType(ResAccessorTypes)
+                  .Select(p => p.GetGetMethod(true))
+                  .Where(m  => m != null)
+                  .Concrete();
+            var count = candidates.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var candidate = ref skip(candidates,i);
+                var location = ClrJit.jit(candidate);
+                //var target = ApiCodeCollector.GetTargetAddress(ClrJit.jit(candidate), out _);
+            }
+
+            // return src.StaticProperties()
+            //      .Ignore()
+            //       .WithPropertyType(ResAccessorTypes)
+            //       .Select(p => p.GetGetMethod(true))
+            //       .Where(m  => m != null)
+            //       .Concrete()
+            //       .Select(x => new SpanResAccessor(x, ResKind(x.ReturnType)));
+        }
+
+        [Op]
+        static SpanResKind ResKind(Type match)
+        {
+            ref readonly var src = ref first(span(ResAccessorTypes));
+            var kind = SpanResKind.None;
+            if(skip(src,0).Equals(match))
+                kind = SpanResKind.ByteSpan;
+            else if(skip(src,1).Equals(match))
+                kind = SpanResKind.CharSpan;
+            return kind;
+        }
+
+        static Type ByteSpanAcessorType
+            => typeof(ReadOnlySpan<byte>);
+
+        static Type CharSpanAcessorType
+            => typeof(ReadOnlySpan<char>);
+
+        static Type[] ResAccessorTypes
+            => new Type[]{ByteSpanAcessorType, CharSpanAcessorType};
+
+        static unsafe bool IsAccessor(MemoryAddress target)
+        {
+            var data = cover(target.Pointer<byte>(), 24);
+            var result = true;
+            result &= skip(data,0) == 0x48;
+            result &= skip(data,1) == 0xb8;
+            result &= skip(data,10) == 0x48;
+            result &= skip(data,11) == 0x89;
+            result &= skip(data,20) == 0x48;
+            result &= skip(data,21) == 0x8b;
+            return result;
+        }
+
+        // 24 bytes: [48 b8 c0 f3 bf 2b 38 01 00 00] [48 89 01] [c7 41 08 20 00 00 00] [48 8b c1 c3]
+        // 0 | 00 | mov r64,imm64       # 10        | [48 b8] [c0 f3 bf 2b 38 01 00 00]
+        // 1 | 10 | mov [rcx],rax       # 3         | 48 89 01
+        // 2 | 13 | mov r/m32, imm32    # 7         | [c7 41 08] 20 00 00 00
+        // 3 | 20 | mov r64, r/m64      # 3         | 48 8b c1
+        // 4 | 23 ret                   # 1         | c3
+        static unsafe MemorySeg AccessorData(MemoryAddress target)
+        {
+            var data = cover(target.Pointer<byte>(), 24);
+            var address = @as<MemoryAddress>(slice(data,2,8));
+            var size = @as<uint>(slice(data, 13 + 3, 4));
+            return new MemorySeg(address, size);
+        }
+
+        static unsafe MemorySeg AccessorCode(MemoryAddress target)
+            => new MemorySeg(target, 24);
         class EncodedMembers
         {
             readonly ConcurrentDictionary<uint,EncodedMember> Data;
