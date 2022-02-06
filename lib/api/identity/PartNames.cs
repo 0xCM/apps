@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     public class PartNames
     {
         public static IReadOnlyDictionary<PartId,PartName> NameLookup()

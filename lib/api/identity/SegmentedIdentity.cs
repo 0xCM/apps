@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct SegmentedIdentity
     {
         [MethodImpl(Inline)]
