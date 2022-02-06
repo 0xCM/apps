@@ -102,11 +102,11 @@ namespace Z0
             return src;
         }
 
-        public OpCodeMaps EmitOpCodeMaps()
+        public OpCodePatterns EmitOpCodeMaps()
         {
             var src = DeriveOpCodeMaps();
-            var dst = ProjectDb.TablePath<OpCodeMap>("xed");
-            TableEmit(src.Records, OpCodeMap.RenderWidths, dst);
+            var dst = ProjectDb.TablePath<OpCodePattern>("xed");
+            TableEmit(src.Records, OpCodePattern.RenderWidths, dst);
             return src;
         }
     }

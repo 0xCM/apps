@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock64;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     /// <summary>
     /// Covers 64 bytes of storage

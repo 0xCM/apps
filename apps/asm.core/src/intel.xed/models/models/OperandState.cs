@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     using Asm;
 
     using static XedModels.OperandKind;
@@ -282,7 +280,7 @@ namespace Z0
             public byte nelem;
 
             [OperandKind(BCAST)]
-            public AsmBCastKind bcast;
+            public XedBCastKind bcast;
 
             [OperandKind(NEED_MEMDISP)]
             public bit need_memdisp;
@@ -401,8 +399,6 @@ namespace Z0
             [OperandKind(DISP)]
             public Disp64 disp;
 
-            public static OperandState Empty => default;
-
             public EncodingOffsets Offsets()
             {
                 var offsets = EncodingOffsets.init();
@@ -509,6 +505,9 @@ namespace Z0
 
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }
+
+            public static OperandState Empty => default;
+
         }
     }
 }

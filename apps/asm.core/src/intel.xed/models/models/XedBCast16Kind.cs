@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [SymSource("asm")]
-    public enum AsmBCast16Kind : byte
+    [SymSource("xed")]
+    public enum XedBCast16Kind : byte
     {
         [Symbol("{1to8}", "BCAST=14")]
         BCast_1TO8_16 = 14, // 128

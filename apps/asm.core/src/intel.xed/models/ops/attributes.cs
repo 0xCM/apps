@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct XedModels
@@ -31,8 +27,9 @@ namespace Z0
                         counter++;
                 }
                 else
-                    return default;
+                    return sys.empty<AttributeKind>();
             }
+
             return slice(dst,0,counter).ToArray();
         }
     }

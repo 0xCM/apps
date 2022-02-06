@@ -3,9 +3,9 @@
 // License     : Apache
 // Source      : all-state.txt
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    public enum AsmBCastKind : byte
+    public enum XedBCastKind : byte
     {
         None = 0,
 

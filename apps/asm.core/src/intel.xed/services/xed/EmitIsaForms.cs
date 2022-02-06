@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
     using System.Linq;
 
-    using static Root;
     using static core;
     using static XedModels;
 
@@ -46,6 +44,7 @@ namespace Z0.Asm
                 ref readonly var form = ref skip(forms,i);
                 if(kinds.Contains(form.IsaKind))
                     matches.Add(form);
+
             }
 
             TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, XedPaths.IsaFormsPath(code));

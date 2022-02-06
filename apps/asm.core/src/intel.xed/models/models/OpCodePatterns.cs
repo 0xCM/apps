@@ -5,18 +5,35 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
+    using static XedModels.OpCodeKind;
 
-    using static XedModels.OpCodeMapIdentity;
-    using OCM = XedModels.OpCodeMaps;
-
+    using OCM = XedModels.OpCodePatterns;
 
     partial struct XedModels
     {
+        [Record(TableId)]
+        public struct OpCodePattern
+        {
+            public const string TableId = "xed.rules.ocpattern";
+
+            public const byte FieldCount = 6;
+
+            public byte Seq;
+
+            public OpCodeClass Class;
+
+            public text15 Name;
+
+            public byte Number;
+
+            public OpCodeKind Identity;
+
+            public text15 Pattern;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,16,12,16,1};
+        }
+
         [SymSource(xed)]
         public enum OpCodeClass : byte
         {
@@ -94,70 +111,68 @@ namespace Z0
         }
 
         [SymSource(xed)]
-        public enum OpCodeMapIdentity : ushort
+        public enum OpCodeKind : ushort
         {
             None = 0,
 
+            [Symbol("map[gp:0]")]
             LEGACY_MAP0 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP0 << 8),
 
+            [Symbol("map[gp:1]")]
             LEGACY_MAP1 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP1 << 8),
 
+            [Symbol("map[gp:2]")]
             LEGACY_MAP2 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP2 << 8),
 
+            [Symbol("map[gp:3]")]
             LEGACY_MAP3 = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.LEGACY_MAP3 << 8),
 
+            [Symbol("map[3DNow]")]
             AMD_3DNOW = OpCodeClass.LEGACY | (ushort)((byte)LegacyMapKind.AMD_3DNOW << 8),
 
+            [Symbol("map[xop:8]")]
             XOP8 = OpCodeClass.XOP | (ushort)((byte)XopMapKind.XOP8 << 8),
 
+            [Symbol("map[xop:9]")]
             XOP9 = OpCodeClass.XOP | (ushort)((byte)XopMapKind.XOP9 << 8),
 
+            [Symbol("map[xop:A]")]
             XOPA = OpCodeClass.XOP | (ushort)((byte)XopMapKind.XOPA << 8),
 
+            [Symbol("map[vex:0F]")]
             VEX_MAP_0F = OpCodeClass.VEX | (ushort)((byte)VexMapKind.VEX_MAP_0F << 8),
 
+            [Symbol("map[vex:0F38]")]
             VEX_MAP_0F38 = OpCodeClass.VEX | (ushort)((byte)VexMapKind.VEX_MAP_0F38 << 8),
 
+            [Symbol("map[vex:0F3A]")]
             VEX_MAP_0F3A = OpCodeClass.VEX | (ushort)((byte)VexMapKind.VEX_MAP_0F3A << 8),
 
+            [Symbol("map[evex:0F]")]
             EVEX_MAP_0F = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F << 8),
 
+            [Symbol("map[evex:0F38]")]
             EVEX_MAP_0F38 = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F38 << 8),
 
+            [Symbol("map[evex:0F3A]")]
             EVEX_MAP_0F3A = OpCodeClass.EVEX | (ushort)((byte)EvexMapKind.EVEX_MAP_0F3A << 8),
         }
 
-        [Record(TableId)]
-        public struct OpCodeMap
-        {
-            public const string TableId = "xed.rules.opcodemap";
-
-            public const byte FieldCount = 6;
-
-            public byte Seq;
-
-            public OpCodeClass Class;
-
-            public text15 Name;
-
-            public byte Number;
-
-            public OpCodeMapIdentity Identity;
-
-            public text15 Pattern;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,16,12,16,1};
-        }
-
-        public class OpCodeMaps
+        public class OpCodePatterns
         {
             public const string LegacyMapClass = "LEGACY";
 
             public const string XopMapClass = "XOP";
 
-            public const string VexMapClass = "VV1";
+            public const string XOPV = "XOPV";
 
-            public const string EvexMapClass = "EVV";
+            public const string VV1 = "VV1";
+
+            public const string EVV = "EVV";
+
+            public const string VexMapClass = VV1;
+
+            public const string EvexMapClass = EVV;
 
             public const string LegacyPattern1 = "0x0F";
 
@@ -185,26 +200,26 @@ namespace Z0
 
             public const string EvexPattern0F3A = "V0F3A";
 
-            public static OpCodeMapIdentity identify(string pattern)
+            public static OpCodeKind kind(string rule)
             {
-                var content = pattern;
+                var content = rule;
                 var i = NotFound;
-                var identity = OpCodeMapIdentity.None;
+                var identity = OpCodeKind.None;
 
                 i = text.index(content, OCM.VexMapClass);
                 if(i >= 0)
                 {
-                    i = text.index(content, "V0F");
-                    if(i>=0)
-                        return VEX_MAP_0F;
-
-                    i = text.index(content, "V0F38");
+                    i = text.index(content, VexPattern0F38);
                     if(i>=0)
                         return VEX_MAP_0F38;
 
-                    i = text.index(content, "V0F3A");
+                    i = text.index(content, VexPattern0F3A);
                     if(i>=0)
                         return VEX_MAP_0F3A;
+
+                    i = text.index(content, VexPattern0F);
+                    if(i>=0)
+                        return VEX_MAP_0F;
 
                     return 0;
                 }
@@ -212,17 +227,17 @@ namespace Z0
                 i = text.index(content, OCM.EvexMapClass);
                 if(i >= 0)
                 {
-                    i = text.index(content, "V0F");
-                    if(i>=0)
-                        return EVEX_MAP_0F;
-
-                    i = text.index(content, "V0F38");
+                    i = text.index(content, EvexPattern0F38);
                     if(i>=0)
                         return EVEX_MAP_0F38;
 
-                    i = text.index(content, "V0F3A");
+                    i = text.index(content, EvexPattern0F3A);
                     if(i>=0)
                         return EVEX_MAP_0F3A;
+
+                    i = text.index(content, EvexPattern0F);
+                    if(i>=0)
+                        return EVEX_MAP_0F;
 
                     return 0;
                 }
@@ -258,20 +273,21 @@ namespace Z0
                 return LEGACY_MAP0;
             }
 
-            Index<OpCodeMap> Data;
+            Index<OpCodePattern> Data;
 
-            public OpCodeMaps()
+            public OpCodePatterns()
             {
                 Data = derive();
             }
 
-            public ReadOnlySpan<OpCodeMap> Records
+            public ReadOnlySpan<OpCodePattern> Records
             {
                 [MethodImpl(Inline)]
                 get => Data;
             }
 
-            static Index<OpCodeMap> derive()
+
+            static Index<OpCodePattern> derive()
             {
                 var counter = z8;
                 var count = 0u;
@@ -281,7 +297,7 @@ namespace Z0
                 var evex = Symbols.index<EvexMapKind>();
 
                 var counts = legacy.Count + xop.Count + vex.Count + evex.Count;
-                var buffer = alloc<OpCodeMap>(counts);
+                var buffer = alloc<OpCodePattern>(counts);
 
                 count = legacy.Count;
                 for(var i=0u; i<count; i++)
@@ -292,7 +308,7 @@ namespace Z0
                     dst.Class = OpCodeClass.LEGACY;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeMapIdentity)((ushort)dst.Class | ((ushort)sym.Kind << 8));
+                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                     dst.Pattern = sym.Description.Format();
                 }
 
@@ -305,7 +321,7 @@ namespace Z0
                     dst.Class = OpCodeClass.XOP;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeMapIdentity)((ushort)dst.Class | ((ushort)sym.Kind << 8));
+                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                     dst.Pattern = sym.Description.Format();
                 }
 
@@ -318,7 +334,7 @@ namespace Z0
                     dst.Class = OpCodeClass.VEX;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeMapIdentity)((ushort)dst.Class | ((ushort)sym.Kind << 8));
+                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                     dst.Pattern = sym.Description.Format();
                 }
 
@@ -331,7 +347,7 @@ namespace Z0
                     dst.Class = OpCodeClass.EVEX;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
-                    dst.Identity = (OpCodeMapIdentity)((ushort)dst.Class | ((ushort)sym.Kind << 8));
+                    dst.Identity = (OpCodeKind)((ushort)dst.Class | ((ushort)sym.Kind << 8));
                     dst.Pattern = sym.Description.Format();
                 }
 

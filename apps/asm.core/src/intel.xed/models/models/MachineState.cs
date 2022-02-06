@@ -5,10 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
+    using Asm;
 
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
@@ -49,7 +46,7 @@ namespace Z0
 
             public bit DF64;
 
-            public AsmBCastKind BCAST;
+            public XedBCastKind BCAST;
 
             public VexValidityKind VEXVALID;
 
@@ -595,55 +592,55 @@ namespace Z0
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO4_32()
             {
-                BCAST = AsmBCastKind.BCast_1TO4_32;
+                BCAST = XedBCastKind.BCast_1TO4_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO4_64()
             {
-                BCAST = AsmBCastKind.BCast_1TO4_64;
+                BCAST = XedBCastKind.BCast_1TO4_64;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO8_32()
             {
-               BCAST = AsmBCastKind.BCast_1TO8_32;
+               BCAST = XedBCastKind.BCast_1TO8_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_2TO4_64()
             {
-               BCAST = AsmBCastKind.BCast_2TO4_64;
+               BCAST = XedBCastKind.BCast_2TO4_64;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO2_64()
             {
-               BCAST = AsmBCastKind.BCast_1TO2_64;
+               BCAST = XedBCastKind.BCast_1TO2_64;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO8_16()
             {
-               BCAST = AsmBCastKind.BCast_1TO8_16;
+               BCAST = XedBCastKind.BCast_1TO8_16;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO16_16()
             {
-               BCAST = AsmBCastKind.BCast_1TO16_16;
+               BCAST = XedBCastKind.BCast_1TO16_16;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO16_8()
             {
-               BCAST = AsmBCastKind.BCast_1TO16_8;
+               BCAST = XedBCastKind.BCast_1TO16_8;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO32_8()
             {
-               BCAST = AsmBCastKind.BCast_1TO32_8;
+               BCAST = XedBCastKind.BCast_1TO32_8;
             }
 
             [MethodImpl(Inline)]
@@ -682,25 +679,25 @@ namespace Z0
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO16_32()
             {
-               BCAST = AsmBCastKind.BCast_1TO16_32;
+               BCAST = XedBCastKind.BCast_1TO16_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_4TO16_32()
             {
-               BCAST = AsmBCastKind.BCast_4TO16_32;
+               BCAST = XedBCastKind.BCast_4TO16_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO8_64()
             {
-               BCAST = AsmBCastKind.BCast_1TO8_64;
+               BCAST = XedBCastKind.BCast_1TO8_64;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_4TO8_64()
             {
-               BCAST = AsmBCastKind.BCast_4TO8_64;
+               BCAST = XedBCastKind.BCast_4TO8_64;
             }
 
             [MethodImpl(Inline)]
@@ -712,55 +709,55 @@ namespace Z0
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_2TO16_32()
             {
-               BCAST = AsmBCastKind.BCast_2TO16_32;
+               BCAST = XedBCastKind.BCast_2TO16_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_2TO8_64()
             {
-               BCAST = AsmBCastKind.BCast_2TO8_64;
+               BCAST = XedBCastKind.BCast_2TO8_64;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_8TO16_32()
             {
-               BCAST = AsmBCastKind.BCast_8TO16_32;
+               BCAST = XedBCastKind.BCast_8TO16_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO32_16()
             {
-               BCAST = AsmBCastKind.BCast_1TO32_16;
+               BCAST = XedBCastKind.BCast_1TO32_16;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO64_8()
             {
-               BCAST = AsmBCastKind.BCast_1TO64_8;
+               BCAST = XedBCastKind.BCast_1TO64_8;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_4TO8_32()
             {
-               BCAST = AsmBCastKind.BCast_4TO8_32;
+               BCAST = XedBCastKind.BCast_4TO8_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_2TO4_32()
             {
-               BCAST = AsmBCastKind.BCast_2TO4_32;
+               BCAST = XedBCastKind.BCast_2TO4_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_2TO8_32()
             {
-               BCAST = AsmBCastKind.BCast_2TO8_32;
+               BCAST = XedBCastKind.BCast_2TO8_32;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO2_32()
             {
-               BCAST = AsmBCastKind.BCast_1TO2_32;
+               BCAST = XedBCastKind.BCast_1TO2_32;
             }
 
             [MethodImpl(Inline)]
@@ -772,31 +769,31 @@ namespace Z0
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO2_8()
             {
-               BCAST = AsmBCastKind.BCast_1TO2_8;
+               BCAST = XedBCastKind.BCast_1TO2_8;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO4_8()
             {
-               BCAST = AsmBCastKind.BCast_1TO4_8;
+               BCAST = XedBCastKind.BCast_1TO4_8;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO8_8()
             {
-               BCAST = AsmBCastKind.BCast_1TO8_8;
+               BCAST = XedBCastKind.BCast_1TO8_8;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO2_16()
             {
-               BCAST = AsmBCastKind.BCast_1TO2_16;
+               BCAST = XedBCastKind.BCast_1TO2_16;
             }
 
             [MethodImpl(Inline)]
             public void EMX_BROADCAST_1TO4_16()
             {
-               BCAST = AsmBCastKind.BCast_1TO4_16;
+               BCAST = XedBCastKind.BCast_1TO4_16;
             }
         }
     }

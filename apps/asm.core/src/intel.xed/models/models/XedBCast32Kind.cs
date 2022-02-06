@@ -5,8 +5,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [SymSource("asm")]
-    public enum AsmBCast32Kind : byte
+    [SymSource("xed")]
+    public enum XedBCast32Kind : byte
     {
         [Symbol("{1to16}", "BCAST=1")]
         BCast_1TO16_32 = 1, // 512

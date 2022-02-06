@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Asm;
-    using static Root;
+
     using static core;
     using static XedRegId;
     using static XedModels.EASZ;
@@ -152,118 +149,118 @@ namespace Z0
                 _ => 0,
             };
 
-        public static AsmBCastSpec spec(AsmBCastKind kind)
+        public static AsmBroadcastSpec spec(XedBCastKind kind)
         {
-            var dst = AsmBCastSpec.Empty;
+            var dst = AsmBroadcastSpec.Empty;
             var id = (uint5)(byte)kind;
             switch(kind)
             {
-                case AsmBCastKind.BCast_1TO16_8:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast8, Symbols.expr(AsmBCast8Kind.BCast_1TO16_8).Format(), 1, 16);
+                case XedBCastKind.BCast_1TO16_8:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO16_8).Format(), 1, 16);
                 break;
 
-                case AsmBCastKind.BCast_1TO32_8:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast8, Symbols.expr(AsmBCast8Kind.BCast_1TO32_8).Format(), 1, 32);
+                case XedBCastKind.BCast_1TO32_8:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO32_8).Format(), 1, 32);
                 break;
 
-                case AsmBCastKind.BCast_1TO64_8:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast8, Symbols.expr(AsmBCast8Kind.BCast_1TO64_8).Format(), 1, 64);
+                case XedBCastKind.BCast_1TO64_8:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO64_8).Format(), 1, 64);
                 break;
 
-                case AsmBCastKind.BCast_1TO2_8:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast8, Symbols.expr(AsmBCast8Kind.BCast_1TO2_8).Format(), 1, 8);
+                case XedBCastKind.BCast_1TO2_8:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO2_8).Format(), 1, 8);
                 break;
 
-                case AsmBCastKind.BCast_1TO4_8:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast8, Symbols.expr(AsmBCast8Kind.BCast_1TO4_8).Format(), 1, 4);
+                case XedBCastKind.BCast_1TO4_8:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO4_8).Format(), 1, 4);
                 break;
 
-                case AsmBCastKind.BCast_1TO8_8:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast8, Symbols.expr(AsmBCast8Kind.BCast_1TO8_8).Format(), 1, 8);
+                case XedBCastKind.BCast_1TO8_8:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO8_8).Format(), 1, 8);
                 break;
 
-                case AsmBCastKind.BCast_1TO8_16:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast16, Symbols.expr(AsmBCast16Kind.BCast_1TO8_16).Format(), 1, 8);
+                case XedBCastKind.BCast_1TO8_16:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO8_16).Format(), 1, 8);
                 break;
 
-                case AsmBCastKind.BCast_1TO16_16:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast16, Symbols.expr(AsmBCast16Kind.BCast_1TO16_16).Format(), 1, 16);
+                case XedBCastKind.BCast_1TO16_16:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO16_16).Format(), 1, 16);
                 break;
 
-                case AsmBCastKind.BCast_1TO32_16:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast16, Symbols.expr(AsmBCast16Kind.BCast_1TO32_16).Format(), 1, 32);
+                case XedBCastKind.BCast_1TO32_16:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO32_16).Format(), 1, 32);
                 break;
 
-                case AsmBCastKind.BCast_1TO2_16:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast16, Symbols.expr(AsmBCast16Kind.BCast_1TO2_16).Format(), 1, 2);
+                case XedBCastKind.BCast_1TO2_16:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO2_16).Format(), 1, 2);
                 break;
 
-                case AsmBCastKind.BCast_1TO4_16:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast16, Symbols.expr(AsmBCast16Kind.BCast_1TO4_16).Format(), 1, 4);
+                case XedBCastKind.BCast_1TO4_16:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO4_16).Format(), 1, 4);
                 break;
 
-                case AsmBCastKind.BCast_1TO16_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_1TO16_32).Format(), 1, 16);
+                case XedBCastKind.BCast_1TO16_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO16_32).Format(), 1, 16);
                 break;
 
-                case AsmBCastKind.BCast_4TO16_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_4TO16_32).Format(), 4, 16);
+                case XedBCastKind.BCast_4TO16_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_4TO16_32).Format(), 4, 16);
                 break;
 
-                case AsmBCastKind.BCast_1TO8_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_1TO8_32).Format(), 1, 8);
+                case XedBCastKind.BCast_1TO8_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO8_32).Format(), 1, 8);
                 break;
 
-                case AsmBCastKind.BCast_4TO8_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_4TO8_32).Format(), 4, 8);
+                case XedBCastKind.BCast_4TO8_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_4TO8_32).Format(), 4, 8);
                 break;
 
-                case AsmBCastKind.BCast_2TO16_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_2TO16_32).Format(), 2, 16);
+                case XedBCastKind.BCast_2TO16_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_2TO16_32).Format(), 2, 16);
                 break;
 
-                case AsmBCastKind.BCast_8TO16_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_8TO16_32).Format(), 8, 16);
+                case XedBCastKind.BCast_8TO16_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_8TO16_32).Format(), 8, 16);
                 break;
 
-                case AsmBCastKind.BCast_1TO4_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_1TO4_32).Format(), 1, 4);
+                case XedBCastKind.BCast_1TO4_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO4_32).Format(), 1, 4);
                 break;
 
-                case AsmBCastKind.BCast_2TO4_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_2TO4_32).Format(), 2, 4);
+                case XedBCastKind.BCast_2TO4_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_2TO4_32).Format(), 2, 4);
                 break;
 
-                case AsmBCastKind.BCast_2TO8_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_2TO8_32).Format(), 2, 8);
+                case XedBCastKind.BCast_2TO8_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_2TO8_32).Format(), 2, 8);
                 break;
 
-                case AsmBCastKind.BCast_1TO2_32:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast32, Symbols.expr(AsmBCast32Kind.BCast_1TO2_32).Format(), 1, 2);
+                case XedBCastKind.BCast_1TO2_32:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO2_32).Format(), 1, 2);
                 break;
 
-                case AsmBCastKind.BCast_1TO8_64:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast64, Symbols.expr(AsmBCast64Kind.BCast_1TO8_64).Format(), 1, 8);
+                case XedBCastKind.BCast_1TO8_64:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_1TO8_64).Format(), 1, 8);
                 break;
 
-                case AsmBCastKind.BCast_4TO8_64:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast64, Symbols.expr(AsmBCast64Kind.BCast_4TO8_64).Format(), 4, 8);
+                case XedBCastKind.BCast_4TO8_64:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_4TO8_64).Format(), 4, 8);
                 break;
 
-                case AsmBCastKind.BCast_2TO8_64:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast64, Symbols.expr(AsmBCast64Kind.BCast_2TO8_64).Format(), 2, 8);
+                case XedBCastKind.BCast_2TO8_64:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_2TO8_64).Format(), 2, 8);
                 break;
 
-                case AsmBCastKind.BCast_1TO2_64:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast64, Symbols.expr(AsmBCast64Kind.BCast_1TO2_64).Format(), 1, 2);
+                case XedBCastKind.BCast_1TO2_64:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_1TO2_64).Format(), 1, 2);
                 break;
 
-                case AsmBCastKind.BCast_1TO4_64:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast64, Symbols.expr(AsmBCast64Kind.BCast_1TO4_64).Format(), 1, 4);
+                case XedBCastKind.BCast_1TO4_64:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_1TO4_64).Format(), 1, 4);
                 break;
 
-                case AsmBCastKind.BCast_2TO4_64:
-                    dst = AsmBCastSpec.define(id, AsmBCastClass.BCast64, Symbols.expr(AsmBCast64Kind.BCast_2TO4_64).Format(), 2, 64);
+                case XedBCastKind.BCast_2TO4_64:
+                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_2TO4_64).Format(), 2, 64);
                 break;
             }
 

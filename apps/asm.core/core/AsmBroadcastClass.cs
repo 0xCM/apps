@@ -1,11 +1,10 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : all-state.txt
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public enum AsmBCastClass : byte
+    public enum AsmBroadcastClass : byte
     {
         None = 0,
 

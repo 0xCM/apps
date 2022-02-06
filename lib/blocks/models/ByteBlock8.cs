@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     using B = ByteBlock8;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:8,t:u8>")]
     public struct ByteBlock8 : IStorageBlock<B>
@@ -83,6 +83,12 @@ namespace Z0
         public ref T Cell<T>(uint index)
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
+
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator B(ulong src)

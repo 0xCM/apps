@@ -4,36 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct XedModels
     {
-        [DataType("xed.opcode")]
-        public readonly struct OpCode
+        [Record(TableId)]
+        public struct XedOpCode
         {
-            public readonly Hex8 Value {get;}
+            public const string TableId = "xed.opcode";
 
-            [MethodImpl(Inline)]
-            public OpCode(byte src)
-            {
-                Value = src;
-            }
+            public const byte FieldCount = 6;
 
-            [MethodImpl(Inline)]
-            public static implicit operator OpCode(byte src)
-                => new OpCode(src);
+            public uint Seq;
 
-            [MethodImpl(Inline)]
-            public static implicit operator OpCode(Hex8 src)
-                => new OpCode(src);
+            public IClass Class;
 
-            public string Format()
-                => Value.ToString();
+            public OpCodeKind Kind;
 
-            public override string ToString()
-                => Format();
+            public byte ClassSeq;
+
+            public ByteBlock4 Value;
+
+            public TextBlock Source;
+
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,8,12,1};
         }
     }
 }

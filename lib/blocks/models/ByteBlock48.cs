@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock48;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     /// <summary>
     /// Covers 48 bytes = 256 bits of stack-allocated storage

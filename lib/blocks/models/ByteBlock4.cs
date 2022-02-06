@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock4;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("block<n:4,t:u8>")]
     public struct ByteBlock4 : IStorageBlock<B>
@@ -76,7 +71,13 @@ namespace Z0
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
 
-       [MethodImpl(Inline)]
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
+
+        [MethodImpl(Inline)]
         public static implicit operator B(uint src)
             => @as<uint,B>(src);
 

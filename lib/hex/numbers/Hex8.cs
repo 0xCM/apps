@@ -34,7 +34,6 @@ namespace Z0
 
         public static H Max => KMax;
 
-
         [Parser]
         public static Outcome parse(string src, out Hex8 dst)
         {

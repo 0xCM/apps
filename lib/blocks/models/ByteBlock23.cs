@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock23;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:23,t:u8>")]
     public struct ByteBlock23 : IStorageBlock<B>

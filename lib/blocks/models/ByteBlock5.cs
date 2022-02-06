@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock5;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     /// <summary>
     /// 5 bytes of storage
@@ -77,6 +72,12 @@ namespace Z0
         public ref T Cell<T>(uint index)
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
+
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
        public static B Empty => default;
     }

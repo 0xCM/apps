@@ -12,6 +12,7 @@ namespace Z0
 
     partial class ByteBlocks
     {
+
         /// <summary>
         /// Fills a span with data from a memory block
         /// </summary>

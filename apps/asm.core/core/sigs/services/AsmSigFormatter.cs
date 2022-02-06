@@ -73,7 +73,7 @@ namespace Z0.Asm
             {
                 if(src.Modifier != 0)
                 {
-                    if(_Datasets.Modifers.MakKind(src.Modifier, out var mod))
+                    if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
                         return string.Format("{0} {1}", xpr, mod.Expr);
                     else
                         return RP.Error;

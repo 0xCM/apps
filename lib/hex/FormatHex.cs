@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static HexFormatSpecs;
 
     [ApiHost]
@@ -180,16 +176,24 @@ namespace Z0
             => HexFormatter.format(src, HexFormatSpecs.HexData);
 
         [Op]
+        public static string FormatHex(this byte[] src, in HexFormatOptions config)
+            => HexFormatter.format(src, config);
+
+        [Op]
         public static string FormatHex(this ReadOnlySpan<byte> src)
             => HexFormatter.format(src, HexFormatSpecs.HexData);
+
+        [Op]
+        public static string FormatHex(this ReadOnlySpan<byte> src, in HexFormatOptions options)
+            => HexFormatter.format(src, options);
 
         [Op]
         public static string FormatHex(this Span<byte> src)
             => HexFormatter.format(src, HexFormatSpecs.HexData);
 
         [Op]
-        public static string FormatHex(this byte[] src, in HexFormatOptions config)
-            => HexFormatter.format(src, config);
+        public static string FormatHex(this Span<byte> src, in HexFormatOptions options)
+            => HexFormatter.format(src, options);
 
         /// <summary>
         /// Formats a span of numeric cell type as a sequence of hex values

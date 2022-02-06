@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     partial class XedCmdProvider
     {
         [CmdOp("xed/emit/catalog")]
         Outcome EmitXedCat(CmdArgs args)
         {
             Xed.EmitCatalog();
-           return true;
+            return true;
         }
     }
 }

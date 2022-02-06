@@ -12,7 +12,7 @@ namespace Z0
     using static core;
 
     using B = ByteBlock512;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     [StructLayout(LayoutKind.Sequential, Size = (int)Size, Pack=1), DataType("block<n:512,t:u8>")]
     public struct ByteBlock512 : IStorageBlock<B>

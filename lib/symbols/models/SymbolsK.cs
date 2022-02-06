@@ -39,7 +39,18 @@ namespace Z0
             ValMap = valMap;
             SymKinds = src.Select(x => x.Kind);
             SymVals = valMap.Keys.Array();
-            KindMap = src.Select(x => (x.Kind, x)).ToDictionary();
+            KindMap = CreateKindMap(src);
+        }
+
+        static Dictionary<K, Sym<K>> CreateKindMap(Index<Sym<K>> src)
+        {
+            var dst = dict<K,Sym<K>>();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+            {
+                dst.TryAdd(src[i].Kind, src[i]);
+            }
+            return dst;
         }
 
         public ref readonly Sym<K> this[uint index]
@@ -67,7 +78,7 @@ namespace Z0
         public bool MapExpr(SymExpr src, out Sym<K> dst)
             => ExprMap.TryGetValue(src.Text, out dst);
 
-        public bool MakKind(K src, out Sym<K> dst)
+        public bool MapKind(K src, out Sym<K> dst)
             => KindMap.TryGetValue(src, out dst);
 
         public bool ExprKind(SymExpr src, out K dst)

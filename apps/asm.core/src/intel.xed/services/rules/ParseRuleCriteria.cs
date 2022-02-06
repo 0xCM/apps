@@ -48,7 +48,15 @@ namespace Z0
 
                 if(nonempty(name))
                 {
-                    if(!OperandKinds.ExprKind(name, out fk))
+                    if(name.Equals("REXW[w]"))
+                        fk = OperandKind.REXW;
+                    else if(name.Equals("REXB[b]"))
+                        fk = OperandKind.REXB;
+                    else if(name.Equals("REXR[r]"))
+                        fk = OperandKind.REXR;
+                    else if(name.Equals("REXX[x]"))
+                        fk = OperandKind.REXX;
+                    else if(!OperandKinds.ExprKind(name, out fk))
                         Warn(string.Format("Kind for {0} not found in {1}", name, src));
                 }
 

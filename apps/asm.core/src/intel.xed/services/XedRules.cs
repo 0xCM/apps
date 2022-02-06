@@ -6,8 +6,6 @@ namespace Z0
 {
     using static XedModels;
     using static core;
-    using static Root;
-
     using static XedModels.RuleNames;
 
     using EK = XedModels.XedRuleKind;
@@ -72,10 +70,10 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
-        OpCodeMaps DeriveOpCodeMaps()
-            => Data(nameof(DeriveOpCodeMaps), () => new OpCodeMaps());
+        OpCodePatterns DeriveOpCodeMaps()
+            => Data(nameof(DeriveOpCodeMaps), () => new OpCodePatterns());
 
-        public OpCodeMaps LoadOpCodeMaps()
+        public OpCodePatterns LoadOpCodeMaps()
             => DeriveOpCodeMaps();
 
         public Index<PointerWidthRecord> LoadPointerWidths()

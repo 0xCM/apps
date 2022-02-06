@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock15;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     /// <summary>
     /// 15 bytes of storage

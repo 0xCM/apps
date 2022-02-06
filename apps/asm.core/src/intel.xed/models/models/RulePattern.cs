@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct XedModels
     {
         [Record(TableId)]
@@ -24,9 +19,9 @@ namespace Z0
 
             public IClass Class;
 
-            public OpCodeMapIdentity OpCodeMap;
+            public OpCodeKind OpCodeKind;
 
-            public TextBlock Content;
+            public TextBlock Expression;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
 
@@ -34,13 +29,13 @@ namespace Z0
                 => (int)Hash;
 
             public bool Equals(RulePattern src)
-                => Content.Equals(src.Content);
+                => Expression.Equals(src.Expression);
 
             public int CompareTo(RulePattern src)
             {
                 var i = ((ushort)Class).CompareTo(((ushort)src.Class));
                 if(i == 0)
-                    i = Content.CompareTo(src.Content);
+                    i = Expression.CompareTo(src.Expression);
                 return i;
             }
         }

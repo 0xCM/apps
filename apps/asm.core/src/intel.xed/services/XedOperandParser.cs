@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     using Asm;
 
     using static core;
@@ -494,15 +491,15 @@ namespace Z0
                 break;
 
                 case K.PREFIX66:
-                    state.prefix66 = bit.On;
+                    state.prefix66 = 1;
                 break;
 
                 case K.PTR:
-                    state.ptr = bit.On;
+                    state.ptr = 1;
                 break;
 
                 case K.REALMODE:
-                    state.realmode = bit.On;
+                    state.realmode = 1;
                 break;
 
                 case K.OUTREG:
@@ -558,23 +555,23 @@ namespace Z0
                 break;
 
                 case K.REXB:
-                    state.rexb = bit.On;
+                    state.rexb = 1;
                 break;
 
                 case K.REXR:
-                    state.rexr = bit.On;
+                    state.rexr = 1;
                 break;
 
                 case K.REXRR:
-                    state.rexrr = bit.On;
+                    state.rexrr = 1;
                 break;
 
                 case K.REXW:
-                    state.rexw = bit.On;
+                    state.rexw = 1;
                 break;
 
                 case K.REXX:
-                    state.rexx = bit.On;
+                    state.rexx = 1;
                 break;
 
                 case K.RM:

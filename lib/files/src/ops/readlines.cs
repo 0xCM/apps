@@ -4,33 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.IO;
-
-    using static Root;
     using static core;
 
     partial struct FS
     {
         [Op]
         public static Index<TextLine> readlines(FilePath src, bool skipBlank = false)
-        {
-            // if(!src.Exists)
-            //     return array<TextLine>();
-
-            // var data = @readonly(File.ReadAllLines(src.Name));
-
-            // var count = data.Length;
-            // if(count == 0)
-            //     return array<TextLine>();
-
-            // var buffer = alloc<TextLine>(count);
-            // ref var dst = ref first(buffer);
-            // for(var i=0u; i<count; i++)
-            //     seek(dst,i) = text.line(i + 1, skip(data,i));
-            // return buffer;
-            return readlines(src, TextEncodingKind.Utf8, skipBlank);
-        }
+            => readlines(src, TextEncodingKind.Utf8, skipBlank);
 
         public static Index<TextLine> readlines(FS.FilePath src, TextEncodingKind encoding, bool skipBlank = false)
         {
@@ -55,25 +35,25 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public static Index<string> readtext(FS.FilePath src, TextEncodingKind encoding, bool skipBlank = false)
+        public static void readlines(FS.FilePath src, Func<TextLine,bool> dst, TextEncodingKind encoding, bool skipBlank = false)
         {
             using var reader = src.Reader(encoding);
-            var buffer = list<string>();
             var content = reader.ReadLine();
-            while(content != null)
+            var number = 1u;
+            var @continue  = true;
+            while(content != null && @continue)
             {
                 if(skipBlank)
                 {
                     if(!text.blank(content))
-                        buffer.Add(content);
+                        @continue = dst(text.line(number++, content));
+
                 }
                 else
-                    buffer.Add(content);
+                    @continue = dst(text.line(number++, content));
 
                 content = reader.ReadLine();
             }
-
-            return buffer.ToArray();
         }
     }
 }
