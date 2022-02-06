@@ -10,77 +10,12 @@ namespace Z0
     {
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
-        public static EncodingBank encoding(Index<EncodedMemberInfo> index, BinaryCode data)
-        {
-            var dst = new EncodingData();
-            var comparer = EncodedMemberComparer.create(EncodedMemberComparer.ModeKind.Target);
-            index.Sort(comparer);
-            var bytes = data.View;
-            var offset = 0u;
-            var count = index.Count;
-            var offsets = alloc<uint>(count);
-            var tokens = alloc<ApiToken>(count);
-            var symbols = SymbolDispenser.alloc();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var info = ref index[i];
-                ref readonly var size = ref info.CodeSize;
-                if(offset + size > bytes.Length)
-                    Errors.Throw(string.Format("Offset exceeded at {0} for {1}", i, info.Uri));
-
-                seek(offsets,i) = offset;
-
-                var result = entry(info, out var ep);
-                if(result.Fail)
-                    Errors.Throw(result.Message);
-
-                seek(tokens,i) = ApiToken.create(symbols, ep, info.TargetAddress);
-                var code = slice(bytes, offset, size);
-
-                offset += size;
-            }
-
-            dst.Symbols = symbols;
-            dst.Index = index;
-            dst.CodeBuffer = memory.gcpin(data.Storage);
-            dst.Offsets = offsets;
-            dst.Tokens = tokens;
-            return new EncodingBank(dst);
-        }
-
-        static Outcome entry(in EncodedMemberInfo src, out MethodEntryPoint dst)
-        {
-            var result = ApiUri.parse(src.Uri, out var uri);
-            dst = MethodEntryPoint.Empty;
-            if(result)
-            {
-                if(uri.IsEmpty)
-                    result = (false, string.Format("Empty uri for {0}", src.Uri));
-                else
-                    dst = new MethodEntryPoint(src.EntryAddress, Require.notnull(uri), src.Sig);
-            }
-            return result;
-        }
-
-        internal class EncodingData
-        {
-            internal SymbolDispenser Symbols;
-
-            internal Index<EncodedMemberInfo> Index;
-
-            internal ManagedBuffer CodeBuffer;
-
-            internal Index<uint> Offsets;
-
-            internal Index<ApiToken> Tokens;
-        }
-
         public EncodingBank Encoding()
         {
             var result = LoadCollected(out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
-            return encoding(index,code);
+            return EncodingBank.load(index,code);
         }
 
         public EncodingBank Encoding(string spec)
@@ -105,7 +40,7 @@ namespace Z0
             var result = LoadCollected(src, out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
-            return CodeBanks.encoding(index,code);
+            return EncodingBank.load(index,code);
         }
 
         public EncodingBank Encoding(ApiHostUri src)
@@ -113,7 +48,7 @@ namespace Z0
             var result = LoadCollected(src, out var index, out var code);
             if(result.Fail)
                 Errors.Throw(result.Message);
-            return CodeBanks.encoding(index,code);
+            return EncodingBank.load(index,code);
         }
 
         Outcome LoadCollected(PartId src, out Index<EncodedMemberInfo> index, out BinaryCode data)
