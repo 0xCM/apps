@@ -34,7 +34,6 @@ namespace Z0
         public static implicit operator ArrayReader<T>(T[] src)
             => new ArrayReader<T>(src);
 
-
         [MethodImpl(Inline)]
         public ref readonly T Next()
             => ref skip(Data,Index++);

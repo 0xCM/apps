@@ -22,10 +22,10 @@ namespace Z0
         {
             var count = src.Length;
             var segs = alloc<BitfieldSegModel>(count);
-            for(var i=0u; i<count; i++)
+            for(var i=z8; i<count; i++)
             {
                 ref readonly var item = ref skip(src,i);
-                seek(segs,i) = segmodel(item.Value.Format(), i, i, i);
+                seek(segs,i) = segmodel(item.Value.Format(), i, i);
             }
 
             return model(name, segs);

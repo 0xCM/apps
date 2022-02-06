@@ -15,14 +15,15 @@ namespace Z0
         {
             var enc = EmitEncInstDefs();
             var dec = EmitDecInstDefs();
-            EmitRulePatterns(enc,dec);
+            var rules = EmitRulePatterns(enc,dec);
             EmitFieldDefs();
             EmitEncRuleTables();
             EmitDecRuleTables();
             EmitEncDecRuleTables();
             EmitOperandWidths();
             EmitPointerWidths();
-            EmitOpCodeMaps();
+            EmitOpCodePatterns();
+            EmitOpCodes(rules);
         }
 
         public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
@@ -58,11 +59,11 @@ namespace Z0
 
         Index<RulePattern> EmitRulePatterns(Index<InstDef> x, Index<InstDef> y)
         {
-            var enc = x.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
-            var dec = y.SelectMany(x => x.PatternOps).Select(x => x.Pattern).Distinct().Sort();
+            var enc = x.SelectMany(x => x.PatternOps).Select(x => x.Expr).Distinct().Sort();
+            var dec = y.SelectMany(x => x.PatternOps).Select(x => x.Expr).Distinct().Sort();
             var count = Require.equal(enc.Count, dec.Count);
             var patterns = ExtractRulePatterns(x);
-            var path = XedPaths.RuleTarget(RuleDocKind.Patterns);
+            var path = XedPaths.RuleTarget(RuleDocKind.RulePatterns);
             TableEmit(patterns.View, RulePattern.RenderWidths, path);
             return patterns;
         }
@@ -102,12 +103,18 @@ namespace Z0
             return src;
         }
 
-        public OpCodePatterns EmitOpCodeMaps()
+        public OpCodePatterns EmitOpCodePatterns()
         {
             var src = DeriveOpCodeMaps();
-            var dst = ProjectDb.TablePath<OpCodePattern>("xed");
-            TableEmit(src.Records, OpCodePattern.RenderWidths, dst);
+            TableEmit(src.Records, OpCodePattern.RenderWidths, XedPaths.RuleTarget(RuleDocKind.OpCodePatterns));
             return src;
+        }
+
+        public Index<XedOpCode> EmitOpCodes(ReadOnlySpan<RulePattern> src)
+        {
+            var opcodes = ExtractOpCodes(src);
+            TableEmit(opcodes.View, XedOpCode.RenderWidths, XedPaths.RuleTarget(RuleDocKind.OpCodes));
+            return opcodes;
         }
     }
 }

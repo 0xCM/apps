@@ -57,7 +57,9 @@ namespace Z0
                  RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
                  RuleDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
                  RuleDocKind.PointerWidths => Tables.filename<PointerWidthRecord>(),
-                 RuleDocKind.Patterns => Tables.filename<RulePattern>(),
+                 RuleDocKind.RulePatterns => Tables.filename<RulePattern>(),
+                 RuleDocKind.OpCodePatterns => Tables.filename<OpCodePattern>(),
+                 RuleDocKind.OpCodes => Tables.filename<XedOpCode>(),
                  _ => FS.FileName.Empty
             });
 

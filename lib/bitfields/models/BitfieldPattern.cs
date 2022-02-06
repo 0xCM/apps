@@ -4,44 +4,70 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
+    using static BitfieldPatterns;
 
-    [DataType("bitfields.pattern")]
-    public readonly struct BitfieldPattern
+    public class BitfieldPattern
     {
-        readonly string Content;
+        /// <summary>
+        /// The pattern specification
+        /// </summary>
+        public string Content {get;}
 
-        [MethodImpl(Inline)]
-        public BitfieldPattern(string src)
+        /// <summary>
+        /// The pattern name
+        /// </summary>
+        public string Name {get;}
+
+        /// <summary>
+        /// Segment indicators/specifiers
+        /// </summary>
+        public Index<string> Indicators {get;}
+
+        /// <summary>
+        /// The width of the data represented by the pattern
+        /// </summary>
+        public byte DataWidth {get;}
+
+        /// <summary>
+        /// The minimum amount of storage required to store the represented data
+        /// </summary>
+        public NativeSize MinSize {get;}
+
+        /// <summary>
+        /// A data type with size of <see cref='MinSize'/> or greater
+        /// </summary>
+        public Type DataType {get;}
+
+        public Index<BitfieldSegModel> Segments {get;}
+
+        public Index<byte> SegWidths {get;}
+
+        public string Descriptor {get;}
+
+        public BitfieldPattern(string pattern)
         {
-            Content = src ?? EmptyString;
+            Content = text.despace(pattern);
+            Name = name(Content);
+            Indicators = indicators(Content);
+            DataWidth = datawidth(Content);
+            DataType = datatype(Content);
+            MinSize = minsize(Content);
+            SegWidths = segwidths(Content);
+            Segments = segments(Content);
+            Descriptor = descriptor(Content);
         }
 
-        public string Text
+        public uint SegCount
         {
             [MethodImpl(Inline)]
-            get => Content ?? EmptyString;
-        }
-
-        public int Length
-        {
-            [MethodImpl(Inline)]
-            get => Text.Length;
+            get => Indicators.Count;
         }
 
         public string Format()
-            => Text;
+            => Descriptor;
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator BitfieldPattern(string src)
-            => new BitfieldPattern(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator string(BitfieldPattern src)
-            => src.Text;
 
         public static BitfieldPattern Empty => new BitfieldPattern(EmptyString);
     }

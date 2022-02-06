@@ -13,42 +13,36 @@ namespace Z0
         /// <summary>
         /// The segment name
         /// </summary>
-        public readonly Identifier SegName;
-
-        /// <summary>
-        /// The 0-based position of the segment within the field
-        /// </summary>
-        public readonly uint SegPos;
-
-        /// <summary>
-        /// The segment position within the field
-        /// </summary>
-        public readonly K SegId;
+        public readonly text31 SegName;
 
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public readonly uint MinIndex;
+        public readonly byte MinIndex;
 
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public readonly uint MaxIndex;
+        public readonly byte MaxIndex;
 
         /// <summary>
         /// The segment width
         /// </summary>
-        public readonly uint SegWidth;
+        public readonly byte SegWidth;
+
+        /// <summary>
+        /// The segment mask
+        /// </summary>
+        public readonly BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(K id, uint pos, uint min, uint max)
+        public BitfieldSegModel(text31 name, byte min, byte max, BitMask mask)
         {
-            SegPos = pos;
-            SegName = id.ToString();
-            SegId = id;
+            SegName = name;
             MinIndex = min;
             MaxIndex = max;
-            SegWidth = max - min + 1;
+            SegWidth = bits.segwidth(MinIndex,MaxIndex);
+            Mask = mask;
         }
 
         public string Format()

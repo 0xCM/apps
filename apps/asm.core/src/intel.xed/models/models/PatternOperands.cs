@@ -11,24 +11,27 @@ namespace Z0
 
     partial struct XedModels
     {
+        static string ConformRuleExpr(string src)
+            => src.Replace("MOD[0b11] MOD=3", "MOD[0b11]");
+
         public readonly struct PatternOperands
         {
-            public TextBlock Pattern {get;}
+            public TextBlock Expr {get;}
 
             public Index<RuleOpSpec> Operands {get;}
 
             [MethodImpl(Inline)]
-            public PatternOperands(string pattern, RuleOpSpec[] operands)
+            public PatternOperands(string expr, RuleOpSpec[] operands)
             {
-                Pattern = text.despace(pattern);
+                Expr = ConformRuleExpr(text.despace(expr));
                 Operands = operands;
             }
 
             public Index<PatternComponent> Componentize()
-                => PatternComponent.components(Pattern);
+                => PatternComponent.components(Expr);
 
             public string Format()
-                => string.Format("Pattern:{0}\nOperands:{1}", Pattern, Operands);
+                => string.Format("Pattern:{0}\nOperands:{1}", Expr, Operands);
 
             public override string ToString()
                 => Format();

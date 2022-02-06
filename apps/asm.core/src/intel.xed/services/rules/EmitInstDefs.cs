@@ -35,7 +35,7 @@ namespace Z0
                 if(def.Flags.IsNonEmpty)
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Flags), def.Flags.Delimit(fence:RenderFence.Embraced)));
                 iter(def.PatternOps, p => {
-                    writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Pattern));
+                    writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Expr));
                     if(p.Operands.Count != 0)
                         iter(p.Operands, o => writer.WriteLine(o));
                 });

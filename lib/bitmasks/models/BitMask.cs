@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct BitMask
     {
         [MethodImpl(Inline)]

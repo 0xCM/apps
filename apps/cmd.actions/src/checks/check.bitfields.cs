@@ -6,10 +6,6 @@ namespace Z0
 {
     using System;
 
-    using Asm;
-
-    using static Asm.RegClasses;
-
     using static core;
 
     partial class CheckCmdProvider
@@ -19,14 +15,14 @@ namespace Z0
         {
             var storage = ByteBlock32.Empty;
             var buffer = storage.Bytes;
-            var segwidth = 8u;
-            ReadOnlySpan<uint> indices = new uint[]{3,33,59,61,101,203,222,224,225,226};
+            byte segwidth = 8;
+            ReadOnlySpan<byte> indices = new byte[]{3,33,59,61,101,203};
             gbits.enable(buffer, indices);
             var segcount = buffer.Length;
-            for(var i=0u; i<segcount; i++)
+            for(var i=z8; i<segcount; i++)
             {
                 ref readonly var cell = ref skip(buffer,i);
-                var offset = i*segwidth;
+                var offset = (byte)(i*segwidth);
                 if(cell != 0)
                 {
                     var seg = Bitfields.segment(cell, offset, segwidth);

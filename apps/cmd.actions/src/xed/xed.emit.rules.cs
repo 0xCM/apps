@@ -95,7 +95,6 @@ namespace Z0
 
             Write(counts.Format());
             var opcodes = Xed.Rules.ExtractOpCodes(patterns);
-            TableEmit(opcodes.View, XedOpCode.RenderWidths, ProjectDb.TablePath<XedOpCode>("xed"));
 
             return result;
         }

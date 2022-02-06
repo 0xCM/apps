@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     partial struct Bitfields
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static BitfieldSeg<T> segment<T>(T src, uint offset, uint width)
+        public static BitfieldSeg<T> segment<T>(T src, byte offset, byte width)
             where T : unmanaged
-                => new BitfieldSeg<T>(src,offset,width);
+                => new BitfieldSeg<T>(src, offset, width);
     }
 }

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = Bitfields;
@@ -34,6 +30,10 @@ namespace Z0
         [MethodImpl(Inline)]
         public T Extract(byte offset, byte width)
             => api.extract(this, offset, width);
+
+        [MethodImpl(Inline)]
+        public void Store(T src, byte min, byte max)
+            => bits.store(u16(src), min, max, ref _State);
 
         public Bitfield8<T> Lo
         {

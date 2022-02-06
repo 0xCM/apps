@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial class bits
     {
         [MethodImpl(Inline), Op]
-        public static byte segwidth(byte i0, byte i1)
-            => (byte)(i1 - i0 + 1);
+        public static byte segwidth(byte min, byte max)
+            => (byte)(max - min + 1);
+
+        [MethodImpl(Inline), Op]
+        public static uint segwidth(uint min, uint max)
+            => max - min + 1;
     }
 }

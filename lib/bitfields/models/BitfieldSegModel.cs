@@ -20,33 +20,33 @@ namespace Z0
         public text31 SegName;
 
         /// <summary>
-        /// The 0-based position of the segment within the field
-        /// </summary>
-        public readonly uint SegPos;
-
-        /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public uint MinIndex;
+        public byte MinIndex;
 
         /// <summary>
         /// The index of the last bit in the segment
         /// </summary>
-        public uint MaxIndex;
+        public byte MaxIndex;
 
         /// <summary>
         /// The segment width
         /// </summary>
-        public uint SegWidth;
+        public byte SegWidth;
+
+        /// <summary>
+        /// The segment mask
+        /// </summary>
+        public BitMask Mask;
 
         [MethodImpl(Inline)]
-        public BitfieldSegModel(text31 name, uint pos, uint min, uint max)
+        public BitfieldSegModel(text31 name, byte min, byte max, BitMask mask = default)
         {
             SegName = name;
-            SegPos = pos;
             MinIndex = min;
             MaxIndex = max;
-            SegWidth = max - min + 1;
+            SegWidth = bits.segwidth(MinIndex,MaxIndex);
+            Mask = mask;
         }
 
         public string Format()

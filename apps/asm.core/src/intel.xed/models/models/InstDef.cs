@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     partial struct XedModels
     {
         public struct InstDef : IComparable<InstDef>
@@ -37,7 +30,7 @@ namespace Z0
                 if(result == 0)
                 {
                     if(PatternOps.IsNonEmpty && src.PatternOps.IsNonEmpty)
-                        result = PatternOps.First.Pattern.CompareTo(src.PatternOps.First.Pattern);
+                        result = PatternOps.First.Expr.CompareTo(src.PatternOps.First.Expr);
                 }
                 return result;
             }

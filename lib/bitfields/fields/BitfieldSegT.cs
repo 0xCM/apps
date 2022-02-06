@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential)]
     public struct BitfieldSeg<T>
         where T : unmanaged
@@ -22,15 +16,15 @@ namespace Z0
         /// <summary>
         /// The index of the first bit in the segment
         /// </summary>
-        public uint Offset;
+        public byte Offset;
 
         /// <summary>
         /// The segment width
         /// </summary>
-        public uint Width;
+        public byte Width;
 
         [MethodImpl(Inline)]
-        public BitfieldSeg(T value, uint offset, uint width)
+        public BitfieldSeg(T value, byte offset, byte width)
         {
             Value = value;
             Offset = offset;

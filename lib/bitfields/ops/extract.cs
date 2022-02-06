@@ -9,17 +9,17 @@ namespace Z0
     partial struct Bitfields
     {
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static T extract<T>(T src, byte i0, byte i1)
+        public static T extract<T>(T src, byte min, byte max)
             where T : unmanaged
         {
             if(width<T>() == 8)
-                return @as<byte,T>(bits.extract(bw8(src), i0, i1));
+                return @as<byte,T>(bits.extract(bw8(src), min, max));
             else if(width<T>() == 16)
-                return @as<ushort,T>(bits.extract(bw16(src), i0, i1));
+                return @as<ushort,T>(bits.extract(bw16(src), min, max));
             else if(width<T>() == 32)
-                return @as<uint,T>(bits.extract(bw32(src), i0, i1));
+                return @as<uint,T>(bits.extract(bw32(src), min, max));
             else
-                return @as<ulong,T>(bits.extract(bw64(src), i0, i1));
+                return @as<ulong,T>(bits.extract(bw64(src), min, max));
         }
 
         [MethodImpl(Inline), Op]
@@ -27,12 +27,12 @@ namespace Z0
             => bits.slice(src.State, pos, width);
 
         [MethodImpl(Inline), Op]
-        public static ushort extract(Bitfield16 src, byte i0, byte i1)
-            => bits.slice(src.State, i0, i1);
+        public static ushort extract(Bitfield16 src, byte pos, byte width)
+            => bits.slice(src.State, pos, width);
 
         [MethodImpl(Inline), Op]
-        public static uint extract(Bitfield32 src, byte i0, byte i1)
-            => bits.slice(src.State, i0, i1);
+        public static uint extract(Bitfield32 src, byte pos, byte width)
+            => bits.slice(src.State, pos, width);
 
         [MethodImpl(Inline), Op]
         public static ulong extract(Bitfield64 src, byte i0, byte i1)

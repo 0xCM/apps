@@ -9,211 +9,46 @@ namespace Z0
     [ApiHost]
     public readonly struct BitfieldPatterns
     {
-        public class PatternInfo
-        {
-            /// <summary>
-            /// The pattern specification
-            /// </summary>
-            public BitfieldPattern Pattern {get;}
-
-            /// <summary>
-            /// The pattern name
-            /// </summary>
-            public string Name {get;}
-
-            /// <summary>
-            /// Segment indicators/specifiers
-            /// </summary>
-            public Index<string> Indicators {get;}
-
-            /// <summary>
-            /// The width of the data represented by the pattern
-            /// </summary>
-            public byte DataWidth {get;}
-
-            /// <summary>
-            /// The minimum amount of storage required to store the represented data
-            /// </summary>
-            /// <value></value>
-            public NativeSize MinSize {get;}
-
-            /// <summary>
-            /// A data type with size of <see cref='MinSize'/> or greater
-            /// </summary>
-            public Type DataType {get;}
-
-            public Index<PatternSegment> Segments {get;}
-
-            public Index<byte> SegWidths {get;}
-
-            public string Descriptor {get;}
-
-            public PatternInfo(BitfieldPattern pattern)
-            {
-                Pattern = text.despace(pattern.Text);
-                Name = name(Pattern);
-                Indicators = indicators(Pattern);
-                DataWidth = datawidth(Pattern);
-                DataType = datatype(Pattern);
-                MinSize = minsize(Pattern);
-                SegWidths = segwidths(Pattern);
-                Segments = segments(Pattern);
-                Descriptor = descriptor(Pattern);
-            }
-
-            public uint SegCount
-            {
-                [MethodImpl(Inline)]
-                get => Indicators.Count;
-            }
-
-            public string Format()
-                => Descriptor;
-
-            public override string ToString()
-                => Format();
-
-            public static PatternInfo Empty => new PatternInfo(BitfieldPattern.Empty);
-        }
-
-        public class PatternSegment
-        {
-            public NativeSize SourceSize {get;}
-
-            public string Indicator {get;}
-
-            public string Identifier {get;}
-
-            public byte MinIndex {get;}
-
-            public byte MaxIndex {get;}
-
-            public byte DataWidth {get;}
-
-            public BitMask Mask {get;}
-
-            [MethodImpl(Inline)]
-            public PatternSegment(NativeSize srcsize, BitMask mask, string indicator, byte min, byte max)
-            {
-                SourceSize = srcsize;
-                Mask = mask;
-                Indicator = indicator;
-                Identifier = EmptyString;
-                MinIndex = min;
-                MaxIndex = max;
-                DataWidth = bits.segwidth(MinIndex,MaxIndex);
-            }
-
-            [MethodImpl(Inline)]
-            public PatternSegment(NativeSize srcsize, BitMask mask, string indicator, byte min, byte max, string identifier)
-            {
-                SourceSize = srcsize;
-                Mask = mask;
-                Indicator = indicator;
-                Identifier = identifier;
-                MinIndex = min;
-                MaxIndex = max;
-                DataWidth = bits.segwidth(MinIndex,MaxIndex);
-            }
-
-            public string Format()
-                => Indicator;
-
-            public override string ToString()
-                => Format();
-        }
-
-        [Op]
-        public static BitfieldPattern infer(ReadOnlySpan<char> src)
-        {
-            var count = src.Length;
-            var counter = 0u;
-            AsciSymbol k = AsciCode.a;
-            AsciSymbol error = AsciCode.Bang;
-            Span<char> buffer = stackalloc char[count];
-
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var c = ref skip(src,i);
-                ref var dst = ref seek(buffer,i);
-                if(c == Chars.Space)
-                {
-                    dst = c;
-                    k++;
-                }
-                else
-                {
-                    if(c == bit.One || c == bit.Zero)
-                        dst = k;
-                    else
-                        dst = error;
-                }
-            }
-
-            return new BitfieldPattern(new string(buffer));
-        }
-
-        public static string name(BitfieldPattern src)
+        public static string name(string src)
             => text.replace(src, Chars.Space, Chars.Underscore);
 
-        public static PatternInfo describe(BitfieldPattern src)
-            => new PatternInfo(src);
+        public static BitfieldPattern infer(string src)
+            => new BitfieldPattern(src);
 
-        public static Index<string> indicators(BitfieldPattern src)
+        public static Index<string> indicators(string src)
             => text.split(src, Chars.Space).Reverse();
 
-        public static Index<PatternSegment> segments(BitfieldPattern src)
+        public static Index<BitfieldSegModel> segments(string src)
         {
-            var _indicators = indicators(src);
-            var count = _indicators.Length;
-            var buffer = alloc<PatternSegment>(count);
+            var names = indicators(src);
+            var count = names.Length;
+            var buffer = alloc<BitfieldSegModel>(count);
             var offset = z8;
             var size = minsize(src);
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(buffer,i);
-                ref readonly var indicator = ref _indicators[i];
-                var width = (byte)indicator.Length;
+                ref readonly var name = ref names[i];
+                var width = (byte)name.Length;
                 var min = offset;
                 var max = (byte)(width + offset - 1);
-                var m = BitMasks.mask(size, min, max);
-                dst = new PatternSegment(size, BitMasks.mask(size, min, max), indicator, min, max);
+                dst = Bitfields.segmodel(name, min, max, BitMasks.mask(size, min, max));
                 offset += width;
             }
             return buffer;
         }
 
-        public static Index<PatternSegment> segments(BitfieldPattern src, Index<Identifier> identifiers)
-        {
-            var _indicators = indicators(src);
-            var count = _indicators.Length;
-            var buffer = alloc<PatternSegment>(count);
-            var offset = z8;
-            var size = minsize(src);
-            for(var i=0; i<count; i++)
-            {
-                ref var dst = ref seek(buffer,i);
-                ref readonly var indicator = ref _indicators[i];
-                var width = (byte)indicator.Length;
-                var min = offset;
-                var max = (byte)(width + offset - 1);
-                dst = new PatternSegment(size, BitMasks.mask(size, min, max), indicator, min, max, identifiers[i]);
-                offset += width;
-            }
-            return buffer;
-        }
-
-        public static string bitstring(PatternInfo pattern, byte data)
+        public static string bitstring(BitfieldPattern pattern, byte data)
         {
             var segs = pattern.Segments.Reverse();
             var count = segs.Count;
-            Span<char> buffer = stackalloc char[pattern.Pattern.Length];
+            Span<char> buffer = stackalloc char[pattern.Content.Length];
             var j=0u;
             for(var i=0; i<count; i++)
             {
                 ref readonly var seg = ref segs[i];
                 var mask = seg.Mask;
-                var width = seg.DataWidth;
+                var width = seg.SegWidth;
                 var bits = math.srl(seg.Mask.Apply(data), seg.MinIndex);
                 BitRender.render(bits, ref j, width, buffer);
                 seek(buffer, j++) = Chars.Space;
@@ -221,9 +56,9 @@ namespace Z0
             return new string(buffer);
         }
 
-        public static Index<BitMask> masks(PatternInfo src)
+        public static Index<BitMask> masks(BitfieldPattern src)
         {
-            var size = minsize(src.Pattern);
+            var size = minsize(src.Content);
             var segs = src.Segments;
             var count = segs.Length;
             var dst = alloc<BitMask>(count);
@@ -233,7 +68,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static NativeSize minsize(BitfieldPattern src)
+        public static NativeSize minsize(string src)
         {
             var width = datawidth(src);
             if(width <= 8)
@@ -250,13 +85,10 @@ namespace Z0
             return default;
         }
 
-        static BitfieldMember member(NativeSize size, PatternSegment src)
-            => new BitfieldMember(text.ifempty(src.Identifier, src.Indicator), src.MinIndex, src.MaxIndex, src.Mask);
+        // public static Index<BitfieldMember> members(string src)
+        //     => BitfieldPatterns.segments(src).Select(s => Bitfields.member(BitfieldPatterns.minsize(src), s));
 
-        static Index<BitfieldMember> members(BitfieldPattern src)
-            => BitfieldPatterns.segments(src).Select(s => member(BitfieldPatterns.minsize(src), s));
-
-        public static Index<byte> segwidths(BitfieldPattern src)
+        public static Index<byte> segwidths(string src)
         {
             var fields = indicators(src);
             var count = fields.Length;
@@ -266,10 +98,10 @@ namespace Z0
             return buffer;
         }
 
-        public static byte datawidth(BitfieldPattern src)
+        public static byte datawidth(string src)
             => (byte)text.remove(src, Chars.Space).Length;
 
-        public static Type datatype(BitfieldPattern src)
+        public static Type datatype(string src)
             => datatype(datawidth(src));
 
         [Op]
@@ -290,7 +122,7 @@ namespace Z0
             return dst;
         }
 
-        public static string descriptor(BitfieldPattern src)
-            => string.Format("{0}:{1} := {2}", name(src), datatype(src).DisplayName(), text.intersperse(members(src).Reverse().Select(x => x.Format()), Chars.Space));
+        public static string descriptor(string src)
+            => string.Format("{0}:{1} := {2}", name(src), datatype(src).DisplayName(), text.intersperse(segments(src).Reverse().Select(x => x.Format()), Chars.Space));
     }
 }

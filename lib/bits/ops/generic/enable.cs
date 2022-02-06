@@ -4,16 +4,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial class gbits
     {
         [MethodImpl(Inline), Enable]
         public static void enable<T>(Span<T> src, ReadOnlySpan<uint> indices)
+            where T : unmanaged
+        {
+            var count = indices.Length;
+            var twidth = width<T>();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var pos = ref skip(indices,i);
+                var j = pos / twidth;
+                var k = (byte)(pos % twidth);
+                if(j < src.Length)
+                {
+                    ref var dst = ref seek(src,j);
+                    dst = gbits.enable(dst,k);
+                }
+                else
+                    break;
+            }
+        }
+
+        [MethodImpl(Inline), Enable]
+        public static void enable<T>(Span<T> src, ReadOnlySpan<byte> indices)
             where T : unmanaged
         {
             var count = indices.Length;

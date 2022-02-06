@@ -49,7 +49,7 @@ namespace Z0.Asm
         {
             var seg = BitfieldSeg<VexPrefixCode>.Empty;
             var count = src.Length;
-            for(var i=0u; i<count; i++)
+            for(var i=z8; i<count; i++)
             {
                 ref readonly var b = ref skip(src,i);
                 if(b == (byte)VexPrefixCode.C4)

@@ -4,17 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static BitfieldPatterns;
-
     partial struct Bitfields
     {
-        public static BitfieldMember member(NativeSize size, PatternSegment src)
-            => new BitfieldMember(text.ifempty(src.Identifier, src.Indicator), src.MinIndex, src.MaxIndex, src.Mask);
+        // public static BitfieldMember member(NativeSize size, BitfieldSegModel src)
+        //     => new BitfieldMember(src.SegName, src.MinIndex, src.MaxIndex, src.Mask);
 
-        public static Index<BitfieldMember> members(PatternInfo src, Index<Identifier> identifiers)
-            => BitfieldPatterns.segments(src.Pattern,identifiers).Select(s => member(src.MinSize, s));
-
-        public static Index<BitfieldMember> members(PatternInfo src)
-            => src.Segments.Select(s => member(src.MinSize, s));
+        // public static Index<BitfieldMember> members(BitfieldPattern src)
+        //     => src.Segments.Select(s => member(src.MinSize, s));
     }
 }
