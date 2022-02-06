@@ -7,7 +7,7 @@ namespace Z0
     using System.Collections;
     using Asm;
 
-    class MemberCodeExtract
+    class CollectedCodeExtract
     {
         public ApiToken Token;
 
@@ -17,7 +17,7 @@ namespace Z0
 
         public BinaryCode TargetExtract;
 
-        public MemberCodeExtract(in RawMemberCode raw, BinaryCode extracted)
+        public CollectedCodeExtract(in RawMemberCode raw, BinaryCode extracted)
         {
             Token = raw.Token;
             StubCode = raw.StubCode;
@@ -26,19 +26,19 @@ namespace Z0
         }
     }
 
-    class MemberCodeExtracts : IEnumerable<MemberCodeExtract>
+    class CollectedCodeExtracts : IEnumerable<CollectedCodeExtract>
     {
-        readonly List<MemberCodeExtract> Data;
+        readonly List<CollectedCodeExtract> Data;
 
-        public MemberCodeExtracts(params MemberCodeExtract[] src)
+        public CollectedCodeExtracts(params CollectedCodeExtract[] src)
         {
             Data = new(src);
         }
 
-        public IEnumerator<MemberCodeExtract> GetEnumerator()
-            => ((IEnumerable<MemberCodeExtract>)Data).GetEnumerator();
+        public IEnumerator<CollectedCodeExtract> GetEnumerator()
+            => ((IEnumerable<CollectedCodeExtract>)Data).GetEnumerator();
 
-        public void Include(MemberCodeExtract src)
+        public void Include(CollectedCodeExtract src)
             => Data.Add(src);
 
         IEnumerator IEnumerable.GetEnumerator()

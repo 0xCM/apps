@@ -105,7 +105,7 @@ namespace Z0
             var count = src.Length;
             var buffer = span<byte>(Pow2.T16);
             var host = ApiHostUri.Empty;
-            var lookup = dict<ApiHostUri,MemberCodeExtracts>();
+            var lookup = dict<ApiHostUri,CollectedCodeExtracts>();
             var max = ByteSize.Zero;
             for(var i=0; i<count; i++)
             {
@@ -123,11 +123,11 @@ namespace Z0
                     host = uri.Host;
 
                 var extract = slice(buffer,0, ApiExtracts.extract(raw.Target, buffer));
-                var extracted = new MemberCodeExtract(raw, extract.ToArray());
+                var extracted = new CollectedCodeExtract(raw, extract.ToArray());
                 if(lookup.TryGetValue(host, out var extracts))
                     extracts.Include(extracted);
                 else
-                    lookup[host] = new MemberCodeExtracts(extracted);
+                    lookup[host] = new CollectedCodeExtracts(extracted);
             }
 
             return Parse(lookup).Emit();
@@ -183,7 +183,7 @@ namespace Z0
             return dst;
         }
 
-        EncodedMembers Parse(Dictionary<ApiHostUri,MemberCodeExtracts> src)
+        EncodedMembers Parse(Dictionary<ApiHostUri,CollectedCodeExtracts> src)
         {
             var running = Running(Msg.ParsingHosts.Format(src.Count));
             var buffer = alloc<byte>(Pow2.T14);

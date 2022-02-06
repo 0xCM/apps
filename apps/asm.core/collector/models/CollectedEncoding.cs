@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    readonly struct CollectedEncoding : IEquatable<CollectedEncoding>, IComparable<CollectedEncoding>
+    public readonly struct CollectedEncoding : IEquatable<CollectedEncoding>, IComparable<CollectedEncoding>
     {
         public readonly ApiToken Token;
 
