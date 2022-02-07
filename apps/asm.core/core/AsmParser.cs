@@ -18,5 +18,18 @@ namespace Z0.Asm
         public static bool comment(ReadOnlySpan<char> src, out AsmInlineComment dst)
             => AsmInlineComment.parse(src, out dst);
 
+        public static Outcome parse(string src, out Disp32 dst)
+            => Disp32.parse(src, out dst);
+
+        public static Outcome parse(string src, out Disp64 dst)
+            => Disp64.parse(src, out dst);
+
+        public static Outcome parse(string src, out imm8 dst)
+            => imm8.parse(src, out dst);
+
+        public static Outcome parse(string src, out imm64 dst)
+            => imm64.parse(src, out dst);
+
+
     }
 }

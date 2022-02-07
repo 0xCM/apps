@@ -12,135 +12,135 @@ namespace Z0
     [ApiHost]
     public readonly struct TypeSyntax
     {
-        internal const string V = "v{0}<t:{1}>";
+        public const string V = "v{0}<t:{1}>";
 
-        internal const string C = "c{0}";
+        public const string C = "c{0}";
 
-        internal const string I = "i{0}";
+        public const string I = "i{0}";
 
-        internal const string U = "u{0}";
+        public const string U = "u{0}";
 
-        internal const string F = "f{0}";
+        public const string F = "f{0}";
 
-        internal const string S = "string";
+        public const string S = "string";
 
-        internal const string St = "s<t:{0}>";
+        public const string St = "s<t:{0}>";
 
-        internal const string Sn = "s<n:{0}>";
+        public const string Sn = "s<n:{0}>";
 
-        internal const string Snt = "s<n:{0},t:{1}>";
+        public const string Snt = "s<n:{0},t:{1}>";
 
-        internal const string Bv = "bv{0}";
+        public const string Bv = "bv{0}";
 
-        internal const string Seq = "seq<t:{0}>";
+        public const string Seq = "seq<t:{0}>";
 
-        internal const string SeqN = "seq<n:{0},t:{1}>";
+        public const string SeqN = "seq<n:{0},t:{1}>";
 
-        internal const string Bit = "bit";
+        public const string Bit = "bit";
 
-        internal const string BitsN = "bits<n:{0}>";
+        public const string BitsN = "bits<n:{0}>";
 
-        internal const string BitsT = "bits<t:{0}>";
+        public const string BitsT = "bits<t:{0}>";
 
-        internal const string BitsNT = "bits<n:{0},t:{1}>";
+        public const string BitsNT = "bits<n:{0},t:{1}>";
 
-        internal const string Kind = "kind<k:{0}>";
+        public const string Kind = "kind<k:{0}>";
 
-        internal const string Block = "block<n:{0},t:{1}>";
+        public const string Block = "block<n:{0},t:{1}>";
 
-        internal const string Address = "address";
+        public const string Address = "address";
 
-        internal const string Address8 = "address<w:8>";
+        public const string Address8 = "address<w:8>";
 
-        internal const string Address16 = "address<w:16>";
+        public const string Address16 = "address<w:16>";
 
-        internal const string Address32 = "address<w:32>";
+        public const string Address32 = "address<w:32>";
 
-        internal const string Address64 = "address<w:64>";
+        public const string Address64 = "address<w:64>";
 
-        internal const string AddressW = "address<w:{0}>";
+        public const string AddressW = "address<w:{0}>";
 
-        internal const string Enum = "enum<name:{0},base:{1}>";
+        public const string Enum = "enum<name:{0},base:{1}>";
 
-        internal const string Scalar = "{0}{1}";
+        public const string Scalar = "{0}{1}";
 
-        internal const string Array = "array<t:{0}>";
+        public const string Array = "array<t:{0}>";
 
-        internal const string Clr = "clr.{0}";
+        public const string Clr = "clr.{0}";
 
-        internal const string Literal = "literal<t:{0}>";
+        public const string Literal = "literal<t:{0}>";
 
-        internal const string Constant = "const<t:{0}>";
+        public const string Constant = "const<t:{0}>";
 
-        internal const string Num = "num<t:{0}>";
+        public const string Num = "num<t:{0}>";
 
-        internal const string Disp = "disp<w:{0}>";
+        public const string Disp = "disp<w:{0}>";
 
-        internal const string Disp8 = "disp<w:8>";
+        public const string Disp8 = "disp<w:8>";
 
-        internal const string Disp16 = "disp<w:16>";
+        public const string Disp16 = "disp<w:16>";
 
-        internal const string Disp32 = "disp<w:32>";
+        public const string Disp32 = "disp<w:32>";
 
-        internal const string Disp64 = "disp<w:64>";
+        public const string Disp64 = "disp<w:64>";
 
-        internal const string Imm = "imm<w:{0}>";
+        public const string Imm = "imm<w:{0}>";
 
-        internal const string ImmU = "immu<w:{0}>";
+        public const string ImmU = "immu<w:{0}>";
 
-        internal const string ImmI = "immi<w:{0}>";
+        public const string ImmI = "immi<w:{0}>";
 
-        internal const string Imm8 = "imm<w:8>";
+        public const string Imm8 = "imm<w:8>";
 
-        internal const string Imm16 = "imm<w:16>";
+        public const string Imm16 = "imm<w:16>";
 
-        internal const string Imm32 = "imm<w:32>";
+        public const string Imm32 = "imm<w:32>";
 
-        internal const string Imm64 = "imm<w:64>";
+        public const string Imm64 = "imm<w:64>";
 
-        internal const string Mem = "mem<w:{0}>";
+        public const string Mem = "mem<w:{0}>";
 
-        internal const string Mem8 = "mem<w:8>";
+        public const string Mem8 = "mem<w:8>";
 
-        internal const string Mem16 = "mem<w:16>";
+        public const string Mem16 = "mem<w:16>";
 
-        internal const string Mem32 = "mem<w:32>";
+        public const string Mem32 = "mem<w:32>";
 
-        internal const string Mem64 = "mem<w:64>";
+        public const string Mem64 = "mem<w:64>";
 
-        internal const string Mem128 = "mem<w:128>";
+        public const string Mem128 = "mem<w:128>";
 
-        internal const string Mem256 = "mem<w:256>";
+        public const string Mem256 = "mem<w:256>";
 
-        internal const string Mem512 = "mem<w:512>";
+        public const string Mem512 = "mem<w:512>";
 
-        internal const string Lookup = "lookup<k:{0},v:{1}>";
+        public const string Lookup = "lookup<k:{0},v:{1}>";
 
-        internal const string Reg = "reg<name:{0},w:{1}>";
+        public const string Reg = "reg<name:{0},w:{1}>";
 
-        internal const string RegW = "reg<w:{0}>";
+        public const string RegW = "reg<w:{0}>";
 
-        internal const string RegKind = "regkind<k:{0}>";
+        public const string RegKind = "regkind<k:{0}>";
 
-        internal const string Natural = "nat<n:{0}>";
+        public const string Natural = "nat<n:{0}>";
 
         public const string Idx = "index<t:{0}>";
 
-        internal const string Span = "span<t:{0}>";
+        public const string Span = "span<t:{0}>";
 
-        internal const string ConstSpan = "cspan<t:{0}>";
+        public const string ConstSpan = "cspan<t:{0}>";
 
-        internal const string FileName = "fs.filename";
+        public const string FileName = "fs.filename";
 
-        internal const string FileExt = "fs.ext";
+        public const string FileExt = "fs.ext";
 
-        internal const string Dir = "fs.dir";
+        public const string Dir = "fs.dir";
 
-        internal const string FileUri = "fs.uri";
+        public const string FileUri = "fs.uri";
 
-        internal const string Folder = "fs.folder";
+        public const string Folder = "fs.folder";
 
-        internal const string FilePath = "fs.path";
+        public const string FilePath = "fs.path";
 
         public static TypeParam param(string name, string value) => new TypeParam(name,value);
 
@@ -605,7 +605,7 @@ namespace Z0
         public static TypeSpec infer<T>()
             => infer(typeof(T));
 
-        internal static string symbol<K>(K kind)
+        public static string symbol<K>(K kind)
             where K : unmanaged, Enum
                 => Symbols.expr(kind).Format();
     }

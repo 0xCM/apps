@@ -363,7 +363,7 @@ namespace Z0
             result = DataParser.parse(skip(cells,i++), out dst.TargetAddress);
             result = DataParser.parse(skip(cells,i++), out dst.TargetRebase);
             result = DataParser.parse(skip(cells,i++), out dst.StubAsm);
-            result = DataParser.parse(skip(cells,i++), out dst.Disp);
+            result = AsmParser.parse(skip(cells,i++), out dst.Disp);
             result = DataParser.parse(skip(cells,i++), out dst.CodeSize);
             dst.Host = text.trim(skip(cells,i++));
             dst.Sig = text.trim(skip(cells,i++));

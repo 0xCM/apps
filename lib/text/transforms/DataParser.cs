@@ -90,18 +90,6 @@ namespace Z0
             return result;
         }
 
-        public static Outcome parse(string src, out Disp32 dst)
-            => Disp32.parse(src, out dst);
-
-        public static Outcome parse(string src, out Disp64 dst)
-            => Disp64.parse(src, out dst);
-
-        public static Outcome parse(string src, out imm8 dst)
-            => imm8.parse(src, out dst);
-
-        public static Outcome parse(string src, out imm64 dst)
-            => imm64.parse(src, out dst);
-
         public static Outcome parse(string src, out LineInterval<Identifier> dst)
             => LineInterval.parse(src, out dst);
 
