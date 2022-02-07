@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
 
     public interface ICharBlock<T> : ITextual, IComparable<T>, IEquatable<T>, IStorageBlock<T>, ICellBlock<char>, IHashed, INullity

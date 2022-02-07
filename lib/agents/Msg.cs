@@ -1,7 +1,5 @@
 namespace Z0
 {
-    using System.Reflection;
-
     partial struct Msg
     {
         public static MsgPattern<ToolId> ToolHelpNotFound => "Tool {0} help not found";
