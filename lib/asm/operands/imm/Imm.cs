@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     using Asm;
 
     [DataType("imm"), StructLayout(LayoutKind.Sequential, Pack=1)]

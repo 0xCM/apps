@@ -37,6 +37,30 @@ namespace Z0.Asm
             return result;
         }
 
+        public byte Encode(AsmSigId sig, RegOp reg, MemOp mem)
+        {
+            return 0;
+        }
+
+        public byte Encode(AsmSigId sig, MemOp mem, RegOp reg)
+        {
+            return 0;
+        }
+
+        public byte Encode(AsmSigId sig, RegOp reg0, RegOp reg1)
+        {
+            return 0;
+        }
+
+        public byte Encode(AsmSigId sig, RegOp reg, Imm imm)
+        {
+            return 0;
+        }
+
+        public byte Encode(AsmSigId sig, RegMask mask)
+        {
+            return 0;
+        }
 
         public static string bitstring(Sib src)
             => string.Format("{0} {1} {2}", BitRender.format2(src.Scale), BitRender.format3(src.Index), BitRender.format3(src.Base));

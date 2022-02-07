@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Vol I, 4-6
     /// </summary>

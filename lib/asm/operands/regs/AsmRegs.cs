@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Root;
     using static RegFacets;
     using static core;
 

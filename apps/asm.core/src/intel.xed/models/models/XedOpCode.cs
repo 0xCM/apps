@@ -6,26 +6,25 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [Record(TableId)]
-        public struct XedOpCode
+        public readonly struct XedOpCode
         {
-            public const string TableId = "xed.opcode";
+            [MethodImpl(Inline)]
+            public static XedOpCode from(in XedOpCodeRecord src)
+                => new XedOpCode(src.Class, src.Kind, src.Value);
 
-            public const byte FieldCount = 6;
+            public readonly IClass Class;
 
-            public uint Seq;
+            public readonly OpCodeKind Kind;
 
-            public IClass Class;
+            public readonly ByteBlock4 Value;
 
-            public OpCodeKind Kind;
-
-            public byte ClassSeq;
-
-            public ByteBlock4 Value;
-
-            public TextBlock Source;
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,8,12,1};
+            [MethodImpl(Inline)]
+            public XedOpCode(IClass @class, OpCodeKind kind, ByteBlock4 value)
+            {
+                Class = @class;
+                Kind = kind;
+                Value = value;
+            }
         }
     }
 }

@@ -4,13 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
     using Operands;
 
-    using static Root;
     using static core;
 
     using B = ByteBlock10;

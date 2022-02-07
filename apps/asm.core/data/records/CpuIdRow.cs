@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct CpuIdRow : IRecord<CpuIdRow>
+    public struct CpuIdRow
     {
         public const string TableId = "asm.cpuid";
 

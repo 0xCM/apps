@@ -27,5 +27,7 @@ namespace Z0
         public static MsgPattern<Count> CollectedEntryPoints => "Collecting {0} entry points";
 
         public static MsgPattern<string> NotFound => "'{0}' not found";
+
+        public static MsgPattern<Fence<char>> OpCodeFenceNotFound => "Op code fence {0} not found";
     }
 }

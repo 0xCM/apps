@@ -59,7 +59,7 @@ namespace Z0
                  RuleDocKind.PointerWidths => Tables.filename<PointerWidthRecord>(),
                  RuleDocKind.RulePatterns => Tables.filename<RulePattern>(),
                  RuleDocKind.OpCodePatterns => Tables.filename<OpCodePattern>(),
-                 RuleDocKind.OpCodes => Tables.filename<XedOpCode>(),
+                 RuleDocKind.OpCodes => Tables.filename<XedOpCodeRecord>(),
                  _ => FS.FileName.Empty
             });
 

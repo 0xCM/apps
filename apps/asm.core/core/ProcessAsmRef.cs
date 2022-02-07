@@ -4,14 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     /// <summary>
     /// Defines an IP location with context
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct ProcessAsmRef : IRecord<ProcessAsmRef>
+    public struct ProcessAsmRef
     {
         public const string TableId = "asm.global.ref";
 

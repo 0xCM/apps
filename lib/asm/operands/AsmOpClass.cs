@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static Pow2x8;
 
     [Flags,SymSource("asm")]

@@ -10,27 +10,27 @@ namespace Z0
         {
             None,
 
-            Reg,
-
-            Mem,
-
-            Imm,
-
-            Ptr,
+            Agen,
 
             Base,
 
-            Seg,
+            Disp,
+
+            Imm,
 
             Index,
 
-            Scale,
+            Mem,
 
-            Disp,
+            Ptr,
+
+            Reg,
 
             RelBr,
 
-            Agen
+            Scale,
+
+            Seg,
         }
     }
 }

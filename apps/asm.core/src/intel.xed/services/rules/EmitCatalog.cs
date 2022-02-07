@@ -24,6 +24,8 @@ namespace Z0
             EmitPointerWidths();
             EmitOpCodePatterns();
             EmitOpCodes(rules);
+            EmitOperands(enc, ProjectDb.Subdir("xed") + FS.file("xed.rules.encoding.operands", FS.Csv));
+            EmitOperands(dec, ProjectDb.Subdir("xed") + FS.file("xed.rules.decoding.operands", FS.Csv));
         }
 
         public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
@@ -110,10 +112,10 @@ namespace Z0
             return src;
         }
 
-        public Index<XedOpCode> EmitOpCodes(ReadOnlySpan<RulePattern> src)
+        public Index<XedOpCodeRecord> EmitOpCodes(ReadOnlySpan<RulePattern> src)
         {
             var opcodes = ExtractOpCodes(src);
-            TableEmit(opcodes.View, XedOpCode.RenderWidths, XedPaths.RuleTarget(RuleDocKind.OpCodes));
+            TableEmit(opcodes.View, XedOpCodeRecord.RenderWidths, XedPaths.RuleTarget(RuleDocKind.OpCodes));
             return opcodes;
         }
     }

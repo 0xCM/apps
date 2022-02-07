@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using C = AsmOpClass;
 
     using SZ = NativeSizeCode;

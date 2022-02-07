@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents an line offset label
     /// </summary>
@@ -27,8 +22,6 @@ namespace Z0.Asm
                 dst = new AsmOffsetLabel(bits.effwidth(value), value);
             return result;
         }
-
-        internal const string InstInfoPattern = "{0} | {1,-3} | {2,-32} | ({3}) = {4}";
 
         const ulong OffsetMask = 0xFF_FF_FF_FF_FF_FF_FF;
 

@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
     using System.IO;
     using System.Linq;
-    using System.Collections.Generic;
 
-    using static Root;
     using static core;
 
     public sealed class HostAsmEmitter : AppService<HostAsmEmitter>
@@ -168,7 +165,7 @@ namespace Z0.Asm
                     EmitAsmBlockHeader(statement,asmWriter);
 
                 tableWriter.WriteLine(formatter.Format(statement));
-                asmWriter.WriteLine(AsmRender.format(statement));
+                asmWriter.WriteLine(statement.Format());
 
                 counter++;
             }
@@ -203,7 +200,7 @@ namespace Z0.Asm
                 if(statement.BlockOffset == 0)
                     EmitAsmBlockHeader(statement,asmwriter);
 
-                asmwriter.WriteLine(AsmRender.format(statement));
+                asmwriter.WriteLine(statement.Format());
             }
 
             EmittedFile(flow, count);

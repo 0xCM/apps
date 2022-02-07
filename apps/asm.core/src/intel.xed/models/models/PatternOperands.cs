@@ -18,20 +18,17 @@ namespace Z0
         {
             public TextBlock Expr {get;}
 
-            public Index<RuleOpSpec> Operands {get;}
+            public Index<RuleOpSpec> Specs {get;}
 
             [MethodImpl(Inline)]
             public PatternOperands(string expr, RuleOpSpec[] operands)
             {
                 Expr = ConformRuleExpr(text.despace(expr));
-                Operands = operands;
+                Specs = operands;
             }
 
-            public Index<PatternComponent> Componentize()
-                => PatternComponent.components(Expr);
-
             public string Format()
-                => string.Format("Pattern:{0}\nOperands:{1}", Expr, Operands);
+                => string.Format("Pattern:{0}\nOperands:{1}", Expr, Specs);
 
             public override string ToString()
                 => Format();

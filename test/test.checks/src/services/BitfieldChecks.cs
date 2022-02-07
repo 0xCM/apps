@@ -26,10 +26,10 @@ namespace Z0
         public void CheckBitfield()
         {
             var segs = array(
-                Bitfields.segmodel(0, BF_A.Seg0, 0, 1),
-                Bitfields.segmodel(1, BF_A.Seg1, 2, 2),
-                Bitfields.segmodel(2, BF_A.Seg2, 3, 5),
-                Bitfields.segmodel(3, BF_A.Seg3, 6, 8)
+                Bitfields.segmodel(BF_A.Seg0, 0, 1),
+                Bitfields.segmodel(BF_A.Seg1, 2, 2),
+                Bitfields.segmodel(BF_A.Seg2, 3, 5),
+                Bitfields.segmodel(BF_A.Seg3, 6, 8)
                 );
 
             var s0 = (byte)0b01_11_10_11;

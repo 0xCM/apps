@@ -15,14 +15,6 @@ namespace Z0.Asm
         static AsmInlineComment comment(AsmCommentMarker marker, string src)
             => new AsmInlineComment(marker,src);
 
-        public static string format(in HostAsmRecord src)
-            => string.Format("{0} {1,-36} # {2} => {3}",
-                        src.BlockOffset,
-                        src.Expression,
-                        string.Format("({0})<{1}>[{2}] => {3}", src.Sig, src.OpCode, src.Encoded.Size, src.Encoded.Format()),
-                        src.Encoded.ToBitString()
-                        );
-
         const AsmCommentMarker CommentMarker = AsmCommentMarker.Hash;
 
         [Op]
@@ -41,16 +33,18 @@ namespace Z0.Asm
             return dst.ToString();
         }
 
+        const string InstInfoPattern = "{0} | {1,-3} | {2,-32} | ({3}) = {4}";
+
         [Op]
         public static string format(in AsmOffsetLabel label, in AsmFormInfo src, byte[] encoded)
-            => string.Format(AsmOffsetLabel.InstInfoPattern, label, encoded.Length, encoded.FormatHex(), src.Sig, src.OpCode);
+            => string.Format(InstInfoPattern, label, encoded.Length, encoded.FormatHex(), src.Sig, src.OpCode);
 
         [Op]
         public static void render(MemoryAddress @base, in AsmInstructionInfo src, in AsmFormatConfig config, ITextBuffer dst)
         {
             const string AbsolutePattern = "{0} {1} {2}";
             const string RelativePattern = "{0} {1}";
-            var label = AsmRender.offset(src.Offset, w16);
+            var label = offset(src.Offset, w16);
             var address = @base + src.Offset;
             if(config.EmitLineLabels)
             {

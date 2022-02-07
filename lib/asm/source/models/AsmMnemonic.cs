@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("asm.mnemonic",31*8,32*8)]
     public readonly struct AsmMnemonic : IAsmSourcePart
     {

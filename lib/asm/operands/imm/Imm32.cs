@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Asm;
-
-    using static Root;
 
     using W = W32;
     using I = imm32;

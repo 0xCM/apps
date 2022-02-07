@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType(TypeSyntax.Mem64)]
     public readonly struct m64 : IMemOp64<m64>
     {

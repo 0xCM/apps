@@ -11,12 +11,29 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<XedOpCode> ExtractOpCodes(ReadOnlySpan<RulePattern> src)
+        public Index<XedOpCodeRecord> ExtractOpCodes(ReadOnlySpan<RulePattern> src)
         {
             var parser = XedOpCodeParser.create();
             return parser.Parse(src);
         }
 
+        public Index<RulePattern> ExtractRulePatterns(in InstDef inst)
+        {
+            var buffer = list<RulePattern>();
+            var operands = inst.PatternOps;
+            var opcount = operands.Length;
+            for(var j=0; j<opcount;j++)
+            {
+                ref readonly var op = ref operands[j];
+                var pattern = new RulePattern();
+                pattern.Class = inst.Class;
+                pattern.Hash = alg.hash.marvin(op.Expr.Text);
+                pattern.OpCodeKind = OpCodePatterns.kind(op.Expr.Text);
+                pattern.Expression = op.Expr;
+                buffer.Add(pattern);
+            }
+            return buffer.ToArray();
+        }
 
         Index<RulePattern> ExtractRulePatterns(ReadOnlySpan<InstDef> src)
         {

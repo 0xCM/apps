@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmFormatConfig : IRecord<AsmFormatConfig>
+    public struct AsmFormatConfig
     {
         public const string TableId = "asm.format-config";
 

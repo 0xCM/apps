@@ -12,10 +12,10 @@ namespace Z0
         public static XedOpCodeParser create()
             =>new XedOpCodeParser();
 
-        public Index<XedOpCode> Parse(ReadOnlySpan<RulePattern> src)
+        public Index<XedOpCodeRecord> Parse(ReadOnlySpan<RulePattern> src)
         {
             var count = src.Length;
-            var buffer = alloc<XedOpCode>(count);
+            var buffer = alloc<XedOpCodeRecord>(count);
             var @class = IClass.INVALID;
             var kseq = z8;
             for(var i=0u; i<count; i++)
@@ -44,11 +44,11 @@ namespace Z0
             return buffer;
         }
 
-        static uint value(in RulePattern rule)
+        internal static uint value(in string rule)
         {
             var dst = 0u;
             var k = z8;
-            var parts = rule.Expression.Text.Split(Chars.Space);
+            var parts = rule.Split(Chars.Space);
             var count = parts.Length;
             for(var i=0; i<count; i++)
             {
@@ -66,6 +66,9 @@ namespace Z0
             }
             return dst;
         }
+
+        internal static uint value(in RulePattern rule)
+            => value(rule.Expression);
 
         static bool ocbyte(string src, out Hex8 dst)
             => DataParser.parse(src, out dst);

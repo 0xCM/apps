@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static XedModels;
     using static core;
-    using static Root;
 
     partial class XedRules
     {
@@ -65,49 +61,71 @@ namespace Z0
             return result;
         }
 
-
-        Outcome ParseOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
+        Outcome ParseOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
-            if(result)
-                dst = new RuleOpSpec(kind, attribs);
-            else
-                dst = default;
+            dst = new RuleOpSpec(name, attribs);
+            var kind = XedRuleOps.kind(name);
+            dst.Kind = kind;
+            dst.Name = name;
+            switch(kind)
+            {
+                case RuleOpKind.Agen:
+                break;
 
+                case RuleOpKind.Base:
+                break;
+
+                case RuleOpKind.Disp:
+                break;
+
+                case RuleOpKind.Imm:
+                break;
+
+                case RuleOpKind.Index:
+                break;
+
+                case RuleOpKind.Mem:
+                break;
+
+                case RuleOpKind.Ptr:
+                break;
+
+                case RuleOpKind.Reg:
+                break;
+
+                case RuleOpKind.RelBr:
+                break;
+
+                case RuleOpKind.Scale:
+                break;
+
+                case RuleOpKind.Seg:
+                break;
+
+            }
             return result;
         }
 
-        Outcome ParseImmOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
+        Outcome ParseImmOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
             var refinement = EmptyString;
             dst = default;
-
             return result;
         }
 
-        Outcome ParseMemOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
+        Outcome ParseMemOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
             var refinement = EmptyString;
             dst = default;
-
             return result;
         }
 
-        Outcome ParseOpWidth(string src, out OperandWidth dst)
-        {
-            var result = Outcome.Success;
-            var widths = OpWidthLookup();
-            result = widths.Find(src, out dst);
-            if(result.Fail)
-                result = (false, string.Format("Unexpected width expression:{0}", src));
-            return result;
-        }
-
-        Outcome ParseRegOperand(RuleOpName kind, string[] attribs, out RuleOpSpec dst)
+        Outcome ParseRegOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
             var dir = OpDirection.None;
@@ -118,15 +136,25 @@ namespace Z0
             return result;
         }
 
-        Outcome ParseOpName(string src, out RuleOpName kind)
+        Outcome ParseOpWidth(string src, out OperandWidth dst)
+        {
+            var result = Outcome.Success;
+            var widths = OperandWidths();
+            result = widths.Find(src, out dst);
+            if(result.Fail)
+                result = (false, string.Format("Unexpected width expression:{0}", src));
+            return result;
+        }
+
+        Outcome ParseOpName(string src, out RuleOpName dst)
         {
             var result = Outcome.Success;
             var i = text.index(src, Chars.Eq, Chars.Colon);
-            kind = RuleOpName.None;
+            dst = RuleOpName.None;
             if(i > 0)
             {
                 var name = text.left(src,i);
-                result = OpKinds.ExprKind(name, out kind);
+                result = OpKinds.ExprKind(name, out dst);
                 if(result.Fail)
                     result = (false, Msg.ParseFailure.Format(nameof(RuleOpName), src));
             }
@@ -153,16 +181,18 @@ namespace Z0
         {
             var result = Outcome.Success;
             dst = default;
-            var kind = RuleOpName.None;
+            var name = RuleOpName.None;
             var attribs = sys.empty<string>();
 
-            result = ParseOpName(src, out kind);
+            result = ParseOpName(src, out name);
 
             if(result)
                 result = ExtractOpAttributes(src, out attribs);
 
             if(result)
-                result = ParseOperand(kind, attribs, out dst);
+                result = ParseOperand(name, attribs, out dst);
+
+            dst.Expression = src;
 
             return result;
         }

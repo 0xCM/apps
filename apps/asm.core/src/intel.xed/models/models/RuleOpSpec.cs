@@ -4,72 +4,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct XedModels
     {
-        public readonly struct RuleOpSpec
+        public struct RuleOpSpec
         {
-            public RuleOpName Kind {get;}
+            public RuleOpName Name;
 
-            public OpDirection Direction {get;}
+            public RuleOpKind Kind;
 
-            public OperandWidth Width {get;}
+            public OpDirection Direction;
 
-            public @string WidthRefinement {get;}
+            public OperandWidth Width;
 
-            public TableFunction Function {get;}
+            public @string WidthRefinement;
 
-            public Index<string> Attributes {get;}
+            public TableFunction Function;
+
+            public Index<string> Attributes;
+
+            public @string Expression;
 
             [MethodImpl(Inline)]
-            public RuleOpSpec(RuleOpName kind, string[] attributes)
+            public RuleOpSpec(RuleOpName name, string[] attributes)
             {
-                Kind = kind;
+                Name = name;
                 Direction = 0;
+                Kind = 0;
                 Width = OperandWidth.Empty;
                 WidthRefinement = @string.Empty;
                 Function = TableFunction.Empty;
                 Attributes = attributes;
-            }
-
-            [MethodImpl(Inline)]
-            public RuleOpSpec(RuleOpName kind, OpDirection dir, OperandWidth width, string refinement, TableFunction fx)
-            {
-                Kind = kind;
-                Direction = dir;
-                Width = width;
-                Function = fx;
-                WidthRefinement = refinement;
-                Attributes = sys.empty<string>();
-            }
-
-            [MethodImpl(Inline)]
-            public RuleOpSpec(RuleOpName kind, OpDirection dir, OperandWidth width, string refinement)
-            {
-                Kind = kind;
-                Width = width;
-                Direction = dir;
-                WidthRefinement = refinement;
-                Function = TableFunction.Empty;
-                Attributes = sys.empty<string>();
+                Expression = EmptyString;
             }
 
             public string Format()
             {
                 if(Attributes.IsNonEmpty)
-                    return string.Format("{0}:{1}", Kind, Attributes.Delimit(Chars.Colon));
+                    return string.Format("{0}:{1}", Name, Attributes.Delimit(Chars.Colon));
 
                 var dir = Symbols.expr(Direction);
 
                 if(Function.IsNonEmpty)
-                    return string.Format("{0}:{1}:{2}:{3}:{4}", Kind, dir, Function, Width, WidthRefinement);
+                    return string.Format("{0}:{1}:{2}:{3}:{4}", Name, dir, Function, Width, WidthRefinement);
                 else if(Width.IsEmpty)
-                    return string.Format("{0}:{1}", Kind, dir);
+                    return string.Format("{0}:{1}", Name, dir);
                 else
-                    return string.Format("{0}:{1}:{2}:{3}", Kind, dir, Width, WidthRefinement);
+                    return string.Format("{0}:{1}:{2}:{3}", Name, dir, Width, WidthRefinement);
             }
 
             public override string ToString()

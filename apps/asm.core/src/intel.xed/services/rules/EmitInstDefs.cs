@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static XedModels;
     using static core;
 
@@ -36,8 +34,8 @@ namespace Z0
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Flags), def.Flags.Delimit(fence:RenderFence.Embraced)));
                 iter(def.PatternOps, p => {
                     writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Expr));
-                    if(p.Operands.Count != 0)
-                        iter(p.Operands, o => writer.WriteLine(o));
+                    if(p.Specs.Count != 0)
+                        iter(p.Specs, o => writer.WriteLine(o));
                 });
                 writer.WriteLine();
             }

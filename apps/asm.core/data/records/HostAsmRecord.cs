@@ -40,6 +40,14 @@ namespace Z0
         public int CompareTo(HostAsmRecord src)
             => IP.CompareTo(src.IP);
 
+        public string Format()
+            => string.Format("{0} {1,-36} # {2} => {3}",
+                        BlockOffset,
+                        Expression,
+                        string.Format("({0})<{1}>[{2}] => {3}", Sig, OpCode, Encoded.Size, Encoded.Format()),
+                        Encoded.ToBitString()
+                        );
+
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{16,16,16,64,32,64,32,128,80};
     }
