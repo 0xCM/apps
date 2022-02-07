@@ -44,6 +44,14 @@ namespace Z0.Asm
 
         public static R.r15b r15b => default;
 
+        public static R.ah ah => default;
+
+        public static R.ch ch => default;
+
+        public static R.dh dh => default;
+
+        public static R.dh bh => default;
+
         public static R.ax ax => default;
 
         public static R.cx cx => default;

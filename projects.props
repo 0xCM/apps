@@ -2,10 +2,8 @@
 
   <PropertyGroup>
     <Asm>$(Src)asm/z0.asm.csproj</Asm>
-    <AsmLang>$(Src)asm.lang/z0.asm.lang.csproj</AsmLang>
-    <AsmLangG>$(Src)asm.lang.g/z0.asm.lang.g.csproj</AsmLangG>
     <AsmCore>$(Src)asm.core/z0.asm.core.csproj</AsmCore>
-    <AsmData>$(Src)asm.data/z0.asm.data.csproj</AsmData>
+    <AsmOperands>$(Src)asm.operands/z0.asm.operands.csproj</AsmOperands>
 
     <Capture>$(Src)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(Src)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>

@@ -210,7 +210,7 @@ namespace Z0.Toolz
             var bitstring = RP.Error;
             var formatted = FormatBytes(comment, out var count);
             if(Hex.hexdata(formatted, out var parsed))
-                bitstring = AsmHexCode.load(parsed).ToBitString();
+                bitstring = AsmHexCode.load(parsed).BitString;
 
             if(count != 0)
                 comment = string.Format(StatementCommentPattern, comment, count, formatted, bitstring);

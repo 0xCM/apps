@@ -45,7 +45,7 @@ namespace Z0
                         BlockOffset,
                         Expression,
                         string.Format("({0})<{1}>[{2}] => {3}", Sig, OpCode, Encoded.Size, Encoded.Format()),
-                        Encoded.ToBitString()
+                        Encoded.BitString
                         );
 
         public static ReadOnlySpan<byte> RenderWidths

@@ -17,10 +17,10 @@ namespace Z0.Asm
         public AsmHexCode(Cell128 data)
             => Data = data;
 
-        public byte Size
+        public ref byte Size
         {
             [MethodImpl(Inline)]
-            get => size(this);
+            get => ref seek(Data.Bytes,SizeIndex);
         }
 
         public Span<byte> Bytes
@@ -61,7 +61,7 @@ namespace Z0.Asm
         public uint ToUInt64()
             => (uint)Data.Lo;
 
-        public string ToBitString()
+        public string BitString
             => bitstring(this);
 
         public override int GetHashCode()
@@ -144,6 +144,8 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static byte size(in AsmHexCode src)
             => BitNumbers.cell8(src.Data, AsmHexCode.SizeIndex);
+
+
 
         [MethodImpl(Inline), Op]
         public static Span<byte> encoded(in AsmHexCode src)

@@ -58,7 +58,7 @@ namespace Z0.Asm
 
         [Op]
         public static string bitstring(in AsmThumbprint src)
-            => string.Format("{0} => {1}", format(src), src.Encoded.ToBitString());
+            => string.Format("{0} => {1}", format(src), src.Encoded.BitString);
 
         static Fence<char> SigFence => (LParen, RParen);
 

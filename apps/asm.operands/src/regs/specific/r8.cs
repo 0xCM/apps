@@ -316,4 +316,53 @@ namespace Z0.Asm.Operands
         public static implicit operator K(r15b src)
             => (K)src.Index;
     }
+
+    public readonly struct ah : IRegOp8<ah>
+    {
+        public I Index => I.r0;
+
+        public static implicit operator r8(ah src)
+            => new r8(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(ah src)
+            => (K)src.Index;
+    }
+
+    public readonly struct ch : IRegOp8<ch>
+    {
+        public I Index => I.r1;
+
+        public static implicit operator r8(ch src)
+            => new r8(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(ch src)
+            => (K)src.Index;
+    }
+
+    public readonly struct dh : IRegOp8<dh>
+    {
+        public I Index => I.r2;
+
+        public static implicit operator r8(dh src)
+            => new r8(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(dh src)
+            => (K)src.Index;
+    }
+
+    public readonly struct bh : IRegOp8<bh>
+    {
+        public I Index => I.r3;
+
+        public static implicit operator r8(bh src)
+            => new r8(src.Index);
+
+        [MethodImpl(Inline)]
+        public static implicit operator K(bh src)
+            => (K)src.Index;
+    }
+
 }

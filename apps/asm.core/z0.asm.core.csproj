@@ -9,6 +9,7 @@
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
+    <ProjectReference Include="$(AsmOperands)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

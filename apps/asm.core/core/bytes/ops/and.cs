@@ -18,10 +18,9 @@ namespace Z0.Asm
         /// <param name="r"></param>
         /// <param name="imm8"></param>
         [MethodImpl(Inline), Op]
-        public static void and(al r, imm8 imm8, AsmHexWriter dst)
+        public static byte and(al r, imm8 imm8, AsmHexWriter dst)
         {
-            dst.Write1(x24);
-            dst.Write1(imm8);
+            return dst.Write(x24,imm8);
         }
 
         /// <summary>
@@ -29,13 +28,13 @@ namespace Z0.Asm
         /// </summary>
         /// <param name="r0">REG0=GPR8_B():rw</param>
         /// <param name="r1">REG1=GPR8_R():r</param>
-        public static void and(r8 r0, r8 r1, AsmHexWriter dst)
+        public static byte and(r8 r0, r8 r1, AsmHexWriter dst)
         {
             var modrm = ModRm.init();
             modrm.Mod(0b11);
-            //modrm.Reg(r1);
-            dst.Write(x20);
-
+            modrm.Reg(r1);
+            modrm.Rm(r0);
+            return dst.Write(x20, modrm);
         }
     }
 }

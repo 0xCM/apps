@@ -43,8 +43,8 @@ namespace Z0.Asm
             => _Value = math.or(math.and(_Value, RmMask), math.sll(src,RmOffset));
 
         [MethodImpl(Inline)]
-        public void Rm(RegIndex src)
-            => _Value = math.or(math.and(_Value, RmMask), math.sll(src,RmOffset));
+        public void Rm(RegIndexCode src)
+            => _Value = math.or(math.and(_Value, RmMask), math.sll((byte)src,RmOffset));
 
         [MethodImpl(Inline)]
         public uint3 Reg()
@@ -55,8 +55,8 @@ namespace Z0.Asm
             => _Value = math.or(math.and(_Value, RegMask),math.sll(src,RegOffset));
 
         [MethodImpl(Inline)]
-        public void Reg(RegIndex src)
-            => _Value = math.or(math.and(_Value, RegMask),math.sll(src,RegOffset));
+        public void Reg(RegIndexCode src)
+            => _Value = math.or(math.and(_Value, RegMask),math.sll((byte)src,RegOffset));
 
         [MethodImpl(Inline)]
         public uint2 Mod()

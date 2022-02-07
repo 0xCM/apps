@@ -13,8 +13,8 @@ public enum PartId : byte
     [Symbol("root")]
     Root = 1,
 
-    [Symbol("external")]
-    External = 2,
+    [Symbol("asm.operands")]
+    AsmOperands = 2,
 
     [Symbol("part")]
     Part = 3,

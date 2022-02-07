@@ -56,7 +56,7 @@ namespace Z0
             dst.AppendLine(string.Format(RenderPattern, "SrcId", path.SrcId(FileKind.XedRawDisasm)));
             dst.AppendLine(string.Format(RenderPattern, "IP", ((uint)IP).FormatHex(zpad:false, specifier:true, uppercase:true)));
             dst.AppendLine(string.Format(RenderPattern, "Statement", encoding.Asm));
-            dst.AppendLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.ToBitString())));
+            dst.AppendLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.BitString)));
             dst.AppendLine(string.Format(RenderPattern, "IClass", inst.Class));
             dst.Append(string.Format(RenderPattern, "IForm", inst.Form));
         }
