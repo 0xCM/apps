@@ -17,7 +17,6 @@ namespace Z0
             var dst = text.buffer();
             iter(ApiRuntimeCatalog.TableDefs, src => g.Emit(0u,src,dst));
             Write(dst.Emit());
-
             return true;
         }
     }

@@ -50,7 +50,7 @@ namespace Z0.Asm
 
         public static R.dh dh => default;
 
-        public static R.dh bh => default;
+        public static R.bh bh => default;
 
         public static R.ax ax => default;
 

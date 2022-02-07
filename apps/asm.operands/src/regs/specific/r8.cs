@@ -315,11 +315,15 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(r15b src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator I(r15b src)
+            => src.Index;
     }
 
     public readonly struct ah : IRegOp8<ah>
     {
-        public I Index => I.r0;
+        public I Index => I.r4;
 
         public static implicit operator r8(ah src)
             => new r8(src.Index);
@@ -327,11 +331,15 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(ah src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator I(ah src)
+            => src.Index;
     }
 
     public readonly struct ch : IRegOp8<ch>
     {
-        public I Index => I.r1;
+        public I Index => I.r5;
 
         public static implicit operator r8(ch src)
             => new r8(src.Index);
@@ -339,11 +347,15 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(ch src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator I(ch src)
+            => src.Index;
     }
 
     public readonly struct dh : IRegOp8<dh>
     {
-        public I Index => I.r2;
+        public I Index => I.r6;
 
         public static implicit operator r8(dh src)
             => new r8(src.Index);
@@ -351,11 +363,15 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(dh src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator I(dh src)
+            => src.Index;
     }
 
     public readonly struct bh : IRegOp8<bh>
     {
-        public I Index => I.r3;
+        public I Index => I.r7;
 
         public static implicit operator r8(bh src)
             => new r8(src.Index);
@@ -363,6 +379,9 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(bh src)
             => (K)src.Index;
-    }
 
+        [MethodImpl(Inline)]
+        public static implicit operator I(bh src)
+            => src.Index;
+    }
 }
