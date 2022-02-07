@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
-
     partial struct XedModels
     {
         public class IsaKinds : HashSet<IsaKind>

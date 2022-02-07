@@ -13,7 +13,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        public static Imm imm(in OperandState state, in AsmHexCode code)
+        public static Imm imm(in OpState state, in AsmHexCode code)
         {
             var dst = Imm.Empty;
             if(state.imm0)
@@ -27,7 +27,7 @@ namespace Z0
         }
 
         [Op]
-        public static long disp(in OperandState state, in AsmHexCode code)
+        public static long disp(in OpState state, in AsmHexCode code)
         {
             var val = Disp.Zero;
             var _val = 0L;
@@ -61,7 +61,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static bool rex(in OperandState src, out RexPrefix dst)
+        public static bool rex(in OpState src, out RexPrefix dst)
         {
             if(src.rex)
             {
@@ -80,7 +80,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static bool sib(in OperandState src, out Sib dst)
+        public static bool sib(in OpState src, out Sib dst)
         {
             if(src.has_sib)
             {
@@ -98,7 +98,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
-        public static bool modrm(in OperandState src, out ModRm dst)
+        public static bool modrm(in OpState src, out ModRm dst)
         {
             if(src.has_modrm)
             {
@@ -267,11 +267,11 @@ namespace Z0
             return dst;
         }
 
-        public static ConstLookup<OperandKind,TypeSpec> OpKindTypes()
+        public static ConstLookup<OpKind,TypeSpec> OpKindTypes()
         {
-            var fields = typeof(OperandState).PublicInstanceFields();
+            var fields = typeof(OpState).PublicInstanceFields();
             var count = fields.Length;
-            var dst = dict<OperandKind,TypeSpec>();
+            var dst = dict<OpKind,TypeSpec>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);

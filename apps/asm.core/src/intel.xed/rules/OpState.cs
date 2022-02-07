@@ -7,16 +7,16 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels.OperandKind;
+    using static XedModels.OpKind;
     using static Asm.AsmPrefixCodes;
     using static core;
 
-    using K = XedModels.OperandKind;
+    using K = XedModels.OpKind;
 
     partial struct XedModels
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct OperandState
+        public struct OpState
         {
             public const string TableId = "xed.operand.state";
 
@@ -65,7 +65,7 @@ namespace Z0
             [OperandKind(IMM1, "Indicates whether a second imm operand is present")]
             public bit imm1;
 
-            [OperandKind(OperandKind.IMM_WIDTH)]
+            [OperandKind(OpKind.IMM_WIDTH)]
             public byte imm_width;
 
             [OperandKind(IMM1_BYTES)]
@@ -195,10 +195,10 @@ namespace Z0
             [OperandKind(DEFAULT_SEG)]
             public uint2 default_seg;
 
-            [OperandKind(OperandKind.EASZ)]
+            [OperandKind(OpKind.EASZ)]
             public EASZ easz;
 
-            [OperandKind(OperandKind.EOSZ)]
+            [OperandKind(OpKind.EOSZ)]
             public EOSZ eosz;
 
             [OperandKind(FIRST_F2F3)]
@@ -297,7 +297,7 @@ namespace Z0
             [OperandKind(ILD_SEG)]
             public byte ild_seg;
 
-            [OperandKind(OperandKind.MAX_BYTES)]
+            [OperandKind(OpKind.MAX_BYTES)]
             public byte max_bytes;
 
             [OperandKind(MODRM_BYTE)]
@@ -506,7 +506,7 @@ namespace Z0
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }
 
-            public static OperandState Empty => default;
+            public static OpState Empty => default;
 
         }
     }

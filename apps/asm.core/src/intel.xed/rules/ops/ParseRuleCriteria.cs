@@ -22,7 +22,7 @@ namespace Z0
                     continue;
 
                 ref var dst = ref seek(buffer,i);
-                var fk = OperandKind.INVALID;
+                var fk = OpKind.INVALID;
                 var op = RuleOperator.None;
                 var fv = EmptyString;
                 var j = text.index(spec, Chars.Eq);
@@ -49,13 +49,13 @@ namespace Z0
                 if(nonempty(name))
                 {
                     if(name.Equals("REXW[w]"))
-                        fk = OperandKind.REXW;
+                        fk = OpKind.REXW;
                     else if(name.Equals("REXB[b]"))
-                        fk = OperandKind.REXB;
+                        fk = OpKind.REXB;
                     else if(name.Equals("REXR[r]"))
-                        fk = OperandKind.REXR;
+                        fk = OpKind.REXR;
                     else if(name.Equals("REXX[x]"))
-                        fk = OperandKind.REXX;
+                        fk = OpKind.REXX;
                     else if(!OperandKinds.ExprKind(name, out fk))
                         Warn(string.Format("Kind for {0} not found in {1}", name, src));
                 }

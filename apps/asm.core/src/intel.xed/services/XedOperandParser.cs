@@ -9,27 +9,27 @@ namespace Z0
     using static core;
     using static XedModels;
 
-    using K = XedModels.OperandKind;
+    using K = XedModels.OpKind;
 
     public class XedOperandParser
     {
-        Symbols<OperandKind> Kinds;
+        Symbols<OpKind> Kinds;
 
         Symbols<XedRegId> Registers;
 
-        OperandState State;
+        OpState State;
 
-        DataList<OperandKind> _ParsedKinds;
+        DataList<OpKind> _ParsedKinds;
 
         DataList<Facet<string>> _UnknownFields;
 
-        Dictionary<OperandKind, string> _Failures;
+        Dictionary<OpKind, string> _Failures;
 
         public XedOperandParser()
         {
-            Kinds = Symbols.index<OperandKind>();
+            Kinds = Symbols.index<OpKind>();
             Registers = Symbols.index<XedRegId>();
-            State = OperandState.Empty;
+            State = OpState.Empty;
             _ParsedKinds = new();
             _UnknownFields = new();
             _Failures = new();
@@ -37,7 +37,7 @@ namespace Z0
 
         void Clear()
         {
-            State = OperandState.Empty;
+            State = OpState.Empty;
             _ParsedKinds.Clear();
             _UnknownFields.Clear();
             _Failures.Clear();
@@ -46,10 +46,10 @@ namespace Z0
         public ReadOnlySpan<Facet<string>> UnknownFields
             => _UnknownFields.View();
 
-        public IReadOnlyDictionary<OperandKind,string> Failures
+        public IReadOnlyDictionary<OpKind,string> Failures
             => _Failures;
 
-        public ReadOnlySpan<OperandKind> ParsedFields
+        public ReadOnlySpan<OpKind> ParsedFields
             => _ParsedKinds.View();
 
         public Outcome ParseRegister(string src, out Register dst)
@@ -134,7 +134,7 @@ namespace Z0
         static Disp disp(long value, BitWidth size)
             => new Disp(value, Sizes.native(size));
 
-        public void ParseState(ReadOnlySpan<Facet<string>> src, out OperandState dst)
+        public void ParseState(ReadOnlySpan<Facet<string>> src, out OpState dst)
         {
             Clear();
             var count = src.Length;
@@ -177,7 +177,7 @@ namespace Z0
             return kind;
         }
 
-        Outcome Parse(string src, OperandKind kind, ref OperandState state)
+        Outcome Parse(string src, OpKind kind, ref OpState state)
         {
             var result = Outcome.Success;
             switch(kind)

@@ -8,7 +8,7 @@ namespace Z0
     {
         public interface IRuleCriterion
         {
-            OperandKind Kind {get;}
+            OpKind Kind {get;}
 
             RuleOperator Operator {get;}
 

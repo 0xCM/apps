@@ -13,14 +13,14 @@ namespace Z0
         public struct RuleCriterion<T> : IRuleCriterion<T>
             where T : unmanaged
         {
-            public OperandKind Kind {get;}
+            public OpKind Kind {get;}
 
             public RuleOperator Operator {get;}
 
             public T Value;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(OperandKind kind, RuleOperator op)
+            public RuleCriterion(OpKind kind, RuleOperator op)
             {
                 Kind = kind;
                 Value = default;

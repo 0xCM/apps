@@ -39,7 +39,7 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        Symbols<OperandKind> OperandKinds;
+        Symbols<OpKind> OperandKinds;
 
         Symbols<RegFlag> Flags;
 
@@ -62,7 +62,7 @@ namespace Z0
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
             FieldKinds = new();
-            OperandKinds = Symbols.index<OperandKind>();
+            OperandKinds = Symbols.index<OpKind>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
@@ -227,9 +227,9 @@ namespace Z0
             EmittedFile(emitting,counter);
         }
 
-        public ConstLookup<OperandKind,object> FieldValues(in OperandState src)
+        public ConstLookup<OpKind,object> FieldValues(in OpState src)
         {
-            var dst = dict<OperandKind,object>();
+            var dst = dict<OpKind,object>();
             var fields = FieldKinds.RightValues;
             foreach(var f in fields)
                 dst.Add(FieldKinds[f], f.GetValue(src));

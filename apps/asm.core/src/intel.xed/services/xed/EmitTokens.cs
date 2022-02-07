@@ -39,7 +39,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<IsaKind>(scope, xed);
             ApiMetadata.EmitTokens<LookupKind>(scope, xed);
             ApiMetadata.EmitTokens<NonterminalKind>(scope, xed);
-            ApiMetadata.EmitTokens<OperandKind>(scope, xed);
+            ApiMetadata.EmitTokens<OpKind>(scope, xed);
             ApiMetadata.EmitTokens<OperandWidthType>(scope, xed);
             ApiMetadata.EmitTokens<OperandAction>(scope, xed);
             ApiMetadata.EmitTokens<PointerWidthKind>(scope, xed);

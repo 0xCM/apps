@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Root;
-
     [ApiHost]
     public partial class AsmBytes
     {

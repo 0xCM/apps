@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    using static ModRmFields;
-
     /// <summary>
     /// ModRM[mod[7:6] | reg[5:3] | r/m[2:0]]
     /// </summary>
@@ -50,11 +43,19 @@ namespace Z0.Asm
             => _Value = math.or(math.and(_Value, RmMask), math.sll(src,RmOffset));
 
         [MethodImpl(Inline)]
+        public void Rm(RegIndex src)
+            => _Value = math.or(math.and(_Value, RmMask), math.sll(src,RmOffset));
+
+        [MethodImpl(Inline)]
         public uint3 Reg()
             => (uint3)(math.srl((byte)(_Value & ~RegMask), RegOffset));
 
         [MethodImpl(Inline)]
         public void Reg(uint3 src)
+            => _Value = math.or(math.and(_Value, RegMask),math.sll(src,RegOffset));
+
+        [MethodImpl(Inline)]
+        public void Reg(RegIndex src)
             => _Value = math.or(math.and(_Value, RegMask),math.sll(src,RegOffset));
 
         [MethodImpl(Inline)]

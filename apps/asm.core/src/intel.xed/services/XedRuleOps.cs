@@ -11,7 +11,7 @@ namespace Z0
     using static XedModels.RuleOpName;
     using static XedModels;
 
-    using OK = XedModels.OperandKind;
+    using OK = XedModels.OpKind;
     using ROK = XedModels.RuleOpKind;
 
     [ApiHost]

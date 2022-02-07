@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType(TypeSyntax.Scalar)]
     public readonly struct ScalarValue<T> : IScalarValue<T>
         where T : unmanaged, IEquatable<T>

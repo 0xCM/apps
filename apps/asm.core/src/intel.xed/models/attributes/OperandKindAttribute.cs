@@ -11,13 +11,13 @@ namespace Z0
     {
         public class OperandKindAttribute : Attribute
         {
-            public OperandKindAttribute(OperandKind kind, string description = "")
+            public OperandKindAttribute(OpKind kind, string description = "")
             {
                 Kind = kind;
                 Description = description;
             }
 
-            public OperandKind Kind {get;}
+            public OpKind Kind {get;}
 
             public string Description {get;}
         }

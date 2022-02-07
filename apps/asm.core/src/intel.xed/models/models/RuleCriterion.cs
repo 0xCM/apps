@@ -12,14 +12,14 @@ namespace Z0
     {
         public readonly struct RuleCriterion : IRuleCriterion
         {
-            public OperandKind Kind {get;}
+            public OpKind Kind {get;}
 
             public RuleOperator Operator {get;}
 
             public dynamic Value {get;}
 
             [MethodImpl(Inline)]
-            public RuleCriterion(OperandKind kind, RuleOperator @op,  dynamic value)
+            public RuleCriterion(OpKind kind, RuleOperator @op,  dynamic value)
             {
                 Kind = kind;
                 Operator = @op;

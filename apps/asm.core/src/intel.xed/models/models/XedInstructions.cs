@@ -69,7 +69,7 @@ namespace Z0
 
             public byte OpIndex;
 
-            public OperandKind Kind;
+            public OpKind Kind;
 
             public VisibilityKind Visibility;
 

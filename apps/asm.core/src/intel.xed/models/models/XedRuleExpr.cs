@@ -41,19 +41,14 @@ namespace Z0
         internal static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
         {
             var count = src.Length;
-            if(count > 1)
-                dst.Append(Chars.LParen);
 
             for(var i=0; i<count; i++)
             {
                 if(i != 0)
-                    dst.Append(Chars.Comma);
+                    dst.Append(" && ");
                 ref readonly var c = ref skip(src,i);
                 dst.Append(c.Format());
             }
-
-            if(count > 1)
-                dst.Append(Chars.RParen);
         }
 
         internal static string format(in XedRuleExpr src)

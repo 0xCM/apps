@@ -86,6 +86,16 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
+        public ByteSize Write<A,B>(in A a, in B b)
+            where A : unmanaged
+            where B : unmanaged
+        {
+            var size = Write(a);
+            size += Write(b);
+            return size;
+        }
+
+        [MethodImpl(Inline)]
         public byte Write1<T>(in T src)
             where T : unmanaged
         {

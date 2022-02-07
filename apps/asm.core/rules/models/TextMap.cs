@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     public sealed class TextMap : Rule
     {
         ConstLookup<string,string> Data;
