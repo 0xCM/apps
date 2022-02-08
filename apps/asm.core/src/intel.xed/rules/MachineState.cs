@@ -9,10 +9,10 @@ namespace Z0
 
     using static XedRecords;
     using static XedRecords.EASZ;
-    using static XedModels.EOSZ;
+    using static XedRecords.EOSZ;
     using static XedRecords.SMode;
     using static XedRecords.RepPrefix;
-    using static XedModels.SegPrefixKind;
+    using static XedRecords.SegPrefixKind;
 
     using RPX = XedRecords.RepPrefix;
 

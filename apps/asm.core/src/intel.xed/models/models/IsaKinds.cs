@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
         public class IsaKinds : HashSet<IsaKind>

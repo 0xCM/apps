@@ -13,7 +13,7 @@ namespace Z0
         [CmdOp(XedAttribQuery)]
         Outcome QueryAttribs(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<XedModels.AttributeKind>().View, SymInfo.RenderWidths, XedQueryOut(XedAttribQuery));
+            TableEmit(Symbols.syminfo<AttributeKind>().View, SymInfo.RenderWidths, XedQueryOut(XedAttribQuery));
             return true;
         }
     }

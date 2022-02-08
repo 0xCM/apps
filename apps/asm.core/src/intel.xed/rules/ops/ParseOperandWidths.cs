@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
     using static core;
 
     partial class XedRules

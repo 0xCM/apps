@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
         public struct RuleOpSpec
         {
             public RuleOpName Name;
 
-            public RuleOpKind Kind;
+            public XedRuleOpKind Kind;
 
             public OpDirection Direction;
 

@@ -7,7 +7,7 @@ namespace Z0
     using static XedModels;
     using static XedRecords;
 
-    using FT = XedModels.FieldType;
+    using FT = XedRecords.FieldType;
 
     public class XedTypes : AppService<XedTypes>
     {

@@ -5,9 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
-        [DataType(Names.iform)]
+        [DataType(XedNames.iform)]
         public struct IForm : IEquatable<IForm>, IComparable<IForm>, IEnumCover<IFormType>
         {
             public IFormType Value {get;set;}

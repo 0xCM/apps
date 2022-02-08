@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [DataType(Names.reg)]
+        [DataType(XedNames.reg)]
         public struct Register : IEnumCover<XedRegId>
         {
             public XedRegId Value {get;set;}
@@ -31,7 +31,7 @@ namespace Z0
             }
 
             public string Format()
-                => Value != 0 ? Symbols.format(Value) : EmptyString;
+                => Symbols.format(Value);
 
             public override string ToString()
                 => Format();

@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
     using System.Xml;
     using System.IO;
-    using System.Collections.Generic;
 
     using static Root;
     using static core;
-    using static XedModels;
+    using static XedRecords;
     using static IntelIntrinsicModels;
 
     public class IntelIntrinsics  : AppService<IntelIntrinsics>

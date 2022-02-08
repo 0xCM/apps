@@ -8,7 +8,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataType(Names.category)]
+        [DataType(XedNames.category)]
         public struct Category : IEnumCover<CategoryKind>
         {
             public CategoryKind Value {get;set;}

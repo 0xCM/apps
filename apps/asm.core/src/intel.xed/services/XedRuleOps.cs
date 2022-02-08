@@ -5,14 +5,38 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static XedModels.RuleOpName;
-    using static XedModels;
+    using static XedRecords.RuleOpName;
+    using static XedRecords;
 
     using OK = XedRecords.XedOpKind;
-    using ROK = XedModels.RuleOpKind;
+    using ROK = XedRuleOpKind;
+
+    public enum XedRuleOpKind : byte
+    {
+        None,
+
+        Agen,
+
+        Base,
+
+        Disp,
+
+        Imm,
+
+        Index,
+
+        Mem,
+
+        Ptr,
+
+        Reg,
+
+        RelBr,
+
+        Scale,
+
+        Seg,
+    }
 
     [ApiHost]
     public readonly struct XedRuleOps
@@ -97,9 +121,9 @@ namespace Z0
         }
 
         [Op]
-        public static RuleOpKind kind(RuleOpName src)
+        public static XedRuleOpKind kind(RuleOpName src)
         {
-            var dst = RuleOpKind.None;
+            var dst = XedRuleOpKind.None;
             switch(src)
             {
                 case REG0:

@@ -6,10 +6,10 @@ namespace Z0.Asm
 {
     using System;
 
-    using static XedModels;
+    using static XedRecords;
 
     [Record(TableId)]
-    public struct IntelIntrinsic : IRecord<IntelIntrinsic>
+    public struct IntelIntrinsic
     {
         public const string TableId = "intel.intrinsics";
 

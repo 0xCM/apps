@@ -6,7 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static Root;
     using static core;
     using static XedModels;
     using static XedRecords;

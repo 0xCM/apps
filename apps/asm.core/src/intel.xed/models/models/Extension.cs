@@ -5,9 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
-        [DataType(Names.extension)]
+        [DataType(XedNames.extension)]
         public struct Extension : IEnumCover<ExtensionKind>
         {
             public ExtensionKind Value {get;set;}

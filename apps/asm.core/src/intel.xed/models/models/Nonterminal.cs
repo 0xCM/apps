@@ -5,9 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
-        [DataType(Names.nonterminal)]
+        [DataType(XedNames.nonterminal)]
         public struct Nonterminal : IEnumCover<NonterminalKind>
         {
             public NonterminalKind Value {get;set;}

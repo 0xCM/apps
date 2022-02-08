@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
 
     public readonly struct XedChipMap
     {

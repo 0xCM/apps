@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
     using static core;
 
     partial class XedRules
@@ -70,37 +71,37 @@ namespace Z0
             dst.Name = name;
             switch(kind)
             {
-                case RuleOpKind.Agen:
+                case XedRuleOpKind.Agen:
                 break;
 
-                case RuleOpKind.Base:
+                case XedRuleOpKind.Base:
                 break;
 
-                case RuleOpKind.Disp:
+                case XedRuleOpKind.Disp:
                 break;
 
-                case RuleOpKind.Imm:
+                case XedRuleOpKind.Imm:
                 break;
 
-                case RuleOpKind.Index:
+                case XedRuleOpKind.Index:
                 break;
 
-                case RuleOpKind.Mem:
+                case XedRuleOpKind.Mem:
                 break;
 
-                case RuleOpKind.Ptr:
+                case XedRuleOpKind.Ptr:
                 break;
 
-                case RuleOpKind.Reg:
+                case XedRuleOpKind.Reg:
                 break;
 
-                case RuleOpKind.RelBr:
+                case XedRuleOpKind.RelBr:
                 break;
 
-                case RuleOpKind.Scale:
+                case XedRuleOpKind.Scale:
                 break;
 
-                case RuleOpKind.Seg:
+                case XedRuleOpKind.Seg:
                 break;
 
             }

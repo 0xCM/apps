@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [DataType(Names.basetype)]
+        [DataType(XedNames.basetype)]
         public struct BaseType : IEnumCover<BaseTypeKind>
         {
             public BaseTypeKind Value {get;set;}

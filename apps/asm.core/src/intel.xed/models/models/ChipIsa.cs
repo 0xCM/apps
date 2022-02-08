@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
 
     [StructLayout(LayoutKind.Sequential), DataType("xed.chipisa")]
     public readonly struct XedChipIsa
