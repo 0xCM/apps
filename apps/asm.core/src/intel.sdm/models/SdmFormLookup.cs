@@ -8,11 +8,11 @@ namespace Z0
 
     public class SdmFormLookup
     {
-        readonly ConstLookup<Identifier,Index<SdmFormRecord>> Data;
+        readonly ConstLookup<Identifier,Index<AsmFormRecord>> Data;
 
-        public SdmFormLookup(Dictionary<Identifier,List<SdmFormRecord>> src)
+        public SdmFormLookup(Dictionary<Identifier,List<AsmFormRecord>> src)
         {
-            Data = src.Map(x => (x.Key, (Index<SdmFormRecord>)x.Value.ToArray())).ToDictionary();
+            Data = src.Map(x => (x.Key, (Index<AsmFormRecord>)x.Value.ToArray())).ToDictionary();
         }
 
         public ReadOnlySpan<Identifier> Kinds
@@ -21,13 +21,13 @@ namespace Z0
             get => Data.Keys;
         }
 
-        public Index<SdmFormRecord> this[Identifier kind]
+        public Index<AsmFormRecord> this[Identifier kind]
         {
             [MethodImpl(Inline)]
             get => Data[kind];
         }
 
-        public Index<SdmFormRecord> Linearize()
+        public Index<AsmFormRecord> Linearize()
             => core.map(Data.Values, x => x.Storage).SelectMany(x => x).Sort();
     }
 }

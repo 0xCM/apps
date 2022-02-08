@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     using Z0.Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]

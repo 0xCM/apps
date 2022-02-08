@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial struct XedRecords
     {
         [SymSource(xed_state)]
         public enum RepPrefix : byte

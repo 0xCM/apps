@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId)]
-    public struct XedCase : IRecord<XedCase>
+    public struct XedCase
     {
         public const string TableId = "xed.case";
 

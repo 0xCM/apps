@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using static XedModels;
+    using static XedRecords;
 
     partial class IntelXed
     {
@@ -27,7 +28,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<CategoryKind>(scope, xed);
             ApiMetadata.EmitTokens<ChipCode>(scope, xed);
             ApiMetadata.EmitTokens<CpuidBit>(scope, xed);
-            ApiMetadata.EmitTokens<DataType>(scope, xed);
+            ApiMetadata.EmitTokens<XedDataType>(scope, xed);
             ApiMetadata.EmitTokens<BaseTypeKind>(scope, xed);
             ApiMetadata.EmitTokens<EASZ>(scope, xed);
             ApiMetadata.EmitTokens<EOSZ>(scope, xed);
@@ -39,7 +40,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<IsaKind>(scope, xed);
             ApiMetadata.EmitTokens<LookupKind>(scope, xed);
             ApiMetadata.EmitTokens<NonterminalKind>(scope, xed);
-            ApiMetadata.EmitTokens<OpKind>(scope, xed);
+            ApiMetadata.EmitTokens<XedOpKind>(scope, xed);
             ApiMetadata.EmitTokens<OperandWidthType>(scope, xed);
             ApiMetadata.EmitTokens<OperandAction>(scope, xed);
             ApiMetadata.EmitTokens<PointerWidthKind>(scope, xed);

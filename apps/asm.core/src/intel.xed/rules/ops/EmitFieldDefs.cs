@@ -9,20 +9,21 @@ namespace Z0
     using static Root;
     using static core;
     using static XedModels;
+    using static XedRecords;
 
     partial class XedRules
     {
-        public Index<FieldDef> EmitFieldDefs()
+        public Index<XedFieldDef> EmitFieldDefs()
         {
             var src = ParseSourceFieldDefs();
             EmitFieldDefs(src);
             return src;
         }
 
-        public FS.FilePath EmitFieldDefs(ReadOnlySpan<FieldDef> src)
+        public FS.FilePath EmitFieldDefs(ReadOnlySpan<XedFieldDef> src)
         {
             var dst = XedPaths.FieldDefsTarget();
-            TableEmit(src, FieldDef.RenderWidths, dst);
+            TableEmit(src, XedFieldDef.RenderWidths, dst);
             return dst;
         }
     }

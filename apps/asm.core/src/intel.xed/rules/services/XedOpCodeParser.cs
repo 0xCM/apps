@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
+    using static XedModels;
+    using static XedRecords;
+
+    using OCP = XedRecords.OcPatternNames;
 
     public readonly struct XedOpCodeParser
     {
@@ -53,7 +56,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref skip(parts,i);
-                if(part.Equals(OpCodePatterns.VV1) || part.Equals(OpCodePatterns.EVV) || part.Equals(OpCodePatterns.XOPV))
+                if(part.Equals(OCP.VV1) || part.Equals(OCP.EVV) || part.Equals(OCP.XOPV))
                     continue;
 
                 if(ocbyte(part, out var b))

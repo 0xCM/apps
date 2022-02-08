@@ -13,7 +13,7 @@ namespace Z0.Asm
         readonly string Content;
 
         [MethodImpl(Inline)]
-        internal AsmSigOpExpr(string data)
+        public AsmSigOpExpr(string data)
         {
             Content = data.Trim();
         }
@@ -47,9 +47,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => alg.hash.marvin(Text);
         }
-
-        public bool Modifier(out string target, out AsmModifierKind mod)
-            => AsmSigs.modifier(this, out target, out mod);
 
         public string Format()
             => Text;

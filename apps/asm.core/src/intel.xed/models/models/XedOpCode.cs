@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
     partial struct XedModels
     {
         public readonly struct XedOpCode

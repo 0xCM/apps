@@ -7,11 +7,14 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels.EASZ;
+    using static XedRecords;
+    using static XedRecords.EASZ;
     using static XedModels.EOSZ;
-    using static XedModels.SMode;
-    using static XedModels.RepPrefix;
+    using static XedRecords.SMode;
+    using static XedRecords.RepPrefix;
     using static XedModels.SegPrefixKind;
+
+    using RPX = XedRecords.RepPrefix;
 
     partial struct XedModels
     {
@@ -36,7 +39,7 @@ namespace Z0
 
             public bit REXX;
 
-            public RepPrefix REP;
+            public RPX REP;
 
             public bit ASZ;
 
@@ -319,13 +322,13 @@ namespace Z0
             [MethodImpl(Inline)]
             public void refining_f2()
             {
-                REP = RepPrefix.REPF2;
+                REP = RPX.REPF2;
             }
 
             [MethodImpl(Inline)]
             public void refining_f3()
             {
-                REP = RepPrefix.REPF3;
+                REP = RPX.REPF3;
             }
 
             [MethodImpl(Inline)]
@@ -351,13 +354,13 @@ namespace Z0
             [MethodImpl(Inline)]
             public void f2_refining_prefix()
             {
-                REP = RepPrefix.REPF2;
+                REP = RPX.REPF2;
             }
 
             [MethodImpl(Inline)]
             public void f3_refining_prefix()
             {
-                REP = RepPrefix.REPF3;
+                REP = RPX.REPF3;
             }
 
             [MethodImpl(Inline)]

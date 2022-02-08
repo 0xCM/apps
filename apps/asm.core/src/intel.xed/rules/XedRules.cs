@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
     using static core;
     using static XedModels.RuleNames;
 
@@ -21,7 +22,7 @@ namespace Z0
 
         Symbols<OperandWidthType> OpWidthTypes;
 
-        Symbols<DataType> DataTypes;
+        Symbols<XedDataType> DataTypes;
 
         Symbols<IsaKind> IsaKinds;
 
@@ -39,7 +40,7 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        Symbols<OpKind> OperandKinds;
+        Symbols<XedOpKind> OperandKinds;
 
         Symbols<RegFlag> Flags;
 
@@ -55,14 +56,14 @@ namespace Z0
             Forms = Symbols.index<IFormType>();
             IsaKinds = Symbols.index<IsaKind>();
             OpWidthTypes = Symbols.index<OperandWidthType>();
-            DataTypes = Symbols.index<DataType>();
+            DataTypes = Symbols.index<XedDataType>();
             OpKinds = Symbols.index<RuleOpName>();
             PointerWidthSymbols = Symbols.index<PointerWidthKind>();
             PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
             FieldKinds = new();
-            OperandKinds = Symbols.index<OpKind>();
+            OperandKinds = Symbols.index<XedOpKind>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
@@ -227,9 +228,9 @@ namespace Z0
             EmittedFile(emitting,counter);
         }
 
-        public ConstLookup<OpKind,object> FieldValues(in OpState src)
+        public ConstLookup<XedOpKind,object> FieldValues(in OpState src)
         {
-            var dst = dict<OpKind,object>();
+            var dst = dict<XedOpKind,object>();
             var fields = FieldKinds.RightValues;
             foreach(var f in fields)
                 dst.Add(FieldKinds[f], f.GetValue(src));

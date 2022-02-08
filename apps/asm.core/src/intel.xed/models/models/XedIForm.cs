@@ -5,11 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct XedModels
     {
         [DataType(Names.iform)]
@@ -49,7 +44,7 @@ namespace Z0
                 => src is IForm && Equals(src);
 
             public string Format()
-                => Value != 0 ? Value.ToString() : "INVALID";
+                => Value.ToString();
 
             public override string ToString()
                 => Format();

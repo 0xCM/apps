@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial struct XedRecords
     {
         [SymSource(xed)]
         public enum BaseTypeKind

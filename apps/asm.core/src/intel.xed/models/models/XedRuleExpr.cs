@@ -6,6 +6,7 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedRecords;
 
     public struct XedRuleExpr
     {

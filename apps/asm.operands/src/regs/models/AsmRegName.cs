@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct AsmRegName
     {
         readonly text7 Data;
@@ -42,6 +38,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmRegName(text7 src)
             => new AsmRegName(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator text7(AsmRegName src)
+            => src.Data;
 
         public static AsmRegName Empty => new AsmRegName(text7.Empty);
     }

@@ -7,7 +7,7 @@ namespace Z0.Asm
     using System;
 
     [Record(TableId)]
-    public struct SdmSigOpCode : IComparable<SdmSigOpCode>
+    public struct AsmSigOpCode : IComparable<AsmSigOpCode>
     {
         public const string TableId = "sdm.sigs";
 
@@ -31,7 +31,7 @@ namespace Z0.Asm
 
         public AsmSigOpExpr Op4;
 
-        public int CompareTo(SdmSigOpCode src)
+        public int CompareTo(AsmSigOpCode src)
             => Identity.CompareTo(src.Identity);
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,32,48,36,20,20,20,20,20};

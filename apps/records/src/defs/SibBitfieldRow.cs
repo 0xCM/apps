@@ -35,9 +35,9 @@ namespace Z0.Asm
 
         public const byte FieldCount = 5;
 
-        public AsmRegName Base;
+        public text7 Base;
 
-        public AsmRegName Index;
+        public text7 Index;
 
         public uint2 Scale;
 

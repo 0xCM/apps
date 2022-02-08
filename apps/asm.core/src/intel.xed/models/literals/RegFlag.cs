@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial struct XedRecords
     {
         /// <summary>
         /// Mirrors the content of xed-flag-enum.txt data file

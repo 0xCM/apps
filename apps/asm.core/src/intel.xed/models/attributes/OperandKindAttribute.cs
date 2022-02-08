@@ -7,17 +7,19 @@ namespace Z0
 {
     using System;
 
+    using static XedRecords;
+
     partial struct XedModels
     {
         public class OperandKindAttribute : Attribute
         {
-            public OperandKindAttribute(OpKind kind, string description = "")
+            public OperandKindAttribute(XedOpKind kind, string description = "")
             {
                 Kind = kind;
                 Description = description;
             }
 
-            public OpKind Kind {get;}
+            public XedOpKind Kind {get;}
 
             public string Description {get;}
         }

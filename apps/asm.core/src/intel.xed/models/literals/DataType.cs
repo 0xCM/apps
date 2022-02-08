@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial struct XedRecords
     {
         /// <summary>
         /// Symbolic form of <see cref='BaseTypeKind'/>
         /// </summary>
         [SymSource(xed)]
-        public enum DataType : byte
+        public enum XedDataType : byte
         {
             INVALID = 0,
 

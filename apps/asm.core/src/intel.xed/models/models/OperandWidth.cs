@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
         [Record(TableId)]
@@ -15,7 +17,7 @@ namespace Z0
 
             public text15 Name;
 
-            public DataType BaseType;
+            public XedDataType BaseType;
 
             public uint Width16;
 

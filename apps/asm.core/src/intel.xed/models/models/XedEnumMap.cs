@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
-    using static XedModels;
-
     public sealed class XedEnumMap : ConstLookup<string,Type>
     {
         XedEnumMap(Dictionary<string,Type> src)

@@ -16,7 +16,7 @@ namespace Z0.Asm
             {
                 var forms = LoadForms();
                 var count = forms.Count;
-                var lookup = dict<Identifier,List<SdmFormRecord>>();
+                var lookup = dict<Identifier,List<AsmFormRecord>>();
                 for(var i=0; i<count; i++)
                 {
                     ref readonly var form = ref forms[i];
@@ -34,18 +34,18 @@ namespace Z0.Asm
             }
         }
 
-        public Index<SdmFormRecord> LoadForms()
+        public Index<AsmFormRecord> LoadForms()
         {
-            const byte FieldCount = SdmFormRecord.FieldCount;
+            const byte FieldCount = AsmFormRecord.FieldCount;
 
             return Data(nameof(LoadForms), Load);
 
-            Index<SdmFormRecord> Load()
+            Index<AsmFormRecord> Load()
             {
-                var path = ProjectDb.TablePath<SdmFormRecord>("sdm");
+                var path = ProjectDb.TablePath<AsmFormRecord>("sdm");
                 var lines = path.ReadNumberedLines(true);
                 var count = lines.Count;
-                var buffer = alloc<SdmFormRecord>(count - 1);
+                var buffer = alloc<AsmFormRecord>(count - 1);
                 var result = Outcome.Success;
                 for(uint i=1, k=0; i<count; i++,k++)
                 {
@@ -89,7 +89,7 @@ namespace Z0.Asm
                 if(result.Fail)
                 {
                     Error(result.Message);
-                    return sys.empty<SdmFormRecord>();
+                    return sys.empty<AsmFormRecord>();
                 }
 
                 return buffer;

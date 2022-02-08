@@ -6,14 +6,15 @@ namespace Z0
 {
     using static core;
     using static XedModels;
+    using static XedRecords;
 
     partial class XedRules
     {
-        Index<FieldDef> ParseSourceFieldDefs()
+        Index<XedFieldDef> ParseSourceFieldDefs()
         {
             var src = XedPaths.FieldDefSource();
             var running = Running(string.Format("Parsing {0}", src.ToUri()));
-            var dst = list<FieldDef>();
+            var dst = list<XedFieldDef>();
             var result = Outcome.Success;
             using var reader = src.Utf8LineReader();
             while(reader.Next(out var line))
@@ -30,7 +31,7 @@ namespace Z0
                     break;
                 }
 
-                var record = FieldDef.Empty;
+                var record = XedFieldDef.Empty;
                 record.Name = skip(cells,0);
 
                 ref readonly var type = ref skip(cells,2);
@@ -68,7 +69,7 @@ namespace Z0
             else
             {
                 Error(result.Message);
-                return sys.empty<FieldDef>();
+                return sys.empty<XedFieldDef>();
             }
         }
     }

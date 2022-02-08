@@ -223,7 +223,7 @@ namespace Z0.Asm
 
         static bool operand(AsmSigOpExpr src, out AsmSigOp dst)
         {
-            if(src.Modifier(out var op, out var mod))
+            if(AsmSigs.modifier(src, out var op, out var mod))
             {
                 if(_Datasets.TokensByExpression.Find(op, out dst))
                 {

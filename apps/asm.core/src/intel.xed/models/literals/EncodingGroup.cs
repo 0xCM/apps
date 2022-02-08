@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial struct XedRecords
     {
         /// <summary>
         /// These identifiers were derived from function declarations in the generated file 'xed-encoder.h'

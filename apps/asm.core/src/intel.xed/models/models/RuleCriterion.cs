@@ -4,22 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using static XedRecords;
 
     partial struct XedModels
     {
         public readonly struct RuleCriterion : IRuleCriterion
         {
-            public OpKind Kind {get;}
+            public XedOpKind Kind {get;}
 
             public RuleOperator Operator {get;}
 
             public dynamic Value {get;}
 
             [MethodImpl(Inline)]
-            public RuleCriterion(OpKind kind, RuleOperator @op,  dynamic value)
+            public RuleCriterion(XedOpKind kind, RuleOperator @op,  dynamic value)
             {
                 Kind = kind;
                 Operator = @op;

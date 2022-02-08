@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     [SymSource("xed")]
     public enum XedRegId : ushort
     {

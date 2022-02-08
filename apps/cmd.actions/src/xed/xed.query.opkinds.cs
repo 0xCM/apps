@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial class XedCmdProvider
     {
         const string XedOpKindQuery = "xed/query/opkinds";
@@ -11,7 +13,7 @@ namespace Z0
         [CmdOp(XedOpKindQuery)]
         Outcome QueryOpKinds(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<XedModels.OpKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
+            TableEmit(Symbols.syminfo<XedOpKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
             return true;
         }
     }

@@ -5,16 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
-    partial struct XedModels
+    partial struct XedRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct FieldDef
+        public struct XedFieldDef
         {
             public const string TableId = "xed.fields";
 
@@ -30,7 +24,7 @@ namespace Z0
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{32,32,8,1};
 
-            public static FieldDef Empty => default;
+            public static XedFieldDef Empty => default;
         }
     }
 }

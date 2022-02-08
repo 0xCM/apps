@@ -5,9 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PS = XedModels.VexPrefixSpecs;
-
-    partial struct XedModels
+    partial struct XedRecords
     {
         /// <summary>
         /// Defines 3-bit emission codes for vex map specification as determined by the presence

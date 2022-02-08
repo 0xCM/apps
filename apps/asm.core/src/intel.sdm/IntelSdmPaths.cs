@@ -33,10 +33,10 @@ namespace Z0.Asm
             => ProjectDb.Settings("asm.sigs.expansions", FS.ext("map"));
 
         public FS.FilePath SigDecompTable()
-            => ProjectDb.TablePath<SdmSigOpCode>("sdm", "decomposed");
+            => ProjectDb.TablePath<AsmSigOpCode>("sdm", "decomposed");
 
         public FS.FilePath SigDuplicateTable()
-            => ProjectDb.TablePath<SdmSigOpCode>("sdm", "duplicates");
+            => ProjectDb.TablePath<AsmSigOpCode>("sdm", "duplicates");
 
         public FS.FilePath SigNormalRules()
             => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));

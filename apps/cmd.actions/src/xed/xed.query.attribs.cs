@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial class XedCmdProvider
     {
         const string XedAttribQuery = "xed/query/attribs";

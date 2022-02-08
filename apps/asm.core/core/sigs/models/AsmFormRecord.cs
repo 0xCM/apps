@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct SdmFormRecord : IComparable<SdmFormRecord>
+    public struct AsmFormRecord : IComparable<AsmFormRecord>
     {
         public const string TableId = "sdm.forms";
 
@@ -25,7 +25,7 @@ namespace Z0.Asm
 
         public AsmSigExpr Source;
 
-        public int CompareTo(SdmFormRecord src)
+        public int CompareTo(AsmFormRecord src)
         {
             var result = Kind.CompareTo(src.Kind);
             if(result == 0)

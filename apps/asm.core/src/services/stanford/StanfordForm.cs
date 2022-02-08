@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     using Z0.Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmFormRecord : IRecord<AsmFormRecord>
+    public struct StanfordForm : IRecord<StanfordForm>
     {
         public const string TableId = "asm.forms";
 

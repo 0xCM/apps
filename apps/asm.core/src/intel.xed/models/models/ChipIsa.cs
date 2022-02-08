@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static XedModels;
 
     [StructLayout(LayoutKind.Sequential), DataType("xed.chipisa")]

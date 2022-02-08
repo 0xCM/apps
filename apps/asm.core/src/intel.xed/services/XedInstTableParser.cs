@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static XedModels;
     using static XedInstructions;
-    using static Root;
+    using static XedRecords;
     using static core;
 
     using SQ = SymbolicQuery;
@@ -43,7 +40,7 @@ namespace Z0
 
         EnumParser<EncodingGroup> Groups {get;}
 
-        EnumParser<OpKind> OperandKinds {get;}
+        EnumParser<XedOpKind> OperandKinds {get;}
 
         EnumParser<VisibilityKind> Visibilities {get;}
 
@@ -115,7 +112,7 @@ namespace Z0
             return kind;
         }
 
-        Outcome Parse(in TextLine src, out InstInfo dst)
+        Outcome Parse(in TextLine src, out XedInstInfo dst)
         {
             const string AttribMarker = "ATTRIBUTES:";
             var result = Outcome.Success;
@@ -199,7 +196,7 @@ namespace Z0
             return result;
         }
 
-        Outcome Parse(in TextLine src, ushort instix, out InstOperandInfo dst)
+        Outcome Parse(in TextLine src, ushort instix, out XedInstOperand dst)
         {
             var result = Outcome.Success;
             var content = text.trim(src.Content);
@@ -293,11 +290,11 @@ namespace Z0
         {
             using var reader = src.Utf8LineReader();
             var result = Outcome.Success;
-            var entries = list<InstInfo>();
-            var operands = list<InstOperandInfo>();
-            var allops = list<InstOperandInfo>();
-            var inst = default(InstInfo);
-            var op = default(InstOperandInfo);
+            var entries = list<XedInstInfo>();
+            var operands = list<XedInstOperand>();
+            var allops = list<XedInstOperand>();
+            var inst = default(XedInstInfo);
+            var op = default(XedInstOperand);
             while(reader.Next(out var line))
             {
                 var kind = Classify(line);

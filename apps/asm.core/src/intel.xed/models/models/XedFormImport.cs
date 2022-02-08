@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct XedFormImport : IComparable<XedFormImport>
@@ -15,7 +16,7 @@ namespace Z0
 
         public ushort Index;
 
-        public IForm Form;
+        public IFormType Form;
 
         public IClass Class;
 

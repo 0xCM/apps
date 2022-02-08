@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Linq;
-
-    using static Root;
     using static core;
 
     public sealed partial class StanfordAsmCatalog : AppService<StanfordAsmCatalog>
@@ -146,10 +142,10 @@ namespace Z0.Asm
             return imports;
         }
 
-        AsmFormPipe AsmFormPipe => Service(Wf.AsmFormPipe);
+        StanfordFormPipe AsmFormPipe => Service(Wf.AsmFormPipe);
 
         public void EmitForms(ReadOnlySpan<AsmFormInfo> src)
-            => AsmFormPipe.Emit(src, Db.Table<AsmFormRecord>(TargetFolder));
+            => AsmFormPipe.Emit(src, Db.Table<StanfordForm>(TargetFolder));
 
         Outcome parse(ushort seq, in TextLine src, ref StokeAsmAssetRow dst)
         {

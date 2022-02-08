@@ -8,26 +8,27 @@ namespace Z0
 
     using static core;
     using static XedModels;
+    using static XedRecords;
 
-    using K = XedModels.OpKind;
+    using K = XedRecords.XedOpKind;
 
     public class XedOperandParser
     {
-        Symbols<OpKind> Kinds;
+        Symbols<XedOpKind> Kinds;
 
         Symbols<XedRegId> Registers;
 
         OpState State;
 
-        DataList<OpKind> _ParsedKinds;
+        DataList<XedOpKind> _ParsedKinds;
 
         DataList<Facet<string>> _UnknownFields;
 
-        Dictionary<OpKind, string> _Failures;
+        Dictionary<XedOpKind, string> _Failures;
 
         public XedOperandParser()
         {
-            Kinds = Symbols.index<OpKind>();
+            Kinds = Symbols.index<XedOpKind>();
             Registers = Symbols.index<XedRegId>();
             State = OpState.Empty;
             _ParsedKinds = new();
@@ -46,10 +47,10 @@ namespace Z0
         public ReadOnlySpan<Facet<string>> UnknownFields
             => _UnknownFields.View();
 
-        public IReadOnlyDictionary<OpKind,string> Failures
+        public IReadOnlyDictionary<XedOpKind,string> Failures
             => _Failures;
 
-        public ReadOnlySpan<OpKind> ParsedFields
+        public ReadOnlySpan<XedOpKind> ParsedFields
             => _ParsedKinds.View();
 
         public Outcome ParseRegister(string src, out Register dst)
@@ -177,7 +178,7 @@ namespace Z0
             return kind;
         }
 
-        Outcome Parse(string src, OpKind kind, ref OpState state)
+        Outcome Parse(string src, XedOpKind kind, ref OpState state)
         {
             var result = Outcome.Success;
             switch(kind)

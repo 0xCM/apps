@@ -8,6 +8,7 @@ namespace Z0.Asm
 
     using static core;
     using static XedModels;
+    using static XedRecords;
 
     partial class IntelXed
     {

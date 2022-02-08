@@ -19,7 +19,7 @@ namespace Z0.Asm
                 buffer.Append(Chars.Underscore);
 
                 var op = sigop(operands[j]);
-                if(op.Modifier(out var t, out var m))
+                if(modifier(op,out var t, out var m))
                     buffer.AppendFormat("{0}_{1}", t, m);
                 else
                     buffer.Append(op.Format());

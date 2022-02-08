@@ -11,7 +11,7 @@ namespace Z0.Asm
         Outcome EmitForms(ReadOnlySpan<SdmOpCodeDetail> details)
         {
             var occount = details.Length;
-            var records = list<SdmFormRecord>();
+            var records = list<AsmFormRecord>();
             var result = Outcome.Success;
             var k = 0u;
             var specs = hashset<AsmFormSpec>();
@@ -34,7 +34,7 @@ namespace Z0.Asm
 
                 for(var j=0; j<terminals.Count; j++)
                 {
-                    var record = new SdmFormRecord();
+                    var record = new AsmFormRecord();
                     ref readonly var terminal = ref terminals[j];
 
                     var sigt = AsmSigs.expression(terminal.Right);
@@ -56,7 +56,7 @@ namespace Z0.Asm
             for(var i=0u; i<records.Count; i++)
                 seek(output, i).Seq = i;
 
-            TableEmit(@readonly(output), SdmFormRecord.RenderWidths, ProjectDb.TablePath<SdmFormRecord>("sdm"));
+            TableEmit(@readonly(output), AsmFormRecord.RenderWidths, ProjectDb.TablePath<AsmFormRecord>("sdm"));
 
             return result;
         }

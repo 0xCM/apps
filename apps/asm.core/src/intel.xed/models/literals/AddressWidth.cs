@@ -5,8 +5,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial struct XedRecords
     {
+        const string xed = nameof(xed);
+
+        const string xed_state = nameof(xed_state);
+
         [SymSource(xed)]
         public enum AddressWidth : byte
         {

@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
         public interface IRuleCriterion
         {
-            OpKind Kind {get;}
+            XedOpKind Kind {get;}
 
             RuleOperator Operator {get;}
 

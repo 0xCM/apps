@@ -7,11 +7,12 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels.OpKind;
+    using static XedRecords;
+    using static XedRecords.XedOpKind;
     using static Asm.AsmPrefixCodes;
     using static core;
 
-    using K = XedModels.OpKind;
+    using K = XedRecords.XedOpKind;
 
     partial struct XedModels
     {
@@ -65,7 +66,7 @@ namespace Z0
             [OperandKind(IMM1, "Indicates whether a second imm operand is present")]
             public bit imm1;
 
-            [OperandKind(OpKind.IMM_WIDTH)]
+            [OperandKind(XedOpKind.IMM_WIDTH)]
             public byte imm_width;
 
             [OperandKind(IMM1_BYTES)]
@@ -181,7 +182,7 @@ namespace Z0
             public bit vex_c4;
 
             [OperandKind(VEX_PREFIX)]
-            public VexPrefixKind vex_prefix;
+            public XedRecords.VexPrefixKind vex_prefix;
 
             [OperandKind(VL)]
             public VectorWidthCode vl;
@@ -195,10 +196,10 @@ namespace Z0
             [OperandKind(DEFAULT_SEG)]
             public uint2 default_seg;
 
-            [OperandKind(OpKind.EASZ)]
+            [OperandKind(XedOpKind.EASZ)]
             public EASZ easz;
 
-            [OperandKind(OpKind.EOSZ)]
+            [OperandKind(XedOpKind.EOSZ)]
             public EOSZ eosz;
 
             [OperandKind(FIRST_F2F3)]
@@ -297,7 +298,7 @@ namespace Z0
             [OperandKind(ILD_SEG)]
             public byte ild_seg;
 
-            [OperandKind(OpKind.MAX_BYTES)]
+            [OperandKind(XedOpKind.MAX_BYTES)]
             public byte max_bytes;
 
             [OperandKind(MODRM_BYTE)]
@@ -507,7 +508,6 @@ namespace Z0
             }
 
             public static OpState Empty => default;
-
         }
     }
 }

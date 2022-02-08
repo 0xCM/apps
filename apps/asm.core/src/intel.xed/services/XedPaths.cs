@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRecords;
 
     public class XedPaths : AppService<XedPaths>
     {
@@ -43,7 +44,7 @@ namespace Z0
             => XedTargets + FS.file(Tables.identify<XedFormImport>().Format(), FS.Csv);
 
         public FS.FilePath FieldDefsTarget()
-            => XedTargets + Tables.filename<FieldDef>();
+            => XedTargets + Tables.filename<XedFieldDef>();
 
         public FS.FilePath RuleSource(RuleDocKind kind)
             => Sources() + FS.file(Symbols.format(kind), FS.Txt);

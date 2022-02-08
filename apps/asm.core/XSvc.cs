@@ -91,8 +91,8 @@ namespace Z0
             => Asm.StanfordAsmCatalog.create(wf);
 
         [Op]
-        public static AsmFormPipe AsmFormPipe(this IWfRuntime wf)
-            => Asm.AsmFormPipe.create(wf);
+        public static StanfordFormPipe AsmFormPipe(this IWfRuntime wf)
+            => Asm.StanfordFormPipe.create(wf);
 
         [Op]
         public static Nasm Nasm(this IWfRuntime wf)

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRecords;
+
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
@@ -11,7 +13,7 @@ namespace Z0
         {
             public byte Index;
 
-            public OpKind Kind;
+            public XedOpKind Kind;
 
             public OperandAction Action;
 

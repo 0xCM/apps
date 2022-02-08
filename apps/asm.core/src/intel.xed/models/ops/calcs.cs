@@ -8,8 +8,9 @@ namespace Z0
 
     using static core;
     using static XedRegId;
-    using static XedModels.EASZ;
-    using static XedModels.SMode;
+    using static XedRecords.EASZ;
+    using static XedRecords.SMode;
+    using static XedRecords;
 
     partial struct XedModels
     {
@@ -267,11 +268,11 @@ namespace Z0
             return dst;
         }
 
-        public static ConstLookup<OpKind,TypeSpec> OpKindTypes()
+        public static ConstLookup<XedOpKind,TypeSpec> OpKindTypes()
         {
             var fields = typeof(OpState).PublicInstanceFields();
             var count = fields.Length;
-            var dst = dict<OpKind,TypeSpec>();
+            var dst = dict<XedOpKind,TypeSpec>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);

@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static XedModels;
+    using static XedRecords;
 
     using FT = XedModels.FieldType;
 
     public class XedTypes : AppService<XedTypes>
     {
+        TypeParser TypeParser => Service(Wf.TypeParser);
+
         public static TypeSpec spec(FieldType @base, byte width)
         {
             var dst = TypeSpec.Empty;
@@ -63,9 +64,6 @@ namespace Z0
 
             return dst;
         }
-
-
-        TypeParser TypeParser => Service(Wf.TypeParser);
 
         public Outcome Concretize(TypeSpec src, out Type dst)
         {

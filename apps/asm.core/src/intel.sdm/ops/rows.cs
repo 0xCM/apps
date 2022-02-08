@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     partial struct SdmOps
     {
@@ -28,7 +24,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        public static Outcome<uint> rows(ReadOnlySpan<TextLine> src, Span<SdmSigOpCode> dst)
+        public static Outcome<uint> rows(ReadOnlySpan<TextLine> src, Span<AsmSigOpCode> dst)
         {
             var counter = 0u;
             var result = Outcome.Success;

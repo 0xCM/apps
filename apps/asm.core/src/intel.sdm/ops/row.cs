@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
 
     partial struct SdmOps
     {
-        public static Outcome row(TextLine src, out SdmSigOpCode dst)
+        public static Outcome row(TextLine src, out AsmSigOpCode dst)
         {
-            const byte FieldCount = SdmSigOpCode.FieldCount;
+            const byte FieldCount = AsmSigOpCode.FieldCount;
 
             var result = Outcome.Success;
             var cells = src.Split(Chars.Pipe);
@@ -31,6 +28,7 @@ namespace Z0.Asm
             dst.Op1 = skip(cells,i++).Trim();
             dst.Op2 = skip(cells,i++).Trim();
             dst.Op3 = skip(cells,i++).Trim();
+            dst.Op4 = skip(cells,i++).Trim();
             return result;
         }
 
