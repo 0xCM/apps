@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct AsmDataBlock
     {

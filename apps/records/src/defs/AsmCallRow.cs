@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
     using Z0.Asm;
-
-    using static Root;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AsmCallRow : IComparableRecord<AsmCallRow>

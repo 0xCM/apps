@@ -6,9 +6,7 @@ namespace Z0.llvm
 {
     partial class LlvmCmdProvider
     {
-        const string GenCodeCmd = "llvm/codegen";
-
-        [CmdOp(GenCodeCmd)]
+        [CmdOp("llvm/codegen")]
         Outcome GenCode(CmdArgs args)
         {
             LlvmCodeGen.Run();

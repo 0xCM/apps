@@ -20,7 +20,7 @@
     <LlvmTools>$(Src)llvm.tools/z0.llvm.tools.csproj</LlvmTools>
     <LlvmModels>$(Src)llvm.models/z0.llvm.models.csproj</LlvmModels>
 
-    <Generated>$(Src)generated/z0.generated.csproj</Generated>
+    <Records>$(Src)records/z0.records.csproj</Records>
     <LibTest>$(MSBuildThisFileDirectory)test/z0.test.csproj</LibTest>
 
     <TestUnits>$(MSBuildThisFileDirectory)test/test.units/z0.test.units.csproj</TestUnits>

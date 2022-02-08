@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum SegDefaultKind : byte
         {
             [Symbol("default_ds", "DEFAULT_SEG=0")]

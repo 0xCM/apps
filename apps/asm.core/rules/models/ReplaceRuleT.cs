@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential)]
-    public class ReplaceRule<T> : Rule
+    public class ReplaceRule<T> : IRuleExpr
     {
         /// <summary>
         /// The sequence term to match
@@ -24,7 +24,10 @@ namespace Z0
             Replace = replace;
         }
 
-        public override string Format()
+        public string Format()
             => string.Format("{0} -> {1}", Match, Replace);
+
+        public override string ToString()
+            => Format();
     }
 }

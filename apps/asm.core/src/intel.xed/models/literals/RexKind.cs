@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum RexKind : byte
         {
             [Symbol("no_rex","REX=0")]

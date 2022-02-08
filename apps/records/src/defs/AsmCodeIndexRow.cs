@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     using Asm;
 
-    using static core;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct AsmCodeIndexRow : IComparable<AsmCodeIndexRow>

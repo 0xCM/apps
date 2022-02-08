@@ -9,6 +9,6 @@ namespace Z0
     {
         internal const string xed = nameof(xed);
 
-        internal const string state = "xed.state";
+        internal const string xed_state = "xed.state";
    }
 }

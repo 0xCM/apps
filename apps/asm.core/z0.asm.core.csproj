@@ -10,6 +10,7 @@
     <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(CodeGenIntel)" />
     <ProjectReference Include="$(AsmOperands)" />
+    <ProjectReference Include="$(Records)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

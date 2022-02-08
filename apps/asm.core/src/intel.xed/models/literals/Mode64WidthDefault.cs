@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum Mode64WidthDefault : byte
         {
             [Symbol("nrmw", "DF64=0")]

@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum SegPrefixKind : byte
         {
             [Symbol("no_seg_prefix", "SEG_OVD=0")]

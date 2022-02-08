@@ -4,15 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using Asm;
-
-    using static Root;
-
-    public readonly struct AsmCorrelation
+    public readonly struct AsmRecords
     {
         [MethodImpl(Inline)]
         public static CorrelationToken token(uint docid, Address32 ip)

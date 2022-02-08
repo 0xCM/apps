@@ -6,7 +6,8 @@ namespace Z0
 {
     public interface IRuleExpr : IExpr
     {
-        bool IsTerminal {get;}
+        bool IsTerminal
+            => false;
 
         RuleExprKind ExprKind
             => RuleExprKind.None;

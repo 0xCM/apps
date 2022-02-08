@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     using C = AsmLineClass;
@@ -37,8 +32,6 @@ namespace Z0.Asm
 
         Span<DecimalDigitValue> DigitBuffer()
             => _DigitBuffer.Clear();
-
-        EnumParser<AsmId> AsmIdParser {get;} = new EnumParser<AsmId>();
 
         public McAsmDoc ParseAsmDoc(in FileRef fref)
         {
@@ -140,13 +133,11 @@ namespace Z0.Asm
                             var j = text.whitespace(inst);
                             if(j != NotFound)
                             {
-                                AsmIdParser.Parse(text.right(inst,j), out var asmid);
-                                Instructions.Add(new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, asmid));
+                                Instructions.Add(new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, text.right(inst,j)));
                             }
                             else
                             {
-                                AsmIdParser.Parse(inst, out var asmid);
-                                Instructions.Add(new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, asmid));
+                                Instructions.Add(new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, inst));
                             }
                             DocSeq++;
                         }

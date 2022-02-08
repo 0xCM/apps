@@ -11,11 +11,11 @@ namespace Z0
     {
         public const string TableId = "asm.stats";
 
-        public AsmId Id;
+        public Identifier AsmName;
 
         public uint Count;
 
         public int CompareTo(AsmStat src)
-            => Id.ToString().CompareTo(src.Id.ToString());
+            => AsmName.CompareTo(src.AsmName);
     }
 }

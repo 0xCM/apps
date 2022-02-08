@@ -34,7 +34,7 @@ namespace Z0
 
     public class AsmStatsCollector : ProjectEventReceiver
     {
-        Dictionary<AsmId,uint> _AsmIdCounts;
+        Dictionary<string,uint> _AsmIdCounts;
 
         public AsmStatsCollector()
         {
@@ -43,13 +43,13 @@ namespace Z0
 
         public override void Collected(in FileRef src, in AsmInstructionRow inst)
         {
-            if(_AsmIdCounts.TryGetValue(inst.AsmId, out var count))
+            if(_AsmIdCounts.TryGetValue(inst.AsmName, out var count))
             {
-                _AsmIdCounts[inst.AsmId] = count+1;
+                _AsmIdCounts[inst.AsmName] = count+1;
             }
             else
             {
-                _AsmIdCounts[inst.AsmId] = 1;
+                _AsmIdCounts[inst.AsmName] = 1;
             }
         }
 
@@ -61,9 +61,9 @@ namespace Z0
             for(var i=0;i<count; i++)
             {
                 ref var dst = ref seek(buffer,i);
-                ref readonly var key = ref skip(keys,i);
-                dst.Id = key;
-                dst.Count = _AsmIdCounts[key];
+                ref readonly var name = ref skip(keys,i);
+                dst.AsmName = name;
+                dst.Count = _AsmIdCounts[name];
             }
             return buffer.Sort();
         }

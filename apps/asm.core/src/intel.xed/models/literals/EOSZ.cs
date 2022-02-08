@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         /// Defines symbols to represent effective operands sizes
         /// </summary>
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum EOSZ : sbyte
         {
             [Symbol("eosz8", "EOSZ=0")]

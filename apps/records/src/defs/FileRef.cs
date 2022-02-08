@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct FileRef : IComparable<FileRef>, ISequential
     {

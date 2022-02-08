@@ -19,5 +19,15 @@ namespace Z0
             Write(string.Format("{0} -> {1}", x3, y3));
             return result;
         }
+
+        [CmdOp("check/rules/replace")]
+        Outcome CheckReplaceRules(CmdArgs args)
+        {
+            var rule = new SeqRange<string>("a","b");
+            //var rule = new ReplaceRule<string>("a","b");
+
+
+            return true;
+        }
     }
 }

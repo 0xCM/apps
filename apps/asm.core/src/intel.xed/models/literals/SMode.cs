@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         /// Stack addressing mode
         /// </summary>
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum SMode : sbyte
         {
             [Symbol("smode16", "SMODE=0")]

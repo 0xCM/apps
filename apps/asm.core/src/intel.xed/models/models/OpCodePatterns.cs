@@ -84,7 +84,7 @@ namespace Z0
             XOPA=10,
         }
 
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum VexMapKind : byte
         {
             [Symbol("vex-map1", OCM.VexPattern0F)]

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
@@ -22,7 +19,7 @@ namespace Z0
 
         public uint DocSeq;
 
-        public AsmId AsmId;
+        public Identifier AsmName;
 
         public AsmExpr Asm;
 

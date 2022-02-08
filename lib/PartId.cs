@@ -28,6 +28,9 @@ public enum PartId : byte
     [Symbol("generated")]
     Generated = 6,
 
+    [Symbol("records")]
+    Records = 7,
+
     [Symbol("api")]
     Api = 9,
 
@@ -51,9 +54,6 @@ public enum PartId : byte
 
     [Symbol("polyrand")]
     Polyrand = 17,
-
-    [Symbol("digital")]
-    Digital = 18,
 
     [Symbol("test.checks")]
     Checks = 19,

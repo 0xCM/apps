@@ -10,7 +10,7 @@ namespace Z0
         /// <summary>
         /// Defines symbols to represent effective addressing modes
         /// </summary>
-        [SymSource(state)]
+        [SymSource(xed_state)]
         public enum EASZ : sbyte
         {
             [Symbol("eamode16", "MODE=0")]

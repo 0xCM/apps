@@ -4,20 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Collections.Generic;
-
     using Asm;
 
     using static core;
-    using static Root;
 
     [Tool(ToolId)]
     public partial class LlvmMcSvc : ToolService<LlvmMcSvc>
     {
         public const string ToolId = ToolNames.llvm_mc;
-
-        EnumParser<AsmId> AsmIdParser => Service(() => new EnumParser<AsmId>());
 
         WsProjects WsProjects => Service(Wf.WsProjects);
 
@@ -81,7 +75,7 @@ namespace Z0.llvm
                     record.Seq = counter++;
                     record.DocId = fref.DocId;
                     record.DocSeq = instruction.DocSeq;
-                    record.AsmId = instruction.AsmId;
+                    record.AsmName = instruction.AsmName;
                     record.Asm = expr;
                     record.Source = path.LineRef(instruction.Line);
                     if(result.Fail)
@@ -246,7 +240,7 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
-                result = AsmIdParser.Parse(skip(cells, j++), out dst.AsmId);
+                result = DataParser.parse(skip(cells, j++), out dst.AsmName);
                 result = DataParser.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
@@ -398,7 +392,7 @@ namespace Z0.llvm
                     record.DocId = fref.DocId;
                     record.DocSeq = seq++;
                     record.IP = offset;
-                    record.CT = AsmCorrelation.token(fref.DocId, offset);
+                    record.CT = AsmRecords.token(fref.DocId, offset);
                     record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
 

@@ -4,19 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     using XF = ExprPatterns;
 
     /// <summary>
     /// Constrains an element or sequence to live within a specified range
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public class SeqRange<T> : Rule
+    public class SeqRange<T> : IRuleExpr
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -36,8 +30,11 @@ namespace Z0
             Max = max;
         }
 
-        public override string Format()
+        public string Format()
             => string.Format(XF.InclusiveRange, Min, Max);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator SeqRange<T>((T min, T max) src)

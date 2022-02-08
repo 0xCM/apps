@@ -13,19 +13,19 @@ namespace Z0
 
         public LineNumber Line;
 
-        public AsmId AsmId;
+        public Identifier AsmName;
 
         [MethodImpl(Inline)]
-        public AsmInstRef(uint docid, uint seq, LineNumber line, AsmId name)
+        public AsmInstRef(uint docid, uint seq, LineNumber line, Identifier name)
         {
             DocId = docid;
             DocSeq = seq;
             Line = line;
-            AsmId = name;
+            AsmName = name;
         }
 
         public string Format()
-            => string.Format("{0,-8} | {1,-8} | {2,-8} | {3}", DocId, DocSeq, Line, AsmId);
+            => string.Format("{0,-8} | {1,-8} | {2,-8} | {3}", DocId, DocSeq, Line, AsmName);
 
         public override string ToString()
             => Format();
