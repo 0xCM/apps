@@ -48,8 +48,6 @@ namespace Z0
 
         Index<TableDef> _TableDefs;
 
-        ConstLookup<Type,IParser> _Parsers;
-
         Index<SpanResAccessor> _SpanResAccessors;
 
         object locker;
@@ -66,24 +64,8 @@ namespace Z0
             _DataTypes = ApiQuery.datatypes(components);
             _DataFlows = ApiQuery.dataflows(components);
             _TableDefs = sys.empty<TableDef>();
-            _Parsers = ConstLookup<Type,IParser>.Empty;
             _SpanResAccessors = sys.empty<SpanResAccessor>();
             locker = new();
-        }
-
-        public ConstLookup<Type,IParser> Parsers
-        {
-            get
-            {
-                lock(locker)
-                {
-                    if(_Parsers.IsEmpty)
-                    {
-                        _Parsers = Z0.Parsers.discover(_PartComponents, out _);
-                    }
-                }
-                return _Parsers;
-            }
         }
 
         public ReadOnlySpan<TableDef> TableDefs

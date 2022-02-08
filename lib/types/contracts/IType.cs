@@ -31,8 +31,6 @@ namespace Z0
         where K : unmanaged
         where F : IType<F,K>, new()
     {
-        ParseFunction<F> ValueParser {get;}
-
         FormatFunction<F> ValueFormatter {get;}
     }
 }

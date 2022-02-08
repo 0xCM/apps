@@ -37,8 +37,6 @@ namespace Z0
 
         ReadOnlySpan<TableDef> TableDefs {get;}
 
-        ConstLookup<Type,IParser> Parsers {get;}
-
         bool FindPart(PartId id, out IPart dst);
 
         bool FindComponent(PartId id, out Assembly dst);

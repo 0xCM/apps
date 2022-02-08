@@ -4,14 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-    using System.Collections.Generic;
-
     using static core;
 
     public class Parsers
     {
+        [MethodImpl(Inline)]
+        public static EnumParser<E> @enum<E>()
+            where E : unmanaged, Enum
+                => new();
+        public static RecordParser record(Type src)
+            => new RecordParser(Tables.reflected(src));
+
+        public static RecordParser<T> record<T>()
+            where T : struct
+                => new RecordParser<T>(Tables.reflected(typeof(T)));
+
         public static Parsers Service => Instance;
 
         public SeqParser<T> SeqParser<T>(string delimiter, ParseFunction<T> termparser)
@@ -77,7 +84,6 @@ namespace Z0
         public ReadOnlySpan<Arrow<Name,Type>> Identities
             => _Identities;
 
-
         public Outcome Parse(Type t, string src, out dynamic dst)
         {
             var result = Outcome.Failure;
@@ -130,5 +136,6 @@ namespace Z0
         }
 
         static Parsers Instance;
+
     }
 }

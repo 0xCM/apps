@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     using static XedTool;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Cmd(CmdName)]

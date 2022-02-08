@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct AsmRecords
+    public class AsmRecords : AppService<AsmRecords>
     {
         [MethodImpl(Inline)]
         public static CorrelationToken token(uint docid, Address32 ip)
             => math.or(math.sll(docid, 24),  (uint)ip);
+
     }
 }

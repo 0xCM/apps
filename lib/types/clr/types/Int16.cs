@@ -13,8 +13,6 @@ namespace Z0
 
             public ClrPrimitiveKind Kind => ClrPrimitiveKind.I16;
 
-            public IParser<short> ValueParser => Parsers.Service.Parser<short>();
-
             public string Format()
                 => Name;
         }
