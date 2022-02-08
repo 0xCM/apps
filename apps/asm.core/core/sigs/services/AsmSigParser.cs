@@ -28,14 +28,14 @@ namespace Z0.Asm
                 mnemonic = text.left(sig,j);
                 var operands = text.right(sig,j);
                 if(text.contains(sig, Chars.Comma))
-                    dst = AsmSigExpr.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
+                    dst = AsmSigs.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
                 else
-                    dst = AsmSigExpr.expression(mnemonic, operands);
+                    dst = AsmSigs.expression(mnemonic, operands);
             }
             else
             {
                 mnemonic = sig;
-                dst = AsmSigExpr.expression(mnemonic);
+                dst = AsmSigs.expression(mnemonic);
             }
 
             return result;
@@ -223,7 +223,7 @@ namespace Z0.Asm
 
         static bool operand(AsmSigOpExpr src, out AsmSigOp dst)
         {
-            if(src.Modified(out var op, out var mod))
+            if(src.Modifier(out var op, out var mod))
             {
                 if(_Datasets.TokensByExpression.Find(op, out dst))
                 {

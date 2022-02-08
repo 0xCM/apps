@@ -77,7 +77,7 @@ namespace Z0
         public FS.FolderPath SourceRoot(CgTarget target)
             => ProjectRoot(target) + FS.folder("src");
 
-        public FS.FilePath SourceFile(string name,  CgTarget target)
+        public FS.FilePath SourceFile(string name, CgTarget target)
             => SourceRoot(target) + FS.file(name, FS.Cs);
 
         public FS.Files SourceFiles(CgTarget target)
@@ -110,6 +110,16 @@ namespace Z0
             Emit(src,buffer);
             using var writer = path.Utf8Writer();
             writer.WriteLine(buffer.Emit());
+            EmittedFile(emitting,1);
+            return path;
+        }
+
+        public FS.FilePath EmitFile(string src, string name, CgTarget target)
+        {
+            var path = SourceFile(name, target);
+            var emitting = EmittingFile(path);
+            using var writer = path.Utf8Writer();
+            writer.WriteLine(src);
             EmittedFile(emitting,1);
             return path;
         }

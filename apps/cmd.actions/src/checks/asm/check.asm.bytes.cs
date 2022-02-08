@@ -19,37 +19,37 @@ namespace Z0
             var dst = AsmHexWriter.create(hex.Bytes);
             var expr = EmptyString;
             hex.Size = and(al, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(al), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(al), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 
             hex.Size = and(cl, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(cl), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(cl), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 
             hex.Size = and(dl, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(dl), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(dl), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 
             hex.Size = and(ah, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(ah), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(ah), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 
             hex.Size = and(ch, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(ch), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(ch), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 
             hex.Size = and(dh, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(dh), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(dh), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 
             hex.Size = and(bh, bl, dst);
-            expr = string.Format("{0} {1}, {2}", AsmMnemonicNames.and, nameof(bh), nameof(bl));
+            expr = string.Format("{0} {1}, {2}", "and", nameof(bh), nameof(bl));
             Write(string.Format("{0} | {1} | {2}", expr, hex.Format(), hex.BitString));
             dst.Clear();
 

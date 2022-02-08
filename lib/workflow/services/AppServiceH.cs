@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Concurrent;
     using System.IO;
     using System.Text;
 
-    using static Root;
     using static core;
 
     using Caller = System.Runtime.CompilerServices.CallerMemberNameAttribute;
@@ -43,6 +39,7 @@ namespace Z0
 
         ConcurrentDictionary<string,object> _Data {get;}
             = new();
+
 
         [MethodImpl(Inline)]
         protected D Data<D>(string key, Func<D> factory)
@@ -152,21 +149,6 @@ namespace Z0
             }
         }
 
-        static IApiCatalog _ApiCatalog;
-
-        static object _ApiLocker = new object();
-
-        static IApiCatalog GetApiCatalog()
-        {
-            lock(_ApiLocker)
-            {
-                if(_ApiCatalog == null)
-                {
-                    _ApiCatalog = ApiRuntimeLoader.catalog();
-                }
-            }
-            return _ApiCatalog;
-        }
 
         protected IApiCatalog ApiRuntimeCatalog => GetApiCatalog();
 
@@ -338,41 +320,6 @@ namespace Z0
                 return ws.SrcFiles();
         }
 
-        // protected Outcome RunProjectScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
-        // {
-        //     var result = Outcome.Success;
-        //     if(args.Count != 0)
-        //     {
-        //         result = OmniScript.RunProjectScript(ws.Project, arg(args,0).Value, script, false, out _);
-        //         return result;
-        //     }
-
-        //     var src = ProjectFiles(ws, scope).View;
-        //     if(result.Fail)
-        //         return result;
-
-        //     var count = src.Length;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var path = ref skip(src,i);
-        //         RunProjectScript(ws,path,script);
-        //     }
-
-        //     return result;
-        // }
-
-        // protected Outcome RunProjectScript(IProjectWs ws, FS.FilePath path, ScriptId script)
-        // {
-        //     var srcid = path.FileName.WithoutExtension.Format();
-        //     OmniScript.RunProjectScript(ws.Project, srcid, script, true, out var flows);
-        //     for(var j=0; j<flows.Length; j++)
-        //     {
-        //         ref readonly var flow = ref skip(flows, j);
-        //         Write(flow.Format());
-        //     }
-        //     return true;
-        // }
-
         protected static CmdArg arg(in CmdArgs src, int index)
         {
             if(src.IsEmpty)
@@ -384,25 +331,11 @@ namespace Z0
             return src[(ushort)index];
         }
 
-        // protected Outcome RunProjectScript(IProjectWs ws, ScriptId script)
-        // {
-        //     OmniScript.RunProjectScript(ws.Project, script, true, out var flows);
-        //     for(var j=0; j<flows.Length; j++)
-        //     {
-        //         ref readonly var flow = ref skip(flows, j);
-        //         Write(flow.Format());
-        //     }
-        //     return true;
-        // }
-
         protected ReadOnlySpan<SymLiteralRow> EmitSymLiterals<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {
             return Service(Wf.Symbolism).EmitLiterals<E>(dst);
         }
-
-        // protected ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
-        //     => CmdResponse.parse(src);
 
         [CmdOp("env/logs")]
         protected Outcome EnvLogs(CmdArgs args)
@@ -470,7 +403,6 @@ namespace Z0
         protected FS.FilePath CgProject(string id)
             => CgDir(id) + FS.file(string.Format("z0.{0}",id), FS.CsProj);
 
-
         protected void DisplayCmdResponse(ReadOnlySpan<TextLine> src)
         {
             var count = src.Length;
@@ -483,42 +415,6 @@ namespace Z0
                     Write(response);
             }
         }
-
-
-        // void ReceiveCmdStatus(in string src)
-        // {
-
-        // }
-
-        // void ReceiveCmdError(in string src)
-        // {
-        //     Error(src);
-        // }
-
-        // protected Outcome Run(CmdLine cmd, CmdVars vars, out ReadOnlySpan<TextLine> response)
-        //     => ScriptRunner.RunCmd(cmd, vars, ReceiveCmdStatus, ReceiveCmdError, out response);
-
-        // protected Outcome Run(ToolScript spec, out ReadOnlySpan<TextLine> response)
-        //     => ScriptRunner.RunCmd(spec, ReceiveCmdStatus, ReceiveCmdError, out response);
-
-        // protected Outcome RunWinCmd(string spec, out ReadOnlySpan<TextLine> response)
-        //     => CmdRunner.Run(WinCmd.cmd(spec), out response);
-
-        // protected Outcome RunScript(FS.FilePath src, out ReadOnlySpan<TextLine> response)
-        // {
-        //     var result = Outcome.Success;
-
-        //     void OnError(Exception e)
-        //     {
-        //         result = e;
-        //         Error(e);
-        //     }
-
-        //     var cmd = Cmd.cmdline(src.Format(PathSeparator.BS));
-        //     response = ScriptRunner.RunCmd(cmd, OnError);
-        //     return result;
-        // }
-
 
         protected Outcome ShowSyms<K>(Symbols<K> src)
             where K : unmanaged
@@ -541,18 +437,6 @@ namespace Z0
             return true;
         }
 
-        protected Index<SymKindRow> EmitSymKinds<K>(in Symbols<K> src, FS.FilePath dst)
-            where K : unmanaged
-        {
-            var result = Outcome.Success;
-            var kinds = src.Kinds;
-            var count = kinds.Length;
-            var buffer = alloc<SymKindRow>(count);
-            Symbols.kinds(src,buffer);
-            TableEmit(@readonly(buffer), SymKindRow.RenderWidths, dst);
-            return buffer;
-        }
-
         protected virtual void OnInit()
         {
 
@@ -569,6 +453,36 @@ namespace Z0
         {
             Disposing();
             Wf.Disposed();
+        }
+
+        static IApiCatalog _ApiCatalog;
+
+        static object _ApiLocker = new object();
+
+        static IApiCatalog GetApiCatalog()
+        {
+            lock(_ApiLocker)
+            {
+                if(_ApiCatalog == null)
+                {
+                    _ApiCatalog = ApiRuntimeLoader.catalog();
+                }
+            }
+            return _ApiCatalog;
+        }
+
+        static ConcurrentDictionary<string,object> _ServiceState {get;}
+            = new();
+
+        [MethodImpl(Inline)]
+        protected static D state<D>(string key, Func<D> factory)
+            => (D)_ServiceState.GetOrAdd(key, k => factory());
+
+        [MethodImpl(Inline)]
+        protected static ref readonly D state<D>(string key, out D dst)
+        {
+            dst = (D)_ServiceState[key];
+            return ref dst;
         }
 
         static MsgPattern EmptyArgList => "No arguments specified";

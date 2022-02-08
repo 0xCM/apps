@@ -4,99 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("asm.sig.expr")]
     public struct AsmSigExpr : IEquatable<AsmSigExpr>
     {
         public const byte MaxOpCount = 5;
-
-        [MethodImpl(Inline)]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic)
-            =>  new AsmSigExpr(mnemonic);
-
-        [MethodImpl(Inline), Op]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0)
-            => new AsmSigExpr(mnemonic, op0);
-
-        [MethodImpl(Inline), Op]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1)
-            => new AsmSigExpr(mnemonic, op0, op1);
-
-        [MethodImpl(Inline), Op]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2)
-            => new AsmSigExpr(mnemonic, op0, op1, op2);
-
-        [MethodImpl(Inline), Op]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3)
-            => new AsmSigExpr(mnemonic, op0, op1, op2, op3);
-
-        [MethodImpl(Inline), Op]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic, AsmSigOpExpr op0, AsmSigOpExpr op1, AsmSigOpExpr op2, AsmSigOpExpr op3, AsmSigOpExpr op4)
-            => new AsmSigExpr(mnemonic, op0, op1, op2, op3, op4);
-
-        [Op]
-        public static AsmSigExpr expression(AsmMnemonic mnemonic, ReadOnlySpan<string> ops)
-        {
-            var count = min(ops.Length, MaxOpCount);
-            switch(count)
-            {
-                case 1:
-                    return expression(mnemonic, skip(ops, 0));
-                case 2:
-                    return expression(mnemonic, skip(ops, 0), skip(ops, 1));
-                case 3:
-                    return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2));
-                case 4:
-                    return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2), skip(ops, 3));
-                case 5:
-                    return expression(mnemonic, skip(ops, 0), skip(ops, 1), skip(ops, 2), skip(ops, 3), skip(ops, 4));
-            }
-
-            return expression(mnemonic);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
-        {
-            if(i==0)
-                return ref src.Op0;
-            if(i==1)
-                return ref src.Op1;
-            if(i==2)
-                return ref src.Op2;
-            if(i==3)
-                return ref src.Op3;
-            return ref src.Op4;
-        }
-
-        [Op]
-        public static uint operands(in AsmSigExpr src, ref uint i, Span<char> dst)
-        {
-            var i0 = i;
-            var count = src.OperandCount;
-            for(byte j=0; j<count; j++)
-            {
-                ref readonly var op = ref operand(src,j);
-                if(op.IsEmpty)
-                    break;
-
-                if(j != 0)
-                {
-                    seek(dst,i++) = Chars.Comma;
-                    seek(dst,i++) = Chars.Space;
-                }
-
-                text.copy(op.Text, ref i, dst);
-            }
-
-            return i - i0;
-        }
 
         public readonly AsmMnemonic Mnemonic;
 
@@ -215,7 +128,7 @@ namespace Z0.Asm
         public ref CharBlock64 OperandText(ref CharBlock64 dst)
         {
             var i=0u;
-            operands(this, ref i, dst.Data);
+            AsmSigs.operands(this, ref i, dst.Data);
             return ref dst;
         }
 
@@ -238,30 +151,7 @@ namespace Z0.Asm
         }
 
         public byte Operands(Span<AsmSigOpExpr> dst)
-        {
-            if(OperandCount >= 1)
-            {
-                seek(dst,0) = Op0;
-                if(OperandCount >= 2)
-                {
-                    seek(dst,1) = Op1;
-                    if(OperandCount >= 3)
-                    {
-                        seek(dst,2) = Op2;
-
-                        if(OperandCount >= 4)
-                        {
-                            seek(dst,3) = Op3;
-
-                            if(OperandCount >= 5)
-                                seek(dst,4) = Op4;
-                        }
-                    }
-                }
-            }
-
-            return OperandCount;
-        }
+            => AsmSigs.operands(this,dst);
 
         public bool IsEmpty
         {
@@ -276,22 +166,7 @@ namespace Z0.Asm
         }
 
         public bool Equals(AsmSigExpr src)
-        {
-            if(Mnemonic != src.Mnemonic)
-                return false;
-
-            var count = OperandCount;
-
-            if(count != src.OperandCount)
-                return false;
-
-            var ops = Operands();
-            var srcOps = src.Operands();
-            var result = true;
-            for(var i=0; i<count; i++)
-                result &= skip(ops,i).Equals(skip(srcOps,i));
-            return result;
-        }
+            => AsmSigs.equals(this,src);
 
         public string Format()
             => AsmSigFormatter.format(this);

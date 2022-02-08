@@ -48,8 +48,8 @@ namespace Z0.Asm
             get => alg.hash.marvin(Text);
         }
 
-        public bool Modified(out string target, out AsmModifierKind mod)
-            => AsmSigs.modified(this, out target, out mod);
+        public bool Modifier(out string target, out AsmModifierKind mod)
+            => AsmSigs.modifier(this, out target, out mod);
 
         public string Format()
             => Text;

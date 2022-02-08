@@ -1,0 +1,81 @@
+//-----------------------------------------------------------------------------
+// Copyright   :  (c) Chris Moore, 2020
+// License     :  MIT
+//-----------------------------------------------------------------------------
+namespace Z0.Asm
+{
+    using static core;
+
+    partial class AsmSigs
+    {
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static AsmSigOp operand<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
+            where T : unmanaged
+                => new AsmSigOp(kind, core.bw8(value), size);
+
+
+        [MethodImpl(Inline), Op]
+        public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
+        {
+            if(i==0)
+                return ref src.Op0;
+            if(i==1)
+                return ref src.Op1;
+            if(i==2)
+                return ref src.Op2;
+            if(i==3)
+                return ref src.Op3;
+            return ref src.Op4;
+        }
+
+        [Op]
+        public static uint operands(in AsmSigExpr src, ref uint i, Span<char> dst)
+        {
+            var i0 = i;
+            var count = src.OperandCount;
+            for(byte j=0; j<count; j++)
+            {
+                ref readonly var op = ref operand(src,j);
+                if(op.IsEmpty)
+                    break;
+
+                if(j != 0)
+                {
+                    seek(dst,i++) = Chars.Comma;
+                    seek(dst,i++) = Chars.Space;
+                }
+
+                text.copy(op.Text, ref i, dst);
+            }
+
+            return i - i0;
+        }
+
+        [Op]
+        internal static byte operands(AsmSigExpr src, Span<AsmSigOpExpr> dst)
+        {
+            if(src.OperandCount >= 1)
+            {
+                seek(dst,0) = src.Op0;
+                if(src.OperandCount >= 2)
+                {
+                    seek(dst,1) = src.Op1;
+                    if(src.OperandCount >= 3)
+                    {
+                        seek(dst,2) = src.Op2;
+
+                        if(src.OperandCount >= 4)
+                        {
+                            seek(dst,3) = src.Op3;
+
+                            if(src.OperandCount >= 5)
+                                seek(dst,4) = src.Op4;
+                        }
+                    }
+                }
+            }
+
+            return src.OperandCount;
+        }
+    }
+}

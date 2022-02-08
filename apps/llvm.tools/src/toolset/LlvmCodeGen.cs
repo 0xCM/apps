@@ -22,7 +22,6 @@ namespace Z0.llvm
         {
             LlvmPaths.CodeGen().Clear(true);
             EmitStringTables();
-            EmitLiteralProviders();
             EmitAsmIds();
         }
 
@@ -47,15 +46,6 @@ namespace Z0.llvm
             var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
             using var writer = dst.Utf8Writer();
             writer.WriteLine(buffer.Emit());
-        }
-
-        public void EmitLiteralProviders()
-        {
-            var src = DataProvider.SelectAsmMnemonicNames();
-            var name = "AsmMnemonicNames";
-            var literals = expr.literals(name, src.View, src.View);
-            var dst = LlvmPaths.CodeGen() + FS.file(name, FS.Cs);
-            CodeGen.LiteralProvider().Emit("Z0", literals, dst);
         }
 
         public void EmitStringTable(string listid)

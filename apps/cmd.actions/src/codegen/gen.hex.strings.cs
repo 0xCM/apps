@@ -19,7 +19,7 @@ namespace Z0
             content.IndentLineFormat(margin,"public readonly struct {0}", name);
             content.IndentLine(margin, Chars.LBrace);
             margin +=4;
-            content.IndentLine(margin,g.GenArray("Hex8Strings", byte.MinValue, byte.MaxValue, LetterCaseKind.Upper));
+            content.IndentLine(margin, g.GenArray("Hex8Strings", byte.MinValue, byte.MaxValue, LetterCaseKind.Upper));
             margin -= 4;
             content.IndentLine(margin,Chars.RBrace);
 

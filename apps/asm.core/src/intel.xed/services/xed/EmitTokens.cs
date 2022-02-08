@@ -17,7 +17,7 @@ namespace Z0.Asm
         public void EmitTokenSummaries()
         {
             ApiMetadata.EmitApiTokens(xed, xed);
-            ApiMetadata.EmitApiTokens(state,xed);
+            ApiMetadata.EmitApiTokens(XedModels.state,xed);
         }
 
         public void EmitRawTokens()

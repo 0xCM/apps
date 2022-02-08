@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    using static AsmSigExpr;
-
     partial struct SdmOps
     {
         [Op]
@@ -21,13 +17,13 @@ namespace Z0.Asm
             {
                 var operands = text.right(sig, j);
                 if(text.contains(sig,Chars.Comma))
-                    dst = expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
+                    dst = AsmSigs.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
                 else
-                    dst = expression(mnemonic, operands);
+                    dst = AsmSigs.expression(mnemonic, operands);
             }
             else
             {
-                dst = expression(mnemonic);
+                dst = AsmSigs.expression(mnemonic);
             }
             return dst;
         }

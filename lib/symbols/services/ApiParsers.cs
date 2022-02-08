@@ -23,25 +23,6 @@ namespace Z0
             return dst;
         }
 
-        // [Op]
-        // public static ReadOnlySpan<PartId> parts(ReadOnlySpan<string> parts)
-        // {
-        //     var count = parts.Length;
-        //     if(count == 0)
-        //         return default;
-
-        //     var symbols = Symbols.index<PartId>();
-        //     var dst = span<PartId>(count);
-        //     var counter = 0u;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var name = ref skip(parts,i);
-        //         if(symbols.Lookup(name, out var sym))
-        //             seek(dst, counter++) = sym.Kind;
-        //     }
-        //     return slice(dst, 0, counter);
-        // }
-
         [Parser]
         public static Outcome path(string src, out ApiPath dst)
         {

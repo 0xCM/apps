@@ -4,16 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = Symbols;
 
     public class SymServices : AppService<SymServices>
     {
+        public Index<SymKindRow> EmitSymKinds<K>(in Symbols<K> src, FS.FilePath dst)
+            where K : unmanaged
+        {
+            var result = Outcome.Success;
+            var kinds = src.Kinds;
+            var count = kinds.Length;
+            var buffer = alloc<SymKindRow>(count);
+            Symbols.kinds(src,buffer);
+            TableEmit(@readonly(buffer), SymKindRow.RenderWidths, dst);
+            return buffer;
+        }
+
+
         public Index<SymDetailRow> EmitSymDetails<E>()
             where E : unmanaged, Enum
         {

@@ -53,7 +53,7 @@ namespace Z0.Asm
         public AsmMnemonic Mnemonic
         {
             [MethodImpl(Inline)]
-            get => AsmMnemonicNames.jmp;
+            get => "jmp";
         }
 
         LocatedSymbol IAsmRel.Source

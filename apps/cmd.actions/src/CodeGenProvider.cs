@@ -11,5 +11,7 @@ namespace Z0
         CgSvc CodeGen => Service(Wf.CodeGen);
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
+
+        IntelXed Xed => Service(Wf.IntelXed);
     }
 }

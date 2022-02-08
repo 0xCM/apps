@@ -61,7 +61,7 @@ namespace Z0.Asm
         public AsmMnemonic Mnemonic
         {
             [MethodImpl(Inline)]
-            get => AsmMnemonicNames.call;
+            get => "call";
         }
 
         LocatedSymbol IAsmRel.Source

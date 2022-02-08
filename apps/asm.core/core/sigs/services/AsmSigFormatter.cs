@@ -26,7 +26,7 @@ namespace Z0.Asm
             if(count != 0)
                 seek(dst,i++) = Chars.Space;
 
-            AsmSigExpr.operands(src, ref i, dst);
+            AsmSigs.operands(src, ref i, dst);
             return storage.Format();
         }
 

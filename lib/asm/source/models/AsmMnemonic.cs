@@ -23,7 +23,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmMnemonic(string src)
         {
-            Name = src?.Trim() ?? EmptyString;
+            Name = (src?.Trim() ?? EmptyString).ToLowerInvariant();
         }
 
         public string Content
