@@ -3,31 +3,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
     using System.Collections;
-    using System.Collections.Generic;
 
     using static core;
 
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
-    public interface IIndex<T> : IMeasured, IEnumerable<T>, ITextual
+    public interface IIndex<T> : ISeq, IEnumerable<T>
     {
         T[] Storage {get;}
 
+
         char CellDelimiter
             => Chars.Semicolon;
-
-        string ITextual.Format()
-            => string.Format("({0}:{1})*", typeof(T).Name, Storage?.Length ?? 0);
 
         Span<T> Edit
             => Storage;
 
         ReadOnlySpan<T> View
             => Storage;
+
+        Type ISeq.ElementType
+            => typeof(T);
 
         uint ICounted.Count
             => (uint)View.Length;

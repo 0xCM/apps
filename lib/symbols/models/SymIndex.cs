@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     public class SymIndex : ISymIndex
     {
+        public static SymIndex create(Type src)
+            => SymIndexBuilder.create(src);
+
         readonly Index<Sym> Data;
 
         readonly Index<ulong> _Kinds;
@@ -30,6 +28,7 @@ namespace Z0
             _SymbolMap = new();
             _ValueMap = new();
             _Values = Index<SymVal>.Empty;
+
         }
 
         [MethodImpl(Inline)]
@@ -40,6 +39,7 @@ namespace Z0
             _SymbolMap = symMap;
             _ValueMap = valMap;
             _Values = _ValueMap.Keys.Array();
+
         }
 
         [MethodImpl(Inline)]
@@ -54,6 +54,20 @@ namespace Z0
 
         public bool Lookup(SymExpr src, out Sym dst)
             => _SymbolMap.TryGetValue(src.Text, out dst);
+
+        public bool Parse(SymExpr src, out object dst)
+        {
+            if(Lookup(src.Text, out var sym))
+            {
+                dst = sym.FieldValue;
+                return true;
+            }
+            else
+            {
+                dst = 0ul;
+                return false;
+            }
+        }
 
         public bool MapValue(SymVal src, out Sym dst)
             => _ValueMap.TryGetValue(src, out dst);

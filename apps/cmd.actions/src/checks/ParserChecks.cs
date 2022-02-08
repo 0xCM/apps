@@ -48,7 +48,7 @@ namespace Z0
             var result = Outcome.Success;
             var src = Random.Array<byte>(ElementCount);
             var inputs = src.Select(x => x.ToString());
-            var parser = Parsers.Service.Parser<byte>();
+            var parser = Wf.Parsers().ValueParser<byte>();
             var count = src.Length;
             for(var i=0; i<count; i++)
             {

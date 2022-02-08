@@ -8,13 +8,23 @@ namespace Z0
 
     using static core;
 
-    public interface IStorageBlock
+    public interface IStorageBlock : IHashed, INullity
     {
-        BlockKind Kind => BlockKind.Bytes;
-
         ByteSize Size {get;}
 
         Span<byte> Bytes {get;}
+
+        BlockKind Kind
+            => BlockKind.Bytes;
+
+        bool INullity.IsEmpty
+            => Bytes.Length == 0;
+
+        bool INullity.IsNonEmpty
+            => Bytes.Length != 0;
+
+        uint IHashed.Hash
+            => alg.ghash.calc(Bytes);
     }
 
     public interface IStorageBlock<T> : IStorageBlock

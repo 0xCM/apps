@@ -13,5 +13,7 @@ namespace Z0
         X86Dispatcher JmpStubs => Service(() => X86Dispatcher.create(Wf));
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
+
+        Parsers Parsers => Service(Wf.Parsers);
     }
 }

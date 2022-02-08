@@ -22,7 +22,6 @@ namespace Z0.llvm
         public TextBlock AsmString;
 
         public TextBlock Syntax;
-
         public int CompareTo(LlvmInstAlias src)
             => InstName.CompareTo(src.InstName);
 

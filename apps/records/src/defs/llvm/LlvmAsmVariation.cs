@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
     using Asm;
-
-    using static Root;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct LlvmAsmVariation

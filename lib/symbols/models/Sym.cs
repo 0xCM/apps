@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class Sym : ISym
     {
         public const string RenderPattern = "{0,-8} | {1,-32} | {2,-32} | {3,-32} | {4,-8:d} | {5}";
@@ -33,6 +28,8 @@ namespace Z0
 
         public bool Hidden {get;}
 
+        public object FieldValue {get;}
+
         Sym()
         {
             Identity = SymIdentity.Empty;
@@ -44,10 +41,11 @@ namespace Z0
             Description = TextBlock.Empty;
             Hidden = true;
             Value = SymVal.Zero;
+            FieldValue = 0ul;
         }
 
         [MethodImpl(Inline)]
-        public Sym(SymIdentity id, SymClass @class, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description = null, bool hidden = false)
+        public Sym(SymIdentity id, SymClass @class, SymKey index, string type, ulong kind, string name, string symbol, TextBlock? description, bool hidden, object value)
         {
             Identity = id;
             Class = @class;
@@ -59,6 +57,7 @@ namespace Z0
             Description = description ?? TextBlock.Empty;
             Hidden = hidden;
             Value = kind;
+            FieldValue = value;
         }
 
         public string Format()

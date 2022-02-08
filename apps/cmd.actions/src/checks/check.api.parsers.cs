@@ -12,9 +12,8 @@ namespace Z0
         [CmdOp("check/api/parsers")]
         Outcome CheckApiParsers(CmdArgs args)
         {
-            var parser = Parsers.Service;
             var x = 32u;
-            if(parser.Parse(x.ToString(), out uint dst))
+            if(Parsers.Parse(x.ToString(), out uint dst))
             {
                 Require.equal(x,dst);
             }

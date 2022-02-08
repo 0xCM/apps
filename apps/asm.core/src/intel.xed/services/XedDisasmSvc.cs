@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Asm;
 
-    using static Root;
     using static core;
     using static XedModels;
     using static XedRecords;

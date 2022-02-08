@@ -116,5 +116,8 @@ namespace Z0
 
         public static EncodingCollector EncodingCollector(this IWfRuntime wf)
             => Z0.EncodingCollector.create(wf);
+
+        public static Parsers Parsers(this IWfRuntime wf)
+            => Z0.Parsers.create(wf);
     }
 }

@@ -11,10 +11,10 @@ namespace Z0
         [CmdOp("api/parsers")]
         Outcome RevealParsers(CmdArgs args)
         {
-            var parsers = Parsers.discover(ApiRuntimeCatalog.Components, out var log);
-            var targets = parsers.Keys;
-            foreach(var target in targets)
-                Write(string.Format("parse:string -> {0}", target.DisplayName()));
+            // var parsers = Parsers.discover(ApiRuntimeCatalog.Components, out var log);
+            // var targets = parsers.Keys;
+            // foreach(var target in targets)
+            //     Write(string.Format("parse:string -> {0}", target.DisplayName()));
 
             return true;
         }

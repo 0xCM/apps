@@ -19,11 +19,11 @@ namespace Z0.Asm
 
         public Identifier Kind;
 
-        public AsmOpCode OpCode;
+        public TextBlock OpCode;
 
-        public AsmSigExpr Sig;
+        public TextBlock Sig;
 
-        public AsmSigExpr Source;
+        public TextBlock Source;
 
         public int CompareTo(AsmFormRecord src)
         {
@@ -35,8 +35,5 @@ namespace Z0.Asm
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{8,12,16,42,42,62,1};
-
-        public AsmFormSpec FormSpec()
-            => new AsmFormSpec(Kind, Sig, OpCode);
     }
 }

@@ -36,7 +36,7 @@ namespace Z0
             {
                 ref readonly var kind = ref skip(kinds,i);
                 var forms = lookup[kind];
-                var specs = forms.Select(x => x.FormSpec());
+                var specs = forms.Select(AsmFormSpec.from);
                 if(specs.Length == 1)
                 {
                     ref readonly var spec = ref forms.First;

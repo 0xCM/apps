@@ -2,13 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.llvm
 {
-    partial struct Symbols
+    public enum DagFormatStyle
     {
-        [MethodImpl(Inline)]
-        public static Symbols<E> index<E>()
-            where E : unmanaged, Enum
-                => SymCache<E>.get();
+        List = 0,
+
+        Graph = 1,
     }
 }

@@ -6,17 +6,17 @@ namespace Z0
 {
     using static core;
 
-    public readonly struct RecordParser : IParser<object>
+    readonly struct RecordParser : IParser<object>
     {
         readonly ReflectedTable Table;
 
-        readonly Parsers Parsers;
+        readonly IMultiParser Parser;
 
         [MethodImpl(Inline)]
-        public RecordParser(ReflectedTable table)
+        public RecordParser(ReflectedTable table, IMultiParser parser)
         {
             Table = table;
-            Parsers = Z0.Parsers.Service;
+            Parser = parser;
         }
 
         public Outcome Parse(string src, out object dst)
@@ -28,7 +28,7 @@ namespace Z0
             if(values.Length != count)
             {
                 dst = null;
-                return (false,Tables.FieldCountMismatch.Format(fields.Length, values.Length));
+                return (false, Tables.FieldCountMismatch.Format(fields.Length, values.Length));
             }
 
             try
@@ -38,14 +38,7 @@ namespace Z0
                 {
                     ref readonly var field = ref skip(fields,i);
                     ref readonly var value = ref skip(values,i);
-                    result = Parsers.Find(field.DataType, out var parser);
-                    if(result.Fail)
-                    {
-                        result = (false, string.Format("Parser for {0} type not found", field.DataType.Name));
-                        break;
-                    }
-
-                    result = parser.Parse(value, out var v);
+                    result = Parser.Parse(field.DataType, value, out var v);
                     if(result.Fail)
                     {
                         result = (false,string.Format("An attempt to parse the '{0}' field from '{1}' failed", field.MemberName, value));

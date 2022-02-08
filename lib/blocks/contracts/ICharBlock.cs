@@ -6,8 +6,7 @@ namespace Z0
 {
     using static core;
 
-    public interface ICharBlock<T> : ITextual, IComparable<T>, IEquatable<T>, IStorageBlock<T>, ICellBlock<char>, IHashed, INullity
-        where T : unmanaged, ICharBlock<T>
+    public interface ICharBlock : ITextual, IStorageBlock, ICellBlock<char>
     {
         BlockKind IStorageBlock.Kind
             => BlockKind.Char16;
@@ -20,23 +19,18 @@ namespace Z0
 
         uint Capacity {get;}
 
-        bool INullity.IsEmpty
-            => Length == 0;
-
-        bool INullity.IsNonEmpty
-            => Length != 0;
-
-        uint IHashed.Hash
-            => alg.ghash.calc(String);
-
-        ByteSize IStorageBlock.Size
-            => Length*2;
-
         Span<char> ICellBlock<char>.Cells
             => Data;
 
-        Span<byte> IStorageBlock.Bytes
-            => recover<byte>(Data);
+        ref char First
+            => ref first(Data);
+    }
+
+    public interface ICharBlock<T> : ICharBlock, IComparable<T>, IEquatable<T>, IStorageBlock<T>
+        where T : unmanaged, ICharBlock<T>
+    {
+        ByteSize IStorageBlock.Size
+            => Length*2;
 
         int IComparable<T>.CompareTo(T src)
             => Data.SequenceCompareTo(src.Data);
@@ -44,7 +38,7 @@ namespace Z0
         bool IEquatable<T>.Equals(T src)
             => Data.SequenceEqual(src.Data);
 
-        ref char First
-            => ref first(Data);
+        Span<byte> IStorageBlock.Bytes
+            => recover<byte>(Data);
     }
 }

@@ -6,36 +6,41 @@ namespace Z0
 {
     using static core;
 
-    public class Parsers
+    public interface IMultiParser
     {
-        [MethodImpl(Inline)]
-        public static EnumParser<E> @enum<E>()
-            where E : unmanaged, Enum
-                => new();
-        public static RecordParser record(Type src)
-            => new RecordParser(Tables.reflected(src));
+        Outcome Parse(Type t, string src, out dynamic dst);
+    }
 
-        public static RecordParser<T> record<T>()
-            where T : struct
-                => new RecordParser<T>(Tables.reflected(typeof(T)));
+    public class Parsers  : AppService<Parsers>, IMultiParser
+    {
+        Cache ParserCache() => state(nameof(ParserCache), () => new Cache(ApiRuntimeCatalog));
 
-        public static Parsers Service => Instance;
+        public IParser RecordParser(Type src)
+            => ParserCache().RecordParser(src);
 
         public SeqParser<T> SeqParser<T>(string delimiter, ParseFunction<T> termparser)
             => new SeqParser<T>(delimiter, termparser);
 
-        public bool Find(Type t, out IParser parser)
-            => Lookup.Find(t, out parser);
+        public IParser ValueParser(Type t)
+            => ParserCache().ValueParser(t);
 
-        public IParser<T> Parser<T>()
+        public IParser<T> ValueParser<T>()
+            => (IParser<T>)ValueParser(typeof(T));
+
+        public Outcome Parse(Type t, string src, out dynamic dst)
+            => ParserCache().Parse(t, src, out dst);
+
+        public Outcome Parse<T>(string src, out T dst)
         {
-            if(Find(typeof(T), out var parser))
-                return (IParser<T>)parser;
+            var result = Parse(typeof(T), src, out var data);
+            if(result)
+                dst = (T)data;
             else
-                return ParseFunction<T>.Empty;
+                dst = default;
+            return result;
         }
 
-        public static ConstLookup<Type,IParser> discover(Assembly[] src, out List<string> log)
+        public static ConcurrentDictionary<Type,IParser> discover(Assembly[] src, out List<string> log)
         {
             var methods = src.DeclaredStaticMethods().Tagged<ParserAttribute>();
             var count = methods.Length;
@@ -75,67 +80,49 @@ namespace Z0
                 }
             }
 
-            return parsers.ToConstLookup();
+            return parsers.ToConcurrentDictionary();
         }
 
-        public static ConstLookup<Type,IParser> discover(out List<string> log)
-            => discover(ApiRuntimeLoader.catalog().Components.Storage, out log);
-
-        public ReadOnlySpan<Arrow<Name,Type>> Identities
-            => _Identities;
-
-        public Outcome Parse(Type t, string src, out dynamic dst)
+        class Cache : IMultiParser
         {
-            var result = Outcome.Failure;
-            dst = default;
-            try
+            public Cache(IApiCatalog catalog)
             {
-                if(Find(t, out var parser))
-                    result = parser.Parse(src, out dst);
+                ValueParsers = discover(catalog.Components, out _);
             }
-            catch(Exception e)
-            {
-                result = e;
-            }
-            return result;
-        }
 
-        public Outcome Parse<T>(string src, out T dst)
-        {
-            var result = Outcome.Failure;
-            dst = default;
-            try
+            ConcurrentDictionary<Type, IParser> ValueParsers {get;}
+
+            ConcurrentDictionary<Type, IParser> EnumParsers {get;} = new();
+
+            ConcurrentDictionary<Type, IParser> RecordParsers {get;} = new();
+
+            [MethodImpl(Inline)]
+            public IParser RecordParser(Type src)
+                => RecordParsers.GetOrAdd(src, t => new RecordParser(Tables.reflected(src), this));
+
+            [MethodImpl(Inline)]
+            public IParser EnumParser(Type src)
+                => EnumParsers.GetOrAdd(src, t => new EnumParser(t));
+
+            [MethodImpl(Inline)]
+            public IParser ValueParser(Type src)
+                => ValueParsers[src];
+
+            public Outcome Parse(Type t, string src, out dynamic dst)
             {
-                if(Find(typeof(T), out var parser))
+                try
                 {
-                    result = parser.Parse(src, out var parsed);
-                    if(result)
-                        dst = parsed;
+                    if(t.IsEnum)
+                        return EnumParser(t).Parse(src, out dst);
+                    else
+                        return ValueParser(t).Parse(src, out dst);
+                }
+                catch (Exception e)
+                {
+                    dst = default;
+                    return e;
                 }
             }
-            catch(Exception e)
-            {
-                result = e;
-            }
-            return result;
         }
-
-        Parsers()
-        {
-            Lookup = discover(out _);
-            _Identities = Lookup.Keys.Select(x => new Arrow<Name,Type>("string", x)).ToArray();
-        }
-
-        ConstLookup<Type,IParser> Lookup;
-
-        Index<Arrow<Name,Type>> _Identities;
-
-        static Parsers()
-        {
-            Instance = new();
-        }
-
-        static Parsers Instance;
-
     }
 }

@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
-    using static FormatDelegates;
-
     [DataType("dindex<t:{0}>")]
     public readonly struct DelimitedIndex<T> : IIndex<T>, ITextual
     {
@@ -30,16 +23,6 @@ namespace Z0
             CellPad = pad;
             Fence = fence;
         }
-
-        // [MethodImpl(Inline)]
-        // public DelimitedIndex(T[] src, FormatCells<T> fx, char delimiter = ListDelimiter, int pad = 0, Fence<char>? fence = null)
-        // {
-        //     Data = src;
-        //     Delimiter = delimiter;
-        //     Render = fx;
-        //     CellPad = pad;
-        //     Fence = fence;
-        // }
 
         public T[] Storage
         {

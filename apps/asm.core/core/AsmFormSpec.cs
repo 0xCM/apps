@@ -9,6 +9,13 @@ namespace Z0.Asm
         public static Hex32 token(in AsmSigExpr sig, in AsmOpCode oc)
             => alg.hash.combine(alg.hash.marvin(oc.Format()), alg.hash.marvin(sig.Format()));
 
+        public static AsmFormSpec from(AsmFormRecord src)
+        {
+            AsmOcParser.parse(src.OpCode, out var oc);
+            AsmSigParser.expression(src.Sig, out var sig);
+            return new AsmFormSpec(src.Kind, sig, oc);
+        }
+
         public readonly Identifier Kind;
 
         public readonly AsmOpCode OpCode;

@@ -4,21 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public class dag<L,R> : IDag<L,R>
-        where L : IExpr
-        where R : IExpr
+    public class dag<T> : IDag<T>
+        where T : IExpr
     {
-        public L Left {get;}
+        public T Left {get;}
 
-        public R Right {get;}
+        public T Right {get;}
 
         [MethodImpl(Inline)]
-        public dag(L left, R right)
+        public dag(T left, T right)
         {
             Left = left;
             Right = right;
@@ -40,13 +34,17 @@ namespace Z0.llvm
             => Format(DagFormatStyle.List);
 
         public string Format(DagFormatStyle style)
-            => LlvmTypes.format(this, style);
+            => dag.format(this, style);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator dag<L,R>((L left, R right) src)
-            => new dag<L,R>(src.left, src.right);
+        public static implicit operator dag<T>((T left, T right) src)
+            => new dag<T>(src.left, src.right);
+
+        [MethodImpl(Inline)]
+        public static implicit operator dag<T>(dag<T,T> src)
+            => new dag<T>(src.Left, src.Right);
     }
 }

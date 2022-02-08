@@ -15,6 +15,20 @@ namespace Z0
         uint Count {get;}
 
         bool Lookup(SymExpr src, out Sym dst);
+
+        bool Parse(SymExpr src, out object dst)
+        {
+            if(Lookup(src, out var sym))
+            {
+                dst = sym.FieldValue;
+                return true;
+            }
+            else
+            {
+                dst = 0ul;
+                return false;
+            }
+        }
     }
 
     public interface ISymIndex<K> : ISymIndex

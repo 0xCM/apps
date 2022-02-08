@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct SymLiteral : IComparableRecord<SymLiteral>
     {
@@ -69,6 +63,8 @@ namespace Z0
         /// A unique identifier
         /// </summary>
         public SymIdentity Identity;
+
+        public object FieldValue;
 
         [MethodImpl(Inline)]
         public int CompareTo(SymLiteral src)

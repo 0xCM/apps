@@ -9,9 +9,21 @@ namespace Z0
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     [Free]
-    public interface ISeq<T> : IMeasured
+    public interface ISeq : IMeasured, ITextual
     {
+        Type ElementType {get;}
+        string ITextual.Format()
+            => GetType().Name;
+    }
+
+    [Free]
+    public interface ISeq<T> : ISeq
+    {
+
         ReadOnlySpan<T> Elements {get;}
+
+        Type ISeq.ElementType
+            => typeof(T);
 
         uint ICounted.Count
             => (uint)Elements.Length;

@@ -6,9 +6,7 @@ namespace Z0
 {
     partial class GlobalCommands
     {
-        const string XedInstQuery = "xed/query/inst";
-
-        [CmdOp(XedInstQuery)]
+        [CmdOp("xed/query/inst")]
         Outcome XedQuery(CmdArgs args)
         {
             Xed.QueryCatalog(arg(args,0));

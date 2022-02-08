@@ -23,6 +23,8 @@ namespace Z0
         TextBlock Description {get;}
 
         bool Hidden {get;}
+
+        object FieldValue {get;}
     }
 
     public interface ISym<T> : ISym
@@ -35,6 +37,9 @@ namespace Z0
 
         ulong ISym.Kind
             => Value;
+
+        object ISym.FieldValue
+            => Kind;
     }
 
     public interface ISym<W,T> : ISym<T>

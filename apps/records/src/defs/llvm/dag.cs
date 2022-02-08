@@ -4,13 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class dag : IDag<IExpr>
     {
+        public static string format(IDag src, DagFormatStyle style)
+        {
+            var pattern = style == DagFormatStyle.Graph ? "{0} -> {1}" : "{0}, {1}";
+            if(src.Left.IsNonEmpty && src.Right.IsNonEmpty)
+                return string.Format(pattern, src.Left.Format(), src.Right.Format());
+            else if(src.Left.IsEmpty && src.Right.IsEmpty)
+                return EmptyString;
+            else if(src.Left.IsNonEmpty)
+                return src.Left.Format();
+            else
+                return src.Right.Format();
+        }
+
         public IExpr Left {get;}
 
         public IExpr Right {get;}
@@ -38,7 +46,7 @@ namespace Z0.llvm
             => Format(DagFormatStyle.List);
 
         public string Format(DagFormatStyle style)
-            => LlvmTypes.format(this, style);
+            => format(this, style);
 
         public override string ToString()
             => Format();
