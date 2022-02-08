@@ -7,15 +7,6 @@ namespace Z0.Asm
     using static Hex8Kind;
     using static NumericBaseKind;
 
-    public sealed class AsmPrefixTokens : TokenSet<AsmPrefixTokens>
-    {
-        public override string Name
-            => "asm.prefixes";
-
-        public override Type[] Types()
-            => typeof(AsmPrefixCodes).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-    }
-
     [ApiHost]
     public readonly struct AsmPrefixCodes
     {

@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    partial class AsmBytes
+    partial struct asm
     {
         [Op]
         public static Disp disp(ReadOnlySpan<byte> src, byte pos, NativeSize size)

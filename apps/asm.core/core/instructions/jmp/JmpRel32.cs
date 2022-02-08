@@ -7,10 +7,6 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct JmpRel32 : IAsmRel<Disp32>
     {
-        // [MethodImpl(Inline), Op]
-        // public static JmpRel32 from(RawMemberCode src)
-        //     => new JmpRel32(src.Entry, src.Target);
-
         [MethodImpl(Inline), Op]
         public static JmpRel32 jmp(Rip src, MemoryAddress dst)
             => new JmpRel32(src, dst);
@@ -72,7 +68,7 @@ namespace Z0.Asm
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => AsmBytes.jmp32(this);
+            get => asm.jmp32(this);
         }
 
         public AsmMnemonic Mnemonic

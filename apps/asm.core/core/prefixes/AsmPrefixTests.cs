@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using static OpModeKind;
     using static OpszKind;
 
-    using REP = AsmPrefixCodes.RepPrefixCode;
-    using L = AsmPrefixCodes.LockPrefixCode;
     using SZ = AsmPrefixCodes.SizeOverrideCode;
 
     [ApiHost]

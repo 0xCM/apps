@@ -33,7 +33,7 @@ namespace Z0.llvm
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
             EmitStringTable(TargetNs, ClrEnumKind.U16, items);
             var gen = CodeGen.EnumGen();
-            var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => expr.literal(e.Key, e.Value.Id)));
+            var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var buffer = text.buffer();
             var offset = 0u;
             buffer.IndentLineFormat(offset, "namespace {0}", "Z0");

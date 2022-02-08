@@ -5,7 +5,9 @@
 namespace Z0.Asm
 {
     using static core;
-    using static AsmRegOps;
+    using static AsmPrefixCodes;
+
+    using Operands;
 
     public class X86Dispatcher : AppService<X86Dispatcher>
     {
@@ -38,6 +40,11 @@ namespace Z0.Asm
             Status($"Received {a0}");
         }
 
+        // REX.W + B8+ rd io | MOV r64, imm64           | OI    | Valid       | N.E.            | Move imm64 to r64.                                             |
+        [MethodImpl(Inline), Op]
+        static byte mov(r64 r, imm64 imm, Span<byte> dst)
+            => AsmBytes.encode(RexW, (Hex8)(0xb8 + (byte)r.Index), imm, dst);
+
         [Op]
         public ref readonly Cell128 EncodeDispatch(byte slot, MemoryAddress target)
         {
@@ -45,13 +52,14 @@ namespace Z0.Asm
             ref var payload = ref Payloads[slot];
             var storage = Cell128.Empty;
             var buffer = storage.Bytes;
-            var size = AsmBytes.mov(rcx, target, buffer);
+            var size = mov(AsmRegOps.rcx, target, buffer);
             var dst = payload.Bytes;
             var j=0;
             for(var i=0; i<size; i++)
                 seek(dst,j++) = skip(buffer,i);
             return ref payload;
         }
+
 
         [Op]
         public ref readonly Cell128 EncodeDispatch(byte slot)

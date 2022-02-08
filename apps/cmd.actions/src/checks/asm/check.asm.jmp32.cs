@@ -26,7 +26,7 @@ namespace Z0
                 MemoryAddress target = (MemoryAddress)((long)rip + (int)disp);
                 Require.equal(AsmRel32.disp(rip, target), disp);
                 Require.equal(AsmRel32.target(rip, expect.Encoding.Bytes), target);
-                var encoding = AsmBytes.jmp32(rip, target);
+                var encoding = asm.jmp32(rip, target);
                 Require.equal(encoding, expect.Encoding);
                 var relTarget = (int)disp + (int)JmpRel32.InstSize;
                 @string statement = string.Format("jmp near ptr {0:x}h", relTarget);

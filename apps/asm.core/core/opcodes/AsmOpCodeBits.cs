@@ -31,12 +31,6 @@ namespace Z0.Asm
             get => Storage != 0;
         }
 
-        // AsmOcTokenKind [0..15]
-        // TokenCount [16..23]
-        // Token1Value [24..31]
-        // Token2Value [32..39]
-        // Token3Value [40..47]
-
         public byte TokenCount
         {
             [MethodImpl(Inline)]

@@ -40,7 +40,7 @@ namespace Z0
             var dst = CodeGen.SourceFile(name, CgTarget.Intel);
             var names = src.View;
             var values = src.View;
-            var literals = expr.literals(name, names, values);
+            var literals = Literals.seq(name, names, values);
             g.Emit("Z0", literals, dst);
         }
    }

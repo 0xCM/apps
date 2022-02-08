@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static AsmPrefixCodes;
 
     [DataWidth(16), ApiComplete]

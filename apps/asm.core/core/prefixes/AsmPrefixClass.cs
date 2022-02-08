@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     [Flags]
     public enum AsmPrefixClass : byte
     {

@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Machines
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Asm;
-
-    using static Root;
 
     /// <summary>
     /// Defines an allocation of a contiguous register sequence

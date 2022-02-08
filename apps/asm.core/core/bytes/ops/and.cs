@@ -6,8 +6,6 @@ namespace Z0.Asm
 {
     using Operands;
 
-    using static core;
-
     using static Hex8Kind;
 
     partial class AsmBytes

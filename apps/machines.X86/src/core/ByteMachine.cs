@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Machines
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-
-    using static Asm.AsmBytes;
     using static MemorySections;
 
     [ApiComplete]
@@ -27,7 +21,7 @@ namespace Z0.Machines
             Buffer = src;
             Pos = 0;
             Max = Buffer.TotalSize - 1;
-            Fill(int3());
+            Fill(0xCC);
         }
 
         [MethodImpl(Inline)]
@@ -45,7 +39,7 @@ namespace Z0.Machines
         [MethodImpl(Inline)]
         public void Reset()
         {
-            Fill(int3());
+            Fill(0xCC);
         }
 
         [MethodImpl(Inline)]
@@ -56,7 +50,7 @@ namespace Z0.Machines
             for(var i=0u; i<max; i++)
             {
                 ref readonly var input = ref Cell(i);
-                if(!int3(input))
+                if(input != 0xCC)
                     seek(dst,j++) = input;
                 else
                     break;

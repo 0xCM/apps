@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Machines
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [ApiHost, StructLayout(LayoutKind.Sequential)]
     public readonly struct CpuPorts
     {

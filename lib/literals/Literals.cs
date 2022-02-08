@@ -4,15 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+
     using static core;
 
-    partial struct expr
+    public readonly struct Literals
     {
-        public static LiteralSeq<T> literals<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+        const NumericKind Closure = UnsignedInts;
+
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static Literal<T> define<T>(string name, T value)
+            => new Literal<T>(name, value);
+
+        public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
             where T : IEquatable<T>, IComparable<T>
                 => new LiteralSeq<T>(name, literals(names,values).Storage);
 
-        public static LiteralSeq<E> literals<E>(LiteralNameSource ns)
+        public static LiteralSeq<E> seq<E>(LiteralNameSource ns)
             where E : unmanaged, Enum, IComparable<E>, IEquatable<E>
         {
             var src = Symbols.index<E>();
@@ -22,13 +29,12 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var s = ref skip(symbols, i);
-                seek(dst,i) = literal<E>(name(s,ns), s.Kind);
+                seek(dst,i) = define<E>(name(s,ns), s.Kind);
             }
             return new LiteralSeq<E>(typeof(E).Name, dst);
         }
 
-
-        public static LiteralSeq<T> literals<T>(Identifier name, KeyedValue<string,T>[] src)
+        public static LiteralSeq<T> seq<T>(Identifier name, KeyedValue<string,T>[] src)
             where T : IEquatable<T>, IComparable<T>
         {
             var count = src.Length;
@@ -56,5 +62,7 @@ namespace Z0
                 LiteralNameSource.Identifier => sym.Name,
                 _ => sym.Name
             };
+
     }
+
 }
