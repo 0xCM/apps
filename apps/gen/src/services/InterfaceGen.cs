@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using static core;
-    using static Root;
 
     public class InterfaceGen : AppService<InterfaceGen>
     {

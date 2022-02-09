@@ -2,12 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Generate
+namespace Z0
 {
-    public class OctetGen : BitSetGen
+    public struct FunctionOperand
     {
-        public override byte Digits => 8;
+        public Identifier OperandName;
 
-        public override byte MaxValue => 255;
+        public Identifier OperandType;
+
+        public ClrParamModifierKind Modifier;
     }
 }

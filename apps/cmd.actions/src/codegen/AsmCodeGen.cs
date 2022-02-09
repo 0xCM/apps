@@ -24,6 +24,18 @@ namespace Z0.Asm
 
         const string Ops5Pattern = "{0}, {1}, {2}, {3}, {4}";
 
+        public static string identifier(AsmMnemonic src)
+        {
+            var identifier = src.Format(MnemonicCase.Lowercase);
+            return identifier switch{
+                "in" => "@in",
+                "out" => "@out",
+                "int" => "@int",
+                "lock" => "@lock",
+                _ => identifier
+            };
+        }
+
         Index<string> OpsPatterns()
         {
             return state(nameof(OpsPatterns), Load);
@@ -40,9 +52,6 @@ namespace Z0.Asm
                 return dst;
             }
         }
-
-        public static string format(AsmMnemonic src)
-            => src.Format(MnemonicCase.Lowercase).Replace("in", "@in").Replace("out", "@out");
 
         public Index<CsFunc> DefineSigFormatters()
         {
@@ -68,7 +77,7 @@ namespace Z0.Asm
                     seek(csops,j) = CsOperand.define(sigop.Format(), string.Format("a{0}", j));
                 }
 
-                seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), format(sig.Mnemonic), csops, "return EmptyString;");
+                seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), identifier(sig.Mnemonic), csops, "return EmptyString;");
 
             }
             return funcs;

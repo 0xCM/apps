@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     public abstract class BitSetGen : CodeGenerator
     {
         protected string TypeDigits(byte m, byte n)

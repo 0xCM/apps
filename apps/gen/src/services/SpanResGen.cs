@@ -15,7 +15,6 @@ namespace Z0
     {
         const char semi = Chars.Semicolon;
 
-
         [Op]
         public static string format(ByteSpanSpec src)
         {
