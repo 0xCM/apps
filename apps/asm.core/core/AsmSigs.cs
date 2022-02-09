@@ -7,7 +7,7 @@ namespace Z0.Asm
     using static core;
 
     [ApiHost]
-    public partial class AsmSigs : AppService<AsmSigs>
+    public partial class AsmSigSvc : AppService<AsmSigSvc>
     {
         const NumericKind Closure = UnsignedInts;
 
@@ -15,8 +15,6 @@ namespace Z0.Asm
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        static AsmSigOpExpr sigop(IRuleExpr src)
-            => src.Format().Replace(":", "x").Replace("&", "a");
 
         public Outcome Parse(string src, out AsmSig dst)
             => AsmSigParser.parse(src, out dst);

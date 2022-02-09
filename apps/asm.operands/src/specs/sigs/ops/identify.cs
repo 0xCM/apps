@@ -8,6 +8,29 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
+        static AsmSigOpExpr sigop(IRuleExpr src)
+            => src.Format().Replace(":", "x").Replace("&", "a");
+
+        public static bool OpMask(in AsmSig src, out AsmSigOp dst)
+        {
+            var result = false;
+            var count = src.OpCount;
+            dst = AsmSigOp.Empty;
+            ref readonly var ops = ref src.Operands;
+            for(var i=0; i<count; i++)
+            {
+                var op = ops[i];
+                result = op.OpKind == AsmSigOpKind.OpMask;
+                if(result)
+                {
+                    dst = op;
+                    break;
+                }
+            }
+            return result;
+        }
+
+
         public static Identifier identify(AsmSigRuleExpr target)
         {
             var operands = target.Operands;

@@ -8,6 +8,8 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
+        const NumericKind Closure = UnsignedInts;
+
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static AsmSigOp operand<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
             where T : unmanaged

@@ -111,8 +111,8 @@ namespace Z0
             => Asm.AsmTables.create(wf);
 
         [Op]
-        public static AsmSigs AsmSigs(this IWfRuntime wf)
-            => Asm.AsmSigs.create(wf);
+        public static AsmSigSvc AsmSigs(this IWfRuntime wf)
+            => Asm.AsmSigSvc.create(wf);
 
         public static EncodingCollector EncodingCollector(this IWfRuntime wf)
             => Z0.EncodingCollector.create(wf);

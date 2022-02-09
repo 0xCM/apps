@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    partial class AsmSigs
+    public partial class AsmSigs
     {
 
 

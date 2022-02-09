@@ -12,7 +12,7 @@ namespace Z0.Asm
 
         CgSvc CodeGen => Service(Wf.CodeGen);
 
-        AsmSigs AsmSigs => Service(Wf.AsmSigs);
+        AsmSigSvc Sigs => Service(Wf.AsmSigs);
 
         const string Ops1Pattern = "{0}";
 
@@ -41,18 +41,21 @@ namespace Z0.Asm
             }
         }
 
+        public static string format(AsmMnemonic src)
+            => src.Format(MnemonicCase.Lowercase).Replace("in", "@in").Replace("out", "@out");
+
         public Index<CsFunc> DefineSigFormatters()
         {
             var result = Outcome.Success;
-            result = AsmSigs.Terminals(out var sigs);
+            result = Sigs.Terminals(out var _sigs);
             if(result.Fail)
             {
                 Error(result.Message);
             }
 
+            var sigs = _sigs.Where(x => !AsmSigs.HasOpMask(x));
             var count = sigs.Count;
             var funcs = alloc<CsFunc>(count);
-
             for(var i=0; i<count; i++)
             {
                 ref var func = ref seek(funcs,i);
@@ -65,7 +68,7 @@ namespace Z0.Asm
                     seek(csops,j) = CsOperand.define(sigop.Format(), string.Format("a{0}", j));
                 }
 
-                seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), sig.Mnemonic.Format(MnemonicCase.Lowercase), csops, "return EmptyString;");
+                seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), format(sig.Mnemonic), csops, "return EmptyString;");
 
             }
             return funcs;
