@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    partial struct asm
+    using static core;
+
+    partial class AsmSigs
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AsmCell cell(string content, AsmPartKind kind)
-            => new AsmCell(kind, content);
+
+
+
     }
 }

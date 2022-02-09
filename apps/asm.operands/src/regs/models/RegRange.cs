@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
     [StructLayout(LayoutKind.Sequential, Pack=1, Size =4)]
     public readonly struct RegRange
     {
@@ -28,6 +23,7 @@ namespace Z0.Asm
 
         public string Format()
             => string.Format("{0}[{1}..{2}]", Class, MinIndex, MaxIndex);
+
         public override string ToString()
             => Format();
     }

@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using static RegFacets;
-    using static core;
 
     [ApiHost]
     public readonly partial struct AsmRegs

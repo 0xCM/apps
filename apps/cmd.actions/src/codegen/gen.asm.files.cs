@@ -11,6 +11,22 @@ namespace Z0
 
     partial class CodeGenProvider
     {
+        [CmdOp("gen/asm/code")]
+        Outcome GenInstData(CmdArgs args)
+        {
+            var src =  Sdm.LoadSigTerminals();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var term = ref src[i];
+                ref readonly var sig = ref term.Target;
+                AsmSigParser.parse(sig.Format(), out var _sig);
+
+            }
+
+            return true;
+        }
+
         public static AsmBlockSpec block(in AsmFormExpr src)
         {
             const string Content = "    ret\n\n";

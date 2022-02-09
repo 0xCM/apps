@@ -41,7 +41,6 @@ namespace Z0.Asm
             return result;
         }
 
-
         public static AsmMnemonic partition(string src, out Index<AsmSigOpExpr> dst)
         {
             var input = text.trim(text.despace(src));

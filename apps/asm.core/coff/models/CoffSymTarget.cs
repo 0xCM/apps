@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct CoffSymTarget
     {
         public ushort Section;

@@ -48,7 +48,7 @@ namespace Z0.Asm
             if(result.Fail)
                 return (false, AppMsg.ParseFailure.Format(nameof(dst.OpCodeKey), skip(cells,i-1)));
 
-            dst.Mnemonic = new AsmMnemonic(skip(cells, i++));
+            dst.Mnemonic = skip(cells, i++).ToUpperInvariant();
             DataParser.block(skip(cells, i++).Trim(), out dst.OpCode);
             DataParser.block(skip(cells, i++), out dst.Sig);
             DataParser.block(skip(cells, i++), out dst.EncXRef);

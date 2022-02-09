@@ -11,6 +11,7 @@ namespace Z0.Asm
         {
             var dst = AsmSigExpr.Empty;
             var sig = detail.Sig.Format().Trim();
+            //var mnemonic = AsmMnemonic.parse(detail.Mnemonic, out _);
             var mnemonic = detail.Mnemonic;
             var j = text.index(sig, Chars.Space);
             if(j > 0)

@@ -20,7 +20,6 @@ namespace Z0
             return true;
         }
 
-
         void GenAsmSigIds()
         {
             var symbols = Sdm.LoadSigSymbols();

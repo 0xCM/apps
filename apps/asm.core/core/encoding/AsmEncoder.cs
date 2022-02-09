@@ -5,62 +5,11 @@
 namespace Z0.Asm
 {
     using static core;
-    using static AsmSigId;
 
     [ApiHost]
     public class AsmEncoder : AppService<AsmEncoder>
     {
         const string FieldSep = " | ";
-
-        public uint OpCode(AsmSigId id)
-        {
-            var result = 0u;
-            switch(id)
-            {
-                case mov_r64_imm64:
-                    result = 0xB8;
-                break;
-            }
-            return result;
-        }
-
-        public bool Test(ReadOnlySpan<byte> src, AsmSigId id)
-        {
-            var size = src.Length;
-            var result = false;
-            switch(id)
-            {
-                case mov_r64_imm64:
-                    result = size >= 2 && skip(src,0) == 0x48 && skip(src,1) == OpCode(id);
-                break;
-            }
-            return result;
-        }
-
-        public byte Encode(AsmSigId sig, RegOp reg, MemOp mem)
-        {
-            return 0;
-        }
-
-        public byte Encode(AsmSigId sig, MemOp mem, RegOp reg)
-        {
-            return 0;
-        }
-
-        public byte Encode(AsmSigId sig, RegOp reg0, RegOp reg1)
-        {
-            return 0;
-        }
-
-        public byte Encode(AsmSigId sig, RegOp reg, Imm imm)
-        {
-            return 0;
-        }
-
-        public byte Encode(AsmSigId sig, RegMask mask)
-        {
-            return 0;
-        }
 
         public static string bitstring(Sib src)
             => string.Format("{0} {1} {2}", BitRender.format2(src.Scale), BitRender.format3(src.Index), BitRender.format3(src.Base));

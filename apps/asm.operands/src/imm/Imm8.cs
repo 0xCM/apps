@@ -6,8 +6,6 @@ namespace Z0
 {
     using System.Linq;
 
-    using static Root;
-
     using W = W8;
     using I = imm8;
 

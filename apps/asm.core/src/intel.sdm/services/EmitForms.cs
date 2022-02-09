@@ -42,9 +42,9 @@ namespace Z0.Asm
                     record.Token = AsmFormSpec.token(sigt, opcode);
                     record.Mnemonic = sigx.Mnemonic;
                     record.Kind = kind;
-                    record.OpCode = opcode.Format();
-                    record.Sig = sigt.Format();
-                    record.Source = sigx.Format();
+                    record.OpCode = opcode;
+                    record.Sig = sigt;
+                    record.Source = sigx;
                     records.Add(record);
                 }
             }

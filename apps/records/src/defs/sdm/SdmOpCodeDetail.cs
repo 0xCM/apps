@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId), Blittable]
     public struct SdmOpCodeDetail : IRecord<SdmOpCodeDetail>, IComparable<SdmOpCodeDetail>
     {

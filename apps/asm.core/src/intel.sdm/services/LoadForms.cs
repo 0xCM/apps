@@ -72,15 +72,15 @@ namespace Z0.Asm
                     if(result.Fail)
                         break;
 
-                    result = DataParser.parse(skip(cells,j++), out dst.OpCode);
+                    result = AsmOcParser.parse(skip(cells,j++), out dst.OpCode);
                     if(result.Fail)
                         break;
 
-                    result = DataParser.parse(skip(cells,j++), out dst.Sig);
+                    result = AsmSigParser.expression(skip(cells,j++), out dst.Sig);
                     if(result.Fail)
                         break;
 
-                    result = DataParser.parse(skip(cells,j++), out dst.Source);
+                    result = AsmSigParser.expression(skip(cells,j++), out dst.Source);
                     if(result.Fail)
                         break;
 

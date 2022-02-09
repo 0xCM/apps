@@ -19,11 +19,11 @@ namespace Z0.Asm
 
         public Identifier Kind;
 
-        public TextBlock OpCode;
+        public AsmOpCode OpCode;
 
-        public TextBlock Sig;
+        public AsmSigExpr Sig;
 
-        public TextBlock Source;
+        public AsmSigExpr Source;
 
         public int CompareTo(AsmFormRecord src)
         {

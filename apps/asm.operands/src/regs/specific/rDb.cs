@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using I = RegIndexCode;
     using G = rDb;
     using K = AsmRegTokens.DebugReg;
