@@ -6,14 +6,10 @@ namespace Z0.Asm
 {
     using static core;
 
-    public class AsmSigFormatter
+    partial class AsmSigs
     {
-        AsmSigDatasets Datasets;
-
-        public AsmSigFormatter()
-        {
-            Datasets = AsmSigDatasets.load();
-        }
+        public static string format(in AsmSigOp src)
+            => expression(src).Text;
 
         public static string format(in AsmSigExpr src)
         {
@@ -26,7 +22,7 @@ namespace Z0.Asm
             if(count != 0)
                 seek(dst,i++) = Chars.Space;
 
-            AsmSigs.operands(src, ref i, dst);
+            operands(src, ref i, dst);
             return storage.Format();
         }
 
@@ -63,33 +59,5 @@ namespace Z0.Asm
             }
             return dst.Emit();
         }
-
-        public string Format(in AsmSig src)
-            => format(src);
-
-        public static AsmSigOpExpr expression(AsmSigOp src)
-        {
-            if(_Datasets.TokenExpressions.Find(src.Id, out var xpr))
-            {
-                if(src.Modifier != 0)
-                {
-                    if(_Datasets.Modifers.MapKind(src.Modifier, out var mod))
-                        return string.Format("{0} {1}", xpr, mod.Expr);
-                    else
-                        return RP.Error;
-                }
-                else
-                    return xpr;
-            }
-            else
-                return RP.Error;
-        }
-
-        static AsmSigFormatter()
-        {
-            _Datasets = AsmSigDatasets.load();
-        }
-
-        static AsmSigDatasets _Datasets;
     }
 }

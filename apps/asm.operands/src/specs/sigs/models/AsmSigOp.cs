@@ -30,6 +30,12 @@ namespace Z0.Asm
             get => bits.join((byte)Value, (byte)OpKind, (byte)Size);
         }
 
+        public bool HasModifier
+        {
+            [MethodImpl(Inline)]
+            get => Modifier != 0;
+        }
+
         [MethodImpl(Inline)]
         public AsmSigOp WithModifier(AsmModifierKind mod)
             => new AsmSigOp(OpKind, Value, Size, mod);

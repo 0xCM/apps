@@ -17,7 +17,7 @@ namespace Z0.Asm
 
 
         public Outcome Parse(string src, out AsmSig dst)
-            => AsmSigParser.parse(src, out dst);
+            => AsmSigs.parse(src, out dst);
 
         public Outcome Terminals(out Index<AsmSig> dst)
         {
@@ -53,7 +53,7 @@ namespace Z0.Asm
             else
                 return result;
 
-            result = AsmSigParser.parse(sigexpr.Format(), out var sig);
+            result = AsmSigs.parse(sigexpr.Format(), out var sig);
             if(result.Fail)
             {
                 result = (false,string.Format("Sig parse failure:{0}", sigexpr.Format()));

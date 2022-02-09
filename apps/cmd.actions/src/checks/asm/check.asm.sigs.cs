@@ -18,7 +18,7 @@ namespace Z0
             {
                 ref readonly var symbol = ref src[i];
                 var expr = symbol.Expr.Format();
-                result = AsmSigParser.parse(expr, out var sig);
+                result = AsmSigs.parse(expr, out var sig);
                 if(result.Fail)
                     break;
             }

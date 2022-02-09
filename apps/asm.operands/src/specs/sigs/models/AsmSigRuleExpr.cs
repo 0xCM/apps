@@ -154,7 +154,7 @@ namespace Z0.Asm
             get => Mnemonic.IsNonEmpty;
         }
         public override string Format()
-            => AsmSigFormatter.format(this);
+            => AsmSigs.format(this);
 
         public static AsmSigRuleExpr Empty => new AsmSigRuleExpr(AsmMnemonic.Empty, 0);
     }

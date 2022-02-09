@@ -76,14 +76,8 @@ namespace Z0.Asm
                     if(result.Fail)
                         break;
 
-                    result = AsmSigParser.expression(skip(cells,j++), out dst.Sig);
-                    if(result.Fail)
-                        break;
-
-                    result = AsmSigParser.expression(skip(cells,j++), out dst.Source);
-                    if(result.Fail)
-                        break;
-
+                    dst.Sig = AsmSigs.expression(skip(cells,j++));
+                    dst.Source = AsmSigs.expression(skip(cells,j++));
                 }
 
                 if(result.Fail)

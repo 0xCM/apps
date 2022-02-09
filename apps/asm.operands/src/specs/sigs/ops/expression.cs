@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public static AsmSigExpr expression(AsmSigRuleExpr target)
+        public static AsmSigExpr expression(in AsmSigRuleExpr target)
         {
             var srcOps = target.Operands;
             var opcount = srcOps.Count;
@@ -19,11 +19,49 @@ namespace Z0.Asm
             return dst;
         }
 
-        public static string format(AsmSigOp src)
-            => expression(src).Format();
+        public static AsmSigOpExpr expression(in AsmSigOp src)
+        {
+            if(Datasets.TokenExpressions.Find(src.Id, out var xpr))
+            {
+                if(src.Modifier != 0)
+                {
+                    if(Datasets.Modifers.MapKind(src.Modifier, out var mod))
+                        return string.Format("{0} {1}", xpr, mod.Expr);
+                    else
+                        return RP.Error;
+                }
+                else
+                    return xpr;
+            }
+            else
+                return RP.Error;
+        }
 
-        public static AsmSigOpExpr expression(AsmSigOp src)
-            => AsmSigFormatter.expression(src);
+        public static AsmSigExpr expression(string src)
+        {
+            var dst = AsmSigExpr.Empty;
+            var result = Outcome.Success;
+            var sig = text.trim(src);
+            var j = text.index(text.trim(sig), Chars.Space);
+            var mnemonic = AsmMnemonic.Empty;
+            dst = AsmSigExpr.Empty;
+            if(j>0)
+            {
+                mnemonic = text.left(sig,j);
+                var operands = text.right(sig,j);
+                if(text.contains(sig, Chars.Comma))
+                    dst = AsmSigs.expression(mnemonic, text.trim(text.split(operands, Chars.Comma)));
+                else
+                    dst = AsmSigs.expression(mnemonic, operands);
+            }
+            else
+            {
+                mnemonic = sig;
+                dst = AsmSigs.expression(mnemonic);
+            }
+
+            return dst;
+        }
 
         [MethodImpl(Inline)]
         public static AsmSigExpr expression(AsmMnemonic mnemonic)

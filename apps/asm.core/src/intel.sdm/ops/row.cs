@@ -22,7 +22,7 @@ namespace Z0.Asm
             var i=0;
             DataParser.parse(skip(cells,i++), out dst.Seq);
             DataParser.parse(skip(cells,i++), out dst.Identity);
-            AsmSigParser.expression(skip(cells,i++), out dst.Sig);
+            dst.Sig = AsmSigs.expression(skip(cells,i++));
             dst.OpCode = skip(cells,i++).Trim();
             dst.Op0 = skip(cells,i++).Trim();
             dst.Op1 = skip(cells,i++).Trim();

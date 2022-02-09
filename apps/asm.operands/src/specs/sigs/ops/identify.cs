@@ -30,6 +30,37 @@ namespace Z0.Asm
             return result;
         }
 
+        public static Identifier identify(in AsmSigOp src)
+        {
+            if(Datasets.TokenExpressions.Find(src.Id, out var xpr))
+            {
+                if(src.Modifier != 0)
+                {
+                    if(Datasets.Modifers.MapKind(src.Modifier, out var mod))
+
+                        return string.Format("{0}_{1}", xpr, mod.Kind);
+                    else
+                        return RP.Error;
+                }
+                else
+                    return xpr;
+            }
+            else
+                return RP.Error;
+        }
+
+        public static Identifier identify(in AsmSig src)
+        {
+            var dst = text.buffer();
+            dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
+            for(byte j=0; j<src.OpCount; j++)
+            {
+                dst.Append(Chars.Underscore);
+                dst.Append(identify(src.Operands[j]));
+            }
+
+            return dst.Emit();
+        }
 
         public static Identifier identify(AsmSigRuleExpr target)
         {

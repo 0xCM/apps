@@ -23,7 +23,5 @@ namespace Z0.Asm
             return mod != 0;
         }
 
-        public static bool modified(in AsmSigOpExpr src)
-            => src.Text.Contains(Chars.LBrace);
     }
 }

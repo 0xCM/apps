@@ -7,7 +7,7 @@ namespace Z0.Asm
     [SymSource("asm")]
     public enum AsmModifierKind : byte
     {
-        None,
+        None = 0,
 
         [Symbol("{k1}")]
         k1 = 1,

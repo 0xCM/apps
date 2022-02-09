@@ -8,8 +8,13 @@ namespace Z0.Asm
 
     public partial class AsmSigs
     {
+        static AsmSigDatasets Datasets;
 
+        const NumericKind Closure = UnsignedInts;
 
-
+        static AsmSigs()
+        {
+            Datasets = AsmSigDatasets.load();
+        }
     }
 }

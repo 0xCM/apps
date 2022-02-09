@@ -14,6 +14,8 @@ namespace Z0
 
         AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
 
+        AsmSigSvc Sigs => Service(Wf.AsmSigs);
+
         [CmdOp("gen/asm")]
         Outcome GenIntel(CmdArgs args)
         {
@@ -45,5 +47,23 @@ namespace Z0
 
             return true;
         }
+
+        Outcome EmitSigOps(CmdArgs args)
+        {
+
+            var result = Sigs.Terminals(out var sigs);
+            var count = sigs.Count;
+            var dst = text.buffer();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var sig = ref sigs[i];
+                for(byte j=0; j<sig.OpCount; j++)
+                {
+                    //dst.AppendLineFormat("{0}", sig.)
+                }
+            }
+            return true;
+        }
+
    }
 }

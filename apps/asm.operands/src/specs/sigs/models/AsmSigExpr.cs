@@ -169,7 +169,7 @@ namespace Z0.Asm
             => AsmSigs.equals(this,src);
 
         public string Format()
-            => AsmSigFormatter.format(this);
+            => AsmSigs.format(this);
 
         public override string ToString()
             => Format();

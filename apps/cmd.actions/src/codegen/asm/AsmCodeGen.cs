@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using static core;
+    using static AsmSigOpKind;
 
     public partial class AsmCodeGen : AppService<AsmCodeGen>
     {
@@ -53,6 +54,87 @@ namespace Z0.Asm
             }
         }
 
+        static bool supported(in AsmSigOp src)
+        {
+            var result = false;
+            switch(src.OpKind)
+            {
+                case SysReg:
+                case GpReg:
+                case VecReg:
+                case RegLiteral:
+                case Imm:
+                case Mem:
+                case MaskReg:
+                case MmxReg:
+                case IntLiteral:
+                    result = true;
+                break;
+            }
+            return result;
+        }
+
+        static bool supported(in AsmSig src)
+        {
+            var result = true;
+            var count = src.OpCount;
+            ref readonly var ops = ref src.Operands;
+            for(var i=0; i<count; i++)
+                result &= supported(ops[i]);
+            return result;
+        }
+
+        CsOperand CsOp(byte index, in AsmSigOp src)
+        {
+            var type = src.Format();
+            switch(src.OpKind)
+            {
+                case SysReg:
+                case GpReg:
+                case VecReg:
+                case RegLiteral:
+                case Imm:
+                case Mem:
+                case MaskReg:
+                case MmxReg:
+                case IntLiteral:
+                {
+
+                    switch(src.Value)
+                    {
+                        case 0:
+                            type = "N0";
+                        break;
+                        case 1:
+                            type = "N1";
+                        break;
+                    }
+                    break;
+                }
+
+                case Rel:
+                case GpRm:
+                case VecRm:
+                case FpuReg:
+                case FpuInt:
+                case FpuMem:
+                case Moffs:
+                case Ptr:
+                case MemPtr:
+                case MemPair:
+                case Rounding:
+                case AsmSigOpKind.Vsib:
+                case Broadcast:
+                case OpMask:
+                case Dependent:
+                    break;
+
+                default:
+                break;
+            }
+            return CsOperand.define(type, string.Format("a{0}", index));
+        }
+
         public Index<CsFunc> DefineSigFormatters()
         {
             var result = Outcome.Success;
@@ -62,7 +144,7 @@ namespace Z0.Asm
                 Error(result.Message);
             }
 
-            var sigs = _sigs.Where(x => !AsmSigs.HasOpMask(x));
+            var sigs = _sigs.Where(x => supported(x));
             var count = sigs.Count;
             var funcs = alloc<CsFunc>(count);
             for(var i=0; i<count; i++)
@@ -72,10 +154,7 @@ namespace Z0.Asm
                 var csops = alloc<CsOperand>(sig.OpCount);
                 var sigops = sig.Operands;
                 for(byte j=0; j<sig.OpCount; j++)
-                {
-                    var sigop = sigops[j];
-                    seek(csops,j) = CsOperand.define(sigop.Format(), string.Format("a{0}", j));
-                }
+                    seek(csops,j) = CsOp(j,sigops[j]);
 
                 seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), identifier(sig.Mnemonic), csops, "return EmptyString;");
 

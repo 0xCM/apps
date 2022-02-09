@@ -20,17 +20,13 @@ namespace Z0.Asm
             {
                 ref readonly var detail = ref skip(details,i);
                 var s = detail.Sig.Format().ToLowerInvariant();
-                result = AsmSigParser.expression(s, out var sigx);
-                if(result.Fail)
-                    break;
-
+                var sigx = AsmSigs.expression(s);
                 var rule = SymbolizeExpression(sigx);
                 var terminals = rule.Terminate().Map(t => paired(AsmSigs.identify(t), t));
 
                 result = AsmOcParser.parse(detail.OpCode, out var opcode);
                 if(result.Fail)
                     break;
-
 
                 for(var j=0; j<terminals.Count; j++)
                 {

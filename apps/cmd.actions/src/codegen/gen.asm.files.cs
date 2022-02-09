@@ -11,20 +11,35 @@ namespace Z0
 
     partial class CodeGenProvider
     {
-        [CmdOp("gen/asm/code")]
+        [CmdOp("gen/asm/data")]
         Outcome GenInstData(CmdArgs args)
         {
             var src =  Sdm.LoadSigTerminals();
             var count = src.Count;
+            var dst = text.buffer();
             for(var i=0; i<count; i++)
             {
                 ref readonly var term = ref src[i];
-                ref readonly var sig = ref term.Target;
-                AsmSigParser.parse(sig.Format(), out var _sig);
-
+                AsmSigs.parse(term.Target.Format(), out var sig);
+                var sigid = AsmSigs.identify(sig);
+                var sigf = sig.Format();
+                for(byte j=0; j<sig.OpCount; j++)
+                {
+                    var op = sig.Operands[j];
+                    dst.AppendLineFormat("{0,-6} | {1,-42} | {2,-48} | {3,-12} | {4,-12} | {5}", j, sigid, sigf, op.OpKind, AsmSigs.identify(op), op.Format());
+                }
             }
 
+            FileEmit(dst.Emit(), count, ProjectDb.Log("asmsigs", FS.Csv), TextEncodingKind.Asci);
             return true;
+        }
+
+        protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
+        {
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer(encoding);
+            writer.WriteLine(src);
+            EmittedFile(emitting,count);
         }
 
         public static AsmBlockSpec block(in AsmFormExpr src)

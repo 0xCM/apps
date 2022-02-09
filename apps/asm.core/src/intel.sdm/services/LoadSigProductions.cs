@@ -42,7 +42,7 @@ namespace Z0.Asm
             result = RuleParser.production(src, out IProduction prod);
             if(result)
             {
-                result = AsmSigParser.expression(prod.Source.Format(), out var sig);
+                var sig = AsmSigs.expression(prod.Source.Format());
                 if(result)
                 {
                     result = Parse(prod.Target.Format(), out AsmSigRuleExpr expr);
@@ -58,7 +58,7 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             dst = AsmSigRuleExpr.Empty;
-            result = AsmSigParser.expression(src, out var sig);
+            var sig = AsmSigs.expression(src);
             if(result)
             {
                 var ops = sig.Operands();

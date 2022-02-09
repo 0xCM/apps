@@ -8,13 +8,26 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        const NumericKind Closure = UnsignedInts;
+        public static bool operand(AsmSigOpExpr src, out AsmSigOp dst)
+        {
+            if(AsmSigs.modifier(src, out var op, out var mod))
+            {
+                if(Datasets.TokensByExpression.Find(op, out dst))
+                {
+                    dst = dst.WithModifier(mod);
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return Datasets.TokensByExpression.Find(src.Text, out dst);
+        }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
         public static AsmSigOp operand<T>(AsmSigOpKind kind, T value, NativeSizeCode size = NativeSizeCode.Unknown)
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value), size);
-
 
         [MethodImpl(Inline), Op]
         public static ref readonly AsmSigOpExpr operand(in AsmSigExpr src, byte i)
