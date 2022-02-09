@@ -93,10 +93,6 @@ namespace Z0
             => Z0.TableEmitters.create(context);
 
         [Op]
-        public static StringTableGen StringTableGen(this IWfRuntime context)
-            => Z0.StringTableGen.create(context);
-
-        [Op]
         public static ApiResProvider ApiResProvider(this IWfRuntime wf)
             => Z0.ApiResProvider.create(wf);
 

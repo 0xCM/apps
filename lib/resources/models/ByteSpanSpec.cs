@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using api = SpanRes;
@@ -53,10 +49,10 @@ namespace Z0
         public ReadOnlySpan<byte> Segment(ByteSize offset, ByteSize size)
             => slice(Data.View, offset, size);
 
-        public string Format()
-            => api.format(this);
+        // public string Format()
+        //     => api.format(this);
 
-        public override string ToString()
-            => Format();
+        // public override string ToString()
+        //     => Format();
     }
 }

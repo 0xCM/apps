@@ -28,7 +28,7 @@ namespace Z0
             where E : unmanaged, Enum
         {
             var buffer = text.buffer();
-            SpanRes.symrender<E>(container, buffer);
+            SpanResGen.symrender<E>(container, buffer);
             dst.WriteLine(buffer.Emit());
         }
 
@@ -50,7 +50,7 @@ namespace Z0
                 buffer.AppendFormat("{0,-6}", reg);
             }
             var bytes = SpanRes.specify("GpRegNames", recover<RegOp,byte>(regs).ToArray());
-            writer.WriteLine(bytes.Format());
+            writer.WriteLine(SpanResFormatter.format(bytes));
             EmittedFile(emitting, regs.Length);
             return true;
         }

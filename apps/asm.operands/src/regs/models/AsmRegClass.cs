@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct AsmRegClass
     {
         public RegClassCode Code {get;}

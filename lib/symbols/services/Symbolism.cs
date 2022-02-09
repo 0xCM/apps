@@ -65,22 +65,6 @@ namespace Z0
             where E : unmanaged, Enum
                 => EmitLiterals<E>(ProjectDb.ApiTablePath<SymLiteralRow>(typeof(E).FullName));
 
-        public void EmitSymbolSpan<E>(Identifier name, FS.FolderPath dst)
-            where E : unmanaged, Enum
-        {
-            var path = dst + FS.file(name.Format(), FS.Cs);
-            using var writer = path.Writer();
-            EmitSymbolSpan<E>(name,writer);
-        }
-
-        public void EmitSymbolSpan<E>(Identifier name, StreamWriter dst)
-            where E : unmanaged, Enum
-        {
-            var buffer = text.buffer();
-            SpanRes.symrender<E>(name, buffer);
-            dst.WriteLine(buffer.Emit());
-        }
-
         public Index<SymLiteralRow> EmitLiterals<E>(FS.FilePath dst)
             where E : unmanaged, Enum
         {

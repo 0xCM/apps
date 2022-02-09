@@ -19,6 +19,12 @@ namespace Z0.Asm
             return dst;
         }
 
+        public static string format(AsmSigOp src)
+            => expression(src).Format();
+
+        public static AsmSigOpExpr expression(AsmSigOp src)
+            => AsmSigFormatter.expression(src);
+
         [MethodImpl(Inline)]
         public static AsmSigExpr expression(AsmMnemonic mnemonic)
             =>  new AsmSigExpr(mnemonic);

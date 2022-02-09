@@ -9,6 +9,5 @@ namespace Z0
         public static CgSvc CodeGen(this IWfRuntime wf)
             => Z0.CgSvc.create(wf);
 
-
     }
 }

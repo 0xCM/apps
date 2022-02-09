@@ -19,7 +19,7 @@ namespace Z0.Asm
 
         [Op]
         public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
-            => comment(CommentMarker, SpanRes.format(SpanRes.specify(uri, src)));
+            => comment(CommentMarker, SpanResFormatter.format(SpanRes.specify(uri, src)));
 
         [Op]
         public static AsmInlineComment hexarray(BinaryCode src)

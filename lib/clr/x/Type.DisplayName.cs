@@ -29,7 +29,6 @@ namespace Z0
                     return src.GetCustomAttribute<DisplayNameAttribute>().DisplayName;
 
                 if(src.IsEnum && src.IsConcrete())
-                    //return src.Name + ':' + src.GetEnumUnderlyingType().DisplayName(recursion + 1);
                     return src.Name;
 
                 if(src.IsPointer)

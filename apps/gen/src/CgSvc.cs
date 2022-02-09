@@ -53,6 +53,9 @@ namespace Z0
         public InterfaceGen Interfaces()
             => Service(() => InterfaceGen.create(Wf));
 
+        public SpanResGen SpanRes()
+            => Service(() => SpanResGen.create(Wf));
+
         public LiteralProviderGen LiteralProvider()
             => Service(() => LiteralProviderGen.create(Wf));
 

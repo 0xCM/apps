@@ -5,42 +5,33 @@
 namespace Z0
 {
     using llvm;
-    using static core;
+    using Asm;
 
     partial class CodeGenProvider
     {
-
         LlvmDataProvider LlvmData => Service(Wf.LlvmDataProvider);
 
-        [CmdOp("gen/intel")]
+        AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
+
+        [CmdOp("gen/asm")]
         Outcome GenIntel(CmdArgs args)
         {
-            GenAsmSigIds();
-            GenMnemonicNames();
+            AsmCodeGen.GenSigIds();
+            AsmCodeGen.GenMnemonicNames();
+            var funcs = AsmCodeGen.DefineSigFormatters();
+            var count = funcs.Count;
+
+            var dst= text.buffer();
+            var margin = 8u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var f = ref funcs[i];
+                f.Render(margin, dst);
+                dst.AppendLine();
+            }
+            Write(dst.Emit());
+
             return true;
-        }
-
-        void GenAsmSigIds()
-        {
-            var symbols = Sdm.LoadSigSymbols();
-            var g = CodeGen.EnumGen();
-            var buffer = text.buffer();
-            g.Emit(0u, symbols, buffer);
-            var spec = CgSpecs.define("Z0.Asm").WithContent(buffer.Emit());
-            CodeGen.EmitFile(spec, "AsmSigId", CgTarget.Intel);
-
-        }
-
-        void GenMnemonicNames()
-        {
-            var g = CodeGen.LiteralProvider();
-            var name = "AsmMnemonicNames";
-            var src = Sdm.LoadSigs().Select(x => x.Mnemonic.Format(Asm.MnemonicCase.Lowercase)).Distinct();
-            var dst = CodeGen.SourceFile(name, CgTarget.Intel);
-            var names = src.View;
-            var values = src.View;
-            var literals = Literals.seq(name, names, values);
-            g.Emit("Z0", literals, dst);
         }
    }
 }

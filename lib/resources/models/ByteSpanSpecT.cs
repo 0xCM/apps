@@ -49,10 +49,10 @@ namespace Z0
             get => Data.Size;
         }
 
-        public string Format()
-            => api.format(this);
+        // public string Format()
+        //     => api.format(this);
 
-        public override string ToString()
-            => Format();
+        // public override string ToString()
+        //     => Format();
     }
 }

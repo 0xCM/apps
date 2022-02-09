@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using C = Chars;
@@ -29,7 +25,7 @@ namespace Z0
 
         public ByteSpanSpec Emit(uint indent, Identifier name, string data, ITextBuffer dst)
         {
-            return SpanRes.ascirender(indent, name, data, dst);
+            return SpanResGen.ascirender(indent, name, data, dst);
         }
 
         public static void Emit(FS.FolderPath root)

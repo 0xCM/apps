@@ -171,16 +171,16 @@ namespace Z0.Asm
         public enum Gp8HiReg : byte
         {
             [Symbol("ah")]
-            ah = r0,
+            ah = r4,
 
             [Symbol("ch")]
-            ch = r1,
+            ch = r5,
 
             [Symbol("dh")]
-            dh = r2,
+            dh = r6,
 
             [Symbol("bh")]
-            bh = r3,
+            bh = r7,
         }
 
         /// <summary>

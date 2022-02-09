@@ -13,11 +13,30 @@ namespace Z0.Asm
 
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
+        IntelSdm Sdm => Service(Wf.IntelSdm);
+
         static AsmSigOpExpr sigop(IRuleExpr src)
             => src.Format().Replace(":", "x").Replace("&", "a");
 
         public Outcome Parse(string src, out AsmSig dst)
             => AsmSigParser.parse(src, out dst);
+
+        public Outcome Terminals(out Index<AsmSig> dst)
+        {
+            var result = Outcome.Success;
+            var terms = Sdm.LoadSigTerminals();
+            var count = terms.Count;
+            dst = alloc<AsmSig>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var term = ref terms[i];
+                ref readonly var target = ref term.Target;
+                result = Parse(target.Format(), out dst[i]);
+                if(result.Fail)
+                    break;
+            }
+            return result;
+        }
 
         public Outcome<AsmForm> BuildForm(in AsmSigExpr sigexpr, in CharBlock36 ocexpr)
         {

@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Operands;
-
-    using static Root;
 
     partial struct AsmRegs
     {

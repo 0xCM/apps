@@ -56,6 +56,12 @@ namespace Z0.Asm
         public override bool Equals(object src)
             => src is AsmSigOp x && Equals(x);
 
+        public string Format()
+            => AsmSigs.format(this);
+
+        public override string ToString()
+            => Format();
+
         public static AsmSigOp Empty =>default;
     }
 }
