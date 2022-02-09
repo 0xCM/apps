@@ -9,18 +9,18 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmOpCodes : AppService<AsmOpCodes>
     {
-        readonly AsmOcDatasets _Datasets;
-
         readonly AsmOcParser Parser;
 
         public AsmOpCodes()
         {
-            _Datasets = AsmOcDatasets.load();
             Parser = new AsmOcParser();
         }
 
         public Outcome Parse(string src, out AsmOpCode dst)
             => Parser.Parse(src, out dst);
+
+        public static AsmOcTokenSet tokens()
+            => Datasets.TokenSet;
 
         [Op]
         public static AsmOpCode define(ReadOnlySpan<AsmOcToken> src)
@@ -49,24 +49,29 @@ namespace Z0.Asm
             return dst.Emit();
         }
 
-        [MethodImpl(Inline), Op]
-        public ReadOnlySpan<AsmOcToken> Tokens()
-            => _Datasets.Tokens;
 
         [MethodImpl(Inline), Op]
         public ReadOnlySpan<AsmOcTokenKind> TokenKinds()
-            => _Datasets.TokenKindSymbols.Kinds;
+            => Datasets.TokenKindSymbols.Kinds;
 
         public string Expression(AsmOcToken src)
-            => _Datasets.TokenExpressions[src];
+            => Datasets.TokenExpressions[src];
 
         public bool Token(string src, out AsmOcToken dst)
-            => _Datasets.TokensByExpression.Find(src, out dst);
+            => Datasets.TokensByExpression.Find(src, out dst);
 
         public ReadOnlySpan<string> Expressions()
-            => _Datasets.TokenExpressions.Values;
+            => Datasets.TokenExpressions.Values;
 
         public ReadOnlySpan<AsmOcToken> Tokens(AsmOcTokenKind kind)
-            => _Datasets.TokensByKind[kind];
+            => Datasets.TokensByKind[kind];
+
+
+        readonly static AsmOcDatasets Datasets;
+
+        static AsmOpCodes()
+        {
+            Datasets = AsmOcDatasets.load();
+        }
    }
 }

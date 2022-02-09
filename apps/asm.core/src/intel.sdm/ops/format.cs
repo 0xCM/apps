@@ -10,7 +10,7 @@ namespace Z0.Asm
         public static string format(in AsmFormExpr src)
         {
             var mnemonic = src.Sig.Mnemonic.Format(MnemonicCase.Lowercase);
-            if(src.Sig.OperandCount == 0)
+            if(src.Sig.OpCount == 0)
             {
                 return string.Format("{0}() = {1}", mnemonic, src.OpCode);
             }

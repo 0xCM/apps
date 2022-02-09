@@ -11,6 +11,8 @@ namespace Z0.Asm
     {
         CharMapper CharMapper => Service(Wf.CharMapper);
 
+        ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
+
         IntelSdmPaths SdmPaths;
 
         protected override void OnInit()
@@ -30,10 +32,20 @@ namespace Z0.Asm
         Productions SigDecompRules
             => Data(nameof(SigDecompRules), () => Rules.productions(SdmPaths.SigDecompRules()));
 
+        Productions SigOpMaskRules
+            => Data(nameof(SigOpMaskRules), () => Rules.productions(SdmPaths.SigDecompRules()));
+
         void Clear()
         {
             SdmPaths.Targets().Clear();
             ClearCache();
+        }
+
+
+        void EmitTokens()
+        {
+            ApiMetadata.EmitTokenSet(AsmOcTokenSet.create(), SdmPaths.Tokens("opcodes"));
+            ApiMetadata.EmitTokenSet(AsmSigTokenSet.create(), SdmPaths.Tokens("sigs"));
         }
 
         public Outcome Import()
@@ -76,6 +88,7 @@ namespace Z0.Asm
                 if(result.Fail)
                     return result;
 
+                EmitTokens();
                 ImportOpCodes();
 
             }

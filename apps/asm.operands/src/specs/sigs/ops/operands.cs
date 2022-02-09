@@ -47,7 +47,7 @@ namespace Z0.Asm
         public static uint operands(in AsmSigExpr src, ref uint i, Span<char> dst)
         {
             var i0 = i;
-            var count = src.OperandCount;
+            var count = src.OpCount;
             for(byte j=0; j<count; j++)
             {
                 ref readonly var op = ref operand(src,j);
@@ -69,28 +69,28 @@ namespace Z0.Asm
         [Op]
         internal static byte operands(AsmSigExpr src, Span<AsmSigOpExpr> dst)
         {
-            if(src.OperandCount >= 1)
+            if(src.OpCount >= 1)
             {
                 seek(dst,0) = src.Op0;
-                if(src.OperandCount >= 2)
+                if(src.OpCount >= 2)
                 {
                     seek(dst,1) = src.Op1;
-                    if(src.OperandCount >= 3)
+                    if(src.OpCount >= 3)
                     {
                         seek(dst,2) = src.Op2;
 
-                        if(src.OperandCount >= 4)
+                        if(src.OpCount >= 4)
                         {
                             seek(dst,3) = src.Op3;
 
-                            if(src.OperandCount >= 5)
+                            if(src.OpCount >= 5)
                                 seek(dst,4) = src.Op4;
                         }
                     }
                 }
             }
 
-            return src.OperandCount;
+            return src.OpCount;
         }
     }
 }

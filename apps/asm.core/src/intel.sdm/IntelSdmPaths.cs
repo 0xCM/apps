@@ -26,6 +26,9 @@ namespace Z0.Asm
         public FS.FilePath SigDecompRules()
             => ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
 
+        public FS.FilePath SigOpMaskRules()
+            => ProjectDb.Settings("asm.sigs.opmasks", FS.ext("map"));
+
         public FS.FilePath SigFixupRules()
             => ProjectDb.Settings("asm.sigs.fixups", FS.ext("map"));
 
@@ -91,6 +94,9 @@ namespace Z0.Asm
 
         public FS.FolderPath CsvSources()
             => Sources() + FS.folder("sdm.instructions");
+
+        public FS.FilePath Tokens(string kind)
+            => Targets() + FS.file(string.Format("{0}.tokens", kind), FS.Csv);
 
         public FS.FilePath ImportTable<T>()
             where T : struct

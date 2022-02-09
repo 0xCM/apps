@@ -288,6 +288,14 @@ namespace Z0
             return count;
         }
 
+        protected void FileEmit(string src, Count count, FS.FilePath dst, TextEncodingKind encoding = TextEncodingKind.Utf8)
+        {
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer(encoding);
+            writer.WriteLine(src);
+            EmittedFile(emitting,count);
+        }
+
         protected Outcome<uint> EmitLines(ReadOnlySpan<TextLine> src, FS.FilePath dst, TextEncodingKind encoding)
         {
             using var writer = dst.Writer(encoding);

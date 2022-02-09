@@ -14,9 +14,9 @@ namespace Z0.Asm
             if(a.Mnemonic != b.Mnemonic)
                 return false;
 
-            var count = a.OperandCount;
+            var count = a.OpCount;
 
-            if(count != b.OperandCount)
+            if(count != b.OpCount)
                 return false;
 
             var opsA = a.Operands();

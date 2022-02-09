@@ -21,7 +21,6 @@ namespace Z0
             EmitConditionDocs();
             EmitRegDocs();
             EmitRexBDocs();
-            EmitOpCodeDocs();
             return true;
         }
 
@@ -68,11 +67,6 @@ namespace Z0
 
             var codes = AsmEncoder.SibRegCodes();
             TableEmit(codes.View, SibRegCodes.RenderWidths, ApiDoc("asm.docs.sib.regs", FS.Csv));
-        }
-
-        void EmitOpCodeDocs()
-        {
-            ApiMetadata.EmitTokenSet(AsmOcTokens.OpCodeTokenSet.create(), ProjectDb.Subdir("sdm") + FS.file("sdm.opcodes.tokens", FS.Csv));
         }
 
         void EmitModRmDocs()

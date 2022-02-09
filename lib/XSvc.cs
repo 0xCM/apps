@@ -62,10 +62,6 @@ namespace Z0
             => Z0.Symbolism.create(wf);
 
         [Op]
-        public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)
-            => TokenSetEmitter.create(wf);
-
-        [Op]
         public static AppSettings AppSettings(this IWfRuntime wf)
             => Z0.AppSettings.create(wf);
 

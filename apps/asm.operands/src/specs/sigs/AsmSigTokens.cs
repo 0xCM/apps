@@ -363,9 +363,6 @@ namespace Z0.Asm
             z,
 
             [Symbol("{k1}{z}", "A mask register used as instruction writemask")]
-            rKz,
-
-            [Symbol("k1z")]
             k1z,
 
             [Symbol("{k2}")]

@@ -16,5 +16,8 @@ namespace Z0.Asm
         {
             Datasets = AsmSigDatasets.load();
         }
+
+        public static AsmSigTokenSet tokens()
+            => Datasets.TokenSet;
     }
 }

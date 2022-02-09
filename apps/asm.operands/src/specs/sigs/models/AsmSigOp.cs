@@ -24,6 +24,12 @@ namespace Z0.Asm
             Modifier = mod;
         }
 
+        public bool IsOpMask
+        {
+            [MethodImpl(Inline)]
+            get => Modifier != 0 && Modifier < AsmModifierKind.sae;
+        }
+
         public uint Id
         {
             [MethodImpl(Inline)]

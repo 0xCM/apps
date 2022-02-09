@@ -12,18 +12,24 @@ namespace Z0
         Outcome CheckAsmSigs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var src = Symbols.index<AsmSigId>();
-            var count = src.Count;
-            for(var i=0u; i<count; i++)
+            var opcodes = Sdm.LoadImportedOpcodes();
+            var count = opcodes.Count;
+            for(var i=0; i<count; i++)
             {
-                ref readonly var symbol = ref src[i];
-                var expr = symbol.Expr.Format();
-                result = AsmSigs.parse(expr, out var sig);
+                ref readonly var opcode = ref opcodes[i];
+
+                result = AsmSigs.parse(opcode.Sig, out var sig);
                 if(result.Fail)
-                    break;
+                {
+                    Warn(result.Message);
+                    continue;
+                }
+
             }
+
 
             return result;
         }
+
     }
 }

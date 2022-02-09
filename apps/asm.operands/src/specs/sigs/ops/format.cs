@@ -17,7 +17,7 @@ namespace Z0.Asm
             var dst = storage.Data;
             var i=0u;
             text.copy(src.Mnemonic.Format(MnemonicCase.Lowercase), ref i, dst);
-            var count = src.OperandCount;
+            var count = src.OpCount;
 
             if(count != 0)
                 seek(dst,i++) = Chars.Space;

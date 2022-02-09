@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     partial class AsmSigs
     {
         public static bool modifier(AsmSigOpExpr src, out string target, out AsmModifierKind mod)
@@ -22,6 +20,5 @@ namespace Z0.Asm
             }
             return mod != 0;
         }
-
     }
 }

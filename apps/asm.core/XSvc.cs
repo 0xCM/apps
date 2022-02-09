@@ -9,6 +9,10 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)
+            => TokenSetEmitter.create(wf);
+
         public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
             => Z0.ApiDataPaths.create(wf);
 

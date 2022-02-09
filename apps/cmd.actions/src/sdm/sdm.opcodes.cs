@@ -21,6 +21,34 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("gen/asm/data")]
+        Outcome GenInstData(CmdArgs args)
+        {
+            var src =  Sdm.LoadSigTerminals();
+            var count = src.Count;
+            var dst = text.buffer();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var term = ref src[i];
+                AsmSigs.parse(term.Target.Format(), out var sig);
+                var sigid = AsmSigs.identify(sig);
+                var sigf = sig.Format();
+                for(byte j=0; j<sig.OpCount; j++)
+                {
+                    var op = sig.Operands[j];
+                    var kind = op.OpKind.ToString();
+                    if(op.IsOpMask)
+                    {
+                        kind = op.Modifier.ToString();
+                    }
+                    dst.AppendLineFormat("{0,-6} | {1,-42} | {2,-48} | {3,-12} | {4,-12} | {5}", j, sigid, sigf, kind, AsmSigs.identify(op), op.Format());
+                }
+            }
+
+            FileEmit(dst.Emit(), count, ProjectDb.Log("asmsigs", FS.Csv), TextEncodingKind.Asci);
+            return true;
+        }
+
         [CmdOp("check/sdm/forms")]
         Outcome LoadAsmForms(CmdArgs args)
         {

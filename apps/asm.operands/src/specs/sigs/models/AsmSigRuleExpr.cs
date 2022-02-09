@@ -24,6 +24,8 @@ namespace Z0.Asm
             return this;
         }
 
+        public byte OpCount => (byte)Operands.Count;
+
         public bool IsValid
         {
             get

@@ -23,7 +23,7 @@ namespace Z0.Asm
 
         public AsmSigOpExpr Op4;
 
-        public byte OperandCount
+        public byte OpCount
         {
             [MethodImpl(Inline)]
             get => CalcOpCount();
@@ -120,7 +120,7 @@ namespace Z0.Asm
 
         public ReadOnlySpan<AsmSigOpExpr> Operands()
         {
-            var dst = alloc<AsmSigOpExpr>(OperandCount);
+            var dst = alloc<AsmSigOpExpr>(OpCount);
             Operands(dst);
             return dst;
         }
