@@ -30,9 +30,9 @@ namespace Z0.Asm
 
                 for(var j=0; j<terminals.Count; j++)
                 {
-                    var record = new AsmFormRecord();
                     ref readonly var terminal = ref terminals[j];
 
+                    var record = new AsmFormRecord();
                     var sigt = AsmSigs.expression(terminal.Right);
                     var kind = terminal.Left;
                     record.Token = AsmFormSpec.token(sigt, opcode);
