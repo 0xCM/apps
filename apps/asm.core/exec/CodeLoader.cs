@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using K = BinaryFormatKind;
 
     public class CodeLoader : AppService<CodeLoader>
