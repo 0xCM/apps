@@ -6,7 +6,8 @@ namespace Z0
 {
     using Asm;
     using static core;
-    partial class ProjectCmdProvider
+
+    partial class AsmCmdProvider
     {
         [CmdOp("seq/prod")]
         Outcome SeqProd(CmdArgs args)
@@ -19,7 +20,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("asm/sigs/terms")]
+        [CmdOp("asm/sigs/rules")]
         Outcome EmitOpTerminals(CmdArgs args)
         {
             var kinds = AsmSigs.opkinds();
@@ -41,9 +42,7 @@ namespace Z0
                         q = text.index(input, Chars.Space);
                         modpart = text.trim(text.right(input, q));
                         if(mods.MapExpr(modpart, out var sym))
-                        {
                             dst.AppendLine(string.Format("{0} -> {1}_{2}", input, text.left(input,q), sym.Kind));
-                        }
                     }
 
                     var k = text.index(input, Chars.FSlash);
@@ -66,10 +65,14 @@ namespace Z0
                         dst.Append(Chars.Gt);
                         dst.AppendLine();
                     }
+
                 }
             }
 
-            Write(dst.Emit());
+            var path = ProjectDb.Subdir("sdm") + FS.file("sdm.sigs.decomps", FS.ext("map"));
+            var emitting = EmittingFile(path);
+            path.Overwrite(dst.Emit());
+            EmittedFile(emitting,1);
 
             return true;
         }

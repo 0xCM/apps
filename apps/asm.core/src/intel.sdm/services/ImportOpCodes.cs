@@ -11,6 +11,7 @@ namespace Z0.Asm
         void ImportOpCodes()
         {
             var details = ImportOpCodeDetails();
+            EmitSigRules();
             var result = EmitSigProductions(details, true);
             if(result.Fail)
             {
