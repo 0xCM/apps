@@ -5,9 +5,9 @@
 namespace Z0.Asm
 {
     [Record(TableId)]
-    public struct AsmSigTerminal
+    public struct AsmSigSymbolic
     {
-        public const string TableId = "sdm.sigs.terminals";
+        public const string TableId = "sdm.sigs.symbolic";
 
         public const byte FieldCount = 4;
 

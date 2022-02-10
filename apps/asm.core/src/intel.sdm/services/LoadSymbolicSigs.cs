@@ -8,12 +8,12 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<AsmSigTerminal> LoadSigTerminals()
+        public Index<AsmSigSymbolic> LoadSymbolicSigs()
         {
-            const byte FieldCount = AsmSigTerminal.FieldCount;
+            const byte FieldCount = AsmSigSymbolic.FieldCount;
             var result = Outcome.Success;
-            var src = ProjectDb.TablePath<AsmSigTerminal>("sdm");
-            var buffer = list<AsmSigTerminal>();
+            var src = ProjectDb.TablePath<AsmSigSymbolic>("sdm");
+            var buffer = list<AsmSigSymbolic>();
             using var reader = src.Utf8LineReader();
             reader.Next(out _);
             while(reader.Next(out var line))
@@ -29,7 +29,7 @@ namespace Z0.Asm
                     break;
                 }
 
-                var dst = new AsmSigTerminal();
+                var dst = new AsmSigSymbolic();
                 var i=0;
 
                 result = DataParser.parse(skip(parts,i++), out dst.Seq);

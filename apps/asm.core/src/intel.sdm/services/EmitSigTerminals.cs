@@ -23,7 +23,7 @@ namespace Z0.Asm
             }
 
             var prodCount = productions.Count;
-            var records = list<AsmSigTerminal>(prodCount);
+            var records = list<AsmSigSymbolic>(prodCount);
             var targets = dict<Identifier,AsmSigRuleExpr>();
 
             var k=0u;
@@ -35,7 +35,7 @@ namespace Z0.Asm
                 var name = AsmSigs.identify(target);
                 if(targets.TryAdd(name, target))
                 {
-                    var record = new AsmSigTerminal();
+                    var record = new AsmSigSymbolic();
                     record.Seq = k++;
                     record.Name = name;
                     record.Source = source;
@@ -44,7 +44,7 @@ namespace Z0.Asm
                 }
             }
 
-            TableEmit(records.ViewDeposited(), AsmSigTerminal.RenderWidths, ProjectDb.TablePath<AsmSigTerminal>("sdm"));
+            TableEmit(records.ViewDeposited(), AsmSigSymbolic.RenderWidths, ProjectDb.TablePath<AsmSigSymbolic>("sdm"));
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         public SymSet LoadSigSymbols()
         {
-            var src = LoadSigTerminals();
+            var src = LoadSymbolicSigs();
             var count = src.Count + 1;
             var symset = SymSet.create(count);
             symset.Name = "AsmSigId";

@@ -24,7 +24,7 @@ namespace Z0
         [CmdOp("gen/asm/data")]
         Outcome GenInstData(CmdArgs args)
         {
-            var src =  Sdm.LoadSigTerminals();
+            var src =  Sdm.LoadSymbolicSigs();
             var count = src.Count;
             var dst = text.buffer();
             for(var i=0; i<count; i++)

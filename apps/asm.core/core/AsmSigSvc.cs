@@ -22,7 +22,7 @@ namespace Z0.Asm
         public Outcome Terminals(out Index<AsmSig> dst)
         {
             var result = Outcome.Success;
-            var terms = Sdm.LoadSigTerminals();
+            var terms = Sdm.LoadSymbolicSigs();
             var count = terms.Count;
             dst = alloc<AsmSig>(count);
             for(var i=0; i<count; i++)
