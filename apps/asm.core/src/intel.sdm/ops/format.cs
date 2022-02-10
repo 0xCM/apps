@@ -11,9 +11,7 @@ namespace Z0.Asm
         {
             var mnemonic = src.Sig.Mnemonic.Format(MnemonicCase.Lowercase);
             if(src.Sig.OpCount == 0)
-            {
                 return string.Format("{0}() = {1}", mnemonic, src.OpCode);
-            }
             else
             {
                 var buffer = CharBlock64.Empty;

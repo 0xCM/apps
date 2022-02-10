@@ -8,32 +8,8 @@ namespace Z0.Asm
 
     partial struct SdmOps
     {
-        public static Outcome row(TextLine src, out AsmSigOpCode dst)
-        {
-            const byte FieldCount = AsmSigOpCode.FieldCount;
-
-            var result = Outcome.Success;
-            var cells = src.Split(Chars.Pipe);
-            var count = cells.Length;
-            dst = default;
-            if(count != FieldCount)
-                return (false, Tables.FieldCountMismatch.Format(FieldCount, count));
-
-            var i=0;
-            DataParser.parse(skip(cells,i++), out dst.Seq);
-            DataParser.parse(skip(cells,i++), out dst.Identity);
-            dst.Sig = AsmSigs.expression(skip(cells,i++));
-            dst.OpCode = skip(cells,i++).Trim();
-            dst.Op0 = skip(cells,i++).Trim();
-            dst.Op1 = skip(cells,i++).Trim();
-            dst.Op2 = skip(cells,i++).Trim();
-            dst.Op3 = skip(cells,i++).Trim();
-            dst.Op4 = skip(cells,i++).Trim();
-            return result;
-        }
-
         [Op]
-        public static Outcome row(TextLine src, out SdmOpCodeDetail dst)
+        public static Outcome detail(TextLine src, out SdmOpCodeDetail dst)
         {
             var result = Outcome.Success;
             var cells = src.Split(Chars.Pipe);

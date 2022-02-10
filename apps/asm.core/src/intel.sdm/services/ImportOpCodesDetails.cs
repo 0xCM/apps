@@ -9,20 +9,21 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<SdmOpCodeDetail> ImportOpCodeDetails()
+        static Index<AsmFormExpr> summarize(ReadOnlySpan<SdmOpCodeDetail> src)
         {
-            var result = Outcome.Success;
-            var details = ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
-            var summary = SdmOps.summarize(details);
-            var count = summary.Length;
-            var dst = SdmPaths.ImportPath("sdm.opcodes", FS.Txt);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
+            var count = src.Length;
+            var buffer = alloc<AsmFormExpr>(count);
+            ref var dst = ref first(buffer);
             for(var i=0; i<count; i++)
-                writer.WriteLine(SdmOps.format(summary[i]));
-            EmittedFile(emitting,count);
-            return details;
+            {
+                ref readonly var detail = ref skip(src,i);
+                seek(dst,i) = AsmFormExpr.define(SdmOps.sig(detail), detail.OpCode);
+            }
+            return buffer;
         }
+
+        public Index<SdmOpCodeDetail> ImportOpCodeDetails()
+            => ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
 
         Index<SdmOpCodeDetail> ImportOpCodeDetails(ReadOnlySpan<FS.FilePath> src)
         {
@@ -33,15 +34,15 @@ namespace Z0.Asm
             Index<SdmOpCodeDetail> storage = alloc<SdmOpCodeDetail>(4000);
             var buffer = storage.Edit;
             var counter = 0u;
-            var _tables = list<Table>();
+            var tables = list<Table>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var inpath = ref skip(src,i);
-                var tables = LoadCsvTables(inpath);
+                var csv = LoadCsvTables(inpath);
                 var id = inpath.FileName.WithoutExtension.Format();
-                for(var j=0; j<tables.Length; j++)
+                for(var j=0; j<csv.Length; j++)
                 {
-                    ref readonly var table = ref skip(tables,j);
+                    ref readonly var table = ref skip(csv,j);
                     var kind = (SdmTableKind)table.Kind;
                     ref readonly var symbol = ref kinds[kind];
                     if(kind == SdmTableKind.OpCodes)
@@ -52,13 +53,13 @@ namespace Z0.Asm
                 }
             }
 
-            var rows = SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
+            var details = SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
             var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
             using var writer = dst.UnicodeWriter();
-            TableEmit(rows.View, SdmOpCodeDetail.RenderWidths, writer, dst);
+            TableEmit(details.View, SdmOpCodeDetail.RenderWidths, writer, dst);
 
             Ran(running);
-            return rows;
+            return details;
         }
 
         string NormalizeSig(string src)

@@ -23,6 +23,8 @@ namespace Z0
                     break;
                 }
             }
+            if(result)
+                result = (true, string.Format("Validated {0} sigs", count));
 
             return result;
         }

@@ -7,12 +7,11 @@ namespace Z0.Asm
     partial struct SdmOps
     {
         [Op]
-        public static AsmSigExpr sig(in SdmOpCodeDetail detail)
+        public static AsmSigExpr sig(in SdmOpCodeDetail src)
         {
             var dst = AsmSigExpr.Empty;
-            var sig = detail.Sig.Format().Trim();
-            //var mnemonic = AsmMnemonic.parse(detail.Mnemonic, out _);
-            var mnemonic = detail.Mnemonic;
+            var sig = src.Sig.Format().Trim();
+            var mnemonic = src.Mnemonic;
             var j = text.index(sig, Chars.Space);
             if(j > 0)
             {

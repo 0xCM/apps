@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
     using static SdmModels;
 
     using SP = ScalarParser;
-    using SQ = SymbolicQuery;
 
     partial struct SdmOps
     {

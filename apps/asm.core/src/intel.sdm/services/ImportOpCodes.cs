@@ -12,12 +12,6 @@ namespace Z0.Asm
         {
             var details = ImportOpCodeDetails();
             EmitSigRules();
-            var result = EmitSigProductions(details, true);
-            if(result.Fail)
-            {
-                Error(result.Message);
-                return;
-            }
         }
    }
 }

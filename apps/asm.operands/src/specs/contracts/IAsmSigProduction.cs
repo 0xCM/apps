@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmSigProduction : IProduction<RuleValue<AsmSigExpr>,AsmSigRuleExpr>
+    public interface IAsmSigProduction : IProduction<RuleValue<AsmSig>,AsmSigRuleExpr>
     {
 
 
