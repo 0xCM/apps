@@ -138,27 +138,29 @@ namespace Z0.Asm
         public Index<CsFunc> DefineSigFormatters()
         {
             var result = Outcome.Success;
-            result = Sigs.Symbolic(out var _sigs);
-            if(result.Fail)
-            {
-                Errors.Throw(result.Message);
-            }
+            var src = Sdm.LoadSymbolicSigs();
+            var count = src.Count;
+            // result = Sigs.Symbolic(out var _sigs);
+            // if(result.Fail)
+            // {
+            //     Errors.Throw(result.Message);
+            // }
 
-            var sigs = _sigs.Where(x => supported(x));
-            var count = sigs.Count;
+            // var sigs = _sigs.Where(x => supported(x));
+            // var count = sigs.Count;
             var funcs = alloc<CsFunc>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var func = ref seek(funcs,i);
-                ref readonly var sig = ref sigs[i];
-                var csops = alloc<CsOperand>(sig.OpCount);
-                var sigops = sig.Operands;
-                for(byte j=0; j<sig.OpCount; j++)
-                    seek(csops,j) = CsOp(j,sigops[j]);
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref var func = ref seek(funcs,i);
+            //     ref readonly var sig = ref sigs[i];
+            //     var csops = alloc<CsOperand>(sig.OpCount);
+            //     var sigops = sig.Operands;
+            //     for(byte j=0; j<sig.OpCount; j++)
+            //         seek(csops,j) = CsOp(j,sigops[j]);
 
-                seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), identifier(sig.Mnemonic), csops, "return EmptyString;");
+            //     seek(funcs,i) = CsFunc.define(typeof(string).DisplayName(), identifier(sig.Mnemonic), csops, "return EmptyString;");
 
-            }
+            // }
             return funcs;
         }
 

@@ -24,14 +24,14 @@ namespace Z0.Asm
             var terms = Sdm.LoadSymbolicSigs();
             var count = terms.Count;
             dst = alloc<AsmSig>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var term = ref terms[i];
-                ref readonly var target = ref term.Target;
-                result = AsmSigs.parse(target.Format(), out dst[i]);
-                if(result.Fail)
-                    break;
-            }
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var term = ref terms[i];
+            //     ref readonly var target = ref term.Target;
+            //     result = AsmSigs.parse(target.Format(), out dst[i]);
+            //     if(result.Fail)
+            //         break;
+            // }
             return result;
         }
 
