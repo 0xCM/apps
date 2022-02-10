@@ -23,10 +23,6 @@ namespace Z0
         public static string Format(this SymNotKind src)
             => ((char)src).ToString();
 
-        public static Index<Token> Tokenize<K>(this Symbols<K> src)
-            where K : unmanaged
-                => Symbols.tokenize(src);
-
         [Op]
         public static Label CsKeyword(this ClrLiteralKind src)
             => Z0.CsKeywords.keyword(src);

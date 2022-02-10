@@ -60,6 +60,7 @@ namespace Z0
                 return (false, AppMsg.FieldCountMismatch.Format(SymLiteralRow.FieldCount, cells.Length));
             }
 
+            DataParser.parse(skip(cells,j++), out dst.TokenKind);
             DataParser.parse(skip(cells,j++), out dst.TokenType);
             parse(skip(cells,j++), out dst.TokenClass);
             DataParser.parse(skip(cells,j++), out dst.Index);

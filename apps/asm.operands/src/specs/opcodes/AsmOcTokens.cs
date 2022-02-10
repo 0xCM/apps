@@ -7,15 +7,6 @@ namespace Z0.Asm
     using TK = AsmOcTokenKind;
     using T = AsmOcTokens.OpCodeText;
 
-    public sealed class AsmOcTokenSet : TokenSet<AsmOcTokenSet>
-    {
-        public override string Name
-            => "asm.opcodes";
-
-        public override Type[] Types()
-            => typeof(AsmOcTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
-    }
-
     [ApiHost]
     public readonly struct AsmOcTokens
     {
@@ -495,7 +486,5 @@ namespace Z0.Asm
             [Symbol(T.Sep)]
             Sep,
         }
-
     }
-
 }

@@ -79,7 +79,6 @@ namespace Z0.Asm
             return distinct;
         }
 
-
         [Op]
         public Outcome EmitThumbprints(Index<AsmThumbprint> src, FS.FilePath dst)
         {

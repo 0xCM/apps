@@ -5,8 +5,11 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct Token
+    public readonly struct Token<K>
+        where K : unmanaged
     {
+        public readonly K Kind;
+
         public readonly SymKey Key;
 
         public readonly SymClass Class;
@@ -20,8 +23,9 @@ namespace Z0
         public readonly SymVal Value;
 
         [MethodImpl(Inline)]
-        public Token(SymKey key, SymClass @class, Identifier type, Identifier name, SymExpr expr, SymVal value)
+        public Token(K kind, SymKey key, SymClass @class, Identifier type, Identifier name, SymExpr expr, SymVal value)
         {
+            Kind = kind;
             Key = key;
             Class = @class;
             Type = type;
@@ -30,11 +34,9 @@ namespace Z0
             Value = value;
         }
 
-        [MethodImpl(Inline)]
-        public Token<K> WithKind<K>(K kind)
-            where K : unmanaged
-                => new Token<K>(kind,Key,Class,Type,Name,Expr,Value);
 
+        public Token Untyped()
+            => new Token(Key,Class,Type,Name, Expr, Value);
         public string Format()
             => string.Format("{0,-5} | {1,-36} | {2,-64} | {3,-64} | {4}", Key, Type, Name, RP.squote(Expr), Value);
 

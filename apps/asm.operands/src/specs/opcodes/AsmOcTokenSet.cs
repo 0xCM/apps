@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public sealed class AsmSigTokenSet : TokenSet<AsmSigTokenSet,AsmSigOpKind>
+    public sealed class AsmOcTokenSet : TokenSet<AsmOcTokenSet,AsmOcTokenKind>
     {
         public override string Name
-            => "asm.sigs";
+            => "asm.opcodes";
 
         public override Type[] Types()
-            => typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
+            => typeof(AsmOcTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
     }
 }

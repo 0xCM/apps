@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct SymInfo
     {
         public const string TableId = "tokens";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 8;
+
+        public Identifier TokenKind;
 
         public Identifier TokenType;
 
@@ -29,6 +28,6 @@ namespace Z0
         public TextBlock Description;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{24,32,8,16,32,32,1};
+            => new byte[FieldCount]{24,24,32,8,16,32,32,1};
     }
 }

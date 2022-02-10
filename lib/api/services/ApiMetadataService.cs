@@ -186,9 +186,18 @@ namespace Z0
         }
 
         public uint EmitTokenSet(ITokenSet src, string scope)
-            => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, ProjectDb.TablePath<SymInfo>(scope, src.Name));
+            => EmitTokenSet(src, ProjectDb.TablePath<SymInfo>(scope, src.Name));
 
         public uint EmitTokenSet(ITokenSet src, FS.FilePath dst)
             => TableEmit(Symbols.syminfo(src.Types()).View, SymInfo.RenderWidths, dst);
+
+        public uint EmitTokenSet<K>(ITokenSet<K> src, string scope)
+            where K : unmanaged
+                => EmitTokenSet(src, ProjectDb.TablePath<SymInfo>(scope, src.Name));
+
+        public uint EmitTokenSet<K>(ITokenSet<K> src, FS.FilePath dst)
+            where K : unmanaged
+                => TableEmit(Symbols.syminfo<K>(src.Types()).View, SymInfo.RenderWidths, dst);
+
     }
 }

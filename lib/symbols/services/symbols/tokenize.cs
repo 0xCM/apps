@@ -23,17 +23,13 @@ namespace Z0
             return dst;
         }
 
-        public static Index<Token> tokenize<K>(Symbols<K> src)
+        public static Index<Token<K>> tokenize<K>(Type symtype)
             where K : unmanaged
         {
-            var count = src.Length;
-            var dst = alloc<Token>(count);
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var symbol = ref src[i];
-                seek(dst,i) = new Token(symbol.Key, symbol.Class, symbol.Type.Name.Content, symbol.Name, symbol.Expr.Text, symbol.Value);
-            }
-            return dst;
+            var tag = symtype.Tag<SymSourceAttribute>().Require();
+            var kind = (K)tag.SymKind;
+            var src = tokenize(symtype);
+            return map(src, t => t.WithKind(kind));
         }
     }
 }

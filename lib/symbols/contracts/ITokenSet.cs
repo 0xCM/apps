@@ -14,4 +14,13 @@ namespace Z0
 
         ReadOnlySpan<Token> View {get;}
     }
+
+    public interface ITokenSet<K> : ITokenSet
+        where K : unmanaged
+    {
+        new ReadOnlySpan<Token<K>> View {get;}
+
+        ReadOnlySpan<Token> ITokenSet.View
+            => View.Select(x => x.Untyped());
+    }
 }
