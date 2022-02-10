@@ -8,16 +8,22 @@ namespace Z0.Asm
     {
         public static bool modifier(AsmSigOpExpr src, out string target, out AsmModifierKind mod)
         {
+            var modifiers = Symbols.index<AsmModifierKind>();
             mod = AsmModifierKind.None;
             target = EmptyString;
             var i = text.index(src.Text, Chars.LBrace);
+            var j = text.index(src.Text, Chars.Underscore);
             if(i > 0)
             {
                 target = text.trim(text.left(src.Text,i));
-                var modtext = text.trim(text.right(src.Text,i-1));
-                var modifiers = Symbols.index<AsmModifierKind>();
-                modifiers.ExprKind(modtext, out mod);
+                modifiers.ExprKind(text.trim(text.right(src.Text,i-1)), out mod);
             }
+            else if(j > 0)
+            {
+                target = text.trim(text.left(src.Text,j));
+                modifiers.ExprKind(text.trim(text.right(src.Text,j-1)), out mod);
+            }
+
             return mod != 0;
         }
     }

@@ -9,22 +9,14 @@ namespace Z0.Asm
     {
         None = 0,
 
-        [Symbol("{k1}")]
-        k1 = 1,
+        k1,
 
-        [Symbol("{z}")]
-        z = 2,
+        z,
 
-        [Symbol("{k1}{z}")]
-        k1z = k1 | z,
+        k1z,
 
-        [Symbol("{k2}")]
-        k2 = 4,
+        er,
 
-        [Symbol("{er}")]
-        er = 8,
-
-        [Symbol("{sae}")]
-        sae = 16,
+        sae,
     }
 }

@@ -8297,10268 +8297,14993 @@
     /// <summary>
     /// vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vaddpd xmm {k1}{z}, xmm, xmm","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vaddpd_xmm_k1z_xmm_xmm = 1659,
+    [Symbol("vaddpd xmm, xmm, xmm","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vaddpd_xmm_xmm_xmm = 1659,
     /// <summary>
     /// vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vaddpd xmm {k1}{z}, xmm, m128","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vaddpd_xmm_k1z_xmm_m128 = 1660,
+    [Symbol("vaddpd xmm, xmm, m128","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vaddpd_xmm_xmm_m128 = 1660,
     /// <summary>
     /// vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vaddpd xmm {k1}{z}, xmm, m64bcst","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vaddpd_xmm_k1z_xmm_m64bcst = 1661,
+    [Symbol("vaddpd xmm, xmm, m64bcst","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vaddpd_xmm_xmm_m64bcst = 1661,
     /// <summary>
-    /// vaddpd xmm, xmm, xmm/m128
+    /// vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vaddpd xmm, xmm, xmm","vaddpd xmm, xmm, xmm/m128")]
-    vaddpd_xmm_xmm_xmm = 1662,
+    [Symbol("vaddpd xmm_k1z, xmm, xmm","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vaddpd_xmm_k1z_xmm_xmm = 1662,
     /// <summary>
-    /// vaddpd xmm, xmm, xmm/m128
+    /// vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vaddpd xmm, xmm, m128","vaddpd xmm, xmm, xmm/m128")]
-    vaddpd_xmm_xmm_m128 = 1663,
+    [Symbol("vaddpd xmm_k1z, xmm, m128","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vaddpd_xmm_k1z_xmm_m128 = 1663,
     /// <summary>
-    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vaddpd ymm {k1}{z}, ymm, ymm","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vaddpd_ymm_k1z_ymm_ymm = 1664,
-    /// <summary>
-    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vaddpd ymm {k1}{z}, ymm, m256","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vaddpd_ymm_k1z_ymm_m256 = 1665,
+    [Symbol("vaddpd xmm_k1z, xmm, m64bcst","vaddpd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vaddpd_xmm_k1z_xmm_m64bcst = 1664,
     /// <summary>
     /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vaddpd ymm {k1}{z}, ymm, m64bcst","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vaddpd_ymm_k1z_ymm_m64bcst = 1666,
+    [Symbol("vaddpd ymm, ymm, ymm","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vaddpd_ymm_ymm_ymm = 1665,
     /// <summary>
-    /// vaddpd ymm, ymm, ymm/m256
+    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vaddpd ymm, ymm, ymm","vaddpd ymm, ymm, ymm/m256")]
-    vaddpd_ymm_ymm_ymm = 1667,
+    [Symbol("vaddpd ymm, ymm, m256","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vaddpd_ymm_ymm_m256 = 1666,
     /// <summary>
-    /// vaddpd ymm, ymm, ymm/m256
+    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vaddpd ymm, ymm, m256","vaddpd ymm, ymm, ymm/m256")]
-    vaddpd_ymm_ymm_m256 = 1668,
+    [Symbol("vaddpd ymm, ymm, m64bcst","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vaddpd_ymm_ymm_m64bcst = 1667,
+    /// <summary>
+    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vaddpd ymm_k1z, ymm, ymm","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vaddpd_ymm_k1z_ymm_ymm = 1668,
+    /// <summary>
+    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vaddpd ymm_k1z, ymm, m256","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vaddpd_ymm_k1z_ymm_m256 = 1669,
+    /// <summary>
+    /// vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vaddpd ymm_k1z, ymm, m64bcst","vaddpd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vaddpd_ymm_k1z_ymm_m64bcst = 1670,
     /// <summary>
     /// vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}
     /// </summary>
-    [Symbol("vaddpd zmm {k1}{z}, zmm, zmm {er}","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
-    vaddpd_zmm_k1z_zmm_zmm_er = 1669,
+    [Symbol("vaddpd zmm, zmm, zmm_er","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
+    vaddpd_zmm_zmm_zmm_er = 1671,
     /// <summary>
     /// vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}
     /// </summary>
-    [Symbol("vaddpd zmm {k1}{z}, zmm, m512 {er}","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
-    vaddpd_zmm_k1z_zmm_m512_er = 1670,
+    [Symbol("vaddpd zmm, zmm, m512_er","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
+    vaddpd_zmm_zmm_m512_er = 1672,
     /// <summary>
     /// vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}
     /// </summary>
-    [Symbol("vaddpd zmm {k1}{z}, zmm, m64bcst {er}","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
-    vaddpd_zmm_k1z_zmm_m64bcst_er = 1671,
+    [Symbol("vaddpd zmm, zmm, m64bcst_er","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
+    vaddpd_zmm_zmm_m64bcst_er = 1673,
+    /// <summary>
+    /// vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}
+    /// </summary>
+    [Symbol("vaddpd zmm_k1z, zmm, zmm_er","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
+    vaddpd_zmm_k1z_zmm_zmm_er = 1674,
+    /// <summary>
+    /// vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}
+    /// </summary>
+    [Symbol("vaddpd zmm_k1z, zmm, m512_er","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
+    vaddpd_zmm_k1z_zmm_m512_er = 1675,
+    /// <summary>
+    /// vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}
+    /// </summary>
+    [Symbol("vaddpd zmm_k1z, zmm, m64bcst_er","vaddpd zmm {k1}{z}, zmm, zmm/m512/m64bcst {er}")]
+    vaddpd_zmm_k1z_zmm_m64bcst_er = 1676,
     /// <summary>
     /// valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd xmm {k1}{z}, xmm, xmm, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
-    valignd_xmm_k1z_xmm_xmm_imm8 = 1672,
+    [Symbol("valignd xmm, xmm, xmm, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    valignd_xmm_xmm_xmm_imm8 = 1677,
     /// <summary>
     /// valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd xmm {k1}{z}, xmm, m128, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
-    valignd_xmm_k1z_xmm_m128_imm8 = 1673,
+    [Symbol("valignd xmm, xmm, m128, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    valignd_xmm_xmm_m128_imm8 = 1678,
     /// <summary>
     /// valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd xmm {k1}{z}, xmm, m32bcst, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
-    valignd_xmm_k1z_xmm_m32bcst_imm8 = 1674,
+    [Symbol("valignd xmm, xmm, m32bcst, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    valignd_xmm_xmm_m32bcst_imm8 = 1679,
+    /// <summary>
+    /// valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd xmm_k1z, xmm, xmm, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    valignd_xmm_k1z_xmm_xmm_imm8 = 1680,
+    /// <summary>
+    /// valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd xmm_k1z, xmm, m128, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    valignd_xmm_k1z_xmm_m128_imm8 = 1681,
+    /// <summary>
+    /// valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd xmm_k1z, xmm, m32bcst, imm8","valignd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    valignd_xmm_k1z_xmm_m32bcst_imm8 = 1682,
     /// <summary>
     /// valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd ymm {k1}{z}, ymm, ymm, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
-    valignd_ymm_k1z_ymm_ymm_imm8 = 1675,
+    [Symbol("valignd ymm, ymm, ymm, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    valignd_ymm_ymm_ymm_imm8 = 1683,
     /// <summary>
     /// valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd ymm {k1}{z}, ymm, m256, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
-    valignd_ymm_k1z_ymm_m256_imm8 = 1676,
+    [Symbol("valignd ymm, ymm, m256, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    valignd_ymm_ymm_m256_imm8 = 1684,
     /// <summary>
     /// valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd ymm {k1}{z}, ymm, m32bcst, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
-    valignd_ymm_k1z_ymm_m32bcst_imm8 = 1677,
+    [Symbol("valignd ymm, ymm, m32bcst, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    valignd_ymm_ymm_m32bcst_imm8 = 1685,
+    /// <summary>
+    /// valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd ymm_k1z, ymm, ymm, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    valignd_ymm_k1z_ymm_ymm_imm8 = 1686,
+    /// <summary>
+    /// valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd ymm_k1z, ymm, m256, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    valignd_ymm_k1z_ymm_m256_imm8 = 1687,
+    /// <summary>
+    /// valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd ymm_k1z, ymm, m32bcst, imm8","valignd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    valignd_ymm_k1z_ymm_m32bcst_imm8 = 1688,
     /// <summary>
     /// valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd zmm {k1}{z}, zmm, zmm, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
-    valignd_zmm_k1z_zmm_zmm_imm8 = 1678,
+    [Symbol("valignd zmm, zmm, zmm, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    valignd_zmm_zmm_zmm_imm8 = 1689,
     /// <summary>
     /// valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd zmm {k1}{z}, zmm, m512, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
-    valignd_zmm_k1z_zmm_m512_imm8 = 1679,
+    [Symbol("valignd zmm, zmm, m512, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    valignd_zmm_zmm_m512_imm8 = 1690,
     /// <summary>
     /// valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("valignd zmm {k1}{z}, zmm, m32bcst, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
-    valignd_zmm_k1z_zmm_m32bcst_imm8 = 1680,
+    [Symbol("valignd zmm, zmm, m32bcst, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    valignd_zmm_zmm_m32bcst_imm8 = 1691,
+    /// <summary>
+    /// valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd zmm_k1z, zmm, zmm, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    valignd_zmm_k1z_zmm_zmm_imm8 = 1692,
+    /// <summary>
+    /// valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd zmm_k1z, zmm, m512, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    valignd_zmm_k1z_zmm_m512_imm8 = 1693,
+    /// <summary>
+    /// valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("valignd zmm_k1z, zmm, m32bcst, imm8","valignd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    valignd_zmm_k1z_zmm_m32bcst_imm8 = 1694,
     /// <summary>
     /// valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq xmm {k1}{z}, xmm, xmm, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
-    valignq_xmm_k1z_xmm_xmm_imm8 = 1681,
+    [Symbol("valignq xmm, xmm, xmm, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    valignq_xmm_xmm_xmm_imm8 = 1695,
     /// <summary>
     /// valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq xmm {k1}{z}, xmm, m128, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
-    valignq_xmm_k1z_xmm_m128_imm8 = 1682,
+    [Symbol("valignq xmm, xmm, m128, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    valignq_xmm_xmm_m128_imm8 = 1696,
     /// <summary>
     /// valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq xmm {k1}{z}, xmm, m64bcst, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
-    valignq_xmm_k1z_xmm_m64bcst_imm8 = 1683,
+    [Symbol("valignq xmm, xmm, m64bcst, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    valignq_xmm_xmm_m64bcst_imm8 = 1697,
+    /// <summary>
+    /// valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq xmm_k1z, xmm, xmm, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    valignq_xmm_k1z_xmm_xmm_imm8 = 1698,
+    /// <summary>
+    /// valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq xmm_k1z, xmm, m128, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    valignq_xmm_k1z_xmm_m128_imm8 = 1699,
+    /// <summary>
+    /// valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq xmm_k1z, xmm, m64bcst, imm8","valignq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    valignq_xmm_k1z_xmm_m64bcst_imm8 = 1700,
     /// <summary>
     /// valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq ymm {k1}{z}, ymm, ymm, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
-    valignq_ymm_k1z_ymm_ymm_imm8 = 1684,
+    [Symbol("valignq ymm, ymm, ymm, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    valignq_ymm_ymm_ymm_imm8 = 1701,
     /// <summary>
     /// valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq ymm {k1}{z}, ymm, m256, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
-    valignq_ymm_k1z_ymm_m256_imm8 = 1685,
+    [Symbol("valignq ymm, ymm, m256, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    valignq_ymm_ymm_m256_imm8 = 1702,
     /// <summary>
     /// valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq ymm {k1}{z}, ymm, m64bcst, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
-    valignq_ymm_k1z_ymm_m64bcst_imm8 = 1686,
+    [Symbol("valignq ymm, ymm, m64bcst, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    valignq_ymm_ymm_m64bcst_imm8 = 1703,
+    /// <summary>
+    /// valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq ymm_k1z, ymm, ymm, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    valignq_ymm_k1z_ymm_ymm_imm8 = 1704,
+    /// <summary>
+    /// valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq ymm_k1z, ymm, m256, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    valignq_ymm_k1z_ymm_m256_imm8 = 1705,
+    /// <summary>
+    /// valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq ymm_k1z, ymm, m64bcst, imm8","valignq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    valignq_ymm_k1z_ymm_m64bcst_imm8 = 1706,
     /// <summary>
     /// valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq zmm {k1}{z}, zmm, zmm, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
-    valignq_zmm_k1z_zmm_zmm_imm8 = 1687,
+    [Symbol("valignq zmm, zmm, zmm, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    valignq_zmm_zmm_zmm_imm8 = 1707,
     /// <summary>
     /// valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq zmm {k1}{z}, zmm, m512, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
-    valignq_zmm_k1z_zmm_m512_imm8 = 1688,
+    [Symbol("valignq zmm, zmm, m512, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    valignq_zmm_zmm_m512_imm8 = 1708,
     /// <summary>
     /// valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("valignq zmm {k1}{z}, zmm, m64bcst, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
-    valignq_zmm_k1z_zmm_m64bcst_imm8 = 1689,
+    [Symbol("valignq zmm, zmm, m64bcst, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    valignq_zmm_zmm_m64bcst_imm8 = 1709,
+    /// <summary>
+    /// valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq zmm_k1z, zmm, zmm, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    valignq_zmm_k1z_zmm_zmm_imm8 = 1710,
+    /// <summary>
+    /// valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq zmm_k1z, zmm, m512, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    valignq_zmm_k1z_zmm_m512_imm8 = 1711,
+    /// <summary>
+    /// valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("valignq zmm_k1z, zmm, m64bcst, imm8","valignq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    valignq_zmm_k1z_zmm_m64bcst_imm8 = 1712,
     /// <summary>
     /// vbroadcasti128 ymm, m128
     /// </summary>
     [Symbol("vbroadcasti128 ymm, m128","vbroadcasti128 ymm, m128")]
-    vbroadcasti128_ymm_m128 = 1690,
+    vbroadcasti128_ymm_m128 = 1713,
     /// <summary>
     /// vbroadcasti32x2 xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vbroadcasti32x2 xmm {k1}{z}, xmm","vbroadcasti32x2 xmm {k1}{z}, xmm/m64")]
-    vbroadcasti32x2_xmm_k1z_xmm = 1691,
+    [Symbol("vbroadcasti32x2 xmm, xmm","vbroadcasti32x2 xmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_xmm_xmm = 1714,
     /// <summary>
     /// vbroadcasti32x2 xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vbroadcasti32x2 xmm {k1}{z}, m64","vbroadcasti32x2 xmm {k1}{z}, xmm/m64")]
-    vbroadcasti32x2_xmm_k1z_m64 = 1692,
+    [Symbol("vbroadcasti32x2 xmm, m64","vbroadcasti32x2 xmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_xmm_m64 = 1715,
+    /// <summary>
+    /// vbroadcasti32x2 xmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vbroadcasti32x2 xmm_k1z, xmm","vbroadcasti32x2 xmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_xmm_k1z_xmm = 1716,
+    /// <summary>
+    /// vbroadcasti32x2 xmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vbroadcasti32x2 xmm_k1z, m64","vbroadcasti32x2 xmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_xmm_k1z_m64 = 1717,
     /// <summary>
     /// vbroadcasti32x2 ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vbroadcasti32x2 ymm {k1}{z}, xmm","vbroadcasti32x2 ymm {k1}{z}, xmm/m64")]
-    vbroadcasti32x2_ymm_k1z_xmm = 1693,
+    [Symbol("vbroadcasti32x2 ymm, xmm","vbroadcasti32x2 ymm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_ymm_xmm = 1718,
     /// <summary>
     /// vbroadcasti32x2 ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vbroadcasti32x2 ymm {k1}{z}, m64","vbroadcasti32x2 ymm {k1}{z}, xmm/m64")]
-    vbroadcasti32x2_ymm_k1z_m64 = 1694,
+    [Symbol("vbroadcasti32x2 ymm, m64","vbroadcasti32x2 ymm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_ymm_m64 = 1719,
+    /// <summary>
+    /// vbroadcasti32x2 ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vbroadcasti32x2 ymm_k1z, xmm","vbroadcasti32x2 ymm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_ymm_k1z_xmm = 1720,
+    /// <summary>
+    /// vbroadcasti32x2 ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vbroadcasti32x2 ymm_k1z, m64","vbroadcasti32x2 ymm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_ymm_k1z_m64 = 1721,
     /// <summary>
     /// vbroadcasti32x2 zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vbroadcasti32x2 zmm {k1}{z}, xmm","vbroadcasti32x2 zmm {k1}{z}, xmm/m64")]
-    vbroadcasti32x2_zmm_k1z_xmm = 1695,
+    [Symbol("vbroadcasti32x2 zmm, xmm","vbroadcasti32x2 zmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_zmm_xmm = 1722,
     /// <summary>
     /// vbroadcasti32x2 zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vbroadcasti32x2 zmm {k1}{z}, m64","vbroadcasti32x2 zmm {k1}{z}, xmm/m64")]
-    vbroadcasti32x2_zmm_k1z_m64 = 1696,
+    [Symbol("vbroadcasti32x2 zmm, m64","vbroadcasti32x2 zmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_zmm_m64 = 1723,
+    /// <summary>
+    /// vbroadcasti32x2 zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vbroadcasti32x2 zmm_k1z, xmm","vbroadcasti32x2 zmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_zmm_k1z_xmm = 1724,
+    /// <summary>
+    /// vbroadcasti32x2 zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vbroadcasti32x2 zmm_k1z, m64","vbroadcasti32x2 zmm {k1}{z}, xmm/m64")]
+    vbroadcasti32x2_zmm_k1z_m64 = 1725,
     /// <summary>
     /// vbroadcasti32x4 ymm {k1}{z}, m128
     /// </summary>
-    [Symbol("vbroadcasti32x4 ymm {k1}{z}, m128","vbroadcasti32x4 ymm {k1}{z}, m128")]
-    vbroadcasti32x4_ymm_k1z_m128 = 1697,
+    [Symbol("vbroadcasti32x4 ymm, m128","vbroadcasti32x4 ymm {k1}{z}, m128")]
+    vbroadcasti32x4_ymm_m128 = 1726,
+    /// <summary>
+    /// vbroadcasti32x4 ymm {k1}{z}, m128
+    /// </summary>
+    [Symbol("vbroadcasti32x4 ymm_k1z, m128","vbroadcasti32x4 ymm {k1}{z}, m128")]
+    vbroadcasti32x4_ymm_k1z_m128 = 1727,
     /// <summary>
     /// vbroadcasti32x4 zmm {k1}{z}, m128
     /// </summary>
-    [Symbol("vbroadcasti32x4 zmm {k1}{z}, m128","vbroadcasti32x4 zmm {k1}{z}, m128")]
-    vbroadcasti32x4_zmm_k1z_m128 = 1698,
+    [Symbol("vbroadcasti32x4 zmm, m128","vbroadcasti32x4 zmm {k1}{z}, m128")]
+    vbroadcasti32x4_zmm_m128 = 1728,
+    /// <summary>
+    /// vbroadcasti32x4 zmm {k1}{z}, m128
+    /// </summary>
+    [Symbol("vbroadcasti32x4 zmm_k1z, m128","vbroadcasti32x4 zmm {k1}{z}, m128")]
+    vbroadcasti32x4_zmm_k1z_m128 = 1729,
     /// <summary>
     /// vbroadcasti32x8 zmm {k1}{z}, m256
     /// </summary>
-    [Symbol("vbroadcasti32x8 zmm {k1}{z}, m256","vbroadcasti32x8 zmm {k1}{z}, m256")]
-    vbroadcasti32x8_zmm_k1z_m256 = 1699,
+    [Symbol("vbroadcasti32x8 zmm, m256","vbroadcasti32x8 zmm {k1}{z}, m256")]
+    vbroadcasti32x8_zmm_m256 = 1730,
+    /// <summary>
+    /// vbroadcasti32x8 zmm {k1}{z}, m256
+    /// </summary>
+    [Symbol("vbroadcasti32x8 zmm_k1z, m256","vbroadcasti32x8 zmm {k1}{z}, m256")]
+    vbroadcasti32x8_zmm_k1z_m256 = 1731,
     /// <summary>
     /// vbroadcasti64x2 ymm {k1}{z}, m128
     /// </summary>
-    [Symbol("vbroadcasti64x2 ymm {k1}{z}, m128","vbroadcasti64x2 ymm {k1}{z}, m128")]
-    vbroadcasti64x2_ymm_k1z_m128 = 1700,
+    [Symbol("vbroadcasti64x2 ymm, m128","vbroadcasti64x2 ymm {k1}{z}, m128")]
+    vbroadcasti64x2_ymm_m128 = 1732,
+    /// <summary>
+    /// vbroadcasti64x2 ymm {k1}{z}, m128
+    /// </summary>
+    [Symbol("vbroadcasti64x2 ymm_k1z, m128","vbroadcasti64x2 ymm {k1}{z}, m128")]
+    vbroadcasti64x2_ymm_k1z_m128 = 1733,
     /// <summary>
     /// vbroadcasti64x2 zmm {k1}{z}, m128
     /// </summary>
-    [Symbol("vbroadcasti64x2 zmm {k1}{z}, m128","vbroadcasti64x2 zmm {k1}{z}, m128")]
-    vbroadcasti64x2_zmm_k1z_m128 = 1701,
+    [Symbol("vbroadcasti64x2 zmm, m128","vbroadcasti64x2 zmm {k1}{z}, m128")]
+    vbroadcasti64x2_zmm_m128 = 1734,
+    /// <summary>
+    /// vbroadcasti64x2 zmm {k1}{z}, m128
+    /// </summary>
+    [Symbol("vbroadcasti64x2 zmm_k1z, m128","vbroadcasti64x2 zmm {k1}{z}, m128")]
+    vbroadcasti64x2_zmm_k1z_m128 = 1735,
     /// <summary>
     /// vbroadcasti64x4 zmm {k1}{z}, m256
     /// </summary>
-    [Symbol("vbroadcasti64x4 zmm {k1}{z}, m256","vbroadcasti64x4 zmm {k1}{z}, m256")]
-    vbroadcasti64x4_zmm_k1z_m256 = 1702,
+    [Symbol("vbroadcasti64x4 zmm, m256","vbroadcasti64x4 zmm {k1}{z}, m256")]
+    vbroadcasti64x4_zmm_m256 = 1736,
+    /// <summary>
+    /// vbroadcasti64x4 zmm {k1}{z}, m256
+    /// </summary>
+    [Symbol("vbroadcasti64x4 zmm_k1z, m256","vbroadcasti64x4 zmm {k1}{z}, m256")]
+    vbroadcasti64x4_zmm_k1z_m256 = 1737,
     /// <summary>
     /// vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, xmm, xmm, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vcmpps_k1_k2_xmm_xmm_imm8 = 1703,
+    [Symbol("vcmpps k1, xmm, xmm, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vcmpps_k1_xmm_xmm_imm8 = 1738,
     /// <summary>
     /// vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, xmm, m128, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vcmpps_k1_k2_xmm_m128_imm8 = 1704,
+    [Symbol("vcmpps k1, xmm, m128, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vcmpps_k1_xmm_m128_imm8 = 1739,
     /// <summary>
     /// vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, xmm, m32bcst, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vcmpps_k1_k2_xmm_m32bcst_imm8 = 1705,
+    [Symbol("vcmpps k1, xmm, m32bcst, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vcmpps_k1_xmm_m32bcst_imm8 = 1740,
+    /// <summary>
+    /// vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, xmm, xmm, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vcmpps_k12_xmm_xmm_imm8 = 1741,
+    /// <summary>
+    /// vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, xmm, m128, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vcmpps_k12_xmm_m128_imm8 = 1742,
+    /// <summary>
+    /// vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, xmm, m32bcst, imm8","vcmpps k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vcmpps_k12_xmm_m32bcst_imm8 = 1743,
     /// <summary>
     /// vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, ymm, ymm, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vcmpps_k1_k2_ymm_ymm_imm8 = 1706,
+    [Symbol("vcmpps k1, ymm, ymm, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vcmpps_k1_ymm_ymm_imm8 = 1744,
     /// <summary>
     /// vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, ymm, m256, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vcmpps_k1_k2_ymm_m256_imm8 = 1707,
+    [Symbol("vcmpps k1, ymm, m256, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vcmpps_k1_ymm_m256_imm8 = 1745,
     /// <summary>
     /// vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, ymm, m32bcst, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vcmpps_k1_k2_ymm_m32bcst_imm8 = 1708,
+    [Symbol("vcmpps k1, ymm, m32bcst, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vcmpps_k1_ymm_m32bcst_imm8 = 1746,
+    /// <summary>
+    /// vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, ymm, ymm, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vcmpps_k12_ymm_ymm_imm8 = 1747,
+    /// <summary>
+    /// vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, ymm, m256, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vcmpps_k12_ymm_m256_imm8 = 1748,
+    /// <summary>
+    /// vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, ymm, m32bcst, imm8","vcmpps k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vcmpps_k12_ymm_m32bcst_imm8 = 1749,
     /// <summary>
     /// vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, zmm, zmm {sae}, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
-    vcmpps_k1_k2_zmm_zmm_sae_imm8 = 1709,
+    [Symbol("vcmpps k1, zmm, zmm_sae, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
+    vcmpps_k1_zmm_zmm_sae_imm8 = 1750,
     /// <summary>
     /// vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, zmm, m512 {sae}, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
-    vcmpps_k1_k2_zmm_m512_sae_imm8 = 1710,
+    [Symbol("vcmpps k1, zmm, m512_sae, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
+    vcmpps_k1_zmm_m512_sae_imm8 = 1751,
     /// <summary>
     /// vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8
     /// </summary>
-    [Symbol("vcmpps k1 {k2}, zmm, m32bcst {sae}, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
-    vcmpps_k1_k2_zmm_m32bcst_sae_imm8 = 1711,
+    [Symbol("vcmpps k1, zmm, m32bcst_sae, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
+    vcmpps_k1_zmm_m32bcst_sae_imm8 = 1752,
+    /// <summary>
+    /// vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, zmm, zmm_sae, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
+    vcmpps_k12_zmm_zmm_sae_imm8 = 1753,
+    /// <summary>
+    /// vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, zmm, m512_sae, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
+    vcmpps_k12_zmm_m512_sae_imm8 = 1754,
+    /// <summary>
+    /// vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8
+    /// </summary>
+    [Symbol("vcmpps k12, zmm, m32bcst_sae, imm8","vcmpps k1 {k2}, zmm, zmm/m512/m32bcst {sae}, imm8")]
+    vcmpps_k12_zmm_m32bcst_sae_imm8 = 1755,
     /// <summary>
     /// vcmpps xmm, xmm, xmm/m128, imm8
     /// </summary>
     [Symbol("vcmpps xmm, xmm, xmm, imm8","vcmpps xmm, xmm, xmm/m128, imm8")]
-    vcmpps_xmm_xmm_xmm_imm8 = 1712,
+    vcmpps_xmm_xmm_xmm_imm8 = 1756,
     /// <summary>
     /// vcmpps xmm, xmm, xmm/m128, imm8
     /// </summary>
     [Symbol("vcmpps xmm, xmm, m128, imm8","vcmpps xmm, xmm, xmm/m128, imm8")]
-    vcmpps_xmm_xmm_m128_imm8 = 1713,
+    vcmpps_xmm_xmm_m128_imm8 = 1757,
     /// <summary>
     /// vcmpps ymm, ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vcmpps ymm, ymm, ymm, imm8","vcmpps ymm, ymm, ymm/m256, imm8")]
-    vcmpps_ymm_ymm_ymm_imm8 = 1714,
+    vcmpps_ymm_ymm_ymm_imm8 = 1758,
     /// <summary>
     /// vcmpps ymm, ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vcmpps ymm, ymm, m256, imm8","vcmpps ymm, ymm, ymm/m256, imm8")]
-    vcmpps_ymm_ymm_m256_imm8 = 1715,
+    vcmpps_ymm_ymm_m256_imm8 = 1759,
     /// <summary>
     /// vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8
     /// </summary>
-    [Symbol("vcmpss k1 {k2}, xmm, xmm {sae}, imm8","vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8")]
-    vcmpss_k1_k2_xmm_xmm_sae_imm8 = 1716,
+    [Symbol("vcmpss k1, xmm, xmm_sae, imm8","vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8")]
+    vcmpss_k1_xmm_xmm_sae_imm8 = 1760,
     /// <summary>
     /// vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8
     /// </summary>
-    [Symbol("vcmpss k1 {k2}, xmm, m32 {sae}, imm8","vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8")]
-    vcmpss_k1_k2_xmm_m32_sae_imm8 = 1717,
+    [Symbol("vcmpss k1, xmm, m32_sae, imm8","vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8")]
+    vcmpss_k1_xmm_m32_sae_imm8 = 1761,
+    /// <summary>
+    /// vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8
+    /// </summary>
+    [Symbol("vcmpss k12, xmm, xmm_sae, imm8","vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8")]
+    vcmpss_k12_xmm_xmm_sae_imm8 = 1762,
+    /// <summary>
+    /// vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8
+    /// </summary>
+    [Symbol("vcmpss k12, xmm, m32_sae, imm8","vcmpss k1 {k2}, xmm, xmm/m32 {sae}, imm8")]
+    vcmpss_k12_xmm_m32_sae_imm8 = 1763,
     /// <summary>
     /// vcmpss xmm, xmm, xmm/m32, imm8
     /// </summary>
     [Symbol("vcmpss xmm, xmm, xmm, imm8","vcmpss xmm, xmm, xmm/m32, imm8")]
-    vcmpss_xmm_xmm_xmm_imm8 = 1718,
+    vcmpss_xmm_xmm_xmm_imm8 = 1764,
     /// <summary>
     /// vcmpss xmm, xmm, xmm/m32, imm8
     /// </summary>
     [Symbol("vcmpss xmm, xmm, m32, imm8","vcmpss xmm, xmm, xmm/m32, imm8")]
-    vcmpss_xmm_xmm_m32_imm8 = 1719,
+    vcmpss_xmm_xmm_m32_imm8 = 1765,
     /// <summary>
     /// vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vdbpsadbw xmm {k1}{z}, xmm, xmm, imm8","vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8")]
-    vdbpsadbw_xmm_k1z_xmm_xmm_imm8 = 1720,
+    [Symbol("vdbpsadbw xmm, xmm, xmm, imm8","vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8")]
+    vdbpsadbw_xmm_xmm_xmm_imm8 = 1766,
     /// <summary>
     /// vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vdbpsadbw xmm {k1}{z}, xmm, m128, imm8","vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8")]
-    vdbpsadbw_xmm_k1z_xmm_m128_imm8 = 1721,
+    [Symbol("vdbpsadbw xmm, xmm, m128, imm8","vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8")]
+    vdbpsadbw_xmm_xmm_m128_imm8 = 1767,
+    /// <summary>
+    /// vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vdbpsadbw xmm_k1z, xmm, xmm, imm8","vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8")]
+    vdbpsadbw_xmm_k1z_xmm_xmm_imm8 = 1768,
+    /// <summary>
+    /// vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vdbpsadbw xmm_k1z, xmm, m128, imm8","vdbpsadbw xmm {k1}{z}, xmm, xmm/m128, imm8")]
+    vdbpsadbw_xmm_k1z_xmm_m128_imm8 = 1769,
     /// <summary>
     /// vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vdbpsadbw ymm {k1}{z}, ymm, ymm, imm8","vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8")]
-    vdbpsadbw_ymm_k1z_ymm_ymm_imm8 = 1722,
+    [Symbol("vdbpsadbw ymm, ymm, ymm, imm8","vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8")]
+    vdbpsadbw_ymm_ymm_ymm_imm8 = 1770,
     /// <summary>
     /// vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vdbpsadbw ymm {k1}{z}, ymm, m256, imm8","vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8")]
-    vdbpsadbw_ymm_k1z_ymm_m256_imm8 = 1723,
+    [Symbol("vdbpsadbw ymm, ymm, m256, imm8","vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8")]
+    vdbpsadbw_ymm_ymm_m256_imm8 = 1771,
+    /// <summary>
+    /// vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vdbpsadbw ymm_k1z, ymm, ymm, imm8","vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8")]
+    vdbpsadbw_ymm_k1z_ymm_ymm_imm8 = 1772,
+    /// <summary>
+    /// vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vdbpsadbw ymm_k1z, ymm, m256, imm8","vdbpsadbw ymm {k1}{z}, ymm, ymm/m256, imm8")]
+    vdbpsadbw_ymm_k1z_ymm_m256_imm8 = 1773,
     /// <summary>
     /// vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vdbpsadbw zmm {k1}{z}, zmm, zmm, imm8","vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8")]
-    vdbpsadbw_zmm_k1z_zmm_zmm_imm8 = 1724,
+    [Symbol("vdbpsadbw zmm, zmm, zmm, imm8","vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8")]
+    vdbpsadbw_zmm_zmm_zmm_imm8 = 1774,
     /// <summary>
     /// vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vdbpsadbw zmm {k1}{z}, zmm, m512, imm8","vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8")]
-    vdbpsadbw_zmm_k1z_zmm_m512_imm8 = 1725,
+    [Symbol("vdbpsadbw zmm, zmm, m512, imm8","vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8")]
+    vdbpsadbw_zmm_zmm_m512_imm8 = 1775,
+    /// <summary>
+    /// vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vdbpsadbw zmm_k1z, zmm, zmm, imm8","vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8")]
+    vdbpsadbw_zmm_k1z_zmm_zmm_imm8 = 1776,
+    /// <summary>
+    /// vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vdbpsadbw zmm_k1z, zmm, m512, imm8","vdbpsadbw zmm {k1}{z}, zmm, zmm/m512, imm8")]
+    vdbpsadbw_zmm_k1z_zmm_m512_imm8 = 1777,
     /// <summary>
     /// vextracti128 xmm/m128, ymm, imm8
     /// </summary>
     [Symbol("vextracti128 xmm, ymm, imm8","vextracti128 xmm/m128, ymm, imm8")]
-    vextracti128_xmm_ymm_imm8 = 1726,
+    vextracti128_xmm_ymm_imm8 = 1778,
     /// <summary>
     /// vextracti128 xmm/m128, ymm, imm8
     /// </summary>
     [Symbol("vextracti128 m128, ymm, imm8","vextracti128 xmm/m128, ymm, imm8")]
-    vextracti128_m128_ymm_imm8 = 1727,
+    vextracti128_m128_ymm_imm8 = 1779,
     /// <summary>
     /// vextracti32x4 xmm/m128 {k1}{z}, ymm, imm8
     /// </summary>
-    [Symbol("vextracti32x4 xmm {k1}{z}, ymm, imm8","vextracti32x4 xmm/m128 {k1}{z}, ymm, imm8")]
-    vextracti32x4_xmm_k1z_ymm_imm8 = 1728,
+    [Symbol("vextracti32x4 xmm_k1z, ymm, imm8","vextracti32x4 xmm/m128 {k1}{z}, ymm, imm8")]
+    vextracti32x4_xmm_k1z_ymm_imm8 = 1780,
     /// <summary>
     /// vextracti32x4 xmm/m128 {k1}{z}, ymm, imm8
     /// </summary>
-    [Symbol("vextracti32x4 m128 {k1}{z}, ymm, imm8","vextracti32x4 xmm/m128 {k1}{z}, ymm, imm8")]
-    vextracti32x4_m128_k1z_ymm_imm8 = 1729,
+    [Symbol("vextracti32x4 m128_k1z, ymm, imm8","vextracti32x4 xmm/m128 {k1}{z}, ymm, imm8")]
+    vextracti32x4_m128_k1z_ymm_imm8 = 1781,
     /// <summary>
     /// vextracti32x4 xmm/m128 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti32x4 xmm {k1}{z}, zmm, imm8","vextracti32x4 xmm/m128 {k1}{z}, zmm, imm8")]
-    vextracti32x4_xmm_k1z_zmm_imm8 = 1730,
+    [Symbol("vextracti32x4 xmm_k1z, zmm, imm8","vextracti32x4 xmm/m128 {k1}{z}, zmm, imm8")]
+    vextracti32x4_xmm_k1z_zmm_imm8 = 1782,
     /// <summary>
     /// vextracti32x4 xmm/m128 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti32x4 m128 {k1}{z}, zmm, imm8","vextracti32x4 xmm/m128 {k1}{z}, zmm, imm8")]
-    vextracti32x4_m128_k1z_zmm_imm8 = 1731,
+    [Symbol("vextracti32x4 m128_k1z, zmm, imm8","vextracti32x4 xmm/m128 {k1}{z}, zmm, imm8")]
+    vextracti32x4_m128_k1z_zmm_imm8 = 1783,
     /// <summary>
     /// vextracti32x8 ymm/m256 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti32x8 ymm {k1}{z}, zmm, imm8","vextracti32x8 ymm/m256 {k1}{z}, zmm, imm8")]
-    vextracti32x8_ymm_k1z_zmm_imm8 = 1732,
+    [Symbol("vextracti32x8 ymm_k1z, zmm, imm8","vextracti32x8 ymm/m256 {k1}{z}, zmm, imm8")]
+    vextracti32x8_ymm_k1z_zmm_imm8 = 1784,
     /// <summary>
     /// vextracti32x8 ymm/m256 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti32x8 m256 {k1}{z}, zmm, imm8","vextracti32x8 ymm/m256 {k1}{z}, zmm, imm8")]
-    vextracti32x8_m256_k1z_zmm_imm8 = 1733,
+    [Symbol("vextracti32x8 m256_k1z, zmm, imm8","vextracti32x8 ymm/m256 {k1}{z}, zmm, imm8")]
+    vextracti32x8_m256_k1z_zmm_imm8 = 1785,
     /// <summary>
     /// vextracti64x2 xmm/m128 {k1}{z}, ymm, imm8
     /// </summary>
-    [Symbol("vextracti64x2 xmm {k1}{z}, ymm, imm8","vextracti64x2 xmm/m128 {k1}{z}, ymm, imm8")]
-    vextracti64x2_xmm_k1z_ymm_imm8 = 1734,
+    [Symbol("vextracti64x2 xmm_k1z, ymm, imm8","vextracti64x2 xmm/m128 {k1}{z}, ymm, imm8")]
+    vextracti64x2_xmm_k1z_ymm_imm8 = 1786,
     /// <summary>
     /// vextracti64x2 xmm/m128 {k1}{z}, ymm, imm8
     /// </summary>
-    [Symbol("vextracti64x2 m128 {k1}{z}, ymm, imm8","vextracti64x2 xmm/m128 {k1}{z}, ymm, imm8")]
-    vextracti64x2_m128_k1z_ymm_imm8 = 1735,
+    [Symbol("vextracti64x2 m128_k1z, ymm, imm8","vextracti64x2 xmm/m128 {k1}{z}, ymm, imm8")]
+    vextracti64x2_m128_k1z_ymm_imm8 = 1787,
     /// <summary>
     /// vextracti64x2 xmm/m128 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti64x2 xmm {k1}{z}, zmm, imm8","vextracti64x2 xmm/m128 {k1}{z}, zmm, imm8")]
-    vextracti64x2_xmm_k1z_zmm_imm8 = 1736,
+    [Symbol("vextracti64x2 xmm_k1z, zmm, imm8","vextracti64x2 xmm/m128 {k1}{z}, zmm, imm8")]
+    vextracti64x2_xmm_k1z_zmm_imm8 = 1788,
     /// <summary>
     /// vextracti64x2 xmm/m128 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti64x2 m128 {k1}{z}, zmm, imm8","vextracti64x2 xmm/m128 {k1}{z}, zmm, imm8")]
-    vextracti64x2_m128_k1z_zmm_imm8 = 1737,
+    [Symbol("vextracti64x2 m128_k1z, zmm, imm8","vextracti64x2 xmm/m128 {k1}{z}, zmm, imm8")]
+    vextracti64x2_m128_k1z_zmm_imm8 = 1789,
     /// <summary>
     /// vextracti64x4 ymm/m256 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti64x4 ymm {k1}{z}, zmm, imm8","vextracti64x4 ymm/m256 {k1}{z}, zmm, imm8")]
-    vextracti64x4_ymm_k1z_zmm_imm8 = 1738,
+    [Symbol("vextracti64x4 ymm_k1z, zmm, imm8","vextracti64x4 ymm/m256 {k1}{z}, zmm, imm8")]
+    vextracti64x4_ymm_k1z_zmm_imm8 = 1790,
     /// <summary>
     /// vextracti64x4 ymm/m256 {k1}{z}, zmm, imm8
     /// </summary>
-    [Symbol("vextracti64x4 m256 {k1}{z}, zmm, imm8","vextracti64x4 ymm/m256 {k1}{z}, zmm, imm8")]
-    vextracti64x4_m256_k1z_zmm_imm8 = 1739,
+    [Symbol("vextracti64x4 m256_k1z, zmm, imm8","vextracti64x4 ymm/m256 {k1}{z}, zmm, imm8")]
+    vextracti64x4_m256_k1z_zmm_imm8 = 1791,
     /// <summary>
     /// vinserti128 ymm, ymm, xmm/m128, imm8
     /// </summary>
     [Symbol("vinserti128 ymm, ymm, xmm, imm8","vinserti128 ymm, ymm, xmm/m128, imm8")]
-    vinserti128_ymm_ymm_xmm_imm8 = 1740,
+    vinserti128_ymm_ymm_xmm_imm8 = 1792,
     /// <summary>
     /// vinserti128 ymm, ymm, xmm/m128, imm8
     /// </summary>
     [Symbol("vinserti128 ymm, ymm, m128, imm8","vinserti128 ymm, ymm, xmm/m128, imm8")]
-    vinserti128_ymm_ymm_m128_imm8 = 1741,
+    vinserti128_ymm_ymm_m128_imm8 = 1793,
     /// <summary>
     /// vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti32x4 ymm {k1}{z}, ymm, xmm, imm8","vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8")]
-    vinserti32x4_ymm_k1z_ymm_xmm_imm8 = 1742,
+    [Symbol("vinserti32x4 ymm, ymm, xmm, imm8","vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti32x4_ymm_ymm_xmm_imm8 = 1794,
     /// <summary>
     /// vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti32x4 ymm {k1}{z}, ymm, m128, imm8","vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8")]
-    vinserti32x4_ymm_k1z_ymm_m128_imm8 = 1743,
+    [Symbol("vinserti32x4 ymm, ymm, m128, imm8","vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti32x4_ymm_ymm_m128_imm8 = 1795,
+    /// <summary>
+    /// vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti32x4 ymm_k1z, ymm, xmm, imm8","vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti32x4_ymm_k1z_ymm_xmm_imm8 = 1796,
+    /// <summary>
+    /// vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti32x4 ymm_k1z, ymm, m128, imm8","vinserti32x4 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti32x4_ymm_k1z_ymm_m128_imm8 = 1797,
     /// <summary>
     /// vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti32x4 zmm {k1}{z}, zmm, xmm, imm8","vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8")]
-    vinserti32x4_zmm_k1z_zmm_xmm_imm8 = 1744,
+    [Symbol("vinserti32x4 zmm, zmm, xmm, imm8","vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti32x4_zmm_zmm_xmm_imm8 = 1798,
     /// <summary>
     /// vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti32x4 zmm {k1}{z}, zmm, m128, imm8","vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8")]
-    vinserti32x4_zmm_k1z_zmm_m128_imm8 = 1745,
+    [Symbol("vinserti32x4 zmm, zmm, m128, imm8","vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti32x4_zmm_zmm_m128_imm8 = 1799,
+    /// <summary>
+    /// vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti32x4 zmm_k1z, zmm, xmm, imm8","vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti32x4_zmm_k1z_zmm_xmm_imm8 = 1800,
+    /// <summary>
+    /// vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti32x4 zmm_k1z, zmm, m128, imm8","vinserti32x4 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti32x4_zmm_k1z_zmm_m128_imm8 = 1801,
     /// <summary>
     /// vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vinserti32x8 zmm {k1}{z}, zmm, ymm, imm8","vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8")]
-    vinserti32x8_zmm_k1z_zmm_ymm_imm8 = 1746,
+    [Symbol("vinserti32x8 zmm, zmm, ymm, imm8","vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti32x8_zmm_zmm_ymm_imm8 = 1802,
     /// <summary>
     /// vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vinserti32x8 zmm {k1}{z}, zmm, m256, imm8","vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8")]
-    vinserti32x8_zmm_k1z_zmm_m256_imm8 = 1747,
+    [Symbol("vinserti32x8 zmm, zmm, m256, imm8","vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti32x8_zmm_zmm_m256_imm8 = 1803,
+    /// <summary>
+    /// vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vinserti32x8 zmm_k1z, zmm, ymm, imm8","vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti32x8_zmm_k1z_zmm_ymm_imm8 = 1804,
+    /// <summary>
+    /// vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vinserti32x8 zmm_k1z, zmm, m256, imm8","vinserti32x8 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti32x8_zmm_k1z_zmm_m256_imm8 = 1805,
     /// <summary>
     /// vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti64x2 ymm {k1}{z}, ymm, xmm, imm8","vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8")]
-    vinserti64x2_ymm_k1z_ymm_xmm_imm8 = 1748,
+    [Symbol("vinserti64x2 ymm, ymm, xmm, imm8","vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti64x2_ymm_ymm_xmm_imm8 = 1806,
     /// <summary>
     /// vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti64x2 ymm {k1}{z}, ymm, m128, imm8","vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8")]
-    vinserti64x2_ymm_k1z_ymm_m128_imm8 = 1749,
+    [Symbol("vinserti64x2 ymm, ymm, m128, imm8","vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti64x2_ymm_ymm_m128_imm8 = 1807,
+    /// <summary>
+    /// vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti64x2 ymm_k1z, ymm, xmm, imm8","vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti64x2_ymm_k1z_ymm_xmm_imm8 = 1808,
+    /// <summary>
+    /// vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti64x2 ymm_k1z, ymm, m128, imm8","vinserti64x2 ymm {k1}{z}, ymm, xmm/m128, imm8")]
+    vinserti64x2_ymm_k1z_ymm_m128_imm8 = 1809,
     /// <summary>
     /// vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti64x2 zmm {k1}{z}, zmm, xmm, imm8","vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8")]
-    vinserti64x2_zmm_k1z_zmm_xmm_imm8 = 1750,
+    [Symbol("vinserti64x2 zmm, zmm, xmm, imm8","vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti64x2_zmm_zmm_xmm_imm8 = 1810,
     /// <summary>
     /// vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vinserti64x2 zmm {k1}{z}, zmm, m128, imm8","vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8")]
-    vinserti64x2_zmm_k1z_zmm_m128_imm8 = 1751,
+    [Symbol("vinserti64x2 zmm, zmm, m128, imm8","vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti64x2_zmm_zmm_m128_imm8 = 1811,
+    /// <summary>
+    /// vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti64x2 zmm_k1z, zmm, xmm, imm8","vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti64x2_zmm_k1z_zmm_xmm_imm8 = 1812,
+    /// <summary>
+    /// vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vinserti64x2 zmm_k1z, zmm, m128, imm8","vinserti64x2 zmm {k1}{z}, zmm, xmm/m128, imm8")]
+    vinserti64x2_zmm_k1z_zmm_m128_imm8 = 1813,
     /// <summary>
     /// vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vinserti64x4 zmm {k1}{z}, zmm, ymm, imm8","vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8")]
-    vinserti64x4_zmm_k1z_zmm_ymm_imm8 = 1752,
+    [Symbol("vinserti64x4 zmm, zmm, ymm, imm8","vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti64x4_zmm_zmm_ymm_imm8 = 1814,
     /// <summary>
     /// vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vinserti64x4 zmm {k1}{z}, zmm, m256, imm8","vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8")]
-    vinserti64x4_zmm_k1z_zmm_m256_imm8 = 1753,
+    [Symbol("vinserti64x4 zmm, zmm, m256, imm8","vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti64x4_zmm_zmm_m256_imm8 = 1815,
+    /// <summary>
+    /// vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vinserti64x4 zmm_k1z, zmm, ymm, imm8","vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti64x4_zmm_k1z_zmm_ymm_imm8 = 1816,
+    /// <summary>
+    /// vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vinserti64x4 zmm_k1z, zmm, m256, imm8","vinserti64x4 zmm {k1}{z}, zmm, ymm/m256, imm8")]
+    vinserti64x4_zmm_k1z_zmm_m256_imm8 = 1817,
     /// <summary>
     /// vlddqu xmm, m128
     /// </summary>
     [Symbol("vlddqu xmm, m128","vlddqu xmm, m128")]
-    vlddqu_xmm_m128 = 1754,
+    vlddqu_xmm_m128 = 1818,
     /// <summary>
     /// vlddqu ymm, m256
     /// </summary>
     [Symbol("vlddqu ymm, m256","vlddqu ymm, m256")]
-    vlddqu_ymm_m256 = 1755,
+    vlddqu_ymm_m256 = 1819,
     /// <summary>
     /// vmaskmovdqu xmm, xmm
     /// </summary>
     [Symbol("vmaskmovdqu xmm, xmm","vmaskmovdqu xmm, xmm")]
-    vmaskmovdqu_xmm_xmm = 1756,
+    vmaskmovdqu_xmm_xmm = 1820,
     /// <summary>
     /// vmaskmovpd m128, xmm, xmm
     /// </summary>
     [Symbol("vmaskmovpd m128, xmm, xmm","vmaskmovpd m128, xmm, xmm")]
-    vmaskmovpd_m128_xmm_xmm = 1757,
+    vmaskmovpd_m128_xmm_xmm = 1821,
     /// <summary>
     /// vmaskmovpd m256, ymm, ymm
     /// </summary>
     [Symbol("vmaskmovpd m256, ymm, ymm","vmaskmovpd m256, ymm, ymm")]
-    vmaskmovpd_m256_ymm_ymm = 1758,
+    vmaskmovpd_m256_ymm_ymm = 1822,
     /// <summary>
     /// vmaskmovpd xmm, xmm, m128
     /// </summary>
     [Symbol("vmaskmovpd xmm, xmm, m128","vmaskmovpd xmm, xmm, m128")]
-    vmaskmovpd_xmm_xmm_m128 = 1759,
+    vmaskmovpd_xmm_xmm_m128 = 1823,
     /// <summary>
     /// vmaskmovpd ymm, ymm, m256
     /// </summary>
     [Symbol("vmaskmovpd ymm, ymm, m256","vmaskmovpd ymm, ymm, m256")]
-    vmaskmovpd_ymm_ymm_m256 = 1760,
+    vmaskmovpd_ymm_ymm_m256 = 1824,
     /// <summary>
     /// vmaskmovps m128, xmm, xmm
     /// </summary>
     [Symbol("vmaskmovps m128, xmm, xmm","vmaskmovps m128, xmm, xmm")]
-    vmaskmovps_m128_xmm_xmm = 1761,
+    vmaskmovps_m128_xmm_xmm = 1825,
     /// <summary>
     /// vmaskmovps m256, ymm, ymm
     /// </summary>
     [Symbol("vmaskmovps m256, ymm, ymm","vmaskmovps m256, ymm, ymm")]
-    vmaskmovps_m256_ymm_ymm = 1762,
+    vmaskmovps_m256_ymm_ymm = 1826,
     /// <summary>
     /// vmaskmovps xmm, xmm, m128
     /// </summary>
     [Symbol("vmaskmovps xmm, xmm, m128","vmaskmovps xmm, xmm, m128")]
-    vmaskmovps_xmm_xmm_m128 = 1763,
+    vmaskmovps_xmm_xmm_m128 = 1827,
     /// <summary>
     /// vmaskmovps ymm, ymm, m256
     /// </summary>
     [Symbol("vmaskmovps ymm, ymm, m256","vmaskmovps ymm, ymm, m256")]
-    vmaskmovps_ymm_ymm_m256 = 1764,
+    vmaskmovps_ymm_ymm_m256 = 1828,
     /// <summary>
     /// vmovapd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovapd xmm {k1}{z}, xmm","vmovapd xmm {k1}{z}, xmm/m128")]
-    vmovapd_xmm_k1z_xmm = 1765,
+    [Symbol("vmovapd xmm, xmm","vmovapd xmm {k1}{z}, xmm/m128")]
+    vmovapd_xmm_xmm = 1829,
     /// <summary>
     /// vmovapd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovapd xmm {k1}{z}, m128","vmovapd xmm {k1}{z}, xmm/m128")]
-    vmovapd_xmm_k1z_m128 = 1766,
+    [Symbol("vmovapd xmm, m128","vmovapd xmm {k1}{z}, xmm/m128")]
+    vmovapd_xmm_m128 = 1830,
     /// <summary>
-    /// vmovapd xmm, xmm/m128
+    /// vmovapd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovapd xmm, xmm","vmovapd xmm, xmm/m128")]
-    vmovapd_xmm_xmm = 1767,
+    [Symbol("vmovapd xmm_k1z, xmm","vmovapd xmm {k1}{z}, xmm/m128")]
+    vmovapd_xmm_k1z_xmm = 1831,
     /// <summary>
-    /// vmovapd xmm, xmm/m128
+    /// vmovapd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovapd xmm, m128","vmovapd xmm, xmm/m128")]
-    vmovapd_xmm_m128 = 1768,
+    [Symbol("vmovapd xmm_k1z, m128","vmovapd xmm {k1}{z}, xmm/m128")]
+    vmovapd_xmm_k1z_m128 = 1832,
     /// <summary>
     /// vmovapd xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovapd m128 {k1}{z}, xmm","vmovapd xmm/m128 {k1}{z}, xmm")]
-    vmovapd_m128_k1z_xmm = 1769,
+    [Symbol("vmovapd m128_k1z, xmm","vmovapd xmm/m128 {k1}{z}, xmm")]
+    vmovapd_m128_k1z_xmm = 1833,
     /// <summary>
     /// vmovapd xmm/m128, xmm
     /// </summary>
     [Symbol("vmovapd m128, xmm","vmovapd xmm/m128, xmm")]
-    vmovapd_m128_xmm = 1770,
+    vmovapd_m128_xmm = 1834,
     /// <summary>
     /// vmovapd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovapd ymm {k1}{z}, ymm","vmovapd ymm {k1}{z}, ymm/m256")]
-    vmovapd_ymm_k1z_ymm = 1771,
+    [Symbol("vmovapd ymm, ymm","vmovapd ymm {k1}{z}, ymm/m256")]
+    vmovapd_ymm_ymm = 1835,
     /// <summary>
     /// vmovapd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovapd ymm {k1}{z}, m256","vmovapd ymm {k1}{z}, ymm/m256")]
-    vmovapd_ymm_k1z_m256 = 1772,
+    [Symbol("vmovapd ymm, m256","vmovapd ymm {k1}{z}, ymm/m256")]
+    vmovapd_ymm_m256 = 1836,
     /// <summary>
-    /// vmovapd ymm, ymm/m256
+    /// vmovapd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovapd ymm, ymm","vmovapd ymm, ymm/m256")]
-    vmovapd_ymm_ymm = 1773,
+    [Symbol("vmovapd ymm_k1z, ymm","vmovapd ymm {k1}{z}, ymm/m256")]
+    vmovapd_ymm_k1z_ymm = 1837,
     /// <summary>
-    /// vmovapd ymm, ymm/m256
+    /// vmovapd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovapd ymm, m256","vmovapd ymm, ymm/m256")]
-    vmovapd_ymm_m256 = 1774,
+    [Symbol("vmovapd ymm_k1z, m256","vmovapd ymm {k1}{z}, ymm/m256")]
+    vmovapd_ymm_k1z_m256 = 1838,
     /// <summary>
     /// vmovapd ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovapd m256 {k1}{z}, ymm","vmovapd ymm/m256 {k1}{z}, ymm")]
-    vmovapd_m256_k1z_ymm = 1775,
+    [Symbol("vmovapd m256_k1z, ymm","vmovapd ymm/m256 {k1}{z}, ymm")]
+    vmovapd_m256_k1z_ymm = 1839,
     /// <summary>
     /// vmovapd ymm/m256, ymm
     /// </summary>
     [Symbol("vmovapd m256, ymm","vmovapd ymm/m256, ymm")]
-    vmovapd_m256_ymm = 1776,
+    vmovapd_m256_ymm = 1840,
     /// <summary>
     /// vmovapd zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovapd zmm {k1}{z}, zmm","vmovapd zmm {k1}{z}, zmm/m512")]
-    vmovapd_zmm_k1z_zmm = 1777,
+    [Symbol("vmovapd zmm, zmm","vmovapd zmm {k1}{z}, zmm/m512")]
+    vmovapd_zmm_zmm = 1841,
     /// <summary>
     /// vmovapd zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovapd zmm {k1}{z}, m512","vmovapd zmm {k1}{z}, zmm/m512")]
-    vmovapd_zmm_k1z_m512 = 1778,
+    [Symbol("vmovapd zmm, m512","vmovapd zmm {k1}{z}, zmm/m512")]
+    vmovapd_zmm_m512 = 1842,
+    /// <summary>
+    /// vmovapd zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovapd zmm_k1z, zmm","vmovapd zmm {k1}{z}, zmm/m512")]
+    vmovapd_zmm_k1z_zmm = 1843,
+    /// <summary>
+    /// vmovapd zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovapd zmm_k1z, m512","vmovapd zmm {k1}{z}, zmm/m512")]
+    vmovapd_zmm_k1z_m512 = 1844,
     /// <summary>
     /// vmovapd zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovapd m512 {k1}{z}, zmm","vmovapd zmm/m512 {k1}{z}, zmm")]
-    vmovapd_m512_k1z_zmm = 1779,
+    [Symbol("vmovapd m512_k1z, zmm","vmovapd zmm/m512 {k1}{z}, zmm")]
+    vmovapd_m512_k1z_zmm = 1845,
     /// <summary>
     /// vmovaps xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovaps xmm {k1}{z}, xmm","vmovaps xmm {k1}{z}, xmm/m128")]
-    vmovaps_xmm_k1z_xmm = 1780,
+    [Symbol("vmovaps xmm, xmm","vmovaps xmm {k1}{z}, xmm/m128")]
+    vmovaps_xmm_xmm = 1846,
     /// <summary>
     /// vmovaps xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovaps xmm {k1}{z}, m128","vmovaps xmm {k1}{z}, xmm/m128")]
-    vmovaps_xmm_k1z_m128 = 1781,
+    [Symbol("vmovaps xmm, m128","vmovaps xmm {k1}{z}, xmm/m128")]
+    vmovaps_xmm_m128 = 1847,
     /// <summary>
-    /// vmovaps xmm, xmm/m128
+    /// vmovaps xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovaps xmm, xmm","vmovaps xmm, xmm/m128")]
-    vmovaps_xmm_xmm = 1782,
+    [Symbol("vmovaps xmm_k1z, xmm","vmovaps xmm {k1}{z}, xmm/m128")]
+    vmovaps_xmm_k1z_xmm = 1848,
     /// <summary>
-    /// vmovaps xmm, xmm/m128
+    /// vmovaps xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovaps xmm, m128","vmovaps xmm, xmm/m128")]
-    vmovaps_xmm_m128 = 1783,
+    [Symbol("vmovaps xmm_k1z, m128","vmovaps xmm {k1}{z}, xmm/m128")]
+    vmovaps_xmm_k1z_m128 = 1849,
     /// <summary>
     /// vmovaps xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovaps m128 {k1}{z}, xmm","vmovaps xmm/m128 {k1}{z}, xmm")]
-    vmovaps_m128_k1z_xmm = 1784,
+    [Symbol("vmovaps m128_k1z, xmm","vmovaps xmm/m128 {k1}{z}, xmm")]
+    vmovaps_m128_k1z_xmm = 1850,
     /// <summary>
     /// vmovaps xmm/m128, xmm
     /// </summary>
     [Symbol("vmovaps m128, xmm","vmovaps xmm/m128, xmm")]
-    vmovaps_m128_xmm = 1785,
+    vmovaps_m128_xmm = 1851,
     /// <summary>
     /// vmovaps ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovaps ymm {k1}{z}, ymm","vmovaps ymm {k1}{z}, ymm/m256")]
-    vmovaps_ymm_k1z_ymm = 1786,
+    [Symbol("vmovaps ymm, ymm","vmovaps ymm {k1}{z}, ymm/m256")]
+    vmovaps_ymm_ymm = 1852,
     /// <summary>
     /// vmovaps ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovaps ymm {k1}{z}, m256","vmovaps ymm {k1}{z}, ymm/m256")]
-    vmovaps_ymm_k1z_m256 = 1787,
+    [Symbol("vmovaps ymm, m256","vmovaps ymm {k1}{z}, ymm/m256")]
+    vmovaps_ymm_m256 = 1853,
     /// <summary>
-    /// vmovaps ymm, ymm/m256
+    /// vmovaps ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovaps ymm, ymm","vmovaps ymm, ymm/m256")]
-    vmovaps_ymm_ymm = 1788,
+    [Symbol("vmovaps ymm_k1z, ymm","vmovaps ymm {k1}{z}, ymm/m256")]
+    vmovaps_ymm_k1z_ymm = 1854,
     /// <summary>
-    /// vmovaps ymm, ymm/m256
+    /// vmovaps ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovaps ymm, m256","vmovaps ymm, ymm/m256")]
-    vmovaps_ymm_m256 = 1789,
+    [Symbol("vmovaps ymm_k1z, m256","vmovaps ymm {k1}{z}, ymm/m256")]
+    vmovaps_ymm_k1z_m256 = 1855,
     /// <summary>
     /// vmovaps ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovaps m256 {k1}{z}, ymm","vmovaps ymm/m256 {k1}{z}, ymm")]
-    vmovaps_m256_k1z_ymm = 1790,
+    [Symbol("vmovaps m256_k1z, ymm","vmovaps ymm/m256 {k1}{z}, ymm")]
+    vmovaps_m256_k1z_ymm = 1856,
     /// <summary>
     /// vmovaps ymm/m256, ymm
     /// </summary>
     [Symbol("vmovaps m256, ymm","vmovaps ymm/m256, ymm")]
-    vmovaps_m256_ymm = 1791,
+    vmovaps_m256_ymm = 1857,
     /// <summary>
     /// vmovaps zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovaps zmm {k1}{z}, zmm","vmovaps zmm {k1}{z}, zmm/m512")]
-    vmovaps_zmm_k1z_zmm = 1792,
+    [Symbol("vmovaps zmm, zmm","vmovaps zmm {k1}{z}, zmm/m512")]
+    vmovaps_zmm_zmm = 1858,
     /// <summary>
     /// vmovaps zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovaps zmm {k1}{z}, m512","vmovaps zmm {k1}{z}, zmm/m512")]
-    vmovaps_zmm_k1z_m512 = 1793,
+    [Symbol("vmovaps zmm, m512","vmovaps zmm {k1}{z}, zmm/m512")]
+    vmovaps_zmm_m512 = 1859,
+    /// <summary>
+    /// vmovaps zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovaps zmm_k1z, zmm","vmovaps zmm {k1}{z}, zmm/m512")]
+    vmovaps_zmm_k1z_zmm = 1860,
+    /// <summary>
+    /// vmovaps zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovaps zmm_k1z, m512","vmovaps zmm {k1}{z}, zmm/m512")]
+    vmovaps_zmm_k1z_m512 = 1861,
     /// <summary>
     /// vmovaps zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovaps m512 {k1}{z}, zmm","vmovaps zmm/m512 {k1}{z}, zmm")]
-    vmovaps_m512_k1z_zmm = 1794,
+    [Symbol("vmovaps m512_k1z, zmm","vmovaps zmm/m512 {k1}{z}, zmm")]
+    vmovaps_m512_k1z_zmm = 1862,
     /// <summary>
     /// vmovd r32/m32, xmm
     /// </summary>
     [Symbol("vmovd r32, xmm","vmovd r32/m32, xmm")]
-    vmovd_r32_xmm = 1795,
+    vmovd_r32_xmm = 1863,
     /// <summary>
     /// vmovd r32/m32, xmm
     /// </summary>
     [Symbol("vmovd m32, xmm","vmovd r32/m32, xmm")]
-    vmovd_m32_xmm = 1796,
+    vmovd_m32_xmm = 1864,
     /// <summary>
     /// vmovd xmm, r32/m32
     /// </summary>
     [Symbol("vmovd xmm, r32","vmovd xmm, r32/m32")]
-    vmovd_xmm_r32 = 1797,
+    vmovd_xmm_r32 = 1865,
     /// <summary>
     /// vmovd xmm, r32/m32
     /// </summary>
     [Symbol("vmovd xmm, m32","vmovd xmm, r32/m32")]
-    vmovd_xmm_m32 = 1798,
+    vmovd_xmm_m32 = 1866,
     /// <summary>
     /// vmovdqa xmm, xmm/m128
     /// </summary>
     [Symbol("vmovdqa xmm, xmm","vmovdqa xmm, xmm/m128")]
-    vmovdqa_xmm_xmm = 1799,
+    vmovdqa_xmm_xmm = 1867,
     /// <summary>
     /// vmovdqa xmm, xmm/m128
     /// </summary>
     [Symbol("vmovdqa xmm, m128","vmovdqa xmm, xmm/m128")]
-    vmovdqa_xmm_m128 = 1800,
+    vmovdqa_xmm_m128 = 1868,
     /// <summary>
     /// vmovdqa xmm/m128, xmm
     /// </summary>
     [Symbol("vmovdqa m128, xmm","vmovdqa xmm/m128, xmm")]
-    vmovdqa_m128_xmm = 1801,
+    vmovdqa_m128_xmm = 1869,
     /// <summary>
     /// vmovdqa ymm, ymm/m256
     /// </summary>
     [Symbol("vmovdqa ymm, ymm","vmovdqa ymm, ymm/m256")]
-    vmovdqa_ymm_ymm = 1802,
+    vmovdqa_ymm_ymm = 1870,
     /// <summary>
     /// vmovdqa ymm, ymm/m256
     /// </summary>
     [Symbol("vmovdqa ymm, m256","vmovdqa ymm, ymm/m256")]
-    vmovdqa_ymm_m256 = 1803,
+    vmovdqa_ymm_m256 = 1871,
     /// <summary>
     /// vmovdqa ymm/m256, ymm
     /// </summary>
     [Symbol("vmovdqa m256, ymm","vmovdqa ymm/m256, ymm")]
-    vmovdqa_m256_ymm = 1804,
+    vmovdqa_m256_ymm = 1872,
     /// <summary>
     /// vmovdqa32 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqa32 xmm {k1}{z}, xmm","vmovdqa32 xmm {k1}{z}, xmm/m128")]
-    vmovdqa32_xmm_k1z_xmm = 1805,
+    [Symbol("vmovdqa32 xmm, xmm","vmovdqa32 xmm {k1}{z}, xmm/m128")]
+    vmovdqa32_xmm_xmm = 1873,
     /// <summary>
     /// vmovdqa32 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqa32 xmm {k1}{z}, m128","vmovdqa32 xmm {k1}{z}, xmm/m128")]
-    vmovdqa32_xmm_k1z_m128 = 1806,
+    [Symbol("vmovdqa32 xmm, m128","vmovdqa32 xmm {k1}{z}, xmm/m128")]
+    vmovdqa32_xmm_m128 = 1874,
+    /// <summary>
+    /// vmovdqa32 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqa32 xmm_k1z, xmm","vmovdqa32 xmm {k1}{z}, xmm/m128")]
+    vmovdqa32_xmm_k1z_xmm = 1875,
+    /// <summary>
+    /// vmovdqa32 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqa32 xmm_k1z, m128","vmovdqa32 xmm {k1}{z}, xmm/m128")]
+    vmovdqa32_xmm_k1z_m128 = 1876,
     /// <summary>
     /// vmovdqa32 xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovdqa32 m128 {k1}{z}, xmm","vmovdqa32 xmm/m128 {k1}{z}, xmm")]
-    vmovdqa32_m128_k1z_xmm = 1807,
+    [Symbol("vmovdqa32 m128_k1z, xmm","vmovdqa32 xmm/m128 {k1}{z}, xmm")]
+    vmovdqa32_m128_k1z_xmm = 1877,
     /// <summary>
     /// vmovdqa32 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqa32 ymm {k1}{z}, ymm","vmovdqa32 ymm {k1}{z}, ymm/m256")]
-    vmovdqa32_ymm_k1z_ymm = 1808,
+    [Symbol("vmovdqa32 ymm, ymm","vmovdqa32 ymm {k1}{z}, ymm/m256")]
+    vmovdqa32_ymm_ymm = 1878,
     /// <summary>
     /// vmovdqa32 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqa32 ymm {k1}{z}, m256","vmovdqa32 ymm {k1}{z}, ymm/m256")]
-    vmovdqa32_ymm_k1z_m256 = 1809,
+    [Symbol("vmovdqa32 ymm, m256","vmovdqa32 ymm {k1}{z}, ymm/m256")]
+    vmovdqa32_ymm_m256 = 1879,
+    /// <summary>
+    /// vmovdqa32 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqa32 ymm_k1z, ymm","vmovdqa32 ymm {k1}{z}, ymm/m256")]
+    vmovdqa32_ymm_k1z_ymm = 1880,
+    /// <summary>
+    /// vmovdqa32 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqa32 ymm_k1z, m256","vmovdqa32 ymm {k1}{z}, ymm/m256")]
+    vmovdqa32_ymm_k1z_m256 = 1881,
     /// <summary>
     /// vmovdqa32 ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovdqa32 m256 {k1}{z}, ymm","vmovdqa32 ymm/m256 {k1}{z}, ymm")]
-    vmovdqa32_m256_k1z_ymm = 1810,
+    [Symbol("vmovdqa32 m256_k1z, ymm","vmovdqa32 ymm/m256 {k1}{z}, ymm")]
+    vmovdqa32_m256_k1z_ymm = 1882,
     /// <summary>
     /// vmovdqa32 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqa32 zmm {k1}{z}, zmm","vmovdqa32 zmm {k1}{z}, zmm/m512")]
-    vmovdqa32_zmm_k1z_zmm = 1811,
+    [Symbol("vmovdqa32 zmm, zmm","vmovdqa32 zmm {k1}{z}, zmm/m512")]
+    vmovdqa32_zmm_zmm = 1883,
     /// <summary>
     /// vmovdqa32 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqa32 zmm {k1}{z}, m512","vmovdqa32 zmm {k1}{z}, zmm/m512")]
-    vmovdqa32_zmm_k1z_m512 = 1812,
+    [Symbol("vmovdqa32 zmm, m512","vmovdqa32 zmm {k1}{z}, zmm/m512")]
+    vmovdqa32_zmm_m512 = 1884,
+    /// <summary>
+    /// vmovdqa32 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqa32 zmm_k1z, zmm","vmovdqa32 zmm {k1}{z}, zmm/m512")]
+    vmovdqa32_zmm_k1z_zmm = 1885,
+    /// <summary>
+    /// vmovdqa32 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqa32 zmm_k1z, m512","vmovdqa32 zmm {k1}{z}, zmm/m512")]
+    vmovdqa32_zmm_k1z_m512 = 1886,
     /// <summary>
     /// vmovdqa32 zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovdqa32 m512 {k1}{z}, zmm","vmovdqa32 zmm/m512 {k1}{z}, zmm")]
-    vmovdqa32_m512_k1z_zmm = 1813,
+    [Symbol("vmovdqa32 m512_k1z, zmm","vmovdqa32 zmm/m512 {k1}{z}, zmm")]
+    vmovdqa32_m512_k1z_zmm = 1887,
     /// <summary>
     /// vmovdqa64 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqa64 xmm {k1}{z}, xmm","vmovdqa64 xmm {k1}{z}, xmm/m128")]
-    vmovdqa64_xmm_k1z_xmm = 1814,
+    [Symbol("vmovdqa64 xmm, xmm","vmovdqa64 xmm {k1}{z}, xmm/m128")]
+    vmovdqa64_xmm_xmm = 1888,
     /// <summary>
     /// vmovdqa64 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqa64 xmm {k1}{z}, m128","vmovdqa64 xmm {k1}{z}, xmm/m128")]
-    vmovdqa64_xmm_k1z_m128 = 1815,
+    [Symbol("vmovdqa64 xmm, m128","vmovdqa64 xmm {k1}{z}, xmm/m128")]
+    vmovdqa64_xmm_m128 = 1889,
+    /// <summary>
+    /// vmovdqa64 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqa64 xmm_k1z, xmm","vmovdqa64 xmm {k1}{z}, xmm/m128")]
+    vmovdqa64_xmm_k1z_xmm = 1890,
+    /// <summary>
+    /// vmovdqa64 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqa64 xmm_k1z, m128","vmovdqa64 xmm {k1}{z}, xmm/m128")]
+    vmovdqa64_xmm_k1z_m128 = 1891,
     /// <summary>
     /// vmovdqa64 xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovdqa64 m128 {k1}{z}, xmm","vmovdqa64 xmm/m128 {k1}{z}, xmm")]
-    vmovdqa64_m128_k1z_xmm = 1816,
+    [Symbol("vmovdqa64 m128_k1z, xmm","vmovdqa64 xmm/m128 {k1}{z}, xmm")]
+    vmovdqa64_m128_k1z_xmm = 1892,
     /// <summary>
     /// vmovdqa64 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqa64 ymm {k1}{z}, ymm","vmovdqa64 ymm {k1}{z}, ymm/m256")]
-    vmovdqa64_ymm_k1z_ymm = 1817,
+    [Symbol("vmovdqa64 ymm, ymm","vmovdqa64 ymm {k1}{z}, ymm/m256")]
+    vmovdqa64_ymm_ymm = 1893,
     /// <summary>
     /// vmovdqa64 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqa64 ymm {k1}{z}, m256","vmovdqa64 ymm {k1}{z}, ymm/m256")]
-    vmovdqa64_ymm_k1z_m256 = 1818,
+    [Symbol("vmovdqa64 ymm, m256","vmovdqa64 ymm {k1}{z}, ymm/m256")]
+    vmovdqa64_ymm_m256 = 1894,
+    /// <summary>
+    /// vmovdqa64 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqa64 ymm_k1z, ymm","vmovdqa64 ymm {k1}{z}, ymm/m256")]
+    vmovdqa64_ymm_k1z_ymm = 1895,
+    /// <summary>
+    /// vmovdqa64 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqa64 ymm_k1z, m256","vmovdqa64 ymm {k1}{z}, ymm/m256")]
+    vmovdqa64_ymm_k1z_m256 = 1896,
     /// <summary>
     /// vmovdqa64 ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovdqa64 m256 {k1}{z}, ymm","vmovdqa64 ymm/m256 {k1}{z}, ymm")]
-    vmovdqa64_m256_k1z_ymm = 1819,
+    [Symbol("vmovdqa64 m256_k1z, ymm","vmovdqa64 ymm/m256 {k1}{z}, ymm")]
+    vmovdqa64_m256_k1z_ymm = 1897,
     /// <summary>
     /// vmovdqa64 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqa64 zmm {k1}{z}, zmm","vmovdqa64 zmm {k1}{z}, zmm/m512")]
-    vmovdqa64_zmm_k1z_zmm = 1820,
+    [Symbol("vmovdqa64 zmm, zmm","vmovdqa64 zmm {k1}{z}, zmm/m512")]
+    vmovdqa64_zmm_zmm = 1898,
     /// <summary>
     /// vmovdqa64 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqa64 zmm {k1}{z}, m512","vmovdqa64 zmm {k1}{z}, zmm/m512")]
-    vmovdqa64_zmm_k1z_m512 = 1821,
+    [Symbol("vmovdqa64 zmm, m512","vmovdqa64 zmm {k1}{z}, zmm/m512")]
+    vmovdqa64_zmm_m512 = 1899,
+    /// <summary>
+    /// vmovdqa64 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqa64 zmm_k1z, zmm","vmovdqa64 zmm {k1}{z}, zmm/m512")]
+    vmovdqa64_zmm_k1z_zmm = 1900,
+    /// <summary>
+    /// vmovdqa64 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqa64 zmm_k1z, m512","vmovdqa64 zmm {k1}{z}, zmm/m512")]
+    vmovdqa64_zmm_k1z_m512 = 1901,
     /// <summary>
     /// vmovdqa64 zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovdqa64 m512 {k1}{z}, zmm","vmovdqa64 zmm/m512 {k1}{z}, zmm")]
-    vmovdqa64_m512_k1z_zmm = 1822,
+    [Symbol("vmovdqa64 m512_k1z, zmm","vmovdqa64 zmm/m512 {k1}{z}, zmm")]
+    vmovdqa64_m512_k1z_zmm = 1902,
     /// <summary>
     /// vmovdqu xmm, xmm/m128
     /// </summary>
     [Symbol("vmovdqu xmm, xmm","vmovdqu xmm, xmm/m128")]
-    vmovdqu_xmm_xmm = 1823,
+    vmovdqu_xmm_xmm = 1903,
     /// <summary>
     /// vmovdqu xmm, xmm/m128
     /// </summary>
     [Symbol("vmovdqu xmm, m128","vmovdqu xmm, xmm/m128")]
-    vmovdqu_xmm_m128 = 1824,
+    vmovdqu_xmm_m128 = 1904,
     /// <summary>
     /// vmovdqu xmm/m128, xmm
     /// </summary>
     [Symbol("vmovdqu m128, xmm","vmovdqu xmm/m128, xmm")]
-    vmovdqu_m128_xmm = 1825,
+    vmovdqu_m128_xmm = 1905,
     /// <summary>
     /// vmovdqu ymm, ymm/m256
     /// </summary>
     [Symbol("vmovdqu ymm, ymm","vmovdqu ymm, ymm/m256")]
-    vmovdqu_ymm_ymm = 1826,
+    vmovdqu_ymm_ymm = 1906,
     /// <summary>
     /// vmovdqu ymm, ymm/m256
     /// </summary>
     [Symbol("vmovdqu ymm, m256","vmovdqu ymm, ymm/m256")]
-    vmovdqu_ymm_m256 = 1827,
+    vmovdqu_ymm_m256 = 1907,
     /// <summary>
     /// vmovdqu ymm/m256, ymm
     /// </summary>
     [Symbol("vmovdqu m256, ymm","vmovdqu ymm/m256, ymm")]
-    vmovdqu_m256_ymm = 1828,
+    vmovdqu_m256_ymm = 1908,
     /// <summary>
     /// vmovdqu16 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu16 xmm {k1}{z}, xmm","vmovdqu16 xmm {k1}{z}, xmm/m128")]
-    vmovdqu16_xmm_k1z_xmm = 1829,
+    [Symbol("vmovdqu16 xmm, xmm","vmovdqu16 xmm {k1}{z}, xmm/m128")]
+    vmovdqu16_xmm_xmm = 1909,
     /// <summary>
     /// vmovdqu16 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu16 xmm {k1}{z}, m128","vmovdqu16 xmm {k1}{z}, xmm/m128")]
-    vmovdqu16_xmm_k1z_m128 = 1830,
+    [Symbol("vmovdqu16 xmm, m128","vmovdqu16 xmm {k1}{z}, xmm/m128")]
+    vmovdqu16_xmm_m128 = 1910,
+    /// <summary>
+    /// vmovdqu16 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu16 xmm_k1z, xmm","vmovdqu16 xmm {k1}{z}, xmm/m128")]
+    vmovdqu16_xmm_k1z_xmm = 1911,
+    /// <summary>
+    /// vmovdqu16 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu16 xmm_k1z, m128","vmovdqu16 xmm {k1}{z}, xmm/m128")]
+    vmovdqu16_xmm_k1z_m128 = 1912,
     /// <summary>
     /// vmovdqu16 xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovdqu16 m128 {k1}{z}, xmm","vmovdqu16 xmm/m128 {k1}{z}, xmm")]
-    vmovdqu16_m128_k1z_xmm = 1831,
+    [Symbol("vmovdqu16 m128_k1z, xmm","vmovdqu16 xmm/m128 {k1}{z}, xmm")]
+    vmovdqu16_m128_k1z_xmm = 1913,
     /// <summary>
     /// vmovdqu16 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu16 ymm {k1}{z}, ymm","vmovdqu16 ymm {k1}{z}, ymm/m256")]
-    vmovdqu16_ymm_k1z_ymm = 1832,
+    [Symbol("vmovdqu16 ymm, ymm","vmovdqu16 ymm {k1}{z}, ymm/m256")]
+    vmovdqu16_ymm_ymm = 1914,
     /// <summary>
     /// vmovdqu16 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu16 ymm {k1}{z}, m256","vmovdqu16 ymm {k1}{z}, ymm/m256")]
-    vmovdqu16_ymm_k1z_m256 = 1833,
+    [Symbol("vmovdqu16 ymm, m256","vmovdqu16 ymm {k1}{z}, ymm/m256")]
+    vmovdqu16_ymm_m256 = 1915,
+    /// <summary>
+    /// vmovdqu16 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu16 ymm_k1z, ymm","vmovdqu16 ymm {k1}{z}, ymm/m256")]
+    vmovdqu16_ymm_k1z_ymm = 1916,
+    /// <summary>
+    /// vmovdqu16 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu16 ymm_k1z, m256","vmovdqu16 ymm {k1}{z}, ymm/m256")]
+    vmovdqu16_ymm_k1z_m256 = 1917,
     /// <summary>
     /// vmovdqu16 ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovdqu16 m256 {k1}{z}, ymm","vmovdqu16 ymm/m256 {k1}{z}, ymm")]
-    vmovdqu16_m256_k1z_ymm = 1834,
+    [Symbol("vmovdqu16 m256_k1z, ymm","vmovdqu16 ymm/m256 {k1}{z}, ymm")]
+    vmovdqu16_m256_k1z_ymm = 1918,
     /// <summary>
     /// vmovdqu16 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu16 zmm {k1}{z}, zmm","vmovdqu16 zmm {k1}{z}, zmm/m512")]
-    vmovdqu16_zmm_k1z_zmm = 1835,
+    [Symbol("vmovdqu16 zmm, zmm","vmovdqu16 zmm {k1}{z}, zmm/m512")]
+    vmovdqu16_zmm_zmm = 1919,
     /// <summary>
     /// vmovdqu16 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu16 zmm {k1}{z}, m512","vmovdqu16 zmm {k1}{z}, zmm/m512")]
-    vmovdqu16_zmm_k1z_m512 = 1836,
+    [Symbol("vmovdqu16 zmm, m512","vmovdqu16 zmm {k1}{z}, zmm/m512")]
+    vmovdqu16_zmm_m512 = 1920,
+    /// <summary>
+    /// vmovdqu16 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu16 zmm_k1z, zmm","vmovdqu16 zmm {k1}{z}, zmm/m512")]
+    vmovdqu16_zmm_k1z_zmm = 1921,
+    /// <summary>
+    /// vmovdqu16 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu16 zmm_k1z, m512","vmovdqu16 zmm {k1}{z}, zmm/m512")]
+    vmovdqu16_zmm_k1z_m512 = 1922,
     /// <summary>
     /// vmovdqu16 zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovdqu16 m512 {k1}{z}, zmm","vmovdqu16 zmm/m512 {k1}{z}, zmm")]
-    vmovdqu16_m512_k1z_zmm = 1837,
+    [Symbol("vmovdqu16 m512_k1z, zmm","vmovdqu16 zmm/m512 {k1}{z}, zmm")]
+    vmovdqu16_m512_k1z_zmm = 1923,
     /// <summary>
     /// vmovdqu32 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu32 xmm {k1}{z}, xmm","vmovdqu32 xmm {k1}{z}, xmm/m128")]
-    vmovdqu32_xmm_k1z_xmm = 1838,
+    [Symbol("vmovdqu32 xmm, xmm","vmovdqu32 xmm {k1}{z}, xmm/m128")]
+    vmovdqu32_xmm_xmm = 1924,
     /// <summary>
     /// vmovdqu32 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu32 xmm {k1}{z}, m128","vmovdqu32 xmm {k1}{z}, xmm/m128")]
-    vmovdqu32_xmm_k1z_m128 = 1839,
+    [Symbol("vmovdqu32 xmm, m128","vmovdqu32 xmm {k1}{z}, xmm/m128")]
+    vmovdqu32_xmm_m128 = 1925,
+    /// <summary>
+    /// vmovdqu32 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu32 xmm_k1z, xmm","vmovdqu32 xmm {k1}{z}, xmm/m128")]
+    vmovdqu32_xmm_k1z_xmm = 1926,
+    /// <summary>
+    /// vmovdqu32 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu32 xmm_k1z, m128","vmovdqu32 xmm {k1}{z}, xmm/m128")]
+    vmovdqu32_xmm_k1z_m128 = 1927,
     /// <summary>
     /// vmovdqu32 xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovdqu32 m128 {k1}{z}, xmm","vmovdqu32 xmm/m128 {k1}{z}, xmm")]
-    vmovdqu32_m128_k1z_xmm = 1840,
+    [Symbol("vmovdqu32 m128_k1z, xmm","vmovdqu32 xmm/m128 {k1}{z}, xmm")]
+    vmovdqu32_m128_k1z_xmm = 1928,
     /// <summary>
     /// vmovdqu32 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu32 ymm {k1}{z}, ymm","vmovdqu32 ymm {k1}{z}, ymm/m256")]
-    vmovdqu32_ymm_k1z_ymm = 1841,
+    [Symbol("vmovdqu32 ymm, ymm","vmovdqu32 ymm {k1}{z}, ymm/m256")]
+    vmovdqu32_ymm_ymm = 1929,
     /// <summary>
     /// vmovdqu32 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu32 ymm {k1}{z}, m256","vmovdqu32 ymm {k1}{z}, ymm/m256")]
-    vmovdqu32_ymm_k1z_m256 = 1842,
+    [Symbol("vmovdqu32 ymm, m256","vmovdqu32 ymm {k1}{z}, ymm/m256")]
+    vmovdqu32_ymm_m256 = 1930,
+    /// <summary>
+    /// vmovdqu32 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu32 ymm_k1z, ymm","vmovdqu32 ymm {k1}{z}, ymm/m256")]
+    vmovdqu32_ymm_k1z_ymm = 1931,
+    /// <summary>
+    /// vmovdqu32 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu32 ymm_k1z, m256","vmovdqu32 ymm {k1}{z}, ymm/m256")]
+    vmovdqu32_ymm_k1z_m256 = 1932,
     /// <summary>
     /// vmovdqu32 ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovdqu32 m256 {k1}{z}, ymm","vmovdqu32 ymm/m256 {k1}{z}, ymm")]
-    vmovdqu32_m256_k1z_ymm = 1843,
+    [Symbol("vmovdqu32 m256_k1z, ymm","vmovdqu32 ymm/m256 {k1}{z}, ymm")]
+    vmovdqu32_m256_k1z_ymm = 1933,
     /// <summary>
     /// vmovdqu32 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu32 zmm {k1}{z}, zmm","vmovdqu32 zmm {k1}{z}, zmm/m512")]
-    vmovdqu32_zmm_k1z_zmm = 1844,
+    [Symbol("vmovdqu32 zmm, zmm","vmovdqu32 zmm {k1}{z}, zmm/m512")]
+    vmovdqu32_zmm_zmm = 1934,
     /// <summary>
     /// vmovdqu32 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu32 zmm {k1}{z}, m512","vmovdqu32 zmm {k1}{z}, zmm/m512")]
-    vmovdqu32_zmm_k1z_m512 = 1845,
+    [Symbol("vmovdqu32 zmm, m512","vmovdqu32 zmm {k1}{z}, zmm/m512")]
+    vmovdqu32_zmm_m512 = 1935,
+    /// <summary>
+    /// vmovdqu32 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu32 zmm_k1z, zmm","vmovdqu32 zmm {k1}{z}, zmm/m512")]
+    vmovdqu32_zmm_k1z_zmm = 1936,
+    /// <summary>
+    /// vmovdqu32 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu32 zmm_k1z, m512","vmovdqu32 zmm {k1}{z}, zmm/m512")]
+    vmovdqu32_zmm_k1z_m512 = 1937,
     /// <summary>
     /// vmovdqu32 zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovdqu32 m512 {k1}{z}, zmm","vmovdqu32 zmm/m512 {k1}{z}, zmm")]
-    vmovdqu32_m512_k1z_zmm = 1846,
+    [Symbol("vmovdqu32 m512_k1z, zmm","vmovdqu32 zmm/m512 {k1}{z}, zmm")]
+    vmovdqu32_m512_k1z_zmm = 1938,
     /// <summary>
     /// vmovdqu64 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu64 xmm {k1}{z}, xmm","vmovdqu64 xmm {k1}{z}, xmm/m128")]
-    vmovdqu64_xmm_k1z_xmm = 1847,
+    [Symbol("vmovdqu64 xmm, xmm","vmovdqu64 xmm {k1}{z}, xmm/m128")]
+    vmovdqu64_xmm_xmm = 1939,
     /// <summary>
     /// vmovdqu64 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu64 xmm {k1}{z}, m128","vmovdqu64 xmm {k1}{z}, xmm/m128")]
-    vmovdqu64_xmm_k1z_m128 = 1848,
+    [Symbol("vmovdqu64 xmm, m128","vmovdqu64 xmm {k1}{z}, xmm/m128")]
+    vmovdqu64_xmm_m128 = 1940,
+    /// <summary>
+    /// vmovdqu64 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu64 xmm_k1z, xmm","vmovdqu64 xmm {k1}{z}, xmm/m128")]
+    vmovdqu64_xmm_k1z_xmm = 1941,
+    /// <summary>
+    /// vmovdqu64 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu64 xmm_k1z, m128","vmovdqu64 xmm {k1}{z}, xmm/m128")]
+    vmovdqu64_xmm_k1z_m128 = 1942,
     /// <summary>
     /// vmovdqu64 xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovdqu64 m128 {k1}{z}, xmm","vmovdqu64 xmm/m128 {k1}{z}, xmm")]
-    vmovdqu64_m128_k1z_xmm = 1849,
+    [Symbol("vmovdqu64 m128_k1z, xmm","vmovdqu64 xmm/m128 {k1}{z}, xmm")]
+    vmovdqu64_m128_k1z_xmm = 1943,
     /// <summary>
     /// vmovdqu64 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu64 ymm {k1}{z}, ymm","vmovdqu64 ymm {k1}{z}, ymm/m256")]
-    vmovdqu64_ymm_k1z_ymm = 1850,
+    [Symbol("vmovdqu64 ymm, ymm","vmovdqu64 ymm {k1}{z}, ymm/m256")]
+    vmovdqu64_ymm_ymm = 1944,
     /// <summary>
     /// vmovdqu64 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu64 ymm {k1}{z}, m256","vmovdqu64 ymm {k1}{z}, ymm/m256")]
-    vmovdqu64_ymm_k1z_m256 = 1851,
+    [Symbol("vmovdqu64 ymm, m256","vmovdqu64 ymm {k1}{z}, ymm/m256")]
+    vmovdqu64_ymm_m256 = 1945,
+    /// <summary>
+    /// vmovdqu64 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu64 ymm_k1z, ymm","vmovdqu64 ymm {k1}{z}, ymm/m256")]
+    vmovdqu64_ymm_k1z_ymm = 1946,
+    /// <summary>
+    /// vmovdqu64 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu64 ymm_k1z, m256","vmovdqu64 ymm {k1}{z}, ymm/m256")]
+    vmovdqu64_ymm_k1z_m256 = 1947,
     /// <summary>
     /// vmovdqu64 ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovdqu64 m256 {k1}{z}, ymm","vmovdqu64 ymm/m256 {k1}{z}, ymm")]
-    vmovdqu64_m256_k1z_ymm = 1852,
+    [Symbol("vmovdqu64 m256_k1z, ymm","vmovdqu64 ymm/m256 {k1}{z}, ymm")]
+    vmovdqu64_m256_k1z_ymm = 1948,
     /// <summary>
     /// vmovdqu64 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu64 zmm {k1}{z}, zmm","vmovdqu64 zmm {k1}{z}, zmm/m512")]
-    vmovdqu64_zmm_k1z_zmm = 1853,
+    [Symbol("vmovdqu64 zmm, zmm","vmovdqu64 zmm {k1}{z}, zmm/m512")]
+    vmovdqu64_zmm_zmm = 1949,
     /// <summary>
     /// vmovdqu64 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu64 zmm {k1}{z}, m512","vmovdqu64 zmm {k1}{z}, zmm/m512")]
-    vmovdqu64_zmm_k1z_m512 = 1854,
+    [Symbol("vmovdqu64 zmm, m512","vmovdqu64 zmm {k1}{z}, zmm/m512")]
+    vmovdqu64_zmm_m512 = 1950,
+    /// <summary>
+    /// vmovdqu64 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu64 zmm_k1z, zmm","vmovdqu64 zmm {k1}{z}, zmm/m512")]
+    vmovdqu64_zmm_k1z_zmm = 1951,
+    /// <summary>
+    /// vmovdqu64 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu64 zmm_k1z, m512","vmovdqu64 zmm {k1}{z}, zmm/m512")]
+    vmovdqu64_zmm_k1z_m512 = 1952,
     /// <summary>
     /// vmovdqu64 zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovdqu64 m512 {k1}{z}, zmm","vmovdqu64 zmm/m512 {k1}{z}, zmm")]
-    vmovdqu64_m512_k1z_zmm = 1855,
+    [Symbol("vmovdqu64 m512_k1z, zmm","vmovdqu64 zmm/m512 {k1}{z}, zmm")]
+    vmovdqu64_m512_k1z_zmm = 1953,
     /// <summary>
     /// vmovdqu8 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu8 xmm {k1}{z}, xmm","vmovdqu8 xmm {k1}{z}, xmm/m128")]
-    vmovdqu8_xmm_k1z_xmm = 1856,
+    [Symbol("vmovdqu8 xmm, xmm","vmovdqu8 xmm {k1}{z}, xmm/m128")]
+    vmovdqu8_xmm_xmm = 1954,
     /// <summary>
     /// vmovdqu8 xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovdqu8 xmm {k1}{z}, m128","vmovdqu8 xmm {k1}{z}, xmm/m128")]
-    vmovdqu8_xmm_k1z_m128 = 1857,
+    [Symbol("vmovdqu8 xmm, m128","vmovdqu8 xmm {k1}{z}, xmm/m128")]
+    vmovdqu8_xmm_m128 = 1955,
+    /// <summary>
+    /// vmovdqu8 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu8 xmm_k1z, xmm","vmovdqu8 xmm {k1}{z}, xmm/m128")]
+    vmovdqu8_xmm_k1z_xmm = 1956,
+    /// <summary>
+    /// vmovdqu8 xmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vmovdqu8 xmm_k1z, m128","vmovdqu8 xmm {k1}{z}, xmm/m128")]
+    vmovdqu8_xmm_k1z_m128 = 1957,
     /// <summary>
     /// vmovdqu8 xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovdqu8 m128 {k1}{z}, xmm","vmovdqu8 xmm/m128 {k1}{z}, xmm")]
-    vmovdqu8_m128_k1z_xmm = 1858,
+    [Symbol("vmovdqu8 m128_k1z, xmm","vmovdqu8 xmm/m128 {k1}{z}, xmm")]
+    vmovdqu8_m128_k1z_xmm = 1958,
     /// <summary>
     /// vmovdqu8 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu8 ymm {k1}{z}, ymm","vmovdqu8 ymm {k1}{z}, ymm/m256")]
-    vmovdqu8_ymm_k1z_ymm = 1859,
+    [Symbol("vmovdqu8 ymm, ymm","vmovdqu8 ymm {k1}{z}, ymm/m256")]
+    vmovdqu8_ymm_ymm = 1959,
     /// <summary>
     /// vmovdqu8 ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovdqu8 ymm {k1}{z}, m256","vmovdqu8 ymm {k1}{z}, ymm/m256")]
-    vmovdqu8_ymm_k1z_m256 = 1860,
+    [Symbol("vmovdqu8 ymm, m256","vmovdqu8 ymm {k1}{z}, ymm/m256")]
+    vmovdqu8_ymm_m256 = 1960,
+    /// <summary>
+    /// vmovdqu8 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu8 ymm_k1z, ymm","vmovdqu8 ymm {k1}{z}, ymm/m256")]
+    vmovdqu8_ymm_k1z_ymm = 1961,
+    /// <summary>
+    /// vmovdqu8 ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vmovdqu8 ymm_k1z, m256","vmovdqu8 ymm {k1}{z}, ymm/m256")]
+    vmovdqu8_ymm_k1z_m256 = 1962,
     /// <summary>
     /// vmovdqu8 ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovdqu8 m256 {k1}{z}, ymm","vmovdqu8 ymm/m256 {k1}{z}, ymm")]
-    vmovdqu8_m256_k1z_ymm = 1861,
+    [Symbol("vmovdqu8 m256_k1z, ymm","vmovdqu8 ymm/m256 {k1}{z}, ymm")]
+    vmovdqu8_m256_k1z_ymm = 1963,
     /// <summary>
     /// vmovdqu8 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu8 zmm {k1}{z}, zmm","vmovdqu8 zmm {k1}{z}, zmm/m512")]
-    vmovdqu8_zmm_k1z_zmm = 1862,
+    [Symbol("vmovdqu8 zmm, zmm","vmovdqu8 zmm {k1}{z}, zmm/m512")]
+    vmovdqu8_zmm_zmm = 1964,
     /// <summary>
     /// vmovdqu8 zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovdqu8 zmm {k1}{z}, m512","vmovdqu8 zmm {k1}{z}, zmm/m512")]
-    vmovdqu8_zmm_k1z_m512 = 1863,
+    [Symbol("vmovdqu8 zmm, m512","vmovdqu8 zmm {k1}{z}, zmm/m512")]
+    vmovdqu8_zmm_m512 = 1965,
+    /// <summary>
+    /// vmovdqu8 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu8 zmm_k1z, zmm","vmovdqu8 zmm {k1}{z}, zmm/m512")]
+    vmovdqu8_zmm_k1z_zmm = 1966,
+    /// <summary>
+    /// vmovdqu8 zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovdqu8 zmm_k1z, m512","vmovdqu8 zmm {k1}{z}, zmm/m512")]
+    vmovdqu8_zmm_k1z_m512 = 1967,
     /// <summary>
     /// vmovdqu8 zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovdqu8 m512 {k1}{z}, zmm","vmovdqu8 zmm/m512 {k1}{z}, zmm")]
-    vmovdqu8_m512_k1z_zmm = 1864,
+    [Symbol("vmovdqu8 m512_k1z, zmm","vmovdqu8 zmm/m512 {k1}{z}, zmm")]
+    vmovdqu8_m512_k1z_zmm = 1968,
     /// <summary>
     /// vmovq r64/m64, xmm
     /// </summary>
     [Symbol("vmovq r64, xmm","vmovq r64/m64, xmm")]
-    vmovq_r64_xmm = 1865,
+    vmovq_r64_xmm = 1969,
     /// <summary>
     /// vmovq r64/m64, xmm
     /// </summary>
     [Symbol("vmovq m64, xmm","vmovq r64/m64, xmm")]
-    vmovq_m64_xmm = 1866,
+    vmovq_m64_xmm = 1970,
     /// <summary>
     /// vmovq xmm, r64/m64
     /// </summary>
     [Symbol("vmovq xmm, r64","vmovq xmm, r64/m64")]
-    vmovq_xmm_r64 = 1867,
+    vmovq_xmm_r64 = 1971,
     /// <summary>
     /// vmovq xmm, r64/m64
     /// </summary>
     [Symbol("vmovq xmm, m64","vmovq xmm, r64/m64")]
-    vmovq_xmm_m64 = 1868,
+    vmovq_xmm_m64 = 1972,
     /// <summary>
     /// vmovq xmm, xmm/m64
     /// </summary>
     [Symbol("vmovq xmm, xmm","vmovq xmm, xmm/m64")]
-    vmovq_xmm_xmm = 1869,
+    vmovq_xmm_xmm = 1973,
     /// <summary>
     /// vmovupd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovupd xmm {k1}{z}, xmm","vmovupd xmm {k1}{z}, xmm/m128")]
-    vmovupd_xmm_k1z_xmm = 1870,
+    [Symbol("vmovupd xmm, xmm","vmovupd xmm {k1}{z}, xmm/m128")]
+    vmovupd_xmm_xmm = 1974,
     /// <summary>
     /// vmovupd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovupd xmm {k1}{z}, m128","vmovupd xmm {k1}{z}, xmm/m128")]
-    vmovupd_xmm_k1z_m128 = 1871,
+    [Symbol("vmovupd xmm, m128","vmovupd xmm {k1}{z}, xmm/m128")]
+    vmovupd_xmm_m128 = 1975,
     /// <summary>
-    /// vmovupd xmm, xmm/m128
+    /// vmovupd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovupd xmm, xmm","vmovupd xmm, xmm/m128")]
-    vmovupd_xmm_xmm = 1872,
+    [Symbol("vmovupd xmm_k1z, xmm","vmovupd xmm {k1}{z}, xmm/m128")]
+    vmovupd_xmm_k1z_xmm = 1976,
     /// <summary>
-    /// vmovupd xmm, xmm/m128
+    /// vmovupd xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vmovupd xmm, m128","vmovupd xmm, xmm/m128")]
-    vmovupd_xmm_m128 = 1873,
+    [Symbol("vmovupd xmm_k1z, m128","vmovupd xmm {k1}{z}, xmm/m128")]
+    vmovupd_xmm_k1z_m128 = 1977,
     /// <summary>
     /// vmovupd xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vmovupd m128 {k1}{z}, xmm","vmovupd xmm/m128 {k1}{z}, xmm")]
-    vmovupd_m128_k1z_xmm = 1874,
+    [Symbol("vmovupd m128_k1z, xmm","vmovupd xmm/m128 {k1}{z}, xmm")]
+    vmovupd_m128_k1z_xmm = 1978,
     /// <summary>
     /// vmovupd xmm/m128, xmm
     /// </summary>
     [Symbol("vmovupd m128, xmm","vmovupd xmm/m128, xmm")]
-    vmovupd_m128_xmm = 1875,
+    vmovupd_m128_xmm = 1979,
     /// <summary>
     /// vmovupd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovupd ymm {k1}{z}, ymm","vmovupd ymm {k1}{z}, ymm/m256")]
-    vmovupd_ymm_k1z_ymm = 1876,
+    [Symbol("vmovupd ymm, ymm","vmovupd ymm {k1}{z}, ymm/m256")]
+    vmovupd_ymm_ymm = 1980,
     /// <summary>
     /// vmovupd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovupd ymm {k1}{z}, m256","vmovupd ymm {k1}{z}, ymm/m256")]
-    vmovupd_ymm_k1z_m256 = 1877,
+    [Symbol("vmovupd ymm, m256","vmovupd ymm {k1}{z}, ymm/m256")]
+    vmovupd_ymm_m256 = 1981,
     /// <summary>
-    /// vmovupd ymm, ymm/m256
+    /// vmovupd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovupd ymm, ymm","vmovupd ymm, ymm/m256")]
-    vmovupd_ymm_ymm = 1878,
+    [Symbol("vmovupd ymm_k1z, ymm","vmovupd ymm {k1}{z}, ymm/m256")]
+    vmovupd_ymm_k1z_ymm = 1982,
     /// <summary>
-    /// vmovupd ymm, ymm/m256
+    /// vmovupd ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vmovupd ymm, m256","vmovupd ymm, ymm/m256")]
-    vmovupd_ymm_m256 = 1879,
+    [Symbol("vmovupd ymm_k1z, m256","vmovupd ymm {k1}{z}, ymm/m256")]
+    vmovupd_ymm_k1z_m256 = 1983,
     /// <summary>
     /// vmovupd ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vmovupd m256 {k1}{z}, ymm","vmovupd ymm/m256 {k1}{z}, ymm")]
-    vmovupd_m256_k1z_ymm = 1880,
+    [Symbol("vmovupd m256_k1z, ymm","vmovupd ymm/m256 {k1}{z}, ymm")]
+    vmovupd_m256_k1z_ymm = 1984,
     /// <summary>
     /// vmovupd ymm/m256, ymm
     /// </summary>
     [Symbol("vmovupd m256, ymm","vmovupd ymm/m256, ymm")]
-    vmovupd_m256_ymm = 1881,
+    vmovupd_m256_ymm = 1985,
     /// <summary>
     /// vmovupd zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovupd zmm {k1}{z}, zmm","vmovupd zmm {k1}{z}, zmm/m512")]
-    vmovupd_zmm_k1z_zmm = 1882,
+    [Symbol("vmovupd zmm, zmm","vmovupd zmm {k1}{z}, zmm/m512")]
+    vmovupd_zmm_zmm = 1986,
     /// <summary>
     /// vmovupd zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vmovupd zmm {k1}{z}, m512","vmovupd zmm {k1}{z}, zmm/m512")]
-    vmovupd_zmm_k1z_m512 = 1883,
+    [Symbol("vmovupd zmm, m512","vmovupd zmm {k1}{z}, zmm/m512")]
+    vmovupd_zmm_m512 = 1987,
+    /// <summary>
+    /// vmovupd zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovupd zmm_k1z, zmm","vmovupd zmm {k1}{z}, zmm/m512")]
+    vmovupd_zmm_k1z_zmm = 1988,
+    /// <summary>
+    /// vmovupd zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vmovupd zmm_k1z, m512","vmovupd zmm {k1}{z}, zmm/m512")]
+    vmovupd_zmm_k1z_m512 = 1989,
     /// <summary>
     /// vmovupd zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vmovupd m512 {k1}{z}, zmm","vmovupd zmm/m512 {k1}{z}, zmm")]
-    vmovupd_m512_k1z_zmm = 1884,
+    [Symbol("vmovupd m512_k1z, zmm","vmovupd zmm/m512 {k1}{z}, zmm")]
+    vmovupd_m512_k1z_zmm = 1990,
     /// <summary>
     /// vmpsadbw xmm, xmm, xmm/m128, imm8
     /// </summary>
     [Symbol("vmpsadbw xmm, xmm, xmm, imm8","vmpsadbw xmm, xmm, xmm/m128, imm8")]
-    vmpsadbw_xmm_xmm_xmm_imm8 = 1885,
+    vmpsadbw_xmm_xmm_xmm_imm8 = 1991,
     /// <summary>
     /// vmpsadbw xmm, xmm, xmm/m128, imm8
     /// </summary>
     [Symbol("vmpsadbw xmm, xmm, m128, imm8","vmpsadbw xmm, xmm, xmm/m128, imm8")]
-    vmpsadbw_xmm_xmm_m128_imm8 = 1886,
+    vmpsadbw_xmm_xmm_m128_imm8 = 1992,
     /// <summary>
     /// vmpsadbw ymm, ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vmpsadbw ymm, ymm, ymm, imm8","vmpsadbw ymm, ymm, ymm/m256, imm8")]
-    vmpsadbw_ymm_ymm_ymm_imm8 = 1887,
+    vmpsadbw_ymm_ymm_ymm_imm8 = 1993,
     /// <summary>
     /// vmpsadbw ymm, ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vmpsadbw ymm, ymm, m256, imm8","vmpsadbw ymm, ymm, ymm/m256, imm8")]
-    vmpsadbw_ymm_ymm_m256_imm8 = 1888,
+    vmpsadbw_ymm_ymm_m256_imm8 = 1994,
     /// <summary>
     /// vpabsb xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsb xmm {k1}{z}, xmm","vpabsb xmm {k1}{z}, xmm/m128")]
-    vpabsb_xmm_k1z_xmm = 1889,
+    [Symbol("vpabsb xmm, xmm","vpabsb xmm {k1}{z}, xmm/m128")]
+    vpabsb_xmm_xmm = 1995,
     /// <summary>
     /// vpabsb xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsb xmm {k1}{z}, m128","vpabsb xmm {k1}{z}, xmm/m128")]
-    vpabsb_xmm_k1z_m128 = 1890,
+    [Symbol("vpabsb xmm, m128","vpabsb xmm {k1}{z}, xmm/m128")]
+    vpabsb_xmm_m128 = 1996,
     /// <summary>
-    /// vpabsb xmm, xmm/m128
+    /// vpabsb xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsb xmm, xmm","vpabsb xmm, xmm/m128")]
-    vpabsb_xmm_xmm = 1891,
+    [Symbol("vpabsb xmm_k1z, xmm","vpabsb xmm {k1}{z}, xmm/m128")]
+    vpabsb_xmm_k1z_xmm = 1997,
     /// <summary>
-    /// vpabsb xmm, xmm/m128
+    /// vpabsb xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsb xmm, m128","vpabsb xmm, xmm/m128")]
-    vpabsb_xmm_m128 = 1892,
-    /// <summary>
-    /// vpabsb ymm {k1}{z}, ymm/m256
-    /// </summary>
-    [Symbol("vpabsb ymm {k1}{z}, ymm","vpabsb ymm {k1}{z}, ymm/m256")]
-    vpabsb_ymm_k1z_ymm = 1893,
+    [Symbol("vpabsb xmm_k1z, m128","vpabsb xmm {k1}{z}, xmm/m128")]
+    vpabsb_xmm_k1z_m128 = 1998,
     /// <summary>
     /// vpabsb ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpabsb ymm {k1}{z}, m256","vpabsb ymm {k1}{z}, ymm/m256")]
-    vpabsb_ymm_k1z_m256 = 1894,
+    [Symbol("vpabsb ymm, ymm","vpabsb ymm {k1}{z}, ymm/m256")]
+    vpabsb_ymm_ymm = 1999,
     /// <summary>
-    /// vpabsb ymm, ymm/m256
+    /// vpabsb ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpabsb ymm, ymm","vpabsb ymm, ymm/m256")]
-    vpabsb_ymm_ymm = 1895,
+    [Symbol("vpabsb ymm, m256","vpabsb ymm {k1}{z}, ymm/m256")]
+    vpabsb_ymm_m256 = 2000,
     /// <summary>
-    /// vpabsb ymm, ymm/m256
+    /// vpabsb ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpabsb ymm, m256","vpabsb ymm, ymm/m256")]
-    vpabsb_ymm_m256 = 1896,
+    [Symbol("vpabsb ymm_k1z, ymm","vpabsb ymm {k1}{z}, ymm/m256")]
+    vpabsb_ymm_k1z_ymm = 2001,
+    /// <summary>
+    /// vpabsb ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpabsb ymm_k1z, m256","vpabsb ymm {k1}{z}, ymm/m256")]
+    vpabsb_ymm_k1z_m256 = 2002,
     /// <summary>
     /// vpabsb zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vpabsb zmm {k1}{z}, zmm","vpabsb zmm {k1}{z}, zmm/m512")]
-    vpabsb_zmm_k1z_zmm = 1897,
+    [Symbol("vpabsb zmm, zmm","vpabsb zmm {k1}{z}, zmm/m512")]
+    vpabsb_zmm_zmm = 2003,
     /// <summary>
     /// vpabsb zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vpabsb zmm {k1}{z}, m512","vpabsb zmm {k1}{z}, zmm/m512")]
-    vpabsb_zmm_k1z_m512 = 1898,
+    [Symbol("vpabsb zmm, m512","vpabsb zmm {k1}{z}, zmm/m512")]
+    vpabsb_zmm_m512 = 2004,
+    /// <summary>
+    /// vpabsb zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vpabsb zmm_k1z, zmm","vpabsb zmm {k1}{z}, zmm/m512")]
+    vpabsb_zmm_k1z_zmm = 2005,
+    /// <summary>
+    /// vpabsb zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vpabsb zmm_k1z, m512","vpabsb zmm {k1}{z}, zmm/m512")]
+    vpabsb_zmm_k1z_m512 = 2006,
     /// <summary>
     /// vpabsd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpabsd xmm {k1}{z}, xmm","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vpabsd_xmm_k1z_xmm = 1899,
+    [Symbol("vpabsd xmm, xmm","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpabsd_xmm_xmm = 2007,
     /// <summary>
     /// vpabsd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpabsd xmm {k1}{z}, m128","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vpabsd_xmm_k1z_m128 = 1900,
+    [Symbol("vpabsd xmm, m128","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpabsd_xmm_m128 = 2008,
     /// <summary>
     /// vpabsd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpabsd xmm {k1}{z}, m32bcst","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vpabsd_xmm_k1z_m32bcst = 1901,
+    [Symbol("vpabsd xmm, m32bcst","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpabsd_xmm_m32bcst = 2009,
     /// <summary>
-    /// vpabsd xmm, xmm/m128
+    /// vpabsd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpabsd xmm, xmm","vpabsd xmm, xmm/m128")]
-    vpabsd_xmm_xmm = 1902,
+    [Symbol("vpabsd xmm_k1z, xmm","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpabsd_xmm_k1z_xmm = 2010,
     /// <summary>
-    /// vpabsd xmm, xmm/m128
+    /// vpabsd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpabsd xmm, m128","vpabsd xmm, xmm/m128")]
-    vpabsd_xmm_m128 = 1903,
+    [Symbol("vpabsd xmm_k1z, m128","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpabsd_xmm_k1z_m128 = 2011,
     /// <summary>
-    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
+    /// vpabsd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpabsd ymm {k1}{z}, ymm","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vpabsd_ymm_k1z_ymm = 1904,
-    /// <summary>
-    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpabsd ymm {k1}{z}, m256","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vpabsd_ymm_k1z_m256 = 1905,
+    [Symbol("vpabsd xmm_k1z, m32bcst","vpabsd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpabsd_xmm_k1z_m32bcst = 2012,
     /// <summary>
     /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpabsd ymm {k1}{z}, m32bcst","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vpabsd_ymm_k1z_m32bcst = 1906,
+    [Symbol("vpabsd ymm, ymm","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpabsd_ymm_ymm = 2013,
     /// <summary>
-    /// vpabsd ymm, ymm/m256
+    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpabsd ymm, ymm","vpabsd ymm, ymm/m256")]
-    vpabsd_ymm_ymm = 1907,
+    [Symbol("vpabsd ymm, m256","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpabsd_ymm_m256 = 2014,
     /// <summary>
-    /// vpabsd ymm, ymm/m256
+    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpabsd ymm, m256","vpabsd ymm, ymm/m256")]
-    vpabsd_ymm_m256 = 1908,
+    [Symbol("vpabsd ymm, m32bcst","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpabsd_ymm_m32bcst = 2015,
+    /// <summary>
+    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpabsd ymm_k1z, ymm","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpabsd_ymm_k1z_ymm = 2016,
+    /// <summary>
+    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpabsd ymm_k1z, m256","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpabsd_ymm_k1z_m256 = 2017,
+    /// <summary>
+    /// vpabsd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpabsd ymm_k1z, m32bcst","vpabsd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpabsd_ymm_k1z_m32bcst = 2018,
     /// <summary>
     /// vpabsd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpabsd zmm {k1}{z}, zmm","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vpabsd_zmm_k1z_zmm = 1909,
+    [Symbol("vpabsd zmm, zmm","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpabsd_zmm_zmm = 2019,
     /// <summary>
     /// vpabsd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpabsd zmm {k1}{z}, m512","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vpabsd_zmm_k1z_m512 = 1910,
+    [Symbol("vpabsd zmm, m512","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpabsd_zmm_m512 = 2020,
     /// <summary>
     /// vpabsd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpabsd zmm {k1}{z}, m32bcst","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vpabsd_zmm_k1z_m32bcst = 1911,
+    [Symbol("vpabsd zmm, m32bcst","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpabsd_zmm_m32bcst = 2021,
+    /// <summary>
+    /// vpabsd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpabsd zmm_k1z, zmm","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpabsd_zmm_k1z_zmm = 2022,
+    /// <summary>
+    /// vpabsd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpabsd zmm_k1z, m512","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpabsd_zmm_k1z_m512 = 2023,
+    /// <summary>
+    /// vpabsd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpabsd zmm_k1z, m32bcst","vpabsd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpabsd_zmm_k1z_m32bcst = 2024,
     /// <summary>
     /// vpabsq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpabsq xmm {k1}{z}, xmm","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vpabsq_xmm_k1z_xmm = 1912,
+    [Symbol("vpabsq xmm, xmm","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpabsq_xmm_xmm = 2025,
     /// <summary>
     /// vpabsq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpabsq xmm {k1}{z}, m128","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vpabsq_xmm_k1z_m128 = 1913,
+    [Symbol("vpabsq xmm, m128","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpabsq_xmm_m128 = 2026,
     /// <summary>
     /// vpabsq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpabsq xmm {k1}{z}, m64bcst","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vpabsq_xmm_k1z_m64bcst = 1914,
+    [Symbol("vpabsq xmm, m64bcst","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpabsq_xmm_m64bcst = 2027,
+    /// <summary>
+    /// vpabsq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpabsq xmm_k1z, xmm","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpabsq_xmm_k1z_xmm = 2028,
+    /// <summary>
+    /// vpabsq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpabsq xmm_k1z, m128","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpabsq_xmm_k1z_m128 = 2029,
+    /// <summary>
+    /// vpabsq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpabsq xmm_k1z, m64bcst","vpabsq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpabsq_xmm_k1z_m64bcst = 2030,
     /// <summary>
     /// vpabsq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpabsq ymm {k1}{z}, ymm","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vpabsq_ymm_k1z_ymm = 1915,
+    [Symbol("vpabsq ymm, ymm","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpabsq_ymm_ymm = 2031,
     /// <summary>
     /// vpabsq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpabsq ymm {k1}{z}, m256","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vpabsq_ymm_k1z_m256 = 1916,
+    [Symbol("vpabsq ymm, m256","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpabsq_ymm_m256 = 2032,
     /// <summary>
     /// vpabsq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpabsq ymm {k1}{z}, m64bcst","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vpabsq_ymm_k1z_m64bcst = 1917,
+    [Symbol("vpabsq ymm, m64bcst","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpabsq_ymm_m64bcst = 2033,
+    /// <summary>
+    /// vpabsq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpabsq ymm_k1z, ymm","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpabsq_ymm_k1z_ymm = 2034,
+    /// <summary>
+    /// vpabsq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpabsq ymm_k1z, m256","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpabsq_ymm_k1z_m256 = 2035,
+    /// <summary>
+    /// vpabsq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpabsq ymm_k1z, m64bcst","vpabsq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpabsq_ymm_k1z_m64bcst = 2036,
     /// <summary>
     /// vpabsq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpabsq zmm {k1}{z}, zmm","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vpabsq_zmm_k1z_zmm = 1918,
+    [Symbol("vpabsq zmm, zmm","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpabsq_zmm_zmm = 2037,
     /// <summary>
     /// vpabsq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpabsq zmm {k1}{z}, m512","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vpabsq_zmm_k1z_m512 = 1919,
+    [Symbol("vpabsq zmm, m512","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpabsq_zmm_m512 = 2038,
     /// <summary>
     /// vpabsq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpabsq zmm {k1}{z}, m64bcst","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vpabsq_zmm_k1z_m64bcst = 1920,
+    [Symbol("vpabsq zmm, m64bcst","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpabsq_zmm_m64bcst = 2039,
+    /// <summary>
+    /// vpabsq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpabsq zmm_k1z, zmm","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpabsq_zmm_k1z_zmm = 2040,
+    /// <summary>
+    /// vpabsq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpabsq zmm_k1z, m512","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpabsq_zmm_k1z_m512 = 2041,
+    /// <summary>
+    /// vpabsq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpabsq zmm_k1z, m64bcst","vpabsq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpabsq_zmm_k1z_m64bcst = 2042,
     /// <summary>
     /// vpabsw xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsw xmm {k1}{z}, xmm","vpabsw xmm {k1}{z}, xmm/m128")]
-    vpabsw_xmm_k1z_xmm = 1921,
+    [Symbol("vpabsw xmm, xmm","vpabsw xmm {k1}{z}, xmm/m128")]
+    vpabsw_xmm_xmm = 2043,
     /// <summary>
     /// vpabsw xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsw xmm {k1}{z}, m128","vpabsw xmm {k1}{z}, xmm/m128")]
-    vpabsw_xmm_k1z_m128 = 1922,
+    [Symbol("vpabsw xmm, m128","vpabsw xmm {k1}{z}, xmm/m128")]
+    vpabsw_xmm_m128 = 2044,
     /// <summary>
-    /// vpabsw xmm, xmm/m128
+    /// vpabsw xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsw xmm, xmm","vpabsw xmm, xmm/m128")]
-    vpabsw_xmm_xmm = 1923,
+    [Symbol("vpabsw xmm_k1z, xmm","vpabsw xmm {k1}{z}, xmm/m128")]
+    vpabsw_xmm_k1z_xmm = 2045,
     /// <summary>
-    /// vpabsw xmm, xmm/m128
+    /// vpabsw xmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpabsw xmm, m128","vpabsw xmm, xmm/m128")]
-    vpabsw_xmm_m128 = 1924,
-    /// <summary>
-    /// vpabsw ymm {k1}{z}, ymm/m256
-    /// </summary>
-    [Symbol("vpabsw ymm {k1}{z}, ymm","vpabsw ymm {k1}{z}, ymm/m256")]
-    vpabsw_ymm_k1z_ymm = 1925,
+    [Symbol("vpabsw xmm_k1z, m128","vpabsw xmm {k1}{z}, xmm/m128")]
+    vpabsw_xmm_k1z_m128 = 2046,
     /// <summary>
     /// vpabsw ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpabsw ymm {k1}{z}, m256","vpabsw ymm {k1}{z}, ymm/m256")]
-    vpabsw_ymm_k1z_m256 = 1926,
+    [Symbol("vpabsw ymm, ymm","vpabsw ymm {k1}{z}, ymm/m256")]
+    vpabsw_ymm_ymm = 2047,
     /// <summary>
-    /// vpabsw ymm, ymm/m256
+    /// vpabsw ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpabsw ymm, ymm","vpabsw ymm, ymm/m256")]
-    vpabsw_ymm_ymm = 1927,
+    [Symbol("vpabsw ymm, m256","vpabsw ymm {k1}{z}, ymm/m256")]
+    vpabsw_ymm_m256 = 2048,
     /// <summary>
-    /// vpabsw ymm, ymm/m256
+    /// vpabsw ymm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpabsw ymm, m256","vpabsw ymm, ymm/m256")]
-    vpabsw_ymm_m256 = 1928,
+    [Symbol("vpabsw ymm_k1z, ymm","vpabsw ymm {k1}{z}, ymm/m256")]
+    vpabsw_ymm_k1z_ymm = 2049,
+    /// <summary>
+    /// vpabsw ymm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpabsw ymm_k1z, m256","vpabsw ymm {k1}{z}, ymm/m256")]
+    vpabsw_ymm_k1z_m256 = 2050,
     /// <summary>
     /// vpabsw zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vpabsw zmm {k1}{z}, zmm","vpabsw zmm {k1}{z}, zmm/m512")]
-    vpabsw_zmm_k1z_zmm = 1929,
+    [Symbol("vpabsw zmm, zmm","vpabsw zmm {k1}{z}, zmm/m512")]
+    vpabsw_zmm_zmm = 2051,
     /// <summary>
     /// vpabsw zmm {k1}{z}, zmm/m512
     /// </summary>
-    [Symbol("vpabsw zmm {k1}{z}, m512","vpabsw zmm {k1}{z}, zmm/m512")]
-    vpabsw_zmm_k1z_m512 = 1930,
+    [Symbol("vpabsw zmm, m512","vpabsw zmm {k1}{z}, zmm/m512")]
+    vpabsw_zmm_m512 = 2052,
+    /// <summary>
+    /// vpabsw zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vpabsw zmm_k1z, zmm","vpabsw zmm {k1}{z}, zmm/m512")]
+    vpabsw_zmm_k1z_zmm = 2053,
+    /// <summary>
+    /// vpabsw zmm {k1}{z}, zmm/m512
+    /// </summary>
+    [Symbol("vpabsw zmm_k1z, m512","vpabsw zmm {k1}{z}, zmm/m512")]
+    vpabsw_zmm_k1z_m512 = 2054,
     /// <summary>
     /// vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackssdw xmm {k1}{z}, xmm, xmm","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpackssdw_xmm_k1z_xmm_xmm = 1931,
+    [Symbol("vpackssdw xmm, xmm, xmm","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackssdw_xmm_xmm_xmm = 2055,
     /// <summary>
     /// vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackssdw xmm {k1}{z}, xmm, m128","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpackssdw_xmm_k1z_xmm_m128 = 1932,
+    [Symbol("vpackssdw xmm, xmm, m128","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackssdw_xmm_xmm_m128 = 2056,
     /// <summary>
     /// vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackssdw xmm {k1}{z}, xmm, m32bcst","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpackssdw_xmm_k1z_xmm_m32bcst = 1933,
+    [Symbol("vpackssdw xmm, xmm, m32bcst","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackssdw_xmm_xmm_m32bcst = 2057,
     /// <summary>
-    /// vpackssdw xmm, xmm, xmm/m128
+    /// vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackssdw xmm, xmm, xmm","vpackssdw xmm, xmm, xmm/m128")]
-    vpackssdw_xmm_xmm_xmm = 1934,
+    [Symbol("vpackssdw xmm_k1z, xmm, xmm","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackssdw_xmm_k1z_xmm_xmm = 2058,
     /// <summary>
-    /// vpackssdw xmm, xmm, xmm/m128
+    /// vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackssdw xmm, xmm, m128","vpackssdw xmm, xmm, xmm/m128")]
-    vpackssdw_xmm_xmm_m128 = 1935,
+    [Symbol("vpackssdw xmm_k1z, xmm, m128","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackssdw_xmm_k1z_xmm_m128 = 2059,
+    /// <summary>
+    /// vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpackssdw xmm_k1z, xmm, m32bcst","vpackssdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackssdw_xmm_k1z_xmm_m32bcst = 2060,
     /// <summary>
     /// vpackssdw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpackssdw ymm, ymm, ymm","vpackssdw ymm, ymm, ymm/m256")]
-    vpackssdw_ymm_ymm_ymm = 1936,
+    vpackssdw_ymm_ymm_ymm = 2061,
     /// <summary>
     /// vpackssdw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpackssdw ymm, ymm, m256","vpackssdw ymm, ymm, ymm/m256")]
-    vpackssdw_ymm_ymm_m256 = 1937,
+    vpackssdw_ymm_ymm_m256 = 2062,
     /// <summary>
     /// vpacksswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpacksswb xmm {k1}{z}, xmm, xmm","vpacksswb xmm {k1}{z}, xmm, xmm/m128")]
-    vpacksswb_xmm_k1z_xmm_xmm = 1938,
+    [Symbol("vpacksswb xmm, xmm, xmm","vpacksswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpacksswb_xmm_xmm_xmm = 2063,
     /// <summary>
     /// vpacksswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpacksswb xmm {k1}{z}, xmm, m128","vpacksswb xmm {k1}{z}, xmm, xmm/m128")]
-    vpacksswb_xmm_k1z_xmm_m128 = 1939,
+    [Symbol("vpacksswb xmm, xmm, m128","vpacksswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpacksswb_xmm_xmm_m128 = 2064,
     /// <summary>
-    /// vpacksswb xmm, xmm, xmm/m128
+    /// vpacksswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpacksswb xmm, xmm, xmm","vpacksswb xmm, xmm, xmm/m128")]
-    vpacksswb_xmm_xmm_xmm = 1940,
+    [Symbol("vpacksswb xmm_k1z, xmm, xmm","vpacksswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpacksswb_xmm_k1z_xmm_xmm = 2065,
     /// <summary>
-    /// vpacksswb xmm, xmm, xmm/m128
+    /// vpacksswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpacksswb xmm, xmm, m128","vpacksswb xmm, xmm, xmm/m128")]
-    vpacksswb_xmm_xmm_m128 = 1941,
-    /// <summary>
-    /// vpacksswb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpacksswb ymm {k1}{z}, ymm, ymm","vpacksswb ymm {k1}{z}, ymm, ymm/m256")]
-    vpacksswb_ymm_k1z_ymm_ymm = 1942,
+    [Symbol("vpacksswb xmm_k1z, xmm, m128","vpacksswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpacksswb_xmm_k1z_xmm_m128 = 2066,
     /// <summary>
     /// vpacksswb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpacksswb ymm {k1}{z}, ymm, m256","vpacksswb ymm {k1}{z}, ymm, ymm/m256")]
-    vpacksswb_ymm_k1z_ymm_m256 = 1943,
+    [Symbol("vpacksswb ymm, ymm, ymm","vpacksswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpacksswb_ymm_ymm_ymm = 2067,
     /// <summary>
-    /// vpacksswb ymm, ymm, ymm/m256
+    /// vpacksswb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpacksswb ymm, ymm, ymm","vpacksswb ymm, ymm, ymm/m256")]
-    vpacksswb_ymm_ymm_ymm = 1944,
+    [Symbol("vpacksswb ymm, ymm, m256","vpacksswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpacksswb_ymm_ymm_m256 = 2068,
     /// <summary>
-    /// vpacksswb ymm, ymm, ymm/m256
+    /// vpacksswb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpacksswb ymm, ymm, m256","vpacksswb ymm, ymm, ymm/m256")]
-    vpacksswb_ymm_ymm_m256 = 1945,
+    [Symbol("vpacksswb ymm_k1z, ymm, ymm","vpacksswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpacksswb_ymm_k1z_ymm_ymm = 2069,
+    /// <summary>
+    /// vpacksswb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpacksswb ymm_k1z, ymm, m256","vpacksswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpacksswb_ymm_k1z_ymm_m256 = 2070,
     /// <summary>
     /// vpacksswb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpacksswb zmm {k1}{z}, zmm, zmm","vpacksswb zmm {k1}{z}, zmm, zmm/m512")]
-    vpacksswb_zmm_k1z_zmm_zmm = 1946,
+    [Symbol("vpacksswb zmm, zmm, zmm","vpacksswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpacksswb_zmm_zmm_zmm = 2071,
     /// <summary>
     /// vpacksswb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpacksswb zmm {k1}{z}, zmm, m512","vpacksswb zmm {k1}{z}, zmm, zmm/m512")]
-    vpacksswb_zmm_k1z_zmm_m512 = 1947,
+    [Symbol("vpacksswb zmm, zmm, m512","vpacksswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpacksswb_zmm_zmm_m512 = 2072,
+    /// <summary>
+    /// vpacksswb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpacksswb zmm_k1z, zmm, zmm","vpacksswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpacksswb_zmm_k1z_zmm_zmm = 2073,
+    /// <summary>
+    /// vpacksswb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpacksswb zmm_k1z, zmm, m512","vpacksswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpacksswb_zmm_k1z_zmm_m512 = 2074,
     /// <summary>
     /// vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackusdw xmm {k1}{z}, xmm, xmm","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpackusdw_xmm_k1z_xmm_xmm = 1948,
+    [Symbol("vpackusdw xmm, xmm, xmm","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackusdw_xmm_xmm_xmm = 2075,
     /// <summary>
     /// vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackusdw xmm {k1}{z}, xmm, m128","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpackusdw_xmm_k1z_xmm_m128 = 1949,
+    [Symbol("vpackusdw xmm, xmm, m128","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackusdw_xmm_xmm_m128 = 2076,
     /// <summary>
     /// vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackusdw xmm {k1}{z}, xmm, m32bcst","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpackusdw_xmm_k1z_xmm_m32bcst = 1950,
+    [Symbol("vpackusdw xmm, xmm, m32bcst","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackusdw_xmm_xmm_m32bcst = 2077,
     /// <summary>
-    /// vpackusdw xmm, xmm, xmm/m128
+    /// vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackusdw xmm, xmm, xmm","vpackusdw xmm, xmm, xmm/m128")]
-    vpackusdw_xmm_xmm_xmm = 1951,
+    [Symbol("vpackusdw xmm_k1z, xmm, xmm","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackusdw_xmm_k1z_xmm_xmm = 2078,
     /// <summary>
-    /// vpackusdw xmm, xmm, xmm/m128
+    /// vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackusdw xmm, xmm, m128","vpackusdw xmm, xmm, xmm/m128")]
-    vpackusdw_xmm_xmm_m128 = 1952,
+    [Symbol("vpackusdw xmm_k1z, xmm, m128","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackusdw_xmm_k1z_xmm_m128 = 2079,
     /// <summary>
-    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpackusdw ymm {k1}{z}, ymm, ymm","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpackusdw_ymm_k1z_ymm_ymm = 1953,
-    /// <summary>
-    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpackusdw ymm {k1}{z}, ymm, m256","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpackusdw_ymm_k1z_ymm_m256 = 1954,
+    [Symbol("vpackusdw xmm_k1z, xmm, m32bcst","vpackusdw xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpackusdw_xmm_k1z_xmm_m32bcst = 2080,
     /// <summary>
     /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpackusdw ymm {k1}{z}, ymm, m32bcst","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpackusdw_ymm_k1z_ymm_m32bcst = 1955,
+    [Symbol("vpackusdw ymm, ymm, ymm","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpackusdw_ymm_ymm_ymm = 2081,
     /// <summary>
-    /// vpackusdw ymm, ymm, ymm/m256
+    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpackusdw ymm, ymm, ymm","vpackusdw ymm, ymm, ymm/m256")]
-    vpackusdw_ymm_ymm_ymm = 1956,
+    [Symbol("vpackusdw ymm, ymm, m256","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpackusdw_ymm_ymm_m256 = 2082,
     /// <summary>
-    /// vpackusdw ymm, ymm, ymm/m256
+    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpackusdw ymm, ymm, m256","vpackusdw ymm, ymm, ymm/m256")]
-    vpackusdw_ymm_ymm_m256 = 1957,
+    [Symbol("vpackusdw ymm, ymm, m32bcst","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpackusdw_ymm_ymm_m32bcst = 2083,
+    /// <summary>
+    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpackusdw ymm_k1z, ymm, ymm","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpackusdw_ymm_k1z_ymm_ymm = 2084,
+    /// <summary>
+    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpackusdw ymm_k1z, ymm, m256","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpackusdw_ymm_k1z_ymm_m256 = 2085,
+    /// <summary>
+    /// vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpackusdw ymm_k1z, ymm, m32bcst","vpackusdw ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpackusdw_ymm_k1z_ymm_m32bcst = 2086,
     /// <summary>
     /// vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpackusdw zmm {k1}{z}, zmm, zmm","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpackusdw_zmm_k1z_zmm_zmm = 1958,
+    [Symbol("vpackusdw zmm, zmm, zmm","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpackusdw_zmm_zmm_zmm = 2087,
     /// <summary>
     /// vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpackusdw zmm {k1}{z}, zmm, m512","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpackusdw_zmm_k1z_zmm_m512 = 1959,
+    [Symbol("vpackusdw zmm, zmm, m512","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpackusdw_zmm_zmm_m512 = 2088,
     /// <summary>
     /// vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpackusdw zmm {k1}{z}, zmm, m32bcst","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpackusdw_zmm_k1z_zmm_m32bcst = 1960,
+    [Symbol("vpackusdw zmm, zmm, m32bcst","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpackusdw_zmm_zmm_m32bcst = 2089,
+    /// <summary>
+    /// vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpackusdw zmm_k1z, zmm, zmm","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpackusdw_zmm_k1z_zmm_zmm = 2090,
+    /// <summary>
+    /// vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpackusdw zmm_k1z, zmm, m512","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpackusdw_zmm_k1z_zmm_m512 = 2091,
+    /// <summary>
+    /// vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpackusdw zmm_k1z, zmm, m32bcst","vpackusdw zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpackusdw_zmm_k1z_zmm_m32bcst = 2092,
     /// <summary>
     /// vpackuswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpackuswb xmm {k1}{z}, xmm, xmm","vpackuswb xmm {k1}{z}, xmm, xmm/m128")]
-    vpackuswb_xmm_k1z_xmm_xmm = 1961,
+    [Symbol("vpackuswb xmm, xmm, xmm","vpackuswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpackuswb_xmm_xmm_xmm = 2093,
     /// <summary>
     /// vpackuswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpackuswb xmm {k1}{z}, xmm, m128","vpackuswb xmm {k1}{z}, xmm, xmm/m128")]
-    vpackuswb_xmm_k1z_xmm_m128 = 1962,
+    [Symbol("vpackuswb xmm, xmm, m128","vpackuswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpackuswb_xmm_xmm_m128 = 2094,
     /// <summary>
-    /// vpackuswb xmm, xmm, xmm/m128
+    /// vpackuswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpackuswb xmm, xmm, xmm","vpackuswb xmm, xmm, xmm/m128")]
-    vpackuswb_xmm_xmm_xmm = 1963,
+    [Symbol("vpackuswb xmm_k1z, xmm, xmm","vpackuswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpackuswb_xmm_k1z_xmm_xmm = 2095,
     /// <summary>
-    /// vpackuswb xmm, xmm, xmm/m128
+    /// vpackuswb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpackuswb xmm, xmm, m128","vpackuswb xmm, xmm, xmm/m128")]
-    vpackuswb_xmm_xmm_m128 = 1964,
-    /// <summary>
-    /// vpackuswb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpackuswb ymm {k1}{z}, ymm, ymm","vpackuswb ymm {k1}{z}, ymm, ymm/m256")]
-    vpackuswb_ymm_k1z_ymm_ymm = 1965,
+    [Symbol("vpackuswb xmm_k1z, xmm, m128","vpackuswb xmm {k1}{z}, xmm, xmm/m128")]
+    vpackuswb_xmm_k1z_xmm_m128 = 2096,
     /// <summary>
     /// vpackuswb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpackuswb ymm {k1}{z}, ymm, m256","vpackuswb ymm {k1}{z}, ymm, ymm/m256")]
-    vpackuswb_ymm_k1z_ymm_m256 = 1966,
+    [Symbol("vpackuswb ymm, ymm, ymm","vpackuswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpackuswb_ymm_ymm_ymm = 2097,
     /// <summary>
-    /// vpackuswb ymm, ymm, ymm/m256
+    /// vpackuswb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpackuswb ymm, ymm, ymm","vpackuswb ymm, ymm, ymm/m256")]
-    vpackuswb_ymm_ymm_ymm = 1967,
+    [Symbol("vpackuswb ymm, ymm, m256","vpackuswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpackuswb_ymm_ymm_m256 = 2098,
     /// <summary>
-    /// vpackuswb ymm, ymm, ymm/m256
+    /// vpackuswb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpackuswb ymm, ymm, m256","vpackuswb ymm, ymm, ymm/m256")]
-    vpackuswb_ymm_ymm_m256 = 1968,
+    [Symbol("vpackuswb ymm_k1z, ymm, ymm","vpackuswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpackuswb_ymm_k1z_ymm_ymm = 2099,
+    /// <summary>
+    /// vpackuswb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpackuswb ymm_k1z, ymm, m256","vpackuswb ymm {k1}{z}, ymm, ymm/m256")]
+    vpackuswb_ymm_k1z_ymm_m256 = 2100,
     /// <summary>
     /// vpackuswb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpackuswb zmm {k1}{z}, zmm, zmm","vpackuswb zmm {k1}{z}, zmm, zmm/m512")]
-    vpackuswb_zmm_k1z_zmm_zmm = 1969,
+    [Symbol("vpackuswb zmm, zmm, zmm","vpackuswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpackuswb_zmm_zmm_zmm = 2101,
     /// <summary>
     /// vpackuswb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpackuswb zmm {k1}{z}, zmm, m512","vpackuswb zmm {k1}{z}, zmm, zmm/m512")]
-    vpackuswb_zmm_k1z_zmm_m512 = 1970,
+    [Symbol("vpackuswb zmm, zmm, m512","vpackuswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpackuswb_zmm_zmm_m512 = 2102,
+    /// <summary>
+    /// vpackuswb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpackuswb zmm_k1z, zmm, zmm","vpackuswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpackuswb_zmm_k1z_zmm_zmm = 2103,
+    /// <summary>
+    /// vpackuswb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpackuswb zmm_k1z, zmm, m512","vpackuswb zmm {k1}{z}, zmm, zmm/m512")]
+    vpackuswb_zmm_k1z_zmm_m512 = 2104,
     /// <summary>
     /// vpaddb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddb xmm {k1}{z}, xmm, xmm","vpaddb xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddb_xmm_k1z_xmm_xmm = 1971,
+    [Symbol("vpaddb xmm, xmm, xmm","vpaddb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddb_xmm_xmm_xmm = 2105,
     /// <summary>
     /// vpaddb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddb xmm {k1}{z}, xmm, m128","vpaddb xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddb_xmm_k1z_xmm_m128 = 1972,
+    [Symbol("vpaddb xmm, xmm, m128","vpaddb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddb_xmm_xmm_m128 = 2106,
     /// <summary>
-    /// vpaddb xmm, xmm, xmm/m128
+    /// vpaddb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddb xmm, xmm, xmm","vpaddb xmm, xmm, xmm/m128")]
-    vpaddb_xmm_xmm_xmm = 1973,
+    [Symbol("vpaddb xmm_k1z, xmm, xmm","vpaddb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddb_xmm_k1z_xmm_xmm = 2107,
     /// <summary>
-    /// vpaddb xmm, xmm, xmm/m128
+    /// vpaddb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddb xmm, xmm, m128","vpaddb xmm, xmm, xmm/m128")]
-    vpaddb_xmm_xmm_m128 = 1974,
-    /// <summary>
-    /// vpaddb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpaddb ymm {k1}{z}, ymm, ymm","vpaddb ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddb_ymm_k1z_ymm_ymm = 1975,
+    [Symbol("vpaddb xmm_k1z, xmm, m128","vpaddb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddb_xmm_k1z_xmm_m128 = 2108,
     /// <summary>
     /// vpaddb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddb ymm {k1}{z}, ymm, m256","vpaddb ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddb_ymm_k1z_ymm_m256 = 1976,
+    [Symbol("vpaddb ymm, ymm, ymm","vpaddb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddb_ymm_ymm_ymm = 2109,
     /// <summary>
-    /// vpaddb ymm, ymm, ymm/m256
+    /// vpaddb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddb ymm, ymm, ymm","vpaddb ymm, ymm, ymm/m256")]
-    vpaddb_ymm_ymm_ymm = 1977,
+    [Symbol("vpaddb ymm, ymm, m256","vpaddb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddb_ymm_ymm_m256 = 2110,
     /// <summary>
-    /// vpaddb ymm, ymm, ymm/m256
+    /// vpaddb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddb ymm, ymm, m256","vpaddb ymm, ymm, ymm/m256")]
-    vpaddb_ymm_ymm_m256 = 1978,
+    [Symbol("vpaddb ymm_k1z, ymm, ymm","vpaddb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddb_ymm_k1z_ymm_ymm = 2111,
+    /// <summary>
+    /// vpaddb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpaddb ymm_k1z, ymm, m256","vpaddb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddb_ymm_k1z_ymm_m256 = 2112,
     /// <summary>
     /// vpaddb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddb zmm {k1}{z}, zmm, zmm","vpaddb zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddb_zmm_k1z_zmm_zmm = 1979,
+    [Symbol("vpaddb zmm, zmm, zmm","vpaddb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddb_zmm_zmm_zmm = 2113,
     /// <summary>
     /// vpaddb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddb zmm {k1}{z}, zmm, m512","vpaddb zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddb_zmm_k1z_zmm_m512 = 1980,
+    [Symbol("vpaddb zmm, zmm, m512","vpaddb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddb_zmm_zmm_m512 = 2114,
+    /// <summary>
+    /// vpaddb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddb zmm_k1z, zmm, zmm","vpaddb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddb_zmm_k1z_zmm_zmm = 2115,
+    /// <summary>
+    /// vpaddb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddb zmm_k1z, zmm, m512","vpaddb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddb_zmm_k1z_zmm_m512 = 2116,
     /// <summary>
     /// vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpaddd xmm {k1}{z}, xmm, xmm","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpaddd_xmm_k1z_xmm_xmm = 1981,
+    [Symbol("vpaddd xmm, xmm, xmm","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpaddd_xmm_xmm_xmm = 2117,
     /// <summary>
     /// vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpaddd xmm {k1}{z}, xmm, m128","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpaddd_xmm_k1z_xmm_m128 = 1982,
+    [Symbol("vpaddd xmm, xmm, m128","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpaddd_xmm_xmm_m128 = 2118,
     /// <summary>
     /// vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpaddd xmm {k1}{z}, xmm, m32bcst","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpaddd_xmm_k1z_xmm_m32bcst = 1983,
+    [Symbol("vpaddd xmm, xmm, m32bcst","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpaddd_xmm_xmm_m32bcst = 2119,
     /// <summary>
-    /// vpaddd xmm, xmm, xmm/m128
+    /// vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpaddd xmm, xmm, xmm","vpaddd xmm, xmm, xmm/m128")]
-    vpaddd_xmm_xmm_xmm = 1984,
+    [Symbol("vpaddd xmm_k1z, xmm, xmm","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpaddd_xmm_k1z_xmm_xmm = 2120,
     /// <summary>
-    /// vpaddd xmm, xmm, xmm/m128
+    /// vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpaddd xmm, xmm, m128","vpaddd xmm, xmm, xmm/m128")]
-    vpaddd_xmm_xmm_m128 = 1985,
+    [Symbol("vpaddd xmm_k1z, xmm, m128","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpaddd_xmm_k1z_xmm_m128 = 2121,
     /// <summary>
-    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpaddd ymm {k1}{z}, ymm, ymm","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpaddd_ymm_k1z_ymm_ymm = 1986,
-    /// <summary>
-    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpaddd ymm {k1}{z}, ymm, m256","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpaddd_ymm_k1z_ymm_m256 = 1987,
+    [Symbol("vpaddd xmm_k1z, xmm, m32bcst","vpaddd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpaddd_xmm_k1z_xmm_m32bcst = 2122,
     /// <summary>
     /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpaddd ymm {k1}{z}, ymm, m32bcst","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpaddd_ymm_k1z_ymm_m32bcst = 1988,
+    [Symbol("vpaddd ymm, ymm, ymm","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpaddd_ymm_ymm_ymm = 2123,
     /// <summary>
-    /// vpaddd ymm, ymm, ymm/m256
+    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpaddd ymm, ymm, ymm","vpaddd ymm, ymm, ymm/m256")]
-    vpaddd_ymm_ymm_ymm = 1989,
+    [Symbol("vpaddd ymm, ymm, m256","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpaddd_ymm_ymm_m256 = 2124,
     /// <summary>
-    /// vpaddd ymm, ymm, ymm/m256
+    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpaddd ymm, ymm, m256","vpaddd ymm, ymm, ymm/m256")]
-    vpaddd_ymm_ymm_m256 = 1990,
+    [Symbol("vpaddd ymm, ymm, m32bcst","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpaddd_ymm_ymm_m32bcst = 2125,
+    /// <summary>
+    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpaddd ymm_k1z, ymm, ymm","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpaddd_ymm_k1z_ymm_ymm = 2126,
+    /// <summary>
+    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpaddd ymm_k1z, ymm, m256","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpaddd_ymm_k1z_ymm_m256 = 2127,
+    /// <summary>
+    /// vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpaddd ymm_k1z, ymm, m32bcst","vpaddd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpaddd_ymm_k1z_ymm_m32bcst = 2128,
     /// <summary>
     /// vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpaddd zmm {k1}{z}, zmm, zmm","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpaddd_zmm_k1z_zmm_zmm = 1991,
+    [Symbol("vpaddd zmm, zmm, zmm","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpaddd_zmm_zmm_zmm = 2129,
     /// <summary>
     /// vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpaddd zmm {k1}{z}, zmm, m512","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpaddd_zmm_k1z_zmm_m512 = 1992,
+    [Symbol("vpaddd zmm, zmm, m512","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpaddd_zmm_zmm_m512 = 2130,
     /// <summary>
     /// vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpaddd zmm {k1}{z}, zmm, m32bcst","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpaddd_zmm_k1z_zmm_m32bcst = 1993,
+    [Symbol("vpaddd zmm, zmm, m32bcst","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpaddd_zmm_zmm_m32bcst = 2131,
+    /// <summary>
+    /// vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpaddd zmm_k1z, zmm, zmm","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpaddd_zmm_k1z_zmm_zmm = 2132,
+    /// <summary>
+    /// vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpaddd zmm_k1z, zmm, m512","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpaddd_zmm_k1z_zmm_m512 = 2133,
+    /// <summary>
+    /// vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpaddd zmm_k1z, zmm, m32bcst","vpaddd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpaddd_zmm_k1z_zmm_m32bcst = 2134,
     /// <summary>
     /// vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpaddq xmm {k1}{z}, xmm, xmm","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpaddq_xmm_k1z_xmm_xmm = 1994,
+    [Symbol("vpaddq xmm, xmm, xmm","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpaddq_xmm_xmm_xmm = 2135,
     /// <summary>
     /// vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpaddq xmm {k1}{z}, xmm, m128","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpaddq_xmm_k1z_xmm_m128 = 1995,
+    [Symbol("vpaddq xmm, xmm, m128","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpaddq_xmm_xmm_m128 = 2136,
     /// <summary>
     /// vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpaddq xmm {k1}{z}, xmm, m64bcst","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpaddq_xmm_k1z_xmm_m64bcst = 1996,
+    [Symbol("vpaddq xmm, xmm, m64bcst","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpaddq_xmm_xmm_m64bcst = 2137,
     /// <summary>
-    /// vpaddq xmm, xmm, xmm/m128
+    /// vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpaddq xmm, xmm, xmm","vpaddq xmm, xmm, xmm/m128")]
-    vpaddq_xmm_xmm_xmm = 1997,
+    [Symbol("vpaddq xmm_k1z, xmm, xmm","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpaddq_xmm_k1z_xmm_xmm = 2138,
     /// <summary>
-    /// vpaddq xmm, xmm, xmm/m128
+    /// vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpaddq xmm, xmm, m128","vpaddq xmm, xmm, xmm/m128")]
-    vpaddq_xmm_xmm_m128 = 1998,
+    [Symbol("vpaddq xmm_k1z, xmm, m128","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpaddq_xmm_k1z_xmm_m128 = 2139,
     /// <summary>
-    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpaddq ymm {k1}{z}, ymm, ymm","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpaddq_ymm_k1z_ymm_ymm = 1999,
-    /// <summary>
-    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vpaddq ymm {k1}{z}, ymm, m256","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpaddq_ymm_k1z_ymm_m256 = 2000,
+    [Symbol("vpaddq xmm_k1z, xmm, m64bcst","vpaddq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpaddq_xmm_k1z_xmm_m64bcst = 2140,
     /// <summary>
     /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpaddq ymm {k1}{z}, ymm, m64bcst","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpaddq_ymm_k1z_ymm_m64bcst = 2001,
+    [Symbol("vpaddq ymm, ymm, ymm","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpaddq_ymm_ymm_ymm = 2141,
     /// <summary>
-    /// vpaddq ymm, ymm, ymm/m256
+    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpaddq ymm, ymm, ymm","vpaddq ymm, ymm, ymm/m256")]
-    vpaddq_ymm_ymm_ymm = 2002,
+    [Symbol("vpaddq ymm, ymm, m256","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpaddq_ymm_ymm_m256 = 2142,
     /// <summary>
-    /// vpaddq ymm, ymm, ymm/m256
+    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpaddq ymm, ymm, m256","vpaddq ymm, ymm, ymm/m256")]
-    vpaddq_ymm_ymm_m256 = 2003,
+    [Symbol("vpaddq ymm, ymm, m64bcst","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpaddq_ymm_ymm_m64bcst = 2143,
+    /// <summary>
+    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpaddq ymm_k1z, ymm, ymm","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpaddq_ymm_k1z_ymm_ymm = 2144,
+    /// <summary>
+    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpaddq ymm_k1z, ymm, m256","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpaddq_ymm_k1z_ymm_m256 = 2145,
+    /// <summary>
+    /// vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpaddq ymm_k1z, ymm, m64bcst","vpaddq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpaddq_ymm_k1z_ymm_m64bcst = 2146,
     /// <summary>
     /// vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpaddq zmm {k1}{z}, zmm, zmm","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpaddq_zmm_k1z_zmm_zmm = 2004,
+    [Symbol("vpaddq zmm, zmm, zmm","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpaddq_zmm_zmm_zmm = 2147,
     /// <summary>
     /// vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpaddq zmm {k1}{z}, zmm, m512","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpaddq_zmm_k1z_zmm_m512 = 2005,
+    [Symbol("vpaddq zmm, zmm, m512","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpaddq_zmm_zmm_m512 = 2148,
     /// <summary>
     /// vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpaddq zmm {k1}{z}, zmm, m64bcst","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpaddq_zmm_k1z_zmm_m64bcst = 2006,
+    [Symbol("vpaddq zmm, zmm, m64bcst","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpaddq_zmm_zmm_m64bcst = 2149,
+    /// <summary>
+    /// vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpaddq zmm_k1z, zmm, zmm","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpaddq_zmm_k1z_zmm_zmm = 2150,
+    /// <summary>
+    /// vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpaddq zmm_k1z, zmm, m512","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpaddq_zmm_k1z_zmm_m512 = 2151,
+    /// <summary>
+    /// vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpaddq zmm_k1z, zmm, m64bcst","vpaddq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpaddq_zmm_k1z_zmm_m64bcst = 2152,
     /// <summary>
     /// vpaddsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsb xmm {k1}{z}, xmm, xmm","vpaddsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddsb_xmm_k1z_xmm_xmm = 2007,
+    [Symbol("vpaddsb xmm, xmm, xmm","vpaddsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsb_xmm_xmm_xmm = 2153,
     /// <summary>
     /// vpaddsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsb xmm {k1}{z}, xmm, m128","vpaddsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddsb_xmm_k1z_xmm_m128 = 2008,
+    [Symbol("vpaddsb xmm, xmm, m128","vpaddsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsb_xmm_xmm_m128 = 2154,
     /// <summary>
-    /// vpaddsb xmm, xmm, xmm/m128
+    /// vpaddsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsb xmm, xmm, xmm","vpaddsb xmm, xmm, xmm/m128")]
-    vpaddsb_xmm_xmm_xmm = 2009,
+    [Symbol("vpaddsb xmm_k1z, xmm, xmm","vpaddsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsb_xmm_k1z_xmm_xmm = 2155,
     /// <summary>
-    /// vpaddsb xmm, xmm, xmm/m128
+    /// vpaddsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsb xmm, xmm, m128","vpaddsb xmm, xmm, xmm/m128")]
-    vpaddsb_xmm_xmm_m128 = 2010,
-    /// <summary>
-    /// vpaddsb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpaddsb ymm {k1}{z}, ymm, ymm","vpaddsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddsb_ymm_k1z_ymm_ymm = 2011,
+    [Symbol("vpaddsb xmm_k1z, xmm, m128","vpaddsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsb_xmm_k1z_xmm_m128 = 2156,
     /// <summary>
     /// vpaddsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddsb ymm {k1}{z}, ymm, m256","vpaddsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddsb_ymm_k1z_ymm_m256 = 2012,
+    [Symbol("vpaddsb ymm, ymm, ymm","vpaddsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsb_ymm_ymm_ymm = 2157,
     /// <summary>
-    /// vpaddsb ymm, ymm, ymm/m256
+    /// vpaddsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddsb ymm, ymm, ymm","vpaddsb ymm, ymm, ymm/m256")]
-    vpaddsb_ymm_ymm_ymm = 2013,
+    [Symbol("vpaddsb ymm, ymm, m256","vpaddsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsb_ymm_ymm_m256 = 2158,
     /// <summary>
-    /// vpaddsb ymm, ymm, ymm/m256
+    /// vpaddsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddsb ymm, ymm, m256","vpaddsb ymm, ymm, ymm/m256")]
-    vpaddsb_ymm_ymm_m256 = 2014,
+    [Symbol("vpaddsb ymm_k1z, ymm, ymm","vpaddsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsb_ymm_k1z_ymm_ymm = 2159,
+    /// <summary>
+    /// vpaddsb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpaddsb ymm_k1z, ymm, m256","vpaddsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsb_ymm_k1z_ymm_m256 = 2160,
     /// <summary>
     /// vpaddsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddsb zmm {k1}{z}, zmm, zmm","vpaddsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddsb_zmm_k1z_zmm_zmm = 2015,
+    [Symbol("vpaddsb zmm, zmm, zmm","vpaddsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsb_zmm_zmm_zmm = 2161,
     /// <summary>
     /// vpaddsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddsb zmm {k1}{z}, zmm, m512","vpaddsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddsb_zmm_k1z_zmm_m512 = 2016,
+    [Symbol("vpaddsb zmm, zmm, m512","vpaddsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsb_zmm_zmm_m512 = 2162,
+    /// <summary>
+    /// vpaddsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddsb zmm_k1z, zmm, zmm","vpaddsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsb_zmm_k1z_zmm_zmm = 2163,
+    /// <summary>
+    /// vpaddsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddsb zmm_k1z, zmm, m512","vpaddsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsb_zmm_k1z_zmm_m512 = 2164,
     /// <summary>
     /// vpaddsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsw xmm {k1}{z}, xmm, xmm","vpaddsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddsw_xmm_k1z_xmm_xmm = 2017,
+    [Symbol("vpaddsw xmm, xmm, xmm","vpaddsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsw_xmm_xmm_xmm = 2165,
     /// <summary>
     /// vpaddsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsw xmm {k1}{z}, xmm, m128","vpaddsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddsw_xmm_k1z_xmm_m128 = 2018,
+    [Symbol("vpaddsw xmm, xmm, m128","vpaddsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsw_xmm_xmm_m128 = 2166,
     /// <summary>
-    /// vpaddsw xmm, xmm, xmm/m128
+    /// vpaddsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsw xmm, xmm, xmm","vpaddsw xmm, xmm, xmm/m128")]
-    vpaddsw_xmm_xmm_xmm = 2019,
+    [Symbol("vpaddsw xmm_k1z, xmm, xmm","vpaddsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsw_xmm_k1z_xmm_xmm = 2167,
     /// <summary>
-    /// vpaddsw xmm, xmm, xmm/m128
+    /// vpaddsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddsw xmm, xmm, m128","vpaddsw xmm, xmm, xmm/m128")]
-    vpaddsw_xmm_xmm_m128 = 2020,
-    /// <summary>
-    /// vpaddsw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpaddsw ymm {k1}{z}, ymm, ymm","vpaddsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddsw_ymm_k1z_ymm_ymm = 2021,
+    [Symbol("vpaddsw xmm_k1z, xmm, m128","vpaddsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddsw_xmm_k1z_xmm_m128 = 2168,
     /// <summary>
     /// vpaddsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddsw ymm {k1}{z}, ymm, m256","vpaddsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddsw_ymm_k1z_ymm_m256 = 2022,
+    [Symbol("vpaddsw ymm, ymm, ymm","vpaddsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsw_ymm_ymm_ymm = 2169,
     /// <summary>
-    /// vpaddsw ymm, ymm, ymm/m256
+    /// vpaddsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddsw ymm, ymm, ymm","vpaddsw ymm, ymm, ymm/m256")]
-    vpaddsw_ymm_ymm_ymm = 2023,
+    [Symbol("vpaddsw ymm, ymm, m256","vpaddsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsw_ymm_ymm_m256 = 2170,
     /// <summary>
-    /// vpaddsw ymm, ymm, ymm/m256
+    /// vpaddsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddsw ymm, ymm, m256","vpaddsw ymm, ymm, ymm/m256")]
-    vpaddsw_ymm_ymm_m256 = 2024,
+    [Symbol("vpaddsw ymm_k1z, ymm, ymm","vpaddsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsw_ymm_k1z_ymm_ymm = 2171,
+    /// <summary>
+    /// vpaddsw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpaddsw ymm_k1z, ymm, m256","vpaddsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddsw_ymm_k1z_ymm_m256 = 2172,
     /// <summary>
     /// vpaddsw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddsw zmm {k1}{z}, zmm, zmm","vpaddsw zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddsw_zmm_k1z_zmm_zmm = 2025,
+    [Symbol("vpaddsw zmm, zmm, zmm","vpaddsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsw_zmm_zmm_zmm = 2173,
     /// <summary>
     /// vpaddsw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddsw zmm {k1}{z}, zmm, m512","vpaddsw zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddsw_zmm_k1z_zmm_m512 = 2026,
+    [Symbol("vpaddsw zmm, zmm, m512","vpaddsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsw_zmm_zmm_m512 = 2174,
+    /// <summary>
+    /// vpaddsw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddsw zmm_k1z, zmm, zmm","vpaddsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsw_zmm_k1z_zmm_zmm = 2175,
+    /// <summary>
+    /// vpaddsw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddsw zmm_k1z, zmm, m512","vpaddsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddsw_zmm_k1z_zmm_m512 = 2176,
     /// <summary>
     /// vpaddusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusb xmm {k1}{z}, xmm, xmm","vpaddusb xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddusb_xmm_k1z_xmm_xmm = 2027,
+    [Symbol("vpaddusb xmm, xmm, xmm","vpaddusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusb_xmm_xmm_xmm = 2177,
     /// <summary>
     /// vpaddusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusb xmm {k1}{z}, xmm, m128","vpaddusb xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddusb_xmm_k1z_xmm_m128 = 2028,
+    [Symbol("vpaddusb xmm, xmm, m128","vpaddusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusb_xmm_xmm_m128 = 2178,
     /// <summary>
-    /// vpaddusb xmm, xmm, xmm/m128
+    /// vpaddusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusb xmm, xmm, xmm","vpaddusb xmm, xmm, xmm/m128")]
-    vpaddusb_xmm_xmm_xmm = 2029,
+    [Symbol("vpaddusb xmm_k1z, xmm, xmm","vpaddusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusb_xmm_k1z_xmm_xmm = 2179,
     /// <summary>
-    /// vpaddusb xmm, xmm, xmm/m128
+    /// vpaddusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusb xmm, xmm, m128","vpaddusb xmm, xmm, xmm/m128")]
-    vpaddusb_xmm_xmm_m128 = 2030,
-    /// <summary>
-    /// vpaddusb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpaddusb ymm {k1}{z}, ymm, ymm","vpaddusb ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddusb_ymm_k1z_ymm_ymm = 2031,
+    [Symbol("vpaddusb xmm_k1z, xmm, m128","vpaddusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusb_xmm_k1z_xmm_m128 = 2180,
     /// <summary>
     /// vpaddusb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddusb ymm {k1}{z}, ymm, m256","vpaddusb ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddusb_ymm_k1z_ymm_m256 = 2032,
+    [Symbol("vpaddusb ymm, ymm, ymm","vpaddusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusb_ymm_ymm_ymm = 2181,
     /// <summary>
-    /// vpaddusb ymm, ymm, ymm/m256
+    /// vpaddusb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddusb ymm, ymm, ymm","vpaddusb ymm, ymm, ymm/m256")]
-    vpaddusb_ymm_ymm_ymm = 2033,
+    [Symbol("vpaddusb ymm, ymm, m256","vpaddusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusb_ymm_ymm_m256 = 2182,
     /// <summary>
-    /// vpaddusb ymm, ymm, ymm/m256
+    /// vpaddusb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddusb ymm, ymm, m256","vpaddusb ymm, ymm, ymm/m256")]
-    vpaddusb_ymm_ymm_m256 = 2034,
+    [Symbol("vpaddusb ymm_k1z, ymm, ymm","vpaddusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusb_ymm_k1z_ymm_ymm = 2183,
+    /// <summary>
+    /// vpaddusb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpaddusb ymm_k1z, ymm, m256","vpaddusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusb_ymm_k1z_ymm_m256 = 2184,
     /// <summary>
     /// vpaddusb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddusb zmm {k1}{z}, zmm, zmm","vpaddusb zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddusb_zmm_k1z_zmm_zmm = 2035,
+    [Symbol("vpaddusb zmm, zmm, zmm","vpaddusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddusb_zmm_zmm_zmm = 2185,
     /// <summary>
     /// vpaddusb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddusb zmm {k1}{z}, zmm, m512","vpaddusb zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddusb_zmm_k1z_zmm_m512 = 2036,
+    [Symbol("vpaddusb zmm, zmm, m512","vpaddusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddusb_zmm_zmm_m512 = 2186,
+    /// <summary>
+    /// vpaddusb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddusb zmm_k1z, zmm, zmm","vpaddusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddusb_zmm_k1z_zmm_zmm = 2187,
+    /// <summary>
+    /// vpaddusb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddusb zmm_k1z, zmm, m512","vpaddusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddusb_zmm_k1z_zmm_m512 = 2188,
     /// <summary>
     /// vpaddusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusw xmm {k1}{z}, xmm, xmm","vpaddusw xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddusw_xmm_k1z_xmm_xmm = 2037,
+    [Symbol("vpaddusw xmm, xmm, xmm","vpaddusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusw_xmm_xmm_xmm = 2189,
     /// <summary>
     /// vpaddusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusw xmm {k1}{z}, xmm, m128","vpaddusw xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddusw_xmm_k1z_xmm_m128 = 2038,
+    [Symbol("vpaddusw xmm, xmm, m128","vpaddusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusw_xmm_xmm_m128 = 2190,
     /// <summary>
-    /// vpaddusw xmm, xmm, xmm/m128
+    /// vpaddusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusw xmm, xmm, xmm","vpaddusw xmm, xmm, xmm/m128")]
-    vpaddusw_xmm_xmm_xmm = 2039,
+    [Symbol("vpaddusw xmm_k1z, xmm, xmm","vpaddusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusw_xmm_k1z_xmm_xmm = 2191,
     /// <summary>
-    /// vpaddusw xmm, xmm, xmm/m128
+    /// vpaddusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddusw xmm, xmm, m128","vpaddusw xmm, xmm, xmm/m128")]
-    vpaddusw_xmm_xmm_m128 = 2040,
-    /// <summary>
-    /// vpaddusw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpaddusw ymm {k1}{z}, ymm, ymm","vpaddusw ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddusw_ymm_k1z_ymm_ymm = 2041,
+    [Symbol("vpaddusw xmm_k1z, xmm, m128","vpaddusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddusw_xmm_k1z_xmm_m128 = 2192,
     /// <summary>
     /// vpaddusw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddusw ymm {k1}{z}, ymm, m256","vpaddusw ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddusw_ymm_k1z_ymm_m256 = 2042,
+    [Symbol("vpaddusw ymm, ymm, ymm","vpaddusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusw_ymm_ymm_ymm = 2193,
     /// <summary>
-    /// vpaddusw ymm, ymm, ymm/m256
+    /// vpaddusw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddusw ymm, ymm, ymm","vpaddusw ymm, ymm, ymm/m256")]
-    vpaddusw_ymm_ymm_ymm = 2043,
+    [Symbol("vpaddusw ymm, ymm, m256","vpaddusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusw_ymm_ymm_m256 = 2194,
     /// <summary>
-    /// vpaddusw ymm, ymm, ymm/m256
+    /// vpaddusw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddusw ymm, ymm, m256","vpaddusw ymm, ymm, ymm/m256")]
-    vpaddusw_ymm_ymm_m256 = 2044,
+    [Symbol("vpaddusw ymm_k1z, ymm, ymm","vpaddusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusw_ymm_k1z_ymm_ymm = 2195,
+    /// <summary>
+    /// vpaddusw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpaddusw ymm_k1z, ymm, m256","vpaddusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddusw_ymm_k1z_ymm_m256 = 2196,
     /// <summary>
     /// vpaddw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddw xmm {k1}{z}, xmm, xmm","vpaddw xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddw_xmm_k1z_xmm_xmm = 2045,
+    [Symbol("vpaddw xmm, xmm, xmm","vpaddw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddw_xmm_xmm_xmm = 2197,
     /// <summary>
     /// vpaddw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddw xmm {k1}{z}, xmm, m128","vpaddw xmm {k1}{z}, xmm, xmm/m128")]
-    vpaddw_xmm_k1z_xmm_m128 = 2046,
+    [Symbol("vpaddw xmm, xmm, m128","vpaddw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddw_xmm_xmm_m128 = 2198,
     /// <summary>
-    /// vpaddw xmm, xmm, xmm/m128
+    /// vpaddw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddw xmm, xmm, xmm","vpaddw xmm, xmm, xmm/m128")]
-    vpaddw_xmm_xmm_xmm = 2047,
+    [Symbol("vpaddw xmm_k1z, xmm, xmm","vpaddw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddw_xmm_k1z_xmm_xmm = 2199,
     /// <summary>
-    /// vpaddw xmm, xmm, xmm/m128
+    /// vpaddw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpaddw xmm, xmm, m128","vpaddw xmm, xmm, xmm/m128")]
-    vpaddw_xmm_xmm_m128 = 2048,
-    /// <summary>
-    /// vpaddw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpaddw ymm {k1}{z}, ymm, ymm","vpaddw ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddw_ymm_k1z_ymm_ymm = 2049,
+    [Symbol("vpaddw xmm_k1z, xmm, m128","vpaddw xmm {k1}{z}, xmm, xmm/m128")]
+    vpaddw_xmm_k1z_xmm_m128 = 2200,
     /// <summary>
     /// vpaddw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddw ymm {k1}{z}, ymm, m256","vpaddw ymm {k1}{z}, ymm, ymm/m256")]
-    vpaddw_ymm_k1z_ymm_m256 = 2050,
+    [Symbol("vpaddw ymm, ymm, ymm","vpaddw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddw_ymm_ymm_ymm = 2201,
     /// <summary>
-    /// vpaddw ymm, ymm, ymm/m256
+    /// vpaddw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddw ymm, ymm, ymm","vpaddw ymm, ymm, ymm/m256")]
-    vpaddw_ymm_ymm_ymm = 2051,
+    [Symbol("vpaddw ymm, ymm, m256","vpaddw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddw_ymm_ymm_m256 = 2202,
     /// <summary>
-    /// vpaddw ymm, ymm, ymm/m256
+    /// vpaddw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpaddw ymm, ymm, m256","vpaddw ymm, ymm, ymm/m256")]
-    vpaddw_ymm_ymm_m256 = 2052,
+    [Symbol("vpaddw ymm_k1z, ymm, ymm","vpaddw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddw_ymm_k1z_ymm_ymm = 2203,
+    /// <summary>
+    /// vpaddw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpaddw ymm_k1z, ymm, m256","vpaddw ymm {k1}{z}, ymm, ymm/m256")]
+    vpaddw_ymm_k1z_ymm_m256 = 2204,
     /// <summary>
     /// vpaddw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddw zmm {k1}{z}, zmm, zmm","vpaddw zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddw_zmm_k1z_zmm_zmm = 2053,
+    [Symbol("vpaddw zmm, zmm, zmm","vpaddw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddw_zmm_zmm_zmm = 2205,
     /// <summary>
     /// vpaddw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpaddw zmm {k1}{z}, zmm, m512","vpaddw zmm {k1}{z}, zmm, zmm/m512")]
-    vpaddw_zmm_k1z_zmm_m512 = 2054,
+    [Symbol("vpaddw zmm, zmm, m512","vpaddw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddw_zmm_zmm_m512 = 2206,
+    /// <summary>
+    /// vpaddw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddw zmm_k1z, zmm, zmm","vpaddw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddw_zmm_k1z_zmm_zmm = 2207,
+    /// <summary>
+    /// vpaddw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpaddw zmm_k1z, zmm, m512","vpaddw zmm {k1}{z}, zmm, zmm/m512")]
+    vpaddw_zmm_k1z_zmm_m512 = 2208,
     /// <summary>
     /// vpand xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpand xmm, xmm, xmm","vpand xmm, xmm, xmm/m128")]
-    vpand_xmm_xmm_xmm = 2055,
+    vpand_xmm_xmm_xmm = 2209,
     /// <summary>
     /// vpand xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpand xmm, xmm, m128","vpand xmm, xmm, xmm/m128")]
-    vpand_xmm_xmm_m128 = 2056,
+    vpand_xmm_xmm_m128 = 2210,
     /// <summary>
     /// vpand ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpand ymm, ymm, ymm","vpand ymm, ymm, ymm/m256")]
-    vpand_ymm_ymm_ymm = 2057,
+    vpand_ymm_ymm_ymm = 2211,
     /// <summary>
     /// vpand ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpand ymm, ymm, m256","vpand ymm, ymm, ymm/m256")]
-    vpand_ymm_ymm_m256 = 2058,
+    vpand_ymm_ymm_m256 = 2212,
     /// <summary>
     /// vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpandd xmm {k1}{z}, xmm, xmm","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpandd_xmm_k1z_xmm_xmm = 2059,
+    [Symbol("vpandd xmm, xmm, xmm","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandd_xmm_xmm_xmm = 2213,
     /// <summary>
     /// vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpandd xmm {k1}{z}, xmm, m128","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpandd_xmm_k1z_xmm_m128 = 2060,
+    [Symbol("vpandd xmm, xmm, m128","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandd_xmm_xmm_m128 = 2214,
     /// <summary>
     /// vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpandd xmm {k1}{z}, xmm, m32bcst","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpandd_xmm_k1z_xmm_m32bcst = 2061,
+    [Symbol("vpandd xmm, xmm, m32bcst","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandd_xmm_xmm_m32bcst = 2215,
+    /// <summary>
+    /// vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpandd xmm_k1z, xmm, xmm","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandd_xmm_k1z_xmm_xmm = 2216,
+    /// <summary>
+    /// vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpandd xmm_k1z, xmm, m128","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandd_xmm_k1z_xmm_m128 = 2217,
+    /// <summary>
+    /// vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpandd xmm_k1z, xmm, m32bcst","vpandd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandd_xmm_k1z_xmm_m32bcst = 2218,
     /// <summary>
     /// vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpandd ymm {k1}{z}, ymm, ymm","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpandd_ymm_k1z_ymm_ymm = 2062,
+    [Symbol("vpandd ymm, ymm, ymm","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandd_ymm_ymm_ymm = 2219,
     /// <summary>
     /// vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpandd ymm {k1}{z}, ymm, m256","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpandd_ymm_k1z_ymm_m256 = 2063,
+    [Symbol("vpandd ymm, ymm, m256","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandd_ymm_ymm_m256 = 2220,
     /// <summary>
     /// vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpandd ymm {k1}{z}, ymm, m32bcst","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpandd_ymm_k1z_ymm_m32bcst = 2064,
+    [Symbol("vpandd ymm, ymm, m32bcst","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandd_ymm_ymm_m32bcst = 2221,
+    /// <summary>
+    /// vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpandd ymm_k1z, ymm, ymm","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandd_ymm_k1z_ymm_ymm = 2222,
+    /// <summary>
+    /// vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpandd ymm_k1z, ymm, m256","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandd_ymm_k1z_ymm_m256 = 2223,
+    /// <summary>
+    /// vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpandd ymm_k1z, ymm, m32bcst","vpandd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandd_ymm_k1z_ymm_m32bcst = 2224,
     /// <summary>
     /// vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpandd zmm {k1}{z}, zmm, zmm","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpandd_zmm_k1z_zmm_zmm = 2065,
+    [Symbol("vpandd zmm, zmm, zmm","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandd_zmm_zmm_zmm = 2225,
     /// <summary>
     /// vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpandd zmm {k1}{z}, zmm, m512","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpandd_zmm_k1z_zmm_m512 = 2066,
+    [Symbol("vpandd zmm, zmm, m512","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandd_zmm_zmm_m512 = 2226,
     /// <summary>
     /// vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpandd zmm {k1}{z}, zmm, m32bcst","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpandd_zmm_k1z_zmm_m32bcst = 2067,
+    [Symbol("vpandd zmm, zmm, m32bcst","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandd_zmm_zmm_m32bcst = 2227,
+    /// <summary>
+    /// vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpandd zmm_k1z, zmm, zmm","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandd_zmm_k1z_zmm_zmm = 2228,
+    /// <summary>
+    /// vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpandd zmm_k1z, zmm, m512","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandd_zmm_k1z_zmm_m512 = 2229,
+    /// <summary>
+    /// vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpandd zmm_k1z, zmm, m32bcst","vpandd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandd_zmm_k1z_zmm_m32bcst = 2230,
     /// <summary>
     /// vpandn xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpandn xmm, xmm, xmm","vpandn xmm, xmm, xmm/m128")]
-    vpandn_xmm_xmm_xmm = 2068,
+    vpandn_xmm_xmm_xmm = 2231,
     /// <summary>
     /// vpandn xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpandn xmm, xmm, m128","vpandn xmm, xmm, xmm/m128")]
-    vpandn_xmm_xmm_m128 = 2069,
+    vpandn_xmm_xmm_m128 = 2232,
     /// <summary>
     /// vpandn ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpandn ymm, ymm, ymm","vpandn ymm, ymm, ymm/m256")]
-    vpandn_ymm_ymm_ymm = 2070,
+    vpandn_ymm_ymm_ymm = 2233,
     /// <summary>
     /// vpandn ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpandn ymm, ymm, m256","vpandn ymm, ymm, ymm/m256")]
-    vpandn_ymm_ymm_m256 = 2071,
+    vpandn_ymm_ymm_m256 = 2234,
     /// <summary>
     /// vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpandnd xmm {k1}{z}, xmm, xmm","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpandnd_xmm_k1z_xmm_xmm = 2072,
+    [Symbol("vpandnd xmm, xmm, xmm","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandnd_xmm_xmm_xmm = 2235,
     /// <summary>
     /// vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpandnd xmm {k1}{z}, xmm, m128","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpandnd_xmm_k1z_xmm_m128 = 2073,
+    [Symbol("vpandnd xmm, xmm, m128","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandnd_xmm_xmm_m128 = 2236,
     /// <summary>
     /// vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpandnd xmm {k1}{z}, xmm, m32bcst","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpandnd_xmm_k1z_xmm_m32bcst = 2074,
+    [Symbol("vpandnd xmm, xmm, m32bcst","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandnd_xmm_xmm_m32bcst = 2237,
+    /// <summary>
+    /// vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpandnd xmm_k1z, xmm, xmm","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandnd_xmm_k1z_xmm_xmm = 2238,
+    /// <summary>
+    /// vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpandnd xmm_k1z, xmm, m128","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandnd_xmm_k1z_xmm_m128 = 2239,
+    /// <summary>
+    /// vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpandnd xmm_k1z, xmm, m32bcst","vpandnd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpandnd_xmm_k1z_xmm_m32bcst = 2240,
     /// <summary>
     /// vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpandnd ymm {k1}{z}, ymm, ymm","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpandnd_ymm_k1z_ymm_ymm = 2075,
+    [Symbol("vpandnd ymm, ymm, ymm","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandnd_ymm_ymm_ymm = 2241,
     /// <summary>
     /// vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpandnd ymm {k1}{z}, ymm, m256","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpandnd_ymm_k1z_ymm_m256 = 2076,
+    [Symbol("vpandnd ymm, ymm, m256","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandnd_ymm_ymm_m256 = 2242,
     /// <summary>
     /// vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpandnd ymm {k1}{z}, ymm, m32bcst","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpandnd_ymm_k1z_ymm_m32bcst = 2077,
+    [Symbol("vpandnd ymm, ymm, m32bcst","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandnd_ymm_ymm_m32bcst = 2243,
+    /// <summary>
+    /// vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpandnd ymm_k1z, ymm, ymm","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandnd_ymm_k1z_ymm_ymm = 2244,
+    /// <summary>
+    /// vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpandnd ymm_k1z, ymm, m256","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandnd_ymm_k1z_ymm_m256 = 2245,
+    /// <summary>
+    /// vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpandnd ymm_k1z, ymm, m32bcst","vpandnd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpandnd_ymm_k1z_ymm_m32bcst = 2246,
     /// <summary>
     /// vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpandnd zmm {k1}{z}, zmm, zmm","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpandnd_zmm_k1z_zmm_zmm = 2078,
+    [Symbol("vpandnd zmm, zmm, zmm","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandnd_zmm_zmm_zmm = 2247,
     /// <summary>
     /// vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpandnd zmm {k1}{z}, zmm, m512","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpandnd_zmm_k1z_zmm_m512 = 2079,
+    [Symbol("vpandnd zmm, zmm, m512","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandnd_zmm_zmm_m512 = 2248,
     /// <summary>
     /// vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpandnd zmm {k1}{z}, zmm, m32bcst","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpandnd_zmm_k1z_zmm_m32bcst = 2080,
+    [Symbol("vpandnd zmm, zmm, m32bcst","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandnd_zmm_zmm_m32bcst = 2249,
+    /// <summary>
+    /// vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpandnd zmm_k1z, zmm, zmm","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandnd_zmm_k1z_zmm_zmm = 2250,
+    /// <summary>
+    /// vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpandnd zmm_k1z, zmm, m512","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandnd_zmm_k1z_zmm_m512 = 2251,
+    /// <summary>
+    /// vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpandnd zmm_k1z, zmm, m32bcst","vpandnd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpandnd_zmm_k1z_zmm_m32bcst = 2252,
     /// <summary>
     /// vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpandnq xmm {k1}{z}, xmm, xmm","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpandnq_xmm_k1z_xmm_xmm = 2081,
+    [Symbol("vpandnq xmm, xmm, xmm","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandnq_xmm_xmm_xmm = 2253,
     /// <summary>
     /// vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpandnq xmm {k1}{z}, xmm, m128","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpandnq_xmm_k1z_xmm_m128 = 2082,
+    [Symbol("vpandnq xmm, xmm, m128","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandnq_xmm_xmm_m128 = 2254,
     /// <summary>
     /// vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpandnq xmm {k1}{z}, xmm, m64bcst","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpandnq_xmm_k1z_xmm_m64bcst = 2083,
+    [Symbol("vpandnq xmm, xmm, m64bcst","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandnq_xmm_xmm_m64bcst = 2255,
+    /// <summary>
+    /// vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpandnq xmm_k1z, xmm, xmm","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandnq_xmm_k1z_xmm_xmm = 2256,
+    /// <summary>
+    /// vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpandnq xmm_k1z, xmm, m128","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandnq_xmm_k1z_xmm_m128 = 2257,
+    /// <summary>
+    /// vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpandnq xmm_k1z, xmm, m64bcst","vpandnq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandnq_xmm_k1z_xmm_m64bcst = 2258,
     /// <summary>
     /// vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpandnq ymm {k1}{z}, ymm, ymm","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpandnq_ymm_k1z_ymm_ymm = 2084,
+    [Symbol("vpandnq ymm, ymm, ymm","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandnq_ymm_ymm_ymm = 2259,
     /// <summary>
     /// vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpandnq ymm {k1}{z}, ymm, m256","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpandnq_ymm_k1z_ymm_m256 = 2085,
+    [Symbol("vpandnq ymm, ymm, m256","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandnq_ymm_ymm_m256 = 2260,
     /// <summary>
     /// vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpandnq ymm {k1}{z}, ymm, m64bcst","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpandnq_ymm_k1z_ymm_m64bcst = 2086,
+    [Symbol("vpandnq ymm, ymm, m64bcst","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandnq_ymm_ymm_m64bcst = 2261,
+    /// <summary>
+    /// vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpandnq ymm_k1z, ymm, ymm","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandnq_ymm_k1z_ymm_ymm = 2262,
+    /// <summary>
+    /// vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpandnq ymm_k1z, ymm, m256","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandnq_ymm_k1z_ymm_m256 = 2263,
+    /// <summary>
+    /// vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpandnq ymm_k1z, ymm, m64bcst","vpandnq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandnq_ymm_k1z_ymm_m64bcst = 2264,
     /// <summary>
     /// vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpandnq zmm {k1}{z}, zmm, zmm","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpandnq_zmm_k1z_zmm_zmm = 2087,
+    [Symbol("vpandnq zmm, zmm, zmm","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandnq_zmm_zmm_zmm = 2265,
     /// <summary>
     /// vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpandnq zmm {k1}{z}, zmm, m512","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpandnq_zmm_k1z_zmm_m512 = 2088,
+    [Symbol("vpandnq zmm, zmm, m512","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandnq_zmm_zmm_m512 = 2266,
     /// <summary>
     /// vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpandnq zmm {k1}{z}, zmm, m64bcst","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpandnq_zmm_k1z_zmm_m64bcst = 2089,
+    [Symbol("vpandnq zmm, zmm, m64bcst","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandnq_zmm_zmm_m64bcst = 2267,
+    /// <summary>
+    /// vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpandnq zmm_k1z, zmm, zmm","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandnq_zmm_k1z_zmm_zmm = 2268,
+    /// <summary>
+    /// vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpandnq zmm_k1z, zmm, m512","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandnq_zmm_k1z_zmm_m512 = 2269,
+    /// <summary>
+    /// vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpandnq zmm_k1z, zmm, m64bcst","vpandnq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandnq_zmm_k1z_zmm_m64bcst = 2270,
     /// <summary>
     /// vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpandq xmm {k1}{z}, xmm, xmm","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpandq_xmm_k1z_xmm_xmm = 2090,
+    [Symbol("vpandq xmm, xmm, xmm","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandq_xmm_xmm_xmm = 2271,
     /// <summary>
     /// vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpandq xmm {k1}{z}, xmm, m128","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpandq_xmm_k1z_xmm_m128 = 2091,
+    [Symbol("vpandq xmm, xmm, m128","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandq_xmm_xmm_m128 = 2272,
     /// <summary>
     /// vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpandq xmm {k1}{z}, xmm, m64bcst","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpandq_xmm_k1z_xmm_m64bcst = 2092,
+    [Symbol("vpandq xmm, xmm, m64bcst","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandq_xmm_xmm_m64bcst = 2273,
+    /// <summary>
+    /// vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpandq xmm_k1z, xmm, xmm","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandq_xmm_k1z_xmm_xmm = 2274,
+    /// <summary>
+    /// vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpandq xmm_k1z, xmm, m128","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandq_xmm_k1z_xmm_m128 = 2275,
+    /// <summary>
+    /// vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpandq xmm_k1z, xmm, m64bcst","vpandq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpandq_xmm_k1z_xmm_m64bcst = 2276,
     /// <summary>
     /// vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpandq ymm {k1}{z}, ymm, ymm","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpandq_ymm_k1z_ymm_ymm = 2093,
+    [Symbol("vpandq ymm, ymm, ymm","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandq_ymm_ymm_ymm = 2277,
     /// <summary>
     /// vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpandq ymm {k1}{z}, ymm, m256","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpandq_ymm_k1z_ymm_m256 = 2094,
+    [Symbol("vpandq ymm, ymm, m256","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandq_ymm_ymm_m256 = 2278,
     /// <summary>
     /// vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpandq ymm {k1}{z}, ymm, m64bcst","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpandq_ymm_k1z_ymm_m64bcst = 2095,
+    [Symbol("vpandq ymm, ymm, m64bcst","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandq_ymm_ymm_m64bcst = 2279,
+    /// <summary>
+    /// vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpandq ymm_k1z, ymm, ymm","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandq_ymm_k1z_ymm_ymm = 2280,
+    /// <summary>
+    /// vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpandq ymm_k1z, ymm, m256","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandq_ymm_k1z_ymm_m256 = 2281,
+    /// <summary>
+    /// vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpandq ymm_k1z, ymm, m64bcst","vpandq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpandq_ymm_k1z_ymm_m64bcst = 2282,
     /// <summary>
     /// vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpandq zmm {k1}{z}, zmm, zmm","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpandq_zmm_k1z_zmm_zmm = 2096,
+    [Symbol("vpandq zmm, zmm, zmm","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandq_zmm_zmm_zmm = 2283,
     /// <summary>
     /// vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpandq zmm {k1}{z}, zmm, m512","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpandq_zmm_k1z_zmm_m512 = 2097,
+    [Symbol("vpandq zmm, zmm, m512","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandq_zmm_zmm_m512 = 2284,
     /// <summary>
     /// vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpandq zmm {k1}{z}, zmm, m64bcst","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpandq_zmm_k1z_zmm_m64bcst = 2098,
+    [Symbol("vpandq zmm, zmm, m64bcst","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandq_zmm_zmm_m64bcst = 2285,
+    /// <summary>
+    /// vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpandq zmm_k1z, zmm, zmm","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandq_zmm_k1z_zmm_zmm = 2286,
+    /// <summary>
+    /// vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpandq zmm_k1z, zmm, m512","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandq_zmm_k1z_zmm_m512 = 2287,
+    /// <summary>
+    /// vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpandq zmm_k1z, zmm, m64bcst","vpandq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpandq_zmm_k1z_zmm_m64bcst = 2288,
     /// <summary>
     /// vpavgb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgb xmm {k1}{z}, xmm, xmm","vpavgb xmm {k1}{z}, xmm, xmm/m128")]
-    vpavgb_xmm_k1z_xmm_xmm = 2099,
+    [Symbol("vpavgb xmm, xmm, xmm","vpavgb xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgb_xmm_xmm_xmm = 2289,
     /// <summary>
     /// vpavgb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgb xmm {k1}{z}, xmm, m128","vpavgb xmm {k1}{z}, xmm, xmm/m128")]
-    vpavgb_xmm_k1z_xmm_m128 = 2100,
+    [Symbol("vpavgb xmm, xmm, m128","vpavgb xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgb_xmm_xmm_m128 = 2290,
     /// <summary>
-    /// vpavgb xmm, xmm, xmm/m128
+    /// vpavgb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgb xmm, xmm, xmm","vpavgb xmm, xmm, xmm/m128")]
-    vpavgb_xmm_xmm_xmm = 2101,
+    [Symbol("vpavgb xmm_k1z, xmm, xmm","vpavgb xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgb_xmm_k1z_xmm_xmm = 2291,
     /// <summary>
-    /// vpavgb xmm, xmm, xmm/m128
+    /// vpavgb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgb xmm, xmm, m128","vpavgb xmm, xmm, xmm/m128")]
-    vpavgb_xmm_xmm_m128 = 2102,
-    /// <summary>
-    /// vpavgb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpavgb ymm {k1}{z}, ymm, ymm","vpavgb ymm {k1}{z}, ymm, ymm/m256")]
-    vpavgb_ymm_k1z_ymm_ymm = 2103,
+    [Symbol("vpavgb xmm_k1z, xmm, m128","vpavgb xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgb_xmm_k1z_xmm_m128 = 2292,
     /// <summary>
     /// vpavgb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpavgb ymm {k1}{z}, ymm, m256","vpavgb ymm {k1}{z}, ymm, ymm/m256")]
-    vpavgb_ymm_k1z_ymm_m256 = 2104,
+    [Symbol("vpavgb ymm, ymm, ymm","vpavgb ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgb_ymm_ymm_ymm = 2293,
     /// <summary>
-    /// vpavgb ymm, ymm, ymm/m256
+    /// vpavgb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpavgb ymm, ymm, ymm","vpavgb ymm, ymm, ymm/m256")]
-    vpavgb_ymm_ymm_ymm = 2105,
+    [Symbol("vpavgb ymm, ymm, m256","vpavgb ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgb_ymm_ymm_m256 = 2294,
     /// <summary>
-    /// vpavgb ymm, ymm, ymm/m256
+    /// vpavgb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpavgb ymm, ymm, m256","vpavgb ymm, ymm, ymm/m256")]
-    vpavgb_ymm_ymm_m256 = 2106,
+    [Symbol("vpavgb ymm_k1z, ymm, ymm","vpavgb ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgb_ymm_k1z_ymm_ymm = 2295,
+    /// <summary>
+    /// vpavgb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpavgb ymm_k1z, ymm, m256","vpavgb ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgb_ymm_k1z_ymm_m256 = 2296,
     /// <summary>
     /// vpavgb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpavgb zmm {k1}{z}, zmm, zmm","vpavgb zmm {k1}{z}, zmm, zmm/m512")]
-    vpavgb_zmm_k1z_zmm_zmm = 2107,
+    [Symbol("vpavgb zmm, zmm, zmm","vpavgb zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgb_zmm_zmm_zmm = 2297,
     /// <summary>
     /// vpavgb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpavgb zmm {k1}{z}, zmm, m512","vpavgb zmm {k1}{z}, zmm, zmm/m512")]
-    vpavgb_zmm_k1z_zmm_m512 = 2108,
+    [Symbol("vpavgb zmm, zmm, m512","vpavgb zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgb_zmm_zmm_m512 = 2298,
+    /// <summary>
+    /// vpavgb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpavgb zmm_k1z, zmm, zmm","vpavgb zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgb_zmm_k1z_zmm_zmm = 2299,
+    /// <summary>
+    /// vpavgb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpavgb zmm_k1z, zmm, m512","vpavgb zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgb_zmm_k1z_zmm_m512 = 2300,
     /// <summary>
     /// vpavgw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgw xmm {k1}{z}, xmm, xmm","vpavgw xmm {k1}{z}, xmm, xmm/m128")]
-    vpavgw_xmm_k1z_xmm_xmm = 2109,
+    [Symbol("vpavgw xmm, xmm, xmm","vpavgw xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgw_xmm_xmm_xmm = 2301,
     /// <summary>
     /// vpavgw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgw xmm {k1}{z}, xmm, m128","vpavgw xmm {k1}{z}, xmm, xmm/m128")]
-    vpavgw_xmm_k1z_xmm_m128 = 2110,
+    [Symbol("vpavgw xmm, xmm, m128","vpavgw xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgw_xmm_xmm_m128 = 2302,
     /// <summary>
-    /// vpavgw xmm, xmm, xmm/m128
+    /// vpavgw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgw xmm, xmm, xmm","vpavgw xmm, xmm, xmm/m128")]
-    vpavgw_xmm_xmm_xmm = 2111,
+    [Symbol("vpavgw xmm_k1z, xmm, xmm","vpavgw xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgw_xmm_k1z_xmm_xmm = 2303,
     /// <summary>
-    /// vpavgw xmm, xmm, xmm/m128
+    /// vpavgw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpavgw xmm, xmm, m128","vpavgw xmm, xmm, xmm/m128")]
-    vpavgw_xmm_xmm_m128 = 2112,
-    /// <summary>
-    /// vpavgw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpavgw ymm {k1}{z}, ymm, ymm","vpavgw ymm {k1}{z}, ymm, ymm/m256")]
-    vpavgw_ymm_k1z_ymm_ymm = 2113,
+    [Symbol("vpavgw xmm_k1z, xmm, m128","vpavgw xmm {k1}{z}, xmm, xmm/m128")]
+    vpavgw_xmm_k1z_xmm_m128 = 2304,
     /// <summary>
     /// vpavgw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpavgw ymm {k1}{z}, ymm, m256","vpavgw ymm {k1}{z}, ymm, ymm/m256")]
-    vpavgw_ymm_k1z_ymm_m256 = 2114,
+    [Symbol("vpavgw ymm, ymm, ymm","vpavgw ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgw_ymm_ymm_ymm = 2305,
     /// <summary>
-    /// vpavgw ymm, ymm, ymm/m256
+    /// vpavgw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpavgw ymm, ymm, ymm","vpavgw ymm, ymm, ymm/m256")]
-    vpavgw_ymm_ymm_ymm = 2115,
+    [Symbol("vpavgw ymm, ymm, m256","vpavgw ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgw_ymm_ymm_m256 = 2306,
     /// <summary>
-    /// vpavgw ymm, ymm, ymm/m256
+    /// vpavgw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpavgw ymm, ymm, m256","vpavgw ymm, ymm, ymm/m256")]
-    vpavgw_ymm_ymm_m256 = 2116,
+    [Symbol("vpavgw ymm_k1z, ymm, ymm","vpavgw ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgw_ymm_k1z_ymm_ymm = 2307,
+    /// <summary>
+    /// vpavgw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpavgw ymm_k1z, ymm, m256","vpavgw ymm {k1}{z}, ymm, ymm/m256")]
+    vpavgw_ymm_k1z_ymm_m256 = 2308,
     /// <summary>
     /// vpavgw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpavgw zmm {k1}{z}, zmm, zmm","vpavgw zmm {k1}{z}, zmm, zmm/m512")]
-    vpavgw_zmm_k1z_zmm_zmm = 2117,
+    [Symbol("vpavgw zmm, zmm, zmm","vpavgw zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgw_zmm_zmm_zmm = 2309,
     /// <summary>
     /// vpavgw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpavgw zmm {k1}{z}, zmm, m512","vpavgw zmm {k1}{z}, zmm, zmm/m512")]
-    vpavgw_zmm_k1z_zmm_m512 = 2118,
+    [Symbol("vpavgw zmm, zmm, m512","vpavgw zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgw_zmm_zmm_m512 = 2310,
+    /// <summary>
+    /// vpavgw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpavgw zmm_k1z, zmm, zmm","vpavgw zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgw_zmm_k1z_zmm_zmm = 2311,
+    /// <summary>
+    /// vpavgw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpavgw zmm_k1z, zmm, m512","vpavgw zmm {k1}{z}, zmm, zmm/m512")]
+    vpavgw_zmm_k1z_zmm_m512 = 2312,
     /// <summary>
     /// vpblendmb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpblendmb xmm {k1}{z}, xmm, xmm","vpblendmb xmm {k1}{z}, xmm, xmm/m128")]
-    vpblendmb_xmm_k1z_xmm_xmm = 2119,
+    [Symbol("vpblendmb xmm, xmm, xmm","vpblendmb xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmb_xmm_xmm_xmm = 2313,
     /// <summary>
     /// vpblendmb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpblendmb xmm {k1}{z}, xmm, m128","vpblendmb xmm {k1}{z}, xmm, xmm/m128")]
-    vpblendmb_xmm_k1z_xmm_m128 = 2120,
+    [Symbol("vpblendmb xmm, xmm, m128","vpblendmb xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmb_xmm_xmm_m128 = 2314,
+    /// <summary>
+    /// vpblendmb xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpblendmb xmm_k1z, xmm, xmm","vpblendmb xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmb_xmm_k1z_xmm_xmm = 2315,
+    /// <summary>
+    /// vpblendmb xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpblendmb xmm_k1z, xmm, m128","vpblendmb xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmb_xmm_k1z_xmm_m128 = 2316,
     /// <summary>
     /// vpblendmb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpblendmb ymm {k1}{z}, ymm, ymm","vpblendmb ymm {k1}{z}, ymm, ymm/m256")]
-    vpblendmb_ymm_k1z_ymm_ymm = 2121,
+    [Symbol("vpblendmb ymm, ymm, ymm","vpblendmb ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmb_ymm_ymm_ymm = 2317,
     /// <summary>
     /// vpblendmb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpblendmb ymm {k1}{z}, ymm, m256","vpblendmb ymm {k1}{z}, ymm, ymm/m256")]
-    vpblendmb_ymm_k1z_ymm_m256 = 2122,
+    [Symbol("vpblendmb ymm, ymm, m256","vpblendmb ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmb_ymm_ymm_m256 = 2318,
+    /// <summary>
+    /// vpblendmb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpblendmb ymm_k1z, ymm, ymm","vpblendmb ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmb_ymm_k1z_ymm_ymm = 2319,
+    /// <summary>
+    /// vpblendmb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpblendmb ymm_k1z, ymm, m256","vpblendmb ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmb_ymm_k1z_ymm_m256 = 2320,
     /// <summary>
     /// vpblendmb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpblendmb zmm {k1}{z}, zmm, zmm","vpblendmb zmm {k1}{z}, zmm, zmm/m512")]
-    vpblendmb_zmm_k1z_zmm_zmm = 2123,
+    [Symbol("vpblendmb zmm, zmm, zmm","vpblendmb zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmb_zmm_zmm_zmm = 2321,
     /// <summary>
     /// vpblendmb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpblendmb zmm {k1}{z}, zmm, m512","vpblendmb zmm {k1}{z}, zmm, zmm/m512")]
-    vpblendmb_zmm_k1z_zmm_m512 = 2124,
+    [Symbol("vpblendmb zmm, zmm, m512","vpblendmb zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmb_zmm_zmm_m512 = 2322,
+    /// <summary>
+    /// vpblendmb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpblendmb zmm_k1z, zmm, zmm","vpblendmb zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmb_zmm_k1z_zmm_zmm = 2323,
+    /// <summary>
+    /// vpblendmb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpblendmb zmm_k1z, zmm, m512","vpblendmb zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmb_zmm_k1z_zmm_m512 = 2324,
     /// <summary>
     /// vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpblendmd xmm {k1}{z}, xmm, xmm","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpblendmd_xmm_k1z_xmm_xmm = 2125,
+    [Symbol("vpblendmd xmm, xmm, xmm","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpblendmd_xmm_xmm_xmm = 2325,
     /// <summary>
     /// vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpblendmd xmm {k1}{z}, xmm, m128","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpblendmd_xmm_k1z_xmm_m128 = 2126,
+    [Symbol("vpblendmd xmm, xmm, m128","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpblendmd_xmm_xmm_m128 = 2326,
     /// <summary>
     /// vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpblendmd xmm {k1}{z}, xmm, m32bcst","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpblendmd_xmm_k1z_xmm_m32bcst = 2127,
+    [Symbol("vpblendmd xmm, xmm, m32bcst","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpblendmd_xmm_xmm_m32bcst = 2327,
+    /// <summary>
+    /// vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd xmm_k1z, xmm, xmm","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpblendmd_xmm_k1z_xmm_xmm = 2328,
+    /// <summary>
+    /// vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd xmm_k1z, xmm, m128","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpblendmd_xmm_k1z_xmm_m128 = 2329,
+    /// <summary>
+    /// vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd xmm_k1z, xmm, m32bcst","vpblendmd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpblendmd_xmm_k1z_xmm_m32bcst = 2330,
     /// <summary>
     /// vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpblendmd ymm {k1}{z}, ymm, ymm","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpblendmd_ymm_k1z_ymm_ymm = 2128,
+    [Symbol("vpblendmd ymm, ymm, ymm","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpblendmd_ymm_ymm_ymm = 2331,
     /// <summary>
     /// vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpblendmd ymm {k1}{z}, ymm, m256","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpblendmd_ymm_k1z_ymm_m256 = 2129,
+    [Symbol("vpblendmd ymm, ymm, m256","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpblendmd_ymm_ymm_m256 = 2332,
     /// <summary>
     /// vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpblendmd ymm {k1}{z}, ymm, m32bcst","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpblendmd_ymm_k1z_ymm_m32bcst = 2130,
+    [Symbol("vpblendmd ymm, ymm, m32bcst","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpblendmd_ymm_ymm_m32bcst = 2333,
+    /// <summary>
+    /// vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd ymm_k1z, ymm, ymm","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpblendmd_ymm_k1z_ymm_ymm = 2334,
+    /// <summary>
+    /// vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd ymm_k1z, ymm, m256","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpblendmd_ymm_k1z_ymm_m256 = 2335,
+    /// <summary>
+    /// vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd ymm_k1z, ymm, m32bcst","vpblendmd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpblendmd_ymm_k1z_ymm_m32bcst = 2336,
     /// <summary>
     /// vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpblendmd zmm {k1}{z}, zmm, zmm","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpblendmd_zmm_k1z_zmm_zmm = 2131,
+    [Symbol("vpblendmd zmm, zmm, zmm","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpblendmd_zmm_zmm_zmm = 2337,
     /// <summary>
     /// vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpblendmd zmm {k1}{z}, zmm, m512","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpblendmd_zmm_k1z_zmm_m512 = 2132,
+    [Symbol("vpblendmd zmm, zmm, m512","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpblendmd_zmm_zmm_m512 = 2338,
     /// <summary>
     /// vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpblendmd zmm {k1}{z}, zmm, m32bcst","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpblendmd_zmm_k1z_zmm_m32bcst = 2133,
+    [Symbol("vpblendmd zmm, zmm, m32bcst","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpblendmd_zmm_zmm_m32bcst = 2339,
+    /// <summary>
+    /// vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd zmm_k1z, zmm, zmm","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpblendmd_zmm_k1z_zmm_zmm = 2340,
+    /// <summary>
+    /// vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd zmm_k1z, zmm, m512","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpblendmd_zmm_k1z_zmm_m512 = 2341,
+    /// <summary>
+    /// vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpblendmd zmm_k1z, zmm, m32bcst","vpblendmd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpblendmd_zmm_k1z_zmm_m32bcst = 2342,
     /// <summary>
     /// vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpblendmq xmm {k1}{z}, xmm, xmm","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpblendmq_xmm_k1z_xmm_xmm = 2134,
+    [Symbol("vpblendmq xmm, xmm, xmm","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpblendmq_xmm_xmm_xmm = 2343,
     /// <summary>
     /// vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpblendmq xmm {k1}{z}, xmm, m128","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpblendmq_xmm_k1z_xmm_m128 = 2135,
+    [Symbol("vpblendmq xmm, xmm, m128","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpblendmq_xmm_xmm_m128 = 2344,
     /// <summary>
     /// vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpblendmq xmm {k1}{z}, xmm, m64bcst","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpblendmq_xmm_k1z_xmm_m64bcst = 2136,
+    [Symbol("vpblendmq xmm, xmm, m64bcst","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpblendmq_xmm_xmm_m64bcst = 2345,
+    /// <summary>
+    /// vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq xmm_k1z, xmm, xmm","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpblendmq_xmm_k1z_xmm_xmm = 2346,
+    /// <summary>
+    /// vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq xmm_k1z, xmm, m128","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpblendmq_xmm_k1z_xmm_m128 = 2347,
+    /// <summary>
+    /// vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq xmm_k1z, xmm, m64bcst","vpblendmq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpblendmq_xmm_k1z_xmm_m64bcst = 2348,
     /// <summary>
     /// vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpblendmq ymm {k1}{z}, ymm, ymm","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpblendmq_ymm_k1z_ymm_ymm = 2137,
+    [Symbol("vpblendmq ymm, ymm, ymm","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpblendmq_ymm_ymm_ymm = 2349,
     /// <summary>
     /// vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpblendmq ymm {k1}{z}, ymm, m256","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpblendmq_ymm_k1z_ymm_m256 = 2138,
+    [Symbol("vpblendmq ymm, ymm, m256","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpblendmq_ymm_ymm_m256 = 2350,
     /// <summary>
     /// vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpblendmq ymm {k1}{z}, ymm, m64bcst","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpblendmq_ymm_k1z_ymm_m64bcst = 2139,
+    [Symbol("vpblendmq ymm, ymm, m64bcst","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpblendmq_ymm_ymm_m64bcst = 2351,
+    /// <summary>
+    /// vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq ymm_k1z, ymm, ymm","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpblendmq_ymm_k1z_ymm_ymm = 2352,
+    /// <summary>
+    /// vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq ymm_k1z, ymm, m256","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpblendmq_ymm_k1z_ymm_m256 = 2353,
+    /// <summary>
+    /// vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq ymm_k1z, ymm, m64bcst","vpblendmq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpblendmq_ymm_k1z_ymm_m64bcst = 2354,
     /// <summary>
     /// vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpblendmq zmm {k1}{z}, zmm, zmm","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpblendmq_zmm_k1z_zmm_zmm = 2140,
+    [Symbol("vpblendmq zmm, zmm, zmm","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpblendmq_zmm_zmm_zmm = 2355,
     /// <summary>
     /// vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpblendmq zmm {k1}{z}, zmm, m512","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpblendmq_zmm_k1z_zmm_m512 = 2141,
+    [Symbol("vpblendmq zmm, zmm, m512","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpblendmq_zmm_zmm_m512 = 2356,
     /// <summary>
     /// vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpblendmq zmm {k1}{z}, zmm, m64bcst","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpblendmq_zmm_k1z_zmm_m64bcst = 2142,
+    [Symbol("vpblendmq zmm, zmm, m64bcst","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpblendmq_zmm_zmm_m64bcst = 2357,
+    /// <summary>
+    /// vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq zmm_k1z, zmm, zmm","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpblendmq_zmm_k1z_zmm_zmm = 2358,
+    /// <summary>
+    /// vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq zmm_k1z, zmm, m512","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpblendmq_zmm_k1z_zmm_m512 = 2359,
+    /// <summary>
+    /// vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpblendmq zmm_k1z, zmm, m64bcst","vpblendmq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpblendmq_zmm_k1z_zmm_m64bcst = 2360,
     /// <summary>
     /// vpblendmw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpblendmw xmm {k1}{z}, xmm, xmm","vpblendmw xmm {k1}{z}, xmm, xmm/m128")]
-    vpblendmw_xmm_k1z_xmm_xmm = 2143,
+    [Symbol("vpblendmw xmm, xmm, xmm","vpblendmw xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmw_xmm_xmm_xmm = 2361,
     /// <summary>
     /// vpblendmw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpblendmw xmm {k1}{z}, xmm, m128","vpblendmw xmm {k1}{z}, xmm, xmm/m128")]
-    vpblendmw_xmm_k1z_xmm_m128 = 2144,
+    [Symbol("vpblendmw xmm, xmm, m128","vpblendmw xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmw_xmm_xmm_m128 = 2362,
+    /// <summary>
+    /// vpblendmw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpblendmw xmm_k1z, xmm, xmm","vpblendmw xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmw_xmm_k1z_xmm_xmm = 2363,
+    /// <summary>
+    /// vpblendmw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpblendmw xmm_k1z, xmm, m128","vpblendmw xmm {k1}{z}, xmm, xmm/m128")]
+    vpblendmw_xmm_k1z_xmm_m128 = 2364,
     /// <summary>
     /// vpblendmw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpblendmw ymm {k1}{z}, ymm, ymm","vpblendmw ymm {k1}{z}, ymm, ymm/m256")]
-    vpblendmw_ymm_k1z_ymm_ymm = 2145,
+    [Symbol("vpblendmw ymm, ymm, ymm","vpblendmw ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmw_ymm_ymm_ymm = 2365,
     /// <summary>
     /// vpblendmw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpblendmw ymm {k1}{z}, ymm, m256","vpblendmw ymm {k1}{z}, ymm, ymm/m256")]
-    vpblendmw_ymm_k1z_ymm_m256 = 2146,
+    [Symbol("vpblendmw ymm, ymm, m256","vpblendmw ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmw_ymm_ymm_m256 = 2366,
+    /// <summary>
+    /// vpblendmw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpblendmw ymm_k1z, ymm, ymm","vpblendmw ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmw_ymm_k1z_ymm_ymm = 2367,
+    /// <summary>
+    /// vpblendmw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpblendmw ymm_k1z, ymm, m256","vpblendmw ymm {k1}{z}, ymm, ymm/m256")]
+    vpblendmw_ymm_k1z_ymm_m256 = 2368,
     /// <summary>
     /// vpblendmw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpblendmw zmm {k1}{z}, zmm, zmm","vpblendmw zmm {k1}{z}, zmm, zmm/m512")]
-    vpblendmw_zmm_k1z_zmm_zmm = 2147,
+    [Symbol("vpblendmw zmm, zmm, zmm","vpblendmw zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmw_zmm_zmm_zmm = 2369,
     /// <summary>
     /// vpblendmw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpblendmw zmm {k1}{z}, zmm, m512","vpblendmw zmm {k1}{z}, zmm, zmm/m512")]
-    vpblendmw_zmm_k1z_zmm_m512 = 2148,
+    [Symbol("vpblendmw zmm, zmm, m512","vpblendmw zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmw_zmm_zmm_m512 = 2370,
+    /// <summary>
+    /// vpblendmw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpblendmw zmm_k1z, zmm, zmm","vpblendmw zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmw_zmm_k1z_zmm_zmm = 2371,
+    /// <summary>
+    /// vpblendmw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpblendmw zmm_k1z, zmm, m512","vpblendmw zmm {k1}{z}, zmm, zmm/m512")]
+    vpblendmw_zmm_k1z_zmm_m512 = 2372,
     /// <summary>
     /// vpbroadcastb xmm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb xmm {k1}{z}, xmm","vpbroadcastb xmm {k1}{z}, xmm/m8")]
-    vpbroadcastb_xmm_k1z_xmm = 2149,
+    [Symbol("vpbroadcastb xmm, xmm","vpbroadcastb xmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_xmm_xmm = 2373,
     /// <summary>
     /// vpbroadcastb xmm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb xmm {k1}{z}, m8","vpbroadcastb xmm {k1}{z}, xmm/m8")]
-    vpbroadcastb_xmm_k1z_m8 = 2150,
+    [Symbol("vpbroadcastb xmm, m8","vpbroadcastb xmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_xmm_m8 = 2374,
     /// <summary>
-    /// vpbroadcastb xmm, xmm/m8
+    /// vpbroadcastb xmm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb xmm, xmm","vpbroadcastb xmm, xmm/m8")]
-    vpbroadcastb_xmm_xmm = 2151,
+    [Symbol("vpbroadcastb xmm_k1z, xmm","vpbroadcastb xmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_xmm_k1z_xmm = 2375,
     /// <summary>
-    /// vpbroadcastb xmm, xmm/m8
+    /// vpbroadcastb xmm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb xmm, m8","vpbroadcastb xmm, xmm/m8")]
-    vpbroadcastb_xmm_m8 = 2152,
-    /// <summary>
-    /// vpbroadcastb ymm {k1}{z}, xmm/m8
-    /// </summary>
-    [Symbol("vpbroadcastb ymm {k1}{z}, xmm","vpbroadcastb ymm {k1}{z}, xmm/m8")]
-    vpbroadcastb_ymm_k1z_xmm = 2153,
+    [Symbol("vpbroadcastb xmm_k1z, m8","vpbroadcastb xmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_xmm_k1z_m8 = 2376,
     /// <summary>
     /// vpbroadcastb ymm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb ymm {k1}{z}, m8","vpbroadcastb ymm {k1}{z}, xmm/m8")]
-    vpbroadcastb_ymm_k1z_m8 = 2154,
+    [Symbol("vpbroadcastb ymm, xmm","vpbroadcastb ymm {k1}{z}, xmm/m8")]
+    vpbroadcastb_ymm_xmm = 2377,
     /// <summary>
-    /// vpbroadcastb ymm, xmm/m8
+    /// vpbroadcastb ymm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb ymm, xmm","vpbroadcastb ymm, xmm/m8")]
-    vpbroadcastb_ymm_xmm = 2155,
+    [Symbol("vpbroadcastb ymm, m8","vpbroadcastb ymm {k1}{z}, xmm/m8")]
+    vpbroadcastb_ymm_m8 = 2378,
     /// <summary>
-    /// vpbroadcastb ymm, xmm/m8
+    /// vpbroadcastb ymm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb ymm, m8","vpbroadcastb ymm, xmm/m8")]
-    vpbroadcastb_ymm_m8 = 2156,
+    [Symbol("vpbroadcastb ymm_k1z, xmm","vpbroadcastb ymm {k1}{z}, xmm/m8")]
+    vpbroadcastb_ymm_k1z_xmm = 2379,
+    /// <summary>
+    /// vpbroadcastb ymm {k1}{z}, xmm/m8
+    /// </summary>
+    [Symbol("vpbroadcastb ymm_k1z, m8","vpbroadcastb ymm {k1}{z}, xmm/m8")]
+    vpbroadcastb_ymm_k1z_m8 = 2380,
     /// <summary>
     /// vpbroadcastb zmm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb zmm {k1}{z}, xmm","vpbroadcastb zmm {k1}{z}, xmm/m8")]
-    vpbroadcastb_zmm_k1z_xmm = 2157,
+    [Symbol("vpbroadcastb zmm, xmm","vpbroadcastb zmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_zmm_xmm = 2381,
     /// <summary>
     /// vpbroadcastb zmm {k1}{z}, xmm/m8
     /// </summary>
-    [Symbol("vpbroadcastb zmm {k1}{z}, m8","vpbroadcastb zmm {k1}{z}, xmm/m8")]
-    vpbroadcastb_zmm_k1z_m8 = 2158,
+    [Symbol("vpbroadcastb zmm, m8","vpbroadcastb zmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_zmm_m8 = 2382,
+    /// <summary>
+    /// vpbroadcastb zmm {k1}{z}, xmm/m8
+    /// </summary>
+    [Symbol("vpbroadcastb zmm_k1z, xmm","vpbroadcastb zmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_zmm_k1z_xmm = 2383,
+    /// <summary>
+    /// vpbroadcastb zmm {k1}{z}, xmm/m8
+    /// </summary>
+    [Symbol("vpbroadcastb zmm_k1z, m8","vpbroadcastb zmm {k1}{z}, xmm/m8")]
+    vpbroadcastb_zmm_k1z_m8 = 2384,
     /// <summary>
     /// vpbroadcastd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd xmm {k1}{z}, xmm","vpbroadcastd xmm {k1}{z}, xmm/m32")]
-    vpbroadcastd_xmm_k1z_xmm = 2159,
+    [Symbol("vpbroadcastd xmm, xmm","vpbroadcastd xmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_xmm_xmm = 2385,
     /// <summary>
     /// vpbroadcastd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd xmm {k1}{z}, m32","vpbroadcastd xmm {k1}{z}, xmm/m32")]
-    vpbroadcastd_xmm_k1z_m32 = 2160,
+    [Symbol("vpbroadcastd xmm, m32","vpbroadcastd xmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_xmm_m32 = 2386,
     /// <summary>
-    /// vpbroadcastd xmm, xmm/m32
+    /// vpbroadcastd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd xmm, xmm","vpbroadcastd xmm, xmm/m32")]
-    vpbroadcastd_xmm_xmm = 2161,
+    [Symbol("vpbroadcastd xmm_k1z, xmm","vpbroadcastd xmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_xmm_k1z_xmm = 2387,
     /// <summary>
-    /// vpbroadcastd xmm, xmm/m32
+    /// vpbroadcastd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd xmm, m32","vpbroadcastd xmm, xmm/m32")]
-    vpbroadcastd_xmm_m32 = 2162,
-    /// <summary>
-    /// vpbroadcastd ymm {k1}{z}, xmm/m32
-    /// </summary>
-    [Symbol("vpbroadcastd ymm {k1}{z}, xmm","vpbroadcastd ymm {k1}{z}, xmm/m32")]
-    vpbroadcastd_ymm_k1z_xmm = 2163,
+    [Symbol("vpbroadcastd xmm_k1z, m32","vpbroadcastd xmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_xmm_k1z_m32 = 2388,
     /// <summary>
     /// vpbroadcastd ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd ymm {k1}{z}, m32","vpbroadcastd ymm {k1}{z}, xmm/m32")]
-    vpbroadcastd_ymm_k1z_m32 = 2164,
+    [Symbol("vpbroadcastd ymm, xmm","vpbroadcastd ymm {k1}{z}, xmm/m32")]
+    vpbroadcastd_ymm_xmm = 2389,
     /// <summary>
-    /// vpbroadcastd ymm, xmm/m32
+    /// vpbroadcastd ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd ymm, xmm","vpbroadcastd ymm, xmm/m32")]
-    vpbroadcastd_ymm_xmm = 2165,
+    [Symbol("vpbroadcastd ymm, m32","vpbroadcastd ymm {k1}{z}, xmm/m32")]
+    vpbroadcastd_ymm_m32 = 2390,
     /// <summary>
-    /// vpbroadcastd ymm, xmm/m32
+    /// vpbroadcastd ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd ymm, m32","vpbroadcastd ymm, xmm/m32")]
-    vpbroadcastd_ymm_m32 = 2166,
+    [Symbol("vpbroadcastd ymm_k1z, xmm","vpbroadcastd ymm {k1}{z}, xmm/m32")]
+    vpbroadcastd_ymm_k1z_xmm = 2391,
+    /// <summary>
+    /// vpbroadcastd ymm {k1}{z}, xmm/m32
+    /// </summary>
+    [Symbol("vpbroadcastd ymm_k1z, m32","vpbroadcastd ymm {k1}{z}, xmm/m32")]
+    vpbroadcastd_ymm_k1z_m32 = 2392,
     /// <summary>
     /// vpbroadcastd zmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd zmm {k1}{z}, xmm","vpbroadcastd zmm {k1}{z}, xmm/m32")]
-    vpbroadcastd_zmm_k1z_xmm = 2167,
+    [Symbol("vpbroadcastd zmm, xmm","vpbroadcastd zmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_zmm_xmm = 2393,
     /// <summary>
     /// vpbroadcastd zmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpbroadcastd zmm {k1}{z}, m32","vpbroadcastd zmm {k1}{z}, xmm/m32")]
-    vpbroadcastd_zmm_k1z_m32 = 2168,
+    [Symbol("vpbroadcastd zmm, m32","vpbroadcastd zmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_zmm_m32 = 2394,
+    /// <summary>
+    /// vpbroadcastd zmm {k1}{z}, xmm/m32
+    /// </summary>
+    [Symbol("vpbroadcastd zmm_k1z, xmm","vpbroadcastd zmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_zmm_k1z_xmm = 2395,
+    /// <summary>
+    /// vpbroadcastd zmm {k1}{z}, xmm/m32
+    /// </summary>
+    [Symbol("vpbroadcastd zmm_k1z, m32","vpbroadcastd zmm {k1}{z}, xmm/m32")]
+    vpbroadcastd_zmm_k1z_m32 = 2396,
     /// <summary>
     /// vpbroadcastmb2q xmm, k
     /// </summary>
     [Symbol("vpbroadcastmb2q xmm, k","vpbroadcastmb2q xmm, k")]
-    vpbroadcastmb2q_xmm_k = 2169,
+    vpbroadcastmb2q_xmm_k = 2397,
     /// <summary>
     /// vpbroadcastmb2q ymm, k
     /// </summary>
     [Symbol("vpbroadcastmb2q ymm, k","vpbroadcastmb2q ymm, k")]
-    vpbroadcastmb2q_ymm_k = 2170,
+    vpbroadcastmb2q_ymm_k = 2398,
     /// <summary>
     /// vpbroadcastmb2q zmm, k
     /// </summary>
     [Symbol("vpbroadcastmb2q zmm, k","vpbroadcastmb2q zmm, k")]
-    vpbroadcastmb2q_zmm_k = 2171,
+    vpbroadcastmb2q_zmm_k = 2399,
     /// <summary>
     /// vpbroadcastmw2d xmm, k
     /// </summary>
     [Symbol("vpbroadcastmw2d xmm, k","vpbroadcastmw2d xmm, k")]
-    vpbroadcastmw2d_xmm_k = 2172,
+    vpbroadcastmw2d_xmm_k = 2400,
     /// <summary>
     /// vpbroadcastmw2d ymm, k
     /// </summary>
     [Symbol("vpbroadcastmw2d ymm, k","vpbroadcastmw2d ymm, k")]
-    vpbroadcastmw2d_ymm_k = 2173,
+    vpbroadcastmw2d_ymm_k = 2401,
     /// <summary>
     /// vpbroadcastmw2d zmm, k
     /// </summary>
     [Symbol("vpbroadcastmw2d zmm, k","vpbroadcastmw2d zmm, k")]
-    vpbroadcastmw2d_zmm_k = 2174,
+    vpbroadcastmw2d_zmm_k = 2402,
     /// <summary>
     /// vpbroadcastq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq xmm {k1}{z}, xmm","vpbroadcastq xmm {k1}{z}, xmm/m64")]
-    vpbroadcastq_xmm_k1z_xmm = 2175,
+    [Symbol("vpbroadcastq xmm, xmm","vpbroadcastq xmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_xmm_xmm = 2403,
     /// <summary>
     /// vpbroadcastq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq xmm {k1}{z}, m64","vpbroadcastq xmm {k1}{z}, xmm/m64")]
-    vpbroadcastq_xmm_k1z_m64 = 2176,
+    [Symbol("vpbroadcastq xmm, m64","vpbroadcastq xmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_xmm_m64 = 2404,
     /// <summary>
-    /// vpbroadcastq xmm, xmm/m64
+    /// vpbroadcastq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq xmm, xmm","vpbroadcastq xmm, xmm/m64")]
-    vpbroadcastq_xmm_xmm = 2177,
+    [Symbol("vpbroadcastq xmm_k1z, xmm","vpbroadcastq xmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_xmm_k1z_xmm = 2405,
     /// <summary>
-    /// vpbroadcastq xmm, xmm/m64
+    /// vpbroadcastq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq xmm, m64","vpbroadcastq xmm, xmm/m64")]
-    vpbroadcastq_xmm_m64 = 2178,
-    /// <summary>
-    /// vpbroadcastq ymm {k1}{z}, xmm/m64
-    /// </summary>
-    [Symbol("vpbroadcastq ymm {k1}{z}, xmm","vpbroadcastq ymm {k1}{z}, xmm/m64")]
-    vpbroadcastq_ymm_k1z_xmm = 2179,
+    [Symbol("vpbroadcastq xmm_k1z, m64","vpbroadcastq xmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_xmm_k1z_m64 = 2406,
     /// <summary>
     /// vpbroadcastq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq ymm {k1}{z}, m64","vpbroadcastq ymm {k1}{z}, xmm/m64")]
-    vpbroadcastq_ymm_k1z_m64 = 2180,
+    [Symbol("vpbroadcastq ymm, xmm","vpbroadcastq ymm {k1}{z}, xmm/m64")]
+    vpbroadcastq_ymm_xmm = 2407,
     /// <summary>
-    /// vpbroadcastq ymm, xmm/m64
+    /// vpbroadcastq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq ymm, xmm","vpbroadcastq ymm, xmm/m64")]
-    vpbroadcastq_ymm_xmm = 2181,
+    [Symbol("vpbroadcastq ymm, m64","vpbroadcastq ymm {k1}{z}, xmm/m64")]
+    vpbroadcastq_ymm_m64 = 2408,
     /// <summary>
-    /// vpbroadcastq ymm, xmm/m64
+    /// vpbroadcastq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq ymm, m64","vpbroadcastq ymm, xmm/m64")]
-    vpbroadcastq_ymm_m64 = 2182,
+    [Symbol("vpbroadcastq ymm_k1z, xmm","vpbroadcastq ymm {k1}{z}, xmm/m64")]
+    vpbroadcastq_ymm_k1z_xmm = 2409,
+    /// <summary>
+    /// vpbroadcastq ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpbroadcastq ymm_k1z, m64","vpbroadcastq ymm {k1}{z}, xmm/m64")]
+    vpbroadcastq_ymm_k1z_m64 = 2410,
     /// <summary>
     /// vpbroadcastq zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq zmm {k1}{z}, xmm","vpbroadcastq zmm {k1}{z}, xmm/m64")]
-    vpbroadcastq_zmm_k1z_xmm = 2183,
+    [Symbol("vpbroadcastq zmm, xmm","vpbroadcastq zmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_zmm_xmm = 2411,
     /// <summary>
     /// vpbroadcastq zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpbroadcastq zmm {k1}{z}, m64","vpbroadcastq zmm {k1}{z}, xmm/m64")]
-    vpbroadcastq_zmm_k1z_m64 = 2184,
+    [Symbol("vpbroadcastq zmm, m64","vpbroadcastq zmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_zmm_m64 = 2412,
+    /// <summary>
+    /// vpbroadcastq zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpbroadcastq zmm_k1z, xmm","vpbroadcastq zmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_zmm_k1z_xmm = 2413,
+    /// <summary>
+    /// vpbroadcastq zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpbroadcastq zmm_k1z, m64","vpbroadcastq zmm {k1}{z}, xmm/m64")]
+    vpbroadcastq_zmm_k1z_m64 = 2414,
     /// <summary>
     /// vpbroadcastw xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw xmm {k1}{z}, xmm","vpbroadcastw xmm {k1}{z}, xmm/m16")]
-    vpbroadcastw_xmm_k1z_xmm = 2185,
+    [Symbol("vpbroadcastw xmm, xmm","vpbroadcastw xmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_xmm_xmm = 2415,
     /// <summary>
     /// vpbroadcastw xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw xmm {k1}{z}, m16","vpbroadcastw xmm {k1}{z}, xmm/m16")]
-    vpbroadcastw_xmm_k1z_m16 = 2186,
+    [Symbol("vpbroadcastw xmm, m16","vpbroadcastw xmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_xmm_m16 = 2416,
     /// <summary>
-    /// vpbroadcastw xmm, xmm/m16
+    /// vpbroadcastw xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw xmm, xmm","vpbroadcastw xmm, xmm/m16")]
-    vpbroadcastw_xmm_xmm = 2187,
+    [Symbol("vpbroadcastw xmm_k1z, xmm","vpbroadcastw xmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_xmm_k1z_xmm = 2417,
     /// <summary>
-    /// vpbroadcastw xmm, xmm/m16
+    /// vpbroadcastw xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw xmm, m16","vpbroadcastw xmm, xmm/m16")]
-    vpbroadcastw_xmm_m16 = 2188,
-    /// <summary>
-    /// vpbroadcastw ymm {k1}{z}, xmm/m16
-    /// </summary>
-    [Symbol("vpbroadcastw ymm {k1}{z}, xmm","vpbroadcastw ymm {k1}{z}, xmm/m16")]
-    vpbroadcastw_ymm_k1z_xmm = 2189,
+    [Symbol("vpbroadcastw xmm_k1z, m16","vpbroadcastw xmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_xmm_k1z_m16 = 2418,
     /// <summary>
     /// vpbroadcastw ymm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw ymm {k1}{z}, m16","vpbroadcastw ymm {k1}{z}, xmm/m16")]
-    vpbroadcastw_ymm_k1z_m16 = 2190,
+    [Symbol("vpbroadcastw ymm, xmm","vpbroadcastw ymm {k1}{z}, xmm/m16")]
+    vpbroadcastw_ymm_xmm = 2419,
     /// <summary>
-    /// vpbroadcastw ymm, xmm/m16
+    /// vpbroadcastw ymm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw ymm, xmm","vpbroadcastw ymm, xmm/m16")]
-    vpbroadcastw_ymm_xmm = 2191,
+    [Symbol("vpbroadcastw ymm, m16","vpbroadcastw ymm {k1}{z}, xmm/m16")]
+    vpbroadcastw_ymm_m16 = 2420,
     /// <summary>
-    /// vpbroadcastw ymm, xmm/m16
+    /// vpbroadcastw ymm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw ymm, m16","vpbroadcastw ymm, xmm/m16")]
-    vpbroadcastw_ymm_m16 = 2192,
+    [Symbol("vpbroadcastw ymm_k1z, xmm","vpbroadcastw ymm {k1}{z}, xmm/m16")]
+    vpbroadcastw_ymm_k1z_xmm = 2421,
+    /// <summary>
+    /// vpbroadcastw ymm {k1}{z}, xmm/m16
+    /// </summary>
+    [Symbol("vpbroadcastw ymm_k1z, m16","vpbroadcastw ymm {k1}{z}, xmm/m16")]
+    vpbroadcastw_ymm_k1z_m16 = 2422,
     /// <summary>
     /// vpbroadcastw zmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw zmm {k1}{z}, xmm","vpbroadcastw zmm {k1}{z}, xmm/m16")]
-    vpbroadcastw_zmm_k1z_xmm = 2193,
+    [Symbol("vpbroadcastw zmm, xmm","vpbroadcastw zmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_zmm_xmm = 2423,
     /// <summary>
     /// vpbroadcastw zmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpbroadcastw zmm {k1}{z}, m16","vpbroadcastw zmm {k1}{z}, xmm/m16")]
-    vpbroadcastw_zmm_k1z_m16 = 2194,
+    [Symbol("vpbroadcastw zmm, m16","vpbroadcastw zmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_zmm_m16 = 2424,
+    /// <summary>
+    /// vpbroadcastw zmm {k1}{z}, xmm/m16
+    /// </summary>
+    [Symbol("vpbroadcastw zmm_k1z, xmm","vpbroadcastw zmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_zmm_k1z_xmm = 2425,
+    /// <summary>
+    /// vpbroadcastw zmm {k1}{z}, xmm/m16
+    /// </summary>
+    [Symbol("vpbroadcastw zmm_k1z, m16","vpbroadcastw zmm {k1}{z}, xmm/m16")]
+    vpbroadcastw_zmm_k1z_m16 = 2426,
     /// <summary>
     /// vpcmpb k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpb k1 {k2}, xmm, xmm, imm8","vpcmpb k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpb_k1_k2_xmm_xmm_imm8 = 2195,
+    [Symbol("vpcmpb k1, xmm, xmm, imm8","vpcmpb k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpb_k1_xmm_xmm_imm8 = 2427,
     /// <summary>
     /// vpcmpb k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpb k1 {k2}, xmm, m128, imm8","vpcmpb k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpb_k1_k2_xmm_m128_imm8 = 2196,
+    [Symbol("vpcmpb k1, xmm, m128, imm8","vpcmpb k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpb_k1_xmm_m128_imm8 = 2428,
+    /// <summary>
+    /// vpcmpb k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpb k12, xmm, xmm, imm8","vpcmpb k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpb_k12_xmm_xmm_imm8 = 2429,
+    /// <summary>
+    /// vpcmpb k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpb k12, xmm, m128, imm8","vpcmpb k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpb_k12_xmm_m128_imm8 = 2430,
     /// <summary>
     /// vpcmpb k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpb k1 {k2}, ymm, ymm, imm8","vpcmpb k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpb_k1_k2_ymm_ymm_imm8 = 2197,
+    [Symbol("vpcmpb k1, ymm, ymm, imm8","vpcmpb k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpb_k1_ymm_ymm_imm8 = 2431,
     /// <summary>
     /// vpcmpb k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpb k1 {k2}, ymm, m256, imm8","vpcmpb k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpb_k1_k2_ymm_m256_imm8 = 2198,
+    [Symbol("vpcmpb k1, ymm, m256, imm8","vpcmpb k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpb_k1_ymm_m256_imm8 = 2432,
+    /// <summary>
+    /// vpcmpb k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpb k12, ymm, ymm, imm8","vpcmpb k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpb_k12_ymm_ymm_imm8 = 2433,
+    /// <summary>
+    /// vpcmpb k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpb k12, ymm, m256, imm8","vpcmpb k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpb_k12_ymm_m256_imm8 = 2434,
     /// <summary>
     /// vpcmpb k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpb k1 {k2}, zmm, zmm, imm8","vpcmpb k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpb_k1_k2_zmm_zmm_imm8 = 2199,
+    [Symbol("vpcmpb k1, zmm, zmm, imm8","vpcmpb k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpb_k1_zmm_zmm_imm8 = 2435,
     /// <summary>
     /// vpcmpb k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpb k1 {k2}, zmm, m512, imm8","vpcmpb k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpb_k1_k2_zmm_m512_imm8 = 2200,
+    [Symbol("vpcmpb k1, zmm, m512, imm8","vpcmpb k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpb_k1_zmm_m512_imm8 = 2436,
+    /// <summary>
+    /// vpcmpb k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpb k12, zmm, zmm, imm8","vpcmpb k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpb_k12_zmm_zmm_imm8 = 2437,
+    /// <summary>
+    /// vpcmpb k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpb k12, zmm, m512, imm8","vpcmpb k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpb_k12_zmm_m512_imm8 = 2438,
     /// <summary>
     /// vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, xmm, xmm, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vpcmpd_k1_k2_xmm_xmm_imm8 = 2201,
+    [Symbol("vpcmpd k1, xmm, xmm, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpd_k1_xmm_xmm_imm8 = 2439,
     /// <summary>
     /// vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, xmm, m128, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vpcmpd_k1_k2_xmm_m128_imm8 = 2202,
+    [Symbol("vpcmpd k1, xmm, m128, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpd_k1_xmm_m128_imm8 = 2440,
     /// <summary>
     /// vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, xmm, m32bcst, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vpcmpd_k1_k2_xmm_m32bcst_imm8 = 2203,
+    [Symbol("vpcmpd k1, xmm, m32bcst, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpd_k1_xmm_m32bcst_imm8 = 2441,
+    /// <summary>
+    /// vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, xmm, xmm, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpd_k12_xmm_xmm_imm8 = 2442,
+    /// <summary>
+    /// vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, xmm, m128, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpd_k12_xmm_m128_imm8 = 2443,
+    /// <summary>
+    /// vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, xmm, m32bcst, imm8","vpcmpd k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpd_k12_xmm_m32bcst_imm8 = 2444,
     /// <summary>
     /// vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, ymm, ymm, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vpcmpd_k1_k2_ymm_ymm_imm8 = 2204,
+    [Symbol("vpcmpd k1, ymm, ymm, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpd_k1_ymm_ymm_imm8 = 2445,
     /// <summary>
     /// vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, ymm, m256, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vpcmpd_k1_k2_ymm_m256_imm8 = 2205,
+    [Symbol("vpcmpd k1, ymm, m256, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpd_k1_ymm_m256_imm8 = 2446,
     /// <summary>
     /// vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, ymm, m32bcst, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vpcmpd_k1_k2_ymm_m32bcst_imm8 = 2206,
+    [Symbol("vpcmpd k1, ymm, m32bcst, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpd_k1_ymm_m32bcst_imm8 = 2447,
+    /// <summary>
+    /// vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, ymm, ymm, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpd_k12_ymm_ymm_imm8 = 2448,
+    /// <summary>
+    /// vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, ymm, m256, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpd_k12_ymm_m256_imm8 = 2449,
+    /// <summary>
+    /// vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, ymm, m32bcst, imm8","vpcmpd k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpd_k12_ymm_m32bcst_imm8 = 2450,
     /// <summary>
     /// vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, zmm, zmm, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
-    vpcmpd_k1_k2_zmm_zmm_imm8 = 2207,
+    [Symbol("vpcmpd k1, zmm, zmm, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpd_k1_zmm_zmm_imm8 = 2451,
     /// <summary>
     /// vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, zmm, m512, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
-    vpcmpd_k1_k2_zmm_m512_imm8 = 2208,
+    [Symbol("vpcmpd k1, zmm, m512, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpd_k1_zmm_m512_imm8 = 2452,
     /// <summary>
     /// vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpd k1 {k2}, zmm, m32bcst, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
-    vpcmpd_k1_k2_zmm_m32bcst_imm8 = 2209,
+    [Symbol("vpcmpd k1, zmm, m32bcst, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpd_k1_zmm_m32bcst_imm8 = 2453,
+    /// <summary>
+    /// vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, zmm, zmm, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpd_k12_zmm_zmm_imm8 = 2454,
+    /// <summary>
+    /// vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, zmm, m512, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpd_k12_zmm_m512_imm8 = 2455,
+    /// <summary>
+    /// vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpd k12, zmm, m32bcst, imm8","vpcmpd k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpd_k12_zmm_m32bcst_imm8 = 2456,
     /// <summary>
     /// vpcmpeqb k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpeqb k1 {k2}, xmm, xmm","vpcmpeqb k1 {k2}, xmm, xmm/m128")]
-    vpcmpeqb_k1_k2_xmm_xmm = 2210,
+    [Symbol("vpcmpeqb k1, xmm, xmm","vpcmpeqb k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqb_k1_xmm_xmm = 2457,
     /// <summary>
     /// vpcmpeqb k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpeqb k1 {k2}, xmm, m128","vpcmpeqb k1 {k2}, xmm, xmm/m128")]
-    vpcmpeqb_k1_k2_xmm_m128 = 2211,
+    [Symbol("vpcmpeqb k1, xmm, m128","vpcmpeqb k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqb_k1_xmm_m128 = 2458,
+    /// <summary>
+    /// vpcmpeqb k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpeqb k12, xmm, xmm","vpcmpeqb k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqb_k12_xmm_xmm = 2459,
+    /// <summary>
+    /// vpcmpeqb k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpeqb k12, xmm, m128","vpcmpeqb k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqb_k12_xmm_m128 = 2460,
     /// <summary>
     /// vpcmpeqb k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpeqb k1 {k2}, ymm, ymm","vpcmpeqb k1 {k2}, ymm, ymm/m256")]
-    vpcmpeqb_k1_k2_ymm_ymm = 2212,
+    [Symbol("vpcmpeqb k1, ymm, ymm","vpcmpeqb k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqb_k1_ymm_ymm = 2461,
     /// <summary>
     /// vpcmpeqb k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpeqb k1 {k2}, ymm, m256","vpcmpeqb k1 {k2}, ymm, ymm/m256")]
-    vpcmpeqb_k1_k2_ymm_m256 = 2213,
+    [Symbol("vpcmpeqb k1, ymm, m256","vpcmpeqb k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqb_k1_ymm_m256 = 2462,
+    /// <summary>
+    /// vpcmpeqb k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpeqb k12, ymm, ymm","vpcmpeqb k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqb_k12_ymm_ymm = 2463,
+    /// <summary>
+    /// vpcmpeqb k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpeqb k12, ymm, m256","vpcmpeqb k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqb_k12_ymm_m256 = 2464,
     /// <summary>
     /// vpcmpeqb k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpeqb k1 {k2}, zmm, zmm","vpcmpeqb k1 {k2}, zmm, zmm/m512")]
-    vpcmpeqb_k1_k2_zmm_zmm = 2214,
+    [Symbol("vpcmpeqb k1, zmm, zmm","vpcmpeqb k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqb_k1_zmm_zmm = 2465,
     /// <summary>
     /// vpcmpeqb k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpeqb k1 {k2}, zmm, m512","vpcmpeqb k1 {k2}, zmm, zmm/m512")]
-    vpcmpeqb_k1_k2_zmm_m512 = 2215,
+    [Symbol("vpcmpeqb k1, zmm, m512","vpcmpeqb k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqb_k1_zmm_m512 = 2466,
+    /// <summary>
+    /// vpcmpeqb k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpeqb k12, zmm, zmm","vpcmpeqb k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqb_k12_zmm_zmm = 2467,
+    /// <summary>
+    /// vpcmpeqb k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpeqb k12, zmm, m512","vpcmpeqb k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqb_k12_zmm_m512 = 2468,
     /// <summary>
     /// vpcmpeqb xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqb xmm, xmm, xmm","vpcmpeqb xmm, xmm, xmm/m128")]
-    vpcmpeqb_xmm_xmm_xmm = 2216,
+    vpcmpeqb_xmm_xmm_xmm = 2469,
     /// <summary>
     /// vpcmpeqb xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqb xmm, xmm, m128","vpcmpeqb xmm, xmm, xmm/m128")]
-    vpcmpeqb_xmm_xmm_m128 = 2217,
+    vpcmpeqb_xmm_xmm_m128 = 2470,
     /// <summary>
     /// vpcmpeqb ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqb ymm, ymm, ymm","vpcmpeqb ymm, ymm, ymm/m256")]
-    vpcmpeqb_ymm_ymm_ymm = 2218,
+    vpcmpeqb_ymm_ymm_ymm = 2471,
     /// <summary>
     /// vpcmpeqb ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqb ymm, ymm, m256","vpcmpeqb ymm, ymm, ymm/m256")]
-    vpcmpeqb_ymm_ymm_m256 = 2219,
+    vpcmpeqb_ymm_ymm_m256 = 2472,
     /// <summary>
     /// vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, xmm, xmm","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
-    vpcmpeqd_k1_k2_xmm_xmm = 2220,
+    [Symbol("vpcmpeqd k1, xmm, xmm","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpeqd_k1_xmm_xmm = 2473,
     /// <summary>
     /// vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, xmm, m128","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
-    vpcmpeqd_k1_k2_xmm_m128 = 2221,
+    [Symbol("vpcmpeqd k1, xmm, m128","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpeqd_k1_xmm_m128 = 2474,
     /// <summary>
     /// vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, xmm, m32bcst","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
-    vpcmpeqd_k1_k2_xmm_m32bcst = 2222,
+    [Symbol("vpcmpeqd k1, xmm, m32bcst","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpeqd_k1_xmm_m32bcst = 2475,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, xmm, xmm","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpeqd_k12_xmm_xmm = 2476,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, xmm, m128","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpeqd_k12_xmm_m128 = 2477,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, xmm, m32bcst","vpcmpeqd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpeqd_k12_xmm_m32bcst = 2478,
     /// <summary>
     /// vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, ymm, ymm","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
-    vpcmpeqd_k1_k2_ymm_ymm = 2223,
+    [Symbol("vpcmpeqd k1, ymm, ymm","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpeqd_k1_ymm_ymm = 2479,
     /// <summary>
     /// vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, ymm, m256","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
-    vpcmpeqd_k1_k2_ymm_m256 = 2224,
+    [Symbol("vpcmpeqd k1, ymm, m256","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpeqd_k1_ymm_m256 = 2480,
     /// <summary>
     /// vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, ymm, m32bcst","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
-    vpcmpeqd_k1_k2_ymm_m32bcst = 2225,
+    [Symbol("vpcmpeqd k1, ymm, m32bcst","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpeqd_k1_ymm_m32bcst = 2481,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, ymm, ymm","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpeqd_k12_ymm_ymm = 2482,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, ymm, m256","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpeqd_k12_ymm_m256 = 2483,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, ymm, m32bcst","vpcmpeqd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpeqd_k12_ymm_m32bcst = 2484,
     /// <summary>
     /// vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, zmm, zmm","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
-    vpcmpeqd_k1_k2_zmm_zmm = 2226,
+    [Symbol("vpcmpeqd k1, zmm, zmm","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpeqd_k1_zmm_zmm = 2485,
     /// <summary>
     /// vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, zmm, m512","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
-    vpcmpeqd_k1_k2_zmm_m512 = 2227,
+    [Symbol("vpcmpeqd k1, zmm, m512","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpeqd_k1_zmm_m512 = 2486,
     /// <summary>
     /// vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpcmpeqd k1 {k2}, zmm, m32bcst","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
-    vpcmpeqd_k1_k2_zmm_m32bcst = 2228,
+    [Symbol("vpcmpeqd k1, zmm, m32bcst","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpeqd_k1_zmm_m32bcst = 2487,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, zmm, zmm","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpeqd_k12_zmm_zmm = 2488,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, zmm, m512","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpeqd_k12_zmm_m512 = 2489,
+    /// <summary>
+    /// vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpcmpeqd k12, zmm, m32bcst","vpcmpeqd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpeqd_k12_zmm_m32bcst = 2490,
     /// <summary>
     /// vpcmpeqd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqd xmm, xmm, xmm","vpcmpeqd xmm, xmm, xmm/m128")]
-    vpcmpeqd_xmm_xmm_xmm = 2229,
+    vpcmpeqd_xmm_xmm_xmm = 2491,
     /// <summary>
     /// vpcmpeqd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqd xmm, xmm, m128","vpcmpeqd xmm, xmm, xmm/m128")]
-    vpcmpeqd_xmm_xmm_m128 = 2230,
+    vpcmpeqd_xmm_xmm_m128 = 2492,
     /// <summary>
     /// vpcmpeqd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqd ymm, ymm, ymm","vpcmpeqd ymm, ymm, ymm/m256")]
-    vpcmpeqd_ymm_ymm_ymm = 2231,
+    vpcmpeqd_ymm_ymm_ymm = 2493,
     /// <summary>
     /// vpcmpeqd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqd ymm, ymm, m256","vpcmpeqd ymm, ymm, ymm/m256")]
-    vpcmpeqd_ymm_ymm_m256 = 2232,
+    vpcmpeqd_ymm_ymm_m256 = 2494,
     /// <summary>
     /// vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, xmm, xmm","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
-    vpcmpeqq_k1_k2_xmm_xmm = 2233,
+    [Symbol("vpcmpeqq k1, xmm, xmm","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpeqq_k1_xmm_xmm = 2495,
     /// <summary>
     /// vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, xmm, m128","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
-    vpcmpeqq_k1_k2_xmm_m128 = 2234,
+    [Symbol("vpcmpeqq k1, xmm, m128","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpeqq_k1_xmm_m128 = 2496,
     /// <summary>
     /// vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, xmm, m64bcst","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
-    vpcmpeqq_k1_k2_xmm_m64bcst = 2235,
+    [Symbol("vpcmpeqq k1, xmm, m64bcst","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpeqq_k1_xmm_m64bcst = 2497,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, xmm, xmm","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpeqq_k12_xmm_xmm = 2498,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, xmm, m128","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpeqq_k12_xmm_m128 = 2499,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, xmm, m64bcst","vpcmpeqq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpeqq_k12_xmm_m64bcst = 2500,
     /// <summary>
     /// vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, ymm, ymm","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
-    vpcmpeqq_k1_k2_ymm_ymm = 2236,
+    [Symbol("vpcmpeqq k1, ymm, ymm","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpeqq_k1_ymm_ymm = 2501,
     /// <summary>
     /// vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, ymm, m256","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
-    vpcmpeqq_k1_k2_ymm_m256 = 2237,
+    [Symbol("vpcmpeqq k1, ymm, m256","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpeqq_k1_ymm_m256 = 2502,
     /// <summary>
     /// vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, ymm, m64bcst","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
-    vpcmpeqq_k1_k2_ymm_m64bcst = 2238,
+    [Symbol("vpcmpeqq k1, ymm, m64bcst","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpeqq_k1_ymm_m64bcst = 2503,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, ymm, ymm","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpeqq_k12_ymm_ymm = 2504,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, ymm, m256","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpeqq_k12_ymm_m256 = 2505,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, ymm, m64bcst","vpcmpeqq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpeqq_k12_ymm_m64bcst = 2506,
     /// <summary>
     /// vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, zmm, zmm","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
-    vpcmpeqq_k1_k2_zmm_zmm = 2239,
+    [Symbol("vpcmpeqq k1, zmm, zmm","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpeqq_k1_zmm_zmm = 2507,
     /// <summary>
     /// vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, zmm, m512","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
-    vpcmpeqq_k1_k2_zmm_m512 = 2240,
+    [Symbol("vpcmpeqq k1, zmm, m512","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpeqq_k1_zmm_m512 = 2508,
     /// <summary>
     /// vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpcmpeqq k1 {k2}, zmm, m64bcst","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
-    vpcmpeqq_k1_k2_zmm_m64bcst = 2241,
+    [Symbol("vpcmpeqq k1, zmm, m64bcst","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpeqq_k1_zmm_m64bcst = 2509,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, zmm, zmm","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpeqq_k12_zmm_zmm = 2510,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, zmm, m512","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpeqq_k12_zmm_m512 = 2511,
+    /// <summary>
+    /// vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpcmpeqq k12, zmm, m64bcst","vpcmpeqq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpeqq_k12_zmm_m64bcst = 2512,
     /// <summary>
     /// vpcmpeqq xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqq xmm, xmm, xmm","vpcmpeqq xmm, xmm, xmm/m128")]
-    vpcmpeqq_xmm_xmm_xmm = 2242,
+    vpcmpeqq_xmm_xmm_xmm = 2513,
     /// <summary>
     /// vpcmpeqq xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqq xmm, xmm, m128","vpcmpeqq xmm, xmm, xmm/m128")]
-    vpcmpeqq_xmm_xmm_m128 = 2243,
+    vpcmpeqq_xmm_xmm_m128 = 2514,
     /// <summary>
     /// vpcmpeqq ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqq ymm, ymm, ymm","vpcmpeqq ymm, ymm, ymm/m256")]
-    vpcmpeqq_ymm_ymm_ymm = 2244,
+    vpcmpeqq_ymm_ymm_ymm = 2515,
     /// <summary>
     /// vpcmpeqq ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqq ymm, ymm, m256","vpcmpeqq ymm, ymm, ymm/m256")]
-    vpcmpeqq_ymm_ymm_m256 = 2245,
+    vpcmpeqq_ymm_ymm_m256 = 2516,
     /// <summary>
     /// vpcmpeqw k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpeqw k1 {k2}, xmm, xmm","vpcmpeqw k1 {k2}, xmm, xmm/m128")]
-    vpcmpeqw_k1_k2_xmm_xmm = 2246,
+    [Symbol("vpcmpeqw k1, xmm, xmm","vpcmpeqw k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqw_k1_xmm_xmm = 2517,
     /// <summary>
     /// vpcmpeqw k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpeqw k1 {k2}, xmm, m128","vpcmpeqw k1 {k2}, xmm, xmm/m128")]
-    vpcmpeqw_k1_k2_xmm_m128 = 2247,
+    [Symbol("vpcmpeqw k1, xmm, m128","vpcmpeqw k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqw_k1_xmm_m128 = 2518,
+    /// <summary>
+    /// vpcmpeqw k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpeqw k12, xmm, xmm","vpcmpeqw k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqw_k12_xmm_xmm = 2519,
+    /// <summary>
+    /// vpcmpeqw k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpeqw k12, xmm, m128","vpcmpeqw k1 {k2}, xmm, xmm/m128")]
+    vpcmpeqw_k12_xmm_m128 = 2520,
     /// <summary>
     /// vpcmpeqw k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpeqw k1 {k2}, ymm, ymm","vpcmpeqw k1 {k2}, ymm, ymm/m256")]
-    vpcmpeqw_k1_k2_ymm_ymm = 2248,
+    [Symbol("vpcmpeqw k1, ymm, ymm","vpcmpeqw k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqw_k1_ymm_ymm = 2521,
     /// <summary>
     /// vpcmpeqw k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpeqw k1 {k2}, ymm, m256","vpcmpeqw k1 {k2}, ymm, ymm/m256")]
-    vpcmpeqw_k1_k2_ymm_m256 = 2249,
+    [Symbol("vpcmpeqw k1, ymm, m256","vpcmpeqw k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqw_k1_ymm_m256 = 2522,
+    /// <summary>
+    /// vpcmpeqw k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpeqw k12, ymm, ymm","vpcmpeqw k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqw_k12_ymm_ymm = 2523,
+    /// <summary>
+    /// vpcmpeqw k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpeqw k12, ymm, m256","vpcmpeqw k1 {k2}, ymm, ymm/m256")]
+    vpcmpeqw_k12_ymm_m256 = 2524,
     /// <summary>
     /// vpcmpeqw k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpeqw k1 {k2}, zmm, zmm","vpcmpeqw k1 {k2}, zmm, zmm/m512")]
-    vpcmpeqw_k1_k2_zmm_zmm = 2250,
+    [Symbol("vpcmpeqw k1, zmm, zmm","vpcmpeqw k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqw_k1_zmm_zmm = 2525,
     /// <summary>
     /// vpcmpeqw k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpeqw k1 {k2}, zmm, m512","vpcmpeqw k1 {k2}, zmm, zmm/m512")]
-    vpcmpeqw_k1_k2_zmm_m512 = 2251,
+    [Symbol("vpcmpeqw k1, zmm, m512","vpcmpeqw k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqw_k1_zmm_m512 = 2526,
+    /// <summary>
+    /// vpcmpeqw k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpeqw k12, zmm, zmm","vpcmpeqw k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqw_k12_zmm_zmm = 2527,
+    /// <summary>
+    /// vpcmpeqw k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpeqw k12, zmm, m512","vpcmpeqw k1 {k2}, zmm, zmm/m512")]
+    vpcmpeqw_k12_zmm_m512 = 2528,
     /// <summary>
     /// vpcmpeqw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqw xmm, xmm, xmm","vpcmpeqw xmm, xmm, xmm/m128")]
-    vpcmpeqw_xmm_xmm_xmm = 2252,
+    vpcmpeqw_xmm_xmm_xmm = 2529,
     /// <summary>
     /// vpcmpeqw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpeqw xmm, xmm, m128","vpcmpeqw xmm, xmm, xmm/m128")]
-    vpcmpeqw_xmm_xmm_m128 = 2253,
+    vpcmpeqw_xmm_xmm_m128 = 2530,
     /// <summary>
     /// vpcmpeqw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqw ymm, ymm, ymm","vpcmpeqw ymm, ymm, ymm/m256")]
-    vpcmpeqw_ymm_ymm_ymm = 2254,
+    vpcmpeqw_ymm_ymm_ymm = 2531,
     /// <summary>
     /// vpcmpeqw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpeqw ymm, ymm, m256","vpcmpeqw ymm, ymm, ymm/m256")]
-    vpcmpeqw_ymm_ymm_m256 = 2255,
+    vpcmpeqw_ymm_ymm_m256 = 2532,
     /// <summary>
     /// vpcmpgtb k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpgtb k1 {k2}, xmm, xmm","vpcmpgtb k1 {k2}, xmm, xmm/m128")]
-    vpcmpgtb_k1_k2_xmm_xmm = 2256,
+    [Symbol("vpcmpgtb k1, xmm, xmm","vpcmpgtb k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtb_k1_xmm_xmm = 2533,
     /// <summary>
     /// vpcmpgtb k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpgtb k1 {k2}, xmm, m128","vpcmpgtb k1 {k2}, xmm, xmm/m128")]
-    vpcmpgtb_k1_k2_xmm_m128 = 2257,
+    [Symbol("vpcmpgtb k1, xmm, m128","vpcmpgtb k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtb_k1_xmm_m128 = 2534,
+    /// <summary>
+    /// vpcmpgtb k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpgtb k12, xmm, xmm","vpcmpgtb k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtb_k12_xmm_xmm = 2535,
+    /// <summary>
+    /// vpcmpgtb k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpgtb k12, xmm, m128","vpcmpgtb k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtb_k12_xmm_m128 = 2536,
     /// <summary>
     /// vpcmpgtb k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpgtb k1 {k2}, ymm, ymm","vpcmpgtb k1 {k2}, ymm, ymm/m256")]
-    vpcmpgtb_k1_k2_ymm_ymm = 2258,
+    [Symbol("vpcmpgtb k1, ymm, ymm","vpcmpgtb k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtb_k1_ymm_ymm = 2537,
     /// <summary>
     /// vpcmpgtb k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpgtb k1 {k2}, ymm, m256","vpcmpgtb k1 {k2}, ymm, ymm/m256")]
-    vpcmpgtb_k1_k2_ymm_m256 = 2259,
+    [Symbol("vpcmpgtb k1, ymm, m256","vpcmpgtb k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtb_k1_ymm_m256 = 2538,
+    /// <summary>
+    /// vpcmpgtb k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpgtb k12, ymm, ymm","vpcmpgtb k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtb_k12_ymm_ymm = 2539,
+    /// <summary>
+    /// vpcmpgtb k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpgtb k12, ymm, m256","vpcmpgtb k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtb_k12_ymm_m256 = 2540,
     /// <summary>
     /// vpcmpgtb k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpgtb k1 {k2}, zmm, zmm","vpcmpgtb k1 {k2}, zmm, zmm/m512")]
-    vpcmpgtb_k1_k2_zmm_zmm = 2260,
+    [Symbol("vpcmpgtb k1, zmm, zmm","vpcmpgtb k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtb_k1_zmm_zmm = 2541,
     /// <summary>
     /// vpcmpgtb k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpgtb k1 {k2}, zmm, m512","vpcmpgtb k1 {k2}, zmm, zmm/m512")]
-    vpcmpgtb_k1_k2_zmm_m512 = 2261,
+    [Symbol("vpcmpgtb k1, zmm, m512","vpcmpgtb k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtb_k1_zmm_m512 = 2542,
+    /// <summary>
+    /// vpcmpgtb k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpgtb k12, zmm, zmm","vpcmpgtb k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtb_k12_zmm_zmm = 2543,
+    /// <summary>
+    /// vpcmpgtb k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpgtb k12, zmm, m512","vpcmpgtb k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtb_k12_zmm_m512 = 2544,
     /// <summary>
     /// vpcmpgtb xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtb xmm, xmm, xmm","vpcmpgtb xmm, xmm, xmm/m128")]
-    vpcmpgtb_xmm_xmm_xmm = 2262,
+    vpcmpgtb_xmm_xmm_xmm = 2545,
     /// <summary>
     /// vpcmpgtb xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtb xmm, xmm, m128","vpcmpgtb xmm, xmm, xmm/m128")]
-    vpcmpgtb_xmm_xmm_m128 = 2263,
+    vpcmpgtb_xmm_xmm_m128 = 2546,
     /// <summary>
     /// vpcmpgtb ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtb ymm, ymm, ymm","vpcmpgtb ymm, ymm, ymm/m256")]
-    vpcmpgtb_ymm_ymm_ymm = 2264,
+    vpcmpgtb_ymm_ymm_ymm = 2547,
     /// <summary>
     /// vpcmpgtb ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtb ymm, ymm, m256","vpcmpgtb ymm, ymm, ymm/m256")]
-    vpcmpgtb_ymm_ymm_m256 = 2265,
+    vpcmpgtb_ymm_ymm_m256 = 2548,
     /// <summary>
     /// vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, xmm, xmm","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
-    vpcmpgtd_k1_k2_xmm_xmm = 2266,
+    [Symbol("vpcmpgtd k1, xmm, xmm","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpgtd_k1_xmm_xmm = 2549,
     /// <summary>
     /// vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, xmm, m128","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
-    vpcmpgtd_k1_k2_xmm_m128 = 2267,
+    [Symbol("vpcmpgtd k1, xmm, m128","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpgtd_k1_xmm_m128 = 2550,
     /// <summary>
     /// vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, xmm, m32bcst","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
-    vpcmpgtd_k1_k2_xmm_m32bcst = 2268,
+    [Symbol("vpcmpgtd k1, xmm, m32bcst","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpgtd_k1_xmm_m32bcst = 2551,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, xmm, xmm","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpgtd_k12_xmm_xmm = 2552,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, xmm, m128","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpgtd_k12_xmm_m128 = 2553,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, xmm, m32bcst","vpcmpgtd k1 {k2}, xmm, xmm/m128/m32bcst")]
+    vpcmpgtd_k12_xmm_m32bcst = 2554,
     /// <summary>
     /// vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, ymm, ymm","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
-    vpcmpgtd_k1_k2_ymm_ymm = 2269,
+    [Symbol("vpcmpgtd k1, ymm, ymm","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpgtd_k1_ymm_ymm = 2555,
     /// <summary>
     /// vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, ymm, m256","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
-    vpcmpgtd_k1_k2_ymm_m256 = 2270,
+    [Symbol("vpcmpgtd k1, ymm, m256","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpgtd_k1_ymm_m256 = 2556,
     /// <summary>
     /// vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, ymm, m32bcst","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
-    vpcmpgtd_k1_k2_ymm_m32bcst = 2271,
+    [Symbol("vpcmpgtd k1, ymm, m32bcst","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpgtd_k1_ymm_m32bcst = 2557,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, ymm, ymm","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpgtd_k12_ymm_ymm = 2558,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, ymm, m256","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpgtd_k12_ymm_m256 = 2559,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, ymm, m32bcst","vpcmpgtd k1 {k2}, ymm, ymm/m256/m32bcst")]
+    vpcmpgtd_k12_ymm_m32bcst = 2560,
     /// <summary>
     /// vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, zmm, zmm","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
-    vpcmpgtd_k1_k2_zmm_zmm = 2272,
+    [Symbol("vpcmpgtd k1, zmm, zmm","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpgtd_k1_zmm_zmm = 2561,
     /// <summary>
     /// vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, zmm, m512","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
-    vpcmpgtd_k1_k2_zmm_m512 = 2273,
+    [Symbol("vpcmpgtd k1, zmm, m512","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpgtd_k1_zmm_m512 = 2562,
     /// <summary>
     /// vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpcmpgtd k1 {k2}, zmm, m32bcst","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
-    vpcmpgtd_k1_k2_zmm_m32bcst = 2274,
+    [Symbol("vpcmpgtd k1, zmm, m32bcst","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpgtd_k1_zmm_m32bcst = 2563,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, zmm, zmm","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpgtd_k12_zmm_zmm = 2564,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, zmm, m512","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpgtd_k12_zmm_m512 = 2565,
+    /// <summary>
+    /// vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpcmpgtd k12, zmm, m32bcst","vpcmpgtd k1 {k2}, zmm, zmm/m512/m32bcst")]
+    vpcmpgtd_k12_zmm_m32bcst = 2566,
     /// <summary>
     /// vpcmpgtd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtd xmm, xmm, xmm","vpcmpgtd xmm, xmm, xmm/m128")]
-    vpcmpgtd_xmm_xmm_xmm = 2275,
+    vpcmpgtd_xmm_xmm_xmm = 2567,
     /// <summary>
     /// vpcmpgtd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtd xmm, xmm, m128","vpcmpgtd xmm, xmm, xmm/m128")]
-    vpcmpgtd_xmm_xmm_m128 = 2276,
+    vpcmpgtd_xmm_xmm_m128 = 2568,
     /// <summary>
     /// vpcmpgtd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtd ymm, ymm, ymm","vpcmpgtd ymm, ymm, ymm/m256")]
-    vpcmpgtd_ymm_ymm_ymm = 2277,
+    vpcmpgtd_ymm_ymm_ymm = 2569,
     /// <summary>
     /// vpcmpgtd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtd ymm, ymm, m256","vpcmpgtd ymm, ymm, ymm/m256")]
-    vpcmpgtd_ymm_ymm_m256 = 2278,
+    vpcmpgtd_ymm_ymm_m256 = 2570,
     /// <summary>
     /// vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, xmm, xmm","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
-    vpcmpgtq_k1_k2_xmm_xmm = 2279,
+    [Symbol("vpcmpgtq k1, xmm, xmm","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpgtq_k1_xmm_xmm = 2571,
     /// <summary>
     /// vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, xmm, m128","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
-    vpcmpgtq_k1_k2_xmm_m128 = 2280,
+    [Symbol("vpcmpgtq k1, xmm, m128","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpgtq_k1_xmm_m128 = 2572,
     /// <summary>
     /// vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, xmm, m64bcst","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
-    vpcmpgtq_k1_k2_xmm_m64bcst = 2281,
+    [Symbol("vpcmpgtq k1, xmm, m64bcst","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpgtq_k1_xmm_m64bcst = 2573,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, xmm, xmm","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpgtq_k12_xmm_xmm = 2574,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, xmm, m128","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpgtq_k12_xmm_m128 = 2575,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, xmm, m64bcst","vpcmpgtq k1 {k2}, xmm, xmm/m128/m64bcst")]
+    vpcmpgtq_k12_xmm_m64bcst = 2576,
     /// <summary>
     /// vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, ymm, ymm","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
-    vpcmpgtq_k1_k2_ymm_ymm = 2282,
+    [Symbol("vpcmpgtq k1, ymm, ymm","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpgtq_k1_ymm_ymm = 2577,
     /// <summary>
     /// vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, ymm, m256","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
-    vpcmpgtq_k1_k2_ymm_m256 = 2283,
+    [Symbol("vpcmpgtq k1, ymm, m256","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpgtq_k1_ymm_m256 = 2578,
     /// <summary>
     /// vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, ymm, m64bcst","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
-    vpcmpgtq_k1_k2_ymm_m64bcst = 2284,
+    [Symbol("vpcmpgtq k1, ymm, m64bcst","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpgtq_k1_ymm_m64bcst = 2579,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, ymm, ymm","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpgtq_k12_ymm_ymm = 2580,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, ymm, m256","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpgtq_k12_ymm_m256 = 2581,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, ymm, m64bcst","vpcmpgtq k1 {k2}, ymm, ymm/m256/m64bcst")]
+    vpcmpgtq_k12_ymm_m64bcst = 2582,
     /// <summary>
     /// vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, zmm, zmm","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
-    vpcmpgtq_k1_k2_zmm_zmm = 2285,
+    [Symbol("vpcmpgtq k1, zmm, zmm","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpgtq_k1_zmm_zmm = 2583,
     /// <summary>
     /// vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, zmm, m512","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
-    vpcmpgtq_k1_k2_zmm_m512 = 2286,
+    [Symbol("vpcmpgtq k1, zmm, m512","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpgtq_k1_zmm_m512 = 2584,
     /// <summary>
     /// vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpcmpgtq k1 {k2}, zmm, m64bcst","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
-    vpcmpgtq_k1_k2_zmm_m64bcst = 2287,
+    [Symbol("vpcmpgtq k1, zmm, m64bcst","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpgtq_k1_zmm_m64bcst = 2585,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, zmm, zmm","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpgtq_k12_zmm_zmm = 2586,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, zmm, m512","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpgtq_k12_zmm_m512 = 2587,
+    /// <summary>
+    /// vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpcmpgtq k12, zmm, m64bcst","vpcmpgtq k1 {k2}, zmm, zmm/m512/m64bcst")]
+    vpcmpgtq_k12_zmm_m64bcst = 2588,
     /// <summary>
     /// vpcmpgtq xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtq xmm, xmm, xmm","vpcmpgtq xmm, xmm, xmm/m128")]
-    vpcmpgtq_xmm_xmm_xmm = 2288,
+    vpcmpgtq_xmm_xmm_xmm = 2589,
     /// <summary>
     /// vpcmpgtq xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtq xmm, xmm, m128","vpcmpgtq xmm, xmm, xmm/m128")]
-    vpcmpgtq_xmm_xmm_m128 = 2289,
+    vpcmpgtq_xmm_xmm_m128 = 2590,
     /// <summary>
     /// vpcmpgtq ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtq ymm, ymm, ymm","vpcmpgtq ymm, ymm, ymm/m256")]
-    vpcmpgtq_ymm_ymm_ymm = 2290,
+    vpcmpgtq_ymm_ymm_ymm = 2591,
     /// <summary>
     /// vpcmpgtq ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtq ymm, ymm, m256","vpcmpgtq ymm, ymm, ymm/m256")]
-    vpcmpgtq_ymm_ymm_m256 = 2291,
+    vpcmpgtq_ymm_ymm_m256 = 2592,
     /// <summary>
     /// vpcmpgtw k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpgtw k1 {k2}, xmm, xmm","vpcmpgtw k1 {k2}, xmm, xmm/m128")]
-    vpcmpgtw_k1_k2_xmm_xmm = 2292,
+    [Symbol("vpcmpgtw k1, xmm, xmm","vpcmpgtw k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtw_k1_xmm_xmm = 2593,
     /// <summary>
     /// vpcmpgtw k1 {k2}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpcmpgtw k1 {k2}, xmm, m128","vpcmpgtw k1 {k2}, xmm, xmm/m128")]
-    vpcmpgtw_k1_k2_xmm_m128 = 2293,
+    [Symbol("vpcmpgtw k1, xmm, m128","vpcmpgtw k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtw_k1_xmm_m128 = 2594,
+    /// <summary>
+    /// vpcmpgtw k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpgtw k12, xmm, xmm","vpcmpgtw k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtw_k12_xmm_xmm = 2595,
+    /// <summary>
+    /// vpcmpgtw k1 {k2}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpcmpgtw k12, xmm, m128","vpcmpgtw k1 {k2}, xmm, xmm/m128")]
+    vpcmpgtw_k12_xmm_m128 = 2596,
     /// <summary>
     /// vpcmpgtw k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpgtw k1 {k2}, ymm, ymm","vpcmpgtw k1 {k2}, ymm, ymm/m256")]
-    vpcmpgtw_k1_k2_ymm_ymm = 2294,
+    [Symbol("vpcmpgtw k1, ymm, ymm","vpcmpgtw k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtw_k1_ymm_ymm = 2597,
     /// <summary>
     /// vpcmpgtw k1 {k2}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpcmpgtw k1 {k2}, ymm, m256","vpcmpgtw k1 {k2}, ymm, ymm/m256")]
-    vpcmpgtw_k1_k2_ymm_m256 = 2295,
+    [Symbol("vpcmpgtw k1, ymm, m256","vpcmpgtw k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtw_k1_ymm_m256 = 2598,
+    /// <summary>
+    /// vpcmpgtw k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpgtw k12, ymm, ymm","vpcmpgtw k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtw_k12_ymm_ymm = 2599,
+    /// <summary>
+    /// vpcmpgtw k1 {k2}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpcmpgtw k12, ymm, m256","vpcmpgtw k1 {k2}, ymm, ymm/m256")]
+    vpcmpgtw_k12_ymm_m256 = 2600,
     /// <summary>
     /// vpcmpgtw k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpgtw k1 {k2}, zmm, zmm","vpcmpgtw k1 {k2}, zmm, zmm/m512")]
-    vpcmpgtw_k1_k2_zmm_zmm = 2296,
+    [Symbol("vpcmpgtw k1, zmm, zmm","vpcmpgtw k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtw_k1_zmm_zmm = 2601,
     /// <summary>
     /// vpcmpgtw k1 {k2}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpcmpgtw k1 {k2}, zmm, m512","vpcmpgtw k1 {k2}, zmm, zmm/m512")]
-    vpcmpgtw_k1_k2_zmm_m512 = 2297,
+    [Symbol("vpcmpgtw k1, zmm, m512","vpcmpgtw k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtw_k1_zmm_m512 = 2602,
+    /// <summary>
+    /// vpcmpgtw k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpgtw k12, zmm, zmm","vpcmpgtw k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtw_k12_zmm_zmm = 2603,
+    /// <summary>
+    /// vpcmpgtw k1 {k2}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpcmpgtw k12, zmm, m512","vpcmpgtw k1 {k2}, zmm, zmm/m512")]
+    vpcmpgtw_k12_zmm_m512 = 2604,
     /// <summary>
     /// vpcmpgtw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtw xmm, xmm, xmm","vpcmpgtw xmm, xmm, xmm/m128")]
-    vpcmpgtw_xmm_xmm_xmm = 2298,
+    vpcmpgtw_xmm_xmm_xmm = 2605,
     /// <summary>
     /// vpcmpgtw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpcmpgtw xmm, xmm, m128","vpcmpgtw xmm, xmm, xmm/m128")]
-    vpcmpgtw_xmm_xmm_m128 = 2299,
+    vpcmpgtw_xmm_xmm_m128 = 2606,
     /// <summary>
     /// vpcmpgtw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtw ymm, ymm, ymm","vpcmpgtw ymm, ymm, ymm/m256")]
-    vpcmpgtw_ymm_ymm_ymm = 2300,
+    vpcmpgtw_ymm_ymm_ymm = 2607,
     /// <summary>
     /// vpcmpgtw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpcmpgtw ymm, ymm, m256","vpcmpgtw ymm, ymm, ymm/m256")]
-    vpcmpgtw_ymm_ymm_m256 = 2301,
+    vpcmpgtw_ymm_ymm_m256 = 2608,
     /// <summary>
     /// vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, xmm, xmm, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
-    vpcmpq_k1_k2_xmm_xmm_imm8 = 2302,
+    [Symbol("vpcmpq k1, xmm, xmm, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpq_k1_xmm_xmm_imm8 = 2609,
     /// <summary>
     /// vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, xmm, m128, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
-    vpcmpq_k1_k2_xmm_m128_imm8 = 2303,
+    [Symbol("vpcmpq k1, xmm, m128, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpq_k1_xmm_m128_imm8 = 2610,
     /// <summary>
     /// vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, xmm, m64bcst, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
-    vpcmpq_k1_k2_xmm_m64bcst_imm8 = 2304,
+    [Symbol("vpcmpq k1, xmm, m64bcst, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpq_k1_xmm_m64bcst_imm8 = 2611,
+    /// <summary>
+    /// vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, xmm, xmm, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpq_k12_xmm_xmm_imm8 = 2612,
+    /// <summary>
+    /// vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, xmm, m128, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpq_k12_xmm_m128_imm8 = 2613,
+    /// <summary>
+    /// vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, xmm, m64bcst, imm8","vpcmpq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpq_k12_xmm_m64bcst_imm8 = 2614,
     /// <summary>
     /// vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, ymm, ymm, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
-    vpcmpq_k1_k2_ymm_ymm_imm8 = 2305,
+    [Symbol("vpcmpq k1, ymm, ymm, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpq_k1_ymm_ymm_imm8 = 2615,
     /// <summary>
     /// vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, ymm, m256, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
-    vpcmpq_k1_k2_ymm_m256_imm8 = 2306,
+    [Symbol("vpcmpq k1, ymm, m256, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpq_k1_ymm_m256_imm8 = 2616,
     /// <summary>
     /// vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, ymm, m64bcst, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
-    vpcmpq_k1_k2_ymm_m64bcst_imm8 = 2307,
+    [Symbol("vpcmpq k1, ymm, m64bcst, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpq_k1_ymm_m64bcst_imm8 = 2617,
+    /// <summary>
+    /// vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, ymm, ymm, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpq_k12_ymm_ymm_imm8 = 2618,
+    /// <summary>
+    /// vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, ymm, m256, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpq_k12_ymm_m256_imm8 = 2619,
+    /// <summary>
+    /// vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, ymm, m64bcst, imm8","vpcmpq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpq_k12_ymm_m64bcst_imm8 = 2620,
     /// <summary>
     /// vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, zmm, zmm, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
-    vpcmpq_k1_k2_zmm_zmm_imm8 = 2308,
+    [Symbol("vpcmpq k1, zmm, zmm, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpq_k1_zmm_zmm_imm8 = 2621,
     /// <summary>
     /// vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, zmm, m512, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
-    vpcmpq_k1_k2_zmm_m512_imm8 = 2309,
+    [Symbol("vpcmpq k1, zmm, m512, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpq_k1_zmm_m512_imm8 = 2622,
     /// <summary>
     /// vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpq k1 {k2}, zmm, m64bcst, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
-    vpcmpq_k1_k2_zmm_m64bcst_imm8 = 2310,
+    [Symbol("vpcmpq k1, zmm, m64bcst, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpq_k1_zmm_m64bcst_imm8 = 2623,
+    /// <summary>
+    /// vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, zmm, zmm, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpq_k12_zmm_zmm_imm8 = 2624,
+    /// <summary>
+    /// vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, zmm, m512, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpq_k12_zmm_m512_imm8 = 2625,
+    /// <summary>
+    /// vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpq k12, zmm, m64bcst, imm8","vpcmpq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpq_k12_zmm_m64bcst_imm8 = 2626,
     /// <summary>
     /// vpcmpub k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpub k1 {k2}, xmm, xmm, imm8","vpcmpub k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpub_k1_k2_xmm_xmm_imm8 = 2311,
+    [Symbol("vpcmpub k1, xmm, xmm, imm8","vpcmpub k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpub_k1_xmm_xmm_imm8 = 2627,
     /// <summary>
     /// vpcmpub k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpub k1 {k2}, xmm, m128, imm8","vpcmpub k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpub_k1_k2_xmm_m128_imm8 = 2312,
+    [Symbol("vpcmpub k1, xmm, m128, imm8","vpcmpub k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpub_k1_xmm_m128_imm8 = 2628,
+    /// <summary>
+    /// vpcmpub k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpub k12, xmm, xmm, imm8","vpcmpub k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpub_k12_xmm_xmm_imm8 = 2629,
+    /// <summary>
+    /// vpcmpub k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpub k12, xmm, m128, imm8","vpcmpub k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpub_k12_xmm_m128_imm8 = 2630,
     /// <summary>
     /// vpcmpub k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpub k1 {k2}, ymm, ymm, imm8","vpcmpub k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpub_k1_k2_ymm_ymm_imm8 = 2313,
+    [Symbol("vpcmpub k1, ymm, ymm, imm8","vpcmpub k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpub_k1_ymm_ymm_imm8 = 2631,
     /// <summary>
     /// vpcmpub k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpub k1 {k2}, ymm, m256, imm8","vpcmpub k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpub_k1_k2_ymm_m256_imm8 = 2314,
+    [Symbol("vpcmpub k1, ymm, m256, imm8","vpcmpub k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpub_k1_ymm_m256_imm8 = 2632,
+    /// <summary>
+    /// vpcmpub k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpub k12, ymm, ymm, imm8","vpcmpub k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpub_k12_ymm_ymm_imm8 = 2633,
+    /// <summary>
+    /// vpcmpub k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpub k12, ymm, m256, imm8","vpcmpub k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpub_k12_ymm_m256_imm8 = 2634,
     /// <summary>
     /// vpcmpub k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpub k1 {k2}, zmm, zmm, imm8","vpcmpub k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpub_k1_k2_zmm_zmm_imm8 = 2315,
+    [Symbol("vpcmpub k1, zmm, zmm, imm8","vpcmpub k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpub_k1_zmm_zmm_imm8 = 2635,
     /// <summary>
     /// vpcmpub k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpub k1 {k2}, zmm, m512, imm8","vpcmpub k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpub_k1_k2_zmm_m512_imm8 = 2316,
+    [Symbol("vpcmpub k1, zmm, m512, imm8","vpcmpub k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpub_k1_zmm_m512_imm8 = 2636,
+    /// <summary>
+    /// vpcmpub k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpub k12, zmm, zmm, imm8","vpcmpub k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpub_k12_zmm_zmm_imm8 = 2637,
+    /// <summary>
+    /// vpcmpub k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpub k12, zmm, m512, imm8","vpcmpub k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpub_k12_zmm_m512_imm8 = 2638,
     /// <summary>
     /// vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, xmm, xmm, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vpcmpud_k1_k2_xmm_xmm_imm8 = 2317,
+    [Symbol("vpcmpud k1, xmm, xmm, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpud_k1_xmm_xmm_imm8 = 2639,
     /// <summary>
     /// vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, xmm, m128, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vpcmpud_k1_k2_xmm_m128_imm8 = 2318,
+    [Symbol("vpcmpud k1, xmm, m128, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpud_k1_xmm_m128_imm8 = 2640,
     /// <summary>
     /// vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, xmm, m32bcst, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
-    vpcmpud_k1_k2_xmm_m32bcst_imm8 = 2319,
+    [Symbol("vpcmpud k1, xmm, m32bcst, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpud_k1_xmm_m32bcst_imm8 = 2641,
+    /// <summary>
+    /// vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, xmm, xmm, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpud_k12_xmm_xmm_imm8 = 2642,
+    /// <summary>
+    /// vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, xmm, m128, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpud_k12_xmm_m128_imm8 = 2643,
+    /// <summary>
+    /// vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, xmm, m32bcst, imm8","vpcmpud k1 {k2}, xmm, xmm/m128/m32bcst, imm8")]
+    vpcmpud_k12_xmm_m32bcst_imm8 = 2644,
     /// <summary>
     /// vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, ymm, ymm, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vpcmpud_k1_k2_ymm_ymm_imm8 = 2320,
+    [Symbol("vpcmpud k1, ymm, ymm, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpud_k1_ymm_ymm_imm8 = 2645,
     /// <summary>
     /// vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, ymm, m256, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vpcmpud_k1_k2_ymm_m256_imm8 = 2321,
+    [Symbol("vpcmpud k1, ymm, m256, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpud_k1_ymm_m256_imm8 = 2646,
     /// <summary>
     /// vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, ymm, m32bcst, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
-    vpcmpud_k1_k2_ymm_m32bcst_imm8 = 2322,
+    [Symbol("vpcmpud k1, ymm, m32bcst, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpud_k1_ymm_m32bcst_imm8 = 2647,
+    /// <summary>
+    /// vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, ymm, ymm, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpud_k12_ymm_ymm_imm8 = 2648,
+    /// <summary>
+    /// vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, ymm, m256, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpud_k12_ymm_m256_imm8 = 2649,
+    /// <summary>
+    /// vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, ymm, m32bcst, imm8","vpcmpud k1 {k2}, ymm, ymm/m256/m32bcst, imm8")]
+    vpcmpud_k12_ymm_m32bcst_imm8 = 2650,
     /// <summary>
     /// vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, zmm, zmm, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
-    vpcmpud_k1_k2_zmm_zmm_imm8 = 2323,
+    [Symbol("vpcmpud k1, zmm, zmm, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpud_k1_zmm_zmm_imm8 = 2651,
     /// <summary>
     /// vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, zmm, m512, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
-    vpcmpud_k1_k2_zmm_m512_imm8 = 2324,
+    [Symbol("vpcmpud k1, zmm, m512, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpud_k1_zmm_m512_imm8 = 2652,
     /// <summary>
     /// vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpcmpud k1 {k2}, zmm, m32bcst, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
-    vpcmpud_k1_k2_zmm_m32bcst_imm8 = 2325,
+    [Symbol("vpcmpud k1, zmm, m32bcst, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpud_k1_zmm_m32bcst_imm8 = 2653,
+    /// <summary>
+    /// vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, zmm, zmm, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpud_k12_zmm_zmm_imm8 = 2654,
+    /// <summary>
+    /// vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, zmm, m512, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpud_k12_zmm_m512_imm8 = 2655,
+    /// <summary>
+    /// vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpud k12, zmm, m32bcst, imm8","vpcmpud k1 {k2}, zmm, zmm/m512/m32bcst, imm8")]
+    vpcmpud_k12_zmm_m32bcst_imm8 = 2656,
     /// <summary>
     /// vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, xmm, xmm, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
-    vpcmpuq_k1_k2_xmm_xmm_imm8 = 2326,
+    [Symbol("vpcmpuq k1, xmm, xmm, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpuq_k1_xmm_xmm_imm8 = 2657,
     /// <summary>
     /// vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, xmm, m128, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
-    vpcmpuq_k1_k2_xmm_m128_imm8 = 2327,
+    [Symbol("vpcmpuq k1, xmm, m128, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpuq_k1_xmm_m128_imm8 = 2658,
     /// <summary>
     /// vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, xmm, m64bcst, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
-    vpcmpuq_k1_k2_xmm_m64bcst_imm8 = 2328,
+    [Symbol("vpcmpuq k1, xmm, m64bcst, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpuq_k1_xmm_m64bcst_imm8 = 2659,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, xmm, xmm, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpuq_k12_xmm_xmm_imm8 = 2660,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, xmm, m128, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpuq_k12_xmm_m128_imm8 = 2661,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, xmm, m64bcst, imm8","vpcmpuq k1 {k2}, xmm, xmm/m128/m64bcst, imm8")]
+    vpcmpuq_k12_xmm_m64bcst_imm8 = 2662,
     /// <summary>
     /// vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, ymm, ymm, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
-    vpcmpuq_k1_k2_ymm_ymm_imm8 = 2329,
+    [Symbol("vpcmpuq k1, ymm, ymm, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpuq_k1_ymm_ymm_imm8 = 2663,
     /// <summary>
     /// vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, ymm, m256, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
-    vpcmpuq_k1_k2_ymm_m256_imm8 = 2330,
+    [Symbol("vpcmpuq k1, ymm, m256, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpuq_k1_ymm_m256_imm8 = 2664,
     /// <summary>
     /// vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, ymm, m64bcst, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
-    vpcmpuq_k1_k2_ymm_m64bcst_imm8 = 2331,
+    [Symbol("vpcmpuq k1, ymm, m64bcst, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpuq_k1_ymm_m64bcst_imm8 = 2665,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, ymm, ymm, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpuq_k12_ymm_ymm_imm8 = 2666,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, ymm, m256, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpuq_k12_ymm_m256_imm8 = 2667,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, ymm, m64bcst, imm8","vpcmpuq k1 {k2}, ymm, ymm/m256/m64bcst, imm8")]
+    vpcmpuq_k12_ymm_m64bcst_imm8 = 2668,
     /// <summary>
     /// vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, zmm, zmm, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
-    vpcmpuq_k1_k2_zmm_zmm_imm8 = 2332,
+    [Symbol("vpcmpuq k1, zmm, zmm, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpuq_k1_zmm_zmm_imm8 = 2669,
     /// <summary>
     /// vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, zmm, m512, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
-    vpcmpuq_k1_k2_zmm_m512_imm8 = 2333,
+    [Symbol("vpcmpuq k1, zmm, m512, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpuq_k1_zmm_m512_imm8 = 2670,
     /// <summary>
     /// vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpcmpuq k1 {k2}, zmm, m64bcst, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
-    vpcmpuq_k1_k2_zmm_m64bcst_imm8 = 2334,
+    [Symbol("vpcmpuq k1, zmm, m64bcst, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpuq_k1_zmm_m64bcst_imm8 = 2671,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, zmm, zmm, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpuq_k12_zmm_zmm_imm8 = 2672,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, zmm, m512, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpuq_k12_zmm_m512_imm8 = 2673,
+    /// <summary>
+    /// vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpcmpuq k12, zmm, m64bcst, imm8","vpcmpuq k1 {k2}, zmm, zmm/m512/m64bcst, imm8")]
+    vpcmpuq_k12_zmm_m64bcst_imm8 = 2674,
     /// <summary>
     /// vpcmpuw k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpuw k1 {k2}, xmm, xmm, imm8","vpcmpuw k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpuw_k1_k2_xmm_xmm_imm8 = 2335,
+    [Symbol("vpcmpuw k1, xmm, xmm, imm8","vpcmpuw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpuw_k1_xmm_xmm_imm8 = 2675,
     /// <summary>
     /// vpcmpuw k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpuw k1 {k2}, xmm, m128, imm8","vpcmpuw k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpuw_k1_k2_xmm_m128_imm8 = 2336,
+    [Symbol("vpcmpuw k1, xmm, m128, imm8","vpcmpuw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpuw_k1_xmm_m128_imm8 = 2676,
+    /// <summary>
+    /// vpcmpuw k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpuw k12, xmm, xmm, imm8","vpcmpuw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpuw_k12_xmm_xmm_imm8 = 2677,
+    /// <summary>
+    /// vpcmpuw k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpuw k12, xmm, m128, imm8","vpcmpuw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpuw_k12_xmm_m128_imm8 = 2678,
     /// <summary>
     /// vpcmpuw k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpuw k1 {k2}, ymm, ymm, imm8","vpcmpuw k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpuw_k1_k2_ymm_ymm_imm8 = 2337,
+    [Symbol("vpcmpuw k1, ymm, ymm, imm8","vpcmpuw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpuw_k1_ymm_ymm_imm8 = 2679,
     /// <summary>
     /// vpcmpuw k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpuw k1 {k2}, ymm, m256, imm8","vpcmpuw k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpuw_k1_k2_ymm_m256_imm8 = 2338,
+    [Symbol("vpcmpuw k1, ymm, m256, imm8","vpcmpuw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpuw_k1_ymm_m256_imm8 = 2680,
+    /// <summary>
+    /// vpcmpuw k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpuw k12, ymm, ymm, imm8","vpcmpuw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpuw_k12_ymm_ymm_imm8 = 2681,
+    /// <summary>
+    /// vpcmpuw k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpuw k12, ymm, m256, imm8","vpcmpuw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpuw_k12_ymm_m256_imm8 = 2682,
     /// <summary>
     /// vpcmpuw k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpuw k1 {k2}, zmm, zmm, imm8","vpcmpuw k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpuw_k1_k2_zmm_zmm_imm8 = 2339,
+    [Symbol("vpcmpuw k1, zmm, zmm, imm8","vpcmpuw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpuw_k1_zmm_zmm_imm8 = 2683,
     /// <summary>
     /// vpcmpuw k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpuw k1 {k2}, zmm, m512, imm8","vpcmpuw k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpuw_k1_k2_zmm_m512_imm8 = 2340,
+    [Symbol("vpcmpuw k1, zmm, m512, imm8","vpcmpuw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpuw_k1_zmm_m512_imm8 = 2684,
+    /// <summary>
+    /// vpcmpuw k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpuw k12, zmm, zmm, imm8","vpcmpuw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpuw_k12_zmm_zmm_imm8 = 2685,
+    /// <summary>
+    /// vpcmpuw k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpuw k12, zmm, m512, imm8","vpcmpuw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpuw_k12_zmm_m512_imm8 = 2686,
     /// <summary>
     /// vpcmpw k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpw k1 {k2}, xmm, xmm, imm8","vpcmpw k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpw_k1_k2_xmm_xmm_imm8 = 2341,
+    [Symbol("vpcmpw k1, xmm, xmm, imm8","vpcmpw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpw_k1_xmm_xmm_imm8 = 2687,
     /// <summary>
     /// vpcmpw k1 {k2}, xmm, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpcmpw k1 {k2}, xmm, m128, imm8","vpcmpw k1 {k2}, xmm, xmm/m128, imm8")]
-    vpcmpw_k1_k2_xmm_m128_imm8 = 2342,
+    [Symbol("vpcmpw k1, xmm, m128, imm8","vpcmpw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpw_k1_xmm_m128_imm8 = 2688,
+    /// <summary>
+    /// vpcmpw k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpw k12, xmm, xmm, imm8","vpcmpw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpw_k12_xmm_xmm_imm8 = 2689,
+    /// <summary>
+    /// vpcmpw k1 {k2}, xmm, xmm/m128, imm8
+    /// </summary>
+    [Symbol("vpcmpw k12, xmm, m128, imm8","vpcmpw k1 {k2}, xmm, xmm/m128, imm8")]
+    vpcmpw_k12_xmm_m128_imm8 = 2690,
     /// <summary>
     /// vpcmpw k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpw k1 {k2}, ymm, ymm, imm8","vpcmpw k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpw_k1_k2_ymm_ymm_imm8 = 2343,
+    [Symbol("vpcmpw k1, ymm, ymm, imm8","vpcmpw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpw_k1_ymm_ymm_imm8 = 2691,
     /// <summary>
     /// vpcmpw k1 {k2}, ymm, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpcmpw k1 {k2}, ymm, m256, imm8","vpcmpw k1 {k2}, ymm, ymm/m256, imm8")]
-    vpcmpw_k1_k2_ymm_m256_imm8 = 2344,
+    [Symbol("vpcmpw k1, ymm, m256, imm8","vpcmpw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpw_k1_ymm_m256_imm8 = 2692,
+    /// <summary>
+    /// vpcmpw k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpw k12, ymm, ymm, imm8","vpcmpw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpw_k12_ymm_ymm_imm8 = 2693,
+    /// <summary>
+    /// vpcmpw k1 {k2}, ymm, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpcmpw k12, ymm, m256, imm8","vpcmpw k1 {k2}, ymm, ymm/m256, imm8")]
+    vpcmpw_k12_ymm_m256_imm8 = 2694,
     /// <summary>
     /// vpcmpw k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpw k1 {k2}, zmm, zmm, imm8","vpcmpw k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpw_k1_k2_zmm_zmm_imm8 = 2345,
+    [Symbol("vpcmpw k1, zmm, zmm, imm8","vpcmpw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpw_k1_zmm_zmm_imm8 = 2695,
     /// <summary>
     /// vpcmpw k1 {k2}, zmm, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpcmpw k1 {k2}, zmm, m512, imm8","vpcmpw k1 {k2}, zmm, zmm/m512, imm8")]
-    vpcmpw_k1_k2_zmm_m512_imm8 = 2346,
+    [Symbol("vpcmpw k1, zmm, m512, imm8","vpcmpw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpw_k1_zmm_m512_imm8 = 2696,
+    /// <summary>
+    /// vpcmpw k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpw k12, zmm, zmm, imm8","vpcmpw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpw_k12_zmm_zmm_imm8 = 2697,
+    /// <summary>
+    /// vpcmpw k1 {k2}, zmm, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpcmpw k12, zmm, m512, imm8","vpcmpw k1 {k2}, zmm, zmm/m512, imm8")]
+    vpcmpw_k12_zmm_m512_imm8 = 2698,
     /// <summary>
     /// vpcompressd xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpcompressd xmm {k1}{z}, xmm","vpcompressd xmm/m128 {k1}{z}, xmm")]
-    vpcompressd_xmm_k1z_xmm = 2347,
+    [Symbol("vpcompressd xmm_k1z, xmm","vpcompressd xmm/m128 {k1}{z}, xmm")]
+    vpcompressd_xmm_k1z_xmm = 2699,
     /// <summary>
     /// vpcompressd xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpcompressd m128 {k1}{z}, xmm","vpcompressd xmm/m128 {k1}{z}, xmm")]
-    vpcompressd_m128_k1z_xmm = 2348,
+    [Symbol("vpcompressd m128_k1z, xmm","vpcompressd xmm/m128 {k1}{z}, xmm")]
+    vpcompressd_m128_k1z_xmm = 2700,
     /// <summary>
     /// vpcompressd ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpcompressd ymm {k1}{z}, ymm","vpcompressd ymm/m256 {k1}{z}, ymm")]
-    vpcompressd_ymm_k1z_ymm = 2349,
+    [Symbol("vpcompressd ymm_k1z, ymm","vpcompressd ymm/m256 {k1}{z}, ymm")]
+    vpcompressd_ymm_k1z_ymm = 2701,
     /// <summary>
     /// vpcompressd ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpcompressd m256 {k1}{z}, ymm","vpcompressd ymm/m256 {k1}{z}, ymm")]
-    vpcompressd_m256_k1z_ymm = 2350,
+    [Symbol("vpcompressd m256_k1z, ymm","vpcompressd ymm/m256 {k1}{z}, ymm")]
+    vpcompressd_m256_k1z_ymm = 2702,
     /// <summary>
     /// vpcompressd zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpcompressd zmm {k1}{z}, zmm","vpcompressd zmm/m512 {k1}{z}, zmm")]
-    vpcompressd_zmm_k1z_zmm = 2351,
+    [Symbol("vpcompressd zmm_k1z, zmm","vpcompressd zmm/m512 {k1}{z}, zmm")]
+    vpcompressd_zmm_k1z_zmm = 2703,
     /// <summary>
     /// vpcompressd zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpcompressd m512 {k1}{z}, zmm","vpcompressd zmm/m512 {k1}{z}, zmm")]
-    vpcompressd_m512_k1z_zmm = 2352,
+    [Symbol("vpcompressd m512_k1z, zmm","vpcompressd zmm/m512 {k1}{z}, zmm")]
+    vpcompressd_m512_k1z_zmm = 2704,
     /// <summary>
     /// vpcompressq xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpcompressq xmm {k1}{z}, xmm","vpcompressq xmm/m128 {k1}{z}, xmm")]
-    vpcompressq_xmm_k1z_xmm = 2353,
+    [Symbol("vpcompressq xmm_k1z, xmm","vpcompressq xmm/m128 {k1}{z}, xmm")]
+    vpcompressq_xmm_k1z_xmm = 2705,
     /// <summary>
     /// vpcompressq xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpcompressq m128 {k1}{z}, xmm","vpcompressq xmm/m128 {k1}{z}, xmm")]
-    vpcompressq_m128_k1z_xmm = 2354,
+    [Symbol("vpcompressq m128_k1z, xmm","vpcompressq xmm/m128 {k1}{z}, xmm")]
+    vpcompressq_m128_k1z_xmm = 2706,
     /// <summary>
     /// vpcompressq ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpcompressq ymm {k1}{z}, ymm","vpcompressq ymm/m256 {k1}{z}, ymm")]
-    vpcompressq_ymm_k1z_ymm = 2355,
+    [Symbol("vpcompressq ymm_k1z, ymm","vpcompressq ymm/m256 {k1}{z}, ymm")]
+    vpcompressq_ymm_k1z_ymm = 2707,
     /// <summary>
     /// vpcompressq ymm/m256 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpcompressq m256 {k1}{z}, ymm","vpcompressq ymm/m256 {k1}{z}, ymm")]
-    vpcompressq_m256_k1z_ymm = 2356,
+    [Symbol("vpcompressq m256_k1z, ymm","vpcompressq ymm/m256 {k1}{z}, ymm")]
+    vpcompressq_m256_k1z_ymm = 2708,
     /// <summary>
     /// vpcompressq zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpcompressq zmm {k1}{z}, zmm","vpcompressq zmm/m512 {k1}{z}, zmm")]
-    vpcompressq_zmm_k1z_zmm = 2357,
+    [Symbol("vpcompressq zmm_k1z, zmm","vpcompressq zmm/m512 {k1}{z}, zmm")]
+    vpcompressq_zmm_k1z_zmm = 2709,
     /// <summary>
     /// vpcompressq zmm/m512 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpcompressq m512 {k1}{z}, zmm","vpcompressq zmm/m512 {k1}{z}, zmm")]
-    vpcompressq_m512_k1z_zmm = 2358,
+    [Symbol("vpcompressq m512_k1z, zmm","vpcompressq zmm/m512 {k1}{z}, zmm")]
+    vpcompressq_m512_k1z_zmm = 2710,
     /// <summary>
     /// vpconflictd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpconflictd xmm {k1}{z}, xmm","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vpconflictd_xmm_k1z_xmm = 2359,
+    [Symbol("vpconflictd xmm, xmm","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpconflictd_xmm_xmm = 2711,
     /// <summary>
     /// vpconflictd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpconflictd xmm {k1}{z}, m128","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vpconflictd_xmm_k1z_m128 = 2360,
+    [Symbol("vpconflictd xmm, m128","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpconflictd_xmm_m128 = 2712,
     /// <summary>
     /// vpconflictd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpconflictd xmm {k1}{z}, m32bcst","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vpconflictd_xmm_k1z_m32bcst = 2361,
+    [Symbol("vpconflictd xmm, m32bcst","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpconflictd_xmm_m32bcst = 2713,
+    /// <summary>
+    /// vpconflictd xmm {k1}{z}, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd xmm_k1z, xmm","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpconflictd_xmm_k1z_xmm = 2714,
+    /// <summary>
+    /// vpconflictd xmm {k1}{z}, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd xmm_k1z, m128","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpconflictd_xmm_k1z_m128 = 2715,
+    /// <summary>
+    /// vpconflictd xmm {k1}{z}, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd xmm_k1z, m32bcst","vpconflictd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vpconflictd_xmm_k1z_m32bcst = 2716,
     /// <summary>
     /// vpconflictd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpconflictd ymm {k1}{z}, ymm","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vpconflictd_ymm_k1z_ymm = 2362,
+    [Symbol("vpconflictd ymm, ymm","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpconflictd_ymm_ymm = 2717,
     /// <summary>
     /// vpconflictd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpconflictd ymm {k1}{z}, m256","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vpconflictd_ymm_k1z_m256 = 2363,
+    [Symbol("vpconflictd ymm, m256","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpconflictd_ymm_m256 = 2718,
     /// <summary>
     /// vpconflictd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpconflictd ymm {k1}{z}, m32bcst","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vpconflictd_ymm_k1z_m32bcst = 2364,
+    [Symbol("vpconflictd ymm, m32bcst","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpconflictd_ymm_m32bcst = 2719,
+    /// <summary>
+    /// vpconflictd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd ymm_k1z, ymm","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpconflictd_ymm_k1z_ymm = 2720,
+    /// <summary>
+    /// vpconflictd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd ymm_k1z, m256","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpconflictd_ymm_k1z_m256 = 2721,
+    /// <summary>
+    /// vpconflictd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd ymm_k1z, m32bcst","vpconflictd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vpconflictd_ymm_k1z_m32bcst = 2722,
     /// <summary>
     /// vpconflictd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpconflictd zmm {k1}{z}, zmm","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vpconflictd_zmm_k1z_zmm = 2365,
+    [Symbol("vpconflictd zmm, zmm","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpconflictd_zmm_zmm = 2723,
     /// <summary>
     /// vpconflictd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpconflictd zmm {k1}{z}, m512","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vpconflictd_zmm_k1z_m512 = 2366,
+    [Symbol("vpconflictd zmm, m512","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpconflictd_zmm_m512 = 2724,
     /// <summary>
     /// vpconflictd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpconflictd zmm {k1}{z}, m32bcst","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vpconflictd_zmm_k1z_m32bcst = 2367,
+    [Symbol("vpconflictd zmm, m32bcst","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpconflictd_zmm_m32bcst = 2725,
+    /// <summary>
+    /// vpconflictd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd zmm_k1z, zmm","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpconflictd_zmm_k1z_zmm = 2726,
+    /// <summary>
+    /// vpconflictd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd zmm_k1z, m512","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpconflictd_zmm_k1z_m512 = 2727,
+    /// <summary>
+    /// vpconflictd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpconflictd zmm_k1z, m32bcst","vpconflictd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vpconflictd_zmm_k1z_m32bcst = 2728,
     /// <summary>
     /// vpconflictq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpconflictq xmm {k1}{z}, xmm","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vpconflictq_xmm_k1z_xmm = 2368,
+    [Symbol("vpconflictq xmm, xmm","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpconflictq_xmm_xmm = 2729,
     /// <summary>
     /// vpconflictq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpconflictq xmm {k1}{z}, m128","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vpconflictq_xmm_k1z_m128 = 2369,
+    [Symbol("vpconflictq xmm, m128","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpconflictq_xmm_m128 = 2730,
     /// <summary>
     /// vpconflictq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpconflictq xmm {k1}{z}, m64bcst","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vpconflictq_xmm_k1z_m64bcst = 2370,
+    [Symbol("vpconflictq xmm, m64bcst","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpconflictq_xmm_m64bcst = 2731,
+    /// <summary>
+    /// vpconflictq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq xmm_k1z, xmm","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpconflictq_xmm_k1z_xmm = 2732,
+    /// <summary>
+    /// vpconflictq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq xmm_k1z, m128","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpconflictq_xmm_k1z_m128 = 2733,
+    /// <summary>
+    /// vpconflictq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq xmm_k1z, m64bcst","vpconflictq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vpconflictq_xmm_k1z_m64bcst = 2734,
     /// <summary>
     /// vpconflictq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpconflictq ymm {k1}{z}, ymm","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vpconflictq_ymm_k1z_ymm = 2371,
+    [Symbol("vpconflictq ymm, ymm","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpconflictq_ymm_ymm = 2735,
     /// <summary>
     /// vpconflictq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpconflictq ymm {k1}{z}, m256","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vpconflictq_ymm_k1z_m256 = 2372,
+    [Symbol("vpconflictq ymm, m256","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpconflictq_ymm_m256 = 2736,
     /// <summary>
     /// vpconflictq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpconflictq ymm {k1}{z}, m64bcst","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vpconflictq_ymm_k1z_m64bcst = 2373,
+    [Symbol("vpconflictq ymm, m64bcst","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpconflictq_ymm_m64bcst = 2737,
+    /// <summary>
+    /// vpconflictq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq ymm_k1z, ymm","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpconflictq_ymm_k1z_ymm = 2738,
+    /// <summary>
+    /// vpconflictq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq ymm_k1z, m256","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpconflictq_ymm_k1z_m256 = 2739,
+    /// <summary>
+    /// vpconflictq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq ymm_k1z, m64bcst","vpconflictq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vpconflictq_ymm_k1z_m64bcst = 2740,
     /// <summary>
     /// vpconflictq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpconflictq zmm {k1}{z}, zmm","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vpconflictq_zmm_k1z_zmm = 2374,
+    [Symbol("vpconflictq zmm, zmm","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpconflictq_zmm_zmm = 2741,
     /// <summary>
     /// vpconflictq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpconflictq zmm {k1}{z}, m512","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vpconflictq_zmm_k1z_m512 = 2375,
+    [Symbol("vpconflictq zmm, m512","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpconflictq_zmm_m512 = 2742,
     /// <summary>
     /// vpconflictq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpconflictq zmm {k1}{z}, m64bcst","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vpconflictq_zmm_k1z_m64bcst = 2376,
+    [Symbol("vpconflictq zmm, m64bcst","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpconflictq_zmm_m64bcst = 2743,
+    /// <summary>
+    /// vpconflictq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq zmm_k1z, zmm","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpconflictq_zmm_k1z_zmm = 2744,
+    /// <summary>
+    /// vpconflictq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq zmm_k1z, m512","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpconflictq_zmm_k1z_m512 = 2745,
+    /// <summary>
+    /// vpconflictq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpconflictq zmm_k1z, m64bcst","vpconflictq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vpconflictq_zmm_k1z_m64bcst = 2746,
     /// <summary>
     /// vperm2i128 ymm, ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vperm2i128 ymm, ymm, ymm, imm8","vperm2i128 ymm, ymm, ymm/m256, imm8")]
-    vperm2i128_ymm_ymm_ymm_imm8 = 2377,
+    vperm2i128_ymm_ymm_ymm_imm8 = 2747,
     /// <summary>
     /// vperm2i128 ymm, ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vperm2i128 ymm, ymm, m256, imm8","vperm2i128 ymm, ymm, ymm/m256, imm8")]
-    vperm2i128_ymm_ymm_m256_imm8 = 2378,
+    vperm2i128_ymm_ymm_m256_imm8 = 2748,
     /// <summary>
     /// vpermb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermb xmm {k1}{z}, xmm, xmm","vpermb xmm {k1}{z}, xmm, xmm/m128")]
-    vpermb_xmm_k1z_xmm_xmm = 2379,
+    [Symbol("vpermb xmm, xmm, xmm","vpermb xmm {k1}{z}, xmm, xmm/m128")]
+    vpermb_xmm_xmm_xmm = 2749,
     /// <summary>
     /// vpermb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermb xmm {k1}{z}, xmm, m128","vpermb xmm {k1}{z}, xmm, xmm/m128")]
-    vpermb_xmm_k1z_xmm_m128 = 2380,
+    [Symbol("vpermb xmm, xmm, m128","vpermb xmm {k1}{z}, xmm, xmm/m128")]
+    vpermb_xmm_xmm_m128 = 2750,
+    /// <summary>
+    /// vpermb xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermb xmm_k1z, xmm, xmm","vpermb xmm {k1}{z}, xmm, xmm/m128")]
+    vpermb_xmm_k1z_xmm_xmm = 2751,
+    /// <summary>
+    /// vpermb xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermb xmm_k1z, xmm, m128","vpermb xmm {k1}{z}, xmm, xmm/m128")]
+    vpermb_xmm_k1z_xmm_m128 = 2752,
     /// <summary>
     /// vpermb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermb ymm {k1}{z}, ymm, ymm","vpermb ymm {k1}{z}, ymm, ymm/m256")]
-    vpermb_ymm_k1z_ymm_ymm = 2381,
+    [Symbol("vpermb ymm, ymm, ymm","vpermb ymm {k1}{z}, ymm, ymm/m256")]
+    vpermb_ymm_ymm_ymm = 2753,
     /// <summary>
     /// vpermb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermb ymm {k1}{z}, ymm, m256","vpermb ymm {k1}{z}, ymm, ymm/m256")]
-    vpermb_ymm_k1z_ymm_m256 = 2382,
+    [Symbol("vpermb ymm, ymm, m256","vpermb ymm {k1}{z}, ymm, ymm/m256")]
+    vpermb_ymm_ymm_m256 = 2754,
+    /// <summary>
+    /// vpermb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermb ymm_k1z, ymm, ymm","vpermb ymm {k1}{z}, ymm, ymm/m256")]
+    vpermb_ymm_k1z_ymm_ymm = 2755,
+    /// <summary>
+    /// vpermb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermb ymm_k1z, ymm, m256","vpermb ymm {k1}{z}, ymm, ymm/m256")]
+    vpermb_ymm_k1z_ymm_m256 = 2756,
     /// <summary>
     /// vpermb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermb zmm {k1}{z}, zmm, zmm","vpermb zmm {k1}{z}, zmm, zmm/m512")]
-    vpermb_zmm_k1z_zmm_zmm = 2383,
+    [Symbol("vpermb zmm, zmm, zmm","vpermb zmm {k1}{z}, zmm, zmm/m512")]
+    vpermb_zmm_zmm_zmm = 2757,
     /// <summary>
     /// vpermb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermb zmm {k1}{z}, zmm, m512","vpermb zmm {k1}{z}, zmm, zmm/m512")]
-    vpermb_zmm_k1z_zmm_m512 = 2384,
+    [Symbol("vpermb zmm, zmm, m512","vpermb zmm {k1}{z}, zmm, zmm/m512")]
+    vpermb_zmm_zmm_m512 = 2758,
+    /// <summary>
+    /// vpermb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermb zmm_k1z, zmm, zmm","vpermb zmm {k1}{z}, zmm, zmm/m512")]
+    vpermb_zmm_k1z_zmm_zmm = 2759,
+    /// <summary>
+    /// vpermb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermb zmm_k1z, zmm, m512","vpermb zmm {k1}{z}, zmm, zmm/m512")]
+    vpermb_zmm_k1z_zmm_m512 = 2760,
     /// <summary>
     /// vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermd ymm {k1}{z}, ymm, ymm","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermd_ymm_k1z_ymm_ymm = 2385,
+    [Symbol("vpermd ymm, ymm, ymm","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermd_ymm_ymm_ymm = 2761,
     /// <summary>
     /// vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermd ymm {k1}{z}, ymm, m256","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermd_ymm_k1z_ymm_m256 = 2386,
+    [Symbol("vpermd ymm, ymm, m256","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermd_ymm_ymm_m256 = 2762,
     /// <summary>
     /// vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermd ymm {k1}{z}, ymm, m32bcst","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermd_ymm_k1z_ymm_m32bcst = 2387,
+    [Symbol("vpermd ymm, ymm, m32bcst","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermd_ymm_ymm_m32bcst = 2763,
     /// <summary>
-    /// vpermd ymm, ymm, ymm/m256
+    /// vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermd ymm, ymm, ymm","vpermd ymm, ymm, ymm/m256")]
-    vpermd_ymm_ymm_ymm = 2388,
+    [Symbol("vpermd ymm_k1z, ymm, ymm","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermd_ymm_k1z_ymm_ymm = 2764,
     /// <summary>
-    /// vpermd ymm, ymm, ymm/m256
+    /// vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermd ymm, ymm, m256","vpermd ymm, ymm, ymm/m256")]
-    vpermd_ymm_ymm_m256 = 2389,
+    [Symbol("vpermd ymm_k1z, ymm, m256","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermd_ymm_k1z_ymm_m256 = 2765,
     /// <summary>
-    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermd zmm {k1}{z}, zmm, zmm","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermd_zmm_k1z_zmm_zmm = 2390,
-    /// <summary>
-    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
-    /// </summary>
-    [Symbol("vpermd zmm {k1}{z}, zmm, m512","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermd_zmm_k1z_zmm_m512 = 2391,
+    [Symbol("vpermd ymm_k1z, ymm, m32bcst","vpermd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermd_ymm_k1z_ymm_m32bcst = 2766,
     /// <summary>
     /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermd zmm {k1}{z}, zmm, m32bcst","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermd_zmm_k1z_zmm_m32bcst = 2392,
+    [Symbol("vpermd zmm, zmm, zmm","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermd_zmm_zmm_zmm = 2767,
+    /// <summary>
+    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermd zmm, zmm, m512","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermd_zmm_zmm_m512 = 2768,
+    /// <summary>
+    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermd zmm, zmm, m32bcst","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermd_zmm_zmm_m32bcst = 2769,
+    /// <summary>
+    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermd zmm_k1z, zmm, zmm","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermd_zmm_k1z_zmm_zmm = 2770,
+    /// <summary>
+    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermd zmm_k1z, zmm, m512","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermd_zmm_k1z_zmm_m512 = 2771,
+    /// <summary>
+    /// vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermd zmm_k1z, zmm, m32bcst","vpermd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermd_zmm_k1z_zmm_m32bcst = 2772,
     /// <summary>
     /// vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermi2d xmm {k1}{z}, xmm, xmm","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermi2d_xmm_k1z_xmm_xmm = 2393,
+    [Symbol("vpermi2d xmm, xmm, xmm","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2d_xmm_xmm_xmm = 2773,
     /// <summary>
     /// vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermi2d xmm {k1}{z}, xmm, m128","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermi2d_xmm_k1z_xmm_m128 = 2394,
+    [Symbol("vpermi2d xmm, xmm, m128","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2d_xmm_xmm_m128 = 2774,
     /// <summary>
     /// vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermi2d xmm {k1}{z}, xmm, m32bcst","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermi2d_xmm_k1z_xmm_m32bcst = 2395,
+    [Symbol("vpermi2d xmm, xmm, m32bcst","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2d_xmm_xmm_m32bcst = 2775,
+    /// <summary>
+    /// vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d xmm_k1z, xmm, xmm","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2d_xmm_k1z_xmm_xmm = 2776,
+    /// <summary>
+    /// vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d xmm_k1z, xmm, m128","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2d_xmm_k1z_xmm_m128 = 2777,
+    /// <summary>
+    /// vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d xmm_k1z, xmm, m32bcst","vpermi2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2d_xmm_k1z_xmm_m32bcst = 2778,
     /// <summary>
     /// vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermi2d ymm {k1}{z}, ymm, ymm","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermi2d_ymm_k1z_ymm_ymm = 2396,
+    [Symbol("vpermi2d ymm, ymm, ymm","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2d_ymm_ymm_ymm = 2779,
     /// <summary>
     /// vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermi2d ymm {k1}{z}, ymm, m256","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermi2d_ymm_k1z_ymm_m256 = 2397,
+    [Symbol("vpermi2d ymm, ymm, m256","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2d_ymm_ymm_m256 = 2780,
     /// <summary>
     /// vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermi2d ymm {k1}{z}, ymm, m32bcst","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermi2d_ymm_k1z_ymm_m32bcst = 2398,
+    [Symbol("vpermi2d ymm, ymm, m32bcst","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2d_ymm_ymm_m32bcst = 2781,
+    /// <summary>
+    /// vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d ymm_k1z, ymm, ymm","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2d_ymm_k1z_ymm_ymm = 2782,
+    /// <summary>
+    /// vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d ymm_k1z, ymm, m256","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2d_ymm_k1z_ymm_m256 = 2783,
+    /// <summary>
+    /// vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d ymm_k1z, ymm, m32bcst","vpermi2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2d_ymm_k1z_ymm_m32bcst = 2784,
     /// <summary>
     /// vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermi2d zmm {k1}{z}, zmm, zmm","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermi2d_zmm_k1z_zmm_zmm = 2399,
+    [Symbol("vpermi2d zmm, zmm, zmm","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2d_zmm_zmm_zmm = 2785,
     /// <summary>
     /// vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermi2d zmm {k1}{z}, zmm, m512","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermi2d_zmm_k1z_zmm_m512 = 2400,
+    [Symbol("vpermi2d zmm, zmm, m512","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2d_zmm_zmm_m512 = 2786,
     /// <summary>
     /// vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermi2d zmm {k1}{z}, zmm, m32bcst","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermi2d_zmm_k1z_zmm_m32bcst = 2401,
+    [Symbol("vpermi2d zmm, zmm, m32bcst","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2d_zmm_zmm_m32bcst = 2787,
+    /// <summary>
+    /// vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d zmm_k1z, zmm, zmm","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2d_zmm_k1z_zmm_zmm = 2788,
+    /// <summary>
+    /// vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d zmm_k1z, zmm, m512","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2d_zmm_k1z_zmm_m512 = 2789,
+    /// <summary>
+    /// vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermi2d zmm_k1z, zmm, m32bcst","vpermi2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2d_zmm_k1z_zmm_m32bcst = 2790,
     /// <summary>
     /// vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd xmm {k1}{z}, xmm, xmm","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermi2pd_xmm_k1z_xmm_xmm = 2402,
+    [Symbol("vpermi2pd xmm, xmm, xmm","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2pd_xmm_xmm_xmm = 2791,
     /// <summary>
     /// vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd xmm {k1}{z}, xmm, m128","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermi2pd_xmm_k1z_xmm_m128 = 2403,
+    [Symbol("vpermi2pd xmm, xmm, m128","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2pd_xmm_xmm_m128 = 2792,
     /// <summary>
     /// vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd xmm {k1}{z}, xmm, m64bcst","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermi2pd_xmm_k1z_xmm_m64bcst = 2404,
+    [Symbol("vpermi2pd xmm, xmm, m64bcst","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2pd_xmm_xmm_m64bcst = 2793,
+    /// <summary>
+    /// vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd xmm_k1z, xmm, xmm","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2pd_xmm_k1z_xmm_xmm = 2794,
+    /// <summary>
+    /// vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd xmm_k1z, xmm, m128","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2pd_xmm_k1z_xmm_m128 = 2795,
+    /// <summary>
+    /// vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd xmm_k1z, xmm, m64bcst","vpermi2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2pd_xmm_k1z_xmm_m64bcst = 2796,
     /// <summary>
     /// vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd ymm {k1}{z}, ymm, ymm","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermi2pd_ymm_k1z_ymm_ymm = 2405,
+    [Symbol("vpermi2pd ymm, ymm, ymm","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2pd_ymm_ymm_ymm = 2797,
     /// <summary>
     /// vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd ymm {k1}{z}, ymm, m256","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermi2pd_ymm_k1z_ymm_m256 = 2406,
+    [Symbol("vpermi2pd ymm, ymm, m256","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2pd_ymm_ymm_m256 = 2798,
     /// <summary>
     /// vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd ymm {k1}{z}, ymm, m64bcst","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermi2pd_ymm_k1z_ymm_m64bcst = 2407,
+    [Symbol("vpermi2pd ymm, ymm, m64bcst","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2pd_ymm_ymm_m64bcst = 2799,
+    /// <summary>
+    /// vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd ymm_k1z, ymm, ymm","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2pd_ymm_k1z_ymm_ymm = 2800,
+    /// <summary>
+    /// vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd ymm_k1z, ymm, m256","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2pd_ymm_k1z_ymm_m256 = 2801,
+    /// <summary>
+    /// vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd ymm_k1z, ymm, m64bcst","vpermi2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2pd_ymm_k1z_ymm_m64bcst = 2802,
     /// <summary>
     /// vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd zmm {k1}{z}, zmm, zmm","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermi2pd_zmm_k1z_zmm_zmm = 2408,
+    [Symbol("vpermi2pd zmm, zmm, zmm","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2pd_zmm_zmm_zmm = 2803,
     /// <summary>
     /// vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd zmm {k1}{z}, zmm, m512","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermi2pd_zmm_k1z_zmm_m512 = 2409,
+    [Symbol("vpermi2pd zmm, zmm, m512","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2pd_zmm_zmm_m512 = 2804,
     /// <summary>
     /// vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermi2pd zmm {k1}{z}, zmm, m64bcst","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermi2pd_zmm_k1z_zmm_m64bcst = 2410,
+    [Symbol("vpermi2pd zmm, zmm, m64bcst","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2pd_zmm_zmm_m64bcst = 2805,
+    /// <summary>
+    /// vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd zmm_k1z, zmm, zmm","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2pd_zmm_k1z_zmm_zmm = 2806,
+    /// <summary>
+    /// vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd zmm_k1z, zmm, m512","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2pd_zmm_k1z_zmm_m512 = 2807,
+    /// <summary>
+    /// vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermi2pd zmm_k1z, zmm, m64bcst","vpermi2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2pd_zmm_k1z_zmm_m64bcst = 2808,
     /// <summary>
     /// vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps xmm {k1}{z}, xmm, xmm","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermi2ps_xmm_k1z_xmm_xmm = 2411,
+    [Symbol("vpermi2ps xmm, xmm, xmm","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2ps_xmm_xmm_xmm = 2809,
     /// <summary>
     /// vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps xmm {k1}{z}, xmm, m128","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermi2ps_xmm_k1z_xmm_m128 = 2412,
+    [Symbol("vpermi2ps xmm, xmm, m128","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2ps_xmm_xmm_m128 = 2810,
     /// <summary>
     /// vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps xmm {k1}{z}, xmm, m32bcst","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermi2ps_xmm_k1z_xmm_m32bcst = 2413,
+    [Symbol("vpermi2ps xmm, xmm, m32bcst","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2ps_xmm_xmm_m32bcst = 2811,
+    /// <summary>
+    /// vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps xmm_k1z, xmm, xmm","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2ps_xmm_k1z_xmm_xmm = 2812,
+    /// <summary>
+    /// vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps xmm_k1z, xmm, m128","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2ps_xmm_k1z_xmm_m128 = 2813,
+    /// <summary>
+    /// vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps xmm_k1z, xmm, m32bcst","vpermi2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermi2ps_xmm_k1z_xmm_m32bcst = 2814,
     /// <summary>
     /// vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps ymm {k1}{z}, ymm, ymm","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermi2ps_ymm_k1z_ymm_ymm = 2414,
+    [Symbol("vpermi2ps ymm, ymm, ymm","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2ps_ymm_ymm_ymm = 2815,
     /// <summary>
     /// vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps ymm {k1}{z}, ymm, m256","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermi2ps_ymm_k1z_ymm_m256 = 2415,
+    [Symbol("vpermi2ps ymm, ymm, m256","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2ps_ymm_ymm_m256 = 2816,
     /// <summary>
     /// vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps ymm {k1}{z}, ymm, m32bcst","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermi2ps_ymm_k1z_ymm_m32bcst = 2416,
+    [Symbol("vpermi2ps ymm, ymm, m32bcst","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2ps_ymm_ymm_m32bcst = 2817,
+    /// <summary>
+    /// vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps ymm_k1z, ymm, ymm","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2ps_ymm_k1z_ymm_ymm = 2818,
+    /// <summary>
+    /// vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps ymm_k1z, ymm, m256","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2ps_ymm_k1z_ymm_m256 = 2819,
+    /// <summary>
+    /// vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps ymm_k1z, ymm, m32bcst","vpermi2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermi2ps_ymm_k1z_ymm_m32bcst = 2820,
     /// <summary>
     /// vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps zmm {k1}{z}, zmm, zmm","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermi2ps_zmm_k1z_zmm_zmm = 2417,
+    [Symbol("vpermi2ps zmm, zmm, zmm","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2ps_zmm_zmm_zmm = 2821,
     /// <summary>
     /// vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps zmm {k1}{z}, zmm, m512","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermi2ps_zmm_k1z_zmm_m512 = 2418,
+    [Symbol("vpermi2ps zmm, zmm, m512","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2ps_zmm_zmm_m512 = 2822,
     /// <summary>
     /// vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermi2ps zmm {k1}{z}, zmm, m32bcst","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermi2ps_zmm_k1z_zmm_m32bcst = 2419,
+    [Symbol("vpermi2ps zmm, zmm, m32bcst","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2ps_zmm_zmm_m32bcst = 2823,
+    /// <summary>
+    /// vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps zmm_k1z, zmm, zmm","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2ps_zmm_k1z_zmm_zmm = 2824,
+    /// <summary>
+    /// vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps zmm_k1z, zmm, m512","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2ps_zmm_k1z_zmm_m512 = 2825,
+    /// <summary>
+    /// vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermi2ps zmm_k1z, zmm, m32bcst","vpermi2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermi2ps_zmm_k1z_zmm_m32bcst = 2826,
     /// <summary>
     /// vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermi2q xmm {k1}{z}, xmm, xmm","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermi2q_xmm_k1z_xmm_xmm = 2420,
+    [Symbol("vpermi2q xmm, xmm, xmm","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2q_xmm_xmm_xmm = 2827,
     /// <summary>
     /// vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermi2q xmm {k1}{z}, xmm, m128","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermi2q_xmm_k1z_xmm_m128 = 2421,
+    [Symbol("vpermi2q xmm, xmm, m128","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2q_xmm_xmm_m128 = 2828,
     /// <summary>
     /// vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermi2q xmm {k1}{z}, xmm, m64bcst","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermi2q_xmm_k1z_xmm_m64bcst = 2422,
+    [Symbol("vpermi2q xmm, xmm, m64bcst","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2q_xmm_xmm_m64bcst = 2829,
+    /// <summary>
+    /// vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q xmm_k1z, xmm, xmm","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2q_xmm_k1z_xmm_xmm = 2830,
+    /// <summary>
+    /// vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q xmm_k1z, xmm, m128","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2q_xmm_k1z_xmm_m128 = 2831,
+    /// <summary>
+    /// vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q xmm_k1z, xmm, m64bcst","vpermi2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermi2q_xmm_k1z_xmm_m64bcst = 2832,
     /// <summary>
     /// vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermi2q ymm {k1}{z}, ymm, ymm","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermi2q_ymm_k1z_ymm_ymm = 2423,
+    [Symbol("vpermi2q ymm, ymm, ymm","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2q_ymm_ymm_ymm = 2833,
     /// <summary>
     /// vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermi2q ymm {k1}{z}, ymm, m256","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermi2q_ymm_k1z_ymm_m256 = 2424,
+    [Symbol("vpermi2q ymm, ymm, m256","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2q_ymm_ymm_m256 = 2834,
     /// <summary>
     /// vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermi2q ymm {k1}{z}, ymm, m64bcst","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermi2q_ymm_k1z_ymm_m64bcst = 2425,
+    [Symbol("vpermi2q ymm, ymm, m64bcst","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2q_ymm_ymm_m64bcst = 2835,
+    /// <summary>
+    /// vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q ymm_k1z, ymm, ymm","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2q_ymm_k1z_ymm_ymm = 2836,
+    /// <summary>
+    /// vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q ymm_k1z, ymm, m256","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2q_ymm_k1z_ymm_m256 = 2837,
+    /// <summary>
+    /// vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q ymm_k1z, ymm, m64bcst","vpermi2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermi2q_ymm_k1z_ymm_m64bcst = 2838,
     /// <summary>
     /// vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermi2q zmm {k1}{z}, zmm, zmm","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermi2q_zmm_k1z_zmm_zmm = 2426,
+    [Symbol("vpermi2q zmm, zmm, zmm","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2q_zmm_zmm_zmm = 2839,
     /// <summary>
     /// vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermi2q zmm {k1}{z}, zmm, m512","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermi2q_zmm_k1z_zmm_m512 = 2427,
+    [Symbol("vpermi2q zmm, zmm, m512","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2q_zmm_zmm_m512 = 2840,
     /// <summary>
     /// vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermi2q zmm {k1}{z}, zmm, m64bcst","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermi2q_zmm_k1z_zmm_m64bcst = 2428,
+    [Symbol("vpermi2q zmm, zmm, m64bcst","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2q_zmm_zmm_m64bcst = 2841,
+    /// <summary>
+    /// vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q zmm_k1z, zmm, zmm","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2q_zmm_k1z_zmm_zmm = 2842,
+    /// <summary>
+    /// vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q zmm_k1z, zmm, m512","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2q_zmm_k1z_zmm_m512 = 2843,
+    /// <summary>
+    /// vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermi2q zmm_k1z, zmm, m64bcst","vpermi2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermi2q_zmm_k1z_zmm_m64bcst = 2844,
     /// <summary>
     /// vpermi2w xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermi2w xmm {k1}{z}, xmm, xmm","vpermi2w xmm {k1}{z}, xmm, xmm/m128")]
-    vpermi2w_xmm_k1z_xmm_xmm = 2429,
+    [Symbol("vpermi2w xmm, xmm, xmm","vpermi2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermi2w_xmm_xmm_xmm = 2845,
     /// <summary>
     /// vpermi2w xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermi2w xmm {k1}{z}, xmm, m128","vpermi2w xmm {k1}{z}, xmm, xmm/m128")]
-    vpermi2w_xmm_k1z_xmm_m128 = 2430,
+    [Symbol("vpermi2w xmm, xmm, m128","vpermi2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermi2w_xmm_xmm_m128 = 2846,
+    /// <summary>
+    /// vpermi2w xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermi2w xmm_k1z, xmm, xmm","vpermi2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermi2w_xmm_k1z_xmm_xmm = 2847,
+    /// <summary>
+    /// vpermi2w xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermi2w xmm_k1z, xmm, m128","vpermi2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermi2w_xmm_k1z_xmm_m128 = 2848,
     /// <summary>
     /// vpermi2w ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermi2w ymm {k1}{z}, ymm, ymm","vpermi2w ymm {k1}{z}, ymm, ymm/m256")]
-    vpermi2w_ymm_k1z_ymm_ymm = 2431,
+    [Symbol("vpermi2w ymm, ymm, ymm","vpermi2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermi2w_ymm_ymm_ymm = 2849,
     /// <summary>
     /// vpermi2w ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermi2w ymm {k1}{z}, ymm, m256","vpermi2w ymm {k1}{z}, ymm, ymm/m256")]
-    vpermi2w_ymm_k1z_ymm_m256 = 2432,
+    [Symbol("vpermi2w ymm, ymm, m256","vpermi2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermi2w_ymm_ymm_m256 = 2850,
+    /// <summary>
+    /// vpermi2w ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermi2w ymm_k1z, ymm, ymm","vpermi2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermi2w_ymm_k1z_ymm_ymm = 2851,
+    /// <summary>
+    /// vpermi2w ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermi2w ymm_k1z, ymm, m256","vpermi2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermi2w_ymm_k1z_ymm_m256 = 2852,
     /// <summary>
     /// vpermi2w zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermi2w zmm {k1}{z}, zmm, zmm","vpermi2w zmm {k1}{z}, zmm, zmm/m512")]
-    vpermi2w_zmm_k1z_zmm_zmm = 2433,
+    [Symbol("vpermi2w zmm, zmm, zmm","vpermi2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermi2w_zmm_zmm_zmm = 2853,
     /// <summary>
     /// vpermi2w zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermi2w zmm {k1}{z}, zmm, m512","vpermi2w zmm {k1}{z}, zmm, zmm/m512")]
-    vpermi2w_zmm_k1z_zmm_m512 = 2434,
+    [Symbol("vpermi2w zmm, zmm, m512","vpermi2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermi2w_zmm_zmm_m512 = 2854,
+    /// <summary>
+    /// vpermi2w zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermi2w zmm_k1z, zmm, zmm","vpermi2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermi2w_zmm_k1z_zmm_zmm = 2855,
+    /// <summary>
+    /// vpermi2w zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermi2w zmm_k1z, zmm, m512","vpermi2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermi2w_zmm_k1z_zmm_m512 = 2856,
     /// <summary>
     /// vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermq ymm {k1}{z}, ymm, ymm","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermq_ymm_k1z_ymm_ymm = 2435,
+    [Symbol("vpermq ymm, ymm, ymm","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermq_ymm_ymm_ymm = 2857,
     /// <summary>
     /// vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermq ymm {k1}{z}, ymm, m256","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermq_ymm_k1z_ymm_m256 = 2436,
+    [Symbol("vpermq ymm, ymm, m256","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermq_ymm_ymm_m256 = 2858,
     /// <summary>
     /// vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermq ymm {k1}{z}, ymm, m64bcst","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermq_ymm_k1z_ymm_m64bcst = 2437,
+    [Symbol("vpermq ymm, ymm, m64bcst","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermq_ymm_ymm_m64bcst = 2859,
+    /// <summary>
+    /// vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermq ymm_k1z, ymm, ymm","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermq_ymm_k1z_ymm_ymm = 2860,
+    /// <summary>
+    /// vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermq ymm_k1z, ymm, m256","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermq_ymm_k1z_ymm_m256 = 2861,
+    /// <summary>
+    /// vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermq ymm_k1z, ymm, m64bcst","vpermq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermq_ymm_k1z_ymm_m64bcst = 2862,
     /// <summary>
     /// vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq ymm {k1}{z}, ymm, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpermq_ymm_k1z_ymm_imm8 = 2438,
+    [Symbol("vpermq ymm, ymm, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpermq_ymm_ymm_imm8 = 2863,
     /// <summary>
     /// vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq ymm {k1}{z}, m256, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpermq_ymm_k1z_m256_imm8 = 2439,
+    [Symbol("vpermq ymm, m256, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpermq_ymm_m256_imm8 = 2864,
     /// <summary>
     /// vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq ymm {k1}{z}, m64bcst, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpermq_ymm_k1z_m64bcst_imm8 = 2440,
+    [Symbol("vpermq ymm, m64bcst, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpermq_ymm_m64bcst_imm8 = 2865,
     /// <summary>
-    /// vpermq ymm, ymm/m256, imm8
+    /// vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq ymm, ymm, imm8","vpermq ymm, ymm/m256, imm8")]
-    vpermq_ymm_ymm_imm8 = 2441,
+    [Symbol("vpermq ymm_k1z, ymm, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpermq_ymm_k1z_ymm_imm8 = 2866,
     /// <summary>
-    /// vpermq ymm, ymm/m256, imm8
+    /// vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq ymm, m256, imm8","vpermq ymm, ymm/m256, imm8")]
-    vpermq_ymm_m256_imm8 = 2442,
+    [Symbol("vpermq ymm_k1z, m256, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpermq_ymm_k1z_m256_imm8 = 2867,
     /// <summary>
-    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq zmm {k1}{z}, zmm, zmm","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermq_zmm_k1z_zmm_zmm = 2443,
-    /// <summary>
-    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
-    /// </summary>
-    [Symbol("vpermq zmm {k1}{z}, zmm, m512","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermq_zmm_k1z_zmm_m512 = 2444,
+    [Symbol("vpermq ymm_k1z, m64bcst, imm8","vpermq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpermq_ymm_k1z_m64bcst_imm8 = 2868,
     /// <summary>
     /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermq zmm {k1}{z}, zmm, m64bcst","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermq_zmm_k1z_zmm_m64bcst = 2445,
+    [Symbol("vpermq zmm, zmm, zmm","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermq_zmm_zmm_zmm = 2869,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermq zmm, zmm, m512","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermq_zmm_zmm_m512 = 2870,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermq zmm, zmm, m64bcst","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermq_zmm_zmm_m64bcst = 2871,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermq zmm_k1z, zmm, zmm","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermq_zmm_k1z_zmm_zmm = 2872,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermq zmm_k1z, zmm, m512","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermq_zmm_k1z_zmm_m512 = 2873,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermq zmm_k1z, zmm, m64bcst","vpermq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermq_zmm_k1z_zmm_m64bcst = 2874,
     /// <summary>
     /// vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq zmm {k1}{z}, zmm, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpermq_zmm_k1z_zmm_imm8 = 2446,
+    [Symbol("vpermq zmm, zmm, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpermq_zmm_zmm_imm8 = 2875,
     /// <summary>
     /// vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq zmm {k1}{z}, m512, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpermq_zmm_k1z_m512_imm8 = 2447,
+    [Symbol("vpermq zmm, m512, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpermq_zmm_m512_imm8 = 2876,
     /// <summary>
     /// vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpermq zmm {k1}{z}, m64bcst, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpermq_zmm_k1z_m64bcst_imm8 = 2448,
+    [Symbol("vpermq zmm, m64bcst, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpermq_zmm_m64bcst_imm8 = 2877,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpermq zmm_k1z, zmm, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpermq_zmm_k1z_zmm_imm8 = 2878,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpermq zmm_k1z, m512, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpermq_zmm_k1z_m512_imm8 = 2879,
+    /// <summary>
+    /// vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpermq zmm_k1z, m64bcst, imm8","vpermq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpermq_zmm_k1z_m64bcst_imm8 = 2880,
     /// <summary>
     /// vpermt2b xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermt2b xmm {k1}{z}, xmm, xmm","vpermt2b xmm {k1}{z}, xmm, xmm/m128")]
-    vpermt2b_xmm_k1z_xmm_xmm = 2449,
+    [Symbol("vpermt2b xmm, xmm, xmm","vpermt2b xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2b_xmm_xmm_xmm = 2881,
     /// <summary>
     /// vpermt2b xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermt2b xmm {k1}{z}, xmm, m128","vpermt2b xmm {k1}{z}, xmm, xmm/m128")]
-    vpermt2b_xmm_k1z_xmm_m128 = 2450,
+    [Symbol("vpermt2b xmm, xmm, m128","vpermt2b xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2b_xmm_xmm_m128 = 2882,
+    /// <summary>
+    /// vpermt2b xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermt2b xmm_k1z, xmm, xmm","vpermt2b xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2b_xmm_k1z_xmm_xmm = 2883,
+    /// <summary>
+    /// vpermt2b xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermt2b xmm_k1z, xmm, m128","vpermt2b xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2b_xmm_k1z_xmm_m128 = 2884,
     /// <summary>
     /// vpermt2b ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermt2b ymm {k1}{z}, ymm, ymm","vpermt2b ymm {k1}{z}, ymm, ymm/m256")]
-    vpermt2b_ymm_k1z_ymm_ymm = 2451,
+    [Symbol("vpermt2b ymm, ymm, ymm","vpermt2b ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2b_ymm_ymm_ymm = 2885,
     /// <summary>
     /// vpermt2b ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermt2b ymm {k1}{z}, ymm, m256","vpermt2b ymm {k1}{z}, ymm, ymm/m256")]
-    vpermt2b_ymm_k1z_ymm_m256 = 2452,
+    [Symbol("vpermt2b ymm, ymm, m256","vpermt2b ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2b_ymm_ymm_m256 = 2886,
+    /// <summary>
+    /// vpermt2b ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermt2b ymm_k1z, ymm, ymm","vpermt2b ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2b_ymm_k1z_ymm_ymm = 2887,
+    /// <summary>
+    /// vpermt2b ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermt2b ymm_k1z, ymm, m256","vpermt2b ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2b_ymm_k1z_ymm_m256 = 2888,
     /// <summary>
     /// vpermt2b zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermt2b zmm {k1}{z}, zmm, zmm","vpermt2b zmm {k1}{z}, zmm, zmm/m512")]
-    vpermt2b_zmm_k1z_zmm_zmm = 2453,
+    [Symbol("vpermt2b zmm, zmm, zmm","vpermt2b zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2b_zmm_zmm_zmm = 2889,
     /// <summary>
     /// vpermt2b zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermt2b zmm {k1}{z}, zmm, m512","vpermt2b zmm {k1}{z}, zmm, zmm/m512")]
-    vpermt2b_zmm_k1z_zmm_m512 = 2454,
+    [Symbol("vpermt2b zmm, zmm, m512","vpermt2b zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2b_zmm_zmm_m512 = 2890,
+    /// <summary>
+    /// vpermt2b zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermt2b zmm_k1z, zmm, zmm","vpermt2b zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2b_zmm_k1z_zmm_zmm = 2891,
+    /// <summary>
+    /// vpermt2b zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermt2b zmm_k1z, zmm, m512","vpermt2b zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2b_zmm_k1z_zmm_m512 = 2892,
     /// <summary>
     /// vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermt2d xmm {k1}{z}, xmm, xmm","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermt2d_xmm_k1z_xmm_xmm = 2455,
+    [Symbol("vpermt2d xmm, xmm, xmm","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2d_xmm_xmm_xmm = 2893,
     /// <summary>
     /// vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermt2d xmm {k1}{z}, xmm, m128","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermt2d_xmm_k1z_xmm_m128 = 2456,
+    [Symbol("vpermt2d xmm, xmm, m128","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2d_xmm_xmm_m128 = 2894,
     /// <summary>
     /// vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermt2d xmm {k1}{z}, xmm, m32bcst","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermt2d_xmm_k1z_xmm_m32bcst = 2457,
+    [Symbol("vpermt2d xmm, xmm, m32bcst","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2d_xmm_xmm_m32bcst = 2895,
+    /// <summary>
+    /// vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d xmm_k1z, xmm, xmm","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2d_xmm_k1z_xmm_xmm = 2896,
+    /// <summary>
+    /// vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d xmm_k1z, xmm, m128","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2d_xmm_k1z_xmm_m128 = 2897,
+    /// <summary>
+    /// vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d xmm_k1z, xmm, m32bcst","vpermt2d xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2d_xmm_k1z_xmm_m32bcst = 2898,
     /// <summary>
     /// vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermt2d ymm {k1}{z}, ymm, ymm","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermt2d_ymm_k1z_ymm_ymm = 2458,
+    [Symbol("vpermt2d ymm, ymm, ymm","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2d_ymm_ymm_ymm = 2899,
     /// <summary>
     /// vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermt2d ymm {k1}{z}, ymm, m256","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermt2d_ymm_k1z_ymm_m256 = 2459,
+    [Symbol("vpermt2d ymm, ymm, m256","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2d_ymm_ymm_m256 = 2900,
     /// <summary>
     /// vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermt2d ymm {k1}{z}, ymm, m32bcst","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermt2d_ymm_k1z_ymm_m32bcst = 2460,
+    [Symbol("vpermt2d ymm, ymm, m32bcst","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2d_ymm_ymm_m32bcst = 2901,
+    /// <summary>
+    /// vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d ymm_k1z, ymm, ymm","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2d_ymm_k1z_ymm_ymm = 2902,
+    /// <summary>
+    /// vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d ymm_k1z, ymm, m256","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2d_ymm_k1z_ymm_m256 = 2903,
+    /// <summary>
+    /// vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d ymm_k1z, ymm, m32bcst","vpermt2d ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2d_ymm_k1z_ymm_m32bcst = 2904,
     /// <summary>
     /// vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermt2d zmm {k1}{z}, zmm, zmm","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermt2d_zmm_k1z_zmm_zmm = 2461,
+    [Symbol("vpermt2d zmm, zmm, zmm","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2d_zmm_zmm_zmm = 2905,
     /// <summary>
     /// vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermt2d zmm {k1}{z}, zmm, m512","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermt2d_zmm_k1z_zmm_m512 = 2462,
+    [Symbol("vpermt2d zmm, zmm, m512","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2d_zmm_zmm_m512 = 2906,
     /// <summary>
     /// vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermt2d zmm {k1}{z}, zmm, m32bcst","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermt2d_zmm_k1z_zmm_m32bcst = 2463,
+    [Symbol("vpermt2d zmm, zmm, m32bcst","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2d_zmm_zmm_m32bcst = 2907,
+    /// <summary>
+    /// vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d zmm_k1z, zmm, zmm","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2d_zmm_k1z_zmm_zmm = 2908,
+    /// <summary>
+    /// vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d zmm_k1z, zmm, m512","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2d_zmm_k1z_zmm_m512 = 2909,
+    /// <summary>
+    /// vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermt2d zmm_k1z, zmm, m32bcst","vpermt2d zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2d_zmm_k1z_zmm_m32bcst = 2910,
     /// <summary>
     /// vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd xmm {k1}{z}, xmm, xmm","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermt2pd_xmm_k1z_xmm_xmm = 2464,
+    [Symbol("vpermt2pd xmm, xmm, xmm","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2pd_xmm_xmm_xmm = 2911,
     /// <summary>
     /// vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd xmm {k1}{z}, xmm, m128","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermt2pd_xmm_k1z_xmm_m128 = 2465,
+    [Symbol("vpermt2pd xmm, xmm, m128","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2pd_xmm_xmm_m128 = 2912,
     /// <summary>
     /// vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd xmm {k1}{z}, xmm, m64bcst","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermt2pd_xmm_k1z_xmm_m64bcst = 2466,
+    [Symbol("vpermt2pd xmm, xmm, m64bcst","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2pd_xmm_xmm_m64bcst = 2913,
+    /// <summary>
+    /// vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd xmm_k1z, xmm, xmm","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2pd_xmm_k1z_xmm_xmm = 2914,
+    /// <summary>
+    /// vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd xmm_k1z, xmm, m128","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2pd_xmm_k1z_xmm_m128 = 2915,
+    /// <summary>
+    /// vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd xmm_k1z, xmm, m64bcst","vpermt2pd xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2pd_xmm_k1z_xmm_m64bcst = 2916,
     /// <summary>
     /// vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd ymm {k1}{z}, ymm, ymm","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermt2pd_ymm_k1z_ymm_ymm = 2467,
+    [Symbol("vpermt2pd ymm, ymm, ymm","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2pd_ymm_ymm_ymm = 2917,
     /// <summary>
     /// vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd ymm {k1}{z}, ymm, m256","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermt2pd_ymm_k1z_ymm_m256 = 2468,
+    [Symbol("vpermt2pd ymm, ymm, m256","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2pd_ymm_ymm_m256 = 2918,
     /// <summary>
     /// vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd ymm {k1}{z}, ymm, m64bcst","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermt2pd_ymm_k1z_ymm_m64bcst = 2469,
+    [Symbol("vpermt2pd ymm, ymm, m64bcst","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2pd_ymm_ymm_m64bcst = 2919,
+    /// <summary>
+    /// vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd ymm_k1z, ymm, ymm","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2pd_ymm_k1z_ymm_ymm = 2920,
+    /// <summary>
+    /// vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd ymm_k1z, ymm, m256","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2pd_ymm_k1z_ymm_m256 = 2921,
+    /// <summary>
+    /// vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd ymm_k1z, ymm, m64bcst","vpermt2pd ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2pd_ymm_k1z_ymm_m64bcst = 2922,
     /// <summary>
     /// vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd zmm {k1}{z}, zmm, zmm","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermt2pd_zmm_k1z_zmm_zmm = 2470,
+    [Symbol("vpermt2pd zmm, zmm, zmm","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2pd_zmm_zmm_zmm = 2923,
     /// <summary>
     /// vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd zmm {k1}{z}, zmm, m512","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermt2pd_zmm_k1z_zmm_m512 = 2471,
+    [Symbol("vpermt2pd zmm, zmm, m512","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2pd_zmm_zmm_m512 = 2924,
     /// <summary>
     /// vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermt2pd zmm {k1}{z}, zmm, m64bcst","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermt2pd_zmm_k1z_zmm_m64bcst = 2472,
+    [Symbol("vpermt2pd zmm, zmm, m64bcst","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2pd_zmm_zmm_m64bcst = 2925,
+    /// <summary>
+    /// vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd zmm_k1z, zmm, zmm","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2pd_zmm_k1z_zmm_zmm = 2926,
+    /// <summary>
+    /// vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd zmm_k1z, zmm, m512","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2pd_zmm_k1z_zmm_m512 = 2927,
+    /// <summary>
+    /// vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermt2pd zmm_k1z, zmm, m64bcst","vpermt2pd zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2pd_zmm_k1z_zmm_m64bcst = 2928,
     /// <summary>
     /// vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps xmm {k1}{z}, xmm, xmm","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermt2ps_xmm_k1z_xmm_xmm = 2473,
+    [Symbol("vpermt2ps xmm, xmm, xmm","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2ps_xmm_xmm_xmm = 2929,
     /// <summary>
     /// vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps xmm {k1}{z}, xmm, m128","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermt2ps_xmm_k1z_xmm_m128 = 2474,
+    [Symbol("vpermt2ps xmm, xmm, m128","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2ps_xmm_xmm_m128 = 2930,
     /// <summary>
     /// vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps xmm {k1}{z}, xmm, m32bcst","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpermt2ps_xmm_k1z_xmm_m32bcst = 2475,
+    [Symbol("vpermt2ps xmm, xmm, m32bcst","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2ps_xmm_xmm_m32bcst = 2931,
+    /// <summary>
+    /// vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps xmm_k1z, xmm, xmm","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2ps_xmm_k1z_xmm_xmm = 2932,
+    /// <summary>
+    /// vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps xmm_k1z, xmm, m128","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2ps_xmm_k1z_xmm_m128 = 2933,
+    /// <summary>
+    /// vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps xmm_k1z, xmm, m32bcst","vpermt2ps xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpermt2ps_xmm_k1z_xmm_m32bcst = 2934,
     /// <summary>
     /// vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps ymm {k1}{z}, ymm, ymm","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermt2ps_ymm_k1z_ymm_ymm = 2476,
+    [Symbol("vpermt2ps ymm, ymm, ymm","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2ps_ymm_ymm_ymm = 2935,
     /// <summary>
     /// vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps ymm {k1}{z}, ymm, m256","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermt2ps_ymm_k1z_ymm_m256 = 2477,
+    [Symbol("vpermt2ps ymm, ymm, m256","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2ps_ymm_ymm_m256 = 2936,
     /// <summary>
     /// vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps ymm {k1}{z}, ymm, m32bcst","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpermt2ps_ymm_k1z_ymm_m32bcst = 2478,
+    [Symbol("vpermt2ps ymm, ymm, m32bcst","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2ps_ymm_ymm_m32bcst = 2937,
+    /// <summary>
+    /// vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps ymm_k1z, ymm, ymm","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2ps_ymm_k1z_ymm_ymm = 2938,
+    /// <summary>
+    /// vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps ymm_k1z, ymm, m256","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2ps_ymm_k1z_ymm_m256 = 2939,
+    /// <summary>
+    /// vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps ymm_k1z, ymm, m32bcst","vpermt2ps ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpermt2ps_ymm_k1z_ymm_m32bcst = 2940,
     /// <summary>
     /// vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps zmm {k1}{z}, zmm, zmm","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermt2ps_zmm_k1z_zmm_zmm = 2479,
+    [Symbol("vpermt2ps zmm, zmm, zmm","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2ps_zmm_zmm_zmm = 2941,
     /// <summary>
     /// vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps zmm {k1}{z}, zmm, m512","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermt2ps_zmm_k1z_zmm_m512 = 2480,
+    [Symbol("vpermt2ps zmm, zmm, m512","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2ps_zmm_zmm_m512 = 2942,
     /// <summary>
     /// vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpermt2ps zmm {k1}{z}, zmm, m32bcst","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpermt2ps_zmm_k1z_zmm_m32bcst = 2481,
+    [Symbol("vpermt2ps zmm, zmm, m32bcst","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2ps_zmm_zmm_m32bcst = 2943,
+    /// <summary>
+    /// vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps zmm_k1z, zmm, zmm","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2ps_zmm_k1z_zmm_zmm = 2944,
+    /// <summary>
+    /// vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps zmm_k1z, zmm, m512","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2ps_zmm_k1z_zmm_m512 = 2945,
+    /// <summary>
+    /// vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpermt2ps zmm_k1z, zmm, m32bcst","vpermt2ps zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpermt2ps_zmm_k1z_zmm_m32bcst = 2946,
     /// <summary>
     /// vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermt2q xmm {k1}{z}, xmm, xmm","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermt2q_xmm_k1z_xmm_xmm = 2482,
+    [Symbol("vpermt2q xmm, xmm, xmm","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2q_xmm_xmm_xmm = 2947,
     /// <summary>
     /// vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermt2q xmm {k1}{z}, xmm, m128","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermt2q_xmm_k1z_xmm_m128 = 2483,
+    [Symbol("vpermt2q xmm, xmm, m128","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2q_xmm_xmm_m128 = 2948,
     /// <summary>
     /// vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpermt2q xmm {k1}{z}, xmm, m64bcst","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpermt2q_xmm_k1z_xmm_m64bcst = 2484,
+    [Symbol("vpermt2q xmm, xmm, m64bcst","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2q_xmm_xmm_m64bcst = 2949,
+    /// <summary>
+    /// vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q xmm_k1z, xmm, xmm","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2q_xmm_k1z_xmm_xmm = 2950,
+    /// <summary>
+    /// vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q xmm_k1z, xmm, m128","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2q_xmm_k1z_xmm_m128 = 2951,
+    /// <summary>
+    /// vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q xmm_k1z, xmm, m64bcst","vpermt2q xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpermt2q_xmm_k1z_xmm_m64bcst = 2952,
     /// <summary>
     /// vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermt2q ymm {k1}{z}, ymm, ymm","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermt2q_ymm_k1z_ymm_ymm = 2485,
+    [Symbol("vpermt2q ymm, ymm, ymm","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2q_ymm_ymm_ymm = 2953,
     /// <summary>
     /// vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermt2q ymm {k1}{z}, ymm, m256","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermt2q_ymm_k1z_ymm_m256 = 2486,
+    [Symbol("vpermt2q ymm, ymm, m256","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2q_ymm_ymm_m256 = 2954,
     /// <summary>
     /// vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpermt2q ymm {k1}{z}, ymm, m64bcst","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpermt2q_ymm_k1z_ymm_m64bcst = 2487,
+    [Symbol("vpermt2q ymm, ymm, m64bcst","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2q_ymm_ymm_m64bcst = 2955,
+    /// <summary>
+    /// vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q ymm_k1z, ymm, ymm","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2q_ymm_k1z_ymm_ymm = 2956,
+    /// <summary>
+    /// vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q ymm_k1z, ymm, m256","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2q_ymm_k1z_ymm_m256 = 2957,
+    /// <summary>
+    /// vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q ymm_k1z, ymm, m64bcst","vpermt2q ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpermt2q_ymm_k1z_ymm_m64bcst = 2958,
     /// <summary>
     /// vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermt2q zmm {k1}{z}, zmm, zmm","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermt2q_zmm_k1z_zmm_zmm = 2488,
+    [Symbol("vpermt2q zmm, zmm, zmm","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2q_zmm_zmm_zmm = 2959,
     /// <summary>
     /// vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermt2q zmm {k1}{z}, zmm, m512","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermt2q_zmm_k1z_zmm_m512 = 2489,
+    [Symbol("vpermt2q zmm, zmm, m512","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2q_zmm_zmm_m512 = 2960,
     /// <summary>
     /// vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpermt2q zmm {k1}{z}, zmm, m64bcst","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpermt2q_zmm_k1z_zmm_m64bcst = 2490,
+    [Symbol("vpermt2q zmm, zmm, m64bcst","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2q_zmm_zmm_m64bcst = 2961,
+    /// <summary>
+    /// vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q zmm_k1z, zmm, zmm","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2q_zmm_k1z_zmm_zmm = 2962,
+    /// <summary>
+    /// vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q zmm_k1z, zmm, m512","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2q_zmm_k1z_zmm_m512 = 2963,
+    /// <summary>
+    /// vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpermt2q zmm_k1z, zmm, m64bcst","vpermt2q zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpermt2q_zmm_k1z_zmm_m64bcst = 2964,
     /// <summary>
     /// vpermt2w xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermt2w xmm {k1}{z}, xmm, xmm","vpermt2w xmm {k1}{z}, xmm, xmm/m128")]
-    vpermt2w_xmm_k1z_xmm_xmm = 2491,
+    [Symbol("vpermt2w xmm, xmm, xmm","vpermt2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2w_xmm_xmm_xmm = 2965,
     /// <summary>
     /// vpermt2w xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermt2w xmm {k1}{z}, xmm, m128","vpermt2w xmm {k1}{z}, xmm, xmm/m128")]
-    vpermt2w_xmm_k1z_xmm_m128 = 2492,
+    [Symbol("vpermt2w xmm, xmm, m128","vpermt2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2w_xmm_xmm_m128 = 2966,
+    /// <summary>
+    /// vpermt2w xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermt2w xmm_k1z, xmm, xmm","vpermt2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2w_xmm_k1z_xmm_xmm = 2967,
+    /// <summary>
+    /// vpermt2w xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermt2w xmm_k1z, xmm, m128","vpermt2w xmm {k1}{z}, xmm, xmm/m128")]
+    vpermt2w_xmm_k1z_xmm_m128 = 2968,
     /// <summary>
     /// vpermt2w ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermt2w ymm {k1}{z}, ymm, ymm","vpermt2w ymm {k1}{z}, ymm, ymm/m256")]
-    vpermt2w_ymm_k1z_ymm_ymm = 2493,
+    [Symbol("vpermt2w ymm, ymm, ymm","vpermt2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2w_ymm_ymm_ymm = 2969,
     /// <summary>
     /// vpermt2w ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermt2w ymm {k1}{z}, ymm, m256","vpermt2w ymm {k1}{z}, ymm, ymm/m256")]
-    vpermt2w_ymm_k1z_ymm_m256 = 2494,
+    [Symbol("vpermt2w ymm, ymm, m256","vpermt2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2w_ymm_ymm_m256 = 2970,
+    /// <summary>
+    /// vpermt2w ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermt2w ymm_k1z, ymm, ymm","vpermt2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2w_ymm_k1z_ymm_ymm = 2971,
+    /// <summary>
+    /// vpermt2w ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermt2w ymm_k1z, ymm, m256","vpermt2w ymm {k1}{z}, ymm, ymm/m256")]
+    vpermt2w_ymm_k1z_ymm_m256 = 2972,
     /// <summary>
     /// vpermt2w zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermt2w zmm {k1}{z}, zmm, zmm","vpermt2w zmm {k1}{z}, zmm, zmm/m512")]
-    vpermt2w_zmm_k1z_zmm_zmm = 2495,
+    [Symbol("vpermt2w zmm, zmm, zmm","vpermt2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2w_zmm_zmm_zmm = 2973,
     /// <summary>
     /// vpermt2w zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermt2w zmm {k1}{z}, zmm, m512","vpermt2w zmm {k1}{z}, zmm, zmm/m512")]
-    vpermt2w_zmm_k1z_zmm_m512 = 2496,
+    [Symbol("vpermt2w zmm, zmm, m512","vpermt2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2w_zmm_zmm_m512 = 2974,
+    /// <summary>
+    /// vpermt2w zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermt2w zmm_k1z, zmm, zmm","vpermt2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2w_zmm_k1z_zmm_zmm = 2975,
+    /// <summary>
+    /// vpermt2w zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermt2w zmm_k1z, zmm, m512","vpermt2w zmm {k1}{z}, zmm, zmm/m512")]
+    vpermt2w_zmm_k1z_zmm_m512 = 2976,
     /// <summary>
     /// vpermw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermw xmm {k1}{z}, xmm, xmm","vpermw xmm {k1}{z}, xmm, xmm/m128")]
-    vpermw_xmm_k1z_xmm_xmm = 2497,
+    [Symbol("vpermw xmm, xmm, xmm","vpermw xmm {k1}{z}, xmm, xmm/m128")]
+    vpermw_xmm_xmm_xmm = 2977,
     /// <summary>
     /// vpermw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpermw xmm {k1}{z}, xmm, m128","vpermw xmm {k1}{z}, xmm, xmm/m128")]
-    vpermw_xmm_k1z_xmm_m128 = 2498,
+    [Symbol("vpermw xmm, xmm, m128","vpermw xmm {k1}{z}, xmm, xmm/m128")]
+    vpermw_xmm_xmm_m128 = 2978,
+    /// <summary>
+    /// vpermw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermw xmm_k1z, xmm, xmm","vpermw xmm {k1}{z}, xmm, xmm/m128")]
+    vpermw_xmm_k1z_xmm_xmm = 2979,
+    /// <summary>
+    /// vpermw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpermw xmm_k1z, xmm, m128","vpermw xmm {k1}{z}, xmm, xmm/m128")]
+    vpermw_xmm_k1z_xmm_m128 = 2980,
     /// <summary>
     /// vpermw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermw ymm {k1}{z}, ymm, ymm","vpermw ymm {k1}{z}, ymm, ymm/m256")]
-    vpermw_ymm_k1z_ymm_ymm = 2499,
+    [Symbol("vpermw ymm, ymm, ymm","vpermw ymm {k1}{z}, ymm, ymm/m256")]
+    vpermw_ymm_ymm_ymm = 2981,
     /// <summary>
     /// vpermw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpermw ymm {k1}{z}, ymm, m256","vpermw ymm {k1}{z}, ymm, ymm/m256")]
-    vpermw_ymm_k1z_ymm_m256 = 2500,
+    [Symbol("vpermw ymm, ymm, m256","vpermw ymm {k1}{z}, ymm, ymm/m256")]
+    vpermw_ymm_ymm_m256 = 2982,
+    /// <summary>
+    /// vpermw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermw ymm_k1z, ymm, ymm","vpermw ymm {k1}{z}, ymm, ymm/m256")]
+    vpermw_ymm_k1z_ymm_ymm = 2983,
+    /// <summary>
+    /// vpermw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpermw ymm_k1z, ymm, m256","vpermw ymm {k1}{z}, ymm, ymm/m256")]
+    vpermw_ymm_k1z_ymm_m256 = 2984,
     /// <summary>
     /// vpermw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermw zmm {k1}{z}, zmm, zmm","vpermw zmm {k1}{z}, zmm, zmm/m512")]
-    vpermw_zmm_k1z_zmm_zmm = 2501,
+    [Symbol("vpermw zmm, zmm, zmm","vpermw zmm {k1}{z}, zmm, zmm/m512")]
+    vpermw_zmm_zmm_zmm = 2985,
     /// <summary>
     /// vpermw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpermw zmm {k1}{z}, zmm, m512","vpermw zmm {k1}{z}, zmm, zmm/m512")]
-    vpermw_zmm_k1z_zmm_m512 = 2502,
+    [Symbol("vpermw zmm, zmm, m512","vpermw zmm {k1}{z}, zmm, zmm/m512")]
+    vpermw_zmm_zmm_m512 = 2986,
+    /// <summary>
+    /// vpermw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermw zmm_k1z, zmm, zmm","vpermw zmm {k1}{z}, zmm, zmm/m512")]
+    vpermw_zmm_k1z_zmm_zmm = 2987,
+    /// <summary>
+    /// vpermw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpermw zmm_k1z, zmm, m512","vpermw zmm {k1}{z}, zmm, zmm/m512")]
+    vpermw_zmm_k1z_zmm_m512 = 2988,
     /// <summary>
     /// vpextrb reg/m8, xmm, imm8
     /// </summary>
     [Symbol("vpextrb reg, xmm, imm8","vpextrb reg/m8, xmm, imm8")]
-    vpextrb_reg_xmm_imm8 = 2503,
+    vpextrb_reg_xmm_imm8 = 2989,
     /// <summary>
     /// vpextrb reg/m8, xmm, imm8
     /// </summary>
     [Symbol("vpextrb m8, xmm, imm8","vpextrb reg/m8, xmm, imm8")]
-    vpextrb_m8_xmm_imm8 = 2504,
+    vpextrb_m8_xmm_imm8 = 2990,
     /// <summary>
     /// vpextrd r32/m32, xmm, imm8
     /// </summary>
     [Symbol("vpextrd r32, xmm, imm8","vpextrd r32/m32, xmm, imm8")]
-    vpextrd_r32_xmm_imm8 = 2505,
+    vpextrd_r32_xmm_imm8 = 2991,
     /// <summary>
     /// vpextrd r32/m32, xmm, imm8
     /// </summary>
     [Symbol("vpextrd m32, xmm, imm8","vpextrd r32/m32, xmm, imm8")]
-    vpextrd_m32_xmm_imm8 = 2506,
+    vpextrd_m32_xmm_imm8 = 2992,
     /// <summary>
     /// vpextrq r64/m64, xmm, imm8
     /// </summary>
     [Symbol("vpextrq r64, xmm, imm8","vpextrq r64/m64, xmm, imm8")]
-    vpextrq_r64_xmm_imm8 = 2507,
+    vpextrq_r64_xmm_imm8 = 2993,
     /// <summary>
     /// vpextrq r64/m64, xmm, imm8
     /// </summary>
     [Symbol("vpextrq m64, xmm, imm8","vpextrq r64/m64, xmm, imm8")]
-    vpextrq_m64_xmm_imm8 = 2508,
+    vpextrq_m64_xmm_imm8 = 2994,
     /// <summary>
     /// vpextrw reg, xmm, imm8
     /// </summary>
     [Symbol("vpextrw reg, xmm, imm8","vpextrw reg, xmm, imm8")]
-    vpextrw_reg_xmm_imm8 = 2509,
+    vpextrw_reg_xmm_imm8 = 2995,
     /// <summary>
     /// vpextrw reg/m16, xmm, imm8
     /// </summary>
     [Symbol("vpextrw m16, xmm, imm8","vpextrw reg/m16, xmm, imm8")]
-    vpextrw_m16_xmm_imm8 = 2510,
+    vpextrw_m16_xmm_imm8 = 2996,
     /// <summary>
     /// vpgatherdd xmm {k1}, vm32x
     /// </summary>
-    [Symbol("vpgatherdd xmm {k1}, vm32x","vpgatherdd xmm {k1}, vm32x")]
-    vpgatherdd_xmm_k1_vm32x = 2511,
+    [Symbol("vpgatherdd xmm, vm32x","vpgatherdd xmm {k1}, vm32x")]
+    vpgatherdd_xmm_vm32x = 2997,
+    /// <summary>
+    /// vpgatherdd xmm {k1}, vm32x
+    /// </summary>
+    [Symbol("vpgatherdd xmm_k1, vm32x","vpgatherdd xmm {k1}, vm32x")]
+    vpgatherdd_xmm_k1_vm32x = 2998,
     /// <summary>
     /// vpgatherdd xmm, vm32x, xmm
     /// </summary>
     [Symbol("vpgatherdd xmm, vm32x, xmm","vpgatherdd xmm, vm32x, xmm")]
-    vpgatherdd_xmm_vm32x_xmm = 2512,
+    vpgatherdd_xmm_vm32x_xmm = 2999,
     /// <summary>
     /// vpgatherdd ymm {k1}, vm32y
     /// </summary>
-    [Symbol("vpgatherdd ymm {k1}, vm32y","vpgatherdd ymm {k1}, vm32y")]
-    vpgatherdd_ymm_k1_vm32y = 2513,
+    [Symbol("vpgatherdd ymm, vm32y","vpgatherdd ymm {k1}, vm32y")]
+    vpgatherdd_ymm_vm32y = 3000,
+    /// <summary>
+    /// vpgatherdd ymm {k1}, vm32y
+    /// </summary>
+    [Symbol("vpgatherdd ymm_k1, vm32y","vpgatherdd ymm {k1}, vm32y")]
+    vpgatherdd_ymm_k1_vm32y = 3001,
     /// <summary>
     /// vpgatherdd ymm, vm32y, ymm
     /// </summary>
     [Symbol("vpgatherdd ymm, vm32y, ymm","vpgatherdd ymm, vm32y, ymm")]
-    vpgatherdd_ymm_vm32y_ymm = 2514,
+    vpgatherdd_ymm_vm32y_ymm = 3002,
     /// <summary>
     /// vpgatherdd zmm {k1}, vm32z
     /// </summary>
-    [Symbol("vpgatherdd zmm {k1}, vm32z","vpgatherdd zmm {k1}, vm32z")]
-    vpgatherdd_zmm_k1_vm32z = 2515,
+    [Symbol("vpgatherdd zmm, vm32z","vpgatherdd zmm {k1}, vm32z")]
+    vpgatherdd_zmm_vm32z = 3003,
+    /// <summary>
+    /// vpgatherdd zmm {k1}, vm32z
+    /// </summary>
+    [Symbol("vpgatherdd zmm_k1, vm32z","vpgatherdd zmm {k1}, vm32z")]
+    vpgatherdd_zmm_k1_vm32z = 3004,
     /// <summary>
     /// vpgatherdq xmm {k1}, vm32x
     /// </summary>
-    [Symbol("vpgatherdq xmm {k1}, vm32x","vpgatherdq xmm {k1}, vm32x")]
-    vpgatherdq_xmm_k1_vm32x = 2516,
+    [Symbol("vpgatherdq xmm, vm32x","vpgatherdq xmm {k1}, vm32x")]
+    vpgatherdq_xmm_vm32x = 3005,
+    /// <summary>
+    /// vpgatherdq xmm {k1}, vm32x
+    /// </summary>
+    [Symbol("vpgatherdq xmm_k1, vm32x","vpgatherdq xmm {k1}, vm32x")]
+    vpgatherdq_xmm_k1_vm32x = 3006,
     /// <summary>
     /// vpgatherdq xmm, vm32x, xmm
     /// </summary>
     [Symbol("vpgatherdq xmm, vm32x, xmm","vpgatherdq xmm, vm32x, xmm")]
-    vpgatherdq_xmm_vm32x_xmm = 2517,
+    vpgatherdq_xmm_vm32x_xmm = 3007,
     /// <summary>
     /// vpgatherdq ymm {k1}, vm32x
     /// </summary>
-    [Symbol("vpgatherdq ymm {k1}, vm32x","vpgatherdq ymm {k1}, vm32x")]
-    vpgatherdq_ymm_k1_vm32x = 2518,
+    [Symbol("vpgatherdq ymm, vm32x","vpgatherdq ymm {k1}, vm32x")]
+    vpgatherdq_ymm_vm32x = 3008,
+    /// <summary>
+    /// vpgatherdq ymm {k1}, vm32x
+    /// </summary>
+    [Symbol("vpgatherdq ymm_k1, vm32x","vpgatherdq ymm {k1}, vm32x")]
+    vpgatherdq_ymm_k1_vm32x = 3009,
     /// <summary>
     /// vpgatherdq ymm, vm32x, ymm
     /// </summary>
     [Symbol("vpgatherdq ymm, vm32x, ymm","vpgatherdq ymm, vm32x, ymm")]
-    vpgatherdq_ymm_vm32x_ymm = 2519,
+    vpgatherdq_ymm_vm32x_ymm = 3010,
     /// <summary>
     /// vpgatherdq zmm {k1}, vm32y
     /// </summary>
-    [Symbol("vpgatherdq zmm {k1}, vm32y","vpgatherdq zmm {k1}, vm32y")]
-    vpgatherdq_zmm_k1_vm32y = 2520,
+    [Symbol("vpgatherdq zmm, vm32y","vpgatherdq zmm {k1}, vm32y")]
+    vpgatherdq_zmm_vm32y = 3011,
+    /// <summary>
+    /// vpgatherdq zmm {k1}, vm32y
+    /// </summary>
+    [Symbol("vpgatherdq zmm_k1, vm32y","vpgatherdq zmm {k1}, vm32y")]
+    vpgatherdq_zmm_k1_vm32y = 3012,
     /// <summary>
     /// vpgatherqd xmm {k1}, vm64x
     /// </summary>
-    [Symbol("vpgatherqd xmm {k1}, vm64x","vpgatherqd xmm {k1}, vm64x")]
-    vpgatherqd_xmm_k1_vm64x = 2521,
+    [Symbol("vpgatherqd xmm, vm64x","vpgatherqd xmm {k1}, vm64x")]
+    vpgatherqd_xmm_vm64x = 3013,
+    /// <summary>
+    /// vpgatherqd xmm {k1}, vm64x
+    /// </summary>
+    [Symbol("vpgatherqd xmm_k1, vm64x","vpgatherqd xmm {k1}, vm64x")]
+    vpgatherqd_xmm_k1_vm64x = 3014,
     /// <summary>
     /// vpgatherqd xmm {k1}, vm64y
     /// </summary>
-    [Symbol("vpgatherqd xmm {k1}, vm64y","vpgatherqd xmm {k1}, vm64y")]
-    vpgatherqd_xmm_k1_vm64y = 2522,
+    [Symbol("vpgatherqd xmm, vm64y","vpgatherqd xmm {k1}, vm64y")]
+    vpgatherqd_xmm_vm64y = 3015,
+    /// <summary>
+    /// vpgatherqd xmm {k1}, vm64y
+    /// </summary>
+    [Symbol("vpgatherqd xmm_k1, vm64y","vpgatherqd xmm {k1}, vm64y")]
+    vpgatherqd_xmm_k1_vm64y = 3016,
     /// <summary>
     /// vpgatherqd xmm, vm64x, xmm
     /// </summary>
     [Symbol("vpgatherqd xmm, vm64x, xmm","vpgatherqd xmm, vm64x, xmm")]
-    vpgatherqd_xmm_vm64x_xmm = 2523,
+    vpgatherqd_xmm_vm64x_xmm = 3017,
     /// <summary>
     /// vpgatherqd xmm, vm64y, xmm
     /// </summary>
     [Symbol("vpgatherqd xmm, vm64y, xmm","vpgatherqd xmm, vm64y, xmm")]
-    vpgatherqd_xmm_vm64y_xmm = 2524,
+    vpgatherqd_xmm_vm64y_xmm = 3018,
     /// <summary>
     /// vpgatherqd ymm {k1}, vm64z
     /// </summary>
-    [Symbol("vpgatherqd ymm {k1}, vm64z","vpgatherqd ymm {k1}, vm64z")]
-    vpgatherqd_ymm_k1_vm64z = 2525,
+    [Symbol("vpgatherqd ymm, vm64z","vpgatherqd ymm {k1}, vm64z")]
+    vpgatherqd_ymm_vm64z = 3019,
+    /// <summary>
+    /// vpgatherqd ymm {k1}, vm64z
+    /// </summary>
+    [Symbol("vpgatherqd ymm_k1, vm64z","vpgatherqd ymm {k1}, vm64z")]
+    vpgatherqd_ymm_k1_vm64z = 3020,
     /// <summary>
     /// vpgatherqq xmm {k1}, vm64x
     /// </summary>
-    [Symbol("vpgatherqq xmm {k1}, vm64x","vpgatherqq xmm {k1}, vm64x")]
-    vpgatherqq_xmm_k1_vm64x = 2526,
+    [Symbol("vpgatherqq xmm, vm64x","vpgatherqq xmm {k1}, vm64x")]
+    vpgatherqq_xmm_vm64x = 3021,
+    /// <summary>
+    /// vpgatherqq xmm {k1}, vm64x
+    /// </summary>
+    [Symbol("vpgatherqq xmm_k1, vm64x","vpgatherqq xmm {k1}, vm64x")]
+    vpgatherqq_xmm_k1_vm64x = 3022,
     /// <summary>
     /// vpgatherqq xmm, vm64x, xmm
     /// </summary>
     [Symbol("vpgatherqq xmm, vm64x, xmm","vpgatherqq xmm, vm64x, xmm")]
-    vpgatherqq_xmm_vm64x_xmm = 2527,
+    vpgatherqq_xmm_vm64x_xmm = 3023,
     /// <summary>
     /// vpgatherqq ymm {k1}, vm64y
     /// </summary>
-    [Symbol("vpgatherqq ymm {k1}, vm64y","vpgatherqq ymm {k1}, vm64y")]
-    vpgatherqq_ymm_k1_vm64y = 2528,
+    [Symbol("vpgatherqq ymm, vm64y","vpgatherqq ymm {k1}, vm64y")]
+    vpgatherqq_ymm_vm64y = 3024,
+    /// <summary>
+    /// vpgatherqq ymm {k1}, vm64y
+    /// </summary>
+    [Symbol("vpgatherqq ymm_k1, vm64y","vpgatherqq ymm {k1}, vm64y")]
+    vpgatherqq_ymm_k1_vm64y = 3025,
     /// <summary>
     /// vpgatherqq ymm, vm64y, ymm
     /// </summary>
     [Symbol("vpgatherqq ymm, vm64y, ymm","vpgatherqq ymm, vm64y, ymm")]
-    vpgatherqq_ymm_vm64y_ymm = 2529,
+    vpgatherqq_ymm_vm64y_ymm = 3026,
     /// <summary>
     /// vpgatherqq zmm {k1}, vm64z
     /// </summary>
-    [Symbol("vpgatherqq zmm {k1}, vm64z","vpgatherqq zmm {k1}, vm64z")]
-    vpgatherqq_zmm_k1_vm64z = 2530,
+    [Symbol("vpgatherqq zmm, vm64z","vpgatherqq zmm {k1}, vm64z")]
+    vpgatherqq_zmm_vm64z = 3027,
+    /// <summary>
+    /// vpgatherqq zmm {k1}, vm64z
+    /// </summary>
+    [Symbol("vpgatherqq zmm_k1, vm64z","vpgatherqq zmm {k1}, vm64z")]
+    vpgatherqq_zmm_k1_vm64z = 3028,
     /// <summary>
     /// vphaddd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vphaddd xmm, xmm, xmm","vphaddd xmm, xmm, xmm/m128")]
-    vphaddd_xmm_xmm_xmm = 2531,
+    vphaddd_xmm_xmm_xmm = 3029,
     /// <summary>
     /// vphaddd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vphaddd xmm, xmm, m128","vphaddd xmm, xmm, xmm/m128")]
-    vphaddd_xmm_xmm_m128 = 2532,
+    vphaddd_xmm_xmm_m128 = 3030,
     /// <summary>
     /// vphaddd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vphaddd ymm, ymm, ymm","vphaddd ymm, ymm, ymm/m256")]
-    vphaddd_ymm_ymm_ymm = 2533,
+    vphaddd_ymm_ymm_ymm = 3031,
     /// <summary>
     /// vphaddd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vphaddd ymm, ymm, m256","vphaddd ymm, ymm, ymm/m256")]
-    vphaddd_ymm_ymm_m256 = 2534,
+    vphaddd_ymm_ymm_m256 = 3032,
     /// <summary>
     /// vphaddsw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vphaddsw xmm, xmm, xmm","vphaddsw xmm, xmm, xmm/m128")]
-    vphaddsw_xmm_xmm_xmm = 2535,
+    vphaddsw_xmm_xmm_xmm = 3033,
     /// <summary>
     /// vphaddsw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vphaddsw xmm, xmm, m128","vphaddsw xmm, xmm, xmm/m128")]
-    vphaddsw_xmm_xmm_m128 = 2536,
+    vphaddsw_xmm_xmm_m128 = 3034,
     /// <summary>
     /// vphaddsw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vphaddsw ymm, ymm, ymm","vphaddsw ymm, ymm, ymm/m256")]
-    vphaddsw_ymm_ymm_ymm = 2537,
+    vphaddsw_ymm_ymm_ymm = 3035,
     /// <summary>
     /// vphaddsw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vphaddsw ymm, ymm, m256","vphaddsw ymm, ymm, ymm/m256")]
-    vphaddsw_ymm_ymm_m256 = 2538,
+    vphaddsw_ymm_ymm_m256 = 3036,
     /// <summary>
     /// vphaddw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vphaddw xmm, xmm, xmm","vphaddw xmm, xmm, xmm/m128")]
-    vphaddw_xmm_xmm_xmm = 2539,
+    vphaddw_xmm_xmm_xmm = 3037,
     /// <summary>
     /// vphaddw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vphaddw xmm, xmm, m128","vphaddw xmm, xmm, xmm/m128")]
-    vphaddw_xmm_xmm_m128 = 2540,
+    vphaddw_xmm_xmm_m128 = 3038,
     /// <summary>
     /// vphaddw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vphaddw ymm, ymm, ymm","vphaddw ymm, ymm, ymm/m256")]
-    vphaddw_ymm_ymm_ymm = 2541,
+    vphaddw_ymm_ymm_ymm = 3039,
     /// <summary>
     /// vphaddw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vphaddw ymm, ymm, m256","vphaddw ymm, ymm, ymm/m256")]
-    vphaddw_ymm_ymm_m256 = 2542,
+    vphaddw_ymm_ymm_m256 = 3040,
     /// <summary>
     /// vpinsrb xmm, xmm, r32/m8, imm8
     /// </summary>
     [Symbol("vpinsrb xmm, xmm, r32, imm8","vpinsrb xmm, xmm, r32/m8, imm8")]
-    vpinsrb_xmm_xmm_r32_imm8 = 2543,
+    vpinsrb_xmm_xmm_r32_imm8 = 3041,
     /// <summary>
     /// vpinsrb xmm, xmm, r32/m8, imm8
     /// </summary>
     [Symbol("vpinsrb xmm, xmm, m8, imm8","vpinsrb xmm, xmm, r32/m8, imm8")]
-    vpinsrb_xmm_xmm_m8_imm8 = 2544,
+    vpinsrb_xmm_xmm_m8_imm8 = 3042,
     /// <summary>
     /// vpinsrd xmm, xmm, r/m32, imm8
     /// </summary>
     [Symbol("vpinsrd xmm, xmm, r32, imm8","vpinsrd xmm, xmm, r/m32, imm8")]
-    vpinsrd_xmm_xmm_r32_imm8 = 2545,
+    vpinsrd_xmm_xmm_r32_imm8 = 3043,
     /// <summary>
     /// vpinsrd xmm, xmm, r/m32, imm8
     /// </summary>
     [Symbol("vpinsrd xmm, xmm, m32, imm8","vpinsrd xmm, xmm, r/m32, imm8")]
-    vpinsrd_xmm_xmm_m32_imm8 = 2546,
+    vpinsrd_xmm_xmm_m32_imm8 = 3044,
     /// <summary>
     /// vpinsrq xmm, xmm, r/m64, imm8
     /// </summary>
     [Symbol("vpinsrq xmm, xmm, r64, imm8","vpinsrq xmm, xmm, r/m64, imm8")]
-    vpinsrq_xmm_xmm_r64_imm8 = 2547,
+    vpinsrq_xmm_xmm_r64_imm8 = 3045,
     /// <summary>
     /// vpinsrq xmm, xmm, r/m64, imm8
     /// </summary>
     [Symbol("vpinsrq xmm, xmm, m64, imm8","vpinsrq xmm, xmm, r/m64, imm8")]
-    vpinsrq_xmm_xmm_m64_imm8 = 2548,
+    vpinsrq_xmm_xmm_m64_imm8 = 3046,
     /// <summary>
     /// vpinsrw xmm, xmm, r32/m16, imm8
     /// </summary>
     [Symbol("vpinsrw xmm, xmm, r32, imm8","vpinsrw xmm, xmm, r32/m16, imm8")]
-    vpinsrw_xmm_xmm_r32_imm8 = 2549,
+    vpinsrw_xmm_xmm_r32_imm8 = 3047,
     /// <summary>
     /// vpinsrw xmm, xmm, r32/m16, imm8
     /// </summary>
     [Symbol("vpinsrw xmm, xmm, m16, imm8","vpinsrw xmm, xmm, r32/m16, imm8")]
-    vpinsrw_xmm_xmm_m16_imm8 = 2550,
+    vpinsrw_xmm_xmm_m16_imm8 = 3048,
     /// <summary>
     /// vplzcntd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vplzcntd xmm {k1}{z}, xmm","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vplzcntd_xmm_k1z_xmm = 2551,
+    [Symbol("vplzcntd xmm, xmm","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vplzcntd_xmm_xmm = 3049,
     /// <summary>
     /// vplzcntd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vplzcntd xmm {k1}{z}, m128","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vplzcntd_xmm_k1z_m128 = 2552,
+    [Symbol("vplzcntd xmm, m128","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vplzcntd_xmm_m128 = 3050,
     /// <summary>
     /// vplzcntd xmm {k1}{z}, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vplzcntd xmm {k1}{z}, m32bcst","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
-    vplzcntd_xmm_k1z_m32bcst = 2553,
+    [Symbol("vplzcntd xmm, m32bcst","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vplzcntd_xmm_m32bcst = 3051,
+    /// <summary>
+    /// vplzcntd xmm {k1}{z}, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd xmm_k1z, xmm","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vplzcntd_xmm_k1z_xmm = 3052,
+    /// <summary>
+    /// vplzcntd xmm {k1}{z}, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd xmm_k1z, m128","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vplzcntd_xmm_k1z_m128 = 3053,
+    /// <summary>
+    /// vplzcntd xmm {k1}{z}, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd xmm_k1z, m32bcst","vplzcntd xmm {k1}{z}, xmm/m128/m32bcst")]
+    vplzcntd_xmm_k1z_m32bcst = 3054,
     /// <summary>
     /// vplzcntd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vplzcntd ymm {k1}{z}, ymm","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vplzcntd_ymm_k1z_ymm = 2554,
+    [Symbol("vplzcntd ymm, ymm","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vplzcntd_ymm_ymm = 3055,
     /// <summary>
     /// vplzcntd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vplzcntd ymm {k1}{z}, m256","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vplzcntd_ymm_k1z_m256 = 2555,
+    [Symbol("vplzcntd ymm, m256","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vplzcntd_ymm_m256 = 3056,
     /// <summary>
     /// vplzcntd ymm {k1}{z}, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vplzcntd ymm {k1}{z}, m32bcst","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
-    vplzcntd_ymm_k1z_m32bcst = 2556,
+    [Symbol("vplzcntd ymm, m32bcst","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vplzcntd_ymm_m32bcst = 3057,
+    /// <summary>
+    /// vplzcntd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd ymm_k1z, ymm","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vplzcntd_ymm_k1z_ymm = 3058,
+    /// <summary>
+    /// vplzcntd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd ymm_k1z, m256","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vplzcntd_ymm_k1z_m256 = 3059,
+    /// <summary>
+    /// vplzcntd ymm {k1}{z}, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd ymm_k1z, m32bcst","vplzcntd ymm {k1}{z}, ymm/m256/m32bcst")]
+    vplzcntd_ymm_k1z_m32bcst = 3060,
     /// <summary>
     /// vplzcntd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vplzcntd zmm {k1}{z}, zmm","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vplzcntd_zmm_k1z_zmm = 2557,
+    [Symbol("vplzcntd zmm, zmm","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vplzcntd_zmm_zmm = 3061,
     /// <summary>
     /// vplzcntd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vplzcntd zmm {k1}{z}, m512","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vplzcntd_zmm_k1z_m512 = 2558,
+    [Symbol("vplzcntd zmm, m512","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vplzcntd_zmm_m512 = 3062,
     /// <summary>
     /// vplzcntd zmm {k1}{z}, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vplzcntd zmm {k1}{z}, m32bcst","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
-    vplzcntd_zmm_k1z_m32bcst = 2559,
+    [Symbol("vplzcntd zmm, m32bcst","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vplzcntd_zmm_m32bcst = 3063,
+    /// <summary>
+    /// vplzcntd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd zmm_k1z, zmm","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vplzcntd_zmm_k1z_zmm = 3064,
+    /// <summary>
+    /// vplzcntd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd zmm_k1z, m512","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vplzcntd_zmm_k1z_m512 = 3065,
+    /// <summary>
+    /// vplzcntd zmm {k1}{z}, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vplzcntd zmm_k1z, m32bcst","vplzcntd zmm {k1}{z}, zmm/m512/m32bcst")]
+    vplzcntd_zmm_k1z_m32bcst = 3066,
     /// <summary>
     /// vplzcntq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vplzcntq xmm {k1}{z}, xmm","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vplzcntq_xmm_k1z_xmm = 2560,
+    [Symbol("vplzcntq xmm, xmm","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vplzcntq_xmm_xmm = 3067,
     /// <summary>
     /// vplzcntq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vplzcntq xmm {k1}{z}, m128","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vplzcntq_xmm_k1z_m128 = 2561,
+    [Symbol("vplzcntq xmm, m128","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vplzcntq_xmm_m128 = 3068,
     /// <summary>
     /// vplzcntq xmm {k1}{z}, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vplzcntq xmm {k1}{z}, m64bcst","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
-    vplzcntq_xmm_k1z_m64bcst = 2562,
+    [Symbol("vplzcntq xmm, m64bcst","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vplzcntq_xmm_m64bcst = 3069,
+    /// <summary>
+    /// vplzcntq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq xmm_k1z, xmm","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vplzcntq_xmm_k1z_xmm = 3070,
+    /// <summary>
+    /// vplzcntq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq xmm_k1z, m128","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vplzcntq_xmm_k1z_m128 = 3071,
+    /// <summary>
+    /// vplzcntq xmm {k1}{z}, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq xmm_k1z, m64bcst","vplzcntq xmm {k1}{z}, xmm/m128/m64bcst")]
+    vplzcntq_xmm_k1z_m64bcst = 3072,
     /// <summary>
     /// vplzcntq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vplzcntq ymm {k1}{z}, ymm","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vplzcntq_ymm_k1z_ymm = 2563,
+    [Symbol("vplzcntq ymm, ymm","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vplzcntq_ymm_ymm = 3073,
     /// <summary>
     /// vplzcntq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vplzcntq ymm {k1}{z}, m256","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vplzcntq_ymm_k1z_m256 = 2564,
+    [Symbol("vplzcntq ymm, m256","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vplzcntq_ymm_m256 = 3074,
     /// <summary>
     /// vplzcntq ymm {k1}{z}, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vplzcntq ymm {k1}{z}, m64bcst","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
-    vplzcntq_ymm_k1z_m64bcst = 2565,
+    [Symbol("vplzcntq ymm, m64bcst","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vplzcntq_ymm_m64bcst = 3075,
+    /// <summary>
+    /// vplzcntq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq ymm_k1z, ymm","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vplzcntq_ymm_k1z_ymm = 3076,
+    /// <summary>
+    /// vplzcntq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq ymm_k1z, m256","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vplzcntq_ymm_k1z_m256 = 3077,
+    /// <summary>
+    /// vplzcntq ymm {k1}{z}, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq ymm_k1z, m64bcst","vplzcntq ymm {k1}{z}, ymm/m256/m64bcst")]
+    vplzcntq_ymm_k1z_m64bcst = 3078,
     /// <summary>
     /// vplzcntq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vplzcntq zmm {k1}{z}, zmm","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vplzcntq_zmm_k1z_zmm = 2566,
+    [Symbol("vplzcntq zmm, zmm","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vplzcntq_zmm_zmm = 3079,
     /// <summary>
     /// vplzcntq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vplzcntq zmm {k1}{z}, m512","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vplzcntq_zmm_k1z_m512 = 2567,
+    [Symbol("vplzcntq zmm, m512","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vplzcntq_zmm_m512 = 3080,
     /// <summary>
     /// vplzcntq zmm {k1}{z}, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vplzcntq zmm {k1}{z}, m64bcst","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
-    vplzcntq_zmm_k1z_m64bcst = 2568,
+    [Symbol("vplzcntq zmm, m64bcst","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vplzcntq_zmm_m64bcst = 3081,
+    /// <summary>
+    /// vplzcntq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq zmm_k1z, zmm","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vplzcntq_zmm_k1z_zmm = 3082,
+    /// <summary>
+    /// vplzcntq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq zmm_k1z, m512","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vplzcntq_zmm_k1z_m512 = 3083,
+    /// <summary>
+    /// vplzcntq zmm {k1}{z}, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vplzcntq zmm_k1z, m64bcst","vplzcntq zmm {k1}{z}, zmm/m512/m64bcst")]
+    vplzcntq_zmm_k1z_m64bcst = 3084,
     /// <summary>
     /// vpmaskmovd m128, xmm, xmm
     /// </summary>
     [Symbol("vpmaskmovd m128, xmm, xmm","vpmaskmovd m128, xmm, xmm")]
-    vpmaskmovd_m128_xmm_xmm = 2569,
+    vpmaskmovd_m128_xmm_xmm = 3085,
     /// <summary>
     /// vpmaskmovd m256, ymm, ymm
     /// </summary>
     [Symbol("vpmaskmovd m256, ymm, ymm","vpmaskmovd m256, ymm, ymm")]
-    vpmaskmovd_m256_ymm_ymm = 2570,
+    vpmaskmovd_m256_ymm_ymm = 3086,
     /// <summary>
     /// vpmaskmovd xmm, xmm, m128
     /// </summary>
     [Symbol("vpmaskmovd xmm, xmm, m128","vpmaskmovd xmm, xmm, m128")]
-    vpmaskmovd_xmm_xmm_m128 = 2571,
+    vpmaskmovd_xmm_xmm_m128 = 3087,
     /// <summary>
     /// vpmaskmovd ymm, ymm, m256
     /// </summary>
     [Symbol("vpmaskmovd ymm, ymm, m256","vpmaskmovd ymm, ymm, m256")]
-    vpmaskmovd_ymm_ymm_m256 = 2572,
+    vpmaskmovd_ymm_ymm_m256 = 3088,
     /// <summary>
     /// vpmaskmovq m128, xmm, xmm
     /// </summary>
     [Symbol("vpmaskmovq m128, xmm, xmm","vpmaskmovq m128, xmm, xmm")]
-    vpmaskmovq_m128_xmm_xmm = 2573,
+    vpmaskmovq_m128_xmm_xmm = 3089,
     /// <summary>
     /// vpmaskmovq m256, ymm, ymm
     /// </summary>
     [Symbol("vpmaskmovq m256, ymm, ymm","vpmaskmovq m256, ymm, ymm")]
-    vpmaskmovq_m256_ymm_ymm = 2574,
+    vpmaskmovq_m256_ymm_ymm = 3090,
     /// <summary>
     /// vpmaskmovq xmm, xmm, m128
     /// </summary>
     [Symbol("vpmaskmovq xmm, xmm, m128","vpmaskmovq xmm, xmm, m128")]
-    vpmaskmovq_xmm_xmm_m128 = 2575,
+    vpmaskmovq_xmm_xmm_m128 = 3091,
     /// <summary>
     /// vpmaskmovq ymm, ymm, m256
     /// </summary>
     [Symbol("vpmaskmovq ymm, ymm, m256","vpmaskmovq ymm, ymm, m256")]
-    vpmaskmovq_ymm_ymm_m256 = 2576,
+    vpmaskmovq_ymm_ymm_m256 = 3092,
     /// <summary>
     /// vpmaxsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsb xmm {k1}{z}, xmm, xmm","vpmaxsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxsb_xmm_k1z_xmm_xmm = 2577,
+    [Symbol("vpmaxsb xmm, xmm, xmm","vpmaxsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsb_xmm_xmm_xmm = 3093,
     /// <summary>
     /// vpmaxsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsb xmm {k1}{z}, xmm, m128","vpmaxsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxsb_xmm_k1z_xmm_m128 = 2578,
+    [Symbol("vpmaxsb xmm, xmm, m128","vpmaxsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsb_xmm_xmm_m128 = 3094,
     /// <summary>
-    /// vpmaxsb xmm, xmm, xmm/m128
+    /// vpmaxsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsb xmm, xmm, xmm","vpmaxsb xmm, xmm, xmm/m128")]
-    vpmaxsb_xmm_xmm_xmm = 2579,
+    [Symbol("vpmaxsb xmm_k1z, xmm, xmm","vpmaxsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsb_xmm_k1z_xmm_xmm = 3095,
     /// <summary>
-    /// vpmaxsb xmm, xmm, xmm/m128
+    /// vpmaxsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsb xmm, xmm, m128","vpmaxsb xmm, xmm, xmm/m128")]
-    vpmaxsb_xmm_xmm_m128 = 2580,
-    /// <summary>
-    /// vpmaxsb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpmaxsb ymm {k1}{z}, ymm, ymm","vpmaxsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxsb_ymm_k1z_ymm_ymm = 2581,
+    [Symbol("vpmaxsb xmm_k1z, xmm, m128","vpmaxsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsb_xmm_k1z_xmm_m128 = 3096,
     /// <summary>
     /// vpmaxsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxsb ymm {k1}{z}, ymm, m256","vpmaxsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxsb_ymm_k1z_ymm_m256 = 2582,
+    [Symbol("vpmaxsb ymm, ymm, ymm","vpmaxsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsb_ymm_ymm_ymm = 3097,
     /// <summary>
-    /// vpmaxsb ymm, ymm, ymm/m256
+    /// vpmaxsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxsb ymm, ymm, ymm","vpmaxsb ymm, ymm, ymm/m256")]
-    vpmaxsb_ymm_ymm_ymm = 2583,
+    [Symbol("vpmaxsb ymm, ymm, m256","vpmaxsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsb_ymm_ymm_m256 = 3098,
     /// <summary>
-    /// vpmaxsb ymm, ymm, ymm/m256
+    /// vpmaxsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxsb ymm, ymm, m256","vpmaxsb ymm, ymm, ymm/m256")]
-    vpmaxsb_ymm_ymm_m256 = 2584,
+    [Symbol("vpmaxsb ymm_k1z, ymm, ymm","vpmaxsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsb_ymm_k1z_ymm_ymm = 3099,
+    /// <summary>
+    /// vpmaxsb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpmaxsb ymm_k1z, ymm, m256","vpmaxsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsb_ymm_k1z_ymm_m256 = 3100,
     /// <summary>
     /// vpmaxsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxsb zmm {k1}{z}, zmm, zmm","vpmaxsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxsb_zmm_k1z_zmm_zmm = 2585,
+    [Symbol("vpmaxsb zmm, zmm, zmm","vpmaxsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsb_zmm_zmm_zmm = 3101,
     /// <summary>
     /// vpmaxsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxsb zmm {k1}{z}, zmm, m512","vpmaxsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxsb_zmm_k1z_zmm_m512 = 2586,
+    [Symbol("vpmaxsb zmm, zmm, m512","vpmaxsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsb_zmm_zmm_m512 = 3102,
+    /// <summary>
+    /// vpmaxsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxsb zmm_k1z, zmm, zmm","vpmaxsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsb_zmm_k1z_zmm_zmm = 3103,
+    /// <summary>
+    /// vpmaxsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxsb zmm_k1z, zmm, m512","vpmaxsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsb_zmm_k1z_zmm_m512 = 3104,
     /// <summary>
     /// vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd xmm {k1}{z}, xmm, xmm","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpmaxsd_xmm_k1z_xmm_xmm = 2587,
+    [Symbol("vpmaxsd xmm, xmm, xmm","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpmaxsd_xmm_xmm_xmm = 3105,
     /// <summary>
     /// vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd xmm {k1}{z}, xmm, m128","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpmaxsd_xmm_k1z_xmm_m128 = 2588,
+    [Symbol("vpmaxsd xmm, xmm, m128","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpmaxsd_xmm_xmm_m128 = 3106,
     /// <summary>
     /// vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd xmm {k1}{z}, xmm, m32bcst","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpmaxsd_xmm_k1z_xmm_m32bcst = 2589,
+    [Symbol("vpmaxsd xmm, xmm, m32bcst","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpmaxsd_xmm_xmm_m32bcst = 3107,
     /// <summary>
-    /// vpmaxsd xmm, xmm, xmm/m128
+    /// vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd xmm, xmm, xmm","vpmaxsd xmm, xmm, xmm/m128")]
-    vpmaxsd_xmm_xmm_xmm = 2590,
+    [Symbol("vpmaxsd xmm_k1z, xmm, xmm","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpmaxsd_xmm_k1z_xmm_xmm = 3108,
     /// <summary>
-    /// vpmaxsd xmm, xmm, xmm/m128
+    /// vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd xmm, xmm, m128","vpmaxsd xmm, xmm, xmm/m128")]
-    vpmaxsd_xmm_xmm_m128 = 2591,
+    [Symbol("vpmaxsd xmm_k1z, xmm, m128","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpmaxsd_xmm_k1z_xmm_m128 = 3109,
     /// <summary>
-    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd ymm {k1}{z}, ymm, ymm","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpmaxsd_ymm_k1z_ymm_ymm = 2592,
-    /// <summary>
-    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpmaxsd ymm {k1}{z}, ymm, m256","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpmaxsd_ymm_k1z_ymm_m256 = 2593,
+    [Symbol("vpmaxsd xmm_k1z, xmm, m32bcst","vpmaxsd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpmaxsd_xmm_k1z_xmm_m32bcst = 3110,
     /// <summary>
     /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd ymm {k1}{z}, ymm, m32bcst","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpmaxsd_ymm_k1z_ymm_m32bcst = 2594,
+    [Symbol("vpmaxsd ymm, ymm, ymm","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpmaxsd_ymm_ymm_ymm = 3111,
     /// <summary>
-    /// vpmaxsd ymm, ymm, ymm/m256
+    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd ymm, ymm, ymm","vpmaxsd ymm, ymm, ymm/m256")]
-    vpmaxsd_ymm_ymm_ymm = 2595,
+    [Symbol("vpmaxsd ymm, ymm, m256","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpmaxsd_ymm_ymm_m256 = 3112,
     /// <summary>
-    /// vpmaxsd ymm, ymm, ymm/m256
+    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd ymm, ymm, m256","vpmaxsd ymm, ymm, ymm/m256")]
-    vpmaxsd_ymm_ymm_m256 = 2596,
+    [Symbol("vpmaxsd ymm, ymm, m32bcst","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpmaxsd_ymm_ymm_m32bcst = 3113,
+    /// <summary>
+    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpmaxsd ymm_k1z, ymm, ymm","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpmaxsd_ymm_k1z_ymm_ymm = 3114,
+    /// <summary>
+    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpmaxsd ymm_k1z, ymm, m256","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpmaxsd_ymm_k1z_ymm_m256 = 3115,
+    /// <summary>
+    /// vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpmaxsd ymm_k1z, ymm, m32bcst","vpmaxsd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpmaxsd_ymm_k1z_ymm_m32bcst = 3116,
     /// <summary>
     /// vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd zmm {k1}{z}, zmm, zmm","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpmaxsd_zmm_k1z_zmm_zmm = 2597,
+    [Symbol("vpmaxsd zmm, zmm, zmm","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpmaxsd_zmm_zmm_zmm = 3117,
     /// <summary>
     /// vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd zmm {k1}{z}, zmm, m512","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpmaxsd_zmm_k1z_zmm_m512 = 2598,
+    [Symbol("vpmaxsd zmm, zmm, m512","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpmaxsd_zmm_zmm_m512 = 3118,
     /// <summary>
     /// vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpmaxsd zmm {k1}{z}, zmm, m32bcst","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpmaxsd_zmm_k1z_zmm_m32bcst = 2599,
+    [Symbol("vpmaxsd zmm, zmm, m32bcst","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpmaxsd_zmm_zmm_m32bcst = 3119,
+    /// <summary>
+    /// vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpmaxsd zmm_k1z, zmm, zmm","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpmaxsd_zmm_k1z_zmm_zmm = 3120,
+    /// <summary>
+    /// vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpmaxsd zmm_k1z, zmm, m512","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpmaxsd_zmm_k1z_zmm_m512 = 3121,
+    /// <summary>
+    /// vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpmaxsd zmm_k1z, zmm, m32bcst","vpmaxsd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpmaxsd_zmm_k1z_zmm_m32bcst = 3122,
     /// <summary>
     /// vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq xmm {k1}{z}, xmm, xmm","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpmaxsq_xmm_k1z_xmm_xmm = 2600,
+    [Symbol("vpmaxsq xmm, xmm, xmm","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpmaxsq_xmm_xmm_xmm = 3123,
     /// <summary>
     /// vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq xmm {k1}{z}, xmm, m128","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpmaxsq_xmm_k1z_xmm_m128 = 2601,
+    [Symbol("vpmaxsq xmm, xmm, m128","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpmaxsq_xmm_xmm_m128 = 3124,
     /// <summary>
     /// vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq xmm {k1}{z}, xmm, m64bcst","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpmaxsq_xmm_k1z_xmm_m64bcst = 2602,
+    [Symbol("vpmaxsq xmm, xmm, m64bcst","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpmaxsq_xmm_xmm_m64bcst = 3125,
+    /// <summary>
+    /// vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq xmm_k1z, xmm, xmm","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpmaxsq_xmm_k1z_xmm_xmm = 3126,
+    /// <summary>
+    /// vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq xmm_k1z, xmm, m128","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpmaxsq_xmm_k1z_xmm_m128 = 3127,
+    /// <summary>
+    /// vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq xmm_k1z, xmm, m64bcst","vpmaxsq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpmaxsq_xmm_k1z_xmm_m64bcst = 3128,
     /// <summary>
     /// vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq ymm {k1}{z}, ymm, ymm","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpmaxsq_ymm_k1z_ymm_ymm = 2603,
+    [Symbol("vpmaxsq ymm, ymm, ymm","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpmaxsq_ymm_ymm_ymm = 3129,
     /// <summary>
     /// vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq ymm {k1}{z}, ymm, m256","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpmaxsq_ymm_k1z_ymm_m256 = 2604,
+    [Symbol("vpmaxsq ymm, ymm, m256","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpmaxsq_ymm_ymm_m256 = 3130,
     /// <summary>
     /// vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq ymm {k1}{z}, ymm, m64bcst","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpmaxsq_ymm_k1z_ymm_m64bcst = 2605,
+    [Symbol("vpmaxsq ymm, ymm, m64bcst","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpmaxsq_ymm_ymm_m64bcst = 3131,
+    /// <summary>
+    /// vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq ymm_k1z, ymm, ymm","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpmaxsq_ymm_k1z_ymm_ymm = 3132,
+    /// <summary>
+    /// vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq ymm_k1z, ymm, m256","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpmaxsq_ymm_k1z_ymm_m256 = 3133,
+    /// <summary>
+    /// vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq ymm_k1z, ymm, m64bcst","vpmaxsq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpmaxsq_ymm_k1z_ymm_m64bcst = 3134,
     /// <summary>
     /// vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq zmm {k1}{z}, zmm, zmm","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpmaxsq_zmm_k1z_zmm_zmm = 2606,
+    [Symbol("vpmaxsq zmm, zmm, zmm","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpmaxsq_zmm_zmm_zmm = 3135,
     /// <summary>
     /// vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq zmm {k1}{z}, zmm, m512","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpmaxsq_zmm_k1z_zmm_m512 = 2607,
+    [Symbol("vpmaxsq zmm, zmm, m512","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpmaxsq_zmm_zmm_m512 = 3136,
     /// <summary>
     /// vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpmaxsq zmm {k1}{z}, zmm, m64bcst","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpmaxsq_zmm_k1z_zmm_m64bcst = 2608,
+    [Symbol("vpmaxsq zmm, zmm, m64bcst","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpmaxsq_zmm_zmm_m64bcst = 3137,
+    /// <summary>
+    /// vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq zmm_k1z, zmm, zmm","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpmaxsq_zmm_k1z_zmm_zmm = 3138,
+    /// <summary>
+    /// vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq zmm_k1z, zmm, m512","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpmaxsq_zmm_k1z_zmm_m512 = 3139,
+    /// <summary>
+    /// vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpmaxsq zmm_k1z, zmm, m64bcst","vpmaxsq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpmaxsq_zmm_k1z_zmm_m64bcst = 3140,
     /// <summary>
     /// vpmaxsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsw xmm {k1}{z}, xmm, xmm","vpmaxsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxsw_xmm_k1z_xmm_xmm = 2609,
+    [Symbol("vpmaxsw xmm, xmm, xmm","vpmaxsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsw_xmm_xmm_xmm = 3141,
     /// <summary>
     /// vpmaxsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsw xmm {k1}{z}, xmm, m128","vpmaxsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxsw_xmm_k1z_xmm_m128 = 2610,
+    [Symbol("vpmaxsw xmm, xmm, m128","vpmaxsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsw_xmm_xmm_m128 = 3142,
     /// <summary>
-    /// vpmaxsw xmm, xmm, xmm/m128
+    /// vpmaxsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsw xmm, xmm, xmm","vpmaxsw xmm, xmm, xmm/m128")]
-    vpmaxsw_xmm_xmm_xmm = 2611,
+    [Symbol("vpmaxsw xmm_k1z, xmm, xmm","vpmaxsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsw_xmm_k1z_xmm_xmm = 3143,
     /// <summary>
-    /// vpmaxsw xmm, xmm, xmm/m128
+    /// vpmaxsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxsw xmm, xmm, m128","vpmaxsw xmm, xmm, xmm/m128")]
-    vpmaxsw_xmm_xmm_m128 = 2612,
-    /// <summary>
-    /// vpmaxsw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpmaxsw ymm {k1}{z}, ymm, ymm","vpmaxsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxsw_ymm_k1z_ymm_ymm = 2613,
+    [Symbol("vpmaxsw xmm_k1z, xmm, m128","vpmaxsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxsw_xmm_k1z_xmm_m128 = 3144,
     /// <summary>
     /// vpmaxsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxsw ymm {k1}{z}, ymm, m256","vpmaxsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxsw_ymm_k1z_ymm_m256 = 2614,
+    [Symbol("vpmaxsw ymm, ymm, ymm","vpmaxsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsw_ymm_ymm_ymm = 3145,
     /// <summary>
-    /// vpmaxsw ymm, ymm, ymm/m256
+    /// vpmaxsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxsw ymm, ymm, ymm","vpmaxsw ymm, ymm, ymm/m256")]
-    vpmaxsw_ymm_ymm_ymm = 2615,
+    [Symbol("vpmaxsw ymm, ymm, m256","vpmaxsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsw_ymm_ymm_m256 = 3146,
     /// <summary>
-    /// vpmaxsw ymm, ymm, ymm/m256
+    /// vpmaxsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxsw ymm, ymm, m256","vpmaxsw ymm, ymm, ymm/m256")]
-    vpmaxsw_ymm_ymm_m256 = 2616,
+    [Symbol("vpmaxsw ymm_k1z, ymm, ymm","vpmaxsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsw_ymm_k1z_ymm_ymm = 3147,
+    /// <summary>
+    /// vpmaxsw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpmaxsw ymm_k1z, ymm, m256","vpmaxsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxsw_ymm_k1z_ymm_m256 = 3148,
     /// <summary>
     /// vpmaxsw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxsw zmm {k1}{z}, zmm, zmm","vpmaxsw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxsw_zmm_k1z_zmm_zmm = 2617,
+    [Symbol("vpmaxsw zmm, zmm, zmm","vpmaxsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsw_zmm_zmm_zmm = 3149,
     /// <summary>
     /// vpmaxsw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxsw zmm {k1}{z}, zmm, m512","vpmaxsw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxsw_zmm_k1z_zmm_m512 = 2618,
+    [Symbol("vpmaxsw zmm, zmm, m512","vpmaxsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsw_zmm_zmm_m512 = 3150,
+    /// <summary>
+    /// vpmaxsw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxsw zmm_k1z, zmm, zmm","vpmaxsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsw_zmm_k1z_zmm_zmm = 3151,
+    /// <summary>
+    /// vpmaxsw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxsw zmm_k1z, zmm, m512","vpmaxsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxsw_zmm_k1z_zmm_m512 = 3152,
     /// <summary>
     /// vpmaxub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxub xmm {k1}{z}, xmm, xmm","vpmaxub xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxub_xmm_k1z_xmm_xmm = 2619,
+    [Symbol("vpmaxub xmm, xmm, xmm","vpmaxub xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxub_xmm_xmm_xmm = 3153,
     /// <summary>
     /// vpmaxub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxub xmm {k1}{z}, xmm, m128","vpmaxub xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxub_xmm_k1z_xmm_m128 = 2620,
+    [Symbol("vpmaxub xmm, xmm, m128","vpmaxub xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxub_xmm_xmm_m128 = 3154,
     /// <summary>
-    /// vpmaxub xmm, xmm, xmm/m128
+    /// vpmaxub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxub xmm, xmm, xmm","vpmaxub xmm, xmm, xmm/m128")]
-    vpmaxub_xmm_xmm_xmm = 2621,
+    [Symbol("vpmaxub xmm_k1z, xmm, xmm","vpmaxub xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxub_xmm_k1z_xmm_xmm = 3155,
     /// <summary>
-    /// vpmaxub xmm, xmm, xmm/m128
+    /// vpmaxub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxub xmm, xmm, m128","vpmaxub xmm, xmm, xmm/m128")]
-    vpmaxub_xmm_xmm_m128 = 2622,
-    /// <summary>
-    /// vpmaxub ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpmaxub ymm {k1}{z}, ymm, ymm","vpmaxub ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxub_ymm_k1z_ymm_ymm = 2623,
+    [Symbol("vpmaxub xmm_k1z, xmm, m128","vpmaxub xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxub_xmm_k1z_xmm_m128 = 3156,
     /// <summary>
     /// vpmaxub ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxub ymm {k1}{z}, ymm, m256","vpmaxub ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxub_ymm_k1z_ymm_m256 = 2624,
+    [Symbol("vpmaxub ymm, ymm, ymm","vpmaxub ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxub_ymm_ymm_ymm = 3157,
     /// <summary>
-    /// vpmaxub ymm, ymm, ymm/m256
+    /// vpmaxub ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxub ymm, ymm, ymm","vpmaxub ymm, ymm, ymm/m256")]
-    vpmaxub_ymm_ymm_ymm = 2625,
+    [Symbol("vpmaxub ymm, ymm, m256","vpmaxub ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxub_ymm_ymm_m256 = 3158,
     /// <summary>
-    /// vpmaxub ymm, ymm, ymm/m256
+    /// vpmaxub ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxub ymm, ymm, m256","vpmaxub ymm, ymm, ymm/m256")]
-    vpmaxub_ymm_ymm_m256 = 2626,
+    [Symbol("vpmaxub ymm_k1z, ymm, ymm","vpmaxub ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxub_ymm_k1z_ymm_ymm = 3159,
+    /// <summary>
+    /// vpmaxub ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpmaxub ymm_k1z, ymm, m256","vpmaxub ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxub_ymm_k1z_ymm_m256 = 3160,
     /// <summary>
     /// vpmaxub zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxub zmm {k1}{z}, zmm, zmm","vpmaxub zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxub_zmm_k1z_zmm_zmm = 2627,
+    [Symbol("vpmaxub zmm, zmm, zmm","vpmaxub zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxub_zmm_zmm_zmm = 3161,
     /// <summary>
     /// vpmaxub zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxub zmm {k1}{z}, zmm, m512","vpmaxub zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxub_zmm_k1z_zmm_m512 = 2628,
+    [Symbol("vpmaxub zmm, zmm, m512","vpmaxub zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxub_zmm_zmm_m512 = 3162,
+    /// <summary>
+    /// vpmaxub zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxub zmm_k1z, zmm, zmm","vpmaxub zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxub_zmm_k1z_zmm_zmm = 3163,
+    /// <summary>
+    /// vpmaxub zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxub zmm_k1z, zmm, m512","vpmaxub zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxub_zmm_k1z_zmm_m512 = 3164,
     /// <summary>
     /// vpmaxuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxuw xmm {k1}{z}, xmm, xmm","vpmaxuw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxuw_xmm_k1z_xmm_xmm = 2629,
+    [Symbol("vpmaxuw xmm, xmm, xmm","vpmaxuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxuw_xmm_xmm_xmm = 3165,
     /// <summary>
     /// vpmaxuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxuw xmm {k1}{z}, xmm, m128","vpmaxuw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmaxuw_xmm_k1z_xmm_m128 = 2630,
+    [Symbol("vpmaxuw xmm, xmm, m128","vpmaxuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxuw_xmm_xmm_m128 = 3166,
     /// <summary>
-    /// vpmaxuw xmm, xmm, xmm/m128
+    /// vpmaxuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxuw xmm, xmm, xmm","vpmaxuw xmm, xmm, xmm/m128")]
-    vpmaxuw_xmm_xmm_xmm = 2631,
+    [Symbol("vpmaxuw xmm_k1z, xmm, xmm","vpmaxuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxuw_xmm_k1z_xmm_xmm = 3167,
     /// <summary>
-    /// vpmaxuw xmm, xmm, xmm/m128
+    /// vpmaxuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmaxuw xmm, xmm, m128","vpmaxuw xmm, xmm, xmm/m128")]
-    vpmaxuw_xmm_xmm_m128 = 2632,
-    /// <summary>
-    /// vpmaxuw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpmaxuw ymm {k1}{z}, ymm, ymm","vpmaxuw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxuw_ymm_k1z_ymm_ymm = 2633,
+    [Symbol("vpmaxuw xmm_k1z, xmm, m128","vpmaxuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmaxuw_xmm_k1z_xmm_m128 = 3168,
     /// <summary>
     /// vpmaxuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxuw ymm {k1}{z}, ymm, m256","vpmaxuw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmaxuw_ymm_k1z_ymm_m256 = 2634,
+    [Symbol("vpmaxuw ymm, ymm, ymm","vpmaxuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxuw_ymm_ymm_ymm = 3169,
     /// <summary>
-    /// vpmaxuw ymm, ymm, ymm/m256
+    /// vpmaxuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxuw ymm, ymm, ymm","vpmaxuw ymm, ymm, ymm/m256")]
-    vpmaxuw_ymm_ymm_ymm = 2635,
+    [Symbol("vpmaxuw ymm, ymm, m256","vpmaxuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxuw_ymm_ymm_m256 = 3170,
     /// <summary>
-    /// vpmaxuw ymm, ymm, ymm/m256
+    /// vpmaxuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmaxuw ymm, ymm, m256","vpmaxuw ymm, ymm, ymm/m256")]
-    vpmaxuw_ymm_ymm_m256 = 2636,
+    [Symbol("vpmaxuw ymm_k1z, ymm, ymm","vpmaxuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxuw_ymm_k1z_ymm_ymm = 3171,
+    /// <summary>
+    /// vpmaxuw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpmaxuw ymm_k1z, ymm, m256","vpmaxuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmaxuw_ymm_k1z_ymm_m256 = 3172,
     /// <summary>
     /// vpmaxuw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxuw zmm {k1}{z}, zmm, zmm","vpmaxuw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxuw_zmm_k1z_zmm_zmm = 2637,
+    [Symbol("vpmaxuw zmm, zmm, zmm","vpmaxuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxuw_zmm_zmm_zmm = 3173,
     /// <summary>
     /// vpmaxuw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmaxuw zmm {k1}{z}, zmm, m512","vpmaxuw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmaxuw_zmm_k1z_zmm_m512 = 2638,
+    [Symbol("vpmaxuw zmm, zmm, m512","vpmaxuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxuw_zmm_zmm_m512 = 3174,
+    /// <summary>
+    /// vpmaxuw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxuw zmm_k1z, zmm, zmm","vpmaxuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxuw_zmm_k1z_zmm_zmm = 3175,
+    /// <summary>
+    /// vpmaxuw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmaxuw zmm_k1z, zmm, m512","vpmaxuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmaxuw_zmm_k1z_zmm_m512 = 3176,
     /// <summary>
     /// vpminsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsb xmm {k1}{z}, xmm, xmm","vpminsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpminsb_xmm_k1z_xmm_xmm = 2639,
+    [Symbol("vpminsb xmm, xmm, xmm","vpminsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsb_xmm_xmm_xmm = 3177,
     /// <summary>
     /// vpminsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsb xmm {k1}{z}, xmm, m128","vpminsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpminsb_xmm_k1z_xmm_m128 = 2640,
+    [Symbol("vpminsb xmm, xmm, m128","vpminsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsb_xmm_xmm_m128 = 3178,
     /// <summary>
-    /// vpminsb xmm, xmm, xmm/m128
+    /// vpminsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsb xmm, xmm, xmm","vpminsb xmm, xmm, xmm/m128")]
-    vpminsb_xmm_xmm_xmm = 2641,
+    [Symbol("vpminsb xmm_k1z, xmm, xmm","vpminsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsb_xmm_k1z_xmm_xmm = 3179,
     /// <summary>
-    /// vpminsb xmm, xmm, xmm/m128
+    /// vpminsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsb xmm, xmm, m128","vpminsb xmm, xmm, xmm/m128")]
-    vpminsb_xmm_xmm_m128 = 2642,
-    /// <summary>
-    /// vpminsb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpminsb ymm {k1}{z}, ymm, ymm","vpminsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpminsb_ymm_k1z_ymm_ymm = 2643,
+    [Symbol("vpminsb xmm_k1z, xmm, m128","vpminsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsb_xmm_k1z_xmm_m128 = 3180,
     /// <summary>
     /// vpminsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminsb ymm {k1}{z}, ymm, m256","vpminsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpminsb_ymm_k1z_ymm_m256 = 2644,
+    [Symbol("vpminsb ymm, ymm, ymm","vpminsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsb_ymm_ymm_ymm = 3181,
     /// <summary>
-    /// vpminsb ymm, ymm, ymm/m256
+    /// vpminsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminsb ymm, ymm, ymm","vpminsb ymm, ymm, ymm/m256")]
-    vpminsb_ymm_ymm_ymm = 2645,
+    [Symbol("vpminsb ymm, ymm, m256","vpminsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsb_ymm_ymm_m256 = 3182,
     /// <summary>
-    /// vpminsb ymm, ymm, ymm/m256
+    /// vpminsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminsb ymm, ymm, m256","vpminsb ymm, ymm, ymm/m256")]
-    vpminsb_ymm_ymm_m256 = 2646,
+    [Symbol("vpminsb ymm_k1z, ymm, ymm","vpminsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsb_ymm_k1z_ymm_ymm = 3183,
+    /// <summary>
+    /// vpminsb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpminsb ymm_k1z, ymm, m256","vpminsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsb_ymm_k1z_ymm_m256 = 3184,
     /// <summary>
     /// vpminsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminsb zmm {k1}{z}, zmm, zmm","vpminsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpminsb_zmm_k1z_zmm_zmm = 2647,
+    [Symbol("vpminsb zmm, zmm, zmm","vpminsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsb_zmm_zmm_zmm = 3185,
     /// <summary>
     /// vpminsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminsb zmm {k1}{z}, zmm, m512","vpminsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpminsb_zmm_k1z_zmm_m512 = 2648,
+    [Symbol("vpminsb zmm, zmm, m512","vpminsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsb_zmm_zmm_m512 = 3186,
+    /// <summary>
+    /// vpminsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminsb zmm_k1z, zmm, zmm","vpminsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsb_zmm_k1z_zmm_zmm = 3187,
+    /// <summary>
+    /// vpminsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminsb zmm_k1z, zmm, m512","vpminsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsb_zmm_k1z_zmm_m512 = 3188,
     /// <summary>
     /// vpminsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsw xmm {k1}{z}, xmm, xmm","vpminsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpminsw_xmm_k1z_xmm_xmm = 2649,
+    [Symbol("vpminsw xmm, xmm, xmm","vpminsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsw_xmm_xmm_xmm = 3189,
     /// <summary>
     /// vpminsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsw xmm {k1}{z}, xmm, m128","vpminsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpminsw_xmm_k1z_xmm_m128 = 2650,
+    [Symbol("vpminsw xmm, xmm, m128","vpminsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsw_xmm_xmm_m128 = 3190,
     /// <summary>
-    /// vpminsw xmm, xmm, xmm/m128
+    /// vpminsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsw xmm, xmm, xmm","vpminsw xmm, xmm, xmm/m128")]
-    vpminsw_xmm_xmm_xmm = 2651,
+    [Symbol("vpminsw xmm_k1z, xmm, xmm","vpminsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsw_xmm_k1z_xmm_xmm = 3191,
     /// <summary>
-    /// vpminsw xmm, xmm, xmm/m128
+    /// vpminsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminsw xmm, xmm, m128","vpminsw xmm, xmm, xmm/m128")]
-    vpminsw_xmm_xmm_m128 = 2652,
-    /// <summary>
-    /// vpminsw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpminsw ymm {k1}{z}, ymm, ymm","vpminsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpminsw_ymm_k1z_ymm_ymm = 2653,
+    [Symbol("vpminsw xmm_k1z, xmm, m128","vpminsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminsw_xmm_k1z_xmm_m128 = 3192,
     /// <summary>
     /// vpminsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminsw ymm {k1}{z}, ymm, m256","vpminsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpminsw_ymm_k1z_ymm_m256 = 2654,
+    [Symbol("vpminsw ymm, ymm, ymm","vpminsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsw_ymm_ymm_ymm = 3193,
     /// <summary>
-    /// vpminsw ymm, ymm, ymm/m256
+    /// vpminsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminsw ymm, ymm, ymm","vpminsw ymm, ymm, ymm/m256")]
-    vpminsw_ymm_ymm_ymm = 2655,
+    [Symbol("vpminsw ymm, ymm, m256","vpminsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsw_ymm_ymm_m256 = 3194,
     /// <summary>
-    /// vpminsw ymm, ymm, ymm/m256
+    /// vpminsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminsw ymm, ymm, m256","vpminsw ymm, ymm, ymm/m256")]
-    vpminsw_ymm_ymm_m256 = 2656,
+    [Symbol("vpminsw ymm_k1z, ymm, ymm","vpminsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsw_ymm_k1z_ymm_ymm = 3195,
+    /// <summary>
+    /// vpminsw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpminsw ymm_k1z, ymm, m256","vpminsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminsw_ymm_k1z_ymm_m256 = 3196,
     /// <summary>
     /// vpminsw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminsw zmm {k1}{z}, zmm, zmm","vpminsw zmm {k1}{z}, zmm, zmm/m512")]
-    vpminsw_zmm_k1z_zmm_zmm = 2657,
+    [Symbol("vpminsw zmm, zmm, zmm","vpminsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsw_zmm_zmm_zmm = 3197,
     /// <summary>
     /// vpminsw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminsw zmm {k1}{z}, zmm, m512","vpminsw zmm {k1}{z}, zmm, zmm/m512")]
-    vpminsw_zmm_k1z_zmm_m512 = 2658,
+    [Symbol("vpminsw zmm, zmm, m512","vpminsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsw_zmm_zmm_m512 = 3198,
+    /// <summary>
+    /// vpminsw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminsw zmm_k1z, zmm, zmm","vpminsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsw_zmm_k1z_zmm_zmm = 3199,
+    /// <summary>
+    /// vpminsw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminsw zmm_k1z, zmm, m512","vpminsw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminsw_zmm_k1z_zmm_m512 = 3200,
     /// <summary>
     /// vpminub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminub xmm {k1}{z}, xmm, xmm","vpminub xmm {k1}{z}, xmm, xmm/m128")]
-    vpminub_xmm_k1z_xmm_xmm = 2659,
+    [Symbol("vpminub xmm, xmm, xmm","vpminub xmm {k1}{z}, xmm, xmm/m128")]
+    vpminub_xmm_xmm_xmm = 3201,
     /// <summary>
     /// vpminub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminub xmm {k1}{z}, xmm, m128","vpminub xmm {k1}{z}, xmm, xmm/m128")]
-    vpminub_xmm_k1z_xmm_m128 = 2660,
+    [Symbol("vpminub xmm, xmm, m128","vpminub xmm {k1}{z}, xmm, xmm/m128")]
+    vpminub_xmm_xmm_m128 = 3202,
     /// <summary>
-    /// vpminub xmm, xmm, xmm/m128
+    /// vpminub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminub xmm, xmm, xmm","vpminub xmm, xmm, xmm/m128")]
-    vpminub_xmm_xmm_xmm = 2661,
+    [Symbol("vpminub xmm_k1z, xmm, xmm","vpminub xmm {k1}{z}, xmm, xmm/m128")]
+    vpminub_xmm_k1z_xmm_xmm = 3203,
     /// <summary>
-    /// vpminub xmm, xmm, xmm/m128
+    /// vpminub xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminub xmm, xmm, m128","vpminub xmm, xmm, xmm/m128")]
-    vpminub_xmm_xmm_m128 = 2662,
-    /// <summary>
-    /// vpminub ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpminub ymm {k1}{z}, ymm, ymm","vpminub ymm {k1}{z}, ymm, ymm/m256")]
-    vpminub_ymm_k1z_ymm_ymm = 2663,
+    [Symbol("vpminub xmm_k1z, xmm, m128","vpminub xmm {k1}{z}, xmm, xmm/m128")]
+    vpminub_xmm_k1z_xmm_m128 = 3204,
     /// <summary>
     /// vpminub ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminub ymm {k1}{z}, ymm, m256","vpminub ymm {k1}{z}, ymm, ymm/m256")]
-    vpminub_ymm_k1z_ymm_m256 = 2664,
+    [Symbol("vpminub ymm, ymm, ymm","vpminub ymm {k1}{z}, ymm, ymm/m256")]
+    vpminub_ymm_ymm_ymm = 3205,
     /// <summary>
-    /// vpminub ymm, ymm, ymm/m256
+    /// vpminub ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminub ymm, ymm, ymm","vpminub ymm, ymm, ymm/m256")]
-    vpminub_ymm_ymm_ymm = 2665,
+    [Symbol("vpminub ymm, ymm, m256","vpminub ymm {k1}{z}, ymm, ymm/m256")]
+    vpminub_ymm_ymm_m256 = 3206,
     /// <summary>
-    /// vpminub ymm, ymm, ymm/m256
+    /// vpminub ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminub ymm, ymm, m256","vpminub ymm, ymm, ymm/m256")]
-    vpminub_ymm_ymm_m256 = 2666,
+    [Symbol("vpminub ymm_k1z, ymm, ymm","vpminub ymm {k1}{z}, ymm, ymm/m256")]
+    vpminub_ymm_k1z_ymm_ymm = 3207,
+    /// <summary>
+    /// vpminub ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpminub ymm_k1z, ymm, m256","vpminub ymm {k1}{z}, ymm, ymm/m256")]
+    vpminub_ymm_k1z_ymm_m256 = 3208,
     /// <summary>
     /// vpminub zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminub zmm {k1}{z}, zmm, zmm","vpminub zmm {k1}{z}, zmm, zmm/m512")]
-    vpminub_zmm_k1z_zmm_zmm = 2667,
+    [Symbol("vpminub zmm, zmm, zmm","vpminub zmm {k1}{z}, zmm, zmm/m512")]
+    vpminub_zmm_zmm_zmm = 3209,
     /// <summary>
     /// vpminub zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminub zmm {k1}{z}, zmm, m512","vpminub zmm {k1}{z}, zmm, zmm/m512")]
-    vpminub_zmm_k1z_zmm_m512 = 2668,
+    [Symbol("vpminub zmm, zmm, m512","vpminub zmm {k1}{z}, zmm, zmm/m512")]
+    vpminub_zmm_zmm_m512 = 3210,
+    /// <summary>
+    /// vpminub zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminub zmm_k1z, zmm, zmm","vpminub zmm {k1}{z}, zmm, zmm/m512")]
+    vpminub_zmm_k1z_zmm_zmm = 3211,
+    /// <summary>
+    /// vpminub zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminub zmm_k1z, zmm, m512","vpminub zmm {k1}{z}, zmm, zmm/m512")]
+    vpminub_zmm_k1z_zmm_m512 = 3212,
     /// <summary>
     /// vpminuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminuw xmm {k1}{z}, xmm, xmm","vpminuw xmm {k1}{z}, xmm, xmm/m128")]
-    vpminuw_xmm_k1z_xmm_xmm = 2669,
+    [Symbol("vpminuw xmm, xmm, xmm","vpminuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminuw_xmm_xmm_xmm = 3213,
     /// <summary>
     /// vpminuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminuw xmm {k1}{z}, xmm, m128","vpminuw xmm {k1}{z}, xmm, xmm/m128")]
-    vpminuw_xmm_k1z_xmm_m128 = 2670,
+    [Symbol("vpminuw xmm, xmm, m128","vpminuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminuw_xmm_xmm_m128 = 3214,
     /// <summary>
-    /// vpminuw xmm, xmm, xmm/m128
+    /// vpminuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminuw xmm, xmm, xmm","vpminuw xmm, xmm, xmm/m128")]
-    vpminuw_xmm_xmm_xmm = 2671,
+    [Symbol("vpminuw xmm_k1z, xmm, xmm","vpminuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminuw_xmm_k1z_xmm_xmm = 3215,
     /// <summary>
-    /// vpminuw xmm, xmm, xmm/m128
+    /// vpminuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpminuw xmm, xmm, m128","vpminuw xmm, xmm, xmm/m128")]
-    vpminuw_xmm_xmm_m128 = 2672,
-    /// <summary>
-    /// vpminuw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpminuw ymm {k1}{z}, ymm, ymm","vpminuw ymm {k1}{z}, ymm, ymm/m256")]
-    vpminuw_ymm_k1z_ymm_ymm = 2673,
+    [Symbol("vpminuw xmm_k1z, xmm, m128","vpminuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpminuw_xmm_k1z_xmm_m128 = 3216,
     /// <summary>
     /// vpminuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminuw ymm {k1}{z}, ymm, m256","vpminuw ymm {k1}{z}, ymm, ymm/m256")]
-    vpminuw_ymm_k1z_ymm_m256 = 2674,
+    [Symbol("vpminuw ymm, ymm, ymm","vpminuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminuw_ymm_ymm_ymm = 3217,
     /// <summary>
-    /// vpminuw ymm, ymm, ymm/m256
+    /// vpminuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminuw ymm, ymm, ymm","vpminuw ymm, ymm, ymm/m256")]
-    vpminuw_ymm_ymm_ymm = 2675,
+    [Symbol("vpminuw ymm, ymm, m256","vpminuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminuw_ymm_ymm_m256 = 3218,
     /// <summary>
-    /// vpminuw ymm, ymm, ymm/m256
+    /// vpminuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpminuw ymm, ymm, m256","vpminuw ymm, ymm, ymm/m256")]
-    vpminuw_ymm_ymm_m256 = 2676,
+    [Symbol("vpminuw ymm_k1z, ymm, ymm","vpminuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminuw_ymm_k1z_ymm_ymm = 3219,
+    /// <summary>
+    /// vpminuw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpminuw ymm_k1z, ymm, m256","vpminuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpminuw_ymm_k1z_ymm_m256 = 3220,
     /// <summary>
     /// vpminuw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminuw zmm {k1}{z}, zmm, zmm","vpminuw zmm {k1}{z}, zmm, zmm/m512")]
-    vpminuw_zmm_k1z_zmm_zmm = 2677,
+    [Symbol("vpminuw zmm, zmm, zmm","vpminuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminuw_zmm_zmm_zmm = 3221,
     /// <summary>
     /// vpminuw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpminuw zmm {k1}{z}, zmm, m512","vpminuw zmm {k1}{z}, zmm, zmm/m512")]
-    vpminuw_zmm_k1z_zmm_m512 = 2678,
+    [Symbol("vpminuw zmm, zmm, m512","vpminuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminuw_zmm_zmm_m512 = 3222,
+    /// <summary>
+    /// vpminuw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminuw zmm_k1z, zmm, zmm","vpminuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminuw_zmm_k1z_zmm_zmm = 3223,
+    /// <summary>
+    /// vpminuw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpminuw zmm_k1z, zmm, m512","vpminuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpminuw_zmm_k1z_zmm_m512 = 3224,
     /// <summary>
     /// vpmovb2m k, xmm
     /// </summary>
     [Symbol("vpmovb2m k, xmm","vpmovb2m k, xmm")]
-    vpmovb2m_k_xmm = 2679,
+    vpmovb2m_k_xmm = 3225,
     /// <summary>
     /// vpmovb2m k, ymm
     /// </summary>
     [Symbol("vpmovb2m k, ymm","vpmovb2m k, ymm")]
-    vpmovb2m_k_ymm = 2680,
+    vpmovb2m_k_ymm = 3226,
     /// <summary>
     /// vpmovb2m k, zmm
     /// </summary>
     [Symbol("vpmovb2m k, zmm","vpmovb2m k, zmm")]
-    vpmovb2m_k_zmm = 2681,
+    vpmovb2m_k_zmm = 3227,
     /// <summary>
     /// vpmovd2m k, xmm
     /// </summary>
     [Symbol("vpmovd2m k, xmm","vpmovd2m k, xmm")]
-    vpmovd2m_k_xmm = 2682,
+    vpmovd2m_k_xmm = 3228,
     /// <summary>
     /// vpmovd2m k, ymm
     /// </summary>
     [Symbol("vpmovd2m k, ymm","vpmovd2m k, ymm")]
-    vpmovd2m_k_ymm = 2683,
+    vpmovd2m_k_ymm = 3229,
     /// <summary>
     /// vpmovd2m k, zmm
     /// </summary>
     [Symbol("vpmovd2m k, zmm","vpmovd2m k, zmm")]
-    vpmovd2m_k_zmm = 2684,
+    vpmovd2m_k_zmm = 3230,
     /// <summary>
     /// vpmovdb xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovdb xmm {k1}{z}, zmm","vpmovdb xmm/m128 {k1}{z}, zmm")]
-    vpmovdb_xmm_k1z_zmm = 2685,
+    [Symbol("vpmovdb xmm_k1z, zmm","vpmovdb xmm/m128 {k1}{z}, zmm")]
+    vpmovdb_xmm_k1z_zmm = 3231,
     /// <summary>
     /// vpmovdb xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovdb m128 {k1}{z}, zmm","vpmovdb xmm/m128 {k1}{z}, zmm")]
-    vpmovdb_m128_k1z_zmm = 2686,
+    [Symbol("vpmovdb m128_k1z, zmm","vpmovdb xmm/m128 {k1}{z}, zmm")]
+    vpmovdb_m128_k1z_zmm = 3232,
     /// <summary>
     /// vpmovdb xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovdb xmm {k1}{z}, xmm","vpmovdb xmm/m32 {k1}{z}, xmm")]
-    vpmovdb_xmm_k1z_xmm = 2687,
+    [Symbol("vpmovdb xmm_k1z, xmm","vpmovdb xmm/m32 {k1}{z}, xmm")]
+    vpmovdb_xmm_k1z_xmm = 3233,
     /// <summary>
     /// vpmovdb xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovdb m32 {k1}{z}, xmm","vpmovdb xmm/m32 {k1}{z}, xmm")]
-    vpmovdb_m32_k1z_xmm = 2688,
+    [Symbol("vpmovdb m32_k1z, xmm","vpmovdb xmm/m32 {k1}{z}, xmm")]
+    vpmovdb_m32_k1z_xmm = 3234,
     /// <summary>
     /// vpmovdb xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovdb xmm {k1}{z}, ymm","vpmovdb xmm/m64 {k1}{z}, ymm")]
-    vpmovdb_xmm_k1z_ymm = 2689,
+    [Symbol("vpmovdb xmm_k1z, ymm","vpmovdb xmm/m64 {k1}{z}, ymm")]
+    vpmovdb_xmm_k1z_ymm = 3235,
     /// <summary>
     /// vpmovdb xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovdb m64 {k1}{z}, ymm","vpmovdb xmm/m64 {k1}{z}, ymm")]
-    vpmovdb_m64_k1z_ymm = 2690,
+    [Symbol("vpmovdb m64_k1z, ymm","vpmovdb xmm/m64 {k1}{z}, ymm")]
+    vpmovdb_m64_k1z_ymm = 3236,
     /// <summary>
     /// vpmovdw xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovdw xmm {k1}{z}, ymm","vpmovdw xmm/m128 {k1}{z}, ymm")]
-    vpmovdw_xmm_k1z_ymm = 2691,
+    [Symbol("vpmovdw xmm_k1z, ymm","vpmovdw xmm/m128 {k1}{z}, ymm")]
+    vpmovdw_xmm_k1z_ymm = 3237,
     /// <summary>
     /// vpmovdw xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovdw m128 {k1}{z}, ymm","vpmovdw xmm/m128 {k1}{z}, ymm")]
-    vpmovdw_m128_k1z_ymm = 2692,
+    [Symbol("vpmovdw m128_k1z, ymm","vpmovdw xmm/m128 {k1}{z}, ymm")]
+    vpmovdw_m128_k1z_ymm = 3238,
     /// <summary>
     /// vpmovdw xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovdw xmm {k1}{z}, xmm","vpmovdw xmm/m64 {k1}{z}, xmm")]
-    vpmovdw_xmm_k1z_xmm = 2693,
+    [Symbol("vpmovdw xmm_k1z, xmm","vpmovdw xmm/m64 {k1}{z}, xmm")]
+    vpmovdw_xmm_k1z_xmm = 3239,
     /// <summary>
     /// vpmovdw xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovdw m64 {k1}{z}, xmm","vpmovdw xmm/m64 {k1}{z}, xmm")]
-    vpmovdw_m64_k1z_xmm = 2694,
+    [Symbol("vpmovdw m64_k1z, xmm","vpmovdw xmm/m64 {k1}{z}, xmm")]
+    vpmovdw_m64_k1z_xmm = 3240,
     /// <summary>
     /// vpmovdw ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovdw ymm {k1}{z}, zmm","vpmovdw ymm/m256 {k1}{z}, zmm")]
-    vpmovdw_ymm_k1z_zmm = 2695,
+    [Symbol("vpmovdw ymm_k1z, zmm","vpmovdw ymm/m256 {k1}{z}, zmm")]
+    vpmovdw_ymm_k1z_zmm = 3241,
     /// <summary>
     /// vpmovdw ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovdw m256 {k1}{z}, zmm","vpmovdw ymm/m256 {k1}{z}, zmm")]
-    vpmovdw_m256_k1z_zmm = 2696,
+    [Symbol("vpmovdw m256_k1z, zmm","vpmovdw ymm/m256 {k1}{z}, zmm")]
+    vpmovdw_m256_k1z_zmm = 3242,
     /// <summary>
     /// vpmovm2b xmm, k
     /// </summary>
     [Symbol("vpmovm2b xmm, k","vpmovm2b xmm, k")]
-    vpmovm2b_xmm_k = 2697,
+    vpmovm2b_xmm_k = 3243,
     /// <summary>
     /// vpmovm2b ymm, k
     /// </summary>
     [Symbol("vpmovm2b ymm, k","vpmovm2b ymm, k")]
-    vpmovm2b_ymm_k = 2698,
+    vpmovm2b_ymm_k = 3244,
     /// <summary>
     /// vpmovm2b zmm, k
     /// </summary>
     [Symbol("vpmovm2b zmm, k","vpmovm2b zmm, k")]
-    vpmovm2b_zmm_k = 2699,
+    vpmovm2b_zmm_k = 3245,
     /// <summary>
     /// vpmovm2d xmm, k
     /// </summary>
     [Symbol("vpmovm2d xmm, k","vpmovm2d xmm, k")]
-    vpmovm2d_xmm_k = 2700,
+    vpmovm2d_xmm_k = 3246,
     /// <summary>
     /// vpmovm2d ymm, k
     /// </summary>
     [Symbol("vpmovm2d ymm, k","vpmovm2d ymm, k")]
-    vpmovm2d_ymm_k = 2701,
+    vpmovm2d_ymm_k = 3247,
     /// <summary>
     /// vpmovm2d zmm, k
     /// </summary>
     [Symbol("vpmovm2d zmm, k","vpmovm2d zmm, k")]
-    vpmovm2d_zmm_k = 2702,
+    vpmovm2d_zmm_k = 3248,
     /// <summary>
     /// vpmovm2q xmm, k
     /// </summary>
     [Symbol("vpmovm2q xmm, k","vpmovm2q xmm, k")]
-    vpmovm2q_xmm_k = 2703,
+    vpmovm2q_xmm_k = 3249,
     /// <summary>
     /// vpmovm2q ymm, k
     /// </summary>
     [Symbol("vpmovm2q ymm, k","vpmovm2q ymm, k")]
-    vpmovm2q_ymm_k = 2704,
+    vpmovm2q_ymm_k = 3250,
     /// <summary>
     /// vpmovm2q zmm, k
     /// </summary>
     [Symbol("vpmovm2q zmm, k","vpmovm2q zmm, k")]
-    vpmovm2q_zmm_k = 2705,
+    vpmovm2q_zmm_k = 3251,
     /// <summary>
     /// vpmovm2w xmm, k
     /// </summary>
     [Symbol("vpmovm2w xmm, k","vpmovm2w xmm, k")]
-    vpmovm2w_xmm_k = 2706,
+    vpmovm2w_xmm_k = 3252,
     /// <summary>
     /// vpmovm2w ymm, k
     /// </summary>
     [Symbol("vpmovm2w ymm, k","vpmovm2w ymm, k")]
-    vpmovm2w_ymm_k = 2707,
+    vpmovm2w_ymm_k = 3253,
     /// <summary>
     /// vpmovm2w zmm, k
     /// </summary>
     [Symbol("vpmovm2w zmm, k","vpmovm2w zmm, k")]
-    vpmovm2w_zmm_k = 2708,
+    vpmovm2w_zmm_k = 3254,
     /// <summary>
     /// vpmovmskb reg, xmm
     /// </summary>
     [Symbol("vpmovmskb reg, xmm","vpmovmskb reg, xmm")]
-    vpmovmskb_reg_xmm = 2709,
+    vpmovmskb_reg_xmm = 3255,
     /// <summary>
     /// vpmovmskb reg, ymm
     /// </summary>
     [Symbol("vpmovmskb reg, ymm","vpmovmskb reg, ymm")]
-    vpmovmskb_reg_ymm = 2710,
+    vpmovmskb_reg_ymm = 3256,
     /// <summary>
     /// vpmovq2m k, xmm
     /// </summary>
     [Symbol("vpmovq2m k, xmm","vpmovq2m k, xmm")]
-    vpmovq2m_k_xmm = 2711,
+    vpmovq2m_k_xmm = 3257,
     /// <summary>
     /// vpmovq2m k, ymm
     /// </summary>
     [Symbol("vpmovq2m k, ymm","vpmovq2m k, ymm")]
-    vpmovq2m_k_ymm = 2712,
+    vpmovq2m_k_ymm = 3258,
     /// <summary>
     /// vpmovq2m k, zmm
     /// </summary>
     [Symbol("vpmovq2m k, zmm","vpmovq2m k, zmm")]
-    vpmovq2m_k_zmm = 2713,
+    vpmovq2m_k_zmm = 3259,
     /// <summary>
     /// vpmovqb xmm/m16 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovqb xmm {k1}{z}, xmm","vpmovqb xmm/m16 {k1}{z}, xmm")]
-    vpmovqb_xmm_k1z_xmm = 2714,
+    [Symbol("vpmovqb xmm_k1z, xmm","vpmovqb xmm/m16 {k1}{z}, xmm")]
+    vpmovqb_xmm_k1z_xmm = 3260,
     /// <summary>
     /// vpmovqb xmm/m16 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovqb m16 {k1}{z}, xmm","vpmovqb xmm/m16 {k1}{z}, xmm")]
-    vpmovqb_m16_k1z_xmm = 2715,
+    [Symbol("vpmovqb m16_k1z, xmm","vpmovqb xmm/m16 {k1}{z}, xmm")]
+    vpmovqb_m16_k1z_xmm = 3261,
     /// <summary>
     /// vpmovqb xmm/m32 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovqb xmm {k1}{z}, ymm","vpmovqb xmm/m32 {k1}{z}, ymm")]
-    vpmovqb_xmm_k1z_ymm = 2716,
+    [Symbol("vpmovqb xmm_k1z, ymm","vpmovqb xmm/m32 {k1}{z}, ymm")]
+    vpmovqb_xmm_k1z_ymm = 3262,
     /// <summary>
     /// vpmovqb xmm/m32 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovqb m32 {k1}{z}, ymm","vpmovqb xmm/m32 {k1}{z}, ymm")]
-    vpmovqb_m32_k1z_ymm = 2717,
+    [Symbol("vpmovqb m32_k1z, ymm","vpmovqb xmm/m32 {k1}{z}, ymm")]
+    vpmovqb_m32_k1z_ymm = 3263,
     /// <summary>
     /// vpmovqb xmm/m64 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovqb xmm {k1}{z}, zmm","vpmovqb xmm/m64 {k1}{z}, zmm")]
-    vpmovqb_xmm_k1z_zmm = 2718,
+    [Symbol("vpmovqb xmm_k1z, zmm","vpmovqb xmm/m64 {k1}{z}, zmm")]
+    vpmovqb_xmm_k1z_zmm = 3264,
     /// <summary>
     /// vpmovqb xmm/m64 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovqb m64 {k1}{z}, zmm","vpmovqb xmm/m64 {k1}{z}, zmm")]
-    vpmovqb_m64_k1z_zmm = 2719,
+    [Symbol("vpmovqb m64_k1z, zmm","vpmovqb xmm/m64 {k1}{z}, zmm")]
+    vpmovqb_m64_k1z_zmm = 3265,
     /// <summary>
     /// vpmovqd xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovqd xmm {k1}{z}, xmm","vpmovqd xmm/m128 {k1}{z}, xmm")]
-    vpmovqd_xmm_k1z_xmm = 2720,
+    [Symbol("vpmovqd xmm_k1z, xmm","vpmovqd xmm/m128 {k1}{z}, xmm")]
+    vpmovqd_xmm_k1z_xmm = 3266,
     /// <summary>
     /// vpmovqd xmm/m128 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovqd m128 {k1}{z}, xmm","vpmovqd xmm/m128 {k1}{z}, xmm")]
-    vpmovqd_m128_k1z_xmm = 2721,
+    [Symbol("vpmovqd m128_k1z, xmm","vpmovqd xmm/m128 {k1}{z}, xmm")]
+    vpmovqd_m128_k1z_xmm = 3267,
     /// <summary>
     /// vpmovqd xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovqd xmm {k1}{z}, ymm","vpmovqd xmm/m128 {k1}{z}, ymm")]
-    vpmovqd_xmm_k1z_ymm = 2722,
+    [Symbol("vpmovqd xmm_k1z, ymm","vpmovqd xmm/m128 {k1}{z}, ymm")]
+    vpmovqd_xmm_k1z_ymm = 3268,
     /// <summary>
     /// vpmovqd xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovqd m128 {k1}{z}, ymm","vpmovqd xmm/m128 {k1}{z}, ymm")]
-    vpmovqd_m128_k1z_ymm = 2723,
+    [Symbol("vpmovqd m128_k1z, ymm","vpmovqd xmm/m128 {k1}{z}, ymm")]
+    vpmovqd_m128_k1z_ymm = 3269,
     /// <summary>
     /// vpmovqd ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovqd ymm {k1}{z}, zmm","vpmovqd ymm/m256 {k1}{z}, zmm")]
-    vpmovqd_ymm_k1z_zmm = 2724,
+    [Symbol("vpmovqd ymm_k1z, zmm","vpmovqd ymm/m256 {k1}{z}, zmm")]
+    vpmovqd_ymm_k1z_zmm = 3270,
     /// <summary>
     /// vpmovqd ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovqd m256 {k1}{z}, zmm","vpmovqd ymm/m256 {k1}{z}, zmm")]
-    vpmovqd_m256_k1z_zmm = 2725,
+    [Symbol("vpmovqd m256_k1z, zmm","vpmovqd ymm/m256 {k1}{z}, zmm")]
+    vpmovqd_m256_k1z_zmm = 3271,
     /// <summary>
     /// vpmovqw xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovqw xmm {k1}{z}, zmm","vpmovqw xmm/m128 {k1}{z}, zmm")]
-    vpmovqw_xmm_k1z_zmm = 2726,
+    [Symbol("vpmovqw xmm_k1z, zmm","vpmovqw xmm/m128 {k1}{z}, zmm")]
+    vpmovqw_xmm_k1z_zmm = 3272,
     /// <summary>
     /// vpmovqw xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovqw m128 {k1}{z}, zmm","vpmovqw xmm/m128 {k1}{z}, zmm")]
-    vpmovqw_m128_k1z_zmm = 2727,
+    [Symbol("vpmovqw m128_k1z, zmm","vpmovqw xmm/m128 {k1}{z}, zmm")]
+    vpmovqw_m128_k1z_zmm = 3273,
     /// <summary>
     /// vpmovqw xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovqw xmm {k1}{z}, xmm","vpmovqw xmm/m32 {k1}{z}, xmm")]
-    vpmovqw_xmm_k1z_xmm = 2728,
+    [Symbol("vpmovqw xmm_k1z, xmm","vpmovqw xmm/m32 {k1}{z}, xmm")]
+    vpmovqw_xmm_k1z_xmm = 3274,
     /// <summary>
     /// vpmovqw xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovqw m32 {k1}{z}, xmm","vpmovqw xmm/m32 {k1}{z}, xmm")]
-    vpmovqw_m32_k1z_xmm = 2729,
+    [Symbol("vpmovqw m32_k1z, xmm","vpmovqw xmm/m32 {k1}{z}, xmm")]
+    vpmovqw_m32_k1z_xmm = 3275,
     /// <summary>
     /// vpmovqw xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovqw xmm {k1}{z}, ymm","vpmovqw xmm/m64 {k1}{z}, ymm")]
-    vpmovqw_xmm_k1z_ymm = 2730,
+    [Symbol("vpmovqw xmm_k1z, ymm","vpmovqw xmm/m64 {k1}{z}, ymm")]
+    vpmovqw_xmm_k1z_ymm = 3276,
     /// <summary>
     /// vpmovqw xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovqw m64 {k1}{z}, ymm","vpmovqw xmm/m64 {k1}{z}, ymm")]
-    vpmovqw_m64_k1z_ymm = 2731,
+    [Symbol("vpmovqw m64_k1z, ymm","vpmovqw xmm/m64 {k1}{z}, ymm")]
+    vpmovqw_m64_k1z_ymm = 3277,
     /// <summary>
     /// vpmovsdb xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsdb xmm {k1}{z}, zmm","vpmovsdb xmm/m128 {k1}{z}, zmm")]
-    vpmovsdb_xmm_k1z_zmm = 2732,
+    [Symbol("vpmovsdb xmm_k1z, zmm","vpmovsdb xmm/m128 {k1}{z}, zmm")]
+    vpmovsdb_xmm_k1z_zmm = 3278,
     /// <summary>
     /// vpmovsdb xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsdb m128 {k1}{z}, zmm","vpmovsdb xmm/m128 {k1}{z}, zmm")]
-    vpmovsdb_m128_k1z_zmm = 2733,
+    [Symbol("vpmovsdb m128_k1z, zmm","vpmovsdb xmm/m128 {k1}{z}, zmm")]
+    vpmovsdb_m128_k1z_zmm = 3279,
     /// <summary>
     /// vpmovsdb xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsdb xmm {k1}{z}, xmm","vpmovsdb xmm/m32 {k1}{z}, xmm")]
-    vpmovsdb_xmm_k1z_xmm = 2734,
+    [Symbol("vpmovsdb xmm_k1z, xmm","vpmovsdb xmm/m32 {k1}{z}, xmm")]
+    vpmovsdb_xmm_k1z_xmm = 3280,
     /// <summary>
     /// vpmovsdb xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsdb m32 {k1}{z}, xmm","vpmovsdb xmm/m32 {k1}{z}, xmm")]
-    vpmovsdb_m32_k1z_xmm = 2735,
+    [Symbol("vpmovsdb m32_k1z, xmm","vpmovsdb xmm/m32 {k1}{z}, xmm")]
+    vpmovsdb_m32_k1z_xmm = 3281,
     /// <summary>
     /// vpmovsdb xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsdb xmm {k1}{z}, ymm","vpmovsdb xmm/m64 {k1}{z}, ymm")]
-    vpmovsdb_xmm_k1z_ymm = 2736,
+    [Symbol("vpmovsdb xmm_k1z, ymm","vpmovsdb xmm/m64 {k1}{z}, ymm")]
+    vpmovsdb_xmm_k1z_ymm = 3282,
     /// <summary>
     /// vpmovsdb xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsdb m64 {k1}{z}, ymm","vpmovsdb xmm/m64 {k1}{z}, ymm")]
-    vpmovsdb_m64_k1z_ymm = 2737,
+    [Symbol("vpmovsdb m64_k1z, ymm","vpmovsdb xmm/m64 {k1}{z}, ymm")]
+    vpmovsdb_m64_k1z_ymm = 3283,
     /// <summary>
     /// vpmovsdw xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsdw xmm {k1}{z}, ymm","vpmovsdw xmm/m128 {k1}{z}, ymm")]
-    vpmovsdw_xmm_k1z_ymm = 2738,
+    [Symbol("vpmovsdw xmm_k1z, ymm","vpmovsdw xmm/m128 {k1}{z}, ymm")]
+    vpmovsdw_xmm_k1z_ymm = 3284,
     /// <summary>
     /// vpmovsdw xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsdw m128 {k1}{z}, ymm","vpmovsdw xmm/m128 {k1}{z}, ymm")]
-    vpmovsdw_m128_k1z_ymm = 2739,
+    [Symbol("vpmovsdw m128_k1z, ymm","vpmovsdw xmm/m128 {k1}{z}, ymm")]
+    vpmovsdw_m128_k1z_ymm = 3285,
     /// <summary>
     /// vpmovsdw xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsdw xmm {k1}{z}, xmm","vpmovsdw xmm/m64 {k1}{z}, xmm")]
-    vpmovsdw_xmm_k1z_xmm = 2740,
+    [Symbol("vpmovsdw xmm_k1z, xmm","vpmovsdw xmm/m64 {k1}{z}, xmm")]
+    vpmovsdw_xmm_k1z_xmm = 3286,
     /// <summary>
     /// vpmovsdw xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsdw m64 {k1}{z}, xmm","vpmovsdw xmm/m64 {k1}{z}, xmm")]
-    vpmovsdw_m64_k1z_xmm = 2741,
+    [Symbol("vpmovsdw m64_k1z, xmm","vpmovsdw xmm/m64 {k1}{z}, xmm")]
+    vpmovsdw_m64_k1z_xmm = 3287,
     /// <summary>
     /// vpmovsdw ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsdw ymm {k1}{z}, zmm","vpmovsdw ymm/m256 {k1}{z}, zmm")]
-    vpmovsdw_ymm_k1z_zmm = 2742,
+    [Symbol("vpmovsdw ymm_k1z, zmm","vpmovsdw ymm/m256 {k1}{z}, zmm")]
+    vpmovsdw_ymm_k1z_zmm = 3288,
     /// <summary>
     /// vpmovsdw ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsdw m256 {k1}{z}, zmm","vpmovsdw ymm/m256 {k1}{z}, zmm")]
-    vpmovsdw_m256_k1z_zmm = 2743,
+    [Symbol("vpmovsdw m256_k1z, zmm","vpmovsdw ymm/m256 {k1}{z}, zmm")]
+    vpmovsdw_m256_k1z_zmm = 3289,
     /// <summary>
     /// vpmovsqb xmm/m16 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsqb xmm {k1}{z}, xmm","vpmovsqb xmm/m16 {k1}{z}, xmm")]
-    vpmovsqb_xmm_k1z_xmm = 2744,
+    [Symbol("vpmovsqb xmm_k1z, xmm","vpmovsqb xmm/m16 {k1}{z}, xmm")]
+    vpmovsqb_xmm_k1z_xmm = 3290,
     /// <summary>
     /// vpmovsqb xmm/m16 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsqb m16 {k1}{z}, xmm","vpmovsqb xmm/m16 {k1}{z}, xmm")]
-    vpmovsqb_m16_k1z_xmm = 2745,
+    [Symbol("vpmovsqb m16_k1z, xmm","vpmovsqb xmm/m16 {k1}{z}, xmm")]
+    vpmovsqb_m16_k1z_xmm = 3291,
     /// <summary>
     /// vpmovsqb xmm/m32 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsqb xmm {k1}{z}, ymm","vpmovsqb xmm/m32 {k1}{z}, ymm")]
-    vpmovsqb_xmm_k1z_ymm = 2746,
+    [Symbol("vpmovsqb xmm_k1z, ymm","vpmovsqb xmm/m32 {k1}{z}, ymm")]
+    vpmovsqb_xmm_k1z_ymm = 3292,
     /// <summary>
     /// vpmovsqb xmm/m32 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsqb m32 {k1}{z}, ymm","vpmovsqb xmm/m32 {k1}{z}, ymm")]
-    vpmovsqb_m32_k1z_ymm = 2747,
+    [Symbol("vpmovsqb m32_k1z, ymm","vpmovsqb xmm/m32 {k1}{z}, ymm")]
+    vpmovsqb_m32_k1z_ymm = 3293,
     /// <summary>
     /// vpmovsqb xmm/m64 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsqb xmm {k1}{z}, zmm","vpmovsqb xmm/m64 {k1}{z}, zmm")]
-    vpmovsqb_xmm_k1z_zmm = 2748,
+    [Symbol("vpmovsqb xmm_k1z, zmm","vpmovsqb xmm/m64 {k1}{z}, zmm")]
+    vpmovsqb_xmm_k1z_zmm = 3294,
     /// <summary>
     /// vpmovsqb xmm/m64 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsqb m64 {k1}{z}, zmm","vpmovsqb xmm/m64 {k1}{z}, zmm")]
-    vpmovsqb_m64_k1z_zmm = 2749,
+    [Symbol("vpmovsqb m64_k1z, zmm","vpmovsqb xmm/m64 {k1}{z}, zmm")]
+    vpmovsqb_m64_k1z_zmm = 3295,
     /// <summary>
     /// vpmovsqd xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsqd xmm {k1}{z}, ymm","vpmovsqd xmm/m128 {k1}{z}, ymm")]
-    vpmovsqd_xmm_k1z_ymm = 2750,
+    [Symbol("vpmovsqd xmm_k1z, ymm","vpmovsqd xmm/m128 {k1}{z}, ymm")]
+    vpmovsqd_xmm_k1z_ymm = 3296,
     /// <summary>
     /// vpmovsqd xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsqd m128 {k1}{z}, ymm","vpmovsqd xmm/m128 {k1}{z}, ymm")]
-    vpmovsqd_m128_k1z_ymm = 2751,
+    [Symbol("vpmovsqd m128_k1z, ymm","vpmovsqd xmm/m128 {k1}{z}, ymm")]
+    vpmovsqd_m128_k1z_ymm = 3297,
     /// <summary>
     /// vpmovsqd xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsqd xmm {k1}{z}, xmm","vpmovsqd xmm/m64 {k1}{z}, xmm")]
-    vpmovsqd_xmm_k1z_xmm = 2752,
+    [Symbol("vpmovsqd xmm_k1z, xmm","vpmovsqd xmm/m64 {k1}{z}, xmm")]
+    vpmovsqd_xmm_k1z_xmm = 3298,
     /// <summary>
     /// vpmovsqd xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsqd m64 {k1}{z}, xmm","vpmovsqd xmm/m64 {k1}{z}, xmm")]
-    vpmovsqd_m64_k1z_xmm = 2753,
+    [Symbol("vpmovsqd m64_k1z, xmm","vpmovsqd xmm/m64 {k1}{z}, xmm")]
+    vpmovsqd_m64_k1z_xmm = 3299,
     /// <summary>
     /// vpmovsqd ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsqd ymm {k1}{z}, zmm","vpmovsqd ymm/m256 {k1}{z}, zmm")]
-    vpmovsqd_ymm_k1z_zmm = 2754,
+    [Symbol("vpmovsqd ymm_k1z, zmm","vpmovsqd ymm/m256 {k1}{z}, zmm")]
+    vpmovsqd_ymm_k1z_zmm = 3300,
     /// <summary>
     /// vpmovsqd ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsqd m256 {k1}{z}, zmm","vpmovsqd ymm/m256 {k1}{z}, zmm")]
-    vpmovsqd_m256_k1z_zmm = 2755,
+    [Symbol("vpmovsqd m256_k1z, zmm","vpmovsqd ymm/m256 {k1}{z}, zmm")]
+    vpmovsqd_m256_k1z_zmm = 3301,
     /// <summary>
     /// vpmovsqw xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsqw xmm {k1}{z}, zmm","vpmovsqw xmm/m128 {k1}{z}, zmm")]
-    vpmovsqw_xmm_k1z_zmm = 2756,
+    [Symbol("vpmovsqw xmm_k1z, zmm","vpmovsqw xmm/m128 {k1}{z}, zmm")]
+    vpmovsqw_xmm_k1z_zmm = 3302,
     /// <summary>
     /// vpmovsqw xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovsqw m128 {k1}{z}, zmm","vpmovsqw xmm/m128 {k1}{z}, zmm")]
-    vpmovsqw_m128_k1z_zmm = 2757,
+    [Symbol("vpmovsqw m128_k1z, zmm","vpmovsqw xmm/m128 {k1}{z}, zmm")]
+    vpmovsqw_m128_k1z_zmm = 3303,
     /// <summary>
     /// vpmovsqw xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsqw xmm {k1}{z}, xmm","vpmovsqw xmm/m32 {k1}{z}, xmm")]
-    vpmovsqw_xmm_k1z_xmm = 2758,
+    [Symbol("vpmovsqw xmm_k1z, xmm","vpmovsqw xmm/m32 {k1}{z}, xmm")]
+    vpmovsqw_xmm_k1z_xmm = 3304,
     /// <summary>
     /// vpmovsqw xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovsqw m32 {k1}{z}, xmm","vpmovsqw xmm/m32 {k1}{z}, xmm")]
-    vpmovsqw_m32_k1z_xmm = 2759,
+    [Symbol("vpmovsqw m32_k1z, xmm","vpmovsqw xmm/m32 {k1}{z}, xmm")]
+    vpmovsqw_m32_k1z_xmm = 3305,
     /// <summary>
     /// vpmovsqw xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsqw xmm {k1}{z}, ymm","vpmovsqw xmm/m64 {k1}{z}, ymm")]
-    vpmovsqw_xmm_k1z_ymm = 2760,
+    [Symbol("vpmovsqw xmm_k1z, ymm","vpmovsqw xmm/m64 {k1}{z}, ymm")]
+    vpmovsqw_xmm_k1z_ymm = 3306,
     /// <summary>
     /// vpmovsqw xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovsqw m64 {k1}{z}, ymm","vpmovsqw xmm/m64 {k1}{z}, ymm")]
-    vpmovsqw_m64_k1z_ymm = 2761,
+    [Symbol("vpmovsqw m64_k1z, ymm","vpmovsqw xmm/m64 {k1}{z}, ymm")]
+    vpmovsqw_m64_k1z_ymm = 3307,
     /// <summary>
     /// vpmovswb xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovswb xmm {k1}{z}, ymm","vpmovswb xmm/m128 {k1}{z}, ymm")]
-    vpmovswb_xmm_k1z_ymm = 2762,
+    [Symbol("vpmovswb xmm_k1z, ymm","vpmovswb xmm/m128 {k1}{z}, ymm")]
+    vpmovswb_xmm_k1z_ymm = 3308,
     /// <summary>
     /// vpmovswb xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovswb m128 {k1}{z}, ymm","vpmovswb xmm/m128 {k1}{z}, ymm")]
-    vpmovswb_m128_k1z_ymm = 2763,
+    [Symbol("vpmovswb m128_k1z, ymm","vpmovswb xmm/m128 {k1}{z}, ymm")]
+    vpmovswb_m128_k1z_ymm = 3309,
     /// <summary>
     /// vpmovswb xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovswb xmm {k1}{z}, xmm","vpmovswb xmm/m64 {k1}{z}, xmm")]
-    vpmovswb_xmm_k1z_xmm = 2764,
+    [Symbol("vpmovswb xmm_k1z, xmm","vpmovswb xmm/m64 {k1}{z}, xmm")]
+    vpmovswb_xmm_k1z_xmm = 3310,
     /// <summary>
     /// vpmovswb xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovswb m64 {k1}{z}, xmm","vpmovswb xmm/m64 {k1}{z}, xmm")]
-    vpmovswb_m64_k1z_xmm = 2765,
+    [Symbol("vpmovswb m64_k1z, xmm","vpmovswb xmm/m64 {k1}{z}, xmm")]
+    vpmovswb_m64_k1z_xmm = 3311,
     /// <summary>
     /// vpmovswb ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovswb ymm {k1}{z}, zmm","vpmovswb ymm/m256 {k1}{z}, zmm")]
-    vpmovswb_ymm_k1z_zmm = 2766,
+    [Symbol("vpmovswb ymm_k1z, zmm","vpmovswb ymm/m256 {k1}{z}, zmm")]
+    vpmovswb_ymm_k1z_zmm = 3312,
     /// <summary>
     /// vpmovswb ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovswb m256 {k1}{z}, zmm","vpmovswb ymm/m256 {k1}{z}, zmm")]
-    vpmovswb_m256_k1z_zmm = 2767,
+    [Symbol("vpmovswb m256_k1z, zmm","vpmovswb ymm/m256 {k1}{z}, zmm")]
+    vpmovswb_m256_k1z_zmm = 3313,
     /// <summary>
     /// vpmovsxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbd xmm {k1}{z}, xmm","vpmovsxbd xmm {k1}{z}, xmm/m32")]
-    vpmovsxbd_xmm_k1z_xmm = 2768,
+    [Symbol("vpmovsxbd xmm, xmm","vpmovsxbd xmm {k1}{z}, xmm/m32")]
+    vpmovsxbd_xmm_xmm = 3314,
     /// <summary>
     /// vpmovsxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbd xmm {k1}{z}, m32","vpmovsxbd xmm {k1}{z}, xmm/m32")]
-    vpmovsxbd_xmm_k1z_m32 = 2769,
+    [Symbol("vpmovsxbd xmm, m32","vpmovsxbd xmm {k1}{z}, xmm/m32")]
+    vpmovsxbd_xmm_m32 = 3315,
     /// <summary>
-    /// vpmovsxbd xmm, xmm/m32
+    /// vpmovsxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbd xmm, xmm","vpmovsxbd xmm, xmm/m32")]
-    vpmovsxbd_xmm_xmm = 2770,
+    [Symbol("vpmovsxbd xmm_k1z, xmm","vpmovsxbd xmm {k1}{z}, xmm/m32")]
+    vpmovsxbd_xmm_k1z_xmm = 3316,
     /// <summary>
-    /// vpmovsxbd xmm, xmm/m32
+    /// vpmovsxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbd xmm, m32","vpmovsxbd xmm, xmm/m32")]
-    vpmovsxbd_xmm_m32 = 2771,
-    /// <summary>
-    /// vpmovsxbd ymm {k1}{z}, xmm/m64
-    /// </summary>
-    [Symbol("vpmovsxbd ymm {k1}{z}, xmm","vpmovsxbd ymm {k1}{z}, xmm/m64")]
-    vpmovsxbd_ymm_k1z_xmm = 2772,
+    [Symbol("vpmovsxbd xmm_k1z, m32","vpmovsxbd xmm {k1}{z}, xmm/m32")]
+    vpmovsxbd_xmm_k1z_m32 = 3317,
     /// <summary>
     /// vpmovsxbd ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbd ymm {k1}{z}, m64","vpmovsxbd ymm {k1}{z}, xmm/m64")]
-    vpmovsxbd_ymm_k1z_m64 = 2773,
+    [Symbol("vpmovsxbd ymm, xmm","vpmovsxbd ymm {k1}{z}, xmm/m64")]
+    vpmovsxbd_ymm_xmm = 3318,
     /// <summary>
-    /// vpmovsxbd ymm, xmm/m64
+    /// vpmovsxbd ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbd ymm, xmm","vpmovsxbd ymm, xmm/m64")]
-    vpmovsxbd_ymm_xmm = 2774,
+    [Symbol("vpmovsxbd ymm, m64","vpmovsxbd ymm {k1}{z}, xmm/m64")]
+    vpmovsxbd_ymm_m64 = 3319,
     /// <summary>
-    /// vpmovsxbd ymm, xmm/m64
+    /// vpmovsxbd ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbd ymm, m64","vpmovsxbd ymm, xmm/m64")]
-    vpmovsxbd_ymm_m64 = 2775,
+    [Symbol("vpmovsxbd ymm_k1z, xmm","vpmovsxbd ymm {k1}{z}, xmm/m64")]
+    vpmovsxbd_ymm_k1z_xmm = 3320,
+    /// <summary>
+    /// vpmovsxbd ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovsxbd ymm_k1z, m64","vpmovsxbd ymm {k1}{z}, xmm/m64")]
+    vpmovsxbd_ymm_k1z_m64 = 3321,
     /// <summary>
     /// vpmovsxbd zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxbd zmm {k1}{z}, xmm","vpmovsxbd zmm {k1}{z}, xmm/m128")]
-    vpmovsxbd_zmm_k1z_xmm = 2776,
+    [Symbol("vpmovsxbd zmm, xmm","vpmovsxbd zmm {k1}{z}, xmm/m128")]
+    vpmovsxbd_zmm_xmm = 3322,
     /// <summary>
     /// vpmovsxbd zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxbd zmm {k1}{z}, m128","vpmovsxbd zmm {k1}{z}, xmm/m128")]
-    vpmovsxbd_zmm_k1z_m128 = 2777,
+    [Symbol("vpmovsxbd zmm, m128","vpmovsxbd zmm {k1}{z}, xmm/m128")]
+    vpmovsxbd_zmm_m128 = 3323,
+    /// <summary>
+    /// vpmovsxbd zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxbd zmm_k1z, xmm","vpmovsxbd zmm {k1}{z}, xmm/m128")]
+    vpmovsxbd_zmm_k1z_xmm = 3324,
+    /// <summary>
+    /// vpmovsxbd zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxbd zmm_k1z, m128","vpmovsxbd zmm {k1}{z}, xmm/m128")]
+    vpmovsxbd_zmm_k1z_m128 = 3325,
     /// <summary>
     /// vpmovsxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovsxbq xmm {k1}{z}, xmm","vpmovsxbq xmm {k1}{z}, xmm/m16")]
-    vpmovsxbq_xmm_k1z_xmm = 2778,
+    [Symbol("vpmovsxbq xmm, xmm","vpmovsxbq xmm {k1}{z}, xmm/m16")]
+    vpmovsxbq_xmm_xmm = 3326,
     /// <summary>
     /// vpmovsxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovsxbq xmm {k1}{z}, m16","vpmovsxbq xmm {k1}{z}, xmm/m16")]
-    vpmovsxbq_xmm_k1z_m16 = 2779,
+    [Symbol("vpmovsxbq xmm, m16","vpmovsxbq xmm {k1}{z}, xmm/m16")]
+    vpmovsxbq_xmm_m16 = 3327,
     /// <summary>
-    /// vpmovsxbq xmm, xmm/m16
+    /// vpmovsxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovsxbq xmm, xmm","vpmovsxbq xmm, xmm/m16")]
-    vpmovsxbq_xmm_xmm = 2780,
+    [Symbol("vpmovsxbq xmm_k1z, xmm","vpmovsxbq xmm {k1}{z}, xmm/m16")]
+    vpmovsxbq_xmm_k1z_xmm = 3328,
     /// <summary>
-    /// vpmovsxbq xmm, xmm/m16
+    /// vpmovsxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovsxbq xmm, m16","vpmovsxbq xmm, xmm/m16")]
-    vpmovsxbq_xmm_m16 = 2781,
-    /// <summary>
-    /// vpmovsxbq ymm {k1}{z}, xmm/m32
-    /// </summary>
-    [Symbol("vpmovsxbq ymm {k1}{z}, xmm","vpmovsxbq ymm {k1}{z}, xmm/m32")]
-    vpmovsxbq_ymm_k1z_xmm = 2782,
+    [Symbol("vpmovsxbq xmm_k1z, m16","vpmovsxbq xmm {k1}{z}, xmm/m16")]
+    vpmovsxbq_xmm_k1z_m16 = 3329,
     /// <summary>
     /// vpmovsxbq ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbq ymm {k1}{z}, m32","vpmovsxbq ymm {k1}{z}, xmm/m32")]
-    vpmovsxbq_ymm_k1z_m32 = 2783,
+    [Symbol("vpmovsxbq ymm, xmm","vpmovsxbq ymm {k1}{z}, xmm/m32")]
+    vpmovsxbq_ymm_xmm = 3330,
     /// <summary>
-    /// vpmovsxbq ymm, xmm/m32
+    /// vpmovsxbq ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbq ymm, xmm","vpmovsxbq ymm, xmm/m32")]
-    vpmovsxbq_ymm_xmm = 2784,
+    [Symbol("vpmovsxbq ymm, m32","vpmovsxbq ymm {k1}{z}, xmm/m32")]
+    vpmovsxbq_ymm_m32 = 3331,
     /// <summary>
-    /// vpmovsxbq ymm, xmm/m32
+    /// vpmovsxbq ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxbq ymm, m32","vpmovsxbq ymm, xmm/m32")]
-    vpmovsxbq_ymm_m32 = 2785,
+    [Symbol("vpmovsxbq ymm_k1z, xmm","vpmovsxbq ymm {k1}{z}, xmm/m32")]
+    vpmovsxbq_ymm_k1z_xmm = 3332,
+    /// <summary>
+    /// vpmovsxbq ymm {k1}{z}, xmm/m32
+    /// </summary>
+    [Symbol("vpmovsxbq ymm_k1z, m32","vpmovsxbq ymm {k1}{z}, xmm/m32")]
+    vpmovsxbq_ymm_k1z_m32 = 3333,
     /// <summary>
     /// vpmovsxbq zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbq zmm {k1}{z}, xmm","vpmovsxbq zmm {k1}{z}, xmm/m64")]
-    vpmovsxbq_zmm_k1z_xmm = 2786,
+    [Symbol("vpmovsxbq zmm, xmm","vpmovsxbq zmm {k1}{z}, xmm/m64")]
+    vpmovsxbq_zmm_xmm = 3334,
     /// <summary>
     /// vpmovsxbq zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbq zmm {k1}{z}, m64","vpmovsxbq zmm {k1}{z}, xmm/m64")]
-    vpmovsxbq_zmm_k1z_m64 = 2787,
+    [Symbol("vpmovsxbq zmm, m64","vpmovsxbq zmm {k1}{z}, xmm/m64")]
+    vpmovsxbq_zmm_m64 = 3335,
+    /// <summary>
+    /// vpmovsxbq zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovsxbq zmm_k1z, xmm","vpmovsxbq zmm {k1}{z}, xmm/m64")]
+    vpmovsxbq_zmm_k1z_xmm = 3336,
+    /// <summary>
+    /// vpmovsxbq zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovsxbq zmm_k1z, m64","vpmovsxbq zmm {k1}{z}, xmm/m64")]
+    vpmovsxbq_zmm_k1z_m64 = 3337,
     /// <summary>
     /// vpmovsxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbw xmm {k1}{z}, xmm","vpmovsxbw xmm {k1}{z}, xmm/m64")]
-    vpmovsxbw_xmm_k1z_xmm = 2788,
+    [Symbol("vpmovsxbw xmm, xmm","vpmovsxbw xmm {k1}{z}, xmm/m64")]
+    vpmovsxbw_xmm_xmm = 3338,
     /// <summary>
     /// vpmovsxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbw xmm {k1}{z}, m64","vpmovsxbw xmm {k1}{z}, xmm/m64")]
-    vpmovsxbw_xmm_k1z_m64 = 2789,
+    [Symbol("vpmovsxbw xmm, m64","vpmovsxbw xmm {k1}{z}, xmm/m64")]
+    vpmovsxbw_xmm_m64 = 3339,
     /// <summary>
-    /// vpmovsxbw xmm, xmm/m64
+    /// vpmovsxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbw xmm, xmm","vpmovsxbw xmm, xmm/m64")]
-    vpmovsxbw_xmm_xmm = 2790,
+    [Symbol("vpmovsxbw xmm_k1z, xmm","vpmovsxbw xmm {k1}{z}, xmm/m64")]
+    vpmovsxbw_xmm_k1z_xmm = 3340,
     /// <summary>
-    /// vpmovsxbw xmm, xmm/m64
+    /// vpmovsxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxbw xmm, m64","vpmovsxbw xmm, xmm/m64")]
-    vpmovsxbw_xmm_m64 = 2791,
-    /// <summary>
-    /// vpmovsxbw ymm {k1}{z}, xmm/m128
-    /// </summary>
-    [Symbol("vpmovsxbw ymm {k1}{z}, xmm","vpmovsxbw ymm {k1}{z}, xmm/m128")]
-    vpmovsxbw_ymm_k1z_xmm = 2792,
+    [Symbol("vpmovsxbw xmm_k1z, m64","vpmovsxbw xmm {k1}{z}, xmm/m64")]
+    vpmovsxbw_xmm_k1z_m64 = 3341,
     /// <summary>
     /// vpmovsxbw ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxbw ymm {k1}{z}, m128","vpmovsxbw ymm {k1}{z}, xmm/m128")]
-    vpmovsxbw_ymm_k1z_m128 = 2793,
+    [Symbol("vpmovsxbw ymm, xmm","vpmovsxbw ymm {k1}{z}, xmm/m128")]
+    vpmovsxbw_ymm_xmm = 3342,
     /// <summary>
-    /// vpmovsxbw ymm, xmm/m128
+    /// vpmovsxbw ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxbw ymm, xmm","vpmovsxbw ymm, xmm/m128")]
-    vpmovsxbw_ymm_xmm = 2794,
+    [Symbol("vpmovsxbw ymm, m128","vpmovsxbw ymm {k1}{z}, xmm/m128")]
+    vpmovsxbw_ymm_m128 = 3343,
     /// <summary>
-    /// vpmovsxbw ymm, xmm/m128
+    /// vpmovsxbw ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxbw ymm, m128","vpmovsxbw ymm, xmm/m128")]
-    vpmovsxbw_ymm_m128 = 2795,
+    [Symbol("vpmovsxbw ymm_k1z, xmm","vpmovsxbw ymm {k1}{z}, xmm/m128")]
+    vpmovsxbw_ymm_k1z_xmm = 3344,
+    /// <summary>
+    /// vpmovsxbw ymm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxbw ymm_k1z, m128","vpmovsxbw ymm {k1}{z}, xmm/m128")]
+    vpmovsxbw_ymm_k1z_m128 = 3345,
     /// <summary>
     /// vpmovsxbw zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovsxbw zmm {k1}{z}, ymm","vpmovsxbw zmm {k1}{z}, ymm/m256")]
-    vpmovsxbw_zmm_k1z_ymm = 2796,
+    [Symbol("vpmovsxbw zmm, ymm","vpmovsxbw zmm {k1}{z}, ymm/m256")]
+    vpmovsxbw_zmm_ymm = 3346,
     /// <summary>
     /// vpmovsxbw zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovsxbw zmm {k1}{z}, m256","vpmovsxbw zmm {k1}{z}, ymm/m256")]
-    vpmovsxbw_zmm_k1z_m256 = 2797,
+    [Symbol("vpmovsxbw zmm, m256","vpmovsxbw zmm {k1}{z}, ymm/m256")]
+    vpmovsxbw_zmm_m256 = 3347,
+    /// <summary>
+    /// vpmovsxbw zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovsxbw zmm_k1z, ymm","vpmovsxbw zmm {k1}{z}, ymm/m256")]
+    vpmovsxbw_zmm_k1z_ymm = 3348,
+    /// <summary>
+    /// vpmovsxbw zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovsxbw zmm_k1z, m256","vpmovsxbw zmm {k1}{z}, ymm/m256")]
+    vpmovsxbw_zmm_k1z_m256 = 3349,
     /// <summary>
     /// vpmovsxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxdq xmm {k1}{z}, xmm","vpmovsxdq xmm {k1}{z}, xmm/m64")]
-    vpmovsxdq_xmm_k1z_xmm = 2798,
+    [Symbol("vpmovsxdq xmm, xmm","vpmovsxdq xmm {k1}{z}, xmm/m64")]
+    vpmovsxdq_xmm_xmm = 3350,
     /// <summary>
     /// vpmovsxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxdq xmm {k1}{z}, m64","vpmovsxdq xmm {k1}{z}, xmm/m64")]
-    vpmovsxdq_xmm_k1z_m64 = 2799,
+    [Symbol("vpmovsxdq xmm, m64","vpmovsxdq xmm {k1}{z}, xmm/m64")]
+    vpmovsxdq_xmm_m64 = 3351,
     /// <summary>
-    /// vpmovsxdq xmm, xmm/m64
+    /// vpmovsxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxdq xmm, xmm","vpmovsxdq xmm, xmm/m64")]
-    vpmovsxdq_xmm_xmm = 2800,
+    [Symbol("vpmovsxdq xmm_k1z, xmm","vpmovsxdq xmm {k1}{z}, xmm/m64")]
+    vpmovsxdq_xmm_k1z_xmm = 3352,
     /// <summary>
-    /// vpmovsxdq xmm, xmm/m64
+    /// vpmovsxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxdq xmm, m64","vpmovsxdq xmm, xmm/m64")]
-    vpmovsxdq_xmm_m64 = 2801,
-    /// <summary>
-    /// vpmovsxdq ymm {k1}{z}, xmm/m128
-    /// </summary>
-    [Symbol("vpmovsxdq ymm {k1}{z}, xmm","vpmovsxdq ymm {k1}{z}, xmm/m128")]
-    vpmovsxdq_ymm_k1z_xmm = 2802,
+    [Symbol("vpmovsxdq xmm_k1z, m64","vpmovsxdq xmm {k1}{z}, xmm/m64")]
+    vpmovsxdq_xmm_k1z_m64 = 3353,
     /// <summary>
     /// vpmovsxdq ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxdq ymm {k1}{z}, m128","vpmovsxdq ymm {k1}{z}, xmm/m128")]
-    vpmovsxdq_ymm_k1z_m128 = 2803,
+    [Symbol("vpmovsxdq ymm, xmm","vpmovsxdq ymm {k1}{z}, xmm/m128")]
+    vpmovsxdq_ymm_xmm = 3354,
     /// <summary>
-    /// vpmovsxdq ymm, xmm/m128
+    /// vpmovsxdq ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxdq ymm, xmm","vpmovsxdq ymm, xmm/m128")]
-    vpmovsxdq_ymm_xmm = 2804,
+    [Symbol("vpmovsxdq ymm, m128","vpmovsxdq ymm {k1}{z}, xmm/m128")]
+    vpmovsxdq_ymm_m128 = 3355,
     /// <summary>
-    /// vpmovsxdq ymm, xmm/m128
+    /// vpmovsxdq ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxdq ymm, m128","vpmovsxdq ymm, xmm/m128")]
-    vpmovsxdq_ymm_m128 = 2805,
+    [Symbol("vpmovsxdq ymm_k1z, xmm","vpmovsxdq ymm {k1}{z}, xmm/m128")]
+    vpmovsxdq_ymm_k1z_xmm = 3356,
+    /// <summary>
+    /// vpmovsxdq ymm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxdq ymm_k1z, m128","vpmovsxdq ymm {k1}{z}, xmm/m128")]
+    vpmovsxdq_ymm_k1z_m128 = 3357,
     /// <summary>
     /// vpmovsxdq zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovsxdq zmm {k1}{z}, ymm","vpmovsxdq zmm {k1}{z}, ymm/m256")]
-    vpmovsxdq_zmm_k1z_ymm = 2806,
+    [Symbol("vpmovsxdq zmm, ymm","vpmovsxdq zmm {k1}{z}, ymm/m256")]
+    vpmovsxdq_zmm_ymm = 3358,
     /// <summary>
     /// vpmovsxdq zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovsxdq zmm {k1}{z}, m256","vpmovsxdq zmm {k1}{z}, ymm/m256")]
-    vpmovsxdq_zmm_k1z_m256 = 2807,
+    [Symbol("vpmovsxdq zmm, m256","vpmovsxdq zmm {k1}{z}, ymm/m256")]
+    vpmovsxdq_zmm_m256 = 3359,
+    /// <summary>
+    /// vpmovsxdq zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovsxdq zmm_k1z, ymm","vpmovsxdq zmm {k1}{z}, ymm/m256")]
+    vpmovsxdq_zmm_k1z_ymm = 3360,
+    /// <summary>
+    /// vpmovsxdq zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovsxdq zmm_k1z, m256","vpmovsxdq zmm {k1}{z}, ymm/m256")]
+    vpmovsxdq_zmm_k1z_m256 = 3361,
     /// <summary>
     /// vpmovsxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwd xmm {k1}{z}, xmm","vpmovsxwd xmm {k1}{z}, xmm/m64")]
-    vpmovsxwd_xmm_k1z_xmm = 2808,
+    [Symbol("vpmovsxwd xmm, xmm","vpmovsxwd xmm {k1}{z}, xmm/m64")]
+    vpmovsxwd_xmm_xmm = 3362,
     /// <summary>
     /// vpmovsxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwd xmm {k1}{z}, m64","vpmovsxwd xmm {k1}{z}, xmm/m64")]
-    vpmovsxwd_xmm_k1z_m64 = 2809,
+    [Symbol("vpmovsxwd xmm, m64","vpmovsxwd xmm {k1}{z}, xmm/m64")]
+    vpmovsxwd_xmm_m64 = 3363,
     /// <summary>
-    /// vpmovsxwd xmm, xmm/m64
+    /// vpmovsxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwd xmm, xmm","vpmovsxwd xmm, xmm/m64")]
-    vpmovsxwd_xmm_xmm = 2810,
+    [Symbol("vpmovsxwd xmm_k1z, xmm","vpmovsxwd xmm {k1}{z}, xmm/m64")]
+    vpmovsxwd_xmm_k1z_xmm = 3364,
     /// <summary>
-    /// vpmovsxwd xmm, xmm/m64
+    /// vpmovsxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwd xmm, m64","vpmovsxwd xmm, xmm/m64")]
-    vpmovsxwd_xmm_m64 = 2811,
-    /// <summary>
-    /// vpmovsxwd ymm {k1}{z}, xmm/m128
-    /// </summary>
-    [Symbol("vpmovsxwd ymm {k1}{z}, xmm","vpmovsxwd ymm {k1}{z}, xmm/m128")]
-    vpmovsxwd_ymm_k1z_xmm = 2812,
+    [Symbol("vpmovsxwd xmm_k1z, m64","vpmovsxwd xmm {k1}{z}, xmm/m64")]
+    vpmovsxwd_xmm_k1z_m64 = 3365,
     /// <summary>
     /// vpmovsxwd ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxwd ymm {k1}{z}, m128","vpmovsxwd ymm {k1}{z}, xmm/m128")]
-    vpmovsxwd_ymm_k1z_m128 = 2813,
+    [Symbol("vpmovsxwd ymm, xmm","vpmovsxwd ymm {k1}{z}, xmm/m128")]
+    vpmovsxwd_ymm_xmm = 3366,
     /// <summary>
-    /// vpmovsxwd ymm, xmm/m128
+    /// vpmovsxwd ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxwd ymm, xmm","vpmovsxwd ymm, xmm/m128")]
-    vpmovsxwd_ymm_xmm = 2814,
+    [Symbol("vpmovsxwd ymm, m128","vpmovsxwd ymm {k1}{z}, xmm/m128")]
+    vpmovsxwd_ymm_m128 = 3367,
     /// <summary>
-    /// vpmovsxwd ymm, xmm/m128
+    /// vpmovsxwd ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxwd ymm, m128","vpmovsxwd ymm, xmm/m128")]
-    vpmovsxwd_ymm_m128 = 2815,
+    [Symbol("vpmovsxwd ymm_k1z, xmm","vpmovsxwd ymm {k1}{z}, xmm/m128")]
+    vpmovsxwd_ymm_k1z_xmm = 3368,
+    /// <summary>
+    /// vpmovsxwd ymm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxwd ymm_k1z, m128","vpmovsxwd ymm {k1}{z}, xmm/m128")]
+    vpmovsxwd_ymm_k1z_m128 = 3369,
     /// <summary>
     /// vpmovsxwd zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovsxwd zmm {k1}{z}, ymm","vpmovsxwd zmm {k1}{z}, ymm/m256")]
-    vpmovsxwd_zmm_k1z_ymm = 2816,
+    [Symbol("vpmovsxwd zmm, ymm","vpmovsxwd zmm {k1}{z}, ymm/m256")]
+    vpmovsxwd_zmm_ymm = 3370,
     /// <summary>
     /// vpmovsxwd zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovsxwd zmm {k1}{z}, m256","vpmovsxwd zmm {k1}{z}, ymm/m256")]
-    vpmovsxwd_zmm_k1z_m256 = 2817,
+    [Symbol("vpmovsxwd zmm, m256","vpmovsxwd zmm {k1}{z}, ymm/m256")]
+    vpmovsxwd_zmm_m256 = 3371,
+    /// <summary>
+    /// vpmovsxwd zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovsxwd zmm_k1z, ymm","vpmovsxwd zmm {k1}{z}, ymm/m256")]
+    vpmovsxwd_zmm_k1z_ymm = 3372,
+    /// <summary>
+    /// vpmovsxwd zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovsxwd zmm_k1z, m256","vpmovsxwd zmm {k1}{z}, ymm/m256")]
+    vpmovsxwd_zmm_k1z_m256 = 3373,
     /// <summary>
     /// vpmovsxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxwq xmm {k1}{z}, xmm","vpmovsxwq xmm {k1}{z}, xmm/m32")]
-    vpmovsxwq_xmm_k1z_xmm = 2818,
+    [Symbol("vpmovsxwq xmm, xmm","vpmovsxwq xmm {k1}{z}, xmm/m32")]
+    vpmovsxwq_xmm_xmm = 3374,
     /// <summary>
     /// vpmovsxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxwq xmm {k1}{z}, m32","vpmovsxwq xmm {k1}{z}, xmm/m32")]
-    vpmovsxwq_xmm_k1z_m32 = 2819,
+    [Symbol("vpmovsxwq xmm, m32","vpmovsxwq xmm {k1}{z}, xmm/m32")]
+    vpmovsxwq_xmm_m32 = 3375,
     /// <summary>
-    /// vpmovsxwq xmm, xmm/m32
+    /// vpmovsxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxwq xmm, xmm","vpmovsxwq xmm, xmm/m32")]
-    vpmovsxwq_xmm_xmm = 2820,
+    [Symbol("vpmovsxwq xmm_k1z, xmm","vpmovsxwq xmm {k1}{z}, xmm/m32")]
+    vpmovsxwq_xmm_k1z_xmm = 3376,
     /// <summary>
-    /// vpmovsxwq xmm, xmm/m32
+    /// vpmovsxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovsxwq xmm, m32","vpmovsxwq xmm, xmm/m32")]
-    vpmovsxwq_xmm_m32 = 2821,
-    /// <summary>
-    /// vpmovsxwq ymm {k1}{z}, xmm/m64
-    /// </summary>
-    [Symbol("vpmovsxwq ymm {k1}{z}, xmm","vpmovsxwq ymm {k1}{z}, xmm/m64")]
-    vpmovsxwq_ymm_k1z_xmm = 2822,
+    [Symbol("vpmovsxwq xmm_k1z, m32","vpmovsxwq xmm {k1}{z}, xmm/m32")]
+    vpmovsxwq_xmm_k1z_m32 = 3377,
     /// <summary>
     /// vpmovsxwq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwq ymm {k1}{z}, m64","vpmovsxwq ymm {k1}{z}, xmm/m64")]
-    vpmovsxwq_ymm_k1z_m64 = 2823,
+    [Symbol("vpmovsxwq ymm, xmm","vpmovsxwq ymm {k1}{z}, xmm/m64")]
+    vpmovsxwq_ymm_xmm = 3378,
     /// <summary>
-    /// vpmovsxwq ymm, xmm/m64
+    /// vpmovsxwq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwq ymm, xmm","vpmovsxwq ymm, xmm/m64")]
-    vpmovsxwq_ymm_xmm = 2824,
+    [Symbol("vpmovsxwq ymm, m64","vpmovsxwq ymm {k1}{z}, xmm/m64")]
+    vpmovsxwq_ymm_m64 = 3379,
     /// <summary>
-    /// vpmovsxwq ymm, xmm/m64
+    /// vpmovsxwq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovsxwq ymm, m64","vpmovsxwq ymm, xmm/m64")]
-    vpmovsxwq_ymm_m64 = 2825,
+    [Symbol("vpmovsxwq ymm_k1z, xmm","vpmovsxwq ymm {k1}{z}, xmm/m64")]
+    vpmovsxwq_ymm_k1z_xmm = 3380,
+    /// <summary>
+    /// vpmovsxwq ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovsxwq ymm_k1z, m64","vpmovsxwq ymm {k1}{z}, xmm/m64")]
+    vpmovsxwq_ymm_k1z_m64 = 3381,
     /// <summary>
     /// vpmovsxwq zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxwq zmm {k1}{z}, xmm","vpmovsxwq zmm {k1}{z}, xmm/m128")]
-    vpmovsxwq_zmm_k1z_xmm = 2826,
+    [Symbol("vpmovsxwq zmm, xmm","vpmovsxwq zmm {k1}{z}, xmm/m128")]
+    vpmovsxwq_zmm_xmm = 3382,
     /// <summary>
     /// vpmovsxwq zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovsxwq zmm {k1}{z}, m128","vpmovsxwq zmm {k1}{z}, xmm/m128")]
-    vpmovsxwq_zmm_k1z_m128 = 2827,
+    [Symbol("vpmovsxwq zmm, m128","vpmovsxwq zmm {k1}{z}, xmm/m128")]
+    vpmovsxwq_zmm_m128 = 3383,
+    /// <summary>
+    /// vpmovsxwq zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxwq zmm_k1z, xmm","vpmovsxwq zmm {k1}{z}, xmm/m128")]
+    vpmovsxwq_zmm_k1z_xmm = 3384,
+    /// <summary>
+    /// vpmovsxwq zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovsxwq zmm_k1z, m128","vpmovsxwq zmm {k1}{z}, xmm/m128")]
+    vpmovsxwq_zmm_k1z_m128 = 3385,
     /// <summary>
     /// vpmovusdb xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusdb xmm {k1}{z}, zmm","vpmovusdb xmm/m128 {k1}{z}, zmm")]
-    vpmovusdb_xmm_k1z_zmm = 2828,
+    [Symbol("vpmovusdb xmm_k1z, zmm","vpmovusdb xmm/m128 {k1}{z}, zmm")]
+    vpmovusdb_xmm_k1z_zmm = 3386,
     /// <summary>
     /// vpmovusdb xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusdb m128 {k1}{z}, zmm","vpmovusdb xmm/m128 {k1}{z}, zmm")]
-    vpmovusdb_m128_k1z_zmm = 2829,
+    [Symbol("vpmovusdb m128_k1z, zmm","vpmovusdb xmm/m128 {k1}{z}, zmm")]
+    vpmovusdb_m128_k1z_zmm = 3387,
     /// <summary>
     /// vpmovusdb xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusdb xmm {k1}{z}, xmm","vpmovusdb xmm/m32 {k1}{z}, xmm")]
-    vpmovusdb_xmm_k1z_xmm = 2830,
+    [Symbol("vpmovusdb xmm_k1z, xmm","vpmovusdb xmm/m32 {k1}{z}, xmm")]
+    vpmovusdb_xmm_k1z_xmm = 3388,
     /// <summary>
     /// vpmovusdb xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusdb m32 {k1}{z}, xmm","vpmovusdb xmm/m32 {k1}{z}, xmm")]
-    vpmovusdb_m32_k1z_xmm = 2831,
+    [Symbol("vpmovusdb m32_k1z, xmm","vpmovusdb xmm/m32 {k1}{z}, xmm")]
+    vpmovusdb_m32_k1z_xmm = 3389,
     /// <summary>
     /// vpmovusdb xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusdb xmm {k1}{z}, ymm","vpmovusdb xmm/m64 {k1}{z}, ymm")]
-    vpmovusdb_xmm_k1z_ymm = 2832,
+    [Symbol("vpmovusdb xmm_k1z, ymm","vpmovusdb xmm/m64 {k1}{z}, ymm")]
+    vpmovusdb_xmm_k1z_ymm = 3390,
     /// <summary>
     /// vpmovusdb xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusdb m64 {k1}{z}, ymm","vpmovusdb xmm/m64 {k1}{z}, ymm")]
-    vpmovusdb_m64_k1z_ymm = 2833,
+    [Symbol("vpmovusdb m64_k1z, ymm","vpmovusdb xmm/m64 {k1}{z}, ymm")]
+    vpmovusdb_m64_k1z_ymm = 3391,
     /// <summary>
     /// vpmovusdw xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusdw xmm {k1}{z}, ymm","vpmovusdw xmm/m128 {k1}{z}, ymm")]
-    vpmovusdw_xmm_k1z_ymm = 2834,
+    [Symbol("vpmovusdw xmm_k1z, ymm","vpmovusdw xmm/m128 {k1}{z}, ymm")]
+    vpmovusdw_xmm_k1z_ymm = 3392,
     /// <summary>
     /// vpmovusdw xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusdw m128 {k1}{z}, ymm","vpmovusdw xmm/m128 {k1}{z}, ymm")]
-    vpmovusdw_m128_k1z_ymm = 2835,
+    [Symbol("vpmovusdw m128_k1z, ymm","vpmovusdw xmm/m128 {k1}{z}, ymm")]
+    vpmovusdw_m128_k1z_ymm = 3393,
     /// <summary>
     /// vpmovusdw xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusdw xmm {k1}{z}, xmm","vpmovusdw xmm/m64 {k1}{z}, xmm")]
-    vpmovusdw_xmm_k1z_xmm = 2836,
+    [Symbol("vpmovusdw xmm_k1z, xmm","vpmovusdw xmm/m64 {k1}{z}, xmm")]
+    vpmovusdw_xmm_k1z_xmm = 3394,
     /// <summary>
     /// vpmovusdw xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusdw m64 {k1}{z}, xmm","vpmovusdw xmm/m64 {k1}{z}, xmm")]
-    vpmovusdw_m64_k1z_xmm = 2837,
+    [Symbol("vpmovusdw m64_k1z, xmm","vpmovusdw xmm/m64 {k1}{z}, xmm")]
+    vpmovusdw_m64_k1z_xmm = 3395,
     /// <summary>
     /// vpmovusdw ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusdw ymm {k1}{z}, zmm","vpmovusdw ymm/m256 {k1}{z}, zmm")]
-    vpmovusdw_ymm_k1z_zmm = 2838,
+    [Symbol("vpmovusdw ymm_k1z, zmm","vpmovusdw ymm/m256 {k1}{z}, zmm")]
+    vpmovusdw_ymm_k1z_zmm = 3396,
     /// <summary>
     /// vpmovusdw ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusdw m256 {k1}{z}, zmm","vpmovusdw ymm/m256 {k1}{z}, zmm")]
-    vpmovusdw_m256_k1z_zmm = 2839,
+    [Symbol("vpmovusdw m256_k1z, zmm","vpmovusdw ymm/m256 {k1}{z}, zmm")]
+    vpmovusdw_m256_k1z_zmm = 3397,
     /// <summary>
     /// vpmovusqb xmm/m16 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusqb xmm {k1}{z}, xmm","vpmovusqb xmm/m16 {k1}{z}, xmm")]
-    vpmovusqb_xmm_k1z_xmm = 2840,
+    [Symbol("vpmovusqb xmm_k1z, xmm","vpmovusqb xmm/m16 {k1}{z}, xmm")]
+    vpmovusqb_xmm_k1z_xmm = 3398,
     /// <summary>
     /// vpmovusqb xmm/m16 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusqb m16 {k1}{z}, xmm","vpmovusqb xmm/m16 {k1}{z}, xmm")]
-    vpmovusqb_m16_k1z_xmm = 2841,
+    [Symbol("vpmovusqb m16_k1z, xmm","vpmovusqb xmm/m16 {k1}{z}, xmm")]
+    vpmovusqb_m16_k1z_xmm = 3399,
     /// <summary>
     /// vpmovusqb xmm/m32 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusqb xmm {k1}{z}, ymm","vpmovusqb xmm/m32 {k1}{z}, ymm")]
-    vpmovusqb_xmm_k1z_ymm = 2842,
+    [Symbol("vpmovusqb xmm_k1z, ymm","vpmovusqb xmm/m32 {k1}{z}, ymm")]
+    vpmovusqb_xmm_k1z_ymm = 3400,
     /// <summary>
     /// vpmovusqb xmm/m32 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusqb m32 {k1}{z}, ymm","vpmovusqb xmm/m32 {k1}{z}, ymm")]
-    vpmovusqb_m32_k1z_ymm = 2843,
+    [Symbol("vpmovusqb m32_k1z, ymm","vpmovusqb xmm/m32 {k1}{z}, ymm")]
+    vpmovusqb_m32_k1z_ymm = 3401,
     /// <summary>
     /// vpmovusqb xmm/m64 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusqb xmm {k1}{z}, zmm","vpmovusqb xmm/m64 {k1}{z}, zmm")]
-    vpmovusqb_xmm_k1z_zmm = 2844,
+    [Symbol("vpmovusqb xmm_k1z, zmm","vpmovusqb xmm/m64 {k1}{z}, zmm")]
+    vpmovusqb_xmm_k1z_zmm = 3402,
     /// <summary>
     /// vpmovusqb xmm/m64 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusqb m64 {k1}{z}, zmm","vpmovusqb xmm/m64 {k1}{z}, zmm")]
-    vpmovusqb_m64_k1z_zmm = 2845,
+    [Symbol("vpmovusqb m64_k1z, zmm","vpmovusqb xmm/m64 {k1}{z}, zmm")]
+    vpmovusqb_m64_k1z_zmm = 3403,
     /// <summary>
     /// vpmovusqd xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusqd xmm {k1}{z}, ymm","vpmovusqd xmm/m128 {k1}{z}, ymm")]
-    vpmovusqd_xmm_k1z_ymm = 2846,
+    [Symbol("vpmovusqd xmm_k1z, ymm","vpmovusqd xmm/m128 {k1}{z}, ymm")]
+    vpmovusqd_xmm_k1z_ymm = 3404,
     /// <summary>
     /// vpmovusqd xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusqd m128 {k1}{z}, ymm","vpmovusqd xmm/m128 {k1}{z}, ymm")]
-    vpmovusqd_m128_k1z_ymm = 2847,
+    [Symbol("vpmovusqd m128_k1z, ymm","vpmovusqd xmm/m128 {k1}{z}, ymm")]
+    vpmovusqd_m128_k1z_ymm = 3405,
     /// <summary>
     /// vpmovusqd xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusqd xmm {k1}{z}, xmm","vpmovusqd xmm/m64 {k1}{z}, xmm")]
-    vpmovusqd_xmm_k1z_xmm = 2848,
+    [Symbol("vpmovusqd xmm_k1z, xmm","vpmovusqd xmm/m64 {k1}{z}, xmm")]
+    vpmovusqd_xmm_k1z_xmm = 3406,
     /// <summary>
     /// vpmovusqd xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusqd m64 {k1}{z}, xmm","vpmovusqd xmm/m64 {k1}{z}, xmm")]
-    vpmovusqd_m64_k1z_xmm = 2849,
+    [Symbol("vpmovusqd m64_k1z, xmm","vpmovusqd xmm/m64 {k1}{z}, xmm")]
+    vpmovusqd_m64_k1z_xmm = 3407,
     /// <summary>
     /// vpmovusqd ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusqd ymm {k1}{z}, zmm","vpmovusqd ymm/m256 {k1}{z}, zmm")]
-    vpmovusqd_ymm_k1z_zmm = 2850,
+    [Symbol("vpmovusqd ymm_k1z, zmm","vpmovusqd ymm/m256 {k1}{z}, zmm")]
+    vpmovusqd_ymm_k1z_zmm = 3408,
     /// <summary>
     /// vpmovusqd ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusqd m256 {k1}{z}, zmm","vpmovusqd ymm/m256 {k1}{z}, zmm")]
-    vpmovusqd_m256_k1z_zmm = 2851,
+    [Symbol("vpmovusqd m256_k1z, zmm","vpmovusqd ymm/m256 {k1}{z}, zmm")]
+    vpmovusqd_m256_k1z_zmm = 3409,
     /// <summary>
     /// vpmovusqw xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusqw xmm {k1}{z}, zmm","vpmovusqw xmm/m128 {k1}{z}, zmm")]
-    vpmovusqw_xmm_k1z_zmm = 2852,
+    [Symbol("vpmovusqw xmm_k1z, zmm","vpmovusqw xmm/m128 {k1}{z}, zmm")]
+    vpmovusqw_xmm_k1z_zmm = 3410,
     /// <summary>
     /// vpmovusqw xmm/m128 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovusqw m128 {k1}{z}, zmm","vpmovusqw xmm/m128 {k1}{z}, zmm")]
-    vpmovusqw_m128_k1z_zmm = 2853,
+    [Symbol("vpmovusqw m128_k1z, zmm","vpmovusqw xmm/m128 {k1}{z}, zmm")]
+    vpmovusqw_m128_k1z_zmm = 3411,
     /// <summary>
     /// vpmovusqw xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusqw xmm {k1}{z}, xmm","vpmovusqw xmm/m32 {k1}{z}, xmm")]
-    vpmovusqw_xmm_k1z_xmm = 2854,
+    [Symbol("vpmovusqw xmm_k1z, xmm","vpmovusqw xmm/m32 {k1}{z}, xmm")]
+    vpmovusqw_xmm_k1z_xmm = 3412,
     /// <summary>
     /// vpmovusqw xmm/m32 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovusqw m32 {k1}{z}, xmm","vpmovusqw xmm/m32 {k1}{z}, xmm")]
-    vpmovusqw_m32_k1z_xmm = 2855,
+    [Symbol("vpmovusqw m32_k1z, xmm","vpmovusqw xmm/m32 {k1}{z}, xmm")]
+    vpmovusqw_m32_k1z_xmm = 3413,
     /// <summary>
     /// vpmovusqw xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusqw xmm {k1}{z}, ymm","vpmovusqw xmm/m64 {k1}{z}, ymm")]
-    vpmovusqw_xmm_k1z_ymm = 2856,
+    [Symbol("vpmovusqw xmm_k1z, ymm","vpmovusqw xmm/m64 {k1}{z}, ymm")]
+    vpmovusqw_xmm_k1z_ymm = 3414,
     /// <summary>
     /// vpmovusqw xmm/m64 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovusqw m64 {k1}{z}, ymm","vpmovusqw xmm/m64 {k1}{z}, ymm")]
-    vpmovusqw_m64_k1z_ymm = 2857,
+    [Symbol("vpmovusqw m64_k1z, ymm","vpmovusqw xmm/m64 {k1}{z}, ymm")]
+    vpmovusqw_m64_k1z_ymm = 3415,
     /// <summary>
     /// vpmovuswb xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovuswb xmm {k1}{z}, ymm","vpmovuswb xmm/m128 {k1}{z}, ymm")]
-    vpmovuswb_xmm_k1z_ymm = 2858,
+    [Symbol("vpmovuswb xmm_k1z, ymm","vpmovuswb xmm/m128 {k1}{z}, ymm")]
+    vpmovuswb_xmm_k1z_ymm = 3416,
     /// <summary>
     /// vpmovuswb xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovuswb m128 {k1}{z}, ymm","vpmovuswb xmm/m128 {k1}{z}, ymm")]
-    vpmovuswb_m128_k1z_ymm = 2859,
+    [Symbol("vpmovuswb m128_k1z, ymm","vpmovuswb xmm/m128 {k1}{z}, ymm")]
+    vpmovuswb_m128_k1z_ymm = 3417,
     /// <summary>
     /// vpmovuswb xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovuswb xmm {k1}{z}, xmm","vpmovuswb xmm/m64 {k1}{z}, xmm")]
-    vpmovuswb_xmm_k1z_xmm = 2860,
+    [Symbol("vpmovuswb xmm_k1z, xmm","vpmovuswb xmm/m64 {k1}{z}, xmm")]
+    vpmovuswb_xmm_k1z_xmm = 3418,
     /// <summary>
     /// vpmovuswb xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovuswb m64 {k1}{z}, xmm","vpmovuswb xmm/m64 {k1}{z}, xmm")]
-    vpmovuswb_m64_k1z_xmm = 2861,
+    [Symbol("vpmovuswb m64_k1z, xmm","vpmovuswb xmm/m64 {k1}{z}, xmm")]
+    vpmovuswb_m64_k1z_xmm = 3419,
     /// <summary>
     /// vpmovuswb ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovuswb ymm {k1}{z}, zmm","vpmovuswb ymm/m256 {k1}{z}, zmm")]
-    vpmovuswb_ymm_k1z_zmm = 2862,
+    [Symbol("vpmovuswb ymm_k1z, zmm","vpmovuswb ymm/m256 {k1}{z}, zmm")]
+    vpmovuswb_ymm_k1z_zmm = 3420,
     /// <summary>
     /// vpmovuswb ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovuswb m256 {k1}{z}, zmm","vpmovuswb ymm/m256 {k1}{z}, zmm")]
-    vpmovuswb_m256_k1z_zmm = 2863,
+    [Symbol("vpmovuswb m256_k1z, zmm","vpmovuswb ymm/m256 {k1}{z}, zmm")]
+    vpmovuswb_m256_k1z_zmm = 3421,
     /// <summary>
     /// vpmovw2m k, xmm
     /// </summary>
     [Symbol("vpmovw2m k, xmm","vpmovw2m k, xmm")]
-    vpmovw2m_k_xmm = 2864,
+    vpmovw2m_k_xmm = 3422,
     /// <summary>
     /// vpmovw2m k, ymm
     /// </summary>
     [Symbol("vpmovw2m k, ymm","vpmovw2m k, ymm")]
-    vpmovw2m_k_ymm = 2865,
+    vpmovw2m_k_ymm = 3423,
     /// <summary>
     /// vpmovw2m k, zmm
     /// </summary>
     [Symbol("vpmovw2m k, zmm","vpmovw2m k, zmm")]
-    vpmovw2m_k_zmm = 2866,
+    vpmovw2m_k_zmm = 3424,
     /// <summary>
     /// vpmovwb xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovwb xmm {k1}{z}, ymm","vpmovwb xmm/m128 {k1}{z}, ymm")]
-    vpmovwb_xmm_k1z_ymm = 2867,
+    [Symbol("vpmovwb xmm_k1z, ymm","vpmovwb xmm/m128 {k1}{z}, ymm")]
+    vpmovwb_xmm_k1z_ymm = 3425,
     /// <summary>
     /// vpmovwb xmm/m128 {k1}{z}, ymm
     /// </summary>
-    [Symbol("vpmovwb m128 {k1}{z}, ymm","vpmovwb xmm/m128 {k1}{z}, ymm")]
-    vpmovwb_m128_k1z_ymm = 2868,
+    [Symbol("vpmovwb m128_k1z, ymm","vpmovwb xmm/m128 {k1}{z}, ymm")]
+    vpmovwb_m128_k1z_ymm = 3426,
     /// <summary>
     /// vpmovwb xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovwb xmm {k1}{z}, xmm","vpmovwb xmm/m64 {k1}{z}, xmm")]
-    vpmovwb_xmm_k1z_xmm = 2869,
+    [Symbol("vpmovwb xmm_k1z, xmm","vpmovwb xmm/m64 {k1}{z}, xmm")]
+    vpmovwb_xmm_k1z_xmm = 3427,
     /// <summary>
     /// vpmovwb xmm/m64 {k1}{z}, xmm
     /// </summary>
-    [Symbol("vpmovwb m64 {k1}{z}, xmm","vpmovwb xmm/m64 {k1}{z}, xmm")]
-    vpmovwb_m64_k1z_xmm = 2870,
+    [Symbol("vpmovwb m64_k1z, xmm","vpmovwb xmm/m64 {k1}{z}, xmm")]
+    vpmovwb_m64_k1z_xmm = 3428,
     /// <summary>
     /// vpmovwb ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovwb ymm {k1}{z}, zmm","vpmovwb ymm/m256 {k1}{z}, zmm")]
-    vpmovwb_ymm_k1z_zmm = 2871,
+    [Symbol("vpmovwb ymm_k1z, zmm","vpmovwb ymm/m256 {k1}{z}, zmm")]
+    vpmovwb_ymm_k1z_zmm = 3429,
     /// <summary>
     /// vpmovwb ymm/m256 {k1}{z}, zmm
     /// </summary>
-    [Symbol("vpmovwb m256 {k1}{z}, zmm","vpmovwb ymm/m256 {k1}{z}, zmm")]
-    vpmovwb_m256_k1z_zmm = 2872,
+    [Symbol("vpmovwb m256_k1z, zmm","vpmovwb ymm/m256 {k1}{z}, zmm")]
+    vpmovwb_m256_k1z_zmm = 3430,
     /// <summary>
     /// vpmovzxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbd xmm {k1}{z}, xmm","vpmovzxbd xmm {k1}{z}, xmm/m32")]
-    vpmovzxbd_xmm_k1z_xmm = 2873,
+    [Symbol("vpmovzxbd xmm, xmm","vpmovzxbd xmm {k1}{z}, xmm/m32")]
+    vpmovzxbd_xmm_xmm = 3431,
     /// <summary>
     /// vpmovzxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbd xmm {k1}{z}, m32","vpmovzxbd xmm {k1}{z}, xmm/m32")]
-    vpmovzxbd_xmm_k1z_m32 = 2874,
+    [Symbol("vpmovzxbd xmm, m32","vpmovzxbd xmm {k1}{z}, xmm/m32")]
+    vpmovzxbd_xmm_m32 = 3432,
     /// <summary>
-    /// vpmovzxbd xmm, xmm/m32
+    /// vpmovzxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbd xmm, xmm","vpmovzxbd xmm, xmm/m32")]
-    vpmovzxbd_xmm_xmm = 2875,
+    [Symbol("vpmovzxbd xmm_k1z, xmm","vpmovzxbd xmm {k1}{z}, xmm/m32")]
+    vpmovzxbd_xmm_k1z_xmm = 3433,
     /// <summary>
-    /// vpmovzxbd xmm, xmm/m32
+    /// vpmovzxbd xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbd xmm, m32","vpmovzxbd xmm, xmm/m32")]
-    vpmovzxbd_xmm_m32 = 2876,
-    /// <summary>
-    /// vpmovzxbd ymm {k1}{z}, xmm/m64
-    /// </summary>
-    [Symbol("vpmovzxbd ymm {k1}{z}, xmm","vpmovzxbd ymm {k1}{z}, xmm/m64")]
-    vpmovzxbd_ymm_k1z_xmm = 2877,
+    [Symbol("vpmovzxbd xmm_k1z, m32","vpmovzxbd xmm {k1}{z}, xmm/m32")]
+    vpmovzxbd_xmm_k1z_m32 = 3434,
     /// <summary>
     /// vpmovzxbd ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbd ymm {k1}{z}, m64","vpmovzxbd ymm {k1}{z}, xmm/m64")]
-    vpmovzxbd_ymm_k1z_m64 = 2878,
+    [Symbol("vpmovzxbd ymm, xmm","vpmovzxbd ymm {k1}{z}, xmm/m64")]
+    vpmovzxbd_ymm_xmm = 3435,
     /// <summary>
-    /// vpmovzxbd ymm, xmm/m64
+    /// vpmovzxbd ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbd ymm, xmm","vpmovzxbd ymm, xmm/m64")]
-    vpmovzxbd_ymm_xmm = 2879,
+    [Symbol("vpmovzxbd ymm, m64","vpmovzxbd ymm {k1}{z}, xmm/m64")]
+    vpmovzxbd_ymm_m64 = 3436,
     /// <summary>
-    /// vpmovzxbd ymm, xmm/m64
+    /// vpmovzxbd ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbd ymm, m64","vpmovzxbd ymm, xmm/m64")]
-    vpmovzxbd_ymm_m64 = 2880,
+    [Symbol("vpmovzxbd ymm_k1z, xmm","vpmovzxbd ymm {k1}{z}, xmm/m64")]
+    vpmovzxbd_ymm_k1z_xmm = 3437,
+    /// <summary>
+    /// vpmovzxbd ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovzxbd ymm_k1z, m64","vpmovzxbd ymm {k1}{z}, xmm/m64")]
+    vpmovzxbd_ymm_k1z_m64 = 3438,
     /// <summary>
     /// vpmovzxbd zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxbd zmm {k1}{z}, xmm","vpmovzxbd zmm {k1}{z}, xmm/m128")]
-    vpmovzxbd_zmm_k1z_xmm = 2881,
+    [Symbol("vpmovzxbd zmm, xmm","vpmovzxbd zmm {k1}{z}, xmm/m128")]
+    vpmovzxbd_zmm_xmm = 3439,
     /// <summary>
     /// vpmovzxbd zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxbd zmm {k1}{z}, m128","vpmovzxbd zmm {k1}{z}, xmm/m128")]
-    vpmovzxbd_zmm_k1z_m128 = 2882,
+    [Symbol("vpmovzxbd zmm, m128","vpmovzxbd zmm {k1}{z}, xmm/m128")]
+    vpmovzxbd_zmm_m128 = 3440,
+    /// <summary>
+    /// vpmovzxbd zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxbd zmm_k1z, xmm","vpmovzxbd zmm {k1}{z}, xmm/m128")]
+    vpmovzxbd_zmm_k1z_xmm = 3441,
+    /// <summary>
+    /// vpmovzxbd zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxbd zmm_k1z, m128","vpmovzxbd zmm {k1}{z}, xmm/m128")]
+    vpmovzxbd_zmm_k1z_m128 = 3442,
     /// <summary>
     /// vpmovzxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovzxbq xmm {k1}{z}, xmm","vpmovzxbq xmm {k1}{z}, xmm/m16")]
-    vpmovzxbq_xmm_k1z_xmm = 2883,
+    [Symbol("vpmovzxbq xmm, xmm","vpmovzxbq xmm {k1}{z}, xmm/m16")]
+    vpmovzxbq_xmm_xmm = 3443,
     /// <summary>
     /// vpmovzxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovzxbq xmm {k1}{z}, m16","vpmovzxbq xmm {k1}{z}, xmm/m16")]
-    vpmovzxbq_xmm_k1z_m16 = 2884,
+    [Symbol("vpmovzxbq xmm, m16","vpmovzxbq xmm {k1}{z}, xmm/m16")]
+    vpmovzxbq_xmm_m16 = 3444,
     /// <summary>
-    /// vpmovzxbq xmm, xmm/m16
+    /// vpmovzxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovzxbq xmm, xmm","vpmovzxbq xmm, xmm/m16")]
-    vpmovzxbq_xmm_xmm = 2885,
+    [Symbol("vpmovzxbq xmm_k1z, xmm","vpmovzxbq xmm {k1}{z}, xmm/m16")]
+    vpmovzxbq_xmm_k1z_xmm = 3445,
     /// <summary>
-    /// vpmovzxbq xmm, xmm/m16
+    /// vpmovzxbq xmm {k1}{z}, xmm/m16
     /// </summary>
-    [Symbol("vpmovzxbq xmm, m16","vpmovzxbq xmm, xmm/m16")]
-    vpmovzxbq_xmm_m16 = 2886,
-    /// <summary>
-    /// vpmovzxbq ymm {k1}{z}, xmm/m32
-    /// </summary>
-    [Symbol("vpmovzxbq ymm {k1}{z}, xmm","vpmovzxbq ymm {k1}{z}, xmm/m32")]
-    vpmovzxbq_ymm_k1z_xmm = 2887,
+    [Symbol("vpmovzxbq xmm_k1z, m16","vpmovzxbq xmm {k1}{z}, xmm/m16")]
+    vpmovzxbq_xmm_k1z_m16 = 3446,
     /// <summary>
     /// vpmovzxbq ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbq ymm {k1}{z}, m32","vpmovzxbq ymm {k1}{z}, xmm/m32")]
-    vpmovzxbq_ymm_k1z_m32 = 2888,
+    [Symbol("vpmovzxbq ymm, xmm","vpmovzxbq ymm {k1}{z}, xmm/m32")]
+    vpmovzxbq_ymm_xmm = 3447,
     /// <summary>
-    /// vpmovzxbq ymm, xmm/m32
+    /// vpmovzxbq ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbq ymm, xmm","vpmovzxbq ymm, xmm/m32")]
-    vpmovzxbq_ymm_xmm = 2889,
+    [Symbol("vpmovzxbq ymm, m32","vpmovzxbq ymm {k1}{z}, xmm/m32")]
+    vpmovzxbq_ymm_m32 = 3448,
     /// <summary>
-    /// vpmovzxbq ymm, xmm/m32
+    /// vpmovzxbq ymm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxbq ymm, m32","vpmovzxbq ymm, xmm/m32")]
-    vpmovzxbq_ymm_m32 = 2890,
+    [Symbol("vpmovzxbq ymm_k1z, xmm","vpmovzxbq ymm {k1}{z}, xmm/m32")]
+    vpmovzxbq_ymm_k1z_xmm = 3449,
+    /// <summary>
+    /// vpmovzxbq ymm {k1}{z}, xmm/m32
+    /// </summary>
+    [Symbol("vpmovzxbq ymm_k1z, m32","vpmovzxbq ymm {k1}{z}, xmm/m32")]
+    vpmovzxbq_ymm_k1z_m32 = 3450,
     /// <summary>
     /// vpmovzxbq zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbq zmm {k1}{z}, xmm","vpmovzxbq zmm {k1}{z}, xmm/m64")]
-    vpmovzxbq_zmm_k1z_xmm = 2891,
+    [Symbol("vpmovzxbq zmm, xmm","vpmovzxbq zmm {k1}{z}, xmm/m64")]
+    vpmovzxbq_zmm_xmm = 3451,
     /// <summary>
     /// vpmovzxbq zmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbq zmm {k1}{z}, m64","vpmovzxbq zmm {k1}{z}, xmm/m64")]
-    vpmovzxbq_zmm_k1z_m64 = 2892,
+    [Symbol("vpmovzxbq zmm, m64","vpmovzxbq zmm {k1}{z}, xmm/m64")]
+    vpmovzxbq_zmm_m64 = 3452,
+    /// <summary>
+    /// vpmovzxbq zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovzxbq zmm_k1z, xmm","vpmovzxbq zmm {k1}{z}, xmm/m64")]
+    vpmovzxbq_zmm_k1z_xmm = 3453,
+    /// <summary>
+    /// vpmovzxbq zmm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovzxbq zmm_k1z, m64","vpmovzxbq zmm {k1}{z}, xmm/m64")]
+    vpmovzxbq_zmm_k1z_m64 = 3454,
     /// <summary>
     /// vpmovzxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbw xmm {k1}{z}, xmm","vpmovzxbw xmm {k1}{z}, xmm/m64")]
-    vpmovzxbw_xmm_k1z_xmm = 2893,
+    [Symbol("vpmovzxbw xmm, xmm","vpmovzxbw xmm {k1}{z}, xmm/m64")]
+    vpmovzxbw_xmm_xmm = 3455,
     /// <summary>
     /// vpmovzxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbw xmm {k1}{z}, m64","vpmovzxbw xmm {k1}{z}, xmm/m64")]
-    vpmovzxbw_xmm_k1z_m64 = 2894,
+    [Symbol("vpmovzxbw xmm, m64","vpmovzxbw xmm {k1}{z}, xmm/m64")]
+    vpmovzxbw_xmm_m64 = 3456,
     /// <summary>
-    /// vpmovzxbw xmm, xmm/m64
+    /// vpmovzxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbw xmm, xmm","vpmovzxbw xmm, xmm/m64")]
-    vpmovzxbw_xmm_xmm = 2895,
+    [Symbol("vpmovzxbw xmm_k1z, xmm","vpmovzxbw xmm {k1}{z}, xmm/m64")]
+    vpmovzxbw_xmm_k1z_xmm = 3457,
     /// <summary>
-    /// vpmovzxbw xmm, xmm/m64
+    /// vpmovzxbw xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxbw xmm, m64","vpmovzxbw xmm, xmm/m64")]
-    vpmovzxbw_xmm_m64 = 2896,
-    /// <summary>
-    /// vpmovzxbw ymm {k1}{z}, xmm/m128
-    /// </summary>
-    [Symbol("vpmovzxbw ymm {k1}{z}, xmm","vpmovzxbw ymm {k1}{z}, xmm/m128")]
-    vpmovzxbw_ymm_k1z_xmm = 2897,
+    [Symbol("vpmovzxbw xmm_k1z, m64","vpmovzxbw xmm {k1}{z}, xmm/m64")]
+    vpmovzxbw_xmm_k1z_m64 = 3458,
     /// <summary>
     /// vpmovzxbw ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxbw ymm {k1}{z}, m128","vpmovzxbw ymm {k1}{z}, xmm/m128")]
-    vpmovzxbw_ymm_k1z_m128 = 2898,
+    [Symbol("vpmovzxbw ymm, xmm","vpmovzxbw ymm {k1}{z}, xmm/m128")]
+    vpmovzxbw_ymm_xmm = 3459,
     /// <summary>
-    /// vpmovzxbw ymm, xmm/m128
+    /// vpmovzxbw ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxbw ymm, xmm","vpmovzxbw ymm, xmm/m128")]
-    vpmovzxbw_ymm_xmm = 2899,
+    [Symbol("vpmovzxbw ymm, m128","vpmovzxbw ymm {k1}{z}, xmm/m128")]
+    vpmovzxbw_ymm_m128 = 3460,
     /// <summary>
-    /// vpmovzxbw ymm, xmm/m128
+    /// vpmovzxbw ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxbw ymm, m128","vpmovzxbw ymm, xmm/m128")]
-    vpmovzxbw_ymm_m128 = 2900,
+    [Symbol("vpmovzxbw ymm_k1z, xmm","vpmovzxbw ymm {k1}{z}, xmm/m128")]
+    vpmovzxbw_ymm_k1z_xmm = 3461,
+    /// <summary>
+    /// vpmovzxbw ymm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxbw ymm_k1z, m128","vpmovzxbw ymm {k1}{z}, xmm/m128")]
+    vpmovzxbw_ymm_k1z_m128 = 3462,
     /// <summary>
     /// vpmovzxbw zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovzxbw zmm {k1}{z}, ymm","vpmovzxbw zmm {k1}{z}, ymm/m256")]
-    vpmovzxbw_zmm_k1z_ymm = 2901,
+    [Symbol("vpmovzxbw zmm, ymm","vpmovzxbw zmm {k1}{z}, ymm/m256")]
+    vpmovzxbw_zmm_ymm = 3463,
     /// <summary>
     /// vpmovzxbw zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovzxbw zmm {k1}{z}, m256","vpmovzxbw zmm {k1}{z}, ymm/m256")]
-    vpmovzxbw_zmm_k1z_m256 = 2902,
+    [Symbol("vpmovzxbw zmm, m256","vpmovzxbw zmm {k1}{z}, ymm/m256")]
+    vpmovzxbw_zmm_m256 = 3464,
+    /// <summary>
+    /// vpmovzxbw zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovzxbw zmm_k1z, ymm","vpmovzxbw zmm {k1}{z}, ymm/m256")]
+    vpmovzxbw_zmm_k1z_ymm = 3465,
+    /// <summary>
+    /// vpmovzxbw zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovzxbw zmm_k1z, m256","vpmovzxbw zmm {k1}{z}, ymm/m256")]
+    vpmovzxbw_zmm_k1z_m256 = 3466,
     /// <summary>
     /// vpmovzxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxdq xmm {k1}{z}, xmm","vpmovzxdq xmm {k1}{z}, xmm/m64")]
-    vpmovzxdq_xmm_k1z_xmm = 2903,
+    [Symbol("vpmovzxdq xmm, xmm","vpmovzxdq xmm {k1}{z}, xmm/m64")]
+    vpmovzxdq_xmm_xmm = 3467,
     /// <summary>
     /// vpmovzxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxdq xmm {k1}{z}, m64","vpmovzxdq xmm {k1}{z}, xmm/m64")]
-    vpmovzxdq_xmm_k1z_m64 = 2904,
+    [Symbol("vpmovzxdq xmm, m64","vpmovzxdq xmm {k1}{z}, xmm/m64")]
+    vpmovzxdq_xmm_m64 = 3468,
     /// <summary>
-    /// vpmovzxdq xmm, xmm/m64
+    /// vpmovzxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxdq xmm, xmm","vpmovzxdq xmm, xmm/m64")]
-    vpmovzxdq_xmm_xmm = 2905,
+    [Symbol("vpmovzxdq xmm_k1z, xmm","vpmovzxdq xmm {k1}{z}, xmm/m64")]
+    vpmovzxdq_xmm_k1z_xmm = 3469,
     /// <summary>
-    /// vpmovzxdq xmm, xmm/m64
+    /// vpmovzxdq xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxdq xmm, m64","vpmovzxdq xmm, xmm/m64")]
-    vpmovzxdq_xmm_m64 = 2906,
-    /// <summary>
-    /// vpmovzxdq ymm {k1}{z}, xmm/m128
-    /// </summary>
-    [Symbol("vpmovzxdq ymm {k1}{z}, xmm","vpmovzxdq ymm {k1}{z}, xmm/m128")]
-    vpmovzxdq_ymm_k1z_xmm = 2907,
+    [Symbol("vpmovzxdq xmm_k1z, m64","vpmovzxdq xmm {k1}{z}, xmm/m64")]
+    vpmovzxdq_xmm_k1z_m64 = 3470,
     /// <summary>
     /// vpmovzxdq ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxdq ymm {k1}{z}, m128","vpmovzxdq ymm {k1}{z}, xmm/m128")]
-    vpmovzxdq_ymm_k1z_m128 = 2908,
+    [Symbol("vpmovzxdq ymm, xmm","vpmovzxdq ymm {k1}{z}, xmm/m128")]
+    vpmovzxdq_ymm_xmm = 3471,
     /// <summary>
-    /// vpmovzxdq ymm, xmm/m128
+    /// vpmovzxdq ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxdq ymm, xmm","vpmovzxdq ymm, xmm/m128")]
-    vpmovzxdq_ymm_xmm = 2909,
+    [Symbol("vpmovzxdq ymm, m128","vpmovzxdq ymm {k1}{z}, xmm/m128")]
+    vpmovzxdq_ymm_m128 = 3472,
     /// <summary>
-    /// vpmovzxdq ymm, xmm/m128
+    /// vpmovzxdq ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxdq ymm, m128","vpmovzxdq ymm, xmm/m128")]
-    vpmovzxdq_ymm_m128 = 2910,
+    [Symbol("vpmovzxdq ymm_k1z, xmm","vpmovzxdq ymm {k1}{z}, xmm/m128")]
+    vpmovzxdq_ymm_k1z_xmm = 3473,
+    /// <summary>
+    /// vpmovzxdq ymm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxdq ymm_k1z, m128","vpmovzxdq ymm {k1}{z}, xmm/m128")]
+    vpmovzxdq_ymm_k1z_m128 = 3474,
     /// <summary>
     /// vpmovzxdq zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovzxdq zmm {k1}{z}, ymm","vpmovzxdq zmm {k1}{z}, ymm/m256")]
-    vpmovzxdq_zmm_k1z_ymm = 2911,
+    [Symbol("vpmovzxdq zmm, ymm","vpmovzxdq zmm {k1}{z}, ymm/m256")]
+    vpmovzxdq_zmm_ymm = 3475,
     /// <summary>
     /// vpmovzxdq zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovzxdq zmm {k1}{z}, m256","vpmovzxdq zmm {k1}{z}, ymm/m256")]
-    vpmovzxdq_zmm_k1z_m256 = 2912,
+    [Symbol("vpmovzxdq zmm, m256","vpmovzxdq zmm {k1}{z}, ymm/m256")]
+    vpmovzxdq_zmm_m256 = 3476,
+    /// <summary>
+    /// vpmovzxdq zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovzxdq zmm_k1z, ymm","vpmovzxdq zmm {k1}{z}, ymm/m256")]
+    vpmovzxdq_zmm_k1z_ymm = 3477,
+    /// <summary>
+    /// vpmovzxdq zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovzxdq zmm_k1z, m256","vpmovzxdq zmm {k1}{z}, ymm/m256")]
+    vpmovzxdq_zmm_k1z_m256 = 3478,
     /// <summary>
     /// vpmovzxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwd xmm {k1}{z}, xmm","vpmovzxwd xmm {k1}{z}, xmm/m64")]
-    vpmovzxwd_xmm_k1z_xmm = 2913,
+    [Symbol("vpmovzxwd xmm, xmm","vpmovzxwd xmm {k1}{z}, xmm/m64")]
+    vpmovzxwd_xmm_xmm = 3479,
     /// <summary>
     /// vpmovzxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwd xmm {k1}{z}, m64","vpmovzxwd xmm {k1}{z}, xmm/m64")]
-    vpmovzxwd_xmm_k1z_m64 = 2914,
+    [Symbol("vpmovzxwd xmm, m64","vpmovzxwd xmm {k1}{z}, xmm/m64")]
+    vpmovzxwd_xmm_m64 = 3480,
     /// <summary>
-    /// vpmovzxwd xmm, xmm/m64
+    /// vpmovzxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwd xmm, xmm","vpmovzxwd xmm, xmm/m64")]
-    vpmovzxwd_xmm_xmm = 2915,
+    [Symbol("vpmovzxwd xmm_k1z, xmm","vpmovzxwd xmm {k1}{z}, xmm/m64")]
+    vpmovzxwd_xmm_k1z_xmm = 3481,
     /// <summary>
-    /// vpmovzxwd xmm, xmm/m64
+    /// vpmovzxwd xmm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwd xmm, m64","vpmovzxwd xmm, xmm/m64")]
-    vpmovzxwd_xmm_m64 = 2916,
-    /// <summary>
-    /// vpmovzxwd ymm {k1}{z}, xmm/m128
-    /// </summary>
-    [Symbol("vpmovzxwd ymm {k1}{z}, xmm","vpmovzxwd ymm {k1}{z}, xmm/m128")]
-    vpmovzxwd_ymm_k1z_xmm = 2917,
+    [Symbol("vpmovzxwd xmm_k1z, m64","vpmovzxwd xmm {k1}{z}, xmm/m64")]
+    vpmovzxwd_xmm_k1z_m64 = 3482,
     /// <summary>
     /// vpmovzxwd ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxwd ymm {k1}{z}, m128","vpmovzxwd ymm {k1}{z}, xmm/m128")]
-    vpmovzxwd_ymm_k1z_m128 = 2918,
+    [Symbol("vpmovzxwd ymm, xmm","vpmovzxwd ymm {k1}{z}, xmm/m128")]
+    vpmovzxwd_ymm_xmm = 3483,
     /// <summary>
-    /// vpmovzxwd ymm, xmm/m128
+    /// vpmovzxwd ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxwd ymm, xmm","vpmovzxwd ymm, xmm/m128")]
-    vpmovzxwd_ymm_xmm = 2919,
+    [Symbol("vpmovzxwd ymm, m128","vpmovzxwd ymm {k1}{z}, xmm/m128")]
+    vpmovzxwd_ymm_m128 = 3484,
     /// <summary>
-    /// vpmovzxwd ymm, xmm/m128
+    /// vpmovzxwd ymm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxwd ymm, m128","vpmovzxwd ymm, xmm/m128")]
-    vpmovzxwd_ymm_m128 = 2920,
+    [Symbol("vpmovzxwd ymm_k1z, xmm","vpmovzxwd ymm {k1}{z}, xmm/m128")]
+    vpmovzxwd_ymm_k1z_xmm = 3485,
+    /// <summary>
+    /// vpmovzxwd ymm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxwd ymm_k1z, m128","vpmovzxwd ymm {k1}{z}, xmm/m128")]
+    vpmovzxwd_ymm_k1z_m128 = 3486,
     /// <summary>
     /// vpmovzxwd zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovzxwd zmm {k1}{z}, ymm","vpmovzxwd zmm {k1}{z}, ymm/m256")]
-    vpmovzxwd_zmm_k1z_ymm = 2921,
+    [Symbol("vpmovzxwd zmm, ymm","vpmovzxwd zmm {k1}{z}, ymm/m256")]
+    vpmovzxwd_zmm_ymm = 3487,
     /// <summary>
     /// vpmovzxwd zmm {k1}{z}, ymm/m256
     /// </summary>
-    [Symbol("vpmovzxwd zmm {k1}{z}, m256","vpmovzxwd zmm {k1}{z}, ymm/m256")]
-    vpmovzxwd_zmm_k1z_m256 = 2922,
+    [Symbol("vpmovzxwd zmm, m256","vpmovzxwd zmm {k1}{z}, ymm/m256")]
+    vpmovzxwd_zmm_m256 = 3488,
+    /// <summary>
+    /// vpmovzxwd zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovzxwd zmm_k1z, ymm","vpmovzxwd zmm {k1}{z}, ymm/m256")]
+    vpmovzxwd_zmm_k1z_ymm = 3489,
+    /// <summary>
+    /// vpmovzxwd zmm {k1}{z}, ymm/m256
+    /// </summary>
+    [Symbol("vpmovzxwd zmm_k1z, m256","vpmovzxwd zmm {k1}{z}, ymm/m256")]
+    vpmovzxwd_zmm_k1z_m256 = 3490,
     /// <summary>
     /// vpmovzxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxwq xmm {k1}{z}, xmm","vpmovzxwq xmm {k1}{z}, xmm/m32")]
-    vpmovzxwq_xmm_k1z_xmm = 2923,
+    [Symbol("vpmovzxwq xmm, xmm","vpmovzxwq xmm {k1}{z}, xmm/m32")]
+    vpmovzxwq_xmm_xmm = 3491,
     /// <summary>
     /// vpmovzxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxwq xmm {k1}{z}, m32","vpmovzxwq xmm {k1}{z}, xmm/m32")]
-    vpmovzxwq_xmm_k1z_m32 = 2924,
+    [Symbol("vpmovzxwq xmm, m32","vpmovzxwq xmm {k1}{z}, xmm/m32")]
+    vpmovzxwq_xmm_m32 = 3492,
     /// <summary>
-    /// vpmovzxwq xmm, xmm/m32
+    /// vpmovzxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxwq xmm, xmm","vpmovzxwq xmm, xmm/m32")]
-    vpmovzxwq_xmm_xmm = 2925,
+    [Symbol("vpmovzxwq xmm_k1z, xmm","vpmovzxwq xmm {k1}{z}, xmm/m32")]
+    vpmovzxwq_xmm_k1z_xmm = 3493,
     /// <summary>
-    /// vpmovzxwq xmm, xmm/m32
+    /// vpmovzxwq xmm {k1}{z}, xmm/m32
     /// </summary>
-    [Symbol("vpmovzxwq xmm, m32","vpmovzxwq xmm, xmm/m32")]
-    vpmovzxwq_xmm_m32 = 2926,
-    /// <summary>
-    /// vpmovzxwq ymm {k1}{z}, xmm/m64
-    /// </summary>
-    [Symbol("vpmovzxwq ymm {k1}{z}, xmm","vpmovzxwq ymm {k1}{z}, xmm/m64")]
-    vpmovzxwq_ymm_k1z_xmm = 2927,
+    [Symbol("vpmovzxwq xmm_k1z, m32","vpmovzxwq xmm {k1}{z}, xmm/m32")]
+    vpmovzxwq_xmm_k1z_m32 = 3494,
     /// <summary>
     /// vpmovzxwq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwq ymm {k1}{z}, m64","vpmovzxwq ymm {k1}{z}, xmm/m64")]
-    vpmovzxwq_ymm_k1z_m64 = 2928,
+    [Symbol("vpmovzxwq ymm, xmm","vpmovzxwq ymm {k1}{z}, xmm/m64")]
+    vpmovzxwq_ymm_xmm = 3495,
     /// <summary>
-    /// vpmovzxwq ymm, xmm/m64
+    /// vpmovzxwq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwq ymm, xmm","vpmovzxwq ymm, xmm/m64")]
-    vpmovzxwq_ymm_xmm = 2929,
+    [Symbol("vpmovzxwq ymm, m64","vpmovzxwq ymm {k1}{z}, xmm/m64")]
+    vpmovzxwq_ymm_m64 = 3496,
     /// <summary>
-    /// vpmovzxwq ymm, xmm/m64
+    /// vpmovzxwq ymm {k1}{z}, xmm/m64
     /// </summary>
-    [Symbol("vpmovzxwq ymm, m64","vpmovzxwq ymm, xmm/m64")]
-    vpmovzxwq_ymm_m64 = 2930,
+    [Symbol("vpmovzxwq ymm_k1z, xmm","vpmovzxwq ymm {k1}{z}, xmm/m64")]
+    vpmovzxwq_ymm_k1z_xmm = 3497,
+    /// <summary>
+    /// vpmovzxwq ymm {k1}{z}, xmm/m64
+    /// </summary>
+    [Symbol("vpmovzxwq ymm_k1z, m64","vpmovzxwq ymm {k1}{z}, xmm/m64")]
+    vpmovzxwq_ymm_k1z_m64 = 3498,
     /// <summary>
     /// vpmovzxwq zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxwq zmm {k1}{z}, xmm","vpmovzxwq zmm {k1}{z}, xmm/m128")]
-    vpmovzxwq_zmm_k1z_xmm = 2931,
+    [Symbol("vpmovzxwq zmm, xmm","vpmovzxwq zmm {k1}{z}, xmm/m128")]
+    vpmovzxwq_zmm_xmm = 3499,
     /// <summary>
     /// vpmovzxwq zmm {k1}{z}, xmm/m128
     /// </summary>
-    [Symbol("vpmovzxwq zmm {k1}{z}, m128","vpmovzxwq zmm {k1}{z}, xmm/m128")]
-    vpmovzxwq_zmm_k1z_m128 = 2932,
+    [Symbol("vpmovzxwq zmm, m128","vpmovzxwq zmm {k1}{z}, xmm/m128")]
+    vpmovzxwq_zmm_m128 = 3500,
+    /// <summary>
+    /// vpmovzxwq zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxwq zmm_k1z, xmm","vpmovzxwq zmm {k1}{z}, xmm/m128")]
+    vpmovzxwq_zmm_k1z_xmm = 3501,
+    /// <summary>
+    /// vpmovzxwq zmm {k1}{z}, xmm/m128
+    /// </summary>
+    [Symbol("vpmovzxwq zmm_k1z, m128","vpmovzxwq zmm {k1}{z}, xmm/m128")]
+    vpmovzxwq_zmm_k1z_m128 = 3502,
     /// <summary>
     /// vpmulhuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmulhuw xmm {k1}{z}, xmm, xmm","vpmulhuw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmulhuw_xmm_k1z_xmm_xmm = 2933,
+    [Symbol("vpmulhuw xmm, xmm, xmm","vpmulhuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmulhuw_xmm_xmm_xmm = 3503,
     /// <summary>
     /// vpmulhuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmulhuw xmm {k1}{z}, xmm, m128","vpmulhuw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmulhuw_xmm_k1z_xmm_m128 = 2934,
+    [Symbol("vpmulhuw xmm, xmm, m128","vpmulhuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmulhuw_xmm_xmm_m128 = 3504,
     /// <summary>
-    /// vpmulhuw xmm, xmm, xmm/m128
+    /// vpmulhuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmulhuw xmm, xmm, xmm","vpmulhuw xmm, xmm, xmm/m128")]
-    vpmulhuw_xmm_xmm_xmm = 2935,
+    [Symbol("vpmulhuw xmm_k1z, xmm, xmm","vpmulhuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmulhuw_xmm_k1z_xmm_xmm = 3505,
     /// <summary>
-    /// vpmulhuw xmm, xmm, xmm/m128
+    /// vpmulhuw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmulhuw xmm, xmm, m128","vpmulhuw xmm, xmm, xmm/m128")]
-    vpmulhuw_xmm_xmm_m128 = 2936,
-    /// <summary>
-    /// vpmulhuw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpmulhuw ymm {k1}{z}, ymm, ymm","vpmulhuw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmulhuw_ymm_k1z_ymm_ymm = 2937,
+    [Symbol("vpmulhuw xmm_k1z, xmm, m128","vpmulhuw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmulhuw_xmm_k1z_xmm_m128 = 3506,
     /// <summary>
     /// vpmulhuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmulhuw ymm {k1}{z}, ymm, m256","vpmulhuw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmulhuw_ymm_k1z_ymm_m256 = 2938,
+    [Symbol("vpmulhuw ymm, ymm, ymm","vpmulhuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmulhuw_ymm_ymm_ymm = 3507,
     /// <summary>
-    /// vpmulhuw ymm, ymm, ymm/m256
+    /// vpmulhuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmulhuw ymm, ymm, ymm","vpmulhuw ymm, ymm, ymm/m256")]
-    vpmulhuw_ymm_ymm_ymm = 2939,
+    [Symbol("vpmulhuw ymm, ymm, m256","vpmulhuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmulhuw_ymm_ymm_m256 = 3508,
     /// <summary>
-    /// vpmulhuw ymm, ymm, ymm/m256
+    /// vpmulhuw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmulhuw ymm, ymm, m256","vpmulhuw ymm, ymm, ymm/m256")]
-    vpmulhuw_ymm_ymm_m256 = 2940,
+    [Symbol("vpmulhuw ymm_k1z, ymm, ymm","vpmulhuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmulhuw_ymm_k1z_ymm_ymm = 3509,
+    /// <summary>
+    /// vpmulhuw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpmulhuw ymm_k1z, ymm, m256","vpmulhuw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmulhuw_ymm_k1z_ymm_m256 = 3510,
     /// <summary>
     /// vpmulhuw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmulhuw zmm {k1}{z}, zmm, zmm","vpmulhuw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmulhuw_zmm_k1z_zmm_zmm = 2941,
+    [Symbol("vpmulhuw zmm, zmm, zmm","vpmulhuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmulhuw_zmm_zmm_zmm = 3511,
     /// <summary>
     /// vpmulhuw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmulhuw zmm {k1}{z}, zmm, m512","vpmulhuw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmulhuw_zmm_k1z_zmm_m512 = 2942,
+    [Symbol("vpmulhuw zmm, zmm, m512","vpmulhuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmulhuw_zmm_zmm_m512 = 3512,
+    /// <summary>
+    /// vpmulhuw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmulhuw zmm_k1z, zmm, zmm","vpmulhuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmulhuw_zmm_k1z_zmm_zmm = 3513,
+    /// <summary>
+    /// vpmulhuw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmulhuw zmm_k1z, zmm, m512","vpmulhuw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmulhuw_zmm_k1z_zmm_m512 = 3514,
     /// <summary>
     /// vpmullw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmullw xmm {k1}{z}, xmm, xmm","vpmullw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmullw_xmm_k1z_xmm_xmm = 2943,
+    [Symbol("vpmullw xmm, xmm, xmm","vpmullw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmullw_xmm_xmm_xmm = 3515,
     /// <summary>
     /// vpmullw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmullw xmm {k1}{z}, xmm, m128","vpmullw xmm {k1}{z}, xmm, xmm/m128")]
-    vpmullw_xmm_k1z_xmm_m128 = 2944,
+    [Symbol("vpmullw xmm, xmm, m128","vpmullw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmullw_xmm_xmm_m128 = 3516,
     /// <summary>
-    /// vpmullw xmm, xmm, xmm/m128
+    /// vpmullw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmullw xmm, xmm, xmm","vpmullw xmm, xmm, xmm/m128")]
-    vpmullw_xmm_xmm_xmm = 2945,
+    [Symbol("vpmullw xmm_k1z, xmm, xmm","vpmullw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmullw_xmm_k1z_xmm_xmm = 3517,
     /// <summary>
-    /// vpmullw xmm, xmm, xmm/m128
+    /// vpmullw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpmullw xmm, xmm, m128","vpmullw xmm, xmm, xmm/m128")]
-    vpmullw_xmm_xmm_m128 = 2946,
-    /// <summary>
-    /// vpmullw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpmullw ymm {k1}{z}, ymm, ymm","vpmullw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmullw_ymm_k1z_ymm_ymm = 2947,
+    [Symbol("vpmullw xmm_k1z, xmm, m128","vpmullw xmm {k1}{z}, xmm, xmm/m128")]
+    vpmullw_xmm_k1z_xmm_m128 = 3518,
     /// <summary>
     /// vpmullw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmullw ymm {k1}{z}, ymm, m256","vpmullw ymm {k1}{z}, ymm, ymm/m256")]
-    vpmullw_ymm_k1z_ymm_m256 = 2948,
+    [Symbol("vpmullw ymm, ymm, ymm","vpmullw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmullw_ymm_ymm_ymm = 3519,
     /// <summary>
-    /// vpmullw ymm, ymm, ymm/m256
+    /// vpmullw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmullw ymm, ymm, ymm","vpmullw ymm, ymm, ymm/m256")]
-    vpmullw_ymm_ymm_ymm = 2949,
+    [Symbol("vpmullw ymm, ymm, m256","vpmullw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmullw_ymm_ymm_m256 = 3520,
     /// <summary>
-    /// vpmullw ymm, ymm, ymm/m256
+    /// vpmullw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpmullw ymm, ymm, m256","vpmullw ymm, ymm, ymm/m256")]
-    vpmullw_ymm_ymm_m256 = 2950,
+    [Symbol("vpmullw ymm_k1z, ymm, ymm","vpmullw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmullw_ymm_k1z_ymm_ymm = 3521,
+    /// <summary>
+    /// vpmullw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpmullw ymm_k1z, ymm, m256","vpmullw ymm {k1}{z}, ymm, ymm/m256")]
+    vpmullw_ymm_k1z_ymm_m256 = 3522,
     /// <summary>
     /// vpmullw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmullw zmm {k1}{z}, zmm, zmm","vpmullw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmullw_zmm_k1z_zmm_zmm = 2951,
+    [Symbol("vpmullw zmm, zmm, zmm","vpmullw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmullw_zmm_zmm_zmm = 3523,
     /// <summary>
     /// vpmullw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpmullw zmm {k1}{z}, zmm, m512","vpmullw zmm {k1}{z}, zmm, zmm/m512")]
-    vpmullw_zmm_k1z_zmm_m512 = 2952,
+    [Symbol("vpmullw zmm, zmm, m512","vpmullw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmullw_zmm_zmm_m512 = 3524,
+    /// <summary>
+    /// vpmullw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmullw zmm_k1z, zmm, zmm","vpmullw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmullw_zmm_k1z_zmm_zmm = 3525,
+    /// <summary>
+    /// vpmullw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpmullw zmm_k1z, zmm, m512","vpmullw zmm {k1}{z}, zmm, zmm/m512")]
+    vpmullw_zmm_k1z_zmm_m512 = 3526,
     /// <summary>
     /// vpor xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpor xmm, xmm, xmm","vpor xmm, xmm, xmm/m128")]
-    vpor_xmm_xmm_xmm = 2953,
+    vpor_xmm_xmm_xmm = 3527,
     /// <summary>
     /// vpor xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpor xmm, xmm, m128","vpor xmm, xmm, xmm/m128")]
-    vpor_xmm_xmm_m128 = 2954,
+    vpor_xmm_xmm_m128 = 3528,
     /// <summary>
     /// vpor ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpor ymm, ymm, ymm","vpor ymm, ymm, ymm/m256")]
-    vpor_ymm_ymm_ymm = 2955,
+    vpor_ymm_ymm_ymm = 3529,
     /// <summary>
     /// vpor ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpor ymm, ymm, m256","vpor ymm, ymm, ymm/m256")]
-    vpor_ymm_ymm_m256 = 2956,
+    vpor_ymm_ymm_m256 = 3530,
     /// <summary>
     /// vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpord xmm {k1}{z}, xmm, xmm","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpord_xmm_k1z_xmm_xmm = 2957,
+    [Symbol("vpord xmm, xmm, xmm","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpord_xmm_xmm_xmm = 3531,
     /// <summary>
     /// vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpord xmm {k1}{z}, xmm, m128","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpord_xmm_k1z_xmm_m128 = 2958,
+    [Symbol("vpord xmm, xmm, m128","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpord_xmm_xmm_m128 = 3532,
     /// <summary>
     /// vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpord xmm {k1}{z}, xmm, m32bcst","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpord_xmm_k1z_xmm_m32bcst = 2959,
+    [Symbol("vpord xmm, xmm, m32bcst","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpord_xmm_xmm_m32bcst = 3533,
+    /// <summary>
+    /// vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpord xmm_k1z, xmm, xmm","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpord_xmm_k1z_xmm_xmm = 3534,
+    /// <summary>
+    /// vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpord xmm_k1z, xmm, m128","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpord_xmm_k1z_xmm_m128 = 3535,
+    /// <summary>
+    /// vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpord xmm_k1z, xmm, m32bcst","vpord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpord_xmm_k1z_xmm_m32bcst = 3536,
     /// <summary>
     /// vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpord ymm {k1}{z}, ymm, ymm","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpord_ymm_k1z_ymm_ymm = 2960,
+    [Symbol("vpord ymm, ymm, ymm","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpord_ymm_ymm_ymm = 3537,
     /// <summary>
     /// vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpord ymm {k1}{z}, ymm, m256","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpord_ymm_k1z_ymm_m256 = 2961,
+    [Symbol("vpord ymm, ymm, m256","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpord_ymm_ymm_m256 = 3538,
     /// <summary>
     /// vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpord ymm {k1}{z}, ymm, m32bcst","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpord_ymm_k1z_ymm_m32bcst = 2962,
+    [Symbol("vpord ymm, ymm, m32bcst","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpord_ymm_ymm_m32bcst = 3539,
+    /// <summary>
+    /// vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpord ymm_k1z, ymm, ymm","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpord_ymm_k1z_ymm_ymm = 3540,
+    /// <summary>
+    /// vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpord ymm_k1z, ymm, m256","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpord_ymm_k1z_ymm_m256 = 3541,
+    /// <summary>
+    /// vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpord ymm_k1z, ymm, m32bcst","vpord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpord_ymm_k1z_ymm_m32bcst = 3542,
     /// <summary>
     /// vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpord zmm {k1}{z}, zmm, zmm","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpord_zmm_k1z_zmm_zmm = 2963,
+    [Symbol("vpord zmm, zmm, zmm","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpord_zmm_zmm_zmm = 3543,
     /// <summary>
     /// vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpord zmm {k1}{z}, zmm, m512","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpord_zmm_k1z_zmm_m512 = 2964,
+    [Symbol("vpord zmm, zmm, m512","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpord_zmm_zmm_m512 = 3544,
     /// <summary>
     /// vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpord zmm {k1}{z}, zmm, m32bcst","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpord_zmm_k1z_zmm_m32bcst = 2965,
+    [Symbol("vpord zmm, zmm, m32bcst","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpord_zmm_zmm_m32bcst = 3545,
+    /// <summary>
+    /// vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpord zmm_k1z, zmm, zmm","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpord_zmm_k1z_zmm_zmm = 3546,
+    /// <summary>
+    /// vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpord zmm_k1z, zmm, m512","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpord_zmm_k1z_zmm_m512 = 3547,
+    /// <summary>
+    /// vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpord zmm_k1z, zmm, m32bcst","vpord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpord_zmm_k1z_zmm_m32bcst = 3548,
     /// <summary>
     /// vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vporq xmm {k1}{z}, xmm, xmm","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vporq_xmm_k1z_xmm_xmm = 2966,
+    [Symbol("vporq xmm, xmm, xmm","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vporq_xmm_xmm_xmm = 3549,
     /// <summary>
     /// vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vporq xmm {k1}{z}, xmm, m128","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vporq_xmm_k1z_xmm_m128 = 2967,
+    [Symbol("vporq xmm, xmm, m128","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vporq_xmm_xmm_m128 = 3550,
     /// <summary>
     /// vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vporq xmm {k1}{z}, xmm, m64bcst","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vporq_xmm_k1z_xmm_m64bcst = 2968,
+    [Symbol("vporq xmm, xmm, m64bcst","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vporq_xmm_xmm_m64bcst = 3551,
+    /// <summary>
+    /// vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vporq xmm_k1z, xmm, xmm","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vporq_xmm_k1z_xmm_xmm = 3552,
+    /// <summary>
+    /// vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vporq xmm_k1z, xmm, m128","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vporq_xmm_k1z_xmm_m128 = 3553,
+    /// <summary>
+    /// vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vporq xmm_k1z, xmm, m64bcst","vporq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vporq_xmm_k1z_xmm_m64bcst = 3554,
     /// <summary>
     /// vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vporq ymm {k1}{z}, ymm, ymm","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vporq_ymm_k1z_ymm_ymm = 2969,
+    [Symbol("vporq ymm, ymm, ymm","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vporq_ymm_ymm_ymm = 3555,
     /// <summary>
     /// vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vporq ymm {k1}{z}, ymm, m256","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vporq_ymm_k1z_ymm_m256 = 2970,
+    [Symbol("vporq ymm, ymm, m256","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vporq_ymm_ymm_m256 = 3556,
     /// <summary>
     /// vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vporq ymm {k1}{z}, ymm, m64bcst","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vporq_ymm_k1z_ymm_m64bcst = 2971,
+    [Symbol("vporq ymm, ymm, m64bcst","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vporq_ymm_ymm_m64bcst = 3557,
+    /// <summary>
+    /// vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vporq ymm_k1z, ymm, ymm","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vporq_ymm_k1z_ymm_ymm = 3558,
+    /// <summary>
+    /// vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vporq ymm_k1z, ymm, m256","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vporq_ymm_k1z_ymm_m256 = 3559,
+    /// <summary>
+    /// vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vporq ymm_k1z, ymm, m64bcst","vporq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vporq_ymm_k1z_ymm_m64bcst = 3560,
     /// <summary>
     /// vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vporq zmm {k1}{z}, zmm, zmm","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vporq_zmm_k1z_zmm_zmm = 2972,
+    [Symbol("vporq zmm, zmm, zmm","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vporq_zmm_zmm_zmm = 3561,
     /// <summary>
     /// vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vporq zmm {k1}{z}, zmm, m512","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vporq_zmm_k1z_zmm_m512 = 2973,
+    [Symbol("vporq zmm, zmm, m512","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vporq_zmm_zmm_m512 = 3562,
     /// <summary>
     /// vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vporq zmm {k1}{z}, zmm, m64bcst","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vporq_zmm_k1z_zmm_m64bcst = 2974,
+    [Symbol("vporq zmm, zmm, m64bcst","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vporq_zmm_zmm_m64bcst = 3563,
+    /// <summary>
+    /// vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vporq zmm_k1z, zmm, zmm","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vporq_zmm_k1z_zmm_zmm = 3564,
+    /// <summary>
+    /// vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vporq zmm_k1z, zmm, m512","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vporq_zmm_k1z_zmm_m512 = 3565,
+    /// <summary>
+    /// vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vporq zmm_k1z, zmm, m64bcst","vporq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vporq_zmm_k1z_zmm_m64bcst = 3566,
     /// <summary>
     /// vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold xmm {k1}{z}, xmm, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vprold_xmm_k1z_xmm_imm8 = 2975,
+    [Symbol("vprold xmm, xmm, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprold_xmm_xmm_imm8 = 3567,
     /// <summary>
     /// vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold xmm {k1}{z}, m128, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vprold_xmm_k1z_m128_imm8 = 2976,
+    [Symbol("vprold xmm, m128, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprold_xmm_m128_imm8 = 3568,
     /// <summary>
     /// vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold xmm {k1}{z}, m32bcst, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vprold_xmm_k1z_m32bcst_imm8 = 2977,
+    [Symbol("vprold xmm, m32bcst, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprold_xmm_m32bcst_imm8 = 3569,
+    /// <summary>
+    /// vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold xmm_k1z, xmm, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprold_xmm_k1z_xmm_imm8 = 3570,
+    /// <summary>
+    /// vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold xmm_k1z, m128, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprold_xmm_k1z_m128_imm8 = 3571,
+    /// <summary>
+    /// vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold xmm_k1z, m32bcst, imm8","vprold xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprold_xmm_k1z_m32bcst_imm8 = 3572,
     /// <summary>
     /// vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold ymm {k1}{z}, ymm, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vprold_ymm_k1z_ymm_imm8 = 2978,
+    [Symbol("vprold ymm, ymm, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprold_ymm_ymm_imm8 = 3573,
     /// <summary>
     /// vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold ymm {k1}{z}, m256, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vprold_ymm_k1z_m256_imm8 = 2979,
+    [Symbol("vprold ymm, m256, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprold_ymm_m256_imm8 = 3574,
     /// <summary>
     /// vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold ymm {k1}{z}, m32bcst, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vprold_ymm_k1z_m32bcst_imm8 = 2980,
+    [Symbol("vprold ymm, m32bcst, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprold_ymm_m32bcst_imm8 = 3575,
+    /// <summary>
+    /// vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold ymm_k1z, ymm, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprold_ymm_k1z_ymm_imm8 = 3576,
+    /// <summary>
+    /// vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold ymm_k1z, m256, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprold_ymm_k1z_m256_imm8 = 3577,
+    /// <summary>
+    /// vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold ymm_k1z, m32bcst, imm8","vprold ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprold_ymm_k1z_m32bcst_imm8 = 3578,
     /// <summary>
     /// vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold zmm {k1}{z}, zmm, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vprold_zmm_k1z_zmm_imm8 = 2981,
+    [Symbol("vprold zmm, zmm, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprold_zmm_zmm_imm8 = 3579,
     /// <summary>
     /// vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold zmm {k1}{z}, m512, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vprold_zmm_k1z_m512_imm8 = 2982,
+    [Symbol("vprold zmm, m512, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprold_zmm_m512_imm8 = 3580,
     /// <summary>
     /// vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vprold zmm {k1}{z}, m32bcst, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vprold_zmm_k1z_m32bcst_imm8 = 2983,
+    [Symbol("vprold zmm, m32bcst, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprold_zmm_m32bcst_imm8 = 3581,
+    /// <summary>
+    /// vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold zmm_k1z, zmm, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprold_zmm_k1z_zmm_imm8 = 3582,
+    /// <summary>
+    /// vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold zmm_k1z, m512, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprold_zmm_k1z_m512_imm8 = 3583,
+    /// <summary>
+    /// vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprold zmm_k1z, m32bcst, imm8","vprold zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprold_zmm_k1z_m32bcst_imm8 = 3584,
     /// <summary>
     /// vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq xmm {k1}{z}, xmm, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vprolq_xmm_k1z_xmm_imm8 = 2984,
+    [Symbol("vprolq xmm, xmm, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprolq_xmm_xmm_imm8 = 3585,
     /// <summary>
     /// vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq xmm {k1}{z}, m128, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vprolq_xmm_k1z_m128_imm8 = 2985,
+    [Symbol("vprolq xmm, m128, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprolq_xmm_m128_imm8 = 3586,
     /// <summary>
     /// vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq xmm {k1}{z}, m64bcst, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vprolq_xmm_k1z_m64bcst_imm8 = 2986,
+    [Symbol("vprolq xmm, m64bcst, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprolq_xmm_m64bcst_imm8 = 3587,
+    /// <summary>
+    /// vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq xmm_k1z, xmm, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprolq_xmm_k1z_xmm_imm8 = 3588,
+    /// <summary>
+    /// vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq xmm_k1z, m128, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprolq_xmm_k1z_m128_imm8 = 3589,
+    /// <summary>
+    /// vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq xmm_k1z, m64bcst, imm8","vprolq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprolq_xmm_k1z_m64bcst_imm8 = 3590,
     /// <summary>
     /// vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq ymm {k1}{z}, ymm, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vprolq_ymm_k1z_ymm_imm8 = 2987,
+    [Symbol("vprolq ymm, ymm, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprolq_ymm_ymm_imm8 = 3591,
     /// <summary>
     /// vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq ymm {k1}{z}, m256, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vprolq_ymm_k1z_m256_imm8 = 2988,
+    [Symbol("vprolq ymm, m256, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprolq_ymm_m256_imm8 = 3592,
     /// <summary>
     /// vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq ymm {k1}{z}, m64bcst, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vprolq_ymm_k1z_m64bcst_imm8 = 2989,
+    [Symbol("vprolq ymm, m64bcst, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprolq_ymm_m64bcst_imm8 = 3593,
+    /// <summary>
+    /// vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq ymm_k1z, ymm, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprolq_ymm_k1z_ymm_imm8 = 3594,
+    /// <summary>
+    /// vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq ymm_k1z, m256, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprolq_ymm_k1z_m256_imm8 = 3595,
+    /// <summary>
+    /// vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq ymm_k1z, m64bcst, imm8","vprolq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprolq_ymm_k1z_m64bcst_imm8 = 3596,
     /// <summary>
     /// vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq zmm {k1}{z}, zmm, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vprolq_zmm_k1z_zmm_imm8 = 2990,
+    [Symbol("vprolq zmm, zmm, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprolq_zmm_zmm_imm8 = 3597,
     /// <summary>
     /// vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq zmm {k1}{z}, m512, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vprolq_zmm_k1z_m512_imm8 = 2991,
+    [Symbol("vprolq zmm, m512, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprolq_zmm_m512_imm8 = 3598,
     /// <summary>
     /// vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vprolq zmm {k1}{z}, m64bcst, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vprolq_zmm_k1z_m64bcst_imm8 = 2992,
+    [Symbol("vprolq zmm, m64bcst, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprolq_zmm_m64bcst_imm8 = 3599,
+    /// <summary>
+    /// vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq zmm_k1z, zmm, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprolq_zmm_k1z_zmm_imm8 = 3600,
+    /// <summary>
+    /// vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq zmm_k1z, m512, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprolq_zmm_k1z_m512_imm8 = 3601,
+    /// <summary>
+    /// vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprolq zmm_k1z, m64bcst, imm8","vprolq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprolq_zmm_k1z_m64bcst_imm8 = 3602,
     /// <summary>
     /// vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vprolvd xmm {k1}{z}, xmm, xmm","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vprolvd_xmm_k1z_xmm_xmm = 2993,
+    [Symbol("vprolvd xmm, xmm, xmm","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprolvd_xmm_xmm_xmm = 3603,
     /// <summary>
     /// vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vprolvd xmm {k1}{z}, xmm, m128","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vprolvd_xmm_k1z_xmm_m128 = 2994,
+    [Symbol("vprolvd xmm, xmm, m128","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprolvd_xmm_xmm_m128 = 3604,
     /// <summary>
     /// vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vprolvd xmm {k1}{z}, xmm, m32bcst","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vprolvd_xmm_k1z_xmm_m32bcst = 2995,
+    [Symbol("vprolvd xmm, xmm, m32bcst","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprolvd_xmm_xmm_m32bcst = 3605,
+    /// <summary>
+    /// vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vprolvd xmm_k1z, xmm, xmm","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprolvd_xmm_k1z_xmm_xmm = 3606,
+    /// <summary>
+    /// vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vprolvd xmm_k1z, xmm, m128","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprolvd_xmm_k1z_xmm_m128 = 3607,
+    /// <summary>
+    /// vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vprolvd xmm_k1z, xmm, m32bcst","vprolvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprolvd_xmm_k1z_xmm_m32bcst = 3608,
     /// <summary>
     /// vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vprolvd ymm {k1}{z}, ymm, ymm","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vprolvd_ymm_k1z_ymm_ymm = 2996,
+    [Symbol("vprolvd ymm, ymm, ymm","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprolvd_ymm_ymm_ymm = 3609,
     /// <summary>
     /// vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vprolvd ymm {k1}{z}, ymm, m256","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vprolvd_ymm_k1z_ymm_m256 = 2997,
+    [Symbol("vprolvd ymm, ymm, m256","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprolvd_ymm_ymm_m256 = 3610,
     /// <summary>
     /// vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vprolvd ymm {k1}{z}, ymm, m32bcst","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vprolvd_ymm_k1z_ymm_m32bcst = 2998,
+    [Symbol("vprolvd ymm, ymm, m32bcst","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprolvd_ymm_ymm_m32bcst = 3611,
+    /// <summary>
+    /// vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vprolvd ymm_k1z, ymm, ymm","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprolvd_ymm_k1z_ymm_ymm = 3612,
+    /// <summary>
+    /// vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vprolvd ymm_k1z, ymm, m256","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprolvd_ymm_k1z_ymm_m256 = 3613,
+    /// <summary>
+    /// vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vprolvd ymm_k1z, ymm, m32bcst","vprolvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprolvd_ymm_k1z_ymm_m32bcst = 3614,
     /// <summary>
     /// vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vprolvd zmm {k1}{z}, zmm, zmm","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vprolvd_zmm_k1z_zmm_zmm = 2999,
+    [Symbol("vprolvd zmm, zmm, zmm","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprolvd_zmm_zmm_zmm = 3615,
     /// <summary>
     /// vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vprolvd zmm {k1}{z}, zmm, m512","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vprolvd_zmm_k1z_zmm_m512 = 3000,
+    [Symbol("vprolvd zmm, zmm, m512","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprolvd_zmm_zmm_m512 = 3616,
     /// <summary>
     /// vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vprolvd zmm {k1}{z}, zmm, m32bcst","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vprolvd_zmm_k1z_zmm_m32bcst = 3001,
+    [Symbol("vprolvd zmm, zmm, m32bcst","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprolvd_zmm_zmm_m32bcst = 3617,
+    /// <summary>
+    /// vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vprolvd zmm_k1z, zmm, zmm","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprolvd_zmm_k1z_zmm_zmm = 3618,
+    /// <summary>
+    /// vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vprolvd zmm_k1z, zmm, m512","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprolvd_zmm_k1z_zmm_m512 = 3619,
+    /// <summary>
+    /// vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vprolvd zmm_k1z, zmm, m32bcst","vprolvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprolvd_zmm_k1z_zmm_m32bcst = 3620,
     /// <summary>
     /// vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vprolvq xmm {k1}{z}, xmm, xmm","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vprolvq_xmm_k1z_xmm_xmm = 3002,
+    [Symbol("vprolvq xmm, xmm, xmm","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprolvq_xmm_xmm_xmm = 3621,
     /// <summary>
     /// vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vprolvq xmm {k1}{z}, xmm, m128","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vprolvq_xmm_k1z_xmm_m128 = 3003,
+    [Symbol("vprolvq xmm, xmm, m128","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprolvq_xmm_xmm_m128 = 3622,
     /// <summary>
     /// vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vprolvq xmm {k1}{z}, xmm, m64bcst","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vprolvq_xmm_k1z_xmm_m64bcst = 3004,
+    [Symbol("vprolvq xmm, xmm, m64bcst","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprolvq_xmm_xmm_m64bcst = 3623,
+    /// <summary>
+    /// vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vprolvq xmm_k1z, xmm, xmm","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprolvq_xmm_k1z_xmm_xmm = 3624,
+    /// <summary>
+    /// vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vprolvq xmm_k1z, xmm, m128","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprolvq_xmm_k1z_xmm_m128 = 3625,
+    /// <summary>
+    /// vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vprolvq xmm_k1z, xmm, m64bcst","vprolvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprolvq_xmm_k1z_xmm_m64bcst = 3626,
     /// <summary>
     /// vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vprolvq ymm {k1}{z}, ymm, ymm","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vprolvq_ymm_k1z_ymm_ymm = 3005,
+    [Symbol("vprolvq ymm, ymm, ymm","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprolvq_ymm_ymm_ymm = 3627,
     /// <summary>
     /// vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vprolvq ymm {k1}{z}, ymm, m256","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vprolvq_ymm_k1z_ymm_m256 = 3006,
+    [Symbol("vprolvq ymm, ymm, m256","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprolvq_ymm_ymm_m256 = 3628,
     /// <summary>
     /// vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vprolvq ymm {k1}{z}, ymm, m64bcst","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vprolvq_ymm_k1z_ymm_m64bcst = 3007,
+    [Symbol("vprolvq ymm, ymm, m64bcst","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprolvq_ymm_ymm_m64bcst = 3629,
+    /// <summary>
+    /// vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vprolvq ymm_k1z, ymm, ymm","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprolvq_ymm_k1z_ymm_ymm = 3630,
+    /// <summary>
+    /// vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vprolvq ymm_k1z, ymm, m256","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprolvq_ymm_k1z_ymm_m256 = 3631,
+    /// <summary>
+    /// vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vprolvq ymm_k1z, ymm, m64bcst","vprolvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprolvq_ymm_k1z_ymm_m64bcst = 3632,
     /// <summary>
     /// vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vprolvq zmm {k1}{z}, zmm, zmm","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vprolvq_zmm_k1z_zmm_zmm = 3008,
+    [Symbol("vprolvq zmm, zmm, zmm","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprolvq_zmm_zmm_zmm = 3633,
     /// <summary>
     /// vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vprolvq zmm {k1}{z}, zmm, m512","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vprolvq_zmm_k1z_zmm_m512 = 3009,
+    [Symbol("vprolvq zmm, zmm, m512","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprolvq_zmm_zmm_m512 = 3634,
     /// <summary>
     /// vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vprolvq zmm {k1}{z}, zmm, m64bcst","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vprolvq_zmm_k1z_zmm_m64bcst = 3010,
+    [Symbol("vprolvq zmm, zmm, m64bcst","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprolvq_zmm_zmm_m64bcst = 3635,
+    /// <summary>
+    /// vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vprolvq zmm_k1z, zmm, zmm","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprolvq_zmm_k1z_zmm_zmm = 3636,
+    /// <summary>
+    /// vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vprolvq zmm_k1z, zmm, m512","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprolvq_zmm_k1z_zmm_m512 = 3637,
+    /// <summary>
+    /// vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vprolvq zmm_k1z, zmm, m64bcst","vprolvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprolvq_zmm_k1z_zmm_m64bcst = 3638,
     /// <summary>
     /// vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord xmm {k1}{z}, xmm, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vprord_xmm_k1z_xmm_imm8 = 3011,
+    [Symbol("vprord xmm, xmm, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprord_xmm_xmm_imm8 = 3639,
     /// <summary>
     /// vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord xmm {k1}{z}, m128, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vprord_xmm_k1z_m128_imm8 = 3012,
+    [Symbol("vprord xmm, m128, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprord_xmm_m128_imm8 = 3640,
     /// <summary>
     /// vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord xmm {k1}{z}, m32bcst, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vprord_xmm_k1z_m32bcst_imm8 = 3013,
+    [Symbol("vprord xmm, m32bcst, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprord_xmm_m32bcst_imm8 = 3641,
+    /// <summary>
+    /// vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord xmm_k1z, xmm, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprord_xmm_k1z_xmm_imm8 = 3642,
+    /// <summary>
+    /// vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord xmm_k1z, m128, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprord_xmm_k1z_m128_imm8 = 3643,
+    /// <summary>
+    /// vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord xmm_k1z, m32bcst, imm8","vprord xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vprord_xmm_k1z_m32bcst_imm8 = 3644,
     /// <summary>
     /// vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord ymm {k1}{z}, ymm, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vprord_ymm_k1z_ymm_imm8 = 3014,
+    [Symbol("vprord ymm, ymm, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprord_ymm_ymm_imm8 = 3645,
     /// <summary>
     /// vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord ymm {k1}{z}, m256, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vprord_ymm_k1z_m256_imm8 = 3015,
+    [Symbol("vprord ymm, m256, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprord_ymm_m256_imm8 = 3646,
     /// <summary>
     /// vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord ymm {k1}{z}, m32bcst, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vprord_ymm_k1z_m32bcst_imm8 = 3016,
+    [Symbol("vprord ymm, m32bcst, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprord_ymm_m32bcst_imm8 = 3647,
+    /// <summary>
+    /// vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord ymm_k1z, ymm, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprord_ymm_k1z_ymm_imm8 = 3648,
+    /// <summary>
+    /// vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord ymm_k1z, m256, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprord_ymm_k1z_m256_imm8 = 3649,
+    /// <summary>
+    /// vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord ymm_k1z, m32bcst, imm8","vprord ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vprord_ymm_k1z_m32bcst_imm8 = 3650,
     /// <summary>
     /// vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord zmm {k1}{z}, zmm, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vprord_zmm_k1z_zmm_imm8 = 3017,
+    [Symbol("vprord zmm, zmm, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprord_zmm_zmm_imm8 = 3651,
     /// <summary>
     /// vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord zmm {k1}{z}, m512, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vprord_zmm_k1z_m512_imm8 = 3018,
+    [Symbol("vprord zmm, m512, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprord_zmm_m512_imm8 = 3652,
     /// <summary>
     /// vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vprord zmm {k1}{z}, m32bcst, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vprord_zmm_k1z_m32bcst_imm8 = 3019,
+    [Symbol("vprord zmm, m32bcst, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprord_zmm_m32bcst_imm8 = 3653,
+    /// <summary>
+    /// vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord zmm_k1z, zmm, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprord_zmm_k1z_zmm_imm8 = 3654,
+    /// <summary>
+    /// vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord zmm_k1z, m512, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprord_zmm_k1z_m512_imm8 = 3655,
+    /// <summary>
+    /// vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vprord zmm_k1z, m32bcst, imm8","vprord zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vprord_zmm_k1z_m32bcst_imm8 = 3656,
     /// <summary>
     /// vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq xmm {k1}{z}, xmm, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vprorq_xmm_k1z_xmm_imm8 = 3020,
+    [Symbol("vprorq xmm, xmm, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprorq_xmm_xmm_imm8 = 3657,
     /// <summary>
     /// vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq xmm {k1}{z}, m128, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vprorq_xmm_k1z_m128_imm8 = 3021,
+    [Symbol("vprorq xmm, m128, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprorq_xmm_m128_imm8 = 3658,
     /// <summary>
     /// vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq xmm {k1}{z}, m64bcst, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vprorq_xmm_k1z_m64bcst_imm8 = 3022,
+    [Symbol("vprorq xmm, m64bcst, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprorq_xmm_m64bcst_imm8 = 3659,
+    /// <summary>
+    /// vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq xmm_k1z, xmm, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprorq_xmm_k1z_xmm_imm8 = 3660,
+    /// <summary>
+    /// vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq xmm_k1z, m128, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprorq_xmm_k1z_m128_imm8 = 3661,
+    /// <summary>
+    /// vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq xmm_k1z, m64bcst, imm8","vprorq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vprorq_xmm_k1z_m64bcst_imm8 = 3662,
     /// <summary>
     /// vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq ymm {k1}{z}, ymm, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vprorq_ymm_k1z_ymm_imm8 = 3023,
+    [Symbol("vprorq ymm, ymm, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprorq_ymm_ymm_imm8 = 3663,
     /// <summary>
     /// vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq ymm {k1}{z}, m256, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vprorq_ymm_k1z_m256_imm8 = 3024,
+    [Symbol("vprorq ymm, m256, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprorq_ymm_m256_imm8 = 3664,
     /// <summary>
     /// vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq ymm {k1}{z}, m64bcst, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vprorq_ymm_k1z_m64bcst_imm8 = 3025,
+    [Symbol("vprorq ymm, m64bcst, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprorq_ymm_m64bcst_imm8 = 3665,
+    /// <summary>
+    /// vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq ymm_k1z, ymm, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprorq_ymm_k1z_ymm_imm8 = 3666,
+    /// <summary>
+    /// vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq ymm_k1z, m256, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprorq_ymm_k1z_m256_imm8 = 3667,
+    /// <summary>
+    /// vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq ymm_k1z, m64bcst, imm8","vprorq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vprorq_ymm_k1z_m64bcst_imm8 = 3668,
     /// <summary>
     /// vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq zmm {k1}{z}, zmm, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vprorq_zmm_k1z_zmm_imm8 = 3026,
+    [Symbol("vprorq zmm, zmm, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprorq_zmm_zmm_imm8 = 3669,
     /// <summary>
     /// vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq zmm {k1}{z}, m512, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vprorq_zmm_k1z_m512_imm8 = 3027,
+    [Symbol("vprorq zmm, m512, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprorq_zmm_m512_imm8 = 3670,
     /// <summary>
     /// vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vprorq zmm {k1}{z}, m64bcst, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vprorq_zmm_k1z_m64bcst_imm8 = 3028,
+    [Symbol("vprorq zmm, m64bcst, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprorq_zmm_m64bcst_imm8 = 3671,
+    /// <summary>
+    /// vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq zmm_k1z, zmm, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprorq_zmm_k1z_zmm_imm8 = 3672,
+    /// <summary>
+    /// vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq zmm_k1z, m512, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprorq_zmm_k1z_m512_imm8 = 3673,
+    /// <summary>
+    /// vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vprorq zmm_k1z, m64bcst, imm8","vprorq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vprorq_zmm_k1z_m64bcst_imm8 = 3674,
     /// <summary>
     /// vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vprorvd xmm {k1}{z}, xmm, xmm","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vprorvd_xmm_k1z_xmm_xmm = 3029,
+    [Symbol("vprorvd xmm, xmm, xmm","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprorvd_xmm_xmm_xmm = 3675,
     /// <summary>
     /// vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vprorvd xmm {k1}{z}, xmm, m128","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vprorvd_xmm_k1z_xmm_m128 = 3030,
+    [Symbol("vprorvd xmm, xmm, m128","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprorvd_xmm_xmm_m128 = 3676,
     /// <summary>
     /// vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vprorvd xmm {k1}{z}, xmm, m32bcst","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vprorvd_xmm_k1z_xmm_m32bcst = 3031,
+    [Symbol("vprorvd xmm, xmm, m32bcst","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprorvd_xmm_xmm_m32bcst = 3677,
+    /// <summary>
+    /// vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vprorvd xmm_k1z, xmm, xmm","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprorvd_xmm_k1z_xmm_xmm = 3678,
+    /// <summary>
+    /// vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vprorvd xmm_k1z, xmm, m128","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprorvd_xmm_k1z_xmm_m128 = 3679,
+    /// <summary>
+    /// vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vprorvd xmm_k1z, xmm, m32bcst","vprorvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vprorvd_xmm_k1z_xmm_m32bcst = 3680,
     /// <summary>
     /// vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vprorvd ymm {k1}{z}, ymm, ymm","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vprorvd_ymm_k1z_ymm_ymm = 3032,
+    [Symbol("vprorvd ymm, ymm, ymm","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprorvd_ymm_ymm_ymm = 3681,
     /// <summary>
     /// vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vprorvd ymm {k1}{z}, ymm, m256","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vprorvd_ymm_k1z_ymm_m256 = 3033,
+    [Symbol("vprorvd ymm, ymm, m256","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprorvd_ymm_ymm_m256 = 3682,
     /// <summary>
     /// vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vprorvd ymm {k1}{z}, ymm, m32bcst","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vprorvd_ymm_k1z_ymm_m32bcst = 3034,
+    [Symbol("vprorvd ymm, ymm, m32bcst","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprorvd_ymm_ymm_m32bcst = 3683,
+    /// <summary>
+    /// vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vprorvd ymm_k1z, ymm, ymm","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprorvd_ymm_k1z_ymm_ymm = 3684,
+    /// <summary>
+    /// vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vprorvd ymm_k1z, ymm, m256","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprorvd_ymm_k1z_ymm_m256 = 3685,
+    /// <summary>
+    /// vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vprorvd ymm_k1z, ymm, m32bcst","vprorvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vprorvd_ymm_k1z_ymm_m32bcst = 3686,
     /// <summary>
     /// vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vprorvd zmm {k1}{z}, zmm, zmm","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vprorvd_zmm_k1z_zmm_zmm = 3035,
+    [Symbol("vprorvd zmm, zmm, zmm","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprorvd_zmm_zmm_zmm = 3687,
     /// <summary>
     /// vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vprorvd zmm {k1}{z}, zmm, m512","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vprorvd_zmm_k1z_zmm_m512 = 3036,
+    [Symbol("vprorvd zmm, zmm, m512","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprorvd_zmm_zmm_m512 = 3688,
     /// <summary>
     /// vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vprorvd zmm {k1}{z}, zmm, m32bcst","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vprorvd_zmm_k1z_zmm_m32bcst = 3037,
+    [Symbol("vprorvd zmm, zmm, m32bcst","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprorvd_zmm_zmm_m32bcst = 3689,
+    /// <summary>
+    /// vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vprorvd zmm_k1z, zmm, zmm","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprorvd_zmm_k1z_zmm_zmm = 3690,
+    /// <summary>
+    /// vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vprorvd zmm_k1z, zmm, m512","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprorvd_zmm_k1z_zmm_m512 = 3691,
+    /// <summary>
+    /// vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vprorvd zmm_k1z, zmm, m32bcst","vprorvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vprorvd_zmm_k1z_zmm_m32bcst = 3692,
     /// <summary>
     /// vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vprorvq xmm {k1}{z}, xmm, xmm","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vprorvq_xmm_k1z_xmm_xmm = 3038,
+    [Symbol("vprorvq xmm, xmm, xmm","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprorvq_xmm_xmm_xmm = 3693,
     /// <summary>
     /// vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vprorvq xmm {k1}{z}, xmm, m128","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vprorvq_xmm_k1z_xmm_m128 = 3039,
+    [Symbol("vprorvq xmm, xmm, m128","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprorvq_xmm_xmm_m128 = 3694,
     /// <summary>
     /// vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vprorvq xmm {k1}{z}, xmm, m64bcst","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vprorvq_xmm_k1z_xmm_m64bcst = 3040,
+    [Symbol("vprorvq xmm, xmm, m64bcst","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprorvq_xmm_xmm_m64bcst = 3695,
+    /// <summary>
+    /// vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vprorvq xmm_k1z, xmm, xmm","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprorvq_xmm_k1z_xmm_xmm = 3696,
+    /// <summary>
+    /// vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vprorvq xmm_k1z, xmm, m128","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprorvq_xmm_k1z_xmm_m128 = 3697,
+    /// <summary>
+    /// vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vprorvq xmm_k1z, xmm, m64bcst","vprorvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vprorvq_xmm_k1z_xmm_m64bcst = 3698,
     /// <summary>
     /// vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vprorvq ymm {k1}{z}, ymm, ymm","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vprorvq_ymm_k1z_ymm_ymm = 3041,
+    [Symbol("vprorvq ymm, ymm, ymm","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprorvq_ymm_ymm_ymm = 3699,
     /// <summary>
     /// vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vprorvq ymm {k1}{z}, ymm, m256","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vprorvq_ymm_k1z_ymm_m256 = 3042,
+    [Symbol("vprorvq ymm, ymm, m256","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprorvq_ymm_ymm_m256 = 3700,
     /// <summary>
     /// vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vprorvq ymm {k1}{z}, ymm, m64bcst","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vprorvq_ymm_k1z_ymm_m64bcst = 3043,
+    [Symbol("vprorvq ymm, ymm, m64bcst","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprorvq_ymm_ymm_m64bcst = 3701,
+    /// <summary>
+    /// vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vprorvq ymm_k1z, ymm, ymm","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprorvq_ymm_k1z_ymm_ymm = 3702,
+    /// <summary>
+    /// vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vprorvq ymm_k1z, ymm, m256","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprorvq_ymm_k1z_ymm_m256 = 3703,
+    /// <summary>
+    /// vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vprorvq ymm_k1z, ymm, m64bcst","vprorvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vprorvq_ymm_k1z_ymm_m64bcst = 3704,
     /// <summary>
     /// vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vprorvq zmm {k1}{z}, zmm, zmm","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vprorvq_zmm_k1z_zmm_zmm = 3044,
+    [Symbol("vprorvq zmm, zmm, zmm","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprorvq_zmm_zmm_zmm = 3705,
     /// <summary>
     /// vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vprorvq zmm {k1}{z}, zmm, m512","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vprorvq_zmm_k1z_zmm_m512 = 3045,
+    [Symbol("vprorvq zmm, zmm, m512","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprorvq_zmm_zmm_m512 = 3706,
     /// <summary>
     /// vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vprorvq zmm {k1}{z}, zmm, m64bcst","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vprorvq_zmm_k1z_zmm_m64bcst = 3046,
+    [Symbol("vprorvq zmm, zmm, m64bcst","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprorvq_zmm_zmm_m64bcst = 3707,
+    /// <summary>
+    /// vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vprorvq zmm_k1z, zmm, zmm","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprorvq_zmm_k1z_zmm_zmm = 3708,
+    /// <summary>
+    /// vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vprorvq zmm_k1z, zmm, m512","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprorvq_zmm_k1z_zmm_m512 = 3709,
+    /// <summary>
+    /// vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vprorvq zmm_k1z, zmm, m64bcst","vprorvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vprorvq_zmm_k1z_zmm_m64bcst = 3710,
     /// <summary>
     /// vpscatterdd vm32x {k1}, xmm
     /// </summary>
     [Symbol("vpscatterdd vm32x {k1}, xmm","vpscatterdd vm32x {k1}, xmm")]
-    vpscatterdd_vm32x_k1_xmm = 3047,
+    vpscatterdd_vm32x_k1_xmm = 3711,
     /// <summary>
     /// vpscatterdd vm32y {k1}, ymm
     /// </summary>
     [Symbol("vpscatterdd vm32y {k1}, ymm","vpscatterdd vm32y {k1}, ymm")]
-    vpscatterdd_vm32y_k1_ymm = 3048,
+    vpscatterdd_vm32y_k1_ymm = 3712,
     /// <summary>
     /// vpscatterdd vm32z {k1}, zmm
     /// </summary>
     [Symbol("vpscatterdd vm32z {k1}, zmm","vpscatterdd vm32z {k1}, zmm")]
-    vpscatterdd_vm32z_k1_zmm = 3049,
+    vpscatterdd_vm32z_k1_zmm = 3713,
     /// <summary>
     /// vpscatterdq vm32x {k1}, xmm
     /// </summary>
     [Symbol("vpscatterdq vm32x {k1}, xmm","vpscatterdq vm32x {k1}, xmm")]
-    vpscatterdq_vm32x_k1_xmm = 3050,
+    vpscatterdq_vm32x_k1_xmm = 3714,
     /// <summary>
     /// vpscatterdq vm32x {k1}, ymm
     /// </summary>
     [Symbol("vpscatterdq vm32x {k1}, ymm","vpscatterdq vm32x {k1}, ymm")]
-    vpscatterdq_vm32x_k1_ymm = 3051,
+    vpscatterdq_vm32x_k1_ymm = 3715,
     /// <summary>
     /// vpscatterdq vm32y {k1}, zmm
     /// </summary>
     [Symbol("vpscatterdq vm32y {k1}, zmm","vpscatterdq vm32y {k1}, zmm")]
-    vpscatterdq_vm32y_k1_zmm = 3052,
+    vpscatterdq_vm32y_k1_zmm = 3716,
     /// <summary>
     /// vpscatterqd vm64x {k1}, xmm
     /// </summary>
     [Symbol("vpscatterqd vm64x {k1}, xmm","vpscatterqd vm64x {k1}, xmm")]
-    vpscatterqd_vm64x_k1_xmm = 3053,
+    vpscatterqd_vm64x_k1_xmm = 3717,
     /// <summary>
     /// vpscatterqd vm64y {k1}, xmm
     /// </summary>
     [Symbol("vpscatterqd vm64y {k1}, xmm","vpscatterqd vm64y {k1}, xmm")]
-    vpscatterqd_vm64y_k1_xmm = 3054,
+    vpscatterqd_vm64y_k1_xmm = 3718,
     /// <summary>
     /// vpscatterqd vm64z {k1}, ymm
     /// </summary>
     [Symbol("vpscatterqd vm64z {k1}, ymm","vpscatterqd vm64z {k1}, ymm")]
-    vpscatterqd_vm64z_k1_ymm = 3055,
+    vpscatterqd_vm64z_k1_ymm = 3719,
     /// <summary>
     /// vpscatterqq vm64x {k1}, xmm
     /// </summary>
     [Symbol("vpscatterqq vm64x {k1}, xmm","vpscatterqq vm64x {k1}, xmm")]
-    vpscatterqq_vm64x_k1_xmm = 3056,
+    vpscatterqq_vm64x_k1_xmm = 3720,
     /// <summary>
     /// vpscatterqq vm64y {k1}, ymm
     /// </summary>
     [Symbol("vpscatterqq vm64y {k1}, ymm","vpscatterqq vm64y {k1}, ymm")]
-    vpscatterqq_vm64y_k1_ymm = 3057,
+    vpscatterqq_vm64y_k1_ymm = 3721,
     /// <summary>
     /// vpscatterqq vm64z {k1}, zmm
     /// </summary>
     [Symbol("vpscatterqq vm64z {k1}, zmm","vpscatterqq vm64z {k1}, zmm")]
-    vpscatterqq_vm64z_k1_zmm = 3058,
+    vpscatterqq_vm64z_k1_zmm = 3722,
     /// <summary>
     /// vpshufb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpshufb xmm {k1}{z}, xmm, xmm","vpshufb xmm {k1}{z}, xmm, xmm/m128")]
-    vpshufb_xmm_k1z_xmm_xmm = 3059,
+    [Symbol("vpshufb xmm, xmm, xmm","vpshufb xmm {k1}{z}, xmm, xmm/m128")]
+    vpshufb_xmm_xmm_xmm = 3723,
     /// <summary>
     /// vpshufb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpshufb xmm {k1}{z}, xmm, m128","vpshufb xmm {k1}{z}, xmm, xmm/m128")]
-    vpshufb_xmm_k1z_xmm_m128 = 3060,
+    [Symbol("vpshufb xmm, xmm, m128","vpshufb xmm {k1}{z}, xmm, xmm/m128")]
+    vpshufb_xmm_xmm_m128 = 3724,
     /// <summary>
-    /// vpshufb xmm, xmm, xmm/m128
+    /// vpshufb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpshufb xmm, xmm, xmm","vpshufb xmm, xmm, xmm/m128")]
-    vpshufb_xmm_xmm_xmm = 3061,
+    [Symbol("vpshufb xmm_k1z, xmm, xmm","vpshufb xmm {k1}{z}, xmm, xmm/m128")]
+    vpshufb_xmm_k1z_xmm_xmm = 3725,
     /// <summary>
-    /// vpshufb xmm, xmm, xmm/m128
+    /// vpshufb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpshufb xmm, xmm, m128","vpshufb xmm, xmm, xmm/m128")]
-    vpshufb_xmm_xmm_m128 = 3062,
-    /// <summary>
-    /// vpshufb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpshufb ymm {k1}{z}, ymm, ymm","vpshufb ymm {k1}{z}, ymm, ymm/m256")]
-    vpshufb_ymm_k1z_ymm_ymm = 3063,
+    [Symbol("vpshufb xmm_k1z, xmm, m128","vpshufb xmm {k1}{z}, xmm, xmm/m128")]
+    vpshufb_xmm_k1z_xmm_m128 = 3726,
     /// <summary>
     /// vpshufb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpshufb ymm {k1}{z}, ymm, m256","vpshufb ymm {k1}{z}, ymm, ymm/m256")]
-    vpshufb_ymm_k1z_ymm_m256 = 3064,
+    [Symbol("vpshufb ymm, ymm, ymm","vpshufb ymm {k1}{z}, ymm, ymm/m256")]
+    vpshufb_ymm_ymm_ymm = 3727,
     /// <summary>
-    /// vpshufb ymm, ymm, ymm/m256
+    /// vpshufb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpshufb ymm, ymm, ymm","vpshufb ymm, ymm, ymm/m256")]
-    vpshufb_ymm_ymm_ymm = 3065,
+    [Symbol("vpshufb ymm, ymm, m256","vpshufb ymm {k1}{z}, ymm, ymm/m256")]
+    vpshufb_ymm_ymm_m256 = 3728,
     /// <summary>
-    /// vpshufb ymm, ymm, ymm/m256
+    /// vpshufb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpshufb ymm, ymm, m256","vpshufb ymm, ymm, ymm/m256")]
-    vpshufb_ymm_ymm_m256 = 3066,
+    [Symbol("vpshufb ymm_k1z, ymm, ymm","vpshufb ymm {k1}{z}, ymm, ymm/m256")]
+    vpshufb_ymm_k1z_ymm_ymm = 3729,
+    /// <summary>
+    /// vpshufb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpshufb ymm_k1z, ymm, m256","vpshufb ymm {k1}{z}, ymm, ymm/m256")]
+    vpshufb_ymm_k1z_ymm_m256 = 3730,
     /// <summary>
     /// vpshufb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpshufb zmm {k1}{z}, zmm, zmm","vpshufb zmm {k1}{z}, zmm, zmm/m512")]
-    vpshufb_zmm_k1z_zmm_zmm = 3067,
+    [Symbol("vpshufb zmm, zmm, zmm","vpshufb zmm {k1}{z}, zmm, zmm/m512")]
+    vpshufb_zmm_zmm_zmm = 3731,
     /// <summary>
     /// vpshufb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpshufb zmm {k1}{z}, zmm, m512","vpshufb zmm {k1}{z}, zmm, zmm/m512")]
-    vpshufb_zmm_k1z_zmm_m512 = 3068,
+    [Symbol("vpshufb zmm, zmm, m512","vpshufb zmm {k1}{z}, zmm, zmm/m512")]
+    vpshufb_zmm_zmm_m512 = 3732,
+    /// <summary>
+    /// vpshufb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpshufb zmm_k1z, zmm, zmm","vpshufb zmm {k1}{z}, zmm, zmm/m512")]
+    vpshufb_zmm_k1z_zmm_zmm = 3733,
+    /// <summary>
+    /// vpshufb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpshufb zmm_k1z, zmm, m512","vpshufb zmm {k1}{z}, zmm, zmm/m512")]
+    vpshufb_zmm_k1z_zmm_m512 = 3734,
     /// <summary>
     /// vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd xmm {k1}{z}, xmm, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpshufd_xmm_k1z_xmm_imm8 = 3069,
+    [Symbol("vpshufd xmm, xmm, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpshufd_xmm_xmm_imm8 = 3735,
     /// <summary>
     /// vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd xmm {k1}{z}, m128, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpshufd_xmm_k1z_m128_imm8 = 3070,
+    [Symbol("vpshufd xmm, m128, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpshufd_xmm_m128_imm8 = 3736,
     /// <summary>
     /// vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd xmm {k1}{z}, m32bcst, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpshufd_xmm_k1z_m32bcst_imm8 = 3071,
+    [Symbol("vpshufd xmm, m32bcst, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpshufd_xmm_m32bcst_imm8 = 3737,
     /// <summary>
-    /// vpshufd xmm, xmm/m128, imm8
+    /// vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd xmm, xmm, imm8","vpshufd xmm, xmm/m128, imm8")]
-    vpshufd_xmm_xmm_imm8 = 3072,
+    [Symbol("vpshufd xmm_k1z, xmm, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpshufd_xmm_k1z_xmm_imm8 = 3738,
     /// <summary>
-    /// vpshufd xmm, xmm/m128, imm8
+    /// vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd xmm, m128, imm8","vpshufd xmm, xmm/m128, imm8")]
-    vpshufd_xmm_m128_imm8 = 3073,
+    [Symbol("vpshufd xmm_k1z, m128, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpshufd_xmm_k1z_m128_imm8 = 3739,
     /// <summary>
-    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd ymm {k1}{z}, ymm, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpshufd_ymm_k1z_ymm_imm8 = 3074,
-    /// <summary>
-    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
-    /// </summary>
-    [Symbol("vpshufd ymm {k1}{z}, m256, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpshufd_ymm_k1z_m256_imm8 = 3075,
+    [Symbol("vpshufd xmm_k1z, m32bcst, imm8","vpshufd xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpshufd_xmm_k1z_m32bcst_imm8 = 3740,
     /// <summary>
     /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd ymm {k1}{z}, m32bcst, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpshufd_ymm_k1z_m32bcst_imm8 = 3076,
+    [Symbol("vpshufd ymm, ymm, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpshufd_ymm_ymm_imm8 = 3741,
     /// <summary>
-    /// vpshufd ymm, ymm/m256, imm8
+    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd ymm, ymm, imm8","vpshufd ymm, ymm/m256, imm8")]
-    vpshufd_ymm_ymm_imm8 = 3077,
+    [Symbol("vpshufd ymm, m256, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpshufd_ymm_m256_imm8 = 3742,
     /// <summary>
-    /// vpshufd ymm, ymm/m256, imm8
+    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd ymm, m256, imm8","vpshufd ymm, ymm/m256, imm8")]
-    vpshufd_ymm_m256_imm8 = 3078,
+    [Symbol("vpshufd ymm, m32bcst, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpshufd_ymm_m32bcst_imm8 = 3743,
+    /// <summary>
+    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpshufd ymm_k1z, ymm, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpshufd_ymm_k1z_ymm_imm8 = 3744,
+    /// <summary>
+    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpshufd ymm_k1z, m256, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpshufd_ymm_k1z_m256_imm8 = 3745,
+    /// <summary>
+    /// vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpshufd ymm_k1z, m32bcst, imm8","vpshufd ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpshufd_ymm_k1z_m32bcst_imm8 = 3746,
     /// <summary>
     /// vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd zmm {k1}{z}, zmm, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpshufd_zmm_k1z_zmm_imm8 = 3079,
+    [Symbol("vpshufd zmm, zmm, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpshufd_zmm_zmm_imm8 = 3747,
     /// <summary>
     /// vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd zmm {k1}{z}, m512, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpshufd_zmm_k1z_m512_imm8 = 3080,
+    [Symbol("vpshufd zmm, m512, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpshufd_zmm_m512_imm8 = 3748,
     /// <summary>
     /// vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpshufd zmm {k1}{z}, m32bcst, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpshufd_zmm_k1z_m32bcst_imm8 = 3081,
+    [Symbol("vpshufd zmm, m32bcst, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpshufd_zmm_m32bcst_imm8 = 3749,
+    /// <summary>
+    /// vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpshufd zmm_k1z, zmm, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpshufd_zmm_k1z_zmm_imm8 = 3750,
+    /// <summary>
+    /// vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpshufd zmm_k1z, m512, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpshufd_zmm_k1z_m512_imm8 = 3751,
+    /// <summary>
+    /// vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpshufd zmm_k1z, m32bcst, imm8","vpshufd zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpshufd_zmm_k1z_m32bcst_imm8 = 3752,
     /// <summary>
     /// vpshuflw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpshuflw xmm {k1}{z}, xmm, imm8","vpshuflw xmm {k1}{z}, xmm/m128, imm8")]
-    vpshuflw_xmm_k1z_xmm_imm8 = 3082,
+    [Symbol("vpshuflw xmm, xmm, imm8","vpshuflw xmm {k1}{z}, xmm/m128, imm8")]
+    vpshuflw_xmm_xmm_imm8 = 3753,
     /// <summary>
     /// vpshuflw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpshuflw xmm {k1}{z}, m128, imm8","vpshuflw xmm {k1}{z}, xmm/m128, imm8")]
-    vpshuflw_xmm_k1z_m128_imm8 = 3083,
+    [Symbol("vpshuflw xmm, m128, imm8","vpshuflw xmm {k1}{z}, xmm/m128, imm8")]
+    vpshuflw_xmm_m128_imm8 = 3754,
     /// <summary>
-    /// vpshuflw xmm, xmm/m128, imm8
+    /// vpshuflw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpshuflw xmm, xmm, imm8","vpshuflw xmm, xmm/m128, imm8")]
-    vpshuflw_xmm_xmm_imm8 = 3084,
+    [Symbol("vpshuflw xmm_k1z, xmm, imm8","vpshuflw xmm {k1}{z}, xmm/m128, imm8")]
+    vpshuflw_xmm_k1z_xmm_imm8 = 3755,
     /// <summary>
-    /// vpshuflw xmm, xmm/m128, imm8
+    /// vpshuflw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpshuflw xmm, m128, imm8","vpshuflw xmm, xmm/m128, imm8")]
-    vpshuflw_xmm_m128_imm8 = 3085,
-    /// <summary>
-    /// vpshuflw ymm {k1}{z}, ymm/m256, imm8
-    /// </summary>
-    [Symbol("vpshuflw ymm {k1}{z}, ymm, imm8","vpshuflw ymm {k1}{z}, ymm/m256, imm8")]
-    vpshuflw_ymm_k1z_ymm_imm8 = 3086,
+    [Symbol("vpshuflw xmm_k1z, m128, imm8","vpshuflw xmm {k1}{z}, xmm/m128, imm8")]
+    vpshuflw_xmm_k1z_m128_imm8 = 3756,
     /// <summary>
     /// vpshuflw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpshuflw ymm {k1}{z}, m256, imm8","vpshuflw ymm {k1}{z}, ymm/m256, imm8")]
-    vpshuflw_ymm_k1z_m256_imm8 = 3087,
+    [Symbol("vpshuflw ymm, ymm, imm8","vpshuflw ymm {k1}{z}, ymm/m256, imm8")]
+    vpshuflw_ymm_ymm_imm8 = 3757,
     /// <summary>
-    /// vpshuflw ymm, ymm/m256, imm8
+    /// vpshuflw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpshuflw ymm, ymm, imm8","vpshuflw ymm, ymm/m256, imm8")]
-    vpshuflw_ymm_ymm_imm8 = 3088,
+    [Symbol("vpshuflw ymm, m256, imm8","vpshuflw ymm {k1}{z}, ymm/m256, imm8")]
+    vpshuflw_ymm_m256_imm8 = 3758,
     /// <summary>
-    /// vpshuflw ymm, ymm/m256, imm8
+    /// vpshuflw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpshuflw ymm, m256, imm8","vpshuflw ymm, ymm/m256, imm8")]
-    vpshuflw_ymm_m256_imm8 = 3089,
+    [Symbol("vpshuflw ymm_k1z, ymm, imm8","vpshuflw ymm {k1}{z}, ymm/m256, imm8")]
+    vpshuflw_ymm_k1z_ymm_imm8 = 3759,
+    /// <summary>
+    /// vpshuflw ymm {k1}{z}, ymm/m256, imm8
+    /// </summary>
+    [Symbol("vpshuflw ymm_k1z, m256, imm8","vpshuflw ymm {k1}{z}, ymm/m256, imm8")]
+    vpshuflw_ymm_k1z_m256_imm8 = 3760,
     /// <summary>
     /// vpshuflw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpshuflw zmm {k1}{z}, zmm, imm8","vpshuflw zmm {k1}{z}, zmm/m512, imm8")]
-    vpshuflw_zmm_k1z_zmm_imm8 = 3090,
+    [Symbol("vpshuflw zmm, zmm, imm8","vpshuflw zmm {k1}{z}, zmm/m512, imm8")]
+    vpshuflw_zmm_zmm_imm8 = 3761,
     /// <summary>
     /// vpshuflw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpshuflw zmm {k1}{z}, m512, imm8","vpshuflw zmm {k1}{z}, zmm/m512, imm8")]
-    vpshuflw_zmm_k1z_m512_imm8 = 3091,
+    [Symbol("vpshuflw zmm, m512, imm8","vpshuflw zmm {k1}{z}, zmm/m512, imm8")]
+    vpshuflw_zmm_m512_imm8 = 3762,
+    /// <summary>
+    /// vpshuflw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpshuflw zmm_k1z, zmm, imm8","vpshuflw zmm {k1}{z}, zmm/m512, imm8")]
+    vpshuflw_zmm_k1z_zmm_imm8 = 3763,
+    /// <summary>
+    /// vpshuflw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpshuflw zmm_k1z, m512, imm8","vpshuflw zmm {k1}{z}, zmm/m512, imm8")]
+    vpshuflw_zmm_k1z_m512_imm8 = 3764,
     /// <summary>
     /// vpsignb xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpsignb xmm, xmm, xmm","vpsignb xmm, xmm, xmm/m128")]
-    vpsignb_xmm_xmm_xmm = 3092,
+    vpsignb_xmm_xmm_xmm = 3765,
     /// <summary>
     /// vpsignb xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpsignb xmm, xmm, m128","vpsignb xmm, xmm, xmm/m128")]
-    vpsignb_xmm_xmm_m128 = 3093,
+    vpsignb_xmm_xmm_m128 = 3766,
     /// <summary>
     /// vpsignb ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpsignb ymm, ymm, ymm","vpsignb ymm, ymm, ymm/m256")]
-    vpsignb_ymm_ymm_ymm = 3094,
+    vpsignb_ymm_ymm_ymm = 3767,
     /// <summary>
     /// vpsignb ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpsignb ymm, ymm, m256","vpsignb ymm, ymm, ymm/m256")]
-    vpsignb_ymm_ymm_m256 = 3095,
+    vpsignb_ymm_ymm_m256 = 3768,
     /// <summary>
     /// vpsignd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpsignd xmm, xmm, xmm","vpsignd xmm, xmm, xmm/m128")]
-    vpsignd_xmm_xmm_xmm = 3096,
+    vpsignd_xmm_xmm_xmm = 3769,
     /// <summary>
     /// vpsignd xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpsignd xmm, xmm, m128","vpsignd xmm, xmm, xmm/m128")]
-    vpsignd_xmm_xmm_m128 = 3097,
+    vpsignd_xmm_xmm_m128 = 3770,
     /// <summary>
     /// vpsignd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpsignd ymm, ymm, ymm","vpsignd ymm, ymm, ymm/m256")]
-    vpsignd_ymm_ymm_ymm = 3098,
+    vpsignd_ymm_ymm_ymm = 3771,
     /// <summary>
     /// vpsignd ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpsignd ymm, ymm, m256","vpsignd ymm, ymm, ymm/m256")]
-    vpsignd_ymm_ymm_m256 = 3099,
+    vpsignd_ymm_ymm_m256 = 3772,
     /// <summary>
     /// vpsignw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpsignw xmm, xmm, xmm","vpsignw xmm, xmm, xmm/m128")]
-    vpsignw_xmm_xmm_xmm = 3100,
+    vpsignw_xmm_xmm_xmm = 3773,
     /// <summary>
     /// vpsignw xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpsignw xmm, xmm, m128","vpsignw xmm, xmm, xmm/m128")]
-    vpsignw_xmm_xmm_m128 = 3101,
+    vpsignw_xmm_xmm_m128 = 3774,
     /// <summary>
     /// vpsignw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpsignw ymm, ymm, ymm","vpsignw ymm, ymm, ymm/m256")]
-    vpsignw_ymm_ymm_ymm = 3102,
+    vpsignw_ymm_ymm_ymm = 3775,
     /// <summary>
     /// vpsignw ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpsignw ymm, ymm, m256","vpsignw ymm, ymm, ymm/m256")]
-    vpsignw_ymm_ymm_m256 = 3103,
+    vpsignw_ymm_ymm_m256 = 3776,
     /// <summary>
     /// vpslld xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpslld xmm {k1}{z}, xmm, xmm","vpslld xmm {k1}{z}, xmm, xmm/m128")]
-    vpslld_xmm_k1z_xmm_xmm = 3104,
+    [Symbol("vpslld xmm, xmm, xmm","vpslld xmm {k1}{z}, xmm, xmm/m128")]
+    vpslld_xmm_xmm_xmm = 3777,
     /// <summary>
     /// vpslld xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpslld xmm {k1}{z}, xmm, m128","vpslld xmm {k1}{z}, xmm, xmm/m128")]
-    vpslld_xmm_k1z_xmm_m128 = 3105,
+    [Symbol("vpslld xmm, xmm, m128","vpslld xmm {k1}{z}, xmm, xmm/m128")]
+    vpslld_xmm_xmm_m128 = 3778,
+    /// <summary>
+    /// vpslld xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpslld xmm_k1z, xmm, xmm","vpslld xmm {k1}{z}, xmm, xmm/m128")]
+    vpslld_xmm_k1z_xmm_xmm = 3779,
+    /// <summary>
+    /// vpslld xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpslld xmm_k1z, xmm, m128","vpslld xmm {k1}{z}, xmm, xmm/m128")]
+    vpslld_xmm_k1z_xmm_m128 = 3780,
     /// <summary>
     /// vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld xmm {k1}{z}, xmm, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpslld_xmm_k1z_xmm_imm8 = 3106,
+    [Symbol("vpslld xmm, xmm, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpslld_xmm_xmm_imm8 = 3781,
     /// <summary>
     /// vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld xmm {k1}{z}, m128, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpslld_xmm_k1z_m128_imm8 = 3107,
+    [Symbol("vpslld xmm, m128, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpslld_xmm_m128_imm8 = 3782,
     /// <summary>
     /// vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld xmm {k1}{z}, m32bcst, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpslld_xmm_k1z_m32bcst_imm8 = 3108,
+    [Symbol("vpslld xmm, m32bcst, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpslld_xmm_m32bcst_imm8 = 3783,
     /// <summary>
-    /// vpslld xmm, xmm, imm8
+    /// vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld xmm, xmm, imm8","vpslld xmm, xmm, imm8")]
-    vpslld_xmm_xmm_imm8 = 3109,
+    [Symbol("vpslld xmm_k1z, xmm, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpslld_xmm_k1z_xmm_imm8 = 3784,
     /// <summary>
-    /// vpslld xmm, xmm, xmm/m128
+    /// vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld xmm, xmm, xmm","vpslld xmm, xmm, xmm/m128")]
-    vpslld_xmm_xmm_xmm = 3110,
+    [Symbol("vpslld xmm_k1z, m128, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpslld_xmm_k1z_m128_imm8 = 3785,
     /// <summary>
-    /// vpslld xmm, xmm, xmm/m128
+    /// vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld xmm, xmm, m128","vpslld xmm, xmm, xmm/m128")]
-    vpslld_xmm_xmm_m128 = 3111,
+    [Symbol("vpslld xmm_k1z, m32bcst, imm8","vpslld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpslld_xmm_k1z_m32bcst_imm8 = 3786,
     /// <summary>
     /// vpslld ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpslld ymm {k1}{z}, ymm, xmm","vpslld ymm {k1}{z}, ymm, xmm/m128")]
-    vpslld_ymm_k1z_ymm_xmm = 3112,
+    [Symbol("vpslld ymm, ymm, xmm","vpslld ymm {k1}{z}, ymm, xmm/m128")]
+    vpslld_ymm_ymm_xmm = 3787,
     /// <summary>
     /// vpslld ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpslld ymm {k1}{z}, ymm, m128","vpslld ymm {k1}{z}, ymm, xmm/m128")]
-    vpslld_ymm_k1z_ymm_m128 = 3113,
+    [Symbol("vpslld ymm, ymm, m128","vpslld ymm {k1}{z}, ymm, xmm/m128")]
+    vpslld_ymm_ymm_m128 = 3788,
+    /// <summary>
+    /// vpslld ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpslld ymm_k1z, ymm, xmm","vpslld ymm {k1}{z}, ymm, xmm/m128")]
+    vpslld_ymm_k1z_ymm_xmm = 3789,
+    /// <summary>
+    /// vpslld ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpslld ymm_k1z, ymm, m128","vpslld ymm {k1}{z}, ymm, xmm/m128")]
+    vpslld_ymm_k1z_ymm_m128 = 3790,
     /// <summary>
     /// vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld ymm {k1}{z}, ymm, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpslld_ymm_k1z_ymm_imm8 = 3114,
+    [Symbol("vpslld ymm, ymm, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpslld_ymm_ymm_imm8 = 3791,
     /// <summary>
     /// vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld ymm {k1}{z}, m256, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpslld_ymm_k1z_m256_imm8 = 3115,
+    [Symbol("vpslld ymm, m256, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpslld_ymm_m256_imm8 = 3792,
     /// <summary>
     /// vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld ymm {k1}{z}, m32bcst, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpslld_ymm_k1z_m32bcst_imm8 = 3116,
+    [Symbol("vpslld ymm, m32bcst, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpslld_ymm_m32bcst_imm8 = 3793,
     /// <summary>
-    /// vpslld ymm, ymm, imm8
+    /// vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld ymm, ymm, imm8","vpslld ymm, ymm, imm8")]
-    vpslld_ymm_ymm_imm8 = 3117,
+    [Symbol("vpslld ymm_k1z, ymm, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpslld_ymm_k1z_ymm_imm8 = 3794,
     /// <summary>
-    /// vpslld ymm, ymm, xmm/m128
+    /// vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld ymm, ymm, xmm","vpslld ymm, ymm, xmm/m128")]
-    vpslld_ymm_ymm_xmm = 3118,
+    [Symbol("vpslld ymm_k1z, m256, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpslld_ymm_k1z_m256_imm8 = 3795,
     /// <summary>
-    /// vpslld ymm, ymm, xmm/m128
+    /// vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld ymm, ymm, m128","vpslld ymm, ymm, xmm/m128")]
-    vpslld_ymm_ymm_m128 = 3119,
+    [Symbol("vpslld ymm_k1z, m32bcst, imm8","vpslld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpslld_ymm_k1z_m32bcst_imm8 = 3796,
     /// <summary>
     /// vpslld zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpslld zmm {k1}{z}, zmm, xmm","vpslld zmm {k1}{z}, zmm, xmm/m128")]
-    vpslld_zmm_k1z_zmm_xmm = 3120,
+    [Symbol("vpslld zmm, zmm, xmm","vpslld zmm {k1}{z}, zmm, xmm/m128")]
+    vpslld_zmm_zmm_xmm = 3797,
     /// <summary>
     /// vpslld zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpslld zmm {k1}{z}, zmm, m128","vpslld zmm {k1}{z}, zmm, xmm/m128")]
-    vpslld_zmm_k1z_zmm_m128 = 3121,
+    [Symbol("vpslld zmm, zmm, m128","vpslld zmm {k1}{z}, zmm, xmm/m128")]
+    vpslld_zmm_zmm_m128 = 3798,
+    /// <summary>
+    /// vpslld zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpslld zmm_k1z, zmm, xmm","vpslld zmm {k1}{z}, zmm, xmm/m128")]
+    vpslld_zmm_k1z_zmm_xmm = 3799,
+    /// <summary>
+    /// vpslld zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpslld zmm_k1z, zmm, m128","vpslld zmm {k1}{z}, zmm, xmm/m128")]
+    vpslld_zmm_k1z_zmm_m128 = 3800,
     /// <summary>
     /// vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld zmm {k1}{z}, zmm, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpslld_zmm_k1z_zmm_imm8 = 3122,
+    [Symbol("vpslld zmm, zmm, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpslld_zmm_zmm_imm8 = 3801,
     /// <summary>
     /// vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld zmm {k1}{z}, m512, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpslld_zmm_k1z_m512_imm8 = 3123,
+    [Symbol("vpslld zmm, m512, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpslld_zmm_m512_imm8 = 3802,
     /// <summary>
     /// vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpslld zmm {k1}{z}, m32bcst, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpslld_zmm_k1z_m32bcst_imm8 = 3124,
+    [Symbol("vpslld zmm, m32bcst, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpslld_zmm_m32bcst_imm8 = 3803,
+    /// <summary>
+    /// vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpslld zmm_k1z, zmm, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpslld_zmm_k1z_zmm_imm8 = 3804,
+    /// <summary>
+    /// vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpslld zmm_k1z, m512, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpslld_zmm_k1z_m512_imm8 = 3805,
+    /// <summary>
+    /// vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpslld zmm_k1z, m32bcst, imm8","vpslld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpslld_zmm_k1z_m32bcst_imm8 = 3806,
     /// <summary>
     /// vpslldq xmm, xmm, imm8
     /// </summary>
     [Symbol("vpslldq xmm, xmm, imm8","vpslldq xmm, xmm, imm8")]
-    vpslldq_xmm_xmm_imm8 = 3125,
+    vpslldq_xmm_xmm_imm8 = 3807,
     /// <summary>
     /// vpslldq xmm, xmm/m128, imm8
     /// </summary>
     [Symbol("vpslldq xmm, m128, imm8","vpslldq xmm, xmm/m128, imm8")]
-    vpslldq_xmm_m128_imm8 = 3126,
+    vpslldq_xmm_m128_imm8 = 3808,
     /// <summary>
     /// vpslldq ymm, ymm, imm8
     /// </summary>
     [Symbol("vpslldq ymm, ymm, imm8","vpslldq ymm, ymm, imm8")]
-    vpslldq_ymm_ymm_imm8 = 3127,
+    vpslldq_ymm_ymm_imm8 = 3809,
     /// <summary>
     /// vpslldq ymm, ymm/m256, imm8
     /// </summary>
     [Symbol("vpslldq ymm, m256, imm8","vpslldq ymm, ymm/m256, imm8")]
-    vpslldq_ymm_m256_imm8 = 3128,
+    vpslldq_ymm_m256_imm8 = 3810,
     /// <summary>
     /// vpslldq zmm, zmm/m512, imm8
     /// </summary>
     [Symbol("vpslldq zmm, zmm, imm8","vpslldq zmm, zmm/m512, imm8")]
-    vpslldq_zmm_zmm_imm8 = 3129,
+    vpslldq_zmm_zmm_imm8 = 3811,
     /// <summary>
     /// vpslldq zmm, zmm/m512, imm8
     /// </summary>
     [Symbol("vpslldq zmm, m512, imm8","vpslldq zmm, zmm/m512, imm8")]
-    vpslldq_zmm_m512_imm8 = 3130,
+    vpslldq_zmm_m512_imm8 = 3812,
     /// <summary>
     /// vpsllq xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllq xmm {k1}{z}, xmm, xmm","vpsllq xmm {k1}{z}, xmm, xmm/m128")]
-    vpsllq_xmm_k1z_xmm_xmm = 3131,
+    [Symbol("vpsllq xmm, xmm, xmm","vpsllq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllq_xmm_xmm_xmm = 3813,
     /// <summary>
     /// vpsllq xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllq xmm {k1}{z}, xmm, m128","vpsllq xmm {k1}{z}, xmm, xmm/m128")]
-    vpsllq_xmm_k1z_xmm_m128 = 3132,
+    [Symbol("vpsllq xmm, xmm, m128","vpsllq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllq_xmm_xmm_m128 = 3814,
+    /// <summary>
+    /// vpsllq xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllq xmm_k1z, xmm, xmm","vpsllq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllq_xmm_k1z_xmm_xmm = 3815,
+    /// <summary>
+    /// vpsllq xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllq xmm_k1z, xmm, m128","vpsllq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllq_xmm_k1z_xmm_m128 = 3816,
     /// <summary>
     /// vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq xmm {k1}{z}, xmm, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsllq_xmm_k1z_xmm_imm8 = 3133,
+    [Symbol("vpsllq xmm, xmm, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsllq_xmm_xmm_imm8 = 3817,
     /// <summary>
     /// vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq xmm {k1}{z}, m128, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsllq_xmm_k1z_m128_imm8 = 3134,
+    [Symbol("vpsllq xmm, m128, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsllq_xmm_m128_imm8 = 3818,
     /// <summary>
     /// vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq xmm {k1}{z}, m64bcst, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsllq_xmm_k1z_m64bcst_imm8 = 3135,
+    [Symbol("vpsllq xmm, m64bcst, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsllq_xmm_m64bcst_imm8 = 3819,
     /// <summary>
-    /// vpsllq xmm, xmm, imm8
+    /// vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq xmm, xmm, imm8","vpsllq xmm, xmm, imm8")]
-    vpsllq_xmm_xmm_imm8 = 3136,
+    [Symbol("vpsllq xmm_k1z, xmm, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsllq_xmm_k1z_xmm_imm8 = 3820,
     /// <summary>
-    /// vpsllq xmm, xmm, xmm/m128
+    /// vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq xmm, xmm, xmm","vpsllq xmm, xmm, xmm/m128")]
-    vpsllq_xmm_xmm_xmm = 3137,
+    [Symbol("vpsllq xmm_k1z, m128, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsllq_xmm_k1z_m128_imm8 = 3821,
     /// <summary>
-    /// vpsllq xmm, xmm, xmm/m128
+    /// vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq xmm, xmm, m128","vpsllq xmm, xmm, xmm/m128")]
-    vpsllq_xmm_xmm_m128 = 3138,
+    [Symbol("vpsllq xmm_k1z, m64bcst, imm8","vpsllq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsllq_xmm_k1z_m64bcst_imm8 = 3822,
     /// <summary>
     /// vpsllq ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsllq ymm {k1}{z}, ymm, xmm","vpsllq ymm {k1}{z}, ymm, xmm/m128")]
-    vpsllq_ymm_k1z_ymm_xmm = 3139,
+    [Symbol("vpsllq ymm, ymm, xmm","vpsllq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllq_ymm_ymm_xmm = 3823,
     /// <summary>
     /// vpsllq ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsllq ymm {k1}{z}, ymm, m128","vpsllq ymm {k1}{z}, ymm, xmm/m128")]
-    vpsllq_ymm_k1z_ymm_m128 = 3140,
+    [Symbol("vpsllq ymm, ymm, m128","vpsllq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllq_ymm_ymm_m128 = 3824,
+    /// <summary>
+    /// vpsllq ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllq ymm_k1z, ymm, xmm","vpsllq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllq_ymm_k1z_ymm_xmm = 3825,
+    /// <summary>
+    /// vpsllq ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllq ymm_k1z, ymm, m128","vpsllq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllq_ymm_k1z_ymm_m128 = 3826,
     /// <summary>
     /// vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq ymm {k1}{z}, ymm, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsllq_ymm_k1z_ymm_imm8 = 3141,
+    [Symbol("vpsllq ymm, ymm, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsllq_ymm_ymm_imm8 = 3827,
     /// <summary>
     /// vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq ymm {k1}{z}, m256, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsllq_ymm_k1z_m256_imm8 = 3142,
+    [Symbol("vpsllq ymm, m256, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsllq_ymm_m256_imm8 = 3828,
     /// <summary>
     /// vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq ymm {k1}{z}, m64bcst, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsllq_ymm_k1z_m64bcst_imm8 = 3143,
+    [Symbol("vpsllq ymm, m64bcst, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsllq_ymm_m64bcst_imm8 = 3829,
     /// <summary>
-    /// vpsllq ymm, ymm, imm8
+    /// vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq ymm, ymm, imm8","vpsllq ymm, ymm, imm8")]
-    vpsllq_ymm_ymm_imm8 = 3144,
+    [Symbol("vpsllq ymm_k1z, ymm, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsllq_ymm_k1z_ymm_imm8 = 3830,
     /// <summary>
-    /// vpsllq ymm, ymm, xmm/m128
+    /// vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq ymm, ymm, xmm","vpsllq ymm, ymm, xmm/m128")]
-    vpsllq_ymm_ymm_xmm = 3145,
+    [Symbol("vpsllq ymm_k1z, m256, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsllq_ymm_k1z_m256_imm8 = 3831,
     /// <summary>
-    /// vpsllq ymm, ymm, xmm/m128
+    /// vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq ymm, ymm, m128","vpsllq ymm, ymm, xmm/m128")]
-    vpsllq_ymm_ymm_m128 = 3146,
+    [Symbol("vpsllq ymm_k1z, m64bcst, imm8","vpsllq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsllq_ymm_k1z_m64bcst_imm8 = 3832,
     /// <summary>
     /// vpsllq zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllq zmm {k1}{z}, zmm, xmm","vpsllq zmm {k1}{z}, zmm, xmm/m128")]
-    vpsllq_zmm_k1z_zmm_xmm = 3147,
+    [Symbol("vpsllq zmm, zmm, xmm","vpsllq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllq_zmm_zmm_xmm = 3833,
     /// <summary>
     /// vpsllq zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllq zmm {k1}{z}, zmm, m128","vpsllq zmm {k1}{z}, zmm, xmm/m128")]
-    vpsllq_zmm_k1z_zmm_m128 = 3148,
+    [Symbol("vpsllq zmm, zmm, m128","vpsllq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllq_zmm_zmm_m128 = 3834,
+    /// <summary>
+    /// vpsllq zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllq zmm_k1z, zmm, xmm","vpsllq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllq_zmm_k1z_zmm_xmm = 3835,
+    /// <summary>
+    /// vpsllq zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllq zmm_k1z, zmm, m128","vpsllq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllq_zmm_k1z_zmm_m128 = 3836,
     /// <summary>
     /// vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq zmm {k1}{z}, zmm, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsllq_zmm_k1z_zmm_imm8 = 3149,
+    [Symbol("vpsllq zmm, zmm, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsllq_zmm_zmm_imm8 = 3837,
     /// <summary>
     /// vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq zmm {k1}{z}, m512, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsllq_zmm_k1z_m512_imm8 = 3150,
+    [Symbol("vpsllq zmm, m512, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsllq_zmm_m512_imm8 = 3838,
     /// <summary>
     /// vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsllq zmm {k1}{z}, m64bcst, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsllq_zmm_k1z_m64bcst_imm8 = 3151,
+    [Symbol("vpsllq zmm, m64bcst, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsllq_zmm_m64bcst_imm8 = 3839,
+    /// <summary>
+    /// vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsllq zmm_k1z, zmm, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsllq_zmm_k1z_zmm_imm8 = 3840,
+    /// <summary>
+    /// vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsllq zmm_k1z, m512, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsllq_zmm_k1z_m512_imm8 = 3841,
+    /// <summary>
+    /// vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsllq zmm_k1z, m64bcst, imm8","vpsllq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsllq_zmm_k1z_m64bcst_imm8 = 3842,
     /// <summary>
     /// vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsllvd xmm {k1}{z}, xmm, xmm","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsllvd_xmm_k1z_xmm_xmm = 3152,
+    [Symbol("vpsllvd xmm, xmm, xmm","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsllvd_xmm_xmm_xmm = 3843,
     /// <summary>
     /// vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsllvd xmm {k1}{z}, xmm, m128","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsllvd_xmm_k1z_xmm_m128 = 3153,
+    [Symbol("vpsllvd xmm, xmm, m128","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsllvd_xmm_xmm_m128 = 3844,
     /// <summary>
     /// vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsllvd xmm {k1}{z}, xmm, m32bcst","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsllvd_xmm_k1z_xmm_m32bcst = 3154,
+    [Symbol("vpsllvd xmm, xmm, m32bcst","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsllvd_xmm_xmm_m32bcst = 3845,
     /// <summary>
-    /// vpsllvd xmm, xmm, xmm/m128
+    /// vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsllvd xmm, xmm, xmm","vpsllvd xmm, xmm, xmm/m128")]
-    vpsllvd_xmm_xmm_xmm = 3155,
+    [Symbol("vpsllvd xmm_k1z, xmm, xmm","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsllvd_xmm_k1z_xmm_xmm = 3846,
     /// <summary>
-    /// vpsllvd xmm, xmm, xmm/m128
+    /// vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsllvd xmm, xmm, m128","vpsllvd xmm, xmm, xmm/m128")]
-    vpsllvd_xmm_xmm_m128 = 3156,
+    [Symbol("vpsllvd xmm_k1z, xmm, m128","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsllvd_xmm_k1z_xmm_m128 = 3847,
     /// <summary>
-    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsllvd ymm {k1}{z}, ymm, ymm","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsllvd_ymm_k1z_ymm_ymm = 3157,
-    /// <summary>
-    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpsllvd ymm {k1}{z}, ymm, m256","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsllvd_ymm_k1z_ymm_m256 = 3158,
+    [Symbol("vpsllvd xmm_k1z, xmm, m32bcst","vpsllvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsllvd_xmm_k1z_xmm_m32bcst = 3848,
     /// <summary>
     /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsllvd ymm {k1}{z}, ymm, m32bcst","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsllvd_ymm_k1z_ymm_m32bcst = 3159,
+    [Symbol("vpsllvd ymm, ymm, ymm","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsllvd_ymm_ymm_ymm = 3849,
     /// <summary>
-    /// vpsllvd ymm, ymm, ymm/m256
+    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsllvd ymm, ymm, ymm","vpsllvd ymm, ymm, ymm/m256")]
-    vpsllvd_ymm_ymm_ymm = 3160,
+    [Symbol("vpsllvd ymm, ymm, m256","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsllvd_ymm_ymm_m256 = 3850,
     /// <summary>
-    /// vpsllvd ymm, ymm, ymm/m256
+    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsllvd ymm, ymm, m256","vpsllvd ymm, ymm, ymm/m256")]
-    vpsllvd_ymm_ymm_m256 = 3161,
+    [Symbol("vpsllvd ymm, ymm, m32bcst","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsllvd_ymm_ymm_m32bcst = 3851,
+    /// <summary>
+    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsllvd ymm_k1z, ymm, ymm","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsllvd_ymm_k1z_ymm_ymm = 3852,
+    /// <summary>
+    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsllvd ymm_k1z, ymm, m256","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsllvd_ymm_k1z_ymm_m256 = 3853,
+    /// <summary>
+    /// vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsllvd ymm_k1z, ymm, m32bcst","vpsllvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsllvd_ymm_k1z_ymm_m32bcst = 3854,
     /// <summary>
     /// vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsllvd zmm {k1}{z}, zmm, zmm","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsllvd_zmm_k1z_zmm_zmm = 3162,
+    [Symbol("vpsllvd zmm, zmm, zmm","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsllvd_zmm_zmm_zmm = 3855,
     /// <summary>
     /// vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsllvd zmm {k1}{z}, zmm, m512","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsllvd_zmm_k1z_zmm_m512 = 3163,
+    [Symbol("vpsllvd zmm, zmm, m512","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsllvd_zmm_zmm_m512 = 3856,
     /// <summary>
     /// vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsllvd zmm {k1}{z}, zmm, m32bcst","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsllvd_zmm_k1z_zmm_m32bcst = 3164,
+    [Symbol("vpsllvd zmm, zmm, m32bcst","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsllvd_zmm_zmm_m32bcst = 3857,
+    /// <summary>
+    /// vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsllvd zmm_k1z, zmm, zmm","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsllvd_zmm_k1z_zmm_zmm = 3858,
+    /// <summary>
+    /// vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsllvd zmm_k1z, zmm, m512","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsllvd_zmm_k1z_zmm_m512 = 3859,
+    /// <summary>
+    /// vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsllvd zmm_k1z, zmm, m32bcst","vpsllvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsllvd_zmm_k1z_zmm_m32bcst = 3860,
     /// <summary>
     /// vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsllvq xmm {k1}{z}, xmm, xmm","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsllvq_xmm_k1z_xmm_xmm = 3165,
+    [Symbol("vpsllvq xmm, xmm, xmm","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsllvq_xmm_xmm_xmm = 3861,
     /// <summary>
     /// vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsllvq xmm {k1}{z}, xmm, m128","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsllvq_xmm_k1z_xmm_m128 = 3166,
+    [Symbol("vpsllvq xmm, xmm, m128","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsllvq_xmm_xmm_m128 = 3862,
     /// <summary>
     /// vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsllvq xmm {k1}{z}, xmm, m64bcst","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsllvq_xmm_k1z_xmm_m64bcst = 3167,
+    [Symbol("vpsllvq xmm, xmm, m64bcst","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsllvq_xmm_xmm_m64bcst = 3863,
     /// <summary>
-    /// vpsllvq xmm, xmm, xmm/m128
+    /// vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsllvq xmm, xmm, xmm","vpsllvq xmm, xmm, xmm/m128")]
-    vpsllvq_xmm_xmm_xmm = 3168,
+    [Symbol("vpsllvq xmm_k1z, xmm, xmm","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsllvq_xmm_k1z_xmm_xmm = 3864,
     /// <summary>
-    /// vpsllvq xmm, xmm, xmm/m128
+    /// vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsllvq xmm, xmm, m128","vpsllvq xmm, xmm, xmm/m128")]
-    vpsllvq_xmm_xmm_m128 = 3169,
+    [Symbol("vpsllvq xmm_k1z, xmm, m128","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsllvq_xmm_k1z_xmm_m128 = 3865,
     /// <summary>
-    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsllvq ymm {k1}{z}, ymm, ymm","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsllvq_ymm_k1z_ymm_ymm = 3170,
-    /// <summary>
-    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vpsllvq ymm {k1}{z}, ymm, m256","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsllvq_ymm_k1z_ymm_m256 = 3171,
+    [Symbol("vpsllvq xmm_k1z, xmm, m64bcst","vpsllvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsllvq_xmm_k1z_xmm_m64bcst = 3866,
     /// <summary>
     /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsllvq ymm {k1}{z}, ymm, m64bcst","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsllvq_ymm_k1z_ymm_m64bcst = 3172,
+    [Symbol("vpsllvq ymm, ymm, ymm","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsllvq_ymm_ymm_ymm = 3867,
     /// <summary>
-    /// vpsllvq ymm, ymm, ymm/m256
+    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsllvq ymm, ymm, ymm","vpsllvq ymm, ymm, ymm/m256")]
-    vpsllvq_ymm_ymm_ymm = 3173,
+    [Symbol("vpsllvq ymm, ymm, m256","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsllvq_ymm_ymm_m256 = 3868,
     /// <summary>
-    /// vpsllvq ymm, ymm, ymm/m256
+    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsllvq ymm, ymm, m256","vpsllvq ymm, ymm, ymm/m256")]
-    vpsllvq_ymm_ymm_m256 = 3174,
+    [Symbol("vpsllvq ymm, ymm, m64bcst","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsllvq_ymm_ymm_m64bcst = 3869,
+    /// <summary>
+    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsllvq ymm_k1z, ymm, ymm","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsllvq_ymm_k1z_ymm_ymm = 3870,
+    /// <summary>
+    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsllvq ymm_k1z, ymm, m256","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsllvq_ymm_k1z_ymm_m256 = 3871,
+    /// <summary>
+    /// vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsllvq ymm_k1z, ymm, m64bcst","vpsllvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsllvq_ymm_k1z_ymm_m64bcst = 3872,
     /// <summary>
     /// vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsllvq zmm {k1}{z}, zmm, zmm","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsllvq_zmm_k1z_zmm_zmm = 3175,
+    [Symbol("vpsllvq zmm, zmm, zmm","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsllvq_zmm_zmm_zmm = 3873,
     /// <summary>
     /// vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsllvq zmm {k1}{z}, zmm, m512","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsllvq_zmm_k1z_zmm_m512 = 3176,
+    [Symbol("vpsllvq zmm, zmm, m512","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsllvq_zmm_zmm_m512 = 3874,
     /// <summary>
     /// vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsllvq zmm {k1}{z}, zmm, m64bcst","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsllvq_zmm_k1z_zmm_m64bcst = 3177,
+    [Symbol("vpsllvq zmm, zmm, m64bcst","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsllvq_zmm_zmm_m64bcst = 3875,
+    /// <summary>
+    /// vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsllvq zmm_k1z, zmm, zmm","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsllvq_zmm_k1z_zmm_zmm = 3876,
+    /// <summary>
+    /// vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsllvq zmm_k1z, zmm, m512","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsllvq_zmm_k1z_zmm_m512 = 3877,
+    /// <summary>
+    /// vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsllvq zmm_k1z, zmm, m64bcst","vpsllvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsllvq_zmm_k1z_zmm_m64bcst = 3878,
     /// <summary>
     /// vpsllvw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllvw xmm {k1}{z}, xmm, xmm","vpsllvw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsllvw_xmm_k1z_xmm_xmm = 3178,
+    [Symbol("vpsllvw xmm, xmm, xmm","vpsllvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllvw_xmm_xmm_xmm = 3879,
     /// <summary>
     /// vpsllvw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllvw xmm {k1}{z}, xmm, m128","vpsllvw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsllvw_xmm_k1z_xmm_m128 = 3179,
+    [Symbol("vpsllvw xmm, xmm, m128","vpsllvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllvw_xmm_xmm_m128 = 3880,
+    /// <summary>
+    /// vpsllvw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllvw xmm_k1z, xmm, xmm","vpsllvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllvw_xmm_k1z_xmm_xmm = 3881,
+    /// <summary>
+    /// vpsllvw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllvw xmm_k1z, xmm, m128","vpsllvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllvw_xmm_k1z_xmm_m128 = 3882,
     /// <summary>
     /// vpsllvw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsllvw ymm {k1}{z}, ymm, ymm","vpsllvw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsllvw_ymm_k1z_ymm_ymm = 3180,
+    [Symbol("vpsllvw ymm, ymm, ymm","vpsllvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsllvw_ymm_ymm_ymm = 3883,
     /// <summary>
     /// vpsllvw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsllvw ymm {k1}{z}, ymm, m256","vpsllvw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsllvw_ymm_k1z_ymm_m256 = 3181,
+    [Symbol("vpsllvw ymm, ymm, m256","vpsllvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsllvw_ymm_ymm_m256 = 3884,
+    /// <summary>
+    /// vpsllvw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsllvw ymm_k1z, ymm, ymm","vpsllvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsllvw_ymm_k1z_ymm_ymm = 3885,
+    /// <summary>
+    /// vpsllvw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsllvw ymm_k1z, ymm, m256","vpsllvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsllvw_ymm_k1z_ymm_m256 = 3886,
     /// <summary>
     /// vpsllvw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsllvw zmm {k1}{z}, zmm, zmm","vpsllvw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsllvw_zmm_k1z_zmm_zmm = 3182,
+    [Symbol("vpsllvw zmm, zmm, zmm","vpsllvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsllvw_zmm_zmm_zmm = 3887,
     /// <summary>
     /// vpsllvw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsllvw zmm {k1}{z}, zmm, m512","vpsllvw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsllvw_zmm_k1z_zmm_m512 = 3183,
+    [Symbol("vpsllvw zmm, zmm, m512","vpsllvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsllvw_zmm_zmm_m512 = 3888,
+    /// <summary>
+    /// vpsllvw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsllvw zmm_k1z, zmm, zmm","vpsllvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsllvw_zmm_k1z_zmm_zmm = 3889,
+    /// <summary>
+    /// vpsllvw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsllvw zmm_k1z, zmm, m512","vpsllvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsllvw_zmm_k1z_zmm_m512 = 3890,
     /// <summary>
     /// vpsllw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllw xmm {k1}{z}, xmm, xmm","vpsllw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsllw_xmm_k1z_xmm_xmm = 3184,
+    [Symbol("vpsllw xmm, xmm, xmm","vpsllw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllw_xmm_xmm_xmm = 3891,
     /// <summary>
     /// vpsllw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllw xmm {k1}{z}, xmm, m128","vpsllw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsllw_xmm_k1z_xmm_m128 = 3185,
+    [Symbol("vpsllw xmm, xmm, m128","vpsllw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllw_xmm_xmm_m128 = 3892,
+    /// <summary>
+    /// vpsllw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllw xmm_k1z, xmm, xmm","vpsllw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllw_xmm_k1z_xmm_xmm = 3893,
+    /// <summary>
+    /// vpsllw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllw xmm_k1z, xmm, m128","vpsllw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsllw_xmm_k1z_xmm_m128 = 3894,
     /// <summary>
     /// vpsllw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsllw xmm {k1}{z}, xmm, imm8","vpsllw xmm {k1}{z}, xmm/m128, imm8")]
-    vpsllw_xmm_k1z_xmm_imm8 = 3186,
+    [Symbol("vpsllw xmm, xmm, imm8","vpsllw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsllw_xmm_xmm_imm8 = 3895,
     /// <summary>
     /// vpsllw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsllw xmm {k1}{z}, m128, imm8","vpsllw xmm {k1}{z}, xmm/m128, imm8")]
-    vpsllw_xmm_k1z_m128_imm8 = 3187,
+    [Symbol("vpsllw xmm, m128, imm8","vpsllw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsllw_xmm_m128_imm8 = 3896,
     /// <summary>
-    /// vpsllw xmm, xmm, imm8
+    /// vpsllw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsllw xmm, xmm, imm8","vpsllw xmm, xmm, imm8")]
-    vpsllw_xmm_xmm_imm8 = 3188,
+    [Symbol("vpsllw xmm_k1z, xmm, imm8","vpsllw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsllw_xmm_k1z_xmm_imm8 = 3897,
     /// <summary>
-    /// vpsllw xmm, xmm, xmm/m128
+    /// vpsllw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsllw xmm, xmm, xmm","vpsllw xmm, xmm, xmm/m128")]
-    vpsllw_xmm_xmm_xmm = 3189,
-    /// <summary>
-    /// vpsllw xmm, xmm, xmm/m128
-    /// </summary>
-    [Symbol("vpsllw xmm, xmm, m128","vpsllw xmm, xmm, xmm/m128")]
-    vpsllw_xmm_xmm_m128 = 3190,
+    [Symbol("vpsllw xmm_k1z, m128, imm8","vpsllw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsllw_xmm_k1z_m128_imm8 = 3898,
     /// <summary>
     /// vpsllw ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsllw ymm {k1}{z}, ymm, xmm","vpsllw ymm {k1}{z}, ymm, xmm/m128")]
-    vpsllw_ymm_k1z_ymm_xmm = 3191,
+    [Symbol("vpsllw ymm, ymm, xmm","vpsllw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllw_ymm_ymm_xmm = 3899,
     /// <summary>
     /// vpsllw ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsllw ymm {k1}{z}, ymm, m128","vpsllw ymm {k1}{z}, ymm, xmm/m128")]
-    vpsllw_ymm_k1z_ymm_m128 = 3192,
+    [Symbol("vpsllw ymm, ymm, m128","vpsllw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllw_ymm_ymm_m128 = 3900,
+    /// <summary>
+    /// vpsllw ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllw ymm_k1z, ymm, xmm","vpsllw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllw_ymm_k1z_ymm_xmm = 3901,
+    /// <summary>
+    /// vpsllw ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllw ymm_k1z, ymm, m128","vpsllw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsllw_ymm_k1z_ymm_m128 = 3902,
     /// <summary>
     /// vpsllw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsllw ymm {k1}{z}, ymm, imm8","vpsllw ymm {k1}{z}, ymm/m256, imm8")]
-    vpsllw_ymm_k1z_ymm_imm8 = 3193,
+    [Symbol("vpsllw ymm, ymm, imm8","vpsllw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsllw_ymm_ymm_imm8 = 3903,
     /// <summary>
     /// vpsllw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsllw ymm {k1}{z}, m256, imm8","vpsllw ymm {k1}{z}, ymm/m256, imm8")]
-    vpsllw_ymm_k1z_m256_imm8 = 3194,
+    [Symbol("vpsllw ymm, m256, imm8","vpsllw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsllw_ymm_m256_imm8 = 3904,
     /// <summary>
-    /// vpsllw ymm, ymm, imm8
+    /// vpsllw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsllw ymm, ymm, imm8","vpsllw ymm, ymm, imm8")]
-    vpsllw_ymm_ymm_imm8 = 3195,
+    [Symbol("vpsllw ymm_k1z, ymm, imm8","vpsllw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsllw_ymm_k1z_ymm_imm8 = 3905,
     /// <summary>
-    /// vpsllw ymm, ymm, xmm/m128
+    /// vpsllw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsllw ymm, ymm, xmm","vpsllw ymm, ymm, xmm/m128")]
-    vpsllw_ymm_ymm_xmm = 3196,
-    /// <summary>
-    /// vpsllw ymm, ymm, xmm/m128
-    /// </summary>
-    [Symbol("vpsllw ymm, ymm, m128","vpsllw ymm, ymm, xmm/m128")]
-    vpsllw_ymm_ymm_m128 = 3197,
+    [Symbol("vpsllw ymm_k1z, m256, imm8","vpsllw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsllw_ymm_k1z_m256_imm8 = 3906,
     /// <summary>
     /// vpsllw zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllw zmm {k1}{z}, zmm, xmm","vpsllw zmm {k1}{z}, zmm, xmm/m128")]
-    vpsllw_zmm_k1z_zmm_xmm = 3198,
+    [Symbol("vpsllw zmm, zmm, xmm","vpsllw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllw_zmm_zmm_xmm = 3907,
     /// <summary>
     /// vpsllw zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsllw zmm {k1}{z}, zmm, m128","vpsllw zmm {k1}{z}, zmm, xmm/m128")]
-    vpsllw_zmm_k1z_zmm_m128 = 3199,
+    [Symbol("vpsllw zmm, zmm, m128","vpsllw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllw_zmm_zmm_m128 = 3908,
+    /// <summary>
+    /// vpsllw zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllw zmm_k1z, zmm, xmm","vpsllw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllw_zmm_k1z_zmm_xmm = 3909,
+    /// <summary>
+    /// vpsllw zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsllw zmm_k1z, zmm, m128","vpsllw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsllw_zmm_k1z_zmm_m128 = 3910,
     /// <summary>
     /// vpsllw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpsllw zmm {k1}{z}, zmm, imm8","vpsllw zmm {k1}{z}, zmm/m512, imm8")]
-    vpsllw_zmm_k1z_zmm_imm8 = 3200,
+    [Symbol("vpsllw zmm, zmm, imm8","vpsllw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsllw_zmm_zmm_imm8 = 3911,
     /// <summary>
     /// vpsllw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpsllw zmm {k1}{z}, m512, imm8","vpsllw zmm {k1}{z}, zmm/m512, imm8")]
-    vpsllw_zmm_k1z_m512_imm8 = 3201,
+    [Symbol("vpsllw zmm, m512, imm8","vpsllw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsllw_zmm_m512_imm8 = 3912,
+    /// <summary>
+    /// vpsllw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpsllw zmm_k1z, zmm, imm8","vpsllw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsllw_zmm_k1z_zmm_imm8 = 3913,
+    /// <summary>
+    /// vpsllw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpsllw zmm_k1z, m512, imm8","vpsllw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsllw_zmm_k1z_m512_imm8 = 3914,
     /// <summary>
     /// vpsrad xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrad xmm {k1}{z}, xmm, xmm","vpsrad xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrad_xmm_k1z_xmm_xmm = 3202,
+    [Symbol("vpsrad xmm, xmm, xmm","vpsrad xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrad_xmm_xmm_xmm = 3915,
     /// <summary>
     /// vpsrad xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrad xmm {k1}{z}, xmm, m128","vpsrad xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrad_xmm_k1z_xmm_m128 = 3203,
+    [Symbol("vpsrad xmm, xmm, m128","vpsrad xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrad_xmm_xmm_m128 = 3916,
+    /// <summary>
+    /// vpsrad xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrad xmm_k1z, xmm, xmm","vpsrad xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrad_xmm_k1z_xmm_xmm = 3917,
+    /// <summary>
+    /// vpsrad xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrad xmm_k1z, xmm, m128","vpsrad xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrad_xmm_k1z_xmm_m128 = 3918,
     /// <summary>
     /// vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad xmm {k1}{z}, xmm, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpsrad_xmm_k1z_xmm_imm8 = 3204,
+    [Symbol("vpsrad xmm, xmm, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrad_xmm_xmm_imm8 = 3919,
     /// <summary>
     /// vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad xmm {k1}{z}, m128, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpsrad_xmm_k1z_m128_imm8 = 3205,
+    [Symbol("vpsrad xmm, m128, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrad_xmm_m128_imm8 = 3920,
     /// <summary>
     /// vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad xmm {k1}{z}, m32bcst, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpsrad_xmm_k1z_m32bcst_imm8 = 3206,
+    [Symbol("vpsrad xmm, m32bcst, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrad_xmm_m32bcst_imm8 = 3921,
     /// <summary>
-    /// vpsrad xmm, xmm, imm8
+    /// vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad xmm, xmm, imm8","vpsrad xmm, xmm, imm8")]
-    vpsrad_xmm_xmm_imm8 = 3207,
+    [Symbol("vpsrad xmm_k1z, xmm, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrad_xmm_k1z_xmm_imm8 = 3922,
     /// <summary>
-    /// vpsrad xmm, xmm, xmm/m128
+    /// vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad xmm, xmm, xmm","vpsrad xmm, xmm, xmm/m128")]
-    vpsrad_xmm_xmm_xmm = 3208,
+    [Symbol("vpsrad xmm_k1z, m128, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrad_xmm_k1z_m128_imm8 = 3923,
     /// <summary>
-    /// vpsrad xmm, xmm, xmm/m128
+    /// vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad xmm, xmm, m128","vpsrad xmm, xmm, xmm/m128")]
-    vpsrad_xmm_xmm_m128 = 3209,
+    [Symbol("vpsrad xmm_k1z, m32bcst, imm8","vpsrad xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrad_xmm_k1z_m32bcst_imm8 = 3924,
     /// <summary>
     /// vpsrad ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrad ymm {k1}{z}, ymm, xmm","vpsrad ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrad_ymm_k1z_ymm_xmm = 3210,
+    [Symbol("vpsrad ymm, ymm, xmm","vpsrad ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrad_ymm_ymm_xmm = 3925,
     /// <summary>
     /// vpsrad ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrad ymm {k1}{z}, ymm, m128","vpsrad ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrad_ymm_k1z_ymm_m128 = 3211,
+    [Symbol("vpsrad ymm, ymm, m128","vpsrad ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrad_ymm_ymm_m128 = 3926,
+    /// <summary>
+    /// vpsrad ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrad ymm_k1z, ymm, xmm","vpsrad ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrad_ymm_k1z_ymm_xmm = 3927,
+    /// <summary>
+    /// vpsrad ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrad ymm_k1z, ymm, m128","vpsrad ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrad_ymm_k1z_ymm_m128 = 3928,
     /// <summary>
     /// vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad ymm {k1}{z}, ymm, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpsrad_ymm_k1z_ymm_imm8 = 3212,
+    [Symbol("vpsrad ymm, ymm, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrad_ymm_ymm_imm8 = 3929,
     /// <summary>
     /// vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad ymm {k1}{z}, m256, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpsrad_ymm_k1z_m256_imm8 = 3213,
+    [Symbol("vpsrad ymm, m256, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrad_ymm_m256_imm8 = 3930,
     /// <summary>
     /// vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad ymm {k1}{z}, m32bcst, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpsrad_ymm_k1z_m32bcst_imm8 = 3214,
+    [Symbol("vpsrad ymm, m32bcst, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrad_ymm_m32bcst_imm8 = 3931,
     /// <summary>
-    /// vpsrad ymm, ymm, imm8
+    /// vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad ymm, ymm, imm8","vpsrad ymm, ymm, imm8")]
-    vpsrad_ymm_ymm_imm8 = 3215,
+    [Symbol("vpsrad ymm_k1z, ymm, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrad_ymm_k1z_ymm_imm8 = 3932,
     /// <summary>
-    /// vpsrad ymm, ymm, xmm/m128
+    /// vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad ymm, ymm, xmm","vpsrad ymm, ymm, xmm/m128")]
-    vpsrad_ymm_ymm_xmm = 3216,
+    [Symbol("vpsrad ymm_k1z, m256, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrad_ymm_k1z_m256_imm8 = 3933,
     /// <summary>
-    /// vpsrad ymm, ymm, xmm/m128
+    /// vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad ymm, ymm, m128","vpsrad ymm, ymm, xmm/m128")]
-    vpsrad_ymm_ymm_m128 = 3217,
+    [Symbol("vpsrad ymm_k1z, m32bcst, imm8","vpsrad ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrad_ymm_k1z_m32bcst_imm8 = 3934,
     /// <summary>
     /// vpsrad zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrad zmm {k1}{z}, zmm, xmm","vpsrad zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrad_zmm_k1z_zmm_xmm = 3218,
+    [Symbol("vpsrad zmm, zmm, xmm","vpsrad zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrad_zmm_zmm_xmm = 3935,
     /// <summary>
     /// vpsrad zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrad zmm {k1}{z}, zmm, m128","vpsrad zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrad_zmm_k1z_zmm_m128 = 3219,
+    [Symbol("vpsrad zmm, zmm, m128","vpsrad zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrad_zmm_zmm_m128 = 3936,
+    /// <summary>
+    /// vpsrad zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrad zmm_k1z, zmm, xmm","vpsrad zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrad_zmm_k1z_zmm_xmm = 3937,
+    /// <summary>
+    /// vpsrad zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrad zmm_k1z, zmm, m128","vpsrad zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrad_zmm_k1z_zmm_m128 = 3938,
     /// <summary>
     /// vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad zmm {k1}{z}, zmm, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpsrad_zmm_k1z_zmm_imm8 = 3220,
+    [Symbol("vpsrad zmm, zmm, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrad_zmm_zmm_imm8 = 3939,
     /// <summary>
     /// vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad zmm {k1}{z}, m512, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpsrad_zmm_k1z_m512_imm8 = 3221,
+    [Symbol("vpsrad zmm, m512, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrad_zmm_m512_imm8 = 3940,
     /// <summary>
     /// vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrad zmm {k1}{z}, m32bcst, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpsrad_zmm_k1z_m32bcst_imm8 = 3222,
+    [Symbol("vpsrad zmm, m32bcst, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrad_zmm_m32bcst_imm8 = 3941,
+    /// <summary>
+    /// vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpsrad zmm_k1z, zmm, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrad_zmm_k1z_zmm_imm8 = 3942,
+    /// <summary>
+    /// vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpsrad zmm_k1z, m512, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrad_zmm_k1z_m512_imm8 = 3943,
+    /// <summary>
+    /// vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpsrad zmm_k1z, m32bcst, imm8","vpsrad zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrad_zmm_k1z_m32bcst_imm8 = 3944,
     /// <summary>
     /// vpsraq xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraq xmm {k1}{z}, xmm, xmm","vpsraq xmm {k1}{z}, xmm, xmm/m128")]
-    vpsraq_xmm_k1z_xmm_xmm = 3223,
+    [Symbol("vpsraq xmm, xmm, xmm","vpsraq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraq_xmm_xmm_xmm = 3945,
     /// <summary>
     /// vpsraq xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraq xmm {k1}{z}, xmm, m128","vpsraq xmm {k1}{z}, xmm, xmm/m128")]
-    vpsraq_xmm_k1z_xmm_m128 = 3224,
+    [Symbol("vpsraq xmm, xmm, m128","vpsraq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraq_xmm_xmm_m128 = 3946,
+    /// <summary>
+    /// vpsraq xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraq xmm_k1z, xmm, xmm","vpsraq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraq_xmm_k1z_xmm_xmm = 3947,
+    /// <summary>
+    /// vpsraq xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraq xmm_k1z, xmm, m128","vpsraq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraq_xmm_k1z_xmm_m128 = 3948,
     /// <summary>
     /// vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq xmm {k1}{z}, xmm, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsraq_xmm_k1z_xmm_imm8 = 3225,
+    [Symbol("vpsraq xmm, xmm, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsraq_xmm_xmm_imm8 = 3949,
     /// <summary>
     /// vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq xmm {k1}{z}, m128, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsraq_xmm_k1z_m128_imm8 = 3226,
+    [Symbol("vpsraq xmm, m128, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsraq_xmm_m128_imm8 = 3950,
     /// <summary>
     /// vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq xmm {k1}{z}, m64bcst, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsraq_xmm_k1z_m64bcst_imm8 = 3227,
+    [Symbol("vpsraq xmm, m64bcst, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsraq_xmm_m64bcst_imm8 = 3951,
+    /// <summary>
+    /// vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq xmm_k1z, xmm, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsraq_xmm_k1z_xmm_imm8 = 3952,
+    /// <summary>
+    /// vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq xmm_k1z, m128, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsraq_xmm_k1z_m128_imm8 = 3953,
+    /// <summary>
+    /// vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq xmm_k1z, m64bcst, imm8","vpsraq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsraq_xmm_k1z_m64bcst_imm8 = 3954,
     /// <summary>
     /// vpsraq ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsraq ymm {k1}{z}, ymm, xmm","vpsraq ymm {k1}{z}, ymm, xmm/m128")]
-    vpsraq_ymm_k1z_ymm_xmm = 3228,
+    [Symbol("vpsraq ymm, ymm, xmm","vpsraq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraq_ymm_ymm_xmm = 3955,
     /// <summary>
     /// vpsraq ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsraq ymm {k1}{z}, ymm, m128","vpsraq ymm {k1}{z}, ymm, xmm/m128")]
-    vpsraq_ymm_k1z_ymm_m128 = 3229,
+    [Symbol("vpsraq ymm, ymm, m128","vpsraq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraq_ymm_ymm_m128 = 3956,
+    /// <summary>
+    /// vpsraq ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraq ymm_k1z, ymm, xmm","vpsraq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraq_ymm_k1z_ymm_xmm = 3957,
+    /// <summary>
+    /// vpsraq ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraq ymm_k1z, ymm, m128","vpsraq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraq_ymm_k1z_ymm_m128 = 3958,
     /// <summary>
     /// vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq ymm {k1}{z}, ymm, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsraq_ymm_k1z_ymm_imm8 = 3230,
+    [Symbol("vpsraq ymm, ymm, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsraq_ymm_ymm_imm8 = 3959,
     /// <summary>
     /// vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq ymm {k1}{z}, m256, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsraq_ymm_k1z_m256_imm8 = 3231,
+    [Symbol("vpsraq ymm, m256, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsraq_ymm_m256_imm8 = 3960,
     /// <summary>
     /// vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq ymm {k1}{z}, m64bcst, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsraq_ymm_k1z_m64bcst_imm8 = 3232,
+    [Symbol("vpsraq ymm, m64bcst, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsraq_ymm_m64bcst_imm8 = 3961,
+    /// <summary>
+    /// vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq ymm_k1z, ymm, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsraq_ymm_k1z_ymm_imm8 = 3962,
+    /// <summary>
+    /// vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq ymm_k1z, m256, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsraq_ymm_k1z_m256_imm8 = 3963,
+    /// <summary>
+    /// vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq ymm_k1z, m64bcst, imm8","vpsraq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsraq_ymm_k1z_m64bcst_imm8 = 3964,
     /// <summary>
     /// vpsraq zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraq zmm {k1}{z}, zmm, xmm","vpsraq zmm {k1}{z}, zmm, xmm/m128")]
-    vpsraq_zmm_k1z_zmm_xmm = 3233,
+    [Symbol("vpsraq zmm, zmm, xmm","vpsraq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraq_zmm_zmm_xmm = 3965,
     /// <summary>
     /// vpsraq zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraq zmm {k1}{z}, zmm, m128","vpsraq zmm {k1}{z}, zmm, xmm/m128")]
-    vpsraq_zmm_k1z_zmm_m128 = 3234,
+    [Symbol("vpsraq zmm, zmm, m128","vpsraq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraq_zmm_zmm_m128 = 3966,
+    /// <summary>
+    /// vpsraq zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraq zmm_k1z, zmm, xmm","vpsraq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraq_zmm_k1z_zmm_xmm = 3967,
+    /// <summary>
+    /// vpsraq zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraq zmm_k1z, zmm, m128","vpsraq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraq_zmm_k1z_zmm_m128 = 3968,
     /// <summary>
     /// vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq zmm {k1}{z}, zmm, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsraq_zmm_k1z_zmm_imm8 = 3235,
+    [Symbol("vpsraq zmm, zmm, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsraq_zmm_zmm_imm8 = 3969,
     /// <summary>
     /// vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq zmm {k1}{z}, m512, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsraq_zmm_k1z_m512_imm8 = 3236,
+    [Symbol("vpsraq zmm, m512, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsraq_zmm_m512_imm8 = 3970,
     /// <summary>
     /// vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsraq zmm {k1}{z}, m64bcst, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsraq_zmm_k1z_m64bcst_imm8 = 3237,
+    [Symbol("vpsraq zmm, m64bcst, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsraq_zmm_m64bcst_imm8 = 3971,
+    /// <summary>
+    /// vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq zmm_k1z, zmm, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsraq_zmm_k1z_zmm_imm8 = 3972,
+    /// <summary>
+    /// vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq zmm_k1z, m512, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsraq_zmm_k1z_m512_imm8 = 3973,
+    /// <summary>
+    /// vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsraq zmm_k1z, m64bcst, imm8","vpsraq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsraq_zmm_k1z_m64bcst_imm8 = 3974,
     /// <summary>
     /// vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsravd xmm {k1}{z}, xmm, xmm","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsravd_xmm_k1z_xmm_xmm = 3238,
+    [Symbol("vpsravd xmm, xmm, xmm","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsravd_xmm_xmm_xmm = 3975,
     /// <summary>
     /// vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsravd xmm {k1}{z}, xmm, m128","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsravd_xmm_k1z_xmm_m128 = 3239,
+    [Symbol("vpsravd xmm, xmm, m128","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsravd_xmm_xmm_m128 = 3976,
     /// <summary>
     /// vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsravd xmm {k1}{z}, xmm, m32bcst","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsravd_xmm_k1z_xmm_m32bcst = 3240,
+    [Symbol("vpsravd xmm, xmm, m32bcst","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsravd_xmm_xmm_m32bcst = 3977,
     /// <summary>
-    /// vpsravd xmm, xmm, xmm/m128
+    /// vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsravd xmm, xmm, xmm","vpsravd xmm, xmm, xmm/m128")]
-    vpsravd_xmm_xmm_xmm = 3241,
+    [Symbol("vpsravd xmm_k1z, xmm, xmm","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsravd_xmm_k1z_xmm_xmm = 3978,
     /// <summary>
-    /// vpsravd xmm, xmm, xmm/m128
+    /// vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsravd xmm, xmm, m128","vpsravd xmm, xmm, xmm/m128")]
-    vpsravd_xmm_xmm_m128 = 3242,
+    [Symbol("vpsravd xmm_k1z, xmm, m128","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsravd_xmm_k1z_xmm_m128 = 3979,
     /// <summary>
-    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsravd ymm {k1}{z}, ymm, ymm","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsravd_ymm_k1z_ymm_ymm = 3243,
-    /// <summary>
-    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpsravd ymm {k1}{z}, ymm, m256","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsravd_ymm_k1z_ymm_m256 = 3244,
+    [Symbol("vpsravd xmm_k1z, xmm, m32bcst","vpsravd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsravd_xmm_k1z_xmm_m32bcst = 3980,
     /// <summary>
     /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsravd ymm {k1}{z}, ymm, m32bcst","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsravd_ymm_k1z_ymm_m32bcst = 3245,
+    [Symbol("vpsravd ymm, ymm, ymm","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsravd_ymm_ymm_ymm = 3981,
     /// <summary>
-    /// vpsravd ymm, ymm, ymm/m256
+    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsravd ymm, ymm, ymm","vpsravd ymm, ymm, ymm/m256")]
-    vpsravd_ymm_ymm_ymm = 3246,
+    [Symbol("vpsravd ymm, ymm, m256","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsravd_ymm_ymm_m256 = 3982,
     /// <summary>
-    /// vpsravd ymm, ymm, ymm/m256
+    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsravd ymm, ymm, m256","vpsravd ymm, ymm, ymm/m256")]
-    vpsravd_ymm_ymm_m256 = 3247,
+    [Symbol("vpsravd ymm, ymm, m32bcst","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsravd_ymm_ymm_m32bcst = 3983,
+    /// <summary>
+    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsravd ymm_k1z, ymm, ymm","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsravd_ymm_k1z_ymm_ymm = 3984,
+    /// <summary>
+    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsravd ymm_k1z, ymm, m256","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsravd_ymm_k1z_ymm_m256 = 3985,
+    /// <summary>
+    /// vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsravd ymm_k1z, ymm, m32bcst","vpsravd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsravd_ymm_k1z_ymm_m32bcst = 3986,
     /// <summary>
     /// vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsravd zmm {k1}{z}, zmm, zmm","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsravd_zmm_k1z_zmm_zmm = 3248,
+    [Symbol("vpsravd zmm, zmm, zmm","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsravd_zmm_zmm_zmm = 3987,
     /// <summary>
     /// vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsravd zmm {k1}{z}, zmm, m512","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsravd_zmm_k1z_zmm_m512 = 3249,
+    [Symbol("vpsravd zmm, zmm, m512","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsravd_zmm_zmm_m512 = 3988,
     /// <summary>
     /// vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsravd zmm {k1}{z}, zmm, m32bcst","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsravd_zmm_k1z_zmm_m32bcst = 3250,
+    [Symbol("vpsravd zmm, zmm, m32bcst","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsravd_zmm_zmm_m32bcst = 3989,
+    /// <summary>
+    /// vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsravd zmm_k1z, zmm, zmm","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsravd_zmm_k1z_zmm_zmm = 3990,
+    /// <summary>
+    /// vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsravd zmm_k1z, zmm, m512","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsravd_zmm_k1z_zmm_m512 = 3991,
+    /// <summary>
+    /// vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsravd zmm_k1z, zmm, m32bcst","vpsravd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsravd_zmm_k1z_zmm_m32bcst = 3992,
     /// <summary>
     /// vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsravq xmm {k1}{z}, xmm, xmm","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsravq_xmm_k1z_xmm_xmm = 3251,
+    [Symbol("vpsravq xmm, xmm, xmm","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsravq_xmm_xmm_xmm = 3993,
     /// <summary>
     /// vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsravq xmm {k1}{z}, xmm, m128","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsravq_xmm_k1z_xmm_m128 = 3252,
+    [Symbol("vpsravq xmm, xmm, m128","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsravq_xmm_xmm_m128 = 3994,
     /// <summary>
     /// vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsravq xmm {k1}{z}, xmm, m64bcst","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsravq_xmm_k1z_xmm_m64bcst = 3253,
+    [Symbol("vpsravq xmm, xmm, m64bcst","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsravq_xmm_xmm_m64bcst = 3995,
+    /// <summary>
+    /// vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpsravq xmm_k1z, xmm, xmm","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsravq_xmm_k1z_xmm_xmm = 3996,
+    /// <summary>
+    /// vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpsravq xmm_k1z, xmm, m128","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsravq_xmm_k1z_xmm_m128 = 3997,
+    /// <summary>
+    /// vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpsravq xmm_k1z, xmm, m64bcst","vpsravq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsravq_xmm_k1z_xmm_m64bcst = 3998,
     /// <summary>
     /// vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsravq ymm {k1}{z}, ymm, ymm","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsravq_ymm_k1z_ymm_ymm = 3254,
+    [Symbol("vpsravq ymm, ymm, ymm","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsravq_ymm_ymm_ymm = 3999,
     /// <summary>
     /// vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsravq ymm {k1}{z}, ymm, m256","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsravq_ymm_k1z_ymm_m256 = 3255,
+    [Symbol("vpsravq ymm, ymm, m256","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsravq_ymm_ymm_m256 = 4000,
     /// <summary>
     /// vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsravq ymm {k1}{z}, ymm, m64bcst","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsravq_ymm_k1z_ymm_m64bcst = 3256,
+    [Symbol("vpsravq ymm, ymm, m64bcst","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsravq_ymm_ymm_m64bcst = 4001,
+    /// <summary>
+    /// vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsravq ymm_k1z, ymm, ymm","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsravq_ymm_k1z_ymm_ymm = 4002,
+    /// <summary>
+    /// vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsravq ymm_k1z, ymm, m256","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsravq_ymm_k1z_ymm_m256 = 4003,
+    /// <summary>
+    /// vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsravq ymm_k1z, ymm, m64bcst","vpsravq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsravq_ymm_k1z_ymm_m64bcst = 4004,
     /// <summary>
     /// vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsravq zmm {k1}{z}, zmm, zmm","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsravq_zmm_k1z_zmm_zmm = 3257,
+    [Symbol("vpsravq zmm, zmm, zmm","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsravq_zmm_zmm_zmm = 4005,
     /// <summary>
     /// vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsravq zmm {k1}{z}, zmm, m512","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsravq_zmm_k1z_zmm_m512 = 3258,
+    [Symbol("vpsravq zmm, zmm, m512","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsravq_zmm_zmm_m512 = 4006,
     /// <summary>
     /// vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsravq zmm {k1}{z}, zmm, m64bcst","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsravq_zmm_k1z_zmm_m64bcst = 3259,
+    [Symbol("vpsravq zmm, zmm, m64bcst","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsravq_zmm_zmm_m64bcst = 4007,
+    /// <summary>
+    /// vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsravq zmm_k1z, zmm, zmm","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsravq_zmm_k1z_zmm_zmm = 4008,
+    /// <summary>
+    /// vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsravq zmm_k1z, zmm, m512","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsravq_zmm_k1z_zmm_m512 = 4009,
+    /// <summary>
+    /// vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsravq zmm_k1z, zmm, m64bcst","vpsravq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsravq_zmm_k1z_zmm_m64bcst = 4010,
     /// <summary>
     /// vpsravw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsravw xmm {k1}{z}, xmm, xmm","vpsravw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsravw_xmm_k1z_xmm_xmm = 3260,
+    [Symbol("vpsravw xmm, xmm, xmm","vpsravw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsravw_xmm_xmm_xmm = 4011,
     /// <summary>
     /// vpsravw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsravw xmm {k1}{z}, xmm, m128","vpsravw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsravw_xmm_k1z_xmm_m128 = 3261,
+    [Symbol("vpsravw xmm, xmm, m128","vpsravw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsravw_xmm_xmm_m128 = 4012,
+    /// <summary>
+    /// vpsravw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsravw xmm_k1z, xmm, xmm","vpsravw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsravw_xmm_k1z_xmm_xmm = 4013,
+    /// <summary>
+    /// vpsravw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsravw xmm_k1z, xmm, m128","vpsravw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsravw_xmm_k1z_xmm_m128 = 4014,
     /// <summary>
     /// vpsravw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsravw ymm {k1}{z}, ymm, ymm","vpsravw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsravw_ymm_k1z_ymm_ymm = 3262,
+    [Symbol("vpsravw ymm, ymm, ymm","vpsravw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsravw_ymm_ymm_ymm = 4015,
     /// <summary>
     /// vpsravw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsravw ymm {k1}{z}, ymm, m256","vpsravw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsravw_ymm_k1z_ymm_m256 = 3263,
+    [Symbol("vpsravw ymm, ymm, m256","vpsravw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsravw_ymm_ymm_m256 = 4016,
+    /// <summary>
+    /// vpsravw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsravw ymm_k1z, ymm, ymm","vpsravw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsravw_ymm_k1z_ymm_ymm = 4017,
+    /// <summary>
+    /// vpsravw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsravw ymm_k1z, ymm, m256","vpsravw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsravw_ymm_k1z_ymm_m256 = 4018,
     /// <summary>
     /// vpsravw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsravw zmm {k1}{z}, zmm, zmm","vpsravw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsravw_zmm_k1z_zmm_zmm = 3264,
+    [Symbol("vpsravw zmm, zmm, zmm","vpsravw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsravw_zmm_zmm_zmm = 4019,
     /// <summary>
     /// vpsravw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsravw zmm {k1}{z}, zmm, m512","vpsravw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsravw_zmm_k1z_zmm_m512 = 3265,
+    [Symbol("vpsravw zmm, zmm, m512","vpsravw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsravw_zmm_zmm_m512 = 4020,
+    /// <summary>
+    /// vpsravw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsravw zmm_k1z, zmm, zmm","vpsravw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsravw_zmm_k1z_zmm_zmm = 4021,
+    /// <summary>
+    /// vpsravw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsravw zmm_k1z, zmm, m512","vpsravw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsravw_zmm_k1z_zmm_m512 = 4022,
     /// <summary>
     /// vpsraw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraw xmm {k1}{z}, xmm, xmm","vpsraw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsraw_xmm_k1z_xmm_xmm = 3266,
+    [Symbol("vpsraw xmm, xmm, xmm","vpsraw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraw_xmm_xmm_xmm = 4023,
     /// <summary>
     /// vpsraw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraw xmm {k1}{z}, xmm, m128","vpsraw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsraw_xmm_k1z_xmm_m128 = 3267,
+    [Symbol("vpsraw xmm, xmm, m128","vpsraw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraw_xmm_xmm_m128 = 4024,
+    /// <summary>
+    /// vpsraw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraw xmm_k1z, xmm, xmm","vpsraw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraw_xmm_k1z_xmm_xmm = 4025,
+    /// <summary>
+    /// vpsraw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraw xmm_k1z, xmm, m128","vpsraw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsraw_xmm_k1z_xmm_m128 = 4026,
     /// <summary>
     /// vpsraw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsraw xmm {k1}{z}, xmm, imm8","vpsraw xmm {k1}{z}, xmm/m128, imm8")]
-    vpsraw_xmm_k1z_xmm_imm8 = 3268,
+    [Symbol("vpsraw xmm, xmm, imm8","vpsraw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsraw_xmm_xmm_imm8 = 4027,
     /// <summary>
     /// vpsraw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsraw xmm {k1}{z}, m128, imm8","vpsraw xmm {k1}{z}, xmm/m128, imm8")]
-    vpsraw_xmm_k1z_m128_imm8 = 3269,
+    [Symbol("vpsraw xmm, m128, imm8","vpsraw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsraw_xmm_m128_imm8 = 4028,
     /// <summary>
-    /// vpsraw xmm, xmm, imm8
+    /// vpsraw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsraw xmm, xmm, imm8","vpsraw xmm, xmm, imm8")]
-    vpsraw_xmm_xmm_imm8 = 3270,
+    [Symbol("vpsraw xmm_k1z, xmm, imm8","vpsraw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsraw_xmm_k1z_xmm_imm8 = 4029,
     /// <summary>
-    /// vpsraw xmm, xmm, xmm/m128
+    /// vpsraw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsraw xmm, xmm, xmm","vpsraw xmm, xmm, xmm/m128")]
-    vpsraw_xmm_xmm_xmm = 3271,
-    /// <summary>
-    /// vpsraw xmm, xmm, xmm/m128
-    /// </summary>
-    [Symbol("vpsraw xmm, xmm, m128","vpsraw xmm, xmm, xmm/m128")]
-    vpsraw_xmm_xmm_m128 = 3272,
+    [Symbol("vpsraw xmm_k1z, m128, imm8","vpsraw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsraw_xmm_k1z_m128_imm8 = 4030,
     /// <summary>
     /// vpsraw ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsraw ymm {k1}{z}, ymm, xmm","vpsraw ymm {k1}{z}, ymm, xmm/m128")]
-    vpsraw_ymm_k1z_ymm_xmm = 3273,
+    [Symbol("vpsraw ymm, ymm, xmm","vpsraw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraw_ymm_ymm_xmm = 4031,
     /// <summary>
     /// vpsraw ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsraw ymm {k1}{z}, ymm, m128","vpsraw ymm {k1}{z}, ymm, xmm/m128")]
-    vpsraw_ymm_k1z_ymm_m128 = 3274,
+    [Symbol("vpsraw ymm, ymm, m128","vpsraw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraw_ymm_ymm_m128 = 4032,
+    /// <summary>
+    /// vpsraw ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraw ymm_k1z, ymm, xmm","vpsraw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraw_ymm_k1z_ymm_xmm = 4033,
+    /// <summary>
+    /// vpsraw ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraw ymm_k1z, ymm, m128","vpsraw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsraw_ymm_k1z_ymm_m128 = 4034,
     /// <summary>
     /// vpsraw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsraw ymm {k1}{z}, ymm, imm8","vpsraw ymm {k1}{z}, ymm/m256, imm8")]
-    vpsraw_ymm_k1z_ymm_imm8 = 3275,
+    [Symbol("vpsraw ymm, ymm, imm8","vpsraw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsraw_ymm_ymm_imm8 = 4035,
     /// <summary>
     /// vpsraw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsraw ymm {k1}{z}, m256, imm8","vpsraw ymm {k1}{z}, ymm/m256, imm8")]
-    vpsraw_ymm_k1z_m256_imm8 = 3276,
+    [Symbol("vpsraw ymm, m256, imm8","vpsraw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsraw_ymm_m256_imm8 = 4036,
     /// <summary>
-    /// vpsraw ymm, ymm, imm8
+    /// vpsraw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsraw ymm, ymm, imm8","vpsraw ymm, ymm, imm8")]
-    vpsraw_ymm_ymm_imm8 = 3277,
+    [Symbol("vpsraw ymm_k1z, ymm, imm8","vpsraw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsraw_ymm_k1z_ymm_imm8 = 4037,
     /// <summary>
-    /// vpsraw ymm, ymm, xmm/m128
+    /// vpsraw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsraw ymm, ymm, xmm","vpsraw ymm, ymm, xmm/m128")]
-    vpsraw_ymm_ymm_xmm = 3278,
-    /// <summary>
-    /// vpsraw ymm, ymm, xmm/m128
-    /// </summary>
-    [Symbol("vpsraw ymm, ymm, m128","vpsraw ymm, ymm, xmm/m128")]
-    vpsraw_ymm_ymm_m128 = 3279,
+    [Symbol("vpsraw ymm_k1z, m256, imm8","vpsraw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsraw_ymm_k1z_m256_imm8 = 4038,
     /// <summary>
     /// vpsraw zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraw zmm {k1}{z}, zmm, xmm","vpsraw zmm {k1}{z}, zmm, xmm/m128")]
-    vpsraw_zmm_k1z_zmm_xmm = 3280,
+    [Symbol("vpsraw zmm, zmm, xmm","vpsraw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraw_zmm_zmm_xmm = 4039,
     /// <summary>
     /// vpsraw zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsraw zmm {k1}{z}, zmm, m128","vpsraw zmm {k1}{z}, zmm, xmm/m128")]
-    vpsraw_zmm_k1z_zmm_m128 = 3281,
+    [Symbol("vpsraw zmm, zmm, m128","vpsraw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraw_zmm_zmm_m128 = 4040,
+    /// <summary>
+    /// vpsraw zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraw zmm_k1z, zmm, xmm","vpsraw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraw_zmm_k1z_zmm_xmm = 4041,
+    /// <summary>
+    /// vpsraw zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsraw zmm_k1z, zmm, m128","vpsraw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsraw_zmm_k1z_zmm_m128 = 4042,
     /// <summary>
     /// vpsraw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpsraw zmm {k1}{z}, zmm, imm8","vpsraw zmm {k1}{z}, zmm/m512, imm8")]
-    vpsraw_zmm_k1z_zmm_imm8 = 3282,
+    [Symbol("vpsraw zmm, zmm, imm8","vpsraw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsraw_zmm_zmm_imm8 = 4043,
     /// <summary>
     /// vpsraw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpsraw zmm {k1}{z}, m512, imm8","vpsraw zmm {k1}{z}, zmm/m512, imm8")]
-    vpsraw_zmm_k1z_m512_imm8 = 3283,
+    [Symbol("vpsraw zmm, m512, imm8","vpsraw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsraw_zmm_m512_imm8 = 4044,
+    /// <summary>
+    /// vpsraw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpsraw zmm_k1z, zmm, imm8","vpsraw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsraw_zmm_k1z_zmm_imm8 = 4045,
+    /// <summary>
+    /// vpsraw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpsraw zmm_k1z, m512, imm8","vpsraw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsraw_zmm_k1z_m512_imm8 = 4046,
     /// <summary>
     /// vpsrld xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrld xmm {k1}{z}, xmm, xmm","vpsrld xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrld_xmm_k1z_xmm_xmm = 3284,
+    [Symbol("vpsrld xmm, xmm, xmm","vpsrld xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrld_xmm_xmm_xmm = 4047,
     /// <summary>
     /// vpsrld xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrld xmm {k1}{z}, xmm, m128","vpsrld xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrld_xmm_k1z_xmm_m128 = 3285,
+    [Symbol("vpsrld xmm, xmm, m128","vpsrld xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrld_xmm_xmm_m128 = 4048,
+    /// <summary>
+    /// vpsrld xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrld xmm_k1z, xmm, xmm","vpsrld xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrld_xmm_k1z_xmm_xmm = 4049,
+    /// <summary>
+    /// vpsrld xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrld xmm_k1z, xmm, m128","vpsrld xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrld_xmm_k1z_xmm_m128 = 4050,
     /// <summary>
     /// vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld xmm {k1}{z}, xmm, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpsrld_xmm_k1z_xmm_imm8 = 3286,
+    [Symbol("vpsrld xmm, xmm, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrld_xmm_xmm_imm8 = 4051,
     /// <summary>
     /// vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld xmm {k1}{z}, m128, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpsrld_xmm_k1z_m128_imm8 = 3287,
+    [Symbol("vpsrld xmm, m128, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrld_xmm_m128_imm8 = 4052,
     /// <summary>
     /// vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld xmm {k1}{z}, m32bcst, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
-    vpsrld_xmm_k1z_m32bcst_imm8 = 3288,
+    [Symbol("vpsrld xmm, m32bcst, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrld_xmm_m32bcst_imm8 = 4053,
     /// <summary>
-    /// vpsrld xmm, xmm, imm8
+    /// vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld xmm, xmm, imm8","vpsrld xmm, xmm, imm8")]
-    vpsrld_xmm_xmm_imm8 = 3289,
+    [Symbol("vpsrld xmm_k1z, xmm, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrld_xmm_k1z_xmm_imm8 = 4054,
     /// <summary>
-    /// vpsrld xmm, xmm, xmm/m128
+    /// vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld xmm, xmm, xmm","vpsrld xmm, xmm, xmm/m128")]
-    vpsrld_xmm_xmm_xmm = 3290,
+    [Symbol("vpsrld xmm_k1z, m128, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrld_xmm_k1z_m128_imm8 = 4055,
     /// <summary>
-    /// vpsrld xmm, xmm, xmm/m128
+    /// vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld xmm, xmm, m128","vpsrld xmm, xmm, xmm/m128")]
-    vpsrld_xmm_xmm_m128 = 3291,
+    [Symbol("vpsrld xmm_k1z, m32bcst, imm8","vpsrld xmm {k1}{z}, xmm/m128/m32bcst, imm8")]
+    vpsrld_xmm_k1z_m32bcst_imm8 = 4056,
     /// <summary>
     /// vpsrld ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrld ymm {k1}{z}, ymm, xmm","vpsrld ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrld_ymm_k1z_ymm_xmm = 3292,
+    [Symbol("vpsrld ymm, ymm, xmm","vpsrld ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrld_ymm_ymm_xmm = 4057,
     /// <summary>
     /// vpsrld ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrld ymm {k1}{z}, ymm, m128","vpsrld ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrld_ymm_k1z_ymm_m128 = 3293,
+    [Symbol("vpsrld ymm, ymm, m128","vpsrld ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrld_ymm_ymm_m128 = 4058,
+    /// <summary>
+    /// vpsrld ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrld ymm_k1z, ymm, xmm","vpsrld ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrld_ymm_k1z_ymm_xmm = 4059,
+    /// <summary>
+    /// vpsrld ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrld ymm_k1z, ymm, m128","vpsrld ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrld_ymm_k1z_ymm_m128 = 4060,
     /// <summary>
     /// vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld ymm {k1}{z}, ymm, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpsrld_ymm_k1z_ymm_imm8 = 3294,
+    [Symbol("vpsrld ymm, ymm, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrld_ymm_ymm_imm8 = 4061,
     /// <summary>
     /// vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld ymm {k1}{z}, m256, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpsrld_ymm_k1z_m256_imm8 = 3295,
+    [Symbol("vpsrld ymm, m256, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrld_ymm_m256_imm8 = 4062,
     /// <summary>
     /// vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld ymm {k1}{z}, m32bcst, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
-    vpsrld_ymm_k1z_m32bcst_imm8 = 3296,
+    [Symbol("vpsrld ymm, m32bcst, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrld_ymm_m32bcst_imm8 = 4063,
     /// <summary>
-    /// vpsrld ymm, ymm, imm8
+    /// vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld ymm, ymm, imm8","vpsrld ymm, ymm, imm8")]
-    vpsrld_ymm_ymm_imm8 = 3297,
+    [Symbol("vpsrld ymm_k1z, ymm, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrld_ymm_k1z_ymm_imm8 = 4064,
     /// <summary>
-    /// vpsrld ymm, ymm, xmm/m128
+    /// vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld ymm, ymm, xmm","vpsrld ymm, ymm, xmm/m128")]
-    vpsrld_ymm_ymm_xmm = 3298,
+    [Symbol("vpsrld ymm_k1z, m256, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrld_ymm_k1z_m256_imm8 = 4065,
     /// <summary>
-    /// vpsrld ymm, ymm, xmm/m128
+    /// vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld ymm, ymm, m128","vpsrld ymm, ymm, xmm/m128")]
-    vpsrld_ymm_ymm_m128 = 3299,
+    [Symbol("vpsrld ymm_k1z, m32bcst, imm8","vpsrld ymm {k1}{z}, ymm/m256/m32bcst, imm8")]
+    vpsrld_ymm_k1z_m32bcst_imm8 = 4066,
     /// <summary>
     /// vpsrld zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrld zmm {k1}{z}, zmm, xmm","vpsrld zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrld_zmm_k1z_zmm_xmm = 3300,
+    [Symbol("vpsrld zmm, zmm, xmm","vpsrld zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrld_zmm_zmm_xmm = 4067,
     /// <summary>
     /// vpsrld zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrld zmm {k1}{z}, zmm, m128","vpsrld zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrld_zmm_k1z_zmm_m128 = 3301,
+    [Symbol("vpsrld zmm, zmm, m128","vpsrld zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrld_zmm_zmm_m128 = 4068,
+    /// <summary>
+    /// vpsrld zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrld zmm_k1z, zmm, xmm","vpsrld zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrld_zmm_k1z_zmm_xmm = 4069,
+    /// <summary>
+    /// vpsrld zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrld zmm_k1z, zmm, m128","vpsrld zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrld_zmm_k1z_zmm_m128 = 4070,
     /// <summary>
     /// vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld zmm {k1}{z}, zmm, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpsrld_zmm_k1z_zmm_imm8 = 3302,
+    [Symbol("vpsrld zmm, zmm, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrld_zmm_zmm_imm8 = 4071,
     /// <summary>
     /// vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld zmm {k1}{z}, m512, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpsrld_zmm_k1z_m512_imm8 = 3303,
+    [Symbol("vpsrld zmm, m512, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrld_zmm_m512_imm8 = 4072,
     /// <summary>
     /// vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpsrld zmm {k1}{z}, m32bcst, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
-    vpsrld_zmm_k1z_m32bcst_imm8 = 3304,
+    [Symbol("vpsrld zmm, m32bcst, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrld_zmm_m32bcst_imm8 = 4073,
+    /// <summary>
+    /// vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpsrld zmm_k1z, zmm, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrld_zmm_k1z_zmm_imm8 = 4074,
+    /// <summary>
+    /// vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpsrld zmm_k1z, m512, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrld_zmm_k1z_m512_imm8 = 4075,
+    /// <summary>
+    /// vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpsrld zmm_k1z, m32bcst, imm8","vpsrld zmm {k1}{z}, zmm/m512/m32bcst, imm8")]
+    vpsrld_zmm_k1z_m32bcst_imm8 = 4076,
     /// <summary>
     /// vpsrlq xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlq xmm {k1}{z}, xmm, xmm","vpsrlq xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrlq_xmm_k1z_xmm_xmm = 3305,
+    [Symbol("vpsrlq xmm, xmm, xmm","vpsrlq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlq_xmm_xmm_xmm = 4077,
     /// <summary>
     /// vpsrlq xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlq xmm {k1}{z}, xmm, m128","vpsrlq xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrlq_xmm_k1z_xmm_m128 = 3306,
+    [Symbol("vpsrlq xmm, xmm, m128","vpsrlq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlq_xmm_xmm_m128 = 4078,
+    /// <summary>
+    /// vpsrlq xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlq xmm_k1z, xmm, xmm","vpsrlq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlq_xmm_k1z_xmm_xmm = 4079,
+    /// <summary>
+    /// vpsrlq xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlq xmm_k1z, xmm, m128","vpsrlq xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlq_xmm_k1z_xmm_m128 = 4080,
     /// <summary>
     /// vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq xmm {k1}{z}, xmm, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsrlq_xmm_k1z_xmm_imm8 = 3307,
+    [Symbol("vpsrlq xmm, xmm, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsrlq_xmm_xmm_imm8 = 4081,
     /// <summary>
     /// vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq xmm {k1}{z}, m128, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsrlq_xmm_k1z_m128_imm8 = 3308,
+    [Symbol("vpsrlq xmm, m128, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsrlq_xmm_m128_imm8 = 4082,
     /// <summary>
     /// vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq xmm {k1}{z}, m64bcst, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
-    vpsrlq_xmm_k1z_m64bcst_imm8 = 3309,
+    [Symbol("vpsrlq xmm, m64bcst, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsrlq_xmm_m64bcst_imm8 = 4083,
     /// <summary>
-    /// vpsrlq xmm, xmm, imm8
+    /// vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq xmm, xmm, imm8","vpsrlq xmm, xmm, imm8")]
-    vpsrlq_xmm_xmm_imm8 = 3310,
+    [Symbol("vpsrlq xmm_k1z, xmm, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsrlq_xmm_k1z_xmm_imm8 = 4084,
     /// <summary>
-    /// vpsrlq xmm, xmm, xmm/m128
+    /// vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq xmm, xmm, xmm","vpsrlq xmm, xmm, xmm/m128")]
-    vpsrlq_xmm_xmm_xmm = 3311,
+    [Symbol("vpsrlq xmm_k1z, m128, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsrlq_xmm_k1z_m128_imm8 = 4085,
     /// <summary>
-    /// vpsrlq xmm, xmm, xmm/m128
+    /// vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq xmm, xmm, m128","vpsrlq xmm, xmm, xmm/m128")]
-    vpsrlq_xmm_xmm_m128 = 3312,
+    [Symbol("vpsrlq xmm_k1z, m64bcst, imm8","vpsrlq xmm {k1}{z}, xmm/m128/m64bcst, imm8")]
+    vpsrlq_xmm_k1z_m64bcst_imm8 = 4086,
     /// <summary>
     /// vpsrlq ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlq ymm {k1}{z}, ymm, xmm","vpsrlq ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrlq_ymm_k1z_ymm_xmm = 3313,
+    [Symbol("vpsrlq ymm, ymm, xmm","vpsrlq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlq_ymm_ymm_xmm = 4087,
     /// <summary>
     /// vpsrlq ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlq ymm {k1}{z}, ymm, m128","vpsrlq ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrlq_ymm_k1z_ymm_m128 = 3314,
+    [Symbol("vpsrlq ymm, ymm, m128","vpsrlq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlq_ymm_ymm_m128 = 4088,
+    /// <summary>
+    /// vpsrlq ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlq ymm_k1z, ymm, xmm","vpsrlq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlq_ymm_k1z_ymm_xmm = 4089,
+    /// <summary>
+    /// vpsrlq ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlq ymm_k1z, ymm, m128","vpsrlq ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlq_ymm_k1z_ymm_m128 = 4090,
     /// <summary>
     /// vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq ymm {k1}{z}, ymm, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsrlq_ymm_k1z_ymm_imm8 = 3315,
+    [Symbol("vpsrlq ymm, ymm, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsrlq_ymm_ymm_imm8 = 4091,
     /// <summary>
     /// vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq ymm {k1}{z}, m256, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsrlq_ymm_k1z_m256_imm8 = 3316,
+    [Symbol("vpsrlq ymm, m256, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsrlq_ymm_m256_imm8 = 4092,
     /// <summary>
     /// vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq ymm {k1}{z}, m64bcst, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
-    vpsrlq_ymm_k1z_m64bcst_imm8 = 3317,
+    [Symbol("vpsrlq ymm, m64bcst, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsrlq_ymm_m64bcst_imm8 = 4093,
     /// <summary>
-    /// vpsrlq ymm, ymm, imm8
+    /// vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq ymm, ymm, imm8","vpsrlq ymm, ymm, imm8")]
-    vpsrlq_ymm_ymm_imm8 = 3318,
+    [Symbol("vpsrlq ymm_k1z, ymm, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsrlq_ymm_k1z_ymm_imm8 = 4094,
     /// <summary>
-    /// vpsrlq ymm, ymm, xmm/m128
+    /// vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq ymm, ymm, xmm","vpsrlq ymm, ymm, xmm/m128")]
-    vpsrlq_ymm_ymm_xmm = 3319,
+    [Symbol("vpsrlq ymm_k1z, m256, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsrlq_ymm_k1z_m256_imm8 = 4095,
     /// <summary>
-    /// vpsrlq ymm, ymm, xmm/m128
+    /// vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq ymm, ymm, m128","vpsrlq ymm, ymm, xmm/m128")]
-    vpsrlq_ymm_ymm_m128 = 3320,
+    [Symbol("vpsrlq ymm_k1z, m64bcst, imm8","vpsrlq ymm {k1}{z}, ymm/m256/m64bcst, imm8")]
+    vpsrlq_ymm_k1z_m64bcst_imm8 = 4096,
     /// <summary>
     /// vpsrlq zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlq zmm {k1}{z}, zmm, xmm","vpsrlq zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrlq_zmm_k1z_zmm_xmm = 3321,
+    [Symbol("vpsrlq zmm, zmm, xmm","vpsrlq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlq_zmm_zmm_xmm = 4097,
     /// <summary>
     /// vpsrlq zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlq zmm {k1}{z}, zmm, m128","vpsrlq zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrlq_zmm_k1z_zmm_m128 = 3322,
+    [Symbol("vpsrlq zmm, zmm, m128","vpsrlq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlq_zmm_zmm_m128 = 4098,
+    /// <summary>
+    /// vpsrlq zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlq zmm_k1z, zmm, xmm","vpsrlq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlq_zmm_k1z_zmm_xmm = 4099,
+    /// <summary>
+    /// vpsrlq zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlq zmm_k1z, zmm, m128","vpsrlq zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlq_zmm_k1z_zmm_m128 = 4100,
     /// <summary>
     /// vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq zmm {k1}{z}, zmm, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsrlq_zmm_k1z_zmm_imm8 = 3323,
+    [Symbol("vpsrlq zmm, zmm, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsrlq_zmm_zmm_imm8 = 4101,
     /// <summary>
     /// vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq zmm {k1}{z}, m512, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsrlq_zmm_k1z_m512_imm8 = 3324,
+    [Symbol("vpsrlq zmm, m512, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsrlq_zmm_m512_imm8 = 4102,
     /// <summary>
     /// vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpsrlq zmm {k1}{z}, m64bcst, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
-    vpsrlq_zmm_k1z_m64bcst_imm8 = 3325,
+    [Symbol("vpsrlq zmm, m64bcst, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsrlq_zmm_m64bcst_imm8 = 4103,
+    /// <summary>
+    /// vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsrlq zmm_k1z, zmm, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsrlq_zmm_k1z_zmm_imm8 = 4104,
+    /// <summary>
+    /// vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsrlq zmm_k1z, m512, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsrlq_zmm_k1z_m512_imm8 = 4105,
+    /// <summary>
+    /// vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpsrlq zmm_k1z, m64bcst, imm8","vpsrlq zmm {k1}{z}, zmm/m512/m64bcst, imm8")]
+    vpsrlq_zmm_k1z_m64bcst_imm8 = 4106,
     /// <summary>
     /// vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd xmm {k1}{z}, xmm, xmm","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsrlvd_xmm_k1z_xmm_xmm = 3326,
+    [Symbol("vpsrlvd xmm, xmm, xmm","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsrlvd_xmm_xmm_xmm = 4107,
     /// <summary>
     /// vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd xmm {k1}{z}, xmm, m128","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsrlvd_xmm_k1z_xmm_m128 = 3327,
+    [Symbol("vpsrlvd xmm, xmm, m128","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsrlvd_xmm_xmm_m128 = 4108,
     /// <summary>
     /// vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd xmm {k1}{z}, xmm, m32bcst","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsrlvd_xmm_k1z_xmm_m32bcst = 3328,
+    [Symbol("vpsrlvd xmm, xmm, m32bcst","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsrlvd_xmm_xmm_m32bcst = 4109,
     /// <summary>
-    /// vpsrlvd xmm, xmm, xmm/m128
+    /// vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd xmm, xmm, xmm","vpsrlvd xmm, xmm, xmm/m128")]
-    vpsrlvd_xmm_xmm_xmm = 3329,
+    [Symbol("vpsrlvd xmm_k1z, xmm, xmm","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsrlvd_xmm_k1z_xmm_xmm = 4110,
     /// <summary>
-    /// vpsrlvd xmm, xmm, xmm/m128
+    /// vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd xmm, xmm, m128","vpsrlvd xmm, xmm, xmm/m128")]
-    vpsrlvd_xmm_xmm_m128 = 3330,
+    [Symbol("vpsrlvd xmm_k1z, xmm, m128","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsrlvd_xmm_k1z_xmm_m128 = 4111,
     /// <summary>
-    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd ymm {k1}{z}, ymm, ymm","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsrlvd_ymm_k1z_ymm_ymm = 3331,
-    /// <summary>
-    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpsrlvd ymm {k1}{z}, ymm, m256","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsrlvd_ymm_k1z_ymm_m256 = 3332,
+    [Symbol("vpsrlvd xmm_k1z, xmm, m32bcst","vpsrlvd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsrlvd_xmm_k1z_xmm_m32bcst = 4112,
     /// <summary>
     /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd ymm {k1}{z}, ymm, m32bcst","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsrlvd_ymm_k1z_ymm_m32bcst = 3333,
+    [Symbol("vpsrlvd ymm, ymm, ymm","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsrlvd_ymm_ymm_ymm = 4113,
     /// <summary>
-    /// vpsrlvd ymm, ymm, ymm/m256
+    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd ymm, ymm, ymm","vpsrlvd ymm, ymm, ymm/m256")]
-    vpsrlvd_ymm_ymm_ymm = 3334,
+    [Symbol("vpsrlvd ymm, ymm, m256","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsrlvd_ymm_ymm_m256 = 4114,
     /// <summary>
-    /// vpsrlvd ymm, ymm, ymm/m256
+    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd ymm, ymm, m256","vpsrlvd ymm, ymm, ymm/m256")]
-    vpsrlvd_ymm_ymm_m256 = 3335,
+    [Symbol("vpsrlvd ymm, ymm, m32bcst","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsrlvd_ymm_ymm_m32bcst = 4115,
+    /// <summary>
+    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsrlvd ymm_k1z, ymm, ymm","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsrlvd_ymm_k1z_ymm_ymm = 4116,
+    /// <summary>
+    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsrlvd ymm_k1z, ymm, m256","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsrlvd_ymm_k1z_ymm_m256 = 4117,
+    /// <summary>
+    /// vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsrlvd ymm_k1z, ymm, m32bcst","vpsrlvd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsrlvd_ymm_k1z_ymm_m32bcst = 4118,
     /// <summary>
     /// vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd zmm {k1}{z}, zmm, zmm","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsrlvd_zmm_k1z_zmm_zmm = 3336,
+    [Symbol("vpsrlvd zmm, zmm, zmm","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsrlvd_zmm_zmm_zmm = 4119,
     /// <summary>
     /// vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd zmm {k1}{z}, zmm, m512","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsrlvd_zmm_k1z_zmm_m512 = 3337,
+    [Symbol("vpsrlvd zmm, zmm, m512","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsrlvd_zmm_zmm_m512 = 4120,
     /// <summary>
     /// vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsrlvd zmm {k1}{z}, zmm, m32bcst","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsrlvd_zmm_k1z_zmm_m32bcst = 3338,
+    [Symbol("vpsrlvd zmm, zmm, m32bcst","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsrlvd_zmm_zmm_m32bcst = 4121,
+    /// <summary>
+    /// vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsrlvd zmm_k1z, zmm, zmm","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsrlvd_zmm_k1z_zmm_zmm = 4122,
+    /// <summary>
+    /// vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsrlvd zmm_k1z, zmm, m512","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsrlvd_zmm_k1z_zmm_m512 = 4123,
+    /// <summary>
+    /// vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsrlvd zmm_k1z, zmm, m32bcst","vpsrlvd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsrlvd_zmm_k1z_zmm_m32bcst = 4124,
     /// <summary>
     /// vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq xmm {k1}{z}, xmm, xmm","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsrlvq_xmm_k1z_xmm_xmm = 3339,
+    [Symbol("vpsrlvq xmm, xmm, xmm","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsrlvq_xmm_xmm_xmm = 4125,
     /// <summary>
     /// vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq xmm {k1}{z}, xmm, m128","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsrlvq_xmm_k1z_xmm_m128 = 3340,
+    [Symbol("vpsrlvq xmm, xmm, m128","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsrlvq_xmm_xmm_m128 = 4126,
     /// <summary>
     /// vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq xmm {k1}{z}, xmm, m64bcst","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsrlvq_xmm_k1z_xmm_m64bcst = 3341,
+    [Symbol("vpsrlvq xmm, xmm, m64bcst","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsrlvq_xmm_xmm_m64bcst = 4127,
     /// <summary>
-    /// vpsrlvq xmm, xmm, xmm/m128
+    /// vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq xmm, xmm, xmm","vpsrlvq xmm, xmm, xmm/m128")]
-    vpsrlvq_xmm_xmm_xmm = 3342,
+    [Symbol("vpsrlvq xmm_k1z, xmm, xmm","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsrlvq_xmm_k1z_xmm_xmm = 4128,
     /// <summary>
-    /// vpsrlvq xmm, xmm, xmm/m128
+    /// vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq xmm, xmm, m128","vpsrlvq xmm, xmm, xmm/m128")]
-    vpsrlvq_xmm_xmm_m128 = 3343,
+    [Symbol("vpsrlvq xmm_k1z, xmm, m128","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsrlvq_xmm_k1z_xmm_m128 = 4129,
     /// <summary>
-    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq ymm {k1}{z}, ymm, ymm","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsrlvq_ymm_k1z_ymm_ymm = 3344,
-    /// <summary>
-    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vpsrlvq ymm {k1}{z}, ymm, m256","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsrlvq_ymm_k1z_ymm_m256 = 3345,
+    [Symbol("vpsrlvq xmm_k1z, xmm, m64bcst","vpsrlvq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsrlvq_xmm_k1z_xmm_m64bcst = 4130,
     /// <summary>
     /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq ymm {k1}{z}, ymm, m64bcst","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsrlvq_ymm_k1z_ymm_m64bcst = 3346,
+    [Symbol("vpsrlvq ymm, ymm, ymm","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsrlvq_ymm_ymm_ymm = 4131,
     /// <summary>
-    /// vpsrlvq ymm, ymm, ymm/m256
+    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq ymm, ymm, ymm","vpsrlvq ymm, ymm, ymm/m256")]
-    vpsrlvq_ymm_ymm_ymm = 3347,
+    [Symbol("vpsrlvq ymm, ymm, m256","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsrlvq_ymm_ymm_m256 = 4132,
     /// <summary>
-    /// vpsrlvq ymm, ymm, ymm/m256
+    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq ymm, ymm, m256","vpsrlvq ymm, ymm, ymm/m256")]
-    vpsrlvq_ymm_ymm_m256 = 3348,
+    [Symbol("vpsrlvq ymm, ymm, m64bcst","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsrlvq_ymm_ymm_m64bcst = 4133,
+    /// <summary>
+    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsrlvq ymm_k1z, ymm, ymm","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsrlvq_ymm_k1z_ymm_ymm = 4134,
+    /// <summary>
+    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsrlvq ymm_k1z, ymm, m256","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsrlvq_ymm_k1z_ymm_m256 = 4135,
+    /// <summary>
+    /// vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsrlvq ymm_k1z, ymm, m64bcst","vpsrlvq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsrlvq_ymm_k1z_ymm_m64bcst = 4136,
     /// <summary>
     /// vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq zmm {k1}{z}, zmm, zmm","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsrlvq_zmm_k1z_zmm_zmm = 3349,
+    [Symbol("vpsrlvq zmm, zmm, zmm","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsrlvq_zmm_zmm_zmm = 4137,
     /// <summary>
     /// vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq zmm {k1}{z}, zmm, m512","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsrlvq_zmm_k1z_zmm_m512 = 3350,
+    [Symbol("vpsrlvq zmm, zmm, m512","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsrlvq_zmm_zmm_m512 = 4138,
     /// <summary>
     /// vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsrlvq zmm {k1}{z}, zmm, m64bcst","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsrlvq_zmm_k1z_zmm_m64bcst = 3351,
+    [Symbol("vpsrlvq zmm, zmm, m64bcst","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsrlvq_zmm_zmm_m64bcst = 4139,
+    /// <summary>
+    /// vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsrlvq zmm_k1z, zmm, zmm","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsrlvq_zmm_k1z_zmm_zmm = 4140,
+    /// <summary>
+    /// vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsrlvq zmm_k1z, zmm, m512","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsrlvq_zmm_k1z_zmm_m512 = 4141,
+    /// <summary>
+    /// vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsrlvq zmm_k1z, zmm, m64bcst","vpsrlvq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsrlvq_zmm_k1z_zmm_m64bcst = 4142,
     /// <summary>
     /// vpsrlvw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlvw xmm {k1}{z}, xmm, xmm","vpsrlvw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrlvw_xmm_k1z_xmm_xmm = 3352,
+    [Symbol("vpsrlvw xmm, xmm, xmm","vpsrlvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlvw_xmm_xmm_xmm = 4143,
     /// <summary>
     /// vpsrlvw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlvw xmm {k1}{z}, xmm, m128","vpsrlvw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrlvw_xmm_k1z_xmm_m128 = 3353,
+    [Symbol("vpsrlvw xmm, xmm, m128","vpsrlvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlvw_xmm_xmm_m128 = 4144,
+    /// <summary>
+    /// vpsrlvw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlvw xmm_k1z, xmm, xmm","vpsrlvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlvw_xmm_k1z_xmm_xmm = 4145,
+    /// <summary>
+    /// vpsrlvw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlvw xmm_k1z, xmm, m128","vpsrlvw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlvw_xmm_k1z_xmm_m128 = 4146,
     /// <summary>
     /// vpsrlvw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsrlvw ymm {k1}{z}, ymm, ymm","vpsrlvw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsrlvw_ymm_k1z_ymm_ymm = 3354,
+    [Symbol("vpsrlvw ymm, ymm, ymm","vpsrlvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsrlvw_ymm_ymm_ymm = 4147,
     /// <summary>
     /// vpsrlvw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsrlvw ymm {k1}{z}, ymm, m256","vpsrlvw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsrlvw_ymm_k1z_ymm_m256 = 3355,
+    [Symbol("vpsrlvw ymm, ymm, m256","vpsrlvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsrlvw_ymm_ymm_m256 = 4148,
+    /// <summary>
+    /// vpsrlvw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsrlvw ymm_k1z, ymm, ymm","vpsrlvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsrlvw_ymm_k1z_ymm_ymm = 4149,
+    /// <summary>
+    /// vpsrlvw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsrlvw ymm_k1z, ymm, m256","vpsrlvw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsrlvw_ymm_k1z_ymm_m256 = 4150,
     /// <summary>
     /// vpsrlvw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsrlvw zmm {k1}{z}, zmm, zmm","vpsrlvw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsrlvw_zmm_k1z_zmm_zmm = 3356,
+    [Symbol("vpsrlvw zmm, zmm, zmm","vpsrlvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsrlvw_zmm_zmm_zmm = 4151,
     /// <summary>
     /// vpsrlvw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsrlvw zmm {k1}{z}, zmm, m512","vpsrlvw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsrlvw_zmm_k1z_zmm_m512 = 3357,
+    [Symbol("vpsrlvw zmm, zmm, m512","vpsrlvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsrlvw_zmm_zmm_m512 = 4152,
+    /// <summary>
+    /// vpsrlvw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsrlvw zmm_k1z, zmm, zmm","vpsrlvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsrlvw_zmm_k1z_zmm_zmm = 4153,
+    /// <summary>
+    /// vpsrlvw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsrlvw zmm_k1z, zmm, m512","vpsrlvw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsrlvw_zmm_k1z_zmm_m512 = 4154,
     /// <summary>
     /// vpsrlw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlw xmm {k1}{z}, xmm, xmm","vpsrlw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrlw_xmm_k1z_xmm_xmm = 3358,
+    [Symbol("vpsrlw xmm, xmm, xmm","vpsrlw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlw_xmm_xmm_xmm = 4155,
     /// <summary>
     /// vpsrlw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlw xmm {k1}{z}, xmm, m128","vpsrlw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsrlw_xmm_k1z_xmm_m128 = 3359,
+    [Symbol("vpsrlw xmm, xmm, m128","vpsrlw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlw_xmm_xmm_m128 = 4156,
+    /// <summary>
+    /// vpsrlw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlw xmm_k1z, xmm, xmm","vpsrlw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlw_xmm_k1z_xmm_xmm = 4157,
+    /// <summary>
+    /// vpsrlw xmm {k1}{z}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlw xmm_k1z, xmm, m128","vpsrlw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsrlw_xmm_k1z_xmm_m128 = 4158,
     /// <summary>
     /// vpsrlw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsrlw xmm {k1}{z}, xmm, imm8","vpsrlw xmm {k1}{z}, xmm/m128, imm8")]
-    vpsrlw_xmm_k1z_xmm_imm8 = 3360,
+    [Symbol("vpsrlw xmm, xmm, imm8","vpsrlw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsrlw_xmm_xmm_imm8 = 4159,
     /// <summary>
     /// vpsrlw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsrlw xmm {k1}{z}, m128, imm8","vpsrlw xmm {k1}{z}, xmm/m128, imm8")]
-    vpsrlw_xmm_k1z_m128_imm8 = 3361,
+    [Symbol("vpsrlw xmm, m128, imm8","vpsrlw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsrlw_xmm_m128_imm8 = 4160,
     /// <summary>
-    /// vpsrlw xmm, xmm, imm8
+    /// vpsrlw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsrlw xmm, xmm, imm8","vpsrlw xmm, xmm, imm8")]
-    vpsrlw_xmm_xmm_imm8 = 3362,
+    [Symbol("vpsrlw xmm_k1z, xmm, imm8","vpsrlw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsrlw_xmm_k1z_xmm_imm8 = 4161,
     /// <summary>
-    /// vpsrlw xmm, xmm, xmm/m128
+    /// vpsrlw xmm {k1}{z}, xmm/m128, imm8
     /// </summary>
-    [Symbol("vpsrlw xmm, xmm, xmm","vpsrlw xmm, xmm, xmm/m128")]
-    vpsrlw_xmm_xmm_xmm = 3363,
-    /// <summary>
-    /// vpsrlw xmm, xmm, xmm/m128
-    /// </summary>
-    [Symbol("vpsrlw xmm, xmm, m128","vpsrlw xmm, xmm, xmm/m128")]
-    vpsrlw_xmm_xmm_m128 = 3364,
+    [Symbol("vpsrlw xmm_k1z, m128, imm8","vpsrlw xmm {k1}{z}, xmm/m128, imm8")]
+    vpsrlw_xmm_k1z_m128_imm8 = 4162,
     /// <summary>
     /// vpsrlw ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlw ymm {k1}{z}, ymm, xmm","vpsrlw ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrlw_ymm_k1z_ymm_xmm = 3365,
+    [Symbol("vpsrlw ymm, ymm, xmm","vpsrlw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlw_ymm_ymm_xmm = 4163,
     /// <summary>
     /// vpsrlw ymm {k1}{z}, ymm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlw ymm {k1}{z}, ymm, m128","vpsrlw ymm {k1}{z}, ymm, xmm/m128")]
-    vpsrlw_ymm_k1z_ymm_m128 = 3366,
+    [Symbol("vpsrlw ymm, ymm, m128","vpsrlw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlw_ymm_ymm_m128 = 4164,
+    /// <summary>
+    /// vpsrlw ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlw ymm_k1z, ymm, xmm","vpsrlw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlw_ymm_k1z_ymm_xmm = 4165,
+    /// <summary>
+    /// vpsrlw ymm {k1}{z}, ymm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlw ymm_k1z, ymm, m128","vpsrlw ymm {k1}{z}, ymm, xmm/m128")]
+    vpsrlw_ymm_k1z_ymm_m128 = 4166,
     /// <summary>
     /// vpsrlw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsrlw ymm {k1}{z}, ymm, imm8","vpsrlw ymm {k1}{z}, ymm/m256, imm8")]
-    vpsrlw_ymm_k1z_ymm_imm8 = 3367,
+    [Symbol("vpsrlw ymm, ymm, imm8","vpsrlw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsrlw_ymm_ymm_imm8 = 4167,
     /// <summary>
     /// vpsrlw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsrlw ymm {k1}{z}, m256, imm8","vpsrlw ymm {k1}{z}, ymm/m256, imm8")]
-    vpsrlw_ymm_k1z_m256_imm8 = 3368,
+    [Symbol("vpsrlw ymm, m256, imm8","vpsrlw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsrlw_ymm_m256_imm8 = 4168,
     /// <summary>
-    /// vpsrlw ymm, ymm, imm8
+    /// vpsrlw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsrlw ymm, ymm, imm8","vpsrlw ymm, ymm, imm8")]
-    vpsrlw_ymm_ymm_imm8 = 3369,
+    [Symbol("vpsrlw ymm_k1z, ymm, imm8","vpsrlw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsrlw_ymm_k1z_ymm_imm8 = 4169,
     /// <summary>
-    /// vpsrlw ymm, ymm, xmm/m128
+    /// vpsrlw ymm {k1}{z}, ymm/m256, imm8
     /// </summary>
-    [Symbol("vpsrlw ymm, ymm, xmm","vpsrlw ymm, ymm, xmm/m128")]
-    vpsrlw_ymm_ymm_xmm = 3370,
-    /// <summary>
-    /// vpsrlw ymm, ymm, xmm/m128
-    /// </summary>
-    [Symbol("vpsrlw ymm, ymm, m128","vpsrlw ymm, ymm, xmm/m128")]
-    vpsrlw_ymm_ymm_m128 = 3371,
+    [Symbol("vpsrlw ymm_k1z, m256, imm8","vpsrlw ymm {k1}{z}, ymm/m256, imm8")]
+    vpsrlw_ymm_k1z_m256_imm8 = 4170,
     /// <summary>
     /// vpsrlw zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlw zmm {k1}{z}, zmm, xmm","vpsrlw zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrlw_zmm_k1z_zmm_xmm = 3372,
+    [Symbol("vpsrlw zmm, zmm, xmm","vpsrlw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlw_zmm_zmm_xmm = 4171,
     /// <summary>
     /// vpsrlw zmm {k1}{z}, zmm, xmm/m128
     /// </summary>
-    [Symbol("vpsrlw zmm {k1}{z}, zmm, m128","vpsrlw zmm {k1}{z}, zmm, xmm/m128")]
-    vpsrlw_zmm_k1z_zmm_m128 = 3373,
+    [Symbol("vpsrlw zmm, zmm, m128","vpsrlw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlw_zmm_zmm_m128 = 4172,
+    /// <summary>
+    /// vpsrlw zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlw zmm_k1z, zmm, xmm","vpsrlw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlw_zmm_k1z_zmm_xmm = 4173,
+    /// <summary>
+    /// vpsrlw zmm {k1}{z}, zmm, xmm/m128
+    /// </summary>
+    [Symbol("vpsrlw zmm_k1z, zmm, m128","vpsrlw zmm {k1}{z}, zmm, xmm/m128")]
+    vpsrlw_zmm_k1z_zmm_m128 = 4174,
     /// <summary>
     /// vpsrlw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpsrlw zmm {k1}{z}, zmm, imm8","vpsrlw zmm {k1}{z}, zmm/m512, imm8")]
-    vpsrlw_zmm_k1z_zmm_imm8 = 3374,
+    [Symbol("vpsrlw zmm, zmm, imm8","vpsrlw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsrlw_zmm_zmm_imm8 = 4175,
     /// <summary>
     /// vpsrlw zmm {k1}{z}, zmm/m512, imm8
     /// </summary>
-    [Symbol("vpsrlw zmm {k1}{z}, m512, imm8","vpsrlw zmm {k1}{z}, zmm/m512, imm8")]
-    vpsrlw_zmm_k1z_m512_imm8 = 3375,
+    [Symbol("vpsrlw zmm, m512, imm8","vpsrlw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsrlw_zmm_m512_imm8 = 4176,
+    /// <summary>
+    /// vpsrlw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpsrlw zmm_k1z, zmm, imm8","vpsrlw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsrlw_zmm_k1z_zmm_imm8 = 4177,
+    /// <summary>
+    /// vpsrlw zmm {k1}{z}, zmm/m512, imm8
+    /// </summary>
+    [Symbol("vpsrlw zmm_k1z, m512, imm8","vpsrlw zmm {k1}{z}, zmm/m512, imm8")]
+    vpsrlw_zmm_k1z_m512_imm8 = 4178,
     /// <summary>
     /// vpsubb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubb xmm {k1}{z}, xmm, xmm","vpsubb xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubb_xmm_k1z_xmm_xmm = 3376,
+    [Symbol("vpsubb xmm, xmm, xmm","vpsubb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubb_xmm_xmm_xmm = 4179,
     /// <summary>
     /// vpsubb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubb xmm {k1}{z}, xmm, m128","vpsubb xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubb_xmm_k1z_xmm_m128 = 3377,
+    [Symbol("vpsubb xmm, xmm, m128","vpsubb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubb_xmm_xmm_m128 = 4180,
     /// <summary>
-    /// vpsubb xmm, xmm, xmm/m128
+    /// vpsubb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubb xmm, xmm, xmm","vpsubb xmm, xmm, xmm/m128")]
-    vpsubb_xmm_xmm_xmm = 3378,
+    [Symbol("vpsubb xmm_k1z, xmm, xmm","vpsubb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubb_xmm_k1z_xmm_xmm = 4181,
     /// <summary>
-    /// vpsubb xmm, xmm, xmm/m128
+    /// vpsubb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubb xmm, xmm, m128","vpsubb xmm, xmm, xmm/m128")]
-    vpsubb_xmm_xmm_m128 = 3379,
-    /// <summary>
-    /// vpsubb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpsubb ymm {k1}{z}, ymm, ymm","vpsubb ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubb_ymm_k1z_ymm_ymm = 3380,
+    [Symbol("vpsubb xmm_k1z, xmm, m128","vpsubb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubb_xmm_k1z_xmm_m128 = 4182,
     /// <summary>
     /// vpsubb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubb ymm {k1}{z}, ymm, m256","vpsubb ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubb_ymm_k1z_ymm_m256 = 3381,
+    [Symbol("vpsubb ymm, ymm, ymm","vpsubb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubb_ymm_ymm_ymm = 4183,
     /// <summary>
-    /// vpsubb ymm, ymm, ymm/m256
+    /// vpsubb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubb ymm, ymm, ymm","vpsubb ymm, ymm, ymm/m256")]
-    vpsubb_ymm_ymm_ymm = 3382,
+    [Symbol("vpsubb ymm, ymm, m256","vpsubb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubb_ymm_ymm_m256 = 4184,
     /// <summary>
-    /// vpsubb ymm, ymm, ymm/m256
+    /// vpsubb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubb ymm, ymm, m256","vpsubb ymm, ymm, ymm/m256")]
-    vpsubb_ymm_ymm_m256 = 3383,
+    [Symbol("vpsubb ymm_k1z, ymm, ymm","vpsubb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubb_ymm_k1z_ymm_ymm = 4185,
+    /// <summary>
+    /// vpsubb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsubb ymm_k1z, ymm, m256","vpsubb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubb_ymm_k1z_ymm_m256 = 4186,
     /// <summary>
     /// vpsubb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubb zmm {k1}{z}, zmm, zmm","vpsubb zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubb_zmm_k1z_zmm_zmm = 3384,
+    [Symbol("vpsubb zmm, zmm, zmm","vpsubb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubb_zmm_zmm_zmm = 4187,
     /// <summary>
     /// vpsubb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubb zmm {k1}{z}, zmm, m512","vpsubb zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubb_zmm_k1z_zmm_m512 = 3385,
+    [Symbol("vpsubb zmm, zmm, m512","vpsubb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubb_zmm_zmm_m512 = 4188,
+    /// <summary>
+    /// vpsubb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubb zmm_k1z, zmm, zmm","vpsubb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubb_zmm_k1z_zmm_zmm = 4189,
+    /// <summary>
+    /// vpsubb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubb zmm_k1z, zmm, m512","vpsubb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubb_zmm_k1z_zmm_m512 = 4190,
     /// <summary>
     /// vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsubd xmm {k1}{z}, xmm, xmm","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsubd_xmm_k1z_xmm_xmm = 3386,
+    [Symbol("vpsubd xmm, xmm, xmm","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsubd_xmm_xmm_xmm = 4191,
     /// <summary>
     /// vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsubd xmm {k1}{z}, xmm, m128","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsubd_xmm_k1z_xmm_m128 = 3387,
+    [Symbol("vpsubd xmm, xmm, m128","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsubd_xmm_xmm_m128 = 4192,
     /// <summary>
     /// vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsubd xmm {k1}{z}, xmm, m32bcst","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpsubd_xmm_k1z_xmm_m32bcst = 3388,
+    [Symbol("vpsubd xmm, xmm, m32bcst","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsubd_xmm_xmm_m32bcst = 4193,
     /// <summary>
-    /// vpsubd xmm, xmm, xmm/m128
+    /// vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsubd xmm, xmm, xmm","vpsubd xmm, xmm, xmm/m128")]
-    vpsubd_xmm_xmm_xmm = 3389,
+    [Symbol("vpsubd xmm_k1z, xmm, xmm","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsubd_xmm_k1z_xmm_xmm = 4194,
     /// <summary>
-    /// vpsubd xmm, xmm, xmm/m128
+    /// vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsubd xmm, xmm, m128","vpsubd xmm, xmm, xmm/m128")]
-    vpsubd_xmm_xmm_m128 = 3390,
+    [Symbol("vpsubd xmm_k1z, xmm, m128","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsubd_xmm_k1z_xmm_m128 = 4195,
     /// <summary>
-    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpsubd ymm {k1}{z}, ymm, ymm","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsubd_ymm_k1z_ymm_ymm = 3391,
-    /// <summary>
-    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpsubd ymm {k1}{z}, ymm, m256","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsubd_ymm_k1z_ymm_m256 = 3392,
+    [Symbol("vpsubd xmm_k1z, xmm, m32bcst","vpsubd xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpsubd_xmm_k1z_xmm_m32bcst = 4196,
     /// <summary>
     /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsubd ymm {k1}{z}, ymm, m32bcst","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpsubd_ymm_k1z_ymm_m32bcst = 3393,
+    [Symbol("vpsubd ymm, ymm, ymm","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsubd_ymm_ymm_ymm = 4197,
     /// <summary>
-    /// vpsubd ymm, ymm, ymm/m256
+    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsubd ymm, ymm, ymm","vpsubd ymm, ymm, ymm/m256")]
-    vpsubd_ymm_ymm_ymm = 3394,
+    [Symbol("vpsubd ymm, ymm, m256","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsubd_ymm_ymm_m256 = 4198,
     /// <summary>
-    /// vpsubd ymm, ymm, ymm/m256
+    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpsubd ymm, ymm, m256","vpsubd ymm, ymm, ymm/m256")]
-    vpsubd_ymm_ymm_m256 = 3395,
+    [Symbol("vpsubd ymm, ymm, m32bcst","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsubd_ymm_ymm_m32bcst = 4199,
+    /// <summary>
+    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsubd ymm_k1z, ymm, ymm","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsubd_ymm_k1z_ymm_ymm = 4200,
+    /// <summary>
+    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsubd ymm_k1z, ymm, m256","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsubd_ymm_k1z_ymm_m256 = 4201,
+    /// <summary>
+    /// vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpsubd ymm_k1z, ymm, m32bcst","vpsubd ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpsubd_ymm_k1z_ymm_m32bcst = 4202,
     /// <summary>
     /// vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsubd zmm {k1}{z}, zmm, zmm","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsubd_zmm_k1z_zmm_zmm = 3396,
+    [Symbol("vpsubd zmm, zmm, zmm","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsubd_zmm_zmm_zmm = 4203,
     /// <summary>
     /// vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsubd zmm {k1}{z}, zmm, m512","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsubd_zmm_k1z_zmm_m512 = 3397,
+    [Symbol("vpsubd zmm, zmm, m512","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsubd_zmm_zmm_m512 = 4204,
     /// <summary>
     /// vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpsubd zmm {k1}{z}, zmm, m32bcst","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpsubd_zmm_k1z_zmm_m32bcst = 3398,
+    [Symbol("vpsubd zmm, zmm, m32bcst","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsubd_zmm_zmm_m32bcst = 4205,
+    /// <summary>
+    /// vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsubd zmm_k1z, zmm, zmm","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsubd_zmm_k1z_zmm_zmm = 4206,
+    /// <summary>
+    /// vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsubd zmm_k1z, zmm, m512","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsubd_zmm_k1z_zmm_m512 = 4207,
+    /// <summary>
+    /// vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpsubd zmm_k1z, zmm, m32bcst","vpsubd zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpsubd_zmm_k1z_zmm_m32bcst = 4208,
     /// <summary>
     /// vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsubq xmm {k1}{z}, xmm, xmm","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsubq_xmm_k1z_xmm_xmm = 3399,
+    [Symbol("vpsubq xmm, xmm, xmm","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsubq_xmm_xmm_xmm = 4209,
     /// <summary>
     /// vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsubq xmm {k1}{z}, xmm, m128","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsubq_xmm_k1z_xmm_m128 = 3400,
+    [Symbol("vpsubq xmm, xmm, m128","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsubq_xmm_xmm_m128 = 4210,
     /// <summary>
     /// vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsubq xmm {k1}{z}, xmm, m64bcst","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpsubq_xmm_k1z_xmm_m64bcst = 3401,
+    [Symbol("vpsubq xmm, xmm, m64bcst","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsubq_xmm_xmm_m64bcst = 4211,
     /// <summary>
-    /// vpsubq xmm, xmm, xmm/m128
+    /// vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsubq xmm, xmm, xmm","vpsubq xmm, xmm, xmm/m128")]
-    vpsubq_xmm_xmm_xmm = 3402,
+    [Symbol("vpsubq xmm_k1z, xmm, xmm","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsubq_xmm_k1z_xmm_xmm = 4212,
     /// <summary>
-    /// vpsubq xmm, xmm, xmm/m128
+    /// vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsubq xmm, xmm, m128","vpsubq xmm, xmm, xmm/m128")]
-    vpsubq_xmm_xmm_m128 = 3403,
+    [Symbol("vpsubq xmm_k1z, xmm, m128","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsubq_xmm_k1z_xmm_m128 = 4213,
     /// <summary>
-    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpsubq ymm {k1}{z}, ymm, ymm","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsubq_ymm_k1z_ymm_ymm = 3404,
-    /// <summary>
-    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vpsubq ymm {k1}{z}, ymm, m256","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsubq_ymm_k1z_ymm_m256 = 3405,
+    [Symbol("vpsubq xmm_k1z, xmm, m64bcst","vpsubq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpsubq_xmm_k1z_xmm_m64bcst = 4214,
     /// <summary>
     /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsubq ymm {k1}{z}, ymm, m64bcst","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpsubq_ymm_k1z_ymm_m64bcst = 3406,
+    [Symbol("vpsubq ymm, ymm, ymm","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsubq_ymm_ymm_ymm = 4215,
     /// <summary>
-    /// vpsubq ymm, ymm, ymm/m256
+    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsubq ymm, ymm, ymm","vpsubq ymm, ymm, ymm/m256")]
-    vpsubq_ymm_ymm_ymm = 3407,
+    [Symbol("vpsubq ymm, ymm, m256","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsubq_ymm_ymm_m256 = 4216,
     /// <summary>
-    /// vpsubq ymm, ymm, ymm/m256
+    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpsubq ymm, ymm, m256","vpsubq ymm, ymm, ymm/m256")]
-    vpsubq_ymm_ymm_m256 = 3408,
+    [Symbol("vpsubq ymm, ymm, m64bcst","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsubq_ymm_ymm_m64bcst = 4217,
+    /// <summary>
+    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsubq ymm_k1z, ymm, ymm","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsubq_ymm_k1z_ymm_ymm = 4218,
+    /// <summary>
+    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsubq ymm_k1z, ymm, m256","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsubq_ymm_k1z_ymm_m256 = 4219,
+    /// <summary>
+    /// vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpsubq ymm_k1z, ymm, m64bcst","vpsubq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpsubq_ymm_k1z_ymm_m64bcst = 4220,
     /// <summary>
     /// vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsubq zmm {k1}{z}, zmm, zmm","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsubq_zmm_k1z_zmm_zmm = 3409,
+    [Symbol("vpsubq zmm, zmm, zmm","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsubq_zmm_zmm_zmm = 4221,
     /// <summary>
     /// vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsubq zmm {k1}{z}, zmm, m512","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsubq_zmm_k1z_zmm_m512 = 3410,
+    [Symbol("vpsubq zmm, zmm, m512","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsubq_zmm_zmm_m512 = 4222,
     /// <summary>
     /// vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpsubq zmm {k1}{z}, zmm, m64bcst","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpsubq_zmm_k1z_zmm_m64bcst = 3411,
+    [Symbol("vpsubq zmm, zmm, m64bcst","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsubq_zmm_zmm_m64bcst = 4223,
+    /// <summary>
+    /// vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsubq zmm_k1z, zmm, zmm","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsubq_zmm_k1z_zmm_zmm = 4224,
+    /// <summary>
+    /// vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsubq zmm_k1z, zmm, m512","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsubq_zmm_k1z_zmm_m512 = 4225,
+    /// <summary>
+    /// vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpsubq zmm_k1z, zmm, m64bcst","vpsubq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpsubq_zmm_k1z_zmm_m64bcst = 4226,
     /// <summary>
     /// vpsubsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsb xmm {k1}{z}, xmm, xmm","vpsubsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubsb_xmm_k1z_xmm_xmm = 3412,
+    [Symbol("vpsubsb xmm, xmm, xmm","vpsubsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsb_xmm_xmm_xmm = 4227,
     /// <summary>
     /// vpsubsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsb xmm {k1}{z}, xmm, m128","vpsubsb xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubsb_xmm_k1z_xmm_m128 = 3413,
+    [Symbol("vpsubsb xmm, xmm, m128","vpsubsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsb_xmm_xmm_m128 = 4228,
     /// <summary>
-    /// vpsubsb xmm, xmm, xmm/m128
+    /// vpsubsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsb xmm, xmm, xmm","vpsubsb xmm, xmm, xmm/m128")]
-    vpsubsb_xmm_xmm_xmm = 3414,
+    [Symbol("vpsubsb xmm_k1z, xmm, xmm","vpsubsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsb_xmm_k1z_xmm_xmm = 4229,
     /// <summary>
-    /// vpsubsb xmm, xmm, xmm/m128
+    /// vpsubsb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsb xmm, xmm, m128","vpsubsb xmm, xmm, xmm/m128")]
-    vpsubsb_xmm_xmm_m128 = 3415,
-    /// <summary>
-    /// vpsubsb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpsubsb ymm {k1}{z}, ymm, ymm","vpsubsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubsb_ymm_k1z_ymm_ymm = 3416,
+    [Symbol("vpsubsb xmm_k1z, xmm, m128","vpsubsb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsb_xmm_k1z_xmm_m128 = 4230,
     /// <summary>
     /// vpsubsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubsb ymm {k1}{z}, ymm, m256","vpsubsb ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubsb_ymm_k1z_ymm_m256 = 3417,
+    [Symbol("vpsubsb ymm, ymm, ymm","vpsubsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsb_ymm_ymm_ymm = 4231,
     /// <summary>
-    /// vpsubsb ymm, ymm, ymm/m256
+    /// vpsubsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubsb ymm, ymm, ymm","vpsubsb ymm, ymm, ymm/m256")]
-    vpsubsb_ymm_ymm_ymm = 3418,
+    [Symbol("vpsubsb ymm, ymm, m256","vpsubsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsb_ymm_ymm_m256 = 4232,
     /// <summary>
-    /// vpsubsb ymm, ymm, ymm/m256
+    /// vpsubsb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubsb ymm, ymm, m256","vpsubsb ymm, ymm, ymm/m256")]
-    vpsubsb_ymm_ymm_m256 = 3419,
+    [Symbol("vpsubsb ymm_k1z, ymm, ymm","vpsubsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsb_ymm_k1z_ymm_ymm = 4233,
+    /// <summary>
+    /// vpsubsb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsubsb ymm_k1z, ymm, m256","vpsubsb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsb_ymm_k1z_ymm_m256 = 4234,
     /// <summary>
     /// vpsubsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubsb zmm {k1}{z}, zmm, zmm","vpsubsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubsb_zmm_k1z_zmm_zmm = 3420,
+    [Symbol("vpsubsb zmm, zmm, zmm","vpsubsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubsb_zmm_zmm_zmm = 4235,
     /// <summary>
     /// vpsubsb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubsb zmm {k1}{z}, zmm, m512","vpsubsb zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubsb_zmm_k1z_zmm_m512 = 3421,
+    [Symbol("vpsubsb zmm, zmm, m512","vpsubsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubsb_zmm_zmm_m512 = 4236,
+    /// <summary>
+    /// vpsubsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubsb zmm_k1z, zmm, zmm","vpsubsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubsb_zmm_k1z_zmm_zmm = 4237,
+    /// <summary>
+    /// vpsubsb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubsb zmm_k1z, zmm, m512","vpsubsb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubsb_zmm_k1z_zmm_m512 = 4238,
     /// <summary>
     /// vpsubsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsw xmm {k1}{z}, xmm, xmm","vpsubsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubsw_xmm_k1z_xmm_xmm = 3422,
+    [Symbol("vpsubsw xmm, xmm, xmm","vpsubsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsw_xmm_xmm_xmm = 4239,
     /// <summary>
     /// vpsubsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsw xmm {k1}{z}, xmm, m128","vpsubsw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubsw_xmm_k1z_xmm_m128 = 3423,
+    [Symbol("vpsubsw xmm, xmm, m128","vpsubsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsw_xmm_xmm_m128 = 4240,
     /// <summary>
-    /// vpsubsw xmm, xmm, xmm/m128
+    /// vpsubsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsw xmm, xmm, xmm","vpsubsw xmm, xmm, xmm/m128")]
-    vpsubsw_xmm_xmm_xmm = 3424,
+    [Symbol("vpsubsw xmm_k1z, xmm, xmm","vpsubsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsw_xmm_k1z_xmm_xmm = 4241,
     /// <summary>
-    /// vpsubsw xmm, xmm, xmm/m128
+    /// vpsubsw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubsw xmm, xmm, m128","vpsubsw xmm, xmm, xmm/m128")]
-    vpsubsw_xmm_xmm_m128 = 3425,
-    /// <summary>
-    /// vpsubsw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpsubsw ymm {k1}{z}, ymm, ymm","vpsubsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubsw_ymm_k1z_ymm_ymm = 3426,
+    [Symbol("vpsubsw xmm_k1z, xmm, m128","vpsubsw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubsw_xmm_k1z_xmm_m128 = 4242,
     /// <summary>
     /// vpsubsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubsw ymm {k1}{z}, ymm, m256","vpsubsw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubsw_ymm_k1z_ymm_m256 = 3427,
+    [Symbol("vpsubsw ymm, ymm, ymm","vpsubsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsw_ymm_ymm_ymm = 4243,
     /// <summary>
-    /// vpsubsw ymm, ymm, ymm/m256
+    /// vpsubsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubsw ymm, ymm, ymm","vpsubsw ymm, ymm, ymm/m256")]
-    vpsubsw_ymm_ymm_ymm = 3428,
+    [Symbol("vpsubsw ymm, ymm, m256","vpsubsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsw_ymm_ymm_m256 = 4244,
     /// <summary>
-    /// vpsubsw ymm, ymm, ymm/m256
+    /// vpsubsw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubsw ymm, ymm, m256","vpsubsw ymm, ymm, ymm/m256")]
-    vpsubsw_ymm_ymm_m256 = 3429,
+    [Symbol("vpsubsw ymm_k1z, ymm, ymm","vpsubsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsw_ymm_k1z_ymm_ymm = 4245,
+    /// <summary>
+    /// vpsubsw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsubsw ymm_k1z, ymm, m256","vpsubsw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubsw_ymm_k1z_ymm_m256 = 4246,
     /// <summary>
     /// vpsubusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusb xmm {k1}{z}, xmm, xmm","vpsubusb xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubusb_xmm_k1z_xmm_xmm = 3430,
+    [Symbol("vpsubusb xmm, xmm, xmm","vpsubusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusb_xmm_xmm_xmm = 4247,
     /// <summary>
     /// vpsubusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusb xmm {k1}{z}, xmm, m128","vpsubusb xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubusb_xmm_k1z_xmm_m128 = 3431,
+    [Symbol("vpsubusb xmm, xmm, m128","vpsubusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusb_xmm_xmm_m128 = 4248,
     /// <summary>
-    /// vpsubusb xmm, xmm, xmm/m128
+    /// vpsubusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusb xmm, xmm, xmm","vpsubusb xmm, xmm, xmm/m128")]
-    vpsubusb_xmm_xmm_xmm = 3432,
+    [Symbol("vpsubusb xmm_k1z, xmm, xmm","vpsubusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusb_xmm_k1z_xmm_xmm = 4249,
     /// <summary>
-    /// vpsubusb xmm, xmm, xmm/m128
+    /// vpsubusb xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusb xmm, xmm, m128","vpsubusb xmm, xmm, xmm/m128")]
-    vpsubusb_xmm_xmm_m128 = 3433,
-    /// <summary>
-    /// vpsubusb ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpsubusb ymm {k1}{z}, ymm, ymm","vpsubusb ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubusb_ymm_k1z_ymm_ymm = 3434,
+    [Symbol("vpsubusb xmm_k1z, xmm, m128","vpsubusb xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusb_xmm_k1z_xmm_m128 = 4250,
     /// <summary>
     /// vpsubusb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubusb ymm {k1}{z}, ymm, m256","vpsubusb ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubusb_ymm_k1z_ymm_m256 = 3435,
+    [Symbol("vpsubusb ymm, ymm, ymm","vpsubusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusb_ymm_ymm_ymm = 4251,
     /// <summary>
-    /// vpsubusb ymm, ymm, ymm/m256
+    /// vpsubusb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubusb ymm, ymm, ymm","vpsubusb ymm, ymm, ymm/m256")]
-    vpsubusb_ymm_ymm_ymm = 3436,
+    [Symbol("vpsubusb ymm, ymm, m256","vpsubusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusb_ymm_ymm_m256 = 4252,
     /// <summary>
-    /// vpsubusb ymm, ymm, ymm/m256
+    /// vpsubusb ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubusb ymm, ymm, m256","vpsubusb ymm, ymm, ymm/m256")]
-    vpsubusb_ymm_ymm_m256 = 3437,
+    [Symbol("vpsubusb ymm_k1z, ymm, ymm","vpsubusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusb_ymm_k1z_ymm_ymm = 4253,
+    /// <summary>
+    /// vpsubusb ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsubusb ymm_k1z, ymm, m256","vpsubusb ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusb_ymm_k1z_ymm_m256 = 4254,
     /// <summary>
     /// vpsubusb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubusb zmm {k1}{z}, zmm, zmm","vpsubusb zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubusb_zmm_k1z_zmm_zmm = 3438,
+    [Symbol("vpsubusb zmm, zmm, zmm","vpsubusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubusb_zmm_zmm_zmm = 4255,
     /// <summary>
     /// vpsubusb zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubusb zmm {k1}{z}, zmm, m512","vpsubusb zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubusb_zmm_k1z_zmm_m512 = 3439,
+    [Symbol("vpsubusb zmm, zmm, m512","vpsubusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubusb_zmm_zmm_m512 = 4256,
+    /// <summary>
+    /// vpsubusb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubusb zmm_k1z, zmm, zmm","vpsubusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubusb_zmm_k1z_zmm_zmm = 4257,
+    /// <summary>
+    /// vpsubusb zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubusb zmm_k1z, zmm, m512","vpsubusb zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubusb_zmm_k1z_zmm_m512 = 4258,
     /// <summary>
     /// vpsubusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusw xmm {k1}{z}, xmm, xmm","vpsubusw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubusw_xmm_k1z_xmm_xmm = 3440,
+    [Symbol("vpsubusw xmm, xmm, xmm","vpsubusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusw_xmm_xmm_xmm = 4259,
     /// <summary>
     /// vpsubusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusw xmm {k1}{z}, xmm, m128","vpsubusw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubusw_xmm_k1z_xmm_m128 = 3441,
+    [Symbol("vpsubusw xmm, xmm, m128","vpsubusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusw_xmm_xmm_m128 = 4260,
     /// <summary>
-    /// vpsubusw xmm, xmm, xmm/m128
+    /// vpsubusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusw xmm, xmm, xmm","vpsubusw xmm, xmm, xmm/m128")]
-    vpsubusw_xmm_xmm_xmm = 3442,
+    [Symbol("vpsubusw xmm_k1z, xmm, xmm","vpsubusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusw_xmm_k1z_xmm_xmm = 4261,
     /// <summary>
-    /// vpsubusw xmm, xmm, xmm/m128
+    /// vpsubusw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubusw xmm, xmm, m128","vpsubusw xmm, xmm, xmm/m128")]
-    vpsubusw_xmm_xmm_m128 = 3443,
-    /// <summary>
-    /// vpsubusw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpsubusw ymm {k1}{z}, ymm, ymm","vpsubusw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubusw_ymm_k1z_ymm_ymm = 3444,
+    [Symbol("vpsubusw xmm_k1z, xmm, m128","vpsubusw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubusw_xmm_k1z_xmm_m128 = 4262,
     /// <summary>
     /// vpsubusw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubusw ymm {k1}{z}, ymm, m256","vpsubusw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubusw_ymm_k1z_ymm_m256 = 3445,
+    [Symbol("vpsubusw ymm, ymm, ymm","vpsubusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusw_ymm_ymm_ymm = 4263,
     /// <summary>
-    /// vpsubusw ymm, ymm, ymm/m256
+    /// vpsubusw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubusw ymm, ymm, ymm","vpsubusw ymm, ymm, ymm/m256")]
-    vpsubusw_ymm_ymm_ymm = 3446,
+    [Symbol("vpsubusw ymm, ymm, m256","vpsubusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusw_ymm_ymm_m256 = 4264,
     /// <summary>
-    /// vpsubusw ymm, ymm, ymm/m256
+    /// vpsubusw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubusw ymm, ymm, m256","vpsubusw ymm, ymm, ymm/m256")]
-    vpsubusw_ymm_ymm_m256 = 3447,
+    [Symbol("vpsubusw ymm_k1z, ymm, ymm","vpsubusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusw_ymm_k1z_ymm_ymm = 4265,
+    /// <summary>
+    /// vpsubusw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsubusw ymm_k1z, ymm, m256","vpsubusw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubusw_ymm_k1z_ymm_m256 = 4266,
     /// <summary>
     /// vpsubw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubw xmm {k1}{z}, xmm, xmm","vpsubw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubw_xmm_k1z_xmm_xmm = 3448,
+    [Symbol("vpsubw xmm, xmm, xmm","vpsubw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubw_xmm_xmm_xmm = 4267,
     /// <summary>
     /// vpsubw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubw xmm {k1}{z}, xmm, m128","vpsubw xmm {k1}{z}, xmm, xmm/m128")]
-    vpsubw_xmm_k1z_xmm_m128 = 3449,
+    [Symbol("vpsubw xmm, xmm, m128","vpsubw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubw_xmm_xmm_m128 = 4268,
     /// <summary>
-    /// vpsubw xmm, xmm, xmm/m128
+    /// vpsubw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubw xmm, xmm, xmm","vpsubw xmm, xmm, xmm/m128")]
-    vpsubw_xmm_xmm_xmm = 3450,
+    [Symbol("vpsubw xmm_k1z, xmm, xmm","vpsubw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubw_xmm_k1z_xmm_xmm = 4269,
     /// <summary>
-    /// vpsubw xmm, xmm, xmm/m128
+    /// vpsubw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpsubw xmm, xmm, m128","vpsubw xmm, xmm, xmm/m128")]
-    vpsubw_xmm_xmm_m128 = 3451,
-    /// <summary>
-    /// vpsubw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpsubw ymm {k1}{z}, ymm, ymm","vpsubw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubw_ymm_k1z_ymm_ymm = 3452,
+    [Symbol("vpsubw xmm_k1z, xmm, m128","vpsubw xmm {k1}{z}, xmm, xmm/m128")]
+    vpsubw_xmm_k1z_xmm_m128 = 4270,
     /// <summary>
     /// vpsubw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubw ymm {k1}{z}, ymm, m256","vpsubw ymm {k1}{z}, ymm, ymm/m256")]
-    vpsubw_ymm_k1z_ymm_m256 = 3453,
+    [Symbol("vpsubw ymm, ymm, ymm","vpsubw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubw_ymm_ymm_ymm = 4271,
     /// <summary>
-    /// vpsubw ymm, ymm, ymm/m256
+    /// vpsubw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubw ymm, ymm, ymm","vpsubw ymm, ymm, ymm/m256")]
-    vpsubw_ymm_ymm_ymm = 3454,
+    [Symbol("vpsubw ymm, ymm, m256","vpsubw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubw_ymm_ymm_m256 = 4272,
     /// <summary>
-    /// vpsubw ymm, ymm, ymm/m256
+    /// vpsubw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpsubw ymm, ymm, m256","vpsubw ymm, ymm, ymm/m256")]
-    vpsubw_ymm_ymm_m256 = 3455,
+    [Symbol("vpsubw ymm_k1z, ymm, ymm","vpsubw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubw_ymm_k1z_ymm_ymm = 4273,
+    /// <summary>
+    /// vpsubw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpsubw ymm_k1z, ymm, m256","vpsubw ymm {k1}{z}, ymm, ymm/m256")]
+    vpsubw_ymm_k1z_ymm_m256 = 4274,
     /// <summary>
     /// vpsubw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubw zmm {k1}{z}, zmm, zmm","vpsubw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubw_zmm_k1z_zmm_zmm = 3456,
+    [Symbol("vpsubw zmm, zmm, zmm","vpsubw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubw_zmm_zmm_zmm = 4275,
     /// <summary>
     /// vpsubw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpsubw zmm {k1}{z}, zmm, m512","vpsubw zmm {k1}{z}, zmm, zmm/m512")]
-    vpsubw_zmm_k1z_zmm_m512 = 3457,
+    [Symbol("vpsubw zmm, zmm, m512","vpsubw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubw_zmm_zmm_m512 = 4276,
+    /// <summary>
+    /// vpsubw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubw zmm_k1z, zmm, zmm","vpsubw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubw_zmm_k1z_zmm_zmm = 4277,
+    /// <summary>
+    /// vpsubw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpsubw zmm_k1z, zmm, m512","vpsubw zmm {k1}{z}, zmm, zmm/m512")]
+    vpsubw_zmm_k1z_zmm_m512 = 4278,
     /// <summary>
     /// vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd xmm {k1}{z}, xmm, xmm, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
-    vpternlogd_xmm_k1z_xmm_xmm_imm8 = 3458,
+    [Symbol("vpternlogd xmm, xmm, xmm, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    vpternlogd_xmm_xmm_xmm_imm8 = 4279,
     /// <summary>
     /// vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd xmm {k1}{z}, xmm, m128, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
-    vpternlogd_xmm_k1z_xmm_m128_imm8 = 3459,
+    [Symbol("vpternlogd xmm, xmm, m128, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    vpternlogd_xmm_xmm_m128_imm8 = 4280,
     /// <summary>
     /// vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd xmm {k1}{z}, xmm, m32bcst, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
-    vpternlogd_xmm_k1z_xmm_m32bcst_imm8 = 3460,
+    [Symbol("vpternlogd xmm, xmm, m32bcst, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    vpternlogd_xmm_xmm_m32bcst_imm8 = 4281,
+    /// <summary>
+    /// vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd xmm_k1z, xmm, xmm, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    vpternlogd_xmm_k1z_xmm_xmm_imm8 = 4282,
+    /// <summary>
+    /// vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd xmm_k1z, xmm, m128, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    vpternlogd_xmm_k1z_xmm_m128_imm8 = 4283,
+    /// <summary>
+    /// vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd xmm_k1z, xmm, m32bcst, imm8","vpternlogd xmm {k1}{z}, xmm, xmm/m128/m32bcst, imm8")]
+    vpternlogd_xmm_k1z_xmm_m32bcst_imm8 = 4284,
     /// <summary>
     /// vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd ymm {k1}{z}, ymm, ymm, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
-    vpternlogd_ymm_k1z_ymm_ymm_imm8 = 3461,
+    [Symbol("vpternlogd ymm, ymm, ymm, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    vpternlogd_ymm_ymm_ymm_imm8 = 4285,
     /// <summary>
     /// vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd ymm {k1}{z}, ymm, m256, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
-    vpternlogd_ymm_k1z_ymm_m256_imm8 = 3462,
+    [Symbol("vpternlogd ymm, ymm, m256, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    vpternlogd_ymm_ymm_m256_imm8 = 4286,
     /// <summary>
     /// vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd ymm {k1}{z}, ymm, m32bcst, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
-    vpternlogd_ymm_k1z_ymm_m32bcst_imm8 = 3463,
+    [Symbol("vpternlogd ymm, ymm, m32bcst, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    vpternlogd_ymm_ymm_m32bcst_imm8 = 4287,
+    /// <summary>
+    /// vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd ymm_k1z, ymm, ymm, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    vpternlogd_ymm_k1z_ymm_ymm_imm8 = 4288,
+    /// <summary>
+    /// vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd ymm_k1z, ymm, m256, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    vpternlogd_ymm_k1z_ymm_m256_imm8 = 4289,
+    /// <summary>
+    /// vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd ymm_k1z, ymm, m32bcst, imm8","vpternlogd ymm {k1}{z}, ymm, ymm/m256/m32bcst, imm8")]
+    vpternlogd_ymm_k1z_ymm_m32bcst_imm8 = 4290,
     /// <summary>
     /// vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd zmm {k1}{z}, zmm, zmm, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
-    vpternlogd_zmm_k1z_zmm_zmm_imm8 = 3464,
+    [Symbol("vpternlogd zmm, zmm, zmm, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    vpternlogd_zmm_zmm_zmm_imm8 = 4291,
     /// <summary>
     /// vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd zmm {k1}{z}, zmm, m512, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
-    vpternlogd_zmm_k1z_zmm_m512_imm8 = 3465,
+    [Symbol("vpternlogd zmm, zmm, m512, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    vpternlogd_zmm_zmm_m512_imm8 = 4292,
     /// <summary>
     /// vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
     /// </summary>
-    [Symbol("vpternlogd zmm {k1}{z}, zmm, m32bcst, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
-    vpternlogd_zmm_k1z_zmm_m32bcst_imm8 = 3466,
+    [Symbol("vpternlogd zmm, zmm, m32bcst, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    vpternlogd_zmm_zmm_m32bcst_imm8 = 4293,
+    /// <summary>
+    /// vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd zmm_k1z, zmm, zmm, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    vpternlogd_zmm_k1z_zmm_zmm_imm8 = 4294,
+    /// <summary>
+    /// vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd zmm_k1z, zmm, m512, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    vpternlogd_zmm_k1z_zmm_m512_imm8 = 4295,
+    /// <summary>
+    /// vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogd zmm_k1z, zmm, m32bcst, imm8","vpternlogd zmm {k1}{z}, zmm, zmm/m512/m32bcst, imm8")]
+    vpternlogd_zmm_k1z_zmm_m32bcst_imm8 = 4296,
     /// <summary>
     /// vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq xmm {k1}{z}, xmm, xmm, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
-    vpternlogq_xmm_k1z_xmm_xmm_imm8 = 3467,
+    [Symbol("vpternlogq xmm, xmm, xmm, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    vpternlogq_xmm_xmm_xmm_imm8 = 4297,
     /// <summary>
     /// vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq xmm {k1}{z}, xmm, m128, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
-    vpternlogq_xmm_k1z_xmm_m128_imm8 = 3468,
+    [Symbol("vpternlogq xmm, xmm, m128, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    vpternlogq_xmm_xmm_m128_imm8 = 4298,
     /// <summary>
     /// vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq xmm {k1}{z}, xmm, m64bcst, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
-    vpternlogq_xmm_k1z_xmm_m64bcst_imm8 = 3469,
+    [Symbol("vpternlogq xmm, xmm, m64bcst, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    vpternlogq_xmm_xmm_m64bcst_imm8 = 4299,
+    /// <summary>
+    /// vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq xmm_k1z, xmm, xmm, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    vpternlogq_xmm_k1z_xmm_xmm_imm8 = 4300,
+    /// <summary>
+    /// vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq xmm_k1z, xmm, m128, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    vpternlogq_xmm_k1z_xmm_m128_imm8 = 4301,
+    /// <summary>
+    /// vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq xmm_k1z, xmm, m64bcst, imm8","vpternlogq xmm {k1}{z}, xmm, xmm/m128/m64bcst, imm8")]
+    vpternlogq_xmm_k1z_xmm_m64bcst_imm8 = 4302,
     /// <summary>
     /// vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq ymm {k1}{z}, ymm, ymm, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
-    vpternlogq_ymm_k1z_ymm_ymm_imm8 = 3470,
+    [Symbol("vpternlogq ymm, ymm, ymm, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    vpternlogq_ymm_ymm_ymm_imm8 = 4303,
     /// <summary>
     /// vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq ymm {k1}{z}, ymm, m256, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
-    vpternlogq_ymm_k1z_ymm_m256_imm8 = 3471,
+    [Symbol("vpternlogq ymm, ymm, m256, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    vpternlogq_ymm_ymm_m256_imm8 = 4304,
     /// <summary>
     /// vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq ymm {k1}{z}, ymm, m64bcst, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
-    vpternlogq_ymm_k1z_ymm_m64bcst_imm8 = 3472,
+    [Symbol("vpternlogq ymm, ymm, m64bcst, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    vpternlogq_ymm_ymm_m64bcst_imm8 = 4305,
+    /// <summary>
+    /// vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq ymm_k1z, ymm, ymm, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    vpternlogq_ymm_k1z_ymm_ymm_imm8 = 4306,
+    /// <summary>
+    /// vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq ymm_k1z, ymm, m256, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    vpternlogq_ymm_k1z_ymm_m256_imm8 = 4307,
+    /// <summary>
+    /// vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq ymm_k1z, ymm, m64bcst, imm8","vpternlogq ymm {k1}{z}, ymm, ymm/m256/m64bcst, imm8")]
+    vpternlogq_ymm_k1z_ymm_m64bcst_imm8 = 4308,
     /// <summary>
     /// vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq zmm {k1}{z}, zmm, zmm, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
-    vpternlogq_zmm_k1z_zmm_zmm_imm8 = 3473,
+    [Symbol("vpternlogq zmm, zmm, zmm, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    vpternlogq_zmm_zmm_zmm_imm8 = 4309,
     /// <summary>
     /// vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq zmm {k1}{z}, zmm, m512, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
-    vpternlogq_zmm_k1z_zmm_m512_imm8 = 3474,
+    [Symbol("vpternlogq zmm, zmm, m512, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    vpternlogq_zmm_zmm_m512_imm8 = 4310,
     /// <summary>
     /// vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
     /// </summary>
-    [Symbol("vpternlogq zmm {k1}{z}, zmm, m64bcst, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
-    vpternlogq_zmm_k1z_zmm_m64bcst_imm8 = 3475,
+    [Symbol("vpternlogq zmm, zmm, m64bcst, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    vpternlogq_zmm_zmm_m64bcst_imm8 = 4311,
+    /// <summary>
+    /// vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq zmm_k1z, zmm, zmm, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    vpternlogq_zmm_k1z_zmm_zmm_imm8 = 4312,
+    /// <summary>
+    /// vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq zmm_k1z, zmm, m512, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    vpternlogq_zmm_k1z_zmm_m512_imm8 = 4313,
+    /// <summary>
+    /// vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8
+    /// </summary>
+    [Symbol("vpternlogq zmm_k1z, zmm, m64bcst, imm8","vpternlogq zmm {k1}{z}, zmm, zmm/m512/m64bcst, imm8")]
+    vpternlogq_zmm_k1z_zmm_m64bcst_imm8 = 4314,
     /// <summary>
     /// vptest xmm, xmm/m128
     /// </summary>
     [Symbol("vptest xmm, xmm","vptest xmm, xmm/m128")]
-    vptest_xmm_xmm = 3476,
+    vptest_xmm_xmm = 4315,
     /// <summary>
     /// vptest xmm, xmm/m128
     /// </summary>
     [Symbol("vptest xmm, m128","vptest xmm, xmm/m128")]
-    vptest_xmm_m128 = 3477,
+    vptest_xmm_m128 = 4316,
     /// <summary>
     /// vptest ymm, ymm/m256
     /// </summary>
     [Symbol("vptest ymm, ymm","vptest ymm, ymm/m256")]
-    vptest_ymm_ymm = 3478,
+    vptest_ymm_ymm = 4317,
     /// <summary>
     /// vptest ymm, ymm/m256
     /// </summary>
     [Symbol("vptest ymm, m256","vptest ymm, ymm/m256")]
-    vptest_ymm_m256 = 3479,
+    vptest_ymm_m256 = 4318,
     /// <summary>
     /// vptestmb k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestmb k2 {k1}, xmm, xmm","vptestmb k2 {k1}, xmm, xmm/m128")]
-    vptestmb_k2_k1_xmm_xmm = 3480,
+    [Symbol("vptestmb k2, xmm, xmm","vptestmb k2 {k1}, xmm, xmm/m128")]
+    vptestmb_k2_xmm_xmm = 4319,
     /// <summary>
     /// vptestmb k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestmb k2 {k1}, xmm, m128","vptestmb k2 {k1}, xmm, xmm/m128")]
-    vptestmb_k2_k1_xmm_m128 = 3481,
+    [Symbol("vptestmb k2, xmm, m128","vptestmb k2 {k1}, xmm, xmm/m128")]
+    vptestmb_k2_xmm_m128 = 4320,
+    /// <summary>
+    /// vptestmb k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestmb k21, xmm, xmm","vptestmb k2 {k1}, xmm, xmm/m128")]
+    vptestmb_k21_xmm_xmm = 4321,
+    /// <summary>
+    /// vptestmb k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestmb k21, xmm, m128","vptestmb k2 {k1}, xmm, xmm/m128")]
+    vptestmb_k21_xmm_m128 = 4322,
     /// <summary>
     /// vptestmb k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestmb k2 {k1}, ymm, ymm","vptestmb k2 {k1}, ymm, ymm/m256")]
-    vptestmb_k2_k1_ymm_ymm = 3482,
+    [Symbol("vptestmb k2, ymm, ymm","vptestmb k2 {k1}, ymm, ymm/m256")]
+    vptestmb_k2_ymm_ymm = 4323,
     /// <summary>
     /// vptestmb k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestmb k2 {k1}, ymm, m256","vptestmb k2 {k1}, ymm, ymm/m256")]
-    vptestmb_k2_k1_ymm_m256 = 3483,
+    [Symbol("vptestmb k2, ymm, m256","vptestmb k2 {k1}, ymm, ymm/m256")]
+    vptestmb_k2_ymm_m256 = 4324,
+    /// <summary>
+    /// vptestmb k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestmb k21, ymm, ymm","vptestmb k2 {k1}, ymm, ymm/m256")]
+    vptestmb_k21_ymm_ymm = 4325,
+    /// <summary>
+    /// vptestmb k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestmb k21, ymm, m256","vptestmb k2 {k1}, ymm, ymm/m256")]
+    vptestmb_k21_ymm_m256 = 4326,
     /// <summary>
     /// vptestmb k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestmb k2 {k1}, zmm, zmm","vptestmb k2 {k1}, zmm, zmm/m512")]
-    vptestmb_k2_k1_zmm_zmm = 3484,
+    [Symbol("vptestmb k2, zmm, zmm","vptestmb k2 {k1}, zmm, zmm/m512")]
+    vptestmb_k2_zmm_zmm = 4327,
     /// <summary>
     /// vptestmb k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestmb k2 {k1}, zmm, m512","vptestmb k2 {k1}, zmm, zmm/m512")]
-    vptestmb_k2_k1_zmm_m512 = 3485,
+    [Symbol("vptestmb k2, zmm, m512","vptestmb k2 {k1}, zmm, zmm/m512")]
+    vptestmb_k2_zmm_m512 = 4328,
+    /// <summary>
+    /// vptestmb k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestmb k21, zmm, zmm","vptestmb k2 {k1}, zmm, zmm/m512")]
+    vptestmb_k21_zmm_zmm = 4329,
+    /// <summary>
+    /// vptestmb k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestmb k21, zmm, m512","vptestmb k2 {k1}, zmm, zmm/m512")]
+    vptestmb_k21_zmm_m512 = 4330,
     /// <summary>
     /// vptestmd k2 {k1}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, xmm, xmm","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
-    vptestmd_k2_k1_xmm_xmm = 3486,
+    [Symbol("vptestmd k2, xmm, xmm","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestmd_k2_xmm_xmm = 4331,
     /// <summary>
     /// vptestmd k2 {k1}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, xmm, m128","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
-    vptestmd_k2_k1_xmm_m128 = 3487,
+    [Symbol("vptestmd k2, xmm, m128","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestmd_k2_xmm_m128 = 4332,
     /// <summary>
     /// vptestmd k2 {k1}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, xmm, m32bcst","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
-    vptestmd_k2_k1_xmm_m32bcst = 3488,
+    [Symbol("vptestmd k2, xmm, m32bcst","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestmd_k2_xmm_m32bcst = 4333,
+    /// <summary>
+    /// vptestmd k2 {k1}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, xmm, xmm","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestmd_k21_xmm_xmm = 4334,
+    /// <summary>
+    /// vptestmd k2 {k1}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, xmm, m128","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestmd_k21_xmm_m128 = 4335,
+    /// <summary>
+    /// vptestmd k2 {k1}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, xmm, m32bcst","vptestmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestmd_k21_xmm_m32bcst = 4336,
     /// <summary>
     /// vptestmd k2 {k1}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, ymm, ymm","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
-    vptestmd_k2_k1_ymm_ymm = 3489,
+    [Symbol("vptestmd k2, ymm, ymm","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestmd_k2_ymm_ymm = 4337,
     /// <summary>
     /// vptestmd k2 {k1}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, ymm, m256","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
-    vptestmd_k2_k1_ymm_m256 = 3490,
+    [Symbol("vptestmd k2, ymm, m256","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestmd_k2_ymm_m256 = 4338,
     /// <summary>
     /// vptestmd k2 {k1}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, ymm, m32bcst","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
-    vptestmd_k2_k1_ymm_m32bcst = 3491,
+    [Symbol("vptestmd k2, ymm, m32bcst","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestmd_k2_ymm_m32bcst = 4339,
+    /// <summary>
+    /// vptestmd k2 {k1}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, ymm, ymm","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestmd_k21_ymm_ymm = 4340,
+    /// <summary>
+    /// vptestmd k2 {k1}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, ymm, m256","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestmd_k21_ymm_m256 = 4341,
+    /// <summary>
+    /// vptestmd k2 {k1}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, ymm, m32bcst","vptestmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestmd_k21_ymm_m32bcst = 4342,
     /// <summary>
     /// vptestmd k2 {k1}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, zmm, zmm","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
-    vptestmd_k2_k1_zmm_zmm = 3492,
+    [Symbol("vptestmd k2, zmm, zmm","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestmd_k2_zmm_zmm = 4343,
     /// <summary>
     /// vptestmd k2 {k1}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, zmm, m512","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
-    vptestmd_k2_k1_zmm_m512 = 3493,
+    [Symbol("vptestmd k2, zmm, m512","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestmd_k2_zmm_m512 = 4344,
     /// <summary>
     /// vptestmd k2 {k1}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vptestmd k2 {k1}, zmm, m32bcst","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
-    vptestmd_k2_k1_zmm_m32bcst = 3494,
+    [Symbol("vptestmd k2, zmm, m32bcst","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestmd_k2_zmm_m32bcst = 4345,
+    /// <summary>
+    /// vptestmd k2 {k1}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, zmm, zmm","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestmd_k21_zmm_zmm = 4346,
+    /// <summary>
+    /// vptestmd k2 {k1}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, zmm, m512","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestmd_k21_zmm_m512 = 4347,
+    /// <summary>
+    /// vptestmd k2 {k1}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vptestmd k21, zmm, m32bcst","vptestmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestmd_k21_zmm_m32bcst = 4348,
     /// <summary>
     /// vptestmq k2 {k1}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, xmm, xmm","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
-    vptestmq_k2_k1_xmm_xmm = 3495,
+    [Symbol("vptestmq k2, xmm, xmm","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestmq_k2_xmm_xmm = 4349,
     /// <summary>
     /// vptestmq k2 {k1}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, xmm, m128","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
-    vptestmq_k2_k1_xmm_m128 = 3496,
+    [Symbol("vptestmq k2, xmm, m128","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestmq_k2_xmm_m128 = 4350,
     /// <summary>
     /// vptestmq k2 {k1}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, xmm, m64bcst","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
-    vptestmq_k2_k1_xmm_m64bcst = 3497,
+    [Symbol("vptestmq k2, xmm, m64bcst","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestmq_k2_xmm_m64bcst = 4351,
+    /// <summary>
+    /// vptestmq k2 {k1}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, xmm, xmm","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestmq_k21_xmm_xmm = 4352,
+    /// <summary>
+    /// vptestmq k2 {k1}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, xmm, m128","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestmq_k21_xmm_m128 = 4353,
+    /// <summary>
+    /// vptestmq k2 {k1}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, xmm, m64bcst","vptestmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestmq_k21_xmm_m64bcst = 4354,
     /// <summary>
     /// vptestmq k2 {k1}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, ymm, ymm","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
-    vptestmq_k2_k1_ymm_ymm = 3498,
+    [Symbol("vptestmq k2, ymm, ymm","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestmq_k2_ymm_ymm = 4355,
     /// <summary>
     /// vptestmq k2 {k1}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, ymm, m256","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
-    vptestmq_k2_k1_ymm_m256 = 3499,
+    [Symbol("vptestmq k2, ymm, m256","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestmq_k2_ymm_m256 = 4356,
     /// <summary>
     /// vptestmq k2 {k1}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, ymm, m64bcst","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
-    vptestmq_k2_k1_ymm_m64bcst = 3500,
+    [Symbol("vptestmq k2, ymm, m64bcst","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestmq_k2_ymm_m64bcst = 4357,
+    /// <summary>
+    /// vptestmq k2 {k1}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, ymm, ymm","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestmq_k21_ymm_ymm = 4358,
+    /// <summary>
+    /// vptestmq k2 {k1}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, ymm, m256","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestmq_k21_ymm_m256 = 4359,
+    /// <summary>
+    /// vptestmq k2 {k1}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, ymm, m64bcst","vptestmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestmq_k21_ymm_m64bcst = 4360,
     /// <summary>
     /// vptestmq k2 {k1}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, zmm, zmm","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
-    vptestmq_k2_k1_zmm_zmm = 3501,
+    [Symbol("vptestmq k2, zmm, zmm","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestmq_k2_zmm_zmm = 4361,
     /// <summary>
     /// vptestmq k2 {k1}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, zmm, m512","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
-    vptestmq_k2_k1_zmm_m512 = 3502,
+    [Symbol("vptestmq k2, zmm, m512","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestmq_k2_zmm_m512 = 4362,
     /// <summary>
     /// vptestmq k2 {k1}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vptestmq k2 {k1}, zmm, m64bcst","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
-    vptestmq_k2_k1_zmm_m64bcst = 3503,
+    [Symbol("vptestmq k2, zmm, m64bcst","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestmq_k2_zmm_m64bcst = 4363,
+    /// <summary>
+    /// vptestmq k2 {k1}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, zmm, zmm","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestmq_k21_zmm_zmm = 4364,
+    /// <summary>
+    /// vptestmq k2 {k1}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, zmm, m512","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestmq_k21_zmm_m512 = 4365,
+    /// <summary>
+    /// vptestmq k2 {k1}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vptestmq k21, zmm, m64bcst","vptestmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestmq_k21_zmm_m64bcst = 4366,
     /// <summary>
     /// vptestmw k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestmw k2 {k1}, xmm, xmm","vptestmw k2 {k1}, xmm, xmm/m128")]
-    vptestmw_k2_k1_xmm_xmm = 3504,
+    [Symbol("vptestmw k2, xmm, xmm","vptestmw k2 {k1}, xmm, xmm/m128")]
+    vptestmw_k2_xmm_xmm = 4367,
     /// <summary>
     /// vptestmw k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestmw k2 {k1}, xmm, m128","vptestmw k2 {k1}, xmm, xmm/m128")]
-    vptestmw_k2_k1_xmm_m128 = 3505,
+    [Symbol("vptestmw k2, xmm, m128","vptestmw k2 {k1}, xmm, xmm/m128")]
+    vptestmw_k2_xmm_m128 = 4368,
+    /// <summary>
+    /// vptestmw k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestmw k21, xmm, xmm","vptestmw k2 {k1}, xmm, xmm/m128")]
+    vptestmw_k21_xmm_xmm = 4369,
+    /// <summary>
+    /// vptestmw k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestmw k21, xmm, m128","vptestmw k2 {k1}, xmm, xmm/m128")]
+    vptestmw_k21_xmm_m128 = 4370,
     /// <summary>
     /// vptestmw k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestmw k2 {k1}, ymm, ymm","vptestmw k2 {k1}, ymm, ymm/m256")]
-    vptestmw_k2_k1_ymm_ymm = 3506,
+    [Symbol("vptestmw k2, ymm, ymm","vptestmw k2 {k1}, ymm, ymm/m256")]
+    vptestmw_k2_ymm_ymm = 4371,
     /// <summary>
     /// vptestmw k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestmw k2 {k1}, ymm, m256","vptestmw k2 {k1}, ymm, ymm/m256")]
-    vptestmw_k2_k1_ymm_m256 = 3507,
+    [Symbol("vptestmw k2, ymm, m256","vptestmw k2 {k1}, ymm, ymm/m256")]
+    vptestmw_k2_ymm_m256 = 4372,
+    /// <summary>
+    /// vptestmw k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestmw k21, ymm, ymm","vptestmw k2 {k1}, ymm, ymm/m256")]
+    vptestmw_k21_ymm_ymm = 4373,
+    /// <summary>
+    /// vptestmw k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestmw k21, ymm, m256","vptestmw k2 {k1}, ymm, ymm/m256")]
+    vptestmw_k21_ymm_m256 = 4374,
     /// <summary>
     /// vptestmw k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestmw k2 {k1}, zmm, zmm","vptestmw k2 {k1}, zmm, zmm/m512")]
-    vptestmw_k2_k1_zmm_zmm = 3508,
+    [Symbol("vptestmw k2, zmm, zmm","vptestmw k2 {k1}, zmm, zmm/m512")]
+    vptestmw_k2_zmm_zmm = 4375,
     /// <summary>
     /// vptestmw k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestmw k2 {k1}, zmm, m512","vptestmw k2 {k1}, zmm, zmm/m512")]
-    vptestmw_k2_k1_zmm_m512 = 3509,
+    [Symbol("vptestmw k2, zmm, m512","vptestmw k2 {k1}, zmm, zmm/m512")]
+    vptestmw_k2_zmm_m512 = 4376,
+    /// <summary>
+    /// vptestmw k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestmw k21, zmm, zmm","vptestmw k2 {k1}, zmm, zmm/m512")]
+    vptestmw_k21_zmm_zmm = 4377,
+    /// <summary>
+    /// vptestmw k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestmw k21, zmm, m512","vptestmw k2 {k1}, zmm, zmm/m512")]
+    vptestmw_k21_zmm_m512 = 4378,
     /// <summary>
     /// vptestnmb k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestnmb k2 {k1}, xmm, xmm","vptestnmb k2 {k1}, xmm, xmm/m128")]
-    vptestnmb_k2_k1_xmm_xmm = 3510,
+    [Symbol("vptestnmb k2, xmm, xmm","vptestnmb k2 {k1}, xmm, xmm/m128")]
+    vptestnmb_k2_xmm_xmm = 4379,
     /// <summary>
     /// vptestnmb k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestnmb k2 {k1}, xmm, m128","vptestnmb k2 {k1}, xmm, xmm/m128")]
-    vptestnmb_k2_k1_xmm_m128 = 3511,
+    [Symbol("vptestnmb k2, xmm, m128","vptestnmb k2 {k1}, xmm, xmm/m128")]
+    vptestnmb_k2_xmm_m128 = 4380,
+    /// <summary>
+    /// vptestnmb k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestnmb k21, xmm, xmm","vptestnmb k2 {k1}, xmm, xmm/m128")]
+    vptestnmb_k21_xmm_xmm = 4381,
+    /// <summary>
+    /// vptestnmb k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestnmb k21, xmm, m128","vptestnmb k2 {k1}, xmm, xmm/m128")]
+    vptestnmb_k21_xmm_m128 = 4382,
     /// <summary>
     /// vptestnmb k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestnmb k2 {k1}, ymm, ymm","vptestnmb k2 {k1}, ymm, ymm/m256")]
-    vptestnmb_k2_k1_ymm_ymm = 3512,
+    [Symbol("vptestnmb k2, ymm, ymm","vptestnmb k2 {k1}, ymm, ymm/m256")]
+    vptestnmb_k2_ymm_ymm = 4383,
     /// <summary>
     /// vptestnmb k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestnmb k2 {k1}, ymm, m256","vptestnmb k2 {k1}, ymm, ymm/m256")]
-    vptestnmb_k2_k1_ymm_m256 = 3513,
+    [Symbol("vptestnmb k2, ymm, m256","vptestnmb k2 {k1}, ymm, ymm/m256")]
+    vptestnmb_k2_ymm_m256 = 4384,
+    /// <summary>
+    /// vptestnmb k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestnmb k21, ymm, ymm","vptestnmb k2 {k1}, ymm, ymm/m256")]
+    vptestnmb_k21_ymm_ymm = 4385,
+    /// <summary>
+    /// vptestnmb k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestnmb k21, ymm, m256","vptestnmb k2 {k1}, ymm, ymm/m256")]
+    vptestnmb_k21_ymm_m256 = 4386,
     /// <summary>
     /// vptestnmb k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestnmb k2 {k1}, zmm, zmm","vptestnmb k2 {k1}, zmm, zmm/m512")]
-    vptestnmb_k2_k1_zmm_zmm = 3514,
+    [Symbol("vptestnmb k2, zmm, zmm","vptestnmb k2 {k1}, zmm, zmm/m512")]
+    vptestnmb_k2_zmm_zmm = 4387,
     /// <summary>
     /// vptestnmb k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestnmb k2 {k1}, zmm, m512","vptestnmb k2 {k1}, zmm, zmm/m512")]
-    vptestnmb_k2_k1_zmm_m512 = 3515,
+    [Symbol("vptestnmb k2, zmm, m512","vptestnmb k2 {k1}, zmm, zmm/m512")]
+    vptestnmb_k2_zmm_m512 = 4388,
+    /// <summary>
+    /// vptestnmb k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestnmb k21, zmm, zmm","vptestnmb k2 {k1}, zmm, zmm/m512")]
+    vptestnmb_k21_zmm_zmm = 4389,
+    /// <summary>
+    /// vptestnmb k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestnmb k21, zmm, m512","vptestnmb k2 {k1}, zmm, zmm/m512")]
+    vptestnmb_k21_zmm_m512 = 4390,
     /// <summary>
     /// vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, xmm, xmm","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
-    vptestnmd_k2_k1_xmm_xmm = 3516,
+    [Symbol("vptestnmd k2, xmm, xmm","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestnmd_k2_xmm_xmm = 4391,
     /// <summary>
     /// vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, xmm, m128","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
-    vptestnmd_k2_k1_xmm_m128 = 3517,
+    [Symbol("vptestnmd k2, xmm, m128","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestnmd_k2_xmm_m128 = 4392,
     /// <summary>
     /// vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, xmm, m32bcst","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
-    vptestnmd_k2_k1_xmm_m32bcst = 3518,
+    [Symbol("vptestnmd k2, xmm, m32bcst","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestnmd_k2_xmm_m32bcst = 4393,
+    /// <summary>
+    /// vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, xmm, xmm","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestnmd_k21_xmm_xmm = 4394,
+    /// <summary>
+    /// vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, xmm, m128","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestnmd_k21_xmm_m128 = 4395,
+    /// <summary>
+    /// vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, xmm, m32bcst","vptestnmd k2 {k1}, xmm, xmm/m128/m32bcst")]
+    vptestnmd_k21_xmm_m32bcst = 4396,
     /// <summary>
     /// vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, ymm, ymm","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
-    vptestnmd_k2_k1_ymm_ymm = 3519,
+    [Symbol("vptestnmd k2, ymm, ymm","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestnmd_k2_ymm_ymm = 4397,
     /// <summary>
     /// vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, ymm, m256","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
-    vptestnmd_k2_k1_ymm_m256 = 3520,
+    [Symbol("vptestnmd k2, ymm, m256","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestnmd_k2_ymm_m256 = 4398,
     /// <summary>
     /// vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, ymm, m32bcst","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
-    vptestnmd_k2_k1_ymm_m32bcst = 3521,
+    [Symbol("vptestnmd k2, ymm, m32bcst","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestnmd_k2_ymm_m32bcst = 4399,
+    /// <summary>
+    /// vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, ymm, ymm","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestnmd_k21_ymm_ymm = 4400,
+    /// <summary>
+    /// vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, ymm, m256","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestnmd_k21_ymm_m256 = 4401,
+    /// <summary>
+    /// vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, ymm, m32bcst","vptestnmd k2 {k1}, ymm, ymm/m256/m32bcst")]
+    vptestnmd_k21_ymm_m32bcst = 4402,
     /// <summary>
     /// vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, zmm, zmm","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
-    vptestnmd_k2_k1_zmm_zmm = 3522,
+    [Symbol("vptestnmd k2, zmm, zmm","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestnmd_k2_zmm_zmm = 4403,
     /// <summary>
     /// vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, zmm, m512","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
-    vptestnmd_k2_k1_zmm_m512 = 3523,
+    [Symbol("vptestnmd k2, zmm, m512","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestnmd_k2_zmm_m512 = 4404,
     /// <summary>
     /// vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vptestnmd k2 {k1}, zmm, m32bcst","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
-    vptestnmd_k2_k1_zmm_m32bcst = 3524,
+    [Symbol("vptestnmd k2, zmm, m32bcst","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestnmd_k2_zmm_m32bcst = 4405,
+    /// <summary>
+    /// vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, zmm, zmm","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestnmd_k21_zmm_zmm = 4406,
+    /// <summary>
+    /// vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, zmm, m512","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestnmd_k21_zmm_m512 = 4407,
+    /// <summary>
+    /// vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vptestnmd k21, zmm, m32bcst","vptestnmd k2 {k1}, zmm, zmm/m512/m32bcst")]
+    vptestnmd_k21_zmm_m32bcst = 4408,
     /// <summary>
     /// vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, xmm, xmm","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
-    vptestnmq_k2_k1_xmm_xmm = 3525,
+    [Symbol("vptestnmq k2, xmm, xmm","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestnmq_k2_xmm_xmm = 4409,
     /// <summary>
     /// vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, xmm, m128","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
-    vptestnmq_k2_k1_xmm_m128 = 3526,
+    [Symbol("vptestnmq k2, xmm, m128","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestnmq_k2_xmm_m128 = 4410,
     /// <summary>
     /// vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, xmm, m64bcst","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
-    vptestnmq_k2_k1_xmm_m64bcst = 3527,
+    [Symbol("vptestnmq k2, xmm, m64bcst","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestnmq_k2_xmm_m64bcst = 4411,
+    /// <summary>
+    /// vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, xmm, xmm","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestnmq_k21_xmm_xmm = 4412,
+    /// <summary>
+    /// vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, xmm, m128","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestnmq_k21_xmm_m128 = 4413,
+    /// <summary>
+    /// vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, xmm, m64bcst","vptestnmq k2 {k1}, xmm, xmm/m128/m64bcst")]
+    vptestnmq_k21_xmm_m64bcst = 4414,
     /// <summary>
     /// vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, ymm, ymm","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
-    vptestnmq_k2_k1_ymm_ymm = 3528,
+    [Symbol("vptestnmq k2, ymm, ymm","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestnmq_k2_ymm_ymm = 4415,
     /// <summary>
     /// vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, ymm, m256","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
-    vptestnmq_k2_k1_ymm_m256 = 3529,
+    [Symbol("vptestnmq k2, ymm, m256","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestnmq_k2_ymm_m256 = 4416,
     /// <summary>
     /// vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, ymm, m64bcst","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
-    vptestnmq_k2_k1_ymm_m64bcst = 3530,
+    [Symbol("vptestnmq k2, ymm, m64bcst","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestnmq_k2_ymm_m64bcst = 4417,
+    /// <summary>
+    /// vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, ymm, ymm","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestnmq_k21_ymm_ymm = 4418,
+    /// <summary>
+    /// vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, ymm, m256","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestnmq_k21_ymm_m256 = 4419,
+    /// <summary>
+    /// vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, ymm, m64bcst","vptestnmq k2 {k1}, ymm, ymm/m256/m64bcst")]
+    vptestnmq_k21_ymm_m64bcst = 4420,
     /// <summary>
     /// vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, zmm, zmm","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
-    vptestnmq_k2_k1_zmm_zmm = 3531,
+    [Symbol("vptestnmq k2, zmm, zmm","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestnmq_k2_zmm_zmm = 4421,
     /// <summary>
     /// vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, zmm, m512","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
-    vptestnmq_k2_k1_zmm_m512 = 3532,
+    [Symbol("vptestnmq k2, zmm, m512","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestnmq_k2_zmm_m512 = 4422,
     /// <summary>
     /// vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vptestnmq k2 {k1}, zmm, m64bcst","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
-    vptestnmq_k2_k1_zmm_m64bcst = 3533,
+    [Symbol("vptestnmq k2, zmm, m64bcst","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestnmq_k2_zmm_m64bcst = 4423,
+    /// <summary>
+    /// vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, zmm, zmm","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestnmq_k21_zmm_zmm = 4424,
+    /// <summary>
+    /// vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, zmm, m512","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestnmq_k21_zmm_m512 = 4425,
+    /// <summary>
+    /// vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vptestnmq k21, zmm, m64bcst","vptestnmq k2 {k1}, zmm, zmm/m512/m64bcst")]
+    vptestnmq_k21_zmm_m64bcst = 4426,
     /// <summary>
     /// vptestnmw k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestnmw k2 {k1}, xmm, xmm","vptestnmw k2 {k1}, xmm, xmm/m128")]
-    vptestnmw_k2_k1_xmm_xmm = 3534,
+    [Symbol("vptestnmw k2, xmm, xmm","vptestnmw k2 {k1}, xmm, xmm/m128")]
+    vptestnmw_k2_xmm_xmm = 4427,
     /// <summary>
     /// vptestnmw k2 {k1}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vptestnmw k2 {k1}, xmm, m128","vptestnmw k2 {k1}, xmm, xmm/m128")]
-    vptestnmw_k2_k1_xmm_m128 = 3535,
+    [Symbol("vptestnmw k2, xmm, m128","vptestnmw k2 {k1}, xmm, xmm/m128")]
+    vptestnmw_k2_xmm_m128 = 4428,
+    /// <summary>
+    /// vptestnmw k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestnmw k21, xmm, xmm","vptestnmw k2 {k1}, xmm, xmm/m128")]
+    vptestnmw_k21_xmm_xmm = 4429,
+    /// <summary>
+    /// vptestnmw k2 {k1}, xmm, xmm/m128
+    /// </summary>
+    [Symbol("vptestnmw k21, xmm, m128","vptestnmw k2 {k1}, xmm, xmm/m128")]
+    vptestnmw_k21_xmm_m128 = 4430,
     /// <summary>
     /// vptestnmw k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestnmw k2 {k1}, ymm, ymm","vptestnmw k2 {k1}, ymm, ymm/m256")]
-    vptestnmw_k2_k1_ymm_ymm = 3536,
+    [Symbol("vptestnmw k2, ymm, ymm","vptestnmw k2 {k1}, ymm, ymm/m256")]
+    vptestnmw_k2_ymm_ymm = 4431,
     /// <summary>
     /// vptestnmw k2 {k1}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vptestnmw k2 {k1}, ymm, m256","vptestnmw k2 {k1}, ymm, ymm/m256")]
-    vptestnmw_k2_k1_ymm_m256 = 3537,
+    [Symbol("vptestnmw k2, ymm, m256","vptestnmw k2 {k1}, ymm, ymm/m256")]
+    vptestnmw_k2_ymm_m256 = 4432,
+    /// <summary>
+    /// vptestnmw k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestnmw k21, ymm, ymm","vptestnmw k2 {k1}, ymm, ymm/m256")]
+    vptestnmw_k21_ymm_ymm = 4433,
+    /// <summary>
+    /// vptestnmw k2 {k1}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vptestnmw k21, ymm, m256","vptestnmw k2 {k1}, ymm, ymm/m256")]
+    vptestnmw_k21_ymm_m256 = 4434,
     /// <summary>
     /// vptestnmw k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestnmw k2 {k1}, zmm, zmm","vptestnmw k2 {k1}, zmm, zmm/m512")]
-    vptestnmw_k2_k1_zmm_zmm = 3538,
+    [Symbol("vptestnmw k2, zmm, zmm","vptestnmw k2 {k1}, zmm, zmm/m512")]
+    vptestnmw_k2_zmm_zmm = 4435,
     /// <summary>
     /// vptestnmw k2 {k1}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vptestnmw k2 {k1}, zmm, m512","vptestnmw k2 {k1}, zmm, zmm/m512")]
-    vptestnmw_k2_k1_zmm_m512 = 3539,
+    [Symbol("vptestnmw k2, zmm, m512","vptestnmw k2 {k1}, zmm, zmm/m512")]
+    vptestnmw_k2_zmm_m512 = 4436,
+    /// <summary>
+    /// vptestnmw k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestnmw k21, zmm, zmm","vptestnmw k2 {k1}, zmm, zmm/m512")]
+    vptestnmw_k21_zmm_zmm = 4437,
+    /// <summary>
+    /// vptestnmw k2 {k1}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vptestnmw k21, zmm, m512","vptestnmw k2 {k1}, zmm, zmm/m512")]
+    vptestnmw_k21_zmm_m512 = 4438,
     /// <summary>
     /// vpunpckhbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhbw xmm {k1}{z}, xmm, xmm","vpunpckhbw xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpckhbw_xmm_k1z_xmm_xmm = 3540,
+    [Symbol("vpunpckhbw xmm, xmm, xmm","vpunpckhbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhbw_xmm_xmm_xmm = 4439,
     /// <summary>
     /// vpunpckhbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhbw xmm {k1}{z}, xmm, m128","vpunpckhbw xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpckhbw_xmm_k1z_xmm_m128 = 3541,
+    [Symbol("vpunpckhbw xmm, xmm, m128","vpunpckhbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhbw_xmm_xmm_m128 = 4440,
     /// <summary>
-    /// vpunpckhbw xmm, xmm, xmm/m128
+    /// vpunpckhbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhbw xmm, xmm, xmm","vpunpckhbw xmm, xmm, xmm/m128")]
-    vpunpckhbw_xmm_xmm_xmm = 3542,
+    [Symbol("vpunpckhbw xmm_k1z, xmm, xmm","vpunpckhbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhbw_xmm_k1z_xmm_xmm = 4441,
     /// <summary>
-    /// vpunpckhbw xmm, xmm, xmm/m128
+    /// vpunpckhbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhbw xmm, xmm, m128","vpunpckhbw xmm, xmm, xmm/m128")]
-    vpunpckhbw_xmm_xmm_m128 = 3543,
-    /// <summary>
-    /// vpunpckhbw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpunpckhbw ymm {k1}{z}, ymm, ymm","vpunpckhbw ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpckhbw_ymm_k1z_ymm_ymm = 3544,
+    [Symbol("vpunpckhbw xmm_k1z, xmm, m128","vpunpckhbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhbw_xmm_k1z_xmm_m128 = 4442,
     /// <summary>
     /// vpunpckhbw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpckhbw ymm {k1}{z}, ymm, m256","vpunpckhbw ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpckhbw_ymm_k1z_ymm_m256 = 3545,
+    [Symbol("vpunpckhbw ymm, ymm, ymm","vpunpckhbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhbw_ymm_ymm_ymm = 4443,
     /// <summary>
-    /// vpunpckhbw ymm, ymm, ymm/m256
+    /// vpunpckhbw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpckhbw ymm, ymm, ymm","vpunpckhbw ymm, ymm, ymm/m256")]
-    vpunpckhbw_ymm_ymm_ymm = 3546,
+    [Symbol("vpunpckhbw ymm, ymm, m256","vpunpckhbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhbw_ymm_ymm_m256 = 4444,
     /// <summary>
-    /// vpunpckhbw ymm, ymm, ymm/m256
+    /// vpunpckhbw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpckhbw ymm, ymm, m256","vpunpckhbw ymm, ymm, ymm/m256")]
-    vpunpckhbw_ymm_ymm_m256 = 3547,
+    [Symbol("vpunpckhbw ymm_k1z, ymm, ymm","vpunpckhbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhbw_ymm_k1z_ymm_ymm = 4445,
+    /// <summary>
+    /// vpunpckhbw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpunpckhbw ymm_k1z, ymm, m256","vpunpckhbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhbw_ymm_k1z_ymm_m256 = 4446,
     /// <summary>
     /// vpunpckhbw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpckhbw zmm {k1}{z}, zmm, zmm","vpunpckhbw zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpckhbw_zmm_k1z_zmm_zmm = 3548,
+    [Symbol("vpunpckhbw zmm, zmm, zmm","vpunpckhbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhbw_zmm_zmm_zmm = 4447,
     /// <summary>
     /// vpunpckhbw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpckhbw zmm {k1}{z}, zmm, m512","vpunpckhbw zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpckhbw_zmm_k1z_zmm_m512 = 3549,
+    [Symbol("vpunpckhbw zmm, zmm, m512","vpunpckhbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhbw_zmm_zmm_m512 = 4448,
+    /// <summary>
+    /// vpunpckhbw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpckhbw zmm_k1z, zmm, zmm","vpunpckhbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhbw_zmm_k1z_zmm_zmm = 4449,
+    /// <summary>
+    /// vpunpckhbw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpckhbw zmm_k1z, zmm, m512","vpunpckhbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhbw_zmm_k1z_zmm_m512 = 4450,
     /// <summary>
     /// vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq xmm {k1}{z}, xmm, xmm","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpunpckhdq_xmm_k1z_xmm_xmm = 3550,
+    [Symbol("vpunpckhdq xmm, xmm, xmm","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckhdq_xmm_xmm_xmm = 4451,
     /// <summary>
     /// vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq xmm {k1}{z}, xmm, m128","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpunpckhdq_xmm_k1z_xmm_m128 = 3551,
+    [Symbol("vpunpckhdq xmm, xmm, m128","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckhdq_xmm_xmm_m128 = 4452,
     /// <summary>
     /// vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq xmm {k1}{z}, xmm, m32bcst","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpunpckhdq_xmm_k1z_xmm_m32bcst = 3552,
+    [Symbol("vpunpckhdq xmm, xmm, m32bcst","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckhdq_xmm_xmm_m32bcst = 4453,
     /// <summary>
-    /// vpunpckhdq xmm, xmm, xmm/m128
+    /// vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq xmm, xmm, xmm","vpunpckhdq xmm, xmm, xmm/m128")]
-    vpunpckhdq_xmm_xmm_xmm = 3553,
+    [Symbol("vpunpckhdq xmm_k1z, xmm, xmm","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckhdq_xmm_k1z_xmm_xmm = 4454,
     /// <summary>
-    /// vpunpckhdq xmm, xmm, xmm/m128
+    /// vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq xmm, xmm, m128","vpunpckhdq xmm, xmm, xmm/m128")]
-    vpunpckhdq_xmm_xmm_m128 = 3554,
+    [Symbol("vpunpckhdq xmm_k1z, xmm, m128","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckhdq_xmm_k1z_xmm_m128 = 4455,
     /// <summary>
-    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq ymm {k1}{z}, ymm, ymm","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpunpckhdq_ymm_k1z_ymm_ymm = 3555,
-    /// <summary>
-    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpunpckhdq ymm {k1}{z}, ymm, m256","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpunpckhdq_ymm_k1z_ymm_m256 = 3556,
+    [Symbol("vpunpckhdq xmm_k1z, xmm, m32bcst","vpunpckhdq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckhdq_xmm_k1z_xmm_m32bcst = 4456,
     /// <summary>
     /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq ymm {k1}{z}, ymm, m32bcst","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpunpckhdq_ymm_k1z_ymm_m32bcst = 3557,
+    [Symbol("vpunpckhdq ymm, ymm, ymm","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckhdq_ymm_ymm_ymm = 4457,
     /// <summary>
-    /// vpunpckhdq ymm, ymm, ymm/m256
+    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq ymm, ymm, ymm","vpunpckhdq ymm, ymm, ymm/m256")]
-    vpunpckhdq_ymm_ymm_ymm = 3558,
+    [Symbol("vpunpckhdq ymm, ymm, m256","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckhdq_ymm_ymm_m256 = 4458,
     /// <summary>
-    /// vpunpckhdq ymm, ymm, ymm/m256
+    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq ymm, ymm, m256","vpunpckhdq ymm, ymm, ymm/m256")]
-    vpunpckhdq_ymm_ymm_m256 = 3559,
+    [Symbol("vpunpckhdq ymm, ymm, m32bcst","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckhdq_ymm_ymm_m32bcst = 4459,
+    /// <summary>
+    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpunpckhdq ymm_k1z, ymm, ymm","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckhdq_ymm_k1z_ymm_ymm = 4460,
+    /// <summary>
+    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpunpckhdq ymm_k1z, ymm, m256","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckhdq_ymm_k1z_ymm_m256 = 4461,
+    /// <summary>
+    /// vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpunpckhdq ymm_k1z, ymm, m32bcst","vpunpckhdq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckhdq_ymm_k1z_ymm_m32bcst = 4462,
     /// <summary>
     /// vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq zmm {k1}{z}, zmm, zmm","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpunpckhdq_zmm_k1z_zmm_zmm = 3560,
+    [Symbol("vpunpckhdq zmm, zmm, zmm","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckhdq_zmm_zmm_zmm = 4463,
     /// <summary>
     /// vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq zmm {k1}{z}, zmm, m512","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpunpckhdq_zmm_k1z_zmm_m512 = 3561,
+    [Symbol("vpunpckhdq zmm, zmm, m512","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckhdq_zmm_zmm_m512 = 4464,
     /// <summary>
     /// vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpunpckhdq zmm {k1}{z}, zmm, m32bcst","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpunpckhdq_zmm_k1z_zmm_m32bcst = 3562,
+    [Symbol("vpunpckhdq zmm, zmm, m32bcst","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckhdq_zmm_zmm_m32bcst = 4465,
+    /// <summary>
+    /// vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpunpckhdq zmm_k1z, zmm, zmm","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckhdq_zmm_k1z_zmm_zmm = 4466,
+    /// <summary>
+    /// vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpunpckhdq zmm_k1z, zmm, m512","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckhdq_zmm_k1z_zmm_m512 = 4467,
+    /// <summary>
+    /// vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpunpckhdq zmm_k1z, zmm, m32bcst","vpunpckhdq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckhdq_zmm_k1z_zmm_m32bcst = 4468,
     /// <summary>
     /// vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq xmm {k1}{z}, xmm, xmm","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpunpckhqdq_xmm_k1z_xmm_xmm = 3563,
+    [Symbol("vpunpckhqdq xmm, xmm, xmm","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpckhqdq_xmm_xmm_xmm = 4469,
     /// <summary>
     /// vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq xmm {k1}{z}, xmm, m128","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpunpckhqdq_xmm_k1z_xmm_m128 = 3564,
+    [Symbol("vpunpckhqdq xmm, xmm, m128","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpckhqdq_xmm_xmm_m128 = 4470,
     /// <summary>
     /// vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq xmm {k1}{z}, xmm, m64bcst","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpunpckhqdq_xmm_k1z_xmm_m64bcst = 3565,
+    [Symbol("vpunpckhqdq xmm, xmm, m64bcst","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpckhqdq_xmm_xmm_m64bcst = 4471,
     /// <summary>
-    /// vpunpckhqdq xmm, xmm, xmm/m128
+    /// vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq xmm, xmm, xmm","vpunpckhqdq xmm, xmm, xmm/m128")]
-    vpunpckhqdq_xmm_xmm_xmm = 3566,
+    [Symbol("vpunpckhqdq xmm_k1z, xmm, xmm","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpckhqdq_xmm_k1z_xmm_xmm = 4472,
     /// <summary>
-    /// vpunpckhqdq xmm, xmm, xmm/m128
+    /// vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq xmm, xmm, m128","vpunpckhqdq xmm, xmm, xmm/m128")]
-    vpunpckhqdq_xmm_xmm_m128 = 3567,
+    [Symbol("vpunpckhqdq xmm_k1z, xmm, m128","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpckhqdq_xmm_k1z_xmm_m128 = 4473,
     /// <summary>
-    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq ymm {k1}{z}, ymm, ymm","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpunpckhqdq_ymm_k1z_ymm_ymm = 3568,
-    /// <summary>
-    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vpunpckhqdq ymm {k1}{z}, ymm, m256","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpunpckhqdq_ymm_k1z_ymm_m256 = 3569,
+    [Symbol("vpunpckhqdq xmm_k1z, xmm, m64bcst","vpunpckhqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpckhqdq_xmm_k1z_xmm_m64bcst = 4474,
     /// <summary>
     /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq ymm {k1}{z}, ymm, m64bcst","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpunpckhqdq_ymm_k1z_ymm_m64bcst = 3570,
+    [Symbol("vpunpckhqdq ymm, ymm, ymm","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpckhqdq_ymm_ymm_ymm = 4475,
     /// <summary>
-    /// vpunpckhqdq ymm, ymm, ymm/m256
+    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq ymm, ymm, ymm","vpunpckhqdq ymm, ymm, ymm/m256")]
-    vpunpckhqdq_ymm_ymm_ymm = 3571,
+    [Symbol("vpunpckhqdq ymm, ymm, m256","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpckhqdq_ymm_ymm_m256 = 4476,
     /// <summary>
-    /// vpunpckhqdq ymm, ymm, ymm/m256
+    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq ymm, ymm, m256","vpunpckhqdq ymm, ymm, ymm/m256")]
-    vpunpckhqdq_ymm_ymm_m256 = 3572,
+    [Symbol("vpunpckhqdq ymm, ymm, m64bcst","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpckhqdq_ymm_ymm_m64bcst = 4477,
+    /// <summary>
+    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpunpckhqdq ymm_k1z, ymm, ymm","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpckhqdq_ymm_k1z_ymm_ymm = 4478,
+    /// <summary>
+    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpunpckhqdq ymm_k1z, ymm, m256","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpckhqdq_ymm_k1z_ymm_m256 = 4479,
+    /// <summary>
+    /// vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpunpckhqdq ymm_k1z, ymm, m64bcst","vpunpckhqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpckhqdq_ymm_k1z_ymm_m64bcst = 4480,
     /// <summary>
     /// vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq zmm {k1}{z}, zmm, zmm","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpunpckhqdq_zmm_k1z_zmm_zmm = 3573,
+    [Symbol("vpunpckhqdq zmm, zmm, zmm","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpckhqdq_zmm_zmm_zmm = 4481,
     /// <summary>
     /// vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq zmm {k1}{z}, zmm, m512","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpunpckhqdq_zmm_k1z_zmm_m512 = 3574,
+    [Symbol("vpunpckhqdq zmm, zmm, m512","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpckhqdq_zmm_zmm_m512 = 4482,
     /// <summary>
     /// vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpunpckhqdq zmm {k1}{z}, zmm, m64bcst","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpunpckhqdq_zmm_k1z_zmm_m64bcst = 3575,
+    [Symbol("vpunpckhqdq zmm, zmm, m64bcst","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpckhqdq_zmm_zmm_m64bcst = 4483,
+    /// <summary>
+    /// vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpunpckhqdq zmm_k1z, zmm, zmm","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpckhqdq_zmm_k1z_zmm_zmm = 4484,
+    /// <summary>
+    /// vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpunpckhqdq zmm_k1z, zmm, m512","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpckhqdq_zmm_k1z_zmm_m512 = 4485,
+    /// <summary>
+    /// vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpunpckhqdq zmm_k1z, zmm, m64bcst","vpunpckhqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpckhqdq_zmm_k1z_zmm_m64bcst = 4486,
     /// <summary>
     /// vpunpckhwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhwd xmm {k1}{z}, xmm, xmm","vpunpckhwd xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpckhwd_xmm_k1z_xmm_xmm = 3576,
+    [Symbol("vpunpckhwd xmm, xmm, xmm","vpunpckhwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhwd_xmm_xmm_xmm = 4487,
     /// <summary>
     /// vpunpckhwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhwd xmm {k1}{z}, xmm, m128","vpunpckhwd xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpckhwd_xmm_k1z_xmm_m128 = 3577,
+    [Symbol("vpunpckhwd xmm, xmm, m128","vpunpckhwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhwd_xmm_xmm_m128 = 4488,
     /// <summary>
-    /// vpunpckhwd xmm, xmm, xmm/m128
+    /// vpunpckhwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhwd xmm, xmm, xmm","vpunpckhwd xmm, xmm, xmm/m128")]
-    vpunpckhwd_xmm_xmm_xmm = 3578,
+    [Symbol("vpunpckhwd xmm_k1z, xmm, xmm","vpunpckhwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhwd_xmm_k1z_xmm_xmm = 4489,
     /// <summary>
-    /// vpunpckhwd xmm, xmm, xmm/m128
+    /// vpunpckhwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpckhwd xmm, xmm, m128","vpunpckhwd xmm, xmm, xmm/m128")]
-    vpunpckhwd_xmm_xmm_m128 = 3579,
-    /// <summary>
-    /// vpunpckhwd ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpunpckhwd ymm {k1}{z}, ymm, ymm","vpunpckhwd ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpckhwd_ymm_k1z_ymm_ymm = 3580,
+    [Symbol("vpunpckhwd xmm_k1z, xmm, m128","vpunpckhwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpckhwd_xmm_k1z_xmm_m128 = 4490,
     /// <summary>
     /// vpunpckhwd ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpckhwd ymm {k1}{z}, ymm, m256","vpunpckhwd ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpckhwd_ymm_k1z_ymm_m256 = 3581,
+    [Symbol("vpunpckhwd ymm, ymm, ymm","vpunpckhwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhwd_ymm_ymm_ymm = 4491,
     /// <summary>
-    /// vpunpckhwd ymm, ymm, ymm/m256
+    /// vpunpckhwd ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpckhwd ymm, ymm, ymm","vpunpckhwd ymm, ymm, ymm/m256")]
-    vpunpckhwd_ymm_ymm_ymm = 3582,
+    [Symbol("vpunpckhwd ymm, ymm, m256","vpunpckhwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhwd_ymm_ymm_m256 = 4492,
     /// <summary>
-    /// vpunpckhwd ymm, ymm, ymm/m256
+    /// vpunpckhwd ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpckhwd ymm, ymm, m256","vpunpckhwd ymm, ymm, ymm/m256")]
-    vpunpckhwd_ymm_ymm_m256 = 3583,
+    [Symbol("vpunpckhwd ymm_k1z, ymm, ymm","vpunpckhwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhwd_ymm_k1z_ymm_ymm = 4493,
+    /// <summary>
+    /// vpunpckhwd ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpunpckhwd ymm_k1z, ymm, m256","vpunpckhwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpckhwd_ymm_k1z_ymm_m256 = 4494,
     /// <summary>
     /// vpunpckhwd zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpckhwd zmm {k1}{z}, zmm, zmm","vpunpckhwd zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpckhwd_zmm_k1z_zmm_zmm = 3584,
+    [Symbol("vpunpckhwd zmm, zmm, zmm","vpunpckhwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhwd_zmm_zmm_zmm = 4495,
     /// <summary>
     /// vpunpckhwd zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpckhwd zmm {k1}{z}, zmm, m512","vpunpckhwd zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpckhwd_zmm_k1z_zmm_m512 = 3585,
+    [Symbol("vpunpckhwd zmm, zmm, m512","vpunpckhwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhwd_zmm_zmm_m512 = 4496,
+    /// <summary>
+    /// vpunpckhwd zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpckhwd zmm_k1z, zmm, zmm","vpunpckhwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhwd_zmm_k1z_zmm_zmm = 4497,
+    /// <summary>
+    /// vpunpckhwd zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpckhwd zmm_k1z, zmm, m512","vpunpckhwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpckhwd_zmm_k1z_zmm_m512 = 4498,
     /// <summary>
     /// vpunpcklbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklbw xmm {k1}{z}, xmm, xmm","vpunpcklbw xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpcklbw_xmm_k1z_xmm_xmm = 3586,
+    [Symbol("vpunpcklbw xmm, xmm, xmm","vpunpcklbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklbw_xmm_xmm_xmm = 4499,
     /// <summary>
     /// vpunpcklbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklbw xmm {k1}{z}, xmm, m128","vpunpcklbw xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpcklbw_xmm_k1z_xmm_m128 = 3587,
+    [Symbol("vpunpcklbw xmm, xmm, m128","vpunpcklbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklbw_xmm_xmm_m128 = 4500,
     /// <summary>
-    /// vpunpcklbw xmm, xmm, xmm/m128
+    /// vpunpcklbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklbw xmm, xmm, xmm","vpunpcklbw xmm, xmm, xmm/m128")]
-    vpunpcklbw_xmm_xmm_xmm = 3588,
+    [Symbol("vpunpcklbw xmm_k1z, xmm, xmm","vpunpcklbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklbw_xmm_k1z_xmm_xmm = 4501,
     /// <summary>
-    /// vpunpcklbw xmm, xmm, xmm/m128
+    /// vpunpcklbw xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklbw xmm, xmm, m128","vpunpcklbw xmm, xmm, xmm/m128")]
-    vpunpcklbw_xmm_xmm_m128 = 3589,
-    /// <summary>
-    /// vpunpcklbw ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpunpcklbw ymm {k1}{z}, ymm, ymm","vpunpcklbw ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpcklbw_ymm_k1z_ymm_ymm = 3590,
+    [Symbol("vpunpcklbw xmm_k1z, xmm, m128","vpunpcklbw xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklbw_xmm_k1z_xmm_m128 = 4502,
     /// <summary>
     /// vpunpcklbw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpcklbw ymm {k1}{z}, ymm, m256","vpunpcklbw ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpcklbw_ymm_k1z_ymm_m256 = 3591,
+    [Symbol("vpunpcklbw ymm, ymm, ymm","vpunpcklbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklbw_ymm_ymm_ymm = 4503,
     /// <summary>
-    /// vpunpcklbw ymm, ymm, ymm/m256
+    /// vpunpcklbw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpcklbw ymm, ymm, ymm","vpunpcklbw ymm, ymm, ymm/m256")]
-    vpunpcklbw_ymm_ymm_ymm = 3592,
+    [Symbol("vpunpcklbw ymm, ymm, m256","vpunpcklbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklbw_ymm_ymm_m256 = 4504,
     /// <summary>
-    /// vpunpcklbw ymm, ymm, ymm/m256
+    /// vpunpcklbw ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpcklbw ymm, ymm, m256","vpunpcklbw ymm, ymm, ymm/m256")]
-    vpunpcklbw_ymm_ymm_m256 = 3593,
+    [Symbol("vpunpcklbw ymm_k1z, ymm, ymm","vpunpcklbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklbw_ymm_k1z_ymm_ymm = 4505,
+    /// <summary>
+    /// vpunpcklbw ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpunpcklbw ymm_k1z, ymm, m256","vpunpcklbw ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklbw_ymm_k1z_ymm_m256 = 4506,
     /// <summary>
     /// vpunpcklbw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpcklbw zmm {k1}{z}, zmm, zmm","vpunpcklbw zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpcklbw_zmm_k1z_zmm_zmm = 3594,
+    [Symbol("vpunpcklbw zmm, zmm, zmm","vpunpcklbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklbw_zmm_zmm_zmm = 4507,
     /// <summary>
     /// vpunpcklbw zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpcklbw zmm {k1}{z}, zmm, m512","vpunpcklbw zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpcklbw_zmm_k1z_zmm_m512 = 3595,
+    [Symbol("vpunpcklbw zmm, zmm, m512","vpunpcklbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklbw_zmm_zmm_m512 = 4508,
+    /// <summary>
+    /// vpunpcklbw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpcklbw zmm_k1z, zmm, zmm","vpunpcklbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklbw_zmm_k1z_zmm_zmm = 4509,
+    /// <summary>
+    /// vpunpcklbw zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpcklbw zmm_k1z, zmm, m512","vpunpcklbw zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklbw_zmm_k1z_zmm_m512 = 4510,
     /// <summary>
     /// vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq xmm {k1}{z}, xmm, xmm","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpunpckldq_xmm_k1z_xmm_xmm = 3596,
+    [Symbol("vpunpckldq xmm, xmm, xmm","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckldq_xmm_xmm_xmm = 4511,
     /// <summary>
     /// vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq xmm {k1}{z}, xmm, m128","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpunpckldq_xmm_k1z_xmm_m128 = 3597,
+    [Symbol("vpunpckldq xmm, xmm, m128","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckldq_xmm_xmm_m128 = 4512,
     /// <summary>
     /// vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq xmm {k1}{z}, xmm, m32bcst","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpunpckldq_xmm_k1z_xmm_m32bcst = 3598,
+    [Symbol("vpunpckldq xmm, xmm, m32bcst","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckldq_xmm_xmm_m32bcst = 4513,
     /// <summary>
-    /// vpunpckldq xmm, xmm, xmm/m128
+    /// vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq xmm, xmm, xmm","vpunpckldq xmm, xmm, xmm/m128")]
-    vpunpckldq_xmm_xmm_xmm = 3599,
+    [Symbol("vpunpckldq xmm_k1z, xmm, xmm","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckldq_xmm_k1z_xmm_xmm = 4514,
     /// <summary>
-    /// vpunpckldq xmm, xmm, xmm/m128
+    /// vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq xmm, xmm, m128","vpunpckldq xmm, xmm, xmm/m128")]
-    vpunpckldq_xmm_xmm_m128 = 3600,
+    [Symbol("vpunpckldq xmm_k1z, xmm, m128","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckldq_xmm_k1z_xmm_m128 = 4515,
     /// <summary>
-    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq ymm {k1}{z}, ymm, ymm","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpunpckldq_ymm_k1z_ymm_ymm = 3601,
-    /// <summary>
-    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
-    /// </summary>
-    [Symbol("vpunpckldq ymm {k1}{z}, ymm, m256","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpunpckldq_ymm_k1z_ymm_m256 = 3602,
+    [Symbol("vpunpckldq xmm_k1z, xmm, m32bcst","vpunpckldq xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpunpckldq_xmm_k1z_xmm_m32bcst = 4516,
     /// <summary>
     /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq ymm {k1}{z}, ymm, m32bcst","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpunpckldq_ymm_k1z_ymm_m32bcst = 3603,
+    [Symbol("vpunpckldq ymm, ymm, ymm","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckldq_ymm_ymm_ymm = 4517,
     /// <summary>
-    /// vpunpckldq ymm, ymm, ymm/m256
+    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq ymm, ymm, ymm","vpunpckldq ymm, ymm, ymm/m256")]
-    vpunpckldq_ymm_ymm_ymm = 3604,
+    [Symbol("vpunpckldq ymm, ymm, m256","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckldq_ymm_ymm_m256 = 4518,
     /// <summary>
-    /// vpunpckldq ymm, ymm, ymm/m256
+    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq ymm, ymm, m256","vpunpckldq ymm, ymm, ymm/m256")]
-    vpunpckldq_ymm_ymm_m256 = 3605,
+    [Symbol("vpunpckldq ymm, ymm, m32bcst","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckldq_ymm_ymm_m32bcst = 4519,
+    /// <summary>
+    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpunpckldq ymm_k1z, ymm, ymm","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckldq_ymm_k1z_ymm_ymm = 4520,
+    /// <summary>
+    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpunpckldq ymm_k1z, ymm, m256","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckldq_ymm_k1z_ymm_m256 = 4521,
+    /// <summary>
+    /// vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpunpckldq ymm_k1z, ymm, m32bcst","vpunpckldq ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpunpckldq_ymm_k1z_ymm_m32bcst = 4522,
     /// <summary>
     /// vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq zmm {k1}{z}, zmm, zmm","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpunpckldq_zmm_k1z_zmm_zmm = 3606,
+    [Symbol("vpunpckldq zmm, zmm, zmm","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckldq_zmm_zmm_zmm = 4523,
     /// <summary>
     /// vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq zmm {k1}{z}, zmm, m512","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpunpckldq_zmm_k1z_zmm_m512 = 3607,
+    [Symbol("vpunpckldq zmm, zmm, m512","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckldq_zmm_zmm_m512 = 4524,
     /// <summary>
     /// vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpunpckldq zmm {k1}{z}, zmm, m32bcst","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpunpckldq_zmm_k1z_zmm_m32bcst = 3608,
+    [Symbol("vpunpckldq zmm, zmm, m32bcst","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckldq_zmm_zmm_m32bcst = 4525,
+    /// <summary>
+    /// vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpunpckldq zmm_k1z, zmm, zmm","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckldq_zmm_k1z_zmm_zmm = 4526,
+    /// <summary>
+    /// vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpunpckldq zmm_k1z, zmm, m512","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckldq_zmm_k1z_zmm_m512 = 4527,
+    /// <summary>
+    /// vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpunpckldq zmm_k1z, zmm, m32bcst","vpunpckldq zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpunpckldq_zmm_k1z_zmm_m32bcst = 4528,
     /// <summary>
     /// vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq xmm {k1}{z}, xmm, xmm","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpunpcklqdq_xmm_k1z_xmm_xmm = 3609,
+    [Symbol("vpunpcklqdq xmm, xmm, xmm","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpcklqdq_xmm_xmm_xmm = 4529,
     /// <summary>
     /// vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq xmm {k1}{z}, xmm, m128","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpunpcklqdq_xmm_k1z_xmm_m128 = 3610,
+    [Symbol("vpunpcklqdq xmm, xmm, m128","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpcklqdq_xmm_xmm_m128 = 4530,
     /// <summary>
     /// vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq xmm {k1}{z}, xmm, m64bcst","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpunpcklqdq_xmm_k1z_xmm_m64bcst = 3611,
+    [Symbol("vpunpcklqdq xmm, xmm, m64bcst","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpcklqdq_xmm_xmm_m64bcst = 4531,
     /// <summary>
-    /// vpunpcklqdq xmm, xmm, xmm/m128
+    /// vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq xmm, xmm, xmm","vpunpcklqdq xmm, xmm, xmm/m128")]
-    vpunpcklqdq_xmm_xmm_xmm = 3612,
+    [Symbol("vpunpcklqdq xmm_k1z, xmm, xmm","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpcklqdq_xmm_k1z_xmm_xmm = 4532,
     /// <summary>
-    /// vpunpcklqdq xmm, xmm, xmm/m128
+    /// vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq xmm, xmm, m128","vpunpcklqdq xmm, xmm, xmm/m128")]
-    vpunpcklqdq_xmm_xmm_m128 = 3613,
+    [Symbol("vpunpcklqdq xmm_k1z, xmm, m128","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpcklqdq_xmm_k1z_xmm_m128 = 4533,
     /// <summary>
-    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq ymm {k1}{z}, ymm, ymm","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpunpcklqdq_ymm_k1z_ymm_ymm = 3614,
-    /// <summary>
-    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
-    /// </summary>
-    [Symbol("vpunpcklqdq ymm {k1}{z}, ymm, m256","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpunpcklqdq_ymm_k1z_ymm_m256 = 3615,
+    [Symbol("vpunpcklqdq xmm_k1z, xmm, m64bcst","vpunpcklqdq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpunpcklqdq_xmm_k1z_xmm_m64bcst = 4534,
     /// <summary>
     /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq ymm {k1}{z}, ymm, m64bcst","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpunpcklqdq_ymm_k1z_ymm_m64bcst = 3616,
+    [Symbol("vpunpcklqdq ymm, ymm, ymm","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpcklqdq_ymm_ymm_ymm = 4535,
     /// <summary>
-    /// vpunpcklqdq ymm, ymm, ymm/m256
+    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq ymm, ymm, ymm","vpunpcklqdq ymm, ymm, ymm/m256")]
-    vpunpcklqdq_ymm_ymm_ymm = 3617,
+    [Symbol("vpunpcklqdq ymm, ymm, m256","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpcklqdq_ymm_ymm_m256 = 4536,
     /// <summary>
-    /// vpunpcklqdq ymm, ymm, ymm/m256
+    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq ymm, ymm, m256","vpunpcklqdq ymm, ymm, ymm/m256")]
-    vpunpcklqdq_ymm_ymm_m256 = 3618,
+    [Symbol("vpunpcklqdq ymm, ymm, m64bcst","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpcklqdq_ymm_ymm_m64bcst = 4537,
+    /// <summary>
+    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpunpcklqdq ymm_k1z, ymm, ymm","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpcklqdq_ymm_k1z_ymm_ymm = 4538,
+    /// <summary>
+    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpunpcklqdq ymm_k1z, ymm, m256","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpcklqdq_ymm_k1z_ymm_m256 = 4539,
+    /// <summary>
+    /// vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpunpcklqdq ymm_k1z, ymm, m64bcst","vpunpcklqdq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpunpcklqdq_ymm_k1z_ymm_m64bcst = 4540,
     /// <summary>
     /// vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq zmm {k1}{z}, zmm, zmm","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpunpcklqdq_zmm_k1z_zmm_zmm = 3619,
+    [Symbol("vpunpcklqdq zmm, zmm, zmm","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpcklqdq_zmm_zmm_zmm = 4541,
     /// <summary>
     /// vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq zmm {k1}{z}, zmm, m512","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpunpcklqdq_zmm_k1z_zmm_m512 = 3620,
+    [Symbol("vpunpcklqdq zmm, zmm, m512","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpcklqdq_zmm_zmm_m512 = 4542,
     /// <summary>
     /// vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpunpcklqdq zmm {k1}{z}, zmm, m64bcst","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpunpcklqdq_zmm_k1z_zmm_m64bcst = 3621,
+    [Symbol("vpunpcklqdq zmm, zmm, m64bcst","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpcklqdq_zmm_zmm_m64bcst = 4543,
+    /// <summary>
+    /// vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpunpcklqdq zmm_k1z, zmm, zmm","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpcklqdq_zmm_k1z_zmm_zmm = 4544,
+    /// <summary>
+    /// vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpunpcklqdq zmm_k1z, zmm, m512","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpcklqdq_zmm_k1z_zmm_m512 = 4545,
+    /// <summary>
+    /// vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpunpcklqdq zmm_k1z, zmm, m64bcst","vpunpcklqdq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpunpcklqdq_zmm_k1z_zmm_m64bcst = 4546,
     /// <summary>
     /// vpunpcklwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklwd xmm {k1}{z}, xmm, xmm","vpunpcklwd xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpcklwd_xmm_k1z_xmm_xmm = 3622,
+    [Symbol("vpunpcklwd xmm, xmm, xmm","vpunpcklwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklwd_xmm_xmm_xmm = 4547,
     /// <summary>
     /// vpunpcklwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklwd xmm {k1}{z}, xmm, m128","vpunpcklwd xmm {k1}{z}, xmm, xmm/m128")]
-    vpunpcklwd_xmm_k1z_xmm_m128 = 3623,
+    [Symbol("vpunpcklwd xmm, xmm, m128","vpunpcklwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklwd_xmm_xmm_m128 = 4548,
     /// <summary>
-    /// vpunpcklwd xmm, xmm, xmm/m128
+    /// vpunpcklwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklwd xmm, xmm, xmm","vpunpcklwd xmm, xmm, xmm/m128")]
-    vpunpcklwd_xmm_xmm_xmm = 3624,
+    [Symbol("vpunpcklwd xmm_k1z, xmm, xmm","vpunpcklwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklwd_xmm_k1z_xmm_xmm = 4549,
     /// <summary>
-    /// vpunpcklwd xmm, xmm, xmm/m128
+    /// vpunpcklwd xmm {k1}{z}, xmm, xmm/m128
     /// </summary>
-    [Symbol("vpunpcklwd xmm, xmm, m128","vpunpcklwd xmm, xmm, xmm/m128")]
-    vpunpcklwd_xmm_xmm_m128 = 3625,
-    /// <summary>
-    /// vpunpcklwd ymm {k1}{z}, ymm, ymm/m256
-    /// </summary>
-    [Symbol("vpunpcklwd ymm {k1}{z}, ymm, ymm","vpunpcklwd ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpcklwd_ymm_k1z_ymm_ymm = 3626,
+    [Symbol("vpunpcklwd xmm_k1z, xmm, m128","vpunpcklwd xmm {k1}{z}, xmm, xmm/m128")]
+    vpunpcklwd_xmm_k1z_xmm_m128 = 4550,
     /// <summary>
     /// vpunpcklwd ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpcklwd ymm {k1}{z}, ymm, m256","vpunpcklwd ymm {k1}{z}, ymm, ymm/m256")]
-    vpunpcklwd_ymm_k1z_ymm_m256 = 3627,
+    [Symbol("vpunpcklwd ymm, ymm, ymm","vpunpcklwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklwd_ymm_ymm_ymm = 4551,
     /// <summary>
-    /// vpunpcklwd ymm, ymm, ymm/m256
+    /// vpunpcklwd ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpcklwd ymm, ymm, ymm","vpunpcklwd ymm, ymm, ymm/m256")]
-    vpunpcklwd_ymm_ymm_ymm = 3628,
+    [Symbol("vpunpcklwd ymm, ymm, m256","vpunpcklwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklwd_ymm_ymm_m256 = 4552,
     /// <summary>
-    /// vpunpcklwd ymm, ymm, ymm/m256
+    /// vpunpcklwd ymm {k1}{z}, ymm, ymm/m256
     /// </summary>
-    [Symbol("vpunpcklwd ymm, ymm, m256","vpunpcklwd ymm, ymm, ymm/m256")]
-    vpunpcklwd_ymm_ymm_m256 = 3629,
+    [Symbol("vpunpcklwd ymm_k1z, ymm, ymm","vpunpcklwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklwd_ymm_k1z_ymm_ymm = 4553,
+    /// <summary>
+    /// vpunpcklwd ymm {k1}{z}, ymm, ymm/m256
+    /// </summary>
+    [Symbol("vpunpcklwd ymm_k1z, ymm, m256","vpunpcklwd ymm {k1}{z}, ymm, ymm/m256")]
+    vpunpcklwd_ymm_k1z_ymm_m256 = 4554,
     /// <summary>
     /// vpunpcklwd zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpcklwd zmm {k1}{z}, zmm, zmm","vpunpcklwd zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpcklwd_zmm_k1z_zmm_zmm = 3630,
+    [Symbol("vpunpcklwd zmm, zmm, zmm","vpunpcklwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklwd_zmm_zmm_zmm = 4555,
     /// <summary>
     /// vpunpcklwd zmm {k1}{z}, zmm, zmm/m512
     /// </summary>
-    [Symbol("vpunpcklwd zmm {k1}{z}, zmm, m512","vpunpcklwd zmm {k1}{z}, zmm, zmm/m512")]
-    vpunpcklwd_zmm_k1z_zmm_m512 = 3631,
+    [Symbol("vpunpcklwd zmm, zmm, m512","vpunpcklwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklwd_zmm_zmm_m512 = 4556,
+    /// <summary>
+    /// vpunpcklwd zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpcklwd zmm_k1z, zmm, zmm","vpunpcklwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklwd_zmm_k1z_zmm_zmm = 4557,
+    /// <summary>
+    /// vpunpcklwd zmm {k1}{z}, zmm, zmm/m512
+    /// </summary>
+    [Symbol("vpunpcklwd zmm_k1z, zmm, m512","vpunpcklwd zmm {k1}{z}, zmm, zmm/m512")]
+    vpunpcklwd_zmm_k1z_zmm_m512 = 4558,
     /// <summary>
     /// vpxor xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpxor xmm, xmm, xmm","vpxor xmm, xmm, xmm/m128")]
-    vpxor_xmm_xmm_xmm = 3632,
+    vpxor_xmm_xmm_xmm = 4559,
     /// <summary>
     /// vpxor xmm, xmm, xmm/m128
     /// </summary>
     [Symbol("vpxor xmm, xmm, m128","vpxor xmm, xmm, xmm/m128")]
-    vpxor_xmm_xmm_m128 = 3633,
+    vpxor_xmm_xmm_m128 = 4560,
     /// <summary>
     /// vpxor ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpxor ymm, ymm, ymm","vpxor ymm, ymm, ymm/m256")]
-    vpxor_ymm_ymm_ymm = 3634,
+    vpxor_ymm_ymm_ymm = 4561,
     /// <summary>
     /// vpxor ymm, ymm, ymm/m256
     /// </summary>
     [Symbol("vpxor ymm, ymm, m256","vpxor ymm, ymm, ymm/m256")]
-    vpxor_ymm_ymm_m256 = 3635,
+    vpxor_ymm_ymm_m256 = 4562,
     /// <summary>
     /// vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpxord xmm {k1}{z}, xmm, xmm","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpxord_xmm_k1z_xmm_xmm = 3636,
+    [Symbol("vpxord xmm, xmm, xmm","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpxord_xmm_xmm_xmm = 4563,
     /// <summary>
     /// vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpxord xmm {k1}{z}, xmm, m128","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpxord_xmm_k1z_xmm_m128 = 3637,
+    [Symbol("vpxord xmm, xmm, m128","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpxord_xmm_xmm_m128 = 4564,
     /// <summary>
     /// vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst
     /// </summary>
-    [Symbol("vpxord xmm {k1}{z}, xmm, m32bcst","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
-    vpxord_xmm_k1z_xmm_m32bcst = 3638,
+    [Symbol("vpxord xmm, xmm, m32bcst","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpxord_xmm_xmm_m32bcst = 4565,
+    /// <summary>
+    /// vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpxord xmm_k1z, xmm, xmm","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpxord_xmm_k1z_xmm_xmm = 4566,
+    /// <summary>
+    /// vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpxord xmm_k1z, xmm, m128","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpxord_xmm_k1z_xmm_m128 = 4567,
+    /// <summary>
+    /// vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst
+    /// </summary>
+    [Symbol("vpxord xmm_k1z, xmm, m32bcst","vpxord xmm {k1}{z}, xmm, xmm/m128/m32bcst")]
+    vpxord_xmm_k1z_xmm_m32bcst = 4568,
     /// <summary>
     /// vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpxord ymm {k1}{z}, ymm, ymm","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpxord_ymm_k1z_ymm_ymm = 3639,
+    [Symbol("vpxord ymm, ymm, ymm","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpxord_ymm_ymm_ymm = 4569,
     /// <summary>
     /// vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpxord ymm {k1}{z}, ymm, m256","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpxord_ymm_k1z_ymm_m256 = 3640,
+    [Symbol("vpxord ymm, ymm, m256","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpxord_ymm_ymm_m256 = 4570,
     /// <summary>
     /// vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst
     /// </summary>
-    [Symbol("vpxord ymm {k1}{z}, ymm, m32bcst","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
-    vpxord_ymm_k1z_ymm_m32bcst = 3641,
+    [Symbol("vpxord ymm, ymm, m32bcst","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpxord_ymm_ymm_m32bcst = 4571,
+    /// <summary>
+    /// vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpxord ymm_k1z, ymm, ymm","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpxord_ymm_k1z_ymm_ymm = 4572,
+    /// <summary>
+    /// vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpxord ymm_k1z, ymm, m256","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpxord_ymm_k1z_ymm_m256 = 4573,
+    /// <summary>
+    /// vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst
+    /// </summary>
+    [Symbol("vpxord ymm_k1z, ymm, m32bcst","vpxord ymm {k1}{z}, ymm, ymm/m256/m32bcst")]
+    vpxord_ymm_k1z_ymm_m32bcst = 4574,
     /// <summary>
     /// vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpxord zmm {k1}{z}, zmm, zmm","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpxord_zmm_k1z_zmm_zmm = 3642,
+    [Symbol("vpxord zmm, zmm, zmm","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpxord_zmm_zmm_zmm = 4575,
     /// <summary>
     /// vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpxord zmm {k1}{z}, zmm, m512","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpxord_zmm_k1z_zmm_m512 = 3643,
+    [Symbol("vpxord zmm, zmm, m512","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpxord_zmm_zmm_m512 = 4576,
     /// <summary>
     /// vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst
     /// </summary>
-    [Symbol("vpxord zmm {k1}{z}, zmm, m32bcst","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
-    vpxord_zmm_k1z_zmm_m32bcst = 3644,
+    [Symbol("vpxord zmm, zmm, m32bcst","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpxord_zmm_zmm_m32bcst = 4577,
+    /// <summary>
+    /// vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpxord zmm_k1z, zmm, zmm","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpxord_zmm_k1z_zmm_zmm = 4578,
+    /// <summary>
+    /// vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpxord zmm_k1z, zmm, m512","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpxord_zmm_k1z_zmm_m512 = 4579,
+    /// <summary>
+    /// vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst
+    /// </summary>
+    [Symbol("vpxord zmm_k1z, zmm, m32bcst","vpxord zmm {k1}{z}, zmm, zmm/m512/m32bcst")]
+    vpxord_zmm_k1z_zmm_m32bcst = 4580,
     /// <summary>
     /// vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpxorq xmm {k1}{z}, xmm, xmm","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpxorq_xmm_k1z_xmm_xmm = 3645,
+    [Symbol("vpxorq xmm, xmm, xmm","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpxorq_xmm_xmm_xmm = 4581,
     /// <summary>
     /// vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpxorq xmm {k1}{z}, xmm, m128","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpxorq_xmm_k1z_xmm_m128 = 3646,
+    [Symbol("vpxorq xmm, xmm, m128","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpxorq_xmm_xmm_m128 = 4582,
     /// <summary>
     /// vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst
     /// </summary>
-    [Symbol("vpxorq xmm {k1}{z}, xmm, m64bcst","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
-    vpxorq_xmm_k1z_xmm_m64bcst = 3647,
+    [Symbol("vpxorq xmm, xmm, m64bcst","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpxorq_xmm_xmm_m64bcst = 4583,
+    /// <summary>
+    /// vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpxorq xmm_k1z, xmm, xmm","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpxorq_xmm_k1z_xmm_xmm = 4584,
+    /// <summary>
+    /// vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpxorq xmm_k1z, xmm, m128","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpxorq_xmm_k1z_xmm_m128 = 4585,
+    /// <summary>
+    /// vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst
+    /// </summary>
+    [Symbol("vpxorq xmm_k1z, xmm, m64bcst","vpxorq xmm {k1}{z}, xmm, xmm/m128/m64bcst")]
+    vpxorq_xmm_k1z_xmm_m64bcst = 4586,
     /// <summary>
     /// vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpxorq ymm {k1}{z}, ymm, ymm","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpxorq_ymm_k1z_ymm_ymm = 3648,
+    [Symbol("vpxorq ymm, ymm, ymm","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpxorq_ymm_ymm_ymm = 4587,
     /// <summary>
     /// vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpxorq ymm {k1}{z}, ymm, m256","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpxorq_ymm_k1z_ymm_m256 = 3649,
+    [Symbol("vpxorq ymm, ymm, m256","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpxorq_ymm_ymm_m256 = 4588,
     /// <summary>
     /// vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst
     /// </summary>
-    [Symbol("vpxorq ymm {k1}{z}, ymm, m64bcst","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
-    vpxorq_ymm_k1z_ymm_m64bcst = 3650,
+    [Symbol("vpxorq ymm, ymm, m64bcst","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpxorq_ymm_ymm_m64bcst = 4589,
+    /// <summary>
+    /// vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpxorq ymm_k1z, ymm, ymm","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpxorq_ymm_k1z_ymm_ymm = 4590,
+    /// <summary>
+    /// vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpxorq ymm_k1z, ymm, m256","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpxorq_ymm_k1z_ymm_m256 = 4591,
+    /// <summary>
+    /// vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst
+    /// </summary>
+    [Symbol("vpxorq ymm_k1z, ymm, m64bcst","vpxorq ymm {k1}{z}, ymm, ymm/m256/m64bcst")]
+    vpxorq_ymm_k1z_ymm_m64bcst = 4592,
     /// <summary>
     /// vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpxorq zmm {k1}{z}, zmm, zmm","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpxorq_zmm_k1z_zmm_zmm = 3651,
+    [Symbol("vpxorq zmm, zmm, zmm","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpxorq_zmm_zmm_zmm = 4593,
     /// <summary>
     /// vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpxorq zmm {k1}{z}, zmm, m512","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpxorq_zmm_k1z_zmm_m512 = 3652,
+    [Symbol("vpxorq zmm, zmm, m512","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpxorq_zmm_zmm_m512 = 4594,
     /// <summary>
     /// vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst
     /// </summary>
-    [Symbol("vpxorq zmm {k1}{z}, zmm, m64bcst","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
-    vpxorq_zmm_k1z_zmm_m64bcst = 3653,
+    [Symbol("vpxorq zmm, zmm, m64bcst","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpxorq_zmm_zmm_m64bcst = 4595,
+    /// <summary>
+    /// vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpxorq zmm_k1z, zmm, zmm","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpxorq_zmm_k1z_zmm_zmm = 4596,
+    /// <summary>
+    /// vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpxorq zmm_k1z, zmm, m512","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpxorq_zmm_k1z_zmm_m512 = 4597,
+    /// <summary>
+    /// vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst
+    /// </summary>
+    [Symbol("vpxorq zmm_k1z, zmm, m64bcst","vpxorq zmm {k1}{z}, zmm, zmm/m512/m64bcst")]
+    vpxorq_zmm_k1z_zmm_m64bcst = 4598,
     /// <summary>
     /// xbegin rel16
     /// </summary>
     [Symbol("xbegin rel16","xbegin rel16")]
-    xbegin_rel16 = 3654,
+    xbegin_rel16 = 4599,
     /// <summary>
     /// xbegin rel32
     /// </summary>
     [Symbol("xbegin rel32","xbegin rel32")]
-    xbegin_rel32 = 3655,
+    xbegin_rel32 = 4600,
     /// <summary>
     /// xchg AX, r16
     /// </summary>
     [Symbol("xchg AX, r16","xchg AX, r16")]
-    xchg_AX_r16 = 3656,
+    xchg_AX_r16 = 4601,
     /// <summary>
     /// xchg EAX, r32
     /// </summary>
     [Symbol("xchg EAX, r32","xchg EAX, r32")]
-    xchg_EAX_r32 = 3657,
+    xchg_EAX_r32 = 4602,
     /// <summary>
     /// xchg r/m16, r16
     /// </summary>
     [Symbol("xchg r16, r16","xchg r/m16, r16")]
-    xchg_r16_r16 = 3658,
+    xchg_r16_r16 = 4603,
     /// <summary>
     /// xchg r/m16, r16
     /// </summary>
     [Symbol("xchg m16, r16","xchg r/m16, r16")]
-    xchg_m16_r16 = 3659,
+    xchg_m16_r16 = 4604,
     /// <summary>
     /// xchg r/m32, r32
     /// </summary>
     [Symbol("xchg r32, r32","xchg r/m32, r32")]
-    xchg_r32_r32 = 3660,
+    xchg_r32_r32 = 4605,
     /// <summary>
     /// xchg r/m32, r32
     /// </summary>
     [Symbol("xchg m32, r32","xchg r/m32, r32")]
-    xchg_m32_r32 = 3661,
+    xchg_m32_r32 = 4606,
     /// <summary>
     /// xchg r/m64, r64
     /// </summary>
     [Symbol("xchg r64, r64","xchg r/m64, r64")]
-    xchg_r64_r64 = 3662,
+    xchg_r64_r64 = 4607,
     /// <summary>
     /// xchg r/m64, r64
     /// </summary>
     [Symbol("xchg m64, r64","xchg r/m64, r64")]
-    xchg_m64_r64 = 3663,
+    xchg_m64_r64 = 4608,
     /// <summary>
     /// xchg r/m8, r8
     /// </summary>
     [Symbol("xchg r8, r8","xchg r/m8, r8")]
-    xchg_r8_r8 = 3664,
+    xchg_r8_r8 = 4609,
     /// <summary>
     /// xchg r/m8, r8
     /// </summary>
     [Symbol("xchg m8, r8","xchg r/m8, r8")]
-    xchg_m8_r8 = 3665,
+    xchg_m8_r8 = 4610,
     /// <summary>
     /// xchg r16, AX
     /// </summary>
     [Symbol("xchg r16, AX","xchg r16, AX")]
-    xchg_r16_AX = 3666,
+    xchg_r16_AX = 4611,
     /// <summary>
     /// xchg r16, r/m16
     /// </summary>
     [Symbol("xchg r16, m16","xchg r16, r/m16")]
-    xchg_r16_m16 = 3667,
+    xchg_r16_m16 = 4612,
     /// <summary>
     /// xchg r32, EAX
     /// </summary>
     [Symbol("xchg r32, EAX","xchg r32, EAX")]
-    xchg_r32_EAX = 3668,
+    xchg_r32_EAX = 4613,
     /// <summary>
     /// xchg r32, r/m32
     /// </summary>
     [Symbol("xchg r32, m32","xchg r32, r/m32")]
-    xchg_r32_m32 = 3669,
+    xchg_r32_m32 = 4614,
     /// <summary>
     /// xchg r64, r/m64
     /// </summary>
     [Symbol("xchg r64, m64","xchg r64, r/m64")]
-    xchg_r64_m64 = 3670,
+    xchg_r64_m64 = 4615,
     /// <summary>
     /// xchg r64, RAX
     /// </summary>
     [Symbol("xchg r64, RAX","xchg r64, RAX")]
-    xchg_r64_RAX = 3671,
+    xchg_r64_RAX = 4616,
     /// <summary>
     /// xchg r8, r/m8
     /// </summary>
     [Symbol("xchg r8, m8","xchg r8, r/m8")]
-    xchg_r8_m8 = 3672,
+    xchg_r8_m8 = 4617,
     /// <summary>
     /// xchg RAX, r64
     /// </summary>
     [Symbol("xchg RAX, r64","xchg RAX, r64")]
-    xchg_RAX_r64 = 3673,
+    xchg_RAX_r64 = 4618,
     /// <summary>
     /// xgetbv
     /// </summary>
     [Symbol("xgetbv","xgetbv")]
-    xgetbv = 3674,
+    xgetbv = 4619,
     /// <summary>
     /// xlat m8
     /// </summary>
     [Symbol("xlat m8","xlat m8")]
-    xlat_m8 = 3675,
+    xlat_m8 = 4620,
     /// <summary>
     /// xlatb
     /// </summary>
     [Symbol("xlatb","xlatb")]
-    xlatb = 3676,
+    xlatb = 4621,
     /// <summary>
     /// xor AL, imm8
     /// </summary>
     [Symbol("xor AL, imm8","xor AL, imm8")]
-    xor_AL_imm8 = 3677,
+    xor_AL_imm8 = 4622,
     /// <summary>
     /// xor AX, imm16
     /// </summary>
     [Symbol("xor AX, imm16","xor AX, imm16")]
-    xor_AX_imm16 = 3678,
+    xor_AX_imm16 = 4623,
     /// <summary>
     /// xor EAX, imm32
     /// </summary>
     [Symbol("xor EAX, imm32","xor EAX, imm32")]
-    xor_EAX_imm32 = 3679,
+    xor_EAX_imm32 = 4624,
     /// <summary>
     /// xor r/m16, imm16
     /// </summary>
     [Symbol("xor r16, imm16","xor r/m16, imm16")]
-    xor_r16_imm16 = 3680,
+    xor_r16_imm16 = 4625,
     /// <summary>
     /// xor r/m16, imm16
     /// </summary>
     [Symbol("xor m16, imm16","xor r/m16, imm16")]
-    xor_m16_imm16 = 3681,
+    xor_m16_imm16 = 4626,
     /// <summary>
     /// xor r/m16, imm8
     /// </summary>
     [Symbol("xor r16, imm8","xor r/m16, imm8")]
-    xor_r16_imm8 = 3682,
+    xor_r16_imm8 = 4627,
     /// <summary>
     /// xor r/m16, imm8
     /// </summary>
     [Symbol("xor m16, imm8","xor r/m16, imm8")]
-    xor_m16_imm8 = 3683,
+    xor_m16_imm8 = 4628,
     /// <summary>
     /// xor r/m16, r16
     /// </summary>
     [Symbol("xor r16, r16","xor r/m16, r16")]
-    xor_r16_r16 = 3684,
+    xor_r16_r16 = 4629,
     /// <summary>
     /// xor r/m16, r16
     /// </summary>
     [Symbol("xor m16, r16","xor r/m16, r16")]
-    xor_m16_r16 = 3685,
+    xor_m16_r16 = 4630,
     /// <summary>
     /// xor r/m32, imm32
     /// </summary>
     [Symbol("xor r32, imm32","xor r/m32, imm32")]
-    xor_r32_imm32 = 3686,
+    xor_r32_imm32 = 4631,
     /// <summary>
     /// xor r/m32, imm32
     /// </summary>
     [Symbol("xor m32, imm32","xor r/m32, imm32")]
-    xor_m32_imm32 = 3687,
+    xor_m32_imm32 = 4632,
     /// <summary>
     /// xor r/m32, imm8
     /// </summary>
     [Symbol("xor r32, imm8","xor r/m32, imm8")]
-    xor_r32_imm8 = 3688,
+    xor_r32_imm8 = 4633,
     /// <summary>
     /// xor r/m32, imm8
     /// </summary>
     [Symbol("xor m32, imm8","xor r/m32, imm8")]
-    xor_m32_imm8 = 3689,
+    xor_m32_imm8 = 4634,
     /// <summary>
     /// xor r/m32, r32
     /// </summary>
     [Symbol("xor r32, r32","xor r/m32, r32")]
-    xor_r32_r32 = 3690,
+    xor_r32_r32 = 4635,
     /// <summary>
     /// xor r/m32, r32
     /// </summary>
     [Symbol("xor m32, r32","xor r/m32, r32")]
-    xor_m32_r32 = 3691,
+    xor_m32_r32 = 4636,
     /// <summary>
     /// xor r/m64, imm32
     /// </summary>
     [Symbol("xor r64, imm32","xor r/m64, imm32")]
-    xor_r64_imm32 = 3692,
+    xor_r64_imm32 = 4637,
     /// <summary>
     /// xor r/m64, imm32
     /// </summary>
     [Symbol("xor m64, imm32","xor r/m64, imm32")]
-    xor_m64_imm32 = 3693,
+    xor_m64_imm32 = 4638,
     /// <summary>
     /// xor r/m64, imm8
     /// </summary>
     [Symbol("xor r64, imm8","xor r/m64, imm8")]
-    xor_r64_imm8 = 3694,
+    xor_r64_imm8 = 4639,
     /// <summary>
     /// xor r/m64, imm8
     /// </summary>
     [Symbol("xor m64, imm8","xor r/m64, imm8")]
-    xor_m64_imm8 = 3695,
+    xor_m64_imm8 = 4640,
     /// <summary>
     /// xor r/m64, r64
     /// </summary>
     [Symbol("xor r64, r64","xor r/m64, r64")]
-    xor_r64_r64 = 3696,
+    xor_r64_r64 = 4641,
     /// <summary>
     /// xor r/m64, r64
     /// </summary>
     [Symbol("xor m64, r64","xor r/m64, r64")]
-    xor_m64_r64 = 3697,
+    xor_m64_r64 = 4642,
     /// <summary>
     /// xor r/m8, imm8
     /// </summary>
     [Symbol("xor r8, imm8","xor r/m8, imm8")]
-    xor_r8_imm8 = 3698,
+    xor_r8_imm8 = 4643,
     /// <summary>
     /// xor r/m8, imm8
     /// </summary>
     [Symbol("xor m8, imm8","xor r/m8, imm8")]
-    xor_m8_imm8 = 3699,
+    xor_m8_imm8 = 4644,
     /// <summary>
     /// xor r/m8, r8
     /// </summary>
     [Symbol("xor r8, r8","xor r/m8, r8")]
-    xor_r8_r8 = 3700,
+    xor_r8_r8 = 4645,
     /// <summary>
     /// xor r/m8, r8
     /// </summary>
     [Symbol("xor m8, r8","xor r/m8, r8")]
-    xor_m8_r8 = 3701,
+    xor_m8_r8 = 4646,
     /// <summary>
     /// xor r16, r/m16
     /// </summary>
     [Symbol("xor r16, m16","xor r16, r/m16")]
-    xor_r16_m16 = 3702,
+    xor_r16_m16 = 4647,
     /// <summary>
     /// xor r32, r/m32
     /// </summary>
     [Symbol("xor r32, m32","xor r32, r/m32")]
-    xor_r32_m32 = 3703,
+    xor_r32_m32 = 4648,
     /// <summary>
     /// xor r64, r/m64
     /// </summary>
     [Symbol("xor r64, m64","xor r64, r/m64")]
-    xor_r64_m64 = 3704,
+    xor_r64_m64 = 4649,
     /// <summary>
     /// xor r8, r/m8
     /// </summary>
     [Symbol("xor r8, m8","xor r8, r/m8")]
-    xor_r8_m8 = 3705,
+    xor_r8_m8 = 4650,
     /// <summary>
     /// xor RAX, imm32
     /// </summary>
     [Symbol("xor RAX, imm32","xor RAX, imm32")]
-    xor_RAX_imm32 = 3706,
+    xor_RAX_imm32 = 4651,
     /// <summary>
     /// xsave mem
     /// </summary>
     [Symbol("xsave mem","xsave mem")]
-    xsave_mem = 3707,
+    xsave_mem = 4652,
     /// <summary>
     /// xsave64 mem
     /// </summary>
     [Symbol("xsave64 mem","xsave64 mem")]
-    xsave64_mem = 3708,
+    xsave64_mem = 4653,
     /// <summary>
     /// xsavec mem
     /// </summary>
     [Symbol("xsavec mem","xsavec mem")]
-    xsavec_mem = 3709,
+    xsavec_mem = 4654,
     /// <summary>
     /// xsavec64 mem
     /// </summary>
     [Symbol("xsavec64 mem","xsavec64 mem")]
-    xsavec64_mem = 3710,
+    xsavec64_mem = 4655,
     /// <summary>
     /// xsetbv
     /// </summary>
     [Symbol("xsetbv","xsetbv")]
-    xsetbv = 3711,
+    xsetbv = 4656,
     }
 }
 

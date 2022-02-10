@@ -15,11 +15,10 @@ namespace Z0.Asm
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-
         public Outcome Parse(string src, out AsmSig dst)
             => AsmSigs.parse(src, out dst);
 
-        public Outcome Terminals(out Index<AsmSig> dst)
+        public Outcome Symbolic(out Index<AsmSig> dst)
         {
             var result = Outcome.Success;
             var terms = Sdm.LoadSymbolicSigs();
@@ -29,7 +28,7 @@ namespace Z0.Asm
             {
                 ref readonly var term = ref terms[i];
                 ref readonly var target = ref term.Target;
-                result = Parse(target.Format(), out dst[i]);
+                result = AsmSigs.parse(target.Format(), out dst[i]);
                 if(result.Fail)
                     break;
             }

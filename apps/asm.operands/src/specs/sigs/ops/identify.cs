@@ -73,10 +73,7 @@ namespace Z0.Asm
                 buffer.Append(Chars.Underscore);
 
                 var op = sigop(operands[j]);
-                if(modifier(op,out var t, out var m))
-                    buffer.AppendFormat("{0}_{1}", t, m);
-                else
-                    buffer.Append(op.Format());
+                buffer.Append(op.Format());
             }
             return buffer.Emit().Replace("lock", "@lock");
         }
