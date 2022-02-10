@@ -102,5 +102,10 @@ namespace Z0.Asm
         /// Classifies <see cref='Hex16Token'/> tokens
         /// </summary>
         Hex16,
+
+        /// <summary>
+        /// Classifies <see cref='SeparatorToken'/> tokens
+        /// </summary>
+        Sep,
     }
 }

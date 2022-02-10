@@ -50,7 +50,7 @@ namespace Z0.Asm
         public override int GetHashCode()
             => (int)Hash;
         public string Format()
-            => string.Format("{0}[{1}]", Kind, Value);
+            => AsmOpCodes.format(this);
 
         public override string ToString()
             => Format();

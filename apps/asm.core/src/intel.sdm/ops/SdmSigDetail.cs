@@ -8,10 +8,10 @@ namespace Z0.Asm
     {
         public AsmSigExpr Sig;
 
-        public AsmOpCode OpCode;
+        public AsmOcExpr OpCode;
 
         [MethodImpl(Inline)]
-        public SdmSigDetail(AsmSigExpr sig, AsmOpCode oc)
+        public SdmSigDetail(AsmSigExpr sig, AsmOcExpr oc)
         {
             Sig = sig;
             OpCode = oc;

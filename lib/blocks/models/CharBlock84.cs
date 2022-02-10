@@ -66,8 +66,8 @@ namespace Z0
             get => api.length(this);
         }
 
-        public string Format()
-            => text.format(String);
+         public string Format()
+            => api.format(this);
 
         public override string ToString()
             => Format();

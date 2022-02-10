@@ -9,10 +9,16 @@ namespace Z0.Asm
     {
         None = 0,
 
+        [Symbol("{k1}")]
         k1,
 
+        [Symbol("{k2}")]
+        k2,
+
+        [Symbol("{z}")]
         z,
 
+        [Symbol("{k1}{z}")]
         k1z,
 
         er,

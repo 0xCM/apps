@@ -24,35 +24,91 @@ namespace Z0.Asm
         public enum GpRmToken : byte
         {
             [Symbol("r/m8", "A byte operand that is either the contents of a byte general-purpose register: {AL CL DL BL AH CH DH BH BPL SPL DIL SIL}; or a byte from memory. Byte registers R8L - R15L are available using REX.R in 64-bit mode")]
-            rm8 = NativeSizeCode.W8,
+            rm8,
 
             [Symbol("r/m16", "A word general-purpose register or memory operand used for instructions whose operand-size attribute is 16 bits. The word general-purpose registers are: AX, CX, DX, BX, SP, BP, SI, DI. The contents of memory are found at the address provided by the effective address computation. Word registers R8W - R15W are available using REX.R in 64-bit mode")]
-            rm16 = NativeSizeCode.W16,
+            rm16,
 
             [Symbol("r/m32", "A doubleword general-purpose register or memory operand used for instructions whose operand size attribute is 32 bits. The doubleword general-purpose registers are: EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI. The contents of memory are found at the address provided by the effective address computation. Doubleword registers R8D - R15D are available when using REX.R in 64-bit mode")]
-            rm32 = NativeSizeCode.W32,
+            rm32,
 
             [Symbol("r/m64", "A quadword general-purpose register or memory operand used for instructions whose operand-size attribute is 64 bits when using REX.W. Quadword general-purpose registers are: RAX, RBX, RCX, RDX, RDI, RSI, RBP, RSP, R8–R15; these are available only in 64-bit mode. The contents of memory are found at the address provided by the effective address computation")]
-            rm64 = NativeSizeCode.W64,
+            rm64,
+
+            [Symbol("r16/m16")]
+            r16m16,
+
+            [Symbol("r32/m8")]
+            r32m8,
+
+            [Symbol("r32/m16")]
+            r32m16,
+
+            [Symbol("r32/m32")]
+            r32m32,
+
+            [Symbol("r64/m16")]
+            r64m16,
+
+            [Symbol("r64/m32")]
+            r64m32,
+
+            [Symbol("r64/m64")]
+            r64m64,
+
+            [Symbol("r16/r32/r64")]
+            r16r32r64,
+
+            [Symbol("r16/r32/m16")]
+            r16r32m16,
+
+            [Symbol("reg/m8")]
+            regm8,
+
+            [Symbol("reg/m16")]
+            regm16,
+
         }
 
         [SymSource(tokens, K.VecRm)]
         public enum VecRmToken : byte
         {
-            [Symbol("xmm/m32", "An XMM register or a 32-bit memory operand. The 128-bit XMM registers are XMM0 through XMM7; XMM8 through XMM15 are available using REX.R in 64-bit mode. The contents of memory are found at the address provided by the effective address computation")]
-            xmm32 = NativeSizeCode.W32,
+            [Symbol("xmm/m8", "An XMM register or an 8-bit memory operand")]
+            xmm8,
 
-            [Symbol("xmm/m64", "An XMM register or a 64-bit memory operand. The 128-bit SIMD floating-point registers are XMM0 through XMM7; XMM8 through XMM15 are available using REX.R in 64-bit mode. The contents of memory are found at the address provided by the effective address computation")]
-            xmm64 = NativeSizeCode.W64,
+            [Symbol("xmm/m16", "An XMM register or a 16-bit memory operand")]
+            xmm16,
+
+            [Symbol("xmm/m32", "An XMM register or a 32-bit memory operand")]
+            xmm32,
+
+            [Symbol("xmm/m64", "An XMM register or a 64-bit memory operand")]
+            xmm64,
 
             [Symbol("xmm/m128", "An XMM register or a 128-bit memory operand")]
-            xmm128 = NativeSizeCode.W128,
+            xmm128,
 
-            [Symbol("xmm/m128", "An XMM register or a 128-bit memory operand")]
-            ymm256 = NativeSizeCode.W256,
+            [Symbol("ymm/m256", "An XMM register or a 128-bit memory operand")]
+            ymm256,
 
             [Symbol("zmm/m512", "A ZMM register or a 512-bit memory operand")]
-            zmm512 = NativeSizeCode.W512,
+            zmm512,
+        }
+
+        [SymSource(tokens, K.KRm)]
+        public enum KRmToken : byte
+        {
+            [Symbol("k/m8")]
+            km8,
+
+            [Symbol("k/m16")]
+            km16,
+
+            [Symbol("k/m32")]
+            km32,
+
+            [Symbol("k/m64")]
+            km64,
         }
 
         [SymSource(tokens, K.SysReg)]
@@ -116,6 +172,7 @@ namespace Z0.Asm
             [Symbol("CL")]
             CL,
         }
+
 
         [SymSource(tokens, K.GpReg)]
         public enum GpRegToken : byte
@@ -357,7 +414,7 @@ namespace Z0.Asm
         public enum OpMaskToken : byte
         {
             [Symbol("{k1}", "A mask register used as instruction writemask for instructions that do not allow zeroing-masking but support merging-masking")]
-            rK,
+            k1,
 
             [Symbol("{z}")]
             z,
@@ -377,6 +434,19 @@ namespace Z0.Asm
 
             [Symbol("m64bcst", "Represents a 64-bit memory location that defines a scalar to broadcast to vector operands")]
             m64bcst,
+
+            [Symbol("xmm/m128/m32bcst")]
+            x128x32bcst,
+
+            [Symbol("xmm/m128/m64bcst")]
+            x128x64bcst,
+
+
+            [Symbol("ymm/m256/m32bcst")]
+            y256x32bcst,
+
+            [Symbol("ymm/m256/m64bcst")]
+            y256x64bcst,
 
             [Symbol("zmm/m512/m32bcst", "Represents a zmm vector, a 512-bit memory location or a 512-bit memory location or a 512-bit vector loaded from a 32-bit memory location")]
             z512x32bcst,

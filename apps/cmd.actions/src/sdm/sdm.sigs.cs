@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+    using static core;
     partial class ProjectCmdProvider
     {
         [CmdOp("seq/prod")]
@@ -16,5 +18,6 @@ namespace Z0
 
             return true;
         }
+
    }
 }

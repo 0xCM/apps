@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
     using api = CharBlocks;
@@ -79,8 +74,8 @@ namespace Z0
             get => api.length(this);
         }
 
-        public string Format()
-            => text.format(String);
+         public string Format()
+            => api.format(this);
 
         public override string ToString()
             => Format();

@@ -50,7 +50,11 @@ namespace Z0.Asm
 
             dst.Mnemonic = skip(cells, i++).ToUpperInvariant();
             DataParser.block(skip(cells, i++).Trim(), out dst.OpCode);
-            DataParser.block(skip(cells, i++), out dst.Sig);
+            ref readonly var sigsrc = ref skip(cells,i++);
+            if(sigsrc.Length == 0)
+                dst.Sig = EmptyString;
+            else
+                dst.Sig = sigsrc;
             DataParser.block(skip(cells, i++), out dst.EncXRef);
             DataParser.block(skip(cells, i++), out dst.Mode64);
             DataParser.block(skip(cells, i++), out dst.LegacyMode);

@@ -16,7 +16,7 @@ namespace Z0.Asm
             {
                 var dst = sys.empty<SdmOpCodeDetail>();
                 var src = SdmPaths.ImportTable<SdmOpCodeDetail>();
-                var lines = src.ReadNumberedLines();
+                var lines = SdmPaths.ImportTable<SdmOpCodeDetail>().ReadNumberedLines();
                 var count = lines.Count -1;
                 dst = alloc<SdmOpCodeDetail>(count);
                 SdmOps.rows(slice(lines.View,1), dst);

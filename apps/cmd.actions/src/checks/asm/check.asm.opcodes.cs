@@ -13,36 +13,39 @@ namespace Z0
         [CmdOp("check/asm/opcodes")]
         Outcome CheckAsmOpCodes(CmdArgs args)
         {
+            var result = Outcome.Success;
             var src = Sdm.LoadImportedOpcodes();
             var count = src.Count;
-            var result = Outcome.Success;
             for(var i=0; i<count; i++)
             {
                 ref readonly var detail = ref src[i];
-                result = OpCodes.Parse(detail.OpCode, out var opcode);
-                if(result)
+                ref readonly var input = ref detail.OpCode;
+                var x = input.Format().Trim();
+                result = OpCodes.Parse(input, out var opcode);
+                if(result.Fail)
                 {
-                    Write(string.Format("{0} | {1,-36} | {2}", detail.Sig, opcode.Format(), opcode.Flags()));
-                    // result = CheckEquality(opcode);
-                    // if(result.Fail)
-                    //     break;
-                }
-                else
+                    result = (false, string.Format("Unable to parse opcode from <{0}>", x));
                     break;
+                }
+
+                result = CheckEquality(input, opcode);
+                if(result.Fail)
+                {
+                    result = (false, string.Format("Equality check failed for <{0}>", x));
+                    break;
+                }
+
+                Write(string.Format("{0,-6} | {1} | {2}", detail.OpCodeKey, detail.Sig, opcode));
             }
 
             return result;
         }
 
-        Outcome CheckEquality(in AsmOpCode src)
+        static bool CheckEquality(in CharBlock36 input, in AsmOpCode parsed)
         {
-            var count = src.TokenCount;
-            var buffer = alloc<AsmOcToken>(count);
-            for(var i=0; i<count; i++)
-                seek(buffer,i) = src[i];
-            var dst = AsmOpCodes.define(buffer);
-            return src.Equals(dst);
+            var x = input.Format().Trim();
+            var y = parsed.Format();
+            return x.Equals(y);
         }
-
     }
 }

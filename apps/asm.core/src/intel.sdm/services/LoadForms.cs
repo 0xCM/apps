@@ -72,7 +72,7 @@ namespace Z0.Asm
                     if(result.Fail)
                         break;
 
-                    result = AsmOcParser.parse(skip(cells,j++), out dst.OpCode);
+                    result = AsmOpCodes.parse(skip(cells,j++), out dst.OpCode);
                     if(result.Fail)
                         break;
 

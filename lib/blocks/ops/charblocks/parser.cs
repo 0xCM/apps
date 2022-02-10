@@ -13,12 +13,19 @@ namespace Z0
             where T : unmanaged, ICharBlock<T>
                 => new CharBlockParser<T>();
 
+        public static ref T parse<T>(string src, out T dst)
+            where T : unmanaged, ICharBlock<T>
+        {
+            dst = default;
+            Z0.text.copy(src, ref dst);
+            return ref dst;
+        }
+
         readonly struct CharBlockParser<T> : IParser<T>
             where T : unmanaged, ICharBlock<T>
         {
             public Outcome Parse(string src, out T dst)
             {
-                dst = default;
                 CharBlocks.init(src, out dst);
                 return true;
             }

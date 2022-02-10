@@ -84,7 +84,7 @@ namespace Z0
         }
 
         public string Format()
-            => text.format(String);
+            => api.format(this);
 
         public override string ToString()
             => Format();

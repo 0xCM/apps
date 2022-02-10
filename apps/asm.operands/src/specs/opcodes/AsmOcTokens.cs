@@ -483,6 +483,11 @@ namespace Z0.Asm
             [Symbol(T.Dot)]
             Dot,
 
+        }
+
+        [SymSource(Group, TK.Sep)]
+        public enum SeparatorToken : byte
+        {
             [Symbol(T.Sep)]
             Sep,
         }

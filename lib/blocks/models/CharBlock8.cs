@@ -76,7 +76,7 @@ namespace Z0
         }
 
         public string Format()
-            => TextTools.format(String);
+            => api.format(this);
 
         public override string ToString()
             => Format();

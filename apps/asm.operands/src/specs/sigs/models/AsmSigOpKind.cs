@@ -34,6 +34,8 @@ namespace Z0.Asm
 
         VecRm,
 
+        KRm,
+
         Moffs,
 
         Ptr,

@@ -7,7 +7,6 @@ namespace Z0.Asm
     using System.Linq;
 
     using static core;
-    using static AsmOcTokens;
 
     public class AsmOcDatasets
     {

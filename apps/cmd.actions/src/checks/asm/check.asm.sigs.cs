@@ -9,27 +9,22 @@ namespace Z0
     partial class CheckCmdProvider
     {
         [CmdOp("check/asm/sigs")]
-        Outcome CheckAsmSigs(CmdArgs args)
+        Outcome CheckSdmSigs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var opcodes = Sdm.LoadImportedOpcodes();
-            var count = opcodes.Count;
+            var details = Sdm.LoadImportedOpcodes();
+            var count = details.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var opcode = ref opcodes[i];
-
-                result = AsmSigs.parse(opcode.Sig, out var sig);
-                if(result.Fail)
+                ref readonly var detail = ref details[i];
+                if(!AsmSigs.parse(detail.Sig, out var sig))
                 {
-                    Warn(result.Message);
-                    continue;
+                    result = (false, string.Format("Sig parse failure:{0}", detail.Sig));
+                    break;
                 }
-
             }
-
 
             return result;
         }
-
     }
 }

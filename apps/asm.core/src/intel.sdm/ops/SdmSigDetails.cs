@@ -9,13 +9,7 @@ namespace Z0.Asm
     public class SdmSigDetails
     {
         public static SdmSigDetail define(in SdmOpCodeDetail src)
-        {
-            var result = AsmOcParser.parse(src.OpCode, out var opcode);
-            if(result.Fail)
-                Errors.Throw(result.Message);
-
-            return new SdmSigDetail(SdmOps.sig(src), opcode);
-        }
+            => new SdmSigDetail(SdmOps.sig(src), new AsmOcExpr(src.OpCode));
 
         readonly Dictionary<string,List<SdmSigDetail>> Data;
 

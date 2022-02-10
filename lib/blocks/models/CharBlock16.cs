@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
     using B = CharBlock16;
@@ -84,7 +79,7 @@ namespace Z0
         }
 
         public string Format()
-            => text.format(String);
+            => api.format(this);
 
         public override string ToString()
             => Format();

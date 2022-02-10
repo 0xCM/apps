@@ -10,15 +10,18 @@ namespace Z0.Asm
     {
         public static bool operand(AsmSigOpExpr src, out AsmSigOp dst)
         {
-            if(AsmSigs.modifier(src, out var op, out var mod))
+            if(AsmSigs.opmask(src, out var op, out var mask))
             {
                 if(Datasets.TokensByExpression.Find(op, out dst))
                 {
-                    dst = dst.WithModifier(mod);
+                    dst = dst.WithModifier(modifier(mask));
                     return true;
                 }
                 else
+                {
+                    Errors.Throw(string.Format("Token not found for <{0}>", src));
                     return false;
+                }
             }
             else
                 return Datasets.TokensByExpression.Find(src.Text, out dst);
