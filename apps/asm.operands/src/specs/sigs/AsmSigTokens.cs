@@ -67,7 +67,6 @@ namespace Z0.Asm
 
             [Symbol("reg/m16")]
             regm16,
-
         }
 
         [SymSource(tokens, K.VecRm)]
@@ -173,7 +172,6 @@ namespace Z0.Asm
             CL,
         }
 
-
         [SymSource(tokens, K.GpReg)]
         public enum GpRegToken : byte
         {
@@ -181,25 +179,25 @@ namespace Z0.Asm
             ///  One of {al, cl, dl, bl, ah, ch, dh, bh, bpl, spl, dil, sil} or {r8b, r9b, r10b, r11b, r12b, r13b, r14b, r15b} when using REX.R and 64-bit mode.
             /// </summary>
             [Symbol("r8", "An 8-bit gp register")]
-            r8 = NativeSizeCode.W8,
+            r8,
 
             /// <summary>
             ///  One of {al, cx, cx, bx,sp, bp, si, di} or {r8w, r9w, r10w, r11w, r12w, r13w, r14w, r15w} when using REX.R and 64-bit mode.
             /// </summary>
             [Symbol("r16", "A 16-bit gp register")]
-            r16 = NativeSizeCode.W16,
+            r16,
 
             /// <summary>
             ///  One of {eax, ecx, edx, ebx, esp, ebp, esi edi} or {r8d, r9d, r10d, r11d, r12d, r13d, r14d, r15d} when using REX.R and 64-bit mode.d
             /// </summary>
             [Symbol("r32", "A 32-bit gp register")]
-            r32 = NativeSizeCode.W32,
+            r32,
 
             /// <summary>
             ///  One of {rax, rcx, rdx, rbx, rsp, rbp, rsi rdi} or {r8w, r9w, r10w, r11w, r12w, r13w, r14w, r15w} when using REX.R and 64-bit mode.
             /// </summary>
             [Symbol("r64", "A 64-bit gp register")]
-            r64 = NativeSizeCode.W64,
+            r64,
         }
 
         [SymSource(tokens, K.MmxReg)]
@@ -232,13 +230,13 @@ namespace Z0.Asm
         public enum VRegToken : byte
         {
             [Symbol("xmm", "An XMM register")]
-            xmm = NativeSizeCode.W128,
+            xmm,
 
             [Symbol("ymm", "A YMM register")]
-            ymm = NativeSizeCode.W256,
+            ymm,
 
             [Symbol("zmm", "A zmm register")]
-            zmm = NativeSizeCode.W512,
+            zmm,
         }
 
         [SymSource(tokens, K.FpuReg)]
@@ -286,54 +284,54 @@ namespace Z0.Asm
         public enum FpuMemToken : byte
         {
             [Symbol("m32fp", "A single-precision floating-point operand in memory")]
-            m32fp = NativeSizeCode.W32,
+            m32fp,
 
             [Symbol("m64fp", "A double-precision floating-point operand in memory")]
-            m64fp = NativeSizeCode.W64,
+            m64fp,
 
             [Symbol("m80fp", "A double extended-precision floating-point operand in memory")]
-            m80fp = NativeSizeCode.W80,
+            m80fp,
         }
 
         [SymSource(tokens, K.Imm)]
         public enum ImmToken : byte
         {
             [Symbol("imm8", "An immediate 8-bit value in the inclusive range [–128, 127]. For instructions in which imm8 is combined with a word or doubleword operand, the immediate value is sign-extended to form a word or doubleword. The upper byte of the word is filled with the topmost bit of the immediate value")]
-            imm8 = NativeSizeCode.W8,
+            imm8,
 
             [Symbol("imm16", "An immediate value for a 16-bit operand in the inclusive range [-32_768, 32_767]")]
-            imm16 = NativeSizeCode.W16,
+            imm16,
 
             [Symbol("imm32", "An immediate value for a 16-bit operand in the inclusive range [-32_768, 32_767]")]
-            imm32 = NativeSizeCode.W32,
+            imm32,
 
             [Symbol("imm64", "An immediate value for a 64-bit operand in the inclusive range [-9_223_372_036_854_775_808, 9_223_372_036_854_775_807]")]
-            imm64 = NativeSizeCode.W64,
+            imm64,
         }
 
         [SymSource(tokens, K.Mem)]
         public enum MemToken : byte
         {
             [Symbol("m8", "A byte operand in memory ( usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. In 64-bit mode, it is pointed to by the RSI or RDI registers")]
-            m8 = NativeSizeCode.W8,
+            m8,
 
             [Symbol("m16", "A word operand in memory (usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. This nomenclature is used only with the string instructions")]
-            m16 = NativeSizeCode.W16,
+            m16,
 
             [Symbol("m32", "A doubleword operand in memory (usually expressed as a variable or array name) but pointed to by the DS:(E)SI or ES:(E)DI registers. This nomenclature is used only with the string instructions")]
-            m32 = NativeSizeCode.W32,
+            m32,
 
             [Symbol("m64", "A 64-bit operand in memory")]
-            m64 = NativeSizeCode.W64,
+            m64,
 
             [Symbol("m128", "A 128-bit memory operand")]
-            m128 = NativeSizeCode.W128,
+            m128,
 
             [Symbol("m256", "A 256-bit memory operand")]
-            m256 = NativeSizeCode.W256,
+            m256,
 
             [Symbol("m512", "A 512-bit memory operand")]
-            m512 = NativeSizeCode.W512,
+            m512,
 
             [Symbol("mib")]
             mib,
@@ -346,29 +344,29 @@ namespace Z0.Asm
         public enum MoffsToken : byte
         {
             [Symbol("moffs8", "A segbase-relative address of width 8")]
-            moffs8 = NativeSizeCode.W8,
+            moffs8,
 
             [Symbol("moffs16", "A segbase-relative address of width 16")]
-            moffs16 = NativeSizeCode.W16,
+            moffs16,
 
             [Symbol("moffs32", "A segbase-relative address of width 32")]
-            moffs32 = NativeSizeCode.W32,
+            moffs32,
 
             [Symbol("moffs64", "A segbase-relative address of width 64")]
-            moffs64 = NativeSizeCode.W64,
+            moffs64,
         }
 
         [SymSource(tokens, K.Rel)]
         public enum RelToken: byte
         {
             [Symbol("rel8", "A relative address in the range from 128 bytes before the end of the instruction to 127 bytes after the end of the instruction")]
-            rel8 = NativeSizeCode.W8,
+            rel8,
 
             [Symbol("rel16", "A relative address within the same code segment as the instruction assembled, and applicable to instructions with an operand-size attribute of 16 bits")]
-            rel16 = NativeSizeCode.W16,
+            rel16,
 
             [Symbol("rel32", "A relative address within the same code segment as the instruction assembled. and applicable to instructions with an operand-size attribute of 32 bits")]
-            rel32 = NativeSizeCode.W32,
+            rel32,
         }
 
         [SymSource(tokens, K.MemPair)]
@@ -391,23 +389,23 @@ namespace Z0.Asm
         public enum MemPtrToken
         {
             [Symbol("m16:16", "A far pointer defined by a 16-bit segment selector an 16-bit offset")]
-            mp16x16 = NativeSizeCode.W16,
+            mp16x16,
 
             [Symbol("m16:32", "A far pointer defined by a 16-bit segment selector a 32-bit offset")]
-            mp16x32 = NativeSizeCode.W32,
+            mp16x32,
 
             [Symbol("m16:64", "A far pointer defined by a 16-bit segment selector a 64-bit offset")]
-            mp16x64 = NativeSizeCode.W64
+            mp16x64
         }
 
         [SymSource(tokens, K.Ptr)]
         public enum PtrToken : byte
         {
             [Symbol("ptr16:16", "A far pointer typically to a code segment different from that of the instruction. The notation 16:16 indicates that the value of the pointer has two parts. The value to the left of the colon is a 16- bit selector or value destined for the code segment register. The value to the right corresponds to the offset within the destination segment. The ptr16:16 symbol is used when the instruction's operand-size attribute is 16 bits E.G, CALL ptr16:16 (Call far, absolute, address given in operand")]
-            p16x16 = NativeSizeCode.W16,
+            p16x16,
 
             [Symbol("ptr16:32", "A far pointer typically to a code segment different from that of the instruction and similar to ptr16:16 notation; in this case the ptr16:32 symbol is used when the operand-size attribute is 32 bits A memory operand using SIB addressing form, where the index register is not used in address calculation, Scale is ignored. Only the base and displacement are used in effective address calculation E.G, CALL ptr16:32 (Call far, absolute, address given in operand)")]
-            p16x32 = NativeSizeCode.W32,
+            p16x32,
         }
 
         [SymSource(tokens, K.OpMask)]
@@ -426,6 +424,7 @@ namespace Z0.Asm
             k2,
         }
 
+
         [SymSource(tokens, K.Broadcast)]
         public enum BroadcastToken
         {
@@ -440,7 +439,6 @@ namespace Z0.Asm
 
             [Symbol("xmm/m128/m64bcst")]
             x128x64bcst,
-
 
             [Symbol("ymm/m256/m32bcst")]
             y256x32bcst,
@@ -463,6 +461,106 @@ namespace Z0.Asm
 
             [Symbol("{er}")]
             er,
+        }
+
+        [SymSource(tokens, K.Modifier)]
+        public enum ModifierToken : byte
+        {
+            [Symbol("m8 {k1}{z}")]
+            m8_k1z,
+
+            [Symbol("m16 {k1}{z}")]
+            m16_k1z,
+
+            [Symbol("m32 {k1}{z}")]
+            m32_k1z,
+
+            [Symbol("m64 {k1}{z}")]
+            m64_k1z,
+
+            [Symbol("m128 {k1}{z}")]
+            m128_k1z,
+
+            [Symbol("m256 {k1}{z}")]
+            m256_k1z,
+
+            [Symbol("m512 {k1}{z}")]
+            m512_k1z,
+
+            [Symbol("xmm {k1}{z}")]
+            xmm_k1z,
+
+            [Symbol("ymm {k1}{z}")]
+            ymm_k1z,
+
+            [Symbol("zmm {k1}{z}")]
+            zmm_k1z,
+
+            [Symbol("xmm {k1}")]
+            xmm_k1,
+
+            [Symbol("ymm {k1}")]
+            ymm_k1,
+
+            [Symbol("zmm {k1}")]
+            zmm_k1,
+
+            [Symbol("k1 {k2}")]
+            k1_k2,
+
+            [Symbol("k2 {k1}")]
+            k2_k1,
+
+            [Symbol("m8 {er}")]
+            m8_er,
+
+            [Symbol("m16 {er}")]
+            m16_er,
+
+            [Symbol("m32 {er}")]
+            m32_er,
+
+            [Symbol("m64 {er}")]
+            m64_er,
+
+            [Symbol("m128 {er}")]
+            m128_er,
+
+            [Symbol("m256 {er}")]
+            m256_er,
+
+            [Symbol("m512 {er}")]
+            m512_er,
+
+            [Symbol("xmm {er}")]
+            xmm_er,
+
+            [Symbol("ymm {er}")]
+            ymm_er,
+
+            [Symbol("zmm {er}")]
+            zmm_er,
+
+            [Symbol("xmm {sae}")]
+            xmm_sae,
+
+            [Symbol("ymm {sae}")]
+            ymm_sae,
+
+            [Symbol("zmm {sae}")]
+            zmm_sae,
+
+            [Symbol("m32bcst {er}")]
+            m32bcst_er,
+
+            [Symbol("m64bcst {er}")]
+            m64bcst_er,
+
+            [Symbol("m32bcst {sae}")]
+            m32bcst_sae,
+
+            [Symbol("m64bcst {sae}")]
+            m64bcst_sae,
         }
 
         [SymSource(tokens, K.Vsib)]
@@ -490,14 +588,14 @@ namespace Z0.Asm
         [SymSource(tokens, K.Dependent)]
         public enum DependentToken : byte
         {
+            [Symbol("/r", "Indicates that the ModR/M byte of the instruction contains a register operand and an r/m operand")]
+            r,
+
             [Symbol("m", "A memory operand of width 16, 32 or 64 bits")]
             m,
 
             [Symbol("mem", "A memory operand of width 16, 32 or 64 bits")]
             mem,
-
-            [Symbol("/r", "Indicates that the ModR/M byte of the instruction contains a register operand and an r/m operand")]
-            r,
 
             [Symbol("mV", "A vector memory operand; the operand size is dependent on the instruction")]
             mV,

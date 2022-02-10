@@ -12,7 +12,7 @@ namespace Z0.Asm
         {
             if(AsmSigs.opmask(src, out var op, out var mask))
             {
-                if(Datasets.TokensByExpression.Find(op, out dst))
+                if(Datasets.OpsByExpression.Find(op, out dst))
                 {
                     dst = dst.WithModifier(modifier(mask));
                     return true;
@@ -24,7 +24,7 @@ namespace Z0.Asm
                 }
             }
             else
-                return Datasets.TokensByExpression.Find(src.Text, out dst);
+                return Datasets.OpsByExpression.Find(src.Text, out dst);
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
@@ -95,5 +95,8 @@ namespace Z0.Asm
 
             return src.OpCount;
         }
+
+        public static ReadOnlySpan<AsmSigOp> operands(AsmSigOpKind kind)
+            => Datasets.OpsByKind[kind];
     }
 }

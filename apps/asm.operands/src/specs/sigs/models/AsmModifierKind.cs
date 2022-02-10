@@ -21,8 +21,10 @@ namespace Z0.Asm
         [Symbol("{k1}{z}")]
         k1z,
 
+        [Symbol("{er}")]
         er,
 
+        [Symbol("{sae}")]
         sae,
     }
 }

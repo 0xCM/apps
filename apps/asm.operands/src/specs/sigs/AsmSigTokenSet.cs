@@ -11,5 +11,8 @@ namespace Z0.Asm
 
         public override Type[] Types()
             => typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>();
+
+        public Dictionary<Type,AsmSigOpKind> TypeKinds()
+            => Types().Map(t => (t,(AsmSigOpKind)t.Tag<SymSourceAttribute>().Require().SymKind)).ToDictionary();
     }
 }

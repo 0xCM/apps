@@ -29,6 +29,28 @@ namespace Z0.Asm
                 4 => Op4,
                 _ => AsmSigOp.Empty,
             };
+
+            set
+            {
+                switch(i)
+                {
+                    case 0:
+                        Op0 = value;
+                    break;
+                    case 1:
+                        Op1 = value;
+                    break;
+                    case 2:
+                        Op2 = value;
+                    break;
+                    case 3:
+                        Op3 = value;
+                    break;
+                    case 4:
+                        Op4 = value;
+                    break;
+                }
+            }
         }
 
         public byte OpCount

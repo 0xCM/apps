@@ -95,6 +95,21 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
+        [MethodImpl(Inline)]
+        public AsmSig Replicate()
+            => new AsmSig(Mnemonic,Operands);
+
+        public AsmSig With(AsmSigOps ops)
+            => new AsmSig(Mnemonic, ops);
+
+        [MethodImpl(Inline)]
+        public AsmSig With(byte i, AsmSigOp op)
+        {
+            var ops = Operands;
+            ops[i] = op;
+            return new AsmSig(Mnemonic,ops);
+        }
+
         public static AsmSig Empty
         {
             [MethodImpl(Inline)]

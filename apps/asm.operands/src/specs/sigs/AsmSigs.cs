@@ -19,5 +19,8 @@ namespace Z0.Asm
 
         public static AsmSigTokenSet tokens()
             => Datasets.TokenSet;
+
+        public static ReadOnlySpan<AsmSigOp> tokens(AsmSigOpKind kind)
+            => Datasets.OpsByKind[kind];
     }
 }

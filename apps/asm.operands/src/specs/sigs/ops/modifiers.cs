@@ -32,6 +32,5 @@ namespace Z0.Asm
             }
             return false;
         }
-
     }
 }

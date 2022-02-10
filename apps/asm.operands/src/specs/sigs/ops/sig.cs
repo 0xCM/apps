@@ -9,7 +9,7 @@ namespace Z0.Asm
     partial class AsmSigs
     {
         public static bool HasOpMask(in AsmSig src)
-            => OpMask(src, out _);
+            => opmask(src, out _);
 
         [Op]
         public static AsmSig sig(AsmMnemonic mnemonic, params AsmSigOp[] ops)
