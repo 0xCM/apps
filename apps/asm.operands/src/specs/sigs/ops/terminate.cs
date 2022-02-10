@@ -5,9 +5,6 @@
 namespace Z0.Asm
 {
     using static core;
-
-    using K = AsmSigOpKind;
-
     using static AsmSigTokens;
 
     partial class AsmSigs
@@ -18,29 +15,23 @@ namespace Z0.Asm
         public static Index<AsmSig> terminate(in AsmSig src)
         {
             var sigs = list<AsmSig>();
+            var sig = new AsmSig(src.Mnemonic);
             for(var i=z8; i<src.OpCount; i++)
             {
-                var op = src.Operands[i];
-                var terms = terminate(op);
-                var opcount = terms.Count;
+                var ops = terminate(src.Operands[i]);
+                var count = ops.Count;
 
-                var dst = alloc<AsmSig>(terms.Count);
-                for(var m = 0; m<dst.Length; m++)
+                if(count == 1)
+                    sig = sig.With(i, ops.First);
+                else
                 {
-                    var ops = alloc<AsmSigOp>(opcount);
-                    ref var sig = ref seek(dst,m);
-                    for(byte j=0; j<opcount; j++)
-                    {
-                        if(j == i)
-                            sig.With(j, terms[i]);
-                        else
-                            sig.With(j, src[j]);
-                    }
+                    for(var j=0; j<count; j++)
+                        sigs.AddRange(terminate(sig.With(i, ops[j])));
                 }
-
-                sigs.AddRange(dst);
-
             }
+
+            if(sig.OpCount == src.OpCount)
+                sigs.Add(sig);
             return sigs.ToArray();
         }
 
@@ -48,55 +39,40 @@ namespace Z0.Asm
             where K : unmanaged
                 => new AsmSigOp(Datasets.Kind(typeof(K)), u8(src));
 
-        public static Index<AsmSigOp> decompose(AsmSigOpKind kind, byte value)
-        {
-            var dst = list<AsmSigOp>();
-            switch(kind)
-            {
-                case K.GpRm:
-                {
-                    var typedvalue = (GpRmToken)value;
-                    switch(typedvalue)
-                    {
-                        case GpRmToken.rm8:
-                            dst.Add(new AsmSigOp(K.GpReg, (byte)(GpRegToken.r8)));
-                            dst.Add(new AsmSigOp(K.GpReg, (byte)(MemToken.m8)));
-                        break;
-                    }
-                }
-                break;
-                default:
-                    dst.Add(new AsmSigOp(kind, value));
-                break;
-            }
-
-            return dst.ToArray();
-
-        }
-
         public static Index<AsmSigOp> terminate(in AsmSigOp src)
         {
             var dst = list<AsmSigOp>();
-            switch(src.OpKind)
+            var fmt = src.Format();
+            var i = text.index(fmt, Chars.FSlash);
+            if(i > 0)
             {
-                case K.GpRm:
+                var left = text.trim(text.left(fmt,i));
+                var right = text.trim(text.split(fmt, Chars.FSlash));
+                for(var j=0; j<right.Length; j++)
                 {
-                    var value = (GpRmToken)src.Value;
-                    switch(value)
-                    {
-                        case GpRmToken.rm8:
-                            dst.Add(new AsmSigOp(K.GpReg, (byte)(GpRegToken.r8)));
-                            dst.Add(new AsmSigOp(K.GpReg, (byte)(MemToken.m8)));
-                        break;
-                    }
+                    var result = operand(skip(right,j), out var op);
+                    if(result)
+                        dst.Add(op);
                 }
-                break;
-                default:
-                    dst.Add(src);
-                break;
             }
+            else
+                dst.Add(src);
 
             return dst.ToArray();
+        }
+
+        public static bool modified(in AsmSigOp src)
+            => text.contains(src.Format(), Chars.LBrace);
+
+        public static bool modified(in AsmSig src)
+        {
+            var count = src.OpCount;
+            for(var i=0; i<count; i++)
+            {
+                if(modified(src[i]))
+                    return true;
+            }
+            return false;
         }
     }
 }

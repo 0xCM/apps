@@ -8,6 +8,43 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
+        public Outcome EmitSigOps()
+        {
+            const string RP = "{0,-6} | {1,-16} | {2,-6} | {3,-48} | {4}";
+            var result = Outcome.Success;
+            var details = LoadImportedOpcodes();
+            var count = details.Count;
+            var dst = ProjectDb.Subdir("sdm") + FS.file("sdm.sigs.operands", FS.Csv);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            writer.WriteLine(string.Format(RP, "SigId", "Mnemonic", "OpSeq", "Sig","OpCode"));
+
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var detail = ref details[i];
+
+                result = AsmSigs.parse(detail.Sig, out var sig);
+                if(result.Fail)
+                    break;
+
+                result = AsmOpCodes.parse(detail.OpCode, out var opcode);
+                if(result.Fail)
+                    break;
+
+                writer.WriteLine(string.Format(RP, i, sig.Mnemonic, EmptyString, sig, opcode));
+                counter++;
+
+                for(byte j=0; j<sig.OpCount; j++, counter++)
+                    writer.WriteLine(string.Format(RP, i, sig.Mnemonic, j, sig[j], opcode));
+            }
+
+            if(result)
+                EmittedFile(emitting,counter);
+
+            return result;
+        }
+
         Outcome EmitSigRules()
         {
             var kinds = AsmSigs.opkinds();

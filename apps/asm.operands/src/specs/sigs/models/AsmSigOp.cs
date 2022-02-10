@@ -11,29 +11,20 @@ namespace Z0.Asm
 
         public AsmSigOpKind OpKind {get;}
 
-        public NativeSize Size {get;}
-
         public AsmModifierKind Modifier {get;}
 
         [MethodImpl(Inline)]
-        public AsmSigOp(AsmSigOpKind kind, byte value, NativeSizeCode size = NativeSizeCode.Unknown, AsmModifierKind mod = 0)
+        public AsmSigOp(AsmSigOpKind kind, byte value, AsmModifierKind mod = 0)
         {
             Value = value;
             OpKind = kind;
-            Size = size;
             Modifier = mod;
-        }
-
-        public bool IsOpMask
-        {
-            [MethodImpl(Inline)]
-            get => Modifier != 0 && Modifier < AsmModifierKind.sae;
         }
 
         public uint Id
         {
             [MethodImpl(Inline)]
-            get => bits.join((byte)Value, (byte)OpKind, (byte)Size);
+            get => bits.join((byte)Value, (byte)OpKind);
         }
 
         public bool HasModifier
@@ -44,7 +35,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public AsmSigOp WithModifier(AsmModifierKind mod)
-            => new AsmSigOp(OpKind, Value, Size, mod);
+            => new AsmSigOp(OpKind, Value, mod);
 
         public bool IsEmpty
         {
