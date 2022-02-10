@@ -17,10 +17,6 @@ namespace Z0.Asm
                 Error(result.Message);
                 return;
             }
-
-            EmitSigTerminals();
-            //EmitForms(details);
         }
-
    }
 }

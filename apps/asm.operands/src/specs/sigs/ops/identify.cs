@@ -77,5 +77,26 @@ namespace Z0.Asm
             }
             return buffer.Emit().Replace("lock", "@lock");
         }
+
+        public static Identifier identify(in AsmSigOpExpr src)
+        {
+            return src.Format().Replace(":", "x").Replace("&", "a");
+        }
+
+        public static Identifier identify(in AsmSigExpr src)
+        {
+            var dst = text.buffer();
+            dst.Clear();
+            dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
+            var operands = src.Operands();
+            var opcount = src.OpCount;
+            for(byte j=0; j<src.OpCount; j++)
+            {
+                dst.Append(Chars.Underscore);
+                dst.Append(identify(skip(operands,j)).Format());
+            }
+
+            return dst.Emit();
+        }
     }
 }

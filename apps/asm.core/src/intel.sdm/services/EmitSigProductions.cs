@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using static core;
 
+    //public struct AsmSig
+
     partial class IntelSdm
     {
         Outcome EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
@@ -15,21 +17,22 @@ namespace Z0.Asm
             var targets = sigs.UniqueTargets;
             var count = targets.Length;
             var buffer = text.buffer();
-            var dst = alloc<AsmSigProduction>(count);
+            var prods = alloc<AsmSigProduction>(count);
             for(var i=0; i<count; i++)
             {
                 var sig = skip(targets,i).Sig;
-                seek(dst,i) = new AsmSigProduction(sig, SymbolizeExpression(sig));
+                var sigx = SymbolizeExpression(sig);
+                seek(prods,i) = new AsmSigProduction(sig, sigx);
             }
 
             var path = SdmPaths.SigProductions();
             var emitting = EmittingFile(path);
-            Rules.emit(dst, path);
+            Rules.emit(prods, path);
             EmittedFile(emitting, count);
 
             if(check)
             {
-                result = ValidateSigs(dst);
+                result = ValidateSigs(prods);
             }
             return result;
         }

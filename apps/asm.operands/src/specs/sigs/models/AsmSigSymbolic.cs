@@ -9,16 +9,20 @@ namespace Z0.Asm
     {
         public const string TableId = "sdm.sigs.symbolic";
 
-        public const byte FieldCount = 4;
+        public const byte FieldCount = 6;
 
         public uint Seq;
 
+        public uint OcSeq;
+
         public Identifier Name;
+
+        public AsmOpCode OpCode;
 
         public AsmSigExpr Source;
 
-        public AsmSigRuleExpr Target;
+        public AsmSigExpr Target;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,42,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,42,42,64,1};
     }
 }

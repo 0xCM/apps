@@ -6,7 +6,9 @@ namespace Z0
 {
     using llvm;
     using Asm;
+
     using static core;
+
 
     partial class CodeGenProvider
     {
@@ -19,9 +21,14 @@ namespace Z0
         [CmdOp("gen/asm")]
         Outcome GenIntel(CmdArgs args)
         {
-            AsmCodeGen.GenSigIds();
             AsmCodeGen.GenMnemonicNames();
-            AsmCodeGen.GenSigFormatters();
+            return true;
+        }
+
+
+        [CmdOp("gen/asm/data")]
+        Outcome GenInstData(CmdArgs args)
+        {
             return true;
         }
 
