@@ -6,16 +6,13 @@ namespace Z0.Asm
 {
     public struct SdmSigDetail
     {
-        public uint Key;
-
         public AsmSigExpr Sig;
 
-        public AsmOcExpr OpCode;
+        public AsmOpCode OpCode;
 
         [MethodImpl(Inline)]
-        public SdmSigDetail(uint key, AsmSigExpr sig, AsmOcExpr oc)
+        public SdmSigDetail(AsmSigExpr sig, AsmOpCode oc)
         {
-            Key = key;
             Sig = sig;
             OpCode = oc;
         }

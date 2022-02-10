@@ -8,8 +8,14 @@ namespace Z0.Asm
 
     public class SdmSigDetails
     {
-        public static SdmSigDetail detail(in SdmOpCodeDetail src)
-            => new SdmSigDetail(src.OpCodeKey, SdmOps.sig(src), AsmOcExpr.define(src.OpCode));
+        public static SdmSigDetail define(in SdmOpCodeDetail src)
+        {
+            var result = AsmOcParser.parse(src.OpCode, out var opcode);
+            if(result.Fail)
+                Errors.Throw(result.Message);
+
+            return new SdmSigDetail(SdmOps.sig(src), opcode);
+        }
 
         readonly Dictionary<string,List<SdmSigDetail>> Data;
 
@@ -27,7 +33,7 @@ namespace Z0.Asm
         public SdmSigDetail Include(in SdmOpCodeDetail src)
         {
             var sig = SdmOps.sig(src);
-            var sd = detail(src);
+            var sd = define(src);
             var key = sd.Sig.Format().ToLowerInvariant();
             if(Data.TryGetValue(key, out var dst))
                 dst.Add(sd);

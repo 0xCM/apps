@@ -6,8 +6,6 @@ namespace Z0.Asm
 {
     using static core;
 
-    //public struct AsmSig
-
     partial class IntelSdm
     {
         Outcome EmitSigProductions(ReadOnlySpan<SdmOpCodeDetail> src, bool check = false)
