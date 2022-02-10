@@ -15,29 +15,32 @@ namespace Z0.Asm
             var targets = sigs.UniqueTargets;
             var count = targets.Length;
             var buffer = text.buffer();
-            var dst = alloc<AsmSigProduction>(count);
+            var dst = list<IProduction>(count);
+            var expr = list<AsmSigRuleExpr>();
             for(var i=0; i<count; i++)
             {
+                expr.Clear();
                 var sig = skip(targets,i).Sig;
-                var expr = SymbolizeExpression(sig);
-                seek(dst,i) = new AsmSigProduction(sig, expr);
+                SymbolizeExpression(sig, expr);
+                dst.AddRange(expr.Map(x => new AsmSigProduction(sig,x)));
             }
 
             var path = SdmPaths.SigProductions();
             var emitting = EmittingFile(path);
-            Rules.emit(dst, path);
+            var prods = dst.ViewDeposited();
+            Rules.emit(prods, path);
             EmittedFile(emitting, count);
 
             if(check)
             {
-                result = ValidateSigs(dst);
+                //result = ValidateSigs(dst);
             }
             return result;
         }
 
-        Outcome ValidateSigs(Index<AsmSigProduction> src)
+        Outcome ValidateSigs(ReadOnlySpan<AsmSigProduction> src)
         {
-            var count = src.Count;
+            var count = src.Length;
             var output = LoadSigProductions();
             var result = Outcome.Success;
             if(count != output.Count)

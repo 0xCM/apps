@@ -19,7 +19,7 @@ namespace Z0.Asm
             }
 
             EmitSigTerminals();
-            EmitForms(details);
+            //EmitForms(details);
         }
 
    }
