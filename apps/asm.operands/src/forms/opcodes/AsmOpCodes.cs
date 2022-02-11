@@ -120,6 +120,18 @@ namespace Z0.Asm
         public static string format(AsmOcToken src)
             => Datasets.TokenExpressions[src];
 
+        public static string format(in AsmOpCode src)
+        {
+            var dst = text.buffer();
+            var count = src.TokenCount;
+            for(var i=0; i<count; i++)
+                dst.Append(expression(src[i]));
+            return dst.Emit();
+        }
+
+        static string expression(AsmOcToken src)
+            => Datasets.TokenExpressions[src];
+
         [Op]
         public static AsmOpCode define(ReadOnlySpan<AsmOcToken> src)
         {

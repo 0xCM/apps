@@ -81,7 +81,7 @@ namespace Z0.Asm
             => Data.Equals(src.Data);
 
         public string Format()
-            => AsmOcFormatter.format(this);
+            => AsmOpCodes.format(this);
 
         public override string ToString()
             => Format();
