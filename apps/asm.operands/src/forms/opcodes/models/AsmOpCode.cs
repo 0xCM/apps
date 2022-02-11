@@ -63,6 +63,18 @@ namespace Z0.Asm
             get => ref seek(Tokens(), i);
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => TokenCount == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => TokenCount != 0;
+        }
+
         public AsmOcFlags Flags()
         {
             var count = TokenCount;
@@ -80,11 +92,25 @@ namespace Z0.Asm
         public bool Equals(AsmOpCode src)
             => Data.Equals(src.Data);
 
+        public override bool Equals(object src)
+            => src is AsmOpCode x && Equals(x);
+
+        public override int GetHashCode()
+            => Data.GetHashCode();
+
         public string Format()
             => AsmOpCodes.format(this);
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static bool operator ==(AsmOpCode a, AsmOpCode b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(AsmOpCode a, AsmOpCode b)
+            => !a.Equals(b);
 
         public static AsmOpCode Empty => new AsmOpCode(sys.empty<AsmOcToken>());
     }

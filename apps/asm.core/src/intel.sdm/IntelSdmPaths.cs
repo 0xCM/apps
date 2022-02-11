@@ -20,20 +20,11 @@ namespace Z0.Asm
         public FS.FolderPath Settings()
             => ProjectDb.Settings();
 
-        public FS.FilePath SigProductions()
-            => Targets() + FS.file("sdm.sigs.productions", FS.ext("map"));
-
-        public FS.FilePath SigDecompRules()
-            => ProjectDb.Settings("asm.sigs.decomp", FS.ext("map"));
-
-        public FS.FilePath SigOpMaskRules()
-            => ProjectDb.Settings("asm.sigs.opmasks", FS.ext("map"));
-
         public FS.FilePath SigFixupRules()
             => ProjectDb.Settings("asm.sigs.fixups", FS.ext("map"));
 
-        public FS.FilePath SigExpansionRules()
-            => ProjectDb.Settings("asm.sigs.expansions", FS.ext("map"));
+        public FS.FilePath Forms()
+            => ProjectDb.Subdir("sdm") + Tables.filename<AsmFormRecord>();
 
         public FS.FilePath SigNormalRules()
             => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));

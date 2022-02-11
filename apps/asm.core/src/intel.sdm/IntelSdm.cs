@@ -29,24 +29,12 @@ namespace Z0.Asm
         TextReplace SigFixupRules
             => Data(nameof(SigFixupRules), () => Rules.replace(SdmPaths.SigFixupRules()));
 
-        Productions SigDecompRules
-            => Data(nameof(SigDecompRules), () => Rules.productions(SdmPaths.SigDecompRules()));
-
-        Productions SigOpMaskRules
-            => Data(nameof(SigOpMaskRules), () => Rules.productions(SdmPaths.SigDecompRules()));
-
         void Clear()
         {
             SdmPaths.Targets().Clear();
             ClearCache();
         }
 
-
-        void EmitTokens()
-        {
-            ApiMetadata.EmitTokenSet(AsmOcTokenSet.create(), SdmPaths.Tokens("opcodes"));
-            ApiMetadata.EmitTokenSet(AsmSigTokenSet.create(), SdmPaths.Tokens("sigs"));
-        }
 
         public Outcome Import()
         {

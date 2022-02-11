@@ -9,22 +9,22 @@ namespace Z0.Asm
     {
         public byte Value {get;}
 
-        public AsmSigOpKind OpKind {get;}
+        public AsmSigTokenKind Kind {get;}
 
         public AsmModifierKind Modifier {get;}
 
         [MethodImpl(Inline)]
-        public AsmSigOp(AsmSigOpKind kind, byte value, AsmModifierKind mod = 0)
+        public AsmSigOp(AsmSigTokenKind kind, byte value, AsmModifierKind mod = 0)
         {
             Value = value;
-            OpKind = kind;
+            Kind = kind;
             Modifier = mod;
         }
 
         public uint Id
         {
             [MethodImpl(Inline)]
-            get => bits.join((byte)Value, (byte)OpKind);
+            get => bits.join((byte)Value, (byte)Kind);
         }
 
         public bool HasModifier
@@ -35,22 +35,22 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public AsmSigOp WithoutModifier()
-            => new AsmSigOp(OpKind, Value);
+            => new AsmSigOp(Kind, Value);
 
         [MethodImpl(Inline)]
         public AsmSigOp WithModifier(AsmModifierKind mod)
-            => new AsmSigOp(OpKind, Value, mod);
+            => new AsmSigOp(Kind, Value, mod);
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => OpKind == 0;
+            get => Kind == 0;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => OpKind != 0;
+            get => Kind != 0;
         }
 
         public override int GetHashCode()

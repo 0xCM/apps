@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public enum AsmSigOpKind : byte
+    public enum AsmSigTokenKind : byte
     {
         None = 0,
 

@@ -5,13 +5,9 @@
 namespace Z0.Asm
 {
     using static core;
-    using static AsmSigTokens;
 
     partial class AsmSigs
     {
-        public static ReadOnlySpan<AsmSigOpKind> opkinds()
-            => Datasets.Kinds;
-
         public static Index<AsmForm> terminate(in AsmForm src)
         {
             var forms = list<AsmForm>();
@@ -35,10 +31,6 @@ namespace Z0.Asm
             return forms.ToArray();
         }
 
-        public static AsmSigOp operand<K>(K src)
-            where K : unmanaged
-                => new AsmSigOp(Datasets.Kind(typeof(K)), u8(src));
-
         public static Index<AsmSigOp> terminate(in AsmSigOp src)
         {
             var dst = list<AsmSigOp>();
@@ -59,20 +51,6 @@ namespace Z0.Asm
                 dst.Add(src);
 
             return dst.ToArray();
-        }
-
-        public static bool modified(in AsmSigOp src)
-            => text.contains(src.Format(), Chars.LBrace);
-
-        public static bool modified(in AsmSig src)
-        {
-            var count = src.OpCount;
-            for(var i=0; i<count; i++)
-            {
-                if(modified(src[i]))
-                    return true;
-            }
-            return false;
         }
     }
 }

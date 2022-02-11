@@ -14,22 +14,20 @@ namespace Z0.Asm
 
         public Index<AsmSigOp> Tokens {get; private set;}
 
-        public ConstLookup<AsmSigOpKind,Index<AsmSigOp>> OpsByKind {get; private set;}
+        public ConstLookup<AsmSigTokenKind,Index<AsmSigOp>> OpsByKind {get; private set;}
 
         public ConstLookup<uint,string> TokenExpressions {get; private set;}
 
         public ConstLookup<string,AsmSigOp> OpsByExpression {get; private set;}
 
-        public Symbols<AsmSigOpKind> TokenKindSymbols {get; private set;}
-
         public Symbols<AsmModifierKind> Modifers {get; private set;}
 
-        public ConstLookup<Type,AsmSigOpKind> TypeKinds {get; private set;}
+        public ConstLookup<Type,AsmSigTokenKind> TypeKinds {get; private set;}
 
-        public AsmSigOpKind Kind(Type src)
+        public AsmSigTokenKind Kind(Type src)
             => TypeKinds[src];
 
-        public ReadOnlySpan<AsmSigOpKind> Kinds
+        public ReadOnlySpan<AsmSigTokenKind> Kinds
             => TypeKinds.Values;
 
         AsmSigDatasets()
@@ -47,8 +45,7 @@ namespace Z0.Asm
                 if(_Instance == null)
                 {
                     var dst = new AsmSigDatasets();
-                    var kinds = Symbols.index<AsmSigOpKind>();
-                    dst.TokenKindSymbols = kinds;
+                    var kinds = Symbols.index<AsmSigTokenKind>();
                     dst.TokenSet = AsmSigTokenSet.create();
                     dst.TypeKinds = dst.TokenSet.TypeKinds();
                     var symtokens = dst.TokenSet.View;
@@ -76,7 +73,7 @@ namespace Z0.Asm
                             Errors.Throw(string.Format("Kind for {0} not found", @class.Kind));
                     }
 
-                    dst.OpsByKind = dst.Tokens.GroupBy(t => t.OpKind).Select(x => (x.Key, (Index<AsmSigOp>)x.Array())).ToDictionary();
+                    dst.OpsByKind = dst.Tokens.GroupBy(t => t.Kind).Select(x => (x.Key, (Index<AsmSigOp>)x.Array())).ToDictionary();
                     dst.TokenExpressions = tokenExpr;
                     dst.OpsByExpression = exprToken;
                     dst.Modifers = Symbols.index<AsmModifierKind>();

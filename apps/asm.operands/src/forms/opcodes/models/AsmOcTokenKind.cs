@@ -19,6 +19,11 @@ namespace Z0.Asm
         Rex,
 
         /// <summary>
+        /// Classifies <see cref='RexBToken'/> tokens
+        /// </summary>
+        RexB,
+
+        /// <summary>
         /// Classifies <see cref='VexToken'/> tokens
         /// </summary>
         Vex,
@@ -27,11 +32,6 @@ namespace Z0.Asm
         /// Classifies <see cref='EvexToken'/> tokens
         /// </summary>
         Evex,
-
-        /// <summary>
-        /// Classifies <see cref='RexBToken'/> tokens
-        /// </summary>
-        RexB,
 
         /// <summary>
         /// Classifies <see cref='RegDigitToken'/> tokens
@@ -77,21 +77,6 @@ namespace Z0.Asm
         /// Classifies a literal numeric value
         /// </summary>
         Integer,
-
-        /// <summary>
-        /// Classifies <see cref='RepToken'/> tokens
-        /// </summary>
-        Rep,
-
-        /// <summary>
-        /// Classifies <see cref='SizeToken'/> tokens
-        /// </summary>
-        Size,
-
-        /// <summary>
-        /// Classifies <see cref='LockToken'/> tokens
-        /// </summary>
-        Lock,
 
         /// <summary>
         /// Classifies <see cref='OperatorToken'/> tokens

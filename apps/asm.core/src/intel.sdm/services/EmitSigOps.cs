@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         public Outcome EmitSigOps(ReadOnlySpan<AsmFormRecord> forms)
         {
-            const string RP = "{0,-6} | {1,-16} | {2,-6} | {3,-48} | {4}";
+            const string RP = "{0,-8} | {1,-16} | {2,-6} | {3,-48} | {4}";
             var result = Outcome.Success;
             var details = LoadImportedOpcodes();
             var count = details.Count;

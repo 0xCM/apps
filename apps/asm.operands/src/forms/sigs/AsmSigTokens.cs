@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using K = AsmSigOpKind;
+    using K = AsmSigTokenKind;
 
     public partial class AsmSigTokens
     {

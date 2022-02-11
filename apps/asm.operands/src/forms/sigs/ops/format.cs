@@ -11,6 +11,9 @@ namespace Z0.Asm
         public static string format(in AsmSigOp src)
             => expression(src).Text;
 
+        public static string format(in AsmSigToken src)
+            => expression(src).Text;
+
         public static string format(in AsmSigExpr src)
         {
             var storage = CharBlock64.Null;

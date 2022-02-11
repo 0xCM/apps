@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
-    using static Root;
     using static core;
 
     partial class IntelSdm
@@ -68,7 +65,7 @@ namespace Z0.Asm
                 dst.Sig = form.Sig;
                 dst.OpCode = form.OpCode;
             }
-            TableEmit(@readonly(buffer), AsmFormRecord.RenderWidths, ProjectDb.Subdir("sdm") + Tables.filename<AsmFormRecord>());
+            TableEmit(@readonly(buffer), AsmFormRecord.RenderWidths, SdmPaths.Forms());
             return buffer;
         }
     }

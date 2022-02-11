@@ -19,11 +19,11 @@ namespace Z0
             var asm0 = AsmSpecs.and(gp32.edx, 0xC1C1);
             var result = OpCodes.Parse(Oc0, out var oc0);
             if(result)
-                Write(Require.equal(OpCodes.Format(oc0), Oc0));
+                Write(Require.equal(oc0.Format(), Oc0));
 
             result = OpCodes.Parse(Oc1, out var oc1);
             if(result)
-                Write(Require.equal(OpCodes.Format(oc1), Oc1));
+                Write(Require.equal(oc1.Format(), Oc1));
             return result;
         }
     }

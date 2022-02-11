@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     using static core;
-    using static AsmSigOpKind;
+    using static AsmSigTokenKind;
 
     public partial class AsmCodeGen : AppService<AsmCodeGen>
     {
@@ -57,7 +57,7 @@ namespace Z0.Asm
         static bool supported(in AsmSigOp src)
         {
             var result = false;
-            switch(src.OpKind)
+            switch(src.Kind)
             {
                 case SysReg:
                 case GpReg:
@@ -87,7 +87,7 @@ namespace Z0.Asm
         CsOperand CsOp(byte index, in AsmSigOp src)
         {
             var type = src.Format();
-            switch(src.OpKind)
+            switch(src.Kind)
             {
                 case SysReg:
                 case GpReg:
@@ -123,7 +123,7 @@ namespace Z0.Asm
                 case MemPtr:
                 case MemPair:
                 case Rounding:
-                case AsmSigOpKind.Vsib:
+                case AsmSigTokenKind.Vsib:
                 case Broadcast:
                 case OpMask:
                 case Dependent:

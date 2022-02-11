@@ -28,7 +28,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static AsmSigOp operand<T>(AsmSigOpKind kind, T value)
+        public static AsmSigOp operand<T>(AsmSigTokenKind kind, T value)
             where T : unmanaged
                 => new AsmSigOp(kind, core.bw8(value));
 
@@ -96,7 +96,7 @@ namespace Z0.Asm
             return src.OpCount;
         }
 
-        public static ReadOnlySpan<AsmSigOp> operands(AsmSigOpKind kind)
+        public static ReadOnlySpan<AsmSigOp> operands(AsmSigTokenKind kind)
             => Datasets.OpsByKind[kind];
     }
 }

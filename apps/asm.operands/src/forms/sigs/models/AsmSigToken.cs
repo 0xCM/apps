@@ -5,28 +5,28 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Size=2, Pack =1)]
-    public readonly struct AsmOcToken : IAsmOpCodeToken, IComparable<AsmOcToken>, IEquatable<AsmOcToken>
+    public readonly struct AsmSigToken : IComparable<AsmSigToken>, IEquatable<AsmSigToken>
     {
         public byte Value {get;}
 
-        public AsmOcTokenKind Kind {get;}
+        public AsmSigTokenKind Kind {get;}
 
         [MethodImpl(Inline)]
-        public AsmOcToken(AsmOcTokenKind kind, byte value)
+        public AsmSigToken(AsmSigTokenKind kind, byte value)
         {
             Value = value;
             Kind = kind;
         }
 
         [MethodImpl(Inline)]
-        public AsmOcToken(ushort src)
+        public AsmSigToken(ushort src)
         {
             Value = (byte)src;
-            Kind = (AsmOcTokenKind)(src >> 8);
+            Kind = (AsmSigTokenKind)(src >> 8);
         }
 
         [MethodImpl(Inline)]
-        public int CompareTo(AsmOcToken src)
+        public int CompareTo(AsmSigToken src)
         {
             var result = ((byte)Kind).CompareTo((byte)src.Kind);
             if(result == 0)
@@ -35,11 +35,11 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public bool Equals(AsmOcToken src)
+        public bool Equals(AsmSigToken src)
             => Kind == src.Kind && Value == src.Value;
 
         public override bool Equals(object src)
-            => src is AsmOcToken x && Equals(x);
+            => src is AsmSigToken x && Equals(x);
 
         public uint Hash
         {
@@ -51,13 +51,13 @@ namespace Z0.Asm
             => (int)Hash;
 
         public string Format()
-            => AsmOpCodes.format(this);
+            => AsmSigs.format(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(AsmOcToken src)
+        public static implicit operator ushort(AsmSigToken src)
             => core.bw16(src);
     }
 }

@@ -8,17 +8,6 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        public static AsmSigExpr expression(in AsmSigRuleExpr target)
-        {
-            var srcOps = target.Operands;
-            var opcount = srcOps.Count;
-            var dstOps = alloc<AsmSigOpExpr>(opcount);
-            var dst = new AsmSigExpr(target.Mnemonic);
-            for(byte i=0; i<opcount; i++)
-                dst.WithOperand(i,sigop(srcOps[i]));
-            return dst;
-        }
-
         public static AsmSigOpExpr expression(in AsmSigOp src)
         {
             if(Datasets.TokenExpressions.Find(src.Id, out var xpr))
@@ -36,6 +25,9 @@ namespace Z0.Asm
             else
                 return RP.Error;
         }
+
+        public static AsmSigOpExpr expression(in AsmSigToken src)
+            => Datasets.TokenExpressions[src];
 
         public static AsmSigExpr expression(string src)
         {

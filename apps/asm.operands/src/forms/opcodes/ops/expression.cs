@@ -4,16 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [ApiHost]
-    public partial class AsmSigs
+    partial class AsmOpCodes
     {
-        static AsmSigDatasets Datasets;
-
-        const NumericKind Closure = UnsignedInts;
-
-        static AsmSigs()
-        {
-            Datasets = AsmSigDatasets.load();
-        }
+        public static string expression(AsmOcToken src)
+            => Datasets.TokenExpressions[src];
     }
 }
