@@ -65,7 +65,7 @@ namespace Z0.Asm
                 return src;
         }
 
-        string CalcOperands(string sig)
+        string CalcOperands(ReadOnlySpan<char> sig)
         {
             var sigRules = SigNormalRules;
 

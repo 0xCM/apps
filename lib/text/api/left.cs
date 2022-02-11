@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     partial class text
     {
         /// <summary>
@@ -60,7 +54,7 @@ namespace Z0
             if(i > 0)
                 return left(src,i);
             else
-                return EmptyString;
+                return default;
         }
 
 

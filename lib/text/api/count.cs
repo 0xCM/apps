@@ -6,17 +6,15 @@ namespace Z0
 {
     using static core;
 
-    using C = AsciCode;
-
-    partial struct SymbolicQuery
+    partial class text
     {
         /// <summary>
-        /// Counts the number of character codes in a specified source that match one of the codes in a specified sequence
+        /// Counts the number of characters in a specified source that match one of the characters in a specified sequence
         /// </summary>
         /// <param name="src">The data source</param>
         /// <param name="matches">The characters to match</param>
         [MethodImpl(Inline), Op]
-        public static uint count(ReadOnlySpan<C> src, params C[] matches)
+        public static uint count(ReadOnlySpan<char> src, params char[] matches)
         {
             var count = 0u;
             var tests = @readonly(matches);

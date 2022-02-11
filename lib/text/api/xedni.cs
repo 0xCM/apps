@@ -9,13 +9,20 @@ namespace Z0
     partial class text
     {
         [MethodImpl(Inline), Op]
-        public static uint lowercase(ReadOnlySpan<char> src, ref uint i, Span<char> dst)
+        public static int xedni(ReadOnlySpan<char> src, char match)
         {
-            var i0 = i;
             var count = src.Length;
-            for(var j=0; j<count; j++)
-                seek(dst,i++) = skip(src,j).ToLower();
-            return i - i0;
+            var result = NotFound;
+            for(var i=count-1; i>=0; i--)
+            {
+                ref readonly var c = ref skip(src,i);
+                if(c == match)
+                {
+                    result = i;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Text;
-
-    using static Root;
 
     partial class text
     {

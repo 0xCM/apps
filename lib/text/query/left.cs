@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using C = AsciCode;
@@ -16,12 +12,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<char> left(ReadOnlySpan<char> src, int index)
-        {
-            if(index < src.Length)
-                return core.slice(src, 0, index);
-            else
-                return default;
-        }
+            => text.left(src,index);
 
         [MethodImpl(Inline), Op]
         public static ReadOnlySpan<C> left(ReadOnlySpan<C> src, int index)

@@ -59,7 +59,7 @@ namespace Z0
             if(i > 0)
                 return right(src,i + match.Length - 1);
             else
-                return EmptyString;
+                return default;
         }
 
 

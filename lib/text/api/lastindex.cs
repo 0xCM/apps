@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-    using static core;
-
     partial class text
     {
         /// <summary>
@@ -24,23 +18,6 @@ namespace Z0
                 return -1;
 
             return src.LastIndexOf(match);
-        }
-
-        [MethodImpl(Inline), Op]
-        public static int xedni(ReadOnlySpan<char> src, char match)
-        {
-            var count = src.Length;
-            var result = NotFound;
-            for(var i=count-1; i>=0; i--)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(c == match)
-                {
-                    result = i;
-                    break;
-                }
-            }
-            return result;
         }
 
         /// <summary>

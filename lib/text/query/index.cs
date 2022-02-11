@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using C = AsciCode;
@@ -15,23 +11,6 @@ namespace Z0
 
     partial struct SymbolicQuery
     {
-        [MethodImpl(Inline), Op]
-        public static int xedni(ReadOnlySpan<char> src, char match)
-        {
-            var count = src.Length;
-            var result = NotFound;
-            for(var i=count-1; i>=0; i--)
-            {
-                ref readonly var c = ref skip(src,i);
-                if(c == match)
-                {
-                    result = i;
-                    break;
-                }
-            }
-            return result;
-        }
-
         [MethodImpl(Inline), Op]
         public static int index(ReadOnlySpan<char> src, ReadOnlySpan<char> match, bool cased = true)
             => src.IndexOf(match, cased ? Cased : NoCase);
@@ -89,6 +68,5 @@ namespace Z0
                     return i;
             return NotFound;
         }
-
     }
 }

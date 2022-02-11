@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     partial class text
     {
         public static string embrace<T>(T src)

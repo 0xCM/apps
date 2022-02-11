@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using SQ = SymbolicQuery;
 
     partial struct Cmd
@@ -25,8 +20,8 @@ namespace Z0
                 return new CmdSpec(text.format(src), CmdArgs.Empty);
             else
             {
-                var name = text.format(SQ.left(src,i));
-                var _args = text.format(SQ.right(src,i)).Split(Chars.Space);
+                var name = text.format(text.left(src,i));
+                var _args = text.format(text.right(src,i)).Split(Chars.Space);
                 return new CmdSpec(name, args(_args));
             }
         }
