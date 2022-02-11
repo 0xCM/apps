@@ -9,19 +9,6 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        static Index<AsmFormExpr> summarize(ReadOnlySpan<SdmOpCodeDetail> src)
-        {
-            var count = src.Length;
-            var buffer = alloc<AsmFormExpr>(count);
-            ref var dst = ref first(buffer);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var detail = ref skip(src,i);
-                seek(dst,i) = AsmFormExpr.define(SdmOps.sig(detail), detail.OpCode);
-            }
-            return buffer;
-        }
-
         public Index<SdmOpCodeDetail> ImportOpCodeDetails()
             => ImportOpCodeDetails(SdmPaths.Sources("sdm.instructions").Files(FS.Csv).ToReadOnlySpan());
 
