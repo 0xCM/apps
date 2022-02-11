@@ -80,12 +80,13 @@ namespace Z0.Asm
         public FS.FolderPath CsvSources()
             => Sources() + FS.folder("sdm.instructions");
 
-        public FS.FilePath Tokens(string kind)
-            => Targets() + FS.file(string.Format("{0}.tokens", kind), FS.Csv);
+        public FS.FilePath Tokens()
+            => ProjectDb.Subdir("sdm") + Tables.filename<AsmToken>();
 
         public FS.FilePath ImportTable<T>()
             where T : struct
                 => Targets() + Tables.filename<T>();
+
 
         static bool IsTocPart(FS.FilePath src)
         {

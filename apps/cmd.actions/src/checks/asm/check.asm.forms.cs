@@ -32,6 +32,16 @@ namespace Z0
             return result;
         }
 
+        [CmdOp("check/asm/tokens")]
+        Outcome CheckAsmTokens(CmdArgs args)
+        {
+            var src = Sdm.LoadTokenRecords();
+            var count = src.Count;
+            var formatter = Tables.formatter<AsmToken>(AsmToken.RenderWidths);
+            iter(src, record => Write(formatter.Format(record)));
+            return true;
+        }
+
         [CmdOp("check/asm/forms")]
         Outcome CheckAsmForms(CmdArgs args)
         {
