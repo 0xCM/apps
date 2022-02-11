@@ -25,10 +25,10 @@ namespace Z0.Asm
 
                     var kinds = Symbols.index<AsmOcTokenKind>();
                     dst.TokenKindSymbols = kinds;
-                    dst.TokenSet = AsmOcTokenSet.create();
+                    var ts = AsmOcTokenSet.create();
                     var tokenExpr = dict<AsmOcToken,string>();
                     var exprToken = dict<string,AsmOcToken>();
-                    var tokens = dst.TokenSet.View;
+                    var tokens = ts.View;
                     var hexcount = hex.Count;
                     var tokencount = (uint)tokens.Length;
                     dst.Tokens = alloc<AsmOcToken>(tokencount + hexcount);
@@ -76,9 +76,8 @@ namespace Z0.Asm
 
         public ConstLookup<string,AsmOcToken> TokensByExpression {get; private set;}
 
-        public AsmOcTokenSet TokenSet {get; private set;}
-
         public Symbols<AsmOcTokenKind> TokenKindSymbols {get; private set;}
+
 
         AsmOcDatasets()
         {

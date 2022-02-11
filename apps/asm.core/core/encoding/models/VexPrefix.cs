@@ -9,7 +9,7 @@ namespace Z0.Asm
 
     using K = AsmPrefixCodes.VexPrefixKind;
 
-    /// <summary>
+    /// <remarks>
     /// [ Byte1[R | vvvv | L | pp] | Byte0[11000101b=0xC5]]
     /// [ Byte2[W | vvvv | L | pp] | Byte1[R | X | B | mmmmm] | Byte0[11000100b=0xC4]]
     /// R - REX.R in one's complement form
@@ -28,7 +28,7 @@ namespace Z0.Asm
     /// 01 => 66
     /// 10 => F3
     /// 11 => F2
-    /// </summary>
+    /// </remarks>
     [ApiHost]
     public struct VexPrefix
     {
@@ -69,18 +69,18 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static ushort leading(VexM src)
             => src switch {
-                VexM.V0F => 0x0F,
-                VexM.V0F38 => 0x0F38,
-                VexM.V0F3A => 0x0F3A,
+                VexM.x0F => 0x0F,
+                VexM.x0F38 => 0x0F38,
+                VexM.x0F3A => 0x0F3A,
                 _ => 0,
             };
 
         [MethodImpl(Inline), Op]
         public static ushort width(VexM src)
             => src switch {
-                VexM.V0F => 8,
-                VexM.V0F38 => 16,
-                VexM.V0F3A => 16,
+                VexM.x0F => 8,
+                VexM.x0F38 => 16,
+                VexM.x0F3A => 16,
                 _ => 0,
             };
 
@@ -134,23 +134,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public void Kind(K k)
             => Data = Bytes.inject((byte)k,0, ref Data);
-
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct VexPrefix16
-        {
-            public byte B0;
-
-            public byte B1;
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct VecPrefix24
-        {
-            public byte B0;
-
-            public byte B1;
-
-            public byte B2;
-        }
     }
 }

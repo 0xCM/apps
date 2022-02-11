@@ -59,8 +59,5 @@ namespace Z0.Asm
 
             return dst;
         }
-
-        public static bool token(string src, out AsmOcToken dst)
-            => Datasets.TokensByExpression.Find(src, out dst);
     }
 }

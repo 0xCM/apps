@@ -21,7 +21,7 @@ namespace Z0.Asm
             segments.Fill(vp0);
             Write(segments.ToBitstring());
 
-            var vp1 = VexPrefixC4.init(VexRXB.L0_V0F38, VexM.V0F3A, bit.On, 0b1111, VexLengthCode.L1, VexOpCodeExtension.F3);
+            var vp1 = VexPrefixC4.init(VexRXB.L0_V0F38, VexM.x0F3A, bit.On, 0b1111, VexLengthCode.L1, VexOpCodeExtension.F3);
             Write(vp1.FormatSemantic());
             segments.Fill(vp1);
             Write(segments.ToBitstring());

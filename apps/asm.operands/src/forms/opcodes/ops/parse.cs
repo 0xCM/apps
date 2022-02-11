@@ -57,7 +57,7 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
             {
                 var expr = skip(parts,i);
-                if(token(expr, out AsmOcToken t))
+                if(AsmTokens.opcode(expr, out var t))
                     dst[i] = t;
                 else
                 {

@@ -8,7 +8,17 @@ namespace Z0.Asm
 
     public readonly struct AsmTokens
     {
-        public static AsmTokens load()
+        [MethodImpl(Inline)]
+        public static AsmTokens data()
+            => Instance;
+
+        public static bool sig(string expr, out AsmSigToken dst)
+            => data().SigToken(expr, out dst);
+
+        public static bool opcode(string expr, out AsmOcToken dst)
+            => data().OpCodeToken(expr, out dst);
+
+        static AsmTokens load()
         {
             var sigs = AsmSigs.tokens().View;
             var sigcount = sigs.Length;
@@ -77,5 +87,12 @@ namespace Z0.Asm
                 return false;
             }
         }
+
+        static AsmTokens()
+        {
+            Instance = load();
+        }
+
+        static AsmTokens Instance;
     }
 }

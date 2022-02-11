@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         public void EmitTokens()
         {
-            var tokens = AsmTokens.load();
+            var tokens = AsmTokens.data();
             TableEmit(tokens.View, AsmToken.RenderWidths, SdmPaths.Tokens());
         }
     }

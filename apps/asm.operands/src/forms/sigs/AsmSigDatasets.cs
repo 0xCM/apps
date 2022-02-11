@@ -10,7 +10,7 @@ namespace Z0.Asm
 
     public class AsmSigDatasets
     {
-        public AsmSigTokenSet TokenSet {get; private set;}
+        //public AsmSigTokenSet TokenSet {get; private set;}
 
         public Index<AsmSigOp> Tokens {get; private set;}
 
@@ -46,9 +46,9 @@ namespace Z0.Asm
                 {
                     var dst = new AsmSigDatasets();
                     var kinds = Symbols.index<AsmSigTokenKind>();
-                    dst.TokenSet = AsmSigTokenSet.create();
-                    dst.TypeKinds = dst.TokenSet.TypeKinds();
-                    var symtokens = dst.TokenSet.View;
+                    var ts = AsmSigTokenSet.create();
+                    dst.TypeKinds = ts.TypeKinds();
+                    var symtokens = ts.View;
                     var count = (uint)symtokens.Length;
                     dst.Tokens = alloc<AsmSigOp>(count);
 
