@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using api = AsmSigs;
+
     [StructLayout(LayoutKind.Sequential,Pack=1), DataType("asm.sig")]
-    public readonly struct AsmSig
+    public readonly struct AsmSig : IComparable<AsmSig>
     {
         public readonly AsmMnemonic Mnemonic;
 
@@ -90,7 +92,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => AsmSigs.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();
@@ -99,6 +101,7 @@ namespace Z0.Asm
         public AsmSig Replicate()
             => new AsmSig(Mnemonic,Operands);
 
+        [MethodImpl(Inline)]
         public AsmSig With(AsmSigOps ops)
             => new AsmSig(Mnemonic, ops);
 
@@ -109,6 +112,10 @@ namespace Z0.Asm
             ops[i] = op;
             return new AsmSig(Mnemonic,ops);
         }
+
+        [MethodImpl(Inline)]
+        public int CompareTo(AsmSig src)
+            => api.compare(this, src);
 
         public static AsmSig Empty
         {

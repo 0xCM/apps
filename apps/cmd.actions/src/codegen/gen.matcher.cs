@@ -12,8 +12,8 @@ namespace Z0
         [CmdOp("gen/matcher")]
         Outcome Matcher(CmdArgs args)
         {
-            var forms = Sdm.LoadForms();
-            var matcher = StringMatcher.build(forms.UniqueTargets.Select(x => x.OpCode.Format()));
+            var forms = Sdm.LoadSigs();
+            var matcher = StringMatcher.build(forms.Select(x => x.Format()));
             TableEmit(matcher.MatchRows, CharMatchRow.RenderWidths, ProjectDb.SettingsTable<CharMatchRow>());
 
             var groups = matcher.GroupRows;

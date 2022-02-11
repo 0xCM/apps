@@ -12,9 +12,9 @@ namespace Z0.Asm
         public static ReadOnlySpan<AsmSigOpKind> opkinds()
             => Datasets.Kinds;
 
-        public static Index<AsmSig> terminate(in AsmSig src)
+        public static Index<AsmForm> terminate(in AsmForm src)
         {
-            var sigs = list<AsmSig>();
+            var forms = list<AsmForm>();
             var sig = new AsmSig(src.Mnemonic);
             for(var i=z8; i<src.OpCount; i++)
             {
@@ -26,13 +26,13 @@ namespace Z0.Asm
                 else
                 {
                     for(var j=0; j<count; j++)
-                        sigs.AddRange(terminate(sig.With(i, ops[j])));
+                        forms.AddRange(terminate(AsmForm.define(src.Sig.With(i, ops[j]), src.OpCode)));
                 }
             }
 
             if(sig.OpCount == src.OpCount)
-                sigs.Add(sig);
-            return sigs.ToArray();
+                forms.Add(AsmForm.define(sig, src.OpCode));
+            return forms.ToArray();
         }
 
         public static AsmSigOp operand<K>(K src)

@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [DataType("asm.mnemonic",31*8,32*8)]
-    public readonly struct AsmMnemonic : IAsmSourcePart
+    public readonly struct AsmMnemonic : IAsmSourcePart, IComparable<AsmMnemonic>
     {
         public static AsmMnemonic parse(string src, out int i)
         {
@@ -93,6 +93,10 @@ namespace Z0.Asm
 
         public override bool Equals(object src)
             => src is AsmMnemonic x && Equals(x);
+
+        [MethodImpl(Inline)]
+        public int CompareTo(AsmMnemonic src)
+            => Name.CompareTo(src.Name);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmMnemonic(string src)

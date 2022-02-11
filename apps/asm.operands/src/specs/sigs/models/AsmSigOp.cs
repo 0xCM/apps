@@ -34,6 +34,10 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
+        public AsmSigOp WithoutModifier()
+            => new AsmSigOp(OpKind, Value);
+
+        [MethodImpl(Inline)]
         public AsmSigOp WithModifier(AsmModifierKind mod)
             => new AsmSigOp(OpKind, Value, mod);
 

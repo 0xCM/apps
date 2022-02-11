@@ -10,29 +10,6 @@ namespace Z0
 
     partial class CheckCmdProvider
     {
-        Index<AsmForm> Forms()
-        {
-            var result = Outcome.Success;
-            var dst = list<AsmForm>();
-            var src = Sdm.LoadImportedOpcodes();
-            var count = src.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var detail = ref src[i];
-                result = AsmOpCodes.parse(detail.OpCode, out var opcode);
-                if(result.Fail)
-                    Errors.Throw(result.Message);
-
-                result = AsmSigs.parse(detail.Sig, out var sig);
-                if(result.Fail)
-                    Errors.Throw(result.Message);
-
-                dst.Add(new AsmForm("x", sig, opcode));
-            }
-
-            return dst.ToArray();
-        }
-
         [CmdOp("check/asm/opcodes")]
         Outcome CheckAsmOpCodes(CmdArgs args)
         {
