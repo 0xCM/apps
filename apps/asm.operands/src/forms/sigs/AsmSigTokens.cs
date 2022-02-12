@@ -20,6 +20,21 @@ namespace Z0.Asm
             n1,
         }
 
+        [SymSource(tokens, K.GpRegTriple)]
+        public enum GpRegTriple : byte
+        {
+            [Symbol("r16/r32/r64")]
+            r16r32r64,
+
+        }
+
+        [SymSource(tokens, K.GpRmTriple)]
+        public enum GpRmTriple : byte
+        {
+            [Symbol("r16/r32/m16")]
+            r16r32m16,
+        }
+
         [SymSource(tokens, K.GpRm)]
         public enum GpRmToken : byte
         {
@@ -55,12 +70,6 @@ namespace Z0.Asm
 
             [Symbol("r64/m64")]
             r64m64,
-
-            [Symbol("r16/r32/r64")]
-            r16r32r64,
-
-            [Symbol("r16/r32/m16")]
-            r16r32m16,
 
             [Symbol("reg/m8")]
             regm8,
@@ -203,11 +212,18 @@ namespace Z0.Asm
         [SymSource(tokens, K.MmxReg)]
         public enum MmxRegToken : byte
         {
+            [Symbol("mm")]
+            mm,
+        }
+
+        [SymSource(tokens, K.MmxRm)]
+        public enum MmxRmToken : byte
+        {
             [Symbol("mm/m32", "The low-order bits of an mmx register or a 32-bit memory operand; The contents of memory are found at the address provided by the effective address computation")]
-            mm32 = NativeSizeCode.W32,
+            mm32,
 
             [Symbol("mm/m64", "An mmx register or a 64-bit memory operand; The contents of memory are found at the address provided by the effective address computation")]
-            mm64 = NativeSizeCode.W64,
+            mm64,
         }
 
         [SymSource(tokens, K.MaskReg)]
@@ -424,16 +440,19 @@ namespace Z0.Asm
             k2,
         }
 
-
-        [SymSource(tokens, K.Broadcast)]
-        public enum BroadcastToken
+        [SymSource(tokens, K.BCastMem)]
+        public enum BCastMem : byte
         {
             [Symbol("m32bcst", "Represents a 32-bit memory location that defines a scalar to broadcast to vector operands")]
             m32bcst,
 
             [Symbol("m64bcst", "Represents a 64-bit memory location that defines a scalar to broadcast to vector operands")]
             m64bcst,
+        }
 
+        [SymSource(tokens, K.BCastComposite)]
+        public enum BCastComposite
+        {
             [Symbol("xmm/m128/m32bcst")]
             x128x32bcst,
 

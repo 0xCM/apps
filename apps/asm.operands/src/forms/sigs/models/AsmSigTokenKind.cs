@@ -20,6 +20,8 @@ namespace Z0.Asm
 
         FpuReg,
 
+        MmxRm,
+
         MmxReg,
 
         Imm,
@@ -31,6 +33,10 @@ namespace Z0.Asm
         FpuMem,
 
         GpRm,
+
+        GpRegTriple,
+
+        GpRmTriple,
 
         VecRm,
 
@@ -48,7 +54,9 @@ namespace Z0.Asm
 
         Vsib,
 
-        Broadcast,
+        BCastComposite,
+
+        BCastMem,
 
         OpMask,
 

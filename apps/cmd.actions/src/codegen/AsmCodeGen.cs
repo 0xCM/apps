@@ -66,7 +66,7 @@ namespace Z0.Asm
                 case Imm:
                 case Mem:
                 case MaskReg:
-                case MmxReg:
+                case MmxRm:
                 case IntLiteral:
                     result = true;
                 break;
@@ -96,7 +96,7 @@ namespace Z0.Asm
                 case Imm:
                 case Mem:
                 case MaskReg:
-                case MmxReg:
+                case MmxRm:
                 case IntLiteral:
                 {
 
@@ -124,7 +124,7 @@ namespace Z0.Asm
                 case MemPair:
                 case Rounding:
                 case AsmSigTokenKind.Vsib:
-                case Broadcast:
+                case BCastComposite:
                 case OpMask:
                 case Dependent:
                     break;

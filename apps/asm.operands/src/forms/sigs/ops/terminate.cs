@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using static core;
 
+    using K = AsmSigTokenKind;
+
     partial class AsmSigs
     {
         public static Index<AsmForm> terminate(in AsmForm src)
