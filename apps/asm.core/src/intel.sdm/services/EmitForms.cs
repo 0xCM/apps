@@ -14,7 +14,10 @@ namespace Z0.Asm
             return Emit(forms);
         }
 
-        Index<AsmForm> CalcForms(ReadOnlySpan<SdmOpCodeDetail> details)
+        public Index<AsmForm> CalcForms()
+            => CalcForms(LoadImportedOpcodes());
+
+        public Index<AsmForm> CalcForms(ReadOnlySpan<SdmOpCodeDetail> details)
         {
             var result = Outcome.Success;
             var count = details.Length;

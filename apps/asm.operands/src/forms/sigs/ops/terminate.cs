@@ -33,6 +33,44 @@ namespace Z0.Asm
             return forms.ToArray();
         }
 
+        public static Index<AsmForm> terminate2(in AsmForm src)
+        {
+            var forms = list<AsmForm>();
+            var sig = new AsmSig(src.Mnemonic);
+            if(nonterminal(src.Sig, out var j, out var termcount))
+            {
+                for(var i=z8; i<src.OpCount; i++)
+                {
+                    if(i==j)
+                    {
+                        if(termcount == 2)
+                        {
+                            split(src.Sig, out var a, out var b);
+                            forms.AddRange(terminate2(AsmForm.define(a, src.OpCode)));
+                            forms.AddRange(terminate2(AsmForm.define(b, src.OpCode)));
+                        }
+                        else if(termcount == 3)
+                        {
+                            split(src.Sig, out var a, out var b, out var c);
+                            forms.AddRange(terminate2(AsmForm.define(a, src.OpCode)));
+                            forms.AddRange(terminate2(AsmForm.define(b, src.OpCode)));
+                            forms.AddRange(terminate2(AsmForm.define(c, src.OpCode)));
+                        }
+                        else
+                            Errors.Throw("Bad");
+                    }
+                    else
+                        sig.With(i,src.Sig[i]);
+
+                }
+                forms.Add(AsmForm.define(sig, src.OpCode));
+            }
+            else
+                forms.Add(src);
+
+            return forms.ToArray();
+        }
+
         public static Index<AsmSigOp> terminate(in AsmSigOp src)
         {
             var dst = list<AsmSigOp>();

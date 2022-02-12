@@ -8,8 +8,19 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
-        static AsmSigOpExpr sigop(IRuleExpr src)
-            => src.Format().Replace(":", "x").Replace("&", "a");
+        public static Identifier identifier(in AsmSigOp src)
+        {
+            if(Datasets.TokenIdentifiers.Find(src.Id, out var id))
+            {
+                if(src.Modifier != 0)
+                {
+                    if(Datasets.Modifers.MapKind(src.Modifier, out var mod))
+                        return string.Format("{0}_{1}", id, mod.Kind);
+                }
+            }
+            Errors.Throw(string.Format("{0} is unidentifiable", src));
+            return EmptyString;
+        }
 
         public static Identifier identify(in AsmSigOp src)
         {
@@ -79,5 +90,8 @@ namespace Z0.Asm
 
             return dst.Emit();
         }
+
+        static AsmSigOpExpr sigop(IRuleExpr src)
+            => src.Format().Replace(":", "x").Replace("&", "a");
     }
 }

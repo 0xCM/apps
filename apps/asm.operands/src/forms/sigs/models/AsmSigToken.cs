@@ -18,6 +18,12 @@ namespace Z0.Asm
             Kind = kind;
         }
 
+        public uint Id
+        {
+            [MethodImpl(Inline)]
+            get => bits.join((byte)Value, (byte)Kind);
+        }
+
         [MethodImpl(Inline)]
         public AsmSigToken(ushort src)
         {

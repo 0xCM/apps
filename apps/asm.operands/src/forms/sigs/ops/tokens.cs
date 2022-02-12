@@ -20,13 +20,14 @@ namespace Z0.Asm
         {
             var dst = new AsmToken();
             var token = new AsmSigToken(src.Kind, (byte)src.Value);
+            dst.Id = token.Id;
             dst.ClassName = nameof(AsmSigToken);
             dst.Value = (byte)src.Value;
             dst.KindName = src.Kind.ToString();
             dst.KindValue = (byte)src.Kind;
             dst.Index = (ushort)src.Key;
             dst.Name = src.Name;
-            dst.Expression = token.Format();
+            dst.Expression = src.Expr.Text;
             return dst;
         }
 
@@ -38,7 +39,7 @@ namespace Z0.Asm
             for(var i=0u; i<sigcount; i++)
             {
                 seek(buffer,i) = generalize(skip(src,i));
-                seek(buffer,i).Id = i;
+                seek(buffer,i).Seq = i;
             }
 
             return buffer;

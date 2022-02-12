@@ -622,9 +622,6 @@ namespace Z0.Asm
             [Symbol("reg", "A gp register used for instructions when the width of the register does not matter to the semantics of the operation of the instruction. The register can be r16, r32, or r64.")]
             reg,
 
-            [Symbol("mm", "An MMX register", "MM0|MM1|MM2|MM3|MM4|MM5|MM6|MM7")]
-            mm,
-
             [Symbol("SRC", "The source in a single-source instruction")]
             SRC,
 

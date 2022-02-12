@@ -30,13 +30,13 @@ namespace Z0.Asm
             for(var i=0u; i<occount; i++,j++)
             {
                 seek(buffer,j) = skip(opcodes,i);
-                seek(buffer,j).Id = j;
+                seek(buffer,j).Seq = j;
             }
 
             for(var i=0u; i<sigcount; i++,j++)
             {
                 seek(buffer,j) = skip(sigs,i);
-                seek(buffer,j).Id = j;
+                seek(buffer,j).Seq = j;
             }
             return new AsmTokens(buffer);
         }

@@ -35,10 +35,53 @@ namespace Z0
         [CmdOp("check/asm/tokens")]
         Outcome CheckAsmTokens(CmdArgs args)
         {
-            var src = Sdm.LoadTokenRecords();
-            var count = src.Count;
-            var formatter = Tables.formatter<AsmToken>(AsmToken.RenderWidths);
-            iter(src, record => Write(formatter.Format(record)));
+            var sigs = AsmSigs.tokens().View;
+            var distinct = hashset<@string>();
+            foreach(var sig in sigs)
+            {
+                if(distinct.Contains(sig.Expression))
+                {
+                    Error(sig.Expression);
+                    break;
+                }
+                else
+                    distinct.Add(sig.Expression);
+            }
+            // var src = Sdm.LoadTokenRecords();
+            // var count = src.Count;
+            // var formatter = Tables.formatter<AsmToken>(AsmToken.RenderWidths);
+            // iter(src, record => Write(formatter.Format(record)));
+            return true;
+        }
+
+        [CmdOp("check/asm/sigs")]
+        Outcome CheckAsmSigs(CmdArgs args)
+        {
+            var details = Sdm.LoadImportedOpcodes();
+            var count = details.Count;
+            var buffer = text.buffer();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var detail = ref details[i];
+                AsmSigs.parse(detail.Sig, out var sig);
+
+                buffer.Append(sig.Mnemonic.Format());
+                if(sig.OpCount != 0)
+                {
+                    buffer.Append("<");
+                    for(var j=0; j<sig.OpCount; j++)
+                    {
+                        if(j != 0)
+                            buffer.Append(", ");
+
+                        buffer.Append(AsmSigs.identifier(sig[j]));
+                    }
+                    buffer.Append(">");
+                }
+
+                Write(buffer.Emit());
+            }
+
             return true;
         }
 

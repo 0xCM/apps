@@ -4,15 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     [Record(TableId)]
     public struct AsmToken
     {
         public const string TableId = "sdm.tokens";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
-        public uint Id;
+        public uint Seq;
+
+        public Hex32 Id;
 
         public Identifier ClassName;
 
@@ -28,6 +29,6 @@ namespace Z0
 
         public @string Expression;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,16,16,12,12,16,12,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,16,12,12,16,12,1};
     }
 }

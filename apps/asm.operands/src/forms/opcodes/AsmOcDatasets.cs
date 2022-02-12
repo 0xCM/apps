@@ -21,45 +21,32 @@ namespace Z0.Asm
                 if(_Instance == null)
                 {
                     var dst = new AsmOcDatasets();
-                    Index<string> hex = HexData;
-
                     var kinds = Symbols.index<AsmOcTokenKind>();
-                    dst.TokenKindSymbols = kinds;
                     var ts = AsmOcTokenSet.create();
                     var tokenExpr = dict<AsmOcToken,string>();
                     var exprToken = dict<string,AsmOcToken>();
-                    var tokens = ts.View;
-                    var hexcount = hex.Count;
-                    var tokencount = (uint)tokens.Length;
-                    dst.Tokens = alloc<AsmOcToken>(tokencount + hexcount);
-                    var j=0;
-
-                    for(var i=0; i<hexcount; i++)
-                    {
-                        var token = new AsmOcToken(AsmOcTokenKind.Hex8, (byte)i);
-                        dst.Tokens[j++] = token;
-                        tokenExpr[token] = hex[i];
-                        exprToken[hex[i]] = token;
-                    }
+                    var tokens = AsmOpCodes.tokens();
+                    var tokencount = tokens.Count;
+                    dst.Tokens = tokens.Map(x => AsmOpCodes.token((AsmOcTokenKind)x.KindValue, x.Value));
+                    dst.TokensByKind = dst.Tokens.GroupBy(t => t.Kind).Select(x => (x.Key, (Index<AsmOcToken>)x.Array())).ToDictionary();
+                    dst.TokenKindSymbols = kinds;
 
                     for(var i=0; i<tokencount; i++)
                     {
-                        ref readonly var token = ref skip(tokens,i);
-                        ref readonly var @class = ref token.Class;
-                        if(kinds.ExprKind(@class.Kind, out var kind))
+                        ref readonly var token = ref tokens[i];
+                        var @class = token.KindName.Content;
+                        if(kinds.ExprKind(@class, out var kind))
                         {
                             var oct = new AsmOcToken(kind, (byte)token.Value);
-                            var xpr = token.Expr.Text;
-                            dst.Tokens[j++] = oct;
+                            var xpr = token.Expression;
                             tokenExpr[oct] = xpr;
                             exprToken[xpr] = oct;
 
                         }
                         else
-                            Errors.Throw(string.Format("Kind for {0} not found", @class.Kind));
+                            Errors.Throw(string.Format("Kind for {0} not found", @class));
                     }
 
-                    dst.TokensByKind = dst.Tokens.GroupBy(t => t.Kind).Select(x => (x.Key, (Index<AsmOcToken>)x.Array())).ToDictionary();
                     dst.TokenExpressions = tokenExpr;
                     dst.TokensByExpression = exprToken;
                     _Instance = dst;
@@ -77,7 +64,6 @@ namespace Z0.Asm
         public ConstLookup<string,AsmOcToken> TokensByExpression {get; private set;}
 
         public Symbols<AsmOcTokenKind> TokenKindSymbols {get; private set;}
-
 
         AsmOcDatasets()
         {

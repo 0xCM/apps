@@ -20,13 +20,14 @@ namespace Z0.Asm
         {
             var dst = new AsmToken();
             var token = new AsmOcToken(src.Kind, (byte)src.Value);
+            dst.Id = token.Id;
             dst.ClassName = nameof(AsmOcToken);
             dst.Value = (byte)src.Value;
             dst.KindName = src.Kind.ToString();
             dst.KindValue = (byte)src.Kind;
             dst.Index = (ushort)src.Key;
             dst.Name = src.Name;
-            dst.Expression = token.Format();
+            dst.Expression = src.Expr.Text;
             return dst;
         }
 
@@ -42,19 +43,20 @@ namespace Z0.Asm
                 ref readonly var t = ref skip(srcA,i);
                 ref var token = ref seek(dst,j);
                 token = generalize(t);
-                token.Id = j;
+                token.Seq = j;
             }
             for(var i=0; i<srcB.Length; i++, j++)
             {
                 ref readonly var item = ref srcB[i];
                 ref var target = ref seek(dst,j);
-                target.Id = j;
+                target.Seq = j;
                 target.ClassName = nameof(AsmOcToken);
                 target.Value = (byte)item.Value;
                 target.KindName = "Hex8";
                 target.Index = (ushort)item.Key;
                 target.Name = item.Name;
                 target.Expression = target.Value.FormatHex(specifier:false,uppercase:true);
+                target.Id = (uint)bits.join(target.Value, (byte)AsmOcTokenKind.Hex8);
             }
 
             return dst;

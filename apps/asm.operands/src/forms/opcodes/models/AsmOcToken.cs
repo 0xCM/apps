@@ -18,11 +18,10 @@ namespace Z0.Asm
             Kind = kind;
         }
 
-        [MethodImpl(Inline)]
-        public AsmOcToken(ushort src)
+        public uint Id
         {
-            Value = (byte)src;
-            Kind = (AsmOcTokenKind)(src >> 8);
+            [MethodImpl(Inline)]
+            get => bits.join((byte)Value, (byte)Kind);
         }
 
         [MethodImpl(Inline)]

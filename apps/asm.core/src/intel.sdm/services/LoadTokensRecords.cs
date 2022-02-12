@@ -28,6 +28,7 @@ namespace Z0.Asm
 
                 var i=0u;
                 var record = new AsmToken();
+                DataParser.parse(skip(cells,i++), out record.Seq);
                 DataParser.parse(skip(cells,i++), out record.Id);
                 DataParser.parse(skip(cells,i++), out record.ClassName);
                 DataParser.parse(skip(cells,i++), out record.KindName);
