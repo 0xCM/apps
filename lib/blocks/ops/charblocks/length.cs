@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     partial struct CharBlocks
     {
@@ -18,11 +14,10 @@ namespace Z0
         {
             var data = src.Data;
             var counter = 0;
-            var max = src.Capacity;
+            var max = data.Length;
             for(var i=0; i<max; i++)
             {
-                ref readonly var c = ref skip(data,i);
-                if(c == 0)
+                if(skip(data,i) == 0)
                     break;
                 counter++;
             }

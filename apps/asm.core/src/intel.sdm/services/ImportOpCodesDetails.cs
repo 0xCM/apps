@@ -35,12 +35,24 @@ namespace Z0.Asm
                     if(kind == SdmTableKind.OpCodes)
                     {
                         var current = slice(buffer, counter);
-                        counter += Project(table, current);
+                        counter += Convert(table, current);
                     }
                 }
             }
 
             var details = SdmOps.deduplicate(slice(buffer,0,counter).ToArray().Sort());
+            var dtcount = details.Count;
+            for(var i=0; i<dtcount; i++)
+            {
+                ref readonly var detail = ref details[i];
+                var m64 = detail.Mode64.Format().Trim();
+                var m32 = detail.Mode32.Format().Trim();
+                if(!(m64 == "Valid" || m64 == "Invalid"))
+                    Warn(string.Format("Invalid 64-bit mode specifier for {0}", detail.Sig.Format().Trim()));
+                if(!(m32 == "Valid" || m32 == "Invalid"))
+                    Warn(string.Format("Invalid 32-bit mode specifier for {0}", detail.Sig.Format().Trim()));
+            }
+
             var dst = SdmPaths.ImportTable<SdmOpCodeDetail>();
             using var writer = dst.UnicodeWriter();
             TableEmit(details.View, SdmOpCodeDetail.RenderWidths, writer, dst);
@@ -101,7 +113,7 @@ namespace Z0.Asm
         }
 
         [Op]
-        uint Project(Table src, Span<SdmOpCodeDetail> dst)
+        uint Convert(Table src, Span<SdmOpCodeDetail> dst)
         {
             var counter = 0u;
             var rows = src.Rows;
@@ -120,7 +132,7 @@ namespace Z0.Asm
                 {
                     ref readonly var col = ref skip(cols,k);
                     ref readonly var cell = ref skip(cells,k);
-                    var content = text.format(cell.Content).Trim();
+                    var content = text.format(cell.Content).Trim().Remove("*");
                     var name = text.trim(col.Name);
                     if(empty(content))
                         continue;
@@ -163,15 +175,15 @@ namespace Z0.Asm
                         break;
 
                         case "Compat/Leg Mode":
-                            target.LegacyMode = content;
-                            if(content == "N.E.")
-                                target.LegacyMode = "Invalid";
+                            target.Mode32 = content;
+                            if(content == "N.E." || content == "NA")
+                                target.Mode32 = "Invalid";
                             valid = true;
                         break;
 
                         case "64-Bit Mode":
                         case "64-bit Mode":
-                            target.Mode64 = content;
+                            target.Mode64 = content.Replace("V/N.E.", "Valid");
                             if(content == "N.E." || content == "N.S." | content == "Inv.")
                                 target.Mode64 = "Invalid";
                             valid = true;
@@ -183,6 +195,15 @@ namespace Z0.Asm
                             target.Mode64x32 = content;
                             if(text.trim(text.left(content, Chars.FSlash)) == "V")
                                 target.Mode64 = "Valid";
+                            if(content == "V/V")
+                            {
+                                target.Mode32 = "Valid";
+                            }
+                            else if(content == "V/NE" || content == "V/N.E." || content == "V/I")
+                            {
+                                target.Mode32 = "Invalid";
+                            }
+
                             valid = true;
                         break;
 

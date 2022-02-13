@@ -23,7 +23,7 @@ namespace Z0.Asm
 
         public CharBlock8 Mode64;
 
-        public CharBlock8 LegacyMode;
+        public CharBlock8 Mode32;
 
         public CharBlock8 Mode64x32;
 

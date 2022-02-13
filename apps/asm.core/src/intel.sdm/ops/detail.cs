@@ -33,7 +33,7 @@ namespace Z0.Asm
                 dst.Sig = sigsrc;
             DataParser.block(skip(cells, i++), out dst.EncXRef);
             DataParser.block(skip(cells, i++), out dst.Mode64);
-            DataParser.block(skip(cells, i++), out dst.LegacyMode);
+            DataParser.block(skip(cells, i++), out dst.Mode32);
             DataParser.block(skip(cells, i++), out dst.Mode64x32);
             DataParser.block(skip(cells, i++), out dst.CpuId);
             DataParser.block(skip(cells, i++), out dst.Description);

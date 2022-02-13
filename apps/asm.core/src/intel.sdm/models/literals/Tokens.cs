@@ -33,39 +33,6 @@ namespace Z0.Asm
         }
 
         [SymSource(tokens)]
-        public enum LegacyModeKind : byte
-        {
-            Valid,
-
-            NE,
-        }
-
-        [SymSource(tokens)]
-        public enum Mode32Support : byte
-        {
-            None,
-
-            [Symbol("V", "Supported")]
-            V,
-
-            [Symbol("I", "Not Supported")]
-            I,
-
-            [Symbol("N.E.", "Not Encodable; the opbode sequence is not applicable as n individual instruction in compatiblity or IA-32 mode")]
-            NE,
-        }
-
-        [SymSource(tokens)]
-        public enum Mode64Kind : byte
-        {
-            Valid,
-
-            NE,
-
-            VNE,
-        }
-
-        [SymSource(tokens)]
         public enum SdmTableKind : byte
         {
             None = 0,
@@ -87,18 +54,6 @@ namespace Z0.Asm
 
             [Symbol("Numbered")]
             Numbered,
-        }
-
-        [SymSource(tokens)]
-        public enum TupleType : byte
-        {
-            None = 0,
-
-            [Symbol("Full")]
-            Full,
-
-            [Symbol("Full Mem")]
-            FullMem,
         }
 
         [SymSource(tokens)]
@@ -143,17 +98,5 @@ namespace Z0.Asm
             V4 = 4
         }
 
-
-        [SymSource(tokens)]
-        public enum Mode64x32Kind
-        {
-            VV,
-
-            VNE,
-
-            V1V,
-
-            VI2,
-        }
     }
 }

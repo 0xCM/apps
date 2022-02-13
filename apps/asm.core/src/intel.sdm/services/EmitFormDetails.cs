@@ -25,6 +25,8 @@ namespace Z0.Asm
                 dst.Name = key;
                 dst.Sig = form.Sig;
                 dst.OpCode = form.OpCode;
+                dst.Mode64 = ((form.Mode & AsmBitModeKind.Mode64) != 0);
+                dst.Mode32 = ((form.Mode & AsmBitModeKind.Mode32) != 0);
                 dst.IsRex = AsmOpCodes.rex(form.OpCode);
                 dst.IsVex = AsmOpCodes.vex(form.OpCode);
                 dst.IsEvex = AsmOpCodes.evex(form.OpCode);

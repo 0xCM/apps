@@ -36,8 +36,7 @@ namespace Z0
         }
 
         /// <summary>
-        /// If the block contains no null-terminators, returns a readonly view of the data source; otherwise
-        /// returns the content preceding the first null-terminator
+        /// If the block contains no null-terminators, returns a readonly view of the data source; otherwise returns the content preceding the first null-terminator
         /// </summary>
         public ReadOnlySpan<char> String
         {

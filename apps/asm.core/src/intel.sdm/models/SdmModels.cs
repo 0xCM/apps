@@ -30,10 +30,6 @@ namespace Z0.Asm
             => new TocTitle(title, page);
 
         [MethodImpl(Inline), Op]
-        public static ModeSupport support(Mode64Support m64, Mode32Support m32)
-            =>new ModeSupport(m64,m32);
-
-        [MethodImpl(Inline), Op]
         public static DocLocation location(in VolPart v, in ChapterNumber c, in Page p)
             => new DocLocation(v, c, p);
 
@@ -61,14 +57,6 @@ namespace Z0.Asm
         static void render(in LineNumber line, ITextBuffer dst)
         {
             dst.AppendFormat(string.Format("{0}:", line));
-        }
-
-        [Op]
-        public static void render(in ModeSupport src, ITextBuffer dst)
-        {
-            var m32 = Symbols.index<Mode32Support>()[src.Mode32].Expr;
-            var m64 = Symbols.index<Mode64Support>()[src.Mode64].Expr;
-            dst.AppendFormat("{0}/{1}", m64, m32);
         }
 
         [Op]

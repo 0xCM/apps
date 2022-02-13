@@ -5,12 +5,13 @@
 namespace Z0
 {
     using static core;
+
     partial struct CharBlocks
     {
         public static string format<T>(T src)
             where T : unmanaged, ICharBlock<T>
         {
-            var length = src.Length;
+            var length = (int)src.Capacity;
             var data = src.Data;
             Span<char> dst = stackalloc char[length];
             for(var i=0; i<length; i++)
@@ -27,6 +28,5 @@ namespace Z0
 
             return new string(dst);
         }
-
     }
 }
