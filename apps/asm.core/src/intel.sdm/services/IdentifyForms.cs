@@ -84,7 +84,8 @@ namespace Z0.Asm
                     }
                 }
 
-                lookup.TryAdd(name,form);
+                if(name.IsNonEmpty)
+                    lookup.TryAdd(name,form);
             }
 
             return lookup;

@@ -22,7 +22,7 @@ namespace Z0.Asm
         }
 
         public Hex32 Id
-            => alg.hash.combine(Sig.Hash, OpCode.Hash);
+            => alg.hash.calc(Format());
 
         public AsmMnemonic Mnemonic
         {

@@ -56,12 +56,12 @@ namespace Z0.Asm
             var buffer = alloc<AsmFormDescriptor>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var descriptor = ref skip(src,i);
+                ref readonly var form = ref skip(src,i);
                 ref var dst = ref seek(buffer,i);
-                if(AsmSigs.modified(descriptor.Sig))
-                    dst = new AsmFormDescriptor(AsmForm.define(unmodify(descriptor.Sig), descriptor.OpCode), descriptor.Description);
+                if(AsmSigs.modified(form.Sig))
+                    dst = new AsmFormDescriptor(AsmForm.define(unmodify(form.Sig), form.OpCode), form.OcDetail);
                 else
-                    dst = descriptor;
+                    dst = form;
             }
             return buffer;
         }

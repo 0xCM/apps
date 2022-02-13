@@ -10,14 +10,14 @@ namespace Z0.Asm
 
         readonly AsmForm Form;
 
-        public readonly SdmOpCodeDetail Description;
+        internal readonly SdmOpCodeDetail OcDetail;
 
         [MethodImpl(Inline)]
         public AsmFormDescriptor(AsmForm form, SdmOpCodeDetail oc)
         {
             Id = form.Id;
             Form = form;
-            Description = oc;
+            OcDetail = oc;
         }
 
         public AsmSig Sig
@@ -31,5 +31,9 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Form.OpCode;
         }
+
+        public string Description
+            => OcDetail.Description.Format().Trim();
+
     }
 }

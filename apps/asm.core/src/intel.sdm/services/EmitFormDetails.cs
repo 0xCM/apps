@@ -28,10 +28,12 @@ namespace Z0.Asm
                 dst.IsRex = AsmOpCodes.rex(form.OpCode);
                 dst.IsVex = AsmOpCodes.vex(form.OpCode);
                 dst.IsEvex = AsmOpCodes.evex(form.OpCode);
+                dst.Description = form.Description;
             }
             buffer.Sort();
             for(var i=0u; i<count; i++)
                 seek(buffer,i).Seq = i;
+
             //Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
 
             TableEmit(@readonly(buffer), AsmFormDetail.RenderWidths, SdmPaths.FormDetailPath());

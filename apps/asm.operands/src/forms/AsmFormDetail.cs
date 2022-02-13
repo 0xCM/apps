@@ -11,7 +11,7 @@ namespace Z0
     {
         public const string TableId = "sdm.forms.detail";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
         public uint Seq;
 
@@ -29,7 +29,9 @@ namespace Z0
 
         public bit IsEvex;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,32,48,32,6,6,6};
+        public @string Description;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,32,48,32,6,6,6,1};
 
         public int CompareTo(AsmFormDetail src)
         {
