@@ -33,6 +33,18 @@ namespace Z0.Asm
             return result;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind != 0;
+        }
+
         [MethodImpl(Inline)]
         public bool Equals(AsmOcToken src)
             => Kind == src.Kind && Value == src.Value;
@@ -43,7 +55,7 @@ namespace Z0.Asm
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => (ushort)this;
+            get => core.bw16(this);
         }
 
         public override int GetHashCode()
@@ -56,7 +68,13 @@ namespace Z0.Asm
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(AsmOcToken src)
-            => core.bw16(src);
+        public static bool operator ==(AsmOcToken a, AsmOcToken b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(AsmOcToken a, AsmOcToken b)
+            => !a.Equals(b);
+
+        public static AsmOcToken Empty => default;
     }
 }

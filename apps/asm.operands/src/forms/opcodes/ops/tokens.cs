@@ -45,19 +45,26 @@ namespace Z0.Asm
                 token = generalize(t);
                 token.Seq = j;
             }
+
             for(var i=0; i<srcB.Length; i++, j++)
             {
                 ref readonly var item = ref srcB[i];
                 ref var target = ref seek(dst,j);
+                var token = new AsmOcToken(AsmOcTokenKind.Hex8, (byte)item.Value);
                 target.Seq = j;
+                target.Id = token.Id;
                 target.ClassName = nameof(AsmOcToken);
-                target.Value = (byte)item.Value;
-                target.KindName = "Hex8";
+                target.KindName = nameof(AsmOcTokenKind.Hex8);
+                target.KindValue = (byte)token.Kind;
                 target.Index = (ushort)item.Key;
                 target.Name = item.Name;
-                target.Expression = target.Value.FormatHex(specifier:false,uppercase:true);
-                target.Id = (uint)bits.join(target.Value, (byte)AsmOcTokenKind.Hex8);
+                target.Value = token.Value;
+                target.Expression = token.Value.FormatHex(specifier:false,uppercase:true);
             }
+
+            var distinct = AsmTokens.unique(dst, out var dupe);
+            if(!distinct)
+                Errors.Throw(string.Format("{0} is not unique", dupe));
 
             return dst;
         }

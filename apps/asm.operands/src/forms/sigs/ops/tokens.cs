@@ -12,6 +12,11 @@ namespace Z0.Asm
         public static AsmSigToken token(AsmSigTokenKind kind, byte value)
             => new AsmSigToken(kind,value);
 
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static AsmSigToken token<T>(AsmSigTokenKind kind, T value)
+            where T : unmanaged
+                => new AsmSigToken(kind, u8(value));
+
         [MethodImpl(Inline), Op]
         public static AsmSigToken specialize(in AsmToken src)
             => new AsmSigToken((AsmSigTokenKind)src.KindValue, src.Value);
@@ -35,14 +40,17 @@ namespace Z0.Asm
         {
             var src = typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>().SelectMany(x => Symbols.tokenize<AsmSigTokenKind>(x));
             var sigcount = src.Length;
-            var buffer = alloc<AsmToken>(sigcount);
+            var dst = alloc<AsmToken>(sigcount);
             for(var i=0u; i<sigcount; i++)
             {
-                seek(buffer,i) = generalize(skip(src,i));
-                seek(buffer,i).Seq = i;
+                seek(dst,i) = generalize(skip(src,i));
+                seek(dst,i).Seq = i;
             }
 
-            return buffer;
+            var distinct = AsmTokens.unique(dst, out var dupe);
+            if(!distinct)
+                Errors.Throw(string.Format("{0} is not unique", dupe));
+            return dst;
         }
     }
 }

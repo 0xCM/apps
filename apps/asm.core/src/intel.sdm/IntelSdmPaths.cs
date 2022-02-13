@@ -56,11 +56,8 @@ namespace Z0.Asm
         public FS.FilePath TocImportTable()
             => Targets() + FS.file(TableId.identify<TocEntry>().Format(), FS.Csv);
 
-        public FS.FolderPath Imports()
-            => Project().Subdir("imports");
-
-        public FS.FilePath ImportPath(string id, FS.FileExt ext)
-            => Targets() + FS.file(id,ext);
+        public FS.FilePath FormDetailPath()
+            => ProjectDb.Subdir("sdm") + Tables.filename<AsmFormDetail>();
 
         public FS.FilePath CharMapPath()
             => Settings() + FS.file("sdm.charmap", FS.Config);

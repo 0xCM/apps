@@ -10,7 +10,7 @@ namespace Z0.Asm
     {
         public static AsmSigOpExpr expression(in AsmSigOp src)
         {
-            if(Datasets.TokenExpressions.Find(src.Id, out var xpr))
+            if(Datasets.TokenExpressions.Find(src.Token.Id, out var xpr))
             {
                 if(src.Modifier != 0)
                 {
@@ -27,7 +27,12 @@ namespace Z0.Asm
         }
 
         public static AsmSigOpExpr expression(in AsmSigToken src)
-            => Datasets.TokenExpressions[src];
+        {
+            if(Datasets.TokenExpressions.Find(src.Id, out var x))
+                return x;
+
+            return RP.Error;
+        }
 
         public static AsmSigExpr expression(string src)
         {

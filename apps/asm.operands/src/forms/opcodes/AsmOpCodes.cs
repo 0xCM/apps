@@ -24,7 +24,14 @@ namespace Z0.Asm
             => Datasets.TokenKindSymbols.Kinds;
 
         public string Expression(AsmOcToken src)
-            => Datasets.TokenExpressions[src];
+        {
+            if(Datasets.TokenExpressions.Find(src.Id, out var x))
+            {
+                return x;
+            }
+            else
+                return RP.Error;
+        }
 
         public bool Token(string src, out AsmOcToken dst)
             => Datasets.TokensByExpression.Find(src, out dst);

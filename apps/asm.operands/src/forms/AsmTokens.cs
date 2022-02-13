@@ -8,6 +8,27 @@ namespace Z0.Asm
 
     public readonly struct AsmTokens
     {
+        public static bool unique(ReadOnlySpan<AsmToken> src, out AsmToken duplicate)
+        {
+            var dst = hashset<string>();
+            var count = src.Length;
+            var result = true;
+            duplicate = AsmToken.Empty;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var token = ref src[i];
+                if(dst.Contains(token.Expression))
+                {
+                    duplicate = token;
+                    result = false;
+                    break;
+                }
+                else
+                    dst.Add(token.Expression);
+            }
+            return result;
+        }
+
         [MethodImpl(Inline)]
         public static AsmTokens data()
             => Instance;

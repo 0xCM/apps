@@ -25,19 +25,24 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmSigToken(ushort src)
-        {
-            Value = (byte)src;
-            Kind = (AsmSigTokenKind)(src >> 8);
-        }
-
-        [MethodImpl(Inline)]
         public int CompareTo(AsmSigToken src)
         {
             var result = ((byte)Kind).CompareTo((byte)src.Kind);
             if(result == 0)
                 result = Value.CompareTo(src.Value);
             return result;
+        }
+
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind == 0;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Kind != 0;
         }
 
         [MethodImpl(Inline)]
@@ -50,11 +55,12 @@ namespace Z0.Asm
         public uint Hash
         {
             [MethodImpl(Inline)]
-            get => (ushort)this;
+            get => (ushort)core.bw16(this);
         }
 
         public override int GetHashCode()
             => (int)Hash;
+
 
         public string Format()
             => AsmSigs.format(this);
@@ -62,8 +68,6 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator ushort(AsmSigToken src)
-            => core.bw16(src);
+        public static AsmSigToken Empty => default;
     }
 }

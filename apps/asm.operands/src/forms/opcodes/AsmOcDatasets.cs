@@ -23,7 +23,7 @@ namespace Z0.Asm
                     var dst = new AsmOcDatasets();
                     var kinds = Symbols.index<AsmOcTokenKind>();
                     var ts = AsmOcTokenSet.create();
-                    var tokenExpr = dict<AsmOcToken,string>();
+                    var tokenExpr = dict<uint,string>();
                     var exprToken = dict<string,AsmOcToken>();
                     var tokens = AsmOpCodes.tokens();
                     var tokencount = tokens.Count;
@@ -39,7 +39,7 @@ namespace Z0.Asm
                         {
                             var oct = new AsmOcToken(kind, (byte)token.Value);
                             var xpr = token.Expression;
-                            tokenExpr[oct] = xpr;
+                            tokenExpr[oct.Id] = xpr;
                             exprToken[xpr] = oct;
 
                         }
@@ -59,7 +59,7 @@ namespace Z0.Asm
 
         public ConstLookup<AsmOcTokenKind,Index<AsmOcToken>> TokensByKind {get; private set;}
 
-        public ConstLookup<AsmOcToken,string> TokenExpressions {get; private set;}
+        public ConstLookup<uint,string> TokenExpressions {get; private set;}
 
         public ConstLookup<string,AsmOcToken> TokensByExpression {get; private set;}
 

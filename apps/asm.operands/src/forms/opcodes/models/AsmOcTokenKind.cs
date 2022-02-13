@@ -8,6 +8,8 @@ namespace Z0.Asm
 
     public enum AsmOcTokenKind : byte
     {
+        None = 0,
+
         /// <summary>
         /// Classifies the 256 literal hex bytes [0x00, 0x01, ..., 0xFF] defined by <see cref='Hex8Kind'/>
         /// </summary>

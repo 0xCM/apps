@@ -30,5 +30,7 @@ namespace Z0
         public @string Expression;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,12,16,16,12,12,16,12,1};
+
+        public static AsmToken Empty => default;
     }
 }

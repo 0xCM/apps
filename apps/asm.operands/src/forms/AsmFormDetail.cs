@@ -27,8 +27,6 @@ namespace Z0
 
         public bit IsEvex;
 
-        //const string RP = "{0,-6} | {1,-48} | {2,-48} | {3,-32} | {4,-6} | {5,-6} | {6,-6}";
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[7]{6,48,48,32,6,6,6};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[7]{6,32,48,32,6,6,6};
     }
 }

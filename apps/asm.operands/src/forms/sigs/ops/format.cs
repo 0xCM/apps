@@ -9,10 +9,10 @@ namespace Z0.Asm
     partial class AsmSigs
     {
         public static string format(in AsmSigOp src)
-            => expression(src).Text;
+            => src.IsEmpty ? EmptyString : expression(src).Text;
 
         public static string format(in AsmSigToken src)
-            => expression(src).Text;
+            => src.IsEmpty ? EmptyString :  expression(src).Text;
 
         public static string format(in AsmSigExpr src)
         {
@@ -48,6 +48,9 @@ namespace Z0.Asm
 
         public static string format(in AsmSig src)
         {
+            if(src.IsEmpty)
+                return EmptyString;
+
             var dst = text.buffer();
             dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
             var count = src.OpCount;

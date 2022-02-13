@@ -7,9 +7,9 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Size=2)]
     public readonly struct AsmSigOp : IEquatable<AsmSigOp>
     {
-        public byte Value {get;}
-
         public AsmSigTokenKind Kind {get;}
+
+        public byte Value {get;}
 
         public AsmModifierKind Modifier {get;}
 
@@ -19,6 +19,12 @@ namespace Z0.Asm
             Value = value;
             Kind = kind;
             Modifier = mod;
+        }
+
+        public AsmSigToken Token
+        {
+            [MethodImpl(Inline)]
+            get => new AsmSigToken(Kind, Value);
         }
 
         public uint Id

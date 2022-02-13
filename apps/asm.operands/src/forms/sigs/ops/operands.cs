@@ -95,8 +95,5 @@ namespace Z0.Asm
 
             return src.OpCount;
         }
-
-        public static ReadOnlySpan<AsmSigOp> operands(AsmSigTokenKind kind)
-            => Datasets.OpsByKind[kind];
     }
 }

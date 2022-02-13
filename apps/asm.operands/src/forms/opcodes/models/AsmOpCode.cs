@@ -26,7 +26,7 @@ namespace Z0.Asm
             var counter = z8;
             for(var i=0; i<TokenCapacity; i++)
             {
-                if(skip(_tokens,i) != 0)
+                if(skip(_tokens,i).Id != 0)
                     counter++;
                 else
                     break;

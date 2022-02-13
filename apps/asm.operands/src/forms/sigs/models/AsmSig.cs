@@ -97,6 +97,12 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Mnemonic.IsEmpty;
+        }
+
         [MethodImpl(Inline)]
         public AsmSig Replicate()
             => new AsmSig(Mnemonic,Operands);
