@@ -118,7 +118,6 @@ namespace Z0.alg
         public static uint calc(double x)
             => calc(u64(x));
 
-
         /// <summary>
         /// Creates an unsigned calc code
         /// </summary>
@@ -139,7 +138,7 @@ namespace Z0.alg
 
         [MethodImpl(Inline), Op]
         public static uint calc(string src)
-            => (uint)text.ifempty(src,EmptyString).GetHashCode();
+            => hash.marvin(text.ifempty(src,EmptyString)); //(uint)text.ifempty(src,EmptyString).GetHashCode();
 
         [MethodImpl(Inline), Op]
         public static uint calc(ushort a, ushort b)

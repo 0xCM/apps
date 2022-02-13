@@ -16,5 +16,4 @@ namespace Z0.Asm
         public static implicit operator AsmForms(Dictionary<Identifier,AsmFormDescriptor> src)
             => new AsmForms(src);
     }
-
 }

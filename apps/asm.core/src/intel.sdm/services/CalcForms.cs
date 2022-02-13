@@ -8,19 +8,19 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Index<AsmFormDescriptor> CalcFormDescriptors()
-            => CalcFormDescriptors(LoadImportedOpcodes());
+        public AsmForms CalcForms()
+            => CalcForms(LoadImportedOpcodes());
 
-        public Index<AsmFormDescriptor> CalcFormDescriptors(ReadOnlySpan<SdmOpCodeDetail> details)
+        public AsmForms CalcForms(ReadOnlySpan<SdmOpCodeDetail> src)
         {
             var result = Outcome.Success;
-            var count = details.Length;
+            var count = src.Length;
             var counter = 0u;
             var forms = list<AsmFormDescriptor>();
             var modified = list<AsmFormDescriptor>();
             for(var i=0; i<count; i++)
             {
-                ref readonly var detail = ref skip(details,i);
+                ref readonly var detail = ref skip(src,i);
                 result = AsmSigs.parse(detail.Sig, out var sig);
                 if(result.Fail)
                     break;
@@ -40,11 +40,11 @@ namespace Z0.Asm
                 }
             }
 
-
             var tmp = list<AsmFormDescriptor>();
             tmp.AddRange(AsmSigs.unmodify(forms.ViewDeposited()));
             tmp.AddRange(modified);
-            return tmp.ToArray();
+
+            return IdentifyForms(tmp.ToArray());
         }
     }
 }

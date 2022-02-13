@@ -10,9 +10,9 @@ namespace Z0.Asm
     {
         public AsmForms EmitForms(ReadOnlySpan<SdmOpCodeDetail> src)
         {
-            var descriptors = IdentifyForms(CalcFormDescriptors(src));
-            EmitForms(descriptors);
-            return descriptors;
+            var forms = CalcForms(src);
+            EmitForms(forms);
+            return forms;
         }
 
         void EmitForms(AsmForms src)
@@ -29,6 +29,7 @@ namespace Z0.Asm
                 ref var dst = ref seek(buffer,i);
                 var form = src[key];
                 dst.Id = form.Id;
+                dst.Seq = i;
                 dst.Name = key;
                 dst.Sig = form.Sig;
                 dst.OpCode = form.OpCode;

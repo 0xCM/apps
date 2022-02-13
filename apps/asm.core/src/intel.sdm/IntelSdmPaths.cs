@@ -23,9 +23,6 @@ namespace Z0.Asm
         public FS.FilePath SigFixupRules()
             => ProjectDb.Settings("asm.sigs.fixups", FS.ext("map"));
 
-        public FS.FilePath Forms()
-            => ProjectDb.Subdir("sdm") + Tables.filename<AsmFormRecord>();
-
         public FS.FilePath SigNormalRules()
             => ProjectDb.Settings("asm.sigs.normalize", FS.ext("map"));
 
