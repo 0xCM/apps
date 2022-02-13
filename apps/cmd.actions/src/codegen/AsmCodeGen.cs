@@ -148,16 +148,16 @@ namespace Z0.Asm
         }
 
 
-        public void GenFormIdentifiers()
-        {
-            var forms = Sdm.LoadForms();
-            var names = forms.Keys.ToArray().Sort();
-            var count = names.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var name = ref skip(names,i);
-            }
-        }
+        // public void GenFormIdentifiers()
+        // {
+        //     var forms = Sdm.LoadForms();
+        //     var names = forms.Keys.ToArray().Sort();
+        //     var count = names.Length;
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var name = ref skip(names,i);
+        //     }
+        // }
 
         // public void GenSigFormatters()
         // {

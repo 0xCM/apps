@@ -8,7 +8,14 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        void EmitFormDetails(ConstLookup<Identifier,AsmFormDescriptor> src)
+        public AsmForms EmitForms(ReadOnlySpan<SdmOpCodeDetail> src)
+        {
+            var descriptors = IdentifyForms(CalcFormDescriptors(src));
+            EmitForms(descriptors);
+            return descriptors;
+        }
+
+        void EmitForms(AsmForms src)
         {
             var path = SdmPaths.FormDetailPath();
             var lookup = dict<Identifier,AsmFormDetail>();
@@ -36,7 +43,7 @@ namespace Z0.Asm
             for(var i=0u; i<count; i++)
                 seek(buffer,i).Seq = i;
 
-            //Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
+            Require.invariant(buffer.Select(x => x.Id).Distinct().Length == count);
 
             TableEmit(@readonly(buffer), AsmFormDetail.RenderWidths, SdmPaths.FormDetailPath());
         }

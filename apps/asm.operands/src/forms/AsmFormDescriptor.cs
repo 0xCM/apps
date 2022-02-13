@@ -47,5 +47,11 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Form.OpCode;
         }
+
+        public AsmMnemonic Mnemonic
+        {
+            [MethodImpl(Inline)]
+            get => Form.Mnemonic;
+        }
     }
 }

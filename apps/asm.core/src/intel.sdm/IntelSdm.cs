@@ -77,7 +77,7 @@ namespace Z0.Asm
                     return result;
 
                 EmitTokens();
-                ImportOpCodes();
+                EmitSigOps(EmitForms(ImportOpCodes()));
 
             }
             catch(Exception e)
