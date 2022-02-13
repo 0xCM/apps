@@ -41,9 +41,9 @@ namespace Z0.Asm
 
         static AsmTokens load()
         {
-            var sigs = AsmSigs.tokens().View;
+            var sigs = AsmSigDatasets.tokens().View;
             var sigcount = sigs.Length;
-            var opcodes = AsmOpCodes.tokens().View;
+            var opcodes = AsmOcDatasets.tokens().View;
             var occount = opcodes.Length;
             var count = sigcount + occount;
             var buffer = alloc<AsmToken>(count);

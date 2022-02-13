@@ -107,10 +107,6 @@ namespace Z0.Asm
             }
         }
 
-        [MethodImpl(Inline)]
-        public static AsmSigOp operand(AsmSigToken token, AsmModifierKind mod = 0)
-            => new AsmSigOp(token.Kind, token.Value, mod);
-
         public static Index<AsmSigOp> terminate(in AsmSigOp src)
         {
             var dst = list<AsmSigOp>();

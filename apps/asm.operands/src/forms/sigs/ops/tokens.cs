@@ -35,22 +35,5 @@ namespace Z0.Asm
             dst.Expression = src.Expr.Text;
             return dst;
         }
-
-        public static Index<AsmToken> tokens()
-        {
-            var src = typeof(AsmSigTokens).GetNestedTypes().Enums().Tagged<SymSourceAttribute>().SelectMany(x => Symbols.tokenize<AsmSigTokenKind>(x));
-            var sigcount = src.Length;
-            var dst = alloc<AsmToken>(sigcount);
-            for(var i=0u; i<sigcount; i++)
-            {
-                seek(dst,i) = generalize(skip(src,i));
-                seek(dst,i).Seq = i;
-            }
-
-            var distinct = AsmTokens.unique(dst, out var dupe);
-            if(!distinct)
-                Errors.Throw(string.Format("{0} is not unique", dupe));
-            return dst;
-        }
     }
 }

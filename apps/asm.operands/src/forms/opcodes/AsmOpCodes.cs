@@ -39,9 +39,6 @@ namespace Z0.Asm
         public ReadOnlySpan<string> Expressions()
             => Datasets.TokenExpressions.Values;
 
-        public ReadOnlySpan<AsmOcToken> Tokens(AsmOcTokenKind kind)
-            => Datasets.TokensByKind[kind];
-
         readonly static AsmOcDatasets Datasets;
 
         static AsmOpCodes()

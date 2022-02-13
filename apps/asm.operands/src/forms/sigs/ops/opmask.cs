@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     partial class AsmSigs
     {
         public static bool opmask(in AsmSig src, out AsmSigOp dst)

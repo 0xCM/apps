@@ -8,6 +8,10 @@ namespace Z0.Asm
 
     partial class AsmSigs
     {
+        [MethodImpl(Inline)]
+        public static AsmSigOp operand(AsmSigToken token, AsmModifierKind mod = 0)
+            => new AsmSigOp(token.Kind, token.Value, mod);
+
         public static bool operand(AsmSigOpExpr src, out AsmSigOp dst)
         {
             if(AsmSigs.opmask(src, out var op, out var mask))
