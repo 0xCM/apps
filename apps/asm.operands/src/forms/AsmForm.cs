@@ -21,6 +21,9 @@ namespace Z0.Asm
             OpCode = oc;
         }
 
+        public Hex32 Id
+            => alg.hash.combine(Sig.Hash, OpCode.Hash);
+
         public AsmMnemonic Mnemonic
         {
             [MethodImpl(Inline)]

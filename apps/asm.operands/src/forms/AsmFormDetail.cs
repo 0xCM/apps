@@ -7,13 +7,15 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmFormDetail
+    public struct AsmFormDetail : IComparable<AsmFormDetail>
     {
         public const string TableId = "sdm.forms.detail";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 8;
 
         public uint Seq;
+
+        public Hex32 Id;
 
         public Identifier Name;
 
@@ -27,6 +29,14 @@ namespace Z0
 
         public bit IsEvex;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[7]{6,32,48,32,6,6,6};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,32,48,32,6,6,6};
+
+        public int CompareTo(AsmFormDetail src)
+        {
+            var result = Sig.Format().CompareTo(src.Sig.Format());
+            if(result == 0)
+                result = OpCode.Format().CompareTo(src.OpCode.Format());
+            return result;
+        }
     }
 }

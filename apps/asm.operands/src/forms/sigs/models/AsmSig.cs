@@ -82,6 +82,9 @@ namespace Z0.Asm
             Operands.Op4 = op4;
         }
 
+        public Hex32 Hash
+            => alg.hash.calc(Format());
+
         public AsmSigOp this[int i]
             => Operands[i];
 

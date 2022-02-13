@@ -9,7 +9,7 @@ namespace Z0.Asm
         void ImportOpCodes()
         {
             var details = ImportOpCodeDetails();
-            var forms = EmitForms(details);
+            var forms = EmitFormRecords(details);
             EmitSigOps(forms);
         }
    }

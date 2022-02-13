@@ -88,6 +88,9 @@ namespace Z0.Asm
             return flags;
         }
 
+        public Hex32 Hash
+            => Data.GetHashCode();
+
         [MethodImpl(Inline)]
         public bool Equals(AsmOpCode src)
             => Data.Equals(src.Data);
@@ -96,7 +99,7 @@ namespace Z0.Asm
             => src is AsmOpCode x && Equals(x);
 
         public override int GetHashCode()
-            => Data.GetHashCode();
+            => (int)Hash;
 
         public string Format()
             => AsmOpCodes.format(this);

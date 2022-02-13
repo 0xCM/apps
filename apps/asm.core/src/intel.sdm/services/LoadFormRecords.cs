@@ -8,24 +8,6 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Outcome LoadForms(out Index<AsmForm> dst)
-        {
-            var result = LoadFormRecords(out var records);
-            dst = sys.empty<AsmForm>();
-            if(result.Fail)
-                return result;
-
-            var count = records.Count;
-            dst = alloc<AsmForm>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var record = ref records[i];
-                dst[i] = AsmForm.define(record.Sig, record.OpCode);
-            }
-
-            return result;
-        }
-
         public Outcome LoadFormRecords(out Index<AsmFormRecord> dst)
         {
             const byte FieldCount = AsmFormRecord.FieldCount;

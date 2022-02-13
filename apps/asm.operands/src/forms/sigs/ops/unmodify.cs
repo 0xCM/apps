@@ -17,6 +17,7 @@ namespace Z0.Asm
             return new AsmSig(src.Mnemonic, ops);
         }
 
+
         public static Index<AsmSig> unmodify(ReadOnlySpan<AsmSig> src)
         {
             var count = src.Length;
@@ -45,6 +46,22 @@ namespace Z0.Asm
                     dst = AsmForm.define(unmodify(form.Sig), form.OpCode);
                 else
                     dst = form;
+            }
+            return buffer;
+        }
+
+        public static Index<AsmFormDescriptor> unmodify(ReadOnlySpan<AsmFormDescriptor> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<AsmFormDescriptor>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var descriptor = ref skip(src,i);
+                ref var dst = ref seek(buffer,i);
+                if(AsmSigs.modified(descriptor.Sig))
+                    dst = new AsmFormDescriptor(AsmForm.define(unmodify(descriptor.Sig), descriptor.OpCode), descriptor.Description);
+                else
+                    dst = descriptor;
             }
             return buffer;
         }

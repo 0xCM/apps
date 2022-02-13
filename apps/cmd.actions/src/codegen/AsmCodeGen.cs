@@ -147,6 +147,18 @@ namespace Z0.Asm
             g.Emit("Z0", literals, dst);
         }
 
+
+        public void GenFormIdentifiers()
+        {
+            var forms = Sdm.LoadForms();
+            var names = forms.Keys.ToArray().Sort();
+            var count = names.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var name = ref skip(names,i);
+            }
+        }
+
         // public void GenSigFormatters()
         // {
         //     var fSrc = DefineSigFormatters();
