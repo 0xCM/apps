@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class AsmForms : ConstLookup<Identifier,AsmFormDescriptor>
+    public class AsmForms : SortedLookup<Identifier,AsmFormDescriptor>
     {
         public AsmForms(Dictionary<Identifier,AsmFormDescriptor> src)
             : base(src)

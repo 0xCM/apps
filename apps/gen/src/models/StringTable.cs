@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using api = StringTables;
 
     public class StringTable
@@ -17,6 +16,8 @@ namespace Z0
 
         readonly Index<Identifier> _Identifiers;
 
+        public bool EmitIdentifiers {get;}
+
         [MethodImpl(Inline)]
         public StringTable(StringTableSyntax syntax, string src, Index<uint> offsets, Identifier[] identifiers)
         {
@@ -24,6 +25,17 @@ namespace Z0
             Content = src;
             _Offsets = offsets;
             _Identifiers = identifiers;
+            EmitIdentifiers = true;
+        }
+
+        [MethodImpl(Inline)]
+        public StringTable(StringTableSyntax syntax, string src, Index<uint> offsets)
+        {
+            Syntax = syntax;
+            Content = src;
+            _Offsets = offsets;
+            _Identifiers = sys.empty<Identifier>();
+            EmitIdentifiers = false;
         }
 
         [MethodImpl(Inline)]
@@ -81,10 +93,10 @@ namespace Z0
         }
 
         public string Format()
-            => api.format(this);
+            => api.format(0, this);
 
         public string Format(uint margin)
-            => api.format(this, margin);
+            => api.format(margin, this);
 
         public override string ToString()
             => Format();

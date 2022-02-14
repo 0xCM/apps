@@ -11,8 +11,11 @@ namespace Z0
         public static void render(uint margin, StringTable src, ITextBuffer dst)
         {
             var syntax = src.Syntax;
-            EmitIndex(margin, src, dst);
-            dst.AppendLine();
+            if(src.EmitIdentifiers)
+            {
+                EmitIndex(margin, src, dst);
+                dst.AppendLine();
+            }
 
             dst.IndentLine(margin, PublicReadonlyStruct(syntax.TableName));
             dst.IndentLine(margin, Open());
@@ -38,7 +41,11 @@ namespace Z0
             dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryAddress), OffsetBaseProp, Call("address", OffsetsProp)));
             dst.AppendLine();
 
-            dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
+
+            if(src.Syntax.Parametric)
+                dst.IndentLine(margin, StaticLambdaProp(string.Format("{0}<{1}>", nameof(MemoryStrings), syntax.EnumName), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
+            else
+                dst.IndentLine(margin, StaticLambdaProp(nameof(MemoryStrings), StringsProp, Call("strings.memory", OffsetsProp, DataProp)));
             dst.AppendLine();
 
             dst.IndentLine(margin, SpanResGen.format(SpanRes.bytespan(OffsetsProp, src.OffsetStorage)));
@@ -52,7 +59,7 @@ namespace Z0
         {
             var count = src.EntryCount;
             var syntax = src.Syntax;
-            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.IndexName, syntax.IndexKind.CsKeyword()));
+            dst.IndentLine(margin, string.Format("public enum {0} : {1}", syntax.EnumName, syntax.EnumKind.CsKeyword()));
             dst.IndentLine(margin, Chars.LBrace);
             margin+=4;
             for(var i=0u; i<count; i++)

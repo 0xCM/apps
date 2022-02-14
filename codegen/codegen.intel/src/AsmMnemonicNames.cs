@@ -1,4 +1,4 @@
-﻿namespace Z0
+﻿namespace Z0.Asm
 {
     [LiteralProvider]
     public readonly struct AsmMnemonicNames

@@ -4,25 +4,23 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct MemoryString<T> : IMemoryString<T>
+    public readonly struct MemoryString<K,T> : IMemoryString<K,T>
+        where K : unmanaged
         where T : unmanaged
     {
+        public K Index {get;}
+
         public MemoryAddress Address {get;}
 
         public int Length {get;}
 
         [MethodImpl(Inline)]
-        public MemoryString(MemoryAddress address, int length)
+        public MemoryString(K index, MemoryAddress address, int length)
         {
+            Index = index;
             Address = address;
             Length = length;
         }
@@ -30,13 +28,13 @@ namespace Z0
         public uint Size
         {
             [MethodImpl(Inline)]
-            get => (uint)Length*size<T>();
+            get => (uint)Length*size<K>();
         }
 
-        public ReadOnlySpan<T> Cells
+        public unsafe ReadOnlySpan<T> Cells
         {
             [MethodImpl(Inline)]
-            get => cover<T>(Address, (uint)Length);
+            get => core.cover(Address.Pointer<T>(), Length);
         }
 
         public ReadOnlySpan<byte> Bytes

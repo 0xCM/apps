@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class StringTables
     {
-        public static string format(in StringTable src, uint margin = 0)
+        public static string format(uint margin, in StringTable src)
         {
             var dst = text.buffer();
             render(margin, src, dst);

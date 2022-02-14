@@ -22,6 +22,14 @@ namespace Z0.Asm
 
         const string Ops5Pattern = "{0}, {1}, {2}, {3}, {4}";
 
+        const string FormKindName = "AsmFormKind";
+
+        const string TargetNamespace = "Z0.Asm";
+
+        const string AsmSigTableName = "AsmSigST";
+
+        const string MnemonicNameProvider = "AsmMnemonicNames";
+
         Index<string> OpsPatterns()
         {
             return state(nameof(OpsPatterns), Load);
@@ -39,26 +47,33 @@ namespace Z0.Asm
             }
         }
 
+        public void Emit()
+        {
+            CodeGen.SourceRoot(CgTarget.Intel).Clear(true);
+            GenMnemonicNames();
+            GenFormKinds();
+            GenSigStrings();
+        }
+
         public void GenMnemonicNames()
         {
             var g = CodeGen.LiteralProvider();
-            var name = "AsmMnemonicNames";
             var src = Sdm.LoadSigs().Select(x => x.Mnemonic.Format(Asm.MnemonicCase.Lowercase)).Distinct();
-            var dst = CodeGen.SourceFile(name, CgTarget.Intel);
+            var dst = CodeGen.SourceFile(MnemonicNameProvider, CgTarget.Intel);
             var names = src.View;
             var values = src.View;
-            var literals = Literals.seq(name, names, values);
-            g.Emit("Z0", literals, dst);
+            var literals = Literals.seq(MnemonicNameProvider, names, values);
+            g.Emit(TargetNamespace, literals, dst);
         }
 
         SymSet CalcFormSymbols()
         {
             var forms = Sdm.CalcForms();
-            var identifiers = forms.Keys.ToArray().Sort();
+            var identifiers = forms.Keys;
             var count = (uint)identifiers.Length + 1;
             var dst = SymSet.create(count);
             dst.DataType = ClrEnumKind.U16;
-            dst.Name = "AsmFormId";
+            dst.Name = FormKindName;
             dst.Description ="Defines asm form classifiers";
             dst.Flags = false;
             dst.SymbolKind = "asm";
@@ -103,15 +118,30 @@ namespace Z0.Asm
             var src = CalcFormSymbols();
             var dst = text.buffer();
             var margin = 0u;
-            var name = "AsmFormKind";
-            var ns = "Z0.Asm";
-            dst.IndentLineFormat(margin, "namespace {0}", "Z0.Asm");
+            dst.IndentLineFormat(margin, "namespace {0}", TargetNamespace);
             dst.IndentLine(margin, Chars.LBrace);
             margin += 4;
             g.Emit(margin, src, dst);
             margin -=4;
             dst.IndentLine(margin, Chars.RBrace);
-            CodeGen.EmitFile(dst.Emit(), name, CgTarget.Intel);
+            CodeGen.EmitFile(dst.Emit(), FormKindName, CgTarget.Intel);
+        }
+
+        public void GenSigStrings()
+        {
+            var forms = Sdm.CalcForms();
+            var keys = forms.Keys;
+            var count = keys.Length + 1;
+            var sigs = alloc<string>(count);
+            for(var i=0; i<count; i++)
+            {
+                if(i==0)
+                    seek(sigs,i) = EmptyString;
+                else
+                    seek(sigs,i) = forms[keys[i-1]].Sig.Format();
+            }
+
+            CodeGen.GenStringTable(TargetNamespace, AsmSigTableName, FormKindName, sigs, CgTarget.Intel);
         }
     }
 }

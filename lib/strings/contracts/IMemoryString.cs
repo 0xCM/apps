@@ -34,10 +34,10 @@ namespace Z0
             => Cells.Length;
     }
 
-    public interface IMemoryString<F,T> : IMemoryString<T>, IEquatable<F>, IComparable<F>
+    public interface IMemoryString<K,T> : IMemoryString<T>
         where T : unmanaged
-        where F : IMemoryString<F,T>
+        where K : unmanaged
     {
-
+        K Index {get;}
     }
 }

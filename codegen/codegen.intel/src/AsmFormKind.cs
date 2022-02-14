@@ -1,10 +1,10 @@
 ﻿namespace Z0.Asm
 {
     /// <summary>
-    /// Classifies asm forms
+    /// Defines asm form classifiers
     /// </summary>
     [SymSource("asm")]
-    public enum AsmFormId : ushort
+    public enum AsmFormKind : ushort
     {
         None = 0,
 

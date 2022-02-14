@@ -83,6 +83,15 @@ namespace Z0
         public FS.FilePath SourceFile(string name, CgTarget target)
             => SourceRoot(target) + FS.file(name, FS.Cs);
 
+        public FS.FilePath SourceFile(string name, string scope, CgTarget target)
+            => SourceRoot(target) + FS.folder(scope) + FS.file(name, FS.Cs);
+
+        public FS.FilePath DataFile(string name, CgTarget target)
+            => SourceRoot(target) + FS.file(name, FS.Csv);
+
+        public FS.FilePath DataFile(string name, string scope, CgTarget target)
+            => SourceRoot(target) + FS.folder(scope) + FS.file(name, FS.Csv);
+
         public FS.Files SourceFiles(CgTarget target)
             => SourceRoot(target).Files(FS.Cs, true);
 
@@ -187,6 +196,65 @@ namespace Z0
                 counter++;
             }
             return counter;
+        }
+
+        public void GenStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> src, CgTarget dst)
+        {
+            var name = src.Name;
+            var syntax = StringTables.syntax(targetNs + ".stringtables", name +"ST", name + "Kind", kind, targetNs);
+            var table = StringTables.define(syntax, src);
+            EmitTableCode(syntax, src, dst);
+            EmitTableData(table, dst);
+        }
+
+        public void GenStringTable(Identifier targetNs, Identifier table, ReadOnlySpan<string> values, CgTarget dst)
+        {
+            var syntax = StringTables.syntax(targetNs, table);
+            EmitTableCode(syntax, values, dst);
+            EmitTableData(StringTables.define(syntax, values), dst);
+        }
+
+        public void GenStringTable(Identifier targetNs, Identifier table, Identifier @enum, ReadOnlySpan<string> values, CgTarget dst)
+        {
+            var syntax = StringTables.syntax(targetNs, table, @enum);
+            EmitTableCode(syntax, values, dst);
+            EmitTableData(StringTables.define(syntax, values), dst);
+        }
+
+        FS.FileUri EmitTableCode(StringTableSyntax src, ItemList<string> items, CgTarget target)
+        {
+            var dst = SourceFile(src.TableName, "stringtables", target);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            StringTables.csharp(src, items, writer);
+            EmittedFile(emitting,1);
+            return dst;
+        }
+
+        FS.FileUri EmitTableCode(StringTableSyntax src, ReadOnlySpan<string> values, CgTarget target)
+        {
+            var dst = SourceFile(src.TableName, "stringtables", target);
+            var emitting = EmittingFile(dst);
+            using var writer = dst.Writer();
+            StringTables.csharp(src, values, writer);
+            EmittedFile(emitting,1);
+            return dst;
+        }
+
+        FS.FileUri EmitTableData(StringTable src, CgTarget target)
+        {
+            var dst = DataFile(src.Syntax.TableName, "stringtables", target);
+            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
+            var emitting = EmittingFile(dst);
+
+            using var writer = dst.AsciWriter();
+            writer.WriteLine(formatter.FormatHeader());
+
+            for(var j=0u; j<src.EntryCount; j++)
+                writer.WriteLine(formatter.Format(StringTables.row(src, j)));
+
+            EmittedFile(emitting, src.EntryCount);
+            return dst;
         }
     }
 }

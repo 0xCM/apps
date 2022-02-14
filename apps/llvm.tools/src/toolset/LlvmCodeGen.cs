@@ -25,13 +25,12 @@ namespace Z0.llvm
             EmitAsmIds();
         }
 
-
         public void EmitAsmIds()
         {
             var asmids = DataProvider.SelectAsmIdentifiers().ToItemList();
             var name = "AsmId";
             ItemList<string> items = (name, asmids.Map(x => new ListItem<string>(x.Key, x.Value.Format())));
-            EmitStringTable(TargetNs, ClrEnumKind.U16, items);
+            CodeGen.GenStringTable(TargetNs, ClrEnumKind.U16, items, CgTarget.Llvm);
             var gen = CodeGen.EnumGen();
             var literals = @readonly(map(DataProvider.SelectAsmIdentifiers().Entries,e => Literals.define(e.Key, e.Value.Id)));
             var buffer = text.buffer();
@@ -48,15 +47,10 @@ namespace Z0.llvm
             writer.WriteLine(buffer.Emit());
         }
 
-        public void EmitStringTable(string listid)
-        {
-            EmitStringTable(DataProvider.SelectList(listid));
-        }
-
         public void EmitStringTable(LlvmList list)
         {
             var path = LlvmPaths.ListImportPath(list.Name);
-            EmitStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList());
+            CodeGen.GenStringTable(TargetNs, ClrEnumKind.U32, list.ToItemList(), CgTarget.Llvm);
         }
 
         public void EmitStringTables()
@@ -69,44 +63,6 @@ namespace Z0.llvm
             var flows = new DataList<Arrow<FS.FileUri>>();
             for(var i=0; i<count; i++)
                 EmitStringTable(skip(src,i));
-        }
-
-        FS.FilePath OutPath(StringTableSyntax src, FS.FileExt ext)
-            => LlvmPaths.StringTablePath("llvm.stringtables." + src.TableName, ext);
-
-        public void EmitStringTable(Identifier targetNs, ClrEnumKind kind, ItemList<string> list)
-        {
-            var name = list.Name;
-            var syntax = StringTables.syntax(targetNs + ".stringtables", name +"ST", name + "Kind", kind, targetNs);
-            var table = StringTables.create(syntax, list);
-            EmitTableCode(syntax,list);
-            EmitTableData(table);
-        }
-
-        FS.FileUri EmitTableCode(StringTableSyntax src, ItemList<string> items)
-        {
-            var dst = OutPath(src, FS.Cs);
-            var emitting = EmittingFile(dst);
-            using var writer = dst.Writer();
-            StringTables.csharp(src, items, writer);
-            EmittedFile(emitting,1);
-            return dst;
-        }
-
-        FS.FileUri EmitTableData(StringTable table)
-        {
-            var dst = OutPath(table.Syntax, FS.Csv);
-            var formatter = Tables.formatter<StringTableRow>(StringTableRow.RenderWidths);
-            var emitting = EmittingFile(dst);
-
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(formatter.FormatHeader());
-
-            for(var j=0u; j<table.EntryCount; j++)
-                writer.WriteLine(formatter.Format(StringTables.row(table, j)));
-
-            EmittedFile(emitting, table.EntryCount);
-            return dst;
         }
    }
 }

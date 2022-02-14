@@ -19,8 +19,7 @@ namespace Z0
         [CmdOp("gen/asm")]
         Outcome GenIntel(CmdArgs args)
         {
-            AsmCodeGen.GenMnemonicNames();
-            AsmCodeGen.GenFormKinds();
+            AsmCodeGen.Emit();
 
             return true;
         }
@@ -31,6 +30,5 @@ namespace Z0
         {
             return true;
         }
-
    }
 }

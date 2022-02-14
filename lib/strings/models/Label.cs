@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public unsafe readonly struct Label : IMemoryString<Label,char>
+    public unsafe readonly struct Label : IMemoryString<char>, IComparable<Label>, IEquatable<Label>
     {
         readonly ulong Storage;
 

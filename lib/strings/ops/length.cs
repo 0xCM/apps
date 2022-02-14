@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct strings
@@ -41,6 +37,31 @@ namespace Z0
             return (uint)(b - a);
         }
 
+        [MethodImpl(Inline), Op]
+        public static uint length<K>(in MemoryStrings<K> src, K index)
+            where K : unmanaged
+        {
+            var a = offset(src, index);
+            var b = 0u;
+            if(bw32(index) == src.EntryCount - 1)
+                b = src.CharCount;
+            else
+                b = offset(src, bw32(index) + 1);
+            return (uint)(b - a);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static uint length<K>(in MemoryStrings<K> src, uint index)
+            where K : unmanaged
+        {
+            var a = offset(src, index);
+            var b = 0u;
+            if(index == src.EntryCount - 1)
+                b = src.CharCount;
+            else
+                b = offset(src, index + 1);
+            return (uint)(b - a);
+        }
 
         [MethodImpl(Inline), Op]
         public static uint length(StringAddress src)

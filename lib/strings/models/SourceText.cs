@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public unsafe readonly struct SourceText : IMemoryString<SourceText,char>
+    public unsafe readonly struct SourceText : IMemoryString<char>, IComparable<SourceText>, IEquatable<SourceText>
     {
         public MemoryAddress Address {get;}
 

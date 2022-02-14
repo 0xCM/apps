@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     /// <summary>
     /// Defines a reference to an immutable character sequence
     /// </summary>
-    public unsafe readonly struct StringRef : IMemoryString<StringRef,char>
+    public unsafe readonly struct StringRef : IMemoryString<char>, IComparable<StringRef>, IEquatable<StringRef>
     {
         public MemoryAddress Address {get;}
 

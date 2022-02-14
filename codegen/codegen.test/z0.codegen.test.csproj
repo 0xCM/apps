@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../codegen.llvm/z0.codegen.llvm.csproj"/>
+    <ProjectReference Include="../codegen.intel/z0.codegen.intel.csproj"/>
   </ItemGroup>
 
 </Project>
