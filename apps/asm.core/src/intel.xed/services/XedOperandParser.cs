@@ -244,7 +244,7 @@ namespace Z0
                 break;
 
                 case K.DISP:
-                    result = AsmParser.parse(src, out state.disp);
+                    result = Disp64.parse(src, out state.disp);
                 break;
 
                 case K.DISP_WIDTH:
@@ -632,11 +632,11 @@ namespace Z0
                 break;
 
                 case K.UIMM0:
-                    result = AsmParser.parse(src, out state.uimm0);
+                    result = imm64.parse(src, out state.uimm0);
                 break;
 
                 case K.UIMM1:
-                    result = AsmParser.parse(src, out state.uimm1);
+                    result = imm8.parse(src, out state.uimm1);
                 break;
 
                 case K.USING_DEFAULT_SEGMENT0:

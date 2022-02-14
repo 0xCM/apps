@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct JmpRel32 : IAsmRel<Disp32>
+    public readonly struct JmpRel32 : IAsmRelInst<Disp32>
     {
         [MethodImpl(Inline), Op]
         public static JmpRel32 jmp(Rip src, MemoryAddress dst)
@@ -77,10 +77,10 @@ namespace Z0.Asm
             get => "jmp";
         }
 
-        LocatedSymbol IAsmRel.Source
+        LocatedSymbol IAsmRelInst.Source
             => Source;
 
-        LocatedSymbol IAsmRel.Target
+        LocatedSymbol IAsmRelInst.Target
             => Target;
 
         public string Format()

@@ -117,7 +117,7 @@ namespace Z0.Asm
                 break;
 
                 case C.AsmSource:
-                    if(AsmParser.comment(LineContent, out var asmcomment))
+                    if(AsmInlineComment.parse(LineContent, out var asmcomment))
                     {
                         var statement = text.left(LineContent, (char)asmcomment.Marker);
                         if(statement.Length != 0)

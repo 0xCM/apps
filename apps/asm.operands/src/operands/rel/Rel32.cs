@@ -2,41 +2,34 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
     using Asm;
 
-    using W = W16;
-    using I = imm16;
+    using W = W32;
+    using I = Rel32;
 
     /// <summary>
-    /// Defines a 16-bit immediate value
+    /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm16, Kind, Width, Width)]
-    public readonly struct imm16 : IImm<I,ushort>
+    [DataType("rel<w:32>", Kind, Width, Width)]
+    public readonly struct Rel32 : IRelOp<uint>
     {
-        public const ImmKind Kind = ImmKind.Imm16;
+        public const AsmRelKind Kind = AsmRelKind.Rel32;
 
-        public const byte Width = 16;
+        public const byte Width = 32;
 
-        public ushort Value {get;}
-
-        public static W W => default;
+        public uint Value {get;}
 
         [MethodImpl(Inline)]
-        public imm16(ushort src)
+        public Rel32(uint src)
             => Value = src;
 
-        public ImmKind ImmKind
-            => Kind;
-
         public AsmOpKind OpKind
-            => AsmOpKind.Imm16;
+            => AsmOpKind.Rel32;
 
-        public ImmBitWidth ImmWidth
-            => (ImmBitWidth)Width;
         public string Format()
-            => HexFormatter.format(w16, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
@@ -62,7 +55,7 @@ namespace Z0
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address16 ToAddress()
+        public Address32 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
@@ -90,20 +83,13 @@ namespace Z0
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(I src)
+        public static implicit operator uint(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(I src)
-            => new Imm<ushort>(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator I(ushort src)
+        public static implicit operator I(uint src)
             => new I(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator Imm(I src)
-            => new Imm(src.ImmKind, src.Value);
-
-     }
+        public static W w => default;
+    }
 }

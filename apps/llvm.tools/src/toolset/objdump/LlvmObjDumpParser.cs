@@ -112,7 +112,7 @@ namespace Z0.llvm
                             AsmHexCode.parse(text.trim(text.left(asm, y)), out Row.HexCode);
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
-                            if(AsmParser.comment(statement, out Row.Comment))
+                            if(AsmInlineComment.parse(statement, out Row.Comment))
                             {
                                 var m = text.index(statement, Chars.Hash);
                                 if(m>0)

@@ -25,5 +25,8 @@ namespace Z0.Asm
 
         [Symbol("disp", "Classifies a displacement operand")]
         Disp = P2ᐞ04,
+
+        [Symbol("rel", "Classifies an IP-relative operand")]
+        Rel = P2ᐞ05,
     }
 }

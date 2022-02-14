@@ -68,7 +68,7 @@ namespace Z0.llvm
                 result = DataParser.parse(data[j++], out dst.IP);
                 result = AsmHexCode.parse(data[j++].View, out dst.HexCode);
                 dst.Asm = text.trim(data[j++].Text);
-                result = AsmParser.comment(data[j++].View, out dst.Comment);
+                result = AsmInlineComment.parse(data[j++].View, out dst.Comment);
                 result = DataParser.parse(data[j++], out dst.Source);
             }
 

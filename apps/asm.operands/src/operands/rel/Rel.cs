@@ -2,41 +2,40 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using Asm;
-
-    using W = W16;
-    using I = imm16;
+    using I = Rel;
 
     /// <summary>
-    /// Defines a 16-bit immediate value
+    /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm16, Kind, Width, Width)]
-    public readonly struct imm16 : IImm<I,ushort>
+    [DataType("rel<w:32>")]
+    public readonly struct Rel : IRelOp<uint>
     {
-        public const ImmKind Kind = ImmKind.Imm16;
+        public const byte Width = 32;
 
-        public const byte Width = 16;
+        public AsmOpKind OpKind {get;}
 
-        public ushort Value {get;}
+        public AsmRelKind RelKind {get;}
 
-        public static W W => default;
+        public uint Value {get;}
 
         [MethodImpl(Inline)]
-        public imm16(ushort src)
-            => Value = src;
+        public Rel(AsmRelKind kind, uint value)
+        {
+            RelKind = kind;
+            OpKind = (AsmOpKind)((ushort)AsmOpClass.Rel | ((ushort)kind << 8));
+            Value = value;
+        }
 
-        public ImmKind ImmKind
-            => Kind;
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => (NativeSizeCode)((ushort)OpKind >> 8);
+        }
 
-        public AsmOpKind OpKind
-            => AsmOpKind.Imm16;
-
-        public ImmBitWidth ImmWidth
-            => (ImmBitWidth)Width;
         public string Format()
-            => HexFormatter.format(w16, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(Size, Value, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
@@ -62,7 +61,7 @@ namespace Z0
             => src is I x && Equals(x);
 
         [MethodImpl(Inline)]
-        public Address16 ToAddress()
+        public MemoryAddress ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
@@ -90,20 +89,16 @@ namespace Z0
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(I src)
-            => src.Value;
+        public static implicit operator Rel(Rel8 src)
+            => new Rel(AsmRelKind.Rel8, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(I src)
-            => new Imm<ushort>(src);
+        public static implicit operator Rel(Rel16 src)
+            => new Rel(AsmRelKind.Rel16, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(ushort src)
-            => new I(src);
+        public static implicit operator Rel(Rel32 src)
+            => new Rel(AsmRelKind.Rel32, src.Value);
 
-        [MethodImpl(Inline)]
-        public static implicit operator Imm(I src)
-            => new Imm(src.ImmKind, src.Value);
-
-     }
+    }
 }

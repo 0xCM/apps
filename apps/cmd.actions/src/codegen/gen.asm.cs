@@ -16,8 +16,6 @@ namespace Z0
 
         AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
 
-        AsmSigSvc Sigs => Service(Wf.AsmSigs);
-
         [CmdOp("gen/asm")]
         Outcome GenIntel(CmdArgs args)
         {

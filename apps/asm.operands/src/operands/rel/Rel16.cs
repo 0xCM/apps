@@ -2,41 +2,32 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
-    using Asm;
-
-    using W = W16;
-    using I = imm16;
+    using W = W32;
+    using T = Rel16;
 
     /// <summary>
-    /// Defines a 16-bit immediate value
+    /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm16, Kind, Width, Width)]
-    public readonly struct imm16 : IImm<I,ushort>
+    [DataType("rel<w:16>", Kind, Width, Width)]
+    public readonly struct Rel16 : IRelOp<ushort>
     {
-        public const ImmKind Kind = ImmKind.Imm16;
+        public const AsmRelKind Kind = AsmRelKind.Rel16;
 
         public const byte Width = 16;
 
         public ushort Value {get;}
 
-        public static W W => default;
-
         [MethodImpl(Inline)]
-        public imm16(ushort src)
+        public Rel16(ushort src)
             => Value = src;
 
-        public ImmKind ImmKind
-            => Kind;
-
         public AsmOpKind OpKind
-            => AsmOpKind.Imm16;
+            => AsmOpKind.Rel16;
 
-        public ImmBitWidth ImmWidth
-            => (ImmBitWidth)Width;
         public string Format()
-            => HexFormatter.format(w16, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
@@ -51,59 +42,52 @@ namespace Z0
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public int CompareTo(I src)
+        public int CompareTo(T src)
             => Value == src.Value ? 0 : Value < src.Value ? -1 : 1;
 
         [MethodImpl(Inline)]
-        public bool Equals(I src)
+        public bool Equals(T src)
             => Value == src.Value;
 
         public override bool Equals(object src)
-            => src is I x && Equals(x);
+            => src is T x && Equals(x);
 
         [MethodImpl(Inline)]
         public Address16 ToAddress()
             => Value;
 
         [MethodImpl(Inline)]
-        public static bool operator <(I a, I b)
+        public static bool operator <(T a, T b)
             => a.Value < b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator >(I a, I b)
+        public static bool operator >(T a, T b)
             => a.Value > b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator <=(I a, I b)
+        public static bool operator <=(T a, T b)
             => a.Value <= b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator >=(I a, I b)
+        public static bool operator >=(T a, T b)
             => a.Value >= b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator ==(I a, I b)
+        public static bool operator ==(T a, T b)
             => a.Value == b.Value;
 
         [MethodImpl(Inline)]
-        public static bool operator !=(I a, I b)
+        public static bool operator !=(T a, T b)
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(I src)
+        public static implicit operator ushort(T src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(I src)
-            => new Imm<ushort>(src);
+        public static implicit operator T(ushort src)
+            => new Rel16(src);
 
-        [MethodImpl(Inline)]
-        public static implicit operator I(ushort src)
-            => new I(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Imm(I src)
-            => new Imm(src.ImmKind, src.Value);
-
-     }
+        public static W w=> default;
+    }
 }

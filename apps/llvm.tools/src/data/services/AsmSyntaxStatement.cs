@@ -66,7 +66,7 @@ namespace Z0.llvm
 
         bool ParseComment(string src)
         {
-            if(AsmParser.comment(src, out var c))
+            if(AsmInlineComment.parse(src, out var c))
             {
                 Comments.Add(c);
                 return true;

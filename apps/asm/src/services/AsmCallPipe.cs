@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using static core;
 
     public sealed class AsmCallPipe : AppService<AsmCallPipe>

@@ -33,9 +33,6 @@ namespace Z0
         public static string SrcId(this FS.FilePath src, params FileKind[] kinds)
             => src.FileName.SrcId(kinds);
 
-        public static string SrcId(this ObjDumpRow row)
-            => FS.path(row.Source.WithoutLine.Format()).SrcId(FileKind.ObjAsm);
-
         public static string SrcId(this FS.FileName src, params FileKind[] kinds)
         {
             var file = src.Format();

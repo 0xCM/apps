@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct JmpRel8 : IAsmRel<Disp8>
+    public readonly struct JmpRel8 : IAsmRelInst<Disp8>
     {
         [MethodImpl(Inline), Op]
         public static bool test(ReadOnlySpan<byte> encoding)
@@ -56,10 +56,10 @@ namespace Z0.Asm
             get => "jmp";
         }
 
-        LocatedSymbol IAsmRel.Source
+        LocatedSymbol IAsmRelInst.Source
             => Source;
 
-        LocatedSymbol IAsmRel.Target
+        LocatedSymbol IAsmRelInst.Target
             => Target;
 
         public string Format()

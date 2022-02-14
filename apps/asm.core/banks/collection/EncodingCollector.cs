@@ -363,7 +363,7 @@ namespace Z0
             result = DataParser.parse(skip(cells,i++), out dst.TargetAddress);
             result = DataParser.parse(skip(cells,i++), out dst.TargetRebase);
             result = DataParser.parse(skip(cells,i++), out dst.StubAsm);
-            result = AsmParser.parse(skip(cells,i++), out dst.Disp);
+            result = Disp32.parse(skip(cells,i++), out dst.Disp);
             result = DataParser.parse(skip(cells,i++), out dst.CodeSize);
             dst.Host = text.trim(skip(cells,i++));
             dst.Sig = text.trim(skip(cells,i++));
@@ -382,11 +382,6 @@ namespace Z0
                 dst[i] = skip(data,i);
             return size;
         }
-
-        // public Index<CapturedAccessor> CaptureAccessors(SymbolDispenser symbols)
-        // {
-        //     return default;
-        // }
 
         [Op]
         public static MemorySeg AccessorData(SpanResAccessor src)

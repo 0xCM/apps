@@ -23,6 +23,8 @@ namespace Z0.Asm
 
         Disp = C.Disp,
 
+        Rel = C.Rel,
+
         GpReg8 = Reg | (SZ.W8 << 8),
 
         GpReg16 = Reg | (SZ.W16 << 8),
@@ -78,5 +80,11 @@ namespace Z0.Asm
         Disp32 = Disp | (SZ.W32 << 8),
 
         Disp64 = Disp | (SZ.W64 << 8),
+
+        Rel8 = Rel | (SZ.W8 << 8),
+
+        Rel16 = Rel | (SZ.W16 << 8),
+
+        Rel32 = Rel | (SZ.W32 << 8),
     }
 }

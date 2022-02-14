@@ -9,10 +9,6 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
-        [Op]
-        public static TokenSetEmitter TokenEmitter(this IWfRuntime wf)
-            => TokenSetEmitter.create(wf);
-
         public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
             => Z0.ApiDataPaths.create(wf);
 
@@ -26,10 +22,6 @@ namespace Z0
         [Op]
         public static AsmEtl AsmEtl(this IWfRuntime context)
             => Asm.AsmEtl.create(context);
-
-        [Op]
-        public static AsmVars AsmVars(this IWfRuntime wf)
-            => Asm.AsmVars.create(wf);
 
         [Op]
         public static AsmOpCodes AsmOpCodes(this IWfRuntime context)
@@ -113,10 +105,6 @@ namespace Z0
         [Op]
         public static AsmTables AsmTables(this IWfRuntime wf)
             => Asm.AsmTables.create(wf);
-
-        [Op]
-        public static AsmSigSvc AsmSigs(this IWfRuntime wf)
-            => Asm.AsmSigSvc.create(wf);
 
         public static EncodingCollector EncodingCollector(this IWfRuntime wf)
             => Z0.EncodingCollector.create(wf);

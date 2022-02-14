@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct CallRel32 : IAsmRel<Disp32>
+    public readonly struct CallRel32 : IAsmRelInst<Disp32>
     {
         public const byte OpCode = 0xE8;
 
@@ -64,10 +64,10 @@ namespace Z0.Asm
             get => "call";
         }
 
-        LocatedSymbol IAsmRel.Source
+        LocatedSymbol IAsmRelInst.Source
             => Source;
 
-        LocatedSymbol IAsmRel.Target
+        LocatedSymbol IAsmRelInst.Target
             => Target;
 
         public string Format()

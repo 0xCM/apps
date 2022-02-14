@@ -12,8 +12,6 @@ namespace Z0.Asm
 
         CgSvc CodeGen => Service(Wf.CodeGen);
 
-        AsmSigSvc Sigs => Service(Wf.AsmSigs);
-
         const string Ops1Pattern = "{0}";
 
         const string Ops2Pattern = "{0}, {1}";
