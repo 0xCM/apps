@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using W = ImmBitWidth;
-
     using static Pow2x8;
 
     [SymSource]
@@ -14,27 +12,27 @@ namespace Z0
         None = 0,
 
         [Symbol("imm8")]
-        Imm8 = W.W8,
+        Imm8 = 8,
 
         [Symbol("imm8i")]
-        Imm8i = Imm8 | P2ᐞ07,
+        Imm8i = 8 | P2ᐞ07,
 
         [Symbol("imm16")]
-        Imm16 = W.W16,
+        Imm16 = 16,
 
         [Symbol("imm16i")]
-        Imm16i = Imm16 | P2ᐞ07,
+        Imm16i = 16 | P2ᐞ07,
 
         [Symbol("imm32")]
-        Imm32 = W.W32,
+        Imm32 = 32,
 
         [Symbol("imm32i")]
-        Imm32i = Imm32 | P2ᐞ07,
+        Imm32i = 32 | P2ᐞ07,
 
         [Symbol("imm64")]
-        Imm64 = W.W64,
+        Imm64 = 64,
 
         [Symbol("imm64i")]
-        Imm64i = Imm64 | P2ᐞ07
+        Imm64i = 64 | P2ᐞ07
     }
 }

@@ -33,8 +33,6 @@ namespace Z0
         public AsmOpKind OpKind
             => AsmOpKind.Imm16;
 
-        public ImmBitWidth ImmWidth
-            => (ImmBitWidth)Width;
         public string Format()
             => HexFormatter.format(w16, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 

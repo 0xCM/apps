@@ -4,8 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
+
     public readonly struct AsmFormDescriptor
     {
+        public static Index<AsmFormDescriptor> unmodify(ReadOnlySpan<AsmFormDescriptor> src)
+        {
+            var count = src.Length;
+            var buffer = alloc<AsmFormDescriptor>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var form = ref skip(src,i);
+                ref var dst = ref seek(buffer,i);
+                if(AsmSigs.modified(form.Sig))
+                    dst = new AsmFormDescriptor(AsmForm.define(AsmSigs.unmodify(form.Sig), form.OpCode), form.OcDetail);
+                else
+                    dst = form;
+            }
+            return buffer;
+        }
+
         static AsmBitModeKind mode(in SdmOpCodeDetail src)
         {
             var mode = AsmBitModeKind.None;

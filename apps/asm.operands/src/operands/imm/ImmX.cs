@@ -8,14 +8,14 @@ namespace Z0
     {
         public static byte Width(this ImmKind src)
             => src switch{
-                ImmKind.Imm8 => (byte)ImmBitWidth.W8,
-                ImmKind.Imm8i => (byte)ImmBitWidth.W8,
-                ImmKind.Imm16 => (byte)ImmBitWidth.W16,
-                ImmKind.Imm16i => (byte)ImmBitWidth.W16,
-                ImmKind.Imm32 => (byte)ImmBitWidth.W32,
-                ImmKind.Imm32i => (byte)ImmBitWidth.W32,
-                ImmKind.Imm64 => (byte)ImmBitWidth.W64,
-                ImmKind.Imm64i => (byte)ImmBitWidth.W64,
+                ImmKind.Imm8 => 8,
+                ImmKind.Imm8i => 8,
+                ImmKind.Imm16 => 16,
+                ImmKind.Imm16i => 16,
+                ImmKind.Imm32 => 32,
+                ImmKind.Imm32i => 32,
+                ImmKind.Imm64 => 64,
+                ImmKind.Imm64i => 64,
                 _ => 0
             };
 

@@ -18,16 +18,10 @@ namespace Z0
         public Imm(T src)
             => Value = src;
 
-        public static ImmBitWidth Capacity
-        {
-            [MethodImpl(Inline)]
-            get => (ImmBitWidth)(byte)width<T>();
-        }
-
         public ImmKind ImmKind
         {
             [MethodImpl(Inline)]
-            get => (ImmKind)Capacity;
+            get => (ImmKind)(byte)width<T>();
         }
 
         public byte EffectiveWidth

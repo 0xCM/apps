@@ -28,9 +28,6 @@ namespace Z0
         public ImmKind ImmKind
             => Kind;
 
-        public ImmBitWidth ImmWidth
-            => (ImmBitWidth)Width;
-
         public AsmOpKind OpKind
             => AsmOpKind.Imm8;
 
