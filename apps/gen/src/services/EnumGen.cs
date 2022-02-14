@@ -47,10 +47,9 @@ namespace Z0
             return default;
         }
 
-        public void Emit(uint offset, SymSet spec, ITextBuffer dst)
+        public void Emit(uint margin, SymSet spec, ITextBuffer dst)
         {
             var counter = 0ul;
-            var indent = offset;
             var names = spec.Names.View;
             var count = names.Length;
             var values = spec.Values.IsNonEmpty;
@@ -66,25 +65,24 @@ namespace Z0
                 Require.equal(count, spec.Descriptions.Length);
 
             if(spec.Description.IsNonEmpty)
-                comment(spec.Description).Render(indent, dst);
+                comment(spec.Description).Render(margin, dst);
 
             if(spec.Flags)
-                dst.IndentLine(indent,"[Flags]");
+                dst.IndentLine(margin,"[Flags]");
 
             if(spec.SymbolKind.IsNonEmpty)
-                dst.IndentLineFormat(indent,"[SymSource(\"{0}\")]", spec.SymbolKind);
+                dst.IndentLineFormat(margin,"[SymSource(\"{0}\")]", spec.SymbolKind);
             else
-                dst.IndentLine(indent,"[SymSource]");
+                dst.IndentLine(margin,"[SymSource]");
 
-            var datatype = NumericKinds.kind(spec.DataType).Keyword();
-            dst.IndentLineFormat(indent, "public enum {0} : {1}", spec.Name, datatype);
-            dst.IndentLine(indent,"{");
-            indent += 4;
+            dst.IndentLineFormat(margin, "public enum {0} : {1}", spec.Name, NumericKinds.kind(spec.DataType).Keyword());
+            dst.IndentLine(margin,"{");
+            margin += 4;
 
             for(var i=0; i<count; i++)
             {
                 var name = skip(names,i);
-                var description = "";
+                var description = EmptyString;
                 var value = (ulong)i;
                 var symbol = SymExpr.Empty;
                 if(values)
@@ -92,24 +90,22 @@ namespace Z0
                 if(symbols)
                     symbol = spec.Symbols[i];
                 if(descriptions)
-                    description = spec.Descriptions[i];
+                    description = text.ifempty(spec.Descriptions[i],EmptyString);
 
                 if(nonempty(description))
-                    comment(description).Render(indent, dst);
+                    comment(description).Render(margin, dst);
+
+                var kind = text.ifempty(spec.Kinds[i], description);
 
                 if(symbol.IsNonEmpty)
-                {
-                    if(nonempty(description))
-                        dst.IndentLineFormat(indent, "[Symbol(\"{0}\",\"{1}\")]", symbol, description);
-                    else
-                        dst.IndentLineFormat(indent, "[Symbol(\"{0}\")]", symbol);
-                }
-                dst.IndentLineFormat(indent, "{0} = {1},", name, value);
+                    dst.IndentLineFormat(margin, "[Symbol(\"{0}\",\"{1}\")]", symbol, kind);
+
+                dst.IndentLineFormat(margin, "{0} = {1},", name, value);
                 if(i != count -1)
                     dst.AppendLine();
             }
-            indent -= 4;
-            dst.IndentLine(indent,"}");
+            margin -= 4;
+            dst.IndentLine(margin,"}");
         }
     }
 }

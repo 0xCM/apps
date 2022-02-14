@@ -19,7 +19,8 @@ namespace Z0
             Symbols = alloc<SymExpr>(count);
             Names = alloc<Identifier>(count);
             Values = alloc<SymVal>(count);
-            Descriptions = alloc<string>(count);
+            Descriptions = alloc<TextBlock>(count);
+            Kinds = alloc<@string>(count);
             Name = Identifier.Empty;
             Description = TextBlock.Empty;
         }
@@ -40,6 +41,8 @@ namespace Z0
 
         public Index<SymExpr> Symbols {get;}
 
-        public Index<string> Descriptions {get;}
+        public Index<TextBlock> Descriptions {get;}
+
+        public Index<@string> Kinds {get;}
     }
 }

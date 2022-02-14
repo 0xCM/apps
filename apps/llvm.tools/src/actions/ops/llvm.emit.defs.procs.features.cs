@@ -9,9 +9,7 @@ namespace Z0.llvm
 
     partial class LlvmCmdProvider
     {
-        const string ProcFeatureQuery = "llvm/defs/procs/features";
-
-        [CmdOp(ProcFeatureQuery)]
+        [CmdOp("llvm/defs/procs/features")]
         Outcome Processors(CmdArgs args)
         {
             var src = DataProvider.SelectEntities(e => e.IsProcessor()).Select(e => e.ToProcessor());
@@ -34,7 +32,7 @@ namespace Z0.llvm
                 }
             }
 
-            DataEmitter.EmitQueryTable(ProcFeatureQuery, EmptyString,dst.ViewDeposited());
+            DataEmitter.EmitQueryTable("llvm/defs/procs/features", EmptyString,dst.ViewDeposited());
 
             return true;
         }

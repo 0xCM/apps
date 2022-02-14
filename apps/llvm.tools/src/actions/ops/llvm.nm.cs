@@ -2,21 +2,21 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0.llvm
 {
+    using static Root;
     using static core;
 
-     using llvm;
-
-    partial class AsmCmdService
+    partial class LlvmCmdProvider
     {
-        [CmdOp(".llvm-nm")]
-        Outcome RunLlvmNm(CmdArgs args)
+        [CmdOp("llvm/nm")]
+        Outcome ExecLlvmNm(CmdArgs args)
         {
             var result = Outcome.Success;
-            var files = State.Files(FS.Obj, FS.Dll, FS.Lib, FS.Exe).View;
+
+            var files = Project().Files().Where(f => f.Is(FS.Obj) || f.Is(FS.Dll) || f.Is(FS.Lib) || f.Is(FS.Exe)).View;
             var count = files.Length;
-            var outdir = AsmWs.ObjSymDir().Create();
+            var outdir = Project().OutDir();
             var script = Ws.Tools().Script(ToolNames.llvm_nm, "run");
             for(var i=0; i<count; i++)
             {

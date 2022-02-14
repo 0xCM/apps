@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     using static StringMatcher;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]

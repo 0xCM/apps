@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Text;
 
-    using static Root;
     using static core;
 
     public class TextBuffer : ITextBuffer
@@ -74,10 +71,13 @@ namespace Z0
             => Target.Append(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
 
         public void IndentFormat<T>(uint margin, string format, T src)
-            => Indent(margin,string.Format(format,src));
+            => Indent(margin, string.Format(format,src));
 
         public void IndentLine<T>(uint margin, T src)
             => AppendLine(string.Format("{0}{1}", new string(Chars.Space, (int)margin), src));
+
+        public void IndentLineFormat(uint margin, string pattern, params object[] args)
+            => IndentLine(margin, string.Format(pattern, args));
 
         public void AppendPadded<T,W>(T value, W width, string delimiter = EmptyString)
         {
@@ -111,8 +111,5 @@ namespace Z0
 
         public override string ToString()
             => Target.ToString();
-
-        public void IndentLineFormat(uint margin, string pattern, params object[] args)
-            => IndentLine(margin, string.Format(pattern, args));
     }
 }

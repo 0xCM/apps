@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using static core;
-    using static AsmSigTokenKind;
 
     public partial class AsmCodeGen : AppService<AsmCodeGen>
     {
@@ -25,18 +24,6 @@ namespace Z0.Asm
 
         const string Ops5Pattern = "{0}, {1}, {2}, {3}, {4}";
 
-        public static string identifier(AsmMnemonic src)
-        {
-            var identifier = src.Format(MnemonicCase.Lowercase);
-            return identifier switch{
-                "in" => "@in",
-                "out" => "@out",
-                "int" => "@int",
-                "lock" => "@lock",
-                _ => identifier
-            };
-        }
-
         Index<string> OpsPatterns()
         {
             return state(nameof(OpsPatterns), Load);
@@ -54,87 +41,6 @@ namespace Z0.Asm
             }
         }
 
-        static bool supported(in AsmSigOp src)
-        {
-            var result = false;
-            switch(src.Kind)
-            {
-                case SysReg:
-                case GpReg:
-                case VecReg:
-                case RegLiteral:
-                case Imm:
-                case Mem:
-                case MaskReg:
-                case MmxRm:
-                case IntLiteral:
-                    result = true;
-                break;
-            }
-            return result;
-        }
-
-        static bool supported(in AsmSig src)
-        {
-            var result = true;
-            var count = src.OpCount;
-            ref readonly var ops = ref src.Operands;
-            for(var i=0; i<count; i++)
-                result &= supported(ops[i]);
-            return result;
-        }
-
-        CsOperand CsOp(byte index, in AsmSigOp src)
-        {
-            var type = src.Format();
-            switch(src.Kind)
-            {
-                case SysReg:
-                case GpReg:
-                case VecReg:
-                case RegLiteral:
-                case Imm:
-                case Mem:
-                case MaskReg:
-                case MmxRm:
-                case IntLiteral:
-                {
-
-                    switch(src.Value)
-                    {
-                        case 0:
-                            type = "N0";
-                        break;
-                        case 1:
-                            type = "N1";
-                        break;
-                    }
-                    break;
-                }
-
-                case Rel:
-                case GpRm:
-                case VecRm:
-                case FpuReg:
-                case FpuInt:
-                case FpuMem:
-                case Moffs:
-                case Ptr:
-                case MemPtr:
-                case MemPair:
-                case Rounding:
-                case AsmSigTokenKind.Vsib:
-                case BCastComposite:
-                case OpMask:
-                case Dependent:
-                    break;
-
-                default:
-                break;
-            }
-            return CsOperand.define(type, string.Format("a{0}", index));
-        }
-
         public void GenMnemonicNames()
         {
             var g = CodeGen.LiteralProvider();
@@ -147,41 +53,67 @@ namespace Z0.Asm
             g.Emit("Z0", literals, dst);
         }
 
+        SymSet CalcFormSymbols()
+        {
+            var forms = Sdm.CalcForms();
+            var identifiers = forms.Keys.ToArray().Sort();
+            var count = (uint)identifiers.Length + 1;
+            var dst = SymSet.create(count);
+            dst.DataType = ClrEnumKind.U16;
+            dst.Name = "AsmFormId";
+            dst.Description ="Defines asm form classifiers";
+            dst.Flags = false;
+            dst.SymbolKind = "asm";
+            var symbols = dst.Symbols;
+            var values = dst.Values;
+            var descriptions = dst.Descriptions;
+            var names = dst.Names;
+            var kinds = dst.Kinds;
+            for(ushort i=0; i<count; i++)
+            {
+                ref var name = ref names[i];
+                ref var symbol = ref symbols[i];
+                ref var value = ref values[i];
+                ref var desc = ref descriptions[i];
+                ref var kind = ref kinds[i];
+                if(i == 0)
+                {
+                    name = "None";
+                    symbol = EmptyString;
+                    value = 0;
+                    desc = EmptyString;
+                    kind = EmptyString;
+                }
+                else
+                {
+                    ref readonly var id = ref skip(identifiers,i - 1);
+                    var form = forms[id];
 
-        // public void GenFormIdentifiers()
-        // {
-        //     var forms = Sdm.LoadForms();
-        //     var names = forms.Keys.ToArray().Sort();
-        //     var count = names.Length;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var name = ref skip(names,i);
-        //     }
-        // }
+                    name = id == "lock" ? "@lock" : id;
+                    symbol = form.Sig.Format();
+                    value = i;
+                    kind = form.OpCode.Format();
+                    desc = string.Format("{0} | {1} | {2}", symbol, kind, form.Description);
+                }
+            }
+            return dst;
+        }
 
-        // public void GenSigFormatters()
-        // {
-        //     var fSrc = DefineSigFormatters();
-        //     var count = fSrc.Count;
-
-        //     var fDst= text.buffer();
-        //     var margin = 0u;
-        //     var name = "AsmFormatters";
-        //     fDst.IndentLineFormat(margin,"public readonly struct {0}", name);
-        //     fDst.IndentLine(margin, Chars.LBrace);
-        //     margin +=4;
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var f = ref fSrc[i];
-        //         f.Render(margin, fDst);
-        //         fDst.AppendLine();
-        //     }
-        //     margin -=4;
-        //     fDst.IndentLine(margin,Chars.RBrace);
-
-        //     var spec = CgSpecs.define("Z0.Asm", array("using Operands;"), fDst.Emit());
-        //     CodeGen.EmitFile(spec, name, CgTarget.Intel);
-
-        // }
+        public void GenFormKinds()
+        {
+            var g = CodeGen.EnumGen();
+            var src = CalcFormSymbols();
+            var dst = text.buffer();
+            var margin = 0u;
+            var name = "AsmFormKind";
+            var ns = "Z0.Asm";
+            dst.IndentLineFormat(margin, "namespace {0}", "Z0.Asm");
+            dst.IndentLine(margin, Chars.LBrace);
+            margin += 4;
+            g.Emit(margin, src, dst);
+            margin -=4;
+            dst.IndentLine(margin, Chars.RBrace);
+            CodeGen.EmitFile(dst.Emit(), name, CgTarget.Intel);
+        }
     }
 }

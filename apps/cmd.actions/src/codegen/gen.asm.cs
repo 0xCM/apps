@@ -22,6 +22,8 @@ namespace Z0
         Outcome GenIntel(CmdArgs args)
         {
             AsmCodeGen.GenMnemonicNames();
+            AsmCodeGen.GenFormKinds();
+
             return true;
         }
 

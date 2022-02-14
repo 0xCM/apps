@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
     partial struct Symbols
     {
@@ -25,11 +21,12 @@ namespace Z0
             dst.SymbolKind = src.Tag<SymSourceAttribute>().MapValueOrElse(x => x.SymGroup, () => EmptyString);
             for(var i=0; i<count; i++)
             {
-                ref readonly var sec = ref specs[i];
-                dst.Symbols[i] = sec.Expr;
-                dst.Names[i] = sec.Name;
-                dst.Values[i] = sec.Value;
-                dst.Descriptions[i] = sec.Description;
+                ref readonly var spec = ref specs[i];
+                dst.Symbols[i] = spec.Expr;
+                dst.Names[i] = spec.Name;
+                dst.Values[i] = spec.Value;
+                dst.Descriptions[i] = spec.Description;
+                dst.Kinds[i] = spec.Description.Format();
             }
 
             return dst;
@@ -49,6 +46,8 @@ namespace Z0
                 dst.Names[i] = member;
                 dst.Values[i] = i;
                 dst.Descriptions[i] = EmptyString;
+                dst.Kinds[i] = EmptyString;
+
             }
             return dst;
         }

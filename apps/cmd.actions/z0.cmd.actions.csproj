@@ -9,7 +9,6 @@
     <ProjectReference Include="$(MachinesX86)" />
     <ProjectReference Include="$(Capture)" />
     <ProjectReference Include="$(LlvmTools)" />
-    <ProjectReference Include="$(CodeGenIntel)" />
   </ItemGroup>
 
   <ItemGroup>

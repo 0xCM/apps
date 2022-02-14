@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using static core;
 
     public readonly struct Literals
@@ -16,6 +15,10 @@ namespace Z0
             => new Literal<T>(name, value);
 
         public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+            where T : IEquatable<T>, IComparable<T>
+                => new LiteralSeq<T>(name, literals(names,values).Storage);
+
+        public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<Identifier> names, ReadOnlySpan<T> values)
             where T : IEquatable<T>, IComparable<T>
                 => new LiteralSeq<T>(name, literals(names,values).Storage);
 
@@ -55,6 +58,16 @@ namespace Z0
             return literals;
         }
 
+        static Index<Literal<T>> literals<T>(ReadOnlySpan<Identifier> names, ReadOnlySpan<T> values)
+        {
+            var count = names.Length;
+            Require.equal(count, values.Length);
+            var literals = alloc<Literal<T>>(count);
+            for(var i=0; i<count; i++)
+                seek(literals,i) = new Literal<T>(skip(names,i), skip(values,i));
+            return literals;
+        }
+
        static string name<E>(Sym<E> sym, LiteralNameSource src)
             where E : unmanaged
             => src switch{
@@ -62,7 +75,5 @@ namespace Z0
                 LiteralNameSource.Identifier => sym.Name,
                 _ => sym.Name
             };
-
     }
-
 }

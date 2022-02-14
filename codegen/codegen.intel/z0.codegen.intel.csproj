@@ -4,11 +4,11 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="../imports.props"/>
+
   <ItemGroup>
     <EmbeddedResource Include="src/**/*.*" />
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="$(AsmOperands)" />
-
   </ItemGroup>
 
 </Project>

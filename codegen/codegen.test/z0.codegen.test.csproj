@@ -5,8 +5,9 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
+  <Import Project="../imports.props"/>
+
   <ItemGroup>
-    <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
     <ProjectReference Include="../codegen.llvm/z0.codegen.llvm.csproj"/>
   </ItemGroup>
 

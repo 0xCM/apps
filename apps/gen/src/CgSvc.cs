@@ -142,7 +142,7 @@ namespace Z0
 
         public void GenSymFactories(Identifier ns, Identifier name, ReadOnlySpan<Type> enums, FS.FilePath dst)
         {
-            var flow = Wf.EmittingFile(dst);
+            var flow = EmittingFile(dst);
             var buffer = text.buffer();
             var margin = 0u;
             buffer.IndentLine(margin, CsPatterns.NamespaceDecl(ns));
@@ -151,7 +151,7 @@ namespace Z0
             buffer.IndentLine(margin, Close());
             using var writer = dst.Writer();
             writer.WriteLine(buffer.Emit());
-            Wf.EmittedFile(flow,count);
+            EmittedFile(flow,count);
         }
 
         public uint GenSymFactories(uint margin, Identifier name, ReadOnlySpan<Type> enums, ITextBuffer dst)

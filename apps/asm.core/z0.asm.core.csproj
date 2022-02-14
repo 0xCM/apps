@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
-    <ProjectReference Include="$(CodeGenLlvm)" />
     <ProjectReference Include="$(AsmOperands)" />
     <ProjectReference Include="$(Records)" />
   </ItemGroup>
