@@ -8,6 +8,51 @@ namespace Z0.Asm
 
     public readonly struct AsmDirective : IAsmSourcePart
     {
+        [MethodImpl(Inline), Op]
+        public static AsmDirective @byte(Hex8 src)
+            => define(".byte", src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmDirective word(Hex16 src)
+            => define(".2byte", src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmDirective dword(Hex32 src)
+            => define(".4byte", src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmDirective qword(Hex64 src)
+            => define(".8byte", src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmDirective define(text31 name)
+            => new AsmDirective(name);
+
+        [MethodImpl(Inline), Op]
+        public static AsmDirective define(text31 name, AsmDirectiveOp op0, AsmDirectiveOp op1, AsmDirectiveOp op2 = default)
+            => new AsmDirective(name, op0, op1, op2);
+
+        [Op]
+        public static AsmDirective define(text31 name, ReadOnlySpan<AsmDirectiveOp> args)
+        {
+            var dst = define(name);
+            switch(args.Length)
+            {
+                case 1:
+                    dst = define(name, skip(args,0));
+                break;
+                case 2:
+                    dst = define(name, skip(args,0), skip(args,1));
+                break;
+                case 3:
+                    dst = define(name, skip(args,0), skip(args,1), skip(args,2));
+                break;
+                default:
+                    break;
+            }
+            return dst;
+        }
+
         [MethodImpl(Inline)]
         public static AsmDirective define<T>(text31 name, T arg)
             => new AsmDirective(name, new AsmDirectiveOp<T>(arg));
@@ -31,21 +76,21 @@ namespace Z0.Asm
                     switch(count)
                     {
                         case 1:
-                            dst = asm.directive(name, skip(args,0));
+                            dst = define(name, skip(args,0));
                         break;
                         case 2:
-                            dst = asm.directive(name, skip(args,0), skip(args,1));
+                            dst = define(name, skip(args,0), skip(args,1));
                         break;
                         case 3:
-                            dst = asm.directive(name, skip(args,0), skip(args,1), skip(args,2));
+                            dst = define(name, skip(args,0), skip(args,1), skip(args,2));
                         break;
                         default:
-                            dst = asm.directive(name);
+                            dst = define(name);
                         break;
                     }
                 }
                 else
-                    dst = asm.directive(name);
+                    dst = define(name);
 
                 result = Outcome.Success;
             }

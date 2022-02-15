@@ -6,19 +6,8 @@ namespace Z0.Asm
 {
     public readonly struct AsmBlockSpec
     {
-        [MethodImpl(Inline)]
-        public static AsmBlockSpec define(AsmBlockLabel label)
-            => new AsmBlockSpec(AsmComment.Empty, label, TextBlock.Empty);
-
-        [MethodImpl(Inline)]
-        public static AsmBlockSpec define(AsmBlockLabel label, TextBlock content)
-            => new AsmBlockSpec(AsmComment.Empty, label, content);
-
-        [MethodImpl(Inline)]
-        public static AsmBlockSpec define(AsmComment comment, AsmBlockLabel label, TextBlock content)
-            => new AsmBlockSpec(comment, label, content);
-
         public AsmComment Comment {get;}
+
         public AsmBlockLabel Label {get;}
 
         public TextBlock Content {get;}

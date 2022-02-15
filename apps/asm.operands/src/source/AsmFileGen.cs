@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
     using Asm;
 
     public class AsmFileGen : AppService<AsmFileGen>

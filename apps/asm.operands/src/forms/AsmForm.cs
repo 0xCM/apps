@@ -14,6 +14,7 @@ namespace Z0.Asm
             => new AsmForm(name, sig, opcode);
 
         public readonly text47 Name;
+
         public readonly AsmSig Sig;
 
         public readonly AsmOpCode OpCode;

@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public readonly struct AsmFiles
+    partial struct asm
     {
-        public static AsmFileSpec specify(Identifier name, AsmComment[] comments, params AsmBlockSpec[] blocks)
+        [MethodImpl(Inline), Op]
+        public static AsmFileSpec file(Identifier name, AsmComment[] comments, params AsmBlockSpec[] blocks)
             => new AsmFileSpec(name, comments, blocks);
 
-        public static AsmFileSpec specify(Identifier name, params AsmBlockSpec[] blocks)
+        [MethodImpl(Inline), Op]
+        public static AsmFileSpec file(Identifier name, params AsmBlockSpec[] blocks)
             => new AsmFileSpec(name, sys.empty<AsmComment>(), blocks);
     }
 }
