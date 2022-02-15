@@ -640,10 +640,41 @@ namespace Z0.Asm
             var flow = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             var buffer = text.buffer();
-            AsmRender.regvals(src, buffer);
+            regvals(src, buffer);
             writer.WriteLine(buffer.Emit());
             EmittedFile(flow,src.Length);
             return result;
+        }
+
+        static void regvals(ReadOnlySpan<CpuIdRow> src, ITextBuffer dst)
+        {
+            const sbyte ColWidth = 46;
+            const byte ColCount = 6;
+            var slots = array(RP.pad(0,-ColWidth), RP.pad(1,-ColWidth), RP.pad(2,-ColWidth), RP.pad(3,-ColWidth), RP.pad(4,-ColWidth), RP.pad(5,-ColWidth));
+            var pattern = string.Format("{0} | {1} | {2} | {3} | {4} | {5}", slots);
+            var header = string.Format(pattern, "eax(in)", "ecx(in)", "eax(out)", "ebx(out)", "ecx(out)", "edx(out)");
+            dst.AppendLine(header);
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                regvals(skip(src,i), dst);
+        }
+
+        static void regvals(in CpuIdRow row, ITextBuffer dst)
+        {
+            var w = n8;
+            // eax(in)
+            dst.AppendFormat("{0} [{1}] | ", row.Leaf, row.Leaf.FormatBits(w));
+            // ecx(in)
+            dst.AppendFormat("{0} [{1}] | ", row.Subleaf, row.Subleaf.FormatBits(w));
+            // eax(out)
+            dst.AppendFormat("{0} [{1}] | ", row.Eax, row.Eax.FormatBits(w));
+            // ebx(out)
+            dst.AppendFormat("{0} [{1}] | ", row.Ebx, row.Ebx.FormatBits(w));
+            // ecx(out)
+            dst.AppendFormat("{0} [{1}] | ", row.Ecx, row.Ecx.FormatBits(w));
+            // edx(out)
+            dst.AppendFormat("{0} [{1}] ", row.Edx, row.Edx.FormatBits(w));
+            dst.AppendLine();
         }
 
         Outcome EmitRows(ReadOnlySpan<CpuIdRow> src)

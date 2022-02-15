@@ -27,6 +27,12 @@ namespace Z0.Asm
         public imm16(ushort src)
             => Value = src;
 
+        public AsmOpClass OpClass
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Imm;
+        }
+
         public ImmKind ImmKind
             => Kind;
 
@@ -103,5 +109,8 @@ namespace Z0.Asm
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
 
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(imm16 src)
+            => new AsmOperand(src);
      }
 }

@@ -28,6 +28,15 @@ namespace Z0.Asm
             return AsmSpec.Empty;
         }
 
+        [MethodImpl(Inline), Op]
+        public static AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperands ops)
+        {
+            var dst = AsmSpec.Empty;
+            dst.Mnemonic = mnemonic;
+            dst.OpCode = opcode;
+            dst.Operands = AsmOperands.Empty;
+            return dst;
+        }
 
         [MethodImpl(Inline), Op]
         public static ref AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, out AsmSpec dst)

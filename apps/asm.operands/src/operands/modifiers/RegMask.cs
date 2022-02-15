@@ -52,5 +52,9 @@ namespace Z0.Asm
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(RegMask src)
+            => new AsmOperand(src);
     }
 }

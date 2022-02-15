@@ -96,5 +96,9 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator Disp16(ByteSize src)
             => new Disp16((short)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp16 src)
+            => new AsmOperand(src);
     }
 }

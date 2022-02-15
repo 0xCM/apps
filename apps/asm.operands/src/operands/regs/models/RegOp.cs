@@ -105,6 +105,10 @@ namespace Z0.Asm
         public static implicit operator RegOp(RegKind kind)
             => new RegOp((ushort)kind);
 
+         [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(RegOp src)
+            => new AsmOperand(src);
+
         public static RegOp Invalid
         {
             [MethodImpl(Inline)]

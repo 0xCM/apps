@@ -110,6 +110,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmAddress address(W64 w, RegIndexCode @base, RegIndexCode index, MemoryScale scale, Disp32 disp = default)
             => address(reg(NativeSizeCode.W64, RegClassCode.GP, @base), reg(NativeSizeCode.W64, RegClassCode.GP, index), scale,disp);
-
     }
 }

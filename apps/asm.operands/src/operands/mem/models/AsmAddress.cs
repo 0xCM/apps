@@ -15,7 +15,7 @@ namespace Z0.Asm
         [Op]
         internal static string format(in AsmAddress src)
         {
-            var dst = CharBlock32.Null.Data;
+            Span<char> dst = stackalloc char[64];
             var i=0u;
             var count = render(src, ref i, dst);
             return text.format(dst, count);
@@ -49,6 +49,8 @@ namespace Z0.Asm
             return i - i0;
         }
 
+        public readonly NativeSize TargetSize;
+
         public readonly RegOp Base;
 
         public readonly RegOp Index;
@@ -60,6 +62,17 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmAddress(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
         {
+            Base = @base;
+            Index = index;
+            Scale = scale;
+            Disp = disp;
+            TargetSize = default;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmAddress(NativeSize target, RegOp @base, RegOp index, MemoryScale scale, Disp disp)
+        {
+            TargetSize = target;
             Base = @base;
             Index = index;
             Scale = scale;

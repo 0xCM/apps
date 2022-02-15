@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Asm;
-    using static Root;
 
     using W = W64;
     using I = imm64;
@@ -40,7 +36,6 @@ namespace Z0
             }
             return result;
         }
-
 
         public const ImmKind Kind = ImmKind.Imm64;
 

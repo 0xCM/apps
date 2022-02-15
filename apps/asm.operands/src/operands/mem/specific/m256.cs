@@ -4,33 +4,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    [DataType(TypeSyntax.Mem16)]
-    public readonly struct m16 : IMemOp16<m16>
+    [DataType(TypeSyntax.Mem256)]
+    public readonly struct m256 : IMemOp256<m256>
     {
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
-        public m16(AsmAddress address)
+        public m256(AsmAddress address)
         {
             Address = address;
         }
 
         [MethodImpl(Inline)]
-        public m16(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
+        public m256(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
         {
             Address = new AsmAddress(@base, index, scale, disp);
         }
 
         public AsmOpKind OpKind
-            => AsmOpKind.Mem16;
+            => AsmOpKind.Mem256;
 
         public AsmOpClass OpClass
             => AsmOpClass.Mem;
 
+        public NativeSize TargetSize
+            => NativeSizeCode.W256;
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => Sizes.native(16);
+            get => Sizes.native(256);
         }
 
         [MethodImpl(Inline)]
@@ -44,15 +47,19 @@ namespace Z0.Asm.Operands
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator m16(AsmAddress src)
-            => new m16(src);
+        public static implicit operator m256(AsmAddress src)
+            => new m256(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m16(mem<m16> src)
-            => new m16(src);
+        public static implicit operator m256(mem<m256> src)
+            => new m256(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator mem<m16>(m16 src)
-            => new mem<m16>(src.Address);
+        public static implicit operator mem<m256>(m256 src)
+            => new mem<m256>(src.Address);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(m256 src)
+            => new AsmOperand(src);
     }
 }

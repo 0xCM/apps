@@ -39,7 +39,6 @@ namespace Z0
             return true;
         }
 
-
         AsmRegSets Regs => Service(AsmRegSets.create);
 
         [CmdOp("mc/gen")]
@@ -68,7 +67,7 @@ namespace Z0
                     buffer.Indent(indent,asm);
             }
 
-            var dst = Project().Src("asm") + FS.file(inst, FS.Asm);
+            var dst = Project().SrcDir("asm") + FS.file(inst, FS.Asm);
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             writer.WriteLine(buffer.Emit());

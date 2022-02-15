@@ -125,6 +125,10 @@ namespace Z0.Asm
         public static implicit operator long(Disp src)
             => src.Value;
 
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp src)
+            => new AsmOperand(src);
+
         public static Disp Empty => default;
 
         public static Disp Zero => default;

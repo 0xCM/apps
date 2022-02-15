@@ -4,33 +4,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    [DataType(TypeSyntax.Mem256)]
-    public readonly struct m256 : IMemOp256<m256>
+    [DataType(TypeSyntax.Mem128)]
+    public readonly struct m128 : IMemOp128<m128>
     {
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
-        public m256(AsmAddress address)
+        public m128(AsmAddress address)
         {
             Address = address;
         }
 
         [MethodImpl(Inline)]
-        public m256(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
+        public m128(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
         {
             Address = new AsmAddress(@base, index, scale, disp);
         }
 
         public AsmOpKind OpKind
-            => AsmOpKind.Mem256;
+            => AsmOpKind.Mem128;
 
         public AsmOpClass OpClass
             => AsmOpClass.Mem;
 
+        public NativeSize TargetSize
+            => NativeSizeCode.W128;
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => Sizes.native(256);
+            get => Sizes.native(128);
         }
 
         [MethodImpl(Inline)]
@@ -44,15 +47,19 @@ namespace Z0.Asm.Operands
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator m256(AsmAddress src)
-            => new m256(src);
+        public static implicit operator m128(AsmAddress src)
+            => new m128(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m256(mem<m256> src)
-            => new m256(src);
+        public static implicit operator m128(mem<m128> src)
+            => new m128(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator mem<m256>(m256 src)
-            => new mem<m256>(src.Address);
+        public static implicit operator mem<m128>(m128 src)
+            => new mem<m128>(src.Address);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(m128 src)
+            => new AsmOperand(src);
     }
 }

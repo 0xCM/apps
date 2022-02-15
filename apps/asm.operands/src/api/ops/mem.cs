@@ -11,19 +11,6 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static FarPtr farptr(Address16 selector, long offset)
-            => new FarPtr(selector,offset);
-
-        [MethodImpl(Inline), Op]
-        public static NearPtr nearptr(MemoryAddress address)
-            => new NearPtr(address);
-
-        [MethodImpl(Inline)]
-        public static mem<T> mem<T>(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
-            where T : unmanaged, IMemOp<T>
-                => new mem<T>(@base, index,scale, disp);
-
-        [MethodImpl(Inline), Op]
         public static m8 mem8(RegOp @base)
             => new m8(@base, RegOp.Invalid, 0, Disp.Zero);
 

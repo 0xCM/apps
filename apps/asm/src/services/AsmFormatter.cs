@@ -80,7 +80,7 @@ namespace Z0.Asm
                 return default;
             var dst = span<string>(count);
             for(var i=0u; i< count; i++)
-                seek(dst,i) = AsmRender.format(src.BaseAddress, skip(summaries,i), config);
+                seek(dst,i) = format(src.BaseAddress, skip(summaries,i), config);
             return dst;
         }
 
@@ -95,12 +95,66 @@ namespace Z0.Asm
             var i = z8;
             seek(dst, i++) = PageBreak;
             seek(dst, i++) = comment(CommentMarker, $"{src.DisplaySig}::{src.Uri}");
-            seek(dst, i++) = AsmRender.spanres(src.Uri, src.CodeBlock);
-            seek(dst, i++) = AsmRender.hexarray(src.CodeBlock);
+            seek(dst, i++) = spanres(src.Uri, src.CodeBlock);
+            seek(dst, i++) = hexarray(src.CodeBlock);
             seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(CodeBlock.BaseAddress), RP.spaced(Chars.Eq), src.CodeBlock.BaseAddress));
             seek(dst, i++) = comment(CommentMarker, string.Concat(nameof(src.TermCode), RP.spaced(Chars.Eq), src.TermCode.ToString()));
             seek(dst, i++) = PageBreak;
             return i;
         }
+
+        [Op]
+        public static AsmInlineComment spanres(OpUri uri, BinaryCode src)
+            => new AsmInlineComment(AsmCommentMarker.Hash, SpanResFormatter.format(SpanRes.specify(uri, src)));
+
+        [Op]
+        public static AsmInlineComment hexarray(BinaryCode src)
+            => new AsmInlineComment(AsmCommentMarker.Hash, Hex.hexarray(src).Format(true));
+
+        [Op]
+        public static string format(MemoryAddress @base, in AsmInstructionInfo src, in AsmFormatConfig config)
+        {
+            var dst = text.buffer();
+            render(@base, src, config, dst);
+            return dst.ToString();
+        }
+
+        [Op]
+        public static string format(in AsmOffsetLabel label, in AsmFormInfo src, byte[] encoded)
+            => string.Format("{0} | {1,-3} | {2,-32} | ({3}) = {4}", label, encoded.Length, encoded.FormatHex(), src.Sig, src.OpCode);
+
+        [Op]
+        public static void render(MemoryAddress @base, in AsmInstructionInfo src, in AsmFormatConfig config, ITextBuffer dst)
+        {
+            const string AbsolutePattern = "{0} {1} {2}";
+            const string RelativePattern = "{0} {1}";
+            var label = offset(src.Offset, w16);
+            var address = @base + src.Offset;
+            if(config.EmitLineLabels)
+            {
+                if(config.AbsoluteLabels)
+                    dst.Append(string.Format(AbsolutePattern, address.Format(), label, src.Statement.FormatPadded()));
+                else
+                    dst.Append(string.Format(RelativePattern, label, src.Statement.FormatPadded()));
+            }
+            else
+            {
+                dst.Append(src.Statement.FormatPadded());
+            }
+
+            dst.Append(new AsmInlineComment(AsmCommentMarker.Hash, format(AsmOffsetLabel.define(16, src.Offset), src.AsmForm, src.Encoded)));
+        }
+
+        [Op]
+        public static string offset(ulong offset, DataWidth width)
+            => width switch{
+                DataWidth.W8 => ScalarCast.uint8(offset).FormatAsmHex(),
+                DataWidth.W16 => ScalarCast.uint16(offset).FormatAsmHex(),
+                DataWidth.W32 => ScalarCast.uint32(offset).FormatAsmHex(),
+                DataWidth.W64 => offset.FormatAsmHex(),
+                _ => EmptyString
+            };
+
+
     }
 }

@@ -92,7 +92,6 @@ namespace Z0.Asm
 
         public Index<AsmOcToken> Tokens {get; private set;}
 
-
         public ConstLookup<uint,string> TokenExpressions {get; private set;}
 
         public ConstLookup<string,AsmOcToken> TokensByExpression {get; private set;}

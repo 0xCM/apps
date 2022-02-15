@@ -82,5 +82,9 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp8 src)
             => (src.Value,src.StorageWidth);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp8 src)
+            => new AsmOperand(src);
     }
 }

@@ -59,6 +59,12 @@ namespace Z0.Asm
         public ImmKind ImmKind
             => Kind;
 
+        public AsmOpClass OpClass
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Imm;
+        }
+
         public AsmOpKind OpKind
             => AsmOpKind.Imm8;
 
@@ -131,6 +137,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(imm8 src)
+            => new AsmOperand(src);
 
         public static W W => default;
     }

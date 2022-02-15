@@ -21,6 +21,9 @@ namespace Z0.Asm.Operands
             Address = new AsmAddress(@base, index, scale, disp);
         }
 
+        public NativeSize TargetSize
+            => NativeSizeCode.W32;
+
         public AsmOpKind OpKind
             => AsmOpKind.Mem32;
 
@@ -54,5 +57,9 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator mem<m32>(m32 src)
             => new mem<m32>(src.Address);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(m32 src)
+            => new AsmOperand(src);
     }
 }

@@ -43,6 +43,12 @@ namespace Z0
             Value = (ulong)src;
         }
 
+        public AsmOpClass OpClass
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Imm;
+        }
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]

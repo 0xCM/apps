@@ -4,34 +4,37 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    [DataType(TypeSyntax.Mem512)]
-    public readonly struct m512 : IMemOp512<m512>
+    [DataType(TypeSyntax.Mem16)]
+    public readonly struct m16 : IMemOp16<m16>
     {
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
-        public m512(AsmAddress address)
+        public m16(AsmAddress address)
         {
             Address = address;
         }
 
         [MethodImpl(Inline)]
-        public m512(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
+        public m16(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
         {
             Address = new AsmAddress(@base, index, scale, disp);
         }
 
-        public NativeSize Size
-        {
-            [MethodImpl(Inline)]
-            get => Sizes.native(512);
-        }
+        public NativeSize TargetSize
+            => NativeSizeCode.W16;
 
         public AsmOpKind OpKind
-            => AsmOpKind.Mem512;
+            => AsmOpKind.Mem16;
 
         public AsmOpClass OpClass
             => AsmOpClass.Mem;
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Sizes.native(16);
+        }
 
         [MethodImpl(Inline)]
         public AsmOperand Untyped()
@@ -44,15 +47,19 @@ namespace Z0.Asm.Operands
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator m512(AsmAddress src)
-            => new m512(src);
+        public static implicit operator m16(AsmAddress src)
+            => new m16(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m512(mem<m512> src)
-            => new m512(src);
+        public static implicit operator m16(mem<m16> src)
+            => new m16(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator mem<m512>(m512 src)
-            => new mem<m512>(src.Address);
+        public static implicit operator mem<m16>(m16 src)
+            => new mem<m16>(src.Address);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(m16 src)
+            => new AsmOperand(src);
     }
 }

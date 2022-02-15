@@ -5,13 +5,8 @@
 namespace Z0.Asm
 {
     [ApiHost]
-    public partial class AsmCases : AppService<AsmCases>
+    public readonly struct AsmRender
     {
-        static SymbolDispenser CaseSymbols;
 
-        static AsmCases()
-        {
-            CaseSymbols = SymbolDispenser.alloc();
-        }
     }
 }

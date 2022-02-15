@@ -27,6 +27,9 @@ namespace Z0
         FS.FolderPath IWorkspace.SrcDir()
             => Home() + FS.folder("src");
 
+        FS.FolderPath IWorkspace.SrcDir(string scope)
+            => SrcDir() + FS.folder(scope);
+
         FS.FolderPath IWorkspace.OutDir()
             => Out();
 
@@ -109,26 +112,20 @@ namespace Z0
         FS.FilePath Log(string id)
             => Log(id, FS.Log);
 
-        FS.FolderPath Src()
-            => Home() + FS.folder(src);
-
-        FS.FolderPath Src(string scope)
-            => Home() + FS.folder(src) + FS.folder(scope);
-
         FS.Files SrcFiles(bool recurse = true)
-            => Src().Files(recurse);
+            => SrcDir().Files(recurse);
 
         FS.Files SrcFiles(string scope, FileKind kind, bool recurse = true)
-            => Src(scope).Files(kind.Ext(), recurse);
+            => SrcDir(scope).Files(kind.Ext(), recurse);
 
         FS.Files SrcFiles(FileKind kind, bool recurse = true)
-            => Src().Files(kind.Ext(), recurse);
+            => SrcDir().Files(kind.Ext(), recurse);
 
         FS.Files SrcFiles(string scope, bool recurse = true)
-            => Src(scope).Files(recurse);
+            => SrcDir(scope).Files(recurse);
 
         FS.FilePath SrcFile(string scope, string fileid, FileKind kind)
-            => Src() + FS.folder(scope) + FS.file(fileid, kind.Ext());
+            => SrcDir(scope) + FS.file(fileid, kind.Ext());
 
         FS.FolderPath Assets()
             => Home() + FS.folder(assets);

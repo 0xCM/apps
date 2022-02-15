@@ -28,70 +28,70 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOperand(MemOp src)
         {
-            OpClass = AsmOpClass.Mem;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,MemOp>(_Data) = src;
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.Mem | ((ushort)src.Size.Code << 8));
         }
 
         [MethodImpl(Inline)]
         public AsmOperand(RegOp src)
         {
-            OpClass = AsmOpClass.Reg;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = u16(src);
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.Reg | ((ushort)src.Size << 8));
         }
 
         [MethodImpl(Inline)]
         public AsmOperand(Imm src)
         {
-            OpClass = AsmOpClass.Imm;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Imm>(_Data) = src;
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.Imm | ((ushort)src.Size << 8));
         }
 
         [MethodImpl(Inline)]
         public AsmOperand(imm8 src)
         {
-            OpClass = AsmOpClass.Imm;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = NativeSizeCode.W8;
             _Data = B.Empty;
             @as<B,imm8>(_Data) = src;
-            OpKind = AsmOpKind.Imm8;
         }
 
         [MethodImpl(Inline)]
         public AsmOperand(imm16 src)
         {
-            OpClass = AsmOpClass.Imm;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = NativeSizeCode.W16;
             _Data = B.Empty;
             @as<B,imm16>(_Data) = src;
-            OpKind = AsmOpKind.Imm16;
         }
 
         [MethodImpl(Inline)]
         public AsmOperand(imm32 src)
         {
-            OpClass = AsmOpClass.Imm;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = NativeSizeCode.W32;
             _Data = B.Empty;
             @as<B,imm32>(_Data) = src;
-            OpKind = AsmOpKind.Imm32;
         }
 
         [MethodImpl(Inline)]
         public AsmOperand(imm64 src)
         {
-            OpClass = AsmOpClass.Imm;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = NativeSizeCode.W64;
             _Data = B.Empty;
             @as<B,imm64>(_Data) = src;
-            OpKind = AsmOpKind.Imm64;
         }
 
         [MethodImpl(Inline)]
@@ -468,18 +468,6 @@ namespace Z0.Asm
             => Size;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(RegOp src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm8 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm16 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(imm32 src)
             => new AsmOperand(src);
 
@@ -488,55 +476,11 @@ namespace Z0.Asm
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(RegMask src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp8 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp16 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(Disp32 src)
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(Disp64 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m8 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m16 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m32 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m64 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m128 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m256 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(m512 src)
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]

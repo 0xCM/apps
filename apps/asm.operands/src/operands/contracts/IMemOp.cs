@@ -14,6 +14,8 @@ namespace Z0.Asm
     {
         AsmAddress Address {get;}
 
+        NativeSize TargetSize {get;}
+
         AsmOpClass IAsmOp.OpClass
             => AsmOpClass.Mem;
     }
@@ -26,6 +28,9 @@ namespace Z0.Asm
 
     public interface IMemOp8 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W8;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W8;
 
@@ -41,6 +46,9 @@ namespace Z0.Asm
 
     public interface IMemOp16 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W16;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W16;
 
@@ -56,6 +64,9 @@ namespace Z0.Asm
 
     public interface IMemOp32 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W32;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W32;
 
@@ -71,6 +82,9 @@ namespace Z0.Asm
 
     public interface IMemOp64 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W64;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W64;
 
@@ -86,6 +100,9 @@ namespace Z0.Asm
 
     public interface IMemOp128 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W128;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W128;
 
@@ -101,6 +118,9 @@ namespace Z0.Asm
 
     public interface IMemOp256 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W256;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W256;
 
@@ -115,6 +135,9 @@ namespace Z0.Asm
 
     public interface IMemOp512 : IMemOp
     {
+        NativeSize IMemOp.TargetSize
+            => NativeSizeCode.W512;
+
         NativeSize IAsmOp.Size
             => NativeSizeCode.W512;
 

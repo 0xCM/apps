@@ -28,15 +28,96 @@ namespace Z0.Asm
 
         AsmGenContext Context;
 
+        Index<AsmOperand> _OpsBuffer;
+
         AsmGen(AsmGenContext context)
         {
             RegSets = AsmRegSets.create();
             Context = context;
+            _OpsBuffer = alloc<AsmOperand>(512);
         }
 
-        public void Concretize(Identifier name, in AsmForm form)
-        {
+        Span<AsmOperand> OpBuffer()
+            => _OpsBuffer.Clear();
 
+        public Index<AsmSpec> Concretize(in AsmForm form)
+        {
+            var dst = list<AsmSpec>();
+            ref readonly var sigops = ref form.Sig.Operands;
+            var opcount = sigops.OpCount;
+            var lookup = alloc<Index<AsmOperand>>(5);
+            for(byte i=0; i<opcount; i++)
+            {
+                var buffer = OpBuffer();
+                var count = Concretize(sigops[i], buffer);
+                lookup[i] = slice(buffer,0, count).ToArray();
+            }
+
+            switch(opcount)
+            {
+                case 0:
+                {
+                    dst.Add(asm.spec(form.Mnemonic, form.OpCode, AsmOperands.Empty));
+                }
+                break;
+                case 1:
+                {
+                    var ops0 = skip(lookup,0);
+                    for(var a=0; a<ops0.Count; a++)
+                    {
+                        dst.Add(asm.spec(form.Mnemonic, form.OpCode, ops0[a], out _));
+                    }
+
+                }
+                break;
+                case 2:
+                {
+                    var ops0 = skip(lookup,0);
+                    var ops1 = skip(lookup,1);
+                    for(var a=0; a<ops0.Count; a++)
+                    for(var b=0; b<ops1.Count; b++)
+                    {
+                        dst.Add(asm.spec(form.Mnemonic, form.OpCode, ops0[a], ops1[b], out _));
+                    }
+                }
+                break;
+                case 3:
+                {
+                    var ops0 = skip(lookup,0);
+                    var ops1 = skip(lookup,1);
+                    var ops2 = skip(lookup,2);
+                    for(var a=0; a<ops0.Count; a++)
+                    for(var b=0; b<ops1.Count; b++)
+                    for(var c=0; c<ops1.Count; c++)
+                    {
+                        dst.Add(asm.spec(form.Mnemonic, form.OpCode, ops0[a], ops1[b], ops2[c], out _));
+                    }
+                }
+                break;
+                case 4:
+                {
+                    var ops0 = skip(lookup,0);
+                    var ops1 = skip(lookup,1);
+                    var ops2 = skip(lookup,2);
+                    var ops3 = skip(lookup,3);
+                    for(var a=0; a<ops0.Count; a++)
+                    for(var b=0; b<ops1.Count; b++)
+                    for(var c=0; c<ops2.Count; c++)
+                    for(var d=0; d<ops3.Count; d++)
+                    {
+                        dst.Add(asm.spec(form.Mnemonic, form.OpCode, ops0[a], ops1[b], ops2[c], ops3[d], out _));
+                    }
+                }
+                break;
+            }
+
+            return dst.ToArray();
+        }
+
+        public uint Concretize(in AsmSigOp src, Span<AsmOperand> dst)
+        {
+            var i=0u;
+            return Concretize(src, ref i, dst);
         }
 
         public uint Concretize(in AsmSigOp src, ref uint i, Span<AsmOperand> dst)
@@ -60,9 +141,9 @@ namespace Z0.Asm
                 case TK.Imm:
                     ImmValues(src, ref i, dst);
                     break;
-                case TK.Mem:
-                    MemValues(src, ref i, dst);
-                    break;
+                // case TK.Mem:
+                //     MemValues(src, ref i, dst);
+                //     break;
                 case TK.RegLiteral:
                     RegLiterals(src, ref i, dst);
                     break;
@@ -158,12 +239,16 @@ namespace Z0.Asm
             switch((ImmToken)src.Value)
             {
                 case ImmT.imm8:
-                    for(var j=0; j<byte.MaxValue; j++)
+                    for(var j=0xf; j<0x20; j++)
                         seek(dst,i++) = asm.imm8((byte)j);
                 break;
                 case ImmT.imm16:
+                    for(var j=byte.MaxValue*2; j<byte.MaxValue*2 + 5; j++)
+                        seek(dst,i++) = asm.imm16((ushort)j);
                 break;
                 case ImmT.imm32:
+                    for(var j=ushort.MaxValue*2; j<ushort.MaxValue*2 + 5; j++)
+                        seek(dst,i++) = asm.imm32((uint)j);
                 break;
                 case ImmT.imm64:
                 break;
@@ -175,21 +260,37 @@ namespace Z0.Asm
         uint MemValues(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
             var i0 = i;
+            var regs = RegSets.Gp64Regs();
+            var count = regs.Count;
             switch((MemToken)src.Value)
             {
                 case MT.m8:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr8(regs[j].Index);
                 break;
                 case MT.m16:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr16(regs[j].Index);
                 break;
                 case MT.m32:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr32(regs[j].Index);
                 break;
                 case MT.m64:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr64(regs[j].Index);
                 break;
                 case MT.m128:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr128(regs[j].Index);
                 break;
                 case MT.m256:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr256(regs[j].Index);
                 break;
                 case MT.m512:
+                    for(var j=0; j<count; j++)
+                        seek(dst,i++) = asm.ptr512(regs[j].Index);
                 break;
             }
 

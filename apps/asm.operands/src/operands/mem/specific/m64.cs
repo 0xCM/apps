@@ -4,33 +4,36 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    [DataType(TypeSyntax.Mem128)]
-    public readonly struct m128 : IMemOp128<m128>
+    [DataType(TypeSyntax.Mem64)]
+    public readonly struct m64 : IMemOp64<m64>
     {
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
-        public m128(AsmAddress address)
+        public m64(AsmAddress address)
         {
             Address = address;
         }
 
         [MethodImpl(Inline)]
-        public m128(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
+        public m64(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
         {
             Address = new AsmAddress(@base, index, scale, disp);
         }
 
         public AsmOpKind OpKind
-            => AsmOpKind.Mem128;
+            => AsmOpKind.Mem64;
 
         public AsmOpClass OpClass
             => AsmOpClass.Mem;
 
+        public NativeSize TargetSize
+            => NativeSizeCode.W64;
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => Sizes.native(128);
+            get => Sizes.native(64);
         }
 
         [MethodImpl(Inline)]
@@ -44,15 +47,19 @@ namespace Z0.Asm.Operands
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator m128(AsmAddress src)
-            => new m128(src);
+        public static implicit operator m64(AsmAddress src)
+            => new m64(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m128(mem<m128> src)
-            => new m128(src);
+        public static implicit operator m64(mem<m64> src)
+            => new m64(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator mem<m128>(m128 src)
-            => new mem<m128>(src.Address);
+        public static implicit operator mem<m64>(m64 src)
+            => new mem<m64>(src.Address);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(m64 src)
+            => new AsmOperand(src);
     }
 }

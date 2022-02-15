@@ -12,11 +12,9 @@ namespace Z0.Asm
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm32, Kind, Width, Width)]
+    [DataType(TypeSyntax.Imm32, ImmKind.Imm32, Width, Width)]
     public readonly struct imm32 : IImm<I,uint>
     {
-        public const ImmKind Kind = ImmKind.Imm32;
-
         public const byte Width = 32;
 
         public uint Value {get;}
@@ -24,6 +22,12 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public imm32(uint src)
             => Value = src;
+
+        public AsmOpClass OpClass
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Imm;
+        }
 
         public ImmKind ImmKind
             => ImmKind.Imm32;

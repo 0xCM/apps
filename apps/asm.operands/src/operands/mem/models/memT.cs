@@ -24,6 +24,12 @@ namespace Z0.Asm
             Address = src;
         }
 
+        public NativeSize TargetSize
+        {
+            [MethodImpl(Inline)]
+            get => default(T).TargetSize;
+        }
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]
@@ -57,7 +63,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public MemOp Untyped()
-            => new MemOp(Address);
+            => new MemOp(TargetSize,Address);
 
         public string Format()
             => Address.Format();

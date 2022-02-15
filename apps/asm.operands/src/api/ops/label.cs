@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [ApiHost]
-    public partial class AsmCases : AppService<AsmCases>
+    partial struct asm
     {
-        static SymbolDispenser CaseSymbols;
-
-        static AsmCases()
-        {
-            CaseSymbols = SymbolDispenser.alloc();
-        }
+        [MethodImpl(Inline), Op]
+        public static AsmBlockLabel label(string name)
+            => new AsmBlockLabel(name);
     }
 }
