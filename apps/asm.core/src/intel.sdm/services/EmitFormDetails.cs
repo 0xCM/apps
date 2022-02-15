@@ -8,14 +8,14 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        AsmForms EmitForms(Index<SdmOpCodeDetail> src)
+        AsmFormDescriptors EmitForms(Index<SdmOpCodeDetail> src)
         {
-            var forms = CalcForms(src);
+            var forms = CalcFormsDescriptors(src);
             EmitForms(forms);
             return forms;
         }
 
-        void EmitForms(AsmForms src)
+        void EmitForms(AsmFormDescriptors src)
         {
             var path = SdmPaths.FormDetailPath();
             var lookup = dict<Identifier,AsmFormDetail>();
@@ -30,7 +30,7 @@ namespace Z0.Asm
                 var form = src[key];
                 dst.Id = form.Id;
                 dst.Seq = i;
-                dst.Name = key;
+                dst.Name = form.Name;
                 dst.Sig = form.Sig;
                 dst.OpCode = form.OpCode;
                 dst.Mode64 = ((form.Mode & AsmBitModeKind.Mode64) != 0);

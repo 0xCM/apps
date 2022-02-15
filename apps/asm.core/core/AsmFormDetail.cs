@@ -17,7 +17,7 @@ namespace Z0
 
         public Hex32 Id;
 
-        public Identifier Name;
+        public text47 Name;
 
         public AsmSig Sig;
 
@@ -35,7 +35,7 @@ namespace Z0
 
         public TextBlock Description;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,32,48,42,8,8,8,8,8,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,38,48,42,8,8,8,8,8,1};
 
         public int CompareTo(AsmFormDetail src)
         {

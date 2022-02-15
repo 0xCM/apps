@@ -19,7 +19,7 @@ namespace Z0.Asm
             var count = sigs.Count;
             var dst = alloc<AsmForm>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = AsmForm.define(sigs[i], src.OpCode);
+                seek(dst,i) = AsmForm.define(src.Name, sigs[i], src.OpCode);
             return dst;
         }
 

@@ -8,10 +8,10 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        AsmForms IdentifyForms(ReadOnlySpan<AsmFormDescriptor> forms)
+        AsmFormDescriptors IdentifyForms(ReadOnlySpan<AsmFormDescriptor> forms)
         {
             var count = forms.Length;
-            var lookup = dict<Identifier,AsmFormDescriptor>();
+            var lookup = dict<string,AsmFormDescriptor>();
             for(var i=0u; i<count; i++)
             {
                 ref readonly var form = ref skip(forms,i);
@@ -54,8 +54,10 @@ namespace Z0.Asm
                     }
                 }
 
-                if(name.IsNonEmpty)
-                    lookup.TryAdd(name,form);
+                if(text.nonempty(name))
+                {
+                    lookup.TryAdd(name,form.WithName(name));
+                }
             }
 
             return lookup;

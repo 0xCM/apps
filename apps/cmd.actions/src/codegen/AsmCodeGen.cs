@@ -67,8 +67,8 @@ namespace Z0.Asm
         public void GenFormKinds()
         {
             var g = CodeGen.EnumGen();
-            var forms = Sdm.CalcForms();
-            var src = forms.CalcSymbols();
+            var descriptors = Sdm.CalcFormDescriptors();
+            var src = descriptors.CalcSymbols();
             var dst = text.buffer();
             var margin = 0u;
             dst.IndentLineFormat(margin, "namespace {0}", TargetNamespace);
@@ -77,12 +77,12 @@ namespace Z0.Asm
             g.Emit(margin, src, dst);
             margin -=4;
             dst.IndentLine(margin, Chars.RBrace);
-            CodeGen.EmitFile(dst.Emit(), AsmForms.FormKindName, CgTarget.Intel);
+            CodeGen.EmitFile(dst.Emit(), AsmFormDescriptors.FormKindName, CgTarget.Intel);
         }
 
         public void GenSigStrings()
         {
-            var forms = Sdm.CalcForms();
+            var forms = Sdm.CalcFormDescriptors();
             var keys = forms.Keys;
             var count = keys.Length + 1;
             var sigs = alloc<string>(count);
@@ -94,7 +94,7 @@ namespace Z0.Asm
                     seek(sigs,i) = forms[keys[i-1]].Sig.Format();
             }
 
-            CodeGen.GenStringTable(TargetNamespace, AsmSigTableName, AsmForms.FormKindName, sigs, CgTarget.Intel);
+            CodeGen.GenStringTable(TargetNamespace, AsmSigTableName, AsmFormDescriptors.FormKindName, sigs, CgTarget.Intel);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Z0.Asm
 
         public readonly Hex32 Id;
 
-        readonly AsmForm Form;
+        public readonly AsmForm Form;
 
         internal readonly SdmOpCodeDetail OcDetail;
 
@@ -52,6 +52,12 @@ namespace Z0.Asm
             OcDetail = oc;
             Mode = mode(oc);
             Description = oc.Description.Format().Trim();
+        }
+
+        public text47 Name
+        {
+            [MethodImpl(Inline)]
+            get => Form.Name;
         }
 
         public AsmSig Sig
@@ -71,5 +77,9 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => Form.Mnemonic;
         }
+
+        [MethodImpl(Inline)]
+        public AsmFormDescriptor WithName(in text47 name)
+            => new AsmFormDescriptor(Form.WithName(name), OcDetail);
     }
 }

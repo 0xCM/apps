@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class AsmSigs
     {
-        public static Identifier identify(in AsmSigOp src)
+        public static string identify(in AsmSigOp src)
         {
             if(Datasets.TokenIdentifiers.Find(src.Id, out var id))
             {
@@ -22,7 +22,7 @@ namespace Z0.Asm
             return EmptyString;
         }
 
-        public static Identifier identify(in AsmSig src)
+        public static string identify(in AsmSig src)
         {
             var dst = text.buffer();
             dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));

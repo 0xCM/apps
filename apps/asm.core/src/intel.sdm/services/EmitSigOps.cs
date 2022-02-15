@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public Outcome EmitSigOps(AsmForms src)
+        public Outcome EmitSigOps(AsmFormDescriptors src)
         {
             const string RP = "{0,-8} | {1,-16} | {2,-6} | {3,-48} | {4}";
             var result = Outcome.Success;

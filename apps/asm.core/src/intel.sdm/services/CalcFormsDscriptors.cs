@@ -9,13 +9,16 @@ namespace Z0.Asm
     partial class IntelSdm
     {
         public AsmForms CalcForms()
-            => CalcForms(LoadImportedOpcodes());
+            => map(CalcFormDescriptors().Values, v => v.Form);
 
-        AsmForms CalcForms(Index<SdmOpCodeDetail> src)
+        public AsmFormDescriptors CalcFormDescriptors()
+            => CalcFormsDescriptors(LoadImportedOpcodes());
+
+        AsmFormDescriptors CalcFormsDescriptors(Index<SdmOpCodeDetail> src)
         {
-            return Data(nameof(CalcForms), Calc);
+            return Data(nameof(CalcFormDescriptors), Calc);
 
-            AsmForms Calc()
+            AsmFormDescriptors Calc()
             {
                 var result = Outcome.Success;
                 var count = src.Length;
@@ -47,7 +50,6 @@ namespace Z0.Asm
                 var tmp = list<AsmFormDescriptor>();
                 tmp.AddRange(AsmFormDescriptor.unmodify(forms.ViewDeposited()));
                 tmp.AddRange(modified);
-
                 return IdentifyForms(tmp.ToArray());
             }
         }

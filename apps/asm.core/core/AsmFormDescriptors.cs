@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using static core;
 
-    public class AsmForms : SortedLookup<Identifier,AsmFormDescriptor>
+    public class AsmFormDescriptors : SortedLookup<string,AsmFormDescriptor>
     {
         public const string FormKindName = "AsmFormKind";
 
@@ -56,14 +56,14 @@ namespace Z0.Asm
             return dst;
         }
 
-        public AsmForms(Dictionary<Identifier,AsmFormDescriptor> src)
+        public AsmFormDescriptors(Dictionary<string,AsmFormDescriptor> src)
             : base(src)
         {
 
 
         }
 
-        public static implicit operator AsmForms(Dictionary<Identifier,AsmFormDescriptor> src)
-            => new AsmForms(src);
+        public static implicit operator AsmFormDescriptors(Dictionary<string,AsmFormDescriptor> src)
+            => new AsmFormDescriptors(src);
     }
 }
