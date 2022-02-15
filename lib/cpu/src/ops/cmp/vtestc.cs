@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.X86.Sse41;
     using static System.Runtime.Intrinsics.X86.Avx;
     using static Root;
@@ -150,13 +146,113 @@ namespace Z0
 
         /// <summary>
         /// int _mm_testc_si128 (__m128i a, __m128i b) PTEST xmm, xmm/m128
-        /// Returns true if all mask-identified source bits are on
+        /// Returns true if all mask-identified source bits are enabled
         /// </summary>
         /// <param name="src">The source bits</param>
         /// <param name="mask">Specifies the bits the source to test</param>
         [MethodImpl(Inline), TestC]
         public static bit vtestc(Vector128<ulong> src, Vector128<ulong> mask)
             => TestC(src, mask);
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<sbyte> src)
+            => TestC(src, gcpu.vones<sbyte>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<byte> src)
+            => TestC(src, gcpu.vones<byte>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<short> src)
+            => TestC(src, gcpu.vones<short>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<ushort> src)
+            => TestC(src, gcpu.vones<ushort>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<int> src)
+            => TestC(src, gcpu.vones<int>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<uint> src)
+            => TestC(src, gcpu.vones<uint>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<long> src)
+            => TestC(src, gcpu.vones<long>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<ulong> src)
+            => TestC(src, gcpu.vones<ulong>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_ps (__m256 a, __m256 b) VTESTPS ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits in the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<float> src)
+            => TestC(src, gcpu.vones<float>(w256));
+
+        /// <summary>
+        /// int _mm256_testc_pd (__m256d a, __m256d b) VTESTPS ymm, ymm/m256
+        /// Returns true if all source bits are on enabled
+        /// </summary>
+        /// <param name="src">The source bits</param>
+        /// <param name="mask">Specifies the bits in the source to test</param>
+        [MethodImpl(Inline), TestC]
+        public static bit vtestc(Vector256<double> src)
+            => TestC(src, gcpu.vones<double>(w256));
 
         /// <summary>
         /// int _mm256_testc_si256 (__m256i a, __m256i b) VPTEST ymm, ymm/m256

@@ -55,6 +55,14 @@ namespace Z0.Asm
             => new AsmOperand(src);
 
         [MethodImpl(Inline), Op]
+        public static AsmOperand op(rK src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmOperand op(rSeg src)
+            => new AsmOperand(src);
+
+        [MethodImpl(Inline), Op]
         public static AsmOperand op(imm8 src)
             => new AsmOperand(src);
 

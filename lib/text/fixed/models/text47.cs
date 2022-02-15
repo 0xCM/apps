@@ -4,36 +4,43 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
-    using FC = FixedChars;
+    using api = FixedChars;
 
-    public struct text15 : ISizedString<text15>
+    public struct text47 : ISizedString<text47>
     {
-        public const byte MaxLength = 15;
+        public const byte MaxLength = 47;
 
         public const byte PointSize = 1;
 
-        public static W128 W => default;
+        static N47 N => default;
 
-        static N15 N => default;
-
-        [StructLayout(LayoutKind.Sequential, Size=16, Pack=1)]
+        [StructLayout(LayoutKind.Sequential, Size=16*3, Pack=1)]
         internal struct StorageType
         {
             ulong A;
 
             ulong B;
 
+            ulong C;
+
+            ulong D;
+
+            ulong E;
+
+            ulong F;
+
             public Span<byte> Bytes
             {
                 [MethodImpl(Inline)]
                 get => bytes(this);
+            }
+
+            public char this[byte i]
+            {
+                [MethodImpl(Inline)]
+                get => (char)Cell(i);
             }
 
             [MethodImpl(Inline)]
@@ -43,24 +50,14 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => A == 0 && B == 0;
+                get => D == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => A != 0 || B != 0;
+                get => D != 0;
             }
-
-            public uint Hash
-            {
-                [MethodImpl(Inline)]
-                get => alg.hash.combine(alg.hash.calc(A), alg.hash.calc(B));
-            }
-
-            [MethodImpl(Inline)]
-            public bool Equals(StorageType src)
-                => A == src.A && B == src.B;
 
             public static StorageType Empty => default;
         }
@@ -68,7 +65,7 @@ namespace Z0
         internal StorageType Storage;
 
         [MethodImpl(Inline)]
-        internal text15(in StorageType data)
+        internal text47(in StorageType data)
         {
             Storage = data;
         }
@@ -82,9 +79,14 @@ namespace Z0
         public uint Length
         {
             [MethodImpl(Inline)]
-            get => Storage.Cell(15);
+            get => Storage.Cell(47);
         }
 
+        public char this[byte index]
+        {
+            [MethodImpl(Inline)]
+            get => Storage[index];
+        }
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -104,38 +106,43 @@ namespace Z0
         public BitWidth StorageWidth => size<StorageType>();
 
         public string Format()
-            => FC.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();
 
-        public bool Equals(text15 src)
-            => Storage.Equals(src.Storage);
-        public int CompareTo(text15 src)
-            => Format().CompareTo(src.Format());
+        public bool Equals(text47 src)
+            => api.eq(this,src);
 
         public override int GetHashCode()
-            => (int)Storage.Hash;
+            => (int)api.hash(this);
 
         public override bool Equals(object src)
-            => src is text15 x && Equals(x);
+            => src is text47 x && Equals(x);
+
+        public int CompareTo(text47 src)
+            => Format().CompareTo(src.Format());
 
         [MethodImpl(Inline)]
-        public static implicit operator text15(string src)
-            => FC.txt(N,src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator text15(ReadOnlySpan<char> src)
-            => FC.txt(N,src);
-
-        [MethodImpl(Inline)]
-        public static bool operator ==(text15 a, text15 b)
+        public static bool operator ==(text47 a, text47 b)
             => a.Equals(b);
 
         [MethodImpl(Inline)]
-        public static bool operator !=(text15 a, text15 b)
+        public static bool operator !=(text47 a, text47 b)
             => !a.Equals(b);
 
-        public static text15 Empty => default;
+        [MethodImpl(Inline)]
+        public static implicit operator text47(string src)
+            => api.txt(N,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator text47(ReadOnlySpan<char> src)
+            => api.txt(N,src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator text47(ReadOnlySpan<byte> src)
+            => api.txt(N,src);
+
+        public static text47 Empty => default;
     }
 }

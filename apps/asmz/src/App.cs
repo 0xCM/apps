@@ -161,7 +161,7 @@ namespace Z0.Asm
             var parts = Wf.ApiCatalog.ComponentNames.ToHashSet();
             using var writer = dst.Writer();
             writer.WriteLine("digraph dependencies{");
-            writer.WriteLine(string.Format("label={0}", RP.enquote("Assembly Dependencies")));
+            writer.WriteLine(string.Format("label={0}", text.enquote("Assembly Dependencies")));
             for(var i=0; i<count; i++)
             {
                 ref readonly var x = ref skip(refs,i);

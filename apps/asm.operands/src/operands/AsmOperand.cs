@@ -17,7 +17,6 @@ namespace Z0.Asm
         public static AsmOpKind kind(AsmOpClass @class, NativeSizeCode size)
             => (AsmOpKind)math.or((ushort)@class, math.sll((ushort)(size), 8));
 
-
         public readonly AsmOpClass OpClass;
 
         public readonly AsmOpKind OpKind;

@@ -7,6 +7,7 @@ namespace Z0.Asm.Operands
     using I = RegIndexCode;
     using G = rK;
     using K = AsmRegTokens.KReg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct rK : IRegOp64<rK>
@@ -51,15 +52,15 @@ namespace Z0.Asm.Operands
 
 
         [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
+        public O Untyped()
+            => new O(this);
 
         [MethodImpl(Inline)]
         public static implicit operator RegOp(G src)
             => api.reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(G src)
+        public static implicit operator O(G src)
             => src.Untyped();
 
         [MethodImpl(Inline)]
@@ -114,6 +115,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(k0 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(k0 src)
+            => (G)src;
     }
 
     public readonly struct k1 : IRegOp64<k1>
@@ -127,6 +132,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(k1 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(k1 src)
+            => (G)src;
     }
 
     public readonly struct k2 : IRegOp64<k2>
@@ -140,6 +149,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(k2 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(k2 src)
+            => (G)src;
     }
 
     public readonly struct k3 : IRegOp64<k3>

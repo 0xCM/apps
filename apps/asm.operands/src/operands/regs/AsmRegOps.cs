@@ -388,7 +388,16 @@ namespace Z0.Asm
 
         public static R.k7 k7 => default;
 
+        public static R.cs cs => default;
 
+        public static R.ds ds => default;
 
+        public static R.ss ss => default;
+
+        public static R.es es => default;
+
+        public static R.fs fs => default;
+
+        public static R.gs gs => default;
     }
 }

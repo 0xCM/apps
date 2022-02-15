@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using I = RegIndexCode;
     using G = zmm;
     using K = AsmRegTokens.ZmmReg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct zmm : IRegOp256<zmm>

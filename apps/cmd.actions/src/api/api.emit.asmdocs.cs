@@ -41,7 +41,7 @@ namespace Z0
             writer.WriteLine(Regs.YmmRegs().ToNameArray("YmmRegs"));
             writer.WriteLine(Regs.ZmmRegs().ToNameArray("ZmmRegs"));
             writer.WriteLine(Regs.MmxRegs().ToNameArray("MmxRegs"));
-            writer.WriteLine(Regs.MaskRegs().ToNameArray("MaskRegs"));
+            writer.WriteLine(Regs.KRegs().ToNameArray("MaskRegs"));
             writer.WriteLine(Regs.CrRegs().ToNameArray("CrRegs"));
             writer.WriteLine(Regs.DbRegs().ToNameArray("DbRegs"));
 

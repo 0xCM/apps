@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
     using System.Runtime.Intrinsics.X86;
 
     using static System.Runtime.Intrinsics.X86.Sse;
@@ -14,15 +11,13 @@ namespace Z0
     using static System.Runtime.Intrinsics.X86.Sse41;
     using static System.Runtime.Intrinsics.X86.Avx;
     using static System.Runtime.Intrinsics.X86.Avx2;
-    using static Root;
 
     partial struct cpu
     {
         /// <summary>
         /// __m128i _mm_cmpeq_epi8 (__m128i a, __m128i b) PCMPEQB xmm, xmm/m128
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -32,9 +27,8 @@ namespace Z0
 
         /// <summary>
         /// __m128i _mm_cmpeq_epi8 (__m128i a, __m128i b) PCMPEQB xmm, xmm/m128
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -44,9 +38,8 @@ namespace Z0
 
         /// <summary>
         ///  __m128i _mm_cmpeq_epi16 (__m128i a, __m128i b) PCMPEQW xmm, xmm/m128
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -56,9 +49,8 @@ namespace Z0
 
         /// <summary>
         ///  __m128i _mm_cmpeq_epi16 (__m128i a, __m128i b) PCMPEQW xmm, xmm/m128
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -69,9 +61,8 @@ namespace Z0
         /// <summary>
         /// __m128i _mm_cmpeq_epi32 (__m128i a, __m128i b) PCMPEQD xmm, xmm/m128
         /// </summary>
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline), Eq]
@@ -81,9 +72,8 @@ namespace Z0
         /// <summary>
         /// __m128i _mm_cmpeq_epi32 (__m128i a, __m128i b) PCMPEQD xmm, xmm/m128
         /// </summary>
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
         [MethodImpl(Inline), Eq]
@@ -92,9 +82,8 @@ namespace Z0
 
         /// <summary>
         /// __m128i _mm_cmpeq_epi64 (__m128i a, __m128i b) PCMPEQQ xmm, xmm/m128
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -104,9 +93,8 @@ namespace Z0
 
         /// <summary>
         /// __m128i _mm_cmpeq_epi64 (__m128i a, __m128i b) PCMPEQQ xmm, xmm/m128
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -125,6 +113,8 @@ namespace Z0
 
         /// <summary>
         /// __m128d _mm_cmpeq_pd (__m128d a, __m128d b) CMPPD xmm, xmm/m128, imm8(0)
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -134,9 +124,8 @@ namespace Z0
 
         /// <summary>
         /// __m256i _mm256_cmpeq_epi8 (__m256i a, __m256i b) VPCMPEQB ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -146,7 +135,8 @@ namespace Z0
 
         /// <summary>
         /// __m256i _mm256_cmpeq_epi8 (__m256i a, __m256i b) VPCMPEQB ymm, ymm, ymm/m256
-        /// Compares the operands for equality
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -156,9 +146,8 @@ namespace Z0
 
         /// <summary>
         ///  __m256i _mm256_cmpeq_epi16 (__m256i a, __m256i b) VPCMPEQW ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -168,9 +157,8 @@ namespace Z0
 
         /// <summary>
         /// __m256i _mm256_cmpeq_epi16 (__m256i a, __m256i b) VPCMPEQW ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -180,9 +168,8 @@ namespace Z0
 
         /// <summary>
         /// _mm256_cmpeq_epi32 (__m256i a, __m256i b) VPCMPEQD ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -192,9 +179,8 @@ namespace Z0
 
         /// <summary>
         /// __m256i _mm256_cmpeq_epi32 (__m256i a, __m256i b) VPCMPEQD ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -204,9 +190,8 @@ namespace Z0
 
         /// <summary>
         /// __m256i _mm256_cmpeq_epi64 (__m256i a, __m256i b) VPCMPEQQ ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -216,9 +201,8 @@ namespace Z0
 
         /// <summary>
         ///  __m256i _mm256_cmpeq_epi64 (__m256i a, __m256i b) VPCMPEQQ ymm, ymm, ymm/m256
-        /// Compares corresponding components each vector for equality. For equal
-        /// components, the corresponding component the result vector has all bits
-        /// enabled; otherwise, all bits the component are disabled
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -228,6 +212,8 @@ namespace Z0
 
         /// <summary>
         /// __m256 _mm256_cmp_ps (__m256 a, __m256 b, const int imm8) VCMPPS ymm, ymm, ymm/m256, imm8
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>
@@ -237,6 +223,8 @@ namespace Z0
 
         /// <summary>
         /// __m256d _mm256_cmp_pd (__m256d a, __m256d b, const int imm8) VCMPPD ymm, ymm, ymm/m256, imm8
+        /// Compares the source operands for equality. For equal components, the corresponding
+        /// component in the result vector has all bits enabled; otherwise all bits are disabled
         /// </summary>
         /// <param name="x">The left vector</param>
         /// <param name="y">The right vector</param>

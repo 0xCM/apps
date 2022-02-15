@@ -56,7 +56,6 @@ namespace Z0.Asm
             return dst;
         }
 
-
         public AsmForms(Dictionary<Identifier,AsmFormDescriptor> src)
             : base(src)
         {

@@ -6,7 +6,8 @@ namespace Z0.Asm.Operands
 {
     using I = RegIndexCode;
     using G = rCr;
-    using K = AsmRegTokens.DebugReg;
+    using K = AsmRegTokens.ControlReg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct rCr : IRegOp64<G>
@@ -110,6 +111,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(cr0 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(cr0 src)
+            => (G)src;
     }
 
     public readonly struct cr1 : IRegOp64<cr1>
@@ -123,6 +128,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(cr1 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(cr1 src)
+            => (G)src;
     }
 
     public readonly struct cr2 : IRegOp64<cr2>

@@ -7,6 +7,7 @@ namespace Z0.Asm.Operands
     using I = RegIndexCode;
     using G = xmm;
     using K = AsmRegTokens.XmmReg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct xmm : IRegOp128<G>

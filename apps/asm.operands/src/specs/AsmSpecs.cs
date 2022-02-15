@@ -15,6 +15,6 @@ namespace Z0.Asm
         // and r32, imm32 | 81 /4 id
         [MethodImpl(Inline), Op]
         public static AsmSpec and(r32 a, imm32 b)
-            => AsmSpec.define("and", AsmOpCode.Empty, a, b);
+            => asm.spec("and", AsmOpCode.Empty, a, b);
    }
 }

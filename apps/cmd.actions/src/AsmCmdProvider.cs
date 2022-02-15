@@ -10,6 +10,9 @@ namespace Z0
     {
         AsmRegSets RegSets => Service(AsmRegSets.create);
 
+        IntelSdm Sdm => Service(Wf.IntelSdm);
+
+        AsmGen AsmGen => Service(AsmGen.generator);
     }
 
 }

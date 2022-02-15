@@ -7,6 +7,7 @@ namespace Z0.Asm.Operands
     using I = RegIndexCode;
     using G = r16;
     using K = AsmRegTokens.Gp16Reg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct r16 : IRegOp16<G>
@@ -116,6 +117,11 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(ax src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(ax src)
+            => (G)src;
+
     }
 
     public struct cx : IRegOp16<cx>
@@ -129,6 +135,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(cx src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(cx src)
+            => (G)src;
     }
 
     public struct dx : IRegOp16<dx>
@@ -142,6 +152,11 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(dx src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(dx src)
+            => (G)src;
+
     }
 
     public struct bx : IRegOp16<bx>
@@ -155,6 +170,11 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(bx src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(bx src)
+            => (G)src;
+
     }
 
     public struct si : IRegOp16<si>

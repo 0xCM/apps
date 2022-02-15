@@ -64,7 +64,6 @@ namespace Z0.Asm
             g.Emit(TargetNamespace, literals, dst);
         }
 
-
         public void GenFormKinds()
         {
             var g = CodeGen.EnumGen();

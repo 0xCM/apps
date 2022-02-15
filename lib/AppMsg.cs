@@ -25,6 +25,9 @@ namespace Z0
         public static MsgPattern<Count,Count,string> CsvDataMismatch
             => "The target requires {0} fields but {1} were found in {2}";
 
+        public static MsgPattern<Count,Count,string> CellCountMismatch
+            => "The target requires {0} fields but {1} were found in {2}";
+
         public static RenderPattern<TableId,Count,FS.FileUri> EmittedTable
             => "Emitted <{1}> <{0}> rows to {2}";
 

@@ -4,14 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using I = RegIndexCode;
     using G = r32;
     using K = AsmRegTokens.Gp32Reg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct r32 : IRegOp32<r32>
@@ -123,7 +119,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(eax src)
+        public static implicit operator O(eax src)
             => (G)src;
     }
 
@@ -140,7 +136,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(ecx src)
+        public static implicit operator O(ecx src)
             => (G)src;
     }
 
@@ -157,7 +153,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(edx src)
+        public static implicit operator O(edx src)
             => (G)src;
     }
 
@@ -174,7 +170,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(ebx src)
+        public static implicit operator O(ebx src)
             => (G)src;
     }
 
@@ -191,7 +187,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(esi src)
+        public static implicit operator O(esi src)
             => (G)src;
     }
 
@@ -208,7 +204,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(edi src)
+        public static implicit operator O(edi src)
             => (G)src;
     }
 
@@ -225,7 +221,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(esp src)
+        public static implicit operator O(esp src)
             => (G)src;
     }
 
@@ -242,7 +238,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(ebp src)
+        public static implicit operator O(ebp src)
             => (G)src;
     }
 
@@ -259,7 +255,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r8d src)
+        public static implicit operator O(r8d src)
             => (G)src;
     }
 
@@ -276,7 +272,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r9d src)
+        public static implicit operator O(r9d src)
             => (G)src;
     }
 
@@ -293,7 +289,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r10d src)
+        public static implicit operator O(r10d src)
             => (G)src;
     }
 
@@ -310,7 +306,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r11d src)
+        public static implicit operator O(r11d src)
             => (G)src;
     }
 
@@ -327,7 +323,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r12d src)
+        public static implicit operator O(r12d src)
             => (G)src;
     }
 
@@ -344,7 +340,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r13d src)
+        public static implicit operator O(r13d src)
             => (G)src;
     }
 
@@ -361,7 +357,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r14d src)
+        public static implicit operator O(r14d src)
             => (G)src;
     }
 
@@ -378,7 +374,7 @@ namespace Z0.Asm.Operands
             => (K)src.Index;
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(r15d src)
+        public static implicit operator O(r15d src)
             => (G)src;
     }
 }

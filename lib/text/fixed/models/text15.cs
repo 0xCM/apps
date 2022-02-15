@@ -7,36 +7,29 @@ namespace Z0
     using static core;
 
     using FC = FixedChars;
+    using api = FixedChars;
 
-    public struct text31 : ISizedString<text31>
+    public struct text15 : ISizedString<text15>
     {
-        public const byte MaxLength = 31;
+        public const byte MaxLength = 15;
 
         public const byte PointSize = 1;
 
-        static N31 N => default;
+        public static W128 W => default;
 
-        [StructLayout(LayoutKind.Sequential, Size=32, Pack=1)]
+        static N15 N => default;
+
+        [StructLayout(LayoutKind.Sequential, Size=16, Pack=1)]
         internal struct StorageType
         {
             ulong A;
 
             ulong B;
 
-            ulong C;
-
-            ulong D;
-
             public Span<byte> Bytes
             {
                 [MethodImpl(Inline)]
                 get => bytes(this);
-            }
-
-            public char this[byte i]
-            {
-                [MethodImpl(Inline)]
-                get => (char)Cell(i);
             }
 
             [MethodImpl(Inline)]
@@ -46,14 +39,24 @@ namespace Z0
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => D == 0;
+                get => A == 0 && B == 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => D != 0;
+                get => A != 0 || B != 0;
             }
+
+            public uint Hash
+            {
+                [MethodImpl(Inline)]
+                get => alg.hash.combine(alg.hash.calc(A), alg.hash.calc(B));
+            }
+
+            [MethodImpl(Inline)]
+            public bool Equals(StorageType src)
+                => A == src.A && B == src.B;
 
             public static StorageType Empty => default;
         }
@@ -61,7 +64,7 @@ namespace Z0
         internal StorageType Storage;
 
         [MethodImpl(Inline)]
-        internal text31(in StorageType data)
+        internal text15(in StorageType data)
         {
             Storage = data;
         }
@@ -75,14 +78,9 @@ namespace Z0
         public uint Length
         {
             [MethodImpl(Inline)]
-            get => Storage.Cell(31);
+            get => Storage.Cell(15);
         }
 
-        public char this[byte index]
-        {
-            [MethodImpl(Inline)]
-            get => Storage[index];
-        }
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -107,24 +105,37 @@ namespace Z0
         public override string ToString()
             => Format();
 
-        public bool Equals(text31 src)
+        public bool Equals(text15 src)
             => Storage.Equals(src.Storage);
-
-        public int CompareTo(text31 src)
+        public int CompareTo(text15 src)
             => Format().CompareTo(src.Format());
 
-        [MethodImpl(Inline)]
-        public static implicit operator text31(string src)
-            => FC.txt(N,src);
+        public override int GetHashCode()
+            => (int)Storage.Hash;
+
+        public override bool Equals(object src)
+            => src is text15 x && Equals(x);
 
         [MethodImpl(Inline)]
-        public static implicit operator text31(ReadOnlySpan<char> src)
-            => FixedChars.txt(N,src);
+        public static implicit operator text15(string src)
+            => api.txt(N,src);
 
         [MethodImpl(Inline)]
-        public static implicit operator text31(ReadOnlySpan<byte> src)
-            => FixedChars.txt(N,src);
+        public static implicit operator text15(ReadOnlySpan<char> src)
+            => api.txt(N,src);
 
-        public static text31 Empty => default;
+        [MethodImpl(Inline)]
+        public static implicit operator text15(ReadOnlySpan<byte> src)
+            => api.txt(N,src);
+
+        [MethodImpl(Inline)]
+        public static bool operator ==(text15 a, text15 b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(text15 a, text15 b)
+            => !a.Equals(b);
+
+        public static text15 Empty => default;
     }
 }

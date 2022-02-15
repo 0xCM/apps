@@ -10,9 +10,15 @@ namespace Z0.Asm
         None = 0,
 
         [Symbol("{k1}", "Merge-masking")]
-        Merge = 1,
+        k1 = 1,
+
+        [Symbol("{z}")]
+        z = 2,
 
         [Symbol("{k1}{z}", "Zero-masking, where all unspecified elements in the target are zeroed-out")]
-        Zero = 2,
+        k1z = 3,
+
+        [Symbol("{k2}")]
+        k2 = 4,
     }
 }

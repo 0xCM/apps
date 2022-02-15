@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Asm;
-    using Asm.Operands;
-
     using static core;
     using static AsmSigTokens;
     using static AsmSigTokens.RegLiteralToken;
-
 
     using GpRT = AsmSigTokens.GpRegToken;
     using VRT = AsmSigTokens.VRegToken;
@@ -18,115 +14,152 @@ namespace Z0.Asm
     using MT = AsmSigTokens.MemToken;
     using ImmT = AsmSigTokens.ImmToken;
 
-    public partial class AsmGen : AppService<AsmGen>
+    public class AsmGenContext
     {
-        public static uint concretize(in AsmSigOp src, Span<AsmOperand> dst)
+
+    }
+
+    public class AsmGen
+    {
+        public static AsmGen generator()
+            => new AsmGen(new AsmGenContext());
+
+        AsmRegSets RegSets;
+
+        AsmGenContext Context;
+
+        AsmGen(AsmGenContext context)
         {
+            RegSets = AsmRegSets.create();
+            Context = context;
+        }
+
+        public void Concretize(Identifier name, in AsmForm form)
+        {
+
+        }
+
+        public uint Concretize(in AsmSigOp src, ref uint i, Span<AsmOperand> dst)
+        {
+            var i0 = i;
             var kind = src.Kind;
-            var count = 0u;
             switch(kind)
             {
                 case TK.GpReg:
-                    count = concretize((GpRegToken)src.Value, dst);
+                    GpRegs(src, ref i, dst);
                     break;
                 case TK.VReg:
-                    count = concretize((VRegToken)src.Value, dst);
+                    VRegs(src, ref i, dst);
+                    break;
+                case TK.MmxReg:
+                    MmxRegs(src, ref i, dst);
                     break;
                 case TK.KReg:
-                    count = concretize((KRegToken)src.Value, dst);
+                    KRegs(src, ref i, dst);
                     break;
                 case TK.Imm:
-                    count = concretize((ImmToken)src.Value, dst);
+                    ImmValues(src, ref i, dst);
                     break;
                 case TK.Mem:
-                    count = concretize((MemToken)src.Value, dst);
+                    MemValues(src, ref i, dst);
                     break;
                 case TK.RegLiteral:
-                    count = concretize((RegLiteralToken)src.Value, dst);
+                    RegLiterals(src, ref i, dst);
                     break;
             }
 
-            return count;
+            return i-i0;
         }
 
-
-        public static uint concretize(GpRegToken src, Span<AsmOperand> dst)
+        uint GpRegs(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
-            switch(src)
-            {
-                case GpRT.r8:
-                break;
-                case GpRT.r16:
-                break;
-                case GpRT.r32:
-                break;
-                case GpRT.r64:
-                break;
-            }
-
-            return 0;
+            var i0 = i;
+            var set = Regs((GpRegToken)src.Value);
+            convert(set, ref i, dst);
+            return i-i0;
         }
 
-        public static uint concretize(VRegToken src, Span<AsmOperand> dst)
+        uint KRegs(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
-            switch(src)
-            {
-                case VRT.xmm:
-                break;
-                case VRT.ymm:
-                break;
-                case VRT.zmm:
-                break;
-            }
-            return 0;
+            var i0 = i;
+            var regs = RegSets.KRegs();
+            if(src.IsMasked)
+                Apply(MaskKind(src.Modifier), regs, ref i, dst);
+            else
+                convert(regs, ref i, dst);
+            return i-i0;
         }
 
-        public static uint concretize(KRegToken src, Span<AsmOperand> dst)
+        uint VRegs(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
-
-            return 0;
+            var i0 = i;
+            var token = (VRegToken)src.Value;
+            var regs = Regs(token);
+            if(src.IsMasked)
+                Apply(MaskKind(src.Modifier), regs, ref i, dst);
+            else
+                convert(regs, ref i, dst);
+            return i-i0;
         }
 
-        public static uint concretize(RegLiteralToken src, Span<AsmOperand> dst)
+        uint RegLiterals(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
-            switch(src)
+            var i0 = i;
+            var token = (RegLiteralToken)src.Value;
+            switch(token)
             {
                 case AL:
-                break;
-                case AX:
-                break;
-                case DX:
-                break;
-                case EAX:
-                break;
-                case EDX:
-                break;
-                case RAX:
-                break;
-                case DS:
-                break;
-                case ES:
-                break;
-                case FS:
-                break;
-                case GS:
-                break;
-                case SS:
-                break;
-                case CS:
+                    seek(dst, i++) = AsmRegOps.al;
                 break;
                 case CL:
+                    seek(dst, i++) = AsmRegOps.cl;
+                break;
+                case AX:
+                    seek(dst, i++) = AsmRegOps.ax;
+                break;
+                case DX:
+                    seek(dst, i++) = AsmRegOps.dx;
+                break;
+                case EAX:
+                    seek(dst, i++) = AsmRegOps.eax;
+                break;
+                case EDX:
+                    seek(dst, i++) = AsmRegOps.edx;
+                break;
+                case RAX:
+                    seek(dst, i++) = AsmRegOps.rax;
+                break;
+                case CS:
+                    seek(dst, i++) = AsmRegOps.cs;
+                break;
+                case DS:
+                    seek(dst, i++) = AsmRegOps.ds;
+                break;
+                case SS:
+                    seek(dst, i++) = AsmRegOps.ss;
+                break;
+                case ES:
+                    seek(dst, i++) = AsmRegOps.es;
+                break;
+                case FS:
+                    seek(dst, i++) = AsmRegOps.fs;
+                break;
+                case GS:
+                    seek(dst, i++) = AsmRegOps.gs;
                 break;
             }
 
-            return 0;
+            return i-i0;
         }
 
-        public static uint concretize(ImmToken src, Span<AsmOperand> dst)
+        uint ImmValues(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
-            switch(src)
+            var i0 = i;
+            switch((ImmToken)src.Value)
             {
                 case ImmT.imm8:
+                    for(var j=0; j<byte.MaxValue; j++)
+                        seek(dst,i++) = asm.imm8((byte)j);
                 break;
                 case ImmT.imm16:
                 break;
@@ -136,12 +169,13 @@ namespace Z0.Asm
                 break;
             }
 
-            return 0;
+            return i-i0;
         }
 
-        public static uint concretize(MemToken src, Span<AsmOperand> dst)
+        uint MemValues(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
-            switch(src)
+            var i0 = i;
+            switch((MemToken)src.Value)
             {
                 case MT.m8:
                 break;
@@ -162,11 +196,91 @@ namespace Z0.Asm
             return 0;
         }
 
-        public static uint concretize(MmxRegToken src, Span<AsmOperand> dst)
+        uint MmxRegs(AsmSigOp src, ref uint i,Span<AsmOperand> dst)
         {
-
-            return 0;
+            var i0 = i;
+            var sets = AsmRegSets.create();
+            var set = sets.MmxRegs();
+            convert(set, ref i, dst);
+            return i-i0;
         }
 
+        RegOpSeq Regs(GpRegToken src)
+        {
+            var set = RegOpSeq.Empty;
+            switch(src)
+            {
+                case GpRT.r8:
+                    set = RegSets.Gp8Regs();
+                break;
+                case GpRT.r16:
+                    set = RegSets.Gp16Regs();
+                break;
+                case GpRT.r32:
+                    set = RegSets.Gp32Regs();
+                break;
+                case GpRT.r64:
+                    set = RegSets.Gp64Regs();
+                break;
+            }
+            return set;
+        }
+
+        RegOpSeq Regs(VRegToken src)
+        {
+            var set = RegOpSeq.Empty;
+            switch(src)
+            {
+                case VRT.xmm:
+                    set = RegSets.XmmRegs();
+                break;
+                case VRT.ymm:
+                    set = RegSets.YmmRegs();
+                break;
+                case VRT.zmm:
+                    set = RegSets.ZmmRegs();
+                break;
+            }
+            return set;
+        }
+
+        void Apply(RegMaskKind mask, RegOpSeq regs, ref uint i, Span<AsmOperand> dst)
+        {
+            var kregs = RegSets.KRegs();
+            for(var j=0; j<regs.Count; j++)
+            {
+                ref readonly var target = ref regs[j];
+                for(var k=0; k<kregs.Count; k++)
+                    seek(dst,i++) = asm.regmask(target, kregs[k].Index, mask);
+            }
+        }
+
+        static RegMaskKind MaskKind(AsmModifierKind src)
+        {
+            var dst = RegMaskKind.None;
+            switch(src)
+            {
+                case AsmModifierKind.k1:
+                    dst = RegMaskKind.k1;
+                break;
+                case AsmModifierKind.k1z:
+                    dst = RegMaskKind.k1z;
+                break;
+                case AsmModifierKind.z:
+                    dst = RegMaskKind.z;
+                break;
+                case AsmModifierKind.k2:
+                    dst = RegMaskKind.k2;
+                break;
+            }
+            return dst;
+        }
+
+        static void convert(RegOpSeq src, ref uint i, Span<AsmOperand> dst)
+        {
+            var count = src.Count;
+            for(var j=0; j<count; j++)
+                seek(dst,i++) = src[j];
+        }
     }
 }

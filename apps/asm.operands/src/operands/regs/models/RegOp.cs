@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using api = AsmRegs;
 
     /// <summary>
@@ -108,10 +104,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator RegOp(RegKind kind)
             => new RegOp((ushort)kind);
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(RegOp src)
-            => src.Untyped();
 
         public static RegOp Invalid
         {

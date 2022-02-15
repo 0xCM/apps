@@ -7,6 +7,7 @@ namespace Z0.Asm.Operands
     using I = RegIndexCode;
     using G = r64;
     using K = AsmRegTokens.Gp64Reg;
+    using O = AsmOperand;
     using api = AsmRegs;
 
     public readonly struct r64 : IRegOp64<G>
@@ -21,8 +22,8 @@ namespace Z0.Asm.Operands
 
 
         [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
+        public O Untyped()
+            => new O(this);
 
         public string Format()
             => ((K)Index).ToString();
@@ -65,7 +66,7 @@ namespace Z0.Asm.Operands
             => api.reg(src.Size, src.RegClassCode, src.Index);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(G src)
+        public static implicit operator O(G src)
             => src.Untyped();
 
         [MethodImpl(Inline)]
@@ -126,6 +127,11 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rax src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rax src)
+            => (G)src;
+
     }
 
     public struct rcx : IRegOp64<rcx>

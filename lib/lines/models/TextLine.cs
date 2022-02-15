@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Represents a line of text in the context of a line-oriented text data source
     /// </summary>
@@ -54,6 +49,17 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => Content;
+        }
+
+        public Index<string> Cells(char delimiter)
+            => text.trim(text.split(Content, delimiter));
+
+        public Index<string> Cells(char delimiter, uint count)
+        {
+            var cells = Cells(delimiter);
+            if(cells.Count != count)
+                Errors.Throw(AppMsg.CellCountMismatch.Format(cells.Count, count, Content));
+            return cells;
         }
 
         public int Length

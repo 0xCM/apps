@@ -33,10 +33,16 @@ namespace Z0.Asm
             get => bits.join((byte)Value, (byte)Kind);
         }
 
-        public bool HasModifier
+        public bool IsModified
         {
             [MethodImpl(Inline)]
             get => Modifier != 0;
+        }
+
+        public bool IsMasked
+        {
+            [MethodImpl(Inline)]
+            get => IsModified && (byte)Modifier <= (byte)AsmModifierKind.k1z;
         }
 
         [MethodImpl(Inline)]

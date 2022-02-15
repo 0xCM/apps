@@ -98,7 +98,7 @@ namespace Z0.Asm
                     regs = ZmmRegs();
                 break;
                 case RegClassCode.MASK:
-                    regs = MaskRegs();
+                    regs = KRegs();
                 break;
                 case RegClassCode.MMX:
                     regs = MmxRegs();
@@ -273,9 +273,9 @@ namespace Z0.Asm
             return dst;
         }
 
-        public RegOpSeq MaskRegs()
+        public RegOpSeq KRegs()
         {
-            return Data(nameof(MaskRegs), Load);
+            return Data(nameof(KRegs), Load);
 
             RegOpSeq Load()
             {
@@ -381,7 +381,7 @@ namespace Z0.Asm
             => Data(nameof(ZmmRegNames), () => Names(ZmmRegs()));
 
         public RegNameSet MaskRegNames()
-            => Data(nameof(MaskRegNames), () => Names(MaskRegs()));
+            => Data(nameof(MaskRegNames), () => Names(KRegs()));
 
         public RegNameSet MmxRegNames()
             => Data(nameof(MmxRegNames), () => Names(MmxRegs()));

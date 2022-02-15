@@ -21,6 +21,13 @@ namespace Z0
             => AppMsgSource.capture(caller, file, line);
 
         [Op]
+        public static void OnError(Outcome result, [Caller]string caller = null, [File] string? file = null, [Line] int? line = null)
+        {
+            if(result.Fail)
+                sourced(result.Message, caller, file, line);
+        }
+
+        [Op]
         public static void e(Exception e)
             => throw e;
 

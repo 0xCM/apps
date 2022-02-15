@@ -4,13 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using FC = FixedChars;
+    using api = FixedChars;
 
     public struct text7 : ISizedString<text7>
     {
@@ -65,14 +62,14 @@ namespace Z0
         public BitWidth StorageWidth => size<text7>();
 
         public string Format()
-            => FC.format(this);
+            => api.format(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public bool Equals(text7 src)
-            => FC.eq(this,src);
+            => api.eq(this,src);
 
         public int CompareTo(text7 src)
             => Format().CompareTo(src.Format());
@@ -93,15 +90,15 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator text7(string src)
-            => FC.txt(N,src);
+            => api.txt(N,src);
 
         [MethodImpl(Inline)]
         public static implicit operator text7(ReadOnlySpan<char> src)
-            => FC.txt(N,src);
+            => api.txt(N,src);
 
         [MethodImpl(Inline)]
         public static implicit operator text7(char src)
-            => FC.txt(N,src);
+            => api.txt(N,src);
 
         public static text7 Empty => default;
     }
