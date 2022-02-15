@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial struct asm
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
+        [MethodImpl(Inline), Op]
         public static AsmCell cell(string content, AsmPartKind kind)
             => new AsmCell(kind, content);
     }

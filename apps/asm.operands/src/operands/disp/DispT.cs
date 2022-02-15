@@ -32,6 +32,9 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => Source.OpKind;
 
+        public AsmOpClass OpClass
+            => AsmOpClass.Disp;
+
         public bool Positive
         {
             [MethodImpl(Inline)]

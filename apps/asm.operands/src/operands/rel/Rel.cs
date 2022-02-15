@@ -28,6 +28,9 @@ namespace Z0.Asm
             Value = value;
         }
 
+        public AsmOpClass OpClass
+            => AsmOpClass.Rel;
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]

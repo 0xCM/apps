@@ -7,6 +7,14 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct Jcc8 : IAsmInstruction<Jcc8>
     {
+        [MethodImpl(Inline), Op]
+        public static Jcc8 define(Jcc8Code code, Disp8 disp)
+            => new Jcc8(code, disp);
+
+        [MethodImpl(Inline), Op]
+        public static Jcc8 define(Jcc8AltCode code, Disp8 disp)
+            => new Jcc8(code, disp);
+
         readonly byte Data;
 
         public readonly Disp8 Disp;

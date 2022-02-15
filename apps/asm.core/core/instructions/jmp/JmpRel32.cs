@@ -4,20 +4,54 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct JmpRel32 : IAsmRelInst<Disp32>
     {
         [MethodImpl(Inline), Op]
-        public static JmpRel32 jmp(Rip src, MemoryAddress dst)
+        public static JmpRel32 define(Rip src, MemoryAddress dst)
             => new JmpRel32(src, dst);
 
         [MethodImpl(Inline), Op]
-        public static JmpRel32 jmp(LocatedSymbol src, LocatedSymbol dst)
+        public static JmpRel32 define(LocatedSymbol src, LocatedSymbol dst)
             => new JmpRel32(src, dst);
+
+        [MethodImpl(Inline), Op]
+        public static JmpRel32 define(Rip rip, Disp32 disp)
+            => new JmpRel32(rip.Address, AsmRel32.target(rip, disp));
 
         [MethodImpl(Inline), Op]
         public static bool test(ReadOnlySpan<byte> encoding)
             => encoding.Length >= InstSize && core.first(encoding) == OpCode;
+
+        /// <summary>
+        /// Jump near, relative
+        /// </summary>
+        /// <param name="w">The relative width selector</param>
+        /// <param name="rip">The callsite, i.e. the location at which the jmp instruction begins</param>
+        /// <param name="target">The target address</param>
+        [MethodImpl(Inline), Op]
+        public static void encode(Rip rip, MemoryAddress target, Span<byte> dst)
+        {
+            var i=0;
+            seek(dst, i++) = JmpRel32.OpCode;
+            var disp = AsmRel32.disp(rip,target);
+            @as<Disp32>(slice(dst,1, 4)) = disp;
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AsmHexCode encode(Rip rip, MemoryAddress target)
+        {
+            var storage = ByteBlock16.Empty;
+            var buffer = storage.Bytes;
+            encode(rip,target, buffer);
+            seek(buffer,15) = JmpRel32.InstSize;
+            return @as<AsmHexCode>(buffer);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static AsmHexCode encode(JmpRel32 spec)
+            => encode((spec.SourceAddress, JmpRel32.InstSize), spec.TargetAddress);
 
         public const byte OpCode = 0xE9;
 
@@ -68,7 +102,7 @@ namespace Z0.Asm
         public AsmHexCode Encoding
         {
             [MethodImpl(Inline)]
-            get => asm.jmp32(this);
+            get => JmpRel32.encode(this);
         }
 
         public AsmMnemonic Mnemonic

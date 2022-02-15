@@ -57,6 +57,9 @@ namespace Z0
         public ImmKind ImmKind
             => Kind;
 
+        public AsmOpClass OpClass
+            => AsmOpClass.Imm;
+
         public AsmOpKind OpKind
             => AsmOpKind.Imm64;
 

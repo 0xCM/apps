@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-
     using Asm;
-    using Asm.Operands;
 
     using static core;
 
@@ -23,6 +21,5 @@ namespace Z0
         [MethodImpl(Inline)]
         public ref ulong RegVal(byte index)
             => ref Values[index];
-
     }
 }

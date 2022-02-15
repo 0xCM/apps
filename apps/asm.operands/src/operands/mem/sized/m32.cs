@@ -21,6 +21,12 @@ namespace Z0.Asm.Operands
             Address = new AsmAddress(@base, index, scale, disp);
         }
 
+        public AsmOpKind OpKind
+            => AsmOpKind.Mem32;
+
+        public AsmOpClass OpClass
+            => AsmOpClass.Mem;
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]

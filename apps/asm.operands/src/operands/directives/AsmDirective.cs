@@ -8,6 +8,10 @@ namespace Z0.Asm
 
     public readonly struct AsmDirective : IAsmSourcePart
     {
+        [MethodImpl(Inline)]
+        public static AsmDirective define<T>(text31 name, T arg)
+            => new AsmDirective(name, new AsmDirectiveOp<T>(arg));
+
         [Parser]
         public static Outcome parse(string src, out AsmDirective dst)
         {

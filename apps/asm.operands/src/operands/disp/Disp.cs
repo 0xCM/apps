@@ -58,6 +58,9 @@ namespace Z0.Asm
             get => AsmOperand.kind(AsmOpClass.Disp, Size);
         }
 
+        public AsmOpClass OpClass
+            => AsmOpClass.Disp;
+
         public bool IsNonZero
         {
             [MethodImpl(Inline)]

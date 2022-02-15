@@ -226,8 +226,8 @@ namespace Z0.Asm
             mm64,
         }
 
-        [SymSource(tokens, K.MaskReg)]
-        public enum MaskRegToken : byte
+        [SymSource(tokens, K.KReg)]
+        public enum KRegToken : byte
         {
             [Symbol("rK", "A mask register used as a regular operand (either destination or source)")]
             rK,
@@ -242,7 +242,7 @@ namespace Z0.Asm
             k2
         }
 
-        [SymSource(tokens, K.VecReg)]
+        [SymSource(tokens, K.VReg)]
         public enum VRegToken : byte
         {
             [Symbol("xmm", "An XMM register")]

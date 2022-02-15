@@ -44,6 +44,9 @@ namespace Z0.Asm
             get => AsmOperand.kind(AsmOpClass.RegMask, Size);
         }
 
+        public AsmOpClass OpClass
+            => AsmOpClass.RegMask;
+
         public string Format()
             => format(this);
 

@@ -18,6 +18,7 @@ namespace Z0.Asm
         public static Rel32 rel32(uint src)
             => src;
 
+        [MethodImpl(Inline), Op]
         public static Rel rel(AsmRelKind kind, uint value)
             => new Rel(kind, value);
     }

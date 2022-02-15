@@ -26,6 +26,12 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => AsmOpKind.Rel8;
 
+        public NativeSize Size
+            => NativeSizeCode.W8;
+
+        public AsmOpClass OpClass
+            => AsmOpClass.Rel;
+
         public string Format()
             => HexFormatter.format(w, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 

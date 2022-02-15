@@ -17,77 +17,6 @@ namespace Z0.Asm
         public static AsmOpKind kind(AsmOpClass @class, NativeSizeCode size)
             => (AsmOpKind)math.or((ushort)@class, math.sll((ushort)(size), 8));
 
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(r8 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(r16 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(r32 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(r64 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(xmm src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(ymm src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(zmm src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(imm8 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(imm16 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(imm32 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(imm64 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m8 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m16 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m32 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m64 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m128 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m256 src)
-            => new AsmOperand(src);
-
-        [MethodImpl(Inline), Op]
-        public static AsmOperand op(m512 src)
-            => new AsmOperand(src);
 
         public readonly AsmOpClass OpClass;
 
@@ -98,7 +27,7 @@ namespace Z0.Asm
         B _Data;
 
         [MethodImpl(Inline)]
-        internal AsmOperand(MemOp src)
+        public AsmOperand(MemOp src)
         {
             OpClass = AsmOpClass.Mem;
             Size = src.Size;
@@ -108,7 +37,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(RegOp src)
+        public AsmOperand(RegOp src)
         {
             OpClass = AsmOpClass.Reg;
             Size = src.Size;
@@ -117,7 +46,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(Imm src)
+        public AsmOperand(Imm src)
         {
             OpClass = AsmOpClass.Imm;
             Size = src.Size;
@@ -127,7 +56,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(imm8 src)
+        public AsmOperand(imm8 src)
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W8;
@@ -137,7 +66,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(imm16 src)
+        public AsmOperand(imm16 src)
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W16;
@@ -147,7 +76,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(imm32 src)
+        public AsmOperand(imm32 src)
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W32;
@@ -157,7 +86,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(imm64 src)
+        public AsmOperand(imm64 src)
         {
             OpClass = AsmOpClass.Imm;
             Size = NativeSizeCode.W64;
@@ -167,133 +96,173 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m8 src)
+        public AsmOperand(m8 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W8;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m8>(_Data) = src;
-            OpKind = AsmOpKind.Mem8;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m16 src)
+        public AsmOperand(m16 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W16;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m16>(_Data) = src;
-            OpKind = AsmOpKind.Mem16;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m32 src)
+        public AsmOperand(m32 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W32;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m32>(_Data) = src;
-            OpKind = AsmOpKind.Mem32;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m64 src)
+        public AsmOperand(m64 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W64;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m64>(_Data) = src;
-            OpKind = AsmOpKind.Mem64;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m128 src)
+        public AsmOperand(m128 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W128;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m128>(_Data) = src;
-            OpKind = AsmOpKind.Mem128;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m256 src)
+        public AsmOperand(m256 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W256;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m256>(_Data) = src;
-            OpKind = AsmOpKind.Mem256;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(m512 src)
+        public AsmOperand(m512 src)
         {
-            OpClass = AsmOpClass.Mem;
-            Size = NativeSizeCode.W512;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
             _Data = B.Empty;
             @as<B,m512>(_Data) = src;
-            OpKind = AsmOpKind.Mem512;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(Disp8 src)
+        public AsmOperand(Disp8 src)
         {
-            OpClass = AsmOpClass.Disp;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp8>(_Data) = src;
-            OpKind = AsmOpKind.Disp8;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(Disp16 src)
+        public AsmOperand(Rel8 src)
         {
-            OpClass = AsmOpClass.Disp;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
+            _Data = B.Empty;
+            @as<B,Rel8>(_Data) = src;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOperand(Rel16 src)
+        {
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
+            _Data = B.Empty;
+            @as<B,Rel16>(_Data) = src;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOperand(Rel32 src)
+        {
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
+            _Data = B.Empty;
+            @as<B,Rel32>(_Data) = src;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOperand(Rel src)
+        {
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
+            _Data = B.Empty;
+            @as<B,Rel>(_Data) = src;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOperand(Disp16 src)
+        {
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp16>(_Data) = src;
-            OpKind = AsmOpKind.Disp16;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(Disp32 src)
+        public AsmOperand(Disp32 src)
         {
-            OpClass = AsmOpClass.Disp;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp32>(_Data) = src;
-            OpKind = AsmOpKind.Disp32;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(Disp64 src)
+        public AsmOperand(Disp64 src)
         {
-            OpClass = AsmOpClass.Disp;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp64>(_Data) = src;
-            OpKind = AsmOpKind.Disp64;
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(Disp src)
+        public AsmOperand(Disp src)
         {
-            OpClass = AsmOpClass.Disp;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,Disp>(_Data) = src;
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.Disp | ((ushort)src.Size.Code << 8));
         }
 
         [MethodImpl(Inline)]
-        internal AsmOperand(RegMask src)
+        public AsmOperand(RegMask src)
         {
-            OpClass = AsmOpClass.RegMask;
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
             Size = src.Size;
             _Data = B.Empty;
             @as<B,RegMask>(_Data) = src;
-            OpKind = (AsmOpKind)((ushort)AsmOpKind.RegMask | ((ushort)src.Size.Code << 8));
         }
 
         public bool IsEmpty

@@ -14,9 +14,9 @@ namespace Z0.Asm
 
         GpReg,
 
-        VecReg,
+        VReg,
 
-        MaskReg,
+        KReg,
 
         FpuReg,
 

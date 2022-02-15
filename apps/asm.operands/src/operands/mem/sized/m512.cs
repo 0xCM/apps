@@ -27,6 +27,12 @@ namespace Z0.Asm.Operands
             get => Sizes.native(512);
         }
 
+        public AsmOpKind OpKind
+            => AsmOpKind.Mem512;
+
+        public AsmOpClass OpClass
+            => AsmOpClass.Mem;
+
         [MethodImpl(Inline)]
         public AsmOperand Untyped()
             => new AsmOperand(this);

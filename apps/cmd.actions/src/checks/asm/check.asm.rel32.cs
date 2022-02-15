@@ -23,7 +23,7 @@ namespace Z0
                 const uint Disp = 0xfc632176;
                 const ulong IP = Base + Offset;
                 Rip rip = Rip.define(IP, 5);
-                var call = asm.call(rip, (Disp32)Disp);
+                var call = CallRel32.define(rip, (Disp32)Disp);
                 Write(call.Format());
             }
 
@@ -92,7 +92,7 @@ namespace Z0
                 Hex.hexbytes(Encoding, out var enc1);
                 var dx = AsmRel32.disp(enc1);
 
-                var enc2 = asm.call32(rip, Target);
+                var enc2 = CallRel32.encode(rip, Target);
                 if(enc1 != enc2)
                     Error(string.Format("Encoding mismatch '{0}' != '{1}'", enc1, enc2));
 
@@ -132,8 +132,8 @@ namespace Z0
 
             var dx0 = AsmRel32.disp((ip0, sz), @return);
 
-            var code0 = asm.jmp32((ip0,sz), @return);
-            var code1 = asm.hexcode("e9 58 10 00 00");
+            var code0 = JmpRel32.encode((ip0,sz), @return);
+            var code1 = AsmBytes.hexcode("e9 58 10 00 00");
 
             if(!code0.Equals(code1))
                 Error(string.Format("{0} != {1}", code1, code0));
@@ -141,24 +141,24 @@ namespace Z0
             var label1 = 0x0065;
             var ip1 = @base + label1;
             var dx1 = AsmRel32.disp((ip1,sz), @return);
-            var actual1 = asm.jmp32((ip1,sz), @return);
-            var expect1 = asm.hexcode("e9 4d 10 00 00");
+            var actual1 = JmpRel32.encode((ip1,sz), @return);
+            var expect1 = AsmBytes.hexcode("e9 4d 10 00 00");
             if(!actual1.Equals(expect1))
                 Error(string.Format("{0} != {1}", expect1, actual1));
 
             var label2 = 0x0070;
             var ip2 = @base + label2;
             var dx2 = AsmRel32.disp((ip2,sz), @return);
-            var actual2 = asm.jmp32((ip2,sz), @return);
-            var expect2 = asm.hexcode("e9 42 10 00 00");
+            var actual2 = JmpRel32.encode((ip2,sz), @return);
+            var expect2 = AsmBytes.hexcode("e9 42 10 00 00");
             if(!actual2.Equals(expect2))
                 Error(string.Format("{0} != {1}", expect2, actual2));
 
             var label3 = 0x007b;
             var ip3 = @base + label3;
             var dx3 = AsmRel32.disp((ip3,sz), @return);
-            var actual3 = asm.jmp32((ip3,sz), @return);
-            var expect3 = asm.hexcode("e9 37 10 00 00");
+            var actual3 = JmpRel32.encode((ip3,sz), @return);
+            var expect3 = AsmBytes.hexcode("e9 37 10 00 00");
             if(!actual3.Equals(expect3))
                 Error(string.Format("{0} != {1}", expect3, actual3));
         }

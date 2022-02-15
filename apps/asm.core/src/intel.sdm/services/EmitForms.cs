@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     partial class IntelSdm
     {
-        public AsmForms EmitForms(ReadOnlySpan<SdmOpCodeDetail> src)
+        AsmForms EmitForms(Index<SdmOpCodeDetail> src)
         {
             var forms = CalcForms(src);
             EmitForms(forms);

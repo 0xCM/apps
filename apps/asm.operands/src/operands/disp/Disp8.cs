@@ -29,6 +29,9 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => AsmOpKind.Disp8;
 
+        public AsmOpClass OpClass
+            => AsmOpClass.Disp;
+
         public bool IsNonZero
         {
             [MethodImpl(Inline)]

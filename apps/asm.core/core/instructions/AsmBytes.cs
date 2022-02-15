@@ -11,6 +11,26 @@ namespace Z0.Asm
     [ApiHost]
     public class AsmBytes
     {
+        [MethodImpl(Inline), Op]
+        public static BinaryCode code(in CodeBlock src, uint offset, byte size)
+            => core.slice(src.View, offset, size).ToArray();
+
+        [MethodImpl(Inline), Op]
+        public static AsmHexCode hexcode(ReadOnlySpan<byte> src)
+            => AsmHexCode.load(src);
+
+        [MethodImpl(Inline), Op]
+        public static Outcome hexcode(ReadOnlySpan<char> src, out AsmHexCode dst)
+            => AsmHexCode.parse(src, out dst);
+
+        [Op]
+        public static AsmHexCode hexcode(string src)
+            => AsmHexCode.parse(src);
+
+        [MethodImpl(Inline), Op]
+        public static AsmHexCode hexcode(ulong src)
+            => AsmHexCode.load(src);
+
         public static string format<T>(T src)
             where T : unmanaged, IAsmByte
                 => src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);

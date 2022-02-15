@@ -33,8 +33,8 @@ namespace Z0.Asm
                 case K.SysReg:
                 case K.RegLiteral:
                 case K.MmxReg:
-                case K.MaskReg:
-                case K.VecReg:
+                case K.KReg:
+                case K.VReg:
                 case K.FpuReg:
                 case K.FpuInt:
                 case K.FpuMem:

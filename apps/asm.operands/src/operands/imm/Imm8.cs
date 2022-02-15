@@ -2,14 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0
+namespace Z0.Asm
 {
     using System.Linq;
 
     using W = W8;
     using I = imm8;
-
-    using Asm;
 
     /// <summary>
     /// Defines an 8-bit immediate value

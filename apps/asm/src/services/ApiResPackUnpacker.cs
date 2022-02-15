@@ -49,7 +49,7 @@ namespace Z0.Asm
                 {
                     ref readonly var fx = ref skip(decoded,j);
                     var size = (byte)fx.ByteLength;
-                    var code = asm.hexcode(slice(bytes, offset, size));
+                    var code = AsmBytes.hexcode(slice(bytes, offset, size));
 
                     if(j !=0)
                         hexwriter.Write(Chars.Space);

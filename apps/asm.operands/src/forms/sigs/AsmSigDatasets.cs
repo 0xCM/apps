@@ -13,7 +13,7 @@ namespace Z0.Asm
     using static AsmSigTokens.GpRegTriple;
     using static AsmSigTokens.GpRmTriple;
     using static AsmSigTokens.MemToken;
-    using static AsmSigTokens.MaskRegToken;
+    using static AsmSigTokens.KRegToken;
     using static AsmSigTokens.GpRegToken;
     using static AsmSigTokens.VRegToken;
     using static AsmSigTokens.BCastMem;
@@ -65,37 +65,37 @@ namespace Z0.Asm
             var i=0u;
             var dst = new AsmSigNonterminal();
             dst.Source = token(K.BCastComposite, x128x32bcst);
-            dst.Term1 = token(K.VecReg, xmm);
+            dst.Term1 = token(K.VReg, xmm);
             dst.Term2 = token(K.Mem, m128);
             dst.Term3 = token(K.BCastMem, m32bcst);
             seek(buffer,i++) = dst;
 
             dst.Source = token(K.BCastComposite, x128x64bcst);
-            dst.Term1 = token(K.VecReg, xmm);
+            dst.Term1 = token(K.VReg, xmm);
             dst.Term2 = token(K.Mem, m128);
             dst.Term3 = token(K.BCastMem, m64bcst);
             seek(buffer,i++) = dst;
 
             dst.Source = token(K.BCastComposite, y256x32bcst);
-            dst.Term1 = token(K.VecReg, ymm);
+            dst.Term1 = token(K.VReg, ymm);
             dst.Term2 = token(K.Mem, m256);
             dst.Term3 = token(K.BCastMem, m32bcst);
             seek(buffer,i++) = dst;
 
             dst.Source = token(K.BCastComposite, y256x64bcst);
-            dst.Term1 = token(K.VecReg, ymm);
+            dst.Term1 = token(K.VReg, ymm);
             dst.Term2 = token(K.Mem, m256);
             dst.Term3 = token(K.BCastMem, m64bcst);
             seek(buffer,i++) = dst;
 
             dst.Source = token(K.BCastComposite, z512x32bcst);
-            dst.Term1 = token(K.VecReg, zmm);
+            dst.Term1 = token(K.VReg, zmm);
             dst.Term2 = token(K.Mem, m512);
             dst.Term3 = token(K.BCastMem, m32bcst);
             seek(buffer,i++) = dst;
 
             dst.Source = token(K.BCastComposite, z512x64bcst);
-            dst.Term1 = token(K.VecReg, zmm);
+            dst.Term1 = token(K.VReg, zmm);
             dst.Term2 = token(K.Mem, m512);
             dst.Term3 = token(K.BCastMem, m64bcst);
             seek(buffer,i++) = dst;

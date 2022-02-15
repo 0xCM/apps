@@ -69,6 +69,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static xCr xCr(RegIndexCode r)
             => r;
-
     }
 }

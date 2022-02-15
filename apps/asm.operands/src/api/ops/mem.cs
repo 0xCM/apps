@@ -11,10 +11,6 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
-        public static JmpRel32 jmp(Rip rip, Disp32 disp)
-            => new JmpRel32(rip.Address, AsmRel32.target(rip, disp));
-
-        [MethodImpl(Inline), Op]
         public static FarPtr farptr(Address16 selector, long offset)
             => new FarPtr(selector,offset);
 

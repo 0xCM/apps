@@ -24,6 +24,9 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => AsmOpKind.Disp16;
 
+        public AsmOpClass OpClass
+            => AsmOpClass.Disp;
+
         public byte StorageWidth
             => 16;
 

@@ -22,8 +22,6 @@ namespace Z0.Asm
 
         const string Ops5Pattern = "{0}, {1}, {2}, {3}, {4}";
 
-        const string FormKindName = "AsmFormKind";
-
         const string TargetNamespace = "Z0.Asm";
 
         const string AsmSigTableName = "AsmSigST";
@@ -58,7 +56,7 @@ namespace Z0.Asm
         public void GenMnemonicNames()
         {
             var g = CodeGen.LiteralProvider();
-            var src = Sdm.LoadSigs().Select(x => x.Mnemonic.Format(Asm.MnemonicCase.Lowercase)).Distinct();
+            var src = Sdm.CalcMnemonics().Select(x => x.Format(MnemonicCase.Lowercase));
             var dst = CodeGen.SourceFile(MnemonicNameProvider, CgTarget.Intel);
             var names = src.View;
             var values = src.View;
@@ -66,56 +64,12 @@ namespace Z0.Asm
             g.Emit(TargetNamespace, literals, dst);
         }
 
-        SymSet CalcFormSymbols()
-        {
-            var forms = Sdm.CalcForms();
-            var identifiers = forms.Keys;
-            var count = (uint)identifiers.Length + 1;
-            var dst = SymSet.create(count);
-            dst.DataType = ClrEnumKind.U16;
-            dst.Name = FormKindName;
-            dst.Description ="Defines asm form classifiers";
-            dst.Flags = false;
-            dst.SymbolKind = "asm";
-            var symbols = dst.Symbols;
-            var values = dst.Values;
-            var descriptions = dst.Descriptions;
-            var names = dst.Names;
-            var kinds = dst.Kinds;
-            for(ushort i=0; i<count; i++)
-            {
-                ref var name = ref names[i];
-                ref var symbol = ref symbols[i];
-                ref var value = ref values[i];
-                ref var desc = ref descriptions[i];
-                ref var kind = ref kinds[i];
-                if(i == 0)
-                {
-                    name = "None";
-                    symbol = EmptyString;
-                    value = 0;
-                    desc = EmptyString;
-                    kind = EmptyString;
-                }
-                else
-                {
-                    ref readonly var id = ref skip(identifiers,i - 1);
-                    var form = forms[id];
-
-                    name = id == "lock" ? "@lock" : id;
-                    symbol = form.Sig.Format();
-                    value = i;
-                    kind = form.OpCode.Format();
-                    desc = string.Format("{0} | {1} | {2}", symbol, kind, form.Description);
-                }
-            }
-            return dst;
-        }
 
         public void GenFormKinds()
         {
             var g = CodeGen.EnumGen();
-            var src = CalcFormSymbols();
+            var forms = Sdm.CalcForms();
+            var src = forms.CalcSymbols();
             var dst = text.buffer();
             var margin = 0u;
             dst.IndentLineFormat(margin, "namespace {0}", TargetNamespace);
@@ -124,7 +78,7 @@ namespace Z0.Asm
             g.Emit(margin, src, dst);
             margin -=4;
             dst.IndentLine(margin, Chars.RBrace);
-            CodeGen.EmitFile(dst.Emit(), FormKindName, CgTarget.Intel);
+            CodeGen.EmitFile(dst.Emit(), AsmForms.FormKindName, CgTarget.Intel);
         }
 
         public void GenSigStrings()
@@ -141,7 +95,7 @@ namespace Z0.Asm
                     seek(sigs,i) = forms[keys[i-1]].Sig.Format();
             }
 
-            CodeGen.GenStringTable(TargetNamespace, AsmSigTableName, FormKindName, sigs, CgTarget.Intel);
+            CodeGen.GenStringTable(TargetNamespace, AsmSigTableName, AsmForms.FormKindName, sigs, CgTarget.Intel);
         }
     }
 }

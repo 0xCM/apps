@@ -24,6 +24,7 @@ namespace Z0
             get => (ImmKind)(byte)width<T>();
         }
 
+
         public byte EffectiveWidth
         {
             [MethodImpl(Inline)]

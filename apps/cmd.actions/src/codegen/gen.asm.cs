@@ -24,10 +24,10 @@ namespace Z0
             return true;
         }
 
-
         [CmdOp("gen/asm/data")]
         Outcome GenInstData(CmdArgs args)
         {
+            var forms = Sdm.CalcForms();
             return true;
         }
    }
