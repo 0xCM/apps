@@ -37,10 +37,10 @@ namespace Z0
         AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Encoding
+        AsmHexCode IAsmEncoding.Code
             => HexCode;
 
-        MemoryAddress IAsmEncoding.Offset
+        MemoryAddress IAsmEncoding.IP
             => IP;
 
         CorrelationToken ICorrelated.CT

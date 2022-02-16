@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmEncoding : ISequential, ICorrelated
+    public interface IAsmBlockSegment : IAsmEncoding
     {
-        AsmExpr Asm {get;}
+        Identifier BlockName {get;}
 
-        AsmHexCode Encoding {get;}
-
-        MemoryAddress Offset {get;}
+        MemoryAddress BlockAddress {get;}
     }
 }

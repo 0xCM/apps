@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IAsmEncoding
+    public struct ObjDumpRow : IAsmBlockSegment
     {
         public const string TableId = "llvm.objdump";
 
@@ -78,11 +78,17 @@ namespace Z0
         AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Encoding
+        AsmHexCode IAsmEncoding.Code
             => HexCode;
 
-        MemoryAddress IAsmEncoding.Offset
+        MemoryAddress IAsmEncoding.IP
             => IP;
+
+        Identifier IAsmBlockSegment.BlockName
+            => BlockName.Text;
+
+        MemoryAddress IAsmBlockSegment.BlockAddress
+            => BlockAddress;
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{8,8,8,12,16,32,12,8,42,90,90,1};
