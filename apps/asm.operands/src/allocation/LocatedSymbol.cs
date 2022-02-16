@@ -17,7 +17,7 @@ namespace Z0
         public readonly Label Name;
 
         [MethodImpl(Inline)]
-        internal LocatedSymbol(MemoryAddress location, Label name)
+        public LocatedSymbol(MemoryAddress location, Label name)
         {
             Name = name;
             Location = location;

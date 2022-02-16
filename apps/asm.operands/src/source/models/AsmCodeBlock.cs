@@ -4,14 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct DecodedAsmBlock
+    public readonly struct AsmCodeBlock
     {
         public readonly LocatedSymbol Label;
 
         public readonly Index<AsmCode> Statements;
 
         [MethodImpl(Inline)]
-        public DecodedAsmBlock(LocatedSymbol label, AsmCode[] src)
+        public AsmCodeBlock(LocatedSymbol label, AsmCode[] src)
         {
             Label = label;
             Statements = src;

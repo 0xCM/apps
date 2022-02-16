@@ -11,7 +11,7 @@ namespace Z0.Asm
         public static DecodedAsmParser create(AsmDispenser dispenser)
             => new DecodedAsmParser(dispenser);
 
-        DecodedAsmBlocks Target;
+        AsmCodeBlocks Target;
 
         Hex16 BlockOffset;
 
@@ -24,7 +24,7 @@ namespace Z0.Asm
             Dispenser = dispenser;
         }
 
-        public DecodedAsmBlocks Parsed()
+        public AsmCodeBlocks Parsed()
             => Target;
 
         Outcome ParseStatement(string content, out AsmCode decoded)
@@ -80,10 +80,10 @@ namespace Z0.Asm
 
         public Outcome ParseBlocks(string src)
         {
-            Target = DecodedAsmBlocks.Empty;
+            Target = AsmCodeBlocks.Empty;
             BlockOffset = 0;
             BlockBase = AsmAddressLabel.Empty;
-            var blocks = list<DecodedAsmBlock>();
+            var blocks = list<AsmCodeBlock>();
             var result = Outcome.Success;
             var block = LocatedSymbol.Empty;
             var statemements = list<AsmCode>();
@@ -120,7 +120,7 @@ namespace Z0.Asm
                 blocks.Add(new (block, statemements.ToArray()));
 
             if(result)
-                Target = new DecodedAsmBlocks(blocks.ToArray());
+                Target = new AsmCodeBlocks(blocks.ToArray());
 
             return result;
         }

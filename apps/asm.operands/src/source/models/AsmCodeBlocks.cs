@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct DecodedAsmBlocks
+    public readonly struct AsmCodeBlocks
     {
-        readonly Index<DecodedAsmBlock> Data;
+        readonly Index<AsmCodeBlock> Data;
 
-        public DecodedAsmBlocks(DecodedAsmBlock[] data)
+        public AsmCodeBlocks(AsmCodeBlock[] data)
         {
             Data = data;
         }
 
-        public ReadOnlySpan<DecodedAsmBlock> View
+        public ReadOnlySpan<AsmCodeBlock> View
         {
             [MethodImpl(Inline)]
             get => Data;
@@ -25,6 +25,6 @@ namespace Z0.Asm
             get => Data.Count;
         }
 
-        public static DecodedAsmBlocks Empty => new DecodedAsmBlocks(sys.empty<DecodedAsmBlock>());
+        public static AsmCodeBlocks Empty => new AsmCodeBlocks(sys.empty<AsmCodeBlock>());
     }
 }
