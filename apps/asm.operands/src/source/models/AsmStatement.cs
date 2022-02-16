@@ -29,7 +29,7 @@ namespace Z0.Asm
         public AsmPartKind PartKind
         {
             [MethodImpl(Inline)]
-            get => AsmPartKind.Statement;
+            get => AsmPartKind.Instruction;
         }
 
         public string Format()

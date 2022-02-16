@@ -9,6 +9,24 @@ namespace Z0.Asm
     [ApiHost]
     public readonly struct AsmRender
     {
+        public static string directive(in AsmDirective src)
+        {
+            var dst = text.buffer();
+            dst.AppendFormat(".{0}", src.Name);
+            if(src.Op0.IsNonEmpty)
+            {
+                dst.AppendFormat(" {0}", src.Op0.Format());
+                if(src.Op1.IsNonEmpty)
+                {
+                    dst.AppendFormat(", {0}", src.Op1.Format());
+                    if(src.Op2.IsNonEmpty)
+                        dst.AppendFormat(", {0}", src.Op2.Format());
+                }
+            }
+
+            return dst.Emit();
+        }
+
         [Op]
         public static string format(in AsmOperand src)
         {
@@ -29,45 +47,41 @@ namespace Z0.Asm
 
             }
         }
-        //     switch(src.OpKind)
-        //     {
-        //         case AsmOpKind.Mem8:
-        //         case AsmOpKind.Mem16:
-        //         case AsmOpKind.Mem32:
-        //         case AsmOpKind.Mem64:
-        //         case AsmOpKind.Mem128:
-        //         case AsmOpKind.Mem256:
-        //         case AsmOpKind.Mem512:
-        //             return mem(src.Mem);
-        //         case AsmOpKind.Imm8:
-        //             return src.Imm8.Format();
-        //         case AsmOpKind.Imm16:
-        //             return src.Imm16.Format();
-        //         case AsmOpKind.Imm32:
-        //             return src.Imm32.Format();
-        //         case AsmOpKind.Imm64:
-        //             return src.Imm64.Format();
-        //         case AsmOpKind.RegMask8:
-        //         case AsmOpKind.RegMask16:
-        //         case AsmOpKind.RegMask32:
-        //         case AsmOpKind.RegMask64:
-        //         case AsmOpKind.RegMask128:
-        //         case AsmOpKind.RegMask256:
-        //         case AsmOpKind.RegMask512:
-        //             return src.RegMask.Format();
-        //         case AsmOpKind.Disp8:
-        //         case AsmOpKind.Disp16:
-        //         case AsmOpKind.Disp32:
-        //         case AsmOpKind.Disp64:
-        //             return disp(src.Disp);
 
-        //     }
-        //     if(src.IsReg)
-        //         return src.Reg.Format();
-        //     else
-        //         return EmptyString;
-        // }
+        public static string instruction(in AsmInstruction src)
+        {
+            var dst = text.buffer();
+            ref readonly var ops = ref src.Operands;
+            var count = ops.OpCount;
+            dst.Append(src.Mnemonic.Format(MnemonicCase.Lowercase));
+            if(count != 0)
+            {
+                dst.Append(Chars.Space);
+                dst.Append(src.Operands.Format());
+            }
+            return dst.Emit();
+        }
 
+        public static string spec(in AsmBlockSpec src)
+        {
+            var dst = text.buffer();
+
+            if(src.Comment.IsNonEmpty)
+                dst.AppendLine(src.Comment.Format());
+
+            if(src.Label.IsNonEmpty)
+                dst.AppendLine(src.Label);
+
+
+            if(src.Content.IsNonEmpty)
+            {
+                var count = src.Content.Count;
+                for(var i=0; i<count; i++)
+                    dst.IndentLine(4, src.Content[i].Format());
+            }
+
+            return dst.Emit();
+        }
 
         public static string reg(RegOp src)
             => src.Name.Format().Trim();

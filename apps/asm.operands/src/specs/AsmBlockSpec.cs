@@ -10,10 +10,10 @@ namespace Z0.Asm
 
         public AsmBlockLabel Label {get;}
 
-        public TextBlock Content {get;}
+        public Index<AsmInstruction> Content {get;}
 
         [MethodImpl(Inline)]
-        public AsmBlockSpec(AsmComment comment, AsmBlockLabel label, TextBlock content)
+        public AsmBlockSpec(AsmComment comment, AsmBlockLabel label, Index<AsmInstruction> content)
         {
             Comment = comment;
             Label = label;
@@ -21,20 +21,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-        {
-            var dst = text.buffer();
-
-            if(Comment.IsNonEmpty)
-                dst.AppendLine(Comment.Format());
-
-            if(Label.IsNonEmpty)
-                dst.AppendLine(Label);
-
-            if(Content.IsNonEmpty)
-                dst.AppendLine(Content);
-
-            return dst.Emit();
-        }
+            => AsmRender.spec(this);
 
         public override string ToString()
             => Format();

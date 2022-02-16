@@ -6,16 +6,16 @@ namespace Z0.Asm
 {
     partial struct asm
     {
-        [MethodImpl(Inline)]
+        [MethodImpl(Inline), Op]
         public static AsmBlockSpec block(AsmBlockLabel label)
-            => new AsmBlockSpec(AsmComment.Empty, label, TextBlock.Empty);
+            => new AsmBlockSpec(AsmComment.Empty, label, sys.empty<AsmInstruction>());
 
-        [MethodImpl(Inline)]
-        public static AsmBlockSpec block(AsmBlockLabel label, TextBlock content)
+        [MethodImpl(Inline), Op]
+        public static AsmBlockSpec block(AsmBlockLabel label, params AsmInstruction[] content)
             => new AsmBlockSpec(AsmComment.Empty, label, content);
 
-        [MethodImpl(Inline)]
-        public static AsmBlockSpec block(AsmComment comment, AsmBlockLabel label, TextBlock content)
+        [MethodImpl(Inline), Op]
+        public static AsmBlockSpec block(AsmComment comment, AsmBlockLabel label, params AsmInstruction[] content)
             => new AsmBlockSpec(comment, label, content);
     }
 }

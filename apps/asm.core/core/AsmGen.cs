@@ -40,9 +40,9 @@ namespace Z0.Asm
         Span<AsmOperand> OpBuffer()
             => _OpsBuffer.Clear();
 
-        public Index<AsmSpec> Concretize(in AsmForm form)
+        public Index<AsmInstruction> Concretize(in AsmForm form)
         {
-            var dst = list<AsmSpec>();
+            var dst = list<AsmInstruction>();
             ref readonly var sigops = ref form.Sig.Operands;
             var opcount = sigops.OpCount;
             var lookup = alloc<Index<AsmOperand>>(5);

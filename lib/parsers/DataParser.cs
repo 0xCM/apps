@@ -140,12 +140,6 @@ namespace Z0
         public static Outcome parse(string src, out SymExpr dst)
             => SP.parse(src, out dst);
 
-        [Parser]
-        public static Outcome parse(string src, out AsmMnemonic dst)
-        {
-            dst = src;
-            return true;
-        }
 
         [Parser]
         public static Outcome parse(string src, out char dst)
@@ -419,19 +413,6 @@ namespace Z0
         public static Outcome setting<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
             => Settings.parse(src, out dst, delimiter);
 
-        [Parser]
-        public static Outcome parse(string src, out AsmExpr dst)
-        {
-            dst = text.trim(src);
-            return true;
-        }
-
-        [Parser]
-        public static Outcome parse(string src, out AsmHexCode dst)
-        {
-            dst = AsmHexCode.parse(src);
-            return true;
-        }
      }
 
      partial struct Msg

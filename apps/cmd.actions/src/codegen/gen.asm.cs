@@ -16,7 +16,7 @@ namespace Z0
         AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
 
 
-        [CmdOp("gen/asm")]
+        [CmdOp("gen/asm/code")]
         Outcome GenIntel(CmdArgs args)
         {
             AsmCodeGen.Emit();
@@ -24,7 +24,7 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("gen/asm/data")]
+        [CmdOp("gen/asm/specs")]
         Outcome GenInstData(CmdArgs args)
         {
             var g = AsmGen.generator();
@@ -32,11 +32,12 @@ namespace Z0
             var count = forms.Count;
             var buffer = text.buffer();
             var counter = 0u;
-
+            var name = "and";
+            var blocks = list<AsmBlockSpec>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref forms[i];
-                if(form.Mnemonic == "and")
+                if(form.Mnemonic == name)
                 {
                     var specs = g.Concretize(form);
                     if(specs.Count == 0)
@@ -56,6 +57,8 @@ namespace Z0
                 }
                 //Write(string.Format("{0,-8} | {1,-38} | {2,-48} | {3}", i, form.Name, form.Sig, form.OpCode));
             }
+
+            //var file = asm.file(name,)
 
             var dst = Ws.Project(ProjectNames.McModels).SrcDir("asm") + FS.file("and", FS.Asm);
             FileEmit(buffer.Emit(), counter, dst, TextEncodingKind.Asci);

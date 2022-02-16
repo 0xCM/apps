@@ -215,9 +215,5 @@ namespace Z0.Asm
 
             return text.format(slice(dst, 0, count));
         }
-
-        [MethodImpl(Inline), Op]
-        static Span<byte> raw(in AsmHexCode src)
-            => bytes(src.Data);
     }
 }

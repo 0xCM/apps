@@ -18,7 +18,7 @@ namespace Z0.Asm
         OffsetLabel = 2,
 
         // mov rax,[rcx]
-        Statement = 4,
+        Instruction = 4,
 
         // ; ...
         Comment = 8,

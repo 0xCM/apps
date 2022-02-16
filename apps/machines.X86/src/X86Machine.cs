@@ -16,7 +16,7 @@ namespace Z0.Machines
 
     public interface IX86Machine
     {
-        void Dispatch(AsmSpec asm);
+        void Dispatch(AsmInstruction asm);
     }
 
     [ApiHost]
@@ -48,7 +48,7 @@ namespace Z0.Machines
 
         Task Dispatcher;
 
-        ConcurrentQueue<AsmSpec> Queue;
+        ConcurrentQueue<AsmInstruction> Queue;
 
         bool Verbose;
 
@@ -71,12 +71,12 @@ namespace Z0.Machines
             rip() = CodeBase;
         }
 
-        public void Dispatch(AsmSpec cmd)
+        public void Dispatch(AsmInstruction cmd)
         {
             Queue.Enqueue(cmd);
         }
 
-        void Execute(AsmSpec cmd)
+        void Execute(AsmInstruction cmd)
         {
 
         }

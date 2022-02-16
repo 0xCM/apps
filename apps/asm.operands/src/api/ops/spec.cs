@@ -9,7 +9,7 @@ namespace Z0.Asm
     partial struct asm
     {
         [Op]
-        public static AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, params AsmOperand[] ops)
+        public static AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, params AsmOperand[] ops)
         {
             var count = ops.Length;
             switch(count)
@@ -25,13 +25,13 @@ namespace Z0.Asm
                 case 4:
                     return spec(mnemonic, opcode, skip(ops,0), skip(ops,1), skip(ops,2), skip(ops,3), out _);
             }
-            return AsmSpec.Empty;
+            return AsmInstruction.Empty;
         }
 
         [MethodImpl(Inline), Op]
-        public static AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperands ops)
+        public static AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperands ops)
         {
-            var dst = AsmSpec.Empty;
+            var dst = AsmInstruction.Empty;
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
             dst.Operands = AsmOperands.Empty;
@@ -39,7 +39,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, out AsmSpec dst)
+        public static ref AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, out AsmInstruction dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -48,7 +48,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, out AsmSpec dst)
+        public static ref AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, out AsmInstruction dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -58,7 +58,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, out AsmSpec dst)
+        public static ref AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, out AsmInstruction dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -68,7 +68,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, out AsmSpec dst)
+        public static ref AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, out AsmInstruction dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;
@@ -78,7 +78,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static ref AsmSpec spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, in AsmOperand op3, out AsmSpec dst)
+        public static ref AsmInstruction spec(in AsmMnemonic mnemonic, in AsmOpCode opcode, in AsmOperand op0, in AsmOperand op1, in AsmOperand op2, in AsmOperand op3, out AsmInstruction dst)
         {
             dst.Mnemonic = mnemonic;
             dst.OpCode = opcode;

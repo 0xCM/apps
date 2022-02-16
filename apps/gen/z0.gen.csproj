@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Reference Include="$(ZLibName)" HintPath="$(ZLibPath)"/>
-    <ProjectReference Include="$(AsmOperands)" />
+    <ProjectReference Include="$(AsmCore)" />
   </ItemGroup>
 
 </Project>

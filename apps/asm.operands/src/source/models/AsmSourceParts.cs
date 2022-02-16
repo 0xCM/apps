@@ -31,7 +31,7 @@ namespace Z0.Asm
                 seek(dst,i++) = P.OffsetLabel;
 
             if(Statement(src))
-                seek(dst,i++) = P.Statement;
+                seek(dst,i++) = P.Instruction;
 
             if(Comment(src))
                 seek(dst,i++) = P.Comment;
@@ -64,7 +64,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static bit Statement(AsmPartKind src)
-            => (src & AsmPartKind.Statement) != 0;
+            => (src & AsmPartKind.Instruction) != 0;
 
         [MethodImpl(Inline), Op]
         public static bit Comment(AsmPartKind src)

@@ -210,9 +210,9 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
-                result = DataParser.parse(skip(cells, j++), out dst.Asm);
+                result = AsmParser.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
-                result = DataParser.parse(skip(cells, j++), out dst.HexCode);
+                result = AsmParser.parse(skip(cells, j++), out dst.HexCode);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;
@@ -241,7 +241,7 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.AsmName);
-                result = DataParser.parse(skip(cells, j++), out dst.Asm);
+                result = AsmParser.parse(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;
