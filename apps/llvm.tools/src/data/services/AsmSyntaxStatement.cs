@@ -62,11 +62,11 @@ namespace Z0.llvm
         }
 
         bool ParseBlockLabel(string src)
-            => AsmBlockLabel.parse(src, out CurrentBlockLabel);
+            => AsmParser.label(src, out CurrentBlockLabel);
 
         bool ParseComment(string src)
         {
-            if(AsmInlineComment.parse(src, out var c))
+            if(AsmParser.comment(src, out var c))
             {
                 Comments.Add(c);
                 return true;

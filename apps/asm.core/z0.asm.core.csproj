@@ -8,7 +8,6 @@
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(AsmOperands)" />
-    <ProjectReference Include="$(Records)" />
   </ItemGroup>
 
   <Import Project="../imports.props"/>

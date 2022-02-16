@@ -7,18 +7,18 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct AsmCode
     {
-        public readonly SourceText Source;
+        public readonly SourceText Asm;
 
-        public readonly MemoryAddress Location;
+        public readonly MemoryAddress IP;
 
-        public readonly AsmHexRef AsmHex;
+        public readonly AsmHexRef Encoded;
 
         [MethodImpl(Inline)]
-        public AsmCode(MemoryAddress loc, SourceText asm, AsmHexRef code)
+        public AsmCode(SourceText asm, MemoryAddress loc, AsmHexRef code)
         {
-            Location = loc;
-            Source = asm;
-            AsmHex = code;
+            IP = loc;
+            Asm = asm;
+            Encoded = code;
         }
 
         public string ToAsmString()
@@ -26,15 +26,15 @@ namespace Z0.Asm
             const string RenderPattern = "{0,-80} {1} {2}";
             var dst = text.buffer();
             var marker = (char)AsmCommentMarker.Hash;
-            if(AsmInlineComment.parse(Source.Cells, out var comment))
+            if(AsmParser.comment(Asm.Cells, out var comment))
             {
                 marker = (char)comment.Marker;
                 var prior = comment.Content;
-                var asm = text.trim(text.left(Source.Format(), marker));
-                dst.AppendFormat(RenderPattern, asm, marker, string.Format("{0,-42} | {1}", AsmHex.Format(), prior));
+                var asm = text.trim(text.left(Asm.Format(), marker));
+                dst.AppendFormat(RenderPattern, asm, marker, string.Format("{0,-42} | {1}", Encoded.Format(), prior));
             }
             else
-                dst.AppendFormat(RenderPattern, Source, marker, AsmHex.Format());
+                dst.AppendFormat(RenderPattern, Asm, marker, Encoded.Format());
 
             return dst.Emit();
         }
@@ -42,14 +42,16 @@ namespace Z0.Asm
         public string Format()
         {
             var dst = text.buffer();
-            dst.AppendFormat("{0,-8}", Location.Format(4));
-            dst.AppendFormat("{0,-80}", Source);
-            dst.AppendFormat("# {0}", AsmHex.Format());
+            dst.AppendFormat("{0,-8}", IP);
+            dst.AppendFormat("{0,-80}", Asm);
+            dst.AppendFormat("# {0}", Encoded.Format());
             return dst.Emit();
         }
 
 
         public override string ToString()
             => Format();
+
+        public static AsmCode Empty => default;
     }
 }

@@ -21,13 +21,13 @@ namespace Z0
 
         public Address32 IP;
 
-        public CorrelationToken CT;
-
-        public AsmExpr Asm;
-
         public byte Size;
 
         public AsmHexCode HexCode;
+
+        public AsmExpr Asm;
+
+        public CorrelationToken CT;
 
         public FS.FileUri Source;
 
@@ -46,7 +46,7 @@ namespace Z0
         CorrelationToken ICorrelated.CT
             => CT;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,12,84,8,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,8,38,84,12,1};
 
         public static AsmEncodingRow Empty => default;
     }

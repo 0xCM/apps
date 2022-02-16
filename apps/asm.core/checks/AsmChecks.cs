@@ -58,9 +58,9 @@ namespace Z0.Asm
             var input2 = "4080C416";
             Hex.parse64u(input2, out var input3);
 
-            var code1 = AsmBytes.hexcode(input1);
-            var code2 = AsmBytes.hexcode(input2);
-            var code3 = AsmBytes.hexcode(input3);
+            var code1 = AsmParser.asmhex(input1);
+            var code2 = AsmParser.asmhex(input2);
+            var code3 = asm.asmhex(input3);
 
             var text1 = code1.Format();
             var text2 = code2.Format();

@@ -31,14 +31,12 @@ namespace Z0
                 {
                     ref readonly var statement = ref statements[j];
                     ref readonly var encoded = ref statement.Encoded;
-                    ref readonly var decoded = ref statement.Decoded;
+                    ref readonly var decoded = ref statement.Asm;
                     Write(statement.Format());
                 }
             }
 
             return result;
         }
-
-
     }
 }

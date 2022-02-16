@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
     using System.Text;
 
-    using static Root;
     using static core;
 
     public sealed class ProcessAsmSvc : AppService<ProcessAsmSvc>
@@ -61,7 +59,7 @@ namespace Z0.Asm
                     statement.OpUri = routine.Uri;
                     statement.Statement = instruction.FormattedInstruction;
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
-                    statement.Encoded = AsmHexCode.load(slice(bytes, blockOffset, size));
+                    statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode;
                     statement.Bitstring = statement.Encoded;
                     seek(buffer,counter) = statement;
@@ -125,7 +123,7 @@ namespace Z0.Asm
                     statement.OpUri = code.OpUri;
                     statement.Statement = instruction.FormattedInstruction;
                     AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
-                    statement.Encoded = AsmHexCode.load(slice(bytes, blockOffset, size));
+                    statement.Encoded = asm.asmhex(slice(bytes, blockOffset, size));
                     statement.OpCode = opcode;
                     statement.Bitstring = statement.Encoded;
                     dst.Add(statement);

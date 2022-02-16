@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public readonly struct AsmBlockSpec
+    public readonly struct AsmBlockSpec : IAsmSourcePart
     {
         public AsmComment Comment {get;}
 
@@ -19,6 +19,9 @@ namespace Z0.Asm
             Label = label;
             Content = content;
         }
+
+        public AsmPartKind PartKind
+            => AsmPartKind.Block;
 
         public string Format()
             => AsmRender.spec(this);

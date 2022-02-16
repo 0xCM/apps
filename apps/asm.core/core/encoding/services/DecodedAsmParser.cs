@@ -27,9 +27,9 @@ namespace Z0.Asm
         public DecodedAsmBlocks Parsed()
             => Target;
 
-        Outcome ParseStatement(string content, out DecodedAsm decoded)
+        Outcome ParseStatement(string content, out AsmCode decoded)
         {
-            decoded = DecodedAsm.Empty;
+            decoded = AsmCode.Empty;
             var result = Outcome.Success;
             var i = text.index(content,Chars.Hash);
             if(i == NotFound)
@@ -41,7 +41,7 @@ namespace Z0.Asm
 
             var cell = EmptyString;
             cell = skip(comments,0);
-            result = HexParser.parse16u(cell, out var offset);
+            result = HexParser.parse64u(cell, out var offset);
             if(result.Fail)
                 return (false, string.Format("Unable to parse {0} from '{1}'", "offset", cell));
 
@@ -65,7 +65,7 @@ namespace Z0.Asm
             return result;
         }
 
-        DecodedAsm CreateStatement(string asm, Hex16 offset, BinaryCode code)
+        AsmCode CreateStatement(string asm, MemoryAddress address, BinaryCode code)
         {
             var size = code.Size;
             var identifier = string.Format("_@{0}_{1}", BlockBase.Address, BlockOffset);
@@ -75,7 +75,7 @@ namespace Z0.Asm
             for(var j=0; j<size; j++)
                 seek(buffer,j) = skip(hexSrc,j);
             BlockOffset += size;
-            return new DecodedAsm(offset, hexDst, Dispenser.Source(identifier, asm));
+            return new AsmCode(Dispenser.Source(identifier, asm), address, hexDst);
         }
 
         public Outcome ParseBlocks(string src)
@@ -86,7 +86,7 @@ namespace Z0.Asm
             var blocks = list<DecodedAsmBlock>();
             var result = Outcome.Success;
             var block = LocatedSymbol.Empty;
-            var statemements = list<DecodedAsm>();
+            var statemements = list<AsmCode>();
             var lines = Lines.read(src);
             var count = lines.Length;
             for(var m=0; m<count; m++)
@@ -96,7 +96,7 @@ namespace Z0.Asm
                 if(text.begins(content, Chars.Hash))
                     continue;
 
-                if(AsmAddressLabel.parse(content, out var @base))
+                if(AsmParser.label(content, out AsmAddressLabel @base))
                 {
                     if(statemements.Count != 0 && block.IsNonEmpty)
                         blocks.Add(new (block, statemements.ToArray()));

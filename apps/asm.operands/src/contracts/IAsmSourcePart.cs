@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmSourcePart
+    public interface IAsmSourcePart : ITextual
     {
         AsmPartKind PartKind {get;}
     }

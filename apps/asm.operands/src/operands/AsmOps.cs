@@ -10,6 +10,5 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static AsmOpKind kind(AsmOpClass @class, NativeSize size)
             => (AsmOpKind)math.or((ushort)@class, math.sll((ushort)size,8));
-
     }
 }

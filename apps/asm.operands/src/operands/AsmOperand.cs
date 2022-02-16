@@ -377,7 +377,7 @@ namespace Z0.Asm
         // }
 
         public string Format()
-            => AsmRender.format(this);
+            => AsmRender.operand(this);
 
         public override string ToString()
             => Format();

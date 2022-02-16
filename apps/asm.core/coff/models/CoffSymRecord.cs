@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
 
-    [Record(TableId), StructLayout(LayoutKind.Sequential)]
+    [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct CoffSymRecord
     {
         public const string TableId = "coff.symbols";
@@ -23,8 +18,6 @@ namespace Z0
         public uint DocId;
 
         public ushort Section;
-
-        public Timestamp Timestamp;
 
         public Address32 Address;
 
@@ -40,6 +33,8 @@ namespace Z0
 
         public @string SymText;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,24,10,8,10,8,8,8,1};
+        public Timestamp Timestamp;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,10,8,10,8,8,8,48,1};
     }
 }

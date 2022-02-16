@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     public readonly struct AsmDirectiveOp : IAsmSourcePart
     {
+        public static AsmDirectiveOp noprefix => "noprefix";
+
         public @string Value {get;}
 
         [MethodImpl(Inline)]

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-
     public readonly struct DecodedAsmBlocks
     {
         readonly Index<DecodedAsmBlock> Data;

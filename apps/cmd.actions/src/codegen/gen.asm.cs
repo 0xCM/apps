@@ -33,7 +33,8 @@ namespace Z0
             var buffer = text.buffer();
             var counter = 0u;
             var name = "and";
-            var blocks = list<AsmBlockSpec>();
+            var source = list<IAsmSourcePart>();
+            source.Add(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref forms[i];
@@ -43,25 +44,17 @@ namespace Z0
                     if(specs.Count == 0)
                         continue;
 
-                    var margin = 4u;
-                    buffer.AppendLine(asm.comment(string.Format("{0} | {1}", form.Sig, form.OpCode)));
-                    buffer.AppendLine(asm.label(form.Name.Format()));
-                    for(var j=0; j<specs.Count; j++)
-                    {
-                        ref readonly var spec = ref specs[j];
-                        buffer.IndentLine(margin, spec.Format());
-                        counter++;
-                    }
-                    buffer.IndentLine(margin,"ret");
-                    buffer.AppendLine();
+
+                    source.Add(asm.comment(string.Format("{0} | {1}", form.Sig, form.OpCode)));
+                    source.Add(asm.block(asm.label(form.Name.Format()), specs));
                 }
-                //Write(string.Format("{0,-8} | {1,-38} | {2,-48} | {3}", i, form.Name, form.Sig, form.OpCode));
             }
 
-            //var file = asm.file(name,)
+            var file = asm.file(name, source.ToArray());
+            var dst = file.Path(Ws.Project(ProjectNames.McModels).SrcDir("asm"));
+            var emitting = EmittingFile(dst);
+            EmittedFile(emitting, file.Save(dst));
 
-            var dst = Ws.Project(ProjectNames.McModels).SrcDir("asm") + FS.file("and", FS.Asm);
-            FileEmit(buffer.Emit(), counter, dst, TextEncodingKind.Asci);
 
             return true;
         }

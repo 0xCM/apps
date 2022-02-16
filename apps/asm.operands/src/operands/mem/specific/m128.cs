@@ -48,14 +48,6 @@ namespace Z0.Asm.Operands
             => new m128(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m128(mem<m128> src)
-            => new m128(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator mem<m128>(m128 src)
-            => new mem<m128>(src.TargetSize,src.Address);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(m128 src)
             => new AsmOperand(src);
 

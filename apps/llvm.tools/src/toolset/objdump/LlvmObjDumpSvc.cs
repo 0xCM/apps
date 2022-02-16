@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using Asm;
 
-    using static Root;
     using static core;
 
     [Tool(ToolId)]
@@ -61,14 +58,14 @@ namespace Z0.llvm
                 result = DataParser.parse(data[j++], out dst.Seq);
                 result = DataParser.parse(data[j++], out dst.DocId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
-                result = DataParser.parse(data[j++], out dst.Line);
                 result = DataParser.parse(data[j++], out dst.Section);
                 result = DataParser.parse(data[j++], out dst.BlockAddress);
                 result = DataParser.parse(data[j++], out dst.BlockName);
                 result = DataParser.parse(data[j++], out dst.IP);
-                result = AsmHexCode.parse(data[j++].View, out dst.HexCode);
+                result = DataParser.parse(data[j++], out dst.Size);
+                result = AsmParser.asmhex(data[j++].View, out dst.HexCode);
                 dst.Asm = text.trim(data[j++].Text);
-                result = AsmInlineComment.parse(data[j++].View, out dst.Comment);
+                result = AsmParser.comment(data[j++].View, out dst.Comment);
                 result = DataParser.parse(data[j++], out dst.Source);
             }
 

@@ -48,14 +48,6 @@ namespace Z0.Asm.Operands
             => new m256(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m256(mem<m256> src)
-            => new m256(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator mem<m256>(m256 src)
-            => new mem<m256>(src.TargetSize,src.Address);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(m256 src)
             => new AsmOperand(src);
 

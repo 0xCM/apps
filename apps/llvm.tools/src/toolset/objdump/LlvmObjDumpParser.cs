@@ -4,14 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using Asm;
 
-    using static Root;
     using static core;
-
-    using SQ = SymbolicQuery;
 
     class LlvmObjDumpParser
     {
@@ -84,9 +79,6 @@ namespace Z0.llvm
                     result = ParseBlockLabel(content);
                     if(result.Fail)
                         break;
-
-                    // Buffer.Add(Row);
-                    // Row = ObjDumpRow.Init(src);
                 }
                 else
                 {
@@ -94,9 +86,8 @@ namespace Z0.llvm
                     if(k>=0)
                     {
                         Row = ObjDumpRow.Init(src);
-                        Row.Line = N;
                         Row.Section = Section;
-                        Row.Source = path;
+                        Row.Source = path.ToUri().LineRef(N);
                         result = DataParser.parse(text.left(content, k), out Row.IP);
                         if(result.Fail)
                         {
@@ -109,10 +100,11 @@ namespace Z0.llvm
                         var y = text.index(asm, Chars.Tab);
                         if(y > 0)
                         {
-                            AsmHexCode.parse(text.trim(text.left(asm, y)), out Row.HexCode);
+                            AsmParser.asmhex(text.trim(text.left(asm, y)), out Row.HexCode);
+                            Row.Size = Row.HexCode.Size;
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
-                            if(AsmInlineComment.parse(statement, out Row.Comment))
+                            if(AsmParser.comment(statement, out Row.Comment))
                             {
                                 var m = text.index(statement, Chars.Hash);
                                 if(m>0)
@@ -137,9 +129,9 @@ namespace Z0.llvm
             if(j >=0)
             {
                 Row.Source = Source;
-                Row.Line = N;
                 Row.Section = Section;
                 Row.HexCode = BinaryCode.Empty;
+                Row.Size = 0;
                 Row.Asm = ObjDumpRow.BlockStartMarker;
                 var k = text.index(content, Chars.Gt);
                 if(k>=0)
@@ -150,7 +142,7 @@ namespace Z0.llvm
                 if(result.Fail)
                     result = (false, AppMsg.ParseFailure.Format(nameof(Row.BlockAddress), ip));
                 else
-                    Row.IP = Row.BlockAddress;
+                    Row.IP = (Address32)Row.BlockAddress;
 
                 BlockName = Row.BlockName;
                 BlockAddress = Row.BlockAddress;

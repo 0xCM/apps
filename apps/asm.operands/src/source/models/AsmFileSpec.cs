@@ -8,19 +8,36 @@ namespace Z0.Asm
     {
         public Identifier Name {get;}
 
-        public bool IntelSyntax {get;}
-
-        public Index<AsmComment> HeaderComments {get;}
-
-        public Index<AsmBlockSpec> Blocks {get;}
+        public Index<IAsmSourcePart> Parts {get;}
 
         [MethodImpl(Inline)]
-        public AsmFileSpec(Identifier name, AsmComment[] comments, AsmBlockSpec[] blocks)
+        public AsmFileSpec(Identifier name, IAsmSourcePart[] parts)
         {
             Name = name;
-            IntelSyntax = true;
-            HeaderComments = comments;
-            Blocks = blocks;
+            Parts = parts;
+        }
+
+        public string Format()
+            => AsmRender.file(this);
+
+        public override string ToString()
+            => Format();
+
+        public FS.FilePath Path(FS.FolderPath dst)
+            => dst + FS.file(Name.Format(), FS.Asm);
+
+        public FS.FilePath Save(FS.FolderPath dst)
+        {
+            var path = Path(dst);
+            Save(path);
+            return path;
+        }
+
+        public uint Save(FS.FilePath dst)
+        {
+            using var writer = dst.AsciWriter();
+            writer.WriteLine(Format());
+            return Parts.Count;
         }
     }
 }

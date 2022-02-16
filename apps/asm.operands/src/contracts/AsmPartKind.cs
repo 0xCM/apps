@@ -7,7 +7,7 @@ namespace Z0.Asm
     using System;
 
     [Flags]
-    public enum AsmPartKind : ushort
+    public enum AsmPartKind : uint
     {
         None = 0,
 
@@ -51,5 +51,7 @@ namespace Z0.Asm
         InlineComment = DirectiveOp*2,
 
         Mnemonic = InlineComment*2,
+
+        Block = Mnemonic*2,
     }
 }

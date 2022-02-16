@@ -9,6 +9,24 @@ namespace Z0.Asm
     [ApiHost]
     public readonly struct AsmRender
     {
+        [MethodImpl(Inline), Op]
+        public static uint bitstring(in AsmHexCode src, Span<char> dst)
+        {
+            var i=0u;
+            return BitRender.render8x4(slice(src.Bytes, 0, src.Size), ref i, dst);
+        }
+
+        public static string asmbyte<T>(T src)
+            where T : unmanaged, IAsmByte
+                => src.Value().FormatHex(zpad:true, specifier:true, uppercase:true);
+
+        [Op]
+        public static uint bitstring(ReadOnlySpan<byte> src, Span<char> dst)
+        {
+            var i=0u;
+            return BitRender.render8x4(src, ref i, dst);
+        }
+
         public static string directive(in AsmDirective src)
         {
             var dst = text.buffer();
@@ -27,8 +45,11 @@ namespace Z0.Asm
             return dst.Emit();
         }
 
+        public static string comment(in AsmComment src)
+            => src.Content.IsNonEmpty ? string.Format("# {0}", src.Content) : EmptyString;
+
         [Op]
-        public static string format(in AsmOperand src)
+        public static string operand(in AsmOperand src)
         {
             switch(src.OpClass)
             {
@@ -46,6 +67,29 @@ namespace Z0.Asm
                     return EmptyString;
 
             }
+        }
+
+        public static string operands(in AsmOperands src)
+        {
+            var dst = EmptyString;
+            switch(src.OpCount)
+            {
+                case 0:
+                break;
+                case 1:
+                   dst = string.Format("{0}", src.Op0);
+                break;
+                case 2:
+                    dst = string.Format("{0}, {1}", src.Op0, src.Op1);
+                break;
+                case 3:
+                    dst = string.Format("{0}, {1}, {2}", src.Op0, src.Op1, src.Op2);
+                break;
+                case 4:
+                    dst = string.Format("{0}, {1}, {2}, {3}", src.Op0, src.Op1, src.Op2, src.Op3);
+                break;
+            }
+            return dst;
         }
 
         public static string instruction(in AsmInstruction src)
@@ -229,6 +273,26 @@ namespace Z0.Asm
             }
 
             return i - i0;
+        }
+
+        public static string file(in AsmFileSpec src)
+        {
+            var dst = text.buffer();
+            var parts = src.Parts;
+            var count = parts.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var part = ref parts[i];
+                dst.AppendLine(part.Format());
+                switch(part.PartKind)
+                {
+                    case AsmPartKind.Block:
+                        dst.AppendLine();
+                    break;
+                }
+
+            }
+            return dst.Emit();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public string Format()
-            => Content.IsNonEmpty ? string.Format("# {0}", Content) : EmptyString;
+            => AsmRender.comment(this);
 
         public override string ToString()
             => Format();

@@ -12,35 +12,6 @@ namespace Z0.Asm
     [DataType("asm.bitstring")]
     public readonly struct AsmBitstring
     {
-        [MethodImpl(Inline), Op]
-        public static uint render(in AsmHexCode src, Span<char> dst)
-        {
-            var i=0u;
-            return BitRender.render8x4(slice(src.Bytes, 0, src.Size), ref i, dst);
-        }
-
-        [Op]
-        public static uint bitstring(ReadOnlySpan<byte> src, Span<char> dst)
-        {
-            var i=0u;
-            return BitRender.render8x4(src, ref i, dst);
-        }
-
-        [Op]
-        public static AsmBitstring bitstring(in AsmHexCode src)
-        {
-            if(src.IsEmpty)
-                return default;
-
-            CharBlocks.alloc(n256, out var block);
-            var dst = block.Data;
-            var count = render(src, dst);
-            if(count == 0)
-                return Empty;
-
-            return new AsmBitstring(text.format(slice(dst, 0, count)));
-        }
-
         readonly TextBlock Data {get;}
 
         [MethodImpl(Inline)]
@@ -69,7 +40,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmBitstring(AsmHexCode src)
-            => bitstring(src);
+            => asm.bitstring(src);
 
         public static AsmBitstring Empty
         {

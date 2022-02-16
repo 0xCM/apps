@@ -48,14 +48,6 @@ namespace Z0.Asm.Operands
             => new m64(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m64(mem<m64> src)
-            => new m64(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator mem<m64>(m64 src)
-            => new mem<m64>(src.TargetSize,src.Address);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(m64 src)
             => new AsmOperand(src);
 

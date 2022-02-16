@@ -8,10 +8,10 @@ namespace Z0.Asm
     {
         public readonly LocatedSymbol Label;
 
-        public readonly Index<DecodedAsm> Statements;
+        public readonly Index<AsmCode> Statements;
 
         [MethodImpl(Inline)]
-        public DecodedAsmBlock(LocatedSymbol label, DecodedAsm[] src)
+        public DecodedAsmBlock(LocatedSymbol label, AsmCode[] src)
         {
             Label = label;
             Statements = src;

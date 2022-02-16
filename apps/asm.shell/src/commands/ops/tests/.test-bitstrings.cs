@@ -21,14 +21,14 @@ namespace Z0.Asm
         Outcome CheckBitstrings(CmdArgs args)
         {
             CharBlocks.alloc(n128, out var block1);
-            var count = AsmBitstring.render(Input, block1.Data);
+            var count = AsmRender.bitstring(Input, block1.Data);
             var chars = slice(block1.Data,0,count);
             var bits = text.format(chars);
             Write(InputBitsA);
             Write(bits);
 
             CharBlocks.alloc(n128, out var block2);
-            count = AsmBitstring.bitstring(bytes(InputBitsB), block2.Data);
+            count = AsmRender.bitstring(bytes(InputBitsB), block2.Data);
             bits = text.format(chars);
             Write(bits);
             return true;

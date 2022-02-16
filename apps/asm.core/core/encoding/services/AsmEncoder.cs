@@ -147,13 +147,6 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         public static SizeOverrides overrides(bit opsz, bit adsz)
             => new SizeOverrides(opsz,adsz);
-        [Op]
-        public static AsmEncodingInfo describe(in AsmFormInfo form, in AsmExpr statement, in AsmHexCode encoded)
-            => new AsmEncodingInfo(form, statement, encoded, AsmBits.bitstring(encoded));
-
-        [MethodImpl(Inline), Op]
-        public static AsmEncodingInfo describe(in AsmFormInfo form, in AsmExpr statement, in AsmHexCode encoded, in AsmBitstring bitstring)
-            => new AsmEncodingInfo(form, statement, encoded, bitstring);
 
          [MethodImpl(Inline), Op]
          static byte combine(Pair<byte> a, Pair<byte> b, Pair<byte> c)

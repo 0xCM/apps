@@ -11,6 +11,26 @@ namespace Z0.Asm
     partial struct asm
     {
         [MethodImpl(Inline), Op]
+        public static MemOp mem(NativeSize size, RegOp @base)
+            => new MemOp(size, address(@base, RegOp.Invalid, 0));
+
+        [MethodImpl(Inline), Op]
+        public static MemOp mem(NativeSize size, RegOp @base, RegOp index)
+            => new MemOp(size, address(@base, index, 0));
+
+        [MethodImpl(Inline), Op]
+        public static MemOp mem(NativeSize size, RegOp @base, RegOp index, Disp disp)
+            => new MemOp(size, address(@base, index, ScaleFactor.S1, disp));
+
+        [MethodImpl(Inline), Op]
+        public static MemOp mem(NativeSize size, RegOp @base, MemoryScale scale, RegOp index)
+            => new MemOp(size, address(@base, index, scale));
+
+        [MethodImpl(Inline), Op]
+        public static MemOp mem(NativeSize size, RegOp @base, MemoryScale scale, RegOp index, Disp disp)
+            => new MemOp(size, address(@base, index, scale, disp));
+
+        [MethodImpl(Inline), Op]
         public static m8 mem8(RegOp @base)
             => new m8(@base, RegOp.Invalid, 0, Disp.Zero);
 

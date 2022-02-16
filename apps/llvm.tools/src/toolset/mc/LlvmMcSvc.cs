@@ -210,9 +210,9 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
-                result = AsmParser.parse(skip(cells, j++), out dst.Asm);
+                result = AsmParser.expression(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
-                result = AsmParser.parse(skip(cells, j++), out dst.HexCode);
+                result = AsmParser.asmhex(skip(cells, j++), out dst.HexCode);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;
@@ -241,7 +241,7 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.AsmName);
-                result = AsmParser.parse(skip(cells, j++), out dst.Asm);
+                result = AsmParser.expression(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;
@@ -336,7 +336,7 @@ namespace Z0.llvm
                     continue;
                 }
 
-                result = AsmHexCode.parse(hex, out dst.HexCode);
+                result = AsmParser.asmhex(hex, out dst.HexCode);
                 if(result.Fail)
                 {
                     result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.HexCode)));
@@ -384,7 +384,7 @@ namespace Z0.llvm
                     record.Asm = text.trim(text.left(content,j));
 
                     var enc = text.right(content, j + EncodingMarker.Length);
-                    result = AsmHexCode.parse(enc, out record.HexCode);
+                    result = AsmParser.asmhex(enc, out record.HexCode);
                     if(result.Fail)
                         return result;
 
@@ -488,7 +488,7 @@ namespace Z0.llvm
                 if(xi > 0)
                 {
                     var enc = text.right(body,xi + EncodingMarker.Length + 1);
-                    if(AsmHexCode.parse(enc, out var encoding))
+                    if(AsmParser.asmhex(enc, out var encoding))
                         record.HexCode = encoding;
                 }
 

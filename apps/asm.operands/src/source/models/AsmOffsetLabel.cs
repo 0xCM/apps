@@ -13,16 +13,6 @@ namespace Z0.Asm
         public static AsmOffsetLabel define(byte width, ulong value)
             => new AsmOffsetLabel(width, value);
 
-        [Parser]
-        public static Outcome label(string src, out AsmOffsetLabel dst)
-        {
-            dst = default;
-            var result = DataParser.parse(src, out Hex64 value);
-            if(result)
-                dst = new AsmOffsetLabel(bits.effwidth(value), value);
-            return result;
-        }
-
         const ulong OffsetMask = 0xFF_FF_FF_FF_FF_FF_FF;
 
         const byte Cut = 56;

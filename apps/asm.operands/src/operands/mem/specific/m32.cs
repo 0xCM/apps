@@ -48,14 +48,6 @@ namespace Z0.Asm.Operands
             => new m32(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m32(mem<m32> src)
-            => new m32(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator mem<m32>(m32 src)
-            => new mem<m32>(src.TargetSize,src.Address);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(m32 src)
             => new AsmOperand(src);
 

@@ -152,7 +152,6 @@ namespace Z0
                         var name = sym.Name;
                         record.Seq = seq++;
                         record.DocId = fref.DocId;
-                        record.Timestamp = view.Timestamp;
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.Section = sym.Section;
@@ -161,6 +160,7 @@ namespace Z0
                         record.SymClass = sym.Class;
                         record.AuxCount = sym.NumberOfAuxSymbols;
                         record.SymText = symtext;
+                        record.Timestamp = view.Timestamp;
                         writer.WriteLine(formatter.Format(record));
 
                         size += record.SymSize;

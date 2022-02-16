@@ -92,7 +92,7 @@ namespace Z0.Asm
 
         public AsmInlineComment Comment()
         {
-            var result = AsmInlineComment.parse(Data, out var comment);
+            var result = AsmParser.comment(Data, out var comment);
             if(result)
                 return comment;
             else

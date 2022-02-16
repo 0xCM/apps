@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     using static Root;
     using static core;
 
@@ -98,7 +96,7 @@ namespace Z0.Asm
             => (src.OpCode, sigxpr(src));
 
         static AsmThumbprint thumbprint(in ApiInstruction src)
-            => AsmThumbprint.define(src.Statment, formxpr(src), AsmHexCode.load(src.EncodedData));
+            => AsmThumbprint.define(src.Statment, formxpr(src), asm.asmhex(src.EncodedData));
 
         static string format(MemoryAddress @base, CodeBlock code)
             => string.Format("{0}[{1}] => {2}", @base.Format(), code.Length, code.Format());

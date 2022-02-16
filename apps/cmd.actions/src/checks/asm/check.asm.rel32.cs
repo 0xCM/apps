@@ -6,9 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-    using static Asm.AsmBytes;
-
     partial class CheckCmdProvider
     {
         [CmdOp("check/asm/rel32")]
@@ -133,7 +130,7 @@ namespace Z0
             var dx0 = AsmRel32.disp((ip0, sz), @return);
 
             var code0 = JmpRel32.encode((ip0,sz), @return);
-            var code1 = AsmBytes.hexcode("e9 58 10 00 00");
+            var code1 = AsmParser.asmhex("e9 58 10 00 00");
 
             if(!code0.Equals(code1))
                 Error(string.Format("{0} != {1}", code1, code0));
@@ -142,7 +139,7 @@ namespace Z0
             var ip1 = @base + label1;
             var dx1 = AsmRel32.disp((ip1,sz), @return);
             var actual1 = JmpRel32.encode((ip1,sz), @return);
-            var expect1 = AsmBytes.hexcode("e9 4d 10 00 00");
+            var expect1 = AsmParser.asmhex("e9 4d 10 00 00");
             if(!actual1.Equals(expect1))
                 Error(string.Format("{0} != {1}", expect1, actual1));
 
@@ -150,7 +147,7 @@ namespace Z0
             var ip2 = @base + label2;
             var dx2 = AsmRel32.disp((ip2,sz), @return);
             var actual2 = JmpRel32.encode((ip2,sz), @return);
-            var expect2 = AsmBytes.hexcode("e9 42 10 00 00");
+            var expect2 = AsmParser.asmhex("e9 42 10 00 00");
             if(!actual2.Equals(expect2))
                 Error(string.Format("{0} != {1}", expect2, actual2));
 
@@ -158,7 +155,7 @@ namespace Z0
             var ip3 = @base + label3;
             var dx3 = AsmRel32.disp((ip3,sz), @return);
             var actual3 = JmpRel32.encode((ip3,sz), @return);
-            var expect3 = AsmBytes.hexcode("e9 37 10 00 00");
+            var expect3 = AsmParser.asmhex("e9 37 10 00 00");
             if(!actual3.Equals(expect3))
                 Error(string.Format("{0} != {1}", expect3, actual3));
         }

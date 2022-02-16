@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -69,7 +64,7 @@ namespace Z0.Asm
                 statement.OpUri = src.Uri;
                 statement.Expression = instruction.FormattedInstruction;
                 AsmSigInfo.parse(instruction.OpCode.InstructionString, out statement.Sig);
-                statement.Encoded = AsmHexCode.load(bytes.Slice(offset, size));
+                statement.Encoded = asm.asmhex(bytes.Slice(offset, size));
                 statement.OpCode = opcode;
                 statement.Bitstring = statement.Encoded;
                 dst.Add(statement);

@@ -48,20 +48,11 @@ namespace Z0.Asm.Operands
             => new m16(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m16(mem<m16> src)
-            => new m16(src);
-
-        [MethodImpl(Inline)]
-        public static implicit operator mem<m16>(m16 src)
-            => new mem<m16>(src.TargetSize,src.Address);
-
-        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(m16 src)
             => new AsmOperand(src);
 
         [MethodImpl(Inline)]
         public static implicit operator MemOp(m16 src)
             => new MemOp(src.TargetSize, src.Address);
-
     }
 }

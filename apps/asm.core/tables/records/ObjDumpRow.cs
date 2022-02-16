@@ -21,15 +21,15 @@ namespace Z0
 
         public uint DocSeq;
 
-        public LineNumber Line;
-
         public TextBlock Section;
 
         public MemoryAddress BlockAddress;
 
         public TextBlock BlockName;
 
-        public MemoryAddress IP;
+        public Address32 IP;
+
+        public byte Size;
 
         public AsmHexCode HexCode;
 
@@ -48,7 +48,6 @@ namespace Z0
         public static ObjDumpRow Empty()
         {
             var dst = new ObjDumpRow();
-            dst.Line = LineNumber.Empty;
             dst.Section = TextBlock.Empty;
             dst.BlockAddress = 0;
             dst.BlockName = TextBlock.Empty;
@@ -65,18 +64,6 @@ namespace Z0
             var dst = Empty();
             dst.DocId = src.DocId;
             return dst;
-        }
-
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Line.IsEmpty;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Line.IsNonEmpty;
         }
 
         public bool IsBlockStart
@@ -98,6 +85,6 @@ namespace Z0
             => IP;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,8,8,12,12,16,52,12,42,90,90,1};
+            => new byte[FieldCount]{8,8,8,12,16,32,12,8,42,90,90,1};
     }
 }

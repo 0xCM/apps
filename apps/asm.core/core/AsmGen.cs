@@ -13,6 +13,7 @@ namespace Z0.Asm
     using TK = AsmSigTokenKind;
     using MT = AsmSigTokens.MemToken;
     using ImmT = AsmSigTokens.ImmToken;
+    using SZ = NativeSizeCode;
 
     public class AsmGenContext
     {
@@ -34,7 +35,7 @@ namespace Z0.Asm
         {
             RegSets = AsmRegSets.create();
             Context = context;
-            _OpsBuffer = alloc<AsmOperand>(512);
+            _OpsBuffer = alloc<AsmOperand>(2048);
         }
 
         Span<AsmOperand> OpBuffer()
@@ -266,15 +267,45 @@ namespace Z0.Asm
             {
                 case MT.m8:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem8(regs[j]);
+                    {
+                        ref readonly var @base = ref regs[j];
+                        seek(dst,i++) = asm.mem8(@base);
+                        for(var k=0; k<count; k++)
+                        {
+                            ref readonly var index = ref regs[k];
+                            if(k != j)
+                                seek(dst,i++) = asm.mem8(@base, index);
+                        }
+                    }
                 break;
                 case MT.m16:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem16(regs[j]);
+                    {
+                        ref readonly var @base = ref regs[j];
+                        seek(dst,i++) = asm.mem16(@base);
+                        for(var k=0; k<count; k++)
+                        {
+                            ref readonly var index = ref regs[k];
+                            if(k != j)
+                                seek(dst,i++) = asm.mem16(@base, index);
+                        }
+                    }
                 break;
                 case MT.m32:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem32(regs[j]);
+                    {
+                        ref readonly var @base = ref regs[j];
+                        seek(dst,i++) = asm.mem(SZ.W32, @base);
+                        for(var k=0; k<count; k++)
+                        {
+                            ref readonly var index = ref regs[k];
+                            if(k != j)
+                            {
+                                seek(dst,i++) = asm.mem(SZ.W32, @base, index);
+                                seek(dst,i++) = asm.mem(SZ.W32, @base, index, asm.disp8(-0x63));
+                            }
+                        }
+                    }
                 break;
                 case MT.m64:
                     for(var j=0; j<count; j++)
@@ -290,7 +321,16 @@ namespace Z0.Asm
                 break;
                 case MT.m512:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem512(regs[j]);
+                    {
+                        ref readonly var @base = ref regs[j];
+                        seek(dst,i++) = asm.mem(SZ.W512, @base);
+                        for(var k=0; k<count; k++)
+                        {
+                            ref readonly var index = ref regs[k];
+                            if(k != j)
+                                seek(dst,i++) = asm.mem(SZ.W512, @base, index);
+                        }
+                    }
                 break;
             }
 
@@ -312,7 +352,7 @@ namespace Z0.Asm
             switch(src)
             {
                 case GpRT.r8:
-                    set = RegSets.Gp8Regs();
+                    set = RegSets.Gp8LoRegs();
                 break;
                 case GpRT.r16:
                     set = RegSets.Gp16Regs();

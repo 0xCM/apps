@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     public interface IAsmByte : ITextual, INullity
     {
         byte Value();
@@ -18,7 +16,7 @@ namespace Z0.Asm
         where T : unmanaged, IAsmByte<T>
     {
         string ITextual.Format()
-            => AsmBytes.format((T)this);
+            => AsmRender.asmbyte((T)this);
 
         bool IEquatable<T>.Equals(T other)
             => Value() == other.Value();

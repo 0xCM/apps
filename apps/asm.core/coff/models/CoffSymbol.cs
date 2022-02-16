@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0;
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct CoffSymbol
     {
