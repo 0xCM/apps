@@ -10,40 +10,9 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public readonly struct Disp : IDisplacement, IEquatable<Disp>
     {
-        [Op]
-        public static string format(IDisplacement src)
-        {
-            var size = src.Size.Code;
-            if(size == 0)
-                return "0";
-
-            var value = src.Value;
-
-            var dst = RP.Empty;
-            switch(size)
-            {
-                case NativeSizeCode.W8:
-                    return ((sbyte)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-                case NativeSizeCode.W16:
-                    return ((short)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-                case NativeSizeCode.W32:
-                    return ((int)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-                case NativeSizeCode.W64:
-                    return ((long)value).FormatHex(zpad:false,specifier:true,uppercase:true);
-            }
-            return dst;
-        }
-
         public long Value {get;}
 
         public NativeSize Size {get;}
-
-        [MethodImpl(Inline)]
-        public Disp(long value, byte width)
-        {
-            Value = value;
-            Size = Sizes.native(width);
-        }
 
         [MethodImpl(Inline)]
         public Disp(long value, NativeSize width)
@@ -55,7 +24,7 @@ namespace Z0.Asm
         public AsmOpKind OpKind
         {
             [MethodImpl(Inline)]
-            get => AsmOperand.kind(AsmOpClass.Disp, Size);
+            get => AsmOps.kind(AsmOpClass.Disp, Size);
         }
 
         public AsmOpClass OpClass
@@ -80,25 +49,17 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
-        [MethodImpl(Inline)]
         public bool Equals(Disp src)
             => Value == src.Value;
 
         public string Format()
-            => format(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator Disp((int value, byte width) src)
-            => new Disp(src.value,src.width);
-
-        [MethodImpl(Inline)]
-        public static implicit operator Disp((int value, NativeSize width) src)
+        public static implicit operator Disp((long value, NativeSize width) src)
             => new Disp(src.value,src.width);
 
         [MethodImpl(Inline)]
@@ -124,10 +85,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator long(Disp src)
             => src.Value;
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp src)
-            => new AsmOperand(src);
 
         public static Disp Empty => default;
 

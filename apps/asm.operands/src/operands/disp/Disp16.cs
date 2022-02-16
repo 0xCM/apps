@@ -27,9 +27,6 @@ namespace Z0.Asm
         public AsmOpClass OpClass
             => AsmOpClass.Disp;
 
-        public byte StorageWidth
-            => 16;
-
         public bool IsNonZero
         {
             [MethodImpl(Inline)]
@@ -56,7 +53,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => Disp.format(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();
@@ -79,7 +76,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp16 src)
-            => (src.Value,src.Size);
+            => (src.Value, src.Size);
 
         [MethodImpl(Inline)]
         public static explicit operator uint(Disp16 src)

@@ -42,12 +42,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.XMM;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]
@@ -106,6 +100,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(xmm0 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(xmm0 src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(xmm0 src)
+            => (G)src;
     }
 
     public readonly struct xmm1 : IRegOp128<xmm1>

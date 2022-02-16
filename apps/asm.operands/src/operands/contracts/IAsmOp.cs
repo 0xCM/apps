@@ -9,11 +9,11 @@ namespace Z0.Asm
     /// </summary>
     public interface IAsmOp
     {
-        AsmOpKind OpKind => default;
+        AsmOpKind OpKind {get;}
 
-        AsmOpClass OpClass => (AsmOpClass)OpKind;
+        AsmOpClass OpClass {get;}
 
-        NativeSize Size => (NativeSizeCode)((ushort)OpKind >> 8);
+        NativeSize Size {get;}
     }
 
     public interface IAsmOp<T> : IAsmOp

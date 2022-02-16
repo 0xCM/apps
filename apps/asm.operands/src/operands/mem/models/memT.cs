@@ -11,29 +11,33 @@ namespace Z0.Asm
     public readonly struct mem<T> : IMemOp<T>
         where T : unmanaged, IMemOp<T>
     {
+        public NativeSize TargetSize {get;}
+
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
-        public mem(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
-        {   Address = new AsmAddress(@base, index, scale, disp);
-        }
-
-        [MethodImpl(Inline)]
-        public mem(AsmAddress src)
+        public mem(NativeSize target, AsmAddress src)
         {
+            TargetSize = target;
             Address = src;
-        }
-
-        public NativeSize TargetSize
-        {
-            [MethodImpl(Inline)]
-            get => default(T).TargetSize;
         }
 
         public NativeSize Size
         {
             [MethodImpl(Inline)]
             get => Address.Base.Size;
+        }
+
+        public AsmOpClass OpClass
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Mem;
+        }
+
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => (AsmOpKind)((ushort)OpClass | ((ushort)TargetSize << 8));
         }
 
         public RegOp Base
@@ -60,13 +64,8 @@ namespace Z0.Asm
             get => Address.Disp;
         }
 
-
-        [MethodImpl(Inline)]
-        public MemOp Untyped()
-            => new MemOp(TargetSize,Address);
-
         public string Format()
-            => Address.Format();
+            => AsmRender.mem(this);
 
         public override string ToString()
             => Format();
@@ -77,6 +76,6 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(mem<T> src)
-            => src.Untyped();
+            => new MemOp(src.TargetSize,src.Address);
     }
 }

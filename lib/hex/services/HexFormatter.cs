@@ -355,6 +355,23 @@ namespace Z0
                 _ => format(w64i,src, prespec, postspec, @case)
             };
 
+        [Op]
+        public static string format(NativeSize size, ulong src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => size.Code switch {
+                NativeSizeCode.W8 => format(w8, (byte)src, pad, prespec, postspec, @case),
+                NativeSizeCode.W16 => format(w16,(ushort)src, pad, prespec, postspec, @case),
+                NativeSizeCode.W32 => format(w32,(uint)src, pad, prespec, postspec, @case),
+                _ => format(w64,src, pad, prespec, postspec, @case)
+            };
+
+        [Op]
+        public static string format(NativeSize size, long src, HexPadStyle pad, bool prespec = false, bool postspec = false, LetterCaseKind @case = LetterCaseKind.Lower)
+            => size.Code switch {
+                NativeSizeCode.W8 => format(w8i, (sbyte)src, pad, prespec, postspec, @case),
+                NativeSizeCode.W16 => format(w16i,(short)src, pad, prespec, postspec, @case),
+                NativeSizeCode.W32 => format(w32i,(int)src, pad, prespec, postspec, @case),
+                _ => format(w64i, src, pad, prespec, postspec, @case)
+            };
 
         [Op]
         public static string asmhex(sbyte src, int? digits = null)

@@ -58,6 +58,9 @@ namespace Z0
         public AsmOpKind OpKind
             => AsmOpKind.Imm64;
 
+        public NativeSize Size
+            => NativeSizeCode.W64;
+
         public uint Hash
         {
             [MethodImpl(Inline)]
@@ -69,7 +72,7 @@ namespace Z0
             => (int)Hash;
 
         public string Format()
-            => HexFormatter.format(w64, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
@@ -136,5 +139,9 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(imm64 src)
+            => new AsmOperand(src);
    }
 }

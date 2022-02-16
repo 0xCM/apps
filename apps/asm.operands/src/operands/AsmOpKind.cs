@@ -49,6 +49,12 @@ namespace Z0.Asm
 
         RegMask64 = RegMask | (SZ.W64 << 8),
 
+        RegMask128 = RegMask | (SZ.W128 << 8),
+
+        RegMask256 = RegMask | (SZ.W256 << 8),
+
+        RegMask512 = RegMask | (SZ.W512 << 8),
+
         Mem8 = Mem | (SZ.W8 << 8),
 
         Mem16 = Mem | (SZ.W16 << 8),

@@ -18,6 +18,30 @@ namespace Z0.Asm
 
         AsmOpClass IAsmOp.OpClass
             => AsmOpClass.Mem;
+
+        NativeSize IAsmOp.Size
+            => TargetSize;
+
+        RegOp Base
+            => Address.Base;
+
+        RegOp Index
+            => Address.Index;
+
+        MemoryScale Scale
+            => Address.Scale;
+
+        Disp Disp
+            => Address.Disp;
+
+        bool HasIndex
+            => Address.HasIndex;
+
+        bool HasDisp
+            => Address.HasDisp;
+
+        bool HasScale
+            => Address.HasScale;
     }
 
     [Free]

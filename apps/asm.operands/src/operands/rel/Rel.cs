@@ -12,30 +12,25 @@ namespace Z0.Asm
     [DataType("rel<w:32>")]
     public readonly struct Rel : IRelOp<uint>
     {
-        public const byte Width = 32;
-
-        public AsmOpKind OpKind {get;}
-
-        public AsmRelKind RelKind {get;}
-
         public uint Value {get;}
 
+        public NativeSize Size {get;}
+
         [MethodImpl(Inline)]
-        public Rel(AsmRelKind kind, uint value)
+        public Rel(NativeSize size, uint value)
         {
-            RelKind = kind;
-            OpKind = (AsmOpKind)((ushort)AsmOpClass.Rel | ((ushort)kind << 8));
             Value = value;
+            Size = size;
+        }
+
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOps.kind(AsmOpClass.Rel, Size);
         }
 
         public AsmOpClass OpClass
             => AsmOpClass.Rel;
-
-        public NativeSize Size
-        {
-            [MethodImpl(Inline)]
-            get => (NativeSizeCode)((ushort)OpKind >> 8);
-        }
 
         public string Format()
             => HexFormatter.format(Size, Value, prespec:true, @case:UpperCase);
@@ -93,15 +88,15 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator Rel(Rel8 src)
-            => new Rel(AsmRelKind.Rel8, src.Value);
+            => new Rel(NativeSizeCode.W8, src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator Rel(Rel16 src)
-            => new Rel(AsmRelKind.Rel16, src.Value);
+            => new Rel(NativeSizeCode.W16, src.Value);
 
         [MethodImpl(Inline)]
         public static implicit operator Rel(Rel32 src)
-            => new Rel(AsmRelKind.Rel32, src.Value);
+            => new Rel(NativeSizeCode.W32, src.Value);
 
     }
 }

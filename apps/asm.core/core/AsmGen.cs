@@ -141,9 +141,9 @@ namespace Z0.Asm
                 case TK.Imm:
                     ImmValues(src, ref i, dst);
                     break;
-                // case TK.Mem:
-                //     MemValues(src, ref i, dst);
-                //     break;
+                case TK.Mem:
+                    MemValues(src, ref i, dst);
+                    break;
                 case TK.RegLiteral:
                     RegLiterals(src, ref i, dst);
                     break;
@@ -266,31 +266,31 @@ namespace Z0.Asm
             {
                 case MT.m8:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr8(regs[j].Index);
+                        seek(dst,i++) = asm.mem8(regs[j]);
                 break;
                 case MT.m16:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr16(regs[j].Index);
+                        seek(dst,i++) = asm.mem16(regs[j]);
                 break;
                 case MT.m32:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr32(regs[j].Index);
+                        seek(dst,i++) = asm.mem32(regs[j]);
                 break;
                 case MT.m64:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr64(regs[j].Index);
+                        seek(dst,i++) = asm.mem64(regs[j]);
                 break;
                 case MT.m128:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr128(regs[j].Index);
+                        seek(dst,i++) = asm.mem128(regs[j]);
                 break;
                 case MT.m256:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr256(regs[j].Index);
+                        seek(dst,i++) = asm.mem256(regs[j]);
                 break;
                 case MT.m512:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.ptr512(regs[j].Index);
+                        seek(dst,i++) = asm.mem512(regs[j]);
                 break;
             }
 

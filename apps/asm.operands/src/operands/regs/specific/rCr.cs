@@ -43,12 +43,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.CR;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]
@@ -115,6 +109,11 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator O(cr0 src)
             => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(cr0 src)
+            => (G)src;
+
     }
 
     public readonly struct cr1 : IRegOp64<cr1>
@@ -131,6 +130,10 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator O(cr1 src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(cr1 src)
             => (G)src;
     }
 

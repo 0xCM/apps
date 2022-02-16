@@ -35,8 +35,11 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => AsmOpKind.Imm32;
 
+        public NativeSize Size
+            => NativeSizeCode.W32;
+
         public string Format()
-            => HexFormatter.format(w32, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();
@@ -104,6 +107,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Imm(I src)
             => new Imm(src.ImmKind, src.Value);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(imm32 src)
+            => new AsmOperand(src);
 
         public static W W => default;
     }

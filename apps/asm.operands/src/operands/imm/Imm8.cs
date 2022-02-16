@@ -68,6 +68,9 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => AsmOpKind.Imm8;
 
+        public NativeSize Size
+            => NativeSizeCode.W8;
+
         public uint Hash
         {
             [MethodImpl(Inline)]
@@ -75,7 +78,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => HexFormatter.format(w8, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();

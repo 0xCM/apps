@@ -21,8 +21,6 @@ namespace Z0.Asm
             Value = @base;
         }
 
-        public byte StorageWidth => 8;
-
         public NativeSize Size
             => NativeSizeCode.W8;
 
@@ -58,7 +56,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => Disp.format(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();
@@ -81,7 +79,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public static implicit operator Disp(Disp8 src)
-            => (src.Value,src.StorageWidth);
+            => new Disp(src.Value, src.Size);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(Disp8 src)

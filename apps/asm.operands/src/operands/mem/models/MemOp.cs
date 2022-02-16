@@ -24,31 +24,27 @@ namespace Z0.Asm
             get => AsmOpClass.Mem;
         }
 
-        public AsmOpKind OpKind
-        {
-            [MethodImpl(Inline)]
-            get => (AsmOpKind)((ushort)AsmOpKind.Mem | ((ushort)TargetSize.Code << 8));
-        }
-
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => Address.Base.Size;
+            get => TargetSize;
         }
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => AsmOps.kind(OpClass, Size);
+        }
 
         public string Format()
-            => Address.Format();
+            => AsmRender.mem(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(MemOp src)
-            => src.Untyped();
+            => new AsmOperand(src);
 
         public static MemOp Empty => default;
     }

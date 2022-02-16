@@ -21,7 +21,7 @@ namespace Z0.Asm
             => src;
 
         [MethodImpl(Inline), Op]
-        public static Rel rel(AsmRelKind kind, uint value)
-            => new Rel(kind, value);
+        public static Rel rel(uint value, NativeSize size)
+            => new Rel(size, value);
     }
 }

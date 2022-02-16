@@ -43,12 +43,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.GP;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]
@@ -58,7 +52,7 @@ namespace Z0.Asm.Operands
         public AsmOpKind OpKind
         {
             [MethodImpl(Inline)]
-            get => AsmOperand.kind(AsmOpClass.Reg, Size);
+            get => AsmOps.kind(AsmOpClass.Reg, Size);
         }
 
         [MethodImpl(Inline)]
@@ -122,6 +116,10 @@ namespace Z0.Asm.Operands
         public static implicit operator O(ax src)
             => (G)src;
 
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(ax src)
+            => (G)src;
+
     }
 
     public struct cx : IRegOp16<cx>
@@ -138,6 +136,10 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator O(cx src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(cx src)
             => (G)src;
     }
 
@@ -157,6 +159,9 @@ namespace Z0.Asm.Operands
         public static implicit operator O(dx src)
             => (G)src;
 
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(dx src)
+            => (G)src;
     }
 
     public struct bx : IRegOp16<bx>
@@ -175,6 +180,9 @@ namespace Z0.Asm.Operands
         public static implicit operator O(bx src)
             => (G)src;
 
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(bx src)
+            => (G)src;
     }
 
     public struct si : IRegOp16<si>
@@ -188,6 +196,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(si src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(si src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(si src)
+            => (G)src;
     }
 
     public struct di : IRegOp16<di>

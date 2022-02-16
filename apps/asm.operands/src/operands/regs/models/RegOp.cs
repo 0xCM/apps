@@ -70,19 +70,19 @@ namespace Z0.Asm
         public AsmOpKind OpKind
         {
             [MethodImpl(Inline)]
-            get => AsmOperand.kind(AsmOpClass.Reg, Size);
+            get => AsmOps.kind(AsmOpClass.Reg, Size);
         }
 
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => OpClass == 0;
+            get => Data == 0;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => OpClass != 0;
+            get => Data != 0;
         }
 
         public AsmRegName Name
@@ -90,10 +90,6 @@ namespace Z0.Asm
             [MethodImpl(Inline)]
             get => api.name(Size, RegClass, Index);
         }
-
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
 
         public string Format()
             => Name.Format().Trim();
@@ -112,7 +108,7 @@ namespace Z0.Asm
         public static RegOp Invalid
         {
             [MethodImpl(Inline)]
-            get => new RegOp(ushort.MaxValue);
+            get => new RegOp(0);
         }
     }
 }

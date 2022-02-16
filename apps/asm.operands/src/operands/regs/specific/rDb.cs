@@ -43,12 +43,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.DB;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]

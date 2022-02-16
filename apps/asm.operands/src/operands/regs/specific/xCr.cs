@@ -38,12 +38,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.XCR;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => NativeSizeCode.W64;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]

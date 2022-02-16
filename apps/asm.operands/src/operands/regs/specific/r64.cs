@@ -43,11 +43,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.GP;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
 
         public RegClass RegClass
         {
@@ -58,7 +53,7 @@ namespace Z0.Asm.Operands
         public AsmOpKind OpKind
         {
             [MethodImpl(Inline)]
-            get => AsmOperand.kind(AsmOpClass.Reg, Size);
+            get => AsmOps.kind(AsmOpClass.Reg, Size);
         }
 
         [MethodImpl(Inline)]
@@ -132,6 +127,10 @@ namespace Z0.Asm.Operands
         public static implicit operator O(rax src)
             => (G)src;
 
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rax src)
+            => (G)src;
+
     }
 
     public struct rcx : IRegOp64<rcx>
@@ -151,6 +150,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rcx src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rcx src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rcx src)
+            => (G)src;
     }
 
     public struct rdx : IRegOp64<rdx>
@@ -170,6 +177,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rdx src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rdx src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rdx src)
+            => (G)src;
     }
 
     public struct rbx : IRegOp64<rbx>
@@ -189,6 +204,15 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rbx src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rbx src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rbx src)
+            => (G)src;
+
     }
 
     public struct rsi : IRegOp64<rsi>
@@ -208,6 +232,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rsi src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rsi src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rsi src)
+            => (G)src;
     }
 
     public struct rdi : IRegOp64<rdi>
@@ -227,6 +259,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rdi src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rdi src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rdi src)
+            => (G)src;
     }
 
     public struct rsp : IRegOp64<rsp>
@@ -246,6 +286,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rsp src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rsp src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rsp src)
+            => (G)src;
     }
 
     public struct rbp : IRegOp64<rbp>
@@ -265,6 +313,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(rbp src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(rbp src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(rbp src)
+            => (G)src;
     }
 
     public struct r8q : IRegOp64<r8q>
@@ -284,6 +340,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(r8q src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(r8q src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(r8q src)
+            => (G)src;
     }
 
     public struct r9q : IRegOp64<r9q>
@@ -303,6 +367,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(r9q src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(r9q src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(r9q src)
+            => (G)src;
     }
 
     public struct r10q : IRegOp64<r10q>
@@ -322,6 +394,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(r10q src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(r10q src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(r10q src)
+            => (G)src;
     }
 
     public struct r11q : IRegOp64<r11q>

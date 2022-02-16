@@ -68,7 +68,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => Disp.format(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();
@@ -108,7 +108,7 @@ namespace Z0.Asm
         public static implicit operator int(Disp32 src)
             => src.Value;
 
-       [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public static explicit operator long(Disp32 src)
             => src.Value;
 
@@ -131,6 +131,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator sbyte(Disp32 src)
             => (sbyte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp32 src)
+            => new AsmOperand(src);
 
         [MethodImpl(Inline)]
         public static Disp32 operator +(Disp32 a, Disp32 b)

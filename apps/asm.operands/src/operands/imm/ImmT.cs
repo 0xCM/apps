@@ -6,6 +6,7 @@ namespace Z0
 {
     using static Numeric;
     using static core;
+    using Z0.Asm;
 
     [DataType("imm<t:{0}>")]
     public readonly struct Imm<T> : IImm<Imm<T>,T>
@@ -18,12 +19,29 @@ namespace Z0
         public Imm(T src)
             => Value = src;
 
+        public AsmOpClass OpClass
+        {
+            [MethodImpl(Inline)]
+            get => AsmOpClass.Imm;
+        }
+
         public ImmKind ImmKind
         {
             [MethodImpl(Inline)]
             get => (ImmKind)(byte)width<T>();
         }
 
+        public NativeSize OpSize
+        {
+            [MethodImpl(Inline)]
+            get => Sizes.native(width<T>());
+        }
+
+        public AsmOpKind OpKind
+        {
+            [MethodImpl(Inline)]
+            get => (AsmOpKind)((ushort)OpClass | ((ushort)OpSize << 8));
+        }
 
         public byte EffectiveWidth
         {

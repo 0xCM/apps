@@ -4,25 +4,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-    [DataType(TypeSyntax.Mem16)]
+    [DataType(TypeSyntax.Mem16), StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct m16 : IMemOp16<m16>
     {
+        public NativeSize TargetSize {get;}
+
         public AsmAddress Address {get;}
 
         [MethodImpl(Inline)]
         public m16(AsmAddress address)
         {
             Address = address;
+            TargetSize = NativeSizeCode.W16;
         }
 
         [MethodImpl(Inline)]
         public m16(RegOp @base, RegOp index, MemoryScale scale, Disp disp)
         {
             Address = new AsmAddress(@base, index, scale, disp);
+            TargetSize = NativeSizeCode.W16;
         }
-
-        public NativeSize TargetSize
-            => NativeSizeCode.W16;
 
         public AsmOpKind OpKind
             => AsmOpKind.Mem16;
@@ -33,15 +34,11 @@ namespace Z0.Asm.Operands
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => Sizes.native(16);
+            get => TargetSize;
         }
 
-        [MethodImpl(Inline)]
-        public AsmOperand Untyped()
-            => new AsmOperand(this);
-
         public string Format()
-            => Address.Format();
+            => AsmRender.mem(this);
 
         public override string ToString()
             => Format();
@@ -56,10 +53,15 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator mem<m16>(m16 src)
-            => new mem<m16>(src.Address);
+            => new mem<m16>(src.TargetSize,src.Address);
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOperand(m16 src)
             => new AsmOperand(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator MemOp(m16 src)
+            => new MemOp(src.TargetSize, src.Address);
+
     }
 }

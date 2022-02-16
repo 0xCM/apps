@@ -40,19 +40,19 @@ namespace Z0
                 switch(length)
                 {
                     case 1:
-                        val = new Disp((sbyte)code[offset], width);
+                        val = new Disp((sbyte)code[offset], NativeSizeCode.W8);
                         _val = (sbyte)code[offset];
                     break;
                     case 2:
-                        val = new Disp(slice(code.Bytes, offset, length).TakeInt16(), width);
+                        val = new Disp(slice(code.Bytes, offset, length).TakeInt16(), NativeSizeCode.W16);
                         _val = slice(code.Bytes, offset, length).TakeInt16();
                     break;
                     case 4:
-                        val = new Disp(slice(code.Bytes, offset, length).TakeInt32(), width);
+                        val = new Disp(slice(code.Bytes, offset, length).TakeInt32(), NativeSizeCode.W32);
                         _val = slice(code.Bytes, offset, length).TakeInt32();
                     break;
                     case 8:
-                        val = new Disp(slice(code.Bytes, offset, length).TakeInt64(), width);
+                        val = new Disp(slice(code.Bytes, offset, length).TakeInt64(), NativeSizeCode.W64);
                         _val = slice(code.Bytes, offset, length).TakeInt64();
                     break;
                 }

@@ -52,7 +52,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => Disp.format(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();
@@ -92,9 +92,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator T(Disp<T> src)
             => src.Source;
-
-        [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(Disp<T> src)
-            => new AsmOperand(src);
     }
 }

@@ -43,12 +43,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.GP;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]
@@ -58,7 +52,7 @@ namespace Z0.Asm.Operands
         public AsmOpKind OpKind
         {
             [MethodImpl(Inline)]
-            get => AsmOperand.kind(AsmOpClass.Reg, Size);
+            get => AsmOps.kind(AsmOpClass.Reg, Size);
         }
 
         [MethodImpl(Inline)]
@@ -121,6 +115,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator O(eax src)
             => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(eax src)
+            => (G)src;
     }
 
     public struct ecx : IRegOp32<ecx>
@@ -137,6 +135,10 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator O(ecx src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(ecx src)
             => (G)src;
     }
 
@@ -155,6 +157,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator O(edx src)
             => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(edx src)
+            => (G)src;
     }
 
     public struct ebx : IRegOp32<ebx>
@@ -171,6 +177,10 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator O(ebx src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(ebx src)
             => (G)src;
     }
 
@@ -189,6 +199,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator O(esi src)
             => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(esi src)
+            => (G)src;
     }
 
     public struct edi : IRegOp32<edi>
@@ -205,6 +219,10 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator O(edi src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(edi src)
             => (G)src;
     }
 
@@ -223,6 +241,10 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator O(esp src)
             => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(esp src)
+            => (G)src;
     }
 
     public struct ebp : IRegOp32<ebp>
@@ -239,6 +261,10 @@ namespace Z0.Asm.Operands
 
         [MethodImpl(Inline)]
         public static implicit operator O(ebp src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(ebp src)
             => (G)src;
     }
 

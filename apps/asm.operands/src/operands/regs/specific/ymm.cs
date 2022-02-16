@@ -38,12 +38,6 @@ namespace Z0.Asm.Operands
             get => RegClassCode.YMM;
         }
 
-        public RegWidth RegWidth
-        {
-            [MethodImpl(Inline)]
-            get => Size;
-        }
-
         public RegClass RegClass
         {
             [MethodImpl(Inline)]
@@ -103,6 +97,14 @@ namespace Z0.Asm.Operands
         [MethodImpl(Inline)]
         public static implicit operator K(ymm0 src)
             => (K)src.Index;
+
+        [MethodImpl(Inline)]
+        public static implicit operator O(ymm0 src)
+            => (G)src;
+
+        [MethodImpl(Inline)]
+        public static implicit operator RegOp(ymm0 src)
+            => (G)src;
     }
 
     public readonly struct ymm1 : IRegOp128<ymm1>

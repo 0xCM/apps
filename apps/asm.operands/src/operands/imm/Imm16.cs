@@ -39,8 +39,11 @@ namespace Z0.Asm
         public AsmOpKind OpKind
             => AsmOpKind.Imm16;
 
+        public NativeSize Size
+            => NativeSizeCode.W16;
+
         public string Format()
-            => HexFormatter.format(w16, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
 
         public override string ToString()
             => Format();

@@ -40,7 +40,8 @@ namespace Z0.Asm
             Value = value;
         }
 
-        public NativeSize Size => NativeSizeCode.W64;
+        public NativeSize Size
+            => NativeSizeCode.W64;
 
         public AsmOpKind OpKind
             => AsmOpKind.Disp64;
@@ -71,7 +72,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => Disp.format(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();
@@ -95,6 +96,10 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator Disp64(long src)
             => new Disp64((int)src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator AsmOperand(Disp64 src)
+            => new AsmOperand(src);
 
         public static Disp64 Empty
         {

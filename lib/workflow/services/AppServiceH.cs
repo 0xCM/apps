@@ -234,6 +234,24 @@ namespace Z0
                 Write(formatter.Format(skip(src,i)));
         }
 
+        protected void Show(Outcome result)
+        {
+            if(result)
+            {
+                if(text.nonempty(result.Message))
+                    Status(result.Message);
+                else
+                    Status("Success");
+            }
+            else
+            {
+                if(text.nonempty(result.Message))
+                    Error(result.Message);
+                else
+                    Error("Failure");
+            }
+        }
+
         protected ExecToken EmittedTable<T>(WfTableFlow<T> flow, Count count, FS.FilePath? dst = null)
             where T : struct
                 => Wf.EmittedTable(HostType, flow,count, dst);
