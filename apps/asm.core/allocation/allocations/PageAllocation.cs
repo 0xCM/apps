@@ -6,22 +6,23 @@ namespace Z0
 {
     using static core;
 
-    public class PageBank : IBufferAllocation
+    public class PageAllocation : IBufferAllocation
     {
         public const uint PageSize = PageBlock.PageSize;
 
-        public static PageBank alloc(uint pages)
-            => new PageBank(pages);
+        public static PageAllocation alloc(uint pages)
+            => new PageAllocation(pages);
 
         readonly NativeBuffer Buffer;
 
         public uint PageCount {get;}
 
-        internal PageBank(uint pages)
+        internal PageAllocation(uint pages)
         {
             PageCount = pages;
             Buffer = memory.native(PageSize*PageCount);
         }
+
 
         public void Dispose()
         {
@@ -48,10 +49,29 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public Span<byte> PageBuffer(uint index)
-            => slice(Buffer.Edit, index*PageSize, PageSize);
+            => page(Buffer,index);
 
         [MethodImpl(Inline)]
         public MemoryAddress PageAddress(uint index)
-            => address(first(PageBuffer(index)));
+            => address(Buffer,index);
+
+        [MethodImpl(Inline)]
+        static Span<byte> page(NativeBuffer src,  uint index)
+            => slice(src.Edit, index*PageSize, PageSize);
+
+        [MethodImpl(Inline)]
+        static MemoryAddress address(NativeBuffer src,  uint index)
+            => core.address(first(page(src,index)));
+
+        static Index<MemorySeg> segments(NativeBuffer src, uint count)
+        {
+            var dst = alloc<MemorySeg>(count);
+            for(var i=0u; i<count; i++)
+            {
+                var a = address(src,i);
+                seek(dst,i) = new MemorySeg(address(src,i), PageSize);
+            }
+            return dst;
+        }
     }
 }

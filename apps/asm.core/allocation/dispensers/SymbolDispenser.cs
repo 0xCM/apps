@@ -8,12 +8,6 @@ namespace Z0
 
     public class SymbolDispenser : IAllocationDispenser
     {
-        public static SymbolDispenser alloc(ByteSize capacity)
-            => new SymbolDispenser(capacity);
-
-        public static SymbolDispenser alloc()
-            => new SymbolDispenser();
-
         const uint Capacity = PageBlock.PageSize;
 
         readonly ConcurrentDictionary<string,LocatedSymbol> NameLookup;
@@ -24,7 +18,7 @@ namespace Z0
 
         object locker;
 
-        SymbolDispenser(uint capacity = Capacity)
+        internal SymbolDispenser(uint capacity = Capacity)
         {
             NameLookup = new();
             Allocators = new();
@@ -107,10 +101,10 @@ namespace Z0
             lock(locker)
             {
                 var allocator = Allocators[Seq];
-                if(!allocator.Allocate(content.Value, out label))
+                if(!allocator.Alloc(content.Value, out label))
                 {
                     allocator = LabelAllocator.alloc(Capacity);
-                    allocator.Allocate(content.Value, out label);
+                    allocator.Alloc(content.Value, out label);
                     Allocators[next()] = allocator;
                 }
             }

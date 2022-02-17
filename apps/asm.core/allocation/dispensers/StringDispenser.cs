@@ -6,50 +6,51 @@ namespace Z0
 {
     using static core;
 
-    public class LabelDispenser : IAllocationDispenser
+    public class StringDispenser : IAllocationDispenser
     {
-        public static LabelAllocation allocation(ReadOnlySpan<string> src)
+        public static StringAllocation allocation(ReadOnlySpan<string> src)
         {
             var count = src.Length;
             var total = 0u;
             for(var i=0; i<count; i++)
                 total += (uint)skip(src,i).Length;
 
-            var storage  = StringBuffers.buffer(total);
-            var alloc = LabelAllocator.alloc(storage);
-            var labels = core.alloc<Label>(count);
+            var storage = StringBuffers.buffer(total);
+            var allocator = new StringAllocator(storage);
+            var dst = core.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
-                alloc.Alloc(skip(src,i), out seek(labels,i));
-            return new LabelAllocation(alloc, labels);
+                allocator.Alloc(skip(src,i), out seek(dst,i));
+            return new StringAllocation(allocator, dst);
         }
+
 
         const uint Capacity = PageBlock.PageSize;
 
-        readonly Dictionary<long,LabelAllocator> Allocators;
+        readonly Dictionary<long,StringAllocator> Allocators;
 
         object locker;
 
-        internal LabelDispenser(uint capacity = Capacity)
+        internal StringDispenser(uint capacity = Capacity)
         {
             Allocators = new();
             locker = new();
-            Allocators[Seq] = LabelAllocator.alloc(Capacity);
+            Allocators[Seq] = StringAllocator.alloc(Capacity);
         }
 
-        public Label Dispense(@string content)
+        public StringRef Dispense(@string content)
         {
-            var label = Label.Empty;
+            var dst = StringRef.Empty;
             lock(locker)
             {
                 var alloc = Allocators[Seq];
-                if(!alloc.Alloc(content.Value, out label))
+                if(!alloc.Alloc(content.Value, out dst))
                 {
-                    alloc = LabelAllocator.alloc(Capacity);
-                    alloc.Alloc(content.Value, out label);
+                    alloc = StringAllocator.alloc(Capacity);
+                    alloc.Alloc(content.Value, out dst);
                     Allocators[next()] = alloc;
                 }
             }
-            return label;
+            return dst;
         }
 
 
@@ -63,5 +64,5 @@ namespace Z0
         [MethodImpl(Inline)]
         static uint next()
             => (uint)inc(ref Seq);
-    }
+   }
 }

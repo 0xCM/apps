@@ -8,25 +8,13 @@ namespace Z0
 
     public class MemoryDispenser : IAllocationDispenser
     {
-        public static MemoryDispenser alloc(ByteSize capacity)
-            => new MemoryDispenser(capacity);
-
-        public static MemoryDispenser alloc()
-            => new MemoryDispenser();
-
-       static long Seq;
-
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
-
         const uint Capacity = PageBlock.PageSize*8;
 
         readonly Dictionary<long,MemAllocator> Allocators;
 
         object locker;
 
-        MemoryDispenser(uint capacity = Capacity)
+        internal MemoryDispenser(uint capacity = Capacity)
         {
             locker = new();
             Allocators = new();
@@ -44,14 +32,14 @@ namespace Z0
             lock(locker)
             {
                 var allocator = Allocators[Seq];
-                if(!allocator.Allocate(size, out dst))
+                if(!allocator.Alloc(size, out dst))
                 {
                     if(size < Capacity)
                         allocator = MemAllocator.alloc(Capacity);
                     else
                         allocator = MemAllocator.alloc(size);
 
-                    allocator.Allocate(size, out dst);
+                    allocator.Alloc(size, out dst);
                     Allocators[next()] = allocator;
                 }
             }
@@ -63,5 +51,11 @@ namespace Z0
             var dst = Allocate(size);
             return dst;
         }
+
+        static long Seq;
+
+        [MethodImpl(Inline)]
+        static uint next()
+            => (uint)inc(ref Seq);
     }
 }

@@ -17,7 +17,7 @@ namespace Z0
             Size = allocator.Size;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             Allocator.Dispose();
         }
@@ -36,6 +36,7 @@ namespace Z0
 
         public uint Count
         {
+            [MethodImpl(Inline)]
             get => Data.Count;
         }
 

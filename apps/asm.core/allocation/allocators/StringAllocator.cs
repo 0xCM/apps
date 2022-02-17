@@ -11,10 +11,10 @@ namespace Z0
     /// </summary>
     public class StringAllocator : IStringAllocator<StringRef>
     {
-        public static StringAllocator alloc(ByteSize capacity)
+        internal static StringAllocator alloc(ByteSize capacity)
             => new StringAllocator(StringBuffers.buffer(capacity/2));
 
-        public static StringAllocator from(StringBuffer src)
+        internal static StringAllocator alloc(StringBuffer src)
             => new StringAllocator(src);
 
         StringBuffer Buffer;
@@ -36,8 +36,8 @@ namespace Z0
             Position = 0;
         }
 
-        public bool Allocate(string src, out StringRef dst)
-            => Allocate(span(src), out dst);
+        public bool Alloc(string src, out StringRef dst)
+            => Alloc(span(src), out dst);
 
         /// <summary>
         /// Populates a <see cref='StringRef'/> that represents the input if the buffer has sufficient capacity and returns true; otherwise,
@@ -45,7 +45,7 @@ namespace Z0
         /// </summary>
         /// <param name="src">The input sequence</param>
         /// <param name="dst">The input sequence reference, if successful, otherwise a reference to the empty string</param>
-        public bool Allocate(ReadOnlySpan<char> src, out StringRef dst)
+        public bool Alloc(ReadOnlySpan<char> src, out StringRef dst)
         {
             var length = (uint)src.Length;
             dst = StringRef.Empty;

@@ -18,7 +18,7 @@ namespace Z0
             var count = index.Count;
             var offsets = alloc<uint>(count);
             var tokens = alloc<ApiToken>(count);
-            var symbols = SymbolDispenser.alloc();
+            var symbols = Alloc.symbols();
             for(var i=0; i<count; i++)
             {
                 ref readonly var info = ref index[i];

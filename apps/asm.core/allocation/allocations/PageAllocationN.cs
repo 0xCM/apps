@@ -6,17 +6,17 @@ namespace Z0
 {
     using static core;
 
-    public class PageBank<N> : IBufferAllocation
+    public class PageAllocation<N> : IBufferAllocation
         where N : unmanaged, ITypeNat
     {
         public const uint PageSize = PageBlock.PageSize;
 
-        public static PageBank<N> alloc()
-            => new PageBank<N>();
+        public static PageAllocation<N> alloc()
+            => new PageAllocation<N>();
 
         readonly NativeBuffer Buffer;
 
-        internal PageBank()
+        internal PageAllocation()
         {
             Buffer = memory.native(PageSize*nat32u<N>());
         }

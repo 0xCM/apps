@@ -13,13 +13,14 @@ namespace Z0
             const string Case2 = "n -> o -> p -> q -> r -> s -> t";
             const string Case3 = "u -> v -> w -> x -> y -> z";
 
-            using var buffer = StringBuffers.buffer(Pow2.T14);
-            var allocator = LabelAllocator.from(buffer);
+            // using var buffer = StringBuffers.buffer(Pow2.T14);
+            // var allocator = Alloc.labels(buffer);
+            using var dispenser = Alloc.labels();
 
-            RequireEq(Lineage2.parse(allocator, Case0).Format(), Case0);
-            RequireEq(Lineage2.parse(allocator, Case1).Format(), Case1);
-            RequireEq(Lineage2.parse(allocator, Case2).Format(), Case2);
-            RequireEq(Lineage2.parse(allocator, Case3).Format(), Case3);
+            RequireEq(Lineage2.parse(Case0, dispenser).Format(), Case0);
+            RequireEq(Lineage2.parse(Case1, dispenser).Format(), Case1);
+            RequireEq(Lineage2.parse(Case2, dispenser).Format(), Case2);
+            RequireEq(Lineage2.parse(Case3, dispenser).Format(), Case3);
         }
     }
 }

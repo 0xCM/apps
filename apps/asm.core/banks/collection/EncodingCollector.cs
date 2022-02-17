@@ -37,7 +37,7 @@ namespace Z0
         {
             if(ApiRuntimeCatalog.FindHost(src, out var host))
             {
-                using var symbols = SymbolDispenser.alloc();
+                using var symbols = Alloc.symbols();
                 var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitHost(host)));
                 Emit(members, DataPaths.Path(src,FS.Csv), DataPaths.Path(src,FS.Hex));
                 return true;
@@ -52,7 +52,7 @@ namespace Z0
         {
             if(ApiRuntimeCatalog.FindPart(src, out var part))
             {
-                using var symbols = SymbolDispenser.alloc();
+                using var symbols = Alloc.symbols();
                 var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitPart(part)));
                 Emit(members, DataPaths.Path(src, FS.Csv), DataPaths.Path(src,FS.Hex));
                 return true;
@@ -90,7 +90,7 @@ namespace Z0
 
         public Outcome Collect()
         {
-            using var symbols = SymbolDispenser.alloc();
+            using var symbols = Alloc.symbols();
             var members = Collect(symbols,MethodEntryPoints.create(ApiJit.JitCatalog(ApiRuntimeCatalog)));
             Emit(members, DataPaths.Path(FS.Csv), DataPaths.Path(FS.Hex));
             return true;

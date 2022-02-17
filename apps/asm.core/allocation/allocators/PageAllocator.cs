@@ -8,10 +8,10 @@ namespace Z0
 
     public unsafe class PageAllocator : IBufferAllocation
     {
-        public static PageAllocator alloc(uint pages)
-            => new PageAllocator(pages);
+        public static PageAllocator alloc(uint count)
+            => new PageAllocator(count);
 
-        PageBank Memory;
+        PageAllocation Memory;
 
         Index<int> Allocations;
 
@@ -38,7 +38,7 @@ namespace Z0
         internal PageAllocator(uint pages)
         {
             PageCapacity = pages;
-            Memory = PageBank.alloc(PageCapacity);
+            Memory = PageAllocation.alloc(PageCapacity);
             Allocations = alloc<int>(PageCapacity);
             for(var i=0; i<PageCapacity; i++)
                 Allocations[i] = -1;
@@ -48,7 +48,7 @@ namespace Z0
         MemoryAddress PageAddress(uint index)
             => Memory.PageAddress(index);
 
-        public MemoryAddress AllocPage()
+        public MemoryAddress Alloc()
         {
             for(var i=0u; i<PageCapacity; i++)
             {

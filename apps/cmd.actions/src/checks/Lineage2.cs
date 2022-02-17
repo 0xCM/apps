@@ -8,8 +8,9 @@ namespace Z0
 
     public class Lineage2 : IEquatable<Lineage2>
     {
-        public static Lineage2 parse(LabelAllocator allocator, string src, string sep = "->")
+        public static Lineage2 parse(string src, LabelDispenser dispenser)
         {
+            const string sep = "->";
             var input = text.trim(src);
             if(empty(input))
                 return Lineage2.Empty;
@@ -23,14 +24,14 @@ namespace Z0
 
                 if(count == 1)
                 {
-                    allocator.Allocate(first(parts), out var name);
+                    var name = dispenser.Dispense(first(parts));
                     return new Lineage2(name);
                 }
                 else
                 {
                     var names = alloc<Label>(count-1);
                     for(var i=1; i<count; i++)
-                        allocator.Allocate(skip(parts,i), out seek(names,i-1));
+                        seek(names,i-1) = dispenser.Dispense(skip(parts,i));
                     return new Lineage2(first(parts), names);
                 }
             }

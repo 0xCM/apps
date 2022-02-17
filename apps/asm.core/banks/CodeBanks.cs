@@ -16,7 +16,7 @@ namespace Z0
             var count = src.Length;
             var collector = new AsmBlockCollector();
             var collected = dict<string, AsmCodeBlocks>();
-            using var dispenser = AsmDispenser.create();
+            using var dispenser = Alloc.asm();
             var docid = first(src).DocId;
             var docname = first(src).Source.Path.FileName.Format();
             var length = 0u;

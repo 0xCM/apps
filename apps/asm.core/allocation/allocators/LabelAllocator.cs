@@ -6,10 +6,10 @@ namespace Z0
 {
     public class LabelAllocator : IStringAllocator<Label>
     {
-        public static LabelAllocator alloc(ByteSize capacity)
+        internal static LabelAllocator alloc(ByteSize capacity)
             => new LabelAllocator(StringBuffers.buffer(capacity/2));
 
-        public static LabelAllocator from(StringBuffer src)
+        internal static LabelAllocator alloc(StringBuffer src)
             => new LabelAllocator(src);
 
         StringBuffer Buffer;
@@ -31,10 +31,10 @@ namespace Z0
             Position = 0;
         }
 
-        public bool Allocate(string src, out Label dst)
-            => Allocate(core.span(src), out dst);
+        public bool Alloc(string src, out Label dst)
+            => Alloc(core.span(src), out dst);
 
-        public bool Allocate(ReadOnlySpan<char> src, out Label dst)
+        public bool Alloc(ReadOnlySpan<char> src, out Label dst)
         {
             var length = (uint)src.Length;
             dst = Label.Empty;

@@ -9,6 +9,6 @@ namespace Z0
     public interface IStringAllocator<T> : IBufferAllocator<string,T>
         where T : IMemoryString
     {
-        bool Allocate(ReadOnlySpan<char> src, out T dst);
+        bool Alloc(ReadOnlySpan<char> src, out T dst);
     }
 }

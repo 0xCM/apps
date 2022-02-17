@@ -14,9 +14,8 @@ namespace Z0
         ByteSize Size {get;}
     }
 
-
     public interface IBufferAllocator<S,T> : IBufferAllocator
     {
-        bool Allocate(S src, out T dst);
+        bool Alloc(S src, out T dst);
     }
 }

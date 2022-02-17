@@ -8,17 +8,21 @@ namespace Z0
 
     public class SourceDispenser : IAllocationDispenser
     {
-        public static SourceDispenser alloc(ByteSize capacity)
-            => new SourceDispenser(capacity);
+        public static SourceAllocation allocation(ReadOnlySpan<string> src)
+        {
+            var count = src.Length;
+            var total = 0u;
+            for(var i=0u; i<count; i++)
+                total += (uint)skip(src,i).Length;
 
-        public static SourceDispenser alloc()
-            => new SourceDispenser();
+            var buffer  = StringBuffers.buffer(total);
+            var alloc = SourceAllocator.from(buffer);
+            var dst = core.alloc<SourceText>(count);
+            for(var i=0; i<count; i++)
+                alloc.Alloc(skip(src,i), out seek(dst,i));
 
-       static long Seq;
-
-        [MethodImpl(Inline)]
-        static uint next()
-            => (uint)inc(ref Seq);
+            return new SourceAllocation(alloc, dst);
+        }
 
         const uint Capacity = PageBlock.PageSize*8;
 
@@ -28,7 +32,7 @@ namespace Z0
 
         object locker;
 
-        SourceDispenser(uint capacity = Capacity)
+        internal SourceDispenser(uint capacity = Capacity)
         {
             locker = new();
             Allocated = new();
@@ -46,12 +50,12 @@ namespace Z0
             var dst = SourceText.Empty;
             lock(locker)
             {
-                var allocator = Allocators[Seq];
-                if(!allocator.Allocate(content.Value, out dst))
+                var alloc = Allocators[Seq];
+                if(!alloc.Alloc(content.Value, out dst))
                 {
-                    allocator = SourceAllocator.alloc(Capacity);
-                    allocator.Allocate(content.Value, out dst);
-                    Allocators[next()] = allocator;
+                    alloc = SourceAllocator.alloc(Capacity);
+                    alloc.Alloc(content.Value, out dst);
+                    Allocators[next()] = alloc;
                 }
             }
             return dst;
@@ -70,5 +74,12 @@ namespace Z0
             iter(src, x => dst.AppendLine(x));
             return Dispense(name, dst.Emit());
         }
-    }
+
+
+        static long Seq;
+
+        [MethodImpl(Inline)]
+        static uint next()
+            => (uint)inc(ref Seq);
+   }
 }

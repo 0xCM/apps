@@ -14,6 +14,7 @@ namespace Z0.Asm
 
         public readonly D Data;
 
+        [MethodImpl(Inline)]
         public SourceCode(SourceText src, CorrelationToken ct, D desc)
         {
             Source = src;

@@ -6,7 +6,7 @@ namespace Z0
 {
     public class MemAllocator : IBufferAllocator<ByteSize,MemorySeg>
     {
-        public static MemAllocator alloc(ByteSize capacity)
+        internal static MemAllocator alloc(ByteSize capacity)
             => new MemAllocator(capacity);
 
         NativeBuffer Buffer;
@@ -17,7 +17,7 @@ namespace Z0
 
         MemoryAddress MaxAddress;
 
-        MemAllocator(ByteSize size)
+        internal MemAllocator(ByteSize size)
         {
             Size = size;
             Buffer = memory.native(size);
@@ -43,7 +43,7 @@ namespace Z0
             get => Buffer.BaseAddress;
         }
 
-        public bool Allocate(ByteSize size, out MemorySeg dst)
+        public bool Alloc(ByteSize size, out MemorySeg dst)
         {
             var right = Buffer.Address(Offset + size);
             if(right > MaxAddress)

@@ -8,26 +8,10 @@ namespace Z0
 
     public class SourceAllocator : IStringAllocator<SourceText>
     {
-        /// <summary>
-        /// Deposits a character sequence into a caller-supplied buffer and returns the label representation of the input
-        /// </summary>
-        /// <param name="src">The input sequence</param>
-        /// <param name="offset">The buffer offset</param>
-        /// <param name="dst">The target buffer</param>
-        [MethodImpl(Inline), Op]
-        public static SourceText store(ReadOnlySpan<char> src, uint offset, StringBuffer dst)
-        {
-            var length = src.Length;
-            if(length <= byte.MaxValue && StringBuffers.store(src, offset, dst))
-                return new SourceText(dst.Address(offset), length);
-            else
-                return SourceText.Empty;
-        }
-
-        public static SourceAllocator alloc(uint capacity)
+        internal static SourceAllocator alloc(uint capacity)
             => new SourceAllocator(StringBuffers.buffer(capacity/2));
 
-        public static SourceAllocator from(StringBuffer src)
+        internal static SourceAllocator from(StringBuffer src)
             => new SourceAllocator(src);
 
         StringBuffer Buffer;
@@ -49,10 +33,10 @@ namespace Z0
             Position = 0;
         }
 
-        public bool Allocate(string src, out SourceText dst)
-            => Allocate(span(src), out dst);
+        public bool Alloc(string src, out SourceText dst)
+            => Alloc(span(src), out dst);
 
-        public bool Allocate(ReadOnlySpan<char> src, out SourceText dst)
+        public bool Alloc(ReadOnlySpan<char> src, out SourceText dst)
         {
             var length = (uint)src.Length;
             dst = SourceText.Empty;
@@ -61,7 +45,6 @@ namespace Z0
                 return false;
 
             dst = store(src, Position, Buffer);
-            //dst = Buffer.StoreSource(src, Position);
             Position += length;
             return true;
         }
@@ -82,6 +65,22 @@ namespace Z0
         public void Dispose()
         {
             Buffer.Dispose();
+        }
+
+        /// <summary>
+        /// Deposits a character sequence into a caller-supplied buffer and returns the label representation of the input
+        /// </summary>
+        /// <param name="src">The input sequence</param>
+        /// <param name="offset">The buffer offset</param>
+        /// <param name="dst">The target buffer</param>
+        [MethodImpl(Inline), Op]
+        static SourceText store(ReadOnlySpan<char> src, uint offset, StringBuffer dst)
+        {
+            var length = src.Length;
+            if(length <= byte.MaxValue && StringBuffers.store(src, offset, dst))
+                return new SourceText(dst.Address(offset), length);
+            else
+                return SourceText.Empty;
         }
     }
 }

@@ -8,9 +8,6 @@ namespace Z0.Asm
 
     public class AsmDispenser : IDisposable
     {
-        public static AsmDispenser create()
-            => new AsmDispenser();
-
         SymbolDispenser Symbols;
 
         SourceDispenser Sources;
@@ -19,12 +16,12 @@ namespace Z0.Asm
 
         LabelDispenser Labels;
 
-        AsmDispenser()
+        internal AsmDispenser()
         {
-            Symbols = SymbolDispenser.alloc();
-            Sources = SourceDispenser.alloc();
-            Encodings = MemoryDispenser.alloc();
-            Labels = LabelDispenser.alloc();
+            Symbols = Alloc.symbols();
+            Sources = Alloc.source();
+            Encodings = Alloc.mem();
+            Labels = Alloc.labels();
         }
 
         public void Dispose()

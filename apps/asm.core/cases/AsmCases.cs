@@ -11,7 +11,7 @@ namespace Z0.Asm
 
         static AsmCases()
         {
-            CaseSymbols = SymbolDispenser.alloc();
+            CaseSymbols = Alloc.symbols();
         }
     }
 }

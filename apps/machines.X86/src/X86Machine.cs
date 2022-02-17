@@ -6,7 +6,6 @@ namespace Z0.Machines
 {
     using System.Threading.Tasks;
 
-    using static Root;
     using static core;
 
     using Asm;
@@ -63,7 +62,7 @@ namespace Z0.Machines
             R8 = (byte*)R64;
             Stack = CpuModels.stack<ulong>(64);
             Ram = PageAllocator.alloc(256);
-            CodeBase = Ram.AllocPage();
+            CodeBase = Ram.Alloc();
             *CodeBase.Pointer<ulong>() = 0xCC;
             rip() = CodeBase;
         }
@@ -120,7 +119,7 @@ namespace Z0.Machines
 
         [MethodImpl(Inline), Op]
         public MemoryAddress AllocPage()
-            => Ram.AllocPage();
+            => Ram.Alloc();
 
         [MethodImpl(Inline), Op]
         ref byte reg8(RegIndexCode index)
