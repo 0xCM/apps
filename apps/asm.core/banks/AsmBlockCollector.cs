@@ -63,7 +63,6 @@ namespace Z0
         {
             if(Encodings.Count != 0)
                 IncludeBlock(clear);
-
             var blocks = Blocks.ToArray();
             if(clear)
                 Blocks.Clear();
@@ -75,10 +74,11 @@ namespace Z0
         {
             var encoding = new AsmEncoding();
             encoding.Seq = src.Seq;
+            encoding.Id = src.Id;
             encoding.IP = src.IP;
+            encoding.Encoded = src.Encoded.Bytes;
+            encoding.Size = src.Size;
             encoding.Asm = src.Asm;
-            encoding.Code = src.Code.Bytes;
-            encoding.CT = src.CT;
             return encoding;
         }
     }

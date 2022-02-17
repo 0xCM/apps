@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct AsmCode
     {
@@ -21,22 +22,16 @@ namespace Z0.Asm
             Encoded = code;
         }
 
-        public string ToAsmString()
+        public byte EncodingSize
         {
-            const string RenderPattern = "{0,-80} {1} {2}";
-            var dst = text.buffer();
-            var marker = (char)AsmCommentMarker.Hash;
-            if(AsmParser.comment(Asm.Cells, out var comment))
-            {
-                marker = (char)comment.Marker;
-                var prior = comment.Content;
-                var asm = text.trim(text.left(Asm.Format(), marker));
-                dst.AppendFormat(RenderPattern, asm, marker, string.Format("{0,-42} | {1}", Encoded.Format(), prior));
-            }
-            else
-                dst.AppendFormat(RenderPattern, Asm, marker, Encoded.Format());
+            [MethodImpl(Inline)]
+            get => Encoded.Size;
+        }
 
-            return dst.Emit();
+        public ReadOnlySpan<byte> Encoding
+        {
+            [MethodImpl(Inline)]
+            get => Encoded.View;
         }
 
         public string Format()

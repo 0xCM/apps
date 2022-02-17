@@ -5,7 +5,7 @@
 namespace Z0
 {
     using static core;
-    using Asm;
+
 
     partial class ProjectCmdProvider
     {
@@ -20,8 +20,8 @@ namespace Z0
         public void EmitAsmCodeBlocks(IProjectWs project)
         {
             var src = ObjDump.LoadRows(ProjectDb.ProjectTable<ObjDumpRow>(project));
-            var blocks = CodeBanks.DistillBlocks(src);
+            using var dispenser = Alloc.asm();
+            var lookup = CodeBanks.DistillBlocks(src, dispenser, project.Name);
         }
-
     }
 }

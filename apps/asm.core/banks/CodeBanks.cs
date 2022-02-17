@@ -4,19 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using Asm;
+
+    using static core;
 
     public class CodeBanks : AppService<CodeBanks>
     {
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
-        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, bool emit = true)
+        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser, string scope = "",  bool emit = true)
         {
             var count = src.Length;
             var collector = new AsmBlockCollector();
             var collected = dict<string, AsmCodeBlocks>();
-            using var dispenser = Alloc.asm();
             var docid = first(src).DocId;
             var docname = first(src).Source.Path.FileName.Format();
             var length = 0u;
@@ -44,7 +44,7 @@ namespace Z0
             {
                 foreach(var name in collected.Keys)
                 {
-                    var dst = ProjectDb.Subdir("asm") + FS.file(string.Format("{0}.code", name), FS.Csv);
+                    var dst = ProjectDb.Subdir("asm") + FS.folder(scope) + FS.file(string.Format("{0}.code", name), FS.Csv);
                     Emit(collected[name], dst);
                 }
             }
@@ -64,6 +64,7 @@ namespace Z0
         {
             var buffer = alloc<AsmCodeRecord>(src.LineCount);
             var k=0u;
+            var distinct = hashset<Hex64>();
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var block = ref src[i];
@@ -73,14 +74,20 @@ namespace Z0
                     ref readonly var code = ref block[j];
                     ref var record = ref seek(buffer,k);
                     record.Origin = src.Origin;
-                    record.BlockAddress = block.Label.Location;
+                    record.Id = AsmBytes.identify(code.IP, code.Encoding);
+                    record.BlockBase = block.Label.Location;
                     record.BlockName = block.Label.Name;
                     record.IP = code.IP;
                     record.Encoded = code.Encoded;
                     record.Size = code.Encoded.Size;
                     record.Asm = code.Asm;
+
+                    distinct.Add(record.Id);
                 }
             }
+
+            Require.equal(distinct.Count, buffer.Length);
+
             TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
         }
 

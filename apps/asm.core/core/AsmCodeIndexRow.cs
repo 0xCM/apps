@@ -23,7 +23,7 @@ namespace Z0
 
         public const string TableId = "asm.index";
 
-        public const byte FieldCount = 7;
+        public const byte FieldCount = 8;
 
         public uint Seq;
 
@@ -31,13 +31,15 @@ namespace Z0
 
         public uint DocSeq;
 
-        public Address32 IP;
+        public Hex64 Id;
 
-        public CorrelationToken CT;
-
-        public AsmExpr Asm;
+        public MemoryAddress IP;
 
         public AsmHexCode Encoding;
+
+        public byte Size;
+
+        public AsmExpr Asm;
 
         public AsmMnemonic Mnemonic
             => AsmMnemonic.parse(Asm.Content, out _);
@@ -45,6 +47,6 @@ namespace Z0
         public int CompareTo(AsmCodeIndexRow src)
             => compare(this,src);
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,12,82,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,18,12,42,8,1};
     }
 }

@@ -22,7 +22,6 @@ namespace Z0.Asm
             get => Seg.View;
         }
 
-
         public Span<byte> Edit
         {
             [MethodImpl(Inline)]

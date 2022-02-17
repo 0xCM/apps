@@ -9,27 +9,26 @@ namespace Z0.Asm
     {
         public uint Seq;
 
+        public Hex64 Id;
+
         public MemoryAddress IP;
 
+        public BinaryCode Encoded;
+
+        public byte Size;
+
         public AsmExpr Asm;
-
-        public BinaryCode Code;
-
-        public CorrelationToken CT;
 
         AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Code
-            => Code;
+        AsmHexCode IAsmEncoding.Encoded
+            => Encoded;
 
         MemoryAddress IAsmEncoding.IP
             => IP;
 
         uint ISequential.Seq
             => Seq;
-
-        CorrelationToken ICorrelated.CT
-            => CT;
     }
 }

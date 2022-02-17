@@ -11,11 +11,13 @@ namespace Z0
     {
         public const string TableId = "llvm.objdump";
 
-        public const byte FieldCount = 12;
+        public const byte FieldCount = 13;
 
         public const string BlockStartMarker = "<blockstart>";
 
         public uint Seq;
+
+        public Hex64 Id;
 
         public uint DocId;
 
@@ -38,12 +40,6 @@ namespace Z0
         public AsmInlineComment Comment;
 
         public FS.FileUri Source;
-
-        public CorrelationToken CT
-        {
-            [MethodImpl(Inline)]
-            get => AsmRecords.token(DocId, (Address32)IP);
-        }
 
         public static ObjDumpRow Empty()
         {
@@ -78,7 +74,7 @@ namespace Z0
         AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Code
+        AsmHexCode IAsmEncoding.Encoded
             => HexCode;
 
         MemoryAddress IAsmEncoding.IP
@@ -91,6 +87,6 @@ namespace Z0
             => BlockAddress;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,8,8,12,16,32,12,8,42,90,90,1};
+            => new byte[FieldCount]{8,18,8,8,12,16,32,12,8,42,90,90,1};
     }
 }

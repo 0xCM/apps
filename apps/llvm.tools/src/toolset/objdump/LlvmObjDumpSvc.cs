@@ -56,6 +56,7 @@ namespace Z0.llvm
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
+                result = DataParser.parse(data[j++], out dst.Id);
                 result = DataParser.parse(data[j++], out dst.DocId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Section);
@@ -170,10 +171,11 @@ namespace Z0.llvm
                 dst.Seq = row.Seq;
                 dst.DocId = row.DocId;
                 dst.DocSeq = row.DocSeq;
-                dst.CT = code.CT;
-                dst.Asm = code.Source.Format();
-                dst.Encoding = code.HexCode;
+                dst.Id = row.Id;
                 dst.IP = (Address32)code.IP;
+                dst.Encoding = code.HexCode;
+                dst.Size = code.Size;
+                dst.Asm = code.Source.Format();
             }
 
             buffer.Sort();

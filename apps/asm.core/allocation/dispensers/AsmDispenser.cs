@@ -42,14 +42,14 @@ namespace Z0.Asm
 
         public AsmCode AsmCode(in AsmEncoding src)
         {
-            ref readonly var code = ref src.Code;
+            ref readonly var code = ref src.Encoded;
             var size = code.Size;
             var hex = Encoding(size);
             var hexsrc = code.View;
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(Source(src.CT.Format(), src.Asm.Format()), src.IP, hex);
+            return new AsmCode(Source(src.Id.Format(), src.Asm.Format()), src.IP, hex);
         }
 
         public AsmCodeBlock AsmCodeBlock(in AsmBlockEncoding src)
@@ -60,14 +60,6 @@ namespace Z0.Asm
             for(var i=0; i<count; i++)
                 seek(code,i) = AsmCode(encodings[i]);
             return new AsmCodeBlock(Symbol(src.BlockAddress, src.BlockName), code);
-        }
-
-        public AsmCodeBlocks AsmCodeBlocks(ReadOnlySpan<AsmBlockEncoding> src)
-        {
-            var dst = alloc<AsmCodeBlock>(src.Length);
-            for(var i=0; i<src.Length; i++)
-                seek(dst,i) = AsmCodeBlock(skip(src,i));
-            return dst;
         }
 
         public AsmCodeBlocks AsmCodeBlocks(string origin, ReadOnlySpan<AsmBlockEncoding> src)

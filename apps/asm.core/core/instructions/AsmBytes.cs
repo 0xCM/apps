@@ -7,6 +7,7 @@ namespace Z0.Asm
     using Operands;
 
     using static Hex8Kind;
+    using static core;
 
     [ApiHost]
     public class AsmBytes
@@ -16,6 +17,35 @@ namespace Z0.Asm
             => core.slice(src.View, offset, size).ToArray();
 
         const NumericKind Closure = UnsignedInts;
+
+        [Op]
+        public static Hex64 identify(MemoryAddress ip, ReadOnlySpan<byte> encoding)
+        {
+            var storage = ByteBlock8.Empty;
+            var dst = storage.Bytes;
+            var ipbytes = bytes((uint)ip);
+            var size = (byte)encoding.Length;
+            seek(dst,7) = size;
+            seek(dst,6) = skip(ipbytes,0);
+            seek(dst,5) = skip(ipbytes,1);
+            seek(dst,4) = skip(ipbytes,2);
+            seek(dst,3) = skip(ipbytes,3);
+
+            if(size >= 1)
+                seek(dst,2) = skip(encoding,size - 1);
+            if(size >= 2)
+                seek(dst,1) = skip(encoding,size - 2);
+            if(size >= 3)
+                seek(dst,0) = skip(encoding,size - 3);
+            if(size >=4 && skip(ipbytes,3) == 0)
+                seek(dst,3) = skip(encoding,size - 4);
+            if(size >=5 && skip(ipbytes,2) == 0)
+                seek(dst,4) = skip(encoding,size - 5);
+            if(size >=6 && skip(ipbytes,1) == 0)
+                seek(dst,5) = skip(encoding,size - 6);
+
+            return (ulong)storage;
+        }
 
         /// <summary>
         /// (AND AL, imm8)[24 ib]

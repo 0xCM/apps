@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmEncoding : ISequential, ICorrelated
+    public interface IAsmEncoding : ISequential
     {
-        AsmExpr Asm {get;}
-
-        AsmHexCode Code {get;}
-
         MemoryAddress IP {get;}
 
+        AsmHexCode Encoded {get;}
+
+        AsmExpr Asm {get;}
+
         byte Size
-            => Code.Size;
+            => Encoded.Size;
+
+        Hex64 Id  => AsmBytes.identify(IP, Encoded.Bytes);
     }
 }

@@ -37,14 +37,11 @@ namespace Z0
         AsmExpr IAsmEncoding.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Code
+        AsmHexCode IAsmEncoding.Encoded
             => HexCode;
 
         MemoryAddress IAsmEncoding.IP
             => IP;
-
-        CorrelationToken ICorrelated.CT
-            => CT;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,8,38,84,12,1};
 
