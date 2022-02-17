@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.Intrinsics;
-
     using static System.Runtime.Intrinsics.Vector128;
     using static core;
 

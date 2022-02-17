@@ -20,7 +20,6 @@ namespace Z0
             return result;
         }
 
-        CodeBanks CodeBanks => Service(Wf.ApiCodeBanks);
 
         Outcome EmitAsm(string spec)
         {

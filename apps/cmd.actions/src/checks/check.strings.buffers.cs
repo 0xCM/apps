@@ -38,7 +38,7 @@ namespace Z0
             var totallen = count*inputlen;
             var size = totallen*core.size<char>();
             using var buffer = StringBuffers.buffer(totallen);
-            var allocator = buffer.StringAllocator();
+            var allocator = StringAllocator.from(buffer);
             var refs = core.alloc<StringRef>(count);
             for(var i=0; i<count; i++)
             {

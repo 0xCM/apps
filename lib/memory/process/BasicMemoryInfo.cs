@@ -5,7 +5,6 @@
 namespace Z0
 {
     using Windows;
-    using System.Runtime.InteropServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct BasicMemoryInfo : IRecord<BasicMemoryInfo>

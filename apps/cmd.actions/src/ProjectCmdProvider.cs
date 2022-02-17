@@ -48,6 +48,8 @@ namespace Z0
 
         CgSvc CodeGen => Service(Wf.CodeGen);
 
+        CodeBanks CodeBanks => Service(Wf.CodeBanks);
+
         FS.Files _Files;
 
         FS.Files Files()

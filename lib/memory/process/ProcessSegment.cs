@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
     using Windows;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]

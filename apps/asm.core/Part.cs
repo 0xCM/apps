@@ -13,6 +13,7 @@ global using System.Threading.Tasks;
 
 global using static Z0.Root;
 global using SQ = Z0.SymbolicQuery;
+global using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
 [assembly: PartId(PartId.AsmCore)]
 

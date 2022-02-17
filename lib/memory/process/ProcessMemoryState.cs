@@ -5,7 +5,6 @@
 namespace Z0
 {
     using System.Diagnostics;
-    using System.Runtime.InteropServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct ProcessMemoryState : IRecord<ProcessMemoryState>

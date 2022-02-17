@@ -46,6 +46,8 @@ namespace Z0
 
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
+        CodeBanks CodeBanks => Service(Wf.CodeBanks);
+
         Index<ProcessAsmRecord> _LoadProcessAsm()
         {
             var archive = ApiPacks.Current().Archive();

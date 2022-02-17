@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("memkey<t:{0}>")]
     public readonly struct MemoryKey<T>
         where T : IEquatable<T>

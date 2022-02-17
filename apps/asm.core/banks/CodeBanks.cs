@@ -11,6 +11,79 @@ namespace Z0
     {
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
+        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, bool emit = true)
+        {
+            var count = src.Length;
+            var collector = new AsmBlockCollector();
+            var collected = dict<string, AsmCodeBlocks>();
+            using var dispenser = AsmDispenser.create();
+            var docid = first(src).DocId;
+            var docname = first(src).Source.Path.FileName.Format();
+            var length = 0u;
+            var offset = 0u;
+            for(var i=0u; i<count; i++)
+            {
+                if(skip(src,i).DocId != docid)
+                {
+                    collected.Add(docname, Collect(docname,slice(src, offset, length), dispenser));
+                    offset = i;
+                    length = 0;
+                    docname = skip(src,i).Source.Path.FileName.Format();
+                    docid = skip(src,i).DocId;
+                }
+
+                length++;
+            }
+
+            if(length != 0)
+            {
+                collected.Add(docname, Collect(docname,slice(src, offset,length), dispenser));
+            }
+
+            if(emit)
+            {
+                foreach(var name in collected.Keys)
+                {
+                    var dst = ProjectDb.Subdir("asm") + FS.file(string.Format("{0}.code", name), FS.Csv);
+                    Emit(collected[name], dst);
+                }
+            }
+            return collected;
+        }
+
+        AsmCodeBlocks Collect(string origin, ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser)
+        {
+            var collector = new AsmBlockCollector();
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                collector.Include(src[i]);
+            return dispenser.AsmCodeBlocks(origin, collector.Emit());
+        }
+
+        void Emit(in AsmCodeBlocks src, FS.FilePath dst)
+        {
+            var buffer = alloc<AsmCodeRecord>(src.LineCount);
+            var k=0u;
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var block = ref src[i];
+                var count = block.LineCount;
+                for(var j=0; j<count; j++, k++)
+                {
+                    ref readonly var code = ref block[j];
+                    ref var record = ref seek(buffer,k);
+                    record.Origin = src.Origin;
+                    record.BlockAddress = block.Label.Location;
+                    record.BlockName = block.Label.Name;
+                    record.IP = code.IP;
+                    record.Encoded = code.Encoded;
+                    record.Size = code.Encoded.Size;
+                    record.Asm = code.Asm;
+                }
+            }
+            TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
+        }
+
         public EncodingBank Encoding()
         {
             var result = LoadCollected(out var index, out var code);

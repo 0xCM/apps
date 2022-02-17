@@ -35,7 +35,7 @@ namespace Z0
             Require.equal((ByteSize)size, bank.CodeSize);
         }
 
-        CodeBanks CodeBanks => Service(Wf.ApiCodeBanks);
+        CodeBanks CodeBanks => Service(Wf.CodeBanks);
 
         [CmdOp("check/captured")]
         Outcome CheckCaptured(CmdArgs args)
