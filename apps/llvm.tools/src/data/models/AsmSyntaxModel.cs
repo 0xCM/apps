@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Asm;
-    using static Root;
     using static core;
 
     [ApiHost]

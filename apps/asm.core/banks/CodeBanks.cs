@@ -82,11 +82,13 @@ namespace Z0
                     record.Size = code.Encoded.Size;
                     record.Asm = code.Asm;
 
-                    distinct.Add(record.Id);
+                    if(!distinct.Add(record.Id))
+                    {
+                        Warn(string.Format("Duplicate identifier:{0}", record.Id));
+                    }
                 }
             }
 
-            Require.equal(distinct.Count, buffer.Length);
 
             TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
         }

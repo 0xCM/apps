@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System.Collections.Generic;
-
     using Asm;
 
-    using static Root;
     using static core;
     using static AsmSyntaxModel;
 

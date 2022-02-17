@@ -46,10 +46,15 @@ namespace Z0
                 ref readonly var content = ref line.Content;
                 var record = new AsmEncodingRow();
                 ref readonly var expression = ref skip(expr,i);
+
+                result = ParseHexCode(line, out record.Encoded);
+                if(result.Fail)
+                    return result;
+
                 record.DocSeq = counter++;
                 record.DocId = fref.DocId;
                 result = ParseIP(content, out record.IP);
-                record.CT = AsmRecords.token(fref.DocId, record.IP);
+                record.Id = AsmBytes.identify(record.IP, record.Encoded.Bytes);
                 record.Asm = expression;
                 record.Source = src;
                 record.Source = record.Source.LineRef(line.LineNumber);
@@ -57,11 +62,8 @@ namespace Z0
                 if(result.Fail)
                     return result;
 
-                result = ParseHexCode(line, out record.HexCode);
-                if(result.Fail)
-                    return result;
 
-                record.Size = record.HexCode.Size;
+                record.Size = record.Encoded.Size;
                 dst.Add(record);
             }
 
@@ -124,7 +126,7 @@ namespace Z0
             }
         }
 
-        public static Outcome ParseIP(string src, out Address32 dst)
+        public static Outcome ParseIP(string src, out MemoryAddress dst)
         {
             var result = Outcome.Failure;
             var i = text.index(src, XDIS);

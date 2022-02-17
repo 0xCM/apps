@@ -77,7 +77,7 @@ namespace Z0
                 ref readonly var encoding = ref encoded[i];
                 ref readonly var inst = ref instructions[i];
                 ref readonly var block = ref skip(blocks,i);
-                ref readonly var code = ref encoding.HexCode;
+                ref readonly var code = ref encoding.Encoded;
                 ref readonly var IP = ref encoding.IP;
 
                 writer.WriteLine(RP.PageBreak120);

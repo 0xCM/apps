@@ -122,10 +122,10 @@ namespace Z0.llvm
                     record.DocId = fref.DocId;
                     record.DocSeq = i;
                     record.IP = e.IP;
-                    record.CT = e.CT;
+                    record.Id = e.Id;
                     record.Asm = e.Asm;
                     record.Size = e.Size;
-                    record.HexCode = e.HexCode;
+                    record.Encoded = e.Encoded;
                     record.Source = e.Source;
                     writer.WriteLine(formatter.Format(record));
                     collect.EventReceiver.Collected(fref, record);
@@ -207,12 +207,13 @@ namespace Z0.llvm
 
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.Id);
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
-                result = AsmParser.expression(skip(cells, j++), out dst.Asm);
+                result = AsmParser.asmhex(skip(cells, j++), out dst.Encoded);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
-                result = AsmParser.asmhex(skip(cells, j++), out dst.HexCode);
+                result = AsmParser.expression(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;
@@ -300,14 +301,7 @@ namespace Z0.llvm
                 var j=0;
 
                 result = DataParser.parse(skip(cells,j++), out dst.Seq);
-                if(result.Fail)
-                {
-                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Seq)));
-                    break;
-                }
-
                 result = DataParser.parse(skip(cells,j++), out dst.DocId);
-
                 result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
 
                 if(result.Fail)
@@ -316,16 +310,7 @@ namespace Z0.llvm
                     break;
                 }
 
-                result = DataParser.parse(skip(cells,j++), out dst.Location);
-                if(result.Fail)
-                {
-                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Location)));
-                    break;
-                }
-
-                dst.Mnemonic = skip(cells,j++);
-
-                dst.Expr = skip(cells, j++);
+                dst.Asm = skip(cells, j++);
                 dst.Syntax = skip(cells, j++);
 
                 var hex = skip(cells, j++);
@@ -384,15 +369,15 @@ namespace Z0.llvm
                     record.Asm = text.trim(text.left(content,j));
 
                     var enc = text.right(content, j + EncodingMarker.Length);
-                    result = AsmParser.asmhex(enc, out record.HexCode);
+                    result = AsmParser.asmhex(enc, out record.Encoded);
                     if(result.Fail)
                         return result;
 
-                    record.Size = record.HexCode.Size;
+                    record.Size = record.Encoded.Size;
                     record.DocId = fref.DocId;
                     record.DocSeq = seq++;
                     record.IP = offset;
-                    record.CT = AsmRecords.token(fref.DocId, offset);
+                    record.Id = AsmBytes.identify(offset, record.Encoded.Bytes);
                     record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
 
@@ -465,9 +450,8 @@ namespace Z0.llvm
                 record.Seq = seq++;
                 record.DocId = fref.DocId;
                 record.DocSeq = docseq++;
-                record.Location = point.Location;
                 record.Syntax = syncontent(syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith).Replace("Memory: ", "Mem:"));
-                record.Mnemonic = AsmMnemonic.parse(record.Syntax, out var mx);
+                AsmMnemonic.parse(record.Syntax, out var mx);
                 if(mx >=0)
                 {
                     var s = record.Syntax.Format();
@@ -480,9 +464,9 @@ namespace Z0.llvm
 
                 var ci = text.index(body, Chars.Hash);
                 if (ci > 0)
-                    record.Expr = AsmExpr.parse(text.left(body, ci));
+                    record.Asm = AsmExpr.parse(text.left(body, ci));
                 else
-                    record.Expr = RP.Empty;
+                    record.Asm = RP.Empty;
 
                 var xi = text.index(body, EncodingMarker);
                 if(xi > 0)

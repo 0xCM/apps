@@ -15,19 +15,19 @@ namespace Z0
 
         public uint Seq;
 
+        public Hex64 Id;
+
         public uint DocId;
 
         public uint DocSeq;
 
-        public Address32 IP;
+        public MemoryAddress IP;
+
+        public AsmHexCode Encoded;
 
         public byte Size;
 
-        public AsmHexCode HexCode;
-
         public AsmExpr Asm;
-
-        public CorrelationToken CT;
 
         public FS.FileUri Source;
 
@@ -38,12 +38,12 @@ namespace Z0
             => Asm;
 
         AsmHexCode IAsmEncoding.Encoded
-            => HexCode;
+            => Encoded;
 
         MemoryAddress IAsmEncoding.IP
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,12,8,38,84,12,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,8,8,12,38,8,84,1};
 
         public static AsmEncodingRow Empty => default;
     }

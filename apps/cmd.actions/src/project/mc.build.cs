@@ -29,7 +29,7 @@ namespace Z0
                 var content = row.Syntax;
                 Write(string.Format("{0,-8} | {1,-64} | {2}",
                     row.Seq,
-                    row.Expr,
+                    row.Asm,
                     oplist.Delimit(Chars.Space)
                     ));
             }
