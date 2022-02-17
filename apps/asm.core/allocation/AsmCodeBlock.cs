@@ -8,13 +8,32 @@ namespace Z0.Asm
     {
         public readonly LocatedSymbol Label;
 
-        public readonly Index<AsmCode> Statements;
+        public readonly Index<AsmCode> Lines;
 
         [MethodImpl(Inline)]
         public AsmCodeBlock(LocatedSymbol label, AsmCode[] src)
         {
             Label = label;
-            Statements = src;
+            Lines = src;
         }
+
+        public uint LineCount
+        {
+            [MethodImpl(Inline)]
+            get => Lines.Count;
+        }
+
+        public ref readonly AsmCode this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Lines[i];
+        }
+
+        public ref readonly AsmCode this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => ref Lines[i];
+        }
+
     }
 }

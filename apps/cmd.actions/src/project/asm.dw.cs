@@ -18,114 +18,73 @@ namespace Z0
             var src = ObjDump.LoadRows(path);
             var count = src.Count;
             var collector = new AsmBlockCollector();
-            for(var i=0; i<count; i++)
+            var collected = dict<string, AsmCodeBlocks>();
+            using var dispenser = AsmDispenser.create();
+
+            var docid = src.First.DocId;
+            var docname = src.First.Source.Path.FileName.Format();
+            var length = 0u;
+            var offset = 0u;
+            for(var i=0u; i<count; i++)
             {
-                collector.Include(src[i]);
+                if(src[i].DocId != docid)
+                {
+                    collected.Add(docname, Collect(docname,slice(src.View,offset,length), dispenser));
+                    offset = i;
+                    length = 0;
+                    docname = src[i].Source.Path.FileName.Format();
+                    docid = src[i].DocId;
+                }
+
+                length++;
             }
 
-            var blocks = collector.Emit();
-            Allocate(blocks);
+            if(length != 0)
+            {
+                collected.Add(docname, Collect(docname,slice(src.View,offset,length), dispenser));
+            }
+
+            foreach(var name in collected.Keys)
+            {
+                var dst = ProjectDb.Subdir("asm") + FS.file(string.Format("{0}.code", name), FS.Csv);
+                Emit(collected[name], dst);
+            }
+
+
             return true;
         }
 
-        void Allocate(ReadOnlySpan<AsmBlockEncoding> src)
+        AsmCodeBlocks Collect(text31 origin, ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser)
         {
-            for(var i=0; i<src.Length; i++)
+            var collector = new AsmBlockCollector();
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+                collector.Include(src[i]);
+            return dispenser.AsmCodeBlocks(origin, collector.Emit());
+        }
+
+        void Emit(in AsmCodeBlocks src, FS.FilePath dst)
+        {
+            var buffer = alloc<AsmCodeRecord>(src.LineCount);
+            var k=0u;
+            for(var i=0; i<src.Count; i++)
             {
-                ref readonly var block = ref skip(src,i);
-                ref readonly var name = ref block.BlockName;
-                ref readonly var address = ref block.BlockAddress;
-                var encodings = block.Encoded;
-                var count = encodings.Count;
-                for(var j=0; j<count; j++)
+                ref readonly var block = ref src[i];
+                var count = block.LineCount;
+                for(var j=0; j<count; j++, k++)
                 {
-                    ref readonly var encoding = ref encodings[j];
-                    ref readonly var ip = ref encoding.IP;
-                    ref readonly var code = ref encoding.Code;
-                    ref readonly var asm = ref encoding.Asm;
-                    var size = code.Size;
-                    //Write(string.Format("{0,-24} | {1,-8} | {2,-8} | {3,-8} | {4,-24} | {5}", name, address, ip, size, code, asm));
+                    ref readonly var code = ref block[j];
+                    ref var record = ref seek(buffer,k);
+                    record.Origin = src.Origin;
+                    record.BlockAddress = block.Label.Location;
+                    record.BlockName = block.Label.Name;
+                    record.IP = code.IP;
+                    record.Encoded = code.Encoded;
+                    record.Size = code.Encoded.Size;
+                    record.Asm = code.Asm;
                 }
             }
-        }
-    }
-
-    public class AsmBlockCollector
-    {
-        Identifier BlockName;
-
-        MemoryAddress BlockAddress;
-
-        List<AsmEncoding> Encodings;
-
-        List<AsmBlockEncoding> Blocks;
-
-        public AsmBlockCollector()
-        {
-            BlockName = Identifier.Empty;
-            BlockAddress = MemoryAddress.Zero;
-            Encodings = new();
-            Blocks = new();
-        }
-
-        public void Include<T>(in T src)
-            where T : IAsmBlockSegment
-        {
-            var name = src.BlockName;
-            if(BlockName.IsEmpty)
-            {
-                BlockName = name;
-                BlockAddress = src.BlockAddress;
-            }
-            else
-            {
-                if(name == BlockName)
-                    Require.equal(BlockAddress, src.BlockAddress);
-                else
-                {
-                    Blocks.Add(new AsmBlockEncoding(BlockName, BlockAddress, Encodings.ToArray()));
-                    BlockName = src.BlockName;
-                    BlockAddress = src.BlockAddress;
-                    Encodings.Clear();
-                }
-            }
-            Encodings.Add(encoding(src));
-        }
-
-        void IncludeBlock(bool clear = true)
-        {
-            Blocks.Add(new AsmBlockEncoding(BlockName, BlockAddress, Encodings.ToArray()));
-            if(clear)
-            {
-                BlockName = Identifier.Empty;
-                BlockAddress = MemoryAddress.Zero;
-                Encodings.Clear();
-            }
-        }
-
-        public Index<AsmBlockEncoding> Emit(bool clear = true)
-        {
-            if(Encodings.Count != 0)
-                IncludeBlock(clear);
-
-            var blocks = Blocks.ToArray();
-            if(clear)
-            {
-                Blocks.Clear();
-            }
-            return blocks;
-        }
-
-        static AsmEncoding encoding<T>(in T src)
-            where T : IAsmBlockSegment
-        {
-            var encoding = new AsmEncoding();
-            encoding.Seq = src.Seq;
-            encoding.IP = src.IP;
-            encoding.Asm = src.Asm;
-            encoding.Code = src.Code.Bytes;
-            encoding.CT = src.CT;
-            return encoding;
+            TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
         }
     }
 }

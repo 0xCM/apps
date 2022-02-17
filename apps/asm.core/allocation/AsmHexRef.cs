@@ -16,10 +16,17 @@ namespace Z0.Asm
             Seg = seg;
         }
 
-        public ReadOnlySpan<byte> Data
+        public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]
             get => Seg.View;
+        }
+
+
+        public Span<byte> Edit
+        {
+            [MethodImpl(Inline)]
+            get => Seg.Edit;
         }
 
         public byte Size
@@ -29,7 +36,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => Data.FormatHex();
+            => View.FormatHex();
 
         public override string ToString()
             => Format();
@@ -40,8 +47,8 @@ namespace Z0.Asm
             var size = src.Size;
             if(size != Size)
                 return false;
-            var lhs = Data;
-            var rhs = src.Data;
+            var lhs = View;
+            var rhs = src.View;
             var result = true;
             for(var i=0; i<size; i++)
                 result &= skip(lhs,i) == skip(rhs,i);
@@ -49,7 +56,7 @@ namespace Z0.Asm
         }
 
         public override int GetHashCode()
-            => (int)alg.hash.marvin(Data);
+            => (int)alg.hash.marvin(View);
 
         public override bool Equals(object src)
             => src is AsmHexRef x && Equals(x);

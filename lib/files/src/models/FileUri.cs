@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     partial struct FS
     {
         [DataType(TypeSyntax.FileUri)]
@@ -61,6 +56,9 @@ namespace Z0
                 }
             }
 
+            public FilePath Path
+                => WithoutLine.Source;
+
             public override string ToString()
                 => Format();
 
@@ -73,7 +71,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public static explicit operator FilePath(FileUri src)
-                => src.WithoutLine.Source;
+                => src.Path;
 
             public static FileUri Empty => new FileUri(FilePath.Empty);
         }

@@ -61,11 +61,11 @@ namespace Z0.Asm
             if(size != encoding.Size)
                 return (false, "Encoding size mismatch");
 
-            decoded = CreateStatement(text.trim(text.left(content,i)), offset, encoding);
+            decoded = CreateAsmCode(text.trim(text.left(content,i)), offset, encoding);
             return result;
         }
 
-        AsmCode CreateStatement(string asm, MemoryAddress address, BinaryCode code)
+        AsmCode CreateAsmCode(string asm, MemoryAddress address, BinaryCode code)
         {
             var size = code.Size;
             var identifier = string.Format("_@{0}_{1}", BlockBase.Address, BlockOffset);
