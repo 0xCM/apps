@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Concurrent;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     public sealed class EventQueue : IEventSink, IEventEmitter
@@ -61,7 +55,7 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public bool Emit(out IWfEvent e)
+        public bool Next(out IWfEvent e)
             => Storage.TryDequeue(out e);
     }
 }

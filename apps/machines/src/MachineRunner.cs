@@ -49,7 +49,7 @@ namespace Z0.Machines
 
         void EmptyQueue()
         {
-            while(Queue.Emit(out var e))
+            while(Queue.Next(out var e))
                 Wf.Raise(e);
         }
 

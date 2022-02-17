@@ -37,16 +37,16 @@ namespace Z0.Asm
             switch(size.Code)
             {
                 case NativeSizeCode.W8:
-                    kind = signed ? ImmKind.Imm8i : ImmKind.Imm8;
+                    kind = signed ? ImmKind.Imm8i : ImmKind.Imm8u;
                 break;
                 case NativeSizeCode.W16:
-                    kind = signed ? ImmKind.Imm16i : ImmKind.Imm16;
+                    kind = signed ? ImmKind.Imm16i : ImmKind.Imm16u;
                 break;
                 case NativeSizeCode.W32:
-                    kind = signed ? ImmKind.Imm32i : ImmKind.Imm32;
+                    kind = signed ? ImmKind.Imm32i : ImmKind.Imm32u;
                 break;
                 case NativeSizeCode.W64:
-                    kind = signed ? ImmKind.Imm64i : ImmKind.Imm64;
+                    kind = signed ? ImmKind.Imm64i : ImmKind.Imm64u;
                 break;
             }
             return new Imm(kind, value);
@@ -81,16 +81,16 @@ namespace Z0.Asm
             switch(size.Code)
             {
                 case NativeSizeCode.W8:
-                    kind = ImmKind.Imm8;
+                    kind = ImmKind.Imm8u;
                 break;
                 case NativeSizeCode.W16:
-                    kind = ImmKind.Imm16;
+                    kind = ImmKind.Imm16u;
                 break;
                 case NativeSizeCode.W32:
-                    kind = ImmKind.Imm32;
+                    kind = ImmKind.Imm32u;
                 break;
                 case NativeSizeCode.W64:
-                    kind = ImmKind.Imm64;
+                    kind = ImmKind.Imm64u;
                 break;
             }
             return new Imm(kind, value);
@@ -113,8 +113,8 @@ namespace Z0.Asm
         /// </summary>
         /// <param name="src">The source value</param>
         [MethodImpl(Inline), Op]
-        public static imm16 imm16(ushort src)
-            => new imm16(src);
+        public static imm16u imm16(ushort src)
+            => new imm16u(src);
 
         /// <summary>
         /// Defines a 32-bit immediate operand

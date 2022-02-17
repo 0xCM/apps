@@ -75,6 +75,6 @@ namespace Z0
         /// </summary>
         /// <param name="src">And xed-emitted disassemly file</param>
         public Index<DisasmLineBlock> ParseBlocks(FS.FilePath src)
-            => XedDisasmOps.LoadBlocks(src);
+            => XedDisasmOps.LoadLineBlocks(src);
     }
 }

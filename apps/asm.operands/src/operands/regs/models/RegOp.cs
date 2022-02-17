@@ -105,7 +105,7 @@ namespace Z0.Asm
         public static implicit operator AsmOperand(RegOp src)
             => new AsmOperand(src);
 
-        public static RegOp Invalid
+        public static RegOp Empty
         {
             [MethodImpl(Inline)]
             get => new RegOp(0);

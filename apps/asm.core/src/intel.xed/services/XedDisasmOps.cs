@@ -31,7 +31,7 @@ namespace Z0
         {
             var src = fref.Path;
             var srcid = src.SrcId(FileKind.XedRawDisasm);
-            var blocks = LoadBlocks(src);
+            var blocks = LoadLineBlocks(src);
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);
             var counter = 0u;
@@ -70,29 +70,32 @@ namespace Z0
             return true;
         }
 
-        public static ConstLookup<FS.FilePath,DisasmFileBlocks> LoadFileBlocks(ReadOnlySpan<FS.FilePath> src)
+        public static ConstLookup<FileRef,DisasmFileBlocks> LoadFileBlocks(ReadOnlySpan<FileRef> src)
         {
-            var dst = dict<FS.FilePath,DisasmFileBlocks>();
+            var dst = dict<FileRef,DisasmFileBlocks>();
             var blocks = list<DisasmLineBlock>();
-            foreach(var path in src)
+            foreach(var fref in src)
             {
                 blocks.Clear();
-                LoadBlocks(path,blocks);
-                dst[path] = new DisasmFileBlocks(path, blocks.ToArray());
+                LoadLineBlocks(fref.Path,blocks);
+                dst[fref] = new DisasmFileBlocks(fref, blocks.ToArray());
             }
             return dst;
         }
 
-        public static Index<DisasmLineBlock> LoadBlocks(FS.FilePath src)
+        public static DisasmFileBlocks LoadFileBlocks(in FileRef src)
+            => new DisasmFileBlocks(src, LoadLineBlocks(src.Path));
+
+        public static Index<DisasmLineBlock> LoadLineBlocks(FS.FilePath src)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
             var dst = list<DisasmLineBlock>();
-            LoadBlocks(src,dst);
+            LoadLineBlocks(src,dst);
             return dst.ToArray();
         }
 
-        public static void LoadBlocks(FS.FilePath src, List<DisasmLineBlock> dst)
+        public static void LoadLineBlocks(FS.FilePath src, List<DisasmLineBlock> dst)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;

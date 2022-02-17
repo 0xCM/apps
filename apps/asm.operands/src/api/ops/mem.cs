@@ -12,7 +12,7 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static MemOp mem(NativeSize size, RegOp @base)
-            => new MemOp(size, address(@base, RegOp.Invalid, 0));
+            => new MemOp(size, address(@base, RegOp.Empty, 0));
 
         [MethodImpl(Inline), Op]
         public static MemOp mem(NativeSize size, RegOp @base, RegOp index)
@@ -32,7 +32,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m8 mem8(RegOp @base)
-            => new m8(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m8(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m8 mem8(AsmAddress address)
@@ -52,7 +52,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m16 mem16(RegOp @base)
-            => new m16(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m16(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m16 mem16(AsmAddress address)
@@ -72,7 +72,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m32 mem32(RegOp @base)
-            => new m32(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m32(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m32 mem32(AsmAddress address)
@@ -92,7 +92,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m64 mem64(RegOp @base)
-            => new m64(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m64(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m64 mem64(AsmAddress address)
@@ -116,7 +116,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m128 mem128(RegOp @base)
-            => new m128(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m128(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m128 mem128(RegOp @base, RegOp index)
@@ -132,7 +132,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m256 mem256(RegOp @base)
-            => new m256(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m256(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m256 mem256(RegOp @base, RegOp index)
@@ -148,7 +148,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static m512 mem512(RegOp @base)
-            => new m512(@base, RegOp.Invalid, 0, Disp.Zero);
+            => new m512(@base, RegOp.Empty, 0, Disp.Zero);
 
         [MethodImpl(Inline), Op]
         public static m512 mem512(RegOp @base, RegOp index)

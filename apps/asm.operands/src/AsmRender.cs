@@ -65,7 +65,6 @@ namespace Z0.Asm
                     return regmask(src.RegMask);
                 default:
                     return EmptyString;
-
             }
         }
 
@@ -145,15 +144,15 @@ namespace Z0.Asm
         public static string imm(in Imm src)
             => src.ImmKind switch
             {
-                ImmKind.Imm8 => HexFormatter.format(src.Size, src.Imm8, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm8u => HexFormatter.format(src.Size, src.Imm8u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
                 ImmKind.Imm8i => HexFormatter.format(src.Size, src.Imm8i, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                ImmKind.Imm16 => HexFormatter.format(src.Size, src.Imm16, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm16u => HexFormatter.format(src.Size, src.Imm16u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
                 ImmKind.Imm16i => HexFormatter.format(src.Size, src.Imm16i, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                ImmKind.Imm32 => HexFormatter.format(src.Size, src.Imm32, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                ImmKind.Imm32i => HexFormatter.format(src.Size, src.Imm32, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                ImmKind.Imm64 => HexFormatter.format(src.Size, src.Imm64, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                ImmKind.Imm64i => HexFormatter.format(src.Size, src.Imm64, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                _ => string.Format("{0}:<1>", HexFormatter.format(src.Size, src.Imm64, HexPadStyle.Unpadded, prespec:true, @case:UpperCase), src.ImmKind),
+                ImmKind.Imm32u => HexFormatter.format(src.Size, src.Imm32u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm32i => HexFormatter.format(src.Size, src.Imm32u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm64u => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                ImmKind.Imm64i => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
+                _ => string.Format("{0}:<1>", HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase), src.ImmKind),
             };
 
         public static string disp<T>(T src, bool @signop = false)

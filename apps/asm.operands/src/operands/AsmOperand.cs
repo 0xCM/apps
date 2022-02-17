@@ -42,7 +42,17 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public AsmOperand(imm16 src)
+        public AsmOperand(imm16u src)
+        {
+            OpClass = src.OpClass;
+            OpKind = src.OpKind;
+            Size = src.Size;
+            _Data = B.Empty;
+            @as<B,Imm>(_Data) = src;
+        }
+
+        [MethodImpl(Inline)]
+        public AsmOperand(imm16i src)
         {
             OpClass = src.OpClass;
             OpKind = src.OpKind;

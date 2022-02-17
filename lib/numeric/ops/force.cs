@@ -4,16 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-    using static DataParser;
 
     partial struct Numeric
     {
-
         /// <summary>
         /// Unconditionally converts the source values to values of parametric numeric type
         /// </summary>

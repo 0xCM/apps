@@ -4,15 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.Intrinsics;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free]
     public interface IEmitter<T>
     {
-        bool Emit(out T dst);
+        bool Next(out T dst);
     }
 
     /// <summary>

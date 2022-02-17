@@ -39,7 +39,7 @@ namespace Z0.Vdsl
 
         void EmptyQueue()
         {
-            while(Queue.Emit(out var e))
+            while(Queue.Next(out var e))
                 Wf.Raise(e);
         }
 

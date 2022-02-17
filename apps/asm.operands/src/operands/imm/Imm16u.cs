@@ -4,56 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Linq;
-
-    using W = W8;
-    using I = imm8;
+    using W = W16;
+    using I = imm16u;
 
     /// <summary>
-    /// Defines an 8-bit immediate value
+    /// Defines a 16-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm8)]
-    public readonly struct imm8 : IImm<I,byte>
+    [DataType(TypeSyntax.Imm16)]
+    public readonly struct imm16u : IImm<I,ushort>
     {
-        [Op]
-        public static Index<imm8R> refined(ParameterInfo param)
-        {
-            if(param.IsRefinedImmediate())
-                return param.ParameterType.GetEnumValues().Cast<byte>().Array().ToImm8Values(ImmRefinementKind.Refined);
-            else
-                return sys.empty<imm8R>();
-        }
+        public ushort Value {get;}
 
-        [Parser]
-        public static Outcome parse(string src, out imm8 dst)
-        {
-            var result = Outcome.Success;
-            dst = default;
-            var i = text.index(src,HexFormatSpecs.PreSpec);
-            var imm = z8;
-            if(i>=0)
-            {
-                result = HexParser.parse8u(src, out imm);
-                if(result)
-                    dst = imm;
-            }
-            else
-            {
-                result = DataParser.parse(src, out imm);
-                if(result)
-                    dst = imm;
-            }
-            return result;
-        }
-
-        public byte Value {get;}
+        public static W W => default;
 
         [MethodImpl(Inline)]
-        public imm8(byte src)
+        public imm16u(ushort src)
             => Value = src;
-
-        public ImmKind ImmKind
-            => ImmKind.Imm8u;
 
         public AsmOpClass OpClass
         {
@@ -61,23 +27,26 @@ namespace Z0.Asm
             get => AsmOpClass.Imm;
         }
 
+        public ImmKind ImmKind
+            => ImmKind.Imm16u;
+
         public AsmOpKind OpKind
-            => AsmOpKind.Imm8;
+            => AsmOpKind.Imm16;
 
         public NativeSize Size
-            => NativeSizeCode.W8;
-
-        public uint Hash
-        {
-            [MethodImpl(Inline)]
-            get => Value;
-        }
+            => NativeSizeCode.W16;
 
         public string Format()
             => AsmRender.imm(this);
 
         public override string ToString()
             => Format();
+
+        public uint Hash
+        {
+            [MethodImpl(Inline)]
+            get => alg.hash.calc(Value);
+        }
 
         public override int GetHashCode()
             => (int)Hash;
@@ -92,10 +61,6 @@ namespace Z0.Asm
 
         public override bool Equals(object src)
             => src is I x && Equals(x);
-
-        [MethodImpl(Inline)]
-        public Address8 ToAddress()
-            => Value;
 
         [MethodImpl(Inline)]
         public static bool operator <(I a, I b)
@@ -122,15 +87,15 @@ namespace Z0.Asm
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator byte(I src)
+        public static implicit operator ushort(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<byte>(I src)
-            => new Imm<byte>(src);
+        public static implicit operator Imm<ushort>(I src)
+            => new Imm<ushort>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(byte src)
+        public static implicit operator I(ushort src)
             => new I(src);
 
         [MethodImpl(Inline)]
@@ -138,9 +103,7 @@ namespace Z0.Asm
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm8 src)
+        public static implicit operator AsmOperand(imm16u src)
             => new AsmOperand(src);
-
-        public static W W => default;
-    }
+     }
 }

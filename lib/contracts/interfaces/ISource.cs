@@ -50,7 +50,7 @@ namespace Z0
         /// </summary>
         T Next();
 
-        bool Emit(out T dst)
+        bool Next(out T dst)
         {
             dst = Next();
             return true;

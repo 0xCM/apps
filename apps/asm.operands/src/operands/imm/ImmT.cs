@@ -28,7 +28,7 @@ namespace Z0
         public ImmKind ImmKind
         {
             [MethodImpl(Inline)]
-            get => (ImmKind)(byte)width<T>();
+            get => (ImmKind)((byte)width<T>() | (byte)(u8(signed<T>()) << 7));
         }
 
         public NativeSize OpSize
@@ -43,34 +43,58 @@ namespace Z0
             get => (AsmOpKind)((ushort)OpClass | ((ushort)OpSize << 8));
         }
 
-        public byte EffectiveWidth
+        public byte EffWidth
         {
             [MethodImpl(Inline)]
-            get => Widths.effective(Imm64);
+            get => Widths.effective(Imm64u);
         }
 
-        public ulong Imm64
+        public ulong Imm64u
         {
             [MethodImpl(Inline)]
             get => force<T,ulong>(Value);
         }
 
-        public uint Imm32
+        public long Imm64i
+        {
+            [MethodImpl(Inline)]
+            get => force<T,long>(Value);
+        }
+
+        public uint Imm32u
         {
             [MethodImpl(Inline)]
             get => force<T,uint>(Value);
         }
 
-        public ushort Imm16
+        public int Imm32i
+        {
+            [MethodImpl(Inline)]
+            get => force<T,int>(Value);
+        }
+
+        public ushort Imm16u
         {
             [MethodImpl(Inline)]
             get => force<T,ushort>(Value);
         }
 
-        public byte Imm8
+        public short Imm16i
+        {
+            [MethodImpl(Inline)]
+            get => force<T,short>(Value);
+        }
+
+        public byte Imm8u
         {
             [MethodImpl(Inline)]
             get => force<T,byte>(Value);
+        }
+
+        public sbyte Imm8i
+        {
+            [MethodImpl(Inline)]
+            get => force<T,sbyte>(Value);
         }
 
         public uint Hash
@@ -82,13 +106,13 @@ namespace Z0
         public bool IsZero
         {
             [MethodImpl(Inline)]
-            get => Imm8 == 0;
+            get => Imm8u == 0;
         }
 
         public bool IsNonZero
         {
             [MethodImpl(Inline)]
-            get => Imm8 != 0;
+            get => Imm8u != 0;
         }
 
 
@@ -98,29 +122,20 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public bool Equals(Imm<T> src)
-            => Imm64 == src.Imm64;
+            => Imm64u == src.Imm64u;
 
         public override bool Equals(object obj)
             => obj is Imm<T> x && Equals(x);
 
         public string Format()
-        {
-            if(width<T>() == 8)
-                return HexFormatter.format(w8, Imm8, prespec:true, @case:UpperCase);
-            else if(width<T>() == 16)
-                return HexFormatter.format(w16, Imm16, prespec:true, @case:UpperCase);
-            else if(width<T>() == 32)
-                return HexFormatter.format(w32, Imm32, prespec:true, @case:UpperCase);
-            else
-                return HexFormatter.format(w64, Imm64, prespec:true, @case:UpperCase);
-        }
+            => AsmRender.imm(this);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public int CompareTo(Imm<T> src)
-            => Imm64 == src.Imm64 ? 0 : Imm64 < src.Imm64 ? -1 : 1;
+            => Imm64u == src.Imm64u ? 0 : Imm64u < src.Imm64u ? -1 : 1;
 
         [MethodImpl(Inline)]
         public static implicit operator Imm<T>(byte src)

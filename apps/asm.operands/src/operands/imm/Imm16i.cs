@@ -4,27 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Asm;
-
     using W = W16;
-    using I = imm16;
+    using I = imm16i;
 
     /// <summary>
     /// Defines a 16-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm16, Kind, Width, Width)]
-    public readonly struct imm16 : IImm<I,ushort>
+    [DataType(TypeSyntax.Imm16)]
+    public readonly struct imm16i : IImm<I,short>
     {
-        public const ImmKind Kind = ImmKind.Imm16;
+        public const ImmKind Kind = ImmKind.Imm16i;
 
         public const byte Width = 16;
 
-        public ushort Value {get;}
+        public short Value {get;}
 
         public static W W => default;
 
         [MethodImpl(Inline)]
-        public imm16(ushort src)
+        public imm16i(short src)
             => Value = src;
 
         public AsmOpClass OpClass
@@ -43,7 +41,7 @@ namespace Z0.Asm
             => NativeSizeCode.W16;
 
         public string Format()
-            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => AsmRender.imm(this);
 
         public override string ToString()
             => Format();
@@ -70,7 +68,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline)]
         public Address16 ToAddress()
-            => Value;
+            => (ushort)Value;
 
         [MethodImpl(Inline)]
         public static bool operator <(I a, I b)
@@ -97,15 +95,15 @@ namespace Z0.Asm
             => a.Value != b.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator ushort(I src)
+        public static implicit operator short(I src)
             => src.Value;
 
         [MethodImpl(Inline)]
-        public static implicit operator Imm<ushort>(I src)
-            => new Imm<ushort>(src);
+        public static implicit operator Imm<short>(I src)
+            => new Imm<short>(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator I(ushort src)
+        public static implicit operator I(short src)
             => new I(src);
 
         [MethodImpl(Inline)]
@@ -113,7 +111,7 @@ namespace Z0.Asm
             => new Imm(src.ImmKind, src.Value);
 
         [MethodImpl(Inline)]
-        public static implicit operator AsmOperand(imm16 src)
+        public static implicit operator AsmOperand(imm16i src)
             => new AsmOperand(src);
      }
 }

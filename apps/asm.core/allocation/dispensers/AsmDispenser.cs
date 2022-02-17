@@ -40,7 +40,7 @@ namespace Z0.Asm
         public AsmHexRef Encoding(ByteSize size)
             => Encodings.Dispense(size);
 
-        public AsmCode AsmCode(in AsmEncoding src)
+        public AsmCode Code(in AsmEncoding src)
         {
             ref readonly var code = ref src.Encoded;
             var size = code.Size;
@@ -52,21 +52,33 @@ namespace Z0.Asm
             return new AsmCode(Source(src.Id.Format(), src.Asm.Format()), src.IP, hex);
         }
 
-        public AsmCodeBlock AsmCodeBlock(in AsmBlockEncoding src)
+        public AsmCode Code(in AsmEncodingRow src)
+        {
+            ref readonly var code = ref src.Encoded;
+            var size = code.Size;
+            var hex = Encoding(size);
+            var hexsrc = code.Bytes;
+            var hexdst = hex.Edit;
+            for(var j=0; j<size; j++)
+                seek(hexdst,j) = skip(hexsrc,j);
+            return new AsmCode(Source(src.Id.Format(), src.Asm.Format()), src.IP, hex);
+        }
+
+        public AsmCodeBlock CodeBlock(in AsmBlockEncoding src)
         {
             var encodings = src.Encoded;
             var count = encodings.Count;
             var code = alloc<AsmCode>(count);
             for(var i=0; i<count; i++)
-                seek(code,i) = AsmCode(encodings[i]);
+                seek(code,i) = Code(encodings[i]);
             return new AsmCodeBlock(Symbol(src.BlockAddress, src.BlockName), code);
         }
 
-        public AsmCodeBlocks AsmCodeBlocks(string origin, ReadOnlySpan<AsmBlockEncoding> src)
+        public AsmCodeBlocks CodeBlocks(string origin, ReadOnlySpan<AsmBlockEncoding> src)
         {
             var dst = alloc<AsmCodeBlock>(src.Length);
             for(var i=0; i<src.Length; i++)
-                seek(dst,i) = AsmCodeBlock(skip(src,i));
+                seek(dst,i) = CodeBlock(skip(src,i));
             return new AsmCodeBlocks(Labels.Dispense(origin), dst);
         }
     }

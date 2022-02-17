@@ -40,14 +40,6 @@ namespace Z0
                 collected.Add(docname, Collect(docname,slice(src, offset,length), dispenser));
             }
 
-            // if(emit)
-            // {
-            //     foreach(var name in collected.Keys)
-            //     {
-            //         var dst = ProjectDb.Subdir("asm") + FS.folder(scope) + FS.file(string.Format("{0}.code", name), FS.Csv);
-            //         Emit(collected[name], dst);
-            //     }
-            // }
             return collected;
         }
 
@@ -69,7 +61,7 @@ namespace Z0
             var count = src.Length;
             for(var i=0; i<count; i++)
                 collector.Include(src[i]);
-            return dispenser.AsmCodeBlocks(origin, collector.Emit());
+            return dispenser.CodeBlocks(origin, collector.Emit());
         }
 
         void Emit(in AsmCodeBlocks src, FS.FilePath dst)

@@ -15,7 +15,7 @@ namespace Z0
 
         public FileKind Kind;
 
-        public Hash32 NameHash;
+        public Hash32 HashCode;
 
         public Timestamp Timestamp;
 
@@ -26,7 +26,7 @@ namespace Z0
         {
             DocId = id;
             Kind = kind;
-            NameHash = hash;
+            HashCode = hash;
             Timestamp = path.Timestamp;
             Path = path;
         }
@@ -45,6 +45,9 @@ namespace Z0
 
         public int CompareTo(FileRef src)
             => DocId.CompareTo(src.DocId);
+
+        public override int GetHashCode()
+            => (int)HashCode;
 
         uint ISequential.Seq
             => DocId;

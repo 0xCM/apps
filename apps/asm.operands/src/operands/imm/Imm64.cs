@@ -12,7 +12,7 @@ namespace Z0
     /// <summary>
     /// Defines a 64-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm64, Kind, Width, Width)]
+    [DataType(TypeSyntax.Imm64)]
     public readonly struct imm64 : IImm<imm64,ulong>
     {
         [Parser]
@@ -37,7 +37,7 @@ namespace Z0
             return result;
         }
 
-        public const ImmKind Kind = ImmKind.Imm64;
+        public const ImmKind Kind = ImmKind.Imm64u;
 
         public const byte Width = 64;
 
@@ -72,7 +72,7 @@ namespace Z0
             => (int)Hash;
 
         public string Format()
-            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => AsmRender.imm(this);
 
         public override string ToString()
             => Format();

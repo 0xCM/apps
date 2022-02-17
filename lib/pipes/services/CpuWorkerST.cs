@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Threading;
     using System.Diagnostics;
 
@@ -47,7 +46,7 @@ namespace Z0
             NativeThread.IdealProcessor = (int)Settings.Core;
             while(Continue)
             {
-                while(Emitter.Emit(out var next))
+                while(Emitter.Next(out var next))
                     Receiver.Deposit(Projector(next));
                 Thread.Sleep(Settings.Frequency);
             }

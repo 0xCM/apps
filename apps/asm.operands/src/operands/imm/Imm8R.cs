@@ -15,7 +15,7 @@ namespace Z0
     [DataType("imm8r", Kind, Width, Width)]
     public readonly struct imm8R : IImm<imm8R,byte>
     {
-        public const ImmKind Kind = ImmKind.Imm8;
+        public const ImmKind Kind = ImmKind.Imm8u;
 
         public const byte Width = 8;
 

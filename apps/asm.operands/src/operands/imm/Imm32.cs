@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using Asm;
-
     using W = W32;
     using I = imm32;
 
     /// <summary>
     /// Defines a 32-bit immediate value
     /// </summary>
-    [DataType(TypeSyntax.Imm32, ImmKind.Imm32, Width, Width)]
+    [DataType(TypeSyntax.Imm32)]
     public readonly struct imm32 : IImm<I,uint>
     {
         public const byte Width = 32;
@@ -30,7 +28,7 @@ namespace Z0.Asm
         }
 
         public ImmKind ImmKind
-            => ImmKind.Imm32;
+            => ImmKind.Imm32u;
 
         public AsmOpKind OpKind
             => AsmOpKind.Imm32;
@@ -39,7 +37,7 @@ namespace Z0.Asm
             => NativeSizeCode.W32;
 
         public string Format()
-            => HexFormatter.format(Size, Value, HexPadStyle.Unpadded, prespec:true, @case:UpperCase);
+            => AsmRender.imm(this);
 
         public override string ToString()
             => Format();

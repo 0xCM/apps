@@ -12,20 +12,54 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
+        public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
+            => XedDisasmOps.LoadFileBlocks(src);
+
+        // public Outcome CalcDisasmDetails(in DisasmFileBlocks src, AsmDispenser dispenser, out Index<DisasmDetail> buffer)
+        // {
+        //     var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
+        //     var blocks = src.LineBlocks;
+        //     var count = blocks.Count;
+        //     buffer = alloc<DisasmDetail>(count);
+
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var block = ref blocks[i];
+        //         result = CalcDisasmDetail(block, dispenser, out buffer[i]);
+        //         if(result.Fail)
+        //             break;
+        //     }
+
+        //     return result;
+
+        // }
+
+        Outcome CalcDisasmDetail(in DisasmLineBlock src, AsmDispenser dispenser, out DisasmDetail dst)
+        {
+            dst = default;
+            var result = ParseInstruction(src, out var inst);
+            if(result.Fail)
+                return result;
+
+
+            return result;
+
+        }
+
         public Outcome CollectDisasmDetails(ProjectCollection collect)
         {
             var result = Outcome.Success;
             var encodings = CollectEncodingDocs(collect);
-            var paths = encodings.Keys.ToArray().Sort();
-            var count = paths.Length;
-            var blocks = XedDisasmOps.LoadFileBlocks(paths);
+            var files = encodings.Keys.ToArray().Sort();
+            var count = files.Length;
+            var blocks = XedDisasmOps.LoadFileBlocks(files);
             var dir = XedPaths.SemanticDisasmDir(collect.Project);
             for(var i=0; i<count; i++)
             {
-                ref readonly var path = ref skip(paths,i);
-                var block = blocks[path];
-                var encoding = encodings[path];
-                var srcid = path.FileName.WithoutExtension.Format();
+                ref readonly var file = ref skip(files,i);
+                var block = blocks[file];
+                var encoding = encodings[file];
+                var srcid = file.Path.FileName.WithoutExtension.Format();
                 var k = text.index(srcid, ".xed.");
                 if(k > 0)
                     srcid = text.left(srcid,k);

@@ -5,10 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
-    partial struct XedModels
+    partial struct XedRecords
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct PointerWidthRecord
