@@ -44,14 +44,12 @@ namespace Z0
 
         const string Cols3Pattern = "{0,-12} | {1,-12} | {2,-12}";
 
-        const string Cols4Pattern = Cols3Pattern + " | {3, -12}";
-
         const string OpPattern = "{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}";
 
         void RenderHeader(FS.FilePath path, in AsmEncodingRow encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
         {
             ref readonly var IP = ref encoding.IP;
-            dst.AppendLine(string.Format(RenderPattern, "SrcId", path.SrcId(FileKind.XedRawDisasm)));
+            dst.AppendLineFormat(RenderPattern, "Id", AsmBytes.identify(IP, code.Bytes));
             dst.AppendLine(string.Format(RenderPattern, "IP", ((uint)IP).FormatHex(zpad:false, specifier:true, uppercase:true)));
             dst.AppendLine(string.Format(RenderPattern, "Statement", encoding.Asm));
             dst.AppendLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.BitString)));

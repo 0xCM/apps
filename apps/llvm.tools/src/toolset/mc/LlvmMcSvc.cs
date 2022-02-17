@@ -301,6 +301,7 @@ namespace Z0.llvm
                 var j=0;
 
                 result = DataParser.parse(skip(cells,j++), out dst.Seq);
+                result = DataParser.parse(skip(cells,j++), out dst.Id);
                 result = DataParser.parse(skip(cells,j++), out dst.DocId);
                 result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
 
@@ -312,19 +313,20 @@ namespace Z0.llvm
 
                 dst.Asm = skip(cells, j++);
                 dst.Syntax = skip(cells, j++);
+                result = DataParser.parse(skip(cells,j++), out dst.IP);
 
                 var hex = skip(cells, j++);
                 if(empty(hex))
                 {
-                    dst.HexCode = AsmHexCode.Empty;
+                    dst.Encoded = AsmHexCode.Empty;
                     dst.Source = FS.FilePath.Empty;
                     continue;
                 }
 
-                result = AsmParser.asmhex(hex, out dst.HexCode);
+                result = AsmParser.asmhex(hex, out dst.Encoded);
                 if(result.Fail)
                 {
-                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.HexCode)));
+                    result = (false, string.Format("Line {0}, field {1}", line.LineNumber, nameof(dst.Encoded)));
                     break;
                 }
 
@@ -426,6 +428,7 @@ namespace Z0.llvm
             const string ReplaceAWith = "{";
             const string ReplaceB = ", }";
             const string ReplaceBWith = "}";
+            var ip = MemoryAddress.Zero;
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
             var docseq = 0u;
@@ -473,7 +476,12 @@ namespace Z0.llvm
                 {
                     var enc = text.right(body,xi + EncodingMarker.Length + 1);
                     if(AsmParser.asmhex(enc, out var encoding))
-                        record.HexCode = encoding;
+                    {
+                        record.Encoded = encoding;
+                        record.Id = AsmBytes.identify(ip, encoding.Bytes);
+                        record.IP = ip;
+                        ip += encoding.Size;
+                    }
                 }
 
                 record.Source = srcpath.ToUri().LineRef(point.Location.Line);

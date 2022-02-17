@@ -12,7 +12,7 @@ namespace Z0
     {
         ApiDataPaths DataPaths => Service(Wf.ApiDataPaths);
 
-        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser, string scope = "",  bool emit = true)
+        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser)
         {
             var count = src.Length;
             var collector = new AsmBlockCollector();
@@ -40,15 +40,27 @@ namespace Z0
                 collected.Add(docname, Collect(docname,slice(src, offset,length), dispenser));
             }
 
-            if(emit)
-            {
-                foreach(var name in collected.Keys)
-                {
-                    var dst = ProjectDb.Subdir("asm") + FS.folder(scope) + FS.file(string.Format("{0}.code", name), FS.Csv);
-                    Emit(collected[name], dst);
-                }
-            }
+            // if(emit)
+            // {
+            //     foreach(var name in collected.Keys)
+            //     {
+            //         var dst = ProjectDb.Subdir("asm") + FS.folder(scope) + FS.file(string.Format("{0}.code", name), FS.Csv);
+            //         Emit(collected[name], dst);
+            //     }
+            // }
             return collected;
+        }
+
+        public void Emit(ConstLookup<string,AsmCodeBlocks> src, FS.FolderPath dir)
+        {
+            var names = src.Keys;
+            var count = names.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var name = ref skip(names,i);
+                var dst = dir + FS.file(string.Format("{0}.code", name), FS.Csv);
+                Emit(src[name],dst);
+            }
         }
 
         AsmCodeBlocks Collect(string origin, ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser)

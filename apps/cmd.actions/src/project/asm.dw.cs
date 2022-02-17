@@ -13,15 +13,11 @@ namespace Z0
         Outcome AsmDw(CmdArgs args)
         {
             var project = Project();
-            EmitAsmCodeBlocks(project);
+            var src = ObjDump.LoadRows(ProjectDb.ProjectTable<ObjDumpRow>(project));
+            using var dispenser = Alloc.asm();
+            var blocks = CodeBanks.DistillBlocks(src, dispenser);
             return true;
         }
 
-        public void EmitAsmCodeBlocks(IProjectWs project)
-        {
-            var src = ObjDump.LoadRows(ProjectDb.ProjectTable<ObjDumpRow>(project));
-            using var dispenser = Alloc.asm();
-            var lookup = CodeBanks.DistillBlocks(src, dispenser, project.Name);
-        }
     }
 }

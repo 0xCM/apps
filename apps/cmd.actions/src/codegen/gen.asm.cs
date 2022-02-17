@@ -15,7 +15,6 @@ namespace Z0
 
         AsmCodeGen AsmCodeGen => Service(Wf.AsmCodeGen);
 
-
         [CmdOp("gen/asm/code")]
         Outcome GenIntel(CmdArgs args)
         {
@@ -32,29 +31,30 @@ namespace Z0
             var count = forms.Count;
             var buffer = text.buffer();
             var counter = 0u;
-            var name = "and";
-            var source = list<IAsmSourcePart>();
-            source.Add(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
+            var mnemonics = hashset("and", "or", "xor");
+            var sources = dict<string,List<IAsmSourcePart>>();
+            iter(mnemonics, name => sources[name] = new());
+            iter(mnemonics, mnemonic => sources[mnemonic].Add(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix)));
+
             for(var i=0; i<count; i++)
             {
                 ref readonly var form = ref forms[i];
-                if(form.Mnemonic == name)
+                var mnemonic = form.Mnemonic.Format();
+                if(mnemonics.Contains(mnemonic))
                 {
                     var specs = g.Concretize(form);
-                    if(specs.Count == 0)
-                        continue;
-
-
-                    source.Add(asm.comment(string.Format("{0} | {1}", form.Sig, form.OpCode)));
-                    source.Add(asm.block(asm.label(form.Name.Format()), specs));
+                    Require.invariant(specs.Count > 0);
+                    sources[mnemonic].Add(asm.comment(string.Format("{0} | {1}", form.Sig, form.OpCode)));
+                    sources[mnemonic].Add(asm.block(asm.label(form.Name.Format()), specs));
                 }
             }
 
-            var file = asm.file(name, source.ToArray());
-            var dst = file.Path(Ws.Project(ProjectNames.McModels).SrcDir("asm"));
-            var emitting = EmittingFile(dst);
-            EmittedFile(emitting, file.Save(dst));
-
+            foreach(var mnemonic in sources.Keys)
+            {
+                var file = asm.file(mnemonic, sources[mnemonic].ToArray());
+                var dst = file.Path(Ws.Project(ProjectNames.McModels).SrcDir("asm"));
+                EmittedFile(EmittingFile(dst), file.Save(dst));
+            }
 
             return true;
         }

@@ -7,6 +7,7 @@ namespace Z0.Asm
     using static core;
     using static AsmSigTokens;
     using static AsmSigTokens.RegLiteralToken;
+    using static AsmRegOps;
 
     using GpRT = AsmSigTokens.GpRegToken;
     using VRT = AsmSigTokens.VRegToken;
@@ -17,6 +18,7 @@ namespace Z0.Asm
 
     public class AsmGenContext
     {
+        public AsmForm Form {get;}
 
     }
 
@@ -240,18 +242,16 @@ namespace Z0.Asm
             switch((ImmToken)src.Value)
             {
                 case ImmT.imm8:
-                    for(var j=0xf; j<0x20; j++)
-                        seek(dst,i++) = asm.imm8((byte)j);
+                    seek(dst,i++) = asm.imm8(0x73);
                 break;
                 case ImmT.imm16:
-                    for(var j=byte.MaxValue*2; j<byte.MaxValue*2 + 5; j++)
-                        seek(dst,i++) = asm.imm16((ushort)j);
+                    seek(dst,i++) = asm.imm16(0x7373);
                 break;
                 case ImmT.imm32:
-                    for(var j=ushort.MaxValue*2; j<ushort.MaxValue*2 + 5; j++)
-                        seek(dst,i++) = asm.imm32((uint)j);
+                    seek(dst,i++) = asm.imm32(0x73737373);
                 break;
                 case ImmT.imm64:
+                    seek(dst,i++) = asm.imm64(0x7373737373737373);
                 break;
             }
 
@@ -261,74 +261,67 @@ namespace Z0.Asm
         uint MemValues(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
             var i0 = i;
-            var regs = RegSets.Gp64Regs();
-            var count = regs.Count;
+            var bases = array<RegOp>(r8,r9);
+            var indices = array<RegOp>(rcx,rdx);
+            var count = 2;
             switch((MemToken)src.Value)
             {
                 case MT.m8:
                     for(var j=0; j<count; j++)
                     {
-                        ref readonly var @base = ref regs[j];
+                        ref readonly var @base = ref skip(bases,j);
                         seek(dst,i++) = asm.mem8(@base);
                         for(var k=0; k<count; k++)
                         {
-                            ref readonly var index = ref regs[k];
-                            if(k != j)
-                                seek(dst,i++) = asm.mem8(@base, index);
+                            seek(dst,i++) = asm.mem8(@base, skip(indices,k));
                         }
                     }
                 break;
                 case MT.m16:
                     for(var j=0; j<count; j++)
                     {
-                        ref readonly var @base = ref regs[j];
+                        ref readonly var @base = ref skip(bases,j);
                         seek(dst,i++) = asm.mem16(@base);
                         for(var k=0; k<count; k++)
                         {
-                            ref readonly var index = ref regs[k];
-                            if(k != j)
-                                seek(dst,i++) = asm.mem16(@base, index);
+                            seek(dst,i++) = asm.mem16(@base, skip(indices,k));
                         }
                     }
                 break;
                 case MT.m32:
                     for(var j=0; j<count; j++)
                     {
-                        ref readonly var @base = ref regs[j];
+                        ref readonly var @base = ref skip(bases,j);
                         seek(dst,i++) = asm.mem(SZ.W32, @base);
                         for(var k=0; k<count; k++)
                         {
-                            ref readonly var index = ref regs[k];
-                            if(k != j)
-                            {
-                                seek(dst,i++) = asm.mem(SZ.W32, @base, index);
-                                seek(dst,i++) = asm.mem(SZ.W32, @base, index, asm.disp8(-0x63));
-                            }
+                            ref readonly var index = ref skip(indices,k);
+                            seek(dst,i++) = asm.mem(SZ.W32, @base, index);
+                            seek(dst,i++) = asm.mem(SZ.W32, @base, index, asm.disp8(-0x73));
+                            seek(dst,i++) = asm.mem(SZ.W32, @base, index, asm.disp8(0x73));
                         }
                     }
                 break;
                 case MT.m64:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem64(regs[j]);
+                        seek(dst,i++) = asm.mem64(skip(bases,j));
                 break;
                 case MT.m128:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem128(regs[j]);
+                        seek(dst,i++) = asm.mem128(skip(bases,j));
                 break;
                 case MT.m256:
                     for(var j=0; j<count; j++)
-                        seek(dst,i++) = asm.mem256(regs[j]);
+                        seek(dst,i++) = asm.mem256(skip(bases,j));
                 break;
                 case MT.m512:
                     for(var j=0; j<count; j++)
                     {
-                        ref readonly var @base = ref regs[j];
+                        ref readonly var @base = ref skip(bases,j);
                         seek(dst,i++) = asm.mem(SZ.W512, @base);
                         for(var k=0; k<count; k++)
                         {
-                            ref readonly var index = ref regs[k];
-                            if(k != j)
-                                seek(dst,i++) = asm.mem(SZ.W512, @base, index);
+                            seek(dst,i++) = asm.mem(SZ.W512, @base, skip(indices,k));
                         }
                     }
                 break;

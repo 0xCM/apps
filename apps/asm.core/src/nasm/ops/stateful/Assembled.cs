@@ -15,10 +15,11 @@ namespace Z0
         public ref AssembledAsm Assembled(in NasmEncoding src, out AssembledAsm dst)
         {
             dst.Bitstring = FormatBitstring(src.Encoded);
-            dst.Encoding = src.Encoded;
-            dst.Statement = AsmExpr.parse(src.SourceText);
+            dst.Id = AsmBytes.identify(src.Offset, src.Encoded);
+            dst.IP = src.Offset;
+            dst.Encoded = src.Encoded;
+            dst.Asm = AsmExpr.parse(src.SourceText);
             dst.SourceLine = src.LineNumber;
-            dst.Offset = src.Offset;
             return ref dst;
         }
 

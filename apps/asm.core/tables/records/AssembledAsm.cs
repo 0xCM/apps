@@ -14,11 +14,13 @@ namespace Z0.Asm
 
         public LineNumber SourceLine;
 
-        public MemoryAddress Offset;
+        public Hex64 Id;
 
-        public AsmExpr Statement;
+        public MemoryAddress IP;
 
-        public BinaryCode Encoding;
+        public AsmExpr Asm;
+
+        public BinaryCode Encoded;
 
         public TextBlock Bitstring;
     }

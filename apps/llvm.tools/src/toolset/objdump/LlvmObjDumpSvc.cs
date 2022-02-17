@@ -15,6 +15,8 @@ namespace Z0.llvm
 
         WsProjects WsProjects => Service(Wf.WsProjects);
 
+        CodeBanks CodeBanks => Service(Wf.CodeBanks);
+
         public LlvmObjDumpSvc()
             : base(ToolId)
         {
@@ -107,8 +109,18 @@ namespace Z0.llvm
         public void Collect(ProjectCollection collect)
         {
             var rows = Consolidate(collect);
+            EmitCodeBlocks(collect,rows);
             Recode(collect,rows);
             EmitIndex(collect,rows);
+        }
+
+        void EmitCodeBlocks(ProjectCollection collect, ReadOnlySpan<ObjDumpRow> src)
+        {
+            using var dispenser = Alloc.asm();
+            var blocks = CodeBanks.DistillBlocks(src, dispenser);
+            var dst = ProjectDb.ProjectData() + FS.folder(string.Format("{0}.asm.code",collect.Project.Name.Format()));
+            dst.Clear();
+            CodeBanks.Emit(blocks, dst);
         }
 
         ReadOnlySpan<ObjDumpRow> Consolidate(ProjectCollection collect)
