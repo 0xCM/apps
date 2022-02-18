@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct AsciSymbols
@@ -26,14 +22,6 @@ namespace Z0
             for(var i=0u; i<count; i++)
                 seek(dst,i) = (byte)skip(src,i);
             return count;
-        }
-
-        [MethodImpl(Inline), Op]
-        public static int encode(N16 n, ReadOnlySpan<char> src, Span<byte> dst)
-        {
-            var v256x16u = vcore.vload(w256, recover<ushort>(src));
-
-            return 16;
         }
 
         /// <summary>

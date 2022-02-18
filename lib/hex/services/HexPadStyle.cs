@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-
-    public readonly partial struct vcore
+    public enum HexPadStyle : byte
     {
-        const NumericKind Closure = UnsignedInts;
+        Unpadded,
 
+        Zero,
+
+        Byte,
     }
 }

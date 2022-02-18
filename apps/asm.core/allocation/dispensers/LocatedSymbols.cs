@@ -2,10 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0
 {
-    public abstract class StateMachine
+    public sealed class LocatedSymbols : ConcurrentDictionary<SymAddress,LocatedSymbol>
     {
+
 
     }
 }

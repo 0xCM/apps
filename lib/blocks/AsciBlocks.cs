@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -43,41 +39,5 @@ namespace Z0
             var count = decode(input,dst);
             return new string(slice(dst,0,count));
         }
-
-        // [MethodImpl(Inline), Op]
-        // public static AsciBlock4 encode(N4 n, ReadOnlySpan<char> src)
-        // {
-        //     var dst = AsciBlock4.Empty;
-        //     var count = min(n,src.Length);
-        //     encode(src, slice(dst.Bytes,0,count));
-        //     return dst;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static AsciBlock8 encode(N8 n, ReadOnlySpan<char> src)
-        // {
-        //     var dst = AsciBlock8.Empty;
-        //     var count = min(n,src.Length);
-        //     encode(src, slice(dst.Bytes,0,count));
-        //     return dst;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static AsciBlock16 encode(N16 n, ReadOnlySpan<char> src)
-        // {
-        //     var dst = AsciBlock16.Empty;
-        //     var count = min(n,src.Length);
-        //     encode(src, slice(dst.Bytes,0,count));
-        //     return dst;
-        // }
-
-        // [MethodImpl(Inline), Op]
-        // public static AsciBlock32 encode(N32 n, ReadOnlySpan<char> src)
-        // {
-        //     var dst = AsciBlock32.Empty;
-        //     var count = min(n,src.Length);
-        //     encode(src, slice(dst.Bytes,0,count));
-        //     return dst;
-        // }
     }
 }

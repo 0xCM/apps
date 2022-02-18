@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-    using static core;
-
-    using Ops;
     [ApiHost]
     public readonly partial struct Hex
     {
@@ -18,5 +14,4 @@ namespace Z0
     {
         public const string hex = nameof(hex);
     }
-
 }

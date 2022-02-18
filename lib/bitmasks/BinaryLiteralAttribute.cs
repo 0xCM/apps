@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-
     /// <summary>
     /// Attaches a binary literal value to a target
     /// </summary>

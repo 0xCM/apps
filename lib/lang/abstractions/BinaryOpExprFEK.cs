@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class BinaryOpExpr<F,E,K> : OpExpr<F,K>
         where F : BinaryOpExpr<F,E,K>
         where E : IExpr

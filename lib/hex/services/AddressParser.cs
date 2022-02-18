@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
-
     [ApiHost]
     public readonly struct AddressParser
     {
@@ -124,7 +122,6 @@ namespace Z0
 
     partial struct Msg
     {
-
         public static MsgPattern<string> AddressParseFailure => "Parsing address from {0} failed";
     }
 }

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Ops
 {
-    using System;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class PredicateOp<T> : IPredicate<T>
     {
         public static PredicateOp<T> Empty => default;

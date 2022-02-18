@@ -77,17 +77,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public Vector128<T> Vector<T>()
             where T : unmanaged
-                => vcore.vload<T>(w128, @as<T>(First));
+                => gcpu.vload<T>(w128, @as<T>(First));
 
         [MethodImpl(Inline)]
         public static implicit operator Vector128<byte>(B src)
-            => vcore.vload(default(W128), src.Bytes);
+            => gcpu.vload(default(W128), src.Bytes);
 
         [MethodImpl(Inline)]
         public static implicit operator B(Vector128<byte> src)
         {
             var dst = Empty;
-            vcore.vstore(src, dst.Bytes);
+            gcpu.vstore(src, dst.Bytes);
             return dst;
         }
 

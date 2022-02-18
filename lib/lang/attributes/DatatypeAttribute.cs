@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using static Root;
-
     /// <summary>
     /// Applied to a type to denote inclusion as a datatype within the DSL
     /// </summary>

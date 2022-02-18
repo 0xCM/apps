@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
     using System;
 
@@ -21,9 +21,9 @@ namespace Z0.llvm
 
         public Hex32 Offset;
 
-        public ObjSymCode Code;
+        public ObjSymCode SymCode;
 
-        public ObjSymKind Kind;
+        public ObjSymKind SymKind;
 
         public string Name;
 

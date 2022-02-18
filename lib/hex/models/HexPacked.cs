@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
-
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
     public struct HexPacked : IRecord<HexPacked>
     {

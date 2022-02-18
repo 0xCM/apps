@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using static Root;
-
     using LK = ClrLiteralKind;
     using AK = ClrAccessKind;
     using MK = ClrModifierKind;

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
 
     using B = ByteBlock32;
@@ -95,17 +89,17 @@ namespace Z0
         [MethodImpl(Inline)]
         public Vector256<T> Vector<T>()
             where T : unmanaged
-                => vcore.vload<T>(w256, @as<T>(First));
+                => gcpu.vload<T>(w256, @as<T>(First));
 
         [MethodImpl(Inline)]
         public static implicit operator Vector256<byte>(B src)
-            => vcore.vload(default(W256), src.Bytes);
+            => cpu.vload(default(W256), src.Bytes);
 
         [MethodImpl(Inline)]
         public static implicit operator B(Vector256<byte> src)
         {
             var dst = Empty;
-            vcore.vstore(src, dst.Bytes);
+            cpu.vstore(src, dst.Bytes);
             return dst;
         }
 

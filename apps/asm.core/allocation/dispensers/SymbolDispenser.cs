@@ -10,7 +10,7 @@ namespace Z0
     {
         const uint Capacity = PageBlock.PageSize;
 
-        readonly ConcurrentDictionary<SymAddress,LocatedSymbol> Lookup;
+        readonly LocatedSymbols Lookup;
 
         readonly Dictionary<long,LabelAllocator> Allocators;
 
@@ -56,18 +56,6 @@ namespace Z0
                     seek(dst,i++) = symbol;
             }
         }
-
-        // public LocatedSymbol Relocate(LocatedSymbol src, MemoryAddress dst)
-        // {
-        //     var name = src.Name.Format();
-        //     if(Lookup.Remove(src.Address, out var removed))
-        //     {
-        //         var symbol = new LocatedSymbol(dst, src.Name);
-        //         Lookup.TryAdd(dst,symbol);
-        //         return symbol;
-        //     }
-        //     return src;
-        // }
 
         public bool Search(SymAddress location, out LocatedSymbol dst)
             => Lookup.TryGetValue(location, out dst);

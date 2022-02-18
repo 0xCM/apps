@@ -4,10 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.IO;
-    using System.Reflection;
 
     using static Root;
     using static core;
@@ -38,7 +35,7 @@ namespace Z0
 
         public void LoadImageContent(FS.FilePath src)
         {
-            Wf.HexCsvReader().Load(src);
+            HexCsvReader.create(Wf).Load(src);
         }
 
         [Op]

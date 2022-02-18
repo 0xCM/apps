@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     /// <summary>
     /// Defines the canonical shape of an emitter
     /// </summary>

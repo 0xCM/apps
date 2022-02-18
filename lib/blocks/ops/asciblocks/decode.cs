@@ -4,13 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static core;
-    using static vcore;
 
     partial struct AsciBlocks
     {
@@ -52,15 +46,15 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static void decode(in AsciBlock8 src, ref char dst)
         {
-            var decoded = vinflate256x16u(vbytes(w128, src));
-            vstore(decoded.GetLower(), ref @as<char,ushort>(dst));
+            var decoded = vpack.vinflate256x16u(cpu.vbytes(w128, src));
+            cpu.vstore(decoded.GetLower(), ref @as<char,ushort>(dst));
         }
 
         [MethodImpl(Inline), Op]
         public static void decode(in AsciBlock16 src, ref char dst)
         {
-           var decoded = vinflate256x16u(src.First);
-           vstore(decoded, ref @as<char,ushort>(dst));
+           var decoded = vpack.vinflate256x16u(src.First);
+           cpu.vstore(decoded, ref @as<char,ushort>(dst));
         }
 
         [MethodImpl(Inline), Op]
@@ -98,12 +92,12 @@ namespace Z0
         public static ReadOnlySpan<char> decode(in AsciBlock64 src)
         {
             ref var storage = ref src.First;
-            var v1 = vload(w256, storage);
-            var v2 = vload(w256, seek(storage, 32));
-            var x0 = vinflatelo256x16u(v1);
-            var x1 = vinflatehi256x16u(v1);
-            var x2 = vinflatelo256x16u(v2);
-            var x3 = vinflatehi256x16u(v2);
+            var v1 = cpu.vload(w256, storage);
+            var v2 = cpu.vload(w256, seek(storage, 32));
+            var x0 = vpack.vinflatelo256x16u(v1);
+            var x1 = vpack.vinflatehi256x16u(v1);
+            var x2 = vpack.vinflatelo256x16u(v2);
+            var x3 = vpack.vinflatehi256x16u(v2);
             var chars = recover<char>(bytes(new V256x4(x0, x1, x2, x3)));
             var length = text.index(chars, '\0');
             if(length == NotFound)

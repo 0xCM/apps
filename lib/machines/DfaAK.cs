@@ -2,16 +2,11 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Expr
+namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System;
-
-    using Z0.Lang;
-
     using static Root;
 
-    public abstract class Dfa<A,K> : StateMachine
+    public abstract class Dfa<A,K>
         where A : unmanaged
         where K : unmanaged
     {

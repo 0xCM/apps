@@ -35,28 +35,36 @@ namespace Z0
         [CmdOp("project/symbols")]
         Outcome CacheObjSymbols(CmdArgs args)
         {
+            // using var dispenser = Alloc.symbols();
+            // var project = Project();
+            // var result = CoffServices.LoadSymbols(project, out var rows);
+            // if(result.Fail)
+            //     return result;
+
+            // var symbols =  CoffObjects.symbolize(rows,dispenser);
+            // var locations = symbols.Keys;
+            // foreach(var loc in locations)
+            // {
+            //     Write(symbols[loc].Format());
+            // }
+
+
+            CacheObjSyms();
+            return true;
+        }
+
+        void CacheObjSyms()
+        {
             using var dispenser = Alloc.symbols();
             var project = Project();
             var rows = LlvmNm.LoadSymRows(project);
-            var count = rows.Count;
-            for(var i=0; i<count; i++)
+            var symbols = CoffObjects.symbolize(rows,dispenser);
+            var locations = symbols.Keys;
+            foreach(var loc in locations)
             {
-                ref readonly var row = ref rows[i];
-                ObjSymClass @class = row.Code;
-                var location = math.or((ulong)row.Offset, ((ulong)row.DocId << 32), (ulong)@class.Pack() << 42);
-                dispenser.Dispense(location, row.Name);
+                Write(symbols[loc].Format());
             }
 
-            var dst = alloc<LocatedSymbol>(dispenser.Count);
-            dispenser.Dispensed(dst);
-
-            for(var i=0; i<dst.Length; i++)
-            {
-                ref readonly var symbol = ref skip(dst,i);
-                Write(symbol.Format());
-            }
-
-            return true;
         }
 
         [CmdOp("xed/collect")]

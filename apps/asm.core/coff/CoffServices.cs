@@ -113,6 +113,31 @@ namespace Z0
             return true;
         }
 
+        public Outcome LoadSymbols(IProjectWs project, out Index<CoffSymRecord> dst)
+        {
+            var src = ProjectDb.ProjectTable<CoffSymRecord>(project);
+            var lines = src.ReadLines(true);
+            var count = lines.Count - 1;
+            dst = alloc<CoffSymRecord>(count);
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var line = ref lines[i+1];
+                var cells = text.trim(text.split(line,Chars.Pipe));
+                Require.equal(cells.Length, CoffSymRecord.FieldCount);
+                var reader = cells.Reader();
+                ref var row = ref dst[i];
+                DataParser.parse(reader.Next(), out row.Seq).Require();
+                DataParser.parse(reader.Next(), out row.DocId).Require();
+                DataParser.parse(reader.Next(), out row.Section).Require();
+                DataParser.parse(reader.Next(), out row.Address).Require();
+                DataParser.parse(reader.Next(), out row.SymSize).Require();
+                DataParser.parse(reader.Next(), out row.Value).Require();
+                DataParser.parse(reader.Next(), out row.AuxCount).Require();
+                DataParser.parse(reader.Next(), out row.Name).Require();
+            }
+            return true;
+        }
+
         public Outcome CollectSymbols(ProjectCollection collect)
         {
             var project = collect.Project;
@@ -156,11 +181,8 @@ namespace Z0
                         record.SymSize = CoffObjects.length(strings, name);
                         record.Section = sym.Section;
                         record.Value = sym.Value;
-                        record.SymType = sym.Type;
-                        record.SymClass = sym.Class;
                         record.AuxCount = sym.NumberOfAuxSymbols;
-                        record.SymText = symtext;
-                        record.Timestamp = view.Timestamp;
+                        record.Name = symtext;
                         writer.WriteLine(formatter.Format(record));
 
                         size += record.SymSize;

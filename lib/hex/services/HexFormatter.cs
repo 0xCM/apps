@@ -10,17 +10,7 @@ namespace Z0
     using static core;
     using static HexFormatSpecs;
 
-
     using SK = HexSpecKind;
-
-    public enum HexPadStyle : byte
-    {
-        Unpadded,
-
-        Zero,
-
-        Byte,
-    }
 
     [ApiHost]
     public readonly struct HexFormatter

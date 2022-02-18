@@ -74,7 +74,7 @@ namespace Z0
         static void read32(ref byte* pSrc, ref PageBlock dst, ref ushort offset)
         {
             ref var target = ref u8(dst);
-            vcore.vstore(vcore.vload(w256, pSrc), ref target, (int)offset);
+            cpu.vstore(cpu.vload(w256, pSrc), ref target, (int)offset);
             pSrc +=32;
             offset+= 32;
         }

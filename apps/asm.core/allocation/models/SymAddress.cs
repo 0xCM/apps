@@ -65,7 +65,7 @@ namespace Z0
             => (int)Hash;
 
         public string Format()
-            => HasSelector ? string.Format("{0:x}:{1x}", Selector, (ulong)Address) : Address.Format();
+            => HasSelector ? string.Format("{0:x8}:{1:x6}h", Selector, (ulong)Address) : Address.Format();
 
         public override string ToString()
             => Format();

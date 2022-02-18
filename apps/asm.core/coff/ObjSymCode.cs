@@ -45,7 +45,7 @@ namespace Z0
         [Symbol("N", "ELF: debug section symbol, or global symbol from non-alloc section | Mach-O: absolute symbol or symbol from a section other than __TEXT_EXEC __text, __TEXT __text, __DATA __data, or __DATA __bss")]
         N = 0xB,
 
-        [Symbol("r", "Read-only data object")]
+        [Symbol("r", "Read-only data section")]
         r = 0xC,
 
         [Symbol("R", "Read-only data object")]

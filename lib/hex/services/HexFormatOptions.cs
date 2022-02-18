@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     /// <summary>
     /// Defines a common set of hex formatting options
     /// </summary>

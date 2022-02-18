@@ -9,6 +9,57 @@ namespace Z0
     [ApiHost]
     public readonly struct CoffObjects
     {
+        [MethodImpl(Inline), Op]
+        public static SymAddress address(in ObjSymRow row)
+        {
+            ObjSymClass @class = row.SymCode;
+            var selector = math.or((ushort)row.DocId, (uint)(@class.Pack()  << 16));
+            return SymAddress.define(selector, row.Offset);
+        }
+
+        [MethodImpl(Inline), Op]
+        public static SymAddress address(in CoffSymRecord row)
+        {
+            var lo = (ushort)row.DocId;
+            var hi = row.Section > Pow2.T14 ? row.Section : math.or((ushort)(byte)row.SymSize, (ushort)(ushort)row.Section<<8);
+            return SymAddress.define(math.or((uint)lo, (uint)hi << 16), row.Value);
+        }
+
+        public static LocatedSymbols symbolize(ReadOnlySpan<CoffSymRecord> src, SymbolDispenser dispenser)
+        {
+            var count = src.Length;
+            var dst = new LocatedSymbols();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref skip(src,i);
+                var location = address(row);
+                if(!dst.TryAdd(location, dispenser.Dispense(location, row.Name)))
+                {
+                    Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
+                }
+            }
+            return dst;
+        }
+
+        public static LocatedSymbols symbolize(ReadOnlySpan<ObjSymRow> src, SymbolDispenser dispenser)
+        {
+            var count = src.Length;
+            var dst = new LocatedSymbols();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref skip(src,i);
+                if(row.SymKind != ObjSymKind.CodeObject)
+                    continue;
+
+                var location = address(row);
+                if(!dst.TryAdd(location, dispenser.Dispense(location, row.Name)))
+                {
+                    Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
+                }
+            }
+            return dst;
+        }
+
         public static Outcome<CoffHex> hex(CoffObject coff, HexDataRow[] rows)
         {
             var result = validate(coff, rows, out var hex);

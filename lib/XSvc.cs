@@ -42,14 +42,6 @@ namespace Z0
             => Z0.Tooling.create(wf);
 
         [Op]
-        public static HexCsvReader HexCsvReader(this IWfRuntime wf)
-            => Z0.HexCsvReader.create(wf);
-
-        [Op]
-        public static HexCsvWriter HexCsvWriter(this IWfRuntime wf)
-            => Z0.HexCsvWriter.create(wf);
-
-        [Op]
         public static AssetServices Assets(this IWfRuntime wf)
             => AssetServices.create(wf);
 
@@ -71,10 +63,6 @@ namespace Z0
         [Op]
         public static SymServices SymServices(this IWfRuntime wf)
             => Z0.SymServices.create(wf);
-
-        [Op]
-        public static HexEmitter HexEmitter(this IWfRuntime wf)
-            => Z0.HexEmitter.create(wf);
 
         [Op]
         public static BitfieldServices Bitfields(this IWfRuntime wf)
@@ -151,9 +139,5 @@ namespace Z0
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
-
-        [Op]
-        public static HexDataReader HexDataReader(this IWfRuntime context)
-            => Z0.HexDataReader.create(context);
     }
 }

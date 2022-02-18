@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
-
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct HexDataRow
@@ -36,6 +32,26 @@ namespace Z0
             }
         }
     }
+
+    partial class XTend
+    {
+        [Op]
+        public static HexCsvReader HexCsvReader(this IWfRuntime wf)
+            => Z0.HexCsvReader.create(wf);
+
+        [Op]
+        public static HexCsvWriter HexCsvWriter(this IWfRuntime wf)
+            => Z0.HexCsvWriter.create(wf);
+
+        [Op]
+        public static HexDataReader HexDataReader(this IWfRuntime context)
+            => Z0.HexDataReader.create(context);
+
+        [Op]
+        public static HexEmitter HexEmitter(this IWfRuntime wf)
+            => Z0.HexEmitter.create(wf);
+    }
+
 
     partial class XTend
     {

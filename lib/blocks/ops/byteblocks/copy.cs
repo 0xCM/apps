@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
-    using static vcore;
 
     partial class ByteBlocks
     {
@@ -62,16 +57,16 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static ref ByteBlock16 copy(ReadOnlySpan<byte> src, ref ByteBlock16 dst)
         {
-            var vSrc = vload(w128, core.first(src));
-            vstore(vSrc, ref u8(dst));
+            var vSrc = cpu.vload(w128, core.first(src));
+            cpu.vstore(vSrc, ref u8(dst));
             return ref dst;
         }
 
         [MethodImpl(Inline), Op]
         public static ref ByteBlock32 copy(ReadOnlySpan<byte> src, ref ByteBlock32 dst)
         {
-            var vSrc = vload(w256, core.first(src));
-            vstore(vSrc, ref u8(dst));
+            var vSrc = cpu.vload(w256, core.first(src));
+            cpu.vstore(vSrc, ref u8(dst));
             return ref dst;
         }
 
@@ -93,17 +88,17 @@ namespace Z0
             const ushort Block2 = 2*32;
             const ushort Block3 = 3*32;
 
-            var v0 = vload(w256, skip(src,Block0));
-            vstore(v0, ref seek(u8(dst), Block0));
+            var v0 = cpu.vload(w256, skip(src,Block0));
+            cpu.vstore(v0, ref seek(u8(dst), Block0));
 
-            v0 = vload(w256, skip(src, Block1));
-            vstore(v0, ref seek(u8(dst), Block1));
+            v0 = cpu.vload(w256, skip(src, Block1));
+            cpu.vstore(v0, ref seek(u8(dst), Block1));
 
-            v0 = vload(w256, skip(src, Block2));
-            vstore(v0, ref seek(u8(dst), Block2));
+            v0 = cpu.vload(w256, skip(src, Block2));
+            cpu.vstore(v0, ref seek(u8(dst), Block2));
 
-            v0 = vload(w256, skip(src, Block3));
-            vstore(v0, ref seek(u8(dst), Block3));
+            v0 = cpu.vload(w256, skip(src, Block3));
+            cpu.vstore(v0, ref seek(u8(dst), Block3));
 
             return ref dst;
         }

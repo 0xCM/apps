@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -24,7 +20,7 @@ namespace Z0
         public static void serialize<T>(in T call, Span<byte> dst)
             where T : unmanaged, IApiCall<T>
         {
-            vcore.vstore(call.Api.V8u, ref first(dst));
+            cpu.vstore(call.Api.V8u, ref first(dst));
             var remainder = slice(bytes(call), 16);
             var size = remainder.Length;
             var j=0;
@@ -188,31 +184,6 @@ namespace Z0
         static ApiCall<T,T,T> call<T>(in ApiKey api, uint offset, in ReadOnlySpan<T> a0, in ReadOnlySpan<T> a1, in ReadOnlySpan<T> result)
             where T : unmanaged
                 => define(api, skip(a0, offset), skip(a1, offset), skip(result, offset));
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // static ApiCall<T,T,T> call<T>(in ApiKey api, uint offset, in SpanBlock32<T> a0, in SpanBlock32<T> a1, in SpanBlock32<T> result)
-        //     where T : unmanaged
-        //         => define(api, a0[offset], a1[offset], result[offset]);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // static ApiCall<T,T,T> call<T>(in ApiKey api, uint offset, in SpanBlock64<T> a0, in SpanBlock64<T> a1, in SpanBlock64<T> result)
-        //     where T : unmanaged
-        //         => define(api, a0[offset], a1[offset], result[offset]);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // static ApiCall<T,T,T> call<T>(in ApiKey api, uint offset, in SpanBlock128<T> a0, in SpanBlock128<T> a1, in SpanBlock128<T> result)
-        //     where T : unmanaged
-        //         => define(api, a0[offset], a1[offset], result[offset]);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // static ApiCall<T,T,T> call<T>(in ApiKey api, uint offset, in SpanBlock256<T> a0, in SpanBlock256<T> a1, in SpanBlock256<T> result)
-        //     where T : unmanaged
-        //         => define(api, a0[offset], a1[offset], result[offset]);
-
-        // [MethodImpl(Inline), Op, Closures(Closure)]
-        // static ApiCall<T,T,T> call<T>(in ApiKey api, uint offset, in SpanBlock512<T> a0, in SpanBlock512<T> a1, in SpanBlock512<T> result)
-        //     where T : unmanaged
-        //         => define(api, a0[offset], a1[offset], result[offset]);
 
         [MethodImpl(Inline), Op]
         static ApiCall<uint,uint,uint> call(in ApiKey api, uint a0, uint a1, uint result)

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.Intrinsics;
-
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free, SFx]
     public interface IBinaryImm8Op<A> : IFunc<A,A,byte,A>
     {

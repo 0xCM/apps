@@ -75,8 +75,8 @@ namespace Z0.llvm
                 DataParser.parse(reader.Next(), out row.DocId).Require();
                 DataParser.parse(reader.Next(), out row.DocSeq).Require();
                 DataParser.parse(reader.Next(), out row.Offset).Require();
-                SymCodes.ExprKind(reader.Next(), out row.Code);
-                SymKinds.ExprKind(reader.Next(), out row.Kind);
+                SymCodes.ExprKind(reader.Next(), out row.SymCode);
+                SymKinds.ExprKind(reader.Next(), out row.SymKind);
                 DataParser.parse(reader.Next(), out row.Name).Require();
                 DataParser.parse(reader.Next(), out row.Source).Require();
             }
@@ -103,9 +103,13 @@ namespace Z0.llvm
                     dst.DocSeq = seq++;
                     dst.Offset = hex;
                     var pos = k + 1 + 8 + 2;
-                    SymCodes.ExprKind(content[pos].ToString(), out dst.Code);
-                    dst.Kind = ObjSymCalcs.kind(dst.Code);
+                    SymCodes.ExprKind(content[pos].ToString(), out dst.SymCode);
                     dst.Name = text.right(content, pos + 1).Trim();
+                    if(dst.SymCode == ObjSymCode.t && dst.Name != ".text")
+                        dst.SymCode = ObjSymCode.T;
+                    else if(dst.SymCode == ObjSymCode.r && dst.Name != ".rdata")
+                        dst.SymCode = ObjSymCode.R;
+                    dst.SymKind = ObjSymCalcs.kind(dst.SymCode);
                 }
             }
             return result;

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Globalization;
-
-    using static core;
-
     partial struct Hex
     {
         /// <summary>
