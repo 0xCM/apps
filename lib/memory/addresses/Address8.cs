@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using A = Address8;
     using W = W8;
     using T = System.Byte;
@@ -20,7 +15,7 @@ namespace Z0
         public static Outcome parse(string src, out Address8 dst)
             => AddressParser.parse(src, out dst);
 
-        public const uint StorageSize = PrimalSizes.U8;
+        public const NativeSizeCode StorageSize = NativeSizeCode.W8;
 
         public T Location {get;}
 
@@ -29,6 +24,12 @@ namespace Z0
             => Location = offset;
 
         public static W W => default;
+
+        public NativeSize Capacity
+        {
+            [MethodImpl(Inline)]
+            get => StorageSize;
+        }
 
         public bool IsEmpty
         {

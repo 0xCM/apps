@@ -21,9 +21,9 @@ namespace Z0.llvm
 
         public Hex32 Offset;
 
-        public NmSymCode Code;
+        public ObjSymCode Code;
 
-        public NmSymKind Kind;
+        public ObjSymKind Kind;
 
         public string Name;
 

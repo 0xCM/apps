@@ -2,18 +2,18 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    using static NmSymCode;
-    using static NmSymKind;
+    using static ObjSymCode;
+    using static ObjSymKind;
 
     [ApiHost]
-    public readonly struct NmSymCalcs
+    public readonly struct ObjSymCalcs
     {
         [Op]
-        public static NmSymKind kind(NmSymCode code)
+        public static ObjSymKind kind(ObjSymCode code)
         {
-            var kind = NmSymKind.None;
+            var kind = ObjSymKind.None;
             switch(code)
             {
                 case a:

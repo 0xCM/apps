@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static ScalarCast;
     using static core;
 
@@ -33,6 +29,11 @@ namespace Z0
         public static NativeSize native<W>(W w)
             where W : unmanaged, IDataWidth
                 => native((BitWidth)w.BitWidth);
+
+        [MethodImpl(Inline)]
+        public static NativeSize native<T>()
+            where T : unmanaged
+                => native(width<T>());
 
         [MethodImpl(Inline), Op]
         public static BitWidth width(NativeSizeCode src)

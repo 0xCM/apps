@@ -8,10 +8,17 @@ namespace Z0
 
     public class ApiSegmentLocator : AppService<ApiSegmentLocator>
     {
+
+        static MsgPattern<Address16> SegSelectorNotFound => "Selector {0} not found";
+
+        static MsgPattern<Count> LocatingSegments => "Locating segments for {0} methods";
+
+        static MsgPattern<Count,Count> LocatedSegments => "Computed {0} segment entries for {0} methods";
+
         public ReadOnlySpan<ProcessSegment> LocateSegments(AddressBank src, ReadOnlySpan<ApiMemberInfo> methods, FS.FolderPath dir)
         {
             var count = methods.Length;
-            var flow = Wf.Running(Msg.LocatingSegments.Format(count));
+            var flow = Running(LocatingSegments.Format(count));
             var buffer = alloc<MethodSegment>(count);
             var locations = hashset<ProcessSegment>();
             var segments  = src.Segments;
@@ -24,7 +31,7 @@ namespace Z0
                 var index = src.SelectorIndex(selector);
                 if(index == NotFound)
                 {
-                    Wf.Error(Msg.SegSelectorNotFound.Format(selector));
+                    Error(SegSelectorNotFound.Format(selector));
                     break;
                 }
 
@@ -61,7 +68,7 @@ namespace Z0
             }
 
             var located = TableEmit(@readonly(buffer), MethodSegment.RenderWidths, Db.Table<MethodSegment>(dir));
-            Wf.Ran(flow, Msg.LocatedSegments.Format(located, count));
+            Ran(flow, LocatedSegments.Format(located, count));
             return locations.Array().Sort();
         }
     }

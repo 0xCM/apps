@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
 
     using static core;
 
@@ -13,12 +12,15 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llvm_nm;
 
-        Symbols<NmSymCode> SymCodes;
+        Symbols<ObjSymCode> SymCodes;
+
+        Symbols<ObjSymKind> SymKinds;
 
         public LlvmNmSvc()
             : base(ToolId)
         {
-            SymCodes = Symbols.index<NmSymCode>();
+            SymCodes = Symbols.index<ObjSymCode>();
+            SymKinds = Symbols.index<ObjSymKind>();
         }
 
         public Outcome Collect(ProjectCollection collect)
@@ -51,41 +53,35 @@ namespace Z0.llvm
             return result;
         }
 
-        public ReadOnlySpan<ObjSymRow> Search(IProjectWs project, string match)
-        {
-            var result = Outcome.Success;
-            var files = project.OutFiles(FS.Sym).View;
-            var formatter = Tables.formatter<ObjSymRow>(ObjSymRow.RenderWidths);
-            var tool = Wf.LlvmNm();
-            var dst = list<ObjSymRow>();
-            foreach(var f in files)
-            {
-                var records = tool.Read(f);
-                var count= records.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var record = ref skip(records,i);
-                    if(record.Name.Contains(match))
-                        dst.Add(record);
-                }
-            }
-            return dst.ViewDeposited();
-        }
+        public Index<ObjSymRow> LoadSymRows(IProjectWs project)
+            => LoadSymRows(ProjectDb.ProjectTable<ObjSymRow>(project));
 
-        public ReadOnlySpan<ObjSymRow> Read(FS.FilePath path)
+        public Index<ObjSymRow> LoadSymRows(FS.FilePath src)
         {
+            const byte FieldCount = ObjSymRow.FieldCount;
             var result = Outcome.Success;
-            var count = FS.linecount(path).Lines;
-            var buffer = span<ObjSymRow>(count);
-            var counter = 0u;
+            var lines = src.ReadLines(true);
+            var count = lines.Count - 1;
+            var dst = alloc<ObjSymRow>(count);
             var j=0;
-            using var reader = path.Utf8LineReader();
-            while(reader.Next(out var line))
+            for(var i=0; i<count; i++)
             {
-                if(ParseSymRow(line, ref counter, out var sym))
-                    seek(buffer, j++) = sym;
+                ref readonly var line = ref lines[i+1];
+                var cells = text.trim(text.split(line, Chars.Pipe));
+                Require.equal(cells.Length,FieldCount);
+                var reader = cells.Reader();
+                ref var row = ref seek(dst,i);
+                DataParser.parse(reader.Next(), out row.Seq).Require();
+                DataParser.parse(reader.Next(), out row.DocId).Require();
+                DataParser.parse(reader.Next(), out row.DocSeq).Require();
+                DataParser.parse(reader.Next(), out row.Offset).Require();
+                SymCodes.ExprKind(reader.Next(), out row.Code);
+                SymKinds.ExprKind(reader.Next(), out row.Kind);
+                DataParser.parse(reader.Next(), out row.Name).Require();
+                DataParser.parse(reader.Next(), out row.Source).Require();
             }
-            return slice(buffer, 0,j);
+
+            return dst;
         }
 
         Outcome ParseSymRow(TextLine src, ref uint seq, out ObjSymRow dst)
@@ -108,7 +104,7 @@ namespace Z0.llvm
                     dst.Offset = hex;
                     var pos = k + 1 + 8 + 2;
                     SymCodes.ExprKind(content[pos].ToString(), out dst.Code);
-                    dst.Kind = NmSymCalcs.kind(dst.Code);
+                    dst.Kind = ObjSymCalcs.kind(dst.Code);
                     dst.Name = text.right(content, pos + 1).Trim();
                 }
             }

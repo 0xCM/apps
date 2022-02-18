@@ -28,7 +28,7 @@ namespace Z0.Asm
         public MemoryAddress IP
         {
             [MethodImpl(Inline)]
-            get => Block.Location + BlockOffset;
+            get => (MemoryAddress)Block.Location + BlockOffset;
         }
 
         public MemoryAddress RIP

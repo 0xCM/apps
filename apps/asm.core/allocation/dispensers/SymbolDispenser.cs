@@ -10,9 +10,7 @@ namespace Z0
     {
         const uint Capacity = PageBlock.PageSize;
 
-        readonly ConcurrentDictionary<string,LocatedSymbol> NameLookup;
-
-        readonly ConcurrentDictionary<MemoryAddress,LocatedSymbol> AddressLookup;
+        readonly ConcurrentDictionary<SymAddress,LocatedSymbol> Lookup;
 
         readonly Dictionary<long,LabelAllocator> Allocators;
 
@@ -20,75 +18,59 @@ namespace Z0
 
         internal SymbolDispenser(uint capacity = Capacity)
         {
-            NameLookup = new();
             Allocators = new();
-            AddressLookup = new();
+            Lookup = new();
             locker = new();
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
 
         public LocatedSymbol Dispense(MemoryAddress location, @string name)
+            => Dispense(SymAddress.define(location), name);
+
+        public LocatedSymbol Dispense(SymAddress location, @string name)
         {
-            var symbol = CreateSymbol(location,name);
-            NameLookup[name] = symbol;
-            AddressLookup[location] = symbol;
-            return symbol;
-        }
-
-        public LocatedSymbol this[@string name]
-        {
-            get
-            {
-                if(Search(name, out var symbol))
-                    return symbol;
-                else
-                    return LocatedSymbol.Empty;
-            }
-        }
-
-        public LocatedSymbol this[MemoryAddress name]
-        {
-            get
-            {
-                if(Search(name, out var symbol))
-                    return symbol;
-                else
-                    return LocatedSymbol.Empty;
-            }
-        }
-
-        public LocatedSymbol Relocate(LocatedSymbol src, MemoryAddress dst)
-        {
-            var name = src.Name.Format();
-            if(AddressLookup.Remove(src.Location, out var removed) && NameLookup.Remove(name, out _))
-            {
-                var symbol = new LocatedSymbol(dst, src.Name);
-                NameLookup.TryAdd(name, symbol);
-                AddressLookup.TryAdd(dst,symbol);
-                return symbol;
-            }
-            return src;
-        }
-
-        public bool Search(MemoryAddress location, out LocatedSymbol dst)
-            => AddressLookup.TryGetValue(location, out dst);
-
-        public bool Search(@string name, out LocatedSymbol dst)
-            => NameLookup.TryGetValue(name, out dst);
-
-        public bool Locate(@string name, out MemoryAddress location)
-        {
-            if(NameLookup.TryGetValue(name, out var symbol))
-            {
-                location = symbol.Location;
-                return true;
-            }
+            if(Lookup.TryGetValue(location, out var found))
+                return found;
             else
             {
-                location = MemoryAddress.Zero;
-                return false;
+                var symbol = CreateSymbol(location, name);
+                Lookup[location] = symbol;
+                return symbol;
             }
         }
+
+       public uint Count
+            => (uint)Lookup.Count;
+
+        public ICollection<LocatedSymbol> Dispensed()
+            => Lookup.Values;
+
+        public void Dispensed(Span<LocatedSymbol> dst)
+        {
+            var i=0;
+            var max = dst.Length;
+            var dispensed = Dispensed();
+            foreach(var symbol in dispensed)
+            {
+                if(i < max)
+                    seek(dst,i++) = symbol;
+            }
+        }
+
+        // public LocatedSymbol Relocate(LocatedSymbol src, MemoryAddress dst)
+        // {
+        //     var name = src.Name.Format();
+        //     if(Lookup.Remove(src.Address, out var removed))
+        //     {
+        //         var symbol = new LocatedSymbol(dst, src.Name);
+        //         Lookup.TryAdd(dst,symbol);
+        //         return symbol;
+        //     }
+        //     return src;
+        // }
+
+        public bool Search(SymAddress location, out LocatedSymbol dst)
+            => Lookup.TryGetValue(location, out dst);
 
         void IDisposable.Dispose()
         {
@@ -111,7 +93,7 @@ namespace Z0
             return label;
         }
 
-        LocatedSymbol CreateSymbol(MemoryAddress location, @string name)
+        LocatedSymbol CreateSymbol(SymAddress location, @string name)
             => new LocatedSymbol(location, Allocate(name));
 
         static long Seq;

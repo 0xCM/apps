@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-    using System;
-
-    using static Root;
-
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct AddressHash : IRecord<AddressHash>, IComparable<AddressHash>
     {

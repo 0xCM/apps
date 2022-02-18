@@ -8,20 +8,29 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static LocatedSymbol anonymous(MemoryAddress location)
-            => new LocatedSymbol(location, Label.Empty);
-
-        public readonly uint Id;
-
-        public readonly MemoryAddress Location;
-
-        public readonly Label Name;
+            => new LocatedSymbol(SymAddress.define(location), Label.Empty);
 
         [MethodImpl(Inline)]
-        public LocatedSymbol(MemoryAddress location, Label name)
+        public static LocatedSymbol define(MemoryAddress location, Label name)
+            => new LocatedSymbol(SymAddress.define(location),name);
+
+        [MethodImpl(Inline)]
+        public static LocatedSymbol define(uint selector, MemoryAddress location, Label name)
+            => new LocatedSymbol(SymAddress.define(selector,location), name);
+
+        [MethodImpl(Inline)]
+        public static LocatedSymbol define(SymAddress location, Label name)
+            => new LocatedSymbol(location, name);
+
+        public SymAddress Location {get;}
+
+        public Label Name {get;}
+
+        [MethodImpl(Inline)]
+        public LocatedSymbol(SymAddress address, Label name)
         {
             Name = name;
-            Location = location;
-            Id = alg.hash.combine((uint)location, (uint)name.Address);
+            Location = address;
         }
 
         public bool IsEmpty
@@ -52,16 +61,19 @@ namespace Z0
             => Format();
 
         public override int GetHashCode()
-            => (int)Id;
+            => (int)alg.hash.combine(Location.Hash, (uint)Name.Address);
 
         public override bool Equals(object src)
             => src is LocatedSymbol x && Equals(x);
 
         [MethodImpl(Inline)]
-        public static implicit operator LocatedSymbol(MemoryAddress loc)
-            => anonymous(loc);
+        public static implicit operator LocatedSymbol(MemoryAddress src)
+            => anonymous(src);
 
         public static LocatedSymbol Empty
-            => new LocatedSymbol(0, Label.Empty);
+        {
+            [MethodImpl(Inline)]
+            get => new LocatedSymbol(SymAddress.Zero, Label.Empty);
+        }
     }
 }

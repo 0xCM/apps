@@ -4,20 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct RelativeAddress<T> : ITextual, INullity
-        where T : unmanaged
+        where T : unmanaged, IAddress
     {
-        public MemoryAddress Base {get;}
+        public readonly MemoryAddress Base;
 
-        public T Offset {get;}
+        public readonly T Offset;
 
         [MethodImpl(Inline)]
-        internal RelativeAddress(MemoryAddress @base, T offset)
+        public RelativeAddress(MemoryAddress @base, T offset)
         {
             Base = @base;
             Offset = offset;
@@ -49,7 +44,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public string Format()
-            => RelativeAddress.format(this);
+            => EmptyString;
 
         public bool Equals(RelativeAddress<T> src)
             => Offset.Equals(src.Offset);

@@ -75,7 +75,6 @@ namespace Z0
             return Dispense(name, dst.Emit());
         }
 
-
         static long Seq;
 
         [MethodImpl(Inline)]

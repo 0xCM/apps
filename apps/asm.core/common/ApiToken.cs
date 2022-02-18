@@ -36,13 +36,13 @@ namespace Z0
         public uint EntryId
         {
             [MethodImpl(Inline)]
-            get => Entry.Id;
+            get => alg.hash.combine(Entry.Location.Hash, (uint)Entry.Name.Address);
         }
 
         public uint TargetId
         {
             [MethodImpl(Inline)]
-            get => Target.Id;
+            get => alg.hash.combine(Target.Location.Hash, (uint)Target.Name.Address);
         }
 
         public MemoryAddress EntryAddress

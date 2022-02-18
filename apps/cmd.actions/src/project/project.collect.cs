@@ -5,6 +5,7 @@
 namespace Z0
 {
     using Asm;
+    using llvm;
 
     using static core;
 
@@ -26,6 +27,35 @@ namespace Z0
         Outcome IndexFiles(CmdArgs args)
         {
             Projects.CatalogFiles(Project());
+            return true;
+        }
+
+        LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
+
+        [CmdOp("project/symbols")]
+        Outcome CacheObjSymbols(CmdArgs args)
+        {
+            using var dispenser = Alloc.symbols();
+            var project = Project();
+            var rows = LlvmNm.LoadSymRows(project);
+            var count = rows.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref rows[i];
+                ObjSymClass @class = row.Code;
+                var location = math.or((ulong)row.Offset, ((ulong)row.DocId << 32), (ulong)@class.Pack() << 42);
+                dispenser.Dispense(location, row.Name);
+            }
+
+            var dst = alloc<LocatedSymbol>(dispenser.Count);
+            dispenser.Dispensed(dst);
+
+            for(var i=0; i<dst.Length; i++)
+            {
+                ref readonly var symbol = ref skip(dst,i);
+                Write(symbol.Format());
+            }
+
             return true;
         }
 

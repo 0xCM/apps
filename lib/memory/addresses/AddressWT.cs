@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("address<w:{0},t:{1}>")]
     public readonly struct Address<W,T> : IAddress<Address<W,T>,T>
         where W : unmanaged, INumericWidth
@@ -16,10 +11,10 @@ namespace Z0
     {
         public T Location {get;}
 
-        public NumericWidth Size
+        public NativeSize Capacity
         {
             [MethodImpl(Inline)]
-            get => Widths.numeric<W>();
+            get => Sizes.native<T>();
         }
 
         ulong Location64

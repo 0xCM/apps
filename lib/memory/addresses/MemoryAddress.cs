@@ -4,15 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     [DataType(TypeSyntax.Address)]
     public unsafe readonly struct MemoryAddress : IAddress<MemoryAddress,ulong>
     {
+        public const NativeSizeCode StorageSize = NativeSizeCode.W64;
+
         public ulong Location {get;}
 
         [MethodImpl(Inline)]
@@ -22,6 +20,12 @@ namespace Z0
         [MethodImpl(Inline)]
         public MemoryAddress(void* pSrc)
             => Location = (ulong)pSrc;
+
+        public NativeSize Capacity
+        {
+            [MethodImpl(Inline)]
+            get => StorageSize;
+        }
 
         public bool IsEmpty
         {
