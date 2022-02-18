@@ -8,6 +8,7 @@ namespace Z0.Asm
 
     using static Hex8Kind;
     using static core;
+    using static AsmPrefixCodes;
 
     [ApiHost]
     public class AsmBytes
@@ -17,6 +18,7 @@ namespace Z0.Asm
             => core.slice(src.View, offset, size).ToArray();
 
         const NumericKind Closure = UnsignedInts;
+
 
         [Op]
         public static Hex64 identify(MemoryAddress ip, ReadOnlySpan<byte> encoding)

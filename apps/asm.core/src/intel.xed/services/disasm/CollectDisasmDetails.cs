@@ -15,35 +15,191 @@ namespace Z0
         public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
             => XedDisasmOps.LoadFileBlocks(src);
 
-        // public Outcome CalcDisasmDetails(in DisasmFileBlocks src, AsmDispenser dispenser, out Index<DisasmDetail> buffer)
-        // {
-        //     var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
-        //     var blocks = src.LineBlocks;
-        //     var count = blocks.Count;
-        //     buffer = alloc<DisasmDetail>(count);
-
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var block = ref blocks[i];
-        //         result = CalcDisasmDetail(block, dispenser, out buffer[i]);
-        //         if(result.Fail)
-        //             break;
-        //     }
-
-        //     return result;
-
-        // }
-
-        Outcome CalcDisasmDetail(in DisasmLineBlock src, AsmDispenser dispenser, out DisasmDetail dst)
+        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, AsmDispenser dispenser, out Index<DisasmDetail> buffer)
         {
-            dst = default;
-            var result = ParseInstruction(src, out var inst);
+            var blocks = src.LineBlocks;
+            var count = blocks.Count;
+            buffer = alloc<DisasmDetail>(count);
+
+            var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
             if(result.Fail)
                 return result;
 
+            if(encodings.RowCount != count)
+            {
+                result = (false, string.Format("{0} != {1}", count, encodings.RowCount));
+                return result;
+            }
+
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var block = ref blocks[i];
+                ref readonly var encoding =ref encodings[i];
+                result = CalcDisasmDetail(block, encoding, dispenser, out buffer[i]);
+                if(result.Fail)
+                    break;
+            }
 
             return result;
+        }
 
+        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, AsmDispenser dispenser, out DisasmDetail dst)
+        {
+            dst = default;
+            var result = ParseInstruction(block, out var inst);
+            if(result.Fail)
+            {
+                dst = default;
+                return result;
+            }
+
+            ref readonly var code = ref encoding.Encoded;
+
+            dst.Code =  dispenser.Code(encoding);
+            dst.IClass = inst.Class;
+            dst.IForm = inst.Form;
+
+            var parser = new XedOperandParser();
+            parser.ParseState(inst.Props.Edit, out var state);
+
+            var oc = state.nominal_opcode;
+            var ocpos = state.pos_nominal_opcode;
+            var ops = state.RuleOperands(code);
+            var srm = state.srm;
+            var ocsrm = (uint3)math.and((byte)srm, oc);
+            Require.equal(srm, ocsrm);
+
+            var ocbits = (eight)(byte)oc;
+
+            if(oc != code[ocpos])
+            {
+                result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", oc, state.modrm_byte));
+                return result;
+            }
+
+            dst.OpCode = ocbits;
+
+            var opcount = block.OperandCount;
+            dst.Operands = alloc<InstOperandDetail>(opcount);
+            for(var k=0; k<opcount; k++)
+            {
+                ref readonly var opsrc = ref skip(block.Operands, k);
+                result = parser.ParseInstOperand(opsrc.Content, out var op);
+                if(result.Fail)
+                    break;
+
+                ref var opdetail = ref dst.Operands[k];
+                opdetail.Op = op;
+
+                var title = string.Format("Op{0}", k);
+                var opwidth = OperandWidth(op.WidthType);
+                opdetail.Width = opwidth;
+                var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
+                var opname = XedRuleOps.name(op.Kind);
+                opdetail.RuleOpName = opname;
+                var opval = RuleOperand.Empty;
+                var opvalfmt = EmptyString;
+                if(ops.TryGetValue(opname, out opval))
+                {
+                    opdetail.RuleOp = opval;
+                    opvalfmt = opval.Format();
+                    if(opname == RuleOpName.RELBR)
+                    {
+                        var w = state.brdisp_width;
+                        var val = (Hex64)opval.Value;
+                        opvalfmt = val.Format();
+                        if(w <= 8)
+                            opvalfmt = ((byte)val).FormatHex();
+                        else if(w <= 16)
+                            opvalfmt = ((ushort)val).FormatHex();
+                        else if(w <= 32)
+                            opvalfmt = ((uint)val).FormatHex();
+                        else
+                            opvalfmt = val.Format();
+                    }
+                    opdetail.RuleOpInfo = opvalfmt;
+                }
+
+            }
+
+            if(ops.TryGetValue(RuleOpName.BASE0, out var @base))
+            {
+
+            }
+
+            if(ops.TryGetValue(RuleOpName.INDEX, out var index))
+            {
+
+            }
+
+            if(ops.TryGetValue(RuleOpName.SCALE, out var scale))
+            {
+
+            }
+
+            if(ops.TryGetValue(RuleOpName.DISP, out var disp))
+            {
+                dst.Disp = new Disp((long)disp.Value, Sizes.native(disp.Width));
+            }
+
+            if(ocpos != 0)
+            {
+                var prefix = slice(code.Bytes,0,ocpos);
+                dst.PrefixSize = (byte)prefix.Length;
+                for(var k=0; k<prefix.Length; k++)
+                {
+                    ref readonly var b = ref skip(prefix,k);
+                    if(AsmPrefixTests.opsz(b))
+                    {
+                        dst.SizeOverride = AsmPrefix.opsz();
+                    }
+                    else if(AsmPrefixTests.adsz(b))
+                    {
+                        dst.SizeOverride = AsmPrefix.adsz();
+                    }
+                }
+            }
+
+
+            dst.Rex = RexPrefix.Empty;
+            dst.ModRm = ModRm.Empty;
+            dst.Sib = Sib.Empty;
+
+            var has_rex = rex(state, out dst.Rex);
+            if(has_rex)
+            {
+
+            }
+
+            var has_modrm = modrm(state, out dst.ModRm);
+            if(has_modrm)
+            {
+                var modrmval = dst.ModRm;
+                if(modrmval.Value() != state.modrm_byte)
+                {
+                    result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", modrmval, state.modrm_byte));
+                    return result;
+                }
+
+                if(modrmval.Value() != code[state.pos_modrm])
+                {
+                    result = (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
+                    return result;
+                }
+            }
+
+            var has_sib = sib(state, out dst.Sib);
+            if(has_sib)
+            {
+                var sibenc = Sib.init(code[state.pos_sib]);
+                if(sibenc.Value() != dst.Sib.Value())
+                {
+                    result = (false, string.Format("Derived Sib value {0} differs from encoded value {1}", dst.Sib, sibenc));
+                    return result;
+                }
+            }
+
+            return result;
         }
 
         public Outcome CollectDisasmDetails(ProjectCollection collect)
@@ -91,9 +247,9 @@ namespace Z0
             dst.Append(string.Format(RenderPattern, "IForm", inst.Form));
         }
 
-        Outcome EmitDisasmDetails(AsmEncodingDoc src, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
+        Outcome EmitDisasmDetails(AsmEncodingDoc encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
         {
-            var encoded = src.View;
+            var encoded = encodings.View;
             var parser = new XedOperandParser();
             var count = (uint)Require.equal(encoded.Length, blocks.Length);
             var result = ParseInstructions(blocks, out var instructions);
@@ -114,7 +270,7 @@ namespace Z0
 
                 writer.WriteLine(RP.PageBreak120);
                 var header = text.buffer();
-                RenderHeader(src.Location, encoding, block, inst, code, header);
+                RenderHeader(encodings.Location, encoding, block, inst, code, header);
                 writer.WriteLine(header.Emit());
 
                 parser.ParseState(inst.Props.Edit, out var state);

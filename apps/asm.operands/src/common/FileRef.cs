@@ -49,6 +49,12 @@ namespace Z0
         public override int GetHashCode()
             => (int)HashCode;
 
+        public string Format()
+            => Path.ToUri().Format();
+
+        public override string ToString()
+            => Format();
+
         uint ISequential.Seq
             => DocId;
 

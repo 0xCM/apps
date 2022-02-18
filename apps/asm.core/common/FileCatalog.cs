@@ -58,6 +58,9 @@ namespace Z0
             PathRefs = new();
         }
 
+        public Index<FileRef> Entries(FileKind kind)
+            => Entries().Where(e => e.Kind == kind);
+
         public Index<FileRef> Entries()
             => map(IdMap.Keys, Entry).Sort();
 

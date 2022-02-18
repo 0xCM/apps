@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct AsmCode
     {
+        public readonly Hex64 Id;
+
         public readonly SourceText Asm;
 
         public readonly MemoryAddress IP;
@@ -15,9 +16,10 @@ namespace Z0.Asm
         public readonly AsmHexRef Encoded;
 
         [MethodImpl(Inline)]
-        public AsmCode(SourceText asm, MemoryAddress loc, AsmHexRef code)
+        public AsmCode(SourceText asm, MemoryAddress ip, AsmHexRef code)
         {
-            IP = loc;
+            Id = AsmBytes.identify(ip, code.View);
+            IP = ip;
             Asm = asm;
             Encoded = code;
         }
@@ -37,9 +39,7 @@ namespace Z0.Asm
         public string Format()
         {
             var dst = text.buffer();
-            dst.AppendFormat("{0,-8}", IP);
-            dst.AppendFormat("{0,-80}", Asm);
-            dst.AppendFormat("# {0}", Encoded.Format());
+            dst.AppendFormat("{0,-48} # {1,-18} | {2,-12} | {3,-8} | {4,-24}", Asm, Id, IP, EncodingSize, Encoded.Format());
             return dst.Emit();
         }
 

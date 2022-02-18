@@ -28,6 +28,64 @@ namespace Z0
             Projects.CatalogFiles(Project());
             return true;
         }
+
+        [CmdOp("xed/collect")]
+        Outcome XedCollect(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var project = Project();
+            var catalog = project.FileCatalog();
+            var files = catalog.Entries(FileKind.XedRawDisasm);
+            var count = files.Count;
+            using var dispenser = Alloc.asm();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var file = ref files[i];
+                var blocks = XedDisasm.LoadDisamBlocks(file);
+                result = XedDisasmOps.ParseEncodings(file, out var encodings);
+                var rows = encodings.View;
+
+                Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
+
+                result = XedDisasm.CalcDisasmDetails(blocks, dispenser, out var details);
+                    if(result.Fail)
+                        break;
+
+                for(var j=0; j<rows.Length; j++)
+                {
+                    ref readonly var detail = ref details[j];
+                    ref readonly var code = ref detail.Code;
+                    ref readonly var id = ref code.Id;
+                    ref readonly var iform = ref detail.IForm;
+                    ref readonly var asm = ref code.Asm;
+                    ref readonly var rex = ref detail.Rex;
+                    ref readonly var modrm = ref detail.ModRm;
+                    ref readonly var hex = ref code.Encoded;
+                    ref readonly var opcode = ref detail.OpCode;
+                    ref readonly var sib = ref detail.Sib;
+                    ref readonly var szov = ref detail.SizeOverride;
+                    ref readonly var disp = ref detail.Disp;
+
+                    Write(string.Format("{0,-18} | {1,-36} | {2} | {3} | {4} | {5} | {6} | {7,-8} | {8}",
+                        id,
+                        hex,
+                        szov,
+                        rex.Value().FormatHex(2),
+                        opcode.FormatHex(2),
+                        modrm.Value().FormatHex(2),
+                        sib.Value().FormatHex(2),
+                        disp,
+                        asm
+                        ));
+
+                }
+
+                if(result.Fail)
+                    break;
+            }
+
+            return result;
+        }
     }
 
     public class AsmStatsCollector : ProjectEventReceiver

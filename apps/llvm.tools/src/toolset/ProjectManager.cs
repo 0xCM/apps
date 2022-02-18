@@ -6,6 +6,12 @@ namespace Z0
 {
     using Asm;
 
+    partial class XTend
+    {
+        public static FileCatalog FileCatalog(this IProjectWs src)
+            => Z0.FileCatalog.load(src);
+    }
+
     public class ProjectManager : AppService<ProjectManager>
     {
         llvm.LlvmNmSvc Nm => Service(Wf.LlvmNm);
@@ -47,7 +53,7 @@ namespace Z0
 
         public FileCatalog CatalogFiles(IProjectWs project, bool emit = true)
         {
-            var catalog = FileCatalog.load(project);
+            var catalog = project.FileCatalog();
             var entries = catalog.Entries();
             if(emit)
                 TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));

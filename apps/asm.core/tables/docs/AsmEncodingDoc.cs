@@ -11,12 +11,10 @@ namespace Z0
         {
         }
 
-        public static AsmEncodingDoc Empty
-        {
-            get => new AsmEncodingDoc(FS.FilePath.Empty, sys.empty<AsmEncodingRow>());
-        }
-
         public static implicit operator AsmEncodingDoc((FS.FilePath src, AsmEncodingRow[] rows) x)
             => new AsmEncodingDoc(x.src,x.rows);
+
+        public static AsmEncodingDoc Empty
+            => new AsmEncodingDoc(FS.FilePath.Empty, sys.empty<AsmEncodingRow>());
     }
 }
