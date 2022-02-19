@@ -30,16 +30,28 @@ namespace Z0
         {
             using var dispenser = Alloc.symbols();
             var project = Project();
-            var rows = CoffServices.LoadSymbols(project);
-            var headers = CoffServices.LoadHeaders(project);
-
-            var symbols =  CoffObjects.symbolize(rows, dispenser);
-            var locations = symbols.Keys;
-
-            foreach(var header in headers)
+            var context = CollectionContext.create(project);
+            var files = context.Files.Entries();
+            var count = files.Count;
+            for(var i=0; i<count; i++)
             {
-                Write(string.Format("{0,-6} | {1,-8} | {2}",  header.DocId, header.SectionNumber, header.SectionName));
+                ref readonly var file = ref files[i];
+                var obj = CoffServices.LoadObjData(file);
+                var headers = CoffServices.CalcObjHeaders(file);
             }
+
+
+
+            // var rows = CoffServices.LoadSymbols(project);
+            // var headers = CoffServices.LoadHeaders(project);
+
+            // var symbols =  CoffObjects.symbolize(rows, dispenser);
+            // var locations = symbols.Keys;
+
+            // foreach(var header in headers)
+            // {
+            //     Write(string.Format("{0,-6} | {1,-8} | {2}",  header.DocId, header.SectionNumber, header.SectionName));
+            // }
 
             // foreach(var loc in locations)
             // {

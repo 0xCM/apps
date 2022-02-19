@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public abstract class FileData<T>
     {
         readonly Dictionary<FS.FilePath,T> Data;

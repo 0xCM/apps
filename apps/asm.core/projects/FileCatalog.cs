@@ -17,10 +17,10 @@ namespace Z0
         public static FileCatalog create()
             => new();
 
-        public static FileCatalog load(IProjectWs project)
+        public static FileCatalog load(IProjectWs src)
         {
             var dst = create();
-            dst.Include(project);
+            dst.Include(src);
             return dst;
         }
 
@@ -64,8 +64,14 @@ namespace Z0
             PathRefs = new();
         }
 
-        public Index<FileRef> Entries(FileKind kind)
-            => Entries().Where(e => e.Kind == kind);
+        public Index<FileRef> Entries(FileKind k0)
+            => Entries().Where(e => e.Kind == k0);
+
+        public Index<FileRef> Entries(FileKind k0, FileKind k1)
+            => Entries().Where(e => e.Kind == k0 || e.Kind == k1);
+
+        public Index<FileRef> Entries(FileKind k0, FileKind k1, FileKind k2)
+            => Entries().Where(e => e.Kind == k0 || e.Kind == k1 || e.Kind == k2);
 
         public Index<FileRef> Entries()
             => map(IdMap.Keys, Entry).Sort();

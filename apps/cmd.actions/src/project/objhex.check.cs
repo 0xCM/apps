@@ -4,10 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
     partial class ProjectCmdProvider
     {
-        [CmdOp("objhex/check")]
+        [CmdOp("check/objhex")]
         Outcome CheckObjHex(CmdArgs args)
-            => CoffServices.CheckObjHex(Project());
+        {
+
+            var project = Project();
+
+            var context = CollectionContext.create(project);
+            var result = CoffServices.CheckObjHex(context);
+
+            return result;
+
+        }
     }
 }

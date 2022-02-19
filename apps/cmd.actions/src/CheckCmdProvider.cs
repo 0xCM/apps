@@ -17,5 +17,8 @@ namespace Z0
         Parsers Parsers => Service(Wf.Parsers);
 
         ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
+
+        CoffServices CoffServices => Service(Wf.CoffServices);
+
     }
 }

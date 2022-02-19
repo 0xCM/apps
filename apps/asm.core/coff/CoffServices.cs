@@ -26,34 +26,37 @@ namespace Z0
             CollectHeaders(collect);
         }
 
+        FS.FolderPath ObjHexDir(IProjectWs project)
+            => ProjectDb.ProjectData(string.Format("{0}.objhex", project.Name));
+
         public Outcome CollectObjHex(CollectionContext collect)
         {
+            var outdir = ObjHexDir(collect.Project);
+            outdir.Clear();
             var result = Outcome.Success;
             var project = collect.Project;
-            var paths = project.OutFiles(FileKind.Obj, FileKind.O).View;
-            var count = paths.Length;
+            var files = collect.Files.Entries(FileKind.Obj, FileKind.O);
+            var count = files.Count;
             for(var i=0; i<count; i++)
             {
-                ref readonly var src = ref skip(paths,i);
-                var srcid = text.ifempty(src.SrcId(FileKind.Obj, FileKind.O), src.FileName.WithoutExtension.Format());
-                var dst = ProjectDb.ProjectData(scope(project)) + FS.file(srcid, FileKind.HexDat.Ext());
+                ref readonly var file = ref files[i];
+                ref readonly var path = ref file.Path;
+                var srcid = text.ifempty(path.SrcId(FileKind.Obj, FileKind.O), path.FileName.WithoutExtension.Format());
+                var dst = outdir + FS.file(srcid, FileKind.HexDat.Ext());
                 var running = Running(string.Format("Emitting {0}", dst));
                 using var writer = dst.AsciWriter();
-                var data = src.ReadBytes();
+                var data = path.ReadBytes();
                 var lines = Formatter.FormatLines(data);
                 iter(lines, line => writer.WriteLine(line));
-                Ran(running, string.Format("coffobj:{0} -> {1}", src.ToUri(), dst.ToUri()));
+                Ran(running, string.Format("coffobj:{0} -> {1}", path.ToUri(), dst.ToUri()));
             }
 
             return result;
         }
 
-        static string scope(IProjectWs project)
-            => string.Format("{0}.{1}", project.Name, "objhex");
-
-        public HexFileData LoadObjHex(IProjectWs project)
+        public HexFileData LoadObjHex(CollectionContext context)
         {
-            var src = ProjectDb.ProjectDataFiles(project, scope(project), FileKind.HexDat.Ext());
+            var src = ObjHexDir(context.Project).Files(FileKind.HexDat.Ext());
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
@@ -65,18 +68,21 @@ namespace Z0
             return dst;
         }
 
-        public CoffObjectData LoadObjData(IProjectWs project)
+        public CoffObjectData LoadObjData(FileCatalog src)
         {
-            var src = project.OutFiles(FileKind.Obj, FileKind.O);
-            var count = src.Length;
+            var files = src.Entries(FileKind.Obj, FileKind.O);
+            var count = files.Count;
             var dst = dict<FS.FilePath,CoffObject>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var path = ref src[i];
-                dst[path] = CoffObjects.Load(path);
+                ref readonly var file = ref files[i];
+                dst[file.Path] = CoffObjects.Load(file);
             }
             return dst;
         }
+
+        public CoffObject LoadObjData(in FileRef fref)
+            => CoffObjects.Load(fref);
 
         public CoffSectionKind CalcSectionKind(string name)
         {
@@ -86,30 +92,46 @@ namespace Z0
             return kind;
         }
 
-        public static uint CalcSectionId(uint docid, ushort number, asci8 name, CoffSectionKind kind)
+        public Index<CoffSection> CalcObjHeaders(in FileRef fref)
         {
-            var lo = (uint)(ushort)docid;
-            var _kind = (uint)kind;
-            if(kind == CoffSectionKind.Unknown)
-            {
-                var chars = name.View;
-                var count = chars.Length;
-                for(var i=0; i<chars.Length; i++)
-                    kind += skip(chars,i);
-            }
-
-            var shifta = (byte)Pow2.log(Pow2.next(docid));
-            var shiftb = (byte)(Pow2.log(Pow2.next(number)) + shifta);
-            var result = docid;
-            result |= ((uint)number << shifta);
-            result |= (_kind << shiftb);
-            return result;
+            var records = list<CoffSection>();
+            var seq = 0u;
+            CalcObjHeaders(fref,ref seq, records);
+            return records.ToArray();
         }
 
-        public Index<CoffSection> CalcHeaders(CollectionContext context)
+        void CalcObjHeaders(in FileRef fref, ref uint seq, List<CoffSection> records)
+        {
+            var obj = LoadObjData(fref);
+            var view = CoffObjectView.cover(obj.Data);
+            ref readonly var header = ref view.Header;
+            var strings = view.StringTable;
+            var sections = view.SectionHeaders;
+            for(var j=0u; j<sections.Length; j++)
+            {
+                ref readonly var section = ref skip(sections,j);
+                var number = j+1 ;
+                var name = CoffObjects.format(strings, section.Name);
+                var record = default(CoffSection);
+                record.Seq = seq++;
+                record.DocId = fref.DocId;
+                record.SectionNumber = (ushort)number;
+                record.SectionName = name;
+                record.SectionKind = CalcSectionKind(name);
+                record.SectionId = CalcSectionId(record.DocId, record.SectionNumber);
+                record.RawDataAddress = section.PointerToRawData;
+                record.RawDataSize = section.SizeOfRawData;
+                record.RelocAddress = section.PointerToRelocations;
+                record.RelocCount = section.NumberOfRelocations;
+                record.Flags = section.Characteristics;
+                records.Add(record);
+            }
+        }
+
+        public Index<CoffSection> CalcObjHeaders(CollectionContext context)
         {
             var project = context.Project;
-            var src = LoadObjData(project);
+            var src = LoadObjData(context.Files);
             var entries = src.Entries;
             var count = entries.Count;
             var records = list<CoffSection>();
@@ -124,25 +146,7 @@ namespace Z0
                 ref readonly var header = ref view.Header;
                 var strings = view.StringTable;
                 var sections = view.SectionHeaders;
-                for(var j=0u; j<sections.Length; j++)
-                {
-                    ref readonly var section = ref skip(sections,j);
-                    var number = j+1 ;
-                    var name = CoffObjects.format(strings, section.Name);
-                    var record = default(CoffSection);
-                    record.Seq = seq++;
-                    record.DocId = fref.DocId;
-                    record.SectionNumber = (ushort)number;
-                    record.SectionName = name;
-                    record.SectionKind = CalcSectionKind(name);
-                    record.SectionId = CalcSectionId(record.DocId, record.SectionNumber, section.Name.String, record.SectionKind);
-                    record.RawDataAddress = section.PointerToRawData;
-                    record.RawDataSize = section.SizeOfRawData;
-                    record.RelocAddress = section.PointerToRelocations;
-                    record.RelocCount = section.NumberOfRelocations;
-                    record.Flags = section.Characteristics;
-                    records.Add(record);
-                }
+                CalcObjHeaders(fref, ref seq, records);
             }
 
             return records.ToArray();
@@ -150,7 +154,7 @@ namespace Z0
 
         public Outcome CollectHeaders(CollectionContext context)
         {
-            var records = CalcHeaders(context);
+            var records = CalcObjHeaders(context);
             var dst = ProjectDb.ProjectTable<CoffSection>(context.Project);
             TableEmit(records.View, CoffSection.RenderWidths, dst);
             return true;
@@ -172,6 +176,7 @@ namespace Z0
                 DataParser.parse(reader.Next(), out row.Seq).Require();
                 DataParser.parse(reader.Next(), out row.DocId).Require();
                 DataParser.parse(reader.Next(), out row.SectionNumber).Require();
+                DataParser.parse(reader.Next(), out row.SectionId).Require();
                 DataParser.parse(reader.Next(), out row.Address).Require();
                 DataParser.parse(reader.Next(), out row.SymSize).Require();
                 DataParser.parse(reader.Next(), out row.Value).Require();
@@ -210,15 +215,13 @@ namespace Z0
             return dst;
         }
 
-        public Outcome CollectSymbols(CollectionContext collect)
-            => CollectSymbols(collect.Project, collect.Files);
-
-        public Outcome CheckObjHex(IProjectWs project)
+        public Outcome CheckObjHex(CollectionContext context)
         {
             var result = Outcome.Success;
-            var hexSrc = LoadObjHex(project);
+            var hexSrc = LoadObjHex(context);
             var hexDat = hexSrc.ToLookup(FileKind.HexDat);
-            var objSrc = LoadObjData(project);
+            var objSrc = LoadObjData(context.Files);
+
             if(hexSrc.Count != objSrc.Count)
                 result = (false,string.Format("Counts differ"));
 
@@ -252,12 +255,20 @@ namespace Z0
             return result;
         }
 
-        Outcome CollectSymbols(IProjectWs project, FileCatalog files)
+        [MethodImpl(Inline)]
+        static uint CalcSectionId(uint docid, ushort section)
         {
-            var src = LoadObjData(project);
+            var hi = (section > Pow2.T15) ? ((uint)(ushort.MaxValue - section) + byte.MaxValue) : (uint)section;
+            return docid | hi << 16;
+        }
+
+        Outcome CollectSymbols(CollectionContext context)
+        {
+            var src = LoadObjData(context.Files);
+            var files = context.Files;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
-            var path = ProjectDb.ProjectTable<CoffSymRecord>(project);
+            var path = ProjectDb.ProjectTable<CoffSymRecord>(context.Project);
             var formatter = Tables.formatter<CoffSymRecord>(CoffSymRecord.RenderWidths);
             var seq = 0u;
             var emitting = EmittingFile(path);
@@ -291,7 +302,7 @@ namespace Z0
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.SectionNumber = sym.Section;
-                        //record.SectionName = sym.s
+                        record.SectionId = CalcSectionId(record.DocId, record.SectionNumber);
                         record.Value = sym.Value;
                         record.SymClass = sym.Class;
                         record.AuxCount = sym.NumberOfAuxSymbols;

@@ -11,13 +11,15 @@ namespace Z0
     {
         public const string TableId = "coff.symbols";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 10;
 
         public uint Seq;
 
         public uint DocId;
 
         public ushort SectionNumber;
+
+        public Hex32 SectionId;
 
         public Address32 Address;
 
@@ -31,6 +33,6 @@ namespace Z0
 
         public @string Name;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,16,10,8,10,16,8,48};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,16,16,10,8,10,16,8,48};
     }
 }

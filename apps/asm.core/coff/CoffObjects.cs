@@ -167,8 +167,12 @@ namespace Z0
             => slice(recover<CoffSymbol>(slice(src,offset)), 0, count);
 
         [MethodImpl(Inline), Op]
+        public static CoffObject Load(in FileRef fref)
+            => new CoffObject(fref.DocId, fref.Path.Ext == FS.Obj ? fref.Path.SrcId(FileKind.Obj) : fref.Path.SrcId(FileKind.O), fref.Path, fref.Path.ReadBytes());
+
+        [MethodImpl(Inline), Op]
         public static CoffObject Load(FS.FilePath path)
-            => new CoffObject(path.Ext == FS.Obj ? path.SrcId(FileKind.Obj) : path.SrcId(FileKind.O), path, path.ReadBytes());
+            => new CoffObject(0,path.Ext == FS.Obj ? path.SrcId(FileKind.Obj) : path.SrcId(FileKind.O), path, path.ReadBytes());
 
         [MethodImpl(Inline), Op]
         public static Timestamp timestamp(Hex32 src)

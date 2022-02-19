@@ -6,14 +6,17 @@ namespace Z0
 {
     public class CoffObject
     {
+        public uint DocId;
+
         public Identifier SrcId;
 
         public FS.FilePath Path;
 
         public BinaryCode Data;
 
-        internal CoffObject(Identifier id, FS.FilePath path, BinaryCode data)
+        internal CoffObject(uint docid, Identifier id, FS.FilePath path, BinaryCode data)
         {
+            DocId = docid;
             SrcId = id;
             Path = path;
             Data = data;
@@ -38,6 +41,6 @@ namespace Z0
         }
 
         public static CoffObject Empty
-            => new CoffObject(Identifier.Empty, FS.FilePath.Empty, BinaryCode.Empty);
+            => new CoffObject(0,Identifier.Empty, FS.FilePath.Empty, BinaryCode.Empty);
     }
 }

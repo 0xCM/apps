@@ -50,7 +50,6 @@ namespace Z0
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
-
         FS.Files _Files;
 
         FS.Files Files()
