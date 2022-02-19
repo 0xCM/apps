@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-
     [Free, SFx]
     public interface IBinaryRefOp<W,T> : IFuncWT<W,T>
         where W : unmanaged, ITypeWidth

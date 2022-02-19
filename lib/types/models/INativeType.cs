@@ -2,11 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Ops
+namespace Z0
 {
-    [Free]
-    public interface IBinaryBitLogicOp<F,T> : IBinaryOpExpr<F,BinaryBitLogicKind,T,T>
-        where F : IBinaryBitLogicOp<F,T>
+    public interface INativeType
+    {
+        NativeSize Size {get;}
+    }
+
+    public interface INativeType<T> : INativeType, IEquatable<T>
+        where T : unmanaged, INativeType<T>
     {
 
     }

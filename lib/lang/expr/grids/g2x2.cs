@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
     using static expr;
-    using static Root;
     using static core;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), DataType("g2x2<t:{0}>")]

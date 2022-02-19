@@ -4,38 +4,24 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
     using static expr;
 
     /// <summary>
-    /// Defines a 7-cell T-vector
+    /// Defines a 1-cell T-vector
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct v7<T> : IVector<T>
+    public struct v1<T> : IVector<T>
         where T : unmanaged
     {
-        v6<T> A;
+        T C0;
 
-        v1<T> B;
-
-        public uint N => 7;
-
-        public BitWidth StorageWidth
+        [MethodImpl(Inline)]
+        public v1(T src)
         {
-            [MethodImpl(Inline)]
-            get => N*size<T>();
+            C0 = src;
         }
 
-        public BitWidth ContentWidth
-        {
-            [MethodImpl(Inline)]
-            get => StorageWidth;
-        }
+        public uint N => 1;
 
         public Span<T> Cells
         {
@@ -49,10 +35,26 @@ namespace Z0.Expr
             get => ref seek(Cells, i);
         }
 
+        public BitWidth StorageWidth
+        {
+            [MethodImpl(Inline)]
+            get => N*size<T>();
+        }
+
+        public BitWidth ContentWidth
+        {
+            [MethodImpl(Inline)]
+            get => StorageWidth;
+        }
+
         public string Format()
             => format(this);
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator v1<T>(T src)
+            => new v1<T>(src);
     }
 }

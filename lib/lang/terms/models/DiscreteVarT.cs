@@ -4,14 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
-
-    using api = Terms;
-
     public class DiscreteVar<T> : IVar<T>
         where T : IExpr
     {

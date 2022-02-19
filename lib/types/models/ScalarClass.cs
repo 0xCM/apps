@@ -13,18 +13,18 @@ namespace Z0
         None,
 
         [Symbol("b", "Designates a bit type")]
-        B = 1,
+        B,
 
         [Symbol("u", "Designates an unsigned integer type")]
-        U = 2,
+        U,
 
         [Symbol("i", "Designates a signed integer type")]
-        I = 4,
+        I,
 
         [Symbol("f", "Designates a floating point type")]
-        F = 8,
+        F,
 
         [Symbol("c", "Designates a character type")]
-        C = 16,
+        C,
     }
 }

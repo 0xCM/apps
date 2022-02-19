@@ -37,10 +37,6 @@ namespace Z0
         public static ScalarBitSeqType bits(uint content, NativeSize storage)
             => new ScalarBitSeqType(content,storage);
 
-        [MethodImpl(Inline), Op]
-        public static NaturalType natural(ulong value)
-            => new NaturalType(value);
-
         [Op]
         public static ScalarType c(BitWidth n)
         {

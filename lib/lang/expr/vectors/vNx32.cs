@@ -4,23 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static expr;
 
     /// <summary>
-    /// Represents a finite sequence of 128-bit values
+    /// Represents a finite sequence of 32-bit values
     /// </summary>
-    public struct vNx128<T> : IVector<T>
+    public struct vNx32<T> : IVector<T>
         where T : unmanaged
     {
         readonly Index<T> Data;
 
         [MethodImpl(Inline)]
-        internal vNx128(T[] cells)
+        internal vNx32(T[] cells)
         {
             Data = cells;
         }
@@ -30,7 +26,6 @@ namespace Z0.Expr
             [MethodImpl(Inline)]
             get => Data.Edit;
         }
-
         public ref T this[uint index]
         {
             [MethodImpl(Inline)]
@@ -48,9 +43,9 @@ namespace Z0.Expr
             => ref Data[index];
 
         BitWidth ISizedValue.StorageWidth
-            => Cells.Length*width<T>();
+            => Data.Length*width<T>();
 
         BitWidth ISizedValue.ContentWidth
-            => Cells.Length*128;
+            => Data.Length*32;
     }
 }

@@ -4,26 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-
-    using static Root;
     using static core;
     using static expr;
 
     /// <summary>
-    /// Defines a 64-cell T-vector
+    /// Defines a 10-cell T-vector
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct v64<T> : IVector<T>
+    public struct v10<T> : IVector<T>
         where T : unmanaged
     {
-        v32<T> A;
+        v5<T> A;
 
-        v32<T> B;
+        v5<T> B;
 
-        public uint N => 64;
+        public uint N => 10;
 
         public BitWidth StorageWidth
         {

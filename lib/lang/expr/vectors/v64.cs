@@ -4,40 +4,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static expr;
 
     /// <summary>
-    /// Defines a 1-cell T-vector
+    /// Defines a 64-cell T-vector
     /// </summary>
-    public struct v1<T> : IVector<T>
+    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    public struct v64<T> : IVector<T>
         where T : unmanaged
     {
-        T C0;
+        v32<T> A;
 
-        [MethodImpl(Inline)]
-        public v1(T src)
-        {
-            C0 = src;
-        }
+        v32<T> B;
 
-        public uint N => 1;
-
-        public Span<T> Cells
-        {
-            [MethodImpl(Inline)]
-            get => cells(ref this);
-        }
-
-        public ref T this[uint i]
-        {
-            [MethodImpl(Inline)]
-            get => ref seek(Cells, i);
-        }
+        public uint N => 64;
 
         public BitWidth StorageWidth
         {
@@ -51,14 +32,22 @@ namespace Z0.Expr
             get => StorageWidth;
         }
 
+        public Span<T> Cells
+        {
+            [MethodImpl(Inline)]
+            get => cells(ref this);
+        }
+
+        public ref T this[uint i]
+        {
+            [MethodImpl(Inline)]
+            get => ref seek(Cells, i);
+        }
+
         public string Format()
             => format(this);
 
         public override string ToString()
             => Format();
-
-        [MethodImpl(Inline)]
-        public static implicit operator v1<T>(T src)
-            => new v1<T>(src);
     }
 }

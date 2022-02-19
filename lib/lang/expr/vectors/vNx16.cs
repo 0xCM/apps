@@ -4,24 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Expr
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
     using static expr;
 
     /// <summary>
-    /// Represents a finite sequence of 1-bit values covered byte <typeparamref='T'/> storage cells
+    /// Represents a finite sequence of 16-bit values
     /// </summary>
-    /// <typeparam name="T">The storage cell type</param>
-    public struct vNx1<T> : IVector<T>
+    public struct vNx16<T> : IVector<T>
         where T : unmanaged
     {
         readonly Index<T> Data;
 
         [MethodImpl(Inline)]
-        internal vNx1(T[] cells)
+        internal vNx16(T[] cells)
         {
             Data = cells;
         }
@@ -44,6 +39,7 @@ namespace Z0.Expr
             get => Data.Count;
         }
 
+
         [MethodImpl(Inline)]
         public ref T Cell(uint index)
             => ref Data[index];
@@ -52,6 +48,6 @@ namespace Z0.Expr
             => Data.Length*width<T>();
 
         BitWidth ISizedValue.ContentWidth
-            => Data.Length*1;
+            => Data.Length*16;
     }
 }
