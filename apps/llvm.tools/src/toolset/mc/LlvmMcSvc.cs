@@ -26,7 +26,7 @@ namespace Z0.llvm
 
         }
 
-        public Outcome Collect(ProjectCollection collect)
+        public Outcome Collect(CollectionContext collect)
         {
             var result = Outcome.Success;
             var project = collect.Project;
@@ -42,7 +42,7 @@ namespace Z0.llvm
         public McAsmDoc ParseAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseAsmDoc(src);
 
-        public Index<McAsmDoc> CollectSyntaxSources(ProjectCollection collect)
+        public Index<McAsmDoc> CollectSyntaxSources(CollectionContext collect)
         {
             var src = SyntaxSourcePaths(collect.Project).View;
             var count = src.Length;
@@ -52,7 +52,7 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public Outcome CollectInstructions(ProjectCollection collect)
+        public Outcome CollectInstructions(CollectionContext collect)
         {
             var project = collect.Project;
             var result = Outcome.Success;
@@ -93,7 +93,7 @@ namespace Z0.llvm
             return result;
         }
 
-        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(ProjectCollection collect)
+        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(CollectionContext collect)
         {
             var project = collect.Project;
             var result = Outcome.Success;
@@ -136,7 +136,7 @@ namespace Z0.llvm
             return _docs;
         }
 
-        public McAsmSyntaxDocs CollectSyntaxLogs(ProjectCollection collect)
+        public McAsmSyntaxDocs CollectSyntaxLogs(CollectionContext collect)
         {
             var project = collect.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
@@ -160,7 +160,7 @@ namespace Z0.llvm
             return docs;
         }
 
-        public ConstLookup<FS.FilePath,McAsmDoc> CollectSyntaxTrees(ProjectCollection collect)
+        public ConstLookup<FS.FilePath,McAsmDoc> CollectSyntaxTrees(CollectionContext collect)
         {
             var result = Outcome.Success;
             var project = collect.Project;
@@ -391,7 +391,7 @@ namespace Z0.llvm
             return result;
         }
 
-        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncodingSources(ProjectCollection collect)
+        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncodingSources(CollectionContext collect)
         {
             var src = EncodingSourcePaths(collect.Project).View;
             var count = src.Length;
@@ -419,7 +419,7 @@ namespace Z0.llvm
             return dst;
         }
 
-        void ParseSyntaxLogRows(ProjectCollection collect, in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
+        void ParseSyntaxLogRows(CollectionContext collect, in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
         {
             var src = fref.Path;
             const string EntryMarker = "note: parsed instruction:";

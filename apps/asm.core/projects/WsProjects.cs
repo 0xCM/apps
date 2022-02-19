@@ -36,6 +36,24 @@ namespace Z0
             }
         }
 
+        public FileCatalog EmitCatalog(IProjectWs project)
+        {
+            var catalog = project.FileCatalog();
+            EmitCatalog(project,catalog);
+            return catalog;
+        }
+
+        void EmitCatalog(IProjectWs project, FileCatalog catalog)
+        {
+            var entries = catalog.Entries();
+            TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
+        }
+
+        public void EmitCatalog(CollectionContext context)
+        {
+            EmitCatalog(context.Project, context.Files);
+        }
+
         public FileKind Match(FS.FilePath src)
         {
             var name = src.FileName.Format().ToLower();
@@ -63,7 +81,7 @@ namespace Z0
             return dst;
         }
 
-        public new FS.Files ProjectFiles(IProjectWs ws, Subject? scope)
+        public FS.Files SourceFiles(IProjectWs ws, Subject? scope)
         {
             if(scope != null)
                 return ws.SrcFiles(scope.Value.Format());
@@ -80,7 +98,7 @@ namespace Z0
                 return result;
             }
 
-            var src = ProjectFiles(ws, scope).View;
+            var src = SourceFiles(ws, scope).View;
             if(result.Fail)
                 return result;
 
@@ -126,7 +144,7 @@ namespace Z0
             var cmdflows = list<ToolCmdFlow>();
             if(nonempty(scriptid))
             {
-                var files = ProjectFiles(project, scope);
+                var files = SourceFiles(project, scope);
                 int length = files.Length;
                 for(var i=0; i<length; i++)
                 {

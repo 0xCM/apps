@@ -23,7 +23,7 @@ namespace Z0.llvm
             SymKinds = Symbols.index<ObjSymKind>();
         }
 
-        public Outcome Collect(ProjectCollection collect)
+        public Outcome Collect(CollectionContext collect)
         {
             var result = Outcome.Success;
             var project = collect.Project;

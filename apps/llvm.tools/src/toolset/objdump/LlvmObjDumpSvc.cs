@@ -15,7 +15,9 @@ namespace Z0.llvm
 
         WsProjects WsProjects => Service(Wf.WsProjects);
 
-        CodeBanks CodeBanks => Service(Wf.CodeBanks);
+        ApiCodeBanks CodeBanks => Service(Wf.ApiCodeBanks);
+
+        AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
         public LlvmObjDumpSvc()
             : base(ToolId)
@@ -106,7 +108,7 @@ namespace Z0.llvm
             return result;
         }
 
-        public void Collect(ProjectCollection collect)
+        public void Collect(CollectionContext collect)
         {
             var rows = Consolidate(collect);
             EmitCodeBlocks(collect,rows);
@@ -114,16 +116,16 @@ namespace Z0.llvm
             EmitIndex(collect,rows);
         }
 
-        void EmitCodeBlocks(ProjectCollection collect, ReadOnlySpan<ObjDumpRow> src)
+        void EmitCodeBlocks(CollectionContext collect, ReadOnlySpan<ObjDumpRow> src)
         {
             using var dispenser = Alloc.asm();
-            var blocks = CodeBanks.DistillBlocks(src, dispenser);
+            var blocks = AsmObjects.DistillBlocks(src, dispenser);
             var dst = ProjectDb.ProjectData() + FS.folder(string.Format("{0}.asm.code",collect.Project.Name.Format()));
             dst.Clear();
-            CodeBanks.Emit(blocks, dst);
+            AsmObjects.Emit(blocks, dst);
         }
 
-        ReadOnlySpan<ObjDumpRow> Consolidate(ProjectCollection collect)
+        ReadOnlySpan<ObjDumpRow> Consolidate(CollectionContext collect)
         {
             var project = collect.Project;
             var src = project.OutFiles(FileKind.ObjAsm).View;
@@ -166,7 +168,7 @@ namespace Z0.llvm
             return emitted.ViewDeposited();
         }
 
-        void EmitIndex(ProjectCollection collect, ReadOnlySpan<ObjDumpRow> rows)
+        void EmitIndex(CollectionContext collect, ReadOnlySpan<ObjDumpRow> rows)
         {
             var count = rows.Length;
             var buffer = alloc<AsmCodeIndexRow>(count);
@@ -197,7 +199,7 @@ namespace Z0.llvm
             collect.EventReceiver.Emitted(buffer,path);
         }
 
-        Outcome Recode(ProjectCollection collection, ReadOnlySpan<ObjDumpRow> rows)
+        Outcome Recode(CollectionContext collection, ReadOnlySpan<ObjDumpRow> rows)
         {
             const string intel_syntax = ".intel_syntax noprefix";
             var project = Ws.Project(ProjectNames.McRecoded);

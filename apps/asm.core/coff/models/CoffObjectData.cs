@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-
     public class CoffObjectData : FileData<CoffObject>
     {
         public CoffObjectData(Dictionary<FS.FilePath,CoffObject> src)

@@ -12,8 +12,11 @@ namespace Z0
         public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
             => Z0.ApiDataPaths.create(wf);
 
-        public static CodeBanks CodeBanks(this IWfRuntime wf)
-            => Z0.CodeBanks.create(wf);
+        public static ApiCodeBanks ApiCodeBanks(this IWfRuntime wf)
+            => Z0.ApiCodeBanks.create(wf);
+
+        public static AsmObjects AsmObjects(this IWfRuntime wf)
+            => Z0.AsmObjects.create(wf);
 
         [Op]
         public static AsmEncoder AsmEncoding(this IWfRuntime wf)

@@ -22,7 +22,7 @@ namespace Z0
 
         ConstLookup<OperandWidthType,OperandWidth> OperandWidths;
 
-        ProjectEventReceiver EventReceiver;
+        CollectionEventReceiver EventReceiver;
 
         public XedDisasmSvc()
         {
@@ -62,7 +62,7 @@ namespace Z0
             TableEmit(@readonly(buffer), AsmEncodingRow.RenderWidths, dst);
         }
 
-        public void Collect(ProjectCollection collect)
+        public void Collect(CollectionContext collect)
         {
             var result = Outcome.Success;
             var project = collect.Project;

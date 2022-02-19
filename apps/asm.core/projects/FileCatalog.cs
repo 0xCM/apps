@@ -6,6 +6,12 @@ namespace Z0
 {
     using static core;
 
+    partial class XTend
+    {
+        public static FileCatalog FileCatalog(this IProjectWs src)
+            => Z0.FileCatalog.load(src);
+    }
+
     public class FileCatalog
     {
         public static FileCatalog create()

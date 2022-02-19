@@ -6,9 +6,9 @@ namespace Z0
 {
     using static core;
 
-    public class EncodingBank : IDisposable
+    public class ApiEncodingBank : IDisposable
     {
-        public static EncodingBank load(Index<EncodedMemberInfo> index, BinaryCode data)
+        public static ApiEncodingBank load(Index<EncodedMemberInfo> index, BinaryCode data)
         {
             var dst = new EncodingData();
             var comparer = EncodedMemberComparer.create(EncodedMemberComparer.ModeKind.Target);
@@ -43,7 +43,7 @@ namespace Z0
             dst.CodeBuffer = memory.gcpin(data.Storage);
             dst.Offsets = offsets;
             dst.Tokens = tokens;
-            return new EncodingBank(dst);
+            return new ApiEncodingBank(dst);
         }
 
         static Outcome entry(in EncodedMemberInfo src, out MethodEntryPoint dst)
@@ -62,7 +62,7 @@ namespace Z0
 
         EncodingData Data;
 
-        internal EncodingBank(EncodingData data)
+        internal ApiEncodingBank(EncodingData data)
         {
             Data = data;
         }

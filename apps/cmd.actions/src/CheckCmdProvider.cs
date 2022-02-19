@@ -15,5 +15,7 @@ namespace Z0
         AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
         Parsers Parsers => Service(Wf.Parsers);
+
+        ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
     }
 }

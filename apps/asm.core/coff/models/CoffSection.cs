@@ -5,17 +5,21 @@ namespace Z0
     {
         public const string TableId = "coff.sections";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 11;
 
         public uint Seq;
 
         public uint DocId;
 
-        public ushort Section;
+        public ushort SectionNumber;
 
         public @string SectionName;
 
-        public uint RawDataSize;
+        public CoffSectionKind SectionKind;
+
+        public Hex32 SectionId;
+
+        public ByteSize RawDataSize;
 
         public Address32 RawDataAddress;
 
@@ -25,6 +29,6 @@ namespace Z0
 
         public ImageSectionFlags Flags;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,16,16,16,16,16,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,16,16,16,16,16,16,16,16,1};
     }
 }

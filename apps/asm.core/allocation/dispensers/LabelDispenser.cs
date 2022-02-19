@@ -54,9 +54,7 @@ namespace Z0
 
 
         void IDisposable.Dispose()
-        {
-            core.iter(Allocators.Values, a => a.Dispose());
-        }
+            => core.iter(Allocators.Values, a => a.Dispose());
 
         static long Seq;
 

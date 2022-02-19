@@ -6,19 +6,22 @@ namespace Z0
 {
     using Asm;
 
-    public class ProjectCollection
+    public class CollectionContext
     {
+        public static CollectionContext create(IProjectWs project, CollectionEventReceiver receiver = null)
+            => new CollectionContext(project, FileCatalog.load(project), receiver);
+
         public IProjectWs Project {get;}
 
         public FileCatalog Files {get;}
 
-        public ProjectEventReceiver EventReceiver {get;}
+        public CollectionEventReceiver EventReceiver {get;}
 
-        public ProjectCollection(IProjectWs project, FileCatalog files, ProjectEventReceiver receiver)
+        public CollectionContext(IProjectWs project, FileCatalog files, CollectionEventReceiver receiver = null)
         {
             Project = project;
             Files = files;
-            EventReceiver = receiver;
+            EventReceiver = receiver ?? new();
         }
 
         public FileRef FileRef(FS.FilePath path)

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
-
     public readonly struct SymAddress : IEquatable<SymAddress>, IComparable<SymAddress>, INullity
     {
         [MethodImpl(Inline)]

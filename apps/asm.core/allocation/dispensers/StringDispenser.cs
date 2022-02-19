@@ -23,7 +23,6 @@ namespace Z0
             return new StringAllocation(allocator, dst);
         }
 
-
         const uint Capacity = PageBlock.PageSize;
 
         readonly Dictionary<long,StringAllocator> Allocators;

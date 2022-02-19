@@ -27,7 +27,7 @@ namespace Z0
             var path = DataPaths.Path(spec, FS.Asm);
             var emitting = EmittingFile(path);
             using var writer = path.Writer();
-            using var bank = CodeBanks.Encoding(spec);
+            using var bank = ApiCodeBanks.Encoding(spec);
             var count = bank.MemberCount;
             for(var i=0; i<count; i++)
             {

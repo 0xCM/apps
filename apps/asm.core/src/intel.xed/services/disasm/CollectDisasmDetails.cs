@@ -55,7 +55,7 @@ namespace Z0
 
             ref readonly var code = ref encoding.Encoded;
 
-            dst.Code =  dispenser.Code(encoding);
+            dst.Code =  dispenser.AsmCode(encoding);
             dst.IClass = inst.Class;
             dst.IForm = inst.Form;
 
@@ -202,7 +202,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CollectDisasmDetails(ProjectCollection collect)
+        public Outcome CollectDisasmDetails(CollectionContext collect)
         {
             var result = Outcome.Success;
             var encodings = CollectEncodingDocs(collect);

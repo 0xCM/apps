@@ -15,7 +15,7 @@ namespace Z0
             var project = Project();
             var src = ObjDump.LoadRows(ProjectDb.ProjectTable<ObjDumpRow>(project));
             using var dispenser = Alloc.asm();
-            var blocks = CodeBanks.DistillBlocks(src, dispenser);
+            var blocks = AsmObjects.DistillBlocks(src, dispenser);
             return true;
         }
 

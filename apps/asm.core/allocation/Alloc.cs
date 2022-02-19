@@ -40,5 +40,11 @@ namespace Z0
 
         public static StringDispenser strings(ByteSize capacity)
             => new StringDispenser(capacity);
+
+        public static PageDispenser pages()
+            => new PageDispenser();
+
+        public static PageDispenser pages(uint count)
+            => new PageDispenser(count);
     }
 }

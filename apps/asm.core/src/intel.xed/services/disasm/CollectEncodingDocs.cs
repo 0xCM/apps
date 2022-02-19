@@ -8,7 +8,7 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public AsmEncodingDocs CollectEncodingDocs(ProjectCollection collect)
+        public AsmEncodingDocs CollectEncodingDocs(CollectionContext collect)
         {
             var src = XedPaths.DisasmSources(collect.Project);
             var count = src.Count;

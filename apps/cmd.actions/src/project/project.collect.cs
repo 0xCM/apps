@@ -23,33 +23,31 @@ namespace Z0
             return true;
         }
 
-        [CmdOp("project/catalog")]
-        Outcome IndexFiles(CmdArgs args)
-        {
-            Projects.CatalogFiles(Project());
-            return true;
-        }
-
         LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
 
         [CmdOp("project/symbols")]
         Outcome CacheObjSymbols(CmdArgs args)
         {
-            // using var dispenser = Alloc.symbols();
-            // var project = Project();
-            // var result = CoffServices.LoadSymbols(project, out var rows);
-            // if(result.Fail)
-            //     return result;
+            using var dispenser = Alloc.symbols();
+            var project = Project();
+            var rows = CoffServices.LoadSymbols(project);
+            var headers = CoffServices.LoadHeaders(project);
 
-            // var symbols =  CoffObjects.symbolize(rows,dispenser);
-            // var locations = symbols.Keys;
+            var symbols =  CoffObjects.symbolize(rows, dispenser);
+            var locations = symbols.Keys;
+
+            foreach(var header in headers)
+            {
+                Write(string.Format("{0,-6} | {1,-8} | {2}",  header.DocId, header.SectionNumber, header.SectionName));
+            }
+
             // foreach(var loc in locations)
             // {
             //     Write(symbols[loc].Format());
             // }
 
 
-            CacheObjSyms();
+            //CacheObjSyms();
             return true;
         }
 
@@ -126,7 +124,7 @@ namespace Z0
         }
     }
 
-    public class AsmStatsCollector : ProjectEventReceiver
+    public class AsmStatsCollector : CollectionEventReceiver
     {
         Dictionary<string,uint> _AsmIdCounts;
 

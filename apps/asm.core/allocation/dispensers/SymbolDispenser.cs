@@ -24,6 +24,22 @@ namespace Z0
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
 
+        public Label DefineLabel(@string content)
+        {
+            var label = Label.Empty;
+            lock(locker)
+            {
+                var allocator = Allocators[Seq];
+                if(!allocator.Alloc(content.Value, out label))
+                {
+                    allocator = LabelAllocator.alloc(Capacity);
+                    allocator.Alloc(content.Value, out label);
+                    Allocators[next()] = allocator;
+                }
+            }
+            return label;
+        }
+
         public LocatedSymbol Dispense(MemoryAddress location, @string name)
             => Dispense(SymAddress.define(location), name);
 
@@ -39,7 +55,7 @@ namespace Z0
             }
         }
 
-       public uint Count
+        public uint Count
             => (uint)Lookup.Count;
 
         public ICollection<LocatedSymbol> Dispensed()
@@ -65,24 +81,9 @@ namespace Z0
             core.iter(Allocators.Values, a => a.Dispose());
         }
 
-        Label Allocate(@string content)
-        {
-            var label = Label.Empty;
-            lock(locker)
-            {
-                var allocator = Allocators[Seq];
-                if(!allocator.Alloc(content.Value, out label))
-                {
-                    allocator = LabelAllocator.alloc(Capacity);
-                    allocator.Alloc(content.Value, out label);
-                    Allocators[next()] = allocator;
-                }
-            }
-            return label;
-        }
 
         LocatedSymbol CreateSymbol(SymAddress location, @string name)
-            => new LocatedSymbol(location, Allocate(name));
+            => new LocatedSymbol(location, DefineLabel(name));
 
         static long Seq;
 

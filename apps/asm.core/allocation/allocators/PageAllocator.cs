@@ -48,6 +48,7 @@ namespace Z0
         MemoryAddress PageAddress(uint index)
             => Memory.PageAddress(index);
 
+        [MethodImpl(Inline)]
         public MemoryAddress Alloc()
         {
             for(var i=0u; i<PageCapacity; i++)
@@ -61,7 +62,7 @@ namespace Z0
             return MemoryAddress.Zero;
         }
 
-        public void FreePage(MemoryAddress src)
+        public void Free(MemoryAddress src)
         {
             for(var i=0u; i<PageCapacity; i++)
             {

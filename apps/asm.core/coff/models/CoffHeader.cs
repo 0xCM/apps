@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.InteropServices;
     using System.Reflection.PortableExecutable;
 
     /// <summary>

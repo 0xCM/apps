@@ -12,7 +12,7 @@ namespace Z0.Machines
 
     public interface IX86Machine
     {
-        void Dispatch(AsmInstruction asm);
+        void Dispatch(in AsmCode asm);
     }
 
     [ApiHost]
@@ -36,7 +36,7 @@ namespace Z0.Machines
 
         Stack<ulong> Stack;
 
-        PageAllocator Ram;
+        PageDispenser Ram;
 
         MemoryAddress CodeBase;
 
@@ -44,7 +44,7 @@ namespace Z0.Machines
 
         Task Dispatcher;
 
-        ConcurrentQueue<AsmInstruction> Queue;
+        ConcurrentQueue<AsmCode> Queue;
 
         bool Verbose;
 
@@ -61,18 +61,18 @@ namespace Z0.Machines
             R16 = (ushort*)R64;
             R8 = (byte*)R64;
             Stack = CpuModels.stack<ulong>(64);
-            Ram = PageAllocator.alloc(256);
-            CodeBase = Ram.Alloc();
+            Ram = Alloc.pages(256);
+            CodeBase = Ram.Dispense().BaseAddress;
             *CodeBase.Pointer<ulong>() = 0xCC;
             rip() = CodeBase;
         }
 
-        public void Dispatch(AsmInstruction cmd)
+        public void Dispatch(in AsmCode cmd)
         {
             Queue.Enqueue(cmd);
         }
 
-        void Execute(AsmInstruction cmd)
+        void Execute(in AsmCode cmd)
         {
 
         }
@@ -119,7 +119,7 @@ namespace Z0.Machines
 
         [MethodImpl(Inline), Op]
         public MemoryAddress AllocPage()
-            => Ram.Alloc();
+            => Ram.Dispense().BaseAddress;
 
         [MethodImpl(Inline), Op]
         ref byte reg8(RegIndexCode index)

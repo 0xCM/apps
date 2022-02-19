@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     using System;
 
-    public class ProjectEventReceiver
+    public class CollectionEventReceiver
     {
         FileCatalog Files;
 
@@ -20,13 +20,13 @@ namespace Z0.Asm
         public FileCatalog FileCatalog
             => Files;
 
-        public ProjectEventReceiver()
+        public CollectionEventReceiver()
         {
             Files = FileCatalog.create();
             _IndexedCode = sys.empty<AsmCodeIndexRow>();
         }
 
-        public virtual void Initialized(ProjectCollection collect)
+        public virtual void Initialized(CollectionContext collect)
         {
             Files = collect.Files;
         }

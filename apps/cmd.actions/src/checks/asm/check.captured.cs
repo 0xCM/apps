@@ -14,13 +14,13 @@ namespace Z0
             if(args.Count != 0)
                 spec = text.trim(arg(args,0).Value.Format());
 
-            using var bank = CodeBanks.Encoding(spec);
+            using var bank = ApiCodeBanks.Encoding(spec);
             CheckSize(bank);
 
             return result;
         }
 
-        void CheckSize(EncodingBank bank)
+        void CheckSize(ApiEncodingBank bank)
         {
             var count = bank.MemberCount;
             var rebase = MemoryAddress.Zero;
@@ -35,7 +35,6 @@ namespace Z0
             Require.equal((ByteSize)size, bank.CodeSize);
         }
 
-        CodeBanks CodeBanks => Service(Wf.CodeBanks);
 
         [CmdOp("check/captured")]
         Outcome CheckCaptured(CmdArgs args)
@@ -46,7 +45,7 @@ namespace Z0
                 spec = text.trim(arg(args,0).Value.Format());
 
             const string RenderPattern = "{0,-8} | {1, -8} | {2,-8} | {3,-5} | {4,-8} | {5,-8} | {6,-32} | {7}";
-            using var bank = CodeBanks.Encoding(spec);
+            using var bank = ApiCodeBanks.Encoding(spec);
             var count = bank.MemberCount;
             var target = MemoryAddress.Zero;
             var size = 0;
