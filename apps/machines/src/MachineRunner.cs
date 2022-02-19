@@ -24,7 +24,7 @@ namespace Z0.Machines
 
         public MachineRunner()
         {
-            Verbose = false;
+            Verbose = true;
         }
 
         void EventRaised(IWfEvent e)
@@ -37,7 +37,7 @@ namespace Z0.Machines
             Random = Rng.@default();
             Queue = EventQueue.allocate(typeof(MachineRunner), EventRaised);
             Signal = EventSignals.signal(Queue, GetType());
-            Machine = X86Control.intel64(Signal);
+            Machine = X86Machine.create(Signal);
         }
 
         protected override void Disposing()
@@ -63,7 +63,7 @@ namespace Z0.Machines
         void DumpRegs()
         {
             var buffer = text.buffer();
-            X86Control.state(Machine,buffer);
+            X86Machine.state(Machine,buffer);
             Write(buffer.Emit());
         }
 

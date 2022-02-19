@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Machines
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class RegBank : IDisposable
     {
         public RegFile File {get;}

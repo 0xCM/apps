@@ -18,6 +18,9 @@ namespace Z0.Machines
     [ApiHost]
     public unsafe partial class X86Machine : IDisposable, IX86Machine
     {
+        public static X86Machine create(EventSignal signal)
+            => new X86Machine(signal);
+
         RegBank Regs;
 
         byte* R8;

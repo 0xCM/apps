@@ -6,16 +6,8 @@ namespace Z0.Machines
 {
     using static core;
 
-    using Asm;
-
-    public readonly struct X86Control
+    partial class X86Machine
     {
-        public static RegStore8x64 regs(N8 n, W64 w)
-            => default;
-
-        public static X86Machine intel64(EventSignal signal)
-            => new X86Machine(signal);
-
         public static void state(X86Machine src, ITextBuffer dst)
         {
             var allocations = src.Bank.Allocations;
