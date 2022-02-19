@@ -8,4 +8,8 @@
 
   <Import Project="../imports.props"/>
 
+  <ItemGroup>
+    <ProjectReference Include="$(AsmOperands)" />
+  </ItemGroup>
+
 </Project>

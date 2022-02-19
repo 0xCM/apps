@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Root;
-
     partial class IntelIntrinsicModels
     {
         public struct Return : ITextual

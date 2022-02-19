@@ -50,7 +50,8 @@ namespace Z0
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
-        //WsProjects Projects =>
+        IntelIntrinsics IntelIntrinsics => Service(Wf.IntelIntrinsics);
+
         FS.Files _Files;
 
         FS.Files Files()

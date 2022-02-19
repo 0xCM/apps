@@ -52,6 +52,12 @@ namespace Z0.Asm
         public imm8(byte src)
             => Value = src;
 
+        public bit this[int i]
+        {
+            [MethodImpl(Inline)]
+            get => bit.test(Value,(byte)i);
+        }
+
         public ImmKind ImmKind
             => ImmKind.Imm8u;
 

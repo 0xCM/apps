@@ -4,26 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using Asm;
+    using Asm.Operands;
 
-    using static Root;
     using static BitNumbers;
 
     partial struct Intrinsics
     {
         public struct mm_ternarylogic_epi32 : IIntrinsicInput<mm_ternarylogic_epi32>
         {
-            public m128i<uint> A;
+            public __m128i<uint> A;
 
-            public m128i<uint> B;
+            public __m128i<uint> B;
 
-            public m128i<uint> C;
+            public __m128i<uint> C;
 
-            public Imm8 Imm8;
+            public imm8 Imm8;
 
             [MethodImpl(Inline)]
-            public mm_ternarylogic_epi32(m128i<uint> a, m128i<uint> b, m128i<uint> c, Imm8 imm8)
+            public mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, imm8 imm8)
             {
                 A = a;
                 B = b;
@@ -38,7 +37,7 @@ namespace Z0.Vdsl
         partial struct Specs
         {
             [MethodImpl(Inline)]
-            public static m128i<uint> calc(in mm_ternarylogic_epi32 src)
+            public static __m128i<uint> calc(in mm_ternarylogic_epi32 src)
                 => Specs.mm_ternarylogic_epi32(src.A, src.B, src.C, src.Imm8);
 
             /// <summary>
@@ -50,7 +49,7 @@ namespace Z0.Vdsl
             /// that bit in "imm8" is written to the corresponding bit in "dst".
             /// </summary>
             [MethodImpl(Inline)]
-            public static m128i<uint> mm_ternarylogic_epi32(m128i<uint> a, m128i<uint> b, m128i<uint> c, Imm8 imm8)
+            public static __m128i<uint> mm_ternarylogic_epi32(__m128i<uint> a, __m128i<uint> b, __m128i<uint> c, imm8 imm8)
             {
                 var dst = m128i<uint>();
                 for(byte j=0; j<=3; j++)

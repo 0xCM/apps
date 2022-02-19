@@ -4,21 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using Asm.Operands;
 
     public struct CmpPred128<T>
         where T : unmanaged
     {
-        public CmpPredKind Kind {get;}
+        public readonly CmpPredKind Kind;
 
-        public m128i<T> A {get;}
+        public readonly __m128i<T> A;
 
-        public m128i<T> B {get;}
+        public readonly __m128i<T> B;
 
         [MethodImpl(Inline)]
-        public CmpPred128(CmpPredKind kind, m128i<T> a, m128i<T> b)
+        public CmpPred128(CmpPredKind kind, __m128i<T> a, __m128i<T> b)
         {
             Kind = kind;
             A = a;

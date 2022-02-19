@@ -7,7 +7,6 @@ namespace Z0.Asm
     using System.Xml;
     using System.IO;
 
-    using static Root;
     using static core;
     using static XedRecords;
     using static IntelIntrinsicModels;
@@ -20,44 +19,53 @@ namespace Z0.Asm
         FS.FolderPath Targets()
             => Ws.Project("db").Subdir("intrinsics");
 
-        public ReadOnlySpan<Intrinsic> Emit()
+        FS.FilePath XmlSourcePath()
+            => Sources() + FS.file("intel.intrinsics", FS.Xml);
+
+        FS.FilePath DeclTargetPath()
+            => Targets() + FS.file("intrinsics.declarations", FS.H);
+
+        FS.FilePath AlgTargetPath()
+            => Targets() + FS.file("intrinsics.algorithms", FS.Txt);
+
+        FS.FilePath TableTargetPath()
+            => Targets() + FS.file("intel.intrinsics", FS.Csv);
+
+        public Index<Intrinsic> Emit()
         {
-            var parsed = Parse();
+            var parsed = ParseXmlDoc();
             EmitAlgorithms(parsed);
-            EmitTable(parsed);
-            EmitHeader(parsed);
+            EmitRecords(parsed);
+            EmitDeclarations(parsed);
             return parsed;
         }
 
-        XmlDoc XmlSouceDoc()
-        {
-            var src = Sources() + FS.file("intel.intrinsics", FS.Xml);
-            return src.ReadUtf8();
-        }
+        XmlDoc ReadXmlDoc()
+            => XmlSourcePath().ReadUtf8();
 
-        ReadOnlySpan<Intrinsic> Parse()
-            => Parse(XmlSouceDoc());
+        Index<Intrinsic> ParseXmlDoc()
+            => Parse(ReadXmlDoc());
 
         void EmitAlgorithms(ReadOnlySpan<Intrinsic> src)
         {
             var count = src.Length;
-            var dst = Targets() + FS.file("intrinsics.algorithms", FS.Txt);
-            var flow = Wf.EmittingFile(dst);
+            var dst = AlgTargetPath();
+            var flow = EmittingFile(dst);
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
                 writer.WriteLine(format(skip(src,i)));
-            Wf.EmittedFile(flow, count);
+            EmittedFile(flow, count);
         }
 
-        void EmitHeader(ReadOnlySpan<Intrinsic> src)
+        void EmitDeclarations(ReadOnlySpan<Intrinsic> src)
         {
-            var dst = Targets() + FS.file("intrinsics.declarations", FS.H);
-            var flow = Wf.EmittingFile(dst);
+            var dst = DeclTargetPath();
+            var flow = EmittingFile(dst);
             var count = src.Length;
             using var writer = dst.Writer();
             for(var i=0; i<count; i++)
                 writer.WriteLine(string.Format("{0};", sig(skip(src,i))));
-            Wf.EmittedFile(flow, count);
+            EmittedFile(flow, count);
         }
 
         void Summarize(ReadOnlySpan<Intrinsic> src, List<IntelIntrinsic> dst)
@@ -90,17 +98,14 @@ namespace Z0.Asm
             }
         }
 
-        void EmitTable(ReadOnlySpan<Intrinsic> src)
+        void EmitRecords(ReadOnlySpan<Intrinsic> src)
         {
-            var dst = Targets() + FS.file("intel.intrinsics", FS.Csv);
-            var flow = Wf.EmittingTable<IntelIntrinsic>(dst);
             var rows = list<IntelIntrinsic>();
             Summarize(src, rows);
-            var count = Tables.emit(rows.ViewDeposited(), IntelIntrinsic.RenderWidths,dst);
-            EmittedTable(flow,count);
+            TableEmit(rows.ViewDeposited(), IntelIntrinsic.RenderWidths, TableTargetPath());
         }
 
-        ReadOnlySpan<Intrinsic> Parse(XmlDoc src)
+        Index<Intrinsic> Parse(XmlDoc src)
         {
             const ushort max = 7500;
             var entries = new Intrinsic[max];
@@ -180,7 +185,7 @@ namespace Z0.Asm
         {
             const string amp = "&amp;";
             var content = reader.ReadInnerXml().Replace(XmlEntities.gt, ">").Replace(XmlEntities.lt, "<").Replace(amp, "&");
-            foreach(var line in Lines.read(content))
+            foreach(var line in Lines.read(content,trim:false))
                 dst.Content.Add(line);
         }
 
@@ -270,7 +275,7 @@ namespace Z0.Asm
             dst.AppendLine("}");
         }
 
-        internal static string format(Intrinsic src)
+        static string format(Intrinsic src)
         {
             var dst = text.buffer();
             overview(src, dst);

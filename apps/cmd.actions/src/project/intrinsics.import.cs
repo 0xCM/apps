@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
+    using static core;
+
     partial class ProjectCmdProvider
     {
         [CmdOp("intrinsics/import")]
         Outcome ImportIntrinsics(CmdArgs args)
         {
-            var svc = Service(Wf.IntelIntrinsics);
-            svc.Emit();
+            var intrinsics = IntelIntrinsics.Emit();
+            var types = intrinsics.SelectMany(x => x.parameters).Select(x => x.type.Name.Remove("*").Remove("const").Trim()).Distinct().Sort();
+            iter(types, t => Write(t));
+
             return true;
         }
 

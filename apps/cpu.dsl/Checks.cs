@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using Asm.Operands;
 
     using static core;
-    using static Root;
     using Expr;
 
     partial struct Intrinsics
@@ -30,7 +28,7 @@ namespace Z0.Vdsl
         public partial class Checks : Service<Checks>
         {
             [MethodImpl(Inline)]
-            public static CmpPred128<T> eq<T>(m128i<T> a, m128i<T> b)
+            public static CmpPred128<T> eq<T>(__m128i<T> a, __m128i<T> b)
                 where T : unmanaged
                     => new CmpPred128<T>(CmpPredKind.EQ,a,b);
 
@@ -63,49 +61,49 @@ namespace Z0.Vdsl
                     => Buffer.Block(n).Cells<T>();
 
             [MethodImpl(Inline), Op, Closures(Closure)]
-            Span<m128i<T>> Vecs<T>(N0 n, W128 w)
+            Span<__m128i<T>> Vecs<T>(N0 n, W128 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m128i<T>>();
+                    => Buffer.Block(n).Cells<__m128i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m256i<T>> Vecs<T>(N0 n, W256 w)
+            Span<__m256i<T>> Vecs<T>(N0 n, W256 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m256i<T>>();
+                    => Buffer.Block(n).Cells<__m256i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m512i<T>> Vecs<T>(N0 n, W512 w)
+            Span<__m512i<T>> Vecs<T>(N0 n, W512 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m512i<T>>();
+                    => Buffer.Block(n).Cells<__m512i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m128i<T>> Vecs<T>(N1 n, W128 w)
+            Span<__m128i<T>> Vecs<T>(N1 n, W128 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m128i<T>>();
+                    => Buffer.Block(n).Cells<__m128i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m256i<T>> Vecs<T>(N1 n, W256 w)
+            Span<__m256i<T>> Vecs<T>(N1 n, W256 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m256i<T>>();
+                    => Buffer.Block(n).Cells<__m256i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m512i<T>> Vecs<T>(N1 n, W512 w)
+            Span<__m512i<T>> Vecs<T>(N1 n, W512 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m512i<T>>();
+                    => Buffer.Block(n).Cells<__m512i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m128i<T>> Vecs<T>(N2 n, W128 w)
+            Span<__m128i<T>> Vecs<T>(N2 n, W128 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m128i<T>>();
+                    => Buffer.Block(n).Cells<__m128i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m256i<T>> Vecs<T>(N2 n, W256 w)
+            Span<__m256i<T>> Vecs<T>(N2 n, W256 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m256i<T>>();
+                    => Buffer.Block(n).Cells<__m256i<T>>();
 
             [MethodImpl(Inline)]
-            Span<m512i<T>> Vecs<T>(N2 n, W512 w)
+            Span<__m512i<T>> Vecs<T>(N2 n, W512 w)
                 where T : unmanaged
-                    => Buffer.Block(n).Cells<m512i<T>>();
+                    => Buffer.Block(n).Cells<__m512i<T>>();
 
             void Segments()
             {
@@ -143,8 +141,8 @@ namespace Z0.Vdsl
                 Random.Fill(block0);
                 block1.Clear();
 
-                var src = recover<m256i<ushort>>(block0);
-                var dst = recover<m128i<byte>>(block1);
+                var src = recover<__m256i<ushort>>(block0);
+                var dst = recover<__m128i<byte>>(block1);
                 var count = _mm256_cvtepi16_epi8_seq(src,dst);
                 var op = nameof(_mm256_cvtepi16_epi8_seq);
                 for(var i=0; i<count; i++)

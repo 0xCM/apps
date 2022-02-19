@@ -4,15 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-    using System.Runtime.Intrinsics;
-
     using static core;
-    using static Root;
 
-    [StructLayout(LayoutKind.Sequential, Size = Size, Pack=1), DataType("cell<w:256,t:{0}>", Width, Width)]
+    [DataType("cell<w:256,t:{0}>")]
     public struct Cell256<T> : IDataCell<Cell256<T>,W256,ByteBlock32>
         where T : unmanaged
     {

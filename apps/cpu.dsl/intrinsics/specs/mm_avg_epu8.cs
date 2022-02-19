@@ -4,21 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    using Asm.Operands;
 
     partial struct Intrinsics
     {
         public readonly struct mm_avg_epu8 : IIntrinsicInput<mm_avg_epu8>
         {
-            public readonly m128i<byte> A;
+            public readonly __m128i<byte> A;
 
-            public readonly m128i<byte> B;
+            public readonly __m128i<byte> B;
 
             [MethodImpl(Inline)]
-            public mm_avg_epu8(in m128i<byte> a, in m128i<byte> b)
+            public mm_avg_epu8(in __m128i<byte> a, in __m128i<byte> b)
             {
                 A = a;
                 B = b;
@@ -31,11 +28,11 @@ namespace Z0.Vdsl
         partial struct Specs
         {
             [MethodImpl(Inline)]
-            public static m128i<byte> calc(in mm_avg_epu8 src)
+            public static __m128i<byte> calc(in mm_avg_epu8 src)
                 => mm_avg_epu8(src.A, src.B);
 
             [MethodImpl(Inline)]
-            public static m128i<byte> mm_avg_epu8(in m128i<byte> a, in m128i<byte> b)
+            public static __m128i<byte> mm_avg_epu8(in __m128i<byte> a, in __m128i<byte> b)
             {
                 var dst = m128i<byte>();
                 var i = 0;

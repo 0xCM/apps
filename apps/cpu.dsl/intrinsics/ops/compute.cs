@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
+    using Asm.Operands;
+
     using static core;
     using static Root;
+
 
     using K = IntrinsicKind;
 
@@ -26,8 +29,8 @@ namespace Z0.Vdsl
                         Random.Fill(block0);
                         var block1 = Cells<byte>(n1);
                         Random.Fill(block1);
-                        var left = recover<m256i<byte>>(block0);
-                        var right = recover<m256i<byte>>(block1);
+                        var left = recover<__m256i<byte>>(block0);
+                        var right = recover<__m256i<byte>>(block1);
                         var count = left.Length;
                         for(var i=0; i<count; i++)
                         {
@@ -45,8 +48,8 @@ namespace Z0.Vdsl
                         Random.Fill(block0);
                         var block1 = Cells<short>(n1);
                         Random.Fill(block1);
-                        var left = recover<m128i<short>>(block0);
-                        var right = recover<m128i<short>>(block1);
+                        var left = recover<__m128i<short>>(block0);
+                        var right = recover<__m128i<short>>(block1);
                         var count = left.Length;
                         for(var i=0; i<count; i++)
                         {
@@ -65,8 +68,8 @@ namespace Z0.Vdsl
                         Random.Fill(block0);
                         var block1 = Cells<sbyte>(n1);
                         Random.Fill(block1);
-                        var left = recover<m128i<sbyte>>(block0);
-                        var right = recover<m128i<sbyte>>(block1);
+                        var left = recover<__m128i<sbyte>>(block0);
+                        var right = recover<__m128i<sbyte>>(block1);
                         var count = left.Length;
                         for(var i=0; i<count; i++)
                         {

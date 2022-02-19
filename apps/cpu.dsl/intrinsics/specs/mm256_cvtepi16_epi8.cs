@@ -4,22 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
+    using Asm.Operands;
     using Expr;
 
-    using static Root;
     using static core;
 
     partial struct Intrinsics
     {
         public readonly struct mm256_cvtepi16_epi8 : IIntrinsicInput<mm256_cvtepi16_epi8>
         {
-            public readonly m256i<ushort> A;
+            public readonly __m256i<ushort> A;
 
             [MethodImpl(Inline)]
-            public mm256_cvtepi16_epi8(in m256i<ushort> a)
+            public mm256_cvtepi16_epi8(in __m256i<ushort> a)
             {
                 A = a;
             }
@@ -31,11 +28,11 @@ namespace Z0.Vdsl
         partial struct Specs
         {
             [MethodImpl(Inline)]
-            public static m128i<byte> calc(in mm256_cvtepi16_epi8 src)
+            public static __m128i<byte> calc(in mm256_cvtepi16_epi8 src)
                 => Specs.mm256_cvtepi16_epi8(src.A);
 
             [MethodImpl(Inline)]
-            public static m128i<byte> mm256_cvtepi16_epi8(m256i<ushort> a)
+            public static __m128i<byte> mm256_cvtepi16_epi8(__m256i<ushort> a)
             {
                 var dst = m128i<byte>();
                 for(var j=0; j<=15; j++)
@@ -68,7 +65,7 @@ namespace Z0.Vdsl
         }
 
         [MethodImpl(Inline), Op]
-        public static uint _mm256_cvtepi16_epi8_seq(ReadOnlySpan<m256i<ushort>> src, Span<m128i<byte>> dst)
+        public static uint _mm256_cvtepi16_epi8_seq(ReadOnlySpan<__m256i<ushort>> src, Span<__m128i<byte>> dst)
         {
             var count = (uint)src.Length;
             for(var i=0; i<count; i++)

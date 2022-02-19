@@ -28,6 +28,8 @@ namespace Z0.Asm
             public const string __m512i = nameof(__m512i);
 
             public const string __m512d = nameof(__m512d);
+
+            public const string __tile = nameof(__tile);
         }
     }
 }

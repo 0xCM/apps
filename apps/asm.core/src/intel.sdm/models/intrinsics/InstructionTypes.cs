@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-    using System.Collections.Generic;
-
     partial class IntelIntrinsicModels
     {
         public class InstructionTypes : List<InstructionType>

@@ -4,22 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using Asm.Operands;
 
-    using static Root;
     using static math;
 
     partial struct Intrinsics
     {
         public struct mm_packus_epi16
         {
-            public m128i<short> A;
+            public __m128i<short> A;
 
-            public m128i<short> B;
+            public __m128i<short> B;
 
             [MethodImpl(Inline)]
-            public mm_packus_epi16(in m128i<short> a, in m128i<short> b)
+            public mm_packus_epi16(in __m128i<short> a, in __m128i<short> b)
             {
                 A = a;
                 B = b;
@@ -32,11 +30,11 @@ namespace Z0.Vdsl
         partial struct Specs
         {
             [MethodImpl(Inline), Op]
-            public static m128i<byte> calc(in mm_packus_epi16 io)
+            public static __m128i<byte> calc(in mm_packus_epi16 io)
                 => Specs.mm_packus_epi16(io.A, io.B);
 
             [MethodImpl(Inline)]
-            public static m128i<byte> mm_packus_epi16(in m128i<short> a, in m128i<short> b)
+            public static __m128i<byte> mm_packus_epi16(in __m128i<short> a, in __m128i<short> b)
             {
                 var dst = m128i<byte>();
                 dst[7,0] = sat8u(a[15,0]);

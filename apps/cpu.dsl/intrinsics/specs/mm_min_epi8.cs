@@ -4,22 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    using Asm.Operands;
 
-    using static Root;
     using static core;
 
     partial struct Intrinsics
     {
         public readonly struct mm_min_epi8 : IIntrinsicInput<mm_min_epi8>
         {
-            public readonly m128i<sbyte> A;
+            public readonly __m128i<sbyte> A;
 
-            public readonly m128i<sbyte> B;
+            public readonly __m128i<sbyte> B;
 
             [MethodImpl(Inline)]
-            public mm_min_epi8(in m128i<sbyte> a, in m128i<sbyte> b)
+            public mm_min_epi8(in __m128i<sbyte> a, in __m128i<sbyte> b)
             {
                 A = a;
                 B = b;
@@ -32,11 +30,11 @@ namespace Z0.Vdsl
         partial struct Specs
         {
             [MethodImpl(Inline)]
-            public static m128i<sbyte> calc(in mm_min_epi8 src)
+            public static __m128i<sbyte> calc(in mm_min_epi8 src)
                 => mm_min_epi8(src.A, src.B);
 
             [MethodImpl(Inline)]
-            public static m128i<sbyte> mm_min_epi8(in m128i<sbyte> a, in m128i<sbyte> b)
+            public static __m128i<sbyte> mm_min_epi8(in __m128i<sbyte> a, in __m128i<sbyte> b)
             {
                 var dst = m128i<sbyte>();
                 for(var j=0; j<=15; j++)

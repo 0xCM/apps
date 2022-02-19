@@ -2,35 +2,26 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Vdsl
+namespace Z0.Asm.Operands
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-    using static core;
-    using static Intrinsics;
-
-    public struct m128i<T>
-        where T : unmanaged
+    public struct __m256d
     {
-        internal Cell128<T> Data;
+        Cell256<double> Data;
 
         [MethodImpl(Inline)]
-        public m128i(Vector128<T> src)
+        public __m256d(Vector256<double> src)
             => Data = src;
 
         [MethodImpl(Inline)]
-        public m128i(Cell128<T> src)
+        public __m256d(Cell256<double> src)
             => Data = src;
 
-        public uint Width => 128;
+        public uint Width => 256;
 
         public uint CellWidth
         {
             [MethodImpl(Inline)]
-            get => width<T>();
+            get => core.width<double>();
         }
 
         public uint CellCount
@@ -39,16 +30,20 @@ namespace Z0.Vdsl
             get => Width/CellWidth;
         }
 
-        public bit this[int i]
+        [MethodImpl(Inline)]
+        public ref double Cell(int i)
+            => ref Data[i];
+
+        public num<double> this[int i]
         {
             [MethodImpl(Inline)]
-            get => Data.TestBit((byte)i);
+            get => Cells.cell(ref Data, i/8);
 
             [MethodImpl(Inline)]
-            set => Data.SetBit((byte)i,value);
+            set => Cells.cell(ref Data, i/8) = value;
         }
 
-        public T this[int max, int min]
+        public double this[int max, int min]
         {
             [MethodImpl(Inline)]
             get => Cells.bits(ref Data, max, min);
@@ -56,29 +51,22 @@ namespace Z0.Vdsl
             set => Cells.bits(ref Data, max, min) = value;
         }
 
-        [MethodImpl(Inline)]
-        public ref T Cell(int i)
-            => ref Data[i];
-
         public string Format()
             => string.Format("<{0}>", Data.ToVector().FormatHex());
-
-        public string Format(NumericBaseKind @base)
-            => format(this, @base);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public static implicit operator m128i<T>(Vector128<T> src)
-            => new m128i<T>(src);
+        public static implicit operator __m256d(Vector256<double> src)
+            => new __m256d(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator m128i<T>(T src)
-            => gcpu.vbroadcast(w128,src);
+        public static implicit operator __m256d(double src)
+            => gcpu.vbroadcast(w256,src);
 
         [MethodImpl(Inline)]
-        public static implicit operator Vector128<T>(m128i<T> src)
-            => src.Data.ToVector();
+        public static implicit operator Vector256<double>(__m256d src)
+            => src.Data;
     }
 }
