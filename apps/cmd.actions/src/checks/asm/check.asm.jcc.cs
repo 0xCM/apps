@@ -25,7 +25,7 @@ namespace Z0
             {
                 ref readonly var block = ref skip(view,i);
                 Write(block.Label.Name);
-                var statements = block.Lines;
+                var statements = block.Code;
                 var kS = statements.Count;
                 for(var j=0; j<kS; j++)
                 {

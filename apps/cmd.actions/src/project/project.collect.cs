@@ -25,22 +25,34 @@ namespace Z0
 
         LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
 
-        [CmdOp("project/symbols")]
+        [CmdOp("project/objects")]
         Outcome CacheObjSymbols(CmdArgs args)
         {
             using var dispenser = Alloc.symbols();
             var project = Project();
-            var context = CollectionContext.create(project);
-            var files = context.Files.Entries();
+            var catalog = project.FileCatalog();
+            var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
+            var symbols = CoffServices.LoadSymbols(project);
+
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
                 var obj = CoffServices.LoadObjData(file);
                 var headers = CoffServices.CalcObjHeaders(file);
+                for(var j=0; j<headers.Count; j++)
+                {
+                    ref readonly var header = ref headers[j];
+                    Write(string.Format("{0,-12} | {1,-12} | {2,-12} | {3,-12} | {4,-12}",
+                        header.DocId,
+                        header.SectionNumber,
+                        header.SectionName,
+                        header.RawDataAddress,
+                        header.RawDataSize
+                        ));
+                }
+
             }
-
-
 
             // var rows = CoffServices.LoadSymbols(project);
             // var headers = CoffServices.LoadHeaders(project);

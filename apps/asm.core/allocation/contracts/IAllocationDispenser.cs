@@ -6,6 +6,23 @@ namespace Z0
 {
     public interface IAllocationDispenser : IDisposable
     {
+        AllocationKind DispensedKind {get;}
+    }
 
+    public enum AllocationKind : byte
+    {
+        Label,
+
+        String,
+
+        Memory,
+
+        Page,
+
+        Source,
+
+        Symbol,
+
+        AsmCode,
     }
 }

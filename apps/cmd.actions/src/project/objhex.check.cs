@@ -12,10 +12,8 @@ namespace Z0
         {
 
             var project = Project();
-
             var context = CollectionContext.create(project);
             var result = CoffServices.CheckObjHex(context);
-
             return result;
 
         }

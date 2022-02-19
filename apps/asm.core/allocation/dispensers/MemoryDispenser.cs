@@ -8,7 +8,7 @@ namespace Z0
 
     public class MemoryDispenser : IAllocationDispenser
     {
-        const uint Capacity = PageBlock.PageSize*8;
+        const uint Capacity = PageBlock.PageSize*16;
 
         readonly Dictionary<long,MemAllocator> Allocators;
 
@@ -25,6 +25,9 @@ namespace Z0
         {
             core.iter(Allocators.Values, a => a.Dispose());
         }
+
+        public AllocationKind DispensedKind
+            => AllocationKind.Memory;
 
         MemorySeg Allocate(ByteSize size)
         {
@@ -46,7 +49,7 @@ namespace Z0
             return dst;
         }
 
-        public MemorySeg Dispense(ByteSize size)
+        public MemorySeg Memory(ByteSize size)
         {
             var dst = Allocate(size);
             return dst;

@@ -8,13 +8,13 @@ namespace Z0
     {
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry, MemoryAddress target)
         {
-            var e = symbols.Dispense(entry.Location, entry.Uri?.Format() ?? EmptyString);
-            var t = symbols.Dispense(target, entry.Sig.Format());
+            var e = symbols.Symbol(entry.Location, entry.Uri?.Format() ?? EmptyString);
+            var t = symbols.Symbol(target, entry.Sig.Format());
             return new ApiToken(e, t);
         }
 
         public static ApiToken create(SymbolDispenser symbols, in MethodEntryPoint entry)
-            => new ApiToken(symbols.Dispense(entry.Location, text.ifempty(entry.Uri.Format(),EmptyString)), symbols.Dispense(entry.Location, entry.Sig.Format()));
+            => new ApiToken(symbols.Symbol(entry.Location, text.ifempty(entry.Uri.Format(),EmptyString)), symbols.Symbol(entry.Location, entry.Sig.Format()));
 
         readonly LocatedSymbol Entry;
 

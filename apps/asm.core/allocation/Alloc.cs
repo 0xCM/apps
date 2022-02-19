@@ -14,8 +14,8 @@ namespace Z0
         public static LabelDispenser labels()
             => new LabelDispenser();
 
-        public static AsmDispenser asm()
-            => new AsmDispenser();
+        public static AsmCodeDispenser asm()
+            => new AsmCodeDispenser();
 
         public static MemoryDispenser mem(ByteSize capacity)
             => new MemoryDispenser(capacity);
@@ -46,5 +46,8 @@ namespace Z0
 
         public static PageDispenser pages(uint count)
             => new PageDispenser(count);
+
+        public static AllocationDispensers dispensers()
+            => new AllocationDispensers();
     }
 }

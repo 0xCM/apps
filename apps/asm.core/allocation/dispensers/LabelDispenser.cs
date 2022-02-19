@@ -36,9 +36,12 @@ namespace Z0
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
 
-        public Label Dispense(@string content)
+        public AllocationKind DispensedKind
+            => AllocationKind.Label;
+
+        public Label Label(@string content)
         {
-            var label = Label.Empty;
+            var label = Z0.Label.Empty;
             lock(locker)
             {
                 var alloc = Allocators[Seq];

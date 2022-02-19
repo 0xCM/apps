@@ -12,6 +12,8 @@ namespace Z0
 
         HexDataFormatter Formatter => Service(() => HexDataFormatter.create(0,32,true));
 
+        WsProjects Projects => Service(Wf.WsProjects);
+
         Symbols<CoffSectionKind> SectionKinds;
 
         public CoffServices()
@@ -27,7 +29,7 @@ namespace Z0
         }
 
         FS.FolderPath ObjHexDir(IProjectWs project)
-            => ProjectDb.ProjectData(string.Format("{0}.objhex", project.Name));
+            => Projects.ProjectData(project, "objhex");
 
         public Outcome CollectObjHex(CollectionContext collect)
         {
@@ -48,7 +50,7 @@ namespace Z0
                 var data = path.ReadBytes();
                 var lines = Formatter.FormatLines(data);
                 iter(lines, line => writer.WriteLine(line));
-                Ran(running, string.Format("coffobj:{0} -> {1}", path.ToUri(), dst.ToUri()));
+                Ran(running, string.Format("objhex:{0} -> {1}", path.ToUri(), dst.ToUri()));
             }
 
             return result;
@@ -155,14 +157,14 @@ namespace Z0
         public Outcome CollectHeaders(CollectionContext context)
         {
             var records = CalcObjHeaders(context);
-            var dst = ProjectDb.ProjectTable<CoffSection>(context.Project);
+            var dst = Projects.Table<CoffSection>(context.Project);
             TableEmit(records.View, CoffSection.RenderWidths, dst);
             return true;
         }
 
         public Index<CoffSymRecord> LoadSymbols(IProjectWs project)
         {
-            var src = ProjectDb.ProjectTable<CoffSymRecord>(project);
+            var src = Projects.Table<CoffSymRecord>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             Index<CoffSymRecord> dst = alloc<CoffSymRecord>(count);
@@ -189,7 +191,7 @@ namespace Z0
 
         public Index<CoffSection> LoadHeaders(IProjectWs project)
         {
-            var src = ProjectDb.ProjectTable<CoffSection>(project);
+            var src = Projects.Table<CoffSection>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
             Index<CoffSection> dst = alloc<CoffSection>(count);
@@ -268,7 +270,7 @@ namespace Z0
             var files = context.Files;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
-            var path = ProjectDb.ProjectTable<CoffSymRecord>(context.Project);
+            var path = Projects.Table<CoffSymRecord>(context.Project);
             var formatter = Tables.formatter<CoffSymRecord>(CoffSymRecord.RenderWidths);
             var seq = 0u;
             var emitting = EmittingFile(path);

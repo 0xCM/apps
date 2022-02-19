@@ -10,7 +10,7 @@ namespace Z0
 
     public class AsmObjects : AppService<AsmObjects>
     {
-        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser)
+        public ConstLookup<string,AsmCodeBlocks> DistillBlocks(ReadOnlySpan<ObjDumpRow> src, AsmCodeDispenser dispenser)
         {
             var count = src.Length;
             var collector = new AsmBlockCollector();
@@ -53,7 +53,7 @@ namespace Z0
             }
         }
 
-        AsmCodeBlocks Collect(string origin, ReadOnlySpan<ObjDumpRow> src, AsmDispenser dispenser)
+        AsmCodeBlocks Collect(string origin, ReadOnlySpan<ObjDumpRow> src, AsmCodeDispenser dispenser)
         {
             var collector = new AsmBlockCollector();
             var count = src.Length;
@@ -70,7 +70,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var block = ref src[i];
-                var count = block.LineCount;
+                var count = block.Count;
                 for(var j=0; j<count; j++, k++)
                 {
                     ref readonly var code = ref block[j];
@@ -90,7 +90,6 @@ namespace Z0
                     }
                 }
             }
-
 
             TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
         }

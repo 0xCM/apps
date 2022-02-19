@@ -62,7 +62,7 @@ namespace Z0.Machines
             R8 = (byte*)R64;
             Stack = CpuModels.stack<ulong>(64);
             Ram = Alloc.pages(256);
-            CodeBase = Ram.Dispense().BaseAddress;
+            CodeBase = Ram.Page().BaseAddress;
             *CodeBase.Pointer<ulong>() = 0xCC;
             rip() = CodeBase;
         }
@@ -119,7 +119,7 @@ namespace Z0.Machines
 
         [MethodImpl(Inline), Op]
         public MemoryAddress AllocPage()
-            => Ram.Dispense().BaseAddress;
+            => Ram.Page().BaseAddress;
 
         [MethodImpl(Inline), Op]
         ref byte reg8(RegIndexCode index)

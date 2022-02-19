@@ -36,6 +36,19 @@ namespace Z0
             }
         }
 
+        public FS.FilePath Table<T>(IProjectWs project)
+            where T : struct
+                => ProjectDb.ProjectTable<T>(project);
+
+        public FS.FolderPath ProjectData()
+            => ProjectDb.ProjectData();
+
+        public FS.FolderPath ProjectData(IProjectWs project)
+            => ProjectData() + FS.folder(project.Name.Format());
+
+        public FS.FolderPath ProjectData(IProjectWs project, string suffix)
+            => ProjectData() + FS.folder(string.Format("{0}.{1}", project.Name, suffix));
+
         public FileCatalog EmitCatalog(IProjectWs project)
         {
             var catalog = project.FileCatalog();

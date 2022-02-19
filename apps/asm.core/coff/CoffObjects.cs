@@ -34,7 +34,7 @@ namespace Z0
             {
                 ref readonly var row = ref skip(src,i);
                 var location = address(row);
-                if(!dst.TryAdd(location, dispenser.Dispense(location, row.Name)))
+                if(!dst.TryAdd(location, dispenser.Symbol(location, row.Name)))
                 {
                     Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
                 }
@@ -53,7 +53,7 @@ namespace Z0
                     continue;
 
                 var location = address(row);
-                if(!dst.TryAdd(location, dispenser.Dispense(location, row.Name)))
+                if(!dst.TryAdd(location, dispenser.Symbol(location, row.Name)))
                 {
                     Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
                 }

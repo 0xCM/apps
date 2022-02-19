@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     public class DecodedAsmParser
     {
-        public static DecodedAsmParser create(AsmDispenser dispenser)
+        public static DecodedAsmParser create(AsmCodeDispenser dispenser)
             => new DecodedAsmParser(dispenser);
 
         AsmCodeBlocks Target;
@@ -17,9 +17,9 @@ namespace Z0.Asm
 
         AsmAddressLabel BlockBase;
 
-        AsmDispenser Dispenser;
+        AsmCodeDispenser Dispenser;
 
-        DecodedAsmParser(AsmDispenser dispenser)
+        DecodedAsmParser(AsmCodeDispenser dispenser)
         {
             Dispenser = dispenser;
         }
@@ -69,7 +69,7 @@ namespace Z0.Asm
         {
             var size = code.Size;
             var identifier = string.Format("_@{0}_{1}", BlockBase.Address, BlockOffset);
-            var hexDst = Dispenser.Encoding(size);
+            var hexDst = Dispenser.AsmEncoding(size);
             var buffer = hexDst.Edit;
             var hexSrc = code.View;
             for(var j=0; j<size; j++)

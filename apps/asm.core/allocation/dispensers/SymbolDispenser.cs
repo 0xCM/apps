@@ -24,7 +24,10 @@ namespace Z0
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
         }
 
-        public Label DefineLabel(@string content)
+        public AllocationKind DispensedKind
+            => AllocationKind.Symbol;
+
+        public Label DispenseLabel(@string content)
         {
             var label = Label.Empty;
             lock(locker)
@@ -40,10 +43,10 @@ namespace Z0
             return label;
         }
 
-        public LocatedSymbol Dispense(MemoryAddress location, @string name)
-            => Dispense(SymAddress.define(location), name);
+        public LocatedSymbol Symbol(MemoryAddress location, @string name)
+            => Symbol(SymAddress.define(location), name);
 
-        public LocatedSymbol Dispense(SymAddress location, @string name)
+        public LocatedSymbol Symbol(SymAddress location, @string name)
         {
             if(Lookup.TryGetValue(location, out var found))
                 return found;
@@ -81,9 +84,8 @@ namespace Z0
             core.iter(Allocators.Values, a => a.Dispose());
         }
 
-
         LocatedSymbol CreateSymbol(SymAddress location, @string name)
-            => new LocatedSymbol(location, DefineLabel(name));
+            => new LocatedSymbol(location, DispenseLabel(name));
 
         static long Seq;
 

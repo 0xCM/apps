@@ -15,7 +15,7 @@ namespace Z0
         public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
             => XedDisasmOps.LoadFileBlocks(src);
 
-        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, AsmDispenser dispenser, out Index<DisasmDetail> buffer)
+        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, AsmCodeDispenser dispenser, out Index<DisasmDetail> buffer)
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
@@ -43,7 +43,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, AsmDispenser dispenser, out DisasmDetail dst)
+        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, AsmCodeDispenser dispenser, out DisasmDetail dst)
         {
             dst = default;
             var result = ParseInstruction(block, out var inst);

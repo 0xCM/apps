@@ -42,7 +42,7 @@ namespace Z0
             {
                 var input = BitRender.format16((ushort)i);
                 ref var @string = ref seek(strings,i);
-                @string = dispenser.Dispense(input);
+                @string = dispenser.String(input);
                 if(!input.Equals(@string.Format()))
                 {
                     result = (false, string.Format("input:{0} != output:{1}", input, @string.Format()));

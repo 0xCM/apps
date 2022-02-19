@@ -16,14 +16,14 @@ namespace Z0.Asm
         {
             Data = data;
             Origin = EmptyString;
-            LineCount = data.Select(x => x.LineCount).Sum();
+            LineCount = data.Select(x => x.Count).Sum();
         }
 
         public AsmCodeBlocks(Label origin, AsmCodeBlock[] data)
         {
             Data = data;
             Origin = origin;
-            LineCount = data.Select(x => x.LineCount).Sum();
+            LineCount = data.Select(x => x.Count).Sum();
         }
 
         public AsmCodeBlock[] Storage

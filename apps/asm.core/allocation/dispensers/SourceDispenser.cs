@@ -45,6 +45,9 @@ namespace Z0
             core.iter(Allocators.Values, a => a.Dispose());
         }
 
+        public AllocationKind DispensedKind
+            => AllocationKind.Source;
+
         SourceText Allocate(@string content)
         {
             var dst = SourceText.Empty;
@@ -61,18 +64,18 @@ namespace Z0
             return dst;
         }
 
-        public SourceText Dispense(Identifier name, string src)
+        public SourceText Source(Identifier name, string src)
         {
             var dst = Allocate(src);
             Allocated[name] = dst;
             return dst;
         }
 
-        public SourceText Dispense(Identifier name, ReadOnlySpan<string> src)
+        public SourceText Source(Identifier name, ReadOnlySpan<string> src)
         {
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x));
-            return Dispense(name, dst.Emit());
+            return Source(name, dst.Emit());
         }
 
         static long Seq;

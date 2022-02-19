@@ -2,11 +2,13 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     using static core;
 
-    public class AsmDispenser : IDisposable
+    using Asm;
+
+    public class AsmCodeDispenser : IAllocationDispenser
     {
         SymbolDispenser Symbols;
 
@@ -16,35 +18,54 @@ namespace Z0.Asm
 
         LabelDispenser Labels;
 
-        internal AsmDispenser()
+        bool Owner;
+
+        internal AsmCodeDispenser(SymbolDispenser symbols, SourceDispenser source, MemoryDispenser encodings, LabelDispenser labels)
+        {
+            Symbols = symbols;
+            Sources = source;
+            Encodings = encodings;
+            Labels = labels;
+            Owner = false;
+        }
+
+        internal AsmCodeDispenser()
         {
             Symbols = Alloc.symbols();
             Sources = Alloc.source();
             Encodings = Alloc.mem();
             Labels = Alloc.labels();
+            Owner = true;
         }
 
         public void Dispose()
         {
-            (Symbols as IDisposable).Dispose();
-            Sources.Dispose();
-            Encodings.Dispose();
+            if(Owner)
+            {
+                (Symbols as IDisposable).Dispose();
+                (Sources as IDisposable).Dispose();
+                (Encodings  as IDisposable).Dispose();
+                (Labels as IDisposable).Dispose();
+            }
         }
 
+        public AllocationKind DispensedKind
+            => AllocationKind.AsmCode;
+
         public LocatedSymbol Symbol(MemoryAddress location, string name)
-            => Symbols.Dispense(location, name);
+            => Symbols.Symbol(location, name);
 
         public SourceText Source(Identifier name, string src)
-            => Sources.Dispense(name,src);
+            => Sources.Source(name,src);
 
-        public AsmHexRef Encoding(ByteSize size)
-            => Encodings.Dispense(size);
+        public AsmHexRef AsmEncoding(ByteSize size)
+            => Encodings.Memory(size);
 
         public AsmCode AsmCode(in AsmEncoding src)
         {
             ref readonly var code = ref src.Encoded;
             var size = code.Size;
-            var hex = Encoding(size);
+            var hex = AsmEncoding(size);
             var hexsrc = code.View;
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
@@ -56,7 +77,7 @@ namespace Z0.Asm
         {
             ref readonly var code = ref src.Encoded;
             var size = code.Size;
-            var hex = Encoding(size);
+            var hex = AsmEncoding(size);
             var hexsrc = code.Bytes;
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
@@ -79,7 +100,7 @@ namespace Z0.Asm
             var dst = alloc<AsmCodeBlock>(src.Length);
             for(var i=0; i<src.Length; i++)
                 seek(dst,i) = AsmCodeBlock(skip(src,i));
-            return new AsmCodeBlocks(Labels.Dispense(origin), dst);
+            return new AsmCodeBlocks(Labels.Label(origin), dst);
         }
     }
 }

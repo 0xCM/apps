@@ -22,9 +22,9 @@ namespace Z0
         public static LocatedSymbol define(SymAddress location, Label name)
             => new LocatedSymbol(location, name);
 
-        public SymAddress Location {get;}
+        public readonly SymAddress Location;
 
-        public Label Name {get;}
+        public readonly Label Name;
 
         [MethodImpl(Inline)]
         public LocatedSymbol(SymAddress address, Label name)

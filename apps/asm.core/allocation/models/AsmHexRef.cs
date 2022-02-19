@@ -16,6 +16,12 @@ namespace Z0.Asm
             Seg = seg;
         }
 
+        public MemoryAddress BaseAddress
+        {
+            [MethodImpl(Inline)]
+            get => Seg.BaseAddress;
+        }
+
         public ReadOnlySpan<byte> View
         {
             [MethodImpl(Inline)]

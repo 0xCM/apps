@@ -36,7 +36,10 @@ namespace Z0
             Allocators[Seq] = StringAllocator.alloc(Capacity);
         }
 
-        public StringRef Dispense(@string content)
+        public AllocationKind DispensedKind
+            => AllocationKind.String;
+
+        public StringRef String(@string content)
         {
             var dst = StringRef.Empty;
             lock(locker)

@@ -23,7 +23,10 @@ namespace Z0
             Allocators[Seq] = PageAllocator.alloc(Capacity);
         }
 
-        public MemorySeg Dispense()
+        public AllocationKind DispensedKind
+            => AllocationKind.Page;
+
+        public MemorySeg Page()
         {
             var address = MemoryAddress.Zero;
             lock(locker)
