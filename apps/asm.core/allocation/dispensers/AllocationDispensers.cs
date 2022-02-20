@@ -44,28 +44,28 @@ namespace Z0
         }
 
         public Label Label(@string content)
-            => Labels().Label(content);
+            => Labels().DispenseLabel(content);
 
         public MemorySeg Memory(ByteSize size)
-            => Mem().Memory(size);
+            => Mem().DispenseMemory(size);
 
         public MemorySeg Page()
             => Pages().Page();
 
-        public SourceText Source(Identifier name, string src)
-            => Sources().Source(name,src);
+        public SourceText Source(string src)
+            => Sources().DispenseSource(src);
 
         public SourceText Source(Identifier name, ReadOnlySpan<string> src)
-            => Sources().Source(name,src);
+            => Sources().Source(src);
 
         public StringRef String(@string content)
             => Strings().String(content);
 
         public LocatedSymbol Symbol(MemoryAddress location, @string name)
-            => Symbols().Symbol(location,name);
+            => Symbols().DispenseSymbol(location,name);
 
         public LocatedSymbol Symbol(SymAddress location, @string name)
-            => Symbols().Symbol(location,name);
+            => Symbols().DispenseSymbol(location,name);
 
         public AsmHexRef AsmEncoding(ByteSize size)
             => AsmCodes().AsmEncoding(size);
@@ -78,8 +78,5 @@ namespace Z0
 
         public AsmCodeBlock AsmCodeBlock(in AsmBlockEncoding src)
             => AsmCodes().AsmCodeBlock(src);
-
-        public AsmCodeBlocks AsmCodeBlocks(string origin, ReadOnlySpan<AsmBlockEncoding> src)
-            => AsmCodes().AsmCodeBlocks(origin,src);
     }
 }

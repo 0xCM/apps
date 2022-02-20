@@ -69,10 +69,6 @@ namespace Z0
             => Z0.BitfieldServices.create(wf);
 
         [Op]
-        public static ProjectScripts ProjectScripts(this IWfRuntime wf)
-            => Z0.ProjectScripts.create(wf);
-
-        [Op]
         public static TableEmitters TableEmitters(this IWfRuntime context)
             => Z0.TableEmitters.create(context);
 

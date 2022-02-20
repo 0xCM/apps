@@ -26,22 +26,6 @@ namespace Z0
             return SymAddress.define(math.or((uint)lo, (uint)hi << 16), row.Value);
         }
 
-        public static LocatedSymbols symbolize(ReadOnlySpan<CoffSymRecord> src, SymbolDispenser dispenser)
-        {
-            var count = src.Length;
-            var dst = new LocatedSymbols();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var row = ref skip(src,i);
-                var location = address(row);
-                if(!dst.TryAdd(location, dispenser.Symbol(location, row.Name)))
-                {
-                    Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
-                }
-            }
-            return dst;
-        }
-
         public static LocatedSymbols symbolize(ReadOnlySpan<ObjSymRow> src, SymbolDispenser dispenser)
         {
             var count = src.Length;
@@ -53,7 +37,7 @@ namespace Z0
                     continue;
 
                 var location = address(row);
-                if(!dst.TryAdd(location, dispenser.Symbol(location, row.Name)))
+                if(!dst.TryAdd(location, dispenser.DispenseSymbol(location, row.Name)))
                 {
                     Errors.Throw(string.Format("The address {0} is duplicated at sequence {1} for symbol '{2}'", location, row.Seq, row.Name));
                 }

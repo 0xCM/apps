@@ -54,6 +54,9 @@ namespace Z0
         FS.Files IFileArchive.Files()
             => Home().EnumerateFiles(true).Array().Sort();
 
+        FS.Files Files(params FileKind[] kinds)
+            => Home().Files(true, kinds.Select(FileTypes.ext));
+
         FS.FilePath FilePath(string scope, string suffix, FS.FileExt ext)
             => Subdir(scope) +  FS.file(suffix, ext);
 

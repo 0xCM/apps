@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IAsmBlockSegment
+    public struct ObjDumpRow : IAsmBlockSegment, IComparable<ObjDumpRow>
     {
         public const string TableId = "llvm.objdump";
 
@@ -41,6 +41,9 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        public string DocName
+            => Source.Path.FileName.Format();
+
         public static ObjDumpRow Empty()
         {
             var dst = new ObjDumpRow();
@@ -53,6 +56,14 @@ namespace Z0
             dst.Source = FS.FilePath.Empty;
             dst.Comment = AsmInlineComment.Empty;
             return dst;
+        }
+
+        public int CompareTo(ObjDumpRow src)
+        {
+            var result = DocName.CompareTo(src.DocName);
+            if(result==0)
+                result = IP.CompareTo(src.IP);
+            return result;
         }
 
         public static ObjDumpRow Init(in FileRef src)

@@ -39,7 +39,7 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.Label;
 
-        public Label Label(@string content)
+        public Label DispenseLabel(@string content)
         {
             var label = Z0.Label.Empty;
             lock(locker)

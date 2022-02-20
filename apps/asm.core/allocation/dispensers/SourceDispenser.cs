@@ -28,14 +28,11 @@ namespace Z0
 
         readonly Dictionary<long,SourceAllocator> Allocators;
 
-        readonly ConcurrentDictionary<Identifier,SourceText> Allocated;
-
         object locker;
 
         internal SourceDispenser(uint capacity = Capacity)
         {
             locker = new();
-            Allocated = new();
             Allocators = new();
             Allocators[Seq] = SourceAllocator.alloc(Capacity);
         }
@@ -48,34 +45,27 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.Source;
 
-        SourceText Allocate(@string content)
+        public SourceText DispenseSource(@string src)
         {
             var dst = SourceText.Empty;
             lock(locker)
             {
                 var alloc = Allocators[Seq];
-                if(!alloc.Alloc(content.Value, out dst))
+                if(!alloc.Alloc(src.Value, out dst))
                 {
                     alloc = SourceAllocator.alloc(Capacity);
-                    alloc.Alloc(content.Value, out dst);
+                    alloc.Alloc(src.Value, out dst);
                     Allocators[next()] = alloc;
                 }
             }
             return dst;
         }
 
-        public SourceText Source(Identifier name, string src)
-        {
-            var dst = Allocate(src);
-            Allocated[name] = dst;
-            return dst;
-        }
-
-        public SourceText Source(Identifier name, ReadOnlySpan<string> src)
+        public SourceText Source(ReadOnlySpan<string> src)
         {
             var dst = text.buffer();
             iter(src, x => dst.AppendLine(x));
-            return Source(name, dst.Emit());
+            return DispenseSource(dst.Emit());
         }
 
         static long Seq;

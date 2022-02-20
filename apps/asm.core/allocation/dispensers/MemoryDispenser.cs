@@ -29,7 +29,7 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.Memory;
 
-        MemorySeg Allocate(ByteSize size)
+        public MemorySeg DispenseMemory(ByteSize size)
         {
             var dst = MemorySeg.Empty;
             lock(locker)
@@ -46,12 +46,6 @@ namespace Z0
                     Allocators[next()] = allocator;
                 }
             }
-            return dst;
-        }
-
-        public MemorySeg Memory(ByteSize size)
-        {
-            var dst = Allocate(size);
             return dst;
         }
 

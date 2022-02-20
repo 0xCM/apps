@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static core;
+
     public class AsmCodeMap : IDisposable
     {
         public static AsmCodeMap create(IWfRuntime wf)
@@ -30,7 +32,6 @@ namespace Z0.Asm
             Dispensers.Dispose();
         }
 
-
         public void Seal()
         {
             EntryData = EntryBuffer.Array();
@@ -42,65 +43,52 @@ namespace Z0.Asm
             get => EntryData;
         }
 
-        public void Include(ReadOnlySpan<ObjDumpRow> src)
+        public void Include(IProjectWs project, Index<ObjDumpRow> src)
         {
-            var traverser = new Traverser(this);
-            var blocks = Wf.AsmObjects().DistillBlocks(src, Dispensers.AsmCodes());
-            traverser.Traverse(blocks.Values);
-        }
-
-        class Traverser : AsmCodeBlockTraverser
-        {
-            AsmCodeMap Map;
-
-            Label BlockOrigin;
-
-            MemoryAddress BaseAddress;
-
-            uint BlockNumber;
-
-            public Traverser(AsmCodeMap map)
+            var catalog = project.FileCatalog();
+            var distilled = Wf.AsmObjects().DistillBlocks(project, src, Dispensers);
+            for(var i=0; i<distilled.Count; i++)
             {
-                Map = map;
-            }
+                ref readonly var blocks = ref distilled[i];
+                if(blocks.Count == 0)
+                    continue;
 
-            void AddEntries(in AsmCodeBlock src)
-            {
-                var count = src.Count;
-                ref readonly var address = ref src.Label.Location.Address;
-                ref readonly var name = ref src.Label.Name;
-                 for(var i=0; i<count; i++)
-                 {
-                     ref readonly var c = ref src[i];
-                     if(BaseAddress == 0)
-                        BaseAddress = c.Encoded.BaseAddress;
+                ref readonly var origin = ref blocks.Origin;
 
-                     var entry = new AsmCodeMapEntry();
-                     entry.Id = c.Id;
-                     entry.MappedAddress = c.Encoded.BaseAddress;
-                     entry.MappedRebase = c.Encoded.BaseAddress - BaseAddress;
-                     entry.Origin = BlockOrigin;
-                     entry.BlockNumber = BlockNumber;
-                     entry.BlockName = name;
-                     entry.BlockAddress = address;
-                     entry.EntryAddress = c.IP;
-                     entry.EncodingSize = c.EncodingSize;
-                     entry.Encoded = c.Encoded;
-                     entry.Asm = c.Asm;
-                     entry.BlockSize = src.Size;
-                     Map.EntryBuffer.Add(entry);
-                 }
-            }
+                var blocknumber = 0u;
+                var @base = MemoryAddress.Zero;
 
-            protected override void Traversing(in AsmCodeBlock src)
-            {
-                AddEntries(src);
-                BlockNumber++;
-            }
+                for(var j=0; j<blocks.Count; j++)
+                {
+                    ref readonly var block = ref blocks[j];
+                    var count = block.Count;
+                    ref readonly var address = ref block.Label.Location.Address;
+                    ref readonly var name = ref block.Label.Name;
+                    for(var k=0; k<count; k++)
+                    {
+                        ref readonly var c = ref block[k];
 
-            protected override void Traversing(in AsmCodeBlocks src)
-            {
-                BlockOrigin = src.Origin;
+                        if(j==0 && k==0)
+                            @base = c.Encoded.BaseAddress;
+
+                        var entry = new AsmCodeMapEntry();
+                        entry.Id = c.Id;
+                        entry.MappedAddress = c.Encoded.BaseAddress;
+                        entry.MappedRebase = c.Encoded.BaseAddress - @base;
+                        entry.Origin = origin;
+                        entry.BlockNumber = blocknumber;
+                        entry.BlockName = name;
+                        entry.BlockAddress = address;
+                        entry.EntryAddress = c.IP;
+                        entry.EncodingSize = c.EncodingSize;
+                        entry.Encoded = c.Encoded;
+                        entry.Asm = c.Asm;
+                        entry.BlockSize = block.Size;
+                        EntryBuffer.Add(entry);
+                    }
+
+                    blocknumber++;
+                }
             }
         }
     }

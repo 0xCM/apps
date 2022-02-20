@@ -14,7 +14,7 @@ namespace Z0
             var project = Project();
             var src = ObjDump.LoadRows(WsProjects.Table<ObjDumpRow>(project));
             using var map = AsmCodeMap.create(Wf);
-            map.Include(src);
+            map.Include(project,src);
             map.Seal();
             var entries = map.Entries;
             TableEmit(entries, AsmCodeMapEntry.RenderWidths, WsProjects.Table<AsmCodeMapEntry>(project));
@@ -22,28 +22,5 @@ namespace Z0
         }
 
 
-        class AsmTraverser : AsmCodeBlockTraverser
-        {
-            Receiver<Label,AsmCodeBlock> BlockReceiver;
-
-            Label BlockOrigin;
-
-            public AsmTraverser(Receiver<Label,AsmCodeBlock> receiver)
-            {
-                BlockReceiver = receiver;
-            }
-
-            protected override void Traversing(in AsmCodeBlock src)
-            {
-                BlockReceiver(BlockOrigin, src);
-            }
-
-            protected override void Traversing(in AsmCodeBlocks src)
-            {
-                BlockOrigin = src.Origin;
-            }
-        }
     }
-
-
 }

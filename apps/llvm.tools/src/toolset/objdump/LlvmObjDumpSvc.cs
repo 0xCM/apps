@@ -19,6 +19,16 @@ namespace Z0.llvm
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
+        FS.FolderPath AsmCodeDir(IProjectWs project)
+            => ProjectDb.ProjectData() + FS.folder(string.Format("{0}.asm.code", project.Name.Format()));
+
+        FS.FilePath AsmCodePath(IProjectWs project, string origin)
+            => AsmCodeDir(project) + FS.file(string.Format("{0}.code", origin), FS.Csv);
+
+        FS.FilePath ObjBlockPath(IProjectWs project)
+            => ProjectDb.ProjectTable<ObjBlock>(project);
+
+
         public LlvmObjDumpSvc()
             : base(ToolId)
         {
@@ -111,21 +121,107 @@ namespace Z0.llvm
         public void Collect(CollectionContext collect)
         {
             var rows = Consolidate(collect);
-            EmitCodeBlocks(collect,rows);
+            var blocks = CalcObjBlocks(rows);
+            TableEmit(blocks.View, ObjBlock.RenderWidths, ObjBlockPath(collect.Project));
+            EmitCodeBlocks(collect);
             Recode(collect,rows);
             EmitIndex(collect,rows);
         }
 
-        void EmitCodeBlocks(CollectionContext collect, ReadOnlySpan<ObjDumpRow> src)
+
+        Index<ObjBlock> CalcObjBlocks(Index<ObjDumpRow> src)
         {
-            using var dispenser = Alloc.asm();
-            var blocks = AsmObjects.DistillBlocks(src, dispenser);
-            var dst = ProjectDb.ProjectData() + FS.folder(string.Format("{0}.asm.code",collect.Project.Name.Format()));
-            dst.Clear();
-            AsmObjects.Emit(blocks, dst);
+            src.Sort();
+            var count = src.Count;
+            var docid = 0u;
+            var docname = EmptyString;
+            var blockname = EmptyString;
+            var @base = MemoryAddress.Zero;
+            var dst = list<ObjBlock>();
+            var size = 0u;
+            var number = 0u;
+            var source = FS.FileUri.Empty;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var row = ref src[i];
+                if(i==0)
+                {
+                    docid = row.DocId;
+                    blockname = row.BlockName;
+                    source = row.Source;
+                    docname = row.Source.Path.FileName.Format();
+                    @base = row.BlockAddress;
+                }
+
+                if(row.BlockName != blockname)
+                {
+                    var block = new ObjBlock();
+                    block.DocId = docid;
+                    block.BlockBase = @base;
+                    block.BlockName = blockname;
+                    block.BlockNumber = number++;
+                    block.BlockSize = size;
+                    block.Source = source;
+                    dst.Add(block);
+                    size = 0;
+                    source = row.Source;
+                }
+
+                if(row.DocId != docid)
+                    number = 0;
+
+                docid = row.DocId;
+                blockname = row.BlockName;
+                docname = row.Source.Path.FileName.Format();
+                @base = row.BlockAddress;
+                size += row.Size;
+
+                if(i==count-1)
+                {
+                    var block = new ObjBlock();
+                    block.DocId = docid;
+                    block.BlockName = blockname;
+                    block.BlockBase = @base;
+                    block.BlockNumber = number++;
+                    block.Source = source;
+                    block.BlockSize = size;
+                    dst.Add(block);
+                }
+            }
+            return dst.ToArray();
         }
 
-        ReadOnlySpan<ObjDumpRow> Consolidate(CollectionContext collect)
+        void EmitCodeBlocks(CollectionContext collect)
+        {
+            var project = collect.Project;
+            AsmCodeDir(project).Clear();
+
+            var files = collect.Files.Entries(FileKind.ObjAsm);
+            var count = files.Count;
+
+            using var dispenser = Alloc.dispensers();
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var file = ref files[i];
+                var result = ParseDumpSource(file, out var records);
+                if(result.Fail)
+                    Errors.Throw(result.Message);
+
+                var blocks = AsmObjects.DistillBlocks(file, records, dispenser);
+                var dst = AsmCodePath(project, file.Path.FileName.Format());
+                AsmObjects.Emit(blocks,dst);
+            }
+        }
+
+        void EmitCodeBlocks(CollectionContext collect, Index<ObjDumpRow> src)
+        {
+            var project = collect.Project;
+            using var dispenser = Alloc.dispensers();
+            var blocks = AsmObjects.DistillBlocks(project, src, dispenser);
+            AsmObjects.Emit(blocks, AsmCodeDir(project).Clear());
+        }
+
+        Index<ObjDumpRow> Consolidate(CollectionContext collect)
         {
             var project = collect.Project;
             var src = project.OutFiles(FileKind.ObjAsm).View;
@@ -165,7 +261,7 @@ namespace Z0.llvm
                 total += docseq;
             }
             EmittedTable(flow, total);
-            return emitted.ViewDeposited();
+            return emitted.ToArray();
         }
 
         void EmitIndex(CollectionContext collect, ReadOnlySpan<ObjDumpRow> rows)

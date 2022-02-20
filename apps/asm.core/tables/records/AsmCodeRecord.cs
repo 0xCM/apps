@@ -11,8 +11,6 @@ namespace Z0.Asm
 
         public const byte FieldCount = 8;
 
-        public Label Origin;
-
         public Hex64 Id;
 
         public Label BlockName;
@@ -27,6 +25,8 @@ namespace Z0.Asm
 
         public SourceText Asm;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{42,18,24,16,8,42,8,1};
+        public Label Origin;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,42,16,8,48,8,82,1};
     }
 }

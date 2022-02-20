@@ -10,8 +10,6 @@ namespace Z0
     {
         const uint Capacity = PageBlock.PageSize;
 
-        readonly LocatedSymbols Lookup;
-
         readonly Dictionary<long,LabelAllocator> Allocators;
 
         object locker;
@@ -19,15 +17,19 @@ namespace Z0
         internal SymbolDispenser(uint capacity = Capacity)
         {
             Allocators = new();
-            Lookup = new();
             locker = new();
             Allocators[Seq] = LabelAllocator.alloc(Capacity);
+        }
+
+        void IDisposable.Dispose()
+        {
+            core.iter(Allocators.Values, a => a.Dispose());
         }
 
         public AllocationKind DispensedKind
             => AllocationKind.Symbol;
 
-        public Label DispenseLabel(@string content)
+        Label DispenseLabel(@string content)
         {
             var label = Label.Empty;
             lock(locker)
@@ -43,48 +45,10 @@ namespace Z0
             return label;
         }
 
-        public LocatedSymbol Symbol(MemoryAddress location, @string name)
-            => Symbol(SymAddress.define(location), name);
+        public LocatedSymbol DispenseSymbol(MemoryAddress location, @string name)
+            => DispenseSymbol(SymAddress.define(location), name);
 
-        public LocatedSymbol Symbol(SymAddress location, @string name)
-        {
-            if(Lookup.TryGetValue(location, out var found))
-                return found;
-            else
-            {
-                var symbol = CreateSymbol(location, name);
-                Lookup[location] = symbol;
-                return symbol;
-            }
-        }
-
-        public uint Count
-            => (uint)Lookup.Count;
-
-        public ICollection<LocatedSymbol> Dispensed()
-            => Lookup.Values;
-
-        public void Dispensed(Span<LocatedSymbol> dst)
-        {
-            var i=0;
-            var max = dst.Length;
-            var dispensed = Dispensed();
-            foreach(var symbol in dispensed)
-            {
-                if(i < max)
-                    seek(dst,i++) = symbol;
-            }
-        }
-
-        public bool Search(SymAddress location, out LocatedSymbol dst)
-            => Lookup.TryGetValue(location, out dst);
-
-        void IDisposable.Dispose()
-        {
-            core.iter(Allocators.Values, a => a.Dispose());
-        }
-
-        LocatedSymbol CreateSymbol(SymAddress location, @string name)
+        public LocatedSymbol DispenseSymbol(SymAddress location, @string name)
             => new LocatedSymbol(location, DispenseLabel(name));
 
         static long Seq;

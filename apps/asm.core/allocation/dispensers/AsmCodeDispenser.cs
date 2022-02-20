@@ -52,14 +52,14 @@ namespace Z0
         public AllocationKind DispensedKind
             => AllocationKind.AsmCode;
 
-        public LocatedSymbol Symbol(MemoryAddress location, string name)
-            => Symbols.Symbol(location, name);
+        public LocatedSymbol DispenseSymbol(MemoryAddress location, string name)
+            => Symbols.DispenseSymbol(location, name);
 
-        public SourceText Source(Identifier name, string src)
-            => Sources.Source(name,src);
+        public SourceText DispenseSource(string src)
+            => Sources.DispenseSource(src);
 
         public AsmHexRef AsmEncoding(ByteSize size)
-            => Encodings.Memory(size);
+            => Encodings.DispenseMemory(size);
 
         public AsmCode AsmCode(in AsmEncoding src)
         {
@@ -70,7 +70,7 @@ namespace Z0
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(Source(src.Id.Format(), src.Asm.Format()), src.IP, hex);
+            return new AsmCode(DispenseSource(src.Asm.Format()), src.IP, hex);
         }
 
         public AsmCode AsmCode(in AsmEncodingRow src)
@@ -82,7 +82,7 @@ namespace Z0
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(Source(src.Id.Format(), src.Asm.Format()), src.IP, hex);
+            return new AsmCode(DispenseSource(src.Asm.Format()), src.IP, hex);
         }
 
         public AsmCodeBlock AsmCodeBlock(in AsmBlockEncoding src)
@@ -92,7 +92,7 @@ namespace Z0
             var code = alloc<AsmCode>(count);
             for(var i=0; i<count; i++)
                 seek(code,i) = AsmCode(encodings[i]);
-            return new AsmCodeBlock(Symbol(src.BlockAddress, src.BlockName), code);
+            return new AsmCodeBlock(DispenseSymbol(src.BlockAddress, src.BlockName), code);
         }
 
         public AsmCodeBlocks AsmCodeBlocks(string origin, ReadOnlySpan<AsmBlockEncoding> src)
@@ -100,7 +100,7 @@ namespace Z0
             var dst = alloc<AsmCodeBlock>(src.Length);
             for(var i=0; i<src.Length; i++)
                 seek(dst,i) = AsmCodeBlock(skip(src,i));
-            return new AsmCodeBlocks(Labels.Label(origin), dst);
+            return new AsmCodeBlocks(Labels.DispenseLabel(origin), dst);
         }
     }
 }

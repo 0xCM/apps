@@ -75,7 +75,7 @@ namespace Z0.Asm
             for(var j=0; j<size; j++)
                 seek(buffer,j) = skip(hexSrc,j);
             BlockOffset += size;
-            return new AsmCode(Dispenser.Source(identifier, asm), address, hexDst);
+            return new AsmCode(Dispenser.DispenseSource(asm), address, hexDst);
         }
 
         public Outcome ParseBlocks(string src)
@@ -101,7 +101,7 @@ namespace Z0.Asm
                     if(statemements.Count != 0 && block.IsNonEmpty)
                         blocks.Add(new (block, statemements.ToArray()));
 
-                    block = Dispenser.Symbol(@base.Address, @base.Format());
+                    block = Dispenser.DispenseSymbol(@base.Address, @base.Format());
                     BlockBase = @base;
                     BlockOffset = 0;
                     statemements.Clear();
