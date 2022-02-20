@@ -102,7 +102,7 @@ namespace Z0
                 return ws.SrcFiles();
         }
 
-        public Outcome RunProjectScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
+        public Outcome RunScript(IProjectWs ws, CmdArgs args, ScriptId script, Subject? scope = null)
         {
             var result = Outcome.Success;
             if(args.Count != 0)
@@ -128,10 +128,10 @@ namespace Z0
         public ReadOnlySpan<CmdResponse> ParseCmdResponse(ReadOnlySpan<TextLine> src)
             => CmdResponse.parse(src);
 
-        public Outcome RunProjectScript(IProjectWs ws, FS.FilePath path, ScriptId script)
+        public Outcome RunProjectScript(IProjectWs project, FS.FilePath path, ScriptId script)
         {
             var srcid = path.FileName.WithoutExtension.Format();
-            OmniScript.RunProjectScript(ws.Project, srcid, script, true, out var flows);
+            OmniScript.RunProjectScript(project.Project, srcid, script, true, out var flows);
             for(var j=0; j<flows.Length; j++)
             {
                 ref readonly var flow = ref skip(flows, j);
@@ -140,18 +140,46 @@ namespace Z0
             return true;
         }
 
-        public Outcome RunProjectScript(IProjectWs ws, ScriptId script)
+        FS.FilePath FlowLogPath(IProjectWs project, ScriptId scriptid)
+            => ProjectDb.ProjectData(project,"logs") + Tables.filename<ToolCmdFlow>(scriptid);
+
+        public Outcome<Index<ToolCmdFlow>> RunScript(IProjectWs project, ScriptId scriptid, bool runexe = true, Action<ToolCmdFlow> receiver = null)
         {
-            OmniScript.RunProjectScript(ws.Project, script, true, out var flows);
-            for(var j=0; j<flows.Length; j++)
+            var result = OmniScript.RunProjectScript(project.Project, scriptid, true, out var flows);
+            if(result)
             {
-                ref readonly var flow = ref skip(flows, j);
-                Write(flow.Format());
+                var exeflow = default(ToolCmdFlow?);
+                var count = flows.Length;
+                if(count != 0)
+                {
+                    var data = alloc<ToolCmdFlow>(count);
+                    for(var j=0; j<count; j++)
+                    {
+                        ref readonly var flow = ref skip(flows,j);
+                        seek(data,j) = flow;
+                        Status(flow.Format());
+                        receiver?.Invoke(flow);
+                        if(flow.TargetPath.FileName.Is(FS.Exe))
+                            exeflow = flow;
+                    }
+
+
+                    TableEmit(@readonly(data), ToolCmdFlow.RenderWidths, FlowLogPath(project,scriptid));
+
+                    if(runexe && exeflow != null)
+                        RunExe(exeflow.Value);
+
+                    return (true, data);
+                }
+                else
+                    return true;
             }
-            return true;
+            else
+                return result;
+
         }
 
-        public Outcome<Index<ToolCmdFlow>> RunScript(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver = null)
+        public Outcome<Index<ToolCmdFlow>> RunScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver = null)
         {
             var result = Outcome<Index<ToolCmdFlow>>.Success;
             var cmdflows = list<ToolCmdFlow>();
@@ -204,21 +232,25 @@ namespace Z0
             return result;
         }
 
+        void RunExe(ToolCmdFlow flow)
+        {
+            var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));
+            var result = OmniScript.Run(flow.TargetPath, CmdVars.Empty, quiet: true, out var response);
+            if (result.Fail)
+                Error(result.Message);
+            else
+            {
+                for (var i=0; i<response.Length; i++)
+                    Write(string.Format("exec >> {0}",skip(response, i).Content), FlairKind.StatusData);
+
+                Ran(running, string.Format("Executed {0}", flow.TargetPath.ToUri()));
+            }
+        }
+
         public void HandleBuildResponse(ToolCmdFlow flow, bool runexe)
         {
             if(flow.TargetPath.FileName.Is(FS.Exe) && runexe)
-            {
-                var running = Running(string.Format("Executing {0}", flow.TargetPath.ToUri()));
-                var result = OmniScript.Run(flow.TargetPath, CmdVars.Empty, quiet: true, out var response);
-                if (result.Fail)
-                    Error(result.Message);
-                else
-                {
-                    for (var i=0; i<response.Length; i++)
-                        Babble(skip(response, i).Content);
-                    Ran(running, string.Format("Executed {0}", flow.TargetPath.ToUri()));
-                }
-            }
+                RunExe(flow);
         }
 
         public Index<SymInfo> EmitTokens(IProjectWs project, ITokenSet src)

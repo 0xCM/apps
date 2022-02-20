@@ -17,7 +17,7 @@ namespace Z0.llvm
 
         public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project)
         {
-            return WsProjects.RunScript(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, false));
+            return WsProjects.RunScripts(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, false));
         }
 
         public LlvmMcSvc()

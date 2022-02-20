@@ -15,15 +15,20 @@ namespace Z0
         Outcome Collect(CmdArgs args)
         {
             var project = Project();
+            Collect(project);
+            return true;
+        }
+
+
+        void Collect(IProjectWs project)
+        {
             var receiver = new AsmStatsCollector();
             Projects.Collect(project, receiver);
             var stats = receiver.Stats();
             var dst = ProjectDb.ProjectTable<AsmStat>(project);
             TableEmit(stats.View, dst);
-            return true;
-        }
 
-        LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
+        }
 
         [CmdOp("project/objects")]
         Outcome CacheObjSymbols(CmdArgs args)

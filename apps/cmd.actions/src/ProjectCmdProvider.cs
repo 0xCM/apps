@@ -52,6 +52,8 @@ namespace Z0
 
         IntelIntrinsics IntelIntrinsics => Service(Wf.IntelIntrinsics);
 
+        LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
+
         FS.Files _Files;
 
         FS.Files Files()
