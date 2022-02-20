@@ -46,8 +46,8 @@ public enum PartId : byte
     [Symbol("codegen.test")]
     CodeGenTest = 13,
 
-    [Symbol("workflow")]
-    Workflow = 15,
+    [Symbol("asm.prototypes")]
+    AsmPrototypes = 15,
 
     [Symbol("processors")]
     Processors = 16,

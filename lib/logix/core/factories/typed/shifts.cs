@@ -8,7 +8,7 @@ namespace Z0
 
     using static Root;
 
-    using BSK = ApiBitShiftClass;
+    using BSK = BitShiftClass;
 
     partial struct TypedLogicSpec
     {

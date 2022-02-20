@@ -32,7 +32,7 @@ namespace Z0
             where T : unmanaged
                 => string.Concat(format(kind), Chars.Colon, NumericKinds.keyword<T>());
 
-        public static string sig<T>(ApiBitShiftClass kind)
+        public static string sig<T>(BitShiftClass kind)
             where T : unmanaged
                 => $"{kind}:{typeof(T).NumericKind().Keyword()}";
 
@@ -57,7 +57,7 @@ namespace Z0
         public static string format(BLK kind)
             => kind.ToString().ToLower();
 
-        public static string format(ApiBitLogicClass kind)
+        public static string format(BitLogicClass kind)
             => kind.Format();
     }
 }

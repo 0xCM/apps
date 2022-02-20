@@ -5,7 +5,7 @@
 namespace Z0
 {
     using A = OpKindAttribute;
-    using K = ApiBitShiftClass;
+    using K = BitShiftClass;
 
     public sealed class SllAttribute : A { public SllAttribute() : base(K.Sll) {} }
 

@@ -93,6 +93,14 @@ namespace Z0
             => default;
 
         [KindFactory]
+        public static Inc inc()
+            => default;
+
+        [KindFactory]
+        public static Dec dec()
+            => default;
+
+        [KindFactory]
         public static Sll sll()
             => default;
 
@@ -107,5 +115,54 @@ namespace Z0
         [KindFactory]
         public static Rotr rotr()
             => default;
+
+        [KindFactory]
+        public static TestZ testz()
+            => default;
+
+        [KindFactory]
+        public static TestC testc()
+            => default;
+
+        [KindFactory]
+        public static Ntz ntz()
+            => default;
+
+        [KindFactory]
+        public static Nlz nlz()
+            => default;
+
+        [KindFactory]
+        public static Pop pop()
+            => default;
+
+        [KindFactory]
+        public static Gather gather()
+            => default;
+
+        [KindFactory]
+        public static Scatter scatter()
+            => default;
+
+        [KindFactory]
+        public static Lt lt()
+            => default;
+
+        [KindFactory]
+        public static LtEq lteq()
+            => default;
+
+        [KindFactory]
+        public static Gt gt()
+            => default;
+
+        [KindFactory]
+        public static GtEq gteq()
+            => default;
+
+        [KindFactory]
+        public static Eq eq()
+            => default;
+
     }
 }

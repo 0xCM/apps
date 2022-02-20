@@ -5,7 +5,7 @@
 namespace Z0
 {
     using A = OpKindAttribute;
-    using K = ApiBitLogicClass;
+    using K = BitLogicClass;
 
     public sealed class AndAttribute : A { public AndAttribute() : base(K.And) {} }
 

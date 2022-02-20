@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.Linq;
 
-    using static Root;
     using static LogicSig;
     using static NumericLogixOps;
 
@@ -17,7 +15,7 @@ namespace Z0
     using UAR = ApiUnaryArithmeticClass;
     using BAR = ApiBinaryArithmeticClass;
     using BCK = ApiComparisonClass;
-    using BSK = ApiBitShiftClass;
+    using BSK = BitShiftClass;
 
     public readonly struct NumericLogixHost
     {

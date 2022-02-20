@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = ApiBitLogicClass;
+    using K = BitLogicClass;
     using I = IApiBitLogicClass;
 
     partial struct ApiClasses

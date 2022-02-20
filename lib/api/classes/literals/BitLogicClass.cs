@@ -10,7 +10,7 @@ namespace Z0
     /// Classifies binary boolean and bitwise logical operations
     /// </summary>
     [ApiClass, SymSource("api.classes")]
-    public enum ApiBitLogicClass : ushort
+    public enum BitLogicClass : ushort
     {
         /// <summary>
         /// The empty identity which, unfortunately conflicts with the inescapable defintion of 'False'

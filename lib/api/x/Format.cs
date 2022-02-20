@@ -77,25 +77,25 @@ namespace Z0
             => $"{key.Format()}({a}, {b})";
 
         [Op]
-        public static string Format(this ApiBitShiftClass kind)
+        public static string Format(this BitShiftClass kind)
             => kind switch {
-                ApiBitShiftClass.Sll => "<<",
-                ApiBitShiftClass.Srl => ">>",
-                ApiBitShiftClass.Rotl => "<<>",
-                ApiBitShiftClass.Rotr => ">><",
+                BitShiftClass.Sll => "<<",
+                BitShiftClass.Srl => ">>",
+                BitShiftClass.Rotl => "<<>",
+                BitShiftClass.Rotr => ">><",
                 _ => kind.ToString()
             };
 
         [Op]
-        public static string Format<S,T>(this ApiBitShiftClass key, S a, T b)
+        public static string Format<S,T>(this BitShiftClass key, S a, T b)
             => $"{a} {key.Format()} {b}";
 
         [Op]
-        public static string Format(this ApiBitLogicClass key)
+        public static string Format(this BitLogicClass key)
             => key.ToString().ToLower();
 
         [Op, Closures(Closure)]
-        public static string Format<T>(this ApiBitLogicClass key, T a, T b)
+        public static string Format<T>(this BitLogicClass key, T a, T b)
             => string.Format("{0}({1}, {2})", key.Format(), a, b);
     }
 }

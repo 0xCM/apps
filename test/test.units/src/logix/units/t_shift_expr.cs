@@ -8,7 +8,7 @@ namespace Z0.Logix
 
     using static TypedLogicSpec;
 
-    using AK = ApiBitShiftClass;
+    using AK = BitShiftClass;
 
     public class t_shift_expr : t_typed_logix<t_shift_expr>
     {

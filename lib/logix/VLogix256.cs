@@ -15,7 +15,7 @@ namespace Z0
     using ULK = UnaryBitLogicKind;
     using BLK = BinaryBitLogicKind;
     using TLK = TernaryBitLogicKind;
-    using BSK = ApiBitShiftClass;
+    using BSK = BitShiftClass;
     using BCK = ApiComparisonClass;
     using BAR = ApiBinaryArithmeticClass;
 

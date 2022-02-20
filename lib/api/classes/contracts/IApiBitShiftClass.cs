@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = ApiBitShiftClass;
+    using K = BitShiftClass;
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
 
     /// <summary>
@@ -13,7 +13,7 @@ namespace Z0
     [Free]
     public interface IApiBitShiftClass : IApiClass<K>
     {
-        new ApiBitShiftClass Kind {get;}
+        new BitShiftClass Kind {get;}
 
         K IApiClass<K>.Kind
             => Kind;

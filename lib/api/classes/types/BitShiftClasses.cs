@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using K = ApiBitShiftClass;
+    using K = BitShiftClass;
     using I = IApiBitShiftClass;
 
     partial struct ApiClasses

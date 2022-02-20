@@ -53,7 +53,7 @@ namespace Z0.Asm
             => ref skip(regs(w), index);
 
         [MethodImpl(Inline), Op]
-        public static bit slot(Win64Ccv cc, byte index, out Gp8LoReg dst)
+        public static bit slot(byte index, out Gp8LoReg dst)
         {
             var i = math.and(index,Win64MaxReg);
             bit valid = i <= Win64MaxReg;
@@ -62,7 +62,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static bit slot(Win64Ccv cc, byte index, out Gp16Reg dst)
+        public static bit slot(byte index, out Gp16Reg dst)
         {
             var i = math.and(index,Win64MaxReg);
             bit valid = i <= Win64MaxReg;
@@ -71,7 +71,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static bit slot(Win64Ccv cc, byte index, out Gp32Reg dst)
+        public static bit slot(byte index, out Gp32Reg dst)
         {
             var i = math.and(index,Win64MaxReg);
             bit valid = i <= Win64MaxReg;
@@ -80,7 +80,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline), Op]
-        public static bit slot(Win64Ccv cc, byte index, out Gp64Reg dst)
+        public static bit slot(byte index, out Gp64Reg dst)
         {
             var i = math.and(index,Win64MaxReg);
             bit valid = i <= Win64MaxReg;

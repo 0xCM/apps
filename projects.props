@@ -4,6 +4,7 @@
     <Asm>$(Src)asm/z0.asm.csproj</Asm>
     <AsmCore>$(Src)asm.core/z0.asm.core.csproj</AsmCore>
     <AsmOperands>$(Src)asm.operands/z0.asm.operands.csproj</AsmOperands>
+    <AsmPrototypes>$(Src)asm.prototypes/z0.asm.prototypes.csproj</AsmPrototypes>
 
     <Capture>$(Src)capture/z0.capture.csproj</Capture>
     <CpuDsl>$(Src)cpu.dsl/z0.cpu.dsl.csproj</CpuDsl>

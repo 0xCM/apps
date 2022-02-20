@@ -5,7 +5,7 @@
 namespace Z0
 {
     using Free = System.Security.SuppressUnmanagedCodeSecurityAttribute;
-    using K = ApiBitLogicClass;
+    using K = BitLogicClass;
 
     /// <summary>
     /// Characterizes a bitlogic operation classifier

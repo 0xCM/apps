@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
     using static SFx;
 
     using K = ApiClasses;
@@ -86,6 +81,5 @@ namespace Z0
             public ref readonly SpanBlock256<T> Invoke(in SpanBlock256<T> a, in SpanBlock256<T> b, in SpanBlock256<T> dst)
                 => ref zip(a, b, dst, Calcs.vnor<T>(w256));
         }
-
     }
 }

@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.cmd.shell", "cmd.shell\z
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.operands", "asm.operands\z0.asm.operands.csproj", "{7C0EB01B-CC6C-4546-9344-0C8B8AFC614A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.prototypes", "asm.prototypes\z0.asm.prototypes.csproj", "{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -232,5 +234,17 @@ Global
 		{7C0EB01B-CC6C-4546-9344-0C8B8AFC614A}.Release|x64.Build.0 = Release|Any CPU
 		{7C0EB01B-CC6C-4546-9344-0C8B8AFC614A}.Release|x86.ActiveCfg = Release|Any CPU
 		{7C0EB01B-CC6C-4546-9344-0C8B8AFC614A}.Release|x86.Build.0 = Release|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x64.Build.0 = Release|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
