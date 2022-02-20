@@ -83,7 +83,7 @@ namespace Z0
             return dst;
         }
 
-        public CoffObject LoadObjData(in FileRef fref)
+        public CoffObject LoadObj(in FileRef fref)
             => CoffObjects.Load(fref);
 
         public CoffSectionKind CalcSectionKind(string name)
@@ -104,7 +104,7 @@ namespace Z0
 
         void CalcObjHeaders(in FileRef fref, ref uint seq, List<CoffSection> records)
         {
-            var obj = LoadObjData(fref);
+            var obj = LoadObj(fref);
             var view = CoffObjectView.cover(obj.Data);
             ref readonly var header = ref view.Header;
             var strings = view.StringTable;
@@ -220,39 +220,38 @@ namespace Z0
         public Outcome CheckObjHex(CollectionContext context)
         {
             var result = Outcome.Success;
-            var hexSrc = LoadObjHex(context);
-            var hexDat = hexSrc.ToLookup(FileKind.HexDat);
-            var objSrc = LoadObjData(context.Files);
+            var hexDat = LoadObjHex(context);
+            var objDat = LoadObjData(context.Files);
 
-            if(hexSrc.Count != objSrc.Count)
+            if(hexDat.Count != objDat.Count)
                 result = (false,string.Format("Counts differ"));
 
             if(result.Fail)
                 return result;
 
-            var paths = objSrc.Paths.Array();
-            var count = paths.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var objPath = ref skip(paths,i);
-                var obj = objSrc[objPath];
-                ref readonly var srcId = ref obj.SrcId;
-                if(!hexDat.ContainsKey(srcId))
-                {
-                    Warn("No hex data found for {0}", srcId);
-                    continue;
-                }
+            // var paths = objSrc.Paths.Array();
+            // var count = paths.Length;
+            // for(var i=0; i<count; i++)
+            // {
+            //     ref readonly var objPath = ref skip(paths,i);
+            //     var obj = objSrc[objPath];
+            //     ref readonly var srcId = ref obj.SrcId;
+            //     if(!hexDat.ContainsKey(srcId))
+            //     {
+            //         Warn("No hex data found for {0}", srcId);
+            //         continue;
+            //     }
 
-                var hex = hexDat[srcId];
-                result = CoffObjects.validate(obj, hex, out var _);
-                if(result.Fail)
-                    break;
+            //     var hex = hexDat[srcId];
+            //     result = CoffObjects.validate(obj, hex, out var _);
+            //     if(result.Fail)
+            //         break;
 
-                result = (true,string.Format("{0}.{1} validated", srcId, FileKind.HexDat.Ext()));
+            //     result = (true,string.Format("{0}.{1} validated", srcId, FileKind.HexDat.Ext()));
 
-                if(i!=count-1)
-                    Status(result.Message);
-            }
+            //     if(i!=count-1)
+            //         Status(result.Message);
+            //}
 
             return result;
         }

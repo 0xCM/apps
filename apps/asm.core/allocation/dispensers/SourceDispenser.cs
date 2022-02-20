@@ -8,22 +8,6 @@ namespace Z0
 
     public class SourceDispenser : IAllocationDispenser
     {
-        public static SourceAllocation allocation(ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-            var total = 0u;
-            for(var i=0u; i<count; i++)
-                total += (uint)skip(src,i).Length;
-
-            var buffer  = StringBuffers.buffer(total);
-            var alloc = SourceAllocator.from(buffer);
-            var dst = core.alloc<SourceText>(count);
-            for(var i=0; i<count; i++)
-                alloc.Alloc(skip(src,i), out seek(dst,i));
-
-            return new SourceAllocation(alloc, dst);
-        }
-
         const uint Capacity = PageBlock.PageSize*8;
 
         readonly Dictionary<long,SourceAllocator> Allocators;

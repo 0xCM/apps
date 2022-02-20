@@ -24,7 +24,58 @@ namespace Z0
             return encoding;
         }
 
-        public AsmCodeBlocks DistillBlocks(in FileRef file, Index<ObjDumpRow> src, AllocationDispensers dispenser)
+        public Index<AsmCodeMapEntry> MapCode(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
+        {
+            var catalog = project.FileCatalog();
+            var distilled = DistillBlocks(project, src, dispenser);
+            var entries = list<AsmCodeMapEntry>();
+            for(var i=0; i<distilled.Count; i++)
+            {
+                ref readonly var blocks = ref distilled[i];
+                if(blocks.Count == 0)
+                    continue;
+
+                ref readonly var origin = ref blocks.Origin;
+
+                var blocknumber = 0u;
+                var @base = MemoryAddress.Zero;
+
+                for(var j=0; j<blocks.Count; j++)
+                {
+                    ref readonly var block = ref blocks[j];
+                    var count = block.Count;
+                    ref readonly var address = ref block.Label.Location.Address;
+                    ref readonly var name = ref block.Label.Name;
+                    for(var k=0; k<count; k++)
+                    {
+                        ref readonly var c = ref block[k];
+
+                        if(j==0 && k==0)
+                            @base = c.Encoded.BaseAddress;
+
+                        var entry = new AsmCodeMapEntry();
+                        entry.Id = c.Id;
+                        entry.MappedAddress = c.Encoded.BaseAddress;
+                        entry.MappedRebase = c.Encoded.BaseAddress - @base;
+                        entry.Origin = origin;
+                        entry.BlockNumber = blocknumber;
+                        entry.BlockName = name;
+                        entry.BlockAddress = address;
+                        entry.EntryAddress = c.IP;
+                        entry.EncodingSize = c.EncodingSize;
+                        entry.Encoded = c.Encoded;
+                        entry.Asm = c.Asm;
+                        entry.BlockSize = block.Size;
+                        entries.Add(entry);
+                    }
+
+                    blocknumber++;
+                }
+            }
+            return entries.ToArray();
+        }
+
+        public AsmCodeBlocks DistillBlocks(in FileRef file, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var blocks = src.GroupBy(x => x.BlockAddress).Array();
             var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
@@ -43,7 +94,7 @@ namespace Z0
             return new AsmCodeBlocks(origin, blockbuffer);
         }
 
-        public Index<AsmCodeBlocks> DistillBlocks(IProjectWs project, Index<ObjDumpRow> src, AllocationDispensers dispenser)
+        public Index<AsmCodeBlocks> DistillBlocks(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var collected = dict<uint, AsmCodeBlocks>();
             var groups = src.GroupBy(x => x.DocName).Array();

@@ -4,13 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.Intrinsics;
-
-    using static Root;
-    using static core;
-
     partial struct cpu
     {
         // [7      6     5    4     3     2     1     0    ]

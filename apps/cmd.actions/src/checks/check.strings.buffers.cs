@@ -63,7 +63,7 @@ namespace Z0
             for(uint i=0; i<count; i++)
                 seek(src,i) = BitRender.format8((byte)i);
 
-            using var allocation = LabelDispenser.allocation(src);
+            using var allocation = Alloc.labels(src);
             var labels = allocation.Allocated;
             if(labels.Length != count)
                 result = (false, string.Format("{0} != {1}", labels.Length, count));

@@ -199,7 +199,7 @@ namespace Z0.llvm
             var files = collect.Files.Entries(FileKind.ObjAsm);
             var count = files.Count;
 
-            using var dispenser = Alloc.dispensers();
+            using var alloc = Alloc.allocate();
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
@@ -207,7 +207,7 @@ namespace Z0.llvm
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                var blocks = AsmObjects.DistillBlocks(file, records, dispenser);
+                var blocks = AsmObjects.DistillBlocks(file, records, alloc);
                 var dst = AsmCodePath(project, file.Path.FileName.Format());
                 AsmObjects.Emit(blocks,dst);
             }
@@ -216,8 +216,8 @@ namespace Z0.llvm
         void EmitCodeBlocks(CollectionContext collect, Index<ObjDumpRow> src)
         {
             var project = collect.Project;
-            using var dispenser = Alloc.dispensers();
-            var blocks = AsmObjects.DistillBlocks(project, src, dispenser);
+            using var alloc = Alloc.allocate();
+            var blocks = AsmObjects.DistillBlocks(project, src, alloc);
             AsmObjects.Emit(blocks, AsmCodeDir(project).Clear());
         }
 

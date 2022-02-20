@@ -55,7 +55,6 @@ namespace Z0
             var b = f.Invoke(a);
             Write(f.Format(a,b));
         }
-
     }
 
     readonly struct CodeExecCases

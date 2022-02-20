@@ -4,20 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class CoffObject
+    public readonly struct CoffObject
     {
-        public uint DocId;
+        public readonly FS.FilePath Path;
 
-        public Identifier SrcId;
+        public readonly BinaryCode Data;
 
-        public FS.FilePath Path;
-
-        public BinaryCode Data;
-
-        internal CoffObject(uint docid, Identifier id, FS.FilePath path, BinaryCode data)
+        internal CoffObject(FS.FilePath path, BinaryCode data)
         {
-            DocId = docid;
-            SrcId = id;
             Path = path;
             Data = data;
         }
@@ -41,6 +35,6 @@ namespace Z0
         }
 
         public static CoffObject Empty
-            => new CoffObject(0,Identifier.Empty, FS.FilePath.Empty, BinaryCode.Empty);
+            => new CoffObject(FS.FilePath.Empty, BinaryCode.Empty);
     }
 }

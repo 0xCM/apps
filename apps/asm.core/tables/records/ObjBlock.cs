@@ -24,6 +24,5 @@ namespace Z0
         public FS.FileUri Source;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,42,12,12,12,1};
-
     }
 }

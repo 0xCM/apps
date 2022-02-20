@@ -36,9 +36,6 @@ namespace Z0
         public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
             => Asm.ProcessAsmBuffers.create(wf);
 
-        public static CodeLoader CodeLoader(this IWfRuntime wf)
-            => Z0.CodeLoader.create(wf);
-
         public static FlowCommands FlowCommands(this IWfRuntime wf)
             => Z0.FlowCommands.create(wf);
         [Op]

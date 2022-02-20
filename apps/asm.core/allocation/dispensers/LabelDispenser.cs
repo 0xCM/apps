@@ -8,21 +8,6 @@ namespace Z0
 
     public class LabelDispenser : IAllocationDispenser
     {
-        public static LabelAllocation allocation(ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-            var total = 0u;
-            for(var i=0; i<count; i++)
-                total += (uint)skip(src,i).Length;
-
-            var storage  = StringBuffers.buffer(total);
-            var alloc = LabelAllocator.alloc(storage);
-            var labels = core.alloc<Label>(count);
-            for(var i=0; i<count; i++)
-                alloc.Alloc(skip(src,i), out seek(labels,i));
-            return new LabelAllocation(alloc, labels);
-        }
-
         const uint Capacity = PageBlock.PageSize;
 
         readonly Dictionary<long,LabelAllocator> Allocators;

@@ -19,7 +19,6 @@ namespace Z0
             return true;
         }
 
-
         void Collect(IProjectWs project)
         {
             var receiver = new AsmStatsCollector();
@@ -43,13 +42,13 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
-                var obj = CoffServices.LoadObjData(file);
+                var obj = CoffServices.LoadObj(file);
                 var headers = CoffServices.CalcObjHeaders(file);
                 for(var j=0; j<headers.Count; j++)
                 {
                     ref readonly var header = ref headers[j];
-                    Write(string.Format("{0,-12} | {1,-12} | {2,-12} | {3,-12} | {4,-12}",
-                        header.DocId,
+                    Write(string.Format("{0,-24} | {1,-12} | {2,-12} | {3,-12} | {4,-12}",
+                        file.Path.FileName,
                         header.SectionNumber,
                         header.SectionName,
                         header.RawDataAddress,
@@ -59,39 +58,7 @@ namespace Z0
 
             }
 
-            // var rows = CoffServices.LoadSymbols(project);
-            // var headers = CoffServices.LoadHeaders(project);
-
-            // var symbols =  CoffObjects.symbolize(rows, dispenser);
-            // var locations = symbols.Keys;
-
-            // foreach(var header in headers)
-            // {
-            //     Write(string.Format("{0,-6} | {1,-8} | {2}",  header.DocId, header.SectionNumber, header.SectionName));
-            // }
-
-            // foreach(var loc in locations)
-            // {
-            //     Write(symbols[loc].Format());
-            // }
-
-
-            //CacheObjSyms();
             return true;
-        }
-
-        void CacheObjSyms()
-        {
-            using var dispenser = Alloc.symbols();
-            var project = Project();
-            var rows = LlvmNm.LoadSymRows(project);
-            var symbols = CoffObjects.symbolize(rows,dispenser);
-            var locations = symbols.Keys;
-            foreach(var loc in locations)
-            {
-                Write(symbols[loc].Format());
-            }
-
         }
 
         [CmdOp("xed/collect")]

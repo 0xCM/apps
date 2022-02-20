@@ -54,6 +54,26 @@ namespace Z0
                 return result;
         }
 
+        public static BinaryCode compact(HexDataRow[] src)
+        {
+            var count = src.Length;
+            if(count == 0)
+                return BinaryCode.Empty;
+
+            var size = src.TotalSize();
+            var buffer = alloc<byte>(size);
+            var dst = span(buffer);
+            var offset = 0u;
+            for(var i=0; i<count; i++)
+            {
+                var data = skip(src,i).Data.View;
+                for(var j=0; j<data.Length; j++)
+                    seek(dst,offset++) = skip(data,j);
+
+            }
+            return buffer;
+        }
+
         public static Outcome validate(CoffObject coff, HexDataRow[] rows, out BinaryCode hex)
         {
             hex = rows.Compact();
@@ -152,11 +172,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static CoffObject Load(in FileRef fref)
-            => new CoffObject(fref.DocId, fref.Path.Ext == FS.Obj ? fref.Path.SrcId(FileKind.Obj) : fref.Path.SrcId(FileKind.O), fref.Path, fref.Path.ReadBytes());
+            => new CoffObject(fref.Path, fref.Path.ReadBytes());
 
         [MethodImpl(Inline), Op]
         public static CoffObject Load(FS.FilePath path)
-            => new CoffObject(0,path.Ext == FS.Obj ? path.SrcId(FileKind.Obj) : path.SrcId(FileKind.O), path, path.ReadBytes());
+            => new CoffObject(path, path.ReadBytes());
 
         [MethodImpl(Inline), Op]
         public static Timestamp timestamp(Hex32 src)

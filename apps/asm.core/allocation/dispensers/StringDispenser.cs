@@ -8,21 +8,6 @@ namespace Z0
 
     public class StringDispenser : IAllocationDispenser
     {
-        public static StringAllocation allocation(ReadOnlySpan<string> src)
-        {
-            var count = src.Length;
-            var total = 0u;
-            for(var i=0; i<count; i++)
-                total += (uint)skip(src,i).Length;
-
-            var storage = StringBuffers.buffer(total);
-            var allocator = new StringAllocator(storage);
-            var dst = core.alloc<StringRef>(count);
-            for(var i=0; i<count; i++)
-                allocator.Alloc(skip(src,i), out seek(dst,i));
-            return new StringAllocation(allocator, dst);
-        }
-
         const uint Capacity = PageBlock.PageSize;
 
         readonly Dictionary<long,StringAllocator> Allocators;
@@ -35,6 +20,12 @@ namespace Z0
             locker = new();
             Allocators[Seq] = StringAllocator.alloc(Capacity);
         }
+
+        void IDisposable.Dispose()
+        {
+            core.iter(Allocators.Values, a => a.Dispose());
+        }
+
 
         public AllocationKind DispensedKind
             => AllocationKind.String;
@@ -55,11 +46,6 @@ namespace Z0
             return dst;
         }
 
-
-        void IDisposable.Dispose()
-        {
-            core.iter(Allocators.Values, a => a.Dispose());
-        }
 
         static long Seq;
 

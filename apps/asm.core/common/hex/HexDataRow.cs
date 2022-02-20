@@ -62,24 +62,7 @@ namespace Z0
             => src.Storage.TotalSize();
 
         public static BinaryCode Compact(this HexDataRow[] src)
-        {
-            var count = src.Length;
-            if(count == 0)
-                return BinaryCode.Empty;
-
-            var size = src.TotalSize();
-            var buffer = alloc<byte>(size);
-            var dst = span(buffer);
-            var offset = 0u;
-            for(var i=0; i<count; i++)
-            {
-                var data = skip(src,i).Data.View;
-                for(var j=0; j<data.Length; j++)
-                    seek(dst,offset++) = skip(data,j);
-
-            }
-            return buffer;
-        }
+            => CoffObjects.compact(src);
 
         public static BinaryCode Compact(this Index<HexDataRow> src)
             => src.Storage.Compact();

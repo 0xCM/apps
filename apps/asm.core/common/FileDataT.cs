@@ -36,8 +36,8 @@ namespace Z0
             get => Data[path];
         }
 
-        public ConstLookup<string,T> ToLookup(FileKind kind)
-            => Data.Map(x => ((string)x.Key.SrcId(kind), x.Value)).ToDictionary();
+        public ConstLookup<FS.FilePath,T> ToLookup()
+            => Data;
 
         public Index<Paired<FS.FilePath,T>> Entries
             => Data.Map(x => core.paired(x.Key,x.Value));

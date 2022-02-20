@@ -27,7 +27,6 @@ namespace Z0.Parts
 
 namespace Z0
 {
-    using static Root;
     using static core;
 
     public static partial class XTend
