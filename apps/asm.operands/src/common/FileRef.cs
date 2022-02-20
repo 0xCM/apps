@@ -9,24 +9,21 @@ namespace Z0
     {
         public const string TableId = "files.index";
 
-        public const byte FieldCount = 5;
+        public const byte FieldCount = 4;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public FileKind Kind;
-
-        public Hash32 HashCode;
 
         public Timestamp Timestamp;
 
         public FS.FilePath Path;
 
         [MethodImpl(Inline)]
-        public FileRef(uint id, FileKind kind, Hash32 hash, FS.FilePath path)
+        public FileRef(uint id, FileKind kind, FS.FilePath path)
         {
             DocId = id;
             Kind = kind;
-            HashCode = hash;
             Timestamp = path.Timestamp;
             Path = path;
         }
@@ -47,7 +44,7 @@ namespace Z0
             => DocId.CompareTo(src.DocId);
 
         public override int GetHashCode()
-            => (int)HashCode;
+            => (int)DocId;
 
         public string Format()
             => Path.ToUri().Format();
@@ -58,7 +55,7 @@ namespace Z0
         uint ISequential.Seq
             => DocId;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,16,12,24,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,16,24,1};
 
         public static FileRef Empty => default;
     }

@@ -32,21 +32,24 @@ namespace Z0
 
         public void Include(IProjectWs project)
         {
-            var src = project.Files().Exclude(FS.Cmd).Storage.Sort();
+            var src = project.ProjectFiles().Storage.Sort();
             var id = NextId();
             var count = src.Length;
             var dst = alloc<DocPath>(count);
             for(var i=0; i<count; i++)
-                seek(dst,i) = (id++,skip(src,i));
+            {
+                ref readonly var file = ref skip(src,i);
+                var hash = alg.hash.marvin(file.ToUri().Format());
+                seek(dst,i) = (hash,file);
+            }
 
             iter(dst, Include, true);
         }
 
         void Include(DocPath src)
         {
-            var hash = alg.hash.marvin(src.Path.Format());
             var kind = Match(src.Path);
-            var fref = new FileRef(src.DocId, kind, hash, src.Path);
+            var fref = new FileRef(src.DocId, kind, src.Path);
             IdMap.Include(PathMap.Include(fref, _ => fref.DocId), fref);
             PathRefs.Include(src.Path, fref);
         }

@@ -7,7 +7,7 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public struct AsmInstRef
     {
-        public uint DocId;
+        public Hex32 DocId;
 
         public uint DocSeq;
 
@@ -25,7 +25,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Format("{0,-8} | {1,-8} | {2,-8} | {3}", DocId, DocSeq, Line, AsmName);
+            => string.Format("{0,-12} | {1,-8} | {2,-8} | {3}", DocId, DocSeq, Line, AsmName);
 
         public override string ToString()
             => Format();

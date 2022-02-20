@@ -10,15 +10,21 @@ namespace Z0.Asm
 
     class LlvmAsmParser
     {
-        List<AsmDirective> Directives;
+        Dictionary<LineNumber,AsmDirective> Directives;
 
-        List<AsmBlockLabel> BlockLabels;
+        Dictionary<LineNumber,AsmBlockLabel> BlockLabels;
 
         List<LineNumber> BlockOffsets;
 
-        List<AsmSourceLine> SourceLines;
+        Dictionary<LineNumber,AsmSourceLine> SourceLines;
 
-        List<AsmInstRef> Instructions;
+        Dictionary<LineNumber,AsmInstRef> Instructions;
+
+        Dictionary<LineNumber,AsmSourceLine> Encodings;
+
+        Dictionary<LineNumber,AsmSourceLine> Syntax;
+
+        Dictionary<LineNumber,AsmSourceLine> DocLines;
 
         const string InstructionMarker = "<MCInst #";
 
@@ -33,7 +39,7 @@ namespace Z0.Asm
         Span<DecimalDigitValue> DigitBuffer()
             => _DigitBuffer.Clear();
 
-        public McAsmDoc ParseAsmDoc(in FileRef fref)
+        public McAsmDoc ParseMcAsmDoc(in FileRef fref)
         {
             DocSource = fref;
             var result = Outcome.Success;
@@ -47,12 +53,15 @@ namespace Z0.Asm
             SourceLines = new();
             Directives = new();
             Instructions = new();
+            Encodings = new();
+            Syntax = new();
+            DocLines = new();
             _DigitBuffer = alloc<DecimalDigitValue>(12);
 
             for(var i=0u; i<count; i++)
                 Parse(skip(data,i));
 
-            return new McAsmDoc(DocSource, Directives.ToArray(), BlockLabels.ToArray(), BlockOffsets.ToArray(), SourceLines.ToArray(), Instructions.ToArray());
+            return new McAsmDoc(DocSource, Directives, BlockLabels, SourceLines, Instructions, Encodings, Syntax);
         }
 
         AsmBlockLabel Label;
@@ -96,6 +105,7 @@ namespace Z0.Asm
             LineClass = lineclass(src.Content);
             LineContent = src.Content.Replace(Chars.Tab, Chars.Space).Trim();
             LineNumber = src.LineNumber;
+            DocLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, AsmBlockLabel.Empty, LineContent));
             switch(LineClass)
             {
                 case C.Label:
@@ -103,23 +113,23 @@ namespace Z0.Asm
                     {
                         LabelSeq++;
                         LabelLine = LineNumber;
-                        BlockLabels.Add(Label);
+                        BlockLabels.Add(LineNumber, Label);
                         BlockOffsets.Add(LabelLine);
-                        SourceLines.Add(new AsmSourceLine(LabelLine, LineClass, Label, EmptyString));
+                        SourceLines.Add(LineNumber, new AsmSourceLine(LabelLine, LineClass, Label, EmptyString));
                     }
                 break;
 
                 case C.Directive:
                     if(AsmDirective.parse(LineContent, out var directive))
                     {
-                        Directives.Add(directive);
+                        Directives.Add(LineNumber, directive);
                     }
                 break;
 
                 case C.AsmSource:
                     if(AsmParser.comment(LineContent, out var asmcomment))
                     {
-                        var statement = text.left(LineContent, (char)asmcomment.Marker);
+                        var statement = text.left(LineContent, (char)asmcomment.Marker).Trim();
                         if(statement.Length != 0)
                             statement = RP.Spaced4 + statement;
 
@@ -133,30 +143,30 @@ namespace Z0.Asm
                             var j = text.whitespace(inst);
                             if(j != NotFound)
                             {
-                                Instructions.Add(new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, text.right(inst,j)));
+                                Instructions.Add(LineNumber, new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, text.right(inst,j)));
                             }
                             else
                             {
-                                Instructions.Add(new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, inst));
+                                Instructions.Add(LineNumber, new AsmInstRef(DocSource.DocId, DocSeq, LineNumber, inst));
                             }
                             DocSeq++;
                         }
 
                         if(comment.Contains(EncodingMarker))
                         {
-                            SourceLines.Add(new AsmSourceLine(LineNumber, LineClass, Label, statement));
-                            SourceLines.Add(new AsmSourceLine(LineNumber, LineClass, Label, "#" + RP.Spaced2 + comment));
+                            SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, statement));
+                            Encodings.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, "#" + RP.Spaced2 + comment));
                         }
                         else if(comment.Contains(InstructionMarker) && statement.Length != 0)
                         {
-                            SourceLines.Add(new AsmSourceLine(LineNumber, LineClass, Label, statement));
-                            SourceLines.Add(new AsmSourceLine(LineNumber, LineClass, Label, "#" + RP.Spaced2 + comment));
+                            SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, statement));
+                            Syntax.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, "#" + RP.Spaced2 + comment));
                         }
                         else
-                            SourceLines.Add(new AsmSourceLine(LineNumber, LineClass, Label, statement, comment));
+                            SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, statement, comment));
                     }
                     else
-                        SourceLines.Add(new AsmSourceLine(LineNumber, LineClass, Label, RP.Spaced4 + LineContent));
+                        SourceLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, Label, RP.Spaced4 + LineContent));
                 break;
             }
         }

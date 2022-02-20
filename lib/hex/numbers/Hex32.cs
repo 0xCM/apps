@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using H = Hex32;
     using W = W32;
     using K = System.UInt32;
@@ -109,8 +104,28 @@ namespace Z0
             => new H((uint)src);
 
         [MethodImpl(Inline)]
+        public static explicit operator int(H src)
+            => (int)src.Value;
+
+        [MethodImpl(Inline)]
         public static implicit operator ulong(H src)
             => src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator ushort(H src)
+            => (ushort)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator short(H src)
+            => (short)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator byte(H src)
+            => (byte)src.Value;
+
+        [MethodImpl(Inline)]
+        public static explicit operator sbyte(H src)
+            => (sbyte)src.Value;
 
         [MethodImpl(Inline)]
         public static implicit operator Address32(H src)
@@ -128,9 +143,6 @@ namespace Z0
         public static explicit operator H(MemoryAddress src)
             => new H((uint)src.Location);
 
-        [MethodImpl(Inline)]
-        public static explicit operator int(H src)
-            => (int)src.Value;
 
         [MethodImpl(Inline)]
         public static H operator+(H x, K y)

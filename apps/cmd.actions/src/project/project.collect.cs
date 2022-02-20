@@ -29,6 +29,30 @@ namespace Z0
 
         }
 
+        [CmdOp("project/mcasm")]
+        Outcome McAsmDocs(CmdArgs args)
+        {
+            var project = Project();
+            var catalog = project.FileCatalog();
+            var files = catalog.Entries(FileKind.McAsm);
+
+            var docs = LlvmMc.ParseMcAsmDocs(project);
+            var count = docs.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var doc = ref docs[i];
+                var labels = doc.BlockLabels;
+                var blocklines = labels.Keys;
+                for(var  j=0; j<blocklines.Length; j++)
+                {
+                    ref readonly var blockline = ref skip(blocklines,j);
+                    Write(string.Format("{0:d5} {1}", blockline, labels[blockline].Format()));
+                }
+            }
+
+            return true;
+        }
+
         [CmdOp("project/objects")]
         Outcome CacheObjSymbols(CmdArgs args)
         {

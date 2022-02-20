@@ -15,7 +15,7 @@ namespace Z0
 
         public uint Seq;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public ushort SectionNumber;
 
@@ -33,6 +33,6 @@ namespace Z0
 
         public @string Name;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,16,16,10,8,10,16,8,48};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,10,8,10,16,8,48};
     }
 }

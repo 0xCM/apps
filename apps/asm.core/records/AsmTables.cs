@@ -456,34 +456,6 @@ namespace Z0.Asm
             return (true,kRows);
         }
 
-        // public uint RenderRows(FS.Files src, AsmMnemonic mnemonic, FS.FilePath dst)
-        // {
-        //     var rows = @readonly(LoadDetails(src, mnemonic).OrderBy(x => x.Statement).Array());
-        //     var count = rows.Length;
-        //     if(count == 0)
-        //         return 0;
-
-        //     using var writer = dst.Writer();
-        //     for(var i=0; i<count; i++)
-        //     {
-        //         ref readonly var row = ref skip(rows,i);
-        //         var rendered = string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9}",
-        //             row.IP,
-        //             row.Statement,
-        //             row.BlockAddress,
-        //             row.LocalOffset,
-        //             row.Encoded.Size,
-        //             row.Instruction,
-        //             row.OpCode,
-        //             row.Encoded,
-        //             row.Encoded.ToBitString(),
-        //             AsmRender.semantic(row)
-        //         );
-        //         writer.WriteLine(rendered);
-        //     }
-        //     return (uint)count;
-        // }
-
         public Outcome LoadCpuIdImports(IWorkspace ws, out ReadOnlySpan<CpuIdRow> rows)
         {
             const byte FieldCount = CpuIdRow.FieldCount;

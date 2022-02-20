@@ -19,7 +19,7 @@ namespace Z0
 
         public Hex64 Id;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public uint DocSeq;
 
@@ -98,6 +98,6 @@ namespace Z0
             => BlockAddress;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,18,8,8,12,16,32,12,8,42,90,90,1};
+            => new byte[FieldCount]{8,18,12,8,12,16,32,12,8,42,90,90,1};
     }
 }

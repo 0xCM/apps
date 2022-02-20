@@ -15,7 +15,7 @@ namespace Z0
 
         public uint Seq;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public uint DocSeq;
 
@@ -28,6 +28,6 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,32,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,32,64,1};
     }
 }

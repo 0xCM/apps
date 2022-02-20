@@ -52,7 +52,10 @@ namespace Z0
                 => Subdir(scope) + TableFile<T>(suffix);
 
         FS.Files IFileArchive.Files()
-            => Home().EnumerateFiles(true).Array().Sort();
+            => ProjectFiles();
+
+        FS.Files ProjectFiles()
+            => Home().Files(true).Array().Sort();
 
         FS.Files Files(params FileKind[] kinds)
             => Home().Files(true, kinds.Select(FileTypes.ext));

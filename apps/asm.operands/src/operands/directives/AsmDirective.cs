@@ -128,6 +128,7 @@ namespace Z0.Asm
 
         public bool IsEmpty
         {
+            [MethodImpl(Inline)]
             get => Name.IsEmpty;
         }
 

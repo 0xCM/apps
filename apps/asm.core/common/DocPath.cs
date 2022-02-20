@@ -6,7 +6,7 @@ namespace Z0
 {
     public readonly struct DocPath
     {
-        public readonly uint DocId;
+        public readonly Hex32 DocId;
 
         public readonly FS.FilePath Path;
 

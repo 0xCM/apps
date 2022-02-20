@@ -27,7 +27,7 @@ namespace Z0
 
         public uint Seq;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public uint DocSeq;
 
@@ -47,6 +47,6 @@ namespace Z0
         public int CompareTo(AsmCodeIndexRow src)
             => compare(this,src);
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,8,18,12,42,8,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,18,12,42,8,1};
     }
 }

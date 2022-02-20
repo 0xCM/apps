@@ -17,7 +17,7 @@ namespace Z0
 
         public Hex64 Id;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public uint DocSeq;
 
@@ -43,7 +43,7 @@ namespace Z0
         MemoryAddress IAsmEncoding.IP
             => IP;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,8,8,12,38,8,84,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,8,12,38,8,84,1};
 
         public static AsmEncodingRow Empty => default;
     }

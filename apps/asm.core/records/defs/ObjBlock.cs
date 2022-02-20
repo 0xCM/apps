@@ -11,7 +11,7 @@ namespace Z0
 
         public const byte FieldCount = 6;
 
-        public uint DocId;
+        public Hex32 DocId;
 
         public TextBlock BlockName;
 
@@ -23,6 +23,6 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,42,12,12,12,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{12,42,12,12,12,1};
     }
 }
