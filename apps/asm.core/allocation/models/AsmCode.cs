@@ -24,6 +24,15 @@ namespace Z0.Asm
             Encoded = code;
         }
 
+        [MethodImpl(Inline)]
+        public AsmCode(Hex64 id, SourceText asm, MemoryAddress ip, AsmHexRef code)
+        {
+            Id = id;
+            IP = ip;
+            Asm = asm;
+            Encoded = code;
+        }
+
         public byte EncodingSize
         {
             [MethodImpl(Inline)]

@@ -28,6 +28,12 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => AsmName.IsEmpty && DocId == 0;
+        }
+
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,32,64,1};
     }
 }

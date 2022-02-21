@@ -6,7 +6,7 @@ namespace Z0.Asm
 {
     partial class IntelIntrinsics
     {
-        public struct Intrinsic
+        public struct Intrinsic : IComparable<Intrinsic>
         {
             public const string ElementName = "intrinsic";
 
@@ -33,6 +33,15 @@ namespace Z0.Asm
             public Instructions instructions;
 
             public Header header;
+
+            public int CompareTo(Intrinsic src)
+            {
+                var result = CPUID.Format().CompareTo(src.CPUID.Format());
+                if(result == 0)
+                    result = name.CompareTo(src.name);
+                return result;
+            }
+
         }
     }
 }

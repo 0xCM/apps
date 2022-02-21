@@ -8,7 +8,6 @@ namespace Z0.Asm
 
     using static Hex8Kind;
     using static core;
-    using static AsmPrefixCodes;
 
     [ApiHost]
     public class AsmBytes
@@ -19,6 +18,11 @@ namespace Z0.Asm
 
         const NumericKind Closure = UnsignedInts;
 
+        [Op]
+        public static Hex64 identify(Name origin, MemoryAddress ip, ReadOnlySpan<byte> encoding)
+        {
+            return identify(ip,encoding);
+        }
 
         [Op]
         public static Hex64 identify(MemoryAddress ip, ReadOnlySpan<byte> encoding)
@@ -52,8 +56,6 @@ namespace Z0.Asm
 
             return (ulong)storage;
         }
-
-        static ReadOnlySpan<byte> TargetIndices => new byte[]{2,1,0,3,4,5,6,7};
 
         /// <summary>
         /// (AND AL, imm8)[24 ib]

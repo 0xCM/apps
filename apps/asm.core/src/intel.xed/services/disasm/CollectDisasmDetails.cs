@@ -239,7 +239,8 @@ namespace Z0
         void RenderHeader(FS.FilePath path, in AsmEncodingRow encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
         {
             ref readonly var IP = ref encoding.IP;
-            dst.AppendLineFormat(RenderPattern, "Id", AsmBytes.identify(IP, code.Bytes));
+            var origin = path.FileName.Format();
+            dst.AppendLineFormat(RenderPattern, "Id", AsmBytes.identify(origin, IP, code.Bytes));
             dst.AppendLine(string.Format(RenderPattern, "IP", ((uint)IP).FormatHex(zpad:false, specifier:true, uppercase:true)));
             dst.AppendLine(string.Format(RenderPattern, "Statement", encoding.Asm));
             dst.AppendLine(string.Format(RenderPattern, "Encoding", string.Format(Cols2Pattern, code, code.BitString)));

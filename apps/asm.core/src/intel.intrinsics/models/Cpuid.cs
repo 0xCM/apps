@@ -10,7 +10,11 @@ namespace Z0.Asm
     {
         public class CpuIdMembership : List<CpuId>
         {
+            public string Format()
+                => this.Delimit().Format();
 
+            public override string ToString()
+                => Format();
         }
 
         public struct CpuId : ITextual

@@ -31,6 +31,9 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        Hex64 IAsmEncoding.Id
+            => Id;
+
         uint ISequential.Seq
             => Seq;
 

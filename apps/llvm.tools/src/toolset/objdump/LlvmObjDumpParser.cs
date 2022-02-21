@@ -53,6 +53,7 @@ namespace Z0.llvm
             var data = path.ReadLines().Where(x => x != null).View;
             var count = data.Length;
             var docseq = 0u;
+            var origin = src.Path.FileName.Format();
             for(var x =0; x<count; x++)
             {
                 N++;
@@ -102,7 +103,7 @@ namespace Z0.llvm
                         {
                             AsmParser.asmhex(text.trim(text.left(asm, y)), out Row.HexCode);
                             Row.Size = Row.HexCode.Size;
-                            Row.Id = AsmBytes.identify(Row.IP, Row.HexCode.Bytes);
+                            Row.Id = AsmBytes.identify(origin, Row.IP, Row.HexCode.Bytes);
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
                             if(AsmParser.comment(statement, out Row.Comment))

@@ -160,11 +160,5 @@ namespace Z0
 
         public AsmCode AsmCode(in AsmEncoding src)
             => AsmCodes().AsmCode(src);
-
-        public AsmCode AsmCode(in AsmEncodingRow src)
-            => AsmCodes().AsmCode(src);
-
-        public AsmCodeBlock AsmCodeBlock(in AsmBlockEncoding src)
-            => AsmCodes().AsmCodeBlock(src);
     }
 }

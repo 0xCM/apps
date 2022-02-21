@@ -19,6 +19,9 @@ namespace Z0.Asm
 
         public AsmExpr Asm;
 
+        Hex64 IAsmEncoding.Id
+            => Id;
+
         AsmExpr IAsmEncoding.Asm
             => Asm;
 

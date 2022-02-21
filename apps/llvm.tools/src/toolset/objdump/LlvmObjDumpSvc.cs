@@ -122,12 +122,42 @@ namespace Z0.llvm
         {
             var rows = Consolidate(collect);
             var blocks = CalcObjBlocks(rows);
+
             TableEmit(blocks.View, ObjBlock.RenderWidths, ObjBlockPath(collect.Project));
-            EmitCodeBlocks(collect);
-            Recode(collect,rows);
-            EmitIndex(collect,rows);
+            RecodedSrcDir(collect.Project).Clear();
+            EmitAsmCodeBlocks(collect,RecodeBlocks);
         }
 
+        FS.FolderPath RecodedSrcDir(IProjectWs project)
+            => Ws.Project(ProjectNames.McRecoded).SrcDir(project.Project.Format());
+
+        void RecodeBlocks(in IProjectWs project, in AsmCodeBlocks src)
+        {
+            const string intel_syntax = ".intel_syntax noprefix";
+
+            var srcdir = RecodedSrcDir(project);
+            var srcpath = srcdir + FS.file(src.Origin.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
+            var emitting = EmittingFile(srcpath);
+            var counter = 0u;
+            using var writer = srcpath.AsciWriter();
+            writer.WriteLine(intel_syntax);
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var block = ref src[i];
+                var label = asm.label(block.Label.Name.Format());
+                writer.WriteLine();
+                writer.WriteLine(label.Format());
+                counter++;
+                var count = block.Count;
+                for(var j=0; j<count; j++)
+                {
+                    ref readonly var asmcode = ref block[j];
+                    writer.WriteLine(string.Format("    {0,-48} # {1}", asmcode.Asm, asmcode.Encoding.FormatHex(Chars.Space, false)));
+                }
+            }
+
+            EmittedFile(emitting,counter);
+        }
 
         Index<ObjBlock> CalcObjBlocks(Index<ObjDumpRow> src)
         {
@@ -191,12 +221,12 @@ namespace Z0.llvm
             return dst.ToArray();
         }
 
-        void EmitCodeBlocks(CollectionContext collect)
+        void EmitAsmCodeBlocks(CollectionContext context, Receiver<IProjectWs,AsmCodeBlocks> emitted)
         {
-            var project = collect.Project;
+            var project = context.Project;
             AsmCodeDir(project).Clear();
 
-            var files = collect.Files.Entries(FileKind.ObjAsm);
+            var files = context.Files.Entries(FileKind.ObjAsm);
             var count = files.Count;
 
             using var alloc = Alloc.allocate();
@@ -210,20 +240,13 @@ namespace Z0.llvm
                 var blocks = AsmObjects.DistillBlocks(file, records, alloc);
                 var dst = AsmCodePath(project, file.Path.FileName.Format());
                 AsmObjects.Emit(blocks,dst);
+                emitted(project,blocks);
             }
         }
 
-        void EmitCodeBlocks(CollectionContext collect, Index<ObjDumpRow> src)
+        Index<ObjDumpRow> Consolidate(CollectionContext context)
         {
-            var project = collect.Project;
-            using var alloc = Alloc.allocate();
-            var blocks = AsmObjects.DistillBlocks(project, src, alloc);
-            AsmObjects.Emit(blocks, AsmCodeDir(project).Clear());
-        }
-
-        Index<ObjDumpRow> Consolidate(CollectionContext collect)
-        {
-            var project = collect.Project;
+            var project = context.Project;
             var src = project.OutFiles(FileKind.ObjAsm).View;
             var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
@@ -238,7 +261,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var fref = collect.FileRef(path);
+                var fref = context.FileRef(path);
                 result = ParseDumpSource(fref, out var records);
                 if(result.Fail)
                 {
@@ -256,107 +279,12 @@ namespace Z0.llvm
                     record.Seq = seq++;
                     writer.WriteLine(formatter.Format(record));
                     emitted.Add(record);
-                    collect.EventReceiver.Collected(fref, record);
+                    context.EventReceiver.Collected(fref, record);
                 }
                 total += docseq;
             }
             EmittedTable(flow, total);
             return emitted.ToArray();
-        }
-
-        void EmitIndex(CollectionContext collect, ReadOnlySpan<ObjDumpRow> rows)
-        {
-            var count = rows.Length;
-            var buffer = alloc<AsmCodeIndexRow>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref var dst = ref seek(buffer,i);
-                ref readonly var code = ref skip(rows,i);
-                ref readonly var row = ref rows[i];
-                if(code.HexCode != row.HexCode)
-                {
-                    Error("Hex mismatch");
-                }
-
-                dst.Seq = row.Seq;
-                dst.DocId = row.DocId;
-                dst.DocSeq = row.DocSeq;
-                dst.Id = row.Id;
-                dst.IP = (Address32)code.IP;
-                dst.Encoding = code.HexCode;
-                dst.Size = code.Size;
-                dst.Asm = code.Source.Format();
-            }
-
-            buffer.Sort();
-
-            var path = ProjectDb.ProjectTable<AsmCodeIndexRow>(collect.Project);
-            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, path);
-            collect.EventReceiver.Emitted(buffer,path);
-        }
-
-        Outcome Recode(CollectionContext collection, ReadOnlySpan<ObjDumpRow> rows)
-        {
-            const string intel_syntax = ".intel_syntax noprefix";
-            var project = Ws.Project(ProjectNames.McRecoded);
-            var count = rows.Length;
-            var srcid = EmptyString;
-            var block = EmptyString;
-            var dstdir = project.SrcDir(collection.Project.Project.Format());
-            dstdir.Clear();
-            var dstpath = FS.FilePath.Empty;
-            var emitting = default(WfFileWritten);
-            var lines = list<string>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var row = ref rows[i];
-                var path = (FS.FilePath)row.Source;
-                var _srcid = path.SrcId(FileKind.ObjAsm);
-
-                if(empty(srcid))
-                {
-                    srcid = _srcid;
-                    dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
-                    lines.Add(intel_syntax);
-                    emitting = EmittingFile(dstpath);
-                }
-                else if(srcid != _srcid)
-                {
-                    if(lines.Count != 0)
-                    {
-                        using var writer = dstpath.AsciWriter();
-                        iter(lines, line => writer.WriteLine(line));
-                        EmittedFile(emitting, lines.Count);
-                    }
-
-                    lines.Clear();
-                    lines.Add(intel_syntax);
-                    srcid = _srcid;
-                    dstpath = dstdir + FS.file(srcid, FileKind.Asm.Ext());
-                    EmittingFile(dstpath);
-                }
-
-                if(empty(block) || block != row.BlockName)
-                {
-                    if(nonempty(block))
-                        lines.Add(EmptyString);
-
-                    block = row.BlockName;
-                    lines.Add(new AsmBlockLabel(block).Format());
-                    continue;
-                }
-
-                if(row.Asm.IsNonEmpty)
-                    lines.Add(string.Format("    {0}", row.Asm));
-            }
-
-            if(lines.Count != 0)
-            {
-                using var writer = dstpath.AsciWriter();
-                iter(lines, line => writer.WriteLine(line));
-                EmittedFile(emitting, lines.Count);
-            }
-            return true;
         }
     }
 }

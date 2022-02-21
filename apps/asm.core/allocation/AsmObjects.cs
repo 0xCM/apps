@@ -24,7 +24,7 @@ namespace Z0
             return encoding;
         }
 
-        public Index<AsmCodeMapEntry> MapCode(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
+        public Index<AsmCodeMapEntry> MapCode(IProjectWs project, Index<AsmCodeIndexRow> index,  Index<ObjDumpRow> src, Alloc dispenser)
         {
             var catalog = project.FileCatalog();
             var distilled = DistillBlocks(project, src, dispenser);
@@ -117,7 +117,11 @@ namespace Z0
                     var blockaddress = first(blockcode).BlockAddress;
                     var codebuffer = alloc<AsmCode>(blockcode.Length);
                     for(var k=0; k<blockcode.Length; k++)
-                        seek(codebuffer,k) = dispenser.AsmCode(encoding(skip(blockcode,k)));
+                    {
+                        var e = encoding(skip(blockcode,k));
+
+                        seek(codebuffer,k) = dispenser.AsmCode(e);
+                    }
 
                     seek(blockbuffer,j) = new AsmCodeBlock(dispenser.Symbol(blockaddress,blockname), codebuffer);
                 }
@@ -151,7 +155,7 @@ namespace Z0
                 {
                     ref readonly var code = ref block[j];
                     ref var record = ref seek(buffer,k);
-                    record.Id = AsmBytes.identify(code.IP, code.Encoding);
+                    record.Id = AsmBytes.identify(src.Origin.Format(), code.IP, code.Encoding);
                     record.BlockBase = block.Label.Location;
                     record.BlockName = block.Label.Name;
                     record.IP = code.IP;

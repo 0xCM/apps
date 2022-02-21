@@ -4,18 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
-
     public class CollectionEventReceiver
     {
         FileCatalog Files;
-
-        Index<AsmCodeIndexRow> _IndexedCode;
-
-        public ReadOnlySpan<AsmCodeIndexRow> AsmCodeRows
-        {
-            get => _IndexedCode;
-        }
 
         public FileCatalog FileCatalog
             => Files;
@@ -23,7 +14,6 @@ namespace Z0.Asm
         public CollectionEventReceiver()
         {
             Files = FileCatalog.create();
-            _IndexedCode = sys.empty<AsmCodeIndexRow>();
         }
 
         public virtual void Initialized(CollectionContext collect)
@@ -49,11 +39,6 @@ namespace Z0.Asm
         public virtual void Collected(in FileRef src, in AsmEncodingRow row)
         {
 
-        }
-
-        public virtual void Emitted(Index<AsmCodeIndexRow> src, FS.FilePath dst)
-        {
-            _IndexedCode = src;
         }
     }
 }

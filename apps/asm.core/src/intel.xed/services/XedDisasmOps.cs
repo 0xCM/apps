@@ -40,6 +40,7 @@ namespace Z0
             if(expr.Length != count)
                 return (false, string.Format("{0} != {1}", expr.Length - 1, count));
 
+            var origin = fref.Path.FileName.Format();
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref skip(summaries,i);
@@ -54,7 +55,7 @@ namespace Z0
                 record.DocSeq = counter++;
                 record.DocId = fref.DocId;
                 result = ParseIP(content, out record.IP);
-                record.Id = AsmBytes.identify(record.IP, record.Encoded.Bytes);
+                record.Id = AsmBytes.identify(origin, record.IP, record.Encoded.Bytes);
                 record.Asm = expression;
                 record.Source = src;
                 record.Source = record.Source.LineRef(line.LineNumber);

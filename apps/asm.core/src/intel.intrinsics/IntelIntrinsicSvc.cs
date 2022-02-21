@@ -33,7 +33,7 @@ namespace Z0.Asm
 
         public Index<Intrinsic> Emit()
         {
-            var parsed = ParseXmlDoc();
+            var parsed = ParseXmlDoc().Sort();
             EmitAlgorithms(parsed);
             EmitRecords(parsed);
             EmitDeclarations(parsed);
@@ -102,6 +102,7 @@ namespace Z0.Asm
         {
             var rows = list<IntelIntrinsic>();
             Summarize(src, rows);
+            rows.Sort();
             TableEmit(rows.ViewDeposited(), IntelIntrinsic.RenderWidths, TableTargetPath());
         }
 

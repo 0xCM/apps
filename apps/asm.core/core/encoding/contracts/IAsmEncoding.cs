@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     public interface IAsmEncoding : ISequential
     {
+        Hex64 Id {get;}
+
         MemoryAddress IP {get;}
 
         AsmHexCode Encoded {get;}
@@ -14,7 +16,5 @@ namespace Z0.Asm
 
         byte Size
             => Encoded.Size;
-
-        Hex64 Id  => AsmBytes.identify(IP, Encoded.Bytes);
     }
 }

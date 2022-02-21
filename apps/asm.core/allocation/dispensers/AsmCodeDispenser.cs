@@ -76,6 +76,7 @@ namespace Z0
         public AsmCode AsmCode(in AsmEncodingRow src)
         {
             ref readonly var code = ref src.Encoded;
+
             var size = code.Size;
             var hex = AsmEncoding(size);
             var hexsrc = code.Bytes;
@@ -93,14 +94,6 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(code,i) = AsmCode(encodings[i]);
             return new AsmCodeBlock(DispenseSymbol(src.BlockAddress, src.BlockName), code);
-        }
-
-        public AsmCodeBlocks AsmCodeBlocks(string origin, ReadOnlySpan<AsmBlockEncoding> src)
-        {
-            var dst = alloc<AsmCodeBlock>(src.Length);
-            for(var i=0; i<src.Length; i++)
-                seek(dst,i) = AsmCodeBlock(skip(src,i));
-            return new AsmCodeBlocks(Labels.DispenseLabel(origin), dst);
         }
     }
 }
