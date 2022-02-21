@@ -5,16 +5,16 @@
 namespace Z0
 {
     using P = System.Int32;
-    using D = IntelDataTypes.__int32;
+    using D = IntelDataTypes.__tile;
 
     partial struct IntelDataTypes
     {
-        public struct __int32 : IEquatable<D>, IComparable<D>
+        public struct __tile : IEquatable<D>, IComparable<D>
         {
             P Data;
 
             [MethodImpl(Inline)]
-            public __int32(P src)
+            public __tile(P src)
                 => Data = src;
 
             [MethodImpl(Inline)]
