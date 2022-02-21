@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class NativeTypes
+    [ApiHost]
+    public partial class NativeTypes
     {
-        [MethodImpl(Inline)]
-        public static NativeType vector(NativeCellType cellType, byte cellCount)
-            => new NativeType(NativeVectorType.define(cellType, cellCount));
+        const NumericKind Closure = NumericKind.All;
+
     }
 }

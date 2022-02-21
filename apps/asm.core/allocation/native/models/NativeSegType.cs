@@ -5,8 +5,16 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct NativeSegType
+    public readonly struct NativeSegType : INativeType<NativeSegType>
     {
+        [MethodImpl(Inline)]
+        public static NativeSegType define(NativeCellType type, byte count)
+            => new NativeSegType(type,count);
+
+        [MethodImpl(Inline)]
+        public static NativeSegType define(NativeSegKind kind)
+            => core.@as<NativeSegKind,NativeSegType>(kind);
+
         public readonly NativeCellType CellType;
 
         public readonly byte CellCount;
@@ -30,6 +38,22 @@ namespace Z0
             get => core.@as<NativeSegType,NativeSegKind>(this);
         }
 
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => Sizes.native(Width);
+        }
+
+        public bool IsVoid
+        {
+            [MethodImpl(Inline)]
+            get => CellType.IsVoid;
+        }
+
+        [MethodImpl(Inline)]
+        public bool Equals(NativeSegType src)
+            => CellType.Equals(src.CellType) && CellCount == src.CellCount;
+
         public string Format()
             => NativeTypes.format(this);
 
@@ -47,5 +71,11 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator NativeSegKind(NativeSegType src)
             => src.SegKind;
+
+        public static NativeSegType Void
+        {
+            [MethodImpl(Inline)]
+            get => new NativeSegType(NativeCellType.Void,0);
+        }
     }
 }

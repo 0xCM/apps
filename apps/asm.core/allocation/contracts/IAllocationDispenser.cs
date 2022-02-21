@@ -8,21 +8,4 @@ namespace Z0
     {
         AllocationKind DispensedKind {get;}
     }
-
-    public enum AllocationKind : byte
-    {
-        Label,
-
-        String,
-
-        Memory,
-
-        Page,
-
-        Source,
-
-        Symbol,
-
-        AsmCode,
-    }
 }

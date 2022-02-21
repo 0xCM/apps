@@ -109,7 +109,6 @@ namespace Z0
             return k;
         }
 
-
         [MethodImpl(Inline)]
         public static NativeSegKind segkind<W,T>(W w = default, T t = default)
             where W : unmanaged, ITypeWidth

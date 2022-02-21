@@ -24,14 +24,14 @@ namespace Z0
 
                 if(count == 1)
                 {
-                    var name = dispenser.DispenseLabel(first(parts));
+                    var name = dispenser.Label(first(parts));
                     return new Lineage2(name);
                 }
                 else
                 {
                     var names = alloc<Label>(count-1);
                     for(var i=1; i<count; i++)
-                        seek(names,i-1) = dispenser.DispenseLabel(skip(parts,i));
+                        seek(names,i-1) = dispenser.Label(skip(parts,i));
                     return new Lineage2(first(parts), names);
                 }
             }

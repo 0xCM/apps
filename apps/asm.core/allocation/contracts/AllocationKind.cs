@@ -4,16 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface INativeType
+    public enum AllocationKind : byte
     {
-        NativeSize Size {get;}
+        Label,
 
-        BitWidth Width => Size.Width;
-    }
+        String,
 
-    public interface INativeType<T> : INativeType, IEquatable<T>
-        where T : unmanaged, INativeType<T>
-    {
+        Memory,
 
+        Page,
+
+        Source,
+
+        Symbol,
+
+        AsmCode,
+
+        Sig,
     }
 }

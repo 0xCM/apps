@@ -11,6 +11,22 @@ namespace Z0
     using static Asm.AsmRegTokens;
     partial class CheckCmdProvider
     {
+
+        Outcome CheckSigs(CmdArgs args)
+        {
+            using var dispenser = Alloc.allocate();
+            var specs = new NativeOperandSpec[3];
+            seek(specs,0) = ("op0", NativeTypes.u8());
+            seek(specs,0) = ("op1", NativeTypes.i16());
+            seek(specs,0) = ("op2", NativeTypes.u32());
+            dispenser.NativeSig("f1", NativeTypes.i32());
+
+
+
+
+            return true;
+        }
+
         [CmdOp("check/ccv")]
         Outcome CheckCcv(CmdArgs args)
         {

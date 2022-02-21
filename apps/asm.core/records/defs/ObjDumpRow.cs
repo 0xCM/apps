@@ -79,6 +79,9 @@ namespace Z0
             get => text.contains(Asm.Format(), BlockStartMarker);
         }
 
+        Hex64 IAsmEncoding.Id
+            => Id;
+
         uint ISequential.Seq
             => Seq;
 

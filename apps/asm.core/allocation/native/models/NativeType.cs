@@ -6,6 +6,18 @@ namespace Z0
 {
     public readonly struct NativeType : INativeType<NativeType>
     {
+        [MethodImpl(Inline)]
+        public static NativeType define(NativeCellType src)
+            => new NativeType(src);
+
+        [MethodImpl(Inline)]
+        public static NativeType define(NativeSegType src)
+            => new NativeType(src);
+
+        [MethodImpl(Inline)]
+        public static NativeType define(NativeSegKind src)
+            => new NativeType(src);
+
         readonly ushort Data;
 
         [MethodImpl(Inline)]
@@ -15,9 +27,9 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        internal NativeType(NativeVectorType src)
+        internal NativeType(NativeSegType src)
         {
-            Data = core.@as<NativeVectorType,byte>(src);
+            Data = core.@as<NativeSegType,ushort>(src);
         }
 
         public bool IsCellType
@@ -26,21 +38,33 @@ namespace Z0
             get => (Data & 0xFF) == 0;
         }
 
-        public bool IsVectorType
+        public bool IsSegmeted
         {
             [MethodImpl(Inline)]
             get => (Data & 0xFF) != 0;
         }
 
+        public NativeCellType CellType
+        {
+            [MethodImpl(Inline)]
+            get => core.@as<NativeType,NativeCellType>(this);
+        }
+
+        public bool IsVoid
+        {
+            [MethodImpl(Inline)]
+            get => CellType.IsVoid;
+        }
+
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => IsCellType ? AsCellType().Size : AsVectorType().Size;
+            get => IsCellType ? AsCellType().Size : AsSegType().Size;
         }
 
         [MethodImpl(Inline)]
-        public NativeVectorType AsVectorType()
-            => core.@as<NativeType,NativeVectorType>(this);
+        public NativeSegType AsSegType()
+            => core.@as<NativeType,NativeSegType>(this);
 
         [MethodImpl(Inline)]
         public NativeCellType AsCellType()
@@ -65,10 +89,20 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public static implicit operator NativeType(NativeCellType src)
-            => new NativeType(src);
+            => define(src);
 
         [MethodImpl(Inline)]
-        public static implicit operator NativeType(NativeVectorType src)
-            => new NativeType(src);
+        public static implicit operator NativeType(NativeSegType src)
+            => define(src);
+
+        [MethodImpl(Inline)]
+        public static implicit operator NativeType(NativeSegKind src)
+            => define(src);
+
+        public static NativeType Void
+        {
+            [MethodImpl(Inline)]
+            get => new NativeType(NativeCellType.Void);
+        }
     }
 }

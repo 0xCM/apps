@@ -121,6 +121,9 @@ namespace Z0
         public AsmCodeDispenser AsmCodes()
             => (AsmCodeDispenser)Data.GetOrAdd(AllocationKind.AsmCode, k => new AsmCodeDispenser(Symbols(), Sources(), Mem(), Labels()));
 
+        public SigDispenser Sigs()
+            =>(SigDispenser)Data.GetOrAdd(AllocationKind.Sig, k => new SigDispenser(Mem(), Strings(), Labels()));
+
         public Alloc()
         {
             Data = new();
@@ -132,7 +135,7 @@ namespace Z0
         }
 
         public Label Label(@string content)
-            => Labels().DispenseLabel(content);
+            => Labels().Label(content);
 
         public MemorySeg Memory(ByteSize size)
             => Mem().DispenseMemory(size);
@@ -142,6 +145,9 @@ namespace Z0
 
         public SourceText Source(string src)
             => Sources().DispenseSource(src);
+
+        public NativeSig NativeSig(string name, NativeType ret, params NativeOperandSpec[] ops)
+            => Sigs().NativeSig(name,ret,ops);
 
         public SourceText Source(Identifier name, ReadOnlySpan<string> src)
             => Sources().Source(src);

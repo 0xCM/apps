@@ -4,10 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class NativeTypes
+    public interface INativeType : ITextual
     {
-        [MethodImpl(Inline)]
-        public static NativeType cell(NativeSize size, ScalarClass @class)
-            => new NativeType(NativeCellType.define(size,@class));
+        NativeSize Size {get;}
+
+        BitWidth Width => Size.Width;
+    }
+
+    public interface INativeType<T> : INativeType, IEquatable<T>
+        where T : unmanaged, INativeType<T>
+    {
+
     }
 }
