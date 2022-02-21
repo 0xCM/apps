@@ -25,13 +25,16 @@ namespace Z0
 
         ConstLookup<LineNumber,AsmSourceLine> _Syntax;
 
+        ConstLookup<LineNumber,AsmSourceLine> _DocLines;
+
         public McAsmDoc(in FileRef fref,
             ConstLookup<LineNumber,AsmDirective> directives,
             ConstLookup<LineNumber,AsmBlockLabel> labels,
             ConstLookup<LineNumber,AsmSourceLine> sources,
             ConstLookup<LineNumber,AsmInstRef> instructions,
             ConstLookup<LineNumber,AsmSourceLine> encodings,
-            ConstLookup<LineNumber,AsmSourceLine> syntax
+            ConstLookup<LineNumber,AsmSourceLine> syntax,
+            ConstLookup<LineNumber,AsmSourceLine> doc
             )
         {
             Path = fref.Path;
@@ -41,6 +44,7 @@ namespace Z0
             _Instructions = instructions;
             _Encodings = encodings;
             _Syntax = syntax;
+            _DocLines = doc;
         }
 
         public ConstLookup<LineNumber,AsmDirective> Directives
@@ -71,6 +75,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => _Syntax;
+        }
+
+        public ConstLookup<LineNumber,AsmSourceLine> DocLines
+        {
+            [MethodImpl(Inline)]
+            get => _DocLines;
         }
 
         public ConstLookup<LineNumber,AsmInstRef> Instructions

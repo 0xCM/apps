@@ -61,7 +61,7 @@ namespace Z0.Asm
             for(var i=0u; i<count; i++)
                 Parse(skip(data,i));
 
-            return new McAsmDoc(DocSource, Directives, BlockLabels, SourceLines, Instructions, Encodings, Syntax);
+            return new McAsmDoc(DocSource, Directives, BlockLabels, SourceLines, Instructions, Encodings, Syntax, DocLines);
         }
 
         AsmBlockLabel Label;
@@ -105,7 +105,8 @@ namespace Z0.Asm
             LineClass = lineclass(src.Content);
             LineContent = src.Content.Replace(Chars.Tab, Chars.Space).Trim();
             LineNumber = src.LineNumber;
-            DocLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, AsmBlockLabel.Empty, LineContent));
+            if(LineClass != AsmLineClass.Label)
+                DocLines.Add(LineNumber, new AsmSourceLine(LineNumber, LineClass, AsmBlockLabel.Empty, LineContent));
             switch(LineClass)
             {
                 case C.Label:
@@ -115,7 +116,9 @@ namespace Z0.Asm
                         LabelLine = LineNumber;
                         BlockLabels.Add(LineNumber, Label);
                         BlockOffsets.Add(LabelLine);
-                        SourceLines.Add(LineNumber, new AsmSourceLine(LabelLine, LineClass, Label, EmptyString));
+                        var line = new AsmSourceLine(LabelLine, LineClass, Label, EmptyString);
+                        SourceLines.Add(LineNumber, line);
+                        DocLines.Add(LineNumber, line);
                     }
                 break;
 

@@ -50,7 +50,7 @@ namespace Z0
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
-        IntelIntrinsics IntelIntrinsics => Service(Wf.IntelIntrinsics);
+        IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
 
         LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
 

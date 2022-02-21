@@ -41,16 +41,39 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var doc = ref docs[i];
-                var labels = doc.BlockLabels;
-                var blocklines = labels.Keys;
-                for(var  j=0; j<blocklines.Length; j++)
-                {
-                    ref readonly var blockline = ref skip(blocklines,j);
-                    Write(string.Format("{0:d5} {1}", blockline, labels[blockline].Format()));
-                }
+                MergeDirectives(doc);
+                // var labels = doc.BlockLabels;
+                // var blocklines = labels.Keys;
+                // for(var  j=0; j<blocklines.Length; j++)
+                // {
+                //     ref readonly var blockline = ref skip(blocklines,j);
+                //     Write(string.Format("{0:d5} {1}", blockline, labels[blockline].Format()));
+                // }
             }
 
             return true;
+        }
+
+        void MergeDirectives(in McAsmDoc src)
+        {
+            var lines = src.DocLines;
+            var directives = src.Directives;
+            var numbers = src.DocLines.Keys.ToArray().Sort();
+            var count = numbers.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var number = ref skip(numbers,i);
+                var line = lines[number];
+                if(directives.Find(number, out var directive))
+                {
+                    Write(string.Format("{0,-8} {1}", number, directive.Format()));
+                }
+                else
+                {
+                    //Write(string.Format("{0,-8} {1}",number, line.Format()));
+                }
+
+            }
         }
 
         [CmdOp("project/objects")]

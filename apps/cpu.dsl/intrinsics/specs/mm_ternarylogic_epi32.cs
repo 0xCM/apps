@@ -5,8 +5,8 @@
 namespace Z0.Vdsl
 {
     using Asm;
-    using Asm.Operands;
 
+    using static IntelDataTypes;
     using static BitNumbers;
 
     partial struct Intrinsics

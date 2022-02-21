@@ -51,8 +51,8 @@ namespace Z0
             => Asm.IntelSdm.create(wf);
 
         [Op]
-        public static IntelIntrinsics IntelIntrinsics(this IWfRuntime wf)
-            => Asm.IntelIntrinsics.create(wf);
+        public static IntelIntrinsicSvc IntelIntrinsics(this IWfRuntime wf)
+            => Asm.IntelIntrinsicSvc.create(wf);
 
         [Op]
         public static XedRules XedRules(this IWfRuntime wf)

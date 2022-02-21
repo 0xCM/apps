@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using Asm.Operands;
+    using static IntelDataTypes;
 
     using static core;
     using Expr;

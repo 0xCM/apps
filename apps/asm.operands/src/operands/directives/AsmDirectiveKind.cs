@@ -2,7 +2,7 @@
 // Source : LLVM - https://github.com/llvm/llvm-project/
 // License: Apache-2.0 WITH LLVM-exception
 //-----------------------------------------------------------------------------------------//
-namespace Z0
+namespace Z0.Asm
 {
     // Classifies assembler directives
     // https://github.com/llvm/llvm-project/blob/a8cfa4b9bda3014a88e089cadcc6d366317aec5b/llvm/lib/MC/MCParser/AsmParser.cpp

@@ -5,7 +5,7 @@
 namespace Z0.Vdsl
 {
     using Asm;
-    using Asm.Operands;
+    using static IntelDataTypes;
 
     partial struct Intrinsics
     {

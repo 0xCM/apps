@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Vdsl
 {
-    using Asm.Operands;
-
     using static core;
-    using static Root;
-
-
+    using static IntelDataTypes;
     using K = IntrinsicKind;
 
     partial struct Intrinsics
