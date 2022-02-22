@@ -4,7 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Seq
+    public enum SigFormatStyle : byte
     {
+        Functional,
+
+        C,
+
+        CSharp
     }
 }
+

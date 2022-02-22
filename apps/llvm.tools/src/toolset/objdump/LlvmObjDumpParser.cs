@@ -103,7 +103,7 @@ namespace Z0.llvm
                         {
                             AsmParser.asmhex(text.trim(text.left(asm, y)), out Row.HexCode);
                             Row.Size = Row.HexCode.Size;
-                            Row.Id = AsmBytes.identify(origin, Row.IP, Row.HexCode.Bytes);
+                            Row.Id = AsmBytes.instid(src.DocId, Row.IP, Row.HexCode.Bytes).EncodingId;
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
                             if(AsmParser.comment(statement, out Row.Comment))

@@ -28,13 +28,11 @@ namespace Z0.llvm
         FS.FilePath ObjBlockPath(IProjectWs project)
             => ProjectDb.ProjectTable<ObjBlock>(project);
 
-
         public LlvmObjDumpSvc()
             : base(ToolId)
         {
 
         }
-
         public Outcome Run(FS.FilePath src, FS.FolderPath dst)
         {
             var tool = ToolNames.llvm_objdump;
@@ -70,7 +68,7 @@ namespace Z0.llvm
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
-                result = DataParser.parse(data[j++], out dst.Id);
+                result = AsmParser.encid(data[j++].Text, out dst.Id);
                 result = DataParser.parse(data[j++], out dst.DocId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Section);
@@ -122,7 +120,6 @@ namespace Z0.llvm
         {
             var rows = Consolidate(collect);
             var blocks = CalcObjBlocks(rows);
-
             TableEmit(blocks.View, ObjBlock.RenderWidths, ObjBlockPath(collect.Project));
             RecodedSrcDir(collect.Project).Clear();
             EmitAsmCodeBlocks(collect,RecodeBlocks);

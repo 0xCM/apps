@@ -83,5 +83,41 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static NativeType f64()
             => fractional(W.W64);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType u128()
+            => unsigned(W.W128);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType i128()
+            => signed(W.W128);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType f128()
+            => fractional(W.W128);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType u256()
+            => unsigned(W.W256);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType i256()
+            => signed(W.W256);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType f256()
+            => fractional(W.W256);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType u512()
+            => unsigned(W.W512);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType i512()
+            => signed(W.W512);
+
+        [MethodImpl(Inline), Op]
+        public static NativeType f512()
+            => fractional(W.W512);
     }
 }

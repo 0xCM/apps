@@ -50,6 +50,18 @@ namespace Z0
         public static Outcome parse(string src, out Hex64 dst)
             => Hex64.parse(src, out dst);
 
+        public static Outcome parse(ReadOnlySpan<char> src, out Hex8 dst)
+            => Hex8.parse(src, out dst);
+
+        public static Outcome parse(ReadOnlySpan<char> src, out Hex16 dst)
+            => Hex16.parse(src, out dst);
+
+        public static Outcome parse(ReadOnlySpan<char> src, out Hex32 dst)
+            => Hex32.parse(src, out dst);
+
+        public static Outcome parse(ReadOnlySpan<char> src, out Hex64 dst)
+            => Hex64.parse(src, out dst);
+
         [Parser]
         public static Outcome parse(string src, out Hash8 dst)
         {

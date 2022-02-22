@@ -20,6 +20,14 @@ namespace Z0
             return outcome;
         }
 
+        [Parser]
+        public static Outcome parse(ReadOnlySpan<char> src, out Hex32 dst)
+        {
+            var outcome = HexParser.parse32u(src, out var x);
+            dst = x;
+            return outcome;
+        }
+
         public const byte ContentWidth = 32;
 
         public const byte StorageWidth = 32;

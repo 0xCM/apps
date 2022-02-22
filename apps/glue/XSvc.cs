@@ -35,10 +35,6 @@ namespace Z0
             => Toolz.CultProcessor.create(wf);
 
         [Op]
-        public static DumpBin DumpBin(this IWfRuntime wf)
-            => Z0.DumpBin.create(wf);
-
-        [Op]
         public static BdDisasm BdDisasm(this IWfRuntime wf)
             => Toolz.BdDisasm.create(wf);
 

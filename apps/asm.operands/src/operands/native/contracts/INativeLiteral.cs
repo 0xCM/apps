@@ -4,7 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Seq
+    public interface INativeLiteral
     {
+        Label Name {get;}
+        ReadOnlySpan<byte> Data {get;}
+    }
+
+    public interface INativeLiteral<T> : INativeLiteral
+        where T : unmanaged
+    {
+        T Value {get;}
     }
 }

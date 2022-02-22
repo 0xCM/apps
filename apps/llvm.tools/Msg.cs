@@ -2,12 +2,15 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
+
 namespace Z0
 {
-    public interface ILiteralExpr<T> : IExpr
+    partial struct Msg
     {
-        string Name {get;}
+        public static MsgPattern<ProjectId> ProjectUndefined
+            => "Project {0} undefined";
 
-        Constant<T> Value {get;}
+        public static MsgPattern<ProjectId> LoadingSources
+            => "Loading {0} sources";
     }
 }

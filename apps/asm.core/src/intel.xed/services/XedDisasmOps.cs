@@ -55,7 +55,7 @@ namespace Z0
                 record.DocSeq = counter++;
                 record.DocId = fref.DocId;
                 result = ParseIP(content, out record.IP);
-                record.Id = AsmBytes.identify(origin, record.IP, record.Encoded.Bytes);
+                record.Id = AsmBytes.instid(fref.DocId, record.IP, record.Encoded.Bytes).EncodingId;
                 record.Asm = expression;
                 record.Source = src;
                 record.Source = record.Source.LineRef(line.LineNumber);

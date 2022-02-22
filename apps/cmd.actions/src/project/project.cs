@@ -14,17 +14,38 @@ namespace Z0
             return result;
         }
 
+        Dictionary<string,string> BuildJobNames {get;}
+            = core.array(("mc.models", "mc/build"),
+                        ("clang.models","clang/build/c"),
+                        ("llvm.models","llc/build")
+            ).ToDictionary();
+
 
         [CmdOp("project/build")]
         Outcome BuildProject(CmdArgs args)
         {
             var project = Project();
-            var result = WsProjects.RunScript(project,ProjectScriptNames.Build);
-            if(result.Fail)
-                return result;
+            var name = project.Name;
+            if(BuildJobNames.TryGetValue(name, out var job))
+            {
 
-            Collect(project);
+            }
 
+
+            // var result = WsProjects.RunScript(project,ProjectScriptNames.Build);
+            // if(result.Fail)
+            //     return result;
+
+            // Collect(project);
+
+            return true;
+        }
+
+        [CmdOp("project/clean")]
+        Outcome CleanProject(CmdArgs args)
+        {
+            var project = Project();
+            Status(string.Format("Cleared {0}", WsProjects.CleanOutDir(project)));
             return true;
         }
     }

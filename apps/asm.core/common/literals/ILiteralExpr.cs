@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct Seq
+    public interface ILiteralExpr<T> : IExpr
     {
+        Identifier Name {get;}
+
+        Constant<T> Value {get;}
     }
 }

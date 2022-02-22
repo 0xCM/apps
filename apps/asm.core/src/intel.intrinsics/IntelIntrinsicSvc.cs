@@ -31,11 +31,15 @@ namespace Z0.Asm
         FS.FilePath TableTargetPath()
             => Targets() + FS.file("intel.intrinsics", FS.Csv);
 
+        FS.FilePath TableTargetPath(string subject)
+            => Targets() + FS.file(string.Format("intel.intrinsics.{0}", subject), FS.Csv);
+
         public Index<Intrinsic> Emit()
         {
             var parsed = ParseXmlDoc().Sort();
             EmitAlgorithms(parsed);
             EmitRecords(parsed);
+            EmitRecords(parsed,"Integer");
             EmitDeclarations(parsed);
             return parsed;
         }
@@ -73,7 +77,7 @@ namespace Z0.Asm
             var count = src.Length;
             for(var i=0; i<count; i++)
             {
-                Fill(skip(src,i),out var record);
+                Fill(skip(src,i), out var record);
                 dst.Add(record);
             }
         }
@@ -98,12 +102,43 @@ namespace Z0.Asm
             }
         }
 
-        void EmitRecords(ReadOnlySpan<Intrinsic> src)
+        void EmitRecords(Index<Intrinsic> src)
         {
             var rows = list<IntelIntrinsic>();
             Summarize(src, rows);
             rows.Sort();
             TableEmit(rows.ViewDeposited(), IntelIntrinsic.RenderWidths, TableTargetPath());
+        }
+
+
+        readonly struct NameComparer : IComparer<IntelIntrinsic>
+        {
+            public int Compare(IntelIntrinsic x, IntelIntrinsic y)
+            {
+                var result = x.Category.CompareTo(y.Category);
+                if(result == 0)
+                    result = x.Name.CompareTo(y.Name);
+                return result;
+            }
+        }
+
+        void EmitRecords(Index<Intrinsic> src, string type)
+        {
+            var rows = list<IntelIntrinsic>();
+            Summarize(src, rows);
+            var selected = list<IntelIntrinsic>();
+            foreach(var row in rows)
+            {
+                foreach(var t in row.Types)
+                {
+                    if(t == type)
+                        selected.Add(row);
+                }
+            }
+
+            selected.Sort(new NameComparer());
+
+            TableEmit(selected.ViewDeposited(), IntelIntrinsic.RenderWidths, TableTargetPath(type.ToLower()));
         }
 
         Index<Intrinsic> Parse(XmlDoc src)

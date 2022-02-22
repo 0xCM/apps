@@ -13,15 +13,23 @@ namespace Z0
 
         public readonly NativeType Type;
 
-        public readonly OpMod Mod;
+        public readonly NativeOpMod Mod;
 
         [MethodImpl(Inline)]
-        public NativeOperand(Label name, NativeType type, OpMod mod = default)
+        public NativeOperand(Label name, NativeType type, NativeOpMod mod = default)
         {
             Name = name;
             Type = type;
             Mod = mod;
         }
+
+        public string Format()
+            => NativeSigs.format(this);
+
+        public string Format(SigFormatStyle style)
+            => NativeSigs.format(this, style);
+
+        public override string ToString()
+            => Format();
     }
 }
-

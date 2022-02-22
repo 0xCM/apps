@@ -17,7 +17,7 @@ namespace Z0.llvm
 
         public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project)
         {
-            return WsProjects.RunScripts(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, false));
+            return WsProjects.RunBuildScripts(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, false));
         }
 
         public LlvmMcSvc()
@@ -244,7 +244,7 @@ namespace Z0.llvm
 
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
-                result = DataParser.parse(skip(cells, j++), out dst.Id);
+                result = AsmParser.encid(skip(cells, j++), out dst.Id);
                 result = DataParser.parse(skip(cells, j++), out dst.DocId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
@@ -417,7 +417,7 @@ namespace Z0.llvm
                     record.DocId = file.DocId;
                     record.DocSeq = seq++;
                     record.IP = offset;
-                    record.Id = AsmBytes.identify(origin, offset, record.Encoded.Bytes);
+                    record.Id = AsmBytes.instid(file.DocId, offset, record.Encoded.Bytes).EncodingId;
                     record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
 
@@ -510,7 +510,7 @@ namespace Z0.llvm
                     if(AsmParser.asmhex(enc, out var encoding))
                     {
                         record.Encoded = encoding;
-                        record.Id = AsmBytes.identify(origin, ip, encoding.Bytes);
+                        record.Id = AsmBytes.instid(fref.DocId, ip, encoding.Bytes).EncodingId;
                         record.IP = ip;
                         ip += encoding.Size;
                     }

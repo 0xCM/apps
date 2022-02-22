@@ -7,7 +7,6 @@ namespace Z0
     /// <summary>
     /// Defines an invariant value
     /// </summary>
-    [DataType(TypeSyntax.Constant)]
     public readonly struct Constant<T> : IConstExpr<Constant<T>,T>
     {
         public T Value {get;}
@@ -21,7 +20,23 @@ namespace Z0
         public bool IsEmpty => false;
 
         public string Format()
-            => Terms.format(this);
+        {
+            var pattern = EmptyString;
+            if(typeof(T) == typeof(string))
+                pattern = "\"{0}\"";
+            else if(typeof(T) == typeof(char))
+                pattern = "'{0}'";
+            else if(typeof(T) == typeof(uint))
+                pattern = "{0}u";
+            else if(typeof(T) == typeof(ulong))
+                pattern = "{0}ul";
+            else if(typeof(T) == typeof(long))
+                pattern = "{0}L";
+            else
+                pattern = "{0}";
+
+            return string.Format(pattern, Value);
+        }
 
         public override string ToString()
             => Format();

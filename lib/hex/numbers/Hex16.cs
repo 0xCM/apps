@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using H = Hex16;
     using W = W16;
     using K = System.UInt16;
@@ -19,10 +14,19 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out Hex16 dst)
         {
-            var outcome = Hex.parse16u(src, out var x);
+            var outcome = HexParser.parse16u(src, out var x);
             dst = x;
             return outcome;
         }
+
+        [Parser]
+        public static Outcome parse(ReadOnlySpan<char> src, out Hex16 dst)
+        {
+            var outcome = HexParser.parse16u(src, out var x);
+            dst = x;
+            return outcome;
+        }
+
 
         public static H Max => K.MaxValue;
 

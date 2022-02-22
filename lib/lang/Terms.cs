@@ -32,10 +32,6 @@ namespace Z0
             return default;
         }
 
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Constant<T> constant<T>(T value)
-            => new Constant<T>(value);
-
         [MethodImpl(Inline), Op]
         public static ExprVar var(VarSymbol name)
             => new ExprVar(name);
@@ -71,25 +67,6 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format<T>(Constant<T> src)
-        {
-            var pattern = EmptyString;
-            if(typeof(T) == typeof(string))
-                pattern = "\"{0}\"";
-            else if(typeof(T) == typeof(char))
-                pattern = "'{0}'";
-            else if(typeof(T) == typeof(uint))
-                pattern = "{0}u";
-            else if(typeof(T) == typeof(ulong))
-                pattern = "{0}ul";
-            else if(typeof(T) == typeof(long))
-                pattern = "{0}L";
-            else
-                pattern = "{0}";
-
-            return string.Format(pattern, src.Value);
-        }
-
         [Formatter]
         internal static string format(VarSymbol src)
             => format(VarContextKind.Workflow, src);
@@ -97,7 +74,5 @@ namespace Z0
         [Op]
         internal static string format(VarContextKind vck, VarSymbol src)
             => string.Format(RP.pattern(vck), src.Name);
-
-
     }
 }

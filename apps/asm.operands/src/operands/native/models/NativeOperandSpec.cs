@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static NativeOpMods;
+
     public readonly struct NativeOperandSpec
     {
         [MethodImpl(Inline)]
@@ -11,17 +13,17 @@ namespace Z0
             => new NativeOperandSpec(name,type);
 
         [MethodImpl(Inline)]
-        public static NativeOperandSpec define(string name, NativeType type, OpMod mod)
+        public static NativeOperandSpec define(string name, NativeType type, NativeOpMod mod)
             => new NativeOperandSpec(name,type, mod);
 
         public readonly string Name;
 
         public readonly NativeType Type;
 
-        public readonly OpMod Mod;
+        public readonly NativeOpMod Mod;
 
         [MethodImpl(Inline)]
-        public NativeOperandSpec(string name, NativeType type, OpMod mod = default)
+        public NativeOperandSpec(string name, NativeType type, NativeOpMod mod = default)
         {
             Name = name;
             Type = type;
@@ -29,15 +31,35 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public NativeOperandSpec Modify(OpMod mod)
+        NativeOperandSpec Modify(NativeOpMod mod)
             => new NativeOperandSpec(Name, Type, mod);
+
+        [MethodImpl(Inline)]
+        public NativeOperandSpec ModPointer()
+            => Modify(Pointer | Mod);
+
+        [MethodImpl(Inline)]
+        public NativeOperandSpec ModOut()
+            => Modify(Out | Mod);
+
+        [MethodImpl(Inline)]
+        public NativeOperandSpec ModRef()
+            => Modify(Ref | Mod);
+
+        [MethodImpl(Inline)]
+        public NativeOperandSpec ModIn()
+            => Modify(In | Mod);
+
+        [MethodImpl(Inline)]
+        public NativeOperandSpec ModConst()
+            => Modify(Const | Mod);
 
         [MethodImpl(Inline)]
         public static implicit operator NativeOperandSpec((string name, NativeType type) src)
             => new NativeOperandSpec(src.name, src.type);
 
         [MethodImpl(Inline)]
-        public static implicit operator NativeOperandSpec((string name, NativeType type, OpMod mod) src)
+        public static implicit operator NativeOperandSpec((string name, NativeType type, NativeOpMod mod) src)
             => new NativeOperandSpec(src.name, src.type, src.mod);
     }
 }

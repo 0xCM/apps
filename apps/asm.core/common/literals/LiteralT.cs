@@ -10,19 +10,19 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential), DataType(TypeSyntax.Literal)]
     public readonly struct Literal<T> : ILiteralExpr<T>
     {
-        public string Name {get;}
+        public Identifier Name {get;}
 
         public Constant<T> Value {get;}
 
         [MethodImpl(Inline)]
-        public Literal(string name, Constant<T> value)
+        public Literal(Identifier name, Constant<T> value)
         {
             Name = name;
             Value = value;
         }
 
         public string Format()
-            => ExprFormatters.format(this);
+            => string.Format("{0} = {1}", Name, Value.Format());
 
         public override string ToString()
             => Format();

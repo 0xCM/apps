@@ -14,9 +14,6 @@ namespace Z0
 
     readonly struct ExprFormatters
     {
-        public static string format<T>(Literal<T> src)
-            => string.Format("{0} = {1}", src.Name, src.Value.Format());
-
         [Op]
         public static string format(IVarValue var, char assign)
             => string.Format("{0}{1}{2}", format(var.Name), assign, var.Value);
@@ -33,21 +30,6 @@ namespace Z0
         public static string format(VarContextKind vck, IVarValue var)
             => format(vck,var, Chars.Eq);
 
-        public static string format<T>(LiteralSeq<T> src)
-            where T : IEquatable<T>, IComparable<T>
-        {
-            var dst = text.buffer();
-            var w = core.width<T>();
-            var count = src.Count;
-            var margin = 0u;
-            dst.AppendLineFormat("{1}:seq<uint{0}> = {{", w, src.Name);
-            margin +=4;
-            for(var i=0; i<count; i++)
-                dst.IndentLine(margin, src[i].Format());
-            margin -=4;
-            dst.IndentLine(margin, "}");
-            return dst.Emit();
-        }
 
         [Formatter]
         internal static string format(VarSymbol src)

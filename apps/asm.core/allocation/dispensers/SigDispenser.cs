@@ -61,16 +61,17 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        NativeOperand operand(string name, NativeType type, OpMod mod = default)
+        NativeOperand operand(string name, NativeType type, NativeOpMod mod = default)
             => new NativeOperand(Labels.Label(name), type, mod);
 
-        public NativeSig NativeSig(string opname, NativeType ret, params NativeOperandSpec[] opspecs)
+        public NativeSig NativeSig(string scope, string opname, NativeType ret, params NativeOperandSpec[] opspecs)
         {
             var id = NextId();
             var count = (byte)opspecs.Length;
             var size = size<byte>() + size<StringRef>() + (count + 1)*NativeOperand.StorageSize;
             var data = Memory.DispenseMemory(size);
             var dst = new NativeSig(id, data);
+            dst.Scope = Strings.String(scope);
             dst.Name = Strings.String(opname);
             dst.OperandCount = count;
             dst.Return = operand("return", ret);
@@ -84,5 +85,4 @@ namespace Z0
             return dst;
         }
     }
-
 }

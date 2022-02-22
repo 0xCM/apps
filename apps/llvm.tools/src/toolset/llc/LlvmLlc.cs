@@ -39,7 +39,7 @@ namespace Z0.llvm
                 _ => EmptyString
             };
 
-            return WsProjects.RunScripts(project, scriptid, EmptyString, flow => WsProjects.HandleBuildResponse(flow, runexe));
+            return WsProjects.RunBuildScripts(project, scriptid, EmptyString, flow => WsProjects.HandleBuildResponse(flow, runexe));
         }
 
         Outcome Build(IProjectWs project, Paired<FS.FilePath,Index<string>> spec)

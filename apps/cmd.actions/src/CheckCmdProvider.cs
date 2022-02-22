@@ -19,6 +19,5 @@ namespace Z0
         ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
-
     }
 }

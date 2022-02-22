@@ -18,14 +18,12 @@ namespace Z0.Asm
 
         const NumericKind Closure = UnsignedInts;
 
-        [Op]
-        public static Hex64 identify(Name origin, MemoryAddress ip, ReadOnlySpan<byte> encoding)
-        {
-            return identify(ip,encoding);
-        }
+        [MethodImpl(Inline), Op]
+        public static InstructionId instid(Hex32 docid, MemoryAddress ip, ReadOnlySpan<byte> encoding)
+            => new InstructionId(docid, encid(ip,encoding));
 
         [Op]
-        public static Hex64 identify(MemoryAddress ip, ReadOnlySpan<byte> encoding)
+        public static EncodingId encid(MemoryAddress ip, ReadOnlySpan<byte> encoding)
         {
             var storage = ByteBlock8.Empty;
             var dst = storage.Bytes;

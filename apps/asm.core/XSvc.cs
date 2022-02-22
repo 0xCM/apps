@@ -9,6 +9,10 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static DumpBin DumpBin(this IWfRuntime wf)
+            => Z0.DumpBin.create(wf);
+
         public static FileCatalog FileCatalog(this IProjectWs src)
             => Z0.FileCatalog.load(src);
 

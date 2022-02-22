@@ -43,6 +43,30 @@ namespace Z0
         public static Outcome parse64u(string src, out ulong dst)
             => ulong.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
 
+        public static Outcome parse8i(ReadOnlySpan<char> src, out sbyte dst)
+            =>sbyte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse8u(ReadOnlySpan<char> src, out byte dst)
+            => byte.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse16i(ReadOnlySpan<char> src, out short dst)
+            => short.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse16u(ReadOnlySpan<char> src, out ushort dst)
+            => ushort.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse32i(ReadOnlySpan<char> src, out int dst)
+            => int.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse32u(ReadOnlySpan<char> src, out uint dst)
+            => uint.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse64i(ReadOnlySpan<char> src, out long dst)
+            => long.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
+        public static Outcome parse64u(ReadOnlySpan<char> src, out ulong dst)
+            => ulong.TryParse(clear(src), NumberStyles.HexNumber, null,  out dst);
+
         public static Outcome parse(string src, out BinaryCode dst)
         {
             var result = Outcome.Success;

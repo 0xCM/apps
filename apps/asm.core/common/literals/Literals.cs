@@ -8,10 +8,33 @@ namespace Z0
 
     public readonly struct Literals
     {
+
+        // public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
+        //     where T : IEquatable<T>, IComparable<T>
+        // {
+        //     var count = names.Length;
+        //     Require.equal(count, values.Length);
+        //     var literals = alloc<Literal<T>>(count);
+        //     for(var i=0; i<count; i++)
+        //         seek(literals,i) = new Literal<T>(skip(names,i), skip(values,i));
+        //     return new LiteralSeq<T>(name, literals);
+        // }
+
+        // public static LiteralSeq<T> seq<T>(Identifier name, KeyedValue<string,T>[] src)
+        //     where T : IEquatable<T>, IComparable<T>
+        // {
+        //     var count = src.Length;
+        //     var labels = src.Map(x => x.Key);
+        //     var literals = alloc<Literal<T>>(count);
+        //     for(var i=0; i<count; i++)
+        //         seek(literals,i) = new Literal<T>(labels[i], skip(src,i).Value);
+        //     return new LiteralSeq<T>(name,literals);
+        // }
+
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op, Closures(Closure)]
-        public static Literal<T> define<T>(string name, T value)
+        public static Literal<T> define<T>(Identifier name, T value)
             => new Literal<T>(name, value);
 
         public static LiteralSeq<T> seq<T>(Identifier name, ReadOnlySpan<string> names, ReadOnlySpan<T> values)
@@ -37,7 +60,23 @@ namespace Z0
             return new LiteralSeq<E>(typeof(E).Name, dst);
         }
 
-        public static LiteralSeq<T> seq<T>(Identifier name, KeyedValue<string,T>[] src)
+        public static string format<T>(LiteralSeq<T> src)
+            where T : IEquatable<T>, IComparable<T>
+        {
+            var dst = text.buffer();
+            var w = core.width<T>();
+            var count = src.Count;
+            var margin = 0u;
+            dst.AppendLineFormat("{1}:seq<uint{0}> = {{", w, src.Name);
+            margin +=4;
+            for(var i=0; i<count; i++)
+                dst.IndentLine(margin, src[i].Format());
+            margin -=4;
+            dst.IndentLine(margin, "}");
+            return dst.Emit();
+        }
+
+        public static LiteralSeq<T> seq<T>(Identifier name, KeyedValue<Identifier,T>[] src)
             where T : IEquatable<T>, IComparable<T>
         {
             var count = src.Length;

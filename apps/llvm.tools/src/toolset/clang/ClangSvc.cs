@@ -20,9 +20,9 @@ namespace Z0.llvm
         }
 
         public Outcome<Index<ToolCmdFlow>> CBuild(IProjectWs project, bool runexe = false)
-            => WsProjects.RunScripts(project, "c-build", "c", flow => WsProjects.HandleBuildResponse(flow,runexe));
+            => WsProjects.RunBuildScripts(project, "c-build", "c", flow => WsProjects.HandleBuildResponse(flow,runexe));
 
         public Outcome<Index<ToolCmdFlow>> CppBuild(IProjectWs project, bool runexe = false)
-            => WsProjects.RunScripts(project, "cpp-build", "cpp", flow => WsProjects.HandleBuildResponse(flow,runexe));
+            => WsProjects.RunBuildScripts(project, "cpp-build", "cpp", flow => WsProjects.HandleBuildResponse(flow,runexe));
     }
 }

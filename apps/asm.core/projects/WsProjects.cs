@@ -36,6 +36,9 @@ namespace Z0
             }
         }
 
+        public FS.FolderPath CleanOutDir(IProjectWs project)
+            => project.OutDir().Clear(true);
+
         public FS.FilePath Table<T>(IProjectWs project)
             where T : struct
                 => ProjectDb.ProjectTable<T>(project);
@@ -176,10 +179,13 @@ namespace Z0
             }
             else
                 return result;
-
         }
 
-        public Outcome<Index<ToolCmdFlow>> RunScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver = null)
+
+        FS.FilePath ArtifactFlowPath(IProjectWs project)
+            => ProjectDb.ProjectData() + FS.file(string.Format("{0}.flows", project.Name), FS.Csv);
+
+        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver = null)
         {
             var result = Outcome<Index<ToolCmdFlow>>.Success;
             var cmdflows = list<ToolCmdFlow>();
@@ -208,9 +214,8 @@ namespace Z0
 
             if(cmdflows.Count != 0)
             {
-                var dst = ProjectDb.Logs() + FS.folder("flows") + Tables.filename<ToolCmdFlow>(scriptid);
                 Index<ToolCmdFlow> records = cmdflows.ToArray();
-                TableEmit(records.View, ToolCmdFlow.RenderWidths, dst);
+                TableEmit(records.View, ToolCmdFlow.RenderWidths, ArtifactFlowPath(project));
                 result = (true,records);
             }
 

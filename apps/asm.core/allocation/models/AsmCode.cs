@@ -18,7 +18,7 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmCode(SourceText asm, MemoryAddress ip, AsmHexRef code)
         {
-            Id = AsmBytes.identify(ip, code.View);
+            Id = AsmBytes.encid(ip, code.View);
             IP = ip;
             Asm = asm;
             Encoded = code;

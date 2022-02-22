@@ -8,6 +8,36 @@ namespace Z0.Asm
 
     public readonly struct AsmParser
     {
+        public static bool encid(ReadOnlySpan<char> src, out EncodingId dst)
+        {
+            var input = text.trim(src);
+            dst = EncodingId.Empty;
+            var result = DataParser.parse(input, out Hex64 encid);
+            if(result)
+                dst = encid;
+            return result;
+        }
+
+        public static bool instid(ReadOnlySpan<char> src, out InstructionId dst)
+        {
+            var input = text.trim(src);
+            dst = InstructionId.Empty;
+            if(input.Length != 24)
+                return false;
+            var x0 = slice(input,0,8);
+            var result = DataParser.parse(x0, out Hex32 docid);
+            if(result.Fail)
+                return result;
+
+            var x1 = slice(input,8,16);
+            result = DataParser.parse(x1, out Hex64 encid);
+            if(result.Fail)
+                return result;
+
+            dst = new InstructionId(docid, encid);
+            return true;
+        }
+
         [Parser]
         public static Outcome parse(string src, out AsmMnemonic dst)
         {

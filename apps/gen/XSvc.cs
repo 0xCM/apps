@@ -13,6 +13,5 @@ namespace Z0
 
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
-
     }
 }

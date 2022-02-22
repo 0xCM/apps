@@ -9,7 +9,7 @@ namespace Z0
     [StructLayout(LayoutKind.Sequential,Pack=1)]
     public struct NativeSig
     {
-        const uint NameSize = 16;
+        const uint StringSize = 16;
 
         const uint OpCountSize = 1;
 
@@ -17,13 +17,21 @@ namespace Z0
 
         const uint TypeSize = 2;
 
+        const uint ScopeSize = StringSize;
+
+        const uint NameSize = StringSize;
+
         const uint OperandSize = NativeOperand.StorageSize;
 
-        const uint NameOffset = OpCountOffset + OpCountSize;
+        const uint ReturnSize = OperandSize;
+
+        const uint ScopeOffset = OpCountOffset + OpCountSize;
+
+        const uint NameOffset = ScopeOffset + ScopeSize;
 
         const uint ReturnOffset = NameOffset + NameSize;
 
-        const uint OperandsOffset = ReturnOffset + OperandSize;
+        const uint OperandsOffset = ReturnOffset + ReturnSize;
 
         public readonly Hex64 Id;
 
@@ -46,6 +54,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get =>  ref first(Data);
+        }
+
+        public ref StringRef Scope
+        {
+            [MethodImpl(Inline)]
+            get => ref @as<StringRef>(seek(Data,ScopeOffset));
         }
 
         public ref StringRef Name
@@ -77,11 +91,14 @@ namespace Z0
             [MethodImpl(Inline)]
             get => ref seek(Operands,i);
         }
-    }
 
-    public readonly struct OpMod
-    {
-        readonly ushort Data;
+        public string Format()
+            => NativeSigs.format(this);
+
+        public string Format(SigFormatStyle style)
+            => NativeSigs.format(this, style);
+
+        public override string ToString()
+            => Format();
     }
 }
-
