@@ -6,11 +6,11 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        [CmdOp("xed/query/isa-ext")]
-        Outcome XedIsaExt(CmdArgs args)
+        [CmdOp("project/clean")]
+        Outcome CleanProject(CmdArgs args)
         {
-            var extensions = Xed.IsaExtensions();
-
+            var project = Project();
+            Status(string.Format("Cleared {0}", WsProjects.CleanOutDir(project)));
             return true;
         }
     }

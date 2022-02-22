@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    public interface ICmdRunner
     {
-        [CmdOp("project")]
-        Outcome LoadProject(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            Project(Ws.Project(arg(args,0).Value));
-            return result;
-        }
+        void RunJobs(string match);
+
+        void RunCmd(string name);
+
+        void RunCmd(string name, CmdArgs args);
     }
 }

@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    using static XedRecords;
+
+    partial class XedCmdProvider
     {
-        [CmdOp("xed/query/inst")]
-        Outcome XedQuery(CmdArgs args)
+        [CmdOp("xed/query/categories")]
+        Outcome QueryCategores(CmdArgs args)
         {
-            Xed.QueryCatalog(arg(args,0));
+            TableEmit(Symbols.syminfo<CategoryKind>().View, SymInfo.RenderWidths, XedQueryOut("xed/query/categories"));
             return true;
         }
     }

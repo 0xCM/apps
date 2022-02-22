@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>
+    public partial class GlobalCommands : AppCmdService<GlobalCommands,CmdShellState>, ICmdRunner
     {
         public static void dispatch(ReadOnlySpan<string> args)
         {
@@ -51,13 +51,46 @@ namespace Z0
         {
         }
 
+        public void RunCmd(string name)
+        {
+            Dispatcher.Dispatch(name);
+        }
+
+        public void RunCmd(string name, CmdArgs args)
+        {
+            Dispatcher.Dispatch(name, args);
+        }
+
+        public void RunJobs(string match)
+        {
+            var paths = ProjectDb.JobSpecs();
+            var count = paths.Length;
+            var counter = 0u;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var path = ref paths[i];
+                if(path.FileName.Format().StartsWith(match))
+                {
+                    var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
+                    DispatchJobs(path);
+                    Ran(dispatching, string.Format("Dispatched job {0}", counter));
+                    counter++;
+                }
+            }
+
+            if(counter == 0)
+            {
+                Warn(string.Format("No jobs identified by '{0}'", match));
+            }
+        }
+
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
             => array<ICmdProvider>(
                 this,
                 wf.XedCommands(),
                 wf.ApiCommands(),
                 wf.LlvmCommands(),
-                wf.ProjectCommands(),
+                wf.ProjectCommands().WithRunner(this),
                 wf.CodeGenCommands(),
                 wf.CheckCommands(),
                 wf.AsmCommands()
@@ -90,38 +123,39 @@ namespace Z0
         Outcome RunJobs(CmdArgs args)
         {
             var result = Outcome.Success;
-            var paths = ProjectDb.JobSpecs();
-            var count = paths.Length;
-            if(args.Count == 0)
-            {
-                if(count == 0)
-                    Warn("No jobs defined");
+            RunJobs(arg(args,0));
+            // var paths = ProjectDb.JobSpecs();
+            // var count = paths.Length;
+            // if(args.Count == 0)
+            // {
+            //     if(count == 0)
+            //         Warn("No jobs defined");
 
-                for(var i=0; i<count; i++)
-                    DispatchJobs(paths[i]);
-            }
-            else
-            {
-                var counter = 0u;
-                var match = arg(args,0).Value.Format();
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var path = ref paths[i];
-                    if(path.FileName.Format().StartsWith(match))
-                    {
-                        var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
-                        DispatchJobs(path);
-                        Ran(dispatching, string.Format("Dispatched job {0}", counter));
-                        counter++;
-                    }
-                }
+            //     for(var i=0; i<count; i++)
+            //         DispatchJobs(paths[i]);
+            // }
+            // else
+            // {
+            //     var counter = 0u;
+            //     var match = arg(args,0).Value.Format();
+            //     for(var i=0; i<count; i++)
+            //     {
+            //         ref readonly var path = ref paths[i];
+            //         if(path.FileName.Format().StartsWith(match))
+            //         {
+            //             var dispatching = Running(string.Format("Dispatching job {0} defined by {1}", counter, path.ToUri()));
+            //             DispatchJobs(path);
+            //             Ran(dispatching, string.Format("Dispatched job {0}", counter));
+            //             counter++;
+            //         }
+            //     }
 
-                if(counter == 0)
-                {
-                    Warn(string.Format("No jobs identified by '{0}'", match));
-                }
+            //     if(counter == 0)
+            //     {
+            //         Warn(string.Format("No jobs identified by '{0}'", match));
+            //     }
 
-            }
+            // }
 
             return result;
         }

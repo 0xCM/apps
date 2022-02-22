@@ -9,6 +9,9 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        public static XedCmdProvider XedCommands(this IWfRuntime wf)
+            => XedCmdProvider.create(wf);
+
         [Op]
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Z0.DumpBin.create(wf);

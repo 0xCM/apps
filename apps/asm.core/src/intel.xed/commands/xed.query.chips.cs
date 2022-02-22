@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class GlobalCommands
+    partial class XedCmdProvider
     {
-        [CmdOp("xed/query/regs")]
-        Outcome XedRegs(CmdArgs args)
-            => ShowSyms(Xed.Registers());
+        [CmdOp("xed/query/chips")]
+        Outcome XedChips(CmdArgs args)
+            => ShowSyms(Xed.ChipCodes());
     }
 }

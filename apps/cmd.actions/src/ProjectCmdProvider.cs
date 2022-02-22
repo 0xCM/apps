@@ -54,6 +54,8 @@ namespace Z0
 
         LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
 
+        ICmdRunner Commands;
+
         FS.Files _Files;
 
         FS.Files Files()
@@ -68,6 +70,12 @@ namespace Z0
         }
 
         IProjectWs _Project;
+
+        public ProjectCmdProvider WithRunner(ICmdRunner runner)
+        {
+            Commands = runner;
+            return this;
+        }
 
         new IProjectWs Project()
             => _Project;
