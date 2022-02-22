@@ -27,11 +27,13 @@ namespace Z0
 
             public bool IsEmpty
             {
+                [MethodImpl(Inline)]
                 get => Code == 0;
             }
 
             public bool IsNonEmpty
             {
+                [MethodImpl(Inline)]
                 get => Code != 0;
             }
 

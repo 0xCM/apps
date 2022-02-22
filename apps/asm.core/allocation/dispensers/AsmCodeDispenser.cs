@@ -70,20 +70,19 @@ namespace Z0
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(DispenseSource(src.Asm.Format()), src.IP, hex);
+            return new AsmCode(AsmBytes.encid(src.IP, code), DispenseSource(src.Asm.Format()), src.IP, hex);
         }
 
         public AsmCode AsmCode(in AsmEncodingRow src)
         {
             ref readonly var code = ref src.Encoded;
-
             var size = code.Size;
             var hex = AsmEncoding(size);
             var hexsrc = code.Bytes;
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(DispenseSource(src.Asm.Format()), src.IP, hex);
+            return new AsmCode(AsmBytes.encid(src.IP, code.Bytes), DispenseSource(src.Asm.Format()), src.IP, hex);
         }
 
         public AsmCodeBlock AsmCodeBlock(in AsmBlockEncoding src)

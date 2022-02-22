@@ -20,6 +20,8 @@ namespace Z0
 
         XedPaths XedPaths => Service(Wf.XedPaths);
 
+        WsProjects Projects => Service(Wf.WsProjects);
+
         ConstLookup<OperandWidthType,OperandWidth> OperandWidths;
 
         CollectionEventReceiver EventReceiver;
@@ -66,7 +68,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var project = collect.Project;
-            EmitDisasmSummary(CollectEncodingDocs(collect), XedPaths.DisasmSummary(project));
+            EmitDisasmSummary(CollectEncodingDocs(collect), Projects.XedDisasmSummary(project));
             CollectDisasmDetails(collect);
         }
 

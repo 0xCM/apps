@@ -15,9 +15,7 @@ namespace Z0
         Outcome CheckCodeExec(CmdArgs args)
         {
             var result = Outcome.Success;
-
             using var buffer = CodeBuffer.allocate();
-
             CheckBinaryOpExec(buffer);
             CheckUnaryOpExec(buffer);
             CheckUnaryFuncExec(buffer);

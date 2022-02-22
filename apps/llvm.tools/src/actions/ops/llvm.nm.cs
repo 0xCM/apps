@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using static Root;
     using static core;
 
     partial class LlvmCmdProvider
     {
         [CmdOp("llvm/nm")]
-        Outcome ExecLlvmNm(CmdArgs args)
+        Outcome RunLlvmNm(CmdArgs args)
         {
             var result = Outcome.Success;
-
             var files = Project().Files().Where(f => f.Is(FS.Obj) || f.Is(FS.Dll) || f.Is(FS.Lib) || f.Is(FS.Exe)).View;
             var count = files.Length;
             var outdir = Project().OutDir();

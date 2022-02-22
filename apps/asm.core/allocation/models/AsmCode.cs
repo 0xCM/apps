@@ -7,7 +7,7 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct AsmCode
     {
-        public readonly Hex64 Id;
+        public readonly EncodingId Id;
 
         public readonly SourceText Asm;
 
@@ -16,16 +16,7 @@ namespace Z0.Asm
         public readonly AsmHexRef Encoded;
 
         [MethodImpl(Inline)]
-        public AsmCode(SourceText asm, MemoryAddress ip, AsmHexRef code)
-        {
-            Id = AsmBytes.encid(ip, code.View);
-            IP = ip;
-            Asm = asm;
-            Encoded = code;
-        }
-
-        [MethodImpl(Inline)]
-        public AsmCode(Hex64 id, SourceText asm, MemoryAddress ip, AsmHexRef code)
+        public AsmCode(EncodingId id, SourceText asm, MemoryAddress ip, AsmHexRef code)
         {
             Id = id;
             IP = ip;

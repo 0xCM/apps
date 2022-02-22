@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedRecords;
+
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
@@ -20,6 +21,8 @@ namespace Z0
 
             public @string RuleOpInfo;
 
+            public TextBlock Description;
+
             public byte Index
             {
                 [MethodImpl(Inline)]
@@ -32,12 +35,6 @@ namespace Z0
                 get => Op.Kind;
             }
 
-            public VisibilityKind Visibility
-            {
-                [MethodImpl(Inline)]
-                get => Op.Visiblity;
-            }
-
             public OperandAction Action
             {
                 [MethodImpl(Inline)]
@@ -47,6 +44,11 @@ namespace Z0
             public @string WidthInfo
                 => string.Format("{0}:{1}", Width.Name, Width.Width64);
 
+            public string Format()
+                => Description;
+
+            public override string ToString()
+                => Format();
 
         }
     }

@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using llvm;
+
     using static core;
+    using static llvm.SubtargetKind;
 
     public class WsProjects : AppService<WsProjects>
     {
@@ -14,6 +17,88 @@ namespace Z0
             var kinds = symbols.Kinds;
             FileKindMatch = symbols.View.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
         }
+
+        public Outcome<Index<ToolCmdFlow>> BuildAsm(IProjectWs project)
+            => RunBuildScripts(project, "build", "asm", false);
+
+        public Outcome<Index<ToolCmdFlow>> BuildLlc(IProjectWs project, SubtargetKind subtarget, bool runexe = false)
+        {
+            var result = Outcome.Success;
+            var scriptid = subtarget switch
+            {
+                Sse => "llc-build-sse",
+                Sse2 => "llc-build-sse2",
+                Sse3 => "llc-build-sse3",
+                Sse41 => "llc-build-sse41",
+                Sse42 => "llc-build-sse42",
+                Avx => "llc-build-avx",
+                Avx2 => "llc-build-avx2",
+                Avx512 => "llc-build-avx512",
+                _ => EmptyString
+            };
+
+            return RunBuildScripts(project, scriptid, EmptyString,runexe);
+        }
+
+        public Outcome<Index<ToolCmdFlow>> BuildC(IProjectWs project, bool runexe = false)
+            => RunBuildScripts(project, "c-build", "c", runexe);
+
+        public Outcome<Index<ToolCmdFlow>> BuildCpp(IProjectWs project, bool runexe = false)
+            => RunBuildScripts(project, "cpp-build", "cpp", runexe);
+
+        public FS.Files EncAsmSources(IProjectWs project)
+            => project.OutFiles(FileKind.EncAsm);
+
+        public FS.Files SynAsmSources(IProjectWs project)
+            => project.OutFiles(FileKind.SynAsm);
+
+        public FS.Files McAsmSources(IProjectWs project)
+            => project.OutFiles(FileKind.McAsm);
+
+        public FS.FolderPath ObjHexDir(IProjectWs project)
+            => ProjectDb.ProjectData(project, "obj.hex");
+
+        public FS.FilePath AsmSyntaxTable(IProjectWs project)
+            => ProjectDb.ProjectTable<AsmSyntaxRow>(project);
+
+        public FS.FilePath AsmInstructionTable(IProjectWs project)
+            => ProjectDb.ProjectTable<AsmInstructionRow>(project);
+
+        public FS.FilePath AsmEncodingTable(IProjectWs project)
+            => ProjectDb.ProjectTable<AsmEncodingRow>(project);
+
+        public FS.FilePath AsmIndexTable(IProjectWs project)
+            => ProjectDb.ProjectTable<AsmCodeIndexRow>(project);
+
+        public FS.FolderPath AsmCodeDir(IProjectWs project)
+            => ProjectDb.ProjectData(project, "asm.code");
+
+        public FS.FilePath AsmCodePath(IProjectWs project, string origin)
+            => AsmCodeDir(project) + FS.file(string.Format("{0}.code", origin), FS.Csv);
+
+        public FS.FilePath ObjBlockPath(IProjectWs project)
+            => ProjectDb.ProjectTable<ObjBlock>(project);
+
+        public FS.Files XedDisasmSources(IProjectWs project)
+            => project.OutFiles(FileKind.XedRawDisasm);
+
+        public FS.FilePath XedDisasmSummary(IProjectWs project)
+            => ProjectDb.ProjectDataFile(project, FileKind.XedSummaryDisasm);
+
+        public FS.FolderPath XedDisasmDir(IProjectWs project)
+            => ProjectDb.ProjectData(project, "xed.disasm");
+
+        public FS.FilePath XedDisasmDetail(IProjectWs project, string srcid)
+            => XedDisasmDir(project) + FS.file(srcid, FileKind.XedSemanticDisasm.Ext());
+
+        public FS.FilePath BuildFlowPath(IProjectWs project)
+            => ProjectDb.ProjectData(project) + FS.file(string.Format("{0}.flows", project.Name), FS.Csv);
+
+        public FS.FolderPath RecodedSrcDir(IProjectWs project)
+            => Ws.Project(ProjectNames.McRecoded).SrcDir(project.Project.Format());
+
+        public FS.FilePath CoffSymPath(IProjectWs project)
+            => Table<CoffSymRecord>(project);
 
         SortedDictionary<string,FileKind> FileKindMatch;
 
@@ -46,12 +131,6 @@ namespace Z0
         public FS.FolderPath ProjectData()
             => ProjectDb.ProjectData();
 
-        public FS.FolderPath ProjectData(IProjectWs project)
-            => ProjectData() + FS.folder(project.Name.Format());
-
-        public FS.FolderPath ProjectData(IProjectWs project, string suffix)
-            => ProjectData() + FS.folder(string.Format("{0}.{1}", project.Name, suffix));
-
         public FileCatalog EmitCatalog(IProjectWs project)
         {
             var catalog = project.FileCatalog();
@@ -65,9 +144,11 @@ namespace Z0
             TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
         }
 
-        public void EmitCatalog(CollectionContext context)
+        public FileCatalog EmitCatalog(CollectionContext context)
         {
-            EmitCatalog(context.Project, context.Files);
+            var catalog = context.Files;
+            EmitCatalog(context.Project, catalog);
+            return catalog;
         }
 
         public FileKind Match(FS.FilePath src)
@@ -181,11 +262,10 @@ namespace Z0
                 return result;
         }
 
+        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
+            => RunBuildScripts(project,scriptid,scope, flow => HandleBuildResponse(flow, runexe));
 
-        FS.FilePath ArtifactFlowPath(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.file(string.Format("{0}.flows", project.Name), FS.Csv);
-
-        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver = null)
+        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver)
         {
             var result = Outcome<Index<ToolCmdFlow>>.Success;
             var cmdflows = list<ToolCmdFlow>();
@@ -215,7 +295,7 @@ namespace Z0
             if(cmdflows.Count != 0)
             {
                 Index<ToolCmdFlow> records = cmdflows.ToArray();
-                TableEmit(records.View, ToolCmdFlow.RenderWidths, ArtifactFlowPath(project));
+                TableEmit(records.View, ToolCmdFlow.RenderWidths, BuildFlowPath(project));
                 result = (true,records);
             }
 

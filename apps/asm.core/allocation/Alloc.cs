@@ -13,12 +13,6 @@ namespace Z0
         public static Alloc allocate()
             => new Alloc();
 
-        public static LabelDispenser labels(ByteSize capacity)
-            => new LabelDispenser(capacity);
-
-        public static LabelDispenser labels()
-            => new LabelDispenser();
-
         public static LabelAllocation labels(ReadOnlySpan<string> src)
         {
             var count = src.Length;
@@ -33,21 +27,6 @@ namespace Z0
                 alloc.Alloc(skip(src,i), out seek(labels,i));
             return new LabelAllocation(alloc, labels);
         }
-
-        public static AsmCodeDispenser asm()
-            => new AsmCodeDispenser();
-
-        public static MemoryDispenser mem(ByteSize capacity)
-            => new MemoryDispenser(capacity);
-
-        public static MemoryDispenser mem()
-            => new MemoryDispenser();
-
-        public static SourceDispenser source(ByteSize capacity)
-            => new SourceDispenser(capacity);
-
-        public static SourceDispenser source()
-            => new SourceDispenser();
 
         public static SourceAllocation source(ReadOnlySpan<string> src)
         {
@@ -65,18 +44,6 @@ namespace Z0
             return new SourceAllocation(alloc, dst);
         }
 
-        public static SymbolDispenser symbols(ByteSize capacity)
-            => new SymbolDispenser(capacity);
-
-        public static SymbolDispenser symbols()
-            => new SymbolDispenser();
-
-        public static StringDispenser strings()
-            => new StringDispenser();
-
-        public static StringDispenser strings(ByteSize capacity)
-            => new StringDispenser(capacity);
-
         public static StringAllocation strings(ReadOnlySpan<string> src)
         {
             var count = src.Length;
@@ -91,6 +58,39 @@ namespace Z0
                 allocator.Alloc(skip(src,i), out seek(dst,i));
             return new StringAllocation(allocator, dst);
         }
+
+        public static LabelDispenser labels(ByteSize capacity)
+            => new LabelDispenser(capacity);
+
+        public static LabelDispenser labels()
+            => new LabelDispenser();
+
+        public static AsmCodeDispenser asm()
+            => new AsmCodeDispenser();
+
+        public static MemoryDispenser mem(ByteSize capacity)
+            => new MemoryDispenser(capacity);
+
+        public static MemoryDispenser mem()
+            => new MemoryDispenser();
+
+        public static SourceDispenser source(ByteSize capacity)
+            => new SourceDispenser(capacity);
+
+        public static SourceDispenser source()
+            => new SourceDispenser();
+
+        public static SymbolDispenser symbols(ByteSize capacity)
+            => new SymbolDispenser(capacity);
+
+        public static SymbolDispenser symbols()
+            => new SymbolDispenser();
+
+        public static StringDispenser strings()
+            => new StringDispenser();
+
+        public static StringDispenser strings(ByteSize capacity)
+            => new StringDispenser(capacity);
 
         public static PageDispenser pages()
             => new PageDispenser();

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("grid.region<t:{0}>")]
     public readonly struct GridRegion<T>
         where T : unmanaged

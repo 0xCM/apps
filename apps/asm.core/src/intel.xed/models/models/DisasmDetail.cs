@@ -13,13 +13,17 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct DisasmDetail
         {
-            public AsmCode Code;
+            public const string TableName = "xed.disasm";
 
-            public IClass IClass;
+            public EncodingId EncodingId;
 
-            public IFormType IForm;
+            public Hex32 DocId;
 
-            public Index<InstOperandDetail> Operands;
+            public MemoryAddress IP;
+
+            public AsmHexCode Encoded;
+
+            public byte OpCode;
 
             public byte PrefixSize;
 
@@ -27,37 +31,17 @@ namespace Z0
 
             public RexPrefix Rex;
 
-            public byte OpCode;
-
             public ModRm ModRm;
 
             public Sib Sib;
 
             public Disp Disp;
 
-            public Hex64 Id
-            {
-                [MethodImpl(Inline)]
-                get => Code.Id;
-            }
+            public AsmExpr Asm;
 
-            public MemoryAddress IP
-            {
-                [MethodImpl(Inline)]
-                get => Code.IP;
-            }
+            public IFormType IForm;
 
-            public SourceText Asm
-            {
-                [MethodImpl(Inline)]
-                get => Code.Asm;
-            }
-
-            public AsmHexRef Encoded
-            {
-                [MethodImpl(Inline)]
-                get => Code.Encoded;
-            }
+            public Index<InstOperandDetail> Operands;
         }
     }
 }

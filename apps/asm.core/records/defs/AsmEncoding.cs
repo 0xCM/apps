@@ -9,7 +9,7 @@ namespace Z0.Asm
     {
         public uint Seq;
 
-        public Hex64 Id;
+        public EncodingId Id;
 
         public MemoryAddress IP;
 

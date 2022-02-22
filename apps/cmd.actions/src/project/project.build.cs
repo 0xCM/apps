@@ -7,9 +7,9 @@ namespace Z0
     partial class ProjectCmdProvider
     {
         Dictionary<string,string> BuildCmdNames {get;}
-            = core.array(("mc.models", "mc/build"),
-                        ("clang.models","clang/build/c"),
-                        ("llvm.models","llc/build")
+            = core.array(("mc.models", "project/build/asm"),
+                        ("clang.models","project/build/c"),
+                        ("llvm.models","project/build/llc")
             ).ToDictionary();
 
 

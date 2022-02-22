@@ -8,15 +8,11 @@ namespace Z0.llvm
 
     using static core;
 
-    using static LlvmNames;
-
     public sealed partial class LlvmCmd : AppCmdService<LlvmCmd,CmdShellState>
     {
         LlvmToolset Toolset => Service(Wf.LLvmToolset);
 
         LlvmPaths LlvmPaths => Service(Wf.LlvmPaths);
-
-        ProjectManager ProjectCollector => Service(Wf.ProjectManager);
 
         LlvmRepo LlvmRepo => Service(Wf.LlvmRepo);
 
@@ -52,7 +48,6 @@ namespace Z0.llvm
         Outcome Flow(string query, FS.Files src)
         {
             Files(src);
-
             DataEmitter.EmitQueryResults(query, @readonly(src.View.Map(x => x.ToUri())));
             return true;
         }

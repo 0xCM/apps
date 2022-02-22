@@ -4,14 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class ProjectCmdProvider
+    public readonly struct ObjDumpBlocks
     {
-        [CmdOp("project/clean")]
-        Outcome CleanProject(CmdArgs args)
+        public readonly Index<ObjBlock> Blocks;
+
+        public readonly Index<ObjDumpRow> Rows;
+
+        public ObjDumpBlocks(ObjBlock[] blocks, ObjDumpRow[] rows)
         {
-            var project = Project();
-            Status(string.Format("Cleared {0}", Projects.CleanOutDir(project)));
-            return true;
+            Blocks = blocks;
+            Rows = rows;
         }
+
     }
 }

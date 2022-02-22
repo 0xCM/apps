@@ -13,12 +13,7 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llvm_mc;
 
-        WsProjects WsProjects => Service(Wf.WsProjects);
-
-        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project)
-        {
-            return WsProjects.RunBuildScripts(project, "build", "asm", flow => WsProjects.HandleBuildResponse(flow, false));
-        }
+        WsProjects Projects => Service(Wf.WsProjects);
 
         public LlvmMcSvc()
             : base(ToolId)
@@ -47,23 +42,19 @@ namespace Z0.llvm
                 dst.Syntax = a.Syntax;
                 dst.Source = a.Source;
             }
-            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, AsmIndexTable(project));
+            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, Projects.AsmIndexTable(project));
 
             return buffer;
         }
 
-        FS.FilePath AsmIndexTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmCodeIndexRow>(project);
-
-        public Outcome Collect(CollectionContext collect)
+        public Index<AsmCodeIndexRow> Collect(CollectionContext context)
         {
             var result = Outcome.Success;
-            var project = collect.Project;
-            var syntax = CollectSyntaxLogs(collect);
-            CollectEncodings(collect);
-            var instructions = CollectInstructions(collect);
-            var pairs = Correlate(project,syntax,instructions);
-            return result;
+            var project = context.Project;
+            var syntax = CollectSyntaxLogs(context);
+            var encodings = CollectEncodings(context);
+            var instructions = CollectInstructions(context);
+            return Correlate(project, syntax, instructions);
         }
 
         public McAsmDoc ParseMcAsmDoc(in FileRef src)
@@ -81,7 +72,7 @@ namespace Z0.llvm
 
         public Index<McAsmDoc> CollectSyntaxSources(CollectionContext collect)
         {
-            var src = SynAsmSources(collect.Project).View;
+            var src = Projects.SynAsmSources(collect.Project).View;
             var count = src.Length;
             var dst = list<McAsmDoc>();
             for(var i=0; i<count; i++)
@@ -123,7 +114,7 @@ namespace Z0.llvm
             }
 
             var records = buffer.ViewDeposited();
-            TableEmit(records, AsmInstructionRow.RenderWidths, InstructionTable(project));
+            TableEmit(records, AsmInstructionRow.RenderWidths, Projects.AsmInstructionTable(project));
             return records;
         }
 
@@ -133,7 +124,7 @@ namespace Z0.llvm
             var result = Outcome.Success;
             var _docs = ParseEncAsmSources(collect);
             var paths = _docs.Keys.ToArray().Sort();
-            var dst = EncodingTable(collect.Project);
+            var dst = Projects.AsmEncodingTable(collect.Project);
             var counter=0u;
             var record = AsmEncodingRow.Empty;
             var formatter = Tables.formatter<AsmEncodingRow>(AsmEncodingRow.RenderWidths);
@@ -163,7 +154,6 @@ namespace Z0.llvm
                     record.Source = e.Source;
                     writer.WriteLine(formatter.Format(record));
                     collect.EventReceiver.Collected(fref, record);
-
                 }
             }
             EmittedTable(emitting, counter);
@@ -174,7 +164,7 @@ namespace Z0.llvm
         {
             var project = collect.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
-            var dst = SyntaxTable(project);
+            var dst = Projects.AsmSyntaxTable(project);
             var count = logs.Length;
             var buffer = list<AsmSyntaxRow>();
             var tmp = list<AsmSyntaxRow>();
@@ -196,7 +186,7 @@ namespace Z0.llvm
 
         public Index<AsmCodeIndexRow> LoadAsmIndex(IProjectWs project)
         {
-            var lines = AsmIndexTable(project).ReadLines(true);
+            var lines = Projects.AsmIndexTable(project).ReadLines(true);
             var count = lines.Count - 1;
             var buffer = alloc<AsmCodeIndexRow>(count);
             var i=0u;
@@ -226,7 +216,7 @@ namespace Z0.llvm
         public Index<AsmEncodingRow> LoadEncodings(IProjectWs project)
         {
             const byte FieldCount = AsmEncodingRow.FieldCount;
-            var src = EncodingTable(project);
+            var src = Projects.AsmEncodingTable(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<AsmEncodingRow>(count);
@@ -259,7 +249,7 @@ namespace Z0.llvm
         public Index<AsmInstructionRow> LoadInstructions(IProjectWs project)
         {
             const byte FieldCount = AsmInstructionRow.FieldCount;
-            var src = InstructionTable(project);
+            var src = Projects.AsmInstructionTable(project);
             var lines = slice(src.ReadNumberedLines().View,1);
             var count = lines.Length;
             var buffer = alloc<AsmInstructionRow>(count);
@@ -283,11 +273,10 @@ namespace Z0.llvm
                 result = DataParser.parse(skip(cells, j++), out dst.Source);
             }
             return buffer;
-
         }
 
         public Index<AsmSyntaxRow> LoadSyntax(IProjectWs project)
-            => LoadSyntaxRows(SyntaxTable(project));
+            => LoadSyntaxRows(Projects.AsmSyntaxTable(project));
 
         static string syncontent(string src)
         {
@@ -430,7 +419,7 @@ namespace Z0.llvm
 
         ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncAsmSources(CollectionContext collect)
         {
-            var src = EncAsmSources(collect.Project).View;
+            var src = Projects.EncAsmSources(collect.Project).View;
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<AsmEncodingRow>>();
             var counter = 0u;
@@ -521,23 +510,5 @@ namespace Z0.llvm
                 collect.EventReceiver.Collected(fref, record);
             }
         }
-
-        FS.FilePath SyntaxTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmSyntaxRow>(project);
-
-        FS.FilePath InstructionTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmInstructionRow>(project);
-
-        FS.FilePath EncodingTable(IProjectWs project)
-            => ProjectDb.ProjectTable<AsmEncodingRow>(project);
-
-        FS.Files EncAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.EncAsm);
-
-        FS.Files SynAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.SynAsm);
-
-        FS.Files McAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.McAsm);
     }
 }

@@ -28,9 +28,9 @@ namespace Z0
 
         IntelXed Xed => Service(Wf.IntelXed);
 
-        ProjectManager Projects => Service(Wf.ProjectManager);
+        ProjectCollector ProjectManager => Service(Wf.ProjectCollector);
 
-        WsProjects WsProjects => Service(Wf.WsProjects);
+        WsProjects Projects => Service(Wf.WsProjects);
 
         LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
 
@@ -53,6 +53,7 @@ namespace Z0
         IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
 
         LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
+
 
         ICmdRunner Commands;
 

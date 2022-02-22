@@ -7,15 +7,11 @@ namespace Z0.llvm
     using System;
 
     using static core;
-    using static Root;
-    using static SubtargetKind;
 
     [Tool(ToolId)]
     public class LlvmLlcSvc : ToolService<LlvmLlcSvc>
     {
         public const string ToolId = ToolNames.llc;
-
-        WsProjects WsProjects => Service(Wf.WsProjects);
 
         public LlvmLlcSvc()
             : base(ToolId)
@@ -23,28 +19,7 @@ namespace Z0.llvm
 
         }
 
-
-
-        public Outcome<Index<ToolCmdFlow>> Build(IProjectWs project, SubtargetKind subtarget, bool runexe = false)
-        {
-            var result = Outcome.Success;
-            var scriptid = subtarget switch
-            {
-                Sse => "llc-build-sse",
-                Sse2 => "llc-build-sse2",
-                Sse3 => "llc-build-sse3",
-                Sse41 => "llc-build-sse41",
-                Sse42 => "llc-build-sse42",
-                Avx => "llc-build-avx",
-                Avx2 => "llc-build-avx2",
-                Avx512 => "llc-build-avx512",
-                _ => EmptyString
-            };
-
-            return WsProjects.RunBuildScripts(project, scriptid, EmptyString, flow => WsProjects.HandleBuildResponse(flow, runexe));
-        }
-
-        Outcome Build(IProjectWs project, Paired<FS.FilePath,Index<string>> spec)
+        Outcome BuildLlc(IProjectWs project, Paired<FS.FilePath,Index<string>> spec)
         {
             var isets = spec.Right;
             var path = spec.Left;
@@ -90,7 +65,7 @@ namespace Z0.llvm
             return files;
         }
 
-        public void Build(IProjectWs project)
+        public void BuildLlc(IProjectWs project)
         {
             var result = Outcome.Success;
             var src = Sources(project);
@@ -99,7 +74,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var spec = ref specs[i];
-                result = Build(project, spec);
+                result = BuildLlc(project, spec);
                 if(result.Fail)
                 {
                     Error(result.Message);

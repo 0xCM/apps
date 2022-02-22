@@ -132,8 +132,5 @@ namespace Z0
         public static ApiPacks ApiPacks(this IWfRuntime wf)
             => Z0.ApiPacks.create(wf);
 
-        [Op]
-        public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
-            => Z0.ApiResPackEmitter.create(wf);
     }
 }

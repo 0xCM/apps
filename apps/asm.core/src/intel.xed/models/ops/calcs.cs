@@ -99,6 +99,20 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static bool scale(in OpState src, uint4 dst)
+        {
+            if(src.scale != 0)
+            {
+                dst = src.scale;
+                return true;
+            }
+            {
+                dst = default;
+                return false;
+            }
+        }
+
+        [MethodImpl(Inline), Op]
         public static bool modrm(in OpState src, out ModRm dst)
         {
             if(src.has_modrm)

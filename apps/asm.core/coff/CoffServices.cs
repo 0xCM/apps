@@ -21,19 +21,17 @@ namespace Z0
             SectionKinds = Symbols.index<CoffSectionKind>();
         }
 
-        public void Collect(CollectionContext collect)
+        public CoffSectionSyms Collect(CollectionContext context)
         {
-            CollectObjHex(collect);
-            CollectSymbols(collect);
-            CollectHeaders(collect);
+            CollectObjHex(context);
+            var symbols = CollectSymbols(context);
+            var headers = CollectHeaders(context);
+            return new CoffSectionSyms(headers, symbols);
         }
-
-        FS.FolderPath ObjHexDir(IProjectWs project)
-            => Projects.ProjectData(project, "objhex");
 
         public Outcome CollectObjHex(CollectionContext collect)
         {
-            var outdir = ObjHexDir(collect.Project);
+            var outdir = Projects.ObjHexDir(collect.Project);
             outdir.Clear();
             var result = Outcome.Success;
             var project = collect.Project;
@@ -58,7 +56,7 @@ namespace Z0
 
         public HexFileData LoadObjHex(CollectionContext context)
         {
-            var src = ObjHexDir(context.Project).Files(FileKind.HexDat.Ext());
+            var src = Projects.ObjHexDir(context.Project).Files(FileKind.HexDat.Ext());
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<HexDataRow>>(count);
             for(var i=0; i<count; i++)
@@ -154,12 +152,12 @@ namespace Z0
             return records.ToArray();
         }
 
-        public Outcome CollectHeaders(CollectionContext context)
+        public Index<CoffSection> CollectHeaders(CollectionContext context)
         {
             var records = CalcObjHeaders(context);
             var dst = Projects.Table<CoffSection>(context.Project);
             TableEmit(records.View, CoffSection.RenderWidths, dst);
-            return true;
+            return records;
         }
 
         public Index<CoffSymRecord> LoadSymbols(IProjectWs project)
@@ -263,13 +261,15 @@ namespace Z0
             return docid | hi << 16;
         }
 
-        Outcome CollectSymbols(CollectionContext context)
+        public Index<CoffSymRecord> CollectSymbols(CollectionContext context)
         {
+            var buffer = list<CoffSymRecord>();
+            var project = context.Project;
             var src = LoadObjData(context.Files);
             var files = context.Files;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
-            var path = Projects.Table<CoffSymRecord>(context.Project);
+            var path = Projects.CoffSymPath(project);
             var formatter = Tables.formatter<CoffSymRecord>(CoffSymRecord.RenderWidths);
             var seq = 0u;
             var emitting = EmittingFile(path);
@@ -309,6 +309,7 @@ namespace Z0
                         record.AuxCount = sym.NumberOfAuxSymbols;
                         record.Name = symtext;
                         writer.WriteLine(formatter.Format(record));
+                        buffer.Add(record);
 
                         size += record.SymSize;
                     }
@@ -317,7 +318,7 @@ namespace Z0
 
             EmittedFile(emitting, seq);
 
-            return true;
+            return buffer.ToArray();
         }
     }
 }

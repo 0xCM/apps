@@ -65,7 +65,7 @@ namespace Z0.Asm
             return result;
         }
 
-        AsmCode CreateAsmCode(string asm, MemoryAddress address, BinaryCode code)
+        AsmCode CreateAsmCode(string asm, MemoryAddress ip, BinaryCode code)
         {
             var size = code.Size;
             var identifier = string.Format("_@{0}_{1}", BlockBase.Address, BlockOffset);
@@ -75,7 +75,7 @@ namespace Z0.Asm
             for(var j=0; j<size; j++)
                 seek(buffer,j) = skip(hexSrc,j);
             BlockOffset += size;
-            return new AsmCode(Dispenser.DispenseSource(asm), address, hexDst);
+            return new AsmCode(AsmBytes.encid(ip, code),  Dispenser.DispenseSource(asm), ip, hexDst);
         }
 
         public Outcome ParseBlocks(string src)

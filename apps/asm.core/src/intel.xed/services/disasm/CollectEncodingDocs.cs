@@ -10,7 +10,7 @@ namespace Z0
     {
         public AsmEncodingDocs CollectEncodingDocs(CollectionContext collect)
         {
-            var src = XedPaths.DisasmSources(collect.Project);
+            var src = Projects.XedDisasmSources(collect.Project);
             var count = src.Count;
             var dst = dict<FileRef, AsmEncodingDoc>();
             for(var i=0; i<count; i++)

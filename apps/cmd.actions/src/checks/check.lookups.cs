@@ -40,7 +40,6 @@ namespace Z0
                         MemoryAddress loc = pCurrent;
                         var a = *pCurrent++;
                         Require.equal(a, (ulong)(i*j));
-                        //Require.equal(b, a);
                         Write(string.Format("{0} {1} {2}x{3}={4}", loc, loc - @base, i, j, a));
                     }
                 }
@@ -56,18 +55,18 @@ namespace Z0
         Outcome TestKeys(CmdArgs args)
         {
             var outcome = Outcome.Success;
-            ushort rows = 128;
-            ushort cols = 128;
-
+            ushort rows = Pow2.T13;
+            ushort cols = Pow2.T13;
             var keys = LookupTables.keys(rows,cols);
-            for(var i=z16; i<rows; i++)
+            var range = Intervals.closed(z16, (ushort)(rows - 1)).Partition();
+            iter(range,i =>{
             for(var j=z16; j<cols; j++)
             {
                 ref readonly var key = ref keys[i,j];
                 LookupKey expect = (i,j);
-                if(!expect.Equals(key))
-                    return (false, "Test failed");
+                Require.invariant(expect.Equals(key));
             }
+            },true);
 
             Status(string.Format("Verifified {0} lookup operations", rows*cols));
 

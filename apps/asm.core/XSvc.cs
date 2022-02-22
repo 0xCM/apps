@@ -9,6 +9,10 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+        [Op]
+        public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
+            => Z0.ApiResPackEmitter.create(wf);
+
         public static XedCmdProvider XedCommands(this IWfRuntime wf)
             => XedCmdProvider.create(wf);
 

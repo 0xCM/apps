@@ -63,18 +63,5 @@ namespace Z0
                  RuleDocKind.OpCodes => Tables.filename<XedOpCodeRecord>(),
                  _ => FS.FileName.Empty
             });
-
-
-        public FS.Files DisasmSources(IProjectWs project)
-            => project.OutFiles(FileKind.XedRawDisasm);
-
-        public FS.FilePath DisasmSummary(IProjectWs project)
-            => ProjectDb.ProjectDataFile(project, FileKind.XedSummaryDisasm);
-
-        public FS.FolderPath SemanticDisasmDir(IProjectWs project)
-            => ProjectDb.ProjectData(string.Format("{0}.{1}", project.Name, "xed.semantic.disasm"));
-
-        public FS.FilePath SemanticDisasmTarget(IProjectWs project, string srcid)
-            => SemanticDisasmDir(project) + FS.file(srcid, FileKind.XedSemanticDisasm.Ext());
     }
 }

@@ -23,7 +23,7 @@ namespace Z0.llvm
             SymKinds = Symbols.index<ObjSymKind>();
         }
 
-        public Outcome Collect(CollectionContext collect)
+        public Index<ObjSymRow> Collect(CollectionContext collect)
         {
             var result = Outcome.Success;
             var project = collect.Project;
@@ -49,8 +49,9 @@ namespace Z0.llvm
                     }
                 }
             }
-            TableEmit(buffer.ViewDeposited(), ObjSymRow.RenderWidths, dst);
-            return result;
+            var rows = buffer.ToArray();
+            TableEmit(@readonly(rows), ObjSymRow.RenderWidths, dst);
+            return rows;
         }
 
         public Index<ObjSymRow> LoadSymRows(IProjectWs project)

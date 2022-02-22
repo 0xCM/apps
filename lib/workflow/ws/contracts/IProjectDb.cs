@@ -18,12 +18,17 @@ namespace Z0
         FS.FolderPath Api()
             => Home() + FS.folder("api");
 
-        FS.FolderPath ProjectData()
-            => Home() + FS.folder("projects");
+        FS.FilePath ApiTablePath<T>()
+            where T : struct
+                => TablePath<T>("api");
 
-        FS.FolderPath ProjectData(string scope)
-            => ProjectData() + FS.folder(scope);
+        FS.FilePath ApiTablePath<T>(string scope)
+            where T : struct
+                => Api() + FS.folder(scope) + TableFile<T>();
 
+        FS.FilePath ApiTablePath<T>(string scope, string suffix)
+            where T : struct
+                => Api() + FS.folder(scope) + TableFile<T>(suffix);
         FS.FolderPath Sources()
             => Home() + FS.folder("sources");
 
@@ -54,45 +59,52 @@ namespace Z0
         FS.FilePath Source(string scope, string name, FS.FileExt ext)
             => Sources(scope) + FS.file(name, ext);
 
-        FS.FolderPath ProjectData(IProjectWs src, string name)
-            => ProjectData() + FS.folder(string.Format("{0}.{1}", src.Project, name));
+        FS.FolderPath ProjectData()
+            => Home() + FS.folder("projects");
 
-        FS.FilePath ProjectTable<T>(IProjectWs src)
+        FS.FolderPath ProjectData(IProjectWs project)
+            => ProjectData() + FS.folder(project.Name.Format());
+
+        FS.FolderPath ProjectData(string scope)
+            => ProjectData() + FS.folder(scope);
+
+        FS.FolderPath ProjectData(IProjectWs project, string name)
+            => ProjectData(project) + FS.folder(name);
+
+        FS.FileName ProjectFile(IProjectWs project, string name, FS.FileExt ext)
+            => FS.file(string.Format("{0}.{1}", project.Name, name), ext);
+
+        FS.FileName ProjectFile(IProjectWs project, string name, FileKind kind)
+            => FS.file(string.Format("{0}.{1}", project.Name, name), kind.Ext());
+
+        FS.FileName TableFileName<T>(IProjectWs project)
             where T : struct
-                => ProjectData() + FS.file(string.Format("{0}.{1}", src.Project, TableId<T>()), FS.Csv);
+                => FS.file(string.Format("{0}.{1}", project.Name, Z0.Tables.identify<T>()), FS.Csv);
 
-        FS.FilePath ProjectTable<T>(IProjectWs src, string scope)
+        FS.FilePath ProjectTable<T>(IProjectWs project)
             where T : struct
-                => ProjectData(scope) + FS.file(string.Format("{0}.{1}", src.Project, TableId<T>()), FS.Csv);
+                => ProjectData(project) + TableFileName<T>(project);
 
-        FS.FilePath ProjectDataFile(IProjectWs src, FileKind kind)
-            => ProjectData() + FS.file(src.Project.Format(), kind.Ext());
-
-        FS.FilePath ProjectDataFile(IProjectWs src, string scope, FileKind kind)
-            => ProjectData(scope) + FS.file(src.Project.Format(), kind.Ext());
-
-        FS.FilePath ProjectDataFile(IProjectWs src, string name, FS.FileExt ext)
-            => ProjectData() + FS.file(string.Format("{0}.{1}", src.Project, name), ext);
-
-        FS.FilePath ProjectDataFile(IProjectWs src, string scope, string name, FS.FileExt ext)
-            => ProjectData(scope) + FS.file(string.Format("{0}.{1}", src.Project, name), ext);
-
-        FS.Files ProjectDataFiles(IProjectWs src, FS.FileExt ext)
-            => ProjectData().Files(ext,true);
-
-        FS.Files ProjectDataFiles(IProjectWs src, string scope, FS.FileExt ext)
-            => ProjectData(scope).Files(ext,true);
-
-        FS.FilePath ApiTablePath<T>()
+        FS.FilePath ProjectTable<T>(IProjectWs project, string scope)
             where T : struct
-                => TablePath<T>("api");
+                => ProjectData(project) + FS.folder(scope) + TableFileName<T>(project);
 
-        FS.FilePath ApiTablePath<T>(string scope)
-            where T : struct
-                => Api() + FS.folder(scope) + TableFile<T>();
+        FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
+            => ProjectData(project) + FS.file(project.Project.Format(), kind.Ext());
 
-        FS.FilePath ApiTablePath<T>(string scope, string suffix)
-            where T : struct
-                => Api() + FS.folder(scope) + TableFile<T>(suffix);
+        FS.FilePath ProjectDataFile(IProjectWs project, string scope, FileKind kind)
+            => ProjectData(project) + FS.folder(scope) + FS.file(project.Project.Format(), kind.Ext());
+
+        FS.FilePath ProjectDataFile(IProjectWs project, string name, FS.FileExt ext)
+            => ProjectData(project) + ProjectFile(project, name, ext);
+
+        FS.FilePath ProjectDataFile(IProjectWs project, string scope, string name, FS.FileExt ext)
+            => ProjectData(project) + FS.folder(scope) + ProjectFile(project, name, ext);
+
+        FS.Files ProjectDataFiles(IProjectWs project, FS.FileExt ext)
+            => ProjectData(project).Files(ext,true);
+
+        FS.Files ProjectDataFiles(IProjectWs project, string scope, FS.FileExt ext)
+            => (ProjectData(scope) + FS.folder(scope)).Files(ext,true);
     }
 }

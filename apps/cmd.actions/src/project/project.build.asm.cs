@@ -10,9 +10,9 @@ namespace Z0
 
     partial class ProjectCmdProvider
     {
-        [CmdOp("mc/build")]
+        [CmdOp("project/build/asm")]
         Outcome BuildMc(CmdArgs args)
-            => LlvmMc.Build(Project());
+            => Projects.BuildAsm(Project());
 
         [CmdOp("mc/syntax")]
         Outcome McSyntax(CmdArgs args)

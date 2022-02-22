@@ -6,20 +6,20 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
-        [CmdOp("clang/build/c")]
+        [CmdOp("project/build/c")]
         Outcome BuildC(CmdArgs args)
-            => Clang.CBuild(Project());
+            => Projects.BuildC(Project());
 
-        [CmdOp("clang/build/cpp")]
+        [CmdOp("project/build/cpp")]
         Outcome BuildCpp(CmdArgs args)
-            => Clang.CppBuild(Project());
+            => Projects.BuildCpp(Project());
 
-        [CmdOp("clang/build+run/cpp")]
+        [CmdOp("project/build+run/cpp")]
         Outcome BuildRunCpp(CmdArgs args)
-            => Clang.CppBuild(Project(), true);
+            => Projects.BuildCpp(Project(), true);
 
-        [CmdOp("clang/build+run/c")]
+        [CmdOp("project/build+run/c")]
         Outcome BuildRunC(CmdArgs args)
-            => Clang.CBuild(Project(), true);
+            => Projects.BuildC(Project(), true);
     }
 }

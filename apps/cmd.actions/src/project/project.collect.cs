@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
     using llvm;
 
     using static core;
@@ -15,18 +14,8 @@ namespace Z0
         Outcome Collect(CmdArgs args)
         {
             var project = Project();
-            Collect(project);
+            var collection = ProjectManager.Collect(project);
             return true;
-        }
-
-        void Collect(IProjectWs project)
-        {
-            var receiver = new AsmStatsCollector();
-            Projects.Collect(project, receiver);
-            var stats = receiver.Stats();
-            var dst = ProjectDb.ProjectTable<AsmStat>(project);
-            TableEmit(stats.View, dst);
-
         }
 
         [CmdOp("project/mcasm")]
@@ -102,7 +91,6 @@ namespace Z0
                         header.RawDataSize
                         ));
                 }
-
             }
 
             return true;
@@ -116,7 +104,6 @@ namespace Z0
             var catalog = project.FileCatalog();
             var files = catalog.Entries(FileKind.XedRawDisasm);
             var count = files.Count;
-            using var dispenser = Alloc.asm();
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
@@ -126,37 +113,43 @@ namespace Z0
 
                 Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
 
-                result = XedDisasm.CalcDisasmDetails(blocks, dispenser, out var details);
+                result = XedDisasm.CalcDisasmDetails(blocks, out var details);
                     if(result.Fail)
                         break;
 
                 for(var j=0; j<rows.Length; j++)
                 {
                     ref readonly var detail = ref details[j];
-                    ref readonly var code = ref detail.Code;
-                    ref readonly var id = ref code.Id;
-                    ref readonly var iform = ref detail.IForm;
-                    ref readonly var asm = ref code.Asm;
+                    ref readonly var docid = ref detail.DocId;
+                    ref readonly var encid = ref detail.EncodingId;
+                    ref readonly var ip = ref detail.IP;
+                    ref readonly var encoded = ref detail.Encoded;
+                    ref readonly var opcode = ref detail.OpCode;
+                    ref readonly var psz = ref detail.PrefixSize;
+                    ref readonly var szov = ref detail.SizeOverride;
                     ref readonly var rex = ref detail.Rex;
                     ref readonly var modrm = ref detail.ModRm;
-                    ref readonly var hex = ref code.Encoded;
-                    ref readonly var opcode = ref detail.OpCode;
                     ref readonly var sib = ref detail.Sib;
-                    ref readonly var szov = ref detail.SizeOverride;
                     ref readonly var disp = ref detail.Disp;
+                    ref readonly var asm = ref detail.Asm;
+                    ref readonly var iform = ref detail.IForm;
 
-                    Write(string.Format("{0,-18} | {1,-36} | {2} | {3} | {4} | {5} | {6} | {7,-8} | {8}",
-                        id,
-                        hex,
+                    Write(string.Format("{0,-12} | {1,-18} | {2,-12} | {3,-36} | {4,-8} | {5,-5} | {6,-5} | {7,-5} | {8,-5} | {9,-8} | {10,-8} | {11,-54} | {12,-54} | {13}",
+                        docid,
+                        encid,
+                        ip,
+                        encoded,
+                        opcode.FormatHex(2),
+                        psz.FormatHex(1),
                         szov,
                         rex.Value().FormatHex(2),
-                        opcode.FormatHex(2),
                         modrm.Value().FormatHex(2),
                         sib.Value().FormatHex(2),
                         disp,
-                        asm
+                        asm,
+                        iform,
+                        detail.Operands
                         ));
-
                 }
 
                 if(result.Fail)
@@ -164,43 +157,6 @@ namespace Z0
             }
 
             return result;
-        }
-    }
-
-    public class AsmStatsCollector : CollectionEventReceiver
-    {
-        Dictionary<string,uint> _AsmIdCounts;
-
-        public AsmStatsCollector()
-        {
-            _AsmIdCounts = new();
-        }
-
-        public override void Collected(in FileRef src, in AsmInstructionRow inst)
-        {
-            if(_AsmIdCounts.TryGetValue(inst.AsmName, out var count))
-            {
-                _AsmIdCounts[inst.AsmName] = count+1;
-            }
-            else
-            {
-                _AsmIdCounts[inst.AsmName] = 1;
-            }
-        }
-
-        public Index<AsmStat> Stats()
-        {
-            var count = _AsmIdCounts.Count;
-            var buffer = alloc<AsmStat>(count);
-            var keys = _AsmIdCounts.Keys.Array();
-            for(var i=0;i<count; i++)
-            {
-                ref var dst = ref seek(buffer,i);
-                ref readonly var name = ref skip(keys,i);
-                dst.AsmName = name;
-                dst.Count = _AsmIdCounts[name];
-            }
-            return buffer.Sort();
         }
     }
 }

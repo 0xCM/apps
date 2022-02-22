@@ -13,26 +13,18 @@ namespace Z0.llvm
     {
         public const string ToolId = ToolNames.llvm_objdump;
 
-        WsProjects WsProjects => Service(Wf.WsProjects);
+        WsProjects Projects => Service(Wf.WsProjects);
 
         ApiCodeBanks CodeBanks => Service(Wf.ApiCodeBanks);
 
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
-
-        FS.FolderPath AsmCodeDir(IProjectWs project)
-            => ProjectDb.ProjectData() + FS.folder(string.Format("{0}.asm.code", project.Name.Format()));
-
-        FS.FilePath AsmCodePath(IProjectWs project, string origin)
-            => AsmCodeDir(project) + FS.file(string.Format("{0}.code", origin), FS.Csv);
-
-        FS.FilePath ObjBlockPath(IProjectWs project)
-            => ProjectDb.ProjectTable<ObjBlock>(project);
 
         public LlvmObjDumpSvc()
             : base(ToolId)
         {
 
         }
+
         public Outcome Run(FS.FilePath src, FS.FolderPath dst)
         {
             var tool = ToolNames.llvm_objdump;
@@ -44,7 +36,7 @@ namespace Z0.llvm
             var result = OmniScript.Run(cmd, vars.ToCmdVars(), out var response);
             if(result)
             {
-               var items = WsProjects.ParseCmdResponse(response);
+               var items = Projects.ParseCmdResponse(response);
                iter(items, item => Write(item));
             }
             return result;
@@ -116,23 +108,21 @@ namespace Z0.llvm
             return result;
         }
 
-        public void Collect(CollectionContext collect)
+        public ObjDumpBlocks Collect(CollectionContext context)
         {
-            var rows = Consolidate(collect);
+            var rows = Consolidate(context);
             var blocks = CalcObjBlocks(rows);
-            TableEmit(blocks.View, ObjBlock.RenderWidths, ObjBlockPath(collect.Project));
-            RecodedSrcDir(collect.Project).Clear();
-            EmitAsmCodeBlocks(collect,RecodeBlocks);
+            TableEmit(blocks.View, ObjBlock.RenderWidths, Projects.ObjBlockPath(context.Project));
+            Projects.RecodedSrcDir(context.Project).Clear();
+            EmitAsmCodeBlocks(context,RecodeBlocks);
+            return new ObjDumpBlocks(blocks,rows);
         }
-
-        FS.FolderPath RecodedSrcDir(IProjectWs project)
-            => Ws.Project(ProjectNames.McRecoded).SrcDir(project.Project.Format());
 
         void RecodeBlocks(in IProjectWs project, in AsmCodeBlocks src)
         {
             const string intel_syntax = ".intel_syntax noprefix";
 
-            var srcdir = RecodedSrcDir(project);
+            var srcdir = Projects.RecodedSrcDir(project);
             var srcpath = srcdir + FS.file(src.Origin.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
             var emitting = EmittingFile(srcpath);
             var counter = 0u;
@@ -221,11 +211,10 @@ namespace Z0.llvm
         void EmitAsmCodeBlocks(CollectionContext context, Receiver<IProjectWs,AsmCodeBlocks> emitted)
         {
             var project = context.Project;
-            AsmCodeDir(project).Clear();
+            Projects.AsmCodeDir(project).Clear();
 
             var files = context.Files.Entries(FileKind.ObjAsm);
             var count = files.Count;
-
             using var alloc = Alloc.allocate();
             for(var i=0; i<count; i++)
             {
@@ -235,7 +224,7 @@ namespace Z0.llvm
                     Errors.Throw(result.Message);
 
                 var blocks = AsmObjects.DistillBlocks(file, records, alloc);
-                var dst = AsmCodePath(project, file.Path.FileName.Format());
+                var dst = Projects.AsmCodePath(project, file.Path.FileName.Format());
                 AsmObjects.Emit(blocks,dst);
                 emitted(project,blocks);
             }

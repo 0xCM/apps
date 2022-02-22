@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static core;
-
 
     partial class CheckCmdProvider
     {
@@ -42,7 +38,6 @@ namespace Z0
             var a = vmask.veven<byte>(w128, n2, n1);
             var b = vmask.veven<byte>(w128, n2, n2);
             var c = MemFx.invoke(f, a, b);
-
             return string.Format("<{0}> + <{1}> = <{2}>", a.FormatHex(), b.FormatHex(), c.FormatHex());
         }
 

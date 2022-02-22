@@ -4,15 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
     using static core;
 
     partial class LlvmCmdProvider
     {
-        const string CcQuery = "llvm/asm/cc";
-
-        [CmdOp(CcQuery)]
+        [CmdOp("llvm/asm/cc")]
         Outcome QueryCC(CmdArgs args)
         {
             var conditions = list<LlvmEntity>();
@@ -23,7 +19,7 @@ namespace Z0.llvm
             });
 
             var specs = @readonly(conditions.Map(x => string.Format("{0,-16} {1}", x.EntityName, x["Fragments"])));
-            DataEmitter.EmitQueryResults(CcQuery, specs);
+            DataEmitter.EmitQueryResults("llvm/asm/cc", specs);
 
             return true;
         }

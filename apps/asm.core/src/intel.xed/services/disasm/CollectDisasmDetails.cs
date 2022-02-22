@@ -15,7 +15,7 @@ namespace Z0
         public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
             => XedDisasmOps.LoadFileBlocks(src);
 
-        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, AsmCodeDispenser dispenser, out Index<DisasmDetail> buffer)
+        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, out Index<DisasmDetail> buffer)
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
@@ -35,7 +35,7 @@ namespace Z0
             {
                 ref readonly var block = ref blocks[i];
                 ref readonly var encoding =ref encodings[i];
-                result = CalcDisasmDetail(block, encoding, dispenser, out buffer[i]);
+                result = CalcDisasmDetail(block, encoding, out buffer[i]);
                 if(result.Fail)
                     break;
             }
@@ -43,7 +43,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, AsmCodeDispenser dispenser, out DisasmDetail dst)
+        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, out DisasmDetail dst)
         {
             dst = default;
             var result = ParseInstruction(block, out var inst);
@@ -55,8 +55,11 @@ namespace Z0
 
             ref readonly var code = ref encoding.Encoded;
 
-            dst.Code =  dispenser.AsmCode(encoding);
-            dst.IClass = inst.Class;
+            dst.EncodingId = encoding.Id;
+            dst.DocId = encoding.DocId;
+            dst.IP = encoding.IP;
+            dst.Encoded = encoding.Encoded;
+            dst.Asm = encoding.Asm;
             dst.IForm = inst.Form;
 
             var parser = new XedOperandParser();
@@ -120,7 +123,9 @@ namespace Z0
                     opdetail.RuleOpInfo = opvalfmt;
                 }
 
+                opdetail.Description = string.Format(RenderPattern, title, string.Format(OpPattern, opname, opvalfmt, op.Action, op.Visiblity, widthdesc, op.Prop2));
             }
+
 
             if(ops.TryGetValue(RuleOpName.BASE0, out var @base))
             {
@@ -150,20 +155,11 @@ namespace Z0
                 {
                     ref readonly var b = ref skip(prefix,k);
                     if(AsmPrefixTests.opsz(b))
-                    {
                         dst.SizeOverride = AsmPrefix.opsz();
-                    }
                     else if(AsmPrefixTests.adsz(b))
-                    {
                         dst.SizeOverride = AsmPrefix.adsz();
-                    }
                 }
             }
-
-
-            dst.Rex = RexPrefix.Empty;
-            dst.ModRm = ModRm.Empty;
-            dst.Sib = Sib.Empty;
 
             var has_rex = rex(state, out dst.Rex);
             if(has_rex)
@@ -209,7 +205,7 @@ namespace Z0
             var files = encodings.Keys.ToArray().Sort();
             var count = files.Length;
             var blocks = XedDisasmOps.LoadFileBlocks(files);
-            var dir = XedPaths.SemanticDisasmDir(collect.Project);
+            var dir = Projects.XedDisasmDir(collect.Project);
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref skip(files,i);
@@ -219,7 +215,7 @@ namespace Z0
                 var k = text.index(srcid, ".xed.");
                 if(k > 0)
                     srcid = text.left(srcid,k);
-                var dst = XedPaths.SemanticDisasmTarget(collect.Project, srcid);
+                var dst = Projects.XedDisasmDetail(collect.Project, srcid);
                 result = EmitDisasmDetails(encoding, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
