@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmEncodingRow : IAsmEncoding
+    public struct AsmEncodingRow : IAsmEncodingRecord
     {
         public const string TableId = "asm.encoding";
 
@@ -31,19 +31,19 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        Hex64 IAsmEncoding.Id
+        Hex64 IAsmEncodingRecord.Id
             => Id;
 
         uint ISequential.Seq
             => Seq;
 
-        AsmExpr IAsmEncoding.Asm
+        AsmExpr IAsmEncodingRecord.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Encoded
+        AsmHexCode IAsmEncodingRecord.Encoded
             => Encoded;
 
-        MemoryAddress IAsmEncoding.IP
+        MemoryAddress IAsmEncodingRecord.IP
             => IP;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,8,12,38,8,84,1};

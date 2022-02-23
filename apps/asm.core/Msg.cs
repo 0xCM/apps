@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Z0.Asm;
-
     [ApiComplete]
     struct Msg
     {
-
         public static MsgPattern<ApiHostUri> ParsingHostMembers => "Parsing {0} members";
 
         public static MsgPattern<Count,ApiHostUri> ParsedHostMembers => "Parsed {0} {1} members";

@@ -35,6 +35,50 @@ namespace Z0
         }
 
         [MethodImpl(Inline), Op]
+        public static text7 txt(N7 n, ReadOnlySpan<byte> src)
+        {
+            var length = (byte)min(available(src), text7.MaxLength);
+            var storage = 0ul;
+            var dst = bytes(storage);
+            for(var i=0; i<length; i++)
+                seek(dst,i) = skip(src,i);
+            seek(dst,7) = length;
+            return new text7(storage);
+        }
+
+        [Op]
+        public static text7 trim(in text7 src)
+        {
+            var data = src.Bytes;
+            var l0 = (int)src.Length;
+            var i0 = 0;
+            var i1 = l0 - 1;
+            for(var i=0; i<l0; i++)
+            {
+                ref readonly var b = ref skip(data,i);
+                if(SQ.whitespace((AsciCode)b))
+                    i0++;
+                else
+                    break;
+            }
+            for(var i=l0-1; i>=0; i--)
+            {
+                ref readonly var b = ref skip(data,i);
+                if(SQ.whitespace((AsciCode)b))
+                    i1--;
+                else
+                    break;
+            }
+
+            var l1 = i1 - i0;
+            if(l0 != l1)
+                return txt(n7, segment(data, i0, i1));
+            else
+                return src;
+        }
+
+
+        [MethodImpl(Inline), Op]
         public static text7 txt(N7 n7, char src)
         {
             var storage = (ulong)src;
@@ -104,6 +148,38 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(dst,i) = (char)skip(data,i);
             return text.format(slice(dst,0,count));
+        }
+
+        [Op]
+        public static text15 trim(in text15 src)
+        {
+            var data = src.Bytes;
+            var l0 = (int)src.Length;
+            var i0 = 0;
+            var i1 = l0 - 1;
+            for(var i=0; i<l0; i++)
+            {
+                ref readonly var b = ref skip(data,i);
+                if(SQ.whitespace((AsciCode)b))
+                    i0++;
+                else
+                    break;
+            }
+            for(var i=l0-1; i>=0; i--)
+            {
+                ref readonly var b = ref skip(data,i);
+                if(SQ.whitespace((AsciCode)b))
+                    i1--;
+                else
+                    break;
+            }
+
+            var l1 = i1 - i0;
+            if(l0 != l1)
+                return txt(n15, segment(data, i0, i1));
+            else
+                return src;
+
         }
 
         [MethodImpl(Inline), Op]

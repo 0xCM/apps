@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     public class IntelSdmPaths : AppService<IntelSdmPaths>
     {
-        protected override IProjectWs Project()
+        protected IProjectWs Project()
             => Ws.Project("db/sources/intel");
 
         public FS.FolderPath Targets()

@@ -9,7 +9,17 @@ namespace Z0
 
     using static core;
 
-    public abstract class AppCmdService<T> : AppService<T>, IAppCmdService
+
+    partial struct Msg
+    {
+        public static MsgPattern<ProjectId> ProjectUndefined
+            => "Project {0} undefined";
+
+        public static MsgPattern<ProjectId> LoadingSources
+            => "Loading {0} sources";
+    }
+
+    public abstract class AppCmdService<T> : AppService<T>, IAppCmdService, ICmdProvider
         where T : AppCmdService<T>, new()
     {
         public ICmdDispatcher Dispatcher {get; protected set;}
@@ -79,36 +89,8 @@ namespace Z0
             return true;
         }
 
-        [CmdOp(".project")]
-        protected Outcome Project(CmdArgs args)
-        {
-            var outcome = Outcome.Success;
-            if(args.Length == 0)
-                return LoadProjectSources(Project());
-            else
-                return LoadProjectSources(CommonState.Project(arg(args,0).Value));
-        }
 
-        [CmdOp(".srcfiles")]
-        protected Outcome ProjectSrcFiles(CmdArgs args)
-        {
-            if(args.Length == 0)
-                Files(Project().SrcFiles());
-            else
-                Files(Project().SrcFiles(arg(args,0)));
-            return true;
-        }
-
-        [CmdOp(".files")]
-        protected Outcome ShowFiles(CmdArgs args)
-        {
-            var result = Outcome.Success;
-            var files = CommonState.Files();
-            iter(files, file => Write(file.ToUri()));
-            return result;
-        }
-
-        [CmdOp(".cd")]
+        [CmdOp("cmd/cd")]
         protected Outcome ChangeDir(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -129,7 +111,7 @@ namespace Z0
         /// Loads files from a directory into the context
         /// </summary>
         /// <param name="args">The directory specifier, if any</param>
-        [CmdOp(".dir")]
+        [CmdOp("cmd/dir")]
         protected Outcome Dir(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -151,7 +133,7 @@ namespace Z0
             for(var i=0; i<count; i++)
                 seek(paths,i) = FS.path(skip(response,i).Content);
 
-            Files(paths);
+            //Files(paths);
             return result;
         }
 
@@ -287,41 +269,6 @@ namespace Z0
         }
 
         protected abstract CmdShellState CommonState {get;}
-
-        protected FS.Files Files()
-            => CommonState.Files();
-
-        protected override IProjectWs Project()
-            => CommonState.Project();
-
-        protected FS.Files Files(FS.Files src, bool write = true)
-        {
-            CommonState.Files(src);
-            if(write)
-                iter(src.View, f => Write(f.ToUri()));
-            return src;
-        }
-
-        protected Outcome LoadProjectSources(IProjectWs ws)
-        {
-            var outcome = Outcome.Success;
-            var dir = ws.Home();
-            outcome = dir.Exists;
-            if(outcome)
-                Files(ws.SrcFiles());
-            else
-                outcome = (false, UndefinedProject.Format(ws.Project));
-            return outcome;
-        }
-
-        protected Outcome LoadProjectSources(IProjectWs ws, Subject? scope)
-        {
-            Files(ProjectFiles(ws,scope));
-            return true;
-        }
-
-        static MsgPattern<ProjectId> UndefinedProject
-            => "Undefined project:{0}";
     }
 
     public abstract class AppCmdService<T,S> : AppCmdService<T>

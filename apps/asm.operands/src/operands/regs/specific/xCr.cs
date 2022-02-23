@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
     using G = xCr;
     using K = AsmRegTokens.XControlReg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
     public readonly struct xCr : IRegOp64<xCr>

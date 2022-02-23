@@ -18,6 +18,12 @@ namespace Z0
         FS.FolderPath Api()
             => Home() + FS.folder("api");
 
+        FS.FolderPath ApiDocs()
+            => Api() + FS.folder("docs");
+
+        FS.FilePath ApiDoc(string name, FS.FileExt ext)
+            => ApiDocs() + FS.file(name, ext);
+
         FS.FilePath ApiTablePath<T>()
             where T : struct
                 => TablePath<T>("api");
@@ -29,6 +35,7 @@ namespace Z0
         FS.FilePath ApiTablePath<T>(string scope, string suffix)
             where T : struct
                 => Api() + FS.folder(scope) + TableFile<T>(suffix);
+
         FS.FolderPath Sources()
             => Home() + FS.folder("sources");
 

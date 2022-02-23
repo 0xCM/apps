@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-
     public readonly struct AsmEncodingCases
     {
         readonly Index<AsmEncodingCase> Data;

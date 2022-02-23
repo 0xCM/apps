@@ -21,7 +21,7 @@ namespace Z0.llvm
         public FS.FolderPath Root()
             => Env.LlvmRoot;
 
-        public FS.Files Files()
+        public new FS.Files Files()
         {
             if(_AllFiles.IsEmpty)
                 _AllFiles = Root().AllFiles;

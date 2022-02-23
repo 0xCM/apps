@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IAppCmdService : IAppService, ICmdProvider
+    public interface IAppCmdService : IAppService
     {
         void Run();
 

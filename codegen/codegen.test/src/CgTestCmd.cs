@@ -10,14 +10,24 @@ namespace Z0
     using Asm;
     using static core;
 
-    public sealed partial class CgShellCmd : AppCmdService<CgShellCmd,CmdShellState>
+    public sealed partial class CgTestCmd : AppCmdService<CgTestCmd,CmdShellState>
     {
         StringTableChecks LlvmStringTableChecks => Service(() => StringTableChecks.create(Wf));
 
-        [CmdOp("check/asm/strings")]
-        Outcome CheckLlvmStringTables(CmdArgs args)
+        AsmChecks AsmChecks => Service(Wf.AsmChecks);
+
+        [CmdOp("asm/check")]
+        Outcome CheckAsm(CmdArgs args)
         {
-            //LlvmStringTableChecks.Run();
+            AsmChecks.Run();
+            return true;
+        }
+
+
+        [CmdOp("asm/check/strings")]
+        Outcome CheckStringTables(CmdArgs args)
+        {
+            LlvmStringTableChecks.Run();
 
             var strings = AsmSigST.Strings;
             var count = AsmSigST.EntryCount;
@@ -27,9 +37,7 @@ namespace Z0
                 Write(string.Format("{0,-32} | {1}", kind, text.format(strings.Cells(kind))));
             }
 
-
             return true;
         }
-
     }
 }

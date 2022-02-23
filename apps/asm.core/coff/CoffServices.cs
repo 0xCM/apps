@@ -21,7 +21,7 @@ namespace Z0
             SectionKinds = Symbols.index<CoffSectionKind>();
         }
 
-        public CoffSectionSyms Collect(CollectionContext context)
+        public CoffSectionSyms Collect(WsContext context)
         {
             CollectObjHex(context);
             var symbols = CollectSymbols(context);
@@ -29,7 +29,7 @@ namespace Z0
             return new CoffSectionSyms(headers, symbols);
         }
 
-        public Outcome CollectObjHex(CollectionContext collect)
+        public Outcome CollectObjHex(WsContext collect)
         {
             var outdir = Projects.ObjHexDir(collect.Project);
             outdir.Clear();
@@ -54,7 +54,7 @@ namespace Z0
             return result;
         }
 
-        public HexFileData LoadObjHex(CollectionContext context)
+        public HexFileData LoadObjHex(WsContext context)
         {
             var src = Projects.ObjHexDir(context.Project).Files(FileKind.HexDat.Ext());
             var count = src.Length;
@@ -128,7 +128,7 @@ namespace Z0
             }
         }
 
-        public Index<CoffSection> CalcObjHeaders(CollectionContext context)
+        public Index<CoffSection> CalcObjHeaders(WsContext context)
         {
             var project = context.Project;
             var src = LoadObjData(context.Files);
@@ -152,7 +152,7 @@ namespace Z0
             return records.ToArray();
         }
 
-        public Index<CoffSection> CollectHeaders(CollectionContext context)
+        public Index<CoffSection> CollectHeaders(WsContext context)
         {
             var records = CalcObjHeaders(context);
             var dst = Projects.Table<CoffSection>(context.Project);
@@ -215,7 +215,7 @@ namespace Z0
             return dst;
         }
 
-        public Outcome CheckObjHex(CollectionContext context)
+        public Outcome CheckObjHex(WsContext context)
         {
             var result = Outcome.Success;
             var hexDat = LoadObjHex(context);
@@ -261,7 +261,7 @@ namespace Z0
             return docid | hi << 16;
         }
 
-        public Index<CoffSymRecord> CollectSymbols(CollectionContext context)
+        public Index<CoffSymRecord> CollectSymbols(WsContext context)
         {
             var buffer = list<CoffSymRecord>();
             var project = context.Project;

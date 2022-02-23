@@ -8,10 +8,13 @@ namespace Z0.Asm.Operands
     using G = r16;
     using K = AsmRegTokens.Gp16Reg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
     public readonly struct r16 : IRegOp16<G>
     {
+        internal const NativeSizeCode W = NativeSizeCode.W16;
+
         public I Index {get;}
 
         [MethodImpl(Inline)]
@@ -34,13 +37,13 @@ namespace Z0.Asm.Operands
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => NativeSizeCode.W16;
+            get => W;
         }
 
-        public RegClassCode RegClassCode
+        public C RegClassCode
         {
             [MethodImpl(Inline)]
-            get => RegClassCode.GP;
+            get => C.GP;
         }
 
         public RegClass RegClass
@@ -103,6 +106,30 @@ namespace Z0.Asm.Operands
     public readonly struct ax : IRegOp16<ax>
     {
         public I Index => I.r0;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(ax src)

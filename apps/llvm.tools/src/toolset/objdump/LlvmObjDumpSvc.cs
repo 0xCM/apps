@@ -42,7 +42,10 @@ namespace Z0.llvm
             return result;
         }
 
-        public Index<ObjDumpRow> LoadRows(FS.FilePath src)
+        public Index<ObjDumpRow> LoadRows(IProjectWs project)
+            => LoadRows(Projects.Table<ObjDumpRow>(project));
+
+        Index<ObjDumpRow> LoadRows(FS.FilePath src)
         {
             var result = TextGrids.load(src, TextEncodingKind.Asci, out var grid);
             if(result.Fail)
@@ -108,7 +111,7 @@ namespace Z0.llvm
             return result;
         }
 
-        public ObjDumpBlocks Collect(CollectionContext context)
+        public ObjDumpBlocks Collect(WsContext context)
         {
             var rows = Consolidate(context);
             var blocks = CalcObjBlocks(rows);
@@ -208,7 +211,7 @@ namespace Z0.llvm
             return dst.ToArray();
         }
 
-        void EmitAsmCodeBlocks(CollectionContext context, Receiver<IProjectWs,AsmCodeBlocks> emitted)
+        void EmitAsmCodeBlocks(WsContext context, Receiver<IProjectWs,AsmCodeBlocks> emitted)
         {
             var project = context.Project;
             Projects.AsmCodeDir(project).Clear();
@@ -230,7 +233,7 @@ namespace Z0.llvm
             }
         }
 
-        Index<ObjDumpRow> Consolidate(CollectionContext context)
+        Index<ObjDumpRow> Consolidate(WsContext context)
         {
             var project = context.Project;
             var src = project.OutFiles(FileKind.ObjAsm).View;

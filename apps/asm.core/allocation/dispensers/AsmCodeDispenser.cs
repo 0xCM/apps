@@ -61,7 +61,7 @@ namespace Z0
         public AsmHexRef AsmEncoding(ByteSize size)
             => Encodings.DispenseMemory(size);
 
-        public AsmCode AsmCode(in AsmEncoding src)
+        public AsmCode AsmCode(in AsmEncodingRecord src)
         {
             ref readonly var code = ref src.Encoded;
             var size = code.Size;

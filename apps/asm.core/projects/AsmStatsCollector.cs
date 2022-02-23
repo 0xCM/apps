@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public class AsmStatsCollector : CollectionEventReceiver
+    public class AsmStatsCollector : WsEventReceiver
     {
         Dictionary<string,uint> _AsmIdCounts;
 

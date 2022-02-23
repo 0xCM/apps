@@ -9,11 +9,14 @@ namespace Z0
 
     using static core;
     using static CsPatterns;
-    using static CsModels;
 
     public class SpanResGen : AppService<SpanResGen>
     {
         const char semi = Chars.Semicolon;
+
+        [Op]
+        public static CsComment comment(string content)
+            => new CsComment(content);
 
         [Op]
         public static string format(ByteSpanSpec src)
@@ -64,7 +67,6 @@ namespace Z0
             }
             return dst.Emit();
         }
-
 
         [Op]
         public static void render(ByteSpanSpec src, ITextBuffer dst)
@@ -299,6 +301,5 @@ namespace Z0
                     dst.Append(cell.Name);
             }
         }
-
     }
 }

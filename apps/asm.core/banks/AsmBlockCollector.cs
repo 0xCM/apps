@@ -12,7 +12,7 @@ namespace Z0
 
         MemoryAddress BlockAddress;
 
-        List<AsmEncoding> Encodings;
+        List<AsmEncodingRecord> Encodings;
 
         List<AsmBlockEncoding> Blocks;
 
@@ -69,10 +69,10 @@ namespace Z0
             return blocks;
         }
 
-        static AsmEncoding encoding<T>(in T src)
+        static AsmEncodingRecord encoding<T>(in T src)
             where T : IAsmBlockSegment
         {
-            var encoding = new AsmEncoding();
+            var encoding = new AsmEncodingRecord();
             encoding.Seq = src.Seq;
             encoding.Id = src.Id;
             encoding.IP = src.IP;

@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmEncoding : IAsmEncoding
+    public struct AsmEncodingRecord : IAsmEncodingRecord
     {
         public uint Seq;
 
@@ -19,16 +19,16 @@ namespace Z0.Asm
 
         public AsmExpr Asm;
 
-        Hex64 IAsmEncoding.Id
+        Hex64 IAsmEncodingRecord.Id
             => Id;
 
-        AsmExpr IAsmEncoding.Asm
+        AsmExpr IAsmEncodingRecord.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Encoded
+        AsmHexCode IAsmEncodingRecord.Encoded
             => Encoded;
 
-        MemoryAddress IAsmEncoding.IP
+        MemoryAddress IAsmEncodingRecord.IP
             => IP;
 
         uint ISequential.Seq

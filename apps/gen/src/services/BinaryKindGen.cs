@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using System.Runtime.Intrinsics.X86;
 
-    using static Root;
     using static Chars;
 
     public class BinaryKindGen : CodeGenerator

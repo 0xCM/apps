@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
     using G = rDb;
     using K = AsmRegTokens.DebugReg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
     public readonly struct rDb : IRegOp64<rDb>

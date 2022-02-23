@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using Z0.Asm;
 
-    using static Root;
     using static core;
 
     public class ApiCaptureEmitter : AppService<ApiCaptureEmitter>

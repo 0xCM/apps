@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm.Operands
 {
-
     using I = RegIndexCode;
     using G = r8;
     using K = AsmRegTokens.Gp8LoReg;
     using O = AsmOperand;
     using api = AsmRegs;
+    using C = RegClassCode;
 
     public readonly struct r8 : IRegOp8<r8>
     {
+        internal const NativeSizeCode W = NativeSizeCode.W8;
+
         public RegIndexCode Index {get;}
 
         [MethodImpl(Inline)]
@@ -24,13 +26,13 @@ namespace Z0.Asm.Operands
         public NativeSize Size
         {
             [MethodImpl(Inline)]
-            get => NativeSizeCode.W8;
+            get => W;
         }
 
-        public RegClassCode RegClassCode
+        public C RegClassCode
         {
             [MethodImpl(Inline)]
-            get => RegClassCode.GP;
+            get => C.GP;
         }
 
         public RegClass RegClass
@@ -104,6 +106,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r0;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         public static implicit operator r8(al src)
             => new r8(src.Index);
 
@@ -124,6 +150,30 @@ namespace Z0.Asm.Operands
     public struct cl : IRegOp8<cl>
     {
         public I Index => I.r1;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(cl src)
@@ -147,6 +197,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r2;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(dl src)
             => new G(src.Index);
@@ -167,6 +241,30 @@ namespace Z0.Asm.Operands
     public struct bl : IRegOp8<bl>
     {
         public I Index => I.r3;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(bl src)
@@ -189,6 +287,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r4;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(sil src)
             => new G(src.Index);
@@ -209,6 +331,30 @@ namespace Z0.Asm.Operands
     public struct dil : IRegOp8<dil>
     {
         public I Index => I.r5;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(dil src)
@@ -231,6 +377,31 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r6;
 
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(spl src)
             => new G(src.Index);
@@ -251,6 +422,30 @@ namespace Z0.Asm.Operands
     public struct bpl : IRegOp8<bpl>
     {
         public I Index => I.r7;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(bpl src)
@@ -273,6 +468,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r8;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(r8b src)
             => new G(src.Index);
@@ -293,6 +512,30 @@ namespace Z0.Asm.Operands
     public struct r9b : IRegOp8<r9b>
     {
         public I Index => I.r9;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(r9b src)
@@ -315,6 +558,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r10;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(r10b src)
             => new G(src.Index);
@@ -327,6 +594,30 @@ namespace Z0.Asm.Operands
     public struct r11b : IRegOp8<r11b>
     {
         public I Index => I.r11;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(r11b src)
@@ -341,6 +632,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r12;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(r12b src)
             => new G(src.Index);
@@ -353,6 +668,30 @@ namespace Z0.Asm.Operands
     public struct r13b : IRegOp8<r13b>
     {
         public I Index => I.r13;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(r13b src)
@@ -367,6 +706,31 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r14;
 
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator G(r14b src)
             => new G(src.Index);
@@ -379,6 +743,30 @@ namespace Z0.Asm.Operands
     public struct r15b : IRegOp8<r15b>
     {
         public I Index => I.r15;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator G(r15b src)
@@ -401,6 +789,30 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r4;
 
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP8HI;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         public static implicit operator r8(ah src)
             => new r8(src.Index);
 
@@ -420,6 +832,30 @@ namespace Z0.Asm.Operands
     public readonly struct ch : IRegOp8<ch>
     {
         public I Index => I.r5;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP8HI;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         public static implicit operator r8(ch src)
             => new r8(src.Index);
@@ -442,6 +878,31 @@ namespace Z0.Asm.Operands
     {
         public I Index => I.r6;
 
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP8HI;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
+
         public static implicit operator r8(dh src)
             => new r8(src.Index);
 
@@ -461,6 +922,30 @@ namespace Z0.Asm.Operands
     public readonly struct bh : IRegOp8<bh>
     {
         public I Index => I.r7;
+
+        public AsmRegName Name
+        {
+            [MethodImpl(Inline)]
+            get => api.name(Size, RegClass, Index);
+        }
+
+        public NativeSize Size
+        {
+            [MethodImpl(Inline)]
+            get => G.W;
+        }
+
+        public RegClass RegClass
+        {
+            [MethodImpl(Inline)]
+            get => C.GP8HI;
+        }
+
+        public string Format()
+            => Name.Format();
+
+        public override string ToString()
+            => Format();
 
         public static implicit operator r8(bh src)
             => new r8(src.Index);

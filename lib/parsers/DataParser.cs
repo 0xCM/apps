@@ -17,6 +17,14 @@ namespace Z0
     {
         public static MsgPattern<Name,string> ParseFailure => "Parse failure {0}:{1}";
 
+        [Parser]
+        public static Outcome parse(string src, out Tool dst)
+        {
+            ToolId id = text.trim(src);
+            dst = id;
+            return true;
+        }
+
         public static Outcome parse(string src, out uint2 dst)
             => BitNumbers.parse(src, out dst);
 

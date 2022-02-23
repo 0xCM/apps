@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
     using G = ymm;
     using K = AsmRegTokens.YmmReg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
     public readonly struct ymm : IRegOp256<ymm>

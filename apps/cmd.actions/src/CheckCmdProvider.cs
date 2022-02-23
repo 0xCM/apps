@@ -8,16 +8,8 @@ namespace Z0
 
     public partial class CheckCmdProvider : AppCmdProvider<CheckCmdProvider>
     {
-        IntelSdm Sdm => Service(Wf.IntelSdm);
-
-        X86Dispatcher JmpStubs => Service(() => X86Dispatcher.create(Wf));
-
-        AsmOpCodes OpCodes => Service(Wf.AsmOpCodes);
 
         Parsers Parsers => Service(Wf.Parsers);
 
-        ApiCodeBanks ApiCodeBanks => Service(Wf.ApiCodeBanks);
-
-        CoffServices CoffServices => Service(Wf.CoffServices);
     }
 }

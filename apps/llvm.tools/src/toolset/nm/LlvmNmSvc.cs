@@ -23,10 +23,10 @@ namespace Z0.llvm
             SymKinds = Symbols.index<ObjSymKind>();
         }
 
-        public Index<ObjSymRow> Collect(CollectionContext collect)
+        public Index<ObjSymRow> Collect(WsContext context)
         {
             var result = Outcome.Success;
-            var project = collect.Project;
+            var project = context.Project;
             var src = project.OutFiles(FS.Sym).View;
             var dst = ProjectDb.ProjectTable<ObjSymRow>(project);
             var count = src.Length;
@@ -36,7 +36,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var fref = collect.FileRef(path);
+                var fref = context.FileRef(path);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
                 while(reader.Next(out var line))

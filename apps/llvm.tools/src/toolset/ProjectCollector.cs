@@ -35,7 +35,7 @@ namespace Z0
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        CollectionEventReceiver EventReceiver;
+        WsEventReceiver EventReceiver;
 
         public ProjectCollector()
         {
@@ -58,13 +58,13 @@ namespace Z0
 
         }
 
-        public ProjectCollection Collect(IProjectWs project, CollectionEventReceiver receiver)
+        public ProjectCollection Collect(IProjectWs project, WsEventReceiver receiver)
         {
             Clear();
             if(receiver != null)
                 EventReceiver = receiver;
 
-            var context = CollectionContext.create(project, EventReceiver);
+            var context = Projects.Context(project, EventReceiver);
             var catalog = Projects.EmitCatalog(context);
             EventReceiver.Initialized(context);
             var objblocks = ObjDump.Collect(context);

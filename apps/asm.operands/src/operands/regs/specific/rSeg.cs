@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
     using G = rSeg;
     using K = AsmRegTokens.SegReg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
 

@@ -4,11 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
     using System.IO;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
 
     public readonly struct CmdLogger : IDisposable
     {

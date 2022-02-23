@@ -1,9 +1,5 @@
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using stringtables;
@@ -17,7 +13,6 @@ namespace Z0.llvm
             get => strings.memory<ushort>(InstructionST.Offsets, InstructionST.Data);
         }
     }
-
 
     public class StringTableChecks : Checker<StringTableChecks>
     {

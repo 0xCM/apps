@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.operands", "asm.oper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.prototypes", "asm.prototypes\z0.asm.prototypes.csproj", "{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "z0.asm.services", "asm.services\z0.asm.services.csproj", "{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -246,5 +248,17 @@ Global
 		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x64.Build.0 = Release|Any CPU
 		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x86.ActiveCfg = Release|Any CPU
 		{BB0DD7D6-4C20-45D4-BFBD-CBC1B4F2961B}.Release|x86.Build.0 = Release|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Debug|x64.Build.0 = Debug|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Debug|x86.Build.0 = Debug|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Release|x64.ActiveCfg = Release|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Release|x64.Build.0 = Release|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Release|x86.ActiveCfg = Release|Any CPU
+		{02DE967C-6B30-4D89-AFA9-B9836B8E2AD7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

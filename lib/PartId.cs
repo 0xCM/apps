@@ -19,8 +19,8 @@ public enum PartId : byte
     [Symbol("part")]
     Part = 3,
 
-    [Symbol("math")]
-    Math = 4,
+    [Symbol("asm.services")]
+    AsmServices = 4,
 
     [Symbol("core")]
     Core = 5,

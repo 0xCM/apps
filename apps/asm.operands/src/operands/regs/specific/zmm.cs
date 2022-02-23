@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
     using G = zmm;
     using K = AsmRegTokens.ZmmReg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
     public readonly struct zmm : IRegOp256<zmm>

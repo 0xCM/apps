@@ -47,7 +47,7 @@ namespace Z0.llvm
             return buffer;
         }
 
-        public Index<AsmCodeIndexRow> Collect(CollectionContext context)
+        public Index<AsmCodeIndexRow> Collect(WsContext context)
         {
             var result = Outcome.Success;
             var project = context.Project;
@@ -70,7 +70,7 @@ namespace Z0.llvm
             return dst;
         }
 
-        public Index<McAsmDoc> CollectSyntaxSources(CollectionContext collect)
+        public Index<McAsmDoc> CollectSyntaxSources(WsContext collect)
         {
             var src = Projects.SynAsmSources(collect.Project).View;
             var count = src.Length;
@@ -80,7 +80,7 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public ReadOnlySpan<AsmInstructionRow> CollectInstructions(CollectionContext collect)
+        public ReadOnlySpan<AsmInstructionRow> CollectInstructions(WsContext collect)
         {
             var project = collect.Project;
             var result = Outcome.Success;
@@ -118,13 +118,13 @@ namespace Z0.llvm
             return records;
         }
 
-        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(CollectionContext collect)
+        public ConstLookup<FS.FilePath,Index<AsmEncodingRow>> CollectEncodings(WsContext context)
         {
-            var project = collect.Project;
+            var project = context.Project;
             var result = Outcome.Success;
-            var _docs = ParseEncAsmSources(collect);
+            var _docs = ParseEncAsmSources(context);
             var paths = _docs.Keys.ToArray().Sort();
-            var dst = Projects.AsmEncodingTable(collect.Project);
+            var dst = Projects.AsmEncodingTable(context.Project);
             var counter=0u;
             var record = AsmEncodingRow.Empty;
             var formatter = Tables.formatter<AsmEncodingRow>(AsmEncodingRow.RenderWidths);
@@ -134,7 +134,7 @@ namespace Z0.llvm
             foreach(var path in paths)
             {
                 var doc = _docs[path];
-                var fref = collect.FileRef(path);
+                var fref = context.FileRef(path);
                 var encoded = doc.View;
                 var srcid = path.SrcId(FileKind.EncAsm);
                 var count = encoded.Length;
@@ -153,14 +153,14 @@ namespace Z0.llvm
                     record.Encoded = e.Encoded;
                     record.Source = e.Source;
                     writer.WriteLine(formatter.Format(record));
-                    collect.EventReceiver.Collected(fref, record);
+                    context.EventReceiver.Collected(fref, record);
                 }
             }
             EmittedTable(emitting, counter);
             return _docs;
         }
 
-        public ReadOnlySpan<AsmSyntaxRow> CollectSyntaxLogs(CollectionContext collect)
+        public ReadOnlySpan<AsmSyntaxRow> CollectSyntaxLogs(WsContext collect)
         {
             var project = collect.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
@@ -417,7 +417,7 @@ namespace Z0.llvm
             dst = buffer.ToArray();
         }
 
-        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncAsmSources(CollectionContext collect)
+        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncAsmSources(WsContext collect)
         {
             var src = Projects.EncAsmSources(collect.Project).View;
             var count = src.Length;
@@ -439,7 +439,7 @@ namespace Z0.llvm
             return dst;
         }
 
-        void ParseSynAsmLog(CollectionContext collect, in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
+        void ParseSynAsmLog(WsContext collect, in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
         {
             var src = fref.Path;
             var origin = src.FileName.Format();

@@ -40,7 +40,6 @@ namespace Z0
         ConcurrentDictionary<string,object> _Data {get;}
             = new();
 
-
         [MethodImpl(Inline)]
         protected D Data<D>(string key, Func<D> factory)
             => (D)_Data.GetOrAdd(key, k => factory());
@@ -99,7 +98,6 @@ namespace Z0
             Db = new WfDb(wf, wf.Env.Db);
             Ws = DevWs.create(wf.Env.DevWs);
             ProjectDb = Ws.ProjectDb();
-            _Project = ProjectDb;
             OnInit();
             Initialized();
             wf.Created(flow);
@@ -118,18 +116,20 @@ namespace Z0
             Wf = wf;
         }
 
-        IProjectWs _Project;
 
-        [MethodImpl(Inline)]
-        protected virtual IProjectWs Project()
-            => _Project;
+        FS.Files _Files;
 
-        [MethodImpl(Inline)]
-        protected virtual IProjectWs Project(ProjectId id)
+        protected FS.Files Files()
+            => _Files;
+
+        protected FS.Files Files(FS.Files src, bool write = true)
         {
-            _Project = Ws.Project(id);
-            return Project();
+            _Files = src;
+            if(write)
+                iter(src, path => Write(path.ToUri()));
+            return Files();
         }
+
 
         protected void RedirectEmissions(string name, FS.FolderPath dst)
             => Wf.RedirectEmissions(Loggers.emission(name, dst));

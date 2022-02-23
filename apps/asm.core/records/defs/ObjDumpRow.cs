@@ -79,19 +79,19 @@ namespace Z0
             get => text.contains(Asm.Format(), BlockStartMarker);
         }
 
-        Hex64 IAsmEncoding.Id
+        Hex64 IAsmEncodingRecord.Id
             => Id;
 
         uint ISequential.Seq
             => Seq;
 
-        AsmExpr IAsmEncoding.Asm
+        AsmExpr IAsmEncodingRecord.Asm
             => Asm;
 
-        AsmHexCode IAsmEncoding.Encoded
+        AsmHexCode IAsmEncodingRecord.Encoded
             => HexCode;
 
-        MemoryAddress IAsmEncoding.IP
+        MemoryAddress IAsmEncodingRecord.IP
             => IP;
 
         Identifier IAsmBlockSegment.BlockName

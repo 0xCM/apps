@@ -164,7 +164,7 @@ namespace Z0
         public AsmHexRef AsmEncoding(ByteSize size)
             => AsmCodes().AsmEncoding(size);
 
-        public AsmCode AsmCode(in AsmEncoding src)
+        public AsmCode AsmCode(in AsmEncodingRecord src)
             => AsmCodes().AsmCode(src);
     }
 }

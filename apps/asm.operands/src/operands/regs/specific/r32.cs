@@ -8,6 +8,7 @@ namespace Z0.Asm.Operands
     using G = r32;
     using K = AsmRegTokens.Gp32Reg;
     using O = AsmOperand;
+    using C = RegClassCode;
     using api = AsmRegs;
 
     public readonly struct r32 : IRegOp32<r32>

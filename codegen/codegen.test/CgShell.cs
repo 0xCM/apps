@@ -13,7 +13,7 @@ namespace Z0
 
         protected override void Initialized()
         {
-            CmdService = CgShellCmd.create(Wf);
+            CmdService = CgTestCmd.create(Wf);
         }
 
         protected override void Disposing()

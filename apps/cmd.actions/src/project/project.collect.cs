@@ -18,6 +18,15 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("project/flows")]
+        Outcome ProjectFlows(CmdArgs args)
+        {
+            var project = Project();
+            var flows = Projects.LoadBuildFlows(project);
+            iter(flows, f => Write(string.Format("{1} -> {2}", f.SourceName, f.TargetName)));
+            return true;
+        }
+
         [CmdOp("project/mcasm")]
         Outcome McAsmDocs(CmdArgs args)
         {

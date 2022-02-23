@@ -84,17 +84,26 @@ namespace Z0
             }
         }
 
+        static ProjectCmdProvider inject(ICmdRunner src, ProjectCmdProvider dst)
+            => dst.With(src);
+
+        static AsmCmdProvider inject(IProjectProvider src, AsmCmdProvider dst)
+            => dst.With(src);
+
         protected override ICmdProvider[] CmdProviders(IWfRuntime wf)
-            => array<ICmdProvider>(
+        {
+            var projects = inject((ICmdRunner)this, wf.ProjectCommands());
+            return array<ICmdProvider>(
                 this,
+                projects,
                 wf.XedCommands(),
                 wf.ApiCommands(),
                 wf.LlvmCommands(),
-                wf.ProjectCommands().WithRunner(this),
                 wf.CodeGenCommands(),
                 wf.CheckCommands(),
-                wf.AsmCommands()
+                inject(projects,wf.AsmCommands())
                 );
+        }
 
         IntelXed Xed => Service(Wf.IntelXed);
 

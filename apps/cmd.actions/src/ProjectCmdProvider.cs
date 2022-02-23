@@ -9,83 +9,60 @@ namespace Z0
 
     using static core;
 
-    public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>
+    public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>, IProjectProvider
     {
-        ProjectId DefaultProject;
 
         public ProjectCmdProvider()
         {
-            _Files = FS.Files.Empty;
-            DefaultProject = "mc.models";
+
         }
 
-        protected override void OnInit()
-        {
-            Project(Ws.Project(DefaultProject));
-        }
 
         XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
-
-        IntelXed Xed => Service(Wf.IntelXed);
 
         ProjectCollector ProjectManager => Service(Wf.ProjectCollector);
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        LlvmLlcSvc Llc => Service(Wf.LlvmLLc);
-
         LlvmMcSvc LlvmMc => Service(Wf.LlvmMc);
 
         DumpBin DumpBin => Service(Wf.DumpBin);
-
-        ClangSvc Clang => Service(Wf.Clang);
-
-        LlvmObjDumpSvc ObjDump => Service(Wf.LlvmObjDump);
 
         CoffServices CoffServices => Service(Wf.CoffServices);
 
         IntelSdm Sdm => Service(Wf.IntelSdm);
 
-        CgSvc CodeGen => Service(Wf.CodeGen);
-
-        AsmObjects AsmObjects => Service(Wf.AsmObjects);
-
         IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
-
-        LlvmNmSvc LlvmNm => Service(Wf.LlvmNm);
-
 
         ICmdRunner Commands;
 
-        FS.Files _Files;
-
-        FS.Files Files()
-            => _Files;
-
-        FS.Files Files(FS.Files src, bool write =true)
-        {
-            _Files = src;
-            if(write)
-                iter(src, path => Write(path.ToUri()));
-            return Files();
-        }
-
-        IProjectWs _Project;
-
-        public ProjectCmdProvider WithRunner(ICmdRunner runner)
+        public ProjectCmdProvider With(ICmdRunner runner)
         {
             Commands = runner;
             return this;
         }
 
-        new IProjectWs Project()
-            => _Project;
+        protected virtual void ProjectSelected(IProjectWs project)
+        {
 
-        IProjectWs Project(IProjectWs project)
+        }
+
+        IProjectWs SelectProject(IProjectWs project)
         {
             _Project = project;
             LoadProjectSources();
+            ProjectSelected(project);
             return Project();
+        }
+
+        [CmdOp("project/sources")]
+        protected Outcome ProjectSrcFiles(CmdArgs args)
+        {
+            if(args.Length == 0)
+                Files(Project().SrcFiles());
+            else
+                Files(Project().SrcFiles(arg(args,0)));
+            return true;
         }
 
         Outcome LoadProjectSources()
@@ -103,6 +80,48 @@ namespace Z0
             else
                 outcome = (false, Msg.ProjectUndefined.Format(project.Project));
             return outcome;
+        }
+
+        [CmdOp("project")]
+        protected Outcome LoadProject(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            SelectProject(Ws.Project(arg(args,0).Value));
+            return result;
+        }
+
+        protected Outcome LoadProjectSources(IProjectWs ws)
+        {
+            var outcome = Outcome.Success;
+            var dir = ws.Home();
+            outcome = dir.Exists;
+            if(outcome)
+                Files(ws.SrcFiles());
+            else
+                outcome = (false, UndefinedProject.Format(ws.Project));
+            return outcome;
+        }
+
+        protected Outcome LoadProjectSources(IProjectWs ws, Subject? scope)
+        {
+            Files(ProjectFiles(ws,scope));
+            return true;
+        }
+
+        static MsgPattern<ProjectId> UndefinedProject
+            => "Undefined project:{0}";
+
+        IProjectWs _Project;
+
+        [MethodImpl(Inline)]
+        public IProjectWs Project()
+            => _Project;
+
+        [MethodImpl(Inline)]
+        public IProjectWs Project(ProjectId id)
+        {
+            _Project = Ws.Project(id);
+            return Project();
         }
     }
 }

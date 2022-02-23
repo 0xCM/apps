@@ -4,12 +4,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <Import Project="../imports.props"/>
 
   <ItemGroup>
     <EmbeddedResource Include="assets/**/*.*" />
     <ProjectReference Include="$(AsmOperands)" />
   </ItemGroup>
-
-  <Import Project="../imports.props"/>
-
 </Project>

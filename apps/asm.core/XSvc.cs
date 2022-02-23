@@ -9,6 +9,7 @@ namespace Z0
     [ApiHost]
     public static class XSvc
     {
+
         [Op]
         public static ApiResPackEmitter ResPackEmitter(this IWfRuntime wf)
             => Z0.ApiResPackEmitter.create(wf);
@@ -17,28 +18,28 @@ namespace Z0
             => XedCmdProvider.create(wf);
 
         [Op]
+        public static AsmDocs AsmDocs(this IWfRuntime wf)
+            => Asm.AsmDocs.create(wf);
+
+        [Op]
         public static DumpBin DumpBin(this IWfRuntime wf)
             => Z0.DumpBin.create(wf);
 
+        [Op]
         public static FileCatalog FileCatalog(this IProjectWs src)
             => Z0.FileCatalog.load(src);
 
+        [Op]
         public static ApiDataPaths ApiDataPaths(this IWfRuntime wf)
             => Z0.ApiDataPaths.create(wf);
 
+        [Op]
         public static ApiCodeBanks ApiCodeBanks(this IWfRuntime wf)
             => Z0.ApiCodeBanks.create(wf);
 
+        [Op]
         public static AsmObjects AsmObjects(this IWfRuntime wf)
             => Z0.AsmObjects.create(wf);
-
-        [Op]
-        public static AsmEncoder AsmEncoding(this IWfRuntime wf)
-            => Asm.AsmEncoder.create(wf);
-
-        [Op]
-        public static AsmEtl AsmEtl(this IWfRuntime context)
-            => Asm.AsmEtl.create(context);
 
         [Op]
         public static AsmOpCodes AsmOpCodes(this IWfRuntime context)

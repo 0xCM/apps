@@ -11,10 +11,10 @@ namespace Z0
 
     public class AsmObjects : AppService<AsmObjects>
     {
-        static AsmEncoding encoding<T>(in T src)
+        static AsmEncodingRecord encoding<T>(in T src)
             where T : IAsmBlockSegment
         {
-            var encoding = new AsmEncoding();
+            var encoding = new AsmEncodingRecord();
             encoding.Seq = src.Seq;
             encoding.Id = src.Id;
             encoding.IP = src.IP;
@@ -27,6 +27,7 @@ namespace Z0
         public Index<AsmCodeMapEntry> MapCode(IProjectWs project, Index<AsmCodeIndexRow> index, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var catalog = project.FileCatalog();
+            //Require.equal(index.Count,src.Count);
             var distilled = DistillBlocks(project, src, dispenser);
             var entries = list<AsmCodeMapEntry>();
             for(var i=0; i<distilled.Count; i++)
