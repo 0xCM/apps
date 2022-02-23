@@ -33,16 +33,23 @@ namespace Z0.Asm
     public struct VexPrefix
     {
         [MethodImpl(Inline), Op]
-        public static VexPrefix define(K kind)
-            => new VexPrefix(kind);
-
-        [MethodImpl(Inline), Op]
         public static VexPrefix define(K kind, byte b1)
             => new VexPrefix(kind, b1);
 
         [MethodImpl(Inline), Op]
         public static VexPrefix define(K kind, byte b1, byte b2)
             => new VexPrefix(kind, b1, b2);
+
+        [MethodImpl(Inline)]
+        public static VexPrefixC4 c4(VexPrefix src)
+        {
+            var data = slice(src.Encoded,1,2);
+            return VexPrefixC4.define(skip(data,0), skip(data,1));
+        }
+
+        [MethodImpl(Inline)]
+        public static VexPrefixC5 c5(VexPrefix src)
+            => VexPrefixC5.define((byte)(src._Data >> 8));
 
         [MethodImpl(Inline)]
         public static BitfieldSeg<VexPrefixCode> code(ReadOnlySpan<byte> src)
@@ -101,38 +108,60 @@ namespace Z0.Asm
                 _ => 0
             };
 
-        uint Data;
+        uint _Data;
 
         [MethodImpl(Inline)]
         internal VexPrefix(K k)
         {
-            Data = (byte)k;
+            _Data = (byte)k;
         }
 
         [MethodImpl(Inline)]
         internal VexPrefix(K k, byte b1)
         {
-            Data = Bitfields.join((byte)k,b1,0,2);
+            _Data = Bitfields.join((byte)k, b1, 0, 2);
         }
 
         [MethodImpl(Inline)]
         internal VexPrefix(K k, byte b1, byte b2)
         {
-            Data = Bitfields.join((byte)k, b1, b2,3);
+            _Data = Bitfields.join((byte)k, b1, b2, 3);
         }
 
         public byte Size
         {
             [MethodImpl(Inline)]
-            get => (byte)(Data >> 24);
+            get => (byte)(_Data >> 24);
         }
 
         [MethodImpl(Inline)]
         public K Kind()
-            => (K)Data;
+            => (K)_Data;
 
         [MethodImpl(Inline)]
         public void Kind(K k)
-            => Data = Bytes.inject((byte)k,0, ref Data);
+            => _Data = Bytes.inject((byte)k,0, ref _Data);
+
+        public ReadOnlySpan<byte> Encoded
+        {
+            [MethodImpl(Inline)]
+            get => bytes(_Data);
+        }
+
+        public string Format()
+        {
+            var kind = Kind();
+            if(kind == K.xC4)
+                return c4(this).Format();
+            else if(kind == K.xC5)
+                return c5(this).Format();
+            else
+                return EmptyString;
+        }
+
+        public override string ToString()
+            => Format();
+
+        public static VexPrefix Empty => default;
     }
 }

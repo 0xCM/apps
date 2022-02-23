@@ -165,7 +165,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public static VexPrefixC4 init(byte b1, byte b2)
+        public static VexPrefixC4 define(byte b1, byte b2)
         {
             var dst = new VexPrefixC4();
             dst.B0 = (byte)VexPrefixCode.C4;

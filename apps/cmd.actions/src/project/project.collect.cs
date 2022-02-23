@@ -7,6 +7,7 @@ namespace Z0
     using llvm;
 
     using static core;
+    using static XedModels;
 
     partial class ProjectCmdProvider
     {
@@ -172,64 +173,10 @@ namespace Z0
         [CmdOp("xed/collect")]
         Outcome XedCollect(CmdArgs args)
         {
-            var result = Outcome.Success;
-            var project = Project();
-            var catalog = project.FileCatalog();
-            var files = catalog.Entries(FileKind.XedRawDisasm);
-            var count = files.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var file = ref files[i];
-                var blocks = XedDisasm.LoadDisamBlocks(file);
-                result = XedDisasmOps.ParseEncodings(file, out var encodings);
-                var rows = encodings.View;
-
-                Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
-
-                result = XedDisasm.CalcDisasmDetails(blocks, out var details);
-                    if(result.Fail)
-                        break;
-
-                for(var j=0; j<rows.Length; j++)
-                {
-                    ref readonly var detail = ref details[j];
-                    ref readonly var docid = ref detail.DocId;
-                    ref readonly var encid = ref detail.EncodingId;
-                    ref readonly var ip = ref detail.IP;
-                    ref readonly var encoded = ref detail.Encoded;
-                    ref readonly var opcode = ref detail.OpCode;
-                    ref readonly var psz = ref detail.PrefixSize;
-                    ref readonly var szov = ref detail.SizeOverride;
-                    ref readonly var rex = ref detail.Rex;
-                    ref readonly var modrm = ref detail.ModRm;
-                    ref readonly var sib = ref detail.Sib;
-                    ref readonly var disp = ref detail.Disp;
-                    ref readonly var asm = ref detail.Asm;
-                    ref readonly var iform = ref detail.IForm;
-
-                    Write(string.Format("{0,-12} | {1,-18} | {2,-12} | {3,-36} | {4,-8} | {5,-5} | {6,-5} | {7,-5} | {8,-5} | {9,-8} | {10,-8} | {11,-54} | {12,-54} | {13}",
-                        docid,
-                        encid,
-                        ip,
-                        encoded,
-                        opcode.FormatHex(2),
-                        psz.FormatHex(1),
-                        szov,
-                        rex.Value().FormatHex(2),
-                        modrm.Value().FormatHex(2),
-                        sib.Value().FormatHex(2),
-                        disp,
-                        asm,
-                        iform,
-                        detail.Operands
-                        ));
-                }
-
-                if(result.Fail)
-                    break;
-            }
-
-            return result;
+            var context = Projects.Context(Project());
+            var details = XedDisasm.CollectDisasmDetails2(context);
+            return true;
         }
-    }
+
+   }
 }

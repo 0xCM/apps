@@ -70,11 +70,17 @@ namespace Z0.Asm
         public byte Value()
             => _Value;
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => _Value == 0;
+        }
+
         public string ToBitString()
             => string.Format("{0} {1} {2}", Mod(), Reg(), Rm());
 
         public string Format()
-            => AsmRender.asmbyte(this);
+            => IsEmpty ? EmptyString : AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

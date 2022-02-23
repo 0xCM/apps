@@ -30,7 +30,7 @@ namespace Z0.Asm
         }
 
         [MethodImpl(Inline)]
-        public static VexPrefixC5 init(byte b1)
+        public static VexPrefixC5 define(byte b1)
         {
             var dst = new VexPrefixC5();
             dst.B0 = (byte)VexPrefixCode.C5;

@@ -43,7 +43,7 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
 
-        void EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
+        Index<AsmEncodingRow> EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
         {
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
@@ -61,15 +61,18 @@ namespace Z0
                     target.Seq = counter;
                 }
             }
-            TableEmit(@readonly(buffer), AsmEncodingRow.RenderWidths, dst);
+            var result = buffer.Sort();
+            TableEmit(@readonly(result), AsmEncodingRow.RenderWidths, dst);
+            return result;
         }
 
         public void Collect(WsContext context)
         {
             var result = Outcome.Success;
             var project = context.Project;
-            EmitDisasmSummary(CollectEncodingDocs(context), Projects.XedDisasmSummary(project));
+            var summaries = EmitDisasmSummary(CollectEncodingDocs(context), Projects.XedDisasmSummary(project));
             CollectDisasmDetails(context);
+            var details = CollectDisasmDetails2(context);
         }
 
         /// <summary>

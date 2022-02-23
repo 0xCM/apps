@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmEncodingRow : IAsmEncodingRecord
+    public struct AsmEncodingRow : IAsmEncodingRecord, IComparable<AsmEncodingRow>
     {
         public const string TableId = "asm.encoding";
 
@@ -45,6 +45,14 @@ namespace Z0
 
         MemoryAddress IAsmEncodingRecord.IP
             => IP;
+
+        public int CompareTo(AsmEncodingRow src)
+        {
+            var result = Source.CompareTo(src.Source);
+            if(result == 0)
+                result = IP.CompareTo(src.IP);
+            return result;
+        }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,8,12,38,8,84,1};
 

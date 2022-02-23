@@ -15,11 +15,90 @@ namespace Z0
         public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
             => XedDisasmOps.LoadFileBlocks(src);
 
-        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, out Index<DisasmDetail> buffer)
+        public Index<XedDisasmDetail> CollectDisasmDetails2(WsContext context)
+        {
+            var result = Outcome.Success;
+            var catalog = context.Files;
+            var files = catalog.Entries(FileKind.XedRawDisasm);
+            var count = files.Count;
+            var buffer = list<XedDisasmDetail>();
+            var bag = core.bag<XedDisasmDetail>();
+            var xedsvc = this;
+            iter(files, file => {
+
+                var blocks = xedsvc.LoadDisamBlocks(file);
+                result = XedDisasmOps.ParseEncodings(file, out var encodings);
+                var rows = encodings.View;
+
+                Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
+                result = xedsvc.CalcDisasmDetails(blocks, bag);
+                result.Require();
+
+            },true);
+
+            var records = bag.ToArray();
+            return Emit(records,Projects.Table<XedDisasmDetail>(context.Project));
+
+        }
+
+        // public Index<XedDisasmDetail> CollectDisasmDetails2(IProjectWs project)
+        // {
+        //     var result = Outcome.Success;
+        //     var catalog = project.FileCatalog();
+        //     var files = catalog.Entries(FileKind.XedRawDisasm);
+        //     var count = files.Count;
+        //     var buffer = list<XedDisasmDetail>();
+        //     var bag = core.bag<XedDisasmDetail>();
+        //     var xedsvc = this;
+        //     iter(files, file => {
+
+        //         var blocks = xedsvc.LoadDisamBlocks(file);
+        //         result = XedDisasmOps.ParseEncodings(file, out var encodings);
+        //         var rows = encodings.View;
+
+        //         Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
+        //         result = xedsvc.CalcDisasmDetails(blocks, bag);
+        //         result.Require();
+
+        //     },true);
+
+        //     var records = bag.ToArray();
+        //     var path = Projects.Table<XedDisasmDetail>(project);
+
+        //     return Emit(records,path);
+        // }
+
+        Index<XedDisasmDetail> Emit(Index<XedDisasmDetail> records, FS.FilePath dst)
+        {
+            var emitting = EmittingFile(dst);
+            var src = records.Sort();
+            var formatter = Tables.formatter<XedDisasmDetail>(XedDisasmDetail.RenderWidths);
+            var headerBase = formatter.FormatHeader();
+            var j = text.lastindex(headerBase, Chars.Pipe);
+            headerBase = text.left(headerBase,j);
+            var opheader = text.buffer();
+            for(var k=0; k<6; k++)
+            {
+
+                opheader.Append("| ");
+                opheader.Append(InstOperands.Header(k));
+            }
+
+            var header = string.Format("{0}{1}", headerBase, opheader.Emit());
+            using var writer = dst.AsciWriter();
+            writer.WriteLine(header);
+            for(var i=0; i<src.Length; i++)
+                writer.WriteLine(formatter.Format(src[i]));
+
+            EmittedFile(emitting, src.Length);
+            return src;
+        }
+
+        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, out Index<XedDisasmDetail> buffer)
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
-            buffer = alloc<DisasmDetail>(count);
+            buffer = alloc<XedDisasmDetail>(count);
 
             var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
             if(result.Fail)
@@ -43,7 +122,37 @@ namespace Z0
             return result;
         }
 
-        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, out DisasmDetail dst)
+        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, ConcurrentBag<XedDisasmDetail> buffer)
+        {
+            var blocks = src.LineBlocks;
+            var count = blocks.Count;
+
+            var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
+            if(result.Fail)
+                return result;
+
+            if(encodings.RowCount != count)
+            {
+                result = (false, string.Format("{0} != {1}", count, encodings.RowCount));
+                return result;
+            }
+
+            for(var i=0u; i<count; i++)
+            {
+                ref readonly var block = ref blocks[i];
+                ref readonly var encoding =ref encodings[i];
+                var detail = XedDisasmDetail.Empty;
+                result = CalcDisasmDetail(block, encoding, out detail);
+                if(result.Fail)
+                    break;
+                else
+                    buffer.Add(detail);
+            }
+
+            return result;
+        }
+
+        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, out XedDisasmDetail dst)
         {
             dst = default;
             var result = ParseInstruction(block, out var inst);
@@ -61,6 +170,7 @@ namespace Z0
             dst.Encoded = encoding.Encoded;
             dst.Asm = encoding.Asm;
             dst.IForm = inst.Form;
+            dst.SourceName = text.remove(encoding.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
             var parser = new XedOperandParser();
             parser.ParseState(inst.Props.Edit, out var state);
@@ -80,7 +190,7 @@ namespace Z0
                 return result;
             }
 
-            dst.OpCode = ocbits;
+            dst.OpCode = oc;
 
             var opcount = block.OperandCount;
             dst.Operands = alloc<InstOperandDetail>(opcount);
@@ -97,6 +207,8 @@ namespace Z0
                 var title = string.Format("Op{0}", k);
                 var opwidth = OperandWidth(op.WidthType);
                 opdetail.Width = opwidth;
+                var indicator = opwidth.Name;
+                var width = opwidth.Width64;
                 var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
                 var opname = XedRuleOps.name(op.Kind);
                 opdetail.RuleOpName = opname;
@@ -123,7 +235,7 @@ namespace Z0
                     opdetail.RuleOpInfo = opvalfmt;
                 }
 
-                opdetail.Description = string.Format(RenderPattern, title, string.Format(OpPattern, opname, opvalfmt, op.Action, op.Visiblity, widthdesc, op.Prop2));
+                opdetail.Description = string.Format(InstOperands.RenderPattern, title, opname, opvalfmt, op.Action, op.Visiblity, width, indicator, op.Prop2);
             }
 
 
@@ -147,17 +259,22 @@ namespace Z0
                 dst.Disp = new Disp((long)disp.Value, Sizes.native(disp.Width));
             }
 
-            if(ocpos != 0)
+            var prefix = ocpos != 0 ? slice(code.Bytes,0,ocpos) : default;
+            dst.PSZ = (byte)prefix.Length;
+
+            var legacyskip = z8;
+            for(var k=0; k<prefix.Length; k++)
             {
-                var prefix = slice(code.Bytes,0,ocpos);
-                dst.PrefixSize = (byte)prefix.Length;
-                for(var k=0; k<prefix.Length; k++)
+                ref readonly var b = ref skip(prefix,k);
+                if(AsmPrefixTests.opsz(b))
                 {
-                    ref readonly var b = ref skip(prefix,k);
-                    if(AsmPrefixTests.opsz(b))
-                        dst.SizeOverride = AsmPrefix.opsz();
-                    else if(AsmPrefixTests.adsz(b))
-                        dst.SizeOverride = AsmPrefix.adsz();
+                    dst.SZOV = AsmPrefix.opsz();
+                    legacyskip++;
+                }
+                else if(AsmPrefixTests.adsz(b))
+                {
+                    dst.SZOV = AsmPrefix.adsz();
+                    legacyskip++;
                 }
             }
 
@@ -194,6 +311,26 @@ namespace Z0
                     return result;
                 }
             }
+
+            if(state.vexvalid == VexValidityKind.VV1)
+            {
+                var vexcode = VexPrefix.code(prefix);
+                var vexsize = VexPrefix.size(vexcode.Value);
+                var vexbytes = slice(prefix, vexcode.Offset, vexsize);
+                Require.equal(vexbytes.Length, vexsize);
+
+                if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
+                    dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC4,skip(vexbytes, 1), skip(vexbytes,2));
+                else if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C5)
+                    dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC5,skip(vexbytes, 1));
+
+            }
+            else if(state.vexvalid == VexValidityKind.EVV)
+            {
+                var evexbytes = slice(prefix,legacyskip);
+                dst.Evex = EvexPrefix.define(evexbytes);
+            }
+
 
             return result;
         }
@@ -366,13 +503,13 @@ namespace Z0
 
                     if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
                     {
-                        var vex = VexPrefixC4.init(skip(vexbytes, 1), skip(vexbytes,2));
+                        var vex = VexPrefixC4.define(skip(vexbytes, 1), skip(vexbytes,2));
                         writer.WriteLine(string.Format(RenderPattern, "VEXBits", VexPrefixC4.BitPattern));
                         writer.WriteLine(string.Format(RenderPattern, EmptyString, vex.ToBitstring()));
                     }
                     else if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C5)
                     {
-                        var vex = VexPrefixC5.init(skip(vexbytes, 1));
+                        var vex = VexPrefixC5.define(skip(vexbytes, 1));
                         writer.WriteLine(string.Format(RenderPattern, "VEXBits", VexPrefixC5.BitPattern));
                         writer.WriteLine(string.Format(RenderPattern, EmptyString, vex.ToBitstring()));
                     }
@@ -383,6 +520,10 @@ namespace Z0
                         return result;
 
                     writer.WriteLine(string.Format(RenderPattern, "VEXDEST", string.Format(Cols2Pattern, vexdest, ((byte)(uvdst)).FormatHex())));
+                }
+                else if(state.vexvalid == VexValidityKind.EVV)
+                {
+
                 }
 
                 var has_modrm = modrm(state, out var modrmval);

@@ -8,6 +8,7 @@ namespace Z0
 
     partial struct XedModels
     {
+
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public struct InstOperandDetail
         {
@@ -38,11 +39,8 @@ namespace Z0
             public OperandAction Action
             {
                 [MethodImpl(Inline)]
-                get =>Op.Action;
+                get => Op.Action;
             }
-
-            public @string WidthInfo
-                => string.Format("{0}:{1}", Width.Name, Width.Width64);
 
             public string Format()
                 => Description;

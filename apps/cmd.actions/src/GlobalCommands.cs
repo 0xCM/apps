@@ -53,7 +53,9 @@ namespace Z0
 
         public void RunCmd(string name)
         {
-            Dispatcher.Dispatch(name);
+            var result = Dispatcher.Dispatch(name);
+            if(result.Fail)
+                Error(result.Message);
         }
 
         public void RunCmd(string name, CmdArgs args)
@@ -61,6 +63,11 @@ namespace Z0
             Dispatcher.Dispatch(name, args);
         }
 
+        protected override void Initialized()
+        {
+            var args = new CmdArg[]{new CmdArg(EmptyString, "canonical")};
+            RunCmd("project", args);
+        }
         public void RunJobs(string match)
         {
             var paths = ProjectDb.JobSpecs();

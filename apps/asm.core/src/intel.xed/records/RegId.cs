@@ -5,6 +5,122 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRegId;
+
+    public readonly struct XedRegIdFacets
+    {
+        public const XedRegId BNDCFG_FIRST=BNDCFGU;
+
+        public const XedRegId BNDCFG_LAST=BNDCFGU;
+
+        public const XedRegId BNDSTAT_FIRST=BNDSTATUS;
+
+        public const XedRegId BNDSTAT_LAST=BNDSTATUS;
+
+        public const XedRegId BOUND_FIRST=BND0;
+
+        public const XedRegId BOUND_LAST=BND3;
+
+        public const XedRegId CR_FIRST=CR0;
+
+        public const XedRegId CR_LAST=CR15;
+
+        public const XedRegId DR_FIRST=DR0;
+
+        public const XedRegId DR_LAST=DR7;
+
+        public const XedRegId FLAGS_FIRST=FLAGS;
+
+        public const XedRegId FLAGS_LAST=RFLAGS;
+
+        public const XedRegId GPR16_FIRST=AX;
+
+        public const XedRegId GPR16_LAST=R15W;
+
+        public const XedRegId GPR32_FIRST=EAX;
+
+        public const XedRegId GPR32_LAST=R15D;
+
+        public const XedRegId GPR64_FIRST=RAX;
+
+        public const XedRegId GPR64_LAST=R15;
+
+        public const XedRegId GPR8_FIRST=AL;
+
+        public const XedRegId GPR8_LAST=R15B;
+
+        public const XedRegId GPR8h_FIRST=AH;
+
+        public const XedRegId GPR8h_LAST=BH;
+
+        public const XedRegId INVALID_FIRST=INVALID;
+
+        public const XedRegId INVALID_LAST=ERROR;
+
+        public const XedRegId IP_FIRST=RIP;
+
+        public const XedRegId IP_LAST=IP;
+
+        public const XedRegId MASK_FIRST=K0;
+
+        public const XedRegId MASK_LAST=K7;
+
+        public const XedRegId MMX_FIRST=MMX0;
+
+        public const XedRegId MMX_LAST=MMX7;
+
+        public const XedRegId MSR_FIRST=SSP;
+
+        public const XedRegId MSR_LAST=IA32_U_CET;
+
+        public const XedRegId MXCSR_FIRST=MXCSR;
+
+        public const XedRegId MXCSR_LAST=MXCSR;
+
+        public const XedRegId PSEUDO_FIRST=STACKPUSH;
+
+        public const XedRegId PSEUDO_LAST=TILECONFIG;
+
+        public const XedRegId PSEUDOX87_FIRST=X87CONTROL;
+
+        public const XedRegId PSEUDOX87_LAST=X87LASTDP;
+
+        public const XedRegId SR_FIRST=ES;
+
+        public const XedRegId SR_LAST=GS;
+
+        public const XedRegId TMP_FIRST=TMP0;
+
+        public const XedRegId TMP_LAST=TMP15;
+
+        public const XedRegId TREG_FIRST=TMM0;
+
+        public const XedRegId TREG_LAST=TMM7;
+
+        public const XedRegId UIF_FIRST=UIF;
+
+        public const XedRegId UIF_LAST=UIF;
+
+        public const XedRegId X87_FIRST=ST0;
+
+        public const XedRegId X87_LAST=ST7;
+
+        public const XedRegId XCR_FIRST=XCR0;
+
+        public const XedRegId XCR_LAST=XCR0;
+
+        public const XedRegId XMM_FIRST=XMM0;
+
+        public const XedRegId XMM_LAST=XMM31;
+
+        public const XedRegId YMM_FIRST=YMM0;
+
+        public const XedRegId YMM_LAST=YMM31;
+
+        public const XedRegId ZMM_FIRST=ZMM0;
+
+        public const XedRegId ZMM_LAST=ZMM31;
+    }
 
     [SymSource("xed")]
     public enum XedRegId : ushort
@@ -585,117 +701,5 @@ namespace Z0
         ZMM30,
 
         ZMM31,
-
-        BNDCFG_FIRST=BNDCFGU,
-
-        BNDCFG_LAST=BNDCFGU,
-
-        BNDSTAT_FIRST=BNDSTATUS,
-
-        BNDSTAT_LAST=BNDSTATUS,
-
-        BOUND_FIRST=BND0,
-
-        BOUND_LAST=BND3,
-
-        CR_FIRST=CR0,
-
-        CR_LAST=CR15,
-
-        DR_FIRST=DR0,
-
-        DR_LAST=DR7,
-
-        FLAGS_FIRST=FLAGS,
-
-        FLAGS_LAST=RFLAGS,
-
-        GPR16_FIRST=AX,
-
-        GPR16_LAST=R15W,
-
-        GPR32_FIRST=EAX,
-
-        GPR32_LAST=R15D,
-
-        GPR64_FIRST=RAX,
-
-        GPR64_LAST=R15,
-
-        GPR8_FIRST=AL,
-
-        GPR8_LAST=R15B,
-
-        GPR8h_FIRST=AH,
-
-        GPR8h_LAST=BH,
-
-        INVALID_FIRST=INVALID,
-
-        INVALID_LAST=ERROR,
-
-        IP_FIRST=RIP,
-
-        IP_LAST=IP,
-
-        MASK_FIRST=K0,
-
-        MASK_LAST=K7,
-
-        MMX_FIRST=MMX0,
-
-        MMX_LAST=MMX7,
-
-        MSR_FIRST=SSP,
-
-        MSR_LAST=IA32_U_CET,
-
-        MXCSR_FIRST=MXCSR,
-
-        MXCSR_LAST=MXCSR,
-
-        PSEUDO_FIRST=STACKPUSH,
-
-        PSEUDO_LAST=TILECONFIG,
-
-        PSEUDOX87_FIRST=X87CONTROL,
-
-        PSEUDOX87_LAST=X87LASTDP,
-
-        SR_FIRST=ES,
-
-        SR_LAST=GS,
-
-        TMP_FIRST=TMP0,
-
-        TMP_LAST=TMP15,
-
-        TREG_FIRST=TMM0,
-
-        TREG_LAST=TMM7,
-
-        UIF_FIRST=UIF,
-
-        UIF_LAST=UIF,
-
-        X87_FIRST=ST0,
-
-        X87_LAST=ST7,
-
-        XCR_FIRST=XCR0,
-
-        XCR_LAST=XCR0,
-
-        XMM_FIRST=XMM0,
-
-        XMM_LAST=XMM31,
-
-        YMM_FIRST=YMM0,
-
-        YMM_LAST=YMM31,
-
-        ZMM_FIRST=ZMM0,
-
-        ZMM_LAST=ZMM31
     }
 }

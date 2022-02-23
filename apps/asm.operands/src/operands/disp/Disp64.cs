@@ -14,6 +14,12 @@ namespace Z0.Asm
         public static Outcome parse(string src, out Disp64 dst)
         {
             var result = Outcome.Success;
+            if(text.empty(text.trim(src)))
+            {
+                dst = 0L;
+                return true;
+            }
+
             dst = default;
             var i = text.index(src,HexFormatSpecs.PreSpec);
             var disp = 0ul;

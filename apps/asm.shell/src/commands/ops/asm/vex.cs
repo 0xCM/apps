@@ -16,7 +16,7 @@ namespace Z0.Asm
         {
             var segments = VexPrefixC4.segments();
 
-            var vp0 = VexPrefixC4.init(byte.MaxValue, byte.MaxValue);
+            var vp0 = VexPrefixC4.define(byte.MaxValue, byte.MaxValue);
             Write(vp0.FormatSemantic());
             segments.Fill(vp0);
             Write(segments.ToBitstring());
@@ -26,7 +26,7 @@ namespace Z0.Asm
             segments.Fill(vp1);
             Write(segments.ToBitstring());
 
-            var vp2 = VexPrefixC4.init(0xe3, 0x69);
+            var vp2 = VexPrefixC4.define(0xe3, 0x69);
             Write(vp2.FormatSemantic());
             segments.Fill(vp2);
             Write(segments.ToBitstring());

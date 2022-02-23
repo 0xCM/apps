@@ -15,6 +15,12 @@ namespace Z0.Asm
         {
             var result = Outcome.Success;
             var input = text.trim(src);
+            if(text.empty(input))
+            {
+                dst = 0;
+                return true;
+            }
+
             dst = default;
             var disp = 0;
             if(HexFormatSpecs.HasSpec(input))
