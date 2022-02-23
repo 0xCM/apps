@@ -21,13 +21,14 @@ namespace Z0
             SectionKinds = Symbols.index<CoffSectionKind>();
         }
 
-        public CoffSectionSyms Collect(WsContext context)
+        public CoffSymIndex Collect(WsContext context)
         {
             CollectObjHex(context);
-            var symbols = CollectSymbols(context);
-            var headers = CollectHeaders(context);
-            return new CoffSectionSyms(headers, symbols);
+            return CollectSymIndex(context);
         }
+
+        public CoffSymIndex CollectSymIndex(WsContext context)
+            => new CoffSymIndex(CollectHeaders(context), CollectSymbols(context));
 
         public Outcome CollectObjHex(WsContext collect)
         {
@@ -76,13 +77,13 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
-                dst[file.Path] = CoffObjects.Load(file);
+                dst[file.Path] = CoffObjects.load(file);
             }
             return dst;
         }
 
         public CoffObject LoadObj(in FileRef fref)
-            => CoffObjects.Load(fref);
+            => CoffObjects.load(fref);
 
         public CoffSectionKind CalcSectionKind(string name)
         {
@@ -92,7 +93,7 @@ namespace Z0
             return kind;
         }
 
-        public Index<CoffSection> CalcObjHeaders(in FileRef fref)
+        public Index<CoffSection> CalcObjSections(in FileRef fref)
         {
             var records = list<CoffSection>();
             var seq = 0u;
@@ -118,12 +119,12 @@ namespace Z0
                 record.SectionNumber = (ushort)number;
                 record.SectionName = name;
                 record.SectionKind = CalcSectionKind(name);
-                record.SectionId = CalcSectionId(record.DocId, record.SectionNumber);
                 record.RawDataAddress = section.PointerToRawData;
                 record.RawDataSize = section.SizeOfRawData;
                 record.RelocAddress = section.PointerToRelocations;
                 record.RelocCount = section.NumberOfRelocations;
                 record.Flags = section.Characteristics;
+                record.Source = fref.Path;
                 records.Add(record);
             }
         }
@@ -160,6 +161,9 @@ namespace Z0
             return records;
         }
 
+        public CoffSymIndex LoadSymIndex(IProjectWs project)
+            => new CoffSymIndex(LoadHeaders(project), LoadSymbols(project));
+
         public Index<CoffSymRecord> LoadSymbols(IProjectWs project)
         {
             var src = Projects.Table<CoffSymRecord>(project);
@@ -176,13 +180,13 @@ namespace Z0
                 DataParser.parse(reader.Next(), out row.Seq).Require();
                 DataParser.parse(reader.Next(), out row.DocId).Require();
                 DataParser.parse(reader.Next(), out row.SectionNumber).Require();
-                DataParser.parse(reader.Next(), out row.SectionId).Require();
                 DataParser.parse(reader.Next(), out row.Address).Require();
                 DataParser.parse(reader.Next(), out row.SymSize).Require();
                 DataParser.parse(reader.Next(), out row.Value).Require();
                 DataParser.eparse(reader.Next(), out row.SymClass).Require();
                 DataParser.parse(reader.Next(), out row.AuxCount).Require();
                 DataParser.parse(reader.Next(), out row.Name).Require();
+                DataParser.parse(reader.Next(), out row.Source).Require();
             }
             return dst;
         }
@@ -192,27 +196,30 @@ namespace Z0
             var src = Projects.Table<CoffSection>(project);
             var lines = src.ReadLines(true);
             var count = lines.Count - 1;
-            Index<CoffSection> dst = alloc<CoffSection>(count);
-            for(var i=0; i<count; i++)
+            var buffer = alloc<CoffSection>(count);
+            var docreader = lines.Reader();
+            docreader.Next();
+            var i=0u;
+            while(docreader.Next(out var line))
             {
-                ref readonly var line = ref lines[i+1];
                 var cells = text.trim(text.split(line,Chars.Pipe));
                 Require.equal(cells.Length, CoffSection.FieldCount);
+
                 var reader = cells.Reader();
-                ref var row = ref dst[i];
+                ref var row = ref seek(buffer,i++);
                 DataParser.parse(reader.Next(), out row.Seq).Require();
                 DataParser.parse(reader.Next(), out row.DocId).Require();
                 DataParser.parse(reader.Next(), out row.SectionNumber).Require();
                 DataParser.parse(reader.Next(), out row.SectionName).Require();
                 SectionKinds.ExprKind(reader.Next(), out row.SectionKind);
-                DataParser.parse(reader.Next(), out row.SectionId).Require();
                 DataParser.parse(reader.Next(), out row.RawDataSize).Require();
                 DataParser.parse(reader.Next(), out row.RawDataAddress).Require();
                 DataParser.parse(reader.Next(), out row.RelocCount).Require();
                 DataParser.parse(reader.Next(), out row.RelocAddress).Require();
                 DataParser.eparse(reader.Next(), out row.Flags).Require();
+                DataParser.parse(reader.Next(), out row.Source).Require();
             }
-            return dst;
+            return buffer;
         }
 
         public Outcome CheckObjHex(WsContext context)
@@ -261,6 +268,55 @@ namespace Z0
             return docid | hi << 16;
         }
 
+        void CalcSymbols(in FileRef file, ref uint seq, List<CoffSymRecord> buffer)
+        {
+            var obj = CoffObjects.load(file);
+            var objData = obj.Data.View;
+            var offset = 0u;
+            var view = CoffObjectView.cover(obj.Data, offset);
+            var symcount = view.SymCount;
+            if(symcount != 0)
+            {
+                var syms = view.Symbols;
+                var strings = view.StringTable;
+                var size = 0u;
+                for(var j=0; j<symcount; j++)
+                {
+                    ref readonly var sym = ref skip(syms,j);
+                    var symtext = strings.Text(sym);
+                    if(nonempty(symtext))
+                    {
+                        var record = default(CoffSymRecord);
+                        var name = sym.Name;
+                        record.Seq = seq++;
+                        record.DocId = file.DocId;
+                        record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
+                        record.SymSize = CoffObjects.length(strings, name);
+                        record.SectionNumber = sym.Section;
+                        record.Value = sym.Value;
+                        record.SymClass = sym.Class;
+                        record.AuxCount = sym.NumberOfAuxSymbols;
+                        record.Name = symtext;
+                        record.Source = file.Path;
+                        buffer.Add(record);
+
+                        size += record.SymSize;
+                    }
+                }
+            }
+        }
+
+        public Index<CoffSymRecord> CalcSymbols(WsContext context)
+        {
+            var buffer = list<CoffSymRecord>();
+            var files = context.Files.Entries(FileKind.Obj, FileKind.O);
+            var count = files.Count;
+            var seq = 0u;
+            for(var i=0; i<count; i++)
+                CalcSymbols(files[i], ref seq, buffer);
+            return buffer.ToArray();
+        }
+
         public Index<CoffSymRecord> CollectSymbols(WsContext context)
         {
             var buffer = list<CoffSymRecord>();
@@ -303,11 +359,11 @@ namespace Z0
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.SectionNumber = sym.Section;
-                        record.SectionId = CalcSectionId(record.DocId, record.SectionNumber);
                         record.Value = sym.Value;
                         record.SymClass = sym.Class;
                         record.AuxCount = sym.NumberOfAuxSymbols;
                         record.Name = symtext;
+                        record.Source = file.Path;
                         writer.WriteLine(formatter.Format(record));
                         buffer.Add(record);
 

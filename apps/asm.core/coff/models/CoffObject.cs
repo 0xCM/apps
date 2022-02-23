@@ -22,6 +22,14 @@ namespace Z0
             get => Data.Size;
         }
 
+        [MethodImpl(Inline)]
+        public ReadOnlySpan<byte> Bytes(Address32 address, ByteSize size)
+            => core.slice(Data.View,(uint)address, size);
+
+        [MethodImpl(Inline)]
+        public ReadOnlySpan<byte> Bytes(MemoryRange range)
+            => core.slice(Data.View,(uint)range.Min, range.Size);
+
         public ref readonly byte this[uint i]
         {
             [MethodImpl(Inline)]

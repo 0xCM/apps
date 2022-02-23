@@ -319,7 +319,6 @@ namespace Z0
             return true;
         }
 
-
         [Parser]
         public static Outcome parse(string src, out ClrMemberName dst)
         {

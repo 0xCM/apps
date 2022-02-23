@@ -137,7 +137,7 @@ namespace Z0
         }
 
         public ToolFlowIndex LoadBuildFlowIndex(IProjectWs project)
-            => ToolFlowIndex.from(LoadBuildFlows(project));
+            => ToolFlowIndex.create(FileCatalog.load(project), LoadBuildFlows(project));
 
         public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
             => WsContext.create(project, LoadBuildFlowIndex(project), null);
@@ -247,7 +247,7 @@ namespace Z0
             return true;
         }
 
-        public Index<ToolCmdFlow> LoadBuildFlows(IProjectWs project)
+        Index<ToolCmdFlow> LoadBuildFlows(IProjectWs project)
         {
             const byte FieldCount = ToolCmdFlow.FieldCount;
             var lines = BuildFlowPath(project).ReadLines(TextEncodingKind.Asci,true);

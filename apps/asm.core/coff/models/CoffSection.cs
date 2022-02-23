@@ -21,8 +21,6 @@ namespace Z0
 
         public CoffSectionKind SectionKind;
 
-        public Hex32 SectionId;
-
         public ByteSize RawDataSize;
 
         public Address32 RawDataAddress;
@@ -33,6 +31,8 @@ namespace Z0
 
         public ImageSectionFlags Flags;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,16,16,16,16,16,16,1};
+        public FS.FileUri Source;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,16,16,16,16,16,78,1};
     }
 }

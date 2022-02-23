@@ -9,7 +9,7 @@ namespace Z0
     public class WsContext
     {
         public static WsContext create(IProjectWs project, ToolFlowIndex flows, WsEventReceiver receiver = null)
-            => new WsContext(project, FileCatalog.load(project), flows, receiver);
+            => new WsContext(project, flows, receiver);
 
         public IProjectWs Project {get;}
 
@@ -19,10 +19,10 @@ namespace Z0
 
         public WsEventReceiver EventReceiver {get;}
 
-        public WsContext(IProjectWs project, FileCatalog files, ToolFlowIndex flows, WsEventReceiver receiver = null)
+        public WsContext(IProjectWs project, ToolFlowIndex flows, WsEventReceiver receiver = null)
         {
             Project = project;
-            Files = files;
+            Files = flows.FileCatalog;
             Flows = flows;
             EventReceiver = receiver ?? new();
         }

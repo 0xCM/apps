@@ -171,11 +171,11 @@ namespace Z0
             => slice(recover<CoffSymbol>(slice(src,offset)), 0, count);
 
         [MethodImpl(Inline), Op]
-        public static CoffObject Load(in FileRef fref)
+        public static CoffObject load(in FileRef fref)
             => new CoffObject(fref.Path, fref.Path.ReadBytes());
 
         [MethodImpl(Inline), Op]
-        public static CoffObject Load(FS.FilePath path)
+        public static CoffObject load(FS.FilePath path)
             => new CoffObject(path, path.ReadBytes());
 
         [MethodImpl(Inline), Op]

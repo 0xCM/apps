@@ -26,6 +26,8 @@ namespace Z0
 
         LlvmMcSvc LlvmMc => Service(Wf.LlvmMc);
 
+        LlvmObjDumpSvc LlvmObjDump => Service(Wf.LlvmObjDump);
+
         DumpBin DumpBin => Service(Wf.DumpBin);
 
         CoffServices CoffServices => Service(Wf.CoffServices);

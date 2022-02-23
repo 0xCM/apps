@@ -12,7 +12,7 @@ namespace Z0
 
         public Index<ObjSymRow> ObjSyms;
 
-        public CoffSectionSyms SectionSyms;
+        public CoffSymIndex SymIndex;
 
         public Index<AsmCodeIndexRow> AsmIndex;
     }

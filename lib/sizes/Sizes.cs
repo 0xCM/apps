@@ -128,7 +128,7 @@ namespace Z0
         [Parser]
         public static Outcome parse(string src, out ByteSize dst)
         {
-            if(NumericParser.parse<ulong>(src, out var x))
+            if(NumericParser.parse<ulong>(text.remove(src,Chars.Comma), out var x))
             {
                 dst = x;
                 return true;

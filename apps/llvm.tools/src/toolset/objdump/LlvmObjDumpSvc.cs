@@ -117,7 +117,7 @@ namespace Z0.llvm
             var blocks = CalcObjBlocks(rows);
             TableEmit(blocks.View, ObjBlock.RenderWidths, Projects.ObjBlockPath(context.Project));
             Projects.RecodedSrcDir(context.Project).Clear();
-            EmitAsmCodeBlocks(context,RecodeBlocks);
+            EmitAsmCodeBlocks(context, RecodeBlocks);
             return new ObjDumpBlocks(blocks,rows);
         }
 
@@ -147,6 +147,30 @@ namespace Z0.llvm
             }
 
             EmittedFile(emitting,counter);
+        }
+
+        public Index<ObjBlock> LoadObjBlocks(IProjectWs project)
+        {
+            var path = Projects.ObjBlockPath(project);
+            var lines = path.ReadLines(true);
+            var reader = lines.Reader();
+            reader.Next();
+            var buffer = alloc<ObjBlock>(lines.Length - 1);
+            var i=0u;
+            while(reader.Next(out var line))
+            {
+                var cells = text.split(line,Chars.Pipe);
+                Require.equal(ObjBlock.FieldCount, cells.Length);
+                ref var dst = ref seek(buffer,i++);
+                var src = cells.Reader();
+                DataParser.parse(src.Next(), out dst.DocId).Require();
+                DataParser.parse(src.Next(), out dst.BlockName).Require();
+                DataParser.parse(src.Next(), out dst.BlockNumber).Require();
+                DataParser.parse(src.Next(), out dst.BlockBase).Require();
+                DataParser.parse(src.Next(), out dst.BlockSize).Require();
+                DataParser.parse(src.Next(), out dst.Source).Require();
+            }
+            return buffer;
         }
 
         Index<ObjBlock> CalcObjBlocks(Index<ObjDumpRow> src)

@@ -54,7 +54,7 @@ namespace Z0
             EventReceiver.Initialized(context);
             var objblocks = ObjDump.Collect(context);
             var objsyms = Nm.Collect(context);
-            var secsyms = Coff.Collect(context);
+            var symindex = Coff.Collect(context);
             var asmindex = Mc.Collect(context);
 
             XedDisasm.Collect(context);
@@ -63,7 +63,7 @@ namespace Z0
                 Files = catalog,
                 ObjBlockData = objblocks,
                 ObjSyms = objsyms,
-                SectionSyms = secsyms,
+                SymIndex = symindex,
                 AsmIndex = asmindex
             };
         }

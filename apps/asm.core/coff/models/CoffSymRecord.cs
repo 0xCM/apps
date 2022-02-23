@@ -19,8 +19,6 @@ namespace Z0
 
         public ushort SectionNumber;
 
-        public Hex32 SectionId;
-
         public Address32 Address;
 
         public uint SymSize;
@@ -33,6 +31,8 @@ namespace Z0
 
         public @string Name;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,10,8,10,16,8,48};
+        public FS.FileUri Source;
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,10,8,10,16,8,48,1};
     }
 }

@@ -13,7 +13,7 @@ namespace Z0
 
         public Hex32 DocId;
 
-        public TextBlock BlockName;
+        public Identifier BlockName;
 
         public uint BlockNumber;
 
