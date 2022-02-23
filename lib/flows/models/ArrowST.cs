@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("arrow<s:{0},t:{1}>")]
     public readonly struct Arrow<S,T> : IArrow<S,T>
     {

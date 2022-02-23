@@ -38,10 +38,16 @@ namespace Z0
         public sealed class ZTool : Tool<ZTool>
         {
             public ZTool()
-                : base(nameof(ZTool))
+                : base("ZTool")
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class Llc : Tool<Llc>
@@ -51,6 +57,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmMc : Tool<LlvmMc>
@@ -60,6 +72,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class Clang : Tool<Clang>
@@ -69,6 +87,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmObjDump : Tool<LlvmObjDump>
@@ -78,6 +102,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmConfig : Tool<LlvmConfig>
@@ -87,6 +117,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmReadObj : Tool<LlvmReadObj>
@@ -96,6 +132,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmAs : Tool<LlvmAs>
@@ -105,6 +147,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmTableGen : Tool<LlvmTableGen>
@@ -114,6 +162,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmDis : Tool<LlvmDis>
@@ -123,6 +177,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmLld : Tool<LlvmLld>
@@ -132,6 +192,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class LlvmNm : Tool<LlvmNm>
@@ -141,6 +207,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
 
         public sealed class Xed : Tool<Xed>
@@ -150,6 +222,12 @@ namespace Z0
             {
 
             }
+
+            public string Format()
+                => Name.Format();
+
+            public override string ToString()
+                => Format();
         }
     }
 }

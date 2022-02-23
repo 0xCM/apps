@@ -151,15 +151,5 @@ namespace Z0
             }
             return dst.Emit();
         }
-
-        public static string format<T>(in CmdFlows<T> src)
-        {
-            if(src.IsEmpty)
-                return EmptyString;
-
-            var dst = text.buffer();
-            iter(src, x => dst.AppendLine(x.Format()));
-            return dst.Emit();
-        }
     }
 }

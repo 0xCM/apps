@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    [DataFlow]
     public abstract class Flow<S,T> : IDataFlow<S,T>
     {
         public IFlowType FlowType {get;}

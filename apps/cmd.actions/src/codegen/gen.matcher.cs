@@ -4,11 +4,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
     using static core;
+
+    using Asm;
 
     partial class CodeGenProvider
     {
+        [CmdOp("gen/token-specs")]
+        Outcome GenTokenSpecs(CmdArgs args)
+        {
+            var result = Outcome.Success;
+            var src = Symbols.concat(Symbols.index<AsmOcTokens.VexToken>());
+            var name = "VexTokens";
+            var dst = ProjectDb.Logs("gen") + FS.file(name, FS.Cs);
+            var svc = Wf.CodeGen().StringLiterals();
+            using var writer = dst.Writer();
+            writer.WriteLine(string.Format("public readonly struct {0}", name));
+            writer.WriteLine("{");
+            svc.Emit("Data", src, writer);
+            writer.WriteLine("}");
+            return result;
+        }
+
         [CmdOp("gen/matcher")]
         Outcome Matcher(CmdArgs args)
         {

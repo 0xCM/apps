@@ -9,29 +9,29 @@ namespace Z0
 
     partial class ApiCmdProvider
     {
-        [CmdOp("api/emit/flows")]
-        Outcome RevealDataFlows(CmdArgs args)
+        [CmdOp("api/emit/flowspecs")]
+        Outcome EmitDataFlowSpecs(CmdArgs args)
         {
-            EmitApiDataFlows();
+            EmitDataFlowSpecs();
             return true;
         }
 
-        void EmitApiDataFlows()
+        void EmitDataFlowSpecs()
         {
-            var src = ApiRuntimeCatalog.DataFlows;
+            var src = ApiDataFlow.discover(ApiRuntimeCatalog.Components);
             var count = src.Length;
-            var buffer = alloc<ApiFlowType>(count);
+            var buffer = alloc<ApiFlowSpec>(count);
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(buffer,i);
-                ref readonly var flow = ref skip(src,i);
+                ref readonly var flow = ref src[i];
                 dst.Actor = flow.Actor.Name;
                 dst.Source = flow.Source?.ToString() ?? EmptyString;
                 dst.Target = flow.Target?.ToString() ?? EmptyString;
                 dst.Description = flow.Format();
             }
 
-            TableEmit(@readonly(buffer.Sort()), ApiFlowType.RenderWidths, ProjectDb.ApiTablePath<ApiFlowType>());
+            TableEmit(@readonly(buffer.Sort()), ApiFlowSpec.RenderWidths, ProjectDb.ApiTablePath<ApiFlowSpec>());
         }
     }
 }

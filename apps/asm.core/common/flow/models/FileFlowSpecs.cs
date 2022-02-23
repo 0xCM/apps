@@ -10,13 +10,7 @@ namespace Z0
 
     using FK = FileKind;
 
-    public readonly struct FileFlows
-    {
-
-
-    }
-
-    public readonly struct FileFlowTypes
+    public readonly struct FileFlowSpecs
     {
         public static FileFlowType define(Identifier actor, FileKind src, FileKind dst)
             => new FileFlowType(actor,src,dst);

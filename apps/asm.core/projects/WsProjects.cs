@@ -136,11 +136,14 @@ namespace Z0
             }
         }
 
+        public ToolFlowIndex LoadBuildFlowIndex(IProjectWs project)
+            => ToolFlowIndex.from(LoadBuildFlows(project));
+
         public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
-        {
-            var flows = LoadBuildFlows(project);
-            return WsContext.create(project, null);
-        }
+            => WsContext.create(project, LoadBuildFlowIndex(project), null);
+
+        public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)
+            => RunBuildScripts(project, script, scope, false);
 
         public Outcome<Index<ToolCmdFlow>> BuildC(IProjectWs project, bool runexe = false)
             => RunBuildScripts(project, "c-build", "c", runexe);
@@ -302,8 +305,8 @@ namespace Z0
                 return result;
         }
 
-        public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
-            => RunBuildScripts(project,scriptid,scope, flow => HandleBuildResponse(flow, runexe));
+        Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, bool runexe)
+            => RunBuildScripts(project, scriptid, scope, flow => HandleBuildResponse(flow, runexe));
 
         public Outcome<Index<ToolCmdFlow>> RunBuildScripts(IProjectWs project, ScriptId scriptid, Subject? scope, Action<ToolCmdFlow> receiver)
         {

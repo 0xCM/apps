@@ -17,7 +17,7 @@ namespace Z0.Asm
 
         const uint InputBitsB = 0b0100_0100_0000_0001_0101_1000_0000_0100;
 
-        [CmdOp(".test-bitstrings")]
+        [CmdOp("asm/check/bitstrings")]
         Outcome CheckBitstrings(CmdArgs args)
         {
             CharBlocks.alloc(n128, out var block1);
@@ -31,14 +31,10 @@ namespace Z0.Asm
             count = AsmRender.bitstring(bytes(InputBitsB), block2.Data);
             bits = text.format(chars);
             Write(bits);
-            return true;
-        }
 
-        [CmdOp(".test-bits")]
-        Outcome CheckBits(CmdArgs args)
-        {
             var v = vpack.vunpack256x8u(0xF0F0F0F0);
             Write(v.FormatBlockedBits(8));
+
             return true;
         }
 

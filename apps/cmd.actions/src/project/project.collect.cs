@@ -22,8 +22,15 @@ namespace Z0
         Outcome ProjectFlows(CmdArgs args)
         {
             var project = Project();
-            var flows = Projects.LoadBuildFlows(project);
-            iter(flows, f => Write(string.Format("{1} -> {2}", f.SourceName, f.TargetName)));
+            var index = Projects.LoadBuildFlowIndex(project);
+            var flows = index.Flows;
+            var count = flows.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var flow = ref skip(flows,i);
+                Write(string.Format("{0} -> {1}", flow.Source.Path.FileName, flow.Target.Path.FileName));
+            }
+
             return true;
         }
 

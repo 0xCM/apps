@@ -4,16 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Reflection;
-
-    using static Root;
     using static core;
 
     [FlowCmdBuilder]
-    public abstract class FileFlowCommands<H,C,F> : AppService<H>, IFlowCommands<C,F>
+    public abstract class CmdFlows<H,C,F> : AppService<H>, IFlowCommands<C,F>
         where C : struct, IFileFlowCmd<C>
         where F : IFileFlowType<F>, new()
-        where H : FileFlowCommands<H,C,F>, new()
+        where H : CmdFlows<H,C,F>, new()
     {
         public F Flow {get;} = new F();
 
@@ -167,7 +164,7 @@ namespace Z0
             return project.Out(scope).Create() + src.FileName.ChangeExtension(Flow.TargetExt);
         }
 
-        static FileFlowCommands()
+        static CmdFlows()
         {
             Fields = typeof(C).DeclaredInstanceFields();
         }

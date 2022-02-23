@@ -5,19 +5,17 @@
 namespace Z0
 {
     using static core;
-    using static FileFlowTypes;
+    using static FileFlowSpecs;
 
     partial class ProjectCmdProvider
     {
-        FlowCommands FlowCommands => Service(Wf.FlowCommands);
-
         [CmdOp("mc/cleanse")]
         Outcome ExecMcCleanse(CmdArgs args)
         {
             var cmdname = "cleanse";
             var scope = "att/64";
             var project = Project();
-            var cmd = FlowCommands.Select(SToAsm.Instance);
+            var cmd = AsmFlowCommands.Select(SToAsm.Instance);
             cmd.Execute(project, (scope, cmdname));
             return true;
         }
@@ -28,7 +26,7 @@ namespace Z0
             var cmdname = "asm-to-mcasm";
             var scope = "asm";
             var project = Project();
-            var cmd = FlowCommands.Select(AsmToMcAsm.Instance);
+            var cmd = AsmFlowCommands.Select(AsmToMcAsm.Instance);
             cmd.Execute(project, (scope, cmdname));
             return true;
         }

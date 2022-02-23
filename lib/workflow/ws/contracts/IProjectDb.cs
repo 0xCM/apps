@@ -13,7 +13,10 @@ namespace Z0
             => Root;
 
         FS.FolderPath IProjectWs.Logs()
-            => Home() + FS.folder("logs");
+            => Subdir("logs");
+
+        FS.FilePath IProjectWs.Log(string id)
+            => Logs() + FS.file(id,FS.Log);
 
         FS.FolderPath Api()
             => Home() + FS.folder("api");
@@ -91,27 +94,5 @@ namespace Z0
         FS.FilePath ProjectTable<T>(IProjectWs project)
             where T : struct
                 => ProjectData(project) + TableFileName<T>(project);
-
-        FS.FilePath ProjectTable<T>(IProjectWs project, string scope)
-            where T : struct
-                => ProjectData(project) + FS.folder(scope) + TableFileName<T>(project);
-
-        FS.FilePath ProjectDataFile(IProjectWs project, FileKind kind)
-            => ProjectData(project) + FS.file(project.Project.Format(), kind.Ext());
-
-        FS.FilePath ProjectDataFile(IProjectWs project, string scope, FileKind kind)
-            => ProjectData(project) + FS.folder(scope) + FS.file(project.Project.Format(), kind.Ext());
-
-        FS.FilePath ProjectDataFile(IProjectWs project, string name, FS.FileExt ext)
-            => ProjectData(project) + ProjectFile(project, name, ext);
-
-        FS.FilePath ProjectDataFile(IProjectWs project, string scope, string name, FS.FileExt ext)
-            => ProjectData(project) + FS.folder(scope) + ProjectFile(project, name, ext);
-
-        FS.Files ProjectDataFiles(IProjectWs project, FS.FileExt ext)
-            => ProjectData(project).Files(ext,true);
-
-        FS.Files ProjectDataFiles(IProjectWs project, string scope, FS.FileExt ext)
-            => (ProjectData(scope) + FS.folder(scope)).Files(ext,true);
     }
 }

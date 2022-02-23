@@ -38,7 +38,7 @@ namespace Z0
             EmitApiTokens();
             EmitApiLiterals();
             EmitApiCommands();
-            EmitApiDataFlows();
+            EmitDataFlowSpecs();
         }
 
         ApiAssets ApiAssets => Service(Wf.ApiAssets);

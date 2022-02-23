@@ -6,9 +6,9 @@ namespace Z0
 {
     using llvm;
 
-    using static FileFlowTypes;
+    using static FileFlowSpecs;
 
-    public class FlowCommands : AppService<FlowCommands>
+    public class AsmFlowCommands : AppService<AsmFlowCommands>
     {
         public SToAsmCmd Select(SToAsm flow)
             => Service(() => SToAsmCmd.create(Wf));

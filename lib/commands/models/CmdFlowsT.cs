@@ -1,64 +1,67 @@
-//-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
-//-----------------------------------------------------------------------------
-namespace Z0
-{
-    using System;
-    using System.Runtime.CompilerServices;
+// //-----------------------------------------------------------------------------
+// // Copyright   :  (c) Chris Moore, 2020
+// // License     :  MIT
+// //-----------------------------------------------------------------------------
+// namespace Z0
+// {
 
-    using static Root;
+//     public readonly struct CmdFlows<T> : IIndex<CmdFlow<T>>
+//     {
+//         readonly Index<CmdFlow<T>> Data;
 
-    public readonly struct CmdFlows<T> : IIndex<CmdFlow<T>>
-    {
-        readonly Index<CmdFlow<T>> Data;
+//         [MethodImpl(Inline)]
+//         public CmdFlows(CmdFlow<T>[] src)
+//         {
+//             Data = src;
+//         }
 
-        [MethodImpl(Inline)]
-        public CmdFlows(CmdFlow<T>[] src)
-        {
-            Data = src;
-        }
+//         public CmdFlow<T>[] Storage
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.Storage;
+//         }
 
-        public CmdFlow<T>[] Storage
-        {
-            [MethodImpl(Inline)]
-            get => Data.Storage;
-        }
+//         public ref CmdFlow<T> this[uint i]
+//         {
+//             [MethodImpl(Inline)]
+//             get => ref Data[i];
+//         }
 
-        public ref CmdFlow<T> this[uint i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
+//         public ref CmdFlow<T> this[int i]
+//         {
+//             [MethodImpl(Inline)]
+//             get => ref Data[i];
+//         }
 
-        public ref CmdFlow<T> this[int i]
-        {
-            [MethodImpl(Inline)]
-            get => ref Data[i];
-        }
+//         public bool IsEmpty
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.IsEmpty;
+//         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsEmpty;
-        }
+//         public bool IsNonEmpty
+//         {
+//             [MethodImpl(Inline)]
+//             get => Data.IsNonEmpty;
+//         }
 
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data.IsNonEmpty;
-        }
+//             public string Format()
+//          {
+//             if(IsEmpty)
+//                 return EmptyString;
 
-        public string Format()
-            => Cmd.format(this);
+//             var dst = text.buffer();
+//             core.iter(Storage, x => dst.AppendLine(x.Format()));
+//             return dst.Emit();
+//         }
 
-        public override string ToString()
-            => Format();
+//         public override string ToString()
+//             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator CmdFlows<T>(CmdFlow<T>[] src)
-            => new CmdFlows<T>(src);
+//         [MethodImpl(Inline)]
+//         public static implicit operator CmdFlows<T>(CmdFlow<T>[] src)
+//             => new CmdFlows<T>(src);
 
-        public static CmdFlows<T> Empty => new CmdFlows<T>(sys.empty<CmdFlow<T>>());
-    }
-}
+//         public static CmdFlows<T> Empty => new CmdFlows<T>(sys.empty<CmdFlow<T>>());
+//     }
+// }

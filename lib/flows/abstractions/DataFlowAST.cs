@@ -4,19 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
-    public abstract class DataFlow<A,S,T> : IDataFlow<A,S,T>
+    public readonly struct DataFlow<A,S,T> : IDataFlow<A,S,T>
         where A : IActor
     {
-        public A Actor {get;}
+        public readonly A Actor;
 
-        public S Source {get;}
+        public readonly S Source;
 
-        public T Target {get;}
+        public readonly T Target;
 
         [MethodImpl(Inline)]
         public DataFlow(A actor, S src, T dst)
@@ -26,11 +21,14 @@ namespace Z0
             Target = dst;
         }
 
-        public virtual string Format()
+        public string Format()
             => string.Format("{0}:{1} -> {2}", Actor, Source, Target);
 
         public override string ToString()
             => Format();
+
+        A IDataFlow<A,S,T>.Actor
+            => Actor;
 
         S IArrow<S,T>.Source
             => Source;

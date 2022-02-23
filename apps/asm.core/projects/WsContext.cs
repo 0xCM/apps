@@ -8,19 +8,22 @@ namespace Z0
 
     public class WsContext
     {
-        public static WsContext create(IProjectWs project, WsEventReceiver receiver = null)
-            => new WsContext(project, FileCatalog.load(project), receiver);
+        public static WsContext create(IProjectWs project, ToolFlowIndex flows, WsEventReceiver receiver = null)
+            => new WsContext(project, FileCatalog.load(project), flows, receiver);
 
         public IProjectWs Project {get;}
 
         public FileCatalog Files {get;}
 
+        public ToolFlowIndex Flows {get;}
+
         public WsEventReceiver EventReceiver {get;}
 
-        public WsContext(IProjectWs project, FileCatalog files, WsEventReceiver receiver = null)
+        public WsContext(IProjectWs project, FileCatalog files, ToolFlowIndex flows, WsEventReceiver receiver = null)
         {
             Project = project;
             Files = files;
+            Flows = flows;
             EventReceiver = receiver ?? new();
         }
 

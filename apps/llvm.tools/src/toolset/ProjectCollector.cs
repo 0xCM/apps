@@ -6,21 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    public record class ProjectCollection
-    {
-        public FileCatalog Files;
-
-        public ObjDumpBlocks ObjBlockData;
-
-        public Index<ObjSymRow> ObjSyms;
-
-        public CoffSectionSyms SectionSyms;
-
-        public Index<AsmCodeIndexRow> AsmIndex;
-
-    }
-
-
     public class ProjectCollector : AppService<ProjectCollector>
     {
         llvm.LlvmNmSvc Nm => Service(Wf.LlvmNm);

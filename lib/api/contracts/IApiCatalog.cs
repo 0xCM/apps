@@ -31,8 +31,6 @@ namespace Z0
 
         ReadOnlySpan<ApiDataType> ApiDataTypes {get;}
 
-        ReadOnlySpan<ApiDataFlow> DataFlows {get;}
-
         ReadOnlySpan<MethodInfo> Methods {get;}
 
         ReadOnlySpan<TableDef> TableDefs {get;}

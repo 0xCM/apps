@@ -6,9 +6,9 @@ namespace Z0
 {
     using llvm;
 
-    using static FileFlowTypes;
+    using static FileFlowSpecs;
 
-    public sealed class SToAsmCmd : FileFlowCommands<SToAsmCmd,McCmd,SToAsm>
+    public sealed class SToAsmCmd : CmdFlows<SToAsmCmd,McCmd,SToAsm>
     {
         public override McCmd BuildCmd(IProjectWs project, string scope, FS.FilePath src)
         {

@@ -34,6 +34,8 @@ namespace Z0
 
         IntelIntrinsicSvc IntelIntrinsics => Service(Wf.IntelIntrinsics);
 
+        AsmFlowCommands AsmFlowCommands => Service(Wf.AsmFlowCommands);
+
         ICmdRunner Commands;
 
         public ProjectCmdProvider With(ICmdRunner runner)

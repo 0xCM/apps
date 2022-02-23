@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static Root;
-    using static core;
 
     partial class AsmCmdService
     {
-        [CmdOp(".test-bitview")]
+        [CmdOp("bits/check/view")]
         Outcome CheckBitView(CmdArgs args)
         {
             var result = Outcome.Success;
@@ -40,7 +38,7 @@ namespace Z0.Asm
             return result;
         }
 
-        [CmdOp(".test-bitsparser")]
+        [CmdOp("bits/check/parser")]
         Outcome TestBitsBarser(CmdArgs args)
         {
             var result = Outcome.Success;

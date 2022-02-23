@@ -44,16 +44,13 @@ namespace Z0.Asm
             const string LabelPattern = "{0}:";
             const string SectionPattern = "{0}";
             const string TextSection = ".text";
-            const string McSyntax = "mc";
-            const string MlSyntax = "ml";
-            const string NasmSyntax = "nasm";
             const string CommentPattern = "# {0}";
 
             var ocinfo = "BSR(r16,r/m16) = 0F BD /r";
             var result = Outcome.Success;
             var asmid = "bsr";
             var label = "bsr_r16_r16";
-            var syntax = McSyntax;
+            var syntax = "mc";
             var w0 = NativeSizeCode.W16;
             var w1 = NativeSizeCode.W16;
             var r0 = RegSets.GpRegs(w0);
@@ -69,9 +66,7 @@ namespace Z0.Asm
             indent += 4;
             for(var i=0u; i<r0.Count; i++)
             for(var j=0u; j<r1.Count; j++)
-            {
                 buffer.IndentLine(indent, string.Format(AsmPattern, asmid, r0[i], r1[j]));
-            }
 
             indent -= 4;
 

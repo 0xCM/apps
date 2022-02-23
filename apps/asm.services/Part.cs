@@ -38,5 +38,8 @@ namespace Z0
         public static AsmCodeGen AsmCodeGen(this IWfRuntime wf)
             => Asm.AsmCodeGen.create(wf);
 
+        public static AsmFlowCommands AsmFlowCommands(this IWfRuntime wf)
+            => Z0.AsmFlowCommands.create(wf);
+
     }
 }

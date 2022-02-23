@@ -6,10 +6,15 @@ namespace Z0
 {
     partial class ProjectCmdProvider
     {
+        [CmdOp("project/build/builtins")]
+        Outcome BuildBuiltIns(CmdArgs args)
+            => Projects.BuildScoped(Project(), "build-builtins", "builtins");
+
         Dictionary<string,string> BuildCmdNames {get;}
             = core.array(("mc.models", "project/build/asm"),
                         ("clang.models","project/build/c"),
-                        ("llvm.models","project/build/llc")
+                        ("llvm.models","project/build/llc"),
+                        ("canonical","project/build/builtins")
             ).ToDictionary();
 
 

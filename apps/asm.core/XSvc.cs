@@ -48,8 +48,6 @@ namespace Z0
         public static ProcessAsmBuffers ProcessAsmBuffers(this IWfRuntime wf)
             => Asm.ProcessAsmBuffers.create(wf);
 
-        public static FlowCommands FlowCommands(this IWfRuntime wf)
-            => Z0.FlowCommands.create(wf);
         [Op]
         public static ApiAssets ApiAssets(this IWfRuntime wf)
             => Z0.ApiAssets.create(wf);

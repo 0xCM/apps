@@ -7,9 +7,9 @@ namespace Z0
     using System;
 
     [Record(TableId)]
-    public struct ApiFlowType : IComparable<ApiFlowType>
+    public struct ApiFlowSpec : IComparable<ApiFlowSpec>
     {
-        public const string TableId = "api.dataflows";
+        public const string TableId = "api.dataflow.specs";
 
         public const byte FieldCount = 4;
 
@@ -21,7 +21,7 @@ namespace Z0
 
         public string Description;
 
-        public int CompareTo(ApiFlowType src)
+        public int CompareTo(ApiFlowSpec src)
         {
             var i = Actor.CompareTo(src.Actor);
             if(i==0)
