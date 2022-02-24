@@ -6,25 +6,84 @@ namespace Z0
 {
     using static core;
 
-    public class ToolFlowIndex
+    public class WsDataFlows
     {
-        public static ToolFlowIndex create(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
-            => new ToolFlowIndex(files, src);
+        public static WsDataFlows create(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
+            => new WsDataFlows(files, src);
 
         ConstLookup<FS.FileUri,List<FS.FileUri>> Lookup;
 
-        Index<ToolDataFlow> Data;
+        ConstLookup<FS.FileUri,FS.FileUri> Ancestors;
+
+        Index<WsDataFlow> Data;
 
         public FileCatalog FileCatalog {get;}
 
-        public Index<FileRef> Files(FileKind kind)
-            => FileCatalog.Entries(kind);
+        public Index<FileRef> Files(FileKind k0)
+            => FileCatalog.Entries(k0);
+
+        public Index<FileRef> Files(FileKind k0, FileKind k1)
+            => FileCatalog.Entries(k0, k1);
+
+        public Index<FileRef> Files(FileKind k0, FileKind k1, FileKind k2)
+            => FileCatalog.Entries(k0, k1, k2);
 
         public Index<FileRef> Sources(FileKind kind)
             => FileCatalog.Entries(kind).Where(e => Lookup.ContainsKey(e.Path));
 
         public Index<FileRef> Sources()
             => map(Lookup.Keys, x => FileCatalog.Entry(x.Path));
+
+        public bool Root(FS.FilePath dst, out FileRef source)
+        {
+            var buffer = list<FileRef>();
+            var target = FileCatalog[dst];
+            Lineage(target, buffer);
+            buffer.Reverse();
+            if(buffer.Count != 0)
+            {
+                source = buffer[0];
+                return true;
+            }
+            else
+            {
+                source = FileRef.Empty;
+                return false;
+            }
+        }
+
+        public Index<FileRef> Lineage(FS.FilePath dst)
+        {
+            var buffer = list<FileRef>();
+            var target = FileCatalog[dst];
+            buffer.Add(target);
+            Lineage(target, buffer);
+            buffer.Reverse();
+            return buffer.ToArray();
+        }
+
+        public void Lineage(in FileRef target, List<FileRef> dst)
+        {
+            if(Source(target.Path, out var source))
+            {
+                dst.Add(source);
+                Lineage(source, dst);
+            }
+        }
+
+        public bool Source(FS.FileUri dst, out FileRef src)
+        {
+            if(Ancestors.Find(dst, out var uri))
+            {
+                src = FileCatalog.Entry(uri.Path);
+                return true;
+            }
+            else
+            {
+                src = FileRef.Empty;
+                return false;
+            }
+        }
 
         public Index<FileRef> Targets(FS.FilePath src)
         {
@@ -61,42 +120,37 @@ namespace Z0
             }
         }
 
-        ToolFlowIndex(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
+        WsDataFlows(FileCatalog files, ReadOnlySpan<ToolCmdFlow> src)
         {
             FileCatalog = files;
             var count = src.Length;
-            var flows = alloc<ToolDataFlow>(count);
+            var flows = alloc<WsDataFlow>(count);
             var lookup = dict<FS.FileUri,List<FS.FileUri>>();
+            var lineage = dict<FS.FileUri,FS.FileUri>();
+
             for(var i=0; i<count; i++)
             {
                 ref var dst = ref seek(flows,i);
-                dst = flow(skip(src,i));
+                dst = WsDataFlow.from(skip(src,i));
                 if(lookup.TryGetValue(dst.Source, out var targets))
                 {
                     targets.Add(dst.Target);
+                    lineage[dst.Target] = dst.Source;
+
                 }
                 else
                 {
                     lookup[dst.Source] = new();
                     lookup[dst.Source].Add(dst.Target);
+                    lineage[dst.Target] = dst.Source;
                 }
             }
 
+
             Lookup = lookup;
             Data = flows;
+            Ancestors = lineage;
         }
 
-        [MethodImpl(Inline)]
-        static ToolDataFlow flow(in ToolCmdFlow src)
-        {
-            var flow = DataFlows.flow(src.TargetName, src.SourcePath.ToUri(), src.TargetPath.ToUri());
-            return new ToolDataFlow(DataFlows.identify(flow), flow);
-        }
-
-        public ReadOnlySpan<ToolDataFlow> Flows
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
     }
 }

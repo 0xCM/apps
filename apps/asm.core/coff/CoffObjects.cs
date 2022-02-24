@@ -13,14 +13,14 @@ namespace Z0
         public static SymAddress address(in ObjSymRow row)
         {
             ObjSymClass @class = row.SymCode;
-            var selector = math.or((ushort)row.DocId, (uint)(@class.Pack() << 16));
+            var selector = math.or((ushort)row.OriginId, (uint)(@class.Pack() << 16));
             return SymAddress.define(selector, row.Offset);
         }
 
         [MethodImpl(Inline), Op]
         public static SymAddress address(in CoffSymRecord row)
         {
-            var lo = (ushort)row.DocId;
+            var lo = (ushort)row.OriginId;
             var section = row.SectionNumber > Pow2.T15 ? (ushort) ((ushort.MaxValue - row.SectionNumber) + byte.MaxValue) : row.SectionNumber;
             var hi = math.or((ushort)(byte)row.SymSize, (ushort)(section<<8));
             return SymAddress.define(math.or((uint)lo, (uint)hi << 16), row.Value);

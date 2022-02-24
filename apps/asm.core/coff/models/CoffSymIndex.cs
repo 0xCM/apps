@@ -22,11 +22,11 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<CoffSymRecord> Symbols(Hex32 doc)
-            => SymData.Where(x => x.DocId == doc);
+            => SymData.Where(x => x.OriginId == doc);
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<CoffSymRecord> Symbols(Hex32 docid, ushort section)
-            => SymData.Where(x => x.DocId == docid && x.SectionNumber == section);
+            => SymData.Where(x => x.OriginId == docid && x.SectionNumber == section);
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<CoffSection> Sections()
@@ -39,7 +39,7 @@ namespace Z0
             for(var i=0; i<SymData.Count; i++)
             {
                 ref readonly var sym = ref SymData[i];
-                if(sym.DocId == docid && sym.Address == address)
+                if(sym.OriginId == docid && sym.Address == address)
                 {
                     dst = sym;
                     result = true;

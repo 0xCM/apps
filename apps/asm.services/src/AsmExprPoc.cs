@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System;
     using Operands;
 
     using N = AsmExprPoc.AsmNames;

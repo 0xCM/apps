@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmSyntaxRow : ISequential
+    public struct AsmSyntaxRow : ISequential, IOriginated
     {
         public const string TableId = "asm.syntax";
 
@@ -17,7 +17,7 @@ namespace Z0
 
         public Hex64 Id;
 
-        public Hex32 DocId;
+        public Hex32 OriginId;
 
         public uint DocSeq;
 
@@ -34,12 +34,16 @@ namespace Z0
         uint ISequential.Seq
             => Seq;
 
+        Hex32 IOriginated.OriginId
+            => OriginId;
+
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Id == 0 && DocId == 0;
+            get => Id == 0 && OriginId == 0;
         }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,8,62,120,12,48,5};
+
     }
 }

@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IAsmBlockSegment, IComparable<ObjDumpRow>
+    public struct ObjDumpRow : IAsmBlockSegment, IComparable<ObjDumpRow>, IOriginated
     {
         public const string TableId = "llvm.objdump";
 
@@ -19,7 +19,7 @@ namespace Z0
 
         public EncodingId Id;
 
-        public Hex32 DocId;
+        public Hex32 OriginId;
 
         public uint DocSeq;
 
@@ -69,7 +69,7 @@ namespace Z0
         public static ObjDumpRow Init(in FileRef src)
         {
             var dst = Empty();
-            dst.DocId = src.DocId;
+            dst.OriginId = src.DocId;
             return dst;
         }
 
@@ -81,6 +81,9 @@ namespace Z0
 
         Hex64 IAsmEncodingRecord.Id
             => Id;
+
+        Hex32 IOriginated.OriginId
+            => OriginId;
 
         uint ISequential.Seq
             => Seq;
@@ -102,5 +105,6 @@ namespace Z0
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{8,18,12,8,12,16,32,12,8,42,90,90,1};
+
     }
 }

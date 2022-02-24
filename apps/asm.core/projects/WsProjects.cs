@@ -136,8 +136,8 @@ namespace Z0
             }
         }
 
-        public ToolFlowIndex LoadBuildFlowIndex(IProjectWs project)
-            => ToolFlowIndex.create(FileCatalog.load(project), LoadBuildFlows(project));
+        public WsDataFlows LoadBuildFlowIndex(IProjectWs project)
+            => WsDataFlows.create(FileCatalog.load(project), LoadBuildFlows(project));
 
         public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
             => WsContext.create(project, LoadBuildFlowIndex(project), null);

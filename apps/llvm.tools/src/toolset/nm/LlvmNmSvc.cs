@@ -36,6 +36,7 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
+                var originated = context.Root(path, out var origin);
                 var fref = context.FileRef(path);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
@@ -44,7 +45,8 @@ namespace Z0.llvm
                     if(ParseSymRow(line, ref counter, out var sym))
                     {
                         sym.Seq = seq++;
-                        sym.DocId = fref.DocId;
+                        if(originated)
+                            sym.OriginId = origin.DocId;
                         buffer.Add(sym);
                     }
                 }
@@ -73,7 +75,7 @@ namespace Z0.llvm
                 var reader = cells.Reader();
                 ref var row = ref seek(dst,i);
                 DataParser.parse(reader.Next(), out row.Seq).Require();
-                DataParser.parse(reader.Next(), out row.DocId).Require();
+                DataParser.parse(reader.Next(), out row.OriginId).Require();
                 DataParser.parse(reader.Next(), out row.DocSeq).Require();
                 DataParser.parse(reader.Next(), out row.Offset).Require();
                 SymCodes.ExprKind(reader.Next(), out row.SymCode);

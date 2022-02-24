@@ -15,11 +15,11 @@ namespace Z0
 
         const string YDIS = "YDIS:";
 
-        public static Outcome ParseEncodings(in FileRef fref, out AsmEncodingDoc dst)
+        public static Outcome ParseEncodings(WsContext context, in FileRef fref, out AsmEncodingDoc dst)
         {
             var src = fref.Path;
             var buffer = list<AsmEncodingRow>();
-            var result = ParseEncodings(fref,buffer);
+            var result = ParseEncodings(context, fref,buffer);
             if(result)
                 dst = (src,buffer.ToArray());
             else
@@ -27,11 +27,9 @@ namespace Z0
             return result;
         }
 
-        public static Outcome ParseEncodings(in FileRef fref, List<AsmEncodingRow> dst)
+        public static Outcome ParseEncodings(WsContext context, in FileRef src, List<AsmEncodingRow> dst)
         {
-            var src = fref.Path;
-            var srcid = src.SrcId(FileKind.XedRawDisasm);
-            var blocks = LoadLineBlocks(src);
+            var blocks = LoadLineBlocks(src.Path);
             var summaries = SummaryLines(blocks);
             var expr = expressions(blocks);
             var counter = 0u;
@@ -40,7 +38,6 @@ namespace Z0
             if(expr.Length != count)
                 return (false, string.Format("{0} != {1}", expr.Length - 1, count));
 
-            var origin = fref.Path.FileName.Format();
             for(var i=0; i<count; i++)
             {
                 ref readonly var line = ref skip(summaries,i);
@@ -53,11 +50,16 @@ namespace Z0
                     return result;
 
                 record.DocSeq = counter++;
-                record.DocId = fref.DocId;
+                if(context.Root(src.Path, out var origin))
+                {
+                    record.OriginId = origin.DocId;
+                }
+
+                //record.DocId = fref.DocId;
                 result = ParseIP(content, out record.IP);
-                record.Id = AsmBytes.instid(fref.DocId, record.IP, record.Encoded.Bytes).EncodingId;
+                record.Id = AsmBytes.instid(src.DocId, record.IP, record.Encoded.Bytes).EncodingId;
                 record.Asm = expression;
-                record.Source = src;
+                record.Source = src.Path;
                 record.Source = record.Source.LineRef(line.LineNumber);
 
                 if(result.Fail)

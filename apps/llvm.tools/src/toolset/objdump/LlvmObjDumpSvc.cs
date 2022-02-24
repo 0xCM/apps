@@ -15,8 +15,6 @@ namespace Z0.llvm
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        ApiCodeBanks CodeBanks => Service(Wf.ApiCodeBanks);
-
         AsmObjects AsmObjects => Service(Wf.AsmObjects);
 
         public LlvmObjDumpSvc()
@@ -64,7 +62,7 @@ namespace Z0.llvm
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
                 result = AsmParser.encid(data[j++].Text, out dst.Id);
-                result = DataParser.parse(data[j++], out dst.DocId);
+                result = DataParser.parse(data[j++], out dst.OriginId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Section);
                 result = DataParser.parse(data[j++], out dst.BlockAddress);
@@ -163,7 +161,7 @@ namespace Z0.llvm
                 Require.equal(ObjBlock.FieldCount, cells.Length);
                 ref var dst = ref seek(buffer,i++);
                 var src = cells.Reader();
-                DataParser.parse(src.Next(), out dst.DocId).Require();
+                DataParser.parse(src.Next(), out dst.OriginId).Require();
                 DataParser.parse(src.Next(), out dst.BlockName).Require();
                 DataParser.parse(src.Next(), out dst.BlockNumber).Require();
                 DataParser.parse(src.Next(), out dst.BlockBase).Require();
@@ -190,7 +188,7 @@ namespace Z0.llvm
                 ref readonly var row = ref src[i];
                 if(i==0)
                 {
-                    docid = row.DocId;
+                    docid = row.OriginId;
                     blockname = row.BlockName;
                     source = row.Source;
                     docname = row.Source.Path.FileName.Format();
@@ -200,7 +198,7 @@ namespace Z0.llvm
                 if(row.BlockName != blockname)
                 {
                     var block = new ObjBlock();
-                    block.DocId = docid;
+                    block.OriginId = docid;
                     block.BlockBase = @base;
                     block.BlockName = blockname;
                     block.BlockNumber = number++;
@@ -211,10 +209,10 @@ namespace Z0.llvm
                     source = row.Source;
                 }
 
-                if(row.DocId != docid)
+                if(row.OriginId != docid)
                     number = 0;
 
-                docid = row.DocId;
+                docid = row.OriginId;
                 blockname = row.BlockName;
                 docname = row.Source.Path.FileName.Format();
                 @base = row.BlockAddress;
@@ -223,7 +221,7 @@ namespace Z0.llvm
                 if(i==count-1)
                 {
                     var block = new ObjBlock();
-                    block.DocId = docid;
+                    block.OriginId = docid;
                     block.BlockName = blockname;
                     block.BlockBase = @base;
                     block.BlockNumber = number++;
@@ -249,6 +247,12 @@ namespace Z0.llvm
                 var result = ParseDumpSource(file, out var records);
                 if(result.Fail)
                     Errors.Throw(result.Message);
+
+                if(context.Root(file.Path, out var origin))
+                {
+                    for(var j=0; j<records.Count; j++)
+                        records[j].OriginId = origin.DocId;
+                }
 
                 var blocks = AsmObjects.DistillBlocks(file, records, alloc);
                 var dst = Projects.AsmCodePath(project, file.Path.FileName.Format());
@@ -280,6 +284,12 @@ namespace Z0.llvm
                 {
                     Error(result.Message);
                     continue;
+                }
+
+                if(context.Root(path, out var origin))
+                {
+                    for(var j=0; j<records.Length; j++)
+                        records[j].OriginId = origin.DocId;
                 }
 
                 var docseq = 0u;

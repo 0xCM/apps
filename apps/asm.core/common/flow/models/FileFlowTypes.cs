@@ -4,13 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using llvm;
-
     using static Tools;
 
     using FK = FileKind;
 
-    public readonly struct FileFlowSpecs
+    public readonly struct FileFlowTypes
     {
         public static FileFlowType define(Identifier actor, FileKind src, FileKind dst)
             => new FileFlowType(actor,src,dst);

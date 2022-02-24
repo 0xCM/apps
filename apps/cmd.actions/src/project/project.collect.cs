@@ -7,7 +7,6 @@ namespace Z0
     using llvm;
 
     using static core;
-    using static XedModels;
 
     partial class ProjectCmdProvider
     {
@@ -24,11 +23,36 @@ namespace Z0
         {
             var project = Project();
             var index = Projects.LoadBuildFlowIndex(project);
-            var dst = text.buffer();
-            index.DescribeFlows(FileKind.C, dst);
-            Write(dst.Emit());
+            var kinds = array(FileKind.ObjAsm, FileKind.XedRawDisasm, FileKind.McAsm, FileKind.Sym);
+            var buffer = list<FileRef>();
+
+            foreach(var kind in kinds)
+            {
+                var targets = index.Files(kind);
+                foreach(var target in targets)
+                {
+                    if(index.Root(target.Path, out var source))
+                    {
+                        var fmt = string.Format("<{0}:{1}, {2}:{3}>", target.Path.FileName, target.Kind, source.Path.FileName, source.Kind);
+                        Write(fmt);
+                    }
+                }
+            }
+
+            // index.DescribeFlows(FileKind.C, dst);
+            // Write(dst.Emit());
 
             return true;
+        }
+
+        void Lineage(WsDataFlows index, in FileRef target, List<FileRef> dst)
+        {
+            if(index.Source(target.Path, out var source))
+            {
+                dst.Add(source);
+                Lineage(index, source, dst);
+            }
+
         }
 
         [CmdOp("project/mcasm")]
@@ -124,10 +148,11 @@ namespace Z0
         {
             using var dispenser = Alloc.symbols();
             var project = Project();
+            var context = Projects.Context(project);
+
             var catalog = project.FileCatalog();
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
-            var context = Projects.Context(project);
             var buffer = text.buffer();
             var indent = 0u;
             buffer.IndentLine(indent, "namespace Z0");
@@ -141,7 +166,7 @@ namespace Z0
                 ref readonly var file = ref files[i];
                 var code = dict<MemoryRange,BinaryCode>();
                 var obj = CoffServices.LoadObj(file);
-                var sections = CoffServices.CalcObjSections(file);
+                var sections = CoffServices.CalcObjSections(context, file);
                 for(var j=0; j<sections.Count; j++)
                 {
                     ref readonly var section = ref sections[j];

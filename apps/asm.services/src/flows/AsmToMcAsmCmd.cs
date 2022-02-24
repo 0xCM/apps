@@ -6,7 +6,7 @@ namespace Z0
 {
     using llvm;
 
-    using static FileFlowSpecs;
+    using static FileFlowTypes;
 
     public sealed class AsmToMcAsmCmd : CmdFlows<AsmToMcAsmCmd,McCmd,AsmToMcAsm>
     {

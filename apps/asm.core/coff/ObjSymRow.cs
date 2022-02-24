@@ -7,7 +7,7 @@ namespace Z0
     using System;
 
     [Record(TableId)]
-    public struct ObjSymRow
+    public struct ObjSymRow : IOriginated
     {
         public const string TableId = "objsyms";
 
@@ -15,7 +15,7 @@ namespace Z0
 
         public uint Seq;
 
-        public Hex32 DocId;
+        public Hex32 OriginId;
 
         public uint DocSeq;
 
@@ -28,6 +28,9 @@ namespace Z0
         public string Name;
 
         public FS.FileUri Source;
+
+        Hex32 IOriginated.OriginId
+            => OriginId;
 
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{8,12,8,10,6,24,80,1};

@@ -8,18 +8,18 @@ namespace Z0
 
     public class WsContext
     {
-        public static WsContext create(IProjectWs project, ToolFlowIndex flows, WsEventReceiver receiver = null)
+        public static WsContext create(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
             => new WsContext(project, flows, receiver);
 
         public IProjectWs Project {get;}
 
         public FileCatalog Files {get;}
 
-        public ToolFlowIndex Flows {get;}
+        public WsDataFlows Flows {get;}
 
         public WsEventReceiver EventReceiver {get;}
 
-        public WsContext(IProjectWs project, ToolFlowIndex flows, WsEventReceiver receiver = null)
+        public WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
         {
             Project = project;
             Files = flows.FileCatalog;
@@ -32,5 +32,8 @@ namespace Z0
 
         public FileRef FileRef(uint docid)
             => Files[docid];
+
+        public bool Root(FS.FilePath dst, out FileRef src)
+            => Flows.Root(dst, out src);
     }
 }

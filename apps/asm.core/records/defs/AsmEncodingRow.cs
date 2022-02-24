@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmEncodingRow : IAsmEncodingRecord, IComparable<AsmEncodingRow>
+    public struct AsmEncodingRow : IAsmEncodingRecord, IComparable<AsmEncodingRow>, IOriginated
     {
         public const string TableId = "asm.encoding";
 
@@ -17,7 +17,7 @@ namespace Z0
 
         public EncodingId Id;
 
-        public Hex32 DocId;
+        public Hex32 OriginId;
 
         public uint DocSeq;
 
@@ -33,6 +33,8 @@ namespace Z0
 
         Hex64 IAsmEncodingRecord.Id
             => Id;
+        Hex32 IOriginated.OriginId
+            => OriginId;
 
         uint ISequential.Seq
             => Seq;

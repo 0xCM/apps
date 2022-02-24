@@ -9,7 +9,7 @@ namespace Z0
         internal static string format(IFileFlowType flow)
             => string.Format("{0}:*.{1} -> *.{2}", flow.Actor, flow.SourceExt, flow.TargetExt);
 
-        public IActor Actor {get;}
+        public Actor Actor {get;}
 
         public FileKind SourceKind {get;}
 
@@ -33,6 +33,9 @@ namespace Z0
 
         FS.FileExt TargetExt
             => TargetKind.Ext();
+
+        IActor IFlowType.Actor
+            => Actor;
 
         public string Format()
             => format(this);

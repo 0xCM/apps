@@ -26,12 +26,19 @@ namespace Z0
             var xedsvc = this;
             iter(files, file => {
 
+                var originated = context.Root(file.Path, out var origin);
                 var blocks = xedsvc.LoadDisamBlocks(file);
-                result = XedDisasmOps.ParseEncodings(file, out var encodings);
-                var rows = encodings.View;
+                result = XedDisasmOps.ParseEncodings(context, file, out var encodings);
+                if(originated)
+                {
+                    for(var j=0; j<encodings.RowCount; j++)
+                        encodings[j].OriginId = origin.DocId;
+                }
 
+
+                var rows = encodings.View;
                 Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
-                result = xedsvc.CalcDisasmDetails(blocks, bag);
+                result = xedsvc.CalcDisasmDetails(context, blocks, bag);
                 result.Require();
 
             },true);
@@ -40,33 +47,6 @@ namespace Z0
             return Emit(records,Projects.Table<XedDisasmDetail>(context.Project));
 
         }
-
-        // public Index<XedDisasmDetail> CollectDisasmDetails2(IProjectWs project)
-        // {
-        //     var result = Outcome.Success;
-        //     var catalog = project.FileCatalog();
-        //     var files = catalog.Entries(FileKind.XedRawDisasm);
-        //     var count = files.Count;
-        //     var buffer = list<XedDisasmDetail>();
-        //     var bag = core.bag<XedDisasmDetail>();
-        //     var xedsvc = this;
-        //     iter(files, file => {
-
-        //         var blocks = xedsvc.LoadDisamBlocks(file);
-        //         result = XedDisasmOps.ParseEncodings(file, out var encodings);
-        //         var rows = encodings.View;
-
-        //         Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
-        //         result = xedsvc.CalcDisasmDetails(blocks, bag);
-        //         result.Require();
-
-        //     },true);
-
-        //     var records = bag.ToArray();
-        //     var path = Projects.Table<XedDisasmDetail>(project);
-
-        //     return Emit(records,path);
-        // }
 
         Index<XedDisasmDetail> Emit(Index<XedDisasmDetail> records, FS.FilePath dst)
         {
@@ -94,40 +74,12 @@ namespace Z0
             return src;
         }
 
-        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, out Index<XedDisasmDetail> buffer)
-        {
-            var blocks = src.LineBlocks;
-            var count = blocks.Count;
-            buffer = alloc<XedDisasmDetail>(count);
-
-            var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
-            if(result.Fail)
-                return result;
-
-            if(encodings.RowCount != count)
-            {
-                result = (false, string.Format("{0} != {1}", count, encodings.RowCount));
-                return result;
-            }
-
-            for(var i=0u; i<count; i++)
-            {
-                ref readonly var block = ref blocks[i];
-                ref readonly var encoding =ref encodings[i];
-                result = CalcDisasmDetail(block, encoding, out buffer[i]);
-                if(result.Fail)
-                    break;
-            }
-
-            return result;
-        }
-
-        public Outcome CalcDisasmDetails(in DisasmFileBlocks src, ConcurrentBag<XedDisasmDetail> buffer)
+        public Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<XedDisasmDetail> buffer)
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
 
-            var result = XedDisasmOps.ParseEncodings(src.Source, out var encodings);
+            var result = XedDisasmOps.ParseEncodings(context, src.Source, out var encodings);
             if(result.Fail)
                 return result;
 
@@ -165,7 +117,7 @@ namespace Z0
             ref readonly var code = ref encoding.Encoded;
 
             dst.EncodingId = encoding.Id;
-            dst.DocId = encoding.DocId;
+            dst.OriginId = encoding.OriginId;
             dst.IP = encoding.IP;
             dst.Encoded = encoding.Encoded;
             dst.Asm = encoding.Asm;

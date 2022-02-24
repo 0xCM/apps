@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct CoffSection
+    public struct CoffSection : IOriginated
     {
         public const string TableId = "coff.sections";
 
@@ -13,7 +13,7 @@ namespace Z0
 
         public uint Seq;
 
-        public Hex32 DocId;
+        public Hex32 OriginId;
 
         public ushort SectionNumber;
 
@@ -34,5 +34,8 @@ namespace Z0
         public FS.FileUri Source;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,16,16,16,16,16,78,1};
+
+        Hex32 IOriginated.OriginId
+            => OriginId;
     }
 }

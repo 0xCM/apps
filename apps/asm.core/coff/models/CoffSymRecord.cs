@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct CoffSymRecord
+    public struct CoffSymRecord : IOriginated
     {
         public const string TableId = "coff.symbols";
 
@@ -15,7 +15,7 @@ namespace Z0
 
         public uint Seq;
 
-        public Hex32 DocId;
+        public Hex32 OriginId;
 
         public ushort SectionNumber;
 
@@ -33,6 +33,10 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        Hex32 IOriginated.OriginId
+            => OriginId;
+
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,10,8,10,16,8,48,1};
+
     }
 }

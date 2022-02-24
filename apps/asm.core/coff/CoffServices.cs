@@ -30,13 +30,13 @@ namespace Z0
         public CoffSymIndex CollectSymIndex(WsContext context)
             => new CoffSymIndex(CollectHeaders(context), CollectSymbols(context));
 
-        public Outcome CollectObjHex(WsContext collect)
+        public Outcome CollectObjHex(WsContext context)
         {
-            var outdir = Projects.ObjHexDir(collect.Project);
+            var outdir = Projects.ObjHexDir(context.Project);
             outdir.Clear();
             var result = Outcome.Success;
-            var project = collect.Project;
-            var files = collect.Files.Entries(FileKind.Obj, FileKind.O);
+            var project = context.Project;
+            var files = context.Files.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             for(var i=0; i<count; i++)
             {
@@ -69,9 +69,9 @@ namespace Z0
             return dst;
         }
 
-        public CoffObjectData LoadObjData(FileCatalog src)
+        public CoffObjectData LoadObjData(WsContext context)
         {
-            var files = src.Entries(FileKind.Obj, FileKind.O);
+            var files = context.Files.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var dst = dict<FS.FilePath,CoffObject>(count);
             for(var i=0; i<count; i++)
@@ -93,21 +93,22 @@ namespace Z0
             return kind;
         }
 
-        public Index<CoffSection> CalcObjSections(in FileRef fref)
+        public Index<CoffSection> CalcObjSections(WsContext context, in FileRef fref)
         {
             var records = list<CoffSection>();
             var seq = 0u;
-            CalcObjHeaders(fref,ref seq, records);
+            CalcObjHeaders(context, fref,ref seq, records);
             return records.ToArray();
         }
 
-        void CalcObjHeaders(in FileRef fref, ref uint seq, List<CoffSection> records)
+        void CalcObjHeaders(WsContext context, in FileRef fref, ref uint seq, List<CoffSection> records)
         {
             var obj = LoadObj(fref);
             var view = CoffObjectView.cover(obj.Data);
             ref readonly var header = ref view.Header;
             var strings = view.StringTable;
             var sections = view.SectionHeaders;
+            var originated = context.Root(fref.Path, out var origin);
             for(var j=0u; j<sections.Length; j++)
             {
                 ref readonly var section = ref skip(sections,j);
@@ -115,7 +116,8 @@ namespace Z0
                 var name = CoffObjects.format(strings, section.Name);
                 var record = default(CoffSection);
                 record.Seq = seq++;
-                record.DocId = fref.DocId;
+                if(originated)
+                    record.OriginId = origin.DocId;
                 record.SectionNumber = (ushort)number;
                 record.SectionName = name;
                 record.SectionKind = CalcSectionKind(name);
@@ -132,7 +134,7 @@ namespace Z0
         public Index<CoffSection> CalcObjHeaders(WsContext context)
         {
             var project = context.Project;
-            var src = LoadObjData(context.Files);
+            var src = LoadObjData(context);
             var entries = src.Entries;
             var count = entries.Count;
             var records = list<CoffSection>();
@@ -147,7 +149,7 @@ namespace Z0
                 ref readonly var header = ref view.Header;
                 var strings = view.StringTable;
                 var sections = view.SectionHeaders;
-                CalcObjHeaders(fref, ref seq, records);
+                CalcObjHeaders(context,fref, ref seq, records);
             }
 
             return records.ToArray();
@@ -178,7 +180,7 @@ namespace Z0
                 var reader = cells.Reader();
                 ref var row = ref dst[i];
                 DataParser.parse(reader.Next(), out row.Seq).Require();
-                DataParser.parse(reader.Next(), out row.DocId).Require();
+                DataParser.parse(reader.Next(), out row.OriginId).Require();
                 DataParser.parse(reader.Next(), out row.SectionNumber).Require();
                 DataParser.parse(reader.Next(), out row.Address).Require();
                 DataParser.parse(reader.Next(), out row.SymSize).Require();
@@ -208,7 +210,7 @@ namespace Z0
                 var reader = cells.Reader();
                 ref var row = ref seek(buffer,i++);
                 DataParser.parse(reader.Next(), out row.Seq).Require();
-                DataParser.parse(reader.Next(), out row.DocId).Require();
+                DataParser.parse(reader.Next(), out row.OriginId).Require();
                 DataParser.parse(reader.Next(), out row.SectionNumber).Require();
                 DataParser.parse(reader.Next(), out row.SectionName).Require();
                 SectionKinds.ExprKind(reader.Next(), out row.SectionKind);
@@ -226,7 +228,7 @@ namespace Z0
         {
             var result = Outcome.Success;
             var hexDat = LoadObjHex(context);
-            var objDat = LoadObjData(context.Files);
+            var objDat = LoadObjData(context);
 
             if(hexDat.Count != objDat.Count)
                 result = (false,string.Format("Counts differ"));
@@ -234,41 +236,12 @@ namespace Z0
             if(result.Fail)
                 return result;
 
-            // var paths = objSrc.Paths.Array();
-            // var count = paths.Length;
-            // for(var i=0; i<count; i++)
-            // {
-            //     ref readonly var objPath = ref skip(paths,i);
-            //     var obj = objSrc[objPath];
-            //     ref readonly var srcId = ref obj.SrcId;
-            //     if(!hexDat.ContainsKey(srcId))
-            //     {
-            //         Warn("No hex data found for {0}", srcId);
-            //         continue;
-            //     }
-
-            //     var hex = hexDat[srcId];
-            //     result = CoffObjects.validate(obj, hex, out var _);
-            //     if(result.Fail)
-            //         break;
-
-            //     result = (true,string.Format("{0}.{1} validated", srcId, FileKind.HexDat.Ext()));
-
-            //     if(i!=count-1)
-            //         Status(result.Message);
-            //}
 
             return result;
         }
 
-        [MethodImpl(Inline)]
-        static uint CalcSectionId(uint docid, ushort section)
-        {
-            var hi = (section > Pow2.T15) ? ((uint)(ushort.MaxValue - section) + byte.MaxValue) : (uint)section;
-            return docid | hi << 16;
-        }
 
-        void CalcSymbols(in FileRef file, ref uint seq, List<CoffSymRecord> buffer)
+        void CalcSymbols(WsContext context, in FileRef file, ref uint seq, List<CoffSymRecord> buffer)
         {
             var obj = CoffObjects.load(file);
             var objData = obj.Data.View;
@@ -277,6 +250,7 @@ namespace Z0
             var symcount = view.SymCount;
             if(symcount != 0)
             {
+                var originated = context.Root(file.Path, out var origin);
                 var syms = view.Symbols;
                 var strings = view.StringTable;
                 var size = 0u;
@@ -289,7 +263,9 @@ namespace Z0
                         var record = default(CoffSymRecord);
                         var name = sym.Name;
                         record.Seq = seq++;
-                        record.DocId = file.DocId;
+                        if(originated)
+                            record.OriginId = origin.DocId;
+
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.SectionNumber = sym.Section;
@@ -313,7 +289,7 @@ namespace Z0
             var count = files.Count;
             var seq = 0u;
             for(var i=0; i<count; i++)
-                CalcSymbols(files[i], ref seq, buffer);
+                CalcSymbols(context,files[i], ref seq, buffer);
             return buffer.ToArray();
         }
 
@@ -321,7 +297,7 @@ namespace Z0
         {
             var buffer = list<CoffSymRecord>();
             var project = context.Project;
-            var src = LoadObjData(context.Files);
+            var src = LoadObjData(context);
             var files = context.Files;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
@@ -334,6 +310,9 @@ namespace Z0
             for(var i=0; i<objCount; i++)
             {
                 ref readonly var objPath = ref skip(paths,i);
+
+                var originated = context.Root(objPath, out var origin);
+
                 var obj = src[objPath];
                 var file = files.Entry(objPath);
                 var objData = obj.Data.View;
@@ -355,7 +334,9 @@ namespace Z0
                         var record = default(CoffSymRecord);
                         var name = sym.Name;
                         record.Seq = seq++;
-                        record.DocId = file.DocId;
+                        if(originated)
+                            record.OriginId = origin.DocId;
+
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.SectionNumber = sym.Section;
