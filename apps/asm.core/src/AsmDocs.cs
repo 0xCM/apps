@@ -26,7 +26,9 @@ namespace Z0.Asm
             var dst = ProjectDb.ApiDoc("asm.regs.strings", FS.Cs);
             var emitting = EmittingFile(dst);
             using var writer = dst.Writer();
-            writer.WriteLine(Regs.Gp8LoRegs().ToNameArray("Gp8Regs"));
+            writer.WriteLine(Regs.Gp8LoRegs().ToNameArray("Gp8LoRegs"));
+            writer.WriteLine(Regs.Gp8HiRegs().ToNameArray("Gp8HiRegs"));
+            writer.WriteLine(Regs.Gp8Regs().ToNameArray("Gp8Regs"));
             writer.WriteLine(Regs.Gp16Regs().ToNameArray("Gp16Regs"));
             writer.WriteLine(Regs.Gp32Regs().ToNameArray("Gp32Regs"));
             writer.WriteLine(Regs.Gp64Regs().ToNameArray("Gp64Regs"));
@@ -37,7 +39,6 @@ namespace Z0.Asm
             writer.WriteLine(Regs.KRegs().ToNameArray("MaskRegs"));
             writer.WriteLine(Regs.CrRegs().ToNameArray("CrRegs"));
             writer.WriteLine(Regs.DbRegs().ToNameArray("DbRegs"));
-
             EmittedFile(emitting,4);
         }
 
@@ -71,7 +72,7 @@ namespace Z0.Asm
             var count = AsmBytes.ModRmTable(dst);
             var rendered = slice(dst,0,count);
             writer.Write(rendered);
-            EmittedFile(flow,count);
+            EmittedFile(flow, count);
         }
 
         public void EmitRexBDocs()
@@ -92,17 +93,8 @@ namespace Z0.Asm
 
         public void EmitConditionDocs()
         {
-            var jcc8 = ProjectDb.ApiDoc("jcc8", FS.Txt);
-            EmitConditionDocs(Conditions.jcc8(), jcc8);
-            using var jcc8Reader = jcc8.AsciLineReader();
-            while(jcc8Reader.Next(out var line))
-                Write(text.format(line.Codes));
-
-            var jcc32 = ProjectDb.ApiDoc("jcc32", FS.Txt);
-            EmitConditionDocs(Conditions.jcc32(), jcc32);
-            using var jcc32Reader = jcc32.AsciLineReader();
-            while(jcc32Reader.Next(out var line))
-                Write(text.format(line.Codes));
+            EmitConditionDocs(Conditions.jcc8(), ProjectDb.ApiDoc("jcc8", FS.Txt));
+            EmitConditionDocs(Conditions.jcc32(), ProjectDb.ApiDoc("jcc32", FS.Txt));
         }
 
         uint EmitConditionDocs<T>(ReadOnlySpan<T> src, FS.FilePath dst)

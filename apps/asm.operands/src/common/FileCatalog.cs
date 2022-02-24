@@ -8,15 +8,16 @@ namespace Z0
 
     public class FileCatalog
     {
-        public static FileCatalog create()
-            => new();
-
         public static FileCatalog load(IProjectWs src)
         {
-            var dst = create();
+            var dst = new FileCatalog();
             dst.Include(src);
             return dst;
         }
+
+        [MethodImpl(Inline)]
+        public static ReadOnlySpan<FileKind> KnownKinds()
+            => _FileKinds;
 
         int FileId;
 
@@ -35,23 +36,14 @@ namespace Z0
             var src = project.ProjectFiles().Storage.Sort();
             var id = NextId();
             var count = src.Length;
-            var dst = alloc<DocPath>(count);
             for(var i=0; i<count; i++)
             {
-                ref readonly var file = ref skip(src,i);
-                var hash = alg.hash.marvin(file.ToUri().Format());
-                seek(dst,i) = (hash,file);
+                ref readonly var path = ref skip(src,i);
+                var hash = alg.hash.marvin(path.ToUri().Format());
+                var file = new FileRef(hash, Match(path), path);
+                IdMap.Include(PathMap.Include(file, _ => file.DocId), file);
+                PathRefs.Include(path, file);
             }
-
-            iter(dst, Include, true);
-        }
-
-        void Include(DocPath src)
-        {
-            var kind = Match(src.Path);
-            var fref = new FileRef(src.DocId, kind, src.Path);
-            IdMap.Include(PathMap.Include(fref, _ => fref.DocId), fref);
-            PathRefs.Include(src.Path, fref);
         }
 
         FileCatalog()
@@ -108,10 +100,12 @@ namespace Z0
             return kind;
         }
 
+        static Index<FileKind> _FileKinds;
+
         static FileCatalog()
         {
             var symbols = Symbols.index<FileKind>();
-            var kinds = symbols.Kinds;
+            _FileKinds = symbols.Kinds.ToArray();
             FileKindMatch = symbols.View.Map(s => ("." + s.Expr.Format().ToLower(), s.Kind)).ToSortedDictionary(TextLengthComparer.create(true));
         }
 

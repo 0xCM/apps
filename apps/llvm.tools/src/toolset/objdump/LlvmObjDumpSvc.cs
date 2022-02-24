@@ -82,39 +82,13 @@ namespace Z0.llvm
         public Outcome ParseDumpSource(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
             => new LlvmObjDumpParser().ParseSource(context, src, out dst);
 
-        public Outcome DumpObjects(ReadOnlySpan<FS.FilePath> src, FS.FolderPath outdir, Action<CmdResponse> handler)
-        {
-            var count = src.Length;
-            var tool = ToolNames.llvm_objdump;
-            var cmd = Cmd.cmdline(Ws.Tools().Script(tool, "run").Format(PathSeparator.BS));
-            var result = Outcome.Success;
-            var responses = list<CmdResponse>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
-                var vars = WsVars.create();
-                vars.DstDir = outdir;
-                vars.SrcDir = path.FolderPath;
-                vars.SrcFile = path.FileName;
-                result = OmniScript.Run(cmd, vars.ToCmdVars(), out var lines);
-                if(result.Fail)
-                    break;
-
-                var len = lines.Length;
-                for(var j=0; j<len; j++)
-                {
-                    if(CmdResponse.parse(skip(lines,j).Content, out var response))
-                        handler(response);
-                }
-            }
-            return result;
-        }
-
         public ObjDumpBlocks Collect(WsContext context)
         {
             var rows = Consolidate(context);
             var blocks = CalcObjBlocks(rows);
             TableEmit(blocks.View, ObjBlock.RenderWidths, Projects.ObjBlockPath(context.Project));
+            context.Receiver.Collected(blocks);
+
             Projects.RecodedSrcDir(context.Project).Clear();
             EmitAsmCodeBlocks(context, RecodeBlocks);
             return new ObjDumpBlocks(blocks,rows);
@@ -123,12 +97,11 @@ namespace Z0.llvm
         void RecodeBlocks(in IProjectWs project, in AsmCodeBlocks src)
         {
             const string intel_syntax = ".intel_syntax noprefix";
-
-            var srcdir = Projects.RecodedSrcDir(project);
-            var srcpath = srcdir + FS.file(src.OriginName.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
-            var emitting = EmittingFile(srcpath);
+            var asmdir = Projects.RecodedSrcDir(project);
+            var asmpath = asmdir + FS.file(src.OriginName.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
+            var emitting = EmittingFile(asmpath);
             var counter = 0u;
-            using var writer = srcpath.AsciWriter();
+            using var writer = asmpath.AsciWriter();
             writer.WriteLine(intel_syntax);
             for(var i=0; i<src.Count; i++)
             {
@@ -249,15 +222,8 @@ namespace Z0.llvm
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                // if(context.Root(file.Path, out var origin))
-                // {
-                //     for(var j=0; j<records.Count; j++)
-                //         records[j].OriginId = origin.DocId;
-                // }
-
                 var blocks = AsmObjects.DistillBlocks(context, file, records, alloc);
-                var dst = Projects.AsmCodePath(project, file.Path.FileName.Format());
-                AsmObjects.Emit(context,blocks,dst);
+                AsmObjects.Emit(context, blocks, Projects.AsmCodePath(project, file.Path.FileName.Format()));
                 emitted(project,blocks);
             }
         }
@@ -287,12 +253,6 @@ namespace Z0.llvm
                     continue;
                 }
 
-                if(context.Root(path, out var origin))
-                {
-                    for(var j=0; j<records.Length; j++)
-                        records[j].OriginId = origin.DocId;
-                }
-
                 var docseq = 0u;
                 for(var j=0; j<records.Length; j++)
                 {
@@ -303,12 +263,15 @@ namespace Z0.llvm
                     record.Seq = seq++;
                     writer.WriteLine(formatter.Format(record));
                     emitted.Add(record);
-                    context.EventReceiver.Collected(fref, record);
                 }
                 total += docseq;
             }
+
             EmittedTable(flow, total);
-            return emitted.ToArray();
+
+            var data = emitted.ToArray();
+            context.Receiver.Collected(data);
+            return data;
         }
     }
 }

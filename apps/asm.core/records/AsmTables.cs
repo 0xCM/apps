@@ -187,7 +187,8 @@ namespace Z0.Asm
             if(result.Fail)
                 return result;
 
-            dst.Expression = AsmExpr.parse(skip(cells, i++));
+            //dst.Expression = AsmExpr.parse(skip(cells, i++));
+            AsmParser.expression(skip(cells,i++), out dst.Expression);
             dst.Encoded = AsmParser.asmhex(skip(cells, i++));
             result = AsmSigInfo.parse(skip(cells, i++), out dst.Sig);
             if(result.Fail)

@@ -17,15 +17,21 @@ namespace Z0
             _AsmIdCounts = new();
         }
 
-        public override void Collected(in FileRef src, in AsmInstructionRow inst)
+        public override void Collected(Index<AsmInstructionRow> src)
         {
-            if(_AsmIdCounts.TryGetValue(inst.AsmName, out var count))
+            var count = src.Count;
+            for(var i=0; i<count; i++)
             {
-                _AsmIdCounts[inst.AsmName] = count+1;
-            }
-            else
-            {
-                _AsmIdCounts[inst.AsmName] = 1;
+                ref readonly var row = ref src[i];
+                if(_AsmIdCounts.TryGetValue(row.AsmName, out var k))
+                {
+                    _AsmIdCounts[row.AsmName] = k+1;
+                }
+                else
+                {
+                    _AsmIdCounts[row.AsmName] = 1;
+                }
+
             }
         }
 

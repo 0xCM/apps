@@ -10,11 +10,11 @@ namespace Z0
     using static XedModels;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]
-    public struct XedDisasmDetail : IComparable<XedDisasmDetail>, IOriginated
+    public struct XedDisasmDetail : IComparable<XedDisasmDetail>
     {
         public const string TableName = "xed.disasm.detail";
 
-        public const byte FieldCount = 19;
+        public const byte FieldCount = 20;
 
         public uint Seq;
 
@@ -52,10 +52,9 @@ namespace Z0
 
         public @string SourceName;
 
-        public InstOperands Operands;
+        public EncodingOffsets Offsets;
 
-        Hex32 IOriginated.OriginId
-            => OriginId;
+        public InstOperands Operands;
 
         public int CompareTo(XedDisasmDetail src)
         {
@@ -65,7 +64,7 @@ namespace Z0
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,12,48,8,5,5,12,12,5,5,12,5,54,54,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,12,48,8,5,5,12,12,5,5,12,5,54,54,42,48,1};
 
         public static XedDisasmDetail Empty => default;
 

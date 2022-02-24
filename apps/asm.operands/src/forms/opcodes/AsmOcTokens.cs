@@ -431,11 +431,5 @@ namespace Z0.Asm
             [Symbol(T.x67, "Indicates address size override")]
             ADSZ,
         }
-
-        // public enum LockToken : byte
-        // {
-        //     [Symbol("F0")]
-        //     F0,
-        // }
     }
 }

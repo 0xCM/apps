@@ -80,7 +80,7 @@ namespace Z0.Asm
             => string.Format("{0} {1} {2}", Mod(), Reg(), Rm());
 
         public string Format()
-            => IsEmpty ? EmptyString : AsmRender.asmbyte(this);
+            => AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

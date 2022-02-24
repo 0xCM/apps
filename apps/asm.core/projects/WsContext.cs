@@ -17,14 +17,14 @@ namespace Z0
 
         public WsDataFlows Flows {get;}
 
-        public WsEventReceiver EventReceiver {get;}
+        public WsEventReceiver Receiver {get;}
 
         WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
         {
             Project = project;
             Files = flows.FileCatalog;
             Flows = flows;
-            EventReceiver = receiver ?? new();
+            Receiver = receiver ?? new();
         }
 
         public FileRef FileRef(FS.FilePath path)

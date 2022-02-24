@@ -14,7 +14,7 @@ namespace Z0.Asm
     {
         [MethodImpl(Inline), Op]
         public static ModRm modrm(byte mod, byte reg, byte rm)
-            => new ModRm(combine((rm, 0), (reg, 3), (mod, 6)));
+            => new ModRm(join((rm, 0), (reg, 3), (mod, 6)));
 
         [MethodImpl(Inline), Op]
         public static ModRm modrm(RegIndex reg, RegIndex rm)
@@ -26,7 +26,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static Sib sib(uint3 @base, uint3 index, uint2 scale)
-            => new Sib(combine((scale, 0), (index, 2), (@base, 6)));
+            => new Sib(join((scale, 0), (index, 2), (@base, 6)));
 
         public static string bitstring(Sib src)
             => string.Format("{0} {1} {2}", BitRender.format2(src.Scale), BitRender.format3(src.Index), BitRender.format3(src.Base));
@@ -112,7 +112,7 @@ namespace Z0.Asm
         [Op]
         public static uint ModRmTable(Span<char> dst)
         {
-            const string ModRmHeader = "mod | reg | r/m | hex | bitstring";
+            const string ModRmHeader = "mod | reg | r/m | hex   | bits";
 
             var f0 = BitSeq.bits(n3);
             var f1 = BitSeq.bits(n3);
@@ -213,7 +213,6 @@ namespace Z0.Asm
         {
             const char Open = Chars.LBracket;
             const char Close = Chars.RBracket;
-
             var i=0u;
             seek(dst,i++) = Open;
             BitNumbers.render(src.SS(), ref i, dst);
@@ -224,16 +223,6 @@ namespace Z0.Asm
             seek(dst,i++) = Close;
             return i;
         }
-
-
-         [MethodImpl(Inline), Op]
-         static byte combine(Pair<byte> a, Pair<byte> b, Pair<byte> c)
-         {
-             var dst = Bytes.sll(a.Left, a.Right);
-             dst = Bytes.or(dst, Bytes.sll(b.Left, b.Right));
-             dst = Bytes.or(dst, Bytes.sll(c.Left, c.Right));
-             return dst;
-         }
 
         [MethodImpl(Inline), Op]
         public static BinaryCode code(in CodeBlock src, uint offset, byte size)
@@ -263,7 +252,6 @@ namespace Z0.Asm
                 seek(dst,k--) = skip(ipbytes,3);
 
             var j = size - 1;
-
             if(j>=0 && k>=0 && skip(encoding,j) != 0)
                 seek(dst,k--) = skip(encoding,j--);
             if(j>=0 && k>=0 && skip(encoding,j) != 0)
@@ -296,5 +284,14 @@ namespace Z0.Asm
         [MethodImpl(Inline), Op]
         static AsmHexWriter writer(Span<byte> buffer)
             => new AsmHexWriter(buffer);
+
+        [MethodImpl(Inline), Op]
+        static byte join(Pair<byte> a, Pair<byte> b, Pair<byte> c)
+        {
+            var dst = Bytes.sll(a.Left, a.Right);
+            dst = Bytes.or(dst, Bytes.sll(b.Left, b.Right));
+            dst = Bytes.or(dst, Bytes.sll(c.Left, c.Right));
+            return dst;
+        }
     }
 }

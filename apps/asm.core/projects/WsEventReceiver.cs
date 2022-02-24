@@ -8,12 +8,9 @@ namespace Z0.Asm
     {
         FileCatalog Files;
 
-        public FileCatalog FileCatalog
-            => Files;
-
         public WsEventReceiver()
         {
-            Files = FileCatalog.create();
+
         }
 
         public virtual void Initialized(WsContext context)
@@ -21,30 +18,44 @@ namespace Z0.Asm
             Files = context.Files;
         }
 
-        public virtual void Collected(in FileRef src, in ObjDumpRow row)
+        public virtual void Collected(Index<ObjDumpRow> src)
         {
 
         }
 
-        public virtual void Collected(in FileRef src, in AsmInstructionRow row)
+        public virtual void Collected(Index<ObjBlock> src)
         {
 
         }
 
-        public virtual void Collected(in FileRef src, in AsmSyntaxRow row)
+        public virtual void Collected(Index<ObjSymRow> src)
         {
 
         }
 
-        public virtual void Collected(in FileRef src, in AsmEncodingRow row)
+        public virtual void Collected(CoffSymIndex src)
         {
 
         }
 
-        public virtual void Collected(in FileRef src, in ObjSymRow row)
+        public virtual void Collected(Index<AsmSyntaxRow> src)
         {
 
         }
 
+        public virtual void Collected(ConstLookup<FS.FilePath,Index<AsmEncodingRow>> src)
+        {
+
+        }
+
+        public virtual void Collected(Index<AsmInstructionRow> src)
+        {
+
+        }
+
+        public virtual void Collected(Index<XedDisasmDetail> src)
+        {
+
+        }
     }
 }

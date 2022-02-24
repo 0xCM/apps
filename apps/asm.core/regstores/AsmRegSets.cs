@@ -133,7 +133,6 @@ namespace Z0.Asm
             }
         }
 
-
         public RegOpSeq XmmRegs()
             => Data(nameof(XmmRegs), () => RegSeq(SZ.W128, XMM, XmmRegCount));
 
@@ -152,8 +151,8 @@ namespace Z0.Asm
                 var width = SZ.W8;
                 var count = Gp8HiRegCount;
                 var buffer = alloc<RegOp>(count);
-                for(byte i=0; i<count; i++)
-                    seek(buffer,i) = AsmRegs.reg(width, GP8HI, (RegIndexCode)i);
+                for(byte i=0,j=4; i<count; i++,j++)
+                    seek(buffer,i) = AsmRegs.reg(width, GP8HI, (RegIndexCode)j);
                 return buffer;
             }
         }
@@ -183,8 +182,8 @@ namespace Z0.Asm
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<16; i++)
                     seek(buffer,i) = AsmRegs.reg(width, GP, (RegIndexCode)i);
-                for(var i=16; i<20; i++)
-                    seek(buffer,i) = AsmRegs.reg(width, GP8HI, (RegIndexCode)(i - 16));
+                for(byte i=16,j=4; i<20; i++,j++)
+                    seek(buffer,i) = AsmRegs.reg(width, GP8HI, (RegIndexCode)j);
                 return buffer;
             }
         }

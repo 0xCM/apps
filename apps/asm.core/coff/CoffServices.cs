@@ -24,7 +24,9 @@ namespace Z0
         public CoffSymIndex Collect(WsContext context)
         {
             CollectObjHex(context);
-            return CollectSymIndex(context);
+            var index = CollectSymIndex(context);
+            context.Receiver.Collected(index);
+            return index;
         }
 
         public CoffSymIndex CollectSymIndex(WsContext context)
@@ -47,8 +49,8 @@ namespace Z0
                 var running = Running(string.Format("Emitting {0}", dst));
                 using var writer = dst.AsciWriter();
                 var data = path.ReadBytes();
-                var lines = Formatter.FormatLines(data);
-                iter(lines, line => writer.WriteLine(line));
+                var obj = CoffObjects.load(path);
+                writer.WriteLine(obj.Format());
                 Ran(running, string.Format("objhex:{0} -> {1}", path.ToUri(), dst.ToUri()));
             }
 

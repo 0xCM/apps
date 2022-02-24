@@ -26,17 +26,16 @@ namespace Z0
         {
         }
 
-        public ProjectCollection Collect(IProjectWs project)
+        public void Collect(IProjectWs project)
         {
             var receiver = new AsmStatsCollector();
-            var collection = Collect(project, receiver);
+            Collect(project, receiver);
             var stats = receiver.Stats();
             var dst = ProjectDb.ProjectTable<AsmStat>(project);
             TableEmit(stats.View, dst);
-            return collection;
         }
 
-        ProjectCollection Collect(IProjectWs project, WsEventReceiver receiver)
+        void Collect(IProjectWs project, WsEventReceiver receiver)
         {
             var context = Projects.Context(project, receiver);
             var catalog = Projects.EmitCatalog(context);
@@ -47,15 +46,7 @@ namespace Z0
             Mc.Collect(context);
 
             XedDisasm.Collect(context);
-
             AsmCodeMaps.MapCode(context);
-
-            return new ProjectCollection{
-                Files = catalog,
-                ObjBlockData = objblocks,
-                ObjSyms = objsyms,
-                SymIndex = symindex,
-            };
         }
     }
 }

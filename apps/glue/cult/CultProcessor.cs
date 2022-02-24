@@ -138,7 +138,10 @@ namespace Z0.Toolz
                 ref readonly var record = ref skip(src,i);
 
                 if(record.RecordKind == CultRecordKind.Statement)
-                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.AsmSource, EmptyString, AsmExpr.parse(record.Statement), asm.comment(record.Comment)));
+                {
+                    AsmParser.expression(record.Statement, out var expr);
+                    AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.AsmSource, EmptyString, expr, asm.comment(record.Comment)));
+                }
                 else if(record.RecordKind == CultRecordKind.Label)
                     AsmLines.Add(new AsmSourceLine(record.LineNumber, AsmLineClass.Label, record.Label.Format(), EmptyString, asm.comment(record.Comment)));
                 else if(record.RecordKind == CultRecordKind.Summary)

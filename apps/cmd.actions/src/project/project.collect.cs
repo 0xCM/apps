@@ -14,7 +14,7 @@ namespace Z0
         Outcome Collect(CmdArgs args)
         {
             var project = Project();
-            var collection = ProjectManager.Collect(project);
+            ProjectManager.Collect(project);
             return true;
         }
 
@@ -43,16 +43,6 @@ namespace Z0
             // Write(dst.Emit());
 
             return true;
-        }
-
-        void Lineage(WsDataFlows index, in FileRef target, List<FileRef> dst)
-        {
-            if(index.Source(target.Path, out var source))
-            {
-                dst.Add(source);
-                Lineage(index, source, dst);
-            }
-
         }
 
         [CmdOp("project/mcasm")]
@@ -113,33 +103,6 @@ namespace Z0
             var count = files.Count;
             var docsyms = symindex.Symbols();
             iter(blocks, block => Write(string.Format("'{0}'", block.BlockName)));
-            // foreach(var sym in docsyms)
-            // {
-            //     if(blocknames.TryGetValue(sym.Name.Format(), out var block))
-            //     {
-            //         Write(block.BlockName);
-            //     }
-            //     else
-            //     {
-            //         Warn(sym.Name);
-            //     }
-            // }
-
-            // for(var i=0; i<count; i++)
-            // {
-            //     ref readonly var file = ref files[i];
-            //     var obj = CoffServices.LoadObj(file);
-            //     var sections = CoffServices.CalcObjSections(file);
-            //     for(var j=0; j<sections.Count; j++)
-            //     {
-            //         ref readonly var section = ref sections[j];
-            //         if(section.SectionKind == CoffSectionKind.Text)
-            //         {
-            //             var range = new MemoryRange(section.RawDataAddress, section.RawDataSize);
-            //         }
-            //     }
-
-            // }
             return true;
         }
 
@@ -198,9 +161,8 @@ namespace Z0
         Outcome XedCollect(CmdArgs args)
         {
             var context = Projects.Context(Project());
-            var details = XedDisasm.CollectDisasmDetails2(context);
+            var details = XedDisasm.CollectDisasmDetails(context);
             return true;
         }
-
    }
 }

@@ -48,12 +48,12 @@ namespace Z0.llvm
                         if(originated)
                             sym.OriginId = origin.DocId;
                         buffer.Add(sym);
-                        context.EventReceiver.Collected(fref, sym);
                     }
                 }
             }
             var rows = buffer.ToArray();
             TableEmit(@readonly(rows), ObjSymRow.RenderWidths, dst);
+            context.Receiver.Collected(rows);
             return rows;
         }
 

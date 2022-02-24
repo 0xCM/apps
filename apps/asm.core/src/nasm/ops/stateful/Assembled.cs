@@ -18,7 +18,7 @@ namespace Z0
             dst.Id = AsmBytes.encid(src.Offset, src.Encoded);
             dst.IP = src.Offset;
             dst.Encoded = src.Encoded;
-            dst.Asm = AsmExpr.parse(src.SourceText);
+            AsmParser.expression(src.SourceText, out dst.Asm);
             dst.SourceLine = src.LineNumber;
             return ref dst;
         }

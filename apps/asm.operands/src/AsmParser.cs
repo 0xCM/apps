@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     using static core;
 
+    using SP = SymbolicParse;
+
     public readonly struct AsmParser
     {
         public static Outcome encid(ReadOnlySpan<char> src, out EncodingId dst)
@@ -48,7 +50,9 @@ namespace Z0.Asm
         [Parser]
         public static Outcome expression(string src, out AsmExpr dst)
         {
-            dst = text.trim(src);
+            var body = src.Trim();
+            var i = text.index(body, Chars.Space);
+            dst = i > 0 ? new AsmExpr(string.Format("{0} {1}", text.left(body,i), text.right(body,i).Trim())) : new AsmExpr(body);
             return true;
         }
 
@@ -152,6 +156,48 @@ namespace Z0.Asm
             var dst = AsmHexCode.Empty;
             AsmParser.asmhex(src.Trim(), out dst);
             return dst;
+        }
+
+
+        public static Outcome expression(in AsciLine src, out AsmBlockLabel label, out AsmExpr expr)
+        {
+            label = AsmBlockLabel.Empty;
+            expr = AsmExpr.Empty;
+            var content = src.Codes;
+            var i = SQ.index(content, AsciCode.Colon);
+            if(i < 0)
+                return false;
+
+            label = new AsmBlockLabel(text.format(SQ.left(content, i)).Trim());
+            expr = text.format(SQ.right(content, i)).Replace(Chars.Tab,Chars.Space).Trim();
+
+            return true;
+        }
+
+        public static Outcome expression(ReadOnlySpan<AsciCode> src, out AsmExpr dst)
+        {
+            dst = AsmExpr.Empty;
+            var outcome = Outcome.Success;
+            var i = SP.SkipWhitespace(src);
+            if(i == NotFound)
+                return (false,"Input was empty");
+
+            var remainder = slice(src,i);
+            i = SQ.index(remainder, AsciCode.Space);
+            if(i == NotFound)
+            {
+                var monic = new AsmMnemonic(text.format(remainder).Trim());
+                var operands = Span<char>.Empty;
+                dst = AsmExpr.define(monic, operands);
+            }
+            else
+            {
+                var monic = new AsmMnemonic(text.format(slice(remainder,0, i)).Trim());
+                var operands = text.format(slice(remainder,i)).Trim();
+                dst = AsmExpr.define(monic, operands);
+            }
+
+            return outcome;
         }
     }
 }

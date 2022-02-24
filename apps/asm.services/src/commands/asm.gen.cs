@@ -19,6 +19,26 @@ namespace Z0
             return true;
         }
 
+
+        [CmdOp("asm/forms/query")]
+        Outcome AsmFormQuery(CmdArgs args)
+        {
+            var forms = Sdm.CalcForms();
+            var count = forms.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var form = ref forms[i];
+                ref readonly var opcode = ref form.OpCode;
+                if(AsmOpCodes.imm(opcode, out var token))
+                {
+                    Write(string.Format("{0} | {1}", token, form));
+                }
+            }
+
+
+            return true;
+        }
+
         [CmdOp("asm/gen/specs")]
         Outcome GenInstData(CmdArgs args)
         {

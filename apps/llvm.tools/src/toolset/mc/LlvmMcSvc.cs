@@ -25,11 +25,10 @@ namespace Z0.llvm
         {
             var result = Outcome.Success;
             var project = context.Project;
-            var syntax = CollectSyntaxLogs(context);
-            var encodings = CollectEncodings(context);
-            var instructions = CollectInstructions(context);
+            CollectSyntaxLogs(context);
+            CollectEncodings(context);
+            CollectInstructions(context);
         }
-
 
         public McAsmDoc ParseMcAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseMcAsmDoc(src);
@@ -51,7 +50,8 @@ namespace Z0.llvm
             var dst = list<McAsmDoc>();
             for(var i=0; i<count; i++)
                 dst.Add(ParseMcAsmDoc(collect.FileRef(skip(src,i))));
-            return dst.Array();
+            var records = dst.ToArray();
+            return records;
         }
 
         public Index<AsmInstructionRow> CollectInstructions(WsContext context)
@@ -83,12 +83,12 @@ namespace Z0.llvm
                     record.Asm = expr.Statement.Format().Trim();
                     record.Source = uri.LineRef(number);
                     buffer.Add(record);
-                    context.EventReceiver.Collected(fref, record);
                 }
             }
 
             var records = buffer.ToArray();
             TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, Projects.AsmInstructionTable(project));
+            context.Receiver.Collected(records);
             return records;
         }
 
@@ -132,10 +132,10 @@ namespace Z0.llvm
                     record.Encoded = e.Encoded;
                     record.Source = e.Source;
                     writer.WriteLine(formatter.Format(record));
-                    context.EventReceiver.Collected(fref, record);
                 }
             }
             EmittedTable(emitting, counter);
+            context.Receiver.Collected(_docs);
             return _docs;
         }
 
@@ -159,37 +159,9 @@ namespace Z0.llvm
             }
             var rows = buffer.ToArray();
             TableEmit(@readonly(rows), AsmSyntaxRow.RenderWidths, dst);
+            context.Receiver.Collected(rows);
             return rows;
         }
-
-        // public Index<AsmCodeIndexRow> LoadAsmIndex(IProjectWs project)
-        // {
-        //     var lines = Projects.AsmIndexTable(project).ReadLines(true);
-        //     var count = lines.Count - 1;
-        //     var buffer = alloc<AsmCodeIndexRow>(count);
-        //     var i=0u;
-        //     var reader = lines.Reader();
-        //     reader.Next();
-        //     while(reader.Next(out var line))
-        //     {
-        //         var data = line.Split(Chars.Pipe);
-        //         Require.equal(data.Length, AsmCodeIndexRow.FieldCount);
-        //         ref var dst = ref seek(buffer,i++);
-        //         var cells = data.Reader();
-        //         DataParser.parse(cells.Next(), out dst.Seq).Require();
-        //         AsmParser.encid(cells.Next(), out dst.EncodingId).Require();
-        //         DataParser.parse(cells.Next(), out dst.OriginId).Require();
-        //         DataParser.parse(cells.Next(), out dst.DocSeq).Require();
-        //         DataParser.parse(cells.Next(), out dst.AsmName).Require();
-        //         DataParser.parse(cells.Next(), out dst.IP).Require();
-        //         DataParser.parse(cells.Next(), out dst.Size).Require();
-        //         AsmParser.asmhex(cells.Next(), out dst.Encoded);
-        //         AsmParser.expression(cells.Next(), out dst.Asm).Require();
-        //         DataParser.parse(cells.Next(), out dst.Syntax).Require();
-        //         DataParser.parse(cells.Next(), out dst.Source).Require();
-        //     }
-        //     return buffer;
-        // }
 
         public Index<AsmEncodingRow> LoadEncodings(IProjectWs project)
         {
@@ -473,7 +445,7 @@ namespace Z0.llvm
 
                 var ci = text.index(body, Chars.Hash);
                 if (ci > 0)
-                    record.Asm = AsmExpr.parse(text.left(body, ci));
+                    AsmParser.expression(text.left(body, ci), out record.Asm);
                 else
                     record.Asm = RP.Empty;
 
@@ -490,7 +462,6 @@ namespace Z0.llvm
 
                 record.Source = srcpath.ToUri().LineRef(point.Location.Line);
                 dst.Add(record);
-                context.EventReceiver.Collected(fref, record);
             }
         }
     }

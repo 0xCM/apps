@@ -13,69 +13,6 @@ namespace Z0
     {
         WsProjects Projects => Service(Wf.WsProjects);
 
-        // public static AsmEncodingRecord encoding<T>(in T src)
-        //     where T : IAsmBlockSegment
-        // {
-        //     var encoding = new AsmEncodingRecord();
-        //     encoding.Seq = src.Seq;
-        //     encoding.EncodingId = src.EncodingId;
-        //     encoding.OriginId = src.OriginId;
-        //     encoding.IP = src.IP;
-        //     encoding.Encoded = src.Encoded.Bytes;
-        //     encoding.Size = src.Size;
-        //     encoding.Asm = src.Asm;
-        //     return encoding;
-        // }
-
-        // public Index<AsmCodeMapEntry> MapCode(WsContext context, Index<AsmCodeIndexRow> index, Index<ObjDumpRow> src, Alloc dispenser)
-        // {
-        //     var project = context.Project;
-        //     var distilled = DistillBlocks(context, src, dispenser);
-        //     var entries = list<AsmCodeMapEntry>();
-        //     for(var i=0; i<distilled.Count; i++)
-        //     {
-        //         ref readonly var blocks = ref distilled[i];
-        //         if(blocks.Count == 0)
-        //             continue;
-
-        //         var blocknumber = 0u;
-        //         var @base = MemoryAddress.Zero;
-
-        //         for(var j=0; j<blocks.Count; j++)
-        //         {
-        //             ref readonly var block = ref blocks[j];
-        //             var count = block.Count;
-        //             ref readonly var address = ref block.Label.Location.Address;
-        //             ref readonly var name = ref block.Label.Name;
-        //             for(var k=0; k<count; k++)
-        //             {
-        //                 ref readonly var c = ref block[k];
-
-        //                 if(j==0 && k==0)
-        //                     @base = c.Encoded.BaseAddress;
-
-        //                 var entry = new AsmCodeMapEntry();
-        //                 entry.EncodingId = c.EncodingId;
-        //                 entry.OriginId = blocks.OriginId;
-        //                 entry.OriginName = blocks.OriginName;
-        //                 entry.BlockNumber = blocknumber;
-        //                 entry.BlockName = name;
-        //                 entry.BlockAddress = address;
-        //                 entry.IP = c.IP;
-        //                 entry.EncodingSize = c.EncodingSize;
-        //                 entry.Encoded = c.Encoded;
-        //                 entry.Asm = c.Asm;
-        //                 entry.BlockSize = block.Size;
-        //                 entries.Add(entry);
-        //             }
-
-        //             blocknumber++;
-        //         }
-        //     }
-        //     return entries.ToArray().Sort();
-        // }
-
-
         public AsmCodeBlocks DistillBlocks(WsContext context, in FileRef file, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var blocks = src.GroupBy(x => x.BlockAddress).Array();
@@ -105,52 +42,6 @@ namespace Z0
             var originated = context.Root(file.Path, out var origin);
             return new AsmCodeBlocks(dispenser.Label(origin.Path.FileName.Format()), origin.DocId, blockbuffer);
         }
-
-        // public Index<AsmCodeBlocks> DistillBlocks(WsContext context, Index<ObjDumpRow> src, Alloc dispenser)
-        // {
-        //     var collected = dict<uint, AsmCodeBlocks>();
-        //     var groups = src.GroupBy(x => x.OriginId).Array();
-        //     var buffer = alloc<AsmCodeBlocks>(groups.Length);
-        //     for(var i=0; i<groups.Length; i++)
-        //     {
-        //         ref readonly var group = ref skip(groups,i);
-        //         var blocks = group.ToArray().GroupBy(x => x.BlockName).Array();
-        //         if(blocks.Length == 0)
-        //             continue;
-
-        //         var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
-        //         for(var j=0; j<blocks.Length; j++)
-        //         {
-        //             ref readonly var block = ref skip(blocks,j);
-        //             var blockcode = block.Array();
-        //             if(blockcode.Length == 0)
-        //                 continue;
-
-        //             var blockname = block.Key.Format();
-        //             var blockaddress = first(blockcode).BlockAddress;
-        //             var codebuffer = alloc<AsmCode>(blockcode.Length);
-        //             for(var k=0; k<blockcode.Length; k++)
-        //             {
-        //                 ref readonly var row = ref skip(blockcode,k);
-        //                 var encoding = new AsmEncodingRecord();
-        //                 encoding.Seq = row.Seq;
-        //                 encoding.EncodingId = row.EncodingId;
-        //                 encoding.OriginId = row.OriginId;
-        //                 encoding.IP = row.IP;
-        //                 encoding.Encoded = row.Encoded.Bytes;
-        //                 encoding.Size = row.Size;
-        //                 encoding.Asm = row.Asm;
-        //                 seek(codebuffer,k) = dispenser.AsmCode(encoding);
-        //             }
-
-        //             seek(blockbuffer,j) = new AsmCodeBlock(dispenser.Symbol(blockaddress, blockname), codebuffer);
-        //         }
-
-        //         var origin = context.FileRef(group.Key);
-        //         seek(buffer,i) = new AsmCodeBlocks(dispenser.Label(origin.Path.FileName.Format()), origin.DocId, blockbuffer);
-        //     }
-        //     return buffer;
-        // }
 
         public void Emit(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
         {

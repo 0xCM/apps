@@ -42,6 +42,22 @@ namespace Z0
             get => ref Data[i];
         }
 
+        public string Format()
+        {
+            var dst = text.buffer();
+            var formatter = HexDataFormatter.create(0,32,true);
+            var lines = formatter.FormatLines(Data.Storage);
+            var count = lines.Length;
+            for(var i=0; i<count; i++)
+            {
+                if(i != count - 1)
+                    dst.AppendLine(core.skip(lines,i));
+                else
+                    dst.Append(core.skip(lines,i));
+            }
+            return dst.Emit();
+        }
+
         public static CoffObject Empty
             => new CoffObject(FS.FilePath.Empty, BinaryCode.Empty);
     }

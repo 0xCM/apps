@@ -48,6 +48,49 @@ namespace Z0.Asm
             return result;
         }
 
+        [MethodImpl(Inline), Op]
+        public static bool hex8(in AsmOpCode src, out AsmOcToken dst)
+            => query(src, t => t.Kind == K.Hex8, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static bool rex(in AsmOpCode src, out AsmOcToken dst)
+            => query(src, t => t.Kind == K.Rex || t.Kind == K.RexB, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static bool imm(in AsmOpCode src, out AsmOcToken dst)
+            => query(src, t => t.Kind == K.ImmSize, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static bool vex(in AsmOpCode src, out AsmOcToken dst)
+            => query(src, t => t.Kind == K.Vex, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static bool evex(in AsmOpCode src, out AsmOcToken dst)
+            => query(src, t => t.Kind == K.Evex, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static bool regdigit(in AsmOpCode src, out AsmOcToken dst)
+            => query(src, t => t.Kind == K.RegDigit, out dst);
+
+        [MethodImpl(Inline), Op]
+        public static bool query(in AsmOpCode src, Func<AsmOcToken,bool> predicate, out AsmOcToken dst)
+        {
+            var count = src.TokenCount;
+            var result = false;
+            dst = default;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var token = ref src[i];
+                if(predicate(token))
+                {
+                    result = true;
+                    dst = token;
+                    break;
+                }
+            }
+            return result;
+        }
+
         public static bool rex(string src)
             => text.index(src, OpCodeText.Rex) >=0;
 

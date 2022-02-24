@@ -15,7 +15,7 @@ namespace Z0
         public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
             => XedDisasmOps.LoadFileBlocks(src);
 
-        public Index<XedDisasmDetail> CollectDisasmDetails2(WsContext context)
+        public Index<XedDisasmDetail> CollectDisasmDetails(WsContext context)
         {
             var result = Outcome.Success;
             var catalog = context.Files;
@@ -35,7 +35,6 @@ namespace Z0
                         encodings[j].OriginId = origin.DocId;
                 }
 
-
                 var rows = encodings.View;
                 Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
                 result = xedsvc.CalcDisasmDetails(context, blocks, bag);
@@ -46,7 +45,9 @@ namespace Z0
             var records = bag.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            return Emit(records,Projects.Table<XedDisasmDetail>(context.Project));
+            Emit(records, Projects.Table<XedDisasmDetail>(context.Project));
+            context.Receiver.Collected(records);
+            return records;
         }
 
         Index<XedDisasmDetail> Emit(Index<XedDisasmDetail> src, FS.FilePath dst)
@@ -126,7 +127,7 @@ namespace Z0
 
             var parser = new XedOperandParser();
             parser.ParseState(inst.Props.Edit, out var state);
-
+            dst.Offsets = state.Offsets();
             var oc = state.nominal_opcode;
             var ocpos = state.pos_nominal_opcode;
             var ops = state.RuleOperands(code);
@@ -286,7 +287,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CollectDisasmDetails(WsContext collect)
+        Outcome CollectDetailPages(WsContext collect)
         {
             var result = Outcome.Success;
             var encodings = CollectEncodingDocs(collect);
@@ -303,8 +304,8 @@ namespace Z0
                 var k = text.index(srcid, ".xed.");
                 if(k > 0)
                     srcid = text.left(srcid,k);
-                var dst = Projects.XedDisasmDetail(collect.Project, srcid);
-                result = EmitDisasmDetails(encoding, block.LineBlocks, dst);
+                var dst = Projects.XedDisasmDetailPage(collect.Project, srcid);
+                result = EmitDisasmDetailPages(encoding, block.LineBlocks, dst);
                 if(result.Fail)
                     break;
             }
@@ -331,7 +332,7 @@ namespace Z0
             dst.Append(string.Format(RenderPattern, "IForm", inst.Form));
         }
 
-        Outcome EmitDisasmDetails(AsmEncodingDoc encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
+        Outcome EmitDisasmDetailPages(AsmEncodingDoc encodings, ReadOnlySpan<DisasmLineBlock> blocks, FS.FilePath dst)
         {
             var encoded = encodings.View;
             var parser = new XedOperandParser();

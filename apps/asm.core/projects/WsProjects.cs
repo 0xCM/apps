@@ -103,7 +103,7 @@ namespace Z0
         public FS.FolderPath XedDisasmDir(IProjectWs project)
             => ProjectData(project, "xed.disasm");
 
-        public FS.FilePath XedDisasmDetail(IProjectWs project, string srcid)
+        public FS.FilePath XedDisasmDetailPage(IProjectWs project, string srcid)
             => XedDisasmDir(project) + FS.file(srcid, FileKind.XedSemanticDisasm.Ext());
 
         public FS.FilePath BuildFlowPath(IProjectWs project)

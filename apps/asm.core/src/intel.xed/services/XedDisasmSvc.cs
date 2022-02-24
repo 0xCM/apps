@@ -70,8 +70,8 @@ namespace Z0
             var result = Outcome.Success;
             var project = context.Project;
             var summaries = EmitDisasmSummary(CollectEncodingDocs(context), Projects.XedDisasmSummary(project));
-            CollectDisasmDetails(context);
-            var details = CollectDisasmDetails2(context);
+            CollectDetailPages(context);
+            var details = CollectDisasmDetails(context);
         }
 
         /// <summary>

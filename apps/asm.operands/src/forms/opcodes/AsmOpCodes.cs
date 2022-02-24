@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
+    using static AsmOcTokens;
     [ApiHost]
     public partial class AsmOpCodes : AppService<AsmOpCodes>
     {
@@ -38,6 +39,7 @@ namespace Z0.Asm
 
         public ReadOnlySpan<string> Expressions()
             => Datasets.TokenExpressions.Values;
+
 
         readonly static AsmOcDatasets Datasets;
 
