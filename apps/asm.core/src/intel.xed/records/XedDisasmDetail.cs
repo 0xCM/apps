@@ -14,11 +14,15 @@ namespace Z0
     {
         public const string TableName = "xed.disasm.detail";
 
-        public const byte FieldCount = 17;
+        public const byte FieldCount = 19;
+
+        public uint Seq;
 
         public EncodingId EncodingId;
 
         public Hex32 OriginId;
+
+        public InstructionId InstructionId;
 
         public MemoryAddress IP;
 
@@ -61,7 +65,7 @@ namespace Z0
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,18,12,48,8,5,5,12,12,5,5,12,5,54,54,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,12,48,8,5,5,12,12,5,5,12,5,54,54,42,1};
 
         public static XedDisasmDetail Empty => default;
 

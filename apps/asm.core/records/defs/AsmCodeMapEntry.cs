@@ -9,11 +9,15 @@ namespace Z0.Asm
     {
         public const string TableId = "asm.codemap";
 
-        public const byte FieldCount = 11;
+        public const byte FieldCount = 13;
+
+        public uint Seq;
 
         public EncodingId EncodingId;
 
         public Hex32 OriginId;
+
+        public InstructionId InstructionId;
 
         public Label OriginName;
 
@@ -43,6 +47,6 @@ namespace Z0.Asm
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,12,42,42,12,16,16,16,12,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,42,42,12,16,16,16,12,42,1};
     }
 }

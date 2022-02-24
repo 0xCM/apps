@@ -55,10 +55,12 @@ namespace Z0
                 {
                     ref var target = ref seek(buffer, counter++);
                     target = skip(encoded,j);
-                    target.Seq = counter;
                 }
             }
             var result = buffer.Sort();
+            for(var i=0u; i<result.Length; i++)
+                seek(result,i).Seq = i;
+
             TableEmit(@readonly(result), AsmEncodingRow.RenderWidths, dst);
             return result;
         }

@@ -63,6 +63,7 @@ namespace Z0.llvm
                 result = DataParser.parse(data[j++], out dst.Seq);
                 result = AsmParser.encid(data[j++].Text, out dst.EncodingId);
                 result = DataParser.parse(data[j++], out dst.OriginId);
+                result = AsmParser.instid(data[j++].Text, out dst.InstructionId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Section);
                 result = DataParser.parse(data[j++], out dst.BlockAddress);
@@ -78,8 +79,8 @@ namespace Z0.llvm
             return buffer;
         }
 
-        public Outcome ParseDumpSource(in FileRef src, out Index<ObjDumpRow> dst)
-            => new LlvmObjDumpParser().ParseSource(src, out dst);
+        public Outcome ParseDumpSource(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
+            => new LlvmObjDumpParser().ParseSource(context, src, out dst);
 
         public Outcome DumpObjects(ReadOnlySpan<FS.FilePath> src, FS.FolderPath outdir, Action<CmdResponse> handler)
         {
@@ -244,15 +245,15 @@ namespace Z0.llvm
             for(var i=0; i<count; i++)
             {
                 ref readonly var file = ref files[i];
-                var result = ParseDumpSource(file, out var records);
+                var result = ParseDumpSource(context, file, out var records);
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                if(context.Root(file.Path, out var origin))
-                {
-                    for(var j=0; j<records.Count; j++)
-                        records[j].OriginId = origin.DocId;
-                }
+                // if(context.Root(file.Path, out var origin))
+                // {
+                //     for(var j=0; j<records.Count; j++)
+                //         records[j].OriginId = origin.DocId;
+                // }
 
                 var blocks = AsmObjects.DistillBlocks(context, file, records, alloc);
                 var dst = Projects.AsmCodePath(project, file.Path.FileName.Format());
@@ -279,7 +280,7 @@ namespace Z0.llvm
             {
                 ref readonly var path = ref skip(src,i);
                 var fref = context.FileRef(path);
-                result = ParseDumpSource(fref, out var records);
+                result = ParseDumpSource(context, fref, out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);

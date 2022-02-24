@@ -43,15 +43,15 @@ namespace Z0
 
             },true);
 
-            var records = bag.ToArray();
+            var records = bag.ToArray().Sort();
+            for(var i=0u; i<records.Length; i++)
+                seek(records,i).Seq = i;
             return Emit(records,Projects.Table<XedDisasmDetail>(context.Project));
-
         }
 
-        Index<XedDisasmDetail> Emit(Index<XedDisasmDetail> records, FS.FilePath dst)
+        Index<XedDisasmDetail> Emit(Index<XedDisasmDetail> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
-            var src = records.Sort();
             var formatter = Tables.formatter<XedDisasmDetail>(XedDisasmDetail.RenderWidths);
             var headerBase = formatter.FormatHeader();
             var j = text.lastindex(headerBase, Chars.Pipe);
@@ -59,7 +59,6 @@ namespace Z0
             var opheader = text.buffer();
             for(var k=0; k<6; k++)
             {
-
                 opheader.Append("| ");
                 opheader.Append(InstOperands.Header(k));
             }
@@ -118,6 +117,7 @@ namespace Z0
 
             dst.EncodingId = encoding.EncodingId;
             dst.OriginId = encoding.OriginId;
+            dst.InstructionId = AsmBytes.instid(encoding.OriginId, encoding.IP, code.Bytes);
             dst.IP = encoding.IP;
             dst.Encoded = encoding.Encoded;
             dst.Asm = encoding.Asm;
@@ -282,7 +282,6 @@ namespace Z0
                 var evexbytes = slice(prefix,legacyskip);
                 dst.Evex = EvexPrefix.define(evexbytes);
             }
-
 
             return result;
         }

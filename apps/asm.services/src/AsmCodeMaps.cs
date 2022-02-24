@@ -24,7 +24,6 @@ namespace Z0
         {
             using var dispenser = Alloc.allocate();
             var project = context.Project;
-            //var context = Projects.Context(project);
             var entries = MapCode(context, ObjDump.LoadRows(project), dispenser);
             TableEmit(entries.View, AsmCodeMapEntry.RenderWidths, Projects.Table<AsmCodeMapEntry>(project));
         }
@@ -59,6 +58,7 @@ namespace Z0
                         var entry = new AsmCodeMapEntry();
                         entry.EncodingId = c.EncodingId;
                         entry.OriginId = blocks.OriginId;
+                        entry.InstructionId = AsmBytes.instid(blocks.OriginId, c.IP, c.Encoding);
                         entry.OriginName = blocks.OriginName;
                         entry.BlockNumber = blocknumber;
                         entry.BlockName = name;
@@ -74,7 +74,11 @@ namespace Z0
                     blocknumber++;
                 }
             }
-            return entries.ToArray().Sort();
+
+            var records = entries.ToArray().Sort();
+            for(var i=0u; i<records.Length; i++)
+                seek(records,i).Seq = i;
+            return records;
         }
 
         public Index<AsmCodeBlocks> DistillBlocks(WsContext context, Index<ObjDumpRow> src, Alloc dispenser)

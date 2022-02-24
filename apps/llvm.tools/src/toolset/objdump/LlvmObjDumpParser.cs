@@ -44,7 +44,7 @@ namespace Z0.llvm
             N = LineNumber.Empty;
         }
 
-        public Outcome ParseSource(in FileRef src, out Index<ObjDumpRow> dst)
+        public Outcome ParseSource(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
         {
             Reset(src);
             var result = Outcome.Success;
@@ -53,7 +53,7 @@ namespace Z0.llvm
             var data = path.ReadLines().Where(x => x != null).View;
             var count = data.Length;
             var docseq = 0u;
-            var origin = src.Path.FileName.Format();
+            var orginated = context.Root(src.Path, out var origin);
             for(var x =0; x<count; x++)
             {
                 N++;
@@ -103,7 +103,9 @@ namespace Z0.llvm
                         {
                             AsmParser.asmhex(text.trim(text.left(asm, y)), out Row.Encoded);
                             Row.Size = Row.Encoded.Size;
-                            Row.EncodingId = AsmBytes.instid(src.DocId, Row.IP, Row.Encoded.Bytes).EncodingId;
+                            Row.InstructionId = AsmBytes.instid(origin.DocId, Row.IP, Row.Encoded.Bytes);
+                            Row.EncodingId = Row.InstructionId.EncodingId;
+                            Row.OriginId = origin.DocId;
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
                             if(AsmParser.comment(statement, out Row.Comment))

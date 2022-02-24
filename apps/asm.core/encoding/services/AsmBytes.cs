@@ -243,7 +243,7 @@ namespace Z0.Asm
 
         [MethodImpl(Inline), Op]
         public static InstructionId instid(Hex32 docid, MemoryAddress ip, ReadOnlySpan<byte> encoding)
-            => new InstructionId(docid, encid(ip,encoding));
+            => new InstructionId(docid, encid(ip, encoding));
 
         [Op]
         public static EncodingId encid(MemoryAddress ip, ReadOnlySpan<byte> encoding)
