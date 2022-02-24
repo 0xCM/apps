@@ -20,16 +20,10 @@ namespace Z0
 
         WsProjects Projects => Service(Wf.WsProjects);
 
-        WsEventReceiver EventReceiver;
+        AsmCodeMaps AsmCodeMaps => Service(Wf.AsmCodeMaps);
 
         public ProjectCollector()
         {
-            Clear();
-        }
-
-        void Clear()
-        {
-            EventReceiver = new();
         }
 
         public ProjectCollection Collect(IProjectWs project)
@@ -40,31 +34,27 @@ namespace Z0
             var dst = ProjectDb.ProjectTable<AsmStat>(project);
             TableEmit(stats.View, dst);
             return collection;
-
         }
 
-        public ProjectCollection Collect(IProjectWs project, WsEventReceiver receiver)
+        ProjectCollection Collect(IProjectWs project, WsEventReceiver receiver)
         {
-            Clear();
-            if(receiver != null)
-                EventReceiver = receiver;
-
-            var context = Projects.Context(project, EventReceiver);
+            var context = Projects.Context(project, receiver);
             var catalog = Projects.EmitCatalog(context);
-            EventReceiver.Initialized(context);
+            receiver.Initialized(context);
             var objblocks = ObjDump.Collect(context);
             var objsyms = Nm.Collect(context);
             var symindex = Coff.Collect(context);
-            var asmindex = Mc.Collect(context);
+            Mc.Collect(context);
 
             XedDisasm.Collect(context);
+
+            AsmCodeMaps.MapCode(context);
 
             return new ProjectCollection{
                 Files = catalog,
                 ObjBlockData = objblocks,
                 ObjSyms = objsyms,
                 SymIndex = symindex,
-                AsmIndex = asmindex
             };
         }
     }

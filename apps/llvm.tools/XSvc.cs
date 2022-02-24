@@ -50,10 +50,6 @@ namespace Z0
             => llvm.LlvmDataImporter.create(wf);
 
         [Op]
-        public static ProjectCollector ProjectCollector(this IWfRuntime wf)
-            => Z0.ProjectCollector.create(wf);
-
-        [Op]
         public static LlvmPaths LlvmPaths(this IWfRuntime context)
             => llvm.LlvmPaths.create(context);
 

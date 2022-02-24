@@ -8,7 +8,7 @@ namespace Z0.Asm
 
     public readonly struct AsmParser
     {
-        public static bool encid(ReadOnlySpan<char> src, out EncodingId dst)
+        public static Outcome encid(ReadOnlySpan<char> src, out EncodingId dst)
         {
             var input = text.trim(src);
             dst = EncodingId.Empty;
@@ -18,7 +18,7 @@ namespace Z0.Asm
             return result;
         }
 
-        public static bool instid(ReadOnlySpan<char> src, out InstructionId dst)
+        public static Outcome instid(ReadOnlySpan<char> src, out InstructionId dst)
         {
             var input = text.trim(src);
             dst = InstructionId.Empty;

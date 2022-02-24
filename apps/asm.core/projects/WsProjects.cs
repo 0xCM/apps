@@ -140,7 +140,7 @@ namespace Z0
             => WsDataFlows.create(FileCatalog.load(project), LoadBuildFlows(project));
 
         public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
-            => WsContext.create(project, LoadBuildFlowIndex(project), null);
+            => WsContext.create(project, LoadBuildFlowIndex(project), receiver);
 
         public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)
             => RunBuildScripts(project, script, scope, false);
@@ -154,18 +154,8 @@ namespace Z0
         public FS.FolderPath CleanOutDir(IProjectWs project)
             => project.OutDir().Clear(true);
 
-        public FileCatalog EmitCatalog(IProjectWs project)
-        {
-            var catalog = project.FileCatalog();
-            EmitCatalog(project,catalog);
-            return catalog;
-        }
-
         void EmitCatalog(IProjectWs project, FileCatalog catalog)
-        {
-            var entries = catalog.Entries();
-            TableEmit(entries.View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
-        }
+            => TableEmit(catalog.Entries().View, FileRef.RenderWidths, ProjectDb.ProjectTable<FileRef>(project));
 
         public FileCatalog EmitCatalog(WsContext context)
         {

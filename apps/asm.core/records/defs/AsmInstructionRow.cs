@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmInstructionRow : ISequential, IOriginated
+    public struct AsmInstructionRow : ISequential, IOriginated, IComparable<AsmInstructionRow>
     {
         public const string TableId = "asm.instruction";
 
@@ -35,6 +35,14 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => AsmName.IsEmpty && OriginId == 0;
+        }
+
+        public int CompareTo(AsmInstructionRow src)
+        {
+            var result = Source.Path.FileName.CompareTo(src.Source.Path.FileName);
+            if(result==0)
+                return DocSeq.CompareTo(src.DocSeq);
+            return result;
         }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,32,64,1};

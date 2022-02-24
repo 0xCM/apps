@@ -11,7 +11,6 @@ namespace Z0
         public static ApiCmdProvider ApiCommands(this IWfRuntime wf)
             => ApiCmdProvider.create(wf);
 
-
         public static CheckCmdProvider CheckCommands(this IWfRuntime wf)
             => CheckCmdProvider.create(wf);
 

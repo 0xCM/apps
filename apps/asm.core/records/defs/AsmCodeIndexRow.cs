@@ -15,7 +15,7 @@ namespace Z0
 
         public uint Seq;
 
-        public Hex64 Id;
+        public EncodingId EncodingId;
 
         public Hex32 OriginId;
 

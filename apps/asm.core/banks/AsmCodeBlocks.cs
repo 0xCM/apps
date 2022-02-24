@@ -8,21 +8,25 @@ namespace Z0.Asm
     {
         readonly Index<AsmCodeBlock> Data;
 
-        public readonly Label Origin;
+        public readonly Hex32 OriginId;
+
+        public readonly Label OriginName;
 
         public readonly uint LineCount;
 
         public AsmCodeBlocks(AsmCodeBlock[] data)
         {
             Data = data;
-            Origin = EmptyString;
+            OriginName = EmptyString;
+            OriginId = 0;
             LineCount = data.Select(x => x.Count).Sum();
         }
 
-        public AsmCodeBlocks(Label origin, AsmCodeBlock[] data)
+        public AsmCodeBlocks(Label name, Hex32 id, AsmCodeBlock[] data)
         {
             Data = data;
-            Origin = origin;
+            OriginName = name;
+            OriginId = id;
             LineCount = data.Select(x => x.Count).Sum();
         }
 

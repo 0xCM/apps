@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct EncodingId
+    public readonly struct EncodingId : IEquatable<EncodingId>
     {
         readonly Hex64 Value;
 
@@ -14,6 +14,21 @@ namespace Z0
             Value = value;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Value == 0;
+        }
+
+        [MethodImpl(Inline)]
+        public bool Equals(EncodingId src)
+            => Value == src.Value;
+
+        public override bool Equals(object src)
+            => src is EncodingId x && Equals(x);
+
+        public override int GetHashCode()
+            => Value.GetHashCode();
         public string Format()
             => string.Format("{0:x16}", (ulong)Value);
 
@@ -35,6 +50,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator EncodingId(ulong src)
             => new EncodingId(src);
+
+        [MethodImpl(Inline)]
+        public static bool operator ==(EncodingId a, EncodingId b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(EncodingId a, EncodingId b)
+            => !a.Equals(b);
 
         public static EncodingId Empty => default;
     }

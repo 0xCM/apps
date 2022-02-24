@@ -21,41 +21,15 @@ namespace Z0.llvm
 
         }
 
-        Index<AsmCodeIndexRow> Correlate(IProjectWs project, ReadOnlySpan<AsmSyntaxRow> syntax, ReadOnlySpan<AsmInstructionRow> instructions)
-        {
-            var count = Require.equal(syntax.Length,instructions.Length);
-            var buffer = alloc<AsmCodeIndexRow>(count);
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var a = ref skip(syntax,i);
-                ref readonly var b = ref skip(instructions,i);
-                ref var dst = ref seek(buffer,i);
-                dst.Seq = Require.equal(a.Seq, b.Seq);
-                dst.OriginId = a.OriginId;
-                dst.DocSeq = a.DocSeq;
-                dst.Id = a.Id;
-                dst.AsmName = b.AsmName;
-                dst.IP = a.IP;
-                dst.Encoded = a.Encoded;
-                dst.Size = a.Encoded.Size;
-                dst.Asm = b.Asm;
-                dst.Syntax = a.Syntax;
-                dst.Source = a.Source;
-            }
-            TableEmit(@readonly(buffer), AsmCodeIndexRow.RenderWidths, Projects.AsmIndexTable(project));
-
-            return buffer;
-        }
-
-        public Index<AsmCodeIndexRow> Collect(WsContext context)
+        public void Collect(WsContext context)
         {
             var result = Outcome.Success;
             var project = context.Project;
             var syntax = CollectSyntaxLogs(context);
             var encodings = CollectEncodings(context);
             var instructions = CollectInstructions(context);
-            return Correlate(project, syntax, instructions);
         }
+
 
         public McAsmDoc ParseMcAsmDoc(in FileRef src)
             => new LlvmAsmParser().ParseMcAsmDoc(src);
@@ -80,7 +54,7 @@ namespace Z0.llvm
             return dst.Array();
         }
 
-        public ReadOnlySpan<AsmInstructionRow> CollectInstructions(WsContext context)
+        public Index<AsmInstructionRow> CollectInstructions(WsContext context)
         {
             var project = context.Project;
             var result = Outcome.Success;
@@ -113,8 +87,8 @@ namespace Z0.llvm
                 }
             }
 
-            var records = buffer.ViewDeposited();
-            TableEmit(records, AsmInstructionRow.RenderWidths, Projects.AsmInstructionTable(project));
+            var records = buffer.ToArray();
+            TableEmit(@readonly(records), AsmInstructionRow.RenderWidths, Projects.AsmInstructionTable(project));
             return records;
         }
 
@@ -136,7 +110,6 @@ namespace Z0.llvm
                 var doc = _docs[path];
                 var fref = context.FileRef(path);
                 var encoded = doc.View;
-                var srcid = path.SrcId(FileKind.EncAsm);
                 var count = encoded.Length;
                 for(var i=0u; i<count; i++)
                 {
@@ -144,12 +117,16 @@ namespace Z0.llvm
 
                     record = AsmEncodingRow.Empty;
                     if(context.Root(path, out var source))
+                    {
                         record.OriginId = source.DocId;
+                        record.OriginName = source.Path.FileName.Format();
+                    }
                     record.Seq = counter++;
-                    //record.DocId = fref.DocId;
                     record.DocSeq = i;
                     record.IP = e.IP;
-                    record.Id = e.Id;
+                    record.EncodingId = e.EncodingId;
+                    record.InstructionId = (record.OriginId, record.EncodingId);
+                    Require.equal(record.InstructionId, e.InstructionId);
                     record.Asm = e.Asm;
                     record.Size = e.Size;
                     record.Encoded = e.Encoded;
@@ -162,7 +139,7 @@ namespace Z0.llvm
             return _docs;
         }
 
-        public ReadOnlySpan<AsmSyntaxRow> CollectSyntaxLogs(WsContext context)
+        public Index<AsmSyntaxRow> CollectSyntaxLogs(WsContext context)
         {
             var project = context.Project;
             var logs = project.OutFiles(FileTypes.ext(FileKind.SynAsmLog)).View;
@@ -176,44 +153,43 @@ namespace Z0.llvm
             {
                 tmp.Clear();
                 ref readonly var path = ref skip(logs,i);
-
                 ParseSynAsmLog(context, context.FileRef(path), ref seq, tmp);
                 docs[path] = new McAsmSyntaxDoc(path, tmp.ToArray());
                 buffer.AddRange(tmp);
             }
-            var rows = buffer.ViewDeposited();
-            TableEmit(rows, AsmSyntaxRow.RenderWidths, dst);
+            var rows = buffer.ToArray();
+            TableEmit(@readonly(rows), AsmSyntaxRow.RenderWidths, dst);
             return rows;
         }
 
-        public Index<AsmCodeIndexRow> LoadAsmIndex(IProjectWs project)
-        {
-            var lines = Projects.AsmIndexTable(project).ReadLines(true);
-            var count = lines.Count - 1;
-            var buffer = alloc<AsmCodeIndexRow>(count);
-            var i=0u;
-            var reader = lines.Reader();
-            reader.Next();
-            while(reader.Next(out var line))
-            {
-                var data = line.Split(Chars.Pipe);
-                Require.equal(data.Length, AsmCodeIndexRow.FieldCount);
-                ref var dst = ref seek(buffer,i++);
-                var cells = data.Reader();
-                DataParser.parse(cells.Next(), out dst.Seq).Require();
-                DataParser.parse(cells.Next(), out dst.Id).Require();
-                DataParser.parse(cells.Next(), out dst.OriginId).Require();
-                DataParser.parse(cells.Next(), out dst.DocSeq).Require();
-                DataParser.parse(cells.Next(), out dst.AsmName).Require();
-                DataParser.parse(cells.Next(), out dst.IP).Require();
-                DataParser.parse(cells.Next(), out dst.Size).Require();
-                AsmParser.asmhex(cells.Next(), out dst.Encoded);
-                AsmParser.expression(cells.Next(), out dst.Asm).Require();
-                DataParser.parse(cells.Next(), out dst.Syntax).Require();
-                DataParser.parse(cells.Next(), out dst.Source).Require();
-            }
-            return buffer;
-        }
+        // public Index<AsmCodeIndexRow> LoadAsmIndex(IProjectWs project)
+        // {
+        //     var lines = Projects.AsmIndexTable(project).ReadLines(true);
+        //     var count = lines.Count - 1;
+        //     var buffer = alloc<AsmCodeIndexRow>(count);
+        //     var i=0u;
+        //     var reader = lines.Reader();
+        //     reader.Next();
+        //     while(reader.Next(out var line))
+        //     {
+        //         var data = line.Split(Chars.Pipe);
+        //         Require.equal(data.Length, AsmCodeIndexRow.FieldCount);
+        //         ref var dst = ref seek(buffer,i++);
+        //         var cells = data.Reader();
+        //         DataParser.parse(cells.Next(), out dst.Seq).Require();
+        //         AsmParser.encid(cells.Next(), out dst.EncodingId).Require();
+        //         DataParser.parse(cells.Next(), out dst.OriginId).Require();
+        //         DataParser.parse(cells.Next(), out dst.DocSeq).Require();
+        //         DataParser.parse(cells.Next(), out dst.AsmName).Require();
+        //         DataParser.parse(cells.Next(), out dst.IP).Require();
+        //         DataParser.parse(cells.Next(), out dst.Size).Require();
+        //         AsmParser.asmhex(cells.Next(), out dst.Encoded);
+        //         AsmParser.expression(cells.Next(), out dst.Asm).Require();
+        //         DataParser.parse(cells.Next(), out dst.Syntax).Require();
+        //         DataParser.parse(cells.Next(), out dst.Source).Require();
+        //     }
+        //     return buffer;
+        // }
 
         public Index<AsmEncodingRow> LoadEncodings(IProjectWs project)
         {
@@ -236,7 +212,7 @@ namespace Z0.llvm
 
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
-                result = AsmParser.encid(skip(cells, j++), out dst.Id);
+                result = AsmParser.encid(skip(cells, j++), out dst.EncodingId);
                 result = DataParser.parse(skip(cells, j++), out dst.OriginId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
@@ -329,8 +305,8 @@ namespace Z0.llvm
                 var j=0;
 
                 result = DataParser.parse(skip(cells,j++), out dst.Seq);
-                result = DataParser.parse(skip(cells,j++), out dst.Id);
                 result = DataParser.parse(skip(cells,j++), out dst.OriginId);
+                result = DataParser.parse(skip(cells,j++), out dst.OriginName);
                 result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
 
                 if(result.Fail)
@@ -341,7 +317,6 @@ namespace Z0.llvm
 
                 dst.Asm = skip(cells, j++);
                 dst.Syntax = skip(cells, j++);
-                result = DataParser.parse(skip(cells,j++), out dst.IP);
 
                 var hex = skip(cells, j++);
                 if(empty(hex))
@@ -377,7 +352,7 @@ namespace Z0.llvm
             }
         }
 
-        void ParseEncAsmSource(in FileRef file, out Index<AsmEncodingRow> dst)
+        void ParseEncAsmSource(WsContext context, in FileRef file, out Index<AsmEncodingRow> dst)
         {
             const string EncodingMarker = "# encoding:";
             var src = file.Path;
@@ -386,7 +361,7 @@ namespace Z0.llvm
             var lines = FS.readlines(src,true).View;
             var count = (uint)lines.Length;
             var buffer = list<AsmEncodingRow>();
-            var offset = Address32.Zero;
+            var ip = Address32.Zero;
             var seq = 0u;
             var record = default(AsmEncodingRow);
             var origin = file.Path.FileName.Format();
@@ -404,32 +379,38 @@ namespace Z0.llvm
                     if(result.Fail)
                         Errors.Throw(result.Message);
 
+                    if(context.Root(file.Path, out var o))
+                    {
+                        record.OriginId = o.DocId;
+                        record.OriginName = o.Path.FileName.Format();
+                    }
+
                     record.Size = record.Encoded.Size;
-                    record.OriginId = file.DocId;
                     record.DocSeq = seq++;
-                    record.IP = offset;
-                    record.Id = AsmBytes.instid(file.DocId, offset, record.Encoded.Bytes).EncodingId;
+                    record.IP = ip;
+                    record.InstructionId = AsmBytes.instid(record.OriginId, ip, record.Encoded.Bytes);
+                    record.EncodingId = record.InstructionId.EncodingId;
                     record.Source = ((FS.FileUri)src).LineRef(line.LineNumber);
                     buffer.Add(record);
 
-                    offset += record.Size;
+                    ip += record.Size;
                     record = default(AsmEncodingRow);
                 }
             }
             dst = buffer.ToArray();
         }
 
-        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncAsmSources(WsContext collect)
+        ConstLookup<FS.FilePath,Index<AsmEncodingRow>> ParseEncAsmSources(WsContext context)
         {
-            var src = Projects.EncAsmSources(collect.Project).View;
+            var src = Projects.EncAsmSources(context.Project).View;
             var count = src.Length;
             var dst = dict<FS.FilePath,Index<AsmEncodingRow>>();
             var counter = 0u;
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var fref = collect.FileRef(path);
-                ParseEncAsmSource(fref, out var doc);
+                var fref = context.FileRef(path);
+                ParseEncAsmSource(context, fref, out var doc);
                 var scount = doc.Count;
                 var statements = doc.Edit;
                 for(var j=0; j<scount; j++)
@@ -477,8 +458,8 @@ namespace Z0.llvm
                 if(context.Root(fref.Path, out var source))
                 {
                     record.OriginId = source.DocId;
+                    record.OriginName = source.Path.FileName.Format();
                 }
-                //record.DocId = fref.DocId;
                 record.DocSeq = docseq++;
                 record.Syntax = syncontent(syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith).Replace("Memory: ", "Mem:"));
                 AsmMnemonic.parse(record.Syntax, out var mx);
@@ -487,9 +468,7 @@ namespace Z0.llvm
                     var s = record.Syntax.Format();
                     var mi = text.index(s, mx, Chars.Space);
                     if(mi > 0)
-                    {
                         record.Syntax = text.right(s,mi);
-                    }
                 }
 
                 var ci = text.index(body, Chars.Hash);
@@ -505,8 +484,6 @@ namespace Z0.llvm
                     if(AsmParser.asmhex(enc, out var encoding))
                     {
                         record.Encoded = encoding;
-                        record.Id = AsmBytes.instid(fref.DocId, ip, encoding.Bytes).EncodingId;
-                        record.IP = ip;
                         ip += encoding.Size;
                     }
                 }

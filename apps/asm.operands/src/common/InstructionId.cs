@@ -5,7 +5,7 @@
 namespace Z0
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public readonly struct InstructionId
+    public readonly struct InstructionId : IEquatable<InstructionId>
     {
         public readonly Hex32 DocId;
 
@@ -18,11 +18,19 @@ namespace Z0
             EncodingId = encoding;
         }
 
+        [MethodImpl(Inline)]
+        public bool Equals(InstructionId src)
+            => DocId == src.DocId && EncodingId == src.EncodingId;
+
         public string Format()
             => string.Format("{0:x8}{1:x16}", (uint)DocId, (ulong)EncodingId);
 
         public override string ToString()
             => Format();
+
+        [MethodImpl(Inline)]
+        public static implicit operator InstructionId((Hex32 docid, EncodingId enc) src)
+            => new InstructionId(src.docid, src.enc);
 
         public static InstructionId Empty => default;
 

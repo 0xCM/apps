@@ -53,11 +53,12 @@ namespace Z0
                 if(context.Root(src.Path, out var origin))
                 {
                     record.OriginId = origin.DocId;
+                    record.OriginName = origin.Path.FileName.Format();
                 }
 
-                //record.DocId = fref.DocId;
                 result = ParseIP(content, out record.IP);
-                record.Id = AsmBytes.instid(src.DocId, record.IP, record.Encoded.Bytes).EncodingId;
+                record.InstructionId = AsmBytes.instid(record.OriginId, record.IP, record.Encoded.Bytes);
+                record.EncodingId = record.InstructionId.EncodingId;
                 record.Asm = expression;
                 record.Source = src.Path;
                 record.Source = record.Source.LineRef(line.LineNumber);

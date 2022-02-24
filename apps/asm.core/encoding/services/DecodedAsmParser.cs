@@ -75,7 +75,7 @@ namespace Z0.Asm
             for(var j=0; j<size; j++)
                 seek(buffer,j) = skip(hexSrc,j);
             BlockOffset += size;
-            return new AsmCode(AsmBytes.encid(ip, code),  Dispenser.DispenseSource(asm), ip, hexDst);
+            return new AsmCode(AsmBytes.encid(ip, code), 0,  Dispenser.DispenseSource(asm), ip, hexDst);
         }
 
         public Outcome ParseBlocks(string src)

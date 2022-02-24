@@ -93,29 +93,31 @@ namespace Z0
             return kind;
         }
 
-        public Index<CoffSection> CalcObjSections(WsContext context, in FileRef fref)
+        public Index<CoffSection> CalcObjSections(WsContext context, in FileRef src)
         {
-            var records = list<CoffSection>();
+            var buffer = list<CoffSection>();
             var seq = 0u;
-            CalcObjHeaders(context, fref,ref seq, records);
-            return records.ToArray();
+            CalcObjHeaders(context, src,buffer);
+            var records = buffer.ToArray().Sort();
+            for(var i=0u; i<records.Length; i++)
+                seek(records,i).Seq = i;
+            return records;
         }
 
-        void CalcObjHeaders(WsContext context, in FileRef fref, ref uint seq, List<CoffSection> records)
+        void CalcObjHeaders(WsContext context, in FileRef src, List<CoffSection> records)
         {
-            var obj = LoadObj(fref);
+            var obj = LoadObj(src);
             var view = CoffObjectView.cover(obj.Data);
             ref readonly var header = ref view.Header;
             var strings = view.StringTable;
             var sections = view.SectionHeaders;
-            var originated = context.Root(fref.Path, out var origin);
+            var originated = context.Root(src.Path, out var origin);
             for(var j=0u; j<sections.Length; j++)
             {
                 ref readonly var section = ref skip(sections,j);
                 var number = j+1 ;
                 var name = CoffObjects.format(strings, section.Name);
                 var record = default(CoffSection);
-                record.Seq = seq++;
                 if(originated)
                     record.OriginId = origin.DocId;
                 record.SectionNumber = (ushort)number;
@@ -126,7 +128,7 @@ namespace Z0
                 record.RelocAddress = section.PointerToRelocations;
                 record.RelocCount = section.NumberOfRelocations;
                 record.Flags = section.Characteristics;
-                record.Source = fref.Path;
+                record.Source = src.Path;
                 records.Add(record);
             }
         }
@@ -137,22 +139,23 @@ namespace Z0
             var src = LoadObjData(context);
             var entries = src.Entries;
             var count = entries.Count;
-            var records = list<CoffSection>();
-            var seq = 0u;
+            var buffer = list<CoffSection>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var entry = ref entries[i];
                 ref readonly var path = ref entry.Left;
                 ref readonly var obj = ref entry.Right;
-                var fref = context.FileRef(path);
                 var view = CoffObjectView.cover(obj.Data);
                 ref readonly var header = ref view.Header;
                 var strings = view.StringTable;
                 var sections = view.SectionHeaders;
-                CalcObjHeaders(context,fref, ref seq, records);
+                CalcObjHeaders(context, context.FileRef(path), buffer);
             }
 
-            return records.ToArray();
+            var records = buffer.ToArray().Sort();
+            for(var i=0u; i<records.Length; i++)
+                seek(records,i).Seq = i;
+            return records;
         }
 
         public Index<CoffSection> CollectHeaders(WsContext context)
@@ -296,23 +299,14 @@ namespace Z0
         public Index<CoffSymRecord> CollectSymbols(WsContext context)
         {
             var buffer = list<CoffSymRecord>();
-            var project = context.Project;
             var src = LoadObjData(context);
             var files = context.Files;
             var paths = src.Paths.Array();
             var objCount = paths.Length;
-            var path = Projects.CoffSymPath(project);
-            var formatter = Tables.formatter<CoffSymRecord>(CoffSymRecord.RenderWidths);
-            var seq = 0u;
-            var emitting = EmittingFile(path);
-            using var writer = path.Writer();
-            writer.WriteLine(formatter.FormatHeader());
             for(var i=0; i<objCount; i++)
             {
                 ref readonly var objPath = ref skip(paths,i);
-
                 var originated = context.Root(objPath, out var origin);
-
                 var obj = src[objPath];
                 var file = files.Entry(objPath);
                 var objData = obj.Data.View;
@@ -324,7 +318,6 @@ namespace Z0
 
                 var syms = view.Symbols;
                 var strings = view.StringTable;
-                var size = 0u;
                 for(var j=0; j<symcount; j++)
                 {
                     ref readonly var sym = ref skip(syms,j);
@@ -333,7 +326,6 @@ namespace Z0
                     {
                         var record = default(CoffSymRecord);
                         var name = sym.Name;
-                        record.Seq = seq++;
                         if(originated)
                             record.OriginId = origin.DocId;
 
@@ -345,17 +337,16 @@ namespace Z0
                         record.AuxCount = sym.NumberOfAuxSymbols;
                         record.Name = symtext;
                         record.Source = file.Path;
-                        writer.WriteLine(formatter.Format(record));
                         buffer.Add(record);
-
-                        size += record.SymSize;
                     }
                 }
             }
 
-            EmittedFile(emitting, seq);
-
-            return buffer.ToArray();
+            var records = buffer.ToArray().Sort();
+            for(var i=0u; i<records.Length; i++)
+                seek(records,i).Seq = i;
+            TableEmit(@readonly(records), CoffSymRecord.RenderWidths, Projects.CoffSymPath(context.Project));
+            return records;
         }
     }
 }

@@ -61,7 +61,7 @@ namespace Z0.llvm
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
-                result = AsmParser.encid(data[j++].Text, out dst.Id);
+                result = AsmParser.encid(data[j++].Text, out dst.EncodingId);
                 result = DataParser.parse(data[j++], out dst.OriginId);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Section);
@@ -69,7 +69,7 @@ namespace Z0.llvm
                 result = DataParser.parse(data[j++], out dst.BlockName);
                 result = DataParser.parse(data[j++], out dst.IP);
                 result = DataParser.parse(data[j++], out dst.Size);
-                result = AsmParser.asmhex(data[j++].View, out dst.HexCode);
+                result = AsmParser.asmhex(data[j++].View, out dst.Encoded);
                 dst.Asm = text.trim(data[j++].Text);
                 result = AsmParser.comment(data[j++].View, out dst.Comment);
                 result = DataParser.parse(data[j++], out dst.Source);
@@ -124,7 +124,7 @@ namespace Z0.llvm
             const string intel_syntax = ".intel_syntax noprefix";
 
             var srcdir = Projects.RecodedSrcDir(project);
-            var srcpath = srcdir + FS.file(src.Origin.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
+            var srcpath = srcdir + FS.file(src.OriginName.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
             var emitting = EmittingFile(srcpath);
             var counter = 0u;
             using var writer = srcpath.AsciWriter();
@@ -254,9 +254,9 @@ namespace Z0.llvm
                         records[j].OriginId = origin.DocId;
                 }
 
-                var blocks = AsmObjects.DistillBlocks(file, records, alloc);
+                var blocks = AsmObjects.DistillBlocks(context, file, records, alloc);
                 var dst = Projects.AsmCodePath(project, file.Path.FileName.Format());
-                AsmObjects.Emit(blocks,dst);
+                AsmObjects.Emit(context,blocks,dst);
                 emitted(project,blocks);
             }
         }

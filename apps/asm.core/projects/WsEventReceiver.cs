@@ -16,9 +16,9 @@ namespace Z0.Asm
             Files = FileCatalog.create();
         }
 
-        public virtual void Initialized(WsContext collect)
+        public virtual void Initialized(WsContext context)
         {
-            Files = collect.Files;
+            Files = context.Files;
         }
 
         public virtual void Collected(in FileRef src, in ObjDumpRow row)
@@ -40,5 +40,11 @@ namespace Z0.Asm
         {
 
         }
+
+        public virtual void Collected(in FileRef src, in ObjSymRow row)
+        {
+
+        }
+
     }
 }

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static XedRecords;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]

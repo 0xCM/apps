@@ -7,25 +7,23 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmSyntaxRow : ISequential, IOriginated
+    public struct AsmSyntaxRow : ISequential, IOriginated, IComparable<AsmSyntaxRow>
     {
         public const string TableId = "asm.syntax";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 8;
 
         public uint Seq;
 
-        public Hex64 Id;
-
         public Hex32 OriginId;
+
+        public @string OriginName;
 
         public uint DocSeq;
 
         public AsmExpr Asm;
 
         public @string Syntax;
-
-        public MemoryAddress IP;
 
         public AsmHexCode Encoded;
 
@@ -37,13 +35,14 @@ namespace Z0
         Hex32 IOriginated.OriginId
             => OriginId;
 
-        public bool IsEmpty
+        public int CompareTo(AsmSyntaxRow src)
         {
-            [MethodImpl(Inline)]
-            get => Id == 0 && OriginId == 0;
+            var result = Source.Path.FileName.CompareTo(src.Source.Path.FileName);
+            if(result==0)
+                return DocSeq.CompareTo(src.DocSeq);
+            return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,8,62,120,12,48,5};
-
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,42,8,62,120,48,1};
     }
 }

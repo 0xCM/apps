@@ -101,9 +101,9 @@ namespace Z0.llvm
                         var y = text.index(asm, Chars.Tab);
                         if(y > 0)
                         {
-                            AsmParser.asmhex(text.trim(text.left(asm, y)), out Row.HexCode);
-                            Row.Size = Row.HexCode.Size;
-                            Row.Id = AsmBytes.instid(src.DocId, Row.IP, Row.HexCode.Bytes).EncodingId;
+                            AsmParser.asmhex(text.trim(text.left(asm, y)), out Row.Encoded);
+                            Row.Size = Row.Encoded.Size;
+                            Row.EncodingId = AsmBytes.instid(src.DocId, Row.IP, Row.Encoded.Bytes).EncodingId;
                             var statement = text.trim(text.right(asm, y)).Replace(Chars.Tab, Chars.Space);
                             Row.Asm = statement;
                             if(AsmParser.comment(statement, out Row.Comment))
@@ -132,7 +132,7 @@ namespace Z0.llvm
             {
                 Row.Source = Source;
                 Row.Section = Section;
-                Row.HexCode = BinaryCode.Empty;
+                Row.Encoded = BinaryCode.Empty;
                 Row.Size = 0;
                 Row.Asm = ObjDumpRow.BlockStartMarker;
                 var k = text.index(content, Chars.Gt);

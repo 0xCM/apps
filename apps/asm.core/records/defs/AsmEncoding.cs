@@ -9,7 +9,9 @@ namespace Z0.Asm
     {
         public uint Seq;
 
-        public EncodingId Id;
+        public EncodingId EncodingId;
+
+        public Hex32 OriginId;
 
         public MemoryAddress IP;
 
@@ -19,8 +21,8 @@ namespace Z0.Asm
 
         public AsmExpr Asm;
 
-        Hex64 IAsmEncodingRecord.Id
-            => Id;
+        EncodingId IAsmEncodingRecord.EncodingId
+            => EncodingId;
 
         AsmExpr IAsmEncodingRecord.Asm
             => Asm;
@@ -33,5 +35,8 @@ namespace Z0.Asm
 
         uint ISequential.Seq
             => Seq;
+
+        Hex32 IOriginated.OriginId
+            => OriginId;
     }
 }

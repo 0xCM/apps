@@ -9,9 +9,13 @@ namespace Z0.Asm
     {
         public const string TableId = "asm.code";
 
-        public const byte FieldCount = 8;
+        public const byte FieldCount = 9;
 
-        public Hex64 Id;
+        public EncodingId EncodingId;
+
+        public Hex32 OriginId;
+
+        public Label OriginName;
 
         public Label BlockName;
 
@@ -25,8 +29,6 @@ namespace Z0.Asm
 
         public SourceText Asm;
 
-        public Label Origin;
-
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,42,16,8,48,8,82,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,12,42,42,16,8,48,8,82};
     }
 }

@@ -17,7 +17,7 @@ namespace Z0
 
         public uint Seq;
 
-        public EncodingId Id;
+        public EncodingId EncodingId;
 
         public Hex32 OriginId;
 
@@ -33,7 +33,7 @@ namespace Z0
 
         public byte Size;
 
-        public AsmHexCode HexCode;
+        public AsmHexCode Encoded;
 
         public AsmExpr Asm;
 
@@ -51,7 +51,7 @@ namespace Z0
             dst.BlockAddress = 0;
             dst.BlockName = TextBlock.Empty;
             dst.IP = 0;
-            dst.HexCode = BinaryCode.Empty;
+            dst.Encoded = BinaryCode.Empty;
             dst.Asm = EmptyString;
             dst.Source = FS.FilePath.Empty;
             dst.Comment = AsmInlineComment.Empty;
@@ -79,8 +79,8 @@ namespace Z0
             get => text.contains(Asm.Format(), BlockStartMarker);
         }
 
-        Hex64 IAsmEncodingRecord.Id
-            => Id;
+        EncodingId IAsmEncodingRecord.EncodingId
+            => EncodingId;
 
         Hex32 IOriginated.OriginId
             => OriginId;
@@ -92,7 +92,7 @@ namespace Z0
             => Asm;
 
         AsmHexCode IAsmEncodingRecord.Encoded
-            => HexCode;
+            => Encoded;
 
         MemoryAddress IAsmEncodingRecord.IP
             => IP;

@@ -116,7 +116,7 @@ namespace Z0
 
             ref readonly var code = ref encoding.Encoded;
 
-            dst.EncodingId = encoding.Id;
+            dst.EncodingId = encoding.EncodingId;
             dst.OriginId = encoding.OriginId;
             dst.IP = encoding.IP;
             dst.Encoded = encoding.Encoded;

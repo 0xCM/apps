@@ -24,13 +24,10 @@ namespace Z0
 
         ConstLookup<OperandWidthType,OperandWidth> OperandWidths;
 
-        WsEventReceiver EventReceiver;
-
         public XedDisasmSvc()
         {
             Forms = Symbols.index<IFormType>();
             Classes = Symbols.index<IClass>();
-            EventReceiver = new();
         }
 
         protected override void OnInit()

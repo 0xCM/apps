@@ -149,7 +149,6 @@ namespace Z0
             using var dispenser = Alloc.symbols();
             var project = Project();
             var context = Projects.Context(project);
-
             var catalog = project.FileCatalog();
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;

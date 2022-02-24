@@ -5,19 +5,17 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
-    public struct AsmCodeMapEntry
+    public struct AsmCodeMapEntry : IComparable<AsmCodeMapEntry>
     {
         public const string TableId = "asm.codemap";
 
-        public const byte FieldCount = 12;
+        public const byte FieldCount = 11;
 
-        public Hex64 Id;
+        public EncodingId EncodingId;
 
-        public MemoryAddress MappedAddress;
+        public Hex32 OriginId;
 
-        public MemoryAddress MappedRebase;
-
-        public Label Origin;
+        public Label OriginName;
 
         public Label BlockName;
 
@@ -27,7 +25,7 @@ namespace Z0.Asm
 
         public ByteSize BlockSize;
 
-        public MemoryAddress EntryAddress;
+        public MemoryAddress IP;
 
         public byte EncodingSize;
 
@@ -35,6 +33,16 @@ namespace Z0.Asm
 
         public SourceText Asm;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,16,16,42,42,16,12,12,16,12,42,1};
+        public int CompareTo(AsmCodeMapEntry src)
+        {
+            var result = OriginName.CompareTo(src.OriginName);
+            if(result == 0)
+            {
+                result = IP.CompareTo(src.IP);
+            }
+            return result;
+        }
+
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{18,12,42,42,12,16,16,16,12,42,1};
     }
 }

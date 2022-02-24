@@ -19,7 +19,7 @@ namespace Z0
 
         public WsEventReceiver EventReceiver {get;}
 
-        public WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
+        WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
         {
             Project = project;
             Files = flows.FileCatalog;

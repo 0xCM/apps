@@ -5,7 +5,7 @@
 namespace Z0
 {
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct CoffSection : IOriginated
+    public struct CoffSection : IComparable<CoffSection>
     {
         public const string TableId = "coff.sections";
 
@@ -33,9 +33,18 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,16,16,16,16,16,78,1};
+        public int CompareTo(CoffSection src)
+        {
+            var result = Source.Format().CompareTo(src.Source.Format());
+            if(result  == 0)
+            {
+                result = SectionNumber.CompareTo(src.SectionNumber);
+                if(result == 0)
+                    result = RawDataAddress.CompareTo(src.RawDataAddress);
+            }
+            return result;
+        }
 
-        Hex32 IOriginated.OriginId
-            => OriginId;
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,16,16,16,16,16,16,78,1};
     }
 }

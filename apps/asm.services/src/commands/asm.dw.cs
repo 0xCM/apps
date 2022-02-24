@@ -9,15 +9,15 @@ namespace Z0
 
     partial class AsmCmdProvider
     {
-        [CmdOp("asm/dw")]
+        AsmCodeMaps AsmCodeMaps => Service(Wf.AsmCodeMaps);
+
+        [CmdOp("asm/codemap")]
         Outcome AsmDw(CmdArgs args)
         {
-            using var dispensers = Alloc.allocate();
+
             var project = Project();
-            var src = ObjDump.LoadRows(project);
-            var index = LlvmMc.LoadAsmIndex(project);
-            var entries = AsmObjects.MapCode(project, index, src, dispensers);
-            TableEmit(entries.View, AsmCodeMapEntry.RenderWidths, Projects.Table<AsmCodeMapEntry>(project));
+            var context = Projects.Context(project);
+            AsmCodeMaps.MapCode(context);
             return true;
         }
     }

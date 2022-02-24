@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public interface IAsmEncodingRecord : ISequential
+    public interface IAsmEncodingRecord : ISequential, IOriginated
     {
-        Hex64 Id {get;}
+        EncodingId EncodingId {get;}
 
         MemoryAddress IP {get;}
 

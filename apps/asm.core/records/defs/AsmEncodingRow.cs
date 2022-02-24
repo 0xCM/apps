@@ -11,13 +11,17 @@ namespace Z0
     {
         public const string TableId = "asm.encoding";
 
-        public const byte FieldCount = 9;
+        public const byte FieldCount = 11;
 
         public uint Seq;
 
-        public EncodingId Id;
+        public EncodingId EncodingId;
 
         public Hex32 OriginId;
+
+        public InstructionId InstructionId;
+
+        public @string OriginName;
 
         public uint DocSeq;
 
@@ -31,8 +35,9 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        Hex64 IAsmEncodingRecord.Id
-            => Id;
+        EncodingId IAsmEncodingRecord.EncodingId
+            => EncodingId;
+
         Hex32 IOriginated.OriginId
             => OriginId;
 
@@ -50,13 +55,13 @@ namespace Z0
 
         public int CompareTo(AsmEncodingRow src)
         {
-            var result = Source.CompareTo(src.Source);
+            var result = OriginName.CompareTo(src.OriginName);
             if(result == 0)
                 result = IP.CompareTo(src.IP);
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,8,12,38,8,84,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,42,8,12,38,8,84,1};
 
         public static AsmEncodingRow Empty => default;
     }

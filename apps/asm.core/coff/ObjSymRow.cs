@@ -21,9 +21,9 @@ namespace Z0
 
         public Hex32 Offset;
 
-        public ObjSymCode SymCode;
+        public ObjSymCode Code;
 
-        public ObjSymKind SymKind;
+        public ObjSymKind Kind;
 
         public string Name;
 

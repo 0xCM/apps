@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct CoffSymRecord : IOriginated
+    public struct CoffSymRecord : IComparable<CoffSymRecord>
     {
         public const string TableId = "coff.symbols";
 
@@ -33,8 +33,21 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        Hex32 IOriginated.OriginId
-            => OriginId;
+        public int CompareTo(CoffSymRecord src)
+        {
+            var result = Source.Format().CompareTo(src.Source.Format());
+            if(result  == 0)
+            {
+                if(result == 0)
+                {
+                    result = SectionNumber.CompareTo(src.SectionNumber);
+                    if(result == 0)
+                        result = Address.CompareTo(src.Address);
+                }
+
+            }
+            return result;
+        }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,10,8,10,16,8,48,1};
 

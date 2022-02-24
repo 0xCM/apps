@@ -7,7 +7,9 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct AsmCode
     {
-        public readonly EncodingId Id;
+        public readonly EncodingId EncodingId;
+
+        public readonly Hex32 OriginId;
 
         public readonly SourceText Asm;
 
@@ -16,9 +18,10 @@ namespace Z0.Asm
         public readonly AsmHexRef Encoded;
 
         [MethodImpl(Inline)]
-        public AsmCode(EncodingId id, SourceText asm, MemoryAddress ip, AsmHexRef code)
+        public AsmCode(EncodingId id, Hex32 origin, SourceText asm, MemoryAddress ip, AsmHexRef code)
         {
-            Id = id;
+            EncodingId = id;
+            OriginId = origin;
             IP = ip;
             Asm = asm;
             Encoded = code;
@@ -39,7 +42,7 @@ namespace Z0.Asm
         public string Format()
         {
             var dst = text.buffer();
-            dst.AppendFormat("{0,-48} # {1,-18} | {2,-12} | {3,-8} | {4,-24}", Asm, Id, IP, EncodingSize, Encoded.Format());
+            dst.AppendFormat("{0,-48} # {1,-18} | {2,-12} | {3,-8} | {4,-24}", Asm, EncodingId, IP, EncodingSize, Encoded.Format());
             return dst.Emit();
         }
 

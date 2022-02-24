@@ -7,7 +7,6 @@ namespace Z0.Asm
     using System.Linq;
 
     using static XedRecords;
-    using static XedModels;
 
     public sealed partial class IntelXed : AppService<IntelXed>
     {

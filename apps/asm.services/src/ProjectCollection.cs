@@ -13,7 +13,5 @@ namespace Z0
         public Index<ObjSymRow> ObjSyms;
 
         public CoffSymIndex SymIndex;
-
-        public Index<AsmCodeIndexRow> AsmIndex;
     }
 }

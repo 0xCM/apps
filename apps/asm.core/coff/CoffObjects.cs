@@ -12,7 +12,7 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static SymAddress address(in ObjSymRow row)
         {
-            ObjSymClass @class = row.SymCode;
+            ObjSymClass @class = row.Code;
             var selector = math.or((ushort)row.OriginId, (uint)(@class.Pack() << 16));
             return SymAddress.define(selector, row.Offset);
         }
@@ -33,7 +33,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref skip(src,i);
-                if(row.SymKind != ObjSymKind.CodeObject)
+                if(row.Kind != ObjSymKind.CodeObject)
                     continue;
 
                 var location = address(row);
