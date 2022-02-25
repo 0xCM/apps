@@ -54,7 +54,7 @@ namespace Z0
             var count = data.Length;
             var docseq = 0u;
             var orginated = context.Root(src.Path, out var origin);
-            for(var x =0; x<count; x++)
+            for(var x=0; x<count; x++)
             {
                 N++;
 

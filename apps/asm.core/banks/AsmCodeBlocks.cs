@@ -14,14 +14,6 @@ namespace Z0.Asm
 
         public readonly uint LineCount;
 
-        public AsmCodeBlocks(AsmCodeBlock[] data)
-        {
-            Data = data;
-            OriginName = EmptyString;
-            OriginId = 0;
-            LineCount = data.Select(x => x.Count).Sum();
-        }
-
         public AsmCodeBlocks(Label name, Hex32 id, AsmCodeBlock[] data)
         {
             Data = data;
@@ -71,10 +63,10 @@ namespace Z0.Asm
         public static implicit operator AsmCodeBlock[](AsmCodeBlocks src)
             => src.Data;
 
-        [MethodImpl(Inline)]
-        public static implicit operator AsmCodeBlocks(AsmCodeBlock[] src)
-            => new AsmCodeBlocks(src);
+        // [MethodImpl(Inline)]
+        // public static implicit operator AsmCodeBlocks(AsmCodeBlock[] src)
+        //     => new AsmCodeBlocks(src);
 
-        public static AsmCodeBlocks Empty => new AsmCodeBlocks(sys.empty<AsmCodeBlock>());
+        public static AsmCodeBlocks Empty => new AsmCodeBlocks(Label.Empty, 0, sys.empty<AsmCodeBlock>());
     }
 }

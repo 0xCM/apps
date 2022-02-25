@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IAsmBlockSegment, IComparable<ObjDumpRow>, IOriginated
+    public struct ObjDumpRow : IAsmBlockSegment, IComparable<ObjDumpRow>
     {
         public const string TableId = "llvm.objdump";
 
@@ -17,13 +17,13 @@ namespace Z0
 
         public uint Seq;
 
+        public uint DocSeq;
+
         public EncodingId EncodingId;
 
         public Hex32 OriginId;
 
         public InstructionId InstructionId;
-
-        public uint DocSeq;
 
         public TextBlock Section;
 
@@ -106,7 +106,17 @@ namespace Z0
             => BlockAddress;
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,18,12,30,8,12,16,32,12,8,42,90,90,1};
-
+            => new byte[FieldCount]{
+                ColWidths.Seq,
+                ColWidths.DocSeq,
+                ColWidths.EncodingId,
+                ColWidths.OriginId,
+                ColWidths.InstructionId,
+                12,
+                16,
+                32,
+                12,
+                8,
+                42,90,90,1};
     }
 }

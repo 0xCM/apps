@@ -48,6 +48,8 @@ namespace Z0
                             @base = c.Encoded.BaseAddress;
 
                         var entry = new AsmCodeMapEntry();
+                        entry.Seq = c.Seq;
+                        entry.DocSeq = c.DocSeq;
                         entry.EncodingId = c.EncodingId;
                         entry.OriginId = blocks.OriginId;
                         entry.InstructionId = AsmBytes.instid(blocks.OriginId, c.IP, c.Encoding);
@@ -56,7 +58,7 @@ namespace Z0
                         entry.BlockName = name;
                         entry.BlockAddress = address;
                         entry.IP = c.IP;
-                        entry.EncodingSize = c.EncodingSize;
+                        entry.Size = c.EncodingSize;
                         entry.Encoded = c.Encoded;
                         entry.Asm = c.Asm;
                         entry.BlockSize = block.Size;
@@ -68,8 +70,8 @@ namespace Z0
             }
 
             var records = entries.ToArray().Sort();
-            for(var i=0u; i<records.Length; i++)
-                seek(records,i).Seq = i;
+            // for(var i=0u; i<records.Length; i++)
+            //     seek(records,i).Seq = i;
             return records;
         }
 
@@ -101,10 +103,12 @@ namespace Z0
                         ref readonly var row = ref skip(blockcode,k);
                         var encoding = new AsmEncodingRecord();
                         encoding.Seq = row.Seq;
+                        encoding.DocSeq = row.DocSeq;
                         encoding.EncodingId = row.EncodingId;
                         encoding.OriginId = row.OriginId;
                         encoding.IP = row.IP;
                         encoding.Encoded = row.Encoded.Bytes;
+                        encoding.InstructionId = row.InstructionId;
                         encoding.Size = row.Size;
                         encoding.Asm = row.Asm;
                         seek(codebuffer,k) = dispenser.AsmCode(encoding);

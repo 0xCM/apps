@@ -48,7 +48,6 @@ namespace Z0
                 result = ParseHexCode(line, out record.Encoded);
                 if(result.Fail)
                     return result;
-
                 record.DocSeq = counter++;
                 if(context.Root(src.Path, out var origin))
                 {

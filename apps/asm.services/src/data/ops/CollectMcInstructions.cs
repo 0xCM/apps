@@ -34,6 +34,7 @@ namespace Z0
                     var record = new AsmInstructionRow();
                     record.Seq = counter++;
                     record.OriginId = origin.DocId;
+                    record.OriginName = origin.Path.FileName.Format();
                     record.DocSeq = instruction.DocSeq;
                     record.AsmName = instruction.AsmName;
                     record.Asm = expr.Statement.Format().Trim();

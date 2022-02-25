@@ -19,7 +19,7 @@ namespace Z0
             var parser = DecodedAsmParser.create(dispenser);
             var result = parser.ParseBlocks(doc);
             var blocks = parser.Parsed();
-            var view = blocks.View;
+            var view = blocks;
             var count = view.Length;
             for(var i=0; i<count; i++)
             {
@@ -31,8 +31,8 @@ namespace Z0
                 {
                     ref readonly var statement = ref statements[j];
                     ref readonly var encoded = ref statement.Encoded;
-                    ref readonly var decoded = ref statement.Asm;
-                    Write(statement.Format());
+                    ref readonly var decoded = ref statement.Decoded;
+                    Write(string.Format("{0,-42} # {1}", decoded, encoded));
                 }
             }
 

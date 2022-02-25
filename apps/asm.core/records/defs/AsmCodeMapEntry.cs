@@ -9,9 +9,11 @@ namespace Z0.Asm
     {
         public const string TableId = "asm.codemap";
 
-        public const byte FieldCount = 13;
+        public const byte FieldCount = 14;
 
         public uint Seq;
+
+        public uint DocSeq;
 
         public EncodingId EncodingId;
 
@@ -21,6 +23,14 @@ namespace Z0.Asm
 
         public Label OriginName;
 
+        public MemoryAddress IP;
+
+        public byte Size;
+
+        public AsmHexRef Encoded;
+
+        public SourceText Asm;
+
         public Label BlockName;
 
         public uint BlockNumber;
@@ -28,14 +38,6 @@ namespace Z0.Asm
         public MemoryAddress BlockAddress;
 
         public ByteSize BlockSize;
-
-        public MemoryAddress IP;
-
-        public byte EncodingSize;
-
-        public AsmHexRef Encoded;
-
-        public SourceText Asm;
 
         public int CompareTo(AsmCodeMapEntry src)
         {
@@ -47,6 +49,20 @@ namespace Z0.Asm
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,42,42,12,16,16,16,12,42,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+            ColWidths.Seq,
+            ColWidths.DocSeq,
+            ColWidths.EncodingId,
+            ColWidths.OriginId,
+            ColWidths.InstructionId,
+            ColWidths.OriginName,
+            ColWidths.IP,
+            ColWidths.Size,
+            ColWidths.Encoded,
+            ColWidths.AsmExpr,
+            ColWidths.BlockName,
+            12,
+            12,
+            12};
     }
 }

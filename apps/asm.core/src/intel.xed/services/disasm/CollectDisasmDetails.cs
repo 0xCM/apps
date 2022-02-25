@@ -26,15 +26,8 @@ namespace Z0
             var xedsvc = this;
             iter(files, file => {
 
-                var originated = context.Root(file.Path, out var origin);
                 var blocks = xedsvc.LoadDisamBlocks(file);
                 result = XedDisasmOps.ParseEncodings(context, file, out var encodings);
-                if(originated)
-                {
-                    for(var j=0; j<encodings.RowCount; j++)
-                        encodings[j].OriginId = origin.DocId;
-                }
-
                 var rows = encodings.View;
                 Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
                 result = xedsvc.CalcDisasmDetails(context, blocks, bag);
@@ -78,7 +71,6 @@ namespace Z0
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
-
             var result = XedDisasmOps.ParseEncodings(context, src.Source, out var encodings);
             if(result.Fail)
                 return result;
@@ -116,6 +108,8 @@ namespace Z0
 
             ref readonly var code = ref encoding.Encoded;
 
+            dst.Seq = encoding.Seq;
+            dst.DocSeq = encoding.DocSeq;
             dst.EncodingId = encoding.EncodingId;
             dst.OriginId = encoding.OriginId;
             dst.InstructionId = AsmBytes.instid(encoding.OriginId, encoding.IP, code.Bytes);

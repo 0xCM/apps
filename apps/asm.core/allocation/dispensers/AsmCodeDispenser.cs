@@ -61,6 +61,17 @@ namespace Z0
         public AsmHexRef AsmEncoding(ByteSize size)
             => Encodings.DispenseMemory(size);
 
+        [MethodImpl(Inline)]
+        public AsmHexRef AsmEncoding(ReadOnlySpan<byte> src)
+        {
+            var size = src.Length;
+            var hex = AsmEncoding(size);
+            var dst = hex.Edit;
+            for(var j=0; j<size; j++)
+                seek(dst,j) = skip(src,j);
+            return hex;
+        }
+
         public AsmCode AsmCode(in AsmEncodingRecord src)
         {
             ref readonly var code = ref src.Encoded;
@@ -70,7 +81,7 @@ namespace Z0
             var hexdst = hex.Edit;
             for(var j=0; j<size; j++)
                 seek(hexdst,j) = skip(hexsrc,j);
-            return new AsmCode(AsmBytes.encid(src.IP, code), src.OriginId, DispenseSource(src.Asm.Format()), src.IP, hex);
+            return new AsmCode(AsmBytes.encid(src.IP, code), src.Seq, src.DocSeq, src.OriginId, DispenseSource(src.Asm.Format()), src.IP, hex);
         }
     }
 }

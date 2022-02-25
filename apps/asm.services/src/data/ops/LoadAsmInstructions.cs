@@ -30,8 +30,9 @@ namespace Z0
                 ref var dst = ref seek(buffer,i);
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
-                result = DataParser.parse(skip(cells, j++), out dst.OriginId);
                 result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
+                result = DataParser.parse(skip(cells, j++), out dst.OriginId);
+                result = DataParser.parse(skip(cells, j++), out dst.OriginName);
                 result = DataParser.parse(skip(cells, j++), out dst.AsmName);
                 result = AsmParser.expression(skip(cells, j++), out dst.Asm);
                 result = DataParser.parse(skip(cells, j++), out dst.Source);

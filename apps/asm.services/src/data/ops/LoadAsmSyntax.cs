@@ -36,9 +36,9 @@ namespace Z0
                 var j=0;
 
                 result = DataParser.parse(skip(cells,j++), out dst.Seq);
+                result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells,j++), out dst.OriginId);
                 result = DataParser.parse(skip(cells,j++), out dst.OriginName);
-                result = DataParser.parse(skip(cells,j++), out dst.DocSeq);
 
                 if(result.Fail)
                 {

@@ -4,25 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmEncodingRecord
+    public struct DecodedAsmStatement
     {
-        public uint Seq;
-
-        public uint DocSeq;
-
         public EncodingId EncodingId;
-
-        public Hex32 OriginId;
-
-        public InstructionId InstructionId;
 
         public MemoryAddress IP;
 
         public BinaryCode Encoded;
 
-        public byte Size;
+        public TextBlock Decoded;
 
-        public AsmExpr Asm;
+        public static DecodedAsmStatement Empty => default;
     }
 }

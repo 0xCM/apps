@@ -43,10 +43,10 @@ namespace Z0
                 ref var dst = ref seek(target,i);
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
+                result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = AsmParser.encid(data[j++].Text, out dst.EncodingId);
                 result = DataParser.parse(data[j++], out dst.OriginId);
                 result = AsmParser.instid(data[j++].Text, out dst.InstructionId);
-                result = DataParser.parse(data[j++], out dst.DocSeq);
                 result = DataParser.parse(data[j++], out dst.Section);
                 result = DataParser.parse(data[j++], out dst.BlockAddress);
                 result = DataParser.parse(data[j++], out dst.BlockName);
@@ -108,7 +108,7 @@ namespace Z0
                 DataParser.parse(src.Next(), out dst.OriginId).Require();
                 DataParser.parse(src.Next(), out dst.BlockName).Require();
                 DataParser.parse(src.Next(), out dst.BlockNumber).Require();
-                DataParser.parse(src.Next(), out dst.BlockBase).Require();
+                DataParser.parse(src.Next(), out dst.BlockAddress).Require();
                 DataParser.parse(src.Next(), out dst.BlockSize).Require();
                 DataParser.parse(src.Next(), out dst.Source).Require();
             }
@@ -143,7 +143,7 @@ namespace Z0
                 {
                     var block = new ObjBlock();
                     block.OriginId = docid;
-                    block.BlockBase = @base;
+                    block.BlockAddress = @base;
                     block.BlockName = blockname;
                     block.BlockNumber = number++;
                     block.BlockSize = size;
@@ -167,7 +167,7 @@ namespace Z0
                     var block = new ObjBlock();
                     block.OriginId = docid;
                     block.BlockName = blockname;
-                    block.BlockBase = @base;
+                    block.BlockAddress = @base;
                     block.BlockNumber = number++;
                     block.Source = source;
                     block.BlockSize = size;
@@ -184,6 +184,7 @@ namespace Z0
 
             var files = context.Files.Entries(FileKind.ObjAsm);
             var count = files.Count;
+            var seq = 0u;
             using var alloc = Alloc.allocate();
             for(var i=0; i<count; i++)
             {
@@ -192,10 +193,45 @@ namespace Z0
                 if(result.Fail)
                     Errors.Throw(result.Message);
 
-                var blocks = AsmObjects.DistillBlocks(context, file, records, alloc);
-                AsmObjects.Emit(context, blocks, Projects.AsmCodePath(project, file.Path.FileName.Format()));
+                var blocks = AsmObjects.DistillBlocks(context, file, ref seq, records, alloc);
+                EmitAsmCodeBlocks(context, blocks, Projects.AsmCodePath(project, file.Path.FileName.Format()));
                 emitted(project,blocks);
             }
+        }
+
+        public void EmitAsmCodeBlocks(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
+        {
+            var buffer = alloc<AsmCodeRecord>(src.LineCount);
+            var k=0u;
+            var distinct = hashset<Hex64>();
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var block = ref src[i];
+                var count = block.Count;
+                for(var j=0; j<count; j++, k++)
+                {
+                    ref readonly var code = ref block[j];
+                    ref var record = ref seek(buffer,k);
+                    record.DocSeq = code.DocSeq;
+                    record.EncodingId = code.EncodingId;
+                    record.OriginId = code.OriginId;
+                    record.InstructionId = AsmBytes.instid(code.OriginId, code.IP, code.Encoding);
+                    record.OriginName = src.OriginName;
+                    record.BlockBase = block.Label.Location;
+                    record.BlockName = block.Label.Name;
+                    record.IP = code.IP;
+                    record.Size = code.Encoded.Size;
+                    record.Encoded = code.Encoded;
+                    record.Asm = code.Asm;
+
+                    if(!distinct.Add(record.EncodingId))
+                    {
+                        Warn(string.Format("Duplicate identifier:{0}", record.EncodingId));
+                    }
+                }
+            }
+
+            TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
         }
 
         Index<ObjDumpRow> ConsolidateObjDumpRows(WsContext context)

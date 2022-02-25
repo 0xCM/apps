@@ -7,13 +7,15 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmEncodingRow : IAsmEncodingRecord, IComparable<AsmEncodingRow>, IOriginated
+    public struct AsmEncodingRow : IAsmEncodingRecord, IComparable<AsmEncodingRow>
     {
         public const string TableId = "asm.encoding";
 
         public const byte FieldCount = 11;
 
         public uint Seq;
+
+        public uint DocSeq;
 
         public EncodingId EncodingId;
 
@@ -22,8 +24,6 @@ namespace Z0
         public InstructionId InstructionId;
 
         public @string OriginName;
-
-        public uint DocSeq;
 
         public MemoryAddress IP;
 
@@ -61,7 +61,18 @@ namespace Z0
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,18,12,30,42,8,12,38,8,84,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+            ColWidths.Seq,
+            ColWidths.DocSeq,
+            ColWidths.EncodingId,
+            ColWidths.OriginId,
+            ColWidths.InstructionId,
+            ColWidths.OriginName,
+            ColWidths.IP,
+            ColWidths.Encoded,
+            ColWidths.Size,
+            84,
+            1};
 
         public static AsmEncodingRow Empty => default;
     }

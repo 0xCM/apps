@@ -31,9 +31,9 @@ namespace Z0
 
                 var j = 0;
                 result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = AsmParser.encid(skip(cells, j++), out dst.EncodingId);
                 result = DataParser.parse(skip(cells, j++), out dst.OriginId);
-                result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
                 result = DataParser.parse(skip(cells, j++), out dst.IP);
                 result = AsmParser.asmhex(skip(cells, j++), out dst.Encoded);
                 result = DataParser.parse(skip(cells, j++), out dst.Size);
@@ -42,6 +42,5 @@ namespace Z0
             }
             return buffer;
         }
-
     }
 }

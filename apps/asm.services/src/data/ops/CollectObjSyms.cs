@@ -63,8 +63,8 @@ namespace Z0
                 var reader = cells.Reader();
                 ref var row = ref seek(dst,i);
                 DataParser.parse(reader.Next(), out row.Seq).Require();
-                DataParser.parse(reader.Next(), out row.OriginId).Require();
                 DataParser.parse(reader.Next(), out row.DocSeq).Require();
+                DataParser.parse(reader.Next(), out row.OriginId).Require();
                 DataParser.parse(reader.Next(), out row.Offset).Require();
                 SymCodes.ExprKind(reader.Next(), out row.Code);
                 SymKinds.ExprKind(reader.Next(), out row.Kind);

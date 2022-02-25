@@ -7,17 +7,19 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
-    public struct AsmInstructionRow : ISequential, IOriginated, IComparable<AsmInstructionRow>
+    public struct AsmInstructionRow : ISequential, IComparable<AsmInstructionRow>
     {
         public const string TableId = "asm.instruction";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 7;
 
         public uint Seq;
 
+        public uint DocSeq;
+
         public Hex32 OriginId;
 
-        public uint DocSeq;
+        public @string OriginName;
 
         public Identifier AsmName;
 
@@ -27,9 +29,6 @@ namespace Z0
 
         uint ISequential.Seq
             => Seq;
-
-        Hex32 IOriginated.OriginId
-            => OriginId;
 
         public bool IsEmpty
         {
@@ -45,7 +44,15 @@ namespace Z0
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,32,64,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+            ColWidths.Seq,
+            ColWidths.DocSeq,
+            ColWidths.OriginId,
+            ColWidths.OriginName,
+            32,
+            64,
+            1
+            };
 
     }
 }

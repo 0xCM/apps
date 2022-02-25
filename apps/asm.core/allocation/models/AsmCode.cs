@@ -7,6 +7,10 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack=1)]
     public readonly struct AsmCode
     {
+        public readonly uint Seq;
+
+        public readonly uint DocSeq;
+
         public readonly EncodingId EncodingId;
 
         public readonly Hex32 OriginId;
@@ -18,8 +22,10 @@ namespace Z0.Asm
         public readonly AsmHexRef Encoded;
 
         [MethodImpl(Inline)]
-        public AsmCode(EncodingId id, Hex32 origin, SourceText asm, MemoryAddress ip, AsmHexRef code)
+        public AsmCode(EncodingId id, uint seq, uint docseq, Hex32 origin, SourceText asm, MemoryAddress ip, AsmHexRef code)
         {
+            Seq = seq;
+            DocSeq = docseq;
             EncodingId = id;
             OriginId = origin;
             IP = ip;

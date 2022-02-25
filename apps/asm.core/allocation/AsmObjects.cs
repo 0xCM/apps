@@ -13,7 +13,8 @@ namespace Z0
     {
         WsProjects Projects => Service(Wf.WsProjects);
 
-        public AsmCodeBlocks DistillBlocks(WsContext context, in FileRef file, Index<ObjDumpRow> src, Alloc dispenser)
+
+        public AsmCodeBlocks DistillBlocks(WsContext context, in FileRef file, ref uint seq, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var blocks = src.GroupBy(x => x.BlockAddress).Array();
             var blockbuffer = alloc<AsmCodeBlock>(blocks.Length);
@@ -28,9 +29,11 @@ namespace Z0
                 {
                     ref readonly var row = ref skip(blockcode,k);
                     var encoding = new AsmEncodingRecord();
-                    encoding.Seq = row.Seq;
+                    encoding.Seq = seq++;
+                    encoding.DocSeq = row.DocSeq;
                     encoding.EncodingId = row.EncodingId;
                     encoding.OriginId = row.OriginId;
+                    encoding.InstructionId = row.InstructionId;
                     encoding.IP = row.IP;
                     encoding.Encoded = row.Encoded.Bytes;
                     encoding.Size = row.Size;
@@ -41,39 +44,6 @@ namespace Z0
             }
             var originated = context.Root(file.Path, out var origin);
             return new AsmCodeBlocks(dispenser.Label(origin.Path.FileName.Format()), origin.DocId, blockbuffer);
-        }
-
-        public void Emit(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
-        {
-            var buffer = alloc<AsmCodeRecord>(src.LineCount);
-            var k=0u;
-            var distinct = hashset<Hex64>();
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var block = ref src[i];
-                var count = block.Count;
-                for(var j=0; j<count; j++, k++)
-                {
-                    ref readonly var code = ref block[j];
-                    ref var record = ref seek(buffer,k);
-                    record.EncodingId = code.EncodingId;
-                    record.OriginId = code.OriginId;
-                    record.OriginName = src.OriginName;
-                    record.BlockBase = block.Label.Location;
-                    record.BlockName = block.Label.Name;
-                    record.IP = code.IP;
-                    record.Encoded = code.Encoded;
-                    record.Size = code.Encoded.Size;
-                    record.Asm = code.Asm;
-
-                    if(!distinct.Add(record.EncodingId))
-                    {
-                        Warn(string.Format("Duplicate identifier:{0}", record.EncodingId));
-                    }
-                }
-            }
-
-            TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
         }
     }
 }
