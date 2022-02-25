@@ -41,21 +41,6 @@ namespace Z0.llvm
             return result;
         }
 
-        [CmdOp(".test-union")]
-        Outcome TestUnion(CmdArgs args)
-        {
-            var result = Outcome.Success;
-
-            var x = Lang.c.union.instance<uint,ulong>();
-            x.store(32ul);
-            Write(x.ToString());
-
-            x.store(321u);
-            Write(x.ToString());
-
-            return result;
-        }
-
         [CmdOp("llc/help")]
         Outcome ParseHelp(CmdArgs args)
         {

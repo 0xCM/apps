@@ -5,6 +5,7 @@
 namespace Z0
 {
     using System;
+    using System.Linq;
 
     using static core;
     using static CsPatterns;
@@ -12,6 +13,8 @@ namespace Z0
     public class CgSvc : AppService<CgSvc>
     {
         ConstLookup<CgTarget,string> TargetExpressions;
+
+        AppDb AppDb => Service(Wf.AppDb);
 
         public CgSvc()
         {
@@ -252,6 +255,54 @@ namespace Z0
 
             EmittedFile(emitting, src.EntryCount);
             return dst;
+        }
+
+        public void GenEnumReplicants(Type[] enums, FS.FilePath dst)
+        {
+            var types = enums.GroupBy(x => x.Namespace).Map(x => (x.Key, x.ToArray())).ToDictionary();
+            var keys = types.Keys;
+            var counter = 0u;
+            var buffer = text.buffer();
+            var name = "EnumDefs";
+            foreach(var ns in keys)
+                counter += EmitEnumReplicants(ns, name, types[ns], buffer);
+            FileEmit(buffer.Emit(), counter, dst);
+        }
+
+        uint EmitEnumReplicants(string ns, string name, ReadOnlySpan<Type> types, ITextBuffer buffer)
+        {
+            var g = EnumGen();
+            var margin = 0u;
+            var counter = 0u;
+            buffer.IndentLineFormat(margin, "namespace {0}", ns);
+            buffer.IndentLine(margin, Chars.LBrace);
+            margin += 4;
+            buffer.IndentLineFormat(margin, "public readonly struct {0}", name);
+            buffer.IndentLine(margin, Chars.LBrace);
+            margin += 4;
+            var enumBuffer = text.buffer();
+
+            for(var i=0; i<types.Length; i++, counter++)
+            {
+                ref readonly var type = ref types[i];
+                var spec = Symbols.set(type);
+                g.Emit(margin,spec,enumBuffer);
+
+                buffer.IndentLine(margin,enumBuffer.Emit());
+
+                if(counter != 0 && counter % 100 == 0)
+                {
+                    Babble(string.Format("Generated code for {0} enums", counter));
+                    counter = 0;
+                }
+            }
+
+            margin -= 4;
+            buffer.IndentLine(margin, Chars.RBrace);
+
+            margin -= 4;
+            buffer.IndentLine(margin, Chars.RBrace);
+            return counter;
         }
     }
 }

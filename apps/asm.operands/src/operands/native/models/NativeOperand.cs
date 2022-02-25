@@ -16,7 +16,7 @@ namespace Z0
         public readonly NativeOpMod Mod;
 
         [MethodImpl(Inline)]
-        public NativeOperand(Label name, NativeType type, NativeOpMod mod = default)
+        public NativeOperand(Label name, NativeType type, NativeOpMod mod)
         {
             Name = name;
             Type = type;

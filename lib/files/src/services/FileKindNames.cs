@@ -452,5 +452,7 @@ namespace Z0
         public const string xeddisasm_summary = xeddisasm + sep + "summary" + sep + csv;
 
         public const string xeddisasm_semantic = xeddisasm + sep + "semantic" + sep + txt;
+
+        public const string xeddisasm_detail = xeddisasm + sep + "detail";
     }
 }

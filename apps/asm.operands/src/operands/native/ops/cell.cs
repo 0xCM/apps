@@ -10,7 +10,7 @@ namespace Z0
     {
         [MethodImpl(Inline), Op]
         public static NativeType @void()
-            => NativeType.Void;
+            => NativeType.define(NativeCellType.Void);
 
         [MethodImpl(Inline), Op]
         public static NativeType cell(NativeSize size, ScalarClass @class)
@@ -18,11 +18,11 @@ namespace Z0
 
         [MethodImpl(Inline), Op]
         public static NativeType unsigned(NativeSize size)
-            => new NativeType(NativeCellType.define(size, ScalarClass.I));
+            => new NativeType(NativeCellType.define(size, ScalarClass.U));
 
         [MethodImpl(Inline), Op]
         public static NativeType signed(NativeSize size)
-            => new NativeType(NativeCellType.define(size, ScalarClass.U));
+            => new NativeType(NativeCellType.define(size, ScalarClass.I));
 
         [MethodImpl(Inline), Op]
         public static NativeType fractional(NativeSize size)

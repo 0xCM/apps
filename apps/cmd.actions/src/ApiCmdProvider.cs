@@ -10,6 +10,8 @@ namespace Z0
 
     public partial class ApiCmdProvider : AppCmdProvider<ApiCmdProvider>
     {
+        AppDb AppDb => Service(Wf.AppDb);
+
         ApiHex ApiHex => Service(Wf.ApiHex);
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
@@ -35,6 +37,8 @@ namespace Z0
         ApiComments ApiComments => Service(Wf.ApiComments);
 
         Symbolism Symbolism => Service(Wf.Symbolism);
+
+        CgSvc CodeGen => Service(Wf.CodeGen);
 
         EncodingCollector CodeCollector => Service(Wf.EncodingCollector);
 

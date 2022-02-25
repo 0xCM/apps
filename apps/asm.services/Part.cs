@@ -40,11 +40,8 @@ namespace Z0
         public static AsmFlowCommands AsmFlowCommands(this IWfRuntime wf)
             => Z0.AsmFlowCommands.create(wf);
 
-        public static AsmCodeMaps AsmCodeMaps(this IWfRuntime wf)
-            => Z0.AsmCodeMaps.create(wf);
-
         [Op]
-        public static ProjectCollector ProjectCollector(this IWfRuntime wf)
-            => Z0.ProjectCollector.create(wf);
+        public static ProjectDataServices ProjectData(this IWfRuntime wf)
+            => Z0.ProjectDataServices.create(wf);
     }
 }

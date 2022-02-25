@@ -146,8 +146,11 @@ namespace Z0
         public SourceText Source(string src)
             => Sources().DispenseSource(src);
 
-        public NativeSig NativeSig(string scope, string name, NativeType ret, params NativeOperandSpec[] ops)
-            => Sigs().NativeSig(scope, name,ret,ops);
+        public NativeSig Sig(string scope, string name, NativeType ret, params NativeOperandSpec[] ops)
+            => Sigs().Sig(scope, name,ret,ops);
+
+        public NativeSig Sig(NativeSigSpec spec)
+            => Sigs().Sig(spec);
 
         public SourceText Source(Identifier name, ReadOnlySpan<string> src)
             => Sources().Source(src);

@@ -25,6 +25,6 @@ namespace Z0
         new ReadOnlySpan<TypeKind<K>> PrimalKinds {get;}
 
         ReadOnlySpan<TypeKind> ITypeSystem.PrimalKinds
-            => PrimalKinds.Map(TypeFactory.untype);
+            => PrimalKinds.Map(t => (TypeKind)t);
     }
 }

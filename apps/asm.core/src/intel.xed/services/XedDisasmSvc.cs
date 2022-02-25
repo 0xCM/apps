@@ -40,7 +40,7 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
 
-        Index<AsmEncodingRow> EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
+        public Index<AsmEncodingRow> EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
         {
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
@@ -63,15 +63,6 @@ namespace Z0
 
             TableEmit(@readonly(result), AsmEncodingRow.RenderWidths, dst);
             return result;
-        }
-
-        public void Collect(WsContext context)
-        {
-            var result = Outcome.Success;
-            var project = context.Project;
-            var summaries = EmitDisasmSummary(CollectEncodingDocs(context), Projects.XedDisasmSummary(project));
-            CollectDetailPages(context);
-            var details = CollectDisasmDetails(context);
         }
 
         /// <summary>

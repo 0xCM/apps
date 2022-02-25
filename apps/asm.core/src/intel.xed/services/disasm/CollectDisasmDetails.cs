@@ -287,7 +287,7 @@ namespace Z0
             return result;
         }
 
-        Outcome CollectDetailPages(WsContext collect)
+        public Outcome CollectDetailPages(WsContext collect)
         {
             var result = Outcome.Success;
             var encodings = CollectEncodingDocs(collect);

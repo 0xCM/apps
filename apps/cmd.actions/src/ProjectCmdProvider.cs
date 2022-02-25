@@ -11,16 +11,16 @@ namespace Z0
 
     public partial class ProjectCmdProvider : AppCmdProvider<ProjectCmdProvider>, IProjectProvider
     {
+        AppDb AppDb => Service(Wf.AppDb);
 
         public ProjectCmdProvider()
         {
 
         }
 
-
         XedDisasmSvc XedDisasm => Service(Wf.XedDisasm);
 
-        ProjectCollector ProjectManager => Service(Wf.ProjectCollector);
+        ProjectDataServices ProjectData => Service(Wf.ProjectData);
 
         WsProjects Projects => Service(Wf.WsProjects);
 

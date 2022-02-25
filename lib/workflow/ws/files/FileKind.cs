@@ -158,16 +158,22 @@ namespace Z0
         [Symbol(xeddisasm_semantic, "Xed disassembly details with semantic interpretation")]
         XedSemanticDisasm,
 
-        [Symbol("ll.bc")]
+        [Symbol(xeddisasm_detail, "Xed disassembly details in columnar format")]
+        XedDisasmDetail,
+
+        [Symbol("ll.bc", "An llvm bitcode file produced by compilation of an *.ll file")]
         LlBc,
 
-        [Symbol("s")]
+        [Symbol("s", "A file with an ugly asm syntax, also known as ATT syntax")]
         S,
 
-        [Symbol(pdb)]
+        [Symbol(pdb, "A program database file")]
         Pdb,
 
         [Symbol(td, "An llvm table definition file")]
         Td,
+
+        [Symbol(list, "A simple eol-delimited text file")]
+        List,
     }
 }

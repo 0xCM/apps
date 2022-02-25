@@ -18,11 +18,45 @@ namespace Z0
             seek(specs,0) = NativeSigs.ptr("op0", NativeTypes.u8());
             seek(specs,1) = NativeSigs.@const("op1", NativeTypes.i16());
             seek(specs,2) = NativeSigs.@out("op2", NativeTypes.u32());
-            var sig = dispenser.NativeSig("funcs","f2", NativeTypes.i32(), specs);
+            var sig = dispenser.Sig("funcs","f2", NativeTypes.i32(), specs);
             Write(sig.Format(SigFormatStyle.C));
             return true;
         }
 
+        [CmdOp("inx/check/sigs")]
+        Outcome CheckIntrinsicSigs(CmdArgs args)
+        {
+            using var dispenser = Alloc.allocate();
+            var sigs = new IntrinsicSigs();
+
+            var f0 = sigs._mm_add_epi8();
+            Write(f0.Format(SigFormatStyle.C));
+
+            var f0x = dispenser.Sig(f0);
+            Write(f0x.Format(SigFormatStyle.C));
+
+            var f1 = sigs._mm_add_epi16();
+            Write(f1.Format(SigFormatStyle.C));
+
+            var f1x = dispenser.Sig(f1);
+            Write(f1x.Format(SigFormatStyle.C));
+
+            var f2 = sigs._mm_add_epi32();
+            Write(f2.Format(SigFormatStyle.C));
+
+            var f2x = dispenser.Sig(f2);
+            Write(f2x.Format(SigFormatStyle.C));
+
+            var f3 = sigs._mm_add_epi64();
+            Write(f3.Format(SigFormatStyle.C));
+
+            var f3x = dispenser.Sig(f3);
+            Write(f3x.Format(SigFormatStyle.C));
+
+
+
+            return true;
+        }
 
         void CheckSig1()
         {
@@ -31,7 +65,7 @@ namespace Z0
             seek(specs,0) = NativeSigs.op("op0", NativeTypes.u8());
             seek(specs,1) = NativeSigs.op("op1", NativeTypes.i16());
             seek(specs,2) = NativeSigs.op("op2", NativeTypes.u32());
-            var sig = dispenser.NativeSig("funcs","f1", NativeTypes.i32(), specs);
+            var sig = dispenser.Sig("funcs","f1", NativeTypes.i32(), specs);
 
             ref readonly var ret = ref sig.Return;
             ref readonly var op0 = ref sig[0];

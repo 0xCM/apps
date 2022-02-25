@@ -299,5 +299,7 @@ namespace Z0
         /// A 512-bit block covering 4 64-bit floating-point segments
         /// </summary>
         Seg512x64f = (SZ.W64 | SC.F << 4) | (8 << 8),
+
+        Void = (SZ.Unknown | SC.None << 4) | (SZ.Unknown << 8)
     }
 }

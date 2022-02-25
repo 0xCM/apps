@@ -14,7 +14,7 @@ namespace Z0
         Outcome Collect(CmdArgs args)
         {
             var project = Project();
-            ProjectManager.Collect(project);
+            ProjectData.Collect(project);
             return true;
         }
 
@@ -52,7 +52,7 @@ namespace Z0
             var catalog = project.FileCatalog();
             var files = catalog.Entries(FileKind.McAsm);
 
-            var docs = LlvmMc.ParseMcAsmDocs(project);
+            var docs = ProjectData.CalcMcAsmDocs(project);
             var count = docs.Count;
             for(var i=0; i<count; i++)
             {
@@ -98,7 +98,7 @@ namespace Z0
             var project = Project();
             var symindex = CoffServices.LoadSymIndex(project);
             var catalog = project.FileCatalog();
-            var blocks = LlvmObjDump.LoadObjBlocks(project);
+            var blocks = ProjectData.LoadObjBlocks(project);
             var files = catalog.Entries(FileKind.Obj, FileKind.O);
             var count = files.Count;
             var docsyms = symindex.Symbols();

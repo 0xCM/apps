@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     public partial class CheckCmdProvider : AppCmdProvider<CheckCmdProvider>
     {
+        AppDb AppDb => Service(Wf.AppDb);
 
         Parsers Parsers => Service(Wf.Parsers);
-
     }
 }

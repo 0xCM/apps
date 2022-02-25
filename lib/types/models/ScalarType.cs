@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public class ScalarType : SizedType, IScalarType, IEquatable<ScalarType>
     {
         public ScalarClass ScalarClass {get;}

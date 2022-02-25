@@ -451,7 +451,7 @@ namespace Z0.Asm
         }
 
         [SymSource(tokens, K.BCastComposite)]
-        public enum BCastComposite
+        public enum BCastComposite : byte
         {
             [Symbol("xmm/m128/m32bcst")]
             x128x32bcst,

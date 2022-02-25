@@ -102,6 +102,8 @@ namespace Z0
         In = 8,
 
         Out = 16,
+
+        Unsigned = 32,
     }
 }
 

@@ -54,6 +54,15 @@ namespace Z0
         public NativeOperandSpec ModConst()
             => Modify(Const | Mod);
 
+        public string Format()
+            => NativeSigs.format(this);
+
+        public string Format(SigFormatStyle style)
+            => NativeSigs.format(this, style);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator NativeOperandSpec((string name, NativeType type) src)
             => new NativeOperandSpec(src.name, src.type);

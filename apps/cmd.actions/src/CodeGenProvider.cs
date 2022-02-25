@@ -8,6 +8,8 @@ namespace Z0
 
     public partial class CodeGenProvider : AppCmdProvider<CodeGenProvider>
     {
+        AppDb AppDb => Service(Wf.AppDb);
+
         CgSvc CodeGen => Service(Wf.CodeGen);
 
         IntelSdm Sdm => Service(Wf.IntelSdm);

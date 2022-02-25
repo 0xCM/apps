@@ -8,14 +8,14 @@ namespace Z0
     {
         [MethodImpl(Inline)]
         public static NativeCellType define(NativeSize size, ScalarClass @class)
-            => new NativeCellType(size,@class);
+            => new NativeCellType(size, @class);
 
         readonly byte Data;
 
         [MethodImpl(Inline)]
         internal NativeCellType(NativeSize size, ScalarClass @class)
         {
-            Data = (byte)((byte)size.Code | (byte)@class << 4);
+            Data = (byte)((uint)size.Code | (uint)@class << 4);
         }
 
         public NativeSize Size
@@ -62,7 +62,7 @@ namespace Z0
         public static NativeCellType Void
         {
             [MethodImpl(Inline)]
-            get => new NativeCellType(NativeSizeCode.Unknown, ScalarClass.None);
+            get => define(NativeSizeCode.Unknown, ScalarClass.None);
         }
     }
 }

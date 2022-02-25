@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct NativeType : INativeType<NativeType>
+    public readonly struct NativeType : INativeType<NativeType>, IEquatable<NativeType>
     {
         [MethodImpl(Inline)]
         public static NativeType define(NativeCellType src)
@@ -98,6 +98,14 @@ namespace Z0
         [MethodImpl(Inline)]
         public static implicit operator NativeType(NativeSegKind src)
             => define(src);
+
+        [MethodImpl(Inline)]
+        public static bool operator ==(NativeType a, NativeType b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(NativeType a, NativeType b)
+            => !a.Equals(b);
 
         public static NativeType Void
         {

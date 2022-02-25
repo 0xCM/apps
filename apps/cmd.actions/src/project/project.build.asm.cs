@@ -17,9 +17,9 @@ namespace Z0
         [CmdOp("mc/syntax")]
         Outcome McSyntax(CmdArgs args)
         {
-            var rows = LlvmMc.LoadSyntax(Project());
+            var rows = ProjectData.LoadAsmSyntax(Project());
             var count = rows.Count;
-            var opLists = LlvmMc.ExtractSyntaxOpLists(rows);
+            var opLists = ProjectData.CalcAsmSyntaxOps(rows);
             Require.equal(count, opLists.Count);
 
             for(var i=0; i<count; i++)
