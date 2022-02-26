@@ -46,6 +46,12 @@ namespace Z0
         public string DocName
             => Source.Path.FileName.Format();
 
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
+
         public static ObjDumpRow Empty()
         {
             var dst = new ObjDumpRow();

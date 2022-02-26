@@ -28,7 +28,7 @@ namespace Z0
             SymKinds = Symbols.index<ObjSymKind>();
         }
 
-        public void Collect(IProjectWs project)
+        public Index<AsmCorrelation> Collect(IProjectWs project)
         {
             var receiver = new AsmStatsCollector();
             var context = Projects.Context(project, receiver);
@@ -40,9 +40,11 @@ namespace Z0
             CollectMc(context);
             var xeddisasm = CollectXedDisasm(context);
             MapAsmCode(context);
+            receiver.Seal();
             var stats = receiver.Stats();
             var dst = ProjectDb.ProjectTable<AsmStat>(project);
             TableEmit(stats.View, dst);
+            return receiver.Correlate();
         }
    }
 }

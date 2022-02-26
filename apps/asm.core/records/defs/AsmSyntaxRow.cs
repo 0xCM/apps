@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmSyntaxRow : ISequential, IComparable<AsmSyntaxRow>
+    public struct AsmSyntaxRow : IComparable<AsmSyntaxRow>
     {
         public const string TableId = "asm.syntax";
 
@@ -29,8 +29,11 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        uint ISequential.Seq
-            => Seq;
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
 
         public int CompareTo(AsmSyntaxRow src)
         {

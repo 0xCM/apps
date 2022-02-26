@@ -15,7 +15,6 @@ namespace Z0
             var result = Outcome.Success;
             var project = context.Project;
             var summaries = XedDisasm.EmitDisasmSummary(XedDisasm.CollectEncodingDocs(context), Projects.XedDisasmSummary(project));
-            XedDisasm.CollectDetailPages(context);
             var details = XedDisasm.CollectDisasmDetails(context);
             return details;
         }

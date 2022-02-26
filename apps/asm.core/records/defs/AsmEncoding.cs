@@ -24,5 +24,12 @@ namespace Z0.Asm
         public byte Size;
 
         public AsmExpr Asm;
+
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
+
     }
 }

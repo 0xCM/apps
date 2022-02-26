@@ -136,7 +136,7 @@ namespace Z0
         public WsDataFlows LoadBuildFlowIndex(IProjectWs project)
             => WsDataFlows.create(FileCatalog.load(project), LoadBuildFlows(project));
 
-        public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
+        public WsContext Context(IProjectWs project, AsmEventReceiver receiver = null)
             => WsContext.create(project, LoadBuildFlowIndex(project), receiver);
 
         public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)

@@ -39,6 +39,12 @@ namespace Z0.Asm
 
         public ByteSize BlockSize;
 
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
+
         public int CompareTo(AsmCodeMapEntry src)
         {
             var result = OriginName.CompareTo(src.OriginName);

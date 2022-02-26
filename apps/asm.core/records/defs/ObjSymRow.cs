@@ -29,6 +29,12 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
+
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{8,8,12,10,6,24,80,1};
     }

@@ -27,6 +27,12 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
+
         uint ISequential.Seq
             => Seq;
 

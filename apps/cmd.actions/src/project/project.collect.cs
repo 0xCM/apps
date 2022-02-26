@@ -14,7 +14,19 @@ namespace Z0
         Outcome Collect(CmdArgs args)
         {
             var project = Project();
-            ProjectData.Collect(project);
+            var data = ProjectData.Collect(project);
+            var count = data.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var c = ref data[i];
+                ref readonly var seq = ref c.ObjDump.Seq;
+                ref readonly var form = ref c.XedDisasm.IForm;
+                ref readonly var block = ref c.ObjDump.BlockName;
+                ref readonly var asm = ref c.ObjDump.Asm;
+                ref readonly var ip = ref c.XedDisasm.IP;
+                Write(string.Format("{0,-8} {1,-46}: {2,-8} {3,-46} # {4}", seq, block, ip, asm, form));
+            }
+            //Write(string.Format("Correlated {0} instructions", data.Count));
             return true;
         }
 

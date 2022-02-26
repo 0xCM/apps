@@ -8,7 +8,7 @@ namespace Z0
 
     using static core;
 
-    public class AsmStatsCollector : WsEventReceiver
+    public class AsmStatsCollector : AsmEventReceiver
     {
         Dictionary<string,uint> _AsmIdCounts;
 
@@ -17,9 +17,9 @@ namespace Z0
             _AsmIdCounts = new();
         }
 
-        public override void Collected(Index<AsmInstructionRow> src)
+        void Collect(ReadOnlySpan<AsmInstructionRow> src)
         {
-            var count = src.Count;
+            var count = src.Length;
             for(var i=0; i<count; i++)
             {
                 ref readonly var row = ref src[i];
@@ -31,12 +31,12 @@ namespace Z0
                 {
                     _AsmIdCounts[row.AsmName] = 1;
                 }
-
             }
         }
 
         public Index<AsmStat> Stats()
         {
+            Collect(CollectedInstructions());
             var count = _AsmIdCounts.Count;
             var buffer = alloc<AsmStat>(count);
             var keys = _AsmIdCounts.Keys.Array();

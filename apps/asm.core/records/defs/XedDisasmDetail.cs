@@ -58,6 +58,12 @@ namespace Z0
 
         public InstOperands Operands;
 
+        public DocRowKey Key
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,DocSeq);
+        }
+
         public int CompareTo(XedDisasmDetail src)
         {
             var result = SourceName.CompareTo(src.SourceName);
@@ -77,7 +83,5 @@ namespace Z0
             8,5,5,12,12,5,5,12,5,54,54,42,48,1};
 
         public static XedDisasmDetail Empty => default;
-
-        // "{0,-12} | {1,-18} | {2,-12} | {3,-36} | {4,-8} | {5,-5} | {6,-5} | {7,-5} | {8,-5} | {9,-8} | {10,-8} | {11,-54} | {12,-54} | {13}"
     }
 }

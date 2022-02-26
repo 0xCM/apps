@@ -237,7 +237,7 @@ namespace Z0
         Index<ObjDumpRow> ConsolidateObjDumpRows(WsContext context)
         {
             var project = context.Project;
-            var src = project.OutFiles(FileKind.ObjAsm).View;
+            var src = project.OutFiles(FileKind.ObjAsm).Storage.Sort();
             var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
             var count = src.Length;
@@ -251,8 +251,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var fref = context.FileRef(path);
-                result = ParseObjDumpSource(context, fref, out var records);
+                result = ParseObjDumpSource(context, context.FileRef(path), out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);
@@ -275,7 +274,7 @@ namespace Z0
 
             EmittedTable(flow, total);
 
-            var data = emitted.ToArray();
+            var data = emitted.ToArray().Sort();
             context.Receiver.Collected(data);
             return data;
         }
