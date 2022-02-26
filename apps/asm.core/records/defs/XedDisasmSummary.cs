@@ -5,7 +5,7 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1)]
-    public struct AsmEncodingRecord
+    public struct AsmEncodingInfo
     {
         public uint Seq;
 
@@ -25,11 +25,10 @@ namespace Z0.Asm
 
         public AsmExpr Asm;
 
-        public DocRowKey Key
+        public AsmRowKey Key
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
-
     }
 }

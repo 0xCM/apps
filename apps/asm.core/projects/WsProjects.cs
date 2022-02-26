@@ -83,7 +83,7 @@ namespace Z0
             => Table<AsmInstructionRow>(project);
 
         public FS.FilePath AsmEncodingTable(IProjectWs project)
-            => Table<AsmEncodingRow>(project);
+            => Table<XedDisasmSummary>(project);
 
         public FS.FolderPath AsmCodeDir(IProjectWs project)
             => ProjectData(project, "asm.code");

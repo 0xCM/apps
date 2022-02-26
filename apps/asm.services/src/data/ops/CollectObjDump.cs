@@ -44,8 +44,8 @@ namespace Z0
                 var j=0;
                 result = DataParser.parse(data[j++], out dst.Seq);
                 result = DataParser.parse(data[j++], out dst.DocSeq);
-                result = AsmParser.encid(data[j++].Text, out dst.EncodingId);
                 result = DataParser.parse(data[j++], out dst.OriginId);
+                result = AsmParser.encid(data[j++].Text, out dst.EncodingId);
                 result = AsmParser.instid(data[j++].Text, out dst.InstructionId);
                 result = DataParser.parse(data[j++], out dst.Section);
                 result = DataParser.parse(data[j++], out dst.BlockAddress);
@@ -105,9 +105,10 @@ namespace Z0
                 Require.equal(ObjBlock.FieldCount, cells.Length);
                 ref var dst = ref seek(buffer,i++);
                 var src = cells.Reader();
+                DataParser.parse(src.Next(), out dst.Seq).Require();
+                DataParser.parse(src.Next(), out dst.BlockNumber).Require();
                 DataParser.parse(src.Next(), out dst.OriginId).Require();
                 DataParser.parse(src.Next(), out dst.BlockName).Require();
-                DataParser.parse(src.Next(), out dst.BlockNumber).Require();
                 DataParser.parse(src.Next(), out dst.BlockAddress).Require();
                 DataParser.parse(src.Next(), out dst.BlockSize).Require();
                 DataParser.parse(src.Next(), out dst.Source).Require();
@@ -119,6 +120,7 @@ namespace Z0
         {
             src.Sort();
             var count = src.Count;
+            var seq = 0u;
             var docid = 0u;
             var docname = EmptyString;
             var blockname = EmptyString;
@@ -142,6 +144,7 @@ namespace Z0
                 if(row.BlockName != blockname)
                 {
                     var block = new ObjBlock();
+                    block.Seq = seq++;
                     block.OriginId = docid;
                     block.BlockAddress = @base;
                     block.BlockName = blockname;
@@ -165,6 +168,7 @@ namespace Z0
                 if(i==count-1)
                 {
                     var block = new ObjBlock();
+                    block.Seq = seq++;
                     block.OriginId = docid;
                     block.BlockName = blockname;
                     block.BlockAddress = @base;
@@ -174,6 +178,7 @@ namespace Z0
                     dst.Add(block);
                 }
             }
+
             return dst.ToArray();
         }
 
@@ -201,7 +206,7 @@ namespace Z0
 
         public void EmitAsmCodeBlocks(WsContext context, in AsmCodeBlocks src, FS.FilePath dst)
         {
-            var buffer = alloc<AsmCodeRecord>(src.LineCount);
+            var buffer = alloc<AsmCodeRow>(src.LineCount);
             var k=0u;
             var distinct = hashset<Hex64>();
             for(var i=0; i<src.Count; i++)
@@ -212,6 +217,7 @@ namespace Z0
                 {
                     ref readonly var code = ref block[j];
                     ref var record = ref seek(buffer,k);
+                    record.Seq = k;
                     record.DocSeq = code.DocSeq;
                     record.EncodingId = code.EncodingId;
                     record.OriginId = code.OriginId;
@@ -231,7 +237,7 @@ namespace Z0
                 }
             }
 
-            TableEmit(@readonly(buffer), AsmCodeRecord.RenderWidths, dst);
+            TableEmit(@readonly(buffer), AsmCodeRow.RenderWidths, dst);
         }
 
         Index<ObjDumpRow> ConsolidateObjDumpRows(WsContext context)

@@ -57,11 +57,11 @@ namespace Z0
             return src;
         }
 
-        public Index<PointerWidthRecord> EmitPointerWidths()
+        public Index<PointerWidthInfo> EmitPointerWidths()
         {
             var src = mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i));
             var dst = XedPaths.RuleTarget(RuleDocKind.PointerWidths);
-            TableEmit(src.View, PointerWidthRecord.RenderWidths, dst);
+            TableEmit(src.View, PointerWidthInfo.RenderWidths, dst);
             return src;
         }
 

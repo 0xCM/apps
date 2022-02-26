@@ -38,7 +38,7 @@ namespace Z0
                         inst.Class = @class;
                     else
                     {
-                        result = (false,string.Format("IClass not found in '{0}'", content));
+                        result = (false, AppMsg.ParseFailure.Format(nameof(IClass), content));
                         return result;
                     }
 
@@ -50,7 +50,7 @@ namespace Z0
                             inst.Form = form;
                         else
                         {
-                            result = (false,string.Format("IFormType not found in '{0}'", expr));
+                            result = (false,AppMsg.ParseFailure.Format(nameof(IFormType), expr));
                             return result;
                         }
                     }

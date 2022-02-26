@@ -4,9 +4,13 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [ApiHost]
-    public readonly partial struct XedModels
-    {
+    using Asm;
 
+    using static core;
+
+    partial class ProjectDataServices
+    {
+        public Index<XedDisasmSummary> LoadXedSummaries(IProjectWs project)
+            => XedDisasm.LoadDisasmSummaries(project);
     }
 }

@@ -39,12 +39,12 @@ namespace Z0
         OperandWidth OperandWidth(OperandWidthType type)
             => OperandWidths[type];
 
-        public Index<AsmEncodingRow> EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
+        public Index<XedDisasmSummary> EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
         {
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
             iter(sources.Values, src => recordcount += src.RowCount);
-            var buffer = alloc<AsmEncodingRow>(recordcount);
+            var buffer = alloc<XedDisasmSummary>(recordcount);
             var counter = 0u;
             for(var i=0; i<paths.Length;i++)
             {
@@ -60,10 +60,44 @@ namespace Z0
             for(var i=0u; i<result.Length; i++)
                 seek(result,i).Seq = i;
 
-            TableEmit(@readonly(result), AsmEncodingRow.RenderWidths, dst);
+            TableEmit(@readonly(result), XedDisasmSummary.RenderWidths, dst);
             return result;
         }
 
+        public Index<XedDisasmSummary> LoadDisasmSummaries(IProjectWs project)
+        {
+            const byte FieldCount = XedDisasmSummary.FieldCount;
+            var src = Projects.AsmEncodingTable(project);
+            var lines = slice(src.ReadNumberedLines().View,1);
+            var count = lines.Length;
+            var buffer = alloc<XedDisasmSummary>(count);
+            var result = Outcome.Success;
+            for(var i=0; i<count; i++)
+            {
+                var cells = text.trim(skip(lines,i).Content.Split(Chars.Pipe));
+                if(cells.Length != FieldCount)
+                {
+                    result = (false, Tables.FieldCountMismatch.Format(cells.Length, FieldCount));
+                    break;
+                }
+
+                ref var dst = ref seek(buffer,i);
+
+                var j = 0;
+                result = DataParser.parse(skip(cells, j++), out dst.Seq);
+                result = DataParser.parse(skip(cells, j++), out dst.DocSeq);
+                result = DataParser.parse(skip(cells, j++), out dst.OriginId);
+                result = DataParser.parse(skip(cells, j++), out dst.OriginName);
+                result = AsmParser.encid(skip(cells, j++), out dst.EncodingId);
+                result = AsmParser.instid(skip(cells, j++), out dst.InstructionId);
+                result = DataParser.parse(skip(cells, j++), out dst.IP);
+                result = AsmParser.asmhex(skip(cells, j++), out dst.Encoded);
+                result = DataParser.parse(skip(cells, j++), out dst.Size);
+                result = AsmParser.expression(skip(cells, j++), out dst.Asm);
+                result = DataParser.parse(skip(cells, j++), out dst.Source);
+            }
+            return buffer;
+        }
         /// <summary>
         /// Transforms the source document into a sequence of blocks, each of which describe a single decoded instruction
         /// </summary>

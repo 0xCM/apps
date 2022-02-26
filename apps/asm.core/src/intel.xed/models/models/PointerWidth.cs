@@ -36,9 +36,9 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public PointerWidthRecord ToRecord(byte seq)
+            public PointerWidthInfo ToRecord(byte seq)
             {
-                var dst = new PointerWidthRecord();
+                var dst = new PointerWidthInfo();
                 dst.Seq = seq;
                 dst.Name = Name;
                 dst.Spec = Spec;

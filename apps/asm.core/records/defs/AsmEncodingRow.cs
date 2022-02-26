@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct AsmEncodingRow : IComparable<AsmEncodingRow>
+    public struct XedDisasmSummary : IComparable<XedDisasmSummary>
     {
         public const string TableId = "asm.encoding";
 
@@ -17,31 +17,31 @@ namespace Z0
 
         public uint DocSeq;
 
-        public EncodingId EncodingId;
-
         public Hex32 OriginId;
-
-        public InstructionId InstructionId;
 
         public @string OriginName;
 
+        public EncodingId EncodingId;
+
+        public InstructionId InstructionId;
+
         public MemoryAddress IP;
 
-        public AsmHexCode Encoded;
-
         public byte Size;
+
+        public AsmHexCode Encoded;
 
         public AsmExpr Asm;
 
         public FS.FileUri Source;
 
-        public DocRowKey Key
+        public AsmRowKey RowKey
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
 
-        public int CompareTo(AsmEncodingRow src)
+        public int CompareTo(XedDisasmSummary src)
         {
             var result = OriginName.CompareTo(src.OriginName);
             if(result == 0)
@@ -52,16 +52,16 @@ namespace Z0
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
             ColWidths.Seq,
             ColWidths.DocSeq,
-            ColWidths.EncodingId,
             ColWidths.OriginId,
-            ColWidths.InstructionId,
             ColWidths.OriginName,
+            ColWidths.EncodingId,
+            ColWidths.InstructionId,
             ColWidths.IP,
-            ColWidths.Encoded,
             ColWidths.Size,
-            84,
+            ColWidths.Encoded,
+            ColWidths.AsmExpr,
             1};
 
-        public static AsmEncodingRow Empty => default;
+        public static XedDisasmSummary Empty => default;
     }
 }

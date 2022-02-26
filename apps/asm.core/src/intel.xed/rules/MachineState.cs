@@ -7,7 +7,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
     using static XedModels.SMode;
@@ -51,7 +50,7 @@ namespace Z0
 
             public XedBCastKind BCAST;
 
-            public VexValidityKind VEXVALID;
+            public VexKind VEXVALID;
 
             public byte VL;
 
@@ -470,7 +469,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void enc()
             {
-
+                ENC = 1;
             }
 
             [MethodImpl(Inline)]
@@ -512,7 +511,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void XOPV()
             {
-                VEXVALID = VexValidityKind.XOPV;
+                VEXVALID = VexKind.XOPV;
             }
 
             [MethodImpl(Inline)]
@@ -530,13 +529,13 @@ namespace Z0
             [MethodImpl(Inline)]
             public void VV1()
             {
-                VEXVALID = VexValidityKind.VV1;
+                VEXVALID = VexKind.VV1;
             }
 
             [MethodImpl(Inline)]
             public void VV0()
             {
-                VEXVALID = VexValidityKind.VV0;
+                VEXVALID = VexKind.VV0;
             }
 
             [MethodImpl(Inline)]
@@ -663,7 +662,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void KVV()
             {
-                VEXVALID = VexValidityKind.KVV;
+                VEXVALID = VexKind.KVV;
             }
 
             [MethodImpl(Inline)]
@@ -708,7 +707,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void EVV()
             {
-                VEXVALID = VexValidityKind.EVV;
+                VEXVALID = VexKind.EVV;
             }
 
             [MethodImpl(Inline)]

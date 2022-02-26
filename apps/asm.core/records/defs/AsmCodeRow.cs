@@ -5,21 +5,23 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
-    public struct AsmCodeRecord : IComparable<AsmCodeRecord>
+    public struct AsmCodeRow : IComparable<AsmCodeRow>
     {
         public const string TableId = "asm.code";
 
-        public const byte FieldCount = 11;
+        public const byte FieldCount = 12;
+
+        public uint Seq;
 
         public uint DocSeq;
 
-        public EncodingId EncodingId;
-
         public Hex32 OriginId;
 
-        public InstructionId InstructionId;
-
         public Label OriginName;
+
+        public EncodingId EncodingId;
+
+        public InstructionId InstructionId;
 
         public MemoryAddress IP;
 
@@ -33,7 +35,7 @@ namespace Z0.Asm
 
         public MemoryAddress BlockBase;
 
-        public int CompareTo(AsmCodeRecord src)
+        public int CompareTo(AsmCodeRow src)
         {
             var result = OriginName.CompareTo(src.OriginName);
             if(result == 0)
@@ -42,11 +44,12 @@ namespace Z0.Asm
         }
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+            ColWidths.Seq,
             ColWidths.DocSeq,
-            ColWidths.EncodingId,
             ColWidths.OriginId,
-            ColWidths.InstructionId,
             ColWidths.OriginName,
+            ColWidths.EncodingId,
+            ColWidths.InstructionId,
             ColWidths.IP,
             ColWidths.Size,
             ColWidths.Encoded,

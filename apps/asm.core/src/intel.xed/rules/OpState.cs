@@ -7,7 +7,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
     using static XedModels.XedOpKind;
     using static Asm.AsmPrefixCodes;
     using static core;
@@ -266,7 +265,7 @@ namespace Z0
             public uint3 vexdest210;
 
             [OperandKind(VEXVALID)]
-            public VexValidityKind vexvalid;
+            public VexKind vexvalid;
 
             [OperandKind(ERROR)]
             public ErrorKind error;
@@ -399,6 +398,16 @@ namespace Z0
 
             [OperandKind(DISP)]
             public Disp64 disp;
+
+            public ConstLookup<XedOpKind,object> FieldValues()
+            {
+                var dst = dict<XedOpKind,object>();
+                var kinds = new FieldKinds();
+                var fields = kinds.RightValues;
+                foreach(var f in fields)
+                    dst.Add(kinds[f], f.GetValue(this));
+                return dst;
+            }
 
             public EncodingOffsets Offsets()
             {

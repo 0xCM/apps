@@ -72,7 +72,7 @@ namespace Z0
             return hex;
         }
 
-        public AsmCode AsmCode(in AsmEncodingRecord src)
+        public AsmCode AsmCode(in AsmEncodingInfo src)
         {
             ref readonly var code = ref src.Encoded;
             var size = code.Size;

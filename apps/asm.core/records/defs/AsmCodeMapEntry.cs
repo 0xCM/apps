@@ -19,9 +19,9 @@ namespace Z0.Asm
 
         public Hex32 OriginId;
 
-        public InstructionId InstructionId;
-
         public Label OriginName;
+
+        public InstructionId InstructionId;
 
         public MemoryAddress IP;
 
@@ -39,19 +39,11 @@ namespace Z0.Asm
 
         public ByteSize BlockSize;
 
-        public DocRowKey Key
-        {
-            [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
-        }
-
         public int CompareTo(AsmCodeMapEntry src)
         {
             var result = OriginName.CompareTo(src.OriginName);
             if(result == 0)
-            {
                 result = IP.CompareTo(src.IP);
-            }
             return result;
         }
 
@@ -60,8 +52,8 @@ namespace Z0.Asm
             ColWidths.DocSeq,
             ColWidths.EncodingId,
             ColWidths.OriginId,
-            ColWidths.InstructionId,
             ColWidths.OriginName,
+            ColWidths.InstructionId,
             ColWidths.IP,
             ColWidths.Size,
             ColWidths.Encoded,

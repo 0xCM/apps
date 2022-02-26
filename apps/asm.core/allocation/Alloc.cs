@@ -171,7 +171,7 @@ namespace Z0
         public AsmHexRef AsmEncoding(ReadOnlySpan<byte> src)
             => AsmCodes().AsmEncoding(src);
 
-        public AsmCode AsmCode(in AsmEncodingRecord src)
+        public AsmCode AsmCode(in AsmEncodingInfo src)
             => AsmCodes().AsmCode(src);
     }
 }

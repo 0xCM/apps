@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static core;
     using static AsmPrefixCodes;
     using static AsmPrefixCodes.SizeOverrideCode;
 
@@ -23,9 +22,9 @@ namespace Z0.Asm
 
         public string Format()
             => Code switch  {
-                OPSZ => "66",
-                ADSZ => "67",
-                _ => "00",
+                OPSZ => "0x66",
+                ADSZ => "0x67",
+                _ => "0x0",
             };
 
         public override string ToString()

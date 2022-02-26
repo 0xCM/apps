@@ -44,7 +44,7 @@ namespace Z0
             => "Could not parse {0} from {1}";
 
         public static MsgPattern<string> UriParseFailure
-            => "Coult not parse '{0}' as a uri";
+            => "Coult not parse {0} as a uri";
 
         public static MsgPattern<dynamic> NotFound
             => "{0} not found";

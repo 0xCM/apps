@@ -56,7 +56,7 @@ namespace Z0
                  RuleDocKind.DecRuleTable => FS.file("xed.rules.decoding.tables", FS.Txt),
                  RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
                  RuleDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
-                 RuleDocKind.PointerWidths => Tables.filename<PointerWidthRecord>(),
+                 RuleDocKind.PointerWidths => Tables.filename<PointerWidthInfo>(),
                  RuleDocKind.RulePatterns => Tables.filename<RulePattern>(),
                  RuleDocKind.OpCodePatterns => Tables.filename<OpCodePattern>(),
                  RuleDocKind.OpCodes => Tables.filename<XedOpCodeRecord>(),

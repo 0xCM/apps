@@ -95,7 +95,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmEncodingRow encoding, out XedDisasmDetail dst)
+        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in XedDisasmSummary summary, out XedDisasmDetail dst)
         {
             dst = default;
             var result = ParseInstruction(block, out var inst);
@@ -105,41 +105,38 @@ namespace Z0
                 return result;
             }
 
-            ref readonly var code = ref encoding.Encoded;
-
-            dst.Seq = encoding.Seq;
-            dst.DocSeq = encoding.DocSeq;
-            dst.EncodingId = encoding.EncodingId;
-            dst.OriginId = encoding.OriginId;
-            dst.InstructionId = AsmBytes.instid(encoding.OriginId, encoding.IP, code.Bytes);
-            dst.IP = encoding.IP;
-            dst.Encoded = encoding.Encoded;
-            dst.Asm = encoding.Asm;
+            ref readonly var code = ref summary.Encoded;
+            dst.Seq = summary.Seq;
+            dst.DocSeq = summary.DocSeq;
+            dst.OriginId = summary.OriginId;
+            dst.OriginName = summary.OriginName;
+            dst.EncodingId = summary.EncodingId;
+            dst.InstructionId = AsmBytes.instid(summary.OriginId, summary.IP, code.Bytes);
+            dst.IP = summary.IP;
+            dst.Encoded = summary.Encoded;
+            dst.Asm = summary.Asm;
             dst.IForm = inst.Form;
-            dst.SourceName = text.remove(encoding.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
+            dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
             var parser = new XedOperandParser();
             parser.ParseState(inst.Props.Edit, out var state);
             dst.Offsets = state.Offsets();
-            var oc = state.nominal_opcode;
+            dst.OpCode = state.nominal_opcode;
+            dst.Operands = alloc<InstOperandDetail>(block.OperandCount);
+
             var ocpos = state.pos_nominal_opcode;
             var ops = state.RuleOperands(code);
-            var srm = state.srm;
-            var ocsrm = (uint3)math.and((byte)srm, oc);
-            Require.equal(srm, ocsrm);
+            var ocsrm = (uint3)math.and((byte)state.srm, state.nominal_opcode);
+            Require.equal(state.srm, ocsrm);
 
-            var ocbits = (eight)(byte)oc;
-
-            if(oc != code[ocpos])
+            var ocbits = (eight)(byte)state.nominal_opcode;
+            if(state.nominal_opcode != code[ocpos])
             {
-                result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", oc, state.modrm_byte));
+                result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.nominal_opcode, state.modrm_byte));
                 return result;
             }
 
-            dst.OpCode = oc;
-
-            var opcount = block.OperandCount;
-            dst.Operands = alloc<InstOperandDetail>(opcount);
+            var opcount = dst.Operands.Count;
             for(var k=0; k<opcount; k++)
             {
                 ref readonly var opsrc = ref skip(block.Operands, k);
@@ -224,41 +221,44 @@ namespace Z0
                 }
             }
 
-            var has_rex = rex(state, out dst.Rex);
+            var has_rex = rex(state, out var _rex);
+            dst.Rex = _rex;
             if(has_rex)
             {
 
             }
 
-            var has_modrm = modrm(state, out dst.ModRm);
+            var has_modrm = modrm(state, out var _modrm);
+            dst.ModRm = _modrm;
             if(has_modrm)
             {
-                var modrmval = dst.ModRm;
-                if(modrmval.Value() != state.modrm_byte)
+                if(_modrm != state.modrm_byte)
                 {
-                    result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", modrmval, state.modrm_byte));
+                    result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", _modrm, state.modrm_byte));
                     return result;
                 }
 
-                if(modrmval.Value() != code[state.pos_modrm])
+                if(_modrm != code[state.pos_modrm])
                 {
-                    result = (false, string.Format("Derived RM value {0} differs from encoded value {1}", modrmval, code[state.pos_modrm]));
+                    result = (false, string.Format("Derived RM value {0} differs from encoded value {1}", _modrm, code[state.pos_modrm]));
                     return result;
                 }
             }
 
-            var has_sib = sib(state, out dst.Sib);
+            var has_sib = sib(state, out var _sib);
+            dst.Sib = _sib;
+
             if(has_sib)
             {
                 var sibenc = Sib.init(code[state.pos_sib]);
-                if(sibenc.Value() != dst.Sib.Value())
+                if(sibenc.Value() != _sib)
                 {
-                    result = (false, string.Format("Derived Sib value {0} differs from encoded value {1}", dst.Sib, sibenc));
+                    result = (false, string.Format("Derived Sib value {0} differs from encoded value {1}", _sib, sibenc));
                     return result;
                 }
             }
 
-            if(state.vexvalid == VexValidityKind.VV1)
+            if(state.vexvalid == VexKind.VV1)
             {
                 var vexcode = VexPrefix.code(prefix);
                 var vexsize = VexPrefix.size(vexcode.Value);
@@ -269,42 +269,51 @@ namespace Z0
                     dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC4,skip(vexbytes, 1), skip(vexbytes,2));
                 else if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C5)
                     dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC5,skip(vexbytes, 1));
-
             }
-            else if(state.vexvalid == VexValidityKind.EVV)
+            else if(state.vexvalid == VexKind.EVV)
             {
                 var evexbytes = slice(prefix,legacyskip);
                 dst.Evex = EvexPrefix.define(evexbytes);
             }
 
-            return result;
-        }
-
-        public Outcome CollectDetailPages(WsContext collect)
-        {
-            var result = Outcome.Success;
-            var encodings = CollectEncodingDocs(collect);
-            var files = encodings.Keys.ToArray().Sort();
-            var count = files.Length;
-            var blocks = XedDisasmOps.LoadFileBlocks(files);
-            var dir = Projects.XedDisasmDir(collect.Project);
-            for(var i=0; i<count; i++)
+            if(state.imm0)
             {
-                ref readonly var file = ref skip(files,i);
-                var block = blocks[file];
-                var encoding = encodings[file];
-                var srcid = file.Path.FileName.WithoutExtension.Format();
-                var k = text.index(srcid, ".xed.");
-                if(k > 0)
-                    srcid = text.left(srcid,k);
-                var dst = Projects.XedDisasmDetailPage(collect.Project, srcid);
-                result = EmitDisasmDetailPages(encoding, block.LineBlocks, dst);
-                if(result.Fail)
-                    break;
+                var size = Sizes.native(state.imm_width).Code;
+                var signed = state.imm0signed;
+                var pos = state.pos_imm;
+                dst.Imm = asm.imm(code, pos, signed, size);
             }
 
+            dst.EASZ = Sizes.native(width(state.easz));
+            dst.EOSZ = Sizes.native(width(state.eosz));
             return result;
         }
+
+        // public Outcome CollectDetailPages(WsContext collect)
+        // {
+        //     var result = Outcome.Success;
+        //     var encodings = CollectEncodingDocs(collect);
+        //     var files = encodings.Keys.ToArray().Sort();
+        //     var count = files.Length;
+        //     var blocks = XedDisasmOps.LoadFileBlocks(files);
+        //     var dir = Projects.XedDisasmDir(collect.Project);
+        //     for(var i=0; i<count; i++)
+        //     {
+        //         ref readonly var file = ref skip(files,i);
+        //         var block = blocks[file];
+        //         var encoding = encodings[file];
+        //         var srcid = file.Path.FileName.WithoutExtension.Format();
+        //         var k = text.index(srcid, ".xed.");
+        //         if(k > 0)
+        //             srcid = text.left(srcid,k);
+        //         var dst = Projects.XedDisasmDetailPage(collect.Project, srcid);
+        //         result = EmitDisasmDetailPages(encoding, block.LineBlocks, dst);
+        //         if(result.Fail)
+        //             break;
+        //     }
+
+        //     return result;
+        // }
 
         const string RenderPattern = "{0,-22}: {1}";
 
@@ -314,7 +323,7 @@ namespace Z0
 
         const string OpPattern = "{0,-12} | {1,-20} | {2,-12} | {3,-12} | {4,-12} | {5,-12}";
 
-        void RenderHeader(FS.FilePath path, in AsmEncodingRow encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
+        void RenderHeader(FS.FilePath path, in XedDisasmSummary encoding, in DisasmLineBlock block, in DisasmInstruction inst, in AsmHexCode code, ITextBuffer dst)
         {
             ref readonly var IP = ref encoding.IP;
             dst.AppendLineFormat(RenderPattern, "Id", AsmBytes.encid(IP, code.Bytes));
@@ -436,7 +445,7 @@ namespace Z0
                 if(has_rex)
                     writer.WriteLine(string.Format(RenderPattern, "REX", string.Format(Cols2Pattern, rexprefix.ToBitString(), rexprefix.Format())));
 
-                if(state.vexvalid == VexValidityKind.VV1)
+                if(state.vexvalid == VexKind.VV1)
                 {
                     var vexcode = VexPrefix.code(prefixbytes);
                     var vexsize = VexPrefix.size(vexcode.Value);
@@ -466,7 +475,7 @@ namespace Z0
 
                     writer.WriteLine(string.Format(RenderPattern, "VEXDEST", string.Format(Cols2Pattern, vexdest, ((byte)(uvdst)).FormatHex())));
                 }
-                else if(state.vexvalid == VexValidityKind.EVV)
+                else if(state.vexvalid == VexKind.EVV)
                 {
 
                 }

@@ -53,7 +53,7 @@ namespace Z0.Asm
             => Value == src.Value;
 
         public string Format()
-            => Value == 0 ? EmptyString : AsmRender.disp(this);
+            => AsmRender.disp(this);
 
         public override string ToString()
             => Format();

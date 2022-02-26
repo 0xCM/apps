@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct PointerWidthRecord
+        public struct PointerWidthInfo
         {
             public const string TableId = "xed.rules.widths.pointers";
 

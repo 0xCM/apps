@@ -101,7 +101,7 @@ namespace Z0
                     for(var k=0; k<blockcode.Length; k++)
                     {
                         ref readonly var row = ref skip(blockcode,k);
-                        var encoding = new AsmEncodingRecord();
+                        var encoding = new AsmEncodingInfo();
                         encoding.Seq = row.Seq;
                         encoding.DocSeq = row.DocSeq;
                         encoding.EncodingId = row.EncodingId;

@@ -4,41 +4,52 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly struct DocRowKey : IComparable<DocRowKey>, IEquatable<DocRowKey>
+    public readonly struct AsmRowKey : IComparable<AsmRowKey>, IEquatable<AsmRowKey>
     {
         public readonly uint Seq;
 
         public readonly uint DocSeq;
 
+        public readonly Hex32 OriginId;
+
         [MethodImpl(Inline)]
-        public DocRowKey(uint seq, uint docseq)
+        public AsmRowKey(uint seq, uint docseq, Hex32 origin)
         {
+            OriginId = origin;
             Seq = seq;
             DocSeq = docseq;
         }
 
         public string Format()
-            => string.Format("{0:D6}:{1:D4}");
+            => string.Format("{0:x6}:{1:x4}:{2:x8}", Seq, DocSeq, (uint)OriginId);
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
-        public bool Equals(DocRowKey src)
+        public bool Equals(AsmRowKey src)
             => Seq == src.Seq && DocSeq == src.DocSeq;
 
         public override bool Equals(object src)
-            => src is DocRowKey x && Equals(x);
+            => src is AsmRowKey x && Equals(x);
 
         public override int GetHashCode()
             => (int)alg.hash.combine(Seq,DocSeq);
 
         [MethodImpl(Inline)]
-        public int CompareTo(DocRowKey src)
+        public int CompareTo(AsmRowKey src)
             => Seq.CompareTo(src.Seq);
 
         [MethodImpl(Inline)]
-        public static implicit operator DocRowKey((uint seq, uint docseq) src)
-            => new DocRowKey(src.seq, src.docseq);
+        public static implicit operator AsmRowKey((uint seq, uint docseq, Hex32 origin) src)
+            => new AsmRowKey(src.seq, src.docseq, src.origin);
+
+        [MethodImpl(Inline)]
+        public static bool operator ==(AsmRowKey a, AsmRowKey b)
+            => a.Equals(b);
+
+        [MethodImpl(Inline)]
+        public static bool operator !=(AsmRowKey a, AsmRowKey b)
+            => !a.Equals(b);
     }
 }

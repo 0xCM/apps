@@ -19,8 +19,10 @@ namespace Z0
             var buffer = list<AsmSyntaxRow>();
             var seq = 0u;
             for(var i=0; i<count; i++)
-                CalcAsmSyntaxRows(context, context.FileRef(skip(logs,i)), ref seq, buffer);
-            var rows = buffer.ToArray();
+                CalcAsmSyntaxRows(context, context.FileRef(skip(logs,i)), buffer);
+            var rows = buffer.ToArray().Sort();
+            for(var i=0u; i<rows.Length; i++)
+                seek(rows,i).Seq = i;
             TableEmit(@readonly(rows), AsmSyntaxRow.RenderWidths, dst);
             context.Receiver.Collected(rows);
             return rows;
@@ -52,7 +54,7 @@ namespace Z0
                 return text.trim(text.despace(src));
         }
 
-        void CalcAsmSyntaxRows(WsContext context, in FileRef fref, ref uint seq, List<AsmSyntaxRow> dst)
+        void CalcAsmSyntaxRows(WsContext context, in FileRef fref, List<AsmSyntaxRow> dst)
         {
             var src = fref.Path;
             var origin = src.FileName.Format();
@@ -84,7 +86,6 @@ namespace Z0
                 syntax = text.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
                 var body = b.Replace(Chars.Tab, Chars.Space);
                 var record = new AsmSyntaxRow();
-                record.Seq = seq++;
                 if(context.Root(fref.Path, out var source))
                 {
                     record.OriginId = source.DocId;

@@ -15,9 +15,9 @@ namespace Z0
 
         public uint Seq;
 
-        public Hex32 OriginId;
+        public uint Section;
 
-        public ushort SectionNumber;
+        public Hex32 OriginId;
 
         public Address32 Address;
 
@@ -33,6 +33,11 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        public AsmRowKey RowKey
+        {
+            [MethodImpl(Inline)]
+            get => (Seq,Section,OriginId);
+        }
         public int CompareTo(CoffSymRecord src)
         {
             var result = Source.Format().CompareTo(src.Source.Format());
@@ -40,7 +45,7 @@ namespace Z0
             {
                 if(result == 0)
                 {
-                    result = SectionNumber.CompareTo(src.SectionNumber);
+                    result = Section.CompareTo(src.Section);
                     if(result == 0)
                         result = Address.CompareTo(src.Address);
                 }
@@ -49,7 +54,17 @@ namespace Z0
             return result;
         }
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,16,10,8,10,16,8,48,1};
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+            ColWidths.Seq,
+            ColWidths.DocSeq,
+            ColWidths.OriginId,
+            ColWidths.IP,
+            8,
+            10,
+            16,
+            8,
+            48,
+            1};
 
     }
 }

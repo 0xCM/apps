@@ -185,8 +185,8 @@ namespace Z0
                 var reader = cells.Reader();
                 ref var row = ref dst[i];
                 DataParser.parse(reader.Next(), out row.Seq).Require();
+                DataParser.parse(reader.Next(), out row.Section).Require();
                 DataParser.parse(reader.Next(), out row.OriginId).Require();
-                DataParser.parse(reader.Next(), out row.SectionNumber).Require();
                 DataParser.parse(reader.Next(), out row.Address).Require();
                 DataParser.parse(reader.Next(), out row.SymSize).Require();
                 DataParser.parse(reader.Next(), out row.Value).Require();
@@ -273,7 +273,7 @@ namespace Z0
 
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
-                        record.SectionNumber = sym.Section;
+                        record.Section = sym.Section;
                         record.Value = sym.Value;
                         record.SymClass = sym.Class;
                         record.AuxCount = sym.NumberOfAuxSymbols;
@@ -333,7 +333,7 @@ namespace Z0
 
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
-                        record.SectionNumber = sym.Section;
+                        record.Section = sym.Section;
                         record.Value = sym.Value;
                         record.SymClass = sym.Class;
                         record.AuxCount = sym.NumberOfAuxSymbols;

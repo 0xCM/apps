@@ -10,7 +10,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource(xed_state)]
-        public enum VexValidityKind : byte
+        public enum VexKind : byte
         {
             /// <summary>
             /// VEXVALID=0

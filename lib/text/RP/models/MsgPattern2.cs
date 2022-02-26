@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct MsgPattern<A0,A1> : IMsgPattern<MsgPattern<A0,A1>,A0,A1>
     {
         public string PatternText {get;}

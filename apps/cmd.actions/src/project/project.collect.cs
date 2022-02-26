@@ -15,18 +15,37 @@ namespace Z0
         {
             var project = Project();
             var data = ProjectData.Collect(project);
-            var count = data.Count;
-            for(var i=0; i<count; i++)
+            var objdump = data.ObjDumpRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
+            var xed = data.XedRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
+            var keys = hashset<InstructionId>();
+            iter(objdump.Keys, e => keys.Add(e));
+            iter(xed.Keys, e => keys.Add(e));
+
+            Span<uint> results = stackalloc uint[4];
+            foreach(var key in keys)
             {
-                ref readonly var c = ref data[i];
-                ref readonly var seq = ref c.ObjDump.Seq;
-                ref readonly var form = ref c.XedDisasm.IForm;
-                ref readonly var block = ref c.ObjDump.BlockName;
-                ref readonly var asm = ref c.ObjDump.Asm;
-                ref readonly var ip = ref c.XedDisasm.IP;
-                Write(string.Format("{0,-8} {1,-46}: {2,-8} {3,-46} # {4}", seq, block, ip, asm, form));
+                var counter = 0u;
+
+                if(objdump.Find(key, out var o))
+                {
+                    seek(results,1)++;
+                    counter++;
+                }
+
+                if(xed.Find(key, out var x))
+                {
+                    seek(results,2)++;
+                    counter++;
+                }
+
+                if(counter == 2)
+                    seek(results,3)++;
             }
-            //Write(string.Format("Correlated {0} instructions", data.Count));
+
+            Write(string.Format("O: {0}", skip(results,1)));
+            Write(string.Format("X: {0}", skip(results,2)));
+            Write(string.Format("A: {0}", skip(results,3)));
+
             return true;
         }
 

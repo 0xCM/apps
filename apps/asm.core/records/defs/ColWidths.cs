@@ -18,9 +18,9 @@ namespace Z0
 
         public const byte InstructionId = 30;
 
-        public const byte Encoded = 42;
+        public const byte Encoded = 48;
 
-        public const byte AsmExpr = 42;
+        public const byte AsmExpr = 48;
 
         public const byte AsmSyntax = 120;
 
@@ -33,5 +33,29 @@ namespace Z0
         public const byte BlockNumber = 12;
 
         public const byte BlockAddress = 12;
+
+        public const byte BlockSize = 12;
+
+        public const byte Hex8 = 8;
+
+        public const byte RexPrefx = 5;
+
+        public const byte VexPrefix = 12;
+
+        public const byte EvexPrefix = 12;
+
+        public const byte ModRm = 5;
+
+        public const byte Sib = 5;
+
+        public const byte Disp = 12;
+
+        public const byte Imm = 12;
+
+        public const byte EASZ = 5;
+
+        public const byte EOSZ = 5;
+
+        public const byte SymbolName = 24;
     }
 }

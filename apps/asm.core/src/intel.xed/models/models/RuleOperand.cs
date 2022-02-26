@@ -6,8 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels;
-
     partial struct XedModels
     {
         public struct RuleOperand
@@ -20,6 +18,7 @@ namespace Z0
 
             readonly bool UseWidth;
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, Hex64 value)
             {
                 Name = name;
@@ -28,6 +27,7 @@ namespace Z0
                 UseWidth = false;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, long value)
             {
                 Name = name;
@@ -36,6 +36,7 @@ namespace Z0
                 UseWidth = false;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, long value, byte width)
             {
                 Name = name;
@@ -44,6 +45,7 @@ namespace Z0
                 UseWidth = true;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, uint4 value)
             {
                 Name = name;
@@ -52,6 +54,7 @@ namespace Z0
                 UseWidth = false;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, XedRegId value)
             {
                 Name = name;
@@ -60,6 +63,7 @@ namespace Z0
                 UseWidth = false;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, string value)
             {
                 Name = name;
@@ -68,6 +72,7 @@ namespace Z0
                 UseWidth = false;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, Imm value)
             {
                 Name = name;
@@ -76,6 +81,7 @@ namespace Z0
                 UseWidth = false;
             }
 
+            [MethodImpl(Inline)]
             public RuleOperand(RuleOpName name, Disp value)
             {
                 Name = name;
@@ -106,7 +112,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleOperand Empty => new RuleOperand(RuleOpName.None, EmptyString);
+            public static RuleOperand Empty => new RuleOperand(RuleOpName.None, 0, 0);
         }
     }
 }

@@ -3,7 +3,7 @@
 // License     : Apache
 // Source      : all-state.txt
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
     [SymSource("xed")]
     public enum XedBCast32Kind : byte

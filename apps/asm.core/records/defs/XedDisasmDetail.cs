@@ -13,15 +13,17 @@ namespace Z0
     {
         public const string TableName = "xed.disasm.detail";
 
-        public const byte FieldCount = 21;
+        public const byte FieldCount = 25;
 
         public uint Seq;
 
         public uint DocSeq;
 
-        public EncodingId EncodingId;
-
         public Hex32 OriginId;
+
+        public @string OriginName;
+
+        public EncodingId EncodingId;
 
         public InstructionId InstructionId;
 
@@ -33,19 +35,25 @@ namespace Z0
 
         public byte PSZ;
 
-        public RexPrefix Rex;
+        public EmptyZero<RexPrefix> Rex;
 
         public VexPrefix Vex;
 
         public EvexPrefix Evex;
 
-        public ModRm ModRm;
+        public EmptyZero<ModRm> ModRm;
 
-        public Sib Sib;
+        public EmptyZero<Sib> Sib;
 
-        public Disp Disp;
+        public EmptyZero<Disp> Disp;
 
-        public SizeOverride SZOV;
+        public EmptyZero<Imm> Imm;
+
+        public EmptyZero<SizeOverride> SZOV;
+
+        public NativeSize EASZ;
+
+        public NativeSize EOSZ;
 
         public AsmExpr Asm;
 
@@ -57,10 +65,10 @@ namespace Z0
 
         public InstOperands Operands;
 
-        public DocRowKey Key
+        public AsmRowKey Key
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
 
         public int CompareTo(XedDisasmDetail src)
@@ -74,12 +82,29 @@ namespace Z0
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
             ColWidths.Seq,
             ColWidths.DocSeq,
-            ColWidths.EncodingId,
             ColWidths.OriginId,
+            ColWidths.OriginName,
+            ColWidths.EncodingId,
             ColWidths.InstructionId,
             ColWidths.IP,
             ColWidths.Encoded,
-            8,5,5,12,12,5,5,12,5,54,54,42,48,1};
+            ColWidths.Hex8,
+            ColWidths.Size,
+            ColWidths.RexPrefx,
+            ColWidths.VexPrefix,
+            ColWidths.EvexPrefix,
+            ColWidths.ModRm,
+            ColWidths.Sib,
+            ColWidths.Disp,
+            ColWidths.Imm,
+            ColWidths.Size,
+            ColWidths.EASZ,
+            ColWidths.EOSZ,
+            ColWidths.AsmExpr,
+            54,
+            42,
+            48,
+            1};
 
         public static XedDisasmDetail Empty => default;
     }

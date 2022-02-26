@@ -7,7 +7,7 @@ namespace Z0
     using Asm;
 
     [StructLayout(LayoutKind.Sequential), Record(TableId)]
-    public struct ObjDumpRow : IAsmBlockSegment, IComparable<ObjDumpRow>
+    public struct ObjDumpRow : IComparable<ObjDumpRow>
     {
         public const string TableId = "llvm.objdump";
 
@@ -19,9 +19,9 @@ namespace Z0
 
         public uint DocSeq;
 
-        public EncodingId EncodingId;
-
         public Hex32 OriginId;
+
+        public EncodingId EncodingId;
 
         public InstructionId InstructionId;
 
@@ -46,10 +46,10 @@ namespace Z0
         public string DocName
             => Source.Path.FileName.Format();
 
-        public DocRowKey Key
+        public AsmRowKey RowKey
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
 
         public static ObjDumpRow Empty()
@@ -87,42 +87,21 @@ namespace Z0
             get => text.contains(Asm.Format(), BlockStartMarker);
         }
 
-        EncodingId IAsmEncodingRecord.EncodingId
-            => EncodingId;
-
-        Hex32 IOriginated.OriginId
-            => OriginId;
-
-        uint ISequential.Seq
-            => Seq;
-
-        AsmExpr IAsmEncodingRecord.Asm
-            => Asm;
-
-        AsmHexCode IAsmEncodingRecord.Encoded
-            => Encoded;
-
-        MemoryAddress IAsmEncodingRecord.IP
-            => IP;
-
-        Identifier IAsmBlockSegment.BlockName
-            => BlockName.Text;
-
-        MemoryAddress IAsmBlockSegment.BlockAddress
-            => BlockAddress;
-
         public static ReadOnlySpan<byte> RenderWidths
             => new byte[FieldCount]{
                 ColWidths.Seq,
                 ColWidths.DocSeq,
-                ColWidths.EncodingId,
                 ColWidths.OriginId,
+                ColWidths.EncodingId,
                 ColWidths.InstructionId,
                 12,
                 16,
-                32,
-                12,
-                8,
-                42,90,90,1};
+                ColWidths.BlockName,
+                ColWidths.IP,
+                ColWidths.Size,
+                ColWidths.Encoded,
+                ColWidths.AsmExpr,
+                90,
+                1};
     }
 }

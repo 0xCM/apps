@@ -122,7 +122,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => IsEmpty ? EmptyString : AsmRender.asmbyte(this);
+            => AsmRender.asmbyte(this);
 
         public override string ToString()
             => Format();

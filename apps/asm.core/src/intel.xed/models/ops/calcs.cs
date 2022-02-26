@@ -10,7 +10,6 @@ namespace Z0
     using static XedRegId;
     using static XedModels.EASZ;
     using static XedModels.SMode;
-    using static XedModels;
 
     partial struct XedModels
     {
@@ -130,6 +129,15 @@ namespace Z0
             }
         }
 
+        public static uint width(EASZ src)
+            => src switch
+            {
+                EASZ.EASZ16 => 16,
+                EASZ.EASZ32 => 32,
+                EASZ.EASZ64 => 64,
+                _ => 0,
+            };
+
         public static uint widths(EASZ src)
             => src switch
             {
@@ -149,6 +157,16 @@ namespace Z0
                 EOSZ.EOSZ64 => 3,
                 EOSZ.EOSZNot16 => 0 | (2 << 8) | (3 << 16),
                 EOSZ.EOSZNot64 => 0 | (1 << 8) | (2 << 16),
+                _ => 0,
+            };
+
+        public static uint width(EOSZ src)
+            => src switch
+            {
+                EOSZ.EOSZ8 => 8,
+                EOSZ.EOSZ16 => 16,
+                EOSZ.EOSZ32 => 32,
+                EOSZ.EOSZ64 => 64,
                 _ => 0,
             };
 

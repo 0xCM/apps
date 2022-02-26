@@ -4,17 +4,17 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class AsmEncodingDoc : TableDoc<AsmEncodingRow>
+    public class AsmEncodingDoc : TableDoc<XedDisasmSummary>
     {
-        public AsmEncodingDoc(FS.FilePath src, AsmEncodingRow[] rows)
+        public AsmEncodingDoc(FS.FilePath src, XedDisasmSummary[] rows)
             : base(src,rows)
         {
         }
 
-        public static implicit operator AsmEncodingDoc((FS.FilePath src, AsmEncodingRow[] rows) x)
+        public static implicit operator AsmEncodingDoc((FS.FilePath src, XedDisasmSummary[] rows) x)
             => new AsmEncodingDoc(x.src,x.rows);
 
         public static AsmEncodingDoc Empty
-            => new AsmEncodingDoc(FS.FilePath.Empty, sys.empty<AsmEncodingRow>());
+            => new AsmEncodingDoc(FS.FilePath.Empty, sys.empty<XedDisasmSummary>());
     }
 }

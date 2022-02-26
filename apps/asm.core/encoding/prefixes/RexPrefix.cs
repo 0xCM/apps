@@ -116,7 +116,7 @@ namespace Z0.Asm
             => Data;
 
         public string Format()
-            => IsEmpty ? EmptyString : AsmRender.asmbyte(this);
+            => AsmRender.asmbyte(this);
 
         public string ToBitString()
             => BitRender.format8x4(Data);

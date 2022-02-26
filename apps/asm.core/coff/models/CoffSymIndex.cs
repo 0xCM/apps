@@ -26,7 +26,7 @@ namespace Z0
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<CoffSymRecord> Symbols(Hex32 docid, ushort section)
-            => SymData.Where(x => x.OriginId == docid && x.SectionNumber == section);
+            => SymData.Where(x => x.OriginId == docid && x.Section == section);
 
         [MethodImpl(Inline)]
         public ReadOnlySpan<CoffSection> Sections()
@@ -49,37 +49,7 @@ namespace Z0
             }
             return result;
         }
-    }
 
-    [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct CoffSymId : IEquatable<CoffSymId>
-    {
-        internal readonly Hex32 DocId;
-
-        internal readonly uint Section;
-
-        internal readonly Address32 Address;
-
-        readonly Hash32 HashCode;
-
-        [MethodImpl(Inline)]
-        internal CoffSymId(Hex32 doc, ushort section, Address32 address)
-        {
-            DocId = doc;
-            Section = section;
-            Address = address;
-            HashCode = alg.hash.combine(((uint)Address & 0xFFFFFF) | (Section << 24), DocId);
-        }
-
-        public override int GetHashCode()
-            => HashCode;
-
-        [MethodImpl(Inline)]
-        public bool Equals(CoffSymId src)
-            => DocId == src.DocId && Section == src.Section && Address == src.Address;
-
-        public override bool Equals(object src)
-            => src is CoffSymId x && Equals(x);
-
+        public static CoffSymIndex Empty => new CoffSymIndex(sys.empty<CoffSection>(),sys.empty<CoffSymRecord>());
     }
 }

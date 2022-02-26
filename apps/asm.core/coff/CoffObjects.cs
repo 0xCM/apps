@@ -21,7 +21,7 @@ namespace Z0
         public static SymAddress address(in CoffSymRecord row)
         {
             var lo = (ushort)row.OriginId;
-            var section = row.SectionNumber > Pow2.T15 ? (ushort) ((ushort.MaxValue - row.SectionNumber) + byte.MaxValue) : row.SectionNumber;
+            var section = row.Section > Pow2.T15 ? (ushort) ((ushort.MaxValue - row.Section) + byte.MaxValue) : row.Section;
             var hi = math.or((ushort)(byte)row.SymSize, (ushort)(section<<8));
             return SymAddress.define(math.or((uint)lo, (uint)hi << 16), row.Value);
         }

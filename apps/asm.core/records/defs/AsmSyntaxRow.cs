@@ -29,10 +29,10 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        public DocRowKey Key
+        public AsmRowKey Key
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
 
         public int CompareTo(AsmSyntaxRow src)
@@ -52,5 +52,7 @@ namespace Z0
             ColWidths.AsmSyntax,
             ColWidths.Encoded,
             1};
+
+        public static AsmSyntaxRow Empty => default;
     }
 }

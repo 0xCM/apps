@@ -152,7 +152,7 @@ namespace Z0.Asm
                 ImmKind.Imm32i => HexFormatter.format(src.Size, src.Imm32u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
                 ImmKind.Imm64u => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
                 ImmKind.Imm64i => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
-                _ => string.Format("{0}:<1>", HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase), src.ImmKind),
+                _ => HexFormatter.format(src.Size, src.Imm64u, HexPadStyle.Unpadded, prespec:true, @case:UpperCase),
             };
 
         public static string disp<T>(T src, bool @signop = false)

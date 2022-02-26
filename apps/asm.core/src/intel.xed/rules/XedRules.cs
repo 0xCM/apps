@@ -73,7 +73,7 @@ namespace Z0
         public OpCodePatterns LoadOpCodeMaps()
             => DeriveOpCodeMaps();
 
-        public Index<PointerWidthRecord> LoadPointerWidths()
+        public Index<PointerWidthInfo> LoadPointerWidths()
             => Data(nameof(LoadPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
 
         public Index<OperandWidth> LoadOperandWidths()

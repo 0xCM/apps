@@ -9,13 +9,15 @@ namespace Z0
     {
         public const string TableId = "obj.blocks";
 
-        public const byte FieldCount = 6;
+        public const byte FieldCount = 7;
+
+        public uint Seq;
+
+        public uint BlockNumber;
 
         public Hex32 OriginId;
 
         public Identifier BlockName;
-
-        public uint BlockNumber;
 
         public MemoryAddress BlockAddress;
 
@@ -23,12 +25,19 @@ namespace Z0
 
         public FS.FileUri Source;
 
+        public AsmRowKey RowKey
+        {
+            [MethodImpl(Inline)]
+            get => (Seq, BlockNumber,OriginId);
+        }
+
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{
+            ColWidths.Seq,
+            ColWidths.BlockNumber,
             ColWidths.OriginId,
             ColWidths.BlockName,
-            ColWidths.BlockNumber,
             ColWidths.BlockAddress,
-            12,
+            ColWidths.BlockSize,
             1};
     }
 }

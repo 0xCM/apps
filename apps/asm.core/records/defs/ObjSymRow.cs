@@ -29,13 +29,21 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        public DocRowKey Key
+        public AsmRowKey RowKey
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
 
         public static ReadOnlySpan<byte> RenderWidths
-            => new byte[FieldCount]{8,8,12,10,6,24,80,1};
+            => new byte[FieldCount]{
+                ColWidths.Seq,
+                ColWidths.DocSeq,
+                ColWidths.OriginId,
+                10,
+                6,
+                ColWidths.SymbolName,
+                80,
+                1};
     }
 }

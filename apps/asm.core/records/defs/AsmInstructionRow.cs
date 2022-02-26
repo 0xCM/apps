@@ -27,10 +27,10 @@ namespace Z0
 
         public FS.FileUri Source;
 
-        public DocRowKey Key
+        public AsmRowKey RowKey
         {
             [MethodImpl(Inline)]
-            get => (Seq,DocSeq);
+            get => (Seq,DocSeq,OriginId);
         }
 
         uint ISequential.Seq
@@ -44,7 +44,7 @@ namespace Z0
 
         public int CompareTo(AsmInstructionRow src)
         {
-            var result = Source.Path.FileName.CompareTo(src.Source.Path.FileName);
+            var result = OriginName.CompareTo(src.OriginName);
             if(result==0)
                 return DocSeq.CompareTo(src.DocSeq);
             return result;
@@ -60,5 +60,6 @@ namespace Z0
             1
             };
 
+        public static AsmInstructionRow Empty => default;
     }
 }
