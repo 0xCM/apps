@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
-        [SymSource("")]
+        [SymSource("xed")]
         public enum XedOpKind : byte
         {
             INVALID,

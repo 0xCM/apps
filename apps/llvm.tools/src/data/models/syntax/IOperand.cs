@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-
     partial struct AsmSyntaxModel
     {
         public interface IOperand

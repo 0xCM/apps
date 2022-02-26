@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
     using System.Linq;
-
-    using static Root;
 
     [ApiHost]
     public static class PolyStreams
@@ -274,7 +269,7 @@ namespace Z0
         [Op, Closures(Closure)]
         static IEnumerable<T> forever<T>(IBoundSource src, ClosedInterval<T> domain)
             where T : unmanaged
-                => domain.IsEmpty ? forever<T>(src) : forever(src, domain.Min, domain.Max);
+                => domain.IsDegenerate ? forever<T>(src) : forever(src, domain.Min, domain.Max);
 
         /// <summary>
         /// Creates a stream predicated on a specified source over which a filter is applied

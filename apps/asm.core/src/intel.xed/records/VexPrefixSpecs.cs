@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
         [LiteralProvider("xed.vex")]
         public readonly struct VexPrefixSpecs

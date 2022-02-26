@@ -6,7 +6,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRecords;
     using static XedModels;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]

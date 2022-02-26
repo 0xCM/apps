@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public struct AsmIdentifier : IComparable<AsmIdentifier>, IEquatable<AsmIdentifier>
     {
         /// <summary>

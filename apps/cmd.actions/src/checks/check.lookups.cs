@@ -18,6 +18,30 @@ namespace Z0
             public uint N;
         }
 
+
+        [CmdOp("check/block/size")]
+        Outcome CheckBlockSize(CmdArgs args)
+        {
+            ByteBlock4 block4 = 0xFF000000;
+            Write(StorageBlocks.trim(block4).Format());
+
+
+            ByteBlock4 block3 = 0xFF0000;
+            Write(StorageBlocks.trim(block3).Format());
+
+            ByteBlock4 block2 =  0xFF00;
+            Write(StorageBlocks.trim(block2).Format());
+
+            ByteBlock4 block1 =  0xFF;
+            Write(StorageBlocks.trim(block1).Format());
+
+            ByteBlock4 block0 =  0x0;
+            Write(StorageBlocks.trim(block0).Format());
+
+
+            return true;
+        }
+
         [CmdOp("check/data/tables")]
         unsafe Outcome TestDataTables(CmdArgs args)
         {

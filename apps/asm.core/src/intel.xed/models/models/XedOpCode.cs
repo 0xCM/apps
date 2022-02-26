@@ -4,24 +4,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRecords;
+    using Asm;
+
+    using static XedModels;
 
     partial struct XedModels
     {
         public readonly struct XedOpCode
         {
-            [MethodImpl(Inline)]
-            public static XedOpCode from(in XedOpCodeRecord src)
-                => new XedOpCode(src.Class, src.Kind, src.Value);
-
             public readonly IClass Class;
 
             public readonly OpCodeKind Kind;
 
-            public readonly ByteBlock4 Value;
+            public readonly AsmOcValue Value;
 
             [MethodImpl(Inline)]
-            public XedOpCode(IClass @class, OpCodeKind kind, ByteBlock4 value)
+            public XedOpCode(IClass @class, OpCodeKind kind, AsmOcValue value)
             {
                 Class = @class;
                 Kind = kind;

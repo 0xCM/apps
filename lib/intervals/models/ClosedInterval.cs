@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     using K = IntervalKind;
@@ -59,13 +55,13 @@ namespace Z0
             get => !Valid;
         }
 
-        public bool IsEmpty
+        public bool IsDegenerate
         {
             [MethodImpl(Inline)]
             get => Min.Equals(Max);
         }
 
-        public bool IsNonEmpty
+        public bool IsNonDegenrate
         {
             [MethodImpl(Inline)]
             get => !Min.Equals(Max);
@@ -79,7 +75,7 @@ namespace Z0
         }
 
         public string Format()
-            => string.Concat(Chars.LBracket, Min, Chars.Comma, Max, Chars.RBracket);
+            => IsDegenerate ? Min.ToString() : string.Concat(Chars.LBracket, Min, Chars.Comma, Max, Chars.RBracket);
 
         [MethodImpl(Inline)]
         public string Format(TupleFormatKind style)
@@ -157,7 +153,7 @@ namespace Z0
         /// <summary>
         /// The interval of nothingness
         /// </summary>
-        public static ClosedInterval<T> Empty
+        public static ClosedInterval<T> Zero
             => default;
 
         /// <summary>

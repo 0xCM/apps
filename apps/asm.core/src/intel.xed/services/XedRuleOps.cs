@@ -5,38 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRecords.RuleOpName;
-    using static XedRecords;
+    using static XedModels.RuleOpName;
+    using static XedModels;
 
-    using OK = XedRecords.XedOpKind;
+    using OK = XedModels.XedOpKind;
     using ROK = XedRuleOpKind;
-
-    public enum XedRuleOpKind : byte
-    {
-        None,
-
-        Agen,
-
-        Base,
-
-        Disp,
-
-        Imm,
-
-        Index,
-
-        Mem,
-
-        Ptr,
-
-        Reg,
-
-        RelBr,
-
-        Scale,
-
-        Seg,
-    }
 
     [ApiHost]
     public readonly struct XedRuleOps

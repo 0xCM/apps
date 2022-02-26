@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
         [SymSource(xed_state)]
         public enum SegPrefixKind : byte

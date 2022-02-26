@@ -11,6 +11,22 @@ namespace Z0
 
     partial class XedRules
     {
+        internal static string format(in RuleTable src)
+        {
+            var dst = text.buffer();
+            if(src.ReturnType.IsNonEmpty)
+                dst.AppendLineFormat("{0} {1}()", src.ReturnType, src.Name);
+            else
+                dst.AppendLineFormat("{0}()", src.Name);
+            var expressions = src.Expressions.View();
+            var count = expressions.Length;
+            dst.AppendLine(Chars.LBrace);
+            for(var i=0; i<count; i++)
+                dst.IndentLine(4, skip(expressions, i).Format());
+            dst.AppendLine(Chars.RBrace);
+            return dst.Emit();
+        }
+
         FS.FilePath EmitRuleTables(ReadOnlySpan<RuleTable> src, FS.FilePath dst)
         {
             var count = src.Length;
@@ -19,15 +35,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var table = ref skip(src,i);
-                if(table.ReturnType.IsNonEmpty)
-                    writer.WriteLine(string.Format("{0} {1}()", table.ReturnType, table.Name));
-                else
-                    writer.WriteLine(string.Format("{0}()", table.Name));
-                writer.WriteLine("{");
-                foreach(var expr in table.Expressions)
-                    writer.WriteLine(string.Format("    {0}", expr.Format()));
-                writer.WriteLine("}");
-                writer.WriteLine();
+                writer.WriteLine(table.Format());
             }
             EmittedFile(emitting,count);
             return dst;

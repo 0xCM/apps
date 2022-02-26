@@ -86,6 +86,12 @@ namespace Z0
             where T : unmanaged
                 => gcpu.vload<T>(w512, @as<T>(First));
 
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
+
         [MethodImpl(Inline)]
         public static implicit operator Vector512<byte>(B src)
             => gcpu.vload(default(W512), src.Bytes);

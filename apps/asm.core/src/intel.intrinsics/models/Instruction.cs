@@ -5,7 +5,6 @@
 namespace Z0.Asm
 {
     using static XedModels;
-    using static XedRecords;
 
     partial class IntelIntrinsics
     {

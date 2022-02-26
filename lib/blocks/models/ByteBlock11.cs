@@ -33,7 +33,6 @@ namespace Z0
             get => ref first(Bytes);
         }
 
-
         public bool IsEmpty
         {
             [MethodImpl(Inline)]
@@ -72,6 +71,12 @@ namespace Z0
         public ref T Cell<T>(uint index)
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
+
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
         public static B Empty => default;
     }

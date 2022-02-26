@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRecords;
+    using static XedModels;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential)]
     public struct XedFormImport : IComparable<XedFormImport>

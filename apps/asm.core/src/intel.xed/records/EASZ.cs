@@ -5,25 +5,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
         /// <summary>
         /// Defines symbols to represent effective addressing modes
+        /// J:\source\xed\xed\src\common\xed-operand-values-interface.c
         /// </summary>
         [SymSource(xed_state)]
         public enum EASZ : sbyte
         {
+            None = 0,
+
             [Symbol("eamode16", "MODE=0")]
-            EASZ16 = 0,
+            EASZ16 = 1,
 
             [Symbol("eamode32", "MODE=1")]
-            EASZ32 = 1,
+            EASZ32 = 2,
 
             [Symbol("eamode64", "MODE=2")]
-            EASZ64 = 2,
+            EASZ64 = 3,
 
             [Symbol("eanot16", "MODE!=2")]
-            EASZNot16 = 3,
+            EASZNot16 = 4,
         }
     }
 }

@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRecords;
+    using static XedModels;
 
+    using Asm;
     [Record(TableId)]
     public struct XedOpCodeRecord
     {
@@ -21,11 +22,10 @@ namespace Z0
 
         public byte ClassSeq;
 
-        public ByteBlock4 Value;
+        public AsmOcValue Value;
 
         public TextBlock Source;
 
         public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,8,12,1};
     }
-
 }

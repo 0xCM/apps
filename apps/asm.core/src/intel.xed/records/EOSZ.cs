@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
         /// <summary>
         /// Defines symbols to represent effective operands sizes

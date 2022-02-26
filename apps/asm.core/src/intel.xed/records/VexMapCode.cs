@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
         /// <summary>
         /// Defines 3-bit emission codes for vex map specification as determined by the presence

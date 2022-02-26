@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------------------//
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct list<T> : IIndex<T>
     {
         public static ParserDelegate<list<T>> parser(string type, ParserDelegate<T> itemparser)

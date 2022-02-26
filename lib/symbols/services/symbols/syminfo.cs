@@ -27,7 +27,7 @@ namespace Z0
                     var tag = type.Tag<SymSourceAttribute>();
                     var nbk = tag.MapValueOrDefault(t => t.NumericBase, NumericBaseKind.Base10);
                     record.TokenType = type.Name;
-                    record.TokenKind = EmptyString;
+                    record.TokenKind = type.Name;
                     record.TokenClass = symbol.Class;
                     record.Index = j;
                     record.Value = (symbol.Value,nbk);
@@ -87,7 +87,7 @@ namespace Z0
                 ref var record = ref seek(dst,i);
                 record.TokenType = src.Name;
                 record.TokenClass = symbol.Class;
-                record.TokenKind = EmptyString;
+                record.TokenKind = src.Name;
                 record.Index = i;
                 record.Value = (symbol.Value, nbk);
                 record.Name =  symbol.Name;

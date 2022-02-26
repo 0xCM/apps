@@ -1,12 +1,11 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Copyright   : Intel Corporation, 2020
+// License     : Apache
 //-----------------------------------------------------------------------------
-namespace Z0.llvm
+namespace Z0
 {
-    using static core;
-
-    partial class LlvmCmdProvider
+    partial struct XedModels
     {
+
     }
 }

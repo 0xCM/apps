@@ -1,24 +1,20 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Copyright   : Intel Corporation, 2020
+// License     : Apache
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial struct XedModels
     {
-        public enum XedRuleKind : byte
+        public enum RuleKind : byte
         {
             None,
 
-            RuleDeclaration,
+            Nonterminal,
 
-            SeqDeclaration,
-
-            EncodeStep,
-
-            DecodeStep,
-
-            Invocation,
+            RegProduction
         }
     }
 }

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct LlvmArrow<K,T> : QuikGraph.IEdge<T>, IArrow<T>, IEquatable<LlvmArrow<K,T>>, IComparable<LlvmArrow<K,T>>
         where T : IEquatable<T>, IComparable<T>
         where K : unmanaged

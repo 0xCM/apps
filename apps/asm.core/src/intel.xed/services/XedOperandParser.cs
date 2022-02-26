@@ -8,9 +8,8 @@ namespace Z0
 
     using static core;
     using static XedModels;
-    using static XedRecords;
 
-    using K = XedRecords.XedOpKind;
+    using K = XedModels.XedOpKind;
 
     public class XedOperandParser
     {

@@ -7,14 +7,14 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRecords;
-    using static XedRecords.EASZ;
-    using static XedRecords.EOSZ;
-    using static XedRecords.SMode;
-    using static XedRecords.RepPrefix;
-    using static XedRecords.SegPrefixKind;
+    using static XedModels;
+    using static XedModels.EASZ;
+    using static XedModels.EOSZ;
+    using static XedModels.SMode;
+    using static XedModels.RepPrefix;
+    using static XedModels.SegPrefixKind;
 
-    using RPX = XedRecords.RepPrefix;
+    using RPX = XedModels.RepPrefix;
 
     partial struct XedModels
     {
@@ -76,6 +76,8 @@ namespace Z0
             public ErrorKind ERROR;
 
             public bit DUMMY;
+
+            public bit ENC;
 
             bit RepNeq3;
 

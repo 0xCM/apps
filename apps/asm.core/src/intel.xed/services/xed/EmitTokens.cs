@@ -5,10 +5,12 @@
 namespace Z0.Asm
 {
     using static XedModels;
-    using static XedRecords;
 
     partial class IntelXed
     {
+        const string xed = "xed";
+
+
         public void EmitTokens()
         {
             EmitRawTokens();
@@ -18,7 +20,6 @@ namespace Z0.Asm
         public void EmitTokenSummaries()
         {
             ApiMetadata.EmitApiTokens(xed, xed);
-            ApiMetadata.EmitApiTokens(xed_state,xed);
         }
 
         public void EmitRawTokens()

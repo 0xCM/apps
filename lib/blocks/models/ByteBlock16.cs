@@ -7,7 +7,7 @@ namespace Z0
     using static core;
 
     using B = ByteBlock16;
-    using api = ByteBlocks;
+    using api = StorageBlocks;
 
     /// <summary>
     /// Defines 16 bytes of storage
@@ -78,6 +78,12 @@ namespace Z0
         public Vector128<T> Vector<T>()
             where T : unmanaged
                 => gcpu.vload<T>(w128, @as<T>(First));
+
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
 
         [MethodImpl(Inline)]
         public static implicit operator Vector128<byte>(B src)

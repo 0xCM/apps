@@ -7,8 +7,5 @@ namespace Z0
     [ApiHost]
     public readonly partial struct XedModels
     {
-        internal const string xed = nameof(xed);
-
-        internal const string xed_state = "xed.state";
    }
 }

@@ -8,7 +8,7 @@ namespace Z0.Asm
     using System.IO;
 
     using static core;
-    using static XedRecords;
+    using static XedModels;
     using static IntelIntrinsics;
 
     public class IntelIntrinsicSvc  : AppService<IntelIntrinsicSvc>

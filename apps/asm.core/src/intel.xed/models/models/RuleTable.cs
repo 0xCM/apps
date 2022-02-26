@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRecords;
+    using static XedModels;
 
     partial struct XedModels
     {
@@ -17,6 +17,12 @@ namespace Z0
             public Identifier ReturnType;
 
             public DataList<XedRuleExpr> Expressions;
+
+            public string Format()
+                => XedRules.format(this);
+
+            public override string ToString()
+                => Format();
 
             public static RuleTable Empty
             {

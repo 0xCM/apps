@@ -5,7 +5,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRecords;
 
     public class XedPaths : AppService<XedPaths>
     {
@@ -61,6 +60,8 @@ namespace Z0
                  RuleDocKind.RulePatterns => Tables.filename<RulePattern>(),
                  RuleDocKind.OpCodePatterns => Tables.filename<OpCodePattern>(),
                  RuleDocKind.OpCodes => Tables.filename<XedOpCodeRecord>(),
+                 RuleDocKind.OperandEncoding =>  FS.file("xed.rules.encoding.operands", FS.Csv),
+                 RuleDocKind.OperandDecoding => FS.file("xed.rules.decoding.operands", FS.Csv),
                  _ => FS.FileName.Empty
             });
     }

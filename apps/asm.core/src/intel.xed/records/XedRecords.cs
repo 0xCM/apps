@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public readonly partial struct XedRecords
+    public readonly partial struct XedModels
     {
 
     }

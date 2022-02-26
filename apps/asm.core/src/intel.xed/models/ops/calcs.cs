@@ -8,9 +8,9 @@ namespace Z0
 
     using static core;
     using static XedRegId;
-    using static XedRecords.EASZ;
-    using static XedRecords.SMode;
-    using static XedRecords;
+    using static XedModels.EASZ;
+    using static XedModels.SMode;
+    using static XedModels;
 
     partial struct XedModels
     {

@@ -5,8 +5,6 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedInstructions;
-    using static XedRecords;
     using static core;
 
     using SQ = SymbolicQuery;

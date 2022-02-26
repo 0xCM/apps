@@ -7,12 +7,12 @@ namespace Z0
 {
     using Asm;
 
-    using static XedRecords;
-    using static XedRecords.XedOpKind;
+    using static XedModels;
+    using static XedModels.XedOpKind;
     using static Asm.AsmPrefixCodes;
     using static core;
 
-    using K = XedRecords.XedOpKind;
+    using K = XedModels.XedOpKind;
 
     partial struct XedModels
     {
@@ -182,7 +182,7 @@ namespace Z0
             public bit vex_c4;
 
             [OperandKind(VEX_PREFIX)]
-            public XedRecords.VexPrefixKind vex_prefix;
+            public VexPrefixKind vex_prefix;
 
             [OperandKind(VL)]
             public VectorWidthCode vl;

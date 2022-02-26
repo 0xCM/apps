@@ -7,7 +7,7 @@ namespace Z0
 {
     using System;
 
-    partial struct XedRecords
+    partial struct XedModels
     {
         /// <summary>
         /// Mirrors the content of xed-pointer-width.txt data file

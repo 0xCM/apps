@@ -4,12 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
     using System.Linq;
-
-    using static Root;
 
     public readonly struct LlvmEntitySet
     {

@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.llvm
 {
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct EntityFieldSet : IIndex<RecordField>
     {
         public Identifier EntityName {get;}

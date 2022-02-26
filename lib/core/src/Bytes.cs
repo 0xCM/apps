@@ -4,12 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static System.Runtime.Intrinsics.X86.Bmi1;
     using static System.Runtime.Intrinsics.X86.Bmi1.X64;
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -18,8 +14,24 @@ namespace Z0
         const NumericKind Closure = UnsignedInts;
 
         [MethodImpl(Inline), Op]
-        public static ulong join(W64 w, byte a, byte b)
-            => (ulong)a | (ulong)b << 8;
+        public static ushort join(W16 w, byte a, byte b)
+            => (ushort)((ushort)a | (ushort)b << 8);
+
+        [MethodImpl(Inline), Op]
+        public static uint join(W32 w, byte b0, byte b1)
+            => (ushort)((ushort)b0 | (ushort)b1 << 8);
+
+        [MethodImpl(Inline), Op]
+        public static uint join(W32 w, byte b0, byte b1, byte b2)
+            => (uint)b0 | (uint)b1 << 8 | (uint)b2 << 16;
+
+        [MethodImpl(Inline), Op]
+        public static uint join(W32 w, byte b0, byte b1, byte b2, byte b3)
+            => (uint)b0 | (uint)b1 << 8 | (uint)b2 << 16 |(uint)b3 << 24;
+
+        [MethodImpl(Inline), Op]
+        public static ulong join(W64 w, byte b0, byte b1)
+            => (ulong)b0 | (ulong)b1 << 8;
 
         [MethodImpl(Inline), Op]
         public static ulong join(W64 w, byte a, byte b, byte c)

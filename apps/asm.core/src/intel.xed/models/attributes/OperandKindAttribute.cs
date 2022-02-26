@@ -7,7 +7,7 @@ namespace Z0
 {
     using System;
 
-    using static XedRecords;
+    using static XedModels;
 
     partial struct XedModels
     {

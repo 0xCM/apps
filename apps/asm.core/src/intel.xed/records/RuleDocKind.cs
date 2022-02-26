@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedRecords
+    partial struct XedModels
     {
         [SymSource(xed)]
         public enum RuleDocKind : byte
@@ -35,6 +35,10 @@ namespace Z0
             OpCodePatterns,
 
             OpCodes,
+
+            OperandEncoding,
+
+            OperandDecoding
         }
     }
 }

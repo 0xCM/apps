@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using PS = XedRecords.VexPrefixSpecs;
+    using PS = XedModels.VexPrefixSpecs;
 
-    partial struct XedRecords
+    partial struct XedModels
     {
         [SymSource(xed_state), DataWidth(2)]
         public enum VexPrefixKind : byte

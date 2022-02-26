@@ -6,9 +6,8 @@ namespace Z0
 {
     using static core;
     using static XedModels;
-    using static XedRecords;
 
-    using OCP = XedRecords.OcPatternNames;
+    using OCP = XedModels.OcPatternNames;
 
     public readonly struct XedOpCodeParser
     {

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static Cil.OpCodeSpecs;
 
     using ILOpCode = System.Reflection.Metadata.ILOpCode;

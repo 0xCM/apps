@@ -5,11 +5,10 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRecords;
     using static core;
     using static XedModels.RuleNames;
 
-    using EK = XedModels.XedRuleKind;
+    using EK = XedModels.XedRuleExprKind;
 
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
@@ -46,8 +45,6 @@ namespace Z0
 
         Symbols<FlagActionKind> FlagActionKinds;
 
-        FieldKinds FieldKinds;
-
         public XedRules()
         {
             Classes = Symbols.index<IClass>();
@@ -62,7 +59,6 @@ namespace Z0
             PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
-            FieldKinds = new();
             OperandKinds = Symbols.index<XedOpKind>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
@@ -97,6 +93,9 @@ namespace Z0
 
         public Index<InstDef> ParseDecInstDefs()
             => ParseInstDefs(XedPaths.RuleSource(RuleDocKind.DecInstDef));
+
+        public ReadOnlySpan<NonterminalKind> NonterminalKinds()
+            => Symbols.index<NonterminalKind>().Kinds;
 
         Outcome ParseIClass(string src, out IClass dst)
             => Classes.ExprKind(src, out dst);
@@ -207,11 +206,11 @@ namespace Z0
                 {
                     ref readonly var op = ref ops[j];
                     ref readonly var pattern = ref patterns[j];
-                    var opcode = OpCode(pattern);
+                    var oc = opcode(pattern);
 
-                    ockinds.MapKind(opcode.Kind, out var sym);
+                    ockinds.MapKind(oc.Kind, out var sym);
 
-                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, opcode.Value, EmptyString, op.Expr));
+                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.Expr));
                     counter++;
 
                     var specs = op.Specs;
@@ -226,15 +225,6 @@ namespace Z0
             }
 
             EmittedFile(emitting,counter);
-        }
-
-        public ConstLookup<XedOpKind,object> FieldValues(in OpState src)
-        {
-            var dst = dict<XedOpKind,object>();
-            var fields = FieldKinds.RightValues;
-            foreach(var f in fields)
-                dst.Add(FieldKinds[f], f.GetValue(src));
-            return dst;
         }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

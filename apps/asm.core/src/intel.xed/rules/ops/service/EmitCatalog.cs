@@ -7,7 +7,6 @@ namespace Z0
     using System;
 
     using static XedModels;
-    using static XedRecords;
     using static core;
 
     partial class XedRules
@@ -25,9 +24,15 @@ namespace Z0
             EmitPointerWidths();
             EmitOpCodePatterns();
             EmitOpCodes(rules);
-            EmitOperands(enc, ProjectDb.Subdir("xed") + FS.file("xed.rules.encoding.operands", FS.Csv));
-            EmitOperands(dec, ProjectDb.Subdir("xed") + FS.file("xed.rules.decoding.operands", FS.Csv));
+            EmitOperandEncodings(enc);
+            EmitOperandDecodings(dec);
         }
+
+        public void EmitOperandEncodings(ReadOnlySpan<InstDef> src)
+            => EmitOperands(src, XedPaths.RuleTarget(RuleDocKind.OperandEncoding));
+
+        public void EmitOperandDecodings(ReadOnlySpan<InstDef> src)
+            => EmitOperands(src, XedPaths.RuleTarget(RuleDocKind.OperandDecoding));
 
         public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
             => EmitInstDefs(src, XedPaths.RuleTarget(RuleDocKind.EncInstDef));

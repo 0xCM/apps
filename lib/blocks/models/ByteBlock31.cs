@@ -57,6 +57,12 @@ namespace Z0
             where T : unmanaged
                 => ref seek(Storage<T>(), index);
 
+        public string Format()
+            => api.format(this);
+
+        public override string ToString()
+            => Format();
+
         public static B Empty => default;
     }
 }

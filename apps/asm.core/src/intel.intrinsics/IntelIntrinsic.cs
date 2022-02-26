@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using static XedRecords;
+    using static XedModels;
 
     [Record(TableId)]
     public struct IntelIntrinsic : IComparable<IntelIntrinsic>

@@ -5,15 +5,13 @@
 namespace Z0
 {
     using static XedModels;
-    using static XedRecords;
-    using static core;
 
     partial class XedRules
     {
-        public XedOpCode OpCode(in RulePattern src)
+        public XedOpCode opcode(in RulePattern src)
             => new XedOpCode(src.Class, src.OpCodeKind, XedOpCodeParser.value(src));
 
-        public XedOpCode OpCode(OpCodeKind kind, IClass @class, string pattern)
+        public XedOpCode opcode(OpCodeKind kind, IClass @class, string pattern)
             => new XedOpCode(@class, kind, XedOpCodeParser.value(pattern));
     }
 }

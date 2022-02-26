@@ -7,17 +7,12 @@ namespace Z0
     using System;
 
     using static XedModels;
-    using static XedRecords;
-
     using static core;
 
     partial class XedRules
     {
         public Index<XedOpCodeRecord> ExtractOpCodes(ReadOnlySpan<RulePattern> src)
-        {
-            var parser = XedOpCodeParser.create();
-            return parser.Parse(src);
-        }
+            => XedOpCodeParser.create().Parse(src);
 
         public Index<RulePattern> ExtractRulePatterns(in InstDef inst)
         {
@@ -30,7 +25,7 @@ namespace Z0
                 var pattern = new RulePattern();
                 pattern.Class = inst.Class;
                 pattern.Hash = alg.hash.marvin(op.Expr.Text);
-                pattern.OpCodeKind = OpCodePatterns.kind(op.Expr.Text);
+                pattern.OpCodeKind = ockind(op.Expr.Text);
                 pattern.Expression = op.Expr;
                 buffer.Add(pattern);
             }
@@ -52,7 +47,7 @@ namespace Z0
                     var pattern = new RulePattern();
                     pattern.Class = inst.Class;
                     pattern.Hash = alg.hash.marvin(op.Expr.Text);
-                    pattern.OpCodeKind = OpCodePatterns.kind(op.Expr.Text);
+                    pattern.OpCodeKind = ockind(op.Expr.Text);
                     pattern.Expression = op.Expr;
                     buffer.Add(pattern);
                 }

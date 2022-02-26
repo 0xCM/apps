@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using OCP = XedRecords.OcPatternNames;
+    using OCP = XedModels.OcPatternNames;
 
-    partial struct XedRecords
+    partial struct XedModels
     {
         public readonly struct OcPatternNames
         {
