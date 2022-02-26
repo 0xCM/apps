@@ -39,7 +39,7 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        Symbols<XedOpKind> OperandKinds;
+        Symbols<FieldKind> OperandKinds;
 
         Symbols<RegFlag> Flags;
 
@@ -59,7 +59,7 @@ namespace Z0
             PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
-            OperandKinds = Symbols.index<XedOpKind>();
+            OperandKinds = Symbols.index<FieldKind>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};

@@ -184,9 +184,7 @@ namespace Z0
 
         void EmitAsmCodeBlocks(WsContext context, Receiver<IProjectWs,AsmCodeBlocks> emitted)
         {
-            var project = context.Project;
-            Projects.AsmCodeDir(project).Clear();
-
+            Projects.AsmCodeDir(context.Project).Clear();
             var files = context.Files.Entries(FileKind.ObjAsm);
             var count = files.Count;
             var seq = 0u;
@@ -199,8 +197,8 @@ namespace Z0
                     Errors.Throw(result.Message);
 
                 var blocks = AsmObjects.DistillBlocks(context, file, ref seq, records, alloc);
-                EmitAsmCodeBlocks(context, blocks, Projects.AsmCodePath(project, file.Path.FileName.Format()));
-                emitted(project,blocks);
+                EmitAsmCodeBlocks(context, blocks, Projects.AsmCodePath(context.Project, file.Path.FileName.Format()));
+                emitted(context.Project, blocks);
             }
         }
 
@@ -244,24 +242,17 @@ namespace Z0
         {
             var project = context.Project;
             var src = project.OutFiles(FileKind.ObjAsm).Storage.Sort();
-            var dst = ProjectDb.ProjectTable<ObjDumpRow>(project);
             var result = Outcome.Success;
             var count = src.Length;
             var formatter = Tables.formatter<ObjDumpRow>(ObjDumpRow.RenderWidths);
-            var flow = EmittingTable<ObjDumpRow>(dst);
-            var emitted = list<ObjDumpRow>();
-            var total=0u;
-            var seq = 0u;
-            using var writer = dst.AsciWriter();
-            writer.WriteLine(formatter.FormatHeader());
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var path = ref skip(src,i);
+            var buffer = bag<ObjDumpRow>();
+
+            iter(src, path => {
                 result = ParseObjDumpSource(context, context.FileRef(path), out var records);
                 if(result.Fail)
                 {
                     Error(result.Message);
-                    continue;
+                    return;
                 }
 
                 var docseq = 0u;
@@ -271,19 +262,17 @@ namespace Z0
                     if(record.IsBlockStart)
                         continue;
 
-                    record.Seq = seq++;
-                    writer.WriteLine(formatter.Format(record));
-                    emitted.Add(record);
+                    buffer.Add(record);
                 }
-                total += docseq;
-            }
+            }, true);
 
-            EmittedTable(flow, total);
+            var data = buffer.ToArray().Sort();
+            for(var i=0u; i<data.Length; i++)
+                seek(data,i).Seq = i;
 
-            var data = emitted.ToArray().Sort();
+            TableEmit(@readonly(data), ObjDumpRow.RenderWidths, TextEncodingKind.Asci, Projects.Table<ObjDumpRow>(project));
             context.Receiver.Collected(data);
             return data;
         }
-
     }
 }

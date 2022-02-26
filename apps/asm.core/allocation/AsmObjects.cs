@@ -11,9 +11,6 @@ namespace Z0
 
     public class AsmObjects : AppService<AsmObjects>
     {
-        WsProjects Projects => Service(Wf.WsProjects);
-
-
         public AsmCodeBlocks DistillBlocks(WsContext context, in FileRef file, ref uint seq, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var blocks = src.GroupBy(x => x.BlockAddress).Array();
@@ -42,8 +39,8 @@ namespace Z0
                 }
                 seek(blockbuffer,i) = new AsmCodeBlock(dispenser.Symbol(blockaddress,blockname), codebuffer);
             }
-            var originated = context.Root(file.Path, out var origin);
-            return new AsmCodeBlocks(dispenser.Label(origin.Path.FileName.Format()), origin.DocId, blockbuffer);
+            var origin = context.Root(file);
+            return new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
         }
     }
 }

@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Reflection;
-
-    using static Root;
-
     [ApiHost]
     public readonly struct TypeSyntax
     {
@@ -38,7 +33,7 @@ namespace Z0
 
         public const string Bit = "bit";
 
-        public const string BitsN = "bits<n:{0}>";
+        public const string Bits = "bits<{0}>";
 
         public const string BitsT = "bits<t:{0}>";
 
@@ -60,7 +55,7 @@ namespace Z0
 
         public const string AddressW = "address<w:{0}>";
 
-        public const string Enum = "enum<name:{0},base:{1}>";
+        public const string Enum = "enum<{0}>";
 
         public const string Scalar = "{0}{1}";
 
@@ -217,9 +212,8 @@ namespace Z0
         /// Defines a refined literal sequence
         /// </summary>
         /// <param name="n">The sequence name</param>
-        /// <param name="@base">The sequence term type</param>
         [TypeSyntax(Enum)]
-        public static TypeSpec @enum(string name, TypeSpec @base) => string.Format(Enum, name, @base.Format());
+        public static TypeSpec @enum(string name, TypeSpec @base = default) => string.Format(Enum, name);
 
         /// <summary>
         /// Defines an address type with default width
@@ -474,8 +468,8 @@ namespace Z0
         /// Defines a sequence of bits of parametric length
         /// </summary>
         /// <param name="n">The bit count</param>
-        [TypeSyntax(BitsN)]
-        public static TypeSpec bits(uint n) => string.Format(BitsN, n);
+        [TypeSyntax(Bits)]
+        public static TypeSpec bits(uint n) => string.Format(Bits, n);
 
         /// <summary>
         /// Defines a bitvector type of content width n
@@ -519,48 +513,15 @@ namespace Z0
             => text.index(src.Value, "{") == NotFound;
 
         [Op]
-        static TypeRefKind refkind(Type src)
-        {
-            if(src.IsPointer)
-                return TypeRefKind.Ptr;
-            else if(src.IsByRef)
-                return TypeRefKind.IO;
-            else
-                return TypeRefKind.Direct;
-        }
-
-        [Op]
-        static TypeRefKind refkind(ParameterInfo src)
-        {
-            if(src.ParameterType.IsPointer)
-                return TypeRefKind.Ptr;
-            else if(src.ParameterType.IsByRef)
-                return TypeRefKind.IO;
-            else if(src.IsOut)
-                return TypeRefKind.Out;
-            else if(src.IsIn)
-                return TypeRefKind.In;
-            else
-                return TypeRefKind.Direct;
-        }
-
-        [Op]
         public static TypeSpec infer(Type src)
         {
             var spec = new TypeSpec(src.DisplayName());
             if(src.IsConreteClrPrimitive())
                 spec = string.Format(Clr, src.ClrPrimitiveKind().ToString().ToLower());
             else if(src.IsEnum)
-            {
-                var kind = (ClrPrimitiveKind)src.EnumScalarKind();
-                var width = (uint)kind.BitWidth();
-                var @base = kind.IsSigned() ? i(width) : u(width);
-                spec = @enum(src.Name, @base);
-            }
+                spec = @enum(src.Name);
             else if(src.IsArray)
-            {
                 spec = array(infer(src.GetElementType()));
-            }
             else if(src.IsSpan())
             {
                 if(src.IsOpenGeneric())

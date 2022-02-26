@@ -8,7 +8,7 @@ namespace Z0
     using static XedModels.RuleOpName;
     using static XedModels;
 
-    using OK = XedModels.XedOpKind;
+    using OK = XedModels.FieldKind;
     using ROK = XedRuleOpKind;
 
     [ApiHost]

@@ -54,10 +54,8 @@ namespace Z0
                 return text.trim(text.despace(src));
         }
 
-        void CalcAsmSyntaxRows(WsContext context, in FileRef fref, List<AsmSyntaxRow> dst)
+        void CalcAsmSyntaxRows(WsContext context, in FileRef src, List<AsmSyntaxRow> dst)
         {
-            var src = fref.Path;
-            var origin = src.FileName.Format();
             const string EntryMarker = "note: parsed instruction:";
             const string EncodingMarker = "# encoding:";
             const string ReplaceA = "{, ";
@@ -65,7 +63,7 @@ namespace Z0
             const string ReplaceB = ", }";
             const string ReplaceBWith = "}";
             var ip = MemoryAddress.Zero;
-            var lines = src.ReadNumberedLines();
+            var lines = src.Path.ReadNumberedLines();
             var count = lines.Length;
             var docseq = 0u;
             for(var i=0; i<count-1; i++)
@@ -86,11 +84,9 @@ namespace Z0
                 syntax = text.unfence(syntax, Brackets, out var semantic) ? RP.parenthetical(semantic) : syntax;
                 var body = b.Replace(Chars.Tab, Chars.Space);
                 var record = new AsmSyntaxRow();
-                if(context.Root(fref.Path, out var source))
-                {
-                    record.OriginId = source.DocId;
-                    record.OriginName = source.Path.FileName.Format();
-                }
+                var orign = context.Root(src);
+                record.OriginId = orign.DocId;
+                record.OriginName = orign.DocName;
                 record.DocSeq = docseq++;
                 record.Syntax = syncontent(syntax.Replace(ReplaceA, ReplaceAWith).Replace(ReplaceB, ReplaceBWith).Replace("Memory: ", "Mem:"));
                 AsmMnemonic.parse(record.Syntax, out var mx);

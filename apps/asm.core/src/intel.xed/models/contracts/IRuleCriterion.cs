@@ -10,7 +10,7 @@ namespace Z0
     {
         public interface IRuleCriterion
         {
-            XedOpKind Kind {get;}
+            FieldKind Kind {get;}
 
             RuleOperator Operator {get;}
 

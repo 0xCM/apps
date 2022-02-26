@@ -13,7 +13,7 @@ namespace Z0
         [CmdOp(XedOpKindQuery)]
         Outcome QueryOpKinds(CmdArgs args)
         {
-            TableEmit(Symbols.syminfo<XedOpKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
+            TableEmit(Symbols.syminfo<FieldKind>().View, SymInfo.RenderWidths, XedQueryOut(XedOpKindQuery));
             return true;
         }
     }

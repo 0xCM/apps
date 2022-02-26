@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        Index<XedFieldDef> ParseSourceFieldDefs()
+        Index<XedFieldDef> ParseFieldDefs()
         {
             var src = XedPaths.FieldDefSource();
             var running = Running(string.Format("Parsing {0}", src.ToUri()));

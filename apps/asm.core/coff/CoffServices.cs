@@ -113,15 +113,14 @@ namespace Z0
             ref readonly var header = ref view.Header;
             var strings = view.StringTable;
             var sections = view.SectionHeaders;
-            var originated = context.Root(src.Path, out var origin);
+            var origin = context.Root(src);
             for(var j=0u; j<sections.Length; j++)
             {
                 ref readonly var section = ref skip(sections,j);
                 var number = j+1 ;
                 var name = CoffObjects.format(strings, section.Name);
                 var record = default(CoffSection);
-                if(originated)
-                    record.OriginId = origin.DocId;
+                record.OriginId = origin.DocId;
                 record.SectionNumber = (ushort)number;
                 record.SectionName = name;
                 record.SectionKind = CalcSectionKind(name);
@@ -238,13 +237,8 @@ namespace Z0
             if(hexDat.Count != objDat.Count)
                 result = (false,string.Format("Counts differ"));
 
-            if(result.Fail)
-                return result;
-
-
             return result;
         }
-
 
         void CalcSymbols(WsContext context, in FileRef file, ref uint seq, List<CoffSymRecord> buffer)
         {
@@ -255,7 +249,7 @@ namespace Z0
             var symcount = view.SymCount;
             if(symcount != 0)
             {
-                var originated = context.Root(file.Path, out var origin);
+                var origin = context.Root(file);
                 var syms = view.Symbols;
                 var strings = view.StringTable;
                 var size = 0u;
@@ -268,9 +262,7 @@ namespace Z0
                         var record = default(CoffSymRecord);
                         var name = sym.Name;
                         record.Seq = seq++;
-                        if(originated)
-                            record.OriginId = origin.DocId;
-
+                        record.OriginId = origin.DocId;
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.Section = sym.Section;
@@ -280,7 +272,6 @@ namespace Z0
                         record.Name = symtext;
                         record.Source = file.Path;
                         buffer.Add(record);
-
                         size += record.SymSize;
                     }
                 }
@@ -308,7 +299,7 @@ namespace Z0
             for(var i=0; i<objCount; i++)
             {
                 ref readonly var objPath = ref skip(paths,i);
-                var originated = context.Root(objPath, out var origin);
+                var origin = context.Root(objPath);
                 var obj = src[objPath];
                 var file = files.Entry(objPath);
                 var objData = obj.Data.View;
@@ -328,9 +319,7 @@ namespace Z0
                     {
                         var record = default(CoffSymRecord);
                         var name = sym.Name;
-                        if(originated)
-                            record.OriginId = origin.DocId;
-
+                        record.OriginId = origin.DocId;
                         record.Address = name.NameKind == CoffNameKind.String ? Address32.Zero : name.Address;
                         record.SymSize = CoffObjects.length(strings, name);
                         record.Section = sym.Section;

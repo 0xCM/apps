@@ -7,11 +7,11 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels.XedOpKind;
+    using static XedModels.FieldKind;
     using static Asm.AsmPrefixCodes;
     using static core;
 
-    using K = XedModels.XedOpKind;
+    using K = XedModels.FieldKind;
 
     partial struct XedModels
     {
@@ -21,7 +21,7 @@ namespace Z0
             public const string TableId = "xed.operand.state";
 
             [OperandKind(AGEN)]
-            public string agen;
+            public text31 agen;
 
             [OperandKind(AMD3DNOW)]
             public bit amd3dnow;
@@ -65,7 +65,7 @@ namespace Z0
             [OperandKind(IMM1, "Indicates whether a second imm operand is present")]
             public bit imm1;
 
-            [OperandKind(XedOpKind.IMM_WIDTH)]
+            [OperandKind(FieldKind.IMM_WIDTH)]
             public byte imm_width;
 
             [OperandKind(IMM1_BYTES)]
@@ -195,10 +195,10 @@ namespace Z0
             [OperandKind(DEFAULT_SEG)]
             public uint2 default_seg;
 
-            [OperandKind(XedOpKind.EASZ)]
+            [OperandKind(FieldKind.EASZ)]
             public EASZ easz;
 
-            [OperandKind(XedOpKind.EOSZ)]
+            [OperandKind(FieldKind.EOSZ)]
             public EOSZ eosz;
 
             [OperandKind(FIRST_F2F3)]
@@ -297,7 +297,7 @@ namespace Z0
             [OperandKind(ILD_SEG)]
             public byte ild_seg;
 
-            [OperandKind(XedOpKind.MAX_BYTES)]
+            [OperandKind(FieldKind.MAX_BYTES)]
             public byte max_bytes;
 
             [OperandKind(MODRM_BYTE)]
@@ -399,9 +399,9 @@ namespace Z0
             [OperandKind(DISP)]
             public Disp64 disp;
 
-            public ConstLookup<XedOpKind,object> FieldValues()
+            public ConstLookup<FieldKind,object> FieldValues()
             {
-                var dst = dict<XedOpKind,object>();
+                var dst = dict<FieldKind,object>();
                 var kinds = new FieldKinds();
                 var fields = kinds.RightValues;
                 foreach(var f in fields)
@@ -454,7 +454,7 @@ namespace Z0
             {
                 var _ops = list<RuleOperand>();
                 if(disp_width != 0)
-                    _ops.Add(new RuleOperand(RuleOpName.DISP, disp(this, code), disp_width));
+                    _ops.Add(new RuleOperand(RuleOpName.DISP, disp(this, code)));
 
                 if(imm0)
                     _ops.Add(new RuleOperand(RuleOpName.IMM0, imm(this, code)));
@@ -510,7 +510,7 @@ namespace Z0
                 if(nonempty(mem1))
                     _ops.Add(new RuleOperand(RuleOpName.MEM1, mem1));
 
-                if(nonempty(agen))
+                if(agen.IsNonEmpty)
                     _ops.Add(new RuleOperand(RuleOpName.AGEN, agen));
 
                 return map(_ops, o => (o.Name, o)).ToDictionary();

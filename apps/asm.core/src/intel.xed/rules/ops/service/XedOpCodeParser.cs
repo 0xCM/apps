@@ -18,30 +18,20 @@ namespace Z0
         {
             var count = src.Length;
             var buffer = alloc<XedOpCodeRecord>(count);
-            var @class = IClass.INVALID;
-            var kseq = z8;
             for(var i=0u; i<count; i++)
             {
                 ref readonly var rule = ref skip(src,i);
                 ref var dst = ref seek(buffer,i);
-                if(i==0)
-                    @class = rule.Class;
-                else
-                {
-                    if(@class != rule.Class)
-                    {
-                        @class = rule.Class;
-                        kseq = 0;
-                    }
-                }
-
-                dst.Seq = i;
-                dst.Class = rule.Class;
                 dst.Kind = rule.OpCodeKind;
-                dst.ClassSeq = kseq++;
+                dst.Index = (byte)ocindex(rule.OpCodeKind);
                 dst.Value = value(rule);
+                dst.Class = rule.Class;
                 dst.Source = rule.Expression;
             }
+
+            buffer.Sort();
+            for(var i=0u; i<count; i++)
+                seek(buffer,i).Seq = i;
 
             return buffer;
         }
@@ -73,6 +63,19 @@ namespace Z0
             => value(rule.Expression);
 
         static bool ocbyte(string src, out Hex8 dst)
-            => DataParser.parse(src, out dst);
+        {
+            var t = text.trim(src);
+            if(text.index(t, "0b") >= 0)
+            {
+                if(BitNumbers.parse(text.remove(t, Chars.Underscore).Remove("0b"), out eight y))
+                {
+                    dst = (byte)y;
+                    return true;
+                }
+            }
+            return DataParser.parse(src, out dst);
+        }
+
+        //    => DataParser.parse(src, out dst);
     }
 }

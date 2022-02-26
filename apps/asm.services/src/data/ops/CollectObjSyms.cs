@@ -23,7 +23,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var path = ref skip(src,i);
-                var originated = context.Root(path, out var origin);
+                var origin = context.Root(path);
                 var fref = context.FileRef(path);
                 using var reader = path.Utf8LineReader();
                 var counter = 0u;
@@ -32,12 +32,12 @@ namespace Z0
                     if(ParseSymRow(line, ref counter, out var sym))
                     {
                         sym.Seq = seq++;
-                        if(originated)
-                            sym.OriginId = origin.DocId;
+                        sym.OriginId = origin.DocId;
                         buffer.Add(sym);
                     }
                 }
             }
+
             var rows = buffer.ToArray();
             TableEmit(@readonly(rows), ObjSymRow.RenderWidths, dst);
             context.Receiver.Collected(rows);

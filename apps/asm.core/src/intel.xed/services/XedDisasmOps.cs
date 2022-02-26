@@ -47,24 +47,21 @@ namespace Z0
                 result = ParseHexCode(line, out record.Encoded);
                 if(result.Fail)
                     return result;
-                record.DocSeq = counter++;
-                if(context.Root(src.Path, out var origin))
-                {
-                    record.OriginId = origin.DocId;
-                    record.OriginName = origin.Path.FileName.Format();
-                }
 
+                record.DocSeq = counter++;
+
+                var origin = context.Root(src);
+                record.OriginId = origin.DocId;
+                record.OriginName = origin.DocName;
                 result = ParseIP(content, out record.IP);
+                if(result.Fail)
+                    return result;
+
                 record.InstructionId = AsmBytes.instid(record.OriginId, record.IP, record.Encoded.Bytes);
                 record.EncodingId = record.InstructionId.EncodingId;
                 record.Asm = expression;
                 record.Source = src.Path;
                 record.Source = record.Source.LineRef(line.LineNumber);
-
-                if(result.Fail)
-                    return result;
-
-
                 record.Size = record.Encoded.Size;
                 dst.Add(record);
             }

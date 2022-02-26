@@ -23,8 +23,6 @@ namespace Z0
 
             public TextBlock Expression;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
-
             public override int GetHashCode()
                 => (int)Hash;
 
@@ -38,6 +36,8 @@ namespace Z0
                     i = Expression.CompareTo(src.Expression);
                 return i;
             }
+
+             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
         }
     }
 }

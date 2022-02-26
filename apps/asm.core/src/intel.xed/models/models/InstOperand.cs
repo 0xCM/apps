@@ -13,7 +13,7 @@ namespace Z0
         {
             public byte Index;
 
-            public XedOpKind Kind;
+            public FieldKind Kind;
 
             public OperandAction Action;
 

@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels.EASZ;
     using static XedModels.EOSZ;
     using static XedModels.SMode;
@@ -17,6 +15,53 @@ namespace Z0
 
     partial struct XedModels
     {
+        public unsafe struct AssignmentRule
+        {
+            public readonly text31 Name;
+
+            public readonly Index<FieldAssignment> Fields;
+
+            [MethodImpl(Inline)]
+            public AssignmentRule(text31 name, FieldAssignment[] fields)
+            {
+                Name = name;
+                Fields = fields;
+            }
+        }
+
+        public readonly struct FieldAssignment
+        {
+            public readonly FieldKind Field;
+
+            readonly ulong Data;
+
+            [MethodImpl(Inline)]
+            public FieldAssignment(FieldKind field, ulong data)
+            {
+                Field = field;
+                Data = data;
+            }
+        }
+
+        public readonly struct FieldAssignment<T>
+            where T : unmanaged
+        {
+            public readonly FieldKind Field;
+
+            public readonly T Value;
+
+            [MethodImpl(Inline)]
+            public FieldAssignment(FieldKind field, T value)
+            {
+                Field = field;
+                Value = value;
+            }
+
+            [MethodImpl(Inline)]
+            public static implicit operator FieldAssignment<T>((FieldKind kind, T value) src)
+                => new FieldAssignment<T>(src.kind, src.value);
+        }
+
         [StructLayout(LayoutKind.Sequential), ApiComplete("xed.machinestate")]
         public struct MachineState
         {
@@ -46,6 +91,9 @@ namespace Z0
 
             public SegPrefixKind SEG_OVD;
 
+            /// <summary>
+            /// Specifies whether to default to 64-bit with in 64-bit mode
+            /// </summary>
             public bit DF64;
 
             public XedBCastKind BCAST;
@@ -76,11 +124,35 @@ namespace Z0
 
             public bit DUMMY;
 
-            public bit ENC;
+            public bit ENCODER_PREFERRED;
 
             bit RepNeq3;
 
             bit SegPrefixNeq0;
+
+            [MethodImpl(Inline)]
+            public void mod0()
+            {
+                MOD = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void mod1()
+            {
+                MOD = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void mod2()
+            {
+                MOD = 2;
+            }
+
+            [MethodImpl(Inline)]
+            public void mod3()
+            {
+                MOD = 3;
+            }
 
             [MethodImpl(Inline)]
             public void not64()
@@ -469,7 +541,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void enc()
             {
-                ENC = 1;
+                ENCODER_PREFERRED = 1;
             }
 
             [MethodImpl(Inline)]

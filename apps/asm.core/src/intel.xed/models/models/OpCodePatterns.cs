@@ -11,7 +11,6 @@ namespace Z0
     {
         public class OpCodePatterns
         {
-
             Index<OpCodePattern> Data;
 
             public OpCodePatterns()
@@ -42,7 +41,7 @@ namespace Z0
                 {
                     ref readonly var sym = ref legacy[i];
                     ref var dst = ref seek(buffer, counter);
-                    dst.Seq = counter++;
+                    dst.Index = counter++;
                     dst.Class = OpCodeClass.LEGACY;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
@@ -55,7 +54,7 @@ namespace Z0
                 {
                     ref readonly var sym = ref xop[i];
                     ref var dst = ref seek(buffer,counter);
-                    dst.Seq = counter++;
+                    dst.Index = counter++;
                     dst.Class = OpCodeClass.XOP;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
@@ -68,7 +67,7 @@ namespace Z0
                 {
                     ref readonly var sym = ref vex[i];
                     ref var dst = ref seek(buffer,counter);
-                    dst.Seq = counter++;
+                    dst.Index = counter++;
                     dst.Class = OpCodeClass.VEX;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;
@@ -81,7 +80,7 @@ namespace Z0
                 {
                     ref readonly var sym = ref evex[i];
                     ref var dst = ref seek(buffer,counter);
-                    dst.Seq = counter++;
+                    dst.Index = counter++;
                     dst.Class = OpCodeClass.EVEX;
                     dst.Name = sym.Expr.Format();
                     dst.Number = (byte)sym.Kind;

@@ -53,7 +53,7 @@ namespace Z0
             var data = path.ReadLines().Where(x => x != null).View;
             var count = data.Length;
             var docseq = 0u;
-            var orginated = context.Root(src.Path, out var origin);
+            var origin = context.Root(src.Path);
             for(var x=0; x<count; x++)
             {
                 N++;

@@ -33,7 +33,20 @@ namespace Z0
         public FileRef FileRef(uint docid)
             => Files[docid];
 
-        public bool Root(FS.FilePath dst, out FileRef src)
-            => Flows.Root(dst, out src);
+        public FileRef Root(in FS.FilePath dst)
+        {
+            if(Flows.Root(dst, out var src))
+                return src;
+            else
+                return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.ToUri()));
+        }
+
+        public FileRef Root(in FileRef dst)
+        {
+            if(Flows.Root(dst.Path, out var src))
+                return src;
+            else
+                return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.Path.ToUri()));
+        }
     }
 }

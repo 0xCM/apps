@@ -13,53 +13,6 @@ namespace Z0
 
     partial struct XedModels
     {
-        public static Imm imm(in OpState state, in AsmHexCode code)
-        {
-            var dst = Imm.Empty;
-            if(state.imm0)
-            {
-                var size = Sizes.native(state.imm_width);
-                var signed = state.imm0signed;
-                var pos = state.pos_imm;
-                dst = asm.imm(code, pos, signed, size);
-            }
-            return dst;
-        }
-
-        [Op]
-        public static long disp(in OpState state, in AsmHexCode code)
-        {
-            var val = Disp.Zero;
-            var _val = 0L;
-            if(state.disp_width != 0)
-            {
-                var width = state.disp_width;
-                var length = width/8;
-                var offset = state.pos_disp;
-                switch(length)
-                {
-                    case 1:
-                        val = new Disp((sbyte)code[offset], NativeSizeCode.W8);
-                        _val = (sbyte)code[offset];
-                    break;
-                    case 2:
-                        val = new Disp(slice(code.Bytes, offset, length).TakeInt16(), NativeSizeCode.W16);
-                        _val = slice(code.Bytes, offset, length).TakeInt16();
-                    break;
-                    case 4:
-                        val = new Disp(slice(code.Bytes, offset, length).TakeInt32(), NativeSizeCode.W32);
-                        _val = slice(code.Bytes, offset, length).TakeInt32();
-                    break;
-                    case 8:
-                        val = new Disp(slice(code.Bytes, offset, length).TakeInt64(), NativeSizeCode.W64);
-                        _val = slice(code.Bytes, offset, length).TakeInt64();
-                    break;
-                }
-            }
-
-            return _val;
-        }
-
         [MethodImpl(Inline), Op]
         public static bool rex(in OpState src, out RexPrefix dst)
         {
@@ -75,24 +28,6 @@ namespace Z0
             else
             {
                 dst = RexPrefix.Empty;
-                return false;
-            }
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool sib(in OpState src, out Sib dst)
-        {
-            if(src.has_sib)
-            {
-                dst = Sib.init();
-                dst.Base = src.sibbase;
-                dst.Index = src.sibindex;
-                dst.Scale = src.sibscale;
-                return true;
-            }
-            else
-            {
-                dst = Sib.Empty;
                 return false;
             }
         }
@@ -129,25 +64,6 @@ namespace Z0
             }
         }
 
-        public static uint width(EASZ src)
-            => src switch
-            {
-                EASZ.EASZ16 => 16,
-                EASZ.EASZ32 => 32,
-                EASZ.EASZ64 => 64,
-                _ => 0,
-            };
-
-        public static uint widths(EASZ src)
-            => src switch
-            {
-                EASZ.EASZ16 => 16,
-                EASZ.EASZ32 => 32,
-                EASZ.EASZ64 => 64,
-                EASZ.EASZNot16 => 32 | (64 << 8),
-                _ => 0,
-            };
-
         public static uint modes(EOSZ src)
             => src switch
             {
@@ -160,151 +76,11 @@ namespace Z0
                 _ => 0,
             };
 
-        public static uint width(EOSZ src)
-            => src switch
-            {
-                EOSZ.EOSZ8 => 8,
-                EOSZ.EOSZ16 => 16,
-                EOSZ.EOSZ32 => 32,
-                EOSZ.EOSZ64 => 64,
-                _ => 0,
-            };
-
-        public static uint widths(EOSZ src)
-            => src switch
-            {
-                EOSZ.EOSZ8 => 8,
-                EOSZ.EOSZ16 => 16,
-                EOSZ.EOSZ32 => 32,
-                EOSZ.EOSZ64 => 64,
-                EOSZ.EOSZNot16 => 8 | (32 << 8) | (64 << 16),
-                EOSZ.EOSZNot64 => 8 | (16 << 8) | (32 << 16),
-                _ => 0,
-            };
-
-        public static AsmBroadcastSpec spec(XedBCastKind kind)
-        {
-            var dst = AsmBroadcastSpec.Empty;
-            var id = (uint5)(byte)kind;
-            switch(kind)
-            {
-                case XedBCastKind.BCast_1TO16_8:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO16_8).Format(), 1, 16);
-                break;
-
-                case XedBCastKind.BCast_1TO32_8:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO32_8).Format(), 1, 32);
-                break;
-
-                case XedBCastKind.BCast_1TO64_8:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO64_8).Format(), 1, 64);
-                break;
-
-                case XedBCastKind.BCast_1TO2_8:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO2_8).Format(), 1, 8);
-                break;
-
-                case XedBCastKind.BCast_1TO4_8:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO4_8).Format(), 1, 4);
-                break;
-
-                case XedBCastKind.BCast_1TO8_8:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast8, Symbols.expr(XedBCast8Kind.BCast_1TO8_8).Format(), 1, 8);
-                break;
-
-                case XedBCastKind.BCast_1TO8_16:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO8_16).Format(), 1, 8);
-                break;
-
-                case XedBCastKind.BCast_1TO16_16:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO16_16).Format(), 1, 16);
-                break;
-
-                case XedBCastKind.BCast_1TO32_16:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO32_16).Format(), 1, 32);
-                break;
-
-                case XedBCastKind.BCast_1TO2_16:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO2_16).Format(), 1, 2);
-                break;
-
-                case XedBCastKind.BCast_1TO4_16:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast16, Symbols.expr(XedBCast16Kind.BCast_1TO4_16).Format(), 1, 4);
-                break;
-
-                case XedBCastKind.BCast_1TO16_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO16_32).Format(), 1, 16);
-                break;
-
-                case XedBCastKind.BCast_4TO16_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_4TO16_32).Format(), 4, 16);
-                break;
-
-                case XedBCastKind.BCast_1TO8_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO8_32).Format(), 1, 8);
-                break;
-
-                case XedBCastKind.BCast_4TO8_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_4TO8_32).Format(), 4, 8);
-                break;
-
-                case XedBCastKind.BCast_2TO16_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_2TO16_32).Format(), 2, 16);
-                break;
-
-                case XedBCastKind.BCast_8TO16_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_8TO16_32).Format(), 8, 16);
-                break;
-
-                case XedBCastKind.BCast_1TO4_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO4_32).Format(), 1, 4);
-                break;
-
-                case XedBCastKind.BCast_2TO4_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_2TO4_32).Format(), 2, 4);
-                break;
-
-                case XedBCastKind.BCast_2TO8_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_2TO8_32).Format(), 2, 8);
-                break;
-
-                case XedBCastKind.BCast_1TO2_32:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast32, Symbols.expr(XedBCast32Kind.BCast_1TO2_32).Format(), 1, 2);
-                break;
-
-                case XedBCastKind.BCast_1TO8_64:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_1TO8_64).Format(), 1, 8);
-                break;
-
-                case XedBCastKind.BCast_4TO8_64:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_4TO8_64).Format(), 4, 8);
-                break;
-
-                case XedBCastKind.BCast_2TO8_64:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_2TO8_64).Format(), 2, 8);
-                break;
-
-                case XedBCastKind.BCast_1TO2_64:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_1TO2_64).Format(), 1, 2);
-                break;
-
-                case XedBCastKind.BCast_1TO4_64:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_1TO4_64).Format(), 1, 4);
-                break;
-
-                case XedBCastKind.BCast_2TO4_64:
-                    dst = AsmBroadcastSpec.define(id, AsmBroadcastClass.BCast64, Symbols.expr(XedBCast64Kind.BCast_2TO4_64).Format(), 2, 64);
-                break;
-            }
-
-            return dst;
-        }
-
-        public static ConstLookup<XedOpKind,TypeSpec> OpKindTypes()
+        public static ConstLookup<FieldKind,TypeSpec> OpKindTypes()
         {
             var fields = typeof(OpState).PublicInstanceFields();
             var count = fields.Length;
-            var dst = dict<XedOpKind,TypeSpec>();
+            var dst = dict<FieldKind,TypeSpec>();
             for(var i=0; i<count; i++)
             {
                 ref readonly var field = ref skip(fields,i);

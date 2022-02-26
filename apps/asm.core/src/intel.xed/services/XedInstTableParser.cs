@@ -38,7 +38,7 @@ namespace Z0
 
         EnumParser<EncodingGroup> Groups {get;}
 
-        EnumParser<XedOpKind> OperandKinds {get;}
+        EnumParser<FieldKind> OperandKinds {get;}
 
         EnumParser<VisibilityKind> Visibilities {get;}
 

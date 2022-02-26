@@ -8,7 +8,7 @@ namespace Z0
 
     using Asm;
     [Record(TableId)]
-    public struct XedOpCodeRecord
+    public struct XedOpCodeRecord : IComparable<XedOpCodeRecord>
     {
         public const string TableId = "xed.opcode";
 
@@ -16,16 +16,25 @@ namespace Z0
 
         public uint Seq;
 
-        public IClass Class;
-
         public OpCodeKind Kind;
 
-        public byte ClassSeq;
+        public byte Index;
 
         public AsmOcValue Value;
 
+        public IClass Class;
+
         public TextBlock Source;
 
-        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,16,8,12,1};
+        public int CompareTo(XedOpCodeRecord src)
+        {
+            var result = Index.CompareTo(src.Index);
+            if(result == 0)
+            {
+                result = Value.CompareTo(src.Value);
+            }
+            return result;
+        }
+        public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,12,8,12,24,1};
     }
 }

@@ -27,7 +27,7 @@ namespace Z0
                 get => Op.Index;
             }
 
-            public XedOpKind OpKind
+            public FieldKind OpKind
             {
                 [MethodImpl(Inline)]
                 get => Op.Kind;

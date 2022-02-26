@@ -40,8 +40,9 @@ namespace Z0
             get => Path.IsNonEmpty;
         }
 
-        public string OriginName
+        public string DocName
         {
+            [MethodImpl(Inline)]
             get => Path.FileName.Format();
         }
         public int CompareTo(FileRef src)

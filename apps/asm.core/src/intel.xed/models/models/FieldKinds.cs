@@ -8,11 +8,11 @@ namespace Z0
 
     partial struct XedModels
     {
-        public sealed class FieldKinds : PairedLookup<XedOpKind,FieldInfo>
+        public sealed class FieldKinds : PairedLookup<FieldKind,FieldInfo>
         {
             static FieldInfo[] fields = typeof(OpState).DeclaredInstanceFields().Tagged<OperandKindAttribute>();
 
-            static Dictionary<XedOpKind,FieldInfo> kinds = fields.Select(f => (f.Tag<OperandKindAttribute>().Require().Kind,f)).ToDictionary();
+            static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<OperandKindAttribute>().Require().Kind,f)).ToDictionary();
 
             public FieldKinds()
                 : base(kinds)

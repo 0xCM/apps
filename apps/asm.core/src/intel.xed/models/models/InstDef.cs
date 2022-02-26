@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial struct XedModels
     {
         public struct InstDef : IComparable<InstDef>

@@ -22,7 +22,7 @@ namespace Z0
                     continue;
 
                 ref var dst = ref seek(buffer,i);
-                var fk = XedOpKind.INVALID;
+                var fk = FieldKind.INVALID;
                 var op = RuleOperator.None;
                 var fv = EmptyString;
                 var j = text.index(spec, Chars.Eq);
@@ -49,13 +49,13 @@ namespace Z0
                 if(nonempty(name))
                 {
                     if(name.Equals("REXW[w]"))
-                        fk = XedOpKind.REXW;
+                        fk = FieldKind.REXW;
                     else if(name.Equals("REXB[b]"))
-                        fk = XedOpKind.REXB;
+                        fk = FieldKind.REXB;
                     else if(name.Equals("REXR[r]"))
-                        fk = XedOpKind.REXR;
+                        fk = FieldKind.REXR;
                     else if(name.Equals("REXX[x]"))
-                        fk = XedOpKind.REXX;
+                        fk = FieldKind.REXX;
                     else if(!OperandKinds.ExprKind(name, out fk))
                         Warn(string.Format("Kind for {0} not found in {1}", name, src));
                 }

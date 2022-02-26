@@ -64,11 +64,13 @@ namespace Z0
         Outcome ParseOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
         {
             var result = Outcome.Success;
-            dst = new RuleOpSpec(name, attribs);
-            var kind = XedRuleOps.kind(name);
-            dst.Kind = kind;
+            dst = new RuleOpSpec();
             dst.Name = name;
-            switch(kind)
+            dst.Kind = XedRuleOps.kind(name);
+            dst.Name = name;
+            dst.Function = TableFunction.Empty;
+            dst.Attributes = attribs;
+            switch(dst.Kind)
             {
                 case XedRuleOpKind.Agen:
                 break;
@@ -168,11 +170,11 @@ namespace Z0
             dst = sys.empty<string>();
             if(i > 0)
             {
-                var _attribs = text.right(src,i);
-                if(text.empty(_attribs))
+                var attribs = text.right(src,i);
+                if(text.empty(attribs))
                     result = (false, string.Format("No attributes found in {0}", src));
                 else
-                    dst = text.split(_attribs, Chars.Colon).Where(text.nonempty);
+                    dst = text.split(attribs, Chars.Colon).Where(text.nonempty);
             }
             return result;
         }

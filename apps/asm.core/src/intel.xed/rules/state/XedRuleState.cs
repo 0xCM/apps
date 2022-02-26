@@ -42,9 +42,5 @@ namespace Z0
             }
             return reg;
         }
-
-        [MethodImpl(Inline)]
-        public ref bit needrex()
-            => ref Ops.needrex;
     }
 }

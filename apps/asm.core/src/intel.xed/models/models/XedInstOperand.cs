@@ -17,7 +17,7 @@ namespace Z0
 
         public byte OpIndex;
 
-        public XedOpKind Kind;
+        public FieldKind Kind;
 
         public VisibilityKind Visibility;
 
