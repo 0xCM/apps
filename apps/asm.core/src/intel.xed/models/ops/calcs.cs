@@ -25,23 +25,6 @@ namespace Z0
                 _ => 0,
             };
 
-        public static ConstLookup<FieldKind,TypeSpec> OpKindTypes()
-        {
-            var fields = typeof(FieldState).PublicInstanceFields();
-            var count = fields.Length;
-            var dst = dict<FieldKind,TypeSpec>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var field = ref skip(fields,i);
-                var tag = field.Tag<OperandKindAttribute>();
-                if(tag)
-                {
-                    dst.TryAdd(tag.Value.Kind, TypeSyntax.infer(field.FieldType));
-                }
-            }
-            return dst;
-        }
-
         /// <summary>
         /// Creates a <see cref='AttributeVector'/> from a <see cref='AttributeKind'> sequence
         /// </summary>

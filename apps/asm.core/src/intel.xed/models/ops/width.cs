@@ -9,6 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
+        [Op]
         public static uint width(EOSZ src)
             => src switch
             {
@@ -19,6 +20,7 @@ namespace Z0
                 _ => 0,
             };
 
+        [Op]
         public static uint widths(EOSZ src)
             => src switch
             {
@@ -32,6 +34,7 @@ namespace Z0
             };
 
 
+        [Op]
         public static uint width(EASZ src)
             => src switch
             {
@@ -41,6 +44,7 @@ namespace Z0
                 _ => 0,
             };
 
+        [Op]
         public static uint widths(EASZ src)
             => src switch
             {

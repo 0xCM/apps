@@ -13,7 +13,7 @@ namespace Z0
         partial struct RuleStateCalcs
         {
             [Op]
-            public static Disp disp(in FieldState state, in AsmHexCode code)
+            public static Disp disp(in RuleState state, in AsmHexCode code)
             {
                 var val = Disp.Zero;
                 if(state.DISP_WIDTH != 0)

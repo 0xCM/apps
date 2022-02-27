@@ -8,7 +8,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource("xed")]
-        public enum XedBCast8Kind : byte
+        public enum BCast8Kind : byte
         {
             [Symbol("{1to16}", "BCAST=17")]
             BCast_1TO16_8 = 17, // 128

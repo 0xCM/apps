@@ -32,15 +32,11 @@ namespace Z0
         {
             var receiver = new AsmEventReceiver();
             var context = Projects.Context(project, receiver);
-            Projects.EmitCatalog(context);
-            receiver.Initialized(context);
             CollectObjDump(context);
             CollectObjSyms(context);
-            Coff.Collect(context);
+            CollectCoffIndex(context);
             CollectMc(context);
             CollectXedDisasm(context);
-            //MapAsmCode(context);
-            receiver.Emit();
             return receiver.Emit();
         }
    }

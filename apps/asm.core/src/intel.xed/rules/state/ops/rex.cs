@@ -11,7 +11,7 @@ namespace Z0
         partial struct RuleStateCalcs
         {
             [MethodImpl(Inline), Op]
-            public static bool rex(in FieldState src, out RexPrefix dst)
+            public static bool rex(in RuleState src, out RexPrefix dst)
             {
                 if(src.REX)
                 {

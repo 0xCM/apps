@@ -34,10 +34,9 @@ namespace Z0
                 record.Name = skip(cells,0);
 
                 ref readonly var type = ref skip(cells,2);
-
                 if(!FieldTypes.ExprKind(type, out var ft))
                 {
-                    result = (false,string.Format("Unanticipated type {0}", type));
+                    result = (false, AppMsg.ParseFailure.Format(nameof(type), type));
                     break;
                 }
 
@@ -45,7 +44,7 @@ namespace Z0
                 result = DataParser.parse(width, out record.Width);
                 if(result.Fail)
                 {
-                    result = (false,string.Format("Unable to parse width from {0}", width));
+                    result = (false, AppMsg.ParseFailure.Format(nameof(width), width));
                     break;
                 }
 
@@ -54,12 +53,13 @@ namespace Z0
                 ref readonly var vsib = ref skip(cells,4);
                 if(!Visibilities.ExprKind(vsib, out record.Visibility))
                 {
-                    result = (false,string.Format("Unanticipated visiblity {0}", vsib));
+                    result = (false, AppMsg.ParseFailure.Format(nameof(vsib), vsib));
                     break;
                 }
 
                 dst.Add(record);
             }
+
             if(result)
             {
                 Ran(running, string.Format("Parsed {0} records", dst.Count));

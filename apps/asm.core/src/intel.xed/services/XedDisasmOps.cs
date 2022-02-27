@@ -15,10 +15,10 @@ namespace Z0
 
         const string YDIS = "YDIS:";
 
-        public static Outcome ParseEncodings(WsContext context, in FileRef src, out AsmEncodingDoc dst)
+        public static Outcome ParseSummaries(WsContext context, in FileRef src, out AsmEncodingDoc dst)
         {
             var buffer = list<XedDisasmSummary>();
-            var result = ParseEncodings(context, src,buffer);
+            var result = ParseSummaries(context, src,buffer);
             if(result)
                 dst = (src.Path,buffer.ToArray());
             else
@@ -26,7 +26,7 @@ namespace Z0
             return result;
         }
 
-        public static Outcome ParseEncodings(WsContext context, in FileRef src, List<XedDisasmSummary> dst)
+        public static Outcome ParseSummaries(WsContext context, in FileRef src, List<XedDisasmSummary> dst)
         {
             var blocks = LoadLineBlocks(src.Path);
             var summaries = SummaryLines(blocks);
@@ -69,19 +69,6 @@ namespace Z0
             return true;
         }
 
-        public static ConstLookup<FileRef,DisasmFileBlocks> LoadFileBlocks(ReadOnlySpan<FileRef> src)
-        {
-            var dst = dict<FileRef,DisasmFileBlocks>();
-            var blocks = list<DisasmLineBlock>();
-            foreach(var fref in src)
-            {
-                blocks.Clear();
-                LoadLineBlocks(fref.Path,blocks);
-                dst[fref] = new DisasmFileBlocks(fref, blocks.ToArray());
-            }
-            return dst;
-        }
-
         public static DisasmFileBlocks LoadFileBlocks(in FileRef src)
             => new DisasmFileBlocks(src, LoadLineBlocks(src.Path));
 
@@ -94,7 +81,7 @@ namespace Z0
             return dst.ToArray();
         }
 
-        public static void LoadLineBlocks(FS.FilePath src, List<DisasmLineBlock> dst)
+        static void LoadLineBlocks(FS.FilePath src, List<DisasmLineBlock> dst)
         {
             var lines = src.ReadNumberedLines();
             var count = lines.Length;
@@ -128,7 +115,7 @@ namespace Z0
             }
         }
 
-        public static Outcome ParseIP(string src, out MemoryAddress dst)
+        static Outcome ParseIP(string src, out MemoryAddress dst)
         {
             var result = Outcome.Failure;
             var i = text.index(src, XDIS);

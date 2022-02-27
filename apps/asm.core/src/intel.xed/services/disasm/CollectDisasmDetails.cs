@@ -27,7 +27,7 @@ namespace Z0
             iter(files, file => {
 
                 var blocks = xedsvc.LoadDisamBlocks(file);
-                result = XedDisasmOps.ParseEncodings(context, file, out var encodings);
+                result = XedDisasmOps.ParseSummaries(context, file, out var encodings);
                 var rows = encodings.View;
                 Require.equal((uint)rows.Length, blocks.LineBlocks.Count);
                 result = xedsvc.CalcDisasmDetails(context, blocks, bag);
@@ -70,20 +70,20 @@ namespace Z0
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
-            var result = XedDisasmOps.ParseEncodings(context, src.Source, out var encodings);
+            var result = XedDisasmOps.ParseSummaries(context, src.Source, out var summaries);
             if(result.Fail)
                 return result;
 
-            if(encodings.RowCount != count)
+            if(summaries.RowCount != count)
             {
-                result = (false, string.Format("{0} != {1}", count, encodings.RowCount));
+                result = (false, string.Format("{0} != {1}", count, summaries.RowCount));
                 return result;
             }
 
             for(var i=0u; i<count; i++)
             {
                 ref readonly var block = ref blocks[i];
-                ref readonly var encoding =ref encodings[i];
+                ref readonly var encoding =ref summaries[i];
                 var detail = XedDisasmDetail.Empty;
                 result = CalcDisasmDetail(block, encoding, out detail);
                 if(result.Fail)

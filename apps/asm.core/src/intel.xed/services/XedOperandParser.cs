@@ -17,7 +17,7 @@ namespace Z0
 
         Symbols<XedRegId> Registers;
 
-        FieldState State;
+        RuleState State;
 
         DataList<FieldKind> _ParsedKinds;
 
@@ -29,7 +29,7 @@ namespace Z0
         {
             Kinds = Symbols.index<FieldKind>();
             Registers = Symbols.index<XedRegId>();
-            State = FieldState.Empty;
+            State = RuleState.Empty;
             _ParsedKinds = new();
             _UnknownFields = new();
             _Failures = new();
@@ -37,7 +37,7 @@ namespace Z0
 
         void Clear()
         {
-            State = FieldState.Empty;
+            State = RuleState.Empty;
             _ParsedKinds.Clear();
             _UnknownFields.Clear();
             _Failures.Clear();
@@ -130,7 +130,7 @@ namespace Z0
             return result;
         }
 
-        public void ParseState(ReadOnlySpan<Facet<string>> src, out FieldState dst)
+        public void ParseState(ReadOnlySpan<Facet<string>> src, out RuleState dst)
         {
             Clear();
             var count = src.Length;
@@ -162,7 +162,7 @@ namespace Z0
             return kind;
         }
 
-        Outcome Parse(string src, FieldKind kind, ref FieldState state)
+        Outcome Parse(string src, FieldKind kind, ref RuleState state)
         {
             var result = Outcome.Success;
             switch(kind)
@@ -228,7 +228,7 @@ namespace Z0
                 break;
 
                 case K.DISP:
-                    result = Disp64.parse(src, out state.disp);
+                    result = Disp64.parse(src, out state.DISP);
                 break;
 
                 case K.DISP_WIDTH:

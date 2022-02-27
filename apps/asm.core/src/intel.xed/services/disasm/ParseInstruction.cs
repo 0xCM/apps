@@ -9,20 +9,6 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public Outcome ParseInstructions(ReadOnlySpan<DisasmLineBlock> src, out Index<DisasmInstruction> dst)
-        {
-            var count = src.Length;
-            var result = Outcome.Success;
-            dst = alloc<DisasmInstruction>(count);
-            for(var i=0; i<count; i++)
-            {
-                result = ParseInstruction(skip(src,i), out dst[i]);
-                if(result.Fail)
-                    break;
-            }
-            return result;
-        }
-
         Outcome ParseInstruction(in DisasmLineBlock block, out DisasmInstruction inst)
         {
             var result = Outcome.Success;

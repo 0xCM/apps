@@ -58,7 +58,7 @@ namespace Z0
                                         ParseExtension(value, out dst.Extension);
                                     break;
                                     case P.Flags:
-                                        dst.Flags = ParseFlags(value);
+                                        dst.Flags = ParseFlagActions(value);
                                     break;
                                     case P.IClass:
                                         ParseIClass(value, out dst.Class);

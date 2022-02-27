@@ -9,7 +9,7 @@ namespace Z0
     {
 
         [SymSource("xed")]
-        public enum XedBCast16Kind : byte
+        public enum BCast16Kind : byte
         {
             [Symbol("{1to8}", "BCAST=14")]
             BCast_1TO8_16 = 14, // 128

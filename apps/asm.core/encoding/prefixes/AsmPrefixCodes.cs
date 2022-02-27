@@ -186,7 +186,9 @@ namespace Z0.Asm
             V256 = 1,
 
             [Symbol("V512", "VL=2")]
-            V512 = 2
+            V512 = 2,
+
+            INVALID = 3,
         }
 
         [SymSource(HostName)]

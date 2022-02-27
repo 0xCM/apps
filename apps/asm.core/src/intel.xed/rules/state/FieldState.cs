@@ -7,20 +7,44 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels.FieldKind;
     using static XedModels.RuleStateCalcs;
     using static Asm.AsmPrefixCodes;
+    using static Asm.AsmPrefixCodes.VectorWidthCode;
+    using static XedModels.EASZ;
+    using static XedModels.EOSZ;
+    using static XedModels.SMode;
+    using static XedModels.SegPrefixKind;
+    using static XedModels.VexMapKind;
     using static core;
 
     using K = XedModels.FieldKind;
     using N = XedModels.RuleOpName;
+    using P = XedModels.RepPrefix;
+    using D = XedModels.SegDefaultKind;
+    using B = XedModels.BCastKind;
+    using V = XedModels.VexPrefixKind;
 
     partial struct XedModels
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct FieldState
+        public struct RuleState
         {
-            public const string TableId = "xed.operand.state";
+            public static ConstLookup<FieldKind,FieldInfo> fields()
+            {
+                var fields = typeof(RuleState).PublicInstanceFields();
+                var count = fields.Length;
+                var dst = dict<FieldKind,FieldInfo>();
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var field = ref skip(fields,i);
+                    var tag = field.Tag<OperandKindAttribute>();
+                    if(tag)
+                        dst.TryAdd(tag.Value.Kind, field);
+                }
+                return dst;
+            }
+
+            public const string TableId = "xed.rules.state";
 
             [OperandKind(K.AGEN)]
             public text31 AGEN;
@@ -175,7 +199,7 @@ namespace Z0
             [OperandKind(K.VEXDEST3)]
             public bit VEXDEST3;
 
-            [OperandKind(VEXDEST4)]
+            [OperandKind(K.VEXDEST4)]
             public bit vexdest4;
 
             [OperandKind(K.VEX_C4)]
@@ -265,6 +289,9 @@ namespace Z0
             [OperandKind(K.VEXDEST210)]
             public uint3 VEXDEST210;
 
+            [OperandKind(K.VEXDEST4)]
+            public bit VEXDEST4;
+
             [OperandKind(K.VEXVALID)]
             public VexKind VEXVALID;
 
@@ -281,7 +308,7 @@ namespace Z0
             public byte NELEM;
 
             [OperandKind(K.BCAST)]
-            public XedBCastKind BCAST;
+            public BCastKind BCAST;
 
             [OperandKind(K.NEED_MEMDISP)]
             public bit NEED_MEMDISP;
@@ -397,8 +424,10 @@ namespace Z0
             [OperandKind(K.MEM_WIDTH)]
             public ushort MEM_WIDTH;
 
-            [OperandKind(DISP)]
-            public Disp64 disp;
+            [OperandKind(K.DISP)]
+            public Disp64 DISP;
+
+            public bit NO_RETURN;
 
             public ConstLookup<FieldKind,object> FieldValues()
             {
@@ -517,7 +546,749 @@ namespace Z0
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }
 
-            public static FieldState Empty => default;
+            [MethodImpl(Inline)]
+            public void mod0()
+            {
+                MOD = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void mod1()
+            {
+                MOD = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void mod2()
+            {
+                MOD = 2;
+            }
+
+            [MethodImpl(Inline)]
+            public void mod3()
+            {
+                MOD = 3;
+            }
+
+            [MethodImpl(Inline)]
+            public void not64()
+            {
+                MODE = Mode.Not64;
+            }
+
+            [MethodImpl(Inline)]
+            public void mode64()
+            {
+                MODE = Mode.Mode64;
+            }
+
+            [MethodImpl(Inline)]
+            public void mode32()
+            {
+                MODE = Mode.Mode32;
+            }
+
+            [MethodImpl(Inline)]
+            public void mode16()
+            {
+                MODE = Mode.Mode16;
+            }
+
+            [MethodImpl(Inline)]
+            public void eanot16()
+            {
+                EASZ = EASZNot16;
+            }
+
+            [MethodImpl(Inline)]
+            public void eamode16()
+            {
+                EASZ = EASZ16;
+            }
+
+            [MethodImpl(Inline)]
+            public void eamode32()
+            {
+                EASZ = EASZ32;
+            }
+
+            [MethodImpl(Inline)]
+            public void eamode64()
+            {
+                EASZ = EASZ64;
+            }
+
+            [MethodImpl(Inline)]
+            public void smode16()
+            {
+                SMODE = SMode16;
+            }
+
+            [MethodImpl(Inline)]
+            public void smode32()
+            {
+                SMODE = SMode32;
+            }
+
+            [MethodImpl(Inline)]
+            public void smode64()
+            {
+                SMODE = SMode64;
+            }
+
+            [MethodImpl(Inline)]
+            public void eosz8()
+            {
+                EOSZ = EOSZ8;
+            }
+
+            [MethodImpl(Inline)]
+            public void eosz16()
+            {
+                EOSZ = EOSZ16;
+            }
+
+            [MethodImpl(Inline)]
+            public void eosz32()
+            {
+                EOSZ = EOSZ32;
+            }
+
+            [MethodImpl(Inline)]
+            public void eosz64()
+            {
+                EOSZ = EOSZ64;
+            }
+
+            [MethodImpl(Inline)]
+            public void not_eosz16()
+            {
+                EOSZ = EOSZNot16;
+            }
+
+            [MethodImpl(Inline)]
+            public void eosznot64()
+            {
+                EOSZ = EOSZNot64;
+            }
+
+            [MethodImpl(Inline)]
+            public void rex_reqd()
+            {
+                REX = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void no_rex()
+            {
+                REX = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void reset_rex()
+            {
+                REX = 0;
+                REXW = 0;
+                REXB = 0;
+                REXR = 0;
+                REXX = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void rexb_prefix()
+            {
+                REXB = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void norexb_prefix()
+            {
+                REXB = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void rexx_prefix()
+            {
+                REXX = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void norexx_prefix()
+            {
+                REXX = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void rexr_prefix()
+            {
+                REXR = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void norexr_prefix()
+            {
+                REXR = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void rexw_prefix()
+            {
+                REXW = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void norexw_prefix()
+            {
+                REXW = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void W0()
+            {
+                REXW = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void W1()
+            {
+                REXW = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void f2_prefix()
+            {
+                REP = (byte)P.REPF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void f3_prefix()
+            {
+                REP = (byte)P.REPF3;
+            }
+
+            [MethodImpl(Inline)]
+            public void repne()
+            {
+                REP = (byte)P.REPF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void repe()
+            {
+                REP = (byte)P.REPF3;
+            }
+
+            [MethodImpl(Inline)]
+            public void norep()
+            {
+                REP = 0;
+            }
+
+            [MethodImpl(Inline), Name("66_prefix")]
+            public void x66_prefix()
+            {
+                EOSZ = EOSZ.EOSZ16;
+            }
+
+            [MethodImpl(Inline)]
+            public void nof3_prefix()
+            {
+
+            }
+
+            [MethodImpl(Inline)]
+            public void no66_prefix()
+            {
+                EOSZ = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void not_refining()
+            {
+                REP = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void refining_f2()
+            {
+                REP = (byte)P.REPF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void refining_f3()
+            {
+                REP = (byte)P.REPF3;
+            }
+
+            [MethodImpl(Inline)]
+            public void not_refining_f3()
+            {
+
+            }
+
+            [MethodImpl(Inline)]
+            public void no_refining_prefix()
+            {
+                REP = 0;
+                EOSZ = EOSZ.EOSZ16;
+            }
+
+            [MethodImpl(Inline)]
+            public void osz_refining_prefix()
+            {
+                REP = 0;
+                EOSZ = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void f2_refining_prefix()
+            {
+                REP = (byte)P.REPF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void f3_refining_prefix()
+            {
+                REP = (byte)P.REPF3;
+            }
+
+            [MethodImpl(Inline)]
+            public void no67_prefix()
+            {
+                ASZ = 0;
+            }
+
+            [MethodImpl(Inline), Name("67_prefix")]
+            public void x67_prefix()
+            {
+                ASZ = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void lock_prefix()
+            {
+                LOCK = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void nolock_prefix()
+            {
+                LOCK = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void default_ds()
+            {
+                DEFAULT_SEG = (byte)D.DefaultDS;
+            }
+
+            [MethodImpl(Inline)]
+            public void default_ss()
+            {
+                DEFAULT_SEG = (byte)D.DefaultSS;
+            }
+
+            [MethodImpl(Inline)]
+            public void default_es()
+            {
+                DEFAULT_SEG = (byte)D.DefaultES;
+            }
+
+            [MethodImpl(Inline)]
+            public void no_seg_prefix()
+            {
+                SEG_OVD = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void some_seg_prefix()
+            {
+
+            }
+
+            [MethodImpl(Inline)]
+            public void cs_prefix()
+            {
+                SEG_OVD = (byte)CS;
+            }
+
+            [MethodImpl(Inline)]
+            public void ds_prefix()
+            {
+                SEG_OVD = (byte)DS;
+            }
+
+            [MethodImpl(Inline)]
+            public void es_prefix()
+            {
+                SEG_OVD = (byte)ES;
+            }
+
+            [MethodImpl(Inline)]
+            public void fs_prefix()
+            {
+                SEG_OVD = (byte)SegPrefixKind.FS;
+            }
+
+            [MethodImpl(Inline)]
+            public void gs_prefix()
+            {
+                SEG_OVD = (byte)GS;
+            }
+
+            [MethodImpl(Inline)]
+            public void ss_prefix()
+            {
+                SEG_OVD = (byte)SS;
+            }
+
+            [MethodImpl(Inline)]
+            public void nrmw()
+            {
+                DF64 = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void df64()
+            {
+                DF64 = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void enc()
+            {
+                ENCODER_PREFERRED = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void no_return()
+            {
+                NO_RETURN = 1;
+            }
+
+            [MethodImpl(Inline)]
+            public void error()
+            {
+                ERROR = ErrorKind.GENERAL_ERROR;
+            }
+
+            [MethodImpl(Inline), Name("true")]
+            public void @true()
+            {
+                DUMMY = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void XMAP8()
+            {
+                MAP = 8;
+            }
+
+            [MethodImpl(Inline)]
+            public void XMAP9()
+            {
+                MAP = 9;
+            }
+
+            [MethodImpl(Inline)]
+            public void XMAPA()
+            {
+                MAP = 10;
+            }
+
+            [MethodImpl(Inline)]
+            public void XOPV()
+            {
+                VEXVALID = VexKind.XOPV;
+            }
+
+            [MethodImpl(Inline)]
+            public void VL128()
+            {
+                VL = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void VL256()
+            {
+                VL = V256;
+            }
+
+            [MethodImpl(Inline)]
+            public void VV1()
+            {
+                VEXVALID = VexKind.VV1;
+            }
+
+            [MethodImpl(Inline)]
+            public void VV0()
+            {
+                VEXVALID = VexKind.VV0;
+            }
+
+            [MethodImpl(Inline)]
+            public void VMAP0()
+            {
+                MAP = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void V0F()
+            {
+                MAP = (byte)VEX_MAP_0F38;
+            }
+
+            [MethodImpl(Inline)]
+            public void V0F38()
+            {
+                MAP = (byte)VEX_MAP_0F38;
+            }
+
+            [MethodImpl(Inline)]
+            public void V0F3A()
+            {
+                MAP = (byte)VEX_MAP_0F3A;
+            }
+
+            [MethodImpl(Inline)]
+            public void VNP()
+            {
+                VEX_PREFIX = V.VNP;
+            }
+
+            [MethodImpl(Inline)]
+            public void V66()
+            {
+                VEX_PREFIX = V.V66;
+            }
+
+            [MethodImpl(Inline)]
+            public void VF2()
+            {
+                VEX_PREFIX = V.VF2;
+            }
+
+            [MethodImpl(Inline)]
+            public void VF3()
+            {
+                VEX_PREFIX = V.VF3;
+            }
+
+            [MethodImpl(Inline)]
+            public void NOVSR()
+            {
+                VEXDEST3=1;
+                VEXDEST210=0b111;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO4_32()
+            {
+                BCAST = B.BCast_1TO4_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO4_64()
+            {
+                BCAST = B.BCast_1TO4_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_32()
+            {
+               BCAST = B.BCast_1TO8_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO4_64()
+            {
+               BCAST = B.BCast_2TO4_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_64()
+            {
+               BCAST = B.BCast_1TO2_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_16()
+            {
+               BCAST = B.BCast_1TO8_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO16_16()
+            {
+               BCAST = B.BCast_1TO16_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO16_8()
+            {
+               BCAST = B.BCast_1TO16_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO32_8()
+            {
+               BCAST = B.BCast_1TO32_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void VL512()
+            {
+                VL = V512;
+            }
+
+            [MethodImpl(Inline)]
+            public void VLBAD()
+            {
+                VL = VectorWidthCode.INVALID;
+            }
+
+            [MethodImpl(Inline)]
+            public void KVV()
+            {
+                VEXVALID = VexKind.KVV;
+            }
+
+            [MethodImpl(Inline)]
+            public void NOEVSR()
+            {
+                VEXDEST3=1;
+                VEXDEST210=0b111;
+                VEXDEST4=0;
+            }
+
+            [MethodImpl(Inline)]
+            public void NO_SPARSE_EVSR()
+            {
+                VEXDEST3=1;
+                VEXDEST210=0b111;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO16_32()
+            {
+               BCAST = B.BCast_1TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_4TO16_32()
+            {
+               BCAST = B.BCast_4TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_64()
+            {
+               BCAST = B.BCast_1TO8_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_4TO8_64()
+            {
+               BCAST = B.BCast_4TO8_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EVV()
+            {
+                VEXVALID = VexKind.EVV;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO16_32()
+            {
+               BCAST = B.BCast_2TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO8_64()
+            {
+               BCAST = B.BCast_2TO8_64;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_8TO16_32()
+            {
+               BCAST = B.BCast_8TO16_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO32_16()
+            {
+               BCAST = B.BCast_1TO32_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO64_8()
+            {
+               BCAST = B.BCast_1TO64_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_4TO8_32()
+            {
+               BCAST = B.BCast_4TO8_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO4_32()
+            {
+               BCAST = B.BCast_2TO4_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_2TO8_32()
+            {
+               BCAST = B.BCast_2TO8_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_32()
+            {
+               BCAST = B.BCast_1TO2_32;
+            }
+
+            [MethodImpl(Inline)]
+            public void EVEXRR_ONE()
+            {
+                REXRR = 0;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_8()
+            {
+               BCAST = B.BCast_1TO2_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO4_8()
+            {
+               BCAST = B.BCast_1TO4_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO8_8()
+            {
+               BCAST = B.BCast_1TO8_8;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO2_16()
+            {
+               BCAST = B.BCast_1TO2_16;
+            }
+
+            [MethodImpl(Inline)]
+            public void EMX_BROADCAST_1TO4_16()
+            {
+               BCAST = B.BCast_1TO4_16;
+            }
+
+            public static RuleState Empty => default;
         }
     }
 }

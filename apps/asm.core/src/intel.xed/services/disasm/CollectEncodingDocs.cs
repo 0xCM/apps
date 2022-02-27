@@ -17,7 +17,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 var file = context.FileRef(src[i]);
-                var result = XedDisasmOps.ParseEncodings(context, file, out var encodings);
+                var result = XedDisasmOps.ParseSummaries(context, file, out var encodings);
 
                 if(result)
                 {

@@ -6,14 +6,12 @@ namespace Z0
 {
     using Asm;
 
-    using static core;
-
     partial struct XedModels
     {
         partial struct RuleStateCalcs
         {
             [MethodImpl(Inline), Op]
-            public static bool sib(in FieldState src, out Sib dst)
+            public static bool sib(in RuleState src, out Sib dst)
             {
                 if(src.HAS_SIB)
                 {

@@ -13,7 +13,7 @@ namespace Z0
         partial struct RuleStateCalcs
         {
             [MethodImpl(Inline), Op]
-            public static bool scale(in FieldState src, uint4 dst)
+            public static bool scale(in RuleState src, uint4 dst)
             {
                 if(src.SCALE != 0)
                 {

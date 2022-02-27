@@ -10,9 +10,8 @@ namespace Z0
     {
         partial struct RuleStateCalcs
         {
-
             [MethodImpl(Inline), Op]
-            public static bool modrm(in FieldState src, out ModRm dst)
+            public static bool modrm(in RuleState src, out ModRm dst)
             {
                 if(src.HAS_MODRM)
                 {

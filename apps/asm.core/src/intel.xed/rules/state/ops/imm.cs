@@ -10,7 +10,7 @@ namespace Z0
     {
         partial struct RuleStateCalcs
         {
-            public static Imm imm(in FieldState state, in AsmHexCode code)
+            public static Imm imm(in RuleState state, in AsmHexCode code)
             {
                 var dst = Imm.Empty;
                 if(state.IMM0)

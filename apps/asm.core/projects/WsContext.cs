@@ -25,6 +25,7 @@ namespace Z0
             Files = flows.FileCatalog;
             Flows = flows;
             Receiver = receiver ?? new();
+            Receiver.Initialized(this);
         }
 
         public FileRef FileRef(FS.FilePath path)

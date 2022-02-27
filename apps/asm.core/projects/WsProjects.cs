@@ -158,6 +158,13 @@ namespace Z0
             return catalog;
         }
 
+        public FileCatalog EmitCatalog(IProjectWs project)
+        {
+            var catalog = project.FileCatalog();
+            EmitCatalog(project, catalog);
+            return catalog;
+        }
+
         public FileKind Match(FS.FilePath src)
         {
             var name = src.FileName.Format().ToLower();
