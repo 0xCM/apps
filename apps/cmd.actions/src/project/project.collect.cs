@@ -25,7 +25,7 @@ namespace Z0
         {
             static void BeginFile(in ObjDumpRow row, ITextBuffer dst)
             {
-                dst.AppendLine(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
+                dst.AppendLine(AsmDirectives.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
                 dst.AppendLine();
             }
 

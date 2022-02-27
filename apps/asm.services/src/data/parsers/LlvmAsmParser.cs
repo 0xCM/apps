@@ -123,7 +123,7 @@ namespace Z0.Asm
                 break;
 
                 case C.Directive:
-                    if(AsmDirective.parse(LineContent, out var directive))
+                    if(AsmDirectives.parse(LineContent, out var directive))
                     {
                         Directives.Add(LineNumber, directive);
                     }

@@ -50,7 +50,7 @@ namespace Z0
             var pattern = "{0} {1}, 0x{2:x}";
             var inst = "and";
             var imm = 256u;
-            buffer.AppendLine(AsmDirective.define("intel_syntax", "noprefix").Format());
+            buffer.AppendLine(AsmDirectives.define("intel_syntax", "noprefix").Format());
             buffer.AppendLine();
             buffer.AppendLine(asm.comment(SigOpCode));
             buffer.AppendLine(new AsmBlockLabel("and_r32_imm32").Format());

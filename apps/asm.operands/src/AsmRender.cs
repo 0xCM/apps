@@ -27,24 +27,6 @@ namespace Z0.Asm
             return BitRender.render8x4(src, ref i, dst);
         }
 
-        public static string directive(in AsmDirective src)
-        {
-            var dst = text.buffer();
-            dst.AppendFormat(".{0}", src.Name);
-            if(src.Op0.IsNonEmpty)
-            {
-                dst.AppendFormat(" {0}", src.Op0.Format());
-                if(src.Op1.IsNonEmpty)
-                {
-                    dst.AppendFormat(", {0}", src.Op1.Format());
-                    if(src.Op2.IsNonEmpty)
-                        dst.AppendFormat(", {0}", src.Op2.Format());
-                }
-            }
-
-            return dst.Emit();
-        }
-
         public static string comment(in AsmComment src)
             => src.Content.IsNonEmpty ? string.Format("# {0}", src.Content) : EmptyString;
 

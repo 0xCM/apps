@@ -84,7 +84,7 @@ namespace Z0
                 if(lookup.Find(mnemonic, out var selected))
                 {
                     sources[mnemonic] = new();
-                    sources[mnemonic].Add(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
+                    sources[mnemonic].Add(AsmDirectives.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
                     var count = selected.Count;
                     for(var j=0; j<count; j++)
                     {
@@ -121,7 +121,7 @@ namespace Z0
             var mnemonics = hashset("and", "or", "xor");
             var sources = dict<string,List<IAsmSourcePart>>();
             iter(mnemonics, name => sources[name] = new());
-            iter(mnemonics, mnemonic => sources[mnemonic].Add(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix)));
+            iter(mnemonics, mnemonic => sources[mnemonic].Add(AsmDirectives.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix)));
 
             for(var i=0; i<count; i++)
             {

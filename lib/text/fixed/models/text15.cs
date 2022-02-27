@@ -36,6 +36,12 @@ namespace Z0
             public ref byte Cell(byte i)
                 => ref seek(Bytes,i);
 
+            public char this[byte i]
+            {
+                [MethodImpl(Inline)]
+                get => (char)Cell(i);
+            }
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
@@ -73,6 +79,12 @@ namespace Z0
         {
             [MethodImpl(Inline)]
             get => slice(bytes(Storage),0, MaxLength);
+        }
+
+        public char this[byte index]
+        {
+            [MethodImpl(Inline)]
+            get => Storage[index];
         }
 
         public uint Length
