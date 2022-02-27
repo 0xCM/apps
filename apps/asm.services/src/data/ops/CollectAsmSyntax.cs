@@ -40,7 +40,6 @@ namespace Z0
                     seek(buffer,i) = text.trim(text.split(syntax, Chars.Space));
                 else
                     seek(buffer,i) = sys.empty<string>();
-
             }
 
             return buffer;
@@ -119,6 +118,5 @@ namespace Z0
                 dst.Add(record);
             }
         }
-
     }
 }

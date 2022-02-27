@@ -158,8 +158,7 @@ namespace Z0.Asm
             return dst;
         }
 
-
-        public static Outcome expression(in AsciLine src, out AsmBlockLabel label, out AsmExpr expr)
+        public static Outcome parse(in AsciLine src, out AsmBlockLabel label, out AsmExpr expr)
         {
             label = AsmBlockLabel.Empty;
             expr = AsmExpr.Empty;
@@ -174,7 +173,7 @@ namespace Z0.Asm
             return true;
         }
 
-        public static Outcome expression(ReadOnlySpan<AsciCode> src, out AsmExpr dst)
+        public static Outcome parse(ReadOnlySpan<AsciCode> src, out AsmExpr dst)
         {
             dst = AsmExpr.Empty;
             var outcome = Outcome.Success;

@@ -10,6 +10,34 @@ namespace Z0.Asm
     [DataType(TypeSyntax.Disp8)]
     public readonly struct Disp8 : IDisplacement<Disp8,sbyte>
     {
+        [Parser]
+        public static Outcome parse(string src, out Disp8 dst)
+        {
+            var result = Outcome.Success;
+            var input = text.trim(src);
+            if(text.empty(input))
+            {
+                dst = z8i;
+                return true;
+            }
+
+            dst = default;
+            var disp = z8i;
+            if(HexFormatSpecs.HasSpec(input))
+            {
+                result = HexParser.parse8i(src, out disp);
+                if(result)
+                    dst = disp;
+            }
+            else
+            {
+                result = DataParser.parse(src, out disp);
+                if(result)
+                    dst = disp;
+            }
+            return result;
+        }
+
         /// <summary>
         /// The base displacement magnitude
         /// </summary>

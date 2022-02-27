@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
     using static XedModels;
+    using static XedModels.RuleStateCalcs;
 
     partial class XedDisasmSvc
     {
@@ -36,12 +37,12 @@ namespace Z0
             var records = bag.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            Emit(records, Projects.Table<XedDisasmDetail>(context.Project));
+            EmitDisasmDetails(records, Projects.Table<XedDisasmDetail>(context.Project));
             context.Receiver.Collected(records);
             return records;
         }
 
-        Index<XedDisasmDetail> Emit(Index<XedDisasmDetail> src, FS.FilePath dst)
+        Index<XedDisasmDetail> EmitDisasmDetails(Index<XedDisasmDetail> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
             var formatter = Tables.formatter<XedDisasmDetail>(XedDisasmDetail.RenderWidths);
@@ -120,17 +121,17 @@ namespace Z0
             var parser = new XedOperandParser();
             parser.ParseState(inst.Props.Edit, out var state);
             dst.Offsets = state.Offsets();
-            dst.OpCode = state.nominal_opcode;
+            dst.OpCode = state.NOMINAL_OPCODE;
             dst.Operands = alloc<InstOperandDetail>(block.OperandCount);
 
-            var ocpos = state.pos_nominal_opcode;
-            var ocsrm = (uint3)math.and((byte)state.srm, state.nominal_opcode);
-            Require.equal(state.srm, ocsrm);
+            var ocpos = state.POS_NOMINAL_OPCODE;
+            var ocsrm = (uint3)math.and((byte)state.SRM, state.NOMINAL_OPCODE);
+            Require.equal(state.SRM, ocsrm);
 
-            var ocbits = (eight)(byte)state.nominal_opcode;
-            if(state.nominal_opcode != code[ocpos])
+            var ocbits = (eight)(byte)state.NOMINAL_OPCODE;
+            if(state.NOMINAL_OPCODE != code[ocpos])
             {
-                result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.nominal_opcode, state.modrm_byte));
+                result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.NOMINAL_OPCODE, state.MODRM_BYTE));
                 return result;
             }
 
@@ -162,7 +163,7 @@ namespace Z0
                     opvalfmt = opval.Format();
                     if(opname == RuleOpName.RELBR)
                     {
-                        var w = state.brdisp_width;
+                        var w = state.BRDISP_WIDTH;
                         var val = (Hex64)opval.Value;
                         opvalfmt = val.Format();
                         if(w <= 8)
@@ -231,15 +232,15 @@ namespace Z0
             dst.ModRm = _modrm;
             if(has_modrm)
             {
-                if(_modrm != state.modrm_byte)
+                if(_modrm != state.MODRM_BYTE)
                 {
-                    result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", _modrm, state.modrm_byte));
+                    result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", _modrm, state.MODRM_BYTE));
                     return result;
                 }
 
-                if(_modrm != code[state.pos_modrm])
+                if(_modrm != code[state.POS_MODRM])
                 {
-                    result = (false, string.Format("Derived RM value {0} differs from encoded value {1}", _modrm, code[state.pos_modrm]));
+                    result = (false, string.Format("Derived RM value {0} differs from encoded value {1}", _modrm, code[state.POS_MODRM]));
                     return result;
                 }
             }
@@ -249,7 +250,7 @@ namespace Z0
 
             if(has_sib)
             {
-                var sibenc = Sib.init(code[state.pos_sib]);
+                var sibenc = Sib.init(code[state.POS_SIB]);
                 if(sibenc.Value() != _sib)
                 {
                     result = (false, string.Format("Derived Sib value {0} differs from encoded value {1}", _sib, sibenc));
@@ -257,12 +258,12 @@ namespace Z0
                 }
             }
 
-            if(state.vexvalid == VexKind.VV1)
+            if(state.VEXVALID == VexKind.VV1)
             {
                 var vexcode = VexPrefix.code(prefix);
                 var vexsize = VexPrefix.size(vexcode.Value);
                 var vexbytes = slice(prefix, vexcode.Offset, vexsize);
-                var vexdest = (uint5)(state.vexdest210 | (byte)state.vexdest3 << 3 | (byte)state.vexdest4 << 4);
+                var vexdest = (uint5)(state.VEXDEST210 | (byte)state.VEXDEST3 << 3 | (byte)state.vexdest4 << 4);
                 Require.equal(vexbytes.Length, vexsize);
 
                 if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)
@@ -271,22 +272,22 @@ namespace Z0
                     dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC5,skip(vexbytes, 1));
 
             }
-            else if(state.vexvalid == VexKind.EVV)
+            else if(state.VEXVALID == VexKind.EVV)
             {
                 var evexbytes = slice(prefix,legacyskip);
                 dst.Evex = EvexPrefix.define(evexbytes);
             }
 
-            if(state.imm0)
+            if(state.IMM0)
             {
-                var size = Sizes.native(state.imm_width).Code;
-                var signed = state.imm0signed;
-                var pos = state.pos_imm;
+                var size = Sizes.native(state.IMM_WIDTH).Code;
+                var signed = state.IMM0SIGNED;
+                var pos = state.POS_IMM;
                 dst.Imm = asm.imm(code, pos, signed, size);
             }
 
-            dst.EASZ = Sizes.native(width(state.easz));
-            dst.EOSZ = Sizes.native(width(state.eosz));
+            dst.EASZ = Sizes.native(width(state.EASZ));
+            dst.EOSZ = Sizes.native(width(state.EOSZ));
 
             var flags = state.Flags().Delimit();
             return result;

@@ -10,6 +10,34 @@ namespace Z0.Asm
     [DataType(TypeSyntax.Disp16)]
     public readonly struct Disp16 : IDisplacement<Disp16,short>
     {
+        [Parser]
+        public static Outcome parse(string src, out Disp16 dst)
+        {
+            var result = Outcome.Success;
+            var input = text.trim(src);
+            if(text.empty(input))
+            {
+                dst = z16i;
+                return true;
+            }
+
+            dst = default;
+            var disp = z16i;
+            if(HexFormatSpecs.HasSpec(input))
+            {
+                result = HexParser.parse16i(src, out disp);
+                if(result)
+                    dst = disp;
+            }
+            else
+            {
+                result = DataParser.parse(src, out disp);
+                if(result)
+                    dst = disp;
+            }
+            return result;
+        }
+
         public short Value {get;}
 
         public NativeSize Size
@@ -67,6 +95,14 @@ namespace Z0.Asm
             => src.Value;
 
         [MethodImpl(Inline)]
+        public static implicit operator long(Disp16 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
+        public static implicit operator int(Disp16 src)
+            => src.Value;
+
+        [MethodImpl(Inline)]
         public static implicit operator Disp16(short src)
             => new Disp16(src);
 
@@ -81,10 +117,6 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static explicit operator uint(Disp16 src)
             => (uint)src.Value;
-
-        [MethodImpl(Inline)]
-        public static explicit operator int(Disp16 src)
-            => (int)src.Value;
 
         [MethodImpl(Inline)]
         public static explicit operator ByteSize(Disp16 src)

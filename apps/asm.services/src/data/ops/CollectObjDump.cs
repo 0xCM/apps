@@ -16,8 +16,6 @@ namespace Z0
             var blocks = CalcObjBlocks(rows);
             TableEmit(blocks.View, ObjBlock.RenderWidths, Projects.ObjBlockPath(context.Project));
             context.Receiver.Collected(blocks);
-
-            Projects.RecodedSrcDir(context.Project).Clear();
             EmitAsmCodeBlocks(context, RecodeBlocks);
             return new ObjDumpBlocks(blocks,rows);
         }
@@ -64,33 +62,6 @@ namespace Z0
         public Outcome ParseObjDumpSource(WsContext context, in FileRef src, out Index<ObjDumpRow> dst)
             => new ObjDumpParser().ParseSource(context, src, out dst);
 
-        void RecodeBlocks(in IProjectWs project, in AsmCodeBlocks src)
-        {
-            const string intel_syntax = ".intel_syntax noprefix";
-            var asmdir = Projects.RecodedSrcDir(project);
-            var asmpath = asmdir + FS.file(src.OriginName.Format().Remove(string.Format(".{0}", FileKind.ObjAsm.Ext().Format())), FileKind.Asm.Ext());
-            var emitting = EmittingFile(asmpath);
-            var counter = 0u;
-            using var writer = asmpath.AsciWriter();
-            writer.WriteLine(intel_syntax);
-            for(var i=0; i<src.Count; i++)
-            {
-                ref readonly var block = ref src[i];
-                var label = asm.label(block.Label.Name.Format());
-                writer.WriteLine();
-                writer.WriteLine(label.Format());
-                counter++;
-                var count = block.Count;
-                for(var j=0; j<count; j++)
-                {
-                    ref readonly var asmcode = ref block[j];
-                    writer.WriteLine(string.Format("    {0,-48} # {1}", asmcode.Asm, asmcode.Encoding.FormatHex(Chars.Space, false)));
-                }
-            }
-
-            EmittedFile(emitting,counter);
-        }
-
         public Index<ObjBlock> LoadObjBlocks(IProjectWs project)
         {
             var path = Projects.ObjBlockPath(project);
@@ -114,72 +85,6 @@ namespace Z0
                 DataParser.parse(src.Next(), out dst.Source).Require();
             }
             return buffer;
-        }
-
-        Index<ObjBlock> CalcObjBlocks(Index<ObjDumpRow> src)
-        {
-            src.Sort();
-            var count = src.Count;
-            var seq = 0u;
-            var docid = 0u;
-            var docname = EmptyString;
-            var blockname = EmptyString;
-            var @base = MemoryAddress.Zero;
-            var dst = list<ObjBlock>();
-            var size = 0u;
-            var number = 0u;
-            var source = FS.FileUri.Empty;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var row = ref src[i];
-                if(i==0)
-                {
-                    docid = row.OriginId;
-                    blockname = row.BlockName;
-                    source = row.Source;
-                    docname = row.Source.Path.FileName.Format();
-                    @base = row.BlockAddress;
-                }
-
-                if(row.BlockName != blockname)
-                {
-                    var block = new ObjBlock();
-                    block.Seq = seq++;
-                    block.OriginId = docid;
-                    block.BlockAddress = @base;
-                    block.BlockName = blockname;
-                    block.BlockNumber = number++;
-                    block.BlockSize = size;
-                    block.Source = source;
-                    dst.Add(block);
-                    size = 0;
-                    source = row.Source;
-                }
-
-                if(row.OriginId != docid)
-                    number = 0;
-
-                docid = row.OriginId;
-                blockname = row.BlockName;
-                docname = row.Source.Path.FileName.Format();
-                @base = row.BlockAddress;
-                size += row.Size;
-
-                if(i==count-1)
-                {
-                    var block = new ObjBlock();
-                    block.Seq = seq++;
-                    block.OriginId = docid;
-                    block.BlockName = blockname;
-                    block.BlockAddress = @base;
-                    block.BlockNumber = number++;
-                    block.Source = source;
-                    block.BlockSize = size;
-                    dst.Add(block);
-                }
-            }
-
-            return dst.ToArray();
         }
 
         void EmitAsmCodeBlocks(WsContext context, Receiver<IProjectWs,AsmCodeBlocks> emitted)
@@ -229,9 +134,7 @@ namespace Z0
                     record.Asm = code.Asm;
 
                     if(!distinct.Add(record.EncodingId))
-                    {
                         Warn(string.Format("Duplicate identifier:{0}", record.EncodingId));
-                    }
                 }
             }
 

@@ -15,53 +15,6 @@ namespace Z0
 
     partial struct XedModels
     {
-        public unsafe struct AssignmentRule
-        {
-            public readonly text31 Name;
-
-            public readonly Index<FieldAssignment> Fields;
-
-            [MethodImpl(Inline)]
-            public AssignmentRule(text31 name, FieldAssignment[] fields)
-            {
-                Name = name;
-                Fields = fields;
-            }
-        }
-
-        public readonly struct FieldAssignment
-        {
-            public readonly FieldKind Field;
-
-            readonly ulong Data;
-
-            [MethodImpl(Inline)]
-            public FieldAssignment(FieldKind field, ulong data)
-            {
-                Field = field;
-                Data = data;
-            }
-        }
-
-        public readonly struct FieldAssignment<T>
-            where T : unmanaged
-        {
-            public readonly FieldKind Field;
-
-            public readonly T Value;
-
-            [MethodImpl(Inline)]
-            public FieldAssignment(FieldKind field, T value)
-            {
-                Field = field;
-                Value = value;
-            }
-
-            [MethodImpl(Inline)]
-            public static implicit operator FieldAssignment<T>((FieldKind kind, T value) src)
-                => new FieldAssignment<T>(src.kind, src.value);
-        }
-
         [StructLayout(LayoutKind.Sequential), ApiComplete("xed.machinestate")]
         public struct MachineState
         {

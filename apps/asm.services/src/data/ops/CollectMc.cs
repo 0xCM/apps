@@ -11,7 +11,7 @@ namespace Z0
             var result = Outcome.Success;
             var project = context.Project;
             var syntax = CollectAsmSyntax(context);
-            var instructions = CollectMcInstructions(context);
+            var inst = CollectMcInstructions(context);
         }
     }
 }

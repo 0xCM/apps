@@ -80,13 +80,13 @@ namespace Z0
             => Data(nameof(LoadOperandWidths), ParseOperandWidths);
 
         public Index<RuleTable> ParseEncRuleTables()
-            => ParseRuleTableSource(XedPaths.RuleSource(RuleDocKind.EncRuleTable));
+            => new RuleTableParser().Parse(XedPaths.RuleSource(RuleDocKind.EncRuleTable));
 
         public Index<RuleTable> ParseDecRuleTables()
-            => ParseRuleTableSource(XedPaths.RuleSource(RuleDocKind.DecRuleTable));
+            => new RuleTableParser().Parse(XedPaths.RuleSource(RuleDocKind.DecRuleTable));
 
         public Index<RuleTable> ParseEncDecRuleTables()
-            => ParseRuleTableSource(XedPaths.RuleSource(RuleDocKind.EncDecRuleTable));
+            => new RuleTableParser().Parse(XedPaths.RuleSource(RuleDocKind.EncDecRuleTable));
 
         public Index<InstDef> ParseEncInstDefs()
             => ParseInstDefs(XedPaths.RuleSource(RuleDocKind.EncInstDef));

@@ -63,7 +63,7 @@ namespace Z0
             if(result)
             {
                 Ran(running, string.Format("Parsed {0} records", dst.Count));
-                return dst.ToArray();
+                return dst.ToArray().Sort();
             }
             else
             {

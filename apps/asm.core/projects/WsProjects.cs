@@ -64,9 +64,6 @@ namespace Z0
         public FS.Files XedDisasmSources(IProjectWs project)
             => project.OutFiles(FileKind.XedRawDisasm);
 
-        public FS.Files EncAsmSources(IProjectWs project)
-            => project.OutFiles(FileKind.EncAsm);
-
         public FS.Files SynAsmSources(IProjectWs project)
             => project.OutFiles(FileKind.SynAsm);
 

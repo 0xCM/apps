@@ -14,7 +14,7 @@ namespace Z0
         {
             var project = context.Project;
             var result = Outcome.Success;
-            var docs = CollectSyntaxSources(context);
+            var docs = CollectSyntaxDocs(context);
             var buffer = list<AsmInstructionRow>();
             var counter = 0u;
             foreach(var doc in docs)

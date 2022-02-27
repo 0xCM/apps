@@ -5,77 +5,77 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     using OCP = XedModels.OcPatternNames;
 
-    public readonly struct XedOpCodeParser
+    partial struct XedModels
     {
-        public static XedOpCodeParser create()
-            =>new XedOpCodeParser();
-
-        public Index<XedOpCodeRecord> Parse(ReadOnlySpan<RulePattern> src)
+        public readonly struct XedOpCodeParser
         {
-            var count = src.Length;
-            var buffer = alloc<XedOpCodeRecord>(count);
-            for(var i=0u; i<count; i++)
+            public static XedOpCodeParser create()
+                =>new XedOpCodeParser();
+
+            public Index<XedOpCodeRecord> Parse(ReadOnlySpan<RulePattern> src)
             {
-                ref readonly var rule = ref skip(src,i);
-                ref var dst = ref seek(buffer,i);
-                dst.Kind = rule.OpCodeKind;
-                dst.Index = (byte)ocindex(rule.OpCodeKind);
-                dst.Value = value(rule);
-                dst.Class = rule.Class;
-                dst.Source = rule.Expression;
-            }
-
-            buffer.Sort();
-            for(var i=0u; i<count; i++)
-                seek(buffer,i).Seq = i;
-
-            return buffer;
-        }
-
-        internal static uint value(in string rule)
-        {
-            var dst = 0u;
-            var k = z8;
-            var parts = rule.Split(Chars.Space);
-            var count = parts.Length;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var part = ref skip(parts,i);
-                if(part.Equals(OCP.VV1) || part.Equals(OCP.EVV) || part.Equals(OCP.XOPV))
-                    continue;
-
-                if(ocbyte(part, out var b))
+                var count = src.Length;
+                var buffer = alloc<XedOpCodeRecord>(count);
+                for(var i=0u; i<count; i++)
                 {
-                    dst |= ((uint)b << k*8);
-                    k++;
+                    ref readonly var rule = ref skip(src,i);
+                    ref var dst = ref seek(buffer,i);
+                    dst.Kind = rule.OpCodeKind;
+                    dst.Index = (byte)ocindex(rule.OpCodeKind);
+                    dst.Value = value(rule);
+                    dst.Class = rule.Class;
+                    dst.Source = rule.Expression;
                 }
-                else
-                    break;
+
+                buffer.Sort();
+                for(var i=0u; i<count; i++)
+                    seek(buffer,i).Seq = i;
+
+                return buffer;
             }
-            return dst;
-        }
 
-        internal static uint value(in RulePattern rule)
-            => value(rule.Expression);
-
-        static bool ocbyte(string src, out Hex8 dst)
-        {
-            var t = text.trim(src);
-            if(text.index(t, "0b") >= 0)
+            internal static uint value(in string rule)
             {
-                if(BitNumbers.parse(text.remove(t, Chars.Underscore).Remove("0b"), out eight y))
+                var dst = 0u;
+                var k = z8;
+                var parts = rule.Split(Chars.Space);
+                var count = parts.Length;
+                for(var i=0; i<count; i++)
                 {
-                    dst = (byte)y;
-                    return true;
-                }
-            }
-            return DataParser.parse(src, out dst);
-        }
+                    ref readonly var part = ref skip(parts,i);
+                    if(part.Equals(OCP.VV1) || part.Equals(OCP.EVV) || part.Equals(OCP.XOPV))
+                        continue;
 
-        //    => DataParser.parse(src, out dst);
+                    if(ocbyte(part, out var b))
+                    {
+                        dst |= ((uint)b << k*8);
+                        k++;
+                    }
+                    else
+                        break;
+                }
+                return dst;
+            }
+
+            internal static uint value(in RulePattern rule)
+                => value(rule.Expression);
+
+            static bool ocbyte(string src, out Hex8 dst)
+            {
+                var t = text.trim(src);
+                if(text.index(t, "0b") >= 0)
+                {
+                    if(BitNumbers.parse(text.remove(t, Chars.Underscore).Remove("0b"), out eight y))
+                    {
+                        dst = (byte)y;
+                        return true;
+                    }
+                }
+                return DataParser.parse(src, out dst);
+            }
+        }
     }
 }

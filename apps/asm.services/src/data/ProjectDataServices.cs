@@ -39,7 +39,7 @@ namespace Z0
             Coff.Collect(context);
             CollectMc(context);
             CollectXedDisasm(context);
-            MapAsmCode(context);
+            //MapAsmCode(context);
             receiver.Emit();
             return receiver.Emit();
         }

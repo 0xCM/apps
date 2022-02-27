@@ -117,6 +117,8 @@ namespace Z0
 
             MODE_FIRST_PREFIX,
 
+            MODE_SHORT_UD0,
+
             MODRM_BYTE,
 
             MPXMODE,

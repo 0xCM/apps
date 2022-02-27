@@ -13,57 +13,6 @@ namespace Z0
 
     partial struct XedModels
     {
-        [MethodImpl(Inline), Op]
-        public static bool rex(in OpState src, out RexPrefix dst)
-        {
-            if(src.rex)
-            {
-                dst = RexPrefix.init();
-                dst.W = src.rexw;
-                dst.R = src.rexr;
-                dst.X = src.rexx;
-                dst.B= src.rexb;
-                return true;
-            }
-            else
-            {
-                dst = RexPrefix.Empty;
-                return false;
-            }
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool scale(in OpState src, uint4 dst)
-        {
-            if(src.scale != 0)
-            {
-                dst = src.scale;
-                return true;
-            }
-            {
-                dst = default;
-                return false;
-            }
-        }
-
-        [MethodImpl(Inline), Op]
-        public static bool modrm(in OpState src, out ModRm dst)
-        {
-            if(src.has_modrm)
-            {
-                dst = ModRm.init();
-                dst.Mod(src.mod);
-                dst.Reg(src.reg);
-                dst.Rm(src.rm);
-                return true;
-            }
-            else
-            {
-                dst = ModRm.Empty;
-                return false;
-            }
-        }
-
         public static uint modes(EOSZ src)
             => src switch
             {
@@ -78,7 +27,7 @@ namespace Z0
 
         public static ConstLookup<FieldKind,TypeSpec> OpKindTypes()
         {
-            var fields = typeof(OpState).PublicInstanceFields();
+            var fields = typeof(FieldState).PublicInstanceFields();
             var count = fields.Length;
             var dst = dict<FieldKind,TypeSpec>();
             for(var i=0; i<count; i++)

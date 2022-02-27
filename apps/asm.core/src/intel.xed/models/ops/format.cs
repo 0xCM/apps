@@ -30,6 +30,5 @@ namespace Z0
             render(src.RightCriteria, dst);
             return dst.Emit();
         }
-
     }
 }

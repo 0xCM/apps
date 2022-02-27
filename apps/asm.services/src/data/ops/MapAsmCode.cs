@@ -5,25 +5,21 @@
 namespace Z0
 {
     using Asm;
-    using llvm;
     using System.Linq;
 
     using static core;
 
     partial class ProjectDataServices
     {
-        public void MapAsmCode(WsContext context)
+        public void MapAsmCode(IProjectWs project, Alloc dispenser)
         {
-            using var dispenser = Alloc.allocate();
-            var project = context.Project;
-            var entries = MapCode(context, LoadObjDumpRows(project), dispenser);
+            var entries = MapAsmCode(project, LoadObjDumpRows(project), dispenser);
             TableEmit(entries.View, AsmCodeMapEntry.RenderWidths, Projects.Table<AsmCodeMapEntry>(project));
         }
 
-        Index<AsmCodeMapEntry> MapCode(WsContext context, Index<ObjDumpRow> src, Alloc dispenser)
+        Index<AsmCodeMapEntry> MapAsmCode(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
         {
-            var project = context.Project;
-            var distilled = DistillBlocks(context, src, dispenser);
+            var distilled = DistillBlocks(project, src, dispenser);
             var entries = list<AsmCodeMapEntry>();
             for(var i=0; i<distilled.Count; i++)
             {
@@ -70,12 +66,10 @@ namespace Z0
             }
 
             var records = entries.ToArray().Sort();
-            // for(var i=0u; i<records.Length; i++)
-            //     seek(records,i).Seq = i;
             return records;
         }
 
-        Index<AsmCodeBlocks> DistillBlocks(WsContext context, Index<ObjDumpRow> src, Alloc dispenser)
+        Index<AsmCodeBlocks> DistillBlocks(IProjectWs project, Index<ObjDumpRow> src, Alloc dispenser)
         {
             var collected = dict<uint, AsmCodeBlocks>();
             var groups = src.GroupBy(x => x.OriginId).Array();
@@ -117,11 +111,10 @@ namespace Z0
                     seek(blockbuffer,j) = new AsmCodeBlock(dispenser.Symbol(blockaddress, blockname), codebuffer);
                 }
 
-                var origin = context.FileRef(group.Key);
-                seek(buffer,i) = new AsmCodeBlocks(dispenser.Label(origin.Path.FileName.Format()), origin.DocId, blockbuffer);
+                var origin = project.FileCatalog().Entry(group.Key);
+                seek(buffer,i) = new AsmCodeBlocks(dispenser.Label(origin.DocName), origin.DocId, blockbuffer);
             }
             return buffer;
         }
-
     }
 }

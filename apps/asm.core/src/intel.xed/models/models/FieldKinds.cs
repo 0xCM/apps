@@ -10,7 +10,7 @@ namespace Z0
     {
         public sealed class FieldKinds : PairedLookup<FieldKind,FieldInfo>
         {
-            static FieldInfo[] fields = typeof(OpState).DeclaredInstanceFields().Tagged<OperandKindAttribute>();
+            static FieldInfo[] fields = typeof(FieldState).DeclaredInstanceFields().Tagged<OperandKindAttribute>();
 
             static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<OperandKindAttribute>().Require().Kind,f)).ToDictionary();
 

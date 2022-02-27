@@ -12,52 +12,87 @@ namespace Z0
     {
         TypeParser TypeParser => Service(Wf.TypeParser);
 
-        public static TypeSpec spec(FieldType @base, byte width)
+        public static Identifier spec(FieldType @base, byte width)
         {
-            var dst = TypeSpec.Empty;
+            var dst = Identifier.Empty;
             switch(@base)
             {
                 case FT.Bits:
-                    if(width == 1)
-                        dst = TypeSyntax.bit();
-                    else
-                        dst = TypeSyntax.bits(width);
+                    switch(width)
+                    {
+                        case 1:
+                            dst = nameof(bit);
+                        break;
+                        case 2:
+                            dst = nameof(uint2);
+                        break;
+                        case 3:
+                            dst = nameof(uint3);
+                        break;
+                        case 4:
+                            dst = nameof(uint4);
+                        break;
+                        case 5:
+                            dst = nameof(uint5);
+                        break;
+                        case 6:
+                            dst = nameof(uint6);
+                        break;
+                        case 7:
+                            dst = nameof(uint7);
+                        break;
+                        case 8:
+                            dst = nameof(eight);
+                        break;
+                        default:
+                        {
+                            if(width <= 16)
+                                dst = CsKeywords.U16;
+                            else if(width <= 32)
+                                dst = CsKeywords.U32;
+                            else if(width <= 64)
+                                dst = CsKeywords.U64;
+                            else
+                                dst = RP.Error;
+                        }
+                        break;
+                    }
                 break;
                 case FT.Reg:
-                    dst = TypeSyntax.@enum(nameof(XedRegId), TypeSyntax.u16());
+                    dst = TypeSyntax.@enum(nameof(XedRegId)).Format();
                 break;
                 case FT.IClass:
-                    dst = TypeSyntax.@enum(nameof(IClass), TypeSyntax.u16());
+                    dst = TypeSyntax.@enum(nameof(IClass)).Format();
                 break;
                 case FT.Chip:
-                    dst = TypeSyntax.@enum(nameof(ChipCode), TypeSyntax.u8());
+                    dst = TypeSyntax.@enum(nameof(ChipCode)).Format();
                 break;
                 case FT.U8:
-                    dst = TypeSyntax.u8();
+                    dst = CsKeywords.U8;
                 break;
                 case FT.U16:
-                    dst = TypeSyntax.u16();
+                    dst = CsKeywords.U16;
                 break;
                 case FT.U32:
-                    dst = TypeSyntax.u32();
+                    dst = CsKeywords.U32;
                 break;
                 case FT.U64:
-                    dst = TypeSyntax.u64();
+                    dst = CsKeywords.U64;
                 break;
                 case FT.I8:
-                    dst = TypeSyntax.i8();
+                    dst = CsKeywords.I8;
                 break;
                 case FT.I16:
-                    dst = TypeSyntax.i16();
+                    dst = CsKeywords.I16;
                 break;
                 case FT.I32:
-                    dst = TypeSyntax.i64();
+                    dst = CsKeywords.I32;
                 break;
                 case FT.I64:
-                    dst = TypeSyntax.i64();
+                    dst = CsKeywords.I64;
                 break;
                 case FT.Error:
-                    dst = TypeSyntax.@enum(nameof(ErrorKind), TypeSyntax.u8());
+                    dst = TypeSyntax.@enum(nameof(ErrorKind)).Format();
                 break;
             }
 

@@ -10,6 +10,49 @@ namespace Z0.Asm
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public readonly struct Disp : IDisplacement, IEquatable<Disp>
     {
+        [Parser]
+        public static Outcome parse(string src, NativeSize size, out Disp dst)
+        {
+            var result = Outcome.Success;
+            dst = Empty;
+            switch(size.Code)
+            {
+                case NativeSizeCode.W64:
+                {
+                    result = Disp64.parse(src, out var _dst);
+                    if(result)
+                        dst = new Disp(_dst, size);
+                }
+                break;
+                case NativeSizeCode.W32:
+                {
+                    result = Disp32.parse(src, out var _dst);
+                    if(result)
+                        dst = new Disp(_dst, size);
+                }
+                break;
+                case NativeSizeCode.W16:
+                {
+                    result = Disp16.parse(src, out var _dst);
+                    if(result)
+                        dst = new Disp(_dst, size);
+                }
+                break;
+                case NativeSizeCode.W8:
+                {
+                    result = Disp8.parse(src, out var _dst);
+                    if(result)
+                        dst = new Disp(_dst, size);
+                }
+                break;
+                default:
+                    result = false;
+                break;
+            }
+
+            return result;
+        }
+
         public long Value {get;}
 
         public NativeSize Size {get;}
