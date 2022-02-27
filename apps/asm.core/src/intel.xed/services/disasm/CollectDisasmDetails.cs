@@ -164,16 +164,17 @@ namespace Z0
                     if(opname == RuleOpName.RELBR)
                     {
                         var w = state.BRDISP_WIDTH;
-                        var val = (Hex64)opval.Value;
+                        var val = (Disp)opval.Value;
                         opvalfmt = val.Format();
-                        if(w <= 8)
-                            opvalfmt = ((byte)val).FormatHex();
-                        else if(w <= 16)
-                            opvalfmt = ((ushort)val).FormatHex();
-                        else if(w <= 32)
-                            opvalfmt = ((uint)val).FormatHex();
-                        else
-                            opvalfmt = val.Format();
+                        // opvalfmt = val.Format();
+                        // if(w <= 8)
+                        //     opvalfmt = ((byte)val).FormatHex();
+                        // else if(w <= 16)
+                        //     opvalfmt = ((ushort)val).FormatHex();
+                        // else if(w <= 32)
+                        //     opvalfmt = ((uint)val).FormatHex();
+                        // else
+                        //     opvalfmt = val.Format();
                     }
                     opdetail.RuleOpInfo = opvalfmt;
                 }

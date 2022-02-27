@@ -39,7 +39,8 @@ namespace Z0
             if(Flows.Root(dst, out var src))
                 return src;
             else
-                return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.ToUri()));
+                return Z0.FileRef.Empty;
+                //return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.ToUri()));
         }
 
         public FileRef Root(in FileRef dst)
@@ -47,7 +48,9 @@ namespace Z0
             if(Flows.Root(dst.Path, out var src))
                 return src;
             else
-                return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.Path.ToUri()));
+                return Z0.FileRef.Empty;
+
+                //return Errors.Throw<FileRef>(string.Format("Origin not found for {0}", dst.Path.ToUri()));
         }
     }
 }

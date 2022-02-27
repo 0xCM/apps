@@ -5,6 +5,8 @@
 namespace Z0
 {
     using llvm;
+    using Asm;
+    using System.Linq;
 
     using static core;
 
@@ -15,39 +17,74 @@ namespace Z0
         {
             var project = Project();
             var data = ProjectData.Collect(project);
-            var objdump = data.ObjDumpRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
-            var xed = data.XedRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
-            var keys = hashset<InstructionId>();
-            iter(objdump.Keys, e => keys.Add(e));
-            iter(xed.Keys, e => keys.Add(e));
-
-            Span<uint> results = stackalloc uint[4];
-            foreach(var key in keys)
-            {
-                var counter = 0u;
-
-                if(objdump.Find(key, out var o))
-                {
-                    seek(results,1)++;
-                    counter++;
-                }
-
-                if(xed.Find(key, out var x))
-                {
-                    seek(results,2)++;
-                    counter++;
-                }
-
-                if(counter == 2)
-                    seek(results,3)++;
-            }
-
-            Write(string.Format("O: {0}", skip(results,1)));
-            Write(string.Format("X: {0}", skip(results,2)));
-            Write(string.Format("A: {0}", skip(results,3)));
-
+            Recode(data);
             return true;
         }
+
+        void Recode(AsmDataCollection data)
+        {
+            static void BeginFile(in ObjDumpRow row, ITextBuffer dst)
+            {
+                dst.AppendLine(AsmDirective.define(AsmDirectiveKind.DK_INTEL_SYNTAX, AsmDirectiveOp.noprefix));
+                dst.AppendLine();
+            }
+
+            var project = data.Project;
+            var files = data.Files;
+            var objdump = data.ObjDumpRows;
+            var xed = data.XedLookup;
+            var buffer = text.buffer();
+            var docid = objdump.First.OriginId;
+            var file = files[docid];
+            var docname = file.DocName;
+            var counter = 0u;
+            var blockname = EmptyString;
+            BeginFile(objdump.First, buffer);
+            for(var i=0; i<objdump.Count; i++, counter++)
+            {
+                ref readonly var row = ref objdump[i];
+                if(row.OriginId != docid)
+                {
+                    var outpath = AppDb.CgStagePath(project.Name.Format(), docname, FileKind.Asm);
+                    FileEmit(buffer.Emit(), counter, outpath, TextEncodingKind.Asci);
+                    docid = row.OriginId;
+                    file = files[docid];
+                    docname = file.DocName;
+                    counter = 0;
+                    blockname = EmptyString;
+                    BeginFile(row, buffer);
+                }
+
+                if(blockname != row.BlockName)
+                {
+                    if(empty(blockname))
+                    {
+                        blockname = row.BlockName;
+                        buffer.AppendLine(asm.label(blockname));
+                    }
+                    else
+                    {
+                        buffer.AppendLine();
+                        blockname = row.BlockName;
+                        buffer.AppendLine(asm.label(blockname));
+                    }
+                }
+
+                if(xed.Find(row.InstructionId, out var x))
+                {
+                    buffer.IndentLineFormat(4, "{0,-56} # {1,-42} | {2}/{3}", row.Asm, row.Encoded, x.IForm, x.OpCode);
+                }
+                else
+                    buffer.IndentLineFormat(4, "{0,-56} # {1}", row.Asm, row.Encoded);
+
+                if(i == objdump.Count - 1)
+                {
+                    var outpath = AppDb.CgStagePath(project.Name.Format(), docname, FileKind.Asm);
+                    FileEmit(buffer.Emit(), counter, outpath, TextEncodingKind.Asci);
+                }
+            }
+        }
+
 
         [CmdOp("project/flows")]
         Outcome ProjectFlows(CmdArgs args)

@@ -56,7 +56,7 @@ namespace Z0
             ColWidths.OriginId,
             ColWidths.OriginName,
             32,
-            64,
+            ColWidths.AsmExpr,
             1
             };
 

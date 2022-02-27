@@ -8,6 +8,8 @@ namespace Z0.Asm
     {
         public readonly FileCatalog Files;
 
+        public readonly IProjectWs Project;
+
         public readonly CoffSymIndex CoffSymbols;
 
         public readonly Index<ObjBlock> ObjBlocks;
@@ -20,7 +22,9 @@ namespace Z0.Asm
 
         public readonly Index<ObjDumpRow> ObjDumpRows;
 
-        internal AsmDataCollection(FileCatalog files,
+        internal AsmDataCollection(
+            IProjectWs project,
+            FileCatalog files,
             Index<AsmSyntaxRow> syntax,
             Index<AsmInstructionRow> inst,
             Index<XedDisasmDetail> xed,
@@ -29,6 +33,7 @@ namespace Z0.Asm
             ObjBlock[] objblocks
             )
         {
+            Project = project;
             Files = files;
             SyntaxRows = syntax;
             InstructionRows = inst;
@@ -36,48 +41,24 @@ namespace Z0.Asm
             ObjDumpRows = objdump;
             CoffSymbols = coffsym;
             ObjBlocks = objblocks;
+            locker = new();
         }
 
-        // public bool Encoding(InstructionId id, out AsmEncodingRow dst)
-        // {
-        //     if(EncodingLookup.Find(id, out dst))
-        //         return true;
-        //     dst = AsmEncodingRow.Empty;
-        //     return false;
-        // }
+        ConstLookup<InstructionId,XedDisasmDetail> _XedLookup;
 
-        // public bool Encoding(AsmRowKey key, out AsmEncodingRow dst)
-        // {
-        //     if(EncodingKeys.TryGetValue(key, out var id))
-        //     if(EncodingLookup.Find(id, out dst))
-        //         return true;
-        //     dst = AsmEncodingRow.Empty;
-        //     return false;
-        // }
+        object locker;
 
-        // public bool Syntax(AsmRowKey key, out AsmSyntaxRow dst)
-        // {
-        //     if(SyntaxLookup.Find(key, out dst))
-        //         return true;
-        //     dst = AsmSyntaxRow.Empty;
-        //     return false;
-        // }
-
-        // public bool Instruction(AsmRowKey key, out AsmInstructionRow dst)
-        // {
-        //     if(InstructionLookup.Find(key, out dst))
-        //         return true;
-        //     dst = AsmInstructionRow.Empty;
-        //     return false;
-        // }
-
-        // public bool ObjDump(InstructionId id, out ObjDumpRow dst)
-        // {
-        //     if(ObjDumpLookup.Find(id, out dst))
-        //         return true;
-        //     dst = ObjDumpRow.Empty();
-        //     return false;
-        // }
-
+        public ConstLookup<InstructionId,XedDisasmDetail> XedLookup
+        {
+            get
+            {
+                lock(locker)
+                {
+                    if(_XedLookup == null)
+                        _XedLookup = XedRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
+                }
+                return _XedLookup;
+            }
+        }
     }
 }

@@ -36,8 +36,14 @@ namespace Z0
         public FS.FolderPath CgStage()
             => Root + FS.folder("cgstage");
 
+        public FS.FolderPath CgStage(string scope)
+            => CgStage() + FS.folder(scope);
+
         public FS.FilePath CgStagePath(string name, FileKind kind)
             => CgStage() + file(name,kind);
+
+        public FS.FilePath CgStagePath(string scope, string name, FileKind kind)
+            => CgStage(scope) + file(name,kind);
 
         public FS.FilePath ApiEnumListPath()
             => ApiPath("api.enums.types", FileKind.List);

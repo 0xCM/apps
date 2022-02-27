@@ -47,7 +47,6 @@ namespace Z0
             return default;
         }
 
-
         public void Emit(uint _margin, SymSet spec, ITextBuffer dst)
         {
             var counter = 0ul;
@@ -71,20 +70,22 @@ namespace Z0
                 dst.IndentLine(margin, comment(spec.Description).Format(0).Trim());
             }
 
+
             if(spec.SymbolKind.IsNonEmpty)
             {
+
                 if(spec.Flags)
-                    dst.IndentLineFormat(margin - 8,"[Flags, SymSource(\"{0}\")]", spec.SymbolKind);
+                    dst.IndentLineFormat(margin,"[Flags, SymSource(\"{0}\")]", spec.SymbolKind);
                 else
-                    dst.IndentLineFormat(margin - 8,"[SymSource(\"{0}\")]", spec.SymbolKind);
+                    dst.IndentLineFormat(margin,"[SymSource(\"{0}\")]", spec.SymbolKind);
 
             }
             else
             {
                 if(spec.Flags)
-                    dst.IndentLine(margin - 8,"[SymSource]");
+                    dst.IndentLine(margin,"[SymSource]");
                 else
-                    dst.IndentLine(margin - 8,"[Flags,SymSource]");
+                    dst.IndentLine(margin,"[Flags,SymSource]");
 
             }
 

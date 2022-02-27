@@ -6,6 +6,8 @@ namespace Z0.Asm
 {
     public class AsmEventReceiver
     {
+        IProjectWs Project;
+
         FileCatalog Files;
 
         Index<AsmSyntaxRow> SyntaxRows;
@@ -27,12 +29,13 @@ namespace Z0.Asm
         }
 
         public AsmDataCollection Emit()
-            => new AsmDataCollection(Files, SyntaxRows, InstructionRows, XedRows, ObjDumpRows, CoffSymbols, ObjBlocks);
+            => new AsmDataCollection(Project, Files, SyntaxRows, InstructionRows, XedRows, ObjDumpRows, CoffSymbols, ObjBlocks);
 
 
         public virtual void Initialized(WsContext context)
         {
             Files = context.Files;
+            Project = context.Project;
         }
 
         public virtual void Collected(Index<ObjDumpRow> src)
