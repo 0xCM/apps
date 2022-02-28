@@ -7,8 +7,8 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed_state)]
-        public enum Mode : sbyte
+        [SymSource(xed_state), DataWidth(2)]
+        public enum ModeKind : sbyte
         {
             [Symbol("mode16", "MODE=0")]
             Mode16 = 0,

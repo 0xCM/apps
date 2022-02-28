@@ -75,7 +75,6 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    //Kind = ClassifyExpr(Line);
                     ParseNext().Require();
                 }
             }

@@ -7,7 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-
         [SymSource("xed")]
         public enum BCast16Kind : byte
         {

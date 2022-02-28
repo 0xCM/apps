@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   :  (c) Chris Moore, 2020
-// License     :  MIT
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -19,7 +20,7 @@ namespace Z0
 
         RuleState State;
 
-        DataList<FieldKind> _ParsedKinds;
+        DataList<FieldKind> _ParsedFields;
 
         DataList<Facet<string>> _UnknownFields;
 
@@ -30,7 +31,7 @@ namespace Z0
             Kinds = Symbols.index<FieldKind>();
             Registers = Symbols.index<XedRegId>();
             State = RuleState.Empty;
-            _ParsedKinds = new();
+            _ParsedFields = new();
             _UnknownFields = new();
             _Failures = new();
         }
@@ -38,7 +39,7 @@ namespace Z0
         void Clear()
         {
             State = RuleState.Empty;
-            _ParsedKinds.Clear();
+            _ParsedFields.Clear();
             _UnknownFields.Clear();
             _Failures.Clear();
         }
@@ -50,9 +51,9 @@ namespace Z0
             => _Failures;
 
         public ReadOnlySpan<FieldKind> ParsedFields
-            => _ParsedKinds.View();
+            => _ParsedFields.View();
 
-        public Outcome ParseRegister(string src, out Register dst)
+        public Outcome ParseRegister(string src, out XedRegId dst)
         {
             var result = Registers.Lookup(src, out var reg);
             if(result)
@@ -155,7 +156,7 @@ namespace Z0
                 if(result.Fail)
                     _Failures[kind] = value;
                 else
-                    _ParsedKinds.Add(kind);
+                    _ParsedFields.Add(kind);
             }
             else
                 _UnknownFields.Add(src);

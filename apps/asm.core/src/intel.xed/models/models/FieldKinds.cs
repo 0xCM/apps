@@ -8,9 +8,9 @@ namespace Z0
     {
         public sealed class FieldKinds : PairedLookup<FieldKind,FieldInfo>
         {
-            static FieldInfo[] fields = typeof(RuleState).DeclaredInstanceFields().Tagged<OperandKindAttribute>();
+            static FieldInfo[] fields = typeof(RuleState).DeclaredInstanceFields().Tagged<RuleOperandAttribute>();
 
-            static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<OperandKindAttribute>().Require().Kind,f)).ToDictionary();
+            static Dictionary<FieldKind,FieldInfo> kinds = fields.Select(f => (f.Tag<RuleOperandAttribute>().Require().Kind,f)).ToDictionary();
 
             public FieldKinds()
                 : base(kinds)

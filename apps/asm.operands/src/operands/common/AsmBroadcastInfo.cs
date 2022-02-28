@@ -5,11 +5,11 @@
 namespace Z0.Asm
 {
     [StructLayout(LayoutKind.Sequential,Pack=1)]
-    public readonly struct AsmBroadcastSpec
+    public readonly struct AsmBroadcastInfo
     {
         [MethodImpl(Inline)]
-        public static AsmBroadcastSpec define(uint5 id, AsmBroadcastClass @class, text15 symbol, byte src, byte dst)
-            => new AsmBroadcastSpec(id,@class,symbol, src, dst);
+        public static AsmBroadcastInfo define(uint5 id, AsmBroadcastClass @class, text15 symbol, byte src, byte dst)
+            => new AsmBroadcastInfo(id,@class,symbol, src, dst);
 
         public readonly uint5 Id;
 
@@ -20,7 +20,7 @@ namespace Z0.Asm
         public readonly text15 Symbol;
 
         [MethodImpl(Inline)]
-        public AsmBroadcastSpec(uint5 id, AsmBroadcastClass @class, text15 symbol, byte src, byte dst)
+        public AsmBroadcastInfo(uint5 id, AsmBroadcastClass @class, text15 symbol, byte src, byte dst)
         {
             Id = id;
             Class = @class;
@@ -34,6 +34,6 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        public static AsmBroadcastSpec Empty => default;
+        public static AsmBroadcastInfo Empty => default;
     }
 }

@@ -11,7 +11,7 @@ namespace Z0
         /// Defines symbols to represent effective addressing modes
         /// J:\source\xed\xed\src\common\xed-operand-values-interface.c
         /// </summary>
-        [SymSource(xed_state)]
+        [SymSource(xed_state), DataWidth(3)]
         public enum EASZ : sbyte
         {
             None = 0,

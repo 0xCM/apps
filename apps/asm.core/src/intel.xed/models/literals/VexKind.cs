@@ -9,7 +9,7 @@ namespace Z0
 
     partial struct XedModels
     {
-        [SymSource(xed_state)]
+        [SymSource(xed_state), DataWidth(3)]
         public enum VexKind : byte
         {
             /// <summary>

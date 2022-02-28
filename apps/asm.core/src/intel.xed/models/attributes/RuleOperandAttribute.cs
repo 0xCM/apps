@@ -9,17 +9,23 @@ namespace Z0
 
     partial struct XedModels
     {
-        public class OperandKindAttribute : Attribute
+        public class RuleOperandAttribute : Attribute
         {
-            public OperandKindAttribute(FieldKind kind, string description = "")
+            public RuleOperandAttribute(FieldKind kind, byte width)
             {
                 Kind = kind;
-                Description = description;
+                Width = width;
+            }
+
+            public RuleOperandAttribute(FieldKind kind)
+            {
+                Kind = kind;
+                Width = 0;
             }
 
             public FieldKind Kind {get;}
 
-            public string Description {get;}
+            public byte Width {get;}
         }
     }
 }

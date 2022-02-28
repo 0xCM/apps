@@ -7,7 +7,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        [SymSource(xed_state)]
+        [SymSource(xed_state), DataWidth(2)]
         public enum ModKind : byte
         {
             [Symbol("mod0","MOD=0")]
