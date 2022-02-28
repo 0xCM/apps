@@ -7,19 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleFormKind : byte
+        public readonly struct PatternToken
         {
-            None,
 
-            RuleDeclaration,
-
-            SeqDeclaration,
-
-            EncodeStep,
-
-            DecodeStep,
-
-            Invocation,
         }
     }
 }

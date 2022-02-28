@@ -9,7 +9,7 @@ namespace Z0
     using static Root;
 
 
-    using EK = XedModels.RuleFormKind;
+    using EK = XedRules.RuleFormKind;
 
     partial class XedRules
     {

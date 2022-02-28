@@ -7,11 +7,35 @@ namespace Z0
 {
     using static XedModels.OpCodeKind;
     using static XedModels;
-
+    using static core;
     using OCP = XedModels.OcPatternNames;
 
     partial class XedRules
     {
+
+        internal static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
+        {
+            var count = src.Length;
+
+            for(var i=0; i<count; i++)
+            {
+                if(i != 0)
+                    dst.Append(" && ");
+                ref readonly var c = ref skip(src,i);
+                dst.Append(c.Format());
+            }
+        }
+
+        internal static string format(in XedRuleExpr src)
+        {
+            var sep = src.Kind == RuleFormKind.EncodeStep ? " -> " : " | ";
+            var dst = text.buffer();
+            render(src.LeftCriteria, dst);
+            dst.Append(sep);
+            render(src.RightCriteria, dst);
+            return dst.Emit();
+        }
+
         public static OpCodeKind ockind(string rule)
         {
             var content = rule;

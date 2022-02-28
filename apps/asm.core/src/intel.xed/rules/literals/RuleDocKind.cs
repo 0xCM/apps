@@ -5,8 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
+        const string xed = "xed.rules";
+
         [SymSource(xed)]
         public enum RuleDocKind : byte
         {
