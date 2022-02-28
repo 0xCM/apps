@@ -68,8 +68,8 @@ namespace Z0
 
         Index<RulePattern> EmitRulePatterns(Index<InstDef> x, Index<InstDef> y)
         {
-            var enc = x.SelectMany(x => x.PatternOps).Select(x => x.Expr).Distinct().Sort();
-            var dec = y.SelectMany(x => x.PatternOps).Select(x => x.Expr).Distinct().Sort();
+            var enc = x.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
+            var dec = y.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
             var count = Require.equal(enc.Count, dec.Count);
             var patterns = ExtractRulePatterns(x);
             var path = XedPaths.RuleTarget(RuleDocKind.RulePatterns);

@@ -5,11 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
-    partial class XedRules
+    partial struct XedModels
     {
-        Index<InstDef> ParseInstDefs(FS.FilePath src)
-            => InstDefParser.ParseInstDefs(src);
+        public enum RuleTableKind : byte
+        {
+            None,
+
+            Encoding,
+
+            Decoding
+        }
     }
 }

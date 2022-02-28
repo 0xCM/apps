@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
-        [LiteralProvider("xed.names.rules")]
-        internal readonly struct RuleNames
+        [LiteralProvider("xed.names.instructions.rules")]
+        internal readonly struct InstRulePartNames
         {
             public const string ICLASS = nameof(ICLASS);
 
@@ -26,6 +26,8 @@ namespace Z0
             public const string OPERANDS = nameof(OPERANDS);
 
             public const string ISA_SET = nameof(ISA_SET);
+
+            public const string COMMENT = nameof(COMMENT);
         }
     }
 }

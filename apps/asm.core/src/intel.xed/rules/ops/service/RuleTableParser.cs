@@ -9,7 +9,7 @@ namespace Z0
     using static Root;
 
 
-    using EK = XedModels.XedRuleExprKind;
+    using EK = XedModels.RuleFormKind;
 
     partial class XedRules
     {
@@ -23,7 +23,7 @@ namespace Z0
 
             Symbols<FieldKind> OperandKinds;
 
-            XedRuleExprKind Kind;
+            RuleFormKind Kind;
 
             TextLine Line;
 

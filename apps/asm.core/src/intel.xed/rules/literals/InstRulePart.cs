@@ -4,9 +4,12 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
-        public enum RulePart : byte
+        /// <summary>
+        /// Classfies aspects that define an instruction rule
+        /// </summary>
+        public enum InstRulePart : byte
         {
             IClass,
 
@@ -24,7 +27,9 @@ namespace Z0
 
             Operands,
 
-            Isa
+            Isa,
+
+            Comment
         }
     }
 }

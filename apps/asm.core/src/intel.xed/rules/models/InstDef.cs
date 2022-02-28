@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         public struct InstDef : IComparable<InstDef>
         {
@@ -23,15 +25,15 @@ namespace Z0
 
             public Index<FlagAction> Flags;
 
-            public Index<PatternOperands> PatternOps;
+            public Index<InstPatternSpec> PatternSpecs;
 
             public int CompareTo(InstDef src)
             {
                 var result = ((ushort)Class).CompareTo((ushort)src.Class);
                 if(result == 0)
                 {
-                    if(PatternOps.IsNonEmpty && src.PatternOps.IsNonEmpty)
-                        result = PatternOps.First.Expr.CompareTo(src.PatternOps.First.Expr);
+                    if(PatternSpecs.IsNonEmpty && src.PatternSpecs.IsNonEmpty)
+                        result = PatternSpecs.First.PatternExpr.CompareTo(src.PatternSpecs.First.PatternExpr);
                 }
                 return result;
             }

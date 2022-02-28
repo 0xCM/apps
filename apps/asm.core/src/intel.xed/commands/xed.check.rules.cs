@@ -48,7 +48,7 @@ namespace Z0
             {
                 ref readonly var def = ref defs[i];
 
-                var ops = def.PatternOps;
+                var ops = def.PatternSpecs;
                 var patterns = Xed.Rules.ExtractRulePatterns(def);
                 var k = ops.Count;
                 Require.equal(patterns.Count, k);
@@ -60,10 +60,10 @@ namespace Z0
 
                     ockinds.MapKind(opcode.Kind, out var sym);
 
-                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, opcode.Value, EmptyString, op.Expr));
+                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, opcode.Value, EmptyString, op.PatternExpr));
                     counter++;
 
-                    var specs = op.Specs;
+                    var specs = op.PatternOps;
                     var m = specs.Count;
                     for(var q=0; q<m; q++)
                     {

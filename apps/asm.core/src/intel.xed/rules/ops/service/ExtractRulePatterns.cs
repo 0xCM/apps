@@ -18,16 +18,16 @@ namespace Z0
         public Index<RulePattern> ExtractRulePatterns(in InstDef inst)
         {
             var buffer = list<RulePattern>();
-            var operands = inst.PatternOps;
+            var operands = inst.PatternSpecs;
             var opcount = operands.Length;
             for(var j=0; j<opcount;j++)
             {
                 ref readonly var op = ref operands[j];
                 var pattern = new RulePattern();
                 pattern.Class = inst.Class;
-                pattern.Hash = alg.hash.marvin(op.Expr.Text);
-                pattern.OpCodeKind = ockind(op.Expr.Text);
-                pattern.Expression = op.Expr;
+                pattern.Hash = alg.hash.marvin(op.PatternExpr.Text);
+                pattern.OpCodeKind = ockind(op.PatternExpr.Text);
+                pattern.Expression = op.PatternExpr;
                 buffer.Add(pattern);
             }
             return buffer.ToArray();
@@ -40,16 +40,16 @@ namespace Z0
             for(var i=0; i<instcount; i++)
             {
                 ref readonly var inst = ref skip(src,i);
-                var operands = inst.PatternOps;
+                var operands = inst.PatternSpecs;
                 var opcount = operands.Length;
                 for(var j=0; j<opcount;j++)
                 {
                     ref readonly var op = ref operands[j];
                     var pattern = new RulePattern();
                     pattern.Class = inst.Class;
-                    pattern.Hash = alg.hash.marvin(op.Expr.Text);
-                    pattern.OpCodeKind = ockind(op.Expr.Text);
-                    pattern.Expression = op.Expr;
+                    pattern.Hash = alg.hash.marvin(op.PatternExpr.Text);
+                    pattern.OpCodeKind = ockind(op.PatternExpr.Text);
+                    pattern.Expression = op.PatternExpr;
                     buffer.Add(pattern);
                 }
             }

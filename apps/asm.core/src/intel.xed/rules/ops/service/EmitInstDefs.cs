@@ -17,7 +17,7 @@ namespace Z0
             for(var i=0u; i<src.Length; i++)
             {
                 ref readonly var def = ref skip(src,i);
-                if(def.PatternOps.IsEmpty)
+                if(def.PatternSpecs.IsEmpty)
                     continue;
 
                 writer.WriteLine(RP.PageBreak120);
@@ -33,10 +33,10 @@ namespace Z0
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Attributes), def.Attributes.Delimit(fence:RenderFence.Embraced)));
                 if(def.Flags.IsNonEmpty)
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Flags), def.Flags.Delimit(fence:RenderFence.Embraced)));
-                iter(def.PatternOps, p => {
-                    writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Expr));
-                    if(p.Specs.Count != 0)
-                        iter(p.Specs, o => writer.WriteLine(o));
+                iter(def.PatternSpecs, p => {
+                    writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.PatternExpr));
+                    if(p.PatternOps.Count != 0)
+                        iter(p.PatternOps, o => writer.WriteLine(o));
                 });
                 writer.WriteLine();
             }

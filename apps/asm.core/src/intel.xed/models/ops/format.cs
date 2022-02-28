@@ -23,7 +23,7 @@ namespace Z0
 
         internal static string format(in XedRuleExpr src)
         {
-            var sep = src.Kind == XedRuleExprKind.EncodeStep ? " -> " : " | ";
+            var sep = src.Kind == RuleFormKind.EncodeStep ? " -> " : " | ";
             var dst = text.buffer();
             render(src.LeftCriteria, dst);
             dst.Append(sep);

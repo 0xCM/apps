@@ -5,26 +5,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
-        static string ConformRuleExpr(string src)
-            => src.Replace("MOD[0b11] MOD=3", "MOD[0b11]");
-
-        public readonly struct PatternOperands
+        public readonly struct InstPatternSpec
         {
-            public TextBlock Expr {get;}
+            public TextBlock PatternExpr {get;}
 
-            public Index<RuleOpSpec> Specs {get;}
+            public Index<RuleOpSpec> PatternOps {get;}
 
             [MethodImpl(Inline)]
-            public PatternOperands(string expr, RuleOpSpec[] operands)
+            public InstPatternSpec(string expr, RuleOpSpec[] ops)
             {
-                Expr = ConformRuleExpr(text.despace(expr));
-                Specs = operands;
+                PatternExpr = expr;
+                PatternOps = ops;
             }
 
             public string Format()
-                => string.Format("Pattern:{0}\nOperands:{1}", Expr, Specs);
+                => string.Format("Pattern:{0}\nOperands:{1}", PatternExpr, PatternOps);
 
             public override string ToString()
                 => Format();

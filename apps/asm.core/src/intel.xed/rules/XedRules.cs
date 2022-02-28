@@ -7,7 +7,7 @@ namespace Z0
 {
     using static XedModels;
     using static core;
-    using static XedModels.RuleNames;
+    using static XedRules.InstRulePartNames;
 
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
@@ -28,7 +28,7 @@ namespace Z0
 
         Symbols<RuleOpName> OpKinds;
 
-        Index<RulePart,string> PartNames;
+        Index<InstRulePart,string> PartNames;
 
         Index<PointerWidth> PointerWidths;
 
@@ -43,6 +43,10 @@ namespace Z0
         Symbols<RegFlag> Flags;
 
         Symbols<FlagActionKind> FlagActionKinds;
+
+        Symbols<RuleMacroName> MacroNames;
+
+        XedInstDefParser InstDefParser;
 
         public XedRules()
         {
@@ -61,7 +65,9 @@ namespace Z0
             OperandKinds = Symbols.index<FieldKind>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
-            PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET};
+            MacroNames = Symbols.index<RuleMacroName>();
+            PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
+            InstDefParser = new(this);
         }
 
         XedPaths XedPaths => Service(Wf.XedPaths);
@@ -169,7 +175,7 @@ namespace Z0
             {
                 ref readonly var def = ref defs[i];
 
-                var ops = def.PatternOps;
+                var ops = def.PatternSpecs;
                 var patterns = ExtractRulePatterns(def);
                 var k = ops.Count;
                 Require.equal(patterns.Count, k);
@@ -180,10 +186,10 @@ namespace Z0
                     var oc = opcode(pattern);
 
                     ockinds.MapKind(oc.Kind, out var sym);
-                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.Expr));
+                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.PatternExpr));
                     counter++;
 
-                    var specs = op.Specs;
+                    var specs = op.PatternOps;
                     var m = specs.Count;
                     for(var q=0; q<m; q++)
                     {

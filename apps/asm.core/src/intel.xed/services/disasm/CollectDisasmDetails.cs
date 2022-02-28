@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
     using static XedModels;
+    using static XedRules;
     using static XedModels.RuleStateCalcs;
 
     partial class XedDisasmSvc

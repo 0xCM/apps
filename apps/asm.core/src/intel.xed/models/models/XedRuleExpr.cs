@@ -11,7 +11,7 @@ namespace Z0
     {
         public struct XedRuleExpr
         {
-            public XedRuleExprKind Kind;
+            public RuleFormKind Kind;
 
             public TextBlock Premise;
 
@@ -22,7 +22,7 @@ namespace Z0
             public Index<RuleCriterion> RightCriteria {get;}
 
             [MethodImpl(Inline)]
-            public XedRuleExpr(XedRuleExprKind kind, string premise, string consequent, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
+            public XedRuleExpr(RuleFormKind kind, string premise, string consequent, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
             {
                 Kind = kind;
                 Premise = premise;
