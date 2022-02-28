@@ -110,10 +110,10 @@ namespace Z0
             public bit TZCNT;
 
             [OperandKind(K.MEM0)]
-            public string MEM0;
+            public text31 MEM0;
 
             [OperandKind(K.MEM1)]
-            public string MEM1;
+            public text31 MEM1;
 
             [OperandKind(K.MODEP5)]
             public bit MODEP5;
@@ -377,7 +377,7 @@ namespace Z0
             public Register INDEX;
 
             [OperandKind(K.SCALE)]
-            public uint4 SCALE;
+            public byte SCALE;
 
             [OperandKind(K.OUTREG)]
             public Register OUTREG;
@@ -534,10 +534,10 @@ namespace Z0
                 if(REG9.IsNonEmpty)
                     _ops.Add(new RuleOperand(N.REG9, REG9));
 
-                if(nonempty(MEM0))
+                if(MEM0.IsNonEmpty)
                     _ops.Add(new RuleOperand(N.MEM0, MEM0));
 
-                if(nonempty(MEM1))
+                if(MEM1.IsNonEmpty)
                     _ops.Add(new RuleOperand(N.MEM1, MEM1));
 
                 if(AGEN.IsNonEmpty)
@@ -898,12 +898,6 @@ namespace Z0
             public void no_seg_prefix()
             {
                 SEG_OVD = 0;
-            }
-
-            [MethodImpl(Inline)]
-            public void some_seg_prefix()
-            {
-
             }
 
             [MethodImpl(Inline)]

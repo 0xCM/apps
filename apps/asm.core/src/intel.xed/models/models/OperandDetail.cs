@@ -7,40 +7,40 @@ namespace Z0
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct InstOperandDetail
+        public struct OperandDetail
         {
-            public InstOperand Op;
+            public InstOperand Def;
 
             public OperandWidth Width;
 
             public RuleOpName RuleOpName;
 
-            public RuleOperand RuleOp;
+            public RuleOperand Rule;
 
-            public @string RuleOpInfo;
+            public @string RuleDescription;
 
-            public TextBlock Description;
+            public TextBlock DefDescription;
 
             public byte Index
             {
                 [MethodImpl(Inline)]
-                get => Op.Index;
+                get => Def.Index;
             }
 
-            public FieldKind OpKind
+            public FieldKind FieldKind
             {
                 [MethodImpl(Inline)]
-                get => Op.Kind;
+                get => Def.Kind;
             }
 
             public OperandAction Action
             {
                 [MethodImpl(Inline)]
-                get => Op.Action;
+                get => Def.Action;
             }
 
             public string Format()
-                => Description;
+                => DefDescription;
 
             public override string ToString()
                 => Format();

@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    public interface IOriginated
+    partial class ProjectDataServices
     {
-        Hex32 OriginId {get;}
+        public Index<AsmDisasmSummary> LoadDisasmSummaries(IProjectWs project)
+            => XedDisasm.LoadDisasmSummary(project);
     }
 }

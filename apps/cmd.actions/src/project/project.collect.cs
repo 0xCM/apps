@@ -9,7 +9,7 @@ namespace Z0
     using System.Linq;
 
     using static core;
-
+    using static XedModels;
     partial class ProjectCmdProvider
     {
         [CmdOp("project/collect")]
@@ -17,11 +17,44 @@ namespace Z0
         {
             var project = Project();
             var data = ProjectData.Collect(project);
-            Recode(data);
             return true;
         }
 
-        void Recode(AsmDataCollection data)
+        [CmdOp("project/disasm/detail")]
+        Outcome CollectDisasmDetail(CmdArgs args)
+        {
+            var context = Projects.Context(Project());
+            var details = ProjectData.CollectDisasmDetail(context);
+            var count = details.Count;
+            var max = 0;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var detail = ref details[i];
+                ref readonly var ops = ref detail.Operands;
+                var opcount = ops.Count;
+                for(var j=0; j<opcount; j++)
+                {
+                    ref readonly var op = ref ops[j];
+                    ref readonly var fk = ref op.Def.Kind;
+                    if(fk == FieldKind.MEM0)
+                    {
+                        ref readonly var desc = ref op.RuleDescription;
+                        if(op.RuleDescription.Length > max)
+                        {
+                            max = desc.Length;
+                            Write(desc);
+                        }
+                    }
+
+                }
+            }
+
+            Write(string.Format("Max MEM0 length:{0}", max));
+
+            return true;
+        }
+
+        void Recode(WsDataCollection data)
         {
             static void BeginFile(in ObjDumpRow row, ITextBuffer dst)
             {
@@ -32,7 +65,7 @@ namespace Z0
             var project = data.Project;
             var files = data.Files;
             var objdump = data.ObjDumpRows;
-            var xed = data.XedLookup;
+            var xed = data.DetailLookup;
             var buffer = text.buffer();
             var docid = objdump.First.OriginId;
             var file = files[docid];

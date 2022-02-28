@@ -7,9 +7,9 @@ namespace Z0
     using Asm;
 
     [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
-    public struct XedDisasmSummary : IComparable<XedDisasmSummary>
+    public struct AsmDisasmSummary : IComparable<AsmDisasmSummary>
     {
-        public const string TableId = "asm.encoding";
+        public const string TableId = "xed.disasm.summary";
 
         public const byte FieldCount = 11;
 
@@ -41,7 +41,7 @@ namespace Z0
             get => (Seq,DocSeq,OriginId);
         }
 
-        public int CompareTo(XedDisasmSummary src)
+        public int CompareTo(AsmDisasmSummary src)
         {
             var result = OriginName.CompareTo(src.OriginName);
             if(result == 0)
@@ -62,6 +62,6 @@ namespace Z0
             ColWidths.AsmExpr,
             1};
 
-        public static XedDisasmSummary Empty => default;
+        public static AsmDisasmSummary Empty => default;
     }
 }

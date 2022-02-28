@@ -9,7 +9,7 @@ namespace Z0
     using static XedModels;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableName)]
-    public struct XedDisasmDetail : IComparable<XedDisasmDetail>
+    public struct AsmDisasmDetail : IComparable<AsmDisasmDetail>
     {
         public const string TableName = "xed.disasm.detail";
 
@@ -63,7 +63,7 @@ namespace Z0
 
         public EncodingOffsets Offsets;
 
-        public InstOperands Operands;
+        public OperandDetails Operands;
 
         public AsmRowKey Key
         {
@@ -71,7 +71,7 @@ namespace Z0
             get => (Seq,DocSeq,OriginId);
         }
 
-        public int CompareTo(XedDisasmDetail src)
+        public int CompareTo(AsmDisasmDetail src)
         {
             var result = SourceName.CompareTo(src.SourceName);
             if(result == 0)
@@ -106,6 +106,6 @@ namespace Z0
             48,
             1};
 
-        public static XedDisasmDetail Empty => default;
+        public static AsmDisasmDetail Empty => default;
     }
 }

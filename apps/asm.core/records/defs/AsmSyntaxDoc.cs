@@ -2,12 +2,14 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Asm
+namespace Z0
 {
-    public interface IAsmBlockSegment : IAsmEncodingRecord
+    public sealed class AsmSyntaxDoc : TableDoc<AsmSyntaxRow>
     {
-        Identifier BlockName {get;}
+        public AsmSyntaxDoc(FS.FilePath src, AsmSyntaxRow[] rows)
+            : base(src,rows)
+        {
 
-        MemoryAddress BlockAddress {get;}
+        }
     }
 }

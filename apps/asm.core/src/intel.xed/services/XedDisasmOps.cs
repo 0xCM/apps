@@ -15,18 +15,18 @@ namespace Z0
 
         const string YDIS = "YDIS:";
 
-        public static Outcome ParseSummaries(WsContext context, in FileRef src, out AsmEncodingDoc dst)
+        public static Outcome ParseSummaries(WsContext context, in FileRef src, out AsmDisasmSummaryDoc dst)
         {
-            var buffer = list<XedDisasmSummary>();
+            var buffer = list<AsmDisasmSummary>();
             var result = ParseSummaries(context, src,buffer);
             if(result)
                 dst = (src.Path,buffer.ToArray());
             else
-                dst = (src.Path,sys.empty<XedDisasmSummary>());
+                dst = (src.Path,sys.empty<AsmDisasmSummary>());
             return result;
         }
 
-        public static Outcome ParseSummaries(WsContext context, in FileRef src, List<XedDisasmSummary> dst)
+        public static Outcome ParseSummaries(WsContext context, in FileRef src, List<AsmDisasmSummary> dst)
         {
             var blocks = LoadLineBlocks(src.Path);
             var summaries = SummaryLines(blocks);
@@ -41,7 +41,7 @@ namespace Z0
             {
                 ref readonly var line = ref skip(summaries,i);
                 ref readonly var content = ref line.Content;
-                var record = new XedDisasmSummary();
+                var record = new AsmDisasmSummary();
                 ref readonly var expression = ref skip(expr,i);
 
                 result = ParseHexCode(line, out record.Encoded);

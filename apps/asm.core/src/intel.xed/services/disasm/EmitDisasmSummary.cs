@@ -4,18 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static core;
 
     partial class XedDisasmSvc
     {
-        public Index<XedDisasmSummary> EmitDisasmSummary(AsmEncodingDocs sources, FS.FilePath dst)
+        public Index<AsmDisasmSummary> EmitDisasmSummary(AsmDisasmSummaryDocs sources, FS.FilePath dst)
         {
             var paths = sources.Keys.ToArray().Sort();
             var recordcount = 0u;
             iter(sources.Values, src => recordcount += src.RowCount);
-            var buffer = alloc<XedDisasmSummary>(recordcount);
+            var buffer = alloc<AsmDisasmSummary>(recordcount);
             var counter = 0u;
             for(var i=0; i<paths.Length;i++)
             {
@@ -31,7 +29,7 @@ namespace Z0
             for(var i=0u; i<result.Length; i++)
                 seek(result,i).Seq = i;
 
-            TableEmit(@readonly(result), XedDisasmSummary.RenderWidths, dst);
+            TableEmit(@readonly(result), AsmDisasmSummary.RenderWidths, dst);
             return result;
         }
     }

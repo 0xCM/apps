@@ -12,17 +12,14 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public DisasmFileBlocks LoadDisamBlocks(in FileRef src)
-            => XedDisasmOps.LoadFileBlocks(src);
-
-        public Index<XedDisasmDetail> CollectDisasmDetails(WsContext context)
+        public Index<AsmDisasmDetail> CollectDisasmDetails(WsContext context)
         {
             var result = Outcome.Success;
             var catalog = context.Files;
             var files = catalog.Entries(FileKind.XedRawDisasm);
             var count = files.Count;
-            var buffer = list<XedDisasmDetail>();
-            var bag = core.bag<XedDisasmDetail>();
+            var buffer = list<AsmDisasmDetail>();
+            var bag = core.bag<AsmDisasmDetail>();
             var xedsvc = this;
             iter(files, file => {
 
@@ -37,15 +34,55 @@ namespace Z0
             var records = bag.ToArray().Sort();
             for(var i=0u; i<records.Length; i++)
                 seek(records,i).Seq = i;
-            EmitDisasmDetails(records, Projects.Table<XedDisasmDetail>(context.Project));
+            EmitDisasmDetails(records, Projects.Table<AsmDisasmDetail>(context.Project));
             context.Receiver.Collected(records);
             return records;
         }
 
-        Index<XedDisasmDetail> EmitDisasmDetails(Index<XedDisasmDetail> src, FS.FilePath dst)
+        public Index<RuleState> CalcDisasmState(WsContext context)
+        {
+            var result = Outcome.Success;
+            var catalog = context.Files;
+            var files = catalog.Entries(FileKind.XedRawDisasm);
+            var count = files.Count;
+            var buffer = list<AsmDisasmDetail>();
+            var bag = core.bag<RuleState>();
+            var xedsvc = this;
+            iter(files, file => CalcDisasmState(context, xedsvc.LoadDisamBlocks(file), bag).Require(),true);
+            return bag.ToArray();
+        }
+
+        public Outcome CalcDisasmState(WsContext context, in DisasmFileBlocks src, ConcurrentBag<RuleState> buffer)
+        {
+            var blocks = src.LineBlocks;
+            var count = blocks.Count;
+            var result = XedDisasmOps.ParseSummaries(context, src.Source, out var summaries);
+            if(result.Fail)
+                return result;
+
+            if(summaries.RowCount != count)
+            {
+                result = (false, string.Format("{0} != {1}", count, summaries.RowCount));
+                return result;
+            }
+
+            var parser = new XedOperandParser();
+            for(var i=0u; i<count; i++)
+            {
+                result = ParseInstruction(blocks[i], out var inst);
+                if(result.Fail)
+                    break;
+                parser.ParseState(inst.Props.Edit, out var state);
+                buffer.Add(state);
+            }
+
+            return result;
+        }
+
+        Index<AsmDisasmDetail> EmitDisasmDetails(Index<AsmDisasmDetail> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
-            var formatter = Tables.formatter<XedDisasmDetail>(XedDisasmDetail.RenderWidths);
+            var formatter = Tables.formatter<AsmDisasmDetail>(AsmDisasmDetail.RenderWidths);
             var headerBase = formatter.FormatHeader();
             var j = text.lastindex(headerBase, Chars.Pipe);
             headerBase = text.left(headerBase,j);
@@ -53,7 +90,7 @@ namespace Z0
             for(var k=0; k<6; k++)
             {
                 opheader.Append("| ");
-                opheader.Append(InstOperands.Header(k));
+                opheader.Append(OperandDetails.Header(k));
             }
 
             var header = string.Format("{0}{1}", headerBase, opheader.Emit());
@@ -66,7 +103,7 @@ namespace Z0
             return src;
         }
 
-        public Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<XedDisasmDetail> buffer)
+        public Outcome CalcDisasmDetails(WsContext context, in DisasmFileBlocks src, ConcurrentBag<AsmDisasmDetail> buffer)
         {
             var blocks = src.LineBlocks;
             var count = blocks.Count;
@@ -84,7 +121,7 @@ namespace Z0
             {
                 ref readonly var block = ref blocks[i];
                 ref readonly var encoding =ref summaries[i];
-                var detail = XedDisasmDetail.Empty;
+                var detail = AsmDisasmDetail.Empty;
                 result = CalcDisasmDetail(block, encoding, out detail);
                 if(result.Fail)
                     break;
@@ -95,7 +132,7 @@ namespace Z0
             return result;
         }
 
-        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in XedDisasmSummary summary, out XedDisasmDetail dst)
+        public Outcome CalcDisasmDetail(in DisasmLineBlock block, in AsmDisasmSummary summary, out AsmDisasmDetail dst)
         {
             dst = default;
             var result = ParseInstruction(block, out var inst);
@@ -122,7 +159,7 @@ namespace Z0
             parser.ParseState(inst.Props.Edit, out var state);
             dst.Offsets = state.Offsets();
             dst.OpCode = state.NOMINAL_OPCODE;
-            dst.Operands = alloc<InstOperandDetail>(block.OperandCount);
+            dst.Operands = alloc<OperandDetail>(block.OperandCount);
 
             var ocpos = state.POS_NOMINAL_OPCODE;
             var ocsrm = (uint3)math.and((byte)state.SRM, state.NOMINAL_OPCODE);
@@ -145,7 +182,7 @@ namespace Z0
                     break;
 
                 ref var opdetail = ref dst.Operands[k];
-                opdetail.Op = op;
+                opdetail.Def = op;
 
                 var title = string.Format("Op{0}", k);
                 var opwidth = OperandWidth(op.WidthType);
@@ -159,49 +196,22 @@ namespace Z0
                 var opvalfmt = EmptyString;
                 if(ruleops.TryGetValue(opname, out opval))
                 {
-                    opdetail.RuleOp = opval;
+                    opdetail.Rule = opval;
                     opvalfmt = opval.Format();
                     if(opname == RuleOpName.RELBR)
                     {
                         var w = state.BRDISP_WIDTH;
                         var val = (Disp)opval.Value;
                         opvalfmt = val.Format();
-                        // opvalfmt = val.Format();
-                        // if(w <= 8)
-                        //     opvalfmt = ((byte)val).FormatHex();
-                        // else if(w <= 16)
-                        //     opvalfmt = ((ushort)val).FormatHex();
-                        // else if(w <= 32)
-                        //     opvalfmt = ((uint)val).FormatHex();
-                        // else
-                        //     opvalfmt = val.Format();
                     }
-                    opdetail.RuleOpInfo = opvalfmt;
+                    opdetail.RuleDescription = opvalfmt;
                 }
 
-                opdetail.Description = string.Format(InstOperands.RenderPattern, title, opname, opvalfmt, op.Action, op.Visiblity, width, indicator, op.Prop2);
-            }
-
-
-            if(ruleops.TryGetValue(RuleOpName.BASE0, out var @base))
-            {
-
-            }
-
-            if(ruleops.TryGetValue(RuleOpName.INDEX, out var index))
-            {
-
-            }
-
-            if(ruleops.TryGetValue(RuleOpName.SCALE, out var scale))
-            {
-
+                opdetail.DefDescription = string.Format(OperandDetails.RenderPattern, title, opname, opvalfmt, op.Action, op.Visiblity, width, indicator, op.Prop2);
             }
 
             if(ruleops.TryGetValue(RuleOpName.DISP, out var disp))
-            {
                 dst.Disp = (Disp)disp.Value;
-            }
 
             var prefix = ocpos != 0 ? slice(code.Bytes,0,ocpos) : default;
             dst.PSZ = (byte)prefix.Length;
@@ -223,16 +233,13 @@ namespace Z0
             }
 
             var has_rex = rex(state, out var _rex);
-            dst.Rex = _rex;
             if(has_rex)
-            {
-
-            }
+                dst.Rex = _rex;
 
             var has_modrm = modrm(state, out var _modrm);
-            dst.ModRm = _modrm;
             if(has_modrm)
             {
+                dst.ModRm = _modrm;
                 if(_modrm != state.MODRM_BYTE)
                 {
                     result = (false, string.Format("Derived RM value {0} differs from parsed value {1}", _modrm, state.MODRM_BYTE));
@@ -247,10 +254,9 @@ namespace Z0
             }
 
             var has_sib = sib(state, out var _sib);
-            dst.Sib = _sib;
-
             if(has_sib)
             {
+                dst.Sib = _sib;
                 var sibenc = Sib.init(code[state.POS_SIB]);
                 if(sibenc.Value() != _sib)
                 {
@@ -293,5 +299,62 @@ namespace Z0
             var flags = state.Flags().Delimit();
             return result;
         }
+
+        Outcome ParseInstruction(in DisasmLineBlock block, out DisasmInstruction inst)
+        {
+            var result = Outcome.Success;
+            inst = default(DisasmInstruction);
+            ref readonly var content = ref block.Instruction.Content;
+            if(text.nonempty(content))
+            {
+                var j = text.index(content, Chars.Space);
+                if(j > 0)
+                {
+                    var expr = text.left(content,j);
+                    if(Classes.Lookup(expr, out var @class))
+                        inst.Class = @class;
+                    else
+                    {
+                        result = (false, AppMsg.ParseFailure.Format(nameof(IClass), content));
+                        return result;
+                    }
+
+                    var k = text.index(content, j+1, Chars.Space);
+                    if(k > 0)
+                    {
+                        expr = text.inside(content, j, k);
+                        if(Forms.Lookup(expr, out var form))
+                            inst.Form = form;
+                        else
+                        {
+                            result = (false, AppMsg.ParseFailure.Format(nameof(IFormType), expr));
+                            return result;
+                        }
+                    }
+
+                    var props = text.words(text.right(content,k), Chars.Comma);
+                    var kP = props.Count;
+                    inst.Props = alloc<Facet<string>>(kP);
+                    for(var m=0; m<kP; m++)
+                    {
+                        ref readonly var p = ref props[m];
+                        if(p.Contains(Chars.Colon))
+                        {
+                            var kv = text.split(p, Chars.Colon);
+                            if(kv.Length == 2)
+                                inst.Props[m] = (skip(kv,0).Trim(), skip(kv,1).Trim());
+                        }
+                        else
+                        {
+                            inst.Props[m] = (p.Trim(), EmptyString);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        DisasmFileBlocks LoadDisamBlocks(in FileRef src)
+            => XedDisasmOps.LoadFileBlocks(src);
     }
 }

@@ -8,7 +8,7 @@ namespace Z0
 
     public class WsContext
     {
-        public static WsContext create(IProjectWs project, WsDataFlows flows, AsmEventReceiver receiver = null)
+        public static WsContext create(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
             => new WsContext(project, flows, receiver);
 
         public IProjectWs Project {get;}
@@ -17,9 +17,9 @@ namespace Z0
 
         public WsDataFlows Flows {get;}
 
-        public AsmEventReceiver Receiver {get;}
+        public WsEventReceiver Receiver {get;}
 
-        WsContext(IProjectWs project, WsDataFlows flows, AsmEventReceiver receiver = null)
+        WsContext(IProjectWs project, WsDataFlows flows, WsEventReceiver receiver = null)
         {
             Project = project;
             Files = flows.FileCatalog;

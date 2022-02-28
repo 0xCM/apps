@@ -6,7 +6,7 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public struct InstOperands : IIndex<InstOperandDetail>
+        public struct OperandDetails : IIndex<OperandDetail>
         {
             public const string RenderPattern = "{0,-4} | {1,-8} | {2,-24} | {3,-10} | {4,-12} | {5,-12} | {6,-12} | {7,-12}";
 
@@ -15,15 +15,15 @@ namespace Z0
             public static string Header(int index)
                 => string.Format(RenderPattern, ColPatterns.Select(x => string.Format(x, index)));
 
-            public Index<InstOperandDetail> Details;
+            public Index<OperandDetail> Details;
 
             [MethodImpl(Inline)]
-            public InstOperands(InstOperandDetail[] src)
+            public OperandDetails(OperandDetail[] src)
             {
                 Details = src;
             }
 
-            public InstOperandDetail[] Storage
+            public OperandDetail[] Storage
             {
                 [MethodImpl(Inline)]
                 get => Details.Storage;
@@ -41,13 +41,13 @@ namespace Z0
                 get => Details.Length;
             }
 
-            public ref InstOperandDetail this[int i]
+            public ref OperandDetail this[int i]
             {
                 [MethodImpl(Inline)]
                 get => ref Details[i];
             }
 
-            public ref InstOperandDetail this[uint i]
+            public ref OperandDetail this[uint i]
             {
                 [MethodImpl(Inline)]
                 get => ref Details[i];
@@ -76,11 +76,11 @@ namespace Z0
                 => Format();
 
             [MethodImpl(Inline)]
-            public static implicit operator InstOperands(InstOperandDetail[] src)
-                => new InstOperands(src);
+            public static implicit operator OperandDetails(OperandDetail[] src)
+                => new OperandDetails(src);
 
             [MethodImpl(Inline)]
-            public static implicit operator InstOperandDetail[](InstOperands src)
+            public static implicit operator OperandDetail[](OperandDetails src)
                 => src.Storage;
         }
     }

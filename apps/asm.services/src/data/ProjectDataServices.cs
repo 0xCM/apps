@@ -28,15 +28,15 @@ namespace Z0
             SymKinds = Symbols.index<ObjSymKind>();
         }
 
-        public AsmDataCollection Collect(IProjectWs project)
+        public WsDataCollection Collect(IProjectWs project)
         {
-            var receiver = new AsmEventReceiver();
+            var receiver = new WsEventReceiver();
             var context = Projects.Context(project, receiver);
             CollectObjDump(context);
             CollectObjSyms(context);
             CollectCoffIndex(context);
             CollectMc(context);
-            CollectXedDisasm(context);
+            CollectDisasmDetail(context);
             return receiver.Emit();
         }
    }

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class AsmDataCollection
+    public class WsDataCollection
     {
         public readonly FileCatalog Files;
 
@@ -18,16 +18,16 @@ namespace Z0.Asm
 
         public readonly Index<AsmSyntaxRow> SyntaxRows;
 
-        public readonly Index<XedDisasmDetail> XedRows;
+        public readonly Index<AsmDisasmDetail> XedRows;
 
         public readonly Index<ObjDumpRow> ObjDumpRows;
 
-        internal AsmDataCollection(
+        internal WsDataCollection(
             IProjectWs project,
             FileCatalog files,
             Index<AsmSyntaxRow> syntax,
             Index<AsmInstructionRow> inst,
-            Index<XedDisasmDetail> xed,
+            Index<AsmDisasmDetail> xed,
             Index<ObjDumpRow> objdump,
             CoffSymIndex coffsym,
             ObjBlock[] objblocks
@@ -44,20 +44,20 @@ namespace Z0.Asm
             locker = new();
         }
 
-        ConstLookup<InstructionId,XedDisasmDetail> _XedLookup;
+        ConstLookup<InstructionId,AsmDisasmDetail> _DetailLookup;
 
         object locker;
 
-        public ConstLookup<InstructionId,XedDisasmDetail> XedLookup
+        public ConstLookup<InstructionId,AsmDisasmDetail> DetailLookup
         {
             get
             {
                 lock(locker)
                 {
-                    if(_XedLookup == null)
-                        _XedLookup = XedRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
+                    if(_DetailLookup == null)
+                        _DetailLookup = XedRows.Storage.Map(x => (x.InstructionId, x)).ToConstLookup();
                 }
-                return _XedLookup;
+                return _DetailLookup;
             }
         }
     }

@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public sealed class AsmEncodingDocs : ConstLookup<FileRef,AsmEncodingDoc>
+    public sealed class AsmSyntaxDocs : ConstLookup<FS.FilePath,AsmSyntaxDoc>
     {
-        public AsmEncodingDocs(Dictionary<FileRef, AsmEncodingDoc> src)
+        public AsmSyntaxDocs(Dictionary<FS.FilePath, AsmSyntaxDoc> src)
             : base(src)
         {
 
 
         }
 
-        public static implicit operator AsmEncodingDocs(Dictionary<FileRef, AsmEncodingDoc> src)
-            => new AsmEncodingDocs(src);
+        public static implicit operator AsmSyntaxDocs(Dictionary<FS.FilePath, AsmSyntaxDoc> src)
+            => new AsmSyntaxDocs(src);
     }
 }

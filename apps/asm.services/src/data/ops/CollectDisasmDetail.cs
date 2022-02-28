@@ -6,11 +6,11 @@ namespace Z0
 {
     partial class ProjectDataServices
     {
-        public Index<XedDisasmDetail> CollectXedDisasm(WsContext context)
+        public Index<AsmDisasmDetail> CollectDisasmDetail(WsContext context)
         {
             var result = Outcome.Success;
             var project = context.Project;
-            var summaries = XedDisasm.EmitDisasmSummary(XedDisasm.CollectEncodingDocs(context), Projects.XedDisasmSummary(project));
+            var summaries = XedDisasm.EmitDisasmSummary(XedDisasm.CollectDisasmSummaries(context), Projects.XedDisasmSummary(project));
             var details = XedDisasm.CollectDisasmDetails(context);
             return details;
         }

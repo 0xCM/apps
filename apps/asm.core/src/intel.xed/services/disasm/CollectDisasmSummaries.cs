@@ -8,27 +8,27 @@ namespace Z0
 
     partial class XedDisasmSvc
     {
-        public AsmEncodingDocs CollectEncodingDocs(WsContext context)
+        public AsmDisasmSummaryDocs CollectDisasmSummaries(WsContext context)
         {
             var src = Projects.XedDisasmSources(context.Project);
             var count = src.Count;
-            var dst = dict<FileRef,AsmEncodingDoc>();
+            var dst = dict<FileRef,AsmDisasmSummaryDoc>();
             var seq = 0u;
             for(var i=0; i<count; i++)
             {
                 var file = context.FileRef(src[i]);
-                var result = XedDisasmOps.ParseSummaries(context, file, out var encodings);
+                var result = XedDisasmOps.ParseSummaries(context, file, out var summaries);
 
                 if(result)
                 {
-                    for(var j=0; j<encodings.RowCount; j++)
-                        encodings[j].Seq = seq++;
-                    dst[file] = encodings;
+                    for(var j=0; j<summaries.RowCount; j++)
+                        summaries[j].Seq = seq++;
+                    dst[file] = summaries;
                 }
                 else
                 {
                     Error(result.Message);
-                    return dict<FileRef, AsmEncodingDoc>();
+                    return dict<FileRef, AsmDisasmSummaryDoc>();
                 }
             }
 

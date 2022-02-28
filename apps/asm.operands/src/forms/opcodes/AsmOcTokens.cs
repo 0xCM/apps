@@ -89,6 +89,12 @@ namespace Z0.Asm
 
             public const string ib = "ib";
 
+            public const string iw = "iw";
+
+            public const string id = "id";
+
+            public const string io = "io";
+
             public const string ST0 = "+0";
 
             public const string ST1 = "+1";
@@ -100,6 +106,10 @@ namespace Z0.Asm
             public const string ST4 = "+4";
 
             public const string ST5 = "+5";
+
+            public const string ST6 = "+6";
+
+            public const string ST7 = "+7";
 
             public const string RRM = "/r";
 
@@ -332,13 +342,13 @@ namespace Z0.Asm
             [Symbol(T.ib, "Indicates a 1-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
             ib,
 
-            [Symbol("iw", "Indicates a 2-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
+            [Symbol(T.iw, "Indicates a 2-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
             iw,
 
-            [Symbol("id", "Indicates a 4-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
+            [Symbol(T.id, "Indicates a 4-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes.")]
             id,
 
-            [Symbol("io", "Indicates An 8-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes")]
+            [Symbol(T.io, "Indicates An 8-byte immediate operand to the instruction that follows the opcode or ModR/M bytes or scale-indexing bytes")]
             io,
         }
 
@@ -363,10 +373,10 @@ namespace Z0.Asm
             [Symbol(T.ST5)]
             st5,
 
-            [Symbol("+6")]
+            [Symbol(T.ST6)]
             st6,
 
-            [Symbol("+7")]
+            [Symbol(T.ST7)]
             st7,
         }
 
@@ -431,5 +441,6 @@ namespace Z0.Asm
             [Symbol(T.x67, "Indicates address size override")]
             ADSZ,
         }
+
     }
 }

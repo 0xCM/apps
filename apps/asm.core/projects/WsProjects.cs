@@ -80,7 +80,7 @@ namespace Z0
             => Table<AsmInstructionRow>(project);
 
         public FS.FilePath AsmEncodingTable(IProjectWs project)
-            => Table<XedDisasmSummary>(project);
+            => Table<AsmDisasmSummary>(project);
 
         public FS.FolderPath AsmCodeDir(IProjectWs project)
             => ProjectData(project, "asm.code");
@@ -133,7 +133,7 @@ namespace Z0
         public WsDataFlows LoadBuildFlowIndex(IProjectWs project)
             => WsDataFlows.create(FileCatalog.load(project), LoadBuildFlows(project));
 
-        public WsContext Context(IProjectWs project, AsmEventReceiver receiver = null)
+        public WsContext Context(IProjectWs project, WsEventReceiver receiver = null)
             => WsContext.create(project, LoadBuildFlowIndex(project), receiver);
 
         public Outcome<Index<ToolCmdFlow>> BuildScoped(IProjectWs project, ScriptId script, string scope)

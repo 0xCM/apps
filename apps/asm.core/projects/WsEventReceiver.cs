@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    public class AsmEventReceiver
+    public class WsEventReceiver
     {
         IProjectWs Project;
 
@@ -14,7 +14,7 @@ namespace Z0.Asm
 
         Index<AsmInstructionRow> InstructionRows;
 
-        Index<XedDisasmDetail> XedRows;
+        Index<AsmDisasmDetail> XedRows;
 
         Index<ObjDumpRow> ObjDumpRows;
 
@@ -22,14 +22,14 @@ namespace Z0.Asm
 
         Index<ObjBlock> ObjBlocks;
 
-        public AsmEventReceiver()
+        public WsEventReceiver()
         {
             CoffSymbols = CoffSymIndex.Empty;
             ObjBlocks = sys.empty<ObjBlock>();
         }
 
-        public AsmDataCollection Emit()
-            => new AsmDataCollection(Project, Files, SyntaxRows, InstructionRows, XedRows, ObjDumpRows, CoffSymbols, ObjBlocks);
+        public WsDataCollection Emit()
+            => new WsDataCollection(Project, Files, SyntaxRows, InstructionRows, XedRows, ObjDumpRows, CoffSymbols, ObjBlocks);
 
 
         public virtual void Initialized(WsContext context)
@@ -69,7 +69,7 @@ namespace Z0.Asm
             InstructionRows = src;
         }
 
-        public virtual void Collected(Index<XedDisasmDetail> src)
+        public virtual void Collected(Index<AsmDisasmDetail> src)
         {
             XedRows = src;
         }

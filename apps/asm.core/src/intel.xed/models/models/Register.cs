@@ -7,15 +7,14 @@ namespace Z0
     partial struct XedModels
     {
         [DataType(XedNames.reg)]
-        public struct Register : IEnumCover<XedRegId>
+        public readonly struct Register
         {
-            public XedRegId Value {get;set;}
+            public readonly XedRegId Value;
 
             [MethodImpl(Inline)]
             public Register(XedRegId src)
             {
                 Value = src;
-                Symbols.expr(src);
             }
 
             public bool IsEmpty
@@ -31,7 +30,7 @@ namespace Z0
             }
 
             public string Format()
-                => Symbols.format(Value);
+                => IsEmpty ? EmptyString : Value.ToString();
 
             public override string ToString()
                 => Format();

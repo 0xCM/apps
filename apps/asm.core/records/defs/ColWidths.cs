@@ -57,5 +57,7 @@ namespace Z0
         public const byte EOSZ = 5;
 
         public const byte SymbolName = 24;
+
+        public const byte RegName = 6;
     }
 }
