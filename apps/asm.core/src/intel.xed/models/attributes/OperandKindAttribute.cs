@@ -7,8 +7,6 @@ namespace Z0
 {
     using System;
 
-    using static XedModels;
-
     partial struct XedModels
     {
         public class OperandKindAttribute : Attribute

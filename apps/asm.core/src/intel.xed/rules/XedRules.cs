@@ -8,8 +8,6 @@ namespace Z0
     using static core;
     using static XedModels.RuleNames;
 
-    using EK = XedModels.XedRuleExprKind;
-
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
     {
@@ -138,34 +136,6 @@ namespace Z0
             return result;
         }
 
-        const string RuleDeclMarker = "()::";
-
-        const string InvokeMarker = "()";
-
-        const string EncStepMarker = " -> ";
-
-        const string DecStepMarker = " |";
-
-        const string SeqDeclMarker = "SEQUENCE ";
-
-        static EK ClassifyExpr(TextLine src)
-        {
-            var i = text.index(src.Content, Chars.Hash);
-            var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
-
-            if(content.EndsWith(RuleDeclMarker))
-                return EK.RuleDeclaration;
-            if(content.Contains(EncStepMarker))
-                return EK.EncodeStep;
-            if(content.Contains(DecStepMarker))
-                return EK.DecodeStep;
-            if(content.EndsWith(InvokeMarker))
-                return EK.Invocation;
-            if(content.StartsWith(SeqDeclMarker))
-                return EK.SeqDeclaration;
-            return 0;
-        }
-
         public ConstLookup<string,OperandWidth> OperandWidths()
         {
             return Data(nameof(OperandWidths), Load);
@@ -209,7 +179,6 @@ namespace Z0
                     var oc = opcode(pattern);
 
                     ockinds.MapKind(oc.Kind, out var sym);
-
                     writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.Expr));
                     counter++;
 

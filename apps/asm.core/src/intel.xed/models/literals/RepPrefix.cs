@@ -17,6 +17,9 @@ namespace Z0
 
             [Symbol("F3")]
             REPF3 = 3,
+
+            [Symbol("REP!=3")]
+            NOF3 = 4,
         }
     }
 }

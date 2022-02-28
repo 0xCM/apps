@@ -1,20 +1,22 @@
 //-----------------------------------------------------------------------------
 // Copyright   : Intel Corporation, 2020
 // License     : Apache
+// Source      : xed-operand-storage.h/all-fields.txt
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
+    using System;
 
     partial struct XedModels
     {
-        public enum RuleKind : byte
+        public class RuleMacroAttribute : Attribute
         {
-            None,
+            public RuleMacroAttribute(RuleMacroName name)
+            {
+                Name = name;
+            }
 
-            Nonterminal,
-
-            RegProduction
+            public RuleMacroName Name {get;}
         }
     }
 }

@@ -37,6 +37,23 @@ namespace Z0
                 Kind = 0;
             }
 
+            Outcome ParseNext()
+            {
+                var result = Outcome.Success;
+                Kind = ClassifyExpr(Line);
+                if(Kind == EK.SeqDeclaration)
+                    ParseSeqTerms();
+
+                while(Kind == EK.RuleDeclaration)
+                {
+                    result = ParseRuleDecl();
+                    if(result.Fail)
+                        return result;
+                }
+
+                return result;
+            }
+
             public Index<RuleTable> Parse(FS.FilePath src)
             {
                 try
@@ -58,7 +75,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = ClassifyExpr(Line);
+                    //Kind = ClassifyExpr(Line);
                     ParseNext().Require();
                 }
             }
@@ -133,15 +150,6 @@ namespace Z0
                 }
             }
 
-            static string Normalize(string src)
-            {
-                var i = text.index(src, Chars.Hash);
-                if(i>0)
-                    return text.trim(text.left(src,i));
-                else
-                    return text.trim(src);
-            }
-
             XedRuleExpr CreateRuleExpr(EK kind, string premise, string consequent = EmptyString)
             {
                 var left = sys.empty<RuleCriterion>();
@@ -168,7 +176,7 @@ namespace Z0
                     if(Kind == 0)
                         continue;
 
-                    var content = Normalize(Line.Content);
+                    var content = normalize(Line.Content);
                     var parts = sys.empty<string>();
                     if(Kind == EK.EncodeStep)
                     {
@@ -224,20 +232,41 @@ namespace Z0
                 return result;
             }
 
-            Outcome ParseNext()
+            const string RuleDeclMarker = "()::";
+
+            const string InvokeMarker = "()";
+
+            const string EncStepMarker = " -> ";
+
+            const string DecStepMarker = " |";
+
+            const string SeqDeclMarker = "SEQUENCE ";
+
+            static EK ClassifyExpr(TextLine src)
             {
-                var result = Outcome.Success;
-                if(Kind == EK.SeqDeclaration)
-                    ParseSeqTerms();
+                var i = text.index(src.Content, Chars.Hash);
+                var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
 
-                while(Kind == EK.RuleDeclaration)
-                {
-                    result = ParseRuleDecl();
-                    if(result.Fail)
-                        return result;
-                }
+                if(content.EndsWith(RuleDeclMarker))
+                    return EK.RuleDeclaration;
+                if(content.Contains(EncStepMarker))
+                    return EK.EncodeStep;
+                if(content.Contains(DecStepMarker))
+                    return EK.DecodeStep;
+                if(content.EndsWith(InvokeMarker))
+                    return EK.Invocation;
+                if(content.StartsWith(SeqDeclMarker))
+                    return EK.SeqDeclaration;
+                return 0;
+            }
 
-                return result;
+            static string normalize(string src)
+            {
+                var i = text.index(src, Chars.Hash);
+                if(i>0)
+                    return text.trim(text.left(src,i));
+                else
+                    return text.trim(src);
             }
         }
     }

@@ -23,6 +23,7 @@ namespace Z0
     using D = XedModels.SegDefaultKind;
     using B = XedModels.BCastKind;
     using V = XedModels.VexPrefixKind;
+    using M = XedModels.RuleMacroName;
 
     partial struct XedModels
     {
@@ -546,145 +547,145 @@ namespace Z0
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mod0)]
             public void mod0()
             {
                 MOD = 0;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mod1)]
             public void mod1()
             {
                 MOD = 1;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mod2)]
             public void mod2()
             {
                 MOD = 2;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mod3)]
             public void mod3()
             {
                 MOD = 3;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.not64)]
             public void not64()
             {
                 MODE = Mode.Not64;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mode64)]
             public void mode64()
             {
                 MODE = Mode.Mode64;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mode32)]
             public void mode32()
             {
                 MODE = Mode.Mode32;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.mode16)]
             public void mode16()
             {
                 MODE = Mode.Mode16;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eanot16)]
             public void eanot16()
             {
                 EASZ = EASZNot16;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eamode16)]
             public void eamode16()
             {
                 EASZ = EASZ16;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eamode32)]
             public void eamode32()
             {
                 EASZ = EASZ32;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eamode64)]
             public void eamode64()
             {
                 EASZ = EASZ64;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.smode16)]
             public void smode16()
             {
                 SMODE = SMode16;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.smode32)]
             public void smode32()
             {
                 SMODE = SMode32;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.smode64)]
             public void smode64()
             {
                 SMODE = SMode64;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eosz8)]
             public void eosz8()
             {
                 EOSZ = EOSZ8;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eosz16)]
             public void eosz16()
             {
                 EOSZ = EOSZ16;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eosz32)]
             public void eosz32()
             {
                 EOSZ = EOSZ32;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eosz64)]
             public void eosz64()
             {
                 EOSZ = EOSZ64;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eosz16)]
             public void not_eosz16()
             {
                 EOSZ = EOSZNot16;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.eosznot64)]
             public void eosznot64()
             {
                 EOSZ = EOSZNot64;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.rex_reqd)]
             public void rex_reqd()
             {
                 REX = 1;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.no_rex)]
             public void no_rex()
             {
                 REX = 0;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.reset_rex)]
             public void reset_rex()
             {
                 REX = 0;
@@ -694,25 +695,25 @@ namespace Z0
                 REXX = 0;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.rexb_prefix)]
             public void rexb_prefix()
             {
                 REXB = 1;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.norexb_prefix)]
             public void norexb_prefix()
             {
                 REXB = 0;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.rexx_prefix)]
             public void rexx_prefix()
             {
                 REXX = 1;
             }
 
-            [MethodImpl(Inline)]
+            [MethodImpl(Inline), RuleMacro(M.norexx_prefix)]
             public void norexx_prefix()
             {
                 REXX = 0;
@@ -793,7 +794,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void nof3_prefix()
             {
-
+                REP = (byte)P.NOF3;
             }
 
             [MethodImpl(Inline)]
@@ -823,7 +824,7 @@ namespace Z0
             [MethodImpl(Inline)]
             public void not_refining_f3()
             {
-
+                REP = (byte)P.NOF3;
             }
 
             [MethodImpl(Inline)]
