@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         public readonly struct FieldAssignment
         {
@@ -19,25 +21,19 @@ namespace Z0
                 Field = field;
                 Data = data;
             }
-        }
 
-        public readonly struct FieldAssignment<T>
-            where T : unmanaged
-        {
-            public readonly FieldKind Field;
-
-            public readonly T Value;
-
-            [MethodImpl(Inline)]
-            public FieldAssignment(FieldKind field, T value)
+            public string Format()
             {
-                Field = field;
-                Value = value;
+                if(Field == 0)
+                    return EmptyString;
+                else
+                    return string.Format("{0}={1}", FieldKinds[Field].Expr, Data.ToString());
             }
 
-            [MethodImpl(Inline)]
-            public static implicit operator FieldAssignment<T>((FieldKind kind, T value) src)
-                => new FieldAssignment<T>(src.kind, src.value);
+            public override string ToString()
+                => Format();
+
+            public static FieldAssignment Empty => new FieldAssignment(FieldKind.INVALID,0);
         }
     }
 }

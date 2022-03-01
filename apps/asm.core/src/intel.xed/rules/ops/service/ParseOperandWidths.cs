@@ -13,7 +13,7 @@ namespace Z0
         public Index<OperandWidth> ParseOperandWidths()
         {
             var buffer = list<OperandWidth>();
-            var src = XedPaths.RuleSource(RuleDocKind.Widths);
+            var src = XedPaths.DocSource(XedDocKind.Widths);
             using var reader = src.Utf8LineReader();
             var result = Outcome.Success;
             while(reader.Next(out var line))

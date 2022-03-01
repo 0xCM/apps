@@ -5,20 +5,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedRules;
+    using static XedModels;
 
-    partial struct XedModels
+    partial class XedRules
     {
-        public readonly struct RuleCriterion : IRuleCriterion
+        public struct RuleCriterion
         {
-            public FieldKind Kind {get;}
+            public FieldKind Kind;
 
-            public RuleOperator Operator {get;}
+            public RuleOperator Operator;
 
-            public dynamic Value {get;}
+            public string Value;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(FieldKind kind, RuleOperator @op,  dynamic value)
+            public RuleCriterion(FieldKind kind, RuleOperator @op, string value)
             {
                 Kind = kind;
                 Operator = @op;
@@ -27,7 +27,9 @@ namespace Z0
 
             public string Format()
             {
-                if(Operator != 0)
+                if(Operator == RuleOperator.Call)
+                    return string.Format("{0}()", Value);
+                else if(Operator != 0)
                     return string.Format("{0}{1}{2}", Symbols.expr(Kind), Symbols.expr(Operator), Value);
                 else
                     return string.Format("{0}", Value);

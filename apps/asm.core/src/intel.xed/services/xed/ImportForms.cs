@@ -37,7 +37,7 @@ namespace Z0.Asm
 
         Index<XedFormSource> ParseFormSources()
         {
-            var src = XedPaths.FormSourcePath();
+            var src = XedPaths.DocSource(XedDocKind.FormData);
             var tableid = Tables.identify<XedFormSource>();
             var flow = Running(string.Format("Loading form sources from {0}", src.ToUri()));
             using var reader = src.Utf8Reader();

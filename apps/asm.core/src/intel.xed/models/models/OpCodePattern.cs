@@ -8,9 +8,9 @@ namespace Z0
     partial struct XedModels
     {
         [Record(TableId)]
-        public struct OpCodePattern
+        public struct OcMapKind
         {
-            public const string TableId = "xed.rules.ocpattern";
+            public const string TableId = "xed.opcode.kind";
 
             public const byte FieldCount = 6;
 

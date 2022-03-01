@@ -5,14 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-    using static core;
-
-    partial struct XedModels
+    partial class XedRules
     {
-        [ApiHost]
-        public readonly partial struct RuleStateCalcs
-        {
-        }
+        public Index<RulePattern> CalcEncPatterns()
+            => CalcRulePatterns(ParseEncInstDefs());
     }
 }

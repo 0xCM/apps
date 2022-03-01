@@ -18,10 +18,10 @@ namespace Z0
             public static XedOpCodeParser create()
                 =>new XedOpCodeParser();
 
-            public Index<XedOpCodeRecord> Parse(ReadOnlySpan<RulePattern> src)
+            public Index<RuleOpCode> Parse(ReadOnlySpan<RulePattern> src)
             {
                 var count = src.Length;
-                var buffer = alloc<XedOpCodeRecord>(count);
+                var buffer = alloc<RuleOpCode>(count);
                 for(var i=0u; i<count; i++)
                 {
                     ref readonly var rule = ref skip(src,i);

@@ -14,7 +14,7 @@ namespace Z0
         {
             const byte FieldCount = RulePattern.FieldCount;
             var result = Outcome.Success;
-            var path = XedPaths.RuleTarget(RuleDocKind.RulePatterns);
+            var path = XedPaths.DocTarget(XedDocKind.RulePatterns);
             var src = path.ReadLines();
             var buffer = list<RulePattern>();
 

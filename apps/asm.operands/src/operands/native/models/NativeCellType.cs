@@ -59,10 +59,6 @@ namespace Z0
         public override bool Equals(object src)
             => src is NativeCellType t && Equals(t);
 
-        public static NativeCellType Void
-        {
-            [MethodImpl(Inline)]
-            get => define(NativeSizeCode.Unknown, ScalarClass.None);
-        }
+        public static NativeCellType Void => default;
     }
 }

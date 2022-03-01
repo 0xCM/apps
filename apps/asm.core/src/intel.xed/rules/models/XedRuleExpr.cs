@@ -5,30 +5,28 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
         public struct XedRuleExpr
         {
             public RuleFormKind Kind;
 
-            public TextBlock Premise;
+            // public TextBlock PremiseExpr;
 
-            public TextBlock Consequent;
+            // public TextBlock ConsequentExpr;
 
-            public Index<RuleCriterion> LeftCriteria {get;}
+            public Index<RuleCriterion> Premise;
 
-            public Index<RuleCriterion> RightCriteria {get;}
+            public Index<RuleCriterion> Consequent;
 
             [MethodImpl(Inline)]
-            public XedRuleExpr(RuleFormKind kind, string premise, string consequent, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
+            public XedRuleExpr(RuleFormKind kind, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
             {
                 Kind = kind;
-                Premise = premise;
-                Consequent = consequent;
-                LeftCriteria = left;
-                RightCriteria = rigth;
+                // PremiseExpr = premise;
+                // ConsequentExpr = consequent;
+                Premise = left;
+                Consequent = rigth;
             }
 
             public string Format()

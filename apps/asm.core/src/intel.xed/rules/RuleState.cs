@@ -7,7 +7,6 @@ namespace Z0
 {
     using Asm;
 
-    using static XedModels.RuleStateCalcs;
     using static Asm.AsmPrefixCodes;
     using static Asm.AsmPrefixCodes.VectorWidthCode;
     using static XedModels.EASZ;
@@ -25,15 +24,14 @@ namespace Z0
     using V = XedModels.VexPrefixKind;
     using M = XedModels.RuleMacroName;
 
+    using static XedRules;
+
     partial struct XedModels
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct RuleState
         {
             public const string TableId = "xed.rules.state";
-
-            [RuleOperand(K.AGEN)]
-            public text31 AGEN;
 
             [RuleOperand(K.AMD3DNOW, 1)]
             public bit AMD3DNOW;
@@ -86,7 +84,7 @@ namespace Z0
             [RuleOperand(K.IMM1, 1)]
             public bit IMM1;
 
-            [RuleOperand(K.IMM_WIDTH)]
+            [RuleOperand(K.IMM_WIDTH, 3)]
             public byte IMM_WIDTH;
 
             [RuleOperand(K.IMM1_BYTES)]
@@ -103,12 +101,6 @@ namespace Z0
 
             [RuleOperand(K.TZCNT, 1)]
             public bit TZCNT;
-
-            [RuleOperand(K.MEM0)]
-            public text31 MEM0;
-
-            [RuleOperand(K.MEM1)]
-            public text31 MEM1;
 
             [RuleOperand(K.MODEP5, 1)]
             public bit MODEP5;
@@ -206,11 +198,11 @@ namespace Z0
             [RuleOperand(K.VEX_C4, 1)]
             public bit VEX_C4;
 
-            [RuleOperand(K.VEX_PREFIX)]
-            public VexPrefixKind VEX_PREFIX;
+            [RuleOperand(K.VEX_PREFIX, 2)]
+            public byte VEX_PREFIX;
 
-            [RuleOperand(K.VL)]
-            public VectorWidthCode VL;
+            [RuleOperand(K.VL, 3)]
+            public byte VL;
 
             [RuleOperand(K.WBNOINVD, 1)]
             public bit WBNOINVD;
@@ -219,16 +211,16 @@ namespace Z0
             public bit ZEROING;
 
             [RuleOperand(K.DEFAULT_SEG, 2)]
-            public uint2 DEFAULT_SEG;
+            public byte DEFAULT_SEG;
 
             [RuleOperand(K.EASZ, 3)]
-            public EASZ EASZ;
+            public byte EASZ;
 
             [RuleOperand(K.EOSZ, 3)]
-            public EOSZ EOSZ;
+            public byte EOSZ;
 
             [RuleOperand(K.FIRST_F2F3, 2)]
-            public uint2 FIRST_F2F3;
+            public byte FIRST_F2F3;
 
             /// <summary>
             /// Indicates whether a modrm byte is specified
@@ -237,7 +229,7 @@ namespace Z0
             public bit HAS_MODRM;
 
             [RuleOperand(K.LAST_F2F3, 2)]
-            public uint2 LAST_F2F3;
+            public byte LAST_F2F3;
 
             [RuleOperand(K.ILD_F2, 1)]
             public bit ILD_F2;
@@ -246,13 +238,13 @@ namespace Z0
             public bit ILD_F3;
 
             [RuleOperand(K.LLRC, 2)]
-            public uint2 LLRC;
+            public byte LLRC;
 
             [RuleOperand(K.MOD, 2)]
             public uint2 MOD;
 
             [RuleOperand(K.MODE, 2)]
-            public ModeKind MODE;
+            public uint2 MODE;
 
             [RuleOperand(K.REP, 2)]
             public uint2 REP;
@@ -261,10 +253,10 @@ namespace Z0
             public uint2 SIBSCALE;
 
             [RuleOperand(K.SMODE, 2)]
-            public SMode SMODE;
+            public byte SMODE;
 
             [RuleOperand(K.HINT, 3)]
-            public HintKind HINT;
+            public byte HINT;
 
             [RuleOperand(K.MASK, 3)]
             public uint3 MASK;
@@ -291,7 +283,7 @@ namespace Z0
             /// Specifies partial-byte opcodes that capture an RM-like field.
             /// </summary>
             [RuleOperand(K.SRM, 3)]
-            public uint3 SRM;
+            public byte SRM;
 
             [RuleOperand(K.VEXDEST210, 3)]
             public uint3 VEXDEST210;
@@ -300,7 +292,7 @@ namespace Z0
             public bit VEXDEST4;
 
             [RuleOperand(K.VEXVALID)]
-            public VexKind VEXVALID;
+            public byte VEXVALID;
 
             [RuleOperand(K.ERROR)]
             public ErrorKind ERROR;
@@ -314,7 +306,7 @@ namespace Z0
             [RuleOperand(K.NELEM)]
             public byte NELEM;
 
-            [RuleOperand(K.BCAST)]
+            [RuleOperand(K.BCAST,5)]
             public BCastKind BCAST;
 
             [RuleOperand(K.NEED_MEMDISP, 1)]
@@ -371,71 +363,80 @@ namespace Z0
             [RuleOperand(K.UIMM1, 8)]
             public imm8 UIMM1;
 
-            [RuleOperand(K.BASE0)]
+            [RuleOperand(K.BASE0, 9)]
             public XedRegId BASE0;
 
-            [RuleOperand(K.BASE1)]
+            [RuleOperand(K.BASE1, 9)]
             public XedRegId BASE1;
 
             [RuleOperand(K.ELEMENT_SIZE)]
             public ushort ELEMENT_SIZE;
 
-            [RuleOperand(K.INDEX)]
+            [RuleOperand(K.INDEX, 9)]
             public XedRegId INDEX;
 
             [RuleOperand(K.SCALE)]
             public byte SCALE;
 
-            [RuleOperand(K.OUTREG)]
+            [RuleOperand(K.OUTREG, 9)]
             public XedRegId OUTREG;
 
-            [RuleOperand(K.REG0)]
+            [RuleOperand(K.REG0, 9)]
             public XedRegId REG0;
 
-            [RuleOperand(K.REG1)]
+            [RuleOperand(K.REG1, 9)]
             public XedRegId REG1;
 
-            [RuleOperand(K.REG2)]
+            [RuleOperand(K.REG2, 9)]
             public XedRegId REG2;
 
-            [RuleOperand(K.REG3)]
+            [RuleOperand(K.REG3, 9)]
             public XedRegId REG3;
 
-            [RuleOperand(K.REG4)]
+            [RuleOperand(K.REG4, 9)]
             public XedRegId REG4;
 
-            [RuleOperand(K.REG5)]
+            [RuleOperand(K.REG5, 9)]
             public XedRegId REG5;
 
-            [RuleOperand(K.REG6)]
+            [RuleOperand(K.REG6, 9)]
             public XedRegId REG6;
 
-            [RuleOperand(K.REG7)]
+            [RuleOperand(K.REG7, 9)]
             public XedRegId REG7;
 
-            [RuleOperand(K.REG8)]
+            [RuleOperand(K.REG8, 9)]
             public XedRegId REG8;
 
-            [RuleOperand(K.REG9)]
+            [RuleOperand(K.REG9, 9)]
             public XedRegId REG9;
 
-            [RuleOperand(K.SEG0)]
+            [RuleOperand(K.SEG0, 9)]
             public XedRegId SEG0;
 
-            [RuleOperand(K.SEG1)]
+            [RuleOperand(K.SEG1, 9)]
             public XedRegId SEG1;
 
-            [RuleOperand(K.ICLASS)]
+            [RuleOperand(K.ICLASS, 16)]
             public IClass ICLASS;
 
-            [RuleOperand(K.MEM_WIDTH)]
+            [RuleOperand(K.MEM_WIDTH, 16)]
             public ushort MEM_WIDTH;
 
-            [RuleOperand(K.DISP)]
+            [RuleOperand(K.DISP, 64)]
             public Disp64 DISP;
 
             [RuleOperand(K.NO_RETURN, 1)]
             public bit NO_RETURN;
+
+            [RuleOperand(K.AGEN)]
+            public text31 AGEN;
+
+            [RuleOperand(K.MEM0)]
+            public text31 MEM0;
+
+            [RuleOperand(K.MEM1)]
+            public text31 MEM1;
 
             public static ConstLookup<FieldKind,FieldInfo> fields()
             {
@@ -569,6 +570,7 @@ namespace Z0
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }
 
+
             [MethodImpl(Inline), RuleMacro(M.mod0)]
             public void mod0()
             {
@@ -596,103 +598,103 @@ namespace Z0
             [MethodImpl(Inline), RuleMacro(M.not64)]
             public void not64()
             {
-                MODE = ModeKind.Not64;
+                MODE = (byte)ModeKind.Not64;
             }
 
             [MethodImpl(Inline), RuleMacro(M.mode64)]
             public void mode64()
             {
-                MODE = ModeKind.Mode64;
+                MODE = (byte)ModeKind.Mode64;
             }
 
             [MethodImpl(Inline), RuleMacro(M.mode32)]
             public void mode32()
             {
-                MODE = ModeKind.Mode32;
+                MODE = (byte)ModeKind.Mode32;
             }
 
             [MethodImpl(Inline), RuleMacro(M.mode16)]
             public void mode16()
             {
-                MODE = ModeKind.Mode16;
+                MODE = (byte)ModeKind.Mode16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eanot16)]
             public void eanot16()
             {
-                EASZ = EASZNot16;
+                EASZ = (byte)EASZNot16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eamode16)]
             public void eamode16()
             {
-                EASZ = EASZ16;
+                EASZ = (byte)EASZ16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eamode32)]
             public void eamode32()
             {
-                EASZ = EASZ32;
+                EASZ = (byte)EASZ32;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eamode64)]
             public void eamode64()
             {
-                EASZ = EASZ64;
+                EASZ = (byte)EASZ64;
             }
 
             [MethodImpl(Inline), RuleMacro(M.smode16)]
             public void smode16()
             {
-                SMODE = SMode16;
+                SMODE = (byte)SMode16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.smode32)]
             public void smode32()
             {
-                SMODE = SMode32;
+                SMODE = (byte)SMode32;
             }
 
             [MethodImpl(Inline), RuleMacro(M.smode64)]
             public void smode64()
             {
-                SMODE = SMode64;
+                SMODE = (byte)SMode64;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eosz8)]
             public void eosz8()
             {
-                EOSZ = EOSZ8;
+                EOSZ = (byte)EOSZ8;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eosz16)]
             public void eosz16()
             {
-                EOSZ = EOSZ16;
+                EOSZ = (byte)EOSZ16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eosz32)]
             public void eosz32()
             {
-                EOSZ = EOSZ32;
+                EOSZ = (byte)EOSZ32;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eosz64)]
             public void eosz64()
             {
-                EOSZ = EOSZ64;
+                EOSZ = (byte)EOSZ64;
             }
 
             [MethodImpl(Inline), RuleMacro(M.not_eosz16)]
             public void not_eosz16()
             {
-                EOSZ = EOSZNot16;
+                EOSZ = (byte)EOSZNot16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.eosznot64)]
             public void eosznot64()
             {
-                EOSZ = EOSZNot64;
+                EOSZ = (byte)EOSZNot64;
             }
 
             [MethodImpl(Inline), RuleMacro(M.rex_reqd)]
@@ -810,7 +812,7 @@ namespace Z0
             [MethodImpl(Inline), RuleMacro(M.x66_prefix)]
             public void x66_prefix()
             {
-                EOSZ = EOSZ.EOSZ16;
+                OSZ = (byte)EOSZ16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.nof3_prefix)]
@@ -822,7 +824,7 @@ namespace Z0
             [MethodImpl(Inline), RuleMacro(M.no66_prefix)]
             public void no66_prefix()
             {
-                EOSZ = 0;
+                EOSZ = (byte)EOSZ8;
             }
 
             [MethodImpl(Inline), RuleMacro(M.not_refining)]
@@ -853,7 +855,7 @@ namespace Z0
             public void no_refining_prefix()
             {
                 REP = 0;
-                EOSZ = EOSZ.EOSZ16;
+                EOSZ = (byte)EOSZ16;
             }
 
             [MethodImpl(Inline), RuleMacro(M.osz_refining_prefix)]
@@ -1016,37 +1018,37 @@ namespace Z0
             [MethodImpl(Inline), RuleMacro(M.XOPV)]
             public void XOPV()
             {
-                VEXVALID = VexKind.XOPV;
+                VEXVALID = (byte)VexKind.XOPV;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VL128)]
             public void VL128()
             {
-                VL = 0;
+                VL = (byte)V128;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VL256)]
             public void VL256()
             {
-                VL = V256;
+                VL = (byte)V256;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VL512)]
             public void VL512()
             {
-                VL = V512;
+                VL = (byte)V512;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VV1)]
             public void VV1()
             {
-                VEXVALID = VexKind.VV1;
+                VEXVALID = (byte)VexKind.VV1;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VV0)]
             public void VV0()
             {
-                VEXVALID = VexKind.VV0;
+                VEXVALID = (byte)VexKind.VV0;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VMAP0)]
@@ -1076,25 +1078,25 @@ namespace Z0
             [MethodImpl(Inline), RuleMacro(M.VNP)]
             public void VNP()
             {
-                VEX_PREFIX = V.VNP;
+                VEX_PREFIX = (byte)V.VNP;
             }
 
             [MethodImpl(Inline), RuleMacro(M.V66)]
             public void V66()
             {
-                VEX_PREFIX = V.V66;
+                VEX_PREFIX = (byte)V.V66;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VF2)]
             public void VF2()
             {
-                VEX_PREFIX = V.VF2;
+                VEX_PREFIX = (byte)V.VF2;
             }
 
             [MethodImpl(Inline), RuleMacro(M.VF3)]
             public void VF3()
             {
-                VEX_PREFIX = V.VF3;
+                VEX_PREFIX = (byte)V.VF3;
             }
 
             [MethodImpl(Inline), RuleMacro(M.NOVSR)]
@@ -1161,13 +1163,19 @@ namespace Z0
             [MethodImpl(Inline), RuleMacro(M.VLBAD)]
             public void VLBAD()
             {
-                VL = VectorWidthCode.INVALID;
+                VL = (byte)VectorWidthCode.INVALID;
             }
 
             [MethodImpl(Inline), RuleMacro(M.KVV)]
             public void KVV()
             {
-                VEXVALID = VexKind.KVV;
+                VEXVALID = (byte)VexKind.KVV;
+            }
+
+            [MethodImpl(Inline), RuleMacro(M.EVV)]
+            public void EVV()
+            {
+                VEXVALID = (byte)VexKind.EVV;
             }
 
             [MethodImpl(Inline), RuleMacro(M.NOEVSR)]
@@ -1209,11 +1217,6 @@ namespace Z0
                BCAST = B.BCast_4TO8_64;
             }
 
-            [MethodImpl(Inline), RuleMacro(M.EVV)]
-            public void EVV()
-            {
-                VEXVALID = VexKind.EVV;
-            }
 
             [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_2TO16_32)]
             public void EMX_BROADCAST_2TO16_32()

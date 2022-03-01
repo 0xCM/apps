@@ -242,7 +242,7 @@ namespace Z0
                 break;
 
                 case K.EASZ:
-                    result = DataParser.eparse(src, out state.EASZ);
+                    result = DataParser.parse(src, out state.EASZ);
                 break;
 
                 case K.ELEMENT_SIZE:
@@ -258,7 +258,7 @@ namespace Z0
                 break;
 
                 case K.EOSZ:
-                    result = DataParser.eparse(src, out state.EOSZ);
+                    result = DataParser.parse(src, out state.EOSZ);
                 break;
 
                 case K.ESRC:
@@ -278,7 +278,7 @@ namespace Z0
                 break;
 
                 case K.HINT:
-                    result = DataParser.eparse(src, out state.ICLASS);
+                    result = DataParser.parse(src, out state.HINT);
                 break;
 
                 case K.ICLASS:
@@ -376,7 +376,7 @@ namespace Z0
                 break;
 
                 case K.MODE:
-                    result = DataParser.eparse(src, out state.MODE);
+                    result = DataParser.parse(src, out state.MODE);
                 break;
 
                 case K.MODEP5:
@@ -602,7 +602,7 @@ namespace Z0
                 break;
 
                 case K.SMODE:
-                    result = DataParser.eparse(src, out state.SMODE);
+                    result = DataParser.parse(src, out state.SMODE);
                     break;
 
                 case K.SRM:
@@ -646,7 +646,7 @@ namespace Z0
                 break;
 
                 case K.VEXVALID:
-                    result = DataParser.eparse(src, out state.VEXVALID);
+                    result = DataParser.parse(src, out state.VEXVALID);
                 break;
 
                 case K.VEX_C4:
@@ -654,11 +654,11 @@ namespace Z0
                 break;
 
                 case K.VEX_PREFIX:
-                    result = DataParser.eparse(src, out state.VEX_PREFIX);
+                    result = DataParser.parse(src, out state.VEX_PREFIX);
                 break;
 
                 case K.VL:
-                    result = DataParser.eparse(src, out state.VL);
+                    result = DataParser.parse(src, out state.VL);
                 break;
 
                 case K.WBNOINVD:

@@ -15,7 +15,9 @@ namespace Z0
         public void EmitCatalog()
         {
             var enc = EmitEncInstDefs();
+            //var encrules = EmitEncRulePatterns(enc);
             var dec = EmitDecInstDefs();
+            //var decrules = EmitDecRulePatterns(dec);
             var rules = EmitRulePatterns(enc,dec);
             EmitFieldDefs();
             EmitEncRuleTables();
@@ -23,34 +25,28 @@ namespace Z0
             EmitEncDecRuleTables();
             EmitOperandWidths();
             EmitPointerWidths();
-            EmitOpCodePatterns();
-            EmitOpCodes(rules);
-            EmitOperandEncodings(enc);
-            EmitOperandDecodings(dec);
+            EmitOcMapKind();
+            EmitRuleOpCodes(rules);
+            EmitEncPatternOps(enc);
+            EmitDecPatternOps(dec);
         }
 
-        public void EmitOperandEncodings(ReadOnlySpan<InstDef> src)
-            => EmitOperands(src, XedPaths.RuleTarget(RuleDocKind.OperandEncoding));
+        FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
+            => EmitInstDefs(src, XedPaths.DocTarget(XedDocKind.EncInstDef));
 
-        public void EmitOperandDecodings(ReadOnlySpan<InstDef> src)
-            => EmitOperands(src, XedPaths.RuleTarget(RuleDocKind.OperandDecoding));
+        FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
+            => EmitInstDefs(src, XedPaths.DocTarget(XedDocKind.DecInstDef));
 
-        public FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
-            => EmitInstDefs(src, XedPaths.RuleTarget(RuleDocKind.EncInstDef));
+        FS.FilePath EmitEncRuleTables(ReadOnlySpan<RuleTable> src)
+            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncRuleTable));
 
-        public FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
-            => EmitInstDefs(src, XedPaths.RuleTarget(RuleDocKind.DecInstDef));
+        FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
+            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.DecRuleTable));
 
-        public FS.FilePath EmitEncRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.RuleTarget(RuleDocKind.EncRuleTable));
+        FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
+            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncDecRuleTable));
 
-        public FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.RuleTarget(RuleDocKind.DecRuleTable));
-
-        public FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.RuleTarget(RuleDocKind.EncDecRuleTable));
-
-        public Index<OperandWidth> EmitOperandWidths()
+        Index<OperandWidth> EmitOperandWidths()
         {
             var src = ParseOperandWidths();
             var dst = ProjectDb.TablePath<OperandWidth>("xed");
@@ -58,71 +54,71 @@ namespace Z0
             return src;
         }
 
-        public Index<PointerWidthInfo> EmitPointerWidths()
+        Index<PointerWidthInfo> EmitPointerWidths()
         {
             var src = mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i));
-            var dst = XedPaths.RuleTarget(RuleDocKind.PointerWidths);
+            var dst = XedPaths.DocTarget(XedDocKind.PointerNames);
             TableEmit(src.View, PointerWidthInfo.RenderWidths, dst);
             return src;
         }
 
-        Index<RulePattern> EmitRulePatterns(Index<InstDef> x, Index<InstDef> y)
+        Index<RulePattern> EmitRulePatterns(Index<InstDef> enc, Index<InstDef> dec)
         {
-            var enc = x.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
-            var dec = y.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
-            var count = Require.equal(enc.Count, dec.Count);
-            var patterns = ExtractRulePatterns(x);
-            var path = XedPaths.RuleTarget(RuleDocKind.RulePatterns);
-            TableEmit(patterns.View, RulePattern.RenderWidths, path);
+            // var enc = a.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
+            // var dec = b.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
+            // var count = Require.equal(enc.Count, dec.Count);
+            var patterns = CalcRulePatterns(enc);
+            TableEmit(patterns.View, RulePattern.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
+            TableEmit(CalcRulePatterns(dec).View, RulePattern.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
             return patterns;
         }
 
-        public Index<InstDef> EmitEncInstDefs()
+        Index<InstDef> EmitEncInstDefs()
         {
             var src = ParseEncInstDefs();
             EmitEncInstDefs(src);
             return src;
         }
 
-        public Index<InstDef> EmitDecInstDefs()
+        Index<InstDef> EmitDecInstDefs()
         {
             var src = ParseDecInstDefs();
             EmitDecInstDefs(src);
             return src;
         }
 
-        public Index<RuleTable> EmitEncRuleTables()
+        Index<RuleTable> EmitEncRuleTables()
         {
             var src = ParseEncRuleTables();
             EmitEncRuleTables(src);
             return src;
         }
 
-        public Index<RuleTable> EmitDecRuleTables()
+        Index<RuleTable> EmitDecRuleTables()
         {
             var src = ParseDecRuleTables();
             EmitDecRuleTables(src);
             return src;
         }
 
-        public Index<RuleTable> EmitEncDecRuleTables()
+        Index<RuleTable> EmitEncDecRuleTables()
         {
             var src = ParseEncDecRuleTables();
             EmitEncDecRuleTables(src);
             return src;
         }
 
-        public OpCodePatterns EmitOpCodePatterns()
+        OpCodePatterns EmitOcMapKind()
         {
             var src = DeriveOpCodeMaps();
-            TableEmit(src.Records, OpCodePattern.RenderWidths, XedPaths.RuleTarget(RuleDocKind.OpCodePatterns));
+            TableEmit(src.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodePatterns));
             return src;
         }
 
-        public Index<XedOpCodeRecord> EmitOpCodes(ReadOnlySpan<RulePattern> src)
+        Index<RuleOpCode> EmitRuleOpCodes(ReadOnlySpan<RulePattern> src)
         {
-            var opcodes = ExtractOpCodes(src);
-            TableEmit(opcodes.View, XedOpCodeRecord.RenderWidths, XedPaths.RuleTarget(RuleDocKind.OpCodes));
+            var opcodes = CalcOpCodes(src);
+            TableEmit(opcodes.View, RuleOpCode.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
             return opcodes;
         }
     }

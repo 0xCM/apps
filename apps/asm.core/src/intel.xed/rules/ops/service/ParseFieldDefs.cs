@@ -12,7 +12,7 @@ namespace Z0
     {
         Index<XedFieldDef> ParseFieldDefs()
         {
-            var src = XedPaths.FieldDefSource();
+            var src = XedPaths.DocSource(XedDocKind.Fields);
             var running = Running(string.Format("Parsing {0}", src.ToUri()));
             var dst = list<XedFieldDef>();
             var result = Outcome.Success;

@@ -9,7 +9,6 @@ namespace Z0
     using static core;
     using static XedModels;
     using static XedRules;
-    using static XedModels.RuleStateCalcs;
 
     partial class XedDisasmSvc
     {
@@ -163,10 +162,10 @@ namespace Z0
             dst.Operands = alloc<OperandDetail>(block.OperandCount);
 
             var ocpos = state.POS_NOMINAL_OPCODE;
-            var ocsrm = (uint3)math.and((byte)state.SRM, state.NOMINAL_OPCODE);
+            var ocsrm = math.and((byte)state.SRM, state.NOMINAL_OPCODE);
             Require.equal(state.SRM, ocsrm);
 
-            var ocbits = (eight)(byte)state.NOMINAL_OPCODE;
+            //var ocbits = (byte)state.NOMINAL_OPCODE;
             if(state.NOMINAL_OPCODE != code[ocpos])
             {
                 result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.NOMINAL_OPCODE, state.MODRM_BYTE));
@@ -266,7 +265,7 @@ namespace Z0
                 }
             }
 
-            if(state.VEXVALID == VexKind.VV1)
+            if(state.VEXVALID == (byte)VexKind.VV1)
             {
                 var vexcode = VexPrefix.code(prefix);
                 var vexsize = VexPrefix.size(vexcode.Value);
@@ -280,7 +279,7 @@ namespace Z0
                     dst.Vex = VexPrefix.define(AsmPrefixCodes.VexPrefixKind.xC5,skip(vexbytes, 1));
 
             }
-            else if(state.VEXVALID == VexKind.EVV)
+            else if(state.VEXVALID == (byte)VexKind.EVV)
             {
                 var evexbytes = slice(prefix,legacyskip);
                 dst.Evex = EvexPrefix.define(evexbytes);
@@ -294,8 +293,8 @@ namespace Z0
                 dst.Imm = asm.imm(code, pos, signed, size);
             }
 
-            dst.EASZ = Sizes.native(width(state.EASZ));
-            dst.EOSZ = Sizes.native(width(state.EOSZ));
+            dst.EASZ = Sizes.native(width((EASZ)state.EASZ));
+            dst.EOSZ = Sizes.native(width((EOSZ)state.EOSZ));
 
             var flags = state.Flags().Delimit();
             return result;

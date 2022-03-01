@@ -26,14 +26,14 @@ namespace Z0
         public FS.FolderPath Targets()
             => XedTargets;
 
-        public FS.FilePath FieldDefSource()
-            => XedSources + FS.file("all-fields", FS.Txt);
+        // public FS.FilePath FieldDefSource()
+        //     => XedSources + FS.file("all-fields", FS.Txt);
 
-        public FS.FilePath FormSourcePath()
-            => XedSources + FS.file("xed-idata", FS.Txt);
+        // public FS.FilePath FormSourcePath()
+        //     => XedSources + FS.file("xed-idata", FS.Txt);
 
-        public FS.FilePath ChipSourcePath()
-            => XedSources + FS.file("xed-cdata", FS.Txt);
+        // public FS.FilePath ChipSourcePath()
+        //     => XedSources + FS.file("xed-cdata", FS.Txt);
 
         public FS.FilePath IsaFormsPath(ChipCode chip)
             => XedTargets + FS.folder("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
@@ -47,23 +47,42 @@ namespace Z0
         public FS.FilePath FieldDefsTarget()
             => XedTargets + Tables.filename<XedFieldDef>();
 
-        public FS.FilePath RuleSource(RuleDocKind kind)
-            => Sources() + FS.file(Symbols.format(kind), FS.Txt);
+        // public FS.FilePath RuleSource(RuleDocKind kind)
+        //     => Sources() + FS.file(Symbols.format(kind), FS.Txt);
 
-        public FS.FilePath RuleTarget(RuleDocKind kind)
+
+        public FS.FilePath DocSource(XedDocKind kind)
+            => Sources() + (kind switch{
+                XedDocKind.EncInstDef => FS.file("all-enc-instructions", FS.Txt),
+                XedDocKind.DecInstDef => FS.file("all-dec-instructions", FS.Txt),
+                XedDocKind.EncRuleTable => FS.file("all-enc-patterns", FS.Txt),
+                XedDocKind.DecRuleTable => FS.file("all-dec-patterns", FS.Txt),
+                XedDocKind.EncDecRuleTable => FS.file("all-enc-dec-patterns", FS.Txt),
+                XedDocKind.Widths => FS.file("all-widths", FS.Txt),
+                XedDocKind.PointerNames => FS.file("all-pointer-names", FS.Txt),
+                XedDocKind.Fields => FS.file("all-fields", FS.Txt),
+                XedDocKind.FormData => FS.file("xed-idata", FS.Txt),
+                XedDocKind.ChipData => FS.file("xed-cdata", FS.Txt),
+                _ => FS.FileName.Empty
+            });
+
+
+        public FS.FilePath DocTarget(XedDocKind kind)
             => Targets() + ( kind switch{
-                 RuleDocKind.EncInstDef => FS.file("xed.rules.encoding", FS.Txt),
-                 RuleDocKind.DecInstDef=> FS.file("xed.rules.decoding", FS.Txt),
-                 RuleDocKind.EncRuleTable => FS.file("xed.rules.encoding.tables", FS.Txt),
-                 RuleDocKind.DecRuleTable => FS.file("xed.rules.decoding.tables", FS.Txt),
-                 RuleDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
-                 RuleDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
-                 RuleDocKind.PointerWidths => Tables.filename<PointerWidthInfo>(),
-                 RuleDocKind.RulePatterns => Tables.filename<RulePattern>(),
-                 RuleDocKind.OpCodePatterns => Tables.filename<OpCodePattern>(),
-                 RuleDocKind.OpCodes => Tables.filename<XedOpCodeRecord>(),
-                 RuleDocKind.OperandEncoding =>  FS.file("xed.rules.encoding.operands", FS.Csv),
-                 RuleDocKind.OperandDecoding => FS.file("xed.rules.decoding.operands", FS.Csv),
+                 XedDocKind.EncInstDef => FS.file("xed.rules.enc", FS.Txt),
+                 XedDocKind.DecInstDef=> FS.file("xed.rules.dec", FS.Txt),
+                 XedDocKind.EncRuleTable => FS.file("xed.rules.enc.tables", FS.Txt),
+                 XedDocKind.DecRuleTable => FS.file("xed.rules.dec.tables", FS.Txt),
+                 XedDocKind.EncDecRuleTable => FS.file("xed.rules.encdec.tables", FS.Txt),
+                 XedDocKind.Widths => FS.file("xed.rules.widths", FS.Csv),
+                 XedDocKind.PointerNames => Tables.filename<PointerWidthInfo>(),
+                 XedDocKind.RulePatterns => Tables.filename<RulePattern>(),
+                 XedDocKind.EncRulePatterns => FS.file("xed.rules.enc.patterns", FS.Csv),
+                 XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
+                 XedDocKind.OpCodePatterns => Tables.filename<OcMapKind>(),
+                 XedDocKind.OpCodes => Tables.filename<RuleOpCode>(),
+                 XedDocKind.OperandEncoding =>  FS.file("xed.rules.enc.operands", FS.Csv),
+                 XedDocKind.OperandDecoding => FS.file("xed.rules.dec.operands", FS.Csv),
                  _ => FS.FileName.Empty
             });
     }

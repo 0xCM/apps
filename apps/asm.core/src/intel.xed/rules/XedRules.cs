@@ -12,6 +12,8 @@ namespace Z0
     [ApiHost]
     public partial class XedRules : AppService<XedRules>
     {
+        const NumericKind Closure = UnsignedInts;
+
         Symbols<IClass> Classes;
 
         Symbols<CategoryKind> Categories;
@@ -38,13 +40,10 @@ namespace Z0
 
         Symbols<FieldType> FieldTypes;
 
-        Symbols<FieldKind> OperandKinds;
-
         Symbols<RegFlag> Flags;
 
         Symbols<FlagActionKind> FlagActionKinds;
 
-        Symbols<RuleMacroName> MacroNames;
 
         XedInstDefParser InstDefParser;
 
@@ -62,10 +61,8 @@ namespace Z0
             PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
-            OperandKinds = Symbols.index<FieldKind>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
-            MacroNames = Symbols.index<RuleMacroName>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
             InstDefParser = new(this);
         }
@@ -85,19 +82,19 @@ namespace Z0
             => Data(nameof(LoadOperandWidths), ParseOperandWidths);
 
         public Index<RuleTable> ParseEncRuleTables()
-            => new RuleTableParser().Parse(XedPaths.RuleSource(RuleDocKind.EncRuleTable));
+            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
 
         public Index<RuleTable> ParseDecRuleTables()
-            => new RuleTableParser().Parse(XedPaths.RuleSource(RuleDocKind.DecRuleTable));
+            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable));
 
         public Index<RuleTable> ParseEncDecRuleTables()
-            => new RuleTableParser().Parse(XedPaths.RuleSource(RuleDocKind.EncDecRuleTable));
+            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
 
         public Index<InstDef> ParseEncInstDefs()
-            => ParseInstDefs(XedPaths.RuleSource(RuleDocKind.EncInstDef));
+            => ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef));
 
         public Index<InstDef> ParseDecInstDefs()
-            => ParseInstDefs(XedPaths.RuleSource(RuleDocKind.DecInstDef));
+            => ParseInstDefs(XedPaths.DocSource(XedDocKind.DecInstDef));
 
         public ReadOnlySpan<NonterminalKind> NonterminalKinds()
             => Symbols.index<NonterminalKind>().Kinds;
@@ -163,44 +160,14 @@ namespace Z0
             }
         }
 
-        void EmitOperands(ReadOnlySpan<InstDef> defs, FS.FilePath dst)
+        static Symbols<FieldKind> FieldKinds;
+
+        static Symbols<RuleMacroName> MacroNames;
+
+        static XedRules()
         {
-            var emitting = EmittingFile(dst);
-            using var writer = dst.AsciWriter();
-            var count = defs.Length;
-            var buffer = text.buffer();
-            var counter = 0u;
-            var ockinds = Symbols.index<OpCodeKind>();
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var def = ref defs[i];
-
-                var ops = def.PatternSpecs;
-                var patterns = ExtractRulePatterns(def);
-                var k = ops.Count;
-                Require.equal(patterns.Count, k);
-                for(var j=0; j<k; j++)
-                {
-                    ref readonly var op = ref ops[j];
-                    ref readonly var pattern = ref patterns[j];
-                    var oc = opcode(pattern);
-
-                    ockinds.MapKind(oc.Kind, out var sym);
-                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.PatternExpr));
-                    counter++;
-
-                    var specs = op.PatternOps;
-                    var m = specs.Count;
-                    for(var q=0; q<m; q++)
-                    {
-                        ref readonly var spec = ref specs[q];
-                        writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, q, spec.Name, spec.Kind, spec.Expression));
-                        counter++;
-                    }
-                }
-            }
-
-            EmittedFile(emitting,counter);
+            FieldKinds = Symbols.index<FieldKind>();
+            MacroNames = Symbols.index<RuleMacroName>();
         }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

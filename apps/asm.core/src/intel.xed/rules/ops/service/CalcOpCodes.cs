@@ -7,25 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        const string xed = "xed";
-
-        [SymSource(xed)]
-        public enum RuleOperator
-        {
-            [Symbol("")]
-            None,
-
-            [Symbol("=")]
-            Eq,
-
-            [Symbol("!=")]
-            Neq,
-
-            [Symbol(":=")]
-            Assign,
-
-            [Symbol("()")]
-            Call,
-        }
+        public Index<RuleOpCode> CalcOpCodes(ReadOnlySpan<RulePattern> src)
+            => XedOpCodeParser.create().Parse(src);
     }
 }

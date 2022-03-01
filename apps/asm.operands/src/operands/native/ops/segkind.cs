@@ -28,7 +28,7 @@ namespace Z0
                             ID.I8 => SK.Seg16x8i,
                             ID.I16 => SK.Seg16i,
                             ID.U16 => SK.Seg16u,
-                            _ => SK.None
+                            _ => SK.Void
                             },
 
                         TW.W32 =>
@@ -40,7 +40,7 @@ namespace Z0
                             ID.I32 => SK.Seg32i,
                             ID.U32 => SK.Seg32u,
                             ID.F32 => SK.Seg32f,
-                            _ => SK.None
+                            _ => SK.Void
                             },
 
                         TW.W64 =>
@@ -55,7 +55,7 @@ namespace Z0
                             ID.I64 => SK.Seg64i,
                             ID.F32 => SK.Seg64x32f,
                             ID.F64 => SK.Seg64f,
-                            _ => SK.None
+                            _ => SK.Void
                             },
 
                         TW.W128 =>
@@ -70,7 +70,7 @@ namespace Z0
                             ID.I64 => SK.Seg128x64i,
                             ID.F32 => SK.Seg128x32f,
                             ID.F64 => SK.Seg128x64f,
-                            _ => SK.None
+                            _ => SK.Void
                             },
 
                         TW.W256 =>
@@ -85,7 +85,7 @@ namespace Z0
                             ID.I64 => SK.Seg256x64i,
                             ID.F32 => SK.Seg256x32f,
                             ID.F64 => SK.Seg256x64f,
-                            _ => SK.None
+                            _ => SK.Void
                             },
 
                         TW.W512 =>
@@ -100,10 +100,10 @@ namespace Z0
                             ID.I64 => SK.Seg512x64i,
                             ID.F32 => SK.Seg512x32f,
                             ID.F64 => SK.Seg512x64f,
-                            _ => SK.None
+                            _ => SK.Void
                             },
 
-                        _ => SK.None
+                        _ => SK.Void
                     };
 
             return k;
@@ -127,7 +127,7 @@ namespace Z0
             else if(typeof(W) == typeof(W512))
                 return segkind<T>(default(W512));
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
 
         [MethodImpl(Inline)]
@@ -181,7 +181,7 @@ namespace Z0
             else if(typeof(T) == typeof(short))
                 return NativeSegKind.Seg16i;
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
 
         [MethodImpl(Inline)]
@@ -219,7 +219,7 @@ namespace Z0
             if(typeof(T) == typeof(float))
                 return NativeSegKind.Seg32f;
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
 
         [MethodImpl(Inline)]
@@ -263,7 +263,7 @@ namespace Z0
             else if(typeof(T) == typeof(double))
                 return NativeSegKind.Seg64f;
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
 
         [MethodImpl(Inline)]
@@ -307,7 +307,7 @@ namespace Z0
             else if(typeof(T) == typeof(double))
                 return NativeSegKind.Seg128x64f;
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
 
         [MethodImpl(Inline)]
@@ -351,7 +351,7 @@ namespace Z0
             else if(typeof(T) == typeof(double))
                 return NativeSegKind.Seg256x64f;
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
 
         [MethodImpl(Inline)]
@@ -395,7 +395,7 @@ namespace Z0
             else if(typeof(T) == typeof(double))
                 return NativeSegKind.Seg512x64f;
             else
-                return NativeSegKind.None;
+                return NativeSegKind.Void;
         }
     }
 }

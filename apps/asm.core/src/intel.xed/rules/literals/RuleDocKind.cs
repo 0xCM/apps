@@ -5,43 +5,42 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    [SymSource("xed")]
+    public enum XedDocKind : byte
     {
-        const string xed = "xed.rules";
+        EncInstDef,
 
-        [SymSource(xed)]
-        public enum RuleDocKind : byte
-        {
-            [Symbol("all-enc-instructions")]
-            EncInstDef,
+        DecInstDef,
 
-            [Symbol("all-dec-instructions")]
-            DecInstDef,
+        EncRuleTable,
 
-            [Symbol("all-enc-patterns")]
-            EncRuleTable,
+        DecRuleTable,
 
-            [Symbol("all-dec-patterns")]
-            DecRuleTable,
+        EncDecRuleTable,
 
-            [Symbol("all-enc-dec-patterns")]
-            EncDecRuleTable,
+        Widths,
 
-            [Symbol("all-widths")]
-            Widths,
+        PointerNames,
 
-            [Symbol("all-pointer-names")]
-            PointerWidths,
+        Fields,
 
-            RulePatterns,
+        FormData,
 
-            OpCodePatterns,
+        ChipData,
 
-            OpCodes,
+        RulePatterns,
 
-            OperandEncoding,
+        EncRulePatterns,
 
-            OperandDecoding
-        }
+        DecRulePatterns,
+
+        OpCodePatterns,
+
+        OpCodes,
+
+        OperandEncoding,
+
+        OperandDecoding
     }
+
 }

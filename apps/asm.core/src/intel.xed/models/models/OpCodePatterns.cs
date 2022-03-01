@@ -11,20 +11,20 @@ namespace Z0
     {
         public class OpCodePatterns
         {
-            Index<OpCodePattern> Data;
+            Index<OcMapKind> Data;
 
             public OpCodePatterns()
             {
                 Data = derive();
             }
 
-            public ReadOnlySpan<OpCodePattern> Records
+            public ReadOnlySpan<OcMapKind> Records
             {
                 [MethodImpl(Inline)]
                 get => Data;
             }
 
-            static Index<OpCodePattern> derive()
+            static Index<OcMapKind> derive()
             {
                 var counter = z8;
                 var count = 0u;
@@ -34,7 +34,7 @@ namespace Z0
                 var evex = Symbols.index<EvexMapKind>();
 
                 var counts = legacy.Count + xop.Count + vex.Count + evex.Count;
-                var buffer = alloc<OpCodePattern>(counts);
+                var buffer = alloc<OcMapKind>(counts);
 
                 count = legacy.Count;
                 for(var i=0u; i<count; i++)

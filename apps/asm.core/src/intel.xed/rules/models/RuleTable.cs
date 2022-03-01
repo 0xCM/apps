@@ -13,14 +13,15 @@ namespace Z0
         {
             public Identifier Name;
 
-            public RuleTableKind Kind;
-
             public Identifier ReturnType;
 
-            public DataList<XedRuleExpr> Expressions;
+            public Index<XedRuleExpr> Expressions;
+
+            public RuleSig Sig
+                => sig(this);
 
             public string Format()
-                => XedRules.format(this);
+                => format(this);
 
             public override string ToString()
                 => Format();
@@ -31,9 +32,8 @@ namespace Z0
                 {
                     var dst = default(RuleTable);
                     dst.Name = Identifier.Empty;
-                    dst.Kind = 0;
                     dst.ReturnType = Identifier.Empty;
-                    dst.Expressions = new();
+                    dst.Expressions = sys.empty<XedRuleExpr>();
                     return dst;
                 }
             }

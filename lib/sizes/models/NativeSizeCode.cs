@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    [SymSource]
+    [SymSource, DataWidth(3)]
     public enum NativeSizeCode : byte
     {
         /// <summary>
@@ -54,7 +54,5 @@ namespace Z0
         ///</summary>
         [Symbol("w80", "Indicates a bit-width of 80")]
         W80 = 7,
-
-        Unknown = 0xFF,
     }
 }

@@ -5,15 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
-        public enum RuleTableKind : byte
-        {
-            None,
-
-            Encoding,
-
-            Decoding
-        }
+        public Index<RulePattern> CalcDecPatterns()
+            => CalcRulePatterns(ParseDecInstDefs());
     }
 }

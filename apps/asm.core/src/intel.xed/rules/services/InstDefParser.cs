@@ -160,7 +160,7 @@ namespace Z0
                     dst = RuleTokenKind.HexLiteral;
                 else if(text.ends(src, "()"))
                     dst = RuleTokenKind.Nonterminal;
-                else if(Rules.MacroNames.Lookup(src, out _))
+                else if(MacroNames.Lookup(src, out _))
                     dst = RuleTokenKind.Macro;
                 return dst;
             }

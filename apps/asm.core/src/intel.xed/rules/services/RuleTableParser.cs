@@ -8,7 +8,6 @@ namespace Z0
     using static core;
     using static Root;
 
-
     using EK = XedRules.RuleFormKind;
 
     partial class XedRules
@@ -27,6 +26,7 @@ namespace Z0
 
             TextLine Line;
 
+            HashSet<string> Skip;
             public RuleTableParser()
             {
                 OperandKinds = Symbols.index<FieldKind>();
@@ -35,6 +35,7 @@ namespace Z0
                 Tables = new();
                 Line = TextLine.Empty;
                 Kind = 0;
+                Skip = hashset("VEXED_REX");
             }
 
             Outcome ParseNext()
@@ -96,6 +97,7 @@ namespace Z0
                     var fv = EmptyString;
                     var j = text.index(spec, Chars.Eq);
                     var k = text.index(spec, "!=");
+                    var m = text.index(spec, "()");
                     var name = EmptyString;
 
                     if(k >= 0)
@@ -104,18 +106,24 @@ namespace Z0
                         name = text.left(spec,k);
                         fv = text.right(spec,k + "!=".Length + 1);
                     }
-                    else if(j >=0)
+                    else if(j >=0 )
                     {
                         op = RuleOperator.Eq;
                         name = text.left(spec,j);
                         fv = text.right(spec,j);
+                    }
+                    else if(m >= 0)
+                    {
+                        op = RuleOperator.Call;
+                        fv = text.left(spec,m);
                     }
                     else
                     {
                         fv = spec;
                     }
 
-                    if(nonempty(name))
+
+                    if(nonempty(name) && op != RuleOperator.Call)
                     {
                         if(name.Equals("REXW[w]"))
                             fk = FieldKind.REXW;
@@ -160,12 +168,13 @@ namespace Z0
                 if(nonempty(consequent))
                     right = ParseRuleCriteria(consequent);
 
-                return new XedRuleExpr(kind, premise, consequent, left, right);
+                return new XedRuleExpr(kind, left, right);
             }
 
             Outcome ParseRuleDeclTerms()
             {
                 var result = Outcome.Success;
+                var expressions = list<XedRuleExpr>();
                 while(Reader.Next(out Line))
                 {
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
@@ -181,7 +190,8 @@ namespace Z0
                     {
                         parts = text.split(content, EncStepMarker).Map(x => x.Trim());
                         if(parts.Length == 2)
-                            Table.Expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
+                            expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
+                            //Table.Expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
                         else
                         {
                             result = (false, StepParseFailed.Format(content));
@@ -192,9 +202,11 @@ namespace Z0
                     {
                         parts = text.split(content, DecStepMarker).Map(x => x.Trim());
                         if(parts.Length == 1)
-                            Table.Expressions.Add(CreateRuleExpr(Kind, parts[0]));
+                            expressions.Add(CreateRuleExpr(Kind, parts[0]));
+                            //Table.Expressions.Add(CreateRuleExpr(Kind, parts[0]));
                         else if(parts.Length == 2)
-                            Table.Expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
+                            expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
+                            //Table.Expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
                         else
                         {
                             result = (false, StepParseFailed.Format(content));
@@ -205,6 +217,9 @@ namespace Z0
                         break;
 
                 }
+
+                if(result)
+                    Table.Expressions = expressions.ToArray();
                 return result;
             }
 
@@ -213,19 +228,29 @@ namespace Z0
                 var result = Outcome.Success;
                 var ruledecl = text.trim(text.left(Line.Content, RuleDeclMarker));
                 var i = text.index(ruledecl, Chars.Space);
+                var name = EmptyString;
+                var ret = EmptyString;
                 if(i > 0)
                 {
-                    Table.Name = text.right(ruledecl,i);
-                    Table.ReturnType = text.left(ruledecl,i);
+                    name = text.right(ruledecl,i);
+                    ret = text.left(ruledecl,i);
                 }
                 else
-                {
-                    Table.Name = ruledecl;
-                    Table.ReturnType = EmptyString;
-                }
+                    name = ruledecl;
+
                 result = ParseRuleDeclTerms();
+
+                if(Skip.Contains(name))
+                {
+                    Table = RuleTable.Empty;
+                    return true;
+                }
+
                 if(result.Fail)
                     return result;
+
+                Table.Name = name;
+                Table.ReturnType = ret;
                 Tables.Add(Table);
                 Table = RuleTable.Empty;
                 return result;

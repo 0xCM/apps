@@ -176,7 +176,7 @@ namespace Z0.Asm
             C5 = 0xC5,
         }
 
-        [SymSource(HostName)]
+        [SymSource(HostName), DataWidth(3)]
         public enum VectorWidthCode : byte
         {
             [Symbol("V128", "VL=0")]
@@ -191,7 +191,7 @@ namespace Z0.Asm
             INVALID = 3,
         }
 
-        [SymSource(HostName)]
+        [SymSource(HostName), DataWidth(3)]
         public enum EvexWidthCode
         {
             [Symbol("V128", "VL=0")]
@@ -207,7 +207,7 @@ namespace Z0.Asm
         /// <summary>
         /// Defines REX field identifiers
         /// </summary>
-        [SymSource(HostName)]
+        [SymSource(HostName), DataWidth(3)]
         public enum RexFieldIndex : byte
         {
             [Symbol("b")]

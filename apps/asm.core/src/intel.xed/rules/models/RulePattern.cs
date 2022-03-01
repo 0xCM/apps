@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         [Record(TableId)]
         public struct RulePattern : IEquatable<RulePattern>, IComparable<RulePattern>
