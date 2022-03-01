@@ -5,11 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using System;
+
     using static XedModels;
+    using static core;
 
     partial class XedRules
     {
-        Index<InstDef> ParseInstDefs(FS.FilePath src)
-            => InstDefParser.ParseInstDefs(src);
+        OpCodeKinds EmitOpCodeKinds()
+        {
+            var src = CalcOpCodeKinds();
+            TableEmit(src.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodeKinds));
+            return src;
+        }
     }
 }

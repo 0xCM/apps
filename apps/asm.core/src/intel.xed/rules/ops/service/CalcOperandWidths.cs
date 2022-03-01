@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<OperandWidth> ParseOperandWidths()
+        public Index<OperandWidth> CalcOperandWidths()
         {
             var buffer = list<OperandWidth>();
             var src = XedPaths.DocSource(XedDocKind.Widths);

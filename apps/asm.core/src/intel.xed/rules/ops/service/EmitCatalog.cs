@@ -15,9 +15,7 @@ namespace Z0
         public void EmitCatalog()
         {
             var enc = EmitEncInstDefs();
-            //var encrules = EmitEncRulePatterns(enc);
             var dec = EmitDecInstDefs();
-            //var decrules = EmitDecRulePatterns(dec);
             var rules = EmitRulePatterns(enc,dec);
             EmitFieldDefs();
             EmitEncRuleTables();
@@ -25,30 +23,17 @@ namespace Z0
             EmitEncDecRuleTables();
             EmitOperandWidths();
             EmitPointerWidths();
-            EmitOcMapKind();
+            EmitOpCodeKinds();
+            EmitMacroAssignments();
+            EmitRuleFields();
             EmitRuleOpCodes(rules);
             EmitEncPatternOps(enc);
             EmitDecPatternOps(dec);
         }
 
-        FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
-            => EmitInstDefs(src, XedPaths.DocTarget(XedDocKind.EncInstDef));
-
-        FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
-            => EmitInstDefs(src, XedPaths.DocTarget(XedDocKind.DecInstDef));
-
-        FS.FilePath EmitEncRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncRuleTable));
-
-        FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.DecRuleTable));
-
-        FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncDecRuleTable));
-
         Index<OperandWidth> EmitOperandWidths()
         {
-            var src = ParseOperandWidths();
+            var src = CalcOperandWidths();
             var dst = ProjectDb.TablePath<OperandWidth>("xed");
             TableEmit(src.View,dst);
             return src;
@@ -57,7 +42,7 @@ namespace Z0
         Index<PointerWidthInfo> EmitPointerWidths()
         {
             var src = mapi(PointerWidths.Where(x => x.Kind != 0), (i,w) => w.ToRecord((byte)i));
-            var dst = XedPaths.DocTarget(XedDocKind.PointerNames);
+            var dst = XedPaths.DocTarget(XedDocKind.PointerWidths);
             TableEmit(src.View, PointerWidthInfo.RenderWidths, dst);
             return src;
         }
@@ -71,48 +56,6 @@ namespace Z0
             TableEmit(patterns.View, RulePattern.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
             TableEmit(CalcRulePatterns(dec).View, RulePattern.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
             return patterns;
-        }
-
-        Index<InstDef> EmitEncInstDefs()
-        {
-            var src = ParseEncInstDefs();
-            EmitEncInstDefs(src);
-            return src;
-        }
-
-        Index<InstDef> EmitDecInstDefs()
-        {
-            var src = ParseDecInstDefs();
-            EmitDecInstDefs(src);
-            return src;
-        }
-
-        Index<RuleTable> EmitEncRuleTables()
-        {
-            var src = ParseEncRuleTables();
-            EmitEncRuleTables(src);
-            return src;
-        }
-
-        Index<RuleTable> EmitDecRuleTables()
-        {
-            var src = ParseDecRuleTables();
-            EmitDecRuleTables(src);
-            return src;
-        }
-
-        Index<RuleTable> EmitEncDecRuleTables()
-        {
-            var src = ParseEncDecRuleTables();
-            EmitEncDecRuleTables(src);
-            return src;
-        }
-
-        OpCodePatterns EmitOcMapKind()
-        {
-            var src = DeriveOpCodeMaps();
-            TableEmit(src.Records, OcMapKind.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodePatterns));
-            return src;
         }
 
         Index<RuleOpCode> EmitRuleOpCodes(ReadOnlySpan<RulePattern> src)

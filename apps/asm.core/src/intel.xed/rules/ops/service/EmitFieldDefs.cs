@@ -11,16 +11,12 @@ namespace Z0
     {
         public Index<XedFieldDef> EmitFieldDefs()
         {
-            var src = ParseFieldDefs();
+            var src = CalcFieldDefs();
             EmitFieldDefs(src);
             return src;
         }
 
-        public FS.FilePath EmitFieldDefs(ReadOnlySpan<XedFieldDef> src)
-        {
-            var dst = XedPaths.FieldDefsTarget();
-            TableEmit(src, XedFieldDef.RenderWidths, dst);
-            return dst;
-        }
+        public void EmitFieldDefs(ReadOnlySpan<XedFieldDef> src)
+            => TableEmit(src, XedFieldDef.RenderWidths, XedPaths.FieldDefsTarget());
     }
 }

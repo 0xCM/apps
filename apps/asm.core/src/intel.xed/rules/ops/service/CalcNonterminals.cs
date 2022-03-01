@@ -7,12 +7,11 @@ namespace Z0
 {
     using System;
 
-    using static XedModels;
     using static core;
 
     partial class XedRules
     {
-        public Index<NonterminalRule> Nonterminals(ReadOnlySpan<RuleTable> src)
+        public Index<NonterminalRule> CalcNonterminals(ReadOnlySpan<RuleTable> src)
         {
             var nonterms = NonterminalKinds().Map(x => (x.ToString(),x)).ToDictionary();
             var count = src.Length;
@@ -27,7 +26,7 @@ namespace Z0
             return buffer.ToArray();
         }
 
-        public Index<TerminalRule> Terminals(ReadOnlySpan<RuleTable> src)
+        public Index<TerminalRule> CalcTerminals(ReadOnlySpan<RuleTable> src)
         {
             var nonterms = NonterminalKinds().Map(x => (x.ToString(),x)).ToDictionary();
             var count = src.Length;

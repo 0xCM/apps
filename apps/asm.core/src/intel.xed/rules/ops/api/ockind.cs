@@ -5,10 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
     using static XedModels.OpCodeKind;
     using static XedModels;
+
     using OCP = XedModels.OcPatternNames;
 
     partial class XedRules
@@ -17,8 +16,6 @@ namespace Z0
         {
             var content = rule;
             var i = NotFound;
-            var identity = OpCodeKind.None;
-
             i = text.index(content, OCP.VexMapClass);
             if(i >= 0)
             {

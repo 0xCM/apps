@@ -7,7 +7,15 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<RulePattern> CalcDecPatterns()
-            => CalcRulePatterns(ParseDecInstDefs());
+        public enum RuleSetKind : byte
+        {
+            None = 0,
+
+            Enc = 1,
+
+            Dec = 2,
+
+            EncDec = 3,
+        }
     }
 }

@@ -5,26 +5,26 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
 
     partial class XedRules
     {
-        internal static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
+        internal static string format(in MacroSpec src)
         {
-            var count = src.Length;
-
+            var dst = text.buffer();
+            dst.AppendFormat("{0} -> ", MacroNames[src.Name].Expr);
+            var assignments = src.Assignments;
+            var count = assignments.Count;
             for(var i=0; i<count; i++)
             {
-                if(i != 0)
-                    dst.Append(" && ");
-                ref readonly var c = ref skip(src,i);
-                dst.Append(c.Format());
-            }
-        }
+                ref readonly var a = ref assignments[i];
+                if(i!=0)
+                    dst.Append(Chars.Space);
 
-        internal static RuleSig sig(in RuleTable src)
-            => new RuleSig(src.Name, src.ReturnType.IsNonEmpty ? src.ReturnType.Text : "void");
+                dst.Append(a.Format());
+            }
+            return dst.Emit();
+        }
 
         internal static string format(in RuleTable src)
         {
@@ -47,6 +47,18 @@ namespace Z0
             dst.Append(sep);
             render(src.Consequent, dst);
             return dst.Emit();
+        }
+
+        static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)
+        {
+            var count = src.Length;
+            for(var i=0; i<count; i++)
+            {
+                if(i != 0)
+                    dst.Append(" && ");
+                ref readonly var c = ref skip(src,i);
+                dst.Append(c.Format());
+            }
         }
     }
 }

@@ -9,6 +9,12 @@ namespace Z0
 
     partial class XedRules
     {
+        public Index<RulePattern> CalcDecPatterns()
+            => CalcRulePatterns(CalcDecInstDefs());
+
+        public Index<RulePattern> CalcEncPatterns()
+            => CalcRulePatterns(CalcEncInstDefs());
+
         public Index<RulePattern> CalcRulePatterns(ReadOnlySpan<InstDef> src)
         {
             var buffer = hashset<RulePattern>();
@@ -71,5 +77,5 @@ namespace Z0
             }
             return buffer.ToArray();
         }
-    }
+   }
 }

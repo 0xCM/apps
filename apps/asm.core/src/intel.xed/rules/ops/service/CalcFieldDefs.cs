@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        Index<XedFieldDef> ParseFieldDefs()
+        Index<XedFieldDef> CalcFieldDefs()
         {
             var src = XedPaths.DocSource(XedDocKind.Fields);
             var running = Running(string.Format("Parsing {0}", src.ToUri()));

@@ -33,6 +33,16 @@ namespace Z0
         public FS.FilePath ApiPath(string scope, string name, FileKind kind)
             => ApiPath(scope,name, kind.Ext());
 
+        public FS.FolderPath Xed()
+            => Root + FS.folder("xed");
+
+        public FS.FilePath XedTable<T>()
+            where T : struct
+                => Xed() + Tables.filename<T>();
+
+        public FS.FilePath XedPath(string name, FileKind kind)
+            => Xed() + FS.file(name, kind.Ext());
+
         public FS.FolderPath CgStage()
             => Root + FS.folder("cgstage");
 

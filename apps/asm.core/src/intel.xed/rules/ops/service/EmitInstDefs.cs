@@ -10,6 +10,26 @@ namespace Z0
 
     partial class XedRules
     {
+        Index<InstDef> EmitEncInstDefs()
+        {
+            var src = CalcEncInstDefs();
+            EmitEncInstDefs(src);
+            return src;
+        }
+
+        Index<InstDef> EmitDecInstDefs()
+        {
+            var src = CalcDecInstDefs();
+            EmitDecInstDefs(src);
+            return src;
+        }
+
+        FS.FilePath EmitEncInstDefs(ReadOnlySpan<InstDef> src)
+            => EmitInstDefs(src, XedPaths.DocTarget(XedDocKind.EncInstDef));
+
+        FS.FilePath EmitDecInstDefs(ReadOnlySpan<InstDef> src)
+            => EmitInstDefs(src, XedPaths.DocTarget(XedDocKind.DecInstDef));
+
         FS.FilePath EmitInstDefs(ReadOnlySpan<InstDef> src, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);

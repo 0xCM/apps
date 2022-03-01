@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
     using static Root;
 
@@ -95,13 +94,13 @@ namespace Z0
                                             Rules.ParseExtension(value, out dst.Extension);
                                         break;
                                         case P.Flags:
-                                            dst.Flags = Rules.ParseFlagActions(value);
+                                            dst.Flags = Rules.CalcFlagActions(value);
                                         break;
                                         case P.IClass:
                                             Rules.ParseIClass(value, out dst.Class);
                                         break;
                                         case P.Operands:
-                                            result = Rules.ParseOperands(value, out var ops);
+                                            result = Rules.CalcOperands(value, out var ops);
                                             if(result)
                                             {
                                                 operands.Add(new InstPatternSpec(pattern, ops));

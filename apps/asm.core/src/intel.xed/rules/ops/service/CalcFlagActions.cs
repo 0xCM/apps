@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        Index<FlagAction> ParseFlagActions(string src)
+        Index<FlagAction> CalcFlagActions(string src)
         {
             var i = text.index(src,Chars.LBracket);
             var j = text.index(src,Chars.RBracket);

@@ -14,13 +14,17 @@ namespace Z0
 
         EncRuleTable,
 
+        DecRulePatterns,
+
         DecRuleTable,
+
+        EncRulePatterns,
 
         EncDecRuleTable,
 
         Widths,
 
-        PointerNames,
+        PointerWidths,
 
         Fields,
 
@@ -28,13 +32,7 @@ namespace Z0
 
         ChipData,
 
-        RulePatterns,
-
-        EncRulePatterns,
-
-        DecRulePatterns,
-
-        OpCodePatterns,
+        OpCodeKinds,
 
         OpCodes,
 

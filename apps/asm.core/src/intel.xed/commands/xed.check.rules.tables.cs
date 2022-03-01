@@ -5,81 +5,68 @@
 namespace Z0
 {
     using System.Linq;
+
     using static core;
     using static XedModels;
     using static XedRules;
 
     partial class XedCmdProvider
     {
+        WsProjects Projects => Service(Wf.WsProjects);
+
+        AppDb AppDb => Service(Wf.AppDb);
+
+        [CmdOp("xed/check/fields")]
+        Outcome CheckFields(CmdArgs args)
+        {
+            var src = RuleState.specs();
+            TableEmit(src.View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
+            return true;
+        }
+
         [CmdOp("xed/check/rules/tables")]
         Outcome CheckRuleTables(CmdArgs args)
         {
-            var encrules = Xed.Rules.ParseEncRuleTables();
+            var encrules = Xed.Rules.CalcEncRuleTables();
             var encnames = RuleNames(encrules).ToHashSet();
             var calls = Calls(encrules);
             iter(calls, call => Write(call));
-
-            var decrules = Xed.Rules.ParseDecRuleTables();
+            var decrules = Xed.Rules.CalcDecRuleTables();
             var decnames = RuleNames(decrules);
             return true;
         }
 
-        Symbols<RuleMacroName> MacroNames {get;} = Symbols.index<RuleMacroName>();
-
-
-        [CmdOp("xed/check/macros")]
-        Outcome CheckRuleMacros(CmdArgs args)
+        void ShowTableMacros(Index<RuleTable> tables)
         {
-
-            return true;
-
-        }
-
-        void ExpandMacros(Index<RuleTable> src)
-        {
-            var count = src.Count;
+            var count = tables.Count;
             for(var i=0; i<count; i++)
             {
-                ref var table = ref src[i];
-                ExpandMacros(ref table);
+                ref readonly var table = ref tables[i];
+                ref readonly var expressions = ref table.Expressions;
+                for(var j=0; j<expressions.Count; j++)
+                {
+                    ref readonly var expr = ref expressions[j];
+                    ref readonly var premise = ref expr.Premise;
+                    ref readonly var consequent = ref expr.Consequent;
+                    for(var k0 = 0; k0<premise.Count; k0++)
+                    {
+                        ref readonly var p = ref premise[k0];
+                        if(p.Value.Contains("macro<"))
+                        {
+                            Write(string.Format("premise: {0}", p));
+                        }
+                    }
+
+                    for(var k1 = 0; k1<consequent.Count; k1++)
+                    {
+                        ref readonly var c = ref consequent[k1];
+                        if(c.Value.Contains("macro<"))
+                        {
+                            Write(string.Format("consequent: {0}", c));
+                        }
+                    }
+                }
             }
-        }
-
-        void ExpandMacros(ref RuleTable src)
-        {
-            ref var expressions = ref src.Expressions;
-            var count = expressions.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref var expr = ref expressions[i];
-                ExpandMacros(ref expr);
-            }
-        }
-
-        void ExpandMacros(ref XedRuleExpr src)
-        {
-            ExpandMacros(src.Premise);
-            ExpandMacros(src.Consequent);
-        }
-
-        void ExpandMacros(Index<RuleCriterion> src)
-        {
-            var count = src.Count;
-            for(var i=0; i<count; i++)
-            {
-                ref var c = ref src[i];
-                ExpandMacros(ref c);
-            }
-
-        }
-
-        void ExpandMacros(ref RuleCriterion src)
-        {
-            if(MacroNames.Lookup(src.Value, out var name))
-            {
-
-            }
-
         }
 
         Index<string> RuleNames(Index<RuleTable> src)

@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Sources     : all-map-descriptions.txt
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -9,11 +9,11 @@ namespace Z0
 
     partial struct XedModels
     {
-        public class OpCodePatterns
+        public class OpCodeKinds
         {
             Index<OcMapKind> Data;
 
-            public OpCodePatterns()
+            public OpCodeKinds()
             {
                 Data = derive();
             }

@@ -118,7 +118,7 @@ namespace Z0
 
             lock_prefix,
 
-            no_lock_prefix,
+            nolock_prefix,
 
             default_ds,
 

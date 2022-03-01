@@ -5,16 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
 
     partial class XedRules
     {
-        public Outcome LoadRulePatterns(out Index<RulePattern> dst)
+        public Index<RulePattern> LoadEncRulePatterns()
         {
             const byte FieldCount = RulePattern.FieldCount;
             var result = Outcome.Success;
-            var path = XedPaths.DocTarget(XedDocKind.RulePatterns);
+            var path = XedPaths.DocTarget(XedDocKind.EncRulePatterns);
             var src = path.ReadLines();
             var buffer = list<RulePattern>();
 
@@ -43,12 +42,11 @@ namespace Z0
             }
 
             path.ReadLines(Next);
-            if(result)
-                dst = buffer.ToArray();
-            else
-                dst = sys.empty<RulePattern>();
+            var dst = result ? buffer.ToArray() : sys.empty<RulePattern>();
+            if(result.Fail)
+                Errors.Throw(result.Message);
 
-            return result;
+            return dst;
         }
     }
 }

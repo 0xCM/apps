@@ -191,7 +191,6 @@ namespace Z0
                         parts = text.split(content, EncStepMarker).Map(x => x.Trim());
                         if(parts.Length == 2)
                             expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
-                            //Table.Expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
                         else
                         {
                             result = (false, StepParseFailed.Format(content));
@@ -203,10 +202,8 @@ namespace Z0
                         parts = text.split(content, DecStepMarker).Map(x => x.Trim());
                         if(parts.Length == 1)
                             expressions.Add(CreateRuleExpr(Kind, parts[0]));
-                            //Table.Expressions.Add(CreateRuleExpr(Kind, parts[0]));
                         else if(parts.Length == 2)
                             expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
-                            //Table.Expressions.Add(CreateRuleExpr(Kind, parts[0], parts[1]));
                         else
                         {
                             result = (false, StepParseFailed.Format(content));

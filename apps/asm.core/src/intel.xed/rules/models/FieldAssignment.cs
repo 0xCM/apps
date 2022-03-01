@@ -13,13 +13,13 @@ namespace Z0
         {
             public readonly FieldKind Field;
 
-            readonly ulong Data;
+            public readonly ulong Value;
 
             [MethodImpl(Inline)]
             public FieldAssignment(FieldKind field, ulong data)
             {
                 Field = field;
-                Data = data;
+                Value = data;
             }
 
             public string Format()
@@ -27,7 +27,7 @@ namespace Z0
                 if(Field == 0)
                     return EmptyString;
                 else
-                    return string.Format("{0}={1}", FieldKinds[Field].Expr, Data.ToString());
+                    return string.Format("{0}={1}", FieldKinds[Field].Expr, Value.ToString());
             }
 
             public override string ToString()

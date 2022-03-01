@@ -8,14 +8,11 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/rules")]
+        [CmdOp("xed/check/ocmaps")]
         Outcome CheckRules(CmdArgs args)
         {
             var result = Outcome.Success;
-            result = Xed.Rules.LoadRulePatterns(out var patterns);
-            if(result.Fail)
-                return result;
-
+            var patterns = Xed.Rules.LoadEncRulePatterns();
             var reader = patterns.Reader();
             var maps = Symbols.index<OpCodeKind>();
             var counts = maps.Counts();

@@ -11,10 +11,6 @@ namespace Z0
         {
             public RuleFormKind Kind;
 
-            // public TextBlock PremiseExpr;
-
-            // public TextBlock ConsequentExpr;
-
             public Index<RuleCriterion> Premise;
 
             public Index<RuleCriterion> Consequent;
@@ -23,8 +19,6 @@ namespace Z0
             public XedRuleExpr(RuleFormKind kind, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
             {
                 Kind = kind;
-                // PremiseExpr = premise;
-                // ConsequentExpr = consequent;
                 Premise = left;
                 Consequent = rigth;
             }

@@ -27,7 +27,6 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref readonly var def = ref skip(defs,i);
-
                 var ops = def.PatternSpecs;
                 var patterns = CalcRulePatterns(def);
                 var k = ops.Count;

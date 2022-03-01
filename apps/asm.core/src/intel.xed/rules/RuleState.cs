@@ -7,31 +7,54 @@ namespace Z0
 {
     using Asm;
 
-    using static Asm.AsmPrefixCodes;
-    using static Asm.AsmPrefixCodes.VectorWidthCode;
-    using static XedModels.EASZ;
-    using static XedModels.EOSZ;
-    using static XedModels.SMode;
-    using static XedModels.SegPrefixKind;
-    using static XedModels.VexMapKind;
     using static core;
+    using static XedModels;
 
     using K = XedModels.FieldKind;
     using N = XedModels.RuleOpName;
-    using P = XedModels.RepPrefix;
-    using D = XedModels.SegDefaultKind;
-    using B = XedModels.BCastKind;
-    using V = XedModels.VexPrefixKind;
-    using M = XedModels.RuleMacroName;
 
-    using static XedRules;
-
-    partial struct XedModels
+    partial class XedRules
     {
         [Record(TableId), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct RuleState
         {
             public const string TableId = "xed.rules.state";
+
+            public static ConstLookup<FieldKind,FieldInfo> fields()
+            {
+                var fields = typeof(RuleState).PublicInstanceFields();
+                var count = fields.Length;
+                var dst = dict<FieldKind,FieldInfo>();
+                for(var i=0; i<count; i++)
+                {
+                    ref readonly var field = ref skip(fields,i);
+                    var tag = field.Tag<RuleOperandAttribute>();
+                    if(tag)
+                        dst.TryAdd(tag.Value.Kind, field);
+                }
+                return dst;
+            }
+
+            public static Index<RuleFieldSpec> specs()
+            {
+                var src = typeof(RuleState).PublicInstanceFields();
+                var dst = alloc<RuleFieldSpec>(src.Length);
+                for(var i=z16; i<src.Length; i++)
+                {
+                    ref readonly var field = ref skip(src,i);
+                    ref var record = ref seek(dst,i);
+                    record.Pos = i;
+                    record.Name = field.Name;
+                    record.Type = field.FieldType.IsEnum ? string.Format("enum<{0}>", field.FieldType.Name) : field.FieldType.DisplayName();
+                    var tag = field.Tag<RuleOperandAttribute>();
+                    if(tag)
+                    {
+                        record.Width = tag.Value.Width;
+                        record.Kind = tag.Value.Kind;
+                    }
+                }
+                return dst;
+            }
 
             [RuleOperand(K.AMD3DNOW, 1)]
             public bit AMD3DNOW;
@@ -87,7 +110,7 @@ namespace Z0
             [RuleOperand(K.IMM_WIDTH, 3)]
             public byte IMM_WIDTH;
 
-            [RuleOperand(K.IMM1_BYTES)]
+            [RuleOperand(K.IMM1_BYTES, 3)]
             public byte IMM1_BYTES;
 
             [RuleOperand(K.UIMM0, 64)]
@@ -150,7 +173,7 @@ namespace Z0
             [RuleOperand(K.REALMODE, 1)]
             public bit REALMODE;
 
-            [RuleOperand(K.RELBR)]
+            [RuleOperand(K.RELBR,64)]
             public Disp RELBR;
 
             [RuleOperand(K.REX, 1)]
@@ -291,19 +314,19 @@ namespace Z0
             [RuleOperand(K.VEXDEST4, 1)]
             public bit VEXDEST4;
 
-            [RuleOperand(K.VEXVALID)]
+            [RuleOperand(K.VEXVALID, 3)]
             public byte VEXVALID;
 
-            [RuleOperand(K.ERROR)]
+            [RuleOperand(K.ERROR, 1)]
             public ErrorKind ERROR;
 
             [RuleOperand(K.ESRC, 4)]
             public uint4 ESRC;
 
-            [RuleOperand(K.MAP)]
+            [RuleOperand(K.MAP, 4)]
             public byte MAP;
 
-            [RuleOperand(K.NELEM)]
+            [RuleOperand(K.NELEM, 4)]
             public byte NELEM;
 
             [RuleOperand(K.BCAST,5)]
@@ -312,7 +335,7 @@ namespace Z0
             [RuleOperand(K.NEED_MEMDISP, 1)]
             public bit NEED_MEMDISP;
 
-            [RuleOperand(K.CHIP)]
+            [RuleOperand(K.CHIP, 8)]
             public ChipCode CHIP;
 
             [RuleOperand(K.BRDISP_WIDTH)]
@@ -333,13 +356,13 @@ namespace Z0
             [RuleOperand(K.NOMINAL_OPCODE, 8)]
             public Hex8 NOMINAL_OPCODE;
 
-            [RuleOperand(K.NPREFIXES)]
+            [RuleOperand(K.NPREFIXES, 8)]
             public byte NPREFIXES;
 
-            [RuleOperand(K.NREXES)]
+            [RuleOperand(K.NREXES, 8)]
             public byte NREXES;
 
-            [RuleOperand(K.NSEG_PREFIXES)]
+            [RuleOperand(K.NSEG_PREFIXES, 8)]
             public byte NSEG_PREFIXES;
 
             [RuleOperand(K.POS_DISP, 4)]
@@ -369,7 +392,7 @@ namespace Z0
             [RuleOperand(K.BASE1, 9)]
             public XedRegId BASE1;
 
-            [RuleOperand(K.ELEMENT_SIZE)]
+            [RuleOperand(K.ELEMENT_SIZE, 9)]
             public ushort ELEMENT_SIZE;
 
             [RuleOperand(K.INDEX, 9)]
@@ -429,39 +452,14 @@ namespace Z0
             [RuleOperand(K.NO_RETURN, 1)]
             public bit NO_RETURN;
 
-            [RuleOperand(K.AGEN)]
+            [RuleOperand(K.AGEN, 32)]
             public text31 AGEN;
 
-            [RuleOperand(K.MEM0)]
+            [RuleOperand(K.MEM0, 32)]
             public text31 MEM0;
 
-            [RuleOperand(K.MEM1)]
+            [RuleOperand(K.MEM1, 32)]
             public text31 MEM1;
-
-            public static ConstLookup<FieldKind,FieldInfo> fields()
-            {
-                var fields = typeof(RuleState).PublicInstanceFields();
-                var count = fields.Length;
-                var dst = dict<FieldKind,FieldInfo>();
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var field = ref skip(fields,i);
-                    var tag = field.Tag<RuleOperandAttribute>();
-                    if(tag)
-                        dst.TryAdd(tag.Value.Kind, field);
-                }
-                return dst;
-            }
-
-            public ConstLookup<FieldKind,object> FieldValues()
-            {
-                var dst = dict<FieldKind,object>();
-                var kinds = new FieldKinds();
-                var fields = kinds.RightValues;
-                foreach(var f in fields)
-                    dst.Add(kinds[f], f.GetValue(this));
-                return dst;
-            }
 
             public EncodingOffsets Offsets()
             {
@@ -570,742 +568,14 @@ namespace Z0
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }
 
-
-            [MethodImpl(Inline), RuleMacro(M.mod0)]
-            public void mod0()
-            {
-                MOD = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.mod1)]
-            public void mod1()
-            {
-                MOD = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.mod2)]
-            public void mod2()
-            {
-                MOD = 2;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.mod3)]
-            public void mod3()
-            {
-                MOD = 3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.not64)]
-            public void not64()
-            {
-                MODE = (byte)ModeKind.Not64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.mode64)]
-            public void mode64()
-            {
-                MODE = (byte)ModeKind.Mode64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.mode32)]
-            public void mode32()
-            {
-                MODE = (byte)ModeKind.Mode32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.mode16)]
-            public void mode16()
-            {
-                MODE = (byte)ModeKind.Mode16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eanot16)]
-            public void eanot16()
-            {
-                EASZ = (byte)EASZNot16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eamode16)]
-            public void eamode16()
-            {
-                EASZ = (byte)EASZ16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eamode32)]
-            public void eamode32()
-            {
-                EASZ = (byte)EASZ32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eamode64)]
-            public void eamode64()
-            {
-                EASZ = (byte)EASZ64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.smode16)]
-            public void smode16()
-            {
-                SMODE = (byte)SMode16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.smode32)]
-            public void smode32()
-            {
-                SMODE = (byte)SMode32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.smode64)]
-            public void smode64()
-            {
-                SMODE = (byte)SMode64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eosz8)]
-            public void eosz8()
-            {
-                EOSZ = (byte)EOSZ8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eosz16)]
-            public void eosz16()
-            {
-                EOSZ = (byte)EOSZ16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eosz32)]
-            public void eosz32()
-            {
-                EOSZ = (byte)EOSZ32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eosz64)]
-            public void eosz64()
-            {
-                EOSZ = (byte)EOSZ64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.not_eosz16)]
-            public void not_eosz16()
-            {
-                EOSZ = (byte)EOSZNot16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.eosznot64)]
-            public void eosznot64()
-            {
-                EOSZ = (byte)EOSZNot64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.rex_reqd)]
-            public void rex_reqd()
-            {
-                REX = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no_rex)]
-            public void no_rex()
-            {
-                REX = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.reset_rex)]
-            public void reset_rex()
-            {
-                REX = 0;
-                REXW = 0;
-                REXB = 0;
-                REXR = 0;
-                REXX = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.rexb_prefix)]
-            public void rexb_prefix()
-            {
-                REXB = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.norexb_prefix)]
-            public void norexb_prefix()
-            {
-                REXB = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.rexx_prefix)]
-            public void rexx_prefix()
-            {
-                REXX = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.norexx_prefix)]
-            public void norexx_prefix()
-            {
-                REXX = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.rexr_prefix)]
-            public void rexr_prefix()
-            {
-                REXR = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.norexr_prefix)]
-            public void norexr_prefix()
-            {
-                REXR = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.rexw_prefix)]
-            public void rexw_prefix()
-            {
-                REXW = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.norexw_prefix)]
-            public void norexw_prefix()
-            {
-                REXW = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.W0)]
-            public void W0()
-            {
-                REXW = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.W1)]
-            public void W1()
-            {
-                REXW = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.f2_prefix)]
-            public void f2_prefix()
-            {
-                REP = (byte)P.REPF2;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.f3_prefix)]
-            public void f3_prefix()
-            {
-                REP = (byte)P.REPF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.repne)]
-            public void repne()
-            {
-                REP = (byte)P.REPF2;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.repe)]
-            public void repe()
-            {
-                REP = (byte)P.REPF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.norep)]
-            public void norep()
-            {
-                REP = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.x66_prefix)]
-            public void x66_prefix()
-            {
-                OSZ = (byte)EOSZ16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.nof3_prefix)]
-            public void nof3_prefix()
-            {
-                REP = (byte)P.NOF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no66_prefix)]
-            public void no66_prefix()
-            {
-                EOSZ = (byte)EOSZ8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.not_refining)]
-            public void not_refining()
-            {
-                REP = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.refining_f2)]
-            public void refining_f2()
-            {
-                REP = (byte)P.REPF2;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.refining_f3)]
-            public void refining_f3()
-            {
-                REP = (byte)P.REPF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.not_refining_f3)]
-            public void not_refining_f3()
-            {
-                REP = (byte)P.NOF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no_refining_prefix)]
-            public void no_refining_prefix()
-            {
-                REP = 0;
-                EOSZ = (byte)EOSZ16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.osz_refining_prefix)]
-            public void osz_refining_prefix()
-            {
-                REP = 0;
-                EOSZ = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.f2_refining_prefix)]
-            public void f2_refining_prefix()
-            {
-                REP = (byte)P.REPF2;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.f3_refining_prefix)]
-            public void f3_refining_prefix()
-            {
-                REP = (byte)P.REPF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no67_prefix)]
-            public void no67_prefix()
-            {
-                ASZ = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.x67_prefix)]
-            public void x67_prefix()
-            {
-                ASZ = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.lock_prefix)]
-            public void lock_prefix()
-            {
-                LOCK = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no_lock_prefix)]
-            public void nolock_prefix()
-            {
-                LOCK = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.default_ds)]
-            public void default_ds()
-            {
-                DEFAULT_SEG = (byte)D.DefaultDS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.default_ss)]
-            public void default_ss()
-            {
-                DEFAULT_SEG = (byte)D.DefaultSS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.default_es)]
-            public void default_es()
-            {
-                DEFAULT_SEG = (byte)D.DefaultES;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no_seg_prefix)]
-            public void no_seg_prefix()
-            {
-                SEG_OVD = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.cs_prefix)]
-            public void cs_prefix()
-            {
-                SEG_OVD = (byte)CS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.ds_prefix)]
-            public void ds_prefix()
-            {
-                SEG_OVD = (byte)DS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.es_prefix)]
-            public void es_prefix()
-            {
-                SEG_OVD = (byte)ES;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.fs_prefix)]
-            public void fs_prefix()
-            {
-                SEG_OVD = (byte)SegPrefixKind.FS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.gs_prefix)]
-            public void gs_prefix()
-            {
-                SEG_OVD = (byte)GS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.ss_prefix)]
-            public void ss_prefix()
-            {
-                SEG_OVD = (byte)SS;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.nrmw)]
-            public void nrmw()
-            {
-                DF64 = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.df64)]
-            public void df64()
-            {
-                DF64 = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.enc)]
-            public void enc()
-            {
-                ENCODER_PREFERRED = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.no_return)]
-            public void no_return()
-            {
-                NO_RETURN = 1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.error)]
-            public void error()
-            {
-                ERROR = ErrorKind.GENERAL_ERROR;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.@true)]
-            public void @true()
-            {
-                DUMMY = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.XMAP8)]
-            public void XMAP8()
-            {
-                MAP = 8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.XMAP9)]
-            public void XMAP9()
-            {
-                MAP = 9;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.XMAPA)]
-            public void XMAPA()
-            {
-                MAP = 10;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.XOPV)]
-            public void XOPV()
-            {
-                VEXVALID = (byte)VexKind.XOPV;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VL128)]
-            public void VL128()
-            {
-                VL = (byte)V128;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VL256)]
-            public void VL256()
-            {
-                VL = (byte)V256;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VL512)]
-            public void VL512()
-            {
-                VL = (byte)V512;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VV1)]
-            public void VV1()
-            {
-                VEXVALID = (byte)VexKind.VV1;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VV0)]
-            public void VV0()
-            {
-                VEXVALID = (byte)VexKind.VV0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VMAP0)]
-            public void VMAP0()
-            {
-                MAP = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.V0F)]
-            public void V0F()
-            {
-                MAP = (byte)VEX_MAP_0F38;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.V0F38)]
-            public void V0F38()
-            {
-                MAP = (byte)VEX_MAP_0F38;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.V0F3A)]
-            public void V0F3A()
-            {
-                MAP = (byte)VEX_MAP_0F3A;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VNP)]
-            public void VNP()
-            {
-                VEX_PREFIX = (byte)V.VNP;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.V66)]
-            public void V66()
-            {
-                VEX_PREFIX = (byte)V.V66;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VF2)]
-            public void VF2()
-            {
-                VEX_PREFIX = (byte)V.VF2;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VF3)]
-            public void VF3()
-            {
-                VEX_PREFIX = (byte)V.VF3;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.NOVSR)]
-            public void NOVSR()
-            {
-                VEXDEST3=1;
-                VEXDEST210=0b111;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO4_32)]
-            public void EMX_BROADCAST_1TO4_32()
-            {
-                BCAST = B.BCast_1TO4_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO4_64)]
-            public void EMX_BROADCAST_1TO4_64()
-            {
-                BCAST = B.BCast_1TO4_64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO8_32)]
-            public void EMX_BROADCAST_1TO8_32()
-            {
-               BCAST = B.BCast_1TO8_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_2TO4_64)]
-            public void EMX_BROADCAST_2TO4_64()
-            {
-               BCAST = B.BCast_2TO4_64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO2_64)]
-            public void EMX_BROADCAST_1TO2_64()
-            {
-               BCAST = B.BCast_1TO2_64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO8_16)]
-            public void EMX_BROADCAST_1TO8_16()
-            {
-               BCAST = B.BCast_1TO8_16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO16_16)]
-            public void EMX_BROADCAST_1TO16_16()
-            {
-               BCAST = B.BCast_1TO16_16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO16_8)]
-            public void EMX_BROADCAST_1TO16_8()
-            {
-               BCAST = B.BCast_1TO16_8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO32_8)]
-            public void EMX_BROADCAST_1TO32_8()
-            {
-               BCAST = B.BCast_1TO32_8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.VLBAD)]
-            public void VLBAD()
-            {
-                VL = (byte)VectorWidthCode.INVALID;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.KVV)]
-            public void KVV()
-            {
-                VEXVALID = (byte)VexKind.KVV;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EVV)]
-            public void EVV()
-            {
-                VEXVALID = (byte)VexKind.EVV;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.NOEVSR)]
-            public void NOEVSR()
-            {
-                VEXDEST3=1;
-                VEXDEST210=0b111;
-                VEXDEST4=0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.NO_SPARSE_EVSR)]
-            public void NO_SPARSE_EVSR()
-            {
-                VEXDEST3=1;
-                VEXDEST210=0b111;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO16_32)]
-            public void EMX_BROADCAST_1TO16_32()
-            {
-               BCAST = B.BCast_1TO16_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_4TO16_32)]
-            public void EMX_BROADCAST_4TO16_32()
-            {
-               BCAST = B.BCast_4TO16_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO8_64)]
-            public void EMX_BROADCAST_1TO8_64()
-            {
-               BCAST = B.BCast_1TO8_64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_4TO8_64)]
-            public void EMX_BROADCAST_4TO8_64()
-            {
-               BCAST = B.BCast_4TO8_64;
-            }
-
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_2TO16_32)]
-            public void EMX_BROADCAST_2TO16_32()
-            {
-               BCAST = B.BCast_2TO16_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_2TO8_64)]
-            public void EMX_BROADCAST_2TO8_64()
-            {
-               BCAST = B.BCast_2TO8_64;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_8TO16_32)]
-            public void EMX_BROADCAST_8TO16_32()
-            {
-               BCAST = B.BCast_8TO16_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO32_16)]
-            public void EMX_BROADCAST_1TO32_16()
-            {
-               BCAST = B.BCast_1TO32_16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO64_8)]
-            public void EMX_BROADCAST_1TO64_8()
-            {
-               BCAST = B.BCast_1TO64_8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_4TO8_32)]
-            public void EMX_BROADCAST_4TO8_32()
-            {
-               BCAST = B.BCast_4TO8_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_2TO4_32)]
-            public void EMX_BROADCAST_2TO4_32()
-            {
-               BCAST = B.BCast_2TO4_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_2TO8_32)]
-            public void EMX_BROADCAST_2TO8_32()
-            {
-               BCAST = B.BCast_2TO8_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO2_32)]
-            public void EMX_BROADCAST_1TO2_32()
-            {
-               BCAST = B.BCast_1TO2_32;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EVEXRR_ONE)]
-            public void EVEXRR_ONE()
-            {
-                REXRR = 0;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO2_8)]
-            public void EMX_BROADCAST_1TO2_8()
-            {
-               BCAST = B.BCast_1TO2_8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO4_8)]
-            public void EMX_BROADCAST_1TO4_8()
-            {
-               BCAST = B.BCast_1TO4_8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO8_8)]
-            public void EMX_BROADCAST_1TO8_8()
-            {
-               BCAST = B.BCast_1TO8_8;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO2_16)]
-            public void EMX_BROADCAST_1TO2_16()
-            {
-               BCAST = B.BCast_1TO2_16;
-            }
-
-            [MethodImpl(Inline), RuleMacro(M.EMX_BROADCAST_1TO4_16)]
-            public void EMX_BROADCAST_1TO4_16()
-            {
-               BCAST = B.BCast_1TO4_16;
+            public ConstLookup<FieldKind,object> Values()
+            {
+                var dst = dict<FieldKind,object>();
+                var kinds = new FieldLookup();
+                var fields = kinds.RightValues;
+                foreach(var f in fields)
+                    dst.Add(kinds[f], f.GetValue(this));
+                return dst;
             }
 
             public static RuleState Empty => default;

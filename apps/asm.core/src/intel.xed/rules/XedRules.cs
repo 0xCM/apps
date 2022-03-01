@@ -44,7 +44,6 @@ namespace Z0
 
         Symbols<FlagActionKind> FlagActionKinds;
 
-
         XedInstDefParser InstDefParser;
 
         public XedRules()
@@ -67,34 +66,24 @@ namespace Z0
             InstDefParser = new(this);
         }
 
+        HashSet<string> MacroNameSet {get;}
+            = map(Symbols.index<RuleMacroName>().View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
+
         XedPaths XedPaths => Service(Wf.XedPaths);
 
-        OpCodePatterns DeriveOpCodeMaps()
-            => Data(nameof(DeriveOpCodeMaps), () => new OpCodePatterns());
+        AppDb AppDb => Service(Wf.AppDb);
 
-        public OpCodePatterns LoadOpCodeMaps()
-            => DeriveOpCodeMaps();
+        OpCodeKinds CalcOpCodeKinds()
+            => Data(nameof(CalcOpCodeKinds), () => new OpCodeKinds());
+
+        public OpCodeKinds LoadOpCodeKinds()
+            => CalcOpCodeKinds();
 
         public Index<PointerWidthInfo> LoadPointerWidths()
             => Data(nameof(LoadPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
 
         public Index<OperandWidth> LoadOperandWidths()
-            => Data(nameof(LoadOperandWidths), ParseOperandWidths);
-
-        public Index<RuleTable> ParseEncRuleTables()
-            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncRuleTable));
-
-        public Index<RuleTable> ParseDecRuleTables()
-            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.DecRuleTable));
-
-        public Index<RuleTable> ParseEncDecRuleTables()
-            => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
-
-        public Index<InstDef> ParseEncInstDefs()
-            => ParseInstDefs(XedPaths.DocSource(XedDocKind.EncInstDef));
-
-        public Index<InstDef> ParseDecInstDefs()
-            => ParseInstDefs(XedPaths.DocSource(XedDocKind.DecInstDef));
+            => Data(nameof(LoadOperandWidths), CalcOperandWidths);
 
         public ReadOnlySpan<NonterminalKind> NonterminalKinds()
             => Symbols.index<NonterminalKind>().Kinds;
