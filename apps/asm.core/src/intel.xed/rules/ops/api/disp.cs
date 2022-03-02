@@ -11,6 +11,10 @@ namespace Z0
 
     partial class XedRules
     {
+        [MethodImpl(Inline), Op]
+        public static DispExpr disp(DispExprKind kind)
+            => new DispExpr(kind);
+
         [Op]
         public static Disp disp(in RuleState state, in AsmHexCode code)
         {

@@ -51,7 +51,7 @@ namespace Z0
                 {
                     op = RuleOperator.Neq;
                     name = text.left(spec,k);
-                    fv = text.right(spec,k + Neq.Length + 1);
+                    fv = text.right(spec,k + Neq.Length - 1);
                 }
                 else if(j >=0 )
                 {

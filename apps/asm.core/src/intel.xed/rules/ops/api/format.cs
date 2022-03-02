@@ -43,6 +43,9 @@ namespace Z0
                 return string.Format("{0}", src.Value);
         }
 
+        internal static string format(in DispExpr src)
+            => DispKinds[src.Kind].Expr.Text;
+
         internal static string format(in RuleTable src)
         {
             var dst = text.buffer();

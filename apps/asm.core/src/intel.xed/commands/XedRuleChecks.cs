@@ -9,11 +9,23 @@ namespace Z0
     using static core;
     using static XedRules;
 
+    public abstract class XedRuleTraverser<T>
+    {
+
+        protected virtual void Traverse(in RuleCriterion src, Action<T> f)
+        {
+
+        }
+
+    }
+
     class XedRuleChecks : AppService<XedRuleChecks>
     {
         XedRules Rules => Service(Wf.XedRules);
 
         IntelXed Xed => Service(Wf.IntelXed);
+
+        AppDb AppDb => Service(Wf.AppDb);
 
         ConstLookup<string,MacroSpec> Macros;
 
@@ -28,23 +40,49 @@ namespace Z0
         {
             var set = Rules.CalcRuleSet(RuleSetKind.Enc);
             Rules.ExpandMacros(set);
-            Check(set.Tables);
-
+            TraverseTables(set);
             return true;
         }
 
-        void Check(ReadOnlySpan<RuleTable> src)
+        void TraverseTables(RuleSet src)
         {
-            for(var i=0; i<src.Length; i++)
-                Check(skip(src,i));
+            var dst = AppDb.XedPath("xed.rules.enc.tables.expanded", FileKind.Txt);
+            var emitting = EmittingFile(dst);
+            var counter = 0u;
+
+            using var writer = dst.AsciWriter();
+
+            void OnCheck(string src)
+            {
+                writer.WriteLine(src);
+                counter++;
+            }
+
+            Traverse(src.Tables, OnCheck);
+
+            EmittedFile(emitting, counter);
         }
 
-        void Check(in RuleTable src)
+        void Traverse(ReadOnlySpan<RuleTable> src, Action<string> f)
         {
-            var table = src;
+            for(var i=0; i<src.Length; i++)
+                Traverse(skip(src,i), f);
+        }
+
+        void Traverse(in RuleTable src, Action<string> f)
+        {
+            const string SigPattern = "public static void {0}(in MachineRequest req, ref RuleState state)";
+            var expressions = src.Expressions;
             var dst = text.buffer();
 
-            dst.AppendLineFormat("public static void {0}(in MachineRequest req, ref RuleState state)",src.Name);
+            if(expressions.Count == 1 && expressions.First.IsVacant)
+            {
+                dst.Append(string.Format(SigPattern, src.Name));
+                dst.AppendLine("{}");
+                return;
+            }
+
+            dst.AppendLineFormat(SigPattern,src.Name);
             dst.AppendLine(Chars.LBrace);
 
             void OnExpr(string expr)
@@ -52,22 +90,23 @@ namespace Z0
                 dst.IndentLine(4, expr);
             }
 
-            Check(src.Expressions, OnExpr);
+            Traverse(src.Expressions, OnExpr);
 
             dst.AppendLine(Chars.RBrace);
-            Write(dst.Emit());
+            f(dst.Emit());
         }
 
-        void Check(ReadOnlySpan<XedRules.RuleExpr> src, Action<string> f)
+        void Traverse(ReadOnlySpan<RuleExpr> src, Action<string> f)
         {
             for(var i=0; i<src.Length; i++)
-                Check(skip(src,i),f);
+                Traverse(skip(src,i),f);
         }
 
-        void Check(in XedRules.RuleExpr src, Action<string> f)
+        void Traverse(in RuleExpr src, Action<string> f)
         {
             var dst = text.buffer();
             var counter = 0;
+
             void OnPremise(string src)
             {
                 if(counter == 0)
@@ -87,7 +126,7 @@ namespace Z0
 
             for(var i=0; i<src.Premise.Count; i++, counter++)
             {
-                Check(src.Premise[i], OnPremise);
+                Traverse(src.Premise[i], OnPremise);
             }
 
             switch(src.Kind)
@@ -106,29 +145,43 @@ namespace Z0
             counter = 0;
             for(var i=0; i<src.Consequent.Count; i++, counter++)
             {
-                Check(src.Consequent[i], OnConsequent);
+                Traverse(src.Consequent[i], OnConsequent);
             }
 
             f(dst.Emit());
         }
 
+        const string DefaultExpr = "_default";
 
-        void Check(in RuleCriterion src, Action<string> f)
+        const string NothingExpr = "_.";
+
+        void Traverse(in RuleCriterion src, Action<string> f)
         {
-            if(src.Operator == RuleOperator.Call)
+            if(src.IsPremise && src.IsDefault)
             {
-                f(string.Format("{1}{0}", format(src.Operator), src.Value));
+                f(DefaultExpr);
+            }
+            else if(src.IsConsequent && src.IsVacant)
+            {
+                f(NothingExpr);
             }
             else
             {
-                // var result = XedRules.spec(src, out var spec);
-                // if(result.Fail)
-                // {
-                //     Warn(string.Format("Spec creation failed for {0}", src.Format()));
-                //     return;
-                // }
+                if(src.Operator == RuleOperator.Call)
+                {
+                    f(string.Format("{1}{0}", format(src.Operator), src.Value));
+                }
+                else
+                {
+                    // var result = XedRules.spec(src, out var spec);
+                    // if(result.Fail)
+                    // {
+                    //     Warn(string.Format("Spec creation failed for {0}", src.Format()));
+                    //     return;
+                    // }
 
-                f(string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.Value));
+                    f(string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.Value));
+                }
             }
         }
     }

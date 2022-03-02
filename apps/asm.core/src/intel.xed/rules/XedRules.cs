@@ -63,6 +63,22 @@ namespace Z0
             InstDefParser = new(this);
         }
 
+        ConstLookup<string,OperandWidth> OpWidthsLookup()
+        {
+            return Data(nameof(OpWidthsLookup), Load);
+
+            ConstLookup<string,OperandWidth> Load()
+            {
+                var widths = LoadOperandWidths();
+                var dst = dict<string,OperandWidth>();
+                var symbols = Symbols.index<OperandWidthType>();
+                var count = widths.Length;
+                for(var i=0; i<count; i++)
+                    dst[symbols[widths[i].Code].Expr.Format()] = widths[i];
+                return dst;
+            }
+        }
+
         HashSet<string> MacroNameSet {get;}
             = map(Symbols.index<RuleMacroName>().View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
 
@@ -126,26 +142,6 @@ namespace Z0
             return result;
         }
 
-        public ConstLookup<string,OperandWidth> OperandWidths()
-        {
-            return Data(nameof(OperandWidths), Load);
-
-            ConstLookup<string,OperandWidth> Load()
-            {
-                var widths = LoadOperandWidths();
-                var dst = dict<string,OperandWidth>();
-                var symbols = Symbols.index<OperandWidthType>();
-                var count = widths.Length;
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var src = ref widths[i];
-                    var symbol = symbols[src.Code];
-                    dst[symbol.Expr.Format()] = src;
-                }
-                return dst;
-            }
-        }
-
         static Symbols<FieldKind> FieldKinds;
 
         static Symbols<RuleMacroName> MacroNames;
@@ -160,6 +156,8 @@ namespace Z0
 
         static Symbols<RuleOperator> RuleOps;
 
+        static Symbols<DispExprKind> DispKinds;
+
         static XedRules()
         {
             FieldKinds = Symbols.index<FieldKind>();
@@ -169,6 +167,7 @@ namespace Z0
             XedRegs = Symbols.index<XedRegId>();
             InstClasses = Symbols.index<IClass>();
             RuleOps = Symbols.index<RuleOperator>();
+            DispKinds = Symbols.index<DispExprKind>();
        }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

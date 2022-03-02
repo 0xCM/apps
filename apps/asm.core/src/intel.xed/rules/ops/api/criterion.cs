@@ -7,7 +7,6 @@ namespace Z0
 {
     using static XedModels;
     using static core;
-    using N = XedRules.RuleOpName;
     using DK = XedRules.FieldDataKind;
 
     using Asm;

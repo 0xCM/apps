@@ -7,24 +7,20 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleSig
+        public readonly struct RuleSeq
         {
             public readonly Identifier Name;
 
-            public readonly Identifier ReturnType;
+            public readonly Index<RuleSeqTerm> Terms;
 
             [MethodImpl(Inline)]
-            public RuleSig(Identifier name, Identifier ret)
+            public RuleSeq(Identifier name, params RuleSeqTerm[] terms)
             {
                 Name = name;
-                ReturnType = ret;
+                Terms = terms;
             }
 
-            public string Format()
-                => string.Format("{0} {1}()", ReturnType, Name);
-
-            public override string ToString()
-                => Format();
+            public static RuleSeq Empty => new RuleSeq(EmptyString, sys.empty<RuleSeqTerm>());
         }
     }
 }

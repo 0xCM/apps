@@ -23,6 +23,13 @@ namespace Z0
                 Consequent = rigth;
             }
 
+            public bool IsVacant
+            {
+                [MethodImpl(Inline)]
+                get => Premise.Count == 1 && (Premise.First.IsDefault || Premise.First.IsVacant) &&
+                    Consequent.Count == 1 && (Consequent.First.IsVacant || Consequent.First.IsDefault);
+            }
+
             public string Format()
                 => format(this);
 

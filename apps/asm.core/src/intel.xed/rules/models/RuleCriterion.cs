@@ -11,6 +11,10 @@ namespace Z0
     {
         public struct RuleCriterion
         {
+            const string DefaultValue = "otherwise";
+
+            const string VacantValue = "nothing";
+
             public readonly CriterionKind Kind;
 
             public readonly FieldKind Field;
@@ -26,6 +30,30 @@ namespace Z0
                 Field = field;
                 Operator = @op;
                 Value = value;
+            }
+
+            public bool IsPremise
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CriterionKind.Premise;
+            }
+
+            public bool IsConsequent
+            {
+                [MethodImpl(Inline)]
+                get => Kind == CriterionKind.Consequent;
+            }
+
+            public bool IsDefault
+            {
+                [MethodImpl(Inline)]
+                get => Value == DefaultValue;
+            }
+
+            public bool IsVacant
+            {
+                [MethodImpl(Inline)]
+                get => Value == VacantValue;
             }
 
             [MethodImpl(Inline)]

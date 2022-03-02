@@ -142,7 +142,7 @@ namespace Z0
         Outcome ParseOpWidth(string src, out OperandWidth dst)
         {
             var result = Outcome.Success;
-            var widths = OperandWidths();
+            var widths = OpWidthsLookup();
             result = widths.Find(src, out dst);
             if(result.Fail)
                 result = (false, string.Format("Unexpected width expression:{0}", src));

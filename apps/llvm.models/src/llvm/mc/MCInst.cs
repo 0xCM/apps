@@ -7,8 +7,6 @@ namespace Z0.llvm.X86
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
-    using static Root;
-
     /// <summary>
     /// Represent a single low-level machine instruction.
     /// </summary>
