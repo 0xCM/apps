@@ -4,12 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    using Asm;
-
-    using static Root;
-
     using SP = SymbolicParse;
 
     [ApiHost]
@@ -46,6 +40,27 @@ namespace Z0
         public static Outcome parse(string src, out eight dst)
             => BitNumbers.parse(src, out dst);
 
+        public static Outcome parse(string src, out Hex1 dst)
+            => Hex1.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex2 dst)
+            => Hex2.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex3 dst)
+            => Hex3.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex4 dst)
+            => Hex4.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex5 dst)
+            => Hex5.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex6 dst)
+            => Hex6.parse(src, out dst);
+
+        public static Outcome parse(string src, out Hex7 dst)
+            => Hex7.parse(src, out dst);
+
         public static Outcome parse(string src, out Hex8 dst)
             => Hex8.parse(src, out dst);
 
@@ -70,45 +85,17 @@ namespace Z0
         public static Outcome parse(ReadOnlySpan<char> src, out Hex64 dst)
             => Hex64.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash8 dst)
-        {
-            var result = Hex8.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (byte)hex;
-            return result;
-        }
+            => Hash8.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash16 dst)
-        {
-            var result = Hex16.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (ushort)hex;
-            return result;
-        }
+            => Hash16.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash32 dst)
-        {
-            var result = Hex32.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (uint)hex;
-            return result;
-        }
+            => Hash32.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Hash64 dst)
-        {
-            var result = Hex64.parse(src, out var hex);
-            dst = 0;
-            if(result)
-                dst = (ulong)hex;
-            return result;
-        }
+            => Hash64.parse(src, out dst);
 
         public static Outcome parse(string src, out LineInterval<Identifier> dst)
             => LineInterval.parse(src, out dst);
@@ -276,7 +263,6 @@ namespace Z0
         public static Outcome numeric<T>(string src, out T dst)
             => NumericParser.parse(src, out dst);
 
-        [Parser]
         public static Outcome parse(string src, out Timestamp dst)
             => Time.parse(src,out dst);
 
@@ -431,7 +417,6 @@ namespace Z0
 
         public static Outcome setting<T>(string src, out Setting<T> dst, char delimiter = Chars.Colon)
             => Settings.parse(src, out dst, delimiter);
-
      }
 
      partial struct Msg

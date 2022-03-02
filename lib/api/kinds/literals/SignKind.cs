@@ -11,13 +11,18 @@ namespace Z0
     public enum SignKind : sbyte
     {
         /// <summary>
+        /// The sign of 0
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Indicates a value is greater than or equal to zero
         /// </summary>
-        Unsigned = 0,
+        Positive = 1,
 
         /// <summary>
         /// Indicates a value is less than zero
         /// </summary>
-        Signed = -1
+        Negative = -1
     }
 }

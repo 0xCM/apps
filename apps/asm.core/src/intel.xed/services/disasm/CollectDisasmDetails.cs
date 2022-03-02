@@ -270,7 +270,7 @@ namespace Z0
                 var vexcode = VexPrefix.code(prefix);
                 var vexsize = VexPrefix.size(vexcode.Value);
                 var vexbytes = slice(prefix, vexcode.Offset, vexsize);
-                var vexdest = (uint5)(state.VEXDEST210 | (byte)state.VEXDEST3 << 3 | (byte)state.vexdest4 << 4);
+                var vexdest = (uint5)((uint3)state.VEXDEST210 | (byte)state.VEXDEST3 << 3 | (byte)state.vexdest4 << 4);
                 Require.equal(vexbytes.Length, vexsize);
 
                 if(vexcode.Value == AsmPrefixCodes.VexPrefixCode.C4)

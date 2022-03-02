@@ -40,7 +40,7 @@ namespace Z0
                 return i;
             }
 
-             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
         }
     }
 }

@@ -4,14 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("hash<w:8>")]
     public readonly struct Hash8 : IHashCode<byte,byte>
     {
+        [Parser]
+        public static Outcome parse(string src, out Hash8 dst)
+        {
+            var result = Hex8.parse(src, out var hex);
+            dst = 0;
+            if(result)
+                dst = (byte)hex;
+            return result;
+        }
+
         public byte Value {get;}
 
         [MethodImpl(Inline)]

@@ -8,7 +8,7 @@ namespace Z0
     using W = W16;
     using K = System.UInt16;
 
-    [DataType("hex<w:16>", HexNumberKind.Hex16, ContentWidth, StorageWidth)]
+    [DataWidth(16)]
     public readonly struct Hex16 : IHexNumber<H,W,K>
     {
         [Parser]
@@ -26,7 +26,6 @@ namespace Z0
             dst = x;
             return outcome;
         }
-
 
         public static H Max => K.MaxValue;
 

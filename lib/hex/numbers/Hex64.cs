@@ -8,7 +8,7 @@ namespace Z0
     using W = W64;
     using K = System.UInt64;
 
-    [DataType("hex<w:64>", HexNumberKind.Hex64, ContentWidth, StorageWidth)]
+    [DataWidth(64)]
     public readonly struct Hex64 : IHexNumber<H,W,K>
     {
         [Parser]

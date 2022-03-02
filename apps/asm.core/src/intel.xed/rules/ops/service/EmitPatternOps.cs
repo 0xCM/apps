@@ -11,12 +11,12 @@ namespace Z0
     partial class XedRules
     {
         void EmitEncPatternOps(ReadOnlySpan<InstDef> src)
-            => EmitPatternOperands(src, XedPaths.DocTarget(XedDocKind.OperandEncoding));
+            => EmitPatternOps(src, XedPaths.DocTarget(XedDocKind.OpEnc));
 
         void EmitDecPatternOps(ReadOnlySpan<InstDef> src)
-            => EmitPatternOperands(src, XedPaths.DocTarget(XedDocKind.OperandDecoding));
+            => EmitPatternOps(src, XedPaths.DocTarget(XedDocKind.OpDec));
 
-        void EmitPatternOperands(ReadOnlySpan<InstDef> defs, FS.FilePath dst)
+        void EmitPatternOps(ReadOnlySpan<InstDef> defs, FS.FilePath dst)
         {
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();

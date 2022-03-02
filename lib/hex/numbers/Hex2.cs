@@ -4,18 +4,29 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     using H = Hex2;
     using K = Hex2Kind;
     using W = W2;
 
-    [DataType("hex<w:2>", HexNumberKind.Hex2, ContentWidth, StorageWidth)]
+    [DataWidth(2)]
     public readonly struct Hex2 : IHexNumber<H,W,K>
     {
+        [Parser]
+        public static Outcome parse(string src, out H dst)
+        {
+            var outcome = HexParser.parse8u(src, out var x);
+            dst = new H((K)(x & 0b11));
+            return outcome;
+        }
+
+        [Parser]
+        public static Outcome parse(ReadOnlySpan<char> src, out H dst)
+        {
+            var outcome = HexParser.parse8u(src, out var x);
+            dst = new H((K)(x & 0b11));
+            return outcome;
+        }
+
         public K Value {get;}
 
         public const byte ContentWidth = 2;

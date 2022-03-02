@@ -14,13 +14,19 @@ namespace Z0
 
         EncRuleTable,
 
+        EncRuleTableExp,
+
         DecRulePatterns,
 
         DecRuleTable,
 
+        DecRuleTableExp,
+
         EncRulePatterns,
 
         EncDecRuleTable,
+
+        EncDecRuleTableExp,
 
         Widths,
 
@@ -36,9 +42,9 @@ namespace Z0
 
         OpCodes,
 
-        OperandEncoding,
+        OpEnc,
 
-        OperandDecoding,
+        OpDec,
 
         RuleSeq,
     }

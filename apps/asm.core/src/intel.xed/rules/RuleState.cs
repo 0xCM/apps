@@ -220,16 +220,22 @@ namespace Z0
             public byte LLRC;
 
             [RuleOperand(K.MOD, 2)]
-            public uint2 MOD;
+            public byte MOD;
+
+            [RuleOperand(K.REG, 3)]
+            public byte REG;
+
+            [RuleOperand(K.RM, 3)]
+            public byte RM;
 
             [RuleOperand(K.MODE, 2)]
-            public uint2 MODE;
+            public byte MODE;
 
             [RuleOperand(K.REP, 2)]
-            public uint2 REP;
+            public byte REP;
 
             [RuleOperand(K.SIBSCALE, 2)]
-            public uint2 SIBSCALE;
+            public byte SIBSCALE;
 
             [RuleOperand(K.SMODE, 2)]
             public byte SMODE;
@@ -238,31 +244,25 @@ namespace Z0
             public byte HINT;
 
             [RuleOperand(K.MASK, 3)]
-            public uint3 MASK;
-
-            [RuleOperand(K.REG, 3)]
-            public uint3 REG;
-
-            [RuleOperand(K.RM, 3)]
-            public uint3 RM;
+            public byte MASK;
 
             [RuleOperand(K.ROUNDC, 3)]
-            public uint3 ROUNDC;
+            public byte ROUNDC;
 
             [RuleOperand(K.SEG_OVD, 3)]
-            public uint3 SEG_OVD;
+            public byte SEG_OVD;
 
             [RuleOperand(K.SIBBASE, 3)]
-            public uint3 SIBBASE;
+            public byte SIBBASE;
 
             [RuleOperand(K.SIBINDEX, 3)]
-            public uint3 SIBINDEX;
+            public byte SIBINDEX;
 
             [RuleOperand(K.SRM, 3)]
             public byte SRM;
 
             [RuleOperand(K.VEXDEST210, 3)]
-            public uint3 VEXDEST210;
+            public byte VEXDEST210;
 
             [RuleOperand(K.VEXDEST4, 1)]
             public bit VEXDEST4;
@@ -291,16 +291,16 @@ namespace Z0
             [RuleOperand(K.CHIP, 8)]
             public ChipCode CHIP;
 
-            [RuleOperand(K.BRDISP_WIDTH)]
+            [RuleOperand(K.BRDISP_WIDTH, 8)]
             public byte BRDISP_WIDTH;
 
-            [RuleOperand(K.DISP_WIDTH)]
+            [RuleOperand(K.DISP_WIDTH, 8)]
             public byte DISP_WIDTH;
 
-            [RuleOperand(K.ILD_SEG)]
+            [RuleOperand(K.ILD_SEG, 8)]
             public byte ILD_SEG;
 
-            [RuleOperand(FieldKind.MAX_BYTES)]
+            [RuleOperand(FieldKind.MAX_BYTES, 4)]
             public byte MAX_BYTES;
 
             [RuleOperand(K.MODRM_BYTE, 8)]

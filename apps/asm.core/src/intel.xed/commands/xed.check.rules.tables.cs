@@ -35,11 +35,33 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/check/rules")]
+        Outcome CheckRules(CmdArgs args)
+        {
+            XedRuleChecks.create(Wf).CheckRules();
+            return true;
+        }
+
         [CmdOp("xed/check/enc")]
         Outcome CheckEnc(CmdArgs args)
         {
             XedRuleChecks.create(Wf).CheckEncRules();
 
+            return true;
+        }
+
+        [CmdOp("xed/check/dec")]
+        Outcome CheckDec(CmdArgs args)
+        {
+            XedRuleChecks.create(Wf).CheckDecRules();
+
+            return true;
+        }
+
+        [CmdOp("xed/check/encdec")]
+        Outcome CheckEncDec(CmdArgs args)
+        {
+            XedRuleChecks.create(Wf).CheckEncDecRules();
             return true;
         }
 

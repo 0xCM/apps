@@ -10,7 +10,7 @@ namespace Z0
 
     partial class XedRules
     {
-        Outcome CalcOperands(string src, out Index<RuleOpSpec> dst)
+        Outcome CalcOpSpecs(string src, out Index<RuleOpSpec> dst)
         {
             var result = Outcome.Success;
             dst = sys.empty<RuleOpSpec>();

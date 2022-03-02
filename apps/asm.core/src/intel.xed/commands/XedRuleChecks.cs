@@ -9,21 +9,13 @@ namespace Z0
     using static core;
     using static XedRules;
 
-    public abstract class XedRuleTraverser<T>
-    {
-
-        protected virtual void Traverse(in RuleCriterion src, Action<T> f)
-        {
-
-        }
-
-    }
-
     class XedRuleChecks : AppService<XedRuleChecks>
     {
         XedRules Rules => Service(Wf.XedRules);
 
         IntelXed Xed => Service(Wf.IntelXed);
+
+        XedPaths XedPaths => Service(Wf.XedPaths);
 
         AppDb AppDb => Service(Wf.AppDb);
 
@@ -36,9 +28,33 @@ namespace Z0
             Macros = XedRules.macros().Map(x => (names[x.Name].Expr.Format(), x)).ToDictionary();
         }
 
+        public Outcome CheckRules()
+        {
+            CheckEncRules();
+            CheckDecRules();
+            CheckEncDecRules();
+            return true;
+        }
+
         public Outcome CheckEncRules()
         {
             var set = Rules.CalcRuleSet(RuleSetKind.Enc);
+            Rules.ExpandMacros(set);
+            TraverseTables(set);
+            return true;
+        }
+
+        public Outcome CheckDecRules()
+        {
+            var set = Rules.CalcRuleSet(RuleSetKind.Dec);
+            Rules.ExpandMacros(set);
+            TraverseTables(set);
+            return true;
+        }
+
+        public Outcome CheckEncDecRules()
+        {
+            var set = Rules.CalcRuleSet(RuleSetKind.EncDec);
             Rules.ExpandMacros(set);
             TraverseTables(set);
             return true;
@@ -58,10 +74,9 @@ namespace Z0
 
         void TraverseTables(RuleSet src)
         {
-            var dst = AppDb.XedPath("xed.rules.enc.tables.expanded", FileKind.Txt);
+            var dst = XedPaths.RuleTableExp(src.Kind);
             var emitting = EmittingFile(dst);
             var counter = 0u;
-
             using var writer = dst.AsciWriter();
 
             void OnCheck(string src)
@@ -111,7 +126,10 @@ namespace Z0
         void Traverse(ReadOnlySpan<RuleExpr> src, Action<string> f)
         {
             for(var i=0; i<src.Length; i++)
-                Traverse(skip(src,i),f);
+            {
+                ref readonly var expr = ref skip(src,i);
+                Traverse(expr,f);
+            }
         }
 
         void Traverse(in RuleExpr src, Action<string> f)
@@ -137,9 +155,7 @@ namespace Z0
 
 
             for(var i=0; i<src.Premise.Count; i++, counter++)
-            {
                 Traverse(src.Premise[i], OnPremise);
-            }
 
             switch(src.Kind)
             {
@@ -156,9 +172,7 @@ namespace Z0
 
             counter = 0;
             for(var i=0; i<src.Consequent.Count; i++, counter++)
-            {
                 Traverse(src.Consequent[i], OnConsequent);
-            }
 
             f(dst.Emit());
         }

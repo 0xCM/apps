@@ -7,7 +7,7 @@ namespace Z0
     /// <summary>
     /// Defines identifiers corresponding to the hex digits 0 and 1
     /// </summary>
-    [SymSource(SymGroups.hex, NumericBaseKind.Base16)]
+    [SymSource(SymGroups.hex, NumericBaseKind.Base16), DataWidth(1)]
     public enum Hex1Kind : byte
     {
         /// <summary>

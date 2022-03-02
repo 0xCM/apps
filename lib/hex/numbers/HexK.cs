@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     public readonly struct Hex<K> : IHexNumber<K>, IEquatable<Hex<K>>, IComparable<Hex<K>>
         where K : unmanaged, IHexNumber<K>, IEquatable<K>, IComparable<K>, ITextual
     {

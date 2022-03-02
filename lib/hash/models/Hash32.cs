@@ -4,14 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("hash<w:32>")]
     public readonly struct Hash32 : IHashCode<uint,uint>, IComparable<Hash32>, IEquatable<Hash32>
     {
+        [Parser]
+        public static Outcome parse(string src, out Hash32 dst)
+        {
+            var result = Hex32.parse(src, out var hex);
+            dst = 0;
+            if(result)
+                dst = (uint)hex;
+            return result;
+        }
+
         public uint Value {get;}
 
         [MethodImpl(Inline)]

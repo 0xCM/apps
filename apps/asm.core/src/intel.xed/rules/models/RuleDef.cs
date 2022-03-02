@@ -5,19 +5,21 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedModels;
+
     partial class XedRules
     {
-        public readonly struct MachineRequest
+        public readonly struct RuleDef
         {
-            public readonly RequestKind Kind;
+            public readonly RulePattern Pattern;
 
-            public readonly RuleDef Rule;
+            public readonly Index<RuleOperand> Operands;
 
             [MethodImpl(Inline)]
-            public MachineRequest(RequestKind kind, RuleDef rule)
+            public RuleDef(RulePattern pattern, RuleOperand[] ops)
             {
-                Kind = kind;
-                Rule = rule;
+                Pattern = pattern;
+                Operands = ops;
             }
         }
     }

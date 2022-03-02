@@ -5,12 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedModels;
-    using static core;
-    using N = XedRules.RuleOpName;
     using K = XedModels.FieldKind;
     using static XedModels.FieldKind;
-    using Asm;
 
     partial class XedRules
     {
@@ -57,6 +56,7 @@ namespace Z0
                 case NOREX:
                 case NO_RETURN:
                 case NO_SCALE_DISP8:
+                case REX:
                 case REXW:
                 case REXR:
                 case REXX:
@@ -90,51 +90,8 @@ namespace Z0
 
                 case MOD:
                 case SIBSCALE:
-                {
-                    if(DataParser.parse(input, out uint2 x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Bits, 2));
-                        result = true;
-                    }
-                }
-                break;
-
-                case REG:
-                case RM:
-                case SIBBASE:
-                case SIBINDEX:
-                case VEXDEST210:
-                case SRM:
-                {
-                    if(DataParser.parse(input, out uint3 x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Bits, 3));
-                        result = true;
-                    }
-                }
-                break;
-
-                case REX:
-                {
-                    if(DataParser.parse(input, out uint4 x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Bits, 4));
-                        result = true;
-                    }
-                }
-                break;
-
                 case K.EASZ:
                 case K.EOSZ:
-                {
-                    if(byte.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 2));
-                        result = true;
-                    }
-                }
-                break;
-
                 case FIRST_F2F3:
                 case LAST_F2F3:
                 case LLRC:
@@ -153,6 +110,12 @@ namespace Z0
                 }
                 break;
 
+                case REG:
+                case RM:
+                case SIBBASE:
+                case SIBINDEX:
+                case VEXDEST210:
+                case SRM:
                 case HINT:
                 case MASK:
                 case ROUNDC:
@@ -207,10 +170,21 @@ namespace Z0
                 case POS_NOMINAL_OPCODE:
                 case POS_SIB:
                 case UIMM1:
-               {
+                {
                     if(byte.TryParse(input, out var x))
                     {
                         dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 8));
+                        result = true;
+                    }
+                }
+                break;
+
+                case ELEMENT_SIZE:
+                case MEM_WIDTH:
+                {
+                    if(ushort.TryParse(input, out var x))
+                    {
+                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.U16, 16));
                         result = true;
                     }
                 }
@@ -246,16 +220,6 @@ namespace Z0
                 }
                 break;
 
-                case ELEMENT_SIZE:
-                case MEM_WIDTH:
-                {
-                    if(ushort.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.U16, 16));
-                        result = true;
-                    }
-                }
-                break;
 
                 case BASE0:
                 case BASE1:

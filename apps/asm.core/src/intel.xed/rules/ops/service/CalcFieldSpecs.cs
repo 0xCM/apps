@@ -5,20 +5,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static core;
+
     partial class XedRules
     {
-        public readonly struct MachineRequest
-        {
-            public readonly RequestKind Kind;
-
-            public readonly RuleDef Rule;
-
-            [MethodImpl(Inline)]
-            public MachineRequest(RequestKind kind, RuleDef rule)
-            {
-                Kind = kind;
-                Rule = rule;
-            }
-        }
+        public Index<RuleFieldSpec> CalcFieldSpecs()
+            => RuleMachine.specs();
     }
 }

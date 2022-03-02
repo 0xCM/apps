@@ -100,7 +100,7 @@ namespace Z0
                                             Rules.ParseIClass(value, out dst.Class);
                                         break;
                                         case P.Operands:
-                                            result = Rules.CalcOperands(value, out var ops);
+                                            result = Rules.CalcOpSpecs(value, out var ops);
                                             if(result)
                                             {
                                                 operands.Add(new InstPatternSpec(pattern, ops));

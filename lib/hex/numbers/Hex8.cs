@@ -8,10 +8,9 @@ namespace Z0
     using K = Hex8Kind;
     using W = W8;
 
-    [DataType("hex<w:8>", HexNumberKind.Hex8, ContentWidth, StorageWidth)]
+    [DataWidth(8)]
     public readonly struct Hex8 : IHexNumber<H,W,K>
     {
-
         [Parser]
         public static Outcome parse(string src, out Hex8 dst)
         {

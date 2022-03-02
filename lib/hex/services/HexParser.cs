@@ -372,7 +372,7 @@ namespace Z0
             return true;
         }
 
-       /// <summary>
+        /// <summary>
         /// Parses a space-delimited sequence of hex text
         /// </summary>
         /// <param name="src">The space-delimited hex</param>

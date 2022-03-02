@@ -140,17 +140,14 @@ namespace Z0
 
             public static Index<RuleCriterion> criteria(string src, CriterionKind kind)
             {
-                var left = text.trim(text.split(src, Chars.Space));
-                var count = left.Length;
+                var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
+                var count = parts.Length;
                 var buffer = alloc<RuleCriterion>(count);
                 for(var i=0; i<count; i++)
                 {
-                    ref readonly var spec = ref skip(left, i);
-                    if(empty(spec))
-                        continue;
-
+                    ref readonly var part = ref skip(parts, i);
                     ref var dst = ref seek(buffer,i);
-                    var result = parse(spec, kind, out seek(buffer,i));
+                    var result = parse(part, kind, out seek(buffer,i));
                     if(result.Fail)
                         Errors.Throw(result.Message);
 
@@ -170,8 +167,6 @@ namespace Z0
 
             TextLine Line;
 
-            HashSet<string> Skip;
-
             public RuleTableParser()
             {
                 OperandKinds = Symbols.index<FieldKind>();
@@ -180,7 +175,7 @@ namespace Z0
                 Tables = new();
                 Line = TextLine.Empty;
                 Kind = 0;
-                Skip = hashset("VEXED_REX");
+
             }
 
             public Outcome Parse(TextLine src)
@@ -296,7 +291,6 @@ namespace Z0
                     }
                     else
                         break;
-
                 }
 
                 if(result)
@@ -345,6 +339,14 @@ namespace Z0
                 else
                     return text.trim(src);
             }
+
+            static HashSet<string> Skip;
+
+            static RuleTableParser()
+            {
+                Skip = hashset("VEXED_REX", "XED_RESET");
+            }
+
         }
     }
 }

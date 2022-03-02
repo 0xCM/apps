@@ -7,18 +7,11 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct MachineRequest
+        public enum RequestKind : byte
         {
-            public readonly RequestKind Kind;
+            Encode,
 
-            public readonly RuleDef Rule;
-
-            [MethodImpl(Inline)]
-            public MachineRequest(RequestKind kind, RuleDef rule)
-            {
-                Kind = kind;
-                Rule = rule;
-            }
+            Decode
         }
     }
 }

@@ -4,14 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("hash<w:64>")]
     public readonly struct Hash64 : IHashCode<ulong,ulong>
     {
+        [Parser]
+        public static Outcome parse(string src, out Hash64 dst)
+        {
+            var result = Hex64.parse(src, out var hex);
+            dst = 0;
+            if(result)
+                dst = (ulong)hex;
+            return result;
+        }
+
         public ulong Value {get;}
 
         [MethodImpl(Inline)]

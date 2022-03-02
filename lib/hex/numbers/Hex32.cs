@@ -8,7 +8,7 @@ namespace Z0
     using W = W32;
     using K = System.UInt32;
 
-    [DataType("hex<w:32>", HexNumberKind.Hex32, ContentWidth, StorageWidth)]
+    [DataWidth(32)]
     public readonly struct Hex32 : IHexNumber<H,W,K>
     {
 

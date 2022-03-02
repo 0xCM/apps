@@ -8,9 +8,25 @@ namespace Z0
     using K = Hex3Kind;
     using W = W3;
 
-    [DataType("hex<w:3>", HexNumberKind.Hex3, ContentWidth, StorageWidth)]
+    [DataWidth(3)]
     public readonly struct Hex3 : IHexNumber<H,W,K>
     {
+        [Parser]
+        public static Outcome parse(string src, out H dst)
+        {
+            var outcome = HexParser.parse8u(src, out var x);
+            dst = new H((K)(x & 0b111));
+            return outcome;
+        }
+
+        [Parser]
+        public static Outcome parse(ReadOnlySpan<char> src, out H dst)
+        {
+            var outcome = HexParser.parse8u(src, out var x);
+            dst = new H((K)(x & 0b111));
+            return outcome;
+        }
+
         public const byte ContentWidth = 3;
 
         public const byte StorageWidth = 8;
@@ -28,7 +44,6 @@ namespace Z0
         public static H Min => KMin;
 
         public static H Max => KMax;
-
 
         public K Value {get;}
 

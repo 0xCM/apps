@@ -38,6 +38,14 @@ namespace Z0
         public FS.FilePath FieldDefsTarget()
             => XedTargets + Tables.filename<XedFieldDef>();
 
+        public FS.FilePath RuleTableExp(RuleSetKind kind)
+            => kind switch {
+                 RuleSetKind.Enc => DocTarget(XedDocKind.EncRuleTableExp),
+                 RuleSetKind.Dec => DocTarget(XedDocKind.DecRuleTableExp),
+                 RuleSetKind.EncDec => DocTarget(XedDocKind.EncDecRuleTableExp),
+                 _ => FS.FilePath.Empty
+            };
+
         public FS.FilePath DocSource(XedDocKind kind)
             => Sources() + (kind switch{
                 XedDocKind.EncInstDef => FS.file("all-enc-instructions", FS.Txt),
@@ -67,9 +75,12 @@ namespace Z0
                  XedDocKind.DecRulePatterns => FS.file("xed.rules.dec.patterns", FS.Csv),
                  XedDocKind.OpCodeKinds => Tables.filename<OcMapKind>(),
                  XedDocKind.OpCodes => Tables.filename<RuleOpCode>(),
-                 XedDocKind.OperandEncoding =>  FS.file("xed.rules.enc.operands", FS.Csv),
-                 XedDocKind.OperandDecoding => FS.file("xed.rules.dec.operands", FS.Csv),
+                 XedDocKind.OpEnc =>  FS.file("xed.rules.enc.operands", FS.Csv),
+                 XedDocKind.OpDec => FS.file("xed.rules.dec.operands", FS.Csv),
                  XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
+                 XedDocKind.EncRuleTableExp => FS.file("xed.rules.enc.tables.exp", FS.Txt),
+                 XedDocKind.DecRuleTableExp => FS.file("xed.rules.dec.tables.exp", FS.Txt),
+                 XedDocKind.EncDecRuleTableExp => FS.file("xed.rules.encdec.tables.exp", FS.Txt),
                  _ => FS.FileName.Empty
             });
     }

@@ -10,6 +10,5 @@ namespace Z0
         [MethodImpl(Inline), Op]
         public static FieldDataType datatype(FieldDataKind kind, ushort width)
             => new FieldDataType(kind, width);
-
     }
 }

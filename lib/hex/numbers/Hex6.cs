@@ -8,9 +8,26 @@ namespace Z0
     using K = Hex6Kind;
     using W = W6;
 
-    [DataType("hex<w:6>", HexNumberKind.Hex6, ContentWidth, StorageWidth)]
+    [DataWidth(6)]
     public readonly struct Hex6 : IHexNumber<H,W,K>
     {
+        [Parser]
+        public static Outcome parse(string src, out H dst)
+        {
+            var outcome = HexParser.parse8u(src, out var x);
+            dst = new H((K)(x & 0b111111));
+            return outcome;
+        }
+
+        [Parser]
+        public static Outcome parse(ReadOnlySpan<char> src, out H dst)
+        {
+            var outcome = HexParser.parse8u(src, out var x);
+            dst = new H((K)(x & 0b111111));
+            return outcome;
+        }
+
+
         public const byte ContentWidth = 6;
 
         public const byte StorageWidth = 8;

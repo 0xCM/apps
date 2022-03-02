@@ -11,9 +11,9 @@ namespace Z0
     {
         public readonly struct InstPatternSpec
         {
-            public TextBlock PatternExpr {get;}
+            public readonly TextBlock PatternExpr;
 
-            public Index<RuleOpSpec> PatternOps {get;}
+            public readonly Index<RuleOpSpec> PatternOps;
 
             [MethodImpl(Inline)]
             public InstPatternSpec(string expr, RuleOpSpec[] ops)
@@ -21,6 +21,10 @@ namespace Z0
                 PatternExpr = expr;
                 PatternOps = ops;
             }
+
+            [MethodImpl(Inline)]
+            public InstPatternSpec WithPattern(string pattern)
+                => new InstPatternSpec(pattern, PatternOps);
 
             public string Format()
                 => string.Format("Pattern:{0}\nOperands:{1}", PatternExpr, PatternOps);

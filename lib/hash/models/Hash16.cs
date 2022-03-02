@@ -4,14 +4,20 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     [DataType("hash<w:16>")]
     public readonly struct Hash16 : IHashCode<ushort,ushort>
     {
+        [Parser]
+        public static Outcome parse(string src, out Hash16 dst)
+        {
+            var result = Hex16.parse(src, out var hex);
+            dst = 0;
+            if(result)
+                dst = (ushort)hex;
+            return result;
+        }
+
+
         public ushort Value {get;}
 
         [MethodImpl(Inline)]

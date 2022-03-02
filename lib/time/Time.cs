@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
     using System.Linq;
     using System.Diagnostics;
-    using System.Collections.Generic;
 
-    using static Root;
     using static core;
 
     [ApiHost]
@@ -36,7 +32,7 @@ namespace Z0
         public static DateTime epoch(TimeSpan src)
             => EpochBase + src;
 
-        [Op]
+        [Parser]
         public static Outcome parse(string src, out Timestamp dst)
         {
             var outcome = Outcome.Empty;

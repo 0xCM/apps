@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     partial class fmath
     {
         /// <summary>
@@ -285,21 +282,13 @@ namespace Z0
         public static double round(double src, int scale)
             => Math.Round(src, scale);
 
-        /// <summary>
-        /// Computes the sign of the operand
-        /// </summary>
-        /// <param name="src">The operand</param>
         [MethodImpl(Inline), Op]
-        public static PolarityKind signum(float src)
-            => (PolarityKind)MathF.Sign(src);
+        public static Sign sign(float src)
+            => (SignKind)MathF.Sign(src);
 
-        /// <summary>
-        /// Computes the sign of the operand
-        /// </summary>
-        /// <param name="src">The operand</param>
         [MethodImpl(Inline), Op]
-        public static PolarityKind signum(double src)
-            => (PolarityKind)Math.Sign(src);
+        public static Sign sign(double src)
+            => (SignKind)Math.Sign(src);
 
         [MethodImpl(Inline), Square]
         public static float square(float src)
