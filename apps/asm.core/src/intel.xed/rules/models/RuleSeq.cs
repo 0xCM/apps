@@ -20,6 +20,20 @@ namespace Z0
                 Terms = terms;
             }
 
+            public string Format()
+            {
+                var dst = text.buffer();
+                dst.AppendLineFormat("SEQUENCE {0}", Name);
+                for(var i=0; i<Terms.Count; i++)
+                {
+                    dst.IndentLine(4, Terms[i].Format());
+                }
+                return dst.Emit();
+            }
+
+            public override string ToString()
+                => Format();
+
             public static RuleSeq Empty => new RuleSeq(EmptyString, sys.empty<RuleSeqTerm>());
         }
     }

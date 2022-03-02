@@ -12,12 +12,45 @@ namespace Z0
 
     partial class XedRules
     {
+        internal readonly struct RuleParser
+        {
+            public const string SeqDeclSyntax = "SEQUENCE ";
+
+            public const string TableDeclSyntax = "()::";
+
+            public const string CallSyntax = "()";
+
+            public const string EncStep = " -> ";
+
+            public const string DecStep = " |";
+
+            public static bool IsCall(string src)
+                => src.Contains(CallSyntax);
+
+            public static bool IsSeqDecl(string src)
+                => src.StartsWith(SeqDeclSyntax);
+
+            public static EK classify(TextLine src)
+            {
+                var i = text.index(src.Content, Chars.Hash);
+                var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
+
+                if(content.EndsWith(TableDeclSyntax))
+                    return EK.RuleDeclaration;
+                if(content.Contains(EncStep))
+                    return EK.EncodeStep;
+                if(content.Contains(DecStep))
+                    return EK.DecodeStep;
+                if(IsCall(content))
+                    return EK.Invocation;
+                if(IsSeqDecl(content))
+                    return EK.SeqDeclaration;
+                return 0;
+            }
+        }
+
         public struct RuleTableParser
         {
-            const string Call = "()";
-
-            const string Decl = "()::";
-
             const string Neq = "!=";
 
             const char Assign = '=';
@@ -34,8 +67,6 @@ namespace Z0
 
             const string DecStep = " |";
 
-            const string SeqDecl = "SEQUENCE ";
-
             public static Outcome parse(string spec, CriterionKind ck, out RuleCriterion dst)
             {
                 var result = Outcome.Success;
@@ -44,7 +75,7 @@ namespace Z0
                 var fv = EmptyString;
                 var j = text.index(spec, Assign);
                 var k = text.index(spec, Neq);
-                var m = text.index(spec, Call);
+                var m = text.index(spec, RuleParser.CallSyntax);
                 var name = EmptyString;
 
                 if(k >= 0)
@@ -127,24 +158,6 @@ namespace Z0
                 return buffer;
             }
 
-            static EK classify(TextLine src)
-            {
-                var i = text.index(src.Content, Chars.Hash);
-                var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
-
-                if(content.EndsWith(Decl))
-                    return EK.RuleDeclaration;
-                if(content.Contains(EncStep))
-                    return EK.EncodeStep;
-                if(content.Contains(DecStep))
-                    return EK.DecodeStep;
-                if(content.EndsWith(Call))
-                    return EK.Invocation;
-                if(content.StartsWith(SeqDecl))
-                    return EK.SeqDeclaration;
-                return 0;
-            }
-
             RuleTable Table;
 
             List<RuleTable> Tables;
@@ -174,7 +187,7 @@ namespace Z0
             {
                 Line = src;
                 var result = Outcome.Success;
-                Kind = classify(Line);
+                Kind = RuleParser.classify(Line);
                 if(Kind == EK.SeqDeclaration)
                     ParseSeqTerms();
 
@@ -234,7 +247,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = classify(Line);
+                    Kind = RuleParser.classify(Line);
                     if(Kind == 0 || Kind == EK.Invocation)
                         continue;
                     else
@@ -251,7 +264,7 @@ namespace Z0
                     if(Line.IsEmpty || Line.StartsWith(Chars.Hash))
                         continue;
 
-                    Kind = classify(Line);
+                    Kind = RuleParser.classify(Line);
                     if(Kind == 0)
                         continue;
 
@@ -294,7 +307,7 @@ namespace Z0
             Outcome ParseRuleDecl()
             {
                 var result = Outcome.Success;
-                var ruledecl = text.trim(text.left(Line.Content, Decl));
+                var ruledecl = text.trim(text.left(Line.Content, RuleParser.TableDeclSyntax));
                 var i = text.index(ruledecl, Chars.Space);
                 var name = EmptyString;
                 var ret = EmptyString;
@@ -323,7 +336,6 @@ namespace Z0
                 Table = RuleTable.Empty;
                 return result;
             }
-
 
             static string normalize(string src)
             {

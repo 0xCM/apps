@@ -19,6 +19,12 @@ namespace Z0
                 Name = name;
                 IsCall = call;
             }
+
+            public string Format()
+                => IsCall ? string.Format("{0}()", Name) : Name;
+
+            public override string ToString()
+                => Format();
         }
     }
 }

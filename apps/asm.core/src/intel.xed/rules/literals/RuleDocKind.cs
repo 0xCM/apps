@@ -38,7 +38,9 @@ namespace Z0
 
         OperandEncoding,
 
-        OperandDecoding
+        OperandDecoding,
+
+        RuleSeq,
     }
 
 }

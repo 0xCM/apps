@@ -50,9 +50,9 @@ namespace Z0
                 XedDocKind.Fields => FS.file("all-fields", FS.Txt),
                 XedDocKind.FormData => FS.file("xed-idata", FS.Txt),
                 XedDocKind.ChipData => FS.file("xed-cdata", FS.Txt),
+                XedDocKind.RuleSeq => FS.file("all-enc-patterns", FS.Txt),
                 _ => FS.FileName.Empty
             });
-
 
         public FS.FilePath DocTarget(XedDocKind kind)
             => Targets() + ( kind switch{
@@ -69,6 +69,7 @@ namespace Z0
                  XedDocKind.OpCodes => Tables.filename<RuleOpCode>(),
                  XedDocKind.OperandEncoding =>  FS.file("xed.rules.enc.operands", FS.Csv),
                  XedDocKind.OperandDecoding => FS.file("xed.rules.dec.operands", FS.Csv),
+                 XedDocKind.RuleSeq => FS.file("xed.rules.seq", FS.Txt),
                  _ => FS.FileName.Empty
             });
     }

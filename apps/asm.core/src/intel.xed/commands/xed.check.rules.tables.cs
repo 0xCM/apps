@@ -43,6 +43,13 @@ namespace Z0
             return true;
         }
 
+        [CmdOp("xed/check/seq")]
+        Outcome CheckEncSeq(CmdArgs args)
+        {
+            XedRuleChecks.create(Wf).CheckRuleSeq();
+            return true;
+        }
+
         void ShowTableMacros(Index<RuleTable> tables)
         {
             var count = tables.Count;

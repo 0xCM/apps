@@ -21,5 +21,10 @@ namespace Z0.llvm.X86
         /// the flags have any sense on target level only (e.g. prefixes on x86).
         /// </summary>
         public uint Flags = 0;
+
+        public MCInst()
+        {
+
+        }
     }
 }

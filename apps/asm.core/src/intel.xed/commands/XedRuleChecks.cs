@@ -44,6 +44,18 @@ namespace Z0
             return true;
         }
 
+        public Outcome CheckRuleSeq()
+        {
+            var src = Rules.CalcRuleSeq();
+            var count = src.Count;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var seq = ref src[i];
+                Write(seq.Format());
+            }
+            return true;
+        }
+
         void TraverseTables(RuleSet src)
         {
             var dst = AppDb.XedPath("xed.rules.enc.tables.expanded", FileKind.Txt);

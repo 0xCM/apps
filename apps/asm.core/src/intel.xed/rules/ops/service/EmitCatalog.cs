@@ -18,6 +18,7 @@ namespace Z0
             var dec = EmitDecInstDefs();
             var rules = EmitRulePatterns(enc,dec);
             EmitFieldDefs();
+            EmitRuleSeq();
             EmitEncRuleTables();
             EmitDecRuleTables();
             EmitEncDecRuleTables();
