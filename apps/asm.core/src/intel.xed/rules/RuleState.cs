@@ -11,7 +11,6 @@ namespace Z0
     using static XedModels;
 
     using K = XedModels.FieldKind;
-    using N = XedModels.RuleOpName;
 
     partial class XedRules
     {
@@ -19,42 +18,6 @@ namespace Z0
         public struct RuleState
         {
             public const string TableId = "xed.rules.state";
-
-            public static ConstLookup<FieldKind,FieldInfo> fields()
-            {
-                var fields = typeof(RuleState).PublicInstanceFields();
-                var count = fields.Length;
-                var dst = dict<FieldKind,FieldInfo>();
-                for(var i=0; i<count; i++)
-                {
-                    ref readonly var field = ref skip(fields,i);
-                    var tag = field.Tag<RuleOperandAttribute>();
-                    if(tag)
-                        dst.TryAdd(tag.Value.Kind, field);
-                }
-                return dst;
-            }
-
-            public static Index<RuleFieldSpec> specs()
-            {
-                var src = typeof(RuleState).PublicInstanceFields();
-                var dst = alloc<RuleFieldSpec>(src.Length);
-                for(var i=z16; i<src.Length; i++)
-                {
-                    ref readonly var field = ref skip(src,i);
-                    ref var record = ref seek(dst,i);
-                    record.Pos = i;
-                    record.Name = field.Name;
-                    record.Type = field.FieldType.IsEnum ? string.Format("enum<{0}>", field.FieldType.Name) : field.FieldType.DisplayName();
-                    var tag = field.Tag<RuleOperandAttribute>();
-                    if(tag)
-                    {
-                        record.Width = tag.Value.Width;
-                        record.Kind = tag.Value.Kind;
-                    }
-                }
-                return dst;
-            }
 
             [RuleOperand(K.AMD3DNOW, 1)]
             public bit AMD3DNOW;
@@ -200,9 +163,6 @@ namespace Z0
             [RuleOperand(K.UBIT, 1)]
             public bit UBIT;
 
-            /// <summary>
-            /// Indicates an overridden segment selector that was not the default segment selector
-            /// </summary>
             [RuleOperand(K.USING_DEFAULT_SEGMENT0, 1)]
             public bit USING_DEFAULT_SEGMENT0;
 
@@ -245,9 +205,6 @@ namespace Z0
             [RuleOperand(K.FIRST_F2F3, 2)]
             public byte FIRST_F2F3;
 
-            /// <summary>
-            /// Indicates whether a modrm byte is specified
-            /// </summary>
             [RuleOperand(K.HAS_MODRM, 1)]
             public bit HAS_MODRM;
 
@@ -302,9 +259,6 @@ namespace Z0
             [RuleOperand(K.SIBINDEX, 3)]
             public uint3 SIBINDEX;
 
-            /// <summary>
-            /// Specifies partial-byte opcodes that capture an RM-like field.
-            /// </summary>
             [RuleOperand(K.SRM, 3)]
             public byte SRM;
 
@@ -398,7 +352,7 @@ namespace Z0
             [RuleOperand(K.INDEX, 9)]
             public XedRegId INDEX;
 
-            [RuleOperand(K.SCALE)]
+            [RuleOperand(K.SCALE, 4)]
             public byte SCALE;
 
             [RuleOperand(K.OUTREG, 9)]
@@ -460,123 +414,6 @@ namespace Z0
 
             [RuleOperand(K.MEM1, 32)]
             public text31 MEM1;
-
-            public EncodingOffsets Offsets()
-            {
-                var offsets = EncodingOffsets.init();
-                offsets.OpCode = (sbyte)(POS_NOMINAL_OPCODE);
-                if(HAS_MODRM)
-                    offsets.ModRm = (sbyte)POS_MODRM;
-                if(POS_SIB != 0)
-                    offsets.Sib = (sbyte)POS_SIB;
-                if(POS_DISP != 0)
-                    offsets.Disp = (sbyte)POS_DISP;
-                if(IMM0)
-                    offsets.Imm0 = (sbyte)POS_IMM;
-                return offsets;
-            }
-
-            public Index<K> Flags()
-            {
-                var flags = list<K>();
-                if(NEED_MEMDISP)
-                    flags.Add(K.NEED_MEMDISP);
-                if(P4)
-                    flags.Add(K.P4);
-                if(USING_DEFAULT_SEGMENT0)
-                    flags.Add(K.USING_DEFAULT_SEGMENT0);
-                if(USING_DEFAULT_SEGMENT1)
-                    flags.Add(K.USING_DEFAULT_SEGMENT1);
-                if(LZCNT)
-                    flags.Add(K.LZCNT);
-                if(TZCNT)
-                    flags.Add(K.TZCNT);
-                if(DF32)
-                    flags.Add(K.DF32);
-                if(DF64)
-                    flags.Add(K.DF64);
-                if(MUST_USE_EVEX)
-                    flags.Add(K.MUST_USE_EVEX);
-                if(REXRR)
-                    flags.Add(K.REXRR);
-                return flags.ToArray();
-            }
-
-            public RuleOperands RuleOperands(in AsmHexCode code)
-            {
-                var _ops = list<RuleOperand>();
-                if(DISP_WIDTH != 0)
-                    _ops.Add(new RuleOperand(N.DISP, disp(this, code)));
-
-                if(IMM0)
-                    _ops.Add(new RuleOperand(N.IMM0, imm(this, code)));
-
-                if(RELBR.IsNonZero)
-                    _ops.Add(new RuleOperand(N.RELBR, RELBR));
-
-                if(BASE0 != 0)
-                    _ops.Add(new RuleOperand(N.BASE0, BASE0));
-
-                if(BASE1 != 0)
-                    _ops.Add(new RuleOperand(N.BASE1, BASE1));
-
-                if(SCALE != 0)
-                    _ops.Add(new RuleOperand(N.SCALE, SCALE));
-
-                if(INDEX != 0)
-                    _ops.Add(new RuleOperand(N.INDEX, INDEX));
-
-                if(REG0 != 0)
-                    _ops.Add(new RuleOperand(N.REG0, REG0));
-
-                if(REG1 != 0)
-                    _ops.Add(new RuleOperand(N.REG1, REG1));
-
-                if(REG2 != 0)
-                    _ops.Add(new RuleOperand(N.REG2, REG2));
-
-                if(REG3 != 0)
-                    _ops.Add(new RuleOperand(N.REG3, REG3));
-
-                if(REG4 != 0)
-                    _ops.Add(new RuleOperand(N.REG4, REG4));
-
-                if(REG5 != 0)
-                    _ops.Add(new RuleOperand(N.REG5, REG5));
-
-                if(REG6 != 0)
-                    _ops.Add(new RuleOperand(N.REG6, REG6));
-
-                if(REG7 != 0)
-                    _ops.Add(new RuleOperand(N.REG7, REG7));
-
-                if(REG8 != 0)
-                    _ops.Add(new RuleOperand(N.REG8, REG8));
-
-                if(REG9 != 0)
-                    _ops.Add(new RuleOperand(N.REG9, REG9));
-
-                if(MEM0.IsNonEmpty)
-                    _ops.Add(new RuleOperand(N.MEM0, MEM0));
-
-                if(MEM1.IsNonEmpty)
-                    _ops.Add(new RuleOperand(N.MEM1, MEM1));
-
-                if(AGEN.IsNonEmpty)
-                    _ops.Add(new RuleOperand(N.AGEN, AGEN));
-
-                return map(_ops, o => (o.Name, o)).ToDictionary();
-            }
-
-            public ConstLookup<FieldKind,object> Values()
-            {
-                var dst = dict<FieldKind,object>();
-                var kinds = new FieldLookup();
-                var fields = kinds.RightValues;
-                foreach(var f in fields)
-                    dst.Add(kinds[f], f.GetValue(this));
-                return dst;
-            }
 
             public static RuleState Empty => default;
         }

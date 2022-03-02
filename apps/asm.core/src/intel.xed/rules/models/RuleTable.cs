@@ -15,7 +15,7 @@ namespace Z0
 
             public Identifier ReturnType;
 
-            public Index<XedRuleExpr> Expressions;
+            public Index<RuleExpr> Expressions;
 
             public RuleSig Sig
                 => sig(this);
@@ -33,7 +33,7 @@ namespace Z0
                     var dst = default(RuleTable);
                     dst.Name = Identifier.Empty;
                     dst.ReturnType = Identifier.Empty;
-                    dst.Expressions = sys.empty<XedRuleExpr>();
+                    dst.Expressions = sys.empty<RuleExpr>();
                     return dst;
                 }
             }

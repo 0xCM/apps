@@ -5,13 +5,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules;
+
     partial struct XedModels
     {
         public struct RuleOpSpec
         {
             public RuleOpName Name;
 
-            public XedRuleOpKind Kind;
+            public RuleOpKind Kind;
 
             public OpDirection Direction;
 

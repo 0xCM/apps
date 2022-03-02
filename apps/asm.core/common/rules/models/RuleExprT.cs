@@ -4,16 +4,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class RuleExpr<T> : RuleExpr, IRuleExpr<T>
+    partial struct Rules
     {
-        public T Content {get;}
-
-        protected RuleExpr(T value)
+        public abstract class RuleExpr<T> : Rule, IRuleExpr<T>
         {
-            Content = value;
-        }
+            public T Content {get;}
 
-        public override string Format()
-            => Content.ToString();
+            protected RuleExpr(T value)
+            {
+                Content = value;
+            }
+
+            public override string Format()
+                => Content.ToString();
+        }
     }
 }

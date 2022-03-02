@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    partial struct Rules
+    {
     public class OneOrManyRule<T> : RuleExpr<Index<T>>
     {
         public Index<T> Elements {get;}
@@ -26,4 +24,7 @@ namespace Z0
         public static implicit operator OneOrManyRule<T>(T[] src)
             => new OneOrManyRule<T>(src);
     }
+    }
+
+
 }

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     public class OptionRule<T> : RuleExpr<OptionRule<T>,T>, IOptionRule
         where T : IRuleExpr
     {
@@ -21,4 +23,7 @@ namespace Z0
         public static implicit operator OptionRule<T>(T value)
             => new OptionRule<T>(value);
     }
+    }
+
+
 }

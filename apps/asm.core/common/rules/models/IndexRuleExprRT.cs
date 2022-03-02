@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static Root;
+    partial struct Rules
+    {
 
     public abstract class IndexRuleExpr<R,T> : RuleExpr<Index<T>>
         where R : IndexRuleExpr<R,T>
@@ -30,4 +31,6 @@ namespace Z0
             get => Content.IsNonEmpty;
         }
     }
+    }
+
 }

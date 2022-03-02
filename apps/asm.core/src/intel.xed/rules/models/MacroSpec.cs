@@ -5,12 +5,10 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public struct MacroSpec
+        public struct MacroSpec : IComparable<MacroSpec>
         {
             public readonly RuleMacroName Name;
 
@@ -23,13 +21,28 @@ namespace Z0
                 Assignments = assign;
             }
 
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name != 0;
+            }
+
             public string Format()
                 => format(this);
 
             public override string ToString()
                 => Format();
 
-            public static MacroSpec Empty => new MacroSpec(RuleMacroName.None, FieldAssignment.Empty);
+            public int CompareTo(MacroSpec src)
+                => ((uint)Name).CompareTo((uint)src.Name);
+
+            public static MacroSpec Empty => new MacroSpec(RuleMacroName.nothing, FieldAssignment.Empty);
         }
     }
 }

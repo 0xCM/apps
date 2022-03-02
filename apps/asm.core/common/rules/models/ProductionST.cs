@@ -6,6 +6,8 @@ namespace Z0
 {
     using static core;
 
+    partial struct Rules
+    {
     public class Production<S,T> : Rule, IProduction<S,T>
         where S : IRuleExpr
         where T : IRuleExpr
@@ -24,4 +26,8 @@ namespace Z0
         public override string Format()
             => string.Format("{0} -> {1}", Source, Target);
     }
+    }
+
+
+
 }

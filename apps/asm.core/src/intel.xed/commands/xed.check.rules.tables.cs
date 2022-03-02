@@ -7,7 +7,6 @@ namespace Z0
     using System.Linq;
 
     using static core;
-    using static XedModels;
     using static XedRules;
 
     partial class XedCmdProvider
@@ -19,7 +18,7 @@ namespace Z0
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {
-            var src = RuleState.specs();
+            var src = RuleMachine.specs();
             TableEmit(src.View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
             return true;
         }
@@ -33,6 +32,14 @@ namespace Z0
             iter(calls, call => Write(call));
             var decrules = Xed.Rules.CalcDecRuleTables();
             var decnames = RuleNames(decrules);
+            return true;
+        }
+
+        [CmdOp("xed/check/enc")]
+        Outcome CheckEnc(CmdArgs args)
+        {
+            XedRuleChecks.create(Wf).CheckEncRules();
+
             return true;
         }
 

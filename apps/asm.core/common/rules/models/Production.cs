@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    partial struct Rules
+    {
     public sealed class Production : Production<IRuleExpr, IRuleExpr>, INullity, IProduction
     {
         [MethodImpl(Inline)]
@@ -44,4 +42,7 @@ namespace Z0
         public override string ToString()
             => Format();
     }
+    }
+
+
 }

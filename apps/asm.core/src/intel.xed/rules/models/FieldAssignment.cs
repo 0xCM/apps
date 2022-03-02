@@ -25,7 +25,7 @@ namespace Z0
             public string Format()
             {
                 if(Field == 0)
-                    return EmptyString;
+                    return "nothing";
                 else
                     return string.Format("{0}={1}", FieldKinds[Field].Expr, Value.ToString());
             }

@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     public class OptionRule : OptionRule<IRuleExpr>
     {
         public OptionRule(IRuleExpr src)
@@ -12,4 +14,7 @@ namespace Z0
 
         }
     }
+    }
+
+
 }

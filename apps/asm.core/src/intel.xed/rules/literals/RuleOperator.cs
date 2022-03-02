@@ -16,13 +16,13 @@ namespace Z0
             None,
 
             [Symbol("=")]
+            Assign,
+
+            [Symbol("==")]
             Eq,
 
             [Symbol("!=")]
             Neq,
-
-            [Symbol(":=")]
-            Assign,
 
             [Symbol("()")]
             Call,

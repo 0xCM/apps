@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Rules;
+
     public interface IOptionRule : IRuleExpr
     {
         IRuleExpr Potential {get;}

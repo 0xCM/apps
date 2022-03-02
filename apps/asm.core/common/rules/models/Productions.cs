@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     public class Productions
     {
         ConstLookup<string, IProduction> Data;
@@ -28,4 +30,7 @@ namespace Z0
         public ReadOnlySpan<IProduction> Values
             => Data.Values;
     }
+    }
+
+
 }

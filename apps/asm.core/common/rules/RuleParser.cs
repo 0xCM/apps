@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static core;
+    using static Rules;
 
     public class RuleParser
     {

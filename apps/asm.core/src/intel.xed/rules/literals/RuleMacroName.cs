@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
         public enum RuleMacroName : byte
         {
-            None,
+            nothing,
 
             mod0,
 

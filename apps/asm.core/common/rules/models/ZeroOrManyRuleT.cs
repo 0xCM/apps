@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    partial struct Rules
+    {
 
     public class ZeroOrManyRule<T>
         where T : IEquatable<T>
@@ -37,4 +35,7 @@ namespace Z0
         public static implicit operator ZeroOrManyRule<T>(T[] src)
             => new ZeroOrManyRule<T>(src);
     }
+
+    }
+
 }

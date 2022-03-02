@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
+
     public class ChoiceRule : ChoiceRule<RuleValue>
     {
         public ChoiceRule(Index<RuleValue> src)
@@ -12,4 +15,6 @@ namespace Z0
 
         }
     }
+    }
+
 }

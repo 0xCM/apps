@@ -6,9 +6,16 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
 
     partial class XedRules
     {
+        public static string format(RuleOperator src)
+            => RuleOps[src].Expr.Text;
+
+        public static string format(FieldKind src)
+            => FieldKinds[src].Expr.Text;
+
         internal static string format(in MacroSpec src)
         {
             var dst = text.buffer();
@@ -26,6 +33,16 @@ namespace Z0
             return dst.Emit();
         }
 
+        internal static string format(in RuleCriterion src)
+        {
+            if(src.Operator == RuleOperator.Call)
+                return string.Format("{0}()", src.Value);
+            else if(src.Operator != 0)
+                return string.Format("{0}{1}{2}", Symbols.expr(src.Field), Symbols.expr(src.Operator), src.Value);
+            else
+                return string.Format("{0}", src.Value);
+        }
+
         internal static string format(in RuleTable src)
         {
             var dst = text.buffer();
@@ -39,7 +56,7 @@ namespace Z0
             return dst.Emit();
         }
 
-        internal static string format(in XedRuleExpr src)
+        internal static string format(in RuleExpr src)
         {
             var sep = src.Kind == RuleFormKind.EncodeStep ? " -> " : " | ";
             var dst = text.buffer();

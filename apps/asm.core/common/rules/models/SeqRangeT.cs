@@ -6,6 +6,8 @@ namespace Z0
 {
     using XF = ExprPatterns;
 
+    partial struct Rules
+    {
     /// <summary>
     /// Constrains an element or sequence to live within a specified range
     /// </summary>
@@ -40,4 +42,7 @@ namespace Z0
         public static implicit operator SeqRange<T>((T min, T max) src)
             => new SeqRange<T>(src.min, src.max);
     }
+    }
+
+
 }

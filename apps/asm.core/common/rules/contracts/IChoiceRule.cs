@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Rules;
     public interface IChoiceRule : IRuleExpr
     {
         Index<IRuleExpr> Terms {get;}

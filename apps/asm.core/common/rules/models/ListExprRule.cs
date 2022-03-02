@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     public class ListExprRule : RuleExpr<Index<IRuleExpr>>, IListRule
     {
         public Index<IRuleExpr> Terms
@@ -34,4 +36,7 @@ namespace Z0
         public static implicit operator ListExprRule(IRuleExpr[] src)
             => new ListExprRule(src);
     }
+    }
+
+
 }

@@ -8,7 +8,7 @@ namespace Z0.llvm
 
     using Asm;
 
-    using static Root;
+    using static Rules;
     using static core;
 
     public readonly struct AsmStrings

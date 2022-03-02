@@ -4,12 +4,15 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public class ListProduction : Production<IRuleExpr, SeqExpr>, IListProduction<IRuleExpr>
+    partial struct Rules
     {
-        public ListProduction(IRuleExpr src, SeqExpr dst)
-            : base(src, dst)
+        public class ListProduction : Production<IRuleExpr, SeqExpr>, IListProduction<IRuleExpr>
         {
+            public ListProduction(IRuleExpr src, SeqExpr dst)
+                : base(src, dst)
+            {
 
+            }
         }
     }
 }

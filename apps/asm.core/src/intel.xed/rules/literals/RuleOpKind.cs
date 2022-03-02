@@ -5,30 +5,33 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public enum XedRuleOpKind : byte
+    partial class XedRules
     {
-        None,
+        public enum RuleOpKind : byte
+        {
+            None,
 
-        Agen,
+            Agen,
 
-        Base,
+            Base,
 
-        Disp,
+            Disp,
 
-        Imm,
+            Imm,
 
-        Index,
+            Index,
 
-        Mem,
+            Mem,
 
-        Ptr,
+            Ptr,
 
-        Reg,
+            Reg,
 
-        RelBr,
+            RelBr,
 
-        Scale,
+            Scale,
 
-        Seg,
+            Seg,
+        }
     }
 }

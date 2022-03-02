@@ -5,7 +5,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    using static XedModels;
+
+    partial class XedRules
     {
         public class RuleOperands
         {

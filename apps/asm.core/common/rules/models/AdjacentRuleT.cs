@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
+
     /// <summary>
     /// Represents the consecutive occurrence of two values within a sequence
     /// </summary>
@@ -27,4 +30,6 @@ namespace Z0
         public static implicit operator AdjacentRule<T>(Pair<T> src)
             => new AdjacentRule<T>(src.Left, src.Right);
     }
+    }
+
 }

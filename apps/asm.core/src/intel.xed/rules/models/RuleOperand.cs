@@ -6,6 +6,8 @@ namespace Z0
 {
     using Asm;
 
+    using static XedRules;
+
     partial struct XedModels
     {
         public struct RuleOperand
@@ -49,6 +51,7 @@ namespace Z0
                 Value = value;
             }
 
+            [MethodImpl(Inline)]
             public bool Reg(out Register dst)
             {
                 if(Value is Register r)
@@ -63,6 +66,7 @@ namespace Z0
                 }
             }
 
+            [MethodImpl(Inline)]
             public bool Disp(out Asm.Disp dst)
             {
                 if(Value is Disp x)
@@ -77,6 +81,7 @@ namespace Z0
                 }
             }
 
+            [MethodImpl(Inline)]
             public bool Disp(out Z0.Imm dst)
             {
                 if(Value is Imm x)
@@ -91,6 +96,7 @@ namespace Z0
                 }
             }
 
+            [MethodImpl(Inline)]
             public bool Disp(out text31 dst)
             {
                 if(Value is text31 x)
@@ -105,6 +111,7 @@ namespace Z0
                 }
             }
 
+            [MethodImpl(Inline)]
             public bool Byte(out byte dst)
             {
                 if(Value is byte x)

@@ -6,6 +6,8 @@ namespace Z0
 {
     using static ExprPatterns;
 
+    partial struct Rules
+    {
     [StructLayout(LayoutKind.Sequential)]
     public class BetweenRule<T> : RuleExpr<Pair<T>>
     {
@@ -26,4 +28,7 @@ namespace Z0
         public static implicit operator BetweenRule<T>((T min, T max) src)
             => new BetweenRule<T>(src.min, src.max);
     }
+    }
+
+
 }

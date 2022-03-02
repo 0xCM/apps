@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public interface IListProduction<S> : IProduction<S,SeqExpr>
+     using static Rules;
+
+   public interface IListProduction<S> : IProduction<S,SeqExpr>
         where S : IRuleExpr
     {
 

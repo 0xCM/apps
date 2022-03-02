@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    partial struct Rules
+    {
     /// <summary>
     /// Specifies that an element either occurs once or not at all
     /// </summary>
@@ -41,4 +38,8 @@ namespace Z0
         public static implicit operator ZeroOrOneRule<T>(T src)
             => new ZeroOrOneRule<T>(src);
     }
+
+    }
+
+
 }

@@ -4,15 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    public abstract class RuleExpr<R,T> : RuleExpr<T>
-        where R : RuleExpr<R,T>
+    partial struct Rules
     {
-        protected RuleExpr(T content)
-            : base(content)
+        public abstract class RuleExpr<R,T> : RuleExpr<T>
+            where R : RuleExpr<R,T>
         {
+            protected RuleExpr(T content)
+                : base(content)
+            {
 
+            }
+
+            public override bool IsTerminal {get; protected set;}
         }
-
-        public override bool IsTerminal {get; protected set;}
     }
 }

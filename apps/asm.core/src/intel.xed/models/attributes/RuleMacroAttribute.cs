@@ -7,7 +7,7 @@ namespace Z0
 {
     using System;
 
-    partial struct XedModels
+    partial class XedRules
     {
         public class RuleMacroAttribute : Attribute
         {

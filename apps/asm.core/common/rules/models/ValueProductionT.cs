@@ -4,19 +4,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
-    using static Root;
 
-    public abstract class ValueProduction<T> : Production<T,T>
-        where T : IRuleExpr
+    partial struct Rules
     {
-        protected ValueProduction(T src, T dst)
-            : base(src,dst)
+        public abstract class ValueProduction<T> : Production<T,T>
+            where T : IRuleExpr
         {
+            protected ValueProduction(T src, T dst)
+                : base(src,dst)
+            {
 
+            }
         }
     }
 }

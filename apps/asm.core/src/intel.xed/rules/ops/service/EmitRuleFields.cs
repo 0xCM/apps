@@ -6,29 +6,28 @@
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     partial class XedRules
     {
         public Index<RuleFieldSpec> CalcRuleFields()
-            => RuleState.specs();
+            => RuleMachine.specs();
 
         public void EmitRuleFields()
             => TableEmit(CalcRuleFields().View, RuleFieldSpec.RenderWidths, AppDb.XedTable<RuleFieldSpec>());
 
         public Index<MacroAssignment> CalcMacroAssignments()
         {
-            var macros = RuleMacros.discover();
-            var count = macros.Length;
+            var src = macros();
+            var count = src.Length;
             var buffer = alloc<MacroAssignment>(count);
-
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
-                ref readonly var m = ref macros[i];
+                ref readonly var m = ref src[i];
                 var assignments = m.Assignments;
                 var j=0;
                 var k = m.Assignments.Count;
                 ref var dst = ref seek(buffer,i);
+                dst.Seq = i;
                 dst.MacroName = m.Name;
                 if(k >= 1)
                     dst.A0 = assignments[j++];
@@ -83,7 +82,7 @@ namespace Z0
                 ExpandMacros(specs, ref expressions[i]);
         }
 
-        void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, ref XedRuleExpr src)
+        void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, ref RuleExpr src)
         {
             ExpandMacros(specs, src.Premise);
             ExpandMacros(specs, src.Consequent);
@@ -120,7 +119,7 @@ namespace Z0
         void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, ref RuleCriterion src)
         {
             if(MacroNames.Lookup(src.Value, out var name))
-                src.Value = specs[name].Assignments.Format();
+                src = src.WithValue(specs[name].Assignments.Format());
         }
     }
 }

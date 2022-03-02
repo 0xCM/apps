@@ -14,8 +14,6 @@ namespace Z0
     {
         const NumericKind Closure = UnsignedInts;
 
-        Symbols<IClass> Classes;
-
         Symbols<CategoryKind> Categories;
 
         Symbols<ExtensionKind> Extensions;
@@ -48,7 +46,6 @@ namespace Z0
 
         public XedRules()
         {
-            Classes = Symbols.index<IClass>();
             Categories = Symbols.index<CategoryKind>();
             Extensions = Symbols.index<ExtensionKind>();
             Forms = Symbols.index<IFormType>();
@@ -89,7 +86,7 @@ namespace Z0
             => Symbols.index<NonterminalKind>().Kinds;
 
         Outcome ParseIClass(string src, out IClass dst)
-            => Classes.ExprKind(src, out dst);
+            => InstClasses.ExprKind(src, out dst);
 
         Outcome ParseIsaKind(string src, out IsaKind dst)
             => IsaKinds.ExprKind(src, out dst);
@@ -153,11 +150,26 @@ namespace Z0
 
         static Symbols<RuleMacroName> MacroNames;
 
+        static Symbols<BCastKind> BCastKinds;
+
+        static Symbols<ChipCode> ChipCodes;
+
+        static Symbols<XedRegId> XedRegs;
+
+        static Symbols<IClass> InstClasses;
+
+        static Symbols<RuleOperator> RuleOps;
+
         static XedRules()
         {
             FieldKinds = Symbols.index<FieldKind>();
             MacroNames = Symbols.index<RuleMacroName>();
-        }
+            BCastKinds = Symbols.index<BCastKind>();
+            ChipCodes = Symbols.index<ChipCode>();
+            XedRegs = Symbols.index<XedRegId>();
+            InstClasses = Symbols.index<IClass>();
+            RuleOps = Symbols.index<RuleOperator>();
+       }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";
     }

@@ -12,51 +12,58 @@ namespace Z0
     {
         TypeParser TypeParser => Service(Wf.TypeParser);
 
-        public static Identifier spec(FieldType @base, byte width)
+        public static Identifier bitsname(byte width)
+        {
+            var dst = Identifier.Empty;
+            switch(width)
+            {
+                case 1:
+                    dst = nameof(bit);
+                break;
+                case 2:
+                    dst = nameof(uint2);
+                break;
+                case 3:
+                    dst = nameof(uint3);
+                break;
+                case 4:
+                    dst = nameof(uint4);
+                break;
+                case 5:
+                    dst = nameof(uint5);
+                break;
+                case 6:
+                    dst = nameof(uint6);
+                break;
+                case 7:
+                    dst = nameof(uint7);
+                break;
+                case 8:
+                    dst = nameof(eight);
+                break;
+                default:
+                {
+                    if(width <= 16)
+                        dst = CsKeywords.U16;
+                    else if(width <= 32)
+                        dst = CsKeywords.U32;
+                    else if(width <= 64)
+                        dst = CsKeywords.U64;
+                    else
+                        dst = RP.Error;
+                }
+                break;
+            }
+            return dst;
+        }
+
+        public static Identifier name(FieldType @base, byte width)
         {
             var dst = Identifier.Empty;
             switch(@base)
             {
                 case FT.Bits:
-                    switch(width)
-                    {
-                        case 1:
-                            dst = nameof(bit);
-                        break;
-                        case 2:
-                            dst = nameof(uint2);
-                        break;
-                        case 3:
-                            dst = nameof(uint3);
-                        break;
-                        case 4:
-                            dst = nameof(uint4);
-                        break;
-                        case 5:
-                            dst = nameof(uint5);
-                        break;
-                        case 6:
-                            dst = nameof(uint6);
-                        break;
-                        case 7:
-                            dst = nameof(uint7);
-                        break;
-                        case 8:
-                            dst = nameof(eight);
-                        break;
-                        default:
-                        {
-                            if(width <= 16)
-                                dst = CsKeywords.U16;
-                            else if(width <= 32)
-                                dst = CsKeywords.U32;
-                            else if(width <= 64)
-                                dst = CsKeywords.U64;
-                            else
-                                dst = RP.Error;
-                        }
-                        break;
-                    }
+                    dst = bitsname(width);
                 break;
                 case FT.Reg:
                     dst = TypeSyntax.@enum(nameof(XedRegId)).Format();

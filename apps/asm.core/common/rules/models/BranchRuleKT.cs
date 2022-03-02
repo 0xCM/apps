@@ -8,6 +8,8 @@ namespace Z0
 
     using XF = ExprPatterns;
 
+    partial struct Rules
+    {
     public class BranchRule<K,T> : IExpr
         where K : unmanaged
         where T : IExpr
@@ -58,4 +60,7 @@ namespace Z0
         public override string ToString()
             => Format();
     }
+    }
+
+
 }

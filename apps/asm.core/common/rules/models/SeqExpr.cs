@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
+    partial struct Rules
+    {
 
     public class SeqExpr : RuleExpr<Index<IExpr>>, ISeqExpr<IExpr>
     {
@@ -44,4 +42,6 @@ namespace Z0
         public static implicit operator SeqExpr(IExpr[] src)
             => new SeqExpr(src);
     }
+    }
+
 }

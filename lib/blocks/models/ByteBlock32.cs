@@ -109,6 +109,14 @@ namespace Z0
             return dst;
         }
 
+        [MethodImpl(Inline)]
+        public static implicit operator B(ReadOnlySpan<byte> src)
+        {
+            var dst = Empty;
+            api.copy(src,ref dst);
+            return dst;
+        }
+
         public static B Empty => default;
     }
 }

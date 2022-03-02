@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     [StructLayout(LayoutKind.Sequential)]
     public class ReplaceRule<T> : IRuleExpr
     {
@@ -30,4 +32,7 @@ namespace Z0
         public override string ToString()
             => Format();
     }
+    }
+
+
 }

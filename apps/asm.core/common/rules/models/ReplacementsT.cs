@@ -4,11 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    partial struct Rules
+    {
     public class Replacements<T>
     {
         Index<ReplaceRule<T>> Data {get;}
@@ -29,4 +26,7 @@ namespace Z0
         public static implicit operator Replacements<T>(ReplaceRule<T>[] src)
             => new Replacements<T>(src);
     }
+    }
+
+
 }

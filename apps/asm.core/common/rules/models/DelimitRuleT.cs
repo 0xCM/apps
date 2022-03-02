@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
+
     public class DelimitRule<T> : Rule
         where T : IEquatable<T>
     {
@@ -26,4 +29,6 @@ namespace Z0
         public static implicit operator DelimitRule<T>(T src)
             => new DelimitRule<T>(src);
     }
+    }
+
 }

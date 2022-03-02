@@ -11,32 +11,34 @@ namespace Z0
     {
         public struct RuleCriterion
         {
-            public FieldKind Kind;
+            public readonly CriterionKind Kind;
 
-            public RuleOperator Operator;
+            public readonly FieldKind Field;
 
-            public string Value;
+            public readonly RuleOperator Operator;
+
+            public readonly string Value;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(FieldKind kind, RuleOperator @op, string value)
+            public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator @op, string value)
             {
                 Kind = kind;
+                Field = field;
                 Operator = @op;
                 Value = value;
             }
 
+            [MethodImpl(Inline)]
+            public RuleCriterion WithValue(string value)
+                => new RuleCriterion(Kind, Field, Operator, value);
+
             public string Format()
-            {
-                if(Operator == RuleOperator.Call)
-                    return string.Format("{0}()", Value);
-                else if(Operator != 0)
-                    return string.Format("{0}{1}{2}", Symbols.expr(Kind), Symbols.expr(Operator), Value);
-                else
-                    return string.Format("{0}", Value);
-            }
+                => format(this);
 
             public override string ToString()
                 => Format();
+
+            public static RuleCriterion Empty => new RuleCriterion(0,0,0,EmptyString);
         }
     }
 }

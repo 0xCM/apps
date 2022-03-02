@@ -67,43 +67,43 @@ namespace Z0
             var result = Outcome.Success;
             dst = new RuleOpSpec();
             dst.Name = name;
-            dst.Kind = XedRuleOps.kind(name);
+            dst.Kind = XedRules.opkind(name);
             dst.Name = name;
             dst.Function = TableFunction.Empty;
             dst.Attributes = attribs;
             switch(dst.Kind)
             {
-                case XedRuleOpKind.Agen:
+                case RuleOpKind.Agen:
                 break;
 
-                case XedRuleOpKind.Base:
+                case RuleOpKind.Base:
                 break;
 
-                case XedRuleOpKind.Disp:
+                case RuleOpKind.Disp:
                 break;
 
-                case XedRuleOpKind.Imm:
+                case RuleOpKind.Imm:
                 break;
 
-                case XedRuleOpKind.Index:
+                case RuleOpKind.Index:
                 break;
 
-                case XedRuleOpKind.Mem:
+                case RuleOpKind.Mem:
                 break;
 
-                case XedRuleOpKind.Ptr:
+                case RuleOpKind.Ptr:
                 break;
 
-                case XedRuleOpKind.Reg:
+                case RuleOpKind.Reg:
                 break;
 
-                case XedRuleOpKind.RelBr:
+                case RuleOpKind.RelBr:
                 break;
 
-                case XedRuleOpKind.Scale:
+                case RuleOpKind.Scale:
                 break;
 
-                case XedRuleOpKind.Seg:
+                case RuleOpKind.Seg:
                 break;
 
             }

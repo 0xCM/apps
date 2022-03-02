@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     /// <summary>
     /// Just one, neither more nor less
     /// </summary>
@@ -19,4 +21,7 @@ namespace Z0
         public static implicit operator SingleRule<T>(T src)
             => new SingleRule<T>(src);
     }
+    }
+
+
 }

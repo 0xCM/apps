@@ -66,7 +66,7 @@ namespace Z0
                 return result;
             }
 
-            var parser = new XedOperandParser();
+            var parser = new FieldParser();
             for(var i=0u; i<count; i++)
             {
                 result = ParseInstruction(blocks[i], out var inst);
@@ -155,9 +155,11 @@ namespace Z0
             dst.IForm = inst.Form;
             dst.SourceName = text.remove(summary.Source.Path.FileName.Format(), "." + FileKindNames.xeddisasm_raw);
 
-            var parser = new XedOperandParser();
+            var parser = new FieldParser();
             parser.ParseState(inst.Props.Edit, out var state);
-            dst.Offsets = state.Offsets();
+            var machine = RuleMachine.create(state);
+
+            dst.Offsets = machine.Offsets();
             dst.OpCode = state.NOMINAL_OPCODE;
             dst.Operands = alloc<OperandDetail>(block.OperandCount);
 
@@ -165,14 +167,12 @@ namespace Z0
             var ocsrm = math.and((byte)state.SRM, state.NOMINAL_OPCODE);
             Require.equal(state.SRM, ocsrm);
 
-            //var ocbits = (byte)state.NOMINAL_OPCODE;
             if(state.NOMINAL_OPCODE != code[ocpos])
             {
                 result = (false, string.Format("Extracted opcode value {0} differs from parsed opcode value {1}", state.NOMINAL_OPCODE, state.MODRM_BYTE));
                 return result;
             }
-
-            var ruleops = state.RuleOperands(code);
+            var ruleops = machine.RuleOperands(code);
             var opcount = dst.Operands.Count;
             for(var k=0; k<opcount; k++)
             {
@@ -190,7 +190,7 @@ namespace Z0
                 var indicator = opwidth.Name;
                 var width = opwidth.Width64;
                 var widthdesc = string.Format("{0}:{1}", opwidth.Name, opwidth.Width64);
-                var opname = XedRuleOps.name(op.Kind);
+                var opname = XedRules.opname(op.Kind);
                 opdetail.RuleOpName = opname;
                 var opval = RuleOperand.Empty;
                 var opvalfmt = EmptyString;
@@ -296,7 +296,7 @@ namespace Z0
             dst.EASZ = Sizes.native(width((EASZ)state.EASZ));
             dst.EOSZ = Sizes.native(width((EOSZ)state.EOSZ));
 
-            var flags = state.Flags().Delimit();
+            var flags = machine.Flags().Delimit();
             return result;
         }
 

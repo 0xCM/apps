@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static Rules;
+
     partial class CheckCmdProvider
     {
         [CmdOp("check/sorters")]

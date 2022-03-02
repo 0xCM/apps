@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     public class RuleValue : RuleValue<@string>
     {
         public RuleValue(string src, bool terminal = false)
@@ -19,4 +21,7 @@ namespace Z0
         public static implicit operator RuleValue(@string src)
             => new RuleValue(src);
     }
+    }
+
+
 }

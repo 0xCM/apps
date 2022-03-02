@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
+    partial struct Rules
+    {
     public class RuleValue<T> : RuleExpr<RuleValue<T>,T>
     {
         public RuleValue(T src, bool terminal = false)
@@ -27,4 +25,7 @@ namespace Z0
         public static implicit operator T (RuleValue<T> src)
             => src.Content;
     }
+    }
+
+
 }

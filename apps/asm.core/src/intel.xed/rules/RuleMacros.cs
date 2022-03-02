@@ -15,14 +15,14 @@ namespace Z0
     using static XedModels.SegPrefixKind;
     using static XedModels.VexMapKind;
     using static XedModels.BCastKind;
-    using X = XedModels.XopMapKind;
     using static bit;
 
     using K = XedModels.FieldKind;
-    using M = XedModels.RuleMacroName;
+    using M = XedRules.RuleMacroName;
     using P = XedModels.RepPrefix;
     using D = XedModels.SegDefaultKind;
     using V = XedModels.VexPrefixKind;
+    using X = XedModels.XopMapKind;
 
     using static core;
 
@@ -38,8 +38,7 @@ namespace Z0
                 var dst = alloc<MacroSpec>(count);
                 for(var i=0; i<count; i++)
                     seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null,  sys.empty<object>());
-
-                return dst;
+                return dst.Sort();
             }
 
             [MethodImpl(Inline), Op]
@@ -137,6 +136,10 @@ namespace Z0
             [MethodImpl(Inline), Op]
             public static MacroSpec rex_reqd()
                 => assign(M.rex_reqd, K.REX, On);
+
+            [MethodImpl(Inline), Op]
+            public static MacroSpec nothing()
+                => MacroSpec.Empty;
 
             [MethodImpl(Inline), Op]
             public static MacroSpec no_rex()

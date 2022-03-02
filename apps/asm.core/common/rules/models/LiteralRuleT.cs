@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    partial struct Rules
+    {
     public class LiteralRule<T> : RuleExpr<T>, ILiteralRule<T>
     {
         public LiteralRule(T src)
@@ -21,4 +23,7 @@ namespace Z0
         public static implicit operator LiteralRule<T>(T src)
             => new LiteralRule<T>(src);
     }
+    }
+
+
 }
