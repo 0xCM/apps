@@ -1,14 +1,13 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : xed-iclass-enum.h
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using static XedRules.RuleOpName;
-    using static XedModels;
 
-    using FK = XedModels.FieldKind;
+    using FK = XedRules.FieldKind;
 
     partial class XedRules
     {

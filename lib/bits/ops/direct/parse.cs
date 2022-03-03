@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
     using static core;
+    using static bit;
 
     partial class bits
     {
@@ -16,44 +14,91 @@ namespace Z0
         /// </summary>
         /// <param name="src">The bit source</param>
         [Op]
-        public static Outcome parse(string src, out Span<bit> dst)
+        public static int parse(string src, out Span<bit> dst)
         {
             dst = alloc<bit>(src.Length);
-            var result = parse(src,dst);
-            if(result.Ok)
-                dst = core.slice(dst,0, result.Data);
+            var count = parse(src,dst);
+            if(count >= 0)
+                dst = core.slice(dst, 0, count);
             else
                 dst = default;
-
-            return result;
+            return count;
         }
 
-        public static Outcome<uint> parse(string src, Span<bit> dst)
+        public static int parse(string src, byte n, out byte dst)
         {
-            var input = core.span(src.RemoveBlanks().Remove("0b")).Reverse();
-            if(input.Length > dst.Length)
-                return (false, "Insufficient buffer size");
+            var storage = 0ul;
+            var width = min(n, (byte)8);
+            dst = 0;
+            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
+            var count = parse(src, buffer);
+            if(count >= 0)
+                dst = BitPack.scalar<byte>(buffer);
+            return count;
+        }
 
-            var result = Outcome.Success;
+        public static int parse(string src, byte n, out ushort dst)
+        {
+            var storage = 0ul;
+            var width = min(n, (byte)16);
+            dst = 0;
+            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
+            var count = parse(src, buffer);
+            if(count >= 0)
+                dst = BitPack.scalar<ushort>(buffer);
+            return count;
+        }
+
+        public static int parse(string src, byte n, out uint dst)
+        {
+            var storage = 0ul;
+            var width = min(n, (byte)32);
+            dst = 0;
+
+            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
+            var count = parse(src, buffer);
+            if(count >= 0)
+                dst = BitPack.scalar<uint>(buffer);
+            return count;
+        }
+
+        public static int parse(string src, byte n, out ulong dst)
+        {
+            var storage = 0ul;
+            var width = min(n, (byte)64);
+            dst = 0;
+            var buffer = recover<bit>(core.slice(core.bytes(storage), 0, width));
+            var count = parse(src, buffer);
+            if(count >= 0)
+                dst = BitPack.scalar<ulong>(buffer);
+            return count;
+        }
+
+        public static int parse(string src, Span<bit> dst)
+        {
+            var input = core.span(src.RemoveBlanks().Remove("0b").Remove("_")).Reverse();
+            if(input.Length > dst.Length)
+                return -1;
+
+            var result = true;
             var count = input.Length;
-            var lastix = count - 1;
-            var counter = 0u;
+            var counter = 0;
             for(var i=0; i<count; i++)
             {
                 ref readonly var c = ref skip(input,i);
                 ref var bit = ref seek(dst, i);
                 if(c == bit.Zero)
-                    bit = bit.Off;
+                    bit = Off;
                 else if(c == bit.One)
-                    bit = bit.On;
+                    bit = On;
                 else
                 {
-                    result = (false, string.Format("Found non-binary digit in {0}", src));
+                    result = false;
                     break;
                 }
                 counter++;
             }
-            return result.Ok ? (true,counter) : result;
+            return result ? counter : -1;
         }
     }
 }

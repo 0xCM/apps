@@ -9,7 +9,7 @@ namespace Z0
     using System.Linq;
 
     using static core;
-    using static XedModels;
+    using static XedRules;
     partial class ProjectCmdProvider
     {
         [CmdOp("project/collect")]

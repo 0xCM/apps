@@ -11,10 +11,6 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        WsProjects Projects => Service(Wf.WsProjects);
-
-        AppDb AppDb => Service(Wf.AppDb);
-
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {

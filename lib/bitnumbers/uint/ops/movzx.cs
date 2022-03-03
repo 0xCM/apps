@@ -77,13 +77,13 @@ namespace Z0
             => new uint7(src.data, true);
 
         /// <summary>
-        /// Promotes a <see cref='T.uint1'/> to a <see cref='T.eight'/>
+        /// Promotes a <see cref='T.uint1'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movzx(uint1 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movzx(uint1 src, W8 w)
+            => new uint8b(src.data);
 
         /// <summary>
         /// Promotes a <see cref='U'/> to a <see cref='T.uint3'/>
@@ -131,13 +131,13 @@ namespace Z0
             => new uint7(src.data, true);
 
         /// <summary>
-        /// Zero-extends a <see cref='T.uint2'/> to a <see cref='T.eight'/>
+        /// Zero-extends a <see cref='T.uint2'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movzx(uint2 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movzx(uint2 src, W8 w)
+            => new uint8b(src.data);
 
         /// <summary>
         /// Zero-extends a <see cref='T.uint3'/> to a <see cref='T.uint4'/>
@@ -176,13 +176,13 @@ namespace Z0
             => new uint7(src.data, true);
 
         /// <summary>
-        /// Zero-extends a <see cref='T.uint3'/> to a <see cref='T.eight'/>
+        /// Zero-extends a <see cref='T.uint3'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movzx(uint3 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movzx(uint3 src, W8 w)
+            => new uint8b(src.data);
 
         /// <summary>
         /// Zero-extends a <see cref='T.uint4'/> to a <see cref='T.uint5'/>
@@ -212,13 +212,13 @@ namespace Z0
             => new uint7(src.data, true);
 
         /// <summary>
-        /// Zero-extends a <see cref='T.uint4'/> to a <see cref='T.eight'/>
+        /// Zero-extends a <see cref='T.uint4'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movzx(uint4 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movzx(uint4 src, W8 w)
+            => new uint8b(src.data);
 
         /// <summary>
         /// Zero-extends a <see cref='T.uint5'/> to a <see cref='T.uint6'/>
@@ -239,13 +239,13 @@ namespace Z0
             => new uint7(src.data, true);
 
         /// <summary>
-        /// Zero-extends a <see cref='T.uint5'/> to a <see cref='T.eight'/>
+        /// Zero-extends a <see cref='T.uint5'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movzx(uint5 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movzx(uint5 src, W8 w)
+            => new uint8b(src.data);
 
         /// <summary>
         /// Zero-extends a <see cref='T.uint6'/> to a <see cref='T.uint7'/>
@@ -257,21 +257,21 @@ namespace Z0
             => new uint7(src.data, true);
 
         /// <summary>
-        /// Zero-extends a <see cref='T.uint6'/> to a <see cref='T.eight'/>
+        /// Zero-extends a <see cref='T.uint6'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movxz(uint6 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movxz(uint6 src, W8 w)
+            => new uint8b(src.data);
 
         /// <summary>
-        /// Zero-extends a <see cref='T.uint7'/> to a <see cref='T.eight'/>
+        /// Zero-extends a <see cref='T.uint7'/> to a <see cref='T.uint8b'/>
         /// </summary>
         /// <param name="src">The source value</param>
         /// <param name="w">The target width</param>
         [MethodImpl(Inline), Op]
-        public static eight movzx(uint7 src, W8 w)
-            => new eight(src.data);
+        public static uint8b movzx(uint7 src, W8 w)
+            => new uint8b(src.data);
     }
 }

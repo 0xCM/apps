@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : xed-operand-storage.h/all-fields.txt
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using System;
 
-    partial struct XedModels
+    partial class XedRules
     {
         public class RuleOperandAttribute : Attribute
         {

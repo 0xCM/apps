@@ -7,40 +7,29 @@ namespace Z0
 {
     using static XedModels;
 
+    using Asm;
+
     partial class XedRules
     {
-        [Record(TableId)]
-        public struct RulePattern : IEquatable<RulePattern>, IComparable<RulePattern>
+        [StructLayout(LayoutKind.Sequential, Pack=1)]
+        public readonly struct RulePattern
         {
-            public const string TableId = "xed.rules.patterns";
+            public readonly IClass Class;
 
-            public const byte FieldCount = 5;
+            public readonly OpCodeKind OcKind;
 
-            public uint Seq;
+            public readonly AsmOcValue OcValue;
 
-            public Hash32 Hash;
+            public readonly Index<RuleToken> Tokens;
 
-            public IClass Class;
-
-            public OpCodeKind OpCodeKind;
-
-            public TextBlock Expression;
-
-            public override int GetHashCode()
-                => (int)Hash;
-
-            public bool Equals(RulePattern src)
-                => Expression.Equals(src.Expression);
-
-            public int CompareTo(RulePattern src)
+            [MethodImpl(Inline)]
+            public RulePattern(IClass @class, OpCodeKind kind, AsmOcValue value, RuleToken[] tokens)
             {
-                var i = ((ushort)Class).CompareTo(((ushort)src.Class));
-                if(i == 0)
-                    i = Expression.CompareTo(src.Expression);
-                return i;
+                Class = @class;
+                OcKind = kind;
+                OcValue = value;
+                Tokens = tokens;
             }
-
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{6,12,24,16,1};
         }
     }
 }

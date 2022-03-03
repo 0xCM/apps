@@ -6,6 +6,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
     [StructLayout(LayoutKind.Sequential, Pack=1), Record(TableId)]
     public struct XedInstOperand

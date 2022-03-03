@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public Index<RuleOpCode> CalcOpCodes(ReadOnlySpan<RulePattern> src)
+        public Index<RuleOpCode> CalcOpCodes(ReadOnlySpan<RulePatternInfo> src)
             => XedOpCodeParser.create().Parse(src);
     }
 }

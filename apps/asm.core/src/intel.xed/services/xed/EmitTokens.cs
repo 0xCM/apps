@@ -5,6 +5,7 @@
 namespace Z0.Asm
 {
     using static XedModels;
+    using static XedRules;
 
     partial class IntelXed
     {

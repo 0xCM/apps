@@ -39,7 +39,7 @@ namespace Z0
                     dst = nameof(uint7);
                 break;
                 case 8:
-                    dst = nameof(eight);
+                    dst = nameof(uint8b);
                 break;
                 default:
                 {

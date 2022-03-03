@@ -9,15 +9,15 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<RulePattern> CalcDecPatterns()
+        public Index<RulePatternInfo> CalcDecPatterns()
             => CalcRulePatterns(CalcDecInstDefs());
 
-        public Index<RulePattern> CalcEncPatterns()
+        public Index<RulePatternInfo> CalcEncPatterns()
             => CalcRulePatterns(CalcEncInstDefs());
 
-        public Index<RulePattern> CalcRulePatterns(ReadOnlySpan<InstDef> src)
+        public Index<RulePatternInfo> CalcRulePatterns(ReadOnlySpan<InstDef> src)
         {
-            var buffer = hashset<RulePattern>();
+            var buffer = hashset<RulePatternInfo>();
             var instcount = src.Length;
             for(var i=0; i<instcount; i++)
             {
@@ -27,7 +27,7 @@ namespace Z0
                 for(var j=0; j<opcount;j++)
                 {
                     ref readonly var op = ref operands[j];
-                    var pattern = new RulePattern();
+                    var pattern = new RulePatternInfo();
                     pattern.Class = inst.Class;
                     pattern.Hash = alg.hash.marvin(op.PatternExpr.Text);
                     pattern.OpCodeKind = ockind(op.PatternExpr.Text);
@@ -54,21 +54,21 @@ namespace Z0
             return dst;
         }
 
-        public Index<RulePattern> CalcRulePatterns(in InstDef inst)
+        public Index<RulePatternInfo> CalcRulePatterns(in InstDef inst)
         {
-            var buffer = list<RulePattern>();
+            var buffer = list<RulePatternInfo>();
             CalcRulePatterns(inst, buffer);
             return buffer.ToArray();
         }
 
-        Index<RulePattern> CalcRulePatterns(in InstDef inst, List<RulePattern> buffer)
+        Index<RulePatternInfo> CalcRulePatterns(in InstDef inst, List<RulePatternInfo> buffer)
         {
             var operands = inst.PatternSpecs;
             var opcount = operands.Length;
             for(var j=0; j<opcount;j++)
             {
                 ref readonly var op = ref operands[j];
-                var pattern = new RulePattern();
+                var pattern = new RulePatternInfo();
                 pattern.Class = inst.Class;
                 pattern.Hash = alg.hash.marvin(op.PatternExpr.Text);
                 pattern.OpCodeKind = ockind(op.PatternExpr.Text);

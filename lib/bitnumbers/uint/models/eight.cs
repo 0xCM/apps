@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static BitNumbers;
 
-    using S = eight;
+    using S = uint8b;
     using W = W8;
     using K = BitSeq8;
     using T = System.Byte;
@@ -20,22 +16,22 @@ namespace Z0
     /// Represents the value of a type-level octet and thus is an integer in the range [0,255]
     /// </summary>
     [DataType("u<w:8>", Width, 8)]
-    public readonly struct eight : IBitNumber<S,W,K,T>
+    public readonly struct uint8b : IBitNumber<S,W,K,T>
     {
         public const byte BitCount = 8;
 
         internal readonly T data;
 
         [MethodImpl(Inline)]
-        public eight(byte x)
+        public uint8b(byte x)
             => data = x;
 
         [MethodImpl(Inline)]
-        public eight(K x)
+        public uint8b(K x)
             => data =(byte)x;
 
         [MethodImpl(Inline)]
-        internal eight(BitState src)
+        internal uint8b(BitState src)
             => data = (byte)src;
 
         /// <summary>
@@ -108,11 +104,11 @@ namespace Z0
         }
 
         [MethodImpl(Inline)]
-        public eight WithLo(uint4 src)
+        public uint8b WithLo(uint4 src)
             => movlo(src, this);
 
         [MethodImpl(Inline)]
-        public eight WithHi(uint4 src)
+        public uint8b WithHi(uint4 src)
             => movhi(src, this);
 
         [MethodImpl(Inline)]

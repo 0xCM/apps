@@ -11,6 +11,59 @@ namespace Z0
     [ApiHost]
     public readonly struct NumericParser
     {
+        [MethodImpl(Inline)]
+        static bool IsHexLiteral(string src)
+            => text.begins(src, HexFormatSpecs.PreSpec);
+
+        [MethodImpl(Inline)]
+        static bool IsBinaryLiteral(string src)
+            => text.begins(src, "0b");
+
+        public static bool num8(string src, out byte dst)
+        {
+            var result = false;
+            dst = default;
+            if(IsHexLiteral(src))
+            {
+                result = Hex8.parse(src, out Hex8 n);
+                dst = n;
+            }
+            else if(IsBinaryLiteral(src))
+            {
+                result = BitNumbers.parse(src, out uint8b n);
+                dst = n;
+            }
+            else
+            {
+                result = byte.TryParse(src, out dst);
+            }
+            return result;
+        }
+
+        public static bool num8<T>(string src, out T dst)
+            where T : unmanaged
+        {
+            var result = false;
+            dst = default;
+
+            if(IsHexLiteral(src))
+            {
+                result = Hex8.parse(src, out Hex8 n);
+                dst = @as<Hex8,T>(n);
+            }
+            else if(IsBinaryLiteral(src))
+            {
+                result = BitNumbers.parse(src, out uint8b n);
+                dst = @as<uint8b,T>(n);
+            }
+            else
+            {
+                result = byte.TryParse(src, out var n);
+                dst = @as<byte,T>(n);
+            }
+            return result;
+        }
+
         [MethodImpl(Inline), Op, Closures(AllNumeric)]
         public static NumericParser<T> create<T>()
             where T : unmanaged

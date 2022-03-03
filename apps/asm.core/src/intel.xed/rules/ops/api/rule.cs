@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static RuleDef rule(RulePattern pattern, params RuleOperand[] ops)
+        public static RuleDef rule(RulePatternInfo pattern, params RuleOperand[] ops)
             => new RuleDef(pattern,ops);
     }
 }

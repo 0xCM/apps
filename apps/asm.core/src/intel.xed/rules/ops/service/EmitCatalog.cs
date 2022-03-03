@@ -48,18 +48,18 @@ namespace Z0
             return src;
         }
 
-        Index<RulePattern> EmitRulePatterns(Index<InstDef> enc, Index<InstDef> dec)
+        Index<RulePatternInfo> EmitRulePatterns(Index<InstDef> enc, Index<InstDef> dec)
         {
             // var enc = a.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
             // var dec = b.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
             // var count = Require.equal(enc.Count, dec.Count);
             var patterns = CalcRulePatterns(enc);
-            TableEmit(patterns.View, RulePattern.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
-            TableEmit(CalcRulePatterns(dec).View, RulePattern.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
+            TableEmit(patterns.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
+            TableEmit(CalcRulePatterns(dec).View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
             return patterns;
         }
 
-        Index<RuleOpCode> EmitRuleOpCodes(ReadOnlySpan<RulePattern> src)
+        Index<RuleOpCode> EmitRuleOpCodes(ReadOnlySpan<RulePatternInfo> src)
         {
             var opcodes = CalcOpCodes(src);
             TableEmit(opcodes.View, RuleOpCode.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));

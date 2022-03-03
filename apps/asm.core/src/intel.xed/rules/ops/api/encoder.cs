@@ -9,13 +9,14 @@ namespace Z0
 
     partial class XedRules
     {
+        [MethodImpl(Inline)]
         public static Encoder encoder()
             => Encoder.create();
 
         public static Encoder encoder(MachineRequest request)
             => Encoder.create(request);
 
-        public static Encoder encoder(RulePattern rule, params RuleOperand[] ops)
+        public static Encoder encoder(RulePatternInfo rule, params RuleOperand[] ops)
             => Encoder.create(request(RequestKind.Encode, rule,ops));
     }
 }

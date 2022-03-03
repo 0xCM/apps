@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
 
     partial class XedCmdProvider
     {
@@ -12,7 +13,7 @@ namespace Z0
         Outcome CheckOcmaps(CmdArgs args)
         {
             var result = Outcome.Success;
-            var patterns = Xed.Rules.LoadEncRulePatterns();
+            var patterns = Xed.Rules.LoadPatternInfo(RuleSetKind.Enc);
             var reader = patterns.Reader();
             var maps = Symbols.index<OpCodeKind>();
             var counts = maps.Counts();

@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static BitNumbers;
 
     using U = uint3;
@@ -27,7 +23,7 @@ namespace Z0
         internal readonly T data;
 
         [MethodImpl(Inline)]
-        internal uint3(eight src)
+        internal uint3(uint8b src)
             => data = (byte)(src & MaxLiteral);
 
         [MethodImpl(Inline)]
@@ -151,7 +147,7 @@ namespace Z0
             => (int)Hash;
 
         [MethodImpl(Inline)]
-        public static implicit operator eight(U src)
+        public static implicit operator uint8b(U src)
             => src.data;
 
         [MethodImpl(Inline)]
@@ -167,7 +163,7 @@ namespace Z0
             => new uint6(src.data);
 
         [MethodImpl(Inline)]
-        public static implicit operator U(eight src)
+        public static implicit operator U(uint8b src)
             => new U(src);
 
         [MethodImpl(Inline)]

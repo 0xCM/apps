@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial struct XedModels
+    partial class XedRules
     {
         [SymSource("xed")]
         public enum FieldKind : byte

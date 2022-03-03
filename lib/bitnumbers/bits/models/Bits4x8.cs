@@ -21,13 +21,13 @@ namespace Z0
             return ref dst;
         }
 
-        eight A;
+        uint8b A;
 
-        eight B;
+        uint8b B;
 
-        eight C;
+        uint8b C;
 
-        eight D;
+        uint8b D;
 
         [MethodImpl(Inline)]
         public Bits4x8(uint src)

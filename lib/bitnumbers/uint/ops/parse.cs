@@ -4,28 +4,25 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using static Root;
     using static core;
 
     partial struct BitNumbers
     {
         static Outcome parse(string src, byte width, out byte b)
         {
-            var result = Outcome.Success;
+            var count = 0;
             b = default;
             var storage = 0ul;
-            var buffer = recover<bit>(slice(bytes(storage),0,width));
-            result = Z0.bits.parse(src, buffer);
-            if(result)
+            var buffer = recover<bit>(slice(bytes(storage), 0, width));
+            count = Z0.bits.parse(src, buffer);
+            if(count >= 0)
             {
                 b = BitPack.scalar<byte>(buffer);
-                return result;
+                return true;
             }
 
             var i = text.index(src, HexFormatSpecs.PreSpec);
+            var result = false;
             if(i >=0)
                 result = HexParser.parse8u(src, out b);
             else
@@ -100,7 +97,7 @@ namespace Z0
         }
 
         [Parser]
-        public static Outcome parse(string src, out eight dst)
+        public static Outcome parse(string src, out uint8b dst)
         {
             var result = parse(src, 8, out byte b);
             if(result)

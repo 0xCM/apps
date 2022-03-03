@@ -29,7 +29,7 @@ namespace Z0
 
         readonly FixedBitFormatter<uint7> _f7;
 
-        readonly FixedBitFormatter<eight> _f8;
+        readonly FixedBitFormatter<uint8b> _f8;
 
         [MethodImpl(Inline)]
         public BitNumberFormatter()
@@ -73,7 +73,7 @@ namespace Z0
             => _f7.Format(src);
 
         [MethodImpl(Inline)]
-        public string Format(eight src)
+        public string Format(uint8b src)
             => _f8.Format(src);
     }
 }

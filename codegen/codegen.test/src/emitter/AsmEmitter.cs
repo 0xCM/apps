@@ -57,7 +57,7 @@ namespace Z0.Asm
         public static byte and(r8 r0, r8 r1, AsmHexWriter dst)
         {
             var modrm = ModRm.init();
-            modrm.Mod(0b11);
+            modrm.Mod((uint2)0b11);
             modrm.Reg(r1);
             modrm.Rm(r0);
             return dst.Write(x20, modrm);

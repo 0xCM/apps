@@ -10,17 +10,17 @@ namespace Z0
     using static Root;
     using static core;
 
-    using U = eight;
+    using U = uint8b;
     using W = W8;
 
     partial struct BitNumbers
     {
         [MethodImpl(Inline), Op]
-        public static uint4 lo(eight src)
+        public static uint4 lo(uint8b src)
             => Bytes.and(src.data, 0xF);
 
         [MethodImpl(Inline), Op]
-        public static uint4 hi(eight src)
+        public static uint4 hi(uint8b src)
             => Bytes.srl(src.data, 4);
 
         [MethodImpl(Inline), Op]
@@ -191,7 +191,7 @@ namespace Z0
             => BitRender.gformat(src.data, FormatConfig8);
 
         [MethodImpl(Inline), Op]
-        public static Span<bit> bits(eight src)
+        public static Span<bit> bits(uint8b src)
         {
             var storage = 0ul;
             var dst = slice(@recover<byte,bit>(@bytes(storage)),0, U.BitCount);

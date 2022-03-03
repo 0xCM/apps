@@ -37,7 +37,7 @@ namespace Z0
         public static Outcome parse(string src, out uint7 dst)
             => BitNumbers.parse(src, out dst);
 
-        public static Outcome parse(string src, out eight dst)
+        public static Outcome parse(string src, out uint8b dst)
             => BitNumbers.parse(src, out dst);
 
         public static Outcome parse(string src, out Hex1 dst)

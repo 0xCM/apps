@@ -11,12 +11,12 @@ namespace Z0
     {
         public readonly struct RuleDef
         {
-            public readonly RulePattern Pattern;
+            public readonly RulePatternInfo Pattern;
 
             public readonly Index<RuleOperand> Operands;
 
             [MethodImpl(Inline)]
-            public RuleDef(RulePattern pattern, RuleOperand[] ops)
+            public RuleDef(RulePatternInfo pattern, RuleOperand[] ops)
             {
                 Pattern = pattern;
                 Operands = ops;

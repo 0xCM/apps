@@ -12,5 +12,9 @@ namespace Z0
             => ProjectDb.Subdir("xed/queries") + FS.file(text.replace(id, Chars.FSlash,Chars.Dot), FS.Csv);
 
         IntelXed Xed => Service(Wf.IntelXed);
+
+        WsProjects Projects => Service(Wf.WsProjects);
+
+        AppDb AppDb => Service(Wf.AppDb);
     }
 }

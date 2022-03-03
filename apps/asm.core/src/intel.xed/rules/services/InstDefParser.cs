@@ -151,19 +151,6 @@ namespace Z0
                 }
                 return result;
             }
-
-            RuleTokenKind ClassifyToken(string src)
-            {
-                var dst = RuleTokenKind.None;
-                if(text.begins(src, "0x"))
-                    dst = RuleTokenKind.HexLiteral;
-                else if(text.ends(src, "()"))
-                    dst = RuleTokenKind.Nonterminal;
-                else if(MacroNames.Lookup(src, out _))
-                    dst = RuleTokenKind.Macro;
-                return dst;
-            }
-
         }
     }
 }

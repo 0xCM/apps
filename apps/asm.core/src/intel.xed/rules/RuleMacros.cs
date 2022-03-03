@@ -17,7 +17,7 @@ namespace Z0
     using static XedModels.BCastKind;
     using static bit;
 
-    using K = XedModels.FieldKind;
+    using K = XedRules.FieldKind;
     using M = XedRules.RuleMacroName;
     using P = XedModels.RepPrefix;
     using D = XedModels.SegDefaultKind;

@@ -18,7 +18,7 @@ namespace Z0
             public static XedOpCodeParser create()
                 =>new XedOpCodeParser();
 
-            public Index<RuleOpCode> Parse(ReadOnlySpan<RulePattern> src)
+            public Index<RuleOpCode> Parse(ReadOnlySpan<RulePatternInfo> src)
             {
                 var count = src.Length;
                 var buffer = alloc<RuleOpCode>(count);
@@ -63,7 +63,7 @@ namespace Z0
                 return dst;
             }
 
-            internal static uint value(in RulePattern rule)
+            internal static uint value(in RulePatternInfo rule)
                 => value(rule.Expression);
 
             static bool ocbyte(string src, out Hex8 dst)
@@ -71,7 +71,7 @@ namespace Z0
                 var t = text.trim(src);
                 if(text.index(t, "0b") >= 0)
                 {
-                    if(BitNumbers.parse(text.remove(t, Chars.Underscore).Remove("0b"), out eight y))
+                    if(BitNumbers.parse(text.remove(t, Chars.Underscore).Remove("0b"), out uint8b y))
                     {
                         dst = (byte)y;
                         return true;

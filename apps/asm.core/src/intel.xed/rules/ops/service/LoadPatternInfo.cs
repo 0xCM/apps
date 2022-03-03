@@ -9,14 +9,13 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<RulePattern> LoadEncRulePatterns()
+        public Index<RulePatternInfo> LoadPatternInfo(RuleSetKind kind)
         {
-            const byte FieldCount = RulePattern.FieldCount;
+            var path = XedPaths.RulePatterns(kind);
+            const byte FieldCount = RulePatternInfo.FieldCount;
             var result = Outcome.Success;
-            var path = XedPaths.DocTarget(XedDocKind.EncRulePatterns);
             var src = path.ReadLines();
-            var buffer = list<RulePattern>();
-
+            var buffer = list<RulePatternInfo>();
             bool Next(TextLine src)
             {
                 if(src.LineNumber == 1)
@@ -31,7 +30,7 @@ namespace Z0
                 }
 
                 var reader = cells.Reader();
-                var pattern = new RulePattern();
+                var pattern = new RulePatternInfo();
                 result = DataParser.parse(reader.Next(), out pattern.Seq);
                 result = DataParser.parse(reader.Next(), out pattern.Hash);
                 result = DataParser.eparse(reader.Next(), out pattern.Class);
@@ -42,7 +41,7 @@ namespace Z0
             }
 
             path.ReadLines(Next);
-            var dst = result ? buffer.ToArray() : sys.empty<RulePattern>();
+            var dst = result ? buffer.ToArray() : sys.empty<RulePatternInfo>();
             if(result.Fail)
                 Errors.Throw(result.Message);
 

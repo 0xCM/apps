@@ -9,13 +9,26 @@ namespace Z0
     {
         public enum RuleTokenKind : byte
         {
+            [Symbol("")]
             None,
 
-            HexLiteral,
+            [Symbol("0x{0}")]
+            HexLit,
 
+            [Symbol("0b{0}")]
+            BinLit,
+
+            [Symbol("macro<{0}>()")]
             Macro,
 
-            Nonterminal,
+            [Symbol("{0}()")]
+            Nonterm,
+
+            [Symbol("{0}[{1}]")]
+            FieldSeg,
+
+            [Symbol("{0}{1}{2}")]
+            Constraint,
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Z0
 
     using static XedModels;
 
-    using K = XedModels.FieldKind;
+    using K = XedRules.FieldKind;
 
     partial class XedRules
     {

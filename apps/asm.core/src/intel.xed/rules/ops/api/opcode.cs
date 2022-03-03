@@ -9,7 +9,7 @@ namespace Z0
 
     partial class XedRules
     {
-        public XedOpCode opcode(in RulePattern src)
+        public XedOpCode opcode(in RulePatternInfo src)
             => new XedOpCode(src.Class, src.OpCodeKind, XedOpCodeParser.value(src));
 
         public XedOpCode opcode(OpCodeKind kind, IClass @class, string pattern)

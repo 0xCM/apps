@@ -1,20 +1,25 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Sources     : all-map-descriptions.txt
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     using static core;
-    using static XedModels;
 
     partial class XedRules
     {
+        public static string format(BitfieldSeg src)
+            => string.Format("{0}[{1}]", format(src.Field), src.Pattern);
+
         public static string format(RuleOperator src)
             => RuleOps[src].Expr.Text;
 
         public static string format(FieldKind src)
             => FieldKinds[src].Expr.Text;
+
+        public static string format(ConstraintKind src)
+            => ConstraintKinds[src].Expr.Text;
 
         internal static string format(in MacroSpec src)
         {

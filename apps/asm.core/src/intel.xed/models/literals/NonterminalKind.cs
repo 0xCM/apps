@@ -71,7 +71,7 @@ namespace Z0
 
             BRDISP8,
 
-            BRDISPZ,
+            BRDISPz,
 
             CET_NO_TRACK,
 
@@ -213,7 +213,7 @@ namespace Z0
 
             MEMDISP8,
 
-            MEMDISPV,
+            MEMDISPv,
 
             MMX_B,
 
@@ -333,7 +333,7 @@ namespace Z0
 
             SIMM8,
 
-            SIMMZ,
+            SIMMz,
 
             SRBP,
 
@@ -353,7 +353,7 @@ namespace Z0
 
             UIMM8_1,
 
-            UIMMV,
+            UIMMv,
 
             UISA_VMODRM_XMM,
 

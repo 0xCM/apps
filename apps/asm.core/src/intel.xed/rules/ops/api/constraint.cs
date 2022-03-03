@@ -7,9 +7,9 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct PatternToken
-        {
-
-        }
+        [MethodImpl(Inline), Op, Closures(Closure)]
+        public static FieldConstraint<T> constraint<T>(FieldKind field, ConstraintKind kind, T value)
+            where T : unmanaged
+                => new FieldConstraint<T>(field, kind, value);
     }
 }

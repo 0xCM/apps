@@ -5,6 +5,7 @@
 namespace Z0
 {
     using static XedModels;
+    using static XedRules;
     using static core;
 
     using SQ = SymbolicQuery;

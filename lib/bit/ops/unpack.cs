@@ -32,9 +32,9 @@ namespace Z0
             ref readonly var input = ref uint8(ref edit(src));
             for(var i=0u; i<count; i++)
             {
-                ref readonly var eight = ref skip(input,i);
+                ref readonly var b8 = ref skip(input,i);
                 for(byte j=0; j<8; j++)
-                    seek(dst,j) = bit.test(eight,j);
+                    seek(dst,j) = bit.test(b8,j);
             }
         }
 
@@ -46,9 +46,9 @@ namespace Z0
             ref readonly var input = ref @as<T,byte>(src);
             for(var i=0u; i<count; i++)
             {
-                ref readonly var eight = ref skip(input,i);
+                ref readonly var b8 = ref skip(input,i);
                 for(byte j=0; j<8; j++)
-                    seek(dst, i+j) = bit.test(eight,j);
+                    seek(dst, i+j) = bit.test(b8,j);
             }
             return ref dst;
         }

@@ -13,18 +13,18 @@ namespace Z0
         {
             public RuleSetKind Kind {get;}
 
-            public Index<RulePattern> Patterns {get;}
+            public Index<RulePatternInfo> Patterns {get;}
 
             public Index<RuleTable> Tables {get;}
 
-            public RuleSet(RuleSetKind kind, RulePattern[] patterns, RuleTable[] tables)
+            public RuleSet(RuleSetKind kind, RulePatternInfo[] patterns, RuleTable[] tables)
             {
                 Kind = kind;
                 Patterns = patterns;
                 Tables = tables;
             }
 
-            public static RuleSet Empty => new RuleSet(0, sys.empty<RulePattern>(), sys.empty<RuleTable>());
+            public static RuleSet Empty => new RuleSet(0, sys.empty<RulePatternInfo>(), sys.empty<RuleTable>());
         }
     }
 }

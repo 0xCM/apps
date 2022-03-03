@@ -42,7 +42,7 @@ namespace Z0
             => recover<byte,uint7>(W7);
 
         [MethodImpl(Inline), Op]
-        public static ReadOnlySpan<eight> bits(N8 n)
-             => recover<byte,eight>(W8);
+        public static ReadOnlySpan<uint8b> bits(N8 n)
+             => recover<byte,uint8b>(W8);
     }
 }

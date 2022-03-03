@@ -26,7 +26,7 @@ namespace Z0
                 ExpandMacros(lu, src[i].PatternSpecs);
         }
 
-        public void ExpandMacros(Index<RulePattern> src)
+        public void ExpandMacros(Index<RulePatternInfo> src)
         {
             ExpandMacros(macrolookup(),src);
         }
@@ -76,7 +76,7 @@ namespace Z0
             }
         }
 
-        void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, Index<RulePattern> src)
+        void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, Index<RulePatternInfo> src)
         {
             var count = src.Count;
             for(var i=0; i<count; i++)
@@ -107,7 +107,7 @@ namespace Z0
                 ExpandMacros(specs, ref src[i]);
         }
 
-        void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, ref RulePattern src)
+        void ExpandMacros(ConstLookup<RuleMacroName,MacroSpec> specs, ref RulePatternInfo src)
         {
             // var input = text.trim(text.split(text.despace(src.Expression.Format()), Chars.Space));
             // var count = input.Length;

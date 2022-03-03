@@ -158,6 +158,8 @@ namespace Z0
 
         static Symbols<DispExprKind> DispKinds;
 
+        static Symbols<ConstraintKind> ConstraintKinds;
+
         static XedRules()
         {
             FieldKinds = Symbols.index<FieldKind>();
@@ -168,6 +170,8 @@ namespace Z0
             InstClasses = Symbols.index<IClass>();
             RuleOps = Symbols.index<RuleOperator>();
             DispKinds = Symbols.index<DispExprKind>();
+            ConstraintKinds = Symbols.index<ConstraintKind>();
+
        }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

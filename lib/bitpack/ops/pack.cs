@@ -57,7 +57,6 @@ namespace Z0
             var bytecount = bitcount/8;
             var bitmod = bitcount%8;
             ref var b = ref @as<T,byte>(dst);
-
             var bitpos = z8;
             for(var i=0; i<bytecount; i++)
             {
@@ -89,7 +88,7 @@ namespace Z0
             if(src.Length == 0)
                 return dst;
 
-            return pack(src,0, ref dst);
+            return pack(src, 0, ref dst);
         }
 
         /// <summary>

@@ -46,6 +46,13 @@ namespace Z0
                  _ => FS.FilePath.Empty
             };
 
+        public FS.FilePath RulePatterns(RuleSetKind kind)
+            => kind switch {
+                 RuleSetKind.Enc => DocTarget(XedDocKind.EncRulePatterns),
+                 RuleSetKind.Dec => DocTarget(XedDocKind.DecRulePatterns),
+                 _ => FS.FilePath.Empty
+            };
+
         public FS.FilePath DocSource(XedDocKind kind)
             => Sources() + (kind switch{
                 XedDocKind.EncInstDef => FS.file("all-enc-instructions", FS.Txt),
