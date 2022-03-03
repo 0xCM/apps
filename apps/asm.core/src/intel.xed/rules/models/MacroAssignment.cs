@@ -10,13 +10,15 @@ namespace Z0
         [Record(TableName), StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct MacroAssignment
         {
-            public const byte FieldCount = 7;
+            public const byte FieldCount = 8;
 
             public const string TableName = "xed.rules.macros";
 
             public uint Seq;
 
-            public RuleMacroName MacroName;
+            public RuleMacroKind MacroName;
+
+            public byte Assigned;
 
             public FieldAssignment A0;
 
@@ -28,7 +30,7 @@ namespace Z0
 
             public FieldAssignment A4;
 
-            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,26,26,26,26,26};
+            public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,8,24,26,26,26,26,26};
 
             public static MacroAssignment Empty => default;
         }

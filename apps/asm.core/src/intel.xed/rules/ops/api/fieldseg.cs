@@ -9,10 +9,6 @@ namespace Z0
 
     partial class XedRules
     {
-        [MethodImpl(Inline), Op]
-        public static BitfieldSeg fieldseg(FieldKind field, text7 pattern)
-            => new BitfieldSeg(field, pattern);
-
         public static bool fieldseg(FieldKind src)
         {
             var result = false;

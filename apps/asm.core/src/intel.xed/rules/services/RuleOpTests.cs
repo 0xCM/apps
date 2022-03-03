@@ -6,7 +6,6 @@
 namespace Z0
 {
     using static XedRules.RuleOpName;
-    using static XedModels;
 
     partial class XedRules
     {

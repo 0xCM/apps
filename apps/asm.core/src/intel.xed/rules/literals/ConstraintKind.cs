@@ -7,8 +7,8 @@ namespace Z0
 {
     partial class XedRules
     {
-        [SymSource(xed)]
-        public enum ConstraintKind
+        [SymSource(xed), DataWidth(2)]
+        public enum ConstraintKind : byte
         {
             [Symbol("")]
             None,

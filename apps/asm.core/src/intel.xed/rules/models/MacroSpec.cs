@@ -10,12 +10,12 @@ namespace Z0
         [StructLayout(LayoutKind.Sequential,Pack=1)]
         public struct MacroSpec : IComparable<MacroSpec>
         {
-            public readonly RuleMacroName Name;
+            public readonly RuleMacroKind Name;
 
             public Index<FieldAssignment> Assignments;
 
             [MethodImpl(Inline)]
-            public MacroSpec(RuleMacroName name, params FieldAssignment[] assign)
+            public MacroSpec(RuleMacroKind name, params FieldAssignment[] assign)
             {
                 Name = name;
                 Assignments = assign;
@@ -42,7 +42,7 @@ namespace Z0
             public int CompareTo(MacroSpec src)
                 => ((uint)Name).CompareTo((uint)src.Name);
 
-            public static MacroSpec Empty => new MacroSpec(RuleMacroName.nothing, FieldAssignment.Empty);
+            public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, FieldAssignment.Empty);
         }
     }
 }

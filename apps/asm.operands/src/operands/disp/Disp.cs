@@ -129,6 +129,38 @@ namespace Z0.Asm
         public static implicit operator long(Disp src)
             => src.Value;
 
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(ulong src)
+            => new Disp((long)src, NativeSizeCode.W64);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(long src)
+            => new Disp(src, NativeSizeCode.W64);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(int src)
+            => new Disp(src, NativeSizeCode.W32);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(uint src)
+            => new Disp(src, NativeSizeCode.W32);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(short src)
+            => new Disp(src, NativeSizeCode.W16);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(ushort src)
+            => new Disp(src, NativeSizeCode.W16);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(byte src)
+            => new Disp(src, NativeSizeCode.W8);
+
+        [MethodImpl(Inline)]
+        public static explicit operator Disp(sbyte src)
+            => new Disp(src, NativeSizeCode.W8);
+
         public static Disp Empty => default;
 
         public static Disp Zero => default;

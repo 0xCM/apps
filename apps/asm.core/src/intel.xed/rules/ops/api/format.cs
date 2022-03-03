@@ -6,11 +6,75 @@
 namespace Z0
 {
     using static core;
+    using static XedModels;
+
+    using RTK = XedRules.RuleTokenKind;
 
     partial class XedRules
     {
-        public static string format(BitfieldSeg src)
-            => string.Format("{0}[{1}]", format(src.Field), src.Pattern);
+        internal static string format(in RuleToken src)
+        {
+            var kind = src.Kind;
+            var value = EmptyString;
+            switch(kind)
+            {
+                case RTK.BinLit:
+                    value = "0b" + src.AsBinaryLit().Format();
+                break;
+                case RTK.DecLit:
+                    value = src.AsDecimalLit().ToString();
+                break;
+                case RTK.HexLit:
+                    value = src.AsHexLit().Format(prespec:true,uppercase:true);
+                break;
+                case RTK.Constraint:
+                    value = src.AsConstraint().Format();
+                break;
+                case RTK.FieldSeg:
+                    value = src.AsFieldSeg().Format();
+                break;
+                case RTK.Macro:
+                    value = src.AsMacro().Format();
+                break;
+                case RTK.Nonterm:
+                    value = src.AsNonterm().Format();
+                break;
+
+            }
+            return src.IsEmpty ? EmptyString : string.Format("<{0}:{1}>", value, src.Kind);
+        }
+
+        static string literal(FieldLiteralKind kind, byte src)
+        {
+            var val = EmptyString;
+            switch(kind)
+            {
+                case FieldLiteralKind.BinaryLiteral:
+                    val = "0b" + ((uint8b)(src)).Format();
+                break;
+                case FieldLiteralKind.DecimalLiteral:
+                    val = src.ToString();
+                break;
+                case FieldLiteralKind.HexLiteral:
+                    val = ((Hex8)(src)).Format(prespec:true, uppercase:true);
+                break;
+                default:
+                    val = RP.Error;
+                break;
+            }
+            return val;
+        }
+        internal static string format(FieldAssignment src)
+            => src.Field == 0 ? "nothing" : string.Format("{0}={1}", FieldKinds[src.Field].Expr, src.Value.ToString());
+
+        internal static string format(in NonterminalRule src)
+            => format(src.Def);
+
+        internal static string format(FieldConstraint src)
+            => string.Format("{0}{1}{2}", format(src.Field), format(src.Kind), literal(src.LiteralKind,src.Value));
+
+        internal static string format(BitfieldSeg src)
+            => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", format(src.Field), src.Pattern);
 
         public static string format(RuleOperator src)
             => RuleOps[src].Expr.Text;
@@ -21,10 +85,19 @@ namespace Z0
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
 
+        public static string format(NonterminalKind src)
+            => Nonterminals[src].Expr.Text;
+
+        public static string format(RuleMacroKind src)
+            => MacroKinds[src].Expr.Text;
+
+        public static string format(NontermCall src)
+            => string.Format("{0}()", format(src.Kind));
+
         internal static string format(in MacroSpec src)
         {
             var dst = text.buffer();
-            dst.AppendFormat("{0} -> ", MacroNames[src.Name].Expr);
+            dst.AppendFormat("{0} -> ", MacroKinds[src.Name].Expr);
             var assignments = src.Assignments;
             var count = assignments.Count;
             for(var i=0; i<count; i++)

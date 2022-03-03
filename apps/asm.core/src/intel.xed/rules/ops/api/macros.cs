@@ -8,6 +8,10 @@ namespace Z0
     partial class XedRules
     {
         public static Index<MacroSpec> macros()
-            => RuleMacros.discover();
+            => RuleMacros.specs();
+
+        [MethodImpl(Inline)]
+        public static MacroSpec macro(RuleMacroKind kind)
+            => MacroLookup[kind];
     }
 }

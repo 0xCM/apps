@@ -24,7 +24,7 @@ namespace Z0
         protected override void Initialized()
         {
             var macros = XedRules.macros();
-            var names = Symbols.index<RuleMacroName>();
+            var names = Symbols.index<RuleMacroKind>();
             Macros = XedRules.macros().Map(x => (names[x.Name].Expr.Format(), x)).ToDictionary();
         }
 

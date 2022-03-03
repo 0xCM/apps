@@ -9,36 +9,40 @@ namespace Z0
 
     partial class XedRules
     {
-        public readonly struct NonterminalRule : IRule<NonterminalKind>
+        [DataWidth(8)]
+        public readonly struct NontermCall
         {
-            public readonly RuleTable Def;
-
             public readonly NonterminalKind Kind;
 
             [MethodImpl(Inline)]
-            public NonterminalRule(RuleTable def, NonterminalKind kind)
+            public NontermCall(NonterminalKind kind)
             {
-                Def = def;
                 Kind = kind;
+            }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Kind != 0;
             }
 
             public string Format()
                 => format(this);
 
-
             public override string ToString()
                 => Format();
 
-            RuleTable IRule.Def
-                => Def;
+            [MethodImpl(Inline)]
+            public static implicit operator NontermCall(NonterminalKind kind)
+                => new NontermCall(kind);
 
-            NonterminalKind IRule<NonterminalKind>.Kind
-                => Kind;
-
-            public static implicit operator NonterminalRule((RuleTable rule, NonterminalKind kind) src)
-                => new NonterminalRule(src.rule, src.kind);
-
-            public static NonterminalRule Empty => new NonterminalRule(RuleTable.Empty, 0);
+            public static NontermCall Empty => default;
         }
     }
 }

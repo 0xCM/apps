@@ -37,6 +37,509 @@ namespace Z0
                 state = src;
             }
 
+            public void Update(in FieldAssignment src)
+            {
+                var kind = src.Field;
+                var result = Outcome.Success;
+                switch(kind)
+                {
+                    case K.AMD3DNOW:
+                        state.AMD3DNOW = (bit)src.Value;
+                    break;
+
+                    case K.ASZ:
+                        state.ASZ = (bit)src.Value;
+                    break;
+
+                    case K.BASE0:
+                        state.BASE0 = (XedRegId)src.Value;
+                    break;
+
+                    case K.BASE1:
+                        state.BASE1 = (XedRegId)src.Value;
+                    break;
+
+                    case K.BCAST:
+                        state.BCAST = (BCastKind)src.Value;
+                    break;
+
+                    case K.BCRC:
+                        state.BCRC = (bit)src.Value;
+                    break;
+
+                    case K.RELBR:
+                        state.RELBR = (Disp)src.Value;
+                    break;
+
+                    case K.BRDISP_WIDTH:
+                        state.BRDISP_WIDTH = (byte)src.Value;
+                    break;
+
+                    case K.CET:
+                        state.CET = (bit)src.Value;
+                    break;
+
+                    case K.CHIP:
+                        state.CHIP = (ChipCode)src.Value;
+                    break;
+
+                    case K.CLDEMOTE:
+                        state.CLDEMOTE = (bit)src.Value;
+                    break;
+
+                    case K.DEFAULT_SEG:
+                        state.DEFAULT_SEG = (byte)src.Value;
+                    break;
+
+                    case K.DF32:
+                        state.DF32 = (bit)src.Value;
+                    break;
+
+                    case K.DF64:
+                        state.DF64 = (bit)src.Value;
+                    break;
+
+                    case K.DISP:
+                        state.DISP = src.Value;
+                    break;
+
+                    case K.DISP_WIDTH:
+                        state.DISP_WIDTH = (byte)src.Value;
+                    break;
+
+                    case K.DUMMY:
+                        state.DUMMY = (bit)src.Value;
+                    break;
+
+                    case K.EASZ:
+                        state.EASZ = (byte)src.Value;
+                    break;
+
+                    case K.ELEMENT_SIZE:
+                        state.ELEMENT_SIZE = (ushort)src.Value;
+                    break;
+
+                    case K.ENCODER_PREFERRED:
+                        state.ENCODER_PREFERRED = (bit)src.Value;
+                    break;
+
+                    case K.ENCODE_FORCE:
+                        state.ENCODE_FORCE = (bit)src.Value;
+                    break;
+
+                    case K.EOSZ:
+                        state.EOSZ = (byte)src.Value;
+                    break;
+
+                    case K.ESRC:
+                        state.ESRC = (uint4)src.Value;
+                    break;
+
+                    case K.FIRST_F2F3:
+                        state.FIRST_F2F3 = (byte)src.Value;
+                    break;
+
+                    case K.HAS_MODRM:
+                        state.HAS_MODRM = (bit)src.Value;
+                    break;
+
+                    case K.HAS_SIB:
+                        state.HAS_SIB = (bit)src.Value;
+                    break;
+
+                    case K.HINT:
+                        state.HINT = (byte)src.Value;
+                    break;
+
+                    case K.ICLASS:
+                        state.ICLASS = (IClass)src.Value;
+                    break;
+
+                    case K.ILD_F2:
+                        state.ILD_F2 = (bit)src.Value;
+                    break;
+
+                    case K.ILD_F3:
+                        state.ILD_F3 = (bit)src.Value;
+                    break;
+
+                    case K.ILD_SEG:
+                        state.ILD_SEG = (byte)src.Value;
+                    break;
+
+                    case K.IMM0:
+                        state.IMM0 = (bit)src.Value;
+                    break;
+
+                    case K.IMM0SIGNED:
+                        state.IMM0SIGNED = (bit)src.Value;
+                    break;
+
+                    case K.IMM1:
+                        state.IMM1 = (bit)src.Value;
+                    break;
+
+                    case K.IMM1_BYTES:
+                        state.IMM1_BYTES = (byte)src.Value;
+                    break;
+
+                    case K.IMM_WIDTH:
+                        state.IMM_WIDTH = (byte)src.Value;
+                    break;
+
+                    case K.INDEX:
+                        state.INDEX = (XedRegId)src.Value;
+                    break;
+
+                    case K.LAST_F2F3:
+                        state.LAST_F2F3 = (byte)src.Value;
+                    break;
+
+                    case K.LLRC:
+                        state.LLRC = (byte)src.Value;
+                    break;
+
+                    case K.LOCK:
+                        state.LOCK = (bit)src.Value;
+                    break;
+
+                    case K.LZCNT:
+                        state.LZCNT = (bit)src.Value;
+                    break;
+
+                    case K.MAP:
+                        state.MAP = (byte)src.Value;
+                    break;
+
+                    case K.MASK:
+                        state.MASK = (byte)src.Value;
+                    break;
+
+                    case K.MAX_BYTES:
+                        state.MAX_BYTES = (byte)src.Value;
+                    break;
+
+                    case K.MEM_WIDTH:
+                        state.MEM_WIDTH = (ushort)src.Value;
+                    break;
+
+                    case K.MOD:
+                        state.MOD = (byte)src.Value;
+                    break;
+
+                    case K.REG:
+                        state.REG = (byte)src.Value;
+                    break;
+
+                    case K.MODRM_BYTE:
+                        state.MODRM_BYTE = (byte)src.Value;
+                    break;
+
+                    case K.MODE:
+                        state.MODE = (byte)src.Value;
+                    break;
+
+                    case K.MODEP5:
+                        state.MODEP5 = (bit)src.Value;
+                    break;
+
+                    case K.MODEP55C:
+                        state.MODEP55C = (bit)src.Value;
+                    break;
+
+                    case K.MODE_FIRST_PREFIX:
+                        state.MODE_FIRST_PREFIX = (bit)src.Value;
+                    break;
+
+                    case K.MPXMODE:
+                        state.MPXMODE = (bit)src.Value;
+                    break;
+
+                    case K.MUST_USE_EVEX:
+                        state.MUST_USE_EVEX = (bit)src.Value;
+                    break;
+
+                    case K.NEEDREX:
+                        state.NEEDREX = (bit)src.Value;
+                    break;
+
+                    case K.NEED_MEMDISP:
+                        state.NEED_MEMDISP = (bit)src.Value;
+                    break;
+
+                    case K.NEED_SIB:
+                        state.NEED_SIB = (bit)src.Value;
+                    break;
+
+                    case K.NELEM:
+                        state.NELEM = (byte)src.Value;
+                    break;
+
+                    case K.NOMINAL_OPCODE:
+                        state.NOMINAL_OPCODE = (byte)src.Value;
+                    break;
+
+                    case K.NOREX:
+                        state.NOREX = (bit)src.Value;
+                    break;
+
+                    case K.NO_SCALE_DISP8:
+                        state.NO_SCALE_DISP8 = (bit)src.Value;
+                    break;
+
+                    case K.NPREFIXES:
+                        state.NPREFIXES = (byte)src.Value;
+                    break;
+
+                    case K.NREXES:
+                        state.NREXES = (byte)src.Value;
+                    break;
+
+                    case K.NSEG_PREFIXES:
+                        state.NSEG_PREFIXES = (byte)src.Value;
+                    break;
+
+                    case K.OSZ:
+                        state.OSZ = (bit)src.Value;
+                    break;
+
+                    case K.OUT_OF_BYTES:
+                        state.OUT_OF_BYTES = (bit)src.Value;
+                    break;
+
+                    case K.P4:
+                        state.P4 = (bit)src.Value;
+                    break;
+
+                    case K.POS_DISP:
+                        state.POS_DISP = (byte)src.Value;;
+                    break;
+
+                    case K.POS_IMM:
+                        state.POS_IMM = (byte)src.Value;
+                    break;
+
+                    case K.POS_IMM1:
+                        state.POS_IMM1 = (byte)src.Value;
+                    break;
+
+                    case K.POS_MODRM:
+                        state.POS_MODRM = (byte)src.Value;
+                    break;
+
+                    case K.POS_NOMINAL_OPCODE:
+                        state.POS_NOMINAL_OPCODE = (byte)src.Value;
+                    break;
+
+                    case K.POS_SIB:
+                        state.POS_SIB = (byte)src.Value;
+                    break;
+
+                    case K.PREFIX66:
+                        state.PREFIX66 = 1;
+                    break;
+
+                    case K.PTR:
+                        state.PTR = 1;
+                    break;
+
+                    case K.REALMODE:
+                        state.REALMODE = 1;
+                    break;
+
+                    case K.OUTREG:
+                        state.OUTREG = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG0:
+                        state.REG0 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG1:
+                        state.REG1 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG2:
+                        state.REG2 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG3:
+                        state.REG3 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG4:
+                        state.REG4 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG5:
+                        state.REG5 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG6:
+                        state.REG6 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG7:
+                        state.REG7 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG8:
+                        state.REG8 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REG9:
+                        state.REG9 = (XedRegId)src.Value;
+                    break;
+
+                    case K.REP:
+                        state.REP = (byte)src.Value;
+                    break;
+
+                    case K.REX:
+                        state.REX = (bit)src.Value;
+                    break;
+
+                    case K.REXB:
+                        state.REXB = (bit)src.Value;
+                    break;
+
+                    case K.REXR:
+                        state.REXR = (bit)src.Value;
+                    break;
+
+                    case K.REXRR:
+                        state.REXRR = (bit)src.Value;
+                    break;
+
+                    case K.REXW:
+                        state.REXW = (bit)src.Value;
+                    break;
+
+                    case K.REXX:
+                        state.REXX = (bit)src.Value;
+                    break;
+
+                    case K.RM:
+                        state.RM = (byte)src.Value;
+                    break;
+
+                    case K.ROUNDC:
+                        state.ROUNDC = (byte)src.Value;
+                    break;
+
+                    case K.SAE:
+                        state.SAE = (bit)src.Value;
+                    break;
+
+                    case K.SCALE:
+                        state.SCALE = (byte)src.Value;
+                    break;
+
+                    case K.SEG0:
+                        state.SEG0 = (XedRegId)src.Value;
+                    break;
+
+                    case K.SEG1:
+                        state.SEG1 = (XedRegId)src.Value;
+                    break;
+
+                    case K.SEG_OVD:
+                        state.SEG_OVD = (byte)src.Value;
+                    break;
+
+                    case K.SIBBASE:
+                        state.SIBBASE = (byte)src.Value;
+                    break;
+
+                    case K.SIBINDEX:
+                        state.SIBINDEX = (byte)src.Value;
+                    break;
+
+                    case K.SIBSCALE:
+                        state.SIBSCALE = (byte)src.Value;
+                    break;
+
+                    case K.SMODE:
+                        state.SMODE = (byte)src.Value;
+                        break;
+
+                    case K.SRM:
+                        state.SRM = (byte)src.Value;
+                    break;
+
+                    case K.TZCNT:
+                        state.TZCNT = (bit)src.Value;
+                    break;
+
+                    case K.UBIT:
+                        state.UBIT = (bit)src.Value;
+                    break;
+
+                    case K.UIMM0:
+                        state.UIMM0 = src.Value;
+                    break;
+
+                    case K.UIMM1:
+                        state.UIMM1 = (byte)src.Value;
+                    break;
+
+                    case K.USING_DEFAULT_SEGMENT0:
+                        state.USING_DEFAULT_SEGMENT0 = (bit)src.Value;
+                    break;
+
+                    case K.USING_DEFAULT_SEGMENT1:
+                        state.USING_DEFAULT_SEGMENT1 = (bit)src.Value;
+                    break;
+
+                    case K.VEXDEST210:
+                        state.VEXDEST210 = (byte)src.Value;
+                    break;
+
+                    case K.VEXDEST3:
+                        state.VEXDEST3 = (bit)src.Value;
+                    break;
+
+                    case K.VEXDEST4:
+                        state.VEXDEST4 = (bit)src.Value;
+                    break;
+
+                    case K.VEXVALID:
+                        state.VEXVALID = (byte)src.Value;
+                    break;
+
+                    case K.VEX_C4:
+                        state.VEX_C4 = (bit)src.Value;
+                    break;
+
+                    case K.VEX_PREFIX:
+                        state.VEX_PREFIX = (byte)src.Value;
+                    break;
+
+                    case K.VL:
+                        state.VL = (byte)src.Value;
+                    break;
+
+                    case K.WBNOINVD:
+                        state.WBNOINVD = (bit)src.Value;
+                    break;
+
+                    case K.ZEROING:
+                        state.ZEROING = (bit)src.Value;
+                    break;
+
+                    case K.MEM0:
+                        state.MEM0 = (bit)src.Value;
+                    break;
+
+                    case K.MEM1:
+                        state.MEM1 = (bit)src.Value;
+                    break;
+
+                    case K.AGEN:
+                        state.AGEN = (bit)src.Value;
+                    break;
+                }
+            }
 
             [MethodImpl(Inline)]
             public ref readonly RuleState State()
@@ -144,14 +647,14 @@ namespace Z0
                 if(state.REG9 != 0)
                     _ops.Add(new RuleOperand(N.REG9, state.REG9));
 
-                if(state.MEM0.IsNonEmpty)
-                    _ops.Add(new RuleOperand(N.MEM0, state.MEM0));
+                if(state.MEM0Val.IsNonEmpty)
+                    _ops.Add(new RuleOperand(N.MEM0, state.MEM0Val));
 
-                if(state.MEM1.IsNonEmpty)
-                    _ops.Add(new RuleOperand(N.MEM1, state.MEM1));
+                if(state.MEM1Val.IsNonEmpty)
+                    _ops.Add(new RuleOperand(N.MEM1, state.MEM1Val));
 
-                if(state.AGEN.IsNonEmpty)
-                    _ops.Add(new RuleOperand(N.AGEN, state.AGEN));
+                if(state.AGENVal.IsNonEmpty)
+                    _ops.Add(new RuleOperand(N.AGEN, state.AGENVal));
 
                 return map(_ops, o => (o.Name, o)).ToDictionary();
             }

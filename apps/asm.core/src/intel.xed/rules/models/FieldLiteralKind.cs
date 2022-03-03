@@ -7,9 +7,13 @@ namespace Z0
 {
     partial class XedRules
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldConstraint<T> constraint<T>(FieldKind field, ConstraintKind kind, T value)
-            where T : unmanaged
-                => new FieldConstraint<T>(field, kind, value);
+        public enum FieldLiteralKind : byte
+        {
+            HexLiteral,
+
+            BinaryLiteral,
+
+            DecimalLiteral,
+        }
     }
 }

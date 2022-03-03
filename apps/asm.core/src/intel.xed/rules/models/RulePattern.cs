@@ -30,6 +30,18 @@ namespace Z0
                 OcValue = value;
                 Tokens = tokens;
             }
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Tokens.IsEmpty;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Tokens.IsNonEmpty;
+            }
         }
     }
 }

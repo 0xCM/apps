@@ -79,9 +79,6 @@ namespace Z0
             }
         }
 
-        HashSet<string> MacroNameSet {get;}
-            = map(Symbols.index<RuleMacroName>().View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
-
         XedPaths XedPaths => Service(Wf.XedPaths);
 
         AppDb AppDb => Service(Wf.AppDb);
@@ -144,7 +141,7 @@ namespace Z0
 
         static Symbols<FieldKind> FieldKinds;
 
-        static Symbols<RuleMacroName> MacroNames;
+        static Symbols<RuleMacroKind> MacroKinds;
 
         static Symbols<BCastKind> BCastKinds;
 
@@ -160,10 +157,16 @@ namespace Z0
 
         static Symbols<ConstraintKind> ConstraintKinds;
 
+        static Symbols<NonterminalKind> Nonterminals;
+
+        static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
+
+        static readonly HashSet<string> MacroNameSet;
+
         static XedRules()
         {
             FieldKinds = Symbols.index<FieldKind>();
-            MacroNames = Symbols.index<RuleMacroName>();
+            MacroKinds = Symbols.index<RuleMacroKind>();
             BCastKinds = Symbols.index<BCastKind>();
             ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
@@ -171,7 +174,9 @@ namespace Z0
             RuleOps = Symbols.index<RuleOperator>();
             DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
-
+            Nonterminals = Symbols.index<NonterminalKind>();
+            MacroLookup = RuleMacros.specs().Storage.Map(x => (x.Name, x)).ToDictionary();
+            MacroNameSet = map(Symbols.index<RuleMacroKind>().View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
        }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

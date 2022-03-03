@@ -9,13 +9,13 @@ namespace Z0
 
     partial class XedRules
     {
-        public Index<RulePatternInfo> CalcDecPatterns()
-            => CalcRulePatterns(CalcDecInstDefs());
+        public Index<RulePatternInfo> CalcDecPatternInfo()
+            => CalcPatternInfo(CalcDecInstDefs());
 
-        public Index<RulePatternInfo> CalcEncPatterns()
-            => CalcRulePatterns(CalcEncInstDefs());
+        public Index<RulePatternInfo> CalcEncPatternInfo()
+            => CalcPatternInfo(CalcEncInstDefs());
 
-        public Index<RulePatternInfo> CalcRulePatterns(ReadOnlySpan<InstDef> src)
+        public Index<RulePatternInfo> CalcPatternInfo(ReadOnlySpan<InstDef> src)
         {
             var buffer = hashset<RulePatternInfo>();
             var instcount = src.Length;

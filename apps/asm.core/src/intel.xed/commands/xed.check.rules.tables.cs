@@ -11,6 +11,30 @@ namespace Z0
 
     partial class XedCmdProvider
     {
+        [CmdOp("xed/check/macros")]
+        Outcome CheckMacros(CmdArgs args)
+        {
+            var macros = XedRules.macros().Storage.Map(x => (x.Name, x)).ToDictionary();
+            var fields = RuleMachine.fields();
+            var patterns = Xed.Rules.CalcPatterns(RuleSetKind.Enc);
+            for(var i=0; i<patterns.Count; i++)
+            {
+                ref readonly var pattern = ref patterns[i];
+                ref readonly var tokens = ref pattern.Tokens;
+                for(var j=0; j<tokens.Count; j++)
+                {
+                    ref readonly var token = ref tokens[j];
+                    if(token.Kind == RuleTokenKind.Macro)
+                    {
+                        var macro = token.AsMacro();
+                        Write(macro.Format());
+                    }
+                }
+            }
+            return true;
+        }
+
+
         [CmdOp("xed/check/fields")]
         Outcome CheckFields(CmdArgs args)
         {

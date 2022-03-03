@@ -4,98 +4,48 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
     using static core;
     using static Root;
+    using static XedRules.SyntaxLiterals;
+    using static XedRules.RuleFormKind;
 
-    using EK = XedRules.RuleFormKind;
+    using FK = XedRules.FieldKind;
+    using RO = XedRules.RuleOperator;
+    using CK = XedRules.CriterionKind;
 
     partial class XedRules
     {
-        internal readonly struct RuleParser
-        {
-            public const string SeqDeclSyntax = "SEQUENCE ";
-
-            public const string TableDeclSyntax = "()::";
-
-            public const string CallSyntax = "()";
-
-            public const string EncStep = " -> ";
-
-            public const string DecStep = " |";
-
-            public static bool IsCall(string src)
-                => src.Contains(CallSyntax);
-
-            public static bool IsSeqDecl(string src)
-                => src.StartsWith(SeqDeclSyntax);
-
-            public static EK classify(TextLine src)
-            {
-                var i = text.index(src.Content, Chars.Hash);
-                var content = (i> 0 ? text.left(src.Content,i) : src.Content).Trim();
-
-                if(content.EndsWith(TableDeclSyntax))
-                    return EK.RuleDeclaration;
-                if(content.Contains(EncStep))
-                    return EK.EncodeStep;
-                if(content.Contains(DecStep))
-                    return EK.DecodeStep;
-                if(IsCall(content))
-                    return EK.Invocation;
-                if(IsSeqDecl(content))
-                    return EK.SeqDeclaration;
-                return 0;
-            }
-        }
-
         public struct RuleTableParser
         {
-            const string Neq = "!=";
-
-            const char Assign = '=';
-
-            const string REXW = "REXW[w]";
-
-            const string REXB = "REXB[b]";
-
-            const string REXR = "REXR[r]";
-
-            const string REXX = "REXX[x]";
-
-            const string EncStep = " -> ";
-
-            const string DecStep = " |";
-
             public static Outcome parse(string spec, CriterionKind ck, out RuleCriterion dst)
             {
                 var result = Outcome.Success;
-                var fk = FieldKind.INVALID;
-                var op = RuleOperator.None;
+                var fk = FK.INVALID;
+                var op = RO.None;
                 var fv = EmptyString;
                 var j = text.index(spec, Assign);
                 var k = text.index(spec, Neq);
-                var m = text.index(spec, RuleParser.CallSyntax);
+                var m = text.index(spec, CallSyntax);
                 var name = EmptyString;
 
                 if(k >= 0)
                 {
-                    op = RuleOperator.Neq;
+                    op = RO.Neq;
                     name = text.left(spec,k);
                     fv = text.right(spec,k + Neq.Length - 1);
                 }
                 else if(j >=0 )
                 {
-                    if(ck == CriterionKind.Premise)
-                        op = RuleOperator.Eq;
-                    else if(ck == CriterionKind.Consequent)
-                        op = RuleOperator.Assign;
+                    if(ck == CK.Premise)
+                        op = RO.Eq;
+                    else if(ck == CK.Consequent)
+                        op = RO.Assign;
                     name = text.left(spec,j);
                     fv = text.right(spec,j);
                 }
                 else if(m >= 0)
                 {
-                    op = RuleOperator.Call;
+                    op = RO.Call;
                     fv = text.left(spec,m);
                 }
                 else
@@ -103,18 +53,18 @@ namespace Z0
                     fv = spec;
                 }
 
-                if(nonempty(name) && op != RuleOperator.Call)
+                if(nonempty(name) && op != RO.Call)
                 {
                     if(name.Equals(REXW))
-                        fk = FieldKind.REXW;
+                        fk = FK.REXW;
                     else if(name.Equals(REXB))
-                        fk = FieldKind.REXB;
+                        fk = FK.REXB;
                     else if(name.Equals(REXR))
-                        fk = FieldKind.REXR;
+                        fk = FK.REXR;
                     else if(name.Equals(REXX))
-                        fk = FieldKind.REXX;
+                        fk = FK.REXX;
                     else if(!FieldKinds.ExprKind(name, out fk))
-                        result = (false,string.Format("Kind for {0} not found in {1}", name, spec));
+                        result = (false, AppMsg.ParseFailure.Format(name, spec));
                 }
 
                 if(result)
@@ -130,10 +80,10 @@ namespace Z0
                 var right = sys.empty<RuleCriterion>();
 
                 if(nonempty(premise))
-                    left = criteria(premise, CriterionKind.Premise);
+                    left = criteria(premise, CK.Premise);
 
                 if(nonempty(consequent))
-                    right = criteria(consequent, CriterionKind.Consequent);
+                    right = criteria(consequent, CK.Consequent);
 
                 return new RuleExpr(kind, left, right);
             }
@@ -183,10 +133,10 @@ namespace Z0
                 Line = src;
                 var result = Outcome.Success;
                 Kind = RuleParser.classify(Line);
-                if(Kind == EK.SeqDeclaration)
+                if(Kind == SeqDeclaration)
                     ParseSeqTerms();
 
-                while(Kind == EK.RuleDeclaration)
+                while(Kind == RuleDeclaration)
                 {
                     result = ParseRuleDecl();
                     if(result.Fail)
@@ -243,7 +193,7 @@ namespace Z0
                         continue;
 
                     Kind = RuleParser.classify(Line);
-                    if(Kind == 0 || Kind == EK.Invocation)
+                    if(Kind == 0 || Kind == Invocation)
                         continue;
                     else
                         break;
@@ -265,7 +215,7 @@ namespace Z0
 
                     var content = normalize(Line.Content);
                     var parts = sys.empty<string>();
-                    if(Kind == EK.EncodeStep)
+                    if(Kind == EncodeStep)
                     {
                         parts = text.split(content, EncStep).Map(x => x.Trim());
                         if(parts.Length == 2)
@@ -276,7 +226,7 @@ namespace Z0
                             break;
                         }
                     }
-                    else if(Kind == EK.DecodeStep)
+                    else if(Kind == DecodeStep)
                     {
                         parts = text.split(content, DecStep).Map(x => x.Trim());
                         if(parts.Length == 1)
@@ -301,7 +251,7 @@ namespace Z0
             Outcome ParseRuleDecl()
             {
                 var result = Outcome.Success;
-                var ruledecl = text.trim(text.left(Line.Content, RuleParser.TableDeclSyntax));
+                var ruledecl = text.trim(text.left(Line.Content, TableDeclSyntax));
                 var i = text.index(ruledecl, Chars.Space);
                 var name = EmptyString;
                 var ret = EmptyString;
@@ -346,7 +296,6 @@ namespace Z0
             {
                 Skip = hashset("VEXED_REX", "XED_RESET");
             }
-
         }
     }
 }

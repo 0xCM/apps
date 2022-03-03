@@ -175,7 +175,7 @@ namespace Z0
             public bit VEXDEST3;
 
             [RuleOperand(K.VEXDEST4, 1)]
-            public bit vexdest4;
+            public bit VEXDEST4;
 
             [RuleOperand(K.VEX_C4, 1)]
             public bit VEX_C4;
@@ -263,9 +263,6 @@ namespace Z0
 
             [RuleOperand(K.VEXDEST210, 3)]
             public byte VEXDEST210;
-
-            [RuleOperand(K.VEXDEST4, 1)]
-            public bit VEXDEST4;
 
             [RuleOperand(K.VEXVALID, 3)]
             public byte VEXVALID;
@@ -405,14 +402,20 @@ namespace Z0
             [RuleOperand(K.NO_RETURN, 1)]
             public bit NO_RETURN;
 
-            [RuleOperand(K.AGEN, 32)]
-            public text31 AGEN;
+            [RuleOperand(K.AGEN, 1)]
+            public bit AGEN;
 
-            [RuleOperand(K.MEM0, 32)]
-            public text31 MEM0;
+            [RuleOperand(K.MEM0, 1)]
+            public bit MEM0;
 
-            [RuleOperand(K.MEM1, 32)]
-            public text31 MEM1;
+            [RuleOperand(K.MEM1, 1)]
+            public bit MEM1;
+
+            public text31 AGENVal;
+
+            public text31 MEM0Val;
+
+            public text31 MEM1Val;
 
             public static RuleState Empty => default;
         }

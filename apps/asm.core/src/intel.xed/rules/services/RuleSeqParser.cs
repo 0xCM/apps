@@ -5,8 +5,7 @@
 namespace Z0
 {
     using static core;
-
-    using EK = XedRules.RuleFormKind;
+    using static XedRules.SyntaxLiterals;
 
     partial class XedRules
     {
@@ -25,7 +24,7 @@ namespace Z0
                         continue;
 
                     var @class = RuleParser.classify(line);
-                    if(@class == EK.SeqDeclaration)
+                    if(@class == RuleFormKind.SeqDeclaration)
                     {
                         var content = text.despace(line.Content);
                         var i = text.index(content, Chars.Space);
@@ -89,7 +88,7 @@ namespace Z0
 
                     if(RuleParser.IsCall(content))
                     {
-                        var k = text.index(content, RuleParser.CallSyntax);
+                        var k = text.index(content, CallSyntax);
                         terms.Add(new RuleSeqTerm(text.left(content,k), RuleParser.IsCall(content)));
                     }
                     else

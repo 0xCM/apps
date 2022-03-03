@@ -6,7 +6,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public enum RuleMacroName : byte
+        public enum RuleMacroKind : byte
         {
             nothing,
 

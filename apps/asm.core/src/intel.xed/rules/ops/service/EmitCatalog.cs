@@ -53,9 +53,9 @@ namespace Z0
             // var enc = a.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
             // var dec = b.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
             // var count = Require.equal(enc.Count, dec.Count);
-            var patterns = CalcRulePatterns(enc);
+            var patterns = CalcPatternInfo(enc);
             TableEmit(patterns.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
-            TableEmit(CalcRulePatterns(dec).View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
+            TableEmit(CalcPatternInfo(dec).View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
             return patterns;
         }
 

@@ -168,7 +168,7 @@ namespace Z0
                 switch(kind)
                 {
                     case K.AGEN:
-                        result = DataParser.parse(src, out state.AGEN);
+                        result = DataParser.parse(src, out state.AGENVal);
                     break;
 
                     case K.AMD3DNOW:
@@ -348,11 +348,11 @@ namespace Z0
                     break;
 
                     case K.MEM0:
-                        result = DataParser.parse(src, out state.MEM0);
+                        result = DataParser.parse(src, out state.MEM0Val);
                     break;
 
                     case K.MEM1:
-                        result = DataParser.parse(src, out state.MEM1);
+                        result = DataParser.parse(src, out state.MEM1Val);
                     break;
 
                     case K.MEM_WIDTH:
@@ -640,7 +640,7 @@ namespace Z0
                     break;
 
                     case K.VEXDEST4:
-                        state.vexdest4 = bit.On;
+                        state.VEXDEST4 = bit.On;
                     break;
 
                     case K.VEXVALID:

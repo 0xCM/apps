@@ -47,6 +47,8 @@ namespace Z0
         OpDec,
 
         RuleSeq,
+
+        MacroAssignments
     }
 
 }

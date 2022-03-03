@@ -21,12 +21,7 @@ namespace Z0
             }
 
             public string Format()
-            {
-                if(Field == 0)
-                    return "nothing";
-                else
-                    return string.Format("{0}={1}", FieldKinds[Field].Expr, Value.ToString());
-            }
+                => format(this);
 
             public override string ToString()
                 => Format();

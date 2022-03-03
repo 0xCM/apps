@@ -18,7 +18,7 @@ namespace Z0
     using static bit;
 
     using K = XedRules.FieldKind;
-    using M = XedRules.RuleMacroName;
+    using M = XedRules.RuleMacroKind;
     using P = XedModels.RepPrefix;
     using D = XedModels.SegDefaultKind;
     using V = XedModels.VexPrefixKind;
@@ -31,7 +31,7 @@ namespace Z0
         [ApiHost("xed.rules.macros")]
         public readonly struct RuleMacros
         {
-            public static Index<MacroSpec> discover()
+            public static Index<MacroSpec> specs()
             {
                 var src = typeof(RuleMacros).StaticMethods().Public().Where(x => x.ReturnType == typeof(MacroSpec) && x.Parameters().Length == 0);
                 var count = src.Length;
@@ -541,12 +541,12 @@ namespace Z0
                     => new FieldAssignment(field, core.bw64(value));
 
             [MethodImpl(Inline), Op, Closures(Closure)]
-            static MacroSpec assign<T>(RuleMacroName name, FieldKind field, T value)
+            static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)
                 where T : unmanaged
                     => new MacroSpec(name, assign(field,value));
 
             [MethodImpl(Inline), Op]
-            static MacroSpec assign(RuleMacroName name, params FieldAssignment[] a0)
+            static MacroSpec assign(RuleMacroKind name, params FieldAssignment[] a0)
                 => new MacroSpec(name, a0);
         }
     }

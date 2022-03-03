@@ -18,6 +18,9 @@ namespace Z0
             [Symbol("0b{0}")]
             BinLit,
 
+            [Symbol("{0}")]
+            DecLit,
+
             [Symbol("macro<{0}>()")]
             Macro,
 

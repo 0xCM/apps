@@ -88,6 +88,7 @@ namespace Z0
                  XedDocKind.EncRuleTableExp => FS.file("xed.rules.enc.tables.exp", FS.Txt),
                  XedDocKind.DecRuleTableExp => FS.file("xed.rules.dec.tables.exp", FS.Txt),
                  XedDocKind.EncDecRuleTableExp => FS.file("xed.rules.encdec.tables.exp", FS.Txt),
+                 XedDocKind.MacroAssignments => FS.file("xed.rules.macros", FS.Csv),
                  _ => FS.FileName.Empty
             });
     }

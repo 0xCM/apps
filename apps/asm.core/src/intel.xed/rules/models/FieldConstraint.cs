@@ -7,30 +7,33 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct FieldConstraint<T>
-            where T : unmanaged
+        [StructLayout(LayoutKind.Sequential, Pack=1), DataWidth(32)]
+        public readonly struct FieldConstraint
         {
             public readonly FieldKind Field;
 
             public readonly ConstraintKind Kind;
 
-            public readonly T Value;
+            public readonly byte Value;
+
+            public readonly FieldLiteralKind LiteralKind;
 
             [MethodImpl(Inline)]
-            public FieldConstraint(FieldKind field, ConstraintKind op, T value)
+            public FieldConstraint(FieldKind field, ConstraintKind op, byte value, FieldLiteralKind vk)
             {
                 Field = field;
                 Kind = op;
                 Value = value;
+                LiteralKind = vk;
             }
 
             public string Format()
-                => string.Format("{0}{1}{2}", format(Field), format(Kind), Value);
+                => format(this);
 
             public override string ToString()
                 => Format();
 
-            public static FieldConstraint<T> Empty => default;
+            public static FieldConstraint Empty => new FieldConstraint(0,0,0,0);
         }
     }
 }
