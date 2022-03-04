@@ -32,6 +32,9 @@ namespace Z0
 
             [Symbol("{0}{1}{2}")]
             Constraint,
+
+            [Symbol("{0}={1}")]
+            Assignment,
         }
     }
 }

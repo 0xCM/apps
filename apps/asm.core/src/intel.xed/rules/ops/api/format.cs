@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
     using static core;
     using static XedModels;
 
@@ -12,7 +13,29 @@ namespace Z0
 
     partial class XedRules
     {
-        internal static string format(in RuleToken src)
+        public static string format(AsmOcValue src)
+        {
+            var data = src.Trimmed;
+            var dst = "0x00";
+            switch(data.Length)
+            {
+                case 1:
+                    dst = string.Format("0x{0:X2}", skip(data,0));
+                break;
+                case 2:
+                    dst = string.Format("0x{0:X2} 0x{1:X2}", skip(data,0), skip(data,1));
+                break;
+                case 3:
+                    dst = string.Format("0x{0:X2} 0x{1:X2} 0x{2:X2}", skip(data,0), skip(data,1), skip(data,2));
+                break;
+                case 4:
+                    dst = string.Format("0x{0:X2} 0x{1:X2} 0x{2:X2} 0x{3:X2}", skip(data,0), skip(data,1), skip(data,2), skip(data,3));
+                break;
+            }
+            return dst;
+        }
+
+        public static string format(in RuleToken src, bool showkind)
         {
             var kind = src.Kind;
             var value = EmptyString;
@@ -39,10 +62,20 @@ namespace Z0
                 case RTK.Nonterm:
                     value = src.AsNonterm().Format();
                 break;
-
+                case RTK.Assignment:
+                    value = src.AsAssignment().Format();
+                break;
             }
-            return src.IsEmpty ? EmptyString : string.Format("<{0}:{1}>", value, src.Kind);
+
+            return src.IsEmpty
+                ? EmptyString
+                : showkind
+                ? string.Format("<{0}:{1}>", value, src.Kind)
+                : value;
         }
+
+        public static string format(in RuleToken src)
+            => format(src, false);
 
         static string literal(FieldLiteralKind kind, byte src)
         {
@@ -76,20 +109,29 @@ namespace Z0
         internal static string format(BitfieldSeg src)
             => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", format(src.Field), src.Pattern);
 
+        [MethodImpl(Inline), Op]
         public static string format(RuleOperator src)
             => RuleOps[src].Expr.Text;
 
+        [MethodImpl(Inline), Op]
         public static string format(FieldKind src)
             => FieldKinds[src].Expr.Text;
 
+        [MethodImpl(Inline), Op]
         public static string format(ConstraintKind src)
             => ConstraintKinds[src].Expr.Text;
 
+        [MethodImpl(Inline), Op]
         public static string format(NonterminalKind src)
             => Nonterminals[src].Expr.Text;
 
+        [MethodImpl(Inline), Op]
         public static string format(RuleMacroKind src)
             => MacroKinds[src].Expr.Text;
+
+        [MethodImpl(Inline), Op]
+        public static string format(OpCodeKind src)
+            => OcKindIndex[ocindex(src)].Expr.Text;
 
         public static string format(NontermCall src)
             => string.Format("{0}()", format(src.Kind));

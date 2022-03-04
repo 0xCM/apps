@@ -75,6 +75,9 @@ namespace Z0
         public string Format()
             => api.format(this);
 
+        public string Format(bool prespec, bool uppercase)
+            => api.format(this, Chars.Space, prespec, uppercase);
+
         public override string ToString()
             => Format();
         public static B Empty => default;

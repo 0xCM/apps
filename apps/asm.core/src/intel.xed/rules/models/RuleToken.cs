@@ -14,72 +14,82 @@ namespace Z0
             readonly ByteBlock16 Storage;
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, BitfieldSeg value)
+            public RuleToken(BitfieldSeg value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.FieldSeg;
                 var data = slice(storage.Bytes,1,15);
                 @as<BitfieldSeg>(data) = value;
                 Storage = storage;
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, uint8b value)
+            public RuleToken(uint8b value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.BinLit;
                 var data = slice(storage.Bytes,1,15);
                 @as<uint8b>(data) = value;
                 Storage = storage;
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, Hex8 value)
+            public RuleToken(Hex8 value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.HexLit;
                 var data = slice(storage.Bytes,1,15);
                 @as<Hex8>(data) = value;
                 Storage = storage;
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, byte value)
+            public RuleToken(byte value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.DecLit;
                 var data = slice(storage.Bytes,1,15);
                 @as<Hex8>(data) = value;
                 Storage = storage;
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, NontermCall value)
+            public RuleToken(NontermCall value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.Nonterm;
                 var data = slice(storage.Bytes,1,15);
                 @as<NontermCall>(data) = value;
                 Storage = storage;
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, FieldConstraint value)
+            public RuleToken(FieldConstraint value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.Constraint;
                 var data = slice(storage.Bytes,1,15);
                 @as<FieldConstraint>(data) = value;
                 Storage = storage;
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(RuleTokenKind kind, RuleMacro value)
+            public RuleToken(RuleMacro value)
             {
                 var storage = ByteBlock16.Empty;
-                storage[0] = (byte)kind;
+                storage[0] = (byte)RuleTokenKind.Macro;
                 var data = slice(storage.Bytes,1,15);
                 @as<RuleMacro>(data) = value;
+                Storage = storage;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleToken(FieldAssignment value)
+            {
+                var storage = ByteBlock16.Empty;
+                storage[0] = (byte)RuleTokenKind.Assignment;
+                var data = slice(storage.Bytes,1,15);
+                @as<FieldAssignment>(data) = value;
                 Storage = storage;
             }
 
@@ -150,7 +160,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(this);
+                => format(this, true);
 
             public override string ToString()
                 => Format();
@@ -183,7 +193,11 @@ namespace Z0
             public ref readonly NontermCall AsNonterm()
                 => ref @as<NontermCall>(Data);
 
-            public static RuleToken Empty => new RuleToken(0,Hex8.Zero);
+            [MethodImpl(Inline)]
+            public ref readonly FieldAssignment AsAssignment()
+                => ref @as<FieldAssignment>(Data);
+
+            public static RuleToken Empty => new RuleToken(Hex8.Zero);
         }
     }
 }

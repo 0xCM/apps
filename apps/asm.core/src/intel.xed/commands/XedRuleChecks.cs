@@ -19,20 +19,19 @@ namespace Z0
 
         AppDb AppDb => Service(Wf.AppDb);
 
-        ConstLookup<string,MacroSpec> Macros;
-
         protected override void Initialized()
         {
-            var macros = XedRules.macros();
-            var names = Symbols.index<RuleMacroKind>();
-            Macros = XedRules.macros().Map(x => (names[x.Name].Expr.Format(), x)).ToDictionary();
+
         }
 
         public Outcome CheckRules()
         {
-            CheckEncRules();
-            CheckDecRules();
-            CheckEncDecRules();
+            var set = Rules.CalcRuleSet(RuleSetKind.EncDec);
+            Rules.ExpandMacros(set);
+            var patterns = Rules.CalcPatterns(RuleSetKind.Enc);
+
+
+
             return true;
         }
 

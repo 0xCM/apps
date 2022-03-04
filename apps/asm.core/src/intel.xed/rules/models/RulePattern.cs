@@ -31,6 +31,10 @@ namespace Z0
                 Tokens = tokens;
             }
 
+            [MethodImpl(Inline)]
+            public RulePattern WithTokens(RuleToken[] tokens)
+                => new RulePattern(Class,OcKind,OcValue,tokens);
+
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]

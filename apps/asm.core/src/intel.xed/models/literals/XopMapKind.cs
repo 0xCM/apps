@@ -12,13 +12,13 @@ namespace Z0
         [SymSource(xed)]
         public enum XopMapKind : byte
         {
-            [Symbol("amd-xop8", OCP.XopPattern8)]
+            [Symbol("Xop8", OCP.XopPattern8)]
             XOP8=8,
 
-            [Symbol("amd-xop9", OCP.XopPattern9)]
+            [Symbol("Xop9", OCP.XopPattern9)]
             XOP9=9,
 
-            [Symbol("amd-xopA", OCP.XopPatternA)]
+            [Symbol("XopA", OCP.XopPatternA)]
             XOPA=10,
         }
     }

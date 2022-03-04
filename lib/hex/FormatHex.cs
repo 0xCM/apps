@@ -201,20 +201,20 @@ namespace Z0
         /// <param name="src">The source span</param>
         /// <param name="bracket">Whether to enclose the formatted hex within brackets</param>
         /// <param name="sep">The character to use when separating digits</param>
-        /// <param name="specifier">Whether to prefix each number with the canonical hex specifier, "0x"</param>
+        /// <param name="prespec">Whether to prefix each number with the canonical hex specifier, "0x"</param>
         /// <typeparam name="T">The primal type</typeparam>
-        public static string FormatHex<T>(this Span<T> src, char sep, bool specifier)
+        public static string FormatHex<T>(this Span<T> src, char sep, bool prespec)
             where T : unmanaged
-                => HexFormatter.format(src.ReadOnly(), sep, specifier);
+                => HexFormatter.format(src.ReadOnly(), sep, prespec);
 
-        /// <summary>
-        /// Formats a span of numeric cell type as a sequence of hex values
-        /// </summary>
-        /// <param name="src">The source span</param>
-        /// <typeparam name="T">The primal type</typeparam>
-        public static string FormatHex<T>(this ReadOnlySpan<T> src, char sep, bool specifier)
+        public static string FormatHex<T>(this ReadOnlySpan<T> src, char sep, bool prespec = false, bool uppercase = false)
             where T : unmanaged
-                => HexFormatter.format(src, sep, specifier);
+                => HexFormatter.format(src, sep, prespec, uppercase);
+
+        public static string FormatHex<T>(this Span<T> src, char sep, bool prespec = false, bool uppercase = false)
+            where T : unmanaged
+                => core.@readonly(src).FormatHex(sep, prespec, uppercase);
+
         [Op]
         public static string FormatHex(this sbyte src, int digits, bool prespec = false, bool postspec = false)
             => HexFormatter.format8i(src, digits, prespec, postspec);

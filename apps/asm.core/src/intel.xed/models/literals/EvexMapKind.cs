@@ -12,13 +12,13 @@ namespace Z0
         [SymSource(xed)]
         public enum EvexMapKind : byte
         {
-            [Symbol("evex-map1", OCP.EvexPattern0F)]
+            [Symbol("Evex0F", OCP.EvexPattern0F)]
             EVEX_MAP_0F=1,
 
-            [Symbol("evex-map2", OCP.EvexPattern0F38)]
+            [Symbol("Evex0F38", OCP.EvexPattern0F38)]
             EVEX_MAP_0F38=2,
 
-            [Symbol("evex-map3", OCP.EvexPattern0F3A)]
+            [Symbol("Evex0F3A", OCP.EvexPattern0F3A)]
             EVEX_MAP_0F3A=3,
         }
     }

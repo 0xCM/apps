@@ -124,6 +124,10 @@ namespace Z0
             where T : unmanaged, IStorageBlock<T>
                 => src.Bytes.FormatHex();
 
+        public static string format<T>(in T src, char sep, bool prespec=false, bool uppercase = false)
+            where T : unmanaged, IStorageBlock<T>
+                => src.Bytes.FormatHex(sep, prespec:prespec, uppercase:uppercase);
+
         public static string format<T>(in T src, in HexFormatOptions options)
             where T : unmanaged, IStorageBlock<T>
                 => src.Bytes.FormatHex(options);

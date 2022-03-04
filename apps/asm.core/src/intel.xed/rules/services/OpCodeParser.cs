@@ -9,8 +9,6 @@ namespace Z0
 
     using OCP = XedModels.OcPatternNames;
 
-    using static XedModels;
-
     partial class XedRules
     {
         public readonly struct XedOpCodeParser

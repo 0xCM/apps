@@ -69,27 +69,27 @@ namespace Z0
                 dst = RuleToken.Empty;
                 if(seg(src, out var bfs))
                 {
-                    dst = new(RuleTokenKind.FieldSeg, bfs);
+                    dst = new(bfs);
                     result = true;
                 }
                 else if(BinaryLiteral(src, out var bin))
                 {
-                    dst = new(RuleTokenKind.BinLit, bin);
+                    dst = new(bin);
                     result = true;
                 }
                 else if(HexLiteral(src, out var hex))
                 {
-                    dst = new(RuleTokenKind.HexLit, hex);
+                    dst = new(hex);
                     result = true;
                 }
                 else if(nonterm(src, out var nt))
                 {
-                    dst = new(RuleTokenKind.Nonterm, nt);
+                    dst = new(nt);
                     result = true;
                 }
                 else if(RuleParser.macro(src, out var m))
                 {
-                    dst = new(RuleTokenKind.Macro, MacroNames[m].Kind);
+                    dst = new(MacroNames[m].Kind);
                     result = true;
                 }
                 else if(constraintkind(src, out var ck))
@@ -101,8 +101,13 @@ namespace Z0
                         var a = text.left(src,i);
                         var b = text.right(src,i + expr.Length - 1);
                         result = RuleParser.constraint(src, ck, out var c);
-                        dst = new(RuleTokenKind.Constraint, c);
+                        dst = new(c);
                     }
+                }
+                else if(assignment(src, out var assign))
+                {
+                    dst = new(assign);
+                    result = true;
                 }
                 return result;
             }

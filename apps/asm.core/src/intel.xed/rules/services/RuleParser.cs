@@ -51,6 +51,37 @@ namespace Z0
                 return false;
             }
 
+            public static bool assignment(string src, out FieldAssignment dst)
+            {
+                var i = text.index(src,Chars.Eq);
+                dst = FieldAssignment.Empty;
+                var result = false;
+                if(i > 0)
+                {
+                    var name = text.left(src,i);
+                    var val = text.right(src,i);
+                    if(FieldKinds.Lookup(name, out var fk))
+                    {
+                        if(BinaryLiteral(src, out var b))
+                        {
+                            dst = assign(fk,b);
+                            result = true;
+                        }
+                        else if(HexLiteral(src, out var h))
+                        {
+                            dst = assign(fk,h);
+                            result = true;
+                        }
+                        else if(ulong.TryParse(src, out var d))
+                        {
+                            dst = assign(fk,d);
+                            result = true;
+                        }
+                    }
+                }
+                return result;
+            }
+
             public static bool BinaryLiteral(string src, out uint8b dst)
             {
                 if(IsBinaryLiteral(src))

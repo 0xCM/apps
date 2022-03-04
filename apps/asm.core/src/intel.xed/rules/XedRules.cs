@@ -159,6 +159,8 @@ namespace Z0
 
         static Symbols<NonterminalKind> Nonterminals;
 
+        static Symbols<OpCodeIndex> OcKindIndex;
+
         static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
 
         static readonly HashSet<string> MacroNameSet;
@@ -175,6 +177,7 @@ namespace Z0
             DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             Nonterminals = Symbols.index<NonterminalKind>();
+            OcKindIndex = Symbols.index<OpCodeIndex>();
             MacroLookup = RuleMacros.specs().Storage.Map(x => (x.Name, x)).ToDictionary();
             MacroNameSet = map(Symbols.index<RuleMacroKind>().View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
        }

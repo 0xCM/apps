@@ -160,17 +160,17 @@ namespace Z0
         /// <param name="src">The source span</param>
         /// <param name="bracket">Whether to format the result as a vector</param>
         /// <param name="sep">The character to use when separating digits</param>
-        /// <param name="specifier">Whether to prefix each number with the canonical hex specifier, "0x"</param>
+        /// <param name="prespec">Whether to prefix each number with the canonical hex specifier, "0x"</param>
         /// <typeparam name="T">The primal type</typeparam>
         [Op, Closures(Closure)]
-        public static string format<T>(ReadOnlySpan<T> src, char sep = Chars.Space, bool specifier = false)
+        public static string format<T>(ReadOnlySpan<T> src, char sep = Chars.Space, bool prespec = false, bool uppercase = false)
             where T : unmanaged
         {
             var result = new StringBuilder();
             var count = src.Length;
             for(var i = 0; i<count; i++)
             {
-                result.Append(format(skip(src,i), true, specifier, uppercase:false, prespec:true));
+                result.Append(format(skip(src,i), true, prespec, uppercase:uppercase, prespec:true));
                 if(i != count - 1)
                     result.Append(sep);
             }

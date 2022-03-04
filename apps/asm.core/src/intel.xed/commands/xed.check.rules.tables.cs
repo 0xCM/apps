@@ -17,19 +17,23 @@ namespace Z0
             var macros = XedRules.macros().Storage.Map(x => (x.Name, x)).ToDictionary();
             var fields = RuleMachine.fields();
             var patterns = Xed.Rules.CalcPatterns(RuleSetKind.Enc);
+            Xed.Rules.ExpandMacros(patterns);
+            var buffer = text.buffer();
             for(var i=0; i<patterns.Count; i++)
             {
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var tokens = ref pattern.Tokens;
-                for(var j=0; j<tokens.Count; j++)
-                {
-                    ref readonly var token = ref tokens[j];
-                    if(token.Kind == RuleTokenKind.Macro)
-                    {
-                        var macro = token.AsMacro();
-                        Write(macro.Format());
-                    }
-                }
+                buffer.AppendLine(text.delimit(tokens," | ", -24));
+
+                // for(var j=0; j<tokens.Count; j++)
+                // {
+                //     ref readonly var token = ref tokens[j];
+                //     if(token.Kind == RuleTokenKind.Macro)
+                //     {
+                //         var macro = token.AsMacro();
+                //         Write(macro.Format());
+                //     }
+                // }
             }
             return true;
         }
@@ -59,29 +63,6 @@ namespace Z0
         Outcome CheckRules(CmdArgs args)
         {
             XedRuleChecks.create(Wf).CheckRules();
-            return true;
-        }
-
-        [CmdOp("xed/check/enc")]
-        Outcome CheckEnc(CmdArgs args)
-        {
-            XedRuleChecks.create(Wf).CheckEncRules();
-
-            return true;
-        }
-
-        [CmdOp("xed/check/dec")]
-        Outcome CheckDec(CmdArgs args)
-        {
-            XedRuleChecks.create(Wf).CheckDecRules();
-
-            return true;
-        }
-
-        [CmdOp("xed/check/encdec")]
-        Outcome CheckEncDec(CmdArgs args)
-        {
-            XedRuleChecks.create(Wf).CheckEncDecRules();
             return true;
         }
 

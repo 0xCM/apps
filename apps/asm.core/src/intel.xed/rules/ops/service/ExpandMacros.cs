@@ -15,6 +15,52 @@ namespace Z0
             ExpandMacros(MacroLookup, src.Patterns);
         }
 
+        public void ExpandMacros(Index<RulePattern> src)
+        {
+            var assign = span<FieldAssignment>(12);
+            var tokens = list<RuleToken>(32);
+            for(var i=0; i<src.Count; i++)
+                src[i] = ExpandMacros(src[i]);
+        }
+
+        public static RulePattern ExpandMacros(in RulePattern pattern)
+        {
+            var tokens = list<RuleToken>(32);
+            var assign = span<FieldAssignment>(12);
+            for(var j=0; j<pattern.Tokens.Count;j++)
+            {
+                ref var token = ref pattern.Tokens[j];
+                var count = expand(token,assign);
+                if(count > 0)
+                {
+                    for(var k=0; k<count; k++)
+                        tokens.Add(new RuleToken(skip(assign,k)));
+                }
+                else
+                    tokens.Add(token);
+            }
+            return pattern.WithTokens(tokens.ToArray());
+        }
+
+        public Index<RuleToken> ExpandMacros(Index<RuleToken> src)
+        {
+            var dst = list<RuleToken>();
+            var assign = span<FieldAssignment>(12);
+            for(var i=0; i<src.Count; i++)
+            {
+                ref readonly var token = ref src[i];
+                var count = expand(token, assign);
+                if(count > 0)
+                {
+                    for(var j=0; j<count; j++)
+                        dst.Add(new RuleToken(skip(assign,j)));
+                }
+                else
+                    dst.Add(token);
+            }
+            return dst.ToArray();
+        }
+
         public void ExpandMacros(Index<InstDef> src)
         {
             for(var i=0; i<src.Count; i++)

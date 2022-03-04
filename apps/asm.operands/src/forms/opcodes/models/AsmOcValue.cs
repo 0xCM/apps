@@ -8,12 +8,12 @@ namespace Z0.Asm
 
     public readonly struct AsmOcValue : IEquatable<AsmOcValue>, IComparable<AsmOcValue>
     {
-        readonly ByteBlock4 Data;
+        readonly ByteBlock4 Storage;
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0)
         {
-            Data = b0;
+            Storage = b0;
         }
 
         [MethodImpl(Inline)]
@@ -22,19 +22,19 @@ namespace Z0.Asm
             switch(src.Length)
             {
                 case 0:
-                    Data = 0u;
+                    Storage = 0u;
                 break;
                 case 1:
-                    Data = skip(src,0);
+                    Storage = skip(src,0);
                 break;
                 case 2:
-                    Data = @as<ushort>(src);
+                    Storage = @as<ushort>(src);
                 break;
                 case 3:
-                    Data = (uint)@as<ushort>(src) | ((uint)skip(src,2) << 16);
+                    Storage = (uint)@as<ushort>(src) | ((uint)skip(src,2) << 16);
                 break;
                 default:
-                    Data = @as<uint>(src);
+                    Storage = @as<uint>(src);
                 break;
             }
         }
@@ -42,53 +42,68 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1)
         {
-            Data = Bytes.join(w32,b0,b1);
+            Storage = Bytes.join(w32,b0,b1);
         }
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1, byte b2)
         {
-            Data = Bytes.join(w32,b0,b1,b2);
+            Storage = Bytes.join(w32,b0,b1,b2);
         }
 
         [MethodImpl(Inline)]
         public AsmOcValue(byte b0, byte b1, byte b2, byte b3)
         {
-            Data = Bytes.join(w32,b0,b1,b2,b3);
+            Storage = Bytes.join(w32,b0,b1,b2,b3);
         }
 
         [MethodImpl(Inline)]
         public AsmOcValue(uint src)
         {
-            Data = src;
+            Storage = src;
         }
 
         public ReadOnlySpan<byte> ToSpan()
-            => slice(Data.Bytes,0, StorageBlocks.trim(Data).TrimmedSize);
+            => slice(Storage.Bytes, 0, StorageBlocks.trim(Storage).TrimmedSize);
+
+        public byte TrimmedSize
+        {
+            [MethodImpl(Inline)]
+            get => (byte)StorageBlocks.trim(Storage).TrimmedSize;
+        }
+
+        public ReadOnlySpan<byte> Trimmed
+        {
+            [MethodImpl(Inline)]
+            get => slice(Storage.Bytes, 0, TrimmedSize);
+        }
 
         public string Format()
-            => StorageBlocks.trim(Data).Format();
+            => StorageBlocks.trim(Storage).Format();
+
+        public string Format(bool prespec, bool uppercase)
+            => StorageBlocks.trim(Storage).Format();
 
         public override string ToString()
             => Format();
 
         [MethodImpl(Inline)]
         public bool Equals(AsmOcValue src)
-            => Data == src.Data;
+            => Storage == src.Storage;
 
         public override bool Equals(object src)
             => src is AsmOcValue x && Equals(x);
 
         [MethodImpl(Inline)]
         public int CompareTo(AsmOcValue src)
-            => ((uint)Data).CompareTo((uint)src.Data);
+            => ((uint)Storage).CompareTo((uint)src.Storage);
 
         public override int GetHashCode()
-            => (int)((uint)Data);
+            => (int)((uint)Storage);
 
         [MethodImpl(Inline)]
         public static implicit operator Hex32(AsmOcValue src)
-            => (uint)src.Data;
+            => (uint)src.Storage;
 
         [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(Hex32 src)
@@ -105,6 +120,5 @@ namespace Z0.Asm
         [MethodImpl(Inline)]
         public static implicit operator AsmOcValue(ByteBlock4 src)
             => new AsmOcValue(src);
-
     }
 }
