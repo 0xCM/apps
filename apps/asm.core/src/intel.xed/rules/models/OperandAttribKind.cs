@@ -11,6 +11,8 @@ namespace Z0
         {
             None,
 
+            Common,
+
             Action,
 
             OpWidth,
@@ -30,6 +32,12 @@ namespace Z0
             Visibility,
 
             Macro,
+
+            EncodingGroup,
+
+            TextProp,
+
+
         }
     }
 }

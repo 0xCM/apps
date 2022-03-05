@@ -51,21 +51,12 @@ namespace Z0
             [RuleOperand(K.HAS_SIB, 1)]
             public bit HAS_SIB;
 
-            /// <summary>
-            /// Indicates whether a first imm operand is present"
-            /// </summary>
             [RuleOperand(K.IMM0, 1)]
             public bit IMM0;
 
-            /// <summary>
-            /// Indicates whether a first imm operand is signed
-            /// </summary>
             [RuleOperand(K.IMM0SIGNED, 1)]
             public bit IMM0SIGNED;
 
-            /// <summary>
-            /// Indicates whether a second imm operand is present"
-            /// </summary>
             [RuleOperand(K.IMM1, 1)]
             public bit IMM1;
 
@@ -192,6 +183,30 @@ namespace Z0
             [RuleOperand(K.ZEROING, 1)]
             public bit ZEROING;
 
+            [RuleOperand(K.HAS_MODRM, 1)]
+            public bit HAS_MODRM;
+
+            [RuleOperand(K.ILD_F2, 1)]
+            public bit ILD_F2;
+
+            [RuleOperand(K.ILD_F3, 1)]
+            public bit ILD_F3;
+
+            [RuleOperand(K.NEED_MEMDISP, 1)]
+            public bit NEED_MEMDISP;
+
+            [RuleOperand(K.NO_RETURN, 1)]
+            public bit NO_RETURN;
+
+            [RuleOperand(K.AGEN, 1)]
+            public bit AGEN;
+
+            [RuleOperand(K.MEM0, 1)]
+            public bit MEM0;
+
+            [RuleOperand(K.MEM1, 1)]
+            public bit MEM1;
+
             [RuleOperand(K.DEFAULT_SEG, 2)]
             public byte DEFAULT_SEG;
 
@@ -204,17 +219,8 @@ namespace Z0
             [RuleOperand(K.FIRST_F2F3, 2)]
             public byte FIRST_F2F3;
 
-            [RuleOperand(K.HAS_MODRM, 1)]
-            public bit HAS_MODRM;
-
             [RuleOperand(K.LAST_F2F3, 2)]
             public byte LAST_F2F3;
-
-            [RuleOperand(K.ILD_F2, 1)]
-            public bit ILD_F2;
-
-            [RuleOperand(K.ILD_F3, 1)]
-            public bit ILD_F3;
 
             [RuleOperand(K.LLRC, 2)]
             public byte LLRC;
@@ -281,9 +287,6 @@ namespace Z0
 
             [RuleOperand(K.BCAST,5)]
             public BCastKind BCAST;
-
-            [RuleOperand(K.NEED_MEMDISP, 1)]
-            public bit NEED_MEMDISP;
 
             [RuleOperand(K.CHIP, 8)]
             public ChipCode CHIP;
@@ -398,18 +401,6 @@ namespace Z0
 
             [RuleOperand(K.DISP, 64)]
             public Disp64 DISP;
-
-            [RuleOperand(K.NO_RETURN, 1)]
-            public bit NO_RETURN;
-
-            [RuleOperand(K.AGEN, 1)]
-            public bit AGEN;
-
-            [RuleOperand(K.MEM0, 1)]
-            public bit MEM0;
-
-            [RuleOperand(K.MEM1, 1)]
-            public bit MEM1;
 
             public text31 AGENVal;
 

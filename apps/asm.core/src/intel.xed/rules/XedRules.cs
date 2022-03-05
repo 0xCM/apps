@@ -157,11 +157,13 @@ namespace Z0
 
         static Symbols<PointerWidthKind> PointerWidthKinds;
 
-        static Symbols<XedDataType> DataTypes;
+        static Symbols<ElementType> DataTypes;
 
         static Symbols<RuleOpName> OpNames;
 
         static Symbols<OpVisiblity> Supressions;
+
+        static Symbols<EncodingGroup> EncodingGroups;
 
         static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
 
@@ -183,9 +185,12 @@ namespace Z0
             OpNames = Symbols.index<RuleOpName>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
             Supressions = Symbols.index<OpVisiblity>();
-            DataTypes = Symbols.index<XedDataType>();
+            DataTypes = Symbols.index<ElementType>();
+            EncodingGroups = Symbols.index<EncodingGroup>();
             MacroLookup = RuleMacros.lookup();
        }
+
+        static XedFormatters Formatters = XedFormatters.create();
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";
     }

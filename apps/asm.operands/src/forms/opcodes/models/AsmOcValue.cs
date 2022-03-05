@@ -8,6 +8,28 @@ namespace Z0.Asm
 
     public readonly struct AsmOcValue : IEquatable<AsmOcValue>, IComparable<AsmOcValue>
     {
+        public static string format(AsmOcValue src)
+        {
+            var data = src.Trimmed;
+            var dst = "0x00";
+            switch(data.Length)
+            {
+                case 1:
+                    dst = string.Format("0x{0:X2}", skip(data,0));
+                break;
+                case 2:
+                    dst = string.Format("0x{0:X2} 0x{1:X2}", skip(data,0), skip(data,1));
+                break;
+                case 3:
+                    dst = string.Format("0x{0:X2} 0x{1:X2} 0x{2:X2}", skip(data,0), skip(data,1), skip(data,2));
+                break;
+                case 4:
+                    dst = string.Format("0x{0:X2} 0x{1:X2} 0x{2:X2} 0x{3:X2}", skip(data,0), skip(data,1), skip(data,2), skip(data,3));
+                break;
+            }
+            return dst;
+        }
+
         readonly ByteBlock4 Storage;
 
         [MethodImpl(Inline)]

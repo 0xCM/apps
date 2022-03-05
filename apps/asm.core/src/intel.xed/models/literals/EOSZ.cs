@@ -7,9 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        /// Defines symbols to represent effective operands sizes
-        /// </summary>
         [SymSource(xed_state), DataWidth(3)]
         public enum EOSZ : sbyte
         {

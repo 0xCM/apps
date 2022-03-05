@@ -160,7 +160,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(this, true);
+                => XedFormatters.format(this, true);
 
             public override string ToString()
                 => Format();

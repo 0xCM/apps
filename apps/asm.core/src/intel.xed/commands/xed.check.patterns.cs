@@ -31,7 +31,7 @@ namespace Z0
                 var parts = text.split(text.despace(text.trim(expr)), Chars.Space);
                 var pad = -32;
                 var sep = " | ";
-                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, format(XedRules.ocvalue(pattern.Tokens)), format(info.OpCodeKind));
+                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, AsmOcValue.format(XedRules.ocvalue(pattern.Tokens)), format(info.OpCodeKind));
                 writer.WriteLine(expr);
                 writer.WriteLine(text.delimit(parts, sep, pad));
                 writer.WriteLine(text.delimit(pattern.Tokens, sep, pad));

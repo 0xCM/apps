@@ -21,10 +21,8 @@ namespace Z0
 
             public @string Expression;
 
-            public @string Refinement;
-
             public string Format()
-                =>  text.format("{0}:{1}", Name, Properties.Delimit(Chars.Colon).Format());
+                => text.format("{0}:{1}", Name, Properties.Delimit(Chars.Colon).Format());
 
             public override string ToString()
                 => Format();
@@ -40,6 +38,8 @@ namespace Z0
                 [MethodImpl(Inline)]
                 get => Name != 0;
             }
+
+            public static RuleOpSpec Empty => default;
         }
     }
 }

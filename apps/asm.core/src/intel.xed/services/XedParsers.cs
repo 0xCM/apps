@@ -21,9 +21,13 @@ namespace Z0
 
         readonly EnumParser<XedRegId> Regs = new();
 
-        readonly EnumParser<XedDataType> DataTypes = new();
+        readonly EnumParser<ElementType> ElementTypes = new();
 
         readonly EnumParser<OpVisiblity> Visibilities = new();
+
+        readonly EnumParser<EncodingGroup> EncodingGroups = new();
+
+        readonly EnumParser<TextPropKind> TextProps = new();
 
         XedParsers()
         {
@@ -61,16 +65,28 @@ namespace Z0
         public bool ParseRegLiteral(string src, out XedRegId dst)
             => Regs.Parse(src, out dst);
 
-        public bool Parse(string src, out XedDataType dst)
-            => DataTypes.Parse(src, out dst);
+        public bool Parse(string src, out ElementType dst)
+            => ElementTypes.Parse(src, out dst);
 
-        public bool ParseDataType(string src, out XedDataType dst)
-            => DataTypes.Parse(src, out dst);
+        public bool ParseElementType(string src, out ElementType dst)
+            => ElementTypes.Parse(src, out dst);
 
         public bool Parse(string src, out OpVisiblity dst)
             => Visibilities.Parse(src, out dst);
 
         public bool ParseVisibility(string src, out OpVisiblity dst)
             => Visibilities.Parse(src, out dst);
+
+        public bool Parse(string src, out EncodingGroup dst)
+            => EncodingGroups.Parse(src, out dst);
+
+        public bool ParseGroup(string src, out EncodingGroup dst)
+            => EncodingGroups.Parse(src, out dst);
+
+        public bool Parse(string src, out TextPropKind dst)
+            => TextProps.Parse(src, out dst);
+
+        public bool ParseTextProp(string src, out TextPropKind dst)
+            => TextProps.Parse(src, out dst);
     }
 }

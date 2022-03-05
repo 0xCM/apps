@@ -29,7 +29,7 @@ namespace Z0.Asm
             ApiMetadata.EmitTokens<CategoryKind>(scope, xed);
             ApiMetadata.EmitTokens<ChipCode>(scope, xed);
             ApiMetadata.EmitTokens<CpuidBit>(scope, xed);
-            ApiMetadata.EmitTokens<XedDataType>(scope, xed);
+            ApiMetadata.EmitTokens<ElementType>(scope, xed);
             ApiMetadata.EmitTokens<BaseTypeKind>(scope, xed);
             ApiMetadata.EmitTokens<EASZ>(scope, xed);
             ApiMetadata.EmitTokens<EOSZ>(scope, xed);

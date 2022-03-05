@@ -16,7 +16,7 @@ namespace Z0
 
             public text15 Name;
 
-            public XedDataType BaseType;
+            public ElementType BaseType;
 
             public uint Width16;
 

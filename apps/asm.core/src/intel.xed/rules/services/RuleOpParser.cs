@@ -71,62 +71,38 @@ namespace Z0
             public RuleOpSpec ParseOp(RuleOpName name, string src)
             {
                 var input = text.despace(src);
-
-                var i = text.index(input, Chars.Eq);
-                var attribs = i > 0 ? text.left(input, i) : input;
-                var refinement = EmptyString;
-                if(i > 0)
-                {
-                    var q = text.right(attribs,i);
-                    var v = text.xedni(attribs, Chars.Colon);
-                    refinement = text.right(text.left(attribs,v), v);
-                }
-                return ParseOperand(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty), refinement);
+                var attribs = input;
+                //var i = text.index(input, Chars.Eq);
+                //var attribs = i > 0 ? text.left(input, i) : input;
+                return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
             public RuleOpSpec ParseOp(string src)
             {
                 var input = text.despace(src);
-                var i = text.index(input, Chars.Colon);
-                var j = text.index(input, Chars.Eq);
-                var index = -1;
-                if(i > 0 && j > 0)
-                {
-                    index = i < j ? i : j;
-                }
-                else if(i>0 && j<0)
-                {
-                    index = i;
-                }
-                else if(j>0 && i<0)
-                {
-                    index = j;
-                }
+                var i = text.index(input, Chars.Colon, Chars.Eq);
+                var attribs = text.right(src,i);
+                // var i = text.index(input, Chars.Colon);
+                // var j = text.index(input, Chars.Eq);
+                // var index = -1;
+                // if(i > 0 && j > 0)
+                //     index = i < j ? i : j;
+                // else if(i>0 && j<0)
+                //     index = i;
+                // else if(j>0 && i<0)
+                //     index = j;
+
+                // var attribs = EmptyString;
+                // if(j > 0)
+                //     attribs = text.right(input,j);
+                // else if(i > 0)
+                //     attribs = text.right(input,i);
 
                 Name(src, out var name);
-
-                var attribs = EmptyString;
-                if(j > 0)
-                    attribs = text.right(input,j);
-                else if(i > 0)
-                    attribs = text.right(input,i);
-
-                var k = text.index(attribs, Chars.Eq);
-                var refinement = EmptyString;
-                if(k > 0)
-                {
-                    var q = text.right(attribs,k);
-                    var v = text.xedni(attribs, Chars.Colon);
-                    attribs = text.left(attribs,v);
-                    refinement = text.right(attribs,v);
-                }
-
-                var spec = ParseOperand(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty), refinement);
-                spec.Refinement = refinement;
-                return spec;
+                return ParseOp(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty));
             }
 
-            RuleOpSpec ParseOperand(string expr, RuleOpName name, string[] props, string refinement)
+            RuleOpSpec ParseOp(string expr, RuleOpName name, string[] props)
             {
                 var dst = new RuleOpSpec();
                 dst.Expression = expr;
@@ -143,33 +119,33 @@ namespace Z0
                     case REG8:
                     case REG9:
                     {
-                        ParseReg(K.Reg, expr, name, props, refinement, out dst);
+                        ParseReg(K.Reg, expr, name, props, out dst);
                     }
                     break;
 
                     case INDEX:
                     {
-                        ParseReg(K.Index, expr, name, props, refinement, out dst);
+                        ParseReg(K.Index, expr, name, props, out dst);
                     }
                     break;
 
                     case BASE0:
                     case BASE1:
                     {
-                        ParseReg(K.Base, expr, name, props, refinement, out dst);
+                        ParseReg(K.Base, expr, name, props, out dst);
                     }
                     break;
 
                     case SEG0:
                     case SEG1:
                     {
-                        ParseReg(K.Seg, expr, name, props, refinement, out dst);
+                        ParseReg(K.Seg, expr, name, props, out dst);
                     }
                     break;
 
                     case SCALE:
                     {
-                        ParseScale(K.Scale, expr, name, props, refinement, out dst);
+                        ParseScale(K.Scale, expr, name, props, out dst);
                     }
                     break;
 
@@ -179,7 +155,6 @@ namespace Z0
                         dst.Expression = expr;
                         dst.Name = name;
                         dst.Properties = props;
-                        dst.Refinement = refinement;
                         dst.Attributes = sys.empty<OperandAttrib>();
                     }
                     break;
@@ -188,32 +163,32 @@ namespace Z0
                     case IMM1:
                     case IMM2:
                     {
-                        ParseImm(K.Imm, expr, name, props, refinement, out dst);
+                        ParseImm(K.Imm, expr, name, props, out dst);
                     }
                     break;
 
                     case MEM0:
                     case MEM1:
                     {
-                        ParseMem(K.Mem, expr, name, props, refinement, out dst);
+                        ParseMem(K.Mem, expr, name, props, out dst);
                     }
                     break;
 
                     case AGEN:
                     {
-                        ParseMem(K.Agen, expr, name, props, refinement, out dst);
+                        ParseMem(K.Agen, expr, name, props, out dst);
                     }
                     break;
 
                     case PTR:
                     {
-                        ParsePtr(K.Ptr, expr, name, props, refinement, out dst);
+                        ParsePtr(K.Ptr, expr, name, props, out dst);
                     }
                     break;
 
                     case RELBR:
                     {
-                        ParseRelBr(K.RelBr, expr, name, props, refinement, out dst);
+                        ParseRelBr(K.RelBr, expr, name, props, out dst);
                     }
                     break;
 
@@ -226,7 +201,6 @@ namespace Z0
                             dst.Properties = props;
                             dst.Attributes = new OperandAttrib[]{macro.Name};
                             dst.Expression = expr;
-                            dst.Refinement = refinement;
                         }
                     }
                     break;
@@ -234,15 +208,13 @@ namespace Z0
                 return dst;
             }
 
-
-            void ParsePtr(K kind, string expr, RuleOpName name, Index<string> props, string refinement, out RuleOpSpec dst)
+            void ParsePtr(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                dst.Refinement = refinement;
                 Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
                 var i=0;
 
@@ -260,14 +232,13 @@ namespace Z0
                 dst.Attributes = slice(buffer,0,i).ToArray();
             }
 
-            void ParseRelBr(K kind, string expr, RuleOpName name, Index<string> props, string refinement, out RuleOpSpec dst)
+            void ParseRelBr(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                dst.Refinement = refinement;
                 Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
                 var i=0;
                 if(count >= 1)
@@ -284,14 +255,13 @@ namespace Z0
                 dst.Attributes = slice(buffer,0,i).ToArray();
             }
 
-            void ParseScale(K kind, string expr, RuleOpName name, Index<string> props, string refinement, out RuleOpSpec dst)
+            void ParseScale(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                dst.Refinement = refinement;
                 Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
                 var i=0;
 
@@ -314,14 +284,13 @@ namespace Z0
                 dst.Attributes = slice(buffer,0,i).ToArray();
             }
 
-            void ParseImm(K kind, string expr, RuleOpName name, Index<string> props, string refinement, out RuleOpSpec dst)
+            void ParseImm(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                dst.Refinement = refinement;
 
                 Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
                 var i=0;
@@ -339,22 +308,22 @@ namespace Z0
 
                 if(count >= 3)
                 {
-                    if(Parsers.ParseDataType(props[2], out var type))
+                    if(Parsers.ParseElementType(props[2], out var type))
                         seek(buffer,i++) = type;
                 }
 
                 dst.Attributes = slice(buffer,0,i).ToArray();
             }
 
-            void ParseMem(K kind, string expr, RuleOpName name, Index<string> props, string refinement, out RuleOpSpec dst)
+            // MEM0:r:vv:f64:TXT=BCASTSTR
+            void ParseMem(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var count = props.Count;
                 dst.Kind = kind;
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                dst.Refinement = refinement;
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[4];
+                Span<OperandAttrib> buffer = stackalloc OperandAttrib[6];
                 var i=0;
 
                 if(count >= 1)
@@ -368,10 +337,26 @@ namespace Z0
                         seek(buffer,i++) = width;
                 }
 
+                if(count >= 3)
+                {
+                    if(Parsers.ParseElementType(props[2], out var type))
+                        seek(buffer,i++) = type;
+                }
+
+                if(count >= 4)
+                {
+                    var j = text.index(props[3], Chars.Eq);
+                    if(j > 0)
+                    {
+                        if(Parsers.ParseTextProp(text.right(props[3], j), out var tp))
+                            seek(buffer,i++) = tp;
+                    }
+                }
+
                 dst.Attributes = slice(buffer,0,i).ToArray();
             }
 
-            void ParseReg(K kind, string expr, RuleOpName name, Index<string> props, string refinement, out RuleOpSpec dst)
+            void ParseReg(K kind, string expr, RuleOpName name, Index<string> props, out RuleOpSpec dst)
             {
                 var result = Outcome.Success;
                 var counter = 0;
@@ -380,23 +365,29 @@ namespace Z0
                 dst.Name = name;
                 dst.Properties = props;
                 dst.Expression = expr;
-                dst.Refinement = refinement;
 
                 Span<OperandAttrib> buffer = stackalloc OperandAttrib[8];
                 var i=0;
                 if(count >= 1)
                 {
-                    ref readonly var p0 = ref props[0];
+                    var p0 = props[0];
+                    var j = text.index(p0, Chars.LParen);
+                    if(j > 0)
+                        p0 = text.left(p0,j);
+
                     if(Parsers.ParseNonterm(p0, out var nonterm))
-                    {
                         seek(buffer, i++) = nonterm;
-                    }
                     else
                     {
                         if(Parsers.ParseRegLiteral(p0,  out var register))
                             seek(buffer, i++) = register;
                         else
-                            seek(buffer, i++) = RegResolvers.resolver(p0);
+                        {
+                            if(Parsers.ParseGroup(p0, out var group))
+                                seek(buffer,i++) = group;
+                            else
+                                seek(buffer, i++) = RegResolvers.resolver(p0);
+                        }
                     }
                 }
 
@@ -423,12 +414,20 @@ namespace Z0
                 {
                     if(Parsers.ParseOpWidth(props[3], out var width))
                         seek(buffer,i++) = width;
-
+                    else
+                    {
+                        var j = text.index(props[3], Chars.Eq);
+                        if(j > 0)
+                        {
+                            if(Parsers.ParseTextProp(text.right(props[3], j), out var tp))
+                                seek(buffer,i++) = tp;
+                        }
+                    }
                 }
 
                 if(count >= 5)
                 {
-                    if(Parsers.ParseDataType(props[4], out var type))
+                    if(Parsers.ParseElementType(props[4], out var type))
                         seek(buffer,i++) = type;
                 }
 

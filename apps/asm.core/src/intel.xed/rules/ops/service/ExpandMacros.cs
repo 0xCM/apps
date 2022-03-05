@@ -11,7 +11,7 @@ namespace Z0
     {
         public void ExpandMacros(RuleSet src)
         {
-            ExpandMacros(MacroLookup, src.Tables);
+            ExpandMacros(src.Tables);
             ExpandMacros(MacroLookup, src.Patterns);
         }
 
@@ -109,13 +109,13 @@ namespace Z0
             return output.Delimit(Chars.Space).Format();
         }
 
-        static void ExpandMacros(ConstLookup<RuleMacroKind,MacroSpec> specs, Index<RuleTable> src)
+        static void ExpandMacros(Index<RuleTable> src)
         {
             var count = src.Count;
             for(var i=0; i<count; i++)
             {
                 ref var table = ref src[i];
-                ExpandMacros(specs, ref table);
+                ExpandMacros(MacroLookup, ref table);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Z0
             for(var i=0; i<count; i++)
             {
                 ref var pattern = ref src[i];
-                ExpandMacros(specs, ref pattern);
+                ExpandMacros(MacroLookup, ref pattern);
             }
         }
 

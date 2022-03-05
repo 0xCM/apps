@@ -51,7 +51,6 @@ namespace Z0
             {
                 var buffer = list<InstDef>();
                 using var reader = src.Utf8LineReader();
-                var def = default(InstDef);
                 var parser = RuleOpParser.create();
 
                 while(reader.Next(out var line))

@@ -11,35 +11,29 @@ namespace Z0
 
     partial class XedRules
     {
-        Index<RuleTable> EmitEncRuleTables()
+        void EmitEncRuleTables()
         {
             var src = CalcEncRuleTables();
-            EmitEncRuleTables(src);
-            return src;
+            EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncRuleTable));
+            ExpandMacros(src);
+            EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncRuleTableExp));
         }
 
-        Index<RuleTable> EmitDecRuleTables()
+        void EmitDecRuleTables()
         {
             var src = CalcDecRuleTables();
-            EmitDecRuleTables(src);
-            return src;
+            EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.DecRuleTable));
+            ExpandMacros(src);
+            EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.DecRuleTableExp));
         }
 
-        Index<RuleTable> EmitEncDecRuleTables()
+        void EmitEncDecRuleTables()
         {
             var src = CalcEncDecRuleTables();
-            EmitEncDecRuleTables(src);
-            return src;
+            EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncDecRuleTable));
+            ExpandMacros(src);
+            EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncDecRuleTableExp));
         }
-
-        FS.FilePath EmitEncRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncRuleTable));
-
-        FS.FilePath EmitDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.DecRuleTable));
-
-        FS.FilePath EmitEncDecRuleTables(ReadOnlySpan<RuleTable> src)
-            => EmitRuleTables(src, XedPaths.DocTarget(XedDocKind.EncDecRuleTable));
 
         FS.FilePath EmitRuleTables(ReadOnlySpan<RuleTable> src, FS.FilePath dst)
         {

@@ -5,21 +5,19 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using System;
-
-    partial class XedRules
+    partial struct XedModels
     {
-        public class RuleOperandAttribute : Attribute
+        public enum TextPropKind : byte
         {
-            public RuleOperandAttribute(FieldKind kind, byte width)
-            {
-                Kind = kind;
-                Width = width;
-            }
+            None,
 
-            public FieldKind Kind {get;}
+            ZEROSTR,
 
-            public byte Width {get;}
+            ROUNDC,
+
+            SAE,
+
+            BCASTSTR,
         }
     }
 }

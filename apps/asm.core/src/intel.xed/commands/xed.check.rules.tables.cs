@@ -34,20 +34,16 @@ namespace Z0
             if(src != null)
                 dst.Write(src);
         }
-
     }
+
     partial class XedCmdProvider
     {
-        [CmdOp("xed/check/ops")]
-        Outcome CheckOps(CmdArgs args)
+        void EmitDetails(Index<InstDef> defs, FS.FilePath path)
         {
             const string LabelPattern = "{0,-16} | {1}";
-
-            var defs = Xed.Rules.CalcEncInstDefs();
             var parser = RuleOpParser.create();
             var result = Outcome.Success;
             var seq = 0u;
-            var path = AppDb.XedPath("xed.rules.enc.descriptions", FileKind.Txt);
             var emitting = EmittingFile(path);
             using var dst = path.AsciWriter();
             for(var i=0; i<defs.Count; i++)
@@ -78,15 +74,21 @@ namespace Z0
                         for(var m=0; m<attribs.Count; m++)
                             dst.AppendFormat(" | {0,-16}", attribs[m]);
 
-                        if(text.nonempty(op.Refinement))
-                            dst.AppendFormat(" | {0,-24}", op.Refinement);
-
                         dst.AppendLine();
                     }
                     dst.AppendLine(RP.PageBreak100);
                 }
             }
             EmittedFile(emitting,seq);
+        }
+
+        [CmdOp("xed/check/ops")]
+        Outcome CheckOps(CmdArgs args)
+        {
+            const string LabelPattern = "{0,-16} | {1}";
+
+            EmitDetails(Xed.Rules.CalcEncInstDefs(), AppDb.XedPath("xed.rules.enc.detail", FileKind.Txt));
+            EmitDetails(Xed.Rules.CalcDecInstDefs(), AppDb.XedPath("xed.rules.dec.detail", FileKind.Txt));
             return true;
         }
 

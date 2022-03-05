@@ -7,8 +7,11 @@ namespace Z0
 {
     partial struct XedModels
     {
+        /// <summary>
+        ///  all-element-types.txt
+        /// </summary>
         [SymSource(xed)]
-        public enum XedDataType : byte
+        public enum ElementType : byte
         {
             INVALID = 0,
 

@@ -7,10 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        /// Defines symbols to represent effective addressing modes
-        /// J:\source\xed\xed\src\common\xed-operand-values-interface.c
-        /// </summary>
         [SymSource(xed_state), DataWidth(3)]
         public enum EASZ : sbyte
         {
