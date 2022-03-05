@@ -82,7 +82,7 @@ namespace Z0
             for(var i=0; i<src.Count; i++)
             {
                 ref readonly var input = ref src[i];
-                src[i] = input.WithPattern(ExpandMacros(lu, input.PatternExpr));
+                src[i] = input.WithPattern(ExpandMacros(lu, input.Expression));
             }
         }
 
@@ -91,12 +91,14 @@ namespace Z0
             var input = text.trim(text.split(text.despace(src), Chars.Space));
             var count = input.Length;
             var output = alloc<string>(count);
+            var names = RuleMacros.names();
+            var kinds = RuleMacros.kinds();
             for(var i=0; i<count; i++)
             {
                 ref readonly var part = ref skip(input,i);
-                if(MacroNameSet.Contains(part))
+                if(names.Contains(part))
                 {
-                    if(MacroKinds.Lookup(part, out var sym))
+                    if(kinds.Lookup(part, out var sym))
                         seek(output,i) = specs[sym.Kind].Format();
                     else
                         seek(output,i) = part;

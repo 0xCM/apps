@@ -53,9 +53,9 @@ namespace Z0
                 if(def.Flags.IsNonEmpty)
                     writer.WriteLine(string.Format("{0}:{1}", nameof(def.Flags), def.Flags.Delimit(fence:RenderFence.Embraced)));
                 iter(def.PatternSpecs, p => {
-                    writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.PatternExpr));
-                    if(p.PatternOps.Count != 0)
-                        iter(p.PatternOps, o => writer.WriteLine(o));
+                    writer.WriteLine(string.Format("{0}:{1}", "Pattern", p.Expression));
+                    if(p.Operands.Count != 0)
+                        iter(p.Operands, o => writer.WriteLine(o));
                 });
                 writer.WriteLine();
             }

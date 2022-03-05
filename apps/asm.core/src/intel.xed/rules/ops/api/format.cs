@@ -6,13 +6,63 @@
 namespace Z0
 {
     using Asm;
+
     using static core;
     using static XedModels;
 
     using RTK = XedRules.RuleTokenKind;
+    using AK = XedRules.OperandAttribKind;
 
     partial class XedRules
     {
+        public static string format(OperandAttrib src)
+        {
+            var dst = EmptyString;
+            switch(src.Kind)
+            {
+                case AK.Action:
+                     dst = OpActions[src.AsAction()].Expr.Text;
+                break;
+                case AK.OpWidth:
+                    dst = OpWidthKinds[src.AsOpWidth()].Expr.Text;
+                break;
+
+                case AK.PtrWidth:
+                    dst = PointerWidthKinds[src.AsPtrWidth()].Expr.Text;
+                break;
+
+                case AK.DataType:
+                    dst = DataTypes[src.AsDataType()].Expr.Text;
+                break;
+
+                case AK.Nonterminal:
+                     dst = Nonterminals[src.AsNonTerm()].Expr.Text;
+                break;
+
+                case AK.Supression:
+                    dst = Supressions[src.AsSupression()].Expr.Text;
+                break;
+
+                case AK.RegLiteral:
+                    dst = src.AsRegLiteral().ToString();
+                break;
+
+                case AK.Scale:
+                    dst = src.AsScale().Format();
+                break;
+
+                case AK.RegResolver:
+                    dst = src.AsRegResolver().Format();
+                break;
+
+                case AK.Macro:
+                    dst = src.AsMacro().ToString();
+                break;
+
+            }
+            return dst;
+        }
+
         public static string format(AsmOcValue src)
         {
             var data = src.Trimmed;

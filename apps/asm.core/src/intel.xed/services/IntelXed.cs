@@ -21,7 +21,7 @@ namespace Z0.Asm
 
         Symbols<VisibilityKind> Visibilities;
 
-        EnumParser<OperandWidthType> OpWidthParser;
+        EnumParser<OperandWidthKind> OpWidthParser;
 
         EnumParser<BaseTypeKind> BaseTypeParser;
 
@@ -61,12 +61,12 @@ namespace Z0.Asm
 
         ApiMetadataService ApiMetadata => Service(Wf.ApiMetadata);
 
-        XedPaths XedPaths => Service(Wf.XedPaths);
+        public XedPaths XedPaths => Service(Wf.XedPaths);
 
         public XedRules Rules => Service(Wf.XedRules);
 
         [Op]
-        public bool WidthType(string src, out OperandWidthType dst)
+        public bool WidthType(string src, out OperandWidthKind dst)
             => OpWidthParser.Parse(src, out dst);
 
         [Op]

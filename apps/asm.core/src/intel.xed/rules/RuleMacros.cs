@@ -43,17 +43,63 @@ namespace Z0
             => new MacroSpec(name, a0);
 
         [ApiHost("xed.rules.macros")]
-        public readonly struct RuleMacros
+        public class RuleMacros
         {
-            public static Index<MacroSpec> specs()
+            static Symbols<RuleMacroKind> Kinds;
+
+            static Index<MacroSpec> Specs;
+
+            static ConstLookup<RuleMacroKind,MacroSpec> Lookup;
+
+            static HashSet<string> Names;
+
+            static RuleMacros()
+            {
+                Kinds = Symbols.index<RuleMacroKind>();
+                Specs = _specs();
+                Lookup = _lookup();
+                Names = _names();
+            }
+
+            static Index<MacroSpec> _specs()
             {
                 var src = typeof(RuleMacros).StaticMethods().Public().Where(x => x.ReturnType == typeof(MacroSpec) && x.Parameters().Length == 0);
                 var count = src.Length;
                 var dst = alloc<MacroSpec>(count);
                 for(var i=0; i<count; i++)
-                    seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null,  sys.empty<object>());
+                    seek(dst,i) = (MacroSpec)skip(src,i).Invoke(null, sys.empty<object>());
                 return dst.Sort();
             }
+
+            static ConstLookup<RuleMacroKind,MacroSpec> _lookup()
+                => RuleMacros.specs().Storage.Map(x => (x.Name, x)).ToDictionary();
+
+            static HashSet<string> _names()
+                => map(Kinds.View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
+
+            [MethodImpl(Inline), Op]
+            public static Symbols<RuleMacroKind> kinds()
+                => Kinds;
+
+            [MethodImpl(Inline), Op]
+            public static Index<MacroSpec> specs()
+                => Specs;
+
+            [MethodImpl(Inline), Op]
+            public static ConstLookup<RuleMacroKind,MacroSpec> lookup()
+                => Lookup;
+
+            public static bool spec(string name, out MacroSpec dst)
+            {
+                if(Kinds.Lookup(name, out var sym))
+                    return Lookup.Find(sym.Kind, out dst);
+                dst = MacroSpec.Empty;
+                return false;
+            }
+
+            [MethodImpl(Inline), Op]
+            public static HashSet<string> names()
+                => Names;
 
             [MethodImpl(Inline), Op]
             public static MacroSpec mod0()

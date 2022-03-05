@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial struct XedModels
     {
         [DataType(XedNames.iform)]
@@ -46,7 +44,7 @@ namespace Z0
                 => src is IForm && Equals(src);
 
             public string Format()
-                => Value.ToString();
+                => Value == 0 ? EmptyString :  Value.ToString();
 
             public override string ToString()
                 => Format();

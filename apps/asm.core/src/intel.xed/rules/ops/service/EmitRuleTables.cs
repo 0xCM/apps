@@ -47,10 +47,7 @@ namespace Z0
             var emitting = EmittingFile(dst);
             using var writer = dst.AsciWriter();
             for(var i=0; i<count; i++)
-            {
-                ref readonly var table = ref skip(src,i);
-                writer.WriteLine(table.Format());
-            }
+                writer.WriteLine(skip(src,i).Format());
             EmittedFile(emitting,count);
             return dst;
         }

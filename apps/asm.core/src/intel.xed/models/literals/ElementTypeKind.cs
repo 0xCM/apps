@@ -7,7 +7,7 @@ namespace Z0
     partial struct XedModels
     {
         [SymSource("xed")]
-        public enum OperandElementTypeKind
+        public enum ElementTypeKind
         {
             INVALID,
 

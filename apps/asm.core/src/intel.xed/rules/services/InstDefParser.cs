@@ -45,7 +45,8 @@ namespace Z0
                 }
 
                 var parsed = dst.Emit();
-                return text.despace(parsed.Replace("MOD[0b11] MOD=3", "MOD[0b11]"));
+                return parsed;
+                //return text.despace(parsed.Replace("MOD[0b11] MOD=3", "MOD[0b11]"));
             }
 
             public Index<InstDef> ParseInstDefs(FS.FilePath src)
@@ -53,7 +54,7 @@ namespace Z0
                 var buffer = list<InstDef>();
                 using var reader = src.Utf8LineReader();
                 var def = default(InstDef);
-                var result = Outcome.Success;
+
                 while(reader.Next(out var line))
                 {
                     if(line.IsEmpty || line.StartsWith(Chars.Hash) || line.EndsWith("::"))
@@ -70,12 +71,14 @@ namespace Z0
                                 continue;
 
                             var i = text.index(line.Content, Chars.Colon);
+
                             if(i > 0)
                             {
                                 var name = text.trim(text.left(line.Content,i));
                                 var value = text.trim(text.right(line.Content,i));
                                 if(empty(value))
                                     continue;
+
 
                                 if(ClassifyPart(name, out var p))
                                 {
@@ -100,17 +103,25 @@ namespace Z0
                                             Rules.ParseIClass(value, out dst.Class);
                                         break;
                                         case P.Operands:
-                                            result = Rules.CalcOpSpecs(value, out var ops);
-                                            if(result)
+                                        {
+                                            var j = text.index(line.Content, Chars.BSlash);
+                                            if(j > 0)
                                             {
-                                                operands.Add(new InstPatternSpec(pattern, ops));
-                                                pattern=EmptyString;
+                                                var result = text.left(line.Content, j);
+                                                while(reader.Next(out var x))
+                                                {
+                                                    j = text.index(x.Content, Chars.BSlash);
+                                                    if(j > 0)
+                                                        result = string.Format("{0} {1}", result, text.left(x.Content,j).Trim());
+                                                    else
+                                                        break;
+                                                }
+                                                value = result;
                                             }
-                                            else
-                                            {
-                                                Rules.Error(result.Message);
-                                                return sys.empty<InstDef>();
-                                            }
+
+                                            operands.Add(new InstPatternSpec(pattern, Rules.CalcOpSpecs(value)));
+                                            pattern=EmptyString;
+                                        }
                                         break;
                                         case P.Pattern:
                                             pattern = ParseTokens(value);

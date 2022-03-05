@@ -10,56 +10,53 @@ namespace Z0
 
     partial class XedRules
     {
-        Outcome CalcOpSpecs(string src, out Index<RuleOpSpec> dst)
+        Index<RuleOpSpec> CalcOpSpecs(string src)
         {
             var result = Outcome.Success;
-            dst = sys.empty<RuleOpSpec>();
             var buffer = list<RuleOpSpec>();
             var input = text.despace(src);
-            if(input.Contains(Chars.Space))
+            var i = text.index(input,Chars.Hash);
+            if(i > 0)
+                input = text.left(input,i);
+
+            if(empty(input))
+                return sys.empty<RuleOpSpec>();
+
+            try
             {
-                var opssrc = text.split(input, Chars.Space);
-                var count = opssrc.Length;
-                for(var j=0; j<count; j++)
+                if(input.Contains(Chars.Space))
                 {
-                    result = ParseOperand(skip(opssrc, j), out var op);
-                    if(result)
-                        buffer.Add(op);
-                    else
-                        break;
+                    var opssrc = text.split(input, Chars.Space);
+                    var count = opssrc.Length;
+                    for(var j=0; j<count; j++)
+                    {
+                        ref readonly var x = ref skip(opssrc,j);
+                        try
+                        {
+                            var parsed = OpParser.Parse(x);
+                            if(parsed.IsNonEmpty)
+                                buffer.Add(parsed);
+                        }
+                        catch(Exception e)
+                        {
+                            Warn(e.Message);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    var parsed = OpParser.Parse(input);
+                    if(parsed.IsNonEmpty)
+                        buffer.Add(parsed);
                 }
             }
-            else
+            catch(Exception e)
             {
-                result = ParseOperand(input, out var op);
-                if(result)
-                    buffer.Add(op);
+                Warn(e.Message);
             }
-            if(result)
-                dst = buffer.ToArray();
-            return result;
-        }
 
-        Outcome ParseOpDirection(string src, out OpDirection dst)
-        {
-            var result = Outcome.Success;
-            switch(src)
-            {
-                case "r":
-                    dst = OpDirection.In;
-                break;
-                case "w":
-                    dst = OpDirection.Out;
-                break;
-                case "rw":
-                    dst = OpDirection.IO;
-                break;
-                default:
-                    dst = 0;
-                    result = (false, string.Format("Unexpected direction specification in {0}", src));
-                break;
-            }
-            return result;
+            return buffer.ToArray();
         }
 
         Outcome ParseOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
@@ -69,83 +66,7 @@ namespace Z0
             dst.Name = name;
             dst.Kind = XedRules.opkind(name);
             dst.Name = name;
-            dst.Function = TableFunction.Empty;
-            dst.Attributes = attribs;
-            switch(dst.Kind)
-            {
-                case RuleOpKind.Agen:
-                break;
-
-                case RuleOpKind.Base:
-                break;
-
-                case RuleOpKind.Disp:
-                break;
-
-                case RuleOpKind.Imm:
-                break;
-
-                case RuleOpKind.Index:
-                break;
-
-                case RuleOpKind.Mem:
-                break;
-
-                case RuleOpKind.Ptr:
-                break;
-
-                case RuleOpKind.Reg:
-                break;
-
-                case RuleOpKind.RelBr:
-                break;
-
-                case RuleOpKind.Scale:
-                break;
-
-                case RuleOpKind.Seg:
-                break;
-
-            }
-            return result;
-        }
-
-        Outcome ParseImmOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
-        {
-            var result = Outcome.Success;
-            var dir = OpDirection.None;
-            var refinement = EmptyString;
-            dst = default;
-            return result;
-        }
-
-        Outcome ParseMemOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
-        {
-            var result = Outcome.Success;
-            var dir = OpDirection.None;
-            var refinement = EmptyString;
-            dst = default;
-            return result;
-        }
-
-        Outcome ParseRegOperand(RuleOpName name, string[] attribs, out RuleOpSpec dst)
-        {
-            var result = Outcome.Success;
-            var dir = OpDirection.None;
-            var fx = default(TableFunction);
-            var refinement = EmptyString;
-            var width = OperandWidth.Empty;
-            dst = default;
-            return result;
-        }
-
-        Outcome ParseOpWidth(string src, out OperandWidth dst)
-        {
-            var result = Outcome.Success;
-            var widths = OpWidthsLookup();
-            result = widths.Find(src, out dst);
-            if(result.Fail)
-                result = (false, string.Format("Unexpected width expression:{0}", src));
+            dst.Properties = attribs;
             return result;
         }
 
@@ -157,7 +78,7 @@ namespace Z0
             if(i > 0)
             {
                 var name = text.left(src,i);
-                result = OpKinds.ExprKind(name, out dst);
+                result = OpNames.ExprKind(name, out dst);
                 if(result.Fail)
                     result = (false, Msg.ParseFailure.Format(nameof(RuleOpName), src));
             }

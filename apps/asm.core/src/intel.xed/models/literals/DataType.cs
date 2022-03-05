@@ -7,9 +7,6 @@ namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        /// Symbolic form of <see cref='BaseTypeKind'/>
-        /// </summary>
         [SymSource(xed)]
         public enum XedDataType : byte
         {

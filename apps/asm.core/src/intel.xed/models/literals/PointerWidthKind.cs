@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : xed-reg-class.h
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
@@ -9,13 +9,10 @@ namespace Z0
 
     partial struct XedModels
     {
-        /// <summary>
-        /// Mirrors the content of xed-pointer-width.txt data file
-        /// </summary>
         [SymSource(xed), Flags]
         public enum PointerWidthKind
         {
-            INVALID = 0,
+            INVALID,
 
             [Symbol("b")]
             Byte = 1,

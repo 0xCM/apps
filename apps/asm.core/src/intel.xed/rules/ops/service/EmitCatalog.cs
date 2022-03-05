@@ -27,7 +27,6 @@ namespace Z0
             EmitOpCodeKinds();
             EmitMacroAssignments();
             EmitRuleFields();
-            EmitRuleOpCodes(rules);
             EmitEncPatternOps(enc);
             EmitDecPatternOps(dec);
         }
@@ -50,20 +49,11 @@ namespace Z0
 
         Index<RulePatternInfo> EmitRulePatterns(Index<InstDef> enc, Index<InstDef> dec)
         {
-            // var enc = a.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
-            // var dec = b.SelectMany(x => x.PatternSpecs).Select(x => x.PatternExpr).Distinct().Sort();
-            // var count = Require.equal(enc.Count, dec.Count);
             var patterns = CalcPatternInfo(enc);
             TableEmit(patterns.View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.EncRulePatterns));
             TableEmit(CalcPatternInfo(dec).View, RulePatternInfo.RenderWidths, XedPaths.DocTarget(XedDocKind.DecRulePatterns));
             return patterns;
         }
 
-        Index<RuleOpCode> EmitRuleOpCodes(ReadOnlySpan<RulePatternInfo> src)
-        {
-            var opcodes = CalcOpCodes(src);
-            TableEmit(opcodes.View, RuleOpCode.RenderWidths, XedPaths.DocTarget(XedDocKind.OpCodes));
-            return opcodes;
-        }
     }
 }

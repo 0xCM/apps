@@ -9,6 +9,7 @@ namespace Z0
 
     using Asm;
 
+
     partial class XedRules
     {
         [StructLayout(LayoutKind.Sequential, Pack=1)]
@@ -27,8 +28,8 @@ namespace Z0
             {
                 Class = @class;
                 OcKind = kind;
-                OcValue = value;
                 Tokens = tokens;
+                OcValue = value;
             }
 
             [MethodImpl(Inline)]

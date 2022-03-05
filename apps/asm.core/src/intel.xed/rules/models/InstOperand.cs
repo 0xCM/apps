@@ -20,7 +20,7 @@ namespace Z0
 
             public VisibilityKind Visiblity;
 
-            public OperandWidthType WidthType;
+            public OperandWidthKind WidthType;
 
             public string Prop2;
 

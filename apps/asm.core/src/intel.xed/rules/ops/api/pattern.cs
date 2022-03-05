@@ -12,6 +12,6 @@ namespace Z0
     partial class XedRules
     {
         public static RulePattern pattern(IClass @class, OpCodeKind kind, AsmOcValue value, params RuleToken[] tokens)
-            => new RulePattern(@class, kind, value,tokens);
+            => new RulePattern(@class, kind, ocvalue(tokens), tokens);
     }
 }

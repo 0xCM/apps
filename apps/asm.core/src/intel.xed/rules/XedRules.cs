@@ -18,21 +18,13 @@ namespace Z0
 
         Symbols<ExtensionKind> Extensions;
 
-        Symbols<OperandWidthType> OpWidthTypes;
-
-        Symbols<XedDataType> DataTypes;
-
         Symbols<IsaKind> IsaKinds;
 
         Symbols<IFormType> Forms;
 
-        Symbols<RuleOpName> OpKinds;
-
         Index<InstRulePart,string> PartNames;
 
         Index<PointerWidth> PointerWidths;
-
-        Symbols<PointerWidthKind> PointerWidthSymbols;
 
         Symbols<VisibilityKind> Visibilities;
 
@@ -50,33 +42,13 @@ namespace Z0
             Extensions = Symbols.index<ExtensionKind>();
             Forms = Symbols.index<IFormType>();
             IsaKinds = Symbols.index<IsaKind>();
-            OpWidthTypes = Symbols.index<OperandWidthType>();
-            DataTypes = Symbols.index<XedDataType>();
-            OpKinds = Symbols.index<RuleOpName>();
-            PointerWidthSymbols = Symbols.index<PointerWidthKind>();
-            PointerWidths = map(PointerWidthSymbols.View, s => (PointerWidth)s);
+            PointerWidths = map(PointerWidthKinds.View, s => (PointerWidth)s);
             Visibilities = Symbols.index<VisibilityKind>();
             FieldTypes = Symbols.index<FieldType>();
             FlagActionKinds = Symbols.index<FlagActionKind>();
             Flags = Symbols.index<RegFlag>();
             PartNames = new string[]{ICLASS,IFORM,ATTRIBUTES,CATEGORY,EXTENSION,FLAGS,PATTERN,OPERANDS,ISA_SET,COMMENT};
             InstDefParser = new(this);
-        }
-
-        ConstLookup<string,OperandWidth> OpWidthsLookup()
-        {
-            return Data(nameof(OpWidthsLookup), Load);
-
-            ConstLookup<string,OperandWidth> Load()
-            {
-                var widths = LoadOperandWidths();
-                var dst = dict<string,OperandWidth>();
-                var symbols = Symbols.index<OperandWidthType>();
-                var count = widths.Length;
-                for(var i=0; i<count; i++)
-                    dst[symbols[widths[i].Code].Expr.Format()] = widths[i];
-                return dst;
-            }
         }
 
         XedPaths XedPaths => Service(Wf.XedPaths);
@@ -88,6 +60,8 @@ namespace Z0
 
         public OpCodeKinds LoadOpCodeKinds()
             => CalcOpCodeKinds();
+
+        public RuleOpParser OpParser => Service(RuleOpParser.create);
 
         public Index<PointerWidthInfo> LoadPointerWidths()
             => Data(nameof(LoadPointerWidths), () => mapi(PointerWidths, (i,w) => w.ToRecord((byte)i)));
@@ -139,6 +113,22 @@ namespace Z0
             return result;
         }
 
+        ConstLookup<string,OperandWidth> LoadOpWidthsLookup()
+        {
+            return Data(nameof(LoadOpWidthsLookup), Load);
+
+            ConstLookup<string,OperandWidth> Load()
+            {
+                var widths = LoadOperandWidths();
+                var dst = dict<string,OperandWidth>();
+                var symbols = Symbols.index<OperandWidthKind>();
+                var count = widths.Length;
+                for(var i=0; i<count; i++)
+                    dst[symbols[widths[i].Code].Expr.Format()] = widths[i];
+                return dst;
+            }
+        }
+
         static Symbols<FieldKind> FieldKinds;
 
         static Symbols<RuleMacroKind> MacroKinds;
@@ -161,9 +151,19 @@ namespace Z0
 
         static Symbols<OpCodeIndex> OcKindIndex;
 
-        static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
+        static Symbols<OperandAction> OpActions;
 
-        static readonly HashSet<string> MacroNameSet;
+        static Symbols<OperandWidthKind> OpWidthKinds;
+
+        static Symbols<PointerWidthKind> PointerWidthKinds;
+
+        static Symbols<XedDataType> DataTypes;
+
+        static Symbols<RuleOpName> OpNames;
+
+        static Symbols<Supression> Supressions;
+
+        static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
 
         static XedRules()
         {
@@ -172,14 +172,19 @@ namespace Z0
             BCastKinds = Symbols.index<BCastKind>();
             ChipCodes = Symbols.index<ChipCode>();
             XedRegs = Symbols.index<XedRegId>();
+            OpWidthKinds = Symbols.index<OperandWidthKind>();
             InstClasses = Symbols.index<IClass>();
             RuleOps = Symbols.index<RuleOperator>();
             DispKinds = Symbols.index<DispExprKind>();
             ConstraintKinds = Symbols.index<ConstraintKind>();
             Nonterminals = Symbols.index<NonterminalKind>();
             OcKindIndex = Symbols.index<OpCodeIndex>();
-            MacroLookup = RuleMacros.specs().Storage.Map(x => (x.Name, x)).ToDictionary();
-            MacroNameSet = map(Symbols.index<RuleMacroKind>().View.Where(x => x.Kind != 0),x => x.Expr.Text).ToHashSet();
+            OpActions = Symbols.index<OperandAction>();
+            OpNames = Symbols.index<RuleOpName>();
+            PointerWidthKinds = Symbols.index<PointerWidthKind>();
+            Supressions = Symbols.index<Supression>();
+            DataTypes = Symbols.index<XedDataType>();
+            MacroLookup = RuleMacros.lookup();
        }
 
         static MsgPattern<string> StepParseFailed => "Failed to parse step from '{0}'";

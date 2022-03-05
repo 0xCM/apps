@@ -39,14 +39,14 @@ namespace Z0
 
                 var dst = default(OperandWidth);
 
-                result = OpWidthTypes.ExprKind(c0, out dst.Code);
+                result = OpWidthKinds.ExprKind(c0, out dst.Code);
                 if(result.Fail)
                 {
                     result = (false,Msg.ParseFailure.Format(nameof(dst.Code), c0));
                     break;
                 }
 
-                dst.Name = OpWidthTypes[dst.Code].Expr.Format();
+                dst.Name = OpWidthKinds[dst.Code].Expr.Format();
 
                 result = DataTypes.ExprKind(c1, out dst.BaseType);
                 if(result.Fail)

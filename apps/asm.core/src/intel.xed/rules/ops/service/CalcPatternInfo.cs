@@ -29,9 +29,9 @@ namespace Z0
                     ref readonly var op = ref operands[j];
                     var pattern = new RulePatternInfo();
                     pattern.Class = inst.Class;
-                    pattern.Hash = alg.hash.marvin(op.PatternExpr.Text);
-                    pattern.OpCodeKind = ockind(op.PatternExpr.Text);
-                    pattern.Expression = op.PatternExpr;
+                    pattern.Hash = alg.hash.marvin(op.Expression.Text);
+                    pattern.OpCodeKind = ockind(op.Expression.Text);
+                    pattern.Expression = op.Expression;
                     buffer.Add(pattern);
                 }
             }
@@ -54,14 +54,14 @@ namespace Z0
             return dst;
         }
 
-        public Index<RulePatternInfo> CalcRulePatterns(in InstDef inst)
+        public Index<RulePatternInfo> CalcPatternInfo(in InstDef inst)
         {
             var buffer = list<RulePatternInfo>();
-            CalcRulePatterns(inst, buffer);
+            CalcPatternInfo(inst, buffer);
             return buffer.ToArray();
         }
 
-        Index<RulePatternInfo> CalcRulePatterns(in InstDef inst, List<RulePatternInfo> buffer)
+        Index<RulePatternInfo> CalcPatternInfo(in InstDef inst, List<RulePatternInfo> buffer)
         {
             var operands = inst.PatternSpecs;
             var opcount = operands.Length;
@@ -70,9 +70,9 @@ namespace Z0
                 ref readonly var op = ref operands[j];
                 var pattern = new RulePatternInfo();
                 pattern.Class = inst.Class;
-                pattern.Hash = alg.hash.marvin(op.PatternExpr.Text);
-                pattern.OpCodeKind = ockind(op.PatternExpr.Text);
-                pattern.Expression = op.PatternExpr;
+                pattern.Hash = alg.hash.marvin(op.Expression.Text);
+                pattern.OpCodeKind = ockind(op.Expression.Text);
+                pattern.Expression = op.Expression;
                 buffer.Add(pattern);
             }
             return buffer.ToArray();

@@ -11,7 +11,7 @@ namespace Z0
         public enum NonterminalKind : ushort
         {
             [Symbol("")]
-            INVALID,
+            None,
 
             AR10,
 

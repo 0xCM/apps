@@ -12,7 +12,7 @@ namespace Z0
         {
             public const string TableId = "xed.rules.widths";
 
-            public OperandWidthType Code;
+            public OperandWidthKind Code;
 
             public text15 Name;
 

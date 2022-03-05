@@ -28,7 +28,7 @@ namespace Z0
             {
                 ref readonly var def = ref skip(defs,i);
                 var ops = def.PatternSpecs;
-                var patterns = CalcRulePatterns(def);
+                var patterns = CalcPatternInfo(def);
                 var k = ops.Count;
                 Require.equal(patterns.Count, k);
                 for(var j=0; j<k; j++)
@@ -38,10 +38,10 @@ namespace Z0
                     var oc = opcode(pattern);
 
                     ockinds.MapKind(oc.Kind, out var sym);
-                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.PatternExpr));
+                    writer.WriteLine(string.Format("{0,-6} | {1,-16} | {2,-12} | {3,-12} | {4,-8} | {5}", i, def.Class, sym.Expr, oc.Value, EmptyString, op.Expression));
                     counter++;
 
-                    var specs = op.PatternOps;
+                    var specs = op.Operands;
                     var m = specs.Count;
                     for(var q=0; q<m; q++)
                     {

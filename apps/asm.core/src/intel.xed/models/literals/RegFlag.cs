@@ -1,15 +1,12 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : xed-flag-enum.h
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        /// Mirrors the content of xed-flag-enum.txt data file
-        /// </summary>
         [SymSource(xed)]
         public enum RegFlag : byte
         {

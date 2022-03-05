@@ -15,32 +15,31 @@ namespace Z0
 
             public RuleOpKind Kind;
 
-            public OpDirection Direction;
+            public Index<string> Properties;
 
-            public OperandWidth Width;
-
-            public TableFunction Function;
-
-            public Index<string> Attributes;
+            public Index<OperandAttrib> Attributes;
 
             public @string Expression;
 
-            public string Format()
-            {
-                if(Attributes.IsNonEmpty)
-                    return string.Format("{0}:{1}", Name, Attributes.Delimit(Chars.Colon));
+            public @string Refinement;
 
-                var dir = Symbols.expr(Direction);
-                if(Function.IsNonEmpty)
-                    return string.Format("{0}:{1}:{2}:{3}", Name, dir, Function, Width);
-                else if(Width.IsEmpty)
-                    return string.Format("{0}:{1}", Name, dir);
-                else
-                    return string.Format("{0}:{1}:{2}", Name, dir, Width);
-            }
+            public string Format()
+                => Properties.Delimit(Chars.Colon).Format();
 
             public override string ToString()
                 => Format();
+
+            public bool IsEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name == 0;
+            }
+
+            public bool IsNonEmpty
+            {
+                [MethodImpl(Inline)]
+                get => Name != 0;
+            }
         }
     }
 }

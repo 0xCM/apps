@@ -5,8 +5,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     partial struct XedModels
     {
         [StructLayout(LayoutKind.Sequential,Pack =1)]

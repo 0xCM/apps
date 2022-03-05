@@ -12,44 +12,12 @@ namespace Z0
 
     partial class XedCmdProvider
     {
-        AsmOcValue opcode(in RulePattern src)
-        {
-            var tokens = src.Tokens;
-            var count = tokens.Count;
-            var parsing = false;
-            var storage = ByteBlock4.Empty;
-            var dst = storage.Bytes;
-            var j=0;
-            for(var i=0; i<count; i++)
-            {
-                ref readonly var token = ref tokens[i];
-                if(parsing)
-                {
-                    if(token.Kind == RuleTokenKind.HexLit)
-                    {
-                        seek(dst,j++) = token.AsHexLit();
-                    }
-                    else
-                        break;
-                }
-                else
-                {
-                    if(token.Kind ==  RuleTokenKind.HexLit)
-                    {
-                        seek(dst,j++) = token.AsHexLit();
-                        parsing = true;
-                    }
-                }
-            }
-            return new AsmOcValue(slice(dst,0,j));
-        }
 
         [CmdOp("xed/check/patterns")]
         Outcome CheckPatterns(CmdArgs args)
         {
             var result = Outcome.Success;
             var descriptions = Xed.Rules.LoadPatternInfo(RuleSetKind.Enc);
-            var opcodes = Xed.Rules.CalcOpCodes(descriptions);
             var path = AppDb.XedPath("xed.rules.patterns.checks", FileKind.Csv);
             var emitting = EmittingFile(path);
             var patterns = Xed.Rules.CalcPatterns(RuleSetKind.Enc);
@@ -59,12 +27,11 @@ namespace Z0
             {
                 ref readonly var pattern = ref patterns[i];
                 ref readonly var info = ref descriptions[i];
-                //ref readonly var opcode = ref opcodes[i];
                 var expr = info.Expression;
                 var parts = text.split(text.despace(text.trim(expr)), Chars.Space);
                 var pad = -32;
                 var sep = " | ";
-                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, format(opcode(pattern)), format(info.OpCodeKind));
+                writer.WriteLine("{0,-16} | {1,-12} | {2}", info.Class, format(XedRules.ocvalue(pattern.Tokens)), format(info.OpCodeKind));
                 writer.WriteLine(expr);
                 writer.WriteLine(text.delimit(parts, sep, pad));
                 writer.WriteLine(text.delimit(pattern.Tokens, sep, pad));

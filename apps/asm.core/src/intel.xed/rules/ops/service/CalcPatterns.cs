@@ -28,7 +28,8 @@ namespace Z0
                     Errors.Throw(string.Format("Parse incomplete: {0}/{1} succeeded", result.ParsedCount, result.SourceCount));
                     break;
                 }
-                seek(dst,i) = pattern(opcode.Class, opcode.Kind, opcode.Value, slice(tokens, 0, result.ParsedCount).ToArray());
+                var _tokens = slice(tokens, 0, result.ParsedCount).ToArray();
+                seek(dst,i) = pattern(opcode.Class, opcode.Kind, ocvalue(_tokens), _tokens);
             }
 
             return dst;

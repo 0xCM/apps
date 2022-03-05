@@ -1,17 +1,14 @@
 //-----------------------------------------------------------------------------
-// Copyright   : Intel Corporation, 2020
-// License     : Apache
-// Source      : xed-operand-width-enum.h/all-widths.txt
+// Derivative Work based on https://github.com/intelxed/xed
+// Author : Chris Moore
+// License: https://github.com/intelxed/xed/blob/main/LICENSE
 //-----------------------------------------------------------------------------
 namespace Z0
 {
     partial struct XedModels
     {
-        /// <summary>
-        /// sources/xed/all-widths.txt
-        /// </summary>
         [SymSource(xed)]
-        public enum OperandWidthType : byte
+        public enum OperandWidthKind : byte
         {
             INVALID,
 
