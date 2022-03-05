@@ -23,8 +23,7 @@ namespace Z0
 
         readonly EnumParser<XedDataType> DataTypes = new();
 
-
-        readonly EnumParser<Supression> Supression = new();
+        readonly EnumParser<OpVisiblity> Visibilities = new();
 
         XedParsers()
         {
@@ -68,10 +67,10 @@ namespace Z0
         public bool ParseDataType(string src, out XedDataType dst)
             => DataTypes.Parse(src, out dst);
 
-        public bool Parse(string src, out Supression dst)
-            => Supression.Parse(src, out dst);
+        public bool Parse(string src, out OpVisiblity dst)
+            => Visibilities.Parse(src, out dst);
 
-        public bool ParseSpression(string src, out Supression dst)
-            => Supression.Parse(src, out dst);
+        public bool ParseVisibility(string src, out OpVisiblity dst)
+            => Visibilities.Parse(src, out dst);
     }
 }

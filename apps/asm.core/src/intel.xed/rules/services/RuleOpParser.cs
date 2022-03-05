@@ -24,21 +24,92 @@ namespace Z0
                 Parsers = XedParsers.create();
             }
 
-            public RuleOpSpec Parse(string src)
+            public bool Name(string src, out RuleOpName dst)
             {
                 var input = text.despace(src);
                 var i = text.index(input, Chars.Colon);
                 var j = text.index(input, Chars.Eq);
-                var m = text.index(input, Chars.Eq, Chars.Colon);
-                OpNames.ExprKind(text.left(input, m), out var name);
+
+                var index = -1;
+                if(i > 0 && j > 0)
+                {
+                    index = i < j ? i : j;
+                }
+                else if(i>0 && j<0)
+                {
+                    index = i;
+                }
+                else if(j>0 && i<0)
+                {
+                    index = j;
+                }
+
+                var namesrc = text.left(input, index);
+                return OpNames.ExprKind(namesrc, out dst);
+            }
+
+            public Index<RuleOpSpec> ParseOps(string src)
+            {
+                var result = Outcome.Success;
+                var buffer = list<RuleOpSpec>();
+                var input = text.despace(src);
+                var i = text.index(input,Chars.Hash);
+                if(i > 0)
+                    input = text.left(input,i);
+
+                var parts = input.Contains(Chars.Space) ? text.split(input, Chars.Space) : new string[]{input};
+                for(var j=0; j<parts.Length; j++)
+                {
+                    var parsed = ParseOp(skip(parts,j));
+                    if(parsed.IsNonEmpty)
+                        buffer.Add(parsed);
+                }
+
+                return buffer.ToArray();
+            }
+
+            public RuleOpSpec ParseOp(RuleOpName name, string src)
+            {
+                var input = text.despace(src);
+
+                var i = text.index(input, Chars.Eq);
+                var attribs = i > 0 ? text.left(input, i) : input;
+                var refinement = EmptyString;
+                if(i > 0)
+                {
+                    var q = text.right(attribs,i);
+                    var v = text.xedni(attribs, Chars.Colon);
+                    refinement = text.right(text.left(attribs,v), v);
+                }
+                return ParseOperand(attribs, name, text.split(attribs, Chars.Colon).Where(text.nonempty), refinement);
+            }
+
+            public RuleOpSpec ParseOp(string src)
+            {
+                var input = text.despace(src);
+                var i = text.index(input, Chars.Colon);
+                var j = text.index(input, Chars.Eq);
+                var index = -1;
+                if(i > 0 && j > 0)
+                {
+                    index = i < j ? i : j;
+                }
+                else if(i>0 && j<0)
+                {
+                    index = i;
+                }
+                else if(j>0 && i<0)
+                {
+                    index = j;
+                }
+
+                Name(src, out var name);
+
                 var attribs = EmptyString;
                 if(j > 0)
                     attribs = text.right(input,j);
                 else if(i > 0)
                     attribs = text.right(input,i);
-
-                if(empty(attribs) || name == 0)
-                    Errors.Throw(AppMsg.ParseFailure.Format(nameof(RuleOpSpec), input));
 
                 var k = text.index(attribs, Chars.Eq);
                 var refinement = EmptyString;
@@ -108,6 +179,7 @@ namespace Z0
                         dst.Expression = expr;
                         dst.Name = name;
                         dst.Properties = props;
+                        dst.Refinement = refinement;
                         dst.Attributes = sys.empty<OperandAttrib>();
                     }
                     break;
@@ -145,16 +217,19 @@ namespace Z0
                     }
                     break;
 
-                    // default:
-                    //     if(RuleMacros.spec(expr, out var macro))
-                    //     {
-
-                    //     }
-                    //     else
-                    //     {
-                    //         Errors.Throw(string.Format("Unhandled case: {0}", name));
-                    //     }
-                    // break;
+                    default:
+                    {
+                        if(RuleMacros.spec(expr, out var macro))
+                        {
+                            dst.Name = name;
+                            dst.Kind = K.Macro;
+                            dst.Properties = props;
+                            dst.Attributes = new OperandAttrib[]{macro.Name};
+                            dst.Expression = expr;
+                            dst.Refinement = refinement;
+                        }
+                    }
+                    break;
                  }
                 return dst;
             }
@@ -307,7 +382,7 @@ namespace Z0
                 dst.Expression = expr;
                 dst.Refinement = refinement;
 
-                Span<OperandAttrib> buffer = stackalloc OperandAttrib[6];
+                Span<OperandAttrib> buffer = stackalloc OperandAttrib[8];
                 var i=0;
                 if(count >= 1)
                 {
@@ -337,7 +412,7 @@ namespace Z0
                         seek(buffer,i++) = width;
                     else
                     {
-                        if(Parsers.ParseSpression(props[2], out var supp))
+                        if(Parsers.ParseVisibility(props[2], out var supp))
                         {
                             seek(buffer,i++) = supp;
                         }

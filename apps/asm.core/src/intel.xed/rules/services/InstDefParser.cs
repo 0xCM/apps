@@ -44,9 +44,7 @@ namespace Z0
                     dst.Append(part);
                 }
 
-                var parsed = dst.Emit();
-                return parsed;
-                //return text.despace(parsed.Replace("MOD[0b11] MOD=3", "MOD[0b11]"));
+                return dst.Emit();
             }
 
             public Index<InstDef> ParseInstDefs(FS.FilePath src)
@@ -54,6 +52,7 @@ namespace Z0
                 var buffer = list<InstDef>();
                 using var reader = src.Utf8LineReader();
                 var def = default(InstDef);
+                var parser = RuleOpParser.create();
 
                 while(reader.Next(out var line))
                 {
@@ -114,12 +113,14 @@ namespace Z0
                                                     if(j > 0)
                                                         result = string.Format("{0} {1}", result, text.left(x.Content,j).Trim());
                                                     else
+                                                    {
+                                                        value = string.Format("{0} {1}", result, x.Content.Trim());
                                                         break;
+                                                    }
                                                 }
-                                                value = result;
                                             }
 
-                                            operands.Add(new InstPatternSpec(pattern, Rules.CalcOpSpecs(value)));
+                                            operands.Add(new InstPatternSpec(pattern, parser.ParseOps(value)));
                                             pattern=EmptyString;
                                         }
                                         break;

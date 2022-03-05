@@ -161,7 +161,7 @@ namespace Z0
 
         static Symbols<RuleOpName> OpNames;
 
-        static Symbols<Supression> Supressions;
+        static Symbols<OpVisiblity> Supressions;
 
         static ConstLookup<RuleMacroKind,MacroSpec> MacroLookup;
 
@@ -182,7 +182,7 @@ namespace Z0
             OpActions = Symbols.index<OperandAction>();
             OpNames = Symbols.index<RuleOpName>();
             PointerWidthKinds = Symbols.index<PointerWidthKind>();
-            Supressions = Symbols.index<Supression>();
+            Supressions = Symbols.index<OpVisiblity>();
             DataTypes = Symbols.index<XedDataType>();
             MacroLookup = RuleMacros.lookup();
        }

@@ -39,8 +39,8 @@ namespace Z0
                      dst = Nonterminals[src.AsNonTerm()].Expr.Text;
                 break;
 
-                case AK.Supression:
-                    dst = Supressions[src.AsSupression()].Expr.Text;
+                case AK.Visibility:
+                    dst = Supressions[src.AsVisiblity()].Expr.Text;
                 break;
 
                 case AK.RegLiteral:
@@ -189,7 +189,6 @@ namespace Z0
         internal static string format(in MacroSpec src)
         {
             var dst = text.buffer();
-            dst.AppendFormat("{0} -> ", MacroKinds[src.Name].Expr);
             var assignments = src.Assignments;
             var count = assignments.Count;
             for(var i=0; i<count; i++)

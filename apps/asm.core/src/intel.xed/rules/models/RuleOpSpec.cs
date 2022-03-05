@@ -24,7 +24,7 @@ namespace Z0
             public @string Refinement;
 
             public string Format()
-                => Properties.Delimit(Chars.Colon).Format();
+                =>  text.format("{0}:{1}", Name, Properties.Delimit(Chars.Colon).Format());
 
             public override string ToString()
                 => Format();

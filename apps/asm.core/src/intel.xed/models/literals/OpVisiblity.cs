@@ -7,12 +7,15 @@ namespace Z0
 {
     partial struct XedModels
     {
-        public enum Supression : byte
+        public enum OpVisiblity : byte
         {
             None = 0,
 
             [Symbol("SUPP")]
             Suppressed,
+
+            [Symbol("IMPL")]
+            Implicit,
         }
     }
 }

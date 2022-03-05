@@ -57,8 +57,8 @@ namespace Z0
                 => (XedDataType)Data;
 
             [MethodImpl(Inline)]
-            public Supression AsSupression()
-                => (Supression)Data;
+            public OpVisiblity AsVisiblity()
+                => (OpVisiblity)Data;
 
             [MethodImpl(Inline)]
             public RuleMacroKind AsMacro()
@@ -103,8 +103,8 @@ namespace Z0
                 => new OperandAttrib(K.DataType, (uint)src);
 
             [MethodImpl(Inline)]
-            public static implicit operator OperandAttrib(Supression src)
-                => new OperandAttrib(K.Supression, (uint)src);
+            public static implicit operator OperandAttrib(OpVisiblity src)
+                => new OperandAttrib(K.Visibility, (uint)src);
 
             [MethodImpl(Inline)]
             public static implicit operator OperandAttrib(RuleMacroKind src)

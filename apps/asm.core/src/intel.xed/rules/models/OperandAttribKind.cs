@@ -27,7 +27,7 @@ namespace Z0
 
             DataType,
 
-            Supression,
+            Visibility,
 
             Macro,
         }

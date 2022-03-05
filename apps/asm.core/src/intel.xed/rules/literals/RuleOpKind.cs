@@ -32,6 +32,8 @@ namespace Z0
             Scale,
 
             Seg,
+
+            Macro,
         }
     }
 }
