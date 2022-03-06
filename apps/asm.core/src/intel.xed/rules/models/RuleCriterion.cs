@@ -21,6 +21,8 @@ namespace Z0
 
             public readonly string Value;
 
+            readonly NameResolver Resolver;
+
             [MethodImpl(Inline)]
             public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator @op, string value)
             {
@@ -28,6 +30,17 @@ namespace Z0
                 Field = field;
                 Operator = @op;
                 Value = value;
+                Resolver = NameResolver.Empty;
+            }
+
+            [MethodImpl(Inline)]
+            public RuleCriterion(CriterionKind kind, FieldKind field, NameResolver resolver)
+            {
+                Kind = kind;
+                Field = field;
+                Resolver = resolver;
+                Value = string.Format("{0}()", resolver.Name);
+                Operator = 0;
             }
 
             public bool IsPremise
@@ -59,7 +72,7 @@ namespace Z0
                 => new RuleCriterion(Kind, Field, Operator, value);
 
             public string Format()
-                => format(this);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();

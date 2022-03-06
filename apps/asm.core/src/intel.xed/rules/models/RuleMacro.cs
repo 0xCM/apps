@@ -19,7 +19,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(Kind);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();

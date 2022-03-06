@@ -4,11 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using Asm;
+
     using static XedModels;
     using static XedRules;
     using static core;
 
     using TK = XedRules.RuleTokenKind;
+    using DK = XedRules.FieldDataKind;
 
     public class XedFormatters
     {
@@ -120,11 +123,114 @@ namespace Z0
         public static string format(NontermCall src)
             => string.Format("{0}()", format(src.Kind));
 
+        public static string format(FieldKind field, ulong value)
+            => format(datatype(field),value);
+
+        public static string format(FieldDataType dt, ulong value)
+            => format(dt,bytes(value));
+
+        public static string format(FieldDataType dt, ReadOnlySpan<byte> data)
+        {
+            var dk = dt.Kind;
+            var width = dt.Width;
+            var value = EmptyString;
+            switch(dk)
+            {
+                case DK.B1:
+                case DK.Imm64:
+                {
+                    bit x = first(data);
+                    value = x.Format();
+                }
+                break;
+                case DK.B2:
+                {
+                    uint2 x = first(data);
+                    value = x.Format();
+                }
+                break;
+                case DK.B3:
+                {
+                    uint3 x = first(data);
+                    value = x.Format();
+                }
+                break;
+                case DK.B4:
+                {
+                    uint4 x = first(data);
+                    value = x.Format();
+                }
+                break;
+                case DK.U8:
+                {
+                    byte x = first(data);
+                    value = x.ToString();
+                }
+                break;
+                case DK.Hex8:
+                {
+                    Hex8 x = first(data);
+                    value = x.Format();
+                }
+                break;
+                case DK.Disp:
+                {
+                    Disp64 x = @as<long>(data);
+                    value = x.Format();
+                }
+                break;
+                case DK.Broadcast:
+                {
+                    var x = @as<BCastKind>(data);
+                    value = BCastKinds[x].Expr.Format();
+                }
+                break;
+                case DK.Chip:
+                {
+                    var x = @as<ChipCode>(data);
+                    value = ChipCodes[x].Expr.Format();
+                }
+                break;
+                case DK.Reg:
+                {
+                    var x = @as<XedRegId>(data);
+                    value = XedRegs[x].Expr.Format();
+                }
+                break;
+                case DK.InstClass:
+                {
+                    var x = @as<IClass>(data);
+                    value = InstClasses[x].Expr.Format();
+                }
+                break;
+                case DK.MemWidth:
+                {
+                    var x = @as<ushort>(data);
+                    value = x.ToString();
+                }
+                break;
+            }
+            return value;
+        }
+
+        public static string format(in CriterionSpec src)
+        {
+            var dst = format(src.Kind);
+            if(src.Operator != 0)
+                dst += format(src.Operator);
+            dst += format(src.DataType, src.Data);
+            return dst;
+        }
+
+
         public static string format(BitfieldSeg src)
             => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", format(src.Field), src.Pattern);
 
-        public static string format(FieldAssignment src)
-            => src.Field == 0 ? "nothing" : string.Format("{0}={1}", FieldKinds[src.Field].Expr, src.Value.ToString());
+        public static string format(FieldAssign src)
+            => src.Field == 0 ? "nothing" : string.Format("{0}={1}", format(src.Field), src.Value);
+
+        public static string format(FieldCmp src)
+            => src.Field == 0 ? EmptyString : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(datatype(src.Field), src.Data));
 
         public static string format(in NonterminalRule src)
             => format(src.Def);
@@ -179,6 +285,15 @@ namespace Z0
                 return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.Value);
             else
                 return string.Format("{0}", src.Value);
+        }
+
+        public static string format(in RuleCriterion2 src)
+        {
+            var data = format(datatype(src.Field), src.Value);
+            if(src.Operator != 0)
+                return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), data);
+            else
+                return string.Format("{0}", data);
         }
 
         static void render(ReadOnlySpan<RuleCriterion> src, ITextBuffer dst)

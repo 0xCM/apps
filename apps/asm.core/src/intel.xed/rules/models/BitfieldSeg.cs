@@ -24,13 +24,13 @@ namespace Z0
                 IsLiteral = literal;
             }
 
-            public FieldAssignment ToAssignment()
+            public FieldAssign ToAssignment()
             {
-                var dst = FieldAssignment.Empty;
+                var dst = FieldAssign.Empty;
                 if(IsLiteral)
                 {
                     BitNumbers.parse(Pattern.Format(), out uint5 value).Require();
-                    dst = new FieldAssignment(Field, value);
+                    dst = new FieldAssign(Field, value);
                 }
                 return dst;
             }
@@ -48,7 +48,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(this);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();

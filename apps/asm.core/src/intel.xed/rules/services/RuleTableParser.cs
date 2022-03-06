@@ -22,10 +22,10 @@ namespace Z0
                 var result = Outcome.Success;
                 var fk = FK.INVALID;
                 var op = RO.None;
-                var fv = EmptyString;
+                var fv = spec;
                 var j = text.index(spec, Assign);
                 var k = text.index(spec, Neq);
-                var m = text.index(spec, CallSyntax);
+                var m = text.index(spec, Chars.LParen);
                 var name = EmptyString;
 
                 if(k >= 0)
@@ -43,17 +43,14 @@ namespace Z0
                     name = text.left(spec,j);
                     fv = text.right(spec,j);
                 }
-                else if(m >= 0)
+                else if(m > 0)
                 {
-                    op = RO.Call;
-                    fv = text.left(spec,m);
-                }
-                else
-                {
-                    fv = spec;
+                    name = text.left(spec,m);
+                    dst = criterion(ck,fk, NameResolvers.Instance.Create(name));
+                    return true;
                 }
 
-                if(nonempty(name) && op != RO.Call)
+                if(nonempty(name))
                 {
                     if(name.Equals(REXW))
                         fk = FK.REXW;

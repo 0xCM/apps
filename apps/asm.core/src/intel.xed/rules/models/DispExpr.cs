@@ -24,7 +24,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(this);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();
@@ -36,7 +36,6 @@ namespace Z0
             [MethodImpl(Inline)]
             public static implicit operator DispExprKind(DispExpr src)
                 => src.Kind;
-
         }
     }
 }

@@ -5,10 +5,82 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
+    using static XedRules.FieldDataKind;
+
+    using K = XedRules.FieldDataKind;
+
     partial class XedRules
     {
-        [MethodImpl(Inline), Op]
-        public static FieldDataType datatype(FieldDataKind kind, ushort width)
-            => new FieldDataType(kind, width);
+        [Op]
+        public static FieldDataType datatype(FieldKind field)
+            => datatype(datakind(field));
+
+        [Op]
+        public static FieldDataType datatype(FieldDataKind kind)
+        {
+            var dst = FieldDataType.Empty;
+            var width = z16;
+            switch(kind)
+            {
+                case B1:
+                    width = 1;
+                    break;
+
+                case U2:
+                case B2:
+                    width = 2;
+                    break;
+
+                case U3:
+                case B3:
+                    width = 3;
+                    break;
+
+                case U4:
+                case B4:
+                    width = 4;
+                    break;
+
+                case U5:
+                case B5:
+                case Broadcast:
+                    width = 5;
+                    break;
+
+                case U6:
+                case B6:
+                    width = 6;
+                    break;
+
+                case B7:
+                    width = 7;
+                    break;
+
+                case InstClass:
+                case K.Hex8:
+                case K.Imm8:
+                case U8:
+                case B8:
+                case K.Error:
+                    width = 8;
+                    break;
+
+                case MemWidth:
+                case Chip:
+                case Reg:
+                case U16:
+                    width = 16;
+                    break;
+
+                case Disp:
+                case U64:
+                case K.Imm64:
+                    width = 64;
+                    break;
+
+            }
+
+            return new FieldDataType(kind,width);
+        }
     }
 }

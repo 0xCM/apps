@@ -37,7 +37,7 @@ namespace Z0
                 state = src;
             }
 
-            public void Update(in FieldAssignment src)
+            public void Update(in FieldAssign src)
             {
                 var kind = src.Field;
                 var result = Outcome.Success;

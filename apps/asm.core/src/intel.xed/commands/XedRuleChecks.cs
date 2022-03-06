@@ -8,6 +8,7 @@ namespace Z0
 
     using static core;
     using static XedRules;
+    using static XedFormatters;
 
     class XedRuleChecks : AppService<XedRuleChecks>
     {
@@ -194,13 +195,6 @@ namespace Z0
                 }
                 else
                 {
-                    // var result = XedRules.spec(src, out var spec);
-                    // if(result.Fail)
-                    // {
-                    //     Warn(string.Format("Spec creation failed for {0}", src.Format()));
-                    //     return;
-                    // }
-
                     f(string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), src.Value));
                 }
             }

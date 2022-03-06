@@ -31,7 +31,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(this);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();

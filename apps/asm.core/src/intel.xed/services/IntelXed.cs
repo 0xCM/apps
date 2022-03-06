@@ -17,9 +17,6 @@ namespace Z0.Asm
 
         public XedRules Rules => Service(Wf.XedRules);
 
-        public XedRegMap CalcRegMap()
-            => Data(nameof(CalcRegMap), () => regmap());
-
         const char CommentMarker = Chars.Hash;
 
         const char FieldDelimiter = Chars.Space;

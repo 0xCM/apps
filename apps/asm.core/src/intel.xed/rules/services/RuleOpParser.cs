@@ -386,7 +386,7 @@ namespace Z0
                             if(Parsers.ParseGroup(p0, out var group))
                                 seek(buffer,i++) = group;
                             else
-                                seek(buffer, i++) = RegResolvers.resolver(p0);
+                                seek(buffer, i++) = RegResolvers.Instance.Create(p0);
                         }
                     }
                 }

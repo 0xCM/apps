@@ -4,8 +4,14 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    partial class XedRules
+    public class NameResolvers : NameResolver<NameResolvers, NameResolver>
     {
-        public class RegResolvers : NameResolver<RegResolvers,RegResolver> { }
+
+    }
+
+    public class NameResolvers<T>  : NameResolver<NameResolvers<T>, T>
+        where T : NameResolver<T>, new()
+    {
+
     }
 }

@@ -5,22 +5,18 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using Asm;
-
-    using static XedModels;
-    using K = XedRules.FieldKind;
     using static XedRules.FieldKind;
+
+    using F = XedRules.FieldDataKind;
+    using K = XedRules.FieldKind;
 
     partial class XedRules
     {
-        public static Outcome spec(in RuleCriterion src, out CriterionSpec dst)
+        [Op]
+        public static FieldDataKind datakind(FieldKind field)
         {
-            var result = Outcome.Failure;
-            var kind = src.Field;
-            var op = src.Operator;
-            var input = src.Value;
-            dst = default;
-            switch(src.Field)
+            var dst = F.None;
+            switch(field)
             {
                 case AGEN:
                 case AMD3DNOW:
@@ -79,13 +75,7 @@ namespace Z0
                 case WBNOINVD:
                 case REXRR:
                 case SAE:
-                {
-                    if(bit.parse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Bit, 1));
-                        result = true;
-                    }
-                }
+                    dst = F.B1;
                 break;
 
                 case MOD:
@@ -102,11 +92,7 @@ namespace Z0
                 case VEX_PREFIX:
                 case VL:
                 {
-                    if(byte.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 2));
-                        result = true;
-                    }
+                    dst = F.U2;
                 }
                 break;
 
@@ -122,11 +108,7 @@ namespace Z0
                 case SEG_OVD:
                 case VEXVALID:
                 {
-                    if(byte.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 3));
-                        result = true;
-                    }
+                    dst = F.U3;
                 }
                 break;
 
@@ -135,21 +117,13 @@ namespace Z0
                 case NELEM:
                 case SCALE:
                 {
-                    if(byte.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 4));
-                        result = true;
-                    }
+                    dst = F.U4;
                 }
                 break;
 
                 case BCAST:
                 {
-                    if(byte.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 5));
-                        result = true;
-                    }
+                    dst = F.U5;
                 }
                 break;
 
@@ -171,55 +145,34 @@ namespace Z0
                 case POS_SIB:
                 case UIMM1:
                 {
-                    if(byte.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Byte, 8));
-                        result = true;
-                    }
+                    dst = F.U8;
                 }
                 break;
 
                 case ELEMENT_SIZE:
                 case MEM_WIDTH:
                 {
-                    if(ushort.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.U16, 16));
-                        result = true;
-                    }
+                    dst = F.U16;
                 }
                 break;
 
                 case NOMINAL_OPCODE:
                 {
-                    if(DataParser.parse(input, out Hex8 x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Hex8, 8));
-                        result = true;
-                    }
+                    dst = F.Hex8;
                 }
                 break;
 
                 case DISP:
                 {
-                    if(Disp64.parse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Disp, 64));
-                        result = true;
-                    }
+                    dst = F.Disp;
                 }
                 break;
 
                 case UIMM0:
                 {
-                    if(ulong.TryParse(input, out var x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.U64, 64));
-                        result = true;
-                    }
+                    dst = F.U64;
                 }
                 break;
-
 
                 case BASE0:
                 case BASE1:
@@ -238,47 +191,32 @@ namespace Z0
                 case REG8:
                 case REG9:
                 {
-                    if(DataParser.eparse(input, out XedRegId x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Reg, 16));
-                        result = true;
-                    }
+                    dst = F.Reg;
                 }
                 break;
                 case CHIP:
                 {
-                    if(DataParser.eparse(input, out ChipCode x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Chip, 16));
-                        result = true;
-                    }
+                    dst = F.Chip;
                 }
                 break;
 
                 case ERROR:
                 {
-                    if(DataParser.eparse(input, out ErrorKind x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.Error, 1));
-                        result = true;
-                    }
+                    dst = F.Error;
                 }
                 break;
 
                 case ICLASS:
                 {
-                    if(DataParser.eparse(input, out IClass x))
-                    {
-                        dst = convert(criterion(kind, op, x), datatype(FieldDataKind.InstClass, 16));
-                        result = true;
-                    }
+                    dst = F.InstClass;
                 }
                 break;
 
                 default:
                     break;
             }
-            return result;
+
+            return dst;
         }
     }
 }

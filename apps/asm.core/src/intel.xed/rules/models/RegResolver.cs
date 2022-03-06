@@ -6,32 +6,36 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RegResolver
+        public readonly struct RegResolver : INameResolver<RegResolver>
         {
-            internal readonly int ResolverId;
+            public int NameId {get;}
 
             public RegResolver(int id)
             {
-                ResolverId = id;
+                NameId = id;
             }
 
             public string Name
             {
                 [MethodImpl(Inline)]
-                get => RegResolvers.name(this);
+                get => RegResolvers.Instance.Resolve(this);
             }
 
             public bool IsEmpty
             {
                 [MethodImpl(Inline)]
-                get => ResolverId < 0;
+                get => NameId < 0;
             }
 
             public bool IsNonEmpty
             {
                 [MethodImpl(Inline)]
-                get => ResolverId >= 0;
+                get => NameId >= 0;
             }
+
+            [MethodImpl(Inline)]
+            public RegResolver WithId(int id)
+                => new RegResolver(id);
 
             public string Format()
                 => Name;
@@ -39,19 +43,19 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RegResolver Empty => new RegResolver(-1);
-
             [MethodImpl(Inline)]
             public static explicit operator int(RegResolver src)
-                => src.ResolverId;
+                => src.NameId;
 
             [MethodImpl(Inline)]
             public static explicit operator uint(RegResolver src)
-                => (uint)src.ResolverId;
+                => (uint)src.NameId;
 
             [MethodImpl(Inline)]
             public static explicit operator RegResolver(int src)
                 => new RegResolver(src);
+
+            public static RegResolver Empty => new RegResolver(-1);
         }
     }
 }

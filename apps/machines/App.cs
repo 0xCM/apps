@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Machines
 {
-    using X86;
-
     using static Root;
     using static core;
 

@@ -12,10 +12,10 @@ namespace Z0
         {
             public readonly RuleMacroKind Name;
 
-            public Index<FieldAssignment> Assignments;
+            public Index<FieldAssign> Assignments;
 
             [MethodImpl(Inline)]
-            public MacroSpec(RuleMacroKind name, params FieldAssignment[] assign)
+            public MacroSpec(RuleMacroKind name, params FieldAssign[] assign)
             {
                 Name = name;
                 Assignments = assign;
@@ -34,7 +34,7 @@ namespace Z0
             }
 
             public string Format()
-                => format(this);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();
@@ -42,7 +42,7 @@ namespace Z0
             public int CompareTo(MacroSpec src)
                 => ((uint)Name).CompareTo((uint)src.Name);
 
-            public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, FieldAssignment.Empty);
+            public static MacroSpec Empty => new MacroSpec(RuleMacroKind.nothing, FieldAssign.Empty);
         }
     }
 }

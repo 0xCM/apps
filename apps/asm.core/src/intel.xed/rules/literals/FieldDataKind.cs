@@ -11,11 +11,33 @@ namespace Z0
         {
             None,
 
-            Bit,
+            B1,
 
-            Bits,
+            B2,
 
-            Byte,
+            B3,
+
+            B4,
+
+            B5,
+
+            B6,
+
+            B7,
+
+            B8,
+
+            U2,
+
+            U3,
+
+            U4,
+
+            U5,
+
+            U6,
+
+            U8,
 
             U16,
 
@@ -23,7 +45,9 @@ namespace Z0
 
             Hex8,
 
-            Imm,
+            Imm8,
+
+            Imm64,
 
             Disp,
 

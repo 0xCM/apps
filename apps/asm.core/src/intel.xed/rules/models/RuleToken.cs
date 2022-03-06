@@ -84,12 +84,12 @@ namespace Z0
             }
 
             [MethodImpl(Inline)]
-            public RuleToken(FieldAssignment value)
+            public RuleToken(FieldAssign value)
             {
                 var storage = ByteBlock16.Empty;
                 storage[0] = (byte)RuleTokenKind.Assignment;
                 var data = slice(storage.Bytes,1,15);
-                @as<FieldAssignment>(data) = value;
+                @as<FieldAssign>(data) = value;
                 Storage = storage;
             }
 
@@ -194,8 +194,8 @@ namespace Z0
                 => ref @as<NontermCall>(Data);
 
             [MethodImpl(Inline)]
-            public ref readonly FieldAssignment AsAssignment()
-                => ref @as<FieldAssignment>(Data);
+            public ref readonly FieldAssign AsAssignment()
+                => ref @as<FieldAssign>(Data);
 
             public static RuleToken Empty => new RuleToken(Hex8.Zero);
         }

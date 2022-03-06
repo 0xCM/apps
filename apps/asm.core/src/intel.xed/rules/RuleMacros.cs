@@ -28,20 +28,6 @@ namespace Z0
 
     partial class XedRules
     {
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static FieldAssignment assign<T>(FieldKind field, T value)
-            where T : unmanaged
-                => new FieldAssignment(field, core.bw64(value));
-
-        [MethodImpl(Inline), Op, Closures(Closure)]
-        public static MacroSpec assign<T>(RuleMacroKind name, FieldKind field, T value)
-            where T : unmanaged
-                => new MacroSpec(name, assign(field,value));
-
-        [MethodImpl(Inline), Op]
-        public static MacroSpec assign(RuleMacroKind name, params FieldAssignment[] a0)
-            => new MacroSpec(name, a0);
-
         [ApiHost("xed.rules.macros")]
         public class RuleMacros
         {

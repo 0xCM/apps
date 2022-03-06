@@ -10,7 +10,7 @@ namespace Z0
     partial class XedRules
     {
         [MethodImpl(Inline), Op]
-        public static uint assigned(in MacroAssignment src, ref uint i, Span<FieldAssignment> dst)
+        public static uint assigned(in MacroAssignment src, ref uint i, Span<FieldAssign> dst)
         {
             var i0 = i;
             var count = src.Assigned;
@@ -28,14 +28,14 @@ namespace Z0
         }
 
         [Op]
-        public static uint expand(RuleToken src, Span<FieldAssignment> dst)
+        public static uint expand(RuleToken src, Span<FieldAssign> dst)
         {
             var i=0u;
             return expand(src, ref i, dst);
         }
 
         [Op]
-        public static uint expand(RuleToken src, ref uint i, Span<FieldAssignment> dst)
+        public static uint expand(RuleToken src, ref uint i, Span<FieldAssign> dst)
         {
             var count = 0u;
             if(src.IsMacro)

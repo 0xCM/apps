@@ -27,8 +27,7 @@ namespace Z0
             EmitOpCodeKinds();
             EmitMacroAssignments();
             EmitRuleFields();
-            // EmitEncPatternOps(enc);
-            // EmitDecPatternOps(dec);
+            EmitPatternDetails();
         }
 
         Index<OperandWidth> EmitOperandWidths()

@@ -7,24 +7,18 @@ namespace Z0
 {
     partial class XedRules
     {
-        [StructLayout(LayoutKind.Sequential,Pack=1)]
-        public readonly struct CriterionSpec
+        [StructLayout(LayoutKind.Sequential)]
+        public readonly struct FieldAssign
         {
-            public readonly FieldKind Kind;
+            public readonly FieldKind Field;
 
-            public readonly RuleOperator Operator;
-
-            public readonly FieldDataType DataType;
-
-            public readonly ulong Data;
+            public readonly ulong Value;
 
             [MethodImpl(Inline)]
-            internal CriterionSpec(FieldKind kind, RuleOperator op, FieldDataType type, ulong data)
+            public FieldAssign(FieldKind field, ulong data)
             {
-                Kind = kind;
-                Operator = op;
-                DataType = type;
-                Data = data;
+                Field = field;
+                Value = data;
             }
 
             public string Format()
@@ -32,7 +26,8 @@ namespace Z0
 
             public override string ToString()
                 => Format();
-        }
 
+            public static FieldAssign Empty => new FieldAssign(FieldKind.INVALID,0);
+        }
     }
 }

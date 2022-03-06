@@ -51,10 +51,10 @@ namespace Z0
                 return false;
             }
 
-            public static bool assignment(string src, out FieldAssignment dst)
+            public static bool assignment(string src, out FieldAssign dst)
             {
                 var i = text.index(src,Chars.Eq);
-                dst = FieldAssignment.Empty;
+                dst = FieldAssign.Empty;
                 var result = false;
                 if(i > 0)
                 {

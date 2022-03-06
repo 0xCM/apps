@@ -20,15 +20,15 @@ namespace Z0
 
             public byte Assigned;
 
-            public FieldAssignment A0;
+            public FieldAssign A0;
 
-            public FieldAssignment A1;
+            public FieldAssign A1;
 
-            public FieldAssignment A2;
+            public FieldAssign A2;
 
-            public FieldAssignment A3;
+            public FieldAssign A3;
 
-            public FieldAssignment A4;
+            public FieldAssign A4;
 
             public static ReadOnlySpan<byte> RenderWidths => new byte[FieldCount]{8,24,8,26,26,26,26,26};
 

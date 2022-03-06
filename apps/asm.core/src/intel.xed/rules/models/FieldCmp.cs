@@ -7,26 +7,30 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct FieldAssignment
+        [StructLayout(LayoutKind.Sequential)]
+        public readonly struct FieldCmp
         {
             public readonly FieldKind Field;
 
-            public readonly ulong Value;
+            public readonly RuleOperator Operator;
+
+            public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            public FieldAssignment(FieldKind field, ulong data)
+            public FieldCmp(FieldKind field, RuleOperator op, ulong data)
             {
                 Field = field;
-                Value = data;
+                Operator = op;
+                Data = data;
             }
 
             public string Format()
-                => format(this);
+                => XedFormatters.format(this);
 
             public override string ToString()
                 => Format();
 
-            public static FieldAssignment Empty => new FieldAssignment(FieldKind.INVALID,0);
+            public static FieldCmp Empty => new FieldCmp(FieldKind.INVALID,0,0);
         }
     }
 }
