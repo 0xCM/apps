@@ -15,14 +15,5 @@ namespace Z0
 
         public Index<RuleTermTable> CalcEncDecRuleTables()
             => new RuleTableParser().Parse(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
-
-        public Index<RuleTable> CalcEncRuleTables2()
-            => new RuleTableParser().Parse2(XedPaths.DocSource(XedDocKind.EncRuleTable));
-
-        public Index<RuleTable> CalcDecRuleTables2()
-            => new RuleTableParser().Parse2(XedPaths.DocSource(XedDocKind.DecRuleTable));
-
-        public Index<RuleTable> CalcEncDecRuleTables2()
-            => new RuleTableParser().Parse2(XedPaths.DocSource(XedDocKind.EncDecRuleTable));
     }
 }

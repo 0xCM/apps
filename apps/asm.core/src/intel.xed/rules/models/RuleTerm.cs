@@ -9,8 +9,6 @@ namespace Z0
     {
         public struct RuleTerm
         {
-            public readonly CriterionKind Kind;
-
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
@@ -19,30 +17,31 @@ namespace Z0
 
             readonly NameResolver Resolver;
 
+            public readonly bool IsPremise;
+
             [MethodImpl(Inline)]
-            public RuleTerm(CriterionKind kind, FieldKind field, RuleOperator @op, string value)
+            public RuleTerm(bool premise, FieldKind field, RuleOperator @op, string value)
             {
-                Kind = kind;
                 Field = field;
                 Operator = @op;
                 Value = value;
                 Resolver = NameResolver.Empty;
+                IsPremise = premise;
             }
 
             [MethodImpl(Inline)]
-            public RuleTerm(CriterionKind kind, FieldKind field, NameResolver resolver)
+            public RuleTerm(bool premise, FieldKind field, NameResolver resolver)
             {
-                Kind = kind;
                 Field = field;
                 Resolver = resolver;
                 Value = string.Format("{0}()", resolver.Name);
                 Operator = 0;
+                IsPremise = premise;
             }
-
 
             [MethodImpl(Inline)]
             public RuleTerm WithValue(string value)
-                => new RuleTerm(Kind, Field, Operator, value);
+                => new RuleTerm(IsPremise, Field, Operator, value);
 
             public string Format()
                 => XedFormatters.format(this);
@@ -50,7 +49,7 @@ namespace Z0
             public override string ToString()
                 => Format();
 
-            public static RuleTerm Empty => new RuleTerm(0,0,0,EmptyString);
+            public static RuleTerm Empty => new RuleTerm(false,0,0,EmptyString);
         }
     }
 }

@@ -9,11 +9,7 @@ namespace Z0
     {
         public enum CriterionKind : byte
         {
-            None,
 
-            Premise,
-
-            Consequent,
         }
     }
 }

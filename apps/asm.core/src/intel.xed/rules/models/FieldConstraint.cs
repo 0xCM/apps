@@ -28,7 +28,7 @@ namespace Z0
             }
 
             public string Format()
-                => XedFormatters.format(this);
+                => RuleTables.format(this);
 
             public override string ToString()
                 => Format();

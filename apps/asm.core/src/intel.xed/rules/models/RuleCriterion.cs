@@ -7,48 +7,50 @@ namespace Z0
 {
     partial class XedRules
     {
-        public struct RuleCriterion
+        [StructLayout(LayoutKind.Sequential,Pack=1)]
+        public readonly struct RuleCriterion
         {
-            public readonly CriterionKind Kind;
+            public readonly bool IsPremise;
 
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
 
-            public readonly ulong Value;
+            public readonly FieldDataType DataType;
+
+            public readonly ulong Data;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator @op, ulong value)
+            internal RuleCriterion(bool premise, FieldKind field, RuleOperator op, FieldDataType type, ulong data)
             {
-                Kind = kind;
+                IsPremise = premise;
                 Field = field;
-                Operator = @op;
-                Value = value;
-            }
-
-            public bool IsPremise
-            {
-                [MethodImpl(Inline)]
-                get => Kind == CriterionKind.Premise;
+                Operator = op;
+                DataType = type;
+                Data = data;
             }
 
             public bool IsConsequent
             {
                 [MethodImpl(Inline)]
-                get => Kind == CriterionKind.Consequent;
+                get => !IsPremise;
             }
 
             [MethodImpl(Inline)]
-            public RuleCriterion WithValue(ulong value)
-                => new RuleCriterion(Kind, Field, Operator, value);
+            public ImmFieldSpec AsImmField()
+                => core.@as<ulong,ImmFieldSpec>(Data);
+
+            [MethodImpl(Inline)]
+            public DispFieldSpec AsDispField()
+                => core.@as<ulong,DispFieldSpec>(Data);
 
             public string Format()
-                => XedFormatters.format(this);
+                => RuleTables.format(this);
 
             public override string ToString()
                 => Format();
 
-            public static RuleCriterion Empty => new RuleCriterion(0,0,0,0);
+            public static RuleCriterion Empty => default;
         }
     }
 }

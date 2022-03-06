@@ -12,13 +12,20 @@ namespace Z0
 
     using FK = XedRules.FieldKind;
     using RO = XedRules.RuleOperator;
-    using CK = XedRules.CriterionKind;
 
     partial class XedRules
     {
         public struct RuleTableParser
         {
-            static Outcome parse(string spec, CriterionKind ck, out RuleTerm dst)
+            [MethodImpl(Inline), Op]
+            static RuleTerm criterion(bool premise, FieldKind field, RuleOperator op, string value)
+                => new RuleTerm(premise, field,op, value);
+
+            [MethodImpl(Inline), Op]
+            static RuleTerm criterion(bool premise, FieldKind field, NameResolver resolver)
+                => new RuleTerm(premise, field, resolver);
+
+            static Outcome parse(bool premise, string spec,  out RuleTerm dst)
             {
                 var result = Outcome.Success;
                 var fk = FK.INVALID;
@@ -37,9 +44,9 @@ namespace Z0
                 }
                 else if(j >=0 )
                 {
-                    if(ck == CK.Premise)
+                    if(premise)
                         op = RO.CmpEq;
-                    else if(ck == CK.Consequent)
+                    else
                         op = RO.Assign;
                     name = text.left(spec,j);
                     fv = text.right(spec,j);
@@ -47,7 +54,7 @@ namespace Z0
                 else if(m > 0)
                 {
                     name = text.left(spec,m);
-                    dst = criterion(ck,fk, NameResolvers.Instance.Create(name));
+                    dst = criterion(premise, fk, NameResolvers.Instance.Create(name));
                     return true;
                 }
 
@@ -66,7 +73,7 @@ namespace Z0
                 }
 
                 if(result)
-                    dst = criterion(ck, fk, op, fv);
+                    dst = criterion(premise, fk, op, fv);
                 else
                     dst = RuleTerm.Empty;
                 return result;
@@ -78,15 +85,15 @@ namespace Z0
                 var right = sys.empty<RuleTerm>();
 
                 if(nonempty(premise))
-                    left = criteria(premise, CK.Premise);
+                    left = criteria(true, premise);
 
                 if(nonempty(consequent))
-                    right = criteria(consequent, CK.Consequent);
+                    right = criteria(false, consequent);
 
                 return new RuleTermExpr(kind, left, right);
             }
 
-            static Index<RuleTerm> criteria(string src, CriterionKind kind)
+            static Index<RuleTerm> criteria(bool premise, string src)
             {
                 var parts = text.trim(text.split(src, Chars.Space)).Where(x => nonempty(x) && !Skip.Contains(x));
                 var count = parts.Length;
@@ -95,7 +102,7 @@ namespace Z0
                 {
                     ref readonly var part = ref skip(parts, i);
                     ref var dst = ref seek(buffer,i);
-                    var result = parse(part, kind, out seek(buffer,i));
+                    var result = parse(premise, part,  out seek(buffer,i));
                     if(result.Fail)
                         Errors.Throw(result.Message);
 

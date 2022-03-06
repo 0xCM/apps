@@ -24,23 +24,5 @@ namespace Z0
             }
             return set;
         }
-
-        public RuleSet2 CalcRuleSet2(RuleSetKind kind)
-        {
-            var set = RuleSet2.Empty;
-            switch(kind)
-            {
-                case RuleSetKind.Enc:
-                    set = new RuleSet2(kind, CalcPatterns(kind), CalcEncRuleTables2());
-                break;
-                case RuleSetKind.Dec:
-                    set = new RuleSet2(kind, CalcPatterns(kind), CalcDecRuleTables2());
-                break;
-                case RuleSetKind.EncDec:
-                    set = new RuleSet2(kind, CalcPatterns(kind), CalcEncDecRuleTables2());
-                break;
-            }
-            return set;
-        }
     }
 }

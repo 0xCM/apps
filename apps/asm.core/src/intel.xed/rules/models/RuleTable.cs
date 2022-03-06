@@ -19,7 +19,7 @@ namespace Z0
                 => sig(this);
 
             public string Format()
-                => XedFormatters.format(this);
+                => RuleTables.format(this);
 
             public override string ToString()
                 => Format();

@@ -13,14 +13,17 @@ namespace Z0
         {
             readonly bool Pll;
 
-            protected RuleTraverser(bool pll = true)
+            protected readonly Action<string> Errors;
+
+            protected RuleTraverser(Action<string> errors, bool pll = true)
             {
+                Errors = errors;
                 Pll = pll;
             }
 
             public void Traverse(RuleSet src)
             {
-                Traversing(src);
+                Traversing();
                 Traverse(src.Tables);
                 Traverse(src.Patterns);
             }
@@ -51,7 +54,11 @@ namespace Z0
 
             public void Traverse(RuleSig table, in RuleTerm src)
             {
-                Traversing(table, src);
+                var value = src.Format();
+                if(RuleTables.spec(src.IsPremise, value, out RuleCriterion spec))
+                    Traversing(table, spec);
+                else
+                    Errors(AppMsg.ParseFailure.Format(nameof(RuleTerm), value));
             }
 
             public void Traverse(ReadOnlySpan<RulePattern> src)
@@ -71,7 +78,7 @@ namespace Z0
                 Traversing(pattern, token);
             }
 
-            protected virtual void Traversing(RuleSet src)
+            protected virtual void Traversing()
             {
 
             }
@@ -92,6 +99,11 @@ namespace Z0
             }
 
             protected virtual void Traversing(in RuleSig table, in RuleTerm src)
+            {
+
+            }
+
+            protected virtual void Traversing(in RuleSig table, in RuleCriterion src)
             {
 
             }

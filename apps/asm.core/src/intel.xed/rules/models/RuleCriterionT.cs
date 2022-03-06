@@ -12,8 +12,6 @@ namespace Z0
         {
             public readonly bool IsPremise;
 
-            public readonly CriterionKind Kind;
-
             public readonly FieldKind Field;
 
             public readonly RuleOperator Operator;
@@ -21,28 +19,17 @@ namespace Z0
             public readonly T Value;
 
             [MethodImpl(Inline)]
-            public RuleCriterion(CriterionKind kind, FieldKind field, RuleOperator op, T value)
-            {
-                IsPremise = kind == CriterionKind.Premise;
-                Field = field;
-                Operator = op;
-                Value = value;
-                Kind = kind;
-            }
-
-            [MethodImpl(Inline)]
-            public RuleCriterion(bool premise, CriterionKind kind, FieldKind field, RuleOperator op, T value)
+            public RuleCriterion(bool premise, FieldKind field, RuleOperator op, T value)
             {
                 IsPremise = premise;
                 Field = field;
                 Operator = op;
                 Value = value;
-                Kind = kind;
             }
 
             [MethodImpl(Inline)]
             public RuleCriterion<T> WithValue(T value)
-                => new RuleCriterion<T>(Kind, Field,Operator,value);
+                => new RuleCriterion<T>(IsPremise, Field,Operator,value);
         }
     }
 }

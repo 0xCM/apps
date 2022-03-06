@@ -9,22 +9,19 @@ namespace Z0
     {
         public struct RuleExpr
         {
-            public RuleFormKind Kind;
+            public Index<RuleCriterion> Premise;
 
-            public Index<CriterionSpec> Premise;
-
-            public Index<CriterionSpec> Consequent;
+            public Index<RuleCriterion> Consequent;
 
             [MethodImpl(Inline)]
-            public RuleExpr(RuleFormKind kind, Index<CriterionSpec> premise, Index<CriterionSpec> consequent)
+            public RuleExpr(Index<RuleCriterion> premise, Index<RuleCriterion> consequent)
             {
-                Kind = kind;
                 Premise = premise;
                 Consequent = consequent;
             }
 
             public string Format()
-                => XedFormatters.format(this);
+                => RuleTables.format(this);
 
             public override string ToString()
                 => Format();

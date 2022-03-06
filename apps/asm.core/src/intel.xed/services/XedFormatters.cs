@@ -11,7 +11,6 @@ namespace Z0
     using static core;
 
     using TK = XedRules.RuleTokenKind;
-    using DK = XedRules.FieldDataKind;
 
     public class XedFormatters
     {
@@ -139,195 +138,6 @@ namespace Z0
         public static string format(in DispExpr src)
             => DispKinds[src.Kind].Expr.Text;
 
-        public static string format(NontermCall src)
-            => string.Format("<{0}>()", format(src.Kind));
-
-        public static string format(FieldKind field, ulong value)
-            => format(datatype(field), value);
-
-        public static string format(FieldDataType dt, ulong value)
-            => format(dt, bytes(value));
-
-        public static string format(FieldDataType dt, ReadOnlySpan<byte> data)
-        {
-            var dk = dt.Kind;
-            var width = dt.Width;
-            var value = EmptyString;
-            switch(dk)
-            {
-                case DK.Mem:
-                case DK.B1:
-                case DK.Imm64:
-                {
-                    bit x = first(data);
-                    value = x.Format();
-                }
-                break;
-                case DK.B2:
-                {
-                    uint2 x = first(data);
-                    value = x.Format();
-                }
-                break;
-                case DK.B3:
-                {
-                    uint3 x = first(data);
-                    value = x.Format();
-                }
-                break;
-                case DK.B4:
-                {
-                    uint4 x = first(data);
-                    value = x.Format();
-                }
-                break;
-
-                case DK.U2:
-                {
-                    uint2 x = first(data);
-                    value = ((byte)x).ToString();
-                }
-                break;
-
-                case DK.U3:
-                {
-                    uint3 x = first(data);
-                    value = ((byte)x).ToString();
-
-                }
-                break;
-
-                case DK.U4:
-                {
-                    uint4 x = first(data);
-                    value = ((byte)x).ToString();
-                }
-                break;
-
-                case DK.U5:
-                {
-                    uint5 x = first(data);
-                    value = ((byte)x).ToString();
-                }
-                break;
-
-                case DK.Imm8:
-                case DK.U8:
-                {
-                    byte x = first(data);
-                    value = x.ToString();
-                }
-                break;
-                case DK.U64:
-                {
-                    var x = @as<ulong>(data);
-                    value = x.ToString();
-                }
-                break;
-                case DK.X3:
-                {
-                    Hex3 x = first(data);
-                    value = x.Format(prespec:true, uppercase:true);
-                }
-                break;
-                case DK.X4:
-                {
-                    Hex4 x = first(data);
-                    value = x.Format(prespec:true, uppercase:true);
-                }
-                break;
-                case DK.X8:
-                {
-                    Hex8 x = first(data);
-                    value = x.Format(prespec:true, uppercase:true);
-                }
-                break;
-                case DK.Disp:
-                {
-                    Disp64 x = @as<long>(data);
-                    value = x.Format();
-                }
-                break;
-                case DK.Broadcast:
-                {
-                    var x = @as<BCastKind>(data);
-                    value = BCastKinds[x].Expr.Format();
-                }
-                break;
-                case DK.Chip:
-                {
-                    var x = @as<ChipCode>(data);
-                    value = ChipCodes[x].Expr.Format();
-                }
-                break;
-                case DK.Reg:
-                {
-                    var x = @as<XedRegId>(data);
-                    value = format(x);
-                }
-                break;
-                case DK.InstClass:
-                {
-                    var x = @as<IClass>(data);
-                    value = InstClasses[x].Expr.Format();
-                }
-                break;
-                case DK.MemWidth:
-                {
-                    var x = @as<ushort>(data);
-                    value = x.ToString();
-                }
-                break;
-            }
-            return value;
-        }
-
-        public static string format(ImmFieldSpec src)
-            => src.Width == 0 ? EmptyString : string.Format("{0}{1}[i/{2}]", "UIMM", src.Index, src.Width);
-
-        public static string format(DispFieldSpec src)
-            => src.Width == 0 ? EmptyString : string.Format("{0}[{1}/{2}]", "DISP", src.Kind, src.Width);
-
-        public static string format(in CriterionSpec src)
-        {
-            var dst = EmptyString;
-            if(src.Operator == RuleOperator.Call)
-            {
-                var resolver = (NameResolver)src.Data;
-                if(resolver.IsNonEmpty)
-                    dst = string.Format("{0}()", resolver.Name);
-                else
-                    dst = RP.Error;
-            }
-            else if(src.Field == FieldKind.UIMM0 || src.Field == FieldKind.UIMM1)
-                dst = format(src.AsImmField());
-            else if(src.Field == FieldKind.DISP)
-                dst = format(src.AsDispField());
-            else
-            {
-                dst = format(src.Field);
-                if(src.Operator != 0)
-                    dst += format(src.Operator);
-                dst += format(src.DataType, src.Data);
-            }
-            return dst;
-        }
-
-        public static string format(BitfieldSeg src)
-            => string.Format(src.IsLiteral ? "{0}[0b{1}]" : "{0}[{1}]", format(src.Field), src.Pattern);
-
-        public static string format(FieldAssign src)
-            => src.Field == 0 ? "nothing" : string.Format("{0}={1}", format(src.Field), src.Value);
-
-        public static string format(FieldCmp src)
-            => src.Field == 0 ? EmptyString : string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), format(datatype(src.Field), src.Data));
-
-        public static string format(in NonterminalRule src)
-            => format(src.Def);
-
-        public static string format(FieldConstraint src)
-            => string.Format("{0}{1}{2}", format(src.Field), format(src.Kind), literal(src.LiteralKind,src.Value));
-
         public static string format(in RuleTermTable src)
         {
             var dst = text.buffer();
@@ -341,32 +151,9 @@ namespace Z0
             return dst.Emit();
         }
 
-        public static string format(in RuleTable src)
-        {
-            var dst = text.buffer();
-            dst.AppendLine(sig(src));
-            var expressions = src.Expressions.View;
-            var count = expressions.Length;
-            dst.AppendLine(Chars.LBrace);
-            for(var i=0; i<count; i++)
-                dst.IndentLine(4, format(skip(expressions, i)));
-            dst.AppendLine(Chars.RBrace);
-            return dst.Emit();
-        }
-
         public static string format(in RuleTermExpr src)
         {
             var sep = src.Kind == RuleFormKind.EncodeStep ? " -> " : " | ";
-            var dst = text.buffer();
-            render(src.Premise, dst);
-            dst.Append(sep);
-            render(src.Consequent, dst);
-            return dst.Emit();
-        }
-
-        public static string format(in RuleExpr src)
-        {
-            var sep = " <=> ";
             var dst = text.buffer();
             render(src.Premise, dst);
             dst.Append(sep);
@@ -403,20 +190,6 @@ namespace Z0
         public static string format(RuleSig src)
             => string.Format("{0} {1}()", src.ReturnType, src.Name);
 
-        public static string format(in RuleCriterion src)
-        {
-            if(src.Operator == RuleOperator.Call)
-                return string.Format("{0}()", src.Value);
-            else
-            {
-                var data = format(datatype(src.Field), src.Value);
-                if(src.Operator != 0)
-                    return string.Format("{0}{1}{2}", format(src.Field), format(src.Operator), data);
-                else
-                    return string.Format("{0}", data);
-            }
-        }
-
         static void render(ReadOnlySpan<RuleTerm> src, ITextBuffer dst)
         {
             var count = src.Length;
@@ -427,39 +200,6 @@ namespace Z0
                 ref readonly var c = ref skip(src,i);
                 dst.Append(c.Format());
             }
-        }
-
-        static void render(ReadOnlySpan<CriterionSpec> src, ITextBuffer dst)
-        {
-            var count = src.Length;
-            for(var i=0; i<count; i++)
-            {
-                if(i != 0)
-                    dst.Append(" && ");
-                dst.Append(skip(src,i).Format());
-            }
-        }
-
-
-        static string literal(FieldLiteralKind kind, byte src)
-        {
-            var val = EmptyString;
-            switch(kind)
-            {
-                case FieldLiteralKind.BinaryLiteral:
-                    val = "0b" + ((uint8b)(src)).Format();
-                break;
-                case FieldLiteralKind.DecimalLiteral:
-                    val = src.ToString();
-                break;
-                case FieldLiteralKind.HexLiteral:
-                    val = ((Hex8)(src)).Format(prespec:true, uppercase:true);
-                break;
-                default:
-                    val = RP.Error;
-                break;
-            }
-            return val;
         }
 
         static Symbols<AttributeKind> AttribKinds;
