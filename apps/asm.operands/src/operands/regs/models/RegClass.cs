@@ -18,8 +18,7 @@ namespace Z0.Asm
             return symbol.Expr.Format();
         }
 
-
-        public RegClassCode Code {get;}
+        public readonly RegClassCode Code;
 
         [MethodImpl(Inline)]
         public RegClass(RegClassCode code)

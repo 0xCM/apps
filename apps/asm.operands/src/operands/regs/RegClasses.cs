@@ -22,7 +22,7 @@ namespace Z0.Asm
 
         public static CrClass Cr => default;
 
-        public static CrClass Tr => default;
+        public static TrClass Tr => default;
 
         public static XCrClass XCr => default;
 
@@ -55,7 +55,7 @@ namespace Z0.Asm
             {
                 const byte RegLength = 2;
                 const string Data = "ahchdhbh";
-                var i0 = (byte)index*RegLength;
+                var i0 = ((byte)index - 4)*RegLength;
                 return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
             }
         }
@@ -140,6 +140,19 @@ namespace Z0.Asm
 
             public text7 Name => nameof(CC.FLAG);
 
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(NativeSize size)
+            {
+                const byte RegLength = 6;
+                const string Data = "flags eflagsrflags";
+                var offset = 12;
+                if(size == NativeSizeCode.W32)
+                    offset = 6;
+                else if(size == NativeSizeCode.W16)
+                    offset = 0;
+                return FixedChars.txt(n7,slice(text.chars(Data), offset, RegLength));
+            }
+
             public static implicit operator CC(FlagClass src)
                 => src.Kind;
         }
@@ -151,8 +164,8 @@ namespace Z0.Asm
             {
                 const byte RegLength = 3;
                 const string Data = "cr0cr1cr2cr3cr4cr5cr6cr7";
-                var i0 = (uint)index*RegLength;
-                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+                var offset = (uint)index*RegLength;
+                return FixedChars.txt(n7,slice(text.chars(Data), offset, RegLength));
             }
 
             public CC Kind => CC.CR;
@@ -170,8 +183,8 @@ namespace Z0.Asm
             {
                 const byte RegLength = 3;
                 const string Data = "tr0tr1tr2tr3tr4tr5tr6tr7";
-                var i0 = (uint)index*RegLength;
-                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+                var offset = (uint)index*RegLength;
+                return FixedChars.txt(n7,slice(text.chars(Data), offset, RegLength));
             }
 
             public CC Kind => CC.TR;
@@ -189,8 +202,8 @@ namespace Z0.Asm
             {
                 const byte RegLength = 3;
                 const string Data = "db0db1db2db3db4db5db6db7";
-                var i0 = (uint)index*RegLength;
-                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+                var offset = (uint)index*RegLength;
+                return FixedChars.txt(n7,slice(text.chars(Data), offset, RegLength));
             }
 
             public CC Kind => CC.DB;
@@ -206,6 +219,19 @@ namespace Z0.Asm
             public CC Kind => CC.IPTR;
 
             public text7 Name => nameof(CC.IPTR);
+
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(NativeSize size)
+            {
+                const byte RegLength = 3;
+                const string Data = "ip eiprip";
+                var offset = 6;
+                if(size == NativeSizeCode.W32)
+                    offset = 3;
+                else if(size == NativeSizeCode.W16)
+                    offset = 0;
+                return FixedChars.txt(n7,slice(text.chars(Data), offset, RegLength));
+            }
 
             public static implicit operator CC(IPtrClass src)
                 => src.Kind;

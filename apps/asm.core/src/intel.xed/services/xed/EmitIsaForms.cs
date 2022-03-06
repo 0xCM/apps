@@ -11,6 +11,15 @@ namespace Z0.Asm
 
     partial class IntelXed
     {
+        public Outcome EmitIsaForms(string chip)
+        {
+            var codes = Symbols.index<ChipCode>();
+            if(!codes.Lookup(chip, out var code))
+                return (false, string.Format("Chip '{0}' not found", chip));
+            EmitIsaForms(code);
+            return true;
+        }
+
         public void EmitIsaForms()
         {
             EmitIsaForms(ChipCode.I186);
@@ -29,11 +38,11 @@ namespace Z0.Asm
             EmitIsaForms(ChipCode.SAPPHIRE_RAPIDS);
         }
 
-        Outcome EmitIsaForms(ChipCode code)
+        void EmitIsaForms(ChipCode code)
         {
-            var result = LoadChipMap(out var map);
+            var result = CalcChipMap(out var map);
             if(result.Fail)
-                return result;
+                Errors.Throw(result.Message);
 
             var kinds = map[code].ToHashSet();
             var matches = list<XedFormImport>();
@@ -44,20 +53,9 @@ namespace Z0.Asm
                 ref readonly var form = ref skip(forms,i);
                 if(kinds.Contains(form.IsaKind))
                     matches.Add(form);
-
             }
 
             TableEmit(matches.ViewDeposited(), XedFormImport.RenderWidths, XedPaths.IsaFormsPath(code));
-            return result;
-        }
-
-        public Outcome EmitIsaForms(string chip)
-        {
-            var result = Outcome.Success;
-            var symbols = ChipCodes();
-            if(!symbols.Lookup(chip, out var code))
-                return (false, string.Format("Chip '{0}' not found", chip));
-            return EmitIsaForms(code);
         }
     }
 }

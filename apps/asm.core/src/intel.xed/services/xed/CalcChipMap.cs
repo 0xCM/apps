@@ -11,10 +11,10 @@ namespace Z0.Asm
 
     partial class IntelXed
     {
-        public Outcome LoadChipMap(out XedChipMap dst)
-            => ParseChipMap(XedPaths.DocSource(XedDocKind.ChipData), out dst);
+        public Outcome CalcChipMap(out XedChipMap dst)
+            => CalcChipMap(XedPaths.DocSource(XedDocKind.ChipData), out dst);
 
-        Outcome ParseChipMap(FS.FilePath src, out XedChipMap dst)
+        Outcome CalcChipMap(FS.FilePath src, out XedChipMap dst)
         {
             dst = default;
             var flow = Running(string.Format("Parsing {0}", src.ToUri()));
@@ -46,16 +46,16 @@ namespace Z0.Asm
                 }
                 else
                 {
-                    var kinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,0)).Where(x => x != 0).Array();
-                    chips[chip].Add(kinds);
+                    var isaKinds = line.Content.SplitClean(Chars.Tab).Trim().Select(x => Enums.parse<IsaKind>(x,0)).Where(x => x != 0).Array();
+                    chips[chip].Add(isaKinds);
                     if(chips.TryGetValue(chip, out var entry))
-                        entry.Add(kinds);
+                        entry.Add(isaKinds);
                 }
+
             }
 
-            var allChips = ChipCodes().Kinds.ToArray();
-            var count = allChips.Length;
-            Ran(flow, string.Format("Parsed {0} chip codes", count));
+            var kinds = Symbols.index<ChipCode>().Kinds.ToArray();
+            var count = kinds.Length;
 
             var buffer = new Index<ChipCode,IsaKinds>(alloc<IsaKinds>(count));
             for(var i=0; i<count; i++)
@@ -66,7 +66,10 @@ namespace Z0.Asm
                 else
                     buffer[_code] = XedModels.IsaKinds.Empty;
             }
-            dst = new XedChipMap(allChips,buffer);
+            dst = new XedChipMap(kinds,buffer);
+
+            Ran(flow, string.Format("Parsed {0} chip codes", count));
+
             return true;
         }
     }

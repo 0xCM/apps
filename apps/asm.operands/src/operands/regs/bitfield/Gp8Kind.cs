@@ -18,19 +18,19 @@ namespace Z0.Asm
     {
         AL = r0 | (GP << ClassField) | (W8 << WidthField),
 
-        AH = r0 | (GP8HI << ClassField) | (W8 << WidthField),
+        AH = r4 | (GP8HI << ClassField) | (W8 << WidthField),
 
         CL = r1 | (GP << ClassField) | (W8 << WidthField),
 
-        CH = r1 | (GP8HI << ClassField) | (W8 << WidthField),
+        CH = r5 | (GP8HI << ClassField) | (W8 << WidthField),
 
         DL = r2 | (GP << ClassField) | (W8 << WidthField),
 
-        DH = r2 | (GP8HI << ClassField) | (W8 << WidthField),
+        DH = r6 | (GP8HI << ClassField) | (W8 << WidthField),
 
         BL = r3 | (GP << ClassField) | (W8 << WidthField),
 
-        BH = r3 | (GP8HI << ClassField) | (W8 << WidthField),
+        BH = r7 | (GP8HI << ClassField) | (W8 << WidthField),
 
         SPL = r4 | (GP << ClassField) | (W8 << WidthField),
 

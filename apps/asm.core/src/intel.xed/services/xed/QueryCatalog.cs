@@ -7,6 +7,7 @@ namespace Z0.Asm
     using System;
 
     using static core;
+    using static XedModels;
 
     partial class IntelXed
     {
@@ -14,11 +15,11 @@ namespace Z0.Asm
         {
             const string RenderPattern = "class:{0,-24} form:{1,-32} category:{2,-16} isa:{3,-16} ext:{4,-16} attribs:{5}";
             var src = LoadFormImports();
-            var types = FormTypes();
-            var cats = Categories();
-            var _isa = IsaKinds();
-            var classes = Classes();
-            var extensions = IsaExtensions();
+            var types = Symbols.index<IFormType>();
+            var cats = Symbols.index<CategoryKind>();
+            var _isa = Symbols.index<IsaKind>();
+            var classes = Symbols.index<IClass>();
+            var extensions = Symbols.index<ExtensionKind>();
             var count = src.Length;
             var dst = list<XedQueryResult>();
             for(var i=0; i<count; i++)

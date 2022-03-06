@@ -4,37 +4,32 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static core;
     using Asm;
 
+    using static core;
 
     partial struct XedModels
     {
-        public static ConstLookup<XedRegId,RegKind> regmap()
+        public static XedRegMap regmap()
         {
             var symsrc = Symbols.index<XedRegId>();
-            var kinds = symsrc.Kinds;
-            var count = kinds.Length;
+            var symexpr = dict<string,XedRegId>();
             var symdst = Symbols.index<RegKind>();
-            var dst = dict<XedRegId,RegKind>();
-            var ok = typeof(XedRegId).Fields().Ignore().Where(x => x.IsLiteral).Map(x => (ushort)x.GetRawConstantValue()).ToHashSet();
-            for(var i=0; i<count; i++)
+            var dst = dict<XedRegId,RegOp>();
+            foreach(var kind in symsrc.Kinds)
             {
-                ref readonly var id = ref skip(kinds,i);
-                if(!ok.Contains((ushort)id))
+                if(kind == 0)
                     continue;
-
-                if(symdst.Lookup(id.ToString().ToLower(), out var sym))
-                    dst.Add(id,sym.Kind);
-                else
-                {
-                    if(symdst.Lookup(symsrc[id].Expr.Text.ToLower(), out var x))
-                        dst.Add(id, x.Kind);
-                    else
-                        dst.Add(id,RegKind.None);
-                }
+                symexpr[kind.ToString().ToLower()] = kind;
             }
-            return dst;
+
+            foreach(var k in symexpr.Keys)
+            {
+                if(symdst.Lookup(k, out var sym))
+                    dst[symexpr[k]] = sym.Kind;
+            }
+
+            return new XedRegMap(dst);
         }
     }
 }

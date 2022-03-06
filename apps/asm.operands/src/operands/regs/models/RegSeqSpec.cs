@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-    using System.Runtime.CompilerServices;
-
-    using static Root;
-
     /// <summary>
     /// Defines a sequence of regsters of uniform width
     /// </summary>
@@ -16,20 +12,20 @@ namespace Z0.Asm
         /// <summary>
         /// A surrogate key
         /// </summary>
-        public uint Id {get;}
+        public readonly uint Id;
 
         /// <summary>
         /// The number of registers in the sequence
         /// </summary>
-        public uint RegCount {get;}
+        public readonly uint RegCount;
 
         /// <summary>
         /// The size of each register
         /// </summary>
-        public ByteSize RegSize {get;}
+        public readonly NativeSize RegSize;
 
         [MethodImpl(Inline)]
-        public RegSeqSpec(uint id, uint count, ByteSize size)
+        public RegSeqSpec(uint id, uint count, NativeSize size)
         {
             Id = id;
             RegCount = count;
@@ -37,7 +33,7 @@ namespace Z0.Asm
         }
 
         public string Format()
-            => string.Format("{0}x{1}", RegCount, RegSize.Bits);
+            => string.Format("{0}x{1}", RegCount, RegSize.Width);
 
         public override string ToString()
             => Format();

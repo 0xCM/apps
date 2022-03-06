@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using Asm;
 
@@ -15,7 +15,7 @@ namespace Z0.Machines
 
         public uint Id {get;}
 
-        public ByteSize RegSize {get;}
+        public NativeSize RegSize {get;}
 
         public uint RegCount {get;}
 
@@ -43,12 +43,12 @@ namespace Z0.Machines
         /// <param name="index">The 0-based register index</param>
         [MethodImpl(Inline)]
         public MemoryAddress RegAddress(uint index)
-            => BaseAddress + RegSize*index;
+            => BaseAddress + RegSize.ByteCount*index;
 
         public MemoryRange Range
         {
             [MethodImpl(Inline)]
-            get => new MemoryRange(BaseAddress, RegCount*RegSize);
+            get => new MemoryRange(BaseAddress, RegCount*RegSize.ByteCount);
         }
 
         public MemoryAddress this[RegIndex index]

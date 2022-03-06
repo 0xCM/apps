@@ -30,16 +30,16 @@ namespace Z0.Asm
         public bit IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Data == RegKind.None;
+            get => (ushort)Data == ushort.MaxValue;
         }
 
         public bool IsNonEmpty
         {
             [MethodImpl(Inline)]
-            get => Data != RegKind.None;
+            get => (ushort)Data != ushort.MaxValue;
         }
 
-        public NativeSizeCode Size
+        public NativeSize Size
         {
             [MethodImpl(Inline)]
             get => api.width(this);
@@ -98,7 +98,7 @@ namespace Z0.Asm
         public static RegOp Empty
         {
             [MethodImpl(Inline)]
-            get => new RegOp(RegKind.None);
+            get => new RegOp(ushort.MaxValue);
         }
     }
 }

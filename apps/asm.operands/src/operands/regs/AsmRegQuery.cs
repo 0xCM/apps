@@ -11,6 +11,14 @@ namespace Z0.Asm
     [ApiHost]
     public ref struct AsmRegQuery
     {
+        /// <summary>
+        /// Defines a query source over a specified operand sequence
+        /// </summary>
+        /// <param name="src"></param>
+        [Op]
+        public static AsmRegQuery query(ReadOnlySpan<RegOp> src)
+            => new AsmRegQuery(src);
+
         readonly ReadOnlySpan<RegOp> Regs;
 
         readonly Span<RegOp> Cache;

@@ -19,7 +19,7 @@ namespace Z0.Asm
                 case RegClassCode.GP:
                     return Gp.RegName(index, size);
                 case RegClassCode.GP8HI:
-                    return Gp8Hi.RegName((RegIndexCode)((byte)index - 4));
+                    return Gp8Hi.RegName(index);
                 case RegClassCode.XMM:
                     return Xmm.RegName(index);
                 case RegClassCode.YMM:
@@ -40,6 +40,12 @@ namespace Z0.Asm
                     return St.RegName(index);
                 case RegClassCode.SEG:
                     return Seg.RegName(index);
+                case RegClassCode.BND:
+                    return Bnd.RegName(index);
+                case RegClassCode.IPTR:
+                    return IP.RegName(size);
+                case RegClassCode.FLAG:
+                    return Flag.RegName(size);
             }
             return text7.Empty;
         }

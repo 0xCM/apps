@@ -25,9 +25,6 @@ namespace Z0.Asm
         NativeSize IAsmOp.Size
             => new NativeSize(Size);
 
-        RegWidth RegWidth
-            => Size;
-
         RegClass RegClass
             => RegClassCode;
 

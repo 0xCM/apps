@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 namespace Z0.Asm
 {
-
     /// <summary>
     /// Represents a register index from the domain [0,31]
     /// </summary>

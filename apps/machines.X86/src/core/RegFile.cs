@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using static core;
 
@@ -20,17 +20,17 @@ namespace Z0.Machines
         [Op]
         public static RegFile intel64()
         {
-            var gp64 = new RegSeqSpec((uint)inc(ref RegSeqKeys), 16, 8);
-            var v512 = new RegSeqSpec((uint)inc(ref RegSeqKeys), 32, 64);
-            var masks = new RegSeqSpec((uint)inc(ref RegSeqKeys), 8, 8);
-            var system = new RegSeqSpec((uint)inc(ref RegSeqKeys), 8, 8);
+            var gp64 = new RegSeqSpec((uint)inc(ref RegSeqKeys), 16, NativeSizeCode.W64);
+            var v512 = new RegSeqSpec((uint)inc(ref RegSeqKeys), 32, NativeSizeCode.W512);
+            var masks = new RegSeqSpec((uint)inc(ref RegSeqKeys), 8, NativeSizeCode.W64);
+            var system = new RegSeqSpec((uint)inc(ref RegSeqKeys), 8, NativeSizeCode.W64);
             return new RegFile((uint)inc(ref FileSeqKeys),new RegSeqSpec[]{gp64,v512,masks,system});
         }
 
         /// <summary>
         /// A surrogate key
         /// </summary>
-        public uint Id {get;}
+        public readonly uint Id;
 
         readonly Index<RegSeqSpec> Data;
 

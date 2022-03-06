@@ -6,13 +6,13 @@ namespace Z0.Asm
 {
     partial class IntelXed
     {
-        public Outcome EmitChipMap()
+        public void EmitChipMap()
         {
             const string RowFormat = "{0,-12} | {1,-24} | {2}";
 
-            var outcome = LoadChipMap(out var map);
+            var outcome = CalcChipMap(out var map);
             if(outcome.Fail)
-                Error(outcome.Message);
+                Errors.Throw(outcome.Message);
             else
             {
                 var dst = XedPaths.ChipMapTarget();
@@ -30,8 +30,6 @@ namespace Z0.Asm
                 }
                 EmittedFile(emitting,counter);
             }
-
-            return outcome;
         }
     }
 }

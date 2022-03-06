@@ -29,8 +29,6 @@ namespace Z0.Asm
     [SymSource("asm.regs.bits", Base16)]
     public enum RegKind : ushort
     {
-        None = 0xFFFF,
-
         // ~ FLAGS registers
         // ~ ------------------------------------------------------------------
 

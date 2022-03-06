@@ -2,9 +2,12 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using static core;
+
+    using Machines;
+
 
     [ApiHost]
     public readonly partial struct CpuModels

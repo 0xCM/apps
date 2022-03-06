@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using static core;
 
@@ -26,7 +26,7 @@ namespace Z0.Machines
             for(var i=0; i<count; i++)
             {
                 ref readonly var spec = ref seek(specs,i);
-                size += (spec.RegSize*spec.RegCount);
+                size += (spec.RegSize.ByteCount*spec.RegCount);
             }
 
             var buffer = memory.native(size);
@@ -39,9 +39,9 @@ namespace Z0.Machines
             for(var i=0; i<count; i++)
             {
                 ref readonly var spec = ref seek(specs,i);
-                var tokens = memory.tokenize(address, spec.RegSize, spec.RegCount);
+                var tokens = memory.tokenize(address, spec.RegSize.ByteCount, spec.RegCount);
                 seek(allocations,i) = new RegAlloc(spec,tokens);
-                var blockSize = spec.RegCount*spec.RegSize;
+                var blockSize = spec.RegCount*spec.RegSize.ByteCount;
                 address += blockSize;
             }
 

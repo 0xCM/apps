@@ -26,6 +26,9 @@ namespace Z0
         public FS.FolderPath Targets()
             => XedTargets;
 
+        public FS.FilePath Table<T>()
+            where T : struct
+                => Targets() + Tables.filename<T>();
         public FS.FilePath IsaFormsPath(ChipCode chip)
             => XedTargets + FS.folder("isaforms") + FS.file(string.Format("xed.isa.{0}", chip), FS.Csv);
 

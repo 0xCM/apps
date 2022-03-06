@@ -2,7 +2,7 @@
 // Copyright   :  (c) Chris Moore, 2020
 // License     :  MIT
 //-----------------------------------------------------------------------------
-namespace Z0.Machines
+namespace Z0
 {
     using static core;
 
@@ -21,9 +21,9 @@ namespace Z0.Machines
                 for(var j=0u; j<def.RegCount; j++)
                 {
                     var address = a.RegAddress(j);
-                    var content = cover<byte>(address, def.RegSize);
+                    var content = cover<byte>(address, def.RegSize.ByteCount);
                     dst.AppendFormat("[reg{0:D2}:{1}:{2}] ", j, offset, address.Format());
-                    for(var k=0; k<def.RegSize; k++)
+                    for(var k=0; k<def.RegSize.ByteCount; k++)
                     {
                         ref var cell = ref seek(content,k);
                         dst.Append(cell.FormatHex(specifier:false));
