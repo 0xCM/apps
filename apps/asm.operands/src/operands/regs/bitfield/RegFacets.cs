@@ -35,7 +35,7 @@ namespace Z0.Asm
         /// <summary>
         /// The position of the first bit in the width segment
         /// </summary>
-        public const byte WidthField = 10;
+        public const byte WidthField = 11;
 
         /// <summary>
         /// The number of available BND registers
@@ -136,5 +136,54 @@ namespace Z0.Asm
         /// The number of available MMX registers
         /// </summary>
         public const byte MmxRegCount = 8;
+
+        public const NativeSizeCode Gp8RegSize = NativeSizeCode.W8;
+
+        public const NativeSizeCode Gp16RegSize = NativeSizeCode.W16;
+
+        public const NativeSizeCode Gp32RegSize = NativeSizeCode.W32;
+
+        public const NativeSizeCode Gp64RegSize = NativeSizeCode.W64;
+
+        public const NativeSizeCode MmxRegSize = NativeSizeCode.W64;
+
+        public const NativeSizeCode FpuRegSize = NativeSizeCode.W80;
+
+        public const NativeSizeCode BndRegSize = NativeSizeCode.W128;
+
+        public const NativeSizeCode XmmRegSize = NativeSizeCode.W128;
+
+        public const NativeSizeCode YmmRegSize = NativeSizeCode.W256;
+
+        public const NativeSizeCode ZmmRegSize = NativeSizeCode.W512;
+
+        public const NativeSizeCode MaskRegSize = NativeSizeCode.W64;
+
+        public const NativeSizeCode CrRegSize = NativeSizeCode.W64;
+
+        public const NativeSizeCode DbRegSize = NativeSizeCode.W64;
+
+        public const RegClassCode GpRegClass = RegClassCode.GP;
+
+        public const RegClassCode XmmRegClass = RegClassCode.XMM;
+
+        public const RegClassCode YmmRegClass = RegClassCode.YMM;
+
+        public const RegClassCode ZmmRegClass = RegClassCode.ZMM;
+
+        public const RegClassCode MaskRegClass = RegClassCode.MASK;
+
+        public const RegClassCode MmxRegClass = RegClassCode.MMX;
+
+        public const RegClassCode FpuRegClass = RegClassCode.ST;
+
+        public const RegClassCode DbRegClass = RegClassCode.DB;
+
+        public const RegClassCode SegRegClass = RegClassCode.SEG;
+
+        public const RegClassCode CrRegClass = RegClassCode.CR;
+
+        public const RegClassCode BndRegClass = RegClassCode.BND;
+
     }
 }

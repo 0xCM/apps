@@ -22,7 +22,7 @@ namespace Z0.Asm
         /// <summary>
         /// Classifies a 64-bit mask register
         /// </summary>
-        [Symbol("k", "A 64-bit avx512 mask register")]
+        [Symbol("mask", "A 64-bit avx512 mask register")]
         MASK = 1,
 
         /// <summary>
@@ -108,5 +108,8 @@ namespace Z0.Asm
         /// </summary>
         [Symbol("gp8hi", "A hi gp8 register")]
         GP8HI = 15,
+
+        [Symbol("tr", "A test register")]
+        TR = 16,
     }
 }

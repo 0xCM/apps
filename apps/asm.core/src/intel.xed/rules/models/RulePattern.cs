@@ -5,16 +5,22 @@
 //-----------------------------------------------------------------------------
 namespace Z0
 {
-    using static XedModels;
-
     using Asm;
+
+    using static XedModels;
 
 
     partial class XedRules
     {
+        [MethodImpl(Inline), Op]
+        public static RulePattern pattern(uint seq, IClass @class, OpCodeKind kind, AsmOcValue value, params RuleToken[] tokens)
+            => new RulePattern(seq,@class, kind, ocvalue(tokens), tokens);
+
         [StructLayout(LayoutKind.Sequential, Pack=1)]
         public readonly struct RulePattern
         {
+            public readonly uint Seq;
+
             public readonly IClass Class;
 
             public readonly OpCodeKind OcKind;
@@ -24,8 +30,9 @@ namespace Z0
             public readonly Index<RuleToken> Tokens;
 
             [MethodImpl(Inline)]
-            public RulePattern(IClass @class, OpCodeKind kind, AsmOcValue value, RuleToken[] tokens)
+            public RulePattern(uint seq, IClass @class, OpCodeKind kind, AsmOcValue value, RuleToken[] tokens)
             {
+                Seq = seq;
                 Class = @class;
                 OcKind = kind;
                 Tokens = tokens;
@@ -34,7 +41,7 @@ namespace Z0
 
             [MethodImpl(Inline)]
             public RulePattern WithTokens(RuleToken[] tokens)
-                => new RulePattern(Class,OcKind,OcValue,tokens);
+                => new RulePattern(Seq,Class,OcKind,OcValue,tokens);
 
             public bool IsEmpty
             {

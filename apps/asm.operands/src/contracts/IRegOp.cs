@@ -22,8 +22,6 @@ namespace Z0.Asm
         /// </summary>
         RegClassCode RegClassCode {get;}
 
-        ushort Bitfield {get;}
-
         NativeSize IAsmOp.Size
             => new NativeSize(Size);
 
@@ -45,9 +43,6 @@ namespace Z0.Asm
     public interface IRegOp<T> : IRegOp
         where T : unmanaged
     {
-        ushort IRegOp.Bitfield
-            => u16(this);
-
         AsmOpClass IAsmOp.OpClass
             => AsmOpClass.Reg | (AsmOpClass)width<T>(w16);
     }

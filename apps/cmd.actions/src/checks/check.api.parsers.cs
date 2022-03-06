@@ -5,8 +5,6 @@
 namespace Z0
 {
     using static core;
-    using static Root;
-
     partial class CheckCmdProvider
     {
         [CmdOp("check/api/parsers")]

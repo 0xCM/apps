@@ -13,13 +13,13 @@ namespace Z0
             switch(kind)
             {
                 case RuleSetKind.Enc:
-                    set = new RuleSet(kind, CalcEncPatternInfo(), CalcEncRuleTables());
+                    set = new RuleSet(kind, CalcPatterns(kind), CalcEncRuleTables());
                 break;
                 case RuleSetKind.Dec:
-                    set = new RuleSet(kind, CalcDecPatternInfo(), CalcDecRuleTables());
+                    set = new RuleSet(kind, CalcPatterns(kind), CalcDecRuleTables());
                 break;
                 case RuleSetKind.EncDec:
-                    set = new RuleSet(kind, CalcEncPatternInfo(), CalcEncDecRuleTables());
+                    set = new RuleSet(kind, CalcPatterns(kind), CalcEncDecRuleTables());
                 break;
             }
             return set;

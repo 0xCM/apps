@@ -22,6 +22,8 @@ namespace Z0.Asm
 
         public static CrClass Cr => default;
 
+        public static CrClass Tr => default;
+
         public static XCrClass XCr => default;
 
         public static DbClass Db => default;
@@ -119,6 +121,15 @@ namespace Z0.Asm
 
             public text7 Name => nameof(CC.SEG);
 
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(RegIndexCode index)
+            {
+                const byte RegLength = 2;
+                const string Data = "csdsssesfsgs";
+                var i0 = (uint)index*RegLength;
+                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+            }
+
             public static implicit operator CC(SegClass src)
                 => src.Kind;
         }
@@ -149,6 +160,25 @@ namespace Z0.Asm
             public text7 Name => nameof(CC.CR);
 
             public static implicit operator CC(CrClass src)
+                => src.Kind;
+        }
+
+        public readonly struct TrClass : IRegClass<TrClass>
+        {
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(RegIndexCode index)
+            {
+                const byte RegLength = 3;
+                const string Data = "tr0tr1tr2tr3tr4tr5tr6tr7";
+                var i0 = (uint)index*RegLength;
+                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+            }
+
+            public CC Kind => CC.TR;
+
+            public text7 Name => nameof(CC.TR);
+
+            public static implicit operator CC(TrClass src)
                 => src.Kind;
         }
 
@@ -253,6 +283,11 @@ namespace Z0.Asm
 
         public readonly struct MaskClass : IRegClass<MaskClass>
         {
+
+            public CC Kind => CC.MASK;
+
+            public text7 Name => nameof(CC.MASK);
+
             [MethodImpl(Inline), Op]
             public AsmRegName RegName(RegIndexCode index)
             {
@@ -261,10 +296,6 @@ namespace Z0.Asm
                 var i0 = (ushort)((uint)index*RegLength);
                 return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
             }
-
-            public CC Kind => CC.MASK;
-
-            public text7 Name => nameof(CC.MASK);
 
             public static implicit operator CC(MaskClass src)
                 => src.Kind;
@@ -276,6 +307,15 @@ namespace Z0.Asm
 
             public text7 Name => nameof(CC.BND);
 
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(RegIndexCode index)
+            {
+                const byte RegLength = 4;
+                const string Data = "bnd0bnd1bnd2bnd3";
+                var i0 = (uint)index*RegLength;
+                return FixedChars.txt(n7, slice(text.chars(Data), i0, RegLength));
+            }
+
             public static implicit operator CC(BndClass src)
                 => src.Kind;
         }
@@ -286,6 +326,15 @@ namespace Z0.Asm
 
             public text7 Name => nameof(CC.ST);
 
+            [MethodImpl(Inline), Op]
+            public AsmRegName RegName(RegIndexCode index)
+            {
+                const byte RegLength = 3;
+                const string Data = "st0st1st2st3st4st5st6st7";
+                var i0 = (uint)index*RegLength;
+                return FixedChars.txt(n7, slice(text.chars(Data), i0, RegLength));
+            }
+
             public static implicit operator CC(StClass src)
                 => src.Kind;
         }
@@ -295,10 +344,10 @@ namespace Z0.Asm
             [MethodImpl(Inline), Op]
             public AsmRegName RegName(RegIndexCode index)
             {
-                const byte RegLength = 4;
-                const string Data = "mmx0mmx1mmx2mmx3mmx4mmx5mmx6mmx7";
+                const byte RegLength = 3;
+                const string Data = "mm0mm1mm2mm3mm4mm5mm6mm7";
                 var i0 = (uint)index*RegLength;
-                return FixedChars.txt(n7,slice(text.chars(Data), i0, RegLength));
+                return FixedChars.txt(n7, slice(text.chars(Data), i0, RegLength));
             }
 
             public CC Kind => CC.MMX;

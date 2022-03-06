@@ -23,6 +23,7 @@ namespace Z0.Asm
 
         }
 
+
         Span<char> Buffer()
             => _Buffer.Clear();
 
@@ -98,7 +99,7 @@ namespace Z0.Asm
                     regs = ZmmRegs();
                 break;
                 case RegClassCode.MASK:
-                    regs = KRegs();
+                    regs = MaskRegs();
                 break;
                 case RegClassCode.MMX:
                     regs = MmxRegs();
@@ -134,13 +135,13 @@ namespace Z0.Asm
         }
 
         public RegOpSeq XmmRegs()
-            => Data(nameof(XmmRegs), () => RegSeq(SZ.W128, XMM, XmmRegCount));
+            => Data(nameof(XmmRegs), () => RegSeq(XmmRegSize, XMM, XmmRegCount));
 
         public RegOpSeq YmmRegs()
-            => Data(nameof(XmmRegs), () => RegSeq(SZ.W256, YMM, YmmRegCount));
+            => Data(nameof(XmmRegs), () => RegSeq(YmmRegSize, YMM, YmmRegCount));
 
         public RegOpSeq ZmmRegs()
-            => Data(nameof(ZmmRegs), () => RegSeq(SZ.W512, ZMM, ZmmRegCount));
+            => Data(nameof(ZmmRegs), () => RegSeq(ZmmRegSize, ZMM, ZmmRegCount));
 
         public RegOpSeq Gp8HiRegs()
         {
@@ -148,11 +149,10 @@ namespace Z0.Asm
 
             RegOpSeq Load()
             {
-                var width = SZ.W8;
                 var count = Gp8HiRegCount;
                 var buffer = alloc<RegOp>(count);
                 for(byte i=0,j=4; i<count; i++,j++)
-                    seek(buffer,i) = AsmRegs.reg(width, GP8HI, (RegIndexCode)j);
+                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GP8HI, (RegIndexCode)j);
                 return buffer;
             }
         }
@@ -166,7 +166,7 @@ namespace Z0.Asm
                 var count = Gp8LoRegCount;
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<count; i++)
-                    seek(buffer,i) = AsmRegs.reg(SZ.W8, GP, (RegIndexCode)i);
+                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GP, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -177,13 +177,12 @@ namespace Z0.Asm
 
             RegOpSeq Load()
             {
-                var width = SZ.W8;
                 var count = Gp8RegCount;
                 var buffer = alloc<RegOp>(count);
                 for(var i=0; i<16; i++)
-                    seek(buffer,i) = AsmRegs.reg(width, GP, (RegIndexCode)i);
+                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GpRegClass, (RegIndexCode)i);
                 for(byte i=16,j=4; i<20; i++,j++)
-                    seek(buffer,i) = AsmRegs.reg(width, GP8HI, (RegIndexCode)j);
+                    seek(buffer,i) = AsmRegs.reg(Gp8RegSize, GP8HI, (RegIndexCode)j);
                 return buffer;
             }
         }
@@ -197,7 +196,7 @@ namespace Z0.Asm
                 const byte Count = Gp16RegCount;
                 var buffer = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(buffer,i) = AsmRegs.reg(SZ.W16, GP, (RegIndexCode)i);
+                    seek(buffer,i) = AsmRegs.reg(Gp16RegSize, GpRegClass, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -211,7 +210,7 @@ namespace Z0.Asm
                 const byte Count = Gp32RegCount;
                 var buffer = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(buffer,i) = AsmRegs.reg(SZ.W32, GP, (RegIndexCode)i);
+                    seek(buffer,i) = AsmRegs.reg(Gp32RegSize, GpRegClass, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -225,7 +224,7 @@ namespace Z0.Asm
                 const byte Count = Gp64RegCount;
                 var buffer = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(buffer,i) = AsmRegs.reg(SZ.W64, GP, (RegIndexCode)i);
+                    seek(buffer,i) = AsmRegs.reg(Gp64RegSize, GpRegClass, (RegIndexCode)i);
                 return buffer;
             }
         }
@@ -235,16 +234,16 @@ namespace Z0.Asm
             var dst = RegOpSeq.Empty;
             switch(width)
             {
-                case SZ.W8:
+                case Gp8RegSize:
                     dst = Gp8Regs();
                 break;
-                case SZ.W16:
+                case Gp16RegSize:
                     dst = Gp16Regs();
                 break;
-                case SZ.W32:
+                case Gp32RegSize:
                     dst = Gp32Regs();
                 break;
-                case SZ.W64:
+                case Gp64RegSize:
                     dst = Gp64Regs();
                 break;
             }
@@ -256,32 +255,32 @@ namespace Z0.Asm
             var dst = Asm.RegNameSet.Empty;
             switch(width)
             {
-                case SZ.W8:
+                case Gp8RegSize:
                     dst = Gp8RegNames();
                 break;
-                case SZ.W16:
+                case Gp16RegSize:
                     dst = Gp16RegNames();
                 break;
-                case SZ.W32:
+                case Gp32RegSize:
                     dst = Gp32RegNames();
                 break;
-                case SZ.W64:
+                case Gp64RegSize:
                     dst = Gp64RegNames();
                 break;
             }
             return dst;
         }
 
-        public RegOpSeq KRegs()
+        public RegOpSeq MaskRegs()
         {
-            return Data(nameof(KRegs), Load);
+            return Data(nameof(MaskRegs), Load);
 
             RegOpSeq Load()
             {
                 const byte Count = MaskRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(SZ.W64, RegClassCode.MASK, (RegIndexCode)i);
+                    seek(dst,i) = AsmRegs.reg(MaskRegSize, MaskRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -295,7 +294,7 @@ namespace Z0.Asm
                 const byte Count = CrRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(SZ.W64, RegClassCode.CR, (RegIndexCode)i);
+                    seek(dst,i) = AsmRegs.reg(CrRegSize, CrRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -309,7 +308,7 @@ namespace Z0.Asm
                 const byte Count = DbRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(SZ.W64, RegClassCode.DB, (RegIndexCode)i);
+                    seek(dst,i) = AsmRegs.reg(DbRegSize, DbRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -323,7 +322,7 @@ namespace Z0.Asm
                 const byte Count = MmxRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(SZ.W64, RegClassCode.MMX, (RegIndexCode)i);
+                    seek(dst,i) = AsmRegs.reg(MmxRegSize, MmxRegClass, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -337,7 +336,7 @@ namespace Z0.Asm
                 const byte Count = BndRegCount;
                 var dst = alloc<RegOp>(Count);
                 for(var i=0; i<Count; i++)
-                    seek(dst,i) = AsmRegs.reg(SZ.W64, RegClassCode.BND, (RegIndexCode)i);
+                    seek(dst,i) = AsmRegs.reg(BndRegSize, RegClassCode.BND, (RegIndexCode)i);
                 return dst;
             }
         }
@@ -355,38 +354,63 @@ namespace Z0.Asm
             }
         }
 
+        public RegOpSeq FpuRegs()
+        {
+            return Data(nameof(FpuRegs), Load);
+            RegOpSeq Load()
+            {
+                const byte Count = FpuRegCount;
+                var dst = alloc<RegOp>(Count);
+                for(var i=0; i<Count; i++)
+                    seek(dst,i) = AsmRegs.reg(FpuRegSize, FpuRegClass, (RegIndexCode)i);
+                return dst;
+            }
+        }
+
         public RegNameSet GpRegNames()
-            => Data(nameof(GpRegNames), () => Names(GpRegs()));
+            => Data(nameof(GpRegNames), () => Names(GpRegClass, GpRegs()));
 
         public RegNameSet Gp8RegNames()
             => Data(nameof(Gp8RegNames), () => Names("Gp8", Gp8Regs()));
 
         public RegNameSet Gp16RegNames()
-            => Data(nameof(Gp16RegNames), () => Names(Gp16Regs()));
+            => Data(nameof(Gp16RegNames), () => Names("Gp16", Gp16Regs()));
 
         public RegNameSet Gp32RegNames()
-            => Data(nameof(Gp32RegNames), () => Names(Gp32Regs()));
+            => Data(nameof(Gp32RegNames), () => Names("Gp32", Gp32Regs()));
 
         public RegNameSet Gp64RegNames()
-            => Data(nameof(Gp64RegNames), () => Names(Gp64Regs()));
+            => Data(nameof(Gp64RegNames), () => Names("Gp64",Gp64Regs()));
 
         public RegNameSet XmmRegNames()
-            => Data(nameof(XmmRegNames), () => Names(XmmRegs()));
+            => Data(nameof(XmmRegNames), () => Names(XmmRegClass, XmmRegs()));
 
         public RegNameSet YmmRegNames()
-            => Data(nameof(YmmRegNames), () => Names(YmmRegs()));
+            => Data(nameof(YmmRegNames), () => Names(YmmRegClass, YmmRegs()));
 
         public RegNameSet ZmmRegNames()
-            => Data(nameof(ZmmRegNames), () => Names(ZmmRegs()));
+            => Data(nameof(ZmmRegNames), () => Names(ZmmRegClass, ZmmRegs()));
 
         public RegNameSet MaskRegNames()
-            => Data(nameof(MaskRegNames), () => Names(KRegs()));
+            => Data(nameof(MaskRegNames), () => Names(MaskRegClass, MaskRegs()));
 
         public RegNameSet MmxRegNames()
-            => Data(nameof(MmxRegNames), () => Names(MmxRegs()));
+            => Data(nameof(MmxRegNames), () => Names(MmxRegClass, MmxRegs()));
 
         public RegNameSet SegRegNames()
-            => Data(nameof(SegRegNames), () => Names(SegRegs()));
+            => Data(nameof(SegRegNames), () => Names(SegRegClass, SegRegs()));
+
+        public RegNameSet BndRegNames()
+            => Data(nameof(BndRegNames), () => Names(BndRegClass, BndRegs()));
+
+        public RegNameSet CrRegNames()
+            => Data(nameof(CrRegNames), () => Names(CrRegClass, CrRegs()));
+
+        public RegNameSet DbRegNames()
+            => Data(nameof(DbRegNames), () => Names(DbRegClass, DbRegs()));
+
+        public RegNameSet FpuRegNames()
+            => Data(nameof(FpuRegNames), () => Names(FpuRegClass,FpuRegs()));
 
         RegOpSeq RegSeq(NativeSizeCode size, RegClassCode @class, byte count)
         {
@@ -396,13 +420,14 @@ namespace Z0.Asm
             return dst;
         }
 
-        RegNameSet Names(RegOpSeq src)
+
+        RegNameSet Names(RegClassCode @class, RegOpSeq src)
         {
             var count = src.Count;
             var buffer = alloc<AsmRegName>(count);
             for(var i=0; i<count; i++)
                 seek(buffer,i) = src[i].Name;
-            return buffer;
+            return (format(@class), buffer);
         }
 
         RegNameSet Names(string name, RegOpSeq src)
@@ -428,5 +453,14 @@ namespace Z0.Asm
             => _Data.Clear();
 
         static AsmRegSets Instance = new();
+
+
+        [MethodImpl(Inline)]
+        static string format(RegClassCode src)
+            => RegClassFormatter.Format(src);
+
+        static EnumFormatter<RegClassCode> RegClassFormatter = new();
+
+
     }
 }

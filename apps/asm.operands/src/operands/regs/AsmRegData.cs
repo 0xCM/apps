@@ -46,7 +46,6 @@ namespace Z0.Asm
 
         internal static ReadOnlySpan<byte> RegClassCounts
             => new byte[ClassCount]{
-                0,      // None
                 64,     // GP (no hi)
                 8,      // MASK
                 32,     // XMM
@@ -62,7 +61,8 @@ namespace Z0.Asm
                 4,      // BND
                 3,      // SPTR
                 3,      // IPTR
-                4       // GP8HI
+                4,       // GP8HI
+                8
             };
 
         internal static ReadOnlySpan<RegClassCode> RegClasses

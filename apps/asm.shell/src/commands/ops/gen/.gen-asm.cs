@@ -17,7 +17,7 @@ namespace Z0.Asm
 
             // a in RCX, b in RDX, c in R8, d in R9
             var counter = 0u;
-            var r0 = RegSets.KRegs();
+            var r0 = RegSets.MaskRegs();
             var r1 = r0.Replicate();
             var r2 = r0.Replicate();
             for(var i=0u; i<r0.Count; i++)

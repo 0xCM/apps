@@ -10,12 +10,6 @@ namespace Z0.Asm
 
         readonly Index<AsmRegName> Data;
 
-        [MethodImpl(Inline)]
-        public RegNameSet(AsmRegName[] src)
-        {
-            Name = text15.Empty;
-            Data = src;
-        }
 
         [MethodImpl(Inline)]
         public RegNameSet(text15 name, AsmRegName[] src)
@@ -83,14 +77,14 @@ namespace Z0.Asm
         public override string ToString()
             => Format();
 
-        [MethodImpl(Inline)]
-        public static implicit operator RegNameSet(AsmRegName[] src)
-            => new RegNameSet(src);
+        // [MethodImpl(Inline)]
+        // public static implicit operator RegNameSet(AsmRegName[] src)
+        //     => new RegNameSet(src);
 
         [MethodImpl(Inline)]
         public static implicit operator RegNameSet((string name, AsmRegName[] regs) src)
             => new RegNameSet(src.name, src.regs);
 
-        public static RegNameSet Empty => new RegNameSet(sys.empty<AsmRegName>());
+        public static RegNameSet Empty => new RegNameSet(text15.Empty, sys.empty<AsmRegName>());
     }
 }

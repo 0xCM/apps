@@ -17,7 +17,7 @@ namespace Z0
             var tokens = span<RuleToken>(32);
             var parser = new RulePatternParser(tokens);
             var dst = alloc<RulePattern>(count);
-            for(var i=0; i<count; i++)
+            for(var i=0u; i<count; i++)
             {
                 ref readonly var info = ref src[i];
                 ref readonly var opcode = ref opcodes[i];
@@ -29,7 +29,7 @@ namespace Z0
                     break;
                 }
                 var _tokens = slice(tokens, 0, result.ParsedCount).ToArray();
-                seek(dst,i) = pattern(opcode.Class, opcode.Kind, ocvalue(_tokens), _tokens);
+                seek(dst,i) = pattern(i,opcode.Class, opcode.Kind, ocvalue(_tokens), _tokens);
             }
 
             return dst;

@@ -29,7 +29,7 @@ namespace Z0.Asm
     [SymSource("asm.regs.bits", Base16)]
     public enum RegKind : ushort
     {
-        None = 0,
+        None = 0xFFFF,
 
         // ~ FLAGS registers
         // ~ ------------------------------------------------------------------
@@ -702,28 +702,28 @@ namespace Z0.Asm
         // ~ FP registers
         // ~ ------------------------------------------------------------------
 
-        [Symbol("ST(0)")]
+        [Symbol("st0")]
         ST0 = ST.ST0,
 
-        [Symbol("ST(1)")]
+        [Symbol("st1")]
         ST1 = ST.ST1,
 
-        [Symbol("ST(2)")]
+        [Symbol("st2")]
         ST2 = ST.ST2,
 
-        [Symbol("ST(3)")]
+        [Symbol("st3")]
         ST3 = ST.ST3,
 
-        [Symbol("ST(4)")]
+        [Symbol("st4")]
         ST4 = ST.ST4,
 
-        [Symbol("ST(5)")]
+        [Symbol("st5")]
         ST5 = ST.ST5,
 
-        [Symbol("ST(6)")]
+        [Symbol("st6")]
         ST6 = ST.ST6,
 
-        [Symbol("ST(7)")]
+        [Symbol("st7")]
         ST7 = ST.ST7,
 
         // ~ MMX registers

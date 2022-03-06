@@ -34,6 +34,12 @@ namespace Z0.Asm
                     return Db.RegName(index);
                 case RegClassCode.CR:
                     return Cr.RegName(index);
+                case RegClassCode.TR:
+                    return Tr.RegName(index);
+                case RegClassCode.ST:
+                    return St.RegName(index);
+                case RegClassCode.SEG:
+                    return Seg.RegName(index);
             }
             return text7.Empty;
         }

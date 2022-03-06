@@ -143,7 +143,30 @@ namespace Z0
         [CmdOp("xed/check/rules")]
         Outcome CheckRules(CmdArgs args)
         {
-            XedRuleChecks.create(Wf).CheckRules();
+            var rules = Xed.Rules.ExpandMacros(Xed.Rules.CalcRuleSet(RuleSetKind.EncDec));
+            void Traversed(string src)
+            {
+                Write(src);
+            }
+            var traverser = new RuleTraverserX(Traversed);
+            traverser.Traverse(rules);
+            var tables = traverser.Tables;
+            var sigs = tables.Keys;
+            var count = sigs.Length;
+            for(var i=0; i<count; i++)
+            {
+                ref readonly var sig = ref skip(sigs,i);
+                Write(string.Format("{0}()", sig.Name));
+                var rows = tables[sig];
+                for(var j=0; j<rows.Count; j++)
+                {
+                    ref readonly var row = ref rows[j];
+                    Write(string.Format("    {0}", row.Format()));
+                }
+
+                Write(EmptyString);
+            }
+
             return true;
         }
 

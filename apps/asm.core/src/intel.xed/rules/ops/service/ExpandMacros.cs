@@ -9,10 +9,11 @@ namespace Z0
 
     partial class XedRules
     {
-        public void ExpandMacros(RuleSet src)
+        public RuleSet ExpandMacros(RuleSet src)
         {
             ExpandMacros(src.Tables);
-            ExpandMacros(MacroLookup, src.Patterns);
+            ExpandMacros(src.Patterns);
+            return src;
         }
 
         public void ExpandMacros(Index<RulePattern> src)

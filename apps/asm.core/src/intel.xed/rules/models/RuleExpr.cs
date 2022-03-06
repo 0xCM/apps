@@ -16,11 +16,11 @@ namespace Z0
             public Index<RuleCriterion> Consequent;
 
             [MethodImpl(Inline)]
-            public RuleExpr(RuleFormKind kind, Index<RuleCriterion> left, Index<RuleCriterion> rigth)
+            public RuleExpr(RuleFormKind kind, Index<RuleCriterion> premise, Index<RuleCriterion> consequent)
             {
                 Kind = kind;
-                Premise = left;
-                Consequent = rigth;
+                Premise = premise;
+                Consequent = consequent;
             }
 
             public bool IsVacant

@@ -25,7 +25,7 @@ namespace Z0
             => XedFormatters.format(src);
 
         [MethodImpl(Inline), Op]
-        public static string format(RuleOperator src)
+        internal static string format(RuleOperator src)
             => XedFormatters.format(src);
 
         [MethodImpl(Inline), Op]

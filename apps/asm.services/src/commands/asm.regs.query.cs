@@ -35,20 +35,19 @@ namespace Z0
                 selected.Add(Regs.Gp16RegNames());
                 selected.Add(Regs.Gp32RegNames());
                 selected.Add(Regs.Gp64RegNames());
-                var classes = AsmRegCodes.Classes().View.Where(k => k != RegClassCode.GP && k != RegClassCode.GP8HI);
-                var count = classes.Length;
-                for(var i=0u; i<count; i++)
-                {
-                    var @class = skip(classes,i);
-                    var names = Regs.RegNames(@class);
-
-                    if(names.IsNonEmpty)
-                        selected.Add(names);
-                }
+                selected.Add(Regs.XmmRegNames());
+                selected.Add(Regs.YmmRegNames());
+                selected.Add(Regs.ZmmRegNames());
+                selected.Add(Regs.MaskRegNames());
+                selected.Add(Regs.MmxRegNames());
+                selected.Add(Regs.SegRegNames());
+                selected.Add(Regs.CrRegNames());
+                selected.Add(Regs.DbRegNames());
+                selected.Add(Regs.FpuRegNames());
             }
 
             var buffer = text.buffer();
-            iter(selected, reg => buffer.AppendLine(reg.Format()));
+            iter(selected, reg => buffer.AppendLine(string.Format("{0}:[{1}]", reg.Name, reg.Format())));
             Write(buffer.Emit());
 
             return result;

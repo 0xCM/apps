@@ -50,6 +50,7 @@ namespace Z0
             => kind switch {
                  RuleSetKind.Enc => DocTarget(XedDocKind.EncRulePatterns),
                  RuleSetKind.Dec => DocTarget(XedDocKind.DecRulePatterns),
+                 RuleSetKind.EncDec => DocTarget(XedDocKind.EncRulePatterns),
                  _ => FS.FilePath.Empty
             };
 

@@ -11,19 +11,15 @@ namespace Z0.Asm
     /// </summary>
     public readonly struct RegOp : IRegOp
     {
-        readonly ushort Data;
+        readonly RegKind Data;
 
         [MethodImpl(Inline)]
         internal RegOp(ushort src)
-        {
-            Data = src;
-        }
+            => Data = (RegKind)src;
 
-        public ushort Bitfield
-        {
-            [MethodImpl(Inline)]
-            get => Data;
-        }
+        [MethodImpl(Inline)]
+        public RegOp(RegKind src)
+            => Data = src;
 
         public AsmOpClass OpClass
         {
@@ -31,10 +27,16 @@ namespace Z0.Asm
             get => AsmOpClass.Reg;
         }
 
-        public bit IsInvalid
+        public bit IsEmpty
         {
             [MethodImpl(Inline)]
-            get => Data == ushort.MaxValue;
+            get => Data == RegKind.None;
+        }
+
+        public bool IsNonEmpty
+        {
+            [MethodImpl(Inline)]
+            get => Data != RegKind.None;
         }
 
         public NativeSizeCode Size
@@ -73,18 +75,6 @@ namespace Z0.Asm
             get => AsmOps.kind(AsmOpClass.Reg, Size);
         }
 
-        public bool IsEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data == 0;
-        }
-
-        public bool IsNonEmpty
-        {
-            [MethodImpl(Inline)]
-            get => Data != 0;
-        }
-
         public AsmRegName Name
         {
             [MethodImpl(Inline)]
@@ -101,14 +91,14 @@ namespace Z0.Asm
         public static implicit operator RegOp(RegKind kind)
             => new RegOp((ushort)kind);
 
-         [MethodImpl(Inline)]
+        [MethodImpl(Inline)]
         public static implicit operator AsmOperand(RegOp src)
             => new AsmOperand(src);
 
         public static RegOp Empty
         {
             [MethodImpl(Inline)]
-            get => new RegOp(0);
+            get => new RegOp(RegKind.None);
         }
     }
 }

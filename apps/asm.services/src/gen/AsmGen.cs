@@ -198,7 +198,7 @@ namespace Z0.Asm
         uint KRegs(AsmSigOp src, ref uint i, Span<AsmOperand> dst)
         {
             var i0 = i;
-            var regs = RegSets.KRegs();
+            var regs = RegSets.MaskRegs();
             if(src.IsMasked)
                 Apply(MaskKind(src.Modifier), regs, ref i, dst);
             else
@@ -412,7 +412,7 @@ namespace Z0.Asm
 
         void Apply(RegMaskKind mask, RegOpSeq regs, ref uint i, Span<AsmOperand> dst)
         {
-            var kregs = RegSets.KRegs();
+            var kregs = RegSets.MaskRegs();
             for(var j=0; j<regs.Count; j++)
             {
                 ref readonly var target = ref regs[j];

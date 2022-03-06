@@ -24,17 +24,13 @@ namespace Z0
 
         }
 
+
         public Outcome CheckRules()
         {
-            var set = Rules.CalcRuleSet(RuleSetKind.EncDec);
-            Rules.ExpandMacros(set);
-            var patterns = Rules.CalcPatterns(RuleSetKind.Enc);
-
-
+            var rules = Xed.Rules.ExpandMacros(Xed.Rules.CalcRuleSet(RuleSetKind.EncDec));
 
             return true;
         }
-
         public Outcome CheckEncRules()
         {
             var set = Rules.CalcRuleSet(RuleSetKind.Enc);

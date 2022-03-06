@@ -7,7 +7,7 @@ namespace Z0
 {
     partial class XedRules
     {
-        public readonly struct RuleSig
+        public readonly struct RuleSig : IEquatable<RuleSig>
         {
             public readonly Identifier Name;
 
@@ -19,6 +19,15 @@ namespace Z0
                 Name = name;
                 ReturnType = ret;
             }
+
+            public override int GetHashCode()
+                => Name.GetHashCode();
+
+            public bool Equals(RuleSig src)
+                => Name.Equals(src.Name);
+
+            public override bool Equals(object src)
+                => src is RuleSig x && Equals(x);
 
             public string Format()
                 => string.Format("{0} {1}()", ReturnType, Name);

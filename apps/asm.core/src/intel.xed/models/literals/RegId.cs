@@ -11,8 +11,10 @@ namespace Z0
         [Symbol("")]
         INVALID,
 
+        [Ignore]
         BNDCFGU,
 
+        [Ignore]
         BNDSTATUS,
 
         BND0,
@@ -237,20 +239,28 @@ namespace Z0
 
         K7,
 
+        [Symbol("MM0")]
         MMX0,
 
+        [Symbol("MM1")]
         MMX1,
 
+        [Symbol("MM2")]
         MMX2,
 
+        [Symbol("MM3")]
         MMX3,
 
+        [Symbol("MM4")]
         MMX4,
 
+        [Symbol("MM5")]
         MMX5,
 
+        [Symbol("MM6")]
         MMX6,
 
+        [Symbol("MM7")]
         MMX7,
 
         SSP,
@@ -297,12 +307,16 @@ namespace Z0
 
         X87OPCODE,
 
+        [Ignore]
         X87LASTCS,
 
+        [Ignore]
         X87LASTIP,
 
+        [Ignore]
         X87LASTDS,
 
+        [Ignore]
         X87LASTDP,
 
         ES,
@@ -317,36 +331,52 @@ namespace Z0
 
         GS,
 
+        [Ignore]
         TMP0,
 
+        [Ignore]
         TMP1,
 
+        [Ignore]
         TMP2,
 
+        [Ignore]
         TMP3,
 
+        [Ignore]
         TMP4,
 
+        [Ignore]
         TMP5,
 
+        [Ignore]
         TMP6,
 
+        [Ignore]
         TMP7,
 
+        [Ignore]
         TMP8,
 
+        [Ignore]
         TMP9,
 
+        [Ignore]
         TMP10,
 
+        [Ignore]
         TMP11,
 
+        [Ignore]
         TMP12,
 
+        [Ignore]
         TMP13,
 
+        [Ignore]
         TMP14,
 
+        [Ignore]
         TMP15,
 
         TMM0,
